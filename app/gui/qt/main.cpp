@@ -31,22 +31,14 @@
 
 int main(int argc, char *argv[])
 {
+
 #ifndef Q_OS_MAC
   Q_INIT_RESOURCE(SonicPi);
 #endif
 
-
-  // A temporary fix, until stylesheets are removed.
-  // Only do the dpi scaling when the platform is high dpi
-  if (GetDisplayScale().width() > 1.1f)
-  {
-      QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-      QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-  }
+  QApplication app(argc, argv);
 
   QApplication::setAttribute(Qt::AA_DontShowIconsInMenus, true);
-
-  QApplication app(argc, argv);
 
   QFontDatabase::addApplicationFont(":/fonts/Hack-Regular.ttf");
   QFontDatabase::addApplicationFont(":/fonts/Hack-Italic.ttf");
@@ -67,7 +59,53 @@ int main(int argc, char *argv[])
   app.setStyle("gtk");
 
 
-#ifdef Q_OS_MAC
+#ifdef __linux__
+  //linux code goes here
+
+  QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+  QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+  QPixmap pixmap(":/images/splash@2x.png");
+
+  QSplashScreen *splash = new QSplashScreen(pixmap);
+  splash->setMask(pixmap.mask());
+  splash->show();
+  splash->repaint();
+  app.processEvents();
+  MainWindow mainWin(app, i18n, splash);
+
+  return app.exec();
+#elif _WIN32
+  // windows code goes here
+
+  // A temporary fix, until stylesheets are removed.
+  // Only do the dpi scaling when the platform is high dpi
+  if (GetDisplayScale().width() > 1.1f)
+    {
+      QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+      QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+      QPixmap pixmap(":/images/splash@2x.png");
+    } else
+    {
+      QPixmap pixmap(":/images/splash.png");
+    }
+
+  QSplashScreen *splash = new QSplashScreen(pixmap);
+  splash->setMask(pixmap.mask());
+  splash->show();
+  splash->repaint();
+  app.processEvents();
+  MainWindow mainWin(app, i18n, splash);
+
+  // Fix for full screen mode. See: https://doc.qt.io/qt-5/windows-issues.html#fullscreen-opengl-based-windows
+  QWindowsWindowFunctions::setHasBorderInFullScreen(mainWin.windowHandle(), true);
+
+  return app.exec();
+
+#elif __APPLE__
+  // macOS code goes here
+
+  QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+
   QMainWindow* splashWindow = new QMainWindow(0, Qt::FramelessWindowHint);
   QLabel* imageLabel = new QLabel();
   splashWindow->setAttribute( Qt::WA_TranslucentBackground);
@@ -86,19 +124,7 @@ int main(int argc, char *argv[])
 
   MainWindow mainWin(app, i18n, splashWindow);
   return app.exec();
-#else
-  QPixmap pixmap(":/images/splash.png");
-  QSplashScreen *splash = new QSplashScreen(pixmap);
-  splash->setMask(pixmap.mask());
-  splash->show();
-  splash->repaint();
-  app.processEvents();
-  MainWindow mainWin(app, i18n, splash);
-#ifdef _WIN32
-  QWindowsWindowFunctions::setHasBorderInFullScreen(mainWin.windowHandle(), true);
-#endif
 
-  return app.exec();
 #endif
 
 }
