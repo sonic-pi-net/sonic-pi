@@ -40,7 +40,7 @@ cp -f utils/ruby_help.tmpl utils/ruby_help.h
 "$LREL" SonicPi.pro
 
 # ensure kiss_fft is visible to the source
-ln -s external/kiss_fft kiss_fft
+ln -s -f external/kiss_fft kiss_fft
 
 # Build App
 "$QMAKE" -o Makefile SonicPi.pro
