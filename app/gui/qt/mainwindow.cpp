@@ -731,6 +731,7 @@ void MainWindow::setupWindowStructure() {
     scopeWidget->setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
     scopeWidget->setWidget(scopeInterface);
     scopeWidget->setObjectName("Scope");
+    scopeWidget->setMinimumHeight(ScaleHeightForDPI(100));
     addDockWidget(Qt::RightDockWidgetArea, scopeWidget);
 
     connect(scopeWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(scopeVisibilityChanged()));
