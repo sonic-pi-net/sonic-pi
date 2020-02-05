@@ -4973,7 +4973,22 @@ A decent range of Q factors for naturally sounding boosts/cuts is 0.6 to 1.
       end
 
       def doc
-        ""
+        "Autotune/phase vocoder effect. Used without any arguments, it tries to detect the pitch and shift it to the nearest exact note. This can help with out of tune singing, but it's also an interesting effect in it's own right. When used with the target_pitch: arg, it tries to shift the input to match that pitch instead. This gives that classic \"robot singing\" sound that people associate with vocoders. This can then be changed using the control method to create new melodies.
+
+```
+with_fx :autotuner do |c|
+  sample \"~/Downloads/acappella.wav\" # any sample with a voice is good
+  sleep 4
+
+  # listen to standard auto-tune behaviour
+
+  64.times do
+     # now start setting target pitch to get robot voice behaviour
+     control(c, target_pitch: scale(:a2, :minor_pentatonic, num_octaves: 2).choose)
+     sleep 0.5
+  end
+end
+```"
       end
 
       def arg_defaults
@@ -4985,6 +5000,24 @@ A decent range of Q factors for naturally sounding boosts/cuts is 0.6 to 1.
           :max_formant_ratio => 10,
           :grains_period => 2.0,
         })
+      end
+
+      def specific_arg_info
+        {
+          :target_pitch =>
+          {
+            :doc => "Midi note to shift pitch to. The quality of the sound depends on how stable the pitch of the input is.",
+            :validations => [v_between_inclusive(:target_pitch, 0, 127)],
+            :modulatable => true
+          },
+
+          :formant_ratio =>
+          {
+            :doc => "This effect separates pitched content of an input from the formant sounds (percussive, non-pitched sounds like \"ssss\" and \"ttttt\"). Changing the formant ratio shifts the non-pitched sounds - lower pitched formants (0.5) sound like someone with a deep voice, higher values (e.g. 2.0 and above) sound like a high pitched voice.",
+            :validations => [v_between_inclusive(:formant_ratio, 0, 10)],
+            :modulatable => true
+          }
+        }
       end
     end
 
