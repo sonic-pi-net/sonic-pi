@@ -35,7 +35,7 @@ gem install aubio
 Run a console as administrator. Add a link to Ruby:
 ```
 cd c:\dev\sonic-pi\app\server\native
-mklink /d ruby c:\Ruby25-x64
+mklink /d ruby c:\Ruby26-x64
 ```
 
 4) Build the Application by running the prebuild first, then config.  These tools are in the app/gui/qt folder.  Note: If you have previously installed libaubio5-dll, or set the AUBIO_LIB environment variable, now is the time to remove the dll and remove the variable; the prebuild on windows will make and install the correct library for you.
