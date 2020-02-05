@@ -29,12 +29,24 @@ inline QSize ScaleForDPI(int x, int y)
 
 inline int ScaleHeightForDPI(int y)
 {
-    auto scale = GetDisplayScale();
-    return scale.height() * y;
+  if (y <= 0)
+  {
+    return 0;
+  }
+
+  // ensure returned value is at least 1
+  auto scale = GetDisplayScale();
+  return (scale.height() * y) + 1;
 }
 
 inline int ScaleWidthForDPI(int x)
 {
-    auto scale = GetDisplayScale();
-    return scale.width() * x;
+  if (x <= 0)
+  {
+    return 0;
+  }
+
+  // ensure returned value is at least 1
+  auto scale = GetDisplayScale();
+  return (scale.width() * x) + 1;
 }
