@@ -457,7 +457,8 @@ void MainWindow::showWelcomeScreen() {
         startupPane->setWindowIcon(QIcon(":images/icon-smaller.png"));
         startupPane->setWindowTitle(tr("Welcome to Sonic Pi"));
         addUniversalCopyShortcuts(startupPane);
-        startupPane->document()->setDefaultStyleSheet(readFile(":/theme/light/doc-styles.css"));
+        QString styles = ScalePxInStyleSheet(readFile(":/theme/light/doc-styles.css"));
+        startupPane->document()->setDefaultStyleSheet(styles);
         startupPane->setSource(QUrl("qrc:///html/startup.html"));
         docWidget->show();
         startupPane->show();
@@ -1409,7 +1410,7 @@ void MainWindow::showError(QString msg) {
         style_sheet = "qrc:///html/dark_styles.css";
     }
     errorPane->clear();
-    errorPane->setHtml("<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"" + style_sheet + "\"/></head><body>"  + msg + "</body></html>");
+    errorPane->setHtml("<html><head></head><body>"  + msg + "</body></html>");
     errorPane->show();
 }
 
@@ -1857,9 +1858,6 @@ void MainWindow::updateColourTheme(){
 
     this->setStyleSheet(appStyling);
     infoWidg->setStyleSheet(appStyling);
-
-    errorPane->setStyleSheet(theme->getErrorStylesheet());
-    docsCentral->setStyleSheet(theme->getDocStylesheet());
 
     scopeInterface->Refresh();
     scopeWidget->update();

@@ -190,17 +190,17 @@ QString SonicPiTheme::getName() {
 
 void SonicPiTheme::darkMode(){
   this->theme = withCustomSettings(darkTheme());
-  this->css = readFile(qt_browser_dark_css);
+  this->css = ScalePxInStyleSheet(readFile(qt_browser_dark_css));
 }
 
 void SonicPiTheme::lightMode(){
   this->theme = withCustomSettings(lightTheme());
-  this->css = readFile(qt_browser_light_css);
+  this->css = ScalePxInStyleSheet(readFile(qt_browser_light_css));
 }
 
 void SonicPiTheme::hcMode(){
   this->theme = withCustomSettings(highContrastTheme());
-  this->css = readFile(qt_browser_hc_css);
+  this->css = ScalePxInStyleSheet(readFile(qt_browser_hc_css));
 }
 
 void SonicPiTheme::updateCustomSettings(){
@@ -867,10 +867,7 @@ QString SonicPiTheme::getAppStylesheet() {
     QString appStyling = readFile(qt_app_theme_path);
 
     // A hack to fix up for dpi
-    auto scale = GetDisplayScale();
-    appStyling = appStyling.replace("font-size: 10px", QString("font-size: %1px").arg(10 * scale.height()));
-    appStyling = appStyling.replace("font-size: 11px", QString("font-size: %1px").arg(11 * scale.height()));
-    appStyling = appStyling.replace("font-size: 14px", QString("font-size: %1px").arg(14 * scale.height()));
+    appStyling = ScalePxInStyleSheet(appStyling);
 
     QString windowColor = this->color("WindowBackground").name();
     QString windowForegroundColor = this->color("WindowForeground").name();
@@ -952,29 +949,6 @@ QString SonicPiTheme::getAppStylesheet() {
         .replace("errorBackgroundColor", errorBackgroundColor);
 
     return appStyling;
-}
-
-QString SonicPiTheme::getDocStylesheet() {
-    return QString(
-                "QListWidget{"
-                "border: none;"
-                "font-size: %1px;"
-                "font-family: none;"
-                "}").arg(13 * GetDisplayScale().height());
-}
-
-QString SonicPiTheme::getErrorStylesheet() {
-    return QString(
-            "QTextEdit{"
-            "  background-color: %1;"
-            "  padding: 5;"
-            "}"
-            ""
-            ".error-background{"
-            "  background-color: %2"
-            "}").arg(
-                color("paneColor").name(),
-                color(" errorBackgroundColor").name());
 }
 
 QString SonicPiTheme::getCss() {

@@ -36,8 +36,6 @@ public:
     QPalette createPalette();
 
     QString getAppStylesheet();
-    QString getDocStylesheet();
-    QString getErrorStylesheet();
 
     QString getCss();
     void switchStyle( Style style );

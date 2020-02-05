@@ -1,5 +1,4 @@
-/*
-Available Style Colours:
+/* Style Colours:
 
 - windowColor
 - windowForegroundColor
@@ -35,7 +34,21 @@ Available Style Colours:
 - errorBackgroundColor
 
 - fixedWidthFont
+
+Note about auto scaling
+-----------------------
+
+All px values are autoscaled for the resolution of the screen. 0 will always return 0, values greater than 0 will always return at least 1.
+
+Values 1->25 will be scaled in integer increments. Values 30 - 100 will be rounded down to the nearest 10 and scaled. Values 100 -> 500 will be rounded down to the nearest 100 and scaled.
+
 */
+
+*
+{
+  font-size: medium;
+  background-color: none;
+}
 
 #prefsCentral
 {
@@ -120,12 +133,12 @@ QDockWidget::title
     border: 0px;
     text-align: center;
     background: windowColor;
-    font-size: 10px;
+    font-size: small;
 }
 
 QDockWidget
 {
-    font-size: 10px;
+    font-size: small;
 }
 
  QToolTip
@@ -245,7 +258,7 @@ QGroupBox
     subcontrol-origin: margin;
     margin-top: 15px;
     margin-bottom: 0px;
-    font-size: 11px;
+    font-size: medium;
     font-weight: italic;
     font: bold ;
     background-color: windowColor;
@@ -271,11 +284,10 @@ QTextBrowser
 
 QListWidget
 {
-    border: 1px solid menuSelectedColor;
+    border: 1px solid windowBorderColor;
     background: paneColor;
-    font-size: 14px;
+    font-size: medium;
     min-width: 500px;
-    font-family: fixedWidthFont;
 }
 
 QListWidget::item
@@ -332,7 +344,7 @@ QComboBox::drop-down
 
 QLabel[accessibleName="midi-in-ports-label"]
 {
-    font-size: 10px;
+    font-size: small;
     padding: 1px 18px 1px 3px;
     border-radius: 3px;
     background-color: tabColor;
@@ -341,7 +353,7 @@ QLabel[accessibleName="midi-in-ports-label"]
 
 QLabel[accessibleName="midi-out-ports-label"]
 {
-    font-size: 10px;
+    font-size: small;
     padding: 1px 18px 1px 3px;
     border-radius: 3px;
     background-color: tabColor;
@@ -375,7 +387,6 @@ QGroupBox:title
     top: 0px;
     padding: 10px 10px 20px 5px;
     color: windowForegroundColor;
-    font-weight: bold;
     background-color: windowColor;
 }
 
