@@ -654,32 +654,32 @@ Sonic Pi %1 を入手</translation>
     <message>
         <location filename="../visualizer/scope.cpp" line="68"/>
         <source>Lissajous</source>
-        <translation type="unfinished"></translation>
+        <translation>Lissajous</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="69"/>
         <source>Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Left</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="70"/>
         <source>Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Right</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="71"/>
         <source>Mono</source>
-        <translation type="unfinished"></translation>
+        <translation>Mono</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="72"/>
         <source>Mirror Stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>Mirror Stereo</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="74"/>
         <source>Spectrum</source>
-        <translation type="unfinished"></translation>
+        <translation>Spectrum</translation>
     </message>
 </context>
 <context>
