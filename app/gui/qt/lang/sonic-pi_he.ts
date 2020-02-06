@@ -654,32 +654,32 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../visualizer/scope.cpp" line="68"/>
         <source>Lissajous</source>
-        <translation type="unfinished"></translation>
+        <translation>ליסז׳ו</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="69"/>
         <source>Left</source>
-        <translation type="unfinished"></translation>
+        <translation>שמאל</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="70"/>
         <source>Right</source>
-        <translation type="unfinished"></translation>
+        <translation>ימין</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="71"/>
         <source>Mono</source>
-        <translation type="unfinished"></translation>
+        <translation>מונו</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="72"/>
         <source>Mirror Stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>היפוך סטריאו</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="74"/>
         <source>Spectrum</source>
-        <translation type="unfinished"></translation>
+        <translation>ספקטרום</translation>
     </message>
 </context>
 <context>
@@ -806,7 +806,7 @@ even when a little late.</source>
 להפעיל צלילים ואפקטים אם
 מאוחר מדי לעשות זאת.
 
-כאשר מושבתת, &#xa0;תמיד ינסה
+כאשר מושבתת,  תמיד ינסה
 Sonic Pi להפעיל צלילים
 ואפקטים אפילו אם מאוחר מדי.</translation>
     </message>
