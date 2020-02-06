@@ -25,10 +25,6 @@ else()
 set(CMAKE_PREFIX_PATH $ENV{QT_INSTALL_LOCATION})
 endif()
 
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELWITHDEBINFO ${CMAKE_CURRENT_LIST_DIR}/RelWithDebInfo)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELWITHDEBINFO ${CMAKE_CURRENT_LIST_DIR}/RelWithDebInfo)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO ${CMAKE_CURRENT_LIST_DIR}/RelWithDebInfo)
-
 CONFIGURE_FILE(${CMAKE_CURRENT_LIST_DIR}/cmake/config.h.cmake ${CMAKE_BINARY_DIR}/config.h)
 
 # Qt Setup
@@ -146,14 +142,16 @@ elseif(UNIX)
     target_link_libraries(${APP_NAME} PRIVATE rt)
 endif()
 
-# Deploy Qt binaries to the output on windows
+# Deploy Qt binaries to the output on windows, and copy the CRT to the release folder
 if(WIN32)
-    message(STATUS "Copying required Qt libraries and binaries to output directory....")
+    # Visual Studio
+    set(CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS_SKIP true)
+    include(InstallRequiredSystemLibraries)
+    file(COPY ${CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release)
 
     # Run winddeployqt if it can be found, to ensure installed dependencies
     add_custom_command(TARGET ${APP_NAME} POST_BUILD
         COMMAND ${CMAKE_PREFIX_PATH}/bin/windeployqt $<TARGET_FILE:${APP_NAME}>)
-
 endif() # Win32
 
 # Make convenient source groups in the IDE
