@@ -1141,12 +1141,12 @@ Si activé le journal défilera vers le bas à chaque nouveau message.</translat
     <message>
         <location filename="../widgets/settingswidget.cpp" line="367"/>
         <source>Scope Kinds</source>
-        <translation>Types d&apos;Oscilloscope</translation>
+        <translation>Types d&apos;oscilloscope</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="375"/>
         <source>Show Scopes</source>
-        <translation>Afficher les Oscilloscopes</translation>
+        <translation>Afficher les oscilloscopes</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="376"/>
