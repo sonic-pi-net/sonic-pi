@@ -9,12 +9,12 @@
         <translation>Innstillinger</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="738"/>
+        <location filename="../mainwindow.cpp" line="739"/>
         <source>Log</source>
         <translation>Logg</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="787"/>
+        <location filename="../mainwindow.cpp" line="788"/>
         <source>Help</source>
         <translation>Hjelp</translation>
     </message>
@@ -31,37 +31,37 @@
         <translation>Velkommen til Sonic Pi</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="975"/>
+        <location filename="../mainwindow.cpp" line="976"/>
         <source>Indenting selection...</source>
         <translation>Innrykksutvalg ...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="979"/>
+        <location filename="../mainwindow.cpp" line="980"/>
         <source>Indenting line...</source>
         <translation>Rykker inn linje...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1008"/>
+        <location filename="../mainwindow.cpp" line="1009"/>
         <source>Toggle selection comment...</source>
         <translation>Veksle mellom valgt kommentar...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="839"/>
+        <location filename="../mainwindow.cpp" line="840"/>
         <source>Full screen mode on.</source>
         <translation>Fullskjermmodus påslått.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="856"/>
+        <location filename="../mainwindow.cpp" line="857"/>
         <source>Full screen mode off.</source>
         <translation>Fullskjermmodus avslått.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1012"/>
+        <location filename="../mainwindow.cpp" line="1013"/>
         <source>Toggle line comment...</source>
         <translation>Styr linjekommentar...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1094"/>
+        <location filename="../mainwindow.cpp" line="1095"/>
         <source>The Sonic Pi Server could not be started!</source>
         <translation>Sonic Pi-tjeneren kunne ikke startes!</translation>
     </message>
@@ -71,7 +71,7 @@
         <translation>Besøk http://sonic-pi.net for å laste ned ny versjon</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1262"/>
+        <location filename="../mainwindow.cpp" line="1263"/>
         <source>Server boot error...</source>
         <translation>Feil ved tjeneroppstart...</translation>
     </message>
@@ -81,12 +81,12 @@
         <translation>Kjør koden i gjeldende mellomlager</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1262"/>
+        <location filename="../mainwindow.cpp" line="1263"/>
         <source>Please consider reporting a bug at</source>
         <translation>Veldig fint om du vurderer å rapportere feil til</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="744"/>
+        <location filename="../mainwindow.cpp" line="745"/>
         <source>Cues</source>
         <translation>Vink</translation>
     </message>
@@ -103,7 +103,7 @@
         <translation>Ingen tilknyttede utsendingsenheter</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1262"/>
+        <location filename="../mainwindow.cpp" line="1263"/>
         <source>Sonic Pi Boot Error
 
 Apologies, a critical error occurred during startup</source>
@@ -117,143 +117,143 @@ Unnskyld, det oppstod en kritisk feil under oppstart</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1361"/>
-        <location filename="../mainwindow.cpp" line="1364"/>
-        <location filename="../mainwindow.cpp" line="1378"/>
-        <location filename="../mainwindow.cpp" line="1381"/>
+        <location filename="../mainwindow.cpp" line="1362"/>
+        <location filename="../mainwindow.cpp" line="1365"/>
+        <location filename="../mainwindow.cpp" line="1379"/>
+        <location filename="../mainwindow.cpp" line="1382"/>
         <source>Buffer files</source>
         <translation>Buffer-filer</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1364"/>
+        <location filename="../mainwindow.cpp" line="1365"/>
         <source>Load Sonic Pi Buffer</source>
         <translation>Last Sonic Pi Buffer</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1364"/>
-        <location filename="../mainwindow.cpp" line="1381"/>
+        <location filename="../mainwindow.cpp" line="1365"/>
+        <location filename="../mainwindow.cpp" line="1382"/>
         <source>Text files</source>
         <translation>Tekstfiler</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1364"/>
-        <location filename="../mainwindow.cpp" line="1381"/>
+        <location filename="../mainwindow.cpp" line="1365"/>
+        <location filename="../mainwindow.cpp" line="1382"/>
         <source>Ruby files</source>
         <translation>Rubyfiler</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1364"/>
-        <location filename="../mainwindow.cpp" line="1381"/>
+        <location filename="../mainwindow.cpp" line="1365"/>
+        <location filename="../mainwindow.cpp" line="1382"/>
         <source>All files</source>
         <translation>Alle filer</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1381"/>
+        <location filename="../mainwindow.cpp" line="1382"/>
         <source>Save Current Buffer</source>
         <translation>Lagre aktive mellomlager</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1495"/>
+        <location filename="../mainwindow.cpp" line="1496"/>
         <source>Running Code...</source>
         <translation>Kjørende kode...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1501"/>
+        <location filename="../mainwindow.cpp" line="1502"/>
         <source>Zooming In...</source>
         <translation>Forstørre ...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1508"/>
+        <location filename="../mainwindow.cpp" line="1509"/>
         <source>Zooming Out...</source>
         <translation>Forminske ...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1515"/>
+        <location filename="../mainwindow.cpp" line="1516"/>
         <source>Beautifying...</source>
         <translation>Gjør vakrere...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1545"/>
+        <location filename="../mainwindow.cpp" line="1546"/>
         <source>Reloading...</source>
         <translation>Laster på nytt...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1552"/>
+        <location filename="../mainwindow.cpp" line="1553"/>
         <source>Checking for updates...</source>
         <translation>Ser etter oppdateringer...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1560"/>
+        <location filename="../mainwindow.cpp" line="1561"/>
         <source>Enabling update checking...</source>
         <translation>Aktiverer oppdaterings-sjekking...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1568"/>
+        <location filename="../mainwindow.cpp" line="1569"/>
         <source>Disabling update checking...</source>
         <translation>Kobler ut oppdaterings-sjekking...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1576"/>
+        <location filename="../mainwindow.cpp" line="1577"/>
         <source>Enabling Mixer HPF...</source>
         <translation>Aktivering Mixer HPF ...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1585"/>
+        <location filename="../mainwindow.cpp" line="1586"/>
         <source>Disabling Mixer HPF...</source>
         <translation>Deaktivering Mixer HPF ...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1593"/>
+        <location filename="../mainwindow.cpp" line="1594"/>
         <source>Enabling Mixer LPF...</source>
         <translation>Aktivering Mixer HPF ...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1602"/>
+        <location filename="../mainwindow.cpp" line="1603"/>
         <source>Disabling Mixer LPF...</source>
         <translation>Deaktivering Mixer HPF ...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1610"/>
+        <location filename="../mainwindow.cpp" line="1611"/>
         <source>Enabling Inverted Stereo...</source>
         <translation>Aktiver invertert stereo...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1618"/>
+        <location filename="../mainwindow.cpp" line="1619"/>
         <source>Enabling Standard Stereo...</source>
         <translation>Aktiverer standard stereo...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1626"/>
+        <location filename="../mainwindow.cpp" line="1627"/>
         <source>Mono Mode...</source>
         <translation>Monotilstand...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1634"/>
+        <location filename="../mainwindow.cpp" line="1635"/>
         <source>Stereo Mode...</source>
         <translation>Stereotilstand ...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1643"/>
+        <location filename="../mainwindow.cpp" line="1644"/>
         <source>Stopping...</source>
         <translation>Stopper...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1750"/>
+        <location filename="../mainwindow.cpp" line="1751"/>
         <source>Updating System Volume...</source>
         <translation>Oppdaterer systemlydnivået...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1792"/>
+        <location filename="../mainwindow.cpp" line="1793"/>
         <source>Log Auto Scroll on...</source>
         <translation>Logg Auto Scroll på...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1794"/>
+        <location filename="../mainwindow.cpp" line="1795"/>
         <source>Log Auto Scroll off...</source>
         <translation>Logg av Auto Scroll...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1823"/>
+        <location filename="../mainwindow.cpp" line="1824"/>
         <source>Colour Theme: </source>
         <translation type="unfinished"></translation>
     </message>
@@ -498,7 +498,7 @@ Unnskyld, det oppstod en kritisk feil under oppstart</translation>
         <translation>Lagret filen...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1692"/>
+        <location filename="../mainwindow.cpp" line="1693"/>
         <source>help visibility changed...</source>
         <translation>endret hjelpesynlighet…</translation>
     </message>
@@ -565,68 +565,6 @@ Skaff Sonic Pi %1</translation>
         <location filename="../mainwindow.cpp" line="2789"/>
         <source>Welcome back. Now get your live code on...</source>
         <translation>Velkommen tilbake. Nå kan du direkte-kode på...</translation>
-    </message>
-    <message>
-        <location filename="../utils/ruby_help.h" line="117"/>
-        <location filename="../utils/ruby_help.h" line="214"/>
-        <location filename="../utils/ruby_help.h" line="311"/>
-        <location filename="../utils/ruby_help.h" line="408"/>
-        <location filename="../utils/ruby_help.h" line="505"/>
-        <location filename="../utils/ruby_help.h" line="601"/>
-        <location filename="../utils/ruby_help.h" line="698"/>
-        <location filename="../utils/ruby_help.h" line="795"/>
-        <location filename="../utils/ruby_help.h" line="892"/>
-        <location filename="../utils/ruby_help.h" line="989"/>
-        <location filename="../utils/ruby_help.h" line="1085"/>
-        <location filename="../utils/ruby_help.h" line="1182"/>
-        <location filename="../utils/ruby_help.h" line="1279"/>
-        <location filename="../utils/ruby_help.h" line="1376"/>
-        <location filename="../utils/ruby_help.h" line="1473"/>
-        <location filename="../utils/ruby_help.h" line="1570"/>
-        <location filename="../utils/ruby_help.h" line="1667"/>
-        <location filename="../utils/ruby_help.h" line="1764"/>
-        <location filename="../utils/ruby_help.h" line="1861"/>
-        <location filename="../utils/ruby_help.h" line="1958"/>
-        <location filename="../utils/ruby_help.h" line="2055"/>
-        <location filename="../utils/ruby_help.h" line="2152"/>
-        <location filename="../utils/ruby_help.h" line="2249"/>
-        <location filename="../utils/ruby_help.h" line="2346"/>
-        <location filename="../utils/ruby_help.h" line="2443"/>
-        <location filename="../utils/ruby_help.h" line="2540"/>
-        <location filename="../utils/ruby_help.h" line="2635"/>
-        <location filename="../utils/ruby_help.h" line="2732"/>
-        <location filename="../utils/ruby_help.h" line="2829"/>
-        <location filename="../utils/ruby_help.h" line="2926"/>
-        <location filename="../utils/ruby_help.h" line="3023"/>
-        <location filename="../utils/ruby_help.h" line="3120"/>
-        <location filename="../utils/ruby_help.h" line="3217"/>
-        <source>Tutorial</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../utils/ruby_help.h" line="3252"/>
-        <source>Examples</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../utils/ruby_help.h" line="3301"/>
-        <source>Synths</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../utils/ruby_help.h" line="3348"/>
-        <source>Fx</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../utils/ruby_help.h" line="3369"/>
-        <source>Samples</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../utils/ruby_help.h" line="3620"/>
-        <source>Lang</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

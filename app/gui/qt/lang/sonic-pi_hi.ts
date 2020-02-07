@@ -9,7 +9,7 @@
         <translation>सेटिंग्स (पसंद)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="738"/>
+        <location filename="../mainwindow.cpp" line="739"/>
         <source>Log</source>
         <translation>लॉग</translation>
     </message>
@@ -21,31 +21,31 @@
         <translation>सोनिक पाई</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1495"/>
+        <location filename="../mainwindow.cpp" line="1496"/>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
         <translation>कोड चल रहा...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1515"/>
+        <location filename="../mainwindow.cpp" line="1516"/>
         <source>Beautifying...</source>
         <oldsource>Beautifying....</oldsource>
         <translation>सौंदर्यीकरण...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1545"/>
+        <location filename="../mainwindow.cpp" line="1546"/>
         <source>Reloading...</source>
         <oldsource>Reloading....</oldsource>
         <translation>पुन: लोड हो रहा है ।</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1576"/>
+        <location filename="../mainwindow.cpp" line="1577"/>
         <source>Enabling Mixer HPF...</source>
         <oldsource>Enabling Mixer HPF....</oldsource>
         <translation>HPF मिक्सर को आँन करे ।</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1585"/>
+        <location filename="../mainwindow.cpp" line="1586"/>
         <source>Disabling Mixer HPF...</source>
         <oldsource>Disabling Mixer HPF....</oldsource>
         <translation>HPF मिक्सर बंद हो रहा है ।</translation>
@@ -56,37 +56,37 @@
         <translation>Sonic Pi मै आपका सवागत है</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="975"/>
+        <location filename="../mainwindow.cpp" line="976"/>
         <source>Indenting selection...</source>
         <translation>चयन इंडेंट करना...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="979"/>
+        <location filename="../mainwindow.cpp" line="980"/>
         <source>Indenting line...</source>
         <translation>पंक्ति इंडेंट करना...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1008"/>
+        <location filename="../mainwindow.cpp" line="1009"/>
         <source>Toggle selection comment...</source>
         <translation>टॉगल कमेंट चयन ।</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="839"/>
+        <location filename="../mainwindow.cpp" line="840"/>
         <source>Full screen mode on.</source>
         <translation>पूर्ण स्क्रीन मोड पर।</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="856"/>
+        <location filename="../mainwindow.cpp" line="857"/>
         <source>Full screen mode off.</source>
         <translation>पूर्ण स्क्रीन मोड को बंद।</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1012"/>
+        <location filename="../mainwindow.cpp" line="1013"/>
         <source>Toggle line comment...</source>
         <translation>टॉगल रेखा कमेंट ।</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1094"/>
+        <location filename="../mainwindow.cpp" line="1095"/>
         <source>The Sonic Pi Server could not be started!</source>
         <translation>Sonic Pi सर्वर प्रारंभ नहीं किया जा सकता है!</translation>
     </message>
@@ -96,50 +96,50 @@
         <translation>नया संस्करण डाउनलोड करने के लिए http://sonic-pi.net पर जाएँ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1262"/>
+        <location filename="../mainwindow.cpp" line="1263"/>
         <source>Sonic Pi Boot Error
 
 Apologies, a critical error occurred during startup</source>
         <translation>ध्वनि Pi बूट त्रुटि माफी, स्टार्टअप के दौरान कोई गंभीर त्रुटि उत्पन्न हुई</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1361"/>
-        <location filename="../mainwindow.cpp" line="1364"/>
-        <location filename="../mainwindow.cpp" line="1378"/>
-        <location filename="../mainwindow.cpp" line="1381"/>
+        <location filename="../mainwindow.cpp" line="1362"/>
+        <location filename="../mainwindow.cpp" line="1365"/>
+        <location filename="../mainwindow.cpp" line="1379"/>
+        <location filename="../mainwindow.cpp" line="1382"/>
         <source>Buffer files</source>
         <translation>बफर फ़ाइलें</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1364"/>
+        <location filename="../mainwindow.cpp" line="1365"/>
         <source>Load Sonic Pi Buffer</source>
         <translation>लोड Sonic Pi बफ़र</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1364"/>
-        <location filename="../mainwindow.cpp" line="1381"/>
+        <location filename="../mainwindow.cpp" line="1365"/>
+        <location filename="../mainwindow.cpp" line="1382"/>
         <source>Text files</source>
         <translation>पाठ फ़ाइलें</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1364"/>
-        <location filename="../mainwindow.cpp" line="1381"/>
+        <location filename="../mainwindow.cpp" line="1365"/>
+        <location filename="../mainwindow.cpp" line="1382"/>
         <source>Ruby files</source>
         <translation>रूबी फ़ाइलें</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1364"/>
-        <location filename="../mainwindow.cpp" line="1381"/>
+        <location filename="../mainwindow.cpp" line="1365"/>
+        <location filename="../mainwindow.cpp" line="1382"/>
         <source>All files</source>
         <translation>सभी फ़ाइलें</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1792"/>
+        <location filename="../mainwindow.cpp" line="1793"/>
         <source>Log Auto Scroll on...</source>
         <translation>लॉग ऑटो स्क्रॉल ।</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1794"/>
+        <location filename="../mainwindow.cpp" line="1795"/>
         <source>Log Auto Scroll off...</source>
         <translation>ऑटो स्क्रॉल लॉग ऑफ़ करें...</translation>
     </message>
@@ -164,7 +164,7 @@ Apologies, a critical error occurred during startup</source>
         <translation>wav फ़ाइल (*.wav)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1692"/>
+        <location filename="../mainwindow.cpp" line="1693"/>
         <source>help visibility changed...</source>
         <translation>सहायता दृश्यता बदल गई ...</translation>
     </message>
@@ -204,12 +204,12 @@ Apologies, a critical error occurred during startup</source>
         <translation>वापसी पर स्वागत है, अब आप लाइव कोड करे ।</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1381"/>
+        <location filename="../mainwindow.cpp" line="1382"/>
         <source>Save Current Buffer</source>
         <translation>वर्तमान बफ़र सहेजें</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="744"/>
+        <location filename="../mainwindow.cpp" line="745"/>
         <source>Cues</source>
         <translation>संकेत</translation>
     </message>
@@ -226,7 +226,7 @@ Apologies, a critical error occurred during startup</source>
         <translation>कोई आउटपुट डिवाइस कनेक्टेड नहीं</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1501"/>
+        <location filename="../mainwindow.cpp" line="1502"/>
         <source>Zooming In...</source>
         <translation>ज़ूम इन करना ।</translation>
     </message>
@@ -236,73 +236,73 @@ Apologies, a critical error occurred during startup</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1508"/>
+        <location filename="../mainwindow.cpp" line="1509"/>
         <source>Zooming Out...</source>
         <translation>ज़ूम आउट करना ।</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1552"/>
+        <location filename="../mainwindow.cpp" line="1553"/>
         <source>Checking for updates...</source>
         <translation>अद्यतनों के लिए जाँच...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1560"/>
+        <location filename="../mainwindow.cpp" line="1561"/>
         <source>Enabling update checking...</source>
         <translation>अद्यतन की जाँच को सक्षम करें ।</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1568"/>
+        <location filename="../mainwindow.cpp" line="1569"/>
         <source>Disabling update checking...</source>
         <translation>अद्यतन की जाँच को अक्षम करना...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1593"/>
+        <location filename="../mainwindow.cpp" line="1594"/>
         <source>Enabling Mixer LPF...</source>
         <oldsource>Enabling Mixer LPF....</oldsource>
         <translation>LPF मिक्सर को सक्षम करें ।</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1602"/>
+        <location filename="../mainwindow.cpp" line="1603"/>
         <source>Disabling Mixer LPF...</source>
         <oldsource>Disabling Mixer LPF....</oldsource>
         <translation>LPF मिक्सर अक्षम कर रहा है...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1610"/>
+        <location filename="../mainwindow.cpp" line="1611"/>
         <source>Enabling Inverted Stereo...</source>
         <oldsource>Enabling Inverted Stereo....</oldsource>
         <translation>उल्टे स्टीरियो सक्षम करने...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1618"/>
+        <location filename="../mainwindow.cpp" line="1619"/>
         <source>Enabling Standard Stereo...</source>
         <oldsource>Enabling Standard Stereo....</oldsource>
         <translation>मानक स्टीरियो सक्षम करने...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1626"/>
+        <location filename="../mainwindow.cpp" line="1627"/>
         <source>Mono Mode...</source>
         <oldsource>Mono Mode....</oldsource>
         <translation>मोनो मोड...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1634"/>
+        <location filename="../mainwindow.cpp" line="1635"/>
         <source>Stereo Mode...</source>
         <oldsource>Stereo Mode....</oldsource>
         <translation>स्टीरियो मोड...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1643"/>
+        <location filename="../mainwindow.cpp" line="1644"/>
         <source>Stopping...</source>
         <translation>रोक रहा है...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1750"/>
+        <location filename="../mainwindow.cpp" line="1751"/>
         <source>Updating System Volume...</source>
         <translation>सिस्टम वॉल्यूम का अद्यतन कर रहा...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1823"/>
+        <location filename="../mainwindow.cpp" line="1824"/>
         <source>Colour Theme: </source>
         <translation type="unfinished"></translation>
     </message>
@@ -405,17 +405,17 @@ Get Sonic Pi %1</source>
         <translation>Sonic Pi के बारे में जानकारी देखें</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="787"/>
+        <location filename="../mainwindow.cpp" line="788"/>
         <source>Help</source>
         <translation>मदद</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1262"/>
+        <location filename="../mainwindow.cpp" line="1263"/>
         <source>Server boot error...</source>
         <translation>सर्वर बूट त्रुटि...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1262"/>
+        <location filename="../mainwindow.cpp" line="1263"/>
         <source>Please consider reporting a bug at</source>
         <translation>कृपया पर एक बग रिपोर्टिंग पर विचार</translation>
     </message>
@@ -572,68 +572,6 @@ Get Sonic Pi %1</source>
         <source>Cannot write file %1:
 %2.</source>
         <translation>%1 फ़ाइल नहीं लिख सकता: %2।</translation>
-    </message>
-    <message>
-        <location filename="../utils/ruby_help.h" line="117"/>
-        <location filename="../utils/ruby_help.h" line="214"/>
-        <location filename="../utils/ruby_help.h" line="311"/>
-        <location filename="../utils/ruby_help.h" line="408"/>
-        <location filename="../utils/ruby_help.h" line="505"/>
-        <location filename="../utils/ruby_help.h" line="601"/>
-        <location filename="../utils/ruby_help.h" line="698"/>
-        <location filename="../utils/ruby_help.h" line="795"/>
-        <location filename="../utils/ruby_help.h" line="892"/>
-        <location filename="../utils/ruby_help.h" line="989"/>
-        <location filename="../utils/ruby_help.h" line="1085"/>
-        <location filename="../utils/ruby_help.h" line="1182"/>
-        <location filename="../utils/ruby_help.h" line="1279"/>
-        <location filename="../utils/ruby_help.h" line="1376"/>
-        <location filename="../utils/ruby_help.h" line="1473"/>
-        <location filename="../utils/ruby_help.h" line="1570"/>
-        <location filename="../utils/ruby_help.h" line="1667"/>
-        <location filename="../utils/ruby_help.h" line="1764"/>
-        <location filename="../utils/ruby_help.h" line="1861"/>
-        <location filename="../utils/ruby_help.h" line="1958"/>
-        <location filename="../utils/ruby_help.h" line="2055"/>
-        <location filename="../utils/ruby_help.h" line="2152"/>
-        <location filename="../utils/ruby_help.h" line="2249"/>
-        <location filename="../utils/ruby_help.h" line="2346"/>
-        <location filename="../utils/ruby_help.h" line="2443"/>
-        <location filename="../utils/ruby_help.h" line="2540"/>
-        <location filename="../utils/ruby_help.h" line="2635"/>
-        <location filename="../utils/ruby_help.h" line="2732"/>
-        <location filename="../utils/ruby_help.h" line="2829"/>
-        <location filename="../utils/ruby_help.h" line="2926"/>
-        <location filename="../utils/ruby_help.h" line="3023"/>
-        <location filename="../utils/ruby_help.h" line="3120"/>
-        <location filename="../utils/ruby_help.h" line="3217"/>
-        <source>Tutorial</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../utils/ruby_help.h" line="3252"/>
-        <source>Examples</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../utils/ruby_help.h" line="3301"/>
-        <source>Synths</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../utils/ruby_help.h" line="3348"/>
-        <source>Fx</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../utils/ruby_help.h" line="3369"/>
-        <source>Samples</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../utils/ruby_help.h" line="3620"/>
-        <source>Lang</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

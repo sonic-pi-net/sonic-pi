@@ -9,7 +9,7 @@
         <translation>Thiết Lập</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="738"/>
+        <location filename="../mainwindow.cpp" line="739"/>
         <source>Log</source>
         <translation>Bản Ghi</translation>
     </message>
@@ -21,31 +21,31 @@
         <translation>Phần Mềm Sonic Pi</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1495"/>
+        <location filename="../mainwindow.cpp" line="1496"/>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
         <translation>Đang chạy chương trình...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1515"/>
+        <location filename="../mainwindow.cpp" line="1516"/>
         <source>Beautifying...</source>
         <oldsource>Beautifying....</oldsource>
         <translation>Đang làm đẹp...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1545"/>
+        <location filename="../mainwindow.cpp" line="1546"/>
         <source>Reloading...</source>
         <oldsource>Reloading....</oldsource>
         <translation>Đang tải...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1576"/>
+        <location filename="../mainwindow.cpp" line="1577"/>
         <source>Enabling Mixer HPF...</source>
         <oldsource>Enabling Mixer HPF....</oldsource>
         <translation>Bật bộ trộn cao qua...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1585"/>
+        <location filename="../mainwindow.cpp" line="1586"/>
         <source>Disabling Mixer HPF...</source>
         <oldsource>Disabling Mixer HPF....</oldsource>
         <translation>Tắt bộ trộn cao qua...</translation>
@@ -56,42 +56,42 @@
         <translation>Chào mừng đến với Sonic Pi</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="975"/>
+        <location filename="../mainwindow.cpp" line="976"/>
         <source>Indenting selection...</source>
         <translation>Thụt đầu dòng chữ đã chọn...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="979"/>
+        <location filename="../mainwindow.cpp" line="980"/>
         <source>Indenting line...</source>
         <translation>Thụt đầu dòng dòng hiện tại...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1008"/>
+        <location filename="../mainwindow.cpp" line="1009"/>
         <source>Toggle selection comment...</source>
         <translation>Bật/Tắt ghi chú...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="744"/>
+        <location filename="../mainwindow.cpp" line="745"/>
         <source>Cues</source>
         <translation>Các gợi ý</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="839"/>
+        <location filename="../mainwindow.cpp" line="840"/>
         <source>Full screen mode on.</source>
         <translation>Chế độ toàn màn hình.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="856"/>
+        <location filename="../mainwindow.cpp" line="857"/>
         <source>Full screen mode off.</source>
         <translation>Tắt chế độ toàn màn hình.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1012"/>
+        <location filename="../mainwindow.cpp" line="1013"/>
         <source>Toggle line comment...</source>
         <translation>Bật/Tắt ghi chú dòng...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1094"/>
+        <location filename="../mainwindow.cpp" line="1095"/>
         <source>The Sonic Pi Server could not be started!</source>
         <translation>Server Sonic Pi không thể khởi động!</translation>
     </message>
@@ -123,7 +123,7 @@
         <translation>Các thiết bị MIDI ngõ ra đã kết nối</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1262"/>
+        <location filename="../mainwindow.cpp" line="1263"/>
         <source>Sonic Pi Boot Error
 
 Apologies, a critical error occurred during startup</source>
@@ -132,43 +132,43 @@ Apologies, a critical error occurred during startup</source>
 Xin lỗi, đã xảy ra lỗi nghiêm trọng khi khởi động chương trình</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1361"/>
-        <location filename="../mainwindow.cpp" line="1364"/>
-        <location filename="../mainwindow.cpp" line="1378"/>
-        <location filename="../mainwindow.cpp" line="1381"/>
+        <location filename="../mainwindow.cpp" line="1362"/>
+        <location filename="../mainwindow.cpp" line="1365"/>
+        <location filename="../mainwindow.cpp" line="1379"/>
+        <location filename="../mainwindow.cpp" line="1382"/>
         <source>Buffer files</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1364"/>
+        <location filename="../mainwindow.cpp" line="1365"/>
         <source>Load Sonic Pi Buffer</source>
         <translation>Tải bộ đệm của Sonic Pi</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1364"/>
-        <location filename="../mainwindow.cpp" line="1381"/>
+        <location filename="../mainwindow.cpp" line="1365"/>
+        <location filename="../mainwindow.cpp" line="1382"/>
         <source>Text files</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1364"/>
-        <location filename="../mainwindow.cpp" line="1381"/>
+        <location filename="../mainwindow.cpp" line="1365"/>
+        <location filename="../mainwindow.cpp" line="1382"/>
         <source>Ruby files</source>
         <translation>Các tệp mã Ruby</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1364"/>
-        <location filename="../mainwindow.cpp" line="1381"/>
+        <location filename="../mainwindow.cpp" line="1365"/>
+        <location filename="../mainwindow.cpp" line="1382"/>
         <source>All files</source>
         <translation>Toà bộ tệp</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1792"/>
+        <location filename="../mainwindow.cpp" line="1793"/>
         <source>Log Auto Scroll on...</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1794"/>
+        <location filename="../mainwindow.cpp" line="1795"/>
         <source>Log Auto Scroll off...</source>
         <translation>Tắt tự cuộn bản ghi...</translation>
     </message>
@@ -193,7 +193,7 @@ Xin lỗi, đã xảy ra lỗi nghiêm trọng khi khởi động chương trìn
         <translation>Định dạng Wavefile (*.wav)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1692"/>
+        <location filename="../mainwindow.cpp" line="1693"/>
         <source>help visibility changed...</source>
         <translation>Đã bật/tắt giúp đỡ...</translation>
     </message>
@@ -233,7 +233,7 @@ Xin lỗi, đã xảy ra lỗi nghiêm trọng khi khởi động chương trìn
         <translation>Chào mừng bạn đã trở lại. Giờ hãy &quot;code trực tiếp&quot; nào...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1381"/>
+        <location filename="../mainwindow.cpp" line="1382"/>
         <source>Save Current Buffer</source>
         <translation>Lưu bộ đệm hiện tại</translation>
     </message>
@@ -243,78 +243,78 @@ Xin lỗi, đã xảy ra lỗi nghiêm trọng khi khởi động chương trìn
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1501"/>
+        <location filename="../mainwindow.cpp" line="1502"/>
         <source>Zooming In...</source>
         <translation>Phóng to...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1508"/>
+        <location filename="../mainwindow.cpp" line="1509"/>
         <source>Zooming Out...</source>
         <translation>Thu nhỏ...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1552"/>
+        <location filename="../mainwindow.cpp" line="1553"/>
         <source>Checking for updates...</source>
         <translation>Kiểm tra bản cập nhật...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1560"/>
+        <location filename="../mainwindow.cpp" line="1561"/>
         <source>Enabling update checking...</source>
         <translation>Cho phép kiểm tra bản cập nhật...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1568"/>
+        <location filename="../mainwindow.cpp" line="1569"/>
         <source>Disabling update checking...</source>
         <translation>Tắt kiểm tra bản cập nhật...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1593"/>
+        <location filename="../mainwindow.cpp" line="1594"/>
         <source>Enabling Mixer LPF...</source>
         <oldsource>Enabling Mixer LPF....</oldsource>
         <translation>Bật lọc thấp qua...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1602"/>
+        <location filename="../mainwindow.cpp" line="1603"/>
         <source>Disabling Mixer LPF...</source>
         <oldsource>Disabling Mixer LPF....</oldsource>
         <translation>Tắt lọc thấp qua...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1610"/>
+        <location filename="../mainwindow.cpp" line="1611"/>
         <source>Enabling Inverted Stereo...</source>
         <oldsource>Enabling Inverted Stereo....</oldsource>
         <translation>Bật đảo chiều âm thanh nổi...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1618"/>
+        <location filename="../mainwindow.cpp" line="1619"/>
         <source>Enabling Standard Stereo...</source>
         <oldsource>Enabling Standard Stereo....</oldsource>
         <translation>Bật âm thanh nổi chuẩn...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1626"/>
+        <location filename="../mainwindow.cpp" line="1627"/>
         <source>Mono Mode...</source>
         <oldsource>Mono Mode....</oldsource>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1634"/>
+        <location filename="../mainwindow.cpp" line="1635"/>
         <source>Stereo Mode...</source>
         <oldsource>Stereo Mode....</oldsource>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1643"/>
+        <location filename="../mainwindow.cpp" line="1644"/>
         <source>Stopping...</source>
         <translation>Dừng...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1750"/>
+        <location filename="../mainwindow.cpp" line="1751"/>
         <source>Updating System Volume...</source>
         <translation>Cập nhật âm lượng hệ thống...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1823"/>
+        <location filename="../mainwindow.cpp" line="1824"/>
         <source>Colour Theme: </source>
         <translation type="unfinished"></translation>
     </message>
@@ -408,17 +408,17 @@ Cập nhật Sonic Pi %1</translation>
         <translation>Xem thêm thông tin về Sonic Pi</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="787"/>
+        <location filename="../mainwindow.cpp" line="788"/>
         <source>Help</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1262"/>
+        <location filename="../mainwindow.cpp" line="1263"/>
         <source>Server boot error...</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1262"/>
+        <location filename="../mainwindow.cpp" line="1263"/>
         <source>Please consider reporting a bug at</source>
         <translation>Vui lòng báo lỗi tại</translation>
     </message>
@@ -577,68 +577,6 @@ Cập nhật Sonic Pi %1</translation>
 %2.</source>
         <translation>Không ghi được tệp %1:
 %2.</translation>
-    </message>
-    <message>
-        <location filename="../utils/ruby_help.h" line="117"/>
-        <location filename="../utils/ruby_help.h" line="214"/>
-        <location filename="../utils/ruby_help.h" line="311"/>
-        <location filename="../utils/ruby_help.h" line="408"/>
-        <location filename="../utils/ruby_help.h" line="505"/>
-        <location filename="../utils/ruby_help.h" line="601"/>
-        <location filename="../utils/ruby_help.h" line="698"/>
-        <location filename="../utils/ruby_help.h" line="795"/>
-        <location filename="../utils/ruby_help.h" line="892"/>
-        <location filename="../utils/ruby_help.h" line="989"/>
-        <location filename="../utils/ruby_help.h" line="1085"/>
-        <location filename="../utils/ruby_help.h" line="1182"/>
-        <location filename="../utils/ruby_help.h" line="1279"/>
-        <location filename="../utils/ruby_help.h" line="1376"/>
-        <location filename="../utils/ruby_help.h" line="1473"/>
-        <location filename="../utils/ruby_help.h" line="1570"/>
-        <location filename="../utils/ruby_help.h" line="1667"/>
-        <location filename="../utils/ruby_help.h" line="1764"/>
-        <location filename="../utils/ruby_help.h" line="1861"/>
-        <location filename="../utils/ruby_help.h" line="1958"/>
-        <location filename="../utils/ruby_help.h" line="2055"/>
-        <location filename="../utils/ruby_help.h" line="2152"/>
-        <location filename="../utils/ruby_help.h" line="2249"/>
-        <location filename="../utils/ruby_help.h" line="2346"/>
-        <location filename="../utils/ruby_help.h" line="2443"/>
-        <location filename="../utils/ruby_help.h" line="2540"/>
-        <location filename="../utils/ruby_help.h" line="2635"/>
-        <location filename="../utils/ruby_help.h" line="2732"/>
-        <location filename="../utils/ruby_help.h" line="2829"/>
-        <location filename="../utils/ruby_help.h" line="2926"/>
-        <location filename="../utils/ruby_help.h" line="3023"/>
-        <location filename="../utils/ruby_help.h" line="3120"/>
-        <location filename="../utils/ruby_help.h" line="3217"/>
-        <source>Tutorial</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../utils/ruby_help.h" line="3252"/>
-        <source>Examples</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../utils/ruby_help.h" line="3301"/>
-        <source>Synths</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../utils/ruby_help.h" line="3348"/>
-        <source>Fx</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../utils/ruby_help.h" line="3369"/>
-        <source>Samples</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../utils/ruby_help.h" line="3620"/>
-        <source>Lang</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
