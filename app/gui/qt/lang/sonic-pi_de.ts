@@ -596,17 +596,17 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../visualizer/scope.cpp" line="69"/>
         <source>Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Links</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="70"/>
         <source>Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechts</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="71"/>
         <source>Mono</source>
-        <translation type="unfinished"></translation>
+        <translation>Mono</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="72"/>
@@ -616,7 +616,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../visualizer/scope.cpp" line="74"/>
         <source>Spectrum</source>
-        <translation type="unfinished"></translation>
+        <translation>Spektrum</translation>
     </message>
 </context>
 <context>
@@ -660,7 +660,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="87"/>
         <source>Audio Output</source>
-        <translation type="unfinished">Audio-Ausgang</translation>
+        <translation>Audio-Ausgang</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="88"/>
@@ -703,7 +703,7 @@ Mono-Ton verarbeiten kann.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="101"/>
         <source>Synths and FX</source>
-        <translation type="unfinished">Synths und FX</translation>
+        <translation>Synths und FX</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="102"/>
@@ -828,7 +828,7 @@ Ohne Aktivierung werden keine OSC-Nachrichten empfangen.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="178"/>
         <source>Configure MIDI behaviour</source>
-        <translation type="unfinished">MIDI-Verhalten konfigurieren</translation>
+        <translation>MIDI-Verhalten konfigurieren</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="180"/>
@@ -838,40 +838,40 @@ Ohne Aktivierung werden keine OSC-Nachrichten empfangen.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="181"/>
         <source>List all connected MIDI Ports</source>
-        <translation type="unfinished">Alle verbundenen MIDI-Ports auflisten</translation>
+        <translation>Alle verbundenen MIDI-Ports auflisten</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="183"/>
         <source>Enable MIDI subsystems</source>
-        <translation type="unfinished">MIDI-Subsystem aktivieren</translation>
+        <translation>MIDI-Subsysteme aktivieren</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="184"/>
         <source>Enable or disable incoming and outgoing MIDI communication</source>
-        <translation type="unfinished">Ein- und ausgehende MIDI-Verbindungen de-/aktivieren</translation>
+        <translation>Aktivieren oder Deaktivieren der ein- und ausgehenden MIDI-Kommunikation</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="186"/>
         <source>Reset MIDI</source>
-        <translation type="unfinished">MIDI zurücksetzen</translation>
+        <translation>MIDI zurücksetzen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="187"/>
         <source>Reset MIDI subsystems 
 (Required to detect device changes on macOS)</source>
-        <translation type="unfinished">MIDI-Subsystem zurücksetzen
-(Wir benötigt um auf macOS Gerätänderungen zu erkennen)</translation>
+        <translation>MIDI-Subsysteme zurücksetzen 
+(Erforderlich zur Erkennung von Geräteänderungen unter macOS )</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="213"/>
         <source>Default MIDI channel (* means all)</source>
-        <translation type="unfinished">Standard MIDI-Kanal (* meint alle)</translation>
+        <translation>Standard-MIDI-Kanal (* bedeutet alle)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="214"/>
         <location filename="../widgets/settingswidget.cpp" line="218"/>
         <source>Default MIDI Channel to send messages to</source>
-        <translation type="unfinished">Standard MIDI-Kanal um Nachrichten zu verschicken</translation>
+        <translation>Standard-MIDI-Kanal zum Senden von Nachrichten an</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="229"/>
@@ -888,15 +888,16 @@ Ohne Aktivierung werden keine OSC-Nachrichten empfangen.</translation>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation type="unfinished">Die MIDI-Nachrichten von MIDI-Eingabegeräten gehen
-direkt an Sonic Pi und dienen als Cue-Ereignisse
-(ebenso wie eingehende OSC-Nachrichten und interne Cues)</translation>
+        <translation>MIDI-Eingabegeräte senden MIDI-Nachrichten direkt an
+Sonic Pi und werden als Cue-Ereignisse empfangen
+(ähnlich wie eingehende OSC-Nachrichten und interne Cues)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="232"/>
         <source>MIDI output devices receive MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished">MIDI-Ausgabegeräte erhalten MIDI-Nachrichten, die direkt von Sonic Pi über die midi_* Funktionen gesendet werden können</translation>
+        <translation>MIDI-Ausgabegeräte empfangen MIDI-Nachrichten direkt von
+Sonic Pi, die über die midi_* fns gesendet werden können</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="262"/>
@@ -921,7 +922,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="266"/>
         <source>Automation</source>
-        <translation type="unfinished">Automatismen</translation>
+        <translation>Automatisierung</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="267"/>
@@ -931,17 +932,17 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="269"/>
         <source>Auto-align</source>
-        <translation type="unfinished">Auto-Ausrichtung</translation>
+        <translation>Automatisches Ausrichten</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="270"/>
         <source>Automatically align code on Run</source>
-        <translation type="unfinished">Code beim Start automatisch ausrichten</translation>
+        <translation>Code bei der Ausführung automatisch ausrichten</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="272"/>
         <source>Show line numbers</source>
-        <translation type="unfinished">Zeilennummern anzeigen</translation>
+        <translation>Zeilennummern anzeigen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="273"/>
@@ -951,7 +952,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="274"/>
         <source>Show log</source>
-        <translation type="unfinished">Protokollfenster anzeigen</translation>
+        <translation>Protokoll anzeigen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="275"/>
@@ -971,7 +972,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="282"/>
         <source>Show buttons</source>
-        <translation type="unfinished">Menüleiste anzeigen</translation>
+        <translation>Schaltflächen anzeigen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="283"/>
@@ -981,7 +982,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="285"/>
         <source>Show tabs</source>
-        <translation type="unfinished">Tabs anzeigen</translation>
+        <translation>Tabs anzeigen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="287"/>
@@ -1001,12 +1002,12 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="292"/>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Hell</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="293"/>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Dunkel</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="294"/>
@@ -1021,12 +1022,12 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="296"/>
         <source>High Contrast</source>
-        <translation type="unfinished"></translation>
+        <translation>Hoher Kontrast</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="326"/>
         <source>Logging</source>
-        <translation type="unfinished">Protokollieren</translation>
+        <translation>Protokollierung</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="327"/>
@@ -1115,7 +1116,7 @@ Das Protokoll scrollt nach jedem Eintrag automatisch weiter.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="377"/>
         <source>Show Axes</source>
-        <translation type="unfinished">Achsen zeigen</translation>
+        <translation>Achsen anzeigen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="378"/>
@@ -1140,7 +1141,7 @@ Stereo - zeigt zwei getrennten Ansichten beider Kanäle</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="388"/>
         <source>Transparency</source>
-        <translation type="unfinished">Transparenz</translation>
+        <translation>Transparenz</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="411"/>
@@ -1157,7 +1158,7 @@ Diese Suche versendet anonyme Informationen über Deine Plattform und Version.</
     <message>
         <location filename="../widgets/settingswidget.cpp" line="414"/>
         <source>Check now</source>
-        <translation type="unfinished">Jetzt prüfen</translation>
+        <translation>Jetzt prüfen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="415"/>
@@ -1174,7 +1175,7 @@ Diese Suche versendet anonyme Informationen über Deine Plattform und Version.</
     <message>
         <location filename="../widgets/settingswidget.cpp" line="417"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation type="unfinished">Besuche http://sonic-pi.net, um die neue Version herunterzuladen</translation>
+        <translation>Besuche http://sonic-pi.net, um die neue Version herunterzuladen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="420"/>
