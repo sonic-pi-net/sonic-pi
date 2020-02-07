@@ -574,7 +574,7 @@ void Scope::CalculateFFT()
         // We only care about the bottom 1/4 of the frequencies, less than 10Khz.
         uint32_t SpectrumSamples = uint32_t(m_spectrum[channel].size() / 4);
 
-        // Make less buckets on a big window, or at least 1/2 the sample buckets 
+        // Make less buckets on a big window, or at least 1/2 the sample buckets
         uint32_t buckets = std::min(SpectrumSamples / 2, uint32_t(width() / 8));
         if (buckets > 0)
         {
@@ -590,7 +590,7 @@ void Scope::CalculateFFT()
                 av += m_spectrum[channel][i];
 
                 if (i > (countPerBucket * currentBucket))
-                { 
+                {
                     m_spectrumQuantized[channel][currentBucket++] = av / (float)countPerBucket;
                     av = 0.0f; // reset sum for next average
                 }
