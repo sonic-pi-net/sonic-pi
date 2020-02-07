@@ -65,13 +65,13 @@ Scope::Scope(int scsynthPort, QWidget* parent)
 
     m_monoSamples.resize(FrameSamples, 0.0);
 
-    m_panels.push_back({ "Lissajous", "Lissajous", ScopeType::Lissajous });
-    m_panels.push_back({ "Stereo", "Left", ScopeType::Left });
-    m_panels.push_back({ "Stereo", "Right", ScopeType::Right });
-    m_panels.push_back({ "Mono", "Mono", ScopeType::Mono });
-    m_panels.push_back({ "Mirror Stereo", "Stereo", ScopeType::MirrorStereo });
+    m_panels.push_back({ "Lissajous", tr("Lissajous"), ScopeType::Lissajous });
+    m_panels.push_back({ "Stereo", tr("Left"), ScopeType::Left });
+    m_panels.push_back({ "Stereo", tr("Right"), ScopeType::Right });
+    m_panels.push_back({ "Mono", tr("Mono"), ScopeType::Mono });
+    m_panels.push_back({ "Mirror Stereo", tr("Mirror Stereo"), ScopeType::MirrorStereo });
 
-    Panel spec({ "Spectrum", "Spectrum", ScopeType::SpectrumAnalysis });
+    Panel spec({ "Spectrum", tr("Spectrum"), ScopeType::SpectrumAnalysis });
     spec.requireFFT = true;
     m_panels.push_back(spec);
 
