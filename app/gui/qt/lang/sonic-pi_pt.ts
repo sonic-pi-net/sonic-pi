@@ -152,57 +152,57 @@ Pedimos desculpa, um erro crítico aconteceu durante o processo de inicializaç�
     <message>
         <location filename="../mainwindow.cpp" line="2082"/>
         <source>Align code to improve readability</source>
-        <translation type="unfinished"></translation>
+        <translation>Alinha código para mais fácil leitura</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2086"/>
         <source>Text Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Aumentar tamanho de texto</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2092"/>
         <source>Text Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Diminuir tamanho de texto</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2098"/>
         <source>Toggle Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Activar e desactivar Análise de FFT através da UI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2100"/>
         <source>Toggle visibility of audio oscilloscope</source>
-        <translation type="unfinished"></translation>
+        <translation>Activar a visibilidade do osciloscópio para fins de análise de áudio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2104"/>
         <source>Show Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar informação</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2110"/>
         <source>Toggle Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Activar e Desactivar Ajuda</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2116"/>
         <source>Toggle Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Activar e Desactivar Preferencias</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2147"/>
         <source>&amp;File</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ficheiro</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2154"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Editar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2158"/>
         <source>&amp;Window</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Janela</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2261"/>
@@ -289,7 +289,7 @@ Pedimos desculpa, um erro crítico aconteceu durante o processo de inicializaç�
     <message>
         <location filename="../mainwindow.cpp" line="728"/>
         <source>Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Análise de áudio a partir da UI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1509"/>
@@ -360,17 +360,17 @@ Pedimos desculpa, um erro crítico aconteceu durante o processo de inicializaç�
     <message>
         <location filename="../mainwindow.cpp" line="1824"/>
         <source>Colour Theme: </source>
-        <translation type="unfinished"></translation>
+        <translation>Côr do tema </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2063"/>
         <source>Start recording to a WAV audio file</source>
-        <translation type="unfinished"></translation>
+        <translation>Começar a gravar para um ficheiro de áudio em WAV</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2067"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Gravar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2069"/>
@@ -526,17 +526,17 @@ Obter o Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="428"/>
         <source>Studio Mode Enabled. Thank-you for supporting Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation>Modo de estudo activado. Obrigado por suportar o Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="432"/>
         <source>No Matching Studio Hash Found...</source>
-        <translation type="unfinished"></translation>
+        <translation>Não existe Hashing de Estúdio...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="668"/>
         <source>| %1 |</source>
-        <translation type="unfinished"></translation>
+        <translation>[%1]</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2196"/>
@@ -591,32 +591,32 @@ Obter o Sonic Pi %1</translation>
     <message>
         <location filename="../visualizer/scope.cpp" line="68"/>
         <source>Lissajous</source>
-        <translation type="unfinished"></translation>
+        <translation>Análise lissajólica</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="69"/>
         <source>Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Esquerda</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="70"/>
         <source>Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Direita</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="71"/>
         <source>Mono</source>
-        <translation type="unfinished"></translation>
+        <translation>Mono</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="72"/>
         <source>Mirror Stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>Espelho de stéreo</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="74"/>
         <source>Spectrum</source>
-        <translation type="unfinished"></translation>
+        <translation>Espectro</translation>
     </message>
 </context>
 <context>
@@ -650,7 +650,7 @@ Obter o Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="80"/>
         <source>Master Volume</source>
-        <translation type="unfinished">Master de Volume</translation>
+        <translation>Volume do canal Master</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="81"/>
@@ -660,7 +660,7 @@ Obter o Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="87"/>
         <source>Audio Output</source>
-        <translation type="unfinished">Saída audio</translation>
+        <translation>Saída de áudio</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="88"/>
@@ -679,7 +679,9 @@ sistemas de P.A. externos quando se apresentar com o Sonic Pi.</translation>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and vice versa.</source>
-        <translation type="unfinished"></translation>
+        <translation>Activar e desactivar inversão de stereo.
+Se activado, será enviado áudio para a coluna esquerda poder
+ser roteada para a coluna direita e vice versa.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="91"/>
