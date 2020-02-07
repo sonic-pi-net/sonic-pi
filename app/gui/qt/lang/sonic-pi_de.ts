@@ -240,7 +240,7 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="728"/>
         <source>Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Scope</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1502"/>
