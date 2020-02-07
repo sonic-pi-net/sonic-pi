@@ -187,7 +187,7 @@ module SonicPi
       end
     end
 
-    def boot_and_wait(*args)
+    def boot_and_wait(*args, &on_complete_or_error)
       puts "Boot - Starting the SuperCollider server..."
       puts "Boot - #{args.join(' ')}"
       p = Promise.new
@@ -225,6 +225,7 @@ module SonicPi
         t1.kill
         msg = "Boot - Unable to boot SuperCollider - boot server log did not report server ready"
         puts msg
+        on_complete_or_error.call if on_complete_or_error
         raise msg
       end
 
@@ -259,6 +260,8 @@ module SonicPi
         boot_s.stop
       end
 
+      on_complete_or_error.call if on_complete_or_error
+
       unless connected
         puts "Boot - Unable to connect to SuperCollider"
         raise "Boot - Unable to connect to SuperCollider"
@@ -268,7 +271,13 @@ module SonicPi
     end
 
     def boot_server_osx
+      temp_input_rate = nil
+      current_input = nil
+      current_input_rate = nil
+      temp_switch = false
+
       disable_input = true
+
       log_boot_msg
       puts "Boot - Booting on OS X"
       puts "Boot - Checkout audio rates on OSX:"
@@ -276,6 +285,7 @@ module SonicPi
       # If these are not identical, then scsynth will refuse
       # to boot.
       begin
+
         audio_in_rate = :unknown_in_rate
         audio_out_rate = :unknown_out_rate
         require 'coreaudio'
@@ -283,43 +293,36 @@ module SonicPi
         audio_out_rate = CoreAudio.default_output_device.nominal_rate
         puts "Boot - Input audio rate: #{audio_in_rate}"
         puts "Boot - Output audio rate: #{audio_out_rate}"
-        if (audio_in_rate != :unknown_in_rate) && (audio_out_rate != :unknown_out_rate) && (audio_in_rate != audio_out_rate)
-          # we detected audio rates, but they're not the same
-          puts "Boot - Audio input and output rates do not match."
-          if audio_out_rate > 44000
-            puts "Boot - Attempting to set the input rates to match output rate of #{audio_out_rate}..."
-            CoreAudio.default_input_device(nominal_rate: audio_out_rate)
-          end
 
-          audio_in_rate = CoreAudio.default_input_device.nominal_rate
-          audio_out_rate = CoreAudio.default_output_device.nominal_rate
-
-          if (audio_in_rate != :unknown_in_rate) && (audio_out_rate != :unknown_out_rate) && (audio_in_rate != audio_out_rate)
-            # we detected audio rates, and they're still not the same
-            puts "Boot - Attempting to set both in and out sample rates to 44100.0..."
-            CoreAudio.default_output_device(nominal_rate: 44100.0)
-            CoreAudio.default_input_device(nominal_rate: 44100.0)
-          end
-
-          puts "Boot - Input audio rate now: #{audio_in_rate}"
-          puts "Boot - Output audio rate now: #{audio_out_rate}"
-          if (audio_in_rate != :unknown_in_rate) && (audio_out_rate != :unknown_out_rate) && (audio_in_rate != audio_out_rate)
-            puts "Boot - Sample rates still do not match, disabling input"
-          else
-            puts "Boot - Sample have been changed to match, enable input"
-            disable_input = false
-          end
-        else
-          puts "Boot - Sample rates match, enable support for inputs..."
+        if (audio_in_rate == audio_out_rate)
+          # yey we're good to go
+          puts "Boot - Audio rates match. Enabling input"
           disable_input = false
-        end
+        else
 
+          puts "Boot - Audio rates don't match. Let's see if we can find a temporary audio input with the correct rate to switch to"
+
+          current_input = CoreAudio.default_input_device
+          current_input_rate = current_input.nominal_rate
+          current_output = CoreAudio.default_output_device
+          current_output_rate = current_output.nominal_rate
+          valid_inputs = CoreAudio.devices.filter {|x| x.input_stream.channels > 0 && x.available_sample_rate.find_index {|y| y.first == current_output_rate}}
+          temp_input = valid_inputs[0]
+
+          if temp_input
+            puts "Boot - Found suitable temporary input #{temp_input.name}"
+            temp_input_rate = temp_input.nominal_rate
+
+            puts "Boot - switching to temporary input #{temp_input.name}"
+            CoreAudio.set_default_input_device(temp_input)
+            CoreAudio.default_input_device(nominal_rate: current_output_rate)
+            temp_switch = true
+          end
+        end
       rescue Exception
-        if (audio_in_rate == :unknown_in_rate) || (audio_out_rate == :unknown_out_rate)
           # Something went wrong whilst attempting to determine and modify the audio
           # rates. For safety do not enable inputs
           puts "Boot - Unable to detect audio rates. Disabling input"
-        end
       end
 
       if disable_input
@@ -341,7 +344,20 @@ module SonicPi
                     "-o", "16",
                     "-U", "#{native_path}/supercollider/plugins/",
                     "-b", num_buffers_for_current_os.to_s,
-                    "-B", "127.0.0.1")
+                    "-B", "127.0.0.1") do
+        if temp_switch
+          puts "Boot - switching rate of temp input back to original: #{temp_input_rate}"
+          CoreAudio.default_input_device(nominal_rate: temp_input_rate)
+
+          puts "Boot - switching default input device back to original: #{current_input.name}"
+          CoreAudio.set_default_input_device(current_input)
+          puts "Boot - switching default input rate back to original: #{current_input_rate}"
+          CoreAudio.default_input_device(nominal_rate: current_input_rate)
+        end
+
+      end
+
+
     end
 
 
