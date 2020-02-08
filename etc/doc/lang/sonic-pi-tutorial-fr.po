@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-02-08 12:18+0000\n"
+"PO-Revision-Date: 2020-02-09 13:26+0000\n"
 "Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "fr/>\n"
@@ -18742,7 +18742,7 @@ msgstr ""
 "Dans cet exemple, nous introduisons une boucle de base appelée : jungle qui "
 "prend un coup de batterie aléatoire dans notre échantillon audio, attend un "
 "huitième de seconde et prend ensuite un autre coup de batterie. Il en "
-"résulte un flux infini de coup de batterie aléatoires sur lesquels vous "
+"résulte un flux infini de coups de batterie aléatoires sur lesquels vous "
 "pouvez danser tout en découvrant ce qu'est une boucle."
 
 #: B-Essential-Knowledge.md:1
