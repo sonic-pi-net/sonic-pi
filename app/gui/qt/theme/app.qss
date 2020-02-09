@@ -466,3 +466,9 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical
 {
     background: none;
 }
+
+QWidget
+{
+    background: paneColor;
+}
+
