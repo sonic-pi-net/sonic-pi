@@ -561,7 +561,7 @@ eval_file \"~/path/to/sonic-pi-code.rb\" #=> will run the contents of this file"
 
 
 
-      def use_osc(host, port=4559)
+      def use_osc(host, port=4560)
         host = host.to_s.strip
         host_and_port = (host.include? ":") ? host : (host + ":" + port.to_s)
 
@@ -574,7 +574,7 @@ eval_file \"~/path/to/sonic-pi-code.rb\" #=> will run the contents of this file"
           returns:        nil,
           opts:           nil,
           accepts_block:  false,
-          doc:            "Sets the destination host and port that `osc` will send messages to. If no port number is specified - will default to port 4559 (Sonic Pi's default OSC listening port).
+          doc:            "Sets the destination host and port that `osc` will send messages to. If no port number is specified - will default to port 4560 (Sonic Pi's default OSC listening port).
 
 OSC (Open Sound Control) is a simple way of passing messages between two separate programs on the same computer or even on different computers via a local network or even the internet. `use_osc` allows you to specify which computer (`hostname`) and program (`port`) to send messages to.
 
@@ -652,7 +652,7 @@ osc \"/foo/baz\"             # Send another OSC message to port 7010
 ",
 ]
 
-      def with_osc(host, port=4559, &block)
+      def with_osc(host, port=4560, &block)
         raise ArgumentError, "with_osc must be called with a do/end block. Perhaps you meant use_osc" unless block
         host = host.to_s.strip
         current_host_and_port = __thread_locals.get(:sonic_pi_osc_client)
@@ -766,7 +766,7 @@ However, in order to send the OSC message you must first specify where to send i
 `osc \"/set/filter\", \"lowpass\", 80, 0.5`
 
 
-Note, by default, Sonic Pi listens for OSC messages on port `4559`, so you may send messages to an external machine running Sonic Pi if you know the IP address of that external machine. Any OSC messages received on port `4559` are automatically converted to standard cue events and displayed in the GUI's cue log. This also means that you can use `sync` to wait for the next incoming OSC message with a given path (see example).
+Note, by default, Sonic Pi listens for OSC messages on port `4560`, so you may send messages to an external machine running Sonic Pi if you know the IP address of that external machine. Any OSC messages received on port `4559` are automatically converted to standard cue events and displayed in the GUI's cue log. This also means that you can use `sync` to wait for the next incoming OSC message with a given path (see example).
 
 Finally, it is also very useful to send OSC messages to aother programs on the same computer. This can be achieved by specifying \"localhost\" as the hostname and the port as normal (depending on which port the other program is listening on).
 
