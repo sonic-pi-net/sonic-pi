@@ -647,11 +647,11 @@ sample :loop_amen  #=> unless time is too far behind, this will trigger even whe
           opts:           nil,
           accepts_block:  true,
           examples:       ["
-with_timing_guarantees true
+with_timing_guarantees true do
   sample :loop_amen  #=> if time is behind by any margin, this will not trigger
 end",
 "
-with_timing_guarantees false
+with_timing_guarantees false do
   sample :loop_amen  #=> unless time is too far behind, this will trigger even when late.
 end"]
 
