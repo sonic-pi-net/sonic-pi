@@ -578,6 +578,68 @@ Lataa Sonic Pi %1</translation>
         <translation>Ei voi kirjoittaa tiedostoa %1
 %2.</translation>
     </message>
+    <message>
+        <location filename="../utils/ruby_help.h" line="117"/>
+        <location filename="../utils/ruby_help.h" line="214"/>
+        <location filename="../utils/ruby_help.h" line="311"/>
+        <location filename="../utils/ruby_help.h" line="408"/>
+        <location filename="../utils/ruby_help.h" line="505"/>
+        <location filename="../utils/ruby_help.h" line="601"/>
+        <location filename="../utils/ruby_help.h" line="698"/>
+        <location filename="../utils/ruby_help.h" line="795"/>
+        <location filename="../utils/ruby_help.h" line="892"/>
+        <location filename="../utils/ruby_help.h" line="989"/>
+        <location filename="../utils/ruby_help.h" line="1085"/>
+        <location filename="../utils/ruby_help.h" line="1182"/>
+        <location filename="../utils/ruby_help.h" line="1279"/>
+        <location filename="../utils/ruby_help.h" line="1376"/>
+        <location filename="../utils/ruby_help.h" line="1473"/>
+        <location filename="../utils/ruby_help.h" line="1570"/>
+        <location filename="../utils/ruby_help.h" line="1667"/>
+        <location filename="../utils/ruby_help.h" line="1764"/>
+        <location filename="../utils/ruby_help.h" line="1861"/>
+        <location filename="../utils/ruby_help.h" line="1958"/>
+        <location filename="../utils/ruby_help.h" line="2055"/>
+        <location filename="../utils/ruby_help.h" line="2152"/>
+        <location filename="../utils/ruby_help.h" line="2249"/>
+        <location filename="../utils/ruby_help.h" line="2346"/>
+        <location filename="../utils/ruby_help.h" line="2443"/>
+        <location filename="../utils/ruby_help.h" line="2540"/>
+        <location filename="../utils/ruby_help.h" line="2635"/>
+        <location filename="../utils/ruby_help.h" line="2732"/>
+        <location filename="../utils/ruby_help.h" line="2829"/>
+        <location filename="../utils/ruby_help.h" line="2926"/>
+        <location filename="../utils/ruby_help.h" line="3023"/>
+        <location filename="../utils/ruby_help.h" line="3120"/>
+        <location filename="../utils/ruby_help.h" line="3217"/>
+        <source>Tutorial</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/ruby_help.h" line="3252"/>
+        <source>Examples</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/ruby_help.h" line="3301"/>
+        <source>Synths</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/ruby_help.h" line="3348"/>
+        <source>Fx</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/ruby_help.h" line="3369"/>
+        <source>Samples</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/ruby_help.h" line="3620"/>
+        <source>Lang</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>
