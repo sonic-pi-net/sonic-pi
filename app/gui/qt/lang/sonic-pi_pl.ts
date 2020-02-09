@@ -114,7 +114,7 @@ Przepraszam, ale w trakcie startu wystąpił krytyczny błąd</translation>
     <message>
         <location filename="../mainwindow.cpp" line="728"/>
         <source>Scope</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Oscyl.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1362"/>
@@ -583,32 +583,32 @@ Pobierz Sonic Pi %1</translation>
     <message>
         <location filename="../visualizer/scope.cpp" line="68"/>
         <source>Lissajous</source>
-        <translation type="unfinished"></translation>
+        <translation>Lissajous</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="69"/>
         <source>Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Lewy</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="70"/>
         <source>Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Prawy</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="71"/>
         <source>Mono</source>
-        <translation type="unfinished"></translation>
+        <translation>Mono</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="72"/>
         <source>Mirror Stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>Odwrócone Stereo</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="74"/>
         <source>Spectrum</source>
-        <translation type="unfinished"></translation>
+        <translation>Spektrum</translation>
     </message>
 </context>
 <context>
@@ -672,7 +672,9 @@ używanymi podczas występów na scenie z Sonic Pi.</translation>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and vice versa.</source>
-        <translation type="unfinished"></translation>
+        <translation>Przełącz odwrócone stereo.
+Gdy włączone, dźwięk wysłany do lewego kanału zostanie
+przekierowany do kanału prawego (i vice versa).</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="91"/>
@@ -803,8 +805,8 @@ za pośrednictwem aktualnego połączenia sieciowego.</translation>
         <location filename="../widgets/settingswidget.cpp" line="166"/>
         <source>When checked, Sonic Pi will listen for OSC messages from remote machines.
  When unchecked, only messages from the local machine will be received.</source>
-        <translation>Zaznacz, a Sonic Pi będzie nasłuchiwał na komunikaty OSC z urządzeń zdalnych. 
-  Gdy opcja nie jest zaznaczona, będą odbierane tylko komunikaty z lokalnej maszyny.</translation>
+        <translation>Zaznacz, a Sonic Pi będzie nasłuchiwał na komunikaty OSC z urządzeń zdalnych.
+Gdy opcja nie jest zaznaczona, będą odbierane tylko komunikaty z lokalnej maszyny.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="168"/>
