@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-02-09 15:14+0000\n"
+"PO-Revision-Date: 2020-02-09 15:15+0000\n"
 "Last-Translator: tupteq <tupteq@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "pl/>\n"
@@ -1271,7 +1271,6 @@ msgid "Switching Synths"
 msgstr "Zmienianie Syntezatorów"
 
 #: 02.3-Switching-Synths.md:5
-#, fuzzy
 msgid ""
 "So far we've had quite a lot of fun making beeps. However, you're probably sta"
 "rting to get bored of the basic beep noise. Is that all Sonic Pi has to offer?"
@@ -1279,12 +1278,12 @@ msgid ""
 " in this section we'll explore some of the exciting range of sounds that Sonic"
 " Pi has to offer."
 msgstr ""
-"Do tej pory bawiliśmy się całkiem nieźle, tworząc wiele fajnych dźwięków. Jest"
-" jednak bardzo prawdopodobne, że ten podstawowy zaczyna Cię już powoli nudzić."
-" Czy to jest wszystko, na co stać Sonic Pi? Przecież kodowanie na żywo na pewn"
-"o daje dużo więcej możliwości, niż tylko granie jednego prostego dźwięku bip? "
-"Owszem, są inne możliwości. W tym rozdziale poznasz fascynującą paletę dźwiękó"
-"w, jaką oferuje Ci Sonic Pi."
+"Do tej pory bawiliśmy się całkiem nieźle, tworząc wiele fajnych dźwięków. "
+"Jest jednak bardzo prawdopodobne, że ten podstawowy dźwięk zaczyna Cię już "
+"powoli nudzić. Czy to jest wszystko, na co stać Sonic Pi? Przecież kodowanie "
+"na żywo na pewno daje dużo więcej możliwości, niż tylko granie jednego "
+"prostego dźwięku bip? Owszem, są inne możliwości. W tym rozdziale poznasz "
+"fascynującą paletę dźwięków, jaką oferuje Ci Sonic Pi."
 
 #: 02.3-Switching-Synths.md:13
 #, fuzzy
