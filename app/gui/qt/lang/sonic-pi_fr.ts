@@ -601,32 +601,32 @@ Obtenez Sonic Pi %1</translation>
         <location filename="../utils/ruby_help.h" line="3120"/>
         <location filename="../utils/ruby_help.h" line="3217"/>
         <source>Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation>Didacticiel</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3252"/>
         <source>Examples</source>
-        <translation type="unfinished"></translation>
+        <translation>Exemples</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3301"/>
         <source>Synths</source>
-        <translation type="unfinished"></translation>
+        <translation>Synthés</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3348"/>
         <source>Fx</source>
-        <translation type="unfinished"></translation>
+        <translation>Effet</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3369"/>
         <source>Samples</source>
-        <translation type="unfinished"></translation>
+        <translation>Échantillons</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3620"/>
         <source>Lang</source>
-        <translation type="unfinished"></translation>
+        <translation>Langue</translation>
     </message>
 </context>
 <context>
