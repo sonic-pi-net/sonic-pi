@@ -30,13 +30,11 @@
 %% To do check endianness carefully
 %% To do add device number
 
-
 test0() ->
     B = encode(["/mi",{int64, 347873045749854},145,53,0]),
     io:format("B=~p~n",[B]),
     D = (catch decode(B)),
     io:format("D=~p~n",[D]).
-
 
 test1() ->
     decode(<<35,98,117,110,100,108,101,0,218,114,254,188,137,88,216,0,0,0,0,16,
@@ -45,6 +43,41 @@ test1() ->
 test2() ->
     pack_ts(osc:now() + 10,
 	    ["/forward", "localhost", 6000, "/sendmidi", 12, 34, 56]).
+
+test3() ->
+    %% Precondition - pi_server:start().
+    PiPort = 8014,
+    FwPort = 6000,
+    true = lists:member(pi_server, registered()) orelse
+        pi_server:start([list_to_atom(integer_to_list(PiPort))]),
+    SendLater = ["/sendmidi", 12, 34, 56],
+    EncodedLater = encode(SendLater),
+    {ok, Socket} = gen_udp:open(FwPort, [binary, {ip, loopback}]),
+    Time1 = osc:now(),
+    gen_udp:send(Socket, localhost, PiPort,
+                 pack_ts(Time1 + 10,
+                         ["/send_after", "localhost", FwPort | SendLater])),
+    Result =
+        receive
+            {udp, Socket, {127,0,0,1}, PiPort, EncodedLater} ->
+                Time2 = osc:now(),
+                DT = Time2 - Time1,
+                io:format("Got back message ~p after ~f s~n",
+                          [decode(EncodedLater), DT]),
+                if
+                    DT > 10.002 orelse DT < 9.998 ->
+                        io:format("Message not within 2ms margin~n"),
+                        nok;
+                    true ->
+                        ok
+                end
+        after 11000 ->
+                io:format("Timeout waiting for response~n"),
+                nok
+        end,
+
+    gen_udp:close(Socket),
+    Result.
 
 %% osc:now() returns the system time as a float
 %% The units of the timestamp are seconds past epoch
