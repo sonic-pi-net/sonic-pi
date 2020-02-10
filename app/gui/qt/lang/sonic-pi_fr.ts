@@ -616,7 +616,7 @@ Obtenez Sonic Pi %1</translation>
     <message>
         <location filename="../utils/ruby_help.h" line="3348"/>
         <source>Fx</source>
-        <translation>Effet</translation>
+        <translation>Effets</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3369"/>
