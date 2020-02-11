@@ -50,5 +50,4 @@ after_build:
   - cd %APPVEYOR_BUILD_FOLDER%
   - cd install\windows
   - IF "%configuration%"=="Release" install.bat
-  - IF "%configuration%"=="Release" appveyor PushArtifact wix\sonic-pi.msi
-
+  #- IF "%configuration%"=="Release" appveyor PushArtifact wix\sonic-pi.msi
