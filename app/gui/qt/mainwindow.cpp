@@ -1818,7 +1818,7 @@ void MainWindow::toggleIcons() {
     } else {
         toolBar->setIconSize(ScaleForDPI(99,35));
     }
-    toolBar->setFixedHeight(ScaleHeightForDPI(45));
+    toolBar->setMinimumHeight(ScaleHeightForDPI(45));
 }
 
 void MainWindow::updateColourTheme(){
