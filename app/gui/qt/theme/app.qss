@@ -76,21 +76,6 @@ QLabel
     border: none;
 }
 
-QPushButton
-{
-    background-color: buttonColor;
-    color: buttonTextColor;
-    padding: 5px;
-    border-radius: 3px;
-    border-color: buttonBorderColor;
-    border-width: 2px;
-}
-
-QPushButton::pressed
-{
-    background-color: pressedButtonColor;
-    color: pressedButtonTextColor;
-}
 
 QSplitter::handle:vertical
 {
@@ -477,4 +462,20 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical
 QWidget
 {
     background: paneColor;
+}
+
+QPushButton
+{
+    background-color: buttonColor;
+    color: buttonTextColor;
+    padding: 5px;
+    border-radius: 3px;
+    border-color: buttonBorderColor;
+    border-width: 2px;
+}
+
+QPushButton::pressed
+{
+    background-color: pressedButtonColor;
+    color: pressedButtonTextColor;
 }
