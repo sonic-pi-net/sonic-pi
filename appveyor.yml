@@ -34,9 +34,9 @@ install:
   - set PATH=c:\Ruby26-x64\bin;C:\Program Files (x86)\WiX Toolset v3.11\bin;%PATH%
   - gem install win32-process
   - gem install rugged --version 0.27.1
-  - gem install aubio 
+  - gem install aubio
   - set QT_INSTALL_LOCATION=C:\Qt\5.14.0\msvc2017_64
-  
+
 build_script:
   # generate build script
   - cd %APPVEYOR_BUILD_FOLDER%
