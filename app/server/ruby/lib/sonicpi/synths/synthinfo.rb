@@ -7390,11 +7390,11 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
       end
 
       def synth_name
-        "fx_pingpong"
+        "fx_ping_pong"
       end
 
       def doc
-        "Echo FX with each delayed echo swapping between left and right channels. Has variable phase duration (time between echoes) and feedback (proportion of sound fed into each echo). If you wish to have a phase duration longer than 1s, you need to specify the longest phase duration you'd like with the arg max_phase. Be warned, `:pingpong` FX with very long phases can consume a lot of memory and take longer to initialise.
+        "Echo FX with each delayed echo swapping between left and right channels. Has variable phase duration (time between echoes) and feedback (proportion of sound fed into each echo). If you wish to have a phase duration longer than 1s, you need to specify the longest phase duration you'd like with the arg max_phase. Be warned, `:ping_pong` FX with very long phases can consume a lot of memory and take longer to initialise.
 
 Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo during the slide to change in pitch, in much the same way that a sample's pitch changes when altering its rate."
       end
@@ -7829,7 +7829,7 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
         :fx_record => FXRecord.new,
         :fx_sound_out => FXSoundOut.new,
         :fx_sound_out_stereo => FXSoundOutStereo.new,
-        :fx_pingpong => FXPingPong.new
+        :fx_ping_pong => FXPingPong.new
       }
 
       def self.get_info(synth_name)
