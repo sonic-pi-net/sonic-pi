@@ -87,39 +87,14 @@ module SonicPi
       end
     end
 
-    def __stop_cue_server!(silent=false)
-      @osc_cue_server_mutex.synchronize do
-        if @osc_server
-          __info "Stopping OSC server...." unless silent
-          @osc_server.stop
-          @osc_server = SonicPi::OSC::UDPServer.new(@osc_cues_port, open: false)
-        end
-      end
-    end
-
-    def __restart_cue_server!(open=false, silent=false)
-      @osc_cue_server_mutex.synchronize do
-        @osc_server.stop if @osc_server
-        __info "Restarting OSC server...." unless silent
-        @osc_server = SonicPi::OSC::UDPServer.new(@osc_cues_port, open: open,) do |address, args, info|
-          address = "/#{address}" unless address.start_with?("/")
-          address = "/osc:#{info[2]}:#{info[1]}#{address}"
-          p = 0
-          d = 0
-          b = 0
-          m = 60
-          @register_cue_event_lambda.call(Time.now, p, @system_init_thread_id, d, b, m, address, args, 0)
-        end
-
-        unless silent
-          if open
-            __info "OSC server started. Listening for local and remote messages on port #{@osc_cues_port}."
-          else
-            __info "OSC server started. Listening for local messages on port #{@osc_cues_port}"
-          end
-        end
-
-      end
+    def __register_external_osc_cue_event(time, host, port, address, args)
+      address = "/#{address}" unless address.start_with?("/")
+      address = "/osc:#{host}:#{port}#{address}"
+      p = 0
+      d = 0
+      b = 0
+      m = 60
+      @register_cue_event_lambda.call(Time.now, p, @system_init_thread_id, d, b, m, address, args, 0)
     end
 
     def __gui_heartbeat(id)
@@ -370,6 +345,22 @@ module SonicPi
       @cue_events
     end
 
+    def __stop_start_cue_server!(stop)
+      if stop
+        @osc_client.send("/stop-start-cue-server", 0)
+      else
+        @osc_client.send("/stop-start-cue-server", 1)
+      end
+    end
+
+    def __cue_server_internal!(internal)
+      if internal
+        @osc_client.send("/internal-cue-port", 1)
+      else
+        @osc_client.send("/internal-cue-port", 0)
+      end
+    end
+
     def __stop_job(j)
       __info "Stopping run #{j}"
       # Only allow a job to be stopped once
@@ -397,7 +388,7 @@ module SonicPi
     end
 
     def __osc_flush!
-      @osc_server.send("localhost", @osc_router_port, "/flush", "default")
+      @osc_client.send("/flush", "default")
     end
 
     def __stop_other_jobs
@@ -1270,7 +1261,7 @@ module SonicPi
       @snippets = {}
       @osc_cues_port = ports[:osc_cues_port]
       @osc_router_port = ports[:erlang_port]
-      @osc_server = SonicPi::OSC::UDPServer.new(@osc_cues_port, open: false)
+      @osc_client = SonicPi::OSC::UDPClient.new("127.0.0.1", @osc_router_port)
       @system_state = EventHistory.new(@job_subthreads, @job_subthread_mutex)
       @user_state = EventHistory.new(@job_subthreads, @job_subthread_mutex)
       @event_history = EventHistory.new(@job_subthreads, @job_subthread_mutex)

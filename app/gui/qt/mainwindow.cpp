@@ -241,6 +241,8 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
         startupError("GUI was unable to connect to the Ruby server.");
     }
 
+    toggleOSCServer(1);
+
     app.setActiveWindow(tabs->currentWidget());
 
 }
@@ -2764,22 +2766,36 @@ void MainWindow::resetMidi() {
 void MainWindow::toggleOSCServer(int silent) {
     if (piSettings->osc_server_enabled) {
       std::cout << "[GUI] - asking OSC server to start" << std::endl;
-        statusBar()->showMessage(tr("Opening OSC port for remote messages..."), 2000);
-        int open = piSettings->osc_public ? 1 : 0;
-
-        Message msg("/osc-port-start");
-        msg.pushStr(guiID.toStdString());
-        msg.pushInt32(silent);
-        msg.pushInt32(open);
-        sendOSC(msg);
+      Message msg("/cue-port-start");
+      msg.pushStr(guiID.toStdString());
+      sendOSC(msg);
     } else {
-        statusBar()->showMessage(tr("Stopping OSC server..."), 2000);
-        std::cout << "[GUI] - asking OSC server to stop" << std::endl;
-        Message msg("/osc-port-stop");
-        msg.pushStr(guiID.toStdString());
-        msg.pushInt32(silent);
-        sendOSC(msg);
+      statusBar()->showMessage(tr("Disabling OSC cue port..."), 2000);
+      std::cout << "[GUI] - asking OSC server to stop" << std::endl;
+      Message msg("/cue-port-stop");
+      msg.pushStr(guiID.toStdString());
+      sendOSC(msg);
     }
+
+    if(piSettings->osc_public) {
+      if (piSettings->osc_server_enabled ) {
+        statusBar()->showMessage(tr("Enabling external OSC cue port..."), 2000);
+      }
+
+      std::cout << "[GUI] - cue port in external mode" << std::endl;
+      Message msg("/cue-port-external");
+      msg.pushStr(guiID.toStdString());
+      sendOSC(msg);
+    } else  {
+      if (piSettings->osc_server_enabled ) {
+        statusBar()->showMessage(tr("Enabling internal OSC cue port..."), 2000);
+      }
+      std::cout << "[GUI] - cue port in internal mode" << std::endl;
+      Message msg("/cue-port-internal");
+      msg.pushStr(guiID.toStdString());
+      sendOSC(msg);
+    }
+
 }
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *evt)

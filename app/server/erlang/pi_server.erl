@@ -47,72 +47,211 @@
 %%   This is a map of the form #{Name1 => Pid1, Name2 => Pid2, ...}
 %%   The processes Pid1, Pid2 etc. spawn_link the send_after processes
 %%   To flush a tag, we just kill the process wioth exit(Pid, die) and
-%%   remove it from the tagmap. New processes in the tagmap are created
-%%   on demand.
+%%   remove it from the tagmap. New processes in the tagmap are created on
+%%  demand.
 
-start([ARGVPort|_T]) ->
-    A = atom_to_list(ARGVPort),
+debug() ->
+    false.
+
+log() ->
+    true.
+
+
+log(Msg, Vals) ->
+    case log() of
+        true -> io:format(Msg, Vals);
+        _ -> silent
+    end.
+
+debug(Msg, Vals) ->
+    case debug() of
+        true -> io:format(Msg, Vals);
+        _  -> silent
+    end.
+
+
+log(Msg) ->
+    log(Msg, []).
+
+
+debug(Msg) ->
+    debug(Msg, []).
+
+
+cue_server_host() ->
+    {127, 0, 0, 1}.
+
+start([ARGVAPIPort, ARGVInPort, ARGVCuePort|_T]) ->
+    A = atom_to_list(ARGVAPIPort),
     {Port, _Rest} = string:to_integer(A),
+
+    B = atom_to_list(ARGVInPort),
+    {InPort, _Rest} = string:to_integer(B),
+
+    C = atom_to_list(ARGVCuePort),
+    {CuePort, _Rest} = string:to_integer(C),
+
+    CueHost = cue_server_host(),
+
+    Internal = true,
+
+    Enabled = false,
+
+    io:format("~n"
+              "+--------------------------------------+~n"
+              "    This is the Sonic Pi IO Server      ~n"
+              "           Powered by Erlang            ~n"
+              "                                        ~n"
+              "       API listening on port ~p	       ~n"
+	      "        Incoming OSC on port ~p	       ~n"
+	      "  OSC cue forwarding to ~p              ~n"
+              "                     on port ~p	       ~n"
+              "+--------------------------------------+~n~n~n",
+              [Port, InPort, CueHost, CuePort]),
+
     S = self(),
-    register(?MODULE, spawn(fun() -> go(S, Port) end)),
+
+    CuePid = spawn(fun() -> go_cues(S, InPort, CueHost, CuePort, Internal, Enabled) end),
+    register(incoming_osc_cue_handler, CuePid),
+    receive
+	ack ->
+	    true
+    end,
+
+    register(?MODULE, spawn(fun() -> go_api(S, Port, CuePid) end)),
     receive
 	ack ->
 	    true
     end.
 
-go(P, Port) ->
-    {ok, Socket} = gen_udp:open(Port, [binary, {ip, loopback}]),
-    io:format("~n"
-              "+--------------------------------+~n"
-              "+ This is the Sonic Pi IO Server +~n"
-              "+       Powered by Erlang        +~n"
-              "+     Listening on port ~p     +~n"
-              "+--------------------------------+~n~n~n",
-              [Port]),
+
+go_cues(P, InPort, CueHost, CuePort, Internal, Enabled) ->
+    case Internal of
+        true ->
+            {ok, InSocket} = gen_udp:open(InPort, [binary, {ip, loopback}]);
+        _ ->
+            {ok, InSocket} = gen_udp:open(InPort, [binary])
+    end,
+
     P ! ack,
-    Monitor = spawn(fun() -> monitor() end),
+    loop_cues(InSocket, InPort, CueHost, CuePort, Internal, Enabled).
+
+
+go_api(P, Port, CuePid) ->
+    {ok, _APISocket} = gen_udp:open(Port, [binary, {ip, loopback}]),
+
+    P ! ack,
     TagMap = #{},
-    loop(Socket, 1, Monitor, TagMap).
+    loop_api(_APISocket, 1, TagMap, {0,0}, CuePid).
 
-%%-------------------------------------------------------
-%% monitor
-%%   hangs forever just to keep the first process not to
-%%   exit if erlang was started from the shell.
-%%   Helps when debugging. It looks weird but don't worry.
 
-monitor() ->
+loop_cues(InSocket, InPort, CueHost, CuePort, Internal, Enabled) ->
     receive
-	alive ->
-	    monitor()
-    after infinity ->
-	    init:stop()
+
+        {udp, InSocket, Ip, Port, Bin} ->
+            case (catch osc:decode(Bin)) of
+                {cmd, XX} ->
+                    debug("Received incoming OSC~p - ~p~n", [Enabled, XX]),
+                    case Enabled of
+                        true ->
+                            register_cue(CueHost, CuePort, InSocket, Ip, Port, XX),
+                            loop_cues(InSocket, InPort, CueHost, CuePort, Internal, Enabled);
+                        false ->
+                            loop_cues(InSocket, InPort, CueHost, CuePort, Internal, Enabled)
+                    end
+            end;
+
+        {internal, true} ->
+            case Internal of
+                true ->
+                    loop_cues(InSocket, InPort, CueHost, CuePort, true, Enabled);
+                _ ->
+                    log("Switching cue listener to loopback network~n"),
+                    gen_udp:close(InSocket),
+                    {ok, NewInSocket} = gen_udp:open(InPort, [binary, {ip, loopback}]),
+                    loop_cues(NewInSocket, InPort, CueHost, CuePort, true, Enabled)
+            end;
+
+        {internal, false} ->
+            case Internal of
+                true ->
+                    log("Switching cue listener to open network~n"),
+                    gen_udp:close(InSocket),
+                    {ok, NewInSocket} = gen_udp:open(InPort, [binary]),
+                    loop_cues(NewInSocket, InPort, CueHost, CuePort, false, Enabled);
+                _ ->
+                    loop_cues(InSocket, InPort, CueHost, CuePort, false, Enabled)
+            end;
+
+        {enabled, true} ->
+            log("Enabling cue forwarding ~n"),
+            loop_cues(InSocket, InPort, CueHost, CuePort, Internal, true);
+
+        {enabled, false} ->
+            log("Disabling cue forwarding ~n"),
+            loop_cues(InSocket, InPort, CueHost, CuePort, Internal, false);
+
+        {forward, Host, Port, Bin} ->
+            gen_udp:send(InSocket, Host, Port, Bin),
+            loop_cues(InSocket, InPort, CueHost, CuePort, Internal, Enabled);
+
+        Any ->
+	    log("Incoming Any:~p~n",[Any]),
+	    loop_cues(InSocket, InPort, CueHost, CuePort, Internal, Enabled)
+
+    after 50000 ->
+	    debug("Incoming cue server loop timeout~n"),
+	    loop_cues(InSocket, InPort, CueHost, CuePort, Internal, Enabled)
     end.
 
-%%-------------------------------------------------------
+register_cue(CueHost, CuePort, InSocket, Ip, Port, XX) ->
+    debug("Forwarding OSC to port ~p~n", [CuePort]),
+    Bin = osc:encode(["/external-osc-cue", inet:ntoa(Ip), Port] ++ XX),
+    gen_udp:send(InSocket, CueHost, CuePort, Bin).
 
-loop(Socket, N, Monitor, TagMap) ->
+loop_api(_APISocket, N, TagMap, Clock, CuePid) ->
     receive
-	{udp, Socket, _Ip, _Port, Bin} ->
+	{udp, _APISocket, _Ip, _Port, Bin} ->
 	    case (catch osc:decode(Bin)) of
 		{bundle, Time, X} ->
-		    TagMap1 = do_bundle(TagMap, Socket, Time, X),
-		    loop(Socket, N, Monitor, TagMap1);
+		    TagMap1 = do_bundle(TagMap, _APISocket, Time, X, Clock, CuePid),
+		    loop_api(_APISocket, N, TagMap1, Clock, CuePid);
 		{cmd, ["/flush", Tag]} ->
 		    TagMap1 = flush(Tag, TagMap),
-		    loop(Socket, N, Monitor, TagMap1);
+		    loop_api(_APISocket, N, TagMap1, Clock, CuePid);
+		{cmd, ["/clock/sync", 0, 0]} ->
+		    loop_api(_APISocket, N+1, TagMap, {0,0}, CuePid);
+		{cmd, ["/clock/sync", X, Y]} ->
+		    RemoteTimeBase = X + Y/1000000000,
+		    MyTimeBase = osc:now(),
+		    Clock1 = {RemoteTimeBase, MyTimeBase},
+		    %% log("/clock/sync:~p ~p~n",[N, Clock1]),
+		    loop_api(_APISocket, N+1, TagMap, Clock1, CuePid);
+                {cmd, ["/internal-cue-port", 1]} ->
+                    CuePid ! {internal, true},
+		    loop_api(_APISocket, N+1, TagMap, Clock, CuePid);
+                {cmd, ["/internal-cue-port", _]} ->
+                    CuePid ! {internal, false},
+		    loop_api(_APISocket, N+1, TagMap, Clock, CuePid);
+                {cmd, ["/stop-start-cue-server", 1]} ->
+                    CuePid ! {enabled, true},
+                    loop_api(_APISocket, N+1, TagMap, Clock, CuePid);
+                {cmd, ["/stop-start-cue-server", _]} ->
+                    CuePid ! {enabled, false},
+                    loop_api(_APISocket, N+1, TagMap, Clock, CuePid);
 		{cmd, XX} ->
-		    do_cmd(Socket, XX),
-		    loop(Socket, N+1, Monitor, TagMap);
+		    do_cmd(_APISocket, Clock, XX),
+		    loop_api(_APISocket, N+1, TagMap, Clock, CuePid);
 		{'EXIT', Why} ->
-		    io:format("Error decoding:~p ~p~n",[Bin, Why]),
-		    loop(Socket, N+1, Monitor, TagMap)
+		    log("Error decoding:~p ~p~n",[Bin, Why]),
+		    loop_api(_APISocket, N+1, TagMap, Clock, CuePid)
 	    end;
 	Any ->
-	    io:format("Any:~p~n",[Any]),
-	    loop(Socket, N+1, Monitor, TagMap)
+	    log("Loop API Any:~p~n",[Any]),
+	    loop_api(_APISocket, N+1, TagMap, Clock, CuePid)
     after 50000 ->
-	    io:format("udp server timeout:~p~n",[N]),
-	    loop(Socket, N+1, Monitor, TagMap)
+	    debug("Loop API timeout:~p~n",[N]),
+	    loop_api(_APISocket, N+1, TagMap, Clock, CuePid)
     end.
 
 %%----------------------------------------------------------------------
@@ -130,16 +269,16 @@ flush(Tag, TagMap) ->
 	    TagMap
     end.
 
-do_bundle(TagMap, Socket, Time, [{_,B}]) ->
+do_bundle(TagMap, _APISocket, Time, [{_,B}], Clock, CuePid) ->
     {cmd, Cmd} = osc:decode(B),
-    %% io:format("bundle cmd:~p~n",[Cmd]),
+    %% log("bundle cmd:~p~n",[Cmd]),
     case Cmd of
 	["/send_after", Host, Port | Cmd1] ->
-	    do_bundle("default", TagMap, Time, Socket, Host, Port, Cmd1);
+	    do_bundle("default", TagMap, Time, Clock, _APISocket, Host, Port, Cmd1, CuePid);
 	["/send_after_tagged", Tag, Host, Port | Cmd1] ->
-	    do_bundle(Tag, TagMap, Time, Socket, Host, Port, Cmd1);
+	    do_bundle(Tag, TagMap, Time, Clock, _APISocket, Host, Port, Cmd1, CuePid);
 	_ ->
-	    io:format("unexpected bundle:~p~n",[Cmd]),
+	    log("unexpected bundle:~p~n",[Cmd]),
 	    TagMap
     end.
 
@@ -148,41 +287,45 @@ do_bundle(TagMap, Socket, Time, [{_,B}]) ->
 %% and if so sends it a send_later message. Otherwise
 %% it creates a new process and adds it to the tagmap
 
-do_bundle(Tag, TagMap, Time, Socket, Host, Port, Cmd1) ->
+do_bundle(Tag, TagMap, Time, Clock, _APISocket, Host, Port, Cmd1, CuePid) ->
     case maps:find(Tag, TagMap) of
 	{ok, Pid} ->
-	    Pid ! {send_later, Time, Socket, Host, Port, Cmd1},
+	    Pid ! {send_later, Time, Clock, _APISocket, Host, Port, Cmd1, CuePid},
 	    TagMap;
 	error ->
 	    %% no process so create a dispatcher
 	    %% and send it a message
 	    Pid = spawn(fun() -> dispatcher(Tag) end),
-	    Pid ! {send_later, Time, Socket, Host, Port, Cmd1},
+	    Pid ! {send_later, Time, Clock, _APISocket, Host, Port, Cmd1, CuePid},
 	    maps:put(Tag, Pid, TagMap)
     end.
 
 dispatcher(Tag) ->
     receive
-	{send_later, Time, Socket, Host, Port, Cmd1} ->
-	    spawn_link(fun() ->
-                               send_later(Time, Socket, Host, Port, Cmd1)
-                       end),
+	{send_later, Time, Clock, _APISocket, Host, Port, Cmd1, CuePid} ->
+	    spawn(fun() ->
+                          send_later(Time, Clock, _APISocket, Host, Port, Cmd1, CuePid)
+                  end),
 	    dispatcher(Tag)
     end.
 
-send_later(BundleTime, Socket, Host, Port, Cmd) ->
+send_later(BundleTime, {0,0}, _APISocket, Host, Port, Cmd, CuePid) ->
+    send_later(BundleTime, _APISocket, Host, Port, Cmd, CuePid);
+send_later(BundleTime, {Tremote, Tlocal}, _APISocket, Host, Port, Cmd, CuePid) ->
+    RemoteDelay = BundleTime - Tremote,
+    LocalAbsTime = Tlocal + RemoteDelay,
+    send_later(LocalAbsTime, _APISocket, Host, Port, Cmd, CuePid).
+
+send_later(BundleTime, _APISocket, Host, Port, Cmd, CuePid) ->
     Bin = osc:encode(Cmd),
     RealDelay = BundleTime - osc:now(),
     MsDelay = trunc(RealDelay*1000+0.5), %% nearest
     sleep(MsDelay),
-    %% io:format("Sending to ~p:~p => ~p~n",[Host, Port, Cmd]),
-    case gen_udp:send(Socket, Host, Port, Bin) of
-        ok ->
-            ok;
-        {error, Err} ->
-            io:format("Error ~p when sending to ~p:~p => ~p~n",
-                      [Err, Host, Port, Cmd])
-    end.
+    debug("Sending to ~p:~p => ~p~n",[Host, Port, Cmd]),
+    %% we want outgoing messages to be sent from the same port we
+    %% publicly receive on to allow people to easily reply
+    CuePid ! {forward, Host, Port, Bin}.
+
 
 sleep(T) when T > 0 ->
     receive
@@ -191,8 +334,8 @@ sleep(T) when T > 0 ->
             true
     end;
 sleep(T) ->
-    io:format("Ignoring zero or negative sleep: ~p~n", [T]),
+    debug("Ignoring zero or negative sleep: ~p~n", [T]),
     true.
 
-do_cmd(_Socket, Cmd) ->
-    io:format("Cannot do:~p~n",[Cmd]).
+do_cmd(_APISocket, _Clock, Cmd) ->
+    log("Cannot do:~p~n",[Cmd]).

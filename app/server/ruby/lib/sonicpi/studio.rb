@@ -36,6 +36,7 @@ module SonicPi
       @midi_osc_in_port = ports[:osc_midi_in_port]
       @midi_osc_out_port = ports[:osc_midi_out_port]
       @erlang_port = ports[:erlang_port]
+      @server_port = ports[:server_port]
       @msg_queue = msg_queue
       @error_occured_mutex = Mutex.new
       @error_occurred_since_last_check = false
@@ -73,7 +74,7 @@ module SonicPi
       return @erlang_pid if @erlang_pid
       # Start Erlang
       begin
-        erlang_cmd = __exec_path("#{erlang_boot_path} -noshell -pz \"#{erlang_server_path}\" -s pi_server start #{@erlang_port}")
+        erlang_cmd = __exec_path("#{erlang_boot_path} -noshell -pz \"#{erlang_server_path}\" -s pi_server start #{@erlang_port} #{@osc_cues_port} #{@server_port}")
         STDOUT.puts erlang_cmd
         @erlang_pid = spawn erlang_cmd, out: erlang_log_path, err: erlang_log_path
         register_process(@erlang_pid)

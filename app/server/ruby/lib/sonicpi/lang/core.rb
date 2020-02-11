@@ -694,7 +694,7 @@ osc \"/foo/baz\"             # Send an OSC message to port 7000
             arg.inspect
           end
         end
-        @osc_server.send_ts(t, "localhost", @osc_router_port, "/send_after", host, port, path, *args)
+        @osc_client.send_ts(t, "/send_after", host, port, path, *args)
       end
 
 

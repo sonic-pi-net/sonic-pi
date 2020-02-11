@@ -550,17 +550,33 @@ register_api = lambda do |server|
     sp.__midi_system_reset(silent)
   end
 
-  server.add_method("/osc-port-start") do |args|
+  server.add_method("/cue-port-external") do |args|
     gui_id = args[0]
-    silent = args[1] == 1
-    open = args[2] == 1
-    sp.__restart_cue_server!(open, silent)
+    sp.__cue_server_internal!(false)
   end
 
-  server.add_method("/osc-port-stop") do |args|
+    server.add_method("/cue-port-internal") do |args|
     gui_id = args[0]
-    silent = args[1] == 1
-    sp.__stop_cue_server!(silent)
+    sp.__cue_server_internal!(true)
+  end
+
+  server.add_method("/cue-port-stop") do |args|
+    gui_id = args[0]
+    sp.__stop_start_cue_server!(true)
+  end
+
+  server.add_method("/cue-port-start") do |args|
+    gui_id = args[0]
+    sp.__stop_start_cue_server!(false)
+  end
+
+  server.add_method("/external-osc-cue") do |args|
+    gui_id = args[0]
+    ip = args[0]
+    port = args[1]
+    address = args[2]
+    osc_args = args[3..-1]
+    sp.__register_external_osc_cue_event(Time.now, ip, port, address, osc_args)
   end
 end
 
