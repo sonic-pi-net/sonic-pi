@@ -16,8 +16,7 @@
 ## ---- Modify these to point to your system
 QSCINTILLA_QT4QT5_DIR=/Users/sam/Development/tmp/QScintilla-2.11.4/Qt4Qt5
 QSCINTILLA_LIB=libqscintilla2_qt5.15.dylib
-QWT_DIR=/Users/sam/Development/tmp/qwt-6.1.4
-QT_DIR=/Users/sam/Qt/5.14.0/
+QT_DIR=/Users/sam/Qt/5.14.1/
 ## ----
 
 QT_BIN="$QT_DIR/clang_64/bin"
@@ -66,7 +65,6 @@ cd "$SP_APP/Contents/MacOS"
 
 rm -rf *.dylib
 
-install_name_tool -change qwt.framework/Versions/6/qwt @rpath/qwt.framework/Versions/6/qwt  Sonic\ Pi
 
 cd ../Resources
 

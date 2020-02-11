@@ -11,45 +11,42 @@
 # notice is included.
 #++
 
+# The canonical way of building Sonic Pi is now via cmake
+# This qmake method for building Sonic Pi is now only left for macOS
+# whilst it is being transitioned to cmake. The cmake build now
+# supports Windows and Linux
+
+requires(macos)
 lessThan(QT_MAJOR_VERSION, 5): error("requires Qt 5")
 
+
 TARGET = 'sonic-pi'
-CONFIG += qscintilla2 qwt c++11 resources_big
+CONFIG += qscintilla2 c++11 resources_big
 
 QT += core gui concurrent network opengl widgets
 
-# Linux only
-unix:!macx {
-  LIBS += -lrt -lqscintilla2_qt5
-  QMAKE_CXXFLAGS += -std=gnu++11
-  QMAKE_CXXFLAGS += -Wall -Werror -Wextra -Wno-unused-variable -Wno-unused-parameter
-  debug {
-    QMAKE_CXXFLAGS += -ggdb
-  }
+# Set these to point at your system
+LIBS += -L/Users/sam/Development/Supercollider/git-src/external_libraries/boost/libs
+INCLUDEPATH += /Users/sam/Development/Supercollider/git-src/external_libraries/boost/
+DEPENDPATH += /Users/sam/Development/Supercollider/git-src/external_libraries/boost/
+
+LIBS += -L/Users/sam/Development/tmp/QScintilla-2.11.4/Qt4Qt5
+INCLUDEPATH += /Users/sam/Development/tmp/QScintilla-2.11.4/Qt4Qt5
+DEPENDPATH += /Users/sam/Development/tmp/QScintilla-2.11.4/Qt4Qt5
+DEPENDPATH += /Users/sam/Development/tmp/
+
+
+QT += macextras
+QMAKE_CXXFLAGS += -I/usr/local/include
+QMAKE_CXXFLAGS += -Wall -Werror -Wextra -Wno-unused-variable -Wno-unused-parameter
+CONFIG += warn_off
+TARGET = 'Sonic Pi'
+LIBS += -lqscintilla2_qt5
+debug {
+QMAKE_LFLAGS += -g -O0
+QMAKE_CXXFLAGS += -g -O0
 }
 
-# Mac OS X only
-macx {
-  QT += macextras
-  QMAKE_CXXFLAGS += -I/usr/local/include
-  QMAKE_CXXFLAGS += -Wall -Werror -Wextra -Wno-unused-variable -Wno-unused-parameter
-  CONFIG += warn_off
-  TARGET = 'Sonic Pi'
-  LIBS += -lqscintilla2_qt5
-  debug {
-    QMAKE_LFLAGS += -g -O0
-    QMAKE_CXXFLAGS += -g -O0
-  }
-}
-
-# Windows only
-win32 {
-  include ( c:/Qwt-6.1.4/features/qwt.prf )
-  LIBS += -lqscintilla2_qt5
-  QMAKE_CXXFLAGS += -I$$(BOOST_ROOT)
-  # Remove Warnings during build and do not need data time lib
-  DEFINES += _CRT_SECURE_NO_WARNINGS _WINSOCK_DEPRECATED_NO_WARNINGS BOOST_DATE_TIME_NO_LIB _MATH_DEFINES_DEFINED
-}
 
 CODECFORSRC = UTF-8
 CODECFORTR = UTF-8
@@ -153,22 +150,3 @@ RESOURCES += \
 RC_FILE = SonicPi.rc
 
 ICON = images/app.icns
-
-win32 {
-  install_qsci.files = $$[QT_INSTALL_LIBS]\qscintilla2_qt5.dll
-  install_qsci.path = release
-
-  install_bat.files = sonic-pi.bat
-  install_bat.path = ..\..\..
-
-  INSTALLS += install_qsci install_bat
-  # allow to run on XP
-  QMAKE_SUBSYSTEM_SUFFIX = ,5.01
-}
-
-# not unicode ready
-win32 {
-  DEFINES -= UNICODE
-  DEFINES += _MBCS
-  DEFINES += NOMINMAX
-}
