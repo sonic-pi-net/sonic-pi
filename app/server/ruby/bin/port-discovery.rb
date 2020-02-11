@@ -42,10 +42,10 @@ port_config = {
   "server-osc-cues" => 4560,
 
   # Port which the Erlang router listens to.
-  "erlang-router" => 4561,
+  "erlang-router" => :dynamic,
 
   # Port which the server uses to communicate via websockets
-  "websocket" => 4562
+  "websocket" => :dynamic
 }.freeze
 
 check_port = lambda do |port|
