@@ -111,7 +111,7 @@ QTabBar::tab
 {
     background: tabColor;
     color: tabTextColor;
-    padding: 5 15 5 15px;
+    padding: 3 10 3 10px;
 }
 
 QTabBar::tab:selected

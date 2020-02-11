@@ -11,7 +11,7 @@ inline QSizeF GetDisplayScale()
 #ifdef __APPLE__
     float scale = 96.0;
 #else
-    float scale = 96.0 * 1.5;
+    float scale = 96.0 * 1.6;
 #endif
 
   QSizeF scaleDpi = QSizeF(scale, scale);
