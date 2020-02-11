@@ -768,7 +768,7 @@ void MainWindow::setupWindowStructure() {
     QSizePolicy policy = docPane->sizePolicy();
     policy.setHorizontalStretch(QSizePolicy::Maximum);
     docPane->setSizePolicy(policy);
-    docPane->setMinimumHeight(200);
+    docPane->setMinimumHeight(100);
     docPane->setOpenExternalLinks(true);
 
     QShortcut *up = new QShortcut(ctrlKey('p'), docPane);
