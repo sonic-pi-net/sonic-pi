@@ -65,6 +65,11 @@ cp $LIBQS_PATH "$SP_APP/Contents/Frameworks/"
 cd "$SP_APP/Contents/MacOS"
 
 rm -rf *.dylib
-mv *.framework ../Frameworks
 
 install_name_tool -change qwt.framework/Versions/6/qwt @rpath/qwt.framework/Versions/6/qwt  Sonic\ Pi
+
+cd ../Resources
+
+ln -s ../../../../../../../app .
+ln -s ../../../../../../server .
+ln -s ../../../../../../../etc .
