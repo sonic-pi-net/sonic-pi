@@ -104,26 +104,33 @@ QSplitter::handle:horizontal
     image: url(images/hsplitter.png);
 }
 
+
+
+
 QTabBar::tab
 {
     background: tabColor;
     color: tabTextColor;
+    padding: 5 15 5 15px;
 }
 
 QTabBar::tab:selected
 {
     background: tabSelectedColor;
     color: tabSelectedTextColor;
+
 }
 
 QTabWidget::tab-bar
 {
     alignment: center;
+
 }
 
 QTabWidget::pane
 {
     border: 0px;
+
 }
 
 QDockWidget::title
@@ -254,13 +261,12 @@ QGroupBox QFrame
 
 QGroupBox
 {
-    padding: 0 0 0 0;
+    padding: 10 10 10 10;
     subcontrol-origin: margin;
     margin-top: 15px;
-    margin-bottom: 0px;
+    margin-bottom: 15px;
     font-size: medium;
     font-weight: italic;
-    font: bold ;
     background-color: windowColor;
     border: 5px solid windowInternalBorderColor;
 }
@@ -271,6 +277,7 @@ QDockWidget QListView
     selection-color: selectionForegroundColor;
     selection-background-color: selectionBackgroundColor;
     outline: 10px;
+
 }
 
 QTextBrowser
@@ -308,7 +315,7 @@ QComboBox
     border-radius: 3px;
     padding: 1px 18px 1px 3px;
     background: tabColor;
-    color: tabTextColor;
+    color: windowForegroundColor;
 }
 
 QComboBox::item
@@ -471,4 +478,3 @@ QWidget
 {
     background: paneColor;
 }
-
