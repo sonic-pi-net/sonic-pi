@@ -115,6 +115,9 @@ port_map = [
       exit
     else
       port = default
+      if(!check_port.call(port))
+        port = find_free_port.call
+      end
     end
     res[port_name] = port.to_i
   end
