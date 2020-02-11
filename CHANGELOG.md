@@ -1,5 +1,5 @@
 # History
-* [v3.2.0-beta-10 'Dev'](#v3.2.0), To be released...
+* [v3.2.0-beta-11 'Dev'](#v3.2.0), To be released...
 * [v3.1.0 'Sauna'](#v3.1.0), 23rd Jan, 2018
 * [v3.0.1 'IOIO'](#v3.0.1), 27th July, 2017
 * [v3.0 'IO'](#v3.0), 18th July, 2017
@@ -20,7 +20,7 @@
 
 <a name="v3.2.0"></a>
 
-## Version 3.2.0-beta-9 - 'Dev'
+## Version 3.2.0-beta-11 - 'Dev'
 *To be released...*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v3.2.0):
 
@@ -56,8 +56,11 @@
 
 ### Synths & FX
 
+* New FX `ping_pong` - delayed echo alternating between left and right channels.
+* New FX `autotuner` - Autotune/phase vocoder effect.
 * The `gverb` FX now checks to ensure that the `room:` opt is greater than or equal to 1.
 * The `piano` synth now supports fractional notes such as `70.3`
+
 
 ### Samples
 
@@ -80,6 +83,7 @@
 * Many, many translation improvements. Thanks to all the wonderful
   volunteers contributing to the translation effort: https://hosted.weblate.org/projects/sonic-pi/
 
+
 ### Improvements
 
 * Allow scale degrees over an octave and augmented/diminished degrees.
@@ -88,8 +92,12 @@
 * Add docstring for the `set` fn.
 * Add new article A.20 - Creative Coding in the Classroom as appeared in
   issue #9 of the Hello World magazine.
+* OSC messages are now sent from the external cue listening port. This
+  allows OSC servers that reply directly back to incoming messages (such
+  as SuperCollider) to be able to communicate back to messages sent from
+  Sonic Pi.
   
-
+  
 ### Bugfixes
 
 * Further improve boot stability on Mac in the cases where audio input/output
@@ -124,6 +132,8 @@
 * Calling `.take` on an empty ring no longer results in infinite
   recursion but instead returns an empty ring.
 * Scope now has a minimum height.  
+* Windows now supports sending and receiving OSC messages over the
+  network to and from external machines.
   
 
 
