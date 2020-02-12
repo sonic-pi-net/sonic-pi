@@ -192,7 +192,7 @@ loop_cues(InSocket, InPort, CueHost, CuePort, Internal, Enabled) ->
             loop_cues(InSocket, InPort, CueHost, CuePort, Internal, false);
 
         {forward, Host, Port, Bin} ->
-            gen_udp:send(InSocket, Host, Port, Bin),
+            catch gen_udp:send(InSocket, Host, Port, Bin),
             loop_cues(InSocket, InPort, CueHost, CuePort, Internal, Enabled);
 
         Any ->
@@ -207,7 +207,7 @@ loop_cues(InSocket, InPort, CueHost, CuePort, Internal, Enabled) ->
 register_cue(CueHost, CuePort, InSocket, Ip, Port, XX) ->
     debug("Forwarding OSC to port ~p~n", [CuePort]),
     Bin = osc:encode(["/external-osc-cue", inet:ntoa(Ip), Port] ++ XX),
-    gen_udp:send(InSocket, CueHost, CuePort, Bin).
+    catch gen_udp:send(InSocket, CueHost, CuePort, Bin).
 
 loop_api(_APISocket, N, TagMap, Clock, CuePid) ->
     receive
