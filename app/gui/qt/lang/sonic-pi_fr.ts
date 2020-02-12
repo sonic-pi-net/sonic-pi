@@ -847,7 +847,7 @@ via le réseau actuellement connecté.</translation>
         <source>When checked, Sonic Pi will listen for OSC messages from remote machines.
  When unchecked, only messages from the local machine will be received.</source>
         <translation>Cochée, Sonic Pi sera à l&apos;écoute des messages OSC de machines distantes.
-Décochée, seul les messages de la machine locale seront reçus.</translation>
+Décochée, seuls les messages de la machine locale seront reçus.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="168"/>
