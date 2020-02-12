@@ -100,12 +100,12 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="1379"/>
         <location filename="../mainwindow.cpp" line="1382"/>
         <source>Buffer files</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanal dosyaları</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1365"/>
         <source>Load Sonic Pi Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi Kanalını Yükle</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1365"/>
@@ -117,7 +117,7 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="1365"/>
         <location filename="../mainwindow.cpp" line="1382"/>
         <source>Ruby files</source>
-        <translation type="unfinished"></translation>
+        <translation>Ruby dosyaları</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1365"/>
@@ -128,12 +128,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1793"/>
         <source>Log Auto Scroll on...</source>
-        <translation type="unfinished"></translation>
+        <translation>Günlük Otomatik Kaydırma açık...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1795"/>
         <source>Log Auto Scroll off...</source>
-        <translation type="unfinished"></translation>
+        <translation>Günlük Otomatik Kaydırma kapalı...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2051"/>
@@ -148,22 +148,22 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2075"/>
         <source>Load an external file in the current buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>Geçerli kanala dışarıdan dosya yükle</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2082"/>
         <source>Align code to improve readability</source>
-        <translation type="unfinished"></translation>
+        <translation>Okunabilirliği arttırmak için kodu hizala</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2086"/>
         <source>Text Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Metin Boyutunu Büyüt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2092"/>
         <source>Text Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Metin Boyutunu Küçült</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2098"/>
@@ -173,37 +173,37 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2100"/>
         <source>Toggle visibility of audio oscilloscope</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses osiloskopunun görünürlüğünü değiştir</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2104"/>
         <source>Show Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Bilgiyi Göster</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2110"/>
         <source>Toggle Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Yardımı Gizle/Göster</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2116"/>
         <source>Toggle Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Seçenekleri Gizle/Göster</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2147"/>
         <source>&amp;File</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Dosya</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2154"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Düzenle</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2158"/>
         <source>&amp;Window</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Pencere</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2261"/>
@@ -213,42 +213,42 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1693"/>
         <source>help visibility changed...</source>
-        <translation type="unfinished"></translation>
+        <translation>yardım görünürlüğü değiştirildi...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2735"/>
         <source>Enabling MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI aktif ediliyor...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2743"/>
         <source>Disabling MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI pasif ediliyor...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2767"/>
         <source>Opening OSC port for remote messages...</source>
-        <translation type="unfinished"></translation>
+        <translation>OSC portunu uzaktan mesajlara açıyor...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2776"/>
         <source>Stopping OSC server...</source>
-        <translation type="unfinished"></translation>
+        <translation>OSC sunucusunu durduryor...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2755"/>
         <source>Resetting MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI&apos;yi resetliyor...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2760"/>
         <source>MIDI is disabled...</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI devre dışı bırakıldı...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2789"/>
         <source>Welcome back. Now get your live code on...</source>
-        <translation>Tekrar hoşgeldiniz. Kodunuzu şimdi canlı olarak...</translation>
+        <translation>Tekrar hoşgeldiniz. Şimdi kodunuza can verin...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1382"/>
@@ -258,29 +258,29 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="745"/>
         <source>Cues</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ses çizelgesi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="840"/>
         <source>Full screen mode on.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tam ekran modu açık.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="857"/>
         <source>Full screen mode off.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tam ekran modu kapalı.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2741"/>
         <location filename="../mainwindow.cpp" line="2753"/>
         <source>No connected input devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Bağlı giriş aygıtı bulunamadı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2742"/>
         <location filename="../mainwindow.cpp" line="2754"/>
         <source>No connected output devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Bağlı çıkış aygıtı bulunamadı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1502"/>
@@ -361,17 +361,17 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1824"/>
         <source>Colour Theme: </source>
-        <translation type="unfinished"></translation>
+        <translation>Renk Teması </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2063"/>
         <source>Start recording to a WAV audio file</source>
-        <translation type="unfinished"></translation>
+        <translation>Bir WAV ses dosyasına kaydetmeyi başlat</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2067"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Kaydet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2069"/>
@@ -381,12 +381,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2112"/>
         <source>Toggle the visibility of the help pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Yardım panosunun görünürlüğünü değiştir</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2118"/>
         <source>Toggle the visibility of the preferences pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Seçenekler panosunun görünürlüğünü değiştir</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2283"/>
@@ -435,12 +435,12 @@ Sonic Pi %1 i Al</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2833"/>
         <source>Connected MIDI inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Bağlı MIDI girişleri</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2838"/>
         <source>Connected MIDI outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Bağlı MIDI çıkışları</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2049"/>
@@ -487,7 +487,7 @@ Sonic Pi %1 i Al</translation>
         <location filename="../mainwindow.cpp" line="2080"/>
         <source>Auto-Align Text</source>
         <oldsource>Auto Align Text</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Metni otomatik hizala</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2088"/>
@@ -527,17 +527,17 @@ Sonic Pi %1 i Al</translation>
     <message>
         <location filename="../mainwindow.cpp" line="428"/>
         <source>Studio Mode Enabled. Thank-you for supporting Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation>Studio Modu Aktif Edildi. Sonic Pi&apos;ı desteklediğiniz için teşekkürler.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="432"/>
         <source>No Matching Studio Hash Found...</source>
-        <translation type="unfinished"></translation>
+        <translation>Eşleşen Studio Sağlaması Bulunamadı...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="668"/>
         <source>| %1 |</source>
-        <translation type="unfinished"></translation>
+        <translation>|%1|</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2196"/>
@@ -613,12 +613,12 @@ Sonic Pi %1 i Al</translation>
         <location filename="../utils/ruby_help.h" line="3120"/>
         <location filename="../utils/ruby_help.h" line="3217"/>
         <source>Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation>Öğretici Başlangıç</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3252"/>
         <source>Examples</source>
-        <translation type="unfinished"></translation>
+        <translation>Örnekler</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3301"/>
@@ -638,7 +638,7 @@ Sonic Pi %1 i Al</translation>
     <message>
         <location filename="../utils/ruby_help.h" line="3620"/>
         <source>Lang</source>
-        <translation type="unfinished"></translation>
+        <translation>Dil</translation>
     </message>
 </context>
 <context>
@@ -659,12 +659,12 @@ Sonic Pi %1 i Al</translation>
     <message>
         <location filename="../visualizer/scope.cpp" line="69"/>
         <source>Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Sol</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="70"/>
         <source>Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Sağ</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="71"/>
@@ -692,7 +692,7 @@ Sonic Pi %1 i Al</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="34"/>
         <source>IO</source>
-        <translation type="unfinished"></translation>
+        <translation>Giriş/Çıkış</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="37"/>
@@ -702,7 +702,7 @@ Sonic Pi %1 i Al</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="40"/>
         <source>Visuals</source>
-        <translation type="unfinished"></translation>
+        <translation>Görseller</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="43"/>
@@ -713,17 +713,17 @@ Sonic Pi %1 i Al</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="80"/>
         <source>Master Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Ana Ses</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="81"/>
         <source>Use this slider to change the system volume.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sistem ses seviyesini değiştirmek için bu kaydırıcıyı kullanın.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="87"/>
         <source>Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses Çıkışı</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="88"/>
@@ -1222,7 +1222,7 @@ Bu kutucuk platform ve versiyonunuz hakkında anonim bilgi göndermeyi kapsar.</
     <message>
         <location filename="../osc/sonic_pi_udp_osc_server.cpp" line="38"/>
         <source>Is Sonic Pi already running?  Can&apos;t open UDP port.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi zaten çalışıyor mu? UDP portunu açamıyor.</translation>
     </message>
 </context>
 </TS>
