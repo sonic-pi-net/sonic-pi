@@ -2485,7 +2485,10 @@ SonicPiScintilla* MainWindow::filenameToWorkspace(std::string filename)
 
 void MainWindow::onExitCleanup()
 {
-
+    if (scopeInterface)
+    {
+        scopeInterface->ShutDown();
+    }
     setupLogPathAndRedirectStdOut();
     std::cout << "[GUI] - stopping OSC server" << std::endl;
     sonicPiOSCServer->stop();

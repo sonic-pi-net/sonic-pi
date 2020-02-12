@@ -16,13 +16,16 @@
 #include <QWidget>
 #include <QOpenGLWidget>
 #include <QPen>
+#include <QThread>
 
 #include <complex> 
 #include <memory>
 #include <string>
+#include <thread>
 #include <visualizer/server_shm.hpp>
 
 #include "kiss_fft/kiss_fft.h"
+#include "profiler.h"
 
 QT_FORWARD_DECLARE_CLASS(QPaintEvent)
 QT_FORWARD_DECLARE_CLASS(QResizeEvent)
@@ -62,6 +65,69 @@ struct Panel
     QLinearGradient redBlueGradient;
 };
 
+// This is the processed audio data from the thread
+struct ProcessedAudio
+{
+    SP_Lockable(std::mutex, m_mutex);
+    std::vector<float> m_spectrum[2];
+    std::vector<float> m_spectrumQuantized[2];
+    std::vector<std::vector<double>> m_samples;
+    std::vector<double> m_monoSamples;
+    std::atomic<bool> m_consumed = true;
+};
+
+class AudioProcessingThread : public QThread
+{
+    Q_OBJECT
+
+public:
+    AudioProcessingThread(int synthPort);
+    
+    virtual void run() override;
+
+    ProcessedAudio& GetCurrentProcessedAudio();
+    void EnableFFT(bool enable);
+    void Enable(bool start);
+    void SetMaxBuckets(int maxBuckets);
+    void Quit();
+
+signals:
+    void update();
+
+private:
+    void ResetConnection();
+    void GenLogSpace(uint32_t limit, uint32_t n);
+    void GenLinSpace(uint32_t limit, uint32_t n);
+    void SetupFFT();
+    void CalculateFFT(ProcessedAudio& audio);
+   
+private:
+    std::unique_ptr<server_shared_memory_client> m_shmClient;
+    scope_buffer_reader m_shmReader;
+
+    unsigned int m_emptyFrames = 0;
+    int m_scsynthPort = 0;
+
+    std::atomic<bool> m_calculateFFT = false;
+    std::atomic<bool> m_running = false;
+    std::atomic<int> m_maxBuckets = 0;
+    std::atomic<bool> m_quit = false;
+
+    // FFT
+    mkiss_fft_cfg m_cfg;
+    std::vector<std::complex<float>> m_fftIn[2];
+    std::vector<std::complex<float>> m_fftOut[2];
+    std::vector<float> m_fftMag[2];
+    std::vector<float> m_window;
+    std::vector<float> m_spectrumPartitions;
+    std::pair<uint32_t, uint32_t> m_lastSpectrumPartitions = { 0, 0 };
+
+    // Output data, double buffered
+    ProcessedAudio m_processedAudio;
+
+    float m_totalWin = 0.0f;
+};
+
 class Scope : public QOpenGLWidget
 {
     Q_OBJECT
@@ -76,19 +142,17 @@ public:
     void TogglePause();
     void Pause();
     void Resume();
-    void ResetScope();
     void Refresh();
     void ScsynthBooted();
     void SetColor(QColor c);
     void SetColor2(QColor c);
 
-    void DrawWave(QPainter& painter, Panel& panel);
-    void DrawMirrorStereo(QPainter& painter, Panel& panel);
-    void DrawLissajous(QPainter& painter, Panel& panel);
-    void DrawSpectrumAnalysis(QPainter& painter, Panel& panel);
+    void DrawWave(const ProcessedAudio& audio, QPainter& painter, Panel& panel);
+    void DrawMirrorStereo(const ProcessedAudio& audio, QPainter& painter, Panel& panel);
+    void DrawLissajous(const ProcessedAudio& audio, QPainter& painter, Panel& panel);
+    void DrawSpectrumAnalysis(const ProcessedAudio& audio, QPainter& painter, Panel& panel);
 
-    void SetupFFT();
-    void CalculateFFT();
+    void ShutDown();
 
 protected:
     virtual void paintEvent(QPaintEvent* pEv) override;
@@ -98,31 +162,11 @@ private:
     void Layout();
 
 private slots:
-    void OnTimer();
+    void OnNewAudioData();
 
 private:
     std::vector<Panel> m_panels;
-
-    std::unique_ptr<server_shared_memory_client> m_shmClient;
-    scope_buffer_reader m_shmReader;
-
-    std::vector<std::vector<double>> m_samples;
-    std::vector<double> m_monoSamples;
-
-    unsigned int m_emptyFrames = 0;
     int m_scsynthPort = 0;
-
-    bool m_scsynthIsBooted = false;
     bool m_paused = false;
-    bool m_calculateFFT = false;
-
-    // FFT
-    mkiss_fft_cfg m_cfg;
-    std::vector<std::complex<float>> m_fftIn[2];
-    std::vector<std::complex<float>> m_fftOut[2];
-    std::vector<float> m_fftMag[2];
-    std::vector<float> m_spectrum[2];
-    std::vector<float> m_spectrumQuantized[2];
-    std::vector<float> m_window;
-    float m_totalWin = 0.0f;
+    AudioProcessingThread* m_pAudioThread = nullptr;
 };

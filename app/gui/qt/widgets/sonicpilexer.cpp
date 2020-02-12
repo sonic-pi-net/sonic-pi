@@ -14,8 +14,7 @@
 #include "sonicpilexer.h"
 #include <qcolor.h>
 #include <qfont.h>
-
-
+#include "profiler.h"
 
 SonicPiLexer::SonicPiLexer(SonicPiTheme *theme) : QsciLexerRuby() {
     this->theme = theme;
@@ -133,6 +132,7 @@ QColor SonicPiLexer::defaultColor(int style) const
 // Returns the background colour of the text for a style.
 QColor SonicPiLexer::defaultPaper(int style) const
 {
+    SP_ZoneScopedN("default Paper");
   switch (style)
   {
     case Default:
@@ -202,6 +202,7 @@ QColor SonicPiLexer::defaultPaper(int style) const
 // Returns the font of the text for a style.
 QFont SonicPiLexer::defaultFont(int style) const
 {
+    SP_ZoneScopedN("Default Font");
     QFont f;
     QString activeFont = default_font;
 

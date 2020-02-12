@@ -348,8 +348,8 @@ private:
     for (rp = result; rp && handle==-1; rp = rp->ai_next) {
  
 
-      handle = socket(rp->ai_family, rp->ai_socktype,
-                      rp->ai_protocol);
+      handle = int(socket(rp->ai_family, rp->ai_socktype,
+                      rp->ai_protocol));
       if (handle == -1)
         continue;
 

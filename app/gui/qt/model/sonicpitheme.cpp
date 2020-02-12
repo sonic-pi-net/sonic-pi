@@ -17,6 +17,7 @@
 #include <iostream>
 
 #include "dpi.h"
+#include "profiler.h"
 
 SonicPiTheme::SonicPiTheme(QObject *parent, QString customSettingsFilename, QString rootPath) : QObject(parent)
 {
