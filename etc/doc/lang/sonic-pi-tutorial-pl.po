@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-02-09 15:15+0000\n"
+"PO-Revision-Date: 2020-02-13 13:50+0000\n"
 "Last-Translator: tupteq <tupteq@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "pl/>\n"
@@ -1286,7 +1286,6 @@ msgstr ""
 "fascynującą paletę dźwięków, jaką oferuje Ci Sonic Pi."
 
 #: 02.3-Switching-Synths.md:13
-#, fuzzy
 msgid ""
 "Sonic Pi has a number of different instruments it calls synths (which is *shor"
 "t for synthesisers*). Whereas samples represent pre-recorded sounds, synths ar"
@@ -1295,13 +1294,13 @@ msgid ""
 "xpressive and you'll have a lot of fun exploring and playing with them. First,"
 " let's learn how to select the current synth to use."
 msgstr ""
-"Sonic Pi posiada szeroki wachlarz instrumentów, które nazywa *syntezatorami*. "
-"Zważywszy na to, że sample (próbki) reprezentują nagrane dźwięki, syntezatory "
-"mają możliwość generowania nowych dźwięków zależnych od tego, jak je kontroluj"
-"esz (w tym samouczku dowiesz się o tym później). Syntezatory Sonic Pi są bardz"
-"o potężne i ekspresyjne. Będziesz miał dużo przyjemności podczas poznawania i "
-"zabawy nimi. Na początku jednak nauczmy się, jak wybierać aktualnie grający sy"
-"ntezator."
+"Sonic Pi posiada szeroki wachlarz instrumentów, będących *syntezatorami*. "
+"Zważywszy na to, że sample (próbki) reprezentują nagrane dźwięki, "
+"syntezatory mają możliwość generowania nowych dźwięków zależnych od tego, "
+"jak je kontrolujesz (w tym samouczku dowiesz się o tym później). Syntezatory "
+"Sonic Pi są bardzo potężne i ekspresyjne. Będziesz miał wiele radości "
+"podczas poznawania i zabawy nimi. Na początku jednak nauczmy się, jak "
+"wybierać aktualnie grający syntezator."
 
 #: 02.3-Switching-Synths.md:21
 msgid "Buzzy saws and prophets"
@@ -1313,7 +1312,6 @@ msgstr "Fajnym dźwiękiem jest *saw wave* - spróbujmy:"
 
 #: 02.3-Switching-Synths.md:25
 #, no-wrap
-#, fuzzy
 msgid ""
 "use_synth :saw\n"
 "play 38\n"
@@ -1327,8 +1325,7 @@ msgstr ""
 "sleep 0.25\n"
 "play 50\n"
 "sleep 0.25\n"
-"play 62\n"
-"sleep 0.25"
+"play 62"
 
 #: 02.3-Switching-Synths.md:34
 msgid "Let's try another sound - the *prophet*:"
@@ -1336,7 +1333,6 @@ msgstr "A teraz spróbujmy innego dźwięku - syntezatora *prophet*:"
 
 #: 02.3-Switching-Synths.md:36
 #, no-wrap
-#, fuzzy
 msgid ""
 "use_synth :prophet\n"
 "play 38\n"
@@ -1350,8 +1346,7 @@ msgstr ""
 "sleep 0.25\n"
 "play 50\n"
 "sleep 0.25\n"
-"play 62\n"
-"sleep 0.25"
+"play 62"
 
 #: 02.3-Switching-Synths.md:45
 msgid "How about combining two sounds. First one after another:"
@@ -1359,7 +1354,6 @@ msgstr "Co powiesz na połączenie dwóch dźwięków? Jeden po drugim:"
 
 #: 02.3-Switching-Synths.md:47
 #, no-wrap
-#, fuzzy
 msgid ""
 "use_synth :saw\n"
 "play 38\n"
@@ -1375,18 +1369,18 @@ msgstr ""
 "play 50\n"
 "sleep 0.25\n"
 "use_synth :prophet\n"
-"play 57\n"
-"sleep 0.25"
+"play 57"
 
 #: 02.3-Switching-Synths.md:57
 msgid ""
 "Now multiple sounds at the same time (by not sleeping between successive calls"
 " to `play`):"
 msgstr ""
+"A teraz kilka dźwięków równocześnie (nie ma `sleep` między kolejnymi "
+"wywołaniami `play`):"
 
 #: 02.3-Switching-Synths.md:60
 #, no-wrap
-#, fuzzy
 msgid ""
 "use_synth :tb303\n"
 "play 38\n"
@@ -1397,13 +1391,10 @@ msgid ""
 msgstr ""
 "use_synth :tb303\n"
 "play 38\n"
-"sleep 0.25\n"
 "use_synth :dsaw\n"
 "play 50\n"
-"sleep 0.25\n"
 "use_synth :prophet\n"
-"play 57\n"
-"sleep 0.25"
+"play 57"
 
 #: 02.3-Switching-Synths.md:69
 msgid ""
@@ -1422,15 +1413,14 @@ msgid "Discovering Synths"
 msgstr "Odkrywanie Syntezatorów"
 
 #: 02.3-Switching-Synths.md:77
-#, fuzzy
 msgid ""
 "To see which synths Sonic Pi has for you to play with take a look at the Synth"
 "s option in the menu at the bottom of this help screen (between Examples & Fx)"
 ". There are over 20 to choose from. Here are a few of my favourites:"
 msgstr ""
-"Aby zobaczyć, jakie syntezatory Sonic Pi ma dla Ciebie do zabawy, zerknij na o"
-"pcję Synths w lewym dolnym rogu (obok Fx). Znajdziesz tam ponad 20 do wyboru. "
-"Oto kilka moich ulubionych:"
+"Aby zobaczyć, jakie syntezatory Sonic Pi ma dla Ciebie do zabawy, zerknij na "
+"zakładkę Syntezatory w lewym dolnym rogu (pomiędzy Przykładami a Efektami). "
+"Znajdziesz ich tam ponad 20 do wyboru. Oto kilka moich ulubionych:"
 
 #: 02.3-Switching-Synths.md:81
 msgid "`:prophet`"
@@ -1620,12 +1610,10 @@ msgstr ""
 "ące się w linii prostej). Poniższy diagram ilustruje je:"
 
 #: 02.4-Durations-with-Envelopes.md:79
-#, fuzzy
 msgid "![release envelope](../../../etc/doc/images/tutorial/env-release.png)"
-msgstr "![release envelope](../images/tutorial/env-release.png)"
+msgstr "![release envelope](../../../etc/doc/images/tutorial/env-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:81
-#, fuzzy
 msgid ""
 "The vertical line at the far left of the diagram shows that the sound starts a"
 "t 0 amplitude, but goes up to full amplitude immediately (this is the attack p"
@@ -1633,12 +1621,13 @@ msgid ""
 "ht line down to zero taking the amount of time specified by `release:`. *Longe"
 "r release times produce longer synth fade outs.*"
 msgstr ""
-"Pionowa linia po lewej stronie diagramu pokazuje, że dźwięk zaczyna się z ampl"
-"itudą równą 0, ale osiąga pełną głośność momentalnie (jest to faza narastania,"
-" omówimy ją za chwilę). Gdy pełna głośność zostanie już osiągnięta, następuje "
-"zmniejszanie jej po linii prostej aż do wartości zero i zajmuje to tyle czasu,"
-" ile zostało ustawione za pomocą opcji zanikania `release:`. *Im czas zanikani"
-"a jest dłuższy, tym dłuższy będzie czas wyciszania dźwięku syntezatora.*"
+"Pionowa linia po lewej stronie diagramu pokazuje, że dźwięk zaczyna się z "
+"amplitudą równą 0, ale momentalnie osiąga pełną głośność (jest to faza "
+"narastania, omówimy ją za chwilę). Gdy pełna głośność zostanie już "
+"osiągnięta, następuje liniowe jej zmniejszanie, aż do zera. Zajmuje to tyle "
+"czasu, ile zostało ustawione za pomocą opcji zanikania `release:`. *Im czas "
+"zanikania jest dłuższy, tym dłuższy będzie czas wybrzmiewania dźwięku "
+"syntezatora.*"
 
 #: 02.4-Durations-with-Envelopes.md:88
 msgid ""
@@ -1701,11 +1690,12 @@ msgstr ""
 "oniższym rysunku:"
 
 #: 02.4-Durations-with-Envelopes.md:114
-#, fuzzy
 msgid ""
 "![attack release envelope](../../../etc/doc/images/tutorial/env-attack-release"
 ".png)"
-msgstr "![attack release envelope](../images/tutorial/env-attack-release.png)"
+msgstr ""
+"![attack release envelope](../../../etc/doc/images/tutorial/env-attack-"
+"release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:116
 msgid ""
@@ -1721,13 +1711,12 @@ msgid "play 60, attack: 4, release: 0.7"
 msgstr "play 60, attack: 4, release: 0.7"
 
 #: 02.4-Durations-with-Envelopes.md:123
-#, fuzzy
 msgid ""
 "![long attack short release envelope](../../../etc/doc/images/tutorial/env-lon"
 "g-attack-short-release.png)"
 msgstr ""
-"![long attack short release envelope](../images/tutorial/env-long-attack-short"
-"-release.png)"
+"![long attack short release envelope](../../../etc/doc/images/tutorial/env-"
+"long-attack-short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:125
 msgid ""
@@ -1743,13 +1732,12 @@ msgid "play 60, attack: 0.5, release: 0.5"
 msgstr "play 60, attack: 0.5, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:132
-#, fuzzy
 msgid ""
 "![short attack short release envelope](../../../etc/doc/images/tutorial/env-sh"
 "ort-attack-short-release.png)"
 msgstr ""
-"![short attack short release envelope](../images/tutorial/env-short-attack-sho"
-"rt-release.png)"
+"![short attack short release envelope](../../../etc/doc/images/tutorial/env-"
+"short-attack-short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:134
 msgid "Sustain Phase"
@@ -1772,11 +1760,12 @@ msgid "play 60, attack: 0.3, sustain: 1, release: 1"
 msgstr "play 60, attack: 0.3, sustain: 1, release: 1"
 
 #: 02.4-Durations-with-Envelopes.md:145
-#, fuzzy
 msgid ""
 "![ASR envelope](../../../etc/doc/images/tutorial/env-attack-sustain-release.pn"
 "g)"
-msgstr "![ASR envelope](../images/tutorial/env-attack-sustain-release.png)"
+msgstr ""
+"![ASR envelope](../../../etc/doc/images/tutorial/env-attack-sustain-"
+"release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:147
 msgid ""
@@ -1828,11 +1817,12 @@ msgstr ""
 ": 1, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:168
-#, fuzzy
 msgid ""
 "![ADSR envelope](../../../etc/doc/images/tutorial/env-attack-decay-sustain-rel"
 "ease.png)"
-msgstr "![ADSR envelope](../images/tutorial/env-attack-decay-sustain-release.png)"
+msgstr ""
+"![ADSR envelope](../../../etc/doc/images/tutorial/env-attack-decay-sustain-"
+"release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:170
 msgid "Decay Level"
@@ -1860,9 +1850,8 @@ msgstr ""
 "1, sustain_level: 0.4, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:181
-#, fuzzy
 msgid "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level.png)"
-msgstr "![ASR envelope](../images/tutorial/env-decay-level.png)"
+msgstr "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level.png)"
 
 #: 02.4-Durations-with-Envelopes.md:183
 msgid ""
@@ -1882,9 +1871,8 @@ msgstr ""
 "0.5, sustain_level: 0.8, release: 1.5"
 
 #: 02.4-Durations-with-Envelopes.md:189
-#, fuzzy
 msgid "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level-2.png)"
-msgstr "![ASR envelope](../images/tutorial/env-decay-level-2.png)"
+msgstr "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level-2.png)"
 
 #: 02.4-Durations-with-Envelopes.md:191
 msgid "ADSR Envelopes"
@@ -2046,35 +2034,31 @@ msgstr ""
 "play 36"
 
 #: 03.1-Triggering-Samples.md:36
-#, fuzzy
 msgid ""
 "Notice how Sonic Pi doesn't wait for a sound to finish before starting the nex"
 "t sound. The `sleep` command only describes the separation of the *triggering*"
 " of the sounds. This allows you to easily layer sounds together creating inter"
 "esting overlap effects."
 msgstr ""
-"Zauważ, że Sonic Pi nie czeka, aż dźwięk przestanie grać, zanim zacznie grać k"
-"olejny dźwięk. Polecenie `sleep` tylko opisuje rozdzielenie *wyzwalania* poszc"
-"zególnych dźwięków. Takie podejście pozwala na łatwe nawarstwianie kolejnych d"
-"źwięków, które razem mogą tworzyć ciekawe efekty nakładania się na siebie. W d"
-"alszej części tego samouczka pokażemy, w jaki sposób można kontrolować długość"
-" trwania dźwięków przy użyciu obwiedni."
+"Zauważ, że Sonic Pi nie czeka, aż dźwięk przestanie grać, zanim zacznie grać "
+"kolejny dźwięk. Polecenie `sleep` określa jedynie rozdzielenie *wyzwalania* "
+"poszczególnych dźwięków. Takie podejście pozwala na łatwe nawarstwianie "
+"kolejnych dźwięków, tworząc ciekawe efekty nakładania się na siebie."
 
 #: 03.1-Triggering-Samples.md:42
 msgid "Discovering Samples"
 msgstr "Odkrywanie Sampli"
 
 #: 03.1-Triggering-Samples.md:44
-#, fuzzy
 msgid ""
 "There are two ways to discover the range of samples provided in Sonic Pi. Firs"
 "t, you can use this help system. Click on Samples in the menu at the bottom of"
 " this help screen, choose your category and then you'll see a list of availabl"
 "e sounds."
 msgstr ""
-"Są dwa sposoby na odkrywanie wielu sampli, które są dostępne w Sonic Pi. Po pi"
-"erwsze, możesz korzystać z systemu pomocy. Kliknij na sekcję Sample w lewym do"
-"lnym menu, wybierz kategorię, a zobaczysz listę dostępnych dźwięków."
+"Są dwa sposoby na odkrywanie wielu sampli, dostępnych w Sonic Pi. Po "
+"pierwsze, możesz korzystać z systemu pomocy. Kliknij na sekcję Sample w "
+"lewym dolnym menu, wybierz kategorię, a zobaczysz listę dostępnych dźwięków."
 
 #: 03.1-Triggering-Samples.md:49
 msgid ""
@@ -2414,9 +2398,8 @@ msgstr ""
 "ia wykresu graficznego mogącego wyglądać bardzo podobnie do tego:"
 
 #: 03.3-Stretching-Samples.md:103
-#, fuzzy
 msgid "![sample graph](../../../etc/doc/images/tutorial/sample.png)"
-msgstr "![sample graph](../images/tutorial/sample.png)"
+msgstr "![sample graph](../../../etc/doc/images/tutorial/sample.png)"
 
 #: 03.3-Stretching-Samples.md:105
 msgid ""
@@ -3018,14 +3001,13 @@ msgid "Local Samples"
 msgstr "Sample Lokalne"
 
 #: 03.6-External-Samples.md:28
-#, fuzzy
 msgid ""
 "So how do you play any arbitrary WAV, AIFF, OGG, OGA or FLAC file on your comp"
 "uter? All you need to do is pass the path of that file to `sample`:"
 msgstr ""
-"W jaki sposób możesz więc zagrać dowolny plik WAV lub AIFF, który znajduje się"
-" na Twoim komputerze? Jedyne, co musisz zrobić, to przekazać ścieżkę do tego p"
-"liku do polecenia `sample`:"
+"W jaki sposób możesz więc zagrać dowolny plik WAV, AIFF, OGG, OGA albo FLAC, "
+"znajdujący się na Twoim komputerze? Jedyne, co musisz zrobić, to przekazać "
+"jego ścieżkę do polecenia `sample`:"
 
 #: 03.6-External-Samples.md:31
 #, no-wrap
@@ -3301,15 +3283,15 @@ msgstr ""
 "sample samps, \"120\", 1"
 
 #: 03.7-Sample-Packs.md:120
-#, fuzzy
 msgid ""
 "We can even use multiple filters at the same time. For example, if we want a s"
 "ample whose filename contains both the substrings `\"120\"` and `\"A#\"` we can fi"
 "nd it easily with the following code:"
 msgstr ""
-"Możemy nawet używać wielu filtrów jednocześnie. Na przykład jeśli chcemy wszys"
-"tkie sample, których nazwa pliku zawiera zarówno ciąg znaków\"120\" oraz \"A#\", m"
-"ożemy znaleźć je bardzo łatwo, wykorzystując taki kawałek kodu:"
+"Możemy nawet użyć kilku filtrów jednocześnie. Na przykład jeśli chcemy "
+"wszystkie sample, których nazwa pliku zawiera zarówno ciąg znaków `\"120\"` "
+"oraz `\"A#\"`, możemy znaleźć je bardzo łatwo, wykorzystując taki kawałek "
+"kodu:"
 
 #: 03.7-Sample-Packs.md:124
 #, no-wrap
