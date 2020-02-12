@@ -5085,7 +5085,8 @@ end
           {
             :doc => "The maximum phase duration in beats.",
             :validations => [v_positive_not_zero(:max_phase)],
-            :modulatable => false
+            :modulatable => false,
+            :bpm_scale => true
           },
 
           :phase =>
@@ -7394,7 +7395,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
       end
 
       def doc
-        "Echo FX with each delayed echo swapping between left and right channels. Has variable phase duration (time between echoes) and feedback (proportion of sound fed into each echo). If you wish to have a phase duration longer than 1s, you need to specify the longest phase duration you'd like with the arg max_phase. Be warned, `:ping_pong` FX with very long phases can consume a lot of memory and take longer to initialise.
+        "Echo FX with each delayed echo swapping between left and right channels. Has variable phase duration (time between echoes) and feedback (proportion of sound fed into each echo). If you wish to have a phase duration longer than 1s, you need to specify the longest phase duration you'd like with the arg max_phase. Be warned, `:ping_pong` FX with very long phases can consume a lot of memory and take longer to initialise. Also, large values for feedback will cause the echo to last for a very long time.
 
 Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo during the slide to change in pitch, in much the same way that a sample's pitch changes when altering its rate."
       end
@@ -7436,7 +7437,8 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
           {
             :doc => "The maximum phase duration in beats.",
             :validations => [v_positive_not_zero(:max_phase)],
-            :modulatable => false
+            :modulatable => false,
+            :bpm_scale => true
           },
 
           :feedback =>
