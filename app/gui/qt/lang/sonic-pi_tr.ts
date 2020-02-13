@@ -475,7 +475,7 @@ Sonic Pi %1 i Al</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1263"/>
         <source>Please consider reporting a bug at</source>
-        <translation type="unfinished"></translation>
+        <translation>Lütfen bir hata raporlayın</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2061"/>
@@ -654,7 +654,7 @@ Sonic Pi %1 i Al</translation>
     <message>
         <location filename="../visualizer/scope.cpp" line="68"/>
         <source>Lissajous</source>
-        <translation type="unfinished"></translation>
+        <translation>Lissajous</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="69"/>
@@ -669,7 +669,7 @@ Sonic Pi %1 i Al</translation>
     <message>
         <location filename="../visualizer/scope.cpp" line="71"/>
         <source>Mono</source>
-        <translation type="unfinished"></translation>
+        <translation>Mono</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="72"/>
@@ -679,7 +679,7 @@ Sonic Pi %1 i Al</translation>
     <message>
         <location filename="../visualizer/scope.cpp" line="74"/>
         <source>Spectrum</source>
-        <translation type="unfinished"></translation>
+        <translation>Tayf</translation>
     </message>
 </context>
 <context>
@@ -827,101 +827,104 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="139"/>
         <source>Local IP address</source>
-        <translation type="unfinished"></translation>
+        <translation>Yerel IP adresi</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="140"/>
         <source>Listening for OSC messages on port</source>
-        <translation type="unfinished"></translation>
+        <translation>OSC mesajları için portu dinliyor</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="159"/>
         <source>Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Müsait değil</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="165"/>
         <source>Receive remote OSC messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Uzaktan OSC mesajları al</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="166"/>
         <source>When checked, Sonic Pi will listen for OSC messages from remote machines.
  When unchecked, only messages from the local machine will be received.</source>
-        <translation type="unfinished"></translation>
+        <translation>Seçildiğinde Sonic Pi uzak makinelerden OSC mesajlarını dinleyecek
+Seçim kaldırıldığında, sadece yerel makineden gelen mesajlar alınacak.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="168"/>
         <source>Enable OSC server</source>
-        <translation type="unfinished"></translation>
+        <translation>OSC sunucusunu aç</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="169"/>
         <source>When checked, Sonic Pi will listen for OSC messages.
  When unchecked no OSC messages will be received.</source>
-        <translation type="unfinished"></translation>
+        <translation>Seçildiğinde Sonic Pi OSC mesajları için dinleyecek
+Seçim kaldırıldığında hiç OSC mesajı alınmayacak.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="177"/>
         <source>MIDI Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI Ayarları</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="178"/>
         <source>Configure MIDI behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI davranışını ayarla</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="180"/>
         <source>MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI portları</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="181"/>
         <source>List all connected MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>Tüm bağlı MIDI portlarını listele</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="183"/>
         <source>Enable MIDI subsystems</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI alt sistemlerini aç</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="184"/>
         <source>Enable or disable incoming and outgoing MIDI communication</source>
-        <translation type="unfinished"></translation>
+        <translation>Gelen ve giden MIDI iletişimini aç veya kapat</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="186"/>
         <source>Reset MIDI</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI&apos;yi resetle</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="187"/>
         <source>Reset MIDI subsystems 
 (Required to detect device changes on macOS)</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI alt sistemlerini resetle
+(MacOS&apos;ta Aygıt değişikliklerini algılamak için gerekli)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="213"/>
         <source>Default MIDI channel (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation>Varsayılan MIDI kanalı (* hepsi demek)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="214"/>
         <location filename="../widgets/settingswidget.cpp" line="218"/>
         <source>Default MIDI Channel to send messages to</source>
-        <translation type="unfinished"></translation>
+        <translation>Mesaj göndermek için varsayılan MIDI kanalı</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="229"/>
         <source>No connected input devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Bağlı giriş aygıtı bulunamadı</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="230"/>
         <source>No connected output devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Bağlı çıkış aygıtı bulunamadı</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="231"/>
@@ -944,7 +947,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="263"/>
         <source>Configure editor display options.</source>
-        <translation type="unfinished"></translation>
+        <translation>Editör görüntü seçeneklerini ayarla.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="264"/>
@@ -969,12 +972,12 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="269"/>
         <source>Auto-align</source>
-        <translation type="unfinished"></translation>
+        <translation>Otomatik hizala</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="270"/>
         <source>Automatically align code on Run</source>
-        <translation type="unfinished"></translation>
+        <translation>Çalıştırınca kodu otomatik olarak hizala</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="272"/>
@@ -1024,7 +1027,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="287"/>
         <source>Toggle visibility of the buffer selection tabs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanal seçim sekmelerinin görünürlüğünü değiştir.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="288"/>
@@ -1039,27 +1042,27 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="292"/>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Aydınlık</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="293"/>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Karanlık</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="294"/>
         <source>Pro Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro Aydınlık</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="295"/>
         <source>Pro Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro Karanlık</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="296"/>
         <source>High Contrast</source>
-        <translation type="unfinished"></translation>
+        <translation>Yüksek Zıtlık</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="326"/>
