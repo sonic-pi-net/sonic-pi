@@ -23,7 +23,6 @@ addons:
     - qt5-default
     - libqt5opengl5-dev
     - libqt5svg5-dev
-    - libqwt-qt5-dev
     - libboost-all-dev
 compiler: gcc
 
