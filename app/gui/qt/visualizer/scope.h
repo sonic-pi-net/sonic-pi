@@ -73,7 +73,7 @@ struct ProcessedAudio
     std::vector<float> m_spectrumQuantized[2];
     std::vector<std::vector<double>> m_samples;
     std::vector<double> m_monoSamples;
-    std::atomic<bool> m_consumed = true;
+    std::atomic<bool> m_consumed = {true};
 };
 
 class AudioProcessingThread : public QThread
@@ -108,10 +108,10 @@ private:
     unsigned int m_emptyFrames = 0;
     int m_scsynthPort = 0;
 
-    std::atomic<bool> m_calculateFFT = false;
-    std::atomic<bool> m_running = false;
-    std::atomic<int> m_maxBuckets = 0;
-    std::atomic<bool> m_quit = false;
+    std::atomic<bool> m_calculateFFT = {false};
+    std::atomic<bool> m_running = {false};
+    std::atomic<int> m_maxBuckets = {0};
+    std::atomic<bool> m_quit = {false};
 
     // FFT
     mkiss_fft_cfg m_cfg;
