@@ -9,9 +9,9 @@ inline QSizeF GetDisplayScale()
 //massive cracks that is the difference between how
 //macOS and other platforms handle high DPI monitors
 #ifdef __APPLE__
-    float scale = 96.0;
+    float scale = 96.0f;
 #else
-    float scale = 96.0 * 1.6;
+    float scale = 96.0f * 1.6f;
 #endif
 
   QSizeF scaleDpi = QSizeF(scale, scale);

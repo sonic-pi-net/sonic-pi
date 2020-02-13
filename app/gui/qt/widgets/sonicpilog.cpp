@@ -70,7 +70,7 @@ void SonicPiLog::appendPlainText(QString text)
 
 void SonicPiLog::handleMultiMessage(SonicPiLog::MultiMessage mm)
 {
-    int msg_count = mm.messages.size();
+    int msg_count = int(mm.messages.size());
     SonicPiTheme *theme = mm.theme;
 
     QTextCharFormat tf;

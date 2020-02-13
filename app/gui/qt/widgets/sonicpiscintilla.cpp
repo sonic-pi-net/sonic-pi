@@ -11,6 +11,7 @@
 // notice is included.
 //++
 
+#include "profiler.h"
 #include "sonicpiscintilla.h"
 #include "osc/oscsender.h"
 
@@ -157,6 +158,7 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme, QSt
 }
 
 void SonicPiScintilla::redraw(){
+    SP_ZoneScopedN("Scintilla Redraw");
   mutex->lock();
   setMarginsBackgroundColor(theme->color("MarginBackground"));
   setMarginsForegroundColor(theme->color("MarginForeground"));
@@ -202,7 +204,7 @@ void SonicPiScintilla::addOtherKeyBinding(QSettings &qs, int cmd, int key)
 {
   mutex->lock();
   QString skey;
-  skey.sprintf("/Scintilla/keymap/c%d/alt", cmd);
+  skey.asprintf("/Scintilla/keymap/c%d/alt", cmd);
   qs.setValue(skey, key);
   mutex->unlock();
 }
@@ -211,7 +213,7 @@ void SonicPiScintilla::addKeyBinding(QSettings &qs, int cmd, int key)
 {
   mutex->lock();
   QString skey;
-  skey.sprintf("/Scintilla/keymap/c%d/key", cmd);
+  skey.asprintf("/Scintilla/keymap/c%d/key", cmd);
   qs.setValue(skey, key);
   mutex->unlock();
 }

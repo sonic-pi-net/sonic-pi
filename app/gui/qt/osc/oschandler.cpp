@@ -73,7 +73,7 @@ void OscHandler::oscMessage(std::vector<char> buffer)
               max_path_len = last_incoming_path_lens[i];
             }
           }
-          int len_diff = max_path_len - address.length();
+          int len_diff = max_path_len - int(address.length());
           len_diff = (len_diff < 10) ? len_diff : 0;
           len_diff = std::max(len_diff, 0);
           len_diff = len_diff + 1;
@@ -103,7 +103,7 @@ void OscHandler::oscMessage(std::vector<char> buffer)
             //QMetaObject::invokeMethod( incoming, "setTextBgFgColors",      Qt::QueuedConnection, Q_ARG(QColor, QColor(255, 153, 0, idmod)), Q_ARG(QColor,g"white"));
               QMetaObject::invokeMethod( incoming, "insertPlainText",        Qt::QueuedConnection,
                                          Q_ARG(QString, QString::fromStdString(args) ) );
-              last_incoming_path_lens[id % 20] = address.length();
+              last_incoming_path_lens[id % 20] = int(address.length());
             }
           QMetaObject::invokeMethod( window, "addCuePath", Qt::QueuedConnection, Q_ARG(QString, qs_address), Q_ARG(QString, QString::fromStdString(args)));
             } else {
