@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2018-05-30 22:43+0000\n"
-"Last-Translator: CEM KAAN KÖSALI <cemkaan@gmail.com>\n"
-"Language-Team: Turkish <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
-"tr/>\n"
+"PO-Revision-Date: 2020-02-14 03:17+0000\n"
+"Last-Translator: Salih Vatansever <salih.vtnsvr@gmail.com>\n"
+"Language-Team: Turkish <https://hosted.weblate.org/projects/sonic-pi/"
+"tutorial/tr/>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.0-dev\n"
+"X-Generator: Weblate 3.11-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -65,16 +65,16 @@ msgstr ""
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
-msgstr ""
+msgstr "Tamam, hadi başlayalım..."
 
 #: 01.1-Live-Coding.md:1
 msgid "1.1 Live Coding"
-msgstr ""
+msgstr "1.1 Canlı Kodlama"
 
 #: 01.1-Live-Coding.md:3 09-Live-Coding.md:3 09.1-Live-Coding-Fundamentals.md:3
 #: A.02-live-coding.md:3
 msgid "Live Coding"
-msgstr ""
+msgstr "Canlı Kodlama"
 
 #: 01.1-Live-Coding.md:5
 msgid ""
@@ -86,7 +86,7 @@ msgstr ""
 
 #: 01.1-Live-Coding.md:10
 msgid "Free your mind"
-msgstr ""
+msgstr "Aklını boşalt"
 
 #: 01.1-Live-Coding.md:12
 msgid ""
@@ -98,11 +98,11 @@ msgstr ""
 
 #: 01.1-Live-Coding.md:17
 msgid "A live loop"
-msgstr ""
+msgstr "Bir canlı döngü"
 
 #: 01.1-Live-Coding.md:19
 msgid "Let's get started, copy the following code into an empty buffer:"
-msgstr ""
+msgstr "Hadi başlayalım, takip eden kodu boş bir kanala kopyala:"
 
 #: 01.1-Live-Coding.md:21
 #, no-wrap
@@ -112,6 +112,10 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
+"live_loop :flibble do\n"
+"  sample :bd_haus, rate: 1\n"
+"  sleep 0.5\n"
+"end"
 
 #: 01.1-Live-Coding.md:28
 msgid ""
