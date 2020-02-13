@@ -4977,18 +4977,44 @@ A decent range of Q factors for naturally sounding boosts/cuts is 0.6 to 1.
 
 ```
 with_fx :autotuner do |c|
+```
+
+```
   sample \"~/Downloads/acappella.wav\" # any sample with a voice is good
+```
+
+```
   sleep 4
+```
 
+```
   # listen to standard auto-tune behaviour
+```
 
+```
   64.times do
+```
+
+```
      # now start setting target pitch to get robot voice behaviour
+```
+
+```
      control(c, target_pitch: scale(:a2, :minor_pentatonic, num_octaves: 2).choose)
+```
+
+```
      sleep 0.5
+```
+
+```
   end
+```
+
+```
 end
-```"
+```
+"
       end
 
       def arg_defaults
