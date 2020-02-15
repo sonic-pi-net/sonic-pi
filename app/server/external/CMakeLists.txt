@@ -1,22 +1,24 @@
 # This CMakeLists builds all the external libraries required for a Sonic Pi
 cmake_minimum_required(VERSION 3.12)
+project(SonicPiServerExternal
+    LANGUAGES CXX C
+    VERSION 1.0.0
+)
 
 # Osmid
 include(ExternalProject)
 ExternalProject_Add(osmid
     PREFIX osmid-prefix
-    SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/osmid
-    INSTALL_COMMAND "" 
+    SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/osmid"
+    INSTALL_DIR "${CMAKE_CURRENT_LIST_DIR}/../native/osmid"
     BUILD_COMMAND ${CMAKE_COMMAND} --build . --config Release
+    INSTALL_COMMAND ${CMAKE_COMMAND} -E copy "<BINARY_DIR>/m2o" "<BINARY_DIR>/o2m" "<INSTALL_DIR>"
 )
 
-# Aubio and dependencies
-message(STATUS " Aubio Builder")
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-project(AubioBuilder
-    LANGUAGES CXX C
-    VERSION 1.0.0
-    )
+# Aubio and dependencies
+message(STATUS " SonicPiServerExternal - Aubio Builder")
 
 ExternalProject_Add(ogg
     PREFIX ogg-prefix
@@ -25,6 +27,7 @@ ExternalProject_Add(ogg
     INSTALL_DIR ${CMAKE_BINARY_DIR}/ogg-package
     CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/ogg-package
         -DBUILD_TESTING=OFF
+        -DCMAKE_POSITION_INDEPENDENT_CODE=ON
     )
 
 ExternalProject_Add(flac
@@ -36,6 +39,7 @@ ExternalProject_Add(flac
         -DBUILD_CXXLIBS=OFF
         -DBUILD_DOCS=OFF
         -DBUILD_EXAMPLES=OFF
+        -DCMAKE_POSITION_INDEPENDENT_CODE=ON
 
     INSTALL_DIR ${CMAKE_BINARY_DIR}/flac-package
     CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/flac-package
@@ -50,6 +54,7 @@ ExternalProject_Add(opus
         -DBUILD_PROGRAMS=OFF
         -DBUILD_EXAMPLES=OFF
         -DBUILD_TESTING=OFF
+        -DCMAKE_POSITION_INDEPENDENT_CODE=ON
 
     INSTALL_DIR ${CMAKE_BINARY_DIR}/opus-package
     CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/opus-package
@@ -64,6 +69,7 @@ ExternalProject_Add(vorbis
         -DBUILD_PROGRAMS=OFF
         -DBUILD_EXAMPLES=OFF
         -DBUILD_TESTING=OFF
+        -DCMAKE_POSITION_INDEPENDENT_CODE=ON
 
     INSTALL_DIR ${CMAKE_BINARY_DIR}/vorbis-package
     CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/vorbis-package
@@ -89,8 +95,9 @@ ExternalProject_Add(libsndfile
         -DPC_VORBISENC_INCLUDE_DIRS=${CMAKE_BINARY_DIR}/vorbis-package/include
         -DPC_VORBISENC_LIBRARY_DIRS=${CMAKE_BINARY_DIR}/vorbis-package/lib 
         -DPC_OPUS_INCLUDE_DIRS=${CMAKE_BINARY_DIR}/opus-package/include
-        -DPC_OPUS_LIBRARY_DIRS=${CMAKE_BINARY_DIR}/opus-package/lib 
-    
+        -DPC_OPUS_LIBRARY_DIRS=${CMAKE_BINARY_DIR}/opus-package/lib
+        -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+
         INSTALL_DIR ${CMAKE_BINARY_DIR}/libsndfile-package
         CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/libsndfile-package
     )
@@ -98,6 +105,7 @@ ExternalProject_Add(libsndfile
 ExternalProject_Add(Aubio
     PREFIX aubio-prefix
     SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/aubio
+    INSTALL_DIR ${CMAKE_CURRENT_LIST_DIR}/../native/ruby/bin
     DEPENDS libsndfile
 
     CMAKE_ARGS -DLIBSNDFILE_INCLUDE_DIR=${CMAKE_BINARY_DIR}/libsndfile-package/include 
@@ -111,12 +119,13 @@ ExternalProject_Add(Aubio
             -DPC_VORBIS_INCLUDE_DIRS=${CMAKE_BINARY_DIR}/vorbis-package/include
             -DPC_VORBISENC_INCLUDE_DIRS=${CMAKE_BINARY_DIR}/vorbis-package/include
             -DPC_OPUS_INCLUDE_DIRS=${CMAKE_BINARY_DIR}/opus-package/include
-    INSTALL_COMMAND ""
+
+            -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+    INSTALL_COMMAND ${CMAKE_COMMAND} -E copy "<BINARY_DIR>/libaubio-5${CMAKE_SHARED_LIBRARY_SUFFIX}" "<INSTALL_DIR>"
     )
 
 # Kick off a generation by making a dummy/empty project
-add_library(AubioBuilder STATIC externals.cpp)
+add_library(SonicPiServerExternal STATIC externals.cpp)
 
 # Dependency ensures the externals are built
-add_dependencies(AubioBuilder Aubio)
-
+add_dependencies(SonicPiServerExternal Aubio)

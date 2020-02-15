@@ -1,15 +1,8 @@
 cd %~dp0
-call external/build_externals32.bat
-
-cd %~dp0
-copy external\build32\aubio-prefix\src\Aubio-build\Release\libaubio-5.dll ..\..\server\native\ruby\bin
-rmdir /S /Q ..\..\server\ruby\vendor\ruby-aubio-prerelease
-
-@echo "Copying osmid to the server"
-xcopy /Y /I /R /E external\build32\osmid-prefix\src\osmid-build\Release\*.exe ..\..\server\native\osmid
+call ..\..\server\external\win_x86_build_externals.bat
 
 @echo "Copying scsynth to server..."
-copy /Y ..\..\..\prebuilt\windows\x86\*.* ..\..\server\native
+xcopy /Y /I /R /E ..\..\..\prebuilt\windows\x86\*.* ..\..\server\native
 
 @echo "Translating tutorial..."
 ..\..\server\native\ruby\bin\ruby ../../server/ruby/bin/i18n-tool.rb -t

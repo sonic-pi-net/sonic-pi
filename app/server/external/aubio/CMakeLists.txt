@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.12)
 
-project(libaubio-5)
+project(aubio-5)
 set(SOURCE_ROOT ${CMAKE_CURRENT_LIST_DIR}/src)
 
 set(SOURCES
@@ -122,23 +122,44 @@ set(SOURCES
     ${SOURCE_ROOT}/utils/windll.c 
 )
 
-add_library(${PROJECT_NAME} SHARED ${SOURCES} ${RESOURCES}) # Win32 ignored on non-windows
+# 'lib' is appended to the library name on Linux, but not on Windows (not sure about macOS)
+if (WIN32 OR APPLE)
+    # Add extra 'lib'
+    set(LIB_NAME "lib${PROJECT_NAME}")
+else()
+    set(LIB_NAME "${PROJECT_NAME}")
+endif()
+
+add_library(${LIB_NAME} SHARED ${SOURCES} ${RESOURCES}) # Win32 ignored on non-windows
 target_include_directories(${PROJECT_NAME}
     PRIVATE
     src
     ${LIBSNDFILE_INCLUDE_DIR}
 )
 
-target_link_libraries(${PROJECT_NAME}
-    PRIVATE
-    ${LIBOGG_LIBRARY_DIR}/ogg${CMAKE_STATIC_LIBRARY_SUFFIX}
-    ${LIBVORBIS_LIBRARY_DIR}/vorbis${CMAKE_STATIC_LIBRARY_SUFFIX}
-    ${LIBVORBIS_LIBRARY_DIR}/vorbisenc${CMAKE_STATIC_LIBRARY_SUFFIX}
-    ${LIBVORBIS_LIBRARY_DIR}/vorbisfile${CMAKE_STATIC_LIBRARY_SUFFIX}
-    ${LIBOPUS_LIBRARY_DIR}/opus${CMAKE_STATIC_LIBRARY_SUFFIX}
-    ${LIBFLAC_LIBRARY_DIR}/FLAC${CMAKE_STATIC_LIBRARY_SUFFIX}
-    ${LIBSNDFILE_LIBRARY_DIR}/sndfile${CMAKE_STATIC_LIBRARY_SUFFIX}
-)
+if (WIN32)
+  target_link_libraries(${PROJECT_NAME}
+      PRIVATE
+      ${LIBOGG_LIBRARY_DIR}/ogg${CMAKE_STATIC_LIBRARY_SUFFIX}
+      ${LIBVORBIS_LIBRARY_DIR}/vorbis${CMAKE_STATIC_LIBRARY_SUFFIX}
+      ${LIBVORBIS_LIBRARY_DIR}/vorbisenc${CMAKE_STATIC_LIBRARY_SUFFIX}
+      ${LIBVORBIS_LIBRARY_DIR}/vorbisfile${CMAKE_STATIC_LIBRARY_SUFFIX}
+      ${LIBOPUS_LIBRARY_DIR}/opus${CMAKE_STATIC_LIBRARY_SUFFIX}
+      ${LIBFLAC_LIBRARY_DIR}/FLAC${CMAKE_STATIC_LIBRARY_SUFFIX}
+      ${LIBSNDFILE_LIBRARY_DIR}/sndfile${CMAKE_STATIC_LIBRARY_SUFFIX}
+  )
+else()
+  target_link_libraries(${PROJECT_NAME}
+      PRIVATE
+      ${LIBOGG_LIBRARY_DIR}/libogg${CMAKE_STATIC_LIBRARY_SUFFIX}
+      ${LIBVORBIS_LIBRARY_DIR}/libvorbis${CMAKE_STATIC_LIBRARY_SUFFIX}
+      ${LIBVORBIS_LIBRARY_DIR}/libvorbisenc${CMAKE_STATIC_LIBRARY_SUFFIX}
+      ${LIBVORBIS_LIBRARY_DIR}/libvorbisfile${CMAKE_STATIC_LIBRARY_SUFFIX}
+      ${LIBOPUS_LIBRARY_DIR}/libopus${CMAKE_STATIC_LIBRARY_SUFFIX}
+      ${LIBFLAC_LIBRARY_DIR}/libFLAC${CMAKE_STATIC_LIBRARY_SUFFIX}
+      ${LIBSNDFILE_LIBRARY_DIR}/libsndfile${CMAKE_STATIC_LIBRARY_SUFFIX}
+  )
+endif()
 
 # Note; these definitions need investigating, this is just what seems to work for Aubio
 target_compile_definitions(${PROJECT_NAME} 

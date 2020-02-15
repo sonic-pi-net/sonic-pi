@@ -1,8 +1,10 @@
 #!/bin/bash
 set -e # Quit script on error
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-#dont remove ruby-aubio-prerelease  as needed in linux build
-#it is removed in the windows-prebuild
+
+# Build external server dependencies
+../../server/external/unix_build_externals.sh
+
 echo "Translating tutorial..."
 #assumes linux uses system ruby
 #so dont use prefix ../../server/native/ruby/bin/ruby, as unnecessary to set this up
