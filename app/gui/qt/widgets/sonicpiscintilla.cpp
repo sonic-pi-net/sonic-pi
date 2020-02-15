@@ -204,7 +204,7 @@ void SonicPiScintilla::addOtherKeyBinding(QSettings &qs, int cmd, int key)
 {
   mutex->lock();
   QString skey;
-  skey.asprintf("/Scintilla/keymap/c%d/alt", cmd);
+  QTextStream(&skey) << "/Scintilla/keymap/c" << cmd << "/alt";
   qs.setValue(skey, key);
   mutex->unlock();
 }
@@ -213,7 +213,7 @@ void SonicPiScintilla::addKeyBinding(QSettings &qs, int cmd, int key)
 {
   mutex->lock();
   QString skey;
-  skey.asprintf("/Scintilla/keymap/c%d/key", cmd);
+  QTextStream(&skey) << "/Scintilla/keymap/c" << cmd << "/key";
   qs.setValue(skey, key);
   mutex->unlock();
 }
