@@ -122,8 +122,8 @@ set(SOURCES
     ${SOURCE_ROOT}/utils/windll.c 
 )
 
-# 'lib' is appended to the library name on Linux, but not on Windows (not sure about macOS)
-if (WIN32 OR APPLE)
+# 'lib' is appended to the library name automatically on most non-Windows platforms
+if (WIN32)
     # Add extra 'lib'
     set(LIB_NAME "lib${PROJECT_NAME}")
 else()
