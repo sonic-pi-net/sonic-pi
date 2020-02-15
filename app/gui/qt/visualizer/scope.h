@@ -22,6 +22,7 @@
 #include <memory>
 #include <string>
 #include <thread>
+#include <mutex>
 #include <visualizer/server_shm.hpp>
 
 #include "kiss_fft/kiss_fft.h"
