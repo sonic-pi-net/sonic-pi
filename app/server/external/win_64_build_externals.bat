@@ -1,4 +1,7 @@
 cd %~dp0
+
+%echo Building external server dependencies...
+
 mkdir build > nul
 cd build
 cmake -G "Visual Studio 16 2019" -A x64 ..\

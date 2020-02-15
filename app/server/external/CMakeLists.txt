@@ -1,13 +1,6 @@
 # This CMakeLists builds all the external libraries required for a Sonic Pi
 cmake_minimum_required(VERSION 3.12)
 
-message(STATUS " Aubio Builder")
-
-project(AubioBuilder
-    LANGUAGES CXX C
-    VERSION 1.0.0
-    )
-
 # Osmid
 include(ExternalProject)
 ExternalProject_Add(osmid
@@ -15,6 +8,14 @@ ExternalProject_Add(osmid
     SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/osmid
     INSTALL_COMMAND "" 
     BUILD_COMMAND ${CMAKE_COMMAND} --build . --config Release
+)
+
+# Aubio and dependencies
+message(STATUS " Aubio Builder")
+
+project(AubioBuilder
+    LANGUAGES CXX C
+    VERSION 1.0.0
     )
 
 ExternalProject_Add(ogg
