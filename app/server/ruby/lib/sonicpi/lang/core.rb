@@ -3006,6 +3006,8 @@ end
 
 
       def rrand(min, max, *opts)
+        min = note(min)
+        max = note(max)
         args_h = resolve_synth_opts_hash_or_array(opts)
         res = args_h[:step]
         if min == max
@@ -3046,6 +3048,8 @@ end
 
 
       def rrand_i(min, max)
+        min = note(min)
+        max = note(max)
         return min if min == max
         range = (min - max).abs
         r = SonicPi::Core::SPRand.rand_i!(range.to_i + 1)
@@ -3071,6 +3075,7 @@ end
 
 
       def rand(max=1)
+        max = note(max)
         return 0.0 if max == 0
         if max.is_a?(Range)
           rrand(max.min, max.max)
@@ -3093,6 +3098,7 @@ end
 
 
       def rand_i(max=2)
+        max = note(max)
         return 0 if max == 0
         if max.is_a?(Range)
           rrand_i(max.min, max.max)
