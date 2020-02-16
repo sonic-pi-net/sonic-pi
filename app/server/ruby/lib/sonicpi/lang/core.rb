@@ -970,7 +970,6 @@ end"
         density = __thread_locals.get(:sonic_pi_local_spider_density) || 1.0
         orig_sleep_mul_w_density = __system_thread_locals.get(:sonic_pi_spider_sleep_mul) * density
         orig_beat = __system_thread_locals.get(:sonic_pi_spider_beat)
-        sat = current_sched_ahead_time
         already_in_time_warp = __system_thread_locals.get :sonic_pi_spider_in_time_warp
 
         __system_thread_locals.set(:sonic_pi_spider_time_warp_start, vt_orig.freeze) unless  already_in_time_warp
