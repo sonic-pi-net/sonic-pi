@@ -95,7 +95,7 @@ module SonicPi
           assert_equal get(:intensity), 900
           sleep 0.005
           assert_equal get(:intensity), 900
-          sleep -0.01
+          sleep(-0.01)
           assert_equal get(:intensity), 100
           sleep 0.005
           assert_equal get(:intensity), 900
@@ -131,11 +131,11 @@ module SonicPi
         sleep 0.05
         set :amp, 0.8
         assert_equal get(:amp), 0.8
-        time_warp -0.1 do
-          v = get(:amp)
-#          raise "yoohoo"
-          #assert_equal v, 0.5
-        end
+#         time_warp(-0.1) do
+#           v = get(:amp)
+#           raise "yoohoo"
+#           #assert_equal v, 0.5
+#         end
       end
     end
 
