@@ -131,7 +131,7 @@ module SonicPi
           arg_information = @info[k_sym]
           next unless arg_information
           arg_validations = arg_information[:validations] || []
-          arg_validations(k_sym).each do |v_fn, msg|
+          arg_validations.each do |v_fn, msg|
             raise "Value of opt #{k_sym.inspect} #{msg}, got #{v.inspect}." unless v_fn.call(args_h)
           end
 
