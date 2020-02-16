@@ -54,7 +54,7 @@ module SonicPi
 
       def __cue_path_segment(s)
         s = String.new(s.to_s)
-        s.gsub!(/[ \s#*,?\/\[\]{}]/, '_')
+        s.gsub!(/[\s#*,?\/\[\]{}]/, '_')
         s.freeze
       end
 
@@ -69,9 +69,8 @@ module SonicPi
 
         # convert all characters not allowed in
         # OSC path seg to underscores
-        s.gsub!(/[ \s#*,?\[\]{}]/, '_')
+        s.gsub!(/[\s#*,?\[\]{}]/, '_')
         s.freeze
-        s
       end
 
       def __sync_path(s)
