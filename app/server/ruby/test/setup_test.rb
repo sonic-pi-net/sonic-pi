@@ -53,8 +53,7 @@ module SonicPi
       @system_state.set 0, 0, @system_init_thread_id, 0, 0, 60, :sched_ahead_time, 0.5
       @register_cue_event_lambda = lambda do |t, p, i, d, b, m, address, args, sched_ahead_time=0|
 
-        sym = nil
-        address, sym = *address if address.is_a?(Array)
+        address, _sym = *address if address.is_a?(Array)
 
         gui_log_id = @gui_cue_log_idxs.next
         a = args.freeze
