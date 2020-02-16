@@ -52,7 +52,8 @@ module SonicPi
           # when thread waiting is implemented
           p1 = Promise.new
           p2 = Promise.new
-          t2 = in_thread do
+
+          in_thread do
             # TODO: remove this sleep when
             # thread waiting has been implemented
             # for sync and get
@@ -64,7 +65,7 @@ module SonicPi
             assert_equal get(:intensity), 102
           end
 
-          t1 = in_thread do
+          in_thread do
             set(:intensity, 100)
             p1.deliver! true
             sleep 0.03
