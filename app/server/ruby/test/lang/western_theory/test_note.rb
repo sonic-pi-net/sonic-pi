@@ -13,7 +13,7 @@
 
 require_relative "../../setup_test"
 require_relative "../../../lib/sonicpi/lang/core"
-require_relative "../../../lib/sonicpi/lang/sound"
+
 require 'mocha/setup'
 
 module SonicPi
@@ -21,7 +21,7 @@ module SonicPi
 
     def setup
       @mock_sound = Object.new
-      @mock_sound.extend(Lang::Sound)
+      @mock_sound.extend(Lang::WesternTheory)
       @mock_sound.extend(Lang::Core)
     end
 

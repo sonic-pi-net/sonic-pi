@@ -14,11 +14,11 @@
 require_relative "../../setup_test"
 require_relative "../../../lib/sonicpi/util"
 require_relative "../../../lib/sonicpi/chord"
-require_relative "../../../lib/sonicpi/lang/sound"
+
 
 module SonicPi
   module Lang
-    module Sound
+    module WesternTheory
       module_function :chord_invert
       module_function :chord
     end
@@ -26,18 +26,18 @@ module SonicPi
   class InvertChordTester < Minitest::Test
 
     def test_inversion_of_basic_major
-      assert_equal(Lang::Sound.chord_invert(Chord.new(:C4, :major), 0), [60, 64, 67])
-      assert_equal(Lang::Sound.chord_invert(Chord.new(:C4, :major), 1), [64, 67, 72])
-      assert_equal(Lang::Sound.chord_invert(Chord.new(:C4, :major), 2), [67, 72, 76])
+      assert_equal(Lang::WesternTheory.chord_invert(Chord.new(:C4, :major), 0), [60, 64, 67])
+      assert_equal(Lang::WesternTheory.chord_invert(Chord.new(:C4, :major), 1), [64, 67, 72])
+      assert_equal(Lang::WesternTheory.chord_invert(Chord.new(:C4, :major), 2), [67, 72, 76])
 
       # what should happen the other way...
-      assert_equal(Lang::Sound.chord_invert(Chord.new(:C4, :major), -1).sort, [55, 60, 64])
-      assert_equal(Lang::Sound.chord_invert(Chord.new(:C4, :major), -2).sort, [52, 55, 60])
-      assert_equal(Lang::Sound.chord_invert(Chord.new(:C4, :major), -3).sort, [48, 52, 55])
+      assert_equal(Lang::WesternTheory.chord_invert(Chord.new(:C4, :major), -1).sort, [55, 60, 64])
+      assert_equal(Lang::WesternTheory.chord_invert(Chord.new(:C4, :major), -2).sort, [52, 55, 60])
+      assert_equal(Lang::WesternTheory.chord_invert(Chord.new(:C4, :major), -3).sort, [48, 52, 55])
 
       # edge case
-      assert_equal(Lang::Sound.chord_invert(Lang::Sound.chord(:C4, "1"), 1), [72])
-      assert_equal(Lang::Sound.chord_invert(Lang::Sound.chord(:C4, "1"), -1), [48])
+      assert_equal(Lang::WesternTheory.chord_invert(Lang::WesternTheory.chord(:C4, "1"), 1), [72])
+      assert_equal(Lang::WesternTheory.chord_invert(Lang::WesternTheory.chord(:C4, "1"), -1), [48])
     end
 
   end

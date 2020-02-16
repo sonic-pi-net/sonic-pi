@@ -15,6 +15,7 @@ require_relative 'support/docsystem'
 require_relative "../version"
 require_relative "../util"
 require_relative "../runtime"
+require_relative "western_theory"
 
 require 'active_support/inflector'
 
@@ -27,6 +28,7 @@ module SonicPi
 
       include SonicPi::Lang::Support::DocSystem
       include SonicPi::Util
+      include SonicPi::Lang::WesternTheory
 
       class SonicPiError < StandardError ; end
       class AssertionError < SonicPiError ; end

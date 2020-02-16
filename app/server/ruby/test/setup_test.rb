@@ -3,6 +3,7 @@ require_relative "../lib/sonicpi/runtime"
 require_relative "../lib/sonicpi/lang/core"
 require_relative "../lib/sonicpi/event_history"
 require_relative "../lib/sonicpi/thread_id"
+require_relative "../lib/sonicpi/lang/western_theory"
 require 'minitest'
 require 'minitest/autorun'
 
@@ -14,6 +15,7 @@ module SonicPi
     attr_accessor :mod_sound_studio, :sample_loader, :msg_queue, :event_history
     include SonicPi::RuntimeMethods
     include SonicPi::Lang::Core
+    include SonicPi::Lang::WesternTheory
     include SonicPi::Lang::Sound
 
     include ActiveSupport

@@ -14,11 +14,10 @@
 require_relative "../../setup_test"
 require_relative "../../../lib/sonicpi/util"
 require_relative "../../../lib/sonicpi/lang/core"
-require_relative "../../../lib/sonicpi/lang/sound"
 
 module SonicPi
   module Lang
-    module Sound
+    module WesternTheory
       module_function :note_range
       module_function :note
     end
@@ -27,13 +26,13 @@ module SonicPi
     include SonicPi::Lang::Core
 
     def test_note_range
-      assert_equal(ring(*(60..72)), Lang::Sound.note_range(:c4,:c5))
-      assert_equal(ring(60, 64, 67, 72), Lang::Sound.note_range(:c4,:c5, pitches: Chord.new(:c, :major)))
-      assert_equal(ring(60, 62, 64, 65, 67, 69, 71, 72), Lang::Sound.note_range(:c4,:c5, pitches: Scale.new(:c, :major)))
-      assert_equal(ring(67), Lang::Sound.note_range(:c4,:c5, pitches: [:g3]))
+      assert_equal(ring(*(60..72)), Lang::WesternTheory.note_range(:c4,:c5))
+      assert_equal(ring(60, 64, 67, 72), Lang::WesternTheory.note_range(:c4,:c5, pitches: Chord.new(:c, :major)))
+      assert_equal(ring(60, 62, 64, 65, 67, 69, 71, 72), Lang::WesternTheory.note_range(:c4,:c5, pitches: Scale.new(:c, :major)))
+      assert_equal(ring(67), Lang::WesternTheory.note_range(:c4,:c5, pitches: [:g3]))
 
       # multiple octaves
-      assert_equal(ring(60, 64, 67, 72, 76, 79, 84), Lang::Sound.note_range(:c4,:c6, pitches: Chord.new(:c, :major)))
+      assert_equal(ring(60, 64, 67, 72, 76, 79, 84), Lang::WesternTheory.note_range(:c4,:c6, pitches: Chord.new(:c, :major)))
     end
 
   end
