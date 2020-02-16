@@ -11,8 +11,8 @@ ExternalProject_Add(osmid
     PREFIX osmid-prefix
     SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/osmid"
     INSTALL_DIR "${CMAKE_CURRENT_LIST_DIR}/../native/osmid"
-    BUILD_COMMAND ${CMAKE_COMMAND} --build . --config Release
-    INSTALL_COMMAND ${CMAKE_COMMAND} -E copy "<BINARY_DIR>/m2o${CMAKE_EXECUTABLE_SUFFIX}" "<BINARY_DIR>/o2m${CMAKE_EXECUTABLE_SUFFIX}" "<INSTALL_DIR>"
+
+    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
 )
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
@@ -23,9 +23,9 @@ message(STATUS " SonicPiServerExternal - Aubio Builder")
 ExternalProject_Add(ogg
     PREFIX ogg-prefix
     SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/ogg-1.3.4
-
     INSTALL_DIR ${CMAKE_BINARY_DIR}/ogg-package
-    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/ogg-package
+
+    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
         -DBUILD_TESTING=OFF
         -DCMAKE_POSITION_INDEPENDENT_CODE=ON
     )
@@ -33,6 +33,7 @@ ExternalProject_Add(ogg
 ExternalProject_Add(flac
     PREFIX flac-prefix
     SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/flac_1_3_3
+    INSTALL_DIR ${CMAKE_BINARY_DIR}/flac-package
     DEPENDS ogg
 
     CMAKE_ARGS -DOGG_ROOT=${CMAKE_BINARY_DIR}/ogg-package
@@ -41,13 +42,13 @@ ExternalProject_Add(flac
         -DBUILD_EXAMPLES=OFF
         -DCMAKE_POSITION_INDEPENDENT_CODE=ON
 
-    INSTALL_DIR ${CMAKE_BINARY_DIR}/flac-package
-    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/flac-package
+        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
     )
 
 ExternalProject_Add(opus
     PREFIX opus-prefix
     SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/opus-1.2
+    INSTALL_DIR ${CMAKE_BINARY_DIR}/opus-package
     DEPENDS ogg
 
     CMAKE_ARGS -DOGG_ROOT=${CMAKE_BINARY_DIR}/ogg-package
@@ -56,13 +57,13 @@ ExternalProject_Add(opus
         -DBUILD_TESTING=OFF
         -DCMAKE_POSITION_INDEPENDENT_CODE=ON
 
-    INSTALL_DIR ${CMAKE_BINARY_DIR}/opus-package
-    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/opus-package
+        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
     )
 
 ExternalProject_Add(vorbis
     PREFIX vorbis-prefix
     SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/vorbis-1.3.4
+    INSTALL_DIR ${CMAKE_BINARY_DIR}/vorbis-package
     DEPENDS ogg
 
     CMAKE_ARGS -DOGG_ROOT=${CMAKE_BINARY_DIR}/ogg-package
@@ -70,14 +71,14 @@ ExternalProject_Add(vorbis
         -DBUILD_EXAMPLES=OFF
         -DBUILD_TESTING=OFF
         -DCMAKE_POSITION_INDEPENDENT_CODE=ON
-
-    INSTALL_DIR ${CMAKE_BINARY_DIR}/vorbis-package
-    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/vorbis-package
+        # Vorbis fails to install if the install_dir is in double quotes
+        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
     )
 
 ExternalProject_Add(libsndfile
     PREFIX libsndfile-prefix
     SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/libsndfile
+    INSTALL_DIR ${CMAKE_BINARY_DIR}/libsndfile-package
     DEPENDS flac vorbis opus
 
     CMAKE_ARGS
@@ -98,11 +99,10 @@ ExternalProject_Add(libsndfile
         -DPC_OPUS_LIBRARY_DIRS=${CMAKE_BINARY_DIR}/opus-package/lib
         -DCMAKE_POSITION_INDEPENDENT_CODE=ON
 
-        INSTALL_DIR ${CMAKE_BINARY_DIR}/libsndfile-package
-        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/libsndfile-package
+        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
     )
 
-ExternalProject_Add(Aubio
+ExternalProject_Add(aubio
     PREFIX aubio-prefix
     SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/aubio
     INSTALL_DIR ${CMAKE_CURRENT_LIST_DIR}/../native/ruby/bin
@@ -121,11 +121,11 @@ ExternalProject_Add(Aubio
             -DPC_OPUS_INCLUDE_DIRS=${CMAKE_BINARY_DIR}/opus-package/include
 
             -DCMAKE_POSITION_INDEPENDENT_CODE=ON
-    INSTALL_COMMAND ${CMAKE_COMMAND} -E copy "<BINARY_DIR>/libaubio-5${CMAKE_SHARED_LIBRARY_SUFFIX}" "<INSTALL_DIR>"
+            -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
     )
 
 # Kick off a generation by making a dummy/empty project
 add_library(SonicPiServerExternal STATIC externals.cpp)
 
 # Dependency ensures the externals are built
-add_dependencies(SonicPiServerExternal Aubio)
+add_dependencies(SonicPiServerExternal aubio)

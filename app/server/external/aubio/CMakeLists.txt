@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
+include(GNUInstallDirs)
 
 project(aubio-5)
 set(SOURCE_ROOT ${CMAKE_CURRENT_LIST_DIR}/src)
@@ -214,3 +215,9 @@ else()
     message(FATAL_ERROR "Aubio is not supported on this platform.")
 endif()
 
+# Installation
+install (TARGETS aubio-5
+    EXPORT AubioExportConfig
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+)
