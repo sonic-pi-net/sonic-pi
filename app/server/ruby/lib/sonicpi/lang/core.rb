@@ -293,7 +293,7 @@ end
           lookup = lambda { |*args| get_event(*args) }
           return TimeStateLookup.new(lookup)
         else
-          k, default = args
+          k, _default = args
           k = __sync_path(k)
 
           # If we've time_warped into the future raise a timing exception
