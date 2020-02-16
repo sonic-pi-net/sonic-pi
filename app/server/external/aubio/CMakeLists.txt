@@ -138,28 +138,54 @@ target_include_directories(${PROJECT_NAME}
     ${LIBSNDFILE_INCLUDE_DIR}
 )
 
-if (WIN32)
-  target_link_libraries(${PROJECT_NAME}
-      PRIVATE
-      ${LIBOGG_LIBRARY_DIR}/ogg${CMAKE_STATIC_LIBRARY_SUFFIX}
-      ${LIBVORBIS_LIBRARY_DIR}/vorbis${CMAKE_STATIC_LIBRARY_SUFFIX}
-      ${LIBVORBIS_LIBRARY_DIR}/vorbisenc${CMAKE_STATIC_LIBRARY_SUFFIX}
-      ${LIBVORBIS_LIBRARY_DIR}/vorbisfile${CMAKE_STATIC_LIBRARY_SUFFIX}
-      ${LIBOPUS_LIBRARY_DIR}/opus${CMAKE_STATIC_LIBRARY_SUFFIX}
-      ${LIBFLAC_LIBRARY_DIR}/FLAC${CMAKE_STATIC_LIBRARY_SUFFIX}
-      ${LIBSNDFILE_LIBRARY_DIR}/sndfile${CMAKE_STATIC_LIBRARY_SUFFIX}
-  )
-else()
-  target_link_libraries(${PROJECT_NAME}
-      PRIVATE
-      ${LIBOGG_LIBRARY_DIR}/libogg${CMAKE_STATIC_LIBRARY_SUFFIX}
-      ${LIBVORBIS_LIBRARY_DIR}/libvorbis${CMAKE_STATIC_LIBRARY_SUFFIX}
-      ${LIBVORBIS_LIBRARY_DIR}/libvorbisenc${CMAKE_STATIC_LIBRARY_SUFFIX}
-      ${LIBVORBIS_LIBRARY_DIR}/libvorbisfile${CMAKE_STATIC_LIBRARY_SUFFIX}
-      ${LIBOPUS_LIBRARY_DIR}/libopus${CMAKE_STATIC_LIBRARY_SUFFIX}
-      ${LIBFLAC_LIBRARY_DIR}/libFLAC${CMAKE_STATIC_LIBRARY_SUFFIX}
-      ${LIBSNDFILE_LIBRARY_DIR}/libsndfile${CMAKE_STATIC_LIBRARY_SUFFIX}
-  )
+message(STATUS "CXX compiler: ${CMAKE_CXX_COMPILER_ID}")
+if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC") # Visual Studio
+    message(STATUS "Configuring for Visual Studio...")
+    target_link_libraries(${PROJECT_NAME}
+        PRIVATE
+        "/WHOLEARCHIVE" # Make sure all required symbols etc. are imported
+        ${LIBOGG_LIBRARY_DIR}/ogg${CMAKE_STATIC_LIBRARY_SUFFIX}
+        ${LIBVORBIS_LIBRARY_DIR}/vorbis${CMAKE_STATIC_LIBRARY_SUFFIX}
+        ${LIBVORBIS_LIBRARY_DIR}/vorbisenc${CMAKE_STATIC_LIBRARY_SUFFIX}
+        ${LIBVORBIS_LIBRARY_DIR}/vorbisfile${CMAKE_STATIC_LIBRARY_SUFFIX}
+        ${LIBOPUS_LIBRARY_DIR}/opus${CMAKE_STATIC_LIBRARY_SUFFIX}
+        ${LIBFLAC_LIBRARY_DIR}/FLAC${CMAKE_STATIC_LIBRARY_SUFFIX}
+        ${LIBSNDFILE_LIBRARY_DIR}/sndfile${CMAKE_STATIC_LIBRARY_SUFFIX}
+    )
+elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "AppleClang") # Clang
+    message(STATUS "Configuring for Clang...")
+    target_link_libraries(${PROJECT_NAME}
+        PRIVATE
+        "-Wl,-all-load" # Make sure all required symbols etc. are imported
+        ${LIBOGG_LIBRARY_DIR}/libogg${CMAKE_STATIC_LIBRARY_SUFFIX}
+        ${LIBVORBIS_LIBRARY_DIR}/libvorbis${CMAKE_STATIC_LIBRARY_SUFFIX}
+        ${LIBVORBIS_LIBRARY_DIR}/libvorbisenc${CMAKE_STATIC_LIBRARY_SUFFIX}
+        ${LIBVORBIS_LIBRARY_DIR}/libvorbisfile${CMAKE_STATIC_LIBRARY_SUFFIX}
+        ${LIBOPUS_LIBRARY_DIR}/libopus${CMAKE_STATIC_LIBRARY_SUFFIX}
+        ${LIBFLAC_LIBRARY_DIR}/libFLAC${CMAKE_STATIC_LIBRARY_SUFFIX}
+        ${LIBSNDFILE_LIBRARY_DIR}/libsndfile${CMAKE_STATIC_LIBRARY_SUFFIX}
+        m # C math library
+        "-Wl,-z,defs" # Report unresolved symbols in object files
+    )
+else() # Assume GCC
+    if (NOT CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+        message(WARNING "Unknown compiler, defaulting to same link libraries/options as GCC...")
+    endif()
+    message(STATUS "Configuring for GCC...")
+    target_link_libraries(${PROJECT_NAME}
+        PRIVATE
+        "-Wl,--whole-archive" # Make sure all required symbols etc. are imported
+        ${LIBOGG_LIBRARY_DIR}/libogg${CMAKE_STATIC_LIBRARY_SUFFIX}
+        ${LIBVORBIS_LIBRARY_DIR}/libvorbis${CMAKE_STATIC_LIBRARY_SUFFIX}
+        ${LIBVORBIS_LIBRARY_DIR}/libvorbisenc${CMAKE_STATIC_LIBRARY_SUFFIX}
+        ${LIBVORBIS_LIBRARY_DIR}/libvorbisfile${CMAKE_STATIC_LIBRARY_SUFFIX}
+        ${LIBOPUS_LIBRARY_DIR}/libopus${CMAKE_STATIC_LIBRARY_SUFFIX}
+        ${LIBFLAC_LIBRARY_DIR}/libFLAC${CMAKE_STATIC_LIBRARY_SUFFIX}
+        ${LIBSNDFILE_LIBRARY_DIR}/libsndfile${CMAKE_STATIC_LIBRARY_SUFFIX}
+        m # C math library
+        "-Wl,--no-whole-archive"
+        "-Wl,-z,defs" # Report unresolved symbols in object files
+    )
 endif()
 
 # Note; these definitions need investigating, this is just what seems to work for Aubio
