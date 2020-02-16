@@ -994,7 +994,6 @@ module SonicPi
             # job_id. This will kill the current thread if job is no
             # longer running or if there already exists a name thread
             # with this same name
-            added_subthread_prom = Promise.new
             main_in_thread = Thread.current
 
             subthread_added_deliver_thread = Thread.new do
