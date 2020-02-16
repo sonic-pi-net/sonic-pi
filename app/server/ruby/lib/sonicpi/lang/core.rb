@@ -319,7 +319,7 @@ end
           p = __system_thread_locals.get(:sonic_pi_spider_thread_priority, 1001)
           m = current_bpm
 
-          res = @event_history.get(t, p, i, d, b, m, k)
+          @event_history.get(t, p, i, d, b, m, k)
         end
       end
 
