@@ -99,7 +99,7 @@ module SonicPi
 
     def request_version
       version_string = `"#{scsynth_path}" -v`
-      m = version_string.match /\A\s*scsynth\s+([0-9.a-zA-Z-]+)\s.*/
+      m = version_string.match(/\A\s*scsynth\s+([0-9.a-zA-Z-]+)\s.*/)
       if m && m[1] && !m[1].empty?
         "v#{m[1]}"
       else
