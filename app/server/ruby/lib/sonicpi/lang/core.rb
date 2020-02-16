@@ -3077,10 +3077,9 @@ end
 
 
       def rand(max=1)
-        max = note(max)
         return 0.0 if max == 0
         if max.is_a?(Range)
-          rrand(max.min, max.max)
+          rrand(note(max.min), note(max.max))
         else
           SonicPi::Core::SPRand.rand!(max)
         end
@@ -3100,11 +3099,11 @@ end
 
 
       def rand_i(max=2)
-        max = note(max)
         return 0 if max == 0
         if max.is_a?(Range)
           rrand_i(max.min, max.max)
         else
+          max = note(max)
           SonicPi::Core::SPRand.rand_i!(max)
         end
       end
