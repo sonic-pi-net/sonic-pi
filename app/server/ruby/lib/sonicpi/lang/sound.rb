@@ -3679,7 +3679,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
 
         onset_idx = args_h[:onset]
         if onset_idx
-        begin
+          begin
             onsets = sample_buffer(path).onset_slices
           rescue Exception => e
             if (os == :windows) && sample_buffer(path).sample_rate != 44100
