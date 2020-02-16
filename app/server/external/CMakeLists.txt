@@ -105,7 +105,7 @@ ExternalProject_Add(libsndfile
 ExternalProject_Add(aubio
     PREFIX aubio-prefix
     SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/aubio
-    INSTALL_DIR ${CMAKE_CURRENT_LIST_DIR}/../native/ruby/bin
+    INSTALL_DIR ${CMAKE_CURRENT_LIST_DIR}/../native/aubio
     DEPENDS libsndfile
 
     CMAKE_ARGS -DLIBSNDFILE_INCLUDE_DIR=${CMAKE_BINARY_DIR}/libsndfile-package/include 

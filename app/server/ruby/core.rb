@@ -67,7 +67,7 @@ $:.unshift "#{File.expand_path("../rb-native", __FILE__)}/#{ruby_api}/"
 
 ## Add aubio native library to ENV if not present (the aubio library needs to be told the location)
 native_lib_path = File.expand_path("../../native/", __FILE__)
-ENV["AUBIO_LIB"] ||= Dir[native_lib_path + "/lib/libaubio*.{*dylib,so*,dll}"].first
+ENV["AUBIO_LIB"] ||= Dir[native_lib_path + "/aubio/lib/libaubio*.{*dylib,so*,dll}"].first
 
 
 

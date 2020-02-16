@@ -324,11 +324,11 @@ module SonicPi
     end
 
     def osmid_o2m_path
-      File.join(native_path, "osmid", __exe_fix("o2m"))
+      File.join(native_path, "osmid", "bin", __exe_fix("o2m"))
     end
 
     def osmid_m2o_path
-      File.join(native_path, "osmid", __exe_fix("m2o"))
+      File.join(native_path, "osmid", "bin", __exe_fix("m2o"))
     end
 
     def scsynth_log_path

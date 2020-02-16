@@ -12,8 +12,6 @@ ruby "${SCRIPT_DIR}/../../server/ruby/bin/i18n-tool.rb" -t
 
 echo "Generating docs for the Qt GUI..."
 cp "${SCRIPT_DIR}/utils/ruby_help.tmpl" "${SCRIPT_DIR}/utils/ruby_help.h"
-#assumes linux uses system ruby
-#so dont use prefix ../../server/native/ruby/bin/ruby, as unnecessary to set this up
 ruby "${SCRIPT_DIR}/../../server/ruby/bin/qt-doc.rb" -o "${SCRIPT_DIR}/utils/ruby_help.h"
 
 echo "Updating GUI translation files..."
