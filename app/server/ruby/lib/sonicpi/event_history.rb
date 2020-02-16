@@ -197,7 +197,7 @@ module SonicPi
       return res if res
       prom = Promise.new
       @matcher_mut.synchronize do
-        matcher = @event_matchers.put ge, val_matcher, i, prom
+        @event_matchers.put ge, val_matcher, i, prom
       end
       prom.get
       # have to do a get_next again in case
