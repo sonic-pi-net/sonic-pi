@@ -371,7 +371,7 @@ end
       end
 
 
-      def with_swing (*args, &blk)
+      def with_swing(*args, &blk)
         raise ArgumentError, "with_swing must be called with a do/end block." unless blk
         params, opts = split_params_and_merge_opts_array(args)
         shift = params[0] || opts.fetch(:shift, 0.1)
