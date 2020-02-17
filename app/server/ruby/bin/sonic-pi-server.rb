@@ -35,6 +35,12 @@ require 'memoist'
 
 include SonicPi::Util
 
+#start xcompmgr if using Raspberry Pi: enables transparency to work
+if os==:raspberry
+  STDOUT.puts  "starting xcompmgr for RaspberryPi transparency"
+  xcompmgr_pid = spawn "exec xcompmgr",:err => "/dev/null" 
+end
+
 ## This is where the server starts....
 STDOUT.puts "Sonic Pi server booting..."
 
@@ -323,6 +329,11 @@ at_exit do
     gui.send("/exited")
   rescue Errno::EPIPE => e
     STDOUT.puts "GUI not listening."
+  end
+  #stop xcompmgr if on RaspberryPi
+  if os == :raspberry
+    STDOUT.puts "killing xcompmgr pid #{xcompmgr_pid}"
+    Process.kill(9, xcompmgr_pid)
   end
   STDOUT.puts "Goodbye :-)"
 end
