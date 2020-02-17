@@ -4,89 +4,89 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../mainwindow.cpp" line="502"/>
+        <location filename="../mainwindow.cpp" line="504"/>
         <source>Preferences</source>
         <translation>환경설정</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="739"/>
+        <location filename="../mainwindow.cpp" line="741"/>
         <source>Log</source>
         <translation>로그</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="172"/>
-        <location filename="../mainwindow.cpp" line="2429"/>
-        <location filename="../mainwindow.cpp" line="2448"/>
+        <location filename="../mainwindow.cpp" line="2431"/>
+        <location filename="../mainwindow.cpp" line="2450"/>
         <source>Sonic Pi</source>
         <translation>Sonic Pi(소닉 파이)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1496"/>
+        <location filename="../mainwindow.cpp" line="1498"/>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
         <translation>코드 실행중...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1516"/>
+        <location filename="../mainwindow.cpp" line="1518"/>
         <source>Beautifying...</source>
         <oldsource>Beautifying....</oldsource>
         <translation>자동 들여쓰기 중...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1546"/>
+        <location filename="../mainwindow.cpp" line="1548"/>
         <source>Reloading...</source>
         <oldsource>Reloading....</oldsource>
         <translation>다시 로딩하는 중...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1577"/>
+        <location filename="../mainwindow.cpp" line="1579"/>
         <source>Enabling Mixer HPF...</source>
         <oldsource>Enabling Mixer HPF....</oldsource>
         <translation>믹서 고역필터 활성화중...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1586"/>
+        <location filename="../mainwindow.cpp" line="1588"/>
         <source>Disabling Mixer HPF...</source>
         <oldsource>Disabling Mixer HPF....</oldsource>
         <translation>믹서 고역필터 비활성화중...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="458"/>
+        <location filename="../mainwindow.cpp" line="460"/>
         <source>Welcome to Sonic Pi</source>
         <translation>소닉 파이에 오신 것을 환영합니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="976"/>
+        <location filename="../mainwindow.cpp" line="978"/>
         <source>Indenting selection...</source>
         <translation>선택된 줄 들여쓰기...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="980"/>
+        <location filename="../mainwindow.cpp" line="982"/>
         <source>Indenting line...</source>
         <translation>현재 줄 들여쓰기...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1009"/>
+        <location filename="../mainwindow.cpp" line="1011"/>
         <source>Toggle selection comment...</source>
         <translation>선택된 줄을 주석으로 설정(또는 해제) 합니다....</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1013"/>
+        <location filename="../mainwindow.cpp" line="1015"/>
         <source>Toggle line comment...</source>
         <translation>현재 줄을 주석으로 설정(또는 해제) 합니다...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1095"/>
+        <location filename="../mainwindow.cpp" line="1097"/>
         <source>The Sonic Pi Server could not be started!</source>
         <translation>Sonic Pi 서버를 시작할 수 없습니다!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2702"/>
+        <location filename="../mainwindow.cpp" line="2707"/>
         <source>Visit http://sonic-pi.net to download new version</source>
         <translation>새 버전을 다운로드 하려면 http://sonic-pi.net 에 들러주세요</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1263"/>
+        <location filename="../mainwindow.cpp" line="1265"/>
         <source>Sonic Pi Boot Error
 
 Apologies, a critical error occurred during startup</source>
@@ -95,549 +95,492 @@ Apologies, a critical error occurred during startup</source>
 죄송합니다. 부팅 중에 심각한 오류가 발생하였습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1362"/>
-        <location filename="../mainwindow.cpp" line="1365"/>
-        <location filename="../mainwindow.cpp" line="1379"/>
-        <location filename="../mainwindow.cpp" line="1382"/>
+        <location filename="../mainwindow.cpp" line="1364"/>
+        <location filename="../mainwindow.cpp" line="1367"/>
+        <location filename="../mainwindow.cpp" line="1381"/>
+        <location filename="../mainwindow.cpp" line="1384"/>
         <source>Buffer files</source>
         <translation>Buffer 파일</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1365"/>
+        <location filename="../mainwindow.cpp" line="1367"/>
         <source>Load Sonic Pi Buffer</source>
         <translation>파일을 Sonic Pi 버퍼로 불러오기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1365"/>
-        <location filename="../mainwindow.cpp" line="1382"/>
+        <location filename="../mainwindow.cpp" line="1367"/>
+        <location filename="../mainwindow.cpp" line="1384"/>
         <source>Text files</source>
         <translation>텍스트 파일</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1365"/>
-        <location filename="../mainwindow.cpp" line="1382"/>
+        <location filename="../mainwindow.cpp" line="1367"/>
+        <location filename="../mainwindow.cpp" line="1384"/>
         <source>Ruby files</source>
         <translation>Ruby 파일</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1365"/>
-        <location filename="../mainwindow.cpp" line="1382"/>
+        <location filename="../mainwindow.cpp" line="1367"/>
+        <location filename="../mainwindow.cpp" line="1384"/>
         <source>All files</source>
         <translation>모든 파일</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1793"/>
+        <location filename="../mainwindow.cpp" line="1795"/>
         <source>Log Auto Scroll on...</source>
         <translation>로그 자동스크롤 기능을 켭니다...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1795"/>
+        <location filename="../mainwindow.cpp" line="1797"/>
         <source>Log Auto Scroll off...</source>
         <translation>로그 자동스크롤 기능을 끕니다...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2051"/>
+        <location filename="../mainwindow.cpp" line="2053"/>
         <source>Run the code in the current buffer</source>
         <translation>현재 버퍼의 코드를 실행</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2073"/>
+        <location filename="../mainwindow.cpp" line="2075"/>
         <source>Load</source>
         <translation>불러오기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2075"/>
+        <location filename="../mainwindow.cpp" line="2077"/>
         <source>Load an external file in the current buffer</source>
         <translation>현재 버퍼로 파일을 불러오기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2082"/>
+        <location filename="../mainwindow.cpp" line="2084"/>
         <source>Align code to improve readability</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2086"/>
+        <location filename="../mainwindow.cpp" line="2088"/>
         <source>Text Size Up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2092"/>
+        <location filename="../mainwindow.cpp" line="2094"/>
         <source>Text Size Down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2098"/>
+        <location filename="../mainwindow.cpp" line="2100"/>
         <source>Toggle Scope</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2100"/>
+        <location filename="../mainwindow.cpp" line="2102"/>
         <source>Toggle visibility of audio oscilloscope</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2104"/>
+        <location filename="../mainwindow.cpp" line="2106"/>
         <source>Show Info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2110"/>
+        <location filename="../mainwindow.cpp" line="2112"/>
         <source>Toggle Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2116"/>
+        <location filename="../mainwindow.cpp" line="2118"/>
         <source>Toggle Preferences</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2147"/>
+        <location filename="../mainwindow.cpp" line="2149"/>
         <source>&amp;File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2154"/>
+        <location filename="../mainwindow.cpp" line="2156"/>
         <source>&amp;Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2158"/>
+        <location filename="../mainwindow.cpp" line="2160"/>
         <source>&amp;Window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2261"/>
+        <location filename="../mainwindow.cpp" line="2263"/>
         <source>Wavefile (*.wav)</source>
         <translation>웨이브파일 (*.wav)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1693"/>
+        <location filename="../mainwindow.cpp" line="1695"/>
         <source>help visibility changed...</source>
         <translation>도움말 창을 켜거나 끕니다...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2735"/>
+        <location filename="../mainwindow.cpp" line="2740"/>
         <source>Enabling MIDI...</source>
         <translation>MIDI 활성화...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2743"/>
+        <location filename="../mainwindow.cpp" line="2748"/>
         <source>Disabling MIDI...</source>
         <translation>MIDI 비활성화...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2767"/>
-        <source>Opening OSC port for remote messages...</source>
-        <translation>원격메시지를 위한 OSC 포트 열기...</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2776"/>
-        <source>Stopping OSC server...</source>
-        <translation>OSC 서버 중지...</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2755"/>
+        <location filename="../mainwindow.cpp" line="2760"/>
         <source>Resetting MIDI...</source>
         <translation>MIDI 재설정...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2760"/>
+        <location filename="../mainwindow.cpp" line="2765"/>
         <source>MIDI is disabled...</source>
         <translation>MIDI가 비활성화 되었습니다.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2789"/>
+        <location filename="../mainwindow.cpp" line="2808"/>
         <source>Welcome back. Now get your live code on...</source>
         <translation>반갑습니다. 이제 라이브 코드를 작성해 볼까요...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1382"/>
+        <location filename="../mainwindow.cpp" line="1384"/>
         <source>Save Current Buffer</source>
         <translation>현재 버퍼를 파일로 저장하기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="745"/>
+        <location filename="../mainwindow.cpp" line="747"/>
         <source>Cues</source>
         <translation>큐(Cues)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="840"/>
+        <location filename="../mainwindow.cpp" line="842"/>
         <source>Full screen mode on.</source>
         <translation>전체 화면 모드를 켭니다.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="857"/>
+        <location filename="../mainwindow.cpp" line="859"/>
         <source>Full screen mode off.</source>
         <translation>전체 화면 모드를 끕니다.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2741"/>
-        <location filename="../mainwindow.cpp" line="2753"/>
+        <location filename="../mainwindow.cpp" line="2746"/>
+        <location filename="../mainwindow.cpp" line="2758"/>
         <source>No connected input devices</source>
         <translation>입력 장치가 연결되어 있지 않습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2742"/>
-        <location filename="../mainwindow.cpp" line="2754"/>
+        <location filename="../mainwindow.cpp" line="2747"/>
+        <location filename="../mainwindow.cpp" line="2759"/>
         <source>No connected output devices</source>
         <translation>출력 장치가 연결되어 있지 않습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1502"/>
+        <location filename="../mainwindow.cpp" line="1504"/>
         <source>Zooming In...</source>
         <translation>확대 중입니다...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="728"/>
+        <location filename="../mainwindow.cpp" line="730"/>
         <source>Scope</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1509"/>
+        <location filename="../mainwindow.cpp" line="1511"/>
         <source>Zooming Out...</source>
         <translation>축소 중입니다...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1553"/>
+        <location filename="../mainwindow.cpp" line="1555"/>
         <source>Checking for updates...</source>
         <translation>업데이트가 있는지 확인 중입니다....</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1561"/>
+        <location filename="../mainwindow.cpp" line="1563"/>
         <source>Enabling update checking...</source>
         <translation>업데이트 확인 활성화...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1569"/>
+        <location filename="../mainwindow.cpp" line="1571"/>
         <source>Disabling update checking...</source>
         <translation>업데이트 확인 비활성화...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1594"/>
+        <location filename="../mainwindow.cpp" line="1596"/>
         <source>Enabling Mixer LPF...</source>
         <oldsource>Enabling Mixer LPF....</oldsource>
         <translation>믹서 LPF(Low Pass Filter)를 활성화...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1603"/>
+        <location filename="../mainwindow.cpp" line="1605"/>
         <source>Disabling Mixer LPF...</source>
         <oldsource>Disabling Mixer LPF....</oldsource>
         <translation>믹서 LPF(Low Pass Filter)를 비활성화...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1611"/>
+        <location filename="../mainwindow.cpp" line="1613"/>
         <source>Enabling Inverted Stereo...</source>
         <oldsource>Enabling Inverted Stereo....</oldsource>
         <translation>스테레오 반전 활성화...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1619"/>
+        <location filename="../mainwindow.cpp" line="1621"/>
         <source>Enabling Standard Stereo...</source>
         <oldsource>Enabling Standard Stereo....</oldsource>
         <translation>표준 스테레오 모드로 전환...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1627"/>
+        <location filename="../mainwindow.cpp" line="1629"/>
         <source>Mono Mode...</source>
         <oldsource>Mono Mode....</oldsource>
         <translation>모노 모드...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1635"/>
+        <location filename="../mainwindow.cpp" line="1637"/>
         <source>Stereo Mode...</source>
         <oldsource>Stereo Mode....</oldsource>
         <translation>스테레오 모드...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1644"/>
+        <location filename="../mainwindow.cpp" line="1646"/>
         <source>Stopping...</source>
         <translation>중지 중...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1751"/>
+        <location filename="../mainwindow.cpp" line="1753"/>
         <source>Updating System Volume...</source>
         <translation>시스템 볼륨 업데이트 중...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1824"/>
+        <location filename="../mainwindow.cpp" line="1826"/>
         <source>Colour Theme: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2063"/>
+        <location filename="../mainwindow.cpp" line="2065"/>
         <source>Start recording to a WAV audio file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2067"/>
+        <location filename="../mainwindow.cpp" line="2069"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2069"/>
+        <location filename="../mainwindow.cpp" line="2071"/>
         <source>Save current buffer as an external file</source>
         <translation>현재 버퍼를 파일로 저장</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2112"/>
+        <location filename="../mainwindow.cpp" line="2114"/>
         <source>Toggle the visibility of the help pane</source>
         <translation>도움말 창을 열거나 닫습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2118"/>
+        <location filename="../mainwindow.cpp" line="2120"/>
         <source>Toggle the visibility of the preferences pane</source>
         <translation>설정 창을 열거나 닫습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2283"/>
+        <location filename="../mainwindow.cpp" line="2285"/>
         <source>Ready...</source>
         <translation>준비...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2441"/>
+        <location filename="../mainwindow.cpp" line="2443"/>
         <source>File loaded...</source>
         <translation>파일이 로드되었습니다...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2467"/>
+        <location filename="../mainwindow.cpp" line="2469"/>
         <source>File saved...</source>
         <translation>파일이 저장되었습니다...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2688"/>
+        <location filename="../mainwindow.cpp" line="2693"/>
         <source>Last checked %1</source>
         <translation>최근 확인날짜 %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2690"/>
+        <location filename="../mainwindow.cpp" line="2695"/>
         <source>Sonic Pi checks for updates
 every two weeks.</source>
         <translation>Sonic Pi는 2주 간격으로 업데이트를 확인합니다.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2692"/>
+        <location filename="../mainwindow.cpp" line="2697"/>
         <source>This is Sonic Pi %1</source>
         <translation>Sonic Pi 버전 : %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2693"/>
+        <location filename="../mainwindow.cpp" line="2698"/>
         <source>Version %2 is now available!</source>
         <translation>버전 %2를 이용하실 수 있습니다!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2697"/>
+        <location filename="../mainwindow.cpp" line="2702"/>
         <source>New version available!
 Get Sonic Pi %1</source>
         <translation>새 버전을 이용하실 수 있습니다!
 Sonic Pi %1을 받으세요</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2833"/>
+        <location filename="../mainwindow.cpp" line="2776"/>
+        <source>Disabling OSC cue port...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2785"/>
+        <source>Enabling external OSC cue port...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2794"/>
+        <source>Enabling internal OSC cue port...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2852"/>
         <source>Connected MIDI inputs</source>
         <translation>연결된 MIDI 입력</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2838"/>
+        <location filename="../mainwindow.cpp" line="2857"/>
         <source>Connected MIDI outputs</source>
         <translation>연결된 MIDI 출력</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2049"/>
+        <location filename="../mainwindow.cpp" line="2051"/>
         <source>Run</source>
         <translation>실행</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2055"/>
+        <location filename="../mainwindow.cpp" line="2057"/>
         <source>Stop</source>
         <translation>중지</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2057"/>
+        <location filename="../mainwindow.cpp" line="2059"/>
         <source>Stop all running code</source>
         <translation>모든 코드 실행 중지</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2106"/>
+        <location filename="../mainwindow.cpp" line="2108"/>
         <source>See information about Sonic Pi</source>
         <translation>Sonic Pi에 관한 정보를 봅니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="788"/>
+        <location filename="../mainwindow.cpp" line="790"/>
         <source>Help</source>
         <translation>도움말</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1263"/>
+        <location filename="../mainwindow.cpp" line="1265"/>
         <source>Server boot error...</source>
         <translation>서버 부트 에러...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1263"/>
+        <location filename="../mainwindow.cpp" line="1265"/>
         <source>Please consider reporting a bug at</source>
         <translation>버그를 신고해 주세요</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2061"/>
-        <location filename="../mainwindow.cpp" line="2253"/>
+        <location filename="../mainwindow.cpp" line="2063"/>
+        <location filename="../mainwindow.cpp" line="2255"/>
         <source>Start Recording</source>
         <translation>녹음 시작</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2080"/>
+        <location filename="../mainwindow.cpp" line="2082"/>
         <source>Auto-Align Text</source>
         <oldsource>Auto Align Text</oldsource>
         <translation>텍스트 자동정렬</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2088"/>
+        <location filename="../mainwindow.cpp" line="2090"/>
         <source>Increase Text Size</source>
         <translation>글자크기 확대</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2094"/>
+        <location filename="../mainwindow.cpp" line="2096"/>
         <source>Decrease Text Size</source>
         <translation>글자크기 축소</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2124"/>
+        <location filename="../mainwindow.cpp" line="2126"/>
         <source>Tools</source>
         <translation>도구</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2192"/>
+        <location filename="../mainwindow.cpp" line="2194"/>
         <source>About</source>
         <translation>개요</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2194"/>
+        <location filename="../mainwindow.cpp" line="2196"/>
         <source>Core Team</source>
         <translation>개발팀</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2195"/>
+        <location filename="../mainwindow.cpp" line="2197"/>
         <source>Contributors</source>
         <translation>기여자들</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2193"/>
+        <location filename="../mainwindow.cpp" line="2195"/>
         <source>Community</source>
         <translation>커뮤니티</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="428"/>
+        <location filename="../mainwindow.cpp" line="430"/>
         <source>Studio Mode Enabled. Thank-you for supporting Sonic Pi.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="432"/>
+        <location filename="../mainwindow.cpp" line="434"/>
         <source>No Matching Studio Hash Found...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="668"/>
+        <location filename="../mainwindow.cpp" line="670"/>
         <source>| %1 |</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2196"/>
+        <location filename="../mainwindow.cpp" line="2198"/>
         <source>License</source>
         <translation>라이센스</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2197"/>
+        <location filename="../mainwindow.cpp" line="2199"/>
         <source>History</source>
         <translation>개발연혁</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2217"/>
+        <location filename="../mainwindow.cpp" line="2219"/>
         <source>Sonic Pi - Info</source>
         <translation>소닉 파이 - 정보</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2243"/>
+        <location filename="../mainwindow.cpp" line="2245"/>
         <source>Stop Recording</source>
         <translation>녹음 중지</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2261"/>
+        <location filename="../mainwindow.cpp" line="2263"/>
         <source>Save Recording</source>
         <translation>녹음 저장</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2430"/>
+        <location filename="../mainwindow.cpp" line="2432"/>
         <source>Cannot read file %1:
 %2.</source>
         <translation>파일을 불러올 수 없습니다 %1:
 %2.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2449"/>
+        <location filename="../mainwindow.cpp" line="2451"/>
         <source>Cannot write file %1:
 %2.</source>
         <translation>파일을 쓸 수 없습니다 %1:
 %2.</translation>
-    </message>
-    <message>
-        <location filename="../utils/ruby_help.h" line="117"/>
-        <location filename="../utils/ruby_help.h" line="214"/>
-        <location filename="../utils/ruby_help.h" line="311"/>
-        <location filename="../utils/ruby_help.h" line="408"/>
-        <location filename="../utils/ruby_help.h" line="505"/>
-        <location filename="../utils/ruby_help.h" line="601"/>
-        <location filename="../utils/ruby_help.h" line="698"/>
-        <location filename="../utils/ruby_help.h" line="795"/>
-        <location filename="../utils/ruby_help.h" line="892"/>
-        <location filename="../utils/ruby_help.h" line="989"/>
-        <location filename="../utils/ruby_help.h" line="1085"/>
-        <location filename="../utils/ruby_help.h" line="1182"/>
-        <location filename="../utils/ruby_help.h" line="1279"/>
-        <location filename="../utils/ruby_help.h" line="1376"/>
-        <location filename="../utils/ruby_help.h" line="1473"/>
-        <location filename="../utils/ruby_help.h" line="1570"/>
-        <location filename="../utils/ruby_help.h" line="1667"/>
-        <location filename="../utils/ruby_help.h" line="1764"/>
-        <location filename="../utils/ruby_help.h" line="1861"/>
-        <location filename="../utils/ruby_help.h" line="1958"/>
-        <location filename="../utils/ruby_help.h" line="2055"/>
-        <location filename="../utils/ruby_help.h" line="2152"/>
-        <location filename="../utils/ruby_help.h" line="2249"/>
-        <location filename="../utils/ruby_help.h" line="2346"/>
-        <location filename="../utils/ruby_help.h" line="2443"/>
-        <location filename="../utils/ruby_help.h" line="2540"/>
-        <location filename="../utils/ruby_help.h" line="2635"/>
-        <location filename="../utils/ruby_help.h" line="2732"/>
-        <location filename="../utils/ruby_help.h" line="2829"/>
-        <location filename="../utils/ruby_help.h" line="2926"/>
-        <location filename="../utils/ruby_help.h" line="3023"/>
-        <location filename="../utils/ruby_help.h" line="3120"/>
-        <location filename="../utils/ruby_help.h" line="3217"/>
-        <source>Tutorial</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../utils/ruby_help.h" line="3252"/>
-        <source>Examples</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../utils/ruby_help.h" line="3301"/>
-        <source>Synths</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../utils/ruby_help.h" line="3348"/>
-        <source>Fx</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../utils/ruby_help.h" line="3369"/>
-        <source>Samples</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../utils/ruby_help.h" line="3620"/>
-        <source>Lang</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -651,32 +594,32 @@ Sonic Pi %1을 받으세요</translation>
 <context>
     <name>Scope</name>
     <message>
-        <location filename="../visualizer/scope.cpp" line="68"/>
+        <location filename="../visualizer/scope.cpp" line="392"/>
         <source>Lissajous</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../visualizer/scope.cpp" line="69"/>
+        <location filename="../visualizer/scope.cpp" line="393"/>
         <source>Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../visualizer/scope.cpp" line="70"/>
+        <location filename="../visualizer/scope.cpp" line="394"/>
         <source>Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../visualizer/scope.cpp" line="71"/>
+        <location filename="../visualizer/scope.cpp" line="395"/>
         <source>Mono</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../visualizer/scope.cpp" line="72"/>
+        <location filename="../visualizer/scope.cpp" line="396"/>
         <source>Mirror Stereo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../visualizer/scope.cpp" line="74"/>
+        <location filename="../visualizer/scope.cpp" line="398"/>
         <source>Spectrum</source>
         <translation type="unfinished"></translation>
     </message>
@@ -847,15 +790,14 @@ to and from other programs or computers
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="165"/>
-        <source>Receive remote OSC messages</source>
-        <translation type="unfinished">원격 OSC 메시지 수신</translation>
+        <source>Send/Receive remote OSC messages</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="166"/>
-        <source>When checked, Sonic Pi will listen for OSC messages from remote machines.
- When unchecked, only messages from the local machine will be received.</source>
-        <translation type="unfinished">체크표시를 하면, Sonic Pi가 원격 장치에서 오는 OSC 메시지를 받습니다.
-체크표시를 하지 않으면, 로컬 장치에서 오는 메시지만 받아들입니다.</translation>
+        <source>When checked, Sonic Pi will let you send and receive OSC messages to and from remote machines.
+ When unchecked, only sending and receiving from the local machine will be enabled.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="168"/>
