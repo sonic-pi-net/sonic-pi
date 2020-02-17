@@ -141,9 +141,9 @@ target_include_directories(${LIB_NAME}
 message(STATUS "CXX compiler: ${CMAKE_CXX_COMPILER_ID}")
 if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC") # Visual Studio
     message(STATUS "Configuring for Visual Studio...")
+    set_property(TARGET ${LIB_NAME} APPEND_STRING PROPERTY LINK_FLAGS " /WHOLEARCHIVE") # Make sure all required symbols etc. are imported
     target_link_libraries(${LIB_NAME}
         PRIVATE
-        "/WHOLEARCHIVE" # Make sure all required symbols etc. are imported
         ${LIBOGG_LIBRARY_DIR}/ogg${CMAKE_STATIC_LIBRARY_SUFFIX}
         ${LIBVORBIS_LIBRARY_DIR}/vorbis${CMAKE_STATIC_LIBRARY_SUFFIX}
         ${LIBVORBIS_LIBRARY_DIR}/vorbisenc${CMAKE_STATIC_LIBRARY_SUFFIX}
