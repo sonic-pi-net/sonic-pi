@@ -132,7 +132,7 @@ else()
 endif()
 
 add_library(${LIB_NAME} SHARED ${SOURCES} ${RESOURCES}) # Win32 ignored on non-windows
-target_include_directories(${PROJECT_NAME}
+target_include_directories(${LIB_NAME}
     PRIVATE
     src
     ${LIBSNDFILE_INCLUDE_DIR}
@@ -141,7 +141,7 @@ target_include_directories(${PROJECT_NAME}
 message(STATUS "CXX compiler: ${CMAKE_CXX_COMPILER_ID}")
 if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC") # Visual Studio
     message(STATUS "Configuring for Visual Studio...")
-    target_link_libraries(${PROJECT_NAME}
+    target_link_libraries(${LIB_NAME}
         PRIVATE
         "/WHOLEARCHIVE" # Make sure all required symbols etc. are imported
         ${LIBOGG_LIBRARY_DIR}/ogg${CMAKE_STATIC_LIBRARY_SUFFIX}
@@ -154,7 +154,7 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC") # Visual Studio
     )
 elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "AppleClang") # Clang
     message(STATUS "Configuring for Clang...")
-    target_link_libraries(${PROJECT_NAME}
+    target_link_libraries(${LIB_NAME}
         PRIVATE
         "-Wl,-all-load" # Make sure all required symbols etc. are imported
         ${LIBOGG_LIBRARY_DIR}/libogg${CMAKE_STATIC_LIBRARY_SUFFIX}
@@ -172,7 +172,7 @@ else() # Assume GCC
         message(WARNING "Unknown compiler, defaulting to same link libraries/options as GCC...")
     endif()
     message(STATUS "Configuring for GCC...")
-    target_link_libraries(${PROJECT_NAME}
+    target_link_libraries(${LIB_NAME}
         PRIVATE
         "-Wl,--whole-archive" # Make sure all required symbols etc. are imported
         ${LIBOGG_LIBRARY_DIR}/libogg${CMAKE_STATIC_LIBRARY_SUFFIX}
@@ -189,8 +189,8 @@ else() # Assume GCC
 endif()
 
 # Note; these definitions need investigating, this is just what seems to work for Aubio
-target_compile_definitions(${PROJECT_NAME} 
-    PRIVATE 
+target_compile_definitions(${LIB_NAME}
+    PRIVATE
     -DHAVE_C99_VARARGS_MACROS
     -DHAVE_STDLIB_H
     -DHAVE_STDIO_H
@@ -221,20 +221,20 @@ target_compile_definitions(${PROJECT_NAME}
     )
 
 if (WIN32)
-    target_compile_definitions(${PROJECT_NAME} 
-    PRIVATE 
+    target_compile_definitions(${LIB_NAME}
+    PRIVATE
     -DHAVE_WIN_HACKS)
 endif()
 
 # Disable warnings
 if(WIN32)
-    #target_compile_options(${PROJECT_NAME} PRIVATE )
+    #target_compile_options(${LIB_NAME} PRIVATE )
 elseif(${CMAKE_SYSTEM_NAME} MATCHES Linux)
-    #target_compile_options(${PROJECT_NAME}
+    #target_compile_options(${LIB_NAME}
     #PRIVATE
     #)
 elseif(MACOS)
-    #target_compile_options(${PROJECT_NAME}
+    #target_compile_options(${LIB_NAME}
     #PRIVATE
     #)
 else()
@@ -242,7 +242,7 @@ else()
 endif()
 
 # Installation
-install (TARGETS aubio-5
+install (TARGETS ${LIB_NAME}
     EXPORT AubioExportConfig
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
