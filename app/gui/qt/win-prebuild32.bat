@@ -1,5 +1,6 @@
 cd %~dp0
 call ..\..\server\external\win_x86_build_externals.bat
+cd %~dp0
 
 @echo Copying scsynth to server...
 cmake -E copy_directory ..\..\..\prebuilt\windows\x86\ ..\..\server\native\
