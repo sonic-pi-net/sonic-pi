@@ -2,7 +2,7 @@ cd %~dp0
 call ..\..\server\external\win_x86_build_externals.bat
 
 @echo Copying scsynth to server...
-xcopy /Y /I /R /E ..\..\..\prebuilt\windows\x86\* ..\..\server\native\
+cmake -E copy_directory ..\..\..\prebuilt\windows\x86\ ..\..\server\native\
 
 @echo Translating tutorial...
 ..\..\server\native\ruby\bin\ruby ../../server/ruby/bin/i18n-tool.rb -t
