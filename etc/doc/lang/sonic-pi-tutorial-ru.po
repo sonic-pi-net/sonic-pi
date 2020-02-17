@@ -4,17 +4,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-02-09 15:49+0000\n"
+"PO-Revision-Date: 2020-02-17 23:15+0000\n"
 "Last-Translator: Sam Aaron <samaaron@gmail.com>\n"
-"Language-Team: Russian <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
-"ru/>\n"
+"Language-Team: Russian <https://hosted.weblate.org/projects/sonic-pi/"
+"tutorial/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4"
-" && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 3.11-dev\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 3.11\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -9712,7 +9712,6 @@ msgstr ""
 
 #: 11.1-MIDI-In.md:35
 #, no-wrap
-#, fuzzy
 msgid ""
 "/midi:nanokey2_keyboard:0:1/note_off  [55, 64]\n"
 "/midi:nanokey2_keyboard:0:1/note_on   [53, 102]\n"
@@ -9723,14 +9722,14 @@ msgid ""
 "/midi:nanokey2_keyboard:0:1/note_on   [53, 96]\n"
 "/midi:nanokey2_keyboard:0:1/note_off  [55, 64]"
 msgstr ""
-"/midi/nanokey2_keyboard/0/1/note_off  [55, 64]\n"
-"/midi/nanokey2_keyboard/0/1/note_on   [53, 102]\n"
-"/midi/nanokey2_keyboard/0/1/note_off  [57, 64]\n"
-"/midi/nanokey2_keyboard/0/1/note_off  [53, 64]\n"
-"/midi/nanokey2_keyboard/0/1/note_on   [57, 87]\n"
-"/midi/nanokey2_keyboard/0/1/note_on   [55, 81]\n"
-"/midi/nanokey2_keyboard/0/1/note_on   [53, 96]\n"
-"/midi/nanokey2_keyboard/0/1/note_off  [55, 64]"
+"/midi:nanokey2_keyboard:0:1/note_off  [55, 64]\n"
+"/midi:nanokey2_keyboard:0:1/note_on   [53, 102]\n"
+"/midi:nanokey2_keyboard:0:1/note_off  [57, 64]\n"
+"/midi:nanokey2_keyboard:0:1/note_off  [53, 64]\n"
+"/midi:nanokey2_keyboard:0:1/note_on   [57, 87]\n"
+"/midi:nanokey2_keyboard:0:1/note_on   [55, 81]\n"
+"/midi:nanokey2_keyboard:0:1/note_on   [53, 96]\n"
+"/midi:nanokey2_keyboard:0:1/note_off  [55, 64]"
 
 #: 11.1-MIDI-In.md:46
 msgid ""
@@ -9745,7 +9744,6 @@ msgid "MIDI Time State"
 msgstr "Временные состояние MIDI"
 
 #: 11.1-MIDI-In.md:52
-#, fuzzy
 msgid ""
 "These events are broken into two sections. Firstly there's the name of the eve"
 "nt such as `/midi:nanokey2_keyboard:0:1/note_on` and secondly there's the valu"
@@ -9755,14 +9753,14 @@ msgid ""
 "lue and also `sync` waiting for the next MIDI value using everything we learne"
 "d in section 10 of this tutorial."
 msgstr ""
-"Эти события разбиты на два раздела. Во-первых, есть имя события, например `/ m"
-"idi / nanokey2_keyboard / 0/1 / note_on`, а во-вторых, есть значения события, "
-"такие как` [18, 62] `. Интересно, что это две вещи, которые нам нужны для хран"
-"ения информации в Time State. * Sonic Pi автоматически вставляет входящие собы"
-"тия MIDI в Time State *. Это означает, что вы можете использовать `get`, чтобы"
-" получить последнее значение MIDI, а также использовать`sync` для ожидания сле"
-"дующего MIDI значения, применяя все, что мы узнали в разделе 10 этого руководс"
-"тва."
+"Эти события разбиты на два раздела. Во-первых, есть имя события, например "
+"`/midi:nanokey2_keyboard:0:1/note_on`, а во-вторых, есть значения события, "
+"такие как` [18, 62] `. Интересно, что это две вещи, которые нам нужны для "
+"хранения информации в Time State. * Sonic Pi автоматически вставляет "
+"входящие события MIDI в Time State *. Это означает, что вы можете "
+"использовать `get`, чтобы получить последнее значение MIDI, а также "
+"использовать`sync` для ожидания следующего MIDI значения, применяя все, что "
+"мы узнали в разделе 10 этого руководства."
 
 #: 11.1-MIDI-In.md:60
 msgid "Controlling Code"
@@ -9781,7 +9779,6 @@ msgstr ""
 
 #: 11.1-MIDI-In.md:67
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :midi_piano do\n"
 "  note, velocity = sync \"/midi:nanokey2_keyboard:0:1/note_on\"\n"
@@ -9789,7 +9786,7 @@ msgid ""
 "end"
 msgstr ""
 "live_loop :midi_piano do\n"
-"  note, velocity = sync \"/midi/nanokey2_keyboard/0/1/note_on\"\n"
+"  note, velocity = sync \"/midi:nanokey2_keyboard:0:1/note_on\"\n"
 "  synth :piano, note: note\n"
 "end"
 
@@ -9841,7 +9838,6 @@ msgstr ""
 
 #: 11.1-MIDI-In.md:95
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :midi_piano do\n"
 "  note, velocity = sync \"/midi:nanokey2_keyboard:0:1/note_on\"\n"
@@ -9849,7 +9845,7 @@ msgid ""
 "end"
 msgstr ""
 "live_loop :midi_piano do\n"
-"  note, velocity = sync \"/midi/nanokey2_keyboard/0/1/note_on\"\n"
+"  note, velocity = sync \"/midi:nanokey2_keyboard:0:1/note_on\"\n"
 "  synth :piano, note: note, amp: velocity / 127.0\n"
 "end"
 
@@ -9903,7 +9899,6 @@ msgstr ""
 
 #: 11.1-MIDI-In.md:124
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :midi_piano do\n"
 "  use_real_time\n"
@@ -9913,7 +9908,7 @@ msgid ""
 msgstr ""
 "live_loop :midi_piano do\n"
 "  use_real_time\n"
-"  note, velocity = sync \"/midi/nanokey2_keyboard/0/1/note_on\"\n"
+"  note, velocity = sync \"/midi:nanokey2_keyboard:0:1/note_on\"\n"
 "  synth :piano, note: note, amp: velocity / 127.0\n"
 "end"
 
@@ -10259,7 +10254,6 @@ msgstr "Давайте создадим простой OSC-слушатель:"
 
 #: 12.1-Receiving-OSC.md:19
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :foo do\n"
 "  use_real_time\n"
@@ -10269,12 +10263,11 @@ msgid ""
 msgstr ""
 "live_loop :foo do\n"
 "  use_real_time\n"
-"  a, b, c = sync \"/osc/trigger/prophet\"\n"
+"  a, b, c = sync \"/osc*/trigger/prophet\"\n"
 "  synth :prophet, note: a, cutoff: b, sustain: c\n"
 "end"
 
 #: 12.1-Receiving-OSC.md:27
-#, fuzzy
 msgid ""
 "In this example we described an OSC path `\"/osc*/trigger/prophet\"` which we're"
 " syncing on. This can be any valid OSC path (all letters and numbers are suppo"
@@ -10283,12 +10276,13 @@ msgid ""
 "eed to send an OSC message with the path `/trigger/prophet` for our `sync` to "
 "stop blocking and the prophet synth to be triggered."
 msgstr ""
-"В этом примере мы синхронизируем путь OSC, который описали как \"/ osc / trigge"
-"r / prophet\". Это может быть любой допустимый путь OSC (все буквы и цифры подд"
-"ерживаются, а `/` используется, как и в URL-адресации, для разбиения пути на н"
-"есколько слов). Префикс `/ osc` добавляется Sonic Pi ко всем входящим сообщени"
-"ям OSC, поэтому нам нужно отправить сообщение OSC с путем` / trigger / prophet"
-"`, чтобы вызванная нами функция `sync` запустила синтезатор prophet."
+"В этом примере мы синхронизируем путь OSC, который описали как `\"/osc*/"
+"trigger/prophet\"`. Это может быть любой допустимый путь OSC (все буквы и "
+"цифры поддерживаются, а `/` используется, как и в URL-адресации, для "
+"разбиения пути на несколько слов). Префикс `/ osc` добавляется Sonic Pi ко "
+"всем входящим сообщениям OSC, поэтому нам нужно отправить сообщение OSC с "
+"путем` / trigger / prophet`, чтобы вызванная нами функция `sync` запустила "
+"синтезатор prophet."
 
 #: 12.1-Receiving-OSC.md:36
 msgid "Sending OSC to Sonic Pi"
@@ -10412,7 +10406,6 @@ msgstr ""
 "osc \"/hello/world\""
 
 #: 12.2-Sending-OSC.md:15
-#, fuzzy
 msgid ""
 "If you run the code above, you'll notice that Sonic Pi is sending itself an OS"
 "C message! This is because we set the IP address to the current machine and th"
@@ -10424,15 +10417,15 @@ msgid ""
 "w Sonic Pi automatically prefixes all incoming OSC messages with `/osc` and th"
 "en the hostname and port of the sender.)"
 msgstr ""
-"Если вы запустите приведенный выше код, вы заметите, что Sonic Pi отправляет с"
-"ам себе сообщение OSC! Это связано с тем, что мы установили IP-адрес текущего "
-"компьютера, и значение порта OSC по умолчанию. По сути, это то же самое, что и"
-" отправка письма самому себе - сначала пакет OSC создается, покидает Sonic Pi,"
-" попадает в сетевой стек операционной системы, который перенаправляет упакован"
-"ный пакет обратно в Sonic Pi, а затем он принимается как стандартное сообщение"
-" OSC и отображается в журнале событий как входящее сообщение `\" / osc / hello "
-"/ world`. (Обратите внимание, что Sonic Pi автоматически префиксирует все вход"
-"ящие сообщения OSC с помощью `/ osc`.)"
+"Если вы запустите приведенный выше код, вы заметите, что Sonic Pi отправляет "
+"сам себе сообщение OSC! Это связано с тем, что мы установили IP-адрес "
+"текущего компьютера, и значение порта OSC по умолчанию. По сути, это то же "
+"самое, что и отправка письма самому себе - сначала пакет OSC создается, "
+"покидает Sonic Pi, попадает в сетевой стек операционной системы, который "
+"перенаправляет упакованный пакет обратно в Sonic Pi, а затем он принимается "
+"как стандартное сообщение OSC и отображается в журнале событий как входящее "
+"сообщение `/osc:127.0.0.1:4560/hello/world`. (Обратите внимание, что Sonic "
+"Pi автоматически префиксирует все входящие сообщения OSC с помощью `/ osc`.)"
 
 #: 12.2-Sending-OSC.md:25
 msgid "Sending OSC to other programs"
