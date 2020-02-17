@@ -87,7 +87,8 @@ relevant licenses:
 ### Dynamically Linked Libraries for GUI
 * [Qt](http://qt-project.org) - [LGPL v2.1](https://www.gnu.org/licenses/lgpl-2.1.html)
 * [QScintilla2](http://www.riverbankcomputing.com/software/qscintilla/intro) - [GNU General Public License v2](https://www.gnu.org/licenses/gpl-2.0.html)
-* [Qwt](http://qwt.sourceforge.net) -  [Qwt License, Version 1.0](http://qwt.sourceforge.net/qwtlicense.html)
+* [KISS FFT](https://github.com/mborgerding/kissfft) - [BSD 3-Clause License](http://opensource.org/licenses/BSD-3-Clause)
+* [Tracy](https://bitbucket.org/wolfpld/tracy/src/master/) - [BSD 3-Clause License](http://opensource.org/licenses/BSD-3-Clause)
 
 
 ### Included Ruby Libraries for Server
