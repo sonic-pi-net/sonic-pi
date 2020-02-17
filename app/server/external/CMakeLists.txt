@@ -9,8 +9,8 @@ project(SonicPiServerExternal
 include(ExternalProject)
 ExternalProject_Add(osmid
     PREFIX osmid-prefix
-    SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/osmid"
-    INSTALL_DIR "${CMAKE_CURRENT_LIST_DIR}/../native/osmid"
+    SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/osmid
+    INSTALL_DIR ${CMAKE_CURRENT_LIST_DIR}/../native/osmid
 
     CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
 )
@@ -28,7 +28,7 @@ ExternalProject_Add(ogg
     CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
         -DBUILD_TESTING=OFF
         -DCMAKE_POSITION_INDEPENDENT_CODE=ON
-    )
+)
 
 ExternalProject_Add(flac
     PREFIX flac-prefix
@@ -43,7 +43,7 @@ ExternalProject_Add(flac
         -DCMAKE_POSITION_INDEPENDENT_CODE=ON
 
         -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
-    )
+)
 
 ExternalProject_Add(opus
     PREFIX opus-prefix
@@ -58,7 +58,7 @@ ExternalProject_Add(opus
         -DCMAKE_POSITION_INDEPENDENT_CODE=ON
 
         -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
-    )
+)
 
 ExternalProject_Add(vorbis
     PREFIX vorbis-prefix
@@ -73,7 +73,7 @@ ExternalProject_Add(vorbis
         -DCMAKE_POSITION_INDEPENDENT_CODE=ON
         # Vorbis fails to install if the install_dir is in double quotes
         -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
-    )
+)
 
 ExternalProject_Add(libsndfile
     PREFIX libsndfile-prefix
@@ -100,7 +100,7 @@ ExternalProject_Add(libsndfile
         -DCMAKE_POSITION_INDEPENDENT_CODE=ON
 
         -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
-    )
+)
 
 ExternalProject_Add(aubio
     PREFIX aubio-prefix
@@ -121,7 +121,7 @@ ExternalProject_Add(aubio
             -DPC_OPUS_INCLUDE_DIRS=${CMAKE_BINARY_DIR}/opus-package/include
 
             -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
-    )
+)
 
 # Kick off a generation by making a dummy/empty project
 add_library(SonicPiServerExternal STATIC externals.cpp)

@@ -88,7 +88,6 @@ elseif(UNIX)
     target_link_libraries(o2m pthread ${ALSA_LIBRARY} dl rt X11)
 endif(MSVC)
 
-if(UNIX)
-    install (TARGETS m2o DESTINATION bin)
-    install (TARGETS o2m DESTINATION bin)
-endif(UNIX)
+# (Sonic Pi modification) - Always install to ${CMAKE_INSTALL_PREFIX}/bin
+install (TARGETS m2o DESTINATION bin)
+install (TARGETS o2m DESTINATION bin)
