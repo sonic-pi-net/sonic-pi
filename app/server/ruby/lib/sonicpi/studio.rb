@@ -686,7 +686,14 @@ module SonicPi
     def reb_mut_spawn_midi_m2o
       success = true
       begin
-        m2o_spawn_cmd = __exec_path("'#{osmid_m2o_path}'" + " -b -o #{@midi_osc_in_port} -m 6 'Sonic Pi'")
+        osmid_osc_template = case os
+                       when :windows
+                         '/midi:$n:$i:$c/$m'
+                       else
+                         '/midi:\$n:\$i:\$c/\$m'
+                       end
+
+        m2o_spawn_cmd = __exec_path("'#{osmid_m2o_path}' -t #{osmid_osc_template} -b -o #{@midi_osc_in_port} -m 6 'Sonic Pi'")
         Kernel.puts "Studio - Spawning m2o with:"
         Kernel.puts "    #{m2o_spawn_cmd}"
         @m2o_pid = spawn(m2o_spawn_cmd, out: osmid_m2o_log_path, err: osmid_m2o_log_path)
