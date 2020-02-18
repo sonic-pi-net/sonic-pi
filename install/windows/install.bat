@@ -15,6 +15,7 @@ xcopy /Y /I /R /E ..\..\etc etc\
 
 xcopy /Y /I /R /E ..\..\app\server\erlang app\server\erlang
 
+xcopy /Y /I /R /E ..\..\app\server\native\erlang app\server\native\erlang
 xcopy /Y /I /R /E ..\..\app\server\native\osmid app\server\native\osmid
 xcopy /Y /I /R /E ..\..\app\server\native\plugins app\server\native\plugins
 xcopy /Y /I /R /E ..\..\app\server\native\ruby\bin app\server\native\ruby\bin
