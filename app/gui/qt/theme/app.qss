@@ -38,7 +38,7 @@
 Note about auto scaling
 -----------------------
 
-All px values are autoscaled for the resolution of the screen. 0 will always return 0, values greater than 0 will always return at least 1.
+All dx values are autoscaled for the resolution of the screen. 0 will always return 0, values greater than 0 will always return at least 1.
 
 Values 1->25 will be scaled in integer increments. Values 30 - 100 will be rounded down to the nearest 10 and scaled. Values 100 -> 500 will be rounded down to the nearest 100 and scaled.
 
@@ -79,13 +79,13 @@ QLabel
 
 QSplitter::handle:vertical
 {
-    height: 6px;
+    height: 6dx;
     image: url(images/vsplitter.png);
 }
 
 QSplitter::handle:horizontal
 {
-    width: 6px;
+    width: 6dx;
     image: url(images/hsplitter.png);
 }
 
@@ -96,7 +96,10 @@ QTabBar::tab
 {
     background: tabColor;
     color: tabTextColor;
-    padding: 3 10 3 10px;
+    padding-top: 5dx;
+    padding-right: 10dx;
+    padding-bottom: 5dx;
+    padding-left: 10dx;
 }
 
 QTabBar::tab:selected
@@ -114,15 +117,15 @@ QTabWidget::tab-bar
 
 QTabWidget::pane
 {
-    border: 0px;
+    border: 0dx;
 
 }
 
 QDockWidget::title
 {
     color: windowForegroundColor;
-    /*border-bottom: 3px solid windowBorderColor;*/
-    border: 0px;
+    /*border-bottom: 3dx solid windowBorderColor;*/
+    border: 0dx;
     text-align: center;
     background: windowColor;
     font-size: small;
@@ -137,22 +140,29 @@ QDockWidget
  {
     color: toolTipTextColor;
     background-color: toolTipBaseColor;
-    border: 0px;
+    border: 0dx;
 }
+
+QSlider
+{
+    width: 25dx;
+}
+
+
 
 QSlider::groove:vertical
 {
-    margin: 2px 0;
+    margin: 2dx;
     background: sliderBackgroundColor;
-    border-radius: 3px;
-    border: 2px solid sliderBorderColor;
+    border-radius: 3dx;
+    border: 2dx solid sliderBorderColor;
 }
 
 QSlider::handle:vertical
 {
-    border: 1px solid black;
-    border-radius: 3px;
-    height: 30px;
+    border: 1dx solid black;
+    border-radius: 3dx;
+    height: 30dx;
     background-color: sliderColor;
 }
 
@@ -185,7 +195,7 @@ QMenuBar::item:selected {
 
 QMainWindow::separator
 {
-    border: 1px solid windowBorderColor;
+    border: 1dx solid windowBorderColor;
 }
 
 QMainWindow
@@ -218,7 +228,7 @@ QPlainTextEdit
 {
     background-color: logBackgroundColor;
     color: logForegroundColor;
-    border: 0px;
+    border: 0dx;
 }
 
 QCheckBox:hover
@@ -231,7 +241,9 @@ QCheckBox
 {
     color: windowForegroundColor;
     background: windowColor;
+
 }
+
 
 QRadioButton
 {
@@ -246,14 +258,18 @@ QGroupBox QFrame
 
 QGroupBox
 {
-    padding: 10 10 10 10;
+    padding-top: 5dx;
+    padding-right: 10dx;
+    padding-bottom: 5dx;
+    padding-left: 10dx;
+
     subcontrol-origin: margin;
-    margin-top: 15px;
-    margin-bottom: 15px;
+    margin-top: 15dx;
+    margin-bottom: 15dx;
     font-size: medium;
     font-weight: italic;
     background-color: windowColor;
-    border: 5px solid windowInternalBorderColor;
+    border: 5dx solid windowInternalBorderColor;
 }
 
 QDockWidget QListView
@@ -261,7 +277,7 @@ QDockWidget QListView
     color: windowForegroundColor;
     selection-color: selectionForegroundColor;
     selection-background-color: selectionBackgroundColor;
-    outline: 10px;
+    outline: 10dx;
 
 }
 
@@ -270,16 +286,16 @@ QTextBrowser
     selection-color: selectionForegroundColor;
     selection-background-color: selectionBackgroundColor;
 
-    padding: 20px;
+    padding: 20dx;
     background-color: paneColor;
 }
 
 QListWidget
 {
-    border: 1px solid windowBorderColor;
+    border: 1dx solid windowBorderColor;
     background: paneColor;
     font-size: medium;
-    min-width: 500px;
+    min-width: 500dx;
 }
 
 QListWidget::item
@@ -296,9 +312,12 @@ QListWidget::item::selected
 
 QComboBox
 {
-    border: 1px solid tabSelectedColor;
-    border-radius: 3px;
-    padding: 1px 18px 1px 3px;
+    border: 1dx solid tabSelectedColor;
+    border-radius: 3dx;
+    padding-top: 1dx;
+    padding-right: 18dx;
+    padding-bottom: 1dx;
+    padding-left: 3dx;
     background: tabColor;
     color: windowForegroundColor;
 }
@@ -313,8 +332,8 @@ QComboBox::item
 
 QComboBox:hover
 {
-    border-radius: 3px;
-    border-width:2px;
+    border-radius: 3dx;
+    border-width:2dx;
     border-color: #1e90ff
 }
 
@@ -337,8 +356,11 @@ QComboBox::drop-down
 QLabel[accessibleName="midi-in-ports-label"]
 {
     font-size: small;
-    padding: 1px 18px 1px 3px;
-    border-radius: 3px;
+    padding-top: 1dx;
+    padding-right: 18dx;
+    padding-bottom: 1dx;
+    padding-left: 3dx;
+    border-radius: 3dx;
     background-color: tabColor;
     color: tabTextColor;
 }
@@ -346,8 +368,11 @@ QLabel[accessibleName="midi-in-ports-label"]
 QLabel[accessibleName="midi-out-ports-label"]
 {
     font-size: small;
-    padding: 1px 18px 1px 3px;
-    border-radius: 3px;
+    padding-top: 1dx;
+    padding-right: 18dx;
+    padding-bottom: 1dx;
+    padding-left: 3dx;
+    border-radius: 3dx;
     background-color: tabColor;
     color: tabTextColor;
 }
@@ -355,29 +380,32 @@ QLabel[accessibleName="midi-out-ports-label"]
 QToolBar
 {
     background-color: windowColor;
-    border-bottom: 0px;
+    border-bottom: 0dx;
 }
 
 QToolButton
 {
     background-color: none;
     border: none;
-    border-radius: 3px;
-    padding: 0px;
+    border-radius: 3dx;
+    padding: 0dx;
 }
 
 QToolButton::hover
 {
     background-color: windowBorderColor;
     border: none;
-    padding: 0px;
+    padding: 0dx;
 }
 
 QGroupBox:title
 {
     subcontrol-origin: margin;
-    top: 0px;
-    padding: 10px 10px 20px 5px;
+    top: 0dx;
+    padding-top: 10dx;
+    padding-right: 10dx;
+    padding-bottom: 20dx;
+    padding-left: 5dx;
     color: windowForegroundColor;
     background-color: windowColor;
 }
@@ -385,24 +413,31 @@ QGroupBox:title
 QScrollBar:vertical
 {
     background: transparent;
-    width: 10px;
-    padding: 0 0 20px 0;
-    margin: 22px 0 22px 0;
+    width: 10dx;
+    padding-top: 0dx;
+    padding-right: 0dx;
+    padding-bottom: 20dx;
+    padding-left: 0dx;
+
+    margin-top: 22dx;
+    margin-right: 0dx;
+    margin-bottom: 22dx;
+    margin-left: 0dx;
 }
 
 QScrollBar::handle:vertical
 {
     background: scrollBarColor;
-    border-top: 4px;
-    border-bottom: 4px;
-    min-height: 39px;
+    border-top: 4dx;
+    border-bottom: 4dx;
+    min-height: 39dx;
 }
 
 QScrollBar::add-line:vertical
 {
-    border-top: solid 5px transparent;
+    border-top: solid 5dx transparent;
     background: none;
-    height: 20px;
+    height: 20dx;
     subcontrol-position: bottom;
     subcontrol-origin: padding;
 }
@@ -411,40 +446,44 @@ QScrollBar::sub-line:vertical
 {
     border: none;
     background: none;
-    height: 20px;
+    height: 20dx;
     subcontrol-position: top;
     subcontrol-origin: margin;
 }
 
 QScrollBar:horizontal
 {
-    border: 2px scrollBarBackgroundColor;
+    border: 2dx scrollBarBackgroundColor;
     background: scrollBarBackgroundColor;
-    height: 15px;
-    margin: 0px 20px 0 20px;
+    height: 15dx;
+    margin-top: 0dx;
+    margin-right: 2dx;
+    margin-bottom: 0dx;
+    margin-left: 20dx;
+
 }
 
 QScrollBar::handle:horizontal
 {
     background: scrollBarColor;
-    min-width: 20px;
-    border: 2px solid paneColor;
+    min-width: 20dx;
+    border: 2dx solid paneColor;
 }
 
 QScrollBar::add-line:horizontal
 {
-    border: 2px scrollBarBackgroundColor;
+    border: 2dx scrollBarBackgroundColor;
     background: scrollBarBackgroundColor;
-    width: 20px;
+    width: 20dx;
     subcontrol-position: right;
     subcontrol-origin: margin;
 }
 
 QScrollBar::sub-line:horizontal
 {
-    border: 2px scrollBarBackgroundColor;
+    border: 2dx scrollBarBackgroundColor;
     background: scrollBarBackgroundColor;
-    width: 20px;
+    width: 20dx;
     subcontrol-position: left;
     subcontrol-origin: margin;
 }
@@ -468,10 +507,10 @@ QPushButton
 {
     background-color: buttonColor;
     color: buttonTextColor;
-    padding: 5px;
-    border-radius: 3px;
+    padding: 5dx;
+    border-radius: 3dx;
     border-color: buttonBorderColor;
-    border-width: 2px;
+    border-width: 2dx;
 }
 
 QPushButton::pressed
