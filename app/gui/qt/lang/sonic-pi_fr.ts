@@ -401,7 +401,7 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="2084"/>
         <source>Align code to improve readability</source>
-        <translation>Aligne le code pour une meilleur lisibilité</translation>
+        <translation>Aligne le code pour une meilleure lisibilité</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2088"/>
