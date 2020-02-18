@@ -671,8 +671,8 @@ Get Sonic Pi %1</source>
         <location filename="../widgets/settingswidget.cpp" line="88"/>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
-        <translation type="unfinished">Erweiterte Audio-Einstellungen, die man beim Einsatz
-an einem externen Verstärker gut gebrauchen kann.</translation>
+        <translation>Erweiterte Audio-Einstellungen für die Arbeit mit
+externen PA-Systemen bei Auftritten mit Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="89"/>
@@ -713,7 +713,7 @@ Mono-Ton verarbeiten kann.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="102"/>
         <source>Modify behaviour of synths and FX</source>
-        <translation type="unfinished">Verändere das Verhalten von Synths und FX</translation>
+        <translation>Verändere das Verhalten von Synths und FX</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="104"/>
@@ -911,7 +911,7 @@ Sonic Pi, die über die midi_* fns gesendet werden können</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="263"/>
         <source>Configure editor display options.</source>
-        <translation type="unfinished">Ansichtsoptionen für das Editorfenster konfigurieren.</translation>
+        <translation>Ansichtsoptionen des Editors konfigurieren.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="264"/>
