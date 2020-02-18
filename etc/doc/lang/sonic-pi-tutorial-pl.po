@@ -4,17 +4,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-02-13 13:50+0000\n"
-"Last-Translator: tupteq <tupteq@gmail.com>\n"
-"Language-Team: Polish <https://hosted.weblate.org/projects/sonic-pi/tutorial/p"
-"l/>\n"
+"PO-Revision-Date: 2020-02-19 07:32+0000\n"
+"Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
+"Language-Team: Polish <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
+"pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 ||"
-" n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 3.11-dev\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 3.11\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -3317,28 +3317,27 @@ msgid "Sources"
 msgstr "Źródła"
 
 #: 03.7-Sample-Packs.md:138
-#, fuzzy
 msgid ""
 "The sample filter pre-arg system understands two types of information: *source"
 "s* and *filters*. Sources are information used to create the list of potential"
 " candidates. A source can take two forms:"
 msgstr ""
-"System wstępnego przetwarzania parametrów dla funkcji filtrującej sample rozum"
-"ie dwa typy informacji: źródła oraz filtry. Źródła są informacją wykorzystywan"
-"ą do stworzenia listy potencjalnych kandydatów. Źródło może przyjmować 2 formy"
-":"
+"System wstępnego przetwarzania parametrów dla funkcji filtrującej sample "
+"rozumie dwa typy informacji: *źródła* oraz *filtry*. Źródła są informacją "
+"wykorzystywaną do stworzenia listy potencjalnych kandydatów. Źródło może "
+"przyjmować 2 formy:"
 
 #: 03.7-Sample-Packs.md:142
-#, fuzzy
 msgid "`\"/path/to/samples\"` - a string representing a valid path to a directory"
-msgstr "\"/ścieżka/do/sampli\" - ciąg znaków reprezentujący poprawną ścieżkę do katalogu"
+msgstr ""
+"`\"/ścieżka/do/sampli\"` - ciąg znaków reprezentujący poprawną ścieżkę do "
+"katalogu"
 
 #: 03.7-Sample-Packs.md:143
-#, fuzzy
 msgid "`\"/path/to/samples/foo.wav\"` - a string representing a valid path to a sample"
 msgstr ""
-"\"/ścieżka/do/sampli/foo.wav\" - ciąg znaków reprezentujący poprawną ścieżkę do "
-"sampla"
+"`\"/ścieżka/do/sampli/foo.wav\"` - ciąg znaków reprezentujący poprawną "
+"ścieżkę do sampla"
 
 #: 03.7-Sample-Packs.md:145
 msgid ""
@@ -7826,11 +7825,10 @@ msgid "`.shuffle` - creates a shuffled version of the ring"
 msgstr "`.shuffle` - tworzy pierścień z wartościami, które są przetasowane"
 
 #: 08.5-Ring-Chains.md:71
-#, fuzzy
 msgid "`.pick` - returns a ring with the results of calling `.choose` once"
 msgstr ""
-"`.pick(3)` - zwraca pierścień, który zawiera 3 losowo wybrane elementy z orygi"
-"nalnego pierścienia (działanie analogiczne do funkcji `choose`)"
+"`.pick` - zwraca pierścień zawierający wyniki pojedynczego uruchomienia "
+"funkcji `.choose`"
 
 #: 08.5-Ring-Chains.md:72
 msgid "`.pick(3)` - returns a ring with the results of calling `.choose` 3 times"
@@ -7978,7 +7976,6 @@ msgstr ""
 
 #: 09.1-Live-Coding-Fundamentals.md:18
 #, no-wrap
-#, fuzzy
 msgid ""
 "define :my_sound do\n"
 "  play 50\n"
@@ -7990,13 +7987,13 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
-"define :my_loop do\n"
+"define :my_sound do\n"
 "  play 50\n"
 "  sleep 1\n"
 "end\n"
 "in_thread(name: :looper) do\n"
 "  loop do\n"
-"    my_loop\n"
+"    my_sound\n"
 "  end\n"
 "end"
 
@@ -8012,16 +8009,15 @@ msgstr ""
 "ić Ci żadnych kłopotów."
 
 #: 09.1-Live-Coding-Fundamentals.md:35
-#, fuzzy
 msgid ""
 "What we have here is a function definition which just plays note 50 and sleeps"
 " for a beat. We then define a named thread called `:looper` which just loops a"
 "round calling `my_sound` repeatedly."
 msgstr ""
-"To, co mamy powyżej, to nic innego jak funkcja, która po prostu gra nutę o war"
-"tości 50 i następnie czeka 1 uderzenie. W kolejnym kroku mamy definicję wątku "
-"nazwanego `:looper`, który po prostu kręci się w kółko i uruchamia funkcję `my"
-"_loop`."
+"To, co mamy powyżej, to nic innego jak funkcja, która po prostu gra nutę o "
+"wartości 50 i następnie czeka 1 uderzenie. W kolejnym kroku mamy definicję "
+"wątku nazwanego `:looper`, który po prostu kręci się w kółko i uruchamia "
+"funkcję `my_loop`."
 
 #: 09.1-Live-Coding-Fundamentals.md:39
 msgid "If you run this code, you'll hear note 50 repeating again and again..."
