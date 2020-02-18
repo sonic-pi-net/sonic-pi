@@ -16,6 +16,13 @@
 # libraries. Ensure you execute this file with the specific version of
 # Ruby you intend to package with Sonic Pi.
 
+# for extensions that need rake-compiler
+Dir["#{File.expand_path("../../vendor", __FILE__)}/rake-compiler-1.1.0/lib"].each do |vendor_lib|
+  $LOAD_PATH.unshift vendor_lib
+end
+require 'rake'
+require (File.expand_path(File.dirname(__FILE__) + '/../vendor/rake-compiler-1.1.0/lib/rake/extensiontask'))
+
 require 'fileutils'
 
 require 'rbconfig'
@@ -47,7 +54,10 @@ native_ext_dirs = [
   File.expand_path(File.dirname(__FILE__) + '/../vendor/atomic/ext'),
   File.expand_path(File.dirname(__FILE__) + '/../vendor/ruby-prof-0.15.8/ext/ruby_prof/'),
   File.expand_path(File.dirname(__FILE__) + '/../vendor/interception/ext/'),
-  File.expand_path(File.dirname(__FILE__) + '/../vendor/fast_osc-0.0.12/ext/fast_osc')
+]
+
+rake_compiler_dirs = [
+  File.expand_path(File.dirname(__FILE__) + '/../vendor/fast_osc-1.2.1/')
 ]
 
 if os == :osx
@@ -57,6 +67,42 @@ if os == :osx
   ]
 end
 
+rake_compiler_dirs.each do |rake_compiler_dir|
+  puts "Compiling native extension in #{rake_compiler_dir}"
+
+  spec = Gem::Specification.load(File.expand_path(rake_compiler_dir + 'fast_osc.gemspec'))
+  Rake::ExtensionTask.new('fast_osc') do |ext|
+    # ext.platform or ext.cross_config_options
+    # might work to enable universal builds on darwin for older processors
+    ext.lib_dir = "lib/fast_osc"
+  end
+
+  app = Rake.application
+  app.init
+  # this loads the Rakefile and other imports
+  app.load_rakefile
+
+  Dir.chdir(rake_compiler_dir) do
+    if os == :windows
+      begin
+        app.rake_require('devkit')
+      rescue LoadError
+        $stderr.puts "WARNING: couldn't find devkit"
+        $stderr.puts "If you're using RubyInstaller check that devkit is installed"
+      end
+    end
+
+    begin
+      app['clean'].invoke
+      app['compile'].invoke
+    rescue
+      $stderr.puts "WARNING: couldn't compile FastOsc extension"
+      $stderr.puts "Ruby fallback will be used instead"
+    end
+  end
+end
+
+
 native_ext_dirs.each do |ext_dir|
   if ext_dir.is_a? Array
     ext_dir, tgt_dir = *ext_dir
@@ -65,19 +111,6 @@ native_ext_dirs.each do |ext_dir|
   end
   puts "Compiling native extension in #{ext_dir}"
   Dir.chdir(ext_dir) do
-    os = case RUBY_PLATFORM
-         when /.*arm.*-linux.*/
-           :raspberry
-         when /.*linux.*/
-           :linux
-         when /.*darwin.*/
-           :osx
-         when /.*mingw.*/
-           :windows
-         else
-           RUBY_PLATFORM
-         end
-
     `#{RbConfig.ruby} extconf.rb`
     `make clean`
     `make`
@@ -101,5 +134,5 @@ native_ext_dirs.each do |ext_dir|
     puts "Copying #{f} to #{tgt}"
     FileUtils.cp f, tgt
   end
-
 end
+

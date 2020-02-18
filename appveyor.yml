@@ -35,6 +35,7 @@ install:
   - gem install win32-process
   - gem install rugged --version 0.27.1
   - gem install aubio
+  - gem install fast_osc
   - set QT_INSTALL_LOCATION=C:\Qt\5.14.0\msvc2017_64
 
 build_script:
