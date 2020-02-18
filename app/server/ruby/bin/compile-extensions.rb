@@ -77,12 +77,12 @@ rake_compiler_dirs.each do |rake_compiler_dir|
     ext.lib_dir = "lib/fast_osc"
   end
 
-  app = Rake.application
-  app.init
-  # this loads the Rakefile and other imports
-  app.load_rakefile
-
   Dir.chdir(rake_compiler_dir) do
+    app = Rake.application
+    app.init
+    # this loads the Rakefile and other imports
+    app.load_rakefile
+
     if os == :windows
       begin
         app.rake_require('devkit')
