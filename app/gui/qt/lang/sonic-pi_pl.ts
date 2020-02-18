@@ -298,17 +298,17 @@ na twoim komputerze do aktualnego buforu</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2776"/>
         <source>Disabling OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyłączanie cue portu OSC...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2785"/>
         <source>Enabling external OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>Włączanie zewnętrznego wskaźnika OSC...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2794"/>
         <source>Enabling internal OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>Włączanie wewnętrznego wskaźnika portu OSC...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2852"/>
@@ -804,13 +804,14 @@ za pośrednictwem aktualnego połączenia sieciowego.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="165"/>
         <source>Send/Receive remote OSC messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Wysyłanie/Odbiór zdalnych komunikatów OSC</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="166"/>
         <source>When checked, Sonic Pi will let you send and receive OSC messages to and from remote machines.
  When unchecked, only sending and receiving from the local machine will be enabled.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gdy zaznaczysz opcję, Sonic Pi pozwoli Ci wysyłać i odbierać komunikaty OSC do i ze zdalnych maszyn.
+Gdy opcja jest odznaczona, możliwe będzie tylko wysyłanie i odbieranie komunikatów z lokalnej maszyny.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="168"/>
