@@ -115,17 +115,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="2776"/>
         <source>Disabling OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>פתחת האות של האוסיליסקופ מושבתת…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2785"/>
         <source>Enabling external OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>פתחת האות החיצונית של האוסיליסקופ מופעלת…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2794"/>
         <source>Enabling internal OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>פתחת האות הפנימית של האוסיליסקופ מופעלת…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2852"/>
@@ -749,7 +749,7 @@ even when a little late.</source>
 להפעיל צלילים ואפקטים אם
 מאוחר מדי לעשות זאת.
 
-כאשר מושבתת, &#xa0;תמיד ינסה
+כאשר מושבתת,  תמיד ינסה
 Sonic Pi להפעיל צלילים
 ואפקטים אפילו אם מאוחר מדי.</translation>
     </message>
@@ -807,13 +807,14 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="165"/>
         <source>Send/Receive remote OSC messages</source>
-        <translation type="unfinished"></translation>
+        <translation>שליחה/קבלה של הודעות אוסיליסקופ מרוחקות</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="166"/>
         <source>When checked, Sonic Pi will let you send and receive OSC messages to and from remote machines.
  When unchecked, only sending and receiving from the local machine will be enabled.</source>
-        <translation type="unfinished"></translation>
+        <translation>כשהאפשרות מסומנת, יאפשר לך Sonic Pi לשלוח ולקבל הודעות OSM אל וממכונות מרוחקות.
+כשהאפשרות לא מסומנת, אפשר לשלוח ולקבל הודעות אל ומהמכונה המקומית בלבד.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="168"/>
