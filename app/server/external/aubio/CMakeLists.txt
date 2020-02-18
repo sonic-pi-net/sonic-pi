@@ -123,26 +123,24 @@ set(SOURCES
     ${SOURCE_ROOT}/utils/windll.c 
 )
 
-# 'lib' is appended to the library name automatically on most non-Windows platforms
-if (WIN32)
-    # Add extra 'lib'
-    set(LIB_NAME "lib${PROJECT_NAME}")
-else()
-    set(LIB_NAME "${PROJECT_NAME}")
-endif()
-
-add_library(${LIB_NAME} SHARED ${SOURCES} ${RESOURCES}) # Win32 ignored on non-windows
-target_include_directories(${LIB_NAME}
+add_library(${PROJECT_NAME} SHARED ${SOURCES} ${RESOURCES}) # Win32 ignored on non-windows
+target_include_directories(${PROJECT_NAME}
     PRIVATE
     src
     ${LIBSNDFILE_INCLUDE_DIR}
 )
 
+# 'lib' is appended to the library name automatically on most non-Windows platforms
+if (WIN32)
+    # Add extra 'lib'
+    set_property(TARGET ${PROJECT_NAME} PROPERTY PREFIX "lib")
+endif()
+
 message(STATUS "CXX compiler: ${CMAKE_CXX_COMPILER_ID}")
 if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC") # Visual Studio
     message(STATUS "Configuring for Visual Studio...")
-    set_property(TARGET ${LIB_NAME} APPEND_STRING PROPERTY LINK_FLAGS " /WHOLEARCHIVE") # Make sure all required symbols etc. are imported
-    target_link_libraries(${LIB_NAME}
+    #set_property(TARGET ${PROJECT_NAME} APPEND_STRING PROPERTY LINK_FLAGS " /WHOLEARCHIVE") # Not required on Windows?
+    target_link_libraries(${PROJECT_NAME}
         PRIVATE
         ${LIBOGG_LIBRARY_DIR}/ogg${CMAKE_STATIC_LIBRARY_SUFFIX}
         ${LIBVORBIS_LIBRARY_DIR}/vorbis${CMAKE_STATIC_LIBRARY_SUFFIX}
@@ -154,7 +152,7 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC") # Visual Studio
     )
 elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "AppleClang") # Clang
     message(STATUS "Configuring for Clang...")
-    target_link_libraries(${LIB_NAME}
+    target_link_libraries(${PROJECT_NAME}
         PRIVATE
         "-Wl,-all-load" # Make sure all required symbols etc. are imported
         ${LIBOGG_LIBRARY_DIR}/libogg${CMAKE_STATIC_LIBRARY_SUFFIX}
@@ -172,7 +170,7 @@ else() # Assume GCC
         message(WARNING "Unknown compiler, defaulting to same link libraries/options as GCC...")
     endif()
     message(STATUS "Configuring for GCC...")
-    target_link_libraries(${LIB_NAME}
+    target_link_libraries(${PROJECT_NAME}
         PRIVATE
         "-Wl,--whole-archive" # Make sure all required symbols etc. are imported
         ${LIBOGG_LIBRARY_DIR}/libogg${CMAKE_STATIC_LIBRARY_SUFFIX}
@@ -189,7 +187,7 @@ else() # Assume GCC
 endif()
 
 # Note; these definitions need investigating, this is just what seems to work for Aubio
-target_compile_definitions(${LIB_NAME}
+target_compile_definitions(${PROJECT_NAME}
     PRIVATE
     -DHAVE_C99_VARARGS_MACROS
     -DHAVE_STDLIB_H
@@ -221,20 +219,20 @@ target_compile_definitions(${LIB_NAME}
     )
 
 if (WIN32)
-    target_compile_definitions(${LIB_NAME}
+    target_compile_definitions(${PROJECT_NAME}
     PRIVATE
     -DHAVE_WIN_HACKS)
 endif()
 
 # Disable warnings
 if(WIN32)
-    #target_compile_options(${LIB_NAME} PRIVATE )
+    #target_compile_options(${PROJECT_NAME} PRIVATE )
 elseif(${CMAKE_SYSTEM_NAME} MATCHES Linux)
-    #target_compile_options(${LIB_NAME}
+    #target_compile_options(${PROJECT_NAME}
     #PRIVATE
     #)
 elseif(MACOS)
-    #target_compile_options(${LIB_NAME}
+    #target_compile_options(${PROJECT_NAME}
     #PRIVATE
     #)
 else()
@@ -242,8 +240,8 @@ else()
 endif()
 
 # Installation
-install (TARGETS ${LIB_NAME}
+install (TARGETS ${PROJECT_NAME}
     EXPORT AubioExportConfig
-    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
