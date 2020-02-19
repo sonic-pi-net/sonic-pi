@@ -100,14 +100,14 @@ start([ARGVAPIPort, ARGVInPort, ARGVCuePort|_T]) ->
     io:format("~n"
               "+--------------------------------------+~n"
               "    This is the Sonic Pi IO Server      ~n"
-              "           Powered by Erlang            ~n"
+              "       Powered by Erlang ~p             ~n"
               "                                        ~n"
               "       API listening on port ~p	       ~n"
 	      "        Incoming OSC on port ~p	       ~n"
 	      "  OSC cue forwarding to ~p              ~n"
               "                     on port ~p	       ~n"
               "+--------------------------------------+~n~n~n",
-              [Port, InPort, CueHost, CuePort]),
+              [erlang:system_info(otp_release), Port, InPort, CueHost, CuePort]),
 
     S = self(),
 
