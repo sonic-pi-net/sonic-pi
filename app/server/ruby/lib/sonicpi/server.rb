@@ -687,7 +687,7 @@ module SonicPi
 
     def sched_ahead_time
       sat = __system_thread_locals.get(:sonic_pi_spider_sched_ahead_time)
-      return sat if sat
+      return sat + @latency if sat
 
       t = __system_thread_locals.get(:sonic_pi_spider_time, Time.now)
       i = __system_thread_locals.get(:sonic_pi_spider_thread_id_path, @server_thread_id)
