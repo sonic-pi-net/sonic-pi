@@ -744,18 +744,19 @@ bool Scope::EnableScope(const QString& category, bool on)
     }
 
     Layout();
-
+    Refresh();
     return any ? on : true;
 }
 
 bool Scope::SetScopeLabels(bool on)
 {
   for (auto& scope : m_panels)
-    {
-        scope.titleVisible = on;
-    }
+  {
+      scope.titleVisible = on;
+  }
+  Layout();
   Refresh();
-    return on;
+  return on;
 }
 
 void Scope::ScsynthBooted()
