@@ -713,8 +713,7 @@ void MainWindow::setupWindowStructure() {
     incomingPane->appendPlainText("\n");
 
     errorPane->zoomIn(1);
-    errorPane->setMaximumHeight(130);
-    errorPane->setMinimumHeight(130);
+    errorPane->setFixedHeight(ScaleHeightForDPI(200));
 
     // hudPane = new QTextBrowser;
     // hudPane->setMinimumHeight(130);
