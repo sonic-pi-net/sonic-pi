@@ -303,7 +303,7 @@ do_bundle(Tag, TagMap, Time, Clock, _APISocket, Host, Port, Cmd1, CuePid) ->
 dispatcher(Tag) ->
     receive
 	{send_later, Time, Clock, _APISocket, Host, Port, Cmd1, CuePid} ->
-	    spawn(fun() ->
+	    spawn_link(fun() ->
                           send_later(Time, Clock, _APISocket, Host, Port, Cmd1, CuePid)
                   end),
 	    dispatcher(Tag)
