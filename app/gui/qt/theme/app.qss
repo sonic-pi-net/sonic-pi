@@ -81,7 +81,6 @@ QLabel
     border: none;
 }
 
-
 QSplitter::handle:vertical
 {
     height: 6dx;
@@ -93,9 +92,6 @@ QSplitter::handle:horizontal
     width: 6dx;
     image: url(images/hsplitter.png);
 }
-
-
-
 
 QTabBar::tab
 {
@@ -200,7 +196,8 @@ QMenuBar::item:selected {
 
 QMainWindow::separator
 {
-    border: 1dx solid windowBorderColor;
+   background-color: windowBorderColor;
+   height: 2dx;
 }
 
 QMainWindow
