@@ -413,7 +413,7 @@ module SonicPi
                     "-o", "2",
                     "-z", block_size.to_s,
                     "-c", "128",
-                    "-U", "/usr/lib/SuperCollider/plugins:#{native_path}/extra-ugens/",
+                    "-U", "/usr/lib/SuperCollider/plugins",
                     "-b", num_buffers_for_current_os.to_s,
                     "-B", "127.0.0.1")
 
