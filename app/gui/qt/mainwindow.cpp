@@ -522,7 +522,7 @@ void MainWindow::setupWindowStructure() {
     connect(settingsWidget, SIGNAL(themeChanged()), this, SLOT(updateColourTheme()));
     connect(settingsWidget, SIGNAL(scopeChanged()), this, SLOT(scope()));
     connect(settingsWidget, SIGNAL(scopeChanged(QString)), this, SLOT(toggleScope(QString)));
-    connect(settingsWidget, SIGNAL(scopeAxesChanged()), this, SLOT(toggleScopeAxes()));
+    connect(settingsWidget, SIGNAL(scopeLabelsChanged()), this, SLOT(toggleScopeLabels()));
     connect(settingsWidget, SIGNAL(transparencyChanged(int)), this, SLOT(changeGUITransparency(int)));
 
     connect(settingsWidget, SIGNAL(checkUpdatesChanged()), this, SLOT(update_check_updates()));
@@ -1209,7 +1209,7 @@ void MainWindow::honourPrefs() {
     update_check_updates();
     updateLogAutoScroll();
     changeGUITransparency(piSettings->gui_transparency);
-    toggleScopeAxes();
+    toggleScopeLabels();
     toggleMidi(1);
     toggleOSCServer(1);
     toggleIcons();
@@ -1767,9 +1767,9 @@ void MainWindow::toggleRightScope()
     //scopeInterface->enableScope("Right",show_right_scope->isChecked());
 }
 
-void MainWindow::toggleScopeAxes()
+void MainWindow::toggleScopeLabels()
 {
-    scopeInterface->SetScopeAxes(piSettings->show_scope_axes);
+  scopeInterface->SetScopeLabels(piSettings->show_scope_labels);
 }
 
 void MainWindow::cycleThemes() {
@@ -2358,7 +2358,7 @@ void MainWindow::readSettings() {
     piSettings->auto_indent_on_run = settings.value("prefs/auto-indent-on-run", true).toBool();
     piSettings->gui_transparency = settings.value("prefs/gui_transparency", 0).toInt();
     piSettings->show_scopes = settings.value("prefs/scope/show-scopes", true).toBool();
-    piSettings->show_scope_axes = settings.value("prefs/scope/show-axes", false).toBool();
+    piSettings->show_scope_labels = settings.value("prefs/scope/show-labels", true).toBool();
     piSettings->show_cues = settings.value("prefs/show_cues", true).toBool();
     QString styleName = settings.value("prefs/theme", "").toString();
     piSettings->themeStyle = theme->themeNameToStyle(styleName);
@@ -2403,7 +2403,7 @@ void MainWindow::writeSettings()
     settings.setValue("prefs/rp/check-updates", piSettings->check_updates);
     settings.setValue("prefs/auto-indent-on-run", piSettings->auto_indent_on_run);
     settings.setValue("prefs/gui_transparency", piSettings->gui_transparency);
-    settings.setValue("prefs/scope/show-axes", piSettings->show_scope_axes );
+    settings.setValue("prefs/scope/show-labels", piSettings->show_scope_labels );
     settings.setValue("prefs/scope/show-scopes", piSettings->show_scopes );
     settings.setValue("prefs/show_cues", piSettings->show_cues);
     settings.setValue("prefs/theme", theme->themeStyleToName(piSettings->themeStyle));

@@ -747,12 +747,13 @@ bool Scope::EnableScope(const QString& category, bool on)
     return any ? on : true;
 }
 
-bool Scope::SetScopeAxes(bool on)
+bool Scope::SetScopeLabels(bool on)
 {
-    for (auto& scope : m_panels)
+  for (auto& scope : m_panels)
     {
-        scope.axisVisible = on;
+        scope.titleVisible = on;
     }
+  Refresh();
     return on;
 }
 

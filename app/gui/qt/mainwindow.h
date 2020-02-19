@@ -147,7 +147,7 @@ signals:
         void toggleScope(QString name);
         void toggleLeftScope();
         void toggleRightScope();
-        void toggleScopeAxes();
+        void toggleScopeLabels();
         void scopeVisibilityChanged();
         void cycleThemes();
         void updateColourTheme();

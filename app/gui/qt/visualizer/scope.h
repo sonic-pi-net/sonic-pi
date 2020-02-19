@@ -57,7 +57,6 @@ struct Panel
     QBrush brush;
     QBrush brush2;
     bool visible = true;
-    bool axisVisible = false;
     bool titleVisible = true;
     bool requireFFT = false;
 
@@ -139,7 +138,7 @@ public:
 
     std::vector<QString> GetScopeCategories() const;
     bool EnableScope(const QString& name, bool on);
-    bool SetScopeAxes(bool on);
+    bool SetScopeLabels(bool on);
     void TogglePause();
     void Pause();
     void Resume();

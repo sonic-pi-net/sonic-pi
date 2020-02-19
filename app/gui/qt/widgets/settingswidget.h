@@ -47,7 +47,7 @@ private slots:
     void toggleLogAutoScroll();
     void updateColourTheme();
     void toggleScope();
-    void toggleScopeAxes();
+    void toggleScopeLabels();
     void toggleScope( QWidget* qw );
     void openSonicPiNet();
     void toggleCheckUpdates();
@@ -71,7 +71,7 @@ signals:
     void logAutoScrollChanged();
     void themeChanged();
     void scopeChanged();
-    void scopeAxesChanged();
+    void scopeLabelsChanged();
     void scopeChanged(QString name);
     void transparencyChanged(int t);
     void checkUpdatesChanged();
@@ -115,7 +115,7 @@ private:
     QCheckBox *highContrastModeCheck;
 
     QSignalMapper *scopeSignalMap;
-    QCheckBox *show_scope_axes;
+    QCheckBox *show_scope_labels;
     QCheckBox *show_scopes;
     QVBoxLayout *scope_box_kinds_layout;
 

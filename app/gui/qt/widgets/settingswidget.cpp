@@ -374,13 +374,13 @@ QGroupBox* SettingsWidget::createVisualizationPrefsTab() {
     scopeSignalMap = new QSignalMapper(this);
     show_scopes = new QCheckBox(tr("Show Scopes"));
     show_scopes->setToolTip(tr("Toggle the visibility of the audio oscilloscopes."));
-    show_scope_axes = new QCheckBox(tr("Show Axes"));
-    show_scope_axes->setToolTip(tr("Toggle the visibility of the axes for the audio oscilloscopes"));
-    show_scope_axes->setChecked(true);
+    show_scope_labels = new QCheckBox(tr("Show Labels"));
+    show_scope_labels->setToolTip(tr("Toggle the visibility of the labels for the audio oscilloscopes"));
+    show_scope_labels->setChecked(true);
     scope_box_kinds->setLayout(scope_box_kinds_layout);
     scope_box_kinds->setToolTip(tr("The audio oscilloscope comes in three flavours which may\nbe viewed independently or all together:\n\nLissajous - illustrates the phase relationship between the left and right channels\nMono - shows a combined view of the left and right channels (using RMS)\nStereo - shows two independent scopes for left and right channels"));
     scope_box_layout->addWidget(show_scopes);
-    scope_box_layout->addWidget(show_scope_axes);
+    scope_box_layout->addWidget(show_scope_labels);
     scope_box->setLayout(scope_box_layout);
     viz_tab_layout->addWidget(scope_box, 0, 0);
     viz_tab_layout->addWidget(scope_box_kinds, 1, 0);
@@ -542,8 +542,8 @@ void SettingsWidget::toggleScope() {
     emit scopeChanged();
 }
 
-void SettingsWidget::toggleScopeAxes() {
-    emit scopeAxesChanged();
+void SettingsWidget::toggleScopeLabels() {
+    emit scopeLabelsChanged();
 }
 
 void SettingsWidget::updateTransparency(int t) {
@@ -603,7 +603,7 @@ void SettingsWidget::updateSettings() {
     if (highContrastModeCheck->isChecked()) { piSettings->themeStyle = SonicPiTheme::HighContrastMode; }
 
     piSettings->show_scopes = show_scopes->isChecked();
-    piSettings->show_scope_axes = show_scope_axes->isChecked();
+    piSettings->show_scope_labels = show_scope_labels->isChecked();
 
     piSettings->check_updates = check_updates->isChecked();
 }
@@ -642,7 +642,7 @@ void SettingsWidget::settingsChanged() {
     highContrastModeCheck->setChecked( piSettings->themeStyle == SonicPiTheme::HighContrastMode );
 
     show_scopes->setChecked(piSettings->show_scopes);
-    show_scope_axes->setChecked(piSettings->show_scope_axes);
+    show_scope_labels->setChecked(piSettings->show_scope_labels);
 
     check_updates->setChecked(piSettings->check_updates);
 }
@@ -698,9 +698,9 @@ void SettingsWidget::connectAll() {
     connect(highContrastModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
     connect(gui_transparency_slider, SIGNAL(valueChanged(int)), this, SLOT(updateTransparency(int)));
 
-    connect(show_scope_axes, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(show_scope_labels, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(show_scopes, SIGNAL(clicked()), this, SLOT(updateSettings()));
-    connect(show_scope_axes, SIGNAL(clicked()), this, SLOT(toggleScopeAxes()));
+    connect(show_scope_labels, SIGNAL(clicked()), this, SLOT(toggleScopeLabels()));
     connect(show_scopes, SIGNAL(clicked()), this, SLOT(toggleScope()));
 
     connect(check_updates, SIGNAL(clicked()), this, SLOT(updateSettings()));
