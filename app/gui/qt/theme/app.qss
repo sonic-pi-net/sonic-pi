@@ -50,6 +50,11 @@ Values 1->25 will be scaled in integer increments. Values 30 - 100 will be round
   background-color: none;
 }
 
+QWidget
+{
+
+}
+
 #prefsCentral
 {
     background: paneColor;
@@ -498,10 +503,7 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical
     background: none;
 }
 
-QWidget
-{
-    background: paneColor;
-}
+
 
 QPushButton
 {
