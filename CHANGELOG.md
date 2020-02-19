@@ -1,5 +1,5 @@
 # History
-* [v3.2.0-beta-11 'Dev'](#v3.2.0), To be released...
+* [v3.2.0-beta-12 'Dev'](#v3.2.0), To be released...
 * [v3.1.0 'Sauna'](#v3.1.0), 23rd Jan, 2018
 * [v3.0.1 'IOIO'](#v3.0.1), 27th July, 2017
 * [v3.0 'IO'](#v3.0), 18th July, 2017
@@ -20,7 +20,7 @@
 
 <a name="v3.2.0"></a>
 
-## Version 3.2.0-beta-11 - 'Dev'
+## Version 3.2.0-beta-12 - 'Dev'
 *To be released...*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v3.2.0):
 
@@ -31,6 +31,8 @@
   paper. Previously, some of the patterns had been shifted. Use the
   `rotate:` opt to match prior behaviour if required.
 * OSC cues now include the IP address and port number of incoming messages  
+* MIDI cues now include the source information in the first part of the
+  path with `:` separators to match the new OSC cue format.
 * The `osc` fn now forces all outgoing args to either be numbers or
   strings (binary blobs and timestamps are not supported at this
   point). If the value is neither a number or string, it is 'inspected'
@@ -41,6 +43,7 @@
 * Constrain `:flanger` FX's `feedback:` opt to range 0->1. Values greater than 1 had the effect of increasing the amplitude which should be achieved via the `amp:` opt.
 * Add arg checker for `sample`'s `hpf:` opt which now ensures the value is not higher than 119 as values higher than this can cause bad noise artefacts.
 * Improve `sample`'s `start:`/`finish:`/`onset:`/`slice:` opt semantics. The `start:` and `finish:` opts for `sample` now work within the specified slice or onset. This allows you to easily play, say the first half of a given slice or onset by specifying a `start:` of `0` and a `finish:` of `0.5`. Where both the `slice:` and `onset:` opts are specified, then the slice operates within the onset. Where the `slice:`, `onset:` and `start:`/`finish:` opts are all used, the start/finish operate within the slice which in turn operates within the onset. See updated sample example for more information.
+
 
 
 ### New Fns
@@ -82,7 +85,8 @@
   display it.
 * Many, many translation improvements. Thanks to all the wonderful
   volunteers contributing to the translation effort: https://hosted.weblate.org/projects/sonic-pi/
-
+* Error pane height is now higher by default on all platforms and its
+  height is correctly scaled on high DPI monitors.
 
 ### Improvements
 
@@ -96,6 +100,8 @@
   allows OSC servers that reply directly back to incoming messages (such
   as SuperCollider) to be able to communicate back to messages sent from
   Sonic Pi.
+* Random fns now understand notes. For example `rrand(:e1, :e2)` will
+  return a random frequency between E octave 1 and 2.
   
   
 ### Bugfixes
