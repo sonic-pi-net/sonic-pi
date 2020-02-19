@@ -233,17 +233,23 @@ QPlainTextEdit
     border: 0dx;
 }
 
-QCheckBox:hover
-{
-    color: windowForegroundColor;
-    background: windowColor;
+
+
+QCheckBox {
+    spacing: 5dx;
 }
 
-QCheckBox
-{
-    color: windowForegroundColor;
-    background: windowColor;
+QCheckBox::indicator {
+    width: 18dx;
+    height: 18dx;
+}
 
+QCheckBox::indicator:unchecked {
+    image: url(:/images/checkbox-unchecked.png);
+}
+
+QCheckBox::indicator:checked {
+    image: url(:/images/checkbox-checked.png);
 }
 
 

@@ -83,6 +83,8 @@
         <file>images/toolbar/pro/prefs-bordered.png</file>
         <file>images/toolbar/pro/prefs-dark-bordered.png</file>
 
+        <file>images/checkbox-checked.png</file>
+        <file>images/checkbox-unchecked.png</file>
 
         <file>images/splash@2x.png</file>
         <file>images/splash.png</file>
