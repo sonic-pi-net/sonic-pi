@@ -644,6 +644,7 @@ void Scope::paintEvent(QPaintEvent* pEv)
             //painter.fillRect(panel.rcTitle, shadowColor);
 
             painter.setPen(textColor);
+
             painter.drawText(panel.rcTitle, Qt::AlignCenter, tr(panel.name.toUtf8().data()));
         }
 

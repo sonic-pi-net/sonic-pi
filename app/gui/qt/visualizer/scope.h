@@ -18,7 +18,7 @@
 #include <QPen>
 #include <QThread>
 
-#include <complex> 
+#include <complex>
 #include <memory>
 #include <string>
 #include <thread>
@@ -82,7 +82,7 @@ class AudioProcessingThread : public QThread
 
 public:
     AudioProcessingThread(int synthPort);
-    
+
     virtual void run() override;
 
     ProcessedAudio& GetCurrentProcessedAudio();
@@ -100,7 +100,7 @@ private:
     void GenLinSpace(uint32_t limit, uint32_t n);
     void SetupFFT();
     void CalculateFFT(ProcessedAudio& audio);
-   
+
 private:
     std::unique_ptr<server_shared_memory_client> m_shmClient;
     scope_buffer_reader m_shmReader;
