@@ -3683,7 +3683,6 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
             onsets = sample_buffer(path).onset_slices
           rescue Exception => e
             raise "Unable to find onset for sample with path #{path}:\n#{e.message}\n#{e.backtrace}"
-            end
           end
 
           if onset_idx.is_a? Numeric
