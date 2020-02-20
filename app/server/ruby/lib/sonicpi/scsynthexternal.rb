@@ -384,7 +384,7 @@ module SonicPi
       puts "Booting on Raspberry Pi"
       begin
         asoundrc = File.read(Dir.home + "/.asoundrc")
-        audio_card = (asoundrc.match(/pcm.!default\s+{[^}]+\n\s+card\s+([0-9]+)/m))[1]
+        audio_card = (asoundrc.match(/pcm.output\s+{[^}]+\n\s+card\s+([0-9]+)/m))[1]
       rescue
         audio_card = "0"
       end
@@ -393,7 +393,8 @@ module SonicPi
       if `ps cax | grep jackd`.split(" ").first.nil?
         #Jack not running - start a new instance
         puts "Jackd not running on system. Starting..."
-        jack_pid = spawn "jackd -R -p 32 -d alsa -d hw:#{audio_card} -n 3 -p 2048 -o2 -r 44100& "
+       jackCmd="jackd -R -p 32 -d alsa -d hw:#{audio_card} -n 3 -p 2048 -o2 -r 44100 "
+        jack_pid = spawn "exec #{jackCmd}"
         register_process jack_pid
       else
         puts "Jackd already running. Not starting another server..."
@@ -419,8 +420,8 @@ module SonicPi
 
       `jack_connect SuperCollider:out_1 system:playback_1`
       `jack_connect SuperCollider:out_2 system:playback_2`
-      # `jack_connect SuperCollider:in_1 system_capture_1`
-      # `jack_connect SuperCollider:in_2 system_capture_2`
+      `jack_connect SuperCollider:in_1 system_capture_1`
+      `jack_connect SuperCollider:in_2 system_capture_2`
 
       sleep 3
     end
@@ -432,7 +433,8 @@ module SonicPi
       if `ps cax | grep jackd`.split(" ").first.nil?
         #Jack not running - start a new instance
         puts "Jackd not running on system. Starting..."
-        jack_pid = ("jackd -R -T -p 32 -d alsa -n 3 -p 2048 -r 44100& ")
+        jackCmd = "jackd -R -T -p 32 -d alsa -n 3 -p 2048 -r 44100"
+        jack_pid = spawn  "exec #{jackCmd}"
         register_process jack_pid
       else
         puts "Jackd already running. Not starting another server..."
