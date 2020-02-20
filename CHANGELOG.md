@@ -87,6 +87,7 @@
   volunteers contributing to the translation effort: https://hosted.weblate.org/projects/sonic-pi/
 * Error pane height is now higher by default on all platforms and its
   height is correctly scaled on high DPI monitors.
+* Preference checkboxes are now similarly styled on all platforms.  
 
 ### Improvements
 
