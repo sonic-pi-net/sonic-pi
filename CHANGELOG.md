@@ -1,5 +1,5 @@
 # History
-* [v3.2.0-beta-12 'Dev'](#v3.2.0), To be released...
+* [v3.2.0-beta-13 'Dev'](#v3.2.0), To be released...
 * [v3.1.0 'Sauna'](#v3.1.0), 23rd Jan, 2018
 * [v3.0.1 'IOIO'](#v3.0.1), 27th July, 2017
 * [v3.0 'IO'](#v3.0), 18th July, 2017
@@ -20,7 +20,7 @@
 
 <a name="v3.2.0"></a>
 
-## Version 3.2.0-beta-12 - 'Dev'
+## Version 3.2.0-beta-13 - 'Dev'
 *To be released...*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v3.2.0):
 
@@ -103,6 +103,8 @@
   Sonic Pi.
 * Random fns now understand notes. For example `rrand(:e1, :e2)` will
   return a random frequency between E octave 1 and 2.
+* Windows can now detect sample onsets from samples stored in `.flac`
+  and `.ogg` in addition to arbitrary sample rates such as 48khz.
   
   
 ### Bugfixes
