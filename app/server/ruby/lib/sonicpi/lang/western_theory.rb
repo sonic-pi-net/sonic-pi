@@ -632,11 +632,13 @@ end"
 
 
 
-      def note_info(n, *args)
+      def note_info(n, args=nil)
         raise Exception.new("note_info argument must be a valid note. Got nil.") if(n.nil?)
+
+        return SonicPi::Note.resolve_note(n) if(args.nil?)
+
         args_h = resolve_synth_opts_hash_or_array(args)
-        octave = args_h[:octave]
-        SonicPi::Note.new(n, octave)
+        SonicPi::Note.resolve_note(n, args_h[:octave])
       end
       doc name:          :note_info,
       introduced:    Version.new(2,0,0),
