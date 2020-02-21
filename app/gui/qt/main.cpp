@@ -79,14 +79,28 @@ int main(int argc, char *argv[])
 
   // A temporary fix, until stylesheets are removed.
   // Only do the dpi scaling when the platform is high dpi
+
   if (GetDisplayScale().width() > 1.1f)
     {
-     QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+      QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+      QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+
     }
 
-  QPixmap pixmap(":/images/splash.png");
-  QSplashScreen *splash = new QSplashScreen(pixmap);
+  QPixmap pixmap;
+  QSplashScreen *splash;
+
+  if (GetDisplayScale().width() > 1.8f)
+    {
+      QPixmap pixmap(":/images/splash2x.png");
+      splash = new QSplashScreen(pixmap);
+    } else
+    {
+      QPixmap pixmap(":/images/splash.png");
+      splash = new QSplashScreen(pixmap);
+    }
+
+
   splash->setMask(pixmap.mask());
   splash->show();
   splash->repaint();
