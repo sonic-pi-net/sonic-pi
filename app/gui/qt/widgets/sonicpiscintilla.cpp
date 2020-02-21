@@ -14,7 +14,7 @@
 #include "profiler.h"
 #include "sonicpiscintilla.h"
 #include "osc/oscsender.h"
-
+#include "dpi.h"
 #include <QSettings>
 #include <QShortcut>
 #include <QDrag>
@@ -120,7 +120,7 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme, QSt
   this->setMatchedBraceBackgroundColor(theme->color("MatchedBraceBackground"));
   this->setMatchedBraceForegroundColor(theme->color("MatchedBraceForeground"));
 
-  setIndentationWidth(2);
+  setIndentationWidth(ScaleHeightForDPI(2));
   setIndentationGuides(true);
   setIndentationGuidesForegroundColor(theme->color("IndentationGuidesForeground"));
   setBraceMatching( SonicPiScintilla::SloppyBraceMatch);
@@ -139,7 +139,8 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme, QSt
   setText("# Loading previous buffer contents. Please wait...");
   setLexer((QsciLexer *)lexer);
 
-  markerDefine(RightArrow, 8);
+  markerDefine(QImage(":/images/marker-error.png").scaled(QSize(ScaleHeightForDPI(30), ScaleHeightForDPI(21))), 8);
+
   setMarkerBackgroundColor(theme->color("MarkerBackground"), 8);
 
   setAutoCompletionThreshold(1);
@@ -148,7 +149,7 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme, QSt
 
   setSelectionBackgroundColor(theme->color("SelectionBackground"));
   setSelectionForegroundColor(theme->color("SelectionForeground"));
-  setCaretWidth(5);
+  setCaretWidth(ScaleHeightForDPI(5));
   setCaretForegroundColor(theme->color("CaretForeground"));
   setEolMode(EolUnix);
 
@@ -188,6 +189,7 @@ void SonicPiScintilla::hideLineNumbers(){
   mutex->lock();
   setMarginLineNumbers(0, false);
   setMarginWidth(0, "0");
+  setMarginWidth(1, ScaleHeightForDPI(30));
   SendScintilla(SCI_HIDELINES);
   mutex->unlock();
 }
@@ -196,6 +198,7 @@ void SonicPiScintilla::showLineNumbers(){
   mutex->lock();
   setMarginLineNumbers(0, true);
   setMarginWidth(0, "1000");
+  setMarginWidth(1, ScaleHeightForDPI(30));
   SendScintilla(SCI_SHOWLINES);
   mutex->unlock();
 }
