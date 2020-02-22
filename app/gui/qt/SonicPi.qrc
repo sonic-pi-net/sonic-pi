@@ -141,6 +141,7 @@
 
         <file>theme/light/doc-styles.css</file>
         <file>theme/dark/doc-styles.css</file>
+        <file>theme/high_contrast/doc-styles.css</file>
 
         <file>lang/sonic-pi_bs.qm</file>
         <file>lang/sonic-pi_ca.qm</file>

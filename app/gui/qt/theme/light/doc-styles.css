@@ -1,8 +1,9 @@
 body {
   font-family: Helvetica Neue Light, HelveticaNeue-Light, Helvetica Neue, Liberation Sans;
-  font-size: medium;
+  font-size: large;
   color: #5e5e5e;
   background-color: white;
+  line-height: 110%;
 }
 
 ul.toc {
@@ -15,11 +16,12 @@ a {
 }
 
 em {
-  color: darkorange;
+    color: darkorange;
+    font-size: large;
 }
 
 .asciilogo {
-    font-size: medium;
+    font-size: large;
     color: deeppink;
 }
 
@@ -29,13 +31,13 @@ em {
 }
 
 .error_description {
-    font-size: medium;
+    font-size: large;
     background-color: deeppink;
     color: white;
 }
 
 .syntax_error_description {
-    font-size: medium;
+    font-size: large;
     background-color: dodgerblue;
     color: white;
 }
@@ -47,12 +49,12 @@ em {
 }
 
 .error_line {
-    font-size: large;
+    font-size: x-large;
     color: #5e5e5e;
 }
 
 .error_msg {
-    font-size: large;
+    font-size: x-large;
     color: deeppink;
 }
 
@@ -86,7 +88,7 @@ code .info {
 }
 
 .strapline {
-  font-size: large;
+  font-size: x-large;
 }
 
 .usage {
@@ -94,13 +96,13 @@ code .info {
 }
 
 .usage code {
-  font-size: large;
+  font-size: x-large;
   color: black;
   background-color: white;
 }
 
 h1 {
-  font-size: xx-large;
+  font-size: xx-x-large;
   font-weight: bold;
   padding: 2px;
   color: white;
@@ -108,7 +110,7 @@ h1 {
 }
 
 h2 {
-  font-size: x-large;
+  font-size: x-x-large;
   font-weight: bold;
   padding: 2px;
   color: white;
@@ -124,17 +126,17 @@ body.info a {
 }
 
 body.example code {
-  font-size: large;
+  font-size: x-large;
   color: dodgerblue;
 }
 
 body.manual .introduced {
   color: darkorange;
-  font-size: medium;
+  font-size: large;
 }
 
 body.manual table.arguments td {
-    font-size: medium;
+    font-size: large;
     padding: 2px;
     font-family: "Hack", "Menlo", "Bitstream Vera Sans Mono", "DejaVu Sans Mono",  "Liberation Mono", "DroidSansMono", "Lucida Console", Consolas, Terminal, Monaco, "Courier New", monospace;
 }
@@ -157,7 +159,7 @@ body.manual table.details td {
 
 body.manual table.details td.key {
     font-family: "Hack", "Menlo", "Bitstream Vera Sans Mono", "DejaVu Sans Mono",  "Liberation Mono", "DroidSansMono", "Lucida Console", Consolas, Terminal, Monaco, "Courier New", monospace;
-  font-size: large;
+  font-size: x-large;
 }
 
 body.manual table.details td.odd {
@@ -177,8 +179,9 @@ body.manual table.details td.even.key {
 }
 
 body.manual table.details .properties {
-  font-size: medium;
+  font-size: large;
   font-style: italic;
+
 }
 
 body.manual table.examples td {
@@ -187,7 +190,7 @@ body.manual table.examples td {
 
 body.manual table.examples code {
   color: #5e5e5e;
-  font-size: medium;
+  font-size: large;
 }
 
 body.manual table.examples td.odd {
