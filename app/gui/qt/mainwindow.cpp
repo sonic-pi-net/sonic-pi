@@ -2183,12 +2183,12 @@ void MainWindow::createInfoPane() {
 
     QStringList urls, tabs;
 
-    urls << "qrc:///html/info.html"
-        << "qrc:///info/COMMUNITY.html"
-        << "qrc:///info/CORETEAM.html"
-        << "qrc:///info/CONTRIBUTORS.html"
-        << "qrc:///info/LICENSE.html"
-        << "qrc:///info/CHANGELOG.html";
+    urls << ":/html/info.html"
+        << ":/info/COMMUNITY.html"
+        << ":/info/CORETEAM.html"
+        << ":/info/CONTRIBUTORS.html"
+        << ":/info/LICENSE.html"
+        << ":/info/CHANGELOG.html";
 
     tabs << tr("About")
         << tr("Community")
@@ -2202,7 +2202,21 @@ void MainWindow::createInfoPane() {
         infoPanes.append(pane);
         addUniversalCopyShortcuts(pane);
         pane->setOpenExternalLinks(true);
-        pane->setSource(QUrl(urls[t]));
+
+        QFile file(urls[t]);
+        file.open(QFile::ReadOnly | QFile::Text);
+
+        QTextStream st(&file);
+        st.setCodec("UTF-8");
+        QString source = st.readAll();
+        source = source.replace("100dx", QString("%1").arg(ScaleHeightForDPI(100)));
+        source = source.replace("254dx", QString("%1").arg(ScaleHeightForDPI(254)));
+        source = source.replace("413dx", QString("%1").arg(ScaleHeightForDPI(413)));
+        source = source.replace("268dx", QString("%1").arg(ScaleHeightForDPI(268)));
+        source = source.replace("328dx", QString("%1").arg(ScaleHeightForDPI(328)));
+        pane->setHtml(source);
+
+        // pane->setSource(QUrl(urls[t]));
         infoTabs->addTab(pane, tabs[t]);
     }
 
