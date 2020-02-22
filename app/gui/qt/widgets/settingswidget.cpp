@@ -107,7 +107,7 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     synth_trigger_timing_guarantees_cb = new QCheckBox(tr("Enforce timing guarantees"));
     synth_trigger_timing_guarantees_cb->setToolTip(tr("When enabled, Sonic Pi will refuse\nto trigger synths and FX if\nit is too late to do so\n\nWhen disabled, Sonic Pi will always\nattempt to trigger synths and FX\neven when a little late."));
 
-    enable_external_synths_cb = new QCheckBox(tr("Enable external synths and FX"));
+    enable_external_synths_cb = new QCheckBox(tr("Enable external synths/FX"));
     enable_external_synths_cb->setToolTip(tr("When enabled, Sonic Pi will allow\nsynths and FX loaded via load_synthdefs\nto be triggered.\n\nWhen disabled, Sonic Pi will complain\nwhen you attempt to use a synth or FX\nwhich isn't recognised."));
 
     QVBoxLayout *synths_box_layout = new QVBoxLayout;
@@ -137,7 +137,7 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
 
     QLabel *network_ip_label = new QLabel();
     QString ip_address_trans = tr("Local IP address");
-    QString port_num_trans = tr("Listening for OSC messages on port");
+    QString port_num_trans = tr("Incoming OSC port");
     QString ip_address = "";
     QString all_ip_addresses  = "";
 
@@ -162,7 +162,7 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
     network_ip_label->setText(ip_address_trans + ": " + ip_address + "\n" + port_num_trans + + ": " + QString::number(server_osc_cues_port));
     network_ip_label->setToolTip(all_ip_addresses);
 
-    osc_public_check = new QCheckBox(tr("Send/Receive remote OSC messages"));
+    osc_public_check = new QCheckBox(tr("Send/Receive remote OSC"));
     osc_public_check->setToolTip(tr("When checked, Sonic Pi will let you send and receive OSC messages to and from remote machines.\n When unchecked, only sending and receiving from the local machine will be enabled."));
 
     osc_server_enabled_check = new QCheckBox(tr("Enable OSC server"));
@@ -210,12 +210,12 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
     midi_default_channel_combo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLength) ;
 
     QLabel *midi_default_channel_label = new QLabel;
-    midi_default_channel_label->setText(tr("Default MIDI channel (* means all)"));
-    midi_default_channel_label->setToolTip(tr("Default MIDI Channel to send messages to"));
+    midi_default_channel_label->setText(tr("Default MIDI channel"));
+    midi_default_channel_label->setToolTip(tr("Default MIDI Channel to send messages to (* means all)"));
 
     QGridLayout *midi_default_channel_layout = new QGridLayout();
 
-    midi_default_channel_combo->setToolTip(tr("Default MIDI Channel to send messages to"));
+    midi_default_channel_combo->setToolTip(tr("Default MIDI Channel to send messages to  (* means all)"));
 
     midi_default_channel_layout->addWidget(midi_default_channel_combo, 0, 0);
     midi_default_channel_layout->addWidget(midi_default_channel_label, 0, 1);
