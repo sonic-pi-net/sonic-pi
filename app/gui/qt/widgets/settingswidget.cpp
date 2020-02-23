@@ -15,6 +15,7 @@
 #include <QPushButton>
 #include <QSignalMapper>
 #include <QVBoxLayout>
+#include <QSize>
 
 /**
  * Default Constructor
@@ -70,6 +71,11 @@ SettingsWidget::SettingsWidget( int port, SonicPiSettings *piSettings,  QWidget 
  * Destructor
  */
 SettingsWidget::~SettingsWidget() {
+}
+
+QSize SettingsWidget::sizeHint() const
+{
+  return QSize(100, 100);
 }
 
 /**

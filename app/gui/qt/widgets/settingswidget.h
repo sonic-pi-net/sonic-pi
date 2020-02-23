@@ -30,6 +30,7 @@ public:
     void updateMidiInPorts( QString in );
     void updateMidiOutPorts( QString out );
     void updateScopeNames(std::vector<QString>);
+    QSize sizeHint() const;
 
 private slots:
     void update_mixer_invert_stereo();

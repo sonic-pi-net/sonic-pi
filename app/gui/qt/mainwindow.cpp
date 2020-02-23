@@ -534,12 +534,10 @@ void MainWindow::setupWindowStructure() {
     scopeInterface->Pause();
     restoreScopeState(scopeInterface->GetScopeCategories());
     settingsWidget->updateScopeNames(scopeInterface->GetScopeCategories());
-
-    prefsCentral = new QWidget;
-    prefsCentral->setObjectName("prefsCentral");
+    QSizePolicy prefsSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+    settingsWidget->setSizePolicy(prefsSizePolicy);
     prefsWidget->setWidget(settingsWidget);
-    QSizePolicy prefsSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
-    prefsCentral->setSizePolicy(prefsSizePolicy);
+
     addDockWidget(Qt::RightDockWidgetArea, prefsWidget);
     prefsWidget->hide();
     prefsWidget->setObjectName("prefs");
@@ -2215,8 +2213,6 @@ void MainWindow::createInfoPane() {
         source = source.replace("268dx", QString("%1").arg(ScaleHeightForDPI(268)));
         source = source.replace("328dx", QString("%1").arg(ScaleHeightForDPI(328)));
         pane->setHtml(source);
-
-        // pane->setSource(QUrl(urls[t]));
         infoTabs->addTab(pane, tabs[t]);
     }
 
