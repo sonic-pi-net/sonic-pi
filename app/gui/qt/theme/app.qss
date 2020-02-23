@@ -327,7 +327,7 @@ QComboBox
     padding-bottom: 1dx;
     padding-left: 3dx;
     background: tabColor;
-    color: windowForegroundColor;
+    color: tabTextColor;
 }
 
 QComboBox::item
