@@ -55,7 +55,8 @@ void SonicPiLog::setTextBackgroundColor(QColor c)
 
 void SonicPiLog::setFontFamily(QString font_name)
 {
-  setFont(QFont(font_name));
+
+  setFont(QFont(font_name, 8, -1, false));
 }
 
 void SonicPiLog::appendPlainText(QString text)

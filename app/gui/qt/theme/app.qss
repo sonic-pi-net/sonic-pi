@@ -46,7 +46,6 @@ Values 1->25 will be scaled in integer increments. Values 30 - 100 will be round
 
 *
 {
-  font-size: medium;
   background-color: none;
 }
 
@@ -57,7 +56,8 @@ QWidget
 
 #prefsCentral
 {
-    background: paneColor;
+  font-size: medium;
+  background: paneColor;
 }
 
 QSplitter
@@ -73,12 +73,13 @@ QSplitter::handle:horizontal
 
 QFrame
 {
-    border: none;
+  border: none;
 }
 
 QLabel
 {
-    border: none;
+  font-size: medium;
+  border: none;
 }
 
 QSplitter::handle:vertical
@@ -93,8 +94,14 @@ QSplitter::handle:horizontal
     image: url(images/hsplitter.png);
 }
 
+QTabBar
+{
+  font-size: medium;
+}
+
 QTabBar::tab
 {
+
     background: tabColor;
     color: tabTextColor;
     padding-top: 5dx;
@@ -134,7 +141,7 @@ QDockWidget::title
 
 QDockWidget
 {
-    font-size: small;
+  font-size: small;
 }
 
  QToolTip
@@ -234,8 +241,8 @@ QPlainTextEdit
 }
 
 
-
 QCheckBox {
+    font-size: medium;
     spacing: 5dx;
 }
 
@@ -266,7 +273,10 @@ QGroupBox QFrame
 
 QGroupBox
 {
-    padding-top: 5dx;
+
+  font-size: medium;
+
+  padding-top: 5dx;
     padding-right: 10dx;
     padding-bottom: 5dx;
     padding-left: 10dx;
@@ -291,18 +301,18 @@ QDockWidget QListView
 
 QTextBrowser
 {
+    font-size: medium;
     selection-color: selectionForegroundColor;
     selection-background-color: selectionBackgroundColor;
-
     padding: 20dx;
     background-color: paneColor;
 }
 
 QListWidget
 {
+    font-size: medium;
     border: 1dx solid windowBorderColor;
     background: paneColor;
-    font-size: medium;
     min-width: 500dx;
 }
 
@@ -320,6 +330,7 @@ QListWidget::item::selected
 
 QComboBox
 {
+    font-size: medium;
     border: 1dx solid tabSelectedColor;
     border-radius: 3dx;
     padding-top: 1dx;
@@ -510,6 +521,7 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical
 
 QPushButton
 {
+    font-size: medium;
     background-color: buttonColor;
     color: buttonTextColor;
     padding: 5dx;
