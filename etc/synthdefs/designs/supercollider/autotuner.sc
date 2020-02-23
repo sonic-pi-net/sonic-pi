@@ -24,7 +24,7 @@ SynthDef('sonic-pi-fx_autotuner', {|
     out_bus=0,
     in_bus=0,
     // args specific to this synth
-    target_pitch = 0,
+    note = 0,
     formant_ratio = 1,
     min_freq = 10,
     max_formant_ratio = 10,
@@ -94,7 +94,7 @@ SynthDef('sonic-pi-fx_autotuner', {|
     in = Mix([dryL, dryR]).asArray.wrapExtend(numChannels);
     //in = [dryL, dryR].asArray.wrapExtend(numChannels);
 
-    // target_pitch represents a midi "target" pitch to tune to
+    // note represents a midi "target" pitch to tune to
     // without that arg, it works as a normal autotune, locking the
     // input to the nearest midi note
 
@@ -104,7 +104,7 @@ SynthDef('sonic-pi-fx_autotuner', {|
     quantizedMidi = freq.asArray[0].cpsmidi.softRound(1, 0, 1); //quantize to integers, therefore semitones
 
     // using an if statement caused performance issues for the next line
-    midiDiff = Select.kr(target_pitch.clip(0, 1), [(quantizedMidi - freqAsMidi), (target_pitch - freqAsMidi)]);
+    midiDiff = Select.kr(note.clip(0, 1), [(quantizedMidi - freqAsMidi), (note - freqAsMidi)]);
 
     //optionally harmonize
     harmonize = [transpose].midiratio; //single

@@ -4988,7 +4988,7 @@ with_fx :autotuner do |c|
 ```
 
 ```
-  # listen to standard auto-tune behaviour
+  # listen to standard auto-tune behaviour for 4 seconds
 ```
 
 ```
@@ -4996,11 +4996,11 @@ with_fx :autotuner do |c|
 ```
 
 ```
-     # now start setting target pitch to get robot voice behaviour
+     # now start changing note: to get robot voice behaviour
 ```
 
 ```
-     control(c, target_pitch: scale(:a2, :minor_pentatonic, num_octaves: 2).choose)
+     control c, note: (scale :a2, :minor_pentatonic, num_octaves: 2).choose
 ```
 
 ```
@@ -5019,22 +5019,25 @@ end
 
       def arg_defaults
         super.merge({
-          :target_pitch => 0,
+          :note => 0,
           :formant_ratio => 1.0,
-          :transpose => 0,
-          :min_freq => 80,
-          :max_formant_ratio => 10,
-          :grains_period => 2.0,
+          #TODO: Add documentation:
+          # comment out these until documentation is added
+          # :transpose => 0,
+          # :min_freq => 80,
+          # :max_formant_ratio => 10,
+          # :grains_period => 2.0,
         })
       end
 
       def specific_arg_info
         {
-          :target_pitch =>
+          :note =>
           {
             :doc => "Midi note to shift pitch to. The quality of the sound depends on how stable the pitch of the input is.",
-            :validations => [v_between_inclusive(:target_pitch, 0, 127)],
-            :modulatable => true
+            :validations => [v_between_inclusive(:note, 0, 127)],
+            :modulatable => true,
+            :midi => true
           },
 
           :formant_ratio =>
