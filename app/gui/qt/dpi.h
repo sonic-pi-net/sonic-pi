@@ -106,11 +106,11 @@ inline QString ScalePxInStyleSheet(QString style)
   style = style.replace(QRegExp(":\\s*3\\d\\ddx"), QString(": %1px").arg(ScaleHeightForDPI(300)));
   style = style.replace(QRegExp(":\\s*4\\d\\ddx"), QString(": %1px").arg(ScaleHeightForDPI(400)));
   style = style.replace(QRegExp(":\\s*5\\d\\ddx"), QString(": %1px").arg(ScaleHeightForDPI(500)));
-  style = style.replace(QRegExp("font-size:\\s*small\\s*;"), QString("font-size: %1px; /*small*/").arg(ScaleHeightForDPI(12)));
-  style = style.replace(QRegExp("font-size:\\s*medium\\s*;"), QString("font-size: %1px; /*medium*/").arg(ScaleHeightForDPI(17)));
-  style = style.replace(QRegExp("font-size:\\s*large\\s*;"), QString("font-size: %1px; /*large*/").arg(ScaleHeightForDPI(20)));
-  style = style.replace(QRegExp("font-size:\\s*x-large\\s*;"), QString("font-size: %1px; /*x-large*/").arg(ScaleHeightForDPI(24)));
-  style = style.replace(QRegExp("font-size:\\s*xx-large\\s*;"), QString("font-size: %1px; /*xx-large*/").arg(ScaleHeightForDPI(30)));
+  style = style.replace(QRegExp("font-size:\\s*small\\s*;"), QString("font-size: %1px; /*small*/").arg(ScaleHeightForDPI(14)));
+  style = style.replace(QRegExp("font-size:\\s*medium\\s*;"), QString("font-size: %1px; /*medium*/").arg(ScaleHeightForDPI(19)));
+  style = style.replace(QRegExp("font-size:\\s*large\\s*;"), QString("font-size: %1px; /*large*/").arg(ScaleHeightForDPI(22)));
+  style = style.replace(QRegExp("font-size:\\s*x-large\\s*;"), QString("font-size: %1px; /*x-large*/").arg(ScaleHeightForDPI(26)));
+  style = style.replace(QRegExp("font-size:\\s*xx-large\\s*;"), QString("font-size: %1px; /*xx-large*/").arg(ScaleHeightForDPI(32)));
 
   return style;
 }
