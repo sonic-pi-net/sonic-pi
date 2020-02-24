@@ -31,8 +31,8 @@ from people on [Patreon](https://patreon.com/samaaron) in addition to
 funds raised by delivering talks, workshops and performances. Sam's work
 has also been hugely assisted by many wonderful code and translation
 contributions both by members of the Core Team and by our growing
-community of live coders. This release has truly been a community
-effort.
+international community of live coders. This release has truly been a 
+community effort.
 
 So, what's new? This time there are no radical new features, instead we
 have a much more polished and solid battle-tested performance-ready
