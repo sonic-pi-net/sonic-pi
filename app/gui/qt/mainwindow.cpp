@@ -232,7 +232,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
         timer->start(1000);
         splashClose();
         showWindow();
-        showWelcomeScreen();
         app.processEvents();
         std::cout << "[GUI] - boot sequence completed." << std::endl;
 
@@ -244,6 +243,8 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     toggleOSCServer(1);
 
     app.setActiveWindow(tabs->currentWidget());
+    showWelcomeScreen();
+
 
 }
 
@@ -455,7 +456,7 @@ void MainWindow::showWelcomeScreen() {
   QSettings settings(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net", "gui-settings");
     if(settings.value("first_time", 1).toInt() == 1) {
         QTextBrowser* startupPane = new QTextBrowser;
-        startupPane->setFixedSize(600, 615);
+        startupPane->setFixedSize(ScaleHeightForDPI(600), ScaleHeightForDPI(615));
         startupPane->setWindowIcon(QIcon(":images/icon-smaller.png"));
         startupPane->setWindowTitle(tr("Welcome to Sonic Pi"));
         addUniversalCopyShortcuts(startupPane);
@@ -466,6 +467,8 @@ void MainWindow::showWelcomeScreen() {
         docsCentral->setCurrentIndex(0);
         helpLists[0]->setCurrentRow(0);
         startupPane->show();
+        startupPane->raise();
+        startupPane->activateWindow();
     }
 }
 
