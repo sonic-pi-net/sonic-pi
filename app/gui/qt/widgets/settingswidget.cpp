@@ -384,7 +384,7 @@ QGroupBox* SettingsWidget::createVisualizationPrefsTab() {
     show_scope_labels->setToolTip(tr("Toggle the visibility of the labels for the audio oscilloscopes"));
     show_scope_labels->setChecked(true);
     scope_box_kinds->setLayout(scope_box_kinds_layout);
-    scope_box_kinds->setToolTip(tr("The audio oscilloscope comes in three flavours which may\nbe viewed independently or all together:\n\nLissajous - illustrates the phase relationship between the left and right channels\nMono - shows a combined view of the left and right channels (using RMS)\nStereo - shows two independent scopes for left and right channels"));
+    scope_box_kinds->setToolTip(tr("The audio oscilloscope comes in several flavours which may\nbe viewed independently or all together:\n\nLissajous - illustrates the phase relationship between the left and right channels\nMirror Stereo - simple left/right composite wave, with left on top, right on bottom\nMono - shows a combined view of the left and right channels (using RMS)\nSpectrum - shows the sound frequencies as a spectrum, from low to high frequencies\nStereo - shows two independent scopes for left and right channels"));
     scope_box_layout->addWidget(show_scopes);
     scope_box_layout->addWidget(show_scope_labels);
     scope_box->setLayout(scope_box_layout);
