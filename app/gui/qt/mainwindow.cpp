@@ -532,6 +532,7 @@ void MainWindow::setupWindowStructure() {
 
     scopeInterface = new Scope(scsynth_port);
     scopeInterface->Pause();
+    scopeInterface->setObjectName("scopes");
     restoreScopeState(scopeInterface->GetScopeCategories());
     settingsWidget->updateScopeNames(scopeInterface->GetScopeCategories());
     QSizePolicy prefsSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
