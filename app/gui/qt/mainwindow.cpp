@@ -2368,7 +2368,7 @@ void MainWindow::readSettings() {
     piSettings->auto_indent_on_run = settings.value("prefs/auto-indent-on-run", true).toBool();
     piSettings->gui_transparency = settings.value("prefs/gui_transparency", 0).toInt();
     piSettings->show_scopes = settings.value("prefs/scope/show-scopes", true).toBool();
-    piSettings->show_scope_labels = settings.value("prefs/scope/show-labels", true).toBool();
+    piSettings->show_scope_labels = settings.value("prefs/scope/show-labels", false).toBool();
     piSettings->show_cues = settings.value("prefs/show_cues", true).toBool();
     QString styleName = settings.value("prefs/theme", "").toString();
     piSettings->themeStyle = theme->themeNameToStyle(styleName);
@@ -2381,7 +2381,7 @@ void MainWindow::restoreScopeState(std::vector<QString> names) {
     QSettings settings(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net", "gui-settings");
 
     for ( auto name : names ) {
-        bool def = (name.toLower() == "mono");
+        bool def = (name.toLower() == "spectrum");
         piSettings->setScopeState(name, settings.value("prefs/scope/show-"+name.toLower(), def).toBool());
     }
 }
