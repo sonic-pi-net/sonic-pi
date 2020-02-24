@@ -35,8 +35,8 @@ international community of live coders. This release has truly been a
 community effort.
 
 So, what's new? This time there are no radical new features, instead we
-have a much more polished and solid battle-tested performance-ready
-version than ever before.
+have a much more polished, accessible and stable version than ever before. 
+(This release has been heavily battle-tested in many performances worldwide).
 
 This release is codenamed Tau -
 [(an improved Pi)](https://tauday.com/tau-manifesto).
