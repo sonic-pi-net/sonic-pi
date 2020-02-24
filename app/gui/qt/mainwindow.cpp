@@ -2304,9 +2304,9 @@ void MainWindow::createStatusBar()
  */
 void MainWindow::restoreWindows() {
     QSettings settings(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net", "gui-settings");
-
-    QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
-    QSize size = settings.value("size", QSize(400, 400)).toSize();
+    QRect rec = QApplication::desktop()->screenGeometry();
+    QPoint pos = settings.value("pos", QPoint(0, 0)).toPoint();
+    QSize size = settings.value("size", QSize(rec.width(), rec.height())).toSize();
 
     int index = settings.value("workspace", 0).toInt();
     if (index < tabs->count())
