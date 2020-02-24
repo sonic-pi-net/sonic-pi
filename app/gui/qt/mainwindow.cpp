@@ -463,6 +463,8 @@ void MainWindow::showWelcomeScreen() {
         startupPane->document()->setDefaultStyleSheet(styles);
         startupPane->setSource(QUrl("qrc:///html/startup.html"));
         docWidget->show();
+        docsCentral->setCurrentIndex(0);
+        helpLists[0]->setCurrentRow(0);
         startupPane->show();
     }
 }
