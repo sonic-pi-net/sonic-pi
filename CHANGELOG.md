@@ -84,7 +84,7 @@ Now, go and make some noise with code!
   [Toussaint paper](http://cgm.cs.mcgill.ca/~godfried/publications/banff.pdf). 
   Previously, some of the patterns had been shifted. Use the `rotate:` opt to
   match prior behaviour if required.
-* OSC cues now include the IP address and port number of incoming messages  
+* OSC cues now include the IP address and port number of incoming messages
 * MIDI cues now include the source information in the first part of the
   path with `:` separators to match the new OSC cue format.
 * The `osc` fn now forces all outgoing args to either be numbers or
@@ -104,7 +104,7 @@ Now, go and make some noise with code!
 
 * `eval_file` evaluates the contents of the specified file inline in the
   current thread as if it was a function.
-* `midi_sysex` for sending MIDI sysex messages.  
+* `midi_sysex` for sending MIDI sysex messages.
 * Add new chain fn `.notes` which takes a ring of values and returns a
   new ring with each element treated as a note. This will leave numbers
   unchanged but will turn note names like `:C1` to their corresponding
@@ -123,7 +123,7 @@ Now, go and make some noise with code!
 
 * New WCAG 2 level AAA compliant high contrast colour theme. This is
   especially suited for those with low vision.
-* New application menu and shortcuts.  
+* New application menu and shortcuts.
 * New default icons which match the pro icon feel.
 * 2 new visualiser scopes - mirror stereo and spectrum.
 * Move to simple numbered labels for buffers.
@@ -179,7 +179,7 @@ Now, go and make some noise with code!
   `use_real_time`).
 * `set` and `cue` no longer print duplicate messages which was possible
   in some cases.
-* Fix `time_warp` examples which were incorrect and misleading.  
+* Fix `time_warp` examples which were incorrect and misleading.
 * Improve pid handling on Linux. This should reduce the number of zombie
   processes accidentally generated.
 * The `offset:` opt for `with_swing` now matches documented behaviour.
@@ -191,7 +191,7 @@ Now, go and make some noise with code!
 * Stop `defonce` from being executed multiple times
 * Calling `.take` on an empty ring no longer results in infinite
   recursion but instead returns an empty ring.
-* Scope now has a minimum height.  
+* Scope now has a minimum height.
 * Windows now supports sending and receiving OSC messages over the
   network to and from external machines.
   
