@@ -477,6 +477,9 @@ void MainWindow::showWelcomeScreen() {
         startupPane->show();
         startupPane->raise();
         startupPane->activateWindow();
+        incomingPane->setFixedWidth(ScaleWidthForDPI(600));
+        incomingPane->setFixedHeight(ScaleHeightForDPI(50));
+        outputPane->verticalScrollBar()->setValue(0);
     }
 }
 
