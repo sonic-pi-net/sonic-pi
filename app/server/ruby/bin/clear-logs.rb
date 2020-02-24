@@ -19,7 +19,11 @@ require_relative "../lib/sonicpi/util"
 
 include SonicPi::Util
 
-history_dir = "#{log_path}/history/#{Time.now.to_s}"
+# Windows doesn't allow certain chars in file paths
+# which are present in the default Time.now string format.
+# therefore remove them.
+sanitised_time_str = Time.now.to_s.gsub!(/[<>:|?*]/, '_')
+history_dir = "#{log_path}/history/#{sanitised_time_str}"
 FileUtils.mkdir_p(history_dir)
 
 Dir["#{log_path}/*.log"].each do |p|
