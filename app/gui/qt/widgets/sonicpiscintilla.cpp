@@ -36,7 +36,7 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme, QSt
   standardCommands()->clearKeys();
   standardCommands()->clearAlternateKeys();
   QString skey;
-  QSettings settings("sonic-pi.net", "gui-keys-bindings");
+  QSettings settings(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net", "gui-keys-bindings");
   mutex = new QMutex(QMutex::Recursive);
 
 #if defined(Q_OS_MAC)

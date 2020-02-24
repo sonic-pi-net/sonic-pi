@@ -130,7 +130,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     this->splash = splash;
     this->i18n = i18n;
     guiID = QUuid::createUuid().toString();
-    QSettings settings("sonic-pi.net", "gui-settings");
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net", "gui-settings");
 
     readSettings();
     initPaths();
@@ -452,7 +452,7 @@ bool MainWindow::checkPort(int port) {
 }
 
 void MainWindow::showWelcomeScreen() {
-    QSettings settings("sonic-pi.net", "gui-settings");
+  QSettings settings(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net", "gui-settings");
     if(settings.value("first_time", 1).toInt() == 1) {
         QTextBrowser* startupPane = new QTextBrowser;
         startupPane->setFixedSize(600, 615);
@@ -1158,7 +1158,7 @@ void MainWindow::splashClose() {
 }
 
 void MainWindow::showWindow() {
-    QSettings settings("sonic-pi.net", "gui-settings");
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net", "gui-settings");
     if(settings.value("first_time", 1).toInt() == 1) {
         showMaximized();
     } else {
@@ -1360,7 +1360,7 @@ QString MainWindow::currentTabLabel()
 bool MainWindow::loadFile()
 {
     QString selfilter = QString("%1 (*.rb *.txt)").arg(tr("Buffer files"));
-    QSettings settings("sonic-pi.net", "gui-settings");
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net", "gui-settings");
     QString lastDir = settings.value("lastDir", QDir::homePath() + "/Desktop").toString();
     QString fileName = QFileDialog::getOpenFileName(this, tr("Load Sonic Pi Buffer"), lastDir, QString("%1 (*.rb *.txt);;%2 (*.txt);;%3 (*.rb);;%4 (*.*)").arg(tr("Buffer files")).arg(tr("Text files")).arg(tr("Ruby files")).arg(tr("All files")), &selfilter) ;
     if(!fileName.isEmpty()){
@@ -1377,7 +1377,7 @@ bool MainWindow::loadFile()
 bool MainWindow::saveAs()
 {
     QString selfilter = QString("%1 (*.rb *.txt)").arg(tr("Buffer files"));
-    QSettings settings("sonic-pi.net", "gui-settings");
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net", "gui-settings");
     QString lastDir = settings.value("lastDir", QDir::homePath() + "/Desktop").toString();
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save Current Buffer"), lastDir, QString("%1 (*.rb *.txt);;%2 (*.txt);;%3 (*.rb);;%4 (*.*)").arg(tr("Buffer files")).arg(tr("Text files")).arg(tr("Ruby files")).arg(tr("All files")), &selfilter) ;
 
@@ -2268,7 +2268,7 @@ void MainWindow::toggleRecording() {
         Message msg("/stop-recording");
         msg.pushStr(guiID.toStdString());
         sendOSC(msg);
-        QSettings settings("sonic-pi.net", "gui-settings");
+        QSettings settings(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net", "gui-settings");
         QString lastDir = settings.value("lastDir", QDir::homePath() + "/Desktop").toString();
         QString fileName = QFileDialog::getSaveFileName(this, tr("Save Recording"), lastDir, tr("Wavefile (*.wav)"));
         if (!fileName.isEmpty()) {
@@ -2301,7 +2301,7 @@ void MainWindow::createStatusBar()
  * restores the zoomlevels of the editor tabs
  */
 void MainWindow::restoreWindows() {
-    QSettings settings("sonic-pi.net", "gui-settings");
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net", "gui-settings");
 
     QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
     QSize size = settings.value("size", QSize(400, 400)).toSize();
@@ -2341,7 +2341,7 @@ void MainWindow::restoreWindows() {
  */
 void MainWindow::readSettings() {
     std::cout << "[GUI] - reading settings" << std::endl;
-    QSettings settings("sonic-pi.net", "gui-settings");
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net", "gui-settings");
 
     piSettings->show_buttons = true;
     piSettings->show_tabs = true;
@@ -2378,7 +2378,7 @@ void MainWindow::readSettings() {
 
 void MainWindow::restoreScopeState(std::vector<QString> names) {
     std::cout << "[GUI] - restoring scope states " << std::endl;
-    QSettings settings("sonic-pi.net", "gui-settings");
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net", "gui-settings");
 
     for ( auto name : names ) {
         bool def = (name.toLower() == "mono");
@@ -2389,7 +2389,7 @@ void MainWindow::restoreScopeState(std::vector<QString> names) {
 void MainWindow::writeSettings()
 {
     std::cout << "[GUI] - writing settings" << std::endl;
-    QSettings settings("sonic-pi.net", "gui-settings");
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net", "gui-settings");
     settings.setValue("pos", pos());
     settings.setValue("size", size());
     settings.setValue("first_time", 0);

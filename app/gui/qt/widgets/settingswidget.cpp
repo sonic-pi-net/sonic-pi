@@ -472,7 +472,7 @@ void SettingsWidget::updateScopeNames( std::vector<QString> names ) {
 
 void SettingsWidget::toggleScope( QWidget* qw ) {
   QCheckBox* cb = static_cast<QCheckBox*>(qw);
-  //QSettings settings("sonic-pi.net", "gui-settings");
+  //QSettings settings(QSettings::IniFormat, QSettings::UserScope,    "sonic-pi.net", "gui-settings");
   //piSettings->setValue("prefs/scope/show-"+cb->text().toLower(), cb->isChecked() );
   QString name = cb->text();
   piSettings->setScopeState( name, cb->isChecked() );
