@@ -1,5 +1,5 @@
 # History
-* [v3.2.0-beta-13 'Dev'](#v3.2.0), To be released...
+* [v3.2.0 'Tau'](#v3.2.0), 28th Feb, 2020
 * [v3.1.0 'Sauna'](#v3.1.0), 23rd Jan, 2018
 * [v3.0.1 'IOIO'](#v3.0.1), 27th July, 2017
 * [v3.0 'IO'](#v3.0), 18th July, 2017
@@ -20,10 +20,63 @@
 
 <a name="v3.2.0"></a>
 
-## Version 3.2.0-beta-13 - 'Dev'
-*To be released...*
+## Version 3.2.0 - 'Tau'
+*28th Feb, 2020*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v3.2.0):
 
+After a long 2 years without updates, we are threaded with excitement to
+bring you Sonic Pi's first fully independent release. Sam Aaron's work
+on this release has been 100% supported by kind and generous donations
+from people on [Patreon](https://patreon.com/samaaron) in addition to
+funds raised by delivering talks, workshops and performances. Sam's work
+has also been hugely assisted by many wonderful code and translation
+contributions both by members of the Core Team and by our growing
+community of live coders. This release has truly been a community
+effort.
+
+So, what's new? This time there are no radical new features, instead we
+have a much more polished and solid battle-tested performance-ready
+version than ever before.
+
+This release is codenamed Tau -
+[(an improved Pi)](https://tauday.com/tau-manifesto).
+
+One of the core focusses of this release is accessibility. Tau
+introduces support for screen readers. Previously the code editor was
+invisible to the main screen readers on both macOS and Windows and this
+is now fixed. There is also an accesible menu bar and a new high
+contrast colour theme which is WCAG 2 level AAA compliant. Accessibility
+is very important to us and we acknowledge that this is only the
+beginning and we value and encourage feedback from users who have
+specific accessibility requirements that we are not directly meeting. We
+plan to improve our accessibilty support where possible in every release
+going forward.
+
+Another aspect of accessibility is support for Windows devices with high
+resolution displays. Previously on certain displays font and icon sizes
+could be far too small, unreadable and out of proportion with the app in
+general. This has all been addressed with significant work on ensuring
+Sonic Pi looks great on a variety of monitors on both Windows and
+macOS. We believe that this release looks better and is more usable than
+any previous release.
+
+Tau features two beautiful new audio visualiser scopes - a spectrum
+scope showing the frequency content of the audio and a beautiful mirror
+stereo scope. These scopes have been contributed by Chris Maughan who
+has also been pivotal in improving and simplying the Windows build
+process. We are hugely grateful for his contributions - thanks Chris!
+
+We have two fabulous new FX - a ping pong delay contributed by Ethan
+Crawford and an autotuner contributed by Xavier Riley. We hope you have
+as much fun playing with these as we have.
+
+Finally, this release has seen a significant improvement with
+translation coverage - both of the GUI and the tutorial. We truly
+believe that this helps us achieve our mission of lowering the barrier
+to entry for a creative experience with code by helping more non-English
+speakers start their live coding journeys.
+
+Now, go and make some noise with code!
 
 ### Breaking Changes
 
@@ -65,9 +118,6 @@
 * The `piano` synth now supports fractional notes such as `70.3`
 
 
-### Samples
-
-
 ### GUI
 
 * New WCAG 2 level AAA compliant high contrast colour theme. This is
@@ -87,7 +137,7 @@
   volunteers contributing to the translation effort: https://hosted.weblate.org/projects/sonic-pi/
 * Error pane height is now higher by default on all platforms and its
   height is correctly scaled on high DPI monitors.
-* Preference checkboxes are now similarly styled on all platforms.  
+* Preference checkboxes are now similarly styled on all platforms.
 
 ### Improvements
 
