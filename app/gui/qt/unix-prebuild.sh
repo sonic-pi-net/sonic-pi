@@ -1,15 +1,18 @@
 #!/bin/bash
 set -e # Quit script on error
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
-rm -r "${SCRIPT_DIR}/../../server/ruby/vendor/ruby-aubio-prerelease" | true
-
+#dont remove ruby-aubio-prerelease  as needed in linux build
+#it is removed in the windows-prebuild
 echo "Translating tutorial..."
-../../server/native/ruby/bin/ruby "${SCRIPT_DIR}/../../server/ruby/bin/i18n-tool.rb" -t
+#assumes linux uses system ruby
+#so dont use prefix ../../server/native/ruby/bin/ruby, as unnecessary to set this up
+ruby "${SCRIPT_DIR}/../../server/ruby/bin/i18n-tool.rb" -t
 
 echo "Generating docs for the Qt GUI..."
 cp "${SCRIPT_DIR}/utils/ruby_help.tmpl" "${SCRIPT_DIR}/utils/ruby_help.h"
-../../server/native/ruby/bin/ruby "${SCRIPT_DIR}/../../server/ruby/bin/qt-doc.rb" -o "${SCRIPT_DIR}/utils/ruby_help.h"
+#assumes linux uses system ruby
+#so dont use prefix ../../server/native/ruby/bin/ruby, as unnecessary to set this up
+ruby "${SCRIPT_DIR}/../../server/ruby/bin/qt-doc.rb" -o "${SCRIPT_DIR}/utils/ruby_help.h"
 
 echo "Updating GUI translation files..."
 lrelease "${SCRIPT_DIR}"/lang/*.ts
