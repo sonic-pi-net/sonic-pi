@@ -37,6 +37,8 @@ include SonicPi::Util
 
 ## This is where the server starts....
 STDOUT.puts "Sonic Pi server booting..."
+STDOUT.puts "This is version 3.2.0 running on Ruby #{RUBY_VERSION}."
+STDOUT.puts "The time is #{Time.now}"
 
 ## Select the primary GUI protocol
 gui_protocol = case ARGV[0]
@@ -210,7 +212,7 @@ ensure_port_or_quit.call(websocket_port, gui)
 # Yey! all ports are availale if we get this far...  Ensure this is now
 # visible in the log by flushing STDOUT - just in case you're tailing it
 # in the ternimal with tail -f ~/.sonic-pi/log/server-output.log
-STDOUT.flush
+
 
 
 # Now we need to set up a server to listen to messages from the GUI.  If
@@ -243,6 +245,7 @@ rescue Exception => e
   exit
 end
 
+STDOUT.flush
 
 # # Next fire up a websockets server.
 # begin
@@ -295,6 +298,7 @@ klass.send(:define_method, :inspect) { "Runtime" }
 ws_out = Queue.new
 
 begin
+  STDOUT.puts "Starting Server Runtime"
   sp =  klass.new sonic_pi_ports, ws_out, user_methods
 
   # read in init.rb if exists
