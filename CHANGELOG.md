@@ -96,7 +96,7 @@ Now, go and make some noise with code!
   Number Registry. However, 4560 is currently free.
 * Constrain `:flanger` FX's `feedback:` opt to range 0->1. Values greater than 1 had the effect of increasing the amplitude which should be achieved via the `amp:` opt.
 * Add arg checker for `sample`'s `hpf:` opt which now ensures the value is not higher than 119 as values higher than this can cause bad noise artefacts.
-* Improve `sample`'s `start:`/`finish:`/`onset:`/`slice:` opt semantics. The `start:` and `finish:` opts for `sample` now work within the specified slice or onset. This allows you to easily play, say the first half of a given slice or onset by specifying a `start:` of `0` and a `finish:` of `0.5`. Where both the `slice:` and `onset:` opts are specified, then the slice operates within the onset. Where the `slice:`, `onset:` and `start:`/`finish:` opts are all used, the start/finish operate within the slice which in turn operates within the onset. See updated sample example for more information.
+* Improve `sample`'s `start:`/`finish:`/`onset:`/`slice:` opt semantics. The `start:` and `finish:` opts for `sample` now work within the specified slice or onset. This allows you to easily play, say the first half of a given slice or onset by specifying a `start:` of `0` and a `finish:` of `0.5`. Where both the `slice:` and `onset:` opts are specified, then the slice operates within the onset. Where the `slice:`, `onset:` and `start:`/`finish:` opts are all used, the start/finish operate within the slice which in turn operates within the onset. See the updated sample examples for more information.
 
 
 
