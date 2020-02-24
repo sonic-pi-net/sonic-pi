@@ -8,7 +8,7 @@ with other educators, musicians and live coders...
 *<https://in-thread.sonic-pi.net/>*
 
 <a href="https://in-thread.sonic-pi.net">
-  <img src="../images/in_thread_screen.png" height="254dx" width="413dx"/>
+  <img src=":/images/in_thread_screen.png" height="254dx" width="413dx"/>
 </a>
 
 Come and join the friendly discussion over at
