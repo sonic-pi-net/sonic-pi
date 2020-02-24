@@ -44,12 +44,12 @@ This release is codenamed Tau -
 One of the core focusses of this release is accessibility. Tau
 introduces support for screen readers. Previously the code editor was
 invisible to the main screen readers on both macOS and Windows and this
-is now fixed. There is also an accesible menu bar and a new high
+is now fixed. There is also an accessible menu bar and a new high
 contrast colour theme which is WCAG 2 level AAA compliant. Accessibility
-is very important to us and we acknowledge that this is only the
+is very important to us - we acknowledge that this is only the
 beginning and we value and encourage feedback from users who have
 specific accessibility requirements that we are not directly meeting. We
-plan to improve our accessibilty support where possible in every release
+plan to improve our accessibility support where possible in every release
 going forward.
 
 Another aspect of accessibility is support for Windows devices with high
@@ -70,7 +70,7 @@ We have two fabulous new FX - a ping pong delay contributed by Ethan
 Crawford and an autotuner contributed by Xavier Riley. We hope you have
 as much fun playing with these as we have.
 
-Finally, this release has seen a significant improvement with
+Finally, this release has seen a significant improvement in
 translation coverage - both of the GUI and the tutorial. We truly
 believe that this helps us achieve our mission of lowering the barrier
 to entry for a creative experience with code by helping more non-English
@@ -82,7 +82,7 @@ Now, go and make some noise with code!
 
 * `spread` now produces identical patterns as in the 
   [Toussaint paper](http://cgm.cs.mcgill.ca/~godfried/publications/banff.pdf). 
-  Previously, some of the patterns had been shifted. Use the`rotate:` opt to 
+  Previously, some of the patterns had been shifted. Use the `rotate:` opt to
   match prior behaviour if required.
 * OSC cues now include the IP address and port number of incoming messages  
 * MIDI cues now include the source information in the first part of the
@@ -155,7 +155,7 @@ Now, go and make some noise with code!
 * Random fns now understand notes. For example `rrand(:e1, :e2)` will
   return a random frequency between E octave 1 and 2.
 * Windows can now detect sample onsets from samples stored in `.flac`
-  and `.ogg` in addition to arbitrary sample rates such as 48khz.
+  and `.ogg` format in addition to arbitrary sample rates such as 48khz.
   
   
 ### Bugfixes
