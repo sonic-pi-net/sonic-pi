@@ -456,13 +456,21 @@ void MainWindow::showWelcomeScreen() {
   QSettings settings(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net", "gui-settings");
     if(settings.value("first_time", 1).toInt() == 1) {
         QTextBrowser* startupPane = new QTextBrowser;
-        startupPane->setFixedSize(ScaleHeightForDPI(600), ScaleHeightForDPI(615));
+        startupPane->setFixedSize(ScaleHeightForDPI(600), ScaleHeightForDPI(650));
         startupPane->setWindowIcon(QIcon(":images/icon-smaller.png"));
         startupPane->setWindowTitle(tr("Welcome to Sonic Pi"));
         addUniversalCopyShortcuts(startupPane);
         QString styles = ScalePxInStyleSheet(readFile(":/theme/light/doc-styles.css"));
         startupPane->document()->setDefaultStyleSheet(styles);
-        startupPane->setSource(QUrl("qrc:///html/startup.html"));
+        QFile file(":/html/startup.html");
+        file.open(QFile::ReadOnly | QFile::Text);
+        QTextStream st(&file);
+        st.setCodec("UTF-8");
+        QString source = st.readAll();
+        source = source.replace("214dx", QString("%1").arg(ScaleHeightForDPI(214)));
+        source = source.replace("262dx", QString("%1").arg(ScaleHeightForDPI(262)));
+        source = source.replace("50dx", QString("%1px").arg(ScaleHeightForDPI(32)));
+        startupPane->setHtml(source);
         docWidget->show();
         docsCentral->setCurrentIndex(0);
         helpLists[0]->setCurrentRow(0);
