@@ -80,9 +80,10 @@ Now, go and make some noise with code!
 
 ### Breaking Changes
 
-* `spread` now produces identical patterns as in the Toussaint
-  paper. Previously, some of the patterns had been shifted. Use the
-  `rotate:` opt to match prior behaviour if required.
+* `spread` now produces identical patterns as in the 
+  [Toussaint paper](http://cgm.cs.mcgill.ca/~godfried/publications/banff.pdf). 
+  Previously, some of the patterns had been shifted. Use the`rotate:` opt to 
+  match prior behaviour if required.
 * OSC cues now include the IP address and port number of incoming messages  
 * MIDI cues now include the source information in the first part of the
   path with `:` separators to match the new OSC cue format.
