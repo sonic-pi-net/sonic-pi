@@ -2312,7 +2312,7 @@ void MainWindow::restoreWindows() {
 
     for (int w=0; w < workspace_max; w++) {
         // default zoom is 13
-        int zoom = settings.value(QString("workspace%1zoom").arg(w), 13)
+        int zoom = settings.value(QString("workspace%1zoom").arg(w), 2)
             .toInt();
         if (zoom < -5) zoom = -5;
         if (zoom > 20) zoom = 20;
