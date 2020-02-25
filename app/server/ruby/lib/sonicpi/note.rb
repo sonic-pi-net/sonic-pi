@@ -67,11 +67,37 @@ module SonicPi
 
     @@notes_cache = {}
 
+    @@midi_string_cache = Hash.new {|h, k| h[k] = {} }
+    @@midi_to_note_cache = {}
+
+    def self.resolve_note(n, o=nil)
+      raise Exception.new("resolve_note argument must be a valid note. Got nil.") if(n.nil?)
+      n_key = n.is_a?(String) ? n.to_sym : n
+
+      return @@midi_to_note_cache[@@midi_string_cache[n_key][o]] if @@midi_string_cache[n_key][o]
+
+      note = self.new(n_key, o)
+
+      case n_key
+      when Numeric
+        @@midi_string_cache[n_key][o] = note.midi_string
+      else
+        n_key = n.to_s
+        downcase = n_key.downcase
+        [n_key.upcase.to_sym, downcase.to_sym, downcase.capitalize.to_sym].each do |key|
+          @@midi_string_cache[key][o] = note.midi_string
+        end
+      end
+
+      @@midi_to_note_cache[note.midi_string] = note unless @@midi_to_note_cache.has_key?(note.midi_string)
+      note
+    end
+
     def self.resolve_midi_note_without_octave(n)
       return @@notes_cache[n] if @@notes_cache[n]
       note = case n
              when Symbol, String
-               self.new(n).midi_note
+               self.resolve_note(n).midi_note
              when NilClass
                nil
              when Numeric
