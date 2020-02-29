@@ -1,9 +1,9 @@
 cd %~dp0
-call external/build_externals.bat
+call external/win_x64_build_externals.bat
 
 cd %~dp0
 @echo Copying aubio to the server...
-copy external\build\aubio-prefix\src\Aubio-build\Release\libaubio-5.dll ..\..\server\native\ruby\bin
+copy external\build\aubio-prefix\src\aubio-build\Release\libaubio-5.dll ..\..\server\native\ruby\bin
 
 rmdir /S /Q ..\..\server\ruby\vendor\ruby-aubio-prerelease
 

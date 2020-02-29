@@ -1,14 +1,14 @@
 cd %~dp0
-call external/build_externals32.bat
+call external/win_x86_build_externals.bat
 
 cd %~dp0
 @echo Copying aubio to the server...
-copy external\build32\aubio-prefix\src\Aubio-build\Release\libaubio-5.dll ..\..\server\native\ruby\bin
+copy external\build_x86\aubio-prefix\src\aubio-build\Release\libaubio-5.dll ..\..\server\native\ruby\bin
 
 rmdir /S /Q ..\..\server\ruby\vendor\ruby-aubio-prerelease
 
 @echo Copying osmid to the server
-xcopy /Y /I /R /E external\build32\osmid-prefix\src\osmid-build\Release\*.exe ..\..\server\native\osmid
+xcopy /Y /I /R /E external\build_x86\osmid-prefix\src\osmid-build\Release\*.exe ..\..\server\native\osmid
 
 @echo Copying scsynth to server...
 copy /Y ..\..\..\prebuilt\windows\x86\*.* ..\..\server\native

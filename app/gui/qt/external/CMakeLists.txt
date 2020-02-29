@@ -99,7 +99,7 @@ ExternalProject_Add(libsndfile
         CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/libsndfile-package
     )
 
-ExternalProject_Add(Aubio
+ExternalProject_Add(aubio
     PREFIX aubio-prefix
     SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/aubio
     DEPENDS libsndfile
@@ -122,4 +122,4 @@ ExternalProject_Add(Aubio
 add_library(AubioBuilder STATIC externals.cpp)
 
 # Dependency ensures the externals are built
-add_dependencies(AubioBuilder Aubio)
+add_dependencies(AubioBuilder aubio)
