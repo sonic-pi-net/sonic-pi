@@ -6,5 +6,13 @@ echo "Building server external dependencies..."
 mkdir -p "${SCRIPT_DIR}/build"
 cd "${SCRIPT_DIR}/build"
 cmake -G "Unix Makefiles" ..
-cmake --build .
+
+echo "Building osmid..."
+cmake --build . --target osmid
+
+if [ "$1" = "--build-aubio" ]; then
+  echo "Building aubio..."
+  cmake --build . --target aubio
+fi
+
 cd "${SCRIPT_DIR}"

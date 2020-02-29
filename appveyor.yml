@@ -1,12 +1,19 @@
 # Build worker image (VM template)
-image: Visual Studio 2019
+image:
+  - Visual Studio 2019
+  - macos
+  - Ubuntu
 
 # scripts that are called at very beginning, before repo cloning
 init:
-  - date /T & time /T
-  - git config --global core.autocrlf input
-  - cmake --version
+  - cmd: |
+    date /T & time /T
+    git config --global core.autocrlf input
+    cmake --version
 
+  - sh: |
+    date
+    cmake --version
 branches:
   only:
   - master
@@ -18,37 +25,104 @@ configuration:
   - Release
   - Debug
 
-environment:
-  MSBUILD_FLAGS: /verbosity:minimal /maxcpucount
+# Windows build
+for:
+-
   matrix:
-    - generator: "Visual Studio 16 2019"
+    only:
+      - image: Visual Studio 2019
+
+  environment:
+    MSBUILD_FLAGS: /verbosity:minimal /maxcpucount
+    matrix:
+      - generator: "Visual Studio 16 2019"
+
+  install:
+    - cmd: |
+      cd %APPVEYOR_BUILD_FOLDER%
+      dir
+      cd app\server\native
+      mklink /d ruby c:\Ruby26-x64
+      set PATH=c:\Ruby26-x64\bin;C:\Program Files (x86)\WiX Toolset v3.11\bin;%PATH%
+      gem install win32-process
+      gem install rugged --version 0.27.1
+      gem install aubio
+      gem install fast_osc
+      set QT_INSTALL_LOCATION=C:\Qt\5.14.0\msvc2017_64
+  build_script:
+    # generate build script
+    - cmd: |
+      cd %APPVEYOR_BUILD_FOLDER%
+      cd app\gui\qt
+      win-prebuild.bat
+      win-config.bat
+      cd build
+      cmake --build . --target ALL_BUILD --config %configuration% -- /nologo /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+  after_build:
+    - cmd: |
+      cd %APPVEYOR_BUILD_FOLDER%
+      cd install\windows
+      IF "%configuration%"=="Release" install.bat
+    #- IF "%configuration%"=="Release" appveyor PushArtifact wix\sonic-pi.msi
+
+# Ubuntu Linux build
+for:
+-
+  matrix:
+    only:
+      - image: Ubuntu
+
+  install:
+    - sh: |
+      cd "$APPVEYOR_BUILD_FOLDER"
+      ls -lA
+      # Install prerequisites
+      sudo apt-get install -y git build-essential\
+       ruby ruby-dev erlang-base\ # Ruby & Erlang stuff
+       qt5-default libqt5svg5-dev\ # Qt5 stuff
+       qttools5-dev qttools5-dev-tools qtdeclarative5-dev libqt5webkit5-dev\
+       qtpositioning5-dev libqt5sensors5-dev libqt5opengl5-dev qtmultimedia5-dev\
+       libjack-jackd2-dev libasound2-dev libavahi-client-dev\ # Other libraries
+       libicu-dev libreadline6-dev libfftw3-dev libxt-dev libudev-dev cmake\
+       libboost-dev libffi-dev
+      gem install bundler
+  build_script:
+    # generate build script
+    - sh: |
+      cd "$APPVEYOR_BUILD_FOLDER"
+      cd app/server/ruby/bin
+      ./compile-extensions.rb
+      cd ../../../gui/qt
+      ./unix-prebuild.sh --build-aubio
+      ./unix-config.sh
+      cd build
+      cmake --build . --target ALL_BUILD
+
+# macOS build
+for:
+-
+  matrix:
+    only:
+      - image: macos
+
+  install:
+    - sh: |
+      cd "$APPVEYOR_BUILD_FOLDER"
+      ls -lA
+      # Install prerequisites
+      brew install cmake erlang qt
+      gem install bundler
+  build_script:
+    # generate build script
+    - sh: |
+      cd "$APPVEYOR_BUILD_FOLDER"
+      cd app/server/ruby/bin
+      ./compile-extensions.rb
+      cd ../../../gui/qt
+      ./unix-prebuild.sh --build-aubio
+      ./unix-config.sh
+      cd build
+      cmake --build . --target ALL_BUILD
 
 matrix:
   fast_finish: true
-
-install:
-  - cd %APPVEYOR_BUILD_FOLDER%
-  - dir
-  - cd app\server\native
-  - mklink /d ruby c:\Ruby26-x64
-  - set PATH=c:\Ruby26-x64\bin;C:\Program Files (x86)\WiX Toolset v3.11\bin;%PATH%
-  - gem install win32-process
-  - gem install rugged --version 0.27.1
-  - gem install aubio
-  - gem install fast_osc
-  - set QT_INSTALL_LOCATION=C:\Qt\5.14.0\msvc2017_64
-
-build_script:
-  # generate build script
-  - cd %APPVEYOR_BUILD_FOLDER%
-  - cd app\gui\qt
-  - win-prebuild.bat
-  - win-config.bat
-  - cd build
-  - cmake --build . --target ALL_BUILD --config %configuration% -- /nologo /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
-
-after_build:
-  - cd %APPVEYOR_BUILD_FOLDER%
-  - cd install\windows
-  - IF "%configuration%"=="Release" install.bat
-  #- IF "%configuration%"=="Release" appveyor PushArtifact wix\sonic-pi.msi
