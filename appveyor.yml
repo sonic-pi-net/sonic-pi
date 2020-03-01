@@ -73,6 +73,7 @@ for:
 
   install:
     - sh: |
+        set -x # Echo commands
         cd "$APPVEYOR_BUILD_FOLDER"
         ls -lA
         # Install prerequisites
@@ -84,16 +85,17 @@ for:
          libjack-jackd2-dev libasound2-dev libavahi-client-dev\ # Other libraries
          libicu-dev libreadline6-dev libfftw3-dev libxt-dev libudev-dev cmake\
          libboost-dev libffi-dev
-        gem install bundler
+        sudo gem install bundler
   build_script:
     # generate build script
     - sh: |
+        set -x # Echo commands
         cd "$APPVEYOR_BUILD_FOLDER"
         cd app/server/ruby/bin
         ./compile-extensions.rb
         cd ../../../gui/qt
         ./unix-prebuild.sh --build-aubio
-        ./unix-config.sh
+        ./unix-config.sh --config ${configuration}
         cd build
         cmake --build . --target ALL_BUILD
 
@@ -105,20 +107,22 @@ for:
 
   install:
     - sh: |
+        set -x # Echo commands
         cd "$APPVEYOR_BUILD_FOLDER"
         ls -lA
-        # Install prerequisites
-        brew install cmake erlang qt
-        gem install bundler
+        # Install extra prerequisites
+        brew install erlang
+        sudo gem install bundler
   build_script:
     # generate build script
     - sh: |
+        set -x # Echo commands
         cd "$APPVEYOR_BUILD_FOLDER"
         cd app/server/ruby/bin
         ./compile-extensions.rb
         cd ../../../gui/qt
         ./unix-prebuild.sh --build-aubio
-        ./unix-config.sh
+        ./unix-config.sh --config ${configuration}
         cd build
         cmake --build . --target ALL_BUILD
 
