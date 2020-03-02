@@ -13,5 +13,5 @@
   pan_start = pan_start.neg;
   pan_start = Clip.kr(pan_start, -1, 1);
   panned = Balance2.ar(dry_l, dry_r, pan_start);
-  PingPong.ar(LocalBuf(SampleRate.ir * max_phase, 2).clear, panned, phase, feedback, 1);
+  Mix.new([PingPong.ar(LocalBuf(SampleRate.ir * max_phase, 2).clear, panned, phase, feedback, 1), [dry_l, dry_r]]);
 }, [], 2);
