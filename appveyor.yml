@@ -1,19 +1,9 @@
 # Build worker image (VM template)
 image:
-  - Visual Studio 2019
   - macos
   - Ubuntu
+  - Visual Studio 2019
 
-# scripts that are called at very beginning, before repo cloning
-init:
-  - cmd: |
-      date /T & time /T
-      git config --global core.autocrlf input
-      cmake --version
-
-  - sh: |
-      date
-      cmake --version
 branches:
   only:
   - master
@@ -26,7 +16,7 @@ configuration:
   - Debug
 
 for:
-  # Windows build
+# Windows build
 -
   matrix:
     only:
@@ -37,6 +27,11 @@ for:
     matrix:
       - generator: "Visual Studio 16 2019"
 
+  init:
+    # scripts that are called at very beginning, before repo cloning
+    - date /T & time /T
+    - git config --global core.autocrlf input
+    - cmake --version
   install:
     - cd %APPVEYOR_BUILD_FOLDER%
     - dir
@@ -66,10 +61,15 @@ for:
     only:
       - image: Ubuntu
 
+  init:
+    # scripts that are called at very beginning, before repo cloning
+    - date
+    - cmake --version
   install:
     - cd "$APPVEYOR_BUILD_FOLDER"
     - ls -lA
     - # Install prerequisites
+    - sudo apt-get update
     - sudo apt-get install -y git build-essential\
     -  ruby ruby-dev erlang-base\ # Ruby & Erlang stuff
     -  qt5-default libqt5svg5-dev\ # Qt5 stuff
@@ -95,6 +95,13 @@ for:
     only:
       - image: macos
 
+  init:
+    # scripts that are called at very beginning, before repo cloning
+    - date
+    - cmake --version
+    - # Output details about Homebrew's config & check for issues
+    - brew config
+    - brew doctor
   install:
     - cd "$APPVEYOR_BUILD_FOLDER"
     - ls -lA
