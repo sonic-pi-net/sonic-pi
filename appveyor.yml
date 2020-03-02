@@ -63,7 +63,7 @@ for:
 
   init:
     # scripts that are called at very beginning, before repo cloning
-    - date
+    - date '+%Y-%m-%d %T %Z(UTC%:z)'
     - cmake --version
   install:
     - cd "$APPVEYOR_BUILD_FOLDER"
@@ -97,16 +97,22 @@ for:
 
   init:
     # scripts that are called at very beginning, before repo cloning
-    - date
+    - date '+%Y-%m-%d %T %Z(UTC%:z)'
     - cmake --version
-    - # Output details about Homebrew's config & check for issues
+    - # Update Homebrew; cleanup cache; output details about Homebrew's config; and check brew & print any warnings (for debugging)
+    - brew update
+    - brew cleanup
     - brew config
     - brew doctor || true
   install:
     - cd "$APPVEYOR_BUILD_FOLDER"
     - ls -lA
-    - # Install extra prerequisites
+    - # Install erlang
     - brew install erlang
+    - # Relink gettext to Homebrew folders to hopefully fix symbol errors (based from https://github.com/EOSIO/eos/issues/2174)
+    - brew link gettext --force
+    - export PATH="/usr/local/opt/gettext/bin:$PATH" # Add gettext to the path
+    - # Install prerequisite ruby gems
     - sudo gem install bundler
   build_script:
     # generate build script
