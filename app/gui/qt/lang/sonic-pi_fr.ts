@@ -295,17 +295,17 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="2776"/>
         <source>Disabling OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>Désactivation du port de repère de l&apos;OSC...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2785"/>
         <source>Enabling external OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>Activation du port de repère OSC externe...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2794"/>
         <source>Enabling internal OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>Activation du port de repère interne de l&apos;OSC...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2852"/>
@@ -783,13 +783,14 @@ via le réseau actuellement connecté.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="165"/>
         <source>Send/Receive remote OSC messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Envoyer/recevoir des messages OSC à distance</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="166"/>
         <source>When checked, Sonic Pi will let you send and receive OSC messages to and from remote machines.
  When unchecked, only sending and receiving from the local machine will be enabled.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lorsque cochée, Sonic Pi vous permettra d&apos;envoyer et de recevoir des messages OSC vers et depuis des machines distantes.
+ Lorsque non-cochée, seuls l&apos;envoi et la réception à partir de la machine locale seront activés.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="168"/>
