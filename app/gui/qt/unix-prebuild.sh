@@ -24,6 +24,14 @@ fi
 #dont remove ruby-aubio-prerelease, as needed in linux build
 #it is removed in the windows-prebuild
 
+echo "Compiling native ruby extensions..."
+ruby "${SCRIPT_DIR}/../../server/ruby/bin/compile-extensions.rb"
+
+echo "Compiling erlang files..."
+cd "${SCRIPT_DIR}/../../server/erlang"
+erlc osc.erl pi_server.erl
+cd "${SCRIPT_DIR}"
+
 echo "Translating tutorial..."
 #assumes linux uses system ruby
 #so dont use prefix ../../server/native/ruby/bin/ruby, as unnecessary to set this up
