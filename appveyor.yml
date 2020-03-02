@@ -82,6 +82,7 @@ for:
   build_script:
     # generate build script
     - cd "$APPVEYOR_BUILD_FOLDER"
+    - cd app/gui/qt
     - ./unix-prebuild.sh --build-aubio
     - ./unix-config.sh --config $CONFIGURATION
     - cd build
@@ -103,6 +104,7 @@ for:
   build_script:
     # generate build script
     - cd "$APPVEYOR_BUILD_FOLDER"
+    - cd app/gui/qt
     - ./unix-prebuild.sh --build-aubio
     - ./unix-config.sh --config $CONFIGURATION
     - cd build
