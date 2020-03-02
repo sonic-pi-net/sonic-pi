@@ -101,7 +101,7 @@ for:
     - cmake --version
     - # Output details about Homebrew's config & check for issues
     - brew config
-    - brew doctor
+    - brew doctor || true
   install:
     - cd "$APPVEYOR_BUILD_FOLDER"
     - ls -lA
