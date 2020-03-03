@@ -121,7 +121,7 @@ module SonicPi
     def self.resolve_degree(degree, tonic, name, no_of_notes)
       name = name.to_s
       degree_int = Scale.resolve_degree_index(degree)
-      scale = Scale.new(tonic, name, 2)
+      scale = Scale.resolve_scale(tonic, name, 2)
       scale.notes.drop(degree_int).select.with_index{|_, i| i % 2 == 0}.take(no_of_notes)
     end
 
