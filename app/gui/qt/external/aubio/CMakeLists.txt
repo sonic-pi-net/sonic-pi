@@ -230,7 +230,7 @@ elseif(${CMAKE_SYSTEM_NAME} MATCHES Linux)
     #target_compile_options(${PROJECT_NAME}
     #PRIVATE
     #)
-elseif(MACOS)
+elseif(${CMAKE_SYSTEM_NAME} MATCHES Darwin) # macOS
     #target_compile_options(${PROJECT_NAME}
     #PRIVATE
     #)
