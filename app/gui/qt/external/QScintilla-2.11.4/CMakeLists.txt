@@ -295,6 +295,13 @@ elseif(${CMAKE_SYSTEM_NAME} MATCHES Linux)
         -Wno-misleading-indentation
     )
 elseif(${CMAKE_SYSTEM_NAME} MATCHES Darwin) # macOS
+    # Link to Qt Mac Extras
+    find_package(Qt5 COMPONENTS MacExtras REQUIRED)
+    target_link_libraries(QScintilla
+        PUBLIC
+        Qt5::MacExtras
+    )
+    
     target_compile_options(QScintilla
     PRIVATE
         -Wno-absolute-value
