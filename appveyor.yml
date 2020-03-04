@@ -63,7 +63,7 @@ for:
 
   init:
     # scripts that are called at very beginning, before repo cloning
-    - date '+%Y-%m-%d %T %Z(UTC%:z)'
+    - date '+%Y-%m-%d %T %Z(UTC%z)'
     - cmake --version
   install:
     - cd "$APPVEYOR_BUILD_FOLDER"
@@ -86,7 +86,7 @@ for:
     - ./unix-prebuild.sh --build-aubio
     - ./unix-config.sh --config $CONFIGURATION
     - cd build
-    - cmake --build . --target ALL_BUILD
+    - cmake --build .
 
 
 # macOS build
@@ -97,7 +97,7 @@ for:
 
   init:
     # scripts that are called at very beginning, before repo cloning
-    - date '+%Y-%m-%d %T %Z(UTC%:z)'
+    - date '+%Y-%m-%d %T %Z(UTC%z)'
     - cmake --version
     - # Update Homebrew; cleanup cache; output details about Homebrew's config; and check brew & print any warnings (for debugging)
     - brew update
@@ -123,7 +123,7 @@ for:
     - # (We don't build aubio from source in prebuild, but instead use the brew installed version so that the build can complete within the 1 hour time limit)
     - ./unix-config.sh --config $CONFIGURATION
     - cd build
-    - cmake --build . --target ALL_BUILD
+    - cmake --build .
 
 matrix:
   fast_finish: true
