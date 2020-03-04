@@ -294,7 +294,7 @@ elseif(${CMAKE_SYSTEM_NAME} MATCHES Linux)
         -Wno-strict-overflow
         -Wno-misleading-indentation
     )
-elseif(MACOS)
+elseif(${CMAKE_SYSTEM_NAME} MATCHES Darwin) # macOS
     target_compile_options(QScintilla
     PRIVATE
         -Wno-absolute-value

@@ -19,7 +19,7 @@ set(APP_ROOT ${CMAKE_CURRENT_LIST_DIR})
 set(SONIC_PI_ROOT ${CMAKE_CURRENT_LIST_DIR}/../../..)
 
 # Set cmake prefix path so it can find the Qt libraries
-if(${BUILD_32BIT} AND DEFINED ENV{QT_INSTALL_LOCATION32})
+if((${BUILD_32BIT}) AND (DEFINED ENV{QT_INSTALL_LOCATION32}))
   message(STATUS "Setting up a 32 bit Qt Build")
   message(STATUS "Setting prefix to user-defined Qt (32-bit) install location: $ENV{QT_INSTALL_LOCATION32}")
   set(CMAKE_PREFIX_PATH $ENV{QT_INSTALL_LOCATION32})
