@@ -18,11 +18,18 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(APP_ROOT ${CMAKE_CURRENT_LIST_DIR})
 set(SONIC_PI_ROOT ${CMAKE_CURRENT_LIST_DIR}/../../..)
 
-if(${BUILD_32BIT})
-message(STATUS "Setting up a 32 bit QT Build")
-set(CMAKE_PREFIX_PATH $ENV{QT_INSTALL_LOCATION32})
-else()
-set(CMAKE_PREFIX_PATH $ENV{QT_INSTALL_LOCATION})
+# Set cmake prefix path so it can find the Qt libraries
+if(${BUILD_32BIT} AND DEFINED ENV{QT_INSTALL_LOCATION32})
+  message(STATUS "Setting up a 32 bit Qt Build")
+  message(STATUS "Setting prefix to user-defined Qt (32-bit) install location: $ENV{QT_INSTALL_LOCATION32}")
+  set(CMAKE_PREFIX_PATH $ENV{QT_INSTALL_LOCATION32})
+elseif(DEFINED ENV{QT_INSTALL_LOCATION})
+  message(STATUS "Setting prefix to user-defined Qt install location: $ENV{QT_INSTALL_LOCATION}")
+  set(CMAKE_PREFIX_PATH $ENV{QT_INSTALL_LOCATION})
+elseif(APPLE AND EXISTS /usr/local/opt/qt5)
+  # Homebrew installs Qt into/usr/local/qt5
+  message(STATUS "Setting prefix to Homebrew's Qt install location: /usr/local/opt/qt5")
+  set(CMAKE_PREFIX_PATH /usr/local/opt/qt5)
 endif()
 
 CONFIGURE_FILE(${CMAKE_CURRENT_LIST_DIR}/cmake/config.h.cmake ${CMAKE_BINARY_DIR}/config.h)
