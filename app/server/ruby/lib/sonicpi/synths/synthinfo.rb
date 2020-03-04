@@ -2119,7 +2119,7 @@ Also, note that audio in isn't yet supported on Raspberry Pi."
           :pan_slide => 0,
           :pan_slide_shape => 1,
           :pan_slide_curve => 0,
-          :vel => 0.8,
+          :vel => 0.2,
           :attack => 0,
           :decay => 0,
           :sustain => 0,

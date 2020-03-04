@@ -4,7 +4,7 @@ SynthDef('sonic-pi-piano', {|
 	pan = 0, pan_slide = 0, pan_slide_shape = 1, pan_slide_curve = 0,
 	attack = 0, decay = 0, sustain = 0, release = 1,
 	attack_level = 1, decay_level = -1, sustain_level = 1, env_curve = 1,
-	vel = 0.8, hard = 0.5, velcurve = 0.8, stereo_width = 0,
+	vel = 0.2, hard = 0.5, velcurve = 0.8, stereo_width = 0,
 	out_bus = 0 |
 
 	var snd, env;
@@ -20,7 +20,7 @@ SynthDef('sonic-pi-piano', {|
 		decay: decay, release: release, velhard: 0.8,
 		muffle: 0.8, velmuff: 0.8, velcurve: velcurve, stereo: stereo_width,
 		random: 0, stretch: 0, sustain: 0.1);
-	snd = Balance2.ar(snd[0], snd[1], pan, amp);
+	snd = Balance2.ar(snd[0], snd[1], pan, amp) * 4;
 	env = Env.new([0, attack_level, decay_level, sustain_level, 0],
 		[attack, decay, sustain, release],
 		env_curve);
