@@ -1,7 +1,7 @@
 # Build worker image (VM template)
 image:
-  - macos
   - Ubuntu
+  - macos
   - Visual Studio 2019
 
 configuration:
@@ -79,16 +79,12 @@ for:
   install:
     - cd "$APPVEYOR_BUILD_FOLDER"
     - ls -lA
-    - # Install prerequisites
+    - # Install prerequisite packages
     - sudo apt-get update
-    - sudo apt-get install -y git build-essential\
-    -  ruby ruby-dev erlang-base\ # Ruby & Erlang stuff
-    -  qt5-default libqt5svg5-dev\ # Qt5 stuff
-    -  qttools5-dev qttools5-dev-tools qtdeclarative5-dev libqt5webkit5-dev\
-    -  qtpositioning5-dev libqt5sensors5-dev libqt5opengl5-dev qtmultimedia5-dev\
-    -  libjack-jackd2-dev libasound2-dev libavahi-client-dev\ # Other libraries
-    -  libicu-dev libreadline6-dev libfftw3-dev libxt-dev libudev-dev cmake\
-    -  libboost-dev libffi-dev
+    - sudo apt-get install -y git build-essential cmake ruby ruby-dev erlang-base
+    - sudo apt-get install -y qt5-default libqt5svg5-dev qttools5-dev qttools5-dev-tools qtdeclarative5-dev libqt5webkit5-dev qtpositioning5-dev libqt5sensors5-dev libqt5opengl5-dev qtmultimedia5-dev
+    - sudo apt-get install -y libjack-jackd2-dev libasound2-dev libavahi-client-dev libicu-dev libreadline6-dev libfftw3-dev libxt-dev libudev-dev libboost-dev libffi-dev
+    - # Install prerequisite ruby gems
     - sudo gem install bundler
   build_script:
     # generate build script
@@ -105,7 +101,7 @@ for:
   matrix:
     only:
       - image: macos
-      
+
   configuration:
     - Release
     - Debug
