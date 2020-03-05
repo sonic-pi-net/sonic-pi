@@ -115,17 +115,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="2776"/>
         <source>Disabling OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>OSC cue port wird deaktiviert...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2785"/>
         <source>Enabling external OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>Externer OSC cue port wird aktiviert...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2794"/>
         <source>Enabling internal OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>Interner OSC cue port wird aktiviert...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2852"/>
@@ -506,12 +506,12 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2100"/>
         <source>Toggle Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualisierung umschalten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2102"/>
         <source>Toggle visibility of audio oscilloscope</source>
-        <translation type="unfinished"></translation>
+        <translation>Sichtbarkeit des Oszilloskops umschalten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2106"/>
@@ -521,12 +521,12 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2112"/>
         <source>Toggle Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Sichtbarkeit des Hilfefensters umschalten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2118"/>
         <source>Toggle Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Sichtbarkeit der Einstellungen umschalten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2149"/>
@@ -596,7 +596,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../visualizer/scope.cpp" line="392"/>
         <source>Lissajous</source>
-        <translation type="unfinished"></translation>
+        <translation>Lissajous (XY)</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="393"/>
@@ -684,7 +684,9 @@ externen PA-Systemen bei Auftritten mit Sonic Pi.</translation>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and vice versa.</source>
-        <translation type="unfinished"></translation>
+        <translation>Stereokanäle vertauschen.
+Wenn aktiviert, wird Audio, das zum linken 
+Lautsprecher gesendet wurde, auf dem rechten Lautsprecher ausgegeben und umgekehrt.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="91"/>
@@ -804,13 +806,14 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="165"/>
         <source>Send/Receive remote OSC messages</source>
-        <translation type="unfinished"></translation>
+        <translation>OSC Nachrichten senden/empfangen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="166"/>
         <source>When checked, Sonic Pi will let you send and receive OSC messages to and from remote machines.
  When unchecked, only sending and receiving from the local machine will be enabled.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wenn aktiviert, ist es Sonic Pi erlaubt, OSC Nachrichten an entfernte Computer zu senden und von entfernten Computern zu empfangen.
+ Wenn nicht, können OSC Nachrichten nur auf dem selben Rechner empfangen und gesendet werden.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="168"/>
@@ -1016,12 +1019,12 @@ Sonic Pi, die über die midi_* fns gesendet werden können</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="294"/>
         <source>Pro Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro-Light</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="295"/>
         <source>Pro Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro-Dark</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="296"/>
