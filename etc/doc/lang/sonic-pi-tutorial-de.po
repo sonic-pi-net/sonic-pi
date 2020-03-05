@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-02-21 20:26+0000\n"
-"Last-Translator: Pascal <pamasich@gmail.com>\n"
+"PO-Revision-Date: 2020-03-06 16:33+0000\n"
+"Last-Translator: gedobbles <gedobbles@web.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "de/>\n"
 "Language: de\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.11.1\n"
+"X-Generator: Weblate 4.0-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -742,16 +742,24 @@ msgid ""
 "left hand side) play lower notes and the keys on the higher part of the piano "
 "(the right hand side) play higher notes."
 msgstr ""
+"Also, kleinere Zahlen machen tiefere Töne und größere Zahlen höhere Töne. Es "
+"ist wie bei einem Klavier, die Tasten weiter links erzeugen tiefere Töne als "
+"die Tasten weiter rechts, die höhere Töne erzeugen."
 
 #: 02.1-Your-First-Beeps.md:38
-#, fuzzy
 msgid ""
 "It turns out that the C of the 4th octave (C in English notation) is identifie"
 "d by the number 60. `play 60` therefore plays the C of the 4th octave. To play"
 " the next piano key to the right, you have to add 1 to 60 and then type `play "
 "61`, which in this case is the black key of the C sharp. To play the D, the ne"
 "xt key to the right, `play 62`."
-msgstr "play 60"
+msgstr ""
+"Es stellt sich heraus, dass das C in der vierten Oktave mit der Zahl 60 "
+"bezeichnet wird. `play 60` spielt also ein C der vierten Oktave. Um den "
+"nächsthöheren Ton auf der Klaviatur zu spielen, musst du 1 zu 60 addieren, "
+"also `play 61` schreiben. Das wird dann ein Cis (oder C# in englischer "
+"Schreibweise) sein. Um ein D, den Ton noch eins weiter, zu spielen, musst du "
+"`play 62` schreiben."
 
 #: 02.1-Your-First-Beeps.md:40
 msgid ""
@@ -1252,7 +1260,6 @@ msgstr ""
 "ns die aufregende Vielfalt der Klänge, die uns Sonic Pi bietet, an."
 
 #: 02.3-Switching-Synths.md:13
-#, fuzzy
 msgid ""
 "Sonic Pi has a number of different instruments it calls synths (which is *shor"
 "t for synthesisers*). Whereas samples represent pre-recorded sounds, synths ar"
@@ -1261,12 +1268,13 @@ msgid ""
 "xpressive and you'll have a lot of fun exploring and playing with them. First,"
 " let's learn how to select the current synth to use."
 msgstr ""
-"Sonic Pi bringt eine Palette an Instrumenten mit, die Synths heissen, eine *Ku"
-"rzform für Synthesizer*. Samples sind vorher aufgenommene Klänge; demgegenüber"
-" erzeugen Synths neue Klänge, je nachdem, wie Du sie anlegst (wie das geht, we"
-"rden wir später sehen). Die Synths von Sonic Pi sind sehr wirkungsvoll und aus"
-"drucksstark und man kann damit tolle Sachen machen. Als erstes lernen wir, wie"
-" man einen Synth auswählt, den man benutzen möchte."
+"Sonic Pi bringt eine Palette an Instrumenten mit, die Synths heißen, eine "
+"Kurzform für Synthesizer (Klangerzeuger). Samples sind vorher aufgenommene "
+"Klänge; demgegenüber erzeugen Synths neue Klänge, je nachdem, wie Du sie "
+"anlegst (wie das geht, werden wir später sehen). Die Synths von Sonic Pi "
+"sind sehr wirkungsvoll und ausdrucksstark und man kann damit tolle Sachen "
+"machen. Als erstes lernen wir, wie man einen Synth auswählt, den man "
+"benutzen möchte."
 
 #: 02.3-Switching-Synths.md:21
 msgid "Buzzy saws and prophets"
@@ -1348,6 +1356,8 @@ msgid ""
 "Now multiple sounds at the same time (by not sleeping between successive calls"
 " to `play`):"
 msgstr ""
+"Jetzt machen wir mehrere Töne gleichzeitig, indem wir keine Pausen mit "
+"`sleep` zwischen Aufrufen von `play` einfügen:"
 
 #: 02.3-Switching-Synths.md:60
 #, no-wrap
@@ -9830,16 +9840,15 @@ msgid "MIDI Out"
 msgstr "MIDI Ausgabe"
 
 #: 11.2-MIDI-Out.md:5
-#, fuzzy
 msgid ""
 "In addition to receiving MIDI events we can also send out MIDI events to trigg"
 "er and control external hardware synths, keyboards and other devices. Sonic Pi"
 " provides a full set of fns for sending various MIDI messages such as:"
 msgstr ""
-"Neben dem Empfang von MIDI-Events können wir auch MIDI-Events aussenden, um ex"
-"terne Hardware-Synths, Keyboards und andere Geräte zu triggern und zu steuern."
-" Sonic Pi bietet einen vollständigen Satz von fns zum Senden verschiedener MID"
-"I-Nachrichten wie z.B:"
+"Neben dem Empfang von MIDI-Events können wir auch MIDI-Events aussenden, um "
+"externe Hardware-Synths, Keyboards und andere Geräte zu triggern und zu "
+"steuern. Sonic Pi bietet einen vollständigen Satz von Funktionen zum Senden "
+"verschiedener MIDI-Nachrichten wie z.B:"
 
 #: 11.2-MIDI-Out.md:9
 msgid "Note on - `midi_note_on`"
@@ -9903,6 +9912,7 @@ msgid ""
 "s to the `midi_*` fns you need to use `sleep` just like you did with `play`. L"
 "et's take a look:"
 msgstr ""
+"Die verschiedenen `midi_*` Funktionen verhalten sich genauso wie `play` :"
 
 #: 11.2-MIDI-Out.md:36
 #, no-wrap
@@ -9947,12 +9957,23 @@ msgid ""
 ". In more complicated setups, you may wish to be more selective about which MI"
 "DI device receives which message(s) and on which channel."
 msgstr ""
+"Standardmäßig wird Sonic Pi jede MIDI Nachricht an alle verbundenen Geräte "
+"auf allen MIDI Kanälen senden, sodass es einfacher ist, mit einem einzelnen "
+"verbundenen Gerät zu arbeiten, ohne etwas einstellen zu müssen. Allerdings "
+"kann es sein, dass ein MIDI Gerät Nachrichten auf verschiedenen Kanälen "
+"unterschiedlich handhabt (zum Beispiel könnte jede Note einen eigenen Kanal "
+"haben), oder Du möchtest mehr als ein MIDI Gerät anschließen. Bei etwas "
+"umfangreicheren Setups, möchtest du wahrscheinlich genauer bestimmen können, "
+"welches Gerät welche Nachricht auf welchem Kanal erhält."
 
 #: 11.2-MIDI-Out.md:62
 msgid ""
 "We can specify which device to send to using the `port:` opt, using the device"
 " name as displayed in the preferences:"
 msgstr ""
+"Wir können das Gerät, welches angesprochen werden soll mit der `port:` "
+"Option angeben, indem wir den Gerätenamen verwenden, der in den "
+"Einstellungen angezeigt wird:"
 
 #: 11.2-MIDI-Out.md:65
 #, no-wrap
@@ -9996,6 +10017,10 @@ msgid ""
 " your synth with code using the `midi_*` fns and also manipulate the audio usi"
 "ng `live_audio` and FX:"
 msgstr ""
+"Schlussendlich ist es auch sehr spannend, den Audio-Ausgang deines MIDI "
+"Synthesizers mit einem deiner Audio-Eingänge deiner Soundkarte zu verbinden. "
+"Dann kannst du deinen Synthesizer mit den `midi_*`Funktionen steuern und "
+"auch die erzeugten Sounds mit `live_audio`und Effekten verändern:"
 
 #: 11.2-MIDI-Out.md:90
 #, no-wrap
@@ -10016,6 +10041,9 @@ msgid ""
 "te off events with a single command. Check out its documentation for further i"
 "nformation)."
 msgstr ""
+"(Die Funktion `midi` ist eine handliche Vereinfachung um `note on ` und `"
+"note off` Events mit einem einzigen Befehl zu senden. Für weitere "
+"Informationen schaue einfach in die Dokumentation)."
 
 #: 12-OSC.md:1
 msgid "12 OSC"
@@ -10033,6 +10061,12 @@ msgid ""
 " computer and on external computers) which opens up the potential for control "
 "way beyond MIDI which has limitations due to its 1980s design."
 msgstr ""
+"Ein (zu MIDI) zusätzlicher Weg, um Information aus Sonic Pi hinaus und "
+"hinein zu bekommen, ist OSC - Open Sound Control, ein einfaches "
+"Netzwerkprotokoll. Es lässt dich Nachrichten an externe Programme senden und "
+"empfangen (jeweils auf dem gleichen oder verschiedenen Computern) und "
+"eröffnet somit neue Steuerungsmöglichkeiten weit über MIDI hinaus, welches "
+"durch sein 1980er Design Einschränkungen hat."
 
 #: 12-OSC.md:12
 msgid ""
@@ -10041,6 +10075,11 @@ msgid ""
 "nguage) and work directly with Sonic Pi. What you can use this for is only lim"
 "ited by your imagination."
 msgstr ""
+"Zum Beispiel könntest Du ein Programm in einer anderen Programmiersprache "
+"wie Python oder sclang schreiben, das OSC Nachrichten sendet oder empfängt "
+"und direkt mit Sonic Pi zusammenarbeitet. Es gibt OSC Bibliotheken für die "
+"allermeisten gebräuchlichen Programmiersprachen. Was Du damit tun kannst, "
+"ist nur durch deine Vorstellungskraft begrenzt."
 
 #: 12.1-Receiving-OSC.md:1
 msgid "12.1 Receiving OSC"
@@ -10070,6 +10109,8 @@ msgstr ""
 #: 12.1-Receiving-OSC.md:17
 msgid "Let's build a basic OSC listener:"
 msgstr ""
+"Lass uns einen einfachen OSC listener (Code der auf OSC Nachrichten hört) "
+"bauen:"
 
 #: 12.1-Receiving-OSC.md:19
 #, no-wrap
@@ -10080,6 +10121,11 @@ msgid ""
 "  synth :prophet, note: a, cutoff: b, sustain: c\n"
 "end"
 msgstr ""
+"live_loop :foo do \n"
+"  use_real_time\n"
+"  a, b, c = sync \"/osc*/trigger/prophet\"\n"
+"  synth :prophet, note: a, cutoff: b, sustain: c\n"
+"end"
 
 #: 12.1-Receiving-OSC.md:27
 msgid ""
@@ -10090,10 +10136,17 @@ msgid ""
 "eed to send an OSC message with the path `/trigger/prophet` for our `sync` to "
 "stop blocking and the prophet synth to be triggered."
 msgstr ""
+"In diesem Beispiel haben wir als OSC Pfad, auf dem wir auf Nachrichten "
+"lauschen, `\"/osc*/trigger/prophet\"` festgelegt. Dafür können wir jeden "
+"beliebigen validen OSC Pfad verwenden (alle Buchstaben und Zahlen sind "
+"erlaubt, das `/`wird wie in einer URL verwendet um Wörter zu trennen). Das "
+"Präfix `/osc` wird von Sonic Pi allen eingehenden OSC Nachrichten angefügt, "
+"also müssen wir eine OSC Nachricht mit dem Pfad `/trigger/prophet` senden, "
+"sodass der `sync` Befehl beendet und der prophet Synth gespielt wird."
 
 #: 12.1-Receiving-OSC.md:36
 msgid "Sending OSC to Sonic Pi"
-msgstr ""
+msgstr "OSC Nachrichten an Sonic Pi senden"
 
 #: 12.1-Receiving-OSC.md:38
 msgid ""
@@ -10101,6 +10154,10 @@ msgid ""
 "ary. For example, if we're sending OSC from Python we might do something like "
 "this:"
 msgstr ""
+"Wir können OSC Nachrichten von jeder beliebigen Programmiersprache an Sonic "
+"Pi senden, die Unterstützung (eine Bibliothek) für OSC bietet. Wenn wir zum "
+"Beispiel eine OSC Nachricht aus Python schicken wollen, machen wir "
+"vielleicht so etwas:"
 
 #: 12.1-Receiving-OSC.md:42
 #, no-wrap
@@ -10110,12 +10167,18 @@ msgid ""
 "sender = udp_client.SimpleUDPClient('127.0.0.1', 4560)\n"
 "sender.send_message('/trigger/prophet', [70, 100, 8])"
 msgstr ""
+"from pythonosc import osc_message_builder \n"
+"from pythonosc import udp_client\n"
+"sender = udp_client.SimpleUDPClient('127.0.0.1', 4560)\n"
+"sender.send_message('/trigger/prophet', [70, 100, 8])"
 
 #: 12.1-Receiving-OSC.md:50
 msgid ""
 "Or, if we're sending OSC from Clojure we might do something like this from the"
 " REPL:"
 msgstr ""
+"Oder wenn wir eine OSC Nachricht aus Clojure senden, sieht das vielleicht so "
+"aus:"
 
 #: 12.1-Receiving-OSC.md:52
 #, no-wrap
@@ -10124,10 +10187,13 @@ msgid ""
 "(def c (osc-client \"127.0.0.1\" 4560))\n"
 "(osc-send c \"/trigger/prophet\" 70 100 8)"
 msgstr ""
+"(use 'overtone.core) \n"
+"(def c (osc-client \"127.0.0.1\" 4560))\n"
+"(osc-send c \"/trigger/prophet\" 70 100 8)"
 
 #: 12.1-Receiving-OSC.md:58
 msgid "Receiving from External Machines"
-msgstr ""
+msgstr "Von anderen Computern empfangen"
 
 #: 12.1-Receiving-OSC.md:60
 msgid ""
@@ -10142,6 +10208,17 @@ msgid ""
 ", hovering the mouse over the listed address will pop up with a list of all kn"
 "own addresses)."
 msgstr ""
+"Aus Sicherheitsgründen empfängt Sonic Pi standardmäßig keine OSC Nachrichten "
+"von anderen Computern. Trotzdem kann man das unter "
+"Einstellungen->IO->Netzwerk->Empfange OSC von entfernten Computern "
+"aktivieren. Sobald du dieses Feature aktiviert hast, kannst du OSC "
+"Nachrichten von beliebigen Computern in deinem Netzwerk empfangen. Dafür "
+"muss der Sender deine IP-Adresse (ein eindeutiger Bezeichner für deinen "
+"Computer in deinem Netzwerk - wie eine Telefonnummer oder E-Mail-Adresse) "
+"kennen. Du kannst diese herausfinden, indem Du in den Einstellungen den IO-"
+"Reiter aufrufst. (Falls dein Computer mehrere IP-Adressen haben sollte, "
+"kannst du alle sehen, wenn du den Mauszeiger über der angezeigten ruhen "
+"lässt)."
 
 #: 12.1-Receiving-OSC.md:72
 msgid ""
@@ -10151,6 +10228,12 @@ msgid ""
 "OSC which enable you to build your own custom touch controls with sliders, but"
 "tons, dials etc. This can provide you with an enormous range of input options."
 msgstr ""
+"Manche Programme, wie TouchOSC für iPhone und Android, unterstützen das "
+"Senden von OSC Nachrichten von Haus aus. Also kannst du direkt, wenn du auf "
+"OSC Nachrichten von entfernten Computer hörst und deine IP-Adresse kennst, "
+"damit beginnen von Apps wie TouchOSC OSC Nachrichten zu senden und deine "
+"eigenen Steuerungen mit Slidern, Knöpfen, Drehknöpfen usw. zu bauen. Dies "
+"bietet Dir eine enorme Bandbreite an Eingabemöglichkeiten."
 
 #: 12.2-Sending-OSC.md:1
 msgid "12.2 Sending OSC"
@@ -10158,7 +10241,7 @@ msgstr ""
 
 #: 12.2-Sending-OSC.md:3
 msgid "Sending OSC"
-msgstr ""
+msgstr "OSC Nachrichten senden"
 
 #: 12.2-Sending-OSC.md:5
 msgid ""
@@ -10460,11 +10543,12 @@ msgid ""
 msgstr ""
 
 #: 13.2-Live-Audio.md:49
-#, fuzzy
 msgid ""
 "Now, whilst you're still hearing the audio live from the sound card with rever"
 "b, change the code to the following:"
-msgstr "reverb,"
+msgstr ""
+"Jetzt, während Du noch den Ton live von der Soundkarte mit Reverb hörst, "
+"ändere den Code so um:"
 
 #: 13.2-Live-Audio.md:52
 #, no-wrap
@@ -15841,7 +15925,6 @@ msgid "Hear the Code"
 msgstr "Höre den Code"
 
 #: A.16-practice.md:112
-#, fuzzy
 msgid ""
 "Many musicians can look at a musical score and hear the music in their head wi"
 "thout having to play it. This is a very useful skill and it's well worth incor"
@@ -15853,7 +15936,19 @@ msgid ""
 " to hear music in your head and know what code to write to make it. It may tak"
 "e you a long time to master this, but once you do, you'll be able to improvise"
 " on stage and express your ideas fluently."
-msgstr "rand"
+msgstr ""
+"Viele Musiker können auf ein Notenblatt schauen und die Musik in ihrem Kopf "
+"hören, ohne das sie gespielt wird. Das ist eine sehr nützliche Fähigkeit und "
+"es lohnt sich auch diese auf deine Live-Coding Übungen zu übertragen: Der "
+"wichtige Punkt ist, dass Du eine gewisse Vorstellungen darüber entwickelst, "
+"wie sich Dein Code anhören wird. Du musst es natürlich nicht genau in deinem "
+"Kopf hören können, aber es ist praktisch, ein Gefühl dafür zu haben, ob sich "
+"der Code schnell oder langsam, laut, rhythmisch, melodisch, zufällig usw. "
+"anhören wird. Das endgültige Ziel ist dann, diesen Prozess umkehren zu "
+"können und zu Musik, die Du dir in deinem Kopf vorstellst, den passenden "
+"Code schreiben zu können. Bis dahin wirst du wahrscheinlich sehr viel üben "
+"müssen, aber wenn du es dann kannst, wirst du es schaffen auf der Bühne "
+"improvisieren zu können und deine Ideen fließend umzusetzen."
 
 #: A.16-practice.md:124
 msgid ""
@@ -16917,22 +17012,29 @@ msgstr ""
 
 #: A.20-creative-coding-in-the-classroom.md:202
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :jungle do\n"
 " sample :loop_amen, onset: pick\n"
 " sleep 0.125\n"
 "end"
-msgstr "sample :loop_amen"
+msgstr ""
+"live_loop :jungle do \n"
+" sample :loop_amen, onset: pick\n"
+" sleep 0.125\n"
+"end"
 
 #: A.20-creative-coding-in-the-classroom.md:209
-#, fuzzy
 msgid ""
 "In this example we introduce a basic loop called :jungle which picks a random "
 "drum hit from our audio sample, waits for an eighth of a second and then picks"
 " another drum hit. This results in an endless stream of random drum beats to d"
 "ance to whilst you experience what a loop is."
-msgstr "rand"
+msgstr ""
+"In diesem Beispiel führen wir eine einfache Schleife mit dem Namen `:jungle` "
+"ein, die einen zufälligen Trommelschlag aus unserem Audio Sample auswählt, "
+"eine achtel Sekunde wartet und dann einen weiteren Trommelschlag abspielt. "
+"Das Ergebnis ist eine endlose Folge von Trommelschlägen zum dabei Tanzen, "
+"während Du erfährst, was eine Schleife ist."
 
 #: B-Essential-Knowledge.md:1
 #, fuzzy
