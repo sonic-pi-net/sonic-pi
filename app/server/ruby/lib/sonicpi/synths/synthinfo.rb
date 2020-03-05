@@ -8065,6 +8065,14 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
           doc = "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>\n\n"
           doc << "<body class=\"manual\">\n\n"
           doc << "<h1>" << v[:desc] << "</h1>\n"
+
+          doc << "<p class=\"usage\"><code><pre>"
+
+          v[:samples].each do |s|
+            doc << "sample <span class=\"symbol\">:#{s}</span>\n"
+          end
+          doc << "</pre></code></p>\n"
+
           doc << "<p><table class=\"arguments\"><tr>\n"
           StereoPlayer.new.arg_info.each do |ak, av|
             doc << "</tr><tr>" if (cnt > 0) and cnt % 4 == 0
@@ -8073,13 +8081,6 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
             cnt += 1
           end
           doc << "</tr></table></p>\n"
-
-          doc << "<p class=\"usage\"><code><pre>"
-
-          v[:samples].each do |s|
-            doc << "sample <span class=\"symbol\">:#{s}</span>\n"
-          end
-          doc << "</pre></code></p>\n"
 
           doc << "<p><table class=\"details\">\n"
 
