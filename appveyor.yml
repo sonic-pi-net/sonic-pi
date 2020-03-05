@@ -4,6 +4,10 @@ image:
   - Ubuntu
   - Visual Studio 2019
 
+configuration:
+  - Release
+  - Debug
+
 branches:
   only:
   - master
@@ -11,9 +15,8 @@ branches:
 platform:
   - x64
 
-configuration:
-  - Release
-  - Debug
+matrix:
+  fast_finish: true
 
 for:
 # Windows build
@@ -21,6 +24,10 @@ for:
   matrix:
     only:
       - image: Visual Studio 2019
+
+  configuration:
+    - Release
+    - Debug
 
   environment:
     MSBUILD_FLAGS: /verbosity:minimal /maxcpucount
@@ -61,6 +68,10 @@ for:
     only:
       - image: Ubuntu
 
+  configuration:
+    - Release
+    - Debug
+
   init:
     # scripts that are called at very beginning, before repo cloning
     - date '+%Y-%m-%d %T %Z(UTC%z)'
@@ -94,6 +105,10 @@ for:
   matrix:
     only:
       - image: macos
+      
+  configuration:
+    - Release
+    - Debug
 
   init:
     # scripts that are called at very beginning, before repo cloning
@@ -124,6 +139,3 @@ for:
     - ./unix-config.sh --config $CONFIGURATION
     - cd build
     - cmake --build .
-
-matrix:
-  fast_finish: true
