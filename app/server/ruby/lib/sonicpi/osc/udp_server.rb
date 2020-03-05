@@ -78,7 +78,6 @@ module SonicPi
             STDERR.puts e.message
             STDERR.puts e.backtrace.inspect
             STDERR.puts "===========\n"
-            Kernel.sleep 1
             redo
           end
 
