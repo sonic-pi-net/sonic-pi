@@ -791,6 +791,7 @@ void MainWindow::setupWindowStructure() {
     docPane->setSizePolicy(policy);
     docPane->setMinimumHeight(100);
     docPane->setOpenExternalLinks(true);
+    connect(docPane, SIGNAL(anchorClicked(const QUrl &)), this, SLOT(docLinkClicked(const QUrl &)));
 
     QShortcut *up = new QShortcut(ctrlKey('p'), docPane);
     up->setContext(Qt::WidgetShortcut);
@@ -832,6 +833,10 @@ void MainWindow::setupWindowStructure() {
     mainWidget->setObjectName("mainWidget");
     setCentralWidget(mainWidget);
 
+}
+
+void MainWindow::docLinkClicked(const QUrl &url) {
+    std::cout << "[Doc] Link clicked: " << url.toDisplayString().toStdString() << std::endl;
 }
 
 void MainWindow::escapeWorkspaces() {
