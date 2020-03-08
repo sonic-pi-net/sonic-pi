@@ -687,21 +687,18 @@ play chrd  # the same chord as above, but using decimal number strings
 
 
 
-      def scale(tonic_or_name, *opts)
-        tonic = 0
-        name = :minor
-        if opts.size == 0
+      def scale(tonic_or_name, name_or_opts=nil, opts=nil)
+        if name_or_opts.nil? || name_or_opts.is_a?(Hash)
+          tonic = 0
           name = tonic_or_name
-        elsif (opts.size == 1) && opts[0].is_a?(Hash)
-          name = tonic_or_name
+          num_octaves = (name_or_opts.is_a?(Hash) && name_or_opts[:num_octaves]) || 1
         else
           tonic = tonic_or_name
-          name = opts.shift
+          name = name_or_opts
+          num_octaves = (opts.is_a?(Hash) && opts[:num_octaves]) || 1
         end
 
-        opts = resolve_synth_opts_hash_or_array(opts)
-        opts = {:num_octaves => 1}.merge(opts)
-        Scale.new(tonic, name,  opts[:num_octaves]).ring
+        Scale.resolve_scale(tonic, name, num_octaves).ring
       end
       doc name:          :scale,
       introduced:    Version.new(2,0,0),

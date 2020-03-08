@@ -2,6 +2,13 @@ cd %~dp0
 call ..\..\server\external\win_x64_build_externals.bat
 cd %~dp0
 
+copy external\build\aubio-prefix\src\Aubio-build\Release\libaubio-5.dll ..\..\server\native\ruby\bin
+rmdir /S /Q ..\..\server\ruby\vendor\ruby-aubio-prerelease
+rmdir /S /Q ..\..\server\ruby\vendor\fast_osc-1.2.1
+
+@echo "Copying osmid to the server"
+xcopy /Y /I /R /E external\build\osmid-prefix\src\osmid-build\Release\*.exe ..\..\server\native\osmid
+
 @echo Copying scsynth to server...
 cmake -E copy_directory ..\..\..\prebuilt\windows\x64\ ..\..\server\native\
 

@@ -142,7 +142,7 @@ module SonicPi
     end
 
     def self.resolve_degree(degree, tonic, scale)
-      scale = Scale.new(tonic, scale)
+      scale = Scale.resolve_scale(tonic, scale, 1)
       augmentation = 0
       if not degree.is_a? Numeric
         degree = degree.to_s.downcase
@@ -165,6 +165,18 @@ module SonicPi
       end
       octave, index = resolve_degree_index(degree).divmod (scale.notes.length - 1)
       scale.notes[index] + octave * 12 + augmentation
+    end
+
+    @@scale_cache = Hash.new {|h, k| h[k] = Hash.new {|h2, k2| h2[k2] = {} } }
+
+    def self.resolve_scale(tonic, name, num_octaves)
+      tonic = tonic.is_a?(String) ? tonic.to_sym : tonic
+      name = name.is_a?(String) ? name.to_sym : name
+      cached = @@scale_cache[tonic][name][num_octaves]
+      return cached unless cached.nil?
+      scale = Scale.new(tonic, name, num_octaves)
+      @@scale_cache[tonic][name][num_octaves] = scale
+      scale
     end
 
     attr_reader :name, :tonic, :num_octaves, :notes
