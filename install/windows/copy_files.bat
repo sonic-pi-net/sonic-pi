@@ -4,12 +4,10 @@ REM /Y Means just do it, don't ask
 REM /R Recursive
 REM /E Include empty folders (so that children get included too!)
 REM /I Ensures directories get copied properly
-REM Pass 'Release' or 'Debug' on the command line
-REM
-REM
-@echo Remember to update version number in wix\sonic-pi.wxs!!
 
 REM Clear previous MSI build artefacts if present
+cd %~dp0
+
 rmdir /S /Q app
 mkdir app
 rmdir /S /Q etc
@@ -36,10 +34,3 @@ REM Now remove stuff we don't want in the installer
 rmdir /S /Q app\server\ruby\vendor\ruby-aubio-prerelease
 rmdir /S /Q app\server\native\ruby\share
 ruby prune.rb app/server/ruby/vendor
-
-REM Now we have etc/app folders, generate the installer from them
-del gui.wix
-del etc.wix
-del *.wixobj
-call wix\gen_wix.bat
-call wix\gen_msi.bat
