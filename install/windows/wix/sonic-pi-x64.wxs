@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension" xmlns:firewall="http://schemas.microsoft.com/wix/FirewallExtension">
 
-    <Product Id="*" Name="Sonic Pi" Language="1033" Version="3.2.0" Platform="x64" Manufacturer="Sonic Pi" UpgradeCode="ECA5D03B-CEBD-4672-A0A2-176CBCBA4429">
+    <Product Id="*" Name="Sonic Pi" Language="1033" Version="3.2.0" Manufacturer="Sonic Pi" UpgradeCode="ECA5D03B-CEBD-4672-A0A2-176CBCBA4429">
         <Package Description="Sonic Pi Installer" Comments="Sonic Pi Installer" InstallScope="perMachine" InstallerVersion="200" Compressed="yes" />
         <Property Id="REINSTALLMODE" Value="amus"/>
         <Property Id="MSIFASTINSTALL" Value="1" />

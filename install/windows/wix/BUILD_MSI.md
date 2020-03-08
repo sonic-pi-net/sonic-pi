@@ -13,6 +13,6 @@
    - edit `wix\gui.wxs`
    - remove sonic-pi.exe component and componentref (both have identical IDs)
 7. Build the msi!
-   - `wix\gen_msi.bat`
+   - `wix\gen_msi_x64.bat` for 64-bit or `wix\gen_msi_x86.bat` for 32-bit (use the same type that you built Sonic Pi for)
 8. Your MSI should be found in the `wix` dir.
 
