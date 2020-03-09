@@ -1,8 +1,8 @@
 # Build worker image (VM template)
 image:
-  - Ubuntu
-  - macos
   - Visual Studio 2019
+  - macos
+  - Ubuntu
 
 configuration:
   - Release
@@ -62,6 +62,47 @@ for:
     - IF "%configuration%"=="Release" install.bat
     #- IF "%configuration%"=="Release" appveyor PushArtifact wix\sonic-pi.msi
 
+
+# macOS build
+-
+  matrix:
+    only:
+      - image: macos
+
+  configuration:
+    - Release
+    - Debug
+
+  init:
+    # scripts that are called at very beginning, before repo cloning
+    - date '+%Y-%m-%d %T %Z(UTC%z)'
+    - cmake --version
+    - # Update Homebrew; cleanup cache; output details about Homebrew's config; and check brew & print any warnings (for debugging)
+    - brew update
+    - brew cleanup
+    - brew config
+    - brew doctor || true
+  install:
+    - cd "$APPVEYOR_BUILD_FOLDER"
+    - ls -lA
+    - # Install erlang & aubio
+    - # (We install aubio using brew instead of building it from source so that the build can complete within the 1 hour time limit)
+    - brew install erlang aubio
+    - # Relink gettext to Homebrew folders to hopefully fix symbol errors (based from https://github.com/EOSIO/eos/issues/2174)
+    - brew link gettext --force
+    - export PATH="/usr/local/opt/gettext/bin:$PATH" # Add gettext to the path
+    - # Install prerequisite ruby gems
+    - sudo gem install bundler
+  build_script:
+    # generate build script
+    - cd "$APPVEYOR_BUILD_FOLDER"
+    - cd app/gui/qt
+    - ./unix-prebuild.sh
+    - # (We don't build aubio from source in prebuild, but instead use the brew installed version so that the build can complete within the 1 hour time limit)
+    - ./unix-config.sh --config $CONFIGURATION
+    - cd build
+    - cmake --build .
+
 # Ubuntu Linux build
 -
   matrix:
@@ -98,47 +139,6 @@ for:
     - cd "$APPVEYOR_BUILD_FOLDER"
     - cd app/gui/qt
     - ./unix-prebuild.sh --build-aubio
-    - ./unix-config.sh --config $CONFIGURATION
-    - cd build
-    - cmake --build .
-
-
-# macOS build
--
-  matrix:
-    only:
-      - image: macos
-
-  configuration:
-    - Release
-    - Debug
-
-  init:
-    # scripts that are called at very beginning, before repo cloning
-    - date '+%Y-%m-%d %T %Z(UTC%z)'
-    - cmake --version
-    - # Update Homebrew; cleanup cache; output details about Homebrew's config; and check brew & print any warnings (for debugging)
-    - brew update
-    - brew cleanup
-    - brew config
-    - brew doctor || true
-  install:
-    - cd "$APPVEYOR_BUILD_FOLDER"
-    - ls -lA
-    - # Install erlang & aubio
-    - # (We install aubio using brew instead of building it from source so that the build can complete within the 1 hour time limit)
-    - brew install erlang aubio
-    - # Relink gettext to Homebrew folders to hopefully fix symbol errors (based from https://github.com/EOSIO/eos/issues/2174)
-    - brew link gettext --force
-    - export PATH="/usr/local/opt/gettext/bin:$PATH" # Add gettext to the path
-    - # Install prerequisite ruby gems
-    - sudo gem install bundler
-  build_script:
-    # generate build script
-    - cd "$APPVEYOR_BUILD_FOLDER"
-    - cd app/gui/qt
-    - ./unix-prebuild.sh 
-    - # (We don't build aubio from source in prebuild, but instead use the brew installed version so that the build can complete within the 1 hour time limit)
     - ./unix-config.sh --config $CONFIGURATION
     - cd build
     - cmake --build .
