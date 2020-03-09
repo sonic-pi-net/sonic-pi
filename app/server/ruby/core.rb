@@ -164,13 +164,13 @@ module SonicPi
       end
 
       def self.inc_idx!(increment=1, init=0)
-        ridx = __thread_locals.get(:sonic_pi_spider_random_gen_idx) || init
+        ridx = __thread_locals.get(:sonic_pi_spider_random_gen_idx, init)
         __thread_locals.set :sonic_pi_spider_random_gen_idx, ridx + increment
         ridx
       end
 
       def self.dec_idx!(decrement=1, init=0)
-        ridx = __thread_locals.get(:sonic_pi_spider_random_gen_idx) || init
+        ridx = __thread_locals.get(:sonic_pi_spider_random_gen_idx, init)
         __thread_locals.set :sonic_pi_spider_random_gen_idx, ridx - decrement
         ridx
       end
