@@ -145,7 +145,7 @@ module SonicPi
     attr_accessor :event_matchers
 
     def initialize(all_threads=nil, thread_mut=nil)
-      @trim_history = false
+      @trim_history = true
       @min_history_size = 20
       @history_depth = 32
       @state = EventHistoryNode.new
