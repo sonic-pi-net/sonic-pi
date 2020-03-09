@@ -111,6 +111,10 @@ module SonicPi
       to_s
     end
 
+    def size_info
+      "queue: #{@event_queue.size}, handlers: #{@handlers.keys.size}"
+    end
+
     private
 
     def q_sync_insert_handler(handle, key, block, prom)
