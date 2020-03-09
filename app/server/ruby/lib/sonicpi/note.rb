@@ -10,7 +10,6 @@
 # distribution of modified versions of this work as long as this
 # notice is included.
 #++
-require "hamster/hash"
 module SonicPi
   class Note
 
@@ -154,8 +153,8 @@ module SonicPi
       @midi_string = "#{@pitch_class.capitalize}#{@octave}"
     end
 
-    def to_hamster
-      Hamster::Hash.new({:pitch_class => @pitch_class, :octave => @octave, :interval => @interval, :midi_note => @midi_note, :midi_string => @midi_string})
+    def to_h
+      {:pitch_class => @pitch_class, :octave => @octave, :interval => @interval, :midi_note => @midi_note, :midi_string => @midi_string}
     end
 
     def to_s
