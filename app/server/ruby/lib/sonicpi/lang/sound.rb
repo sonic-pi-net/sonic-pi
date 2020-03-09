@@ -25,6 +25,7 @@ require_relative "../synthtracker"
 require_relative "../version"
 require_relative "../tuning"
 require_relative "../sample_loader"
+require_relative "../atom"
 require_relative "support/docsystem"
 
 
