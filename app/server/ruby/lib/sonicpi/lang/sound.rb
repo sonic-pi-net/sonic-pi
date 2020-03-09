@@ -14,8 +14,6 @@ require 'tmpdir'
 require 'fileutils'
 require 'thread'
 require 'net/http'
-require "hamster/set"
-require "hamster/hash"
 require_relative "../blanknode"
 require_relative "../chainnode"
 require_relative "../fxnode"
@@ -25,7 +23,6 @@ require_relative "../synthtracker"
 require_relative "../version"
 require_relative "../tuning"
 require_relative "../sample_loader"
-require_relative "../atom"
 require_relative "support/docsystem"
 
 
@@ -83,12 +80,12 @@ module SonicPi
 
             @sample_loader = SampleLoader.new("#{samples_path}/**")
 
-            @JOB_GROUPS_A = Atom.new(Hamster::Hash.new)
-            @JOB_GROUP_MUTEX = Mutex.new
-            @JOB_MIXERS_A = Atom.new(Hamster::Hash.new)
-            @JOB_MIXERS_MUTEX = Mutex.new
-            @JOB_BUSSES_A = Atom.new(Hamster::Hash.new)
-            @JOB_BUSSES_MUTEX = Mutex.new
+            @job_groups = {}
+            @job_group_mutex = Mutex.new
+            @job_mixers = {}
+            @job_mixers_mutex = Mutex.new
+            @job_busses = {}
+            @job_busses_mutex = Mutex.new
             @mod_sound_studio = Studio.new(ports, msg_queue, @system_state, @register_cue_event_lambda)
 
             buf_lookup = lambda do |name, duration=nil|
@@ -3796,22 +3793,15 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
       end
 
       def default_job_synth_group(job_id)
-        g = @JOB_GROUPS_A.deref[job_id]
-        return g if g
-
-        @JOB_GROUP_MUTEX.synchronize do
-          g = @JOB_GROUPS_A.deref[job_id]
+        @job_group_mutex.synchronize do
+          g = @job_groups[job_id]
           return g if g
+
           g = @mod_sound_studio.new_synth_group(job_id)
 
-          @JOB_GROUPS_A.swap! do |gs|
-            gs.put job_id, g
-          end
+          @job_groups[job_id] = g
         end
-        g
       end
-
-
 
       def current_out_bus
         current_bus = __system_thread_locals.get(:sonic_pi_mod_sound_synth_out_bus)
@@ -3823,14 +3813,13 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
       end
 
       def job_bus(job_id)
-        b = @JOB_BUSSES_A.deref[job_id]
-        return b if b
-
         new_bus = nil
 
-        @JOB_BUSSES_MUTEX.synchronize do
-          b = @JOB_BUSSES_A.deref[job_id]
+        @job_busses_mutex.synchronize do
+          b = @job_busses[job_id]
           return b if b
+
+
 
           begin
             new_bus = @mod_sound_studio.new_fx_bus
@@ -3838,9 +3827,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
             raise "All busses allocated - unable to create audio bus for job"
           end
 
-          @JOB_BUSSES_A.swap! do |gs|
-            gs.put job_id, new_bus
-          end
+          @job_busses[job_id] = new_bus
         end
         ## ensure job mixer has started
         job_mixer(job_id)
@@ -3848,56 +3835,52 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
       end
 
       def job_mixer(job_id)
-        m = @JOB_MIXERS_A.deref[job_id]
-        return m if m
-
-        @JOB_MIXERS_MUTEX.synchronize do
-          m = @JOB_MIXERS_A.deref[job_id]
+        @job_mixers_mutex.synchronize do
+          m = @job_mixers[job_id]
           return m if m
-
-          args_h = {
-            "in_bus" => job_bus(job_id).to_i,
-            "amp" => 0.3
-          }
-
-          sn = "basic_mixer"
-          info = Synths::SynthInfo.get_info(sn)
-          defaults = info.arg_defaults
-          synth_name = info.scsynth_name
-
-          combined_args = defaults.merge(args_h)
-          combined_args["out_bus"] = @mod_sound_studio.mixer_bus.to_i
-
-          validate_if_necessary! info, combined_args
-
-          group = @mod_sound_studio.mixer_group
-
-          n = @mod_sound_studio.trigger_synth synth_name, group, combined_args, info, true, false, :head
-
-          mix_n = ChainNode.new(n)
-
-          @JOB_MIXERS_A.swap! do |gs|
-            gs.put job_id, mix_n
-          end
-
-          return mix_n
         end
+
+        args_h = {
+          "in_bus" => job_bus(job_id).to_i,
+          "amp" => 0.3
+        }
+
+        sn = "basic_mixer"
+        info = Synths::SynthInfo.get_info(sn)
+        defaults = info.arg_defaults
+        synth_name = info.scsynth_name
+
+        combined_args = defaults.merge(args_h)
+        combined_args["out_bus"] = @mod_sound_studio.mixer_bus.to_i
+
+        validate_if_necessary! info, combined_args
+
+        group = @mod_sound_studio.mixer_group
+
+        n = @mod_sound_studio.trigger_synth synth_name, group, combined_args, info, true, false, :head
+
+        mix_n = ChainNode.new(n)
+
+        @job_mixers_mutex.synchronize do
+          @job_mixers[job_id] = mix_n
+        end
+
+        return mix_n
       end
 
-
       def free_job_bus(job_id)
-        old_job_busses = @JOB_BUSSES_A.swap_returning_old! do |js|
-          js.delete job_id
+        @job_busses_mutex.synchronize do
+          bus = @job_busses.delete(job_id)
+          bus.free if bus
         end
-        bus = old_job_busses[job_id]
-        bus.free if bus
       end
 
       def shutdown_job_mixer(job_id)
-        old_job_mixers = @JOB_MIXERS_A.swap_returning_old! do |js|
-          js.delete job_id
+        mixer = nil
+        @job_mixers_mutex.synchronize do
+          mixer = @job_mixers.delete(job_id)
         end
-        mixer = old_job_mixers[job_id]
+
         fade_out_time = 1
         if mixer
           mixer.ctl_now amp_slide: fade_out_time
@@ -3912,17 +3895,13 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
           # and kill the group if called from a hook call..
           Kernel.sleep fade_out_time + 0.5
         end
-
       end
 
       def kill_job_group(job_id)
-        old_job_groups = @JOB_GROUPS_A.swap_returning_old! do |js|
-          js.delete job_id
+        @job_group_mutex.synchronize do
+          group = @job_groups.delete(job_id)
+          group.kill(true) if group
         end
-
-        job_group = old_job_groups[job_id]
-        job_group.kill(true) if job_group
-
       end
 
       def join_thread_and_subthreads(t)
