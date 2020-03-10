@@ -1055,7 +1055,7 @@ class Array
     frozen? && self.all? {|el| el.sp_thread_safe?}
   end
 
-  def to_v
+  def to_spv
     SonicPi::Core::SPVector.new(self)
   end
 
