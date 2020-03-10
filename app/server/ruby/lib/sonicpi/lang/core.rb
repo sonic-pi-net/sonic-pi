@@ -4491,6 +4491,36 @@ end                         # Will throw an exception as the block contains a Ze
 
 
 
+      def assert_not(arg, msg=nil)
+        if arg
+          error_msg =  "Assert not failed! #{msg}"
+          raise AssertionError, error_msg
+        end
+
+        arg
+      end
+      doc name:           :assert_not,
+          introduced:     Version.new(3,3,0),
+          summary:        "Ensure arg is not valid",
+          doc:            "Raises an exception if the argument is not either nil or false.",
+          args:           [[:arg, :anything]],
+          alt_args:       [[:arg, :anything],[:error_msg, :string]],
+          opts:           nil,
+          accepts_block:  false,
+          examples:       ["
+# Simple assertions
+assert_not false   # As false is either nil or false, this assertion passes
+assert_not nil     # As nil is either nil or false, this assertion passes
+assert_not 1 == 5  # These numbers are not equal
+assert true  # This will raise an exception
+",
+"
+# Communicating error messages
+assert_not true , \"oops\" # This will raise an exception containing the message \"oops\"
+"
+]
+
+
       def assert(arg, msg=nil)
         unless arg
           error_msg =  "Assert failed! #{msg}"
@@ -4524,6 +4554,32 @@ assert false, \"oops\" # This will raise an exception containing the message \"o
 assert (1 + 1) == 2 # Ensure that arithmetic is sane!
 assert [:a, :b, :c].size == 3 # ensure lists can be correctly counted
 "]
+
+      def assert_not_equal(arg1, arg2, msg=nil)
+        if arg1 == arg2
+          error_msg =  "Assert note equal failed! #{arg1.inspect} is equal to #{arg2.inspect}. #{msg}"
+          raise AssertionError, error_msg
+        end
+        arg1
+      end
+      doc name:           :assert_not_equal,
+          introduced:     Version.new(3,3,0),
+          summary:        "Ensure args are not equal",
+          doc:            "Raises an exception if both arguments are qual. ",
+          args:           [[:arg1, :anything], [:arg2, :anything]],
+          alt_args:       [[:arg1, :anything], [:arg2, :anything],[:error_msg, :string]],
+          opts:           nil,
+          accepts_block:  false,
+          examples:       ["
+# Simple assertions
+assert_not_equal 1, 3
+assert_not_equal 1, -1
+assert_not_equal 1, :foo
+",
+"
+# Add messages to the exceptions
+assert_not_equal 3, 3, \"something is seriously wrong!\"
+" ]
 
       def assert_equal(arg1, arg2, msg=nil)
         unless arg1 == arg2
