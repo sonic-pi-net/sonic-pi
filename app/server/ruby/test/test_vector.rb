@@ -186,6 +186,15 @@ module SonicPi
     #   assert_equal(res2, [1, 2, 3, [4, 5]])
     # end
 
+    def test_flat_map
+      res = [1, 2, 3, 4].to_v.flat_map { |e| [e, -e].to_v }
+      assert_equal(res, [1, -1, 2, -2, 3, -3, 4, -4].to_v)
+
+      res2 = [1, 2, 3, 4].to_v.flat_map { |e| [e, -e] }
+      assert_equal(res2, [1, -1, 2, -2, 3, -3, 4, -4].to_v)
+#[[1, 2], [3, 4]].flat_map { |e| e + [100] } #=> [1, 2, 100, 3, 4, 100]
+    end
+
     def test_index
       a = [ "a", "b", "c" ].to_v
       assert_equal(a.index("b"), 1)

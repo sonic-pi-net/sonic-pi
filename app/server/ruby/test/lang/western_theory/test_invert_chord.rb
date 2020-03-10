@@ -26,7 +26,6 @@ module SonicPi
   class InvertChordTester < Minitest::Test
 
     def test_inversion_of_basic_major
-      puts "hiiii #{[3].ring}"
       assert_equal(Lang::WesternTheory.chord_invert(Chord.new(:C4, :major), 0), [60, 64, 67].ring)
       assert_equal(Lang::WesternTheory.chord_invert(Chord.new(:C4, :major), 1), [64, 67, 72].ring)
       assert_equal(Lang::WesternTheory.chord_invert(Chord.new(:C4, :major), 2), [67, 72, 76].ring)

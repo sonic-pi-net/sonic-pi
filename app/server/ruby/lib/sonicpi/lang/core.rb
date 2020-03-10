@@ -1567,11 +1567,10 @@ end"
       def stretch(*args)
         raise ArgumentError, "stretch needs an even number of arguments, you passed: #{args.size} - #{args.inspect}" unless args.size.even?
         res = args.each_slice(2).flat_map do |values, num_its|
-
           if !values.respond_to? :flat_map
             values = [values]
           end
-          knit(*values.flat_map{|v| [v, num_its]})
+          knit(*values.flat_map{|v| [v, num_its]}).to_a
         end
         (res||[]).ring
       end

@@ -555,7 +555,7 @@ module SonicPi
             res = @vec[i.min, i.max]
             self.class.new(res) if res
           else
-            @vec[i]
+            @vec[map_index(i)]
           end
         else
           res = @vec[*idx]
@@ -657,6 +657,20 @@ module SonicPi
         end
       end
 
+      def flat_map(&block)
+        res = []
+        @vec.map do |e|
+          r = block.call(e)
+          case r
+          when SPVector
+            res += r.vec
+          else
+            res += r.to_a
+          end
+        end
+        self.class.new(res)
+      end
+
       def index(*args, &block)
         @vec.index(*args, &block)
       end
@@ -738,21 +752,17 @@ module SonicPi
         self.class.new(map {|v| v.__sp_make_thread_safe })
       end
 
-      def ___sp_preserve_vec_kind(a)
-        self.class.new(a)
-      end
-
       def list_diff(other)
-        ___sp_preserve_vec_kind(@vec.to_a - other.to_a)
+        self.class.new(@vec.to_a - other.to_a)
       end
 
       def list_concat(other)
-        ___sp_preserve_vec_kind(@vec.to_a + other.to_a)
+        self.class.new(@vec.to_a + other.to_a)
       end
 
       def scale(val)
         val = val.to_f
-        return @vec.map{|el| el * val}
+        return self.class.new(@vec.map{|el| el * val})
       end
 
       def ring
@@ -861,7 +871,7 @@ module SonicPi
             res << v
           end
         end
-        ___sp_preserve_vec_kind(res)
+        self.class.new(res)
       end
 
       def map_index(idx)
