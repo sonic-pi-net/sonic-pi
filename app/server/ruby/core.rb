@@ -32,7 +32,6 @@ rescue LoadError
   warn "Non-critical error: Could not load did_you_mean"
 end
 
-require 'hamster/vector'
 require 'wavefile'
 
 os = case RUBY_PLATFORM
@@ -327,10 +326,13 @@ module SonicPi
     class NotThreadSafeError < StandardError ; end
 
 
-    class SPMap < Hamster::Hash
+    class SPMap
+      attr_reader :map
+
       def initialize(*args)
-        super
-        res = self.all? {|k, v| k.sp_thread_safe? && v.sp_thread_safe?}
+        @map = Hash[*args]
+        @map.freeze
+        res = @map.all? {|k, v| k.sp_thread_safe? && v.sp_thread_safe?}
         @sp_thread_safe = !!res
       end
 
@@ -339,12 +341,12 @@ module SonicPi
       end
 
       def sp_log_inspect
-        if self.empty?
+        if @map.empty?
           return "(map)"
         else
           s = String.new("(map ")
           longest_key = keys.to_a.map(&:to_s).map(&:size).sort[-1] + 2
-          self.each do |k, v|
+          @map.each do |k, v|
             if k.is_a?(Symbol)
               pk = "#{k.to_s}:".ljust(longest_key)
               s << "#{pk} #{v.inspect},\n       "
@@ -359,11 +361,11 @@ module SonicPi
       end
 
       def inspect
-        if self.empty?
+        if @map.empty?
           return "(map)"
         else
           s = String.new("(map ")
-          self.each do |k, v|
+          @map.each do |k, v|
             if k.is_a?(Symbol)
               pk = "#{k.to_s}:"
               s << "#{pk} #{v.inspect}, "
@@ -377,18 +379,164 @@ module SonicPi
         return s
       end
 
+      def <(other)
+        @map < other.map
+      end
+
+      def <=(other)
+        @map <= other.map
+      end
+
+
+      def ==(other)
+        other.map == @map
+      end
+
+      def >(other)
+        @map > other.map
+      end
+
+      def >=(other)
+        @map >= other.map
+      end
+
+      def [](key)
+        @map[key]
+      end
+
+      def any?(&block)
+        @map.any?(&block)
+      end
+
+      def assoc(o)
+        @map.assoc(o)
+      end
+
+      def compact
+        self.class.new(@map.compact)
+      end
+
+      def dig(*keys)
+        @map.dig(*keys)
+      end
+
+      def each(&block)
+        @map.each(&block)
+      end
+
+      def each_key(&block)
+        @map.each_key(&block)
+      end
+
+      def each_pair(&block)
+        @map.each_pair(&block)
+      end
+
+      def empty?
+        @map.empty?
+      end
+
+      def eql?(other)
+        @map.eql?(other)
+      end
+
+      def fetch(*args, &block)
+        @map.fetch(*args, &block)
+      end
+
+      def fetch_values(*args, &block)
+        @map.fetch_values(*args, &block)
+      end
+
+      def filter(&block)
+        self.class.new(@map.filter(&block))
+      end
+
+      def select(&block)
+        self.class.new(@map.select(&block))
+      end
+
+      def flatten(*args)
+        @map.flatten(*args)
+      end
+
+      def has_key?(k)
+        @map.has_key?(k)
+      end
+
+      def has_value?(v)
+        @map.has_value?(v)
+      end
+
+      def include?(k)
+        @map.include?(k)
+      end
+
+      def invert
+        self.class.new(@map.invert)
+      end
+
+      def key(v)
+        @map.key(v)
+      end
+
+      def key?(v)
+        @map.key?(v)
+      end
+
+      def keys
+        SPVector.new(@map.keys)
+      end
+
+      def length
+        @map.length
+      end
+
+      def size
+        @map.size
+      end
+
+      def merge(*hs, &block)
+        self.class.new(@map.merge(*hs, &block))
+      end
+
+      def rassoc(o)
+        SPVector.new(@map.rassoc(o))
+      end
+
+      def reject(&block)
+        self.class.new(@map.reject(&block))
+      end
+
+      def select(&block)
+        self.class.new(@map.select(&block))
+      end
+
+      def slice(*keys)
+        self.class.new(@map.slice(*keys))
+      end
+
+      def to_h
+        @map.clone
+      end
+
       def to_s
         inspect
       end
 
     end
 
-    class SPVector < Hamster::Vector
+    class SPVector
       include TLMixin
       def initialize(list)
-        super
-        res = self.all? {|el| el.sp_thread_safe?}
+        @vec = list
+        @vec.freeze
+        res = @vec.all? {|el| el.sp_thread_safe?}
         @thread_safe = !!res
+      end
+
+      def method_missing(m, *args, &block)
+        @vec.send(m, *args, &block)
       end
 
       def sp_thread_safe?
@@ -400,7 +548,7 @@ module SonicPi
       end
 
       def __sp_make_thread_safe
-        return self if @thread_safe
+        return @vec if @thread_safe
         map {|v| v.__sp_make_thread_safe }
       end
 
@@ -409,11 +557,11 @@ module SonicPi
       end
 
       def list_diff(other)
-        ___sp_preserve_vec_kind(self.to_a - other.to_a)
+        ___sp_preserve_vec_kind(@vec.to_a - other.to_a)
       end
 
       def list_concat(other)
-        ___sp_preserve_vec_kind(self.to_a + other.to_a)
+        ___sp_preserve_vec_kind(@vec.to_a + other.to_a)
       end
 
       def -(other)
@@ -421,7 +569,7 @@ module SonicPi
           return list_diff(other)
         else
           o = other.to_f
-          return self.map{|el| el - o}
+          return @vec.map{|el| el - o}
         end
       end
 
@@ -430,19 +578,19 @@ module SonicPi
           return list_concat(other)
         else
           o = other.to_f
-          return self.map{|el| el + o}
+          return @vec.map{|el| el + o}
         end
       end
 
       def scale(val)
         val = val.to_f
-        return self.map{|el| el * val}
+        return @vec.map{|el| el * val}
       end
 
       def [](idx, len=(missing_length = true))
         return nil unless idx
         raise InvalidIndexError, "Invalid index: #{idx.inspect}, was expecting a number or range" unless idx && (idx.is_a?(Numeric) || idx.is_a?(Range))
-        return nil if self.empty?
+        return nil if @vec.empty?
         if idx.is_a?(Numeric) && missing_length
           idx = map_index(idx)
           super idx.round
@@ -456,7 +604,7 @@ module SonicPi
       end
 
       def choose
-        self[SonicPi::Core::SPRand.rand_i!(self.size)]
+        self[SonicPi::Core::SPRand.rand_i!(@vec.size)]
       end
 
       def sample
@@ -514,13 +662,13 @@ module SonicPi
       def take(n)
         return [].ring if n == 0
         return self.reverse.take(-n) if n < 0
-        return [].ring if @size < 1
-        return super if n <= @size
-        self + take(n - @size)
+        return [].ring if size < 1
+        return super if n <= size
+        self + take(n - size)
       end
 
       def drop(n)
-        return [].ring if n >= @size
+        return [].ring if n >= size
         super
       end
 
