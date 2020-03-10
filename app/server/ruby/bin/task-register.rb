@@ -34,12 +34,14 @@ pid_path = "#{pids_store}/#{pid}"
 f = nil
 
 begin
-  if s = Sys::ProcTable.ps(pid)
+  if s = Sys::ProcTable.ps(pid: pid)
     f = File.open(pid_path, 'w')
     f.puts s.cmdline
     log_process_info "Started [#{pid}] [-] #{s.cmdline} [-] #{pid_path}"
   end
 rescue Exception => e
+  log_process_info "ERROR: Unable to write information for PID #{pid} to path #{pid_path}!"
+  log_process_info "#{e}"
 end
 
 f.close if f
