@@ -1069,7 +1069,7 @@ set_mixer_control! lpf: 30, lpf_slide: 16 # slide the global lpf to 30 over 16 b
 
 
         args_h = resolve_synth_opts_hash_or_array(args)
-        tls = __thread_locals.get(:sonic_pi_mod_sound_synth_defaults) || {}
+        tls = __thread_locals.get(:sonic_pi_mod_sound_synth_defaults, {})
 
         args_h = tls.merge(args_h).to_h
 
