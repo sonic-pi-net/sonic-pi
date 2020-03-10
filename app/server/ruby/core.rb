@@ -534,6 +534,8 @@ module SonicPi
 
     class SPVector
       include TLMixin
+      attr_reader :vec
+
       def initialize(list)
         @vec = list
         @vec.freeze
@@ -541,8 +543,186 @@ module SonicPi
         @thread_safe = !!res
       end
 
-      def method_missing(m, *args, &block)
-        @vec.send(m, *args, &block)
+      def to_a
+        @vec.dup
+      end
+
+      def [](*idx)
+        if idx.size == 1
+          i = idx[0]
+          case i
+          when Range
+            res = @vec[i.min, i.max]
+            self.class.new(res) if res
+          else
+            @vec[i]
+          end
+        else
+          res = @vec[*idx]
+          self.class.new(res) if res
+        end
+      end
+
+      def *(i)
+        self.class.new(@vec * i)
+      end
+
+      def &(v)
+        case v
+        when SPVector
+          self.class.new(@vec & v.vec)
+        else
+          self.class.new(@vec & v.to_a)
+        end
+      end
+
+      def +(other)
+        case other
+        when SPVector
+          return self.class.new(@vec + other.vec)
+        when Array
+          return self.class.new(@vec + other)
+        else
+          o = other.to_f
+          return self.class.new(@vec.map{|el| el + o})
+        end
+      end
+
+      def -(other)
+        case other
+        when SPVector
+          return self.class.new(@vec - other.vec)
+        when Array
+          return self.class.new(@vec - other)
+        else
+          o = other.to_f
+          return self.class.new(@vec.map{|el| el - o})
+        end
+      end
+
+      def <=>(other)
+        case other
+        when SPVector
+          return @vec <=> other.vec
+        else
+          return @vec <=> other.to_a
+        end
+      end
+
+      def ==(other)
+        other.class == self.class && other.vec == @vec
+      end
+
+      def all?(&block)
+        @vec.all?(&block)
+      end
+
+      def any?(&block)
+        @vec.any?(&block)
+      end
+
+      def compact
+        self.class.new(@vec.compact)
+      end
+
+      def drop(n)
+        self.class.new(@vec.drop(n))
+      end
+
+      def drop_last(n=1)
+        self.class.new(@vec[0...(size-n)])
+      end
+
+      def each(&block)
+        @vec.each(&block)
+      end
+
+      def empty?
+        @vec.empty?
+      end
+
+      def eql?(other)
+        other.class == self.class && @vec.eql?(other.vec)
+      end
+
+      def filter(&block)
+        self.class.new(@vec.filter(&block))
+      end
+
+      def first(n=nil)
+        if n
+          self.class.new(@vec.first(n))
+        else
+          @vec.first
+        end
+      end
+
+      def index(*args, &block)
+        @vec.index(*args, &block)
+      end
+
+      def join(*args)
+        @vec.join(*args)
+      end
+
+      def last(n=nil)
+        if n
+          self.class.new(@vec.last(n))
+        else
+          @vec.last
+        end
+      end
+
+      def map(&block)
+        @vec.map(&block)
+      end
+
+      def max(n=nil, &block)
+        if n
+          self.class.new(@vec.max(n, &block))
+        else
+          @vec.max(&block)
+        end
+      end
+
+      def min(n=nil, &block)
+        if n
+          self.class.new(@vec.min(n, &block))
+        else
+          @vec.min(&block)
+        end
+      end
+
+      def reverse
+        self.class.new(@vec.reverse)
+      end
+
+      def rotate(*args)
+        self.class.new(@vec.rotate(*args))
+      end
+
+      def choose
+        self[SonicPi::Core::SPRand.rand_i!(@vec.size)]
+      end
+
+      def sample
+        choose
+      end
+
+      def size
+        @vec.size
+      end
+
+      def shuffle
+        self.class.new(@vec.shuffle)
+      end
+
+      def sort(&block)
+        self.class.new(@vec.sort(&block))
+      end
+
+      def uniq(&block)
+        self.class.new(@vec.uniq(&block))
       end
 
       def sp_thread_safe?
@@ -554,8 +734,8 @@ module SonicPi
       end
 
       def __sp_make_thread_safe
-        return @vec if @thread_safe
-        map {|v| v.__sp_make_thread_safe }
+        return self if @thread_safe
+        self.class.new(map {|v| v.__sp_make_thread_safe })
       end
 
       def ___sp_preserve_vec_kind(a)
@@ -570,51 +750,9 @@ module SonicPi
         ___sp_preserve_vec_kind(@vec.to_a + other.to_a)
       end
 
-      def -(other)
-        if other.is_a?(Array) || other.is_a?(SPVector)
-          return list_diff(other)
-        else
-          o = other.to_f
-          return @vec.map{|el| el - o}
-        end
-      end
-
-      def +(other)
-        if other.is_a?(Array) || other.is_a?(SPVector)
-          return list_concat(other)
-        else
-          o = other.to_f
-          return @vec.map{|el| el + o}
-        end
-      end
-
       def scale(val)
         val = val.to_f
         return @vec.map{|el| el * val}
-      end
-
-      def [](idx, len=(missing_length = true))
-        return nil unless idx
-        raise InvalidIndexError, "Invalid index: #{idx.inspect}, was expecting a number or range" unless idx && (idx.is_a?(Numeric) || idx.is_a?(Range))
-        return nil if @vec.empty?
-        if idx.is_a?(Numeric) && missing_length
-          idx = map_index(idx)
-          super idx.round
-        else
-          if missing_length
-            super(idx)
-          else
-            super(idx.round, len)
-          end
-        end
-      end
-
-      def choose
-        self[SonicPi::Core::SPRand.rand_i!(@vec.size)]
-      end
-
-      def sample
-        choose
       end
 
       def ring
@@ -652,10 +790,6 @@ module SonicPi
         self * n
       end
 
-      def drop_last(n=1)
-        self[0...(size-n)]
-      end
-
       def take_last(n=1)
         self if n >= size
         self[(size-n)..-1]
@@ -666,17 +800,16 @@ module SonicPi
       end
 
       def take(n)
-        return [].ring if n == 0
+        return self.class.new([]) if n == 0
         return self.reverse.take(-n) if n < 0
-        return [].ring if size < 1
-        return super if n <= size
-        self + take(n - size)
+        return self.class.new([]) if @vec.size < 1
+        return self.class.new(@vec.take(n)) if n <= @vec.size
+        self.class.new(@vec.cycle.take(n))
       end
 
-      def drop(n)
-        return [].ring if n >= size
-        super
-      end
+
+
+
 
       def pick(n=nil, *opts)
         # mangle args to extract nice behaviour
@@ -719,9 +852,7 @@ module SonicPi
         end
       end
 
-      def to_a
-        Array.new(self)
-      end
+
 
       def stretch(num_its)
         res = []
@@ -912,6 +1043,10 @@ class Array
 
   def sp_thread_safe?
     frozen? && self.all? {|el| el.sp_thread_safe?}
+  end
+
+  def to_v
+    SonicPi::Core::SPVector.new(self)
   end
 
   def ring
