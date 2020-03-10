@@ -646,7 +646,7 @@ module SonicPi
       end
 
       def filter(&block)
-        self.class.new(@vec.filter(&block))
+        self.class.new(@vec.select(&block))
       end
 
       def first(n=nil)
