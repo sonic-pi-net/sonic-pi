@@ -246,27 +246,33 @@ module SonicPi
     def __schedule_delayed_blocks_and_messages!
       delayed_messages = __system_thread_locals.get(:sonic_pi_local_spider_delayed_messages, [])
       delayed_blocks = __system_thread_locals.get(:sonic_pi_local_spider_delayed_blocks, [])
-      if delayed_messages
-        unless(delayed_messages.empty?)
-          thread_name = __current_thread_name
-          in_thread do
+      __system_thread_locals.set_local(:sonic_pi_local_spider_delayed_messages, [])
+      __system_thread_locals.set_local(:sonic_pi_local_spider_delayed_blocks, [])
+      if (delayed_messages && (!delayed_messages.empty?) && (!__system_thread_locals.get(:sonic_pi_spider_silent)))
+        msg = {:type => :multi_message,
+          :val => delayed_messages,
+          :jobid => __current_job_id,
+          :jobinfo => __current_job_info,
+          :runtime => __current_local_run_time.round(4),
+          :thread_name => __current_thread_name}
             last_vt = __system_thread_locals.get :sonic_pi_spider_time
             sched_ahead_sync_t = last_vt + __current_sched_ahead_time
             sleep_time = sched_ahead_sync_t - Time.now
+
+        Thread.new do
             Kernel.sleep(sleep_time) if sleep_time > 0
+          __msg_queue.push msg
+
             #We're now in sync with the sched_ahead time
 
-            delayed_blocks.each do |b|
-              begin
-                b.call
-              rescue => e
-                log e.backtrace
-              end
-            end
-            __multi_message(delayed_messages, thread_name)
-          end
-          __system_thread_locals.set_local :sonic_pi_local_spider_delayed_messages, []
-          __system_thread_locals.set_local :sonic_pi_local_spider_delayed_blocks, []
+          # delayed_blocks.each do |b|
+          #   begin
+          #     b.call
+          #   rescue => e
+          #     log e.backtrace
+          #   end
+          # end
+
         end
       end
     end
