@@ -517,7 +517,7 @@ module SonicPi
       end
 
       def to_h
-        @map.clone
+        @map.dup
       end
 
       def to_s
