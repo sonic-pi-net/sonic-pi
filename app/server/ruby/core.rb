@@ -78,14 +78,20 @@ module SonicPi
     class ThreadLocal
       attr_reader :vars, :local_vars
 
-      def initialize(parent=nil, overrides={})
+      def initialize(parent=nil, overrides=nil)
         raise "ThreadLocal can only be initialized with nil or a parent ThreadLocal" unless parent.nil? || parent.is_a?(ThreadLocal)
         @parent_visible = true
 
-        if parent
-          @parent_vars = parent.vars.merge(overrides)
-          @vars = parent.vars.merge(overrides)
+        if parent && !parent.vars.empty?
+          if overrides
+            @parent_vars = parent.vars.merge(overrides)
+            @vars = parent.vars.merge(overrides)
+          else
+            @parent_vars = parent.vars.dup
+            @vars = parent.vars.dup
+          end
         else
+          overrides = {} unless overrides
           @parent_vars = overrides
           @vars = overrides
         end
