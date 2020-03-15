@@ -957,9 +957,8 @@ module SonicPi
             # wait for all subthreads to finish before removing self from
             # the parent subthread tree
             __join_subthreads(main_in_thread)
-
             __system_thread_locals(parent_t).get(:sonic_pi_local_spider_subthread_mutex).synchronize do
-              __current_subthreads.delete(main_in_thread)
+              __current_subthreads(parent_t).delete(main_in_thread)
             end
           end
           # End Thread GC
