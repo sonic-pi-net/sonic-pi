@@ -175,16 +175,37 @@ module SonicPi
       assert_equal([1, 2, 3].to_spv.first(20), [1, 2, 3].to_spv)
     end
 
-    # def test_flatten
-    #   s = [ 1, 2, 3 ].to_spv
-    #   t = [ 4, 5, 6, [7, 8].to_spv ].to_spv
-    #   a = [ s, t, 9, 10 ].to_spv
-    #   res = a.flatten
-    #   assert_equal(res, [1, 2, 3, 4, 5, 6, 7, 8, 9,10].to_spv)
-    #   a2= [ 1, 2, [3, [4, 5].to_spv ].to_spv ].to_spv
-    #   res2 = a2.flatten(1)
-    #   assert_equal(res2, [1, 2, 3, [4, 5]])
-    # end
+    def test_flatten
+      s = [ 1, 2, 3 ].to_spv
+      t = [ 4, 5, 6, [7, 8].to_spv ].to_spv
+      a = [ s, t, 9, 10 ].to_spv
+      res = a.flatten
+      assert_equal(res, [1, 2, 3, 4, 5, 6, 7, 8, 9,10].to_spv)
+
+      s2 = [ 1, 2, 3 ].to_spv
+      t2 = [ 4, 5, 6, [7, 8] ].to_spv
+      a2 = [ s2, t2, 9, 10 ].to_spv
+      res2 = a2.flatten
+      assert_equal(res2, [1, 2, 3, 4, 5, 6, 7, 8, 9,10].to_spv)
+
+      a3 = [ 1, 2, [3, [4, 5].to_spv ].to_spv ].to_spv
+      res3 = a3.flatten(1)
+      assert_equal(res3, [1, 2, 3, [4, 5].to_spv].to_spv)
+
+      s4 = [ 1, 2, 3 ].to_spv
+      t4 = [ 4, 5, 6, [7, [8,8,8]] ].to_spv
+      a4 = [ s4, t4, 9, 10 ].to_spv
+      res4 = a4.flatten
+      assert_equal(res4, [1, 2, 3, 4, 5, 6, 7, 8, 8, 8, 9,10].to_spv)
+
+      s5 = [ 1, 2, 3 ].to_spv
+      t5 = [ 4, 5, 6, [7, [8,8,[8, 8].to_spv]] ].to_spv
+      a5 = [ s5, t5, 9, 10 ].to_spv
+      res5 = a5.flatten(2)
+      assert_equal(res5, [1, 2, 3, 4, 5, 6, 7, [8, 8, [8, 8].to_spv], 9,10].to_spv)
+
+
+    end
 
     def test_flat_map
       res = [1, 2, 3, 4].to_spv.flat_map { |e| [e, -e].to_spv }

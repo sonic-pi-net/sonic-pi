@@ -657,6 +657,30 @@ module SonicPi
         end
       end
 
+      def __flatten(list, max_level, level = 0)
+        level += 1 if max_level
+
+        list.reduce([]) do |res, el|
+          if max_level && (level > max_level)
+            res << el
+          else
+            case el
+            when SPVector
+              res += __flatten(el.vec, max_level, level)
+            when Array
+              res += __flatten(el, max_level, level)
+            else
+              res << el
+            end
+          end
+        end
+      end
+
+      def flatten(n=nil)
+        raise "SPVector#flatten requires either no argument or a number. You passed #{n.inspect}" if n && !n.is_a?(Numeric)
+        self.class.new(__flatten(self.vec, n))
+      end
+
       def flat_map(&block)
         res = []
         @vec.map do |e|
