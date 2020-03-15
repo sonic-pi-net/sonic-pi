@@ -630,8 +630,13 @@ module SonicPi
 
       mut.synchronize do
         __system_thread_locals(t).set_local(:sonic_pi_local_spider_in_no_kill_block, true)
-        r = block.call
-        __system_thread_locals(t).set_local(:sonic_pi_local_spider_in_no_kill_block, false)
+        begin
+          r = block.call
+        rescue Exception => e
+          log_exception e, "in no kill block"
+        ensure
+          __system_thread_locals(t).set_local(:sonic_pi_local_spider_in_no_kill_block, false)
+        end
         r
       end
     end
