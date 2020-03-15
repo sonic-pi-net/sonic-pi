@@ -910,43 +910,37 @@ module SonicPi
 
       new_system_tls = SonicPi::Core::ThreadLocal.new(__system_thread_locals)
 
-
       n_threads_spawned = __system_thread_locals.get :sonic_pi_spider_num_threads_spawned
       __system_thread_locals.set_local :sonic_pi_spider_num_threads_spawned, n_threads_spawned + 1
       thread_id_path = __system_thread_locals.get :sonic_pi_spider_thread_id_path
       new_thread_id_path = thread_id_path << n_threads_spawned
 
       # Create the new thread
-      t = nil
+      new_thread = nil
       __no_kill_block do
 
+        new_thread = Thread.new do
+          main_in_thread = Thread.current
+          main_in_thread.priority = 10
 
-        t = Thread.new do
-          # Copy thread locals across from parent thread to this new thread
-          __thread_locals_reset!(new_tls)
-          __system_thread_locals_reset!(new_system_tls)
-          __system_thread_locals.set_local(:sonic_pi_local_thread_group, :job_subthread)
-          __system_thread_locals.set_local(:sonic_pi_spider_num_threads_spawned, 0)
-          __system_thread_locals.set_local(:sonic_pi_spider_thread_id_path, new_thread_id_path)
-          __system_thread_locals.set_local(:sonic_pi_spider_thread_delta, 0)
-
-          # Thread locals used for waiting for threads (essential for Time State's determinism)
-          __system_thread_locals.set_local(:sonic_pi_spider_state_waiters, [])
-          __system_thread_locals.set_local(:sonic_pi_spider_time_change, Mutex.new)
-
-          main_t = Thread.current
-          main_t.priority = 10
-
+          #####################
           # Thread GC - will wait for main thread to finish and then execute
           Thread.new do
-            if name
-              __system_thread_locals.set_local(:sonic_pi_local_thread_group, "in_thread_join_#{name}".freeze)
-            else
-              __system_thread_locals.set_local(:sonic_pi_local_thread_group, :in_thread_join)
-            end
             Thread.current.priority = -10
 
-            main_t.join
+            # set thread group name
+            if name
+              thread_group_name ="in_thread_join_#{name}"
+            else
+              thread_group_name = :in_thread_join
+            end
+            __system_thread_locals.set_local(:sonic_pi_local_thread_group, thread_group_name)
+
+            # wait for main in thread to complete
+            # this could be because the thread exited normally
+            # or raised an error
+            # or an error was raised by wait_for_parent_thread! (which means parent was killed)
+            main_in_thread.join
 
             # remove any un-matched event matchers created
             # by the thread we're currently cleaning up
@@ -954,28 +948,40 @@ module SonicPi
             @event_history.prune(new_thread_id_path)
 
             # Remove any time state waiters
-            __system_thread_locals(main_t).get(:sonic_pi_spider_time_change).synchronize do
-              __system_thread_locals(main_t).get(:sonic_pi_spider_state_waiters).delete_if do |w|
+            __system_thread_locals(main_in_thread).get(:sonic_pi_spider_time_change).synchronize do
+              __system_thread_locals(main_in_thread).get(:sonic_pi_spider_state_waiters).delete_if do |w|
                 w[:prom].deliver! true
               end
             end
 
-
             # wait for all subthreads to finish before removing self from
             # the parent subthread tree
-            __join_subthreads(main_t)
+            __join_subthreads(main_in_thread)
 
             __system_thread_locals(parent_t).get(:sonic_pi_local_spider_subthread_mutex).synchronize do
-              __current_subthreads.delete(main_t)
+              __current_subthreads.delete(main_in_thread)
             end
           end
+          # End Thread GC
+          ##################
 
+
+          # Copy thread locals across from parent thread to this new thread
+          __thread_locals_reset!(new_tls)
+          __system_thread_locals_reset!(new_system_tls)
+
+          # Thread locals used for waiting for threads (essential for Time State's determinism)
+          __system_thread_locals.set_local(:sonic_pi_spider_state_waiters, [])
+          __system_thread_locals.set_local(:sonic_pi_spider_time_change, Mutex.new)
+
+          __system_thread_locals.set_local(:sonic_pi_local_thread_group, :job_subthread)
+          __system_thread_locals.set_local(:sonic_pi_spider_num_threads_spawned, 0)
+          __system_thread_locals.set_local(:sonic_pi_spider_thread_id_path, new_thread_id_path)
+          __system_thread_locals.set_local(:sonic_pi_spider_thread_delta, 0)
           __system_thread_locals.set_local :sonic_pi_local_spider_users_thread_name, name if name
-
           __system_thread_locals.set_local :sonic_pi_local_spider_delayed_blocks, []
           __system_thread_locals.set_local :sonic_pi_local_spider_delayed_messages, []
           __system_thread_locals.set_local :sonic_pi_local_control_deltas, {}
-
 
           # Reset subthreads thread local to the empty set. This shouldn't
           # be inherited from the parent thread.
@@ -990,7 +996,6 @@ module SonicPi
           # every sub-in_thread before killing them.
           __system_thread_locals.set_local :sonic_pi_local_spider_no_kill_mutex, Mutex.new
 
-
           # Wait for parent to deliver promise. Throws an exception if
           # parent dies before the promise is delivered, thus stopping
           # this thread from continually waiting for forgotten promises...
@@ -1000,8 +1005,6 @@ module SonicPi
           # job_id. This will kill the current thread if job is no
           # longer running or if there already exists a name thread
           # with this same name
-          main_in_thread = Thread.current
-
           subthread_added_deliver_thread = Thread.new do
             # The following line after this block will attempt to add
             # the thread to the list of job subthreads but that action
@@ -1076,7 +1079,7 @@ module SonicPi
 
         __system_thread_locals(parent_t).get(:sonic_pi_local_spider_subthread_mutex).synchronize do
           subthreads = __system_thread_locals(parent_t).get :sonic_pi_local_spider_subthreads
-          subthreads.add(t)
+          subthreads.add(new_thread)
         end
 
         # Allow the subthread to continue running
@@ -1087,7 +1090,7 @@ module SonicPi
       end
 
       # Return subthread
-      t
+      new_thread
     end
 
 
