@@ -146,6 +146,15 @@ module SonicPi
       assert_equal([2, 4, 6], res)
     end
 
+    def test_each_with_index
+      res = []
+      v = [1, 2, 3].to_spv
+      v.each_with_index do |el, i|
+        res << [el * 2, i]
+      end
+      assert_equal([[2, 0], [4, 1], [6, 2]], res)
+    end
+
     def test_empty
       assert([].to_spv.empty?)
       assert_not([3].to_spv.empty?)

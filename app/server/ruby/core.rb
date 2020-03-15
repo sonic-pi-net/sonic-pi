@@ -637,6 +637,10 @@ module SonicPi
         @vec.each(&block)
       end
 
+      def each_with_index(&block)
+        @vec.each_with_index(&block)
+      end
+
       def empty?
         @vec.empty?
       end
