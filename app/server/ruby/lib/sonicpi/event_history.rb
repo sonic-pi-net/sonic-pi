@@ -32,6 +32,20 @@ module SonicPi
       @children = {}
       @events = []
     end
+
+    def count_nodes(node_total=0, event_total=0)
+
+      node_total += 1
+      event_total += @events.size
+
+      @children.map do |k, n|
+        nt, et = n.count_nodes(node_total, event_total)
+        node_total += nt
+        event_total += et
+      end
+
+      [node_total, event_total]
+    end
   end
 
   class EventMatcher
@@ -157,6 +171,10 @@ module SonicPi
       @get_mut = Mutex.new
     end
 
+    def size_info
+      s = @state.count_nodes
+      "nodes: #{s[0]}, events: #{s[1]}"
+    end
 
     # Get the last seen version (at or before the current time)
     def get(t, p, i, d, b, m, path, val_matcher=nil, get_next=false)
