@@ -857,16 +857,6 @@ module SonicPi
       end
     end
 
-    def __current_subthreads(t = Thread.current)
-      subthreads = __system_thread_locals(t).get(:sonic_pi_local_spider_subthreads)
-      if subthreads
-        return subthreads
-      else
-        subthreads = Set.new
-        subthreads = __system_thread_locals(t).set_local(:sonic_pi_local_spider_subthreads, subthreads)
-      end
-    end
-
     def __current_thread_id
       __system_thread_locals.get :sonic_pi_spider_thread_id_path
     end
@@ -958,7 +948,8 @@ module SonicPi
             # the parent subthread tree
             __join_subthreads(main_in_thread)
             __system_thread_locals(parent_t).get(:sonic_pi_local_spider_subthread_mutex).synchronize do
-              __current_subthreads(parent_t).delete(main_in_thread)
+              __system_thread_locals(parent_t).get(:sonic_pi_local_spider_subthreads).delete(main_in_thread)
+
             end
           end
           # End Thread GC
