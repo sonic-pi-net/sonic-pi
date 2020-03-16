@@ -88,7 +88,7 @@ module SonicPi
       silent = false
       info = {}.freeze
       now = Time.now.freeze
-
+      job_in_thread = nil
       job = Thread.new do
         Thread.current.abort_on_exception = true
 
@@ -108,7 +108,7 @@ module SonicPi
         __set_default_system_thread_locals!
         __set_default_user_thread_locals!
 
-        in_thread do
+        job_in_thread = in_thread do
           clear
           self.instance_eval(&blk)
         end
@@ -118,7 +118,7 @@ module SonicPi
         Thread.current.priority = -10
         __system_thread_locals.set_local(:sonic_pi_local_thread_group, "job-#{id}-GC")
         job.join
-        __join_subthreads(job)
+        __system_thread_locals(job_in_thread).get(:sonic_pi_local_spider_subthread_empty).get
         # wait until all synths are dead
         @life_hooks.completed(id)
         @life_hooks.exit(id, {:start_t => now})
