@@ -2013,7 +2013,7 @@ QKeySequence MainWindow::ctrlShiftKey(char key)
 #ifdef Q_OS_MAC
     return QKeySequence(QString("Shift+Meta+%1").arg(key));
 #else
-  return QKeySequence(QString("Shift+Ctrl+%1").arg(key));
+    return QKeySequence(QString("Shift+Ctrl+%1").arg(key));
 #endif
 }
 
@@ -2133,7 +2133,7 @@ void  MainWindow::createToolBar()
     updateAction(infoAct, infoSc, tr("Toggle information about Sonic Pi"));
     connect(infoAct, SIGNAL(triggered()), this, SLOT(about()));
 
-    // Help
+
     helpAct = new QAction(theme->getHelpIcon(false), tr("Toggle Help"), this);
     helpSc = new QShortcut(metaKey('I'), this, SLOT(help()));
     updateAction(helpAct, helpSc, tr("Toggle the visibility of the help pane"));
@@ -2208,17 +2208,38 @@ void  MainWindow::createToolBar()
     updateAction(focusCuesAct, focusCuesSc, tr("Place focus on the cue event pane"));
     connect(focusCuesAct, SIGNAL(triggered()), this, SLOT(focusCues()));
 
+    //Focus Preferences
+    focusPreferencesAct = new QAction(theme->getHelpIcon(false), tr("Focus Preferences"), this);
+    focusPreferencesSc = new QShortcut(ctrlShiftKey('P'), this, SLOT(focusPreferences()));
+    updateAction(focusPreferencesAct, focusPreferencesSc, tr("Place focus on preferences"));
+    connect(focusPreferencesAct, SIGNAL(triggered()), this, SLOT(focusPreferences()));
+
+    //Focus HelpListing
+    focusHelpListingAct = new QAction(theme->getHelpIcon(false), tr("Focus Help Listing"), this);
+    focusHelpListingSc = new QShortcut(ctrlShiftKey('H'), this, SLOT(focusHelpListing()));
+    updateAction(focusHelpListingAct, focusHelpListingSc, tr("Place focus on help listing"));
+    connect(focusHelpListingAct, SIGNAL(triggered()), this, SLOT(focusHelpListing()));
+
+    //Focus HelpDetails
+    focusHelpDetailsAct = new QAction(theme->getHelpIcon(false), tr("Focus Help Details"), this);
+    focusHelpDetailsSc = new QShortcut(ctrlShiftKey('D'), this, SLOT(focusHelpDetails()));
+    updateAction(focusHelpDetailsAct, focusHelpDetailsSc, tr("Place focus on help details"));
+    connect(focusHelpDetailsAct, SIGNAL(triggered()), this, SLOT(focusHelpDetails()));
+
+    //Focus Errors
+    focusErrorsAct = new QAction(theme->getHelpIcon(false), tr("Focus Errors"), this);
+    focusErrorsSc = new QShortcut(ctrlShiftKey('W'), this, SLOT(focusErrors()));
+    updateAction(focusErrorsAct, focusErrorsSc, tr("Place focus on errors"));
+    connect(focusErrorsAct, SIGNAL(triggered()), this, SLOT(focusErrors()));
+
     windowMenu->addSeparator();
     windowMenu->addAction(focusEditorAct);
     windowMenu->addAction(focusLogsAct);
     windowMenu->addAction(focusCuesAct);
-
-    new QShortcut(ctrlShiftKey('P'), this, SLOT(focusPreferences()));
-    new QShortcut(ctrlShiftKey('H'), this, SLOT(focusHelpListing()));
-    new QShortcut(ctrlShiftKey('D'), this, SLOT(focusHelpDetails()));
-    new QShortcut(ctrlShiftKey('W'), this, SLOT(focusErrors()));
-
-
+    windowMenu->addAction(focusPreferencesAct);
+    windowMenu->addAction(focusHelpListingAct);
+    windowMenu->addAction(focusHelpDetailsAct);
+    windowMenu->addAction(focusErrorsAct);
 }
 
 QString MainWindow::readFile(QString name)
@@ -2955,15 +2976,43 @@ void MainWindow::focusCues() {
 }
 
 void MainWindow::focusPreferences() {
-
+  prefsWidget->show();
+  updatePrefsIcon();
+  settingsWidget->showNormal();
+  settingsWidget->setFocusPolicy(Qt::StrongFocus);
+  settingsWidget->setFocus();
+  settingsWidget->raise();
+  settingsWidget->setVisible(true);
+  settingsWidget->activateWindow();
 }
 
 void MainWindow::focusHelpListing() {
+  docWidget->show();
+  updatePrefsIcon();
+  docsCentral->showNormal();
+  docsCentral->setFocusPolicy(Qt::StrongFocus);
+  docsCentral->setFocus();
+  docsCentral->raise();
+  docsCentral->setVisible(true);
+  docsCentral->activateWindow();
 }
 
 void MainWindow::focusHelpDetails(){
+  docWidget->show();
+  updatePrefsIcon();
+  docPane->showNormal();
+  docPane->setFocusPolicy(Qt::StrongFocus);
+  docPane->setFocus();
+  docPane->raise();
+  docPane->setVisible(true);
+  docPane->activateWindow();
 }
 
 void MainWindow::focusErrors(){
-
+  errorPane->showNormal();
+  errorPane->setFocusPolicy(Qt::StrongFocus);
+  errorPane->setFocus();
+  errorPane->raise();
+  errorPane->setVisible(true);
+  errorPane->activateWindow();
 }
