@@ -32,7 +32,7 @@ live_loop :shuff, auto_cue: false do
     sleep 0.25
     use_synth :tb303
     use_synth_defaults cutoff_attack: 1, cutoff_release: 0, env_curve: 2
-    play (knit :e2, 24, :c2, 8).look, release: 1.5, cutoff: (range 70, 90).look, depth: 10 , amp: 2 if factor?(look, 2)
+    play (knit :e2, 24, :c2, 8).look, release: 1.5, cutoff: (range 70, 90).look, amp: 2 if factor?(look, 2)
     sample :sn_dub, rate: -1, sustain: 0, release: (knit 0.05, 3, 0.5, 1).look
   end
 end
