@@ -1724,93 +1724,87 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
           begin
             new_bus = @mod_sound_studio.new_fx_bus
           rescue AllocationError
-            new_bus = nil
+            # We couldn't create the bus so treat as if the FX was :none
+            # and return early
+            __delayed_serious_warning "All busses allocated - unable to honour FX"
+            if block.arity == 0
+              return args_h[:reps].times do
+                block.call
+              end
+            else
+              bn = BlankNode.new(args_h)
+              return args_h[:reps].times do
+                block.call(bn)
+              end
+            end
           end
 
-          if new_bus
-            args_h["in_bus"] = new_bus
+          args_h["in_bus"] = new_bus
 
-            # Create new group for this FX - this is to enable the FX to be triggered at logical time
-            # whilst ensuring it is in the correct position in the scsynth node tree.
-            fx_container_group = @mod_sound_studio.new_group(:tail, current_group, "Run-#{current_job_id}-#{fx_name}")
-            fx_synth_group = @mod_sound_studio.new_group(:head, fx_container_group, "Run-#{current_job_id}-#{fx_name}-synths")
+          # Create new group for this FX - this is to enable the FX to be triggered at logical time
+          # whilst ensuring it is in the correct position in the scsynth node tree.
+          fx_container_group = @mod_sound_studio.new_group(:tail, current_group, "Run-#{current_job_id}-#{fx_name}")
+          fx_synth_group = @mod_sound_studio.new_group(:head, fx_container_group, "Run-#{current_job_id}-#{fx_name}-synths")
 
-            ## Create a 'GC' thread to safely handle completion of the FX
-            ## block (or the case that the thread dies) and to clean up
-            ## everything appropriately (i.e. ensure the FX synth has
-            ## been killed).
-            Thread.new do
-              __system_thread_locals.set(:sonic_pi_local_thread_group, :gc)
+          ## Create a 'GC' thread to safely handle completion of the FX
+          ## block (or the case that the thread dies) and to clean up
+          ## everything appropriately (i.e. ensure the FX synth has
+          ## been killed).
+          Thread.new do
+            __system_thread_locals.set(:sonic_pi_local_thread_group, :gc)
+            Thread.current.priority = -10
+            ## Need to block until either the thread died (which will be
+            ## if the job was stopped whilst this fx block was being
+            ## executed or if the fx block has completed.
+            fx_completed = Promise.new
+            subthreads = nil
+            t1 = Thread.new do
+              __system_thread_locals.set(:sonic_pi_local_thread_group, :gc_parent_join)
               Thread.current.priority = -10
-              ## Need to block until either the thread died (which will be
-              ## if the job was stopped whilst this fx block was being
-              ## executed or if the fx block has completed.
-              fx_completed = Promise.new
-              subthreads = nil
-              t1 = Thread.new do
-                __system_thread_locals.set(:sonic_pi_local_thread_group, :gc_parent_join)
-                Thread.current.priority = -10
-                external_fx_t.join
+              external_fx_t.join
 
-                # just grab all the subthreads - they're likely to be nuked anyway
-                subthreads = __system_thread_locals(external_fx_t).get(:sonic_pi_local_spider_subthreads)
-                ## Parent thread died - user must have stopped
-                fx_completed.deliver! :thread_joined, false
-              end
-
-              t2 = Thread.new do
-                __system_thread_locals.set(:sonic_pi_local_thread_group, :gc_fx_block_join)
-                Thread.current.priority = -10
-                subthreads = fx_t_completed.get
-                ## FX block completed
-                fx_completed.deliver! :fx_block_completed, false
-              end
-
-              ## Block!
-              fx_completed.get
-              ## Clean up blocking alert threads (one of them already
-              ## completed, but kill both for completeness)
-              t1.kill
-              t2.kill
-
-              Thread.new do
-                __system_thread_locals.set(:sonic_pi_local_thread_group, :gc_kill_fx_synth)
-                Thread.current.priority = -10
-                if info
-                  kill_delay = args_h[:kill_delay] || info.kill_delay(args_h) || 1
-                else
-                  kill_delay = args_h[:kill_delay] || 1
-                end
-                subthreads.each do |st|
-                  join_thread_and_subthreads(st)
-                end
-                tracker.block_until_finished
-                Kernel.sleep(kill_delay)
-                fx_container_group.kill(true)
-              end
-
-              gc_init_completed.deliver! true
-            end ## end gc collection thread definition
-
-          end
-        end
-
-
-        # We couldn't create the bus so treat as if the FX was :none
-        unless new_bus
-          __delayed_serious_warning "All busses allocated - unable to honour FX"
-          if block.arity == 0
-            return args_h[:reps].times do
-              block.call
+              # just grab all the subthreads - they're likely to be nuked anyway
+              subthreads = __system_thread_locals(external_fx_t).get(:sonic_pi_local_spider_subthreads)
+              ## Parent thread died - user must have stopped
+              fx_completed.deliver! :thread_joined, false
             end
-          else
-            bn = BlankNode.new(args_h)
-            return args_h[:reps].times do
-              block.call(bn)
-            end
-          end
-        end
 
+            t2 = Thread.new do
+              __system_thread_locals.set(:sonic_pi_local_thread_group, :gc_fx_block_join)
+              Thread.current.priority = -10
+              subthreads = fx_t_completed.get
+              ## FX block completed
+              fx_completed.deliver! :fx_block_completed, false
+            end
+
+            ## Block!
+            fx_completed.get
+            ## Clean up blocking alert threads (one of them already
+            ## completed, but kill both for completeness)
+            t1.kill
+            t2.kill
+
+            Thread.new do
+              __system_thread_locals.set(:sonic_pi_local_thread_group, :gc_kill_fx_synth)
+              Thread.current.priority = -10
+              if info
+                kill_delay = args_h[:kill_delay] || info.kill_delay(args_h) || 1
+              else
+                kill_delay = args_h[:kill_delay] || 1
+              end
+              subthreads.each do |st|
+                join_thread_and_subthreads(st)
+              end
+              tracker.block_until_finished
+              Kernel.sleep(kill_delay)
+              fx_container_group.kill(true)
+            end
+
+            gc_init_completed.deliver! true
+          end ## end gc collection thread definition
+
+
+        end
 
         ## Trigger new fx synth (placing it in the fx group) and
         ## piping the in and out busses correctly
