@@ -2010,7 +2010,11 @@ QKeySequence MainWindow::ctrlShiftMetaKey(char key)
 
 QKeySequence MainWindow::ctrlShiftKey(char key)
 {
+#ifdef Q_OS_MAC
+    return QKeySequence(QString("Shift+Meta+%1").arg(key));
+#else
   return QKeySequence(QString("Shift+Ctrl+%1").arg(key));
+#endif
 }
 
 char MainWindow::int2char(int i){
