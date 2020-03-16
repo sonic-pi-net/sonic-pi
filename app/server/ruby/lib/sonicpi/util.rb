@@ -47,7 +47,7 @@ module SonicPi
     end
 
     begin
-      @@log_file = File.open("#{@@log_path}/debug.log", 'w')
+      @@log_file = File.open("#{@@log_path}/debug.log", 'a')
     rescue
       @@safe_mode = true
       STDERR.puts "Unable to open log file #{@@log_path}/debug.log"
