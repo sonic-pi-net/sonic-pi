@@ -331,7 +331,13 @@ module SonicPi
       assert_equal(b.uniq {|s| s.first},  [["student", "sam"].to_spv, ["teacher", "matz"].to_spv].to_spv)
     end
 
-
+    def test_value_at
+      a = (%w{ a b c d e f }).to_spv
+      assert_equal(["b", "d", "f"].to_spv, a.values_at(1, 3, 5))
+      assert_equal(["b", "d", "f", nil].to_spv, a.values_at(1, 3, 5, 7))
+      assert_equal(["f", "e", "e", nil].to_spv, a.values_at(-1, -2, -2, -7))
+      assert_equal(["e", "f", nil, "d", "e", "f"].to_spv, a.values_at(4..6, 3...6))
+    end
 
     def test_star
       v = vector(:a, :b, :c)

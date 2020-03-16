@@ -767,6 +767,10 @@ module SonicPi
         self.class.new(@vec.uniq(&block))
       end
 
+      def values_at(*args)
+        self.class.new(@vec.values_at(*args))
+      end
+
       def sp_thread_safe?
         return @thread_safe
       end
