@@ -1793,7 +1793,8 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
                 kill_delay = args_h[:kill_delay] || 1
               end
               subthreads.each do |st|
-                join_thread_and_subthreads(st)
+                st.join
+                __system_thread_locals(st).get(:sonic_pi_local_spider_subthread_empty).get
               end
               tracker.block_until_finished
               Kernel.sleep(kill_delay)
@@ -3895,14 +3896,6 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         @job_group_mutex.synchronize do
           group = @job_groups.delete(job_id)
           group.kill(true) if group
-        end
-      end
-
-      def join_thread_and_subthreads(t)
-        t.join
-        subthreads = __system_thread_locals(t).get :sonic_pi_local_spider_subthreads
-        subthreads.each do |st|
-          join_thread_and_subthreads(st)
         end
       end
 

@@ -405,16 +405,6 @@ module SonicPi
       end
     end
 
-    def __join_subthreads(t)
-      subthreads = __system_thread_locals(t).get :sonic_pi_local_spider_subthreads
-
-
-      subthreads.each do |st|
-        st.join
-        __join_subthreads(st)
-      end
-    end
-
     def __load_buffer(id)
       id = id.to_s
       raise "Aborting load: file name is blank" if  id.empty?
@@ -710,13 +700,30 @@ module SonicPi
     end
 
     def __set_default_system_thread_locals!
+      # Give new thread a new subthread mutex
       __system_thread_locals.set_local :sonic_pi_local_spider_subthread_mutex, Mutex.new
+      __system_thread_locals.set_local :sonic_pi_local_spider_subthread_empty, Promise.new
+
+      # Give new thread a new no_kill mutex This reduces contention
+      # over the alternative of a global no_kill mutex.  Killing a Run
+      # then essentially turns into waiting for each no_kill mutext for
+      # every sub-in_thread before killing them.
       __system_thread_locals.set_local :sonic_pi_local_spider_no_kill_mutex, Mutex.new
+
+      # Reset subthreads thread local to the empty set. This shouldn't
+      # be inherited from the parent thread.
       __system_thread_locals.set_local :sonic_pi_local_spider_subthreads, Set.new
       __system_thread_locals.set_local :sonic_pi_local_spider_delayed_blocks, []
       __system_thread_locals.set_local :sonic_pi_local_spider_delayed_messages, []
       __system_thread_locals.set_local :sonic_pi_local_control_deltas, {}
-      __system_thread_locals.set :sonic_pi_spider_thread, true
+      __system_thread_locals.set_local(:sonic_pi_spider_num_threads_spawned, 0)
+      __system_thread_locals.set_local(:sonic_pi_spider_thread_delta, 0)
+
+      # Thread locals used for waiting for threads (essential for Time State's determinism)
+      __system_thread_locals.set_local(:sonic_pi_spider_state_waiters, [])
+      __system_thread_locals.set_local(:sonic_pi_spider_time_change, Mutex.new)
+
+
     end
 
     def __set_default_user_thread_locals!
@@ -739,6 +746,8 @@ module SonicPi
 
       info[:workspace].freeze
       info.freeze
+
+      job_in_thread = nil
       job = Thread.new do
         Thread.current.priority = 20
         begin
@@ -766,9 +775,11 @@ module SonicPi
           end
           __info "Starting run #{id}" unless silent
           code = PreParser.preparse(code, SonicPi::Lang::Core.vec_fns)
-          code = "in_thread seed: 0 do\n" + code + "\nend"
+
           firstline -=1
-          eval(code, nil, info[:workspace], firstline)
+          job_in_thread = in_thread seed: 0 do
+            eval(code, nil, info[:workspace], firstline)
+          end
           __schedule_delayed_blocks_and_messages!
         rescue Stop => e
           __no_kill_block do
@@ -812,7 +823,7 @@ module SonicPi
         Thread.current.priority = -10
         __system_thread_locals.set_local(:sonic_pi_local_thread_group, "job-#{id}-GC")
         job.join
-        __join_subthreads(job)
+        __system_thread_locals(job_in_thread).get(:sonic_pi_local_spider_subthread_empty).get
 
         # wait until all synths are dead
         @life_hooks.completed(id)
@@ -880,10 +891,6 @@ module SonicPi
       raise ArgumentError, "in_thread's delay: opt must be a number, got #{delay.inspect}" if delay && !delay.is_a?(Numeric)
 
       parent_t = Thread.current
-
-      # Get copy of thread locals whilst we're sure they're not being modified
-      # as we're in the thread parent_t
-
       job_id = __current_job_id
       reg_with_parent_completed = Promise.new
       subthread_added_prom = Promise.new
@@ -932,6 +939,24 @@ module SonicPi
             # or an error was raised by wait_for_parent_thread! (which means parent was killed)
             main_in_thread.join
 
+
+            # There are two points at which we can be sure that the
+            # subthreads is and will remain empty (i.e. no more
+            # subthreads will be spawned and all existing subthreads
+            # have completed). First is here, when our main thread has
+            # finished. If the subthreads is empty, then it's safe to
+            # assume that the dead thread cannot spawn any further
+            # subthreads.
+            #
+            # The second point is when a subthread completes and removes
+            # itself from the subthread list. If at that point this main
+            # thread is dead and the subthreads lists is empty (after it
+            # has removed itself) then it's also safe to assume that the
+            # main thread cannot spawn any further subthreads.
+            if __system_thread_locals(main_in_thread).get(:sonic_pi_local_spider_subthreads).empty?
+              __system_thread_locals(main_in_thread).get(:sonic_pi_local_spider_subthread_empty).deliver!(true)
+            end
+
             # remove any un-matched event matchers created
             # by the thread we're currently cleaning up
             # after:
@@ -946,45 +971,37 @@ module SonicPi
 
             # wait for all subthreads to finish before removing self from
             # the parent subthread tree
-            __join_subthreads(main_in_thread)
+            __system_thread_locals(main_in_thread).get(:sonic_pi_local_spider_subthread_empty).get
+
             __system_thread_locals(parent_t).get(:sonic_pi_local_spider_subthread_mutex).synchronize do
-              __system_thread_locals(parent_t).get(:sonic_pi_local_spider_subthreads).delete(main_in_thread)
+              parent_subthreads = __system_thread_locals(parent_t).get(:sonic_pi_local_spider_subthreads)
+              parent_subthreads.delete(main_in_thread)
+
+              if (!parent_t.alive?) && parent_subthreads.empty?
+                # signal that the parent's subthreads are now empty and completed
+                yo_prom = __system_thread_locals(parent_t).get(:sonic_pi_local_spider_subthread_empty)
+                if yo_prom
+                  yo_prom.deliver!(true)
+                else
+                  log "Oh crap where is yo_prom????"
+                  log "#{__system_thread_locals(parent_t).get(:sonic_pi_local_thread_group)}"
+                end
+              end
+
 
             end
           end
           # End Thread GC
           ##################
 
-
           # Copy thread locals across from parent thread to this new thread
           __thread_locals_reset!(new_tls)
           __system_thread_locals_reset!(new_system_tls)
-
-          # Thread locals used for waiting for threads (essential for Time State's determinism)
-          __system_thread_locals.set_local(:sonic_pi_spider_state_waiters, [])
-          __system_thread_locals.set_local(:sonic_pi_spider_time_change, Mutex.new)
+          __set_default_system_thread_locals!
 
           __system_thread_locals.set_local(:sonic_pi_local_thread_group, :job_subthread)
-          __system_thread_locals.set_local(:sonic_pi_spider_num_threads_spawned, 0)
           __system_thread_locals.set_local(:sonic_pi_spider_thread_id_path, new_thread_id_path)
-          __system_thread_locals.set_local(:sonic_pi_spider_thread_delta, 0)
           __system_thread_locals.set_local :sonic_pi_local_spider_users_thread_name, name if name
-          __system_thread_locals.set_local :sonic_pi_local_spider_delayed_blocks, []
-          __system_thread_locals.set_local :sonic_pi_local_spider_delayed_messages, []
-          __system_thread_locals.set_local :sonic_pi_local_control_deltas, {}
-
-          # Reset subthreads thread local to the empty set. This shouldn't
-          # be inherited from the parent thread.
-          __system_thread_locals.set_local :sonic_pi_local_spider_subthreads, Set.new
-
-          # Give new thread a new subthread mutex
-          __system_thread_locals.set_local :sonic_pi_local_spider_subthread_mutex, Mutex.new
-
-          # Give new thread a new no_kill mutex This reduces contention
-          # over the alternative of a global no_kill mutex.  Killing a Run
-          # then essentially turns into waiting for each no_kill mutext for
-          # every sub-in_thread before killing them.
-          __system_thread_locals.set_local :sonic_pi_local_spider_no_kill_mutex, Mutex.new
 
           # Wait for parent to deliver promise. Throws an exception if
           # parent dies before the promise is delivered, thus stopping
