@@ -715,6 +715,10 @@ module SonicPi
         end
       end
 
+      def length
+        @vec.length
+      end
+
       def map(&block)
         @vec.map(&block)
       end

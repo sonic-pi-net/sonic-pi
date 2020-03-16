@@ -243,6 +243,11 @@ module SonicPi
       assert_equal(a.last(2), ["y", "z"].to_spv)
     end
 
+    def test_length
+      vector = [3, 2, 1].to_spv
+      assert_equal(3, vector.length)
+    end
+
     def test_map
       res = []
       v = [1, 2, 3].to_spv
