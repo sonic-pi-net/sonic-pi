@@ -206,6 +206,14 @@ signals:
         void showBufferCapacityError();
         void checkForStudioMode();
 
+        void focusLogs();
+        void focusEditor();
+        void focusCues();
+        void focusPreferences();
+        void focusHelpListing();
+        void focusHelpDetails();
+        void focusErrors();
+
 
     private:
         bool initAndCheckPorts();
@@ -245,6 +253,7 @@ signals:
         QKeySequence shiftMetaKey(char key);
         QKeySequence ctrlMetaKey(char key);
         QKeySequence ctrlShiftMetaKey(char key);
+        QKeySequence ctrlShiftKey(char key);
         QKeySequence ctrlKey(char key);
         char int2char(int i);
         void updateAction(QAction *action, QShortcut *sc, QString tooltip, QString desc);
@@ -307,8 +316,8 @@ signals:
 
         QToolBar *toolBar;
 
-        QAction *runAct, *stopAct, *saveAsAct, *loadFileAct, *recAct, *textAlignAct, *textIncAct, *textDecAct, *scopeAct, *infoAct, *helpAct, *prefsAct;
-        QShortcut *runSc, *stopSc, *saveAsSc, *loadFileSc, *recSc, *textAlignSc, *textIncSc, *textDecSc, *scopeSc, *infoSc, *helpSc, *prefsSc;
+        QAction *runAct, *stopAct, *saveAsAct, *loadFileAct, *recAct, *textAlignAct, *textIncAct, *textDecAct, *scopeAct, *infoAct, *helpAct, *prefsAct, *focusEditorAct, *focusLogsAct, *focusCuesAct, *focusPreferencesAct, *focusHelpListingAct, *focusHelpDetailsAct, *focusErrorsAct;
+        QShortcut *runSc, *stopSc, *saveAsSc, *loadFileSc, *recSc, *textAlignSc, *textIncSc, *textDecSc, *scopeSc, *infoSc, *helpSc, *prefsSc, *focusEditorSc, *focusLogsSc, *focusCuesSc, *focusPreferencesSc, *focusHelpListingSc, *focusHelpDetailsSc, *focusErrorsSc;
 
         SettingsWidget *settingsWidget;
 

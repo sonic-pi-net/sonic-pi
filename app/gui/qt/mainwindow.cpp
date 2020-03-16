@@ -2008,6 +2008,11 @@ QKeySequence MainWindow::ctrlShiftMetaKey(char key)
 #endif
 }
 
+QKeySequence MainWindow::ctrlShiftKey(char key)
+{
+  return QKeySequence(QString("Shift+Ctrl+%1").arg(key));
+}
+
 char MainWindow::int2char(int i){
     return '0' + i;
 }
@@ -2056,6 +2061,8 @@ void MainWindow::createShortcuts()
     new QShortcut(shiftMetaKey('L'), this, SLOT(toggleLogVisibility()));
     new QShortcut(shiftMetaKey('C'), this, SLOT(toggleCuesVisibility()));
     new QShortcut(QKeySequence("F12"),this, SLOT(toggleScopePaused()));
+
+
 }
 
 void  MainWindow::createToolBar()
@@ -2117,9 +2124,9 @@ void  MainWindow::createToolBar()
     connect(scopeAct, SIGNAL(triggered()), this, SLOT(toggleScope()));
 
     // Info
-    infoAct = new QAction(theme->getInfoIcon(false), tr("Show Info"), this);
+    infoAct = new QAction(theme->getInfoIcon(false), tr("Toggle Info"), this);
     infoSc = new QShortcut(metaKey('1'), this, SLOT(about()));
-    updateAction(infoAct, infoSc, tr("See information about Sonic Pi"));
+    updateAction(infoAct, infoSc, tr("Toggle information about Sonic Pi"));
     connect(infoAct, SIGNAL(triggered()), this, SLOT(about()));
 
     // Help
@@ -2176,6 +2183,37 @@ void  MainWindow::createToolBar()
     windowMenu->addAction(infoAct);
     windowMenu->addAction(helpAct);
     windowMenu->addAction(prefsAct);
+
+    //Accessibility shortcuts
+
+    //Focus Editor
+    focusEditorAct = new QAction(theme->getHelpIcon(false), tr("Focus Editor"), this);
+    focusEditorSc = new QShortcut(ctrlShiftKey('E'), this, SLOT(focusEditor()));
+    updateAction(focusEditorAct, focusEditorSc, tr("Place focus on the code editor"));
+    connect(focusEditorAct, SIGNAL(triggered()), this, SLOT(focusEditor()));
+
+    //Focus Logs
+    focusLogsAct = new QAction(theme->getHelpIcon(false), tr("Focus Logs"), this);
+    focusLogsSc = new QShortcut(ctrlShiftKey('L'), this, SLOT(focusLogs()));
+    updateAction(focusLogsAct, focusLogsSc, tr("Place focus on the log pane"));
+    connect(focusLogsAct, SIGNAL(triggered()), this, SLOT(focusLogs()));
+
+    //Focus Cues
+    focusCuesAct = new QAction(theme->getHelpIcon(false), tr("Focus Cues"), this);
+    focusCuesSc = new QShortcut(ctrlShiftKey('C'), this, SLOT(focusCues()));
+    updateAction(focusCuesAct, focusCuesSc, tr("Place focus on the cue event pane"));
+    connect(focusCuesAct, SIGNAL(triggered()), this, SLOT(focusCues()));
+
+    windowMenu->addSeparator();
+    windowMenu->addAction(focusEditorAct);
+    windowMenu->addAction(focusLogsAct);
+    windowMenu->addAction(focusCuesAct);
+
+    new QShortcut(ctrlShiftKey('P'), this, SLOT(focusPreferences()));
+    new QShortcut(ctrlShiftKey('H'), this, SLOT(focusHelpListing()));
+    new QShortcut(ctrlShiftKey('D'), this, SLOT(focusHelpDetails()));
+    new QShortcut(ctrlShiftKey('W'), this, SLOT(focusErrors()));
+
 
 }
 
@@ -2882,4 +2920,46 @@ void MainWindow::updateMIDIInPorts(QString port_info) {
 void MainWindow::updateMIDIOutPorts(QString port_info) {
     QString output_header = tr("Connected MIDI outputs") + ":\n\n";
     settingsWidget->updateMidiOutPorts(output_header + port_info);
+}
+
+void MainWindow::focusLogs() {
+  outputPane->showNormal();
+  outputPane->setFocusPolicy(Qt::StrongFocus);
+  outputPane->setFocus();
+  outputPane->raise();
+  outputPane->setVisible(true);
+  outputPane->activateWindow();
+}
+
+void MainWindow::focusEditor() {
+  SonicPiScintilla *ws = (SonicPiScintilla*)tabs->currentWidget();
+  ws->showNormal();
+  ws->setFocusPolicy(Qt::StrongFocus);
+  ws->setFocus();
+  ws->raise();
+  ws->setVisible(true);
+  ws->activateWindow();
+}
+
+void MainWindow::focusCues() {
+  incomingPane->showNormal();
+  incomingPane->setFocusPolicy(Qt::StrongFocus);
+  incomingPane->setFocus();
+  incomingPane->raise();
+  incomingPane->setVisible(true);
+  incomingPane->activateWindow();
+}
+
+void MainWindow::focusPreferences() {
+
+}
+
+void MainWindow::focusHelpListing() {
+}
+
+void MainWindow::focusHelpDetails(){
+}
+
+void MainWindow::focusErrors(){
+
 }
