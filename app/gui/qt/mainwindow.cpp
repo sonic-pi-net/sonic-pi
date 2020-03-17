@@ -1411,8 +1411,8 @@ bool MainWindow::saveAs()
 
 
 void MainWindow::resetErrorPane() {
-    errorPane->clear();
     errorPane->hide();
+    focusEditor();
 }
 
 void MainWindow::runBufferIdx(int idx)
@@ -1429,6 +1429,7 @@ void MainWindow::showError(QString msg) {
     errorPane->clear();
     errorPane->setHtml("<html><head></head><body>"  + msg + "</body></html>");
     errorPane->show();
+    focusErrors();
 }
 
 void MainWindow::showBufferCapacityError() {
