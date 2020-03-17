@@ -168,6 +168,8 @@ signals:
         void resetErrorPane();
         void helpScrollUp();
         void helpScrollDown();
+        void docPrevTab();
+        void docNextTab();
         void docScrollUp();
         void docScrollDown();
         void updateFullScreenMode();
