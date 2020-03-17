@@ -58,7 +58,7 @@
   opened again. This was particularly noticeable and potentially
   problematic on machines with small memory footprints.
 * General memory usage has been significantly reduced due to the introduction of
-  further caching in hot areas of the code that created many unecessary
+  further caching in hot areas of the code that created many unnecessary
   object allocations.
 * The Windows installer now works on more Windows 10 systems and now
   supports Windows 8.1 again thanks to the inclusion of a core C++ as a
