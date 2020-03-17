@@ -1,4 +1,5 @@
 # History
+* [v3.2.1 'Take Tau'](#v3.2.1), To be released...
 * [v3.2.0 'Tau'](#v3.2.0), 28th Feb, 2020
 * [v3.1.0 'Sauna'](#v3.1.0), 23rd Jan, 2018
 * [v3.0.1 'IOIO'](#v3.0.1), 27th July, 2017
@@ -17,6 +18,52 @@
 * [v2.1.1 'Firewall'](#v2.1.1), 25th Nov, 2014
 * [v2.1 'Core'](#v2.1), 21st Nov, 2014
 * [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
+
+<a name="v3.2.1"></a>
+
+## Version 3.2.1 - 'Take Tau'
+*To be released...*
+[(view commits)](https://github.com/samaaron/sonic-pi/commits/v3.2.1):
+
+### Breaking Changes
+
+* The `ping_pong` FX now merges the dry sound with the result of the echo to match the behaviour of `echo`.
+* In the last release, the `piano` synth had its default amplitude
+  accidentally altered when being updated to work with arbitrary
+  frequencies. This has been restored.
+
+
+### GUI
+
+* New shortcuts and menu items for explicitly placing focus on specific
+  areas of the app. This is primarily intended to improve accessibility
+  for screen readers or those not using a mouse or trackpad. The new
+  shortcuts are:
+  
+  - `Control-shift-e` - move focus to editor
+  - `Control-shift-l` - move focus to logs
+  - `Control-shift-c` - move focus to cues
+  - `Control-shift-p` - move focus to preferences
+  - `Control-shift-h` - move focus to help listing (e.g. the list of available help section)
+  - `Control-shift-d` - move focus to help details (e.g. the contents of the chosen help section)
+  - `Control-shift-w` - move focus to syntax/runtime error warnings
+
+
+### Bugfixes
+
+* Upgraded the Ruby process library which improves/fixes process
+  shutdown behaviour on some Linux systems.
+* Fixed a number of memory leaks which resulted in the memory
+  requirements of the app increasing over time until it was closed and
+  opened again. This was particularly noticeable and potentially
+  problematic on machines with small memory footprints.
+* General memory usage has been significantly reduced due to the introduction of
+  further caching in hot areas of the code that created many unecessary
+  object allocations.
+* The Windows installer now works on more Windows 10 systems and now
+  supports Windows 8.1 again thanks to the inclusion of a core C++ as a
+  merge module.
+
 
 <a name="v3.2.0"></a>
 
