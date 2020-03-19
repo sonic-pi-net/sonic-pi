@@ -1,0 +1,31 @@
+# appveyor.yml
+environment:
+  MSBUILD_FLAGS: /verbosity:minimal /maxcpucount
+  matrix:
+    - generator: "Visual Studio 16 2019"
+
+image: Visual Studio 2019
+
+install:
+  - set PATH=c:\Ruby26-x64\bin;C:\Program Files (x86)\WiX Toolset v3.11\bin;%PATH%
+  - set WITH_BENCHMARKS=1
+  - bundle install
+
+build: off
+
+before_test:
+  - ruby -v
+  - gem -v
+  - bundle -v
+
+platform:
+  - x64
+
+matrix:
+  fast_finish: true
+
+test_script:
+  - bundle exec rake compile -rdevkit && bundle exec rake test
+  # also test pure ruby fallback code
+  - set FAST_OSC_USE_FALLBACK=true
+  - bundle exec rake test

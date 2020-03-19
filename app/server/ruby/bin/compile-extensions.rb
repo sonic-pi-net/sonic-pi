@@ -57,7 +57,7 @@ native_ext_dirs = [
 ]
 
 rake_compiler_dirs = [
-  File.expand_path(File.dirname(__FILE__) + '/../vendor/fast_osc-1.2.1/')
+  File.expand_path(File.dirname(__FILE__) + '/../vendor/fast_osc-1.2.2/')
 ]
 
 if os == :osx

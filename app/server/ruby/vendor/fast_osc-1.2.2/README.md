@@ -108,12 +108,23 @@ Benchmarks are now part of this repo - run `WITH_BENCHMARKS=1 rake test` to see 
 - [ ] Work out cross compilation story for easier packaging
 - [x] Implement multi message/nested bundles
 - [ ] More documentation
-- [x] Travis
+- [x] Travis, Appveyor
 
 ## Development notes
 
+This project uses Bundler v2 - get this with
+
+    gem install bundler
+
+On linux, the only deps are `apt-get install build-essentials ruby-devel`. On OS X you may need XCode build tooling or similar.
+
     bundle install
     rake compile
+
+On Windows, using RubyInstaller and setup the MSYS2 toolchain. You then need to include devkit in the compile step like so:
+
+    bundle install
+    bundle exec rake compile -rdevkit
 
 ### Running the test suite
 
