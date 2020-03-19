@@ -48,7 +48,7 @@ module SonicPi
       end
 
       def encode_single_message(address, args=[])
-        args_encoded, tags = "", ","
+        args_encoded, tags = String.new(""), String.new(",")
 
         # inlining this method was not faster surprisingly
         address = get_from_or_add_to_string_cache(address)
@@ -109,7 +109,7 @@ module SonicPi
 
         tags_encoded = get_from_or_add_to_string_cache(tags)
         # Address here needs to be a new string, not sure why
-        "#{address}#{tags_encoded}#{args_encoded}".force_encoding("ASCII-8BIT")
+        String.new("#{address}#{tags_encoded}#{args_encoded}").force_encoding("ASCII-8BIT")
       end
 
       def encode_single_bundle(ts, address, args=[])
