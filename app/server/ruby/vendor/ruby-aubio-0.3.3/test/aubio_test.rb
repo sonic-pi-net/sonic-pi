@@ -2,6 +2,7 @@ require 'test_helper'
 
 class AubioTest < Minitest::Test
   def setup
+    @not_audio_file_path = File.expand_path("../sounds/not_an_audio_file.txt", __FILE__)
     @loop_amen_path = File.expand_path("../sounds/loop_amen.wav", __FILE__)
     @loop_amen_full_path = File.expand_path("../sounds/loop_amen_full.wav", __FILE__)
     @french_house_path = File.expand_path("../sounds/french_house_thing.wav", __FILE__)
@@ -20,7 +21,7 @@ class AubioTest < Minitest::Test
 
   def test_it_checks_file_is_readable_audio
     assert_raises Aubio::InvalidAudioInput do
-      Aubio.open("/Users/xriley/Projects/aubio/Gemfile")
+      Aubio.open(@not_audio_file_path)
     end
   end
 
@@ -34,35 +35,34 @@ class AubioTest < Minitest::Test
 
   def test_it_calculates_onsets
     result = Aubio.open(@loop_amen_path).onsets.to_a
-    assert_equal [
+    pairs = result.take(3).zip([
       {:s=>0.0, :ms=>0.0, :start=> 1, :end=>0},
       {:s=>0.21174603700637817, :ms=>211.74603271484375, :start=> 0, :end=>0},
       {:s=>0.4404761791229248, :ms=>440.4761657714844, :start=> 0, :end=>0},
-      {:s=>0.6651020646095276, :ms=>665.10205078125, :start=> 0, :end=>0},
-      {:s=>0.795714259147644, :ms=>795.7142333984375, :start=> 0, :end=>0},
-      {:s=>0.8873015642166138, :ms=>887.3015747070312, :start=> 0, :end=>0},
-      {:s=>0.9989795684814453, :ms=>998.9795532226562, :start=> 0, :end=>0},
-      {:s=>1.0950794219970703, :ms=>1095.0794677734375, :start=> 0, :end=>0},
-      {:s=>1.3104535341262817, :ms=>1310.4534912109375, :start=> 0, :end=>0},
-      {:s=>1.5354194641113281, :ms=>1535.41943359375, :start=> 0, :end=>0},
-      {:s=>1.753310657596372, :ms=>0.001753310657596372, :start=>0, :end=>1}
-    ], result
+    ])
+
+    pairs.each do |expected, actual|
+      assert_in_delta expected[:s], actual[:s], 0.25
+    end
   end
 
   def test_it_calculates_pitches
-    result = Aubio.open(@bobby_mcferrin_path).pitches.to_a
-    assert_equal [
-      {:pitch=>50.614505767822266, :confidence=>0.9164013862609863, :start=>0, :end=>0}
-    ], result.first(1)
+    result = Aubio.open(@bobby_mcferrin_path, pitch_method: 'yinfast', confidence_thresh: 0.9).pitches.to_a
+    assert_in_delta 50.0, result[0][:pitch], 1.0
   end
 
   def test_it_calculates_beats
-    result = Aubio.open(@loop_amen_full_path).beats.to_a
+    result = Aubio.open(@loop_amen_full_path).beats
     assert_equal [
-      {:confidence=>0.0, :s=>1.5100454092025757, :ms=>1510.04541015625, :start=>0, :end=>0}
+      {:confidence=>1, :s=>0.0, :ms=>0.0, :sample_no=>0, :total_samples=>302400.0, :rel_start=>0.0, :rel_end=>0.2202149470899471}
     ], result.first(1)
 
     assert_equal 13, result.length
+  end
+
+  def test_it_filters_beats_based_on_minimum_interval
+    result = Aubio.open(@loop_amen_full_path, minioi: 0.5).beats
+    assert_equal 8, result.length
   end
 
   def test_it_calculates_bpm

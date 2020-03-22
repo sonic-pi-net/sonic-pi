@@ -1,5 +1,5 @@
 module Aubio
-  class Onsets
+  class Pitches
 
     def initialize(aubio_source, params)
       # TODO: cleanup param dups
@@ -7,10 +7,18 @@ module Aubio
       @window_size = params[:window_size] || 1024
       @hop_size    = params[:hop_size]    || 512
 
+      # Set the tolerance for the pitch detection algorithm.
+      # Typical values range between 0.2 and 0.9.
+      # Pitch candidates found with a confidence less than this threshold will not be selected.
+      # The higher the threshold, the more confidence in the candidates.
+      @confidence_thresh  = params[:confidence_thresh]  || 0.9
+
+      @pitch_method = params[:pitch_method] || "yinfast"
+
       @source = aubio_source
-      @onset = Api.new_aubio_onset('default', @window_size, @hop_size, @sample_rate)
-      Api.aubio_onset_set_minioi_ms(@onset, 12.0)
-      Api.aubio_onset_set_threshold(@onset, 0.3)
+      @pitch = Api.new_aubio_pitch(@pitch_method, @window_size, @hop_size, @sample_rate)
+      Api.aubio_pitch_set_unit(@pitch, 'midi')
+      Api.aubio_pitch_set_tolerance(@pitch, @confidence_thresh)
 
       # create output for source
       @sample_buffer = Api.new_fvec(@hop_size)
@@ -23,46 +31,46 @@ module Aubio
 
       total_frames_counter = 0
       read_buffer = FFI::MemoryPointer.new(:int)
+      last_pitch = 0
 
       loop do
-        # Perform onset calculation
+        # Perform pitch calculation
         Api.aubio_source_do(@source, @sample_buffer, read_buffer)
-        Api.aubio_onset_do(@onset, @sample_buffer, @out_fvec)
+        Api.aubio_pitch_do(@pitch, @sample_buffer, @out_fvec)
 
         # Retrieve result
-        onset_new_peak = Api.fvec_get_sample(@out_fvec, 0)
+        pitch = Api.fvec_get_sample(@out_fvec, 0)
+        confidence = Api.aubio_pitch_get_confidence(@pitch)
         no_of_bytes_read = read_buffer.read_int
         total_frames_counter += no_of_bytes_read
 
-        if onset_new_peak > 0.0
-          onset_seconds = Api.aubio_onset_get_last_s(@onset)
-          onset_silence = Api.aubio_onset_get_silence(@onset)
-          onset_delay = Api.aubio_onset_get_delay_s(@onset)
+        if (last_pitch - pitch).abs >= 1 and confidence > @confidence_thresh
           output = {
-            :s => onset_seconds,
-            :silence => onset_silence,
-            :peak => onset_new_peak,
-            :delay => onset_delay,
-            :start => (onset_seconds == 0.0 ? 1 : 0),
+            :pitch => pitch,
+            :confidence => confidence,
+            :start => (total_frames_counter == 0 ? 1 : 0),
             :end => 0
           }
           yield output
         end
 
+        last_pitch = pitch
+
         if no_of_bytes_read != @hop_size
           # there's no more audio to look at
 
-          # Let's output one last onset to mark the end of the file
+          # Let's output one last pitch to mark the end of the file
           total_time = total_frames_counter.to_f / @sample_rate.to_f
           output = {
-            :s => total_time,
+            :pitch => pitch,
+            :confidence => confidence,
             :start => 0,
             :end  => 1
           }
           yield output
 
           # clean up
-          Api.del_aubio_onset(@onset)
+          Api.del_aubio_pitch(@pitch)
           Api.del_fvec(@sample_buffer)
           Api.del_fvec(@out_fvec)
 
