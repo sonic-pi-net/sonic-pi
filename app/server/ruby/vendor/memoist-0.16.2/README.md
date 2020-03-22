@@ -1,7 +1,7 @@
 Memoist
 =============
 
-[![Build Status](https://travis-ci.org/matthewrudy/memoist.png?branch=master)](https://travis-ci.org/matthewrudy/memoist)
+[![Build Status](https://travis-ci.org/matthewrudy/memoist.svg?branch=master)](https://travis-ci.org/matthewrudy/memoist)
 
 Memoist is an extraction of ActiveSupport::Memoizable.
 
@@ -20,10 +20,20 @@ class Person
   extend Memoist
 
   def social_security
+    puts "execute!"
     decrypt_social_security
   end
   memoize :social_security
 end
+
+person = Person.new
+
+person.social_security
+# execute!
+# => (returns decrypt_social_security)
+
+person.social_security
+# => (returns the memoized value)
 ```
 
 And person.social_security will only be calculated once.
@@ -111,7 +121,7 @@ person.taxes_due(100_000, true) # bypasses the memoized value and rememoizes it
 If you want to flush the entire memoization cache for an object
 
 ```ruby
-person.flush_cache
+person.flush_cache   # returns an array of flushed memoized methods, e.g. ["social_security", "some_method"]
 ```
 
 Authors
@@ -135,7 +145,7 @@ Everyone who contributed to it in the rails repository.
 Contributing
 ============
 
-1. Fork it ( http://github.com/*my-github-username*/memoist/fork )
+1. Fork it ( https://github.com/matthewrudy/memoist/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)

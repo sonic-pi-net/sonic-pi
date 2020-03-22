@@ -1,33 +1,44 @@
-require 'memoist/core_ext/singleton_class'
+# frozen_string_literal: true
+
+require 'memoist/version'
 
 module Memoist
-
-  def self.memoized_ivar_for(method_name, identifier=nil)
-    "@#{memoized_prefix(identifier)}_#{escape_punctuation(method_name)}"
-  end
-
-  def self.unmemoized_method_for(method_name, identifier=nil)
-    "#{unmemoized_prefix(identifier)}_#{method_name}".to_sym
-  end
-
-  def self.memoized_prefix(identifier=nil)
-    if identifier
-      "_memoized_#{identifier}"
-    else
-      "_memoized".freeze
+  def self.extended(extender)
+    Memoist.memoist_eval(extender) do
+      unless singleton_class.method_defined?(:memoized_methods)
+        def self.memoized_methods
+          @_memoized_methods ||= []
+        end
+      end
     end
   end
 
-  def self.unmemoized_prefix(identifier=nil)
+  def self.memoized_ivar_for(method_name, identifier = nil)
+    "@#{memoized_prefix(identifier)}_#{escape_punctuation(method_name)}"
+  end
+
+  def self.unmemoized_method_for(method_name, identifier = nil)
+    "#{unmemoized_prefix(identifier)}_#{method_name}".to_sym
+  end
+
+  def self.memoized_prefix(identifier = nil)
+    if identifier
+      "_memoized_#{identifier}"
+    else
+      '_memoized'.freeze
+    end
+  end
+
+  def self.unmemoized_prefix(identifier = nil)
     if identifier
       "_unmemoized_#{identifier}"
     else
-      "_unmemoized".freeze
+      '_unmemoized'.freeze
     end
   end
 
   def self.escape_punctuation(string)
-    string = string.is_a?(String) ? string.dup : string.to_s
+    string = string.is_a?(String) ? string.dup : string.to_s.dup
 
     return string unless string.end_with?('?'.freeze, '!'.freeze)
 
@@ -64,7 +75,8 @@ module Memoist
     end
 
     def memoized_structs(names)
-      structs = self.class.all_memoized_structs
+      ref_obj = self.class.respond_to?(:class_eval) ? singleton_class : self
+      structs = ref_obj.all_memoized_structs
       return structs if names.empty?
 
       structs.select { |s| names.include?(s.memoized_method) }
@@ -98,7 +110,7 @@ module Memoist
       # an ancestor method.
       ancestors.grep(Memoist).each do |ancestor|
         ancestor.memoized_methods.each do |m|
-          structs << m unless structs.any? {|am| am.memoized_method == m.memoized_method }
+          structs << m unless structs.any? { |am| am.memoized_method == m.memoized_method }
         end
       end
       structs
@@ -110,15 +122,7 @@ module Memoist
   end
 
   def memoize(*method_names)
-    if method_names.last.is_a?(Hash)
-      identifier = method_names.pop[:identifier]
-    end
-
-    Memoist.memoist_eval(self) do
-      def self.memoized_methods
-        @_memoized_methods ||= []
-      end
-    end
+    identifier = method_names.pop[:identifier] if method_names.last.is_a?(Hash)
 
     method_names.each do |method_name|
       unmemoized_method = Memoist.unmemoized_method_for(method_name, identifier)
@@ -134,7 +138,7 @@ module Memoist
         alias_method unmemoized_method, method_name
 
         mm = MemoizedMethod.new(method_name, memoized_ivar, instance_method(method_name).arity)
-        self.memoized_methods << mm
+        memoized_methods << mm
         if mm.arity == 0
 
           # define a method like this;
@@ -231,5 +235,4 @@ module Memoist
     # return a chainable method_name symbol if we can
     method_names.length == 1 ? method_names.first : method_names
   end
-
 end

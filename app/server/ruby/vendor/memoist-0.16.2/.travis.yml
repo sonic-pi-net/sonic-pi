@@ -1,0 +1,21 @@
+sudo: false
+cache: bundler
+language: ruby
+rvm:
+  - 1.9.3
+  - 2.0.0
+  - 2.1.10
+  - 2.2.7
+  - 2.3.4
+  - 2.4.1
+  - 2.5.1
+  - 2.6.0
+  - ruby-head
+  - jruby-19mode
+  - jruby-9.1.9.0
+  - jruby-head
+
+before_install:
+  - gem install bundler --no-document -v '~> 1.13'
+before_script:
+  - unset JRUBY_OPTS
