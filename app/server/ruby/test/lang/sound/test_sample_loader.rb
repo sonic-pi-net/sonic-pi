@@ -17,13 +17,12 @@ require_relative "../../../lib/sonicpi/sample_loader"
 module SonicPi
   class SampleLoaderTester < Minitest::Test
     def setup
-      @fake_built_in_sample_dir = File.expand_path("#{File.dirname(__FILE__)}../../../fake_built_in_sample_dir")
+      @fake_built_in_sample_dir = File.expand_path("#{File.dirname(__FILE__)}/../../fake_built_in_sample_dir")
       # Contains:
       # - beans.flac
       # - foo.wav
       # - quux.wav
-
-      @fake_sample_dir = File.expand_path("#{File.dirname(__FILE__)}../../../fake_sample_dir")
+      @fake_sample_dir = File.expand_path("#{File.dirname(__FILE__)}/../../fake_sample_dir")
       # Contains:
       # -  a_text_file.txt
       # -  bar_baz.aiff
@@ -233,5 +232,14 @@ module SonicPi
       assert_equal(["#{@fake_sample_dir}/xylophone-test-samp.wave"], res)
     end
 
+    def test_ring_source
+      files = [
+        @fake_built_in_sample_dir + "/beans.flac",
+        @fake_built_in_sample_dir + "/foo.wav",
+        @fake_built_in_sample_dir + "/quux.wav"].ring
+
+      res = @loader.find_candidates([files])
+      assert_equal(res, files.to_a)
+    end
   end
 end
