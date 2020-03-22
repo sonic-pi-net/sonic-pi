@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 #--
 # This file is part of Sonic Pi: http://sonic-pi.net
 # Full project source: https://github.com/samaaron/sonic-pi
@@ -298,7 +299,7 @@ current_midi_defaults #=> Prints {channel: 1, port: \"foo\"}"]
       end
 
 
-
+      @@number_cache = 0.upto(127).map {|i| i.to_s}
 
       def midi_note_on(*args)
         params, opts = split_params_and_merge_opts_array(args)
@@ -327,7 +328,7 @@ current_midi_defaults #=> Prints {channel: 1, port: \"foo\"}"]
               __midi_send_timed_pc("/note_on", p, c, [n, vel])
             end
           end
-          __midi_message "midi_note_on #{n}, #{vel}, channel: #{chan}, port: #{port}"
+          __midi_message "midi_note_on #{@@number_cache[n]}, #{@@number_cache[vel]}, channel: #{chan}, port: #{port}"
         else
           __midi_rest_message "midi_note_on :rest, on: 0"
         end
@@ -398,7 +399,7 @@ You may also optionally pass the velocity value as a floating point value betwee
               __midi_send_timed_pc("/note_off", p, c, [n, vel])
             end
           end
-          __midi_message "midi_note_off #{n}, #{vel}, channel: #{chan}, port: #{port}"
+          __midi_message "midi_note_off #{@@number_cache[n]}, #{@@number_cache[vel]}, channel: #{chan}, port: #{port}"
         else
           __midi_rest_message "midi_note_off :rest, on: 0"
         end
@@ -1457,9 +1458,9 @@ end"
               end
             end
           end
-          __midi_message "midi #{n}, #{vel}, sustain: #{sus}, port: #{port}, channel: #{chan}"
+          __midi_message "midi #{@@number_cache[n]}, #{@@number_cache[vel]}, sustain: #{sus}, port: #{port}, channel: #{chan}"
         else
-          __midi_rest_message "midi #{n}, #{vel}, sustain: #{sus}, port: #{port}, channel: #{chan}, on: 0"
+          __midi_rest_message "midi #{@@number_cache[n]}, #{@@number_cache[vel]}, sustain: #{sus}, port: #{port}, channel: #{chan}, on: 0"
         end
         nil
       end
@@ -1555,9 +1556,13 @@ end"
         return delta, delta_midi
       end
 
+      @@midi_path_cache = Hash.new {|h, k| h[k] = Hash.new() }
+
       def __midi_send_timed_pc(path, p, c, args)
         c = -1 if c == '*'
-        __midi_send_timed "/#{p}#{path}", c, *args
+        cached = @@midi_path_cache[p][path]
+        @@midi_path_cache[p][path] = cached = "/#{p}#{path}" unless cached
+        __midi_send_timed cached, c, *args
       end
 
       def __midi_send_timed(*args)

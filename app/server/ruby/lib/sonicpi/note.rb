@@ -64,10 +64,10 @@ module SonicPi
 
     MIDI_NOTE_RE = /\A:?(([a-gA-G])([sSbBfF]?))([-]?[0-9]*)\Z/
 
-    @@notes_cache = {}
+    @@notes_cache = Hash.new
 
-    @@midi_string_cache = Hash.new {|h, k| h[k] = {} }
-    @@midi_to_note_cache = {}
+    @@midi_string_cache = Hash.new {|h, k| h[k] = Hash.new }
+    @@midi_to_note_cache = Hash.new
 
     def self.resolve_note(n, o=nil)
       raise Exception.new("resolve_note argument must be a valid note. Got nil.") if(n.nil?)
