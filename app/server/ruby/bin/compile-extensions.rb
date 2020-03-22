@@ -63,7 +63,7 @@ rake_compiler_dirs = [
 if os == :osx
   native_ext_dirs += [
     File.expand_path(File.dirname(__FILE__) + '/../vendor/narray-0.6.1.1/'),
-    File.expand_path(File.dirname(__FILE__) + '/../vendor/ruby-coreaudio-0.0.12/ext/coreaudio/')
+    File.expand_path(File.dirname(__FILE__) + '/../vendor/ruby-coreaudio-0.0.12-patched/ext/coreaudio/')
   ]
 end
 
