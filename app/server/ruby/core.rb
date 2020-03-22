@@ -570,12 +570,7 @@ module SonicPi
       end
 
       def &(v)
-        case v
-        when SPVector
-          self.class.new(@vec & v.vec)
-        else
-          self.class.new(@vec & v.to_a)
-        end
+          self.class.new(@vec & v)
       end
 
       def +(other)
@@ -603,12 +598,7 @@ module SonicPi
       end
 
       def <=>(other)
-        case other
-        when SPVector
-          return @vec <=> other.vec
-        else
-          return @vec <=> other.to_a
-        end
+        @vec <=> other
       end
 
       def ==(other)
@@ -663,42 +653,12 @@ module SonicPi
         end
       end
 
-      def __flatten(list, max_level, level = 0)
-        level += 1 if max_level
-
-        list.reduce([]) do |res, el|
-          if max_level && (level > max_level)
-            res << el
-          else
-            case el
-            when SPVector
-              res += __flatten(el.vec, max_level, level)
-            when Array
-              res += __flatten(el, max_level, level)
-            else
-              res << el
-            end
-          end
-        end
-      end
-
-      def flatten(n=nil)
-        raise "SPVector#flatten requires either no argument or a number. You passed #{n.inspect}" if n && !n.is_a?(Numeric)
-        self.class.new(__flatten(self.vec, n))
+      def flatten(*args)
+        self.class.new(@vec.flatten(*args))
       end
 
       def flat_map(&block)
-        res = []
-        @vec.map do |e|
-          r = block.call(e)
-          case r
-          when SPVector
-            res += r.vec
-          else
-            res += r.to_a
-          end
-        end
-        self.class.new(res)
+        self.class.new(@vec.flat_map(&block))
       end
 
       def index(*args, &block)
@@ -899,8 +859,6 @@ module SonicPi
           "(#{___sp_vector_name} #{a.inspect[1...-1]})"
         end
       end
-
-
 
       def stretch(num_its)
         res = []
