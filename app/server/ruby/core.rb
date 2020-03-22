@@ -547,6 +547,8 @@ module SonicPi
         @vec.dup
       end
 
+      alias :to_ary :to_a
+
       def [](*idx)
         if idx.size == 1
           i = idx[0]

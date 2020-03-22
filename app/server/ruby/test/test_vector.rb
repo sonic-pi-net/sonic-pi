@@ -212,8 +212,11 @@ module SonicPi
       a5 = [ s5, t5, 9, 10 ].to_spv
       res5 = a5.flatten(2)
       assert_equal(res5, [1, 2, 3, 4, 5, 6, 7, [8, 8, [8, 8].to_spv], 9,10].to_spv)
+    end
 
-
+    def test_flatten_within_standard_array
+      s1 = [ 1, 2, 3 ].to_spv
+      assert_equal(s1.to_a, [s1].flatten)
     end
 
     def test_flat_map
