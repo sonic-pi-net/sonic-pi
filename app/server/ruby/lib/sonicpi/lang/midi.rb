@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 #--
 # This file is part of Sonic Pi: http://sonic-pi.net
 # Full project source: https://github.com/samaaron/sonic-pi
@@ -697,7 +696,7 @@ Typical MIDI values such as note or cc are represented with 7 bit numbers which 
         if program_num == nil #deal with missing midi_pc paramter
           return nil
         end
-                  
+
         if truthy?(on_val)
           channels       = __resolve_midi_channels(opts)
           ports          = __resolve_midi_ports(opts)
@@ -738,7 +737,7 @@ Program number can be passed as a note such as `:e3` and decimal values will be 
         "midi_pc 100, channel: 5  #=> Sends MIDI pc message on channel 5 to all ports",
         "midi_pc 100, channel: 5  #=> Sends MIDI pc message on channel 5 to all ports",
         "midi_pc 100, channel: [1, 5]  #=> Sends MIDI pc message on channel 1 and 5 to all ports"
-]     
+]
 
 
       def midi_raw(*args)
