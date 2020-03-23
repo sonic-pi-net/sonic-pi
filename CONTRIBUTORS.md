@@ -206,21 +206,21 @@ In addition to the Sonic Pi Core Team, we would like to extend our
 thanks to the following developers who have donated their time and
 effort to help grow and improve the Sonic Pi code base:
 
-* [Sam Aaron](https://github.com/samaaron/sonic-pi/commits?author=samaaron) (5082)
-* [Ethan Crawford](https://github.com/samaaron/sonic-pi/commits?author=ethancrawford) (213)
+* [Sam Aaron](https://github.com/samaaron/sonic-pi/commits?author=samaaron) (5157)
+* [Ethan Crawford](https://github.com/samaaron/sonic-pi/commits?author=ethancrawford) (217)
 * [Joseph Wilk](https://github.com/samaaron/sonic-pi/commits?author=josephwilk) (160)
 * [Hanno Zulla](https://github.com/samaaron/sonic-pi/commits?author=hzulla) (127)
 * [Jeremy Weatherford](https://github.com/samaaron/sonic-pi/commits?author=jweather) (127)
-* [Xavier Riley](https://github.com/samaaron/sonic-pi/commits?author=xavriley) (94)
+* [Xavier Riley](https://github.com/samaaron/sonic-pi/commits?author=xavriley) (96)
 * [Adrian Cheater](https://github.com/samaaron/sonic-pi/commits?author=factoid) (74)
-* [Robin Newman](https://github.com/samaaron/sonic-pi/commits?author=rbnpi) (49)
+* [Robin Newman](https://github.com/samaaron/sonic-pi/commits?author=rbnpi) (50)
 * [Martin Keegan](https://github.com/samaaron/sonic-pi/commits?author=mk270) (47)
+* [SunderB](https://github.com/samaaron/sonic-pi/commits?author=SunderB) (39)
 * [Luis Lloret](https://github.com/samaaron/sonic-pi/commits?author=llloret/) (37)
 * [Nicolas Dermine](https://github.com/samaaron/sonic-pi/commits?author=nicoder) (37)
-* [Emlyn Corrin](https://github.com/samaaron/sonic-pi/commits?author=emlyn) (32)
+* [Emlyn Corrin](https://github.com/samaaron/sonic-pi/commits?author=emlyn) (36)
 * [Nikolaus Gradwohl](https://github.com/samaaron/sonic-pi/commits?author=ngradwohl) (30)
-* [Chris Maughan](https://github.com/samaaron/sonic-pi/commits?author=cmaughan) (28)
-* [SunderB](https://github.com/samaaron/sonic-pi/commits?author=SunderB) (18)
+* [Chris Maughan](https://github.com/samaaron/sonic-pi/commits?author=cmaughan) (29)
 * [Joseph Burnett](https://github.com/samaaron/sonic-pi/commits?author=josephburnett) (15)
 * [Richard Bullington-McGuire](https://github.com/samaaron/sonic-pi/commits?author=obscurerichard) (15)
 * [Łukasz Siwiński](https://github.com/samaaron/sonic-pi/commits?author=hopbit) (13)
@@ -232,6 +232,7 @@ effort to help grow and improve the Sonic Pi code base:
 * [Martin van Es](https://github.com/samaaron/sonic-pi/commits?author=mrvanes) (5)
 * [Mikael Karlsson](https://github.com/samaaron/sonic-pi/commits?author=karlsson) (5)
 * [Antonio Bonifacio](https://github.com/samaaron/sonic-pi/commits?author=neuromancer85) (4)
+* [Rob McKinnon](https://github.com/samaaron/sonic-pi/commits?author=robmckinnon) (4)
 * [Anmol Gautam](https://github.com/samaaron/sonic-pi/commits?author=Tarptaeya) (3)
 * [Brock Wilcox](https://github.com/samaaron/sonic-pi/commits?author=awwaiid) (3)
 * [Chris Ford](https://github.com/samaaron/sonic-pi/commits?author=ctford) (3)
@@ -271,6 +272,7 @@ effort to help grow and improve the Sonic Pi code base:
 * [Christoph B. Wurzinger](https://github.com/samaaron/sonic-pi/commits?author=chbw) (1)
 * [Cosmin Stroe](https://github.com/samaaron/sonic-pi/commits?author=cstroe) (1)
 * [Dionysis Zindros](https://github.com/samaaron/sonic-pi/commits?author=dionyziz) (1)
+* [Drew A. Moore](https://github.com/samaaron/sonic-pi/commits?author=moore-drew) (1)
 * [Eric M](https://github.com/samaaron/sonic-pi/commits?author=em13914) (1)
 * [Eugene Kovalev](https://github.com/samaaron/sonic-pi/commits?author=wl8dr3) (1)
 * [Falko Spiller](https://github.com/samaaron/sonic-pi/commits?author=zenon) (1)
@@ -331,6 +333,7 @@ effort to help grow and improve the Sonic Pi code base:
 * [Uriel Corfa](https://github.com/samaaron/sonic-pi/commits?author=korfuri) (1)
 * [Veith Roethlingshoefer](https://github.com/samaaron/sonic-pi/commits?author=RunOrVeith) (1)
 
+
 ## Translation
 The following volunteers have generously helped to translate Sonic Pi into additional languages:
 
@@ -341,11 +344,11 @@ The following volunteers have generously helped to translate Sonic Pi into addit
 * Sam Aaron (78)
 * Nicolas Dermine (77)
 * Cindy Dallaire (48)
-* Olivier Humbert (45)
+* Olivier Humbert (47)
 * Olympia Brikis (37)
-* Mircea Patrascu (31)
+* Mircea Patrascu (32)
 * Federico Pepe (30)
-* Pau Monfort (28)
+* Pau Monfort (29)
 * Petter Reinholdtsen (28)
 * Daria Szatan (26)
 * Mauro João Salgado Figueira (23)
@@ -506,6 +509,7 @@ The following volunteers have generously helped to translate Sonic Pi into addit
 * Weizheng Liu (2)
 * Yandex (2)
 * Zsolt Szakács (2)
+* gedobbles (2)
 * mintpi (2)
 * sharmer156 (2)
 * ssantos (2)
@@ -573,6 +577,7 @@ The following volunteers have generously helped to translate Sonic Pi into addit
 * Jonas Hummel (1)
 * Joost T (1)
 * Jose Añasco (1)
+* Jun Lin (1)
 * Kaique Ribeiro de Campos (1)
 * Ke Ding (1)
 * Kurushina Margarita (1)
@@ -602,6 +607,7 @@ The following volunteers have generously helped to translate Sonic Pi into addit
 * Paola García (1)
 * Pascal (1)
 * Paulo Amaral (1)
+* Pavel Kartsel (1)
 * Pedro Fernandes (1)
 * Per-Erik Westerberg (1)
 * Peter Bolch (1)
@@ -635,6 +641,7 @@ The following volunteers have generously helped to translate Sonic Pi into addit
 * Xavier Riley (1)
 * Y Honda (1)
 * Zaiyi Wang (1)
+* Zhengkun Wang (1)
 * ggobugi27 (1)
 * kuenwoo (1)
 * leela (1)
@@ -647,3 +654,6 @@ The following volunteers have generously helped to translate Sonic Pi into addit
 * 郑小则 (1)
 * 陆轶凡 (1)
 * 김운하 (1)
+
+
+
