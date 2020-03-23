@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 #--
 # This file is part of Sonic Pi: http://sonic-pi.net
 # Full project source: https://github.com/samaaron/sonic-pi
@@ -322,6 +323,7 @@ module SonicPi
       end
     end
 
+    @@normalised_args_cache = Hash.new
 
     def trigger_synth(position, group, synth_name, args_h, info=nil, now=false, t_minus_delta=false)
       pos_code = @position_codes[position]
@@ -346,7 +348,8 @@ module SonicPi
 
       normalised_args = []
       args_h.each do |k,v|
-        normalised_args << k.to_s << v.to_f
+        k = @@normalised_args_cache[k] || @@normalised_args_cache[k] = k.to_s
+        normalised_args << k << v.to_f
       end
 
       if now
@@ -644,8 +647,8 @@ module SonicPi
       @scsynth.send_at(ts, *args)
     end
 
-    def async_add_event_handlers(*args)
-      @osc_events.async_add_handlers(*args)
+    def async_add_event_handlers(args_list)
+      @osc_events.async_add_handlers(args_list)
     end
 
     def add_event_handler(handle, key, &block)

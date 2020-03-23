@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+#--
 # This file is part of Sonic Pi: http://sonic-pi.net
 # Full project source: https://github.com/samaaron/sonic-pi
 # License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
@@ -248,37 +250,45 @@ module SonicPi
       end
     end
 
+    @@split_path_cache = Hash.new
     private
     def get_w_mutex(ge, val_matcher, get_next=false)
       # get value or return default
       if ge.path.start_with? '/'
-        path = String.new(ge.path)
+        if ge.path.include?('/**/**')
+          path = String.new(ge.path)  # multiple sequential ** matchers
+        else
+          path = ge.path
+        end
       else
-        path = String.new("/#{path}")
+        path = String.new("/#{ge.path}")
       end
 
       # Remove multiple sequential ** matchers
-      path.gsub!(/(\/\*\*)+/, '/**')
-      split_path = path.split('/').drop(1).map do |segment|
-        stripped = segment.strip
-        if stripped == '**'
-          stripped
-        elsif matcher?(segment)
-          segment = Regexp.escape(segment)
-          segment.gsub!('\*', '.*')
-          segment.gsub!(/\\\{(.*)\\\}/, '(\1)')
-          segment.gsub!(',', '|')
-          segment.gsub!('\?', '.')
-          segment.gsub!(/\\\[([^!].*)\\\]/, '[\1]')
-          segment.gsub!(/\\\[!(.*)\\\]/, '[^\1]')
-          segment.gsub!('\-', '-')
-          begin
-            Regexp.new(/\A#{segment}\Z/)
-          rescue
+      path.gsub!(/(\/\*\*)+/, '/**') if ge.path.include?('/**/**')
+
+      split_path = @@split_path_cache.fetch(path) do |k|
+        @@split_path_cache[path] = path.split('/').drop(1).map do |segment|
+          stripped = segment.strip
+          if stripped == '**'
+            stripped
+          elsif matcher?(segment)
+            segment = Regexp.escape(segment)
+            segment.gsub!('\*', '.*')
+            segment.gsub!(/\\\{(.*)\\\}/, '(\1)')
+            segment.gsub!(',', '|')
+            segment.gsub!('\?', '.')
+            segment.gsub!(/\\\[([^!].*)\\\]/, '[\1]')
+            segment.gsub!(/\\\[!(.*)\\\]/, '[^\1]')
+            segment.gsub!('\-', '-')
+            begin
+              Regexp.new(/\A#{segment}\Z/)
+            rescue
+              stripped
+            end
+          else
             stripped
           end
-        else
-          stripped
         end
       end
       @process_mut.synchronize do

@@ -35,7 +35,7 @@ module SonicPi
           # could be sent - however, this won't cause any issues as the
           # node won't run on_destroyed handlers multiple times and the
           # default /n_end handlers remove themselves.
-          @comms.async_event "/n_end/#{pn.id}", {}
+          @comms.async_event ['/n_end/', pn.id], {}
         end
       end
     end

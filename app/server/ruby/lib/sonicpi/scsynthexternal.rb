@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 #--
 # This file is part of Sonic Pi: http://sonic-pi.net
 # Full project source: https://github.com/samaaron/sonic-pi
@@ -118,21 +119,21 @@ module SonicPi
 
       @osc_server.add_global_method do |address, args, info|
         case address
-        when "/n_end"
+        when '/n_end'
           id = args[0].to_i
-          @events.async_event "/n_end/#{id}", args
-        when "/n_off"
+          @events.async_event ['/n_end/', id], args
+        when '/n_off'
           id = args[0].to_i
-          @events.async_event "/n_off/#{id}", args
-        when "/n_on"
+          @events.async_event ['/n_off/', id], args
+        when '/n_on'
           id = args[0].to_i
-          @events.async_event "/n_on/#{id}", args
-        when "/n_go"
+          @events.async_event ['/n_on/', id], args
+        when '/n_go'
           id = args[0].to_i
-          @events.async_event "/n_go/#{id}", args
-        when "/n_move"
+          @events.async_event ['/n_go/', id], args
+        when '/n_move'
           id = args[0].to_i
-          @events.async_event "/n_move/#{id}", args
+          @events.async_event ['/n_move/', id], args
         else
           @events.async_event address, args
         end
