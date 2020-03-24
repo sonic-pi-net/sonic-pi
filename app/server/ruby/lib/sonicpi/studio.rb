@@ -751,6 +751,12 @@ module SonicPi
             desc = args.each_slice(3).reduce("") { |s, v| s += "#{v[2]}\n" }
             @msg_queue.push({:type => :midi_in_ports, :val => desc})
           end
+        elsif address.is_a?(String) && address.end_with?('active_sensing')
+          # Ignore Active Sensing MIDI messages.
+          # This message is intended to be sent repeatedly to tell the receiver
+          # that a connection is alive.
+          # A MIDI device sending these will send one every 300ms.
+          # They quickly full up the cue log.
         else
           @register_cue_event_lambda.call(Time.now, p, @midi_osc_server_thread_id, d, b, m, address, args , 0)
         end
