@@ -632,7 +632,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="40"/>
         <source>Visuals</source>
-        <translation type="unfinished">视觉效果</translation>
+        <translation>视觉效果</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="43"/>
@@ -643,7 +643,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="80"/>
         <source>Master Volume</source>
-        <translation type="unfinished">主音量</translation>
+        <translation>主音量</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="81"/>
@@ -653,7 +653,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="87"/>
         <source>Audio Output</source>
-        <translation type="unfinished">音频输出</translation>
+        <translation>音频输出</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="88"/>
@@ -664,19 +664,21 @@ external PA systems when performing with Sonic Pi.</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="89"/>
         <source>Invert stereo</source>
-        <translation type="unfinished">反转立体声</translation>
+        <translation>反转立体声</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="90"/>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and vice versa.</source>
-        <translation type="unfinished"></translation>
+        <translation>切换立体声反转。
+如果启用，传入左扬声器的音频会
+被送入右扬声器，反之亦然。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="91"/>
         <source>Force mono</source>
-        <translation type="unfinished">强制使用单声道</translation>
+        <translation>强制使用单声道</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="92"/>
@@ -685,23 +687,26 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation type="unfinished">切换单声道模式。
-选中该选项时，左右声道将混合为单声道信号，并同时发送到左右声道输出扬声器。该选项对于外部音频系统只能处理单声道信号的情况非常有用。</translation>
+        <translation>切换单声道模式。
+选中该选项时，左右声道将混合为单声道信号，并
+同时发送到左右声道输出扬声器。
+该选项对于在只能处理单声道信号的系统
+上非常有用。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="101"/>
         <source>Synths and FX</source>
-        <translation type="unfinished">合成器与效果器</translation>
+        <translation>合成器与效果器</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="102"/>
         <source>Modify behaviour of synths and FX</source>
-        <translation type="unfinished">修改合成器和效果器参数</translation>
+        <translation>修改合成器和效果器参数</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="104"/>
         <source>Safe mode</source>
-        <translation type="unfinished">安全模式</translation>
+        <translation>安全模式</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="105"/>
