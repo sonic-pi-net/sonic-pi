@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-03-05 08:32+0000\n"
-"Last-Translator: Zhengkun Wang <boydkill@gmail.com>\n"
+"PO-Revision-Date: 2020-03-26 13:46+0000\n"
+"Last-Translator: Gao Yuyang <gaocool2009@163.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/zh_Hans/>\n"
 "Language: zh-Hans\n"
@@ -112,7 +112,6 @@ msgid "A live loop"
 msgstr "一个简单的循环"
 
 #: 01.1-Live-Coding.md:19
-#, fuzzy
 msgid "Let's get started, copy the following code into an empty buffer:"
 msgstr "让我们开始吧。 把下面的代码复制到一个空的编辑器里："
 
