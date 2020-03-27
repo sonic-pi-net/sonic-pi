@@ -280,7 +280,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="730"/>
         <source>Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Εύρος</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1511"/>
@@ -351,17 +351,17 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1826"/>
         <source>Colour Theme: </source>
-        <translation type="unfinished"></translation>
+        <translation>Θέμα Χρωμάτων: </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2065"/>
         <source>Start recording to a WAV audio file</source>
-        <translation type="unfinished"></translation>
+        <translation>Έναρξη εγγραφής σε αρχείο ήχου WAV</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2069"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποθήκευση</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2071"/>
@@ -396,7 +396,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2693"/>
         <source>Last checked %1</source>
-        <translation>Τελευταίος έλεγχος %l</translation>
+        <translation>Τελευταίος έλεγχος %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2695"/>
@@ -532,7 +532,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="430"/>
         <source>Studio Mode Enabled. Thank-you for supporting Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation>Η Λειτουργία Στούντιο Ενεργοποιήθηκε. Ευχαριστούμε που υποστηρίζετο το Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="434"/>
@@ -542,7 +542,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="670"/>
         <source>| %1 |</source>
-        <translation type="unfinished"></translation>
+        <translation>| %1 |</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2198"/>
@@ -597,32 +597,32 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../visualizer/scope.cpp" line="392"/>
         <source>Lissajous</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lissajous</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="393"/>
         <source>Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Αριστερά</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="394"/>
         <source>Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Δεξιά</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="395"/>
         <source>Mono</source>
-        <translation type="unfinished"></translation>
+        <translation>Μονοφωνικό</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="396"/>
         <source>Mirror Stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>Αντίστροφο Στερεοφωνικό</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="398"/>
         <source>Spectrum</source>
-        <translation type="unfinished"></translation>
+        <translation>Φάσμα</translation>
     </message>
 </context>
 <context>
@@ -685,7 +685,9 @@ external PA systems when performing with Sonic Pi.</source>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and vice versa.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εναλλαγή αντιστροφής στερεοφωνικού.
+Αν ενεργοποιηθεί, ο ήχος που θα πήγαινε στο αρριστερό
+ηχείο θα πάει στο δεξιό ηχείο και το αντίστροφο.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="91"/>
@@ -804,13 +806,14 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="165"/>
         <source>Send/Receive remote OSC messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποστολή/Παραλαβή απομακρυσμένων μηνυμάτων OSC</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="166"/>
         <source>When checked, Sonic Pi will let you send and receive OSC messages to and from remote machines.
  When unchecked, only sending and receiving from the local machine will be enabled.</source>
-        <translation type="unfinished"></translation>
+        <translation>Όταν επιλεχθεί, το Sonic Pi θα μπορεί να στέλνει και να λαμβάνει μηνύματα OSC προς και από απομακρυσμένες συσκευές.
+ Όταν αποεπιλεχθεί, μόνο αποστολές και λήψεις από την τοπική συσκευή θα ενεργοποιηθούν.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="168"/>
@@ -1006,27 +1009,27 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="292"/>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Φωτεινό</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="293"/>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Σκοτεινό</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="294"/>
         <source>Pro Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Επαγγελματικό Φωτεινό</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="295"/>
         <source>Pro Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Επαγγελματικό Σκοτεινό</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="296"/>
         <source>High Contrast</source>
-        <translation type="unfinished"></translation>
+        <translation>Υψηλή Αντίθεση</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="326"/>
