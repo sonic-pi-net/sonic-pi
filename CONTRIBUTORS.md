@@ -79,6 +79,7 @@ especially the following individuals who have been remarkably generous:
 * Dallas Kidd
 * [Darin Wilson](https://twitter.com/darinwilson/)
 * [Dean Wampler](https://twitter.com/deanwampler)
+* [Emlyn Corrin](https://github.com/emlyn)
 * [Evan Kroske](https://www.evankroske.com/)
 * [Gabe Jackson](https://github.com/gj)
 * [James Abley](https://twitter.com/jabley)
@@ -88,6 +89,7 @@ especially the following individuals who have been remarkably generous:
 * [Martin McDermott](https://twitter.com/marv_mcd)
 * [Michael Hunger](https://twitter.com/mesirii)
 * [Nada Amin](http://namin.net)
+* [NAMTAO](https://namtao.com)
 * [Ole Friis Østergaard](https://github.com/olefriis)
 * [Paul Williams](https://pcwilliams.design)
 * [Pit Noack](http://www.maschinennah.de/)
@@ -99,7 +101,6 @@ especially the following individuals who have been remarkably generous:
 * [Scott Turner](https://twitter.com/scottturneruon)
 * Terry Wisniewski
 * [thattommyhall](https://twitter.com/thattommyhall)
-
 
 
 
