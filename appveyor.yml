@@ -40,6 +40,8 @@ for:
     - git config --global core.autocrlf input
     - cmake --version
   install:
+    - dir c:\
+    - dir c:\Qt
     - cd %APPVEYOR_BUILD_FOLDER%
     - dir
     - cd app\server\native
