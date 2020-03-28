@@ -92,6 +92,7 @@ especially the following individuals who have been remarkably generous:
 * [Paul Williams](https://pcwilliams.design)
 * [Pit Noack](http://www.maschinennah.de/)
 * [Richard Buckley](https://burgundycomputing.com)
+* [Robin Newman](https://twitter.com/rbnman)
 * [Sam Halliday](https://github.com/fommil)
 * [Sean Raser](https://twitter.com/sraser88)
 * [Sébastien Rannou](https://mxs.sbrk.org/)
