@@ -12,6 +12,8 @@
 #++
 require 'socket'
 require_relative "../util"
+require_relative "oscencode"
+require_relative "oscdecode"
 
 module SonicPi
   module OSC
@@ -30,8 +32,8 @@ module SonicPi
         end
         @matchers = {}
         @global_matcher = global_method
-        @decoder = FastOsc
-        @encoder = FastOsc
+        @decoder = OscDecode.new(true)
+        @encoder = OscEncode.new(true)
         @listener_thread = Thread.new {start_listener}
       end
 

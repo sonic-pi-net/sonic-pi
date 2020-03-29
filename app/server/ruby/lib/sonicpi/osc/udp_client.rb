@@ -12,6 +12,7 @@
 #++
 
 require 'socket'
+require_relative "oscencode"
 
 module SonicPi
   module OSC
@@ -20,7 +21,7 @@ module SonicPi
       def initialize(host, port, opts={})
         @host = host
         @port = port
-        @encoder = FastOsc
+        @encoder = OscEncode.new(true)
         @so = UDPSocket.new
         @so.connect(host, port)
       end
