@@ -53,8 +53,7 @@ native_ext_dirs = [
   File.expand_path(File.dirname(__FILE__) + '/../vendor/ffi-1.11.3/ext/ffi_c/'),
   File.expand_path(File.dirname(__FILE__) + '/../vendor/atomic/ext'),
   File.expand_path(File.dirname(__FILE__) + '/../vendor/ruby-prof-0.15.8/ext/ruby_prof/'),
-  File.expand_path(File.dirname(__FILE__) + '/../vendor/interception/ext/'),
-  File.expand_path(File.dirname(__FILE__) + '/../vendor/fast_osc-1.2.2/ext/fast_osc')
+  File.expand_path(File.dirname(__FILE__) + '/../vendor/interception/ext/')
 ]
 
 

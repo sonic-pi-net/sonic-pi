@@ -32,7 +32,6 @@ gem install win32-process
 gem install rugged --version 0.27.1
 gem install aubio
 gem install sys-proctable
-gem install fast_osc
 ```
 Run a console as administrator. Add a link to Ruby:
 ```

@@ -6,7 +6,6 @@ cd %~dp0
 copy external\build\aubio-prefix\src\aubio-build\Release\libaubio-5.dll ..\..\server\native\ruby\bin
 
 for /d %G in ("..\..\server\ruby\vendor\ruby-aubio*") do rd /s /q "%~G"
-for /d %G in ("..\..\server\ruby\vendor\fast_osc*") do rd /s /q "%~G"
 
 @echo Copying osmid to the server...
 xcopy /Y /I /R /E external\build\osmid-prefix\src\osmid-build\Release\*.exe ..\..\server\native\osmid

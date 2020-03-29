@@ -1,2 +1,0 @@
-language: ruby
-script: rake clean && rake compile && rake test
