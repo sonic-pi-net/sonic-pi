@@ -778,10 +778,10 @@ void MainWindow::setupWindowStructure() {
     docsCentral->setMovable(false);
     docsCentral->setTabPosition(QTabWidget::South);
     QShortcut *left = new QShortcut(Qt::Key_Left, docsCentral);
-    left->setContext(Qt::WidgetShortcut);
+    left->setContext(Qt::WidgetWithChildrenShortcut);
     connect(left, SIGNAL(activated()), this, SLOT(docPrevTab()));
     QShortcut *right = new QShortcut(Qt::Key_Right, docsCentral);
-    right->setContext(Qt::WidgetShortcut);
+    right->setContext(Qt::WidgetWithChildrenShortcut);
     connect(right, SIGNAL(activated()), this, SLOT(docNextTab()));
 
     docPane = new QTextBrowser;
