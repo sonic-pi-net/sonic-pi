@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-02-26 17:32+0000\n"
+"PO-Revision-Date: 2020-03-30 05:39+0000\n"
 "Last-Translator: Pau Monfort <paubarrina@gmail.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/ca/>\n"
@@ -1713,6 +1713,8 @@ msgid ""
 "![ASR envelope](../../../etc/doc/images/tutorial/env-attack-sustain-release.pn"
 "g)"
 msgstr ""
+"![envolupant ASR](../../../etc/doc/images/tutorial/env-attack-sustain-"
+"release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:147
 msgid ""
@@ -1726,7 +1728,7 @@ msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:154
 msgid "Decay Phase"
-msgstr ""
+msgstr "Fase de caiguda (decay)"
 
 #: 02.4-Durations-with-Envelopes.md:156
 msgid ""
@@ -1752,10 +1754,12 @@ msgid ""
 "![ADSR envelope](../../../etc/doc/images/tutorial/env-attack-decay-sustain-rel"
 "ease.png)"
 msgstr ""
+"![envolupant ADSR](../../../etc/doc/images/tutorial/env-attack-decay-sustain-"
+"release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:170
 msgid "Decay Level"
-msgstr ""
+msgstr "Nivell de caiguda (decay)"
 
 #: 02.4-Durations-with-Envelopes.md:172
 msgid ""
@@ -1771,6 +1775,8 @@ msgid ""
 "play 60, attack: 0.1, attack_level: 1, decay: 0.2, decay_level: 0.3, sustain: "
 "1, sustain_level: 0.4, release: 0.5"
 msgstr ""
+"play 60, attack: 0.1, attack_level: 1, decay: 0.2, decay_level: 0.3, sustain:"
+" 1, sustain_level: 0.4, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:181
 msgid "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level.png)"
