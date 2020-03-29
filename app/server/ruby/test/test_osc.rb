@@ -18,8 +18,8 @@ module SonicPi
   class OSCTester < Minitest::Test
 
     def test_basic_address_encoding
-      encoder = FastOsc
-      decoder = FastOsc
+      decoder = OscDecode.new(true)
+      encoder = OscEncode.new(true)
 
       address = "/foo"
 
@@ -31,8 +31,8 @@ module SonicPi
 
 
     def test_args_encoding_multiple
-      encoder = FastOsc
-      decoder = FastOsc
+      decoder = OscDecode.new(true)
+      encoder = OscEncode.new(true)
 
       address = "/feooblah"
 
