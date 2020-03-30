@@ -777,6 +777,12 @@ void MainWindow::setupWindowStructure() {
     docsCentral->setTabsClosable(false);
     docsCentral->setMovable(false);
     docsCentral->setTabPosition(QTabWidget::South);
+    QShortcut *left = new QShortcut(Qt::Key_Left, docsCentral);
+    left->setContext(Qt::WidgetWithChildrenShortcut);
+    connect(left, SIGNAL(activated()), this, SLOT(docPrevTab()));
+    QShortcut *right = new QShortcut(Qt::Key_Right, docsCentral);
+    right->setContext(Qt::WidgetWithChildrenShortcut);
+    connect(right, SIGNAL(activated()), this, SLOT(docNextTab()));
 
     docPane = new QTextBrowser;
     QSizePolicy policy = docPane->sizePolicy();
@@ -2705,6 +2711,18 @@ void MainWindow::helpScrollDown() {
     helpLists[section]->setCurrentRow(entry);
 }
 
+void MainWindow::docPrevTab() {
+    int section = docsCentral->currentIndex();
+    if (section > 0)
+        docsCentral->setCurrentIndex(section - 1);
+}
+
+void MainWindow::docNextTab() {
+    int section = docsCentral->currentIndex();
+    if (section < docsCentral->count() - 1)
+        docsCentral->setCurrentIndex(section + 1);
+}
+
 void MainWindow::docScrollUp() {
     docPane->verticalScrollBar()->triggerAction(QAbstractSlider::SliderSingleStepSub);
 }
@@ -2991,8 +3009,7 @@ void MainWindow::focusHelpListing() {
   docWidget->show();
   updatePrefsIcon();
   docsCentral->showNormal();
-  docsCentral->setFocusPolicy(Qt::StrongFocus);
-  docsCentral->setFocus();
+  docsCentral->currentWidget()->setFocus();
   docsCentral->raise();
   docsCentral->setVisible(true);
   docsCentral->activateWindow();
