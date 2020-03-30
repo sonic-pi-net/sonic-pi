@@ -83,7 +83,7 @@ especially the following individuals who have been remarkably generous:
 * [Emlyn Corrin](https://github.com/emlyn)
 * [Evan Kroske](https://www.evankroske.com/)
 * [Florian Gilcher](https://twitter.com/Argorak)
-* [Foster McLane](fooster.io)
+* [Foster McLane](https://fooster.io)
 * [Gabe Jackson](https://github.com/gj)
 * [James Abley](https://twitter.com/jabley)
 * [Justin Worrall](https://twitter.com/juzbo)
