@@ -13,7 +13,8 @@
         <WixVariable Id="WixUIDialogBmp" Value="wix\wix_ui_dialog.bmp" />
         <Property Id='ARPCONTACT'>https://in-thread.sonic-pi.net</Property>
         <Property Id='ARPHELPLINK'>https://in-thread.sonic-pi.net</Property>
-        <Property Id='ARPURLINFOABOUT'>http://sonic-pi.net</Property>
+        <Property Id='ARPURLINFOABOUT'>https://sonic-pi.net</Property>
+        <Property Id='ARPPRODUCTICON'>StartMenuIcon.exe</Property>
 
         <Directory Id="TARGETDIR" Name="SourceDir">
           <Merge Id="VCRedist" SourceFile="../merge_modules/Microsoft_VC142_CRT_x64.msm" DiskId="1" Language="0"/>
