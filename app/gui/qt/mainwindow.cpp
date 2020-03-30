@@ -230,6 +230,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
         QTimer *timer = new QTimer(this);
         connect(timer, SIGNAL(timeout()), this, SLOT(heartbeatOSC()));
         timer->start(1000);
+        emit settingsChanged();
         splashClose();
         showWindow();
         app.processEvents();
