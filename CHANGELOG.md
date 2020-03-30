@@ -17,6 +17,7 @@
 * [v2.2 'Slicer'](#v2.2), 18th Dec, 2014
 * [v2.1.1 'Firewall'](#v2.1.1), 25th Nov, 2014
 * [v2.1 'Core'](#v2.1), 21st Nov, 2014
+* [v2.0.1](#v2.0.1), 9th Sept, 2014
 * [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
 
 <a name="v3.2.1"></a>
@@ -363,6 +364,9 @@ users!
 
 * Stop the internal sample pattern matcher from duplicating matches in some cases.
 * Stop pro icon preference from resetting to 'off' when switching from dark to light mode
+
+
+<a name="v3.0.1"></a>
 
 ## Version 3.0.1 - 'IOIO'
 *28th July, 2017*
@@ -1737,6 +1741,8 @@ and echoes.
 * `chord` now returns a ring.
 
 
+<a name="v2.1.1"></a>
+
 ## Version 2.1.1 - 'Firewall'
 *Tuesday 25th November, 2014*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.1.1)
@@ -1833,6 +1839,8 @@ Riley, Jeremy Weatherford and Joseph Wilk.
   - `cutoff_sustain_level:`,
   - `cutoff_env_curve:`
 
+
+<a name="v2.0.1"></a>
 
 ## Version 2.0.1
 
