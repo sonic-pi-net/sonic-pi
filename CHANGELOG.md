@@ -1,5 +1,5 @@
 # History
-* [v3.2.1 'Take Tau'](#v3.2.1), To be released...
+* [v3.2.1 'Take Tau'](#v3.2.1), 3rd April, 2020
 * [v3.2.0 'Tau'](#v3.2.0), 28th Feb, 2020
 * [v3.1.0 'Sauna'](#v3.1.0), 23rd Jan, 2018
 * [v3.0.1 'IOIO'](#v3.0.1), 27th July, 2017
@@ -22,16 +22,50 @@
 <a name="v3.2.1"></a>
 
 ## Version 3.2.1 - 'Take Tau'
-*To be released...*
+*3rd April, 2020*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v3.2.1):
+
+This release is another maintanence release with a primary focus on
+increasing stablilty and reliability. There are therefore no major new
+features, but instead there are significant improvements to the
+internals and the packaging of the Windows installer.
+
+Whilst there are no major new features, we have still been working hard
+engaging with users with accessibility requirements. We have added a
+number of modifications to the GUI to improve keyboard navigation which
+should improve things for users that do not use a mouse (for example,
+users working with a screen reader). As mentioned in the previous
+release, we will continue to work to improve accessibility support
+wherever possible in each release.
+
+One core internal focus has been improving memory utilisation of the
+app. A number of memory leaks have been hunted down and fixed. A memory
+leak is where the application requests increasingly more memory from the
+computer and never gives it back. Over time this means that the app
+would waste a lot of the system memory. This might have not been too
+noticeable using Sonic Pi on modern computers that typically have
+incredibly large amounts of memory. However, it was noticeable and
+problematic on low-powered systems with limited memory capacity. Sonic
+Pi now uses a lot less memory and after a warm-up period, the memory
+usage stays much more constant than before. We will continue to look for
+and fix memory leaks going forward.
+
+Finally, this release is the first to ship with a fully signed Windows
+installer. This is a major milestone as we now ship with signed versions
+for both macOS and Windows which should help more users and
+organisations (especially schools) trust the installation and running of
+Sonic Pi.
+
+Now, go and get live coding! 
 
 ### Breaking Changes
 
-* The `ping_pong` FX now merges the dry sound with the result of the echo to match the behaviour of `echo`.
+* The `ping_pong` FX now merges the dry sound with the result of the
+  echo to match the behaviour of `echo`.
 * In the last release, the `piano` synth had its default amplitude
   accidentally altered when being updated to work with arbitrary
   frequencies. This has been restored.
-
+* Incoming MIDI Active Sensing messages are now ignored  
 
 ### GUI
 
@@ -47,6 +81,14 @@
   - `Control-shift-h` - move focus to help listing (e.g. the list of available help section)
   - `Control-shift-d` - move focus to help details (e.g. the contents of the chosen help section)
   - `Control-shift-w` - move focus to syntax/runtime error warnings
+* Once focus is in the help listing, the up and down arrow keys now
+  navigate up and down in the list and the left and right arrow keys
+  switch tabs to work through the different help categories .
+* When an error occurs, focus is now placed on the error pop-up
+  window. Focus can be easily returned back to the editor by pressing
+  either the Escape key or `Control-g`.
+* Minor improvements for Catalan, Greek, Chinese, Russian,
+  French and Romanian translations.
 
 
 ### Bugfixes
@@ -57,12 +99,11 @@
   requirements of the app increasing over time until it was closed and
   opened again. This was particularly noticeable and potentially
   problematic on machines with small memory footprints.
-* General memory usage has been significantly reduced due to the introduction of
-  further caching in hot areas of the code that created many unnecessary
-  object allocations.
-* The Windows installer now works on more Windows 10 systems and now
-  supports Windows 8.1 again thanks to the inclusion of a core C++ as a
-  merge module.
+* General memory usage has been significantly reduced due to the
+  introduction of further caching in hot areas of the code that created
+  many unnecessary object allocations.
+* The Windows installer now works on more Windows 10 systems thanks to
+  additional libraries now being included in the installer.
 
 
 <a name="v3.2.0"></a>
