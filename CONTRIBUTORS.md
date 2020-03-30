@@ -66,6 +66,7 @@ kind and generous people via [Patreon](https://patreon.com/samaaron). We
 would like to thank everyone who has supported Sonic Pi in this way -
 especially the following individuals who have been remarkably generous:
 
+* Alan Boulton
 * [Alexandre Enkerli](https://twitter.com/enkerli)
 * [Anderson Reinkordt](https://soundcloud.com/april-club-music)
 * [André-Patrick Bubel](https://andre-bubel.de)
@@ -81,11 +82,15 @@ especially the following individuals who have been remarkably generous:
 * [Dean Wampler](https://twitter.com/deanwampler)
 * [Emlyn Corrin](https://github.com/emlyn)
 * [Evan Kroske](https://www.evankroske.com/)
+* [Florian Gilcher](https://twitter.com/Argorak)
+* [Foster McLane](fooster.io)
 * [Gabe Jackson](https://github.com/gj)
 * [James Abley](https://twitter.com/jabley)
 * [Justin Worrall](https://twitter.com/juzbo)
 * [Luis Espinoza](https://twitter.com/luis_espinoza)
 * [Mark Rendle](https://twitter.com/markrendle)
+* [Markku Rontu](https://twitter.com/zorcam)
+* [Martin Butz](https://github.com/mbutz)
 * [Martin McDermott](https://twitter.com/marv_mcd)
 * [Michael Hunger](https://twitter.com/mesirii)
 * [Nada Amin](http://namin.net)
