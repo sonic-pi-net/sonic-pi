@@ -3009,7 +3009,6 @@ void MainWindow::focusHelpListing() {
   docWidget->show();
   updatePrefsIcon();
   docsCentral->showNormal();
-  docsCentral->currentWidget()->setFocusPolicy(Qt::StrongFocus);
   docsCentral->currentWidget()->setFocus();
   docsCentral->raise();
   docsCentral->setVisible(true);
