@@ -5,11 +5,6 @@ cd %~dp0
 @echo Copying aubio to the server...
 copy external\build\aubio-prefix\src\aubio-build\Release\libaubio-5.dll ..\..\server\native\ruby\bin
 
-
-
-rmdir /S /Q ..\..\server\ruby\vendor\ruby-aubio-0.3.3
-
-
 @echo Copying osmid to the server...
 xcopy /Y /I /R /E external\build\osmid-prefix\src\osmid-build\Release\*.exe ..\..\server\native\osmid
 

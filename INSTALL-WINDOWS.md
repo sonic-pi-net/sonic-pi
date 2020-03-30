@@ -28,10 +28,10 @@ setx QT_INSTALL_LOCATION32 C:\Qt\Qt5.14.1\5.14.1\msvc2017 (restart command promp
 Install Ruby from http://rubyinstaller.org/downloads. Get the version with the devkit, 64 or 32 bit, depending on your platform.  You should update aubio to 3.3 if you have an older version.
 ```
 https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-2.6.5-1/rubyinstaller-devkit-2.6.5-1-x64.exe
+
 gem install win32-process
 gem install rugged --version 0.27.1
-gem install aubio
-gem install sys-proctable
+gem install ffi
 ```
 Run a console as administrator. Add a link to Ruby:
 ```
