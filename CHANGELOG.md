@@ -25,8 +25,8 @@
 *3rd April, 2020*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v3.2.1):
 
-This release is another maintanence release with a primary focus on
-increasing stablilty and reliability. There are therefore no major new
+This release is another maintenance release with a primary focus on
+increasing stability and reliability. There are therefore no major new
 features, but instead there are significant improvements to the
 internals and the packaging of the Windows installer.
 
@@ -65,7 +65,7 @@ Now, go and get live coding!
 * In the last release, the `piano` synth had its default amplitude
   accidentally altered when being updated to work with arbitrary
   frequencies. This has been restored.
-* Incoming MIDI Active Sensing messages are now ignored  
+* Incoming MIDI Active Sensing messages are now ignored
 
 ### GUI
 
@@ -83,7 +83,7 @@ Now, go and get live coding!
   - `Control-shift-w` - move focus to syntax/runtime error warnings
 * Once focus is in the help listing, the up and down arrow keys now
   navigate up and down in the list and the left and right arrow keys
-  switch tabs to work through the different help categories .
+  switch tabs to work through the different help categories.
 * When an error occurs, focus is now placed on the error pop-up
   window. Focus can be easily returned back to the editor by pressing
   either the Escape key or `Control-g`.
