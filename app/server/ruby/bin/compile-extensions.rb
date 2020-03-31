@@ -15,14 +15,6 @@
 # This file will build all native dependencies required by the vendored
 # libraries. Ensure you execute this file with the specific version of
 # Ruby you intend to package with Sonic Pi.
-
-# for extensions that need rake-compiler
-Dir["#{File.expand_path("../../vendor", __FILE__)}/rake-compiler-1.1.0/lib"].each do |vendor_lib|
-  $LOAD_PATH.unshift vendor_lib
-end
-require 'rake'
-require (File.expand_path(File.dirname(__FILE__) + '/../vendor/rake-compiler-1.1.0/lib/rake/extensiontask'))
-
 require 'fileutils'
 
 require 'rbconfig'
