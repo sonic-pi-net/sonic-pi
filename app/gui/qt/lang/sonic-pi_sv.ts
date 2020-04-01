@@ -158,12 +158,12 @@ Ursäkta, ett kritiskt fel inträffade under uppstart</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2088"/>
         <source>Text Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Öka textstorleken</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2094"/>
         <source>Text Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Minska textstorleken</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2100"/>
