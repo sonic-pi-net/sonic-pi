@@ -153,7 +153,7 @@ Ursäkta, ett kritiskt fel inträffade under uppstart</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2084"/>
         <source>Align code to improve readability</source>
-        <translation type="unfinished"></translation>
+        <translation>Justera kod för att förbättra läsbarheten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2088"/>
@@ -168,42 +168,42 @@ Ursäkta, ett kritiskt fel inträffade under uppstart</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2100"/>
         <source>Toggle Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Växla omfång</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2102"/>
         <source>Toggle visibility of audio oscilloscope</source>
-        <translation type="unfinished"></translation>
+        <translation>Växla synlighet av ljud oscilloskop</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2106"/>
         <source>Show Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Visa information</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2112"/>
         <source>Toggle Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Växla Hjälp</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2118"/>
         <source>Toggle Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Visa inställningar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2149"/>
         <source>&amp;File</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Fil</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2156"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Redigera</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2160"/>
         <source>&amp;Window</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Fönster</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2263"/>
@@ -280,7 +280,7 @@ Ursäkta, ett kritiskt fel inträffade under uppstart</translation>
     <message>
         <location filename="../mainwindow.cpp" line="730"/>
         <source>Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Omfattning</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1511"/>
@@ -351,17 +351,17 @@ Ursäkta, ett kritiskt fel inträffade under uppstart</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1826"/>
         <source>Colour Theme: </source>
-        <translation type="unfinished"></translation>
+        <translation>Färg Tema </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2065"/>
         <source>Start recording to a WAV audio file</source>
-        <translation type="unfinished"></translation>
+        <translation>Börja spela in till en WAV-ljudfil</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2069"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Spara</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2071"/>
@@ -425,17 +425,17 @@ Hämta Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2776"/>
         <source>Disabling OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>Inaktivera OSC kö port...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2785"/>
         <source>Enabling external OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktivera extern OSC kö port...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2794"/>
         <source>Enabling internal OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktivera intern OSC kö port...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2852"/>
@@ -532,17 +532,17 @@ Hämta Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="430"/>
         <source>Studio Mode Enabled. Thank-you for supporting Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation>Studio läge aktiverat. Tack för att du stöder Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="434"/>
         <source>No Matching Studio Hash Found...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ingen matchande Studio hash hittades...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="670"/>
         <source>| %1 |</source>
-        <translation type="unfinished"></translation>
+        <translation>| %1 |</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2198"/>
@@ -597,32 +597,32 @@ Hämta Sonic Pi %1</translation>
     <message>
         <location filename="../visualizer/scope.cpp" line="392"/>
         <source>Lissajous</source>
-        <translation type="unfinished"></translation>
+        <translation>Lissajous</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="393"/>
         <source>Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Vänster</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="394"/>
         <source>Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Höger</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="395"/>
         <source>Mono</source>
-        <translation type="unfinished"></translation>
+        <translation>Mono</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="396"/>
         <source>Mirror Stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>Spegla Stereo</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="398"/>
         <source>Spectrum</source>
-        <translation type="unfinished"></translation>
+        <translation>Spektrum</translation>
     </message>
 </context>
 <context>
@@ -630,66 +630,69 @@ Hämta Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="31"/>
         <source>Audio</source>
-        <translation type="unfinished">Ljud</translation>
+        <translation>Ljud</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="34"/>
         <source>IO</source>
-        <translation type="unfinished">IO</translation>
+        <translation>IO</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="37"/>
         <source>Editor</source>
-        <translation type="unfinished">Redigerare</translation>
+        <translation>Redigerare</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="40"/>
         <source>Visuals</source>
-        <translation type="unfinished">Visualiseringar</translation>
+        <translation>Visualiseringar</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="43"/>
         <location filename="../widgets/settingswidget.cpp" line="409"/>
         <source>Updates</source>
-        <translation type="unfinished">Uppdateringar</translation>
+        <translation>Uppdateringar</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="80"/>
         <source>Master Volume</source>
-        <translation type="unfinished">Mastervolym</translation>
+        <translation>Huvud volym</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="81"/>
         <source>Use this slider to change the system volume.</source>
-        <translation type="unfinished">Använd det här reglaget för att ändra systemvolymen.</translation>
+        <translation>Använd det här reglaget för att ändra systemvolymen.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="87"/>
         <source>Audio Output</source>
-        <translation type="unfinished">Audio ut</translation>
+        <translation>Ljudutgång</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="88"/>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
-        <translation type="unfinished">Avancerade ljudinställningar för arbete med externa PA-system vid framträdande med Sonic Pi.</translation>
+        <translation>Avancerade ljudinställningar för arbete med
+externa PA-system vid framträdande med Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="89"/>
         <source>Invert stereo</source>
-        <translation type="unfinished">Invertera stereo</translation>
+        <translation>Invertera stereo</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="90"/>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and vice versa.</source>
-        <translation type="unfinished"></translation>
+        <translation>Växla stereo inversion.
+Om det är aktiverat kommer ljud skickat till vänsterhögtalaren
+dirigeras till höger högtalare och vice versa.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="91"/>
         <source>Force mono</source>
-        <translation type="unfinished">Tvinga mono</translation>
+        <translation>Tvinga mono</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="92"/>
@@ -698,39 +701,40 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation type="unfinished">Aktivera monoläge
+        <translation>Aktivera monoläge
 Om den här knappen är aktiverad mixas höger och vänster kanal och
 samma signal går till båda högtalarna.
-Användbart när den externa utrustningen bara kan hantera mono.</translation>
+Användbart när den externa utrustningen 
+bara kan hantera mono.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="101"/>
         <source>Synths and FX</source>
-        <translation type="unfinished">Syntar och FX</translation>
+        <translation>Syntar och FX</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="102"/>
         <source>Modify behaviour of synths and FX</source>
-        <translation type="unfinished">Modifiera beteenden för syntar och FX</translation>
+        <translation>Modifiera beteenden för syntar och FX</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="104"/>
         <source>Safe mode</source>
-        <translation type="unfinished">Felsäkert läge</translation>
+        <translation>Felsäkert läge</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="105"/>
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
-        <translation type="unfinished">Aktivera syntparameter-funktioner
+        <translation>Aktivera syntparameter-funktioner
 Vissa syntvärden kan skapa oväntat höga
 eller obekväma ljud om den här knappen är avbockad.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="107"/>
         <source>Enforce timing guarantees</source>
-        <translation type="unfinished">Tvinga garanterad timing</translation>
+        <translation>Tvinga garanterad timing</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="108"/>
@@ -741,18 +745,18 @@ it is too late to do so
 When disabled, Sonic Pi will always
 attempt to trigger synths and FX
 even when a little late.</source>
-        <translation type="unfinished">Om den här knappen är aktiverad kommer Sonic Pi
-att vägra trigga syntar och FX
-om det är för sent för att göra detta.
+        <translation>Om aktiverad, kommer Sonic Pi att 
+vägra trigga syntar och FX om 
+det är för sent för att göra detta
 
-Om inaktiverad kommer Sonic Pi
-alltid försöka trigga syntar och FX
+Om inaktiverad, kommer Sonic Pi alltid 
+försöka trigga syntar och FX
 även om de är lite sena.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="110"/>
         <source>Enable external synths and FX</source>
-        <translation type="unfinished">Aktivera externa syntar och FX</translation>
+        <translation>Aktivera externa syntar och FX</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="111"/>
@@ -763,135 +767,136 @@ to be triggered.
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
 which isn&apos;t recognised.</source>
-        <translation type="unfinished">Om den här knappen är aktiverad låter Sonic Pi 
-syntar och FX attladdas via load_synthdefs 
+        <translation>Om aktiverad, låter Sonic Pi 
+syntar och FX att laddas via load_synthdefs 
 för att triggas.
 
-Om inaktiverad kommer Sonic Pi att säga ifrån
+Om inaktiverad, kommer Sonic Pi att säga ifrån
 när du försöker att använda en synt eller FX
 som inte känns igen.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="135"/>
         <source>Networked OSC</source>
-        <translation type="unfinished">OSC i nätverk</translation>
+        <translation>Nätverks OSC</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="136"/>
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation type="unfinished">Sonic Pi kan skicka och ta emot Open Sound Control-meddelanden
-till och ffrån andra program eller datorer
-via det det nätverk som för närvarande är anslutet.</translation>
+        <translation>Sonic Pi kan skicka och ta emot Open Sound Control meddelanden
+till och från andra program eller datorer
+via det nätverk som för närvarande är anslutet.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="139"/>
         <source>Local IP address</source>
-        <translation type="unfinished">Lokal IP-adress</translation>
+        <translation>Lokal IP-adress</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="140"/>
         <source>Listening for OSC messages on port</source>
-        <translation type="unfinished">Lyssnar efter OSC-meddelanden på port</translation>
+        <translation>Lyssnar efter OSC-meddelanden på port</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="159"/>
         <source>Unavailable</source>
-        <translation type="unfinished">Otillgänglig</translation>
+        <translation>Otillgänglig</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="165"/>
         <source>Send/Receive remote OSC messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Skicka/Ta emot fjärr OSC-meddelanden</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="166"/>
         <source>When checked, Sonic Pi will let you send and receive OSC messages to and from remote machines.
  When unchecked, only sending and receiving from the local machine will be enabled.</source>
-        <translation type="unfinished"></translation>
+        <translation>När den är markerad, låter Sonic Pi dig skicka och ta emot OSC-meddelanden till och från fjärrmaskiner.
+Om du är avmarkerad, kommer endast sändning och mottagning från den lokala maskinen att aktiveras.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="168"/>
         <source>Enable OSC server</source>
-        <translation type="unfinished">Aktivera OSC-server</translation>
+        <translation>Aktivera OSC-server</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="169"/>
         <source>When checked, Sonic Pi will listen for OSC messages.
  When unchecked no OSC messages will be received.</source>
-        <translation type="unfinished">Om den här knappen är aktiverad kommer Sonic Pi lyssna efter OSC-meddelanden.
- Om den här knappen är inaktiverad kommer inga OSC-meddelanden att tas emot.</translation>
+        <translation>Om aktiverad, kommer Sonic Pi lyssna efter OSC-meddelanden.
+ Om inaktiverad, kommer inga OSC-meddelanden att tas emot.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="177"/>
         <source>MIDI Configuration</source>
-        <translation type="unfinished">MIDI-konfiguration</translation>
+        <translation>MIDI-konfiguration</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="178"/>
         <source>Configure MIDI behaviour</source>
-        <translation type="unfinished">Konfigurera MIDI-beteende</translation>
+        <translation>Konfigurera MIDI-beteende</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="180"/>
         <source>MIDI Ports</source>
-        <translation type="unfinished">MIDI-portar</translation>
+        <translation>MIDI-portar</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="181"/>
         <source>List all connected MIDI Ports</source>
-        <translation type="unfinished">Lista alla anslutna MIDI-portar</translation>
+        <translation>Lista alla anslutna MIDI-portar</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="183"/>
         <source>Enable MIDI subsystems</source>
-        <translation type="unfinished">Aktivera MIDI-delsystem</translation>
+        <translation>Aktivera MIDI-delsystem</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="184"/>
         <source>Enable or disable incoming and outgoing MIDI communication</source>
-        <translation type="unfinished">Aktivera eller inaktivera inkommande och utgående MIDI-kommunikation</translation>
+        <translation>Aktivera eller inaktivera inkommande och utgående MIDI-kommunikation</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="186"/>
         <source>Reset MIDI</source>
-        <translation type="unfinished">Återställ MIDI</translation>
+        <translation>Återställ MIDI</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="187"/>
         <source>Reset MIDI subsystems 
 (Required to detect device changes on macOS)</source>
-        <translation type="unfinished">Återställ MIDI-delsystem
+        <translation>Återställ MIDI-delsystem
 (Krävs för att identifiera ändringar på macOS)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="213"/>
         <source>Default MIDI channel (* means all)</source>
-        <translation type="unfinished">Standardkanal för MIDI (* betyder alla)</translation>
+        <translation>Standardkanal för MIDI (* betyder alla)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="214"/>
         <location filename="../widgets/settingswidget.cpp" line="218"/>
         <source>Default MIDI Channel to send messages to</source>
-        <translation type="unfinished">Standardkanal att skicka MIDI-meddelanden till</translation>
+        <translation>Standardkanal att skicka MIDI-meddelanden till</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="229"/>
         <source>No connected input devices</source>
-        <translation type="unfinished">Inga anslutna inmatningsenheter</translation>
+        <translation>Inga anslutna inmatningsenheter</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="230"/>
         <source>No connected output devices</source>
-        <translation type="unfinished">Inga anslutna utmatningsenheter</translation>
+        <translation>Inga anslutna utmatningsenheter</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="231"/>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation type="unfinished">MIDI-inmatningsenheter skickar MIDI-meddelanden direkt till
+        <translation>MIDI-inmatningsenheter skickar MIDI-meddelanden direkt till
 Sonic PI och tas emot som köhändelser
 (likt inkommande OSC-meddelanden och interna köer)</translation>
     </message>
@@ -899,232 +904,232 @@ Sonic PI och tas emot som köhändelser
         <location filename="../widgets/settingswidget.cpp" line="232"/>
         <source>MIDI output devices receive MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished">MIDI-utgångsenheter tar emot MID-meddelanden direkt från
-Sonic Pi vilka kan skickas via midi_* funktionerna</translation>
+        <translation>MIDI-utgångsenheter tar emot MID-meddelanden direkt från
+Sonic Pi vilka kan skickas via midi_* fns</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="262"/>
         <source>Show and Hide</source>
-        <translation type="unfinished">Visa och göm</translation>
+        <translation>Visa och göm</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="263"/>
         <source>Configure editor display options.</source>
-        <translation type="unfinished">Konfigurera alternativ för redigeringsvy.</translation>
+        <translation>Konfigurera alternativ för redigeringsvy.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="264"/>
         <source>Look and Feel</source>
-        <translation type="unfinished">Utseende och känsla</translation>
+        <translation>Utseende och känsla</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="265"/>
         <source>Configure editor look and feel.</source>
-        <translation type="unfinished">Konfigurera redigerarens utseende och känsla.</translation>
+        <translation>Konfigurera redigerarens utseende och känsla.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="266"/>
         <source>Automation</source>
-        <translation type="unfinished">Automation</translation>
+        <translation>Automation</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="267"/>
         <source>Configure automation features.</source>
-        <translation type="unfinished">Konfigurera automationsegenskaper.</translation>
+        <translation>Konfigurera automationsegenskaper.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="269"/>
         <source>Auto-align</source>
-        <translation type="unfinished">Auto-justera</translation>
+        <translation>Auto-justera</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="270"/>
         <source>Automatically align code on Run</source>
-        <translation type="unfinished">Justera kod automatiskt vid Kör</translation>
+        <translation>Justera kod automatiskt vid Kör</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="272"/>
         <source>Show line numbers</source>
-        <translation type="unfinished">Visa radnumrering</translation>
+        <translation>Visa rad nummer</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="273"/>
         <source>Toggle line number visibility.</source>
-        <translation type="unfinished">Aktivera radnumrering.</translation>
+        <translation>Aktivera radnumrering.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="274"/>
         <source>Show log</source>
-        <translation type="unfinished">Visa logg</translation>
+        <translation>Visa logg</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="275"/>
         <source>Toggle visibility of the log.</source>
-        <translation type="unfinished">Aktivera loggens synlighet.</translation>
+        <translation>Aktivera loggens synlighet.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="278"/>
         <source>Show cue log</source>
-        <translation type="unfinished">Visa kölogg</translation>
+        <translation>Visa kölogg</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="279"/>
         <source>Toggle visibility of cue log which displays internal cues &amp; incoming OSC/MIDI messages.</source>
-        <translation type="unfinished">Låt köloggen visa interna köer och inkommande OSC-/MIDI-meddelanden.</translation>
+        <translation>Låt köloggen visa interna köer och inkommande OSC-/MIDI-meddelanden.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="282"/>
         <source>Show buttons</source>
-        <translation type="unfinished">Visa knappar</translation>
+        <translation>Visa knappar</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="283"/>
         <source>Toggle visibility of the control buttons.</source>
-        <translation type="unfinished">Aktivera kontrollknapparnas synlighet.</translation>
+        <translation>Aktivera kontrollknapparnas synlighet.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="285"/>
         <source>Show tabs</source>
-        <translation type="unfinished">Visa tabbar</translation>
+        <translation>Visa tabbar</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="287"/>
         <source>Toggle visibility of the buffer selection tabs.</source>
-        <translation type="unfinished">Aktivera buffervaltabbarnas synlighet.</translation>
+        <translation>Aktivera buffer val tabbarnas synlighet.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="288"/>
         <source>Full screen</source>
-        <translation type="unfinished">Fullskärm</translation>
+        <translation>Fullskärm</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="289"/>
         <source>Toggle full screen mode.</source>
-        <translation type="unfinished">Aktivera fullskärmsläge.</translation>
+        <translation>Aktivera helskärm.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="292"/>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Ljus</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="293"/>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Mörk</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="294"/>
         <source>Pro Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro Ljus</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="295"/>
         <source>Pro Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro Mörk</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="296"/>
         <source>High Contrast</source>
-        <translation type="unfinished"></translation>
+        <translation>Högkontrast</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="326"/>
         <source>Logging</source>
-        <translation type="unfinished">Loggar</translation>
+        <translation>Loggar</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="327"/>
         <source>Configure debug behaviour</source>
-        <translation type="unfinished">Konfigurera debugging</translation>
+        <translation>Konfigurera debugging</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="329"/>
         <source>Log synths</source>
-        <translation type="unfinished">Logga syntar</translation>
+        <translation>Logga syntar</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="330"/>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation type="unfinished">Aktivera loggmeddelanden
-Aktivitet så som synt- och samplingskörning visas inte
-i loggen om den här knappen är avbockad.</translation>
+        <translation>Växla loggmeddelanden
+Om inaktiverad, aktivitet så som synt- och samplingskörning 
+kommer inte att skrivas till log som standard.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="332"/>
         <source>Clear log on run</source>
-        <translation type="unfinished">Rensa logg vid körning</translation>
+        <translation>Rensa logg vid körning</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="333"/>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation type="unfinished">Aktivera loggrensning vid körning
+        <translation>Aktivera loggrensning vid körning
 Loggen rensas vid varje körning 
 om den här knappen är bockad.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="335"/>
         <source>Log cues</source>
-        <translation type="unfinished">Logga köer</translation>
+        <translation>Logga köer</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="336"/>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation type="unfinished">Aktivera eller inaktivera loggning av köer.
+        <translation>Aktivera eller inaktivera loggning av köer.
 Köer kommer fortfarande triggas om inaktiverad.
 De kommer dock inte synas i loggarna.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="338"/>
         <source>Auto-scroll log</source>
-        <translation type="unfinished">Auto-scroll-logg</translation>
+        <translation>Auto-rullning logg</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="339"/>
         <source>Toggle log auto scrolling.
 If enabled the log is scrolled to the bottom after every new message is displayed.</source>
-        <translation type="unfinished">Aktivera loggning av autoscroll.
+        <translation>Aktivera loggning av autoscroll.
 Om aktiverat scrollas loggen till botten efter att varje nytt meddelande visas.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="362"/>
         <source>Settings useful for performing with Sonic Pi</source>
-        <translation type="unfinished">Användbara inställningar för framförande med Sonic Pi</translation>
+        <translation>Användbara inställningar för framförande med Sonic Pi</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="366"/>
         <source>Show and Hide Scope</source>
-        <translation type="unfinished">Visa och göm oscilloskop</translation>
+        <translation>Visa och göm oscilloskop</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="367"/>
         <source>Scope Kinds</source>
-        <translation type="unfinished">Oscilloskoptyper</translation>
+        <translation>Oscilloskoptyper</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="375"/>
         <source>Show Scopes</source>
-        <translation type="unfinished">Visa oscilloskop</translation>
+        <translation>Visa oscilloskop</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="376"/>
         <source>Toggle the visibility of the audio oscilloscopes.</source>
-        <translation type="unfinished">Visa ljudoscilloskop.</translation>
+        <translation>Växla synlighet av ljudoscilloskop.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="377"/>
         <source>Show Axes</source>
-        <translation type="unfinished">Visa axlar</translation>
+        <translation>Visa axlar</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="378"/>
         <source>Toggle the visibility of the axes for the audio oscilloscopes</source>
-        <translation type="unfinished">Visa axlar för ljudoscilloskop</translation>
+        <translation>Växla synlighet av axlar för ljudoscilloskop</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="381"/>
@@ -1134,61 +1139,61 @@ be viewed independently or all together:
 Lissajous - illustrates the phase relationship between the left and right channels
 Mono - shows a combined view of the left and right channels (using RMS)
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished">Det finns tre typer av ljudoscilloskop som kan
+        <translation>Det finns tre typer av ljudoscilloskop som kan
 visas var för sig eller tillsammans:
 
-Lissajous - visar fasrelationen mellan vänster och höger kanal
+Lissajous - illustrerar fasrelationen mellan vänster och höger kanal
 Mono - visar en kombinerad vy av vänster och höger kanal (genom RMS)
 Stereo - visar två självständiga oscilloskop för vänster och höger kanal</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="388"/>
         <source>Transparency</source>
-        <translation type="unfinished">Transparens</translation>
+        <translation>Genomskinlighet</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="411"/>
         <source>Check for updates</source>
-        <translation type="unfinished">Leta efter uppdateringar</translation>
+        <translation>Leta efter uppdateringar</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="413"/>
         <source>Toggle automatic update checking.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished">Aktivera automatisk letning efter uppdateringar
+        <translation>Aktivera automatisk sökning efter uppdateringar
 Genom att bocka för detta skickar du anonym information om din plattform och version.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="414"/>
         <source>Check now</source>
-        <translation type="unfinished">Leta nu</translation>
+        <translation>Leta nu</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="415"/>
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished">Tvinga att leta efter uppdateringar nu
+        <translation>Tvinga en sökning efter uppdateringar nu
 Genom att bocka för detta skickar du anonym information om din plattform och version.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="416"/>
         <source>Get update</source>
-        <translation type="unfinished">Hämta uppdatering</translation>
+        <translation>Hämta uppdatering</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="417"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation type="unfinished">Besök http://sonic-pi.net för att ladda ner en ny version</translation>
+        <translation>Besök http://sonic-pi.net för att ladda ner en ny version</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="420"/>
         <source>Update Info</source>
-        <translation type="unfinished">Uppdateringsinformation</translation>
+        <translation>Uppdateringsinformation</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="423"/>
         <source>Sonic Pi update info</source>
-        <translation type="unfinished">Uppdateringsinformation för Sonic Pi</translation>
+        <translation>Uppdateringsinformation för Sonic Pi</translation>
     </message>
 </context>
 <context>
