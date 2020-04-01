@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-02-09 13:57+0000\n"
-"Last-Translator: Sam Aaron <samaaron@gmail.com>\n"
-"Language-Team: Swedish <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
-"sv/>\n"
+"PO-Revision-Date: 2020-04-01 14:39+0000\n"
+"Last-Translator: Elmer Blanksvärd <elmerblanksvard@gmail.com>\n"
+"Language-Team: Swedish <https://hosted.weblate.org/projects/sonic-pi/"
+"tutorial/sv/>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.11-dev\n"
+"X-Generator: Weblate 4.0-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -75,16 +75,15 @@ msgstr ""
 "så kan jag bedöma om vi skall ta med det i en framtida version."
 
 #: 01-Welcome-to-Sonic-Pi.md:28
-#, fuzzy
 msgid ""
 "Finally, watching others live code is a really great way to learn. I regularly"
 " stream live on [https://youtube.com/samaaron](http://youtube.com/samaaron) so"
 " please do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
-"Avslutningsvis,  att se andra live-koda är ett riktigt bra sätt att lära sig p"
-"å. Jag uppdaterar regelbundet min YouTube-kanal  [http://youtube.com/samaaron]"
-"(http://youtube.com/samaaron), besök den gärna och säg hej och fråga mig masso"
-"r av saker :-)"
+"Avslutningsvis, att se andra live-koda är ett riktigt bra sätt att lära sig "
+"på. Jag uppdaterar regelbundet min YouTube-kanal  [http://youtube.com/"
+"samaaron](http://youtube.com/samaaron), besök den gärna och säg hej och "
+"fråga mig massor av saker :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
@@ -131,7 +130,6 @@ msgid "A live loop"
 msgstr "En live-slinga"
 
 #: 01.1-Live-Coding.md:19
-#, fuzzy
 msgid "Let's get started, copy the following code into an empty buffer:"
 msgstr "Låt oss börja, kopiera följande program till en tom buffert ovanför:"
 
@@ -373,9 +371,8 @@ msgstr ""
 " lite tid att utforska det."
 
 #: 01.2-Exploring-the-Interface.md:8
-#, fuzzy
 msgid "![Sonic Pi Interface](../../../etc/doc/images/tutorial/GUI.png)"
-msgstr "![Gränssnittet till Sonic Pi](../images/tutorial/GUI.png)"
+msgstr "![Gränssnittet till Sonic Pi](../../../etc/doc/images/tutorial/GUI.png)"
 
 #: 01.2-Exploring-the-Interface.md:11
 msgid "*A* - Play Controls"
@@ -434,6 +431,8 @@ msgid ""
 "These orange buttons allow you to manipulate the code editor. The *Size +* and"
 " *Size -* buttons allow you to make the text bigger and smaller."
 msgstr ""
+"Dessa orange knappar låter dig manipulera kodredigeraren. Knapparna * "
+"Storlek + * och * Storlek - * låter dig göra texten större och mindre."
 
 #: 01.2-Exploring-the-Interface.md:34
 msgid "C. Info and Help"
@@ -580,7 +579,6 @@ msgid "There are no mistakes"
 msgstr "Det finns inga misstag"
 
 #: 01.3-Learning-through-Play.md:12
-#, fuzzy
 msgid ""
 "Whilst we're on this subject, let me just give you one piece of advice I've le"
 "arned over my years of live coding with music - *there are no mistakes, only o"
@@ -593,16 +591,17 @@ msgid ""
 "sound, manipulate it and morph it into something awesome. The crowd will go *w"
 "ild*."
 msgstr ""
-"När vi ändå diskuterar ämnet, låt mig ge dig ett råd, som jag lärt mig under å"
-"ren som jag livekodat - *du kan inte göra fel, bara utvecklas*. Det är något j"
-"ag ofta hört i relation till jazz, men det passar lika bra in på livekodning. "
-"Det spelar ingen roll hur erfaren du är - från en fullständig nybörjare till e"
-"n professionell artist som uppträder på algoravetillställningar, du kommer gar"
-"anterat köra kod som har helt oväntade effekter. Det kanske kommer låta sjukt "
-"coolt - kör på det i så fall, eller skära sig och vare helt ur takt. Det spela"
-"r ingen roll att det hände - vad som spelar roll är hur du hanterar det fortsä"
-"ttningsvis. Ta ljudet, manipulera det och mixa ihop det till något fantastiskt"
-". Alla i publiken kommer bli helt *galna*."
+"När vi ändå diskuterar ämnet, låt mig ge dig ett råd, som jag lärt mig under "
+"åren som jag livekodat - *du kan inte göra fel, bara utvecklas*. Det är "
+"något jag ofta hört i relation till jazz, men det passar lika bra in på "
+"livekodning. Det spelar ingen roll hur erfaren du är - från en fullständig "
+"nybörjare till en professionell artist som uppträder på "
+"algoravetillställningar, du kommer garanterat köra kod som har helt oväntade "
+"effekter. Det kanske kommer låta sjukt coolt - kör på det i så fall, eller "
+"skära sig och vare helt ur takt. Det spelar ingen roll att det hände - vad "
+"som spelar roll är hur du hanterar det fortsättningsvis. Ta ljudet, "
+"manipulera det och mixa ihop det till något fantastiskt. Alla i publiken "
+"kommer bli helt *galna*."
 
 #: 01.3-Learning-through-Play.md:24
 msgid "Start Simple"
