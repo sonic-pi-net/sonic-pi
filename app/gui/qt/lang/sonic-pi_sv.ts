@@ -153,7 +153,7 @@ Ursäkta, ett kritiskt fel inträffade under uppstart</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2084"/>
         <source>Align code to improve readability</source>
-        <translation>Justera kod för att förbättra läsbarheten</translation>
+        <translation>Justera koden för att förbättra läsbarheten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2088"/>
