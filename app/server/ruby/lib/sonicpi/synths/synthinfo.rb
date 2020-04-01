@@ -8069,7 +8069,7 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
           doc << "<p class=\"usage\"><code><pre>"
 
           v[:samples].each do |s|
-            doc << "<a id=\"#{s}\" href=\"##{s}\"><img src=\":/images/toolbar/pro/run.png\" height=\"30\" width=\"30\"></a>"
+            doc << "<a href=\"##{s}\"><img src=\":/images/toolbar/pro/run.png\" height=\"30\" width=\"30\"></a>"
             doc << "sample <span class=\"symbol\">:#{s}</span>\n"
           end
           doc << "</pre></code></p>\n"
