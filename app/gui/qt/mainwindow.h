@@ -108,6 +108,7 @@ signals:
         QString asciiArtLogo();
         void printAsciiArtLogo();
         void runCode();
+        void playSample(QString sample);
         void runBufferIdx(int idx);
         void update_check_updates();
         void mixerSettingsChanged();

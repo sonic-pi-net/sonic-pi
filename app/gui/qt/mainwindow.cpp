@@ -836,7 +836,14 @@ void MainWindow::setupWindowStructure() {
 }
 
 void MainWindow::docLinkClicked(const QUrl &url) {
-    std::cout << "[Doc] Link clicked: " << url.toDisplayString().toStdString() << std::endl;
+    QString link = url.toDisplayString();
+    std::cout << "[GUI] Link clicked: " << link.toStdString() << std::endl;
+
+    QRegularExpression re("^qrc:///help/samples_item_[0-9]+\\.html#([a-z0-9_]+)$");
+    QRegularExpressionMatch match = re.match(link);
+    if (match.hasMatch()) {
+        playSample(match.captured(1));
+    }
 }
 
 void MainWindow::escapeWorkspaces() {
@@ -1524,6 +1531,18 @@ void MainWindow::runCode()
 
     statusBar()->showMessage(tr("Running Code..."), 1000);
 
+}
+
+void MainWindow::playSample(QString sample) {
+    QString code = "use_debug false\n"
+        "use_real_time\n"
+        "sample :" + sample;
+    Message msg("/run-code");
+    msg.pushStr(guiID.toStdString());
+    msg.pushStr(code.toStdString());
+    if (sendOSC(msg)) {
+        statusBar()->showMessage(tr("Playing Sample..."), 1000);
+    }
 }
 
 void MainWindow::zoomCurrentWorkspaceIn()
