@@ -18,6 +18,7 @@
 
 // Qt stuff
 #include <QDesktopWidget>
+#include <QDesktopServices>
 #include <QAction>
 #include <QApplication>
 #include <QFileDialog>
@@ -790,6 +791,7 @@ void MainWindow::setupWindowStructure() {
     policy.setHorizontalStretch(QSizePolicy::Maximum);
     docPane->setSizePolicy(policy);
     docPane->setMinimumHeight(100);
+    docPane->setOpenLinks(false);
     docPane->setOpenExternalLinks(true);
     connect(docPane, SIGNAL(anchorClicked(const QUrl &)), this, SLOT(docLinkClicked(const QUrl &)));
 
@@ -843,6 +845,10 @@ void MainWindow::docLinkClicked(const QUrl &url) {
     QRegularExpressionMatch match = re.match(link);
     if (match.hasMatch()) {
         playSample(match.captured(1));
+    } else if (url.isRelative() || url.isLocalFile() || url.scheme() == "qrc") {
+        docPane->setSource(url);
+    } else {
+        QDesktopServices::openUrl(url);
     }
 }
 
