@@ -37,11 +37,15 @@ rvm:
   - 2.7.1
 
 before_install:
- - wget http://aubio.org/pub/aubio-0.4.4.tar.bz2
- - tar xvjf aubio-0.4.4.tar.bz2
- - cd aubio-0.4.4
- - ./waf configure build
- - sudo ./waf install
+  - # Install aubio
+  - wget http://aubio.org/pub/aubio-0.4.4.tar.bz2
+  - tar xvjf aubio-0.4.4.tar.bz2
+  - cd aubio-0.4.4
+  - ./waf configure build
+  - sudo ./waf install
+  - # Install bundler 2
+  - gem update --system # Bundler 2 requires RubyGems v2.5.0 or above; update rubygems to make sure it's at least v2.5.0
+  - sudo gem install bundler
 
 script:
  - set -e
@@ -50,10 +54,10 @@ script:
     # this compiles the gems and runs the Sonic Pi test suite with the ruby installed through Travis's rvm
     echo ""
     echo "***********************************"
-    echo "* Compiling the vendor/ ruby gems *"
+    echo "* Bundle required ruby gems       *"
     echo "***********************************"
-    cd $TRAVIS_BUILD_DIR/app/server/ruby/bin
-    ruby ./compile-extensions.rb
+    cd $TRAVIS_BUILD_DIR/app/server/ruby/
+    bundle install --deployment --with=:default,:development
     echo ""
     echo "***********************************"
     echo "* Running the Sonic Pi test suite *"

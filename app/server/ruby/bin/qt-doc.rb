@@ -12,11 +12,13 @@
 # notice is included.
 #++
 
+require_relative "../core.rb"
+Bundler.setup(:development) # Gems in the :default category are already loaded in core.rb
+
 require 'cgi'
 require 'optparse'
 require 'fileutils'
 
-require_relative "../core.rb"
 require_relative "../lib/sonicpi/synths/synthinfo"
 require_relative "../lib/sonicpi/util"
 require_relative "../lib/sonicpi/runtime"
