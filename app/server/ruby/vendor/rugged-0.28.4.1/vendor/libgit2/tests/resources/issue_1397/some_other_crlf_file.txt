@@ -1,3 +1,0 @@
-first line
-second line with some change
-both with crlf

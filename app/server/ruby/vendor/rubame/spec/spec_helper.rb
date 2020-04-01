@@ -1,3 +1,0 @@
-require 'rspec'
-
-require 'rubame'
