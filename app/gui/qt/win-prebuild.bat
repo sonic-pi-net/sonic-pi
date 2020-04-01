@@ -19,6 +19,11 @@ xcopy /Y /I /R /E external\build\osmid-prefix\src\osmid-build\Release\*.exe ..\.
 @echo Copying all other native files to server...
 xcopy /Y /I /R /E ..\..\..\prebuilt\windows\x64\*.* ..\..\server\native
 
+@echo Bundling required ruby gems...
+cd "%~dp0\..\..\server\ruby"
+bundler install --deployment --with=:default,:development
+cd %~dp0
+
 @echo Translating tutorial...
 ..\..\server\native\ruby\bin\ruby ../../server/ruby/bin/i18n-tool.rb -t
 

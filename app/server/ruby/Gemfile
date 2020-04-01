@@ -1,0 +1,41 @@
+# frozen_string_literal: true
+
+source "https://rubygems.org"
+
+# Gems needed at runtime
+gem "activesupport",  "~> 4.2.0"
+gem "fast_osc",       "~> 1.2.2"
+gem "kramdown",       "~> 2.1.0"
+gem "memoist",        "~> 0.16.2"
+gem "multi_json",     "~> 1.9.2"
+gem "rubame",         "~> 0.0.2"
+gem "aubio",          "~> 0.3.3" # 0.3.2 has a bug with the libaubio search paths
+gem "ruby-beautify",  "~> 0.92.2"
+gem "rugged",         "~> 0.28.4.1"
+gem "sys-proctable",  "~> 1.2.2"
+gem "treetop",        "~> 1.6.10"
+gem "wavefile",       "~> 0.8.1"
+# Windows only
+install_if -> { RUBY_PLATFORM =~ /.*mingw.*|.*mswin.*|.*msys.*|.*cygwin.*|.*bccwin.*|.*wince.*|.*emc.*/ } do
+  gem "win32-process"
+end
+# macOS only
+install_if -> { RUBY_PLATFORM =~ /.*darwin.*/ } do
+  # Use patched version of coreaudio to add support for setting default input device
+  gem "coreaudio", "0.0.12", :path => "vendor/ruby-coreaudio-0.0.12-patched"
+end
+
+# Gems needed to build and test Sonic Pi
+group :development, :optional => true do
+  gem "rake"
+  gem "rake-compiler", "~> 1.1.0" # ?
+
+  # For building/translating documentation
+  gem "gettext", "~> 3.2.2"
+
+  # For testing the server
+  gem "benchmark-ips", "~> 2.3.0"
+  gem "minitest",      "~> 5.8.1"
+  gem "mocha",         "~> 1.1.0"
+  gem "ruby-prof",     "~> 0.15.8"
+end

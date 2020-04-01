@@ -21,11 +21,9 @@ if [ "$1" = "--build-aubio" ]; then
   cp "${SCRIPT_DIR}/external/build/aubio-prefix/src/aubio-build/libaubio-5.so" "${SCRIPT_DIR}/../../server/native/lib/"
 fi
 
-#dont remove ruby-aubio-prerelease, as needed in linux build
-#it is removed in the windows-prebuild
-
-echo "Compiling native ruby extensions..."
-ruby "${SCRIPT_DIR}/../../server/ruby/bin/compile-extensions.rb"
+echo "Bundling required ruby gems..."
+cd "${SCRIPT_DIR}/../../server/ruby"
+bundler install --deployment --with=:default,:development
 
 echo "Compiling erlang files..."
 cd "${SCRIPT_DIR}/../../server/erlang"

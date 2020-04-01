@@ -20,11 +20,7 @@ raise "Sonic Pi requires Ruby 2.4+ to be installed. You are using version #{RUBY
 require 'rbconfig'
 ruby_api = RbConfig::CONFIG['ruby_version']
 
-
-## Ensure all libs in vendor directory are available
-Dir["#{File.expand_path("../vendor", __FILE__)}/*/lib/"].each do |vendor_lib|
-  $:.unshift vendor_lib
-end
+require 'bundler/setup'
 
 begin
   require 'did_you_mean'
@@ -41,28 +37,12 @@ os = case RUBY_PLATFORM
        :linux
      when /.*darwin.*/
        :osx
-     when /.*mingw.*/
+     when /.*mingw.*|.*mswin.*|.*msys.*|.*cygwin.*|.*bccwin.*|.*wince.*|.*emc.*/
        :windows
      else
+       warn "Unknown Ruby platform: '#{RUBY_PLATFORM}'"
        RUBY_PLATFORM
      end
-
-# special case for proctable lib
-sys_proctable_os = case os
-                   when :raspberry
-                     "linux"
-                   when :linux
-                     "linux"
-                   when :windows
-                     "windows"
-                   when :osx
-                     "darwin"
-                   end
-$:.unshift "#{File.expand_path("../vendor", __FILE__)}/sys-proctable-1.1.3/lib/#{sys_proctable_os}"
-
-
-$:.unshift "#{File.expand_path("../rb-native", __FILE__)}/#{ruby_api}/"
-
 
 ## Add aubio native library to ENV if not present (the aubio library needs to be told the location)
 native_lib_path = File.expand_path("../../native/", __FILE__)

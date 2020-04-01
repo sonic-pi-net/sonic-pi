@@ -11,6 +11,11 @@ xcopy /Y /I /R /E external\build_x86\osmid-prefix\src\osmid-build\Release\*.exe 
 @echo Copying scsynth to server...
 copy /Y ..\..\..\prebuilt\windows\x86\*.* ..\..\server\native
 
+@echo Bundling required ruby gems...
+cd "%~dp0\..\..\server\ruby"
+bundler install --deployment --with=:default,:development
+cd %~dp0
+
 @echo Translating tutorial...
 ..\..\server\native\ruby\bin\ruby ../../server/ruby/bin/i18n-tool.rb -t
 

@@ -33,9 +33,15 @@ xcopy /Y ..\..\app\server\native\*.* app\server\native
 xcopy /Y /I /R /E ..\..\app\server\ruby app\server\ruby
 
 REM Now remove stuff we don't want in the installer
-rmdir /S /Q app\server\ruby\vendor\ruby-aubio-prerelease
 rmdir /S /Q app\server\native\ruby\share
-ruby prune.rb app/server/ruby/vendor
+
+REM Remove ruby gems that are only needed for development
+cd app\server\ruby
+bundler install --deployment --without=:development
+bundler clean
+REM Remove unneeded source code of some ruby gems
+rmdir /S /Q vendor\ruby-coreaudio-0.0.12-patched
+cd ..\..\..
 
 REM Now we have etc/app folders, generate the installer from them
 del gui.wix
