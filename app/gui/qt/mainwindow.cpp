@@ -841,14 +841,28 @@ void MainWindow::docLinkClicked(const QUrl &url) {
     QString link = url.toDisplayString();
     std::cout << "[GUI] Link clicked: " << link.toStdString() << std::endl;
 
-    QRegularExpression re("^qrc:///help/samples_item_[0-9]+\\.html#([a-z0-9_]+)$");
-    QRegularExpressionMatch match = re.match(link);
-    if (match.hasMatch()) {
-        playSample(match.captured(1));
+    if (url.scheme() == "sonicpi") {
+        handleCustomUrl(url);
     } else if (url.isRelative() || url.isLocalFile() || url.scheme() == "qrc") {
         docPane->setSource(url);
     } else {
         QDesktopServices::openUrl(url);
+    }
+}
+
+void MainWindow::handleCustomUrl(const QUrl &url) {
+    if (url.host() == "play-sample") {
+        QString sample = url.path();
+        sample.remove(QRegExp("^/"));
+        QString code = "use_debug false\n"
+            "use_real_time\n"
+            "sample :" + sample;
+        Message msg("/run-code");
+        msg.pushStr(guiID.toStdString());
+        msg.pushStr(code.toStdString());
+        if (sendOSC(msg)) {
+            statusBar()->showMessage(tr("Playing Sample..."), 1000);
+        }
     }
 }
 
@@ -1537,18 +1551,6 @@ void MainWindow::runCode()
 
     statusBar()->showMessage(tr("Running Code..."), 1000);
 
-}
-
-void MainWindow::playSample(QString sample) {
-    QString code = "use_debug false\n"
-        "use_real_time\n"
-        "sample :" + sample;
-    Message msg("/run-code");
-    msg.pushStr(guiID.toStdString());
-    msg.pushStr(code.toStdString());
-    if (sendOSC(msg)) {
-        statusBar()->showMessage(tr("Playing Sample..."), 1000);
-    }
 }
 
 void MainWindow::zoomCurrentWorkspaceIn()

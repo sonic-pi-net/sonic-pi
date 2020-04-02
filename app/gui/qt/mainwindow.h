@@ -99,6 +99,7 @@ signals:
         private slots:
             void addCuePath(QString path, QString val);
         void docLinkClicked(const QUrl &url);
+        void handleCustomUrl(const QUrl &url);
         void zoomInLogs();
         void zoomOutLogs();
         QString sonicPiHomePath();
@@ -108,7 +109,6 @@ signals:
         QString asciiArtLogo();
         void printAsciiArtLogo();
         void runCode();
-        void playSample(QString sample);
         void runBufferIdx(int idx);
         void update_check_updates();
         void mixerSettingsChanged();
