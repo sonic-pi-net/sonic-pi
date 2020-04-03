@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-03-30 05:39+0000\n"
-"Last-Translator: Pau Monfort <paubarrina@gmail.com>\n"
+"PO-Revision-Date: 2020-04-03 19:47+0000\n"
+"Last-Translator: Sam Aaron <samaaron@gmail.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/ca/>\n"
 "Language: ca\n"
@@ -1562,9 +1562,10 @@ msgstr ""
 "il·lustra aquesta transició:"
 
 #: 02.4-Durations-with-Envelopes.md:79
-#, fuzzy
 msgid "![release envelope](../../../etc/doc/images/tutorial/env-release.png)"
-msgstr "![Envolupant d'extinció(release envelope)](../images/tutorial/env-release.png)"
+msgstr ""
+"![Envolupant d'extinció(release envelope)](../../../etc/doc/images/tutorial/"
+"env-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:81
 #, fuzzy
@@ -1640,11 +1641,12 @@ msgstr ""
 "t diagrama:"
 
 #: 02.4-Durations-with-Envelopes.md:114
-#, fuzzy
 msgid ""
 "![attack release envelope](../../../etc/doc/images/tutorial/env-attack-release"
 ".png)"
-msgstr "![envolupant d'atac i extinció](../images/tutorial/env-attack-release.png)"
+msgstr ""
+"![envolupant d'atac i extinció](../../../etc/doc/images/tutorial/env-attack-"
+"release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:116
 msgid ""
@@ -1660,13 +1662,12 @@ msgid "play 60, attack: 4, release: 0.7"
 msgstr "play 60, attack: 4, release: 0.7"
 
 #: 02.4-Durations-with-Envelopes.md:123
-#, fuzzy
 msgid ""
 "![long attack short release envelope](../../../etc/doc/images/tutorial/env-lon"
 "g-attack-short-release.png)"
 msgstr ""
-"![envolupant amb atac llarg i extinció curta](../images/tutorial/env-long-atta"
-"ck-short-release.png)"
+"![envolupant amb atac llarg i extinció curta](../../../etc/doc/images/"
+"tutorial/env-long-attack-short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:125
 msgid ""
@@ -1680,13 +1681,12 @@ msgid "play 60, attack: 0.5, release: 0.5"
 msgstr "play 60, attack: 0.5, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:132
-#, fuzzy
 msgid ""
 "![short attack short release envelope](../../../etc/doc/images/tutorial/env-sh"
 "ort-attack-short-release.png)"
 msgstr ""
-"![envolupant amb atac curt i extinció curta](../images/tutorial/env-short-atta"
-"ck-short-release.png)"
+"![envolupant amb atac curt i extinció curta](../../../etc/doc/images/"
+"tutorial/env-short-attack-short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:134
 msgid "Sustain Phase"
@@ -8752,11 +8752,10 @@ msgid ""
 msgstr ""
 
 #: A.02-live-coding.md:14
-#, fuzzy
 msgid ""
 "![Sam Aaron Live Coding](../../../etc/doc/images/tutorial/articles/A.02-live-c"
 "oding/sam-aaron-live-coding.png)"
-msgstr "Live Coding (Programació en viu)"
+msgstr ""
 
 #: A.02-live-coding.md:16
 msgid ""
@@ -11866,11 +11865,10 @@ msgid ""
 msgstr ""
 
 #: A.14-amplitude-modulation.md:56
-#, fuzzy
 msgid ""
 "![Phase Durations](../../../etc/doc/images/tutorial/articles/A.14-amplitude-mo"
 "dulation/slicer_phase_durations.png)"
-msgstr "Duració"
+msgstr ""
 
 #: A.14-amplitude-modulation.md:58
 msgid ""
@@ -11924,11 +11922,10 @@ msgid ""
 msgstr ""
 
 #: A.14-amplitude-modulation.md:97
-#, fuzzy
 msgid ""
 "![Phase Durations](../../../etc/doc/images/tutorial/articles/A.14-amplitude-mo"
 "dulation/slicer_control_waves.png)"
-msgstr "Duració"
+msgstr ""
 
 #: A.14-amplitude-modulation.md:100
 msgid "Setting your levels"
@@ -13296,13 +13293,12 @@ msgid "Sonic Pi Performances"
 msgstr ""
 
 #: A.20-creative-coding-in-the-classroom.md:64
-#, fuzzy
 msgid ""
 "![Jylda Live Coding in the Sage Gateshead](../../../etc/doc/images/tutorial/ar"
 "ticles/A.20-creative-coding-in-the-classroom/jylda-small.png) Jylda and Sam Aa"
 "ron perform at the Thinking Digital Conference in the Sage Gateshead. Photo cr"
 "edit: TyneSight Photos."
-msgstr "Live Coding (Programació en viu)"
+msgstr ""
 
 #: A.20-creative-coding-in-the-classroom.md:68
 msgid ""
