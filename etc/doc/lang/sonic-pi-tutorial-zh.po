@@ -326,7 +326,7 @@ msgstr "Sonic Pi 有一个非常简单的界面用来编程音乐，我们花点
 #: 01.2-Exploring-the-Interface.md:8
 #, fuzzy
 msgid "![Sonic Pi Interface](../../../etc/doc/images/tutorial/GUI.png)"
-msgstr "![Sonic Pi Interface](../images/tutorial/GUI.png)"
+msgstr "![Sonic Pi Interface](../../../etc/doc/images/tutorial/GUI.png)"
 
 #: 01.2-Exploring-the-Interface.md:11
 msgid "*A* - Play Controls"
@@ -1347,7 +1347,7 @@ msgstr "释放声音的持续时间称为“释放阶段”，默认情况下是
 #: 02.4-Durations-with-Envelopes.md:79
 #, fuzzy
 msgid "![release envelope](../../../etc/doc/images/tutorial/env-release.png)"
-msgstr "![release envelope](../images/tutorial/env-release.png)"
+msgstr "![release envelope](../../../etc/doc/images/tutorial/env-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:81
 #, fuzzy
@@ -1414,7 +1414,7 @@ msgstr "这个短渐强和长释放包络如下图所示："
 msgid ""
 "![attack release envelope](../../../etc/doc/images/tutorial/env-attack-release"
 ".png)"
-msgstr "![attack release envelope](../images/tutorial/env-attack-release.png)"
+msgstr "![attack release envelope](../../../etc/doc/images/tutorial/env-attack-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:116
 msgid ""
@@ -1433,7 +1433,7 @@ msgid ""
 "![long attack short release envelope](../../../etc/doc/images/tutorial/env-lon"
 "g-attack-short-release.png)"
 msgstr ""
-"![long attack short release envelope](../images/tutorial/env-long-attack-short"
+"![long attack short release envelope](../../../etc/doc/images/tutorial/env-long-attack-short"
 "-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:125
@@ -1453,7 +1453,7 @@ msgid ""
 "![short attack short release envelope](../../../etc/doc/images/tutorial/env-sh"
 "ort-attack-short-release.png)"
 msgstr ""
-"![long attack short release envelope](../images/tutorial/env-long-attack-short"
+"![long attack short release envelope](../../../etc/doc/images/tutorial/env-long-attack-short"
 "-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:134

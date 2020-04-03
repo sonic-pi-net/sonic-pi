@@ -370,7 +370,7 @@ msgstr ""
 #: 01.2-Exploring-the-Interface.md:8
 #, fuzzy
 msgid "![Sonic Pi Interface](../../../etc/doc/images/tutorial/GUI.png)"
-msgstr "![Interface do Sonic Pi](../images/tutorial/GUI.png)"
+msgstr "![Interface do Sonic Pi](../../../etc/doc/images/tutorial/GUI.png)"
 
 #: 01.2-Exploring-the-Interface.md:11
 msgid "*A* - Play Controls"
@@ -1565,7 +1565,7 @@ msgstr ""
 #, fuzzy
 msgid "![release envelope](../../../etc/doc/images/tutorial/env-release.png)"
 msgstr ""
-"![curva de envolvente da fase de extinção do som](../images/tutorial/env-relea"
+"![curva de envolvente da fase de extinção do som](../../../etc/doc/images/tutorial/env-relea"
 "se.png)\n"
 " Copiar →↵…«»“”-–—"
 
@@ -1646,7 +1646,7 @@ msgid ""
 "![attack release envelope](../../../etc/doc/images/tutorial/env-attack-release"
 ".png)"
 msgstr ""
-"![envolvente de ataque e extinção de um som](../images/tutorial/env-attack-rel"
+"![envolvente de ataque e extinção de um som](../../../etc/doc/images/tutorial/env-attack-rel"
 "ease.png)\n"
 " Copiar →↵…«»“”-–—"
 
@@ -1667,7 +1667,7 @@ msgid ""
 "![long attack short release envelope](../../../etc/doc/images/tutorial/env-lon"
 "g-attack-short-release.png)"
 msgstr ""
-"![Envolvente de Ataque Longo, com Tempo de Extenção Curto](../images/tutorial/"
+"![Envolvente de Ataque Longo, com Tempo de Extenção Curto](../../../etc/doc/images/tutorial/"
 "env-long-attack-short-release.png)\n"
 " Copiar →↵…«»“”-–—"
 
@@ -1690,7 +1690,7 @@ msgid ""
 "![short attack short release envelope](../../../etc/doc/images/tutorial/env-sh"
 "ort-attack-short-release.png)"
 msgstr ""
-"![Envolvente de attune e extinção curtos](../images/tutorial/env-short-attack-"
+"![Envolvente de attune e extinção curtos](../../../etc/doc/images/tutorial/env-short-attack-"
 "short-release.png)\n"
 " Copiar →↵…«»“”-–—"
 
@@ -1719,7 +1719,7 @@ msgid ""
 "![ASR envelope](../../../etc/doc/images/tutorial/env-attack-sustain-release.pn"
 "g)"
 msgstr ""
-"![envolvente  deASR](../images/tutorial/env-attack-sustain-release.png)\n"
+"![envolvente  deASR](../../../etc/doc/images/tutorial/env-attack-sustain-release.png)\n"
 " Copiar →↵…«»“”-–—"
 
 #: 02.4-Durations-with-Envelopes.md:147
@@ -1774,7 +1774,7 @@ msgid ""
 "![ADSR envelope](../../../etc/doc/images/tutorial/env-attack-decay-sustain-rel"
 "ease.png)"
 msgstr ""
-"![envolvente de ADSR](../images/tutorial/env-attack-decay-sustain-release.png)"
+"![envolvente de ADSR](../../../etc/doc/images/tutorial/env-attack-decay-sustain-release.png)"
 "\n"
 " Copiar →↵…«»“”-–—"
 
@@ -1806,7 +1806,7 @@ msgstr ""
 #, fuzzy
 msgid "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level.png)"
 msgstr ""
-"![envolvente de ASR](../images/tutorial/env-decay-level.png)\n"
+"![envolvente de ASR](../../../etc/doc/images/tutorial/env-decay-level.png)\n"
 " Copiar →↵…«»“”-–—"
 
 #: 02.4-Durations-with-Envelopes.md:183
@@ -1830,7 +1830,7 @@ msgstr ""
 #, fuzzy
 msgid "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level-2.png)"
 msgstr ""
-"![curva de envolvente envolvente ASR](../images/tutorial/env-decay-level-2.png"
+"![curva de envolvente envolvente ASR](../../../etc/doc/images/tutorial/env-decay-level-2.png"
 ")\n"
 " Copiar →↵…«»“”-–—"
 
@@ -2348,7 +2348,7 @@ msgstr ""
 #, fuzzy
 msgid "![sample graph](../../../etc/doc/images/tutorial/sample.png)"
 msgstr ""
-"![gráfico do sample](../images/tutorial/sample.png)\n"
+"![gráfico do sample](../../../etc/doc/images/tutorial/sample.png)\n"
 " Copiar →↵…«»“”-–—"
 
 #: 03.3-Stretching-Samples.md:105

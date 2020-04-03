@@ -386,7 +386,7 @@ msgstr ""
 #: 01.2-Exploring-the-Interface.md:8
 #, fuzzy
 msgid "![Sonic Pi Interface](../../../etc/doc/images/tutorial/GUI.png)"
-msgstr "![Sonic Pi Interface](../images/tutorial/GUI.png)"
+msgstr "![Sonic Pi Interface](../../../etc/doc/images/tutorial/GUI.png)"
 
 #: 01.2-Exploring-the-Interface.md:11
 msgid "*A* - Play Controls"

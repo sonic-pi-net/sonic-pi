@@ -379,7 +379,7 @@ msgstr ""
 #: 01.2-Exploring-the-Interface.md:8
 #, fuzzy
 msgid "![Sonic Pi Interface](../../../etc/doc/images/tutorial/GUI.png)"
-msgstr "![Interfata Sonic Pi](../images/tutorial/GUI.png)"
+msgstr "![Interfata Sonic Pi](../../../etc/doc/images/tutorial/GUI.png)"
 
 #: 01.2-Exploring-the-Interface.md:11
 msgid "*A* - Play Controls"
@@ -1566,7 +1566,7 @@ msgstr ""
 #: 02.4-Durations-with-Envelopes.md:79
 #, fuzzy
 msgid "![release envelope](../../../etc/doc/images/tutorial/env-release.png)"
-msgstr "![release envelope](../images/tutorial/env-release.png)"
+msgstr "![release envelope](../../../etc/doc/images/tutorial/env-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:81
 #, fuzzy
@@ -1643,7 +1643,7 @@ msgstr "Acest atac scurt urmat de release lung este ilustrat in diagrama urmatoa
 msgid ""
 "![attack release envelope](../../../etc/doc/images/tutorial/env-attack-release"
 ".png)"
-msgstr "![anvelopa atac release](../images/tutorial/env-attack-release.png)"
+msgstr "![anvelopa atac release](../../../etc/doc/images/tutorial/env-attack-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:116
 msgid ""
@@ -1662,7 +1662,7 @@ msgid ""
 "![long attack short release envelope](../../../etc/doc/images/tutorial/env-lon"
 "g-attack-short-release.png)"
 msgstr ""
-"![anvelopa atac lung release scurt](../images/tutorial/env-long-attack-short-r"
+"![anvelopa atac lung release scurt](../../../etc/doc/images/tutorial/env-long-attack-short-r"
 "elease.png)"
 
 #: 02.4-Durations-with-Envelopes.md:125
@@ -1684,7 +1684,7 @@ msgid ""
 "![short attack short release envelope](../../../etc/doc/images/tutorial/env-sh"
 "ort-attack-short-release.png)"
 msgstr ""
-"![anvelopa atac scurt release scurt](../images/tutorial/env-short-attack-short"
+"![anvelopa atac scurt release scurt](../../../etc/doc/images/tutorial/env-short-attack-short"
 "-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:134
@@ -1767,7 +1767,7 @@ msgstr ""
 msgid ""
 "![ADSR envelope](../../../etc/doc/images/tutorial/env-attack-decay-sustain-rel"
 "ease.png)"
-msgstr "![anvelopa ADSR](../images/tutorial/env-attack-decay-sustain-release.png)"
+msgstr "![anvelopa ADSR](../../../etc/doc/images/tutorial/env-attack-decay-sustain-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:170
 msgid "Decay Level"
@@ -1797,7 +1797,7 @@ msgstr ""
 #: 02.4-Durations-with-Envelopes.md:181
 #, fuzzy
 msgid "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level.png)"
-msgstr "![anvelopa ASR](../images/tutorial/env-decay-level.png)"
+msgstr "![anvelopa ASR](../../../etc/doc/images/tutorial/env-decay-level.png)"
 
 #: 02.4-Durations-with-Envelopes.md:183
 msgid ""
@@ -1819,7 +1819,7 @@ msgstr ""
 #: 02.4-Durations-with-Envelopes.md:189
 #, fuzzy
 msgid "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level-2.png)"
-msgstr "![anvelopa ASR](../images/tutorial/env-decay-level-2.png)"
+msgstr "![anvelopa ASR](../../../etc/doc/images/tutorial/env-decay-level-2.png)"
 
 #: 02.4-Durations-with-Envelopes.md:191
 msgid "ADSR Envelopes"
@@ -2341,7 +2341,7 @@ msgstr ""
 #: 03.3-Stretching-Samples.md:103
 #, fuzzy
 msgid "![sample graph](../../../etc/doc/images/tutorial/sample.png)"
-msgstr "![grafic esantion](../images/tutorial/sample.png)"
+msgstr "![grafic esantion](../../../etc/doc/images/tutorial/sample.png)"
 
 #: 03.3-Stretching-Samples.md:105
 msgid ""
@@ -10745,7 +10745,7 @@ msgid ""
 "![Sam Aaron Live Coding](../../../etc/doc/images/tutorial/articles/A.02-live-c"
 "oding/sam-aaron-live-coding.png)"
 msgstr ""
-"![Sam Aaron Programand live](../images/tutorial/articles/A.02-live-coding/sam-"
+"![Sam Aaron Programand live](../../../etc/doc/images/tutorial/articles/A.02-live-coding/sam-"
 "aaron-live-coding.png)"
 
 #: A.02-live-coding.md:16
@@ -12119,7 +12119,7 @@ msgid ""
 "![TB-303 Design](../../../etc/doc/images/tutorial/articles/A.05-acid-bass/tb30"
 "3-design.png)"
 msgstr ""
-"![Designul TB-303](../images/tutorial/articles/A.05-acid-bass/tb303-design.png"
+"![Designul TB-303](../../../etc/doc/images/tutorial/articles/A.05-acid-bass/tb303-design.png"
 ")"
 
 #: A.05-acid-bass.md:115
@@ -12337,7 +12337,7 @@ msgid ""
 "![Screen 0](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-M"
 "inecraft-0-small.png)"
 msgstr ""
-"![Imaginea 0](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-0-s"
+"![Imaginea 0](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-Minecraft-0-s"
 "mall.png)"
 
 #: A.06-minecraft.md:38
@@ -12449,7 +12449,7 @@ msgid ""
 "![Screen 1](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-M"
 "inecraft-1-small.png)"
 msgstr ""
-"![Imaginea 1](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-1-s"
+"![Imaginea 1](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-Minecraft-1-s"
 "mall.png)"
 
 #: A.06-minecraft.md:88
@@ -12599,7 +12599,7 @@ msgid ""
 "![Screen 2](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-M"
 "inecraft-2-small.png)"
 msgstr ""
-"![Imaginea 2](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-2-s"
+"![Imaginea 2](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-Minecraft-2-s"
 "mall.png)"
 
 #: A.06-minecraft.md:160
@@ -12733,7 +12733,7 @@ msgstr ""
 msgid ""
 "![Habanera Riff](../../../etc/doc/images/tutorial/articles/A.07-bizet/habanera"
 ".png)"
-msgstr "![Riff Habanera](../images/tutorial/articles/A.07-bizet/habanera.png)"
+msgstr "![Riff Habanera](../../../etc/doc/images/tutorial/articles/A.07-bizet/habanera.png)"
 
 #: A.07-bizet.md:31
 msgid ""
@@ -12779,7 +12779,7 @@ msgstr ""
 #: A.07-bizet.md:49
 #, fuzzy
 msgid "![Notes](../../../etc/doc/images/tutorial/articles/A.07-bizet/notes.png)"
-msgstr "![Notele](../images/tutorial/articles/A.07-bizet/notes.png)"
+msgstr "![Notele](../../../etc/doc/images/tutorial/articles/A.07-bizet/notes.png)"
 
 #: A.07-bizet.md:51
 msgid "Rests"
@@ -12854,7 +12854,7 @@ msgstr ""
 msgid ""
 "![Habanera Riff 2](../../../etc/doc/images/tutorial/articles/A.07-bizet/habane"
 "ra2.png)"
-msgstr "![Riff-ul Habanera 2](../images/tutorial/articles/A.07-bizet/habanera2.png)"
+msgstr "![Riff-ul Habanera 2](../../../etc/doc/images/tutorial/articles/A.07-bizet/habanera2.png)"
 
 #: A.07-bizet.md:85
 msgid "Re-coding the Habanera"
@@ -13056,7 +13056,7 @@ msgid ""
 "![Screen 0](../../../etc/doc/images/tutorial/articles/A.08-minecraft-vj/minecr"
 "aft-vj-0-small.png)"
 msgstr ""
-"![Imaginea 0](../images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-0-sma"
+"![Imaginea 0](../../../etc/doc/images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-0-sma"
 "ll.png)"
 
 #: A.08-minecraft-vj.md:7
@@ -13347,7 +13347,7 @@ msgid ""
 "![Screensman 1](../../../etc/doc/images/tutorial/articles/A.08-minecraft-vj/mi"
 "necraft-vj-1-small.png)"
 msgstr ""
-"![Imaginea 1](../images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-1-sma"
+"![Imaginea 1](../../../etc/doc/images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-1-sma"
 "ll.png)"
 
 #: A.08-minecraft-vj.md:133
@@ -14767,7 +14767,7 @@ msgid ""
 "![Amen Slices](../../../etc/doc/images/tutorial/articles/A.12-sample-slicing/a"
 "men_slice.png)"
 msgstr ""
-"![Slicing Amen](../images/tutorial/articles/A.12-sample-slicing/amen_slice.png"
+"![Slicing Amen](../../../etc/doc/images/tutorial/articles/A.12-sample-slicing/amen_slice.png"
 ")"
 
 #: A.12-sample-slicing.md:88
@@ -15363,7 +15363,7 @@ msgid ""
 "![Phase Durations](../../../etc/doc/images/tutorial/articles/A.14-amplitude-mo"
 "dulation/slicer_phase_durations.png)"
 msgstr ""
-"![Duratele fazei](../images/tutorial/articles/A.14-amplitude-modulation/slicer"
+"![Duratele fazei](../../../etc/doc/images/tutorial/articles/A.14-amplitude-modulation/slicer"
 "_phase_durations.png)"
 
 #: A.14-amplitude-modulation.md:58
@@ -15453,7 +15453,7 @@ msgid ""
 "![Phase Durations](../../../etc/doc/images/tutorial/articles/A.14-amplitude-mo"
 "dulation/slicer_control_waves.png)"
 msgstr ""
-"![Duratele fazelor](../images/tutorial/articles/A.14-amplitude-modulation/slic"
+"![Duratele fazelor](../../../etc/doc/images/tutorial/articles/A.14-amplitude-modulation/slic"
 "er_control_waves.png)"
 
 #: A.14-amplitude-modulation.md:100

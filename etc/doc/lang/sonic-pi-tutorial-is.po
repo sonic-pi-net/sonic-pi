@@ -375,7 +375,7 @@ msgstr ""
 #: 01.2-Exploring-the-Interface.md:8
 #, fuzzy
 msgid "![Sonic Pi Interface](../../../etc/doc/images/tutorial/GUI.png)"
-msgstr "![Sonic Pi Interface](../images/tutorial/GUI.png)"
+msgstr "![Sonic Pi Interface](../../../etc/doc/images/tutorial/GUI.png)"
 
 #: 01.2-Exploring-the-Interface.md:11
 msgid "*A* - Play Controls"
@@ -1553,7 +1553,7 @@ msgstr ""
 #: 02.4-Durations-with-Envelopes.md:79
 #, fuzzy
 msgid "![release envelope](../../../etc/doc/images/tutorial/env-release.png)"
-msgstr "![release envelope](../images/tutorial/env-release.png)"
+msgstr "![release envelope](../../../etc/doc/images/tutorial/env-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:81
 #, fuzzy
@@ -1631,7 +1631,7 @@ msgstr "Svona hjúpur með stutta sókn og langa sleppingu er sýndur í þessar
 msgid ""
 "![attack release envelope](../../../etc/doc/images/tutorial/env-attack-release"
 ".png)"
-msgstr "![attack release envelope](../images/tutorial/env-attack-release.png)"
+msgstr "![attack release envelope](../../../etc/doc/images/tutorial/env-attack-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:116
 msgid ""
@@ -1650,7 +1650,7 @@ msgid ""
 "![long attack short release envelope](../../../etc/doc/images/tutorial/env-lon"
 "g-attack-short-release.png)"
 msgstr ""
-"![long attack short release envelope](../images/tutorial/env-long-attack-short"
+"![long attack short release envelope](../../../etc/doc/images/tutorial/env-long-attack-short"
 "-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:125
@@ -1670,7 +1670,7 @@ msgid ""
 "![short attack short release envelope](../../../etc/doc/images/tutorial/env-sh"
 "ort-attack-short-release.png)"
 msgstr ""
-"![short attack short release envelope](../images/tutorial/env-short-attack-sho"
+"![short attack short release envelope](../../../etc/doc/images/tutorial/env-short-attack-sho"
 "rt-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:134
@@ -1699,7 +1699,7 @@ msgstr "play 60, attack: 0.3, sustain: 1, release: 1"
 msgid ""
 "![ASR envelope](../../../etc/doc/images/tutorial/env-attack-sustain-release.pn"
 "g)"
-msgstr "![ASR envelope](../images/tutorial/env-attack-sustain-release.png)"
+msgstr "![ASR envelope](../../../etc/doc/images/tutorial/env-attack-sustain-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:147
 #, fuzzy
@@ -1755,7 +1755,7 @@ msgstr ""
 msgid ""
 "![ADSR envelope](../../../etc/doc/images/tutorial/env-attack-decay-sustain-rel"
 "ease.png)"
-msgstr "![ADSR envelope](../images/tutorial/env-attack-decay-sustain-release.png)"
+msgstr "![ADSR envelope](../../../etc/doc/images/tutorial/env-attack-decay-sustain-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:170
 #, fuzzy
@@ -1786,7 +1786,7 @@ msgstr ""
 #: 02.4-Durations-with-Envelopes.md:181
 #, fuzzy
 msgid "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level.png)"
-msgstr "![ASR envelope](../images/tutorial/env-decay-level.png)"
+msgstr "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level.png)"
 
 #: 02.4-Durations-with-Envelopes.md:183
 msgid ""
@@ -1806,7 +1806,7 @@ msgstr ""
 #: 02.4-Durations-with-Envelopes.md:189
 #, fuzzy
 msgid "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level-2.png)"
-msgstr "![ASR envelope](../images/tutorial/env-decay-level-2.png)"
+msgstr "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level-2.png)"
 
 #: 02.4-Durations-with-Envelopes.md:191
 msgid "ADSR Envelopes"

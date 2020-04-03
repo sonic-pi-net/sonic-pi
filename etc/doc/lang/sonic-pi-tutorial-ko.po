@@ -340,7 +340,7 @@ msgstr "소닉 파이는 음악을 코딩하기 위한 매우 간단한 인터�
 #: 01.2-Exploring-the-Interface.md:8
 #, fuzzy
 msgid "![Sonic Pi Interface](../../../etc/doc/images/tutorial/GUI.png)"
-msgstr "![Sonic Pi Interface](../images/tutorial/GUI.png)"
+msgstr "![Sonic Pi Interface](../../../etc/doc/images/tutorial/GUI.png)"
 
 #: 01.2-Exploring-the-Interface.md:11
 msgid "*A* - Play Controls"

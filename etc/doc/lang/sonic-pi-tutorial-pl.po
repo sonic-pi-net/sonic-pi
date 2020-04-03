@@ -11233,7 +11233,7 @@ msgid ""
 "![Sam Aaron Live Coding](../../../etc/doc/images/tutorial/articles/A.02-live-c"
 "oding/sam-aaron-live-coding.png)"
 msgstr ""
-"![Sam Aaron kodujący na żywo](../images/tutorial/articles/A.02-live-coding/sam"
+"![Sam Aaron kodujący na żywo](../../../etc/doc/images/tutorial/articles/A.02-live-coding/sam"
 "-aaron-live-coding.png)"
 
 #: A.02-live-coding.md:16
@@ -12636,7 +12636,7 @@ msgstr ""
 msgid ""
 "![TB-303 Design](../../../etc/doc/images/tutorial/articles/A.05-acid-bass/tb30"
 "3-design.png)"
-msgstr "![TB-303 Design](../images/tutorial/articles/A.05-acid-bass/tb303-design.png)"
+msgstr "![TB-303 Design](../../../etc/doc/images/tutorial/articles/A.05-acid-bass/tb303-design.png)"
 
 #: A.05-acid-bass.md:115
 msgid ""
@@ -12859,7 +12859,7 @@ msgid ""
 "![Screen 0](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-M"
 "inecraft-0-small.png)"
 msgstr ""
-"![Screen 0](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-0-sma"
+"![Screen 0](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-Minecraft-0-sma"
 "ll.png)"
 
 #: A.06-minecraft.md:38
@@ -12974,7 +12974,7 @@ msgid ""
 "![Screen 1](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-M"
 "inecraft-1-small.png)"
 msgstr ""
-"![Screen 1](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-1-sma"
+"![Screen 1](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-Minecraft-1-sma"
 "ll.png)"
 
 #: A.06-minecraft.md:88
@@ -13129,7 +13129,7 @@ msgid ""
 "![Screen 2](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-M"
 "inecraft-2-small.png)"
 msgstr ""
-"![Screen 2](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-2-sma"
+"![Screen 2](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-Minecraft-2-sma"
 "ll.png)"
 
 #: A.06-minecraft.md:160
@@ -13266,7 +13266,7 @@ msgstr ""
 msgid ""
 "![Habanera Riff](../../../etc/doc/images/tutorial/articles/A.07-bizet/habanera"
 ".png)"
-msgstr "![Habanera Riff](../images/tutorial/articles/A.07-bizet/habanera.png)"
+msgstr "![Habanera Riff](../../../etc/doc/images/tutorial/articles/A.07-bizet/habanera.png)"
 
 #: A.07-bizet.md:31
 msgid ""
@@ -13312,7 +13312,7 @@ msgstr ""
 #: A.07-bizet.md:49
 #, fuzzy
 msgid "![Notes](../../../etc/doc/images/tutorial/articles/A.07-bizet/notes.png)"
-msgstr "![Notes](../images/tutorial/articles/A.07-bizet/notes.png)"
+msgstr "![Notes](../../../etc/doc/images/tutorial/articles/A.07-bizet/notes.png)"
 
 #: A.07-bizet.md:51
 msgid "Rests"
@@ -13388,7 +13388,7 @@ msgstr ""
 msgid ""
 "![Habanera Riff 2](../../../etc/doc/images/tutorial/articles/A.07-bizet/habane"
 "ra2.png)"
-msgstr "![Habanera Riff 2](../images/tutorial/articles/A.07-bizet/habanera2.png)"
+msgstr "![Habanera Riff 2](../../../etc/doc/images/tutorial/articles/A.07-bizet/habanera2.png)"
 
 #: A.07-bizet.md:85
 msgid "Re-coding the Habanera"
@@ -13595,7 +13595,7 @@ msgid ""
 "![Screen 0](../../../etc/doc/images/tutorial/articles/A.08-minecraft-vj/minecr"
 "aft-vj-0-small.png)"
 msgstr ""
-"![Screen 0](../images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-0-small"
+"![Screen 0](../../../etc/doc/images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-0-small"
 ".png)"
 
 #: A.08-minecraft-vj.md:7
@@ -13895,7 +13895,7 @@ msgid ""
 "![Screensman 1](../../../etc/doc/images/tutorial/articles/A.08-minecraft-vj/mi"
 "necraft-vj-1-small.png)"
 msgstr ""
-"![Screen 1](../images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-1-small"
+"![Screen 1](../../../etc/doc/images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-1-small"
 ".png)"
 
 #: A.08-minecraft-vj.md:133
@@ -15350,7 +15350,7 @@ msgstr ""
 msgid ""
 "![Amen Slices](../../../etc/doc/images/tutorial/articles/A.12-sample-slicing/a"
 "men_slice.png)"
-msgstr "![Amen Slices](../images/tutorial/articles/A.12-sample-slicing/amen_slice.png)"
+msgstr "![Amen Slices](../../../etc/doc/images/tutorial/articles/A.12-sample-slicing/amen_slice.png)"
 
 #: A.12-sample-slicing.md:88
 msgid ""
@@ -15968,7 +15968,7 @@ msgid ""
 "![Phase Durations](../../../etc/doc/images/tutorial/articles/A.14-amplitude-mo"
 "dulation/slicer_phase_durations.png)"
 msgstr ""
-"![Phase Durations](../images/tutorial/articles/A.14-amplitude-modulation/slice"
+"![Phase Durations](../../../etc/doc/images/tutorial/articles/A.14-amplitude-modulation/slice"
 "r_phase_durations.png)"
 
 #: A.14-amplitude-modulation.md:58
@@ -16062,7 +16062,7 @@ msgid ""
 "![Phase Durations](../../../etc/doc/images/tutorial/articles/A.14-amplitude-mo"
 "dulation/slicer_control_waves.png)"
 msgstr ""
-"![Phase Durations](../images/tutorial/articles/A.14-amplitude-modulation/slice"
+"![Phase Durations](../../../etc/doc/images/tutorial/articles/A.14-amplitude-modulation/slice"
 "r_control_waves.png)"
 
 #: A.14-amplitude-modulation.md:100

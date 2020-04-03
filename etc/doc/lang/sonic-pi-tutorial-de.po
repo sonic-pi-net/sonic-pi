@@ -377,7 +377,7 @@ msgstr ""
 #: 01.2-Exploring-the-Interface.md:8
 #, fuzzy
 msgid "![Sonic Pi Interface](../../../etc/doc/images/tutorial/GUI.png)"
-msgstr "![Sonic Pi Interface](../images/tutorial/GUI.png)"
+msgstr "![Sonic Pi Interface](../../../etc/doc/images/tutorial/GUI.png)"
 
 #: 01.2-Exploring-the-Interface.md:11
 msgid "*A* - Play Controls"
@@ -1593,7 +1593,7 @@ msgstr ""
 #: 02.4-Durations-with-Envelopes.md:79
 #, fuzzy
 msgid "![release envelope](../../../etc/doc/images/tutorial/env-release.png)"
-msgstr "![release envelope](../images/tutorial/env-release.png)"
+msgstr "![release envelope](../../../etc/doc/images/tutorial/env-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:81
 #, fuzzy
@@ -1670,7 +1670,7 @@ msgstr "Diese Hüllkurve mit einem kurzen Attack und langem Release sieht so aus
 msgid ""
 "![attack release envelope](../../../etc/doc/images/tutorial/env-attack-release"
 ".png)"
-msgstr "![attack release envelope](../images/tutorial/env-attack-release.png)"
+msgstr "![attack release envelope](../../../etc/doc/images/tutorial/env-attack-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:116
 msgid ""
@@ -1689,7 +1689,7 @@ msgid ""
 "![long attack short release envelope](../../../etc/doc/images/tutorial/env-lon"
 "g-attack-short-release.png)"
 msgstr ""
-"![long attack short release envelope](../images/tutorial/env-long-attack-short"
+"![long attack short release envelope](../../../etc/doc/images/tutorial/env-long-attack-short"
 "-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:125
@@ -1711,7 +1711,7 @@ msgid ""
 "![short attack short release envelope](../../../etc/doc/images/tutorial/env-sh"
 "ort-attack-short-release.png)"
 msgstr ""
-"![short attack short release envelope](../images/tutorial/env-short-attack-sho"
+"![short attack short release envelope](../../../etc/doc/images/tutorial/env-short-attack-sho"
 "rt-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:134
@@ -1738,7 +1738,7 @@ msgstr "play 60, attack: 0.3, sustain: 1, release: 1"
 msgid ""
 "![ASR envelope](../../../etc/doc/images/tutorial/env-attack-sustain-release.pn"
 "g)"
-msgstr "![ASR envelope](../images/tutorial/env-attack-sustain-release.png)"
+msgstr "![ASR envelope](../../../etc/doc/images/tutorial/env-attack-sustain-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:147
 msgid ""
@@ -1792,7 +1792,7 @@ msgstr ""
 msgid ""
 "![ADSR envelope](../../../etc/doc/images/tutorial/env-attack-decay-sustain-rel"
 "ease.png)"
-msgstr "![ADSR envelope](../images/tutorial/env-attack-decay-sustain-release.png)"
+msgstr "![ADSR envelope](../../../etc/doc/images/tutorial/env-attack-decay-sustain-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:170
 msgid "Decay Level"
@@ -1822,7 +1822,7 @@ msgstr ""
 #: 02.4-Durations-with-Envelopes.md:181
 #, fuzzy
 msgid "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level.png)"
-msgstr "![ASR envelope](../images/tutorial/env-decay-level.png)"
+msgstr "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level.png)"
 
 #: 02.4-Durations-with-Envelopes.md:183
 msgid ""
@@ -1842,7 +1842,7 @@ msgstr ""
 #: 02.4-Durations-with-Envelopes.md:189
 #, fuzzy
 msgid "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level-2.png)"
-msgstr "![ASR envelope](../images/tutorial/env-decay-level-2.png)"
+msgstr "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level-2.png)"
 
 #: 02.4-Durations-with-Envelopes.md:191
 msgid "ADSR Envelopes"
@@ -2366,7 +2366,7 @@ msgstr ""
 #: 03.3-Stretching-Samples.md:103
 #, fuzzy
 msgid "![sample graph](../../../etc/doc/images/tutorial/sample.png)"
-msgstr "![sample graph](../images/tutorial/sample.png)"
+msgstr "![sample graph](../../../etc/doc/images/tutorial/sample.png)"
 
 #: 03.3-Stretching-Samples.md:105
 msgid ""
@@ -11298,7 +11298,7 @@ msgid ""
 "![Sam Aaron Live Coding](../../../etc/doc/images/tutorial/articles/A.02-live-c"
 "oding/sam-aaron-live-coding.png)"
 msgstr ""
-"![Sam Aaron Live-Coding](../images/tutorial/articles/A.02-live-coding/sam-aaro"
+"![Sam Aaron Live-Coding](../../../etc/doc/images/tutorial/articles/A.02-live-coding/sam-aaro"
 "n-live-coding.png)"
 
 #: A.02-live-coding.md:16
@@ -12657,7 +12657,7 @@ msgstr ""
 msgid ""
 "![TB-303 Design](../../../etc/doc/images/tutorial/articles/A.05-acid-bass/tb30"
 "3-design.png)"
-msgstr "![TB-303 Design](../images/tutorial/articles/A.05-acid-bass/tb303-design.png)"
+msgstr "![TB-303 Design](../../../etc/doc/images/tutorial/articles/A.05-acid-bass/tb303-design.png)"
 
 #: A.05-acid-bass.md:115
 msgid ""
@@ -12868,7 +12868,7 @@ msgid ""
 "![Screen 0](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-M"
 "inecraft-0-small.png)"
 msgstr ""
-"![Screen 0](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-0-sma"
+"![Screen 0](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-Minecraft-0-sma"
 "ll.png)"
 
 #: A.06-minecraft.md:38
@@ -12963,7 +12963,7 @@ msgid ""
 "![Screen 1](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-M"
 "inecraft-1-small.png)"
 msgstr ""
-"![Screen 0](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-0-sma"
+"![Screen 0](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-Minecraft-0-sma"
 "ll.png)"
 
 #: A.06-minecraft.md:88
@@ -13082,7 +13082,7 @@ msgid ""
 "![Screen 2](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-M"
 "inecraft-2-small.png)"
 msgstr ""
-"![Screen 0](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-0-sma"
+"![Screen 0](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-Minecraft-0-sma"
 "ll.png)"
 
 #: A.06-minecraft.md:160
@@ -13475,7 +13475,7 @@ msgid ""
 "![Screen 0](../../../etc/doc/images/tutorial/articles/A.08-minecraft-vj/minecr"
 "aft-vj-0-small.png)"
 msgstr ""
-"![Screen 0](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-0-sma"
+"![Screen 0](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-Minecraft-0-sma"
 "ll.png)"
 
 #: A.08-minecraft-vj.md:7
