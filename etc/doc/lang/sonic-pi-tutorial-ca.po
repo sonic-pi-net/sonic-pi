@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
 "PO-Revision-Date: 2024-04-29 17:05+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Last-Translator: Sam Aaron <samaaron@gmail.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/ca/>\n"
 "Language: ca\n"
@@ -1629,8 +1629,8 @@ msgstr ""
 #: 02.4-Durations-with-Envelopes.md:79
 msgid "![release envelope](../../../etc/doc/images/tutorial/env-release.png)"
 msgstr ""
-"![Envolupant d'extinció(release envelope)](../../../etc/doc/images/tutorial/en"
-"v-release.png)"
+"![Envolupant d'extinció(release envelope)](../../../etc/doc/images/tutorial/"
+"env-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:81
 #, fuzzy
@@ -1711,8 +1711,8 @@ msgid ""
 "![attack release envelope](../../../etc/doc/images/tutorial/env-attack-release"
 ".png)"
 msgstr ""
-"![envolupant d'atac i extinció](../../../etc/doc/images/tutorial/env-attack-re"
-"lease.png)"
+"![envolupant d'atac i extinció](../../../etc/doc/images/tutorial/env-attack-"
+"release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:116
 msgid ""
@@ -1732,8 +1732,8 @@ msgid ""
 "![long attack short release envelope](../../../etc/doc/images/tutorial/env-lon"
 "g-attack-short-release.png)"
 msgstr ""
-"![envolupant amb atac llarg i extinció curta](../../../etc/doc/images/tutorial"
-"/env-long-attack-short-release.png)"
+"![envolupant amb atac llarg i extinció curta](../../../etc/doc/images/"
+"tutorial/env-long-attack-short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:125
 msgid ""
@@ -1752,8 +1752,8 @@ msgid ""
 "![short attack short release envelope](../../../etc/doc/images/tutorial/env-sh"
 "ort-attack-short-release.png)"
 msgstr ""
-"![envolupant amb atac curt i extinció curta](../../../etc/doc/images/tutorial/"
-"env-short-attack-short-release.png)"
+"![envolupant amb atac curt i extinció curta](../../../etc/doc/images/"
+"tutorial/env-short-attack-short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:134
 msgid "Sustain Phase"
