@@ -351,12 +351,12 @@ Undskyld, men en kritisk fejl opstod under opstart</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1826"/>
         <source>Colour Theme: </source>
-        <translation>Farvetema:-</translation>
+        <translation>Farvetema: </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2065"/>
         <source>Start recording to a WAV audio file</source>
-        <translation>Start optagelse til en WAV-lydfil</translation>
+        <translation>Start optagelse til WAV-lydfil</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2069"/>
@@ -537,7 +537,7 @@ Hent Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="434"/>
         <source>No Matching Studio Hash Found...</source>
-        <translation>Intet passende studie-nummer fundet...</translation>
+        <translation>Intet passende studie-nummerværdi fundet...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="670"/>
