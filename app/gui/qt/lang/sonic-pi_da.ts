@@ -645,7 +645,7 @@ Hent Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="40"/>
         <source>Visuals</source>
-        <translation>Visualiseringer</translation>
+        <translation>Udseende</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="43"/>
@@ -778,16 +778,16 @@ kan genkendes.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="135"/>
         <source>Networked OSC</source>
-        <translation>Netværks-OSC</translation>
+        <translation>OSC over netværk</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="136"/>
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation>Sonic Pi kan sende og modtage Open Sound Control-beskeder
+        <translation>Sonic Pi kan sende og modtage Open Sound Control beskeder
 til og fra andre programmer eller computere
-via the nuværende forbundne netværk.</translation>
+via det nuværende forbundne netværk</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="139"/>
