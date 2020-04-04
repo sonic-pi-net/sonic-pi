@@ -153,17 +153,17 @@ Undskyld, men en kritisk fejl opstod under opstart</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2084"/>
         <source>Align code to improve readability</source>
-        <translation>Justér linjerne under hinanden for at øge læsbarheden</translation>
+        <translation>Opstil kode for at forøge læsbarheden</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2088"/>
         <source>Text Size Up</source>
-        <translation>Større tekst</translation>
+        <translation>Forøg tekststørrelse</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2094"/>
         <source>Text Size Down</source>
-        <translation>Mindre tekst</translation>
+        <translation>Formindsk tekststørrelse</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2100"/>
@@ -213,7 +213,7 @@ Undskyld, men en kritisk fejl opstod under opstart</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1695"/>
         <source>help visibility changed...</source>
-        <translation>hjælp synlighed ændret...</translation>
+        <translation>Hjælpevindue skjult/vist...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2740"/>
@@ -351,7 +351,7 @@ Undskyld, men en kritisk fejl opstod under opstart</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1826"/>
         <source>Colour Theme: </source>
-        <translation>Farvetema: </translation>
+        <translation>Farvetema:-</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2065"/>
@@ -542,7 +542,7 @@ Hent Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="670"/>
         <source>| %1 |</source>
-        <translation type="unfinished">| %1 |</translation>
+        <translation>| %1 |</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2198"/>
@@ -630,7 +630,7 @@ Hent Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="31"/>
         <source>Audio</source>
-        <translation type="unfinished">Lyd</translation>
+        <translation>Lyd</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="34"/>
@@ -651,17 +651,17 @@ Hent Sonic Pi %1</translation>
         <location filename="../widgets/settingswidget.cpp" line="43"/>
         <location filename="../widgets/settingswidget.cpp" line="409"/>
         <source>Updates</source>
-        <translation type="unfinished">Opdateringer</translation>
+        <translation>Opdateringer</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="80"/>
         <source>Master Volume</source>
-        <translation type="unfinished">Generel lydstyrke</translation>
+        <translation>Generel lydstyrke</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="81"/>
         <source>Use this slider to change the system volume.</source>
-        <translation type="unfinished">Brug denne skyder til at ændre systemets lydstyrke.</translation>
+        <translation>Brug denne skyder til at ændre systemets lydstyrke.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="87"/>
@@ -802,7 +802,7 @@ via the nuværende forbundne netværk.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="159"/>
         <source>Unavailable</source>
-        <translation type="unfinished">Utilgængelig</translation>
+        <translation>Utilgængelig</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="165"/>
@@ -851,7 +851,7 @@ Hvis deaktiveret, vil ingen OSC-beskeder blive modtaget.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="183"/>
         <source>Enable MIDI subsystems</source>
-        <translation type="unfinished">Aktivér MIDI-undersystemer</translation>
+        <translation>Aktivér MIDI-undersystemer</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="184"/>
@@ -861,13 +861,13 @@ Hvis deaktiveret, vil ingen OSC-beskeder blive modtaget.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="186"/>
         <source>Reset MIDI</source>
-        <translation type="unfinished">Nulstil MIDI</translation>
+        <translation>Nulstil MIDI</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="187"/>
         <source>Reset MIDI subsystems 
 (Required to detect device changes on macOS)</source>
-        <translation type="unfinished">Nulstil MIDI-undersystemer
+        <translation>Nulstil MIDI-undersystemer
 (nødvendig for at spore enhedsændringer i macOS)</translation>
     </message>
     <message>
@@ -884,12 +884,12 @@ Hvis deaktiveret, vil ingen OSC-beskeder blive modtaget.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="229"/>
         <source>No connected input devices</source>
-        <translation type="unfinished">Ingen tilsluttede input-enheder</translation>
+        <translation>Ingen tilsluttede input-enheder</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="230"/>
         <source>No connected output devices</source>
-        <translation type="unfinished">Ingen tilsluttede output-enheder</translation>
+        <translation>Ingen tilsluttede output-enheder</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="231"/>
