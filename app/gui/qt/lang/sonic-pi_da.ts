@@ -30,7 +30,7 @@
         <location filename="../mainwindow.cpp" line="1518"/>
         <source>Beautifying...</source>
         <oldsource>Beautifying....</oldsource>
-        <translation>Smukkificerer...</translation>
+        <translation>Forskønner...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1548"/>
@@ -138,7 +138,7 @@ Undskyld, men en kritisk fejl opstod under opstart</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2053"/>
         <source>Run the code in the current buffer</source>
-        <translation>Kør koden i nuværende buffer</translation>
+        <translation>Kør koden i nuværende tekstfelt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2075"/>
@@ -597,7 +597,7 @@ Hent Sonic Pi %1</translation>
     <message>
         <location filename="../visualizer/scope.cpp" line="392"/>
         <source>Lissajous</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lissajous</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="393"/>
@@ -1204,7 +1204,7 @@ Der sendes anonym information om din platform og version.</translation>
     <message>
         <location filename="../osc/sonic_pi_udp_osc_server.cpp" line="38"/>
         <source>Is Sonic Pi already running?  Can&apos;t open UDP port.</source>
-        <translation>Kører Sonic Pi allerede? Kan ikke åbne UDP porten.</translation>
+        <translation>Kører Sonic Pi allerede? Kan ikke åbne UDP-porten.</translation>
     </message>
 </context>
 </TS>
