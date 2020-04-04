@@ -819,7 +819,7 @@ Når deaktiveret, vil det kun være muligt at sende til og modtage fra den lokal
     <message>
         <location filename="../widgets/settingswidget.cpp" line="168"/>
         <source>Enable OSC server</source>
-        <translation type="unfinished">Aktivér OSC-server</translation>
+        <translation>Aktivér OSC-server</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="169"/>
