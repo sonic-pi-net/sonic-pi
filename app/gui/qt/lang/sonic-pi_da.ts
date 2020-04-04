@@ -153,57 +153,57 @@ Undskyld, men en kritisk fejl opstod under opstart</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2084"/>
         <source>Align code to improve readability</source>
-        <translation type="unfinished"></translation>
+        <translation>Justér linjerne under hinanden for at øge læsbarheden</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2088"/>
         <source>Text Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Større tekst</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2094"/>
         <source>Text Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Mindre tekst</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2100"/>
         <source>Toggle Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis/skjul oscilloskop</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2102"/>
         <source>Toggle visibility of audio oscilloscope</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis/skjul lyd-oscilloskop</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2106"/>
         <source>Show Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis information</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2112"/>
         <source>Toggle Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis/skjul hjælp</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2118"/>
         <source>Toggle Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis/skjul indstillinger</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2149"/>
         <source>&amp;File</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Fil</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2156"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Rediger</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2160"/>
         <source>&amp;Window</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Vindue</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2263"/>
@@ -280,7 +280,7 @@ Undskyld, men en kritisk fejl opstod under opstart</translation>
     <message>
         <location filename="../mainwindow.cpp" line="730"/>
         <source>Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Oscilloskop</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1511"/>
@@ -351,17 +351,17 @@ Undskyld, men en kritisk fejl opstod under opstart</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1826"/>
         <source>Colour Theme: </source>
-        <translation type="unfinished"></translation>
+        <translation>Farvetema: </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2065"/>
         <source>Start recording to a WAV audio file</source>
-        <translation type="unfinished"></translation>
+        <translation>Start optagelse til en WAV-lydfil</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2069"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Gem</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2071"/>
@@ -425,17 +425,17 @@ Hent Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2776"/>
         <source>Disabling OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>Slår OSC-cueport fra...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2785"/>
         <source>Enabling external OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>Slår ekstern OSC-cueport til...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2794"/>
         <source>Enabling internal OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>Slår intern OSC-cueport til...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2852"/>
@@ -532,17 +532,17 @@ Hent Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="430"/>
         <source>Studio Mode Enabled. Thank-you for supporting Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation>Studie-tilstand aktiveret. Tak for din støtte til Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="434"/>
         <source>No Matching Studio Hash Found...</source>
-        <translation type="unfinished"></translation>
+        <translation>Intet passende studie-nummer fundet...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="670"/>
         <source>| %1 |</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">| %1 |</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2198"/>
@@ -602,27 +602,27 @@ Hent Sonic Pi %1</translation>
     <message>
         <location filename="../visualizer/scope.cpp" line="393"/>
         <source>Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Venstre</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="394"/>
         <source>Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Højre</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="395"/>
         <source>Mono</source>
-        <translation type="unfinished"></translation>
+        <translation>Mono</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="396"/>
         <source>Mirror Stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>Spejl-stereo</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="398"/>
         <source>Spectrum</source>
-        <translation type="unfinished"></translation>
+        <translation>Spektrum</translation>
     </message>
 </context>
 <context>
@@ -635,17 +635,17 @@ Hent Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="34"/>
         <source>IO</source>
-        <translation type="unfinished">Input/Output</translation>
+        <translation>Input/output</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="37"/>
         <source>Editor</source>
-        <translation type="unfinished">Tekstbehandler</translation>
+        <translation>Kodefelt</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="40"/>
         <source>Visuals</source>
-        <translation type="unfinished">Billede</translation>
+        <translation>Visualiseringer</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="43"/>
@@ -685,7 +685,9 @@ til live-performance med Sonic Pi.</translation>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and vice versa.</source>
-        <translation type="unfinished"></translation>
+        <translation>Slår modsat stereo til eller fra.
+Hvis aktiveret, vil lyd sendt til venstre højttaler
+blive sendt til højre højttaler og vice versa.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="91"/>
@@ -699,10 +701,10 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation type="unfinished">Slå mono til.
-Hvis slået til, bliver højre og venstre lyd mixet, og
+        <translation>Slår mono til eller fra.
+Hvis aktiveret, bliver højre og venstre lyd mixet, og
 det samme signal bliver sendt til begge højttalere.
-Nyttigt, når det eksterne system kun kan
+Det er nyttigt, når det eksterne system kun kan
 håndtere mono.</translation>
     </message>
     <message>
@@ -725,7 +727,7 @@ håndtere mono.</translation>
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
-        <translation type="unfinished">Slå kontrol af synth-parametre til eller fra.
+        <translation>Slår kontrol af synth-parametre til eller fra.
 Hvis kontrollen er inaktiv, vil bestemte værdier kunne lave
 uventede høje eller ubehagelige lyde.</translation>
     </message>
@@ -743,16 +745,18 @@ it is too late to do so
 When disabled, Sonic Pi will always
 attempt to trigger synths and FX
 even when a little late.</source>
-        <translation type="unfinished">Når den er aktiveret, Sonic Pi vil ikke 
-udløse synth- og effekttriggere hvis det er for sent at gøre det.
+        <translation>Når den er aktiveret, vil Sonic Pi ikke 
+udløse synth- og effekttriggere hvis det
+er for sent at gøre det.
  
-Når den er deaktiveret vil Sonic Pi altid forsøge at udløse
- synth- og effekttriggere selv når et lidt for sent.</translation>
+Når den er deaktiveret, vil Sonic Pi altid
+forsøge at udløse synth- og effekttriggere
+selv når det er lidt for sent.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="110"/>
         <source>Enable external synths and FX</source>
-        <translation type="unfinished">Slå eksterne synths og effekter til</translation>
+        <translation>Slå eksterne synths og effekter til</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="111"/>
@@ -763,26 +767,27 @@ to be triggered.
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
 which isn&apos;t recognised.</source>
-        <translation type="unfinished">Når den er slået til vil Sonic Pi tillade
-at trigge synths og effekter, der er hentet vis load_synthdefs.
+        <translation>Når den er slået til, vil Sonic Pi tillade
+at trigge synths og effekter, der er
+hentet via load_synthdefs.
 
-Når den er slået fra vil Sonic Pi brokke sig
+Når den er slået fra, vil Sonic Pi brokke sig
 hvis du forsøger at bruge en synth der ikke
 kan genkendes.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="135"/>
         <source>Networked OSC</source>
-        <translation type="unfinished">Netværket OSC</translation>
+        <translation>Netværks-OSC</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="136"/>
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation type="unfinished">Sonic Pi kan sende og modtage Open Sound Control beskeder
+        <translation>Sonic Pi kan sende og modtage Open Sound Control-beskeder
 til og fra andre programmer eller computere
-via the nuværende forbundne netværk</translation>
+via the nuværende forbundne netværk.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="139"/>
@@ -802,13 +807,14 @@ via the nuværende forbundne netværk</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="165"/>
         <source>Send/Receive remote OSC messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Send/modtag eksterne OSC-beskeder</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="166"/>
         <source>When checked, Sonic Pi will let you send and receive OSC messages to and from remote machines.
  When unchecked, only sending and receiving from the local machine will be enabled.</source>
-        <translation type="unfinished"></translation>
+        <translation>Når aktiveret, vil Sonic Pi lade dig sende og modtage OSC-beskeder til og fra andre maskiner.
+Når deaktiveret, vil det kun være muligt at sende til og modtage fra den lokale maskine.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="168"/>
@@ -819,28 +825,28 @@ via the nuværende forbundne netværk</translation>
         <location filename="../widgets/settingswidget.cpp" line="169"/>
         <source>When checked, Sonic Pi will listen for OSC messages.
  When unchecked no OSC messages will be received.</source>
-        <translation type="unfinished">Hvis afkrydset, vil Sonic Pi lytte efter OSC-beskeder.
-Hvis blank, vil ingen OSC-beskeder blive modtaget.</translation>
+        <translation>Hvis aktiveret, vil Sonic Pi lytte efter OSC-beskeder.
+Hvis deaktiveret, vil ingen OSC-beskeder blive modtaget.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="177"/>
         <source>MIDI Configuration</source>
-        <translation type="unfinished">MIDI Konfiguration</translation>
+        <translation>MIDI-konfiguration</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="178"/>
         <source>Configure MIDI behaviour</source>
-        <translation type="unfinished">Konfigurér MIDI adfærd</translation>
+        <translation>Konfigurér MIDI-adfærd</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="180"/>
         <source>MIDI Ports</source>
-        <translation type="unfinished">MIDI Porte</translation>
+        <translation>MIDI-porte</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="181"/>
         <source>List all connected MIDI Ports</source>
-        <translation type="unfinished">List alle forbundne MIDI Porte</translation>
+        <translation>List alle forbundne MIDI-porte</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="183"/>
@@ -850,7 +856,7 @@ Hvis blank, vil ingen OSC-beskeder blive modtaget.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="184"/>
         <source>Enable or disable incoming and outgoing MIDI communication</source>
-        <translation type="unfinished">Aktivér ind- og udgående MIDI kommunikation</translation>
+        <translation>Aktivér eller deaktivér ind- og udgående MIDI-kommunikation</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="186"/>
@@ -867,13 +873,13 @@ Hvis blank, vil ingen OSC-beskeder blive modtaget.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="213"/>
         <source>Default MIDI channel (* means all)</source>
-        <translation type="unfinished">Standard MIDI-kanal (* betyder alle)</translation>
+        <translation>Standard-MIDI-kanal (* betyder alle)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="214"/>
         <location filename="../widgets/settingswidget.cpp" line="218"/>
         <source>Default MIDI Channel to send messages to</source>
-        <translation type="unfinished">Standard MIDI-kanal, der sendes beskeder til</translation>
+        <translation>Standard-MIDI-kanal, der sendes beskeder til</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="229"/>
@@ -890,7 +896,7 @@ Hvis blank, vil ingen OSC-beskeder blive modtaget.</translation>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation type="unfinished">MIDI input-enheder sender MIDI-beskeder direkte til
+        <translation>MIDI-input-enheder sender MIDI-beskeder direkte til
 Sonic Pi og bliver modtaget som indsats-events
 (på samme måde som indkommende OSC-beskeder og interne indsatser)</translation>
     </message>
@@ -898,7 +904,8 @@ Sonic Pi og bliver modtaget som indsats-events
         <location filename="../widgets/settingswidget.cpp" line="232"/>
         <source>MIDI output devices receive MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished">MIDI output enheder modtager MIDI beskeder direkte fra Sonic Pi hvilket kan blive sendt via midi_* fns</translation>
+        <translation>MIDI-output-enheder modtager MIDI-beskeder direkte fra
+Sonic Pi som kan sendes via midi_* fns</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="262"/>
@@ -908,7 +915,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="263"/>
         <source>Configure editor display options.</source>
-        <translation type="unfinished">Konfigurér editorens visningsindstillinger.</translation>
+        <translation>Konfigurér kodefeltets visningsindstillinger.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="264"/>
@@ -918,7 +925,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="265"/>
         <source>Configure editor look and feel.</source>
-        <translation type="unfinished">Indstil editor-vinduets udseende.</translation>
+        <translation>Indstil kodefeltets udseende.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="266"/>
@@ -948,7 +955,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="273"/>
         <source>Toggle line number visibility.</source>
-        <translation type="unfinished">Skift synlighed af linienummer.</translation>
+        <translation>Slå linjenumre til/fra.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="274"/>
@@ -958,7 +965,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="275"/>
         <source>Toggle visibility of the log.</source>
-        <translation type="unfinished">Skift synlighed af log.</translation>
+        <translation>Skift synlighed af log.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="278"/>
@@ -988,7 +995,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="287"/>
         <source>Toggle visibility of the buffer selection tabs.</source>
-        <translation type="unfinished">Skift synlighed af buffervalgsfaner.</translation>
+        <translation>Skift synlighed af kodefelts-faner.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="288"/>
@@ -1003,37 +1010,37 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="292"/>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Lys</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="293"/>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Mørk</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="294"/>
         <source>Pro Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro Lys</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="295"/>
         <source>Pro Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro Mørk</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="296"/>
         <source>High Contrast</source>
-        <translation type="unfinished"></translation>
+        <translation>Høj kontrast</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="326"/>
         <source>Logging</source>
-        <translation type="unfinished">Logning</translation>
+        <translation>Logning</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="327"/>
         <source>Configure debug behaviour</source>
-        <translation type="unfinished">Konfigurer fejlfindingsindstilling</translation>
+        <translation>Konfigurer fejlfindingsindstillinger</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="329"/>
@@ -1045,8 +1052,10 @@ Sonic Pi which can be sent via the midi_* fns</source>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation type="unfinished">Slå logbeskeder til eller fra.
-Hvis logbeskeder er slået fra (deaktiveret) vil aktiviteter såsom synth- og sampletriggere ikke blive skrevet i loggen som standard.</translation>
+        <translation>Slå logbeskeder til eller fra.
+Hvis logbeskeder er slået fra (deaktiveret), vil aktiviteter
+såsom synth- og sampletriggere ikke blive skrevet i
+loggen som standard.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="332"/>
@@ -1058,9 +1067,10 @@ Hvis logbeskeder er slået fra (deaktiveret) vil aktiviteter såsom synth- og sa
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation type="unfinished">Slå rydning af log til eller fra.
+        <translation>Slå rydning af log til eller fra.
 Hvis rydning af log er aktiveret, vil loggen 
-blive ryddet hver hver gang der trykkes på kør-knappen.</translation>
+blive ryddet hver hver gang der trykkes
+på kør-knappen.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="335"/>
@@ -1079,14 +1089,14 @@ men de vil ikke være synlige i loggen.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="338"/>
         <source>Auto-scroll log</source>
-        <translation type="unfinished">Logfilen ruller automatisk</translation>
+        <translation>Rul loggen automatisk</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="339"/>
         <source>Toggle log auto scrolling.
 If enabled the log is scrolled to the bottom after every new message is displayed.</source>
-        <translation type="unfinished">Slå log af auto rulning til/fra.
-Hvis den er aktiveret, vil loggen rulle ned til bunden 
+        <translation>Slå automatisk rulning af log til/fra.
+Hvis aktiveret, vil loggen rulle ned til bunden 
 efter at hver ny besked er blevet vist.</translation>
     </message>
     <message>
@@ -1097,7 +1107,7 @@ efter at hver ny besked er blevet vist.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="366"/>
         <source>Show and Hide Scope</source>
-        <translation type="unfinished">Vis/skjul Oscilloskop</translation>
+        <translation>Vis/skjul oscilloskop</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="367"/>
@@ -1107,7 +1117,7 @@ efter at hver ny besked er blevet vist.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="375"/>
         <source>Show Scopes</source>
-        <translation type="unfinished">Vis Oscilloskoper</translation>
+        <translation>Vis oscilloskoper</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="376"/>
@@ -1117,12 +1127,12 @@ efter at hver ny besked er blevet vist.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="377"/>
         <source>Show Axes</source>
-        <translation type="unfinished">Vis akser</translation>
+        <translation>Vis akser</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="378"/>
         <source>Toggle the visibility of the axes for the audio oscilloscopes</source>
-        <translation type="unfinished">Skift synligheden af x- og y-akse for lyd-oscilloskopet</translation>
+        <translation>Skift synligheden af x- og y-akse for lyd-oscilloskopet</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="381"/>
@@ -1132,8 +1142,8 @@ be viewed independently or all together:
 Lissajous - illustrates the phase relationship between the left and right channels
 Mono - shows a combined view of the left and right channels (using RMS)
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished">Lyd-oscilloskopet kommer i tre varianter, som kan 
-vises uafhængigt eller samtidigt:
+        <translation>Lyd-oscilloskopet kommer i tre varianter, som kan 
+vises uafhængigt eller samtidig:
 
 Lissajous - viser faseafhængigheden mellem venstre og højre lyd-kanal
 Mono - viser et sammenlagt billede af højre og venstre kanal (bruger RMS)
