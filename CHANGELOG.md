@@ -1,4 +1,5 @@
 # History
+* [v3.2.2 'Tau3'](#v3.2.2), 5th April, 2020
 * [v3.2.1 'Take Tau'](#v3.2.1), 3rd April, 2020
 * [v3.2.0 'Tau'](#v3.2.0), 28th Feb, 2020
 * [v3.1.0 'Sauna'](#v3.1.0), 23rd Jan, 2018
@@ -19,6 +20,22 @@
 * [v2.1 'Core'](#v2.1), 21st Nov, 2014
 * [v2.0.1](#v2.0.1), 9th Sept, 2014
 * [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
+
+<a name="v3.2.2"></a>
+
+## Version 3.2.2 - Tau3'
+*5h April, 2020*
+[(view commits)](https://github.com/samaaron/sonic-pi/commits/v3.2.2):
+
+This is a minor bugfix and maintenance release. 
+
+### GUI
+* Significant improvements to the Danish and Swedish translations.
+
+### Bugfixes
+* Fixed a build issue on macOS that stopped recording from working.
+* Fixed issues rendering images in the documentation for non-English translations.
+
 
 <a name="v3.2.1"></a>
 
