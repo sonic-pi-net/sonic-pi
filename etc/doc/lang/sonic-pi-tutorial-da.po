@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-04-04 23:05+0000\n"
+"PO-Revision-Date: 2020-04-05 19:35+0000\n"
 "Last-Translator: Ole Friis Østergaard <olefriis@gmail.com>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "da/>\n"
@@ -70,7 +70,7 @@ msgid ""
 "s something missing, do let me know and I'll consider it for a future version."
 msgstr ""
 "Denne vejledning er opdelt i sektioner, som er grupperet efter kategori. "
-"Denne vejledning er skrevet for at have et nemt læringsforløb fra start til "
+"Denne vejledning er skrevet for at have et let læringsforløb fra start til "
 "slut. Spring bare til de sektioner du har lyst til. Føler du at der er noget "
 "der mangler, så fortæl mig det, og så vil jeg overveje det til en fremtidig "
 "version."
@@ -105,10 +105,10 @@ msgid ""
 "uitar. This means that given some practice you can take Sonic Pi on stage and "
 "gig with it."
 msgstr ""
-"En af de mest interessante aspekter af Sonic Pi er, at det giver dig "
-"mulighed for at skrive og *modificere kode live* for at lave musik, præcis "
-"som man måske vil spille live på en guitar. Det betyder, at med øvelse så "
-"kan man tage Sonic Pi med på scenen og spille med det."
+"Et af de mest interessante aspekter af Sonic Pi er, at det giver dig "
+"mulighed for at skrive og *ændre kode live* for at lave musik, præcis som "
+"man måske vil spille live på en guitar. Det betyder at når du har øvet dig, "
+"kan du tage Sonic Pi med på scenen og spille med det."
 
 #: 01.1-Live-Coding.md:10
 msgid "Free your mind"
@@ -153,7 +153,7 @@ msgid ""
 ". If at any time you wish to stop the sound just hit the `Stop` button. Althou"
 "gh don't hit it just yet... Instead, follow these steps:"
 msgstr ""
-"Hvis du nu trykker på `Kør`-knappen, vil du høre lyden af en hurtig "
+"Hvis du nu trykker på `Run`-knappen, vil du høre lyden af en hurtig "
 "stortromme. Hvis du ønsker at stoppe, trykker du på `Stop`-knappen. Men tryk "
 "ikke på den endnu... følg i stedet disse skridt:"
 
@@ -168,7 +168,7 @@ msgstr ""
 
 #: 01.1-Live-Coding.md:34
 msgid "Press the `Run` button again"
-msgstr "Tryk på `Kør`-knappen igen"
+msgstr "Tryk på `Run`-knappen igen"
 
 #: 01.1-Live-Coding.md:35
 msgid "Notice how the drum speed has changed."
@@ -188,7 +188,7 @@ msgid ""
 "le :bd_haus` add the line `sample :ambi_choir, rate: 0.3`. Your code should lo"
 "ok like this:"
 msgstr ""
-"O.K., det var enkelt nok. Lad os tilføje noget mere. Over `sample: bd_haus` "
+"Okay, det var enkelt nok. Lad os tilføje noget mere. Over `sample: bd_haus` "
 "tilføj linjen `sample :ambi_choir, rate: 0.3`. Din kode skal se sådan ud:"
 
 #: 01.1-Live-Coding.md:43
@@ -215,13 +215,13 @@ msgid ""
 "t your computer will stop with an error because it can't keep up (if that happ"
 "ens, just choose a bigger `sleep` time and hit `Run` again)."
 msgstr ""
-"Tid til at lege lidt. Skift satserne - hvad sker der, når du bruger store "
-"værdier, eller små værdier eller negative værdier? Se hvad der sker, når du "
-"ændrer `rate:`-værdien for lydklippet `:ambi_choir` en smule (fx til `0.29`)"
-". Hvad sker der hvis du vælger en meget kort `sleep`-værdi? Se om du kan få "
-"det til at gå så hurtigt at din computer vil stoppe med en fejl, fordi den "
-"ikke kan følge med (hvis det sker, skal du bare vælge en længere `sleep`-tid "
-"og trykke på `Start` igen)."
+"Tid til at lege lidt. Skift satserne - hvad sker der når du bruger store "
+"værdier, små værdier eller negative værdier? Se hvad der sker når du ændrer "
+"`rate:`-værdien for lydklippet `:ambi_choir` en smule (fx til `0.29`). Hvad "
+"sker der hvis du vælger en meget kort `sleep`-værdi? Se om du kan få det til "
+"at gå så hurtigt at din computer vil stoppe med en fejl fordi den ikke kan "
+"følge med (hvis det sker, skal du bare vælge en længere `sleep`-tid og "
+"trykke på `Run` igen)."
 
 #: 01.1-Live-Coding.md:59
 msgid "Try commenting one of the `sample` lines out by adding a `#` to the beginning:"
@@ -304,10 +304,10 @@ msgid ""
 "e buffer and paste a fresh copy in and you're ready to jam again. Making mista"
 "kes is how you'll learn the quickest..."
 msgstr ""
-"Husk at trykke `Kør`. Så vil du høre ændringen næste gang løkken starter. "
+"Husk at trykke `Run`. Så vil du høre ændringen næste gang løkken starter. "
 "Hvis du ender med noget rod, så bare rolig: Tryk `Stop`, slet koden i "
-"bufferen og sæt en frisk kopi ind. Så er du klar til at lave musik igen. At "
-"lave fejl er en af de bedste måder at lære på..."
+"kodefeltet og sæt en frisk kopi ind. Så er du klar til at lave musik igen. "
+"At lave fejl er en af de bedste måder at lære på..."
 
 #: 01.1-Live-Coding.md:94
 #, no-wrap
@@ -348,7 +348,7 @@ msgid ""
 msgstr ""
 "Bliv ved med at eksperimentere indtil du bliver nysgerrig på hvordan det "
 "hele faktisk virker, og du begynder at spekulere på hvad ellers du kan lave. "
-"Nu er du klar til at læse resten af vejledningen."
+"Nu er du klar til at følge resten af vejledningen."
 
 #: 01.1-Live-Coding.md:115
 msgid "So what are you waiting for..."
@@ -368,7 +368,7 @@ msgid ""
 "me exploring it."
 msgstr ""
 "Sonic Pi har en meget simpel brugerflade til at kode musik. Lad os tage et "
-"kig på det."
+"kig på den."
 
 #: 01.2-Exploring-the-Interface.md:8
 msgid "![Sonic Pi Interface](../../../etc/doc/images/tutorial/GUI.png)"
@@ -388,7 +388,7 @@ msgstr "*C* - Information og hjælp"
 
 #: 01.2-Exploring-the-Interface.md:14
 msgid "*D* - Code Editor"
-msgstr "*D* - Kodefeltet"
+msgstr "*D* - Kodefelt"
 
 #: 01.2-Exploring-the-Interface.md:15
 msgid "*E* - Prefs Panel"
@@ -418,9 +418,9 @@ msgid ""
 "to create a recording (a WAV file) of the sound playing."
 msgstr ""
 "Disse lyserøde knapper bruger du til at starte og stoppe lydene. Der er "
-"*Kør*-knappen til at køre koden i kodefeltet, *Stop* til at stoppe al "
-"kørende kode, *Gem* til at gemme koden til en ekstern fil og *Optag* til at "
-"lave en optagelse (en WAV-fil) af den lyd der bliver afspillet."
+"*Run*-knappen til at køre koden i kodefeltet, *Stop* til at stoppe al "
+"kørende kode, *Save* til at gemme koden til en ekstern fil og *Record* til "
+"at lave en optagelse (en WAV-fil) af den lyd der bliver afspillet."
 
 #: 01.2-Exploring-the-Interface.md:28
 msgid "B. Editor Controls"
@@ -431,8 +431,8 @@ msgid ""
 "These orange buttons allow you to manipulate the code editor. The *Size +* and"
 " *Size -* buttons allow you to make the text bigger and smaller."
 msgstr ""
-"Disse orange knapper giver mulighed for at ændre kodefeltet. *Str. +*- og *"
-"Str. -*-knapperne giver dig mulighed for at gøre teksten større og mindre."
+"Disse orange knapper giver mulighed for at ændre kodefeltet. Knapperne *Size "
+"+* og *Size -* giver dig mulighed for at gøre teksten større og mindre."
 
 #: 01.2-Exploring-the-Interface.md:34
 msgid "C. Info and Help"
@@ -449,7 +449,7 @@ msgstr ""
 "Disse blå knapper giver adgang til information, hjælp og indstillinger. "
 "*Info*-knappen vil åbne informationsvinduet som giver information om selve "
 "Sonic Pi - kerne-udviklerholdet, historien, bidragsydere og fællesskabet. "
-"*Hjælp*-knappen viser og skjuler hjælpesystemet (*G*), og *Indst.*-knappen "
+"*Help*-knappen viser og skjuler hjælpesystemet (*G*), og *Prefs*-knappen "
 "viser og skjuler indstillingsvinduet som giver mulighed for at styre nogle "
 "grundlæggende systemindstillinger."
 
@@ -466,10 +466,17 @@ msgid ""
 "trange at first, but you'll soon find it very useful. For example, you'll know"
 " something is a number because it is blue."
 msgstr ""
+"Dette er stedet hvor du skriver din kode og komponerer/udfører din musik. "
+"Det er et simpelt tekst-redigeringsfelt hvor du kan skrive kode, slette det, "
+"klippe og kopiere osv. Tænk på det som en meget simpel udgave af Word eller "
+"Google Docs. Redigeringsfeltet vil automatisk farve ord på baggrund af deres "
+"betydning i koden. Det virker måske mærkeligt i starten, men du vil snart "
+"finde det meget nyttigt. For eksempel vil du vide at noget er et tal fordi "
+"det er blåt."
 
 #: 01.2-Exploring-the-Interface.md:53
 msgid "E. Prefs Panel"
-msgstr ""
+msgstr "E. Indstillinger"
 
 #: 01.2-Exploring-the-Interface.md:55
 msgid ""
@@ -479,10 +486,16 @@ msgid ""
 "ged. Examples are forcing mono mode, inverting stereo, toggling log output ver"
 "bosity and also a volume slider and audio selector on the Raspberry Pi."
 msgstr ""
+"Sonic Pi stiller en række instillinger til rådighed som kan tilgås via "
+"*Prefs*-knappen i området Information og hjælp. Den vil vise eller skjule "
+"indstillingspanelet som indeholder et antal indstillinger som kan ændres. "
+"For eksempel kan du gennemtvinge mono-tilstand, bytte rundt på stereo, og "
+"vælge hvad der skal i loggen. Der er også styring af lydstyrken og en "
+"lydvælger på Raspberry Pi."
 
 #: 01.2-Exploring-the-Interface.md:62
 msgid "F. Log Viewer"
-msgstr ""
+msgstr "F. Logfremviser"
 
 #: 01.2-Exploring-the-Interface.md:64
 msgid ""
@@ -491,10 +504,15 @@ msgid ""
 "u create with the exact time the sound was triggered. This is very useful for "
 "debugging your code and understanding what your code is doing."
 msgstr ""
+"Når du kører din kode, vil information om hvad programmet laver, blive vist "
+"i logfremviseren. Som udgangspunkt vil du se en besked for hver lyd du "
+"spiller med det præcise tidspunkt lyden blev startet på. Det er meget "
+"nyttigt til fejlfinding i din kode og til at forstå hvad din kode faktisk "
+"gør."
 
 #: 01.2-Exploring-the-Interface.md:70
 msgid "G. Help System"
-msgstr ""
+msgstr "G. Hjælpesystem"
 
 #: 01.2-Exploring-the-Interface.md:72
 msgid ""
@@ -505,10 +523,16 @@ msgid ""
 "ynths, samples, examples, FX and a full list of all the functions Sonic Pi pro"
 "vides for coding music."
 msgstr ""
+"En af de vigtigste dele af brugerfladen i Sonic Pi er hjælpesystemet som "
+"bliver vist i bunden af vinduet. Det kan vises eller skjules ved at trykke "
+"på den blå *Help*-knap. Hjælpesystemet indeholder hjælp og information om "
+"alle dele af Sonic Pi, bl.a. denne vejledning, en liste af tilgængelige "
+"synths, lydklip, eksempler, effekter og en komplet liste af alle "
+"funktionerne som Sonic Pi stiller til rådighed for at kode musik."
 
 #: 01.2-Exploring-the-Interface.md:80
 msgid "H. Scope Viewer"
-msgstr ""
+msgstr "H. Oscilloskop"
 
 #: 01.2-Exploring-the-Interface.md:82
 msgid ""
@@ -522,14 +546,23 @@ msgid ""
 " you to draw pretty pictures with sound (https://en.wikipedia.org/wiki/Lissajo"
 "us_curve)."
 msgstr ""
+"Oscilloskopet viser den lyd du hører. Her kan du se at en `saw`-synth ligner "
+"en sav, og at det grundlæggende bip er en sinusbølge. Du kan også se "
+"forskellen mellem larmende og stille lyde fra størrelsen af linjerne. Der er "
+"tre oscilloskoper at lege med. Standard-oscilloskopet viser venstre og højre "
+"lydudgange kombineret. Der er også en stereo-visning som tegner separate "
+"oscilloskoper for hver kanal. Endelig er der et Lissajous-kurve-skop som "
+"viser fase-afhængighederne mellem venstre og højre kanal og giver mulighed "
+"for at tegne flotte billeder med lyd (https://en.wikipedia.org/wiki/"
+"Lissajous_curve)."
 
 #: 01.3-Learning-through-Play.md:1
 msgid "1.3 Learning through Play"
-msgstr ""
+msgstr "1.3 Læring gennem leg"
 
 #: 01.3-Learning-through-Play.md:3
 msgid "Learning through Play"
-msgstr ""
+msgstr "Læring gennem leg"
 
 #: 01.3-Learning-through-Play.md:5
 msgid ""
@@ -538,10 +571,13 @@ msgid ""
 "fore you know it you'll have accidentally learned how to code, compose and per"
 "form."
 msgstr ""
+"Sonic Pi opfordrer dig til at lære om både programmering og musik gennem leg "
+"og eksperimenter. Det vigtigste er at du har det sjovt, og før du ved af "
+"det, har du også lært at kode, komponere og spille."
 
 #: 01.3-Learning-through-Play.md:10
 msgid "There are no mistakes"
-msgstr ""
+msgstr "Der er ingen fejl"
 
 #: 01.3-Learning-through-Play.md:12
 msgid ""
@@ -556,10 +592,20 @@ msgid ""
 "sound, manipulate it and morph it into something awesome. The crowd will go *w"
 "ild*."
 msgstr ""
+"Nu vi taler om det, så lad mig give dig et råd som jeg har lært over årene "
+"med live-kodning af musik - *der er ingen fejl, kun muligheder*. Det er "
+"noget jeg ofte har hørt i forhold til jazz, men det fungerer lige så godt "
+"med live-kodning. Lige meget hvor erfaren du er - fra fuldstændig begynder "
+"til en erfaren live-koder - så vil du komme til at køre noget kode som lyder "
+"helt uventet. Det lyder måske sindssygt godt - i det tilfælde kan du bare "
+"køre videre med det. Det kan dog også lyde disharmonisk og malplaceret. Det "
+"er lige meget hvad der skete - hvad der betyder noget, er hvad du "
+"efterfølgende gør med det. Tag lyden, manipuler den og gør den til noget "
+"fantastisk. Publikum bliver *ellevilde*."
 
 #: 01.3-Learning-through-Play.md:24
 msgid "Start Simple"
-msgstr ""
+msgstr "Start simpelt"
 
 #: 01.3-Learning-through-Play.md:26
 msgid ""
@@ -571,22 +617,29 @@ msgid ""
 "with it and then see what new ideas it gives you. Before long you'll be too bu"
 "sy having fun and making real progress."
 msgstr ""
+"Når du lærer noget nyt, er det fristende at forsøge at lave fantastiske ting "
+"*nu*. Men tag den med ro og betragt det som et fjernt mål at nå *senere*. "
+"Tænk i stedet over den *simpleste* ting du kan skrive som kan være sjov og "
+"berigende, og som kan være et lille skridt mod den fantastiske ting du har i "
+"hovedet. Når du får en ide om sådan et simpelt skridt, så byg det, leg med "
+"det og se hvad andre nye ideer du får. Før du får set dig om, vil du have "
+"det sjovt og lave rigtige fremskridt."
 
 #: 01.3-Learning-through-Play.md:35
 msgid "Just make sure to share your work with others!"
-msgstr ""
+msgstr "Husk nu at dele dit arbejde med andre!"
 
 #: 02-Synths.md:1
 msgid "2 Synths"
-msgstr ""
+msgstr "2 Synths"
 
 #: 02-Synths.md:3 02.3-Switching-Synths.md:11
 msgid "Synths"
-msgstr ""
+msgstr "Synths"
 
 #: 02-Synths.md:5
 msgid "OK, enough of the intros - let's get into some sound."
-msgstr ""
+msgstr "Okay, nok indledning - lad os lave noget lyd."
 
 #: 02-Synths.md:7
 msgid ""
@@ -597,6 +650,12 @@ msgid ""
 " Sonic Pi gives you much of that power in a very simple and approachable manne"
 "r."
 msgstr ""
+"I denne sektion vil vi dække grundlæggende afspilning og manipulation af "
+"synths. Synth er en forkortelse for synthesiser, som er et smart ord for "
+"noget som laver lyde. Normalt er synths ret svære at bruge - specielt "
+"analoge synths såsom Eurorack-moduler forbundet med et virvar af ledninger. "
+"Heldigvis giver Sonic Pi dig mange muligheder på en simpel og tilgængelig "
+"måde."
 
 #: 02-Synths.md:14
 msgid ""
@@ -604,24 +663,27 @@ msgid ""
 "et very deep into very sophisticated sound manipulation if that's your thing. "
 "Hold on to your hats..."
 msgstr ""
+"Lad dig ikke narre af den umiddelbare enkelthed af brugerfladen i Sonic Pi. "
+"Du kan dykke langt ned i meget sofistikeret manipulation af lyd hvis det er "
+"det du ønsker. Hold på hat og briller..."
 
 #: 02.1-Your-First-Beeps.md:1
 msgid "2.1 Your First Beeps"
-msgstr ""
+msgstr "2.1 Dine første bip"
 
 #: 02.1-Your-First-Beeps.md:3
 msgid "Your First Beeps"
-msgstr ""
+msgstr "Dine første bip"
 
 #: 02.1-Your-First-Beeps.md:5
 msgid "Take a look at the following code:"
-msgstr ""
+msgstr "Betragt følgende kode:"
 
 #: 02.1-Your-First-Beeps.md:7 02.4-Durations-with-Envelopes.md:49
 #: A.20-creative-coding-in-the-classroom.md:158
 #, no-wrap
 msgid "play 70"
-msgstr ""
+msgstr "play 70"
 
 #: 02.1-Your-First-Beeps.md:11
 msgid ""
@@ -629,34 +691,40 @@ msgid ""
 "at the top of the app (the big white space under the Run button). Now, press R"
 "un..."
 msgstr ""
+"Det er her det hele begynder. Bare kopier linjen og sæt den ind i kodefeltet "
+"i toppen af applikationen (det store, hvide felt under Run-knappen). Prøv nu "
+"at trykke Run..."
 
 #: 02.1-Your-First-Beeps.md:15
 msgid "Beep!"
-msgstr ""
+msgstr "Bip!"
 
 #: 02.1-Your-First-Beeps.md:17
 msgid "Intense. Press it again. And again. *And again...*"
-msgstr ""
+msgstr "Vildt. Tryk på knappen igen. Og igen. *Og igen...*"
 
 #: 02.1-Your-First-Beeps.md:19
 msgid ""
 "Woah, crazy, I'm sure you could keep doing that all day. But wait, before you "
 "lose yourself in an infinite stream of beeps, try changing the number:"
 msgstr ""
+"Wow, skørt. Jeg er sikker på at du vil kunne gøre det dagen lang. Men lige "
+"et øjeblik - før du bliver helt væk i en uendelig strøm af bip, så prøv at "
+"ændre tallet:"
 
 #: 02.1-Your-First-Beeps.md:23
 #, no-wrap
 msgid "play 75"
-msgstr ""
+msgstr "play 75"
 
 #: 02.1-Your-First-Beeps.md:27
 msgid "Can you hear the difference? Try a lower number:"
-msgstr ""
+msgstr "Kan du høre forskellen? Prøv et lavere tal:"
 
 #: 02.1-Your-First-Beeps.md:29
 #, no-wrap
 msgid "play 60"
-msgstr ""
+msgstr "play 60"
 
 #: 02.1-Your-First-Beeps.md:33
 msgid ""
@@ -665,6 +733,10 @@ msgid ""
 "left hand side) play lower notes and the keys on the higher part of the piano "
 "(the right hand side) play higher notes."
 msgstr ""
+"Så lavere tal giver dybere bip, og højere tal giver lysere bip. Præcis som "
+"på et klaver, hvor tangenterne i den lave del af klaveret (venstre side) vil "
+"spille dybe toner, mens tangenterne i den høje den af klaveret (højre side) "
+"vil spille lyse toner."
 
 #: 02.1-Your-First-Beeps.md:38
 msgid ""
@@ -674,6 +746,11 @@ msgid ""
 "61`, which in this case is the black key of the C sharp. To play the D, the ne"
 "xt key to the right, `play 62`."
 msgstr ""
+"Det viser sig at C i fjerde oktav (det man normalt bare kalder C) svarer til "
+"tallet 60. `play 60` spiller derfor C i fjerde oktav. For at spille næste "
+"klavertangent til højre skal du lægge 1 til 60 og derfor skrive `play 61`, "
+"som i dette tilfælde giver den sorte tangent der svarer til Cis. For at "
+"spille D, dvs. den næste tangent til højre, skal du skrive `play 62`."
 
 #: 02.1-Your-First-Beeps.md:40
 msgid ""
@@ -681,16 +758,21 @@ msgid ""
 "ted. All that matters right now is that you know that *low numbers make lower "
 "beeps* and *high numbers make higher beeps*."
 msgstr ""
+"*Bare rolig* hvis det her ikke giver mening for dig - det gjorde det heller "
+"ikke for mig da jeg begyndte. Det der betyder noget lige nu, er at du ved at "
+"*lavere tal giver dybere bip* og *højere tal giver lysere bip*."
 
 #: 02.1-Your-First-Beeps.md:44 08.2-Chords.md:3
 msgid "Chords"
-msgstr ""
+msgstr "Akkorder"
 
 #: 02.1-Your-First-Beeps.md:46
 msgid ""
 "Playing a note is quite fun, but playing many at the same time can be even bet"
 "ter. Try it:"
 msgstr ""
+"Det er sjovt at spille en enkelt tone, men det kan være endnu bedre at "
+"spille flere på en gang. Prøv det:"
 
 #: 02.1-Your-First-Beeps.md:49
 #, no-wrap
@@ -699,6 +781,9 @@ msgid ""
 "play 75\n"
 "play 79"
 msgstr ""
+"play 72\n"
+"play 75\n"
+"play 79"
 
 #: 02.1-Your-First-Beeps.md:55
 msgid ""
@@ -706,10 +791,13 @@ msgid ""
 "y it for yourself - which numbers sound good together? Which sound terrible? E"
 "xperiment, explore and find out for yourself."
 msgstr ""
+"Jazzet! Når du skriver flere `play`-linjer, så bliver de alle sammen spillet "
+"på samme tid. Prøv selv - hvilke tal lyder godt sammen? Hvilke lyder "
+"forfærdeligt? Eksperimentér, udforsk og find selv ud af det."
 
 #: 02.1-Your-First-Beeps.md:59
 msgid "Melody"
-msgstr ""
+msgstr "Melodi"
 
 #: 02.1-Your-First-Beeps.md:61
 msgid ""
@@ -717,6 +805,9 @@ msgid ""
 "ed to play one note after another and not at the same time? Well, that's easy,"
 " you just need to `sleep` between the notes:"
 msgstr ""
+"Det er sjovt at spille toner og akkorder - men hvad med en melodi? Hvad hvis "
+"du ønsker at spille en tone efter en anden, og ikke på samme tid? Det er "
+"heldigvis nemt: Du skal bare sætte `sleep` mellem tonerne:"
 
 #: 02.1-Your-First-Beeps.md:65
 #, no-wrap
@@ -727,6 +818,11 @@ msgid ""
 "sleep 1\n"
 "play 79"
 msgstr ""
+"play 72\n"
+"sleep 1\n"
+"play 75\n"
+"sleep 1\n"
+"play 79"
 
 #: 02.1-Your-First-Beeps.md:73
 msgid ""
@@ -736,6 +832,12 @@ msgid ""
 "to make our arpeggio a little faster? Well, we need to use shorter sleep value"
 "s. What about a half i.e. `0.5`:"
 msgstr ""
+"Hvor yndigt - en lille arpeggio. `sleep` betyder `sov` på engelsk, og bruges "
+"når der skal ventes. Men hvad betyder så `1` i `sleep 1`? Det står for "
+"*ventetiden*. Det betyder egentlig at der skal ventes et slag, men indtil "
+"videre kan vi betragte det som om der ventes 1 sekund. Så hvad hvis vi "
+"ønsker at få vores arpeggio til at køre lidt hurtigere? Så skal vi bruge "
+"kortere ventetider. Hvad med halvdelen, dvs. `0.5`:"
 
 #: 02.1-Your-First-Beeps.md:79
 #, no-wrap
@@ -746,12 +848,19 @@ msgid ""
 "sleep 0.5\n"
 "play 79"
 msgstr ""
+"play 72\n"
+"sleep 0.5\n"
+"play 75\n"
+"sleep 0.5\n"
+"play 79"
 
 #: 02.1-Your-First-Beeps.md:87
 msgid ""
 "Notice how it plays faster. Now, try for yourself, change the times - use diff"
 "erent times and notes."
 msgstr ""
+"Bemærk at det kører hurtigere. Prøv nu selv at ændre ventetiderne - brug "
+"forskellige ventetider og toner."
 
 #: 02.1-Your-First-Beeps.md:90
 msgid ""
@@ -759,10 +868,13 @@ msgid ""
 "re's absolutely no need to stick to standard whole notes. Play around and have"
 " fun."
 msgstr ""
+"Du kan også prøve at bruge mellemtoner såsom `play 52.3` og `play 52.63`. Du "
+"behøver overhovedet ikke at holde dig til standard-toner. Leg og hav det "
+"sjovt."
 
 #: 02.1-Your-First-Beeps.md:95
 msgid "Traditional Note Names"
-msgstr ""
+msgstr "Traditionelle nodenavne"
 
 #: 02.1-Your-First-Beeps.md:97
 msgid ""
@@ -771,6 +883,10 @@ msgid ""
 "ote names such as C and F# rather than numbers. Sonic Pi has you covered. You "
 "can do the following:"
 msgstr ""
+"For de af jer der allerede kender til musikalsk notation (bare rolig hvis du "
+"ikke gør - du behøver ikke at kende til det for at have det sjovt), ønsker I "
+"måske at skrive en melodi med nodenavne såsom C og F# i stedet for tal. Det "
+"kan du også gøre i Sonic Pi. Du kan gøre følgende:"
 
 #: 02.1-Your-First-Beeps.md:102
 #, no-wrap
@@ -781,12 +897,19 @@ msgid ""
 "sleep 0.5\n"
 "play :E"
 msgstr ""
+"play :C\n"
+"sleep 0.5\n"
+"play :D\n"
+"sleep 0.5\n"
+"play :E"
 
 #: 02.1-Your-First-Beeps.md:110
 msgid ""
 "Remember to put the colon `:` in front of your note name so that it goes pink."
 " Also, you can specify the octave by adding a number after the note name:"
 msgstr ""
+"Husk at sætte kolon (`:`) foran nodenavnet så det bliver lyserødt. Du kan "
+"også angive oktaven ved at føje et tal til nodenavnet:"
 
 #: 02.1-Your-First-Beeps.md:114
 #, no-wrap
@@ -797,24 +920,32 @@ msgid ""
 "sleep 0.5\n"
 "play :E4"
 msgstr ""
+"play :C3\n"
+"sleep 0.5\n"
+"play :D3\n"
+"sleep 0.5\n"
+"play :E4"
 
 #: 02.1-Your-First-Beeps.md:122
 msgid ""
 "If you want to make a note sharp, add an `s` after the note name such as `play"
 " :Fs3` and if you want to make a note flat, add a `b` such as `play :Eb3`."
 msgstr ""
+"Hvis du ønsker at hæve en halv tone, så føj et `s` til nodenavnet, såsom `"
+"play :Fs3`, og hvis du ønsker at sænke en halv tone, så tilføj `b`, såsom `"
+"play :Eb3`."
 
 #: 02.1-Your-First-Beeps.md:125
 msgid "Now go *crazy* and have fun making your own tunes."
-msgstr ""
+msgstr "*Slå dig løs* og hav det sjovt med at lave dine egne melodier."
 
 #: 02.2-Synth-Params.md:1
 msgid "2.2 Synth Options"
-msgstr ""
+msgstr "2.2 Synth-parametre"
 
 #: 02.2-Synth-Params.md:3
 msgid "Synth Options: Amp and Pan"
-msgstr ""
+msgstr "Synth-parametre: Amplitude og panorering"
 
 #: 02.2-Synth-Params.md:5
 msgid ""
@@ -825,10 +956,16 @@ msgid ""
 "the most useful: *amplitude* and *pan*. First, let's look at what options actu"
 "ally are."
 msgstr ""
+"Ligesom du kan styre hvilken tone du spiller eller hvilket lydklip du "
+"starter, stiller Sonic Pi en række parametre til rådighed for at udforme og "
+"styre lydene. Vi kommer til at dække mange af disse i denne vejledning, og "
+"der er udførlig dokumentation for alle parametrene i hjælpesystemet. Indtil "
+"videre vil vi dog nøjes med at præsentere to af de mest brugbare: *amplitude*"
+" (lydstyrke) og *panorering* (bevægelse mellem stereo-højttalerne)."
 
 #: 02.2-Synth-Params.md:13
 msgid "Options"
-msgstr ""
+msgstr "Parametre"
 
 #: 02.2-Synth-Params.md:15
 msgid ""
@@ -838,6 +975,12 @@ msgid ""
 "owever, there are common sets of opts shared by many sounds such as `amp:` and"
 " envelope opts (covered in another section)."
 msgstr ""
+"Sonic Pi giver mulighed for at sætte parametre når du afspiller synths. Du "
+"styrer parametrene ved at give dem med til `play`, og du kan på den måde "
+"styre lyden. Hver synth har sine egne parametre for at ændre dens lyd. Der "
+"er dog nogle parametre der går igen på tværs af mange lyde, fx `amp:` (til "
+"amplitude) og envelope-muligheder (kontur af lyden - det dækker vi i et "
+"andet afsnit)."
 
 #: 02.2-Synth-Params.md:22
 msgid ""
@@ -845,6 +988,9 @@ msgid ""
 "e (the value you want to set the control at). For example, you might have a op"
 "t called `cheese:` and want to set it with a value of `1`."
 msgstr ""
+"Når du sætter parametre, skal du angive to dele: deres navn og deres værdi. "
+"For eksempel kan du have en parameter der hedder `cheese:`, som du ønsker at "
+"sætte til værdien `1`."
 
 #: 02.2-Synth-Params.md:27
 msgid ""
@@ -852,60 +998,72 @@ msgid ""
 "he opt such as `amp:` (don't forget the colon `:`) and then a space and the va"
 "lue of the opt. For example:"
 msgstr ""
+"Parametre gives til kald til `play` ved at bruge et komma (`,`), navnet på "
+"parameteren såsom `amp:` (glem ikke kolonet, `:`) og til sidste et mellemrum "
+"og værdien for parameteren. For eksempel:"
 
 #: 02.2-Synth-Params.md:31
 #, no-wrap
 msgid "play 50, cheese: 1"
-msgstr ""
+msgstr "play 50, cheese: 1"
 
 #: 02.2-Synth-Params.md:35
 msgid "(Note that `cheese:` isn't a valid opt, we're just using it as an example)."
 msgstr ""
+"(For god ordens skyld: `cheese` er ikke en rigtig parameter; vi bruger den "
+"blot som et eksempel.)"
 
 #: 02.2-Synth-Params.md:37
 msgid "You can pass multiple opts by separating them with a comma:"
-msgstr ""
+msgstr "Du kan sætte flere parametre ved at adskille dem med komma:"
 
 #: 02.2-Synth-Params.md:39
 #, no-wrap
 msgid "play 50, cheese: 1, beans: 0.5"
-msgstr ""
+msgstr "play 50, cheese: 1, beans: 0.5"
 
 #: 02.2-Synth-Params.md:43
 msgid "The order of the opts doesn't matter, so the following is identical:"
-msgstr ""
+msgstr "Rækkefølgen af parametre er ligegyldig, så nedenstående gør det samme:"
 
 #: 02.2-Synth-Params.md:45
 #, no-wrap
 msgid "play 50, beans: 0.5, cheese: 1"
-msgstr ""
+msgstr "play 50, beans: 0.5, cheese: 1"
 
 #: 02.2-Synth-Params.md:49
 msgid ""
 "Opts that aren't recognised by the synth are just ignored (like `cheese` and `"
 "beans` which are clearly ridiculous opt names!)"
 msgstr ""
+"Parametre som ikke kan sættes på synth'en, ignoreres blot, såsom `cheese` og "
+"`beans` som er åbenlyst fjollede parameternavne!"
 
 #: 02.2-Synth-Params.md:52
 msgid ""
 "If you accidentally use the same opt twice with different values, the last one"
 " wins. For example, `beans:` here will have the value 2 rather than 0.5:"
 msgstr ""
+"Hvis du ved et uheld sætter samme parameter to gange med forskellige "
+"værdier, bruges den sidste. For eksempel vil `beans` her få værdien 2, ikke "
+"0.5:"
 
 #: 02.2-Synth-Params.md:56
 #, no-wrap
 msgid "play 50, beans: 0.5, cheese: 3, eggs: 0.1, beans: 2"
-msgstr ""
+msgstr "play 50, beans: 0.5, cheese: 3, eggs: 0.1, beans: 2"
 
 #: 02.2-Synth-Params.md:60
 msgid ""
 "Many things in Sonic Pi accept opts, so just spend a little time learning how "
 "to use them and you'll be set! Let's play with our first opt: `amp:`."
 msgstr ""
+"Mange ting i Sonic Pi kan tage parametre, så brug lidt tid på at lære "
+"hvordan du bruger dem. Lad os lege med vores første parameter: `amp:`."
 
 #: 02.2-Synth-Params.md:64 02.4-Durations-with-Envelopes.md:25
 msgid "Amplitude"
-msgstr ""
+msgstr "Amplitude"
 
 #: 02.2-Synth-Params.md:66
 msgid ""
