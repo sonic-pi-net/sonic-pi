@@ -13,7 +13,7 @@
 %% ++
 
 -export([start/1]).
--export([loop_cues/6, loop_api/4, dispatcher/1]).
+-export([loop_cues/6, loop_api/4, tracker/2]).
 
 %% Bundle Commands
 %% ===============
@@ -46,10 +46,14 @@
 %% Implementation notes:
 %%  A hashmap (called TagMap) is added to the main loop of the server
 %%   This is a map of the form #{Name1 => Pid1, Name2 => Pid2, ...}
-%%   The processes Pid1, Pid2 etc. spawn_link the send_after processes
-%%   To flush a tag, we just kill the process wioth exit(Pid, die) and
-%%   remove it from the tagmap. New processes in the tagmap are created on
-%%  demand.
+%%   where the process PidN tracks the active timers for the tag NameN.
+%%   New processes in the tagmap are created on demand.
+%%   To flush a tag, we tell the corresponding tracker process to
+%%   cancel its current timers.
+
+%% Bundles whose delay time is not greater than NODELAY_LIMIT
+%% are forwarded directly without starting a timer.
+-define(NODELAY_LIMIT, 1).
 
 debug() ->
     false.
@@ -139,11 +143,11 @@ go_cues(P, InPort, CueHost, CuePort, Internal, Enabled) ->
 
 
 go_api(P, Port, CuePid) ->
-    {ok, _APISocket} = gen_udp:open(Port, [binary, {ip, loopback}]),
+    {ok, APISocket} = gen_udp:open(Port, [binary, {ip, loopback}]),
 
     P ! ack,
     TagMap = #{},
-    loop_api(_APISocket, 1, TagMap, CuePid).
+    loop_api(APISocket, 1, TagMap, CuePid).
 
 
 loop_cues(InSocket, InPort, CueHost, CuePort, Internal, Enabled) ->
@@ -192,8 +196,18 @@ loop_cues(InSocket, InPort, CueHost, CuePort, Internal, Enabled) ->
             log("Disabling cue forwarding ~n"),
             ?MODULE:loop_cues(InSocket, InPort, CueHost, CuePort, Internal, false);
 
-        {forward, Host, Port, Bin} ->
-            catch gen_udp:send(InSocket, Host, Port, Bin),
+        {timeout, TimerRef, {forward, Data, Tracker}} ->
+            send_forward(InSocket, Data),
+            forget_timer(TimerRef, Tracker),
+            ?MODULE:loop_cues(InSocket, InPort, CueHost, CuePort, Internal, Enabled);
+
+        {forward, Data} ->
+            send_forward(InSocket, Data),
+            ?MODULE:loop_cues(InSocket, InPort, CueHost, CuePort, Internal, Enabled);
+
+        {udp_error, _Port, econnreset} ->
+            %% Should not happen, but can happen anyway on Windows
+            debug("Ignoring UDP ECONNRESET~n"),
             ?MODULE:loop_cues(InSocket, InPort, CueHost, CuePort, Internal, Enabled);
 
         Any ->
@@ -205,120 +219,139 @@ loop_cues(InSocket, InPort, CueHost, CuePort, Internal, Enabled) ->
 	    ?MODULE:loop_cues(InSocket, InPort, CueHost, CuePort, Internal, Enabled)
     end.
 
+send_forward(Socket, {Host, Port, Bin}) ->
+    send_udp(Socket, Host, Port, Bin).
+
+send_udp(Socket, Host, Port, Bin) ->
+    catch gen_udp:send(Socket, Host, Port, Bin),
+    ok.
+
 register_cue(CueHost, CuePort, InSocket, Ip, Port, XX) ->
     debug("Forwarding OSC to port ~p~n", [CuePort]),
     Bin = osc:encode(["/external-osc-cue", inet:ntoa(Ip), Port] ++ XX),
-    catch gen_udp:send(InSocket, CueHost, CuePort, Bin).
+    send_udp(InSocket, CueHost, CuePort, Bin).
 
-loop_api(_APISocket, N, TagMap, CuePid) ->
+loop_api(APISocket, N, TagMap, CuePid) ->
     receive
-	{udp, _APISocket, _Ip, _Port, Bin} ->
+	{udp, APISocket, _Ip, _Port, Bin} ->
 	    case (catch osc:decode(Bin)) of
 		{bundle, Time, X} ->
-		    TagMap1 = do_bundle(TagMap, _APISocket, Time, X, CuePid),
-		    ?MODULE:loop_api(_APISocket, N, TagMap1, CuePid);
+		    TagMap1 = do_bundle(TagMap, Time, X, CuePid),
+		    ?MODULE:loop_api(APISocket, N, TagMap1, CuePid);
 		{cmd, ["/flush", Tag]} ->
-		    TagMap1 = flush(Tag, TagMap),
-		    ?MODULE:loop_api(_APISocket, N, TagMap1, CuePid);
+		    TagMap1 = flush_timers(Tag, all, TagMap),
+		    ?MODULE:loop_api(APISocket, N, TagMap1, CuePid);
                 {cmd, ["/internal-cue-port", 1]} ->
                     CuePid ! {internal, true},
-		    ?MODULE:loop_api(_APISocket, N+1, TagMap, CuePid);
+		    ?MODULE:loop_api(APISocket, N+1, TagMap, CuePid);
                 {cmd, ["/internal-cue-port", _]} ->
                     CuePid ! {internal, false},
-		    ?MODULE:loop_api(_APISocket, N+1, TagMap, CuePid);
+		    ?MODULE:loop_api(APISocket, N+1, TagMap, CuePid);
                 {cmd, ["/stop-start-cue-server", 1]} ->
                     CuePid ! {enabled, true},
-                    ?MODULE:loop_api(_APISocket, N+1, TagMap, CuePid);
+                    ?MODULE:loop_api(APISocket, N+1, TagMap, CuePid);
                 {cmd, ["/stop-start-cue-server", _]} ->
                     CuePid ! {enabled, false},
-                    ?MODULE:loop_api(_APISocket, N+1, TagMap, CuePid);
+                    ?MODULE:loop_api(APISocket, N+1, TagMap, CuePid);
 		{cmd, Cmd} ->
                     log("Cannot do:~p~n",[Cmd]),
-		    ?MODULE:loop_api(_APISocket, N+1, TagMap, CuePid);
+		    ?MODULE:loop_api(APISocket, N+1, TagMap, CuePid);
 		{'EXIT', Why} ->
 		    log("Error decoding:~p ~p~n",[Bin, Why]),
-		    ?MODULE:loop_api(_APISocket, N+1, TagMap, CuePid)
+		    ?MODULE:loop_api(APISocket, N+1, TagMap, CuePid)
 	    end;
 	Any ->
 	    log("Loop API Any:~p~n",[Any]),
-	    ?MODULE:loop_api(_APISocket, N+1, TagMap, CuePid)
+	    ?MODULE:loop_api(APISocket, N+1, TagMap, CuePid)
     after 50000 ->
 	    debug("Loop API timeout:~p~n",[N]),
-	    ?MODULE:loop_api(_APISocket, N+1, TagMap, CuePid)
+	    ?MODULE:loop_api(APISocket, N+1, TagMap, CuePid)
     end.
 
-%%----------------------------------------------------------------------
-%% flush
-%%   check if there is a master process and if so kill it
-%%   this will kill all the linked processes
-
-flush(Tag, TagMap) ->
-    case maps:find(Tag, TagMap) of
-	{ok, Pid} ->
-	    %% kill the dispatcher, and remove from the tagmap
-            exit(Pid, die),
-	    maps:remove(Tag, TagMap);
-	error ->
-	    TagMap
-    end.
-
-do_bundle(TagMap, _APISocket, Time, [{_,B}], CuePid) ->
+do_bundle(TagMap, Time, [{_,B}], CuePid) ->
     {cmd, Cmd} = osc:decode(B),
     %% log("bundle cmd:~p~n",[Cmd]),
     case Cmd of
 	["/send_after", Host, Port | Cmd1] ->
-	    do_bundle("default", TagMap, Time, _APISocket, Host, Port, Cmd1, CuePid);
+	    schedule_cmd("default", TagMap, Time, Host, Port, Cmd1, CuePid);
 	["/send_after_tagged", Tag, Host, Port | Cmd1] ->
-	    do_bundle(Tag, TagMap, Time, _APISocket, Host, Port, Cmd1, CuePid);
+	    schedule_cmd(Tag, TagMap, Time, Host, Port, Cmd1, CuePid);
 	_ ->
 	    log("unexpected bundle:~p~n",[Cmd]),
 	    TagMap
     end.
 
-%%----------------------------------------------------------------------
-%% do_bundle sees if there is a process in the TagMap
-%% and if so sends it a send_later message. Otherwise
-%% it creates a new process and adds it to the tagmap
+%% schedules a command for forwarding (or forwards immediately)
 
-do_bundle(Tag, TagMap, Time, _APISocket, Host, Port, Cmd1, CuePid) ->
+schedule_cmd(Tag, TagMap, Time, Host, Port, Cmd, CuePid) ->
+    {Tracker, NewTagMap} = tracker_pid(Tag, TagMap),
+    Data = {Host, Port, osc:encode(Cmd)},
+    Delay = Time - osc:now(),
+    MsDelay = trunc(Delay*1000+0.5), %% nearest
+    if MsDelay > ?NODELAY_LIMIT ->
+            Msg = {forward, Data, Tracker},
+            Timer = erlang:start_timer(MsDelay, CuePid, Msg),
+            track_timer(Timer, Time, Tracker);
+       true ->
+            CuePid ! {forward, Data}
+    end,
+    NewTagMap.
+
+%% Tracking Timers
+
+%% Get the pid for the tag group tracker, creating it if needed
+tracker_pid(Tag, TagMap) ->
     case maps:find(Tag, TagMap) of
 	{ok, Pid} ->
-	    Pid ! {send_later, Time, _APISocket, Host, Port, Cmd1, CuePid},
-	    TagMap;
+            {Pid, TagMap};
 	error ->
-	    %% no process so create a dispatcher
-	    %% and send it a message
-	    Pid = spawn(fun() -> dispatcher(Tag) end),
-	    Pid ! {send_later, Time, _APISocket, Host, Port, Cmd1, CuePid},
-	    maps:put(Tag, Pid, TagMap)
+            Pid = spawn_link(fun() -> tracker(Tag) end),
+            {Pid, maps:put(Tag, Pid, TagMap)}
     end.
 
-dispatcher(Tag) ->
+flush_timers(Tag, Which, TagMap) ->
+    {Tracker, NewTagMap} = tracker_pid(Tag, TagMap),
+    Tracker ! {flush, Which},
+    NewTagMap.
+
+track_timer(Timer, Time, Tracker) ->
+    Tracker ! {track, Timer, Time}.
+
+forget_timer(Timer, Tracker) ->
+    Tracker ! {forget, Timer}.
+
+%% Tracker process for a timer group - keeps a map of timer refs and
+%% corresponding absolute times
+tracker(Tag) ->
+    tracker(Tag, #{}).
+
+tracker(Tag, Map) ->
     receive
-	{send_later, Time, _APISocket, Host, Port, Cmd1, CuePid} ->
-	    spawn_link(fun() ->
-                          send_later(Time, _APISocket, Host, Port, Cmd1, CuePid)
-                  end),
-	    ?MODULE:dispatcher(Tag)
+        {track, Ref, Time} ->
+            Map1 = Map#{Ref => Time},
+            ?MODULE:tracker(Tag, Map1);
+        {forget, Ref} ->
+            Map1 = maps:remove(Ref, Map),
+            ?MODULE:tracker(Tag, Map1);
+        {flush, all} ->
+            lists:foreach(fun (Ref) ->
+                                  erlang:cancel_timer(Ref, [{async, true}])
+                          end,
+                          maps:keys(Map)),
+            ?MODULE:tracker(Tag, #{});
+        {flush, Time} ->
+            %% flush all timers to trigger later than a specified time
+            Map1 = lists:foldl(
+                     fun (R, M) ->
+                             T = maps:get(R, M),
+                             if T > Time ->
+                                     erlang:cancel_timer(R, [{async, true}]),
+                                     maps:remove(R, M);
+                                true ->
+                                     M
+                             end
+                     end,
+                     maps:keys(Map),
+                     Map),
+            ?MODULE:tracker(Tag, Map1)
     end.
-
-send_later(BundleTime, _APISocket, Host, Port, Cmd, CuePid) ->
-    Bin = osc:encode(Cmd),
-    RealDelay = BundleTime - osc:now(),
-    MsDelay = trunc(RealDelay*1000+0.5), %% nearest
-    sleep(MsDelay),
-    debug("Sending to ~p:~p => ~p~n",[Host, Port, Cmd]),
-    %% we want outgoing messages to be sent from the same port we
-    %% publicly receive on to allow people to easily reply
-    CuePid ! {forward, Host, Port, Bin}.
-
-
-sleep(T) when T > 0 ->
-    receive
-    after
-        T ->
-            true
-    end;
-sleep(T) ->
-    debug("Ignoring zero or negative sleep: ~p~n", [T]),
-    true.
