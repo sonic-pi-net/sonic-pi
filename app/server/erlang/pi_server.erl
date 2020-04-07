@@ -13,6 +13,7 @@
 %% ++
 
 -export([start/1]).
+-export([loop_cues/6, loop_api/5, dispatcher/1]).
 
 %% Bundle Commands
 %% ===============
@@ -155,21 +156,21 @@ loop_cues(InSocket, InPort, CueHost, CuePort, Internal, Enabled) ->
                     case Enabled of
                         true ->
                             register_cue(CueHost, CuePort, InSocket, Ip, Port, XX),
-                            loop_cues(InSocket, InPort, CueHost, CuePort, Internal, Enabled);
+                            ?MODULE:loop_cues(InSocket, InPort, CueHost, CuePort, Internal, Enabled);
                         false ->
-                            loop_cues(InSocket, InPort, CueHost, CuePort, Internal, Enabled)
+                            ?MODULE:loop_cues(InSocket, InPort, CueHost, CuePort, Internal, Enabled)
                     end
             end;
 
         {internal, true} ->
             case Internal of
                 true ->
-                    loop_cues(InSocket, InPort, CueHost, CuePort, true, Enabled);
+                    ?MODULE:loop_cues(InSocket, InPort, CueHost, CuePort, true, Enabled);
                 _ ->
                     log("Switching cue listener to loopback network~n"),
                     gen_udp:close(InSocket),
                     {ok, NewInSocket} = gen_udp:open(InPort, [binary, {ip, loopback}]),
-                    loop_cues(NewInSocket, InPort, CueHost, CuePort, true, Enabled)
+                    ?MODULE:loop_cues(NewInSocket, InPort, CueHost, CuePort, true, Enabled)
             end;
 
         {internal, false} ->
@@ -178,30 +179,30 @@ loop_cues(InSocket, InPort, CueHost, CuePort, Internal, Enabled) ->
                     log("Switching cue listener to open network~n"),
                     gen_udp:close(InSocket),
                     {ok, NewInSocket} = gen_udp:open(InPort, [binary]),
-                    loop_cues(NewInSocket, InPort, CueHost, CuePort, false, Enabled);
+                    ?MODULE:loop_cues(NewInSocket, InPort, CueHost, CuePort, false, Enabled);
                 _ ->
-                    loop_cues(InSocket, InPort, CueHost, CuePort, false, Enabled)
+                    ?MODULE:loop_cues(InSocket, InPort, CueHost, CuePort, false, Enabled)
             end;
 
         {enabled, true} ->
             log("Enabling cue forwarding ~n"),
-            loop_cues(InSocket, InPort, CueHost, CuePort, Internal, true);
+            ?MODULE:loop_cues(InSocket, InPort, CueHost, CuePort, Internal, true);
 
         {enabled, false} ->
             log("Disabling cue forwarding ~n"),
-            loop_cues(InSocket, InPort, CueHost, CuePort, Internal, false);
+            ?MODULE:loop_cues(InSocket, InPort, CueHost, CuePort, Internal, false);
 
         {forward, Host, Port, Bin} ->
             catch gen_udp:send(InSocket, Host, Port, Bin),
-            loop_cues(InSocket, InPort, CueHost, CuePort, Internal, Enabled);
+            ?MODULE:loop_cues(InSocket, InPort, CueHost, CuePort, Internal, Enabled);
 
         Any ->
 	    log("Incoming Any:~p~n",[Any]),
-	    loop_cues(InSocket, InPort, CueHost, CuePort, Internal, Enabled)
+	    ?MODULE:loop_cues(InSocket, InPort, CueHost, CuePort, Internal, Enabled)
 
     after 50000 ->
 	    debug("Incoming cue server loop timeout~n"),
-	    loop_cues(InSocket, InPort, CueHost, CuePort, Internal, Enabled)
+	    ?MODULE:loop_cues(InSocket, InPort, CueHost, CuePort, Internal, Enabled)
     end.
 
 register_cue(CueHost, CuePort, InSocket, Ip, Port, XX) ->
@@ -215,43 +216,43 @@ loop_api(_APISocket, N, TagMap, Clock, CuePid) ->
 	    case (catch osc:decode(Bin)) of
 		{bundle, Time, X} ->
 		    TagMap1 = do_bundle(TagMap, _APISocket, Time, X, Clock, CuePid),
-		    loop_api(_APISocket, N, TagMap1, Clock, CuePid);
+		    ?MODULE:loop_api(_APISocket, N, TagMap1, Clock, CuePid);
 		{cmd, ["/flush", Tag]} ->
 		    TagMap1 = flush(Tag, TagMap),
-		    loop_api(_APISocket, N, TagMap1, Clock, CuePid);
+		    ?MODULE:loop_api(_APISocket, N, TagMap1, Clock, CuePid);
 		{cmd, ["/clock/sync", 0, 0]} ->
-		    loop_api(_APISocket, N+1, TagMap, {0,0}, CuePid);
+		    ?MODULE:loop_api(_APISocket, N+1, TagMap, {0,0}, CuePid);
 		{cmd, ["/clock/sync", X, Y]} ->
 		    RemoteTimeBase = X + Y/1000000000,
 		    MyTimeBase = osc:now(),
 		    Clock1 = {RemoteTimeBase, MyTimeBase},
 		    %% log("/clock/sync:~p ~p~n",[N, Clock1]),
-		    loop_api(_APISocket, N+1, TagMap, Clock1, CuePid);
+		    ?MODULE:loop_api(_APISocket, N+1, TagMap, Clock1, CuePid);
                 {cmd, ["/internal-cue-port", 1]} ->
                     CuePid ! {internal, true},
-		    loop_api(_APISocket, N+1, TagMap, Clock, CuePid);
+		    ?MODULE:loop_api(_APISocket, N+1, TagMap, Clock, CuePid);
                 {cmd, ["/internal-cue-port", _]} ->
                     CuePid ! {internal, false},
-		    loop_api(_APISocket, N+1, TagMap, Clock, CuePid);
+		    ?MODULE:loop_api(_APISocket, N+1, TagMap, Clock, CuePid);
                 {cmd, ["/stop-start-cue-server", 1]} ->
                     CuePid ! {enabled, true},
-                    loop_api(_APISocket, N+1, TagMap, Clock, CuePid);
+                    ?MODULE:loop_api(_APISocket, N+1, TagMap, Clock, CuePid);
                 {cmd, ["/stop-start-cue-server", _]} ->
                     CuePid ! {enabled, false},
-                    loop_api(_APISocket, N+1, TagMap, Clock, CuePid);
+                    ?MODULE:loop_api(_APISocket, N+1, TagMap, Clock, CuePid);
 		{cmd, XX} ->
 		    do_cmd(_APISocket, Clock, XX),
-		    loop_api(_APISocket, N+1, TagMap, Clock, CuePid);
+		    ?MODULE:loop_api(_APISocket, N+1, TagMap, Clock, CuePid);
 		{'EXIT', Why} ->
 		    log("Error decoding:~p ~p~n",[Bin, Why]),
-		    loop_api(_APISocket, N+1, TagMap, Clock, CuePid)
+		    ?MODULE:loop_api(_APISocket, N+1, TagMap, Clock, CuePid)
 	    end;
 	Any ->
 	    log("Loop API Any:~p~n",[Any]),
-	    loop_api(_APISocket, N+1, TagMap, Clock, CuePid)
+	    ?MODULE:loop_api(_APISocket, N+1, TagMap, Clock, CuePid)
     after 50000 ->
 	    debug("Loop API timeout:~p~n",[N]),
-	    loop_api(_APISocket, N+1, TagMap, Clock, CuePid)
+	    ?MODULE:loop_api(_APISocket, N+1, TagMap, Clock, CuePid)
     end.
 
 %%----------------------------------------------------------------------
@@ -306,7 +307,7 @@ dispatcher(Tag) ->
 	    spawn_link(fun() ->
                           send_later(Time, Clock, _APISocket, Host, Port, Cmd1, CuePid)
                   end),
-	    dispatcher(Tag)
+	    ?MODULE:dispatcher(Tag)
     end.
 
 send_later(BundleTime, {0,0}, _APISocket, Host, Port, Cmd, CuePid) ->
