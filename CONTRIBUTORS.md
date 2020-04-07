@@ -96,6 +96,7 @@ especially the following individuals who have been remarkably generous:
 * [Michael Hunger](https://twitter.com/mesirii)
 * [Nada Amin](http://namin.net)
 * [NAMTAO](https://namtao.com)
+* [Nathan Letwory](https://github.com/jesterKing)
 * [Ole Friis Østergaard](https://github.com/olefriis)
 * [Paul Williams](https://pcwilliams.design)
 * [Pit Noack](http://www.maschinennah.de/)
