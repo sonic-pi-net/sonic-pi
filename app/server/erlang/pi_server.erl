@@ -13,7 +13,7 @@
 %% ++
 
 -export([start/1]).
--export([loop_cues/6, loop_api/5, dispatcher/1]).
+-export([loop_cues/6, loop_api/4, dispatcher/1]).
 
 %% Bundle Commands
 %% ===============
@@ -143,7 +143,7 @@ go_api(P, Port, CuePid) ->
 
     P ! ack,
     TagMap = #{},
-    loop_api(_APISocket, 1, TagMap, {0,0}, CuePid).
+    loop_api(_APISocket, 1, TagMap, CuePid).
 
 
 loop_cues(InSocket, InPort, CueHost, CuePort, Internal, Enabled) ->
@@ -210,49 +210,41 @@ register_cue(CueHost, CuePort, InSocket, Ip, Port, XX) ->
     Bin = osc:encode(["/external-osc-cue", inet:ntoa(Ip), Port] ++ XX),
     catch gen_udp:send(InSocket, CueHost, CuePort, Bin).
 
-loop_api(_APISocket, N, TagMap, Clock, CuePid) ->
+loop_api(_APISocket, N, TagMap, CuePid) ->
     receive
 	{udp, _APISocket, _Ip, _Port, Bin} ->
 	    case (catch osc:decode(Bin)) of
 		{bundle, Time, X} ->
-		    TagMap1 = do_bundle(TagMap, _APISocket, Time, X, Clock, CuePid),
-		    ?MODULE:loop_api(_APISocket, N, TagMap1, Clock, CuePid);
+		    TagMap1 = do_bundle(TagMap, _APISocket, Time, X, CuePid),
+		    ?MODULE:loop_api(_APISocket, N, TagMap1, CuePid);
 		{cmd, ["/flush", Tag]} ->
 		    TagMap1 = flush(Tag, TagMap),
-		    ?MODULE:loop_api(_APISocket, N, TagMap1, Clock, CuePid);
-		{cmd, ["/clock/sync", 0, 0]} ->
-		    ?MODULE:loop_api(_APISocket, N+1, TagMap, {0,0}, CuePid);
-		{cmd, ["/clock/sync", X, Y]} ->
-		    RemoteTimeBase = X + Y/1000000000,
-		    MyTimeBase = osc:now(),
-		    Clock1 = {RemoteTimeBase, MyTimeBase},
-		    %% log("/clock/sync:~p ~p~n",[N, Clock1]),
-		    ?MODULE:loop_api(_APISocket, N+1, TagMap, Clock1, CuePid);
+		    ?MODULE:loop_api(_APISocket, N, TagMap1, CuePid);
                 {cmd, ["/internal-cue-port", 1]} ->
                     CuePid ! {internal, true},
-		    ?MODULE:loop_api(_APISocket, N+1, TagMap, Clock, CuePid);
+		    ?MODULE:loop_api(_APISocket, N+1, TagMap, CuePid);
                 {cmd, ["/internal-cue-port", _]} ->
                     CuePid ! {internal, false},
-		    ?MODULE:loop_api(_APISocket, N+1, TagMap, Clock, CuePid);
+		    ?MODULE:loop_api(_APISocket, N+1, TagMap, CuePid);
                 {cmd, ["/stop-start-cue-server", 1]} ->
                     CuePid ! {enabled, true},
-                    ?MODULE:loop_api(_APISocket, N+1, TagMap, Clock, CuePid);
+                    ?MODULE:loop_api(_APISocket, N+1, TagMap, CuePid);
                 {cmd, ["/stop-start-cue-server", _]} ->
                     CuePid ! {enabled, false},
-                    ?MODULE:loop_api(_APISocket, N+1, TagMap, Clock, CuePid);
-		{cmd, XX} ->
-		    do_cmd(_APISocket, Clock, XX),
-		    ?MODULE:loop_api(_APISocket, N+1, TagMap, Clock, CuePid);
+                    ?MODULE:loop_api(_APISocket, N+1, TagMap, CuePid);
+		{cmd, Cmd} ->
+                    log("Cannot do:~p~n",[Cmd]),
+		    ?MODULE:loop_api(_APISocket, N+1, TagMap, CuePid);
 		{'EXIT', Why} ->
 		    log("Error decoding:~p ~p~n",[Bin, Why]),
-		    ?MODULE:loop_api(_APISocket, N+1, TagMap, Clock, CuePid)
+		    ?MODULE:loop_api(_APISocket, N+1, TagMap, CuePid)
 	    end;
 	Any ->
 	    log("Loop API Any:~p~n",[Any]),
-	    ?MODULE:loop_api(_APISocket, N+1, TagMap, Clock, CuePid)
+	    ?MODULE:loop_api(_APISocket, N+1, TagMap, CuePid)
     after 50000 ->
 	    debug("Loop API timeout:~p~n",[N]),
-	    ?MODULE:loop_api(_APISocket, N+1, TagMap, Clock, CuePid)
+	    ?MODULE:loop_api(_APISocket, N+1, TagMap, CuePid)
     end.
 
 %%----------------------------------------------------------------------
@@ -270,14 +262,14 @@ flush(Tag, TagMap) ->
 	    TagMap
     end.
 
-do_bundle(TagMap, _APISocket, Time, [{_,B}], Clock, CuePid) ->
+do_bundle(TagMap, _APISocket, Time, [{_,B}], CuePid) ->
     {cmd, Cmd} = osc:decode(B),
     %% log("bundle cmd:~p~n",[Cmd]),
     case Cmd of
 	["/send_after", Host, Port | Cmd1] ->
-	    do_bundle("default", TagMap, Time, Clock, _APISocket, Host, Port, Cmd1, CuePid);
+	    do_bundle("default", TagMap, Time, _APISocket, Host, Port, Cmd1, CuePid);
 	["/send_after_tagged", Tag, Host, Port | Cmd1] ->
-	    do_bundle(Tag, TagMap, Time, Clock, _APISocket, Host, Port, Cmd1, CuePid);
+	    do_bundle(Tag, TagMap, Time, _APISocket, Host, Port, Cmd1, CuePid);
 	_ ->
 	    log("unexpected bundle:~p~n",[Cmd]),
 	    TagMap
@@ -288,34 +280,27 @@ do_bundle(TagMap, _APISocket, Time, [{_,B}], Clock, CuePid) ->
 %% and if so sends it a send_later message. Otherwise
 %% it creates a new process and adds it to the tagmap
 
-do_bundle(Tag, TagMap, Time, Clock, _APISocket, Host, Port, Cmd1, CuePid) ->
+do_bundle(Tag, TagMap, Time, _APISocket, Host, Port, Cmd1, CuePid) ->
     case maps:find(Tag, TagMap) of
 	{ok, Pid} ->
-	    Pid ! {send_later, Time, Clock, _APISocket, Host, Port, Cmd1, CuePid},
+	    Pid ! {send_later, Time, _APISocket, Host, Port, Cmd1, CuePid},
 	    TagMap;
 	error ->
 	    %% no process so create a dispatcher
 	    %% and send it a message
 	    Pid = spawn(fun() -> dispatcher(Tag) end),
-	    Pid ! {send_later, Time, Clock, _APISocket, Host, Port, Cmd1, CuePid},
+	    Pid ! {send_later, Time, _APISocket, Host, Port, Cmd1, CuePid},
 	    maps:put(Tag, Pid, TagMap)
     end.
 
 dispatcher(Tag) ->
     receive
-	{send_later, Time, Clock, _APISocket, Host, Port, Cmd1, CuePid} ->
+	{send_later, Time, _APISocket, Host, Port, Cmd1, CuePid} ->
 	    spawn_link(fun() ->
-                          send_later(Time, Clock, _APISocket, Host, Port, Cmd1, CuePid)
+                          send_later(Time, _APISocket, Host, Port, Cmd1, CuePid)
                   end),
 	    ?MODULE:dispatcher(Tag)
     end.
-
-send_later(BundleTime, {0,0}, _APISocket, Host, Port, Cmd, CuePid) ->
-    send_later(BundleTime, _APISocket, Host, Port, Cmd, CuePid);
-send_later(BundleTime, {Tremote, Tlocal}, _APISocket, Host, Port, Cmd, CuePid) ->
-    RemoteDelay = BundleTime - Tremote,
-    LocalAbsTime = Tlocal + RemoteDelay,
-    send_later(LocalAbsTime, _APISocket, Host, Port, Cmd, CuePid).
 
 send_later(BundleTime, _APISocket, Host, Port, Cmd, CuePid) ->
     Bin = osc:encode(Cmd),
@@ -337,6 +322,3 @@ sleep(T) when T > 0 ->
 sleep(T) ->
     debug("Ignoring zero or negative sleep: ~p~n", [T]),
     true.
-
-do_cmd(_APISocket, _Clock, Cmd) ->
-    log("Cannot do:~p~n",[Cmd]).
