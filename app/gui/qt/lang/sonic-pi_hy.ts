@@ -6,7 +6,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="504"/>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Կարգավորումներ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="741"/>
@@ -18,19 +18,19 @@
         <location filename="../mainwindow.cpp" line="2431"/>
         <location filename="../mainwindow.cpp" line="2450"/>
         <source>Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1498"/>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Կոդը գործարկվում է...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1518"/>
         <source>Beautifying...</source>
         <oldsource>Beautifying....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Գեղեցկացվում է...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1548"/>
