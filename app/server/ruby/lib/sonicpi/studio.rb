@@ -74,7 +74,7 @@ module SonicPi
       return @erlang_pid if @erlang_pid
       # Start Erlang
       begin
-        erlang_cmd = __exec_path("#{erlang_boot_path} -noshell -pz \"#{erlang_server_path}\" -s pi_server start #{@erlang_port} #{@osc_cues_port} #{@server_port}")
+        erlang_cmd = __exec_path("#{erlang_boot_path} +C multi_time_warp -noshell -pz \"#{erlang_server_path}\" -s pi_server start #{@erlang_port} #{@osc_cues_port} #{@server_port}")
         STDOUT.puts erlang_cmd
         @erlang_pid = spawn erlang_cmd, out: erlang_log_path, err: erlang_log_path
         register_process(@erlang_pid)
