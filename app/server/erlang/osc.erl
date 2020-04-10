@@ -44,22 +44,27 @@ test2() ->
     pack_ts(osc:now() + 10,
 	    ["/forward", "localhost", 6000, "/sendmidi", 12, 34, 56]).
 
+prepp(X) ->
+    list_to_atom(integer_to_list(X)).
+
 test3() ->
     %% Precondition - pi_server:start().
-    PiPort = 8014,
+    APIPort = 51240,
+    OSCInPort = 4560,
+    CuePort = 51235,
     FwPort = 6000,
     true = lists:member(pi_server, registered()) orelse
-        pi_server:start([list_to_atom(integer_to_list(PiPort))]),
+        pi_server:start([prepp(APIPort), prepp(OSCInPort), prepp(CuePort)]),
     SendLater = ["/sendmidi", 12, 34, 56],
     EncodedLater = encode(SendLater),
     {ok, Socket} = gen_udp:open(FwPort, [binary, {ip, loopback}]),
     Time1 = osc:now(),
-    gen_udp:send(Socket, localhost, PiPort,
+    gen_udp:send(Socket, localhost, APIPort,
                  pack_ts(Time1 + 10,
                          ["/send_after", "localhost", FwPort | SendLater])),
     Result =
         receive
-            {udp, Socket, {127,0,0,1}, PiPort, EncodedLater} ->
+            {udp, Socket, {127,0,0,1}, OSCInPort, EncodedLater} ->
                 Time2 = osc:now(),
                 DT = Time2 - Time1,
                 io:format("Got back message ~p after ~f s~n",
