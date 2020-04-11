@@ -115,17 +115,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="2776"/>
         <source>Disabling OSC cue port...</source>
-        <translation>פתחת האות של המתנד מושבתת…</translation>
+        <translation>פתחת האות של OSC מושבתת…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2785"/>
         <source>Enabling external OSC cue port...</source>
-        <translation>פתחת האות החיצונית של המתנד מופעלת…</translation>
+        <translation>פתחת האות החיצונית של OSC מופעלת…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2794"/>
         <source>Enabling internal OSC cue port...</source>
-        <translation>פתחת האות הפנימית של המתנד מופעלת…</translation>
+        <translation>פתחת האות הפנימית של OSC מופעלת…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2852"/>
@@ -807,13 +807,13 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="165"/>
         <source>Send/Receive remote OSC messages</source>
-        <translation>שליחה/קבלה של הודעות מתנד מרוחקות</translation>
+        <translation>שליחה/קבלה של הודעות OSC מרוחקות</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="166"/>
         <source>When checked, Sonic Pi will let you send and receive OSC messages to and from remote machines.
  When unchecked, only sending and receiving from the local machine will be enabled.</source>
-        <translation>כשהאפשרות מסומנת, יאפשר לך Sonic Pi לשלוח ולקבל הודעות OSM אל וממכונות מרוחקות.
+        <translation>כשהאפשרות מסומנת, יאפשר לך Sonic Pi לשלוח ולקבל הודעות OSC אל וממכונות מרוחקות.
 כשהאפשרות לא מסומנת, אפשר לשלוח ולקבל הודעות אל ומהמכונה המקומית בלבד.</translation>
     </message>
     <message>
@@ -1119,7 +1119,7 @@ If enabled the log is scrolled to the bottom after every new message is displaye
     <message>
         <location filename="../widgets/settingswidget.cpp" line="376"/>
         <source>Toggle the visibility of the audio oscilloscopes.</source>
-        <translation>החלפת מצב התצורה של האוסיליסקופים של השמע.</translation>
+        <translation>החלפת מצב התצורה של מתנדי השמע.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="377"/>
@@ -1129,7 +1129,7 @@ If enabled the log is scrolled to the bottom after every new message is displaye
     <message>
         <location filename="../widgets/settingswidget.cpp" line="378"/>
         <source>Toggle the visibility of the axes for the audio oscilloscopes</source>
-        <translation>החלפת מצב הצגת הצירים באוסיליסקופים של השמע</translation>
+        <translation>החלפת מצב הצגת הצירים במתנדי השמע</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="381"/>
@@ -1139,7 +1139,7 @@ be viewed independently or all together:
 Lissajous - illustrates the phase relationship between the left and right channels
 Mono - shows a combined view of the left and right channels (using RMS)
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation>האוסיליסקופ של השמע מגיע בשלושה הגוונים בהם ניתן
+        <translation>מתנד השמע מגיע בשלושה הגוונים בהם ניתן
 לצפות באופן בלתי תלוי או יחדיו:
 
 ליסז׳ו - מצייר את יחס הפנים בין הערוצים השמאלי והימני
