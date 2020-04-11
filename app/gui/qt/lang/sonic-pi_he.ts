@@ -78,12 +78,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="842"/>
         <source>Full screen mode on.</source>
-        <translation>מצב מסך מלא פעיל.</translation>
+        <translation>תצוגת מסך מלאה פעילה.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="859"/>
         <source>Full screen mode off.</source>
-        <translation>מצב מסך מלא מושבת.</translation>
+        <translation>תצוגת מסך מלאה מושבתת.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1015"/>
@@ -115,17 +115,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="2776"/>
         <source>Disabling OSC cue port...</source>
-        <translation>פתחת האות של האוסיליסקופ מושבתת…</translation>
+        <translation>פתחת האות של המתנד מושבתת…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2785"/>
         <source>Enabling external OSC cue port...</source>
-        <translation>פתחת האות החיצונית של האוסיליסקופ מופעלת…</translation>
+        <translation>פתחת האות החיצונית של המתנד מופעלת…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2794"/>
         <source>Enabling internal OSC cue port...</source>
-        <translation>פתחת האות הפנימית של האוסיליסקופ מופעלת…</translation>
+        <translation>פתחת האות הפנימית של המתנד מופעלת…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2852"/>
@@ -235,7 +235,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2808"/>
         <source>Welcome back. Now get your live code on...</source>
-        <translation>ברוך שובך. עכשיו באפשרותך לקבל את הקוד החי שלך תחת…</translation>
+        <translation>ברוך שובך. עכשיו נחזור לקודד…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1384"/>
@@ -400,7 +400,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2057"/>
         <source>Stop</source>
-        <translation></translation>
+        <translation>עצירה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2059"/>
@@ -425,7 +425,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="1265"/>
         <source>Please consider reporting a bug at</source>
-        <translation>נא לשקול לדווח על התקלה הזאת תחת</translation>
+        <translation>נא לשקול לדווח על התקלה הזאת דרך</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2063"/>
@@ -437,7 +437,7 @@ Get Sonic Pi %1</source>
         <location filename="../mainwindow.cpp" line="2082"/>
         <source>Auto-Align Text</source>
         <oldsource>Auto Align Text</oldsource>
-        <translation>יישור טקסט אוטומטית</translation>
+        <translation>יישור טקסט אוטומטי</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2090"/>
@@ -467,7 +467,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2197"/>
         <source>Contributors</source>
-        <translation>מתנדבים</translation>
+        <translation>מתנדבים ומתנדבות</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2195"/>
@@ -507,12 +507,12 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2100"/>
         <source>Toggle Scope</source>
-        <translation>החלפת תצוגת אוסיליסקופ</translation>
+        <translation>החלפת תצוגת מתנד</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2102"/>
         <source>Toggle visibility of audio oscilloscope</source>
-        <translation>החלפת מצב הצגת אוסיליסקופ שמע</translation>
+        <translation>החלפת מצב הצגת מתנד שמע</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2106"/>
@@ -807,7 +807,7 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="165"/>
         <source>Send/Receive remote OSC messages</source>
-        <translation>שליחה/קבלה של הודעות אוסיליסקופ מרוחקות</translation>
+        <translation>שליחה/קבלה של הודעות מתנד מרוחקות</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="166"/>
@@ -868,7 +868,7 @@ to and from other programs or computers
         <source>Reset MIDI subsystems 
 (Required to detect device changes on macOS)</source>
         <translation>איפוס תת־מערכות MIDI 
-(נדרש כדי לאתר שינויי התקנים ב־macOS)</translation>
+(נדרש כדי לאתר שינויי התקנים במערכות macOS)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="213"/>
@@ -975,7 +975,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="279"/>
         <source>Toggle visibility of cue log which displays internal cues &amp; incoming OSC/MIDI messages.</source>
-        <translation>החלפת מצב הצגת יומן רישום האותות שמציג אותו פנימיים והודעות OSC/MIDI נכנסות.</translation>
+        <translation>החלפת מצב הצגת יומן רישום האותות שמציג אותות פנימיים והודעות OSC/MIDI נכנסות.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="282"/>
