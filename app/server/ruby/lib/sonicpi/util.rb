@@ -16,8 +16,39 @@ require 'securerandom'
 
 module SonicPi
   module Util
+    # Check which OS we're on
+    case RUBY_PLATFORM
+    when /.*arm.*-linux.*/
+      @@os = :raspberry
+    when /.*linux.*/
+      @@os = :linux
+    when /.*darwin.*/
+      @@os = :osx
+    when /.*mingw.*/
+      @@os = :windows
+    else
+      raise "Unsupported platform #{RUBY_PLATFORM}"
+    end
+
+    # Figure out the user's home directory
+    case @@os
+    when :windows
+      # On Windows, Ruby lets HOME take precedence if it exists, which is
+      # not what Sonic Pi should do to behave like a native Windows app.
+      # To get the same path as QDir::homePath() used by the GUI, we must
+      # use HOMEDRIVE and HOMEPATH instead, if they are set.
+      home_drive = ENV["HOMEDRIVE"]
+      home_path = ENV["HOMEPATH"]
+      if home_drive and home_path
+        @@user_dir = home_drive + home_path
+      else
+        @@user_dir = Dir.home
+      end
+    else
+        @@user_dir = Dir.home
+    end
+
     @@safe_mode = false
-    @@tilde_dir = Dir.home
     @@project_path = nil
     @@log_path = nil
     @@current_uuid = nil
@@ -68,18 +99,7 @@ module SonicPi
     end
 
     def os
-      case RUBY_PLATFORM
-      when /.*arm.*-linux.*/
-        :raspberry
-      when /.*linux.*/
-        :linux
-      when /.*darwin.*/
-        :osx
-      when /.*mingw.*/
-        :windows
-      else
-        raise "Unsupported platform #{RUBY_PLATFORM}"
-      end
+      @@os
     end
 
     def raspberry_pi?
@@ -118,7 +138,7 @@ module SonicPi
       if os == :windows
         path
       else
-        path.gsub(/\A#{@@tilde_dir}/, "~")
+        path.gsub(/\A#{@@user_dir}/, "~")
       end
     end
 
