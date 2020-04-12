@@ -1005,7 +1005,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="289"/>
         <source>Toggle full screen mode.</source>
-        <translation>החלפת מצב מסך מלא.</translation>
+        <translation>החלפת תצוגת מסך מלאה.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="292"/>
