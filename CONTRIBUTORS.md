@@ -89,6 +89,7 @@ especially the following individuals who have been remarkably generous:
 * [James Abley](https://twitter.com/jabley)
 * [Justin Worrall](https://twitter.com/juzbo)
 * [Luis Espinoza](https://twitter.com/luis_espinoza)
+* [Marco Rolappe](https://rolappe.it)
 * [Mark Rendle](https://twitter.com/markrendle)
 * [Markku Rontu](https://twitter.com/zorcam)
 * [Martin Butz](https://github.com/mbutz)
