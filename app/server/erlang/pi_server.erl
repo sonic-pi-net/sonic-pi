@@ -13,7 +13,7 @@
 %% ++
 
 -export([start/1]).
--export([loop_cues/6, loop_api/4, tracker/2]).
+-export([loop_cues/6, loop_api/4]).
 
 %% Bundle Commands
 %% ===============
@@ -299,60 +299,18 @@ tracker_pid(Tag, TagMap) ->
 	{ok, Pid} ->
             {Pid, TagMap};
 	error ->
-            Pid = spawn_link(fun() -> tracker(Tag) end),
+            Pid = pi_server_tracker:start_link(Tag),
             debug("start new tracker process for tag \"~s\"~n", [Tag]),
             {Pid, maps:put(Tag, Pid, TagMap)}
     end.
 
 flush_timers(Tag, Which, TagMap) ->
     {Tracker, NewTagMap} = tracker_pid(Tag, TagMap),
-    Tracker ! {flush, Which},
+    pi_server_tracker:flush(Which, Tracker),
     NewTagMap.
 
 track_timer(Timer, Time, Tracker) ->
-    Tracker ! {track, Timer, Time}.
+    pi_server_tracker:track(Timer, Time, Tracker).
 
 forget_timer(Timer, Tracker) ->
-    Tracker ! {forget, Timer}.
-
-%% Tracker process for a timer group - keeps a map of timer refs and
-%% corresponding absolute times
-tracker(Tag) ->
-    tracker(Tag, #{}).
-
-tracker(Tag, Map) ->
-    receive
-        {track, Ref, Time} ->
-            debug(2, "track timer ~p for time ~f~n", [Ref, Time]),
-            Map1 = Map#{Ref => Time},
-            ?MODULE:tracker(Tag, Map1);
-        {forget, Ref} ->
-            debug(2, "forget timer ~p for time ~f~n",
-                  [Ref, maps:get(Ref, Map)]),
-            Map1 = maps:remove(Ref, Map),
-            ?MODULE:tracker(Tag, Map1);
-        {flush, all} ->
-            debug("forget all timers tagged \"~s\" ~n", [Tag]),
-            lists:foreach(fun (Ref) ->
-                                  erlang:cancel_timer(Ref, [{async, true}])
-                          end,
-                          maps:keys(Map)),
-            ?MODULE:tracker(Tag, #{});
-        {flush, Time} ->
-            %% flush all timers to trigger later than a specified time
-            debug("forget timers tagged \"~s\" later than ~p ~n",
-                  [Tag, Time]),
-            Map1 = lists:foldl(
-                     fun (R, M) ->
-                             T = maps:get(R, M),
-                             if T > Time ->
-                                     erlang:cancel_timer(R, [{async, true}]),
-                                     maps:remove(R, M);
-                                true ->
-                                     M
-                             end
-                     end,
-                     maps:keys(Map),
-                     Map),
-            ?MODULE:tracker(Tag, Map1)
-    end.
+    pi_server_tracker:forget(Timer, Tracker).
