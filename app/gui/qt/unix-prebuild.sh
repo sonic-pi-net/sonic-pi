@@ -29,7 +29,7 @@ ruby "${SCRIPT_DIR}/../../server/ruby/bin/compile-extensions.rb"
 
 echo "Compiling erlang files..."
 cd "${SCRIPT_DIR}/../../server/erlang"
-erlc osc.erl pi_server.erl
+erlc osc.erl pi_server.erl pi_server_api.erl pi_server_cue.erl pi_server_tracker.erl pi_server_util.erl pi_server_sup.erl l pi_server_app.erl
 cd "${SCRIPT_DIR}"
 
 echo "Translating tutorial..."

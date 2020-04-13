@@ -14,13 +14,17 @@
 
 -module(pi_server_api).
 
--export([start/2]).
+-export([start_link/0]).
 
 %% internal
--export([loop/4]).
+-export([init/1, loop/1]).
 
+%% sys module callbacks
+-export([system_continue/3, system_terminate/4, system_code_change/4,
+         system_get_state/1, system_replace_state/2]).
 
--define(SERVER, sonic_pi_api).
+-define(APPLICATION, pi_server).
+-define(SERVER, ?MODULE).
 
 %% time between idling messages
 -define(IDLE_TIME, 60000).
@@ -68,101 +72,151 @@
 %%   cancel its current timers.
 
 
-start(Port, CuePid) ->
-    Parent = self(),
-    Pid = spawn(fun() -> init(Parent, Port, CuePid) end),
-    register(?SERVER, Pid),
-    receive
-        {Pid, started} ->
-            Pid
-    end.
+%% supervisor compliant start function
+start_link() ->
+    %% synchronous start of the child process
+    proc_lib:start_link(?MODULE, init, [self()]).
 
 
-init(Parent, Port, CuePid) ->
-    {ok, APISocket} = gen_udp:open(Port, [binary, {ip, loopback}]),
-    Parent ! {self(), started},
-    TagMap = #{},
+init(Parent) ->
+    register(?SERVER, self()),
+    APIPort = application:get_env(?APPLICATION, api_port, undefined),
+    io:format("~n"
+              "+--------------------------------------+~n"
+              "    This is the Sonic Pi API Server     ~n"
+              "       Powered by Erlang ~s             ~n"
+              "                                        ~n"
+              "       API listening on port ~p         ~n"
+              "+--------------------------------------+~n~n~n",
+              [erlang:system_info(otp_release), APIPort]),
+
+    {ok, APISocket} = gen_udp:open(APIPort, [binary, {ip, loopback}]),
+
+    %% tell parent we have allocated resources and are up and running
+    proc_lib:init_ack(Parent, {ok, self()}),
+
     debug(2, "listening for API commands on socket: ~p~n",
           [try erlang:port_info(APISocket) catch _:_ -> undefined end]),
-    loop(APISocket, 1, TagMap, CuePid).
+    State = #{parent => Parent,
+              api_socket => APISocket,
+              cue_server => pi_server_cue:server_name(),
+              tag_map => #{}
+             },
+    loop(State).
 
-
-loop(APISocket, N, TagMap, CuePid) ->
+loop(State) ->
     receive
-        {udp, APISocket, _Ip, _Port, Bin} ->
+        {udp, _APISocket, _Ip, _Port, Bin} ->
             debug(3, "api server got UDP on ~p:~p~n", [_Ip, _Port]),
             case (catch osc:decode(Bin)) of
                 {bundle, Time, X} ->
                     debug("got bundle for time ~f~n", [Time]),
-                    TagMap1 = do_bundle(TagMap, Time, X, CuePid),
-                    ?MODULE:loop(APISocket, N, TagMap1, CuePid);
+                    NewState = do_bundle(Time, X, State),
+                    ?MODULE:loop(NewState);
                 {cmd, ["/flush", Tag]=Cmd} ->
                     debug_cmd(Cmd),
-                    {Tracker, TagMap1} = tracker_pid(Tag, TagMap),
+                    {Tracker, NewState} = tracker_pid(Tag, State),
                     pi_server_tracker:flush(all, Tracker),
-                    ?MODULE:loop(APISocket, N, TagMap1, CuePid);
+                    ?MODULE:loop(NewState);
                 {cmd, ["/internal-cue-port", Flag]=Cmd} ->
                     debug_cmd(Cmd),
-                    CuePid ! {internal, Flag =:= 1},
-                    ?MODULE:loop(APISocket, N+1, TagMap, CuePid);
+                    send_to_cue({internal, Flag =:= 1}, State),
+                    ?MODULE:loop(State);
                 {cmd, ["/stop-start-cue-server", Flag]=Cmd} ->
                     debug_cmd(Cmd),
-                    CuePid ! {enabled, Flag =:= 1},
-                    ?MODULE:loop(APISocket, N+1, TagMap, CuePid);
+                    send_to_cue({enabled, Flag =:= 1}, State),
+                    ?MODULE:loop(State);
                 {cmd, Cmd} ->
                     log("Unknown command: \"~s\"~n", [Cmd]),
-                    ?MODULE:loop(APISocket, N+1, TagMap, CuePid);
+                    ?MODULE:loop(State);
                 {'EXIT', Why} ->
                     log("Error decoding: ~p ~p~n",[Bin, Why]),
-                    ?MODULE:loop(APISocket, N+1, TagMap, CuePid)
+                    ?MODULE:loop(State)
             end;
+        {system, From, Request} ->
+            %% handling system messages (like a gen_server does)
+            sys:handle_system_msg(Request, From,
+                                  maps:get(parent, State),
+                                  ?MODULE, [], State);
         Any ->
             log("API Server got unexpected message: ~p~n", [Any]),
-            ?MODULE:loop(APISocket, N+1, TagMap, CuePid)
+            ?MODULE:loop(State)
     after ?IDLE_TIME ->
-            debug(2, "api process idling; message count: ~p~n", [N]),
-            ?MODULE:loop(APISocket, N, TagMap, CuePid)
+            debug(2, "api process idling~n", []),
+            ?MODULE:loop(State)
     end.
+
+send_to_cue(Message, State) ->
+    CueServer = maps:get(cue_server, State),
+    CueServer ! Message,
+    ok.
 
 debug_cmd([Cmd|Args]) ->
     debug("command: ~s ~p~n", [Cmd, Args]).
 
-do_bundle(TagMap, Time, [{_,B}], CuePid) ->
+do_bundle(Time, [{_,B}], State) ->
     {cmd, Cmd} = osc:decode(B),
     case Cmd of
         ["/send_after", Host, Port | Cmd1] ->
-            schedule_cmd("default", TagMap, Time, Host, Port, Cmd1, CuePid);
+            schedule_cmd("default", Time, Host, Port, Cmd1, State);
         ["/send_after_tagged", Tag, Host, Port | Cmd1] ->
-            schedule_cmd(Tag, TagMap, Time, Host, Port, Cmd1, CuePid);
+            schedule_cmd(Tag, Time, Host, Port, Cmd1, State);
         _ ->
             log("Unexpected bundle:~p~n", [Cmd]),
-            TagMap
+            State
     end.
 
 %% Schedules a command for forwarding (or forwards immediately)
-schedule_cmd(Tag, TagMap, Time, Host, Port, Cmd, CuePid) ->
-    {Tracker, NewTagMap} = tracker_pid(Tag, TagMap),
+schedule_cmd(Tag, Time, Host, Port, Cmd, State) ->
+    {Tracker, NewState} = tracker_pid(Tag, State),
     Data = {Host, Port, osc:encode(Cmd)},
     Delay = Time - osc:now(),
     MsDelay = trunc(Delay*1000+0.5), %% nearest
     if MsDelay > ?NODELAY_LIMIT ->
             Msg = {forward, Time, Data, Tracker},
-            Timer = erlang:start_timer(MsDelay, CuePid, Msg),
+            %% Note: lookup of the registered server name will happen
+            %% when the timer triggers, and if no such process exists
+            %% at that time, the message will be quietly dropped
+            CueServer = maps:get(cue_server, State),
+            Timer = erlang:start_timer(MsDelay, CueServer, Msg),
             debug(2, "start timer of ~w ms for time ~f~n", [MsDelay, Time]),
             pi_server_tracker:track(Timer, Time, Tracker);
        true ->
-            CuePid ! {forward, Time, Data},
+            send_to_cue({forward, Time, Data}, NewState),
             debug(2, "directly forward message for delay ~f~n", [Delay])
     end,
-    NewTagMap.
+    NewState.
 
 %% Get the pid for the tag group tracker, creating it if needed
-tracker_pid(Tag, TagMap) ->
+tracker_pid(Tag, State) ->
+    TagMap = maps:get(tag_map, State),
     case maps:find(Tag, TagMap) of
         {ok, Pid} ->
-            {Pid, TagMap};
+            {Pid, State};
         error ->
             Pid = pi_server_tracker:start_link(Tag),
             debug("start new tracker process for tag \"~s\"~n", [Tag]),
-            {Pid, maps:put(Tag, Pid, TagMap)}
+            {Pid, State#{tag_map := maps:put(Tag, Pid, TagMap)}}
     end.
+
+
+%% sys module callbacks
+
+system_continue(_Parent, _Debug, State) ->
+    loop(State).
+
+system_terminate(Reason, _Parent, _Debug, _State) ->
+    exit(Reason).
+
+system_code_change(_State, _Module, _OldVsn, _Extra) ->
+    ok.
+
+system_get_state(InternalState) ->
+    ExternalState = InternalState,
+    {ok, ExternalState}.
+
+system_replace_state(StateFun, InternalState) ->
+    ExternalState = InternalState,
+    NewExternalState = StateFun(ExternalState),
+    NewInternalState = NewExternalState,
+    {ok, NewExternalState, NewInternalState}.
