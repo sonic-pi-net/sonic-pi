@@ -41,6 +41,7 @@ require 'set'
 require 'ruby-beautify'
 require 'securerandom'
 require 'active_support/core_ext/integer/inflections'
+require 'shellwords'
 
 module SonicPi
   class Stop < StandardError ; end
@@ -1249,6 +1250,8 @@ module SonicPi
 
   end
 
+
+
   class Runtime
 
     include Util
@@ -1256,10 +1259,14 @@ module SonicPi
     include RuntimeMethods
 
     def initialize(ports, msg_queue, user_methods)
+
       @ports = ports
       @git_hash = __extract_git_hash
       gh_short = @git_hash ? "-#{@git_hash[0, 5]}" : ""
       @settings = Config::Settings.new(user_settings_path)
+      @scsynth_clobber_args = Shellwords.split(@settings.get(:scsynth!, ""))
+      scsynth_args = Shellwords.split(@settings.get_or_set(:scsynth, ""))
+      @scsynth_opts = scsynth_args.each_slice(2).to_h
       @version = Version.new(3, 2, 2)
       @server_version = __server_version
       @life_hooks = LifeCycleHooks.new

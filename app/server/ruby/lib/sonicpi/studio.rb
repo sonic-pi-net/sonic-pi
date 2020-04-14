@@ -28,7 +28,7 @@ module SonicPi
 
     attr_accessor :cent_tuning
 
-    def initialize(ports, msg_queue, state, register_cue_event_lambda)
+    def initialize(ports, msg_queue, scsynth_opts, scsynth_clobber, state, register_cue_event_lambda)
       @state = state
       @scsynth_port = ports[:scsynth_port]
       @scsynth_send_port = ports[:scsynth_send_port]
@@ -54,6 +54,8 @@ module SonicPi
       @erlang_mut = Mutex.new
       @midi_in_ports = []
       @midi_out_ports = []
+      @scsynth_opts = scsynth_opts
+      @scsynth_clobber = scsynth_clobber
       init_scsynth
       reset_server
       init_studio
@@ -189,7 +191,7 @@ module SonicPi
     end
 
     def init_scsynth
-      @server = Server.new(@scsynth_port, @scsynth_send_port, @msg_queue, @state, @register_cue_event_lambda)
+      @server = Server.new(@scsynth_port, @scsynth_send_port, @msg_queue, @state, @register_cue_event_lambda, @scsynth_opts, @scsynth_clobber)
       message "Initialised SuperCollider Audio Server #{@server.version}"
     end
 

@@ -86,7 +86,7 @@ module SonicPi
             @job_mixers_mutex = Mutex.new
             @job_busses = {}
             @job_busses_mutex = Mutex.new
-            @mod_sound_studio = Studio.new(ports, msg_queue, @system_state, @register_cue_event_lambda)
+            @mod_sound_studio = Studio.new(ports, msg_queue, @scsynth_opts, @scsynth_clobber_args, @system_state, @register_cue_event_lambda)
 
             buf_lookup = lambda do |name, duration=nil|
               # scale duration to the current BPM

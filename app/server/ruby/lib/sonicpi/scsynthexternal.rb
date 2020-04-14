@@ -16,6 +16,7 @@ require_relative "osc/osc"
 require_relative "thread_id"
 
 require 'fileutils'
+require 'shellwords'
 
 
 module SonicPi
@@ -24,16 +25,36 @@ module SonicPi
 
     attr_reader :version
 
-    def initialize(events, opts={})
+    def initialize(events, opts)
       @events = events
       @hostname = opts[:hostname] || "127.0.0.1"
       @port = opts[:scsynth_port] || 4556
       @send_port = opts[:scsynth_send_port] || 4556
+      @user_scsynth_opts = opts[:scsynth_opts] || {}
       @register_cue_event_lambda = opts[:register_cue_event_lambda]
       raise "No cue event lambda!" unless @register_cue_event_lambda
       @out_queue = SizedQueue.new(20)
       @scsynth_thread_id = ThreadId.new(-5)
       @version = request_version.freeze
+      @scsynth_clobber = opts[:scsynth_clobber] || []
+
+      # shell clobber is either nil for no clobber,
+      # or an argv array of user supplied opts
+      # which will be used to completely replace (clobber)
+      # any default options (including user specied non-clobber options)
+
+      @default_scsynth_opts = {
+        "-u" => @port.to_s,
+        "-a" => num_audio_busses_for_current_os.to_s,
+        "-m" => "131072",
+        "-D" => "0",
+        "-R" => "0",
+        "-l" => "1",
+        "-i" => "16",
+        "-o" => "16",
+        "-b" => num_buffers_for_current_os.to_s,
+        "-B" => "127.0.0.1" }.freeze
+
       boot
     end
 
@@ -189,7 +210,8 @@ module SonicPi
 
     def boot_and_wait(*args, &on_complete_or_error)
       puts "Boot - Starting the SuperCollider server..."
-      puts "Boot - #{args.join(' ')}"
+      args = @scsynth_clobber unless @scsynth_clobber.empty?
+
       p = Promise.new
       p2 = Promise.new
 
@@ -270,6 +292,7 @@ module SonicPi
       puts "Boot - Server connection established"
     end
 
+
     def boot_server_osx
       temp_input_rate = nil
       current_input = nil
@@ -333,18 +356,14 @@ module SonicPi
         puts "Boot - Booting with max 16 inputs"
       end
 
-      boot_and_wait(scsynth_path,
-                    "-u", @port.to_s,
-                    "-a", num_audio_busses_for_current_os.to_s,
-                    "-m", "131072",
-                    "-D", "0",
-                    "-R", "0",
-                    "-l", "1",
-                    "-i", num_inputs,
-                    "-o", "16",
-                    "-U", "#{native_path}/supercollider/plugins/",
-                    "-b", num_buffers_for_current_os.to_s,
-                    "-B", "127.0.0.1") do
+      local_scsynth_opts = {
+        "-i" => num_inputs,
+        "-U" => "#{native_path}/supercollider/plugins/"
+      }
+
+      scsynth_opts = @default_scsynth_opts.merge(local_scsynth_opts).merge(@user_scsynth_opts).to_a.flatten
+
+      boot_and_wait(scsynth_path, *scsynth_opts) do
         if temp_switch
           puts "Boot - switching rate of temp input back to original: #{temp_input_rate}"
           CoreAudio.default_input_device(nominal_rate: temp_input_rate)
@@ -365,19 +384,11 @@ module SonicPi
       log_boot_msg
       puts "Booting on Windows"
 
-      boot_and_wait(scsynth_path,
-                    "-u", @port.to_s,
-                    "-m", "131072",
-                    "-a", num_audio_busses_for_current_os.to_s,
-                    "-D", "0",
-                    "-R", "0",
-                    "-l", "1",
-                    "-i", "16",
-                    "-o", "16",
-                    "-U", "#{native_path}/plugins/",
-                    "-b", num_buffers_for_current_os.to_s,
-                    "-B", "127.0.0.1")
-    end
+      local_scsynth_opts = {"-U" => "#{native_path}/plugins/"}
+
+      scsynth_opts = @default_scsynth_opts.merge(local_scsynth_opts).merge(@user_scsynth_opts).to_a.flatten
+      boot_and_wait(scsynth_path, *scsynth_opts)
+  end
 
     def boot_server_raspberry_pi
       log_boot_msg
@@ -403,20 +414,16 @@ module SonicPi
       register_process jack_pid
       block_size = raspberry_pi_1? ? 512 : 128
 
-      boot_and_wait("scsynth",
-                    "-u", @port.to_s,
-                    "-m", "131072",
-                    "-a", num_audio_busses_for_current_os.to_s,
-                    "-D", "0",
-                    "-R", "0",
-                    "-l", "1",
-                    "-i", "2",
-                    "-o", "2",
-                    "-z", block_size.to_s,
-                    "-c", "128",
-                    "-U", "/usr/lib/SuperCollider/plugins",
-                    "-b", num_buffers_for_current_os.to_s,
-                    "-B", "127.0.0.1")
+      local_scsynth_opts = {
+        "-c" => "128",
+        "-z" =>  block_size.to_s,
+        "-i" => "2",
+        "-o" => "2",
+        "-U" => "/usr/lib/SuperCollider/plugins"}
+
+      scsynth_opts = @default_scsynth_opts.merge(local_scsynth_opts).merge(@user_scsynth_opts).to_a.flatten
+
+      boot_and_wait(scsynth_path, *scsynth_opts)
 
       `jack_connect SuperCollider:out_1 system:playback_1`
       `jack_connect SuperCollider:out_2 system:playback_2`
@@ -440,17 +447,11 @@ module SonicPi
         puts "Jackd already running. Not starting another server..."
       end
 
-      boot_and_wait("scsynth",
-                    "-u", @port.to_s,
-                    "-m", "131072",
-                    "-a", num_audio_busses_for_current_os.to_s,
-                    "-D", "0",
-                    "-R", "0",
-                    "-l", "1",
-                    "-i", "16",
-                    "-o", "16",
-                    "-b", num_buffers_for_current_os.to_s,
-                    "-B", "127.0.0.1")
+      local_scsynth_opts = {}
+
+      scsynth_opts = @default_scsynth_opts.merge(local_scsynth_opts).merge(@user_scsynth_opts).to_a.flatten
+
+      boot_and_wait(scsynth_path, *scsynth_opts)
 
       `jack_connect SuperCollider:out_1 system:playback_1`
       `jack_connect SuperCollider:out_2 system:playback_2`
