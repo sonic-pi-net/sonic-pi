@@ -55,32 +55,49 @@
 %% are forwarded directly without starting a timer.
 -define(NODELAY_LIMIT, 1).
 
-debug() ->
-    false.
+%% set to 0 for no debugging messages
+-define(DEBUG_LEVEL, 0).
 
-log() ->
-    true.
+%% set to 0 for no log messages
+-define(LOG_LEVEL, 1).
 
+%% time between idling messages
+-define(IDLE_TIME, 60000).
 
-log(Msg, Vals) ->
-    case log() of
-        true -> io:format(Msg, Vals);
-        _ -> silent
-    end.
 
 debug(Msg, Vals) ->
-    case debug() of
-        true -> io:format(Msg, Vals);
-        _  -> silent
-    end.
+    debug(1, Msg, Vals).
+
+debug(Level, Msg, Vals) ->
+    debug(Level, osc:now(), Msg, Vals).
+
+debug(Level, Now, Msg, Vals) when Level =< ?DEBUG_LEVEL ->
+    try io:format("~f: " ++ Msg, [Now|Vals])
+    catch
+        _Class:_Term ->
+            io:format(standard_io,
+                      "** debug format error: string=~p, args=~p~n",
+                      [Msg, Vals])
+    end;
+debug(_Level, _Msg, _Vals, _Now) ->
+    ok.
 
 
 log(Msg) ->
     log(Msg, []).
 
+log(Msg, Vals) ->
+    log(1, Msg, Vals).
 
-debug(Msg) ->
-    debug(Msg, []).
+log(Level, Msg, Vals) when Level =< ?LOG_LEVEL ->
+    try io:format(Msg, Vals)
+    catch
+        _Class:_Term ->
+            io:format("** log format error: string=~p, args=~p~n",
+                      [Msg, Vals])
+    end;
+log(_Level, _Msg, _Vals) ->
+    ok.
 
 
 cue_server_host() ->
@@ -139,6 +156,8 @@ go_cues(P, InPort, CueHost, CuePort, Internal, Enabled) ->
     end,
 
     P ! ack,
+    debug(2, "listening for OSC cues on socket: ~p~n",
+          [try erlang:port_info(InSocket) catch _:_ -> undefined end]),
     loop_cues(InSocket, InPort, CueHost, CuePort, Internal, Enabled).
 
 
@@ -147,6 +166,8 @@ go_api(P, Port, CuePid) ->
 
     P ! ack,
     TagMap = #{},
+    debug(2, "listening for API commands on socket: ~p~n",
+          [try erlang:port_info(APISocket) catch _:_ -> undefined end]),
     loop_api(APISocket, 1, TagMap, CuePid).
 
 
@@ -154,14 +175,16 @@ loop_cues(InSocket, InPort, CueHost, CuePort, Internal, Enabled) ->
     receive
 
         {udp, InSocket, Ip, Port, Bin} ->
+            debug(3, "cue server got UDP on ~p:~p~n", [Ip, Port]),
             case (catch osc:decode(Bin)) of
-                {cmd, XX} ->
-                    debug("Received incoming OSC~p - ~p~n", [Enabled, XX]),
+                {cmd, Cmd} ->
                     case Enabled of
                         true ->
-                            register_cue(CueHost, CuePort, InSocket, Ip, Port, XX),
+                            debug("got incoming OSC: ~p~n", [Cmd]),
+                            forward_cue(CueHost, CuePort, InSocket, Ip, Port, Cmd),
                             ?MODULE:loop_cues(InSocket, InPort, CueHost, CuePort, Internal, Enabled);
                         false ->
+                            debug("OSC forwarding disabled - ignored: ~p~n", [Cmd]),
                             ?MODULE:loop_cues(InSocket, InPort, CueHost, CuePort, Internal, Enabled)
                     end
             end;
@@ -196,77 +219,84 @@ loop_cues(InSocket, InPort, CueHost, CuePort, Internal, Enabled) ->
             log("Disabling cue forwarding ~n"),
             ?MODULE:loop_cues(InSocket, InPort, CueHost, CuePort, Internal, false);
 
-        {timeout, TimerRef, {forward, Data, Tracker}} ->
-            send_forward(InSocket, Data),
+        {timeout, TimerRef, {forward, Time, Data, Tracker}} ->
+            send_forward(InSocket, Time, Data),
             forget_timer(TimerRef, Tracker),
             ?MODULE:loop_cues(InSocket, InPort, CueHost, CuePort, Internal, Enabled);
 
-        {forward, Data} ->
-            send_forward(InSocket, Data),
+        {forward, Time, Data} ->
+            send_forward(InSocket, Time, Data),
             ?MODULE:loop_cues(InSocket, InPort, CueHost, CuePort, Internal, Enabled);
 
         {udp_error, _Port, econnreset} ->
             %% Should not happen, but can happen anyway on Windows
-            debug("Ignoring UDP ECONNRESET~n"),
+            debug(2, "got UDP ECONNRESET - ignored~n", []),
             ?MODULE:loop_cues(InSocket, InPort, CueHost, CuePort, Internal, Enabled);
 
         Any ->
-	    log("Incoming Any:~p~n",[Any]),
+	    log("Cue Server got unexpected message: ~p~n", [Any]),
 	    ?MODULE:loop_cues(InSocket, InPort, CueHost, CuePort, Internal, Enabled)
 
-    after 50000 ->
-	    debug("Incoming cue server loop timeout~n"),
+    after ?IDLE_TIME ->
+	    debug(2, "cue server idling~n", []),
 	    ?MODULE:loop_cues(InSocket, InPort, CueHost, CuePort, Internal, Enabled)
     end.
 
-send_forward(Socket, {Host, Port, Bin}) ->
-    send_udp(Socket, Host, Port, Bin).
+send_forward(Socket, Time, {Host, Port, Bin}) ->
+    Now = osc:now(),
+    send_udp(Socket, Host, Port, Bin),
+    debug(1, Now, "sent message for time ~f with error ~f~n",
+          [Time, Now-Time]),
+    ok.
 
 send_udp(Socket, Host, Port, Bin) ->
     catch gen_udp:send(Socket, Host, Port, Bin),
     ok.
 
-register_cue(CueHost, CuePort, InSocket, Ip, Port, XX) ->
-    debug("Forwarding OSC to port ~p~n", [CuePort]),
-    Bin = osc:encode(["/external-osc-cue", inet:ntoa(Ip), Port] ++ XX),
-    send_udp(InSocket, CueHost, CuePort, Bin).
+forward_cue(CueHost, CuePort, InSocket, Ip, Port, Cmd) ->
+    Bin = osc:encode(["/external-osc-cue", inet:ntoa(Ip), Port] ++ Cmd),
+    send_udp(InSocket, CueHost, CuePort, Bin),
+    debug("forwarded OSC cue to ~p:~p~n", [CueHost, CuePort]),
+    ok.
 
 loop_api(APISocket, N, TagMap, CuePid) ->
     receive
 	{udp, APISocket, _Ip, _Port, Bin} ->
+            debug(3, "api server got UDP on ~p:~p~n", [_Ip, _Port]),
 	    case (catch osc:decode(Bin)) of
 		{bundle, Time, X} ->
+                    debug("got bundle for time ~f~n", [Time]),
 		    TagMap1 = do_bundle(TagMap, Time, X, CuePid),
 		    ?MODULE:loop_api(APISocket, N, TagMap1, CuePid);
-		{cmd, ["/flush", Tag]} ->
+		{cmd, ["/flush", Tag]=Cmd} ->
+		    debug_cmd(Cmd),
 		    TagMap1 = flush_timers(Tag, all, TagMap),
 		    ?MODULE:loop_api(APISocket, N, TagMap1, CuePid);
-                {cmd, ["/internal-cue-port", 1]} ->
-                    CuePid ! {internal, true},
+                {cmd, ["/internal-cue-port", Flag]=Cmd} ->
+		    debug_cmd(Cmd),
+                    CuePid ! {internal, Flag =:= 1},
 		    ?MODULE:loop_api(APISocket, N+1, TagMap, CuePid);
-                {cmd, ["/internal-cue-port", _]} ->
-                    CuePid ! {internal, false},
-		    ?MODULE:loop_api(APISocket, N+1, TagMap, CuePid);
-                {cmd, ["/stop-start-cue-server", 1]} ->
-                    CuePid ! {enabled, true},
-                    ?MODULE:loop_api(APISocket, N+1, TagMap, CuePid);
-                {cmd, ["/stop-start-cue-server", _]} ->
-                    CuePid ! {enabled, false},
+                {cmd, ["/stop-start-cue-server", Flag]=Cmd} ->
+		    debug_cmd(Cmd),
+                    CuePid ! {enabled, Flag =:= 1},
                     ?MODULE:loop_api(APISocket, N+1, TagMap, CuePid);
 		{cmd, Cmd} ->
-                    log("Cannot do:~p~n",[Cmd]),
+                    log("Unknown command: \"~s\"~n", [Cmd]),
 		    ?MODULE:loop_api(APISocket, N+1, TagMap, CuePid);
 		{'EXIT', Why} ->
-		    log("Error decoding:~p ~p~n",[Bin, Why]),
+		    log("Error decoding: ~p ~p~n",[Bin, Why]),
 		    ?MODULE:loop_api(APISocket, N+1, TagMap, CuePid)
 	    end;
 	Any ->
-	    log("Loop API Any:~p~n",[Any]),
+	    log("API Server got unexpected message: ~p~n", [Any]),
 	    ?MODULE:loop_api(APISocket, N+1, TagMap, CuePid)
-    after 50000 ->
-	    debug("Loop API timeout:~p~n",[N]),
-	    ?MODULE:loop_api(APISocket, N+1, TagMap, CuePid)
+    after ?IDLE_TIME ->
+	    debug(2, "api process idling; message count: ~p~n", [N]),
+	    ?MODULE:loop_api(APISocket, N, TagMap, CuePid)
     end.
+
+debug_cmd([Cmd|Args]) ->
+    debug("command: ~s ~p~n", [Cmd, Args]).
 
 do_bundle(TagMap, Time, [{_,B}], CuePid) ->
     {cmd, Cmd} = osc:decode(B),
@@ -289,11 +319,13 @@ schedule_cmd(Tag, TagMap, Time, Host, Port, Cmd, CuePid) ->
     Delay = Time - osc:now(),
     MsDelay = trunc(Delay*1000+0.5), %% nearest
     if MsDelay > ?NODELAY_LIMIT ->
-            Msg = {forward, Data, Tracker},
+            Msg = {forward, Time, Data, Tracker},
             Timer = erlang:start_timer(MsDelay, CuePid, Msg),
+            debug(2, "start timer of ~w ms for time ~f~n", [MsDelay, Time]),
             track_timer(Timer, Time, Tracker);
        true ->
-            CuePid ! {forward, Data}
+            CuePid ! {forward, Time, Data},
+            debug(2, "directly forward message for delay ~f~n", [Delay])
     end,
     NewTagMap.
 
@@ -306,6 +338,7 @@ tracker_pid(Tag, TagMap) ->
             {Pid, TagMap};
 	error ->
             Pid = spawn_link(fun() -> tracker(Tag) end),
+            debug("start new tracker process for tag \"~s\"~n", [Tag]),
             {Pid, maps:put(Tag, Pid, TagMap)}
     end.
 
@@ -328,12 +361,16 @@ tracker(Tag) ->
 tracker(Tag, Map) ->
     receive
         {track, Ref, Time} ->
+            debug(2, "track timer ~p for time ~f~n", [Ref, Time]),
             Map1 = Map#{Ref => Time},
             ?MODULE:tracker(Tag, Map1);
         {forget, Ref} ->
+            debug(2, "forget timer ~p for time ~f~n",
+                  [Ref, maps:get(Ref, Map)]),
             Map1 = maps:remove(Ref, Map),
             ?MODULE:tracker(Tag, Map1);
         {flush, all} ->
+            debug("forget all timers tagged \"~s\" ~n", [Tag]),
             lists:foreach(fun (Ref) ->
                                   erlang:cancel_timer(Ref, [{async, true}])
                           end,
@@ -341,6 +378,8 @@ tracker(Tag, Map) ->
             ?MODULE:tracker(Tag, #{});
         {flush, Time} ->
             %% flush all timers to trigger later than a specified time
+            debug("forget timers tagged \"~s\" later than ~p ~n",
+                  [Tag, Time]),
             Map1 = lists:foldl(
                      fun (R, M) ->
                              T = maps:get(R, M),
