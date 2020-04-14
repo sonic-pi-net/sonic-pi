@@ -24,7 +24,7 @@
 <a name="v3.2.2"></a>
 
 ## Version 3.2.2 - Tau3'
-*5h April, 2020*
+*5th April, 2020*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v3.2.2):
 
 This is a minor bugfix and maintenance release. 
