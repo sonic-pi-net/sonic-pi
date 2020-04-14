@@ -1,5 +1,10 @@
 %% Tracker process for a timer group - keeps a map of timer refs and
 %% corresponding absolute times
+%% --
+%% This file is part of Sonic Pi: http://sonic-pi.net
+%% Full project source: https://github.com/samaaron/sonic-pi
+%% License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
+%% ++
 
 -module(pi_server_tracker).
 

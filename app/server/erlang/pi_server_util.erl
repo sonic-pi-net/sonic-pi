@@ -1,4 +1,9 @@
 %% Utility functions: logging, debugging, etc.
+%% --
+%% This file is part of Sonic Pi: http://sonic-pi.net
+%% Full project source: https://github.com/samaaron/sonic-pi
+%% License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
+%% ++
 
 -module(pi_server_util).
 

@@ -14,41 +14,7 @@
 
 -export([start/1]).
 
-%% Bundle Commands
-%% ===============
-
-%%   ["/send_after", Host, Port | Cmd]
-%%   ["/send_after_tagged", Tag, Host, Port | Cmd]
-%%
-%%   Both commands send the OSC message <Cmd> to <Host,Port>
-%%   at the time in the bundle header
-%%
-%% Immediate Commands
-%%  ["/flush", <Tag>]
-
-%% Tagged send_after's
-%%   A Tag can be associated with a send-after command
-%%   If no tag is explicitly named the tag called "default" is assumed
-%%   ["/flush", Tag] cancels all send-after commands which have not yet
-%%   been issued.
-%%
-%% Examples:
-%%   ["/flush", "default"]
-%%      cancels all send-after requests that were scheduled with
-%%      a ["/send_after", Host, Port, ...] bundle
-%%   ["/flush", "drums"]
-%%      cancels all send-after request that were scheduled with
-%%      a ["/send_after_tagged,"drums", Host, Port, ...] bundle
-
 %% Just run pi_server:start() in a separate shell
-
-%% Implementation notes:
-%%  A hashmap (called TagMap) is added to the main loop of the server
-%%   This is a map of the form #{Name1 => Pid1, Name2 => Pid2, ...}
-%%   where the process PidN tracks the active timers for the tag NameN.
-%%   New processes in the tagmap are created on demand.
-%%   To flush a tag, we tell the corresponding tracker process to
-%%   cancel its current timers.
 
 
 cue_server_host() ->
