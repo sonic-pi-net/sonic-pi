@@ -2173,6 +2173,8 @@ load_sample dir, /[Bb]ar/ # loads first sample which matches regex /[Bb]ar/ in \
           info, cached = @mod_sound_studio.load_sample(path)
           __info "Loaded sample #{unify_tilde_dir(path).inspect}" unless cached
           return info
+        when Numeric
+          freesound(path)
         else
           raise "Unknown sample description: #{path.inspect}\n expected a string containing a path."
         end
@@ -3946,7 +3948,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         __thread_locals.set(:sonic_pi_mod_sound_current_synth_name, name)
       end
 
-      def __freesound_path(id)
+      def freesound_path(id)
         cache_dir = home_dir + '/freesound/'
         ensure_dir(cache_dir)
 
@@ -3977,15 +3979,15 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         end
         return nil
       end
-      #        doc name:          :freesound_path,
-      #            introduced:    Version.new(2,1,0),
-      #            summary:       "Return local path for sound from freesound.org",
-      #            doc:           "Download and cache a sample by ID from freesound.org. Returns path as string if cached. If not cached, returns nil and starts a background thread to download the sample.",
-      #            args:          [[:id, :number]],
-      #            opts:          nil,
-      #            accepts_block: false,
-      #            examples:      ["
-      # puts freesound(250129)    # preloads a freesound and prints its local path, such as '/home/user/.sonic_pi/freesound/250129.wav'"]
+      doc name:          :freesound_path,
+          introduced:    Version.new(2,1,0),
+          summary:       "Return local path for sound from freesound.org",
+          doc:           "Download and cache a sample by ID from freesound.org. Returns path as string if cached. If not cached, returns nil and starts a background thread to download the sample.",
+          args:          [[:id, :number]],
+          opts:          nil,
+          accepts_block: false,
+          examples:      ["
+puts freesound(250129)    # preloads a freesound and prints its local path, such as '/home/user/.sonic_pi/freesound/250129.wav'"]
 
       def scale_time_args_to_bpm!(args_h, info, force_add = true)
         # some of the args in args_h need to be scaled to match the
@@ -4117,8 +4119,8 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         @sample_loader.find_candidates(*args)
       end
 
-      def __freesound(id, *opts)
-        path = __freesound_path(id)
+      def freesound(id, *opts)
+        path = freesound_path(id)
         arg_h = resolve_synth_opts_hash_or_array(opts)
         fallback = arg_h[:fallback]
 
@@ -4133,25 +4135,23 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         end
 
       end
-      #        doc name:          :freesound,
-      #            introduced:    Version.new(2,1,0),
-      #            summary:       "Play sample from freesound.org",
-      #            doc:           "Fetch from cache (or download then cache) a sample by ID from freesound.org, and then play it.",
-      #            args:          [[:id, :number]],
-      #            opts:          {:fallback => "Symbol representing built-in sample to play if the freesound id isn't yet downloaded"},
-      #            accepts_block: false,
-      #            examples:      ["
-      # freesound(250129)  # takes time to download the first time, but then the sample is cached locally
-      # ",
-      # "
-      # loop do
-      #   sample freesound(27130)
-      #   sleep sample_duration(27130)
-      # end
-      # "
-      # ]
-
+      doc name:          :freesound,
+          introduced:    Version.new(2,1,0),
+          summary:       "Play sample from freesound.org",
+          doc:           "Fetch from cache (or download then cache) a sample by ID from freesound.org, and then play it.",
+          args:          [[:id, :number]],
+          opts:          {:fallback => "Symbol representing built-in sample to play if the freesound id isn't yet downloaded"},
+          accepts_block: false,
+          examples:      ["
+freesound(250129)  # takes time to download the first time, but then the sample is cached locally
+",
+"
+loop do
+  sample freesound(27130)
+  sleep sample_duration(27130)
+end
+"
+]
     end
-
   end
 end
