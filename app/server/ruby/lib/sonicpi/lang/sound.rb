@@ -3948,47 +3948,6 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         __thread_locals.set(:sonic_pi_mod_sound_current_synth_name, name)
       end
 
-      def freesound_path(id)
-        cache_dir = home_dir + '/freesound/'
-        ensure_dir(cache_dir)
-
-        cache_file = cache_dir + "freesound-" + id.to_s + ".wav"
-
-        return cache_file if File.exists?(cache_file)
-
-        __info "Caching freesound #{id}..."
-
-        in_thread(name: "download_freesound_#{id}".to_sym) do
-          # API key borrowed from Overtone
-          apiURL = 'http://www.freesound.org/api/sounds/' + id.to_s + '/serve/?api_key=47efd585321048819a2328721507ee23'
-
-          resp = Net::HTTP.get_response(URI(apiURL))
-          case resp
-          when Net::HTTPSuccess then
-            if not resp['Content-Disposition'] =~ /\.wav\"$/ then
-              raise 'Only WAV freesounds are supported, sorry!'
-            end
-
-            open(cache_file, 'wb') do |file|
-              file.write(resp.body)
-            end
-            __info "Freesound #{id} loaded and ready to fire!"
-          else
-            __info "Failed to download freesound #{id}: " + resp.value
-          end
-        end
-        return nil
-      end
-      doc name:          :freesound_path,
-          introduced:    Version.new(2,1,0),
-          summary:       "Return local path for sound from freesound.org",
-          doc:           "Download and cache a sample by ID from freesound.org. Returns path as string if cached. If not cached, returns nil and starts a background thread to download the sample.",
-          args:          [[:id, :number]],
-          opts:          nil,
-          accepts_block: false,
-          examples:      ["
-puts freesound(250129)    # preloads a freesound and prints its local path, such as '/home/user/.sonic_pi/freesound/250129.wav'"]
-
       def scale_time_args_to_bpm!(args_h, info, force_add = true)
         # some of the args in args_h need to be scaled to match the
         # current bpm. Check in info to see if that's necessary and if
@@ -4118,6 +4077,47 @@ puts freesound(250129)    # preloads a freesound and prints its local path, such
       def sample_find_candidates(*args)
         @sample_loader.find_candidates(*args)
       end
+
+      def freesound_path(id)
+        cache_dir = home_dir + '/freesound/'
+        ensure_dir(cache_dir)
+
+        cache_file = cache_dir + "freesound-" + id.to_s + ".wav"
+
+        return cache_file if File.exists?(cache_file)
+
+        __info "Caching freesound #{id}..."
+
+        in_thread(name: "download_freesound_#{id}".to_sym) do
+          # API key borrowed from Overtone
+          apiURL = 'http://www.freesound.org/api/sounds/' + id.to_s + '/serve/?api_key=47efd585321048819a2328721507ee23'
+
+          resp = Net::HTTP.get_response(URI(apiURL))
+          case resp
+          when Net::HTTPSuccess then
+            if not resp['Content-Disposition'] =~ /\.wav\"$/ then
+              raise 'Only WAV freesounds are supported, sorry!'
+            end
+
+            open(cache_file, 'wb') do |file|
+              file.write(resp.body)
+            end
+            __info "Freesound #{id} loaded and ready to fire!"
+          else
+            __info "Failed to download freesound #{id}: " + resp.value
+          end
+        end
+        return nil
+      end
+      doc name:          :freesound_path,
+          introduced:    Version.new(2,1,0),
+          summary:       "Return local path for sound from freesound.org",
+          doc:           "Download and cache a sample by ID from freesound.org. Returns path as string if cached. If not cached, returns nil and starts a background thread to download the sample.",
+          args:          [[:id, :number]],
+          opts:          nil,
+          accepts_block: false,
+          examples:      ["
+puts freesound(250129)    # preloads a freesound and prints its local path, such as '/home/user/.sonic_pi/freesound/250129.wav'"]
 
       def freesound(id, *opts)
         path = freesound_path(id)
