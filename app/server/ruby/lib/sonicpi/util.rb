@@ -253,7 +253,7 @@ module SonicPi
       end
     end
 
-    def ensure_dir(d)
+    def ensure_dir(dir)
       begin
         FileUtils.mkdir_p(dir) unless File.exist?(dir)
       rescue
