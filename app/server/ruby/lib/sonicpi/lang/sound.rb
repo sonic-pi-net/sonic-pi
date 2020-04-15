@@ -14,6 +14,8 @@ require 'tmpdir'
 require 'fileutils'
 require 'thread'
 require 'net/http'
+require 'multi_json'
+require 'uri'
 require_relative "../blanknode"
 require_relative "../chainnode"
 require_relative "../fxnode"
@@ -4082,7 +4084,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         cache_dir = home_dir + '/freesound/'
         ensure_dir(cache_dir)
 
-        cache_file = cache_dir + "freesound-" + id.to_s + ".wav"
+        cache_file = cache_dir + "freesound-" + id.to_s + ".ogg"
 
         return cache_file if File.exists?(cache_file)
 
@@ -4090,21 +4092,35 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
 
         in_thread(name: "download_freesound_#{id}".to_sym) do
           # API key borrowed from Overtone
-          apiURL = 'http://www.freesound.org/api/sounds/' + id.to_s + '/serve/?api_key=47efd585321048819a2328721507ee23'
+          apiURL = "http://freesound.org/apiv2/sounds/#{id}/?" +
+                   URI::encode_www_form(:fields => 'previews',
+                                        :token => '47efd585321048819a2328721507ee23')
 
           resp = Net::HTTP.get_response(URI(apiURL))
           case resp
           when Net::HTTPSuccess then
-            if not resp['Content-Disposition'] =~ /\.wav\"$/ then
-              raise 'Only WAV freesounds are supported, sorry!'
+            if resp['Content-Type'] != 'application/json' then
+              raise "Unexpected info content type for freesound #{id}: " + resp['Content-Type']
             end
 
-            open(cache_file, 'wb') do |file|
-              file.write(resp.body)
+            downloadURL = MultiJson.load(resp.body)['previews']['preview-hq-ogg']
+
+            resp = Net::HTTP.get_response(URI(downloadURL))
+            case resp
+            when Net::HTTPSuccess then
+              if resp['Content-Type'] != 'audio/ogg' then
+                raise "Unexpected download content type for freesound #{id}: " + resp['Content-Type']
+              end
+
+              open(cache_file, 'wb') do |file|
+                file.write(resp.body)
+              end
+              __info "Freesound #{id} loaded and ready to fire!"
+            else
+              __info "Failed to download freesound #{id}: " + resp.value
             end
-            __info "Freesound #{id} loaded and ready to fire!"
           else
-            __info "Failed to download freesound #{id}: " + resp.value
+            __info "Failed to get download info for freesound #{id}: " + resp.value
           end
         end
         return nil
