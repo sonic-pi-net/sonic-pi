@@ -37,7 +37,7 @@ include SonicPi::Util
 
 ## This is where the server starts....
 STDOUT.puts "Sonic Pi server booting..."
-STDOUT.puts "This is version 3.2.0 running on Ruby #{RUBY_VERSION}."
+STDOUT.puts "This is version 3.2.2 running on Ruby #{RUBY_VERSION}."
 STDOUT.puts "The time is #{Time.now}"
 
 ## Select the primary GUI protocol
