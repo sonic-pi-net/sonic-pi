@@ -4080,6 +4080,11 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         @sample_loader.find_candidates(*args)
       end
 
+      def use_freesound_token(token)
+        raise ArgumentError, "freesound token should be a string." unless token.is_a? String
+        __thread_locals.set(:sonic_pi_freesound_token, token)
+      end
+
       def freesound_path(id)
         cache_dir = home_dir + '/freesound/'
         ensure_dir(cache_dir)
@@ -4091,10 +4096,10 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         __info "Caching freesound #{id}..."
 
         in_thread(name: "download_freesound_#{id}".to_sym) do
-          # API key borrowed from Overtone
+          token = __thread_locals.get(:sonic_pi_freesound_token)
           apiURL = "http://freesound.org/apiv2/sounds/#{id}/?" +
                    URI::encode_www_form(:fields => 'previews',
-                                        :token => '47efd585321048819a2328721507ee23')
+                                        :token => token)
 
           resp = Net::HTTP.get_response(URI(apiURL))
           case resp
