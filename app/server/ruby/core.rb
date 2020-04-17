@@ -177,7 +177,7 @@ module SonicPi
       end
 
       def self.set_random_number_distribution!(noise_type)
-        __thread_locals.set :sonic_pi_spider_random_gen_type, NOISE_TYPES.key(noise_type)
+        __thread_locals.set :sonic_pi_spider_random_gen_type, NOISE_TYPES.key(noise_type.to_sym)
       end
 
       def self.random_numbers
