@@ -3419,7 +3419,7 @@ print rand_i_look(5) #=> will print the same number as the previous statement"
 
 
       def use_random_type(noise_type, &block)
-        raise ArgumentError, "use_random_type does not work with a block. Perhaps you meant with_random_seed" if block
+        raise ArgumentError, "use_random_type does not work with a block. Perhaps you meant with_random_type" if block
         raise ArgumentError, "invalid noise type '#{noise_type}' - please use one of :white, :pink or :perlin instead" unless %w(white pink perlin).include?(noise_type.to_s)
 
         SonicPi::Core::SPRand.set_random_number_distribution!(noise_type)
@@ -3472,7 +3472,7 @@ print rand_i_look(5) #=> will print the same number as the previous statement"
 
 
       def with_random_type(noise_type, &block)
-        raise ArgumentError, "with_random_type requires a block. Perhaps you meant use_random_seed" unless block
+        raise ArgumentError, "with_random_type requires a block. Perhaps you meant use_random_type" unless block
         raise ArgumentError, "invalid noise type '#{noise_type}' - please use one of :white, :pink or :perlin instead" unless %w(white pink perlin).include?(noise_type.to_s)
         new_thread_gen_type = SonicPi::Core::SPRand.get_random_number_distribution
 
