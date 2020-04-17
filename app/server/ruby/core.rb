@@ -150,8 +150,49 @@ end
 module SonicPi
   module Core
     module SPRand
+      # we're limited to thread safe types so using ints
+      NOISE_TYPES = {
+        0 => :white,
+        1 => :pink,
+        2 => :perlin
+      }
+
+      # define this helper first so we can set the constants below
+      def self.wav_from_buffer_file(filename)
+        ::WaveFile::Reader.new(
+          File.expand_path("../../../../etc/buffers/#{filename}", __FILE__),
+          ::WaveFile::Format.new(:mono, :float, 44100)
+        ).read(441000).samples.freeze
+      end
+
       # Read in same random numbers as server for random stream sync
-      @@random_numbers = ::WaveFile::Reader.new(File.expand_path("../../../../etc/buffers/rand-stream.wav", __FILE__), ::WaveFile::Format.new(:mono, :float, 44100)).read(441000).samples.freeze
+      # memoize for performance
+      RANDOM_NUMBERS_WHITE = self.wav_from_buffer_file("rand-stream.wav")
+      RANDOM_NUMBERS_PINK = self.wav_from_buffer_file("rand-stream-pink.wav")
+      RANDOM_NUMBERS_PERLIN = self.wav_from_buffer_file("rand-stream-perlin.wav")
+
+      def self.get_random_number_distribution
+        type_idx = __thread_locals.get :sonic_pi_spider_random_gen_type
+        NOISE_TYPES[type_idx]
+      end
+
+      def self.set_random_number_distribution!(noise_type)
+        __thread_locals.set :sonic_pi_spider_random_gen_type, NOISE_TYPES.key(noise_type)
+      end
+
+      def self.random_numbers
+        idx = __thread_locals.get :sonic_pi_spider_random_gen_type
+        case NOISE_TYPES[idx]
+        when :perlin
+          RANDOM_NUMBERS_PERLIN
+        when :pink
+          RANDOM_NUMBERS_PINK
+        when :white
+          RANDOM_NUMBERS_WHITE
+        else
+          RANDOM_NUMBERS_WHITE
+        end
+      end
 
       def self.tl_seed_map(seed, idx=0)
         {:sonic_pi_spider_random_gen_seed => seed,
@@ -165,7 +206,7 @@ module SonicPi
       end
 
       def self.to_a
-        @@random_numbers
+        random_numbers
       end
 
       def self.inc_idx!(increment=1, init=0)
@@ -220,7 +261,7 @@ module SonicPi
         # also, scsynth server seems to swallow first rand
         # so always add 1 to index
         idx = (idx + 1) % 441000
-        @@random_numbers[idx] * max
+        random_numbers[idx] * max
       end
 
       def self.rand_i!(max, idx=nil)

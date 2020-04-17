@@ -13,6 +13,35 @@ module SonicPi
       assert_equal(rand, 0.24249267578125)
     end
 
+    def test_rand_type
+      rand_reset
+      assert_equal(rand, 0.75006103515625)
+      assert_equal(rand, 0.733917236328125)
+      use_random_type :white
+      rand_reset
+      assert_equal(rand, 0.75006103515625)
+      assert_equal(rand, 0.733917236328125)
+      use_random_type :pink
+      rand_reset
+      assert_equal(rand, 0.56396484375)
+      assert_equal(rand, 0.445465087890625)
+      use_random_type :perlin
+      rand_reset
+      assert_equal(rand, 0.51092529296875)
+      assert_equal(rand, 0.521209716796875)
+
+      with_random_type :white do
+        # matches 3rd value from test_rand
+        # index is not reset when changing type
+        assert_equal(rand, 0.464202880859375)
+      end
+
+      assert_equal(rand, 0.541961669921875)
+
+      # return to default
+      use_random_type :white
+    end
+
     def test_rand_reset
       rand_reset
       assert_equal(rand, 0.75006103515625)
