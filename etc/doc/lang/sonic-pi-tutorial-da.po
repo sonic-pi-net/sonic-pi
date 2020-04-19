@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-04-14 20:11+0000\n"
+"PO-Revision-Date: 2020-04-20 08:11+0000\n"
 "Last-Translator: Ole Friis Østergaard <olefriis@gmail.com>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "da/>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.0-dev\n"
+"X-Generator: Weblate 4.0.2-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -1496,7 +1496,7 @@ msgstr "Lad os nu se på hver del af en envelope ad gangen."
 
 #: 02.4-Durations-with-Envelopes.md:42
 msgid "Release Phase"
-msgstr ""
+msgstr "Release-fasen"
 
 #: 02.4-Durations-with-Envelopes.md:44
 msgid ""
@@ -1505,17 +1505,23 @@ msgid ""
 "ease time of 1 which means that by default they have a duration of 1 beat (whi"
 "ch at the default BPM of 60 is 1 second):"
 msgstr ""
+"Den eneste del af envelopen der som udgangspunkt bruges, er release-"
+"varigheden. Det er den tid det tager for synth-lyden at falme ud. Alle "
+"synths har en release-varighed på 1. Det betyder at de som udgangspunkt har "
+"en varighed på ét slag, som ved standard-BPM på 60 svarer til et sekund:"
 
 #: 02.4-Durations-with-Envelopes.md:53
 msgid ""
 "The note will be audible for 1 second. Go ahead and time it :-) This is short "
 "hand for the longer more explicit version:"
 msgstr ""
+"Dennne tone vil kunne høres i et sekund. Prøv at tage tid :-) Du kan også "
+"skrive det mere eksplicit:"
 
 #: 02.4-Durations-with-Envelopes.md:56
 #, no-wrap
 msgid "play 70, release: 1"
-msgstr ""
+msgstr "play 70, release: 1"
 
 #: 02.4-Durations-with-Envelopes.md:60
 msgid ""
@@ -1523,22 +1529,26 @@ msgid ""
 "ver, it's now very easy to change the duration by modifying the value of the `"
 "release:` opt:"
 msgstr ""
+"Bemærk at dette giver præcis samme resultat - lyden varer i et sekund. Men "
+"nu er det nemt at ændre varigheden ved at ændre på `release:`-parameteren:"
 
 #: 02.4-Durations-with-Envelopes.md:64
 #, no-wrap
 msgid "play 60, release: 2"
-msgstr ""
+msgstr "play 60, release: 2"
 
 #: 02.4-Durations-with-Envelopes.md:68
 msgid ""
 "We can make the synth sound for a very short amount of time by using a very sm"
 "all release time:"
 msgstr ""
+"Vi kan få synth'en til at spille i meget kort tid ved at bruge en meget kort "
+"release-varighed:"
 
 #: 02.4-Durations-with-Envelopes.md:71
 #, no-wrap
 msgid "play 60, release: 0.2"
-msgstr ""
+msgstr "play 60, release: 0.2"
 
 #: 02.4-Durations-with-Envelopes.md:75
 msgid ""
@@ -1546,10 +1556,13 @@ msgid ""
 "default is a linear transition (i.e. a straight line). The following diagram i"
 "llustrates this transition:"
 msgstr ""
+"Den tid det tager lyden at falme ud, kaldes *release-fasen* og er som "
+"udgangspunkt en lineær overgang (dvs. en lige linje hvis man tegner den). "
+"Dette diagram illustrerer overgangen:"
 
 #: 02.4-Durations-with-Envelopes.md:79
 msgid "![release envelope](../../../etc/doc/images/tutorial/env-release.png)"
-msgstr ""
+msgstr "![release-envelope](../../../etc/doc/images/tutorial/env-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:81
 msgid ""
@@ -1559,16 +1572,25 @@ msgid ""
 "ht line down to zero taking the amount of time specified by `release:`. *Longe"
 "r release times produce longer synth fade outs.*"
 msgstr ""
+"Den lodrette linje helt til venstre i diagrammet viser at lyden starter med "
+"amplitude 0, men straks går op til fuld amplitude. Det er attack-fasen som "
+"vi vil komme ind på om lidt. Når lyden er på fuld amplitude, vil den med "
+"konstant hastighed gå mod nul, og den vil tage den tid der er angivet som "
+"`release:`, for at nå nulpunktet. *Længere release-varigheder gør at synths "
+"tager længere tid om at falme ud.*"
 
 #: 02.4-Durations-with-Envelopes.md:88
 msgid ""
 "You can therefore change the duration of your sound by changing the release ti"
 "me. Have a play adding release times to your music."
 msgstr ""
+"På den måde kan du ændre varigheden af dine lyde ved at ændre på `release:`-"
+"parameteren. Prøv at have lidt sjov med at tilføje release-varigheder til "
+"din musik."
 
 #: 02.4-Durations-with-Envelopes.md:91
 msgid "Attack Phase"
-msgstr ""
+msgstr "Attack-fasen"
 
 #: 02.4-Durations-with-Envelopes.md:93
 msgid ""
@@ -1577,6 +1599,10 @@ msgid ""
 ". However, you may wish to fade your sound in. This can be achieved with the `"
 "attack:` opt. Try fading in some sounds:"
 msgstr ""
+"Som udgangspunkt er *attack-fasen* 0 for alle synths, hvilket betyder at de "
+"straks går fra amplitude 0 til 1. Det giver synth'en et indledende anslag. "
+"Det kan dog være at du ønsker at lade din lyd falme ind. Det kan du opnå med "
+"`attack:`-parameteren. Prøv det på nogle lyde:"
 
 #: 02.4-Durations-with-Envelopes.md:98
 #, no-wrap
@@ -1585,67 +1611,84 @@ msgid ""
 "sleep 3\n"
 "play 65, attack: 0.5"
 msgstr ""
+"play 60, attack: 2\n"
+"sleep 3\n"
+"play 65, attack: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:104
 msgid ""
 "You may use multiple opts at the same time. For example for a short attack and"
 " a long release try:"
 msgstr ""
+"Du kan sætte flere parametre ad gangen. Prøv for eksempel dette for et kort "
+"\"attack\" og en lang \"release\":"
 
 #: 02.4-Durations-with-Envelopes.md:107
 #, no-wrap
 msgid "play 60, attack: 0.7, release: 4"
-msgstr ""
+msgstr "play 60, attack: 0.7, release: 4"
 
 #: 02.4-Durations-with-Envelopes.md:111
 msgid ""
 "This short attack and long release envelope is illustrated in the following di"
 "agram:"
 msgstr ""
+"Den tilsvarende envelope for det korte \"attack\" og den lange \"release\" "
+"er illustreret på det følgende diagram:"
 
 #: 02.4-Durations-with-Envelopes.md:114
 msgid ""
 "![attack release envelope](../../../etc/doc/images/tutorial/env-attack-release"
 ".png)"
 msgstr ""
+"![attack-release-envelope](../../../etc/doc/images/tutorial/env-attack-"
+"release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:116
 msgid ""
 "Of course, you may switch things around. Try a long attack and a short release"
 ":"
 msgstr ""
+"Du kan selvfølgelig også bytte rundt på tingene. Prøv et langt attack og en "
+"kort release:"
 
 #: 02.4-Durations-with-Envelopes.md:119
 #, no-wrap
 msgid "play 60, attack: 4, release: 0.7"
-msgstr ""
+msgstr "play 60, attack: 4, release: 0.7"
 
 #: 02.4-Durations-with-Envelopes.md:123
 msgid ""
 "![long attack short release envelope](../../../etc/doc/images/tutorial/env-lon"
 "g-attack-short-release.png)"
 msgstr ""
+"![envelope for lang attack, kort release](../../../etc/doc/images/tutorial/"
+"env-long-attack-short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:125
 msgid ""
 "Finally, you can also have both short attack and release times for shorter sou"
 "nds."
 msgstr ""
+"Du kan også give korte varigheder både til attack og release. Det giver "
+"kortere lyde."
 
 #: 02.4-Durations-with-Envelopes.md:128
 #, no-wrap
 msgid "play 60, attack: 0.5, release: 0.5"
-msgstr ""
+msgstr "play 60, attack: 0.5, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:132
 msgid ""
 "![short attack short release envelope](../../../etc/doc/images/tutorial/env-sh"
 "ort-attack-short-release.png)"
 msgstr ""
+"![envelope for kort attack, kort release](../../../etc/doc/images/tutorial/"
+"env-short-attack-short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:134
 msgid "Sustain Phase"
-msgstr ""
+msgstr "Sustain-fasen"
 
 #: 02.4-Durations-with-Envelopes.md:136
 msgid ""
@@ -1653,17 +1696,22 @@ msgid ""
 "tain time to control the *sustain phase*. This is the time for which the sound"
 " is maintained at full amplitude between the attack and release phases."
 msgstr ""
+"Ud over at angive attack- og release-varigheder kan du styre *sustain-fasen* "
+"som angiver en \"bevarings-varighed\". Den bestemmer hvor længe lyden holdes "
+"på fuld amplitude mellem attack- og release-faserne."
 
 #: 02.4-Durations-with-Envelopes.md:141
 #, no-wrap
 msgid "play 60, attack: 0.3, sustain: 1, release: 1"
-msgstr ""
+msgstr "play 60, attack: 0.3, sustain: 1, release: 1"
 
 #: 02.4-Durations-with-Envelopes.md:145
 msgid ""
 "![ASR envelope](../../../etc/doc/images/tutorial/env-attack-sustain-release.pn"
 "g)"
 msgstr ""
+"![ASR-envelope](../../../etc/doc/images/tutorial/env-attack-sustain-"
+"release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:147
 msgid ""
@@ -1674,10 +1722,16 @@ msgid ""
 "d, a release of 0 can produce clicks in the audio and it's often better to use"
 " a very small value such as 0.2."
 msgstr ""
+"Sustain-varigheden er nyttig til vigtige lyde som du ønsker at have fuldt "
+"til stede i mixet før de begynder på deres release-fase. Du kan selvfølgelig "
+"også sætte både `attack:` og `release:` til 0 og blot bruge `sustain:` for "
+"helt at undgå at lyden falmer ind eller ud. Men pas på - en release på 0 kan "
+"give uønskede kliklyde, så det er tit bedre at bruge en meget lille værdi "
+"såsom 0.2."
 
 #: 02.4-Durations-with-Envelopes.md:154
 msgid "Decay Phase"
-msgstr ""
+msgstr "Decay-fasen"
 
 #: 02.4-Durations-with-Envelopes.md:156
 msgid ""
@@ -1688,6 +1742,15 @@ msgid ""
 "l:`). By default, the `decay:` opt is 0 and both the attack and sustain levels"
 " are 1 so you'll need to specify them for the decay time to have any effect:"
 msgstr ""
+"For et ekstra niveau af kontol kan du også angive en henfalds-varighed: "
+"decay. Den bruges i decay-fasen, som er en fase i envelopen som sidder "
+"mellem attack- og sustain-faserne og angiver hvor længe amplituden er om at "
+"falde fra `attack_level:` (amplituden som attack-fasen slutter på) til "
+"`decay_level:` (amplituden som decay-fasen slutter på - og som, medmindre du "
+"har sat den til andet, får samme værdi som `sustain_level:`). Som "
+"udgangspunkt er `decay:`-parameteren 0, og både attack- og sustain-"
+"amplituderne er 1, så du er nødt til at angive dem for at decay-varigheden "
+"får en effekt:"
 
 #: 02.4-Durations-with-Envelopes.md:164
 #, no-wrap
@@ -1695,16 +1758,20 @@ msgid ""
 "play 60, attack: 0.1, attack_level: 1, decay: 0.2, sustain_level: 0.4, sustain"
 ": 1, release: 0.5"
 msgstr ""
+"play 60, attack: 0.1, attack_level: 1, decay: 0.2, sustain_level: 0.4, "
+"sustain: 1, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:168
 msgid ""
 "![ADSR envelope](../../../etc/doc/images/tutorial/env-attack-decay-sustain-rel"
 "ease.png)"
 msgstr ""
+"![ADSR-envelope](../../../etc/doc/images/tutorial/env-attack-decay-sustain-"
+"release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:170
 msgid "Decay Level"
-msgstr ""
+msgstr "Decay-amplitude"
 
 #: 02.4-Durations-with-Envelopes.md:172
 msgid ""
@@ -1713,6 +1780,11 @@ msgid ""
 " full control over the envelope. This allows you to to create envelopes such a"
 "s the following:"
 msgstr ""
+"Et sidste trick er at selvom `decay_level:`-parameteren, altså amplituden "
+"som decay-fasen slutter på, som udgangspunkt bliver sat til det samme som "
+"`sustain_level:`, så kan du sætte parametrene til forskellige værdier for at "
+"få fuld kontrol over envelopen. Det giver dig mulighed for at lave envelopes "
+"som den følgende:"
 
 #: 02.4-Durations-with-Envelopes.md:177
 #, no-wrap
@@ -1720,16 +1792,18 @@ msgid ""
 "play 60, attack: 0.1, attack_level: 1, decay: 0.2, decay_level: 0.3, sustain: "
 "1, sustain_level: 0.4, release: 0.5"
 msgstr ""
+"play 60, attack: 0.1, attack_level: 1, decay: 0.2, decay_level: 0.3, sustain:"
+" 1, sustain_level: 0.4, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:181
 msgid "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level.png)"
-msgstr ""
+msgstr "![ASR-envelope](../../../etc/doc/images/tutorial/env-decay-level.png)"
 
 #: 02.4-Durations-with-Envelopes.md:183
 msgid ""
 "It's also possible to set the `decay_level:` to be higher than `sustain_level:"
 "`:"
-msgstr ""
+msgstr "Det er også muligt at sætte `decay_level:` højere end `sustain_level:`:"
 
 #: 02.4-Durations-with-Envelopes.md:185
 #, no-wrap
@@ -1737,34 +1811,41 @@ msgid ""
 "play 60, attack: 0.1, attack_level: 0.1, decay: 0.2, decay_level: 1, sustain: "
 "0.5, sustain_level: 0.8, release: 1.5"
 msgstr ""
+"play 60, attack: 0.1, attack_level: 0.1, decay: 0.2, decay_level: 1, sustain:"
+" 0.5, sustain_level: 0.8, release: 1.5"
 
 #: 02.4-Durations-with-Envelopes.md:189
 msgid "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level-2.png)"
-msgstr ""
+msgstr "![ASR-envelope](../../../etc/doc/images/tutorial/env-decay-level-2.png)"
 
 #: 02.4-Durations-with-Envelopes.md:191
 msgid "ADSR Envelopes"
-msgstr ""
+msgstr "ADSR-envelopes"
 
 #: 02.4-Durations-with-Envelopes.md:193
 msgid "So to summarise, Sonic Pi's ADSR envelopes have the following phases:"
-msgstr ""
+msgstr "Lad os opsummere: ADSR-envelopes i Sonic Pi har følgende faser:"
 
 #: 02.4-Durations-with-Envelopes.md:195
 msgid "*attack* - time from 0 amplitude to the `attack_level`,"
-msgstr ""
+msgstr "*attack* - tiden det tager at gå fra amplitude 0 til `attack_level`,"
 
 #: 02.4-Durations-with-Envelopes.md:196
 msgid "*decay* - time to move amplitude from `attack_level` to `decay_level`,"
 msgstr ""
+"*decay* - tiden det tager at flytte amplituden fra `attack_level` til "
+"`decay_level`,"
 
 #: 02.4-Durations-with-Envelopes.md:197
 msgid "*sustain* - time to move the amplitude from `decay_level` to `sustain_level`,"
 msgstr ""
+"*sustain* - tiden det tager at flytte amplituden fra `decay_level` til "
+"`sustain_level`,"
 
 #: 02.4-Durations-with-Envelopes.md:198
 msgid "*release* - time to move amplitude from `sustain_level` to 0"
 msgstr ""
+"*release* - tiden det tager at flytte amplituden fra `sustain_level` til 0"
 
 #: 02.4-Durations-with-Envelopes.md:200
 msgid ""
@@ -1772,6 +1853,9 @@ msgid ""
 "mes of each of these phases. Therefore the following sound will have a duratio"
 "n of 0.5 + 1 + 2 + 0.5 = 4 beats:"
 msgstr ""
+"Det er vigtigt at bemærke at lydens totale varighed er summen af "
+"varighederne af disse faser. Den følgende lyd vil derfor have en varighed på "
+"0.5 + 1 + 2 + 0.5 = 4 slag:"
 
 #: 02.4-Durations-with-Envelopes.md:204
 #, no-wrap
@@ -1779,10 +1863,12 @@ msgid ""
 "play 60, attack: 0.5, attack_level: 1, decay: 1, sustain_level: 0.4, sustain: "
 "2, release: 0.5"
 msgstr ""
+"play 60, attack: 0.5, attack_level: 1, decay: 1, sustain_level: 0.4, sustain:"
+" 2, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:208
 msgid "Now go and have a play adding envelopes to your sounds..."
-msgstr ""
+msgstr "Tag nu og leg med at føje envelopes til dine lyde..."
 
 #: 03-Samples.md:1
 msgid "3 Samples"
