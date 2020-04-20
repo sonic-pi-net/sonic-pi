@@ -52,9 +52,7 @@ loop(Tag, Map) ->
             ?MODULE:loop(Tag, Map1);
         {flush, all} ->
             debug("forget all timers tagged \"~s\" ~n", [Tag]),
-            lists:foreach(fun (Ref) ->
-                                  erlang:cancel_timer(Ref, [{async, true}])
-                          end,
+            lists:foreach(fun cancel_timer/1,
                           maps:keys(Map)),
             ?MODULE:loop(Tag, #{});
         {flush, Time} ->
@@ -65,7 +63,7 @@ loop(Tag, Map) ->
                      fun (R, M) ->
                              T = maps:get(R, M),
                              if T > Time ->
-                                     erlang:cancel_timer(R, [{async, true}]),
+                                     cancel_timer(R),
                                      maps:remove(R, M);
                                 true ->
                                      M
@@ -75,3 +73,8 @@ loop(Tag, Map) ->
                      Map),
             ?MODULE:loop(Tag, Map1)
     end.
+
+cancel_timer(Ref) ->
+    %% cancel a timer without waiting and without checking the result
+    erlang:cancel_timer(Ref, [{async, true},{info,false}]),
+    ok.
