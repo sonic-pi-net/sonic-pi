@@ -154,7 +154,9 @@ module SonicPi
       NOISE_TYPES = {
         0 => :white,
         1 => :pink,
-        2 => :perlin
+        2 => :light_pink,
+        3 => :dark_pink,
+        4 => :perlin
       }
 
       # define this helper first so we can set the constants below
@@ -169,6 +171,8 @@ module SonicPi
       # memoize for performance
       RANDOM_NUMBERS_WHITE = self.wav_from_buffer_file("rand-stream.wav")
       RANDOM_NUMBERS_PINK = self.wav_from_buffer_file("rand-stream-pink.wav")
+      RANDOM_NUMBERS_LIGHT_PINK = self.wav_from_buffer_file("rand-stream-light-pink.wav")
+      RANDOM_NUMBERS_DARK_PINK = self.wav_from_buffer_file("rand-stream-dark-pink.wav")
       RANDOM_NUMBERS_PERLIN = self.wav_from_buffer_file("rand-stream-perlin.wav")
 
       def self.get_random_number_distribution
@@ -187,6 +191,10 @@ module SonicPi
           RANDOM_NUMBERS_PERLIN
         when :pink
           RANDOM_NUMBERS_PINK
+        when :light_pink
+          RANDOM_NUMBERS_LIGHT_PINK
+        when :dark_pink
+          RANDOM_NUMBERS_DARK_PINK
         when :white
           RANDOM_NUMBERS_WHITE
         else
