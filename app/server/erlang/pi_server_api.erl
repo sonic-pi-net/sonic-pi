@@ -14,10 +14,10 @@
 
 -module(pi_server_api).
 
--export([start_link/0]).
+-export([start_link/1]).
 
 %% internal
--export([init/1, loop/1]).
+-export([init/2, loop/1]).
 
 %% sys module callbacks
 -export([system_continue/3, system_terminate/4, system_code_change/4,
@@ -73,12 +73,12 @@
 
 
 %% supervisor compliant start function
-start_link() ->
+start_link(CueServer) ->
     %% synchronous start of the child process
-    proc_lib:start_link(?MODULE, init, [self()]).
+    proc_lib:start_link(?MODULE, init, [self(), CueServer]).
 
 
-init(Parent) ->
+init(Parent, CueServer) ->
     register(?SERVER, self()),
     APIPort = application:get_env(?APPLICATION, api_port, undefined),
     io:format("~n"
@@ -99,7 +99,7 @@ init(Parent) ->
           [try erlang:port_info(APISocket) catch _:_ -> undefined end]),
     State = #{parent => Parent,
               api_socket => APISocket,
-              cue_server => pi_server_cue:server_name(),
+              cue_server => CueServer,
               tag_map => #{}
              },
     loop(State).

@@ -33,6 +33,8 @@ start_link() ->
 %% would prevent the application from even being started.
 
 init(_Args) ->
+    CueServer = pi_server_cue:server_name(),
+
     %% Use rest_for_one since the api server requires the cue server.
     %% Try to keep going even if we restart up to 50 times per 30 seconds.
     SupFlags = #{strategy => rest_for_one,
@@ -45,7 +47,7 @@ init(_Args) ->
                     start => {pi_server_cue, start_link, []}
                    },
                   #{id => pi_server_api,
-                    start => {pi_server_api, start_link, []}
+                    start => {pi_server_api, start_link, [CueServer]}
                    }
                  ],
 
