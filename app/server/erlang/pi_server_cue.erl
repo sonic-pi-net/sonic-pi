@@ -14,13 +14,18 @@
 
 -module(pi_server_cue).
 
--export([start/5]).
+-export([start_link/0, server_name/0]).
 
 
 %% internal
--export([loop/6]).
+-export([init/1, loop/1]).
 
--define(SERVER, sonic_pi_osc_cues).
+%% sys module callbacks
+-export([system_continue/3, system_terminate/4, system_code_change/4,
+         system_get_state/1, system_replace_state/2]).
+
+-define(APPLICATION, pi_server).
+-define(SERVER, ?MODULE).
 
 %% time between idling messages
 -define(IDLE_TIME, 60000).
@@ -29,99 +34,137 @@
         [log/1, log/2, debug/2, debug/3, debug/4]).
 
 
-start(InPort, CueHost, CuePort, Internal, Enabled) ->
-    Parent = self(),
-    Pid = spawn(fun() -> init(Parent, InPort, CueHost,
-                              CuePort, Internal, Enabled)
-                end),
-    register(?SERVER, Pid),
-    receive
-        {Pid, started} ->
-            Pid
-    end.
+server_name() ->
+    ?SERVER.
+
+start_link() ->
+    %% synchronous start of the child process
+    proc_lib:start_link(?MODULE, init, [self()]).
 
 
-init(Parent, InPort, CueHost, CuePort, Internal, Enabled) ->
+init(Parent) ->
+    register(?SERVER, self()),
+    InPort = application:get_env(?APPLICATION, in_port, undefined),
+    CueHost = application:get_env(?APPLICATION, cue_host, {127,0,0,1}),
+    CuePort = application:get_env(?APPLICATION, cue_port, undefined),
+    Internal = application:get_env(?APPLICATION, internal, true),
+    Enabled = application:get_env(?APPLICATION, enabled, true),
+    io:format("~n"
+              "+--------------------------------------+~n"
+              "    This is the Sonic Pi OSC Server     ~n"
+              "       Powered by Erlang ~s             ~n"
+              "                                        ~n"
+              "        Incoming OSC on port ~p         ~n"
+              "  OSC cue forwarding to ~p              ~n"
+              "                     on port ~p         ~n"
+              "+--------------------------------------+~n~n~n",
+              [erlang:system_info(otp_release), InPort, CueHost, CuePort]),
+
     case Internal of
         true ->
             {ok, InSocket} = gen_udp:open(InPort, [binary, {ip, loopback}]);
         _ ->
             {ok, InSocket} = gen_udp:open(InPort, [binary])
     end,
-    Parent ! {self(), started},
+
+    %% tell parent we have allocated resources and are up and running
+    proc_lib:init_ack(Parent, {ok, self()}),
+
     debug(2, "listening for OSC cues on socket: ~p~n",
           [try erlang:port_info(InSocket) catch _:_ -> undefined end]),
-    loop(InSocket, InPort, CueHost, CuePort, Internal, Enabled).
+    State = #{parent => Parent,
+              enabled => Enabled,
+              cue_host => CueHost,
+              cue_port => CuePort,
+              internal => Internal,
+              in_port => InPort,
+              in_socket => InSocket
+             },
+    loop(State).
 
-loop(InSocket, InPort, CueHost, CuePort, Internal, Enabled) ->
+loop(State) ->
     receive
-
         {udp, InSocket, Ip, Port, Bin} ->
             debug(3, "cue server got UDP on ~p:~p~n", [Ip, Port]),
             case (catch osc:decode(Bin)) of
                 {cmd, Cmd} ->
-                    case Enabled of
-                        true ->
+                    case State of
+                        #{enabled := true,
+                          cue_host := CueHost,
+                          cue_port := CuePort} ->
                             debug("got incoming OSC: ~p~n", [Cmd]),
-                            forward_cue(CueHost, CuePort, InSocket, Ip, Port, Cmd),
-                            ?MODULE:loop(InSocket, InPort, CueHost, CuePort, Internal, Enabled);
-                        false ->
+                            forward_cue(CueHost, CuePort,
+                                        InSocket, Ip, Port, Cmd),
+                            ?MODULE:loop(State);
+                        #{enabled := false} ->
                             debug("OSC forwarding disabled - ignored: ~p~n", [Cmd]),
-                            ?MODULE:loop(InSocket, InPort, CueHost, CuePort, Internal, Enabled)
+                            ?MODULE:loop(State)
                     end
             end;
 
         {internal, true} ->
-            case Internal of
-                true ->
-                    ?MODULE:loop(InSocket, InPort, CueHost, CuePort, true, Enabled);
-                _ ->
+            case State of
+                #{internal := true} ->
+                    ?MODULE:loop(State);
+                #{internal := false,
+                  in_socket := InSocket,
+                  in_port := InPort} ->
                     log("Switching cue listener to loopback network~n"),
                     gen_udp:close(InSocket),
-                    {ok, NewInSocket} = gen_udp:open(InPort, [binary, {ip, loopback}]),
-                    ?MODULE:loop(NewInSocket, InPort, CueHost, CuePort, true, Enabled)
+                    {ok, NewInSocket} = gen_udp:open(InPort,
+                                                     [binary, {ip, loopback}]),
+                    ?MODULE:loop(State#{internal := true,
+                                        in_socket := NewInSocket})
             end;
 
         {internal, false} ->
-            case Internal of
-                true ->
+            case State of
+                #{internal := true,
+                  in_socket := InSocket,
+                  in_port := InPort} ->
                     log("Switching cue listener to open network~n"),
                     gen_udp:close(InSocket),
                     {ok, NewInSocket} = gen_udp:open(InPort, [binary]),
-                    ?MODULE:loop(NewInSocket, InPort, CueHost, CuePort, false, Enabled);
-                _ ->
-                    ?MODULE:loop(InSocket, InPort, CueHost, CuePort, false, Enabled)
+                    ?MODULE:loop(State#{internal := false,
+                                        in_socket := NewInSocket});
+                #{internal := false} ->
+                    ?MODULE:loop(State#{internal := false})
             end;
 
         {enabled, true} ->
             log("Enabling cue forwarding ~n"),
-            ?MODULE:loop(InSocket, InPort, CueHost, CuePort, Internal, true);
+            ?MODULE:loop(State#{enabled := true});
 
         {enabled, false} ->
             log("Disabling cue forwarding ~n"),
-            ?MODULE:loop(InSocket, InPort, CueHost, CuePort, Internal, false);
+            ?MODULE:loop(State#{enabled := false});
 
         {timeout, Timer, {forward, Time, Data, Tracker}} ->
-            send_forward(InSocket, Time, Data),
+            send_forward(maps:get(in_socket, State), Time, Data),
             pi_server_tracker:forget(Timer, Tracker),
-            ?MODULE:loop(InSocket, InPort, CueHost, CuePort, Internal, Enabled);
+            ?MODULE:loop(State);
 
         {forward, Time, Data} ->
-            send_forward(InSocket, Time, Data),
-            ?MODULE:loop(InSocket, InPort, CueHost, CuePort, Internal, Enabled);
+            send_forward(maps:get(in_socket, State), Time, Data),
+            ?MODULE:loop(State);
 
         {udp_error, _Port, econnreset} ->
             %% Should not happen, but can happen anyway on Windows
             debug(2, "got UDP ECONNRESET - ignored~n", []),
-            ?MODULE:loop(InSocket, InPort, CueHost, CuePort, Internal, Enabled);
+            ?MODULE:loop(State);
 
+        {system, From, Request} ->
+            %% handling system messages (like a gen_server does)
+            sys:handle_system_msg(Request, From,
+                                  maps:get(parent, State),
+                                  ?MODULE, [], State);
         Any ->
 	    log("Cue Server got unexpected message: ~p~n", [Any]),
-	    ?MODULE:loop(InSocket, InPort, CueHost, CuePort, Internal, Enabled)
+	    ?MODULE:loop(State)
 
     after ?IDLE_TIME ->
 	    debug(2, "cue server idling~n", []),
-	    ?MODULE:loop(InSocket, InPort, CueHost, CuePort, Internal, Enabled)
+	    ?MODULE:loop(State)
     end.
 
 send_forward(Socket, Time, {Host, Port, Bin}) ->
@@ -140,3 +183,25 @@ forward_cue(CueHost, CuePort, InSocket, Ip, Port, Cmd) ->
     send_udp(InSocket, CueHost, CuePort, Bin),
     debug("forwarded OSC cue to ~p:~p~n", [CueHost, CuePort]),
     ok.
+
+
+%% sys module callbacks
+
+system_continue(_Parent, _Debug, State) ->
+    loop(State).
+
+system_terminate(Reason, _Parent, _Debug, _State) ->
+    exit(Reason).
+
+system_code_change(_State, _Module, _OldVsn, _Extra) ->
+    ok.
+
+system_get_state(InternalState) ->
+    ExternalState = InternalState,
+    {ok, ExternalState}.
+
+system_replace_state(StateFun, InternalState) ->
+    ExternalState = InternalState,
+    NewExternalState = StateFun(ExternalState),
+    NewInternalState = NewExternalState,
+    {ok, NewExternalState, NewInternalState}.

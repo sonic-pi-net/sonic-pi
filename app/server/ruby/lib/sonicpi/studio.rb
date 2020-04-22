@@ -74,9 +74,9 @@ module SonicPi
 
     def __erl_mut_start_erlang
       return @erlang_pid if @erlang_pid
-      # Start Erlang
+      # Start Erlang (initially with cue forwarding disabled)
       begin
-        erlang_cmd = __exec_path("#{erlang_boot_path} +C multi_time_warp -noshell -pz \"#{erlang_server_path}\" -s pi_server start #{@erlang_port} #{@osc_cues_port} #{@server_port}")
+        erlang_cmd = __exec_path("#{erlang_boot_path} +C multi_time_warp -noshell -pz \"#{erlang_server_path}\" -pi_server api_port #{@erlang_port} in_port #{@osc_cues_port} cue_port #{@server_port} enabled false -s pi_server start")
         STDOUT.puts erlang_cmd
         @erlang_pid = spawn erlang_cmd, out: erlang_log_path, err: erlang_log_path
         register_process(@erlang_pid)

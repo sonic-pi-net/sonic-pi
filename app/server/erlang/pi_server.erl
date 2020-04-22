@@ -12,42 +12,15 @@
 %% notice is included.
 %% ++
 
--export([start/1]).
+-export([start/0]).
 
-%% Just run pi_server:start() in a separate shell
+-define(APPLICATION, pi_server).
 
 
-cue_server_host() ->
-    {127, 0, 0, 1}.
-
-start([ARGVAPIPort, ARGVInPort, ARGVCuePort|_T]) ->
-    A = atom_to_list(ARGVAPIPort),
-    {Port, _Rest} = string:to_integer(A),
-
-    B = atom_to_list(ARGVInPort),
-    {InPort, _Rest} = string:to_integer(B),
-
-    C = atom_to_list(ARGVCuePort),
-    {CuePort, _Rest} = string:to_integer(C),
-
-    CueHost = cue_server_host(),
-
-    Internal = true,
-
-    Enabled = false,
-
-    io:format("~n"
-              "+--------------------------------------+~n"
-              "    This is the Sonic Pi IO Server      ~n"
-              "       Powered by Erlang ~p             ~n"
-              "                                        ~n"
-              "       API listening on port ~p         ~n"
-              "        Incoming OSC on port ~p         ~n"
-              "  OSC cue forwarding to ~p              ~n"
-              "                     on port ~p         ~n"
-              "+--------------------------------------+~n~n~n",
-              [erlang:system_info(otp_release), Port, InPort, CueHost, CuePort]),
-
-    CuePid = pi_server_cue:start(InPort, CueHost, CuePort, Internal, Enabled),
-    pi_server_api:start(Port, CuePid),
+%% API for launching as an OTP application from the command line
+%% "erl -pi_server api_port $API_PORT in_port $IN_PORT cue_port $CUE_PORT \
+%%      -s pi_server start"
+start() ->
+    %% note that this will dispatch using the 'mod' entry in pi_server.app
+    {ok, _} = application:ensure_all_started(?APPLICATION),
     ok.
