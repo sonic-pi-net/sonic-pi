@@ -153,57 +153,57 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2084"/>
         <source>Align code to improve readability</source>
-        <translation type="unfinished"></translation>
+        <translation>把程式碼對齊以便增進可讀性</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2088"/>
         <source>Text Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation>放大字體</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2094"/>
         <source>Text Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation>縮小字體</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2100"/>
         <source>Toggle Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>範圍切換</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2102"/>
         <source>Toggle visibility of audio oscilloscope</source>
-        <translation type="unfinished"></translation>
+        <translation>切換音頻示波器的可見性</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2106"/>
         <source>Show Info</source>
-        <translation type="unfinished"></translation>
+        <translation>顯示訊息</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2112"/>
         <source>Toggle Help</source>
-        <translation type="unfinished"></translation>
+        <translation>切換幫助</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2118"/>
         <source>Toggle Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>切換偏好設定</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2149"/>
         <source>&amp;File</source>
-        <translation type="unfinished"></translation>
+        <translation>及文件</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2156"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>及編輯</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2160"/>
         <source>&amp;Window</source>
-        <translation type="unfinished"></translation>
+        <translation>及視窗</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2263"/>
@@ -280,7 +280,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="730"/>
         <source>Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>作用域</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1511"/>
@@ -351,17 +351,17 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1826"/>
         <source>Colour Theme: </source>
-        <translation type="unfinished"></translation>
+        <translation>色彩主題 </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2065"/>
         <source>Start recording to a WAV audio file</source>
-        <translation type="unfinished"></translation>
+        <translation>開始錄製為 WAV 音訊檔</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2069"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>儲存</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2071"/>
@@ -424,17 +424,17 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2776"/>
         <source>Disabling OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>禁用 OSC 提示端口...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2785"/>
         <source>Enabling external OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>啟用 OSC 提示端口...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2794"/>
         <source>Enabling internal OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>啟用內部 OSC 提示端口...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2852"/>
@@ -531,17 +531,17 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="430"/>
         <source>Studio Mode Enabled. Thank-you for supporting Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation>工作室模式啟動。感謝您支持 Sonic Pi。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="434"/>
         <source>No Matching Studio Hash Found...</source>
-        <translation type="unfinished"></translation>
+        <translation>無符合的工作室雜湊值...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="670"/>
         <source>| %1 |</source>
-        <translation type="unfinished"></translation>
+        <translation>| %1 |</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2198"/>
@@ -596,32 +596,32 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../visualizer/scope.cpp" line="392"/>
         <source>Lissajous</source>
-        <translation type="unfinished"></translation>
+        <translation>Lissajous</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="393"/>
         <source>Left</source>
-        <translation type="unfinished"></translation>
+        <translation>左聲道</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="394"/>
         <source>Right</source>
-        <translation type="unfinished"></translation>
+        <translation>右聲道</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="395"/>
         <source>Mono</source>
-        <translation type="unfinished"></translation>
+        <translation>單聲道</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="396"/>
         <source>Mirror Stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>鏡像立體聲</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="398"/>
         <source>Spectrum</source>
-        <translation type="unfinished"></translation>
+        <translation>頻譜</translation>
     </message>
 </context>
 <context>
@@ -629,66 +629,69 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="31"/>
         <source>Audio</source>
-        <translation type="unfinished">音頻</translation>
+        <translation>音頻</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="34"/>
         <source>IO</source>
-        <translation type="unfinished">IO</translation>
+        <translation>IO 輸入輸出</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="37"/>
         <source>Editor</source>
-        <translation type="unfinished">編輯器</translation>
+        <translation>編輯器</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="40"/>
         <source>Visuals</source>
-        <translation type="unfinished">視覺</translation>
+        <translation>視覺效果</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="43"/>
         <location filename="../widgets/settingswidget.cpp" line="409"/>
         <source>Updates</source>
-        <translation type="unfinished">更新</translation>
+        <translation>軟體更新</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="80"/>
         <source>Master Volume</source>
-        <translation type="unfinished">主音量</translation>
+        <translation>主音量</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="81"/>
         <source>Use this slider to change the system volume.</source>
-        <translation type="unfinished">使用滑桿來變更系統音量。</translation>
+        <translation>使用滑桿來變更系統音量。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="87"/>
         <source>Audio Output</source>
-        <translation type="unfinished">音訊輸出</translation>
+        <translation>音訊輸出</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="88"/>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
-        <translation type="unfinished">使用外部PA系統進行表演時進行高級音量設定。</translation>
+        <translation>使用外部 PA 系統進行表演時
+進行高級音量設定。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="89"/>
         <source>Invert stereo</source>
-        <translation type="unfinished">反轉立體聲</translation>
+        <translation>反轉立體聲</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="90"/>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and vice versa.</source>
-        <translation type="unfinished"></translation>
+        <translation>切換立體聲反轉。
+如果啟用，傳入左揚聲器的音頻會
+被送入右揚聲器，反之亦然。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="91"/>
         <source>Force mono</source>
-        <translation type="unfinished">強制使用單聲道</translation>
+        <translation>強制使用單聲道</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="92"/>
@@ -698,7 +701,9 @@ the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
         <translation type="unfinished">切換單聲道模式。
-選中該選項時，左右聲道將混合爲單聲道信號，並同時發送到左右聲道輸出揚聲器。該選項對於只能處理單聲道信號的輸出對象裝置相當有用。</translation>
+選中該選項時，左右聲道將混合爲單聲道信號，
+並同時發送到左右聲道輸出揚聲器。
+該選項對於只能處理單聲道信號的輸出對象裝置相當有用。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="101"/>
@@ -708,12 +713,12 @@ can only handle mono.</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="102"/>
         <source>Modify behaviour of synths and FX</source>
-        <translation type="unfinished">修改合成器和效果器參數</translation>
+        <translation>修改合成器和效果器參數</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="104"/>
         <source>Safe mode</source>
-        <translation type="unfinished">安全模式</translation>
+        <translation>安全模式</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="105"/>
