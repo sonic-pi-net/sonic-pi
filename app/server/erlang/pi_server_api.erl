@@ -26,9 +26,6 @@
 -define(APPLICATION, pi_server).
 -define(SERVER, ?MODULE).
 
-%% time between idling messages
--define(IDLE_TIME, 60000).
-
 %% Bundles whose delay time is not greater than NODELAY_LIMIT
 %% are forwarded directly without starting a timer.
 -define(NODELAY_LIMIT, 1).
@@ -142,9 +139,6 @@ loop(State) ->
                                   ?MODULE, [], State);
         Any ->
             log("API Server got unexpected message: ~p~n", [Any]),
-            ?MODULE:loop(State)
-    after ?IDLE_TIME ->
-            debug(2, "api process idling~n", []),
             ?MODULE:loop(State)
     end.
 

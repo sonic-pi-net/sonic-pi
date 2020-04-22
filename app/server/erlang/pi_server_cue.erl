@@ -27,9 +27,6 @@
 -define(APPLICATION, pi_server).
 -define(SERVER, ?MODULE).
 
-%% time between idling messages
--define(IDLE_TIME, 60000).
-
 -import(pi_server_util,
         [log/1, log/2, debug/2, debug/3, debug/4]).
 
@@ -166,10 +163,6 @@ loop(State) ->
                                   ?MODULE, [], State);
         Any ->
 	    log("Cue Server got unexpected message: ~p~n", [Any]),
-	    ?MODULE:loop(State)
-
-    after ?IDLE_TIME ->
-	    debug(2, "cue server idling~n", []),
 	    ?MODULE:loop(State)
     end.
 
