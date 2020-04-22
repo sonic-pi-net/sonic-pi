@@ -108,7 +108,7 @@ loop(State) ->
     receive
         {udp, _APISocket, _Ip, _Port, Bin} ->
             debug(3, "api server got UDP on ~p:~p~n", [_Ip, _Port]),
-            case (catch osc:decode(Bin)) of
+            try osc:decode(Bin) of
                 {bundle, Time, X} ->
                     debug("got bundle for time ~f~n", [Time]),
                     NewState = do_bundle(Time, X, State),
@@ -128,9 +128,11 @@ loop(State) ->
                     ?MODULE:loop(State);
                 {cmd, Cmd} ->
                     log("Unknown command: \"~s\"~n", [Cmd]),
-                    ?MODULE:loop(State);
-                {'EXIT', Why} ->
-                    log("Error decoding: ~p ~p~n",[Bin, Why]),
+                    ?MODULE:loop(State)
+            catch
+                Class:Term:Trace ->
+                    log("Error decoding OSC: ~p~n~p:~p~n~p~n",
+                        [Bin, Class, Term, Trace]),
                     ?MODULE:loop(State)
             end;
         {system, From, Request} ->
@@ -154,15 +156,19 @@ send_to_cue(Message, State) ->
 debug_cmd([Cmd|Args]) ->
     debug("command: ~s ~p~n", [Cmd, Args]).
 
-do_bundle(Time, [{_,B}], State) ->
-    {cmd, Cmd} = osc:decode(B),
-    case Cmd of
-        ["/send_after", Host, Port | Cmd1] ->
-            schedule_cmd("default", Time, Host, Port, Cmd1, State);
-        ["/send_after_tagged", Tag, Host, Port | Cmd1] ->
-            schedule_cmd(Tag, Time, Host, Port, Cmd1, State);
-        _ ->
-            log("Unexpected bundle:~p~n", [Cmd]),
+do_bundle(Time, [{_,Bin}], State) ->
+    try osc:decode(Bin) of
+        {cmd, ["/send_after", Host, Port | Cmd]} ->
+            schedule_cmd("default", Time, Host, Port, Cmd, State);
+        {cmd, ["/send_after_tagged", Tag, Host, Port | Cmd]} ->
+            schedule_cmd(Tag, Time, Host, Port, Cmd, State);
+        Other ->
+            log("Unexpected bundle content:~p~n", [Other]),
+            State
+    catch
+        Class:Term:Trace ->
+            log("Error decoding OSC: ~p~n~p:~p~n~p~n",
+                [Bin, Class, Term, Trace]),
             State
     end.
 

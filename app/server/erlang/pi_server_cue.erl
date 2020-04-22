@@ -86,7 +86,8 @@ loop(State) ->
     receive
         {udp, InSocket, Ip, Port, Bin} ->
             debug(3, "cue server got UDP on ~p:~p~n", [Ip, Port]),
-            case (catch osc:decode(Bin)) of
+            try osc:decode(Bin) of
+                %% TODO: handle {bundle, Time, X}?
                 {cmd, Cmd} ->
                     case State of
                         #{enabled := true,
@@ -100,6 +101,11 @@ loop(State) ->
                             debug("OSC forwarding disabled - ignored: ~p~n", [Cmd]),
                             ?MODULE:loop(State)
                     end
+            catch
+                Class:Term:Trace ->
+                    log("Error decoding OSC: ~p~n~p:~p~n~p~n",
+                        [Bin, Class, Term, Trace]),
+                    ?MODULE:loop(State)
             end;
 
         {internal, true} ->
@@ -175,7 +181,7 @@ send_forward(Socket, Time, {Host, Port, Bin}) ->
     ok.
 
 send_udp(Socket, Host, Port, Bin) ->
-    catch gen_udp:send(Socket, Host, Port, Bin),
+    gen_udp:send(Socket, Host, Port, Bin),
     ok.
 
 forward_cue(CueHost, CuePort, InSocket, Ip, Port, Cmd) ->
