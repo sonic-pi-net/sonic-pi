@@ -18,6 +18,7 @@
 
 // Qt stuff
 #include <QDesktopWidget>
+#include <QDesktopServices>
 #include <QAction>
 #include <QApplication>
 #include <QFileDialog>
@@ -790,7 +791,9 @@ void MainWindow::setupWindowStructure() {
     policy.setHorizontalStretch(QSizePolicy::Maximum);
     docPane->setSizePolicy(policy);
     docPane->setMinimumHeight(100);
+    docPane->setOpenLinks(false);
     docPane->setOpenExternalLinks(true);
+    connect(docPane, SIGNAL(anchorClicked(const QUrl &)), this, SLOT(docLinkClicked(const QUrl &)));
 
     QShortcut *up = new QShortcut(ctrlKey('p'), docPane);
     up->setContext(Qt::WidgetShortcut);
@@ -832,6 +835,35 @@ void MainWindow::setupWindowStructure() {
     mainWidget->setObjectName("mainWidget");
     setCentralWidget(mainWidget);
 
+}
+
+void MainWindow::docLinkClicked(const QUrl &url) {
+    QString link = url.toDisplayString();
+    std::cout << "[GUI] Link clicked: " << link.toStdString() << std::endl;
+
+    if (url.scheme() == "sonicpi") {
+        handleCustomUrl(url);
+    } else if (url.isRelative() || url.isLocalFile() || url.scheme() == "qrc") {
+        docPane->setSource(url);
+    } else {
+        QDesktopServices::openUrl(url);
+    }
+}
+
+void MainWindow::handleCustomUrl(const QUrl &url) {
+    if (url.host() == "play-sample") {
+        QString sample = url.path();
+        sample.remove(QRegExp("^/"));
+        QString code = "use_debug false\n"
+            "use_real_time\n"
+            "sample :" + sample;
+        Message msg("/run-code");
+        msg.pushStr(guiID.toStdString());
+        msg.pushStr(code.toStdString());
+        if (sendOSC(msg)) {
+            statusBar()->showMessage(tr("Playing Sample..."), 1000);
+        }
+    }
 }
 
 void MainWindow::escapeWorkspaces() {

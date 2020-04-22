@@ -98,6 +98,8 @@ signals:
 
         private slots:
             void addCuePath(QString path, QString val);
+        void docLinkClicked(const QUrl &url);
+        void handleCustomUrl(const QUrl &url);
         void zoomInLogs();
         void zoomOutLogs();
         QString sonicPiHomePath();
