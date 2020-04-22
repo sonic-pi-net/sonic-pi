@@ -6,11 +6,50 @@ module SonicPi
     include SonicPi::Lang::Core
 
     def test_rand
+      use_random_stream :white
       rand_reset
       assert_equal(rand, 0.75006103515625)
       assert_equal(rand, 0.733917236328125)
       assert_equal(rand, 0.464202880859375)
       assert_equal(rand, 0.24249267578125)
+    end
+
+    def test_rand_type
+      use_random_stream :white
+      rand_reset
+      assert_equal(rand, 0.75006103515625)
+      assert_equal(rand, 0.733917236328125)
+      use_random_stream :white
+      rand_reset
+      assert_equal(rand, 0.75006103515625)
+      assert_equal(rand, 0.733917236328125)
+      use_random_stream :pink
+      rand_reset
+      assert_equal(rand, 0.47808837890625)
+      assert_equal(rand, 0.56011962890625)
+      use_random_stream :light_pink
+      rand_reset
+      assert_equal(rand, 0.53851318359375)
+      assert_equal(rand, 0.54705810546875)
+      use_random_stream :dark_pink
+      rand_reset
+      assert_equal(rand, 0.442596435546875)
+      assert_equal(rand, 0.443756103515625)
+      use_random_stream :perlin
+      rand_reset
+      assert_equal(rand, 0.546478271484375)
+      assert_equal(rand, 0.573150634765625)
+      with_random_stream :white do
+        # matches 3rd value from test_rand
+        # index is not reset when changing type
+        assert_equal(rand, 0.464202880859375)
+      end
+
+      # last stream type was perlin
+      assert_equal(rand, 0.597015380859375)
+
+      # return to default
+      use_random_stream :white
     end
 
     def test_rand_reset

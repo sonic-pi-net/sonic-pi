@@ -3418,6 +3418,105 @@ print rand_i_look(5) #=> will print the same number as the previous statement"
 
 
 
+      def use_random_stream(noise_type, &block)
+        raise ArgumentError, "use_random_stream does not work with a block. Perhaps you meant with_random_stream" if block
+        raise ArgumentError, "invalid noise type '#{noise_type}' - please use one of :white, :pink, :light_pink, :dark_pink or :perlin instead" unless %w(white pink light_pink dark_pink perlin).include?(noise_type.to_s)
+
+        SonicPi::Core::SPRand.set_random_number_distribution!(noise_type)
+      end
+      doc name:           :use_random_stream,
+          introduced:     Version.new(3,2,3),
+          summary:        "Change how random numbers are chosen",
+          args:           [[:noise_type, :symbol]],
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "Sets the random number source to be one of :white, :pink, :light_pink, :dark_pink or :perlin.
+      :white is totally random - between 0 and 1, you can expect an even spread of values around 0.1, 0.2, 0.3 etc. This means that jumping around within the range (including large jumps) is expected.
+      :pink is more likely to produce values in the middle of the range and less likely to produce values at the extremes. Between 0 and 1 you expect to see a concentration of values around 0.5. This can make random melodies a little bit more smooth.
+      :perlin is a special kind of noise which produces gradients, a bit like a mountain landscape. Large jumps are much less likely and you will tend to see lots of smooth motion going either up or down
+      :light_pink is halfway between white noise and pink noise - more random and jumpy
+      :dark_pink is halfway between pink noise and brown noise - less jumpy with smoother slopes
+      You can see the 'buckets' that the numbers between 0 and 1 fall into with the following code:
+
+        rand_type :white
+        puts 10000.times.collect { rand.round(1) }.tally.sort
+        rand_type :pink
+        puts 10000.times.collect { rand.round(1) }.tally.sort
+        rand_type :perlin
+        puts 10000.times.collect { rand.round(1) }.tally.sort
+
+      ",
+          examples:       ["
+  use_random_stream :white # use white noise as the distribution (default)
+  use_random_seed 1 # reset random seed to 1
+  puts rand # => 0.733917236328125
+  puts rand  #=> 0.464202880859375
+  use_random_seed 1 # reset it back to 1
+  use_random_stream :pink # use pink noise as the distribution
+  puts rand # => 0.464202880859375
+  puts rand # => 0.445465087890625
+  use_random_seed 1 # reset it back to 1
+  use_random_stream :perlin # use perlin noise as the distribution
+  puts rand # => 0.521209716796875
+  puts rand # => 0.531524658203125
+
+  with_random_stream :white do # reset seed back to 1 just for this block
+    puts rand # => 0.733917236328125
+    puts rand #=> 0.464202880859375
+  end
+
+  puts rand # => 0.541961669921875
+            # notice how the last generator (perlin) is restored"]
+
+
+
+
+
+
+      def with_random_stream(noise_type, &block)
+        raise ArgumentError, "with_random_stream requires a block. Perhaps you meant use_random_stream" unless block
+        raise ArgumentError, "invalid noise type '#{noise_type}' - please use one of :white, :pink, :light_pink, :dark_pink or :perlin instead" unless %w(white pink light_pink dark_pink perlin).include?(noise_type.to_s)
+        new_thread_gen_type = SonicPi::Core::SPRand.get_random_number_distribution
+
+        SonicPi::Core::SPRand.set_random_number_distribution!(noise_type)
+        res = block.call
+        SonicPi::Core::SPRand.set_random_number_distribution!(new_thread_gen_type)
+        res
+      end
+      doc name:           :with_random_stream,
+          introduced:     Version.new(3,2,3),
+          summary:        "Specify random distribution for code block",
+          doc:            "Resets the random number generator to the specified noise type for the specified code block. All generated random numbers and randomisation functions such as `shuffle` and `choose` within the code block will use this new generator. Once the code block has completed, the original generator is restored and the code block generator is discarded. Use this to change the sequence of random numbers in your piece in a way that can be reproduced. Especially useful if combined with iteration. See examples.",
+          args:           [[:noise_type, :symbol]],
+          opts:           nil,
+          accepts_block:  true,
+          requires_block: true,
+          examples:      ["
+  use_random_stream :white # use white noise as the distribution (default)
+  use_random_seed 1 # reset random seed to 1
+  puts rand # => 0.733917236328125
+  puts rand  #=> 0.464202880859375
+  use_random_seed 1 # reset it back to 1
+  use_random_stream :pink # use pink noise as the distribution
+  puts rand # => 0.464202880859375
+  puts rand # => 0.445465087890625
+  use_random_seed 1 # reset it back to 1
+  use_random_stream :perlin # use perlin noise as the distribution
+  puts rand # => 0.521209716796875
+  puts rand # => 0.531524658203125
+
+  with_random_stream :white do # reset seed back to 1 just for this block
+    puts rand # => 0.733917236328125
+    puts rand #=> 0.464202880859375
+  end
+
+  puts rand # => 0.541961669921875
+            # notice how the last generator (perlin) is restored"
+      ]
+
+
+
+
       # Give a deprecation warning to users coming from v1.0
       def with_tempo(*args, &block)
         raise DeprecationError, "The function with_tempo is deprecated since v2.0. Please consider use_bpm or with_bpm."
