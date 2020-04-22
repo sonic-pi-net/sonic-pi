@@ -3448,24 +3448,24 @@ print rand_i_look(5) #=> will print the same number as the previous statement"
       ",
           examples:       ["
   use_random_stream :white # use white noise as the distribution (default)
-  use_random_seed 1 # reset random seed to 1
+  rand_reset # reset random seed
+  puts rand # => 0.75006103515625
   puts rand # => 0.733917236328125
-  puts rand  #=> 0.464202880859375
-  use_random_seed 1 # reset it back to 1
-  use_random_stream :pink # use pink noise as the distribution
   puts rand # => 0.464202880859375
-  puts rand # => 0.445465087890625
-  use_random_seed 1 # reset it back to 1
+  rand_reset # reset it again
+  use_random_stream :pink # use pink noise as the distribution
+  puts rand # => 0.47808837890625
+  puts rand # => 0.56011962890625
+  rand_reset # reset it
   use_random_stream :perlin # use perlin noise as the distribution
-  puts rand # => 0.521209716796875
-  puts rand # => 0.531524658203125
+  puts rand # => 0.546478271484375
+  puts rand # => 0.573150634765625
 
-  with_random_stream :white do # reset seed back to 1 just for this block
-    puts rand # => 0.733917236328125
-    puts rand #=> 0.464202880859375
+  with_random_stream :white do # use white noise just for this block
+    puts rand # => 0.464202880859375
   end
 
-  puts rand # => 0.541961669921875
+  puts rand # => 0.597015380859375
             # notice how the last generator (perlin) is restored"]
 
 
@@ -3493,24 +3493,24 @@ print rand_i_look(5) #=> will print the same number as the previous statement"
           requires_block: true,
           examples:      ["
   use_random_stream :white # use white noise as the distribution (default)
-  use_random_seed 1 # reset random seed to 1
+  rand_reset # reset random seed
+  puts rand # => 0.75006103515625
   puts rand # => 0.733917236328125
-  puts rand  #=> 0.464202880859375
-  use_random_seed 1 # reset it back to 1
-  use_random_stream :pink # use pink noise as the distribution
   puts rand # => 0.464202880859375
-  puts rand # => 0.445465087890625
-  use_random_seed 1 # reset it back to 1
+  rand_reset # reset it again
+  use_random_stream :pink # use pink noise as the distribution
+  puts rand # => 0.47808837890625
+  puts rand # => 0.56011962890625
+  rand_reset # reset it
   use_random_stream :perlin # use perlin noise as the distribution
-  puts rand # => 0.521209716796875
-  puts rand # => 0.531524658203125
+  puts rand # => 0.546478271484375
+  puts rand # => 0.573150634765625
 
-  with_random_stream :white do # reset seed back to 1 just for this block
-    puts rand # => 0.733917236328125
-    puts rand #=> 0.464202880859375
+  with_random_stream :white do # use white noise just for this block
+    puts rand # => 0.464202880859375
   end
 
-  puts rand # => 0.541961669921875
+  puts rand # => 0.597015380859375
             # notice how the last generator (perlin) is restored"
       ]
 
