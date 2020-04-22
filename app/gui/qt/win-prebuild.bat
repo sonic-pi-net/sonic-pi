@@ -19,4 +19,4 @@ copy /Y utils\ruby_help.tmpl utils\ruby_help.h
 ..\..\server\native\ruby\bin\ruby ../../server/ruby/bin/qt-doc.rb -o utils/ruby_help.h
 
 @echo Updating GUI translation files...
-forfiles /p lang /s /m *.ts /c "cmd /c %QT_INSTALL_LOCATION%/bin/lrelease @file"
+forfiles /p lang /s /m *.ts /c "cmd /c %QT_INSTALL_LOCATION%\bin\lrelease.exe @file"
