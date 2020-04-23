@@ -4138,7 +4138,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
           opts:          nil,
           accepts_block: false,
           examples:      ["
-puts freesound(250129)    # preloads a freesound and prints its local path, such as '/home/user/.sonic_pi/freesound/250129.wav'"]
+puts freesound_path(250129)    # preloads a freesound and prints its local path, such as '/home/user/.sonic_pi/freesound/250129.ogg'"]
 
       def freesound(id, *opts)
         path = freesound_path(id)
@@ -4168,7 +4168,7 @@ freesound(250129)  # takes time to download the first time, but then the sample 
 ",
 "
 loop do
-  sample freesound(27130)
+  freesound 27130
   sleep sample_duration(27130)
 end
 "
