@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-04-20 08:11+0000\n"
+"PO-Revision-Date: 2020-05-04 08:11+0000\n"
 "Last-Translator: Ole Friis Østergaard <olefriis@gmail.com>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "da/>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.0.2-dev\n"
+"X-Generator: Weblate 4.1-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -1247,12 +1247,12 @@ msgid ""
 " let's learn how to select the current synth to use."
 msgstr ""
 "Sonic Pi har en masse forskellige instrumenter som vi kalder synths. Det er "
-"en forkortelse for *synthesisers*. I modsætning til lydklip, som er lyde der "
-"er optaget på forhånd, kan synths generere nye lyde afhængigt af hvordan du "
-"styrer dem - det vil vi komme nærmere ind på senere i denne vejledning. De "
-"synths som Sonic Pi tilbyder, er meget udtryksfulde, og du vil få meget sjov "
-"ud af at udforske og lege med dem. Lad os først få lært hvordan man vælger "
-"en synth."
+"en forkortelse for *synthesisers*. I modsætning til samples, som er lydklip "
+"der er optaget på forhånd, kan synths generere nye lyde afhængigt af hvordan "
+"du styrer dem - det vil vi komme nærmere ind på senere i denne vejledning. "
+"De synths som Sonic Pi tilbyder, er meget udtryksfulde, og du vil få meget "
+"sjov ud af at udforske og lege med dem. Lad os først få lært hvordan man "
+"vælger en synth."
 
 #: 02.3-Switching-Synths.md:21
 msgid "Buzzy saws and prophets"
@@ -1872,11 +1872,11 @@ msgstr "Tag nu og leg med at føje envelopes til dine lyde..."
 
 #: 03-Samples.md:1
 msgid "3 Samples"
-msgstr ""
+msgstr "3 Samples"
 
 #: 03-Samples.md:3
 msgid "Samples"
-msgstr ""
+msgstr "Samples"
 
 #: 03-Samples.md:5
 msgid ""
@@ -1885,6 +1885,10 @@ msgid ""
 "ake a microphone outside, go and record the gentle sound of rain hitting canva"
 "s, you've just created a sample."
 msgstr ""
+"En anden god måde at udvikle din musik på er at bruge optagede lydklip. I "
+"respekt for den fantastiske hip-hop-tradition kalder vi disse lydklip for "
+"*samples*. Så hvis du tager en mikrofon med dig udenfor og optager den blide "
+"lyd af regn der rammer et stykke stof, så har du lavet en sample."
 
 #: 03-Samples.md:10
 msgid ""
@@ -1892,25 +1896,30 @@ msgid ""
 "th 130 public domain samples ready for you to jam with, it lets you play and m"
 "anipulate your own. Let's get to it..."
 msgstr ""
+"Sonic Pi giver dig mulighed for at gøre mange sjove ting med samples. Ikke "
+"alene kommer det med 130 indbyggede samples som du frit kan lege med; det "
+"lader dig også afspille og manipulere dine egne. Lad os prøve..."
 
 #: 03.1-Triggering-Samples.md:1
 msgid "3.1 Triggering Samples"
-msgstr ""
+msgstr "3.1 Afspilning af samples"
 
 #: 03.1-Triggering-Samples.md:3
 msgid "Triggering Samples"
-msgstr ""
+msgstr "Afspilning af samples"
 
 #: 03.1-Triggering-Samples.md:5
 msgid ""
 "Playing beeps is only the beginning. Something that's a lot of fun is triggeri"
 "ng pre-recorded samples. Try it:"
 msgstr ""
+"At afspille bip-lyde er kun begyndelsen. Noget andet der er virkelig sjovt, "
+"er at afspille optagede samples. Prøv det:"
 
 #: 03.1-Triggering-Samples.md:8
 #, no-wrap
 msgid "sample :ambi_lunar_land"
-msgstr ""
+msgstr "sample :ambi_lunar_land"
 
 #: 03.1-Triggering-Samples.md:12
 msgid ""
@@ -1918,6 +1927,9 @@ msgid ""
 "e you use the `play` command. To play multiple samples and notes just write th"
 "em one after another:"
 msgstr ""
+"Sonic Pi kommer med mange samples du kan lege med. Du kan bruge dem ligesom "
+"du bruger `play`-kommandoen. For at afspille flere samples og toner skriver "
+"du dem bare efter hinanden:"
 
 #: 03.1-Triggering-Samples.md:16
 #, no-wrap
@@ -1927,10 +1939,16 @@ msgid ""
 "sample :ambi_lunar_land\n"
 "sample :ambi_drone"
 msgstr ""
+"play 36\n"
+"play 48\n"
+"sample :ambi_lunar_land\n"
+"sample :ambi_drone"
 
 #: 03.1-Triggering-Samples.md:23
 msgid "If you want to space them out in time, use the `sleep` command:"
 msgstr ""
+"Hvis ikke du vil afspille dem oven i hinanden, kan du bruge "
+"`sleep`-kommandoen:"
 
 #: 03.1-Triggering-Samples.md:25
 #, no-wrap
@@ -1944,6 +1962,14 @@ msgid ""
 "sleep 1\n"
 "play 36"
 msgstr ""
+"sample :ambi_lunar_land\n"
+"sleep 1\n"
+"play 48\n"
+"sleep 0.5\n"
+"play 36\n"
+"sample :ambi_drone\n"
+"sleep 1\n"
+"play 36"
 
 #: 03.1-Triggering-Samples.md:36
 msgid ""
@@ -1952,10 +1978,14 @@ msgid ""
 " of the sounds. This allows you to easily layer sounds together creating inter"
 "esting overlap effects."
 msgstr ""
+"Bemærk hvordan Sonic Pi ikke venter på at én lyd bliver færdig før den "
+"starter på den næste lyd. `sleep`-kommandoen styrer kun hvor lang tid der "
+"går mellem lydene *starter*. Det giver dig mulighed for nemt at lægge flere "
+"lyde oven i hinanden og skabe interessante effekter."
 
 #: 03.1-Triggering-Samples.md:42
 msgid "Discovering Samples"
-msgstr ""
+msgstr "Udforskning af samples"
 
 #: 03.1-Triggering-Samples.md:44
 msgid ""
@@ -1964,6 +1994,10 @@ msgid ""
 " this help screen, choose your category and then you'll see a list of availabl"
 "e sounds."
 msgstr ""
+"Der er to måder at udforske de mange samples der kommer med Sonic Pi. For "
+"det første kan du bruge dette hjælpesystem. Klik på Samples i menuen i "
+"bunden af dette hjælpefelt og vælg din kategori, hvorefter du vil se en "
+"liste af tilgængelige lyde."
 
 #: 03.1-Triggering-Samples.md:49
 msgid ""
@@ -1971,50 +2005,54 @@ msgid ""
 "of a sample group such as: `sample :ambi_` and you'll see a drop-down of sampl"
 "e names appear for you to select. Try the following category prefixes:"
 msgstr ""
+"Du kan også bruge *auto-complete-systemet*. Skriv blot starten af navnet på "
+"en sample, såsom `sample :ambi_`, og så vil der dukke en menu op med navne "
+"på samples du kan vælge imellem. Prøv følgende begyndelser på navne i "
+"forskellige kategorier:"
 
 #: 03.1-Triggering-Samples.md:54
 msgid "`:ambi_`"
-msgstr ""
+msgstr "`:ambi_`"
 
 #: 03.1-Triggering-Samples.md:55
 msgid "`:bass_`"
-msgstr ""
+msgstr "`:bass_`"
 
 #: 03.1-Triggering-Samples.md:56
 msgid "`:elec_`"
-msgstr ""
+msgstr "`:elec_`"
 
 #: 03.1-Triggering-Samples.md:57
 msgid "`:perc_`"
-msgstr ""
+msgstr "`:perc_`"
 
 #: 03.1-Triggering-Samples.md:58
 msgid "`:guit_`"
-msgstr ""
+msgstr "`:guit_`"
 
 #: 03.1-Triggering-Samples.md:59
 msgid "`:drum_`"
-msgstr ""
+msgstr "`:drum_`"
 
 #: 03.1-Triggering-Samples.md:60
 msgid "`:misc_`"
-msgstr ""
+msgstr "`:misc_`"
 
 #: 03.1-Triggering-Samples.md:61
 msgid "`:bd_`"
-msgstr ""
+msgstr "`:bd_`"
 
 #: 03.1-Triggering-Samples.md:63
 msgid "Now start mixing samples into your compositions!"
-msgstr ""
+msgstr "Prøv nu at blande samples ind i dine egne kompositioner!"
 
 #: 03.2-Sample-Params.md:1
 msgid "3.2 Sample Parameters"
-msgstr ""
+msgstr "3.2 Sample-parametre"
 
 #: 03.2-Sample-Params.md:3
 msgid "Sample Parameters: Amp and Pan"
-msgstr ""
+msgstr "Sample-parametre: Amplitude og panorering"
 
 #: 03.2-Sample-Params.md:5
 msgid ""
@@ -2022,25 +2060,30 @@ msgid ""
 "es support exactly the same parameterisation mechanism. Let's revisit our frie"
 "nds `amp:` and `pan:`."
 msgstr ""
+"Som vi lærte med synths, kan vi nemt styre vores lyde med parametre. Samples "
+"giver dig præcis samme parameter-mekanisme. Lad os gense vores venner `amp:` "
+"og `pan:`."
 
 #: 03.2-Sample-Params.md:9
 msgid "Amping samples"
-msgstr ""
+msgstr "Amplitude for samples"
 
 #: 03.2-Sample-Params.md:11
 msgid ""
 "You can change the amplitude of samples with exactly the same approach you use"
 "d for synths:"
 msgstr ""
+"Du kan ændre amplituden (lydstyrken) for samples præcis som du gjorde for "
+"synths:"
 
 #: 03.2-Sample-Params.md:14
 #, no-wrap
 msgid "sample :ambi_lunar_land, amp: 0.5"
-msgstr ""
+msgstr "sample :ambi_lunar_land, amp: 0.5"
 
 #: 03.2-Sample-Params.md:18
 msgid "Panning samples"
-msgstr ""
+msgstr "Panorering af samples"
 
 #: 03.2-Sample-Params.md:20
 msgid ""
@@ -2048,6 +2091,8 @@ msgid ""
 "w we'd play the amen break in the left ear and then half way through play it a"
 "gain through the right ear:"
 msgstr ""
+"Du kan også bruge `pan:`-parameteren på samples. Sådan vil vi fx spille \""
+"amen break\" først i venstre højttaler og dernæst i højre højttaler:"
 
 #: 03.2-Sample-Params.md:24
 #, no-wrap
@@ -2056,24 +2101,31 @@ msgid ""
 "sleep 0.877\n"
 "sample :loop_amen, pan: 1"
 msgstr ""
+"sample :loop_amen, pan: -1\n"
+"sleep 0.877\n"
+"sample :loop_amen, pan: 1"
 
 #: 03.2-Sample-Params.md:30
 msgid "Note that 0.877 is half the duration of the `:loop_amen` sample in seconds."
 msgstr ""
+"Bemærk at 0.877 er den halve varighed af samplen `:loop_amen` i sekunder."
 
 #: 03.2-Sample-Params.md:33
 msgid ""
 "Finally, note that if you set some synth defaults with `use_synth_defaults` (w"
 "hich we will discuss later), these will be ignored by `sample`."
 msgstr ""
+"Bemærk slutteligt at standardværdier for synths der bliver sat med "
+"`use_synth_defaults`-kommandoen (som vi vil komme nærmere ind på senere), "
+"vil blive ignoreret af `sample`."
 
 #: 03.3-Stretching-Samples.md:1
 msgid "3.3 Stretching Samples"
-msgstr ""
+msgstr "3.3 Strækning af samples"
 
 #: 03.3-Stretching-Samples.md:3
 msgid "Stretching Samples"
-msgstr ""
+msgstr "Strækning af samples"
 
 #: 03.3-Stretching-Samples.md:5
 msgid ""
@@ -2082,10 +2134,14 @@ msgid ""
 "en more unique and interesting. First, let's explore the ability to *stretch* "
 "and *squash* samples."
 msgstr ""
+"Nu hvor vi kan afspille en række synths og samples for at skabe musik, er "
+"det tid til at lære hvordan vi kan styre både synths og samples for at gøre "
+"musikken endnu mere unik og interessant. Lad os først udforske muligheden "
+"for at *strække* og *skrumpe* samples."
 
 #: 03.3-Stretching-Samples.md:10
 msgid "Sample Representation"
-msgstr ""
+msgstr "Intern repræsentation af en sample"
 
 #: 03.3-Stretching-Samples.md:12
 msgid ""
@@ -2099,32 +2155,46 @@ msgid ""
 "d. However, it's also fun to change the speed with which the numbers are fed t"
 "o the speaker to change the sound."
 msgstr ""
+"Alle samples er forud-optagede lyde der gemmes som tal. Tallene bestemmer "
+"hvor meget membranen i højttaleren bevæger sig for at gengive lyden. "
+"Membranen kan bevæge sig ind og ud, så tallene skal kun bestemme hvor meget "
+"ind og ud membranen skal være på et givet tidspunkt. For at kunne give en "
+"troværdig gengivelse af lyden skal en sample typisk indeholde mange tusind "
+"tal per sekund! Sonic Pi tager disse tal og sender dem af sted med den "
+"rigtige hastighed for at flytte din computers højttaler ind og ud på den "
+"rigtige måde for at gengive lyden. Men det er også sjovt at ændre på den "
+"hastighed som tallene bliver sendt til højttaleren med. På den måde kan man "
+"ændre lyden."
 
 #: 03.3-Stretching-Samples.md:23
 msgid "Changing Rate"
-msgstr ""
+msgstr "Ændring af hastigheden"
 
 #: 03.3-Stretching-Samples.md:25
 msgid ""
 "Let's play with one of the ambient sounds: `:ambi_choir`. To play it with the "
 "default rate, you can pass a `rate:` opt to `sample`:"
 msgstr ""
+"Lad os lege med en af ambient-lydene: `:ambi_choir`. For at afspille den med "
+"standard-hastigheden kan du give en `rate:`-parameter med til `sample`:"
 
 #: 03.3-Stretching-Samples.md:28
 #, no-wrap
 msgid "sample :ambi_choir, rate: 1"
-msgstr ""
+msgstr "sample :ambi_choir, rate: 1"
 
 #: 03.3-Stretching-Samples.md:32
 msgid ""
 "This plays it at normal rate (1), so nothing special yet. However, we're free "
 "to change that number to something else. How about `0.5`:"
 msgstr ""
+"Det afspiller den ved den normale hastighed (1), så indtil videre sker der "
+"ikke noget specielt. Du kan dog ændre tallet til noget andet. Hvad med `0.5`:"
 
 #: 03.3-Stretching-Samples.md:35
 #, no-wrap
 msgid "sample :ambi_choir, rate: 0.5"
-msgstr ""
+msgstr "sample :ambi_choir, rate: 0.5"
 
 #: 03.3-Stretching-Samples.md:39
 msgid ""
@@ -2132,55 +2202,64 @@ msgid ""
 "as long to play, secondly the sound is an octave lower. Let's explore these th"
 "ings in a little more detail."
 msgstr ""
+"Hov! Hvad sker der her? Faktisk to ting. For det første tager samplen "
+"dobbelt så lang tid om at blive færdig, og for det andet er lyden en oktav "
+"lavere. Lad os udforske det lidt mere detaljeret."
 
 #: 03.3-Stretching-Samples.md:43
 msgid "Let's stretch"
-msgstr ""
+msgstr "Lad os strække ud"
 
 #: 03.3-Stretching-Samples.md:45
 msgid ""
 "A sample that's fun to stretch and compress is the Amen Break. At normal rate,"
 " we might imagine throwing it into a *drum 'n' bass* track:"
 msgstr ""
+"En sample der er sjov at strække og krympe, er Amen Break. Ved den normale "
+"hastighed kan vi overveje at smide den i et stykke *drum'n'bass*-musik:"
 
 #: 03.3-Stretching-Samples.md:48 03.4-Enveloped-Samples.md:17
 #: 03.5-Partial-Samples.md:9 A.03-coded-beats.md:33 A.12-sample-slicing.md:22
 #: A.20-creative-coding-in-the-classroom.md:185
 #, no-wrap
 msgid "sample :loop_amen"
-msgstr ""
+msgstr "sample :loop_amen"
 
 #: 03.3-Stretching-Samples.md:52
 msgid ""
 "However by changing the rate we can switch up genres. Try half speed for *old "
 "school hip-hop*:"
 msgstr ""
+"Men ved at ændre hastigheden kan vi skifte genren. Prøv halv hastighed for "
+"noget *old-school hip-hop*:"
 
 #: 03.3-Stretching-Samples.md:55 03.5-Partial-Samples.md:16
 #: A.20-creative-coding-in-the-classroom.md:194
 #, no-wrap
 msgid "sample :loop_amen, rate: 0.5"
-msgstr ""
+msgstr "sample :loop_amen, rate: 0.5"
 
 #: 03.3-Stretching-Samples.md:59
 msgid "If we speed it up, we enter *jungle* territory:"
-msgstr ""
+msgstr "Hvis vi skruer op for hastigheden, bliver det *jungle*-agtigt:"
 
 #: 03.3-Stretching-Samples.md:61 A.17-sample-stretching.md:46
 #, no-wrap
 msgid "sample :loop_amen, rate: 1.5"
-msgstr ""
+msgstr "sample :loop_amen, rate: 1.5"
 
 #: 03.3-Stretching-Samples.md:65
 msgid ""
 "Now for our final party trick - let's see what happens if we use a negative ra"
 "te:"
 msgstr ""
+"Nu til vores sidste gang løjer - lad os se hvad der sker hvis vi bruger en "
+"negativ hastighed:"
 
 #: 03.3-Stretching-Samples.md:68
 #, no-wrap
 msgid "sample :loop_amen, rate: -1"
-msgstr ""
+msgstr "sample :loop_amen, rate: -1"
 
 #: 03.3-Stretching-Samples.md:72
 msgid ""
@@ -2188,6 +2267,10 @@ msgid ""
 "at different rates. Try very fast rates. Try crazy slow rates. See what intere"
 "sting sounds you can produce."
 msgstr ""
+"Hovsa! Lyden bliver afspillet *baglæns*! Prøv nu at lege med en masse "
+"forskellige samples med forskellige hastigheder. Prøv meget høje "
+"hastigheder. Enormt lave hastigheder. Se hvilke interessante lyde du kan få "
+"ud af det."
 
 #: 03.3-Stretching-Samples.md:76
 msgid "A Simple Explanation of Sample Rate"
