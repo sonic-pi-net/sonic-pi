@@ -80,8 +80,7 @@ for:
     # scripts that are called at very beginning, before repo cloning
     - date '+%Y-%m-%d %T %Z(UTC%z)'
     - cmake --version
-    - # Update Homebrew; cleanup cache; output details about Homebrew's config; and check brew & print any warnings (for debugging)
-    - brew update
+    - # Cleanup homebrew cache; output details about Homebrew's config; and check brew & print any warnings (for debugging)
     - brew cleanup
     - brew config
     - brew doctor || true
