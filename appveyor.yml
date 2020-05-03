@@ -138,8 +138,8 @@ for:
     - sudo apt-get purge -y --auto-remove erlang
     - cd ~
     - git clone https://github.com/erlang/otp.git
-    - git checkout OTP-22.3
     - cd otp
+    - git checkout OTP-22.3
     - ./otp_build autoconf
     - ./configure
     - make
