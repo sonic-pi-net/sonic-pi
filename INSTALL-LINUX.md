@@ -17,7 +17,7 @@ On multiple distributions, there are Sonic Pi releases that you can install from
   _Note: This list may need refining and correcting._
   * Runtime Dependencies
       * Ruby (>= 2.4)
-      * Erlang
+      * Erlang (>= 21)
       * Supercollider scsynth (>= 3.9.1)
       * SC3-Plugins
       * jackd
@@ -31,7 +31,7 @@ On multiple distributions, there are Sonic Pi releases that you can install from
 
       **All the above, and:**
       * Git
-      * CMake
+      * CMake (>= 3.2)
       * Make
       * Ruby-dev
       * GCC (or Clang)
@@ -62,7 +62,7 @@ On multiple distributions, there are Sonic Pi releases that you can install from
   | Debian/Ubuntu |`sudo apt-get install ruby erlang-base libscsynth1 sc3-plugins libjack-jackd2-0 qt5-default libffi7 git cmake build-essential ruby-dev libqt5svg5-dev qttools5-dev qttools5-dev-tools qtdeclarative5-dev libqt5webkit5-dev qtpositioning5-dev libqt5sensors5-dev libqt5opengl5-dev qtmultimedia5-dev libffi-dev libjack-jackd2-dev libxt-dev libudev-dev libboost-dev libasound2-dev libavahi-client-dev libicu-dev libreadline6-dev libfftw3-dev libaubio5
 `| Currently all required Ruby gems are included the source; no gems need to be installed to the system. |
 
-  **Note about CMake**: On some distros you may need a newer version of CMake than the one that's available in the main package repository.
+  :information_source: **Note about CMake**: On some distros you may need a newer version of CMake than the one that's available in the main package repository. (CMake 2.3 or above is required)
 
   To install the newest version, you can:
   * Build it from source (download source code from CMake website)
@@ -90,8 +90,16 @@ On multiple distributions, there are Sonic Pi releases that you can install from
   ```
   * Install the Snap or pip package
 
-
   **See https://cmake.org/download/ for more info.**
+  
+  :information_source: **Note about Erlang**: On some distros, you may need a newer version of Erlang than the one that's available in the main package repository. (Erlang 21 or above is required)
+  
+  To install the newest version, you can:
+  * Build it from source (see https://github.com/erlang/otp)
+  * Download the latest binary package from the Erlang website
+  * Use [Kerl](https://github.com/kerl/kerl) to install Erlang
+  
+  **See https://www.erlang.org/downloads for more info.**
 
 ### 2. Clone the source code
 ```bash
@@ -123,11 +131,11 @@ On multiple distributions, there are Sonic Pi releases that you can install from
 
 ### Tips
 * If compile-extensions.rb fails, you can try installing the required gems with native extensions to the system:
-```bash
-  sudo gem install aubio sys-proctable fast_osc
-  sudo gem install rugged --version 0.27.1
-```
-If you get aubio related errors, try using the distro's libaubio5 package and make sure that the AUBIO_LIB environment variable is set to the path to the library
+  ```bash
+    sudo gem install aubio sys-proctable fast_osc
+    sudo gem install rugged --version 0.27.1
+  ```
+  If you get aubio related errors, try using the distro's libaubio5 package and make sure that the AUBIO_LIB environment variable is set to the path to the library
 
 * Error logs are written to ~/.sonic-pi/logs, and are useful to diagnose any startup problems.
 

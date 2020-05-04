@@ -80,8 +80,7 @@ for:
     # scripts that are called at very beginning, before repo cloning
     - date '+%Y-%m-%d %T %Z(UTC%z)'
     - cmake --version
-    - # Update Homebrew; cleanup cache; output details about Homebrew's config; and check brew & print any warnings (for debugging)
-    - brew update
+    - # Cleanup homebrew cache; output details about Homebrew's config; and check brew & print any warnings (for debugging)
     - brew cleanup
     - brew config
     - brew doctor || true
@@ -135,6 +134,16 @@ for:
     - sudo apt-get install -y git build-essential cmake ruby ruby-dev erlang-base
     - sudo apt-get install -y qt5-default libqt5svg5-dev qttools5-dev qttools5-dev-tools qtdeclarative5-dev libqt5webkit5-dev qtpositioning5-dev libqt5sensors5-dev libqt5opengl5-dev qtmultimedia5-dev
     - sudo apt-get install -y libjack-jackd2-dev libasound2-dev libavahi-client-dev libicu-dev libreadline6-dev libfftw3-dev libxt-dev libudev-dev libboost-dev libffi-dev
+    - # Remove Erlang 20 and install Erlang 22 (21 or above is required)
+    - sudo apt-get purge -y --auto-remove erlang
+    - cd ~
+    - git clone https://github.com/erlang/otp.git
+    - cd otp
+    - git checkout OTP-22.3
+    - ./otp_build autoconf
+    - ./configure
+    - make
+    - make install
     - # Install prerequisite ruby gems
     - sudo gem install bundler
   build_script:
