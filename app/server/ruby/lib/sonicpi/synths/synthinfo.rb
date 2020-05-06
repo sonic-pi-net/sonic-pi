@@ -2088,6 +2088,80 @@ Also, note that audio in isn't yet supported on Raspberry Pi."
       end
     end
 
+    class SynthKalimba < SonicPiSynth
+      def name
+        "SynthKalimba"
+      end
+
+      def introduced
+        Version.new(3,3,0)
+      end
+
+      def synth_name
+        "kalimba"
+      end
+
+      def doc
+        "A synthesised kalimba (a type of African thumb piano). Note that due to the plucked nature of this synth the envelope opts such as `attack:`, `sustain:` and `release:` do not work as expected. They can only shorten the natural length of the note, not prolong it. Note the default envelope is longer than usual - sustain: 4 and release: 1"
+      end
+
+      def arg_defaults
+        {
+          :attack => 0,
+          :decay => 0,
+          :sustain => 4,
+          :release => 1,
+          :attack_level => 1,
+          :decay_level => :sustain_level,
+          :sustain_level => 1,
+          :clickiness => 0.1
+        }
+      end
+
+      def specific_arg_info
+        {
+          :clickiness => {
+            :doc => "Ratio of percussive click to melodic note in the sound. A low clickiness like 0.1 works well - higher values might give the impression that the instrument is being played harder. Very high values (towards 1) will be louder!",
+            :validations => [v_between_inclusive(:clickiness, 0, 1)],
+            :modulatable => false,
+            :bpm_scale => false
+          },
+          :attack =>
+          {
+            :doc => "Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. With the kalimba synth, this opt can only have the effect of shortening the attack phase, not prolonging it.",
+            :validations => [v_positive(:attack)],
+            :modulatable => false,
+            :bpm_scale => true
+          },
+
+          :decay =>
+          {
+            :doc => "Amount of time (in beats) for the sound to move from full amplitude (attack_level) to the sustain amplitude (sustain_level). With the kalimba synth, this opt can only have the effect of controlling the amp within the natural duration of the note and can not prolong the sound.",
+            :validations => [v_positive(:decay)],
+            :modulatable => false,
+            :bpm_scale => true
+          },
+
+          :sustain =>
+          {
+            :doc => "Amount of time (in beats) for sound to remain at sustain level amplitude. Longer sustain values result in longer sounds. With the kalimba synth, this opt can only have the effect of controlling the amp within the natural duration of the note and can not prolong the sound.",
+            :validations => [v_positive(:sustain)],
+            :modulatable => false,
+            :bpm_scale => true
+          },
+
+          :release =>
+          {
+            :doc => "Amount of time (in beats) for sound to move from sustain level amplitude to silent. A short release (i.e. 0.01) makes the final part of the sound very percussive (potentially resulting in a click). A longer release (i.e 1) fades the sound out gently. With the kalimba synth, this opt can only have the effect of controlling the amp within the natural duration of the note and can not prolong the sound.",
+            :validations => [v_positive(:release)],
+            :modulatable => false,
+            :bpm_scale => true
+          }
+        }
+      end
+
+    end
+
     class SynthRodeo < SonicPiSynth
       def name
         "SynthRodeo"
@@ -2147,8 +2221,8 @@ Also, note that audio in isn't yet supported on Raspberry Pi."
             :modulatable => false
           }
         }
-
       end
+
     end
 
     class SynthPiano < SonicPiSynth
@@ -7847,6 +7921,7 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
         :blade => SynthViolin.new,
         :piano => SynthPiano.new,
         :rodeo => SynthRodeo.new,
+        :kalimba => SynthKalimba.new,
         :pluck => SynthPluck.new,
         :tech_saws => TechSaws.new,
 
