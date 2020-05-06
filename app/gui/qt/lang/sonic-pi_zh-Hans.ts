@@ -756,7 +756,7 @@ which isn&apos;t recognised.</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="135"/>
         <source>Networked OSC</source>
-        <translation type="unfinished">网络OSC</translation>
+        <translation>网络OSC</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="136"/>
@@ -795,19 +795,19 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="168"/>
         <source>Enable OSC server</source>
-        <translation type="unfinished">启用OSC服务器</translation>
+        <translation>启用OSC服务器</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="169"/>
         <source>When checked, Sonic Pi will listen for OSC messages.
  When unchecked no OSC messages will be received.</source>
-        <translation type="unfinished">选中后，Sonic Pi将监听OSC消息。
+        <translation>选中后，Sonic Pi将监听OSC消息。
 未选中时不会接收任何OSC消息。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="177"/>
         <source>MIDI Configuration</source>
-        <translation type="unfinished">MIDI配置</translation>
+        <translation>MIDI配置</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="178"/>
@@ -817,61 +817,62 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="180"/>
         <source>MIDI Ports</source>
-        <translation type="unfinished">MIDI端口</translation>
+        <translation>MIDI端口</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="181"/>
         <source>List all connected MIDI Ports</source>
-        <translation type="unfinished">列出所有已连接的MIDI端口</translation>
+        <translation>列出所有已连接的MIDI端口</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="183"/>
         <source>Enable MIDI subsystems</source>
-        <translation type="unfinished">启用MIDI子系统</translation>
+        <translation>启用MIDI子系统</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="184"/>
         <source>Enable or disable incoming and outgoing MIDI communication</source>
-        <translation type="unfinished">启用/禁用MIDI通信</translation>
+        <translation>启用/禁用MIDI通信</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="186"/>
         <source>Reset MIDI</source>
-        <translation type="unfinished">重置MIDI</translation>
+        <translation>重置MIDI</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="187"/>
         <source>Reset MIDI subsystems 
 (Required to detect device changes on macOS)</source>
-        <translation type="unfinished">重置MIDI子系统</translation>
+        <translation>重置MIDI子系统
+(在MacOS系统上需通过此步骤来检测设备变更)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="213"/>
         <source>Default MIDI channel (* means all)</source>
-        <translation type="unfinished">默认MIDI频道（*表示全部）</translation>
+        <translation>默认MIDI频道（*表示全部）</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="214"/>
         <location filename="../widgets/settingswidget.cpp" line="218"/>
         <source>Default MIDI Channel to send messages to</source>
-        <translation type="unfinished">默认发送消息至该MIDI频道</translation>
+        <translation>默认接受消息的MIDI频道</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="229"/>
         <source>No connected input devices</source>
-        <translation type="unfinished">没有已连接的输入设备</translation>
+        <translation>没有已连接的输入设备</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="230"/>
         <source>No connected output devices</source>
-        <translation type="unfinished">没有已连接的输出设备</translation>
+        <translation>没有已连接的输出设备</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="231"/>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation type="unfinished">MIDI输入设备直接将MIDI消息传送到
+        <translation>MIDI输入设备直接将MIDI消息传送到
 Sonic Pi并以标记活动的形式被接收
 （类似于OSC消息和内部标记）</translation>
     </message>
@@ -879,117 +880,118 @@ Sonic Pi并以标记活动的形式被接收
         <location filename="../widgets/settingswidget.cpp" line="232"/>
         <source>MIDI output devices receive MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished">MIDI输出设备可以直接从Sonic Pi接收以midi_*函数形式发送的MIDI消息</translation>
+        <translation>MIDI输出设备可以直接从
+Sonic Pi接收以midi_*fns形式发送的MIDI消息</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="262"/>
         <source>Show and Hide</source>
-        <translation type="unfinished">显示/隐藏</translation>
+        <translation>显示/隐藏</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="263"/>
         <source>Configure editor display options.</source>
-        <translation type="unfinished">配置编辑器显示选项。</translation>
+        <translation>配置编辑器显示选项。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="264"/>
         <source>Look and Feel</source>
-        <translation type="unfinished">外观</translation>
+        <translation>外观</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="265"/>
         <source>Configure editor look and feel.</source>
-        <translation type="unfinished">设置代码编辑器外观。</translation>
+        <translation>设置代码编辑器外观。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="266"/>
         <source>Automation</source>
-        <translation type="unfinished">自动化</translation>
+        <translation>自动化</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="267"/>
         <source>Configure automation features.</source>
-        <translation type="unfinished">设置自动化选项。</translation>
+        <translation>设置自动化选项。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="269"/>
         <source>Auto-align</source>
-        <translation type="unfinished">自动对齐</translation>
+        <translation>自动对齐</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="270"/>
         <source>Automatically align code on Run</source>
-        <translation type="unfinished">运行时自动对齐代码</translation>
+        <translation>运行时自动对齐代码</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="272"/>
         <source>Show line numbers</source>
-        <translation type="unfinished">显示行号</translation>
+        <translation>显示行号</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="273"/>
         <source>Toggle line number visibility.</source>
-        <translation type="unfinished">切换是否显示行号。</translation>
+        <translation>切换是否显示行号。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="274"/>
         <source>Show log</source>
-        <translation type="unfinished">显示日志</translation>
+        <translation>显示日志</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="275"/>
         <source>Toggle visibility of the log.</source>
-        <translation type="unfinished">切换是否显示日志。</translation>
+        <translation>切换是否显示日志。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="278"/>
         <source>Show cue log</source>
-        <translation type="unfinished">显示标记记录</translation>
+        <translation>显示标记记录</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="279"/>
         <source>Toggle visibility of cue log which displays internal cues &amp; incoming OSC/MIDI messages.</source>
-        <translation type="unfinished">切换是否显示内部标记和外部输入OSC/MIDI信息的标记记录。</translation>
+        <translation>切换是否显示内部标记和外部输入OSC/MIDI信息的标记记录。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="282"/>
         <source>Show buttons</source>
-        <translation type="unfinished">显示控制按钮</translation>
+        <translation>显示控制按钮</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="283"/>
         <source>Toggle visibility of the control buttons.</source>
-        <translation type="unfinished">切换是否显示控制按钮。</translation>
+        <translation>切换是否显示控制按钮。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="285"/>
         <source>Show tabs</source>
-        <translation type="unfinished">显示编辑器窗口选择栏</translation>
+        <translation>显示编辑器窗口选择栏</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="287"/>
         <source>Toggle visibility of the buffer selection tabs.</source>
-        <translation type="unfinished">切换是否显示编辑器窗口Buffer选择标签。</translation>
+        <translation>切换是否显示编辑器窗口Buffer选择标签。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="288"/>
         <source>Full screen</source>
-        <translation type="unfinished">全屏模式</translation>
+        <translation>全屏模式</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="289"/>
         <source>Toggle full screen mode.</source>
-        <translation type="unfinished">打开/关闭全屏模式。</translation>
+        <translation>打开/关闭全屏模式。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="292"/>
         <source>Light</source>
-        <translation type="unfinished">浅色</translation>
+        <translation>浅色</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="293"/>
         <source>Dark</source>
-        <translation type="unfinished">深色</translation>
+        <translation>深色</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="294"/>
@@ -1009,7 +1011,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="326"/>
         <source>Logging</source>
-        <translation type="unfinished">日志选项</translation>
+        <translation>日志选项</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="327"/>
@@ -1026,8 +1028,9 @@ Sonic Pi which can be sent via the midi_* fns</source>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation type="unfinished">切换日志消息记录。
-取消该选项时，合成器和采样事件触发的信息默认将不在日志窗口中显示。</translation>
+        <translation>切换日志消息记录。
+取消该选项时，由合成器和采样等触发的事件
+默认将不在日志窗口中显示。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="332"/>
@@ -1039,53 +1042,55 @@ triggering will not be printed to the log by default.</source>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation type="unfinished">切换运行时清空日志窗口。
-选中该选项时，每次运行按钮被按下时，log日志窗口将自动清空所有消息。</translation>
+        <translation>切换运行时清空日志。
+选中该选项时，每次运行按钮被按下时，
+log日志窗口将自动清空所有消息。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="335"/>
         <source>Log cues</source>
-        <translation type="unfinished">记录提示</translation>
+        <translation>记录提示</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="336"/>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation type="unfinished">是否允许在日志中记录cue信息。
-取消该选项时，cue消息仍能够被触发。但cue消息将不在出现在日志中。</translation>
+        <translation>是否允许在日志中记录标记信息。
+取消该选项时，标记仍能够被触发，
+但将不在出现在日志中。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="338"/>
         <source>Auto-scroll log</source>
-        <translation type="unfinished">自动滚动显示日志</translation>
+        <translation>自动滚动显示日志</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="339"/>
         <source>Toggle log auto scrolling.
 If enabled the log is scrolled to the bottom after every new message is displayed.</source>
-        <translation type="unfinished">日志自动滚动开关。
-打开该选项，将允许在控制台中新的消息出现时自动滚动日志到底部，以使新的信息能够被显示。</translation>
+        <translation>日志自动滚动开关。
+打开该选项时，新的信息显示时，控制台将自动滚动至底部。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="362"/>
         <source>Settings useful for performing with Sonic Pi</source>
-        <translation type="unfinished">表演用设置</translation>
+        <translation>表演状态帮助功能</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="366"/>
         <source>Show and Hide Scope</source>
-        <translation type="unfinished">显示／隐藏示波器</translation>
+        <translation>显示／隐藏示波器</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="367"/>
         <source>Scope Kinds</source>
-        <translation type="unfinished">示波器种类</translation>
+        <translation>示波器种类</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="375"/>
         <source>Show Scopes</source>
-        <translation type="unfinished">显示示波器</translation>
+        <translation>显示示波器</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="376"/>
@@ -1095,7 +1100,7 @@ If enabled the log is scrolled to the bottom after every new message is displaye
     <message>
         <location filename="../widgets/settingswidget.cpp" line="377"/>
         <source>Show Axes</source>
-        <translation type="unfinished">显示坐标</translation>
+        <translation>显示坐标轴</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="378"/>
@@ -1110,7 +1115,7 @@ be viewed independently or all together:
 Lissajous - illustrates the phase relationship between the left and right channels
 Mono - shows a combined view of the left and right channels (using RMS)
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished">示波器拥有三种
+        <translation>示波器拥有三种
 可以独立或同时显示的模式：
 
 利萨茹曲线－显示左右声道间的相位关系
@@ -1120,51 +1125,51 @@ Stereo - shows two independent scopes for left and right channels</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="388"/>
         <source>Transparency</source>
-        <translation type="unfinished">透明度</translation>
+        <translation>透明度</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="411"/>
         <source>Check for updates</source>
-        <translation type="unfinished">检查更新</translation>
+        <translation>检查更新</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="413"/>
         <source>Toggle automatic update checking.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished">切换自动更新检查。
+        <translation>切换自动更新检查。
 该选项将向开发者匿名发送当前用户操作系统类型和Sonic Pi版本信息。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="414"/>
         <source>Check now</source>
-        <translation type="unfinished">立即检查更新</translation>
+        <translation>立即检查更新</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="415"/>
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished">强制立即检查更新。
+        <translation>强制立即检查更新。
 该选项将匿名向开发者发送当前用户操作系统类型和Sonic Pi版本信息。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="416"/>
         <source>Get update</source>
-        <translation type="unfinished">获取更新</translation>
+        <translation>获取更新</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="417"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation type="unfinished">访问http://sonic-pi.net下载新版本</translation>
+        <translation>访问http://sonic-pi.net下载新版本</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="420"/>
         <source>Update Info</source>
-        <translation type="unfinished">更新信息</translation>
+        <translation>更新信息</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="423"/>
         <source>Sonic Pi update info</source>
-        <translation type="unfinished">Sonic Pi更新信息</translation>
+        <translation>Sonic Pi更新信息</translation>
     </message>
 </context>
 <context>
