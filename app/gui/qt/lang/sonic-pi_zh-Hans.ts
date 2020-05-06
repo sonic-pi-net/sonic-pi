@@ -812,7 +812,7 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="178"/>
         <source>Configure MIDI behaviour</source>
-        <translation type="unfinished">配置MIDI参数</translation>
+        <translation>配置 MIDI 行为</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="180"/>
@@ -1016,12 +1016,12 @@ Sonic Pi接收以midi_*fns形式发送的MIDI消息</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="327"/>
         <source>Configure debug behaviour</source>
-        <translation type="unfinished">配置调试模式</translation>
+        <translation>配置调试选项</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="329"/>
         <source>Log synths</source>
-        <translation type="unfinished">记录声音合成</translation>
+        <translation>记录声音合成事件</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="330"/>
@@ -1035,7 +1035,7 @@ triggering will not be printed to the log by default.</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="332"/>
         <source>Clear log on run</source>
-        <translation type="unfinished">重新运行时清空日志</translation>
+        <translation>运行代码时清空日志</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="333"/>
@@ -1095,7 +1095,7 @@ If enabled the log is scrolled to the bottom after every new message is displaye
     <message>
         <location filename="../widgets/settingswidget.cpp" line="376"/>
         <source>Toggle the visibility of the audio oscilloscopes.</source>
-        <translation type="unfinished">切换示波器的可见度。</translation>
+        <translation>切换声音频谱的可见性。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="377"/>
@@ -1105,7 +1105,7 @@ If enabled the log is scrolled to the bottom after every new message is displaye
     <message>
         <location filename="../widgets/settingswidget.cpp" line="378"/>
         <source>Toggle the visibility of the axes for the audio oscilloscopes</source>
-        <translation type="unfinished">切换示波器坐标的可见度</translation>
+        <translation>切换示波器坐标轴的可见性</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="381"/>
