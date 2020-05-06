@@ -789,8 +789,8 @@ to and from other programs or computers
         <location filename="../widgets/settingswidget.cpp" line="166"/>
         <source>When checked, Sonic Pi will let you send and receive OSC messages to and from remote machines.
  When unchecked, only sending and receiving from the local machine will be enabled.</source>
-        <translation>如果勾选此选项，Sonic Pi会允许你向远程的机器发送OSC消息，或反过来接受这些消息。
- 如果不勾选，将只允许和本地机器通信。</translation>
+        <translation>选中时，Sonic Pi 将允许您向其他设备收 / 发 OSC 消息。
+未选中时，将只允许与本机收 / 发 OSC 消息。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="168"/>
