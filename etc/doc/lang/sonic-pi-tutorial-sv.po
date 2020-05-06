@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-04-01 14:39+0000\n"
-"Last-Translator: Elmer Blanksvärd <elmerblanksvard@gmail.com>\n"
+"PO-Revision-Date: 2020-05-08 17:13+0000\n"
+"Last-Translator: Moru <brdevcon@gmail.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/sv/>\n"
 "Language: sv\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.0-dev\n"
+"X-Generator: Weblate 4.1-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -44,12 +44,12 @@ msgid ""
 "ve Coding Performances](https://youtube.com/samaaron) where I code with Sonic "
 "Pi live in front of audiences."
 msgstr ""
-"Men, vänta lite, vad oförskämt av mig! Låt mig presentera mig - Jag heter [Sam"
-" Aaron](http://twitter.com/samaaron) - killen som skapade Sonic Pi. Du kan nå "
-"mig på Twitter via  [@samaaron](http://twitter.com/samaaron). Skicka gärna ett"
-" meddelande till mig (på engelska) så kan vi höras av. Du kanske även är intre"
-"sserad av min [Live-kodning](https://youtube.com/samaaron), där jag kodar med "
-"Sonic Pi live inför publik."
+"Men, vänta lite, vad oförskämt av mig! Låt mig presentera mig - Jag heter ["
+"Sam Aaron](http://twitter.com/samaaron) - killen som skapade Sonic Pi. Du "
+"kan nå mig på Twitter via [@samaaron](http://twitter.com/samaaron). Skicka "
+"gärna ett meddelande till mig (på engelska) så kan vi höras av. Du kanske "
+"även är intresserad av min [Live-kodning](https://youtube.com/samaaron), där "
+"jag kodar med Sonic Pi live inför publik."
 
 #: 01-Welcome-to-Sonic-Pi.md:18
 msgid ""
@@ -81,7 +81,7 @@ msgid ""
 " please do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
 "Avslutningsvis, att se andra live-koda är ett riktigt bra sätt att lära sig "
-"på. Jag uppdaterar regelbundet min YouTube-kanal  [http://youtube.com/"
+"på. Jag uppdaterar regelbundet min YouTube-kanal [http://youtube.com/"
 "samaaron](http://youtube.com/samaaron), besök den gärna och säg hej och "
 "fråga mig massor av saker :-)"
 
@@ -732,16 +732,23 @@ msgid ""
 "left hand side) play lower notes and the keys on the higher part of the piano "
 "(the right hand side) play higher notes."
 msgstr ""
+"Så, lägre siffror gör mörkare pip och högre siffror gör ljusare pip. Precis "
+"som på ett piano där tangenterna på den lägre delen (vänstra sidan) gör "
+"lägre toner och den övre sidan (höger sida) spelar högre toner."
 
 #: 02.1-Your-First-Beeps.md:38
-#, fuzzy
 msgid ""
 "It turns out that the C of the 4th octave (C in English notation) is identifie"
 "d by the number 60. `play 60` therefore plays the C of the 4th octave. To play"
 " the next piano key to the right, you have to add 1 to 60 and then type `play "
 "61`, which in this case is the black key of the C sharp. To play the D, the ne"
 "xt key to the right, `play 62`."
-msgstr "play 60"
+msgstr ""
+"Det visar sig att C av fjärde oktaven (C i västerländsk notation) är "
+"identifierad med siffran 60. `play 60` spelar alltså C av fjärde oktaven. "
+"För att spela nästa tangent till höger så lägger du till 1 till 60 och "
+"skriver `play 61`, vilket i det här fallet är den svarta tangenten för Ciss ("
+"höjt C). För att spela D, den nästa till höger skriv `play 62`."
 
 #: 02.1-Your-First-Beeps.md:40
 msgid ""
@@ -749,10 +756,10 @@ msgid ""
 "ted. All that matters right now is that you know that *low numbers make lower "
 "beeps* and *high numbers make higher beeps*."
 msgstr ""
-"*Oroa dig inte\" om du inte förstår något av detta - det gjorde inte jag heller"
-" när jag började. Allt som spelar roll just nu är att du känner till att *lägr"
-"e siffror ger lägre tonhöjd på pipet* och *högre siffror ger högre tonhöjd på "
-"pipet*."
+"*Oroa dig inte* om du inte förstår något av detta - det gjorde inte jag "
+"heller när jag började. Allt som spelar roll just nu är att du känner till "
+"att *lägre siffror ger lägre tonhöjd på pipet* och *högre siffror ger högre "
+"tonhöjd på pipet*."
 
 #: 02.1-Your-First-Beeps.md:44 08.2-Chords.md:3
 msgid "Chords"
@@ -948,9 +955,12 @@ msgid ""
 "the most useful: *amplitude* and *pan*. First, let's look at what options actu"
 "ally are."
 msgstr ""
-"Förutom att låta dig bestämma vilken ton som skall spelas eller vilken samplin"
-"g som skall startas, så ger dig Sonic Pi möjlighet att skruva på och kontrolle"
-"ra ljudet."
+"Förutom att låta dig bestämma vilken ton som skall spelas eller vilken "
+"sampling som skall startas, så ger dig Sonic Pi möjlighet att skruva på och "
+"kontrollera ljudet. Vi kommer täcka många av dessa i den här handledningen "
+"och det finns omfattande dokumentation för dem alla i hjälpsystemet. Men för "
+"nu kommer vi introducera två av de mest användbara: *amplitude* och *pan*. "
+"Först låt oss titta på vad opts egentligen är."
 
 #: 02.2-Synth-Params.md:13
 msgid "Options"
@@ -964,6 +974,12 @@ msgid ""
 "owever, there are common sets of opts shared by many sounds such as `amp:` and"
 " envelope opts (covered in another section)."
 msgstr ""
+"Sonic Pis syntar stödjer ett antal parametrar (som vi kommer kalla Opts). "
+"Opts är kontroller du kan skicka till `play` som modifierar hur ljuden "
+"låter. Varje synth har sin egen uppsättning opts för att finjustera ljudet. "
+"Men det finns ett antal gemensamma opts som de flesta ljud kan använda sig "
+"av, till exempel `amp:` and envelope opts (kontur på svenska, förklaras i en "
+"annan sektion)."
 
 #: 02.2-Synth-Params.md:22
 msgid ""
@@ -971,6 +987,9 @@ msgid ""
 "e (the value you want to set the control at). For example, you might have a op"
 "t called `cheese:` and want to set it with a value of `1`."
 msgstr ""
+"Opts består av två delar, deras namn (namnet på kontrollen) och värdet ("
+"värdet du vill sätta kontrollen till). Till exempel kanske du har en opt som "
+"heter `cheese:` och vill sätta värdet till `1`."
 
 #: 02.2-Synth-Params.md:27
 msgid ""
@@ -978,6 +997,9 @@ msgid ""
 "he opt such as `amp:` (don't forget the colon `:`) and then a space and the va"
 "lue of the opt. For example:"
 msgstr ""
+"Opts skickas till anrop av `play`genom att använda ett komma `,` och sedan "
+"namnet på kontrollen, till exempel `amp:` (glöm inte kolon `:`) och sedan "
+"ett mellanslag och värdet du vill sätta kontrollen till:"
 
 #: 02.2-Synth-Params.md:31
 #, no-wrap
@@ -1013,27 +1035,35 @@ msgid ""
 "Opts that aren't recognised by the synth are just ignored (like `cheese` and `"
 "beans` which are clearly ridiculous opt names!)"
 msgstr ""
+"Opts som inte känns igen av synthen ignoreras bara (som `cheese`och `beans` "
+"vilka helt klart är löjliga opt namn!)"
 
 #: 02.2-Synth-Params.md:52
 msgid ""
 "If you accidentally use the same opt twice with different values, the last one"
 " wins. For example, `beans:` here will have the value 2 rather than 0.5:"
 msgstr ""
+"Om du av misstag råkar använda samma opt två gånger med olika värden så "
+"vinner den sista. Till exempel `beans:`här kommer ha värdet 2 i stället för "
+"0.5:"
 
 #: 02.2-Synth-Params.md:56
 #, no-wrap
 msgid "play 50, beans: 0.5, cheese: 3, eggs: 0.1, beans: 2"
-msgstr ""
+msgstr "play 50, beans: 0.5, cheese: 3, eggs: 0.1, beans: 2"
 
 #: 02.2-Synth-Params.md:60
 msgid ""
 "Many things in Sonic Pi accept opts, so just spend a little time learning how "
 "to use them and you'll be set! Let's play with our first opt: `amp:`."
 msgstr ""
+"Många saker i Sonic Pi kan styras med opts, så vi föreslår att lägga ned "
+"lite tid på att lära dig hur du kan använda dem! Låt oss leka lite med vår "
+"första opt: `amp:`."
 
 #: 02.2-Synth-Params.md:64 02.4-Durations-with-Envelopes.md:25
 msgid "Amplitude"
-msgstr ""
+msgstr "Amplitud"
 
 #: 02.2-Synth-Params.md:66
 msgid ""
@@ -1048,30 +1078,42 @@ msgid ""
 "e the sound muddy and strange. So try to use low amplitudes, i.e. in the range"
 " 0 to 0.5 to avoid compression."
 msgstr ""
+"Amplitud är en datorrepresentation av ljudstyrkan av ett ljud. En *hög "
+"amplitud ger ett högt ljud* och en *låg amplitud ger ett tyst ljud*. Precis "
+"som Sonic Pi använder siffror för att representera tid och noter så använder "
+"den siffror för att representera amplitud. En amplitud av 0 är tyst (du hör "
+"ingenting alls) och en amplitud av 1 är normal volym. Du kan till och med "
+"skruva upp amplituden högre till 2, 10, 100. Men om den totala volymen av "
+"alla ljud blir för hög så använder Sonic Pi något som kallas kompressor för "
+"att trycka ihop dem för att se till att det inte blir för högt för dina "
+"öron. Detta kan ofta göra att ljudet låter konstigt. Så försök använda låg "
+"amplitud, förslagsvis i området 0 till 0.5 för att undvika kompression."
 
 #: 02.2-Synth-Params.md:79
 msgid "Amp it up"
-msgstr ""
+msgstr "Skruva upp"
 
 #: 02.2-Synth-Params.md:81
 msgid ""
 "To change the amplitude of a sound, you can use the `amp:` opt. For example, t"
 "o play at half amplitude pass 0.5:"
 msgstr ""
+"För att ändra amplituden av ett ljud kan du använda `amp:`. Till exempel för "
+"att spela upp ljudet till halva amplituden, skicka 0.5 till funktionen:"
 
 #: 02.2-Synth-Params.md:84
 #, no-wrap
 msgid "play 60, amp: 0.5"
-msgstr ""
+msgstr "play 60, amp: 0.5"
 
 #: 02.2-Synth-Params.md:88
 msgid "To play at double amplitude pass 2:"
-msgstr ""
+msgstr "För att spela upp med dubbel amplitud, skicka 2:"
 
 #: 02.2-Synth-Params.md:90
 #, no-wrap
 msgid "play 60, amp: 2"
-msgstr ""
+msgstr "play 60, amp: 2"
 
 #: 02.2-Synth-Params.md:94
 msgid ""
@@ -1256,12 +1298,15 @@ msgid "Discovering Synths"
 msgstr ""
 
 #: 02.3-Switching-Synths.md:77
-#, fuzzy
 msgid ""
 "To see which synths Sonic Pi has for you to play with take a look at the Synth"
 "s option in the menu at the bottom of this help screen (between Examples & Fx)"
 ". There are over 20 to choose from. Here are a few of my favourites:"
-msgstr "Syntar"
+msgstr ""
+"För att se vilka syntar Sonic Pi har tillgängliga för dig, ta en titt på "
+"Syntar-tabben längst ned under menyn till det här hjälpfönstret (mellan "
+"Exempel och Fx). Där finns mer än 20 stycken att välja från. Här är några av "
+"mina favoriter:"
 
 #: 02.3-Switching-Synths.md:81
 msgid "`:prophet`"
@@ -1376,7 +1421,7 @@ msgstr ""
 #: 02.4-Durations-with-Envelopes.md:56
 #, no-wrap
 msgid "play 70, release: 1"
-msgstr ""
+msgstr "play 70, release: 1"
 
 #: 02.4-Durations-with-Envelopes.md:60
 msgid ""
@@ -1429,7 +1474,7 @@ msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:91
 msgid "Attack Phase"
-msgstr ""
+msgstr "Anslagsfas"
 
 #: 02.4-Durations-with-Envelopes.md:93
 msgid ""
@@ -1506,7 +1551,7 @@ msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:134
 msgid "Sustain Phase"
-msgstr ""
+msgstr "Hållfasen"
 
 #: 02.4-Durations-with-Envelopes.md:136
 msgid ""
@@ -1538,7 +1583,7 @@ msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:154
 msgid "Decay Phase"
-msgstr ""
+msgstr "Sänkningsfas"
 
 #: 02.4-Durations-with-Envelopes.md:156
 msgid ""
@@ -1562,6 +1607,8 @@ msgid ""
 "![ADSR envelope](../../../etc/doc/images/tutorial/env-attack-decay-sustain-rel"
 "ease.png)"
 msgstr ""
+"![ADSR envelope](../../../etc/doc/images/tutorial/env-attack-decay-sustain-"
+"release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:170
 msgid "Decay Level"
@@ -1581,6 +1628,8 @@ msgid ""
 "play 60, attack: 0.1, attack_level: 1, decay: 0.2, decay_level: 0.3, sustain: "
 "1, sustain_level: 0.4, release: 0.5"
 msgstr ""
+"play 60, attack: 0.1, attack_level: 1, decay: 0.2, decay_level: 0.3, sustain:"
+" 1, sustain_level: 0.4, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:181
 msgid "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level.png)"
@@ -1605,7 +1654,7 @@ msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:191
 msgid "ADSR Envelopes"
-msgstr ""
+msgstr "ADSR-konturer"
 
 #: 02.4-Durations-with-Envelopes.md:193
 msgid "So to summarise, Sonic Pi's ADSR envelopes have the following phases:"
@@ -1640,6 +1689,8 @@ msgid ""
 "play 60, attack: 0.5, attack_level: 1, decay: 1, sustain_level: 0.4, sustain: "
 "2, release: 0.5"
 msgstr ""
+"play 60, attack: 0.5, attack_level: 1, decay: 1, sustain_level: 0.4, sustain:"
+" 2, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:208
 msgid "Now go and have a play adding envelopes to your sounds..."
@@ -8443,9 +8494,8 @@ msgid ""
 msgstr ""
 
 #: A.01-tips.md:110
-#, fuzzy
 msgid "4. Live Code"
-msgstr "1.1 Live-kodning"
+msgstr "4. Livekodning"
 
 #: A.01-tips.md:112
 msgid ""
@@ -8556,11 +8606,12 @@ msgid ""
 msgstr ""
 
 #: A.02-live-coding.md:14
-#, fuzzy
 msgid ""
 "![Sam Aaron Live Coding](../../../etc/doc/images/tutorial/articles/A.02-live-c"
 "oding/sam-aaron-live-coding.png)"
-msgstr "Live-kodning"
+msgstr ""
+"![Sam Aaron Live Coding](../../../etc/doc/images/tutorial/articles/A."
+"02-live-coding/sam-aaron-live-coding.png)"
 
 #: A.02-live-coding.md:16
 msgid ""
@@ -13097,13 +13148,16 @@ msgid "Sonic Pi Performances"
 msgstr ""
 
 #: A.20-creative-coding-in-the-classroom.md:64
-#, fuzzy
 msgid ""
 "![Jylda Live Coding in the Sage Gateshead](../../../etc/doc/images/tutorial/ar"
 "ticles/A.20-creative-coding-in-the-classroom/jylda-small.png) Jylda and Sam Aa"
 "ron perform at the Thinking Digital Conference in the Sage Gateshead. Photo cr"
 "edit: TyneSight Photos."
-msgstr "Live-kodning"
+msgstr ""
+"![Jylda Livekodar i Sage Gateshead](../../../etc/doc/images/tutorial/"
+"articles/A.20-creative-coding-in-the-classroom/jylda-small.png) Jylda och "
+"Sam Aaron uppträder på Thinking Digital Conference i Sage Gateshead. Photo "
+"credit: TyneSight Photos."
 
 #: A.20-creative-coding-in-the-classroom.md:68
 msgid ""
@@ -13223,7 +13277,6 @@ msgstr ""
 
 #: A.20-creative-coding-in-the-classroom.md:164
 #, no-wrap
-#, fuzzy
 msgid ""
 "play 70\n"
 "sleep 1\n"
@@ -13231,11 +13284,11 @@ msgid ""
 "sleep 0.5\n"
 "play 75"
 msgstr ""
+"play 70\n"
+"sleep 1\n"
 "play 72\n"
 "sleep 0.5\n"
-"play 75\n"
-"sleep 0.5\n"
-"play 79"
+"play 75"
 
 #: A.20-creative-coding-in-the-classroom.md:172
 msgid ""
