@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-04-03 19:47+0000\n"
-"Last-Translator: Sam Aaron <samaaron@gmail.com>\n"
+"PO-Revision-Date: 2020-05-08 17:13+0000\n"
+"Last-Translator: Bote Wang <retr0p@outlook.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/zh_Hans/>\n"
 "Language: zh-Hans\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.0-dev\n"
+"X-Generator: Weblate 4.1-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -496,7 +496,6 @@ msgid "There are no mistakes"
 msgstr "怎么折腾都不会出错"
 
 #: 01.3-Learning-through-Play.md:12
-#, fuzzy
 msgid ""
 "Whilst we're on this subject, let me just give you one piece of advice I've le"
 "arned over my years of live coding with music - *there are no mistakes, only o"
@@ -509,9 +508,9 @@ msgid ""
 "sound, manipulate it and morph it into something awesome. The crowd will go *w"
 "ild*."
 msgstr ""
-"既然我们正在讨论这个问题，以我这么多年来码音乐的经验，让我来给你一些建议吧：不要怕犯错，勇于尝试。这是我弹爵士乐的时候听到最多的一句话，当然它同样适用于编码"
-"。无论你在编码方面的经验如何，无论你是菜鸟还是大神，你都会写出一些出乎你意料之外的结果。在某种情况下，有些代码可能听起来有些疯狂和你预想的有差错。有差错没关"
-"系，重要的是你接下来怎么做。再听一遍，然后更正成为你想要的样子。人群要噪起来。"
+"既然我们正在讨论这个问题，以我这么多年来码音乐的经验，让我来给你一些建议吧：不要怕犯错，勇于尝试。这是我弹爵士乐的时候听到最多的一句话，当然它同样适用于编"
+"码。无论你在编码方面的经验如何，无论你是菜鸟还是大神，你都会写出一些出乎你意料之外的结果。你的音乐可能听起来酷炫炸了-那很棒。但也有可能听起来很不协调而且"
+"奇奇怪怪。不过没关系，重要的是你接下来怎么做。拿起你的代码，对它进行一顿骚操作，让它脱胎换骨。人群会噪起来的。"
 
 #: 01.3-Learning-through-Play.md:24
 msgid "Start Simple"
@@ -1047,7 +1046,6 @@ msgid "Switching Synths"
 msgstr "开关合成器"
 
 #: 02.3-Switching-Synths.md:5
-#, fuzzy
 msgid ""
 "So far we've had quite a lot of fun making beeps. However, you're probably sta"
 "rting to get bored of the basic beep noise. Is that all Sonic Pi has to offer?"
@@ -1055,11 +1053,10 @@ msgid ""
 " in this section we'll explore some of the exciting range of sounds that Sonic"
 " Pi has to offer."
 msgstr ""
-"到目前为止，我们已经做了很多有趣的蜂鸣声。然而，你可能开始对这基本的蜂鸣音感到厌烦。这就是Sonic Pi所能提供的一切吗？除了播放蜂鸣声之外，还有更多的实"
-"时代码吗？是的，在这一节中，我们将探索Sonic Pi提供的令人兴奋的音色范围。"
+"到目前为止，我们已经做了很多有趣的蜂鸣声。然而，你可能开始对这基本的蜂鸣音感到厌烦。这就是Sonic "
+"Pi所能提供的一切吗？除了播放蜂鸣声之外，还有更多的东西吗？当然有啦，在这一节中，我们将探索Sonic Pi提供的超级厉害的的音色范围。"
 
 #: 02.3-Switching-Synths.md:13
-#, fuzzy
 msgid ""
 "Sonic Pi has a number of different instruments it calls synths (which is *shor"
 "t for synthesisers*). Whereas samples represent pre-recorded sounds, synths ar"
@@ -1068,8 +1065,9 @@ msgid ""
 "xpressive and you'll have a lot of fun exploring and playing with them. First,"
 " let's learn how to select the current synth to use."
 msgstr ""
-"Sonic Pi有一系列被称为synth的乐器，*这是合成器的英文简称*。尽管合成器的样本是预先录制的声音，但是synth能够根据你的控制，产生新的声音(我"
-"们将在本教程后面讨论)。Sonic Pi的合成器非常强大且富有表现力，你会有很多乐趣探索和发挥他们。首先，让我们学习如何选择当前要使用的synth。"
+"Sonic Pi有一系列被称为synth的乐器，*这是合成器的英文简称*。比较之下，sample只是预先录制好的声音，但是synth能够根据你的控制，产生"
+"新的声音(我们将在本教程后面讨论)。Sonic "
+"Pi的合成器非常强大且富有表现力，你会有很多乐趣探索和发挥他们。首先，让我们学习如何选择当前要使用的synth。"
 
 #: 02.3-Switching-Synths.md:21
 msgid "Buzzy saws and prophets"
@@ -1081,7 +1079,6 @@ msgstr "一个有趣的声音是*锯齿波* - 让我们尝试一下："
 
 #: 02.3-Switching-Synths.md:25
 #, no-wrap
-#, fuzzy
 msgid ""
 "use_synth :saw\n"
 "play 38\n"
@@ -1095,8 +1092,7 @@ msgstr ""
 "sleep 0.25\n"
 "play 50\n"
 "sleep 0.25\n"
-"play 62\n"
-"sleep 0.25"
+"play 62"
 
 #: 02.3-Switching-Synths.md:34
 msgid "Let's try another sound - the *prophet*:"
@@ -1104,7 +1100,6 @@ msgstr "让我们试试另一种声音 - *prophet*："
 
 #: 02.3-Switching-Synths.md:36
 #, no-wrap
-#, fuzzy
 msgid ""
 "use_synth :prophet\n"
 "play 38\n"
@@ -1118,8 +1113,7 @@ msgstr ""
 "sleep 0.25\n"
 "play 50\n"
 "sleep 0.25\n"
-"play 62\n"
-"sleep 0.25"
+"play 62"
 
 #: 02.3-Switching-Synths.md:45
 msgid "How about combining two sounds. First one after another:"
@@ -1127,7 +1121,6 @@ msgstr "把两种声音结合起来怎么样，试试一个接一个播放："
 
 #: 02.3-Switching-Synths.md:47
 #, no-wrap
-#, fuzzy
 msgid ""
 "use_synth :saw\n"
 "play 38\n"
@@ -1143,11 +1136,9 @@ msgstr ""
 "play 50\n"
 "sleep 0.25\n"
 "use_synth :prophet\n"
-"play 57\n"
-"sleep 0.25"
+"play 57"
 
 #: 02.3-Switching-Synths.md:57
-#, fuzzy
 msgid ""
 "Now multiple sounds at the same time (by not sleeping between successive calls"
 " to `play`):"
@@ -1155,7 +1146,6 @@ msgstr "现在多个声响同时发声（但连续调用的“play”之间没�
 
 #: 02.3-Switching-Synths.md:60
 #, no-wrap
-#, fuzzy
 msgid ""
 "use_synth :tb303\n"
 "play 38\n"
@@ -1169,10 +1159,8 @@ msgstr ""
 "sleep 0.25\n"
 "use_synth :dsaw\n"
 "play 50\n"
-"sleep 0.25\n"
 "use_synth :prophet\n"
-"play 57\n"
-"sleep 0.25"
+"play 57"
 
 #: 02.3-Switching-Synths.md:69
 msgid ""
@@ -1189,12 +1177,12 @@ msgid "Discovering Synths"
 msgstr " 探索合成器"
 
 #: 02.3-Switching-Synths.md:77
-#, fuzzy
 msgid ""
 "To see which synths Sonic Pi has for you to play with take a look at the Synth"
 "s option in the menu at the bottom of this help screen (between Examples & Fx)"
 ". There are over 20 to choose from. Here are a few of my favourites:"
-msgstr "要查看Sonic Pi有哪些合成器可以让你玩，可以看看最左边的下拉菜单（ FX 之前）中的Synths选项。有超过20种合成器可供选择。以下是我的最爱："
+msgstr ""
+"要查看Sonic Pi有哪些合成器可以让你玩，可以看看最左边的下拉菜单（ FX 之前）中的Synths选项。有超过20种合成器可供选择。以下是我的最爱："
 
 #: 02.3-Switching-Synths.md:81
 msgid "`:prophet`"
@@ -1358,7 +1346,6 @@ msgid "![release envelope](../../../etc/doc/images/tutorial/env-release.png)"
 msgstr "![release envelope](../../../etc/doc/images/tutorial/env-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:81
-#, fuzzy
 msgid ""
 "The vertical line at the far left of the diagram shows that the sound starts a"
 "t 0 amplitude, but goes up to full amplitude immediately (this is the attack p"
@@ -1366,8 +1353,8 @@ msgid ""
 "ht line down to zero taking the amount of time specified by `release:`. *Longe"
 "r release times produce longer synth fade outs.*"
 msgstr ""
-"图表最左边的直立线显示，声音从0波幅开始，立即升到满波幅（这是接下来介绍的起音阶段）。达到满波幅后，声音会以 `release: ` 指定的时间（释放时间）"
-"内，沿着直线下降到0。*施放时间越长，合成器淡出的时间会越长。"
+"图表最左边的直立线显示，声音从0波幅开始，立即升到满波幅（这是接下来介绍的起音阶段）。达到满波幅后，声音会以 `release: ` "
+"指定的时间（释放时间）内，沿着直线下降到0。*施放时间越长，合成器淡出的时间会越长*"
 
 #: 02.4-Durations-with-Envelopes.md:88
 msgid ""
@@ -1713,28 +1700,28 @@ msgstr ""
 "play 36"
 
 #: 03.1-Triggering-Samples.md:36
-#, fuzzy
 msgid ""
 "Notice how Sonic Pi doesn't wait for a sound to finish before starting the nex"
 "t sound. The `sleep` command only describes the separation of the *triggering*"
 " of the sounds. This allows you to easily layer sounds together creating inter"
 "esting overlap effects."
 msgstr ""
-"请注意，Sonic Pi如何在开始下一个声音之前不等待声音结束。睡眠命令仅描述声音的“触发”分离。这使您可以轻松地将声音叠加在一起，创建有趣的重叠效果。在本"
-"教程的稍后部分，我们将介绍如何使用轨迹线控制声音的持续时间。"
+"请注意，Sonic "
+"Pi如何在开始下一个声音之前不等待声音结束。睡眠命令`sleep`仅描述声音的*触发*分离。这使您可以轻松地将声音叠加在一起，创建有趣的重叠效果。"
 
 #: 03.1-Triggering-Samples.md:42
 msgid "Discovering Samples"
 msgstr "探索示例"
 
 #: 03.1-Triggering-Samples.md:44
-#, fuzzy
 msgid ""
 "There are two ways to discover the range of samples provided in Sonic Pi. Firs"
 "t, you can use this help system. Click on Samples in the menu at the bottom of"
 " this help screen, choose your category and then you'll see a list of availabl"
 "e sounds."
-msgstr "有两种方法可以发现Sonic Pi中提供的样本范围。首先，您可以使用此帮助系统。单击最左侧垂直菜单中的样本，选择\"示例\"，然后您会看到可用声音的列表。"
+msgstr ""
+"有两种方法可以发现Sonic Pi中提供的样本范围。首先，您可以使用此帮助系统。单击窗口底部菜单，选择\"示例\""
+"，再选择一个分类，您会看到可用声音的列表。"
 
 #: 03.1-Triggering-Samples.md:49
 msgid ""
@@ -1799,7 +1786,6 @@ msgid "Amping samples"
 msgstr "激爽示例"
 
 #: 03.2-Sample-Params.md:11
-#, fuzzy
 msgid ""
 "You can change the amplitude of samples with exactly the same approach you use"
 "d for synths:"
@@ -1815,12 +1801,12 @@ msgid "Panning samples"
 msgstr "平移样本"
 
 #: 03.2-Sample-Params.md:20
-#, fuzzy
 msgid ""
 "We're also able to use the `pan:` parameter on samples. For example, here's ho"
 "w we'd play the amen break in the left ear and then half way through play it a"
 "gain through the right ear:"
-msgstr "我们还可以在样本上使用“ pan：”参数。例如，以下是我们先给左耳演奏the amen break，然后再通过右耳再次演奏的方式"
+msgstr ""
+"我们还可以在样本上使用` pan:`参数。例如，以下是我们先给左耳演奏the amen break，然后再演奏进行到一半时通过右耳再次演奏的方式："
 
 #: 03.2-Sample-Params.md:24
 #, no-wrap
@@ -1917,11 +1903,10 @@ msgid "Let's stretch"
 msgstr "让我们伸展一下"
 
 #: 03.3-Stretching-Samples.md:45
-#, fuzzy
 msgid ""
 "A sample that's fun to stretch and compress is the Amen Break. At normal rate,"
 " we might imagine throwing it into a *drum 'n' bass* track:"
-msgstr "一个有趣的拉伸和压缩样本是Amen Break。以正常的速度，我们可能会想象将其放入* drum'n'bass *轨道中："
+msgstr "一个可以愉快的拉伸和压缩的样本是Amen Break。以正常的速度，我们可能会想象将其放入一个* drum'n'bass *音轨中："
 
 #: 03.3-Stretching-Samples.md:48 03.4-Enveloped-Samples.md:17
 #: 03.5-Partial-Samples.md:9 A.03-coded-beats.md:33 A.12-sample-slicing.md:22
@@ -2006,19 +1991,17 @@ msgid ""
 msgstr "（本节是为那些对细节感兴趣的人提供的。请随时跳过...）"
 
 #: 03.3-Stretching-Samples.md:98
-#, fuzzy
 msgid ""
 "As we saw above, a sample is represented by a big long list of numbers represe"
 "nting where the speaker should be through time. We can take this list of numbe"
 "rs and use it to draw a graph which would look similar to this:"
-msgstr "正如我们在上面看到的，示例由一长串长长的数字表示，这些数字代表说话者应该经过的时间。我们可以获取此数字列表，并使用它来绘制类似于此的图形："
+msgstr "正如我们在上面看到的，示例由一长串长长的数字表示，这些数字代表播放器随时间推移，应该在的位置。我们可以使用这串数字来绘制一个像这样的图："
 
 #: 03.3-Stretching-Samples.md:103
 msgid "![sample graph](../../../etc/doc/images/tutorial/sample.png)"
 msgstr "![sample graph](../../../etc/doc/images/tutorial/sample.png)"
 
 #: 03.3-Stretching-Samples.md:105
-#, fuzzy
 msgid ""
 "You might have seen pictures like this before. It's called the *waveform* of a"
 " sample. It's just a graph of numbers. Typically a waveform like this will hav"
@@ -2030,9 +2013,9 @@ msgid ""
 " could also play it back at half rate which would be 22050 points per second t"
 "aking 4 seconds to play back."
 msgstr ""
-"您可能以前看过这样的图片。这称为样本的“波形”。这只是数字图。通常，这样的波形每秒将有44100个数据点（这是由于Nyquist-Shannon采样定理所致"
-"）。因此，如果采样持续2秒钟，则波形将由88200个数字表示，我们将以每秒44100点的速度将其馈送到扬声器。当然，我们可以以每秒88200点的双倍速率喂食"
-"它。因此，只需要1秒钟即可播放。我们也可以以一半的速率播放它，即每秒22050点，需要4秒钟才能播放。"
+"您可能以前看过这样的图。它叫做样本的*波形*。它实际上是由一堆数字组成的。通常，这样的波形每秒将有44100个数据点（这是由于Nyquist-Shanno"
+"n采样定理所致）。因此，如果采样持续2秒钟，则波形将由88200个数字表示，我们将以每秒44100点的速度将其馈送到扬声器。当然，我们可以以每秒88200"
+"点的双倍速率馈送。这样的话就只需要1秒钟即可播放完同样一段采样。我们也可以让播放的速率降低一半，即每秒22050点，需要4秒钟才能播放完毕。"
 
 #: 03.3-Stretching-Samples.md:116
 msgid "The duration of the sample is affected by the playback rate:"
@@ -2216,14 +2199,14 @@ msgstr "我们可以同时用“attack:”和“release:”这两个参数和自
 #: 03.4-Enveloped-Samples.md:78
 #, no-wrap
 msgid "sample :loop_amen, attack: 0.75, release: 0.75"
-msgstr ""
+msgstr "sample :loop_amen, attack: 0.75, release: 0.75"
 
 #: 03.4-Enveloped-Samples.md:82
 msgid ""
 "As the full duration of the sample is 1.75s and our attack and release phases "
 "add up to 1.5s, the sustain is automatically set to 0.25s. This allows us to e"
 "asily fade the sample in and out."
-msgstr ""
+msgstr "采样整个有1.75秒长，我们的起音和释音阶段加起来有1.5秒长，延持就因此自动设置为0.25秒长。这样我们就可以轻松的让采样样本淡入和淡出。"
 
 #: 03.4-Enveloped-Samples.md:86
 msgid "Explicit sustain"
