@@ -153,57 +153,57 @@ Desculpe, um erro critico ocorreu durante a inicialização</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2084"/>
         <source>Align code to improve readability</source>
-        <translation type="unfinished"></translation>
+        <translation>Alinhar código para melhorar a leitura</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2088"/>
         <source>Text Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Aumentar Texto</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2094"/>
         <source>Text Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Diminuir Texto</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2100"/>
         <source>Toggle Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Alternar Escopo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2102"/>
         <source>Toggle visibility of audio oscilloscope</source>
-        <translation type="unfinished"></translation>
+        <translation>Alternar visibilidade do osciloscópio de áudio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2106"/>
         <source>Show Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Exibir Informação</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2112"/>
         <source>Toggle Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Alternar Ajuda</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2118"/>
         <source>Toggle Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Alternar Preferências</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2149"/>
         <source>&amp;File</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Arquivo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2156"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Editar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2160"/>
         <source>&amp;Window</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Janela</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2263"/>
@@ -280,7 +280,7 @@ Desculpe, um erro critico ocorreu durante a inicialização</translation>
     <message>
         <location filename="../mainwindow.cpp" line="730"/>
         <source>Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Escopo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1511"/>
@@ -351,17 +351,17 @@ Desculpe, um erro critico ocorreu durante a inicialização</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1826"/>
         <source>Colour Theme: </source>
-        <translation type="unfinished"></translation>
+        <translation>Cor do tema: </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2065"/>
         <source>Start recording to a WAV audio file</source>
-        <translation type="unfinished"></translation>
+        <translation>Iniciar a gravação em um arquivo de áudio WAV</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2069"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Salvar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2071"/>
@@ -425,17 +425,17 @@ Baixar Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2776"/>
         <source>Disabling OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>Desativando a porta de sinalização OSC...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2785"/>
         <source>Enabling external OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ativando a porta de sinalização OSC externa ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2794"/>
         <source>Enabling internal OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ativando a porta de sinalização OSC interna ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2852"/>
@@ -532,17 +532,17 @@ Baixar Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="430"/>
         <source>Studio Mode Enabled. Thank-you for supporting Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation>Modo de Estúdio Ativado. Obrigado por apoiar o Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="434"/>
         <source>No Matching Studio Hash Found...</source>
-        <translation type="unfinished"></translation>
+        <translation>Nenhum Hash de Estúdio correspondente encontrado ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="670"/>
         <source>| %1 |</source>
-        <translation type="unfinished"></translation>
+        <translation>| %1 |</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2198"/>
@@ -612,7 +612,7 @@ Baixar Sonic Pi %1</translation>
     <message>
         <location filename="../visualizer/scope.cpp" line="395"/>
         <source>Mono</source>
-        <translation type="unfinished"></translation>
+        <translation>Mono</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="396"/>
@@ -622,7 +622,7 @@ Baixar Sonic Pi %1</translation>
     <message>
         <location filename="../visualizer/scope.cpp" line="398"/>
         <source>Spectrum</source>
-        <translation type="unfinished"></translation>
+        <translation>Espectro</translation>
     </message>
 </context>
 <context>
