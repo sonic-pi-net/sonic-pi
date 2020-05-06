@@ -648,7 +648,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="81"/>
         <source>Use this slider to change the system volume.</source>
-        <translation type="unfinished">使用此推子来改变系统音量。</translation>
+        <translation>使用这个滑块来改变系统音量。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="87"/>
@@ -713,13 +713,14 @@ can only handle mono.</source>
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
-        <translation type="unfinished">切换合成器参数检查功能。
-取消该选项时，某些合成器在应用不合理的参数值时将可能产生不可预知的大信号或不舒服的声音信号。</translation>
+        <translation>切换合成器参数检查功能。
+如果关闭该选项，某些应用在合成器上的参数值将
+可能意外生成音量过大或令人不舒服的声音。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="107"/>
         <source>Enforce timing guarantees</source>
-        <translation type="unfinished">强制精确计时</translation>
+        <translation>强制精确计时</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="108"/>
@@ -730,13 +731,13 @@ it is too late to do so
 When disabled, Sonic Pi will always
 attempt to trigger synths and FX
 even when a little late.</source>
-        <translation type="unfinished">选中该选项时，如果延迟超出范围，Sonic Pi将拒绝触发合成器和效果器；
-取消该选项时，即使又一定延迟，Sonic Pi也将尝试触发合成器和效果器。</translation>
+        <translation>选中该选项时，如果延迟超出范围，Sonic Pi将拒绝触发合成器和效果器；
+取消该选项时，即使有一定延迟，Sonic Pi也将尝试触发合成器和效果器。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="110"/>
         <source>Enable external synths and FX</source>
-        <translation type="unfinished">允许使用外部合成器和效果器</translation>
+        <translation>允许使用外部合成器和效果器</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="111"/>
@@ -747,7 +748,9 @@ to be triggered.
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
 which isn&apos;t recognised.</source>
-        <translation type="unfinished">选中该选项时，Sonic Pi将允许合成器和效果器通过load_synthdefs模块来加载并被触发。
+        <translation>选中该选项时，Sonic Pi将允许
+通过load_synthdefs模块来加载的合成器和效果器
+被触发。
 取消该选项时，Sonic Pi将在尝试加载未被识别的合成器或效果器时发出警告。</translation>
     </message>
     <message>
@@ -760,33 +763,34 @@ which isn&apos;t recognised.</source>
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation type="unfinished">Sonic Pi可以通过当前连接的网络向其他程序或计算机发送/接收Open Sound Control消息。</translation>
+        <translation>Sonic Pi可以通过当前连接的网络向其他程序或计算机发送/接收Open Sound Control消息。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="139"/>
         <source>Local IP address</source>
-        <translation type="unfinished">本地IP地址</translation>
+        <translation>本地IP地址</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="140"/>
         <source>Listening for OSC messages on port</source>
-        <translation type="unfinished">监听OSC消息</translation>
+        <translation>在端口监听OSC消息</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="159"/>
         <source>Unavailable</source>
-        <translation type="unfinished">不可用</translation>
+        <translation>不可用</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="165"/>
         <source>Send/Receive remote OSC messages</source>
-        <translation type="unfinished"></translation>
+        <translation>发送/接受远程OSC消息</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="166"/>
         <source>When checked, Sonic Pi will let you send and receive OSC messages to and from remote machines.
  When unchecked, only sending and receiving from the local machine will be enabled.</source>
-        <translation type="unfinished"></translation>
+        <translation>如果勾选此选项，Sonic Pi会允许你向远程的机器发送OSC消息，或反过来接受这些消息。
+ 如果不勾选，将只允许和本地机器通信。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="168"/>
