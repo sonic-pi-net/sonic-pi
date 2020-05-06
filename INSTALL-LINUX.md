@@ -59,8 +59,7 @@ On multiple distributions, there are Sonic Pi releases that you can install from
 
   | Distribution | System Packages | Ruby Gems |
   |---|---|---|
-  | Debian/Ubuntu |`sudo apt-get install ruby erlang-base libscsynth1 sc3-plugins libjack-jackd2-0 qt5-default libffi7 git cmake build-essential ruby-dev libqt5svg5-dev qttools5-dev qttools5-dev-tools qtdeclarative5-dev libqt5webkit5-dev qtpositioning5-dev libqt5sensors5-dev libqt5opengl5-dev qtmultimedia5-dev libffi-dev libjack-jackd2-dev libxt-dev libudev-dev libboost-dev libasound2-dev libavahi-client-dev libicu-dev libreadline6-dev libfftw3-dev libaubio5
-`| Currently all required Ruby gems are included the source; no gems need to be installed to the system. |
+  | Debian/Ubuntu |`sudo apt-get install ruby erlang-base libscsynth1 sc3-plugins libjack-jackd2-0 qt5-default libffi7 git cmake build-essential ruby-dev libqt5svg5-dev qttools5-dev qttools5-dev-tools qtdeclarative5-dev libqt5webkit5-dev qtpositioning5-dev libqt5sensors5-dev libqt5opengl5-dev qtmultimedia5-dev libffi-dev libjack-jackd2-dev libxt-dev libudev-dev libboost-dev libasound2-dev libavahi-client-dev libicu-dev libreadline6-dev libfftw3-dev libaubio5`| Currently all required Ruby gems are included the source; no gems need to be installed to the system. |
 
   :information_source: **Note about CMake**: On some distros you may need a newer version of CMake than the one that's available in the main package repository. (CMake 2.3 or above is required)
 
