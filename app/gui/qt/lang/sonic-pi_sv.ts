@@ -168,7 +168,7 @@ Ursäkta, ett kritiskt fel inträffade under uppstart</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2100"/>
         <source>Toggle Scope</source>
-        <translation>Växla omfång</translation>
+        <translation>Växla oscilloskop</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2102"/>
@@ -198,7 +198,7 @@ Ursäkta, ett kritiskt fel inträffade under uppstart</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2156"/>
         <source>&amp;Edit</source>
-        <translation>&amp;Redigera</translation>
+        <translation>R&amp;edigera</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2160"/>
@@ -280,7 +280,7 @@ Ursäkta, ett kritiskt fel inträffade under uppstart</translation>
     <message>
         <location filename="../mainwindow.cpp" line="730"/>
         <source>Scope</source>
-        <translation>Omfattning</translation>
+        <translation>Oscilloskop</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1511"/>
