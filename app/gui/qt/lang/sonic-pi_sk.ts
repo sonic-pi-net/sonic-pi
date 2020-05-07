@@ -53,7 +53,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="460"/>
         <source>Welcome to Sonic Pi</source>
-        <translation></translation>
+        <translation>Vitajte v Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="978"/>
@@ -73,7 +73,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="747"/>
         <source>Cues</source>
-        <translation></translation>
+        <translation>Stopy</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="842"/>
@@ -88,29 +88,29 @@
     <message>
         <location filename="../mainwindow.cpp" line="1015"/>
         <source>Toggle line comment...</source>
-        <translation></translation>
+        <translation>Zakomentovať/odkomentovať riadok...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1097"/>
         <source>The Sonic Pi Server could not be started!</source>
-        <translation></translation>
+        <translation>Server Sonic Pi nemohol byť spustený!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2746"/>
         <location filename="../mainwindow.cpp" line="2758"/>
         <source>No connected input devices</source>
-        <translation></translation>
+        <translation>Žiadne pripojené vstupné zariadenia</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2747"/>
         <location filename="../mainwindow.cpp" line="2759"/>
         <source>No connected output devices</source>
-        <translation></translation>
+        <translation>Žiadne pripojené výstupné zariadenia</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2707"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation></translation>
+        <translation>Navštívte http://sonic-pi.net pre stiahnutie novej verzie</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2776"/>
@@ -130,19 +130,21 @@
     <message>
         <location filename="../mainwindow.cpp" line="2852"/>
         <source>Connected MIDI inputs</source>
-        <translation></translation>
+        <translation>Pripojené MIDI vstupy</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2857"/>
         <source>Connected MIDI outputs</source>
-        <translation></translation>
+        <translation>Pripojené MIDI výstupy</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1265"/>
         <source>Sonic Pi Boot Error
 
 Apologies, a critical error occurred during startup</source>
-        <translation></translation>
+        <translation>Chyba pri spustení Sonic Pi
+
+Ospravedlňujeme sa, pri spustení nastala kritická chyba</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1364"/>
@@ -150,60 +152,60 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="1381"/>
         <location filename="../mainwindow.cpp" line="1384"/>
         <source>Buffer files</source>
-        <translation></translation>
+        <translation>Súbory bufferov</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1367"/>
         <source>Load Sonic Pi Buffer</source>
-        <translation></translation>
+        <translation>Načítať Sonic Pi buffer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1367"/>
         <location filename="../mainwindow.cpp" line="1384"/>
         <source>Text files</source>
-        <translation></translation>
+        <translation>Textové súbory</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1367"/>
         <location filename="../mainwindow.cpp" line="1384"/>
         <source>Ruby files</source>
-        <translation></translation>
+        <translation>Ruby súbory</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1367"/>
         <location filename="../mainwindow.cpp" line="1384"/>
         <source>All files</source>
-        <translation></translation>
+        <translation>Všetky súbory</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1795"/>
         <source>Log Auto Scroll on...</source>
-        <translation></translation>
+        <translation>Automatické posúvanie logu zapnuté…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1797"/>
         <source>Log Auto Scroll off...</source>
-        <translation></translation>
+        <translation>Automatické posúvanie logu vypnuté…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2053"/>
         <source>Run the code in the current buffer</source>
-        <translation></translation>
+        <translation>Spustit kód v aktuálnom buffery</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2075"/>
         <source>Load</source>
-        <translation></translation>
+        <translation>Načítať</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2077"/>
         <source>Load an external file in the current buffer</source>
-        <translation></translation>
+        <translation>Načítať externý súbor do aktuálneho bufferu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2263"/>
         <source>Wavefile (*.wav)</source>
-        <translation></translation>
+        <translation>Zvukový súbor WAV (*.wav)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1695"/>
