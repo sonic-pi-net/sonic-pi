@@ -2088,7 +2088,7 @@ Also, note that audio in isn't yet supported on Raspberry Pi."
       end
     end
 
-    class SynthElectricPiano < SonicPiSynth
+    class SynthRodeo < SonicPiSynth
       def name
         "SynthRodeo"
       end
