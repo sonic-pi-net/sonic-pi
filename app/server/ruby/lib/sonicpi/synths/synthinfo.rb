@@ -2090,15 +2090,15 @@ Also, note that audio in isn't yet supported on Raspberry Pi."
 
     class SynthElectricPiano < SonicPiSynth
       def name
-        "SynthElectricPiano"
+        "SynthRodeo"
       end
 
       def introduced
-        Version.new(3,2,0)
+        Version.new(3,3,0)
       end
 
       def synth_name
-        "electric_piano"
+        "rodeo"
       end
 
       def doc
@@ -2128,8 +2128,7 @@ Also, note that audio in isn't yet supported on Raspberry Pi."
           :sustain_level => 1,
           :use_chorus => 1,
           :use_compressor => 1,
-          :cutoff => 72,
-          :rq => 0.5
+          :cutoff => 72
         }
       end
 
@@ -7847,7 +7846,7 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
         :stereo_player => StereoPlayer.new,
         :blade => SynthViolin.new,
         :piano => SynthPiano.new,
-        :electric_piano => SynthElectricPiano.new,
+        :electric_piano => SynthRodeo.new,
         :pluck => SynthPluck.new,
         :tech_saws => TechSaws.new,
 

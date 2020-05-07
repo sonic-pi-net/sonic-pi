@@ -1,6 +1,6 @@
 # Adapted from https://github.com/everythingwillbetakenaway/Synthdefs/blob/master/everythingrhodes.scd
 (
- SynthDef('sonic-pi-electric_piano',{|
+ SynthDef('sonic-pi-rodeo',{|
 	 note = 52, note_slide = 0, note_slide_shape = 1, note_slide_curve = 0,
 	 amp = 1, amp_slide = 0, amp_slide_shape = 1, amp_slide_curve = 0,
 	 pan = 0, pan_slide = 0, pan_slide_shape = 1, pan_slide_curve = 0,
