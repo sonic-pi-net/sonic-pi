@@ -7846,7 +7846,7 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
         :stereo_player => StereoPlayer.new,
         :blade => SynthViolin.new,
         :piano => SynthPiano.new,
-        :electric_piano => SynthRodeo.new,
+        :rodeo => SynthRodeo.new,
         :pluck => SynthPluck.new,
         :tech_saws => TechSaws.new,
 
