@@ -2088,6 +2088,69 @@ Also, note that audio in isn't yet supported on Raspberry Pi."
       end
     end
 
+    class SynthRodeo < SonicPiSynth
+      def name
+        "SynthRodeo"
+      end
+
+      def introduced
+        Version.new(3,3,0)
+      end
+
+      def synth_name
+        "rodeo"
+      end
+
+      def doc
+        "Classic 70's electric piano sound, with built-in compressor and chorus."
+      end
+
+      def arg_defaults
+        {
+          :note => 52,
+          :note_slide => 0,
+          :note_slide_shape => 1,
+          :note_slide_curve => 0,
+          :amp => 1,
+          :amp_slide => 0,
+          :amp_slide_shape => 1,
+          :amp_slide_curve => 0,
+          :pan => 0,
+          :pan_slide => 0,
+          :pan_slide_shape => 1,
+          :pan_slide_curve => 0,
+          :attack => 0,
+          :decay => 1,
+          :sustain => 0.8,
+          :release => 1,
+          :attack_level => 1,
+          :decay_level => :sustain_level,
+          :sustain_level => 1,
+          :use_chorus => 1,
+          :use_compressor => 1,
+          :cutoff => 72
+        }
+      end
+
+      def specific_arg_info
+        {
+          :use_compressor =>
+          {
+            :doc => "Enable the compressor (on by default).",
+            :validations => [v_one_of(:use_compressor, [0, 1])],
+            :modulatable => false
+          },
+          :use_chorus =>
+          {
+            :doc => "Enable the chorus effect (on by default).",
+            :validations => [v_one_of(:use_chorus, [0, 1])],
+            :modulatable => false
+          }
+        }
+
+      end
+    end
+
     class SynthPiano < SonicPiSynth
       def name
         "SynthPiano"
@@ -7783,6 +7846,7 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
         :stereo_player => StereoPlayer.new,
         :blade => SynthViolin.new,
         :piano => SynthPiano.new,
+        :rodeo => SynthRodeo.new,
         :pluck => SynthPluck.new,
         :tech_saws => TechSaws.new,
 
