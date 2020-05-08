@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-05-04 08:11+0000\n"
+"PO-Revision-Date: 2020-05-08 17:13+0000\n"
 "Last-Translator: Ole Friis Østergaard <olefriis@gmail.com>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "da/>\n"
@@ -2274,7 +2274,7 @@ msgstr ""
 
 #: 03.3-Stretching-Samples.md:76
 msgid "A Simple Explanation of Sample Rate"
-msgstr ""
+msgstr "En enkel forklaring af sample-hastighed"
 
 #: 03.3-Stretching-Samples.md:78
 msgid ""
@@ -2287,6 +2287,16 @@ msgid ""
 "rate), the shorter it gets, the more you stretch (lower rate), the longer it g"
 "ets."
 msgstr ""
+"Man kan sammenligne en sample med en fjeder. At ændre på afspilnings-"
+"hastigheden, eller raten, svarer til at presse fjedren sammen eller strække "
+"den ud. Hvis du afspiller samplen med rate 2 (dvs. dobbelt hastighed), så *"
+"klemmer du fjedren* til halvdelen af dens oprindelige længde. Derfor tager "
+"samplen den halve tid at blive afspillet, da den er kortere. Hvis du "
+"afspiller samplen med rate 0.5 (dvs. halv hastighed), så *strækker du "
+"fjedren ud* til dobbelt længde. Samplen tager derfor den dobbelte tid at "
+"blive afspillet, da den er længere. Jo mere du presser den sammen (højere "
+"rate/hastighed), jo kortere bliver den, og jo mere du strækker den den ud ("
+"lavere rate/hastighed), jo længere bliver den."
 
 #: 03.3-Stretching-Samples.md:87
 msgid ""
@@ -2294,6 +2304,10 @@ msgid ""
 " is similar to the sample sounding *higher pitched*. Stretching the spring dec"
 "reases its density and is similar to the sound having a *lower pitch*."
 msgstr ""
+"Når man presser en fjeder sammen, øger man dens tæthed (antal spoler pr. cm) "
+"- det svarer til at samplen får en *højere tone*. Når man strækker fjedren "
+"ud, mindsker man dens tæthed, og det svarer til at samplen får en *lavere "
+"tone*."
 
 #: 03.3-Stretching-Samples.md:93
 msgid "The Maths Behind Sample Rate"
