@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-05-08 17:13+0000\n"
+"PO-Revision-Date: 2020-05-10 01:13+0000\n"
 "Last-Translator: Bote Wang <retr0p@outlook.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/zh_Hans/>\n"
@@ -2216,12 +2216,12 @@ msgstr ""
 msgid ""
 "We can easily get back to our normal synth ADSR behaviour by manually setting "
 "`sustain:` to a value such as 0:"
-msgstr ""
+msgstr "我们可以很简单的把synth的ADSR模式调回原样，只需要手动把`sustain:`设置为0："
 
 #: 03.4-Enveloped-Samples.md:91
 #, no-wrap
 msgid "sample :loop_amen, sustain: 0, release: 0.75"
-msgstr ""
+msgstr "sample :loop_amen, sustain: 0, release: 0.75"
 
 #: 03.4-Enveloped-Samples.md:95
 msgid ""
@@ -2230,10 +2230,12 @@ msgid ""
 "s there for 0s then releases back down to 0 amplitude over the release period "
 "- 0.75s."
 msgstr ""
+"现在我们的样本总共只有区区0.75秒长了。因为`attack:`和`decay:`的值都默认为0，这个样本会直接跳到最大响度，在那里毫不停留，然后在0.7"
+"5秒内迅速释音到0响度。"
 
 #: 03.4-Enveloped-Samples.md:100
 msgid "Percussive cymbals"
-msgstr ""
+msgstr "打击乐锣"
 
 #: 03.4-Enveloped-Samples.md:102
 msgid ""
