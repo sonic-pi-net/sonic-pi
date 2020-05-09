@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-05-08 17:13+0000\n"
+"PO-Revision-Date: 2020-05-10 01:13+0000\n"
 "Last-Translator: Ole Friis Østergaard <olefriis@gmail.com>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "da/>\n"
@@ -2274,7 +2274,7 @@ msgstr ""
 
 #: 03.3-Stretching-Samples.md:76
 msgid "A Simple Explanation of Sample Rate"
-msgstr "En enkel forklaring af sample-hastighed"
+msgstr "En simpel forklaring af sample-hastighed"
 
 #: 03.3-Stretching-Samples.md:78
 msgid ""
@@ -2311,13 +2311,15 @@ msgstr ""
 
 #: 03.3-Stretching-Samples.md:93
 msgid "The Maths Behind Sample Rate"
-msgstr ""
+msgstr "Matematikken bag sample-hastighed"
 
 #: 03.3-Stretching-Samples.md:95
 msgid ""
 "(This section is provided for those that are interested in the details. Please"
 " feel free to skip it...)"
 msgstr ""
+"(Dette afsnit er henvendt til dem der er interesseret i detaljerne. Du kan "
+"springe over det hvis du vil...)"
 
 #: 03.3-Stretching-Samples.md:98
 msgid ""
@@ -2325,10 +2327,13 @@ msgid ""
 "nting where the speaker should be through time. We can take this list of numbe"
 "rs and use it to draw a graph which would look similar to this:"
 msgstr ""
+"Som vi så ovenfor, består en sample af en lang liste af tal som "
+"repræsenterer hvor højttaler-membranen skal stå over tid. Vi kan tage disse "
+"tal og tegne en graf med dem. Det kan se sådan ud:"
 
 #: 03.3-Stretching-Samples.md:103
 msgid "![sample graph](../../../etc/doc/images/tutorial/sample.png)"
-msgstr ""
+msgstr "![sample-graf](../../../etc/doc/images/tutorial/sample.png)"
 
 #: 03.3-Stretching-Samples.md:105
 msgid ""
@@ -2342,35 +2347,45 @@ msgid ""
 " could also play it back at half rate which would be 22050 points per second t"
 "aking 4 seconds to play back."
 msgstr ""
+"Måske du har set grafer som denne før. Det kaldes *bølgeformen* af en "
+"sample. Det er bare en graf over tal. En bølgeform som denne vil typisk have "
+"44100 datapunkter pr. sekund - det skyldes Nyquist-Shannon-samplings-"
+"teoremet. Det betyder at hvis en sample varer 2 sekunder, vil bølgeformen "
+"bestå af 88200 tal som vi kan sende til højttaleren med en hastighed på "
+"44100 tal pr. sekund. Vi kan naturligvis også sende det med dobbelt "
+"hastighed, hvilket vil give 88200 tal pr. sekund. Så vil det kun tage 1 "
+"sekund at afspille samplen. Vi kan også afspille med halv hastighed, hvilket "
+"vil svare til 22050 tal pr. sekund. Det vil gøre at samplen tager 4 sekunder "
+"om at blive afspillet."
 
 #: 03.3-Stretching-Samples.md:116
 msgid "The duration of the sample is affected by the playback rate:"
-msgstr ""
+msgstr "Varigheden af en sample afhænger af afspilningshastigheden:"
 
 #: 03.3-Stretching-Samples.md:118
 msgid "Doubling the playback rate halves the playback time,"
-msgstr ""
+msgstr "Den dobbelte afspilningshastighed halverer afspilningstiden,"
 
 #: 03.3-Stretching-Samples.md:119
 msgid "Halving the playback rate doubles the playback time,"
-msgstr ""
+msgstr "Den halve afspilningshastighed fordobler afspilningstiden,"
 
 #: 03.3-Stretching-Samples.md:120
 msgid "Using a playback rate of one fourth quadruples the playback time,"
-msgstr ""
+msgstr "En afspilningshastighed på en fjerdedel vil firdoble afspilningstiden,"
 
 #: 03.3-Stretching-Samples.md:121
 msgid "Using a playback rate of 1/10 makes playback last 10 times longer."
-msgstr ""
+msgstr "En afspilningshastighed på en tiendedel vil tidoble afspilningstiden."
 
 #: 03.3-Stretching-Samples.md:123
 msgid "We can represent this with the formula:"
-msgstr ""
+msgstr "Det kan udtrykkes med denne formel hvor rate svarer til hastigheden:"
 
 #: 03.3-Stretching-Samples.md:125
 #, no-wrap
 msgid "new_sample_duration = (1 / rate) * sample_duration "
-msgstr ""
+msgstr "ny_samplevarighed = (1 / rate) * oprindelig_samplevarighed "
 
 #: 03.3-Stretching-Samples.md:129
 msgid ""
@@ -2381,6 +2396,13 @@ msgid ""
 "speaker move as it pumps out super low bass - it's actually moving a lot slowe"
 "r in and out than a speaker producing higher notes."
 msgstr ""
+"Ændring af afspilningshastigheden ændrer også tonen på samplen. Frekvensen, "
+"eller tonen, på en bølgeform er bestemt af hvor hurtigt den bevæger sig op "
+"og ned. Vores hjerner opfatter på en eller anden måde hurtige bevægelser i "
+"højttaleren som høje toner og langsomme bevægelser i højttaleren som lave "
+"toner. Det er derfor du nogle gange kan se en stor bashøjttaler bevæge sig "
+"når den pumper en superlav bas ud - den bevæger sig meget langsommere ind og "
+"ud end en højttaler der spiller højere toner."
 
 #: 03.3-Stretching-Samples.md:137
 msgid ""
@@ -2391,6 +2413,13 @@ msgid ""
 "*halving the rate will halve the frequency*. Other rates will affect the frequ"
 "ency accordingly."
 msgstr ""
+"Hvis du tager en bølgeform og krypmer den, vil den flytte sig op og ned "
+"flere gange pr. sekund. Det vil give den en højere tone. Når man fordobler "
+"antallet af bevægelser op og ned (oscillationer/svingninger) pr. sekund, "
+"fordobler man frekvensen. Så *afspiller du din sample med dobbelt hastighed, "
+"fordobler du frekvensen*. På samme måde vil du *halvere frekvensen ved at "
+"halvere hastigheden*. Andre ændringer i hastigheden vil på tilsvarende vis "
+"ændre frekvensen."
 
 #: 03.4-Enveloped-Samples.md:1
 msgid "3.4 Enveloped Samples"
