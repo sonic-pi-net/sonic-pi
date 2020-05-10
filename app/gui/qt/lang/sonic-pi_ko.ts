@@ -153,7 +153,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2084"/>
         <source>Align code to improve readability</source>
-        <translation type="unfinished"></translation>
+        <translation>가독성을 높이기 위해 코드를 정렬합니다</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2088"/>
@@ -163,7 +163,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2094"/>
         <source>Text Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation>문자 축소</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2100"/>
