@@ -1386,8 +1386,8 @@ play 47, amp: 0.5",
         raise "use_merged_synth_defaults does not work with a block. Perhaps you meant with_merged_synth_defaults" if block
         current_defs = __thread_locals.get(:sonic_pi_mod_sound_synth_defaults)
         args_h = resolve_synth_opts_hash_or_array(args)
-        merged_defs = (current_defs || {}).merge(args_h)
-        __thread_locals.set :sonic_pi_mod_sound_synth_defaults, SonicPi::Core::SPMap.new(merged_defs)
+        merged_defs = (current_defs || SonicPi::Core::SPMap.new).merge(args_h)
+        __thread_locals.set :sonic_pi_mod_sound_synth_defaults, merged_defs
       end
       doc name:          :use_merged_synth_defaults,
           introduced:    Version.new(2,0,0),
@@ -1422,8 +1422,8 @@ play 50 #=> Plays note 50 with amp 0.7, cutoff 80 and pan -1"]
         current_defs = __thread_locals.get(:sonic_pi_mod_sound_synth_defaults)
 
         args_h = resolve_synth_opts_hash_or_array(args)
-        merged_defs = (current_defs || {}).merge(args_h)
-        __thread_locals.set :sonic_pi_mod_sound_synth_defaults, SonicPi::Core::SPMap.new(merged_defs)
+        merged_defs = (current_defs || SonicPi::Core::SPMap.new).merge(args_h)
+        __thread_locals.set :sonic_pi_mod_sound_synth_defaults, merged_defs
         res = block.call
         __thread_locals.set :sonic_pi_mod_sound_synth_defaults, current_defs
         res
@@ -1512,8 +1512,8 @@ sample :loop_amen  # plays amen break with a cutoff of 90 and defaults for rest 
         raise "use_merged_sample_defaults does not work with a block. Perhaps you meant with_merged_sample_defaults" if block
         current_defs = __thread_locals.get(:sonic_pi_mod_sound_sample_defaults)
         args_h = resolve_synth_opts_hash_or_array(args)
-        merged_defs = (current_defs || {}).merge(args_h)
-        __thread_locals.set :sonic_pi_mod_sound_sample_defaults, SonicPi::Core::SPMap.new(merged_defs)
+        merged_defs = (current_defs || SonicPi::Core::SPMap.new).merge(args_h)
+        __thread_locals.set :sonic_pi_mod_sound_sample_defaults, merged_defs
       end
       doc name:          :use_merged_sample_defaults,
           introduced:    Version.new(2,9,0),
@@ -1575,8 +1575,8 @@ sample :loop_amen  # plays amen break with a cutoff of 70 and amp is 0.5 again a
         raise "with_merged_sample_defaults must be called with a do/end block. Perhaps you meant use_merged_sample_defaults" unless block
         current_defs = __thread_locals.get(:sonic_pi_mod_sound_sample_defaults)
         args_h = resolve_synth_opts_hash_or_array(args)
-        merged_defs = (current_defs || {}).merge(args_h)
-        __thread_locals.set :sonic_pi_mod_sound_sample_defaults, SonicPi::Core::SPMap.new(merged_defs)
+        merged_defs = (current_defs || SonicPi::Core::SPMap.new).merge(args_h)
+        __thread_locals.set :sonic_pi_mod_sound_sample_defaults, merged_defs
         res = block.call
         __thread_locals.set :sonic_pi_mod_sound_sample_defaults, current_defs
         res

@@ -142,8 +142,8 @@ end
         raise "use_merged_midi_defaults does not work with a block. Perhaps you meant with_midi_defaults" if block
         current_defs = __thread_locals.get(:sonic_pi_mod_midi_defaults)
         args_h = resolve_synth_opts_hash_or_array(args)
-        merged_defs = (current_defs || {}).merge(args_h)
-        __thread_locals.set :sonic_pi_mod_midi_defaults, SonicPi::Core::SPMap.new(merged_defs)
+        merged_defs = (current_defs || SonicPi::Core::SPMap.new).merge(args_h)
+        __thread_locals.set :sonic_pi_mod_midi_defaults, merged_defs
       end
       doc name:          :use_merged_midi_defaults,
           introduced:    Version.new(3,0,0),
@@ -174,8 +174,8 @@ midi_note_on :e2 # Sends MIDI :e2 note_on to channel 1 on port \"foo\".
         current_defs = __thread_locals.get(:sonic_pi_mod_midi_defaults)
 
         args_h = resolve_synth_opts_hash_or_array(args)
-        merged_defs = (current_defs || {}).merge(args_h)
-        __thread_locals.set :sonic_pi_mod_midi_defaults, SonicPi::Core::SPMap.new(merged_defs)
+        merged_defs = (current_defs || SonicPi::Core::SPMap.new).merge(args_h)
+        __thread_locals.set :sonic_pi_mod_midi_defaults, merged_defs
         res = block.call
         __thread_locals.set :sonic_pi_mod_midi_defaults, current_defs
         res
