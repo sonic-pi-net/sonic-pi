@@ -5110,7 +5110,7 @@ A decent range of Q factors for naturally sounding boosts/cuts is 0.6 to 1.
       end
 
       def doc
-        "Autotune/phase vocoder effect. Used without any arguments, it tries to detect the pitch and shift it to the nearest exact note. This can help with out of tune singing, but it's also an interesting effect in it's own right. When used with the target_pitch: arg, it tries to shift the input to match that pitch instead. This gives that classic \"robot singing\" sound that people associate with vocoders. This can then be changed using the control method to create new melodies.
+        "Autotune/phase vocoder effect. Used without any arguments, it tries to detect the pitch and shift it to the nearest exact note. This can help with out of tune singing, but it's also an interesting effect in it's own right. When used with the note: arg, it tries to shift the input to match that note instead. This gives that classic \"robot singing\" sound that people associate with vocoders. This can then be changed using the control method to create new melodies.
 
 ```
 with_fx :autotuner do |c|
