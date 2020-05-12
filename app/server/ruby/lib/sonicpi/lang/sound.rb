@@ -402,7 +402,7 @@ sample_free dir, /[Bb]ar/ # frees sample which matches regex /[Bb]ar/ in \"/path
       end
       doc name:           :buffer,
           introduced:     Version.new(3,0,0),
-          summary:        "Intialise or return named buffer",
+          summary:        "Initialise or return named buffer",
           args:           [[:symbol, :name], [:number, :duration]],
           alt_args:       [[:symbol, :name]],
           returns:        :buffer,
