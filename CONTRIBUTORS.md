@@ -107,6 +107,7 @@ especially the following individuals who have been remarkably generous:
 * [Sean Raser](https://twitter.com/sraser88)
 * [Sébastien Rannou](https://mxs.sbrk.org/)
 * [Scott Turner](https://twitter.com/scottturneruon)
+* [Simon Woodman](https://twitter.com/sjwoodman)
 * Terry Wisniewski
 * [thattommyhall](https://twitter.com/thattommyhall)
 
