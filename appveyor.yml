@@ -12,6 +12,11 @@ branches:
   only:
   - main
 
+# Ignore commits which only modify these files
+skip_commits:
+    files:
+      - .travis.yml
+
 platform:
   - x64
 

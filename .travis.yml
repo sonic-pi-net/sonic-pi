@@ -2,7 +2,7 @@ language: ruby
 
 os: linux
 sudo: required
-dist: trusty
+dist: xenial
 addons:
   apt:
     update: true
@@ -44,7 +44,7 @@ before_install:
   - ./waf configure build
   - sudo ./waf install
   - # Install bundler 2
-  - gem update --system # Bundler 2 requires RubyGems v2.5.0 or above; update rubygems to make sure it's at least v2.5.0
+  - yes | gem update --system --force # Bundler 2 requires RubyGems v2.5.0 or above; update rubygems to make sure it's at least v2.5.0
   - sudo gem install bundler
 
 script:
