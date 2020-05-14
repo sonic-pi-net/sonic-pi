@@ -2107,6 +2107,18 @@ Also, note that audio in isn't yet supported on Raspberry Pi."
 
       def arg_defaults
         {
+          :note => 52,
+          :note_slide => 0,
+          :note_slide_shape => 1,
+          :note_slide_curve => 0,
+          :amp => 1,
+          :amp_slide => 0,
+          :amp_slide_shape => 1,
+          :amp_slide_curve => 0,
+          :pan => 0,
+          :pan_slide => 0,
+          :pan_slide_shape => 1,
+          :pan_slide_curve => 0,
           :attack => 0,
           :decay => 0,
           :sustain => 4,
@@ -2202,7 +2214,10 @@ Also, note that audio in isn't yet supported on Raspberry Pi."
           :sustain_level => 1,
           :use_chorus => 1,
           :use_compressor => 1,
-          :cutoff => 72
+          :cutoff => 72,
+          :cutoff_slide => 0,
+          :cutoff_slide_shape => 1,
+          :cutoff_slide_curve => 0
         }
       end
 

@@ -5,7 +5,7 @@ SynthDef('sonic-pi-kalimba', {|
 	amp = 1, amp_slide = 0, amp_slide_shape = 1, amp_slide_curve = 0,
 	pan = 0, pan_slide = 0, pan_slide_shape = 1, pan_slide_curve = 0,
 	attack = 0, decay = 0, sustain = 4, release = 1,
-	attack_level = 1, decay_level = -1, sustain_level = 1, env_curve = 1,
+	attack_level = 1, decay_level = -1, sustain_level = 1,
 	clickiness = 0.1,
 	out_bus = 0|
 
