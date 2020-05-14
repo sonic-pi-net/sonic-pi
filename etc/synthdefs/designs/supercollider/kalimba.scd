@@ -13,8 +13,6 @@ SynthDef('sonic-pi-kalimba', {|
 
 
 	note = note.midicps;
-	note_slide = note_slide.midicps;
-
 	note = note.varlag(note_slide, note_slide_curve, note_slide_shape);
 	decay_level = Select.kr(decay_level < 0, [decay_level, sustain_level]);
 	amp = amp.varlag(amp_slide, amp_slide_curve, amp_slide_shape);
