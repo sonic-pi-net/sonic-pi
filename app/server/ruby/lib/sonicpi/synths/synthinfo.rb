@@ -5161,6 +5161,9 @@ end
           :note_slide_shape => 1,
           :note_slide_curve => 0,
           :formant_ratio => 1.0,
+          :formant_ratio_slide => 0,
+          :formant_ratio_slide_shape => 1,
+          :formant_ratio_slide_curve => 0
           #TODO: Add documentation:
           # comment out these until documentation is added
           # :transpose => 0,
