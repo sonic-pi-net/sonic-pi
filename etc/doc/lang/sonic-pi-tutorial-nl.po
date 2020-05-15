@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-04-03 19:47+0000\n"
-"Last-Translator: Sam Aaron <samaaron@gmail.com>\n"
+"PO-Revision-Date: 2020-05-17 01:41+0000\n"
+"Last-Translator: arnovbr <arno@arcode.nl>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "nl/>\n"
 "Language: nl\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.0-dev\n"
+"X-Generator: Weblate 4.1-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -76,16 +76,14 @@ msgstr ""
 " bedenking in overweging nemen voor een toekomstige versie."
 
 #: 01-Welcome-to-Sonic-Pi.md:28
-#, fuzzy
 msgid ""
 "Finally, watching others live code is a really great way to learn. I regularly"
 " stream live on [https://youtube.com/samaaron](http://youtube.com/samaaron) so"
 " please do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
-"Tenslotte, anderen live code te zien doen, is een fantastische manier om het t"
-"e leren. Regelmatig stream ik live op [http://youtube.com/samaaron](http://you"
-"tube.com/samaaron)  ga daar eens kijken, om een Hallo! te zeggen of vragen te "
-"stellen :-)"
+"Tenslotte, andermans live code bekijken is een geweldige manier om te leren. "
+"Regelmatig stream ik live op [http://youtube.com/samaaron](http://youtube."
+"com/samaaron) ga daar eens kijken, zeg hallo en stel me veel vragen :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
@@ -133,9 +131,8 @@ msgid "A live loop"
 msgstr "Een loop \"live\" brengen"
 
 #: 01.1-Live-Coding.md:19
-#, fuzzy
 msgid "Let's get started, copy the following code into an empty buffer:"
-msgstr "We gaan van start, kopieer de volgende code in een lege buffer hierboven:"
+msgstr "We gaan van start, kopieer de volgende code in een lege buffer:"
 
 #: 01.1-Live-Coding.md:21
 #, no-wrap
@@ -145,7 +142,7 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
-"live_loop :typmaarlustig do\n"
+"live_loop :flibble do\n"
 "  sample :bd_haus, rate: 1\n"
 "  sleep 0.5\n"
 "end"
@@ -156,10 +153,10 @@ msgid ""
 ". If at any time you wish to stop the sound just hit the `Stop` button. Althou"
 "gh don't hit it just yet... Instead, follow these steps:"
 msgstr ""
-"Klik nu op de `afspeel` knop en je zal een lekkere snelle basdrum horen vertre"
-"kken. Je kan nu, wanneer jij dat wenst, het geluid stoppen door op de `Stop`' "
-"knop te klikken. Maar doe dat nog even niet... neem in plaats daarvan de volge"
-"nde stappen:"
+"Klik nu op de `afspeelknop` en je zal een lekkere snelle basdrum horen. Je "
+"kan nu, als je dat wenst, het geluid stoppen door op de `Stopknop` te "
+"klikken. Maar doe dat nog even niet... volg in plaats daarvan de volgende "
+"stappen:"
 
 #: 01.1-Live-Coding.md:32
 msgid "Make sure the bass drum sound is still running"
@@ -441,6 +438,8 @@ msgid ""
 "These orange buttons allow you to manipulate the code editor. The *Size +* and"
 " *Size -* buttons allow you to make the text bigger and smaller."
 msgstr ""
+"Deze oranje knoppen maken het mogelijk om de code editor aan te passen. De *"
+"Schaal +* and *Schaal -* knoppen vergroten of verkleinen de tekst."
 
 #: 01.2-Exploring-the-Interface.md:34
 msgid "C. Info and Help"
@@ -590,7 +589,6 @@ msgid "There are no mistakes"
 msgstr "Er bestaan geen fouten"
 
 #: 01.3-Learning-through-Play.md:12
-#, fuzzy
 msgid ""
 "Whilst we're on this subject, let me just give you one piece of advice I've le"
 "arned over my years of live coding with music - *there are no mistakes, only o"
@@ -603,16 +601,16 @@ msgid ""
 "sound, manipulate it and morph it into something awesome. The crowd will go *w"
 "ild*."
 msgstr ""
-"Nu we er toch over bezig zijn, geef ik je graag een raad mee, wat ik heb gelee"
-"rd in de jaren van live muziek coderen is - *er bestaan geen fouten, alleen ka"
-"nsen*. Dit is iets wat ik vaak heb horen zeggen over jazz, maar het werkt even"
-" goed met live codering. Ongeacht hoe ervaren je bent - van een complete begin"
-"ner tot een doorgewinterde Algoraver, je  zal soms code uitvoeren met een gehe"
-"el onverwacht resultaat. Het kan waanzinnig cool klinken- in dat geval komen w"
-"e er mee weg. Het kan ook compleet dwaas en ontoepasselijk klinken. Maar het m"
-"aakt niet uit dat het gebeurd is - waar het om gaat is, wat je er vervolgens m"
-"ee doet. Pak de klank, manipuleer deze en morph het naar iets ongeloofelijk. J"
-"e publiek zal uit de *bol* gaan."
+"Nu we er toch over bezig zijn, geef ik je graag een raad mee, wat ik heb "
+"geleerd in de jaren van live muziek coderen is - *er bestaan geen fouten, "
+"alleen kansen*. Dit is iets wat ik vaak heb horen zeggen over jazz, maar het "
+"werkt even goed met live codering. Ongeacht hoe ervaren je bent - van een "
+"complete beginner tot een doorgewinterde Algoraver, je zal soms code "
+"uitvoeren met een geheel onverwacht resultaat. Het kan waanzinnig cool "
+"klinken- in dat geval komen we er mee weg. Het kan ook compleet dwaas en "
+"ontoepasselijk klinken. Maar het maakt niet uit dat het gebeurd is - waar "
+"het om gaat is, wat je er vervolgens mee doet. Pak de klank, manipuleer deze "
+"en morph het naar iets ongeloofelijk. Je publiek zal uit zijn *dak* gaan."
 
 #: 01.3-Learning-through-Play.md:24
 msgid "Start Simple"
