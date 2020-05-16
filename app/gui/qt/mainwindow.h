@@ -166,6 +166,17 @@ signals:
         void replaceLines(QString id, QString content, int first_line, int finish_line, int point_line, int point_index);
         void tabNext();
         void tabPrev();
+        void tab0();
+        void tab1();
+        void tab2();        
+        void tab3();
+        void tab4();
+        void tab5();
+        void tab6();
+        void tab7();
+        void tab8();
+        void tab9();
+        void tabN(int n);
         void helpContext();
         void resetErrorPane();
         void helpScrollUp();

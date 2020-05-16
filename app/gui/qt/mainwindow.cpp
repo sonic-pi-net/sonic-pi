@@ -2095,6 +2095,16 @@ void MainWindow::createShortcuts()
     std::cout << "[GUI] - creating shortcuts" << std::endl;
     new QShortcut(shiftMetaKey('['), this, SLOT(tabPrev()));
     new QShortcut(shiftMetaKey(']'), this, SLOT(tabNext()));
+    new QShortcut(shiftMetaKey('0'), this, SLOT(tab0()));
+    new QShortcut(shiftMetaKey('1'), this, SLOT(tab1()));
+    new QShortcut(shiftMetaKey('2'), this, SLOT(tab2()));
+    new QShortcut(shiftMetaKey('3'), this, SLOT(tab3()));
+    new QShortcut(shiftMetaKey('4'), this, SLOT(tab4()));
+    new QShortcut(shiftMetaKey('5'), this, SLOT(tab5()));
+    new QShortcut(shiftMetaKey('6'), this, SLOT(tab6()));
+    new QShortcut(shiftMetaKey('7'), this, SLOT(tab7()));
+    new QShortcut(shiftMetaKey('8'), this, SLOT(tab8()));
+    new QShortcut(shiftMetaKey('9'), this, SLOT(tab9()));
     new QShortcut(QKeySequence("F8"), this, SLOT(reloadServerCode()));
     new QShortcut(QKeySequence("F9"), this, SLOT(toggleButtonVisibility()));
     new QShortcut(shiftMetaKey('B'), this, SLOT(toggleButtonVisibility()));
@@ -2780,6 +2790,24 @@ void MainWindow::tabPrev() {
     else
         index--;
     QMetaObject::invokeMethod(tabs, "setCurrentIndex", Q_ARG(int, index));
+}
+
+// Need to do it this way because of Qt's slot mechanism
+void MainWindow::tab0() { tabN(0); }
+void MainWindow::tab1() { tabN(1); }
+void MainWindow::tab2() { tabN(2); }
+void MainWindow::tab3() { tabN(3); }
+void MainWindow::tab4() { tabN(4); }
+void MainWindow::tab5() { tabN(5); }
+void MainWindow::tab6() { tabN(6); }
+void MainWindow::tab7() { tabN(7); }
+void MainWindow::tab8() { tabN(8); }
+void MainWindow::tab9() { tabN(9); }
+
+void MainWindow::tabN(int index) {
+    if (index < tabs->count()){
+        QMetaObject::invokeMethod(tabs, "setCurrentIndex", Q_ARG(int, index));
+    }
 }
 
 void MainWindow::setLineMarkerinCurrentWorkspace(int num) {
