@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-05-10 01:13+0000\n"
-"Last-Translator: Bote Wang <retr0p@outlook.com>\n"
+"PO-Revision-Date: 2020-05-17 01:41+0000\n"
+"Last-Translator: 丁科 <me@dingkewz.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/zh_Hans/>\n"
 "Language: zh-Hans\n"
@@ -2241,7 +2241,7 @@ msgstr "打击乐锣"
 msgid ""
 "We can use this behaviour to good effect to turn longer sounding samples into "
 "shorter, more percussive versions. Consider the sample `:drum_cymbal_open`:"
-msgstr ""
+msgstr "我们可以好好利用前述的特性，将时间长的采样变得更短，更有打击感。可以尝试使用采样 `:drum_cymbal_open`:"
 
 #: 03.4-Enveloped-Samples.md:106
 #, no-wrap
@@ -2257,7 +2257,7 @@ msgstr ""
 #: 03.4-Enveloped-Samples.md:113
 #, no-wrap
 msgid "sample :drum_cymbal_open, attack: 0.01, sustain: 0, release: 0.1"
-msgstr ""
+msgstr "sample :drum_cymbal_open, attack: 0.01, sustain: 0, release: 0.1"
 
 #: 03.4-Enveloped-Samples.md:117
 msgid ""
