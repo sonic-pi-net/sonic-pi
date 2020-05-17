@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-02-09 13:57+0000\n"
-"Last-Translator: Sam Aaron <samaaron@gmail.com>\n"
-"Language-Team: Italian <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
-"it/>\n"
+"PO-Revision-Date: 2020-05-18 10:41+0000\n"
+"Last-Translator: Federico P. <federico@federicopepe.com>\n"
+"Language-Team: Italian <https://hosted.weblate.org/projects/sonic-pi/"
+"tutorial/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.11-dev\n"
+"X-Generator: Weblate 4.1-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -75,15 +75,15 @@ msgstr ""
 "erò in considerazione il tuo suggerimento per una prossima versione."
 
 #: 01-Welcome-to-Sonic-Pi.md:28
-#, fuzzy
 msgid ""
 "Finally, watching others live code is a really great way to learn. I regularly"
 " stream live on [https://youtube.com/samaaron](http://youtube.com/samaaron) so"
 " please do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
-"Infine, guardare gli altri che fanno live coding è un ottimo modo per imparare"
-". Sono spesso on line su [http://youtube.com/samaaron](http://youtube.com/sama"
-"aron) quindi lasciami un messaggio e fammi tante domande :-)"
+"Infine, guardare gli altri che fanno live coding è un ottimo modo per "
+"imparare. Faccio regolarmente dirette streaming on line su [http://youtube."
+"com/samaaron](http://youtube.com/samaaron) quindi lasciami un messaggio e "
+"fammi tante domande :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
@@ -131,11 +131,9 @@ msgid "A live loop"
 msgstr "Un live loop"
 
 #: 01.1-Live-Coding.md:19
-#, fuzzy
 msgid "Let's get started, copy the following code into an empty buffer:"
 msgstr ""
-"Allora cominciamo, copia il codice qui di seguito in uno dei buffer che trovi "
-"qui sopra:"
+"Allora cominciamo, copia il codice qui di seguito in uno dei buffer vuoti:"
 
 #: 01.1-Live-Coding.md:21
 #, no-wrap
@@ -374,7 +372,6 @@ msgstr ""
 "un’occhiata."
 
 #: 01.2-Exploring-the-Interface.md:8
-#, fuzzy
 msgid "![Sonic Pi Interface](../../../etc/doc/images/tutorial/GUI.png)"
 msgstr "![Sonic Pi Interface](../../../etc/doc/images/tutorial/GUI.png)"
 
@@ -435,6 +432,9 @@ msgid ""
 "These orange buttons allow you to manipulate the code editor. The *Size +* and"
 " *Size -* buttons allow you to make the text bigger and smaller."
 msgstr ""
+"Questi pulsanti arancioni ti permettono di modificare l'interfaccia. I "
+"pulsanti *Size +* e *Size -* ti permettono di ingrandire o rimpicciolire il "
+"testo."
 
 #: 01.2-Exploring-the-Interface.md:34
 msgid "C. Info and Help"
@@ -585,7 +585,6 @@ msgid "There are no mistakes"
 msgstr "Non esistono errori"
 
 #: 01.3-Learning-through-Play.md:12
-#, fuzzy
 msgid ""
 "Whilst we're on this subject, let me just give you one piece of advice I've le"
 "arned over my years of live coding with music - *there are no mistakes, only o"
@@ -598,16 +597,17 @@ msgid ""
 "sound, manipulate it and morph it into something awesome. The crowd will go *w"
 "ild*."
 msgstr ""
-"Già che ne stiamo parlando, permettimi di darti una dritta che ho imparato in "
-"anni di live coding in musica: *non esistono errori, ma solo opportunità*. È u"
-"na cosa che ho spesso sentito dire a proposito del jazz, ma funziona altrettan"
-"to bene con il live coding. Non importa quanto tu sia esperto - un principiant"
-"e o un Algoraver navigato: ti capiterà sempre di eseguire del codice dal risul"
-"tato completamente inaspettato. Potrebbe suonare maledettamente bene, e allora"
-" vai tranquillo. Ma potrebbe suonare anche totalmente cacofonico e sballato. N"
-"on è importante quello che è venuto fuori, ma quello che ci farai subito dopo."
-" Prendi il suono, manipolalo e modellalo fino a farlo diventare qualcosa di sp"
-"ettacolare. Il pubblico *impazzirà*."
+"Già che ne stiamo parlando, permettimi di darti una dritta che ho imparato "
+"in anni di live coding in musica: *non esistono errori, ma solo opportunità*"
+". È una cosa che ho spesso sentito dire a proposito del jazz, ma funziona "
+"altrettanto bene con il live coding. Non importa quanto tu sia esperto - un "
+"principiante o un Algoraver navigato: ti capiterà sempre di eseguire del "
+"codice dal risultato completamente inaspettato. Potrebbe suonare "
+"maledettamente bene, e allora vai tranquillo. Ma potrebbe suonare anche "
+"totalmente cacofonico e sballato. Non è importante quello che è venuto "
+"fuori, ma quello che ci farai subito dopo. Prendi il suono, manipolalo e "
+"modellalo fino a farlo diventare qualcosa di spettacolare. Il pubblico "
+"*impazzirà*."
 
 #: 01.3-Learning-through-Play.md:24
 msgid "Start Simple"
@@ -740,16 +740,25 @@ msgid ""
 "left hand side) play lower notes and the keys on the higher part of the piano "
 "(the right hand side) play higher notes."
 msgstr ""
+"Quindi, abbassare il numero produce suoni più gravi mentre alzarlo li rende "
+"più acuti. Proprio come in un pianoforte: i tasti nella parte più bassa ("
+"quelli a sinistra) producono note più gravi mentre i tasti nella parte alta ("
+"quella a sinistra) producono note più acute."
 
 #: 02.1-Your-First-Beeps.md:38
-#, fuzzy
 msgid ""
 "It turns out that the C of the 4th octave (C in English notation) is identifie"
 "d by the number 60. `play 60` therefore plays the C of the 4th octave. To play"
 " the next piano key to the right, you have to add 1 to 60 and then type `play "
 "61`, which in this case is the black key of the C sharp. To play the D, the ne"
 "xt key to the right, `play 62`."
-msgstr "play 60"
+msgstr ""
+"A quanto pare, il Do nella quarta ottava (che si scrive C nella notazione "
+"inglese) è identificato dal numero 60. `play 60`, quindi, suona il Do nella "
+"4a ottava. Per suonare il tasto successivo sulla destra, devi aggiungere 1 a "
+"60: scrivendo `play 61`, che in questo caso rappresenta il tasto nero del Do "
+"diesis. Per suonare un Re, il tasto bianco successivo procedendo verso "
+"destra, scrivi `play 62`."
 
 #: 02.1-Your-First-Beeps.md:40
 msgid ""
@@ -1223,7 +1232,6 @@ msgid "Switching Synths"
 msgstr "Muoversi fra i Synth"
 
 #: 02.3-Switching-Synths.md:5
-#, fuzzy
 msgid ""
 "So far we've had quite a lot of fun making beeps. However, you're probably sta"
 "rting to get bored of the basic beep noise. Is that all Sonic Pi has to offer?"
@@ -1231,14 +1239,13 @@ msgid ""
 " in this section we'll explore some of the exciting range of sounds that Sonic"
 " Pi has to offer."
 msgstr ""
-"Finora ci siamo divertiti un sacco con i beep. Ma probabilmente questi semplic"
-"i beep staranno cominciando ad annoiarti. È tutto qui quello che Sonic Pi ha d"
-"a offrire? Ci sarà qualcosa di più nel live coding che suonare dei beep! Certo"
-" che c’è, e in questa sezione esploriamo la vasta gamma di suoni che offre Son"
-"ic Pi."
+"Finora ci siamo divertiti un sacco con i beep. Ma probabilmente questi "
+"semplici beep staranno cominciando ad annoiarti. È tutto qui quello che "
+"Sonic Pi ha da offrire? Ci sarà qualcosa di più nel live coding che suonare "
+"dei beep! Certo che c’è, e in questa sezione esploriamo la vasta gamma di "
+"suoni che offre Sonic Pi."
 
 #: 02.3-Switching-Synths.md:13
-#, fuzzy
 msgid ""
 "Sonic Pi has a number of different instruments it calls synths (which is *shor"
 "t for synthesisers*). Whereas samples represent pre-recorded sounds, synths ar"
@@ -1247,12 +1254,12 @@ msgid ""
 "xpressive and you'll have a lot of fun exploring and playing with them. First,"
 " let's learn how to select the current synth to use."
 msgstr ""
-"Sonic Pi offre una ampia gamma di strumenti chiamati synth, forma abbreviata p"
-"er *sintetizzatori*. Mentre i sample contengono suoni pre-registrati, i synth "
-"sono in grado di generare nuovi suoni in base a come li controlli (cosa che es"
-"ploreremo più in là nel tutorial). I synth di Sonic Pi sono molto potenti ed e"
-"spressivi e ti divertirai molto nell’esplorarne le possibilità e nel suonarli."
-" Per prima cosa, impariamo a selezionare il synth da suonare."
+"Sonic Pi offre una ampia gamma di strumenti chiamati synth, forma abbreviata "
+"per *sintetizzatori*. Mentre i sample contengono suoni pre-registrati, i "
+"synth sono in grado di generare nuovi suoni in base a come li controlli ("
+"cosa che esploreremo più in là nel tutorial). I synth di Sonic Pi sono molto "
+"potenti ed espressivi e ti divertirai molto nell’esplorarne le possibilità e "
+"nel suonarli. Per prima cosa, impariamo a selezionare il synth da suonare."
 
 #: 02.3-Switching-Synths.md:21
 msgid "Buzzy saws and prophets"
@@ -1264,7 +1271,6 @@ msgstr "Un suono divertente è il *dente di sega*. Proviamolo:"
 
 #: 02.3-Switching-Synths.md:25
 #, no-wrap
-#, fuzzy
 msgid ""
 "use_synth :saw\n"
 "play 38\n"
@@ -1278,8 +1284,7 @@ msgstr ""
 "sleep 0.25\n"
 "play 50\n"
 "sleep 0.25\n"
-"play 62\n"
-"sleep 0.25"
+"play 62"
 
 #: 02.3-Switching-Synths.md:34
 msgid "Let's try another sound - the *prophet*:"
@@ -1287,7 +1292,6 @@ msgstr "Adesso proviamo un altro suono - il *prophet*:"
 
 #: 02.3-Switching-Synths.md:36
 #, no-wrap
-#, fuzzy
 msgid ""
 "use_synth :prophet\n"
 "play 38\n"
@@ -1301,8 +1305,7 @@ msgstr ""
 "sleep 0.25\n"
 "play 50\n"
 "sleep 0.25\n"
-"play 62\n"
-"sleep 0.25"
+"play 62"
 
 #: 02.3-Switching-Synths.md:45
 msgid "How about combining two sounds. First one after another:"
@@ -1310,7 +1313,6 @@ msgstr "E se combinassimo insieme due suoni? Prima uno, poi l’altro:"
 
 #: 02.3-Switching-Synths.md:47
 #, no-wrap
-#, fuzzy
 msgid ""
 "use_synth :saw\n"
 "play 38\n"
@@ -1326,18 +1328,18 @@ msgstr ""
 "play 50\n"
 "sleep 0.25\n"
 "use_synth :prophet\n"
-"play 57\n"
-"sleep 0.25"
+"play 57"
 
 #: 02.3-Switching-Synths.md:57
 msgid ""
 "Now multiple sounds at the same time (by not sleeping between successive calls"
 " to `play`):"
 msgstr ""
+"Ora riproduciamo più suoni contemporaneamente (non mettendo sleep tra "
+"chiamate successive di `play`):"
 
 #: 02.3-Switching-Synths.md:60
 #, no-wrap
-#, fuzzy
 msgid ""
 "use_synth :tb303\n"
 "play 38\n"
@@ -1348,13 +1350,10 @@ msgid ""
 msgstr ""
 "use_synth :tb303\n"
 "play 38\n"
-"sleep 0.25\n"
 "use_synth :dsaw\n"
 "play 50\n"
-"sleep 0.25\n"
 "use_synth :prophet\n"
-"play 57\n"
-"sleep 0.25"
+"play 57"
 
 #: 02.3-Switching-Synths.md:69
 msgid ""
@@ -1373,16 +1372,15 @@ msgid "Discovering Synths"
 msgstr "Alla scoperta dei Synth"
 
 #: 02.3-Switching-Synths.md:77
-#, fuzzy
 msgid ""
 "To see which synths Sonic Pi has for you to play with take a look at the Synth"
 "s option in the menu at the bottom of this help screen (between Examples & Fx)"
 ". There are over 20 to choose from. Here are a few of my favourites:"
 msgstr ""
-"Per vedere quali sintetizzatori Sonic Pi mette a tua disposizione, dai un’occh"
-"iata all’opzione Synths (prima di Fx) nel menu verticale in basso a sinistra. "
-"Ce ne sono più di 20 tra cui scegliere. Ecco qui sotto soltanto alcuni dei mie"
-"i preferiti:"
+"Per vedere quali sintetizzatori Sonic Pi mette a tua disposizione, dai un’"
+"occhiata all’opzione Synths nel menu in basso in questa schermata di aiuto ("
+"tra Esempi e FX). Ce ne sono più di 20 tra cui scegliere. Ecco qui sotto "
+"soltanto alcuni dei miei preferiti:"
 
 #: 02.3-Switching-Synths.md:81
 msgid "`:prophet`"
@@ -1572,7 +1570,6 @@ msgstr ""
 "a illustra questa transizione:"
 
 #: 02.4-Durations-with-Envelopes.md:79
-#, fuzzy
 msgid "![release envelope](../../../etc/doc/images/tutorial/env-release.png)"
 msgstr "![release envelope](../../../etc/doc/images/tutorial/env-release.png)"
 
