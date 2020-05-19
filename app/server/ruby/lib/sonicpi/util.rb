@@ -611,7 +611,7 @@ module SonicPi
 
     def register_process(pid)
       pid = spawn "'#{ruby_path}' '#{File.join(server_bin_path, 'task-register.rb')}' #{pid}"
-      Process.wait pid
+      Process.waitpid(pid, Process::WNOHANG)
     end
 
     def kill_and_deregister_process(pid)
