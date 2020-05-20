@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-04-03 19:47+0000\n"
-"Last-Translator: Sam Aaron <samaaron@gmail.com>\n"
+"PO-Revision-Date: 2020-05-21 10:41+0000\n"
+"Last-Translator: Pau Monfort <paubarrina@gmail.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/ca/>\n"
 "Language: ca\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.0-dev\n"
+"X-Generator: Weblate 4.1-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -1725,6 +1725,13 @@ msgid ""
 "d, a release of 0 can produce clicks in the audio and it's often better to use"
 " a very small value such as 0.2."
 msgstr ""
+"El temps de manteniment és útil per als sons que vulgueu ressaltar a la "
+"mescla, abans d’entrar en una fase opcional d'extinció. Per descomptat, és "
+"totalment vàlid definir tant `attack:` com `release:` a 0 i utilitzar només "
+"el sosteniment (sustain); d'aquesta manera, el so apareixerà i desapareixerà "
+"de colp. Tanmateix, tingueu en compte que una extinció (release) de 0 pot "
+"produir clics a l'àudio i sovint és millor utilitzar un valor molt reduït "
+"com ara 0,2."
 
 #: 02.4-Durations-with-Envelopes.md:154
 msgid "Decay Phase"
@@ -1739,6 +1746,15 @@ msgid ""
 "l:`). By default, the `decay:` opt is 0 and both the attack and sustain levels"
 " are 1 so you'll need to specify them for the decay time to have any effect:"
 msgstr ""
+"Per obtenir un nivell addicional de control, també podeu especificar un "
+"temps de caiguda (decay). Es tracta d’una fase de l'envolupant que es troba "
+"entre les fases d’atac i de sosteniment (sustain) i simbolitza el temps que "
+"tarda l'amplitud en baixar des del nivell d'atac (`atac_level:`) fins al "
+"nivell de caiguda (`sustain_level:`). El `decay_level:`té per defecte el "
+"mateix valor que el nivell de sosteniment (`sustain_level:`).Per defecte, el "
+"valor de l'opció `decay:` és 0 i tant els nivells d’atac com de sosteniment "
+"són 1, així que haureu d’especificar-los per què el temps de caiguda (decay) "
+"tinga efecte:"
 
 #: 02.4-Durations-with-Envelopes.md:164
 #, no-wrap
@@ -1768,6 +1784,10 @@ msgid ""
 " full control over the envelope. This allows you to to create envelopes such a"
 "s the following:"
 msgstr ""
+"Un últim truc és que tot i que la opció `decay_level:`està predeterminada a "
+"tindre el mateix valor que `sustain_level:` podeu assignar-los valors "
+"diferents per al control complet sobre l'envolupant. Això permet crear "
+"envolupants com ara:"
 
 #: 02.4-Durations-with-Envelopes.md:177
 #, no-wrap
@@ -1780,13 +1800,15 @@ msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:181
 msgid "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level.png)"
-msgstr ""
+msgstr "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level.png)"
 
 #: 02.4-Durations-with-Envelopes.md:183
 msgid ""
 "It's also possible to set the `decay_level:` to be higher than `sustain_level:"
 "`:"
 msgstr ""
+"També és possible definir el nivell `decay_level:` més alt que el "
+"`sustan_level:`:"
 
 #: 02.4-Durations-with-Envelopes.md:185
 #, no-wrap
@@ -1794,41 +1816,54 @@ msgid ""
 "play 60, attack: 0.1, attack_level: 0.1, decay: 0.2, decay_level: 1, sustain: "
 "0.5, sustain_level: 0.8, release: 1.5"
 msgstr ""
+"play 60, attack: 0.1, attack_level: 0.1, decay: 0.2, decay_level: 1, sustain:"
+" 0.5, sustain_level: 0.8, release: 1.5"
 
 #: 02.4-Durations-with-Envelopes.md:189
 msgid "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level-2.png)"
-msgstr ""
+msgstr "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level-2.png)"
 
 #: 02.4-Durations-with-Envelopes.md:191
 msgid "ADSR Envelopes"
-msgstr ""
+msgstr "Envolupants ADSR"
 
 #: 02.4-Durations-with-Envelopes.md:193
 msgid "So to summarise, Sonic Pi's ADSR envelopes have the following phases:"
-msgstr ""
+msgstr "En resum, les envolupants ADSR de Sonic Pi tenen les fases següents:"
 
 #: 02.4-Durations-with-Envelopes.md:195
 msgid "*attack* - time from 0 amplitude to the `attack_level`,"
 msgstr ""
+"*atac (attack)*: temps que tarda l'amplitud en pasar de 0 a l'`atack_level`,"
 
 #: 02.4-Durations-with-Envelopes.md:196
 msgid "*decay* - time to move amplitude from `attack_level` to `decay_level`,"
 msgstr ""
+"*caiguda (decay)*: temps per que tarda l'amplitud en passar de "
+"l'`attack_level` fins al `decay_level`,"
 
 #: 02.4-Durations-with-Envelopes.md:197
 msgid "*sustain* - time to move the amplitude from `decay_level` to `sustain_level`,"
 msgstr ""
+"*manteniment (sustain)* - temps que tarda l'amplitud en passar del "
+"`decay_level` al `sustain_level`,"
 
 #: 02.4-Durations-with-Envelopes.md:198
 msgid "*release* - time to move amplitude from `sustain_level` to 0"
 msgstr ""
+"*extinció (release)* - temps que tarda l'amplitud en passar del "
+"`sustain_level` a 0"
 
 #: 02.4-Durations-with-Envelopes.md:200
+#, fuzzy
 msgid ""
 "It's important to note that the duration of a sound is the summation of the ti"
 "mes of each of these phases. Therefore the following sound will have a duratio"
 "n of 0.5 + 1 + 2 + 0.5 = 4 beats:"
 msgstr ""
+"És important tenir en compte que la durada d’un so és la suma dels temps de "
+"cadascuna d’aquestes fases. Per tant, el so següent tindrà una durada de 0,5 "
+"+ 1 + 2 + 0,5 = 4 pulsacions:"
 
 #: 02.4-Durations-with-Envelopes.md:204
 #, no-wrap
@@ -1836,18 +1871,20 @@ msgid ""
 "play 60, attack: 0.5, attack_level: 1, decay: 1, sustain_level: 0.4, sustain: "
 "2, release: 0.5"
 msgstr ""
+"play 60, attack: 0.5, attack_level: 1, decay: 1, sustain_level: 0.4, sustain:"
+" 2, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:208
 msgid "Now go and have a play adding envelopes to your sounds..."
-msgstr ""
+msgstr "Ara jugueu afegint envolupants als vostres sons..."
 
 #: 03-Samples.md:1
 msgid "3 Samples"
-msgstr ""
+msgstr "3 Mostres"
 
 #: 03-Samples.md:3
 msgid "Samples"
-msgstr ""
+msgstr "Mostres (samples)"
 
 #: 03-Samples.md:5
 msgid ""
@@ -1856,6 +1893,11 @@ msgid ""
 "ake a microphone outside, go and record the gentle sound of rain hitting canva"
 "s, you've just created a sample."
 msgstr ""
+"Una altra gran manera de desenvolupar la vostra música és utilitzar sons "
+"pregravats. En la gran tradició hip-hop, anomenem aquests sons pre-"
+"enregistrats *mostres* (samples, en anglès). Així que, si eixiu al carrer "
+"amb un micròfon i enregistreu el so de la pluja que cau sobre una lona, "
+"haureu creat una mostra o sample."
 
 #: 03-Samples.md:10
 msgid ""
@@ -1863,25 +1905,30 @@ msgid ""
 "th 130 public domain samples ready for you to jam with, it lets you play and m"
 "anipulate your own. Let's get to it..."
 msgstr ""
+"Sonic Pi et permet fer moltes coses divertides amb mostres. No només conté "
+"130 mostres de domini públic per ser utilitzades, sinó que et permet jugar i "
+"manipular amb les teues pròpies mostres. Vegem-ho..."
 
 #: 03.1-Triggering-Samples.md:1
 msgid "3.1 Triggering Samples"
-msgstr ""
+msgstr "3.1 Disparant mostres"
 
 #: 03.1-Triggering-Samples.md:3
 msgid "Triggering Samples"
-msgstr ""
+msgstr "Disparant mostres"
 
 #: 03.1-Triggering-Samples.md:5
 msgid ""
 "Playing beeps is only the beginning. Something that's a lot of fun is triggeri"
 "ng pre-recorded samples. Try it:"
 msgstr ""
+"Fer sonar \"pips\" només és el començament. Una cosa amb què xalareu molt és "
+"disparant mostres pregravades. Intenteu-ho:"
 
 #: 03.1-Triggering-Samples.md:8
 #, no-wrap
 msgid "sample :ambi_lunar_land"
-msgstr ""
+msgstr "sample :ambi_lunar_land"
 
 #: 03.1-Triggering-Samples.md:12
 msgid ""
@@ -1889,6 +1936,9 @@ msgid ""
 "e you use the `play` command. To play multiple samples and notes just write th"
 "em one after another:"
 msgstr ""
+"Sonic Pi inclou moltes mostres per jugar. Podeu fer-los servir igual que feu "
+"servir l'ordre `play`. Per reproduir diverses mostres i notes només cal "
+"escriure-les una després de l’altra:"
 
 #: 03.1-Triggering-Samples.md:16
 #, no-wrap
@@ -1898,10 +1948,14 @@ msgid ""
 "sample :ambi_lunar_land\n"
 "sample :ambi_drone"
 msgstr ""
+"play 36\n"
+"play 48\n"
+"sample :ambi_lunar_land\n"
+"sample :ambi_drone"
 
 #: 03.1-Triggering-Samples.md:23
 msgid "If you want to space them out in time, use the `sleep` command:"
-msgstr ""
+msgstr "Si voleu espaiar-los en el temps, utilitzeu l'ordre `sleep`:"
 
 #: 03.1-Triggering-Samples.md:25
 #, no-wrap
@@ -1915,6 +1969,14 @@ msgid ""
 "sleep 1\n"
 "play 36"
 msgstr ""
+"sample :ambi_lunar_land\n"
+"sleep 1\n"
+"play 48\n"
+"sleep 0.5\n"
+"play 36\n"
+"sample :ambi_drone\n"
+"sleep 1\n"
+"play 36"
 
 #: 03.1-Triggering-Samples.md:36
 msgid ""
@@ -1923,10 +1985,13 @@ msgid ""
 " of the sounds. This allows you to easily layer sounds together creating inter"
 "esting overlap effects."
 msgstr ""
+"Noteu com Sonic Pi no espera que acabe un so abans d’iniciar el següent. "
+"L'ordre `sleep` només descriu la separació del llançament dels sons. Això "
+"permet solapar fàcilment els sons, creant interessants efectes de solapament."
 
 #: 03.1-Triggering-Samples.md:42
 msgid "Discovering Samples"
-msgstr ""
+msgstr "Descobrint les mostres"
 
 #: 03.1-Triggering-Samples.md:44
 msgid ""
@@ -1935,6 +2000,11 @@ msgid ""
 " this help screen, choose your category and then you'll see a list of availabl"
 "e sounds."
 msgstr ""
+"Hi ha dues maneres de descobrir la gamma de mostres que s’ofereixen a Sonic "
+"Pi. En primer lloc, podeu utilitzar aquest sistema d’ajuda. Feu clic a "
+"Samples al menú que es troba a la part inferior d'aquesta pantalla d'ajuda, "
+"escolliu la vostra categoria i, a continuació, veureu la llista de sons "
+"disponibles."
 
 #: 03.1-Triggering-Samples.md:49
 msgid ""
@@ -1942,42 +2012,46 @@ msgid ""
 "of a sample group such as: `sample :ambi_` and you'll see a drop-down of sampl"
 "e names appear for you to select. Try the following category prefixes:"
 msgstr ""
+"També podeu utilitzar el sistema d'autocompletat automàtic. Simplement "
+"escriviu l’inici d’un grup de mostres com ara: `sample: ambi_` i veureu que "
+"apareixerà un desplegable de noms de mostres per què trieu. Proveu els "
+"prefixos de categoria següents:"
 
 #: 03.1-Triggering-Samples.md:54
 msgid "`:ambi_`"
-msgstr ""
+msgstr "`:ambi_`"
 
 #: 03.1-Triggering-Samples.md:55
 msgid "`:bass_`"
-msgstr ""
+msgstr "`:bass_`"
 
 #: 03.1-Triggering-Samples.md:56
 msgid "`:elec_`"
-msgstr ""
+msgstr "`:elec_`"
 
 #: 03.1-Triggering-Samples.md:57
 msgid "`:perc_`"
-msgstr ""
+msgstr "`:perc_`"
 
 #: 03.1-Triggering-Samples.md:58
 msgid "`:guit_`"
-msgstr ""
+msgstr "`:guit_`"
 
 #: 03.1-Triggering-Samples.md:59
 msgid "`:drum_`"
-msgstr ""
+msgstr "`:drum_`"
 
 #: 03.1-Triggering-Samples.md:60
 msgid "`:misc_`"
-msgstr ""
+msgstr "`:misc_`"
 
 #: 03.1-Triggering-Samples.md:61
 msgid "`:bd_`"
-msgstr ""
+msgstr "`:bd_`"
 
 #: 03.1-Triggering-Samples.md:63
 msgid "Now start mixing samples into your compositions!"
-msgstr ""
+msgstr "Ara comenceu a barrejar mostres a les vostres composicions!"
 
 #: 03.2-Sample-Params.md:1
 msgid "3.2 Sample Parameters"
