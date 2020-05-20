@@ -25,7 +25,13 @@ SynthDef('sonic-pi-fx_autotuner', {|
     in_bus=0,
     // args specific to this synth
     note = 0,
+    note_slide=0,
+    note_slide_shape=1,
+    note_slide_curve=0,
     formant_ratio = 1,
+    formant_ratio_slide = 0,
+    formant_ratio_slide_shape = 1,
+    formant_ratio_slide_curve = 0,
     min_freq = 10,
     max_formant_ratio = 10,
     grains_period = 2,
@@ -97,6 +103,9 @@ SynthDef('sonic-pi-fx_autotuner', {|
     // note represents a midi "target" pitch to tune to
     // without that arg, it works as a normal autotune, locking the
     // input to the nearest midi note
+    note = note.varlag(note_slide, note_slide_curve, note_slide_shape);
+
+    formant_ratio = formant_ratio.varlag(formant_ratio_slide, formant_ratio_slide_curve, formant_ratio_slide_shape);
 
     freq = Pitch.kr(in)[0].asArray.wrapExtend(numChannels);
     freqAsMidi = freq.asArray[0].cpsmidi;
