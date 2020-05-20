@@ -13,7 +13,8 @@ copy /Y ..\..\..\prebuilt\windows\x86\*.* ..\..\server\native
 
 @echo Bundling required ruby gems...
 cd "%~dp0\..\..\server\ruby"
-bundler install --deployment --with=:default,:development
+bundle config --local path "vendor/bundle"
+bundle install --with=:default,:development
 cd %~dp0
 
 @echo Translating tutorial...

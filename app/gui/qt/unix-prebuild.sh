@@ -23,7 +23,8 @@ fi
 
 echo "Bundling required ruby gems..."
 cd "${SCRIPT_DIR}/../../server/ruby"
-bundler install --deployment --with=:default,:development
+bundle config --local path "vendor/bundle"
+bundle install --with=:default,:development
 
 echo "Compiling erlang files..."
 cd "${SCRIPT_DIR}/../../server/erlang"

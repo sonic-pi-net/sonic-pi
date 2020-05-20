@@ -57,7 +57,8 @@ script:
     echo "* Bundle required ruby gems       *"
     echo "***********************************"
     cd $TRAVIS_BUILD_DIR/app/server/ruby/
-    bundle install --deployment --with=:default,:development
+    bundle config --local path "vendor/bundle"
+    bundle install --with=:default,:development
  - |
     echo ""
     echo "***********************************"

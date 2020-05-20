@@ -11,7 +11,7 @@ gem "multi_json",     "~> 1.9.2"
 gem "rubame",         "~> 0.0.2"
 gem "aubio",          "~> 0.3.3" # 0.3.2 has a bug with the libaubio search paths
 gem "ruby-beautify",  "~> 0.92.2"
-gem "rugged",         "~> 0.28.4.1"
+gem "rugged",         "~> 1.0.0"
 gem "sys-proctable",  "~> 1.2.2"
 gem "treetop",        "~> 1.6.10"
 gem "wavefile",       "~> 0.8.1"
