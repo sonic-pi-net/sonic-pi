@@ -2421,7 +2421,7 @@ void MainWindow::createStatusBar()
  */
 void MainWindow::restoreWindows() {
     QSettings settings(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net", "gui-settings");
-    QRect rec = QApplication::desktop()->screenGeometry();
+    QRect rec = QGuiApplication::primaryScreen()->geometry();
     QPoint pos = settings.value("pos", QPoint(0, 0)).toPoint();
     QSize size = settings.value("size", QSize(rec.width(), rec.height())).toSize();
 
