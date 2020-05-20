@@ -31,6 +31,7 @@ public:
     bool show_buttons;
     bool show_tabs;
     bool full_screen;
+    bool goto_buffer_shortcuts;
     bool print_output;
     bool clear_output_on_run;
     bool log_cues;

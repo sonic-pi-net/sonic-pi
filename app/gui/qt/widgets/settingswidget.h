@@ -96,6 +96,7 @@ private:
     QCheckBox *show_line_numbers;
     QCheckBox *auto_indent_on_run;
     QCheckBox *full_screen;
+    QCheckBox* goto_buffer_shortcuts;
     QCheckBox *show_log;
     QCheckBox *show_cues;
     QCheckBox *show_buttons;

@@ -2499,6 +2499,7 @@ void MainWindow::readSettings() {
     piSettings->show_scopes = settings.value("prefs/scope/show-scopes", true).toBool();
     piSettings->show_scope_labels = settings.value("prefs/scope/show-labels", false).toBool();
     piSettings->show_cues = settings.value("prefs/show_cues", true).toBool();
+    piSettings->goto_buffer_shortcuts = settings.value("prefs/goto_buffer_shortcuts", false).toBool();
     QString styleName = settings.value("prefs/theme", "").toString();
     piSettings->themeStyle = theme->themeNameToStyle(styleName);
 
@@ -2545,6 +2546,7 @@ void MainWindow::writeSettings()
     settings.setValue("prefs/scope/show-labels", piSettings->show_scope_labels );
     settings.setValue("prefs/scope/show-scopes", piSettings->show_scopes );
     settings.setValue("prefs/show_cues", piSettings->show_cues);
+    settings.setValue("prefs/goto_buffer_shortcuts", piSettings->goto_buffer_shortcuts);
     settings.setValue("prefs/theme", theme->themeStyleToName(piSettings->themeStyle));
 
     for ( auto name : piSettings->scope_names ) {
@@ -2793,6 +2795,9 @@ void MainWindow::tabPrev() {
 }
 
 void MainWindow::tabGoto(int index) {
+    if (!piSettings->goto_buffer_shortcuts)
+        return;    
+
     if (index < tabs->count())
         QMetaObject::invokeMethod(tabs, "setCurrentIndex", Q_ARG(int, index));
 }
