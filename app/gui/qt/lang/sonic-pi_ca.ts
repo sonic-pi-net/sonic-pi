@@ -462,7 +462,7 @@ Aconsegueix Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2196"/>
         <source>Core Team</source>
-        <translation>Membres de l&apos;equip</translation>
+        <translation>L&apos;equip</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2197"/>
