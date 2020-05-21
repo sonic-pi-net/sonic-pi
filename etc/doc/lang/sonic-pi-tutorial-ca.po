@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-05-21 10:41+0000\n"
+"PO-Revision-Date: 2020-05-22 15:41+0000\n"
 "Last-Translator: Pau Monfort <paubarrina@gmail.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/ca/>\n"
@@ -628,7 +628,7 @@ msgstr "Tan sols assegureu-vos de compartir el vostre treball amb la resta!"
 
 #: 02-Synths.md:1
 msgid "2 Synths"
-msgstr "2 sintetitzadors"
+msgstr "2 Sintetitzadors"
 
 #: 02-Synths.md:3 02.3-Switching-Synths.md:11
 msgid "Synths"
