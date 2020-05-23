@@ -411,7 +411,6 @@ module SonicPi
         puts "Jackd already running. Not starting another server..."
       end
 
-      register_process jack_pid
       block_size = raspberry_pi_1? ? 512 : 128
 
       local_scsynth_opts = {
