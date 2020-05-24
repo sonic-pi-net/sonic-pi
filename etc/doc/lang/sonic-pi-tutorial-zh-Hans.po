@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-05-17 01:41+0000\n"
-"Last-Translator: 丁科 <me@dingkewz.com>\n"
+"PO-Revision-Date: 2020-05-24 18:42+0000\n"
+"Last-Translator: Zhe Wang <wangzhetju@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/zh_Hans/>\n"
 "Language: zh-Hans\n"
@@ -2246,13 +2246,13 @@ msgstr "我们可以好好利用前述的特性，将时间长的采样变得更
 #: 03.4-Enveloped-Samples.md:106
 #, no-wrap
 msgid "sample :drum_cymbal_open"
-msgstr ""
+msgstr "样本：鼓_镲片_开放"
 
 #: 03.4-Enveloped-Samples.md:110
 msgid ""
 "You can hear the cymbal sound ringing out over a period of time. However, we c"
 "an use our envelope to make it more percussive:"
-msgstr ""
+msgstr "可以听到镲片会持续震动一段时间。我们可以通过波封改变声音："
 
 #: 03.4-Enveloped-Samples.md:113
 #, no-wrap
