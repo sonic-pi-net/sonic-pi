@@ -8128,33 +8128,7 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
           doc << "</table></p>\n"
 
           if any_slidable then
-            doc << "<a name=slide></a>\n"
-            doc << "<h2>Slide Options</h2>\n"
-            doc << "<p>Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:</p>\n"
-            slide_args = {
-              :_slide => {:default => 0, :doc=>v.generic_slide_doc('parameter')},
-              :_slide_shape => {:default=>5, :doc=>v.generic_slide_shape_doc('parameter')},
-              :_slide_curve => {:default=>0, :doc=>v.generic_slide_curve_doc('parameter')}
-            }
-
-            # table for slide parameters
-            doc << "<p><table class=\"details\">\n"
-
-            cnt = 0
-            slide_args.each do |ak, av|
-              td_class = cnt.even? ? "even" : "odd"
-              doc << "<tr>\n"
-              doc << " <td class=\"#{td_class} key\">#{ak}:</td>\n"
-              doc << " <td class=\"#{td_class}\">\n"
-              doc << "  <p>#{av[:doc] || 'write me'}</p>\n"
-              doc << "  <p class=\"properties\">\n"
-              doc << "   Default: #{av[:default]}\n"
-              doc << "  </p>\n"
-              doc << " </td>\n"
-              doc << "</tr>\n"
-              cnt += 1
-            end
-            doc << "</table></p>\n"
+          doc << slide_doc_html(v)
           end # any_slidable
 
           doc << "</body>\n"
@@ -8235,7 +8209,9 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
           doc << "</pre></code></p>\n"
 
           doc << "<p><table class=\"arguments\"><tr>\n"
-          StereoPlayer.new.arg_info.each do |ak, av|
+
+          stereo_player = StereoPlayer.new
+          stereo_player.arg_info.each do |ak, av|
             doc << "</tr><tr>" if (cnt > 0) and cnt % 4 == 0
             doc << "<td class=\"even\"><a href=\"##{ak}\">#{ak}:</a></td>\n"
             doc << "<td class=\"odd\">#{av[:default]}</td>\n"
@@ -8246,7 +8222,8 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
           doc << "<p><table class=\"details\">\n"
 
           cnt = 0
-          StereoPlayer.new.arg_info.each do |ak, av|
+          any_slidable = false
+          stereo_player.arg_info.each do |ak, av|
             doc << "<a name=\"#{ak}\"></a>\n"
             doc << "<tr>\n"
             doc << " <td class=\"even key\">#{ak}:</td>\n"
@@ -8255,7 +8232,11 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
             doc << "  <p class=\"properties\">\n"
             doc << "   Default: #{av[:default]}\n"
             doc << "   <br/>#{av[:constraints].join(",")}\n" unless av[:constraints].empty?
-            doc << "   <br/>May be changed whilst playing\n" if av[:slidable]
+            if av[:slidable]
+              doc << "   <br/>May be changed whilst playing\n"
+              doc << "   <br/><a href=\"#slide\">Has slide options to shape changes</a>\n"
+              any_slidable = true
+            end
             doc << "   <br/>Scaled with current BPM value\n" if av[:bpm_scale]
             doc << "  </p>\n"
             doc << " </td>\n"
@@ -8263,6 +8244,7 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
             cnt += 1
           end
           doc << "</table></p>\n"
+          doc << slide_doc_html(stereo_player) if any_slidable
           doc << "</body>\n"
 
           res[v[:desc]] = doc
@@ -8281,6 +8263,38 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
 
         end
         res
+      end
+
+      def self.slide_doc_html(synth)
+        slide_doc = ""
+        slide_doc << "<a name=slide></a>\n"
+        slide_doc << "<h2>Slide Options</h2>\n"
+        slide_doc << "<p>Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:</p>\n"
+        slide_args = {
+          :_slide => {:default => 0, :doc=>synth.generic_slide_doc('parameter')},
+          :_slide_shape => {:default=>5, :doc=>synth.generic_slide_shape_doc('parameter')},
+          :_slide_curve => {:default=>0, :doc=>synth.generic_slide_curve_doc('parameter')}
+        }
+
+        # table for slide parameters
+        slide_doc << "<p><table class=\"details\">\n"
+
+        cnt = 0
+        slide_args.each do |ak, av|
+          td_class = cnt.even? ? "even" : "odd"
+          slide_doc << "<tr>\n"
+          slide_doc << " <td class=\"#{td_class} key\">#{ak}:</td>\n"
+          slide_doc << " <td class=\"#{td_class}\">\n"
+          slide_doc << "  <p>#{av[:doc] || 'write me'}</p>\n"
+          slide_doc << "  <p class=\"properties\">\n"
+          slide_doc << "   Default: #{av[:default]}\n"
+          slide_doc << "  </p>\n"
+          slide_doc << " </td>\n"
+          slide_doc << "</tr>\n"
+          cnt += 1
+        end
+        slide_doc << "</table></p>\n"
+        slide_doc
       end
     end
   end
