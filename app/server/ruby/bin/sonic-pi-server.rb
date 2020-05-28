@@ -37,7 +37,6 @@ include SonicPi::Util
 
 ## This is where the server starts....
 STDOUT.puts "Sonic Pi server booting..."
-STDOUT.puts "This is version 3.2.2 running on Ruby #{RUBY_VERSION}."
 STDOUT.puts "The time is #{Time.now}"
 
 ## Select the primary GUI protocol
@@ -695,8 +694,11 @@ out_t = Thread.new do
   end
 end
 
-puts "This is Sonic Pi #{sp.__current_version} running on #{os} with ruby api #{RbConfig::CONFIG['ruby_version']}."
+puts "\n\n"
+puts "This is Sonic Pi #{sp.__current_version} running on #{os} with ruby version #{RUBY_VERSION} with api #{RbConfig::CONFIG['ruby_version']}."
 puts "Sonic Pi Server successfully booted."
+puts "-----------------------------------\n\n"
+
 
 STDOUT.flush
 
