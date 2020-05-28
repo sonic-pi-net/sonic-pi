@@ -172,3 +172,9 @@ On multiple distributions, there are Sonic Pi releases that you can install from
       This sets the CMAKE_BUILD_TYPE option when generating the build system files.
 
       It must be followed by one of the following configurations: `Release, Debug, RelWithDebInfo, or MinSizeRel`
+
+## Troubleshooting 
+### Booting error
+* Is Jack server is running?
+* Are `libffado` and `libcelt` libraries installed?
+* For Arch based distros, you can find more info in [this issue.](https://github.com/samaaron/sonic-pi/issues/2341)
