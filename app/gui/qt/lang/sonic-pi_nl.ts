@@ -142,8 +142,9 @@
         <source>Sonic Pi Boot Error
 
 Apologies, a critical error occurred during startup</source>
-        <translation>Sonic Pi is fout opgestart  
-Sorry,er trad een belangrijke fout op tijdens het opstarten</translation>
+        <translation>Sonic Pi is fout opgestart
+
+Sorry, er trad een belangrijke fout op tijdens het opstarten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1364"/>
@@ -244,7 +245,7 @@ Sorry,er trad een belangrijke fout op tijdens het opstarten</translation>
     <message>
         <location filename="../mainwindow.cpp" line="730"/>
         <source>Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Toepassingsgebied</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1504"/>
@@ -320,17 +321,17 @@ Sorry,er trad een belangrijke fout op tijdens het opstarten</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1826"/>
         <source>Colour Theme: </source>
-        <translation type="unfinished"></translation>
+        <translation>Kleurenschema: </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2065"/>
         <source>Start recording to a WAV audio file</source>
-        <translation type="unfinished"></translation>
+        <translation>Start opname naar een WAV geluidsbestand</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2069"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Opslaan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2071"/>
@@ -430,7 +431,7 @@ Sonic Pi krijgen %1</translation>
         <location filename="../mainwindow.cpp" line="2063"/>
         <location filename="../mainwindow.cpp" line="2255"/>
         <source>Start Recording</source>
-        <translation>Opname  starten</translation>
+        <translation>Opname starten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2082"/>
@@ -476,7 +477,7 @@ Sonic Pi krijgen %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="430"/>
         <source>Studio Mode Enabled. Thank-you for supporting Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation>Studio mode ingeschakeld. Bedankt om Sonic Pi te steunen.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="434"/>
@@ -486,7 +487,7 @@ Sonic Pi krijgen %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="670"/>
         <source>| %1 |</source>
-        <translation type="unfinished"></translation>
+        <translation>| %1 |</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2084"/>
@@ -516,7 +517,7 @@ Sonic Pi krijgen %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2106"/>
         <source>Show Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon info</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2112"/>
@@ -596,7 +597,7 @@ Sonic Pi krijgen %1</translation>
     <message>
         <location filename="../visualizer/scope.cpp" line="392"/>
         <source>Lissajous</source>
-        <translation type="unfinished"></translation>
+        <translation>Lissajous</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="393"/>
@@ -810,7 +811,8 @@ naar en van andere programma&apos;s of computers
         <location filename="../widgets/settingswidget.cpp" line="166"/>
         <source>When checked, Sonic Pi will let you send and receive OSC messages to and from remote machines.
  When unchecked, only sending and receiving from the local machine will be enabled.</source>
-        <translation type="unfinished"></translation>
+        <translation>Indien aangevinkt kan Sonic Pi OSC berichten sturen en ontvangen van externe toestellen.
+Indien niet aangevinkt worden enkel berichten van het lokaal toestel verzonden of ontvangen.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="168"/>
@@ -892,7 +894,8 @@ Indien niet aangevinkt, zullen er geen OSC berichten ontvangen kunnen worden.</t
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation type="unfinished">MIDI ingang apparaten zenden MIDI berichten rechtstreeks naar Sonic Pi en worden ontvangen als aanwijzingssignalen
+        <translation>MIDI ingang apparaten zenden MIDI berichten rechtstreeks naar
+Sonic Pi en worden ontvangen als aanwijzingssignalen
 (gelijkaardig als inkomende OSC berichten en interne aanwijzings-signalen)</translation>
     </message>
     <message>
@@ -1005,27 +1008,27 @@ Sonic Pi die verstuurd kunnen worden via de midi_* functies</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="292"/>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Licht</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="293"/>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Donker</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="294"/>
         <source>Pro Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro Licht</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="295"/>
         <source>Pro Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro Donker</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="296"/>
         <source>High Contrast</source>
-        <translation type="unfinished"></translation>
+        <translation>Hoger contrast</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="326"/>
