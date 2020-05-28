@@ -55,6 +55,7 @@ for:
     - cd %APPVEYOR_BUILD_FOLDER%
     - cd app\gui\qt
     - win-prebuild.bat
+    - cd
     - win-config.bat
     - cd build
     - cmake --build . --target ALL_BUILD --config %configuration% -- /nologo /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"

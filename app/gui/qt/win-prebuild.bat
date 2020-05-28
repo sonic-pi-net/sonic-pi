@@ -19,8 +19,8 @@ xcopy /Y /I /R /E external\build\osmid-prefix\src\osmid-build\Release\*.exe ..\.
 @echo Copying all other native files to server...
 xcopy /Y /I /R /E ..\..\..\prebuilt\windows\x64\*.* ..\..\server\native
 
+cd ..\..\server\ruby
 @echo Bundling required ruby gems...
-cd "%~dp0\..\..\server\ruby"
 bundle config --local path "vendor/bundle"
 bundle install --with=:default,:development
 cd %~dp0
