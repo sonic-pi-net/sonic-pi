@@ -134,3 +134,6 @@ etc/synthdefs/designs/overtone/sonic-pi/target
 etc/synthdefs/designs/overtone/sonic-pi/classes
 etc/synthdefs/designs/overtone/sonic-pi/checkouts
 etc/synthdefs/designs/overtone/sonic-pi/native
+
+# Visual Studio settings folder.
+.vs
