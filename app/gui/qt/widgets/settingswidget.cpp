@@ -269,8 +269,8 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     editor_display_box->setToolTip(tr("Configure editor display options."));
     QGroupBox *editor_look_feel_box = new QGroupBox(tr("Look and Feel"));
     editor_look_feel_box->setToolTip(tr("Configure editor look and feel."));
-    QGroupBox *automation_box = new QGroupBox(tr("Automation"));
-    automation_box->setToolTip(tr("Configure automation features."));
+    QGroupBox *automation_box = new QGroupBox(tr("Automation / Misc"));
+    automation_box->setToolTip(tr("Configure automation and other features."));
 
     auto_indent_on_run = new QCheckBox(tr("Auto-align"));
     auto_indent_on_run->setToolTip(tr("Automatically align code on Run"));
@@ -293,6 +293,8 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     show_tabs->setToolTip(tr("Toggle visibility of the buffer selection tabs."));
     full_screen = new QCheckBox(tr("Full screen"));
     full_screen->setToolTip(tooltipStrShiftMeta('F', tr("Toggle full screen mode.")));
+    goto_buffer_shortcuts = new QCheckBox(tr("Go to buffer shortcuts"));
+    goto_buffer_shortcuts->setToolTip(tr("Use C-M-0 .. C-M-9 to go to buffer directly"));
 
     colourModeButtonGroup = new QButtonGroup(this);
     lightModeCheck = new QCheckBox(tr("Light"));
@@ -327,6 +329,7 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
 
     automation_box_layout->addWidget(auto_indent_on_run);
     automation_box_layout->addWidget(full_screen);
+    automation_box_layout->addWidget(goto_buffer_shortcuts);
     automation_box->setLayout(automation_box_layout);
 
     QGroupBox *debug_box = new QGroupBox(tr("Logging"));
@@ -597,6 +600,7 @@ void SettingsWidget::updateSettings() {
     piSettings->show_buttons = show_buttons->isChecked();
     piSettings->show_tabs = show_tabs->isChecked();
     piSettings->full_screen = full_screen->isChecked();
+    piSettings->goto_buffer_shortcuts = goto_buffer_shortcuts->isChecked();
     piSettings->print_output = print_output->isChecked();
     piSettings->clear_output_on_run = clear_output_on_run->isChecked();
     piSettings->log_cues = log_cues->isChecked();
@@ -636,6 +640,7 @@ void SettingsWidget::settingsChanged() {
     show_buttons->setChecked(piSettings->show_buttons);
     show_tabs->setChecked(piSettings->show_tabs);
     full_screen->setChecked(piSettings->full_screen);
+    goto_buffer_shortcuts->setChecked(piSettings->goto_buffer_shortcuts);
     print_output->setChecked(piSettings->print_output);
     clear_output_on_run->setChecked(piSettings->clear_output_on_run);
     log_cues->setChecked(piSettings->log_cues);
@@ -679,6 +684,7 @@ void SettingsWidget::connectAll() {
     connect(show_buttons, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(show_tabs, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(full_screen, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(goto_buffer_shortcuts, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(print_output, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(clear_output_on_run, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(log_cues, SIGNAL(clicked()), this, SLOT(updateSettings()));

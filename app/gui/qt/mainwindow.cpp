@@ -2096,6 +2096,16 @@ void MainWindow::createShortcuts()
     std::cout << "[GUI] - creating shortcuts" << std::endl;
     new QShortcut(shiftMetaKey('['), this, SLOT(tabPrev()));
     new QShortcut(shiftMetaKey(']'), this, SLOT(tabNext()));
+    connect(new QShortcut(shiftMetaKey('1'), this), &QShortcut::activated, [this](){ tabGoto(1); });
+    connect(new QShortcut(shiftMetaKey('2'), this), &QShortcut::activated, [this](){ tabGoto(2); });
+    connect(new QShortcut(shiftMetaKey('3'), this), &QShortcut::activated, [this](){ tabGoto(3); });
+    connect(new QShortcut(shiftMetaKey('4'), this), &QShortcut::activated, [this](){ tabGoto(4); });
+    connect(new QShortcut(shiftMetaKey('5'), this), &QShortcut::activated, [this](){ tabGoto(5); });
+    connect(new QShortcut(shiftMetaKey('6'), this), &QShortcut::activated, [this](){ tabGoto(6); });
+    connect(new QShortcut(shiftMetaKey('7'), this), &QShortcut::activated, [this](){ tabGoto(7); });
+    connect(new QShortcut(shiftMetaKey('8'), this), &QShortcut::activated, [this](){ tabGoto(8); });
+    connect(new QShortcut(shiftMetaKey('9'), this), &QShortcut::activated, [this](){ tabGoto(9); });
+    connect(new QShortcut(shiftMetaKey('0'), this), &QShortcut::activated, [this](){ tabGoto(0); });
     new QShortcut(QKeySequence("F8"), this, SLOT(reloadServerCode()));
     new QShortcut(QKeySequence("F9"), this, SLOT(toggleButtonVisibility()));
     new QShortcut(shiftMetaKey('B'), this, SLOT(toggleButtonVisibility()));
@@ -2490,6 +2500,7 @@ void MainWindow::readSettings() {
     piSettings->show_scopes = settings.value("prefs/scope/show-scopes", true).toBool();
     piSettings->show_scope_labels = settings.value("prefs/scope/show-labels", false).toBool();
     piSettings->show_cues = settings.value("prefs/show_cues", true).toBool();
+    piSettings->goto_buffer_shortcuts = settings.value("prefs/goto_buffer_shortcuts", false).toBool();
     QString styleName = settings.value("prefs/theme", "").toString();
     piSettings->themeStyle = theme->themeNameToStyle(styleName);
 
@@ -2536,6 +2547,7 @@ void MainWindow::writeSettings()
     settings.setValue("prefs/scope/show-labels", piSettings->show_scope_labels );
     settings.setValue("prefs/scope/show-scopes", piSettings->show_scopes );
     settings.setValue("prefs/show_cues", piSettings->show_cues);
+    settings.setValue("prefs/goto_buffer_shortcuts", piSettings->goto_buffer_shortcuts);
     settings.setValue("prefs/theme", theme->themeStyleToName(piSettings->themeStyle));
 
     for ( auto name : piSettings->scope_names ) {
@@ -2786,6 +2798,14 @@ void MainWindow::tabPrev() {
     else
         index--;
     QMetaObject::invokeMethod(tabs, "setCurrentIndex", Q_ARG(int, index));
+}
+
+void MainWindow::tabGoto(int index) {
+    if (!piSettings->goto_buffer_shortcuts)
+        return;    
+
+    if (index < tabs->count())
+        QMetaObject::invokeMethod(tabs, "setCurrentIndex", Q_ARG(int, index));
 }
 
 void MainWindow::setLineMarkerinCurrentWorkspace(int num) {
