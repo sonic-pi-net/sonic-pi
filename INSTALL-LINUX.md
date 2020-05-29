@@ -175,6 +175,6 @@ On multiple distributions, there are Sonic Pi releases that you can install from
 
 ## Troubleshooting 
 ### Booting error
-* Is Jack server is running?
+* Is Jack server running?
 * Are `libffado` and `libcelt` libraries installed?
 * For Arch based distros, you can find more info in [this issue.](https://github.com/samaaron/sonic-pi/issues/2341)
