@@ -227,6 +227,7 @@ signals:
         void setupLogPathAndRedirectStdOut();
         QSignalMapper *signalMapper;
         void startRubyServer();
+        void cleanupRunningProcesses();
         bool waitForServiceSync();
         void clearOutputPanels();
         void createShortcuts();

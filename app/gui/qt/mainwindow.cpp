@@ -1324,6 +1324,7 @@ void MainWindow::startupError(QString msg) {
     layout->addItem(hSpacer, layout->rowCount(), 0, 1, layout->columnCount());
     box->exec();
     std::cout << "[GUI] - Aborting. Sorry about this." << std::endl;
+    cleanupRunningProcesses();
     QApplication::exit(-1);
     exit(EXIT_FAILURE);
 }
@@ -2643,13 +2644,18 @@ void MainWindow::onExitCleanup()
     sleep(2);
 
     // ensure all child processes are nuked if they didn't die gracefully
+    cleanupRunningProcesses();
+
+    std::cout << "[GUI] - exiting. Cheerio :-)" << std::endl;
+    std::cout.rdbuf(coutbuf); // reset to stdout before exiting
+}
+
+void MainWindow::cleanupRunningProcesses()
+{
     std::cout << "[GUI] - executing exit script" << std::endl;
     QProcess* exitProcess = new QProcess();
     exitProcess->start(ruby_path, QStringList(exit_script_path));
     exitProcess->waitForFinished();
-
-    std::cout << "[GUI] - exiting. Cheerio :-)" << std::endl;
-    std::cout.rdbuf(coutbuf); // reset to stdout before exiting
 }
 
 void MainWindow::heartbeatOSC() {
