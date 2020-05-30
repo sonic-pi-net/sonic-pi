@@ -8,7 +8,7 @@ synthdefs are loaded up on boot so they are ready to trigger.
 Synthdefs are ultimately compiled from source code into binary files,
 but there are two main ways you can do this. You can either use the
 Clojure based library called [Overtone](https://overtone.github.io),
-or directly use SuperCollider's own language instead).
+or directly use SuperCollider's own language instead.
 
 [Using **Overtone** to design and compile your synths](#overtone)<br/>
 [Using **SuperCollider** to design and compile your synths](#supercollider)
@@ -153,13 +153,37 @@ of your choice. You can then dynamically load your synthdefs with the `load_synt
 
 ## Making the synth available in Sonic Pi
 
-To make the synths available simply call `load_synthdefs` with the path
-to the folder containing the synthdefs you've compiled and they'll be
-immediately available to Sonic Pi via the `synth` fn.
+There are two choices for making your synth available in Sonic Pi.
 
-However, if you want the synths to be visible to the GUI you'll need to
-add the appropriate metadata to
-`app/server/sonicpi/lib/sonicpi/synths/synthinfo.rb` and re-compile the
-app.
+### 'Loose' integration into Sonic Pi
 
-Have fun!
+Integrating a synth into Sonic Pi 'loosely' will allow you to use it but will
+not make features such as autocompletion of synth opts available.
+
+To enable a synth in this manner, firstly, make sure that the setting
+'Enable external synths and FX' is turned on in the Preferences pane under
+Audio > Synths and FX.
+
+Next, in your Sonic Pi code, call `load_synthdefs` with the path to the folder
+containing the synthdefs you've compiled and they'll be immediately available
+to Sonic Pi via the `synth` fn.
+
+Lastly, for synths like these that are not tightly integrated into Sonic Pi,
+You call them by name with a string value - eg: `synth 'piTest'`.
+
+
+### 'Tight' integration into Sonic Pi
+
+Integrating your synth into Sonic Pi in a tighter manner will allow you to use
+it without having to enable external synths and FX or explicitly load the synth
+path into memory beforehand. It will also enable features such as synth opt
+autocompletion.
+
+However, there's a little more involved when doing it this way. You need to add
+the appropriate metadata to `app/server/sonicpi/lib/sonicpi/synths/synthinfo.rb`
+and re-compile the app.
+
+Lastly, as with built-in synths, you would call the synth by name with a symbol.
+Eg: `synth :piTest`.
+
+We look forward to hearing about your synth and FX creations - have fun!
