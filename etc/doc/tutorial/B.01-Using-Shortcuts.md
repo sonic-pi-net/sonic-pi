@@ -81,4 +81,4 @@ To toggle the help system you can press `M-i`. However, a much more
 useful shortcut to know is `C-i` which will look up the word underneath
 the cursor and display the docs if it finds anything. Instant help!
 
-For a full list take a look at section 10.2 Shortcut Cheatsheet.
+For a full list take a look at section B.2 Shortcut Cheatsheet.
