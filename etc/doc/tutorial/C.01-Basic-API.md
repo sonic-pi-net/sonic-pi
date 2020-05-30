@@ -39,7 +39,7 @@ the following:
 mc_teleport 50, 50, 50
 ```
 
-When you hit *Run* - boom! You're instantantly transported to a new
+When you hit *Run* - boom! You're instantly transported to a new
 place. Most likely it was somewhere in the sky and you fell down either
 to dry land or into water. Now, what are those numbers: `50, 50, 50`?
 They're the coordinates of the location you're trying to teleport
