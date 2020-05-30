@@ -1,0 +1,208 @@
+libvorbis (1.2.0.dfsg-3.1) unstable; urgency=high
+
+  * Non-maintainer upload by the security team
+  * Fix integer overflows (and possible DoS attacks) via crafted
+    OGG files (Closes: #482518)
+    Fixes: CVE-2008-1423, CVE-2008-1420, CVE-2008-1419
+
+ -- Steffen Joeris <white@debian.org>  Mon, 26 May 2008 12:48:06 +0000
+
+libvorbis (1.2.0.dfsg-3) unstable; urgency=low
+
+  * Use dpkg-gensymbols, with symbol files obtained from Mole (stripping
+    debian revision and .dfsg suffix).
+
+  * Install upstream CHANGES file as changelog.gz. (Closes: #302037)
+
+  * Bump debian/compat to 5, and Standards-Version to 3.7.3 (no changes
+    needed).
+
+  * Use quilt.make in debian/rules.
+
+ -- Adeodato Simó <dato@net.com.org.es>  Thu, 27 Dec 2007 14:33:45 +0100
+
+libvorbis (1.2.0.dfsg-2) unstable; urgency=high
+
+  * Bump shlibs for libvorbis0a due to new vorbis_synthesis_idheader header.
+    (Closes: #436083)
+
+ -- Adeodato Simó <dato@net.com.org.es>  Tue, 14 Aug 2007 20:55:54 +0200
+
+libvorbis (1.2.0.dfsg-1) unstable; urgency=low
+
+  [ Adeodato Simó ]
+  * Use ${binary:Version} instead of ${Source-Version}.
+
+  [ Clint Adams ]
+  * New upstream release.
+    - Remove upstream_r13198-fix_segfault_in_ov_time_seek.diff .
+  * Bump shlibs for libvorbisfile3 to >= 1.2.0 due to new ov_fopen
+    function.
+
+ -- Clint Adams <schizo@debian.org>  Fri, 27 Jul 2007 02:57:44 -0400
+
+libvorbis (1.1.2.dfsg-2) unstable; urgency=low
+
+  * Bump to Standards-Version 3.7.2. 
+  * Add upstream_r13198-fix_segfault_in_ov_time_seek.diff. closes: #281995.
+
+ -- Clint Adams <schizo@debian.org>  Fri, 29 Jun 2007 09:46:12 -0400
+
+libvorbis (1.1.2.dfsg-1.2) unstable; urgency=high
+
+  * Fix shlibs files for libvorbisenc and libvorbisfile, which were broken
+    by my first NMU to have dependencies for libvorbis0a. Closes: #395048
+
+ -- Joey Hess <joeyh@debian.org>  Tue, 24 Oct 2006 19:55:19 -0400
+
+libvorbis (1.1.2.dfsg-1.1) unstable; urgency=low
+
+  * NMU
+  * Remove draft RFC files, as they are not under a free license.
+    Closes: #390660
+  * Repackage the source package without these files.
+  * Add README.Source documenting how the upstream source is repackaged.
+  * Modify dh_makeshlibs call to avoid generating a shlibs file that has
+    an unncessarily tight versioned dependency on this new pseudo-version
+    of libvorbis.
+
+ -- Joey Hess <joeyh@debian.org>  Sun, 15 Oct 2006 17:21:37 -0400
+
+libvorbis (1.1.2-1) unstable; urgency=low
+
+  * Switch maintenance to the Debian Xiph.org Maintainers (alioth/pkg-xiph).
+
+  * New upstream release packaged. (Closes: #327586)
+
+  * Move HTML documentation from /usr/share/doc/libvorbis-dev itself to an
+    html/ subdirectory of it.
+
+  * Update debian/control:
+    + drop unnecessary build-dependency on devscripts.
+    + drop version restriction on debhelper and libogg-dev build-dependencies,
+      since they're already satisfied with stable.
+
+  * Overhaul debian/rules, and switch to quilt for patch management.
+
+  * Add debian/compat file, instead of exporting DH_COMPAT.
+
+  * Update download URL in debian/copyright.
+
+  * Add debian/watch file.
+
+  * Bumped Standards-Version to 3.6.2 (no changes required).
+
+ -- Adeodato Simó <dato@net.com.org.es>  Thu, 26 Jan 2006 01:35:39 +0100
+
+libvorbis (1.1.0-1) unstable; urgency=low
+
+  * New upstream.
+
+ -- Christopher L Cheney <ccheney@debian.org>  Thu, 17 Mar 2005 21:30:00 -0600
+
+libvorbis (1.0.1-1) unstable; urgency=low
+
+  * New upstream.
+  * Improved descriptions. (Closes: #166649)
+  * Updated DEB_BUILD_OPTIONS support. (Closes: #188464)
+
+ -- Christopher L Cheney <ccheney@debian.org>  Tue,  9 Dec 2003 01:00:00 -0600
+
+libvorbis (1.0.0-3) unstable; urgency=low
+
+  * Add libvorbis0 conflict to libvorbis0a.
+
+ -- Christopher L Cheney <ccheney@debian.org>  Wed, 12 Mar 2003 17:00:00 -0600
+
+libvorbis (1.0.0-2) unstable; urgency=low
+
+  * Rename libvorbis0 -> libvorbis0a to keep packages from upgrading to it
+    by mistake. (Closes: #156227, #156365, #161961, #171548, #172466,
+    #172469, #178756)
+  * GNU config automated update: config.sub (20020621 to 20030103),
+    config.guess (20020529 to 20030110)
+
+ -- Christopher L Cheney <ccheney@debian.org>  Sat,  8 Mar 2003 13:00:00 -0600
+
+libvorbis (1.0.0-1) unstable; urgency=low
+
+  * New upstream.
+  * Split libvorbis package into libvorbis libvorbisenc libvorbisfile due to
+    shared object major versions going out of sync.
+
+ -- Christopher L Cheney <ccheney@debian.org>  Fri, 19 Jul 2002 09:00:00 -0500
+
+libvorbis (1.0rc3-1) unstable; urgency=low
+
+  * New upstream. (Closes: #121995, #123472)
+  * added autotools target (config.* updater) to rules
+
+ -- Christopher L Cheney <ccheney@debian.org>  Mon, 24 Dec 2001 11:00:00 -0600
+
+libvorbis (1.0rc2-1) unstable; urgency=low
+
+  * New upstream.
+
+ -- Christopher L Cheney <ccheney@debian.org>  Sun, 12 Aug 2001 22:00:00 -0500
+
+libvorbis (1.0rc1-1) unstable; urgency=low
+
+  * New upstream. (Closes: #84977, #95330)
+  * Upstream says lame at fault. See bug details. (Closes: #98010)
+  * Fixed versioned depends.
+  * Changed clean method to distclean.
+
+ -- Christopher L Cheney <ccheney@debian.org>  Sun, 17 Jun 2001 20:00:00 -0500
+
+libvorbis (1.0beta4-1) unstable; urgency=low
+
+  * New upstream.
+  * Appears to be fixed, can't reproduce bug (closes: #78848)
+
+ -- Christopher L Cheney <ccheney@debian.org>  Mon, 26 Feb 2001 08:00:00 -0600
+
+libvorbis (1.0beta3-3) unstable; urgency=low
+
+  * Fixed Build-Depends libogg-dev version dependency.
+  * Fixed Sections.
+  * Updated to Standards-Version to 3.5.1.0
+
+ -- Christopher L Cheney <ccheney@debian.org>  Sat, 17 Feb 2001 18:14:53 -0600
+
+libvorbis (1.0beta3-2) unstable; urgency=low
+
+  * Added dependency for libogg-dev (closes: #78262)
+  * Added dependency for libogg-dev (closes: #81432)
+  * Corrected development library package name (closes: #82464)
+
+ -- Christopher L Cheney <ccheney@debian.org>  Sat,  3 Feb 2001 13:29:30 -0600
+
+libvorbis (1.0beta3-1) unstable; urgency=low
+
+  * New Maintainer.
+  * Upstream source was reorganized.
+  * Package split according to the upstream reorganization.
+
+ -- Christopher L Cheney <ccheney@debian.org>  Tue, 31 Oct 2000 15:08:22 -0600
+
+vorbis (1.0beta2-1) unstable; urgency=low
+
+  * New upstream version. Closes: #67326, #68416
+  * Changed xmms-vorbis to Architechture: any.  Closes: #67395
+  * Added Build-deps. Closes: #66628
+  * Moved vorbize to vorbis-tools along with oggenc and vorbiscomment
+
+ -- Michael Beattie <mjb@debian.org>  Wed,  9 Aug 2000 00:30:15 +1200
+
+vorbis (1.0beta1-1) unstable; urgency=low
+
+  * First Beta, Ready for debian release.
+
+ -- Michael Beattie <mickyb@es.co.nz>  Fri, 30 Jun 2000 19:26:59 +1200
+
+vorbis (0.0-1) unstable; urgency=low
+
+  * Initial Release.
+  * Initial package, not placed in archive.
+
+ -- Michael Beattie <mickyb@es.co.nz>  Mon, 26 Jun 2000 18:59:56 +1200

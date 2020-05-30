@@ -1,0 +1,13 @@
+{
+ "name":   "libgit2",
+ "github": "libgit2/libgit2",
+ "input":  "include",
+ "prefix": "git_",
+ "output": "docs",
+ "branch": "gh-pages",
+ "examples": "examples",
+ "legacy":  {
+    "input": {"src/git": ["v0.1.0"],
+              "src/git2": ["v0.2.0", "v0.3.0"]}
+  }
+}

@@ -1,0 +1,53 @@
+sudo: required
+language: c
+
+matrix:
+  include:
+    - os: linux
+      dist: xenial
+      compiler: clang
+      addons:
+        apt:
+          packages:
+            - autogen
+            - libogg-dev
+            - libvorbis-dev
+            - libflac-dev
+            - libasound2-dev
+            - libopus-dev
+    - os: linux
+      dist: xenial
+      compiler: gcc
+      addons:
+        apt:
+          packages:
+            - autogen
+            - libogg-dev
+            - libvorbis-dev
+            - libflac-dev
+            - libasound2-dev
+            - libopus-dev
+
+    - os: osx
+      compiler: clang
+
+before_install:
+  - |
+    if [[ "${TRAVIS_OS_NAME}" == "osx" ]]; then
+      brew update
+      brew install autogen flac libogg libvorbis opus
+    fi
+
+install:
+  - true
+
+script:
+  - mkdir cmake-build && (cd cmake-build && cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_FLAGS="-Wall -Wextra" && make VERBOSE=1 && ctest -V)
+  - pwd
+  - ./autogen.sh
+  - |
+    if [[ "${CC}" == "clang" ]]; then
+      ./configure --enable-werror && make clean all check && make distcheck
+    else
+      Scripts/asan-configure.sh --enable-werror && make clean all check && make distcheck
+    fi

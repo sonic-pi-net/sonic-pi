@@ -1,5 +1,7 @@
 # History
-* [v3.2.0 'Dev'](#v3.2.0), To be released...
+* [v3.2.2 'Tau3'](#v3.2.2), 5th April, 2020
+* [v3.2.1 'Take Tau'](#v3.2.1), 3rd April, 2020
+* [v3.2.0 'Tau'](#v3.2.0), 28th Feb, 2020
 * [v3.1.0 'Sauna'](#v3.1.0), 23rd Jan, 2018
 * [v3.0.1 'IOIO'](#v3.0.1), 27th July, 2017
 * [v3.0 'IO'](#v3.0), 18th July, 2017
@@ -16,21 +18,181 @@
 * [v2.2 'Slicer'](#v2.2), 18th Dec, 2014
 * [v2.1.1 'Firewall'](#v2.1.1), 25th Nov, 2014
 * [v2.1 'Core'](#v2.1), 21st Nov, 2014
+* [v2.0.1](#v2.0.1), 9th Sept, 2014
 * [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
 
-<a name="v3.2.0"></a>
+<a name="v3.2.2"></a>
 
-## Version 3.2.0 - 'Dev'
-*To be released...*
-[(view commits)](https://github.com/samaaron/sonic-pi/commits/v3.2.0):
+## Version 3.2.2 - 'Tau3'
+*5th April, 2020*
+[(view commits)](https://github.com/samaaron/sonic-pi/commits/v3.2.2):
 
+This is a minor bugfix and maintenance release. 
+
+### GUI
+* Significant improvements to the Danish and Swedish translations.
+
+### Bugfixes
+* Fixed a build issue on macOS that stopped recording from working.
+* Fixed issues rendering images in the documentation for non-English translations.
+
+
+<a name="v3.2.1"></a>
+
+## Version 3.2.1 - 'Take Tau'
+*3rd April, 2020*
+[(view commits)](https://github.com/samaaron/sonic-pi/commits/v3.2.1):
+
+This release is another maintenance release with a primary focus on
+increasing stability and reliability. There are therefore no major new
+features, but instead there are significant improvements to the
+internals and the packaging of the Windows installer.
+
+Whilst there are no major new features, we have still been working hard
+engaging with users with accessibility requirements. We have added a
+number of modifications to the GUI to improve keyboard navigation which
+should improve things for users that do not use a mouse (for example,
+users working with a screen reader). As mentioned in the previous
+release, we will continue to work to improve accessibility support
+wherever possible in each release.
+
+One core internal focus has been improving memory utilisation of the
+app. A number of memory leaks have been hunted down and fixed. A memory
+leak is where the application requests increasingly more memory from the
+computer and never gives it back. Over time this means that the app
+would waste a lot of the system memory. This might have not been too
+noticeable using Sonic Pi on modern computers that typically have
+incredibly large amounts of memory. However, it was noticeable and
+problematic on low-powered systems with limited memory capacity. Sonic
+Pi now uses a lot less memory and after a warm-up period, the memory
+usage stays much more constant than before. We will continue to look for
+and fix memory leaks going forward.
+
+Finally, this release is the first to ship with a fully signed Windows
+installer. This is a major milestone as we now ship with signed versions
+for both macOS and Windows which should help more users and
+organisations (especially schools) trust the installation and running of
+Sonic Pi.
+
+Now, go and get live coding! 
 
 ### Breaking Changes
 
-* `spread` now produces identical patterns as in the Toussaint
-  paper. Previously, some of the patterns had been shifted. Use the
-  `rotate:` opt to match prior behaviour if required.
-* OSC cues now include the IP address and port number of incoming messages  
+* The `ping_pong` FX now merges the dry sound with the result of the
+  echo to match the behaviour of `echo`.
+* In the last release, the `piano` synth had its default amplitude
+  accidentally altered when being updated to work with arbitrary
+  frequencies. This has been restored.
+* Incoming MIDI Active Sensing messages are now ignored
+
+### GUI
+
+* New shortcuts and menu items for explicitly placing focus on specific
+  areas of the app. This is primarily intended to improve accessibility
+  for screen readers or those not using a mouse or trackpad. The new
+  shortcuts are:
+  
+  - `Control-shift-e` - move focus to editor
+  - `Control-shift-l` - move focus to logs
+  - `Control-shift-c` - move focus to cues
+  - `Control-shift-p` - move focus to preferences
+  - `Control-shift-h` - move focus to help listing (e.g. the list of available help section)
+  - `Control-shift-d` - move focus to help details (e.g. the contents of the chosen help section)
+  - `Control-shift-w` - move focus to syntax/runtime error warnings
+* Once focus is in the help listing, the up and down arrow keys now
+  navigate up and down in the list and the left and right arrow keys
+  switch tabs to work through the different help categories.
+* When an error occurs, focus is now placed on the error pop-up
+  window. Focus can be easily returned back to the editor by pressing
+  either the Escape key or `Control-g`.
+* Minor improvements for Catalan, Greek, Chinese, Russian,
+  French and Romanian translations.
+
+
+### Bugfixes
+
+* Upgraded the Ruby process library which improves/fixes process
+  shutdown behaviour on some Linux systems.
+* Fixed a number of memory leaks which resulted in the memory
+  requirements of the app increasing over time until it was closed and
+  opened again. This was particularly noticeable and potentially
+  problematic on machines with small memory footprints.
+* General memory usage has been significantly reduced due to the
+  introduction of further caching in hot areas of the code that created
+  many unnecessary object allocations.
+* The Windows installer now works on more Windows 10 systems thanks to
+  additional libraries now being included in the installer.
+
+
+<a name="v3.2.0"></a>
+
+## Version 3.2.0 - 'Tau'
+*28th Feb, 2020*
+[(view commits)](https://github.com/samaaron/sonic-pi/commits/v3.2.0):
+
+After a long 2 years without updates, we are threaded with excitement to
+bring you Sonic Pi's first fully independent release. Sam Aaron's work
+on this release has been 100% supported by kind and generous donations
+from people on [Patreon](https://patreon.com/samaaron) in addition to
+funds raised by delivering talks, workshops and performances. Sam's work
+has also been hugely assisted by many wonderful code and translation
+contributions both by members of the Core Team and by our growing
+international community of live coders. This release has truly been a 
+community effort.
+
+So, what's new? This time there are no radical new features, instead we
+have a much more polished, accessible and stable version than ever before. 
+(This release has been heavily battle-tested in many performances worldwide).
+
+This release is codenamed Tau -
+[(an improved Pi)](https://tauday.com/tau-manifesto).
+
+One of the core focusses of this release is accessibility. Tau
+introduces support for screen readers. Previously the code editor was
+invisible to the main screen readers on both macOS and Windows and this
+is now fixed. There is also an accessible menu bar and a new high
+contrast colour theme which is WCAG 2 level AAA compliant. Accessibility
+is very important to us - we acknowledge that this is only the
+beginning and we value and encourage feedback from users who have
+specific accessibility requirements that we are not directly meeting. We
+plan to improve our accessibility support where possible in every release
+going forward.
+
+Another aspect of accessibility is support for Windows devices with high
+resolution displays. Previously on certain displays font and icon sizes
+could be far too small, unreadable and out of proportion with the app in
+general. This has all been addressed with significant work on ensuring
+Sonic Pi looks great on a variety of monitors on both Windows and
+macOS. We believe that this release looks better and is more usable than
+any previous release.
+
+Tau features two beautiful new audio visualiser scopes - a spectrum
+scope showing the frequency content of the audio and a beautiful mirror
+stereo scope. These scopes have been contributed by Chris Maughan who
+has also been pivotal in improving and simplying the Windows build
+process. We are hugely grateful for his contributions - thanks Chris!
+
+We have two fabulous new FX - a ping pong delay contributed by Ethan
+Crawford and an autotuner contributed by Xavier Riley. We hope you have
+as much fun playing with these as we have.
+
+Finally, this release has seen a significant improvement in
+translation coverage - both of the GUI and the tutorial. We truly
+believe that this helps us achieve our mission of lowering the barrier
+to entry for a creative experience with code by helping more non-English
+speakers start their live coding journeys.
+
+Now, go and make some noise with code!
+
+### Breaking Changes
+
+* `spread` now produces identical patterns as in the 
+  [Toussaint paper](http://cgm.cs.mcgill.ca/~godfried/publications/banff.pdf). 
+  Previously, some of the patterns had been shifted. Use the `rotate:` opt to
+  match prior behaviour if required.
+* OSC cues now include the IP address and port number of incoming messages
+* MIDI cues now include the source information in the first part of the
+  path with `:` separators to match the new OSC cue format.
 * The `osc` fn now forces all outgoing args to either be numbers or
   strings (binary blobs and timestamps are not supported at this
   point). If the value is neither a number or string, it is 'inspected'
@@ -38,34 +200,40 @@
 * The default incoming OSC cues port is now 4560 as the previous value
   was registered on the Iana Service Name and Transport Protocol Port
   Number Registry. However, 4560 is currently free.
+* Constrain `:flanger` FX's `feedback:` opt to range 0->1. Values greater than 1 had the effect of increasing the amplitude which should be achieved via the `amp:` opt.
+* Add arg checker for `sample`'s `hpf:` opt which now ensures the value is not higher than 119 as values higher than this can cause bad noise artefacts.
+* Improve `sample`'s `start:`/`finish:`/`onset:`/`slice:` opt semantics. The `start:` and `finish:` opts for `sample` now work within the specified slice or onset. This allows you to easily play, say the first half of a given slice or onset by specifying a `start:` of `0` and a `finish:` of `0.5`. Where both the `slice:` and `onset:` opts are specified, then the slice operates within the onset. Where the `slice:`, `onset:` and `start:`/`finish:` opts are all used, the start/finish operate within the slice which in turn operates within the onset. See the updated sample examples for more information.
+
 
 
 ### New Fns
 
 * `eval_file` evaluates the contents of the specified file inline in the
   current thread as if it was a function.
-* `midi_sysex` for sending MIDI sysex messages.  
+* `midi_sysex` for sending MIDI sysex messages.
 * Add new chain fn `.notes` which takes a ring of values and returns a
-  new ring with each element treated as a note. This will eave numbers
+  new ring with each element treated as a note. This will leave numbers
   unchanged but will turn note names like `:C1` to their corresponding
   MIDI note.
 
 
 ### Synths & FX
 
+* New FX `ping_pong` - delayed echo alternating between left and right channels.
+* New FX `autotuner` - Autotune/phase vocoder effect.
 * The `gverb` FX now checks to ensure that the `room:` opt is greater than or equal to 1.
 * The `piano` synth now supports fractional notes such as `70.3`
-
-### Samples
 
 
 ### GUI
 
 * New WCAG 2 level AAA compliant high contrast colour theme. This is
   especially suited for those with low vision.
-* New application menu and shortcuts.  
+* New application menu and shortcuts.
 * New default icons which match the pro icon feel.
+* 2 new visualiser scopes - mirror stereo and spectrum.
 * Move to simple numbered labels for buffers.
+* Improve scaling of icons, text etc. on high DPI displays on Windows.
 * The version number is no longer placed in the initial comment of new
   empty buffers. This felt like a friendly thing to do, but can be
   confusing if a given buffer hasn't been used and the version was
@@ -74,14 +242,28 @@
   display it.
 * Many, many translation improvements. Thanks to all the wonderful
   volunteers contributing to the translation effort: https://hosted.weblate.org/projects/sonic-pi/
+* Error pane height is now higher by default on all platforms and its
+  height is correctly scaled on high DPI monitors.
+* Preference checkboxes are now similarly styled on all platforms.
 
 ### Improvements
 
 * Allow scale degrees over an octave and augmented/diminished degrees.
 * Calling `.tick` and `.look` on a normal array such as `[1, 2, 3]` will
   now automatically convert it to a ring first.
+* Add docstring for the `set` fn.
+* Add new article A.20 - Creative Coding in the Classroom as appeared in
+  issue #9 of the Hello World magazine.
+* OSC messages are now sent from the external cue listening port. This
+  allows OSC servers that reply directly back to incoming messages (such
+  as SuperCollider) to be able to communicate back to messages sent from
+  Sonic Pi.
+* Random fns now understand notes. For example `rrand(:e1, :e2)` will
+  return a random frequency between E octave 1 and 2.
+* Windows can now detect sample onsets from samples stored in `.flac`
+  and `.ogg` format in addition to arbitrary sample rates such as 48khz.
   
-
+  
 ### Bugfixes
 
 * Further improve boot stability on Mac in the cases where audio input/output
@@ -96,14 +278,14 @@
   that default value wasn't scaled. Default values are now always scaled
   whether or not explicitly specified.
 * `with_sched_ahead_time` now correctly sets the schedule ahead time
-  before running the block and returns the returns the result of the
+  before running the block and returns the result of the
   block itself
 * When "Enforce Timing Guarantees" is selected, Sonic Pi wil no longer
   throw out of time warnings in 'real time' threads (specified using
   `use_real_time`).
 * `set` and `cue` no longer print duplicate messages which was possible
   in some cases.
-* Fix `time_warp` examples which were incorrect and misleading.  
+* Fix `time_warp` examples which were incorrect and misleading.
 * Improve pid handling on Linux. This should reduce the number of zombie
   processes accidentally generated.
 * The `offset:` opt for `with_swing` now matches documented behaviour.
@@ -115,6 +297,9 @@
 * Stop `defonce` from being executed multiple times
 * Calling `.take` on an empty ring no longer results in infinite
   recursion but instead returns an empty ring.
+* Scope now has a minimum height.
+* Windows now supports sending and receiving OSC messages over the
+  network to and from external machines.
   
 
 
@@ -196,6 +381,9 @@ users!
 
 * Stop the internal sample pattern matcher from duplicating matches in some cases.
 * Stop pro icon preference from resetting to 'off' when switching from dark to light mode
+
+
+<a name="v3.0.1"></a>
 
 ## Version 3.0.1 - 'IOIO'
 *28th July, 2017*
@@ -1570,6 +1758,8 @@ and echoes.
 * `chord` now returns a ring.
 
 
+<a name="v2.1.1"></a>
+
 ## Version 2.1.1 - 'Firewall'
 *Tuesday 25th November, 2014*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.1.1)
@@ -1667,6 +1857,8 @@ Riley, Jeremy Weatherford and Joseph Wilk.
   - `cutoff_env_curve:`
 
 
+<a name="v2.0.1"></a>
+
 ## Version 2.0.1
 
 *Tuesday 9th September, 2014*
@@ -1686,6 +1878,7 @@ Riley, Jeremy Weatherford and Joseph Wilk.
 
 
 <a name="v2.0"></a>
+
 ## Version 2.0 - 'Phoenix'
 
 *Tuesday 2nd September, 2014*

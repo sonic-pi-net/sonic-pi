@@ -89,16 +89,23 @@ module SonicPi
       def start_listener
         Kernel.loop do
           @server.run do |client|
+
             @client = client
             client.onopen do
               log "WebSocketServer reports:  client open #{client}"
             end
 
             client.onmessage do |mess|
+              begin
               o = @decoder.decode_single_message(mess)
-              log "websocket incoming: #{o[0]}"
+                log "websocket incoming: #{o[0]}, #{o[1]}"
               p = @matchers[o[0]]
               p.call(o[1]) if p
+              rescue Exception => e
+                STDERR.puts "Websocket-based OSC handler exception for address: #{address}"
+                STDERR.puts e.message
+                STDERR.puts e.backtrace.inspect
+              end
             end
 
             client.onclose do

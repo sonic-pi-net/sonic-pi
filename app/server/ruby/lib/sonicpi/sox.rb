@@ -24,7 +24,7 @@ module SonicPi
       stat_out, stat_err = Open3.capture3("'#{sox_path}' '#{path}' -n stat")
       res = {}
       (info_out.lines + info_err.lines + stat_out.lines + stat_err.lines).each do |l|
-        m = l.match /\A(.+?)\s*:\s+(.*)\Z/
+        m = l.match(/\A(.+?)\s*:\s+(.*)\Z/)
 
         if m
           k = m[1]

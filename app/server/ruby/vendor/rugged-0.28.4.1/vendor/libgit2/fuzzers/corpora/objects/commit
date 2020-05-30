@@ -1,0 +1,20 @@
+tree 3e7ac388cadae960fe7e22175ce0da878afe9d18
+parent 8b89f362a34fcccdf1c6c5f3445895b71d9c6d56
+parent c590b41fe4057a84a9bd31a5605ceef2c309b0f8
+author Patrick Steinhardt <ps@pks.im> 1538760730 +0200
+committer GitHub <noreply@github.com> 1538760730 +0200
+gpgsig -----BEGIN PGP SIGNATURE-----
+ 
+ wsBcBAABCAAQBQJbt6AaCRBK7hj4Ov3rIwAAdHIIAKZGIpS0dAirVRt5NVFj3ZtC
+ o2Q3ADC0XpYLKkEsClhG7pVtr7MRZZ8+qaJpbxn9j9WZZ4UtEeDjseos+pMNn9Mf
+ OQQntNzGAbHSw0apyYT+mTUKaVONPev4fw9Lnc/RJ/iWwHx+4gmgNqLwV3foaCW9
+ w1JzCL+BVJyZI80jrEehihhUnpIUOuMBwGjzSt54Zn5JqviC4cIldF2sXFGQqvsq
+ 3WDNnEUYanU6cLAdb9Pd6bVBI1EJnRLxehSeYiSaRPmLhQyhkH8KZ5lSi8iuH1C4
+ bjA6HaEUwCeq0k9Le6BUu93BExEOFcuu8+zEKCrwCdSwdEQ3Iakv8dh7XlT9iUY=
+ =nGP0
+ -----END PGP SIGNATURE-----
+ 
+
+Merge pull request #4834 from pks-t/pks/v0.27.5
+
+Security release v0.27.5

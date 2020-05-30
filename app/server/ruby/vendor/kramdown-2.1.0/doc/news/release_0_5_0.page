@@ -1,0 +1,44 @@
+---
+title: kramdown 0.5.0 released
+no_output: true
+sort_info: r0005
+created_at: 2010-02-15 10:11:00 +02:00
+modified_at: 2010-02-15 10:11:00 +02:00
+---
+## kramdown 0.5.0 released
+
+This release features syntax support for smart quotes in kramdown documents and a new converter for
+LaTeX output. The kramdown binary has also been enhanced to support setting any option.
+
+The additional support for the smart quotes makes this release of kramdown a little bit slower than
+the previous releases when run under Ruby 1.8. However, a small optimization in the span parser
+which is not noticable under Ruby 1.8 gives quite a performance boost under Ruby 1.9 (see the graphs
+on the [tests page](../tests.html)).
+
+Also note that the internals have been restructured slightly. So if you do more than just using the
+basic
+
+    Kramdown::Document.new(SOURCE, OPTIONS).to_html
+{: .language-ruby}
+
+you may need to adapt your code.
+
+Since the option handling has been revamped, each coderay option must not be set separably!
+
+## Changes
+
+* Major changes:
+
+  - Enhanced the `kramdown` binary (it now supports setting the available options)
+  - Added support for ERB templates to wrap the generated output
+  - Added syntax support for smart quotes
+  - Added a converter for LaTeX output
+
+* Minor changes:
+
+  - Some code restructurations
+  - The quotation mark `"` is not converted to `&quot;` in normal text anymore.
+
+* Bug fixes:
+
+  - Fixed problem with multibyte encodings under Ruby 1.9

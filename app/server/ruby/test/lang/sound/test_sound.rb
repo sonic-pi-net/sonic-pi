@@ -22,20 +22,6 @@ module SonicPi
       @mock_sound.extend(Lang::Sound)
     end
 
-    def test_rest
-      assert_equal(false, @mock_sound.rest?(1))
-
-      assert_equal(true, @mock_sound.rest?(:rest))
-      assert_equal(true, @mock_sound.rest?(:r))
-      assert_equal(false, @mock_sound.rest?(:norest))
-
-      assert_equal(true, @mock_sound.rest?(nil))
-
-      assert_equal(false, @mock_sound.rest?(Hash.new))
-
-      assert_equal(false, @mock_sound.rest?("a string"))
-    end
-
     def test_truthy
       assert_equal(false, @mock_sound.truthy?(0))
       assert_equal(true, @mock_sound.truthy?(1))

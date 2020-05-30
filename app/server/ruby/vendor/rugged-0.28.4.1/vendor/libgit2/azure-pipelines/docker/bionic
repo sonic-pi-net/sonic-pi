@@ -1,0 +1,41 @@
+ARG BASE
+FROM $BASE
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        clang \
+        cmake \
+        curl \
+        gcc \
+        git \
+        gosu \
+        libcurl4-openssl-dev \
+        libpcre3-dev \
+        libssh2-1-dev \
+        libssl-dev \
+        libz-dev \
+        ninja-build \
+        openjdk-8-jre-headless \
+        openssh-server \
+        openssl \
+        pkgconf \
+        python \
+        valgrind \
+        && \
+    rm -rf /var/lib/apt/lists/*
+RUN mkdir /var/run/sshd
+
+RUN cd /tmp && \
+    curl -LO https://tls.mbed.org/download/mbedtls-2.16.2-apache.tgz && \
+    tar -xf mbedtls-2.16.2-apache.tgz && \
+    rm -f mbedtls-2.16.2-apache.tgz && \
+    cd mbedtls-2.16.2 && \
+    scripts/config.pl set MBEDTLS_MD4_C 1 && \
+    CFLAGS=-fPIC cmake -G Ninja -DENABLE_PROGRAMS=OFF -DENABLE_TESTING=OFF -DUSE_SHARED_MBEDTLS_LIBRARY=OFF -DUSE_STATIC_MBEDTLS_LIBRARY=ON . && \
+    ninja install && \
+    cd .. && \
+    rm -rf mbedtls-2.16.2
+
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod a+x /usr/local/bin/entrypoint.sh
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

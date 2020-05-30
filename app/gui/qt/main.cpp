@@ -21,14 +21,24 @@
 
 #include "mainwindow.h"
 
-#include "sonicpilog.h"
+#include "widgets/sonicpilog.h"
+
+#include "dpi.h"
+
+#ifdef _WIN32
+#include <QtPlatformHeaders\QWindowsWindowFunctions>
+#endif
+
 int main(int argc, char *argv[])
 {
+
 #ifndef Q_OS_MAC
   Q_INIT_RESOURCE(SonicPi);
 #endif
 
   QApplication app(argc, argv);
+
+  QApplication::setAttribute(Qt::AA_DontShowIconsInMenus, true);
 
   QFontDatabase::addApplicationFont(":/fonts/Hack-Regular.ttf");
   QFontDatabase::addApplicationFont(":/fonts/Hack-Italic.ttf");
@@ -48,14 +58,71 @@ int main(int argc, char *argv[])
   app.setApplicationName(QObject::tr("Sonic Pi"));
   app.setStyle("gtk");
 
-#ifdef Q_OS_MAC
-  app.setAttribute( Qt::AA_UseHighDpiPixmaps );
-  app.setAttribute(Qt::AA_DontShowIconsInMenus, true);
+
+#ifdef __linux__
+  //linux code goes here
+
+  QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+  QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+  QPixmap pixmap(":/images/splash@2x.png");
+
+  QSplashScreen *splash = new QSplashScreen(pixmap);
+  splash->setMask(pixmap.mask());
+  splash->show();
+  splash->repaint();
+  app.processEvents();
+  MainWindow mainWin(app, i18n, splash);
+
+  return app.exec();
+#elif _WIN32
+  // windows code goes here
+
+  // A temporary fix, until stylesheets are removed.
+  // Only do the dpi scaling when the platform is high dpi
+
+  if (GetDisplayScale().width() > 1.1f)
+    {
+      QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+      QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+
+    }
+
+  QPixmap pixmap;
+  QSplashScreen *splash;
+
+  if (GetDisplayScale().width() > 1.8f)
+    {
+      QPixmap pixmap(":/images/splash2x.png");
+      splash = new QSplashScreen(pixmap);
+    } else
+    {
+      QPixmap pixmap(":/images/splash.png");
+      splash = new QSplashScreen(pixmap);
+    }
+
+
+  splash->setMask(pixmap.mask());
+  splash->show();
+  splash->repaint();
+  app.processEvents();
+  MainWindow mainWin(app, i18n, splash);
+
+  // Fix for full screen mode. See: https://doc.qt.io/qt-5/windows-issues.html#fullscreen-opengl-based-windows
+  QWindowsWindowFunctions::setHasBorderInFullScreen(mainWin.windowHandle(), true);
+
+  return app.exec();
+
+#elif __APPLE__
+  // macOS code goes here
+
+  QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+
   QMainWindow* splashWindow = new QMainWindow(0, Qt::FramelessWindowHint);
   QLabel* imageLabel = new QLabel();
   splashWindow->setAttribute( Qt::WA_TranslucentBackground);
   QPixmap image(":/images/splash@2x.png");
   imageLabel->setPixmap(image);
+
   splashWindow->setCentralWidget(imageLabel);
   splashWindow->setMinimumHeight(image.height()/2);
   splashWindow->setMaximumHeight(image.height()/2);
@@ -64,18 +131,11 @@ int main(int argc, char *argv[])
 
   splashWindow->raise();
   splashWindow->show();
+  app.processEvents();
 
   MainWindow mainWin(app, i18n, splashWindow);
   return app.exec();
-#else
-  QPixmap pixmap(":/images/splash.png");
-  QSplashScreen *splash = new QSplashScreen(pixmap);
-  splash->setMask(pixmap.mask());
-  splash->show();
-  splash->repaint();
 
-  MainWindow mainWin(app, i18n, splash);
-  return app.exec();
 #endif
 
 }

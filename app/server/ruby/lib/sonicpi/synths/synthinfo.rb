@@ -131,7 +131,7 @@ module SonicPi
           arg_information = @info[k_sym]
           next unless arg_information
           arg_validations = arg_information[:validations] || []
-          arg_validations(k_sym).each do |v_fn, msg|
+          arg_validations.each do |v_fn, msg|
             raise "Value of opt #{k_sym.inspect} #{msg}, got #{v.inspect}." unless v_fn.call(args_h)
           end
 
@@ -848,6 +848,15 @@ Also, note that audio in isn't yet supported on Raspberry Pi."
 
       def doc
         "A saw wave with a low pass filter. Great for using with FX such as the built in low pass filter (available via the cutoff arg) due to the complexity and thickness of the sound."
+      end
+
+      def arg_defaults
+        super.merge({
+          cutoff: 100,
+          cutoff_slide: 0,
+          cutoff_slide_shape: 1,
+          cutoff_slide_curve: 0
+        })
       end
     end
 
@@ -2079,6 +2088,158 @@ Also, note that audio in isn't yet supported on Raspberry Pi."
       end
     end
 
+    class SynthKalimba < SonicPiSynth
+      def name
+        "SynthKalimba"
+      end
+
+      def introduced
+        Version.new(3,3,0)
+      end
+
+      def synth_name
+        "kalimba"
+      end
+
+      def doc
+        "A synthesised kalimba (a type of African thumb piano). Note that due to the plucked nature of this synth the envelope opts such as `attack:`, `sustain:` and `release:` do not work as expected. They can only shorten the natural length of the note, not prolong it. Note the default envelope is longer than usual - sustain: 4 and release: 1"
+      end
+
+      def arg_defaults
+        {
+          :note => 52,
+          :note_slide => 0,
+          :note_slide_shape => 1,
+          :note_slide_curve => 0,
+          :amp => 1,
+          :amp_slide => 0,
+          :amp_slide_shape => 1,
+          :amp_slide_curve => 0,
+          :pan => 0,
+          :pan_slide => 0,
+          :pan_slide_shape => 1,
+          :pan_slide_curve => 0,
+          :attack => 0,
+          :decay => 0,
+          :sustain => 4,
+          :release => 1,
+          :attack_level => 1,
+          :decay_level => :sustain_level,
+          :sustain_level => 1,
+          :clickiness => 0.1
+        }
+      end
+
+      def specific_arg_info
+        {
+          :clickiness => {
+            :doc => "Ratio of percussive click to melodic note in the sound. A low clickiness like 0.1 works well - higher values might give the impression that the instrument is being played harder. Very high values (towards 1) will be louder!",
+            :validations => [v_between_inclusive(:clickiness, 0, 1)],
+            :modulatable => false,
+            :bpm_scale => false
+          },
+          :attack =>
+          {
+            :doc => "Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. With the kalimba synth, this opt can only have the effect of shortening the attack phase, not prolonging it.",
+            :validations => [v_positive(:attack)],
+            :modulatable => false,
+            :bpm_scale => true
+          },
+
+          :decay =>
+          {
+            :doc => "Amount of time (in beats) for the sound to move from full amplitude (attack_level) to the sustain amplitude (sustain_level). With the kalimba synth, this opt can only have the effect of controlling the amp within the natural duration of the note and can not prolong the sound.",
+            :validations => [v_positive(:decay)],
+            :modulatable => false,
+            :bpm_scale => true
+          },
+
+          :sustain =>
+          {
+            :doc => "Amount of time (in beats) for sound to remain at sustain level amplitude. Longer sustain values result in longer sounds. With the kalimba synth, this opt can only have the effect of controlling the amp within the natural duration of the note and can not prolong the sound.",
+            :validations => [v_positive(:sustain)],
+            :modulatable => false,
+            :bpm_scale => true
+          },
+
+          :release =>
+          {
+            :doc => "Amount of time (in beats) for sound to move from sustain level amplitude to silent. A short release (i.e. 0.01) makes the final part of the sound very percussive (potentially resulting in a click). A longer release (i.e 1) fades the sound out gently. With the kalimba synth, this opt can only have the effect of controlling the amp within the natural duration of the note and can not prolong the sound.",
+            :validations => [v_positive(:release)],
+            :modulatable => false,
+            :bpm_scale => true
+          }
+        }
+      end
+
+    end
+
+    class SynthRodeo < SonicPiSynth
+      def name
+        "SynthRodeo"
+      end
+
+      def introduced
+        Version.new(3,3,0)
+      end
+
+      def synth_name
+        "rodeo"
+      end
+
+      def doc
+        "Classic 70's electric piano sound, with built-in compressor and chorus."
+      end
+
+      def arg_defaults
+        {
+          :note => 52,
+          :note_slide => 0,
+          :note_slide_shape => 1,
+          :note_slide_curve => 0,
+          :amp => 1,
+          :amp_slide => 0,
+          :amp_slide_shape => 1,
+          :amp_slide_curve => 0,
+          :pan => 0,
+          :pan_slide => 0,
+          :pan_slide_shape => 1,
+          :pan_slide_curve => 0,
+          :attack => 0,
+          :decay => 1,
+          :sustain => 0.8,
+          :release => 1,
+          :attack_level => 1,
+          :decay_level => :sustain_level,
+          :sustain_level => 1,
+          :use_chorus => 1,
+          :use_compressor => 1,
+          :cutoff => 72,
+          :cutoff_slide => 0,
+          :cutoff_slide_shape => 1,
+          :cutoff_slide_curve => 0
+        }
+      end
+
+      def specific_arg_info
+        {
+          :use_compressor =>
+          {
+            :doc => "Enable the compressor (on by default).",
+            :validations => [v_one_of(:use_compressor, [0, 1])],
+            :modulatable => false
+          },
+          :use_chorus =>
+          {
+            :doc => "Enable the chorus effect (on by default).",
+            :validations => [v_one_of(:use_chorus, [0, 1])],
+            :modulatable => false
+          }
+        }
+      end
+
+    end
+
     class SynthPiano < SonicPiSynth
       def name
         "SynthPiano"
@@ -2110,7 +2271,7 @@ Also, note that audio in isn't yet supported on Raspberry Pi."
           :pan_slide => 0,
           :pan_slide_shape => 1,
           :pan_slide_curve => 0,
-          :vel => 0.8,
+          :vel => 0.2,
           :attack => 0,
           :decay => 0,
           :sustain => 0,
@@ -3196,6 +3357,14 @@ Steal This Sound,  Mitchell Sigman"
           {
             :doc => "Low pass filter cutoff value. A MIDI note representing the highest frequencies allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy.",
             :validations => [v_positive(:lpf), v_less_than(:lpf, 131)],
+            :modulatable => true,
+            :midi => true
+          },
+
+          :hpf =>
+          {
+            :doc => "High pass filter cutoff value. A MIDI note representing the lowest frequencies allowed to be present in the sound. A high value like 100 makes the sound thin and whispy, a low value like 40 removes just the lower bass components of the sound.",
+            :validations => [v_positive(:hpf), v_less_than(:hpf, 119)],
             :modulatable => true,
             :midi => true
           }
@@ -4942,6 +5111,103 @@ A decent range of Q factors for naturally sounding boosts/cuts is 0.6 to 1.
       end
     end
 
+    class FXAutotuner < FXInfo
+      def name
+        "Autotuner"
+      end
+
+      def introduced
+        Version.new(3,2,0)
+      end
+
+      def synth_name
+        "fx_autotuner"
+      end
+
+      def doc
+        "Autotune/phase vocoder effect. Used without any arguments, it tries to detect the pitch and shift it to the nearest exact note. This can help with out of tune singing, but it's also an interesting effect in it's own right. When used with the note: arg, it tries to shift the input to match that note instead. This gives that classic \"robot singing\" sound that people associate with vocoders. This can then be changed using the control method to create new melodies.
+
+```
+with_fx :autotuner do |c|
+```
+
+```
+  sample \"~/Downloads/acappella.wav\" # any sample with a voice is good
+```
+
+```
+  sleep 4
+```
+
+```
+  # listen to standard auto-tune behaviour for 4 seconds
+```
+
+```
+  64.times do
+```
+
+```
+     # now start changing note: to get robot voice behaviour
+```
+
+```
+     control c, note: (scale :a2, :minor_pentatonic, num_octaves: 2).choose
+```
+
+```
+     sleep 0.5
+```
+
+```
+  end
+```
+
+```
+end
+```
+"
+      end
+
+      def arg_defaults
+        super.merge({
+          :note => 0,
+          :note_slide => 0,
+          :note_slide_shape => 1,
+          :note_slide_curve => 0,
+          :formant_ratio => 1.0,
+          :formant_ratio_slide => 0,
+          :formant_ratio_slide_shape => 1,
+          :formant_ratio_slide_curve => 0
+          #TODO: Add documentation:
+          # comment out these until documentation is added
+          # :transpose => 0,
+          # :min_freq => 80,
+          # :max_formant_ratio => 10,
+          # :grains_period => 2.0,
+        })
+      end
+
+      def specific_arg_info
+        {
+          :note =>
+          {
+            :doc => "Midi note to shift pitch to. The quality of the sound depends on how stable the pitch of the input is.",
+            :validations => [v_between_inclusive(:note, 0, 127)],
+            :modulatable => true,
+            :midi => true
+          },
+
+          :formant_ratio =>
+          {
+            :doc => "This effect separates pitched content of an input from the formant sounds (percussive, non-pitched sounds like \"ssss\" and \"ttttt\"). Changing the formant ratio shifts the non-pitched sounds - lower pitched formants (0.5) sound like someone with a deep voice, higher values (e.g. 2.0 and above) sound like a high pitched voice.",
+            :validations => [v_between_inclusive(:formant_ratio, 0, 10)],
+            :modulatable => true
+          }
+        }
+      end
+    end
+
     class FXMono < FXInfo
       def name
         "Mono"
@@ -5006,7 +5272,8 @@ A decent range of Q factors for naturally sounding boosts/cuts is 0.6 to 1.
           {
             :doc => "The maximum phase duration in beats.",
             :validations => [v_positive_not_zero(:max_phase)],
-            :modulatable => false
+            :modulatable => false,
+            :bpm_scale => true
           },
 
           :phase =>
@@ -6035,7 +6302,7 @@ A decent range of Q factors for naturally sounding boosts/cuts is 0.6 to 1.
 
           :slope_below =>
           {
-            :doc => "Slope of the amplitude curve below the threshold. A value of 1 means that the output of signals with amplitude below the threshold will be unaffected. Greater values will magnify and smaller values will attenuate the signal.",
+            :doc => "Slope of the amplitude curve below the threshold. A value of 1 means that the output of signals with amplitude below the threshold will be unaffected. Greater values will attenuate and smaller values will magnify the signal.",
             :validations => [],
             :modulatable => true
           },
@@ -7194,7 +7461,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
           :feedback =>
           {
             :doc => "Amount of feedback.",
-            :validations => [v_positive(:feedback)],
+            :validations => [v_between_inclusive(:feedback, 0, 1)],
             :modulatable => true
           },
 
@@ -7300,6 +7567,98 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
         }
       end
     end
+
+    class FXPingPong < FXInfo
+      def name
+        "Ping Pong Echo"
+      end
+
+      def introduced
+        Version.new(3,2,0)
+      end
+
+      def synth_name
+        "fx_ping_pong"
+      end
+
+      def doc
+        "Echo FX with each delayed echo swapping between left and right channels. Has variable phase duration (time between echoes) and feedback (proportion of sound fed into each echo). If you wish to have a phase duration longer than 1s, you need to specify the longest phase duration you'd like with the arg max_phase. Be warned, `:ping_pong` FX with very long phases can consume a lot of memory and take longer to initialise. Also, large values for feedback will cause the echo to last for a very long time.
+
+Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo during the slide to change in pitch, in much the same way that a sample's pitch changes when altering its rate."
+      end
+
+      def arg_defaults
+        super.merge({
+          :phase => 0.25,
+          :phase_slide => 0,
+          :phase_slide_shape => 1,
+          :phase_slide_curve => 0,
+          :feedback => 0.5,
+          :feedback_slide => 0,
+          :feedback_slide_shape => 1,
+          :feedback_slide_curve => 0,
+          :max_phase => 1,
+          :pan_start => 1
+        })
+      end
+
+      def specific_arg_info
+        {
+          :phase =>
+          {
+            :doc => "The time between echoes in beats.",
+            :validations => [v_positive_not_zero(:phase)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
+          :phase_slide =>
+          {
+            :doc => generic_slide_doc(:phase),
+            :validations => [v_positive(:phase_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
+          :max_phase =>
+          {
+            :doc => "The maximum phase duration in beats.",
+            :validations => [v_positive_not_zero(:max_phase)],
+            :modulatable => false,
+            :bpm_scale => true
+          },
+
+          :feedback =>
+          {
+            :doc => "Proportion of sound fed into each successive echo from the previous one.",
+            :validations => [v_positive_not_zero(:feedback), v_less_than(:feedback, 1)],
+            :modulatable => true
+          },
+
+          :feedback_slide =>
+          {
+            :doc => generic_slide_doc(:feedback),
+            :validations => [v_positive(:feedback_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
+          :pan_start =>
+          {
+            :doc => "Starting position of sound in the stereo field. With headphones on, this means how much of the sound starts in the left ear, and how much starts in the right ear. With a value of -1, the sound starts completely in the left ear, a value of 0 starts the sound equally in both ears, and a value of 1 starts the sound completely in the right ear. Values in between -1 and 1 move the sound accordingly. Each echo will swap between left and right at the same distance away from 0 (the centre) that this `pan_start:` opt is set to. For example, with a value of -1, the sound starts completely in the left ear, and the echoes after this will swap between fully right and fully left (1 and -1). With a value of 0, since the sound starts in the centre of the stereo field, each echo also stays in the centre, meaning the panning effect is cancelled out.",
+            :validations => [v_between_inclusive(:pan_start, -1, 1)],
+            :modulatable => false
+          }
+        }
+      end
+
+      def kill_delay(args_h)
+        feedback = args_h[:feedback] || arg_defaults[:feedback]
+        phase = args_h[:phase] || arg_defaults[:phase]
+        (Math.log(0.01) / Math.log(feedback)) * phase
+      end
+    end
+
     class BaseInfo
 
       @@grouped_samples =
@@ -7582,6 +7941,8 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
         :stereo_player => StereoPlayer.new,
         :blade => SynthViolin.new,
         :piano => SynthPiano.new,
+        :rodeo => SynthRodeo.new,
+        :kalimba => SynthKalimba.new,
         :pluck => SynthPluck.new,
         :tech_saws => TechSaws.new,
 
@@ -7606,6 +7967,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
         :fx_replace_reverb => FXReverb.new,
         :fx_level => FXLevel.new,
         :fx_mono => FXMono.new,
+        :fx_autotuner => FXAutotuner.new,
         :fx_replace_level => FXLevel.new,
         :fx_echo => FXEcho.new,
         :fx_replace_echo => FXEcho.new,
@@ -7657,7 +8019,8 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
         :fx_tremolo => FXTremolo.new,
         :fx_record => FXRecord.new,
         :fx_sound_out => FXSoundOut.new,
-        :fx_sound_out_stereo => FXSoundOutStereo.new
+        :fx_sound_out_stereo => FXSoundOutStereo.new,
+        :fx_ping_pong => FXPingPong.new
       }
 
       def self.get_info(synth_name)
@@ -7765,33 +8128,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
           doc << "</table></p>\n"
 
           if any_slidable then
-            doc << "<a name=slide></a>\n"
-            doc << "<h2>Slide Options</h2>\n"
-            doc << "<p>Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:</p>\n"
-            slide_args = {
-              :_slide => {:default => 0, :doc=>v.generic_slide_doc('parameter')},
-              :_slide_shape => {:default=>5, :doc=>v.generic_slide_shape_doc('parameter')},
-              :_slide_curve => {:default=>0, :doc=>v.generic_slide_curve_doc('parameter')}
-            }
-
-            # table for slide parameters
-            doc << "<p><table class=\"details\">\n"
-
-            cnt = 0
-            slide_args.each do |ak, av|
-              td_class = cnt.even? ? "even" : "odd"
-              doc << "<tr>\n"
-              doc << " <td class=\"#{td_class} key\">#{ak}:</td>\n"
-              doc << " <td class=\"#{td_class}\">\n"
-              doc << "  <p>#{av[:doc] || 'write me'}</p>\n"
-              doc << "  <p class=\"properties\">\n"
-              doc << "   Default: #{av[:default]}\n"
-              doc << "  </p>\n"
-              doc << " </td>\n"
-              doc << "</tr>\n"
-              cnt += 1
-            end
-            doc << "</table></p>\n"
+          doc << slide_doc_html(v)
           end # any_slidable
 
           doc << "</body>\n"
@@ -7862,8 +8199,19 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
           doc = "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>\n\n"
           doc << "<body class=\"manual\">\n\n"
           doc << "<h1>" << v[:desc] << "</h1>\n"
+
+          doc << "<p class=\"usage\"><code><pre>"
+
+          v[:samples].each do |s|
+            doc << "<a href=\"sonicpi://play-sample/#{s}\"><img src=\":/images/play.png\" width=\"33\" height=\"35\"></a>"
+            doc << "sample <span class=\"symbol\">:#{s}</span>\n"
+          end
+          doc << "</pre></code></p>\n"
+
           doc << "<p><table class=\"arguments\"><tr>\n"
-          StereoPlayer.new.arg_info.each do |ak, av|
+
+          stereo_player = StereoPlayer.new
+          stereo_player.arg_info.each do |ak, av|
             doc << "</tr><tr>" if (cnt > 0) and cnt % 4 == 0
             doc << "<td class=\"even\"><a href=\"##{ak}\">#{ak}:</a></td>\n"
             doc << "<td class=\"odd\">#{av[:default]}</td>\n"
@@ -7871,17 +8219,11 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
           end
           doc << "</tr></table></p>\n"
 
-          doc << "<p class=\"usage\"><code><pre>"
-
-          v[:samples].each do |s|
-            doc << "sample <span class=\"symbol\">:#{s}</span>\n"
-          end
-          doc << "</pre></code></p>\n"
-
           doc << "<p><table class=\"details\">\n"
 
           cnt = 0
-          StereoPlayer.new.arg_info.each do |ak, av|
+          any_slidable = false
+          stereo_player.arg_info.each do |ak, av|
             doc << "<a name=\"#{ak}\"></a>\n"
             doc << "<tr>\n"
             doc << " <td class=\"even key\">#{ak}:</td>\n"
@@ -7890,7 +8232,11 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
             doc << "  <p class=\"properties\">\n"
             doc << "   Default: #{av[:default]}\n"
             doc << "   <br/>#{av[:constraints].join(",")}\n" unless av[:constraints].empty?
-            doc << "   <br/>May be changed whilst playing\n" if av[:slidable]
+            if av[:slidable]
+              doc << "   <br/>May be changed whilst playing\n"
+              doc << "   <br/><a href=\"#slide\">Has slide options to shape changes</a>\n"
+              any_slidable = true
+            end
             doc << "   <br/>Scaled with current BPM value\n" if av[:bpm_scale]
             doc << "  </p>\n"
             doc << " </td>\n"
@@ -7898,6 +8244,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
             cnt += 1
           end
           doc << "</table></p>\n"
+          doc << slide_doc_html(stereo_player) if any_slidable
           doc << "</body>\n"
 
           res[v[:desc]] = doc
@@ -7916,6 +8263,38 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
 
         end
         res
+      end
+
+      def self.slide_doc_html(synth)
+        slide_doc = ""
+        slide_doc << "<a name=slide></a>\n"
+        slide_doc << "<h2>Slide Options</h2>\n"
+        slide_doc << "<p>Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:</p>\n"
+        slide_args = {
+          :_slide => {:default => 0, :doc=>synth.generic_slide_doc('parameter')},
+          :_slide_shape => {:default=>5, :doc=>synth.generic_slide_shape_doc('parameter')},
+          :_slide_curve => {:default=>0, :doc=>synth.generic_slide_curve_doc('parameter')}
+        }
+
+        # table for slide parameters
+        slide_doc << "<p><table class=\"details\">\n"
+
+        cnt = 0
+        slide_args.each do |ak, av|
+          td_class = cnt.even? ? "even" : "odd"
+          slide_doc << "<tr>\n"
+          slide_doc << " <td class=\"#{td_class} key\">#{ak}:</td>\n"
+          slide_doc << " <td class=\"#{td_class}\">\n"
+          slide_doc << "  <p>#{av[:doc] || 'write me'}</p>\n"
+          slide_doc << "  <p class=\"properties\">\n"
+          slide_doc << "   Default: #{av[:default]}\n"
+          slide_doc << "  </p>\n"
+          slide_doc << " </td>\n"
+          slide_doc << "</tr>\n"
+          cnt += 1
+        end
+        slide_doc << "</table></p>\n"
+        slide_doc
       end
     end
   end

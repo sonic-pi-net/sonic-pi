@@ -1,0 +1,51 @@
+---
+title: kramdown 0.13.7 released
+no_output: true
+sort_info: r00137
+created_at: 2012-06-03 09:50:00 +02:00
+modified_at: 2012-06-03 09:50:00 +02:00
+---
+## kramdown 0.13.7 released
+
+This release, aside from fixing bugs and some other minor changes, adds a new converter for removing
+HTML tags from an element tree. This means that one can now do
+
+    kramdown -i html -o remove_html_tags,kramdown my_document.html
+
+and get a nice kramdown document from a full HTML document!
+
+## Changes
+
+* 1 major change
+
+  - Implemented [RemoveHtmlTags converter] for removing HTML tags from an element tree (fixes bug
+    [RF#29282] requested by Bernard Potocki)
+
+* 3 minor changes
+
+  - Updated kramdown binary to support multiple, chained output formats
+  - Added a new option for setting a default coderay highlighting language (requested by Lou
+    Quillio)
+  - Feature request [RF#29575]: Added support for `&shy;` soft-hyphen entity (requested by Alexander
+    Groß)
+
+* 5 bug fixes
+
+  - Fixed bug [RF#29576]: Footnotes in headers resulted in duplicated `id` attr in TOC (reported by
+    korthaerd)
+  - Multi-line titles in links are now correctly parsed
+  - DOCTYPE declaration is now correctly parsed independent of case
+  - Setting of `nil` options works now by using the String 'nil'
+  - Fixed table-of-content test cases (test went green although the meaning of the test was not
+    satisfied due to copy-paste - d'oh!)
+
+* 1 documentation fix
+
+  - Fixed bug [RF#29577]: sidebar link to news page was broken for HTML pages in sub directories
+    (reported by korthaerd)
+
+[RF#29577]: http://rubyforge.org/tracker/index.php?func=detail&aid=29577&group_id=7403&atid=28673
+[RF#29576]: http://rubyforge.org/tracker/index.php?func=detail&aid=29576&group_id=7403&atid=28673
+[RF#29575]: http://rubyforge.org/tracker/index.php?func=detail&aid=29575&group_id=7403&atid=28676
+[RF#29282]: http://rubyforge.org/tracker/index.php?func=detail&aid=29282&group_id=7403&atid=28673
+[RemoveHtmlTags converter]: ../converter/remove_html_tags.html

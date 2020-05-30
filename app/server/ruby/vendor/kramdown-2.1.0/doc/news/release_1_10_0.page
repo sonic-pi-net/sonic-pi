@@ -1,0 +1,56 @@
+---
+title: kramdown 1.10.0 released
+no_output: true
+sort_info: r1100
+created_at: 2016-03-02 18:43:00 +01:00
+modified_at: 2016-03-02 18:43:00 +01:00
+---
+## kramdown 1.10.0 released
+
+This release brings the usual bug fixes but also support for the strikethrough syntax in the GFM
+parser as well as some enhancements regarding the specification of language names for syntax
+highlighting purposes.
+
+
+## Changes
+
+* 4 minor changes:
+
+  - Support for the math-engine MathJax-Node was updated to use the new mathjax-node package (fixes
+    [#313], pull request by Tom Thorogood)
+  - URL query parameters can now be appended to language names specified in fenced code blocks if
+    the syntax highlighting engine accepts them (fixes [#234])
+  - Added strikethrough syntax to the GFM parser (fixes [#184] and [#307]; initial pull request by
+    Diego Galeota, updated by Parker Moore)
+  - Allow almost all characters in class names that are defined via a special syntax (fixes [#318],
+    requested by cabo)
+
+* 4 bug fixes:
+
+  - Fixed a problem where `Kramdown::Document.new` would only accept the symbol :input but not the
+    string 'input' as valid key (fixes [#312], pull request by Sun Yaozhu)
+  - Fixed inconsistent behavior: Empty link text is now also allowed for normal links, not just
+    images (fixes [#305], reported by cabo)
+  - The HTML5 `<mark>` element is now recognized as span level element (fixes [#298], reported by
+    Niclas Darville)
+  - Fixed problem where e-mail autolinks containing an underscore character were not correctly
+    recognized (fixes [#293], reported by erikse)
+
+* 3 other fixes:
+
+  - Fixed missing package update statement for Travis (by Parker Moore)
+  - Add some more documentation regarding MathJax (fixes [#296], pull request by Christopher
+    Jefferson)
+  - Fixed bad link in API documentation (fixes [#315], reported by Tom MacWright)
+
+[#312]: https://github.com/gettalong/kramdown/pull/312
+[#305]: https://github.com/gettalong/kramdown/issues/305
+[#298]: https://github.com/gettalong/kramdown/issues/298
+[#313]: https://github.com/gettalong/kramdown/pull/313
+[#293]: https://github.com/gettalong/kramdown/issues/293
+[#234]: https://github.com/gettalong/kramdown/issues/234
+[#315]: https://github.com/gettalong/kramdown/issues/315
+[#296]: https://github.com/gettalong/kramdown/pull/296
+[#184]: https://github.com/gettalong/kramdown/pull/184
+[#307]: https://github.com/gettalong/kramdown/pull/307
+[#318]: https://github.com/gettalong/kramdown/issues/318

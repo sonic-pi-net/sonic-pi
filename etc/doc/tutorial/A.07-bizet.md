@@ -26,7 +26,7 @@ Trying to live code the whole opera would be a bit of a challenge for
 this tutorial, so let's focus on one of the most famous parts - the bass
 line to the Habanera:
 
-![Habanera Riff](../images/tutorial/articles/A.07-bizet/habanera.png)
+![Habanera Riff](../../../etc/doc/images/tutorial/articles/A.07-bizet/habanera.png)
 
 This may look extremely unreadable to you if you haven't yet studied
 music notation.  However, as programmers we see music notation as just
@@ -46,7 +46,7 @@ the note names: `play :E` and `play :F`. Luckily each of the vertical
 positions of the musical score represents a specific note name. Take a
 look at this handy look up table:
 
-![Notes](../images/tutorial/articles/A.07-bizet/notes.png)
+![Notes](../../../etc/doc/images/tutorial/articles/A.07-bizet/notes.png)
 
 ## Rests
 
@@ -80,7 +80,7 @@ relationships or patterns. For example, when we re-write our notation
 purely in 16ths you can see that our notation just turns into a nice
 sequence of notes and rests.
 
-![Habanera Riff 2](../images/tutorial/articles/A.07-bizet/habanera2.png)
+![Habanera Riff 2](../../../etc/doc/images/tutorial/articles/A.07-bizet/habanera2.png)
 
 ## Re-coding the Habanera
 

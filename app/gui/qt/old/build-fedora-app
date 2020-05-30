@@ -1,0 +1,19 @@
+#!/bin/sh
+
+SP_APP_SRC=`pwd`
+
+echo "This script has been tested on Fedora 24."
+
+sudo dnf install gcc-c++ ruby ruby-devel pkgconfig git automake gcc jack-audio-connection-kit-devel libsndfile-devel alsa-lib-devel avahi-devel libicu-devel readline-devel fftw-devel libXt-devel libgudev-devel cmake boost-devel qwt-qt5-devel qscintilla-qt5-devel qt5-qtsvg-devel qt-devel qt5-qttools-devel qt5-qtdeclarative-devel qt5-qtwebkit-devel qt5-qtlocation-devel qt5-qtsensors-devel aubio-devel qtchooser wkhtmltopdf
+
+#Build sonic-pi server extensions, documentation, and binary.
+cd $SP_APP_SRC
+../../server/ruby/bin/compile-extensions.rb
+../../server/ruby/bin/i18n-tool.rb -t
+cp -f utils/ruby_help.tmpl utils/ruby_help.h
+../../server/ruby/bin/qt-doc.rb -o utils/ruby_help.h
+lrelease-qt5 SonicPi.pro 
+qmake-qt5 SonicPi.pro 
+make
+./create-pdf
+

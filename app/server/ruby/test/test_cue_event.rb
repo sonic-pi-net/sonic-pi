@@ -30,7 +30,7 @@ module SonicPi
       assert_equal i, c.thread_id
       assert_equal d.to_i, c.delta
       assert_equal b.to_i, c.beat
-      assert_equal v.ring, c.val
+      assert_equal v.ring, c.val.ring
       assert_equal Array, c.val.class
     end
 

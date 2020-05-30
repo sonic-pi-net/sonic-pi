@@ -1,0 +1,81 @@
+---
+title: kramdown 1.12.0 released
+no_output: true
+sort_info: r1120
+created_at: 2016-08-15 10:45:00 +02:00
+modified_at: 2016-08-15 10:45:00 +02:00
+---
+## kramdown 1.12.0 released
+
+This release features two enhancements for definition lists:
+
+1. IALs can now  be applied to definition terms:
+
+       {:.classy} term
+       : and its definition
+
+2. IDs for definition terms can now be created automatically (similar to header IDs) and optionally
+   assigned a prefix:
+
+       {:auto_ids}
+       term1
+       : definition
+
+       term2
+       : definition
+
+       ^
+
+       {:auto_ids-prefix}
+       term1
+       : definition
+
+       term2
+       : definition
+
+Furthermore, compatibility of the GFM parser has been improved in regards to
+list/blockquotes/codeblocks that are used directly after a paragraph (i.e. without a blank line).
+
+
+## Changes
+
+* 4 minor change:
+
+  - Allow using an IAL for definition terms (`<dt>`) as is already possible with definitions
+    themselves (`<dd>`)
+  - Added automatic generation of IDs (with optional prefix) for terms of definition lists (fixes
+    [#355], requested by Greg Wilson)
+  - Removed obfuscation for e-mail links (fixes [#343], requested by Anton Tsyganenko)
+  - New option 'gfm_quirks' for enabling/disabling parsing differences of the GFM parser with
+    respect to the kramdown parser
+
+* 4 bug fixes:
+
+  - Added support for HTML5 element `<main>` (fixes [#334], reported by Jean-Michel Lacroix)
+  - Fixed math element output for HTML converter when no math engine is set (fixes [#342], reported
+    by Adrian Sampson)
+  - Fixed problem when using custom HTML formatter for syntax highlighter rouge (fixes [#356], patch
+    by Alexey Vasiliev)
+  - Better compatibility with GFM when lists/blockquotes/codeblocks are used directly after a
+    paragraph (fixes [#336] (reported by Shuanglei Tao), [#359] (reported by Matti Schneider) via
+    the patch [#358] by Shuanglei Tao)
+
+* 3 other fixes and enhancements:
+
+  - Added some more examples for how list indentation works (fixes [#353], requested by Robbert
+    Brak)
+  - Using `RbConfig` instead of deprecated `Config` for determining data directory (fixes [#345],
+    patch by Cédric Boutillier)
+  - JRuby is now also tested via TravisCI (fixes [#363], patch by Shuanglei Tao)
+
+[#334]: https://github.com/gettalong/kramdown/issues/334
+[#343]: https://github.com/gettalong/kramdown/issues/343
+[#342]: https://github.com/gettalong/kramdown/issues/342
+[#353]: https://github.com/gettalong/kramdown/issues/353
+[#355]: https://github.com/gettalong/kramdown/issues/355
+[#345]: https://github.com/gettalong/kramdown/pull/345
+[#356]: https://github.com/gettalong/kramdown/pull/356
+[#358]: https://github.com/gettalong/kramdown/pull/358
+[#336]: https://github.com/gettalong/kramdown/issues/336
+[#359]: https://github.com/gettalong/kramdown/issues/359
+[#363]: https://github.com/gettalong/kramdown/pull/363

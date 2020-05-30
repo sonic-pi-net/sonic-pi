@@ -1,0 +1,2608 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <title>Lua LPeg Lexers</title>
+
+    <style type="text/css">
+      <!--
+      /*<![CDATA[*/
+        CODE { font-weight: bold; font-family: Menlo,Consolas,Bitstream Vera Sans Mono,Courier New,monospace; }
+        A:visited { color: blue; }
+        A:hover { text-decoration: underline ! important; }
+        A.message { text-decoration: none; font-weight: bold; font-family: Menlo,Consolas,Bitstream Vera Sans Mono,Courier New,monospace; }
+        A.seealso { text-decoration: none; font-weight: bold; font-family: Menlo,Consolas,Bitstream Vera Sans Mono,Courier New,monospace; }
+        A.toc { text-decoration: none; }
+        A.jump { text-decoration: none; }
+        LI.message { text-decoration: none; font-weight: bold; font-family: Menlo,Consolas,Bitstream Vera Sans Mono,Courier New,monospace; }
+        H2 { background: #E0EAFF; }
+
+        table {
+          border: 0px;
+          border-collapse: collapse;
+        }
+
+        table.categories {
+          border: 0px;
+          border-collapse: collapse;
+        }
+        table.categories td {
+          padding: 4px 12px;
+        }
+
+        table.standard {
+          border-collapse: collapse;
+        }
+        table.standard th {
+          background: #404040;
+          color: #FFFFFF;
+          padding: 1px 5px 1px 5px;
+        }
+        table.standard tr:nth-child(odd) {background: #D7D7D7}
+        table.standard tr:nth-child(even) {background: #F0F0F0}
+        table.standard td {
+          padding: 1px 5px 1px 5px;
+        }
+
+        .S0 {
+          color: #808080;
+        }
+        .S2 {
+          font-family: 'Comic Sans MS';
+          color: #007F00;
+          font-size: 9pt;
+        }
+        .S3 {
+          font-family: 'Comic Sans MS';
+          color: #3F703F;
+          font-size: 9pt;
+        }
+        .S4 {
+          color: #007F7F;
+        }
+        .S5 {
+          font-weight: bold;
+          color: #00007F;
+        }
+        .S9 {
+          color: #7F7F00;
+        }
+        .S10 {
+          font-weight: bold;
+          color: #000000;
+        }
+        .S17 {
+          font-family: 'Comic Sans MS';
+          color: #3060A0;
+          font-size: 9pt;
+        }
+        DIV.highlighted {
+          background: #F7FCF7;
+          border: 1px solid #C0D7C0;
+          margin: 0.3em 3em;
+          padding: 0.3em 0.6em;
+          font-family: 'Verdana';
+          color: #000000;
+          font-size: 10pt;
+        }
+        .provisional {
+          background: #FFB000;
+              }
+        .parameter {
+          font-style:italic;
+              }
+      /*]]>*/
+      -->
+    </style>
+  </head>
+
+  <body bgcolor="#FFFFFF" text="#000000">
+    <table bgcolor="#000000" width="100%" cellspacing="0" cellpadding="0" border="0"
+    summary="Banner">
+      <tr>
+        <td><img src="SciTEIco.png" border="3" height="64" width="64" alt="Scintilla icon" /></td>
+
+        <td><a href="index.html"
+        style="color:white;text-decoration:none;font-size:200%">Scintilla</a></td>
+      </tr>
+    </table>
+
+    <h1>Lua LPeg Lexers</h1>
+
+    <p>Scintilla's LPeg lexer adds dynamic <a href="http://lua.org">Lua</a>
+    <a href="http://www.inf.puc-rio.br/~roberto/lpeg/">LPeg</a> lexers to
+    Scintilla. It is the quickest way to add new or customized syntax
+    highlighting and code folding for programming languages to any
+    Scintilla-based text editor or IDE.</p>
+
+    <h2>Features</h2>
+
+    <ul>
+    <li>Support for <a href="#LexerList">over 100 programming languages</a>.</li>
+    <li>Easy lexer embedding for multi-language lexers.</li>
+    <li>Universal color themes.</li>
+    <li>Comparable speed to native Scintilla lexers.</li>
+    </ul>
+
+    <h2>Enabling and Configuring the LPeg Lexer</h2>
+
+    <p>Scintilla is <em>not</em> compiled with the LPeg lexer enabled by
+    default (it is present, but empty). You need to manually enable it with the
+    <code>LPEG_LEXER</code> flag when building Scintilla and its lexers. You
+    also need to build and link the Lua source files contained in Scintilla's
+    <code>lua/src/</code> directory to <code>lexers/LexLPeg.cxx</code>. If your
+    application has its own copy of Lua, you can ignore Scintilla's copy and
+    link to yours.
+
+    <p>At this time, only the GTK, curses, and MinGW32 (for win32) platform
+    makefiles facilitate enabling the LPeg lexer. For example, when building
+    Scintilla, run <code>make LPEG_LEXER=1</code>. User contributions to
+    facilitate this for the other platforms is encouraged.</p>
+
+    <p>When Scintilla is compiled with the LPeg lexer enabled, and after
+    selecting it as the lexer to use via
+    <a class="message" href="ScintillaDoc.html#SCI_SETLEXER">SCI_SETLEXER</a> or
+    <a class="message" href="ScintillaDoc.html#SCI_SETLEXERLANGUAGE">SCI_SETLEXERLANGUAGE</a>,
+    the following property <em>must</em> be set via
+    <a class="message" href="ScintillaDoc.html#SCI_SETPROPERTY">SCI_SETPROPERTY</a>:</p>
+
+    <table class="standard" summary="Search flags">
+      <tbody>
+        <tr>
+          <td><code>lexer.lpeg.home</code></td>
+
+          <td>The directory containing the Lua lexers. This is the path
+          where you included Scintilla's <code>lexlua/</code> directory in
+          your application's installation location.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>The following properties are optional and may or may not be set:</p>
+
+    <table class="standard" summary="Search flags">
+      <tbody>
+        <tr>
+          <td><code>lexer.lpeg.color.theme</code></td>
+
+          <td>The color theme to use. Color themes are located in the
+          <code>lexlua/themes/</code> directory. Currently supported themes
+          are <code>light</code>, <code>dark</code>, <code>scite</code>, and
+          <code>curses</code>. Your application can define colors and styles
+          manually through Scintilla properties. The theme files have
+          examples.</td>
+        </tr>
+
+        <tr>
+          <td><code>fold</code></td>
+
+          <td>For Lua lexers that have a folder, folding is turned on if
+          <code>fold</code> is set to <code>1</code>. The default is
+          <code>0</code>.</td>
+        </tr>
+
+        <tr>
+          <td><code>fold.by.indentation</code</td>
+
+          <td>For Lua lexers that do not have a folder, if
+          <code>fold.by.indentation</code> is set to <code>1</code>, folding is
+          done based on indentation level (like Python). The default is
+          <code>0</code>.</td>
+        </tr>
+
+        <tr>
+          <td><code>fold.line.comments</code></td>
+
+          <td>If <code>fold.line.comments</code> is set to <code>1</code>,
+          multiple, consecutive line comments are folded, and only the top-level
+          comment is shown. There is a small performance penalty for large
+          source files when this option and folding are enabled. The default is
+          <code>0</code>.</td>
+        </tr>
+
+        <tr>
+          <td><code>fold.on.zero.sum.lines</code></td>
+
+          <td>If <code>fold.on.zero.sum.lines</code> is set to <code>1</code>,
+          lines that contain both an ending and starting fold point are marked
+          as fold points. For example, the C line <code>} else {</code> would be
+          marked as a fold point. The default is <code>0</code>.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Using the LPeg Lexer</h2>
+
+    <p>Your application communicates with the LPeg lexer using Scintilla's
+    <a class="message" href="ScintillaDoc.html#SCI_PRIVATELEXERCALL"><code>SCI_PRIVATELEXERCALL</code></a>
+    API. The operation constants recognized by the LPeg lexer are based on
+    Scintilla's existing named constants. Note that some of the names of the
+    operations do not make perfect sense. This is a tradeoff in order to reuse
+    Scintilla's existing constants.</p>
+
+    <p>In the descriptions that follow,
+    <code>SCI_PRIVATELEXERCALL(int operation, void *pointer)</code> means you
+    would call Scintilla like
+    <code>SendScintilla(sci, SCI_PRIVATELEXERCALL, operation, pointer);</code></p>
+
+    <h3>Usage Example</h3>
+
+    <p>The curses platform demo, jinx, has a C-source example for using the LPeg
+    lexer. Additionally, here is a pseudo-code example:</p>
+
+    <pre><code>
+    init_app() {
+      sci = scintilla_new()
+    }
+
+    create_doc() {
+      doc = SendScintilla(sci, SCI_CREATEDOCUMENT, 0, 0)
+      SendScintilla(sci, SCI_SETDOCPOINTER, 0, doc)
+      SendScintilla(sci, SCI_SETLEXERLANGUAGE, 0, "lpeg")
+      home = "/home/mitchell/app/lua_lexers"
+      SendScintilla(sci, SCI_SETPROPERTY, "lexer.lpeg.home", home)
+      SendScintilla(sci, SCI_SETPROPERTY, "lexer.lpeg.color.theme", "light")
+      fn = SendScintilla(sci, SCI_GETDIRECTFUNCTION, 0, 0)
+      SendScintilla(sci, SCI_PRIVATELEXERCALL, SCI_GETDIRECTFUNCTION, fn)
+      psci = SendScintilla(sci, SCI_GETDIRECTPOINTER, 0, 0)
+      SendScintilla(sci, SCI_PRIVATELEXERCALL, SCI_SETDOCPOINTER, psci)
+      SendScintilla(sci, SCI_PRIVATELEXERCALL, SCI_SETLEXERLANGUAGE, "lua")
+    }
+
+    set_lexer(lang) {
+      psci = SendScintilla(sci, SCI_GETDIRECTPOINTER, 0, 0)
+      SendScintilla(sci, SCI_PRIVATELEXERCALL, SCI_SETDOCPOINTER, psci)
+      SendScintilla(sci, SCI_PRIVATELEXERCALL, SCI_SETLEXERLANGUAGE, lang)
+    }
+    </code></pre>
+
+    <code><a class="message" href="#SCI_CHANGELEXERSTATE">SCI_PRIVATELEXERCALL(SCI_CHANGELEXERSTATE, lua_State *L)</a><br/>
+    <a class="message" href="#SCI_GETDIRECTFUNCTION">SCI_PRIVATELEXERCALL(SCI_GETDIRECTFUNCTION, int SciFnDirect)</a><br/>
+    <a class="message" href="#SCI_GETLEXERLANGUAGE">SCI_PRIVATELEXERCALL(SCI_GETLEXERLANGUAGE, char *languageName) &rarr; int</a><br/>
+    <a class="message" href="#SCI_GETSTATUS">SCI_PRIVATELEXERCALL(SCI_GETSTATUS, char *errorMessage) &rarr; int</a><br/>
+    <a class="message" href="#styleNum">SCI_PRIVATELEXERCALL(int styleNum, char *styleName) &rarr; int</a><br/>
+    <a class="message" href="#SCI_SETDOCPOINTER">SCI_PRIVATELEXERCALL(SCI_SETDOCPOINTER, int sci)</a><br/>
+    <a class="message" href="#SCI_SETLEXERLANGUAGE">SCI_PRIVATELEXERCALL(SCI_SETLEXERLANGUAGE, languageName)</a><br/>
+    </code>
+
+    <p><b id="SCI_CHANGELEXERSTATE">SCI_PRIVATELEXERCALL(SCI_CHANGELEXERSTATE, lua_State *L)</b><br/>
+    Tells the LPeg lexer to use <code>L</code> as its Lua state instead of
+    creating a separate state.</p>
+
+    <p><code>L</code> must have already opened the "base", "string", "table",
+    "package", and "lpeg" libraries. If <code>L</code> is a Lua 5.1 state, it
+    must have also opened the "io" library.</p>
+
+    <p>The LPeg lexer will create a single <code>lexer</code> package (that can
+    be used with Lua's <code>require</code> function), as well as a number of
+    other variables in the <code>LUA_REGISTRYINDEX</code> table with the "sci_"
+    prefix.</p>
+
+    <p>Rather than including the path to Scintilla's Lua lexers in the
+    <code>package.path</code> of the given Lua state, set the "lexer.lpeg.home"
+    property instead. The LPeg lexer uses that property to find and load
+    lexers.</p>
+
+    <p>Usage:</p>
+
+    <pre><code>
+    lua = luaL_newstate()
+    SendScintilla(sci, SCI_PRIVATELEXERCALL, SCI_CHANGELEXERSTATE, lua)
+    </code></pre>
+
+    <p><b id="SCI_GETDIRECTFUNCTION">SCI_PRIVATELEXERCALL(SCI_GETDIRECTFUNCTION, SciFnDirect)</b><br/>
+    Tells the LPeg lexer the address of <code>SciFnDirect</code>, the function
+    that handles Scintilla  messages.</p>
+
+    <p>Despite the name <code>SCI_GETDIRECTFUNCTION</code>, it only notifies the
+    LPeg lexer what the value of <code>SciFnDirect</code> obtained from
+    <a class="message" href="ScintillaDoc.html#SCI_GETDIRECTFUNCTION"><code>SCI_GETDIRECTFUNCTION</code></a>
+    is. It does not return anything. Use this if you would like to have the LPeg
+    lexer set all Lua lexer styles automatically. This is useful for maintaining
+    a consistent color theme. Do not use this if your application maintains its
+    own color theme.</p>
+
+    <p>If you use this call, it <em>must</em> be made <em>once</em> for each
+    Scintilla document that was created using Scintilla's
+    <a class="message" href="ScintillaDoc.html#SCI_CREATEDOCUMENT"><code>SCI_CREATEDOCUMENT</code></a>.
+    You must also use the
+    <a class="message" href="#SCI_SETDOCPOINTER"><code>SCI_SETDOCPOINTER</code></a> LPeg lexer
+    API call.</p>
+
+    <p>Usage:</p>
+
+    <pre><code>
+    fn = SendScintilla(sci, SCI_GETDIRECTFUNCTION, 0, 0)
+    SendScintilla(sci, SCI_PRIVATELEXERCALL, SCI_GETDIRECTFUNCTION, fn)
+    </code></pre>
+
+    <p>See also: <a class="message" href="#SCI_SETDOCPOINTER"><code>SCI_SETDOCPOINTER</code></a></p>
+
+    <p><b id="SCI_GETLEXERLANGUAGE">SCI_PRIVATELEXERCALL(SCI_GETLEXERLANGUAGE, char *languageName) &rarr; int</b><br/>
+    Returns the length of the string name of the current Lua lexer or stores the
+    name into the given buffer. If the buffer is long enough, the name is
+    terminated by a <code>0</code> character.</p>
+
+    <p>For parent lexers with embedded children or child lexers embedded into
+    parents, the name is in "lexer/current" format, where "lexer" is the actual
+    lexer's name and "current" is the parent or child lexer at the current caret
+    position. In order for this to work, you must have called
+    <a class="message" href="#SCI_GETDIRECTFUNCTION"><code>SCI_GETDIRECTFUNCTION</code></a>
+    and
+    <a class="message" href="#SCI_SETDOCPOINTER"><code>SCI_SETDOCPOINTER</code></a>.</p>
+
+    <p><b id="SCI_GETSTATUS">SCI_PRIVATELEXERCALL(SCI_GETSTATUS, char *errorMessage) &rarr; int</b><br/>
+    Returns the length of the error message of the LPeg lexer or Lua lexer error
+    that occurred (if any), or stores the error message into the given buffer.</p>
+
+    <p>If no error occurred, the returned message will be empty.</p>
+
+    <p>Since the LPeg lexer does not throw errors as they occur, errors can only
+    be handled passively. Note that the LPeg lexer does print all errors to
+    stderr.</p>
+
+    <p>Usage:</p>
+
+    <pre><code>
+    SendScintilla(sci, SCI_PRIVATELEXERCALL, SCI_GETSTATUS, errmsg)
+    if (strlen(errmsg) &gt; 0) { /* handle error */ }
+    </code></pre>
+
+    <p><b id="SCI_PRIVATELEXERCALL">SCI_PRIVATELEXERCALL(int styleNum, char *styleName) &rarr; int</b><br/>
+    Returns the length of the token name associated with the given style number
+    or stores the style name into the given buffer. If the buffer is long
+    enough, the string is terminated by a <code>0</code> character.</p>
+
+    <p>Usage:</p>
+
+    <pre><code>
+    style = SendScintilla(sci, SCI_GETSTYLEAT, pos, 0)
+    SendScintilla(sci, SCI_PRIVATELEXERCALL, style, token)
+    // token now contains the name of the style at pos
+    </code></pre>
+
+    <p><b id="SCI_SETDOCPOINTER">SCI_PRIVATELEXERCALL(SCI_SETDOCPOINTER, int sci)</b><br/>
+    Tells the LPeg lexer the address of the Scintilla window (obtained via
+    Scintilla's
+    <a class="message" href="ScintillaDoc.html#SCI_GETDIRECTPOINTER"><code>SCI_GETDIRECTPOINTER</code></a>)
+    currently in use.</p>
+
+    <p>Despite the name <code>SCI_SETDOCPOINTER</code>, it has no relationship
+    to Scintilla documents.</p>
+
+    <p>Use this call only if you are using the
+    <a class="message" href="#SCI_GETDIRECTFUNCTION"><code>SCI_GETDIRECTFUNCTION</code></a>
+    LPeg lexer API call. It <em>must</em> be made <em>before</em> each call to
+    the <a class="message" href="#SCI_SETLEXERLANGUAGE"><code>SCI_SETLEXERLANGUAGE</code></a>
+    LPeg lexer API call.</p>
+
+    <p>Usage:</p>
+
+    <pre><code>
+    SendScintilla(sci, SCI_PRIVATELEXERCALL, SCI_SETDOCPOINTER, sci)
+    </code></pre>
+
+    <p>See also: <a class="message" href="#SCI_GETDIRECTFUNCTION"><code>SCI_GETDIRECTFUNCTION</code></a>,
+    <a class="message" href="#SCI_SETLEXERLANGUAGE"><code>SCI_SETLEXERLANGUAGE</code></a></p>
+
+    <p><b id="SCI_SETLEXERLANGUAGE">SCI_PRIVATELEXERCALL(SCI_SETLEXERLANGUAGE, const char *languageName)</b><br/>
+    Sets the current Lua lexer to <code>languageName</code>.</p>
+
+    <p>If you are having the LPeg lexer set the Lua lexer styles automatically,
+    make sure you call the
+    <a class="message" href="#SCI_SETDOCPOINTER"><code>SCI_SETDOCPOINTER</code></a>
+    LPeg lexer API <em>first</em>.</p>
+
+    <p>Usage:</p>
+
+    <pre><code>
+    SendScintilla(sci, SCI_PRIVATELEXERCALL, SCI_SETLEXERLANGUAGE, "lua")
+    </code></pre>
+
+    <p>See also: <a class="message" href="#SCI_SETDOCPOINTER"><code>SCI_SETDOCPOINTER</code></a></p>
+
+    <h2 id="lexer">Writing Lua Lexers</h2>
+
+    <p>Lexers highlight the syntax of source code. Scintilla (the editing component
+    behind <a href="http://foicica.com/textadept">Textadept</a>) traditionally uses static, compiled C++
+    lexers which are notoriously difficult to create and/or extend. On the other
+    hand, <a href="http://lua.org">Lua</a> makes it easy to to rapidly create new lexers, extend existing
+    ones, and embed lexers within one another. Lua lexers tend to be more
+    readable than C++ lexers too.</p>
+
+    <p>Lexers are Parsing Expression Grammars, or PEGs, composed with the Lua
+    <a href="http://www.inf.puc-rio.br/~roberto/lpeg/lpeg.html">LPeg library</a>. The following table comes from the LPeg documentation and
+    summarizes all you need to know about constructing basic LPeg patterns. This
+    module provides convenience functions for creating and working with other
+    more advanced patterns and concepts.</p>
+
+    <table class="standard">
+    <thead>
+    <tr>
+    <th>Operator             </th>
+    <th> Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+    <td><code>lpeg.P(string)</code>     </td>
+    <td> Matches <code>string</code> literally.</td>
+    </tr>
+    <tr>
+    <td><code>lpeg.P(</code><em><code>n</code></em><code>)</code>    </td>
+    <td> Matches exactly <em><code>n</code></em> characters.</td>
+    </tr>
+    <tr>
+    <td><code>lpeg.S(string)</code>     </td>
+    <td> Matches any character in set <code>string</code>.</td>
+    </tr>
+    <tr>
+    <td><code>lpeg.R("</code><em><code>xy</code></em><code>")</code> </td>
+    <td> Matches any character between range <code>x</code> and <code>y</code>.</td>
+    </tr>
+    <tr>
+    <td><code>patt^</code><em><code>n</code></em>         </td>
+    <td> Matches at least <em><code>n</code></em> repetitions of <code>patt</code>.</td>
+    </tr>
+    <tr>
+    <td><code>patt^-</code><em><code>n</code></em>        </td>
+    <td> Matches at most <em><code>n</code></em> repetitions of <code>patt</code>.</td>
+    </tr>
+    <tr>
+    <td><code>patt1 * patt2</code>      </td>
+    <td> Matches <code>patt1</code> followed by <code>patt2</code>.</td>
+    </tr>
+    <tr>
+    <td><code>patt1 + patt2</code>      </td>
+    <td> Matches <code>patt1</code> or <code>patt2</code> (ordered choice).</td>
+    </tr>
+    <tr>
+    <td><code>patt1 - patt2</code>      </td>
+    <td> Matches <code>patt1</code> if <code>patt2</code> does not match.</td>
+    </tr>
+    <tr>
+    <td><code>-patt</code>              </td>
+    <td> Equivalent to <code>("" - patt)</code>.</td>
+    </tr>
+    <tr>
+    <td><code>#patt</code>              </td>
+    <td> Matches <code>patt</code> but consumes no input.</td>
+    </tr>
+    </tbody>
+    </table>
+
+
+    <p>The first part of this document deals with rapidly constructing a simple
+    lexer. The next part deals with more advanced techniques, such as custom
+    coloring and embedding lexers within one another. Following that is a
+    discussion about code folding, or being able to tell Scintilla which code
+    blocks are "foldable" (temporarily hideable from view). After that are
+    instructions on how to use Lua lexers with the aforementioned Textadept
+    editor. Finally there are comments on lexer performance and limitations.</p>
+
+    <p><a id="lexer.Lexer.Basics"></a></p>
+
+    <h3>Lexer Basics</h3>
+
+    <p>The <em>lexlua/</em> directory contains all lexers, including your new one. Before
+    attempting to write one from scratch though, first determine if your
+    programming language is similar to any of the 100+ languages supported. If
+    so, you may be able to copy and modify that lexer, saving some time and
+    effort. The filename of your lexer should be the name of your programming
+    language in lower case followed by a <em>.lua</em> extension. For example, a new Lua
+    lexer has the name <em>lua.lua</em>.</p>
+
+    <p>Note: Try to refrain from using one-character language names like "c", "d",
+    or "r". For example, Lua lexers for those languages are named "ansi_c", "dmd", and "rstats",
+    respectively.</p>
+
+    <p><a id="lexer.New.Lexer.Template"></a></p>
+
+    <h4>New Lexer Template</h4>
+
+    <p>There is a <em>lexlua/template.txt</em> file that contains a simple template for a
+    new lexer. Feel free to use it, replacing the '?'s with the name of your
+    lexer. Consider this snippet from the template:</p>
+
+    <pre><code>
+    -- ? LPeg lexer.
+
+    local lexer = require('lexer')
+    local token, word_match = lexer.token, lexer.word_match
+    local P, R, S = lpeg.P, lpeg.R, lpeg.S
+
+    local lex = lexer.new('?')
+
+    -- Whitespace.
+    local ws = token(lexer.WHITESPACE, lexer.space^1)
+    lex:add_rule('whitespace', ws)
+
+    [...]
+
+    return lex
+    </code></pre>
+
+    <p>The first 3 lines of code simply define often used convenience variables. The
+    fourth and last lines <a href="#lexer.new">define</a> and return the lexer object
+    Scintilla uses; they are very important and must be part of every lexer. The
+    fifth line defines something called a "token", an essential building block of
+    lexers. You will learn about tokens shortly. The sixth line defines a lexer
+    grammar rule, which you will learn about later, as well as token styles. (Be
+    aware that it is common practice to combine these two lines for short rules.)
+    Note, however, the <code>local</code> prefix in front of variables, which is needed
+    so-as not to affect Lua's global environment. All in all, this is a minimal,
+    working lexer that you can build on.</p>
+
+    <p><a id="lexer.Tokens"></a></p>
+
+    <h4>Tokens</h4>
+
+    <p>Take a moment to think about your programming language's structure. What kind
+    of key elements does it have? In the template shown earlier, one predefined
+    element all languages have is whitespace. Your language probably also has
+    elements like comments, strings, and keywords. Lexers refer to these elements
+    as "tokens". Tokens are the fundamental "building blocks" of lexers. Lexers
+    break down source code into tokens for coloring, which results in the syntax
+    highlighting familiar to you. It is up to you how specific your lexer is when
+    it comes to tokens. Perhaps only distinguishing between keywords and
+    identifiers is necessary, or maybe recognizing constants and built-in
+    functions, methods, or libraries is desirable. The Lua lexer, for example,
+    defines 11 tokens: whitespace, keywords, built-in functions, constants,
+    built-in libraries, identifiers, strings, comments, numbers, labels, and
+    operators. Even though constants, built-in functions, and built-in libraries
+    are subsets of identifiers, Lua programmers find it helpful for the lexer to
+    distinguish between them all. It is perfectly acceptable to just recognize
+    keywords and identifiers.</p>
+
+    <p>In a lexer, tokens consist of a token name and an LPeg pattern that matches a
+    sequence of characters recognized as an instance of that token. Create tokens
+    using the <a href="#lexer.token"><code>lexer.token()</code></a> function. Let us examine the "whitespace" token
+    defined in the template shown earlier:</p>
+
+    <pre><code>
+    local ws = token(lexer.WHITESPACE, lexer.space^1)
+    </code></pre>
+
+    <p>At first glance, the first argument does not appear to be a string name and
+    the second argument does not appear to be an LPeg pattern. Perhaps you
+    expected something like:</p>
+
+    <pre><code>
+    local ws = token('whitespace', S('\t\v\f\n\r ')^1)
+    </code></pre>
+
+    <p>The <code>lexer</code> module actually provides a convenient list of common token names
+    and common LPeg patterns for you to use. Token names include
+    <a href="#lexer.DEFAULT"><code>lexer.DEFAULT</code></a>, <a href="#lexer.WHITESPACE"><code>lexer.WHITESPACE</code></a>, <a href="#lexer.COMMENT"><code>lexer.COMMENT</code></a>,
+    <a href="#lexer.STRING"><code>lexer.STRING</code></a>, <a href="#lexer.NUMBER"><code>lexer.NUMBER</code></a>, <a href="#lexer.KEYWORD"><code>lexer.KEYWORD</code></a>,
+    <a href="#lexer.IDENTIFIER"><code>lexer.IDENTIFIER</code></a>, <a href="#lexer.OPERATOR"><code>lexer.OPERATOR</code></a>, <a href="#lexer.ERROR"><code>lexer.ERROR</code></a>,
+    <a href="#lexer.PREPROCESSOR"><code>lexer.PREPROCESSOR</code></a>, <a href="#lexer.CONSTANT"><code>lexer.CONSTANT</code></a>, <a href="#lexer.VARIABLE"><code>lexer.VARIABLE</code></a>,
+    <a href="#lexer.FUNCTION"><code>lexer.FUNCTION</code></a>, <a href="#lexer.CLASS"><code>lexer.CLASS</code></a>, <a href="#lexer.TYPE"><code>lexer.TYPE</code></a>, <a href="#lexer.LABEL"><code>lexer.LABEL</code></a>,
+    <a href="#lexer.REGEX"><code>lexer.REGEX</code></a>, and <a href="#lexer.EMBEDDED"><code>lexer.EMBEDDED</code></a>. Patterns include
+    <a href="#lexer.any"><code>lexer.any</code></a>, <a href="#lexer.ascii"><code>lexer.ascii</code></a>, <a href="#lexer.extend"><code>lexer.extend</code></a>, <a href="#lexer.alpha"><code>lexer.alpha</code></a>,
+    <a href="#lexer.digit"><code>lexer.digit</code></a>, <a href="#lexer.alnum"><code>lexer.alnum</code></a>, <a href="#lexer.lower"><code>lexer.lower</code></a>, <a href="#lexer.upper"><code>lexer.upper</code></a>,
+    <a href="#lexer.xdigit"><code>lexer.xdigit</code></a>, <a href="#lexer.cntrl"><code>lexer.cntrl</code></a>, <a href="#lexer.graph"><code>lexer.graph</code></a>, <a href="#lexer.print"><code>lexer.print</code></a>,
+    <a href="#lexer.punct"><code>lexer.punct</code></a>, <a href="#lexer.space"><code>lexer.space</code></a>, <a href="#lexer.newline"><code>lexer.newline</code></a>,
+    <a href="#lexer.nonnewline"><code>lexer.nonnewline</code></a>, <a href="#lexer.nonnewline_esc"><code>lexer.nonnewline_esc</code></a>, <a href="#lexer.dec_num"><code>lexer.dec_num</code></a>,
+    <a href="#lexer.hex_num"><code>lexer.hex_num</code></a>, <a href="#lexer.oct_num"><code>lexer.oct_num</code></a>, <a href="#lexer.integer"><code>lexer.integer</code></a>,
+    <a href="#lexer.float"><code>lexer.float</code></a>, and <a href="#lexer.word"><code>lexer.word</code></a>. You may use your own token names if
+    none of the above fit your language, but an advantage to using predefined
+    token names is that your lexer's tokens will inherit the universal syntax
+    highlighting color theme used by your text editor.</p>
+
+    <p><a id="lexer.Example.Tokens"></a></p>
+
+    <h5>Example Tokens</h5>
+
+    <p>So, how might you define other tokens like keywords, comments, and strings?
+    Here are some examples.</p>
+
+    <p><strong>Keywords</strong></p>
+
+    <p>Instead of matching <em>n</em> keywords with <em>n</em> <code>P('keyword_</code><em><code>n</code></em><code>')</code> ordered
+    choices, use another convenience function: <a href="#lexer.word_match"><code>lexer.word_match()</code></a>. It is
+    much easier and more efficient to write word matches like:</p>
+
+    <pre><code>
+    local keyword = token(lexer.KEYWORD, lexer.word_match[[
+      keyword_1 keyword_2 ... keyword_n
+    ]])
+
+    local case_insensitive_keyword = token(lexer.KEYWORD, lexer.word_match([[
+      KEYWORD_1 keyword_2 ... KEYword_n
+    ]], true))
+
+    local hyphened_keyword = token(lexer.KEYWORD, lexer.word_match[[
+      keyword-1 keyword-2 ... keyword-n
+    ]])
+    </code></pre>
+
+    <p>In order to more easily separate or categorize keyword sets, you can use Lua
+    line comments within keyword strings. Such comments will be ignored. For
+    example:</p>
+
+    <pre><code>
+    local keyword = token(lexer.KEYWORD, lexer.word_match[[
+      -- Version 1 keywords.
+      keyword_11, keyword_12 ... keyword_1n
+      -- Version 2 keywords.
+      keyword_21, keyword_22 ... keyword_2n
+      ...
+      -- Version N keywords.
+      keyword_m1, keyword_m2 ... keyword_mn
+    ]])
+    </code></pre>
+
+    <p><strong>Comments</strong></p>
+
+    <p>Line-style comments with a prefix character(s) are easy to express with LPeg:</p>
+
+    <pre><code>
+    local shell_comment = token(lexer.COMMENT, '#' * lexer.nonnewline^0)
+    local c_line_comment = token(lexer.COMMENT,
+                                 '//' * lexer.nonnewline_esc^0)
+    </code></pre>
+
+    <p>The comments above start with a '#' or "//" and go to the end of the line.
+    The second comment recognizes the next line also as a comment if the current
+    line ends with a '\' escape character.</p>
+
+    <p>C-style "block" comments with a start and end delimiter are also easy to
+    express:</p>
+
+    <pre><code>
+    local c_comment = token(lexer.COMMENT,
+                            '/*' * (lexer.any - '*/')^0 * P('*/')^-1)
+    </code></pre>
+
+    <p>This comment starts with a "/*" sequence and contains anything up to and
+    including an ending "*/" sequence. The ending "*/" is optional so the lexer
+    can recognize unfinished comments as comments and highlight them properly.</p>
+
+    <p><strong>Strings</strong></p>
+
+    <p>It is tempting to think that a string is not much different from the block
+    comment shown above in that both have start and end delimiters:</p>
+
+    <pre><code>
+    local dq_str = '"' * (lexer.any - '"')^0 * P('"')^-1
+    local sq_str = "'" * (lexer.any - "'")^0 * P("'")^-1
+    local simple_string = token(lexer.STRING, dq_str + sq_str)
+    </code></pre>
+
+    <p>However, most programming languages allow escape sequences in strings such
+    that a sequence like "\&quot;" in a double-quoted string indicates that the
+    '&quot;' is not the end of the string. The above token incorrectly matches
+    such a string. Instead, use the <a href="#lexer.delimited_range"><code>lexer.delimited_range()</code></a> convenience
+    function.</p>
+
+    <pre><code>
+    local dq_str = lexer.delimited_range('"')
+    local sq_str = lexer.delimited_range("'")
+    local string = token(lexer.STRING, dq_str + sq_str)
+    </code></pre>
+
+    <p>In this case, the lexer treats '\' as an escape character in a string
+    sequence.</p>
+
+    <p><strong>Numbers</strong></p>
+
+    <p>Most programming languages have the same format for integer and float tokens,
+    so it might be as simple as using a couple of predefined LPeg patterns:</p>
+
+    <pre><code>
+    local number = token(lexer.NUMBER, lexer.float + lexer.integer)
+    </code></pre>
+
+    <p>However, some languages allow postfix characters on integers.</p>
+
+    <pre><code>
+    local integer = P('-')^-1 * (lexer.dec_num * S('lL')^-1)
+    local number = token(lexer.NUMBER, lexer.float + lexer.hex_num + integer)
+    </code></pre>
+
+    <p>Your language may need other tweaks, but it is up to you how fine-grained you
+    want your highlighting to be. After all, you are not writing a compiler or
+    interpreter!</p>
+
+    <p><a id="lexer.Rules"></a></p>
+
+    <h4>Rules</h4>
+
+    <p>Programming languages have grammars, which specify valid token structure. For
+    example, comments usually cannot appear within a string. Grammars consist of
+    rules, which are simply combinations of tokens. Recall from the lexer
+    template the <a href="#lexer.add_rule"><code>lexer.add_rule()</code></a> call, which adds a rule to the lexer's
+    grammar:</p>
+
+    <pre><code>
+    lex:add_rule('whitespace', ws)
+    </code></pre>
+
+    <p>Each rule has an associated name, but rule names are completely arbitrary and
+    serve only to identify and distinguish between different rules. Rule order is
+    important: if text does not match the first rule added to the grammar, the
+    lexer tries to match the second rule added, and so on. Right now this lexer
+    simply matches whitespace tokens under a rule named "whitespace".</p>
+
+    <p>To illustrate the importance of rule order, here is an example of a
+    simplified Lua lexer:</p>
+
+    <pre><code>
+    lex:add_rule('whitespace', token(lexer.WHITESPACE, ...))
+    lex:add_rule('keyword', token(lexer.KEYWORD, ...))
+    lex:add_rule('identifier', token(lexer.IDENTIFIER, ...))
+    lex:add_rule('string', token(lexer.STRING, ...))
+    lex:add_rule('comment', token(lexer.COMMENT, ...))
+    lex:add_rule('number', token(lexer.NUMBER, ...))
+    lex:add_rule('label', token(lexer.LABEL, ...))
+    lex:add_rule('operator', token(lexer.OPERATOR, ...))
+    </code></pre>
+
+    <p>Note how identifiers come after keywords. In Lua, as with most programming
+    languages, the characters allowed in keywords and identifiers are in the same
+    set (alphanumerics plus underscores). If the lexer added the "identifier"
+    rule before the "keyword" rule, all keywords would match identifiers and thus
+    incorrectly highlight as identifiers instead of keywords. The same idea
+    applies to function, constant, etc. tokens that you may want to distinguish
+    between: their rules should come before identifiers.</p>
+
+    <p>So what about text that does not match any rules? For example in Lua, the '!'
+    character is meaningless outside a string or comment. Normally the lexer
+    skips over such text. If instead you want to highlight these "syntax errors",
+    add an additional end rule:</p>
+
+    <pre><code>
+    lex:add_rule('whitespace', ws)
+    ...
+    lex:add_rule('error', token(lexer.ERROR, lexer.any))
+    </code></pre>
+
+    <p>This identifies and highlights any character not matched by an existing
+    rule as a <code>lexer.ERROR</code> token.</p>
+
+    <p>Even though the rules defined in the examples above contain a single token,
+    rules may consist of multiple tokens. For example, a rule for an HTML tag
+    could consist of a tag token followed by an arbitrary number of attribute
+    tokens, allowing the lexer to highlight all tokens separately. That rule
+    might look something like this:</p>
+
+    <pre><code>
+    lex:add_rule('tag', tag_start * (ws * attributes)^0 * tag_end^-1)
+    </code></pre>
+
+    <p>Note however that lexers with complex rules like these are more prone to lose
+    track of their state, especially if they span multiple lines.</p>
+
+    <p><a id="lexer.Summary"></a></p>
+
+    <h4>Summary</h4>
+
+    <p>Lexers primarily consist of tokens and grammar rules. At your disposal are a
+    number of convenience patterns and functions for rapidly creating a lexer. If
+    you choose to use predefined token names for your tokens, you do not have to
+    define how the lexer highlights them. The tokens will inherit the default
+    syntax highlighting color theme your editor uses.</p>
+
+    <p><a id="lexer.Advanced.Techniques"></a></p>
+
+    <h3>Advanced Techniques</h3>
+
+    <p><a id="lexer.Styles.and.Styling"></a></p>
+
+    <h4>Styles and Styling</h4>
+
+    <p>The most basic form of syntax highlighting is assigning different colors to
+    different tokens. Instead of highlighting with just colors, Scintilla allows
+    for more rich highlighting, or "styling", with different fonts, font sizes,
+    font attributes, and foreground and background colors, just to name a few.
+    The unit of this rich highlighting is called a "style". Styles are simply
+    strings of comma-separated property settings. By default, lexers associate
+    predefined token names like <code>lexer.WHITESPACE</code>, <code>lexer.COMMENT</code>,
+    <code>lexer.STRING</code>, etc. with particular styles as part of a universal color
+    theme. These predefined styles include <a href="#lexer.STYLE_CLASS"><code>lexer.STYLE_CLASS</code></a>,
+    <a href="#lexer.STYLE_COMMENT"><code>lexer.STYLE_COMMENT</code></a>, <a href="#lexer.STYLE_CONSTANT"><code>lexer.STYLE_CONSTANT</code></a>,
+    <a href="#lexer.STYLE_ERROR"><code>lexer.STYLE_ERROR</code></a>, <a href="#lexer.STYLE_EMBEDDED"><code>lexer.STYLE_EMBEDDED</code></a>,
+    <a href="#lexer.STYLE_FUNCTION"><code>lexer.STYLE_FUNCTION</code></a>, <a href="#lexer.STYLE_IDENTIFIER"><code>lexer.STYLE_IDENTIFIER</code></a>,
+    <a href="#lexer.STYLE_KEYWORD"><code>lexer.STYLE_KEYWORD</code></a>, <a href="#lexer.STYLE_LABEL"><code>lexer.STYLE_LABEL</code></a>, <a href="#lexer.STYLE_NUMBER"><code>lexer.STYLE_NUMBER</code></a>,
+    <a href="#lexer.STYLE_OPERATOR"><code>lexer.STYLE_OPERATOR</code></a>, <a href="#lexer.STYLE_PREPROCESSOR"><code>lexer.STYLE_PREPROCESSOR</code></a>,
+    <a href="#lexer.STYLE_REGEX"><code>lexer.STYLE_REGEX</code></a>, <a href="#lexer.STYLE_STRING"><code>lexer.STYLE_STRING</code></a>, <a href="#lexer.STYLE_TYPE"><code>lexer.STYLE_TYPE</code></a>,
+    <a href="#lexer.STYLE_VARIABLE"><code>lexer.STYLE_VARIABLE</code></a>, and <a href="#lexer.STYLE_WHITESPACE"><code>lexer.STYLE_WHITESPACE</code></a>. Like with
+    predefined token names and LPeg patterns, you may define your own styles. At
+    their core, styles are just strings, so you may create new ones and/or modify
+    existing ones. Each style consists of the following comma-separated settings:</p>
+
+    <table class="standard">
+    <thead>
+    <tr>
+    <th>Setting        </th>
+    <th> Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+    <td>font:<em>name</em>    </td>
+    <td> The name of the font the style uses.</td>
+    </tr>
+    <tr>
+    <td>size:<em>int</em>     </td>
+    <td> The size of the font the style uses.</td>
+    </tr>
+    <tr>
+    <td>[not]bold      </td>
+    <td> Whether or not the font face is bold.</td>
+    </tr>
+    <tr>
+    <td>weight:<em>int</em>   </td>
+    <td> The weight or boldness of a font, between 1 and 999.</td>
+    </tr>
+    <tr>
+    <td>[not]italics   </td>
+    <td> Whether or not the font face is italic.</td>
+    </tr>
+    <tr>
+    <td>[not]underlined</td>
+    <td> Whether or not the font face is underlined.</td>
+    </tr>
+    <tr>
+    <td>fore:<em>color</em>   </td>
+    <td> The foreground color of the font face.</td>
+    </tr>
+    <tr>
+    <td>back:<em>color</em>   </td>
+    <td> The background color of the font face.</td>
+    </tr>
+    <tr>
+    <td>[not]eolfilled </td>
+    <td> Does the background color extend to the end of the line?</td>
+    </tr>
+    <tr>
+    <td>case:<em>char</em>    </td>
+    <td> The case of the font ('u': upper, 'l': lower, 'm': normal).</td>
+    </tr>
+    <tr>
+    <td>[not]visible   </td>
+    <td> Whether or not the text is visible.</td>
+    </tr>
+    <tr>
+    <td>[not]changeable</td>
+    <td> Whether the text is changeable or read-only.</td>
+    </tr>
+    </tbody>
+    </table>
+
+
+    <p>Specify font colors in either "#RRGGBB" format, "0xBBGGRR" format, or the
+    decimal equivalent of the latter. As with token names, LPeg patterns, and
+    styles, there is a set of predefined color names, but they vary depending on
+    the current color theme in use. Therefore, it is generally not a good idea to
+    manually define colors within styles in your lexer since they might not fit
+    into a user's chosen color theme. Try to refrain from even using predefined
+    colors in a style because that color may be theme-specific. Instead, the best
+    practice is to either use predefined styles or derive new color-agnostic
+    styles from predefined ones. For example, Lua "longstring" tokens use the
+    existing <code>lexer.STYLE_STRING</code> style instead of defining a new one.</p>
+
+    <p><a id="lexer.Example.Styles"></a></p>
+
+    <h5>Example Styles</h5>
+
+    <p>Defining styles is pretty straightforward. An empty style that inherits the
+    default theme settings is simply an empty string:</p>
+
+    <pre><code>
+    local style_nothing = ''
+    </code></pre>
+
+    <p>A similar style but with a bold font face looks like this:</p>
+
+    <pre><code>
+    local style_bold = 'bold'
+    </code></pre>
+
+    <p>If you want the same style, but also with an italic font face, define the new
+    style in terms of the old one:</p>
+
+    <pre><code>
+    local style_bold_italic = style_bold..',italics'
+    </code></pre>
+
+    <p>This allows you to derive new styles from predefined ones without having to
+    rewrite them. This operation leaves the old style unchanged. Thus if you
+    had a "static variable" token whose style you wanted to base off of
+    <code>lexer.STYLE_VARIABLE</code>, it would probably look like:</p>
+
+    <pre><code>
+    local style_static_var = lexer.STYLE_VARIABLE..',italics'
+    </code></pre>
+
+    <p>The color theme files in the <em>lexlua/themes/</em> folder give more examples of
+    style definitions.</p>
+
+    <p><a id="lexer.Token.Styles"></a></p>
+
+    <h4>Token Styles</h4>
+
+    <p>Lexers use the <a href="#lexer.add_style"><code>lexer.add_style()</code></a> function to assign styles to
+    particular tokens. Recall the token definition and from the lexer template:</p>
+
+    <pre><code>
+    local ws = token(lexer.WHITESPACE, lexer.space^1)
+    lex:add_rule('whitespace', ws)
+    </code></pre>
+
+    <p>Why is a style not assigned to the <code>lexer.WHITESPACE</code> token? As mentioned
+    earlier, lexers automatically associate tokens that use predefined token
+    names with a particular style. Only tokens with custom token names need
+    manual style associations. As an example, consider a custom whitespace token:</p>
+
+    <pre><code>
+    local ws = token('custom_whitespace', lexer.space^1)
+    </code></pre>
+
+    <p>Assigning a style to this token looks like:</p>
+
+    <pre><code>
+    lex:add_style('custom_whitespace', lexer.STYLE_WHITESPACE)
+    </code></pre>
+
+    <p>Do not confuse token names with rule names. They are completely different
+    entities. In the example above, the lexer associates the "custom_whitespace"
+    token with the existing style for <code>lexer.WHITESPACE</code> tokens. If instead you
+    prefer to color the background of whitespace a shade of grey, it might look
+    like:</p>
+
+    <pre><code>
+    local custom_style = lexer.STYLE_WHITESPACE..',back:$(color.grey)'
+    lex:add_style('custom_whitespace', custom_style)
+    </code></pre>
+
+    <p>Notice that the lexer peforms Scintilla-style "$()" property expansion.
+    You may also use "%()". Remember to refrain from assigning specific colors in
+    styles, but in this case, all user color themes probably define the
+    "color.grey" property.</p>
+
+    <p><a id="lexer.Line.Lexers"></a></p>
+
+    <h4>Line Lexers</h4>
+
+    <p>By default, lexers match the arbitrary chunks of text passed to them by
+    Scintilla. These chunks may be a full document, only the visible part of a
+    document, or even just portions of lines. Some lexers need to match whole
+    lines. For example, a lexer for the output of a file "diff" needs to know if
+    the line started with a '+' or '-' and then style the entire line
+    accordingly. To indicate that your lexer matches by line, create the lexer
+    with an extra parameter:</p>
+
+    <pre><code>
+    local lex = lexer.new('?', {lex_by_line = true})
+    </code></pre>
+
+    <p>Now the input text for the lexer is a single line at a time. Keep in mind
+    that line lexers do not have the ability to look ahead at subsequent lines.</p>
+
+    <p><a id="lexer.Embedded.Lexers"></a></p>
+
+    <h4>Embedded Lexers</h4>
+
+    <p>Lexers embed within one another very easily, requiring minimal effort. In the
+    following sections, the lexer being embedded is called the "child" lexer and
+    the lexer a child is being embedded in is called the "parent". For example,
+    consider an HTML lexer and a CSS lexer. Either lexer stands alone for styling
+    their respective HTML and CSS files. However, CSS can be embedded inside
+    HTML. In this specific case, the CSS lexer is the "child" lexer with the HTML
+    lexer being the "parent". Now consider an HTML lexer and a PHP lexer. This
+    sounds a lot like the case with CSS, but there is a subtle difference: PHP
+    <em>embeds itself into</em> HTML while CSS is <em>embedded in</em> HTML. This fundamental
+    difference results in two types of embedded lexers: a parent lexer that
+    embeds other child lexers in it (like HTML embedding CSS), and a child lexer
+    that embeds itself into a parent lexer (like PHP embedding itself in HTML).</p>
+
+    <p><a id="lexer.Parent.Lexer"></a></p>
+
+    <h5>Parent Lexer</h5>
+
+    <p>Before embedding a child lexer into a parent lexer, the parent lexer needs to
+    load the child lexer. This is done with the <a href="#lexer.load"><code>lexer.load()</code></a> function. For
+    example, loading the CSS lexer within the HTML lexer looks like:</p>
+
+    <pre><code>
+    local css = lexer.load('css')
+    </code></pre>
+
+    <p>The next part of the embedding process is telling the parent lexer when to
+    switch over to the child lexer and when to switch back. The lexer refers to
+    these indications as the "start rule" and "end rule", respectively, and are
+    just LPeg patterns. Continuing with the HTML/CSS example, the transition from
+    HTML to CSS is when the lexer encounters a "style" tag with a "type"
+    attribute whose value is "text/css":</p>
+
+    <pre><code>
+    local css_tag = P('&lt;style') * P(function(input, index)
+      if input:find('^[^&gt;]+type="text/css"', index) then
+        return index
+      end
+    end)
+    </code></pre>
+
+    <p>This pattern looks for the beginning of a "style" tag and searches its
+    attribute list for the text "<code>type="text/css"</code>". (In this simplified example,
+    the Lua pattern does not consider whitespace between the '=' nor does it
+    consider that using single quotes is valid.) If there is a match, the
+    functional pattern returns a value instead of <code>nil</code>. In this case, the value
+    returned does not matter because we ultimately want to style the "style" tag
+    as an HTML tag, so the actual start rule looks like this:</p>
+
+    <pre><code>
+    local css_start_rule = #css_tag * tag
+    </code></pre>
+
+    <p>Now that the parent knows when to switch to the child, it needs to know when
+    to switch back. In the case of HTML/CSS, the switch back occurs when the
+    lexer encounters an ending "style" tag, though the lexer should still style
+    the tag as an HTML tag:</p>
+
+    <pre><code>
+    local css_end_rule = #P('&lt;/style&gt;') * tag
+    </code></pre>
+
+    <p>Once the parent loads the child lexer and defines the child's start and end
+    rules, it embeds the child with the <a href="#lexer.embed"><code>lexer.embed()</code></a> function:</p>
+
+    <pre><code>
+    lex:embed(css, css_start_rule, css_end_rule)
+    </code></pre>
+
+    <p><a id="lexer.Child.Lexer"></a></p>
+
+    <h5>Child Lexer</h5>
+
+    <p>The process for instructing a child lexer to embed itself into a parent is
+    very similar to embedding a child into a parent: first, load the parent lexer
+    into the child lexer with the <a href="#lexer.load"><code>lexer.load()</code></a> function and then create
+    start and end rules for the child lexer. However, in this case, call
+    <a href="#lexer.embed"><code>lexer.embed()</code></a> with switched arguments. For example, in the PHP lexer:</p>
+
+    <pre><code>
+    local html = lexer.load('html')
+    local php_start_rule = token('php_tag', '&lt;?php ')
+    local php_end_rule = token('php_tag', '?&gt;')
+    lex:add_style('php_tag', lexer.STYLE_EMBEDDED)
+    html:embed(lex, php_start_rule, php_end_rule)
+    </code></pre>
+
+    <p><a id="lexer.Lexers.with.Complex.State"></a></p>
+
+    <h4>Lexers with Complex State</h4>
+
+    <p>A vast majority of lexers are not stateful and can operate on any chunk of
+    text in a document. However, there may be rare cases where a lexer does need
+    to keep track of some sort of persistent state. Rather than using <code>lpeg.P</code>
+    function patterns that set state variables, it is recommended to make use of
+    Scintilla's built-in, per-line state integers via <a href="#lexer.line_state"><code>lexer.line_state</code></a>. It
+    was designed to accommodate up to 32 bit flags for tracking state.
+    <a href="#lexer.line_from_position"><code>lexer.line_from_position()</code></a> will return the line for any position given
+    to an <code>lpeg.P</code> function pattern. (Any positions derived from that position
+    argument will also work.)</p>
+
+    <p>Writing stateful lexers is beyond the scope of this document.</p>
+
+    <p><a id="lexer.Code.Folding"></a></p>
+
+    <h3>Code Folding</h3>
+
+    <p>When reading source code, it is occasionally helpful to temporarily hide
+    blocks of code like functions, classes, comments, etc. This is the concept of
+    "folding". In many Scintilla-based editors, such as Textadept, little indicators
+    in the editor margins appear next to code that can be folded at places called
+    "fold points". When the user clicks an indicator, the editor hides the code
+    associated with the indicator until the user clicks the indicator again. The
+    lexer specifies these fold points and what code exactly to fold.</p>
+
+    <p>The fold points for most languages occur on keywords or character sequences.
+    Examples of fold keywords are "if" and "end" in Lua and examples of fold
+    character sequences are '{', '}', "/*", and "*/" in C for code block and
+    comment delimiters, respectively. However, these fold points cannot occur
+    just anywhere. For example, lexers should not recognize fold keywords that
+    appear within strings or comments. The <a href="#lexer.add_fold_point"><code>lexer.add_fold_point()</code></a> function
+    allows you to conveniently define fold points with such granularity. For
+    example, consider C:</p>
+
+    <pre><code>
+    lex:add_fold_point(lexer.OPERATOR, '{', '}')
+    lex:add_fold_point(lexer.COMMENT, '/*', '*/')
+    </code></pre>
+
+    <p>The first assignment states that any '{' or '}' that the lexer recognized as
+    an <code>lexer.OPERATOR</code> token is a fold point. Likewise, the second assignment
+    states that any "/*" or "*/" that the lexer recognizes as part of a
+    <code>lexer.COMMENT</code> token is a fold point. The lexer does not consider any
+    occurrences of these characters outside their defined tokens (such as in a
+    string) as fold points. How do you specify fold keywords? Here is an example
+    for Lua:</p>
+
+    <pre><code>
+    lex:add_fold_point(lexer.KEYWORD, 'if', 'end')
+    lex:add_fold_point(lexer.KEYWORD, 'do', 'end')
+    lex:add_fold_point(lexer.KEYWORD, 'function', 'end')
+    lex:add_fold_point(lexer.KEYWORD, 'repeat', 'until')
+    </code></pre>
+
+    <p>If your lexer has case-insensitive keywords as fold points, simply add a
+    <code>case_insensitive_fold_points = true</code> option to <a href="#lexer.new"><code>lexer.new()</code></a>, and
+    specify keywords in lower case.</p>
+
+    <p>If your lexer needs to do some additional processing in order to determine if
+    a token is a fold point, pass a function that returns an integer to
+    <code>lex:add_fold_point()</code>. Returning <code>1</code> indicates the token is a beginning fold
+    point and returning <code>-1</code> indicates the token is an ending fold point.
+    Returning <code>0</code> indicates the token is not a fold point. For example:</p>
+
+    <pre><code>
+    local function fold_strange_token(text, pos, line, s, symbol)
+      if ... then
+        return 1 -- beginning fold point
+      elseif ... then
+        return -1 -- ending fold point
+      end
+      return 0
+    end
+
+    lex:add_fold_point('strange_token', '|', fold_strange_token)
+    </code></pre>
+
+    <p>Any time the lexer encounters a '|' that is a "strange_token", it calls the
+    <code>fold_strange_token</code> function to determine if '|' is a fold point. The lexer
+    calls these functions with the following arguments: the text to identify fold
+    points in, the beginning position of the current line in the text to fold,
+    the current line's text, the position in the current line the fold point text
+    starts at, and the fold point text itself.</p>
+
+    <p><a id="lexer.Fold.by.Indentation"></a></p>
+
+    <h4>Fold by Indentation</h4>
+
+    <p>Some languages have significant whitespace and/or no delimiters that indicate
+    fold points. If your lexer falls into this category and you would like to
+    mark fold points based on changes in indentation, create the lexer with a
+    <code>fold_by_indentation = true</code> option:</p>
+
+    <pre><code>
+    local lex = lexer.new('?', {fold_by_indentation = true})
+    </code></pre>
+
+    <p><a id="lexer.Using.Lexers"></a></p>
+
+    <h3>Using Lexers</h3>
+
+    <p><a id="lexer.Textadept"></a></p>
+
+    <h4>Textadept</h4>
+
+    <p>Put your lexer in your <em>~/.textadept/lexers/</em> directory so you do not
+    overwrite it when upgrading Textadept. Also, lexers in this directory
+    override default lexers. Thus, Textadept loads a user <em>lua</em> lexer instead of
+    the default <em>lua</em> lexer. This is convenient for tweaking a default lexer to
+    your liking. Then add a <a href="https://foicica.com/textadept/api.html#textadept.file_types">file type</a> for your lexer if necessary.</p>
+
+    <p><a id="lexer.Migrating.Legacy.Lexers"></a></p>
+
+    <h3>Migrating Legacy Lexers</h3>
+
+    <p>Legacy lexers are of the form:</p>
+
+    <pre><code>
+    local l = require('lexer')
+    local token, word_match = l.token, l.word_match
+    local P, R, S = lpeg.P, lpeg.R, lpeg.S
+
+    local M = {_NAME = '?'}
+
+    [... token and pattern definitions ...]
+
+    M._rules = {
+      {'rule', pattern},
+      [...]
+    }
+
+    M._tokenstyles = {
+      'token' = 'style',
+      [...]
+    }
+
+    M._foldsymbols = {
+      _patterns = {...},
+      ['token'] = {['start'] = 1, ['end'] = -1},
+      [...]
+    }
+
+    return M
+    </code></pre>
+
+    <p>While such legacy lexers will be handled just fine without any
+    changes, it is recommended that you migrate yours. The migration process is
+    fairly straightforward:</p>
+
+    <ol>
+    <li>Replace all instances of <code>l</code> with <code>lexer</code>, as it's better practice and
+    results in less confusion.</li>
+    <li>Replace <code>local M = {_NAME = '?'}</code> with <code>local lex = lexer.new('?')</code>, where
+    <code>?</code> is the name of your legacy lexer. At the end of the lexer, change
+    <code>return M</code> to <code>return lex</code>.</li>
+    <li>Instead of defining rules towards the end of your lexer, define your rules
+    as you define your tokens and patterns using
+    <a href="#lexer.add_rule"><code>lex:add_rule()</code></a>.</li>
+    <li>Similarly, any custom token names should have their styles immediately
+    defined using <a href="#lexer.add_style"><code>lex:add_style()</code></a>.</li>
+    <li>Convert any table arguments passed to <a href="#lexer.word_match"><code>lexer.word_match()</code></a> to a
+    space-separated string of words.</li>
+    <li>Replace any calls to <code>lexer.embed(M, child, ...)</code> and
+    <code>lexer.embed(parent, M, ...)</code> with
+    <a href="#lexer.embed"><code>lex:embed</code></a><code>(child, ...)</code> and <code>parent:embed(lex, ...)</code>,
+    respectively.</li>
+    <li>Define fold points with simple calls to
+    <a href="#lexer.add_fold_point"><code>lex:add_fold_point()</code></a>. No need to mess with Lua
+    patterns anymore.</li>
+    <li>Any legacy lexer options such as <code>M._FOLDBYINDENTATION</code>, <code>M._LEXBYLINE</code>,
+    <code>M._lexer</code>, etc. should be added as table options to <a href="#lexer.new"><code>lexer.new()</code></a>.</li>
+    <li>Any external lexer rule fetching and/or modifications via <code>lexer._RULES</code>
+    should be changed to use <a href="#lexer.get_rule"><code>lexer.get_rule()</code></a> and
+    <a href="#lexer.modify_rule"><code>lexer.modify_rule()</code></a>.</li>
+    </ol>
+
+
+    <p>As an example, consider the following sample legacy lexer:</p>
+
+    <pre><code>
+    local l = require('lexer')
+    local token, word_match = l.token, l.word_match
+    local P, R, S = lpeg.P, lpeg.R, lpeg.S
+
+    local M = {_NAME = 'legacy'}
+
+    local ws = token(l.WHITESPACE, l.space^1)
+    local comment = token(l.COMMENT, '#' * l.nonnewline^0)
+    local string = token(l.STRING, l.delimited_range('"'))
+    local number = token(l.NUMBER, l.float + l.integer)
+    local keyword = token(l.KEYWORD, word_match{'foo', 'bar', 'baz'})
+    local custom = token('custom', P('quux'))
+    local identifier = token(l.IDENTIFIER, l.word)
+    local operator = token(l.OPERATOR, S('+-*/%^=&lt;&gt;,.()[]{}'))
+
+    M._rules = {
+      {'whitespace', ws},
+      {'keyword', keyword},
+      {'custom', custom},
+      {'identifier', identifier},
+      {'string', string},
+      {'comment', comment},
+      {'number', number},
+      {'operator', operator}
+    }
+
+    M._tokenstyles = {
+      'custom' = l.STYLE_KEYWORD..',bold'
+    }
+
+    M._foldsymbols = {
+      _patterns = {'[{}]'},
+      [l.OPERATOR] = {['{'] = 1, ['}'] = -1}
+    }
+
+    return M
+    </code></pre>
+
+    <p>Following the migration steps would yield:</p>
+
+    <pre><code>
+    local lexer = require('lexer')
+    local token, word_match = lexer.token, lexer.word_match
+    local P, R, S = lpeg.P, lpeg.R, lpeg.S
+
+    local lex = lexer.new('legacy')
+
+    lex:add_rule('whitespace', token(lexer.WHITESPACE, lexer.space^1))
+    lex:add_rule('keyword', token(lexer.KEYWORD, word_match[[foo bar baz]]))
+    lex:add_rule('custom', token('custom', P('quux')))
+    lex:add_style('custom', lexer.STYLE_KEYWORD..',bold')
+    lex:add_rule('identifier', token(lexer.IDENTIFIER, lexer.word))
+    lex:add_rule('string', token(lexer.STRING, lexer.delimited_range('"')))
+    lex:add_rule('comment', token(lexer.COMMENT, '#' * lexer.nonnewline^0))
+    lex:add_rule('number', token(lexer.NUMBER, lexer.float + lexer.integer))
+    lex:add_rule('operator', token(lexer.OPERATOR, S('+-*/%^=&lt;&gt;,.()[]{}')))
+
+    lex:add_fold_point(lexer.OPERATOR, '{', '}')
+
+    return lex
+    </code></pre>
+
+    <p><a id="lexer.Considerations"></a></p>
+
+    <h3>Considerations</h3>
+
+    <p><a id="lexer.Performance"></a></p>
+
+    <h4>Performance</h4>
+
+    <p>There might be some slight overhead when initializing a lexer, but loading a
+    file from disk into Scintilla is usually more expensive. On modern computer
+    systems, I see no difference in speed between Lua lexers and Scintilla's C++
+    ones. Optimize lexers for speed by re-arranging <code>lexer.add_rule()</code> calls so
+    that the most common rules match first. Do keep in mind that order matters
+    for similar rules.</p>
+
+    <p>In some cases, folding may be far more expensive than lexing, particularly
+    in lexers with a lot of potential fold points. If your lexer is exhibiting
+    signs of slowness, try disabling folding your text editor first. If that
+    speeds things up, you can try reducing the number of fold points you added,
+    overriding <code>lexer.fold()</code> with your own implementation, or simply eliminating
+    folding support from your lexer.</p>
+
+    <p><a id="lexer.Limitations"></a></p>
+
+    <h4>Limitations</h4>
+
+    <p>Embedded preprocessor languages like PHP cannot completely embed in their
+    parent languages in that the parent's tokens do not support start and end
+    rules. This mostly goes unnoticed, but code like</p>
+
+    <pre><code>
+    &lt;div id="&lt;?php echo $id; ?&gt;"&gt;
+    </code></pre>
+
+    <p>will not style correctly.</p>
+
+    <p><a id="lexer.Troubleshooting"></a></p>
+
+    <h4>Troubleshooting</h4>
+
+    <p>Errors in lexers can be tricky to debug. Lexers print Lua errors to
+    <code>io.stderr</code> and <code>_G.print()</code> statements to <code>io.stdout</code>. Running your editor
+    from a terminal is the easiest way to see errors as they occur.</p>
+
+    <p><a id="lexer.Risks"></a></p>
+
+    <h4>Risks</h4>
+
+    <p>Poorly written lexers have the ability to crash Scintilla (and thus its
+    containing application), so unsaved data might be lost. However, I have only
+    observed these crashes in early lexer development, when syntax errors or
+    pattern errors are present. Once the lexer actually starts styling text
+    (either correctly or incorrectly, it does not matter), I have not observed
+    any crashes.</p>
+
+    <p><a id="lexer.Acknowledgements"></a></p>
+
+    <h4>Acknowledgements</h4>
+
+    <p>Thanks to Peter Odding for his <a href="http://lua-users.org/lists/lua-l/2007-04/msg00116.html">lexer post</a> on the Lua mailing list
+    that inspired me, and thanks to Roberto Ierusalimschy for LPeg.</p>
+
+    <h2>Lua <code>lexer</code> module API fields</h2>
+
+    <p><a id="lexer.CLASS"></a></p>
+
+    <h3><code>lexer.CLASS</code> (string)</h3>
+
+    <p>The token name for class tokens.</p>
+
+    <p><a id="lexer.COMMENT"></a></p>
+
+    <h3><code>lexer.COMMENT</code> (string)</h3>
+
+    <p>The token name for comment tokens.</p>
+
+    <p><a id="lexer.CONSTANT"></a></p>
+
+    <h3><code>lexer.CONSTANT</code> (string)</h3>
+
+    <p>The token name for constant tokens.</p>
+
+    <p><a id="lexer.DEFAULT"></a></p>
+
+    <h3><code>lexer.DEFAULT</code> (string)</h3>
+
+    <p>The token name for default tokens.</p>
+
+    <p><a id="lexer.ERROR"></a></p>
+
+    <h3><code>lexer.ERROR</code> (string)</h3>
+
+    <p>The token name for error tokens.</p>
+
+    <p><a id="lexer.FOLD_BASE"></a></p>
+
+    <h3><code>lexer.FOLD_BASE</code> (number)</h3>
+
+    <p>The initial (root) fold level.</p>
+
+    <p><a id="lexer.FOLD_BLANK"></a></p>
+
+    <h3><code>lexer.FOLD_BLANK</code> (number)</h3>
+
+    <p>Flag indicating that the line is blank.</p>
+
+    <p><a id="lexer.FOLD_HEADER"></a></p>
+
+    <h3><code>lexer.FOLD_HEADER</code> (number)</h3>
+
+    <p>Flag indicating the line is fold point.</p>
+
+    <p><a id="lexer.FUNCTION"></a></p>
+
+    <h3><code>lexer.FUNCTION</code> (string)</h3>
+
+    <p>The token name for function tokens.</p>
+
+    <p><a id="lexer.IDENTIFIER"></a></p>
+
+    <h3><code>lexer.IDENTIFIER</code> (string)</h3>
+
+    <p>The token name for identifier tokens.</p>
+
+    <p><a id="lexer.KEYWORD"></a></p>
+
+    <h3><code>lexer.KEYWORD</code> (string)</h3>
+
+    <p>The token name for keyword tokens.</p>
+
+    <p><a id="lexer.LABEL"></a></p>
+
+    <h3><code>lexer.LABEL</code> (string)</h3>
+
+    <p>The token name for label tokens.</p>
+
+    <p><a id="lexer.NUMBER"></a></p>
+
+    <h3><code>lexer.NUMBER</code> (string)</h3>
+
+    <p>The token name for number tokens.</p>
+
+    <p><a id="lexer.OPERATOR"></a></p>
+
+    <h3><code>lexer.OPERATOR</code> (string)</h3>
+
+    <p>The token name for operator tokens.</p>
+
+    <p><a id="lexer.PREPROCESSOR"></a></p>
+
+    <h3><code>lexer.PREPROCESSOR</code> (string)</h3>
+
+    <p>The token name for preprocessor tokens.</p>
+
+    <p><a id="lexer.REGEX"></a></p>
+
+    <h3><code>lexer.REGEX</code> (string)</h3>
+
+    <p>The token name for regex tokens.</p>
+
+    <p><a id="lexer.STRING"></a></p>
+
+    <h3><code>lexer.STRING</code> (string)</h3>
+
+    <p>The token name for string tokens.</p>
+
+    <p><a id="lexer.STYLE_BRACEBAD"></a></p>
+
+    <h3><code>lexer.STYLE_BRACEBAD</code> (string)</h3>
+
+    <p>The style used for unmatched brace characters.</p>
+
+    <p><a id="lexer.STYLE_BRACELIGHT"></a></p>
+
+    <h3><code>lexer.STYLE_BRACELIGHT</code> (string)</h3>
+
+    <p>The style used for highlighted brace characters.</p>
+
+    <p><a id="lexer.STYLE_CALLTIP"></a></p>
+
+    <h3><code>lexer.STYLE_CALLTIP</code> (string)</h3>
+
+    <p>The style used by call tips if <a href="#buffer.call_tip_use_style"><code>buffer.call_tip_use_style</code></a> is set.
+      Only the font name, size, and color attributes are used.</p>
+
+    <p><a id="lexer.STYLE_CLASS"></a></p>
+
+    <h3><code>lexer.STYLE_CLASS</code> (string)</h3>
+
+    <p>The style typically used for class definitions.</p>
+
+    <p><a id="lexer.STYLE_COMMENT"></a></p>
+
+    <h3><code>lexer.STYLE_COMMENT</code> (string)</h3>
+
+    <p>The style typically used for code comments.</p>
+
+    <p><a id="lexer.STYLE_CONSTANT"></a></p>
+
+    <h3><code>lexer.STYLE_CONSTANT</code> (string)</h3>
+
+    <p>The style typically used for constants.</p>
+
+    <p><a id="lexer.STYLE_CONTROLCHAR"></a></p>
+
+    <h3><code>lexer.STYLE_CONTROLCHAR</code> (string)</h3>
+
+    <p>The style used for control characters.
+      Color attributes are ignored.</p>
+
+    <p><a id="lexer.STYLE_DEFAULT"></a></p>
+
+    <h3><code>lexer.STYLE_DEFAULT</code> (string)</h3>
+
+    <p>The style all styles are based off of.</p>
+
+    <p><a id="lexer.STYLE_EMBEDDED"></a></p>
+
+    <h3><code>lexer.STYLE_EMBEDDED</code> (string)</h3>
+
+    <p>The style typically used for embedded code.</p>
+
+    <p><a id="lexer.STYLE_ERROR"></a></p>
+
+    <h3><code>lexer.STYLE_ERROR</code> (string)</h3>
+
+    <p>The style typically used for erroneous syntax.</p>
+
+    <p><a id="lexer.STYLE_FOLDDISPLAYTEXT"></a></p>
+
+    <h3><code>lexer.STYLE_FOLDDISPLAYTEXT</code> (string)</h3>
+
+    <p>The style used for fold display text.</p>
+
+    <p><a id="lexer.STYLE_FUNCTION"></a></p>
+
+    <h3><code>lexer.STYLE_FUNCTION</code> (string)</h3>
+
+    <p>The style typically used for function definitions.</p>
+
+    <p><a id="lexer.STYLE_IDENTIFIER"></a></p>
+
+    <h3><code>lexer.STYLE_IDENTIFIER</code> (string)</h3>
+
+    <p>The style typically used for identifier words.</p>
+
+    <p><a id="lexer.STYLE_INDENTGUIDE"></a></p>
+
+    <h3><code>lexer.STYLE_INDENTGUIDE</code> (string)</h3>
+
+    <p>The style used for indentation guides.</p>
+
+    <p><a id="lexer.STYLE_KEYWORD"></a></p>
+
+    <h3><code>lexer.STYLE_KEYWORD</code> (string)</h3>
+
+    <p>The style typically used for language keywords.</p>
+
+    <p><a id="lexer.STYLE_LABEL"></a></p>
+
+    <h3><code>lexer.STYLE_LABEL</code> (string)</h3>
+
+    <p>The style typically used for labels.</p>
+
+    <p><a id="lexer.STYLE_LINENUMBER"></a></p>
+
+    <h3><code>lexer.STYLE_LINENUMBER</code> (string)</h3>
+
+    <p>The style used for all margins except fold margins.</p>
+
+    <p><a id="lexer.STYLE_NUMBER"></a></p>
+
+    <h3><code>lexer.STYLE_NUMBER</code> (string)</h3>
+
+    <p>The style typically used for numbers.</p>
+
+    <p><a id="lexer.STYLE_OPERATOR"></a></p>
+
+    <h3><code>lexer.STYLE_OPERATOR</code> (string)</h3>
+
+    <p>The style typically used for operators.</p>
+
+    <p><a id="lexer.STYLE_PREPROCESSOR"></a></p>
+
+    <h3><code>lexer.STYLE_PREPROCESSOR</code> (string)</h3>
+
+    <p>The style typically used for preprocessor statements.</p>
+
+    <p><a id="lexer.STYLE_REGEX"></a></p>
+
+    <h3><code>lexer.STYLE_REGEX</code> (string)</h3>
+
+    <p>The style typically used for regular expression strings.</p>
+
+    <p><a id="lexer.STYLE_STRING"></a></p>
+
+    <h3><code>lexer.STYLE_STRING</code> (string)</h3>
+
+    <p>The style typically used for strings.</p>
+
+    <p><a id="lexer.STYLE_TYPE"></a></p>
+
+    <h3><code>lexer.STYLE_TYPE</code> (string)</h3>
+
+    <p>The style typically used for static types.</p>
+
+    <p><a id="lexer.STYLE_VARIABLE"></a></p>
+
+    <h3><code>lexer.STYLE_VARIABLE</code> (string)</h3>
+
+    <p>The style typically used for variables.</p>
+
+    <p><a id="lexer.STYLE_WHITESPACE"></a></p>
+
+    <h3><code>lexer.STYLE_WHITESPACE</code> (string)</h3>
+
+    <p>The style typically used for whitespace.</p>
+
+    <p><a id="lexer.TYPE"></a></p>
+
+    <h3><code>lexer.TYPE</code> (string)</h3>
+
+    <p>The token name for type tokens.</p>
+
+    <p><a id="lexer.VARIABLE"></a></p>
+
+    <h3><code>lexer.VARIABLE</code> (string)</h3>
+
+    <p>The token name for variable tokens.</p>
+
+    <p><a id="lexer.WHITESPACE"></a></p>
+
+    <h3><code>lexer.WHITESPACE</code> (string)</h3>
+
+    <p>The token name for whitespace tokens.</p>
+
+    <p><a id="lexer.alnum"></a></p>
+
+    <h3><code>lexer.alnum</code> (pattern)</h3>
+
+    <p>A pattern that matches any alphanumeric character ('A'-'Z', 'a'-'z',
+        '0'-'9').</p>
+
+    <p><a id="lexer.alpha"></a></p>
+
+    <h3><code>lexer.alpha</code> (pattern)</h3>
+
+    <p>A pattern that matches any alphabetic character ('A'-'Z', 'a'-'z').</p>
+
+    <p><a id="lexer.any"></a></p>
+
+    <h3><code>lexer.any</code> (pattern)</h3>
+
+    <p>A pattern that matches any single character.</p>
+
+    <p><a id="lexer.ascii"></a></p>
+
+    <h3><code>lexer.ascii</code> (pattern)</h3>
+
+    <p>A pattern that matches any ASCII character (codes 0 to 127).</p>
+
+    <p><a id="lexer.cntrl"></a></p>
+
+    <h3><code>lexer.cntrl</code> (pattern)</h3>
+
+    <p>A pattern that matches any control character (ASCII codes 0 to 31).</p>
+
+    <p><a id="lexer.dec_num"></a></p>
+
+    <h3><code>lexer.dec_num</code> (pattern)</h3>
+
+    <p>A pattern that matches a decimal number.</p>
+
+    <p><a id="lexer.digit"></a></p>
+
+    <h3><code>lexer.digit</code> (pattern)</h3>
+
+    <p>A pattern that matches any digit ('0'-'9').</p>
+
+    <p><a id="lexer.extend"></a></p>
+
+    <h3><code>lexer.extend</code> (pattern)</h3>
+
+    <p>A pattern that matches any ASCII extended character (codes 0 to 255).</p>
+
+    <p><a id="lexer.float"></a></p>
+
+    <h3><code>lexer.float</code> (pattern)</h3>
+
+    <p>A pattern that matches a floating point number.</p>
+
+    <p><a id="lexer.fold_level"></a></p>
+
+    <h3><code>lexer.fold_level</code> (table, Read-only)</h3>
+
+    <p>Table of fold level bit-masks for line numbers starting from zero.
+      Fold level masks are composed of an integer level combined with any of the
+      following bits:</p>
+
+    <ul>
+    <li><code>lexer.FOLD_BASE</code>
+    The initial fold level.</li>
+    <li><code>lexer.FOLD_BLANK</code>
+    The line is blank.</li>
+    <li><code>lexer.FOLD_HEADER</code>
+    The line is a header, or fold point.</li>
+    </ul>
+
+
+    <p><a id="lexer.graph"></a></p>
+
+    <h3><code>lexer.graph</code> (pattern)</h3>
+
+    <p>A pattern that matches any graphical character ('!' to '~').</p>
+
+    <p><a id="lexer.hex_num"></a></p>
+
+    <h3><code>lexer.hex_num</code> (pattern)</h3>
+
+    <p>A pattern that matches a hexadecimal number.</p>
+
+    <p><a id="lexer.indent_amount"></a></p>
+
+    <h3><code>lexer.indent_amount</code> (table, Read-only)</h3>
+
+    <p>Table of indentation amounts in character columns, for line numbers
+      starting from zero.</p>
+
+    <p><a id="lexer.integer"></a></p>
+
+    <h3><code>lexer.integer</code> (pattern)</h3>
+
+    <p>A pattern that matches either a decimal, hexadecimal, or octal number.</p>
+
+    <p><a id="lexer.line_state"></a></p>
+
+    <h3><code>lexer.line_state</code> (table)</h3>
+
+    <p>Table of integer line states for line numbers starting from zero.
+      Line states can be used by lexers for keeping track of persistent states.</p>
+
+    <p><a id="lexer.lower"></a></p>
+
+    <h3><code>lexer.lower</code> (pattern)</h3>
+
+    <p>A pattern that matches any lower case character ('a'-'z').</p>
+
+    <p><a id="lexer.newline"></a></p>
+
+    <h3><code>lexer.newline</code> (pattern)</h3>
+
+    <p>A pattern that matches any set of end of line characters.</p>
+
+    <p><a id="lexer.nonnewline"></a></p>
+
+    <h3><code>lexer.nonnewline</code> (pattern)</h3>
+
+    <p>A pattern that matches any single, non-newline character.</p>
+
+    <p><a id="lexer.nonnewline_esc"></a></p>
+
+    <h3><code>lexer.nonnewline_esc</code> (pattern)</h3>
+
+    <p>A pattern that matches any single, non-newline character or any set of end
+      of line characters escaped with '\'.</p>
+
+    <p><a id="lexer.oct_num"></a></p>
+
+    <h3><code>lexer.oct_num</code> (pattern)</h3>
+
+    <p>A pattern that matches an octal number.</p>
+
+    <p><a id="lexer.path"></a></p>
+
+    <h3><code>lexer.path</code> (string)</h3>
+
+    <p>The path used to search for a lexer to load.
+      Identical in format to Lua's <code>package.path</code> string.
+      The default value is <code>package.path</code>.</p>
+
+    <p><a id="lexer.print"></a></p>
+
+    <h3><code>lexer.print</code> (pattern)</h3>
+
+    <p>A pattern that matches any printable character (' ' to '~').</p>
+
+    <p><a id="lexer.property"></a></p>
+
+    <h3><code>lexer.property</code> (table)</h3>
+
+    <p>Map of key-value string pairs.</p>
+
+    <p><a id="lexer.property_expanded"></a></p>
+
+    <h3><code>lexer.property_expanded</code> (table, Read-only)</h3>
+
+    <p>Map of key-value string pairs with <code>$()</code> and <code>%()</code> variable replacement
+      performed in values.</p>
+
+    <p><a id="lexer.property_int"></a></p>
+
+    <h3><code>lexer.property_int</code> (table, Read-only)</h3>
+
+    <p>Map of key-value pairs with values interpreted as numbers, or <code>0</code> if not
+      found.</p>
+
+    <p><a id="lexer.punct"></a></p>
+
+    <h3><code>lexer.punct</code> (pattern)</h3>
+
+    <p>A pattern that matches any punctuation character ('!' to '/', ':' to '@',
+      '[' to ''', '{' to '~').</p>
+
+    <p><a id="lexer.space"></a></p>
+
+    <h3><code>lexer.space</code> (pattern)</h3>
+
+    <p>A pattern that matches any whitespace character ('\t', '\v', '\f', '\n',
+      '\r', space).</p>
+
+    <p><a id="lexer.style_at"></a></p>
+
+    <h3><code>lexer.style_at</code> (table, Read-only)</h3>
+
+    <p>Table of style names at positions in the buffer starting from 1.</p>
+
+    <p><a id="lexer.upper"></a></p>
+
+    <h3><code>lexer.upper</code> (pattern)</h3>
+
+    <p>A pattern that matches any upper case character ('A'-'Z').</p>
+
+    <p><a id="lexer.word"></a></p>
+
+    <h3><code>lexer.word</code> (pattern)</h3>
+
+    <p>A pattern that matches a typical word. Words begin with a letter or
+      underscore and consist of alphanumeric and underscore characters.</p>
+
+    <p><a id="lexer.xdigit"></a></p>
+
+    <h3><code>lexer.xdigit</code> (pattern)</h3>
+
+    <p>A pattern that matches any hexadecimal digit ('0'-'9', 'A'-'F', 'a'-'f').</p>
+
+    <h2>Lua <code>lexer</code> module API functions</h2>
+
+    <p><a id="lexer.add_fold_point"></a></p>
+
+    <h3><code>lexer.add_fold_point</code> (lexer, token_name, start_symbol, end_symbol)</h3>
+
+    <p>Adds to lexer <em>lexer</em> a fold point whose beginning and end tokens are string
+    <em>token_name</em> tokens with string content <em>start_symbol</em> and <em>end_symbol</em>,
+    respectively.
+    In the event that <em>start_symbol</em> may or may not be a fold point depending on
+    context, and that additional processing is required, <em>end_symbol</em> may be a
+    function that ultimately returns <code>1</code> (indicating a beginning fold point),
+    <code>-1</code> (indicating an ending fold point), or <code>0</code> (indicating no fold point).
+    That function is passed the following arguments:</p>
+
+    <ul>
+    <li><code>text</code>: The text being processed for fold points.</li>
+    <li><code>pos</code>: The position in <em>text</em> of the beginning of the line currently
+    being processed.</li>
+    <li><code>line</code>: The text of the line currently being processed.</li>
+    <li><code>s</code>: The position of <em>start_symbol</em> in <em>line</em>.</li>
+    <li><code>symbol</code>: <em>start_symbol</em> itself.</li>
+    </ul>
+
+
+    <p>Fields:</p>
+
+    <ul>
+    <li><code>lexer</code>: The lexer to add a fold point to.</li>
+    <li><code>token_name</code>: The token name of text that indicates a fold point.</li>
+    <li><code>start_symbol</code>: The text that indicates the beginning of a fold point.</li>
+    <li><code>end_symbol</code>: Either the text that indicates the end of a fold point, or
+    a function that returns whether or not <em>start_symbol</em> is a beginning fold
+    point (1), an ending fold point (-1), or not a fold point at all (0).</li>
+    </ul>
+
+
+    <p>Usage:</p>
+
+    <ul>
+    <li><code>lex:add_fold_point(lexer.OPERATOR, '{', '}')</code></li>
+    <li><code>lex:add_fold_point(lexer.KEYWORD, 'if', 'end')</code></li>
+    <li><code>lex:add_fold_point(lexer.COMMENT, '#', lexer.fold_line_comments('#'))</code></li>
+    <li><code>lex:add_fold_point('custom', function(text, pos, line, s, symbol)
+    ... end)</code></li>
+    </ul>
+
+
+    <p><a id="lexer.add_rule"></a></p>
+
+    <h3><code>lexer.add_rule</code> (lexer, id, rule)</h3>
+
+    <p>Adds pattern <em>rule</em> identified by string <em>id</em> to the ordered list of rules
+    for lexer <em>lexer</em>.</p>
+
+    <p>Fields:</p>
+
+    <ul>
+    <li><code>lexer</code>: The lexer to add the given rule to.</li>
+    <li><code>id</code>: The id associated with this rule. It does not have to be the same
+    as the name passed to <code>token()</code>.</li>
+    <li><code>rule</code>: The LPeg pattern of the rule.</li>
+    </ul>
+
+
+    <p>See also:</p>
+
+    <ul>
+    <li><a href="#lexer.modify_rule"><code>lexer.modify_rule</code></a></li>
+    </ul>
+
+
+    <p><a id="lexer.add_style"></a></p>
+
+    <h3><code>lexer.add_style</code> (lexer, token_name, style)</h3>
+
+    <p>Associates string <em>token_name</em> in lexer <em>lexer</em> with Scintilla style string
+    <em>style</em>.
+    Style strings are comma-separated property settings. Available property
+    settings are:</p>
+
+    <ul>
+    <li><code>font:name</code>: Font name.</li>
+    <li><code>size:int</code>: Font size.</li>
+    <li><code>bold</code> or <code>notbold</code>: Whether or not the font face is bold.</li>
+    <li><code>weight:int</code>: Font weight (between 1 and 999).</li>
+    <li><code>italics</code> or <code>notitalics</code>: Whether or not the font face is italic.</li>
+    <li><code>underlined</code> or <code>notunderlined</code>: Whether or not the font face is
+    underlined.</li>
+    <li><code>fore:color</code>: Font face foreground color in "#RRGGBB" or 0xBBGGRR format.</li>
+    <li><code>back:color</code>: Font face background color in "#RRGGBB" or 0xBBGGRR format.</li>
+    <li><code>eolfilled</code> or <code>noteolfilled</code>: Whether or not the background color
+    extends to the end of the line.</li>
+    <li><code>case:char</code>: Font case ('u' for uppercase, 'l' for lowercase, and 'm' for
+    mixed case).</li>
+    <li><code>visible</code> or <code>notvisible</code>: Whether or not the text is visible.</li>
+    <li><code>changeable</code> or <code>notchangeable</code>: Whether or not the text is changeable or
+    read-only.</li>
+    </ul>
+
+
+    <p>Property settings may also contain "$(property.name)" expansions for
+    properties defined in Scintilla, theme files, etc.</p>
+
+    <p>Fields:</p>
+
+    <ul>
+    <li><code>lexer</code>: The lexer to add a style to.</li>
+    <li><code>token_name</code>: The name of the token to associated with the style.</li>
+    <li><code>style</code>: A style string for Scintilla.</li>
+    </ul>
+
+
+    <p>Usage:</p>
+
+    <ul>
+    <li><code>lex:add_style('longstring', lexer.STYLE_STRING)</code></li>
+    <li><code>lex:add_style('deprecated_function', lexer.STYLE_FUNCTION..',italics')</code></li>
+    <li><code>lex:add_style('visible_ws',
+    lexer.STYLE_WHITESPACE..',back:$(color.grey)')</code></li>
+    </ul>
+
+
+    <p><a id="lexer.delimited_range"></a></p>
+
+    <h3><code>lexer.delimited_range</code> (chars, single_line, no_escape, balanced)</h3>
+
+    <p>Creates and returns a pattern that matches a range of text bounded by
+    <em>chars</em> characters.
+    This is a convenience function for matching more complicated delimited ranges
+    like strings with escape characters and balanced parentheses. <em>single_line</em>
+    indicates whether or not the range must be on a single line, <em>no_escape</em>
+    indicates whether or not to ignore '\' as an escape character, and <em>balanced</em>
+    indicates whether or not to handle balanced ranges like parentheses and
+    requires <em>chars</em> to be composed of two characters.</p>
+
+    <p>Fields:</p>
+
+    <ul>
+    <li><code>chars</code>: The character(s) that bound the matched range.</li>
+    <li><code>single_line</code>: Optional flag indicating whether or not the range must be
+    on a single line.</li>
+    <li><code>no_escape</code>: Optional flag indicating whether or not the range end
+    character may be escaped by a '\' character.</li>
+    <li><code>balanced</code>: Optional flag indicating whether or not to match a balanced
+    range, like the "%b" Lua pattern. This flag only applies if <em>chars</em>
+    consists of two different characters (e.g. "()").</li>
+    </ul>
+
+
+    <p>Usage:</p>
+
+    <ul>
+    <li><code>local dq_str_escapes = lexer.delimited_range('"')</code></li>
+    <li><code>local dq_str_noescapes = lexer.delimited_range('"', false, true)</code></li>
+    <li><code>local unbalanced_parens = lexer.delimited_range('()')</code></li>
+    <li><code>local balanced_parens = lexer.delimited_range('()', false, false,
+    true)</code></li>
+    </ul>
+
+
+    <p>Return:</p>
+
+    <ul>
+    <li>pattern</li>
+    </ul>
+
+
+    <p>See also:</p>
+
+    <ul>
+    <li><a href="#lexer.nested_pair"><code>lexer.nested_pair</code></a></li>
+    </ul>
+
+
+    <p><a id="lexer.embed"></a></p>
+
+    <h3><code>lexer.embed</code> (lexer, child, start_rule, end_rule)</h3>
+
+    <p>Embeds child lexer <em>child</em> in parent lexer <em>lexer</em> using patterns
+    <em>start_rule</em> and <em>end_rule</em>, which signal the beginning and end of the
+    embedded lexer, respectively.</p>
+
+    <p>Fields:</p>
+
+    <ul>
+    <li><code>lexer</code>: The parent lexer.</li>
+    <li><code>child</code>: The child lexer.</li>
+    <li><code>start_rule</code>: The pattern that signals the beginning of the embedded
+    lexer.</li>
+    <li><code>end_rule</code>: The pattern that signals the end of the embedded lexer.</li>
+    </ul>
+
+
+    <p>Usage:</p>
+
+    <ul>
+    <li><code>html:embed(css, css_start_rule, css_end_rule)</code></li>
+    <li><code>html:embed(lex, php_start_rule, php_end_rule) -- from php lexer</code></li>
+    </ul>
+
+
+    <p><a id="lexer.fold"></a></p>
+
+    <h3><code>lexer.fold</code> (lexer, text, start_pos, start_line, start_level)</h3>
+
+    <p>Determines fold points in a chunk of text <em>text</em> using lexer <em>lexer</em>,
+    returning a table of fold levels associated with line numbers.
+    <em>text</em> starts at position <em>start_pos</em> on line number <em>start_line</em> with a
+    beginning fold level of <em>start_level</em> in the buffer.</p>
+
+    <p>Fields:</p>
+
+    <ul>
+    <li><code>lexer</code>: The lexer to fold text with.</li>
+    <li><code>text</code>: The text in the buffer to fold.</li>
+    <li><code>start_pos</code>: The position in the buffer <em>text</em> starts at, starting at
+    zero.</li>
+    <li><code>start_line</code>: The line number <em>text</em> starts on.</li>
+    <li><code>start_level</code>: The fold level <em>text</em> starts on.</li>
+    </ul>
+
+
+    <p>Return:</p>
+
+    <ul>
+    <li>table of fold levels associated with line numbers.</li>
+    </ul>
+
+
+    <p><a id="lexer.fold_line_comments"></a></p>
+
+    <h3><code>lexer.fold_line_comments</code> (prefix)</h3>
+
+    <p>Returns a fold function (to be passed to <code>lexer.add_fold_point()</code>) that folds
+    consecutive line comments that start with string <em>prefix</em>.</p>
+
+    <p>Fields:</p>
+
+    <ul>
+    <li><code>prefix</code>: The prefix string defining a line comment.</li>
+    </ul>
+
+
+    <p>Usage:</p>
+
+    <ul>
+    <li><code>lex:add_fold_point(lexer.COMMENT, '--',
+    lexer.fold_line_comments('--'))</code></li>
+    <li><code>lex:add_fold_point(lexer.COMMENT, '//',
+    lexer.fold_line_comments('//'))</code></li>
+    </ul>
+
+
+    <p><a id="lexer.get_rule"></a></p>
+
+    <h3><code>lexer.get_rule</code> (lexer, id)</h3>
+
+    <p>Returns the rule identified by string <em>id</em>.</p>
+
+    <p>Fields:</p>
+
+    <ul>
+    <li><code>lexer</code>: The lexer to fetch a rule from.</li>
+    <li><code>id</code>: The id of the rule to fetch.</li>
+    </ul>
+
+
+    <p>Return:</p>
+
+    <ul>
+    <li>pattern</li>
+    </ul>
+
+
+    <p><a id="lexer.last_char_includes"></a></p>
+
+    <h3><code>lexer.last_char_includes</code> (s)</h3>
+
+    <p>Creates and returns a pattern that verifies that string set <em>s</em> contains the
+    first non-whitespace character behind the current match position.</p>
+
+    <p>Fields:</p>
+
+    <ul>
+    <li><code>s</code>: String character set like one passed to <code>lpeg.S()</code>.</li>
+    </ul>
+
+
+    <p>Usage:</p>
+
+    <ul>
+    <li><code>local regex = lexer.last_char_includes('+-*!%^&amp;|=,([{') *
+    lexer.delimited_range('/')</code></li>
+    </ul>
+
+
+    <p>Return:</p>
+
+    <ul>
+    <li>pattern</li>
+    </ul>
+
+
+    <p><a id="lexer.lex"></a></p>
+
+    <h3><code>lexer.lex</code> (lexer, text, init_style)</h3>
+
+    <p>Lexes a chunk of text <em>text</em> (that has an initial style number of
+    <em>init_style</em>) using lexer <em>lexer</em>, returning a table of token names and
+    positions.</p>
+
+    <p>Fields:</p>
+
+    <ul>
+    <li><code>lexer</code>: The lexer to lex text with.</li>
+    <li><code>text</code>: The text in the buffer to lex.</li>
+    <li><code>init_style</code>: The current style. Multiple-language lexers use this to
+    determine which language to start lexing in.</li>
+    </ul>
+
+
+    <p>Return:</p>
+
+    <ul>
+    <li>table of token names and positions.</li>
+    </ul>
+
+
+    <p><a id="lexer.line_from_position"></a></p>
+
+    <h3><code>lexer.line_from_position</code> (pos)</h3>
+
+    <p>Returns the line number of the line that contains position <em>pos</em>, which
+    starts from 1.</p>
+
+    <p>Fields:</p>
+
+    <ul>
+    <li><code>pos</code>: The position to get the line number of.</li>
+    </ul>
+
+
+    <p>Return:</p>
+
+    <ul>
+    <li>number</li>
+    </ul>
+
+
+    <p><a id="lexer.load"></a></p>
+
+    <h3><code>lexer.load</code> (name, alt_name, cache)</h3>
+
+    <p>Initializes or loads and returns the lexer of string name <em>name</em>.
+    Scintilla calls this function in order to load a lexer. Parent lexers also
+    call this function in order to load child lexers and vice-versa. The user
+    calls this function in order to load a lexer when using this module as a Lua
+    library.</p>
+
+    <p>Fields:</p>
+
+    <ul>
+    <li><code>name</code>: The name of the lexing language.</li>
+    <li><code>alt_name</code>: The alternate name of the lexing language. This is useful for
+    embedding the same child lexer with multiple sets of start and end tokens.</li>
+    <li><code>cache</code>: Flag indicating whether or not to load lexers from the cache.
+    This should only be <code>true</code> when initially loading a lexer (e.g. not from
+    within another lexer for embedding purposes).
+    The default value is <code>false</code>.</li>
+    </ul>
+
+
+    <p>Return:</p>
+
+    <ul>
+    <li>lexer object</li>
+    </ul>
+
+
+    <p><a id="lexer.modify_rule"></a></p>
+
+    <h3><code>lexer.modify_rule</code> (lexer, id, rule)</h3>
+
+    <p>Replaces in lexer <em>lexer</em> the existing rule identified by string <em>id</em> with
+    pattern <em>rule</em>.</p>
+
+    <p>Fields:</p>
+
+    <ul>
+    <li><code>lexer</code>: The lexer to modify.</li>
+    <li><code>id</code>: The id associated with this rule.</li>
+    <li><code>rule</code>: The LPeg pattern of the rule.</li>
+    </ul>
+
+
+    <p><a id="lexer.nested_pair"></a></p>
+
+    <h3><code>lexer.nested_pair</code> (start_chars, end_chars)</h3>
+
+    <p>Returns a pattern that matches a balanced range of text that starts with
+    string <em>start_chars</em> and ends with string <em>end_chars</em>.
+    With single-character delimiters, this function is identical to
+    <code>delimited_range(start_chars..end_chars, false, true, true)</code>.</p>
+
+    <p>Fields:</p>
+
+    <ul>
+    <li><code>start_chars</code>: The string starting a nested sequence.</li>
+    <li><code>end_chars</code>: The string ending a nested sequence.</li>
+    </ul>
+
+
+    <p>Usage:</p>
+
+    <ul>
+    <li><code>local nested_comment = lexer.nested_pair('/*', '*/')</code></li>
+    </ul>
+
+
+    <p>Return:</p>
+
+    <ul>
+    <li>pattern</li>
+    </ul>
+
+
+    <p>See also:</p>
+
+    <ul>
+    <li><a href="#lexer.delimited_range"><code>lexer.delimited_range</code></a></li>
+    </ul>
+
+
+    <p><a id="lexer.new"></a></p>
+
+    <h3><code>lexer.new</code> (name, opts)</h3>
+
+    <p>Creates a returns a new lexer with the given name.</p>
+
+    <p>Fields:</p>
+
+    <ul>
+    <li><code>name</code>: The lexer's name.</li>
+    <li><code>opts</code>: Table of lexer options. Options currently supported:
+
+    <ul>
+    <li><code>lex_by_line</code>: Whether or not the lexer only processes whole lines of
+    text (instead of arbitrary chunks of text) at a time.
+    Line lexers cannot look ahead to subsequent lines.
+    The default value is <code>false</code>.</li>
+    <li><code>fold_by_indentation</code>: Whether or not the lexer does not define any fold
+    points and that fold points should be calculated based on changes in line
+    indentation.
+    The default value is <code>false</code>.</li>
+    <li><code>case_insensitive_fold_points</code>: Whether or not fold points added via
+    <code>lexer.add_fold_point()</code> ignore case.
+    The default value is <code>false</code>.</li>
+    <li><code>inherit</code>: Lexer to inherit from.
+    The default value is <code>nil</code>.</li>
+    </ul>
+    </li>
+    </ul>
+
+
+    <p>Usage:</p>
+
+    <ul>
+    <li><code>lexer.new('rhtml', {inherit = lexer.load('html')})</code></li>
+    </ul>
+
+
+    <p><a id="lexer.starts_line"></a></p>
+
+    <h3><code>lexer.starts_line</code> (patt)</h3>
+
+    <p>Creates and returns a pattern that matches pattern <em>patt</em> only at the
+    beginning of a line.</p>
+
+    <p>Fields:</p>
+
+    <ul>
+    <li><code>patt</code>: The LPeg pattern to match on the beginning of a line.</li>
+    </ul>
+
+
+    <p>Usage:</p>
+
+    <ul>
+    <li><code>local preproc = token(lexer.PREPROCESSOR, lexer.starts_line('#') *
+    lexer.nonnewline^0)</code></li>
+    </ul>
+
+
+    <p>Return:</p>
+
+    <ul>
+    <li>pattern</li>
+    </ul>
+
+
+    <p><a id="lexer.token"></a></p>
+
+    <h3><code>lexer.token</code> (name, patt)</h3>
+
+    <p>Creates and returns a token pattern with token name <em>name</em> and pattern
+    <em>patt</em>.
+    If <em>name</em> is not a predefined token name, its style must be defined via
+    <code>lexer.add_style()</code>.</p>
+
+    <p>Fields:</p>
+
+    <ul>
+    <li><code>name</code>: The name of token. If this name is not a predefined token name,
+    then a style needs to be assiciated with it via <code>lexer.add_style()</code>.</li>
+    <li><code>patt</code>: The LPeg pattern associated with the token.</li>
+    </ul>
+
+
+    <p>Usage:</p>
+
+    <ul>
+    <li><code>local ws = token(lexer.WHITESPACE, lexer.space^1)</code></li>
+    <li><code>local annotation = token('annotation', '@' * lexer.word)</code></li>
+    </ul>
+
+
+    <p>Return:</p>
+
+    <ul>
+    <li>pattern</li>
+    </ul>
+
+
+    <p><a id="lexer.word_match"></a></p>
+
+    <h3><code>lexer.word_match</code> (words, case_insensitive, word_chars)</h3>
+
+    <p>Creates and returns a pattern that matches any single word in string <em>words</em>.
+    <em>case_insensitive</em> indicates whether or not to ignore case when matching
+    words.
+    This is a convenience function for simplifying a set of ordered choice word
+    patterns.
+    If <em>words</em> is a multi-line string, it may contain Lua line comments (<code>--</code>)
+    that will ultimately be ignored.</p>
+
+    <p>Fields:</p>
+
+    <ul>
+    <li><code>words</code>: A string list of words separated by spaces.</li>
+    <li><code>case_insensitive</code>: Optional boolean flag indicating whether or not the
+    word match is case-insensitive. The default value is <code>false</code>.</li>
+    <li><code>word_chars</code>: Unused legacy parameter.</li>
+    </ul>
+
+
+    <p>Usage:</p>
+
+    <ul>
+    <li><code>local keyword = token(lexer.KEYWORD, word_match[[foo bar baz]])</code></li>
+    <li><code>local keyword = token(lexer.KEYWORD, word_match([[foo-bar foo-baz
+    bar-foo bar-baz baz-foo baz-bar]], true))</code></li>
+    </ul>
+
+
+    <p>Return:</p>
+
+    <ul>
+    <li>pattern</li>
+    </ul>
+
+    <h2 id="LexerList">Supported Languages</h2>
+
+    <p>Scintilla has Lua lexers for all of the languages below. Languages
+    denoted by a <code>*</code> have native
+    <a href="#lexer.Code.Folding">folders</a>. For languages without
+    native folding support, folding based on indentation can be used if
+    <code>fold.by.indentation</code> is enabled.</p>
+
+    <ol>
+    <li>Actionscript<code>*</code></li>
+    <li>Ada</li>
+    <li>ANTLR<code>*</code></li>
+    <li>APDL<code>*</code></li>
+    <li>APL</li>
+    <li>Applescript</li>
+    <li>ASM<code>*</code> (NASM)</li>
+    <li>ASP<code>*</code></li>
+    <li>AutoIt</li>
+    <li>AWK<code>*</code></li>
+    <li>Batch<code>*</code></li>
+    <li>BibTeX<code>*</code></li>
+    <li>Boo</li>
+    <li>C<code>*</code></li>
+    <li>C++<code>*</code></li>
+    <li>C#<code>*</code></li>
+    <li>ChucK</li>
+    <li>CMake<code>*</code></li>
+    <li>Coffeescript</li>
+    <li>ConTeXt<code>*</code></li>
+    <li>CSS<code>*</code></li>
+    <li>CUDA<code>*</code></li>
+    <li>D<code>*</code></li>
+    <li>Dart<code>*</code></li>
+    <li>Desktop Entry</li>
+    <li>Diff</li>
+    <li>Django<code>*</code></li>
+    <li>Dockerfile</li>
+    <li>Dot<code>*</code></li>
+    <li>Eiffel<code>*</code></li>
+    <li>Elixir</li>
+    <li>Erlang<code>*</code></li>
+    <li>F#</li>
+    <li>Faust</li>
+    <li>Fish<code>*</code></li>
+    <li>Forth</li>
+    <li>Fortran</li>
+    <li>GAP<code>*</code></li>
+    <li>gettext</li>
+    <li>Gherkin</li>
+    <li>GLSL<code>*</code></li>
+    <li>Gnuplot</li>
+    <li>Go<code>*</code></li>
+    <li>Groovy<code>*</code></li>
+    <li>Gtkrc<code>*</code></li>
+    <li>Haskell</li>
+    <li>HTML<code>*</code></li>
+    <li>Icon<code>*</code></li>
+    <li>IDL</li>
+    <li>Inform</li>
+    <li>ini</li>
+    <li>Io<code>*</code></li>
+    <li>Java<code>*</code></li>
+    <li>Javascript<code>*</code></li>
+    <li>JSON<code>*</code></li>
+    <li>JSP<code>*</code></li>
+    <li>LaTeX<code>*</code></li>
+    <li>Ledger</li>
+    <li>LESS<code>*</code></li>
+    <li>LilyPond</li>
+    <li>Lisp<code>*</code></li>
+    <li>Literate Coffeescript</li>
+    <li>Logtalk</li>
+    <li>Lua<code>*</code></li>
+    <li>Makefile</li>
+    <li>Man Page</li>
+    <li>Markdown</li>
+    <li>MATLAB<code>*</code></li>
+    <li>MoonScript</li>
+    <li>Myrddin</li>
+    <li>Nemerle<code>*</code></li>
+    <li>Nim</li>
+    <li>NSIS</li>
+    <li>Objective-C<code>*</code></li>
+    <li>OCaml</li>
+    <li>Pascal</li>
+    <li>Perl<code>*</code></li>
+    <li>PHP<code>*</code></li>
+    <li>PICO-8<code>*</code></li>
+    <li>Pike<code>*</code></li>
+    <li>PKGBUILD<code>*</code></li>
+    <li>Postscript</li>
+    <li>PowerShell<code>*</code></li>
+    <li>Prolog</li>
+    <li>Properties</li>
+    <li>Pure</li>
+    <li>Python</li>
+    <li>R</li>
+    <li>rc<code>*</code></li>
+    <li>REBOL<code>*</code></li>
+    <li>Rexx<code>*</code></li>
+    <li>ReStructuredText<code>*</code></li>
+    <li>RHTML<code>*</code></li>
+    <li>Ruby<code>*</code></li>
+    <li>Ruby on Rails<code>*</code></li>
+    <li>Rust<code>*</code></li>
+    <li>Sass<code>*</code></li>
+    <li>Scala<code>*</code></li>
+    <li>Scheme<code>*</code></li>
+    <li>Shell<code>*</code></li>
+    <li>Smalltalk<code>*</code></li>
+    <li>Standard ML</li>
+    <li>SNOBOL4</li>
+    <li>SQL</li>
+    <li>TaskPaper</li>
+    <li>Tcl<code>*</code></li>
+    <li>TeX<code>*</code></li>
+    <li>Texinfo<code>*</code></li>
+    <li>TOML</li>
+    <li>Vala<code>*</code></li>
+    <li>VBScript</li>
+    <li>vCard<code>*</code></li>
+    <li>Verilog<code>*</code></li>
+    <li>VHDL</li>
+    <li>Visual Basic</li>
+    <li>Windows Script File<code>*</code></li>
+    <li>XML<code>*</code></li>
+    <li>Xtend<code>*</code></li>
+    <li>YAML</li>
+    </ol>
+
+    <h2>Code Contributors</h2>
+
+    <ul>
+    <li>Alejandro Baez</li>
+    <li>Alex Saraci</li>
+    <li>Brian Schott</li>
+    <li>Carl Sturtivant</li>
+    <li>Chris Emerson</li>
+    <li>Christian Hesse</li>
+    <li>David B. Lamkins</li>
+    <li>Heck Fy</li>
+    <li>Jason Schindler</li>
+    <li>Jeff Stone</li>
+    <li>Joseph Eib</li>
+    <li>Joshua Krämer</li>
+    <li>Klaus Borges</li>
+    <li>Larry Hynes</li>
+    <li>M Rawash</li>
+    <li>Marc André Tanner</li>
+    <li>Markus F.X.J. Oberhumer</li>
+    <li>Martin Morawetz</li>
+    <li>Michael Forney</li>
+    <li>Michael T. Richter</li>
+    <li>Michel Martens</li>
+    <li>Murray Calavera</li>
+    <li>Neil Hodgson</li>
+    <li>Olivier Guibé</li>
+    <li>Peter Odding</li>
+    <li>Piotr Orzechowski</li>
+    <li>Richard Philips</li>
+    <li>Robert Gieseke</li>
+    <li>Roberto Ierusalimschy</li>
+    <li>S. Gilles</li>
+    <li>Stéphane Rivière</li>
+    <li>Tymur Gubayev</li>
+    <li>Wolfgang Seeberg</li>
+    </ul>
+
+  </body>
+</html>

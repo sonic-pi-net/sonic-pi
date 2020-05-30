@@ -1,0 +1,31 @@
+---
+title: kramdown 2.1.0 released
+no_output: true
+sort_info: r2010
+created_at: 2019-01-31 20:07:00 +01:00
+modified_at: 2019-01-31 20:07:00 +01:00
+---
+## kramdown 2.1.0 released
+
+Not much to report, just fixing a problem after the move to frozen strings and enabling the
+integration of the extension gems in the kramdown binary.
+
+
+## Changes
+
+* 2 minor change:
+
+  - Enable the use of extension gems in the kramdown binary through the new `-x`/`--extension`
+    options (issue [#569] by Ashwin Maroli)
+  - Allow using the Rouge plaintext lexer with the :guess_lang highlighting option (issue [#572] and
+    pull request [#573] by Ashwin Maroli)
+
+* 1 bug fix:
+
+  - Fix problem with frozen string when using a codespan inside a table (issue [#571] by Matijs van
+    Zuijlen)
+
+[#571]: https://github.com/gettalong/kramdown/issues/571
+[#572]: https://github.com/gettalong/kramdown/issues/572
+[#573]: https://github.com/gettalong/kramdown/pull/573
+[#569]: https://github.com/gettalong/kramdown/issues/569

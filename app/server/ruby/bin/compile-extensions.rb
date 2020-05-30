@@ -15,7 +15,6 @@
 # This file will build all native dependencies required by the vendored
 # libraries. Ensure you execute this file with the specific version of
 # Ruby you intend to package with Sonic Pi.
-
 require 'fileutils'
 
 require 'rbconfig'
@@ -42,19 +41,18 @@ FileUtils.mkdir_p native_dir
 # Rugged is used for storing the user's ruby music scripts in Git
 # FFI is used for MIDI lib support
 native_ext_dirs = [
-  File.expand_path(File.dirname(__FILE__) + '/../vendor/rugged-0.26.0/ext/rugged'),
-  File.expand_path(File.dirname(__FILE__) + '/../vendor/ffi-1.9.17/ext/ffi_c/'),
+  File.expand_path(File.dirname(__FILE__) + '/../vendor/rugged-0.28.4.1/ext/rugged'),
+  File.expand_path(File.dirname(__FILE__) + '/../vendor/ffi-1.11.3/ext/ffi_c/'),
   File.expand_path(File.dirname(__FILE__) + '/../vendor/atomic/ext'),
   File.expand_path(File.dirname(__FILE__) + '/../vendor/ruby-prof-0.15.8/ext/ruby_prof/'),
-  File.expand_path(File.dirname(__FILE__) + '/../vendor/interception/ext/'),
-  File.expand_path(File.dirname(__FILE__) + '/../vendor/fast_osc-0.0.12/ext/fast_osc'),
-  [File.expand_path(File.dirname(__FILE__) + '/../vendor/did_you_mean-0.10.0/ext/did_you_mean'), "did_you_mean"]
+  File.expand_path(File.dirname(__FILE__) + '/../vendor/interception/ext/')
 ]
+
 
 if os == :osx
   native_ext_dirs += [
     File.expand_path(File.dirname(__FILE__) + '/../vendor/narray-0.6.1.1/'),
-    File.expand_path(File.dirname(__FILE__) + '/../vendor/ruby-coreaudio-0.0.12/ext/coreaudio/')
+    File.expand_path(File.dirname(__FILE__) + '/../vendor/ruby-coreaudio-0.0.12-patched/ext/coreaudio/')
   ]
 end
 
@@ -66,19 +64,6 @@ native_ext_dirs.each do |ext_dir|
   end
   puts "Compiling native extension in #{ext_dir}"
   Dir.chdir(ext_dir) do
-    os = case RUBY_PLATFORM
-         when /.*arm.*-linux.*/
-           :raspberry
-         when /.*linux.*/
-           :linux
-         when /.*darwin.*/
-           :osx
-         when /.*mingw.*/
-           :windows
-         else
-           RUBY_PLATFORM
-         end
-
     `#{RbConfig.ruby} extconf.rb`
     `make clean`
     `make`
@@ -102,5 +87,4 @@ native_ext_dirs.each do |ext_dir|
     puts "Copying #{f} to #{tgt}"
     FileUtils.cp f, tgt
   end
-
 end

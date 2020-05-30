@@ -1,0 +1,25 @@
+language: c
+
+os:
+  - linux
+  - osx
+
+compiler:
+  - gcc
+  - clang
+
+env:
+  - BUILD=AUTOTOOLS
+  - BUILD=CMAKE
+
+script:
+  - if [[ "$BUILD" == "AUTOTOOLS" ]] ; then ./autogen.sh ; fi
+  - if [[ "$BUILD" == "AUTOTOOLS" ]] ; then ./configure ; fi
+  - if [[ "$BUILD" == "AUTOTOOLS" ]] ; then make distcheck ; fi
+  - if [[ "$BUILD" == "CMAKE" ]] ; then mkdir build ; fi
+  - if [[ "$BUILD" == "CMAKE" ]] ; then pushd build ; fi
+  - if [[ "$BUILD" == "CMAKE" ]] ; then cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=ON -DCPACK_PACKAGE_CONTACT="Xiph.Org Foundation" .. ; fi
+  - if [[ "$BUILD" == "CMAKE" ]] ; then cmake --build . ; fi
+  - if [[ "$BUILD" == "CMAKE" ]] ; then ctest ; fi
+  - if [[ "$BUILD" == "CMAKE" && "$TRAVIS_OS_NAME" == "linux" ]] ; then cpack -G DEB ; fi
+  - if [[ "$BUILD" == "CMAKE" ]] ; then popd ; fi

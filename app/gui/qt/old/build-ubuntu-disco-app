@@ -1,0 +1,156 @@
+#!/bin/bash
+
+#Fail script on first error encountered
+set -e
+
+# Check if there's enough mem to build
+MEM=$(free -m | awk '/^Mem:/{print $2}')
+if [ $MEM -lt 2933 ]; then
+  echo "You don't have enough memory."
+  echo "The build will probably fail."
+  exit
+else
+  echo 'Memory seems fine'
+fi
+
+#Application/library versions built by this script.
+SUPERCOLLIDER_VERSION=3.10.2
+SC_PLUGINS_VERSION=3.10.0
+AUBIO_VERSION=0.4.9
+OSMID_VERSION=v0.6.7
+RUGGED_VERSION=v0.28.2
+
+#Internal definitions
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+SP_APP_SRC=${SCRIPT_DIR}
+SP_ROOT=${SP_APP_SRC}/../../../build
+OSMID_DIR=${SP_APP_SRC}/../../server/native/osmid
+
+echo "This script has been tested on ubuntu 19.04."
+echo "Please direct rage and suggestions to https://in-thread.sonic-pi.net/"
+
+#Install dependencies for building supercollider, as well as qt5 and supporting libraries for gui
+sudo apt-get install -y \
+     g++ ruby ruby-dev pkg-config git build-essential libjack-jackd2-dev \
+     libsndfile1-dev libasound2-dev libavahi-client-dev libicu-dev \
+     libreadline-dev libfftw3-dev libxt-dev libudev-dev cmake libboost-dev \
+     libqwt-qt5-dev libqt5svg5-dev qt5-qmake qt5-default \
+     qttools5-dev qttools5-dev-tools qtdeclarative5-dev libqt5webkit5-dev \
+     qtpositioning5-dev libqt5sensors5-dev qtmultimedia5-dev libffi-dev \
+     libqt5opengl5-dev curl python erlang-base libqscintilla2-qt5-dev \
+     qtwebengine5-dev libqt5websockets5-dev libssl-dev
+
+### IF YOU HAVE PROBLEMS WITH qwt
+#cd $SP_APP_SRC/../../../../
+#wget 'http://downloads.sourceforge.net/project/qwt/qwt/6.1.2/qwt-6.1.2.tar.bz2'
+#tar -xf qwt-6.1.2.tar.bz2
+#cd qwt-6.1.2
+#/usr/lib/x86_64-linux-gnu/qt5/bin/qmake qwt.pro
+#make
+#sudo make install
+#sudo cp /usr/local/qwt-6.1.2/features/* /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/
+
+### IF YOU HAVE PROBLEMS WITH qscintilla2
+#cd $SP_APP_SRC/../../../../
+#wget 'http://sourceforge.net/projects/pyqt/files/QScintilla2/QScintilla-2.9.2/QScintilla_gpl-2.9.2.tar.gz'
+#tar -xf QScintilla_gpl-2.9.2.tar.gz
+#cd QScintilla_gpl-2.9.2/Qt4Qt5/
+#/usr/lib/x86_64-linux-gnu/qt5/bin/qmake qscintilla.pro
+#make
+#sudo make install
+
+# Create build dir below sonic-pi root
+mkdir -p ${SP_ROOT}
+
+#Build supercollider from source
+cd ${SP_ROOT}
+git clone https://github.com/supercollider/supercollider.git || true
+cd supercollider
+git checkout Version-${SUPERCOLLIDER_VERSION}
+git submodule init && git submodule update --init
+mkdir -p build
+cd build
+cmake -DSC_EL=no ..
+make
+sudo make install
+#This should install to /usr/local/
+
+#Build sc3 plugins and install to /usr/local/ so supercollider can find them
+cd ${SP_ROOT}
+git clone https://github.com/supercollider/sc3-plugins.git || true
+cd sc3-plugins
+git checkout Version-${SC_PLUGINS_VERSION}
+git submodule init && git submodule update --init
+cp -r external_libraries/nova-simd/* source/VBAPUGens
+mkdir -p build
+cd build
+cmake -DSC_PATH=${SP_ROOT}/supercollider -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_BUILD_TYPE=Release ..
+make
+sudo make install
+
+#Install libaubio (apt-get version is too old)
+cd ${SP_ROOT}
+git clone https://git.aubio.org/aubio/aubio/ || true
+cd aubio
+git checkout ${AUBIO_VERSION}
+make getwaf
+./waf configure
+./waf build
+sudo ./waf install
+
+#Install osmid (for MIDI support)
+cd ${SP_ROOT}
+git clone https://github.com/llloret/osmid.git || true
+cd osmid
+git checkout ${OSMID_VERSION}
+mkdir -p build
+cd build
+cmake ..
+make
+mkdir -p ${OSMID_DIR}
+install m2o o2m -t ${OSMID_DIR}
+
+#Build Erlang files
+cd ${SP_APP_SRC}/../../server/erlang
+#The current implementation of osc.erl uses Erlang features that require
+#at least Erlang 19.1 to be installed. 16.04 LTS is currently at 18.3.
+#If versions < 19.1 are installed, and we use the current code, the MIDI
+#implementation breaks because the Erlang OSC router is failing.
+ERLANG_VERSION=$(./print_erlang_version)
+if [ -e "osc.erl.orig" ]; then
+    # Handle, if the original file in the source tree ever gets updated.
+    rm osc.erl.orig
+    git checkout osc.erl
+fi
+if [[ "${ERLANG_VERSION}" < "19.1" ]]; then
+    echo "Found Erlang version < 19.1 (${ERLANG_VERSION})! Updating source code."
+    sed -i.orig 's|erlang:system_time(nanosecond)|erlang:system_time(nano_seconds)|' osc.erl
+fi
+erlc osc.erl
+erlc pi_server.erl
+
+# Fix Rugged
+cd ${SP_APP_SRC}/../../server/ruby/vendor
+git clone -b ${RUGGED_VERSION} --recurse-submodules https://github.com/libgit2/rugged.git rugged-${RUGGED_VERSION} || true
+cd rugged-${RUGGED_VERSION}/vendor/libgit2
+mkdir -p build
+cd build
+cmake ..
+cd ../../..
+gem build rugged.gemspec
+sudo gem install rugged
+cd ${SP_APP_SRC}
+sed -i "s/rugged-0.26.0/rugged-${RUGGED_VERSION}/g" ../../server/ruby/bin/compile-extensions.rb
+
+# Fix SonicPi.pro
+sed -i "s/-lqt5scintilla2/-lqscintilla2_qt5/g" SonicPi.pro
+
+#Build sonic-pi server extensions, documentation, and binary.
+cd ${SP_APP_SRC}
+../../server/ruby/bin/compile-extensions.rb
+../../server/ruby/bin/i18n-tool.rb -t
+cp -f utils/ruby_help.tmpl utils/ruby_help.h
+../../server/ruby/bin/qt-doc.rb -o utils/ruby_help.h
+lrelease SonicPi.pro
+qmake -qt=qt5 SonicPi.pro
+make

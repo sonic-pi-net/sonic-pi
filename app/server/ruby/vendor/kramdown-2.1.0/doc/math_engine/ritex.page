@@ -1,0 +1,13 @@
+---
+title: Ritex
+---
+
+## Math Engine Ritex
+
+This math engine was built-in until kramdown 2.0 and since then is available through the
+[`kramdown-math-ritex` gem](https://github.com/kramdown/math-ritex).
+
+Ritex converts TeX math formulas into MathML and can be used together with the [HTML
+converter](../converter/html.html).
+
+See <https://github.com/kramdown/math-ritex> for documentation!

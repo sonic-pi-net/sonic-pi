@@ -1,0 +1,20 @@
+---
+title: kramdown 1.0.1 released
+no_output: true
+sort_info: r0101
+created_at: 2013-03-11 20:15:00 +01:00
+modified_at: 2013-03-11 20:15:00 +01:00
+---
+## kramdown 1.0.1 released
+
+This release just fixes a bug where kramdown was modifying the input string, so updating is
+recommended.
+
+## Changes
+
+* 1 bug fix
+
+  - Fixed [GH#40]: Input string was unintentionally modified
+
+[GH#40]: https://github.com/gettalong/kramdown/issues/40
+

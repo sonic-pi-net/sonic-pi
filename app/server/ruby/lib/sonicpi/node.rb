@@ -31,21 +31,30 @@ module SonicPi
       @state = :pending
       @info = info
       r = rand.to_s
-      @killed_event_key  = "/sonicpi/node/killed#{id}-#{r}"
-      @paused_event_key  = "/sonicpi/node/paused#{id}-#{r}"
-      @started_event_key = "/sonicpi/node/started#{id}-#{r}"
-      @created_event_key = "/sonicpi/node/created#{id}-#{r}"
-      @moved_event_key = "/sonicpi/node/moved#{id}-#{r}"
-      add_event_handlers
+      id_s = id.to_s
+      @killed_event_key  = "/sonicpi/node/killed#{id_s}-#{r}"
+      @paused_event_key  = "/sonicpi/node/paused#{id_s}-#{r}"
+      @started_event_key = "/sonicpi/node/started#{id_s}-#{r}"
+      @created_event_key = "/sonicpi/node/created#{id_s}-#{r}"
+      @moved_event_key = "/sonicpi/node/moved#{id_s}-#{r}"
 
+      @n_end = ['/n_end/', id]
+      @n_on = ['/n_on/', id]
+      @n_go = ['/n_go/', id]
+      @n_move = ['/n_move/', id]
+      @n_off = ['/n_off/', id]
+
+      add_event_handlers
     end
 
     def add_event_handlers
-      @comms.async_add_event_handlers(["/n_end/#{id}", @killed_event_key,  method(:handle_n_end)],
-                                      ["/n_on/#{id}",  @started_event_key, method(:handle_n_on)],
-                                      ["/n_go/#{id}",  @created_event_key, method(:handle_n_go)],
-                                      ["/n_move/#{id}",@moved_event_key,   method(:handle_n_move)],
-                                      ["/n_off/#{id}", @paused_event_key,  method(:handle_n_off)])
+      @comms.async_add_event_handlers([
+                                      [@n_end, @killed_event_key,  method(:handle_n_end)],
+                                      [@n_on,  @started_event_key, method(:handle_n_on)],
+                                      [@n_go,  @created_event_key, method(:handle_n_go)],
+                                      [@n_move,@moved_event_key,   method(:handle_n_move)],
+                                      [@n_off, @paused_event_key,  method(:handle_n_off)]
+                                      ])
     end
 
     def stats
@@ -112,7 +121,7 @@ module SonicPi
     def move(new_group, pos=nil, now=false, &blk)
       if blk
         key = "/sonicpi/node/moved/#{self.id}/#{rand.to_s}"
-        @comms.add_event_handler("/n_move/#{id}", key) do |payload|
+        @comms.add_event_handler(@n_move, key) do |payload|
           _, target_node = *payload
           if target_node.to_i == new_group.to_i
             blk.call
@@ -300,11 +309,11 @@ module SonicPi
         @group = nil
       end
       [:remove_handlers,
-        [ ["/n_go/#{@id}",  @created_event_key],
-          ["/n_off/#{@id}", @paused_event_key],
-          ["/n_on/#{@id}",  @started_event_key],
-          ["/n_move/#{@id}",@moved_event_key],
-          ["/n_end/#{@id}", @killed_event_key]]]
+        [ [@n_go,  @created_event_key],
+          [@n_off, @paused_event_key],
+          [@n_on,  @started_event_key],
+          [@n_move,@moved_event_key],
+          [@n_end, @killed_event_key]]]
 
     end
   end

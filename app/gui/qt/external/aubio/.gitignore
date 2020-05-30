@@ -1,0 +1,54 @@
+*.pyc
+*.~[0-9]~
+*.swp
+
+# gcov generated files
+*.gcno
+*.gcda
+python/lib/aubio/_aubio.*.so
+.coverage
+
+# ignore compiled examples
+RE:examples/[a-z]*
+
+# ignore compiled test programs
+RE:tests/src/test-[a-z-_]*$
+RE:tests/cpp/test-[a-z-_]*$
+
+# only sgml manpages count
+doc/*.1
+
+# cachegrind/callgrind stuff
+**/cachegrind.out.[0-9]*
+**/callgrind.out.[0-9]*
+
+# waf stuff
+.lock-waf*
+.waf-*
+waf
+waflib
+build/
+
+# doxygen
+doc/web/
+doc/full/
+doc/_build/
+
+python/gen
+python/dist
+python/MANIFEST
+python/*.db
+python/*.wav
+
+pip-delete-this-directory.txt
+
+aubio-*.tar.bz2
+aubio-*.zip
+dist/*.tar.gz
+dist/*.whl
+
+# test sounds
+python/tests/sounds
+aubio.egg-info
+.eggs
+.cache

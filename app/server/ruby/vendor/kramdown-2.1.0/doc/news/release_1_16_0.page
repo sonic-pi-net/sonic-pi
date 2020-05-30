@@ -1,0 +1,70 @@
+---
+title: kramdown 1.16.0 released
+no_output: true
+sort_info: r1160
+created_at: 2017-11-27 19:45:00 +01:00
+modified_at: 2017-11-27 19:45:00 +01:00
+---
+## kramdown 1.16.0 released
+
+This release brings, amongst other things, support for setting default options for the kramdown
+binary via a configuration file, two new options ('typographic_symbols' and
+'footnote_backlink_inline') and the new server-side math engine [SsKaTeX] which doesn't need the
+whole NodeJS stack to work properly.
+
+Please also note that the [MathjaxNode] math engine now relies on the `mathjax-node-cli` package
+instead of the `mathjax-node` package to work correctly. Make sure you update your NodeJS
+installation accordingly.
+
+Thanks to all the contributors and supporters that made this release possible!
+
+
+## Changes
+
+* 8 minor change:
+
+  - The `kramdown` binary now supports specifying default options via configuration file (fixes
+    [#453] requested by Kyle Barbour)
+  - New GFM quirk 'no_auto_typographic' for disabling typographic conversions (fixes [#459] via pull
+    request [#462], both by Kirill Kolyshkin)
+  - The [MathjaxNode] math engine now needs the package `mathjax-node-cli` to work.
+  - New math engine [SsKaTeX] for server-side rendering via KaTeX (patch [#455] by Christian
+    Cornelssen)
+  - When using the [Rouge] syntax highlighter, the `formatter` option can now be a String (patch
+    [#448] by Alpha Chen)
+  - New option 'typographic_symbols' to control how typographic symbols are output by the HTML and
+    LaTeX converters (fixes [#472] requested by Kyle Barbour)
+  - New option 'footnote_backlink_inline' to allow placing the footnote backlink into the last,
+    possibly nested paragraph or header instead of creating a new paragraph (fixes [#454] requested
+    by Kyle Barbour)
+  - The GFM parser now supports task lists (fixes [#172] and [#346], patch [#442] by Andrew)
+
+* 4 bug fixes:
+
+  - Line breaks in a special situation were not respected (fixes [#461], reported by Buo-Ren Lin)
+  - Fix the [RemoveHtmlTags] converter to also process footnote content (patch [#458] by Maximilian
+    Scherr)
+  - Fix bug in paragraph parsing when the 'html_to_native' option is used (fixes [#466], reported by
+    eddibravo)
+  - Fix bug in kramdown converter when an image without a 'src' attribute is encountered (patch
+    [#470] by Uwe Kubosch)
+
+
+[mathjaxnode]: ../math_engine/mathjaxnode.html
+[sskatex]: ../math_engine/sskatex.html
+[RemoveHtmlTags]: ../converter/remove_html_tags.html
+[rouge]: ../syntax_highlighter/rouge.html
+[#461]: https://github.com/gettalong/kramdown/issues/461
+[#459]: https://github.com/gettalong/kramdown/issues/459
+[#453]: https://github.com/gettalong/kramdown/issues/453
+[#462]: https://github.com/gettalong/kramdown/pull/462
+[#458]: https://github.com/gettalong/kramdown/pull/458
+[#455]: https://github.com/gettalong/kramdown/pull/455
+[#466]: https://github.com/gettalong/kramdown/issues/466
+[#448]: https://github.com/gettalong/kramdown/pull/448
+[#472]: https://github.com/gettalong/kramdown/issues/472
+[#454]: https://github.com/gettalong/kramdown/issues/454
+[#470]: https://github.com/gettalong/kramdown/pull/470
+[#172]: https://github.com/gettalong/kramdown/issues/172
+[#346]: https://github.com/gettalong/kramdown/issues/346
+[#442]: https://github.com/gettalong/kramdown/pull/442

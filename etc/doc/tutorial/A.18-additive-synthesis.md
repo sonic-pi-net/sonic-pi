@@ -3,7 +3,7 @@ A.18 Sound Design - Additive Synthesis
 # Additive Synthesis
 
 This is the first of a short series of articles on how to use Sonic Pi
-for sound design. We'll be take a quick tour of a number of different
+for sound design. We'll be taking a quick tour of a number of different
 techniques available for you to craft your own unique sound. The first
 technique we'll look at is called _additive synthesis_. This may sound
 complicated - but if we expand each word slightly the meaning pops right
@@ -84,7 +84,7 @@ that low detune values such as `0.1` produce a really nice 'thick'
 sound, with both slightly different pitches interacting with each other
 in interesting, often surprising, ways.
 
-Some of the built-in synths already include a detune option that do
+Some of the built-in synths already include a detune option that does
 exactly this in one synth. Try playing with the `detune:` opt of
 `:dsaw`, `:dpulse` and `:dtri`.
 

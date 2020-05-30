@@ -1,0 +1,47 @@
+---
+title: kramdown 0.10.0 released
+no_output: true
+sort_info: r0010
+created_at: 2010-07-19 08:30:00 +02:00
+modified_at: 2010-07-19 08:30:00 +02:00
+---
+## kramdown 0.10.0 released
+
+This release contains many small changes and improvements as well as many bug fixes, thanks to all
+the people on the kramdown mailing list!
+
+
+## Changes
+
+* Minor changes:
+
+  - The LaTeX converter now also outputs the element attributes on the end tag (requested by Michael
+    Franzl)
+  - New option `entity_output` for specifying how entities should be output
+  - The underscore in the option names is now replaced with a hyphen for nicer CLI option names
+  - Paragraphs that contain only an image are converted to figures in the LaTeX converter (requested
+    by Michael Franzl)
+  - Added information to the LaTeX converter documentation on how to change the header types and
+    quotation marks
+
+* Bug fixes:
+
+  - LaTeX converter now outputs line breaks correctly (reported by Michael Franzl)
+  - Always outputting the entities `zcaron` and `Zcaron` numerically since browser support seems to
+    be non-existing (reported by Eric Sunshine)
+  - Fixed warnings and problems when running under Ruby 1.9.2-rc1
+  - Fixed problem with smart quote directly after smart quote output in LaTeX converter (reported by
+    Michael Franzl)
+  - Fixed problem in the HTML parser that prevented `<body markdown="1">` from being processed
+    correctly (reported by Eric Sunshine)
+  - Blockquotes with multiple child elements are now output with the `quotation` environment instead
+    of the `quote` environment by the LaTeX converter (reported by Michael Franzl)
+  - Fixed problem with parsing autolinks when using an encoding different from UTF-8 (reported by
+    Eric Sunshine)
+  - Fixed problem with parsing HTML `<a>` tag without `href` attribute (reported by Eric Sunshine)
+
+* Deprecation notes:
+
+  - The option `numeric_entities` is replaced by the new option `entity_output` and will be removed
+    in the next version
+  - The method `Kramdown::Converter::Html#options_for_element` has been removed

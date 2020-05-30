@@ -1,0 +1,33 @@
+---
+title: kramdown 0.13.8 released
+no_output: true
+sort_info: r00138
+created_at: 2012-08-31 18:10:00 +02:00
+modified_at: 2012-08-31 18:10:00 +02:00
+---
+## kramdown 0.13.8 released
+
+This release brings two new options (one for adjusting header levels and the other for
+enabling/disabling coderay). And the usual bug fixes.
+
+## Changes
+
+* 2 minor changes
+
+  - New option `header_offset` for offsetting all header levels (initial patch by Michal Till)
+  - New option `enable_coderay` for enabling/disabling coderay (initial patch by Bran)
+
+* 5 bug fixes
+
+  - Reserved HTML characters in abbreviation titles are now correctly output (patch by Alex Tomlins)
+  - Similar abbreviations (like CSS and CSS3) are now correctly parsed
+  - Fixed bug [RF#29626]: Text of mailto-link was sometimes wrongly obfuscated (reported by B
+    Wright)
+  - Fixed known Ruby 1.9.3 problem with RakeTest task (patch by Gioele Barabucci)
+  - Fixed double output of 'markdown' attribute on HTML elements in kramdown converter
+
+* 1 documentation change
+
+  - README file is now called README.md and uses kramdown syntax (patch by Bran)
+
+[RF#29626]: http://rubyforge.org/tracker/index.php?func=detail&aid=29626&group_id=7403&atid=28673

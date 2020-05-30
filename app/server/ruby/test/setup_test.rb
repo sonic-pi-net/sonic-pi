@@ -3,6 +3,7 @@ require_relative "../lib/sonicpi/runtime"
 require_relative "../lib/sonicpi/lang/core"
 require_relative "../lib/sonicpi/event_history"
 require_relative "../lib/sonicpi/thread_id"
+require_relative "../lib/sonicpi/lang/western_theory"
 require 'minitest'
 require 'minitest/autorun'
 
@@ -14,6 +15,7 @@ module SonicPi
     attr_accessor :mod_sound_studio, :sample_loader, :msg_queue, :event_history
     include SonicPi::RuntimeMethods
     include SonicPi::Lang::Core
+    include SonicPi::Lang::WesternTheory
     include SonicPi::Lang::Sound
 
     include ActiveSupport
@@ -51,8 +53,7 @@ module SonicPi
       @system_state.set 0, 0, @system_init_thread_id, 0, 0, 60, :sched_ahead_time, 0.5
       @register_cue_event_lambda = lambda do |t, p, i, d, b, m, address, args, sched_ahead_time=0|
 
-        sym = nil
-        address, sym = *address if address.is_a?(Array)
+        address, _sym = *address if address.is_a?(Array)
 
         gui_log_id = @gui_cue_log_idxs.next
         a = args.freeze
@@ -87,7 +88,7 @@ module SonicPi
       silent = false
       info = {}.freeze
       now = Time.now.freeze
-
+      job_in_thread = nil
       job = Thread.new do
         Thread.current.abort_on_exception = true
 
@@ -107,7 +108,7 @@ module SonicPi
         __set_default_system_thread_locals!
         __set_default_user_thread_locals!
 
-        in_thread do
+        job_in_thread = in_thread do
           clear
           self.instance_eval(&blk)
         end
@@ -117,7 +118,7 @@ module SonicPi
         Thread.current.priority = -10
         __system_thread_locals.set_local(:sonic_pi_local_thread_group, "job-#{id}-GC")
         job.join
-        __join_subthreads(job)
+        __system_thread_locals(job_in_thread).get(:sonic_pi_local_spider_subthread_empty).get
         # wait until all synths are dead
         @life_hooks.completed(id)
         @life_hooks.exit(id, {:start_t => now})

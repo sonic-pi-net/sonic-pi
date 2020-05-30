@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension" xmlns:firewall="http://schemas.microsoft.com/wix/FirewallExtension">
+
+    <Product Id="*" Name="Sonic Pi" Language="1033" Version="3.2.0" Manufacturer="Sonic Pi" UpgradeCode="ECA5D03B-CEBD-4672-A0A2-176CBCBA4429">
+        <Package Description="Sonic Pi Installer" Comments="Sonic Pi Installer" Platform="x64" InstallScope="perMachine" InstallerVersion="301" Compressed="yes" />
+        <Property Id="REINSTALLMODE" Value="amus"/>
+        <Property Id="MSIFASTINSTALL" Value="1" />
+        <MajorUpgrade AllowDowngrades="yes" Schedule="afterInstallInitialize"/>
+        <Media Id="1" Cabinet="simple.cab" EmbedCab="yes" />
+
+        <WixVariable Id="WixUILicenseRtf" Value="wix\LICENSE.rtf" />
+        <WixVariable Id="WixUIBannerBmp" Value="wix\wix_ui_banner.bmp" />
+        <WixVariable Id="WixUIDialogBmp" Value="wix\wix_ui_dialog.bmp" />
+        <Property Id='ARPCONTACT'>https://in-thread.sonic-pi.net</Property>
+        <Property Id='ARPHELPLINK'>https://in-thread.sonic-pi.net</Property>
+        <Property Id='ARPURLINFOABOUT'>https://sonic-pi.net</Property>
+        <Property Id='ARPPRODUCTICON'>StartMenuIcon.exe</Property>
+
+        <Directory Id="TARGETDIR" Name="SourceDir">
+          <Merge Id="VCRedist" SourceFile="../merge_modules/Microsoft_VC142_CRT_x64.msm" DiskId="1" Language="0"/>
+            <Directory Id="ProgramFiles64Folder" Name="PFiles">
+                <Directory Id="SonicPi" Name="Sonic Pi">
+                    <Directory Id="AppDir" Name="app">
+                        <Directory Id="GUI" Name="gui">
+                            <Directory Id="QT" Name="qt">
+                                <Directory Id="BUILD" Name="build">
+                                    <Directory Id="RELEASE" Name="Release">
+                                        <Component Id="SONIC_PI.EXE" DiskId="1" Guid="BA4C72F9-C198-436A-B1E2-B2DF8EC65960">
+                                            <File Id="SONIC_PI.EXE" Name="sonic-pi.exe" Source="SourceDir\app\gui\qt\build\Release\sonic-pi.exe" />
+                                        </Component>
+                                    </Directory>
+                                </Directory>
+                            </Directory>
+                        </Directory>
+                    </Directory>
+                </Directory>
+            </Directory>
+            <Directory Id="ProgramMenuFolder">
+                <Directory Id="ProgramMenuDir" Name="Sonic Pi">
+                    <Component Id="StartMenuShortcuts" Guid="BBD1AB47-BC24-437D-86E4-6B8D59CBB12F">
+                        <RemoveFolder Id="ProgramMenuDir" On="uninstall" />
+                        <RegistryValue Root="HKCU" Key="Software\[ProductName]" Type="string" Value="" />
+                        <util:InternetShortcut Id="WebsiteShortcut" Name="Sonic Pi Support" Target="https://in-thread.sonic-pi.net" />
+                        <Shortcut Id="SonicPi" Name="Sonic Pi" Target="[#SONIC_PI.EXE]" />
+                    </Component>
+                </Directory>
+            </Directory>
+        </Directory>
+        <Feature Id="DefaultFeature" Title="Main Feature" Level="1">
+            <ComponentGroupRef Id="ETC"/>
+            <ComponentGroupRef Id="GUI"/>
+            <ComponentGroupRef Id="SERVER"/>
+            <ComponentRef Id="SONIC_PI.EXE" />
+            <ComponentRef Id="StartMenuShortcuts" />
+        </Feature>
+
+        <UI Id="UserInterface">
+            <UIRef Id="WixUI_Minimal" />
+            <Property Id="WIXUI_INSTALLDIR" Value="TARGETDIR" />
+            <DialogRef Id="ProgressDlg" />
+            <DialogRef Id="ErrorDlg" />
+            <DialogRef Id="FilesInUse" />
+            <DialogRef Id="FatalError" />
+            <DialogRef Id="UserExit" />
+            <Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="LaunchApplication" Order="999">WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed</Publish>
+            <Publish Dialog="WelcomeDlg" Control="Next" Event="EndDialog" Value="Return" Order="2"></Publish>
+        </UI>
+
+        <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch Sonic Pi" />
+        <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOX" Value="1"/>
+        <Property Id="WixShellExecTarget" Value="[#SONIC_PI.EXE]" />
+        <CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="yes" />
+
+        <Feature Id="VCRedist" Title="Visual Studio C++ 2019 Runtime" AllowAdvertise="no" Display="hidden" Level="1">
+          <MergeRef Id="VCRedist"/>
+        </Feature>
+
+        <Icon Id="StartMenuIcon.exe" SourceFile="../../app/gui/qt/build/Release/sonic-pi.exe" />
+    </Product>
+</Wix>

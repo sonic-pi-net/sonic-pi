@@ -49,9 +49,13 @@ module SonicPi
     end
 
     def test_less_than
+      v1 = Version.new(2, 1, 0)
+      v2 = Version.new(2, 1, 1)
+      assert_equal(true, v1 < v2)
+
       v1 = Version.new(2, 1, 1)
-      v2 = Version.new(2, 1, 0)
-      assert_equal(true, v2 < v1)
+      v2 = Version.new(3, 1, 1)
+      assert_equal(true, v1 < v2)
     end
 
     def test_to_i
@@ -65,6 +69,12 @@ module SonicPi
       v1 = Version.new(2, 1, 1)
       v2 = Version.new(2, 1, 0)
       assert_equal(true, v1 > v2)
+
+      v1 = Version.new(3, 1, 1)
+      v2 = Version.new(2, 1, 1)
+
+      assert_equal(true, v1 > v2)
+
     end
 
     def test_greater_than_with_dev

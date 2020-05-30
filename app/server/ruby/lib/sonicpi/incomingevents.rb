@@ -52,8 +52,8 @@ module SonicPi
       prom.get(5)
     end
 
-    def async_add_handlers(*args)
-      @event_queue << [:async_add_multiple, args]
+    def async_add_handlers(args_list)
+      @event_queue << [:async_add_multiple, args_list]
     end
 
     def async_add_handler(handle, key, &block)
@@ -111,6 +111,10 @@ module SonicPi
       to_s
     end
 
+    def size_info
+      "queue: #{@event_queue.size}, handlers: #{@handlers.keys.size}"
+    end
+
     private
 
     def q_sync_insert_handler(handle, key, block, prom)
@@ -132,16 +136,17 @@ module SonicPi
     end
 
     def q_handle_event(handle, payload)
+      handles_to_remove = []
       if hs = @handlers[handle]
         hs.each do |key, fn|
           begin
             res = fn.call payload
             if res
               if(res == :remove_handler)
-                q_rm_handler handle, key
+                handles_to_remove << [handle, key]
               elsif (res.kind_of?(Array) && (res.size == 2) && (res.first == :remove_handlers))
                 res[1].each do |h_info|
-                  q_rm_handler(h_info[0], h_info[1])
+                  handles_to_remove << [h_info[0], h_info[1]]
                 end
               end
             end
@@ -150,6 +155,7 @@ module SonicPi
           end
         end
 
+        handles_to_remove.each {|h, k| q_rm_handler(h, k) }
       end
     end
 
@@ -170,8 +176,8 @@ module SonicPi
       action, content = @event_queue.pop
       case action
       when :async_add_multiple
-        content.each do |c|
-          q_insert_handler(*c)
+        content.each do |handle, key, block|
+          q_insert_handler(handle, key, block)
         end
       when :async_event
         q_handle_event(*content)

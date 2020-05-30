@@ -34,7 +34,8 @@ module SonicPi
 
     attr_reader :version
 
-    def initialize(port, send_port, msg_queue, state, register_cue_event_lambda)
+    def initialize(port, send_port, msg_queue, state, register_cue_event_lambda, scsynth_opts, scsynth_clobber)
+
       # Cache common OSC path strings as frozen instance
       # vars to reduce object creation cost and GC load
       @osc_path_quit        = "/quit".freeze
@@ -75,7 +76,8 @@ module SonicPi
       #be dynamically turned on and off
       @debug_mode = debug_mode
       @osc_events = IncomingEvents.new(:internal_events, -10)
-      @scsynth = SCSynthExternal.new(@osc_events, scsynth_port: port, scsynth_send_port: send_port, register_cue_event_lambda: register_cue_event_lambda)
+      server_opts = {scsynth_port: port, scsynth_send_port: send_port, register_cue_event_lambda: register_cue_event_lambda, scsynth_opts: scsynth_opts, scsynth_clobber: scsynth_clobber }
+      @scsynth = SCSynthExternal.new(@osc_events, server_opts)
       @version = @scsynth.version.freeze
       @position_codes = {
         head: 0,
@@ -322,6 +324,7 @@ module SonicPi
       end
     end
 
+    @@normalised_args_cache = Hash.new
 
     def trigger_synth(position, group, synth_name, args_h, info=nil, now=false, t_minus_delta=false)
       pos_code = @position_codes[position]
@@ -346,7 +349,8 @@ module SonicPi
 
       normalised_args = []
       args_h.each do |k,v|
-        normalised_args << k.to_s << v.to_f
+        k = @@normalised_args_cache[k] || @@normalised_args_cache[k] = k.to_s
+        normalised_args << k << v.to_f
       end
 
       if now
@@ -644,8 +648,8 @@ module SonicPi
       @scsynth.send_at(ts, *args)
     end
 
-    def async_add_event_handlers(*args)
-      @osc_events.async_add_handlers(*args)
+    def async_add_event_handlers(args_list)
+      @osc_events.async_add_handlers(args_list)
     end
 
     def add_event_handler(handle, key, &block)
@@ -687,7 +691,7 @@ module SonicPi
 
     def sched_ahead_time
       sat = __system_thread_locals.get(:sonic_pi_spider_sched_ahead_time)
-      return sat if sat
+      return sat + @latency if sat
 
       t = __system_thread_locals.get(:sonic_pi_spider_time, Time.now)
       i = __system_thread_locals.get(:sonic_pi_spider_thread_id_path, @server_thread_id)

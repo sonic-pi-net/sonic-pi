@@ -1,0 +1,97 @@
+#!/bin/sh
+
+SP_APP_SRC=`pwd`
+
+echo "This script has been tested on ubuntu 16.04, it should work on ubuntu 15.10."
+echo "14.04 users may need to install some of the dependencies by hand from source"
+echo "We're working to make this script a one shot solution for all Linux platforms"
+echo "Please direct rage and suggestions to Factoid in (https://gitter.im/samaaron/sonic-pi)"
+
+#Install dependencies for building supercollider, as well as qt5 and supporting libraries for gui
+#sudo apt-get install g++ ruby ruby-dev pkg-config git build-essential libjack-jackd2-dev libsndfile1-dev libasound2-dev libavahi-client-dev libicu-dev libreadline6-dev libfftw3-dev libxt-dev libudev-dev cmake libboost1.58-dev libqwt-qt5-dev libqt5scintilla2-dev libqt5svg5-dev qt5-qmake qt5-default qttools5-dev qttools5-dev-tools qtdeclarative5-dev libqt5webkit5-dev qtpositioning5-dev libqt5sensors5-dev libqt5opengl5-dev qtmultimedia5-dev libffi-dev
+
+#QT Requirements for qwt and qscintilla
+sudo apt-get install qt5-default libqt5svg5-dev qttools5-dev qt5-qmake qt5-default qttools5-dev qttools5-dev-tools qtdeclarative5-dev libqt5webkit5-dev qtpositioning5-dev libqt5sensors5-dev libqt5opengl5-dev qtmultimedia5-dev
+
+#Additional requirements for supercollider
+#sudo apt-get install cmake libsndfile1-dev libxt-dev libjack-jackd2-dev libudev-dev
+#sudo apt-get install alsa-base libicu-dev libasound2-dev libsamplerate0-dev libsndfile1-dev libreadline-dev libxt-dev libudev-dev libavahi-client-dev libfftw3-dev cmake git gcc-4.8 g++-4.8
+
+#Additional requirements for plugins
+#sudo apt-get install libfftw3-dev
+
+#Additional requirements for sonic-pi
+sudo apt-get install libffi-dev ruby-dev libboost-dev cmake
+
+#See if we can skip these steps
+#Purge old built in gems
+#rm -rf ../../server/vendor/*
+#Gems required for sonic-pi
+#sudo gem install --no-document fast_osc ffi hamster wavefile rubame aubio kramdown rugged multi_json ruby-beautify memoist sys-proctable
+#sudo gem install --no-document activesupport -v4
+
+### IF YOU HAVE PROBLEMS WITH qwt
+cd $SP_APP_SRC/../../../../
+wget 'http://downloads.sourceforge.net/project/qwt/qwt/6.1.2/qwt-6.1.2.tar.bz2'
+tar -xf qwt-6.1.2.tar.bz2
+cd qwt-6.1.2
+sed -i.bak 's/QWT_CONFIG.*+= QwtDll/#QWT_CONFIG += QwtDll/' qwtconfig.pri
+/usr/lib/arm-linux-gnueabihf/qt5/bin/qmake qwt.pro
+#-j3 assumes RPi 3
+make -j3
+sudo make install
+sudo cp /usr/local/qwt-6.1.2/features/* /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/features/
+
+### IF YOU HAVE PROBLEMS WITH qscintilla2
+cd $SP_APP_SRC/../../../../
+wget 'http://sourceforge.net/projects/pyqt/files/QScintilla2/QScintilla-2.9.2/QScintilla_gpl-2.9.2.tar.gz'
+tar -xf QScintilla_gpl-2.9.2.tar.gz
+cd QScintilla_gpl-2.9.2/Qt4Qt5/
+/usr/lib/arm-linux-gnueabihf/qt5/bin/qmake CONFIG+=staticlib qscintilla.pro
+make -j3
+sudo make install
+
+#Build supercollider 3.8 from source
+#cd ../../../../
+#SP_ROOT=`pwd`
+#git clone https://github.com/supercollider/supercollider.git
+#cd supercollider
+#git submodule init && git submodule update
+#mkdir build
+#cd build
+#cmake -DSC_EL=no -DCMAKE_PREFIX_PATH=/usr/lib/arm-linux-gnueabihf/qt5 ..
+#make
+#sudo make install
+#This should install to /usr/local/
+
+#Build sc3 plugins and install to /usr/local/ so supercollider 3.7.1 can find them
+#cd $SP_ROOT
+#git clone https://github.com/supercollider/sc3-plugins.git
+#cd sc3-plugins
+#git submodule init && git submodule update
+#cp -r external_libraries/nova-simd/* source/VBAPUGens
+#mkdir build
+#cd build
+#cmake -DSC_PATH=/usr/local/include/SuperCollider -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_BUILD_TYPE=Release ..
+#make
+#sudo make install
+
+#Install libaubio 4.2.2 (apt-get version is too old)
+cd $SP_ROOT
+git clone https://git.aubio.org/aubio/aubio/
+cd aubio
+make getwaf
+./waf configure
+./waf build
+sudo ./waf install
+
+#Build sonic-pi server extensions, documentation, and binary.
+cd $SP_APP_SRC
+#Don't need compile-extentions if you did the gem install stuff earlier
+../../server/ruby/bin/compile-extensions.rb
+../../server/ruby/bin/i18n-tool.rb -t
+cp -f utils/ruby_help.tmpl utils/ruby_help.h
+../../server/ruby/bin/qt-doc.rb -o utils/ruby_help.h
+/usr/lib/arm-linux-gnueabihf/qt5/bin/lrelease SonicPi.pro 
+/usr/lib/arm-linux-gnueabihf/qt5/bin/qmake SonicPi.pro 
+make

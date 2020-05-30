@@ -1,0 +1,18 @@
+---
+title: KaTeX
+---
+
+## Math Engine KaTeX
+
+This math engine was built-in until kramdown 2.0 and since then is available through the
+[`kramdown-math-katex` gem](https://github.com/kramdown/math-katex).
+
+The engine uses [KaTeX] via the [katex rubygem][katex-gem] to convert TeX math formulas into KaTeX
+HTML, using ExecJS under the hood. This eliminates the need for client-side math-rendering
+Javascript. This engine is somewhat similar to the [SsKaTeX](sskatex.html) math engine, but easier
+to use and suitable for kramdown input from untrusted users.
+
+See <https://github.com/kramdown/math-katex> for the documentation.
+
+[KaTeX]: https://khan.github.io/KaTeX/
+[katex-gem]: https://github.com/glebm/katex-ruby

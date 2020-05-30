@@ -1,0 +1,88 @@
+#!/bin/sh
+
+SP_APP_SRC=`pwd`
+
+echo "Build script for SP on MacOS Sierra with Xcode 8 installed"
+echo "script by Robin Newman, based on similar script by @Factoid"
+echo "not setup or tested for final deployment"
+echo "assumes you have updated gem source for ffi to ffi-1.9.14"
+echo "and amended appropriate line in compile_extensions.rb to reflect this"
+
+#Install homebrew prerequisites
+brew install qt5 boost cmake pkg-config libsndfile wget
+
+
+#Install supercollider 3.8.0 from binary and SC3 plugins 3.8_692f92f
+cd ../../../../
+SP_ROOT=`pwd`
+wget https://github.com/supercollider/supercollider/releases/download/Version-3.8.0/SuperCollider-3.8.0-OSX.zip -O SuperCollider-OSX-3.8.0.zip
+unzip -qq -o SuperCollider-OSX-3.8.0.zip
+wget https://github.com/supercollider/sc3-plugins/releases/download/Version-3.8.0/sc3-plugins_OSX_SC3.8_692f92f.zip -O sc3-plugins_OSX_SC3.8_692f92f.zip
+unzip -qq -o sc3-plugins_OSX_SC3.8_692f92f.zip
+#extract all plugins to combined folder. Could go straight into SP osx/supercollider/plugins
+mkdir -p plugins
+find ./SuperCollider -name "*.scx" -type f -exec  cp -p {} ./plugins \;
+find ./SC3plugins -name "*.scx" -type f -exec  cp -p {} ./plugins \;
+#plugins copied into SP further on in script
+#Download and extract source packages
+cd $SP_ROOT
+
+wget 'http://downloads.sourceforge.net/project/qwt/qwt/6.1.2/qwt-6.1.2.tar.bz2' -O qwt-6.1.2.tar.bz2
+tar -xf qwt-6.1.2.tar.bz2
+
+#install qscintilla2 lib
+brew install qscintilla2
+cp /usr/local/opt/qscintilla2/data/mkspecs/features/* /usr/local/opt/qt5/mkspecs/features
+
+#Build qwt libraries for Qt5
+
+cd qwt-6.1.2
+/usr/local/opt/qt5/bin/qmake qwt.pro
+make
+sudo make install
+sudo cp /usr/local/qwt-6.1.2/features/* /usr/local/opt/qt5/mkspecs/features/
+
+#download and install aubio (with libsndfile support)
+cd $SP_APP_SRC
+wget http://aubio.org/pub/aubio-0.4.3.tar.bz2 -O aubio-0.4.3.tar.bz2
+tar -xf aubio-0.4.3.tar.bz2
+cd aubio-0.4.3
+./waf configure --enable-sndfile
+./waf build
+sudo ./waf install
+cd $SP_APP_SRC
+#copy in SC bits
+mkdir -p ../../server/native/osx/supercollider/plugins
+rsync -arv ../../../../plugins/ ../../server/native/osx/supercollider/plugins/
+cp ../../../../SuperCollider/SuperCollider.app/Contents/Resources/scsynth ../../server/native/osx/supercollider
+cd ../../server/native/osx
+ln -s supercollider/scsynth scsynth
+#Build Sonic-Pi server extensions, documentation, and gui
+cd ../../../gui/qt
+#setup ruby link
+mkdir -p ../../server/native/osx/ruby/bin
+ln -s `which ruby` ../../server/native/osx/ruby/bin/ruby
+#compile extensions
+../../server/ruby/bin/compile-extensions.rb
+
+#on subsequent runs after initial install, can usually restart from here if no gems have been updated
+#prepare documentation
+../../server/ruby/bin/i18n-tool.rb -t
+cp -f utils/ruby_help.tmpl utils/ruby_help.h
+../../server/ruby/bin/qt-doc.rb -o utils/ruby_help.h
+/usr/local/opt/qt5/bin/lrelease SonicPi.pro
+/usr/local/opt/qt5/bin/qmake SonicPi.pro
+make
+
+
+#Soft Link extra stuff that the app will need at runtime
+cd 'Sonic Pi.app'
+ln -f -s ../../../../app/ ./
+ln -f -s ../../../../etc/ ./
+rsync -arv /usr/local/opt/qscintilla2/lib/libqscintilla2.* Contents/MacOS/
+rsync -arv ../../../../../qwt-6.1.2/lib/ Contents/MacOS/
+install_name_tool -change qwt.framework/Versions/6/qwt @executable_path/qwt.framework/Versions/6/qwt Contents/MacOS/Sonic\ Pi
+install_name_tool -change libqscintilla2.12.dylib @executable_path/libqscintilla2.12.dylib Contents/MacOS/Sonic\ Pi
+
+cd $SP_APP_SRC
+#now finished. Can double click 'Sonic Pi.app' icon in finder to run

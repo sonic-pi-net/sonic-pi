@@ -82,7 +82,7 @@ module SonicPi
         :m               => minor,
         :major7          => major7,
         :dom7            => dom7,
-        "7"               => dom7,
+        "7"              => dom7,
         :M7              => major7,
         :minor7          => minor7,
         :m7              => minor7,
@@ -101,14 +101,12 @@ module SonicPi
 
       all_chords_lookup = all_chords.inject({}) do |res, chord_intervals|
         k, v = *chord_intervals
-
-        res[k] = v
-        res[k.to_s] = v
+        res[k.to_sym] = v
         res
       end
 
       all_chords_names = all_chords.inject([]) do |res, chord_intervals|
-        k, v = *chord_intervals
+        k, _v = *chord_intervals
         res << k.to_s
         res
       end
@@ -116,18 +114,18 @@ module SonicPi
       return all_chords, all_chords_lookup, all_chords_names.sort
     end.call
 
-    attr_reader :name, :tonic, :notes, :num_octaves
+    attr_reader :tonic, :notes, :num_octaves
 
     def self.resolve_degree(degree, tonic, name, no_of_notes)
       name = name.to_s
       degree_int = Scale.resolve_degree_index(degree)
-      scale = Scale.new(tonic, name, 2)
+      scale = Scale.resolve_scale(tonic, name, 2)
       scale.notes.drop(degree_int).select.with_index{|_, i| i % 2 == 0}.take(no_of_notes)
     end
 
     def initialize(tonic, name, num_octaves=1)
       num_octaves = 1 unless num_octaves
-      name = name.to_s
+      name = name.to_sym
       intervals = CHORD_LOOKUP[name]
       raise "Unknown chord name: #{name.inspect}" unless intervals
 
@@ -145,6 +143,10 @@ module SonicPi
       @notes = res
       @num_octaves = num_octaves
       super(res)
+    end
+
+    def name
+      @name.to_s
     end
 
     def to_s

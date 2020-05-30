@@ -1,0 +1,43 @@
+language: ruby
+cache: bundler
+
+os:
+  - linux
+  - osx
+
+rvm:
+  - 2.3.3
+  - 2.4.0
+  - 2.5.0
+  - 2.6
+  - ruby-head
+  - rbx-2
+
+addons:
+  apt:
+    sources:
+     - sourceline: 'deb https://dl.bintray.com/libgit2/ci-dependencies trusty libgit2deps'
+       key_url: 'https://bintray.com/user/downloadSubjectPublicKey?username=bintray'
+    packages:
+    - cmake
+    - libssh2-1-dev
+    - openssh-client
+    - openssh-server
+
+sudo: required
+
+matrix:
+  fast_finish: true
+  allow_failures:
+    - rvm: rbx-2
+    - rvm: ruby-head
+
+git:
+  submodules: false
+
+before_install:
+  - git submodule update --init
+  - gem update --system
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then ./vendor/libgit2/ci/setup-osx.sh; fi
+
+script: script/travisbuild

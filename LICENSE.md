@@ -5,7 +5,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2013, 2014, 2015, 2016 Samuel Aaron ([http://sam.aaron.name](http://sam.aaron.name))
+Copyright (c) 2012 - 2020 Samuel Aaron and contributors (sam@sonic-pi.net)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -80,14 +80,15 @@ relevant licenses:
 * [SoX](http://sox.sourceforge.net) - [GNU General Public License v2](https://www.gnu.org/licenses/gpl-2.0.html)
 * [Erlang](http://erlang.org) - [Erlang Public License](https://www.erlang.org/EPLICENSE)
 * [osmid](https://github.com/llloret/osmid) - [MIT License](http://opensource.org/licenses/MIT)
-* osmid depends on [JUCE](http://juce.com) - [GNU General Public License v2](https://www.gnu.org/licenses/gpl-2.0.html)
+* osmid depends on [JUCE](http://juce.com) - [GNU General Public License v3](https://www.gnu.org/licenses/gpl-3.0.html) and [ISC License](https://www.isc.org/licenses/)
 
 
 
 ### Dynamically Linked Libraries for GUI
 * [Qt](http://qt-project.org) - [LGPL v2.1](https://www.gnu.org/licenses/lgpl-2.1.html)
 * [QScintilla2](http://www.riverbankcomputing.com/software/qscintilla/intro) - [GNU General Public License v2](https://www.gnu.org/licenses/gpl-2.0.html)
-* [Qwt](http://qwt.sourceforge.net) -  [Qwt License, Version 1.0](http://qwt.sourceforge.net/qwtlicense.html)
+* [KISS FFT](https://github.com/mborgerding/kissfft) - [BSD 3-Clause License](http://opensource.org/licenses/BSD-3-Clause)
+* [Tracy](https://bitbucket.org/wolfpld/tracy/src/master/) - [BSD 3-Clause License](http://opensource.org/licenses/BSD-3-Clause)
 
 
 ### Included Ruby Libraries for Server
@@ -121,7 +122,6 @@ relevant licenses:
 * [Parser](https://github.com/whitequark/parser) - [MIT License](http://opensource.org/licenses/MIT)
 * [Metaclass](https://github.com/floehopper/metaclass) - [MIT License](http://opensource.org/licenses/MIT)
 * [Sys Proctable](https://github.com/djberg96/sys-proctable) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
-* [fast_osc](http://github.com/xavriley/fast_osc) - [MIT License](http://opensource.org/licenses/MIT)
 * [Treetop](https://github.com/cjheath/treetop) - [MIT License](http://opensource.org/licenses/MIT)
 * [Polyglot](http://github.com/cjheath/polyglot) - [MIT License](http://opensource.org/licenses/MIT)
 

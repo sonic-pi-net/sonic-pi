@@ -10,54 +10,56 @@
 # distribution of modified versions of this work as long as this
 # notice is included.
 #++
-require_relative "counter"
-require_relative 'atom'
-require 'thread'
-
-require 'hamster/hash'
+require 'monitor'
 
 module SonicPi
   class Jobs
 
     def initialize
-      @jobs_A = Atom.new(Hamster::Hash.new)
+      # mutex needs to be reentrant so use a Monitor
+      @mut = Monitor.new
+      @jobs = {}
     end
 
     def add_job(id, job, info)
-      @jobs_A.swap! do |js|
-        js.put(id, {:job => job, :info => info})
+      @mut.synchronize do
+        @jobs[id] = {:job => job, :info => info}
       end
     end
 
     def job_completed(id)
-      @jobs_A.swap! do |js|
-        js.delete id
+      @mut.synchronize do
+        @jobs.delete id
       end
     end
 
     def kill_job(id)
-      old = @jobs_A.swap_returning_old! do |js|
-        js.delete id
-      end
-
-      job = old[id]
-      if job
-        __system_thread_locals(job[:job]).get(:sonic_pi_local_spider_no_kill_mutex).synchronize do
-          job[:job].kill
+      @mut.synchronize do
+        job = @jobs.delete(id)
+        if job
+          __system_thread_locals(job[:job]).get(:sonic_pi_local_spider_no_kill_mutex).synchronize do
+            job[:job].kill
+          end
         end
       end
     end
 
     def running?(id)
-      @jobs_A.deref[id]
+      @mut.synchronize do
+        @jobs.has_key?(id)
+      end
     end
 
     def each_id(&block)
-      @jobs_A.deref.keys.each(&block)
+      @mut.synchronize do
+        @jobs.keys.each(&block)
+      end
     end
 
     def any_jobs_running?
-      !@jobs_A.deref.empty?
+      @mut.synchronize do
+        !@jobs.empty?
+      end
     end
   end
 end

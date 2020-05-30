@@ -1,0 +1,33 @@
+---
+title: kramdown 1.9.0 released
+no_output: true
+sort_info: r0190
+created_at: 2015-10-01 21:30:00 +02:00
+modified_at: 2015-10-01 21:30:00 +02:00
+---
+## kramdown 1.9.0 released
+
+This release contains some minor updates and bug fixes.
+
+
+## Changes
+
+* 3 minor changes:
+
+  - The Rouge syntax highlighter can now be enabled/disabled for spans and/or blocks and options can
+    now be set for both spans and blocks as well as only for spans or only for blocks (fixes [#286],
+    requested by Raphael R.)
+  - Setting the 'footnote_backlink' option to an empty string now completely suppresses footnotes
+    (fixes [#270], requested by Kyle Barbour)
+  - New converter HashAST for creating a hash from the internal tree structure (fixes [#275], pull
+    request by Hector Correa)
+
+* 1 bug fix:
+
+  - When using the 'hard_wrap' option for the GFM parser, line numbers were lost (fixes [#274], pull
+    request by Marek Tuchowski)
+
+[#286]: https://github.com/gettalong/kramdown/issues/286
+[#270]: https://github.com/gettalong/kramdown/issues/270
+[#275]: https://github.com/gettalong/kramdown/pull/275
+[#274]: https://github.com/gettalong/kramdown/pull/274

@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='windows-1252'?>
+<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
+    <Product Name='osmid' Id='15145e91-8ce3-4e5c-afab-d53808cb9db1' UpgradeCode='a4e955a4-eb7a-4314-8629-16d5508dd4f6' Language='1033' Codepage='1252' Version='0.1.0' Manufacturer='Luis Lloret'>
+        <Package Id='*' Keywords='Installer' Description="osmid Installer" Comments='(c) Luis Lloret - MIT License' Manufacturer='Luis Lloret' InstallerVersion='100' Languages='1033' Compressed='yes' SummaryCodepage='1252'/>
+        <Media Id='1' Cabinet='Sample.cab' EmbedCab='yes' DiskPrompt="CD-ROM #1"/>
+        <Property Id='DiskPrompt' Value="osmid Installation [1]"/>
+        
+        <Directory Id='TARGETDIR' Name='SourceDir'>
+            <Directory Id='ProgramFilesFolder' Name='PFiles'>
+                <Directory Id='INSTALLDIR' Name='osmid'>
+                    <Component Id='m2oExecutable' Guid='e5ef6ace-9ca4-480e-add1-9ef64839b7c6'>
+                        <File Id='m2oEXE' Name='m2o.exe' DiskId='1' Source='../build/release/m2o.exe' KeyPath='yes'>
+                            <Shortcut Id="startmenuosmid" Directory="ProgramMenuDir" Name="osmid" WorkingDirectory='INSTALLDIR' Icon="m2o.exe" IconIndex="0" Advertise="yes"/>
+                            <Shortcut Id="desktoposmid" Directory="DesktopFolder" Name="osmid" WorkingDirectory='INSTALLDIR' Icon="m2o.exe" IconIndex="0" Advertise="yes"/>
+                        </File>
+                        <File Id='README' Name='README.md' DiskId='1' Source='../README.md'/>
+                        <File Id='LICENSE' Name='LICENSE.md' DiskId='1' Source='../LICENSE.md'/>
+                    </Component>
+                </Directory>
+            </Directory>
+
+            <Directory Id="ProgramMenuFolder" Name="Programs">
+                <Directory Id="ProgramMenuDir" Name="osmid">
+                    <Component Id="ProgramMenuDir" Guid="ec81cf04-eb03-43e8-ae6f-73868a532ade">
+                        <RemoveFolder Id='ProgramMenuDir' On='uninstall'/>
+                        <RegistryValue Root='HKCU' Key='Software\[ProductName]' Type='string' Value='[INSTALLDIR]' KeyPath='yes'/>
+                    </Component>
+                </Directory>
+            </Directory>
+
+            <Directory Id="DesktopFolder" Name="Desktop"/>
+        </Directory>
+
+        <Feature Id='Complete' Title='osmid' Display='expand' Level='1' ConfigurableDirectory='INSTALLDIR'>
+            <ComponentRef Id='m2oExecutable'/>
+            <ComponentRef Id='ProgramMenuDir'/>
+        </Feature>
+
+        <Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR" />
+        <UI>
+            <UIRef Id="WixUI_InstallDir" />
+            <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="InstallDirDlg" Order="2">1</Publish>
+            <Publish Dialog="InstallDirDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="2">1</Publish>
+        </UI>
+
+        <Icon Id="m2o.exe" SourceFile="../build/release/m2o.exe"/>
+    </Product>
+</Wix>

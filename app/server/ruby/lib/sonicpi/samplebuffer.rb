@@ -91,7 +91,7 @@ module SonicPi
       @aubio_sem.synchronize do
         return @aubio_onset_data if @aubio_onset_data
         __no_kill_block do
-          aubio_file = Aubio.open @path
+          aubio_file = Aubio.open(@path, {sample_rate: sample_rate})
           native_onsets = aubio_file.onsets.to_a.ring
           aubio_file.close
           @aubio_onset_data = native_onsets

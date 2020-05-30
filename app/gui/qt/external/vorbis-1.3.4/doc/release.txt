@@ -1,0 +1,16 @@
+libvorbis release checklist.
+
+- Bump vendor string for encoder changes in lib/info.c
+- Bump release version and sonames in configure.ac
+- Update CHANGES.
+- Update overall copyright dates on COPYING and README.
+- Verify everything is committed.
+- Tag release: `git tag -S v1.x.y` Paste the CHANGES entry as a tag msg.
+- Verify 'make distcheck' works.
+- Publish the tag: `git push --tags`
+- Copy source packages to a checkout of https://svn.xiph.org/releases/vorbis/
+- Add the packages to the repo and update checksum files there.
+- Update https://xiph.org/downloads/
+- Update topic in the #vorbis irc channel on freenode.net.
+- Post announcement to https://xiph.org/press/ and link from front page.
+- Announce new release to mailing list.

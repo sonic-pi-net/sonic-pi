@@ -16,18 +16,52 @@ require 'securerandom'
 
 module SonicPi
   module Util
+    # Check which OS we're on
+    case RUBY_PLATFORM
+    when /.*arm.*-linux.*/
+      @@os = :raspberry
+    when /.*linux.*/
+      @@os = :linux
+    when /.*darwin.*/
+      @@os = :osx
+    when /.*mingw.*/
+      @@os = :windows
+    else
+      raise "Unsupported platform #{RUBY_PLATFORM}"
+    end
+
+    # Figure out the user's home directory
+    case @@os
+    when :windows
+      # On Windows, Ruby lets HOME take precedence if it exists, which is
+      # not what Sonic Pi should do to behave like a native Windows app.
+      # To get the same path as QDir::homePath() used by the GUI, we must
+      # use HOMEDRIVE and HOMEPATH instead, if they are set.
+      home_drive = ENV["HOMEDRIVE"]
+      home_path = ENV["HOMEPATH"]
+      if home_drive and home_path
+        @@user_dir = home_drive + home_path
+      else
+        @@user_dir = Dir.home
+      end
+    else
+        @@user_dir = Dir.home
+    end
+
     @@safe_mode = false
-    @@tilde_dir = Dir.home
     @@project_path = nil
     @@log_path = nil
     @@current_uuid = nil
     @@home_dir = nil
     @@util_lock = Mutex.new
     @@raspberry_pi_1 = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && File.exist?('/proc/cpuinfo') && !(`cat /proc/cpuinfo | grep BCM2708`).empty?
-    @@raspberry_pi_2 = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && File.exist?('/proc/cpuinfo') && !(`cat /proc/cpuinfo | grep BCM2709`).empty? && (`cat /proc/cpuinfo | grep crc32`).empty?
-    @@raspberry_pi_3 = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && File.exist?('/proc/cpuinfo') && !(`cat /proc/cpuinfo | grep BCM2709`).empty? && !(`cat /proc/cpuinfo | grep crc32`).empty?
-
-    @@home_dir = File.expand_path((ENV['SONIC_PI_HOME'] || Dir.home) + '/.sonic-pi/')
+    @@raspberry_pi_2 = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['a01040','a01041','a22042'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
+    @@raspberry_pi_3 = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['a02082','a22082','a32082'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
+    @@raspberry_pi_3bplus = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['a020d3'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
+    @@raspberry_pi_4_1gb =  RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['a03111'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
+    @@raspberry_pi_4_2gb =  RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['b03111'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
+    @@raspberry_pi_4_4gb =  RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['c03111'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
+    @@home_dir = File.expand_path((ENV['SONIC_PI_HOME'] || @@user_dir) + '/.sonic-pi/')
     @@project_path = @@home_dir + '/store/default/'
     @@log_path = @@home_dir + '/log/'
 
@@ -44,7 +78,7 @@ module SonicPi
     end
 
     begin
-      @@log_file = File.open("#{@@log_path}/debug.log", 'w')
+      @@log_file = File.open("#{@@log_path}/debug.log", 'a')
     rescue
       @@safe_mode = true
       STDERR.puts "Unable to open log file #{@@log_path}/debug.log"
@@ -65,18 +99,7 @@ module SonicPi
     end
 
     def os
-      case RUBY_PLATFORM
-      when /.*arm.*-linux.*/
-        :raspberry
-      when /.*linux.*/
-        :linux
-      when /.*darwin.*/
-        :osx
-      when /.*mingw.*/
-        :windows
-      else
-        raise "Unsupported platform #{RUBY_PLATFORM}"
-      end
+      @@os
     end
 
     def raspberry_pi?
@@ -95,11 +118,27 @@ module SonicPi
       os == :raspberry && @@raspberry_pi_3
     end
 
+    def raspberry_pi_3bplus?
+      os == :raspberry && @@raspberry_pi_3bplus
+    end
+
+    def raspberry_pi_4_1gb?
+      os == :raspberry && @@raspberry_pi_4_1gb
+    end
+
+    def raspberry_pi_4_2gb?
+      os == :raspberry && @@raspberry_pi_4_2gb
+    end
+
+    def raspberry_pi_4_4gb?
+      os == :raspberry && @@raspberry_pi_4_4gb
+    end
+
     def unify_tilde_dir(path)
       if os == :windows
         path
       else
-        path.gsub(/\A#{@@tilde_dir}/, "~")
+        path.gsub(/\A#{@@user_dir}/, "~")
       end
     end
 
@@ -130,9 +169,17 @@ module SonicPi
         if raspberry_pi_1?
           "Raspberry Pi 1"
         elsif raspberry_pi_2?
-          "Raspberry Pi 2"
+          "Raspberry Pi 2B"
         elsif raspberry_pi_3?
-          "Raspberry Pi 3"
+          "Raspberry Pi 3B"
+        elsif raspberry_pi_3bplus?
+          "Raspberry Pi 3B+"
+        elsif raspberry_pi_4_1gb?
+          "Raspberry Pi 4B:1Gb"
+        elsif raspberry_pi_4_2gb?
+          "Raspberry Pi 4B:2Gb"
+        elsif raspberry_pi_4_4gb?
+          "Raspberry Pi 4B:4Gb"
         else
           "Raspberry Pi"
         end
@@ -206,12 +253,21 @@ module SonicPi
       end
     end
 
-    def ensure_dir(d)
+    def ensure_dir(dir)
       begin
         FileUtils.mkdir_p(dir) unless File.exist?(dir)
       rescue
         @@safe_mode = true
         log "Unable to create #{dir} due to permissions errors"
+      end
+    end
+
+    def __exe_fix(path)
+      case os
+      when :windows
+        "#{path}.exe"
+      else
+        path
       end
     end
 
@@ -284,15 +340,15 @@ module SonicPi
     end
 
     def sox_path
-      File.join(native_path, "sox", "sox")
+      File.join(native_path, "sox", __exe_fix("sox"))
     end
 
     def osmid_o2m_path
-      File.join(native_path, "osmid", "o2m")
+      File.join(native_path, "osmid", __exe_fix("o2m"))
     end
 
     def osmid_m2o_path
-      File.join(native_path, "osmid", "m2o")
+      File.join(native_path, "osmid", __exe_fix("m2o"))
     end
 
     def scsynth_log_path
@@ -555,7 +611,7 @@ module SonicPi
 
     def register_process(pid)
       pid = spawn "'#{ruby_path}' '#{File.join(server_bin_path, 'task-register.rb')}' #{pid}"
-      Process.wait pid
+      Process.waitpid(pid, Process::WNOHANG)
     end
 
     def kill_and_deregister_process(pid)
@@ -594,8 +650,13 @@ module SonicPi
 
       mut.synchronize do
         __system_thread_locals(t).set_local(:sonic_pi_local_spider_in_no_kill_block, true)
-        r = block.call
-        __system_thread_locals(t).set_local(:sonic_pi_local_spider_in_no_kill_block, false)
+        begin
+          r = block.call
+        rescue Exception => e
+          log_exception e, "in no kill block"
+        ensure
+          __system_thread_locals(t).set_local(:sonic_pi_local_spider_in_no_kill_block, false)
+        end
         r
       end
     end

@@ -298,7 +298,7 @@ current_midi_defaults #=> Prints {channel: 1, port: \"foo\"}"]
       end
 
 
-
+      @@number_cache = 0.upto(127).map {|i| i.to_s}
 
       def midi_note_on(*args)
         params, opts = split_params_and_merge_opts_array(args)
@@ -324,10 +324,10 @@ current_midi_defaults #=> Prints {channel: 1, port: \"foo\"}"]
 
           ports.each do |p|
             channels.each do |c|
-              __midi_send_timed_pc("/note_on", p, c, [n, vel])
+              __midi_send_timed_pc("/note_on", p, c, n, vel)
             end
           end
-          __midi_message "midi_note_on #{n}, #{vel}, channel: #{chan}, port: #{port}"
+          __midi_message "midi_note_on #{@@number_cache[n]}, #{@@number_cache[vel]}, channel: #{chan}, port: #{port}"
         else
           __midi_rest_message "midi_note_on :rest, on: 0"
         end
@@ -395,10 +395,10 @@ You may also optionally pass the velocity value as a floating point value betwee
 
           ports.each do |p|
             channels.each do |c|
-              __midi_send_timed_pc("/note_off", p, c, [n, vel])
+              __midi_send_timed_pc("/note_off", p, c, n, vel)
             end
           end
-          __midi_message "midi_note_off #{n}, #{vel}, channel: #{chan}, port: #{port}"
+          __midi_message "midi_note_off #{@@number_cache[n]}, #{@@number_cache[vel]}, channel: #{chan}, port: #{port}"
         else
           __midi_rest_message "midi_note_off :rest, on: 0"
         end
@@ -464,7 +464,7 @@ You may also optionally pass the release velocity value as a floating point valu
 
           ports.each do |p|
             channels.each do |c|
-              __midi_send_timed_pc("/poly_pressure", p, c, [control_num, val])
+              __midi_send_timed_pc("/poly_pressure", p, c, control_num, val)
             end
           end
           __midi_message "midi_poly_pressure #{control_num}, #{val}, port: #{port}, channel: #{chan}"
@@ -526,7 +526,7 @@ You may also optionally pass the pressure value as a floating point value betwee
 
           ports.each do |p|
             channels.each do |c|
-              __midi_send_timed_pc("/control_change", p, c, [control_num, val])
+              __midi_send_timed_pc("/control_change", p, c, control_num, val)
             end
           end
           __midi_message "midi_cc #{control_num}, #{val}, port: #{port}, channel: #{chan}"
@@ -585,7 +585,7 @@ You may also optionally pass the control value as a floating point value between
 
           ports.each do |p|
             channels.each do |c|
-              __midi_send_timed_pc("/channel_pressure", p, c, [pressure])
+              __midi_send_timed_pc("/channel_pressure", p, c, pressure)
             end
           end
           __midi_message "midi_channel_pressure #{pressure}, port: #{port}, channel: #{chan}"
@@ -645,7 +645,7 @@ You may also optionally pass the pressure value as a floating point value betwee
 
           ports.each do |p|
             channels.each do |c|
-              __midi_send_timed_pc("/pitch_bend", p, c, [delta_midi])
+              __midi_send_timed_pc("/pitch_bend", p, c, delta_midi)
             end
           end
           __midi_message "midi_pitch_bend #{delta}, delta_midi: #{delta_midi}, port: #{port}, channel: #{chan}"
@@ -696,7 +696,7 @@ Typical MIDI values such as note or cc are represented with 7 bit numbers which 
         if program_num == nil #deal with missing midi_pc paramter
           return nil
         end
-                  
+
         if truthy?(on_val)
           channels       = __resolve_midi_channels(opts)
           ports          = __resolve_midi_ports(opts)
@@ -706,7 +706,7 @@ Typical MIDI values such as note or cc are represented with 7 bit numbers which 
 
           ports.each do |p|
             channels.each do |c|
-              __midi_send_timed_pc("/program_change",p, c, program_num)
+              __midi_send_timed_pc("/program_change", p, c, program_num)
             end
           end
           __midi_message "midi_pc #{program_num}, port: #{port}, channel: #{chan}"
@@ -737,7 +737,7 @@ Program number can be passed as a note such as `:e3` and decimal values will be 
         "midi_pc 100, channel: 5  #=> Sends MIDI pc message on channel 5 to all ports",
         "midi_pc 100, channel: 5  #=> Sends MIDI pc message on channel 5 to all ports",
         "midi_pc 100, channel: [1, 5]  #=> Sends MIDI pc message on channel 1 and 5 to all ports"
-]     
+]
 
 
       def midi_raw(*args)
@@ -752,7 +752,7 @@ Program number can be passed as a note such as `:e3` and decimal values will be 
 
         if truthy?(on_val)
           ports.each do |p|
-            __midi_send_timed("/#{p}/raw", a, b, c)
+            __midi_send_timed_param_3("/#{p}/raw", a, b, c)
           end
           port = pp_el_or_list(ports)
           __midi_message "midi_raw #{a}, #{b}, #{c}, port: #{port}"
@@ -800,7 +800,7 @@ See https://www.midi.org/specifications/item/table-1-summary-of-midi-message for
 
         if truthy?(on_val)
           ports.each do |p|
-            __midi_send_timed("/#{p}/raw", *params)
+            __midi_send_timed_param_n("/#{p}/raw", *params)
           end
           port = pp_el_or_list(ports)
           __midi_message "midi_sysex #{params * ', '}, port: #{port}"
@@ -842,7 +842,7 @@ Non-number values will be automatically turned into numbers prior to sending the
           chan     = pp_el_or_list(channels)
           ports.each do |p|
             channels.each do |c|
-              __midi_send_timed_pc("/control_change", p, c, [120, 0])
+              __midi_send_timed_pc("/control_change", p, c, 120, 0)
             end
           end
           __midi_message "midi_sound_off port: #{port}, channel: #{chan}"
@@ -890,7 +890,7 @@ All oscillators will turn off, and their volume envelopes are set to zero as soo
 
           ports.each do |p|
             channels.each do |c|
-              __midi_send_timed_pc("/control_change", p, c, [121, reset_val])
+              __midi_send_timed_pc("/control_change", p, c, 121, reset_val)
             end
           end
           __midi_message "midi_reset port: #{port}, channel: #{chan}"
@@ -938,7 +938,7 @@ All controller values are reset to their defaults.
 
           ports.each do |p|
             channels.each do |c|
-              __midi_send_timed_pc("/control_change", p, c, [122, 0])
+              __midi_send_timed_pc("/control_change", p, c, 122, 0)
             end
           end
           __midi_message "midi_mode_local_control_off port: #{port}, channel: #{chan}"
@@ -985,7 +985,7 @@ All devices on a given channel will respond only to data received over MIDI. Pla
 
           ports.each do |p|
             channels.each do |c|
-              __midi_send_timed_pc("/control_change", p, c, [122, 127])
+              __midi_send_timed_pc("/control_change", p, c, 122, 127)
             end
           end
           __midi_message "midi_mode_local_control_on port: #{port}, channel: #{chan}"
@@ -1034,7 +1034,7 @@ All devices on a given channel will respond both to data received over MIDI and 
           if truthy?(on_val)
             ports.each do |p|
               channels.each do |c|
-                __midi_send_timed_pc("/control_change", p, c, [124, 0])
+                __midi_send_timed_pc("/control_change", p, c, 124, 0)
               end
             end
             __midi_message "midi_mode :omni_off, port: #{port}, channel: #{chan}"
@@ -1045,7 +1045,7 @@ All devices on a given channel will respond both to data received over MIDI and 
           if truthy?(on_val)
             ports.each do |p|
               channels.each do |c|
-                __midi_send_timed_pc("/control_change", p, c, [125, 0])
+                __midi_send_timed_pc("/control_change", p, c, 125, 0)
               end
             end
             __midi_message "midi_mode :omni_on, port: #{port}, channel: #{chan}"
@@ -1057,7 +1057,7 @@ All devices on a given channel will respond both to data received over MIDI and 
           if truthy?(on_val)
             ports.each do |p|
               channels.each do |c|
-                __midi_send_timed_pc("/control_change", p, c, [126, num_chans])
+                __midi_send_timed_pc("/control_change", p, c, 126, num_chans)
               end
             end
             __midi_message "midi_mode :mono, num_chans: #{num_chans}, port: #{port}, channel: #{chan}"
@@ -1068,7 +1068,7 @@ All devices on a given channel will respond both to data received over MIDI and 
           if truthy?(on_val)
             ports.each do |p|
               channels.each do |c|
-                __midi_send_timed_pc("/control_change", p, c, [127, 0])
+                __midi_send_timed_pc("/control_change", p, c, 127, 0)
               end
             end
             __midi_message "midi_mode :poly, port: #{port}, channel: #{chan}"
@@ -1129,7 +1129,7 @@ Note that this fn also includes the behaviour of `midi_all_notes_off`.
 
           ports.each do |p|
             channels.each do |c|
-              __midi_send_timed_pc("/control_change", p, c, [123, 0])
+              __midi_send_timed_pc("/control_change", p, c, 123, 0)
             end
           end
           __midi_message "midi_all_notes_off port: #{port}, channel: #{chan}"
@@ -1451,15 +1451,15 @@ end"
 
           ports.each do |p|
             channels.each do |c|
-              __midi_send_timed_pc("/note_on", p, c, [n, vel])
+              __midi_send_timed_pc("/note_on", p, c, n, vel)
               time_warp sus - 0.01 do
-                __midi_send_timed_pc("/note_off", p, c, [n, rel_vel])
+                __midi_send_timed_pc("/note_off", p, c, n, rel_vel)
               end
             end
           end
-          __midi_message "midi #{n}, #{vel}, sustain: #{sus}, port: #{port}, channel: #{chan}"
+          __midi_message "midi #{@@number_cache[n]}, #{@@number_cache[vel]}, sustain: #{sus}, port: #{port}, channel: #{chan}"
         else
-          __midi_rest_message "midi #{n}, #{vel}, sustain: #{sus}, port: #{port}, channel: #{chan}, on: 0"
+          __midi_rest_message "midi #{@@number_cache[n]}, #{@@number_cache[vel]}, sustain: #{sus}, port: #{port}, channel: #{chan}, on: 0"
         end
         nil
       end
@@ -1555,16 +1555,36 @@ end"
         return delta, delta_midi
       end
 
-      def __midi_send_timed_pc(path, p, c, args)
+      @@midi_path_cache = Hash.new {|h, k| h[k] = Hash.new() }
+
+      def __midi_send_timed_pc(path, p, c, args0, args1=nil)
         c = -1 if c == '*'
-        __midi_send_timed "/#{p}#{path}", c, *args
+        path = @@midi_path_cache[p][path] || @@midi_path_cache[p][path] = "/#{p}#{path}"
+        if args1.nil?
+          __midi_send_timed_param_2 path, c, args0
+        else
+          __midi_send_timed_param_3 path, c, args0, args1
+        end
       end
 
-      def __midi_send_timed(*args)
-        __osc_send "localhost", @ports[:osc_midi_out_port], *args
+      def __midi_send_timed(path)
+        __osc_send "localhost", @ports[:osc_midi_out_port], path
       end
 
-      def __midi_message(m) __delayed_message m unless __thread_locals.get(:sonic_pi_suppress_midi_logging)
+      def __midi_send_timed_param_2(path, a, b)
+        __osc_send "localhost", @ports[:osc_midi_out_port], path, a, b
+      end
+
+      def __midi_send_timed_param_3(path, a, b, c)
+        __osc_send "localhost", @ports[:osc_midi_out_port], path, a, b, c
+      end
+
+      def __midi_send_timed_param_n(path, *args)
+        __osc_send "localhost", @ports[:osc_midi_out_port], path, *args
+      end
+
+      def __midi_message(m)
+        __delayed_message m unless __thread_locals.get(:sonic_pi_suppress_midi_logging)
       end
 
       def __midi_rest_message(m)

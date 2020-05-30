@@ -77,7 +77,7 @@ pids.each do |pid|
   end
 
   begin
-    info = Sys::ProcTable.ps(pid)
+    info = Sys::ProcTable.ps(pid: pid)
     raise unless info
   rescue
     log_process_info "  -- unable to get ProcTable info for: #{pid}"

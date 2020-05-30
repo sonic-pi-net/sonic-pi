@@ -1,0 +1,69 @@
+---
+title: kramdown 1.17.0 released
+no_output: true
+sort_info: r1170
+created_at: 2018-05-31 07:55:00 +02:00
+modified_at: 2018-05-31 07:55:00 +02:00
+---
+## kramdown 1.17.0 released
+
+This release adds support for another server side [math engine][katex] based on KaTeX but with an
+easier installation method. There are also various fixes, the most important one being a change in
+the Setext and atx style header parsers to prevent performance and potential denial of service
+problems.
+
+Thanks to all the people working on making kramdown better!
+
+## Changes
+
+* 3 minor change:
+
+  - Add new math engine [katex] for easier server-side conversion (pull requests [#489], [#510] by
+    Gleb Mazovetskiy)
+  - New configuration options `--no-config-file` and `--config-file FILE` for the kramdown binary
+    (pull request [#499] by ccorn)
+  - Add information to AST whether a codeblock is indented or fenced (issue [#507] and pull request
+    [#508] by Dan Allen)
+
+* 4 bug fixes:
+
+  - Fix the numeric values of the entities `cap` and `cup` (pull request [#487] by Ashe Connor)
+  - Fix problem with parsing an empty tag inside a table cell while using `html_to_native` (issue
+    [#514] and pull request [#515] by Dan Allen)
+  - Fix performance issue in Setext and atx style headers when parsing a lot of space (fixes [#505]
+    by Dmitry Krasnoukhov, pull request [#513] by Gleb Mazovetskiy)
+  - Prevent duplicate warning for reference style links with missing link identifier (fixes [#492]
+    reported by Gregory Pakosz)
+
+* 8 documentation and other changes:
+
+  - Expand table of contents example for HTML converter (pull request [#484] by Milo Simpson)
+  - Use non-deprecated SCSS color function for kramdown homepage (pull request [#485] by ccorn)
+  - Add usage notes and comparison for KaTeX vs SsKaTeX (pull request [#493] by ccorn)
+  - Node version 6.0 is now used because of newer mathjax-node requirements (pull request [#498] by
+    ccorn)
+  - `Rakefile` adjustments for various math engines (pull request [#499] by ccorn)
+  - Add more files to `.gitignore` (pull request [#518] by Gleb Mazovetskiy)
+  - Remove some unneeded code for Ruby versions < 2.0 (pull request [#502] by Ashwin Maroli)
+  - Updated the kramdown website to be more privacy-friendly
+
+
+[#484]: https://github.com/gettalong/kramdown/pull/484
+[#487]: https://github.com/gettalong/kramdown/pull/487
+[#485]: https://github.com/gettalong/kramdown/pull/485
+[#489]: https://github.com/gettalong/kramdown/pull/489
+[#493]: https://github.com/gettalong/kramdown/pull/493
+[#498]: https://github.com/gettalong/kramdown/pull/498
+[#499]: https://github.com/gettalong/kramdown/pull/499
+[#514]: https://github.com/gettalong/kramdown/issues/514
+[#515]: https://github.com/gettalong/kramdown/pull/515
+[#507]: https://github.com/gettalong/kramdown/issues/507
+[#508]: https://github.com/gettalong/kramdown/pull/508
+[#518]: https://github.com/gettalong/kramdown/pull/518
+[#505]: https://github.com/gettalong/kramdown/issues/505
+[#513]: https://github.com/gettalong/kramdown/pull/513
+[#502]: https://github.com/gettalong/kramdown/pull/502
+[#510]: https://github.com/gettalong/kramdown/pull/510
+[#492]: https://github.com/gettalong/kramdown/issues/492
+
+[katex]: ../math_engine/katex.html

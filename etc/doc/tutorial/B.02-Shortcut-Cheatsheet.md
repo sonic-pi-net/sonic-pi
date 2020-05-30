@@ -3,7 +3,7 @@ B.2 Shortcut Cheatsheet
 # Shortcut Cheatsheet
 
 The following is a summary of the main shortcuts available within Sonic
-Pi. Please see Section 10.1 for motivation and background.
+Pi. Please see Section B.1 for motivation and background.
 
 ## Conventions
 
@@ -23,6 +23,10 @@ Windows/Linux or *Cmd* on Mac):
 * `M-p`     - Toggle Preferences
 * `M-{`     - Switch buffer to the left
 * `M-}`     - Switch buffer to the right
+* `S-M-0`   - Switch to buffer 0
+* `S-M-1`   - Switch to buffer 1
+* ...
+* `S-M-9`   - Switch to buffer 9
 * `M-+`     - Increase text size of current buffer
 * `M--`     - Decrease text size of current buffer
 

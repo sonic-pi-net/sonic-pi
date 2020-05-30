@@ -1,0 +1,13 @@
+---
+title: Coderay
+---
+
+## Syntax Highlighting With Coderay
+
+This syntax highlighter was built-in until kramdown 2.0 and since then is available through the
+[`kramdown-syntax-coderay` gem](https://github.com/kramdown/syntax-coderay).
+
+[Coderay](http://coderay.rubychan.de) (MIT licensed) can be used as syntax highlighter for code
+blocks and code spans when converting to HTML.
+
+See <https://github.com/kramdown/syntax-coderay> for documentation!

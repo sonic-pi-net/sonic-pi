@@ -17,6 +17,7 @@ require_relative "counter"
 require_relative "promise"
 require_relative "jobs"
 require_relative "synths/synthinfo"
+require_relative "lang/western_theory"
 require_relative "lang/sound"
 require_relative "gitsave"
 require_relative "lifecyclehooks"
@@ -40,6 +41,7 @@ require 'set'
 require 'ruby-beautify'
 require 'securerandom'
 require 'active_support/core_ext/integer/inflections'
+require 'shellwords'
 
 module SonicPi
   class Stop < StandardError ; end
@@ -87,39 +89,14 @@ module SonicPi
       end
     end
 
-    def __stop_cue_server!(silent=false)
-      @osc_cue_server_mutex.synchronize do
-        if @osc_server
-          __info "Stopping OSC server...." unless silent
-          @osc_server.stop
-          @osc_server = SonicPi::OSC::UDPServer.new(@osc_cues_port, open: false)
-        end
-      end
-    end
-
-    def __restart_cue_server!(open=false, silent=false)
-      @osc_cue_server_mutex.synchronize do
-        @osc_server.stop if @osc_server
-        __info "Restarting OSC server...." unless silent
-        @osc_server = SonicPi::OSC::UDPServer.new(@osc_cues_port, open: open,) do |address, args, info|
-          address = "/#{address}" unless address.start_with?("/")
-          address = "/osc:#{info[2]}:#{info[1]}#{address}"
-          p = 0
-          d = 0
-          b = 0
-          m = 60
-          @register_cue_event_lambda.call(Time.now, p, @system_init_thread_id, d, b, m, address, args, 0)
-        end
-
-        unless silent
-          if open
-            __info "OSC server started. Listening for local and remote messages on port #{@osc_cues_port}."
-          else
-            __info "OSC server started. Listening for local messages on port #{@osc_cues_port}"
-          end
-        end
-
-      end
+    def __register_external_osc_cue_event(time, host, port, address, args)
+      address = "/#{address}" unless address.start_with?("/")
+      address = "/osc:#{host}:#{port}#{address}"
+      p = 0
+      d = 0
+      b = 0
+      m = 60
+      @register_cue_event_lambda.call(Time.now, p, @system_init_thread_id, d, b, m, address, args, 0)
     end
 
     def __gui_heartbeat(id)
@@ -270,27 +247,33 @@ module SonicPi
     def __schedule_delayed_blocks_and_messages!
       delayed_messages = __system_thread_locals.get(:sonic_pi_local_spider_delayed_messages, [])
       delayed_blocks = __system_thread_locals.get(:sonic_pi_local_spider_delayed_blocks, [])
-      if delayed_messages
-        unless(delayed_messages.empty?)
-          thread_name = __current_thread_name
-          in_thread do
+      __system_thread_locals.set_local(:sonic_pi_local_spider_delayed_messages, [])
+      __system_thread_locals.set_local(:sonic_pi_local_spider_delayed_blocks, [])
+      if (delayed_messages && (!delayed_messages.empty?) && (!__system_thread_locals.get(:sonic_pi_spider_silent)))
+        msg = {:type => :multi_message,
+          :val => delayed_messages,
+          :jobid => __current_job_id,
+          :jobinfo => __current_job_info,
+          :runtime => __current_local_run_time.round(4),
+          :thread_name => __current_thread_name}
             last_vt = __system_thread_locals.get :sonic_pi_spider_time
             sched_ahead_sync_t = last_vt + __current_sched_ahead_time
             sleep_time = sched_ahead_sync_t - Time.now
+
+        Thread.new do
             Kernel.sleep(sleep_time) if sleep_time > 0
+          __msg_queue.push msg
+
             #We're now in sync with the sched_ahead time
 
-            delayed_blocks.each do |b|
-              begin
-                b.call
-              rescue => e
-                log e.backtrace
-              end
-            end
-            __multi_message(delayed_messages, thread_name)
-          end
-          __system_thread_locals.set_local :sonic_pi_local_spider_delayed_messages, []
-          __system_thread_locals.set_local :sonic_pi_local_spider_delayed_blocks, []
+          # delayed_blocks.each do |b|
+          #   begin
+          #     b.call
+          #   rescue => e
+          #     log e.backtrace
+          #   end
+          # end
+
         end
       end
     end
@@ -370,6 +353,22 @@ module SonicPi
       @cue_events
     end
 
+    def __stop_start_cue_server!(stop)
+      if stop
+        @osc_client.send("/stop-start-cue-server", 0)
+      else
+        @osc_client.send("/stop-start-cue-server", 1)
+      end
+    end
+
+    def __cue_server_internal!(internal)
+      if internal
+        @osc_client.send("/internal-cue-port", 1)
+      else
+        @osc_client.send("/internal-cue-port", 0)
+      end
+    end
+
     def __stop_job(j)
       __info "Stopping run #{j}"
       # Only allow a job to be stopped once
@@ -393,26 +392,17 @@ module SonicPi
 
       # Force a GC collection now everything has stopped
       GC.start
+      GC.compact if RUBY_VERSION >= "2.7.0"
     end
 
     def __osc_flush!
-      @osc_server.send("localhost", @osc_router_port, "/flush", "default")
+      @osc_client.send("/flush", "default")
     end
 
     def __stop_other_jobs
       __info "Stopping all runs other than #{__current_job_id}..."
       @user_jobs.each_id do |id|
         __stop_job id unless id == __current_job_id
-      end
-    end
-
-    def __join_subthreads(t)
-      subthreads = __system_thread_locals(t).get :sonic_pi_local_spider_subthreads
-
-
-      subthreads.each do |st|
-        st.join
-        __join_subthreads(st)
       end
     end
 
@@ -711,13 +701,30 @@ module SonicPi
     end
 
     def __set_default_system_thread_locals!
+      # Give new thread a new subthread mutex
       __system_thread_locals.set_local :sonic_pi_local_spider_subthread_mutex, Mutex.new
+      __system_thread_locals.set_local :sonic_pi_local_spider_subthread_empty, Promise.new
+
+      # Give new thread a new no_kill mutex This reduces contention
+      # over the alternative of a global no_kill mutex.  Killing a Run
+      # then essentially turns into waiting for each no_kill mutext for
+      # every sub-in_thread before killing them.
       __system_thread_locals.set_local :sonic_pi_local_spider_no_kill_mutex, Mutex.new
+
+      # Reset subthreads thread local to the empty set. This shouldn't
+      # be inherited from the parent thread.
       __system_thread_locals.set_local :sonic_pi_local_spider_subthreads, Set.new
       __system_thread_locals.set_local :sonic_pi_local_spider_delayed_blocks, []
       __system_thread_locals.set_local :sonic_pi_local_spider_delayed_messages, []
       __system_thread_locals.set_local :sonic_pi_local_control_deltas, {}
-      __system_thread_locals.set :sonic_pi_spider_thread, true
+      __system_thread_locals.set_local(:sonic_pi_spider_num_threads_spawned, 0)
+      __system_thread_locals.set_local(:sonic_pi_spider_thread_delta, 0)
+
+      # Thread locals used for waiting for threads (essential for Time State's determinism)
+      __system_thread_locals.set_local(:sonic_pi_spider_state_waiters, [])
+      __system_thread_locals.set_local(:sonic_pi_spider_time_change, Mutex.new)
+
+
     end
 
     def __set_default_user_thread_locals!
@@ -740,6 +747,8 @@ module SonicPi
 
       info[:workspace].freeze
       info.freeze
+
+      job_in_thread = nil
       job = Thread.new do
         Thread.current.priority = 20
         begin
@@ -767,9 +776,11 @@ module SonicPi
           end
           __info "Starting run #{id}" unless silent
           code = PreParser.preparse(code, SonicPi::Lang::Core.vec_fns)
-          code = "in_thread seed: 0 do\n" + code + "\nend"
+
           firstline -=1
-          eval(code, nil, info[:workspace], firstline)
+          job_in_thread = in_thread seed: 0 do
+            eval(code, nil, info[:workspace], firstline)
+          end
           __schedule_delayed_blocks_and_messages!
         rescue Stop => e
           __no_kill_block do
@@ -813,7 +824,7 @@ module SonicPi
         Thread.current.priority = -10
         __system_thread_locals.set_local(:sonic_pi_local_thread_group, "job-#{id}-GC")
         job.join
-        __join_subthreads(job)
+        __system_thread_locals(job_in_thread).get(:sonic_pi_local_spider_subthread_empty).get
 
         # wait until all synths are dead
         @life_hooks.completed(id)
@@ -836,7 +847,6 @@ module SonicPi
 
     def __exit
       log "Runtime - shutting down..."
-      @event_t.kill
       log "Runtime - stopping all jobs..."
       __stop_jobs
       __msg_queue.push({:type => :exit, :jobid => __current_job_id, :jobinfo => __current_job_info})
@@ -859,16 +869,6 @@ module SonicPi
       end
     end
 
-    def __current_subthreads(t = Thread.current)
-      subthreads = __system_thread_locals(t).get(:sonic_pi_local_spider_subthreads)
-      if subthreads
-        return subthreads
-      else
-        subthreads = Set.new
-        subthreads = __system_thread_locals(t).set_local(:sonic_pi_local_spider_subthreads, subthreads)
-      end
-    end
-
     def __current_thread_id
       __system_thread_locals.get :sonic_pi_spider_thread_id_path
     end
@@ -882,216 +882,224 @@ module SonicPi
     end
 
     def __in_thread(*opts, &block)
-        args_h = resolve_synth_opts_hash_or_array(opts)
-        name = args_h[:name]
-        delay = args_h[:delay]
-        sync_sym = args_h[:sync]
-        sync_bpm_sym = args_h[:sync_bpm]
-        sync_sym = nil if sync_bpm_sym
+      args_h = resolve_synth_opts_hash_or_array(opts)
+      name = args_h[:name]
+      delay = args_h[:delay]
+      sync_sym = args_h[:sync]
+      sync_bpm_sym = args_h[:sync_bpm]
+      sync_sym = nil if sync_bpm_sym
 
-        raise ArgumentError, "in_thread's delay: opt must be a number, got #{delay.inspect}" if delay && !delay.is_a?(Numeric)
+      raise ArgumentError, "in_thread's delay: opt must be a number, got #{delay.inspect}" if delay && !delay.is_a?(Numeric)
 
-        parent_t = Thread.current
+      parent_t = Thread.current
+      job_id = __current_job_id
+      reg_with_parent_completed = Promise.new
+      subthread_added_prom = Promise.new
 
-        # Get copy of thread locals whilst we're sure they're not being modified
-        # as we're in the thread parent_t
+      if args_h[:seed]
+        new_rand_seed = args_h[:seed]
+      else
+        new_thread_gen_idx = __thread_locals.get :sonic_pi_spider_new_thread_random_gen_idx
+        new_rand_seed = SonicPi::Core::SPRand.rand!(441000, new_thread_gen_idx)
+        __thread_locals.set :sonic_pi_spider_new_thread_random_gen_idx, new_thread_gen_idx + 1
+      end
 
-        job_id = __current_job_id
-        reg_with_parent_completed = Promise.new
-        subthread_added_prom = Promise.new
+      new_tls = SonicPi::Core::ThreadLocal.new(__thread_locals, SonicPi::Core::SPRand.tl_seed_map(new_rand_seed + SonicPi::Core::SPRand.get_seed, 0))
 
-        if args_h[:seed]
-          new_rand_seed = args_h[:seed]
-        else
-          new_thread_gen_idx = __thread_locals.get :sonic_pi_spider_new_thread_random_gen_idx
-          new_rand_seed = SonicPi::Core::SPRand.rand!(441000, new_thread_gen_idx)
-          __thread_locals.set :sonic_pi_spider_new_thread_random_gen_idx, new_thread_gen_idx + 1
-        end
+      new_system_tls = SonicPi::Core::ThreadLocal.new(__system_thread_locals)
 
-        new_tls = SonicPi::Core::ThreadLocal.new(__thread_locals, SonicPi::Core::SPRand.tl_seed_map(new_rand_seed + SonicPi::Core::SPRand.get_seed, 0))
+      n_threads_spawned = __system_thread_locals.get :sonic_pi_spider_num_threads_spawned
+      __system_thread_locals.set_local :sonic_pi_spider_num_threads_spawned, n_threads_spawned + 1
+      thread_id_path = __system_thread_locals.get :sonic_pi_spider_thread_id_path
+      new_thread_id_path = thread_id_path << n_threads_spawned
 
-        new_system_tls = SonicPi::Core::ThreadLocal.new(__system_thread_locals)
+      # Create the new thread
+      new_thread = nil
+      __no_kill_block do
+
+        new_thread = Thread.new do
+          main_in_thread = Thread.current
+          main_in_thread.priority = 10
+
+          #####################
+          # Thread GC - will wait for main thread to finish and then execute
+          Thread.new do
+            Thread.current.priority = -10
+
+            # set thread group name
+            if name
+              thread_group_name ="in_thread_join_#{name}"
+            else
+              thread_group_name = :in_thread_join
+            end
+            __system_thread_locals.set_local(:sonic_pi_local_thread_group, thread_group_name)
+
+            # wait for main in thread to complete
+            # this could be because the thread exited normally
+            # or raised an error
+            # or an error was raised by wait_for_parent_thread! (which means parent was killed)
+            main_in_thread.join
 
 
-        n_threads_spawned = __system_thread_locals.get :sonic_pi_spider_num_threads_spawned
-        __system_thread_locals.set_local :sonic_pi_spider_num_threads_spawned, n_threads_spawned + 1
-        thread_id_path = __system_thread_locals.get :sonic_pi_spider_thread_id_path
-        new_thread_id_path = thread_id_path << n_threads_spawned
+            # There are two points at which we can be sure that the
+            # subthreads is and will remain empty (i.e. no more
+            # subthreads will be spawned and all existing subthreads
+            # have completed). First is here, when our main thread has
+            # finished. If the subthreads is empty, then it's safe to
+            # assume that the dead thread cannot spawn any further
+            # subthreads.
+            #
+            # The second point is when a subthread completes and removes
+            # itself from the subthread list. If at that point this main
+            # thread is dead and the subthreads lists is empty (after it
+            # has removed itself) then it's also safe to assume that the
+            # main thread cannot spawn any further subthreads.
+            if __system_thread_locals(main_in_thread).get(:sonic_pi_local_spider_subthreads).empty?
+              __system_thread_locals(main_in_thread).get(:sonic_pi_local_spider_subthread_empty).deliver!(true)
+            end
 
-        # Create the new thread
-        t = nil
-        __no_kill_block do
+            # remove any un-matched event matchers created
+            # by the thread we're currently cleaning up
+            # after:
+            @event_history.prune(new_thread_id_path)
 
-
-          t = Thread.new do
-            # Copy thread locals across from parent thread to this new thread
-            __thread_locals_reset!(new_tls)
-            __system_thread_locals_reset!(new_system_tls)
-            __system_thread_locals.set_local(:sonic_pi_local_thread_group, :job_subthread)
-            __system_thread_locals.set_local(:sonic_pi_spider_num_threads_spawned, 0)
-            __system_thread_locals.set_local(:sonic_pi_spider_thread_id_path, new_thread_id_path)
-            __system_thread_locals.set_local(:sonic_pi_spider_thread_delta, 0)
-
-            # Thread locals used for waiting for threads (essential for Time State's determinism)
-            __system_thread_locals.set_local(:sonic_pi_spider_state_waiters, [])
-            __system_thread_locals.set_local(:sonic_pi_spider_time_change, Mutex.new)
-
-            main_t = Thread.current
-            main_t.priority = 10
-
-            # Thread GC - will wait for main thread to finish and then execute
-            Thread.new do
-              if name
-                __system_thread_locals.set_local(:sonic_pi_local_thread_group, "in_thread_join_#{name}".freeze)
-              else
-                __system_thread_locals.set_local(:sonic_pi_local_thread_group, :in_thread_join)
+            # Remove any time state waiters
+            __system_thread_locals(main_in_thread).get(:sonic_pi_spider_time_change).synchronize do
+              __system_thread_locals(main_in_thread).get(:sonic_pi_spider_state_waiters).delete_if do |w|
+                w[:prom].deliver! true
               end
-              Thread.current.priority = -10
+            end
 
-              main_t.join
+            # wait for all subthreads to finish before removing self from
+            # the parent subthread tree
+            __system_thread_locals(main_in_thread).get(:sonic_pi_local_spider_subthread_empty).get
 
-              # remove any un-matched event matchers created
-              # by the thread we're currently cleaning up
-              # after:
-              @event_history.prune(new_thread_id_path)
+            __system_thread_locals(parent_t).get(:sonic_pi_local_spider_subthread_mutex).synchronize do
+              parent_subthreads = __system_thread_locals(parent_t).get(:sonic_pi_local_spider_subthreads)
+              parent_subthreads.delete(main_in_thread)
 
-              # Remove any time state waiters
-              __system_thread_locals(main_t).get(:sonic_pi_spider_time_change).synchronize do
-                __system_thread_locals(main_t).get(:sonic_pi_spider_state_waiters).delete_if do |w|
-                  w[:prom].deliver! true
+              if (!parent_t.alive?) && parent_subthreads.empty?
+                # signal that the parent's subthreads are now empty and completed
+                yo_prom = __system_thread_locals(parent_t).get(:sonic_pi_local_spider_subthread_empty)
+                if yo_prom
+                  yo_prom.deliver!(true)
+                else
+                  log "Oh crap where is yo_prom????"
+                  log "#{__system_thread_locals(parent_t).get(:sonic_pi_local_thread_group)}"
                 end
               end
 
 
-              # wait for all subthreads to finish before removing self from
-              # the parent subthread tree
-              __join_subthreads(main_t)
-
-              __system_thread_locals(parent_t).get(:sonic_pi_local_spider_subthread_mutex).synchronize do
-                __current_subthreads.delete(main_t)
-              end
             end
+          end
+          # End Thread GC
+          ##################
 
-            __system_thread_locals.set_local :sonic_pi_local_spider_users_thread_name, name if name
+          # Copy thread locals across from parent thread to this new thread
+          __thread_locals_reset!(new_tls)
+          __system_thread_locals_reset!(new_system_tls)
+          __set_default_system_thread_locals!
 
-            __system_thread_locals.set_local :sonic_pi_local_spider_delayed_blocks, []
-            __system_thread_locals.set_local :sonic_pi_local_spider_delayed_messages, []
-            __system_thread_locals.set_local :sonic_pi_local_control_deltas, {}
+          __system_thread_locals.set_local(:sonic_pi_local_thread_group, :job_subthread)
+          __system_thread_locals.set_local(:sonic_pi_spider_thread_id_path, new_thread_id_path)
+          __system_thread_locals.set_local :sonic_pi_local_spider_users_thread_name, name if name
 
+          # Wait for parent to deliver promise. Throws an exception if
+          # parent dies before the promise is delivered, thus stopping
+          # this thread from continually waiting for forgotten promises...
+          wait_for_parent_thread!(parent_t, reg_with_parent_completed)
 
-            # Reset subthreads thread local to the empty set. This shouldn't
-            # be inherited from the parent thread.
-            __system_thread_locals.set_local :sonic_pi_local_spider_subthreads, Set.new
-
-            # Give new thread a new subthread mutex
-            __system_thread_locals.set_local :sonic_pi_local_spider_subthread_mutex, Mutex.new
-
-            # Give new thread a new no_kill mutex This reduces contention
-            # over the alternative of a global no_kill mutex.  Killing a Run
-            # then essentially turns into waiting for each no_kill mutext for
-            # every sub-in_thread before killing them.
-            __system_thread_locals.set_local :sonic_pi_local_spider_no_kill_mutex, Mutex.new
-
-
-            # Wait for parent to deliver promise. Throws an exception if
-            # parent dies before the promise is delivered, thus stopping
-            # this thread from continually waiting for forgotten promises...
-            wait_for_parent_thread!(parent_t, reg_with_parent_completed)
-
-            # Attempt to associate the current thread with job with
-            # job_id. This will kill the current thread if job is no
-            # longer running or if there already exists a name thread
-            # with this same name
-            added_subthread_prom = Promise.new
-            main_in_thread = Thread.current
-
-            subthread_added_deliver_thread = Thread.new do
-              # The following line after this block will attempt to add
-              # the thread to the list of job subthreads but that action
-              # will potentially terminate the current thread if the
-              # main job isn't running or if there already exists a
-              # similarly named thread. Therefore we attempt to join on
-              # its death here to ensure we deliver the subthread_added
-              # promise both in the case where the main thread dies as
-              # explained above or in the case where it doesn't die :-)
-              main_in_thread.join
-              subthread_added_prom.deliver! true
-            end
-
-            job_subthread_add(job_id, main_in_thread, name)
-
-            # Thread didn't die! Deliver promise and tidy up delivery
-            # thread
+          # Attempt to associate the current thread with job with
+          # job_id. This will kill the current thread if job is no
+          # longer running or if there already exists a name thread
+          # with this same name
+          subthread_added_deliver_thread = Thread.new do
+            # The following line after this block will attempt to add
+            # the thread to the list of job subthreads but that action
+            # will potentially terminate the current thread if the
+            # main job isn't running or if there already exists a
+            # similarly named thread. Therefore we attempt to join on
+            # its death here to ensure we deliver the subthread_added
+            # promise both in the case where the main thread dies as
+            # explained above or in the case where it doesn't die :-)
+            main_in_thread.join
             subthread_added_prom.deliver! true
-            subthread_added_deliver_thread.kill
+          end
+
+          job_subthread_add(job_id, main_in_thread, name)
+
+          # Thread didn't die! Deliver promise and tidy up delivery
+          # thread
+          subthread_added_prom.deliver! true
+          subthread_added_deliver_thread.kill
 
 
-            # Actually run the thread code specified by the user!
-            begin
-              sleep delay if delay
-              sync sync_sym if sync_sym
-              sync_bpm sync_bpm_sym if sync_bpm_sym
+          # Actually run the thread code specified by the user!
+          begin
+            sleep delay if delay
+            sync sync_sym if sync_sym
+            sync_bpm sync_bpm_sym if sync_bpm_sym
 
-              block.call
-              # ensure delayed jobs and messages are honoured for this
-              # thread:
-              __schedule_delayed_blocks_and_messages!
-            rescue Stop => e
-              if name
-                __info("Stopping thread #{name.inspect}")
-              else
-                __delayed_message("Stopped internal thread")
-              end
-              __schedule_delayed_blocks_and_messages!
-              __current_tracker.get
-              job_subthread_rm(job_id, Thread.current)
-              #raise e
-            rescue Exception => e
-              if name
-                __error e, "Thread death +--> #{name.inspect}"
-              else
-                __error e, "Thread death!"
-              end
-
-              # Wait for any trackers by blocking on all promises until
-              # All have been delivered
-              __current_tracker.get
-              __schedule_delayed_blocks_and_messages!
-              job_subthread_rm(job_id, Thread.current)
-              #raise e
+            block.call
+            # ensure delayed jobs and messages are honoured for this
+            # thread:
+            __schedule_delayed_blocks_and_messages!
+          rescue Stop => e
+            if name
+              __info("Stopping thread #{name.inspect}")
             else
-
-              # Wait for any trackers by blocking on all promises until
-              # All have been delivered
-              __current_tracker.get
-
-              # Disassociate thread with job as it has now finished
-              job_subthread_rm(job_id, Thread.current)
+              __delayed_message("Stopped internal thread")
             end
+            __schedule_delayed_blocks_and_messages!
+            __current_tracker.get
+            job_subthread_rm(job_id, Thread.current)
+            #raise e
+          rescue Exception => e
+            if name
+              __error e, "Thread death +--> #{name.inspect}"
+            else
+              __error e, "Thread death!"
+            end
+
+            # Wait for any trackers by blocking on all promises until
+            # All have been delivered
+            __current_tracker.get
+            __schedule_delayed_blocks_and_messages!
+            job_subthread_rm(job_id, Thread.current)
+            #raise e
+          else
+
+            # Wait for any trackers by blocking on all promises until
+            # All have been delivered
+            __current_tracker.get
+
+            # Disassociate thread with job as it has now finished
+            job_subthread_rm(job_id, Thread.current)
           end
-
-          # Whilst we know that the new thread is waiting on the promise to
-          # be delivered, we can now add it to our list of subthreads. Using
-          # the promise means that we can be assured that killing this
-          # current thread won't create a zombie child thread as the child
-          # thread will only continue exiting after it has been sucessfully
-          # registered.
-
-          __system_thread_locals(parent_t).get(:sonic_pi_local_spider_subthread_mutex).synchronize do
-            subthreads = __system_thread_locals(parent_t).get :sonic_pi_local_spider_subthreads
-            subthreads.add(t)
-          end
-
-          # Allow the subthread to continue running
-          reg_with_parent_completed.deliver! true
-
-          # Wait for thread to be registered before continuing...
-          subthread_added_prom.get
         end
 
-        # Return subthread
-        t
+        # Whilst we know that the new thread is waiting on the promise to
+        # be delivered, we can now add it to our list of subthreads. Using
+        # the promise means that we can be assured that killing this
+        # current thread won't create a zombie child thread as the child
+        # thread will only continue exiting after it has been sucessfully
+        # registered.
+
+        __system_thread_locals(parent_t).get(:sonic_pi_local_spider_subthread_mutex).synchronize do
+          subthreads = __system_thread_locals(parent_t).get :sonic_pi_local_spider_subthreads
+          subthreads.add(new_thread)
+        end
+
+        # Allow the subthread to continue running
+        reg_with_parent_completed.deliver! true
+
+        # Wait for thread to be registered before continuing...
+        subthread_added_prom.get
       end
+
+      # Return subthread
+      new_thread
+    end
 
 
 
@@ -1242,6 +1250,8 @@ module SonicPi
 
   end
 
+
+
   class Runtime
 
     include Util
@@ -1249,11 +1259,15 @@ module SonicPi
     include RuntimeMethods
 
     def initialize(ports, msg_queue, user_methods)
+
       @ports = ports
       @git_hash = __extract_git_hash
       gh_short = @git_hash ? "-#{@git_hash[0, 5]}" : ""
       @settings = Config::Settings.new(user_settings_path)
-      @version = Version.new(3, 2, 0, "dev#{gh_short}")
+      @scsynth_clobber_args = Shellwords.split(@settings.get(:scsynth!, ""))
+      scsynth_args = Shellwords.split(@settings.get_or_set(:scsynth, ""))
+      @scsynth_opts = scsynth_args.each_slice(2).to_h
+      @version = Version.new(3, 2, 2)
       @server_version = __server_version
       @life_hooks = LifeCycleHooks.new
       @msg_queue = msg_queue
@@ -1270,7 +1284,7 @@ module SonicPi
       @snippets = {}
       @osc_cues_port = ports[:osc_cues_port]
       @osc_router_port = ports[:erlang_port]
-      @osc_server = SonicPi::OSC::UDPServer.new(@osc_cues_port, open: false)
+      @osc_client = SonicPi::OSC::UDPClient.new("127.0.0.1", @osc_router_port)
       @system_state = EventHistory.new(@job_subthreads, @job_subthread_mutex)
       @user_state = EventHistory.new(@job_subthreads, @job_subthread_mutex)
       @event_history = EventHistory.new(@job_subthreads, @job_subthread_mutex)
@@ -1317,14 +1331,6 @@ module SonicPi
         @gitsave = nil
       end
       @save_queue = SizedQueue.new(20)
-
-      @event_t = Thread.new do
-        __system_thread_locals.set_local(:sonic_pi_local_thread_group, :event_loop)
-        Kernel.loop do
-          event = @event_queue.pop
-          __handle_event event
-        end
-      end
 
       @save_t = Thread.new do
         __system_thread_locals.set_local(:sonic_pi_local_thread_group, :save_loop)

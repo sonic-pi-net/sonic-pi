@@ -1,5 +1,4 @@
-/*
-Available Style Colours:
+/* Style Colours:
 
 - windowColor
 - windowForegroundColor
@@ -35,143 +34,197 @@ Available Style Colours:
 - errorBackgroundColor
 
 - fixedWidthFont
+
+Note about auto scaling
+-----------------------
+
+All dx values are autoscaled for the resolution of the screen. 0 will always return 0, values greater than 0 will always return at least 1.
+
+Values 1->25 will be scaled in integer increments. Values 30 - 100 will be rounded down to the nearest 10 and scaled. Values 100 -> 500 will be rounded down to the nearest 100 and scaled.
+
 */
 
-#prefsCentral {
+*
+{
+  background-color: none;
+}
+
+*#scopes
+{
+    font-size: small;
+}
+
+#prefsCentral
+{
+  font-size: medium;
   background: paneColor;
 }
 
-QSplitter {
-
- background: paneColor;
-
-}
-
-QSplitter::handle:horizontal {
-  background: windowBorderColor;
-}
-
-QFrame {
-    border: none;
-}
-
-QLabel{
-    border: none;
-
+QSplitter
+{
+    background: paneColor;
 }
 
 
-QPushButton{
-    background-color: buttonColor;
-    color: buttonTextColor;
-    padding: 5px;
-    border-radius: 3px;
-    border-color: buttonBorderColor;
-    border-width: 2px;
+QSplitter::handle:horizontal
+{
+    background: windowBorderColor;
 }
 
-QPushButton::pressed{
-    background-color: pressedButtonColor;
-    color: pressedButtonTextColor;
+QFrame
+{
+  border: none;
 }
 
+QLabel
+{
+  font-size: medium;
+  border: none;
+}
 
-QSplitter::handle:vertical{
-    height: 6px;
+QSplitter::handle:vertical
+{
+    height: 6dx;
     image: url(images/vsplitter.png);
 }
 
-QSplitter::handle:horizontal {
-    width: 6px;
+QSplitter::handle:horizontal
+{
+    width: 6dx;
     image: url(images/hsplitter.png);
 }
 
+QTabBar
+{
+  font-size: medium;
+}
 
-
-QTabBar::tab{
-
+QTabBar::tab
+{
 
     background: tabColor;
     color: tabTextColor;
+    padding-top: 5dx;
+    padding-right: 10dx;
+    padding-bottom: 5dx;
+    padding-left: 10dx;
 }
 
-QTabBar::tab:selected{
+QTabBar::tab:selected
+{
     background: tabSelectedColor;
     color: tabSelectedTextColor;
+
 }
 
-QTabWidget::tab-bar{
+QTabWidget::tab-bar
+{
     alignment: center;
+
 }
 
-QTabWidget::pane{
-    border: 0px;
+QTabWidget::pane
+{
+    border: 0dx;
+
 }
 
-QDockWidget::title{
+QDockWidget::title
+{
     color: windowForegroundColor;
-    /*border-bottom: 3px solid windowBorderColor;*/
-    border: 0px;
+    /*border-bottom: 3dx solid windowBorderColor;*/
+    border: 0dx;
     text-align: center;
     background: windowColor;
-    font-size 10px;
+    font-size: small;
 }
 
-QDockWidget{
-    font-size:10px;
+QDockWidget
+{
+  font-size: small;
 }
 
-QToolTip {
+ QToolTip
+ {
     color: toolTipTextColor;
     background-color: toolTipBaseColor;
-    border: 0px;
+    border: 0dx;
 }
 
-QSlider::groove:vertical{
-    margin: 2px 0;
+QSlider
+{
+    width: 25dx;
+}
+
+
+
+QSlider::groove:vertical
+{
+    margin: 2dx;
     background: sliderBackgroundColor;
-    border-radius: 3px;
-    border: 2px solid sliderBorderColor;
+    border-radius: 3dx;
+    border: 2dx solid sliderBorderColor;
 }
 
-QSlider::handle:vertical {
-    border: 1px solid black;
-    border-radius: 3px;
-    height: 30px;
+QSlider::handle:vertical
+{
+    border: 1dx solid black;
+    border-radius: 3dx;
+    height: 30dx;
     background-color: sliderColor;
-
 }
 
-QMenu{
+QMenu
+{
     background: menuColor;
     color: menuTextColor;
 }
 
-QMenu:selected{
+QMenu:selected
+{
     background: menuSelectedColor;
     color: menuSelectedTextColor;
 }
 
-QMainWindow::separator{
-    border: 1px solid windowBorderColor;
+
+QMenuBar {
+    background: menuBarColor;
 }
 
-QMainWindow{
-    background-color: windowBorderColor;
+QMenuBar::item {
+    background: menuColor;
+    color: menuTextColor;
+}
+
+QMenuBar::item:selected {
+    background: menuSelectedColor;
+    color: menuSelectedTextColor;
+}
+
+QMainWindow::separator
+{
+   background-color: windowBorderColor;
+   height: 2dx;
+}
+
+QMainWindow
+{
+    background-color: none;
     color: windowColor;
 }
 
-
-
-QwtPlot{
+QwtPlot
+{
     background-color: paneColor;
 }
 
-QwtPlotGLCanvas{
+QwtPlotGLCanvas
+{
     background-color: paneColor;
 }
 
-QStatusBar{
+QStatusBar
+{
     background-color: statusBarColor;
     color: statusBarTextColor;
 }
@@ -180,78 +233,93 @@ QStatusBar::item{
     border: none;
 }
 
-QPlainTextEdit{
+QPlainTextEdit
+{
     background-color: logBackgroundColor;
     color: logForegroundColor;
-    border: 0px;
+    border: 0dx;
 }
 
 
-QCheckBox:hover{
+QCheckBox {
+    font-size: medium;
+    spacing: 5dx;
+}
+
+QCheckBox::indicator {
+    width: 18dx;
+    height: 18dx;
+}
+
+QCheckBox::indicator:unchecked {
+    image: url(:/images/checkbox-unchecked.png);
+}
+
+QCheckBox::indicator:checked {
+    image: url(:/images/checkbox-checked.png);
+}
+
+
+QRadioButton
+{
     color: windowForegroundColor;
     background: windowColor;
 }
 
-QCheckBox{
-    color: windowForegroundColor;
+QGroupBox QFrame
+{
     background: windowColor;
 }
 
-QRadioButton{
-    color: windowForegroundColor;
-    background: windowColor;
-}
+QGroupBox
+{
 
-QGroupBox QFrame {
-    background: windowColor;
-}
+  font-size: medium;
 
-QGroupBox{
-    padding: 0 0 0 0;
+  padding-top: 5dx;
+    padding-right: 10dx;
+    padding-bottom: 5dx;
+    padding-left: 10dx;
+
     subcontrol-origin: margin;
-    margin-top: 15px;
-    margin-bottom: 0px;
-    font-size: 11px;
+    margin-top: 15dx;
+    margin-bottom: 15dx;
+    font-size: medium;
     font-weight: italic;
-    font: bold ;
     background-color: windowColor;
-    border: 5px solid windowInternalBorderColor;
+    border: 5dx solid windowInternalBorderColor;
 }
 
-
-QDockWidget QListView {
+QDockWidget QListView
+{
     color: windowForegroundColor;
     selection-color: selectionForegroundColor;
     selection-background-color: selectionBackgroundColor;
-    outline: 10px;
+    outline: 10dx;
+
 }
 
-
-
-
-
-QTextBrowser {
+QTextBrowser
+{
+    font-size: medium;
     selection-color: selectionForegroundColor;
     selection-background-color: selectionBackgroundColor;
-
-    padding: 20px;
+    padding: 20dx;
     background-color: paneColor;
 }
 
 QListWidget
 {
-    border: 1px solid menuSelectedColor;
+    font-size: medium;
+    border: 1dx solid windowBorderColor;
     background: paneColor;
-    font-size: 14px;
-    min-width: 500px;
-    font-family: fixedWidthFont;
+    min-width: 500dx;
 }
 
 QListWidget::item
 {
     background: paneColor;
     color: menuTextColor;
-
 }
 
 QListWidget::item::selected
@@ -260,148 +328,210 @@ QListWidget::item::selected
     color: menuSelectedTextColor;
 }
 
-QComboBox {
-    border: 1px solid tabSelectedColor;
-    border-radius: 3px;
-    padding: 1px 18px 1px 3px;
+QComboBox
+{
+    font-size: medium;
+    border: 1dx solid tabSelectedColor;
+    border-radius: 3dx;
+    padding-top: 1dx;
+    padding-right: 18dx;
+    padding-bottom: 1dx;
+    padding-left: 3dx;
     background: tabColor;
     color: tabTextColor;
-
 }
 
-QComboBox::item {
+QComboBox::item
+{
     background: tabColor;
     color: tabTextColor;
     selection-color: tabSelectedTextColor;
     selection-background-color: tabSelectedColor;
 }
 
-QComboBox:hover{
-    border-radius: 3px;
-    border-width:2px;
+QComboBox:hover
+{
+    border-radius: 3dx;
+    border-width:2dx;
     border-color: #1e90ff
 }
 
-QComboBox::item::selected {
+QComboBox::item::selected
+{
     background: tabSelectedColor;
     color: tabSelectedTextColor;
 }
 
-QComboBox:on { /* shift the text when the popup opens */
+QComboBox:on
+{ /* shift the text when the popup opens */
     color: tabSelectedColor;
 }
 
-QComboBox::drop-down {
+QComboBox::drop-down
+{
     border-style: none;
 }
 
-QLabel[accessibleName="midi-in-ports-label"] {
-   font-size: 10px;
-   padding: 1px 18px 1px 3px;
-   border-radius: 3px;
-   background-color: tabColor;
-   color: tabTextColor;
+QLabel[accessibleName="midi-in-ports-label"]
+{
+    font-size: small;
+    padding-top: 1dx;
+    padding-right: 18dx;
+    padding-bottom: 1dx;
+    padding-left: 3dx;
+    border-radius: 3dx;
+    background-color: tabColor;
+    color: tabTextColor;
 }
 
-QLabel[accessibleName="midi-out-ports-label"] {
-   font-size: 10px;
-   padding: 1px 18px 1px 3px;
-   border-radius: 3px;
-   background-color: tabColor;
-   color: tabTextColor;
+QLabel[accessibleName="midi-out-ports-label"]
+{
+    font-size: small;
+    padding-top: 1dx;
+    padding-right: 18dx;
+    padding-bottom: 1dx;
+    padding-left: 3dx;
+    border-radius: 3dx;
+    background-color: tabColor;
+    color: tabTextColor;
 }
 
-QToolBar{
+QToolBar
+{
     background-color: windowColor;
-    border-bottom: 0px;
+    border-bottom: 0dx;
 }
 
-QToolButton{
+QToolButton
+{
     background-color: none;
     border: none;
-    border-radius: 3px;
-    padding: 0px;
+    border-radius: 3dx;
+    padding: 0dx;
 }
 
-QToolButton::hover {
+QToolButton::hover
+{
     background-color: windowBorderColor;
     border: none;
-    padding: 0px;
+    padding: 0dx;
 }
 
-
-QGroupBox:title{
+QGroupBox:title
+{
     subcontrol-origin: margin;
-    top: 0px;
-    padding: 10px 10px 20px 5px;
+    top: 0dx;
+    padding-top: 10dx;
+    padding-right: 10dx;
+    padding-bottom: 20dx;
+    padding-left: 5dx;
     color: windowForegroundColor;
-    font-weight: bold;
     background-color: windowColor;
 }
 
-
-QScrollBar:vertical {
+QScrollBar:vertical
+{
     background: transparent;
-    width: 10px;
-    padding: 0 0 20px 0;
-    margin: 22px 0 22px 0;
+    width: 10dx;
+    padding-top: 0dx;
+    padding-right: 0dx;
+    padding-bottom: 20dx;
+    padding-left: 0dx;
+
+    margin-top: 22dx;
+    margin-right: 0dx;
+    margin-bottom: 22dx;
+    margin-left: 0dx;
 }
 
-QScrollBar::handle:vertical {
+QScrollBar::handle:vertical
+{
     background: scrollBarColor;
-    border-top: 4px;
-    border-bottom: 4px;
-    min-height: 39px;
+    border-top: 4dx;
+    border-bottom: 4dx;
+    min-height: 39dx;
 }
 
-QScrollBar::add-line:vertical {
-    border-top: solid 5px transparent;
+QScrollBar::add-line:vertical
+{
+    border-top: solid 5dx transparent;
     background: none;
-    height: 20px;
+    height: 20dx;
     subcontrol-position: bottom;
     subcontrol-origin: padding;
 }
-QScrollBar::sub-line:vertical {
+
+QScrollBar::sub-line:vertical
+{
     border: none;
     background: none;
-    height: 20px;
+    height: 20dx;
     subcontrol-position: top;
     subcontrol-origin: margin;
 }
 
-QScrollBar:horizontal {
-    border: 2px scrollBarBackgroundColor;
-    background: none;
-    height: 15px;
-    margin: 0px 20px 0 20px;
+QScrollBar:horizontal
+{
+    border: 2dx scrollBarBackgroundColor;
+    background: scrollBarBackgroundColor;
+    height: 15dx;
+    margin-top: 0dx;
+    margin-right: 2dx;
+    margin-bottom: 0dx;
+    margin-left: 20dx;
+
 }
-QScrollBar::handle:horizontal {
+
+QScrollBar::handle:horizontal
+{
     background: scrollBarColor;
-    min-width: 20px;
-    border: 2px solid paneColor;
+    min-width: 20dx;
+    border: 2dx solid paneColor;
 }
-QScrollBar::add-line:horizontal {
-    border: 2px scrollBarBackgroundColor;
-    background: none;
-    width: 20px;
+
+QScrollBar::add-line:horizontal
+{
+    border: 2dx scrollBarBackgroundColor;
+    background: scrollBarBackgroundColor;
+    width: 20dx;
     subcontrol-position: right;
     subcontrol-origin: margin;
 }
 
-QScrollBar::sub-line:horizontal {
-    border: 2px scrollBarBackgroundColor;
+QScrollBar::sub-line:horizontal
+{
+    border: 2dx scrollBarBackgroundColor;
     background: scrollBarBackgroundColor;
-    width: 20px;
-
+    width: 20dx;
     subcontrol-position: left;
     subcontrol-origin: margin;
 }
 
-
-QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal
+{
     background: none;
 }
 
-QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical
+{
     background: none;
+}
+
+
+
+QPushButton
+{
+    font-size: medium;
+    background-color: buttonColor;
+    color: buttonTextColor;
+    padding: 5dx;
+    border-radius: 3dx;
+    border-color: buttonBorderColor;
+    border-width: 2dx;
+}
+
+QPushButton::pressed
+{
+    background-color: pressedButtonColor;
+    color: pressedButtonTextColor;
 }

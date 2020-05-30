@@ -29,12 +29,26 @@ module SonicPi
           cur_settings = {}
         end
         @settings = cur_settings.with_indifferent_access
-        @sem = Mutex.new
+        @sem = Monitor.new
       end
 
-      def get(k)
+      def get(k, default=nil)
         @sem.synchronize do
-          @settings[k]
+          if @settings.has_key?(k)
+            @settings[k]
+          else
+            default
+          end
+        end
+      end
+
+      def get_or_set(k, default=nil)
+        @sem.synchronize do
+          if @settings.has_key?(k)
+            @settings[k]
+          else
+            set(k, default)
+          end
         end
       end
 

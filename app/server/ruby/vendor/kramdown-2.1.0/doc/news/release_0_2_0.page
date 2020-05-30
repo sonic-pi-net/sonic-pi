@@ -1,0 +1,51 @@
+---
+title: kramdown 0.2.0 released
+no_output: true
+sort_info: r0001
+created_at: 2009-12-03 20:25:00 +02:00
+modified_at: 2009-12-03 20:25:00 +02:00
+---
+## kramdown 0.2.0 released
+
+The most important changes in this release are the inclusion of a definition list syntax and the
+much improved HTML parser. For example, the HTML parser now recognizes the `markdown` attribute for
+enabling and disabling syntax processing in an HTML element and it works in many more scenarios.
+
+The kramdown syntax is still a bit in in a state of flux but all of the major syntax elements
+(except a syntax for tables) are now available. The following releases will focus on stability and
+fixing bugs.
+
+kramdown now also passes 16 from the 23 original Markdown test cases and if one looks at the ones
+that fail one can easily see that this is because of the small changes in the syntax (e.g.
+converting `---` to `&mdash`). This means that almost all Markdown documents show be correctly
+parsed by kramdown!
+
+Last but not least I want to thank Eric Sunshine for his many helpful comments, suggestions and bug
+reports!
+
+
+## Changes
+
+* Major changes:
+
+  - Definition lists are now supported
+  - Option `auto_ids` now defaults to `true`
+  - kramdown syntax (except HTML block lines) is not processed anymore by default in HTML block tags
+  - Added option for enabling/disabling parsing of HTML blocks/spans
+  - Added recognition and usage of the "markdown" attribute for HTML block/span tags
+  - Renamed extensions `kdoptions` to `options` and `nokramdown` to `nomarkdown` (suggested by Eric
+    Sunshine)
+  - Added support for setting header IDs via the syntax available in PHP Markdown Extra and Maruku
+
+* Bug fixes:
+
+  - Fixed bug that occured when using `auto_ids=true` and an IAL for assigning an ID to a header
+  - Fixed bug with parsing of autolinks (reported by Eric Sunshine)
+  - Fixed many bugs regarding HTML parsing -- HTML parsing should work much better now (reported by
+    Eric Sunshine)
+  - Fixed bug with parsing of horizontal rules which contain tabs
+
+* Deprecation notes:
+
+  - The old extension names `kdoptions` and `nokramdown` will be removed in one of the next
+    versions, use the new names `options` and `nomarkdown`.

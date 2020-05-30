@@ -1,0 +1,51 @@
+# These are the steps used in a container-based build in VSTS.
+steps:
+- ${{ if eq(parameters.qemu, 'true') }}:
+  - script: docker run --rm --privileged multiarch/qemu-user-static:register --reset
+    displayName: 'Register Docker QEMU'
+
+- task: cache@2
+  displayName: Cache Docker layers
+  inputs:
+    key: docker
+    path: /tmp/dockercache
+- script: |
+    if [ -f /tmp/dockercache/${{parameters.docker.image}}.tar ]; then docker load < /tmp/dockercache/${{parameters.docker.image}}.tar; fi
+  displayName: 'Load Docker cache'
+- script: |
+    cd $(Build.SourcesDirectory)/azure-pipelines/docker
+    docker build -t libgit2/${{parameters.docker.image}} --build-arg BASE=${{parameters.docker.base}} -f ${{parameters.docker.image}} .
+    if [ ! -d /tmp/dockercache ]; then mkdir /tmp/dockercache; fi
+    docker save libgit2/${{parameters.docker.image}} $(docker history -q libgit2/${{parameters.docker.image}} | grep -v '<missing>') > /tmp/dockercache/${{parameters.docker.image}}.tar
+  displayName: 'Build Docker image'
+- task: docker@0
+  displayName: Build
+  inputs:
+    action: 'Run an image'
+    imageName: libgit2/${{ parameters.docker.image }}
+    volumes: |
+     $(Build.SourcesDirectory):/home/libgit2/source
+     $(Build.BinariesDirectory):/home/libgit2/build
+    envVars: ${{ parameters.environmentVariables }}
+    workDir: '/home/libgit2/build'
+    containerCommand: '/home/libgit2/source/azure-pipelines/build.sh'
+    detached: false
+- task: docker@0
+  displayName: Test
+  inputs:
+    action: 'Run an image'
+    imageName: libgit2/${{ parameters.docker.image }}
+    volumes: |
+     $(Build.SourcesDirectory):/home/libgit2/source
+     $(Build.BinariesDirectory):/home/libgit2/build
+    envVars: ${{ parameters.environmentVariables }}
+    workDir: '/home/libgit2/build'
+    containerCommand: '/home/libgit2/source/azure-pipelines/test.sh'
+    detached: false
+- task: publishtestresults@2
+  displayName: Publish Test Results
+  condition: succeededOrFailed()
+  inputs:
+    testResultsFiles: 'results_*.xml'
+    searchFolder: '$(Build.BinariesDirectory)'
+    mergeTestResults: true

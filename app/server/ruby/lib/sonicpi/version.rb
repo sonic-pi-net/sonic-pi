@@ -66,8 +66,7 @@ module SonicPi
             ((@major == other.major) && (@minor == other.minor) && (@patch == other.patch) && @dev)
           end)
         return -1
-      elsif
-        ((other.is_a? Version) &&
+      elsif ((other.is_a? Version) &&
           (@major > other.major) or
           ((@major == other.major) && (@minor > other.minor)) or
           ((@major == other.major) && (@minor == other.minor) && (@patch > other.patch)) or

@@ -12,6 +12,8 @@
 #++
 require 'socket'
 require_relative "../util"
+require_relative "oscencode"
+require_relative "oscdecode"
 
 module SonicPi
   module OSC
@@ -30,8 +32,8 @@ module SonicPi
         end
         @matchers = {}
         @global_matcher = global_method
-        @decoder = FastOsc
-        @encoder = FastOsc
+        @decoder = OscDecode.new(true)
+        @encoder = OscEncode.new(true)
         @listener_thread = Thread.new {start_listener}
       end
 
@@ -74,11 +76,10 @@ module SonicPi
             osc_data, sender_addrinfo = @socket.recvfrom( 16384 )
           rescue Exception => e
             STDERR.puts "\n==========="
-            STDERR.puts "Critical: UDP Server for address #{address} had issues receiving reading socket"
+            STDERR.puts "Critical: UDP Server for port #{@port} had issues receiving from socket"
             STDERR.puts e.message
             STDERR.puts e.backtrace.inspect
             STDERR.puts "===========\n"
-            Kernel.sleep 1
             redo
           end
 

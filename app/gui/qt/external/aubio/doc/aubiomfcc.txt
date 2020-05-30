@@ -1,0 +1,71 @@
+NAME
+  aubiomfcc - a command line tool to compute Mel-Frequency Cepstrum Coefficients
+
+SYNOPSIS
+
+  aubiomfcc source
+  aubiomfcc [[-i] source]
+            [-r rate] [-B win] [-H hop]
+            [-T time-format]
+            [-v] [-h]
+
+DESCRIPTION
+
+  aubiomfcc compute the Mel-Frequency Cepstrum Coefficients (MFCC).
+
+  MFCCs are coefficients that make up for the mel-frequency spectrum, a
+  representation of the short-term power spectrum of a sound. By default, 13
+  coefficients are computed using 40 filters.
+
+  When started with an input source (-i/--input), the coefficients are given on
+  the console, prefixed by their timestamps in seconds.
+
+OPTIONS
+
+  This program follows the usual GNU command line syntax, with long options
+  starting with two dashes (--). A summary of options is included below.
+
+  -i, --input source  Run analysis on this audio file. Most uncompressed and
+  compressed are supported, depending on how aubio was built.
+
+  -r, --samplerate rate  Fetch the input source, resampled at the given
+  sampling rate. The rate should be specified in Hertz as an integer. If 0,
+  the sampling rate of the original source will be used. Defaults to 0.
+
+  -B, --bufsize win  The size of the buffer to analyze, that is the length
+  of the window used for spectral and temporal computations. Defaults to 512.
+
+  -H, --hopsize hop  The number of samples between two consecutive analysis.
+  Defaults to 256.
+
+  -T, --timeformat format  Set time format (samples, ms, seconds). Defaults to
+  seconds.
+
+  -h, --help  Print a short help message and exit.
+
+  -v, --verbose  Be verbose.
+
+REFERENCES
+
+  Using the default parameters, the filter coefficients will be computed
+  according to Malcolm Slaney's Auditory Toolbox, available at the following
+  url:
+
+  https://engineering.purdue.edu/~malcolm/interval/1998-010/ (see file mfcc.m)
+
+SEE ALSO
+
+  aubioonset(1),
+  aubiopitch(1),
+  aubiotrack(1),
+  aubionotes(1),
+  aubioquiet(1),
+  and
+  aubiocut(1).
+
+AUTHOR
+
+  This manual page was written by Paul Brossier <piem@aubio.org>. Permission is
+  granted to copy, distribute and/or modify this document under the terms of
+  the GNU General Public License as published by the Free Software Foundation,
+  either version 3 of the License, or (at your option) any later version.

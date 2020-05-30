@@ -83,8 +83,12 @@
         <file>images/toolbar/pro/prefs-bordered.png</file>
         <file>images/toolbar/pro/prefs-dark-bordered.png</file>
 
+        <file>images/checkbox-checked.png</file>
+        <file>images/checkbox-unchecked.png</file>
+        <file>images/marker-error.png</file>
 
         <file>images/splash@2x.png</file>
+        <file>images/splash2x.png</file>
         <file>images/splash.png</file>
         <file>images/icon.png</file>
         <file>images/icon-smaller.png</file>
@@ -93,30 +97,34 @@
         <file>images/logo-smaller-dark.png</file>
         <file>images/logo.txt</file>
         <file>images/in_thread_screen.png</file>
-        <file>images/tutorial/sample.png</file>
-        <file>images/tutorial/env-attack-release.png</file>
-        <file>images/tutorial/env-attack-decay-sustain-release.png</file>
-        <file>images/tutorial/env-attack-sustain-release.png</file>
-        <file>images/tutorial/env-long-attack-short-release.png</file>
-        <file>images/tutorial/env-release.png</file>
-        <file>images/tutorial/env-short-attack-short-release.png</file>
-        <file>images/tutorial/env-decay-level.png</file>
-        <file>images/tutorial/env-decay-level-2.png</file>
-        <file>images/tutorial/GUI.png</file>
+        <file>images/play.png</file>
 
-        <file>images/tutorial/articles/A.05-acid-bass/tb303-design.png</file>
-        <file>images/tutorial/articles/A.06-minecraft/Musical-Minecraft-0-small.png</file>
-        <file>images/tutorial/articles/A.06-minecraft/Musical-Minecraft-1-small.png</file>
-        <file>images/tutorial/articles/A.06-minecraft/Musical-Minecraft-2-small.png</file>
-        <file>images/tutorial/articles/A.07-bizet/habanera.png</file>
-        <file>images/tutorial/articles/A.07-bizet/notes.png</file>
-        <file>images/tutorial/articles/A.07-bizet/habanera2.png</file>
-        <file>images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-0-small.png</file>
-        <file>images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-1-small.png</file>
-        <file>images/tutorial/articles/A.02-live-coding/sam-aaron-live-coding.png</file>
-        <file>images/tutorial/articles/A.12-sample-slicing/amen_slice.png</file>
-        <file>images/tutorial/articles/A.14-amplitude-modulation/slicer_control_waves.png</file>
-        <file>images/tutorial/articles/A.14-amplitude-modulation/slicer_phase_durations.png</file>
+        <file>../../../etc/doc/images/tutorial/sample.png</file>
+        <file>../../../etc/doc/images/tutorial/env-attack-release.png</file>
+        <file>../../../etc/doc/images/tutorial/env-attack-decay-sustain-release.png</file>
+        <file>../../../etc/doc/images/tutorial/env-attack-sustain-release.png</file>
+        <file>../../../etc/doc/images/tutorial/env-long-attack-short-release.png</file>
+        <file>../../../etc/doc/images/tutorial/env-release.png</file>
+        <file>../../../etc/doc/images/tutorial/env-short-attack-short-release.png</file>
+        <file>../../../etc/doc/images/tutorial/env-decay-level.png</file>
+        <file>../../../etc/doc/images/tutorial/env-decay-level-2.png</file>
+        <file>../../../etc/doc/images/tutorial/GUI.png</file>
+        <file>../../../etc/doc/images/tutorial/articles/A.05-acid-bass/tb303-design.png</file>
+        <file>../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-Minecraft-0-small.png</file>
+        <file>../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-Minecraft-1-small.png</file>
+        <file>../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-Minecraft-2-small.png</file>
+        <file>../../../etc/doc/images/tutorial/articles/A.07-bizet/habanera.png</file>
+        <file>../../../etc/doc/images/tutorial/articles/A.07-bizet/notes.png</file>
+        <file>../../../etc/doc/images/tutorial/articles/A.07-bizet/habanera2.png</file>
+        <file>../../../etc/doc/images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-0-small.png</file>
+        <file>../../../etc/doc/images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-1-small.png</file>
+        <file>../../../etc/doc/images/tutorial/articles/A.02-live-coding/sam-aaron-live-coding.png</file>
+        <file>../../../etc/doc/images/tutorial/articles/A.12-sample-slicing/amen_slice.png</file>
+        <file>../../../etc/doc/images/tutorial/articles/A.14-amplitude-modulation/slicer_control_waves.png</file>
+        <file>../../../etc/doc/images/tutorial/articles/A.14-amplitude-modulation/slicer_phase_durations.png</file>
+
+        <file>../../../etc/doc/images/tutorial/articles/A.20-creative-coding-in-the-classroom/jylda-small.png</file>
+        <file>../../../etc/doc/images/tutorial/articles/A.20-creative-coding-in-the-classroom/convo-small.png</file>
 
         <file>images/coreteam/samaaron.png</file>
         <file>images/coreteam/josephwilk.png</file>
@@ -134,6 +142,7 @@
 
         <file>theme/light/doc-styles.css</file>
         <file>theme/dark/doc-styles.css</file>
+        <file>theme/high_contrast/doc-styles.css</file>
 
         <file>lang/sonic-pi_bs.qm</file>
         <file>lang/sonic-pi_ca.qm</file>

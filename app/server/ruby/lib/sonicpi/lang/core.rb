@@ -15,6 +15,7 @@ require_relative 'support/docsystem'
 require_relative "../version"
 require_relative "../util"
 require_relative "../runtime"
+require_relative "western_theory"
 
 require 'active_support/inflector'
 
@@ -27,6 +28,7 @@ module SonicPi
 
       include SonicPi::Lang::Support::DocSystem
       include SonicPi::Util
+      include SonicPi::Lang::WesternTheory
 
       class SonicPiError < StandardError ; end
       class AssertionError < SonicPiError ; end
@@ -52,7 +54,7 @@ module SonicPi
 
       def __cue_path_segment(s)
         s = String.new(s.to_s)
-        s.gsub!(/[ \s#*,?\/\[\]{}]/, '_')
+        s.gsub!(/[\s#*,?\/\[\]{}]/, '_')
         s.freeze
       end
 
@@ -67,9 +69,8 @@ module SonicPi
 
         # convert all characters not allowed in
         # OSC path seg to underscores
-        s.gsub!(/[ \s#*,?\[\]{}]/, '_')
+        s.gsub!(/[\s#*,?\[\]{}]/, '_')
         s.freeze
-        s
       end
 
       def __sync_path(s)
@@ -125,7 +126,7 @@ module SonicPi
         @register_cue_event_lambda.call(t, p, i, d, b, m, cue_path, val, __current_sched_ahead_time)
 
         unless __thread_locals.get(:sonic_pi_suppress_cue_logging)
-          unless val
+          if val.nil?
             __delayed_highlight_message "#{prefix} #{k.inspect}"
           else
             if is_list_like?(val)
@@ -143,7 +144,31 @@ module SonicPi
       def set(k, val)
         __cueset(k, val, "set")
       end
+      doc name:           :set,
+          introduced:     Version.new(3,0,0),
+          summary:        "Store information in the Time State",
+          doc:            "Store information in the Time State for the current time for either the current or any other thread. If called multiple times without an intervening call to `sleep`, `sync`, `set` or `cue`, the last value set will prevail. The value will remain in the Time State until overwritten by another call to `set`, or until Sonic Pi quits.
 
+May be used within a `time_warp` to set past/future events. Does not affect time.",
+          args:           [[:time_state_key, :default],
+                           [:value, :anything]],
+          accepts_block:  false,
+          examples:       ["
+  set :foo, 1 #=> Stores the value 1 with key :foo",
+
+        "
+set :foo, 3  # Set :foo to 3
+get[:foo] #=> returns 3",
+
+        "
+in_thread do
+  set :foo, 3  # Set :foo to 3
+end
+
+in_thread do
+  puts get[:foo]  #=> always returns 3 (no race conditions here!)
+end
+"]
       def cue(k, *opts)
         splat_map_or_arr = []
 
@@ -267,7 +292,7 @@ module SonicPi
           lookup = lambda { |*args| get_event(*args) }
           return TimeStateLookup.new(lookup)
         else
-          k, default = args
+          k, _default = args
           k = __sync_path(k)
 
           # If we've time_warped into the future raise a timing exception
@@ -293,7 +318,7 @@ module SonicPi
           p = __system_thread_locals.get(:sonic_pi_spider_thread_priority, 1001)
           m = current_bpm
 
-          res = @event_history.get(t, p, i, d, b, m, k)
+          @event_history.get(t, p, i, d, b, m, k)
         end
       end
 
@@ -313,7 +338,7 @@ module SonicPi
       doc name:           :get,
           introduced:     Version.new(3,0,0),
           summary:        "Get information from the Time State",
-          doc:            "Retrieve information from Time State set prior to the current time from either the current or any other thread. If called multiple times will always return the same value unless a call to `sleep`, `sync`, `set` or `cue` is interleaved. Also, calls to `get` will always return the same value across Runs for deterministic behaviour - which means you may safely use it in your compositions for repeatable music.
+          doc:            "Retrieve information from Time State set prior to the current time from either the current or any other thread. If called multiple times will always return the same value unless a call to `sleep`, `sync`, `set` or `cue` is interleaved. Also, calls to `get` will always return the same value across Runs for deterministic behaviour - which means you may safely use it in your compositions for repeatable music. If no value is stored with the relevant key, will return `nil`.
 
 May be used within a `time_warp` to retrieve past events. If in a time warp, `get` can not be called from a future position. Does not advance time.",
           args:           [[:time_state_key, :default]],
@@ -345,7 +370,7 @@ end
       end
 
 
-      def with_swing (*args, &blk)
+      def with_swing(*args, &blk)
         raise ArgumentError, "with_swing must be called with a do/end block." unless blk
         params, opts = split_params_and_merge_opts_array(args)
         shift = params[0] || opts.fetch(:shift, 0.1)
@@ -466,7 +491,7 @@ run_file \"~/path/to/sonic-pi-code.rb\" #=> will run the contents of this file"]
 run_code \"sample :ambi_lunar_land\" #=> will play the :ambi_lunar_land sample",
 
         "# Works with any amount of code:
-run_code \"8.times do\nplay 60\nsleep 1\nend # will play 60 8 times"]
+run_code \"8.times do\nplay 60\nsleep 1\nend\" # will play 60 8 times"]
 
 
       def eval_file(path)
@@ -537,7 +562,7 @@ eval_file \"~/path/to/sonic-pi-code.rb\" #=> will run the contents of this file"
 
 
 
-      def use_osc(host, port=4559)
+      def use_osc(host, port=4560)
         host = host.to_s.strip
         host_and_port = (host.include? ":") ? host : (host + ":" + port.to_s)
 
@@ -550,7 +575,7 @@ eval_file \"~/path/to/sonic-pi-code.rb\" #=> will run the contents of this file"
           returns:        nil,
           opts:           nil,
           accepts_block:  false,
-          doc:            "Sets the destination host and port that `osc` will send messages to. If no port number is specified - will default to port 4559 (Sonic Pi's default OSC listening port).
+          doc:            "Sets the destination host and port that `osc` will send messages to. If no port number is specified - will default to port 4560 (Sonic Pi's default OSC listening port).
 
 OSC (Open Sound Control) is a simple way of passing messages between two separate programs on the same computer or even on different computers via a local network or even the internet. `use_osc` allows you to specify which computer (`hostname`) and program (`port`) to send messages to.
 
@@ -628,7 +653,7 @@ osc \"/foo/baz\"             # Send another OSC message to port 7010
 ",
 ]
 
-      def with_osc(host, port=4559, &block)
+      def with_osc(host, port=4560, &block)
         raise ArgumentError, "with_osc must be called with a do/end block. Perhaps you meant use_osc" unless block
         host = host.to_s.strip
         current_host_and_port = __thread_locals.get(:sonic_pi_osc_client)
@@ -670,7 +695,7 @@ osc \"/foo/baz\"             # Send an OSC message to port 7000
             arg.inspect
           end
         end
-        @osc_server.send_ts(t, "localhost", @osc_router_port, "/send_after", host, port, path, *args)
+        @osc_client.send_ts(t, "/send_after", host, port, path, *args)
       end
 
 
@@ -742,7 +767,7 @@ However, in order to send the OSC message you must first specify where to send i
 `osc \"/set/filter\", \"lowpass\", 80, 0.5`
 
 
-Note, by default, Sonic Pi listens for OSC messages on port `4559`, so you may send messages to an external machine running Sonic Pi if you know the IP address of that external machine. Any OSC messages received on port `4559` are automatically converted to standard cue events and displayed in the GUI's cue log. This also means that you can use `sync` to wait for the next incoming OSC message with a given path (see example).
+Note, by default, Sonic Pi listens for OSC messages on port `4560`, so you may send messages to an external machine running Sonic Pi if you know the IP address of that external machine. Any OSC messages received on port `4559` are automatically converted to standard cue events and displayed in the GUI's cue log. This also means that you can use `sync` to wait for the next incoming OSC message with a given path (see example).
 
 Finally, it is also very useful to send OSC messages to aother programs on the same computer. This can be achieved by specifying \"localhost\" as the hostname and the port as normal (depending on which port the other program is listening on).
 
@@ -944,7 +969,6 @@ end"
         density = __thread_locals.get(:sonic_pi_local_spider_density) || 1.0
         orig_sleep_mul_w_density = __system_thread_locals.get(:sonic_pi_spider_sleep_mul) * density
         orig_beat = __system_thread_locals.get(:sonic_pi_spider_beat)
-        sat = current_sched_ahead_time
         already_in_time_warp = __system_thread_locals.get :sonic_pi_spider_in_time_warp
 
         __system_thread_locals.set(:sonic_pi_spider_time_warp_start, vt_orig.freeze) unless  already_in_time_warp
@@ -953,8 +977,6 @@ end"
         times.each_with_index do |delta, idx|
           sleep_time = delta * orig_sleep_mul_w_density
           new_time = vt_orig + sleep_time
-
-          raise TimeTravelError, "Time travel error - a jump back of #{delta} is too far.\nSorry, although it would be amazing, you can't go back in time beyond the sched_ahead time of #{sat}" if (Time.now - sat) > new_time
 
           __change_time!(new_time)
           __system_thread_locals.set :sonic_pi_spider_beat, orig_beat + delta
@@ -1545,11 +1567,10 @@ end"
       def stretch(*args)
         raise ArgumentError, "stretch needs an even number of arguments, you passed: #{args.size} - #{args.inspect}" unless args.size.even?
         res = args.each_slice(2).flat_map do |values, num_its|
-
           if !values.respond_to? :flat_map
             values = [values]
           end
-          knit(*values.flat_map{|v| [v, num_its]})
+          knit(*values.flat_map{|v| [v, num_its]}).to_a
         end
         (res||[]).ring
       end
@@ -1619,7 +1640,7 @@ end"
           res = [true] * size
           return res.ring
         end
-        
+
         # new part
         v1 = [[true]] * num_accents
         v2 = [[false]] * (size - num_accents)
@@ -1630,7 +1651,7 @@ end"
           (v1, v2) = redistribute(v1,v2)
         end
         res = (v1 + v2).flatten
-        
+
         if beat_rotations && beat_rotations.is_a?(Numeric)
           beat_rotations = beat_rotations.abs
           while beat_rotations > 0
@@ -2048,7 +2069,7 @@ end"]
           accepts_block:  false,
           doc:            "Pick n elements from list or ring. Unlike shuffle, after each element has been picked, it is 'returned' to the list so it may be picked again. This means there may be duplicates in the result. If n is greater than the size of the ring/list then duplicates are guaranteed to be in the result.
 
-If `n` isn't supplied it defaults to the size of the list/ring.
+If `n` isn't supplied it defaults to a size of 1.
 
 If no arguments are given, will return a lambda function which when called takes an argument which will be a list to be picked from. This is useful for choosing random `onset:` vals for samples.
 
@@ -2061,7 +2082,7 @@ puts (ring 1, 2, 3, 4, 5).pick(3) #=> (ring 4, 4, 3)",
 "
 puts (ring 1, 2).pick(5) #=> (ring 2, 2, 1, 1, 1)",
 "
-puts (ring 1, 2, 3).pick #=> (ring 3, 3, 2)",
+puts (ring 1, 2, 3).pick #=> (ring 3)",
 "
 # Using pick for random sample onsets
 live_loop :foo do
@@ -2627,9 +2648,9 @@ end
           val_block = lambda{:undefined}
           define(name, &val_block)
           in_thread do
-          val = block.yield
-          val_block = lambda{val}
-          define(name, &val_block)
+            val = block.yield
+            val_block = lambda{val}
+            define(name, &val_block)
           end
           __info "Evaluating defonce #{name}"
 
@@ -2984,6 +3005,8 @@ end
 
 
       def rrand(min, max, *opts)
+        min = note(min)
+        max = note(max)
         args_h = resolve_synth_opts_hash_or_array(opts)
         res = args_h[:step]
         if min == max
@@ -3024,6 +3047,8 @@ end
 
 
       def rrand_i(min, max)
+        min = note(min)
+        max = note(max)
         return min if min == max
         range = (min - max).abs
         r = SonicPi::Core::SPRand.rand_i!(range.to_i + 1)
@@ -3051,7 +3076,7 @@ end
       def rand(max=1)
         return 0.0 if max == 0
         if max.is_a?(Range)
-          rrand(max.min, max.max)
+          rrand(note(max.min), note(max.max))
         else
           SonicPi::Core::SPRand.rand!(max)
         end
@@ -3075,6 +3100,7 @@ end
         if max.is_a?(Range)
           rrand_i(max.min, max.max)
         else
+          max = note(max)
           SonicPi::Core::SPRand.rand_i!(max)
         end
       end
@@ -3387,6 +3413,105 @@ print rand_i_look(5) #=> will print the same number as the previous statement"
     end
   end
   "
+      ]
+
+
+
+
+      def use_random_stream(noise_type, &block)
+        raise ArgumentError, "use_random_stream does not work with a block. Perhaps you meant with_random_stream" if block
+        raise ArgumentError, "invalid noise type '#{noise_type}' - please use one of :white, :pink, :light_pink, :dark_pink or :perlin instead" unless %w(white pink light_pink dark_pink perlin).include?(noise_type.to_s)
+
+        SonicPi::Core::SPRand.set_random_number_distribution!(noise_type)
+      end
+      doc name:           :use_random_stream,
+          introduced:     Version.new(3,2,3),
+          summary:        "Change how random numbers are chosen",
+          args:           [[:noise_type, :symbol]],
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "Sets the random number source to be one of :white, :pink, :light_pink, :dark_pink or :perlin.
+      :white is totally random - between 0 and 1, you can expect an even spread of values around 0.1, 0.2, 0.3 etc. This means that jumping around within the range (including large jumps) is expected.
+      :pink is more likely to produce values in the middle of the range and less likely to produce values at the extremes. Between 0 and 1 you expect to see a concentration of values around 0.5. This can make random melodies a little bit more smooth.
+      :perlin is a special kind of noise which produces gradients, a bit like a mountain landscape. Large jumps are much less likely and you will tend to see lots of smooth motion going either up or down
+      :light_pink is halfway between white noise and pink noise - more random and jumpy
+      :dark_pink is halfway between pink noise and brown noise - less jumpy with smoother slopes
+      You can see the 'buckets' that the numbers between 0 and 1 fall into with the following code:
+
+        rand_type :white
+        puts 10000.times.collect { rand.round(1) }.tally.sort
+        rand_type :pink
+        puts 10000.times.collect { rand.round(1) }.tally.sort
+        rand_type :perlin
+        puts 10000.times.collect { rand.round(1) }.tally.sort
+
+      ",
+          examples:       ["
+  use_random_stream :white # use white noise as the distribution (default)
+  rand_reset # reset random seed
+  puts rand # => 0.75006103515625
+  puts rand # => 0.733917236328125
+  puts rand # => 0.464202880859375
+  rand_reset # reset it again
+  use_random_stream :pink # use pink noise as the distribution
+  puts rand # => 0.47808837890625
+  puts rand # => 0.56011962890625
+  rand_reset # reset it
+  use_random_stream :perlin # use perlin noise as the distribution
+  puts rand # => 0.546478271484375
+  puts rand # => 0.573150634765625
+
+  with_random_stream :white do # use white noise just for this block
+    puts rand # => 0.464202880859375
+  end
+
+  puts rand # => 0.597015380859375
+            # notice how the last generator (perlin) is restored"]
+
+
+
+
+
+
+      def with_random_stream(noise_type, &block)
+        raise ArgumentError, "with_random_stream requires a block. Perhaps you meant use_random_stream" unless block
+        raise ArgumentError, "invalid noise type '#{noise_type}' - please use one of :white, :pink, :light_pink, :dark_pink or :perlin instead" unless %w(white pink light_pink dark_pink perlin).include?(noise_type.to_s)
+        new_thread_gen_type = SonicPi::Core::SPRand.get_random_number_distribution
+
+        SonicPi::Core::SPRand.set_random_number_distribution!(noise_type)
+        res = block.call
+        SonicPi::Core::SPRand.set_random_number_distribution!(new_thread_gen_type)
+        res
+      end
+      doc name:           :with_random_stream,
+          introduced:     Version.new(3,2,3),
+          summary:        "Specify random distribution for code block",
+          doc:            "Resets the random number generator to the specified noise type for the specified code block. All generated random numbers and randomisation functions such as `shuffle` and `choose` within the code block will use this new generator. Once the code block has completed, the original generator is restored and the code block generator is discarded. Use this to change the sequence of random numbers in your piece in a way that can be reproduced. Especially useful if combined with iteration. See examples.",
+          args:           [[:noise_type, :symbol]],
+          opts:           nil,
+          accepts_block:  true,
+          requires_block: true,
+          examples:      ["
+  use_random_stream :white # use white noise as the distribution (default)
+  rand_reset # reset random seed
+  puts rand # => 0.75006103515625
+  puts rand # => 0.733917236328125
+  puts rand # => 0.464202880859375
+  rand_reset # reset it again
+  use_random_stream :pink # use pink noise as the distribution
+  puts rand # => 0.47808837890625
+  puts rand # => 0.56011962890625
+  rand_reset # reset it
+  use_random_stream :perlin # use perlin noise as the distribution
+  puts rand # => 0.546478271484375
+  puts rand # => 0.573150634765625
+
+  with_random_stream :white do # use white noise just for this block
+    puts rand # => 0.464202880859375
+  end
+
+  puts rand # => 0.597015380859375
+            # notice how the last generator (perlin) is restored"
       ]
 
 
@@ -4464,6 +4589,36 @@ end                         # Will throw an exception as the block contains a Ze
 
 
 
+      def assert_not(arg, msg=nil)
+        if arg
+          error_msg =  "Assert not failed! #{msg}"
+          raise AssertionError, error_msg
+        end
+
+        arg
+      end
+      doc name:           :assert_not,
+          introduced:     Version.new(3,3,0),
+          summary:        "Ensure arg is not valid",
+          doc:            "Raises an exception if the argument is not either nil or false.",
+          args:           [[:arg, :anything]],
+          alt_args:       [[:arg, :anything],[:error_msg, :string]],
+          opts:           nil,
+          accepts_block:  false,
+          examples:       ["
+# Simple assertions
+assert_not false   # As false is either nil or false, this assertion passes
+assert_not nil     # As nil is either nil or false, this assertion passes
+assert_not 1 == 5  # These numbers are not equal
+assert true  # This will raise an exception
+",
+"
+# Communicating error messages
+assert_not true , \"oops\" # This will raise an exception containing the message \"oops\"
+"
+]
+
+
       def assert(arg, msg=nil)
         unless arg
           error_msg =  "Assert failed! #{msg}"
@@ -4497,6 +4652,32 @@ assert false, \"oops\" # This will raise an exception containing the message \"o
 assert (1 + 1) == 2 # Ensure that arithmetic is sane!
 assert [:a, :b, :c].size == 3 # ensure lists can be correctly counted
 "]
+
+      def assert_not_equal(arg1, arg2, msg=nil)
+        if arg1 == arg2
+          error_msg =  "Assert note equal failed! #{arg1.inspect} is equal to #{arg2.inspect}. #{msg}"
+          raise AssertionError, error_msg
+        end
+        arg1
+      end
+      doc name:           :assert_not_equal,
+          introduced:     Version.new(3,3,0),
+          summary:        "Ensure args are not equal",
+          doc:            "Raises an exception if both arguments are qual. ",
+          args:           [[:arg1, :anything], [:arg2, :anything]],
+          alt_args:       [[:arg1, :anything], [:arg2, :anything],[:error_msg, :string]],
+          opts:           nil,
+          accepts_block:  false,
+          examples:       ["
+# Simple assertions
+assert_not_equal 1, 3
+assert_not_equal 1, -1
+assert_not_equal 1, :foo
+",
+"
+# Add messages to the exceptions
+assert_not_equal 3, 3, \"something is seriously wrong!\"
+" ]
 
       def assert_equal(arg1, arg2, msg=nil)
         unless arg1 == arg2

@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2019-05-13 22:49+0000\n"
+"PO-Revision-Date: 2020-02-19 07:32+0000\n"
 "Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "pl/>\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 3.7-dev\n"
+"X-Generator: Weblate 3.11\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -39,20 +39,19 @@ msgstr ""
 
 #: 01-Welcome-to-Sonic-Pi.md:10
 msgid ""
-"But wait, how rude of me! Let me introduce myself - I'm [Sam Aaron](http://twi"
-"tter.com/samaaron) - the chap that created Sonic Pi. You can find me at [@sama"
-"aron](http://twitter.com/samaaron) on Twitter and I'd be more than happy to sa"
-"y hello to you. You might also be interested in finding out more about my [Liv"
-"e Coding Performances](http://facebook.com/livecodersamaaron) where I code wit"
-"h Sonic Pi live in front of audiences."
+"But wait, how rude of me! Let me introduce myself - I'm [Sam Aaron](https://tw"
+"itter.com/samaaron) - the chap that created Sonic Pi. You can find me at [@sam"
+"aaron](http://twitter.com/samaaron) on Twitter and I'd be more than happy to s"
+"ay hello to you. You might also be interested in finding out more about my [Li"
+"ve Coding Performances](https://youtube.com/samaaron) where I code with Sonic "
+"Pi live in front of audiences."
 msgstr ""
 "Ale zaraz zaraz, gdzie moje maniery! Pozwól, że się przedstawię - jestem [Sam "
 "Aaron](http://twitter.com/samaaron) - facet, który stworzył Sonic Pi. Możesz z"
 "naleźć mnie na Twitterze pod nickiem [@samaaron](http://twitter.com/samaaron) "
 "i będzie mi bardzo miło, jeśli będę mógł powiedzieć Ci cześć. Być może zainter"
-"esuje Cię również moja strona [Live Coding Performances](http://facebook.com/l"
-"ivecodersamaaron), gdzie koduję przed publicznością na żywo, używając Sonic Pi"
-"."
+"esuje Cię również moja strona [Live Coding Performances](https://youtube.com/s"
+"amaaron), gdzie koduję przed publicznością na żywo, używając Sonic Pi."
 
 #: 01-Welcome-to-Sonic-Pi.md:18
 msgid ""
@@ -82,8 +81,8 @@ msgstr ""
 #: 01-Welcome-to-Sonic-Pi.md:28
 msgid ""
 "Finally, watching others live code is a really great way to learn. I regularly"
-" stream live on [http://youtube.com/samaaron](http://youtube.com/samaaron) so "
-"please do drop by, say hi and ask me lots of questions :-)"
+" stream live on [https://youtube.com/samaaron](http://youtube.com/samaaron) so"
+" please do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
 "Jeszcze jedna sprawa na koniec. Oglądanie innych osób kodujących na żywo jest "
 "naprawdę bardzo dobrym sposobem nauki. Regularnie nadaję na żywo na moim kanal"
@@ -138,8 +137,8 @@ msgid "A live loop"
 msgstr "Żywa Pętla"
 
 #: 01.1-Live-Coding.md:19
-msgid "Let's get started, copy the following code into an empty buffer above:"
-msgstr "Zacznijmy od skopiowania następującego kawałka kodu do pustego buforu powyżej:"
+msgid "Let's get started, copy the following code into an empty buffer:"
+msgstr "Zacznijmy od skopiowania następującego kawałka kodu do pustego buforu:"
 
 #: 01.1-Live-Coding.md:21
 #, no-wrap
@@ -388,8 +387,8 @@ msgstr ""
 "chwilę na zapoznanie się z nim."
 
 #: 01.2-Exploring-the-Interface.md:8
-msgid "![Sonic Pi Interface](../images/tutorial/GUI.png)"
-msgstr "![Interfejs Sonic Pi](../images/tutorial/GUI.png)"
+msgid "![Sonic Pi Interface](../../../etc/doc/images/tutorial/GUI.png)"
+msgstr "![Interfejs Sonic Pi](../../../etc/doc/images/tutorial/GUI.png)"
 
 #: 01.2-Exploring-the-Interface.md:11
 msgid "*A* - Play Controls"
@@ -449,20 +448,16 @@ msgstr "B. Kontrola Edytora"
 #: 01.2-Exploring-the-Interface.md:30
 msgid ""
 "These orange buttons allow you to manipulate the code editor. The *Size +* and"
-" *Size -* buttons allow you to make the text bigger and smaller. The *Align* b"
-"utton will neaten the code for you to make it look more professional."
+" *Size -* buttons allow you to make the text bigger and smaller."
 msgstr ""
-"Pomarańczowe przyciski pozwalają Ci manipulować edytorem kodu. Przyciski *Size"
-" +* (Zwiększ rozmiar) i *Size -* (Zmniejsz rozmiar) umożliwiają powiększanie i"
-" zmniejszanie rozmiaru tekstu (czcionki). Przycisk *Align* (Wyrównaj) uporządk"
-"owuje wygląd Twojego kodu, tak aby wyglądał bardziej profesjonalnie (poprawia "
-"wcięcia)."
+"Te pomarańczowe przyciski pozwalają Ci manipulować edytorem kodu. Przyciski  *"
+"Size +* i *Size -* pozwalają Ci zwiększać i zmniejszać tekst."
 
-#: 01.2-Exploring-the-Interface.md:35
+#: 01.2-Exploring-the-Interface.md:34
 msgid "C. Info and Help"
 msgstr "C. Informacje i Pomoc"
 
-#: 01.2-Exploring-the-Interface.md:37
+#: 01.2-Exploring-the-Interface.md:36
 msgid ""
 "These blue buttons give you access to information, help and preferences. The *"
 "Info* button will open up the information window which contains information ab"
@@ -478,11 +473,11 @@ msgstr ""
 "iera i zamyka panel preferencji, który pozwala Ci na kontrolę kilku podstawowy"
 "ch ustawień aplikacji."
 
-#: 01.2-Exploring-the-Interface.md:44
+#: 01.2-Exploring-the-Interface.md:43
 msgid "D. Code Editor"
 msgstr "D. Edytor Kodu"
 
-#: 01.2-Exploring-the-Interface.md:46
+#: 01.2-Exploring-the-Interface.md:45
 msgid ""
 "This is the area where you'll write your code and compose/perform music. It's "
 "a simple text editor where you can write code, delete it, cut and paste, etc. "
@@ -499,11 +494,11 @@ msgstr ""
 "dzo przydatne. Na przykład - wiesz, że dany tekst jest liczbą, ponieważ ma kol"
 "or niebieski."
 
-#: 01.2-Exploring-the-Interface.md:54
+#: 01.2-Exploring-the-Interface.md:53
 msgid "E. Prefs Panel"
 msgstr "E. Panel preferencji"
 
-#: 01.2-Exploring-the-Interface.md:56
+#: 01.2-Exploring-the-Interface.md:55
 msgid ""
 "Sonic Pi supports a number of tweakable preferences which can be accessed by t"
 "oggling the *prefs* button in the Info and Help button set. This will toggle t"
@@ -519,11 +514,11 @@ msgstr ""
 "wania, a także suwak głośności i selektor dźwięku, które są dostępne tylko na "
 "platformie Raspberry Pi."
 
-#: 01.2-Exploring-the-Interface.md:63
+#: 01.2-Exploring-the-Interface.md:62
 msgid "F. Log Viewer"
 msgstr "F. Podgląd Logów"
 
-#: 01.2-Exploring-the-Interface.md:65
+#: 01.2-Exploring-the-Interface.md:64
 msgid ""
 "When you run your code, information about what the program is doing will be di"
 "splayed in the log viewer. By default, you'll see a message for every sound yo"
@@ -536,11 +531,11 @@ msgstr ""
 "ęk został uruchomiony. Jest to bardzo przydatne do debugowania Twojego kodu i "
 "zrozumienia, co on robi."
 
-#: 01.2-Exploring-the-Interface.md:71
+#: 01.2-Exploring-the-Interface.md:70
 msgid "G. Help System"
 msgstr "G. System Pomocy"
 
-#: 01.2-Exploring-the-Interface.md:73
+#: 01.2-Exploring-the-Interface.md:72
 msgid ""
 "One of the most important parts of the Sonic Pi interface is the help system w"
 "hich appears at the bottom of the window. This can be toggled on and off by cl"
@@ -557,11 +552,11 @@ msgstr ""
 " przykłady, FX (efekty) oraz listę wszystkich funkcji, jakie Sonic Pi udostępn"
 "ia do tworzenia muzyki."
 
-#: 01.2-Exploring-the-Interface.md:81
+#: 01.2-Exploring-the-Interface.md:80
 msgid "H. Scope Viewer"
 msgstr "H. Podgląd Zakresu"
 
-#: 01.2-Exploring-the-Interface.md:83
+#: 01.2-Exploring-the-Interface.md:82
 msgid ""
 "The scope viewer allows you to see the sound you're hearing. You can easily se"
 "e that the saw wave looks like a saw and that the basic beep is a curvey sine "
@@ -613,12 +608,12 @@ msgid ""
 "arned over my years of live coding with music - *there are no mistakes, only o"
 "pportunities*. This is something I've often heard in relation to jazz but it w"
 "orks equally well with live coding. No matter how experienced you are - from a"
-" complete beginner to a seasoned Algoraver, you'll run some code that has a co"
-"mpletely unexpected outcome. It might sound insanely cool - in which case run "
-"with it. However, it might sound totally jarring and out of place. It doesn't "
-"matter that it happened - what matters is what you do next with it. Take the s"
-"ound, manipulate it and morph it into something awesome. The crowd will go *wi"
-"ld*."
+" complete beginner to a seasoned live coder, you'll run some code that has a c"
+"ompletely unexpected outcome. It might sound insanely cool - in which case run"
+" with it. However, it might sound totally jarring and out of place. It doesn't"
+" matter that it happened - what matters is what you do next with it. Take the "
+"sound, manipulate it and morph it into something awesome. The crowd will go *w"
+"ild*."
 msgstr ""
 "Skoro jesteśmy już przy tym temacie, to pozwól, że dam Ci radę. Coś, czego nau"
 "czyłem się przez lata kodowania muzyki na żywo - *błędów nie ma, są tylko nowe"
@@ -630,7 +625,7 @@ msgstr ""
 ". Czasami może brzmieć odlotowo - i w takim przypadku po prostu pozwól mu grać"
 ". Innym razem zdarzy się, że będzie brzmiał beznadziejnie i totalnie nie będzi"
 "e pasował do reszty. Ale pamiętaj: to, że się to wydarzyło, jest całkowicie ni"
-"eistotne - ważne jest to, co zrobisz dalej. Weź te brzmienie, zabaw się nim i "
+"eistotne - ważne jest to, co zrobisz dalej. Weź to brzmienie, zabaw się nim i "
 "przekształć go w coś niesamowitego. Tłum będzie *szalał*."
 
 #: 01.3-Learning-through-Play.md:24
@@ -711,6 +706,7 @@ msgid "Take a look at the following code:"
 msgstr "Spójrz na poniższy kod:"
 
 #: 02.1-Your-First-Beeps.md:7 02.4-Durations-with-Envelopes.md:49
+#: A.20-creative-coding-in-the-classroom.md:158
 #, no-wrap
 msgid "play 70"
 msgstr "play 70"
@@ -760,23 +756,27 @@ msgid ""
 "So, lower numbers make lower pitched beeps and higher numbers make higher pitc"
 "hed beeps. Just like on a piano, the keys at the lower part of the piano (the "
 "left hand side) play lower notes and the keys on the higher part of the piano "
-"(the right hand side) play higher notes. In fact, the numbers actually relate "
-"to notes on the piano. `play 47` actually means play the 47th note on the pian"
-"o. Which means that `play 48` is one note up (the next note to the right). It "
-"just so happens that the 4th octave C is number 60. Go ahead and play it: `pla"
-"y 60`."
+"(the right hand side) play higher notes."
 msgstr ""
-"Zauważ, że mniejsze liczby generują dźwięki o niższym tonie, a większe liczby "
-"- o wyższym tonie. Tak samo jak na pianinie - klawisze znajdujące się po lewej"
-" stronie instrumentu grają nuty o niższym brzmieniu, a klawisze znajdujące się"
-" po prawej stronie grają nuty o wyższym brzmieniu. I faktycznie, powyższe licz"
-"by odpowiadają nutom na pianinie. Kod `play 47` znaczy nic innego jak zagraj n"
-"utę znajdującą się pod 47 klawiszem na pianinie. Oznacza to, że kod `play 48` "
-"to dźwięk o jedną nutę wyższy (następny klawisz po prawej). Tak się składa, że"
-" nuta C w 4-tej oktawie odpowiada liczbie 60. Śmiało, spróbuj zagrać ten dźwię"
-"k: `play 60`."
+"Zatem, mniejsze liczby stworzą niższe dźwięki, a większe liczby stworzą wyższe"
+" dźwięki. Jak w fortepianie - klawisze po lewej stronie grają niższe nuty, a k"
+"lawisze po prawej grają wyższe nuty."
 
-#: 02.1-Your-First-Beeps.md:42
+#: 02.1-Your-First-Beeps.md:38
+msgid ""
+"It turns out that the C of the 4th octave (C in English notation) is identifie"
+"d by the number 60. `play 60` therefore plays the C of the 4th octave. To play"
+" the next piano key to the right, you have to add 1 to 60 and then type `play "
+"61`, which in this case is the black key of the C sharp. To play the D, the ne"
+"xt key to the right, `play 62`."
+msgstr ""
+"Wychodzi na to, że C w czwartej oktawie (C w notacji angielskiej) jest zidenty"
+"fikowane jako numer 60. A więc `play 60` zagra C z czwartej oktawy. Żeby zagra"
+"ć następny spod następnego klawisza po prawej, musisz dodać 1 do 60, wpisując "
+"`play 61`, co w tym przypadku oznacza czarny klawisz Cis. Żeby zagrać D, czyli"
+" kolejny klawisz na prawo, napisz `play 62`."
+
+#: 02.1-Your-First-Beeps.md:40
 msgid ""
 "*Don't worry* if this means nothing to you - it didn't to me when I first star"
 "ted. All that matters right now is that you know that *low numbers make lower "
@@ -787,11 +787,11 @@ msgstr ""
 " że wiesz już, że *małe liczby generują dźwięki o niskim brzmieniu*, a *duże l"
 "iczby generują dźwięki o wyższym brzmieniu*."
 
-#: 02.1-Your-First-Beeps.md:46 08.2-Chords.md:3
+#: 02.1-Your-First-Beeps.md:44 08.2-Chords.md:3
 msgid "Chords"
 msgstr "Akordy"
 
-#: 02.1-Your-First-Beeps.md:48
+#: 02.1-Your-First-Beeps.md:46
 msgid ""
 "Playing a note is quite fun, but playing many at the same time can be even bet"
 "ter. Try it:"
@@ -799,7 +799,7 @@ msgstr ""
 "Zagranie nuty jest całkiem fajne, ale zagranie kilku jednocześnie może być jes"
 "zcze fajniejsze. Spróbuj:"
 
-#: 02.1-Your-First-Beeps.md:51
+#: 02.1-Your-First-Beeps.md:49
 #, no-wrap
 msgid ""
 "play 72\n"
@@ -810,7 +810,7 @@ msgstr ""
 "play 75\n"
 "play 79"
 
-#: 02.1-Your-First-Beeps.md:57
+#: 02.1-Your-First-Beeps.md:55
 msgid ""
 "Jazzy! So, when you write multiple `play`s, they all play at the same time. Tr"
 "y it for yourself - which numbers sound good together? Which sound terrible? E"
@@ -821,11 +821,11 @@ msgstr ""
 "razem? Które brzmią okropnie? Eksperymentuj, odkrywaj i przekonaj się na własn"
 "ej skórze."
 
-#: 02.1-Your-First-Beeps.md:61
+#: 02.1-Your-First-Beeps.md:59
 msgid "Melody"
 msgstr "Melodia"
 
-#: 02.1-Your-First-Beeps.md:63
+#: 02.1-Your-First-Beeps.md:61
 msgid ""
 "So, playing notes and chords is fun - but how about a melody? What if you want"
 "ed to play one note after another and not at the same time? Well, that's easy,"
@@ -836,7 +836,7 @@ msgstr ""
 "stszego, wystarczy, że odczekasz chwilę pomiędzy zagraniem poszczególnych nut."
 " Możesz to zrobić, używając polecenia `sleep`:"
 
-#: 02.1-Your-First-Beeps.md:67
+#: 02.1-Your-First-Beeps.md:65
 #, no-wrap
 msgid ""
 "play 72\n"
@@ -851,7 +851,7 @@ msgstr ""
 "sleep 1\n"
 "play 79"
 
-#: 02.1-Your-First-Beeps.md:75
+#: 02.1-Your-First-Beeps.md:73
 msgid ""
 "How lovely, a little arpeggio. So what does the `1` mean in `sleep 1`? Well it"
 " means the *duration of the sleep*. It actually means sleep for one beat, but "
@@ -867,7 +867,7 @@ msgstr ""
 "żyć \"krótszych\" wartości dla polecenia sleep. Weźmy na przykład połowę, czyli "
 "wartość `0.5`:"
 
-#: 02.1-Your-First-Beeps.md:81
+#: 02.1-Your-First-Beeps.md:79
 #, no-wrap
 msgid ""
 "play 72\n"
@@ -882,7 +882,7 @@ msgstr ""
 "sleep 0.5\n"
 "play 79"
 
-#: 02.1-Your-First-Beeps.md:89
+#: 02.1-Your-First-Beeps.md:87
 msgid ""
 "Notice how it plays faster. Now, try for yourself, change the times - use diff"
 "erent times and notes."
@@ -890,7 +890,7 @@ msgstr ""
 "Zauważ, że arpeggio gra teraz szybciej. Teraz Twoja kolej, pobaw się tym kawał"
 "kiem kodu, zmieniając czasy według własnego uznania oraz używając różnych nut."
 
-#: 02.1-Your-First-Beeps.md:92
+#: 02.1-Your-First-Beeps.md:90
 msgid ""
 "One thing to try is in-between notes such as `play 52.3` and `play 52.63`. The"
 "re's absolutely no need to stick to standard whole notes. Play around and have"
@@ -901,11 +901,11 @@ msgstr ""
 "nej konieczności, abyś kurczowo trzymał się standardowych, pełnych nut. Pokomb"
 "inuj z różnymi wartościami i baw się dobrze."
 
-#: 02.1-Your-First-Beeps.md:97
+#: 02.1-Your-First-Beeps.md:95
 msgid "Traditional Note Names"
 msgstr "Tradycyjne Nazwy Nut"
 
-#: 02.1-Your-First-Beeps.md:99
+#: 02.1-Your-First-Beeps.md:97
 msgid ""
 "For those of you that already know some musical notation (don't worry if you d"
 "on't - you don't need it to have fun) you might want to write a melody using n"
@@ -918,7 +918,7 @@ msgstr ""
 "p. C lub F# (Fis) zamiast liczb. Sonic Pi na to pozwala. Nic nie stoi na przes"
 "zkodzie, abyś napisał i uruchomił taki kod:"
 
-#: 02.1-Your-First-Beeps.md:104
+#: 02.1-Your-First-Beeps.md:102
 #, no-wrap
 msgid ""
 "play :C\n"
@@ -933,7 +933,7 @@ msgstr ""
 "sleep 0.5\n"
 "play :E"
 
-#: 02.1-Your-First-Beeps.md:112
+#: 02.1-Your-First-Beeps.md:110
 msgid ""
 "Remember to put the colon `:` in front of your note name so that it goes pink."
 " Also, you can specify the octave by adding a number after the note name:"
@@ -942,7 +942,7 @@ msgstr ""
 "e zmieni ona kolor na różowy. Możesz również zdefiniować oktawę, umieszczając "
 "odpowiednią liczbę tuż po jej nazwie:"
 
-#: 02.1-Your-First-Beeps.md:116
+#: 02.1-Your-First-Beeps.md:114
 #, no-wrap
 msgid ""
 "play :C3\n"
@@ -957,7 +957,7 @@ msgstr ""
 "sleep 0.5\n"
 "play :E4"
 
-#: 02.1-Your-First-Beeps.md:124
+#: 02.1-Your-First-Beeps.md:122
 msgid ""
 "If you want to make a note sharp, add an `s` after the note name such as `play"
 " :Fs3` and if you want to make a note flat, add a `b` such as `play :Eb3`."
@@ -967,7 +967,7 @@ msgstr ""
 "obniżyć jej dźwięk o połowę (uzyskanie dźwięku mol), dodaj na końcu niej `b`, "
 "np. `play :Eb3`."
 
-#: 02.1-Your-First-Beeps.md:127
+#: 02.1-Your-First-Beeps.md:125
 msgid "Now go *crazy* and have fun making your own tunes."
 msgstr "A teraz *zaszalej* i spróbuj stworzyć swoje własne melodie."
 
@@ -1274,32 +1274,32 @@ msgid ""
 "So far we've had quite a lot of fun making beeps. However, you're probably sta"
 "rting to get bored of the basic beep noise. Is that all Sonic Pi has to offer?"
 " Surely there's more to live coding than just playing beeps? Yes there is, and"
-" in this section we'll explore the exciting range of sounds that Sonic Pi has "
-"to offer."
+" in this section we'll explore some of the exciting range of sounds that Sonic"
+" Pi has to offer."
 msgstr ""
 "Do tej pory bawiliśmy się całkiem nieźle, tworząc wiele fajnych dźwięków. Jest"
-" jednak bardzo prawdopodobne, że ten podstawowy zaczyna Cię już powoli nudzić."
-" Czy to jest wszystko, na co stać Sonic Pi? Przecież kodowanie na żywo na pewn"
-"o daje dużo więcej możliwości, niż tylko granie jednego prostego dźwięku bip? "
-"Owszem, są inne możliwości. W tym rozdziale poznasz fascynującą paletę dźwiękó"
-"w, jaką oferuje Ci Sonic Pi."
+" jednak bardzo prawdopodobne, że ten podstawowy dźwięk zaczyna Cię już powoli "
+"nudzić. Czy to jest wszystko, na co stać Sonic Pi? Przecież kodowanie na żywo "
+"na pewno daje dużo więcej możliwości, niż tylko granie jednego prostego dźwięk"
+"u bip? Owszem, są inne możliwości. W tym rozdziale poznasz fascynującą paletę "
+"dźwięków, jaką oferuje Ci Sonic Pi."
 
 #: 02.3-Switching-Synths.md:13
 msgid ""
-"Sonic Pi has a range of instruments it calls synths which is *short for synthe"
-"sisers*. Whereas samples represent pre-recorded sounds, synths are capable of "
-"generating new sounds depending on how you control them (which we'll explore l"
-"ater in this tutorial). Sonic Pi's synths are very powerful and expressive and"
-" you'll have a lot of fun exploring and playing with them. First, let's learn "
-"how to select the current synth to use."
+"Sonic Pi has a number of different instruments it calls synths (which is *shor"
+"t for synthesisers*). Whereas samples represent pre-recorded sounds, synths ar"
+"e capable of generating new sounds depending on how you control them (which we"
+"'ll explore later in this tutorial). Sonic Pi's synths are very powerful and e"
+"xpressive and you'll have a lot of fun exploring and playing with them. First,"
+" let's learn how to select the current synth to use."
 msgstr ""
-"Sonic Pi posiada szeroki wachlarz instrumentów, które nazywa *syntezatorami*. "
-"Zważywszy na to, że sample (próbki) reprezentują nagrane dźwięki, syntezatory "
-"mają możliwość generowania nowych dźwięków zależnych od tego, jak je kontroluj"
-"esz (w tym samouczku dowiesz się o tym później). Syntezatory Sonic Pi są bardz"
-"o potężne i ekspresyjne. Będziesz miał dużo przyjemności podczas poznawania i "
-"zabawy nimi. Na początku jednak nauczmy się, jak wybierać aktualnie grający sy"
-"ntezator."
+"Sonic Pi posiada szeroki wachlarz instrumentów, będących *syntezatorami*. Zważ"
+"ywszy na to, że sample (próbki) reprezentują nagrane dźwięki, syntezatory mają"
+" możliwość generowania nowych dźwięków zależnych od tego, jak je kontrolujesz "
+"(w tym samouczku dowiesz się o tym później). Syntezatory Sonic Pi są bardzo po"
+"tężne i ekspresyjne. Będziesz miał wiele radości podczas poznawania i zabawy n"
+"imi. Na początku jednak nauczmy się, jak wybierać aktualnie grający syntezator"
+"."
 
 #: 02.3-Switching-Synths.md:21
 msgid "Buzzy saws and prophets"
@@ -1317,22 +1317,20 @@ msgid ""
 "sleep 0.25\n"
 "play 50\n"
 "sleep 0.25\n"
-"play 62\n"
-"sleep 0.25"
+"play 62"
 msgstr ""
 "use_synth :saw\n"
 "play 38\n"
 "sleep 0.25\n"
 "play 50\n"
 "sleep 0.25\n"
-"play 62\n"
-"sleep 0.25"
+"play 62"
 
-#: 02.3-Switching-Synths.md:35
+#: 02.3-Switching-Synths.md:34
 msgid "Let's try another sound - the *prophet*:"
 msgstr "A teraz spróbujmy innego dźwięku - syntezatora *prophet*:"
 
-#: 02.3-Switching-Synths.md:37
+#: 02.3-Switching-Synths.md:36
 #, no-wrap
 msgid ""
 "use_synth :prophet\n"
@@ -1340,22 +1338,20 @@ msgid ""
 "sleep 0.25\n"
 "play 50\n"
 "sleep 0.25\n"
-"play 62\n"
-"sleep 0.25"
+"play 62"
 msgstr ""
 "use_synth :prophet\n"
 "play 38\n"
 "sleep 0.25\n"
 "play 50\n"
 "sleep 0.25\n"
-"play 62\n"
-"sleep 0.25"
+"play 62"
 
-#: 02.3-Switching-Synths.md:47
+#: 02.3-Switching-Synths.md:45
 msgid "How about combining two sounds. First one after another:"
 msgstr "Co powiesz na połączenie dwóch dźwięków? Jeden po drugim:"
 
-#: 02.3-Switching-Synths.md:49
+#: 02.3-Switching-Synths.md:47
 #, no-wrap
 msgid ""
 "use_synth :saw\n"
@@ -1364,8 +1360,7 @@ msgid ""
 "play 50\n"
 "sleep 0.25\n"
 "use_synth :prophet\n"
-"play 57\n"
-"sleep 0.25"
+"play 57"
 msgstr ""
 "use_synth :saw\n"
 "play 38\n"
@@ -1373,37 +1368,34 @@ msgstr ""
 "play 50\n"
 "sleep 0.25\n"
 "use_synth :prophet\n"
-"play 57\n"
-"sleep 0.25"
+"play 57"
+
+#: 02.3-Switching-Synths.md:57
+msgid ""
+"Now multiple sounds at the same time (by not sleeping between successive calls"
+" to `play`):"
+msgstr ""
+"A teraz kilka dźwięków równocześnie (nie ma `sleep` między kolejnymi wywołania"
+"mi `play`):"
 
 #: 02.3-Switching-Synths.md:60
-msgid "Now at the same time:"
-msgstr "A teraz w tym samym czasie:"
-
-#: 02.3-Switching-Synths.md:62
 #, no-wrap
 msgid ""
 "use_synth :tb303\n"
 "play 38\n"
-"sleep 0.25\n"
 "use_synth :dsaw\n"
 "play 50\n"
-"sleep 0.25\n"
 "use_synth :prophet\n"
-"play 57\n"
-"sleep 0.25"
+"play 57"
 msgstr ""
 "use_synth :tb303\n"
 "play 38\n"
-"sleep 0.25\n"
 "use_synth :dsaw\n"
 "play 50\n"
-"sleep 0.25\n"
 "use_synth :prophet\n"
-"play 57\n"
-"sleep 0.25"
+"play 57"
 
-#: 02.3-Switching-Synths.md:74
+#: 02.3-Switching-Synths.md:69
 msgid ""
 "Notice that the `use_synth` command only affects the following calls to `play`"
 ". Think of it like a *big switch* - new calls to `play` will play whatever syn"
@@ -1415,41 +1407,41 @@ msgstr ""
 " będą używać syntezatora, który jest w danym momencie wskazany. Możesz zmienić"
 " aktualny syntezator na inny, używając przełącznika `use_synth`."
 
-#: 02.3-Switching-Synths.md:80
+#: 02.3-Switching-Synths.md:75
 msgid "Discovering Synths"
 msgstr "Odkrywanie Syntezatorów"
 
-#: 02.3-Switching-Synths.md:82
+#: 02.3-Switching-Synths.md:77
 msgid ""
 "To see which synths Sonic Pi has for you to play with take a look at the Synth"
-"s option in the far left vertical menu (above Fx). There are over 20 to choose"
-" from. Here are a few of my favourites:"
+"s option in the menu at the bottom of this help screen (between Examples & Fx)"
+". There are over 20 to choose from. Here are a few of my favourites:"
 msgstr ""
-"Aby zobaczyć, jakie syntezatory Sonic Pi ma dla Ciebie do zabawy, zerknij na o"
-"pcję Synths w lewym dolnym rogu (obok Fx). Znajdziesz tam ponad 20 do wyboru. "
-"Oto kilka moich ulubionych:"
+"Aby zobaczyć, jakie syntezatory Sonic Pi ma dla Ciebie do zabawy, zerknij na z"
+"akładkę Syntezatory w lewym dolnym rogu (pomiędzy Przykładami a Efektami). Zna"
+"jdziesz ich tam ponad 20 do wyboru. Oto kilka moich ulubionych:"
 
-#: 02.3-Switching-Synths.md:86
+#: 02.3-Switching-Synths.md:81
 msgid "`:prophet`"
 msgstr "`:prophet`"
 
-#: 02.3-Switching-Synths.md:87
+#: 02.3-Switching-Synths.md:82
 msgid "`:dsaw`"
 msgstr "`:dsaw`"
 
-#: 02.3-Switching-Synths.md:88
+#: 02.3-Switching-Synths.md:83
 msgid "`:fm`"
 msgstr "`:fm`"
 
-#: 02.3-Switching-Synths.md:89
+#: 02.3-Switching-Synths.md:84
 msgid "`:tb303`"
 msgstr "`:tb303`"
 
-#: 02.3-Switching-Synths.md:90
+#: 02.3-Switching-Synths.md:85
 msgid "`:pulse`"
 msgstr "`:pulse`"
 
-#: 02.3-Switching-Synths.md:92
+#: 02.3-Switching-Synths.md:87
 msgid ""
 "Now play around with *switching synths during your music*. Have fun combining "
 "synths to make new sounds as well as using different synths for different sect"
@@ -1617,8 +1609,8 @@ msgstr ""
 "ące się w linii prostej). Poniższy diagram ilustruje je:"
 
 #: 02.4-Durations-with-Envelopes.md:79
-msgid "![release envelope](../images/tutorial/env-release.png)"
-msgstr "![release envelope](../images/tutorial/env-release.png)"
+msgid "![release envelope](../../../etc/doc/images/tutorial/env-release.png)"
+msgstr "![release envelope](../../../etc/doc/images/tutorial/env-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:81
 msgid ""
@@ -1629,11 +1621,11 @@ msgid ""
 "r release times produce longer synth fade outs.*"
 msgstr ""
 "Pionowa linia po lewej stronie diagramu pokazuje, że dźwięk zaczyna się z ampl"
-"itudą równą 0, ale osiąga pełną głośność momentalnie (jest to faza narastania,"
+"itudą równą 0, ale momentalnie osiąga pełną głośność (jest to faza narastania,"
 " omówimy ją za chwilę). Gdy pełna głośność zostanie już osiągnięta, następuje "
-"zmniejszanie jej po linii prostej aż do wartości zero i zajmuje to tyle czasu,"
-" ile zostało ustawione za pomocą opcji zanikania `release:`. *Im czas zanikani"
-"a jest dłuższy, tym dłuższy będzie czas wyciszania dźwięku syntezatora.*"
+"liniowe jej zmniejszanie, aż do zera. Zajmuje to tyle czasu, ile zostało ustaw"
+"ione za pomocą opcji zanikania `release:`. *Im czas zanikania jest dłuższy, ty"
+"m dłuższy będzie czas wybrzmiewania dźwięku syntezatora.*"
 
 #: 02.4-Durations-with-Envelopes.md:88
 msgid ""
@@ -1696,8 +1688,12 @@ msgstr ""
 "oniższym rysunku:"
 
 #: 02.4-Durations-with-Envelopes.md:114
-msgid "![attack release envelope](../images/tutorial/env-attack-release.png)"
-msgstr "![attack release envelope](../images/tutorial/env-attack-release.png)"
+msgid ""
+"![attack release envelope](../../../etc/doc/images/tutorial/env-attack-release"
+".png)"
+msgstr ""
+"![attack release envelope](../../../etc/doc/images/tutorial/env-attack-release"
+".png)"
 
 #: 02.4-Durations-with-Envelopes.md:116
 msgid ""
@@ -1714,11 +1710,11 @@ msgstr "play 60, attack: 4, release: 0.7"
 
 #: 02.4-Durations-with-Envelopes.md:123
 msgid ""
-"![long attack short release envelope](../images/tutorial/env-long-attack-short"
-"-release.png)"
+"![long attack short release envelope](../../../etc/doc/images/tutorial/env-lon"
+"g-attack-short-release.png)"
 msgstr ""
-"![long attack short release envelope](../images/tutorial/env-long-attack-short"
-"-release.png)"
+"![long attack short release envelope](../../../etc/doc/images/tutorial/env-lon"
+"g-attack-short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:125
 msgid ""
@@ -1735,11 +1731,11 @@ msgstr "play 60, attack: 0.5, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:132
 msgid ""
-"![short attack short release envelope](../images/tutorial/env-short-attack-sho"
-"rt-release.png)"
+"![short attack short release envelope](../../../etc/doc/images/tutorial/env-sh"
+"ort-attack-short-release.png)"
 msgstr ""
-"![short attack short release envelope](../images/tutorial/env-short-attack-sho"
-"rt-release.png)"
+"![short attack short release envelope](../../../etc/doc/images/tutorial/env-sh"
+"ort-attack-short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:134
 msgid "Sustain Phase"
@@ -1762,8 +1758,12 @@ msgid "play 60, attack: 0.3, sustain: 1, release: 1"
 msgstr "play 60, attack: 0.3, sustain: 1, release: 1"
 
 #: 02.4-Durations-with-Envelopes.md:145
-msgid "![ASR envelope](../images/tutorial/env-attack-sustain-release.png)"
-msgstr "![ASR envelope](../images/tutorial/env-attack-sustain-release.png)"
+msgid ""
+"![ASR envelope](../../../etc/doc/images/tutorial/env-attack-sustain-release.pn"
+"g)"
+msgstr ""
+"![ASR envelope](../../../etc/doc/images/tutorial/env-attack-sustain-release.pn"
+"g)"
 
 #: 02.4-Durations-with-Envelopes.md:147
 msgid ""
@@ -1815,8 +1815,12 @@ msgstr ""
 ": 1, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:168
-msgid "![ADSR envelope](../images/tutorial/env-attack-decay-sustain-release.png)"
-msgstr "![ADSR envelope](../images/tutorial/env-attack-decay-sustain-release.png)"
+msgid ""
+"![ADSR envelope](../../../etc/doc/images/tutorial/env-attack-decay-sustain-rel"
+"ease.png)"
+msgstr ""
+"![ADSR envelope](../../../etc/doc/images/tutorial/env-attack-decay-sustain-rel"
+"ease.png)"
 
 #: 02.4-Durations-with-Envelopes.md:170
 msgid "Decay Level"
@@ -1844,8 +1848,8 @@ msgstr ""
 "1, sustain_level: 0.4, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:181
-msgid "![ASR envelope](../images/tutorial/env-decay-level.png)"
-msgstr "![ASR envelope](../images/tutorial/env-decay-level.png)"
+msgid "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level.png)"
+msgstr "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level.png)"
 
 #: 02.4-Durations-with-Envelopes.md:183
 msgid ""
@@ -1865,8 +1869,8 @@ msgstr ""
 "0.5, sustain_level: 0.8, release: 1.5"
 
 #: 02.4-Durations-with-Envelopes.md:189
-msgid "![ASR envelope](../images/tutorial/env-decay-level-2.png)"
-msgstr "![ASR envelope](../images/tutorial/env-decay-level-2.png)"
+msgid "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level-2.png)"
+msgstr "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level-2.png)"
 
 #: 02.4-Durations-with-Envelopes.md:191
 msgid "ADSR Envelopes"
@@ -2032,31 +2036,29 @@ msgid ""
 "Notice how Sonic Pi doesn't wait for a sound to finish before starting the nex"
 "t sound. The `sleep` command only describes the separation of the *triggering*"
 " of the sounds. This allows you to easily layer sounds together creating inter"
-"esting overlap effects. Later in this tutorial we'll take a look at controllin"
-"g the *duration* of sounds with envelopes."
+"esting overlap effects."
 msgstr ""
 "Zauważ, że Sonic Pi nie czeka, aż dźwięk przestanie grać, zanim zacznie grać k"
-"olejny dźwięk. Polecenie `sleep` tylko opisuje rozdzielenie *wyzwalania* poszc"
-"zególnych dźwięków. Takie podejście pozwala na łatwe nawarstwianie kolejnych d"
-"źwięków, które razem mogą tworzyć ciekawe efekty nakładania się na siebie. W d"
-"alszej części tego samouczka pokażemy, w jaki sposób można kontrolować długość"
-" trwania dźwięków przy użyciu obwiedni."
+"olejny dźwięk. Polecenie `sleep` określa jedynie rozdzielenie *wyzwalania* pos"
+"zczególnych dźwięków. Takie podejście pozwala na łatwe nawarstwianie kolejnych"
+" dźwięków, tworząc ciekawe efekty nakładania się na siebie."
 
-#: 03.1-Triggering-Samples.md:44
+#: 03.1-Triggering-Samples.md:42
 msgid "Discovering Samples"
 msgstr "Odkrywanie Sampli"
 
-#: 03.1-Triggering-Samples.md:46
+#: 03.1-Triggering-Samples.md:44
 msgid ""
 "There are two ways to discover the range of samples provided in Sonic Pi. Firs"
-"t, you can use this help system. Click on Samples in the far left vertical men"
-"u, choose your category and then you'll see a list of available sounds."
+"t, you can use this help system. Click on Samples in the menu at the bottom of"
+" this help screen, choose your category and then you'll see a list of availabl"
+"e sounds."
 msgstr ""
-"Są dwa sposoby na odkrywanie wielu sampli, które są dostępne w Sonic Pi. Po pi"
-"erwsze, możesz korzystać z systemu pomocy. Kliknij na sekcję Sample w lewym do"
-"lnym menu, wybierz kategorię, a zobaczysz listę dostępnych dźwięków."
+"Są dwa sposoby na odkrywanie wielu sampli, dostępnych w Sonic Pi. Po pierwsze,"
+" możesz korzystać z systemu pomocy. Kliknij na sekcję Sample w lewym dolnym me"
+"nu, wybierz kategorię, a zobaczysz listę dostępnych dźwięków."
 
-#: 03.1-Triggering-Samples.md:51
+#: 03.1-Triggering-Samples.md:49
 msgid ""
 "Alternatively you can use the *auto-completion system*. Simply type the start "
 "of a sample group such as: `sample :ambi_` and you'll see a drop-down of sampl"
@@ -2067,39 +2069,39 @@ msgstr ""
 "że się rozwijana lista reszty gotowców do wyboru. Wypróbuj następujące prefiks"
 "y kategorii:"
 
-#: 03.1-Triggering-Samples.md:56
+#: 03.1-Triggering-Samples.md:54
 msgid "`:ambi_`"
 msgstr "`:ambi_`"
 
-#: 03.1-Triggering-Samples.md:57
+#: 03.1-Triggering-Samples.md:55
 msgid "`:bass_`"
 msgstr "`:bass_`"
 
-#: 03.1-Triggering-Samples.md:58
+#: 03.1-Triggering-Samples.md:56
 msgid "`:elec_`"
 msgstr "`:elec_`"
 
-#: 03.1-Triggering-Samples.md:59
+#: 03.1-Triggering-Samples.md:57
 msgid "`:perc_`"
 msgstr "`:perc_`"
 
-#: 03.1-Triggering-Samples.md:60
+#: 03.1-Triggering-Samples.md:58
 msgid "`:guit_`"
 msgstr "`:guit_`"
 
-#: 03.1-Triggering-Samples.md:61
+#: 03.1-Triggering-Samples.md:59
 msgid "`:drum_`"
 msgstr "`:drum_`"
 
-#: 03.1-Triggering-Samples.md:62
+#: 03.1-Triggering-Samples.md:60
 msgid "`:misc_`"
 msgstr "`:misc_`"
 
-#: 03.1-Triggering-Samples.md:63
+#: 03.1-Triggering-Samples.md:61
 msgid "`:bd_`"
 msgstr "`:bd_`"
 
-#: 03.1-Triggering-Samples.md:65
+#: 03.1-Triggering-Samples.md:63
 msgid "Now start mixing samples into your compositions!"
 msgstr "A teraz zacznij wplatać sample w Twoje własne kompozycje!"
 
@@ -2283,6 +2285,7 @@ msgstr ""
 
 #: 03.3-Stretching-Samples.md:48 03.4-Enveloped-Samples.md:17
 #: 03.5-Partial-Samples.md:9 A.03-coded-beats.md:33 A.12-sample-slicing.md:22
+#: A.20-creative-coding-in-the-classroom.md:185
 #, no-wrap
 msgid "sample :loop_amen"
 msgstr "sample :loop_amen"
@@ -2296,6 +2299,7 @@ msgstr ""
 "y prędkości, aby stworzyć *oldschool'owy hip hop*:"
 
 #: 03.3-Stretching-Samples.md:55 03.5-Partial-Samples.md:16
+#: A.20-creative-coding-in-the-classroom.md:194
 #, no-wrap
 msgid "sample :loop_amen, rate: 0.5"
 msgstr "sample :loop_amen, rate: 0.5"
@@ -2392,8 +2396,8 @@ msgstr ""
 "ia wykresu graficznego mogącego wyglądać bardzo podobnie do tego:"
 
 #: 03.3-Stretching-Samples.md:103
-msgid "![sample graph](../images/tutorial/sample.png)"
-msgstr "![sample graph](../images/tutorial/sample.png)"
+msgid "![sample graph](../../../etc/doc/images/tutorial/sample.png)"
+msgstr "![sample graph](../../../etc/doc/images/tutorial/sample.png)"
 
 #: 03.3-Stretching-Samples.md:105
 msgid ""
@@ -2996,12 +3000,12 @@ msgstr "Sample Lokalne"
 
 #: 03.6-External-Samples.md:28
 msgid ""
-"So how do you play any arbitrary WAV, AIFF or FLAC file on your computer? All "
-"you need to do is pass the path of that file to `sample`:"
+"So how do you play any arbitrary WAV, AIFF, OGG, OGA or FLAC file on your comp"
+"uter? All you need to do is pass the path of that file to `sample`:"
 msgstr ""
-"W jaki sposób możesz więc zagrać dowolny plik WAV lub AIFF, który znajduje się"
-" na Twoim komputerze? Jedyne, co musisz zrobić, to przekazać ścieżkę do tego p"
-"liku do polecenia `sample`:"
+"W jaki sposób możesz więc zagrać dowolny plik WAV, AIFF, OGG, OGA albo FLAC, z"
+"najdujący się na Twoim komputerze? Jedyne, co musisz zrobić, to przekazać jego"
+" ścieżkę do polecenia `sample`:"
 
 #: 03.6-External-Samples.md:31
 #, no-wrap
@@ -3279,12 +3283,12 @@ msgstr ""
 #: 03.7-Sample-Packs.md:120
 msgid ""
 "We can even use multiple filters at the same time. For example, if we want a s"
-"ample whose filename contains both the substrings \"120\" and \"A#\" we can find i"
-"t easily with the following code:"
+"ample whose filename contains both the substrings `\"120\"` and `\"A#\"` we can fi"
+"nd it easily with the following code:"
 msgstr ""
-"Możemy nawet używać wielu filtrów jednocześnie. Na przykład jeśli chcemy wszys"
-"tkie sample, których nazwa pliku zawiera zarówno ciąg znaków\"120\" oraz \"A#\", m"
-"ożemy znaleźć je bardzo łatwo, wykorzystując taki kawałek kodu:"
+"Możemy nawet użyć kilku filtrów jednocześnie. Na przykład jeśli chcemy wszystk"
+"ie sample, których nazwa pliku zawiera zarówno ciąg znaków `\"120\"` oraz `\"A#\"`"
+", możemy znaleźć je bardzo łatwo, wykorzystując taki kawałek kodu:"
 
 #: 03.7-Sample-Packs.md:124
 #, no-wrap
@@ -3314,24 +3318,26 @@ msgstr "Źródła"
 
 #: 03.7-Sample-Packs.md:138
 msgid ""
-"The sample filter pre-arg system understands two types of information: sources"
-" and filters. Sources are information used to create the list of potential can"
-"didates. A source can take two forms:"
+"The sample filter pre-arg system understands two types of information: *source"
+"s* and *filters*. Sources are information used to create the list of potential"
+" candidates. A source can take two forms:"
 msgstr ""
-"System wstępnego przetwarzania parametrów dla funkcji filtrującej sample rozum"
-"ie dwa typy informacji: źródła oraz filtry. Źródła są informacją wykorzystywan"
-"ą do stworzenia listy potencjalnych kandydatów. Źródło może przyjmować 2 formy"
-":"
+"System wstępnego przetwarzania parametrów dla funkcji filtrującej sample "
+"rozumie dwa typy informacji: *źródła* oraz *filtry*. Źródła są informacją "
+"wykorzystywaną do stworzenia listy potencjalnych kandydatów. Źródło może "
+"przyjmować 2 formy:"
 
 #: 03.7-Sample-Packs.md:142
-msgid "\"/path/to/samples\" - a string representing a valid path to a directory"
-msgstr "\"/ścieżka/do/sampli\" - ciąg znaków reprezentujący poprawną ścieżkę do katalogu"
+msgid "`\"/path/to/samples\"` - a string representing a valid path to a directory"
+msgstr ""
+"`\"/ścieżka/do/sampli\"` - ciąg znaków reprezentujący poprawną ścieżkę do "
+"katalogu"
 
 #: 03.7-Sample-Packs.md:143
-msgid "\"/path/to/samples/foo.wav\" - a string representing a valid path to a sample"
+msgid "`\"/path/to/samples/foo.wav\"` - a string representing a valid path to a sample"
 msgstr ""
-"\"/ścieżka/do/sampli/foo.wav\" - ciąg znaków reprezentujący poprawną ścieżkę do "
-"sampla"
+"`\"/ścieżka/do/sampli/foo.wav\"` - ciąg znaków reprezentujący poprawną "
+"ścieżkę do sampla"
 
 #: 03.7-Sample-Packs.md:145
 msgid ""
@@ -5366,10 +5372,9 @@ msgid ""
 "s this very easy: you write the name you wish to use, an equal sign (`=`), the"
 "n the thing you want to remember:"
 msgstr ""
-"Przydatną rzeczą, którą możesz robić w swoim kodzie, to tworzenie nazw dla "
-"różnych rzeczy. Sonic Pi sprawia, że jest to bardzo łatwe - wpisujesz "
-"wybraną przez siebie nazwę, znak równości (`=`), a następnie rzecz do "
-"zapamiętania:"
+"Przydatną rzeczą, którą możesz robić w swoim kodzie, to tworzenie nazw dla róż"
+"nych rzeczy. Sonic Pi sprawia, że jest to bardzo łatwe - wpisujesz wybraną prz"
+"ez siebie nazwę, znak równości (`=`), a następnie rzecz do zapamiętania:"
 
 #: 05.6-Variables.md:9
 #, no-wrap
@@ -5629,9 +5634,9 @@ msgid ""
 "f things, it is important to know that they should typically only be used loca"
 "lly within a thread. For example, *don't do this*:"
 msgstr ""
-"Zmienne są świetne do nadawania rzeczom nazw oraz zapisywania wyników "
-"różnych operacji, ale musisz pamiętać, że zazwyczaj powinny być używane "
-"tylko lokalnie w ramach jednego wątku. Na przykład, *nie rób tego*:"
+"Zmienne są świetne do nadawania rzeczom nazw oraz zapisywania wyników różnych "
+"operacji, ale musisz pamiętać, że zazwyczaj powinny być używane tylko lokalnie"
+" w ramach jednego wątku. Na przykład, *nie rób tego*:"
 
 #: 05.6-Variables.md:139
 #, no-wrap
@@ -5673,19 +5678,19 @@ msgid ""
 " racing to do something different to the same variable and every time round a "
 "different loop 'wins'."
 msgstr ""
-"W powyższym przykładzie do zmiennej `a` przypisujemy pierścień liczb a "
-"następnie wykorzystujemy go wewnątrz dwóch różnych żywych pętli. W pierwszej "
-"pętli co każde pół uderzenia sortujemy pierścień (aby wyglądał następująco `("
-"ring 1, 2, 3, 4, 5, 6)`) a następnie wyświetlamy jego zawartość w panelu z "
-"logami. Gdy uruchomisz kod, zauważysz że lista wyświetlana w logach *nie "
-"zawsze jest dobrze posortowana!*. Może to być dla Ciebie niespodzianką - "
-"zwłaszcza, że czasami lista jest wyświetlana jako posortowany zbiór, a "
-"czasami nie. To jest tak zwane niedeterministyczne zachowanie i jest "
-"wynikiem raczej nieprzyjemnego problemu zwanego wyścigiem. Przyczyną "
-"problemu jest fakt, że druga żywa pętla również modyfikuje listę (w tym "
-"wypadku tasuje ją) i tak naprawdę w momencie wyświetlenia czasem będzie one "
-"posortowana a czasem potasowana. Obie żywe pętle ścigają się aby zrobić coś "
-"innego z tą samą zmienną i za każdym razem 'wygrywa' inna pętla."
+"W powyższym przykładzie do zmiennej `a` przypisujemy pierścień liczb a następn"
+"ie wykorzystujemy go wewnątrz dwóch różnych żywych pętli. W pierwszej pętli co"
+" każde pół uderzenia sortujemy pierścień (aby wyglądał następująco `(ring 1, 2"
+", 3, 4, 5, 6)`) a następnie wyświetlamy jego zawartość w panelu z logami. Gdy "
+"uruchomisz kod, zauważysz że lista wyświetlana w logach *nie zawsze jest dobrz"
+"e posortowana!*. Może to być dla Ciebie niespodzianką - zwłaszcza, że czasami "
+"lista jest wyświetlana jako posortowany zbiór, a czasami nie. To jest tak zwan"
+"e niedeterministyczne zachowanie i jest wynikiem raczej nieprzyjemnego problem"
+"u zwanego wyścigiem. Przyczyną problemu jest fakt, że druga żywa pętla również"
+" modyfikuje listę (w tym wypadku tasuje ją) i tak naprawdę w momencie wyświetl"
+"enia czasem będzie one posortowana a czasem potasowana. Obie żywe pętle ścigaj"
+"ą się aby zrobić coś innego z tą samą zmienną i za każdym razem 'wygrywa' inna"
+" pętla."
 
 #: 05.6-Variables.md:168
 msgid ""
@@ -5693,10 +5698,10 @@ msgid ""
 "iple live loops or threads*. For example, the following code will always print"
 " a sorted list as each live loop has its own separate variable:"
 msgstr ""
-"Istnieją dwa rozwiązania tego problemu. Po pierwsze, *nie używaj tej samej "
-"zmiennej w wielu różnych żywych pętlach lub wątkach*. Na przykład, "
-"następujący kod zawsze wyświetli posortowaną listę ponieważ każda żywa pętla "
-"ma swoją własną, niezależną zmienną:"
+"Istnieją dwa rozwiązania tego problemu. Po pierwsze, *nie używaj tej samej zmi"
+"ennej w wielu różnych żywych pętlach lub wątkach*. Na przykład, następujący ko"
+"d zawsze wyświetli posortowaną listę ponieważ każda żywa pętla ma swoją własną"
+", niezależną zmienną:"
 
 #: 05.6-Variables.md:173
 #, no-wrap
@@ -5732,11 +5737,11 @@ msgid ""
 "s special thread-safe state system via the fns `get` and `set`. This is discus"
 "sed later on in section 10."
 msgstr ""
-"Czasami jednak zdarza się, że chcielibyśmy współdzielić rzeczy pomiędzy "
-"różnymi wątkami. Na przykład aktualną tonację, BPM, syntezator (synth), itd. "
-"W takich sytuacjach rozwiązaniem jest używanie specjalnego wątkowo-"
-"bezpiecznego systemu stanu wykorzystując funkcje `get` i `set`. Zostanie to "
-"przedyskutowane dalej w sekcji 10."
+"Czasami jednak zdarza się, że chcielibyśmy współdzielić rzeczy pomiędzy różnym"
+"i wątkami. Na przykład aktualną tonację, BPM, syntezator (synth), itd. W takic"
+"h sytuacjach rozwiązaniem jest używanie specjalnego wątkowo-bezpiecznego syste"
+"mu stanu wykorzystując funkcje `get` i `set`. Zostanie to przedyskutowane dale"
+"j w sekcji 10."
 
 #: 05.7-Thread-Synchronisation.md:1
 msgid "5.7 Thread Synchronisation"
@@ -7820,19 +7825,16 @@ msgid "`.shuffle` - creates a shuffled version of the ring"
 msgstr "`.shuffle` - tworzy pierścień z wartościami, które są przetasowane"
 
 #: 08.5-Ring-Chains.md:71
+msgid "`.pick` - returns a ring with the results of calling `.choose` once"
+msgstr ""
+"`.pick` - zwraca pierścień zawierający wyniki pojedynczego uruchomienia "
+"funkcji `.choose`"
+
+#: 08.5-Ring-Chains.md:72
 msgid "`.pick(3)` - returns a ring with the results of calling `.choose` 3 times"
 msgstr ""
 "`.pick(3)` - zwraca pierścień, który zawiera 3 losowo wybrane elementy z orygi"
 "nalnego pierścienia (działanie analogiczne do funkcji `choose`)"
-
-#: 08.5-Ring-Chains.md:72
-msgid ""
-"`.pick` - similar to `.pick(3)` only the size defaults to the same as the orig"
-"inal ring"
-msgstr ""
-"`.pick` - działanie analogiczne do funkcji `.pick(3)` z tym, że w tym przypadk"
-"u liczba wylosowanych elementów jest równa ilości elementów znajdujących się w"
-" oryginalnym pierścieniu"
 
 #: 08.5-Ring-Chains.md:73
 msgid "`.take(5)` - returns a new ring containing only the first 5 elements"
@@ -7975,23 +7977,23 @@ msgstr ""
 #: 09.1-Live-Coding-Fundamentals.md:18
 #, no-wrap
 msgid ""
-"define :my_loop do\n"
+"define :my_sound do\n"
 "  play 50\n"
 "  sleep 1\n"
 "end\n"
 "in_thread(name: :looper) do\n"
 "  loop do\n"
-"    my_loop\n"
+"    my_sound\n"
 "  end\n"
 "end"
 msgstr ""
-"define :my_loop do\n"
+"define :my_sound do\n"
 "  play 50\n"
 "  sleep 1\n"
 "end\n"
 "in_thread(name: :looper) do\n"
 "  loop do\n"
-"    my_loop\n"
+"    my_sound\n"
 "  end\n"
 "end"
 
@@ -8010,12 +8012,12 @@ msgstr ""
 msgid ""
 "What we have here is a function definition which just plays note 50 and sleeps"
 " for a beat. We then define a named thread called `:looper` which just loops a"
-"round calling `my_loop` repeatedly."
+"round calling `my_sound` repeatedly."
 msgstr ""
-"To, co mamy powyżej, to nic innego jak funkcja, która po prostu gra nutę o war"
-"tości 50 i następnie czeka 1 uderzenie. W kolejnym kroku mamy definicję wątku "
-"nazwanego `:looper`, który po prostu kręci się w kółko i uruchamia funkcję `my"
-"_loop`."
+"To, co mamy powyżej, to nic innego jak funkcja, która po prostu gra nutę o "
+"wartości 50 i następnie czeka 1 uderzenie. W kolejnym kroku mamy definicję "
+"wątku nazwanego `:looper`, który po prostu kręci się w kółko i uruchamia "
+"funkcję `my_loop`."
 
 #: 09.1-Live-Coding-Fundamentals.md:39
 msgid "If you run this code, you'll hear note 50 repeating again and again..."
@@ -8036,11 +8038,12 @@ msgstr ""
 "pnie naciśnij przycisk Run jeszcze raz. Łał! To się zmieniło! Ten kod żyje!"
 
 #: 09.1-Live-Coding-Fundamentals.md:47
+#, fuzzy
 msgid ""
 "It didn't add a new layer because we're using named threads which only allow o"
 "ne thread for each name. Also, the sound changed because we *redefined* the fu"
-"nction. We gave `:my_loop` a new definition. When the `:looper` thread looped "
-"around it simply called the new definition."
+"nction. We gave `:my_sound` a new definition. When the `:looper` thread looped"
+" around it simply called the new definition."
 msgstr ""
 "Nowa warstwa dźwięku nie została dodana, ponieważ korzystamy z nazwanych wątkó"
 "w co pozwala tylko na jeden wątek dla jednej nazwy. Ponadto dźwięk się zmienił"
@@ -8059,8 +8062,9 @@ msgstr ""
 
 #: 09.1-Live-Coding-Fundamentals.md:55
 #, no-wrap
+#, fuzzy
 msgid ""
-"define :my_loop do\n"
+"define :my_sound do\n"
 "  use_synth :tb303\n"
 "  play 50, release: 0.3\n"
 "  sleep 0.25\n"
@@ -8082,8 +8086,9 @@ msgstr ""
 
 #: 09.1-Live-Coding-Fundamentals.md:67
 #, no-wrap
+#, fuzzy
 msgid ""
-"define :my_loop do\n"
+"define :my_sound do\n"
 "  use_synth :tb303\n"
 "  play chord(:e3, :minor), release: 0.3\n"
 "  sleep 0.5\n"
@@ -8101,8 +8106,9 @@ msgstr "A co powiesz na granie losowych nut z akordu:"
 
 #: 09.1-Live-Coding-Fundamentals.md:77
 #, no-wrap
+#, fuzzy
 msgid ""
-"define :my_loop do\n"
+"define :my_sound do\n"
 "  use_synth :tb303\n"
 "  play choose(chord(:e3, :minor)), release: 0.3\n"
 "  sleep 0.25\n"
@@ -8120,8 +8126,9 @@ msgstr "Albo użycie losowej wartości dla parametru odcięcia (cutoff):"
 
 #: 09.1-Live-Coding-Fundamentals.md:87
 #, no-wrap
+#, fuzzy
 msgid ""
-"define :my_loop do\n"
+"define :my_sound do\n"
 "  use_synth :tb303\n"
 "  play choose(chord(:e3, :minor)), release: 0.2, cutoff: rrand(60, 130)\n"
 "  sleep 0.25\n"
@@ -8139,8 +8146,9 @@ msgstr "I na sam koniec dodajmy trochę bębnów:"
 
 #: 09.1-Live-Coding-Fundamentals.md:97
 #, no-wrap
+#, fuzzy
 msgid ""
-"define :my_loop do\n"
+"define :my_sound do\n"
 "  use_synth :tb303\n"
 "  sample :drum_bass_hard, rate: rrand(0.5, 2)\n"
 "  play choose(chord(:e3, :minor)), release: 0.2, cutoff: rrand(60, 130)\n"
@@ -8781,18 +8789,17 @@ msgid ""
 "information across threads* due to a loss of determinism (in turn due to race "
 "conditions)."
 msgstr ""
-"Bardzo często przydatne jest posiadanie informacji, która jest *"
-"współdzielona pomiędzy wieloma wątkami lub żywymi pętlami*. Na przykład, "
-"chciałbyś współdzielić aktualną gamę, BPM albo może nawet bardziej "
-"abstrakcyjne koncepty takie jak aktualna 'złożoność' (coś co mógłbyś "
-"interpretować na różne sposoby w różnych wątkach). Ponadto nie chcemy także "
-"zgubić żadnego z naszych istniejących i deterministycznych mechanizmów gdy "
-"to robimy. Innymi słowy, chcielibyśmy być w stanie współdzielić kod z innymi "
-"i być stuprocentowo pewnymi tego, że usłyszą to co chcemy gdy go uruchomią. "
-"Pod koniec Sekcji 5.6 tego samouczka krótko wyjaśniliśmy dlaczego *nie "
-"powinniśmy używać zmiennych do współdzielenia informacji pomiędzy różnymi "
-"wątkami* ze względu na możliwość utraty determinizmu (to z kolei z powodu "
-"wyścigu wątków)."
+"Bardzo często przydatne jest posiadanie informacji, która jest *współdzielona "
+"pomiędzy wieloma wątkami lub żywymi pętlami*. Na przykład, chciałbyś współdzie"
+"lić aktualną gamę, BPM albo może nawet bardziej abstrakcyjne koncepty takie ja"
+"k aktualna 'złożoność' (coś co mógłbyś interpretować na różne sposoby w różnyc"
+"h wątkach). Ponadto nie chcemy także zgubić żadnego z naszych istniejących i d"
+"eterministycznych mechanizmów gdy to robimy. Innymi słowy, chcielibyśmy być w "
+"stanie współdzielić kod z innymi i być stuprocentowo pewnymi tego, że usłyszą "
+"to co chcemy gdy go uruchomią. Pod koniec Sekcji 5.6 tego samouczka krótko wyj"
+"aśniliśmy dlaczego *nie powinniśmy używać zmiennych do współdzielenia informac"
+"ji pomiędzy różnymi wątkami* ze względu na możliwość utraty determinizmu (to z"
+" kolei z powodu wyścigu wątków)."
 
 #: 10-State.md:16
 msgid ""
@@ -8804,15 +8811,15 @@ msgid ""
 "mple to share state across threads* whilst still keeping your programs *thread"
 "-safe and deterministic.*."
 msgstr ""
-"Sonic Pi umożliwia rozwiązanie problemu łatwej pracy z globalnymi zmiennymi "
-"w deterministyczny sposób poprzez nowatorski system, który nazywa się Stan "
-"Czasu. Może to brzmieć trochę skomplikowanie (i rzeczywiście, w Wielkiej "
-"Brytanii, programowanie z wykorzystaniem wielu wątków i współdzielonej "
-"pamięci to temat na poziomie typowo uniwersyteckim). Jednakże, jak niedługo "
-"zobaczysz, dokładnie tak samo jak zagranie twojej pierwszej nuty, *Sonic Pi "
-"sprawia, że współdzielenie stanu pomiędzy wątkami jest niezwykle łatwe* a "
-"jednocześnie sprawia, że twoje programy są *bezpieczne z punktu widzenia "
-"wielowątkowości oraz deterministyczne.*."
+"Sonic Pi umożliwia rozwiązanie problemu łatwej pracy z globalnymi zmiennymi w "
+"deterministyczny sposób poprzez nowatorski system, który nazywa się Stan Czasu"
+". Może to brzmieć trochę skomplikowanie (i rzeczywiście, w Wielkiej Brytanii, "
+"programowanie z wykorzystaniem wielu wątków i współdzielonej pamięci to temat "
+"na poziomie typowo uniwersyteckim). Jednakże, jak niedługo zobaczysz, dokładni"
+"e tak samo jak zagranie twojej pierwszej nuty, *Sonic Pi sprawia, że współdzie"
+"lenie stanu pomiędzy wątkami jest niezwykle łatwe* a jednocześnie sprawia, że "
+"twoje programy są *bezpieczne z punktu widzenia wielowątkowości oraz determini"
+"styczne.*."
 
 #: 10-State.md:24
 msgid "Meet `get` and `set`..."
@@ -8832,9 +8839,9 @@ msgid ""
 "do with it are to `set` information and `get` information. Let's dive deeper.."
 "."
 msgstr ""
-"Sonic Pi posiada globalny magazyn pamięci nazywany Stanem Czasu. Dwie "
-"podstawowe operacje jakie możesz na nim wykonywać to ustawienie informacji "
-"(`set`) oraz pobranie informacji (`get`). Zanurzmy się głębiej..."
+"Sonic Pi posiada globalny magazyn pamięci nazywany Stanem Czasu. Dwie podstawo"
+"we operacje jakie możesz na nim wykonywać to ustawienie informacji (`set`) ora"
+"z pobranie informacji (`get`). Zanurzmy się głębiej..."
 
 #: 10.1-Set-and-Get.md:9
 msgid "Set"
@@ -8857,8 +8864,8 @@ msgid ""
 "For example, we might want to store the number `3000` with the key `:intensity"
 "`. This is possible using the `set` function:"
 msgstr ""
-"Na przykład, możemy chcieć zachować liczbę `3000` pod kluczem `:intensity` "
-"(intensywność). Można to zrobić używając funkcji `set`:"
+"Na przykład, możemy chcieć zachować liczbę `3000` pod kluczem `:intensity` (in"
+"tensywność). Można to zrobić używając funkcji `set`:"
 
 #: 10.1-Set-and-Get.md:19
 #, no-wrap
@@ -8870,9 +8877,8 @@ msgid ""
 "We can use any name for our key. If information has already been stored with t"
 "hat key, our new `set` will override it:"
 msgstr ""
-"Możemy użyć dowolnej nazwy dla naszego klucza (key). Jeśli jakaś informacja "
-"została już zapisana pod tym kluczem, nasze nowe ustawienie (`set`) nadpisze "
-"je:"
+"Możemy użyć dowolnej nazwy dla naszego klucza (key). Jeśli jakaś informacja zo"
+"stała już zapisana pod tym kluczem, nasze nowe ustawienie (`set`) nadpisze je:"
 
 #: 10.1-Set-and-Get.md:26
 #, no-wrap
@@ -8889,10 +8895,10 @@ msgid ""
 "all to `set` 'wins', so the number associated with `:intensity` will be `3000`"
 " as the first call to `set` is effectively overridden."
 msgstr ""
-"W powyższym przykładzie, jako że zapisaliśmy obie liczby pod tym samym "
-"kluczem, ostanie uruchomienie funkcji `set` 'wygrywa'. Wynika z tego, że "
-"liczba powiązana z `:intensity` będzie wynosić `3000` ponieważ pierwsze "
-"wywołanie funkcji `set` zostało efektywnie nadpisane."
+"W powyższym przykładzie, jako że zapisaliśmy obie liczby pod tym samym kluczem"
+", ostanie uruchomienie funkcji `set` 'wygrywa'. Wynika z tego, że liczba powią"
+"zana z `:intensity` będzie wynosić `3000` ponieważ pierwsze wywołanie funkcji "
+"`set` zostało efektywnie nadpisane."
 
 #: 10.1-Set-and-Get.md:35
 msgid "Get"
@@ -8904,11 +8910,11 @@ msgid ""
 " it, which in our case is `:intensity`. We then just need to call `get[:intens"
 "ity]` which we can see by printing out the result to the log:"
 msgstr ""
-"Aby pobrać informację ze Stanu Czasu (Time State) potrzebujemy tylko klucza, "
-"którego użyliśmy do ustawienia go za pomocą funkcji `set`, w naszym "
-"przypadku jest to `:intensity`.  Następnie musimy tylko uruchomić polecenie "
-"`get[:intensity]` i będziemy mogli podejrzeć tę wartość poprzez wyświetlenie "
-"wyniku w panelu z logami:"
+"Aby pobrać informację ze Stanu Czasu (Time State) potrzebujemy tylko klucza, k"
+"tórego użyliśmy do ustawienia go za pomocą funkcji `set`, w naszym przypadku j"
+"est to `:intensity`.  Następnie musimy tylko uruchomić polecenie `get[:intensi"
+"ty]` i będziemy mogli podejrzeć tę wartość poprzez wyświetlenie wyniku w panel"
+"u z logami:"
 
 #: 10.1-Set-and-Get.md:42
 #, no-wrap
@@ -8922,12 +8928,11 @@ msgid ""
 "the information is overridden (just like we clobbered the `:intensity` value o"
 "f `1000` to `3000` above) or Sonic Pi is closed."
 msgstr ""
-"Zauważ, że odwołanie do `get` może zwrócić informację która została "
-"ustawiona (`set`) w poprzednim uruchomieniu. Gdy już raz pewna informacja "
-"zostanie ustawiona za pomocą polecenia `set` staje się ona dostępna dopóki "
-"nie zostanie nadpisana (dokładnie tak samo jak zmieniliśmy wartość dostępną "
-"pod symbolem`:intensity`z `1000` na `3000` powyżej) lub Sonic PI zostanie "
-"zamknięty."
+"Zauważ, że odwołanie do `get` może zwrócić informację która została ustawiona "
+"(`set`) w poprzednim uruchomieniu. Gdy już raz pewna informacja zostanie ustaw"
+"iona za pomocą polecenia `set` staje się ona dostępna dopóki nie zostanie nadp"
+"isana (dokładnie tak samo jak zmieniliśmy wartość dostępną pod symbolem`:inten"
+"sity`z `1000` na `3000` powyżej) lub Sonic PI zostanie zamknięty."
 
 #: 10.1-Set-and-Get.md:52
 msgid "Multiple Threads"
@@ -8939,10 +8944,10 @@ msgid ""
 " threads or live loops. For example, you could have one live loop setting info"
 "rmation and another one getting it:"
 msgstr ""
-"Podstawową korzyścią systemu Stanu Czasu (Time State) jest to, że może być "
-"on bezpiecznie używany pomiędzy różnymi wątkami oraz żywymi pętlami. Na "
-"przykład, możesz mieć jedną żywą pętlę, która ustawia pewną informację oraz "
-"inną, która ją wyciąga:"
+"Podstawową korzyścią systemu Stanu Czasu (Time State) jest to, że może być on "
+"bezpiecznie używany pomiędzy różnymi wątkami oraz żywymi pętlami. Na przykład,"
+" możesz mieć jedną żywą pętlę, która ustawia pewną informację oraz inną, która"
+" ją wyciąga:"
 
 #: 10.1-Set-and-Get.md:58
 #, no-wrap
@@ -8971,9 +8976,9 @@ msgid ""
 " will always produce the same result every time you hit run. Go on, try it. Se"
 "e if you get the following in your log:"
 msgstr ""
-"Ogromną zaletą korzystania z funkcji `set` i `get` w różnych wątkach jest "
-"fakt, że zawsze dają one ten sam wynik przy uruchomieniu przycisku 'Run'. "
-"Dalej, spróbuj sam. Sprawdź czy dostaniesz taki sam rezultat w swoich logach:"
+"Ogromną zaletą korzystania z funkcji `set` i `get` w różnych wątkach jest fakt"
+", że zawsze dają one ten sam wynik przy uruchomieniu przycisku 'Run'. Dalej, s"
+"próbuj sam. Sprawdź czy dostaniesz taki sam rezultat w swoich logach:"
 
 #: 10.1-Set-and-Get.md:74
 #, no-wrap
@@ -9020,13 +9025,12 @@ msgid ""
 "ly what we wanted them to hear (just like playing an MP3 or internet stream so"
 "unds the same for all listeners)."
 msgstr ""
-"Spróbuj uruchomić to kilkukrotnie - zauważ, że za każdym razem wynik jest "
-"taki sam. To jest właśnie coś co nazywamy zachowaniem deterministycznym. "
-"Jest to bardzo ważne gdy chcemy podzielić się naszą muzyką jako kodem. "
-"Zależy nam na tym aby osoba uruchamiająca nasz kod usłyszała dokładnie to co "
-"chcieliśmy aby usłyszała (dokładnie tak samo jak z odtworzeniem utworu MP3 "
-"czy stream'a z dźwiękiem w internecie brzmi identycznie dla każdego ze "
-"słuchaczy)."
+"Spróbuj uruchomić to kilkukrotnie - zauważ, że za każdym razem wynik jest taki"
+" sam. To jest właśnie coś co nazywamy zachowaniem deterministycznym. Jest to b"
+"ardzo ważne gdy chcemy podzielić się naszą muzyką jako kodem. Zależy nam na ty"
+"m aby osoba uruchamiająca nasz kod usłyszała dokładnie to co chcieliśmy aby us"
+"łyszała (dokładnie tak samo jak z odtworzeniem utworu MP3 czy stream'a z dźwię"
+"kiem w internecie brzmi identycznie dla każdego ze słuchaczy)."
 
 #: 10.1-Set-and-Get.md:107
 msgid "A Simple Deterministic State System"
@@ -9038,9 +9042,9 @@ msgid ""
 "o random behaviour. This stops us from being able to reliably reproduce code s"
 "uch as this:"
 msgstr ""
-"Wcześniej w Sekcji 5.6 rozważaliśmy dlaczego wykorzystywanie zmiennych w "
-"różnych wątkach może prowadzić do nieoczekiwanych zachowań. Powoduje to, że "
-"nie jesteśmy w stanie wiarygodnie odtworzyć kod taki jak ten:"
+"Wcześniej w Sekcji 5.6 rozważaliśmy dlaczego wykorzystywanie zmiennych w różny"
+"ch wątkach może prowadzić do nieoczekiwanych zachowań. Powoduje to, że nie jes"
+"teśmy w stanie wiarygodnie odtworzyć kod taki jak ten:"
 
 #: 10.1-Set-and-Get.md:113
 #, no-wrap
@@ -9086,8 +9090,8 @@ msgstr ""
 #: 10.1-Set-and-Get.md:136
 msgid "Let's take a look at how this might look using `get` and `set`:"
 msgstr ""
-"Spróbujmy zobaczyć jak mogłoby to wyglądać gdybyśmy użyli funkcji `get` i "
-"`set`:"
+"Spróbujmy zobaczyć jak mogłoby to wyglądać gdybyśmy użyli funkcji `get` i `set"
+"`:"
 
 #: 10.1-Set-and-Get.md:138
 #, no-wrap
@@ -9133,20 +9137,20 @@ msgid ""
 "any typical Sonic Pi code - *it does the same thing every time* in this case t"
 "hanks to the Time State system."
 msgstr ""
-"Zauważ, że ten kod jest prawie identyczny z wersją, w której używaliśmy "
-"wcześniej zmiennej. Jednakże, kiedy uruchomisz ten kod, zacznie się on "
-"zachowywać tak jakbyś tego oczekiwał od typowego kodu Sonic Pi - w tym "
-"wypadku *za każdym razem jest wykonywana ta sama rzecz*, wszystko dzięki "
-"systemowi Stanu Czasu (Time State)."
+"Zauważ, że ten kod jest prawie identyczny z wersją, w której używaliśmy wcześn"
+"iej zmiennej. Jednakże, kiedy uruchomisz ten kod, zacznie się on zachowywać ta"
+"k jakbyś tego oczekiwał od typowego kodu Sonic Pi - w tym wypadku *za każdym r"
+"azem jest wykonywana ta sama rzecz*, wszystko dzięki systemowi Stanu Czasu (Ti"
+"me State)."
 
 #: 10.1-Set-and-Get.md:164
 msgid ""
 "Therefore, when sharing information across live loops and threads, use `get` a"
 "nd `set` instead of variables for deterministic, reproducible behaviour."
 msgstr ""
-"Dlatego, gdy współdzielimy informację pomiędzy różnymi żywymi pętlami i "
-"wątkami, używajmy funkcji `get` i `set` zamiast zmiennych aby otrzymać "
-"deterministyczne i powtarzalne zachowanie."
+"Dlatego, gdy współdzielimy informację pomiędzy różnymi żywymi pętlami i wątkam"
+"i, używajmy funkcji `get` i `set` zamiast zmiennych aby otrzymać deterministyc"
+"zne i powtarzalne zachowanie."
 
 #: 10.2-Sync.md:1
 msgid "10.2 Sync"
@@ -9167,16 +9171,16 @@ msgid ""
 " - any information that we plan to store in Time State we can sync on. In othe"
 "r words - *we `sync` on events yet to be inserted into Time State*."
 msgstr ""
-"Sekcja 5.7 wprowadziła funkcje `cue` i `sync`, mieliśmy wtedy do czynienia z "
-"problemem synchronizacji wątków. To co nie zostało wytłumaczone to fakt, że "
-"funkcjonalność ta jest zapewniona przez system Stanu Czasu (Time State). Tak "
-"się właśnie dzieje gdyż funkcja `set` jest w zasadzie wariacją funkcji `cue` "
-"i jest zbudowana na bazie tej samej podstawowej funkcjonalności, która "
-"pozwala na umieszczenie informacji w systemie Stanu Czasu.  Ponadto, `sync` "
-"jest również zaprojektowany w taki sposób, że działa bezproblemowo z Stanem "
-"Czasu - do każdej informacji, którą chcielibyśmy umieścić w Stanie Czasu, "
-"możemy się zsynchronizować. Innymi słowy - *synchronizujemy się (`sync`)  na "
-"zdarzeniach, które będą umieszczone w Stanie Czasu*."
+"Sekcja 5.7 wprowadziła funkcje `cue` i `sync`, mieliśmy wtedy do czynienia z p"
+"roblemem synchronizacji wątków. To co nie zostało wytłumaczone to fakt, że fun"
+"kcjonalność ta jest zapewniona przez system Stanu Czasu (Time State). Tak się "
+"właśnie dzieje gdyż funkcja `set` jest w zasadzie wariacją funkcji `cue` i jes"
+"t zbudowana na bazie tej samej podstawowej funkcjonalności, która pozwala na u"
+"mieszczenie informacji w systemie Stanu Czasu.  Ponadto, `sync` jest również z"
+"aprojektowany w taki sposób, że działa bezproblemowo z Stanem Czasu - do każde"
+"j informacji, którą chcielibyśmy umieścić w Stanie Czasu, możemy się zsynchron"
+"izować. Innymi słowy - *synchronizujemy się (`sync`)  na zdarzeniach, które bę"
+"dą umieszczone w Stanie Czasu*."
 
 #: 10.2-Sync.md:15
 msgid "Waiting for Events"
@@ -9187,8 +9191,8 @@ msgid ""
 "Let's take a quick look at how to use `sync` to wait for new events to be adde"
 "d to Time State:"
 msgstr ""
-"Spróbujmy spojrzeć szybko jak należy używać polecenia `sync` aby móc "
-"poczekać aby nowe zdarzenia zostały dodane do Stanu Czasu (Time State):"
+"Spróbujmy spojrzeć szybko jak należy używać polecenia `sync` aby móc poczekać "
+"aby nowe zdarzenia zostały dodane do Stanu Czasu (Time State):"
 
 #: 10.2-Sync.md:20
 #, no-wrap
@@ -9214,11 +9218,11 @@ msgid ""
 "d then `set` `:foo` to be `1`. This then releases the `sync` which then moves "
 "to the next line which is to trigger the `:ambi_lunar_land` sample."
 msgstr ""
-"W tym przykładzie najpierw tworzymy wątek, który czeka na zdarzenie `:foo` "
-"aby można go było dodać do Stanu Czasu. Po zadeklarowaniu tego wątku śpimy "
-"przez 2 uderzenia i następnie ustawiamy (`set`) `:foo` na wartość `1`. To z "
-"kolei zwalnia `sync` co pozwala na przeniesienie się do kolejnej linii, w "
-"której zostaje wywołany sampel `:ambi_lunar_land`."
+"W tym przykładzie najpierw tworzymy wątek, który czeka na zdarzenie `:foo` aby"
+" można go było dodać do Stanu Czasu. Po zadeklarowaniu tego wątku śpimy przez "
+"2 uderzenia i następnie ustawiamy (`set`) `:foo` na wartość `1`. To z kolei zw"
+"alnia `sync` co pozwala na przeniesienie się do kolejnej linii, w której zosta"
+"je wywołany sampel `:ambi_lunar_land`."
 
 #: 10.2-Sync.md:37
 msgid ""
@@ -9227,10 +9231,10 @@ msgid ""
 "of the thread which triggered it via `set` or `cue` so it may also be used to "
 "sync time."
 msgstr ""
-"Zauważ, że funkcja `sync` zawsze czeka na *przyszłe zdarzenia*, i że "
-"zablokuje on aktualny wątek w oczekiwaniu na kolejne zdarzenie. Ponadto, "
-"odziedziczy ona czas logiczny wątku, który wywołał ją poprzez funkcję `set` "
-"lub `cue`, więc może też być używana do synchronizowania czasu."
+"Zauważ, że funkcja `sync` zawsze czeka na *przyszłe zdarzenia*, i że zablokuje"
+" on aktualny wątek w oczekiwaniu na kolejne zdarzenie. Ponadto, odziedziczy on"
+"a czas logiczny wątku, który wywołał ją poprzez funkcję `set` lub `cue`, więc "
+"może też być używana do synchronizowania czasu."
 
 #: 10.2-Sync.md:42
 msgid "Passing values into the Future"
@@ -9241,8 +9245,8 @@ msgid ""
 "In the example above we set `:foo` to `1` which we did nothing with. We can ac"
 "tually get this value from the thread calling `sync`:"
 msgstr ""
-"W przykładzie powyżej nadajemy `:foo`  wartość `1` i nic z nią nie robimy. "
-"Możemy właściwie pobrać tę wartość wewnątrz wątku korzystając z `sync`:"
+"W przykładzie powyżej nadajemy `:foo`  wartość `1` i nic z nią nie robimy. Moż"
+"emy właściwie pobrać tę wartość wewnątrz wątku korzystając z `sync`:"
 
 #: 10.2-Sync.md:47
 #, no-wrap
@@ -9268,10 +9272,10 @@ msgid ""
 " an error if the value you are attempting to store in the Time State is not va"
 "lid."
 msgstr ""
-"Zauważ, że wartości które są przekazywane do funkcji `set` i `cue` muszą być "
-"bezpieczne dla wątków - np. niezmienne pierścienie (rings) liczby, symbole "
-"lub zamrożone łańcuch znaków (strings). Sonic Pi rzuci błąd jeśli wartość "
-"którą próbujesz umieścić w Stanie Czasu (Time State) jest niepoprawna."
+"Zauważ, że wartości które są przekazywane do funkcji `set` i `cue` muszą być b"
+"ezpieczne dla wątków - np. niezmienne pierścienie (rings) liczby, symbole lub "
+"zamrożone łańcuch znaków (strings). Sonic Pi rzuci błąd jeśli wartość którą pr"
+"óbujesz umieścić w Stanie Czasu (Time State) jest niepoprawna."
 
 #: 10.3-Pattern-Matching.md:1
 msgid "10.3 Pattern Matching"
@@ -9290,13 +9294,13 @@ msgid ""
 "d pattern matching system to `get` and `sync` with 'similar' rather than 'iden"
 "tical' paths. Let's take a look."
 msgstr ""
-"Kiedy pobieramy i ustawiamy informacje w Stanie Czasu (Time State), możemy "
-"używać bardziej złożonych kluczy niż podstawowe symbole takie jak `:foo` czy "
-"':bar`. Możesz także używać ciągów znaków w stylu adresów URL zwanymi "
-"ścieżkami, np. `\"/foo/bar/baz\"`. Gdy już zaczniemy pracować ze ścieżkami, "
-"możemy wtedy zacząć korzystać z wyrafinowanego systemu dopasowania wzorców "
-"Sonic Pi aby pobierać (`get`) i synchronizować (`sync`) się z 'podobnymi' a "
-"niekoniecznie 'takimi samymi' ścieżkami. Rzućmy okiem."
+"Kiedy pobieramy i ustawiamy informacje w Stanie Czasu (Time State), możemy uży"
+"wać bardziej złożonych kluczy niż podstawowe symbole takie jak `:foo` czy ':ba"
+"r`. Możesz także używać ciągów znaków w stylu adresów URL zwanymi ścieżkami, n"
+"p. `\"/foo/bar/baz\"`. Gdy już zaczniemy pracować ze ścieżkami, możemy wtedy zac"
+"ząć korzystać z wyrafinowanego systemu dopasowania wzorców Sonic Pi aby pobier"
+"ać (`get`) i synchronizować (`sync`) się z 'podobnymi' a niekoniecznie 'takimi"
+" samymi' ścieżkami. Rzućmy okiem."
 
 #: 10.3-Pattern-Matching.md:13
 msgid "Match any path segment"
@@ -9305,8 +9309,8 @@ msgstr "Dopasuj dowolny segment w ścieżce"
 #: 10.3-Pattern-Matching.md:15
 msgid "Let's assume we want to wait for the next event that has three path segments:"
 msgstr ""
-"Załóżmy, że chcemy poczekać na kolejne zdarzenie, które posiada trzy "
-"segmenty w ścieżce:"
+"Załóżmy, że chcemy poczekać na kolejne zdarzenie, które posiada trzy segmenty "
+"w ścieżce:"
 
 #: 10.3-Pattern-Matching.md:17
 #, no-wrap
@@ -9318,8 +9322,8 @@ msgid ""
 "This will match any Time State event with exactly three path segments, regardl"
 "ess of their names. For example:"
 msgstr ""
-"Spowoduje to dopasowanie do dowolnego zdarzenia w Stanie Czasu posiadającego "
-"dokładnie trzy segmenty ścieżki, bez względu na ich nazwy. Na przykład:"
+"Spowoduje to dopasowanie do dowolnego zdarzenia w Stanie Czasu posiadającego d"
+"okładnie trzy segmenty ścieżki, bez względu na ich nazwy. Na przykład:"
 
 #: 10.3-Pattern-Matching.md:24 10.3-Pattern-Matching.md:46
 #: 10.3-Pattern-Matching.md:68 10.3-Pattern-Matching.md:78
@@ -9343,6 +9347,8 @@ msgid ""
 "However, it will *not* match paths with fewer or more path segments. The follo"
 "wing will not match:"
 msgstr ""
+"Jednakże, *nie* zostaną dopasowane ścieżki z mniejszą lub większą ilością segm"
+"entów. Poniższe nie zostaną dopasowane:"
 
 #: 10.3-Pattern-Matching.md:32
 msgid "`cue \"/foo/bar\"`"
@@ -9354,17 +9360,20 @@ msgstr "`cue \"/foo/baz/quux/quaax\"`"
 
 #: 10.3-Pattern-Matching.md:34
 msgid "`cue \"/eggs\"`"
-msgstr ""
+msgstr "`cue \"/eggs\"`"
 
 #: 10.3-Pattern-Matching.md:36
 msgid ""
 "Each `*` means *any content*. So we could match paths with just one segment wi"
 "th `/*` or paths with five segments with `/*/*/*/*/*`"
 msgstr ""
+"Każda gwiazdka `*` oznacza *dowolną treść*. Możemy więc dopasować ścieżki tylk"
+"o z jednym segmentem używając `/*` lub ścieżek z pięcioma segmentami używając "
+"`/*/*/*/*/*`"
 
 #: 10.3-Pattern-Matching.md:38
 msgid "Matching partial segments"
-msgstr ""
+msgstr "Częściowe dopasowanie segmentów"
 
 #: 10.3-Pattern-Matching.md:40
 #, fuzzy
@@ -9375,11 +9384,11 @@ msgid ""
 "` and the middle segment can be anything that starts with `b`. So, it would ma"
 "tch:"
 msgstr ""
-"If we know what the segment is going to start or finish with, we can use a "
-"`*` in addition to a partial segment name. For example: `\"/foo/b*/baz\"` "
-"will match any path that has three segments, the first of which is `foo`, "
-"the last `baz` and the middle segment can be anything that starts with `b`. "
-"So, it would match:"
+"If we know what the segment is going to start or finish with, we can use a `*`"
+" in addition to a partial segment name. For example: `\"/foo/b*/baz\"` will matc"
+"h any path that has three segments, the first of which is `foo`, the last `baz"
+"` and the middle segment can be anything that starts with `b`. So, it would ma"
+"tch:"
 
 #: 10.3-Pattern-Matching.md:47
 msgid "`cue \"/foo/baz/baz\"`"
@@ -9413,10 +9422,10 @@ msgid ""
 " `set` where the first segment is `foo`, the last is `baz` and the middle segm"
 "ent ends with `zz` such as `\"cue \"/foo/whizz/baz\"`."
 msgstr ""
-"You can also place the `*` at the start of the segment to specify the last "
-"characters of a segment: `\"/foo/*zz/baz\"` which will match any 3 segment "
-"`cue` or `set` where the first segment is `foo`, the last is `baz` and the "
-"middle segment ends with `zz` such as `\"cue \"/foo/whizz/baz\"`."
+"You can also place the `*` at the start of the segment to specify the last cha"
+"racters of a segment: `\"/foo/*zz/baz\"` which will match any 3 segment `cue` or"
+" `set` where the first segment is `foo`, the last is `baz` and the middle segm"
+"ent ends with `zz` such as `\"cue \"/foo/whizz/baz\"`."
 
 #: 10.3-Pattern-Matching.md:62
 msgid "Matching Nested Path Segments"
@@ -9429,9 +9438,9 @@ msgid ""
 "ses you can use the powerful double star: `**` such as `\"/foo/**/baz\"` which w"
 "ill match:"
 msgstr ""
-"Sometimes you don't know how many path segments you want to match. In these "
-"cases you can use the powerful double star: `**` such as `\"/foo/**/baz\"` "
-"which will match:"
+"Sometimes you don't know how many path segments you want to match. In these ca"
+"ses you can use the powerful double star: `**` such as `\"/foo/**/baz\"` which w"
+"ill match:"
 
 #: 10.3-Pattern-Matching.md:69
 msgid "`cue \"/foo/bar/beans/baz\"`"
@@ -9478,9 +9487,9 @@ msgid ""
 " the `{` and `}` matchers to specify a list of choices such as `\"/foo/{bar,bea"
 "ns,eggs}/quux\"` which will only match the following:"
 msgstr ""
-"If you know that a segment may be one of a select number of words, you can "
-"use the `{` and `}` matchers to specify a list of choices such as `\"/foo/"
-"{bar,beans,eggs}/quux\"` which will only match the following:"
+"If you know that a segment may be one of a select number of words, you can use"
+" the `{` and `}` matchers to specify a list of choices such as `\"/foo/{bar,bea"
+"ns,eggs}/quux\"` which will only match the following:"
 
 #: 10.3-Pattern-Matching.md:89
 msgid "`cue \"/foo/bar/quux\"`"
@@ -9504,9 +9513,9 @@ msgid ""
 "]` matchers to specify a list of choices such as `\"/foo/[abc]ux/baz\"` which wi"
 "ll match only:"
 msgstr ""
-"Finally, you can match against a selection of letters if you use the `[` and "
-"`]` matchers to specify a list of choices such as `\"/foo/[abc]ux/baz\"` "
-"which will match only:"
+"Finally, you can match against a selection of letters if you use the `[` and `"
+"]` matchers to specify a list of choices such as `\"/foo/[abc]ux/baz\"` which wi"
+"ll match only:"
 
 #: 10.3-Pattern-Matching.md:99 10.3-Pattern-Matching.md:106
 msgid "`cue \"/foo/aux/baz\"`"
@@ -9525,8 +9534,8 @@ msgid ""
 "You can also use the `-` character to specify ranges of letters. For example `"
 "\"/foo/[a-e]ux/baz\"` which will match only:"
 msgstr ""
-"You can also use the `-` character to specify ranges of letters. For example "
-"`\"/foo/[a-e]ux/baz\"` which will match only:"
+"You can also use the `-` character to specify ranges of letters. For example `"
+"\"/foo/[a-e]ux/baz\"` which will match only:"
 
 #: 10.3-Pattern-Matching.md:109
 msgid "`cue \"/foo/dux/baz\"`"
@@ -9649,8 +9658,8 @@ msgid ""
 "ce listed there. If not, try hitting the 'Reset MIDI' button and see if it app"
 "ears. If you're still not seeing anything, the next thing to try is to consult"
 " your operating system's MIDI config to see if it sees your device. Failing al"
-"l that, feel free to ask questions in the public chat room: http://gitter.im/s"
-"amaaron/sonic-pi"
+"l that, feel free to ask questions in our friendly forums: https://in-thread.s"
+"onic-pi.net"
 msgstr ""
 
 #: 11.1-MIDI-In.md:26
@@ -9669,14 +9678,14 @@ msgstr ""
 #: 11.1-MIDI-In.md:35
 #, no-wrap
 msgid ""
-"/midi/nanokey2_keyboard/0/1/note_off  [55, 64]\n"
-"/midi/nanokey2_keyboard/0/1/note_on   [53, 102]\n"
-"/midi/nanokey2_keyboard/0/1/note_off  [57, 64]\n"
-"/midi/nanokey2_keyboard/0/1/note_off  [53, 64]\n"
-"/midi/nanokey2_keyboard/0/1/note_on   [57, 87]\n"
-"/midi/nanokey2_keyboard/0/1/note_on   [55, 81]\n"
-"/midi/nanokey2_keyboard/0/1/note_on   [53, 96]\n"
-"/midi/nanokey2_keyboard/0/1/note_off  [55, 64]"
+"/midi:nanokey2_keyboard:0:1/note_off  [55, 64]\n"
+"/midi:nanokey2_keyboard:0:1/note_on   [53, 102]\n"
+"/midi:nanokey2_keyboard:0:1/note_off  [57, 64]\n"
+"/midi:nanokey2_keyboard:0:1/note_off  [53, 64]\n"
+"/midi:nanokey2_keyboard:0:1/note_on   [57, 87]\n"
+"/midi:nanokey2_keyboard:0:1/note_on   [55, 81]\n"
+"/midi:nanokey2_keyboard:0:1/note_on   [53, 96]\n"
+"/midi:nanokey2_keyboard:0:1/note_off  [55, 64]"
 msgstr ""
 
 #: 11.1-MIDI-In.md:46
@@ -9690,15 +9699,16 @@ msgid "MIDI Time State"
 msgstr ""
 
 #: 11.1-MIDI-In.md:52
+#, fuzzy
 msgid ""
 "These events are broken into two sections. Firstly there's the name of the eve"
-"nt such as `/midi/nanokey2_keyboard/0/1/note_on` and secondly there's the valu"
+"nt such as `/midi:nanokey2_keyboard:0:1/note_on` and secondly there's the valu"
 "es of the event such as `[18, 62]`. Interestingly, these are the two things we"
 " need to store information in Time State. *Sonic Pi automatically inserts inco"
 "ming MIDI events into Time State*. This means you can `get` the latest MIDI va"
 "lue and also `sync` waiting for the next MIDI value using everything we learne"
 "d in section 10 of this tutorial."
-msgstr ""
+msgstr "Stan czasu"
 
 #: 11.1-MIDI-In.md:60
 msgid "Controlling Code"
@@ -9715,7 +9725,7 @@ msgstr ""
 #, no-wrap
 msgid ""
 "live_loop :midi_piano do\n"
-"  note, velocity = sync \"/midi/nanokey2_keyboard/0/1/note_on\"\n"
+"  note, velocity = sync \"/midi:nanokey2_keyboard:0:1/note_on\"\n"
 "  synth :piano, note: note\n"
 "end"
 msgstr ""
@@ -9749,7 +9759,7 @@ msgstr ""
 #, no-wrap
 msgid ""
 "live_loop :midi_piano do\n"
-"  note, velocity = sync \"/midi/nanokey2_keyboard/0/1/note_on\"\n"
+"  note, velocity = sync \"/midi:nanokey2_keyboard:0:1/note_on\"\n"
 "  synth :piano, note: note, amp: velocity / 127.0\n"
 "end"
 msgstr ""
@@ -9787,7 +9797,7 @@ msgstr ""
 msgid ""
 "live_loop :midi_piano do\n"
 "  use_real_time\n"
-"  note, velocity = sync \"/midi/nanokey2_keyboard/0/1/note_on\"\n"
+"  note, velocity = sync \"/midi:nanokey2_keyboard:0:1/note_on\"\n"
 "  synth :piano, note: note, amp: velocity / 127.0\n"
 "end"
 msgstr ""
@@ -9823,9 +9833,9 @@ msgid ""
 "nc` and `get` MIDI information from any MIDI device and do whatever you want w"
 "ith the values. You can now choose what your MIDI device will do!"
 msgstr ""
-"The exciting thing now is that you can now use the same code structures to "
-"`sync` and `get` MIDI information from any MIDI device and do whatever you "
-"want with the values. You can now choose what your MIDI device will do!"
+"The exciting thing now is that you can now use the same code structures to `sy"
+"nc` and `get` MIDI information from any MIDI device and do whatever you want w"
+"ith the values. You can now choose what your MIDI device will do!"
 
 #: 11.2-MIDI-Out.md:1
 msgid "11.2 MIDI Out"
@@ -9980,12 +9990,12 @@ msgstr ""
 
 #: 11.2-MIDI-Out.md:90
 #, no-wrap
+#, fuzzy
 msgid ""
 "with_fx :reverb, room: 1 do\n"
 "  live_audio :moog\n"
 "end\n"
 "live_loop :moog_trigger do\n"
-"  use_real_time\n"
 "  midi (octs :e1, 3).tick, sustain: 0.1\n"
 "  sleep 0.125\n"
 "end"
@@ -9999,7 +10009,7 @@ msgstr ""
 "  sleep 0.125\n"
 "end"
 
-#: 11.2-MIDI-Out.md:102
+#: 11.2-MIDI-Out.md:101
 msgid ""
 "(The fn `midi` is available as a handy shortcut to sending both note on and no"
 "te off events with a single command. Check out its documentation for further i"
@@ -10040,8 +10050,9 @@ msgid "Receiving OSC"
 msgstr ""
 
 #: 12.1-Receiving-OSC.md:5
+#, fuzzy
 msgid ""
-"By default when Sonic Pi is launched it listens to port 4559 for incoming OSC "
+"By default when Sonic Pi is launched it listens to port 4560 for incoming OSC "
 "messages from programs on the same computer. This means that without any confi"
 "guration, you can send Sonic Pi an OSC message and it will be displayed in the"
 " cue log just like incoming MIDI messages. This also means that any incoming O"
@@ -10049,7 +10060,7 @@ msgid ""
 "lso use `get` and `sync` to work with the incoming data - just like with MIDI "
 "and synchronising `live_loops` - see sections 5.7 and 10.2 to recap how this w"
 "orks."
-msgstr ""
+msgstr "Stan czasu"
 
 #: 12.1-Receiving-OSC.md:15
 msgid "A Basic OSC Listener"
@@ -10061,10 +10072,11 @@ msgstr ""
 
 #: 12.1-Receiving-OSC.md:19
 #, no-wrap
+#, fuzzy
 msgid ""
 "live_loop :foo do\n"
 "  use_real_time\n"
-"  a, b, c = sync \"/osc/trigger/prophet\"\n"
+"  a, b, c = sync \"/osc*/trigger/prophet\"\n"
 "  synth :prophet, note: a, cutoff: b, sustain: c\n"
 "end"
 msgstr ""
@@ -10076,12 +10088,12 @@ msgstr ""
 
 #: 12.1-Receiving-OSC.md:27
 msgid ""
-"In this example we described an OSC path `\"/osc/trigger/prophet\"` which we're "
-"syncing on. This can be any valid OSC path (all letters and numbers are suppor"
-"ted and the `/` is used like in a URL to break up the path to multiple words)."
-" The `/osc` prefix is added by Sonic Pi to all incoming OSC messages, so we ne"
-"ed to send an OSC message with the path `/trigger/prophet` for our `sync` to s"
-"top blocking and the prophet synth to be triggered."
+"In this example we described an OSC path `\"/osc*/trigger/prophet\"` which we're"
+" syncing on. This can be any valid OSC path (all letters and numbers are suppo"
+"rted and the `/` is used like in a URL to break up the path to multiple words)"
+". The `/osc` prefix is added by Sonic Pi to all incoming OSC messages, so we n"
+"eed to send an OSC message with the path `/trigger/prophet` for our `sync` to "
+"stop blocking and the prophet synth to be triggered."
 msgstr ""
 
 #: 12.1-Receiving-OSC.md:36
@@ -10100,7 +10112,7 @@ msgstr ""
 msgid ""
 "from pythonosc import osc_message_builder\n"
 "from pythonosc import udp_client\n"
-"sender = udp_client.SimpleUDPClient('127.0.0.1', 4559)\n"
+"sender = udp_client.SimpleUDPClient('127.0.0.1', 4560)\n"
 "sender.send_message('/trigger/prophet', [70, 100, 8])"
 msgstr ""
 
@@ -10114,7 +10126,7 @@ msgstr ""
 #, no-wrap
 msgid ""
 "(use 'overtone.core)\n"
-"(def c (osc-client \"127.0.0.1\" 4559))\n"
+"(def c (osc-client \"127.0.0.1\" 4560))\n"
 "(osc-send c \"/trigger/prophet\" 70 100 8)"
 msgstr ""
 
@@ -10164,7 +10176,7 @@ msgstr ""
 #: 12.2-Sending-OSC.md:10
 #, no-wrap
 msgid ""
-"use_osc \"localhost\", 4559\n"
+"use_osc \"localhost\", 4560\n"
 "osc \"/hello/world\""
 msgstr ""
 
@@ -10176,8 +10188,9 @@ msgid ""
 "etter to yourself - the OSC packet is created, leaves Sonic Pi, gets to the ne"
 "twork stack of the operating system which then routes the packed back to Sonic"
 " Pi and then it's received as a standard OSC message and is visible in the cue"
-" logger as the incoming message `\"/osc/hello/world`. (Notice how Sonic Pi auto"
-"matically prefixes all incoming OSC messages with `/osc`.)"
+" logger as the incoming message `\"/osc:127.0.0.1:4560/hello/world`. (Notice ho"
+"w Sonic Pi automatically prefixes all incoming OSC messages with `/osc` and th"
+"en the hostname and port of the sender.)"
 msgstr ""
 
 #: 12.2-Sending-OSC.md:25
@@ -10451,8 +10464,8 @@ msgid ""
 "Now, whilst you're still hearing the audio live from the sound card with rever"
 "b, change the code to the following:"
 msgstr ""
-"Now, whilst you're still hearing the audio live from the sound card with "
-"reverb, change the code to the following:"
+"Now, whilst you're still hearing the audio live from the sound card with rever"
+"b, change the code to the following:"
 
 #: 13.2-Live-Audio.md:52
 #, no-wrap
@@ -10495,11 +10508,11 @@ msgid ""
 "e_audio :foo` at different times resulting in the FX context being automatical"
 "ly swapped around for some interesting results."
 msgstr ""
-"It's important to point out that you can call `live_audio :foo` from any "
-"thread or live loop and it will move the live audio synth to *that* thread's "
-"current FX context. You could therefore easily have multiple live loops "
-"calling `live_audio :foo` at different times resulting in the FX context "
-"being automatically swapped around for some interesting results."
+"It's important to point out that you can call `live_audio :foo` from any threa"
+"d or live loop and it will move the live audio synth to *that* thread's curren"
+"t FX context. You could therefore easily have multiple live loops calling `liv"
+"e_audio :foo` at different times resulting in the FX context being automatical"
+"ly swapped around for some interesting results."
 
 #: 13.2-Live-Audio.md:78
 msgid "Stopping live audio"
@@ -10655,14 +10668,14 @@ msgid ""
 "o consecutive sound card outputs. See the function documentation for more info"
 "rmation and examples."
 msgstr ""
-"As we've seen, by default, the `:sound_out` FX outputs a mono mix of the "
-"stereo input to a specific channel in addition to passing the stereo feed to "
-"the outer context (as expected). If outputting a mono mix isn't precisely "
-"what you want to do, there are a number of alternative options. Firstly, by "
-"using the `mode:` opt you can choose to output just the left or just the "
-"right input signal to the audio card. Or you can use the `:sound_out_stereo` "
-"FX to output to two consecutive sound card outputs. See the function "
-"documentation for more information and examples."
+"As we've seen, by default, the `:sound_out` FX outputs a mono mix of the stere"
+"o input to a specific channel in addition to passing the stereo feed to the ou"
+"ter context (as expected). If outputting a mono mix isn't precisely what you w"
+"ant to do, there are a number of alternative options. Firstly, by using the `m"
+"ode:` opt you can choose to output just the left or just the right input signa"
+"l to the audio card. Or you can use the `:sound_out_stereo` FX to output to tw"
+"o consecutive sound card outputs. See the function documentation for more info"
+"rmation and examples."
 
 #: 13.3-Sound-Out.md:70
 msgid "Direct Out"
@@ -10726,11 +10739,12 @@ msgstr ""
 "w jednym z rozdziałów."
 
 #: 14-Conclusions.md:11
+#, fuzzy
 msgid ""
 "If you have any questions that haven't been covered in the tutorial, then plea"
-"se jump onto the [Sonic Pi forums](http://groups.google.com/group/sonic-pi/) a"
-"nd ask your question there. You'll find someone friendly and willing to lend a"
-" hand."
+"se jump onto the [Sonic Pi community forums](https://in-thread.sonic-pi.net/) "
+"and ask your question there. You'll find someone friendly and willing to lend "
+"a hand."
 msgstr ""
 "Jeśli masz jakiekolwiek pytania, na które nie znalazłeś odpowiedzi w tym samou"
 "czku, polecam Ci zajrzeć na [forum Sonic Pi](http://groups.google.com/group/so"
@@ -10760,7 +10774,8 @@ msgid "*There are no mistakes, only opportunities.*"
 msgstr "*Błędów nie ma, są tylko nowe możliwości.*"
 
 #: 14-Conclusions.md:26
-msgid "[Sam Aaron](http://twitter.com/samaaron)"
+#, fuzzy
+msgid "[Sam Aaron](https://twitter.com/samaaron)"
 msgstr "[Sam Aaron](http://twitter.com/samaaron)"
 
 #: A-Articles.md:1
@@ -11038,7 +11053,8 @@ msgstr ""
 "isanych szczegółów, które dotyczą wszystkich dostępnych dla Ciebie opcji."
 
 #: A.01-tips.md:110
-msgid "5. Live Code"
+#, fuzzy
+msgid "4. Live Code"
 msgstr "5. Koduj na żywo"
 
 #: A.01-tips.md:112
@@ -11212,11 +11228,12 @@ msgstr ""
 "To jest właśnie kodowanie na żywo."
 
 #: A.02-live-coding.md:14
+#, fuzzy
 msgid ""
-"![Sam Aaron Live Coding](../images/tutorial/articles/A.02-live-coding/sam-aaro"
-"n-live-coding.png)"
+"![Sam Aaron Live Coding](../../../etc/doc/images/tutorial/articles/A.02-live-c"
+"oding/sam-aaron-live-coding.png)"
 msgstr ""
-"![Sam Aaron kodujący na żywo](../images/tutorial/articles/A.02-live-coding/sam"
+"![Sam Aaron kodujący na żywo](../../../etc/doc/images/tutorial/articles/A.02-live-coding/sam"
 "-aaron-live-coding.png)"
 
 #: A.02-live-coding.md:16
@@ -11325,15 +11342,16 @@ msgstr ""
 "end"
 
 #: A.02-live-coding.md:67
+#, fuzzy
 msgid ""
-"Now press the Run button or hit `alt-r`. You're now listening to some gorgeous"
-" choir sounds. Now, whilst it's still playing, change the rate from `0.4` to `"
-"0.38`. Hit run again. Woah! Did you hear the choir change note? Change it back"
-" up to `0.4` to return back to how it was. Now, drop it to `0.2`, down to `0.1"
-"9` and then back up to `0.4`. See how changing just one parameter on the fly c"
-"an give you real control of the music? Now play around with the rate yourself "
-"- choose your own values. Try negative numbers, really small numbers and large"
-" numbers. Have fun!"
+"Now press the Run button or hit `Meta-r`. You're now listening to some gorgeou"
+"s choir sounds. Now, whilst it's still playing, change the rate from `0.4` to "
+"`0.38`. Hit run again. Woah! Did you hear the choir change note? Change it bac"
+"k up to `0.4` to return back to how it was. Now, drop it to `0.2`, down to `0."
+"19` and then back up to `0.4`. See how changing just one parameter on the fly "
+"can give you real control of the music? Now play around with the rate yourself"
+" - choose your own values. Try negative numbers, really small numbers and larg"
+"e numbers. Have fun!"
 msgstr ""
 "A teraz naciśnij przycisk Run lub wciśnij klawisze `alt-r`. Słyszysz teraz par"
 "ę wspaniałych dźwięków chóralnych. A teraz, kiedy pętla wciąż gra, zmień warto"
@@ -11485,7 +11503,7 @@ msgstr ""
 #: A.09-randomisation.md:145 A.10-controlling-your-sound.md:149
 #: A.11-beat-tracking.md:176 A.12-sample-slicing.md:137
 #: A.13-probabilistic-sequencer.md:137 A.14-amplitude-modulation.md:192
-#: A.15-performance.md:152 A.16-practice.md:166 A.17-sample-stretching.md:147
+#: A.15-performance.md:152 A.16-practice.md:166 A.17-sample-stretching.md:153
 #: A.18-additive-synthesis.md:115 A.19-subtractive-synthesis.md:137
 msgid "Bringing it all together"
 msgstr "Połączenie tego wszystkiego w jedną całość"
@@ -12614,8 +12632,11 @@ msgstr ""
 "ażyć na poniższym diagramie, składa się on tylko z 4-ech głównych części."
 
 #: A.05-acid-bass.md:113
-msgid "![TB-303 Design](../images/tutorial/articles/A.05-acid-bass/tb303-design.png)"
-msgstr "![TB-303 Design](../images/tutorial/articles/A.05-acid-bass/tb303-design.png)"
+#, fuzzy
+msgid ""
+"![TB-303 Design](../../../etc/doc/images/tutorial/articles/A.05-acid-bass/tb30"
+"3-design.png)"
+msgstr "![TB-303 Design](../../../etc/doc/images/tutorial/articles/A.05-acid-bass/tb303-design.png)"
 
 #: A.05-acid-bass.md:115
 msgid ""
@@ -12833,11 +12854,12 @@ msgstr ""
 "własne wiadomości. Milej zabawy!"
 
 #: A.06-minecraft.md:36
+#, fuzzy
 msgid ""
-"![Screen 0](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-0-sma"
-"ll.png)"
+"![Screen 0](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-M"
+"inecraft-0-small.png)"
 msgstr ""
-"![Screen 0](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-0-sma"
+"![Screen 0](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-Minecraft-0-sma"
 "ll.png)"
 
 #: A.06-minecraft.md:38
@@ -12947,11 +12969,12 @@ msgstr ""
 "mc_message \"Whoooosh!\""
 
 #: A.06-minecraft.md:86
+#, fuzzy
 msgid ""
-"![Screen 1](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-1-sma"
-"ll.png)"
+"![Screen 1](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-M"
+"inecraft-1-small.png)"
 msgstr ""
-"![Screen 1](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-1-sma"
+"![Screen 1](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-Minecraft-1-sma"
 "ll.png)"
 
 #: A.06-minecraft.md:88
@@ -13101,11 +13124,12 @@ msgstr ""
 "100`. Czyż to nie jest fajne?"
 
 #: A.06-minecraft.md:158
+#, fuzzy
 msgid ""
-"![Screen 2](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-2-sma"
-"ll.png)"
+"![Screen 2](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-M"
+"inecraft-2-small.png)"
 msgstr ""
-"![Screen 2](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-2-sma"
+"![Screen 2](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-Minecraft-2-sma"
 "ll.png)"
 
 #: A.06-minecraft.md:160
@@ -13238,8 +13262,11 @@ msgstr ""
 " basowa Habanery:"
 
 #: A.07-bizet.md:29
-msgid "![Habanera Riff](../images/tutorial/articles/A.07-bizet/habanera.png)"
-msgstr "![Habanera Riff](../images/tutorial/articles/A.07-bizet/habanera.png)"
+#, fuzzy
+msgid ""
+"![Habanera Riff](../../../etc/doc/images/tutorial/articles/A.07-bizet/habanera"
+".png)"
+msgstr "![Habanera Riff](../../../etc/doc/images/tutorial/articles/A.07-bizet/habanera.png)"
 
 #: A.07-bizet.md:31
 msgid ""
@@ -13283,8 +13310,9 @@ msgstr ""
 ":"
 
 #: A.07-bizet.md:49
-msgid "![Notes](../images/tutorial/articles/A.07-bizet/notes.png)"
-msgstr "![Notes](../images/tutorial/articles/A.07-bizet/notes.png)"
+#, fuzzy
+msgid "![Notes](../../../etc/doc/images/tutorial/articles/A.07-bizet/notes.png)"
+msgstr "![Notes](../../../etc/doc/images/tutorial/articles/A.07-bizet/notes.png)"
 
 #: A.07-bizet.md:51
 msgid "Rests"
@@ -13356,8 +13384,11 @@ msgstr ""
 "ą sekwencję nut i przerw."
 
 #: A.07-bizet.md:83
-msgid "![Habanera Riff 2](../images/tutorial/articles/A.07-bizet/habanera2.png)"
-msgstr "![Habanera Riff 2](../images/tutorial/articles/A.07-bizet/habanera2.png)"
+#, fuzzy
+msgid ""
+"![Habanera Riff 2](../../../etc/doc/images/tutorial/articles/A.07-bizet/habane"
+"ra2.png)"
+msgstr "![Habanera Riff 2](../../../etc/doc/images/tutorial/articles/A.07-bizet/habanera2.png)"
 
 #: A.07-bizet.md:85
 msgid "Re-coding the Habanera"
@@ -13559,11 +13590,12 @@ msgid "Become a Minecraft VJ"
 msgstr "Zostań VJ'em Minecraft'a"
 
 #: A.08-minecraft-vj.md:5
+#, fuzzy
 msgid ""
-"![Screen 0](../images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-0-small"
-".png)"
+"![Screen 0](../../../etc/doc/images/tutorial/articles/A.08-minecraft-vj/minecr"
+"aft-vj-0-small.png)"
 msgstr ""
-"![Screen 0](../images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-0-small"
+"![Screen 0](../../../etc/doc/images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-0-small"
 ".png)"
 
 #: A.08-minecraft-vj.md:7
@@ -13858,11 +13890,12 @@ msgid "Epic Block Patterns"
 msgstr "Epickie Wzory Bloków"
 
 #: A.08-minecraft-vj.md:131
+#, fuzzy
 msgid ""
-"![Screen 1](../images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-1-small"
-".png)"
+"![Screensman 1](../../../etc/doc/images/tutorial/articles/A.08-minecraft-vj/mi"
+"necraft-vj-1-small.png)"
 msgstr ""
-"![Screen 1](../images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-1-small"
+"![Screen 1](../../../etc/doc/images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-1-small"
 ".png)"
 
 #: A.08-minecraft-vj.md:133
@@ -15313,8 +15346,11 @@ msgstr ""
 "łaściwej` kolejności."
 
 #: A.12-sample-slicing.md:86
-msgid "![Amen Slices](../images/tutorial/articles/A.12-sample-slicing/amen_slice.png)"
-msgstr "![Amen Slices](../images/tutorial/articles/A.12-sample-slicing/amen_slice.png)"
+#, fuzzy
+msgid ""
+"![Amen Slices](../../../etc/doc/images/tutorial/articles/A.12-sample-slicing/a"
+"men_slice.png)"
+msgstr "![Amen Slices](../../../etc/doc/images/tutorial/articles/A.12-sample-slicing/amen_slice.png)"
 
 #: A.12-sample-slicing.md:88
 msgid ""
@@ -15927,11 +15963,12 @@ msgstr ""
 "uderzenie (beat)."
 
 #: A.14-amplitude-modulation.md:56
+#, fuzzy
 msgid ""
-"![Phase Durations](../images/tutorial/articles/A.14-amplitude-modulation/slice"
-"r_phase_durations.png)"
+"![Phase Durations](../../../etc/doc/images/tutorial/articles/A.14-amplitude-mo"
+"dulation/slicer_phase_durations.png)"
 msgstr ""
-"![Phase Durations](../images/tutorial/articles/A.14-amplitude-modulation/slice"
+"![Phase Durations](../../../etc/doc/images/tutorial/articles/A.14-amplitude-modulation/slice"
 "r_phase_durations.png)"
 
 #: A.14-amplitude-modulation.md:58
@@ -16020,11 +16057,12 @@ msgstr ""
 "eniana na przestrzeni czasu."
 
 #: A.14-amplitude-modulation.md:97
+#, fuzzy
 msgid ""
-"![Phase Durations](../images/tutorial/articles/A.14-amplitude-modulation/slice"
-"r_control_waves.png)"
+"![Phase Durations](../../../etc/doc/images/tutorial/articles/A.14-amplitude-mo"
+"dulation/slicer_control_waves.png)"
 msgstr ""
-"![Phase Durations](../images/tutorial/articles/A.14-amplitude-modulation/slice"
+"![Phase Durations](../../../etc/doc/images/tutorial/articles/A.14-amplitude-modulation/slice"
 "r_control_waves.png)"
 
 #: A.14-amplitude-modulation.md:100
@@ -16827,17 +16865,18 @@ msgid "Hear the Code"
 msgstr "Usłysz Kod"
 
 #: A.16-practice.md:112
+#, fuzzy
 msgid ""
 "Many musicians can look at a musical score and hear the music in their head wi"
 "thout having to play it. This is a very useful skill and it's well worth incor"
-"porating into your live coding practice sessions. The imporant point is to be "
-"able to have some understanding of what the code is going to sound like. You d"
-"on't need to be able to hear it exactly in your head, but instead it's useful "
-"to know if the code is going to be fast, slow, loud, rhythmic, melodic, random"
-", etc. The final goal is then to be able to reverse this process - to be able "
-"to hear music in your head and know what code to write to make it. It may take"
-" you a long time to master this, but once you do, you'll be able to improvise "
-"on stage and express your ideas fluently."
+"porating into your live coding practice sessions. The important point is to be"
+" able to have some understanding of what the code is going to sound like. You "
+"don't need to be able to hear it exactly in your head, but instead it's useful"
+" to know if the code is going to be fast, slow, loud, rhythmic, melodic, rando"
+"m, etc. The final goal is then to be able to reverse this process - to be able"
+" to hear music in your head and know what code to write to make it. It may tak"
+"e you a long time to master this, but once you do, you'll be able to improvise"
+" on stage and express your ideas fluently."
 msgstr ""
 "Wielu muzyków potrafi spojrzeć zapis nutowy i usłyszeć muzykę w ich głowach be"
 "z konieczności jej zagrania. Jest to bardzo przydatna umiejętność i warto ją w"
@@ -17111,7 +17150,8 @@ msgstr ""
 "z baw się dobrze! Ten efekt brzmi całkiem zabawnie z samplem `:misc_burp`!"
 
 #: A.17-sample-stretching.md:75
-msgid "Sample, Rate and Pitch [Sidebar]"
+#, fuzzy
+msgid "Sample, Rate and Pitch"
 msgstr "Próbki, Tempo i Wysokość [Panel Boczny]"
 
 #: A.17-sample-stretching.md:77
@@ -17216,7 +17256,7 @@ msgstr ""
 "sample :bass_trance_c, rate: 2\n"
 "sample :bass_trance_c, rate: 0.5"
 
-#: A.17-sample-stretching.md:125
+#: A.17-sample-stretching.md:127
 msgid ""
 "However, what if we just want to alter the rate such that the pitch goes up on"
 "e semitone (one note up on a piano)? Sonic Pi makes this very easy via the `rp"
@@ -17226,7 +17266,7 @@ msgstr ""
 "zwiększyła się o jeden półton (jedną nutę na pianinie)? Sonic Pi sprawia, iż j"
 "est to banalnie proste - wystarczy użyć parametru `rpitch:`:"
 
-#: A.17-sample-stretching.md:129
+#: A.17-sample-stretching.md:131
 #, no-wrap
 msgid ""
 "sample :bass_trance_c\n"
@@ -17237,7 +17277,7 @@ msgstr ""
 "sample :bass_trance_c, rpitch: 3\n"
 "sample :bass_trance_c, rpitch: 7"
 
-#: A.17-sample-stretching.md:133
+#: A.17-sample-stretching.md:137
 msgid ""
 "If you take a look at the log on the right, you'll notice that an `rpitch:` of"
 " `3` actually corresponds to a rate of `1.1892` and a `rpitch:` of `7` corresp"
@@ -17249,7 +17289,7 @@ msgstr ""
 "empie o wartości `1.4983`. Wreszcie możemy także łączyć ze sobą parametry `rat"
 "e:` oraz `rpitch:`:"
 
-#: A.17-sample-stretching.md:138
+#: A.17-sample-stretching.md:142
 #, no-wrap
 msgid ""
 "sample :ambi_choir, rate: 0.25, rpitch: 3\n"
@@ -17268,7 +17308,7 @@ msgstr ""
 "sleep 1\n"
 "sample :ambi_choir, rate: 0.25, rpitch: 1"
 
-#: A.17-sample-stretching.md:149
+#: A.17-sample-stretching.md:155
 msgid ""
 "Let's take a look at a simple piece which combines these ideas. Copy it into a"
 "n empty Sonic Pi buffer, hit play, listen to it for a while and then use it as"
@@ -17283,7 +17323,7 @@ msgstr ""
 "aw się z wartością parametru `rate:`, aby zobaczyć, jak szalone kombinacje moż"
 "esz stworzyć."
 
-#: A.17-sample-stretching.md:156
+#: A.17-sample-stretching.md:162
 #, no-wrap
 msgid ""
 "live_loop :beats do\n"
@@ -17329,19 +17369,20 @@ msgid "Additive Synthesis"
 msgstr "Synteza Addytywna"
 
 #: A.18-additive-synthesis.md:5
+#, fuzzy
 msgid ""
 "This is the first of a short series of articles on how to use Sonic Pi for sou"
-"nd design. We'll be take a quick tour of a number of different techniques avai"
-"lable for you to craft your own unique sound. The first technique we'll look a"
-"t is called *additive synthesis*. This may sound complicated - but if we expan"
-"d each word slightly the meaning pops right out. Firstly, additive means a com"
-"bination of things and secondly synthesis means to create sound. Additive synt"
-"hesis therefore means nothing more complicated than *combining existing sounds"
-" to create new ones*. This synthesis technique dates back a very long time - f"
-"or example, pipe organs in the middle ages had lots of slightly different soun"
-"ding pipes which you could enable or disable with stops. Pulling out the stop "
-"for a given pipe 'added it to the mix' making the sound richer and more comple"
-"x. Now, let's see how we can pull out all the stops with Sonic Pi."
+"nd design. We'll be taking a quick tour of a number of different techniques av"
+"ailable for you to craft your own unique sound. The first technique we'll look"
+" at is called *additive synthesis*. This may sound complicated - but if we exp"
+"and each word slightly the meaning pops right out. Firstly, additive means a c"
+"ombination of things and secondly synthesis means to create sound. Additive sy"
+"nthesis therefore means nothing more complicated than *combining existing soun"
+"ds to create new ones*. This synthesis technique dates back a very long time -"
+" for example, pipe organs in the middle ages had lots of slightly different so"
+"unding pipes which you could enable or disable with stops. Pulling out the sto"
+"p for a given pipe 'added it to the mix' making the sound richer and more comp"
+"lex. Now, let's see how we can pull out all the stops with Sonic Pi."
 msgstr ""
 "Witaj w pierwszym artykule krótkiej serii na temat użytkowania Sonic Pi w desi"
 "gnie dźwięku. Ruszymy w szybką turę różnych technik, z których możesz skorzyst"
@@ -17490,10 +17531,11 @@ msgstr ""
 " zmieniającymi się w ciekawy, często zaskakujący sposób."
 
 #: A.18-additive-synthesis.md:87
+#, fuzzy
 msgid ""
-"Some of the built-in synths already include a detune option that do exactly th"
-"is in one synth. Try playing with the `detune:` opt of `:dsaw`, `:dpulse` and "
-"`:dtri`."
+"Some of the built-in synths already include a detune option that does exactly "
+"this in one synth. Try playing with the `detune:` opt of `:dsaw`, `:dpulse` an"
+"d `:dtri`."
 msgstr ""
 "Niektóre z wbudowanych syntezatorów obsługują już opcję rozstrojenia, przez co"
 " można z niej korzystać w jednym z nich. Spróbuj zagrać z parametrem `detune:`"
@@ -17571,40 +17613,34 @@ msgstr ""
 "l` do chwili, gdy otrzymasz swój własny szalony dźwięk!"
 
 #: A.18-additive-synthesis.md:130
+#, no-wrap
+#, fuzzy
 msgid ""
-"define :bell do \\|n\\| # Triangle waves for the 'hit' synth :tri, note: n - 12,"
-" release: 0.1 synth :tri, note: n + 0.1, release: 0.1 synth :tri, note: n - 0."
-"1, release: 0.1 synth :tri, note: n, release: 0.2"
-msgstr ""
-"define :bell do \\|n\\| # Triangle waves for the 'hit' synth :tri, note: n - 12,"
-" release: 0.1 synth :tri, note: n + 0.1, release: 0.1 synth :tri, note: n - 0."
-"1, release: 0.1 synth :tri, note: n, release: 0.2"
-
-#: A.18-additive-synthesis.md:137
-msgid ""
-"\\# Sine waves for the 'ringing' synth :sine, note: n + 24, release: 2 synth :s"
-"ine, note: n + 24.1, release: 2 synth :sine, note: n + 24.2, release: 0.5 synt"
-"h :sine, note: n + 11.8, release: 2 synth :sine, note: n, release: 2"
-msgstr ""
-"\\# Fale sinusoidalne dla syntezatora 'ringing' :sine, note: n + 24, release: 2"
-" synth :sine, note: n + 24.1, release: 2 synth :sine, note: n + 24.2, release:"
-" 0.5 synth :sine, note: n + 11.8, release: 2 synth :sine, note: n, release: 2"
-
-#: A.18-additive-synthesis.md:144
-msgid ""
-"\\# Low sine waves for the bass synth :sine, note: n - 11.8, release: 2 synth :"
-"sine, note: n - 12, release: 2 end"
-msgstr ""
-"\\# Low sine waves for the bass synth :sine, note: n - 11.8, release: 2 synth :"
-"sine, note: n - 12, release: 2 end"
-
-#: A.18-additive-synthesis.md:149
-msgid "Play a melody with our new bell!"
+"define :bell do |n|\n"
+"  # Triangle waves for the 'hit'\n"
+"  synth :tri, note: n - 12, release: 0.1\n"
+"  synth :tri, note: n + 0.1, release: 0.1\n"
+"  synth :tri, note: n - 0.1, release: 0.1\n"
+"  synth :tri, note: n, release: 0.2\n"
+"  # Sine waves for the 'ringing'\n"
+"  synth :sine, note: n + 24, release: 2\n"
+"  synth :sine, note: n + 24.1, release: 2\n"
+"  synth :sine, note: n + 24.2, release: 0.5\n"
+"  synth :sine, note: n + 11.8, release: 2\n"
+"  synth :sine, note: n, release: 2\n"
+"  # Low sine waves for the bass\n"
+"  synth :sine, note: n - 11.8, release: 2\n"
+"  synth :sine, note: n - 12, release: 2\n"
+"end\n"
+"# Play a melody with our new bell!\n"
+"bell :e3\n"
+"sleep 1\n"
+"bell :c2\n"
+"sleep 1\n"
+"bell :d3\n"
+"sleep 1\n"
+"bell :g2"
 msgstr "Zagrajmy melodię z naszym nowym dzwonkiem!"
-
-#: A.18-additive-synthesis.md:150
-msgid "bell :e3 sleep 1 bell :c2 sleep 1 bell :d3 sleep 1 bell :g2"
-msgstr "bell :e3 sleep 1 bell :c2 sleep 1 bell :d3 sleep 1 bell :g2"
 
 #: A.19-subtractive-synthesis.md:1
 msgid "A.19 Sound Design - Subtractive Synthesis"
@@ -17779,8 +17815,8 @@ msgstr ""
 "."
 
 #: A.19-subtractive-synthesis.md:86
-msgid "[Low Pass Filter] - breakout box"
-msgstr "[Filtr Dolnoprzepustowy] - breakout box"
+msgid "Low Pass Filter"
+msgstr ""
 
 #: A.19-subtractive-synthesis.md:88
 msgid ""
@@ -17941,6 +17977,287 @@ msgstr ""
 "subt_synth :e1, 8\n"
 "sleep 8\n"
 "subt_synth :e1 - 4, 8"
+
+#: A.20-creative-coding-in-the-classroom.md:1
+msgid "A.20 Creative coding in the classroom with Sonic Pi"
+msgstr ""
+
+#: A.20-creative-coding-in-the-classroom.md:3
+msgid "Creative coding in the classroom with Sonic Pi"
+msgstr ""
+
+#: A.20-creative-coding-in-the-classroom.md:5
+msgid ""
+"(This article was published in [issue 9 of the Hello World Magazine](https://h"
+"elloworld.raspberrypi.org/issues/9))"
+msgstr ""
+
+#: A.20-creative-coding-in-the-classroom.md:7
+msgid ""
+"Code is one of the most creative media that humans have created. The initially"
+" obscure symbols of parentheses and lambdas are not just deeply rooted in scie"
+"nce and mathematics, they are the closest we have managed to get to casting th"
+"e same kind of magical spells as Gandalf and Harry Potter. I believe that this"
+" provides a powerful means of engagement in our learning spaces. Through the m"
+"agic of code we are able to conjure up individually meaningful stories and lea"
+"rning experiences."
+msgstr ""
+
+#: A.20-creative-coding-in-the-classroom.md:15
+msgid ""
+"We are surrounded by magical experiences. From the sleight of hand of a stage "
+"magician making the ball disappear into thin air, to the wonder of seeing your"
+" favourite band perform on a big stage. It is these \"wow\" moments that inspire"
+" us to pick up a magic book and learn the French Drop or to start jamming powe"
+"r chords on an old guitar. How might we create similarly deep and lasting sens"
+"es of wonder that will motivate people to practice and learn the fundamentals "
+"of programming?"
+msgstr ""
+
+#: A.20-creative-coding-in-the-classroom.md:23
+msgid "Musical Engines and Notation"
+msgstr ""
+
+#: A.20-creative-coding-in-the-classroom.md:25
+msgid ""
+"The histories of music and computers have been intricately woven together sinc"
+"e the inception of computing machines, or \"engines\" as Charles Babbage's power"
+"ful analytical engine was called. Back in 1842 the Mathematician Ada Lovelace,"
+" who worked very closely with Babbage, saw the creative potential of these eng"
+"ines. Whilst these first engines had originally been designed to accurately so"
+"lve hard maths problems, Ada dreamt about making music with them:"
+msgstr ""
+
+#: A.20-creative-coding-in-the-classroom.md:33
+msgid ""
+"\"..the engine might compose elaborate and scientific pieces of music of any de"
+"gree of complexity or extent.\" Ada Lovelace, 1842."
+msgstr ""
+
+#: A.20-creative-coding-in-the-classroom.md:36
+msgid ""
+"Of course, today in 2019 much of our music, regardless of genre, has either be"
+"en composed, produced or mastered with a digital computer. Ada's dream came tr"
+"ue. It is even possible to trace the history back even further. If you see cod"
+"ing as the art of writing sequences of special symbols that instruct a compute"
+"r to do specific things, then musical composition is a very similar practice. "
+"In Western music, the symbols are black dots positioned on a stave of lines th"
+"at tell the musician which notes to play and when. Intriguingly, if we trace t"
+"he roots of Western music notation back to the Italian Benedictine monk, Guido"
+" d'Arezzo, we find that the dots and lines system that modern orchestras use i"
+"s just one of a number of notation systems he worked on. Some of the others we"
+"re much closer to what we might now see as code."
+msgstr ""
+
+#: A.20-creative-coding-in-the-classroom.md:50
+#, fuzzy
+msgid ""
+"In education, magical meaningful experiences with computers and programming la"
+"nguages have been explored since the late '60s. Computer education pioneers Se"
+"ymour Papert, Marvin Minsky and Cynthia Solomon explored simple Lisp-based lan"
+"guages that moved pens over large pieces of paper. With just a few simple comm"
+"ands it was possible to program the computer to draw any picture. They even ex"
+"perimented by extending their Logo language from drawing to music. Papert wrot"
+"e about learning through experiencing the reconstruction of knowledge rather t"
+"han its transmission. Getting people to play with things directly was an impor"
+"tant part of his group's work."
+msgstr "Pobierz (Get)"
+
+#: A.20-creative-coding-in-the-classroom.md:62
+msgid "Sonic Pi Performances"
+msgstr ""
+
+#: A.20-creative-coding-in-the-classroom.md:64
+#, fuzzy
+msgid ""
+"![Jylda Live Coding in the Sage Gateshead](../../../etc/doc/images/tutorial/ar"
+"ticles/A.20-creative-coding-in-the-classroom/jylda-small.png) Jylda and Sam Aa"
+"ron perform at the Thinking Digital Conference in the Sage Gateshead. Photo cr"
+"edit: TyneSight Photos."
+msgstr "Kodowanie na żywo"
+
+#: A.20-creative-coding-in-the-classroom.md:68
+msgid ""
+"Sonic Pi has been used to perform in a wide range of venues such as school hal"
+"ls, nightclubs, outdoor stages at musical festivals, college chapels and prest"
+"igious music venues. For example the amazing Convo project which brought 1000 "
+"children together in the Royal Albert Hall to perform an ambitious new composi"
+"tion by composer Charlotte Harding. The piece was written for traditional inst"
+"ruments, choirs, percussion and Sonic Pi code. The pop-artist Jylda also perfo"
+"rmed with Sonic Pi in the Sage Gateshead for the Thinking Digital Conference, "
+"where she created a unique live-coded improvised remix of her song Reeled."
+msgstr ""
+
+#: A.20-creative-coding-in-the-classroom.md:78
+msgid ""
+"![Sonic Pi in the Royal Albert Hall](../../../etc/doc/images/tutorial/articles"
+"/A.20-creative-coding-in-the-classroom/convo-small.png) Sonic Pi used as one o"
+"f the instruments as part of Convo at the Royal Albert Hall. Photo credit: Pet"
+"e Jones."
+msgstr ""
+
+#: A.20-creative-coding-in-the-classroom.md:83
+msgid "Live coding in the classroom"
+msgstr ""
+
+#: A.20-creative-coding-in-the-classroom.md:85
+msgid ""
+"Sonic Pi is a code-based music creation and performance tool that builds on al"
+"l of these ideas. Unlike the majority of computing education software, it is b"
+"oth simple enough to use for education and also powerful enough for profession"
+"als. It has been used to perform in international music festivals, used to com"
+"pose in a range of styles from classical, EDM and heavy metal, and was even re"
+"viewed in the Rolling Stone magazine. It has a diverse community of over 1.5 m"
+"illion live coders with a variety of backgrounds all learning and sharing thei"
+"r ideas and thoughts through the medium of code. It is free to download for Ma"
+"c, PC and Raspberry Pi and includes a friendly tutorial that assumes you know "
+"nothing about either code or music."
+msgstr ""
+
+#: A.20-creative-coding-in-the-classroom.md:97
+msgid ""
+"Sonic Pi was initially conceived as a response to the UK's newly released Comp"
+"uting curriculum in 2014. The goal was to find a motivating and fun way to tea"
+"ch the fundamentals of programming. It turns out that there is a lot in common"
+" and it's huge fun to explain sequencing as melody, iteration as rhythm, condi"
+"tionals as musical variety. I developed the initial designs and first iteratio"
+"ns of the platform with Carrie Anne Philbin, who brought a teacher’s perspecti"
+"ve to the project. Since then, Sonic Pi has undergone iterative improvements t"
+"hanks to the feedback gained from observing learners and collaborating directl"
+"y with educators in the classroom. A core design philosophy was to never add a"
+" feature that couldn't be easily taught to a 10 year old child. This meant tha"
+"t most ideas had to be heavily refined and reworked until they were simple eno"
+"ugh. Making things simple whilst keeping them powerful continues to be the har"
+"dest part of the project."
+msgstr ""
+
+#: A.20-creative-coding-in-the-classroom.md:112
+msgid ""
+"In order to provide the magical motivation, Sonic Pi's design was never limite"
+"d to a pure focus on education. Ideally there would be famous musicians and pe"
+"rformers using Sonic Pi as a standard instrument alongside guitars, drums, voc"
+"als, synths, violins, etc. These performers would then act as motivational rol"
+"e models demonstrating the creative potential of code. For this to be possible"
+" sufficient focus and effort therefore had to be placed on making it a powerfu"
+"l instrument whilst still keeping it simple enough for 10 year olds to pick up"
+". In addition to educators, I also worked directly with a variety of different"
+" artists in classrooms, art galleries, studios and venues in the early stages "
+"of Sonic Pi’s development. This provided essential feedback which enabled Soni"
+"c Pi to grow and ultimately flourish as a tool for creative expression."
+msgstr ""
+
+#: A.20-creative-coding-in-the-classroom.md:126
+msgid ""
+"There were a number of exciting and unexpected side effects of this dual focus"
+" on education and professional musicians. Many of the features are beneficial "
+"to both groups. For example, a lot of effort has been put into making error me"
+"ssages more friendly and useful (rather than being a huge complicated mess of "
+"jargon). This turns out to be very useful when you write a bug while performin"
+"g in front of thousands of people. Additionally, functionality such as playing"
+" studio quality audio samples, adding audio effects, providing access to live "
+"audio from the microphone all turn out to make the learning experience more fu"
+"n, rewarding and ultimately meaningful."
+msgstr ""
+
+#: A.20-creative-coding-in-the-classroom.md:137
+msgid ""
+"The Sonic Pi community continues to grow and share amazing code compositions, "
+"lesson plans, musical algorithms, and much more. Much of this happens on our f"
+"riendly forum in_thread (in-thread.sonic-pi.net) which is home to a very diver"
+"se group of people that includes educators, musicians, programmers, artists an"
+"d makers. It is a real joy to see people learn to use code to express themselv"
+"es in new ways and for that in turn to inspire others to do the same."
+msgstr ""
+
+#: A.20-creative-coding-in-the-classroom.md:145
+msgid "Some fun capabilities"
+msgstr ""
+
+#: A.20-creative-coding-in-the-classroom.md:147
+msgid ""
+"From a Computer Science perspective, Sonic Pi provides you with the building b"
+"locks to teach you the basics as found in the UK's curriculum such as sequenci"
+"ng, iteration, conditionals, functions, data structures, algorithms, etc. Howe"
+"ver, it also builds on a number of important and relevant concepts which have "
+"become adopted in mainstream industry such as concurrency, events, pattern mat"
+"ching, distributed computing and determinism - all whilst keeping things simpl"
+"e enough to explain to a 10 year old child."
+msgstr ""
+
+#: A.20-creative-coding-in-the-classroom.md:156
+#, fuzzy
+msgid "Getting started is as simple as:"
+msgstr "Pobierz (Get)"
+
+#: A.20-creative-coding-in-the-classroom.md:162
+msgid "A melody can be constructed with one more command, sleep:"
+msgstr ""
+
+#: A.20-creative-coding-in-the-classroom.md:164
+#, no-wrap
+#, fuzzy
+msgid ""
+"play 70\n"
+"sleep 1\n"
+"play 72\n"
+"sleep 0.5\n"
+"play 75"
+msgstr ""
+"play 72\n"
+"sleep 0.5\n"
+"play 75\n"
+"sleep 0.5\n"
+"play 79"
+
+#: A.20-creative-coding-in-the-classroom.md:172
+msgid ""
+"In this example, we play the note 70 (roughly the 70th note on a piano), wait "
+"for 1 second, play note 72, wait for half a second and then play note 75. What"
+"'s interesting here is that with just two commands we have access to pretty mu"
+"ch all of Western notation (which notes to play and when) and learners can cod"
+"e any melody they've ever heard. This leads to huge variety in expressive outc"
+"omes whilst focussing on the same computing concept: sequencing in this case."
+msgstr ""
+
+#: A.20-creative-coding-in-the-classroom.md:180
+msgid ""
+"Taking ideas from the professional music world, we can also play back any reco"
+"rded sound. Sonic Pi can play any audio file on your computer but also has a n"
+"umber of sounds built-in to make things easy to get started:"
+msgstr ""
+
+#: A.20-creative-coding-in-the-classroom.md:189
+msgid ""
+"This code will play back the drum break which was a pillarstone to early hip-h"
+"op, Drum and Bass and Jungle. For example, a number of early hip-hop artists p"
+"layed this drum break back at half speed to give it a more laid-back feeling:"
+msgstr ""
+
+#: A.20-creative-coding-in-the-classroom.md:198
+msgid ""
+"In the 90s a number of music scenes burst out of new technology which enabled "
+"artists to take drum breaks like this apart and reassemble in a different orde"
+"r. For example:"
+msgstr ""
+
+#: A.20-creative-coding-in-the-classroom.md:202
+#, no-wrap
+#, fuzzy
+msgid ""
+"live_loop :jungle do\n"
+" sample :loop_amen, onset: pick\n"
+" sleep 0.125\n"
+"end"
+msgstr "sample :loop_amen"
+
+#: A.20-creative-coding-in-the-classroom.md:209
+#, fuzzy
+msgid ""
+"In this example we introduce a basic loop called :jungle which picks a random "
+"drum hit from our audio sample, waits for an eighth of a second and then picks"
+" another drum hit. This results in an endless stream of random drum beats to d"
+"ance to whilst you experience what a loop is."
+msgstr "rand"
 
 #: B-Essential-Knowledge.md:1
 msgid "B Essential Knowledge"
@@ -18621,19 +18938,20 @@ msgstr "Stwórz Zespół"
 #: B.04-Performing.md:22
 msgid ""
 "Don't just play on your own - form a live coding band! It's a lot of fun jammi"
-"ng with others. One person could do beats, another ambient background, etc. Se"
-"e what interesting combinations of sounds you can have together."
+"ng with others. One person could do beats, another ambient background, etc. Us"
+"e the `live_audio` functionality to combine code with traditional instruments "
+"such as a guitar or a microphone."
 msgstr ""
-"Nie graj tylko sam - spróbuj stworzyć zespół kodujący na żywo! Współpracowanie"
-" z innymi daje wiele radości i satysfakcji. Jedna osoba może robić bity, inna "
-"podkład w stylu ambient, itd. Spróbuj zobaczyć, jakie ciekawe kombinacje dźwię"
-"ków możecie razem stworzyć."
 
 #: B.04-Performing.md:27
+msgid "See what interesting combinations of sounds you can create with code."
+msgstr ""
+
+#: B.04-Performing.md:29
 msgid "TOPLAP"
 msgstr "TOPLAP"
 
-#: B.04-Performing.md:29
+#: B.04-Performing.md:31
 msgid ""
 "Live coding isn't completely new - a small number of people have been doing it"
 " for a few years now, typically using bespoke systems they've built for themse"
@@ -18646,11 +18964,11 @@ msgstr ""
 "ęcej na temat innych osób kodujących na żywo oraz ich systemów, jest [TOPLAP]("
 "http://toplap.org)."
 
-#: B.04-Performing.md:34
+#: B.04-Performing.md:36
 msgid "Algorave"
 msgstr "Algorave"
 
-#: B.04-Performing.md:36
+#: B.04-Performing.md:38
 msgid ""
 "Another great resource for exploring the live coding world is [Algorave](http:"
 "//algorave.com). Here you can find all about a specific strand of live coding "
@@ -18773,7 +19091,8 @@ msgstr ""
 "z interakcje gracza w świecie jest planowane na przyszłe wydanie."
 
 #: C.01-Basic-API.md:1
-msgid "11.1 Basic API"
+#, fuzzy
+msgid "C.1 Basic API"
 msgstr "11.1 Podstawowe API"
 
 #: C.01-Basic-API.md:3

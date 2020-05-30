@@ -1,0 +1,71 @@
+NAME
+  aubioquiet - a command line tool to extracts quiet and loud regions from a file
+
+SYNOPSIS
+
+  aubioquiet source
+  aubioquiet [[-i] source]
+             [-r rate] [-B win] [-H hop]
+             [-T time-format]
+             [-s sil]
+             [-v] [-h]
+
+DESCRIPTION
+
+  aubioquiet will print a timestamp each time it detects a new silent region or
+  a new loud region in a sound file.
+
+  When started with an input source (-i/--input), the detected timestamps are
+  printed on the console, in seconds.
+
+OPTIONS
+
+  This program follows the usual GNU command line syntax, with long options
+  starting with two dashes (--). A summary of options is included below.
+
+  -i, --input source  Run analysis on this audio file. Most uncompressed and
+  compressed are supported, depending on how aubio was built.
+
+  -r, --samplerate rate  Fetch the input source, resampled at the given
+  sampling rate. The rate should be specified in Hertz as an integer. If 0,
+  the sampling rate of the original source will be used. Defaults to 0.
+
+  -B, --bufsize win  The size of the buffer to analyze, that is the length
+  of the window used for spectral and temporal computations. Defaults to 512.
+
+  -H, --hopsize hop  The number of samples between two consecutive analysis.
+  Defaults to 256.
+
+  -s, --silence sil  Set the silence threshold, in dB, under which the pitch
+  will not be detected. Defaults to -90.0.
+
+  -T, --timeformat format  Set time format (samples, ms, seconds). Defaults to
+  seconds.
+
+  -h, --help  Print a short help message and exit.
+
+  -v, --verbose  Be verbose.
+
+EXAMPLE OUTPUT
+
+  NOISY: 28.775330
+
+  QUIET: 28.914648
+
+
+SEE ALSO
+
+  aubioonset(1),
+  aubiopitch(1),
+  aubiotrack(1),
+  aubionotes(1),
+  aubiomfcc(1),
+  and
+  aubiocut(1).
+
+AUTHOR
+
+  This manual page was written by Paul Brossier <piem@aubio.org>. Permission
+  is granted to copy, distribute and/or modify this document under the terms
+  of the GNU General Public License, Version 3 any later version published
+  by the Free Software Foundation.

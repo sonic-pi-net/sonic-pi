@@ -1,3 +1,4 @@
+#--
 # This file is part of Sonic Pi: http://sonic-pi.net
 # Full project source: https://github.com/samaaron/sonic-pi
 # License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
@@ -31,6 +32,20 @@ module SonicPi
     def initialize
       @children = {}
       @events = []
+    end
+
+    def count_nodes(node_total=0, event_total=0)
+
+      node_total += 1
+      event_total += @events.size
+
+      @children.map do |k, n|
+        nt, et = n.count_nodes(node_total, event_total)
+        node_total += nt
+        event_total += et
+      end
+
+      [node_total, event_total]
     end
   end
 
@@ -145,7 +160,7 @@ module SonicPi
     attr_accessor :event_matchers
 
     def initialize(all_threads=nil, thread_mut=nil)
-      @trim_history = false
+      @trim_history = true
       @min_history_size = 20
       @history_depth = 32
       @state = EventHistoryNode.new
@@ -157,6 +172,10 @@ module SonicPi
       @get_mut = Mutex.new
     end
 
+    def size_info
+      s = @state.count_nodes
+      "nodes: #{s[0]}, events: #{s[1]}"
+    end
 
     # Get the last seen version (at or before the current time)
     def get(t, p, i, d, b, m, path, val_matcher=nil, get_next=false)
@@ -197,7 +216,7 @@ module SonicPi
       return res if res
       prom = Promise.new
       @matcher_mut.synchronize do
-        matcher = @event_matchers.put ge, val_matcher, i, prom
+        @event_matchers.put ge, val_matcher, i, prom
       end
       prom.get
       # have to do a get_next again in case
@@ -230,37 +249,45 @@ module SonicPi
       end
     end
 
+    @@split_path_cache = Hash.new
     private
     def get_w_mutex(ge, val_matcher, get_next=false)
       # get value or return default
       if ge.path.start_with? '/'
-        path = String.new(ge.path)
+        if ge.path.include?('/**/**')
+          path = String.new(ge.path)  # multiple sequential ** matchers
+        else
+          path = ge.path
+        end
       else
-        path = String.new("/#{path}")
+        path = String.new("/#{ge.path}")
       end
 
       # Remove multiple sequential ** matchers
-      path.gsub!(/(\/\*\*)+/, '/**')
-      split_path = path.split('/').drop(1).map do |segment|
-        stripped = segment.strip
-        if stripped == '**'
-          stripped
-        elsif matcher?(segment)
-          segment = Regexp.escape(segment)
-          segment.gsub!('\*', '.*')
-          segment.gsub!(/\\\{(.*)\\\}/, '(\1)')
-          segment.gsub!(',', '|')
-          segment.gsub!('\?', '.')
-          segment.gsub!(/\\\[([^!].*)\\\]/, '[\1]')
-          segment.gsub!(/\\\[!(.*)\\\]/, '[^\1]')
-          segment.gsub!('\-', '-')
-          begin
-            Regexp.new(/\A#{segment}\Z/)
-          rescue
+      path.gsub!(/(\/\*\*)+/, '/**') if ge.path.include?('/**/**')
+
+      split_path = @@split_path_cache.fetch(path) do |k|
+        @@split_path_cache[path] = path.split('/').drop(1).map do |segment|
+          stripped = segment.strip
+          if stripped == '**'
+            stripped
+          elsif matcher?(segment)
+            segment = Regexp.escape(segment)
+            segment.gsub!('\*', '.*')
+            segment.gsub!(/\\\{(.*)\\\}/, '(\1)')
+            segment.gsub!(',', '|')
+            segment.gsub!('\?', '.')
+            segment.gsub!(/\\\[([^!].*)\\\]/, '[\1]')
+            segment.gsub!(/\\\[!(.*)\\\]/, '[^\1]')
+            segment.gsub!('\-', '-')
+            begin
+              Regexp.new(/\A#{segment}\Z/)
+            rescue
+              stripped
+            end
+          else
             stripped
           end
-        else
-          stripped
         end
       end
       @process_mut.synchronize do

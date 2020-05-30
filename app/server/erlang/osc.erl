@@ -1,4 +1,3 @@
--module(osc).
 %% --
 %% This file is part of Sonic Pi: http://sonic-pi.net
 %% Full project source: https://github.com/samaaron/sonic-pi
@@ -12,16 +11,18 @@
 %% notice is included.
 %% ++
 
--compile(export_all).
+-module(osc).
+
+-export([now/0, encode/1, decode/1, pack_ts/2, osc_time_to_local/1]).
 
 %% Note: not all tags are implemented yet
-%%       note super well tested - appears to work :-)
+%%       not super well tested - appears to work :-)
 
 %%----------------------------------------------------------------------
 %% Encoding
 %%----------------------------------------------------------------------
 
-%% Do do check endian
+%% To do check endian
 %% I've said Int64 are unsigned-little-integers
 %% I think they should be big
 
@@ -31,27 +32,12 @@
 %% To do add device number
 
 
-test0() ->
-    B = encode(["/mi",{int64, 347873045749854},145,53,0]),
-    io:format("B=~p~n",[B]),
-    D = (catch decode(B)),
-    io:format("D=~p~n",[D]).
-
-
-test1() ->
-    decode(<<35,98,117,110,100,108,101,0,218,114,254,188,137,88,216,0,0,0,0,16,
-           47,102,111,111,0,0,0,0,44,115,0,0,98,97,114,0>>).
-
-test2() ->
-    pack_ts(osc:now() + 10,
-	    ["/forward", "localhost", 6000, "/sendmidi", 12, 34, 56]).
-
 %% osc:now() returns the system time as a float
 %% The units of the timestamp are seconds past epoch
 
 now() ->
     %% nanoseconds past epoc
-    erlang:system_time(nanosecond)/1000000000.
+    os:system_time(nanosecond)/1000000000.
 
 osc_time_to_local(Tsec) ->
     Native = trunc(Tsec*1000000000), %% 9 zeros
@@ -119,7 +105,7 @@ pack_ts(Time, Data) ->
     B.
 
 %%----------------------------------------------------------------------
-%5 Decoding
+%% Decoding
 %%----------------------------------------------------------------------
 
 decode(B0) when is_binary(B0) ->

@@ -1,0 +1,32 @@
+image: Visual Studio 2015
+configuration:
+- Debug
+
+platform:
+- Win32
+
+environment:
+  matrix:
+  - BUILD_SYSTEM: MSVC
+  - BUILD_SYSTEM: CMAKE
+
+install:
+- git clone -q https://github.com/xiph/ogg.git %APPVEYOR_BUILD_FOLDER%\..\libogg
+- if "%BUILD_SYSTEM%"=="MSVC" msbuild "%APPVEYOR_BUILD_FOLDER%\..\libogg\win32\VS2015\libogg_static.sln" /m /v:minimal /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll" /property:Configuration=%CONFIGURATION%;Platform=%PLATFORM%
+- if "%BUILD_SYSTEM%"=="CMAKE" mkdir "%APPVEYOR_BUILD_FOLDER%\..\libogg\build"
+- if "%BUILD_SYSTEM%"=="CMAKE" pushd "%APPVEYOR_BUILD_FOLDER%\..\libogg\build"
+- if "%BUILD_SYSTEM%"=="CMAKE" cmake -A "%PLATFORM%" -G "Visual Studio 14 2015" -DCMAKE_INSTALL_PREFIX="%APPVEYOR_BUILD_FOLDER%\..\libogg\install" ..
+- if "%BUILD_SYSTEM%"=="CMAKE" cmake --build . --config "%CONFIGURATION%" --target install -- /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+- if "%BUILD_SYSTEM%"=="CMAKE" popd
+
+before_build:
+- if "%BUILD_SYSTEM%" == "CMAKE" mkdir "%APPVEYOR_BUILD_FOLDER%\build"
+- if "%BUILD_SYSTEM%" == "CMAKE" pushd "%APPVEYOR_BUILD_FOLDER%\build"
+- if "%BUILD_SYSTEM%" == "CMAKE" cmake -A "%PLATFORM%" -G "Visual Studio 14 2015" -DOGG_ROOT=%APPVEYOR_BUILD_FOLDER%\..\libogg\install ..
+- if "%BUILD_SYSTEM%" == "CMAKE" popd
+
+build_script:
+- if "%BUILD_SYSTEM%"=="MSVC" msbuild "%APPVEYOR_BUILD_FOLDER%\win32\VS2010\vorbis_dynamic.sln" /m /v:minimal /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll" /property:Configuration=%CONFIGURATION%;Platform=%PLATFORM%
+- if "%BUILD_SYSTEM%" == "CMAKE" pushd "%APPVEYOR_BUILD_FOLDER%\build"
+- if "%BUILD_SYSTEM%" == "CMAKE" cmake --build . --config "%CONFIGURATION%" -- /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+- if "%BUILD_SYSTEM%" == "CMAKE" popd

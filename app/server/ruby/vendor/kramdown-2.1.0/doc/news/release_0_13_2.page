@@ -1,0 +1,17 @@
+---
+title: kramdown 0.13.2 released
+no_output: true
+sort_info: r00132
+created_at: 2011-02-21 18:01:00 +02:00
+modified_at: 2011-02-21 18:01:00 +02:00
+---
+## kramdown 0.13.2 released
+
+This release just fixes a problem when parsing long paragraphs/blockquotes under Ruby 1.8.
+
+## Changes
+
+* 1 bug fix:
+
+  - Fixed bug RF#28917: Regexp buffer overflow when parsing long paragraphs or blockquotes under
+    Ruby 1.8 (reported by Michael Fischer)
