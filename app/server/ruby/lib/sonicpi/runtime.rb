@@ -777,7 +777,6 @@ module SonicPi
           __info "Starting run #{id}" unless silent
           code = PreParser.preparse(code, SonicPi::Lang::Core.vec_fns)
 
-          firstline -=1
           job_in_thread = in_thread seed: 0 do
             eval(code, nil, info[:workspace], firstline)
           end
