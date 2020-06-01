@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-05-22 15:41+0000\n"
+"PO-Revision-Date: 2020-06-02 12:41+0000\n"
 "Last-Translator: Pau Monfort <paubarrina@gmail.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/ca/>\n"
@@ -736,14 +736,18 @@ msgstr ""
 "t aguda (a mà dreta) produeixen sons més aguts."
 
 #: 02.1-Your-First-Beeps.md:38
-#, fuzzy
 msgid ""
 "It turns out that the C of the 4th octave (C in English notation) is identifie"
 "d by the number 60. `play 60` therefore plays the C of the 4th octave. To play"
 " the next piano key to the right, you have to add 1 to 60 and then type `play "
 "61`, which in this case is the black key of the C sharp. To play the D, the ne"
 "xt key to the right, `play 62`."
-msgstr "play 60"
+msgstr ""
+"Resulta que el do de la 4a octava (C en notació anglesa) s’identifica amb el "
+"número 60.  Per tant, ` play 60` fa sonar el do de la 4a octava. Per tocar "
+"la següent tecla de piano a la dreta, heu d'afegir 1 a 60 i, a continuació, "
+"escriviu `play 61 `, que en aquest cas és la tecla negra de do sostingut. "
+"Per fer sonar un re, la següent tecla a la dreta, `play 62`."
 
 #: 02.1-Your-First-Beeps.md:40
 msgid ""
@@ -2055,7 +2059,7 @@ msgstr "Ara comenceu a barrejar mostres a les vostres composicions!"
 
 #: 03.2-Sample-Params.md:1
 msgid "3.2 Sample Parameters"
-msgstr ""
+msgstr "3.2  Paràmetres de mostreig"
 
 #: 03.2-Sample-Params.md:3
 msgid "Sample Parameters: Amp and Pan"
