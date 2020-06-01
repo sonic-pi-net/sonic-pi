@@ -492,7 +492,7 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
         <location filename="../mainwindow.cpp" line="2432"/>
         <source>Cannot read file %1:
 %2.</source>
-        <translation>Lecture impossible du fichier %1:
+        <translation>Lecture impossible du fichier %1 :
 %2.</translation>
     </message>
     <message>
@@ -504,7 +504,7 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
         <location filename="../mainwindow.cpp" line="2451"/>
         <source>Cannot write file %1:
 %2.</source>
-        <translation>Écriture impossible du fichier %1:
+        <translation>Écriture impossible du fichier %1 :
 %2.</translation>
     </message>
     <message>
@@ -733,7 +733,13 @@ it is too late to do so
 When disabled, Sonic Pi will always
 attempt to trigger synths and FX
 even when a little late.</source>
-        <translation>Si activée, Sonic Pi refusera de déclencher des synthétiseurs et des effets s’ils sont en retard par rapport à l&apos;horloge. Lorsque cette option est désactivée, Sonic Pi les déclenchera toujours même si ceux-ci sont en retard.</translation>
+        <translation>Si activée, Sonic Pi refusera de déclencher
+des synthétiseurs et des effets s’ils sont
+en retard par rapport à l&apos;horloge
+
+Lorsque cette option est désactivée,
+Sonic Pi les déclenchera toujours
+même si ceux-ci sont en retard.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="110"/>
@@ -749,7 +755,13 @@ to be triggered.
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
 which isn&apos;t recognised.</source>
-        <translation>Activée, Sonic Pi permettra aux synthétiseurs et effets chargés via load_synthdefs d&apos;être joués. Désactivée, Sonic Pi émettra une alerte lorsque vous essayez d’utiliser un synthétiseur ou un effet non reconnu.</translation>
+        <translation>Lorsque activée, Sonic Pi permettra
+aux synthétiseurs et effets chargés via
+load_synthdefs d&apos;être joués.
+
+Lorsque désactivée, Sonic Pi émettra une
+alerte lorsque vous essayez d’utiliser un
+synthétiseur ou un effet non reconnu.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="135"/>
@@ -1042,8 +1054,9 @@ ne seront pas, par défaut, inscrits dans le journal.</translation>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation>Activation de l&apos;effacement du journal avant exécution.
-Si activé, le journal est effacé à chaque appui sur le bouton run.</translation>
+        <translation>Activation de l&apos;effacement du journal avant
+exécution. Si activé, le journal est effacé à
+chaque appui sur le bouton run.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="335"/>
@@ -1176,7 +1189,7 @@ Cette vérification implique l&apos;envoi d&apos;informations anonymes à propos
     <message>
         <location filename="../osc/sonic_pi_udp_osc_server.cpp" line="38"/>
         <source>Is Sonic Pi already running?  Can&apos;t open UDP port.</source>
-        <translation>Est-ce que Sonic Pi fonctionne déjà? Impossible d&apos;ouvrir le port UDP.</translation>
+        <translation>Est-ce que Sonic Pi fonctionne déjà ? Impossible d&apos;ouvrir le port UDP.</translation>
     </message>
 </context>
 </TS>
