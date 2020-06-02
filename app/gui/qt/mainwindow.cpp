@@ -1134,6 +1134,12 @@ void MainWindow::startRubyServer(){
         serverProcess->setStandardOutputFile(server_output_log_path);
     }
     serverProcess->start(ruby_path, args);
+
+#ifdef Q_OS_WIN
+    //set priority of Ruby server to be "above normal" on Windows
+    QProcess::startDetached("wmic process where processid='" + QString::number(serverProcess->processId()) + "' CALL setpriority \"above normal\"");
+#endif
+
     // Register server pid for potential zombie clearing
     QStringList regServerArgs;
 #if QT_VERSION >= QT_VERSION_CHECK(5, 3, 0)
