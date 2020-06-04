@@ -181,62 +181,67 @@ void sendHeartBeat(const OscInProcessor& oscInputProcessor, OscOutput& oscOutput
 
 int main(int argc, char* argv[])
 {
-
-    ProgramOptions popts;
-    shared_ptr<OscOutput> oscOutput;
-
-    int rc = setup_and_parse_program_options(argc, argv, popts);
-    if (rc != 0) {
-        return rc;
-    }
-
-    if (popts.listPorts) {
-        listAvailablePorts();
-        return 0;
-    }
-
-    MonitorLogger::getInstance().setLogLevel(popts.monitor);
-
-    // Open the OSC output port, for heartbeats and logging
-    oscOutput = make_shared<OscOutput>(popts.oscOutputHost, popts.oscOutputPort);
-    MonitorLogger::getInstance().setOscOutput(oscOutput);
-
-    auto oscInputProcessor = make_unique<OscInProcessor>(popts.oscLocal, popts.oscInputPort);
-    // Prepare the OSC input and MIDI outputs
     try {
-        prepareOscProcessorOutputs(oscInputProcessor, popts);
-    } catch (const std::out_of_range&) {
-        cout << "Error opening MIDI outputs" << endl;
+        ProgramOptions popts;
+        shared_ptr<OscOutput> oscOutput;
+
+        int rc = setup_and_parse_program_options(argc, argv, popts);
+        if (rc != 0) {
+            return rc;
+        }
+
+        if (popts.listPorts) {
+            listAvailablePorts();
+            return 0;
+        }
+
+        MonitorLogger::getInstance().setLogLevel(popts.monitor);
+
+        // Open the OSC output port, for heartbeats and logging
+        oscOutput = make_shared<OscOutput>(popts.oscOutputHost, popts.oscOutputPort);
+        MonitorLogger::getInstance().setOscOutput(oscOutput);
+
+        auto oscInputProcessor = make_unique<OscInProcessor>(popts.oscLocal, popts.oscInputPort);
+        try {
+            // Prepare the OSC input and MIDI outputs
+            prepareOscProcessorOutputs(oscInputProcessor, popts);
+        } catch (const std::out_of_range&) {
+            cout << "Error opening MIDI outputs" << endl;
+            return -1;
+        }
+
+    // Exit nicely with CTRL-C
+    #if WIN32
+        SetConsoleCtrlHandler((PHANDLER_ROUTINE)ctrlHandler, TRUE);
+    #else
+        struct sigaction intHandler;
+
+        intHandler.sa_handler = ctrlHandler;
+        sigemptyset(&intHandler.sa_mask);
+        intHandler.sa_flags = 0;
+        sigaction(SIGINT, &intHandler, NULL);
+    #endif
+
+        std::thread thr(asyncBreakThread, oscInputProcessor.get());
+
+        // For hotplugging
+        vector<string> lastAvailablePorts = MidiOut::getOutputNames();
+        while (!g_wantToExit) {
+            oscInputProcessor->run(); // will run until asyncBreak is called from another thread
+            vector<string> newAvailablePorts = MidiOut::getOutputNames();
+            // Was something added or removed?
+            if (newAvailablePorts != lastAvailablePorts) {
+                prepareOscProcessorOutputs(oscInputProcessor, popts);
+                lastAvailablePorts = newAvailablePorts;
+                listAvailablePorts();
+            }
+            if (popts.oscHeartbeat)
+                sendHeartBeat(*oscInputProcessor, *oscOutput);
+        }
+        thr.join();
+    }
+    catch (const std::exception& e) {
+        cout << "General application error: " << e.what() << endl;
         return -1;
     }
-
-// Exit nicely with CTRL-C
-#if WIN32
-    SetConsoleCtrlHandler((PHANDLER_ROUTINE)ctrlHandler, TRUE);
-#else
-    struct sigaction intHandler;
-
-    intHandler.sa_handler = ctrlHandler;
-    sigemptyset(&intHandler.sa_mask);
-    intHandler.sa_flags = 0;
-    sigaction(SIGINT, &intHandler, NULL);
-#endif
-
-    std::thread thr(asyncBreakThread, oscInputProcessor.get());
-
-    // For hotplugging
-    vector<string> lastAvailablePorts = MidiOut::getOutputNames();
-    while (!g_wantToExit) {
-        oscInputProcessor->run(); // will run until asyncBreak is called from another thread
-        vector<string> newAvailablePorts = MidiOut::getOutputNames();
-        // Was something added or removed?
-        if (newAvailablePorts != lastAvailablePorts) {
-            prepareOscProcessorOutputs(oscInputProcessor, popts);
-            lastAvailablePorts = newAvailablePorts;
-            listAvailablePorts();
-        }
-        if (popts.oscHeartbeat)
-            sendHeartBeat(*oscInputProcessor, *oscOutput);
-    }
-    thr.join();
 }

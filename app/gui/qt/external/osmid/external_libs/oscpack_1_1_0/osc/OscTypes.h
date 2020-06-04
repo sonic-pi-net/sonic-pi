@@ -25,53 +25,28 @@
 */
 
 /*
-	The text above constitutes the entire oscpack license; however, 
+	The text above constitutes the entire oscpack license; however,
 	the oscpack developer(s) also make the following non-binding requests:
 
 	Any person wishing to distribute modifications to the Software is
 	requested to send the modifications to the original developer so that
-	they can be incorporated into the canonical version. It is also 
+	they can be incorporated into the canonical version. It is also
 	requested that these non-binding requests be included whenever the
 	above license is reproduced.
 */
 #ifndef INCLUDED_OSCPACK_OSCTYPES_H
 #define INCLUDED_OSCPACK_OSCTYPES_H
 
+#include <cstdint>
 
 namespace osc{
 
 // basic types
+typedef int64_t int64;
+typedef uint64_t uint64;
 
-#if defined(__BORLANDC__) || defined(_MSC_VER)
-
-typedef __int64 int64;
-typedef unsigned __int64 uint64;
-
-#elif defined(__x86_64__) || defined(_M_X64)
-
-typedef long int64;
-typedef unsigned long uint64;
-
-#else
-
-typedef long long int64;
-typedef unsigned long long uint64;
-
-#endif
-
-
-
-#if defined(__x86_64__) || defined(_M_X64)
-
-typedef signed int int32;
-typedef unsigned int uint32;
-
-#else
-
-typedef signed long int32;
-typedef unsigned long uint32;
-
-#endif
+typedef int32_t int32;
+typedef uint32_t uint32;
 
 
 enum ValueTypeSizes{
@@ -83,7 +58,7 @@ enum ValueTypeSizes{
 
 
 // osc_bundle_element_size_t is used for the size of bundle elements and blobs
-// the OSC spec specifies these as int32 (signed) but we ensure that they 
+// the OSC spec specifies these as int32 (signed) but we ensure that they
 // are always positive since negative field sizes make no sense.
 
 typedef int32 osc_bundle_element_size_t;
@@ -91,7 +66,7 @@ typedef int32 osc_bundle_element_size_t;
 enum {
     OSC_INT32_MAX = 0x7FFFFFFF,
 
-    // Element sizes are specified to be int32, and are always rounded up to nearest 
+    // Element sizes are specified to be int32, and are always rounded up to nearest
     // multiple of 4. Therefore their values can't be greater than 0x7FFFFFFC.
     OSC_BUNDLE_ELEMENT_SIZE_MAX = 0x7FFFFFFC
 };
@@ -100,7 +75,7 @@ enum {
 inline bool IsValidElementSizeValue( osc_bundle_element_size_t x )
 {
     // sizes may not be negative or exceed OSC_BUNDLE_ELEMENT_SIZE_MAX
-    return x >= 0 && x <= OSC_BUNDLE_ELEMENT_SIZE_MAX; 
+    return x >= 0 && x <= OSC_BUNDLE_ELEMENT_SIZE_MAX;
 }
 
 
