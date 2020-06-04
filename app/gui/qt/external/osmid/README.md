@@ -1,12 +1,9 @@
 [![Build Status](https://travis-ci.org/llloret/osmid.svg?branch=master)](https://travis-ci.org/llloret/osmid)
 
 # osmid
-
 osmid aims to provide a lightweight, portable, easy to use tool to convert MIDI to OSC and OSC to MIDI.
 
-I have started it as a proof of concept for the MIDI components for Sonic PI. I started playing a bit with MidiOSC, but after a while I decided to implement my own tools for more flexibility on the design and architecture.
-
-The idea now if to see what features are required (or not), and use that to evolve the project. Of course, osmid is available for other projects and uses too, so any ideas and feedback are very welcome.
+It is the software handling the communication with MIDI devices in Sonic Pi.
 
 osmid is divided in 2 tools:
 * m2o: MIDI to OSC conversion
@@ -31,8 +28,8 @@ Having two separate tools follows Unix ideas of having a number of smaller stand
 ## Building
 For build instruction see INSTALL.md.
 
-osmid is built assuming C++14. The build system is based on cmake. Tested target compiler in Windows is MSVC 2015 Win64, in Linux is gcc 4.9 or later, and on Mac, clang 5.1
-or later. Under Windows, prepare using something like: `cmake -G "Visual Studio 14 2015 Win64" .. `. On Linux and Mac `cmake ..` should be enough.
+osmid is built using C++14 features. The build system is based on cmake. Tested target compiler in Windows is MSVC 2015 Win64, in Linux is gcc 4.9 or later, and on Mac, clang 5.1
+or later. Under Windows, prepare using something like: `cmake -G "Visual Studio 16 2019" -A x64 .. `. On Linux and Mac `cmake ..` should be enough.
 
 osmid uses the following libs:
 * JUCE for the midi handling and OSC handling (included in the tree)
@@ -67,7 +64,7 @@ There is also an optional heartbeat message which sends periodic messages with t
 OSC address pattern: /midi/heartbeat. Message body is OSC array of pairs <midi device id>, <midi device name>
 
 
-## o2m parameters (Need to update this)
+## o2m parameters
 * --list or -l: List output MIDI devices
 * --midiout or -o: open the specified output device - can be specified multiple times to open more than one device. By default it will open all output devices and the ones that are connected live
 * --oscport or -i: OSC Input port (default:57200)
@@ -99,8 +96,6 @@ OSC address pattern: /midi/heartbeat. Message body is OSC array of pairs <midi d
 	- log_level: Body is (int32)log_level. Value from 0 to 6. The smaller the number the more verbose the output.
 	- log_to_osc: Body is (int32)enable. 0 -> disable, 1 -> enable
 
-## TODO
-* Installers
 
 ## LICENSE
 See LICENSE.md file for details.
