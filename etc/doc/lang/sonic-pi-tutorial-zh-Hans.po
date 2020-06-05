@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-05-24 18:42+0000\n"
-"Last-Translator: Zhe Wang <wangzhetju@gmail.com>\n"
+"PO-Revision-Date: 2020-06-07 09:41+0000\n"
+"Last-Translator: ChiakiQ <348852310@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/zh_Hans/>\n"
 "Language: zh-Hans\n"
@@ -2210,7 +2210,7 @@ msgstr "采样整个有1.75秒长，我们的起音和释音阶段加起来有1.
 
 #: 03.4-Enveloped-Samples.md:86
 msgid "Explicit sustain"
-msgstr ""
+msgstr "明确的sustain"
 
 #: 03.4-Enveloped-Samples.md:88
 msgid ""
@@ -2263,70 +2263,70 @@ msgstr "sample :drum_cymbal_open, attack: 0.01, sustain: 0, release: 0.1"
 msgid ""
 "You can then emulate hitting the cymbal and then dampening it by increasing th"
 "e sustain period:"
-msgstr ""
+msgstr "然后你可以模拟击打铙钹，并且通过增加sustain的时长来抑制它的效果："
 
 #: 03.4-Enveloped-Samples.md:120
 #, no-wrap
 msgid "sample :drum_cymbal_open, attack: 0.01, sustain: 0.3, release: 0.1"
-msgstr ""
+msgstr "样本 ：drum_cymbal_open，起音：0.01, 延音：0.3，释放：0.1"
 
 #: 03.4-Enveloped-Samples.md:124
 msgid ""
 "Now go and have fun putting envelopes over the samples. Try changing the rate "
 "too for really interesting results."
-msgstr ""
+msgstr "那就去享受把波封用在样本上的乐趣吧。为了得到更有趣的结果，你可以试着改变速率。"
 
 #: 03.5-Partial-Samples.md:1
 msgid "3.5 Partial Samples"
-msgstr ""
+msgstr "3.5 部分样本"
 
 #: 03.5-Partial-Samples.md:3
 msgid "Partial Samples"
-msgstr ""
+msgstr "部分样本"
 
 #: 03.5-Partial-Samples.md:5
 msgid ""
 "This section will conclude our exploration of Sonic Pi's sample player. Let's "
 "do a quick recap. So far we've looked at how we can trigger samples:"
-msgstr ""
+msgstr "这一节我们将结束对Sonic Pi'样本播放器的探索。让我们快速回顾一下。到目前为止，我们已经了解了如何触发样本："
 
 #: 03.5-Partial-Samples.md:13
 msgid ""
 "We then looked at how we can change the rate of samples such as playing them a"
 "t half speed:"
-msgstr ""
+msgstr "然后我们研究了如何改变样本的速率，比如以半速播放："
 
 #: 03.5-Partial-Samples.md:20
 msgid "Next, we looked at how we could fade a sample in (let's do it at half speed):"
-msgstr ""
+msgstr "接下来，我们看看如何淡入一个样本(我们以半速来做)："
 
 #: 03.5-Partial-Samples.md:23
 #, no-wrap
 msgid "sample :loop_amen, rate: 0.5, attack: 1"
-msgstr ""
+msgstr "样本：loop_amen，速率：0.5，起音：1"
 
 #: 03.5-Partial-Samples.md:27
 msgid ""
 "We also looked at how we could use the start of a sample percussively by givin"
 "g `sustain:` an explicit value and setting both the attack and release to be s"
 "hort values:"
-msgstr ""
+msgstr "我们还研究了如何通过给出一个显式的“延音”值并将起音和释音设置为短值，来打击振动地使用样本的开始："
 
 #: 03.5-Partial-Samples.md:31
 #, no-wrap
 msgid "sample :loop_amen, rate: 2, attack: 0.01, sustain: 0, release: 0.35"
-msgstr ""
+msgstr "样本：loop_amen，速率：2，起音：0.01，延音：0，释音：0.35"
 
 #: 03.5-Partial-Samples.md:35
 msgid ""
 "However, wouldn't it be nice if we didn't have to always start at the beginnin"
 "g of the sample? Wouldn't it also be nice if we didn't have to always finish a"
 "t the end of the sample?"
-msgstr ""
+msgstr "但是，如果我们能不用总是从样本的开始来作为开端，不会很好吗？如果我们能不必总是在样本的末尾结束，那岂不也很好？"
 
 #: 03.5-Partial-Samples.md:39
 msgid "Choosing a starting point"
-msgstr ""
+msgstr "选择起点"
 
 #: 03.5-Partial-Samples.md:41
 msgid ""
@@ -2334,40 +2334,40 @@ msgid ""
 "between 0 and 1 where 0 is the start of the sample, 1 is the end and 0.5 is ha"
 "lf way through the sample. Let's try playing only the last half of the amen br"
 "eak:"
-msgstr ""
+msgstr "可以在样本中选择0到1之间的任意起点，其中0是样本的起点，1是终点，0.5是样本的一半。我们来试着只打amen的后半段："
 
 #: 03.5-Partial-Samples.md:46
 #, no-wrap
 msgid "sample :loop_amen, start: 0.5"
-msgstr ""
+msgstr "样本：loop_amen，起始值：0.5"
 
 #: 03.5-Partial-Samples.md:50
 msgid "How about the last quarter of the sample:"
-msgstr ""
+msgstr "关于最后1 / 4的样本："
 
 #: 03.5-Partial-Samples.md:52
 #, no-wrap
 msgid "sample :loop_amen, start: 0.75"
-msgstr ""
+msgstr "样本：loop_amen，起始值：0.75"
 
 #: 03.5-Partial-Samples.md:56
 msgid "Choosing a finish point"
-msgstr ""
+msgstr "选择终点"
 
 #: 03.5-Partial-Samples.md:58
 msgid ""
 "Similarly, it is possible to choose an arbitrary finish point in the sample as"
 " a value between 0 and 1. Let's finish the amen break half way through:"
-msgstr ""
+msgstr "类似地，也可以在样本中选择0到1之间的任意结束点。让我们完成amen突破一半："
 
 #: 03.5-Partial-Samples.md:62 A.12-sample-slicing.md:62
 #, no-wrap
 msgid "sample :loop_amen, finish: 0.5"
-msgstr ""
+msgstr "样本：loop_amen，结束：0.5"
 
 #: 03.5-Partial-Samples.md:66
 msgid "Specifying start and finish"
-msgstr ""
+msgstr "指定开始和结束位置"
 
 #: 03.5-Partial-Samples.md:68
 msgid ""
