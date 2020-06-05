@@ -2128,6 +2128,9 @@ void MainWindow::createShortcuts()
 
 void  MainWindow::createToolBar()
 {
+    exitAct = new QAction(tr("Exit"), this);
+    connect(exitAct, &QAction::triggered, qApp, &QApplication::closeAllWindows);
+
     std::cout << "[GUI] - creating tool bar" << std::endl;
     // Run
     runAct = new QAction(theme->getRunIcon(), tr("Run"), this);
@@ -2234,6 +2237,9 @@ void  MainWindow::createToolBar()
     fileMenu->addAction(recAct);
     fileMenu->addAction(saveAsAct);
     fileMenu->addAction(loadFileAct);
+
+    fileMenu->addSeparator();
+    fileMenu->addAction(exitAct);
 
     editMenu = menuBar()->addMenu(tr("&Edit"));
     editMenu->addAction(textIncAct);
