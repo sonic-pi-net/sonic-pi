@@ -14,5 +14,6 @@
 require_relative 'udp_client'
 require_relative 'udp_server'
 require_relative 'websocket_server'
+require_relative 'blob'
 require_relative 'oscencode'
 require_relative 'oscdecode'

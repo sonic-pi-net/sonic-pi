@@ -689,7 +689,7 @@ osc \"/foo/baz\"             # Send an OSC message to port 7000
         t = __system_thread_locals.get(:sonic_pi_spider_time) + current_sched_ahead_time
         args.map! do |arg|
           case arg
-          when Numeric, String
+          when Numeric, String, SonicPi::OSC::Blob
             arg
           else
             arg.inspect
