@@ -1266,7 +1266,7 @@ module SonicPi
       @scsynth_clobber_args = Shellwords.split(@settings.get(:scsynth!, ""))
       scsynth_args = Shellwords.split(@settings.get_or_set(:scsynth, ""))
       @scsynth_opts = scsynth_args.each_slice(2).to_h
-      @version = Version.new(3, 2, 2)
+      @version = Version.new(3, 3, 0, "dev#{gh_short}")
       @server_version = __server_version
       @life_hooks = LifeCycleHooks.new
       @msg_queue = msg_queue
