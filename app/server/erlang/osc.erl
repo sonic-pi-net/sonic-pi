@@ -177,7 +177,6 @@ get_args([], _, L) ->
 
 get_binary(<<Size:32, Bin:Size/binary, Rest/binary>>)  ->
     K = (4 - (Size + 4)) rem 4,
-    log ("size: ~p - ~p, splitting binary at: ~p~n", [size(Bin), Size,  K]),
     {TrimmedRest, _} = erlang:split_binary(Rest, K),
     {Bin, TrimmedRest}.
 
