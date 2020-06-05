@@ -70,6 +70,13 @@ encode_string(S) ->
 	3 -> [S,0]
     end.
 
+encode_binary(Bin) ->
+    %% pad to size 4
+    Pad = size(Bin) rem 4,
+    Padded = <<Bin/binary, 0:((4-Pad)*8)>>,
+    Size = size(Padded),
+    <<Size:32,Padded/binary>>.
+
 encode_flags(L) when is_list(L) ->
     %% flags starts with , and is terminated with a zero
     %% so it's really a string :-)
@@ -81,13 +88,15 @@ encode_flag({time,_})             -> $t;
 encode_flag(I) when is_integer(I) -> $i;
 encode_flag(X) when is_list(X)    -> $s;
 encode_flag(X) when is_atom(X)    -> $s;
-encode_flag(X) when is_float(X)   -> $f.
+encode_flag(X) when is_float(X)   -> $f;
+encode_flag(X) when is_binary(X)  -> $b.
 
 encode_arg(X) when is_list(X)    -> encode_string(X);
 encode_arg(X) when is_atom(X)    -> encode_string(atom_to_list(X));
 encode_arg(X) when is_integer(X) -> <<X:32>>;
 encode_arg(X) when is_float(X)   -> <<X:32/float>>; %
-encode_arg({int64,X})            -> <<X:64/unsigned-little-integer>>.
+encode_arg({int64,X})            -> <<X:64/unsigned-little-integer>>;
+encode_arg(X) when is_binary(X)  -> encode_binary(X).
 
 %% bundles
 
@@ -160,8 +169,17 @@ get_args([$d|T1], <<Double:64/float, T2/binary>>, L) ->
 get_args([$s|T1], B0, L) ->
     {Str, B1} = get_string(B0),
     get_args(T1, B1, [Str|L]);
+get_args([$b|T1], B0, L) ->
+    {Bin, B1} = get_binary(B0),
+    get_args(T1, B1, [Bin|L]);
 get_args([], _, L) ->
     lists:reverse(L).
+
+get_binary(<<Size:32, Bin:Size/binary, Rest/binary>>)  ->
+    K = (4 - (Size + 4)) rem 4,
+    log ("size: ~p - ~p, splitting binary at: ~p~n", [size(Bin), Size,  K]),
+    {TrimmedRest, _} = erlang:split_binary(Rest, K),
+    {Bin, TrimmedRest}.
 
 get_string(X) when is_binary(X) ->
     [Bin,After] = binary:split(X, <<0>>),
