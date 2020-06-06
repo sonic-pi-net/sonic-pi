@@ -76,32 +76,5 @@ module SonicPi
         PreParser.preparse(a, SonicPi::Lang::Core.vec_fns)
       end
     end
-
-    def test_sp_sym_basic_expansion
-      a = "foo :baz:quux eggs"
-      b = "foo ::SonicPi::SPSym.new('baz : quux') eggs"
-      assert_equal(b, PreParser.preparse(a, SonicPi::Lang::Core.vec_fns))
-    end
-
-    def test_sp_sym_multiterm_expansion
-      a = "foo :baz:quux:bar:beans eggs"
-      b = "foo ::SonicPi::SPSym.new('baz : quux : bar : beans') eggs"
-      assert_equal(b, PreParser.preparse(a, SonicPi::Lang::Core.vec_fns))
-    end
-
-    def test_sp_sym_complex_expansion
-      a = "foo :baz?:quux eggs"
-      b = "foo ::SonicPi::SPSym.new('baz? : quux') eggs"
-      assert_equal(b, PreParser.preparse(a, SonicPi::Lang::Core.vec_fns))
-
-
-      a = "foo :baz?:qu_ux eggs"
-      b = "foo ::SonicPi::SPSym.new('baz? : qu_ux') eggs"
-      assert_equal(b, PreParser.preparse(a, SonicPi::Lang::Core.vec_fns))
-
-      a = "foo :_b_az?:qu_ux eggs :beans"
-      b = "foo ::SonicPi::SPSym.new('_b_az? : qu_ux') eggs :beans"
-      assert_equal(b, PreParser.preparse(a, SonicPi::Lang::Core.vec_fns))
-    end
   end
 end

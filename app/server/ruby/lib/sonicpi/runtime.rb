@@ -26,7 +26,6 @@ require_relative "sthread"
 require_relative "version"
 require_relative "config/settings"
 require_relative "preparser"
-require_relative "spsym"
 require_relative "event_history"
 require_relative "thread_id"
 
