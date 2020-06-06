@@ -398,7 +398,11 @@ module SonicPi
 
     def boot_server_raspberry_pi
       log_boot_msg
-      puts "Booting on Raspberry Pi"
+      if RUBY_PLATFORM.match(/aarch64.*linux.*/)
+         puts "Booting on Raspberry Pi (64bit OS)"
+      else
+         puts "Booting on Raspberry Pi (32bit OS)"
+      end
       begin
         asoundrc = File.read(Dir.home + "/.asoundrc")
         audio_card = (asoundrc.match(/pcm.output\s+{[^}]+\n\s+card\s+([0-9]+)/m))[1]
