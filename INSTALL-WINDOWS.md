@@ -39,6 +39,9 @@ cd c:\dev\sonic-pi\app\server\native
 mklink /d ruby c:\Ruby26-x64
 ```
 
+Note, that for Ruby to work correctly with systems with their locale set to Arabic, you need to modify the registry.rb in your Ruby install to force the locale to UTF-8. See https://github.com/samaaron/sonic-pi/issues/2416 for more inforamtion.
+
+
 4) Build the Application by running the prebuild first, then config.  These tools are in the app/gui/qt folder.  Note: If you have previously installed libaubio5-dll, or set the AUBIO_LIB environment variable, now is the time to remove the dll and remove the variable; the prebuild on windows will make and install the correct library for you.
 ``` 
 cd app/gui/qt
