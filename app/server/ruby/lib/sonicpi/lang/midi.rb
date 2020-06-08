@@ -1612,13 +1612,6 @@ end"
         __schedule_delayed_blocks_and_messages!
         @mod_sound_studio.stop_midi(silent)
       end
-
-
-
-
-
-
-
     end
   end
 end
