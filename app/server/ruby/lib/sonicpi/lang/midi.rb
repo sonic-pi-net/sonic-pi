@@ -1568,19 +1568,23 @@ end"
       end
 
       def __midi_send_timed(path)
-        __osc_send "localhost", @ports[:osc_midi_out_port], path
+        b = OSC::Blob.new(@osc_client.encoder.encode_single_message(path))
+        __osc_send_api("/midi_at", b)
       end
 
       def __midi_send_timed_param_2(path, a, b)
-        __osc_send "localhost", @ports[:osc_midi_out_port], path, a, b
+        b = OSC::Blob.new(@osc_client.encoder.encode_single_message(path, [a, b]))
+        __osc_send_api("/midi_at", b)
       end
 
       def __midi_send_timed_param_3(path, a, b, c)
-        __osc_send "localhost", @ports[:osc_midi_out_port], path, a, b, c
+        b = OSC::Blob.new(@osc_client.encoder.encode_single_message(path, [a, b, c]))
+        __osc_send_api("/midi_at", b)
       end
 
       def __midi_send_timed_param_n(path, *args)
-        __osc_send "localhost", @ports[:osc_midi_out_port], path, *args
+        b = OSC::Blob.new(@osc_client.encoder.encode_single_message(path, args))
+        __osc_send_api("/midi_at", b)
       end
 
       def __midi_message(m)
