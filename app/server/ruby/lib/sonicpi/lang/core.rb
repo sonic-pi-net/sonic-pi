@@ -685,7 +685,7 @@ osc \"/foo/baz\"             # Send an OSC message to port 7000
                              # do/end block
 "        ]
 
-      def __osc_send(host, port, path, *args)
+      def __osc_send_api(path, *args)
         t = __system_thread_locals.get(:sonic_pi_spider_time) + current_sched_ahead_time
         args.map! do |arg|
           case arg
@@ -695,9 +695,12 @@ osc \"/foo/baz\"             # Send an OSC message to port 7000
             arg.inspect
           end
         end
-        @osc_client.send_ts(t, "/send_after", host, port, path, *args)
+        @osc_client.send_ts(t, path, *args)
       end
 
+      def __osc_send(host, port, path, *args)
+        __osc_send_api("/send_after", host, port, path, *args)
+      end
 
       def osc_send(host, port, path, *args)
         host = host.to_s.strip
