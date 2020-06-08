@@ -153,7 +153,7 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "A
     message(STATUS "Configuring for Clang...")
     target_link_libraries(${PROJECT_NAME}
         PRIVATE
-        "-Wl,-all-load" # Make sure all required symbols etc. are imported
+        "-Wl,-all_load" # Make sure all required symbols etc. are imported
         ${LIBOGG_LIBRARY_DIR}/libogg${CMAKE_STATIC_LIBRARY_SUFFIX}
         ${LIBVORBIS_LIBRARY_DIR}/libvorbis${CMAKE_STATIC_LIBRARY_SUFFIX}
         ${LIBVORBIS_LIBRARY_DIR}/libvorbisenc${CMAKE_STATIC_LIBRARY_SUFFIX}
@@ -162,7 +162,6 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "A
         ${LIBFLAC_LIBRARY_DIR}/libFLAC${CMAKE_STATIC_LIBRARY_SUFFIX}
         ${LIBSNDFILE_LIBRARY_DIR}/libsndfile${CMAKE_STATIC_LIBRARY_SUFFIX}
         m # C math library
-        "-Wl,-z,defs" # Report unresolved symbols in object files
     )
 else() # Assume GCC
     if (NOT CMAKE_CXX_COMPILER_ID MATCHES "GNU")
