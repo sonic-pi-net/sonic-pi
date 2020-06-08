@@ -18,6 +18,8 @@ module SonicPi
   module OSC
     class UDPClient
 
+      attr_reader :encoder
+
       def initialize(host, port, opts={})
         @host = host
         @port = port
