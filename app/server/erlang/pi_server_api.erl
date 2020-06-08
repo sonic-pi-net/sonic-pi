@@ -14,10 +14,10 @@
 
 -module(pi_server_api).
 
--export([start_link/1]).
+-export([start_link/2]).
 
 %% internal
--export([init/2, loop/1]).
+-export([init/3, loop/1]).
 
 %% sys module callbacks
 -export([system_continue/3, system_terminate/4, system_code_change/4,
@@ -31,7 +31,7 @@
 -define(NODELAY_LIMIT, 1).
 
 -import(pi_server_util,
-        [log/2, debug/2, debug/3]).
+        [log/1, log/2, debug/2, debug/3]).
 
 
 %% Bundle Commands
@@ -70,12 +70,12 @@
 
 
 %% supervisor compliant start function
-start_link(CueServer) ->
+start_link(CueServer, MIDIServer) ->
     %% synchronous start of the child process
-    proc_lib:start_link(?MODULE, init, [self(), CueServer]).
+    proc_lib:start_link(?MODULE, init, [self(), CueServer, MIDIServer]).
 
 
-init(Parent, CueServer) ->
+init(Parent, CueServer, MIDIServer) ->
     register(?SERVER, self()),
     APIPort = application:get_env(?APPLICATION, api_port, undefined),
     io:format("~n"
@@ -97,6 +97,7 @@ init(Parent, CueServer) ->
     State = #{parent => Parent,
               api_socket => APISocket,
               cue_server => CueServer,
+              midi_server => MIDIServer,
               tag_map => #{}
              },
     loop(State).
@@ -156,6 +157,10 @@ do_bundle(Time, [{_,Bin}], State) ->
             schedule_cmd("default", Time, Host, Port, Cmd, State);
         {cmd, ["/send_after_tagged", Tag, Host, Port | Cmd]} ->
             schedule_cmd(Tag, Time, Host, Port, Cmd, State);
+        {cmd, ["/midi_at", Cmd]} ->
+            schedule_midi("default", Time, Cmd, State);
+        {cmd, ["/midi_at_tagged", Tag, Cmd]} ->
+            schedule_midi(Tag, Time, Cmd, State);
         Other ->
             log("Unexpected bundle content:~p~n", [Other]),
             State
@@ -166,9 +171,29 @@ do_bundle(Time, [{_,Bin}], State) ->
             State
     end.
 
+schedule_midi(Tag, Time, Data, State) ->
+   {Tracker, NewState} = tracker_pid(Tag, State),
+    Delay = Time - osc:now(),
+    MsDelay = trunc(Delay*1000+0.5), %% nearest
+    MIDIServer = maps:get(midi_server, State),
+    if MsDelay > ?NODELAY_LIMIT ->
+            Msg = {send, Time, Data, Tracker},
+            %% Note: lookup of the registered server name will happen
+            %% when the timer triggers, and if no such process exists
+            %% at that time, the message will be quietly dropped
+            Timer = erlang:start_timer(MsDelay, MIDIServer, Msg),
+            debug(2, "start (MIDI) timer of ~w ms for time ~f~n", [MsDelay, Time]),
+            pi_server_tracker:track(Timer, Time, Tracker);
+       true ->
+            MIDIServer ! {send, Time, Data},
+            debug(2, "directly forward (MIDI) message for delay ~f~n", [Delay])
+    end,
+    NewState.
+
+
 %% Schedules a command for forwarding (or forwards immediately)
 schedule_cmd(Tag, Time, Host, Port, Cmd, State) ->
-    {Tracker, NewState} = tracker_pid(Tag, State),
+   {Tracker, NewState} = tracker_pid(Tag, State),
     Data = {Host, Port, osc:encode(Cmd)},
     Delay = Time - osc:now(),
     MsDelay = trunc(Delay*1000+0.5), %% nearest

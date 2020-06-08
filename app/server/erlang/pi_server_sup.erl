@@ -34,6 +34,7 @@ start_link() ->
 
 init(_Args) ->
     CueServer = pi_server_cue:server_name(),
+    MIDIServer = pi_server_midi:server_name(),
 
     %% Use rest_for_one since the api server requires the cue server.
     %% Try to keep going even if we restart up to 50 times per 30 seconds.
@@ -47,7 +48,10 @@ init(_Args) ->
                     start => {pi_server_cue, start_link, []}
                    },
                   #{id => pi_server_api,
-                    start => {pi_server_api, start_link, [CueServer]}
+                    start => {pi_server_api, start_link, [CueServer, MIDIServer]}
+                   },
+                  #{id => pi_server_midi,
+                    start => {pi_server_midi, start_link, []}
                    }
                  ],
 
