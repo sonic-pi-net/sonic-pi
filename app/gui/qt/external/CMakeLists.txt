@@ -17,6 +17,14 @@ ExternalProject_Add(osmid
     BUILD_COMMAND ${CMAKE_COMMAND} --build . --config Release
     )
 
+# sp_midi
+ExternalProject_Add(sp_midi
+    PREFIX sp_midi-prefix
+    SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/sp_midi
+    INSTALL_COMMAND ""
+    BUILD_COMMAND ${CMAKE_COMMAND} --build . --config Release
+    )
+
 ExternalProject_Add(ogg
     PREFIX ogg-prefix
     SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/ogg-1.3.4

@@ -1,0 +1,63 @@
+compiler:
+ - gcc
+
+os:
+ - linux
+ - osx
+
+#osx_image: xcode7.3
+
+cache:
+ - apt
+
+sudo: required
+dist: trusty
+language: cpp
+
+# For coverity
+env:
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "GyE4AeTsNJjCfEKLFy62d9Z7uUf+V2xEPOl2gtCZKbBBHTqMPNsEyMbt8yiJQSj1ecixtaMr1qh5JDroR6yYw4Sh5ByX4qS+8ume4jSldNltpWvvWNRZ95j7vI5jfxUHE1f/q87nXiDq26fbb/3Fx/lOpH2MzP9hu5HALtiAhSa14LrE4DywzaYYBApD+GxJNADGciLRHgjbc54DvfwBzvZXaRD8QsdFYdVaL8kWdCp2u5lhK21K3XQYAAnN27UmEININI/IpEuQepmVsp7ZLViLR+4Ba6PtZPvuHbl/6hLnBAX5iMrLBtmfNcjoz0dHbRBojTekzJ3AuHSlE3J1oBz7mG0KZCuRB5diaTMlBaUgp9pKeSJW0EXVbSAcCEvaSDCMBgoOymoFP+6+Amnu40U0msxc7NtYZn0zdDOFP8PdHsvRb4lWlni4TlHKUWQzxk8ovY2Pf7h5fERUhX2cCDc+qHK+hqMP/ozz1qXPFEpaN1/DwXHDvbG5wvsnKOTot8LHzhQlLVY1ewnmKabw/RpqpBrtdhqMGo4pjk0ujr+dMuEj4OHazii1cjJbJu7PCK62qHTSzQXR1tH4z3roBk89wJZa4WD4vyJAc7P7wpkAAnWlVTJDnQVyQQlrsyhhbCWHxvlOlhk6b7H+G5+ja8FuBJ59ZMk+1KZvPkZmzv0="
+
+before_install:
+      - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
+
+addons:
+  coverity_scan:
+    project:
+      name: "llloret/osmid"
+      description: "osmid"
+    notification_email: luislloret@gmail.com
+    build_command_prepend: "cd $TRAVIS_BUILD_DIR; mkdir build && cd build; cmake .."
+    build_command:   "make"
+    branch_pattern: coverity_scan
+
+before_install:
+  - ifmac () { if [[ $TRAVIS_OS_NAME == osx ]]; then eval $@; fi; }
+  - iflin () { if [[ $TRAVIS_OS_NAME == linux ]]; then eval $@; fi; }
+  #- ifmac brew update
+  #- ifmac brew outdated cmake || brew upgrade cmake
+  - iflin sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
+  - iflin sudo apt-get update
+  - iflin sudo apt-get install --yes libboost-system-dev libboost-program-options-dev
+  - iflin sudo apt-get install --yes libasound2-dev
+  - iflin sudo apt-get install --yes build-essential gcc-4.9 g++-4.9 cmake pkg-config
+  - iflin sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.9 60 --slave /usr/bin/g++ g++ /usr/bin/g++-4.9
+  - iflin sudo update-alternatives --auto gcc
+  - cmake --version
+  - gcc --version
+
+# command to install dependencies
+install: true
+
+# command to make the build. We do rm -rf build to make sure that the coverity
+# step does not leave anything behind
+script:
+  - cd $TRAVIS_BUILD_DIR
+  - if [[ $TRAVIS_OS_NAME == linux ]]; then python utils/check_whitespace.py; fi
+  - rm -rf build
+  - mkdir build && cd build
+  - cmake ..
+  - make

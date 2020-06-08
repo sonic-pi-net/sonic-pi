@@ -19,6 +19,9 @@ xcopy /Y /I /R /E external\build\osmid-prefix\src\osmid-build\Release\*.exe ..\.
 @echo Copying all other native files to server...
 xcopy /Y /I /R /E ..\..\..\prebuilt\windows\x64\*.* ..\..\server\native
 
+@echo Copying sp_midi dll to the erlang bin directory...
+xcopy /Y /I /R /E external\build\sp_midi-prefix\src\sp_midi-build\Release\*.dll ..\..\server\native\erlang\bin\
+
 @echo Translating tutorial...
 ..\..\server\native\ruby\bin\ruby ../../server/ruby/bin/i18n-tool.rb -t
 
