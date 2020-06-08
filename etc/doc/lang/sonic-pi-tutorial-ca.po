@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-06-02 12:41+0000\n"
+"PO-Revision-Date: 2020-06-10 03:41+0000\n"
 "Last-Translator: Pau Monfort <paubarrina@gmail.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/ca/>\n"
@@ -2059,11 +2059,11 @@ msgstr "Ara comenceu a barrejar mostres a les vostres composicions!"
 
 #: 03.2-Sample-Params.md:1
 msgid "3.2 Sample Parameters"
-msgstr "3.2  Paràmetres de mostreig"
+msgstr "3.2 Paràmetres de les mostres"
 
 #: 03.2-Sample-Params.md:3
 msgid "Sample Parameters: Amp and Pan"
-msgstr ""
+msgstr "Paràmetres de les mostres: Amp i Pan"
 
 #: 03.2-Sample-Params.md:5
 msgid ""
@@ -2071,25 +2071,31 @@ msgid ""
 "es support exactly the same parameterisation mechanism. Let's revisit our frie"
 "nds `amp:` and `pan:`."
 msgstr ""
+"Com vam veure amb els sintetitzadors, podem controlar fàcilment els sons amb "
+"paràmetres. Les mostres admeten exactament el mateix mecanisme de "
+"parametració. Repassem els nostres amics `amp:` i  ` pan: `."
 
 #: 03.2-Sample-Params.md:9
 msgid "Amping samples"
-msgstr ""
+msgstr "Amplificant mostres"
 
 #: 03.2-Sample-Params.md:11
+#, fuzzy
 msgid ""
 "You can change the amplitude of samples with exactly the same approach you use"
 "d for synths:"
 msgstr ""
+"Podeu canviar l’amplitud de les mostres amb el mateix enfocament que vau "
+"utilitzar per als sintetitzadors:"
 
 #: 03.2-Sample-Params.md:14
 #, no-wrap
 msgid "sample :ambi_lunar_land, amp: 0.5"
-msgstr ""
+msgstr "sample :ambi_lunar_land, amp: 0.5"
 
 #: 03.2-Sample-Params.md:18
 msgid "Panning samples"
-msgstr ""
+msgstr "Panoramitzant mostres"
 
 #: 03.2-Sample-Params.md:20
 msgid ""
@@ -2097,6 +2103,9 @@ msgid ""
 "w we'd play the amen break in the left ear and then half way through play it a"
 "gain through the right ear:"
 msgstr ""
+"També podem utilitzar el paràmetre `pan:` a les mostres. Per exemple, ací es "
+"mostra com reproduïm l'amen break a l’orella esquerra i, a la meitat, el "
+"reproduïm novament a través de l’orella dreta:"
 
 #: 03.2-Sample-Params.md:24
 #, no-wrap
@@ -2105,10 +2114,15 @@ msgid ""
 "sleep 0.877\n"
 "sample :loop_amen, pan: 1"
 msgstr ""
+"sample :loop_amen, pan: -1\n"
+"sleep 0.877\n"
+"sample :loop_amen, pan: 1"
 
 #: 03.2-Sample-Params.md:30
 msgid "Note that 0.877 is half the duration of the `:loop_amen` sample in seconds."
 msgstr ""
+"Tingueu en compte que 0.877 és la meitat de la durada de la mostra `: "
+"loop_amen` en segons."
 
 #: 03.2-Sample-Params.md:33
 msgid ""
