@@ -6,15 +6,10 @@ cd %~dp0
 @echo Cleaning out native dir....
 del ..\..\server\native\*.* /s /q
 rmdir ..\..\server\native\erlang /s /q
-rmdir ..\..\server\native\osmid /s /q
 rmdir ..\..\server\native\plugins /s /q
 
 @echo Copying aubio to the server...
 copy external\build\aubio-prefix\src\aubio-build\Release\libaubio-5.dll ..\..\server\native\ruby\bin
-
-@echo Copying osmid to the server...
-mkdir ..\..\server\native\osmid
-xcopy /Y /I /R /E external\build\osmid-prefix\src\osmid-build\Release\*.exe ..\..\server\native\osmid
 
 @echo Copying all other native files to server...
 xcopy /Y /I /R /E ..\..\..\prebuilt\windows\x64\*.* ..\..\server\native

@@ -8,15 +8,6 @@ project(AubioBuilder
     VERSION 1.0.0
     )
 
-# Osmid
-include(ExternalProject)
-ExternalProject_Add(osmid
-    PREFIX osmid-prefix
-    SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/osmid
-    INSTALL_COMMAND ""
-    BUILD_COMMAND ${CMAKE_COMMAND} --build . --config Release
-    )
-
 # sp_midi
 ExternalProject_Add(sp_midi
     PREFIX sp_midi-prefix
