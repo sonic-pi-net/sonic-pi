@@ -275,8 +275,6 @@ bool MainWindow::initAndCheckPorts() {
     scsynth_port              = port_map["scsynth"];
     scsynth_send_port         = port_map["scsynth-send"];
     erlang_router_port        = port_map["erlang-router"];
-    osc_midi_out_port         = port_map["osc-midi-out"];
-    osc_midi_in_port          = port_map["osc-midi-in"];
     websocket_port            = port_map["websocket"];
 
     std::cout << "[GUI] - Detecting port numbers..." << std::endl;
@@ -306,12 +304,6 @@ bool MainWindow::initAndCheckPorts() {
     std::cout << "[GUI] - Erlang router port " << erlang_router_port << std::endl;
     bool er_available = checkPort(erlang_router_port);
 
-    std::cout << "[GUI] - OSC MIDI out port " << osc_midi_out_port << std::endl;
-    bool omo_available = checkPort(osc_midi_out_port);
-
-    std::cout << "[GUI] - OSC MIDI in port " << osc_midi_in_port << std::endl;
-    bool omi_available = checkPort(osc_midi_in_port);
-
     std::cout << "[GUI] - Websocket port " << websocket_port << std::endl;
     bool ws_available = checkPort(websocket_port);
 
@@ -323,8 +315,6 @@ bool MainWindow::initAndCheckPorts() {
                 gsts_available &&
                 ss_available   &&
                 er_available   &&
-                omo_available  &&
-                omi_available   &&
                 ws_available)){
         std::cout << "[GUI] - Critical Error. One or more ports is not available." << std::endl;
         startupError("One or more ports is not available. Is Sonic Pi already running? If not, please reboot your machine and try again.");
@@ -1125,8 +1115,6 @@ void MainWindow::startRubyServer(){
         QString("%1").arg(scsynth_send_port) <<
         QString("%1").arg(server_osc_cues_port) <<
         QString("%1").arg(erlang_router_port) <<
-        QString("%1").arg(osc_midi_out_port) <<
-        QString("%1").arg(osc_midi_in_port) <<
         QString("%1").arg(websocket_port);;
     std::cout << "[GUI] - launching Sonic Pi Runtime Server:" << std::endl;
     if(homeDirWritable) {

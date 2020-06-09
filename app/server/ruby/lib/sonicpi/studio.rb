@@ -33,8 +33,6 @@ module SonicPi
       @scsynth_port = ports[:scsynth_port]
       @scsynth_send_port = ports[:scsynth_send_port]
       @osc_cues_port = ports[:osc_cues_port]
-      @midi_osc_in_port = ports[:osc_midi_in_port]
-      @midi_osc_out_port = ports[:osc_midi_out_port]
       @erlang_port = ports[:erlang_port]
       @server_port = ports[:server_port]
       @msg_queue = msg_queue
@@ -47,20 +45,14 @@ module SonicPi
       @sample_format = "int16"
       @paused = false
       @register_cue_event_lambda = register_cue_event_lambda
-      @midi_osc_server_thread_id = ThreadId.new(-4)
-      @midi_on = true
-      @midi_osc_server = nil
       @erlang_pid = nil
       @erlang_mut = Mutex.new
-      @midi_in_ports = []
-      @midi_out_ports = []
       @scsynth_opts = scsynth_opts
       @scsynth_clobber = scsynth_clobber
       init_scsynth
       reset_server
       init_studio
       start_erlang
-      init_or_reset_midi
     end
 
     def __exec_path(path)
@@ -114,80 +106,11 @@ module SonicPi
     end
 
     def stop_midi(silent=false)
-      @reboot_mutex.synchronize do
-
-        @midi_in_ports = []
-        @midi_out_ports = []
-
-        reb_mut_kill_midi_osc_server
-
-        @midi_on = false
-        kill_and_deregister_process @o2m_pid if @o2m_pid
-        kill_and_deregister_process @m2o_pid if @m2o_pid
-        @o2m_pid = nil
-        @m2o_pid = nil
-        message "MIDI Subsystems stopped." unless silent
-      end
+      message "MIDI Subsystems stopped." unless silent
     end
 
     def start_midi(silent=false)
-      @reboot_mutex.synchronize do
-        reb_mut_init_or_return_midi_osc_server
-        reb_mut_spawn_midi_o2m unless @o2m_pid
-        reb_mut_spawn_midi_m2o unless @m2o_pid
-        @midi_on = true
-        message "MIDI Subsystems started." unless silent
-      end
-    end
-
-    def init_or_reset_midi(silent=false)
-
-      @reboot_mutex.synchronize do
-
-        @midi_in_ports = []
-        @midi_out_ports = []
-
-        # shutdown all running systems
-        reb_mut_kill_midi_osc_server
-
-        kill_and_deregister_process @o2m_pid if @o2m_pid
-        kill_and_deregister_process @m2o_pid if @m2o_pid
-
-        @o2m_pid = nil
-        @m2o_pid = nil
-
-
-        # so the next call will init a new server:
-
-        reb_mut_init_or_return_midi_osc_server
-
-        # Try and spawn osmid processes
-        o2m_success = false
-        m2o_success = false
-        o2m_success = reb_mut_spawn_midi_o2m
-
-        message "Error initialising MIDI output" unless o2m_success || silent
-        m2o_success = reb_mut_spawn_midi_m2o
-        message "Error initialising MIDI input" unless m2o_success || silent
-
-        # Tidy up
-        if @o2m_pid && !o2m_success
-          kill_and_deregister_process @o2m_pid
-          @o2m_pid = nil
-        end
-
-        if @m2o_pid && !m2o_success
-          kill_and_deregister_process @m2o_pid
-          @m2o_pid = nil
-        end
-
-        success = o2m_success && m2o_success
-        @midi_on = success
-
-        unless silent
-          message "Initialised MIDI subsystems" if success
-        end
-      end
+      message "MIDI Subsystems started." unless silent
     end
 
     def init_scsynth
@@ -525,15 +448,6 @@ module SonicPi
         @rebooting = true
         message "Rebooting SuperCollider Audio Server. Please wait..."
 #        @server.shutdown
-        message "Initialising MIDI..."
-        begin
-          init_or_reset_midi
-        rescue Exception => e
-          message "Error initialising MIDI"
-          message e.message
-          message e.backtrace.inspect
-          message e.backtrace
-        end
 
         begin
           reset_server
@@ -683,94 +597,6 @@ module SonicPi
         server.load_synthdefs(path)
         @loaded_synthdefs << path
       end
-    end
-
-    def reb_mut_spawn_midi_m2o
-      success = true
-      begin
-        osmid_osc_template = case os
-                       when :windows
-                         '/midi:$n:$i:$c/$m'
-                       else
-                         '/midi:\$n:\$i:\$c/\$m'
-                       end
-
-        m2o_spawn_cmd = __exec_path("'#{osmid_m2o_path}' -t #{osmid_osc_template} -b -o #{@midi_osc_in_port} -m 6 'Sonic Pi'")
-        Kernel.puts "Studio - Spawning m2o with:"
-        Kernel.puts "    #{m2o_spawn_cmd}"
-        @m2o_pid = spawn(m2o_spawn_cmd, out: osmid_m2o_log_path, err: osmid_m2o_log_path)
-        register_process(@m2o_pid)
-      rescue Exception => e
-        success = false
-        message "Error initialising MIDI inputs"
-        STDERR.puts "Exception when starting osmid m2o"
-        STDERR.puts e.message
-        STDERR.puts e.backtrace.inspect
-        STDERR.puts e.backtrace
-      end
-      success
-    end
-
-    def reb_mut_spawn_midi_o2m
-      success = true
-      begin
-        o2m_spawn_cmd = __exec_path("'#{osmid_o2m_path}'" + " -L -b -i #{@midi_osc_out_port} -O #{@midi_osc_in_port} -m 6")
-        Kernel.puts "Studio - Spawning o2m with:"
-        Kernel.puts "    #{o2m_spawn_cmd}"
-        @o2m_pid = spawn(o2m_spawn_cmd, out: osmid_o2m_log_path, err: osmid_o2m_log_path)
-        register_process(@o2m_pid)
-      rescue Exception => e
-        success = false
-        message "Error initialising MIDI outputs"
-        STDERR.puts "Exception when starting osmid o2m"
-        STDERR.puts e.message
-        STDERR.puts e.backtrace.inspect
-        STDERR.puts e.backtrace
-      end
-      success
-    end
-
-
-    def reb_mut_init_or_return_midi_osc_server
-
-      return @midi_osc_server if @midi_osc_server
-
-      @midi_osc_server = SonicPi::OSC::UDPServer.new(@midi_osc_in_port, open: false) do |address, args|
-        p = 0
-        d = 0
-        b = 0
-        m = 60
-
-        if address == "/o2m/heartbeat"
-          if args != @midi_out_ports
-            @midi_out_ports = args
-            desc = args.each_slice(3).reduce("") { |s, v| s += "#{v[2]}\n" }
-            @msg_queue.push({:type => :midi_out_ports, :val => desc})
-          end
-        elsif address == "/m2o/heartbeat"
-          if args != @midi_in_ports
-            @midi_in_ports = args
-            desc = args.each_slice(3).reduce("") { |s, v| s += "#{v[2]}\n" }
-            @msg_queue.push({:type => :midi_in_ports, :val => desc})
-          end
-        elsif address.is_a?(String) && address.end_with?('active_sensing')
-          # Ignore Active Sensing MIDI messages.
-          # This message is intended to be sent repeatedly to tell the receiver
-          # that a connection is alive.
-          # A MIDI device sending these will send one every 300ms.
-          # They quickly full up the cue log.
-        else
-          @register_cue_event_lambda.call(Time.now, p, @midi_osc_server_thread_id, d, b, m, address, args , 0)
-        end
-
-      end
-
-    end
-
-    def reb_mut_kill_midi_osc_server
-      @midi_osc_server.stop if @midi_osc_server
-      # set server to nil
-      @midi_osc_server = nil
     end
   end
 end

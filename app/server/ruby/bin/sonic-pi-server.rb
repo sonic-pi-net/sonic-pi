@@ -86,18 +86,6 @@ osc_cues_port = ARGV[5] ? ARGV[5].to_i : 4560
 # erlang-router
 erlang_port = ARGV[6] ? ARGV[6].to_i : 4561
 
-# Port which the server uses to send OSC messages representing
-# output MIDI. This is used by osmid's o2m to listen to incoming
-# OSC messages and then forward them on as standard MIDI messages
-# osc-midi-out
-osc_midi_out_port = ARGV[7] ? ARGV[7].to_i : 4563
-
-# Port which the server uses to listen to OSC messages generated
-# by incoming MIDI. This is used by osmid's m2o as the outgoing
-# port.
-# osc-midi-in
-osc_midi_in_port = ARGV[8] ? ARGV[8].to_i : 4564
-
 # Port which the server uses to communicate via websockets
 # websocket
 websocket_port = ARGV[9] ? ARGV[9].to_i : 4562
@@ -111,8 +99,6 @@ sonic_pi_ports = {
   scsynth_send_port: scsynth_send_port,
   osc_cues_port: osc_cues_port,
   erlang_port: erlang_port,
-  osc_midi_out_port: osc_midi_out_port,
-  osc_midi_in_port: osc_midi_in_port,
   websocket_port: websocket_port}.freeze
 
 
@@ -201,10 +187,6 @@ STDOUT.puts "OSC cues port: #{osc_cues_port}"
 ensure_port_or_quit.call(osc_cues_port, gui)
 STDOUT.puts "Erlang port: #{erlang_port}"
 ensure_port_or_quit.call(erlang_port, gui)
-STDOUT.puts "OSC MIDI out port: #{osc_midi_out_port}"
-ensure_port_or_quit.call(osc_midi_out_port, gui)
-STDOUT.puts "OSC MIDI in port: #{osc_midi_in_port}"
-ensure_port_or_quit.call(osc_midi_in_port, gui)
 STDOUT.puts "Websocket port: #{websocket_port}"
 ensure_port_or_quit.call(websocket_port, gui)
 
