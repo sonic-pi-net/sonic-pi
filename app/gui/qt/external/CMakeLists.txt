@@ -8,6 +8,8 @@ project(AubioBuilder
     VERSION 1.0.0
     )
 
+include(ExternalProject)
+
 # sp_midi
 ExternalProject_Add(sp_midi
     PREFIX sp_midi-prefix
