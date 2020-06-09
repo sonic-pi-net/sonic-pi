@@ -31,7 +31,7 @@ extern "C" {
      * @param c_message: pointer to the message (this is a binary message that might contain 0s in the middle)
      * @param size: size of the message. This is required since we cannot count on 0s to indicate its end
      */
-    DllExport void sp_midi_send(const char *c_message, unsigned int size);
+    DllExport int sp_midi_send(const char *c_message, unsigned int size);
     
     /**
      * Get the list of output devices.

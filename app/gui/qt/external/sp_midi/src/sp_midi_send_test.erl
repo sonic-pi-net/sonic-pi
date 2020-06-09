@@ -6,7 +6,7 @@ midi_process() ->
     %sp_midi:have_my_pid(),
 
     receive
-        <<Midi_event/binary>> ->
+        {midi_in, <<Midi_event/binary>>} ->
             io:format("Received midi_in message~n->~p~n", [Midi_event]);
         _ ->
             io:format("Received something (not a binary)~n")

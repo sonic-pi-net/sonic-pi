@@ -118,18 +118,30 @@ void output_time_stamps()
 
 // This is needed because there is no way to purge the Juce Message queue, so we just have "generations",
 // and do not process the messages that are not in the current generation
-long g_flush_count = 0;
-void sp_midi_send(const char* c_message, unsigned int size)
+// We want to limit the midi messages in transit to a low number (say 100), so throttle them
+// This is to avoid building a big backlog of MIDI messages we want to send them too fast
+std::atomic<short> g_flush_count(0);
+std::atomic<short> g_midi_send_in_transit(0);
+const int MAX_MIDI_SEND_QUEUE = 100;
+int sp_midi_send(const char* c_message, unsigned int size)
 {
     //print_time_stamp('A');
     // This calls the ProcessMessage asynchronously on the message manager, which has its own thread
     // Copy the pointer to our own char[] to avoid losing it when it's get called asynchronously
     char message[1024];
     memcpy(message, c_message, static_cast<size_t>(size)+1);
-    auto current_flush_count = g_flush_count;
+    auto current_flush_count = g_flush_count.load();
+
+    // Count up message in "queue"
+    g_midi_send_in_transit++;
+    if (g_midi_send_in_transit.load() > MAX_MIDI_SEND_QUEUE){
+        return -1;
+    }
     bool rc = msg_thread->callAsync([current_flush_count, message, size]() {
-      oscInputProcessor->ProcessMessage(g_flush_count, message, size);
+      oscInputProcessor->ProcessMessage(current_flush_count, message, size);
     });
+
+    return 0;
 }
 
 int sp_midi_init()
@@ -274,8 +286,11 @@ ERL_NIF_TERM sp_midi_send_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
     const char *c_message = (char *)bin.data;
     int size = (int)bin.size;
 
-    sp_midi_send(c_message, size);
-    return enif_make_atom(env, "ok");
+    int rc = sp_midi_send(c_message, size);
+    if (rc != 0){
+        return enif_make_atom(env, "warning");
+    }
+    return enif_make_atom(env, "warning");
 }
 
 ERL_NIF_TERM sp_midi_flush_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
@@ -335,11 +350,15 @@ ERL_NIF_TERM sp_midi_get_current_time_microseconds_nif(ErlNifEnv* env, int argc,
 int send_midi_osc_to_erlang(const char *data, size_t size)
 {
     ErlNifEnv *msg_env = enif_alloc_env();
-    ERL_NIF_TERM term;
-    unsigned char *term_bin = enif_make_new_binary(msg_env, size, &term);
+    ERL_NIF_TERM term1;
+    ERL_NIF_TERM term2;
+    ERL_NIF_TERM term3;
+    term1 = enif_make_atom(msg_env, "midi_in");
+    unsigned char *term_bin = enif_make_new_binary(msg_env, size, &term2);
     memcpy(term_bin, data, size);
 
-    int rc = enif_send(NULL, &midi_process_pid, msg_env, term);
+    term3 = enif_make_tuple2(msg_env, term1, term2);
+    int rc = enif_send(NULL, &midi_process_pid, msg_env, term3);
     enif_free_env(msg_env);
     return rc;
 }

@@ -6,7 +6,7 @@ midi_process() ->
     %sp_midi:have_my_pid(),
 
     receive
-        <<Midi_event/binary>> ->
+        {midi_in, <<Midi_event/binary>>} ->
             io:format("Received midi_in message~n->~p~n", [Midi_event]);
         _ ->
             io:format("Received something (not a binary)~n")
@@ -52,18 +52,18 @@ start() ->
     sp_midi:midi_init(),
 
     T = sp_midi:get_current_time_microseconds(),
-    Tcallbacks = [T + 3000000, T + 3000000 + 10000, T + 3000000 + 10001, T + 3000000 + 11000, T + 3000000 + 30000],  
+    Tcallbacks = [T + 3000000, T + 3000000 + 10000, T + 3000000 + 10001, T + 3000000 + 11000, T + 3000000 + 30000],
     PidTestSchedulerCallback = spawn(sp_midi_test, test_scheduler_callback_process, [lists:nth(1, Tcallbacks)]),
     PidTestSchedulerCallback2 = spawn(sp_midi_test, test_scheduler_callback_process, [lists:nth(2, Tcallbacks)]),
     PidTestSchedulerCallback3 = spawn(sp_midi_test, test_scheduler_callback_process, [lists:nth(3, Tcallbacks)]),
     PidTestSchedulerCallback4 = spawn(sp_midi_test, test_scheduler_callback_process, [lists:nth(4, Tcallbacks)]),
     PidTestSchedulerCallback5 = spawn(sp_midi_test, test_scheduler_callback_process, [lists:nth(5, Tcallbacks)]),
-    
+
     sp_midi:schedule_callback(lists:nth(1, Tcallbacks), PidTestSchedulerCallback, 41),
     sp_midi:schedule_callback(lists:nth(2, Tcallbacks), PidTestSchedulerCallback2, 42),
-    sp_midi:schedule_callback(lists:nth(3, Tcallbacks), PidTestSchedulerCallback3, 43), 
-    sp_midi:schedule_callback(lists:nth(4, Tcallbacks), PidTestSchedulerCallback4, 44), 
-    sp_midi:schedule_callback(lists:nth(5, Tcallbacks), PidTestSchedulerCallback5, 45), 
+    sp_midi:schedule_callback(lists:nth(3, Tcallbacks), PidTestSchedulerCallback3, 43),
+    sp_midi:schedule_callback(lists:nth(4, Tcallbacks), PidTestSchedulerCallback4, 44),
+    sp_midi:schedule_callback(lists:nth(5, Tcallbacks), PidTestSchedulerCallback5, 45),
 
     Pid = spawn(sp_midi_test, midi_process, []),
     sp_midi:set_this_pid(Pid),
@@ -74,7 +74,7 @@ start() ->
     %io:fwrite("MIDI INs:~p~n", [INS]),
 
     %io:fwrite("MIDI OUTs:~p~n", [OUTS]),
-    
+
     io:fwrite("Sending note ON and waiting 3 seconds~n"),
     sp_midi:midi_send(Mon),
 
