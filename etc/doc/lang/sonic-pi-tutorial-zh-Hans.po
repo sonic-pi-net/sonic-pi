@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-06-07 09:41+0000\n"
+"PO-Revision-Date: 2020-06-10 03:41+0000\n"
 "Last-Translator: ChiakiQ <348852310@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/zh_Hans/>\n"
@@ -2373,29 +2373,29 @@ msgstr "指定开始和结束位置"
 msgid ""
 "Of course, we can combine these two to play arbitrary segments of the audio fi"
 "le. How about only a small section in the middle:"
-msgstr ""
+msgstr "当然，我们可以结合这两个去播放音频文件的任意片段。中间的一小部分如何："
 
 #: 03.5-Partial-Samples.md:71
 #, no-wrap
 msgid "sample :loop_amen, start: 0.4, finish: 0.6"
-msgstr ""
+msgstr "样本：loop_amen，起始：0.4，结束：0.6"
 
 #: 03.5-Partial-Samples.md:75
 msgid "What happens if we choose a start position after the finish position?"
-msgstr ""
+msgstr "如果我们把起始位置放在在结束位置之后，会发生什么呢？"
 
 #: 03.5-Partial-Samples.md:78
 #, no-wrap
 msgid "sample :loop_amen, start: 0.6, finish: 0.4"
-msgstr ""
+msgstr "样本：loop_amen，起始：0.6，结束：0.4"
 
 #: 03.5-Partial-Samples.md:82
 msgid "Cool! It plays it backwards!"
-msgstr ""
+msgstr "太棒了！它会回放！"
 
 #: 03.5-Partial-Samples.md:84
 msgid "Combining with rate"
-msgstr ""
+msgstr "与速率结合"
 
 #: 03.5-Partial-Samples.md:86
 msgid ""
