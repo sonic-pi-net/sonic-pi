@@ -51,7 +51,7 @@ init(_Args) ->
                     start => {pi_server_api, start_link, [CueServer, MIDIServer]}
                    },
                   #{id => pi_server_midi,
-                    start => {pi_server_midi, start_link, []}
+                    start => {pi_server_midi, start_link, [CueServer]}
                    }
                  ],
 

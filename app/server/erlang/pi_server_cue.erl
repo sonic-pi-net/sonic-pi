@@ -161,10 +161,19 @@ loop(State) ->
             sys:handle_system_msg(Request, From,
                                   maps:get(parent, State),
                                   ?MODULE, [], State);
+
+        {debug, Msg} ->
+            Bin = osc:encode(["/external-osc-cue", "erlang-server", 1234, Msg, []]),
+            Socket = maps:get(in_socket, State),
+            Host = maps:get(cue_host, State),
+            Port = maps:get(cue_port, State),
+            send_udp(Socket, Host, Port, Bin),
+            ?MODULE:loop(State);
         Any ->
 	    log("Cue Server got unexpected message: ~p~n", [Any]),
 	    ?MODULE:loop(State)
     end.
+
 
 send_forward(Socket, Time, {Host, Port, Bin}) ->
     Now = osc:now(),

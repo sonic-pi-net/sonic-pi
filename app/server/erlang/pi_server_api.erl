@@ -111,6 +111,11 @@ loop(State) ->
                     debug("got bundle for time ~f~n", [Time]),
                     NewState = do_bundle(Time, X, State),
                     ?MODULE:loop(NewState);
+                {cmd, ["/midi_flush"]=Cmd} ->
+                    debug_cmd(Cmd),
+                    MIDIServer = maps:get(midi_server, State),
+                    MIDIServer ! {flush},
+                    ?MODULE:loop(State);
                 {cmd, ["/flush", Tag]=Cmd} ->
                     debug_cmd(Cmd),
                     {Tracker, NewState} = tracker_pid(Tag, State),
