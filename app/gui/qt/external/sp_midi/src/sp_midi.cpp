@@ -115,6 +115,10 @@ void output_time_stamps()
     }
 }
 
+
+// This is needed because there is no way to purge the Juce Message queue, so we just have "generations",
+// and do not process the messages that are not in the current generation
+long g_flush_count = 0;
 void sp_midi_send(const char* c_message, unsigned int size)
 {
     //print_time_stamp('A');
@@ -122,8 +126,9 @@ void sp_midi_send(const char* c_message, unsigned int size)
     // Copy the pointer to our own char[] to avoid losing it when it's get called asynchronously
     char message[1024];
     memcpy(message, c_message, static_cast<size_t>(size)+1);
-    bool rc = msg_thread->callAsync([message, size]() {
-      oscInputProcessor->ProcessMessage(message, size);
+    auto current_flush_count = g_flush_count;
+    bool rc = msg_thread->callAsync([current_flush_count, message, size]() {
+      oscInputProcessor->ProcessMessage(g_flush_count, message, size);
     });
 }
 
@@ -273,6 +278,12 @@ ERL_NIF_TERM sp_midi_send_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
     return enif_make_atom(env, "ok");
 }
 
+ERL_NIF_TERM sp_midi_flush_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    g_flush_count++;
+    return enif_make_atom(env, "ok");
+}
+
 
 ERL_NIF_TERM sp_midi_outs_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
@@ -362,6 +373,7 @@ static ErlNifFunc nif_funcs[] = {
     {"midi_init", 0, sp_midi_init_nif},
     {"midi_deinit", 0, sp_midi_deinit_nif},
     {"midi_send", 1, sp_midi_send_nif},
+    {"midi_flush", 0, sp_midi_flush_nif},
     {"midi_outs", 0, sp_midi_outs_nif},
     {"midi_ins", 0, sp_midi_ins_nif},
     {"have_my_pid", 0, sp_midi_have_my_pid_nif},

@@ -41,9 +41,14 @@ void OscInProcessor::prepareOutputs(const vector<string>& outputNames)
 // TODO: during initial testing to measure latency of async calls
 void print_time_stamp(char type);
 
-void OscInProcessor::ProcessMessage(const char *c_message, std::size_t size)
+extern long g_flush_count;
+void OscInProcessor::ProcessMessage(long flush_count, const char *c_message, std::size_t size)
 {
     lock_guard<mutex> lock(m_mutex);
+    // Ignore if this message is old
+    if (flush_count != g_flush_count){
+        return;
+    }
     try{
         //print_time_stamp('B');
         osc::ReceivedPacket packet_fom_c(c_message, size);

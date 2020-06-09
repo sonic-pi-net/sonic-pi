@@ -34,7 +34,7 @@ class OscInProcessor {
 public:
     void prepareOutputs(const std::vector<std::string>& outputNames);
 
-    void ProcessMessage(const char *c_message, std::size_t size);
+    void ProcessMessage(long flush_count, const char *c_message, std::size_t size);
 
     ~OscInProcessor()
     {

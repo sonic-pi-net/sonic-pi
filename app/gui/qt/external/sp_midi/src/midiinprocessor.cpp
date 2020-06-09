@@ -165,9 +165,9 @@ void MidiInProcessor::handleIncomingMidiMessage(MidiInput* source, const juce::M
     stringstream path;
     string normalizedPortName(m_input->getNormalizedPortName());
     int portId = m_input->getPortId();
-    path << "/midi:" << normalizedPortName << ":" << portId << ":" << static_cast<int>(channel) << "/" << message_type;
+    path << "/midi:" << normalizedPortName << ":" << portId << ":";
     if (channel != 0xff) {
-        path << "/" << (int)channel;
+        path << static_cast<int>(channel);
     }
     path << "/" << message_type;
 
