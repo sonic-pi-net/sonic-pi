@@ -63,7 +63,7 @@ loop(State) ->
             sp_midi:midi_flush(),
             cue_debug("Flushing MIDI", maps:get(cue_server, State)),
             ?MODULE:loop(State);
-        OSC when is_binary(OSC) ->
+        {midi_in, OSC} ->
             try osc:decode(OSC) of
                 {cmd, [Path | Rest]} ->
                     S = lists:flatten(io_lib:format("incomign MIDI ~p --- ~p", [Path, Rest])),
