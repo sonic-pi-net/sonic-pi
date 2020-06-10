@@ -84,6 +84,9 @@ private:
 
     QTabWidget *prefTabs;
 
+    QLabel    *server_connection_timeout_label;
+    QSpinBox  *server_connection_timeout_sb;
+
     QCheckBox *mixer_invert_stereo;
     QCheckBox *mixer_force_mono;
     QCheckBox *print_output;
