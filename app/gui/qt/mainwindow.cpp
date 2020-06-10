@@ -1317,10 +1317,32 @@ void MainWindow::startupError(QString msg) {
     QSpacerItem* hSpacer = new QSpacerItem(200, 0, QSizePolicy::Minimum, QSizePolicy::Expanding);
     layout->addItem(hSpacer, layout->rowCount(), 0, 1, layout->columnCount());
     box->exec();
+
     std::cout << "[GUI] - Aborting. Sorry about this." << std::endl;
+    // attempt to fully close all server processes & cleanup any leftover processes
+    stopServer();
     cleanupRunningProcesses();
     QApplication::exit(-1);
     exit(EXIT_FAILURE);
+}
+
+void MainWindow::stopServer() {
+    // Attempt to stop the server
+    if (serverProcess) {
+        if (serverProcess->state() == QProcess::NotRunning) {
+            std::cout << "[GUI] - server process is not running." << std::endl;
+        } else if (!oscSender) {
+            std::cout << "[GUI] - OSC sender is not initialised." << std::endl;
+        } else {
+            std::cout << "[GUI] - attempting to stop the server..." << std::endl;
+            Message msg("/exit");
+            msg.pushStr(guiID.toStdString());
+            sendOSC(msg);
+        }
+    } else {
+      std::cout << "[GUI] - server process hasn't been initialised." << std::endl;
+    }
+    sleep(2);
 }
 
 void MainWindow::replaceBuffer(QString id, QString content, int line, int index, int first_line) {
@@ -2645,10 +2667,7 @@ void MainWindow::onExitCleanup()
             saveWorkspaces();
         }
         sleep(1);
-        std::cout << "[GUI] - asking server process to exit..." << std::endl;
-        Message msg("/exit");
-        msg.pushStr(guiID.toStdString());
-        sendOSC(msg);
+        stopServer();
     }
     if(protocol == UDP){
         osc_thread.waitForFinished();
@@ -2802,7 +2821,7 @@ void MainWindow::tabPrev() {
 
 void MainWindow::tabGoto(int index) {
     if (!piSettings->goto_buffer_shortcuts)
-        return;    
+        return;
 
     if (index < tabs->count())
         QMetaObject::invokeMethod(tabs, "setCurrentIndex", Q_ARG(int, index));

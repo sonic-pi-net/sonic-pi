@@ -229,6 +229,7 @@ signals:
         QSignalMapper *signalMapper;
         void startRubyServer();
         void cleanupRunningProcesses();
+        void stopServer();
         bool waitForServiceSync();
         void clearOutputPanels();
         void createShortcuts();
