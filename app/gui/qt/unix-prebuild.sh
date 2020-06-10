@@ -12,9 +12,8 @@ fi
 
 # Install dependencies to server
 echo "Copying external dependencies to the server..."
-mkdir -p "${SCRIPT_DIR}/../../server/native/osmid"
-cp "${SCRIPT_DIR}/external/build/osmid-prefix/src/osmid-build/o2m" "${SCRIPT_DIR}/../../server/native/osmid/"
-cp "${SCRIPT_DIR}/external/build/osmid-prefix/src/osmid-build/m2o" "${SCRIPT_DIR}/../../server/native/osmid/"
+mkdir -p "${SCRIPT_DIR}/../../server/native/erlang/bin"
+cp "${SCRIPT_DIR}/external/build/sp_midi-prefix/src/sp_midi-build/*.so" "${SCRIPT_DIR}/../../server/native/erlang/bin/"
 
 if [ "$1" = "--build-aubio" ]; then
   mkdir -p "${SCRIPT_DIR}/../../server/native/lib"
