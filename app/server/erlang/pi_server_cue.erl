@@ -81,6 +81,13 @@ init(Parent) ->
 
 loop(State) ->
     receive
+        {midi_in, Path, Args} ->
+            CueHost = maps:get(cue_host, State),
+            CuePort = maps:get(cue_port, State),
+            InSocket = maps:get(in_socket, State),
+            forward_midi_cue(CueHost, CuePort, InSocket, Path, Args),
+            ?MODULE:loop(State);
+
         {udp, InSocket, Ip, Port, Bin} ->
             debug(3, "cue server got UDP on ~p:~p~n", [Ip, Port]),
             try osc:decode(Bin) of
@@ -185,6 +192,14 @@ send_forward(Socket, Time, {Host, Port, Bin}) ->
 send_udp(Socket, Host, Port, Bin) ->
     gen_udp:send(Socket, Host, Port, Bin),
     ok.
+
+
+forward_midi_cue(CueHost, CuePort, InSocket, Path, Args) ->
+    Bin = osc:encode(["/midi-cue", "erlang", Path | Args]),
+    send_udp(InSocket, CueHost, CuePort, Bin),
+    debug("forwarded MIDI OSC cue to ~p:~p~n", [CueHost, CuePort]),
+    ok.
+
 
 forward_cue(CueHost, CuePort, InSocket, Ip, Port, Cmd) ->
     Bin = osc:encode(["/external-osc-cue", inet:ntoa(Ip), Port] ++ Cmd),

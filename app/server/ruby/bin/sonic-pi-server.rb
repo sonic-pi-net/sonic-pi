@@ -540,6 +540,13 @@ register_api = lambda do |server|
     sp.__midi_system_reset(silent)
   end
 
+  server.add_method("/midi-cue") do |args|
+    gui_id = args[0]
+    path = args[1]
+    args = args[2..-1]
+    sp.__register_midi_cue_event(path, args)
+  end
+
   server.add_method("/cue-port-external") do |args|
     gui_id = args[0]
     sp.__cue_server_internal!(false)

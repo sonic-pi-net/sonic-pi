@@ -63,15 +63,16 @@ loop(State) ->
             sp_midi:midi_flush(),
             cue_debug("Flushing MIDI", maps:get(cue_server, State)),
             ?MODULE:loop(State);
-        {midi_in, OSC} ->
-            try osc:decode(OSC) of
-                {cmd, [Path | Rest]} ->
-                    S = lists:flatten(io_lib:format("incomign MIDI ~p --- ~p", [Path, Rest])),
-                    cue_debug(S, maps:get(cue_server, State))
+        {midi_in, Bin} ->
+            try osc:decode(Bin) of
+                {cmd, [Path | Args]} ->
+                    maps:get(cue_server, State) ! {midi_in, Path, Args};
+                Other ->
+                    log("Unexpected MIDI in content :~p~n", [Other])
             catch
                 Class:Term:Trace ->
                     log("Error decoding incoming MIDI OSC: ~p~n~p:~p~n~p~n",
-                        [OSC, Class, Term, Trace])
+                        [Bin, Class, Term, Trace])
             end,
             ?MODULE:loop(State);
         Any ->

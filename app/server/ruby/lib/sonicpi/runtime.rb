@@ -88,6 +88,14 @@ module SonicPi
       end
     end
 
+    def __register_midi_cue_event(address, args)
+      p = 0
+      d = 0
+      b = 0
+      m = 60
+      @register_cue_event_lambda.call(Time.now, p, @system_init_thread_id, d, b, m, address, args, 0)
+    end
+
     def __register_external_osc_cue_event(time, host, port, address, args)
       address = "/#{address}" unless address.start_with?("/")
       address = "/osc:#{host}:#{port}#{address}"
