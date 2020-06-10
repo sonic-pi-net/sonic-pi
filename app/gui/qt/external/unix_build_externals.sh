@@ -7,8 +7,8 @@ mkdir -p "${SCRIPT_DIR}/build"
 cd "${SCRIPT_DIR}/build"
 cmake -G "Unix Makefiles" ..
 
-echo "Building osmid..."
-cmake --build . --target osmid
+echo "Building sp_midi..."
+cmake --build . --target sp_midi
 
 if [ "$1" = "--build-aubio" ]; then
   echo "Building aubio..."
