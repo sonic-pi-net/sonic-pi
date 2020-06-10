@@ -333,8 +333,8 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     automation_box->setLayout(automation_box_layout);
 
 
-    QGroupBox *startup_display_box = new QGroupBox(tr("Startup"));
-    editor_display_box->setToolTip(tr("Configure startup options."));
+    QGroupBox *startup_box = new QGroupBox(tr("Startup"));
+    startup_box->setToolTip(tr("Configure startup options."));
 
     server_connection_timeout_label = new QLabel(tr("Server connection timeout "
     "(between %1 and %2)").arg(1).arg(300));
