@@ -332,6 +332,27 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     automation_box_layout->addWidget(goto_buffer_shortcuts);
     automation_box->setLayout(automation_box_layout);
 
+
+    QGroupBox *startup_display_box = new QGroupBox(tr("Startup"));
+    editor_display_box->setToolTip(tr("Configure startup options."));
+
+    server_connection_timeout_label = new QLabel(tr("Server connection timeout "
+    "(between %1 and %2)").arg(1).arg(300));
+    server_connection_timeout_label->setToolTip(tr("The number of times the GUI will try to ping and establish a connection to the server."));
+
+    server_connection_timeout_sb = new QSpinBox;
+    server_connection_timeout_sb->setToolTip(tr("The number of times the GUI will try to ping and establish a connection to the server.\n"
+    "Valid values are between %1 and %2").arg(1).arg(300));
+    server_connection_timeout_sb->setRange(1, 300);
+    server_connection_timeout_sb->setSingleStep(1);
+    server_connection_timeout_sb->setValue(60);
+
+    QVBoxLayout *startup_box_layout = new QVBoxLayout;
+    startup_box_layout->addWidget(server_connection_timeout_label);
+    startup_box_layout->addWidget(server_connection_timeout_sb);
+    startup_box->setLayout(startup_box_layout);
+
+
     QGroupBox *debug_box = new QGroupBox(tr("Logging"));
     debug_box->setToolTip(tr("Configure debug behaviour"));
 
@@ -354,10 +375,12 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     debug_box_layout->addWidget(clear_output_on_run);
     debug_box->setLayout(debug_box_layout);
 
+
     gridEditorPrefs->addWidget(editor_display_box, 0, 0);
     gridEditorPrefs->addWidget(editor_look_feel_box, 0, 1);
     gridEditorPrefs->addWidget(automation_box, 1, 1);
-    gridEditorPrefs->addWidget(debug_box, 1, 0);
+    gridEditorPrefs->addWidget(startup_box, 1, 0);
+    gridEditorPrefs->addWidget(debug_box, 2, 0);
 
     editor_box->setLayout(gridEditorPrefs);
     return editor_box;
@@ -580,6 +603,8 @@ void SettingsWidget::updateVersionInfo( QString info_string, QString visit, bool
 
 void SettingsWidget::updateSettings() {
     std::cout << "[GUI] - Update Settings" << std::endl;
+    piSettings->server_connection_timeout = server_connection_timeout_sb->value();
+
     piSettings->mixer_invert_stereo = mixer_invert_stereo->isChecked();
     piSettings->mixer_force_mono = mixer_force_mono->isChecked();
     piSettings->check_args = check_args->isChecked();
@@ -619,6 +644,8 @@ void SettingsWidget::updateSettings() {
 }
 
 void SettingsWidget::settingsChanged() {
+    server_connection_timeout_sb->setValue(piSettings->server_connection_timeout);
+
     mixer_invert_stereo->setChecked(piSettings->mixer_invert_stereo);
     mixer_force_mono->setChecked(piSettings->mixer_force_mono);
     check_args->setChecked(piSettings->check_args);
@@ -659,6 +686,7 @@ void SettingsWidget::settingsChanged() {
 }
 
 void SettingsWidget::connectAll() {
+    connect(server_connection_timeout_sb, SIGNAL(valueChanged(int)), this, SLOT(updateSettings()));
     connect(mixer_invert_stereo, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(mixer_force_mono, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(check_args, SIGNAL(clicked()), this, SLOT(updateSettings()));

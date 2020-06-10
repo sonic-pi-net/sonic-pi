@@ -1175,7 +1175,7 @@ bool MainWindow::waitForServiceSync() {
         return false;
     }
 
-    int timeout = 60;
+    int timeout = piSettings->server_connection_timeout;
     std::cout << "[GUI] - waiting for Sonic Pi Server to respond..." << std::endl;
     while (sonicPiOSCServer->waitForServer() && timeout-- > 0) {
         sleep(1);
@@ -1188,6 +1188,9 @@ bool MainWindow::waitForServiceSync() {
         }
     }
     if (!sonicPiOSCServer->isServerStarted()) {
+        if (timeout == 0) {
+            std::cout << std::endl <<  "[GUI] - Server connection timeout reached." << std::endl;
+        }
         std::cout << std::endl <<  "[GUI] - Critical error! Could not connect to Sonic Pi Server." << std::endl;
         invokeStartupError("Critical server error - could not connect to Sonic Pi Server!");
         return false;
@@ -2478,6 +2481,13 @@ void MainWindow::readSettings() {
     piSettings->show_log = true;
 
     // Read in preferences from previous session
+
+    piSettings->server_connection_timeout = settings.value("prefs/server-connection-timeout", 60).toInt();
+    // Make sure the timeout is atleast 1!
+    if (piSettings->server_connection_timeout < 1) {
+      piSettings->server_connection_timeout = 1
+    }
+
     piSettings->osc_public = settings.value("prefs/osc-public", false).toBool();
     piSettings->osc_server_enabled = settings.value("prefs/osc-enabled", true).toBool();
     piSettings->midi_enabled =  settings.value("prefs/midi-enable", true).toBool();
@@ -2524,6 +2534,8 @@ void MainWindow::writeSettings()
     settings.setValue("pos", pos());
     settings.setValue("size", size());
     settings.setValue("first_time", 0);
+
+    settings.setValue("prefs/server-connection-timeout", piSettings->server_connection_timeout);
 
     settings.setValue("prefs/midi-default-channel", piSettings->midi_default_channel);
     settings.setValue("prefs/midi-enable", piSettings->midi_enabled);
