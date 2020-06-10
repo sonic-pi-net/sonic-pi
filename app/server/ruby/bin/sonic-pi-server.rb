@@ -522,6 +522,18 @@ register_api = lambda do |server|
     sp.__gui_heartbeat gui_id
   end
 
+  server.add_method("/midi-ins") do |args|
+    gui_id = args[0]
+    ins = args[1..-1]
+    sp.__update_midi_ins(ins)
+  end
+
+  server.add_method("/midi-outs") do |args|
+    gui_id = args[0]
+    outs = args[1..-1]
+    sp.__update_midi_outs(outs)
+  end
+
   server.add_method("/midi-start") do |args|
     gui_id = args[0]
     silent = args[1] == 1

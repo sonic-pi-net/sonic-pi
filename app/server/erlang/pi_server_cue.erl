@@ -88,6 +88,14 @@ loop(State) ->
             forward_midi_cue(CueHost, CuePort, InSocket, Path, Args),
             ?MODULE:loop(State);
 
+        {update_midi_ports, Ins, Outs} ->
+            CueHost = maps:get(cue_host, State),
+            CuePort = maps:get(cue_port, State),
+            InSocket = maps:get(in_socket, State),
+            update_midi_in_ports(CueHost, CuePort, InSocket, Ins),
+            update_midi_out_ports(CueHost, CuePort, InSocket, Outs),
+            ?MODULE:loop(State);
+
         {udp, InSocket, Ip, Port, Bin} ->
             debug(3, "cue server got UDP on ~p:~p~n", [Ip, Port]),
             try osc:decode(Bin) of
@@ -193,6 +201,17 @@ send_udp(Socket, Host, Port, Bin) ->
     gen_udp:send(Socket, Host, Port, Bin),
     ok.
 
+update_midi_in_ports(CueHost, CuePort, InSocket, Args) ->
+    Bin = osc:encode(["/midi-ins", "erlang" | Args]),
+    send_udp(InSocket, CueHost, CuePort, Bin),
+    debug("forwarded new MIDI ins to ~p:~p~n", [CueHost, CuePort]),
+    ok.
+
+update_midi_out_ports(CueHost, CuePort, InSocket, Args) ->
+    Bin = osc:encode(["/midi-outs", "erlang" | Args]),
+    send_udp(InSocket, CueHost, CuePort, Bin),
+    debug("forwarded new MIDI outs to ~p:~p~n", [CueHost, CuePort]),
+    ok.
 
 forward_midi_cue(CueHost, CuePort, InSocket, Path, Args) ->
     Bin = osc:encode(["/midi-cue", "erlang", Path | Args]),

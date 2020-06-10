@@ -45,7 +45,13 @@ init(Parent, CueServer) ->
     %% tell parent we have allocated resources and are up and running
     proc_lib:init_ack(Parent, {ok, self()}),
 
-    State = #{cue_server => CueServer},
+
+
+    State = #{cue_server => CueServer,
+              midi_ins => [],
+              midi_outs => []},
+
+    erlang:start_timer(5000, ?MODULE, update_midi_ports),
 
     loop(State).
 
@@ -75,11 +81,30 @@ loop(State) ->
                         [Bin, Class, Term, Trace])
             end,
             ?MODULE:loop(State);
+        {timeout, _Timer, update_midi_ports} ->
+            NewState = update_midi_ports(State),
+            erlang:start_timer(5000, ?MODULE, update_midi_ports),
+            ?MODULE:loop(NewState);
         Any ->
             S = lists:flatten(io_lib:format("MIDI Server got unexpected message ~p~n", [Any])),
             log(S),
             cue_debug(S, maps:get(cue_server, State)),
             ?MODULE:loop(State)
+    end.
+
+update_midi_ports(State) ->
+    NewIns = sp_midi:midi_ins(),
+    NewOuts = sp_midi:midi_outs(),
+    NewPorts = {NewIns, NewOuts},
+    OldPorts = {maps:get(midi_ins, State), maps:get(midi_outs, State)},
+    if
+        NewPorts == OldPorts ->
+            State;
+        true ->
+            CueServer = maps:get(cue_server, State),
+            CueServer ! {update_midi_ports, NewIns, NewOuts},
+            State#{midi_ins := NewIns,
+                   midi_outs := NewOuts}
     end.
 
 midi_send(_Time, Data) ->
