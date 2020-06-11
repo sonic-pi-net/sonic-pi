@@ -397,9 +397,16 @@ module SonicPi
       # Flush OSC messages on Erlang scheduler
       __osc_flush!
 
+      # Flush MIDI messages within sp_midi nif
+      __midi_flush!
+
       # Force a GC collection now everything has stopped
       GC.start
       GC.compact if RUBY_VERSION >= "2.7.0"
+    end
+
+    def __midi_flush!
+      @osc_client.send("/midi_flush")
     end
 
     def __midi_system_reset(silent=false)
