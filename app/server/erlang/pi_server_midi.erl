@@ -69,13 +69,6 @@ loop(State) ->
             sp_midi:midi_flush(),
             cue_debug("Flushing MIDI", maps:get(cue_server, State)),
             ?MODULE:loop(State);
-        {reset} ->
-            sp_midi:midi_deinit(),
-            sp_midi:midi_init(),
-            cue_debug("Resetting MIDI", maps:get(cue_server, State)),
-            NewState = State#{midi_ins := [],
-                              midi_outs := []},
-           ?MODULE:loop(NewState);
         {midi_in, Bin} ->
             try osc:decode(Bin) of
                 {cmd, [Path | Args]} ->

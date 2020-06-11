@@ -405,7 +405,12 @@ module SonicPi
     def __midi_system_reset(silent=false)
       __info "Resetting MIDI subsystems..." unless silent
       __schedule_delayed_blocks_and_messages!
-      @osc_client.send("/midi_reset")
+      begin
+        @mod_sound_studio.reset_erlang
+        __info "MIDI subsystems successfully reset" unless silent
+      rescue
+        __info "Error resetting MIDI subsystems..."
+      end
     end
 
     def __midi_system_start(silent=false)

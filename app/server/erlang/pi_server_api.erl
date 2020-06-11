@@ -116,12 +116,6 @@ loop(State) ->
                     MIDIServer = maps:get(midi_server, State),
                     MIDIServer ! {flush},
                     ?MODULE:loop(State);
-                {cmd, ["/midi_reset"]=Cmd} ->
-                    debug_cmd(Cmd),
-                    MIDIServer = maps:get(midi_server, State),
-                    MIDIServer ! {reset},
-                    ?MODULE:loop(State);
-
                 {cmd, ["/flush", Tag]=Cmd} ->
                     debug_cmd(Cmd),
                     {Tracker, NewState} = tracker_pid(Tag, State),
