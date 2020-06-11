@@ -3,11 +3,11 @@
         set_this_pid/1, set_log_level/1, schedule_callback/3, get_current_time_microseconds/0]).
 -on_load(init/0).
 
--define(APPNAME, sonic_pi_server).
+-define(APPLICATION, sonic_pi_server).
 -define(LIBNAME, "libsp_midi").
 
 init() ->
-    SoName = case code:priv_dir(?APPNAME) of
+    SoName = case code:priv_dir(?APPLICATION) of
         {error, bad_name} ->
             case filelib:is_dir(filename:join(["..", priv])) of
                 true ->
