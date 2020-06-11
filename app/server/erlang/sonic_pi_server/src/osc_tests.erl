@@ -15,7 +15,7 @@
 
 -compile(export_all).
 
--define(APPLICATION, pi_server).
+-define(APPLICATION, sonic_pi_server).
 
 %% TODO: make eunit tests instead of manual test functions
 

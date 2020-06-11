@@ -23,7 +23,7 @@
 -export([system_continue/3, system_terminate/4, system_code_change/4,
          system_get_state/1, system_replace_state/2]).
 
--define(APPLICATION, pi_server).
+-define(APPLICATION, sonic_pi_server).
 -define(SERVER, ?MODULE).
 
 %% Bundles whose delay time is not greater than NODELAY_LIMIT

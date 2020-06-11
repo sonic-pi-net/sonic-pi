@@ -1,5 +1,5 @@
 %% This is an -*- erlang -*- file.
-{application, pi_server,
+{application, sonic_pi_server,
  [{description, "Sonic Pi Server"},
   {vsn, ""},
   {modules, [pi_server,

@@ -409,7 +409,7 @@ module SonicPi
     end
 
     def erlang_server_path
-      File.join(server_path, "erlang")
+      File.join(server_path, "erlang", "ebin")
     end
 
     def user_settings_path
