@@ -28,7 +28,9 @@ ruby "${SCRIPT_DIR}/../../server/ruby/bin/compile-extensions.rb"
 
 echo "Compiling erlang files..."
 cd "${SCRIPT_DIR}/../../server/erlang"
-erlc src/*.erl -o ebin/
+erlc src/osc/*.erl -o ebin/
+erlc src/pi_server/*.erl -o ebin/
+erlc src/sp_midi/*.erl -o ebin/
 cp src/sonic_pi_server.app.src ebin/sonic_pi_server.app
 cd "${SCRIPT_DIR}"
 
