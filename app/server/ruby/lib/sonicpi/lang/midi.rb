@@ -1594,24 +1594,6 @@ end"
       def __midi_rest_message(m)
         __delayed_message m unless __thread_locals.get(:sonic_pi_suppress_midi_logging)
       end
-
-      def __midi_system_reset(silent=false)
-        __info "Resetting MIDI subsystems..." unless silent
-        __schedule_delayed_blocks_and_messages!
-        @mod_sound_studio.init_or_reset_midi(silent)
-      end
-
-      def __midi_system_start(silent=false)
-        __info "Starting MIDI subsystems..." unless silent
-        __schedule_delayed_blocks_and_messages!
-        @mod_sound_studio.start_midi(silent)
-      end
-
-      def __midi_system_stop(silent=false)
-        __info "Stopping MIDI subsystems..." unless silent
-        __schedule_delayed_blocks_and_messages!
-        @mod_sound_studio.stop_midi(silent)
-      end
     end
   end
 end

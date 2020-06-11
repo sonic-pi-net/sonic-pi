@@ -402,6 +402,23 @@ module SonicPi
       GC.compact if RUBY_VERSION >= "2.7.0"
     end
 
+    def __midi_system_reset(silent=false)
+      __info "Resetting MIDI subsystems..." unless silent
+      __schedule_delayed_blocks_and_messages!
+      @osc_client.send("/midi_reset")
+    end
+
+    def __midi_system_start(silent=false)
+      __info "Starting MIDI subsystems..." unless silent
+      __schedule_delayed_blocks_and_messages!
+      #        @mod_sound_studio.start_midi(silent)
+    end
+
+    def __midi_system_stop(silent=false)
+      __info "Stopping MIDI subsystems..." unless silent
+      __schedule_delayed_blocks_and_messages!
+      #       @mod_sound_studio.stop_midi(silent)
+    end
     def __update_midi_ins(ins)
       # @midi_out_ports = args
       desc = ins.join("\n")
