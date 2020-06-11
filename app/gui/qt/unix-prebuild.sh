@@ -12,8 +12,8 @@ fi
 
 # Install dependencies to server
 echo "Copying external dependencies to the server..."
-mkdir -p "${SCRIPT_DIR}/../../server/native/erlang/bin"
-cp "${SCRIPT_DIR}/external/build/sp_midi-prefix/src/sp_midi-build/*.so" "${SCRIPT_DIR}/../../server/native/erlang/bin/"
+mkdir -p "${SCRIPT_DIR}/../../server/erlang/sonic_pi_server/priv/"
+cp "${SCRIPT_DIR}/external/build/sp_midi-prefix/src/sp_midi-build/*.so" "${SCRIPT_DIR}/../../server/erlang/sonic_pi_server/priv/"
 
 if [ "$1" = "--build-aubio" ]; then
   mkdir -p "${SCRIPT_DIR}/../../server/native/lib"
@@ -28,7 +28,8 @@ ruby "${SCRIPT_DIR}/../../server/ruby/bin/compile-extensions.rb"
 
 echo "Compiling erlang files..."
 cd "${SCRIPT_DIR}/../../server/erlang"
-erlc *.erl
+erlc src/*.erl -o ebin/
+cp src/sonic_pi_server.app.src ebin/sonic_pi_server.app
 cd "${SCRIPT_DIR}"
 
 echo "Translating tutorial..."

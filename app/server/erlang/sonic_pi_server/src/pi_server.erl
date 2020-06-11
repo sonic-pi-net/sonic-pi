@@ -14,7 +14,7 @@
 
 -export([start/0]).
 
--define(APPLICATION, pi_server).
+-define(APPLICATION, sonic_pi_server).
 
 
 %% API for launching as an OTP application from the command line

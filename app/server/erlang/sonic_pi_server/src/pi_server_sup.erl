@@ -11,7 +11,7 @@
 -export([init/1]).
 
 
--define(APPLICATION, pi_server).
+-define(APPLICATION, sonic_pi_server).
 
 -define(SERVER, ?MODULE).
 
