@@ -190,6 +190,7 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
     midi_enable_check->setToolTip(tr("Enable or disable incoming and outgoing MIDI communication"));
 
     QPushButton *midi_reset_button = new QPushButton(tr("Reset MIDI"));
+    midi_reset_button->setFlat(true);
     midi_reset_button->setToolTip(tr("Reset MIDI subsystems \n(Required to detect device changes on macOS)" ));
 
     midi_default_channel_combo = new QComboBox();
@@ -421,6 +422,7 @@ QGroupBox* SettingsWidget::createUpdatePrefsTab() {
     update_box->setSizePolicy(updatesPrefSizePolicy);
     check_updates->setToolTip(tr("Toggle automatic update checking.\nThis check involves sending anonymous information about your platform and version."));
     check_updates_now = new QPushButton(tr("Check now"));
+    check_updates_now->setFlat(true);
     check_updates_now->setToolTip(tr("Force a check for updates now.\nThis check involves sending anonymous information about your platform and version."));
     visit_sonic_pi_net = new QPushButton(tr("Get update"));
     visit_sonic_pi_net->setToolTip(tr("Visit http://sonic-pi.net to download new version"));
