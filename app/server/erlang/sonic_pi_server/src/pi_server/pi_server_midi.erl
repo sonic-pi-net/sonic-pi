@@ -98,7 +98,7 @@ update_midi_ports(State) ->
     NewPorts = {NewIns, NewOuts},
     OldPorts = {maps:get(midi_ins, State), maps:get(midi_outs, State)},
     if
-        NewPorts == OldPorts ->
+        NewPorts =:= OldPorts ->
             State;
         true ->
             CueServer = maps:get(cue_server, State),
