@@ -30,9 +30,9 @@ forfiles /p lang /s /m *.ts /c "cmd /c %QT_INSTALL_LOCATION%\bin\lrelease.exe @f
 
 @echo Compiling Erlang BEAM files...
 cd %~dp0
-cd ..\..\server\erlang
-forfiles /m src\osc\*.erl /c "cmd /c ..\native\erlang\bin\erl.exe -compile @fname -o ebin\"
-forfiles /m src\pi_server\*.erl /c "cmd /c ..\native\erlang\bin\erl.exe -compile @fname -o ebin\"
-forfiles /m src\sp_midi\*.erl /c "cmd /c ..\native\erlang\bin\erl.exe -compile @fname -o ebin\"
-xcopy /Y /I /R /E src\sonic_pi_server.app.src ebin\sonic_pi_server.app
+cd ..\..\server\erlang\sonic_pi_server
+..\..\native\erlang\bin\erl.exe -make
+cd %~dp0
+cd ..\..\server\erlang\sonic_pi_server
+xcopy /Y /R src\sonic_pi_server.app.src ebin\sonic_pi_server.app
 cd %~dp0
