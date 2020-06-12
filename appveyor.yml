@@ -10,7 +10,7 @@ configuration:
 
 branches:
   only:
-  - master
+  - main
 
 platform:
   - x64
