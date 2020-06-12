@@ -26,14 +26,6 @@ fi
 echo "Compiling native ruby extensions..."
 ruby "${SCRIPT_DIR}/../../server/ruby/bin/compile-extensions.rb"
 
-echo "Compiling erlang files..."
-cd "${SCRIPT_DIR}/../../server/erlang"
-erlc src/osc/*.erl -o ebin/
-erlc src/pi_server/*.erl -o ebin/
-erlc src/sp_midi/*.erl -o ebin/
-cp src/sonic_pi_server.app.src ebin/sonic_pi_server.app
-cd "${SCRIPT_DIR}"
-
 echo "Translating tutorial..."
 #assumes linux uses system ruby
 #so dont use prefix ../../server/native/ruby/bin/ruby, as unnecessary to set this up
@@ -45,3 +37,9 @@ ruby "${SCRIPT_DIR}/../../server/ruby/bin/qt-doc.rb" -o "${SCRIPT_DIR}/utils/rub
 
 echo "Updating GUI translation files..."
 lrelease "${SCRIPT_DIR}"/lang/*.ts
+
+echo "Compiling erlang files..."
+cd "${SCRIPT_DIR}/../../server/erlang/sonic_pi_server"
+erl -midi
+cp src/sonic_pi_server.app.src ebin/sonic_pi_server.app
+cd "${SCRIPT_DIR}"
