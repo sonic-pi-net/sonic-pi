@@ -64,11 +64,10 @@ loop(State) ->
         {timeout, Timer, {send, Time, Data, Tracker}} ->
             midi_send(Time, Data),
             pi_server_tracker:forget(Timer, Tracker),
-            cue_debug("sending midi", maps:get(cue_server, State)),
             ?MODULE:loop(State);
         {flush} ->
             sp_midi:midi_flush(),
-            cue_debug("Flushing MIDI", maps:get(cue_server, State)),
+            debug("Flushing MIDI", []),
             ?MODULE:loop(State);
         {midi_in, Bin} ->
             try osc:decode(Bin) of
@@ -101,7 +100,6 @@ loop(State) ->
         Any ->
             S = lists:flatten(io_lib:format("MIDI Server got unexpected message ~p~n", [Any])),
             log(S),
-            cue_debug(S, maps:get(cue_server, State)),
             ?MODULE:loop(State)
     end.
 
@@ -123,9 +121,6 @@ update_midi_ports(State) ->
 midi_send(_Time, Data) ->
     log("sending MIDI: ~p~n", [Data]),
     sp_midi:midi_send(Data).
-
-cue_debug(Msg, CueServer) ->
-    CueServer ! {debug, Msg}.
 
 %% sys module callbacks
 
