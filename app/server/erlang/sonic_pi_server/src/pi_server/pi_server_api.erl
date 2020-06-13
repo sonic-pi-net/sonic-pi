@@ -156,25 +156,29 @@ send_to_cue(Message, State) ->
 debug_cmd([Cmd|Args]) ->
     debug("command: ~s ~p~n", [Cmd, Args]).
 
-do_bundle(Time, [{_,Bin}], State) ->
-    try osc:decode(Bin) of
-        {cmd, ["/send_after", Host, Port | Cmd]} ->
-            schedule_cmd("default", Time, Host, Port, Cmd, State);
-        {cmd, ["/send_after_tagged", Tag, Host, Port | Cmd]} ->
-            schedule_cmd(Tag, Time, Host, Port, Cmd, State);
-        {cmd, ["/midi_at", Cmd]} ->
-            schedule_midi("default", Time, Cmd, State);
-        {cmd, ["/midi_at_tagged", Tag, Cmd]} ->
-            schedule_midi(Tag, Time, Cmd, State);
-        Other ->
-            log("Unexpected bundle content:~p~n", [Other]),
-            State
-    catch
-        Class:Term:Trace ->
-            log("Error decoding OSC: ~p~n~p:~p~n~p~n",
-                [Bin, Class, Term, Trace]),
-            State
-    end.
+do_bundle(Time, [{_,Bin}|T], State) ->
+    NewState =
+        try osc:decode(Bin) of
+            {cmd, ["/send_after", Host, Port | Cmd]} ->
+                schedule_cmd("default", Time, Host, Port, Cmd, State);
+            {cmd, ["/send_after_tagged", Tag, Host, Port | Cmd]} ->
+                schedule_cmd(Tag, Time, Host, Port, Cmd, State);
+            {cmd, ["/midi_at", Cmd]} ->
+                schedule_midi("default", Time, Cmd, State);
+            {cmd, ["/midi_at_tagged", Tag, Cmd]} ->
+                schedule_midi(Tag, Time, Cmd, State);
+            Other ->
+                log("Unexpected bundle content:~p~n", [Other]),
+                State
+        catch
+            Class:Term:Trace ->
+                log("Error decoding OSC: ~p~n~p:~p~n~p~n",
+                    [Bin, Class, Term, Trace]),
+                State
+        end,
+    do_bundle(Time, T, NewState);
+do_bundle(_Time, [], State) ->
+    State.
 
 schedule_midi(Tag, Time, Data, State) ->
    {Tracker, NewState} = tracker_pid(Tag, State),
