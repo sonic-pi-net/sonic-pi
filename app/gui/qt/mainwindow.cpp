@@ -2802,7 +2802,7 @@ void MainWindow::tabPrev() {
 
 void MainWindow::tabGoto(int index) {
     if (!piSettings->goto_buffer_shortcuts)
-        return;    
+        return;
 
     if (index < tabs->count())
         QMetaObject::invokeMethod(tabs, "setCurrentIndex", Q_ARG(int, index));
