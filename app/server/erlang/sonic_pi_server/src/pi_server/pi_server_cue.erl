@@ -193,7 +193,7 @@ loop(State) ->
                                   maps:get(parent, State),
                                   ?MODULE, [], State);
 
-        {debug, Msg} ->
+        {cue_debug, Msg} ->
             Bin = osc:encode(["/external-osc-cue", "erlang-server", 1234, Msg, []]),
             Socket = maps:get(in_socket, State),
             Host = maps:get(cue_host, State),
