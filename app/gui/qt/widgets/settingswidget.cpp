@@ -186,8 +186,8 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
     QGroupBox *midi_ports_box = new QGroupBox(tr("MIDI Ports"));
     midi_ports_box->setToolTip(tr("List all connected MIDI Ports"));
 
-    midi_enable_check = new QCheckBox(tr("Enable MIDI subsystems"));
-    midi_enable_check->setToolTip(tr("Enable or disable incoming and outgoing MIDI communication"));
+    midi_enable_check = new QCheckBox(tr("Enable incoming MIDI cues"));
+    midi_enable_check->setToolTip(tr("Enable or disable automatic conversion of incoming MIDI messages to cue events"));
 
     QPushButton *midi_reset_button = new QPushButton(tr("Reset MIDI"));
     midi_reset_button->setFlat(true);

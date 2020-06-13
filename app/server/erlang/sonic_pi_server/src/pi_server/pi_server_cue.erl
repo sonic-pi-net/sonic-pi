@@ -46,6 +46,7 @@ init(Parent) ->
     CuePort = application:get_env(?APPLICATION, cue_port, undefined),
     Internal = application:get_env(?APPLICATION, internal, true),
     Enabled = application:get_env(?APPLICATION, enabled, true),
+    MIDIEnabled = application:get_env(?APPLICATION, midi_enabled, true),
     io:format("~n"
               "+--------------------------------------+~n"
               "    This is the Sonic Pi OSC Server     ~n"
@@ -71,6 +72,7 @@ init(Parent) ->
           [try erlang:port_info(InSocket) catch _:_ -> undefined end]),
     State = #{parent => Parent,
               enabled => Enabled,
+              midi_enabled => MIDIEnabled,
               cue_host => CueHost,
               cue_port => CuePort,
               internal => Internal,
@@ -82,11 +84,17 @@ init(Parent) ->
 loop(State) ->
     receive
         {midi_in, Path, Args} ->
-            CueHost = maps:get(cue_host, State),
-            CuePort = maps:get(cue_port, State),
-            InSocket = maps:get(in_socket, State),
-            forward_midi_cue(CueHost, CuePort, InSocket, Path, Args),
-            ?MODULE:loop(State);
+            case State of
+                #{midi_enabled := true} ->
+                    CueHost = maps:get(cue_host, State),
+                    CuePort = maps:get(cue_port, State),
+                    InSocket = maps:get(in_socket, State),
+                    forward_midi_cue(CueHost, CuePort, InSocket, Path, Args),
+                    ?MODULE:loop(State);
+                #{midi_enabled := false} ->
+                    debug("MIDI cue forwarding disabled - ignored: ~p~n", [{Path, Args}]),
+                    ?MODULE:loop(State)
+            end;
 
         {update_midi_ports, Ins, Outs} ->
             CueHost = maps:get(cue_host, State),
@@ -156,6 +164,14 @@ loop(State) ->
         {enabled, false} ->
             log("Disabling cue forwarding ~n"),
             ?MODULE:loop(State#{enabled := false});
+
+        {midi_enabled, true} ->
+            log("Enabling midi cue forwarding ~n"),
+            ?MODULE:loop(State#{midi_enabled := true});
+
+        {midi_enabled, false} ->
+            log("Disabling midi cue forwarding ~n"),
+            ?MODULE:loop(State#{midi_enabled := false});
 
         {timeout, Timer, {forward, Time, Data, Tracker}} ->
             send_forward(maps:get(in_socket, State), Time, Data),

@@ -10,6 +10,7 @@
   {registered,[]},
   {mod,{pi_server_app,[]}},
   {env, [{enabled, true},
+         {midi_enabled, true},
          {in_port, 4560},    % sane defaults for the ports
          {api_port, 51240},
          {cue_host, {127,0,0,1}},

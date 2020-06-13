@@ -2904,15 +2904,13 @@ void MainWindow::setupLogPathAndRedirectStdOut() {
 
 void MainWindow::toggleMidi(int silent) {
     if (piSettings->midi_enabled) {
-        statusBar()->showMessage(tr("Enabling MIDI..."), 2000);
+        statusBar()->showMessage(tr("Enabling MIDI input..."), 2000);
         Message msg("/midi-start");
         msg.pushStr(guiID.toStdString());
         msg.pushInt32(silent);
         sendOSC(msg);
     } else {
-        settingsWidget->updateMidiInPorts(tr("No connected input devices"));
-        settingsWidget->updateMidiOutPorts(tr("No connected output devices"));
-        statusBar()->showMessage(tr("Disabling MIDI..."), 2000);
+        statusBar()->showMessage(tr("Disabling MIDI input..."), 2000);
         Message msg("/midi-stop");
         msg.pushStr(guiID.toStdString());
         msg.pushInt32(silent);

@@ -421,16 +421,17 @@ module SonicPi
     end
 
     def __midi_system_start(silent=false)
-      __info "Starting MIDI subsystems..." unless silent
+      __info "Enabling incoming MIDI cues..." unless silent
       __schedule_delayed_blocks_and_messages!
-      #        @mod_sound_studio.start_midi(silent)
+      @osc_client.send("/stop-start-midi-cues", 1)
     end
 
     def __midi_system_stop(silent=false)
-      __info "Stopping MIDI subsystems..." unless silent
+      __info "Stopping incoming MIDI cues..." unless silent
       __schedule_delayed_blocks_and_messages!
-      #       @mod_sound_studio.stop_midi(silent)
+      @osc_client.send("/stop-start-midi-cues", 0)
     end
+
     def __update_midi_ins(ins)
       # @midi_out_ports = args
       desc = ins.join("\n")

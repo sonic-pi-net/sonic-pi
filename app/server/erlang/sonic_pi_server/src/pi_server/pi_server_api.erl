@@ -129,6 +129,11 @@ loop(State) ->
                     debug_cmd(Cmd),
                     send_to_cue({enabled, Flag =:= 1}, State),
                     ?MODULE:loop(State);
+                {cmd, ["/stop-start-midi-cues", Flag]=Cmd} ->
+                    debug_cmd(Cmd),
+                    send_to_cue({midi_enabled, Flag =:= 1}, State),
+                    ?MODULE:loop(State);
+
                 {cmd, Cmd} ->
                     log("Unknown command: \"~s\"~n", [Cmd]),
                     ?MODULE:loop(State)
