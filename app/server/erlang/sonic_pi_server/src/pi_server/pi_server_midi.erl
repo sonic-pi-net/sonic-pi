@@ -45,11 +45,12 @@ init(Parent, CueServer) ->
     %% tell parent we have allocated resources and are up and running
     proc_lib:init_ack(Parent, {ok, self()}),
 
-
+    {ok, RE} = re:compile("active_sensing\\Z"),
 
     State = #{cue_server => CueServer,
               midi_ins => [],
-              midi_outs => []},
+              midi_outs => [],
+              active_sensing_regexp => RE},
 
     erlang:start_timer(5000, ?MODULE, update_midi_ports),
 
@@ -72,7 +73,19 @@ loop(State) ->
         {midi_in, Bin} ->
             try osc:decode(Bin) of
                 {cmd, [Path | Args]} ->
-                    maps:get(cue_server, State) ! {midi_in, Path, Args};
+                    RE = maps:get(active_sensing_regexp, State),
+                    case re:run(Path,RE,[{capture,none}]) of
+                        match ->
+                            %% # Ignore Active Sensing MIDI messages.
+                            %% # This message is intended to be sent repeatedly to tell the receiver
+                            %% # that a connection is alive.
+                            %% # A MIDI device sending these will send one every 300ms.
+                            %% # They quickly full up the Sonic Pi cue log.
+                            %% # In the future it might be good to have this be optionally ignored
+                            do_nothing;
+                        nomatch ->
+                            maps:get(cue_server, State) ! {midi_in, Path, Args}
+                    end;
                 Other ->
                     log("Unexpected MIDI in content :~p~n", [Other])
             catch
