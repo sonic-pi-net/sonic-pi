@@ -39,7 +39,7 @@ prepp(X) ->
 
 test3() ->
     %% use default ports from .app file
-    application:load(pi_server),
+    application:load(?APPLICATION),
     APIPort = application:get_env(?APPLICATION, api_port, undefined),
     OSCInPort = application:get_env(?APPLICATION, in_port, undefined),
     FwPort = 6000,
