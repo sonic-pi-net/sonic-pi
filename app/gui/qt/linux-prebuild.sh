@@ -5,9 +5,9 @@ echo "Warning: Unix build scripts are still a work in progress!"
 
 # Build external dependencies
 if [ "$1" = "--build-aubio" ]; then
-  "${SCRIPT_DIR}/external/unix_build_externals.sh" --build-aubio
+  "${SCRIPT_DIR}/external/linux_build_externals.sh" --build-aubio
 else
-  "${SCRIPT_DIR}/external/unix_build_externals.sh"
+  "${SCRIPT_DIR}/external/linux_build_externals.sh"
 fi
 
 # Install dependencies to server
