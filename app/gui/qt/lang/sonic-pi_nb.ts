@@ -114,7 +114,7 @@ Unnskyld, det oppstod en kritisk feil under oppstart</translation>
     <message>
         <location filename="../mainwindow.cpp" line="730"/>
         <source>Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Oscilloskop</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1364"/>
@@ -255,7 +255,7 @@ Unnskyld, det oppstod en kritisk feil under oppstart</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1826"/>
         <source>Colour Theme: </source>
-        <translation type="unfinished"></translation>
+        <translation>Fargeskjema: </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2051"/>
