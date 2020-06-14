@@ -255,7 +255,7 @@ Unnskyld, det oppstod en kritisk feil under oppstart</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1826"/>
         <source>Colour Theme: </source>
-        <translation>Fargeskjema: </translation>
+        <translation>Fargepalett: </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2051"/>
