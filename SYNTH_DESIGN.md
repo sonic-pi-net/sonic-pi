@@ -5,31 +5,41 @@ synthesis engine. These synths and effects have to be defined beforehand
 in a special kind of binary file called a `synthdef`.  The built in
 synthdefs are loaded up on boot so they are ready to trigger.
 
-Synthdefs are ultimately compiled from source code into binary files,
-but there are two main ways you can do this. You can either use the
-Clojure based library called [Overtone](https://overtone.github.io),
-or directly use SuperCollider's own language instead.
+## Design Methods
 
+Synthdefs are ultimately compiled from source code into binary files, but there
+are two main ways you can do this. You can either use the Clojure based library
+called [Overtone](https://overtone.github.io), or directly use
+[SuperCollider](https://supercollider.github.io/)'s own language instead.
+
+You can find the source code for the synthdefs that currently ship with Sonic Pi
+in the folder
+
+```
+etc/synthdefs/designs/
+```
+
+Most of these were originally designed in Overtone. **_Please note however_**,
+that for _new_ synth designs _that are intended to be distributed with Sonic
+Pi_, source code written with Overtone is now considered deprecated and only
+designs written in SuperCollider language will be accepted. As such, the
+instructions for using Overtone still work, but if you are considering
+submitting a new synth design for distribution with Sonic Pi, please create your
+synth with SuperCollider directly.
+
+(Note also that detailed information on Overtone and SuperCollider syntax is
+beyond the scope of this document. However, the information contained below
+should be a reasonable guide to getting set up and running, as well as giving a
+brief outline of both the source code and process required to create and use
+your own synths).
+
+[Synth design constraints](#constraints)<br/>
 [Using **Overtone** to design and compile your synths](#overtone)<br/>
 [Using **SuperCollider** to design and compile your synths](#supercollider)
 
-All of the synthdefs that currently ship with Sonic Pi were designed in
-Overtone. You can find the existing synth designs in the folder
+<a name="constraints"/>
 
-```
-etc/synthdefs/designs/sonic_pi/synths/
-```
-
-**_Please note however_**, that for new synth designs _that are intended to
-be distributed with Sonic Pi_, source code written with Overtone is now
-considered deprecated and only designs written in SuperCollider language
-will be accepted. As such, the instructions for using Overtone
-still work, but if you are considering submitting a new synth design for
-distribution with Sonic Pi, please [create your synth with SuperCollider
-directly](#supercollider).
-
-
-## Synth design constraints
+### Synth design constraints
 
 If you want your synth to work with Sonic Pi's automatic stereo
 sound infrastructure *you need to ensure your synth outputs a stereo
@@ -39,17 +49,16 @@ signal* to an audio bus with an index specified by a synth arg named
 Additionally, your synth must self-terminate at some point - Sonic Pi
 will *not* tidy up zombied synths.
 
-
 <a name="overtone"/>
 
-## Using **Overtone** to design and compile your synths
+### Using **Overtone** to design and compile your synths
 
-### Editing the synthdefs
+#### Editing the synthdefs
 
-You'll need the following to be able to compile the synths yourself
+You'll need the following to be able to compile the synths yourself:
 
-* the latest version of Overtone (`git clone git@github.com:overtone/overtone.git`)
-* leiningen (`brew install leiningen`)
+* The latest version of [Overtone](https://github.com/overtone/overtone) (`git clone git@github.com:overtone/overtone.git`)
+* [Leiningen](https://leiningen.org/)
 * A text editor setup to work with Clojure
 
 After cloning the Overtone repo, cd into the folder and edit the `project.clj` file to add
@@ -63,7 +72,7 @@ the Sonic Pi synthdefs folder to the locations it looks in when requiring Clojur
   ;; make sure the path points to your installation of Sonic Pi
 ```
 
-#### Starting a REPL
+##### Starting a REPL
 
 `cd` into the Overtone folder and run
 
@@ -71,19 +80,19 @@ the Sonic Pi synthdefs folder to the locations it looks in when requiring Clojur
 $ lein repl
 ```
 
-Make a note of the port number that nREPL starts on
+Make a note of the port number that nREPL starts on:
 
 ```
 nREPL server started on port 49223 ...
 ```
 
-#### Connecting the editor to the REPL and booting Overtone
+##### Connecting the editor to the REPL and booting Overtone
 
 If you're using `vim` and `vim-fireplace`:
 
   * open a new terminal window
   * `cd` back into the Sonic Pi folder
-  * Open `etc/synthdefs/designs/sonic_pi/synths/core.clj`
+  * Open `etc/synthdefs/designs/overtone/sonic-pi/src/sonic_pi/core.clj`
   * type `:Connect` then hit enter
   * when prompted, enter the nREPL port number from earlier
   * Visual select the namespace definition and type `:` followed by `Eval` then enter
@@ -91,17 +100,17 @@ If you're using `vim` and `vim-fireplace`:
 This should start booting Overtone which will take a little while. If there are no errors,
 your vim is successfully hooked up to Overtone!
 
-If you're using `emacs`
+If you're using `emacs`:
 
   * open a new terminal window
   * open `emacs` and go to the `project.clj` for Overtone
   * `M-x cider-jack-in` to connect to the running nREPL
-  * Navigate back into the Sonic Pi folder and open `etc/synthdefs/designs/sonic_pi/synths/core.clj`
+  * Navigate back into the Sonic Pi folder and open `etc/synthdefs/designs/overtone/sonic-pi/src/sonic_pi/core.clj`
   * Evaluate the namespace as you normally would for Clojure in emacs
 
-### The synth design file
+#### The synth design file
 
-Taking the example of a basic synth lets have a look at what the bits are doing
+Taking the example of a basic synth, let's have a look at what the bits are doing:
 
 ```
 (ns sonic-pi.synths.studio
@@ -135,21 +144,48 @@ to the correct places.
 
 <a name="supercollider"/>
 
-## Using **SuperCollider** to design and compile your synths
+### Using **SuperCollider** to design and compile your synths
 
-Simply define your synth with SuperCollider's built in language, and use
-the writeDefFile command to store the compiled synthdef into a directory
-of your choice. You can then dynamically load your synthdefs with the `load_synthdefs` fn.
+You will need to have [Supercollider](https://supercollider.github.io/)
+installed on your computer. Simply define your synth with SuperCollider's built
+in language, and use the `writeDefFile()` command to store the compiled synthdef
+into a directory of your choice. You can then dynamically load your synthdefs
+with the `load_synthdefs` fn.
 
+#### The synth design file
 
-    (
+Below is a small example of a synth design:
+```
     SynthDef(\\piTest,
              {|freq = 200, amp = 1, out_bus = 0 |
                Out.ar(out_bus,
                       SinOsc.ar([freq,freq],0,0.5)* Line.kr(1, 0, 5, amp, doneAction: 2))}
-    ).writeDefFile(\"/Users/sam/Desktop/my-synths\") ;
-    )
+    ).writeDefFile(\"/Users/sam/Desktop/my-synths\");
+```
 
+This is a simple synth that causes two Sine wave oscillators to sound on two
+separate channels for a short time.
+
+Let's examine it at a high level:
+
+`SynthDef` is the SuperCollider function that creates a **Synth Def**inition.
+
+Here, we pass `SynthDef` two parameters: `\\piTest`, (the name we want to give
+to the synth, preceded by `\\`), and a function enclosed in curly brackets
+`{...}`, that describes the components of the synth that will generate the
+sound. (This needs to adhere to the Sonic Pi [synth design
+constraints](#constraints) as mentioned above).
+
+Next, `writeDefFile()` is used by SuperCollider to create the compiled binary
+file from the source definition, and we pass it the location of a folder where
+the compiled file is then stored.
+
+To actually trigger the creation of the compiled file, once we have entered the
+above synthdef source code into a new file in SuperCollider, we can select the
+menu item `Language` > `Evaluate File`. The 'Post Window' (SuperCollider's log
+window) will show `-> a SynthDef`, indicating that the code was successfully
+executed and the result was a new synthdef file, as desired. The new file will
+be waiting in the location we set with `writeDefFile()`.
 
 ## Making the synth available in Sonic Pi
 
@@ -180,7 +216,7 @@ path into memory beforehand. It will also enable features such as synth opt
 autocompletion.
 
 However, there's a little more involved when doing it this way. You need to add
-the appropriate metadata to `app/server/sonicpi/lib/sonicpi/synths/synthinfo.rb`
+the appropriate metadata to `app/server/ruby/lib/sonicpi/synths/synthinfo.rb`
 and re-compile the app.
 
 Lastly, as with built-in synths, you would call the synth by name with a symbol.
