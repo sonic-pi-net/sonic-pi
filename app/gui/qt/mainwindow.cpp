@@ -2357,7 +2357,7 @@ void MainWindow::createInfoPane() {
     infoWidg->setLayout(infoLayout);
     infoWidg->setWindowFlags(Qt::Tool | Qt::WindowTitleHint | Qt::WindowCloseButtonHint | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
     infoWidg->setWindowTitle(tr("Sonic Pi - Info"));
-    infoWidg->setFixedSize(ScaleForDPI(660, 640));
+    infoWidg->setFixedSize(ScaleForDPI(800, 800));
 
     connect(infoWidg, SIGNAL(closed()), this, SLOT(about()));
 
