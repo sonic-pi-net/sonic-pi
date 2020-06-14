@@ -385,7 +385,8 @@ module SonicPi
       attr_reader :map
 
       def initialize(*args)
-        @map = Hash[*args]
+        # let SPMaps be initialised from existing SPMaps and also standard Hashes.
+        @map = args.length == 1 && args.first.is_a?(self.class) ? args.first.map : Hash[*args]
         @map.freeze
         res = @map.all? {|k, v| k.sp_thread_safe? && v.sp_thread_safe?}
         @sp_thread_safe = !!res
