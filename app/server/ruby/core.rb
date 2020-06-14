@@ -47,31 +47,12 @@ os = case RUBY_PLATFORM
        RUBY_PLATFORM
      end
 
-# special case for proctable lib
-sys_proctable_os = case os
-                   when :raspberry
-                     "linux"
-                   when :linux
-                     "linux"
-                   when :windows
-                     "windows"
-                   when :osx
-                     "darwin"
-                   end
-$:.unshift "#{File.expand_path("../vendor", __FILE__)}/sys-proctable-1.1.3/lib/#{sys_proctable_os}"
-
 
 $:.unshift "#{File.expand_path("../rb-native", __FILE__)}/#{ruby_api}/"
-
 
 ## Add aubio native library to ENV if not present (the aubio library needs to be told the location)
 native_lib_path = File.expand_path("../../native/", __FILE__)
 ENV["AUBIO_LIB"] ||= Dir[native_lib_path + "/lib/libaubio*.{*dylib,so*,dll}"].first
-
-
-
-
-
 
 module SonicPi
   module Core
