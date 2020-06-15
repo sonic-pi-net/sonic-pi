@@ -1027,7 +1027,7 @@ sample :loop_amen          # :loop_amen sample is played with normal cutoff"]
       doc name:          :set_mixer_control!,
           introduced:    Version.new(2,7,0),
           summary:       "Control main mixer",
-          doc:           "The main mixer is the final mixer that all sound passes through. This fn gives you control over the master mixer allowing you to manipulate all the sound playing through Sonic Pi at once. For example, you can sweep a lpf or hpf over the entire sound. You can reset the controls back to their defaults with `reset_mixer!`.",
+          doc:           "The main mixer is the final mixer that all sound passes through. This fn gives you control over the main mixer allowing you to manipulate all the sound playing through Sonic Pi at once. For example, you can sweep a lpf or hpf over the entire sound. You can reset the controls back to their defaults with `reset_mixer!`.",
           args:          [],
           opts:          {pre_amp:        "Controls the amplitude of the signal prior to the FX stage of the mixer (prior to lpf/hpf stages). Has slide opts. Default 1.",
                           amp:            "Controls the amplitude of the signal after the FX stage. Has slide opts. Default 1.",
