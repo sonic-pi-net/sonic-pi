@@ -156,6 +156,7 @@ Current members:
 * [Luis Lloret](https://github.com/llloret/)
 * [Robin Newman](https://github.com/rbnpi)
 * [Ethan Crawford](https://github.com/ethancrawford)
+* [Chris Maughan](https://github.com/cmaughan)
 
 
 Previous members:
