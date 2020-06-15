@@ -26,8 +26,8 @@ ready for i18n in Sonic Pi.
 
 ## Integrating Weblate
 
-The rest of this document is mostly meant as a cheatsheet for @samaaron 
-as the main developer in charge of the master repository.
+The rest of this document is mostly meant as a cheatsheet for @samaaron
+as the main developer in charge of the main repository.
 
 [Weblate](https://weblate.org) is an open-source web-based translation 
 editor. Their development team runs a hosted version of the tool and 
@@ -42,20 +42,20 @@ it will pull changes from and push updates to us.
 
 ## Setup
 
-This is a one-time setup for the master repository and needs to be done 
+This is a one-time setup for the main repository and needs to be done
 by the main developer.
 
 - [Sign up](https://hosted.weblate.org/accounts/register/),
   preferably using your Github account authorization.
 
-- To enable Weblate pulling updates from the master repository, add the
+- To enable Weblate pulling updates from the main repository, add the
   [Weblate service](https://docs.weblate.org/en/latest/admin/continuous.html#github-setup)
   in the repository settings and use the URL
   `https://hosted.weblate.org` for the Weblate service settings.
 
-- To enable Weblate pushing translation updates back to the master 
-  repository, add the [Weblate push user](https://github.com/weblate) 
-  to the collaborators in the master branch's repository settings.
+- To enable Weblate pushing translation updates back to the main
+  repository, add the [Weblate push user](https://github.com/weblate)
+  to the collaborators in the main branch's repository settings.
 
 After this, translations will be synced automatically between Github 
 and Weblate, using the [lazy 
@@ -85,10 +85,10 @@ To initiate a translation update:
    all outstanding  translation updates and wait for it to push them from
    Weblate to Github.
 
-2. Update your local repo to the current HEAD of the master branch from 
+2. Update your local repo to the current HEAD of the main branch from
    Github, update the translation files, commit the update and push it
-   back to the master branch.
-  
+   back to the main branch.
+
    ```
      git pull
 
@@ -109,6 +109,6 @@ To initiate a translation update:
 
 This will update all translation files and remove obsolete entries.
 
-Weblate will then fetch the changes automatically, translators can 
-update them and the finished translations will flow back into the 
-master repository.
+Weblate will then fetch the changes automatically, translators can
+update them and the finished translations will flow back into the
+main repository.
