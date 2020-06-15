@@ -54,7 +54,7 @@ All the bundled samples are individually licensed under a
 [CC0 1.0 Universal Public Domain Dedication](http://creativecommons.org/publicdomain/zero/1.0/). They
 have all been obtained from [freesound.org](http://freesound.org) and
 links to their sources can be found in the file
-[etc/samples/README.md](https://github.com/samaaron/sonic-pi/blob/master/etc/samples/README.md)
+[etc/samples/README.md](https://github.com/samaaron/sonic-pi/blob/main/etc/samples/README.md)
 
 [http://creativecommons.org/publicdomain/zero/1.0/](http://creativecommons.org/publicdomain/zero/1.0/)
 

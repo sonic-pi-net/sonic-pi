@@ -53,7 +53,7 @@ SettingsWidget::SettingsWidget( int port, SonicPiSettings *piSettings,  QWidget 
                 QLocale::languageToString(QLocale::system().language()) +
                 " yet.<br/>" +
                 "We rely on crowdsourcing to help create and maintain translations.<br/>" +
-                "<a href=\"https://github.com/samaaron/sonic-pi/blob/master/TRANSLATION.md\">" +
+                "<a href=\"https://github.com/samaaron/sonic-pi/blob/main/TRANSLATION.md\">" +
                 "Please consider helping to translate Sonic Pi to your language.</a> "
                 );
         go_translate->setTextFormat(Qt::RichText);

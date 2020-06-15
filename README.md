@@ -56,7 +56,7 @@ domains is the objective.
 
 ## Contributors
 
-Sonic Pi has been developed with support from many individuals and organisations. Please see the [CONTRIBUTORS.md](https://github.com/samaaron/sonic-pi/blob/master/CONTRIBUTORS.md) file for a more complete list.
+Sonic Pi has been developed with support from many individuals and organisations. Please see the [CONTRIBUTORS.md](https://github.com/samaaron/sonic-pi/blob/main/CONTRIBUTORS.md) file for a more complete list.
 
 ## Translations
 
@@ -81,7 +81,7 @@ Status                                                                          
 [![Translation Status of Sonic Pi: zh_Hans](https://hosted.weblate.org/widgets/sonic-pi/zh_Hans/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/) | Simplified Chinese  | :white_check_mark: | :red_circle:
 [![Translation Status of Sonic Pi: es](https://hosted.weblate.org/widgets/sonic-pi/es/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)           | Spanish             | :white_check_mark: | :white_check_mark:
 
-Would you like to contribute a translation too? If so, please take a look at our [translation docs](https://github.com/samaaron/sonic-pi/blob/master/TRANSLATION.md) to get started.
+Would you like to contribute a translation too? If so, please take a look at our [translation docs](https://github.com/samaaron/sonic-pi/blob/main/TRANSLATION.md) to get started.
 
 ## Information for developers
 

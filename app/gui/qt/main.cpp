@@ -1,7 +1,7 @@
 //--
 // This file is part of Sonic Pi: http://sonic-pi.net
 // Full project source: https://github.com/samaaron/sonic-pi
-// License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
+// License: https://github.com/samaaron/sonic-pi/blob/main/LICENSE.md
 //
 // Copyright 2013, 2014, 2015, 2016 by Sam Aaron (http://sam.aaron.name).
 // All rights reserved.
@@ -46,6 +46,7 @@ int main(int argc, char *argv[])
   qRegisterMetaType<SonicPiLog::MultiMessage>("SonicPiLog::MultiMessage");
 
   QString systemLocale = QLocale::system().name();
+
 
   QTranslator qtTranslator;
   qtTranslator.load("qt_" + systemLocale, QLibraryInfo::location(QLibraryInfo::TranslationsPath));

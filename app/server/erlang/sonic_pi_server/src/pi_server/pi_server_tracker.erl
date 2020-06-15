@@ -3,7 +3,7 @@
 %% --
 %% This file is part of Sonic Pi: http://sonic-pi.net
 %% Full project source: https://github.com/samaaron/sonic-pi
-%% License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
+%% License: https://github.com/samaaron/sonic-pi/blob/main/LICENSE.md
 %% ++
 
 -module(pi_server_tracker).

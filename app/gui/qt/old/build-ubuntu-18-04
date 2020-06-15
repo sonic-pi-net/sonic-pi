@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-# Based on https://github.com/samaaron/sonic-pi/blob/master/app/gui/qt/build-ubuntu-app
+# Based on https://github.com/samaaron/sonic-pi/blob/main/app/gui/qt/build-ubuntu-app
 # Modified by nlb (n-l-b.fr) to install on Ubuntu 18.04 TLS
-# Hope it works for you. 
+# Hope it works for you.
 # 07/07/2018
 
 #Fail script on first error encountered
@@ -134,4 +134,3 @@ echo "Building sonic-pi binary..."
 lrelease SonicPi.pro
 qmake -qt=qt5 SonicPi.pro
 make
-
