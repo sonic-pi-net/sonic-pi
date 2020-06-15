@@ -45,7 +45,7 @@ On your Linux or OS X system, you will need to have installed
 
 ## Unsupported development HTML Interface
 
-Note: This interface isn't always kept up to date with MASTER on Github.
+Note: This interface isn't always kept up to date with the main branch on Github.
 
 The dependencies for this are:
 
