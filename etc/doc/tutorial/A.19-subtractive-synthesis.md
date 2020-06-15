@@ -85,6 +85,8 @@ quiet.
 
 ## Low Pass Filter
 
+![Varying amounts of low pass filtering](../../../etc/doc/images/tutorial/articles/A.19-subtractive-synthesis/subtractive-synthesis-waveforms.png)
+
 The low pass filter is such an important part of every subtractive
 synthesis toolkit that it's worth taking a deeper look at how it
 works. This diagram shows the same sound wave (the `:prophet` synth)
