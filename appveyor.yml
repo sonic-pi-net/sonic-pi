@@ -99,9 +99,9 @@ for:
     # generate build script
     - cd "$APPVEYOR_BUILD_FOLDER"
     - cd app/gui/qt
-    - ./unix-prebuild.sh
+    - ./mac-prebuild.sh
     - # (We don't build aubio from source in prebuild, but instead use the brew installed version so that the build can complete within the 1 hour time limit)
-    - ./unix-config.sh --config $CONFIGURATION
+    - ./mac-config.sh --config $CONFIGURATION
     - cd build
     - cmake --build .
 
@@ -150,7 +150,7 @@ for:
     # generate build script
     - cd "$APPVEYOR_BUILD_FOLDER"
     - cd app/gui/qt
-    - ./unix-prebuild.sh --build-aubio
-    - ./unix-config.sh --config $CONFIGURATION
+    - ./linux-prebuild.sh --build-aubio
+    - ./linux-config.sh --config $CONFIGURATION
     - cd build
     - cmake --build .
