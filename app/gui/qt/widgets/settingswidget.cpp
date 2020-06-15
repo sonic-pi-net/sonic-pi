@@ -83,7 +83,7 @@ QSize SettingsWidget::sizeHint() const
  */
 QGroupBox* SettingsWidget::createAudioPrefsTab() {
 
-    QGroupBox *volBox = new QGroupBox(tr("Master Volume"));
+    QGroupBox *volBox = new QGroupBox(tr("Main Volume"));
     volBox->setToolTip(tr("Use this slider to change the system volume."));
     QHBoxLayout *vol_box = new QHBoxLayout;
     system_vol_slider = new QSlider(this);
