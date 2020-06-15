@@ -1006,13 +1006,13 @@ play 50 # Plays with supersaw synth
       end
       doc name:          :reset_mixer!,
           introduced:    Version.new(2,9,0),
-          summary:       "Reset master mixer",
-          doc:           "The master mixer is the final mixer that all sound passes through. This fn resets it to its default set - undoing any changes made via set_mixer_control!",
+          summary:       "Reset main mixer",
+          doc:           "The main mixer is the final mixer that all sound passes through. This fn resets it to its default set - undoing any changes made via set_mixer_control!",
           args:          [],
           opts:          {},
           accepts_block: false,
           examples:      ["
-set_mixer_control! lpf: 70 # LPF cutoff value of master mixer is now 70
+set_mixer_control! lpf: 70 # LPF cutoff value of main mixer is now 70
 sample :loop_amen          # :loop_amen sample is played with low cutoff
 sleep 3
 reset_mixer!               # mixer is now reset to default values
@@ -1026,8 +1026,8 @@ sample :loop_amen          # :loop_amen sample is played with normal cutoff"]
       end
       doc name:          :set_mixer_control!,
           introduced:    Version.new(2,7,0),
-          summary:       "Control master mixer",
-          doc:           "The master mixer is the final mixer that all sound passes through. This fn gives you control over the master mixer allowing you to manipulate all the sound playing through Sonic Pi at once. For example, you can sweep a lpf or hpf over the entire sound. You can reset the controls back to their defaults with `reset_mixer!`.",
+          summary:       "Control main mixer",
+          doc:           "The main mixer is the final mixer that all sound passes through. This fn gives you control over the master mixer allowing you to manipulate all the sound playing through Sonic Pi at once. For example, you can sweep a lpf or hpf over the entire sound. You can reset the controls back to their defaults with `reset_mixer!`.",
           args:          [],
           opts:          {pre_amp:        "Controls the amplitude of the signal prior to the FX stage of the mixer (prior to lpf/hpf stages). Has slide opts. Default 1.",
                           amp:            "Controls the amplitude of the signal after the FX stage. Has slide opts. Default 1.",
