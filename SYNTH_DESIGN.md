@@ -21,11 +21,11 @@ etc/synthdefs/designs/
 
 Most of these were originally designed in Overtone. **_Please note however_**,
 that for _new_ synth designs _that are intended to be distributed with Sonic
-Pi_, source code written with Overtone is now considered deprecated and only
-designs written in SuperCollider language will be accepted. As such, the
-instructions for using Overtone still work, but if you are considering
-submitting a new synth design for distribution with Sonic Pi, please create your
-synth with SuperCollider directly.
+Pi_,the preference is that they are created with SuperCollider, as it is much
+easier to set up, create and maintain synths this way. As such, the instructions
+for using Overtone still work, but if you are considering submitting a new synth
+design for distribution with Sonic Pi, we strongly recommend that you create
+your synth with SuperCollider directly.
 
 (Note also that detailed information on Overtone and SuperCollider syntax is
 beyond the scope of this document. However, the information contained below
