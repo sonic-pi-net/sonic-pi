@@ -1,4 +1,5 @@
 # History
+* [v3.3 'To be named'](#v3.3), To be released...
 * [v3.2.2 'Tau3'](#v3.2.2), 5th April, 2020
 * [v3.2.1 'Take Tau'](#v3.2.1), 3rd April, 2020
 * [v3.2.0 'Tau'](#v3.2.0), 28th Feb, 2020
@@ -20,6 +21,41 @@
 * [v2.1 'Core'](#v2.1), 21st Nov, 2014
 * [v2.0.1](#v2.0.1), 9th Sept, 2014
 * [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
+
+<a name="v3.3"></a>
+*To be released...*
+
+### Breaking Changes
+
+
+### New Fns
+* `use/with_random_type` - change the current random stream used when selecting random values. We now have `:white`, `:pink` and `:perlin`.  Default is `:white` which is the same stream as previous releases to preserve compatibility.
+
+
+### Synths & FX
+* New synth `:rodeo` - emulating an electric piano
+* New synth `:kalimba` - an African thumb piano
+* Add sliding to `:autotuner` FX opts `note:` and `formant_ratio:`
+
+### GUI
+* New optional keyboard shortcuts for switching directly to a buffer. When enabled in the preferences S-M-1 (hold shift and Meta and the number 1) will jump to buffer 1. Meta is Cmd on macOS and alt on Windows/Linux.
+* Sample listings in the help system now have a handy play button that allow you to preview them by clicking rather than having to write any code.
+* Minor improvements for Danish, Chinese, Swedish, Slovak, Italian, Korean, Dutch, Catalan, French, Norwegian translations.
+* GUI now has an exit menu option on Windows and Linux.
+
+
+### Improvements
+* Many minor improvements to the documentation.
+* Unsent external MIDI messages are now flushed and no longer sent after hitting the Stop button.
+
+### Bugfixes
+* Fix `pulse_width_curve:` and `pulse_sidth_slide:` opts which were incorrectly swapped on `pulse`, `subpulse` and `dpulse` synths.
+* Improve boot on Windows systems with default locale code pages that are currently unsupported by Ruby. We now force UTF-8.
+* Fix issue causing the incorrect error line to be highlighted in the GUI
+* Fix issue when syncing with cues with `-` symbols in their paths.
+* Fix bug with `use_merged_synth_defaults` after a call to `use_synth_defaults`. This bug was triggered in the "Sonic Dreams" example which now plays through correctly again.
+
+
 
 <a name="v3.2.2"></a>
 
