@@ -120,7 +120,7 @@ contributions which have supported the Sonic Pi Community:
 
 * [Paul Winstanley](https://twitter.com/SCCMentor)
 * [Robin Newman](https://twitter.com/rbnman)
-* Ethan Crawford
+* [Ethan Crawford](https://twitter.com/northwardface)
 
 
 ## Guidance and Advice
