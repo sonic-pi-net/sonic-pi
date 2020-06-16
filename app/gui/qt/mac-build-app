@@ -52,6 +52,9 @@ mkdir build
 cp -R "$SP_APP" build/
 cd build
 
+# Ensure all library files are writable before modifying them
+find "$SP_APP" -name '*.dylib' -exec chmod u+w {} \;
+
 # Make stand-alone Qt Mac App
 # Pulls in Qt internally and
 # futzes with shared lib paths
