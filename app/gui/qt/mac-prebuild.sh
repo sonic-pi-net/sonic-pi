@@ -13,7 +13,7 @@ fi
 # Install dependencies to server
 echo "Copying external dependencies to the server..."
 mkdir -p "${SCRIPT_DIR}/../../server/erlang/sonic_pi_server/priv/"
-cp ${SCRIPT_DIR}/external/build/sp_midi-prefix/src/sp_midi-build/*.so ${SCRIPT_DIR}/../../server/erlang/sonic_pi_server/priv/
+cp ${SCRIPT_DIR}/external/build/sp_midi-prefix/src/sp_midi-build/*.dylib ${SCRIPT_DIR}/../../server/erlang/sonic_pi_server/priv/
 
 if [ "$1" = "--build-aubio" ]; then
   mkdir -p "${SCRIPT_DIR}/../../server/native/lib"
