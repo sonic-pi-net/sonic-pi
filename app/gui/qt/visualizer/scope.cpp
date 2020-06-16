@@ -602,15 +602,12 @@ void Scope::DrawLissajous(const ProcessedAudio& audio, QPainter& painter, Panel&
     float scale = std::min(xScale, yScale);
 
     QPoint center = panel.rcGraph.center();
-
-    // First point at 0
-    panel.wavePoints.resize(LissajousSamples + 1);
-    panel.wavePoints[0] = center;
+    panel.wavePoints.resize(LissajousSamples);
     for (int sample = 0; sample < LissajousSamples; sample++)
     {
         auto left = audio.m_samples[0][FrameSamples - LissajousSamples + sample];
         auto right = audio.m_samples[1][FrameSamples - LissajousSamples + sample];
-        panel.wavePoints[sample + 1] = center + QPoint(left * xScale, right * yScale);
+        panel.wavePoints[sample] = center + QPoint(left * xScale, right * yScale);
     }
     painter.setPen(panel.pen);
     painter.drawPolyline(&panel.wavePoints[0], int(panel.wavePoints.size()));
