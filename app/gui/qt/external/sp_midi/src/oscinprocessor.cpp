@@ -41,8 +41,8 @@ void OscInProcessor::prepareOutputs(const vector<string>& outputNames)
 // TODO: during initial testing to measure latency of async calls
 void print_time_stamp(char type);
 
-extern std::atomic<short> g_flush_count;
-extern std::atomic<short> g_midi_send_in_transit;
+extern std::atomic<long> g_flush_count;
+extern std::atomic<long> g_midi_send_in_transit;
 void OscInProcessor::ProcessMessage(long flush_count, const char *c_message, std::size_t size)
 {
     lock_guard<mutex> lock(m_mutex);

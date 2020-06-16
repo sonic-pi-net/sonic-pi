@@ -55,7 +55,14 @@ endif(APPLE)
 # sp_midi_sources
 add_library(libsp_midi SHARED ${sp_midi_sources} ${juce_sources})
 SET_TARGET_PROPERTIES(libsp_midi PROPERTIES PREFIX "")
-target_link_libraries(libsp_midi oscpack)
+
+#check if armv7l architecture (Raspberry Pi OS 32bit) and add atomic linking if so
+if (${CMAKE_HOST_SYSTEM_PROCESSOR} MATCHES "armv7l")
+    message(STATUS("linking atomic for armv7l architecture"))
+    target_link_libraries(libsp_midi oscpack atomic)
+else()
+    target_link_libraries(libsp_midi oscpack)
+endif()
 
 add_definitions(-DJUCE_ALSA_MIDI_NAME="sp_midi")
 
