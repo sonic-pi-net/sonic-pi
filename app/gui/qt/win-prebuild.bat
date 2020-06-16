@@ -34,5 +34,5 @@ cd ..\..\server\erlang\sonic_pi_server
 ..\..\native\erlang\bin\erl.exe -make
 cd %~dp0
 cd ..\..\server\erlang\sonic_pi_server
-copy /Y /R src\sonic_pi_server.app.src ebin\sonic_pi_server.app
+xcopy /Y /R src\sonic_pi_server.app.src .\ebin\sonic_pi_server.app
 cd %~dp0
