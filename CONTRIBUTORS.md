@@ -94,6 +94,7 @@ especially the following individuals who have been remarkably generous:
 * [Markku Rontu](https://twitter.com/zorcam)
 * [Martin Butz](https://github.com/mbutz)
 * [Martin McDermott](https://twitter.com/marv_mcd)
+* [Matthew Gilliard](https://twitter.com/MaximumGilliard)
 * [Michael Hunger](https://twitter.com/mesirii)
 * [Nada Amin](http://namin.net)
 * [NAMTAO](https://namtao.com)
