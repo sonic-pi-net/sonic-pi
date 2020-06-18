@@ -8205,7 +8205,7 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
 
           v[:samples].each do |s|
             doc << "<tr style=\"vertical-align: middle;padding:5px\">\n"
-            doc << "<td><a href=\"sonicpi://play-sample/#{s}\"><img src=\":/images/play.png\" width=\"25\" height=\"25\"></a></td>\n"
+            doc << "<td><a href=\"sonicpi://play-sample/#{s}\"><img src=\":/images/play.png\" width=\"15\" height=\"16\"></a></td>\n"
             doc << "<td><p class=\"usage\"><code><pre> sample <span class=\"symbol\">:#{s}</span> </pre></code></p></td>\n"
             doc << "</tr>\n"
           end
