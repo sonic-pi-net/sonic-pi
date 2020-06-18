@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-06-10 03:41+0000\n"
-"Last-Translator: ChiakiQ <348852310@qq.com>\n"
+"PO-Revision-Date: 2020-06-18 09:46+0000\n"
+"Last-Translator: Xubin Cao <caoxubin@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/zh_Hans/>\n"
 "Language: zh-Hans\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.1-dev\n"
+"X-Generator: Weblate 4.1.1-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -2402,22 +2402,22 @@ msgid ""
 "We can combine this new ability to play arbitrary segments of audio with our f"
 "riend `rate:`. For example, we can play a very small section of the middle of "
 "the amen break very slowly:"
-msgstr ""
+msgstr "我们可以将这种播放任意音频片段的新能力与我们的朋友`rate:`相结合。比如说，我们可以很慢地播放amen中间暂停的一小段："
 
 #: 03.5-Partial-Samples.md:90
 #, no-wrap
 msgid "sample :loop_amen, start: 0.5, finish: 0.7, rate: 0.2"
-msgstr ""
+msgstr "sample :loop_amen, start: 0.5, finish: 0.7, rate: 0.2"
 
 #: 03.5-Partial-Samples.md:94
 msgid "Combining with envelopes"
-msgstr ""
+msgstr "与包络结合"
 
 #: 03.5-Partial-Samples.md:96
 msgid ""
 "Finally, we can combine all of this with our ADSR envelopes to produce interes"
 "ting results:"
-msgstr ""
+msgstr "最后，我们可以将所有这些与我们的ADSR包络相结合，制作有趣的效果："
 
 #: 03.5-Partial-Samples.md:99
 #, no-wrap
@@ -2425,18 +2425,20 @@ msgid ""
 "sample :loop_amen, start: 0.5, finish: 0.8, rate: -0.2, attack: 0.3, release: "
 "1"
 msgstr ""
+"sample :loop_amen, start: 0.5, finish: 0.8, rate: -0.2, attack: 0.3, release:"
+" 1"
 
 #: 03.5-Partial-Samples.md:103
 msgid "Now go and have a play mashing up samples with all of this fun stuff..."
-msgstr ""
+msgstr "马上来试一试将这些有趣的东西混合在一起的采样......"
 
 #: 03.6-External-Samples.md:1
 msgid "3.6 External Samples"
-msgstr ""
+msgstr "3.6 外部采样"
 
 #: 03.6-External-Samples.md:3
 msgid "External Samples"
-msgstr ""
+msgstr "外部采样"
 
 #: 03.6-External-Samples.md:5
 msgid ""
@@ -2445,10 +2447,12 @@ msgid ""
 "orts this. First though, let's have a quick discussion on the portability of y"
 "our piece."
 msgstr ""
+"虽然内置的采样可以让你快速上手，但你可能希望在你的音乐中尝试使用其他录制的声音。Sonic Pi "
+"完全支持这一点。不过首先，需要先来讨论一下你的作品的便携性。"
 
 #: 03.6-External-Samples.md:10
 msgid "Portability"
-msgstr ""
+msgstr "便携性"
 
 #: 03.6-External-Samples.md:12
 msgid ""
@@ -2459,6 +2463,9 @@ msgid ""
 "your sounds. That makes it *really easy to share* with your friends as they ju"
 "st need to get hold of the code."
 msgstr ""
+"当你纯粹只用内置的合成器和采样来创作作品的时候，代码包括了忠实再现你的音乐的全部。想一想--这太神奇了! "
+"你通过电子邮件或粘贴在[Gist](https://gist.github."
+"com)中的一段简单文字，就包括你需要重现你的作品的一切。这样一来，你与朋友们可以*很容易分享*，因为他们只需要获得代码就可以了。"
 
 #: 03.6-External-Samples.md:19
 msgid ""
@@ -2468,16 +2475,18 @@ msgid ""
 "pulate, mash-up and experiment with your work. Of course this shouldn't stop y"
 "ou from using your own samples, it's just something to consider."
 msgstr ""
+"但是，如果你开始使用自己预先录制的采样，你就会失去这种便携性。这是因为要再现你的音乐，其他人不仅需要你的代码，还需要你的采样。这就限制了别人对你的作品进行"
+"操作、混搭和实验的能力。当然这不应该阻止你使用自己的采样，这只是需要考虑的问题。"
 
 #: 03.6-External-Samples.md:26
 msgid "Local Samples"
-msgstr ""
+msgstr "本地采样"
 
 #: 03.6-External-Samples.md:28
 msgid ""
 "So how do you play any arbitrary WAV, AIFF, OGG, OGA or FLAC file on your comp"
 "uter? All you need to do is pass the path of that file to `sample`:"
-msgstr ""
+msgstr "那么如何在电脑上播放任意WAV、AIFF、OGG、OGA或FLAC文件呢？你需要做的就是将该文件的路径传递给`sample`："
 
 #: 03.6-External-Samples.md:31
 #, no-wrap
@@ -2487,12 +2496,16 @@ msgid ""
 "# Windows\n"
 "sample \"C:/Users/sam/Desktop/my-sound.wav\""
 msgstr ""
+"# 树莓派，苹果系统，Linux系统\n"
+"sample \"/Users/sam/Desktop/my-sound.wav\"\n"
+"# WIndows系统\n"
+"sample \"C:/Users/sam/Desktop/my-sound.wav\""
 
 #: 03.6-External-Samples.md:38
 msgid ""
 "Sonic Pi will automatically load and play the sample. You can also pass all th"
 "e standard params you're used to passing `sample`:"
-msgstr ""
+msgstr "Sonic Pi 将自动加载和播放样本。你还可以传递所有用于传递\"`sample`的标准参数："
 
 #: 03.6-External-Samples.md:41
 #, no-wrap
