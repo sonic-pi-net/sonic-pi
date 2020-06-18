@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2019-10-21 23:52+0000\n"
-"Last-Translator: Valdeci Gomes <valdeci@outlook.my>\n"
-"Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/sonic-"
-"pi/tutorial/pt_BR/>\n"
+"PO-Revision-Date: 2020-06-19 15:41+0000\n"
+"Last-Translator: Adeilson Silva <adeilson@protonmail.com>\n"
+"Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
+"sonic-pi/tutorial/pt_BR/>\n"
 "Language: pt-BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 3.9.1-dev\n"
+"X-Generator: Weblate 4.1.1\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -732,6 +732,10 @@ msgid ""
 "left hand side) play lower notes and the keys on the higher part of the piano "
 "(the right hand side) play higher notes."
 msgstr ""
+"Então, números menores produzem sons mais graves e números maiores produzem "
+"sons mais agudos. Como em um piano, as teclas da parte mais baixa do piano ("
+"lado esquerdo) produzem notas graves e as teclas na parte alta do piano ("
+"lado direito) produzem notas agudas."
 
 #: 02.1-Your-First-Beeps.md:38
 #, fuzzy
@@ -1328,6 +1332,8 @@ msgid ""
 "Now multiple sounds at the same time (by not sleeping between successive calls"
 " to `play`):"
 msgstr ""
+"Agora múltiplos sons ao mesmo tempo (sem pausas entre chamadas em sequência "
+"para 'tocar'):"
 
 #: 02.3-Switching-Synths.md:60
 #, no-wrap
