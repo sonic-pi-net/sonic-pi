@@ -15,6 +15,7 @@ ExternalProject_Add(sp_midi
     PREFIX sp_midi-prefix
     SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/sp_midi
     INSTALL_COMMAND ""
+    CMAKE_ARGS -DERLANG_INCLUDE_PATH=${ERLANG_INCLUDE_PATH}
     BUILD_COMMAND ${CMAKE_COMMAND} --build . --config Release
     )
 
