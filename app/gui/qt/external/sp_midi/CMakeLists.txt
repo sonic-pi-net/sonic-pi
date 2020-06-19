@@ -12,9 +12,11 @@ if(NOT MSVC)
 endif(NOT MSVC)
 
 if(APPLE)
-
+    set(ERLANG_INCLUDE_PATH "/usr/local/lib/erlang/usr/include" CACHE PATH "Path to erlang includes")
 elseif(UNIX)
     find_package(ALSA REQUIRED)
+elseif(MSVC)
+    set(ERLANG_INCLUDE_PATH "C:/Program Files/erl-23.0/usr/include" CACHE PATH "Path to erlang includes")
 endif(APPLE)
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
@@ -55,19 +57,27 @@ endif(APPLE)
 # sp_midi_sources
 add_library(libsp_midi SHARED ${sp_midi_sources} ${juce_sources})
 SET_TARGET_PROPERTIES(libsp_midi PROPERTIES PREFIX "")
-target_link_libraries(libsp_midi oscpack)
+
+#check if armv7l architecture (Raspberry Pi OS 32bit) and add atomic linking if so
+if (${CMAKE_HOST_SYSTEM_PROCESSOR} MATCHES "armv7l")
+    message(STATUS("linking atomic for armv7l architecture"))
+    target_link_libraries(libsp_midi oscpack atomic)
+else()
+    target_link_libraries(libsp_midi oscpack)
+endif()
 
 add_definitions(-DJUCE_ALSA_MIDI_NAME="sp_midi")
 
 if(MSVC)
     add_definitions(-D_WIN32_WINNT=0x0600 -DJUCER_VS2015_78A5022=1 -DJUCE_APP_VERSION=1.0.0 -DJUCE_APP_VERSION_HEX=0x10000)
-    include_directories("C:/Program Files/erl-23.0/usr/include")
+    include_directories(${ERLANG_INCLUDE_PATH})
     target_link_libraries(libsp_midi winmm)
     # example test exe. Only under Windows, because on the others, the NIF functions are resolved when linked to the erlnag VM, not on the library
     add_executable(sp_midi_test src/sp_midi_test.c)
     target_link_libraries(sp_midi_test libsp_midi)
 elseif(APPLE)
     add_definitions(-DNDEBUG=1 -DJUCER_XCODE_MAC_F6D2F4CF=1 -DJUCE_APP_VERSION=1.0.0 -DJUCE_APP_VERSION_HEX=0x10000)
+    include_directories(${ERLANG_INCLUDE_PATH})
     set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -undefined suppress -flat_namespace")
     set_target_properties(libsp_midi PROPERTIES XCODE_ATTRIBUTE_CLANG_LINK_OBJC_RUNTIME "NO")
 #    set(CMAKE_EXE_LINKER_FLAGS "-framework CoreMIDI -framework CoreAudio -framework CoreFoundation -framework Accelerate -framework QuartzCore -framework AudioToolbox -framework IOKit -framework DiscRecording -framework Cocoa")

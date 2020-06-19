@@ -120,8 +120,8 @@ void output_time_stamps()
 // and do not process the messages that are not in the current generation
 // We want to limit the midi messages in transit to a low number (say 100), so throttle them
 // This is to avoid building a big backlog of MIDI messages we want to send them too fast
-std::atomic<short> g_flush_count(0);
-std::atomic<short> g_midi_send_in_transit(0);
+std::atomic<long> g_flush_count(0);
+std::atomic<long> g_midi_send_in_transit(0);
 const int MAX_MIDI_SEND_QUEUE = 100;
 int sp_midi_send(const char* c_message, unsigned int size)
 {
