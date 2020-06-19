@@ -185,8 +185,7 @@ To install the newest version, you can:
 
 * For identifying any possible issue with real-time audio playback in your Ubuntu machine, it is
   useful to run [RealTimeConfigQuickScan](https://github.com/raboof/realtimeconfigquickscan). It
-  provides warnings for possible settings that may not allow Supercollider or Sonic-Pi to not
-  execute correctly.
+  provides warnings for possible settings that may not allow Supercollider or Sonic-Pi to execute correctly.
 
 ### Configuration script usage
 

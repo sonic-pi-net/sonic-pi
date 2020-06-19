@@ -49,8 +49,8 @@
 * Unsent external MIDI messages are now flushed and no longer sent after hitting the Stop button.
 
 ### Bugfixes
-* Fix `pulse_width_curve:` and `pulse_sidth_slide:` opts which were incorrectly swapped on `pulse`, `subpulse` and `dpulse` synths.
-* Improve boot on Windows systems with default locale code pages that are currently unsupported by Ruby. We now force UTF-8.
+* Fix `pulse_width_curve:` and `pulse_width_slide:` opts which were incorrectly swapped on `pulse`, `subpulse` and `dpulse` synths.
+* Improve boot on Windows systems that have default locale code pages currently unsupported by Ruby. We now force UTF-8.
 * Fix issue causing the incorrect error line to be highlighted in the GUI
 * Fix issue when syncing with cues with `-` symbols in their paths.
 * Fix bug with `use_merged_synth_defaults` after a call to `use_synth_defaults`. This bug was triggered in the "Sonic Dreams" example which now plays through correctly again.
