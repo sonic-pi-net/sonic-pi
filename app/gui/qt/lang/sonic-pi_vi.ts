@@ -110,12 +110,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2707"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation>Tải phiên bản mới nhất tại http://sonic-pi.net</translation>
+        <translation>Tải phiên bản mới tại http://sonic-pi.net</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2776"/>
         <source>Disabling OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>Đang tắt cổng OSC...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2785"/>
@@ -326,12 +326,12 @@ Xin lỗi, đã xảy ra lỗi nghiêm trọng khi khởi động chương trìn
     <message>
         <location filename="../mainwindow.cpp" line="2065"/>
         <source>Start recording to a WAV audio file</source>
-        <translation type="unfinished"></translation>
+        <translation>Bắt đầu lưu bản thu âm vào file WAV</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2069"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Lưu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2071"/>
@@ -840,7 +840,7 @@ các chương trình và máy tính khác trong cùng mạng.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="181"/>
         <source>List all connected MIDI Ports</source>
-        <translation type="unfinished">Danh sách các cổng MIDI đã kết nối</translation>
+        <translation>Các cổng MIDI đã kết nối</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="183"/>
