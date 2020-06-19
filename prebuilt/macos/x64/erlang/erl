@@ -1,0 +1,35 @@
+#--
+# This file is part of Sonic Pi: http://sonic-pi.net
+# Full project source: https://github.com/samaaron/sonic-pi
+# License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
+#
+# Copyright 2013, 2014, 2015, 2016 by Sam Aaron (http://sam.aaron.name).
+# All rights reserved.
+#
+# Permission is granted for use, copying, modification, and
+# distribution of modified versions of this work as long as this
+# notice is included.
+#++
+
+# This is a cross-platform Ruby file to start the Erlang BEAM VM
+
+# Set up some strings that Erlang cares about:
+curr_dir = File.expand_path(File.dirname(__FILE__))
+root_dir = File.join curr_dir, "dist"
+bin_dir = File.join root_dir, "bin"
+emu = "beam"
+prog_name = "erl"
+
+# Store the strings in environment variables
+ENV['EMU'] = emu
+ENV['ROOTDIR'] = root_dir
+ENV['BINDIR'] = bin_dir
+ENV['PROGNAME'] = prog_name
+
+# Construct a string representing the path to the Erlang executable and
+# the arguments given to this script
+# (surround each set of args with quotes to handle spaces nicely)
+cmd = "\"#{File.join(bin_dir, "erlexec")}\" #{ARGV.map{|s| "\"#{s}\""}.join(" ")}"
+
+# Replace this process with the Erlang BEAM and away we go!
+exec cmd
