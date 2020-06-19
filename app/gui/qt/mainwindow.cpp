@@ -50,6 +50,8 @@
 #include "model/sonicpitheme.h"
 #include "visualizer/scope.h"
 
+#include "utils/borderlesslinksproxystyle.h"
+
 // OSC stuff
 #include "osc/oscpkt.hh"
 #include "osc/udp.hh"
@@ -88,6 +90,7 @@ void sleep(int x) { Sleep((x)*1000); }
 #endif
 
 #include "mainwindow.h"
+
 
 #ifdef Q_OS_MAC
 MainWindow::MainWindow(QApplication &app, bool i18n, QMainWindow* splash)
@@ -783,6 +786,7 @@ void MainWindow::setupWindowStructure() {
     docPane->setMinimumHeight(100);
     docPane->setOpenLinks(false);
     docPane->setOpenExternalLinks(true);
+    docPane->setStyle(new BorderlessLinksProxyStyle);
     connect(docPane, SIGNAL(anchorClicked(const QUrl &)), this, SLOT(docLinkClicked(const QUrl &)));
 
     QShortcut *up = new QShortcut(ctrlKey('p'), docPane);
