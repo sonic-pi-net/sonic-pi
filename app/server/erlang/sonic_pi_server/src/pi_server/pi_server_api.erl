@@ -111,6 +111,10 @@ loop(State) ->
                     debug("got bundle for time ~f~n", [Time]),
                     NewState = do_bundle(Time, X, State),
                     ?MODULE:loop(NewState);
+                {cmd, ["/midi", OSC]} ->
+                    MIDIServer = maps:get(midi_server, State),
+                    MIDIServer ! {send_now, OSC},
+                    ?MODULE:loop(State);
                 {cmd, ["/midi_flush"]=Cmd} ->
                     debug_cmd(Cmd),
                     MIDIServer = maps:get(midi_server, State),

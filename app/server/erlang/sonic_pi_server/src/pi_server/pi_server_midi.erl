@@ -58,6 +58,9 @@ init(Parent, CueServer) ->
 
 loop(State) ->
     receive
+        {send_now, Data} ->
+            midi_send_now(Data),
+            ?MODULE:loop(State);
         {send, Time, Data} ->
             midi_send(Time, Data),
             ?MODULE:loop(State);
@@ -121,6 +124,11 @@ update_midi_ports(State) ->
 midi_send(_Time, Data) ->
     log("sending MIDI: ~p~n", [Data]),
     sp_midi:midi_send(Data).
+
+midi_send_now(Data) ->
+    log("sending MIDI now: ~p~n", [Data]),
+    sp_midi:midi_send(Data).
+
 
 %% sys module callbacks
 
