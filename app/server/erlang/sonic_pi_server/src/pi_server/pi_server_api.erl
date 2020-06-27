@@ -164,10 +164,10 @@ debug_cmd([Cmd|Args]) ->
 do_bundle(Time, [{_,Bin}|T], State) ->
     NewState =
         try osc:decode(Bin) of
-            {cmd, ["/send_after", Host, Port | Cmd]} ->
-                schedule_cmd("default", Time, Host, Port, Cmd, State);
-            {cmd, ["/send_after_tagged", Tag, Host, Port | Cmd]} ->
-                schedule_cmd(Tag, Time, Host, Port, Cmd, State);
+            {cmd, ["/send_after", Host, Port , OSC]} ->
+                schedule_cmd("default", Time, Host, Port, OSC, State);
+            {cmd, ["/send_after_tagged", Tag, Host, Port, OSC]} ->
+                schedule_cmd(Tag, Time, Host, Port, OSC, State);
             {cmd, ["/midi_at", Cmd]} ->
                 schedule_midi("default", Time, Cmd, State);
             {cmd, ["/midi_at_tagged", Tag, Cmd]} ->
@@ -206,9 +206,9 @@ schedule_midi(Tag, Time, Data, State) ->
 
 
 %% Schedules a command for forwarding (or forwards immediately)
-schedule_cmd(Tag, Time, Host, Port, Cmd, State) ->
+schedule_cmd(Tag, Time, Host, Port, OSC, State) ->
    {Tracker, NewState} = tracker_pid(Tag, State),
-    Data = {Host, Port, osc:encode(Cmd)},
+    Data = {Host, Port, OSC},
     Delay = Time - osc:now(),
     MsDelay = trunc(Delay*1000+0.5), %% nearest
     if MsDelay > ?NODELAY_LIMIT ->
