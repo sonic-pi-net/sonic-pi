@@ -480,7 +480,7 @@ Sonic Pi %1 i Al</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1265"/>
         <source>Please consider reporting a bug at</source>
-        <translation>Lütfen ...&apos;da bir hata raporlamayı deneyin</translation>
+        <translation>Lütfen karşılaştığınız hatayı şu adrese bildirin</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2063"/>
