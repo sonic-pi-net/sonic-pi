@@ -700,7 +700,7 @@ osc \"/foo/baz\"             # Send an OSC message to port 7000
 
       def __osc_send(host, port, path, *args)
         m = @osc_client.encoder.encode_single_message(path, args)
-        __osc_send_api("/send_after", host, port, Blob.new(m))
+        __osc_send_api("/send_after", host, port, SonicPi::OSC::Blob.new(m))
       end
 
       def osc_send(host, port, path, *args)
