@@ -72,10 +72,11 @@ encode_string(S) ->
 
 encode_binary(Bin) ->
     %% pad to size 4
-    Pad = size(Bin) rem 4,
-    Padded = <<Bin/binary, 0:((4-Pad)*8)>>,
-    Size = size(Padded),
-    <<Size:32,Padded/binary>>.
+    SizeOfBin = size(Bin),
+    OSCBlob = <<SizeOfBin:32,Bin/binary>>,
+    Pad = (4 - (size(OSCBlob) rem 4)) rem 4,
+    <<OSCBlob/binary, 0:((4-Pad)*8)>>.
+
 
 encode_flags(L) when is_list(L) ->
     %% flags starts with , and is terminated with a zero
@@ -169,22 +170,19 @@ get_args([$d|T1], <<Double:64/float, T2/binary>>, L) ->
 get_args([$s|T1], B0, L) ->
     {Str, B1} = get_string(B0),
     get_args(T1, B1, [Str|L]);
-get_args([$b|T1], B0, L) ->
-    {Bin, B1} = get_binary(B0),
-    get_args(T1, B1, [Bin|L]);
+get_args([$b|T1], <<Size:32, Bin:Size/binary, RestBin/binary>>, L) ->
+    PaddingSize = (4 - (Size rem 4)) rem 4,
+    get_args(T1, skip(PaddingSize, RestBin), [Bin|L]);
 get_args([], _, L) ->
     lists:reverse(L).
 
-get_binary(<<Size:32, Bin:Size/binary, Rest/binary>>)  ->
-    K = (4 - (Size + 4)) rem 4,
-    {TrimmedRest, _} = erlang:split_binary(Rest, K),
-    {Bin, TrimmedRest}.
-
 get_string(X) when is_binary(X) ->
-    [Bin,After] = binary:split(X, <<0>>),
+    [Bin,RestBin] = binary:split(X, <<0>>),
     %% skip to bounday
-    K = 3 - (size(Bin) rem 4),
-    {binary_to_list(Bin), skip(K, After)}.
+    PaddingSize = 3 - (size(Bin) rem 4),
+    {binary_to_list(Bin), skip(PaddingSize, RestBin)}.
 
 skip(0, B) -> B;
-skip(N, B) -> element(2, erlang:split_binary(B, N)).
+skip(N, B) ->
+    <<_:N/binary, BinRest/binary>> = B,
+    BinRest.
