@@ -168,7 +168,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2100"/>
         <source>Toggle Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Kapsamı Değiştir</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2102"/>
@@ -248,7 +248,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="747"/>
         <source>Cues</source>
-        <translation type="unfinished">Ses çizelgesi</translation>
+        <translation>Ses çizelgesi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="842"/>
@@ -280,7 +280,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="730"/>
         <source>Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Uygulama Kapsamı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1511"/>
@@ -425,17 +425,17 @@ Sonic Pi %1 i Al</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2776"/>
         <source>Disabling OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>OSC işaret bağlantı noktası devre dışı bırakılıyor ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2785"/>
         <source>Enabling external OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>Harici OSC işaret bağlantı noktası aktifleştiriliyor...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2794"/>
         <source>Enabling internal OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>Dahili OSC işaret bağlantı noktası aktifleştiriliyor...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2852"/>
@@ -617,7 +617,7 @@ Sonic Pi %1 i Al</translation>
     <message>
         <location filename="../visualizer/scope.cpp" line="396"/>
         <source>Mirror Stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>Stereo Sesi Yansıla</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="398"/>
@@ -630,7 +630,7 @@ Sonic Pi %1 i Al</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="31"/>
         <source>Audio</source>
-        <translation type="unfinished">Ses</translation>
+        <translation>Ses</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="34"/>
@@ -640,7 +640,7 @@ Sonic Pi %1 i Al</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="37"/>
         <source>Editor</source>
-        <translation type="unfinished">Editör</translation>
+        <translation>Editör</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="40"/>
@@ -651,7 +651,7 @@ Sonic Pi %1 i Al</translation>
         <location filename="../widgets/settingswidget.cpp" line="43"/>
         <location filename="../widgets/settingswidget.cpp" line="409"/>
         <source>Updates</source>
-        <translation type="unfinished">Güncellemeler</translation>
+        <translation>Güncellemeler</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="80"/>
@@ -672,24 +672,26 @@ Sonic Pi %1 i Al</translation>
         <location filename="../widgets/settingswidget.cpp" line="88"/>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
-        <translation type="unfinished">Sonic Pi ile çalışan harici PA sistemler için ileri seviye ayarlar.</translation>
+        <translation>Sonic Pi ile kodlarken harici PA sistemleriyle çalışmak için gelişmiş ses ayarları.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="89"/>
         <source>Invert stereo</source>
-        <translation type="unfinished">Ters stereo</translation>
+        <translation>Stereo çıkışı çevir</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="90"/>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and vice versa.</source>
-        <translation type="unfinished"></translation>
+        <translation>Stereo dönüştürmeyi aç / kapat.
+Etkinleştirilirse, sol hoparlöre gönderilen ses 
+sağ hoparlöre yönlendirilir veya tersi de geçerlidir.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="91"/>
         <source>Force mono</source>
-        <translation type="unfinished">Mecburi mono</translation>
+        <translation>Mono çıkışa zorla</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="92"/>
@@ -698,35 +700,38 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation type="unfinished">Mono modu etkinleştirme.
-Etkinleştirildiği taktirde, stereo çıkışı birleştirerek sağ ve sol hoparlölerden aynı sesi verecektir.</translation>
+        <translation>Mono modu etkinleştirme.
+Etkinleştirildiği taktirde, stereo çıkışı birleştirerek sağ ve sol hoparlölerden aynı sesi verecektir.
+Yalnızca mono işleyebilen harici sistemlerle çalışırken kullanışlıdır.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="101"/>
         <source>Synths and FX</source>
-        <translation type="unfinished">Synth ve FX</translation>
+        <translation>Synth ve FX</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="102"/>
         <source>Modify behaviour of synths and FX</source>
-        <translation type="unfinished">Synth ve FX Ayarlarını Değiştir</translation>
+        <translation>Synth ve FX Ayarlarını Değiştir</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="104"/>
         <source>Safe mode</source>
-        <translation type="unfinished">Güvenli Mod</translation>
+        <translation>Güvenli Mod</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="105"/>
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Synth argümanı kontrol işlevlerini aç / kapat. 
+Devre dışı bırakılırsa, belirli synth opt değerleri 
+beklenmedik şekilde yüksek veya rahatsız edici sesler oluşturabilir.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="107"/>
         <source>Enforce timing guarantees</source>
-        <translation type="unfinished"></translation>
+        <translation>Zamanlama garantilerini uygula</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="108"/>
@@ -737,12 +742,15 @@ it is too late to do so
 When disabled, Sonic Pi will always
 attempt to trigger synths and FX
 even when a little late.</source>
-        <translation type="unfinished"></translation>
+        <translation>Etkinleştirildiğinde, 
+Sonic Pi bunu yapmak için çok geç olursa synth&apos;leri ve FX&apos;i tetiklemeyi reddeder. 
+Devre dışı bırakıldığında Synths ve FX biraz geç olsa bile 
+Sonic Pi her zaman tetiklemeye çalışır.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="110"/>
         <source>Enable external synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Harici Synth ve FX&apos;i etkinleştir</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="111"/>
@@ -753,19 +761,21 @@ to be triggered.
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
 which isn&apos;t recognised.</source>
-        <translation type="unfinished"></translation>
+        <translation>Etkinleştirildiğinde Sonic Pi, load_synthdefs aracılığıyla yüklenen synth&apos;lerin ve FX&apos;in tetiklenmesine izin verir.
+
+Devre dışı bırakıldığında, Sonic Pi tanınmayan bir synth veya FX kullanmaya çalıştığınızda şikayet eder.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="135"/>
         <source>Networked OSC</source>
-        <translation type="unfinished"></translation>
+        <translation>Ağa bağlı OSC</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="136"/>
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi, o anda bağlı olan ağ üzerinden diğer programlara veya bilgisayarlara Açık Ses Kontrolü mesajları gönderip alabilir.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="139"/>
@@ -785,13 +795,14 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="165"/>
         <source>Send/Receive remote OSC messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Uzak OSC mesajları Gönder/Al</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="166"/>
         <source>When checked, Sonic Pi will let you send and receive OSC messages to and from remote machines.
  When unchecked, only sending and receiving from the local machine will be enabled.</source>
-        <translation type="unfinished"></translation>
+        <translation>İşaretlendiğinde, Sonic Pi uzak makinelere OSC mesajları gönderip almanızı sağlar. 
+İşaretlenmediğinde, yalnızca yerel makineden gönderme ve alma etkinleştirilir.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="168"/>
@@ -881,12 +892,12 @@ Sonic Pi&apos;a gönderir ve cue olayları olarak algılanır
         <location filename="../widgets/settingswidget.cpp" line="232"/>
         <source>MIDI output devices receive MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI çıkış cihazları midi_ * fns aracılığıyla gönderilebilen doğrudan Sonic Pi&apos;den MIDI mesajları alır.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="262"/>
         <source>Show and Hide</source>
-        <translation type="unfinished">Göster ve Sakla</translation>
+        <translation>Göster ve Sakla</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="263"/>
@@ -896,22 +907,22 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="264"/>
         <source>Look and Feel</source>
-        <translation type="unfinished">Bak ve Hisset</translation>
+        <translation>Görünüm</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="265"/>
         <source>Configure editor look and feel.</source>
-        <translation type="unfinished"></translation>
+        <translation>Editör görünümünü yapılandırın.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="266"/>
         <source>Automation</source>
-        <translation type="unfinished">Otomasyon</translation>
+        <translation>Otomasyon</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="267"/>
         <source>Configure automation features.</source>
-        <translation type="unfinished">Otomasyon özelliklerini ayarla.</translation>
+        <translation>Otomasyon özelliklerini ayarla.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="269"/>
@@ -926,47 +937,47 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="272"/>
         <source>Show line numbers</source>
-        <translation type="unfinished">Satır numaralarını göster</translation>
+        <translation>Satır numaralarını göster</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="273"/>
         <source>Toggle line number visibility.</source>
-        <translation type="unfinished">Satır sayısını göster.</translation>
+        <translation>Satır sayısı görünürlüğünü değiştir.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="274"/>
         <source>Show log</source>
-        <translation type="unfinished">Kayıtları göster</translation>
+        <translation>Kayıtları göster</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="275"/>
         <source>Toggle visibility of the log.</source>
-        <translation type="unfinished">Kayıt defterini görünür yap.</translation>
+        <translation>Kayıt defterini görünürlüğünü ayarla.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="278"/>
         <source>Show cue log</source>
-        <translation type="unfinished"></translation>
+        <translation>İşaret günlüğünü göster</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="279"/>
         <source>Toggle visibility of cue log which displays internal cues &amp; incoming OSC/MIDI messages.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dahili işaretleri ve gelen OSC / MIDI mesajlarını gösteren işaret günlüğünün görünürlüğünü değiştir.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="282"/>
         <source>Show buttons</source>
-        <translation type="unfinished">Düğmeleri göster</translation>
+        <translation>Düğmeleri göster</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="283"/>
         <source>Toggle visibility of the control buttons.</source>
-        <translation type="unfinished">Kontrol düğmelerini görünür yap.</translation>
+        <translation>Kontrol düğmelerini görünürlüğünü değiştir.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="285"/>
         <source>Show tabs</source>
-        <translation type="unfinished">&quot;tab&quot;ları göster</translation>
+        <translation>&quot;tab&quot;ları göster</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="287"/>
@@ -976,12 +987,12 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="288"/>
         <source>Full screen</source>
-        <translation type="unfinished">Tam ekran</translation>
+        <translation>Tam ekran</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="289"/>
         <source>Toggle full screen mode.</source>
-        <translation type="unfinished">Tam ekran modu.</translation>
+        <translation>Tam ekran moduna geçin.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="292"/>
@@ -1011,98 +1022,101 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="326"/>
         <source>Logging</source>
-        <translation type="unfinished">Günlüğe kaydediliyor</translation>
+        <translation>Günlüğe kaydediliyor</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="327"/>
         <source>Configure debug behaviour</source>
-        <translation type="unfinished">Hata ayıklama davranışını yapılandır</translation>
+        <translation>Hata ayıklama davranışını yapılandır</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="329"/>
         <source>Log synths</source>
-        <translation type="unfinished"></translation>
+        <translation>Synth günlükleri</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="330"/>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation type="unfinished">Log mesajlarını aktif et.
+        <translation>Log mesajlarını aktif et.
 Kapalıysa, örnek ve sistem sesleri
 kayıt defterine yazılmaz.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="332"/>
         <source>Clear log on run</source>
-        <translation type="unfinished">Çalıştırmada kayıt defterini temizle</translation>
+        <translation>Çalıştırmada kayıt defterini temizle</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="333"/>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation type="unfinished">Başlangıçta kayıt defterini temizleme.
+        <translation>Başlangıçta kayıt defterini temizleme.
 Açıksa, kayıt defteri çalıştır butonu
 her basıldığında temizlenir.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="335"/>
         <source>Log cues</source>
-        <translation type="unfinished"></translation>
+        <translation>İşaretçileri günlükle</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="336"/>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation type="unfinished"></translation>
+        <translation>İşaretlerin günlüğe kaydedilmesini etkinleştirin veya devre dışı bırakın.
+Devre dışı bırakılırsa ipuçları yine de tetiklenir.
+Ancak, günlüklerde görünmezler.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="338"/>
         <source>Auto-scroll log</source>
-        <translation type="unfinished"></translation>
+        <translation>Günlükleri otomatik kaydır</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="339"/>
         <source>Toggle log auto scrolling.
 If enabled the log is scrolled to the bottom after every new message is displayed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Günlük otomatik kaydırmayı aç / kapat.
+Etkinleştirilirse, her yeni mesaj görüntülendikten sonra günlük en alta kaydırılır.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="362"/>
         <source>Settings useful for performing with Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi ile performans için yararlı ayarlar</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="366"/>
         <source>Show and Hide Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Kapsamı Göster ve Gizle</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="367"/>
         <source>Scope Kinds</source>
-        <translation type="unfinished"></translation>
+        <translation>Kapsam Çeşitleri</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="375"/>
         <source>Show Scopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Kapsamları Göster</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="376"/>
         <source>Toggle the visibility of the audio oscilloscopes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses osiloskoplarının görünürlüğünü değiştir.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="377"/>
         <source>Show Axes</source>
-        <translation type="unfinished"></translation>
+        <translation>Eksenleri Göster</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="378"/>
         <source>Toggle the visibility of the axes for the audio oscilloscopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses osiloskopları için eksenlerin görünürlüğünü değiştir</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="381"/>
@@ -1112,56 +1126,60 @@ be viewed independently or all together:
 Lissajous - illustrates the phase relationship between the left and right channels
 Mono - shows a combined view of the left and right channels (using RMS)
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses osiloskopu, bağımsız olarak veya hep birlikte görüntülenebilen üç çeşide sahiptir:
+
+Lissajous - sol ve sağ kanallar arasındaki faz ilişkisini gösterir 
+Mono - sol ve sağ kanalların birleşik bir görünümünü gösterir (RMS kullanarak) 
+Stereo - sol ve sağ kanallar için iki bağımsız kapsam gösterir</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="388"/>
         <source>Transparency</source>
-        <translation type="unfinished">Saydamlık</translation>
+        <translation>Saydamlık</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="411"/>
         <source>Check for updates</source>
-        <translation type="unfinished">Güncellemeleri kontrol et</translation>
+        <translation>Güncellemeleri kontrol et</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="413"/>
         <source>Toggle automatic update checking.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished">Otomatik güncelleme kontrolü.
+        <translation>Otomatik güncelleme kontrolü.
 Bu kutucuk platform ve versiyonunuz hakkında anonim bilgi göndermeyi kapsar.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="414"/>
         <source>Check now</source>
-        <translation type="unfinished">Şimdi kontrol et</translation>
+        <translation>Şimdi kontrol et</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="415"/>
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished">Şuan mecburi bir güncelleme kontrolü yap.
+        <translation>Şuan mecburi bir güncelleme kontrolü yap.
 Bu kutucuk platform ve versiyonunuz hakkında anonim bilgi göndermeyi kapsar.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="416"/>
         <source>Get update</source>
-        <translation type="unfinished">Güncelle</translation>
+        <translation>Güncelle</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="417"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation type="unfinished">Yeni versiyonu indirmek için &quot;http://sonic-pi.net&quot;i ziyaret edin</translation>
+        <translation>Yeni versiyonu indirmek için &quot;http://sonic-pi.net&quot;i ziyaret edin</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="420"/>
         <source>Update Info</source>
-        <translation type="unfinished">Güncelleme Bilgisi</translation>
+        <translation>Güncelleme Bilgisi</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="423"/>
         <source>Sonic Pi update info</source>
-        <translation type="unfinished">Sonic Pi güncelleme bilgisi</translation>
+        <translation>Sonic Pi güncelleme bilgisi</translation>
     </message>
 </context>
 <context>
