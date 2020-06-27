@@ -480,7 +480,7 @@ Sonic Pi %1 i Al</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1265"/>
         <source>Please consider reporting a bug at</source>
-        <translation>Lütfen bir hata raporlayın</translation>
+        <translation>Lütfen ...&apos;da bir hata raporlamayı deneyin</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2063"/>
@@ -873,7 +873,9 @@ Seçim kaldırıldığında hiç OSC mesajı alınmayacak.</translation>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI giriş aygıtları MIDI mesajlarını direkt olarak
+Sonic Pi&apos;a gönderir ve cue olayları olarak algılanır
+(iç cue&apos;lara ve gelen OSC mesajlarına benzer olarak)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="232"/>
