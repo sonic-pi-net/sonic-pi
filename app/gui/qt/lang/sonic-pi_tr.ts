@@ -672,7 +672,8 @@ Sonic Pi %1 i Al</translation>
         <location filename="../widgets/settingswidget.cpp" line="88"/>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
-        <translation>Sonic Pi ile kodlarken harici PA sistemleriyle çalışmak için gelişmiş ses ayarları.</translation>
+        <translation>Sonic Pi ile kodlarken harici PA sistemleriyle
+ çalışmak için gelişmiş ses ayarları.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="89"/>
@@ -701,8 +702,10 @@ the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
         <translation>Mono modu etkinleştirme.
-Etkinleştirildiği taktirde, stereo çıkışı birleştirerek sağ ve sol hoparlölerden aynı sesi verecektir.
-Yalnızca mono işleyebilen harici sistemlerle çalışırken kullanışlıdır.</translation>
+Etkinleştirildiği taktirde, stereo çıkışı birleştirerek 
+sağ ve sol hoparlölerden aynı sesi verecektir.
+Yalnızca mono işleyebilen harici sistemlerle 
+çalışırken kullanışlıdır.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="101"/>
@@ -743,7 +746,10 @@ When disabled, Sonic Pi will always
 attempt to trigger synths and FX
 even when a little late.</source>
         <translation>Etkinleştirildiğinde, 
-Sonic Pi bunu yapmak için çok geç olursa synth&apos;leri ve FX&apos;i tetiklemeyi reddeder. 
+Sonic Pi bunu yapmak için 
+çok geç olursa synth&apos;leri ve FX&apos;i 
+tetiklemeyi reddeder. 
+
 Devre dışı bırakıldığında Synths ve FX biraz geç olsa bile 
 Sonic Pi her zaman tetiklemeye çalışır.</translation>
     </message>
@@ -761,9 +767,13 @@ to be triggered.
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
 which isn&apos;t recognised.</source>
-        <translation>Etkinleştirildiğinde Sonic Pi, load_synthdefs aracılığıyla yüklenen synth&apos;lerin ve FX&apos;in tetiklenmesine izin verir.
+        <translation>Etkinleştirildiğinde Sonic Pi, load_synthdefs
+ aracılığıyla yüklenen synth&apos;lerin ve FX&apos;in
+ tetiklenmesine izin verir.
 
-Devre dışı bırakıldığında, Sonic Pi tanınmayan bir synth veya FX kullanmaya çalıştığınızda şikayet eder.</translation>
+Devre dışı bırakıldığında, Sonic Pi tanınmayan 
+bir synth veya FX kullanmaya çalıştığınızda 
+şikayet eder.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="135"/>
@@ -775,7 +785,9 @@ Devre dışı bırakıldığında, Sonic Pi tanınmayan bir synth veya FX kullan
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation>Sonic Pi, o anda bağlı olan ağ üzerinden diğer programlara veya bilgisayarlara Açık Ses Kontrolü mesajları gönderip alabilir.</translation>
+        <translation>Sonic Pi, o anda bağlı olan ağ üzerinden diğer programlara 
+veya bilgisayarlara Açık Ses Kontrolü (OSC) mesajları 
+gönderip alabilir.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="139"/>
@@ -892,7 +904,8 @@ Sonic Pi&apos;a gönderir ve cue olayları olarak algılanır
         <location filename="../widgets/settingswidget.cpp" line="232"/>
         <source>MIDI output devices receive MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation>MIDI çıkış cihazları midi_ * fns aracılığıyla gönderilebilen doğrudan Sonic Pi&apos;den MIDI mesajları alır.</translation>
+        <translation>MIDI çıkış cihazları midi_ * fns aracılığıyla gönderilebilen 
+doğrudan Sonic Pi&apos;den MIDI mesajları alır</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="262"/>
@@ -1126,7 +1139,8 @@ be viewed independently or all together:
 Lissajous - illustrates the phase relationship between the left and right channels
 Mono - shows a combined view of the left and right channels (using RMS)
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation>Ses osiloskopu, bağımsız olarak veya hep birlikte görüntülenebilen üç çeşide sahiptir:
+        <translation>Ses osiloskopu, bağımsız olarak veya hep birlikte 
+görüntülenebilen üç çeşide sahiptir:
 
 Lissajous - sol ve sağ kanallar arasındaki faz ilişkisini gösterir 
 Mono - sol ve sağ kanalların birleşik bir görünümünü gösterir (RMS kullanarak) 
