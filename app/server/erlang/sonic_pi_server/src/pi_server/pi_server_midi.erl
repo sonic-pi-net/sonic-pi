@@ -122,7 +122,7 @@ update_midi_ports(State) ->
     end.
 
 midi_send(_Time, Data) ->
-    log("sending MIDI: ~p~n", [Data]),
+    debug("sending MIDI: ~p~n", [Data]),
     sp_midi:midi_send(Data).
 
 midi_send_now(Data) ->
