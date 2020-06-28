@@ -4,8 +4,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-06-19 15:41+0000\n"
-"Last-Translator: Adeilson Silva <adeilson@protonmail.com>\n"
+"PO-Revision-Date: 2020-06-28 18:41+0000\n"
+"Last-Translator: Thiago Buenos Aires Mattos <thiagobuenosairesmattos@gmail."
+"com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/pt_BR/>\n"
 "Language: pt-BR\n"
@@ -13,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.1.1\n"
+"X-Generator: Weblate 4.2-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -75,16 +76,15 @@ msgstr ""
 " deixe-me saber e vou considerar isto para uma versão futura."
 
 #: 01-Welcome-to-Sonic-Pi.md:28
-#, fuzzy
 msgid ""
 "Finally, watching others live code is a really great way to learn. I regularly"
 " stream live on [https://youtube.com/samaaron](http://youtube.com/samaaron) so"
 " please do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
-"Finalizando, assistir outras pessoas programando é uma ótima maneira de se apr"
-"ender. Eu faço regularmente transmissões ao vivo no [http://youtube.com/samaar"
-"on](http://youtube.com/samaaron) então entre, me dê um oi e faça um monte de p"
-"erguntas :-)"
+"E por fim, assistir outras pessoas programando é uma ótima maneira de se "
+"aprender. Eu faço transmissões ao vivo regularmente em [http://youtube.com/"
+"samaaron](http://youtube.com/samaaron) então entre, me dê um oi e faça um "
+"monte de perguntas :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
@@ -132,9 +132,8 @@ msgid "A live loop"
 msgstr "Repetição ao vivo"
 
 #: 01.1-Live-Coding.md:19
-#, fuzzy
 msgid "Let's get started, copy the following code into an empty buffer:"
-msgstr "Vamos começar, copie o código a seguir em algum buffer vazio acima:"
+msgstr "Vamos começar, copie o código a seguir em algum buffer vazio:"
 
 #: 01.1-Live-Coding.md:21
 #, no-wrap
@@ -371,7 +370,6 @@ msgstr ""
 "m tempinho explorando-a."
 
 #: 01.2-Exploring-the-Interface.md:8
-#, fuzzy
 msgid "![Sonic Pi Interface](../../../etc/doc/images/tutorial/GUI.png)"
 msgstr "![Interface do Sonic Pi](../../../etc/doc/images/tutorial/GUI.png)"
 
@@ -433,6 +431,8 @@ msgid ""
 "These orange buttons allow you to manipulate the code editor. The *Size +* and"
 " *Size -* buttons allow you to make the text bigger and smaller."
 msgstr ""
+"Esses botões laranja te permitem manipular o editor de código. Os botões "
+"\"Size +\" e \"Size -\" permitem aumentar e diminuir o texto."
 
 #: 01.2-Exploring-the-Interface.md:34
 msgid "C. Info and Help"
@@ -578,7 +578,6 @@ msgid "There are no mistakes"
 msgstr "Não existem erros"
 
 #: 01.3-Learning-through-Play.md:12
-#, fuzzy
 msgid ""
 "Whilst we're on this subject, let me just give you one piece of advice I've le"
 "arned over my years of live coding with music - *there are no mistakes, only o"
@@ -591,16 +590,17 @@ msgid ""
 "sound, manipulate it and morph it into something awesome. The crowd will go *w"
 "ild*."
 msgstr ""
-"Ainda sobre este assunto, deixe-me te dar um um conselho que eu aprendi ao lon"
-"go dos meus anos de Live Coding com música - *não existem erros, somente oport"
-"unidades*. Isso é algo que ouvi bastante em relação ao jazz, mas funciona igua"
-"lmente com Live Coding. Não importa o quão experiente você seja - desde um ini"
-"ciante até um *Algoraver* experiente - as vezes você irá executar um código qu"
-"e irá gerar um resultado completamente inesperado, que irá soar insanamente le"
-"gal - e neste, continue com ele. Entretanto, pode soar totalmente dissonante e"
-" fora de contexto. Não importa que isso aconteça - o que importa é que o que v"
-"ocê irá fazer com isso. Pegue o som, malipule-o e transforme-o em algo maravil"
-"hoso. A multidão irá à *loucura*."
+"Ainda sobre este assunto, deixe-me te dar um um conselho que eu aprendi ao "
+"longo dos meus anos de Live Coding com música - *não existem erros, somente "
+"oportunidades*. Isso é algo que ouvi bastante em relação ao jazz, mas "
+"funciona igualmente com Live Coding. Não importa o quão experiente você seja "
+"- desde um iniciante até um live coder experiente - as vezes você irá "
+"executar um código que irá gerar um resultado completamente inesperado. O "
+"que pode soar insanamente legal - e neste caso, continue com ele. "
+"Entretanto, pode soar totalmente dissonante e fora de contexto. Não importa "
+"que isso aconteça - o que importa é que o que você irá fazer com isso. Pegue "
+"o som, manipule-o e transforme-o em algo maravilhoso. A multidão irá à "
+"*loucura*."
 
 #: 01.3-Learning-through-Play.md:24
 msgid "Start Simple"
@@ -738,14 +738,18 @@ msgstr ""
 "lado direito) produzem notas agudas."
 
 #: 02.1-Your-First-Beeps.md:38
-#, fuzzy
 msgid ""
 "It turns out that the C of the 4th octave (C in English notation) is identifie"
 "d by the number 60. `play 60` therefore plays the C of the 4th octave. To play"
 " the next piano key to the right, you have to add 1 to 60 and then type `play "
 "61`, which in this case is the black key of the C sharp. To play the D, the ne"
 "xt key to the right, `play 62`."
-msgstr "play 60"
+msgstr ""
+"Acontece que o Dó da 4ª oitava (C em notação em inglês) é identificado pelo "
+"número 60. 'play 60`, portanto, reproduz o Dó da 4ª oitava. Para tocar a "
+"próxima tecla de piano à direita, você deve adicionar 1 a 60 e digitar `play "
+"61`, que neste caso é a tecla preta do Dó sustenido. Para tocar o Ré, a "
+"próxima tecla à direita, `play 62`."
 
 #: 02.1-Your-First-Beeps.md:40
 msgid ""
@@ -1220,7 +1224,6 @@ msgid "Switching Synths"
 msgstr "Trocando Sintetizadores"
 
 #: 02.3-Switching-Synths.md:5
-#, fuzzy
 msgid ""
 "So far we've had quite a lot of fun making beeps. However, you're probably sta"
 "rting to get bored of the basic beep noise. Is that all Sonic Pi has to offer?"
@@ -1228,11 +1231,11 @@ msgid ""
 " in this section we'll explore some of the exciting range of sounds that Sonic"
 " Pi has to offer."
 msgstr ""
-"Até agora nós nos divertimos bastante fazendo bips. Entretanto você provavelme"
-"nte está começando a ficar cansado do barulho deste bip básico. Isso é tudo qu"
-"e o Sonic Pi tem a oferecer? Certamente deve haver muito mais no 'live coding'"
-" do que só tocar bips? Sim, há e nesta seção exploraremos a excitante variedad"
-"e de sons que o Sonic Pi tem a oferecer."
+"Até agora nós nos divertimos bastante fazendo bips. Entretanto você "
+"provavelmente está começando a ficar cansado do barulho deste bip básico. "
+"Isso é tudo que o Sonic Pi tem a oferecer? Certamente deve haver muito mais "
+"no 'live coding' do que só tocar bips? Tem sim, e nesta seção exploraremos a "
+"excitante variedade de sons que o Sonic Pi tem a oferecer."
 
 #: 02.3-Switching-Synths.md:13
 #, fuzzy
