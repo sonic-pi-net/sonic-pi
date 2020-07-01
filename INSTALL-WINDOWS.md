@@ -132,15 +132,20 @@ Sonic Pi. We need to:
 
 Before we can build Sonic Pi we must first get a copy of the source
 code. The easiest way of getting this is likely to clone from GitHub
-into a folder on your hard drive such as `c:/dev/sonic-pi`:
+into a folder on your hard drive such as `c:\dev\sonic-pi`:
 
 ```
-git clone https://github.com/samaaron/sonic-pi.git c:/dev/sonic-pi
+git clone https://github.com/samaaron/sonic-pi.git c:\dev\sonic-pi
 ``` 
 
 If you don't have git installed you should be able to download a `.zip`
 file of the latest commit or specific release you'd like to build:
 
+https://github.com/samaaron/sonic-pi/archive/main.zip
+
+From now on these instructions will assume you downloaded the source 
+into `C:\dev\sonic-pi`. If you used a different location be sure to
+change any future references to `C:\dev\sonic-pi` to your chosen location.
 
 ### 2.2 Link Ruby
 
@@ -153,12 +158,12 @@ Ruby. For example, this might be `C:\Ruby26-x64`.
 Finally, open a console as administrator (this is necessary for making the
 link). Then `cd` into the `sonic-pi\app\server\native` directory within
 your copy of Sonic Pi's source. For example, if you put Sonic Pi within
-`C\dev` and installed Ruby to `C:\Ruby26-x64` then you'd do the
+`C:\dev` and installed Ruby to `C:\Ruby26-x64` then you'd do the
 following:
 
 ```
-cd c:\dev\sonic-pi\app\server\native
-mklink /d ruby c:\Ruby26-x64
+cd C:\dev\sonic-pi\app\server\native
+mklink /d ruby C:\Ruby26-x64
 ```
 
 ## 3. Running the Build
@@ -177,7 +182,7 @@ which will:
 Firstly, we need to change to the `Qt` directory which is within `app\gui`:
 
 ```
-cd c:\dev\sonic-pi\app\gui\qt
+cd C:\dev\sonic-pi\app\gui\qt
 ```
 
 ### 3.2 Config
