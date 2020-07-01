@@ -62,7 +62,7 @@ https://visualstudio.microsoft.com/downloads/
 Install the latest version of Qt (currently tested on 5.15.0) - ensure
 you pick 64 bit options for mscv:
 
-http://download.qt.io/official_releases/qt/5.15/5.15.0/single/qt-everywhere-src-5.15.0.
+http://download.qt.io/official_releases/qt/5.15/5.15.0/single/qt-everywhere-src-5.15.0.zip
 
 You now need to setup the environment variable `QT_INSTALL_LOCATION` to
 point to Qt's new install location.
