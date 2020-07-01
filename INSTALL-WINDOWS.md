@@ -27,17 +27,17 @@ and to run
 3. Build Sonic Pi using `cmake`
 4. Start your new Sonic Pi using your newly built `.exe` file.
 
-### Note
+### Notes
 
-The current build on windows is assumed to be a 64 bit build done
-with Visual Studio 2019 (Community edition is fine). 
+__The current build on windows is assumed to be a 64 bit build done
+with Visual Studio 2019 (Community edition is fine).__
 
-If you're attempting to build 32 bit binaries, there are equivalent
+__If you're attempting to build 32 bit binaries, there are equivalent
 32-bit build scripts, but these are currently largely untested. Do reach
-out if you're trying to do this and need some help in the forums.
+out if you're trying to do this and need some help in the forums.__
 
 
-## Installing Dependencies
+## 1. Installing Dependencies
 
 In order to build the Sonic Pi's various components, we need to install a few
 dependencies:
@@ -49,7 +49,7 @@ dependencies:
 
 Let's look at each in turn.
 
-### Install - Visual Studio 2019 
+### 1.1 Install - Visual Studio 2019 
 
 If you don't already have VS installed, head over to the downloads page
 and grab a copy of the *free* Community edition:
@@ -57,7 +57,7 @@ and grab a copy of the *free* Community edition:
 https://visualstudio.microsoft.com/downloads/
 
 
-### Install - Qt
+### 1.2 Install - Qt
 
 Install the latest version of Qt (currently tested on 5.15.0) - ensure
 you pick 64 bit options for mscv:
@@ -82,14 +82,14 @@ setx QT_INSTALL_LOCATION C:\Qt\Qt5.15.0\5.15.0\msvc2017_64
 
 (followed by restarting your command prompt)
 
-### Install - CMake
+### 1.3 Install - CMake
 
 We use a build system called CMake to automatically build both Sonic
 Pi's GUI and many many of its dependencies.
 
-2) Install the latest CMake from here: http://www.cmake.org/download.
+Install the latest CMake from here: http://www.cmake.org/download.
 
-### Install - Ruby
+### 1.4 Install - Ruby
 
 Ruby is needed both for a number of the build steps and as the main
 runtime for the language server. We need to both install it and some
@@ -120,12 +120,15 @@ force the locale to UTF-8. For more information see:
 
 https://github.com/samaaron/sonic-pi/issues/2416 
 
-## Preparing the Build
+## 2. Preparing the Build
 
 Once we have installed all the dependencies, we're now ready to build
-Sonic Pi.
+Sonic Pi. We need to: 
 
-### Fetch Source
+1. Get a copy of Sonic Pi's source code
+2. Link the version of Ruby you installed into the source code.
+
+### 2.1 Fetch Source
 
 Before we can build Sonic Pi we must first get a copy of the source
 code. The easiest way of getting this is likely to clone from GitHub
@@ -139,7 +142,7 @@ If you don't have git installed you should be able to download a `.zip`
 file of the latest commit or specific release you'd like to build:
 
 
-### Link Ruby
+### 2.2 Link Ruby
 
 
 Next, we need to point your build of Sonic Pi to your local Ruby
@@ -158,7 +161,7 @@ cd c:\dev\sonic-pi\app\server\native
 mklink /d ruby c:\Ruby26-x64
 ```
 
-## Running the Build
+## 3. Running the Build
 
 Nowe we're ready to build everything. This is achieved with 3 commands
 which will:
@@ -169,7 +172,7 @@ which will:
 3. Run cmake to build the final entry-point binary.
 
 
-### Prebuild
+### 3.1 Prebuild
 
 Firstly, we need to change to the `Qt` directory which is within `app\gui`:
 
@@ -177,7 +180,7 @@ Firstly, we need to change to the `Qt` directory which is within `app\gui`:
 cd c:\dev\sonic-pi\app\gui\qt
 ```
 
-### Config
+### 3.2 Config
 
 Next we run the prebuild and config scripts:
 
@@ -186,7 +189,7 @@ win-prebuild.bat
 win-config.bat
 ```
 
-### Build
+### 3.3 Build
 
 Once these have completed (it might take a while the first time you run
 a build) you'll find that you now have a `build` directory that's
@@ -201,7 +204,7 @@ __(If you're already familiar with Visual Studio you should be able to
 take the existing solution file from within the `build` directory and
 build things with that).__
 
-## Run
+## 4. Start Sonic Pi
 
 Finally, you can run your newly compiled Sonic Pi from the `build` directory:
 
