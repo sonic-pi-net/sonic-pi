@@ -29,12 +29,12 @@ and to run
 
 ### Notes
 
-__The current build on windows is assumed to be a 64 bit build done
-with Visual Studio 2019 (Community edition is fine).__
+_The current build on windows is assumed to be a 64 bit build done
+with Visual Studio 2019 (Community edition is fine)._
 
-__If you're attempting to build 32 bit binaries, there are equivalent
+_If you're attempting to build 32 bit binaries, there are equivalent
 32-bit build scripts, but these are currently largely untested. Do reach
-out if you're trying to do this and need some help in the forums.__
+out if you're trying to do this and need some help in the forums._
 
 
 ## 1. Installing Dependencies
