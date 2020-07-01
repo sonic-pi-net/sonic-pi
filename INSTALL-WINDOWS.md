@@ -202,7 +202,7 @@ Good luck and please share your new live coding adventure with us over on:
 https://in-thread.sonic-pi.net
 
 ## Tips
-- Error logs are written to %USERPROFILE%/.sonic-pi/logs, and are useful
+- Error logs are written to `%USERPROFILE%\.sonic-pi\logs`, and are useful
   to diagnose any startup problems.
 - If a rebuild errors at the final stage of copying files, or you are
   otherwise having trouble starting sonic pi, there is
