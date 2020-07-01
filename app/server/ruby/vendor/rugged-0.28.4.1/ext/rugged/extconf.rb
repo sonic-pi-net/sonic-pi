@@ -111,7 +111,8 @@ else
         $LDFLAGS << " " + "-L#{Dir.pwd}/deps/winhttp"
         $LIBS << " -lwinhttp -lcrypt32 -lrpcrt4 -lole32 -lz -lssh2"
       else
-        pcfile = File.join(LIBGIT2_DIR, "build", "libgit2.pc")
+        # Sonic Pi modification: pkg-config doesn't work well with paths that contain spaces, so use the relative path to avoid spaces
+        pcfile = File.join("..", '..', '..', 'vendor', 'libgit2', "build", "libgit2.pc")
         $LDFLAGS << " " + `pkg-config --libs --static #{pcfile}`.strip
       end
     end
