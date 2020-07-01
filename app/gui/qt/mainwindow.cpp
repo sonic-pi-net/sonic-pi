@@ -1180,6 +1180,7 @@ bool MainWindow::waitForServiceSync() {
     }
 
     int timeout = piSettings->server_connection_timeout;
+    int timeout_original = timeout;
     std::cout << "[GUI] - waiting for Sonic Pi Server to respond..." << std::endl;
     while (sonicPiOSCServer->waitForServer() && timeout > 0) {
         sleep(1);
@@ -1194,7 +1195,7 @@ bool MainWindow::waitForServiceSync() {
     }
     if (!sonicPiOSCServer->isServerStarted()) {
         if (timeout == 0) {
-            std::cout << std::endl <<  "[GUI] - Server connection timeout reached." << std::endl;
+            std::cout << std::endl <<  ("[GUI] - Server connection timeout reached; attempted to connect " + std::to_string(timeout_original) + " times") << std::endl;
         }
         std::cout << std::endl <<  "[GUI] - Critical error! Could not connect to Sonic Pi Server." << std::endl;
         invokeStartupError("Critical server error - could not connect to Sonic Pi Server!");
