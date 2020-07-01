@@ -2489,7 +2489,7 @@ void MainWindow::readSettings() {
     piSettings->server_connection_timeout = settings.value("prefs/server-connection-timeout", 60).toInt();
     // Make sure the timeout is atleast 1!
     if (piSettings->server_connection_timeout < 1) {
-      piSettings->server_connection_timeout = 1
+      piSettings->server_connection_timeout = 1;
     }
 
     piSettings->osc_public = settings.value("prefs/osc-public", false).toBool();

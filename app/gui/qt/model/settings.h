@@ -6,7 +6,8 @@
 #include "sonicpitheme.h"
 class SonicPiSettings {
 public:
-
+    // Startup Settings
+    int server_connection_timeout;
 
     // Audio Settings
     int main_volume;
@@ -16,14 +17,14 @@ public:
     bool synth_trigger_timing_guarantees;
     bool enable_external_synths;
 
-    // IOSettings
+    // IO Settings
     bool osc_server_enabled;
     bool osc_public;
     bool midi_enabled;
     int midi_default_channel;
     QString midi_default_channel_str;
 
-    // EditorSettings
+    // Editor Settings
     bool auto_indent_on_run;
     bool show_line_numbers;
     bool show_log;
@@ -39,7 +40,7 @@ public:
     int gui_transparency;
     SonicPiTheme::Style themeStyle;
 
-    // UpdateSettings;
+    // Update Settings;
     bool check_updates;
 
     // Visualizer

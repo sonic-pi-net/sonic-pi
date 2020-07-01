@@ -9,6 +9,7 @@
 #include <QDesktopServices>
 #include <QCheckBox>
 #include <QComboBox>
+#include <QSpinBox>
 #include <QUrl>
 #include <iostream>
 #include <QLabel>
@@ -340,13 +341,13 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     QGroupBox *startup_box = new QGroupBox(tr("Startup"));
     startup_box->setToolTip(tr("Configure startup options."));
 
-    server_connection_timeout_label = new QLabel(tr("Server connection timeout "
-    "(between %1 and %2)").arg(1).arg(300));
+    server_connection_timeout_label = new QLabel(tr("Server connection timeout"));
     server_connection_timeout_label->setToolTip(tr("The number of times the GUI will try to ping and establish a connection to the server."));
 
     server_connection_timeout_sb = new QSpinBox;
     server_connection_timeout_sb->setToolTip(tr("The number of times the GUI will try to ping and establish a connection to the server.\n"
-    "Valid values are between %1 and %2").arg(1).arg(300));
+    "Valid values are between %1 and %2. "
+    "Default value is %3.").arg(1).arg(300).arg(60));
     server_connection_timeout_sb->setRange(1, 300);
     server_connection_timeout_sb->setSingleStep(1);
     server_connection_timeout_sb->setValue(60);
@@ -382,9 +383,9 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
 
     gridEditorPrefs->addWidget(editor_display_box, 0, 0);
     gridEditorPrefs->addWidget(editor_look_feel_box, 0, 1);
-    gridEditorPrefs->addWidget(automation_box, 1, 1);
-    gridEditorPrefs->addWidget(startup_box, 1, 0);
-    gridEditorPrefs->addWidget(debug_box, 2, 0);
+    gridEditorPrefs->addWidget(automation_box, 1, 0);
+    gridEditorPrefs->addWidget(debug_box, 1, 1);
+    gridEditorPrefs->addWidget(startup_box, 2, 0);
 
     editor_box->setLayout(gridEditorPrefs);
     return editor_box;
