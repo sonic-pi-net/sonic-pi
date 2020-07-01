@@ -1,13 +1,33 @@
 # Building the Latest Sonic Pi on Windows
 
-Hello there lovely Windows user - welcome to our build instructions.
+Hello there lovely Windows user - welcome to our build
+instructions. 
 
-We really hope that these instructions help, Please let us know if you
-have any issues following them so we may continuously improve things.
+
+### Installing vs Building
+
+These instructions are for people wanting to build/compile
+their own version of Sonic Pi. If you're just looking to install it,
+we've already done all of this work for you and you can grab an
+installer for the latest release here:
+
+https://github.com/samaaron/sonic-pi/releases
+
+If you're definitely sure you want to build your own release, then we
+really hope that these instructions help. Please let us know if you have
+any issues following them so we may continuously improve things.
 
 https://in-thread.sonic-pi.net
 
-Note:
+OK, so just to get you prepared, we're going to do a few things:
+
+1. Install the various dependencies that Sonic Pi needs both to be built
+and to run
+2. Prepare the build by running some command scripts
+3. Build Sonic Pi using `cmake`
+4. Start your new Sonic Pi using your newly built `.exe` file.
+
+### Note
 
 The current build on windows is assumed to be a 64 bit build done
 with Visual Studio 2019 (Community edition is fine). 
@@ -181,7 +201,7 @@ __(If you're already familiar with Visual Studio you should be able to
 take the existing solution file from within the `build` directory and
 build things with that).__
 
-### Run
+## Run
 
 Finally, you can run your newly compiled Sonic Pi from the `build` directory:
 
