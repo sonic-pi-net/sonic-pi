@@ -1,85 +1,218 @@
-# Building the Latest Sonic Pi on Windows #
+# Building the Latest Sonic Pi on Windows
 
-Updated: 31/1/2020
-Please let us know if you have any issues following these instructions.  
-The current build on windows is assumed to be a 32 or 64 bit build done with Visual Studio 2019 (Community edition is fine).
-It is recommended that you clone the whole tree again if you want to make a 32 or 64 bit build.
+Hello there lovely Windows user - welcome to our build instructions.
 
-Start by cloning the Sonic Pi Repository in the usual way
+We really hope that these instructions help, Please let us know if you
+have any issues following them so we may continuously improve things.
+
+https://in-thread.sonic-pi.net
+
+Note:
+
+The current build on windows is assumed to be a 64 bit build done
+with Visual Studio 2019 (Community edition is fine). 
+
+If you're attempting to build 32 bit binaries, there are equivalent
+32-bit build scripts, but these are currently largely untested. Do reach
+out if you're trying to do this and need some help in the forums.
+
+
+## Installing Dependencies
+
+In order to build the Sonic Pi's various components, we need to install a few
+dependencies:
+
+1. Visual Studio 2019
+2. Qt (5.15+)
+3. CMake (3.18+)
+4. Ruby (2.7.1+)
+
+Let's look at each in turn.
+
+### Install - Visual Studio 2019 
+
+If you don't already have VS installed, head over to the downloads page
+and grab a copy of the *free* Community edition:
+
+https://visualstudio.microsoft.com/downloads/
+
+
+### Install - Qt
+
+Install the latest version of Qt (currently tested on 5.15.0) - ensure
+you pick 64 bit options for mscv:
+
+http://download.qt.io/official_releases/qt/5.15/5.15.0/single/qt-everywhere-src-5.15.0.
+
+You now need to setup the environment variable `QT_INSTALL_LOCATION` to
+point to Qt's new install location.
+
+A simple way of doing this is to use the Rapid Environment Editor to
+setup these variables permanently (https://www.rapidee.com/en/about).
+
+Alternatively, the `setx` command can make global variables. (Note that
+after using `setx`the command line needs to be restarted for it to take
+effect)..
+
+For example, if you installed Qt to `C:\Qt\Qt5.15.0` then you could run:
+
+```
+setx QT_INSTALL_LOCATION C:\Qt\Qt5.15.0\5.15.0\msvc2017_64 
+```
+
+(followed by restarting your command prompt)
+
+### Install - CMake
+
+We use a build system called CMake to automatically build both Sonic
+Pi's GUI and many many of its dependencies.
+
+2) Install the latest CMake from here: http://www.cmake.org/download.
+
+### Install - Ruby
+
+Ruby is needed both for a number of the build steps and as the main
+runtime for the language server. We need to both install it and some
+additional libraries.
+
+Firstly, install the latest version of Ruby (2.7.1 - 64 bit with devkit) from:
+
+https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-2.7.1-1/rubyinstaller-devkit-2.7.1-1-x64.exe
+
+Once you have installed Ruby, you need to grab some additional
+libraries. We can do this from the command prompt with the following:
+
+```
+gem install win32-process
+gem install rugged --version 0.27.1
+gem install ffi
+```
+
+This uses the Ruby library managment tool `gem` to install 3
+dependencies for us - `win32-process` used to help manage Windows OS
+processes, rugged which is used to store the code diffs in a local git
+repo and ffi which is used to hook into external shared libs such as
+libaubio.
+
+Note, that for Ruby to work correctly with systems with their locale set
+to Arabic, you need to modify the registry.rb in your Ruby install to
+force the locale to UTF-8. For more information see:
+
+https://github.com/samaaron/sonic-pi/issues/2416 
+
+## Preparing the Build
+
+Once we have installed all the dependencies, we're now ready to build
+Sonic Pi.
+
+### Fetch Source
+
+Before we can build Sonic Pi we must first get a copy of the source
+code. The easiest way of getting this is likely to clone from GitHub
+into a folder on your hard drive such as `c:/dev/sonic-pi`:
 
 ```
 git clone https://github.com/samaaron/sonic-pi.git c:/dev/sonic-pi
 ``` 
 
-## Build the UI
+If you don't have git installed you should be able to download a `.zip`
+file of the latest commit or specific release you'd like to build:
 
-1) Install Qt.  Qt is not something you want to try building on windows; it is much better to install - be sure to pick the 5.14.1 checkbox to get the installed libraries, and pick the 64 bit or 32 bit or both options for msvc.  Note that this not on by default!
-After install, setup an environment variable to point to the install location.  I like to use Rapid Environment Editor to setup these variables permanently (https://www.rapidee.com/en/about).  Otherwise the setx command can make global variables, but the command line needs to be restarted afterwards.  The current recommended version is 5.14.1, but other recent versions should work.
-The 32 bit variant of the variable is only needed for 32 bit builds
-```
-http://download.qt.io/official_releases/qt/5.14/5.14.1/qt-opensource-windows-x86-5.14.1.exe
-setx QT_INSTALL_LOCATION C:\Qt\Qt5.14.1\5.14.1\msvc2017_64 (restart command prompt)
-setx QT_INSTALL_LOCATION32 C:\Qt\Qt5.14.1\5.14.1\msvc2017 (restart command prompt)
-```
 
-2) Install the latest CMake http://www.cmake.org/download.  This is a build tool that is required
+### Link Ruby
 
-3) Some ruby is needed to run the translations and generate the help headers before the main build; so install the gems.
-Install Ruby from http://rubyinstaller.org/downloads. Get the version with the devkit, 64 or 32 bit, depending on your platform.  You should update aubio to 3.3 if you have an older version.
-```
-https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-2.6.5-1/rubyinstaller-devkit-2.6.5-1-x64.exe
 
-gem install win32-process
-gem install rugged --version 0.27.1
-gem install ffi
-```
-Run a console as administrator. Add a link to Ruby:
+Next, we need to point your build of Sonic Pi to your local Ruby
+installation. We can do this by creating a folder link - similar to a
+symbolic link on linux and macOS. First, find out where you installed
+Ruby. For example, this might be `C:\Ruby26-x64`.
+
+Finally, open a console as administrator (this is necessary for making the
+link). Then `cd` into the `sonic-pi\app\server\native` directory within
+your copy of Sonic Pi's source. For example, if you put Sonic Pi within
+`C\dev` and installed Ruby to `C:\Ruby26-x64` then you'd do the
+following:
+
 ```
 cd c:\dev\sonic-pi\app\server\native
 mklink /d ruby c:\Ruby26-x64
 ```
 
-Note, that for Ruby to work correctly with systems with their locale set to Arabic, you need to modify the registry.rb in your Ruby install to force the locale to UTF-8. See https://github.com/samaaron/sonic-pi/issues/2416 for more inforamtion.
+## Running the Build
+
+Nowe we're ready to build everything. This is achieved with 3 commands
+which will:
+
+1. Run the prebuild script which builds and sets up a lot of the
+   dependencies.
+2. Run the config script to set up the build system.
+3. Run cmake to build the final entry-point binary.
 
 
-4) Build the Application by running the prebuild first, then config.  These tools are in the app/gui/qt folder.  Note: If you have previously installed libaubio5-dll, or set the AUBIO_LIB environment variable, now is the time to remove the dll and remove the variable; the prebuild on windows will make and install the correct library for you.
-``` 
-cd app/gui/qt
-win-prebuild.bat OR win-prebuild32.bat (to make the translations from ruby)
-win-config.bat OR win-config32.bat (to make a project file)
+### Prebuild
 
-cd build OR build32
-EITHER:
+Firstly, we need to change to the `Qt` directory which is within `app\gui`:
+
+```
+cd c:\dev\sonic-pi\app\gui\qt
+```
+
+### Config
+
+Next we run the prebuild and config scripts:
+
+```
+win-prebuild.bat
+win-config.bat
+```
+
+### Build
+
+Once these have completed (it might take a while the first time you run
+a build) you'll find that you now have a `build` directory that's
+waiting for you to run your first build:
+
+```
+cd build
 cmake --build . --config Release
-OR
-Load the solution file from the build directory into Visual Studio and build it.
 ```
 
-## Building the Server
+__(If you're already familiar with Visual Studio you should be able to
+take the existing solution file from within the `build` directory and
+build things with that).__
 
-Sonic Pi has most of its functionality inside the ruby interface, which also uses SuperCollider as its synthesizer.
+### Run
 
-1) Install Super Collider, 64 or 32 bit.  The current tested version is:
-```
-https://github.com/supercollider/supercollider/releases/download/Version-3.10.4/SuperCollider-3.10.4_Release-x64-VS-95e9507.exe
-```
+Finally, you can run your newly compiled Sonic Pi from the `build` directory:
 
-2) Copy these from C:\Program Files\SuperCollider-3.10.4 to C:\dev\sonic-pi\app\server\native
 ```
-	lib*.dll
-	msvcp140.dll
-	scsynth.exe
-	vcruntime140.dll
-	plugins
+Release\sonic-pi.exe
 ```
 
-Done!
-Run C:\dev\sonic-pi\app\gui\qt\build\Release\sonic-pi.exe or build32\Release\sonic-pi.exe
+Or from anywhere using the full path:
+
+```
+C:\dev\sonic-pi\app\gui\qt\build\Release\sonic-pi.exe
+```
+
+## Good Luck!
+
+Good luck and please share your new live coding adventure with us over on:
+
+https://in-thread.sonic-pi.net
 
 ## Tips
-- Error logs are written to %USERPROFILE%/.sonic-pi/logs, and are useful to diagnose any startup problems.
-- If a rebuild errors at the final stage of copying files, or you are otherwise having trouble starting sonic pi, there is win-killprocess.bat to remove sonic pi from memory.  This will also kill supercollider if it has been left running.- 32bit and 64bit don't mix.  Build the one you want in a clean tree.  Make sure you also install all the right 32/64 bit components to match your build.  64 bit is recommended on modern machines.
-- `cd %QT_INSTALL_LOCATION%` will take you to the directory you have set for that environment variable - a good way to check you have set it up correctly
-- You should find a libaubio-5.dll in your native/ruby/bin folder, if the prebuild has worked correctly.  This is required for the onset feature.
+- Error logs are written to %USERPROFILE%/.sonic-pi/logs, and are useful
+  to diagnose any startup problems.
+- If a rebuild errors at the final stage of copying files, or you are
+  otherwise having trouble starting sonic pi, there is
+  win-killprocess.bat to remove Sonic Pi from memory.  This will also
+  kill supercollider if it has been left running.- 32bit and 64bit don't
+  mix.  Build the one you want in a clean tree.  Make sure you also
+  install all the right 32/64 bit components to match your build.  64
+  bit is recommended on modern machines.
+- `cd %QT_INSTALL_LOCATION%` will take you to the directory you have set
+  for that environment variable - a good way to check you have set it up
+  correctly
 
 
