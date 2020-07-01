@@ -1181,7 +1181,7 @@ bool MainWindow::waitForServiceSync() {
 
     int timeout = piSettings->server_connection_timeout;
     std::cout << "[GUI] - waiting for Sonic Pi Server to respond..." << std::endl;
-    while (sonicPiOSCServer->waitForServer() && timeout-- > 0) {
+    while (sonicPiOSCServer->waitForServer() && timeout > 0) {
         sleep(1);
         std::cout << ".";
         if(sonicPiOSCServer->isIncomingPortOpen()) {
@@ -1190,6 +1190,7 @@ bool MainWindow::waitForServiceSync() {
             msg.pushStr("QtClient/1/hello");
             sendOSC(msg);
         }
+        timeout -= 1;
     }
     if (!sonicPiOSCServer->isServerStarted()) {
         if (timeout == 0) {
@@ -2487,9 +2488,9 @@ void MainWindow::readSettings() {
     // Read in preferences from previous session
 
     piSettings->server_connection_timeout = settings.value("prefs/server-connection-timeout", 60).toInt();
-    // Make sure the timeout is atleast 1!
-    if (piSettings->server_connection_timeout < 1) {
-      piSettings->server_connection_timeout = 1;
+    // Make sure the timeout is atleast 60
+    if (piSettings->server_connection_timeout < 60) {
+      piSettings->server_connection_timeout = 60;
     }
 
     piSettings->osc_public = settings.value("prefs/osc-public", false).toBool();

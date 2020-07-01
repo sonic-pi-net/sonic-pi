@@ -347,8 +347,8 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     server_connection_timeout_sb = new QSpinBox;
     server_connection_timeout_sb->setToolTip(tr("The number of times the GUI will try to ping and establish a connection to the server.\n"
     "Valid values are between %1 and %2. "
-    "Default value is %3.").arg(1).arg(300).arg(60));
-    server_connection_timeout_sb->setRange(1, 300);
+    "Default value is %3.").arg(60).arg(300).arg(60));
+    server_connection_timeout_sb->setRange(60, 300);
     server_connection_timeout_sb->setSingleStep(1);
     server_connection_timeout_sb->setValue(60);
 
