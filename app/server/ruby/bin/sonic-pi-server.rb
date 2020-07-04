@@ -346,7 +346,7 @@ begin
 
   # read in init.rb if exists
   if File.exists?(init_path)
-    sp.__spider_eval(File.read(init_path), silent: true)
+    sp.__spider_eval(File.read(init_path), type: :file, name: init_path, silent: true)
   else
     STDOUT.puts "Could not find init.rb file: #{init_path} "
   end
@@ -375,7 +375,7 @@ register_api = lambda do |server|
   server.add_method("/run-code") do |args|
     gui_id = args[0]
     code = args[1].force_encoding("utf-8")
-    sp.__spider_eval code
+    sp.__spider_eval(code, type: :eval, name: "osc-/run-code")
   end
 
   server.add_method("/save-and-run-buffer") do |args|
@@ -384,7 +384,7 @@ register_api = lambda do |server|
     code = args[2].force_encoding("utf-8")
     workspace = args[3]
     sp.__save_buffer(buffer_id, code)
-    sp.__spider_eval code, {workspace: workspace}
+    sp.__spider_eval(code, type: :workspace, name: workspace)
   end
 
   server.add_method("/save-buffer") do |args|

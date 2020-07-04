@@ -463,7 +463,7 @@ end
       def run_file(path)
         path = File.expand_path(path.to_s)
         raise IOError, "Unable to run file - no file found with path: #{path}" unless File.exist?(path)
-        __spider_eval(File.read(path))
+        __spider_eval(File.read(path), type: :file, name: path)
       end
       doc name:           :run_file,
           introduced:     Version.new(2,11,0),
@@ -477,7 +477,7 @@ end
 run_file \"~/path/to/sonic-pi-code.rb\" #=> will run the contents of this file"]
 
       def run_code(code)
-        __spider_eval(code.to_s)
+        __spider_eval(code.to_s, type: :eval, name: "run_code")
       end
       doc name:           :run_code,
           introduced:     Version.new(2,11,0),
@@ -4785,6 +4785,9 @@ assert_similar(4.9999999999, 5.0) #=> True"
       def load_buffer(path)
         path = File.expand_path(path.to_s)
         raise IOError, "Unable to load buffer - no file found with path: #{path}" unless File.exist?(path)
+
+        raise RuntimeError, "Unable to retrieve the current workspace. Current job info: #{__current_job_info}" unless __current_job_info[:workspace]
+
         buf = __current_job_info[:workspace]
         __info "loading #{buf} with #{path}"
         __replace_buffer(buf, File.read(path))
