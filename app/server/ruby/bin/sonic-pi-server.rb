@@ -284,7 +284,7 @@ begin
 
   # read in init.rb if exists
   if File.exists?(init_path)
-    sp.__spider_eval(File.read(init_path), silent: true)
+    sp.__spider_eval(File.read(init_path), path: init_path, silent: true)
   else
     begin
     File.open(init_path, "w") do |f|

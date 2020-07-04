@@ -840,11 +840,15 @@ module SonicPi
             if line
               line = line.to_i
 
-              # TODO: Remove this hack when we have projects
-              w = info[:workspace]
-              w = normalise_buffer_name(w)
-              w = "buffer #{w}"
-              # TODO: end of hack
+              # If a filepath is given, use it; otherwise use the buffer name
+              w = ""
+              if (info[:path])
+                w = info[:path]
+              else
+                w = info[:workspace]
+                w = normalise_buffer_name(w)
+                w = "buffer #{w}"
+              end
 
               err_msg = "[#{w}, line #{line}] \n #{message}"
               error_line = code.lines.to_a[line - firstline] ||  ""

@@ -463,7 +463,7 @@ end
       def run_file(path)
         path = File.expand_path(path.to_s)
         raise IOError, "Unable to run file - no file found with path: #{path}" unless File.exist?(path)
-        __spider_eval(File.read(path))
+        __spider_eval(File.read(path), path: path)
       end
       doc name:           :run_file,
           introduced:     Version.new(2,11,0),
