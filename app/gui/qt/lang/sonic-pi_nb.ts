@@ -446,12 +446,12 @@ Unnskyld, det oppstod en kritisk feil under oppstart</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2156"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Rediger</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2160"/>
         <source>&amp;Window</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Vindu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2198"/>
@@ -590,17 +590,17 @@ Skaff Sonic Pi %1</translation>
     <message>
         <location filename="../visualizer/scope.cpp" line="393"/>
         <source>Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Venstre</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="394"/>
         <source>Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Høyre</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="395"/>
         <source>Mono</source>
-        <translation type="unfinished"></translation>
+        <translation>Mono</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="396"/>
@@ -610,7 +610,7 @@ Skaff Sonic Pi %1</translation>
     <message>
         <location filename="../visualizer/scope.cpp" line="398"/>
         <source>Spectrum</source>
-        <translation type="unfinished"></translation>
+        <translation>Spektrum</translation>
     </message>
 </context>
 <context>
@@ -995,27 +995,27 @@ Sonic PI, som kan sendes gjennom midi_*fns</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="292"/>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Lys</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="293"/>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Mørk</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="294"/>
         <source>Pro Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro-lys</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="295"/>
         <source>Pro Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro-mørk</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="296"/>
         <source>High Contrast</source>
-        <translation type="unfinished"></translation>
+        <translation>Høykontrast</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="326"/>
