@@ -314,14 +314,8 @@ module SonicPi
       info = __current_job_info
       err_msg.gsub(/for #<SonicPiSpiderUser[a-z0-9:]+>/, '')
       res = ""
-      w = info[:workspace]
+      w = info[:display_name]
       if line != -1
-
-        # TODO: Remove this hack when we have projects
-        w = normalise_buffer_name(w)
-        w = "buffer " + w
-        # TODO: end of hack
-
         res = res + "[#{w}, line #{line}]"
       else
         res = res + "[#{w}]"
@@ -791,9 +785,25 @@ module SonicPi
       firstline = 1
       firstline -= code.lines.to_a.take_while{|l| l.include? "#__nosave__"}.count
       start_t_prom = Promise.new
-      info[:workspace] = 'eval' unless info[:workspace]
 
-      info[:workspace].freeze
+      # If a filepath is given, use it; otherwise use the buffer name
+      case info[:type]
+      when :workspace
+        info[:display_name] = "buffer #{normalise_buffer_name(info[:workspace])}"
+        info[:name] = info[:workspace]
+      when :file
+        info[:display_name] = info[:path]
+        info[:name] = info[:path]
+      when :eval
+        info[:name] = "eval" unless info[:name]
+        info[:display_name] = info[:name] unless info[:display_name]
+      else
+        info[:name] = "eval" unless info[:name]
+        info[:display_name] = info[:name] unless info[:display_name]
+      end
+
+      info[:name].freeze
+      info[:display_name].freeze
       info.freeze
 
       job_in_thread = nil
@@ -826,7 +836,7 @@ module SonicPi
           code = PreParser.preparse(code, SonicPi::Lang::Core.vec_fns)
 
           job_in_thread = in_thread seed: 0 do
-            eval(code, nil, info[:workspace], firstline)
+            eval(code, nil, info[:name], firstline)
           end
           __schedule_delayed_blocks_and_messages!
         rescue Stop => e
@@ -840,17 +850,7 @@ module SonicPi
             if line
               line = line.to_i
 
-              # If a filepath is given, use it; otherwise use the buffer name
-              w = ""
-              if (info[:path])
-                w = info[:path]
-              else
-                w = info[:workspace]
-                w = normalise_buffer_name(w)
-                w = "buffer #{w}"
-              end
-
-              err_msg = "[#{w}, line #{line}] \n #{message}"
+              err_msg = "[#{info[:display_name]}, line #{line}] \n #{message}"
               error_line = code.lines.to_a[line - firstline] ||  ""
             else
               line = -1
