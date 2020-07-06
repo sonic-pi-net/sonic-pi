@@ -50,7 +50,7 @@ domains is the objective.
 
 
 * Info & Latest Releases: https://sonic-pi.net
-* Source: https://github.com/samaaron/sonic-pi
+* Source: https://github.com/sonic-pi-net/sonic-pi
 * Computing Education Resources for Schools: https://www.raspberrypi.org/learning/sonic-pi-lessons/
 * Music Education Toolkit for Schools: https://sonic-pi.mehackit.org
 
