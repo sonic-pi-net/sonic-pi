@@ -697,10 +697,11 @@ Typical MIDI values such as note or cc are represented with 7 bit numbers which 
           return nil
         end
 
+        program_num = note(program_num).round.min(0).max(127)
+
         if truthy?(on_val)
           channels       = __resolve_midi_channels(opts)
           ports          = __resolve_midi_ports(opts)
-          program_num    = note(program_num).round.min(0).max(127)
           chan           = pp_el_or_list(channels)
           port           = pp_el_or_list(ports)
 
@@ -835,11 +836,12 @@ Non-number values will be automatically turned into numbers prior to sending the
         opts         = current_midi_defaults.merge(opts)
         on_val       = opts.fetch(:on, 1)
 
+        ports    = __resolve_midi_ports(opts)
+        channels = __resolve_midi_channels(opts)
+        port     = pp_el_or_list(ports)
+        chan     = pp_el_or_list(channels)
+
         if truthy?(on_val)
-          ports    = __resolve_midi_ports(opts)
-          channels = __resolve_midi_channels(opts)
-          port     = pp_el_or_list(ports)
-          chan     = pp_el_or_list(channels)
           ports.each do |p|
             channels.each do |c|
               __midi_send_timed_pc("/control_change", p, c, 120, 0)
@@ -882,12 +884,12 @@ All oscillators will turn off, and their volume envelopes are set to zero as soo
         reset_val    = opts[:value] || opts[:val] || params[0] || 0
         on_val       = opts.fetch(:on, 1)
 
-        if truthy?(on_val)
-          ports    = __resolve_midi_ports(opts)
-          channels = __resolve_midi_channels(opts)
-          port     = pp_el_or_list(ports)
-          chan     = pp_el_or_list(channels)
+        ports    = __resolve_midi_ports(opts)
+        channels = __resolve_midi_channels(opts)
+        port     = pp_el_or_list(ports)
+        chan     = pp_el_or_list(channels)
 
+        if truthy?(on_val)
           ports.each do |p|
             channels.each do |c|
               __midi_send_timed_pc("/control_change", p, c, 121, reset_val)
@@ -930,12 +932,12 @@ All controller values are reset to their defaults.
         opts         = current_midi_defaults.merge(opts)
         on_val       = opts.fetch(:on, 1)
 
-        if truthy?(on_val)
-          ports    = __resolve_midi_ports(opts)
-          channels = __resolve_midi_channels(opts)
-          port     = pp_el_or_list(ports)
-          chan     = pp_el_or_list(channels)
+        ports    = __resolve_midi_ports(opts)
+        channels = __resolve_midi_channels(opts)
+        port     = pp_el_or_list(ports)
+        chan     = pp_el_or_list(channels)
 
+        if truthy?(on_val)
           ports.each do |p|
             channels.each do |c|
               __midi_send_timed_pc("/control_change", p, c, 122, 0)
@@ -977,12 +979,12 @@ All devices on a given channel will respond only to data received over MIDI. Pla
         opts         = current_midi_defaults.merge(opts)
         on_val       = opts.fetch(:on, 1)
 
-        if truthy?(on_val)
-          ports    = __resolve_midi_ports(opts)
-          channels = __resolve_midi_channels(opts)
-          port     = pp_el_or_list(ports)
-          chan     = pp_el_or_list(channels)
+        ports    = __resolve_midi_ports(opts)
+        channels = __resolve_midi_channels(opts)
+        port     = pp_el_or_list(ports)
+        chan     = pp_el_or_list(channels)
 
+        if truthy?(on_val)
           ports.each do |p|
             channels.each do |c|
               __midi_send_timed_pc("/control_change", p, c, 122, 127)
@@ -1121,12 +1123,12 @@ Note that this fn also includes the behaviour of `midi_all_notes_off`.
         opts         = current_midi_defaults.merge(opts)
         on_val       = opts.fetch(:on, 1)
 
-        if truthy?(on_val)
-          channels = __resolve_midi_channels(opts)
-          ports    = __resolve_midi_ports(opts)
-          port     = pp_el_or_list(ports)
-          chan     = pp_el_or_list(channels)
+        channels = __resolve_midi_channels(opts)
+        ports    = __resolve_midi_ports(opts)
+        port     = pp_el_or_list(ports)
+        chan     = pp_el_or_list(channels)
 
+        if truthy?(on_val)
           ports.each do |p|
             channels.each do |c|
               __midi_send_timed_pc("/control_change", p, c, 123, 0)
@@ -1166,11 +1168,10 @@ When an All Notes Off event is received, all oscillators will turn off.
         params, opts = split_params_and_merge_opts_array(args)
         opts         = current_midi_defaults.merge(opts)
         on_val       = opts.fetch(:on, 1)
+        ports        = __resolve_midi_ports(opts)
+        port         = pp_el_or_list(ports)
 
         if truthy?(on_val)
-          ports = __resolve_midi_ports(opts)
-          port  = pp_el_or_list(ports)
-
           ports.each do |p|
             __midi_send_timed("/#{p}/clock")
           end
@@ -1206,11 +1207,10 @@ Typical MIDI devices expect the clock to send 24 ticks per quarter note (typical
         params, opts = split_params_and_merge_opts_array(args)
         opts         = current_midi_defaults.merge(opts)
         on_val       = opts.fetch(:on, 1)
+        ports        = __resolve_midi_ports(opts)
+        port         = pp_el_or_list(ports)
 
         if truthy?(on_val)
-          ports = __resolve_midi_ports(opts)
-          port  = pp_el_or_list(ports)
-
           ports.each do |p|
             __midi_send_timed("/#{p}/start")
           end
@@ -1244,11 +1244,10 @@ Start the current sequence playing. (This message should be followed with calls 
         params, opts = split_params_and_merge_opts_array(args)
         opts         = current_midi_defaults.merge(opts)
         on_val       = opts.fetch(:on, 1)
+        ports        = __resolve_midi_ports(opts)
+        port         = pp_el_or_list(ports)
 
         if truthy?(on_val)
-          ports = __resolve_midi_ports(opts)
-          port  = pp_el_or_list(ports)
-
           ports.each do |p|
             __midi_send_timed("/#{p}/stop")
           end
@@ -1282,11 +1281,10 @@ Stops the current sequence.
         params, opts = split_params_and_merge_opts_array(args)
         opts         = current_midi_defaults.merge(opts)
         on_val       = opts.fetch(:on, 1)
+        ports        = __resolve_midi_ports(opts)
+        port         = pp_el_or_list(ports)
 
         if truthy?(on_val)
-          ports = __resolve_midi_ports(opts)
-          port  = pp_el_or_list(ports)
-
           ports.each do |p|
             __midi_send_timed("/#{p}/continue")
           end
@@ -1319,11 +1317,11 @@ Upon receiving the MIDI continue event, the MIDI device(s) will continue at the 
         params, opts = split_params_and_merge_opts_array(args)
         opts         = current_midi_defaults.merge(opts)
         on_val       = opts.fetch(:on, 1)
+        dur   = opts[:duration] || params[0] || 1
+        ports = __resolve_midi_ports(opts)
+        port  = pp_el_or_list(ports)
 
         if truthy?(on_val)
-          dur   = opts[:duration] || params[0] || 1
-          ports = __resolve_midi_ports(opts)
-          port  = pp_el_or_list(ports)
 
           if dur == 1
             times =  [0,
@@ -1435,20 +1433,19 @@ end"
 
         n = normalise_transpose_and_tune_note_from_args(n, opts)
 
-        on_val = opts.fetch(:on, 1)
+        on_val   = opts.fetch(:on, 1)
+        channels = __resolve_midi_channels(opts)
+        ports    = __resolve_midi_ports(opts)
+        vel      = __resolve_midi_velocity(vel, opts)
+        sus      = opts.fetch(:sustain, 1).to_f
+        rel_vel  = opts.fetch(:release_velocity, 127)
+        n        = n.round.min(0).max(127)
+        chan     = pp_el_or_list(channels)
+        port     = pp_el_or_list(ports)
+
 
         if truthy?(on_val)
           return midi_all_notes_off(opts) if n == :off
-
-          channels = __resolve_midi_channels(opts)
-          ports    = __resolve_midi_ports(opts)
-          vel      = __resolve_midi_velocity(vel, opts)
-          sus      = opts.fetch(:sustain, 1).to_f
-          rel_vel  = opts.fetch(:release_velocity, 127)
-          n        = n.round.min(0).max(127)
-          chan     = pp_el_or_list(channels)
-          port     = pp_el_or_list(ports)
-
           ports.each do |p|
             channels.each do |c|
               __midi_send_timed_pc("/note_on", p, c, n, vel)
