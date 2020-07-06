@@ -1,3 +1,0 @@
-version=2
-
-http://downloads.xiph.org/releases/vorbis/libvorbis-(.*)\.tar\.gz	debian uupdate

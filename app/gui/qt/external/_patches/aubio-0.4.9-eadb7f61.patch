@@ -1,0 +1,1033 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+new file mode 100644
+index 00000000..d6c5473a
+--- /dev/null
++++ b/CMakeLists.txt
+@@ -0,0 +1,238 @@
++cmake_minimum_required(VERSION 3.12)
++
++project(aubio-5)
++set(SOURCE_ROOT ${CMAKE_CURRENT_LIST_DIR}/src)
++
++set(SOURCES
++    ${SOURCE_ROOT}/exports.def
++    ${SOURCE_ROOT}/aubio.h
++    ${SOURCE_ROOT}/aubio_priv.h
++    ${SOURCE_ROOT}/cvec.c
++    ${SOURCE_ROOT}/cvec.h
++    ${SOURCE_ROOT}/fmat.c
++    ${SOURCE_ROOT}/fmat.h
++    ${SOURCE_ROOT}/fvec.c
++    ${SOURCE_ROOT}/fvec.h
++    ${SOURCE_ROOT}/lvec.c
++    ${SOURCE_ROOT}/lvec.h
++    ${SOURCE_ROOT}/mathutils.c
++    ${SOURCE_ROOT}/mathutils.h
++    ${SOURCE_ROOT}/musicutils.c
++    ${SOURCE_ROOT}/musicutils.h
++    ${SOURCE_ROOT}/types.h
++    ${SOURCE_ROOT}/vecutils.c
++    ${SOURCE_ROOT}/vecutils.h
++    ${SOURCE_ROOT}/wscript_build
++    ${SOURCE_ROOT}/io/audio_unit.c
++    ${SOURCE_ROOT}/io/audio_unit.h
++    ${SOURCE_ROOT}/io/ioutils.c
++    ${SOURCE_ROOT}/io/ioutils.h
++    ${SOURCE_ROOT}/io/sink.c
++    ${SOURCE_ROOT}/io/sink.h
++    ${SOURCE_ROOT}/io/sink_apple_audio.c
++    ${SOURCE_ROOT}/io/sink_apple_audio.h
++    ${SOURCE_ROOT}/io/sink_sndfile.c
++    ${SOURCE_ROOT}/io/sink_sndfile.h
++    ${SOURCE_ROOT}/io/sink_wavwrite.c
++    ${SOURCE_ROOT}/io/sink_wavwrite.h
++    ${SOURCE_ROOT}/io/source.c
++    ${SOURCE_ROOT}/io/source.h
++    ${SOURCE_ROOT}/io/source_apple_audio.c
++    ${SOURCE_ROOT}/io/source_apple_audio.h
++    ${SOURCE_ROOT}/io/source_avcodec.c
++    ${SOURCE_ROOT}/io/source_avcodec.h
++    ${SOURCE_ROOT}/io/source_sndfile.c
++    ${SOURCE_ROOT}/io/source_sndfile.h
++    ${SOURCE_ROOT}/io/source_wavread.c
++    ${SOURCE_ROOT}/io/source_wavread.h
++    ${SOURCE_ROOT}/io/utils_apple_audio.c
++    ${SOURCE_ROOT}/notes/notes.c
++    ${SOURCE_ROOT}/notes/notes.h
++    ${SOURCE_ROOT}/onset/onset.c
++    ${SOURCE_ROOT}/onset/onset.h
++    ${SOURCE_ROOT}/onset/peakpicker.c
++    ${SOURCE_ROOT}/onset/peakpicker.h
++    ${SOURCE_ROOT}/pitch/pitch.c
++    ${SOURCE_ROOT}/pitch/pitch.h
++    ${SOURCE_ROOT}/pitch/pitchfcomb.c
++    ${SOURCE_ROOT}/pitch/pitchfcomb.h
++    ${SOURCE_ROOT}/pitch/pitchmcomb.c
++    ${SOURCE_ROOT}/pitch/pitchmcomb.h
++    ${SOURCE_ROOT}/pitch/pitchschmitt.c
++    ${SOURCE_ROOT}/pitch/pitchschmitt.h
++    ${SOURCE_ROOT}/pitch/pitchspecacf.c
++    ${SOURCE_ROOT}/pitch/pitchspecacf.h
++    ${SOURCE_ROOT}/pitch/pitchyin.c
++    ${SOURCE_ROOT}/pitch/pitchyin.h
++    ${SOURCE_ROOT}/pitch/pitchyinfast.c
++    ${SOURCE_ROOT}/pitch/pitchyinfast.h
++    ${SOURCE_ROOT}/pitch/pitchyinfft.c
++    ${SOURCE_ROOT}/pitch/pitchyinfft.h
++    ${SOURCE_ROOT}/spectral/awhitening.c
++    ${SOURCE_ROOT}/spectral/awhitening.h
++    ${SOURCE_ROOT}/spectral/dct.c
++    ${SOURCE_ROOT}/spectral/dct.h
++    ${SOURCE_ROOT}/spectral/dct_accelerate.c
++    ${SOURCE_ROOT}/spectral/dct_fftw.c
++    ${SOURCE_ROOT}/spectral/dct_ipp.c
++    ${SOURCE_ROOT}/spectral/dct_ooura.c
++    ${SOURCE_ROOT}/spectral/dct_plain.c
++    ${SOURCE_ROOT}/spectral/fft.c
++    ${SOURCE_ROOT}/spectral/fft.h
++    ${SOURCE_ROOT}/spectral/filterbank.c
++    ${SOURCE_ROOT}/spectral/filterbank.h
++    ${SOURCE_ROOT}/spectral/filterbank_mel.c
++    ${SOURCE_ROOT}/spectral/filterbank_mel.h
++    ${SOURCE_ROOT}/spectral/mfcc.c
++    ${SOURCE_ROOT}/spectral/mfcc.h
++    ${SOURCE_ROOT}/spectral/ooura_fft8g.c
++    ${SOURCE_ROOT}/spectral/phasevoc.c
++    ${SOURCE_ROOT}/spectral/phasevoc.h
++    ${SOURCE_ROOT}/spectral/specdesc.c
++    ${SOURCE_ROOT}/spectral/specdesc.h
++    ${SOURCE_ROOT}/spectral/statistics.c
++    ${SOURCE_ROOT}/spectral/tss.c
++    ${SOURCE_ROOT}/spectral/tss.h
++    ${SOURCE_ROOT}/synth/sampler.c
++    ${SOURCE_ROOT}/synth/sampler.h
++    ${SOURCE_ROOT}/synth/wavetable.c
++    ${SOURCE_ROOT}/synth/wavetable.h
++    ${SOURCE_ROOT}/tempo/beattracking.c
++    ${SOURCE_ROOT}/tempo/beattracking.h
++    ${SOURCE_ROOT}/tempo/tempo.c
++    ${SOURCE_ROOT}/tempo/tempo.h
++    ${SOURCE_ROOT}/temporal/a_weighting.c
++    ${SOURCE_ROOT}/temporal/a_weighting.h
++    ${SOURCE_ROOT}/temporal/biquad.c
++    ${SOURCE_ROOT}/temporal/biquad.h
++    ${SOURCE_ROOT}/temporal/c_weighting.c
++    ${SOURCE_ROOT}/temporal/c_weighting.h
++    ${SOURCE_ROOT}/temporal/filter.c
++    ${SOURCE_ROOT}/temporal/filter.h
++    ${SOURCE_ROOT}/temporal/resampler.c
++    ${SOURCE_ROOT}/temporal/resampler.h
++    ${SOURCE_ROOT}/utils/hist.c
++    ${SOURCE_ROOT}/utils/hist.h
++    ${SOURCE_ROOT}/utils/log.c
++    ${SOURCE_ROOT}/utils/log.h
++    ${SOURCE_ROOT}/utils/parameter.c
++    ${SOURCE_ROOT}/utils/parameter.h
++    ${SOURCE_ROOT}/utils/scale.c
++    ${SOURCE_ROOT}/utils/scale.h
++    ${SOURCE_ROOT}/utils/windll.c
++)
++
++add_library(${PROJECT_NAME} SHARED ${SOURCES} ${RESOURCES}) # Win32 ignored on non-windows
++target_include_directories(${PROJECT_NAME}
++    PRIVATE
++    src
++    ${LIBSNDFILE_INCLUDE_DIR}
++)
++
++# 'lib' is appended to the library name automatically on most non-Windows platforms
++if (WIN32)
++    # Add extra 'lib'
++    set_property(TARGET ${PROJECT_NAME} PROPERTY PREFIX "lib")
++endif()
++
++message(STATUS "CXX compiler: ${CMAKE_CXX_COMPILER_ID}")
++if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC") # Visual Studio
++    message(STATUS "Configuring for Visual Studio...")
++    #set_property(TARGET ${PROJECT_NAME} APPEND_STRING PROPERTY LINK_FLAGS " /WHOLEARCHIVE") # Not required on Windows?
++    target_link_libraries(${PROJECT_NAME}
++        PRIVATE
++        ${LIBOGG_LIBRARY_DIR}/ogg${CMAKE_STATIC_LIBRARY_SUFFIX}
++        ${LIBVORBIS_LIBRARY_DIR}/vorbis${CMAKE_STATIC_LIBRARY_SUFFIX}
++        ${LIBVORBIS_LIBRARY_DIR}/vorbisenc${CMAKE_STATIC_LIBRARY_SUFFIX}
++        ${LIBVORBIS_LIBRARY_DIR}/vorbisfile${CMAKE_STATIC_LIBRARY_SUFFIX}
++        ${LIBOPUS_LIBRARY_DIR}/opus${CMAKE_STATIC_LIBRARY_SUFFIX}
++        ${LIBFLAC_LIBRARY_DIR}/FLAC${CMAKE_STATIC_LIBRARY_SUFFIX}
++        ${LIBSNDFILE_LIBRARY_DIR}/sndfile${CMAKE_STATIC_LIBRARY_SUFFIX}
++    )
++elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "AppleClang") # Clang
++    message(STATUS "Configuring for Clang...")
++    target_link_libraries(${PROJECT_NAME}
++        PRIVATE
++        "-Wl,-all_load" # Make sure all required symbols etc. are imported
++        ${LIBOGG_LIBRARY_DIR}/libogg${CMAKE_STATIC_LIBRARY_SUFFIX}
++        ${LIBVORBIS_LIBRARY_DIR}/libvorbis${CMAKE_STATIC_LIBRARY_SUFFIX}
++        ${LIBVORBIS_LIBRARY_DIR}/libvorbisenc${CMAKE_STATIC_LIBRARY_SUFFIX}
++        ${LIBVORBIS_LIBRARY_DIR}/libvorbisfile${CMAKE_STATIC_LIBRARY_SUFFIX}
++        ${LIBOPUS_LIBRARY_DIR}/libopus${CMAKE_STATIC_LIBRARY_SUFFIX}
++        ${LIBFLAC_LIBRARY_DIR}/libFLAC${CMAKE_STATIC_LIBRARY_SUFFIX}
++        ${LIBSNDFILE_LIBRARY_DIR}/libsndfile${CMAKE_STATIC_LIBRARY_SUFFIX}
++        m # C math library
++    )
++else() # Assume GCC
++    if (NOT CMAKE_CXX_COMPILER_ID MATCHES "GNU")
++        message(WARNING "Unknown compiler, defaulting to same link libraries/options as GCC...")
++    endif()
++    message(STATUS "Configuring for GCC...")
++    target_link_libraries(${PROJECT_NAME}
++        PRIVATE
++        "-Wl,--whole-archive" # Make sure all required symbols etc. are imported
++        ${LIBOGG_LIBRARY_DIR}/libogg${CMAKE_STATIC_LIBRARY_SUFFIX}
++        ${LIBVORBIS_LIBRARY_DIR}/libvorbis${CMAKE_STATIC_LIBRARY_SUFFIX}
++        ${LIBVORBIS_LIBRARY_DIR}/libvorbisenc${CMAKE_STATIC_LIBRARY_SUFFIX}
++        ${LIBVORBIS_LIBRARY_DIR}/libvorbisfile${CMAKE_STATIC_LIBRARY_SUFFIX}
++        ${LIBOPUS_LIBRARY_DIR}/libopus${CMAKE_STATIC_LIBRARY_SUFFIX}
++        ${LIBFLAC_LIBRARY_DIR}/libFLAC${CMAKE_STATIC_LIBRARY_SUFFIX}
++        ${LIBSNDFILE_LIBRARY_DIR}/libsndfile${CMAKE_STATIC_LIBRARY_SUFFIX}
++        m # C math library
++        "-Wl,--no-whole-archive"
++        "-Wl,-z,defs" # Report unresolved symbols in object files
++    )
++endif()
++
++# Note; these definitions need investigating, this is just what seems to work for Aubio
++target_compile_definitions(${PROJECT_NAME}
++    PRIVATE
++    -DHAVE_C99_VARARGS_MACROS
++    -DHAVE_STDLIB_H
++    -DHAVE_STDIO_H
++    -DHAVE_COMPLEX_H
++    -DHAVE_MATH_H
++    -DHAVE_STRING_H
++    -DHAVE_ERRNO_H
++    -DHAVE_LIMITS_H
++    -DHAVE_STDARG_H
++    -DHAVE_BLAS_H # What is this?
++    -DHAVE_ATLAS_CBLAS_H # ?
++    -DHAVE_OPENBLAS_CBLAS_H # ?
++    -DHAVE_CBLAS_H # ?
++    -DHAVE_WAVREAD
++    -DHAVE_WAVWRITE
++    -DHAVE_AVRESAMPLE
++    -DHAVE_SWRESAMPLE
++    -DHAVE_MEMCPY_HACKS
++    -DHAVE_SNDFILE
++    #-DHAVE_ACCELERATE
++    #-DHAVE_INTEL_IPP (needs intel lib)
++    #-DHAVE_SAMPLERATE (needs extra lib in path)
++    #-DHAVE_AUBIO_DOUBLE (Not used if Sample rate is used)
++    #-DHAVE_WAVREAD (nneds extra lib in path)
++    #-DHAVE_FFTW3 (needs extra lib in path)
++    #-DHAVE_SOURCE_APPLE_AUDIO ?
++    #-DHAVE_SINK_APPLE_AUDIO ?
++    )
++
++if (WIN32)
++    target_compile_definitions(${PROJECT_NAME}
++    PRIVATE
++    -DHAVE_WIN_HACKS)
++endif()
++
++# Disable warnings
++if(WIN32)
++    #target_compile_options(${PROJECT_NAME} PRIVATE )
++elseif(${CMAKE_SYSTEM_NAME} MATCHES Linux)
++    #target_compile_options(${PROJECT_NAME}
++    #PRIVATE
++    #)
++elseif(${CMAKE_SYSTEM_NAME} MATCHES Darwin) # macOS
++    #target_compile_options(${PROJECT_NAME}
++    #PRIVATE
++    #)
++else()
++    message(FATAL_ERROR "Aubio is not supported on this platform.")
++endif()
+diff --git a/src/exports.def b/src/exports.def
+new file mode 100644
+index 00000000..4050b0bf
+--- /dev/null
++++ b/src/exports.def
+@@ -0,0 +1,428 @@
++LIBRARY libaubio-5
++
++EXPORTS
++aubio_autocorr
++aubio_beattracking_checkstate
++aubio_beattracking_do
++aubio_beattracking_get_bpm
++aubio_beattracking_get_confidence
++aubio_beattracking_get_period
++aubio_beattracking_get_period_s
++aubio_bintofreq
++aubio_bintomidi
++aubio_cleanup
++aubio_db_spl
++aubio_dct_do
++aubio_dct_ooura_do
++aubio_dct_ooura_rdo
++aubio_dct_plain_do
++aubio_dct_plain_rdo
++aubio_dct_rdo
++aubio_default_log
++aubio_fft_do
++aubio_fft_do_complex
++aubio_fft_get_imag
++aubio_fft_get_norm
++aubio_fft_get_phas
++aubio_fft_get_real
++aubio_fft_get_realimag
++aubio_fft_get_spectrum
++aubio_fft_rdo
++aubio_fft_rdo_complex
++aubio_filter_do
++aubio_filter_do_filtfilt
++aubio_filter_do_outplace
++aubio_filter_do_reset
++aubio_filter_get_feedback
++aubio_filter_get_feedforward
++aubio_filter_get_order
++aubio_filter_get_samplerate
++aubio_filter_set_a_weighting
++aubio_filter_set_biquad
++aubio_filter_set_c_weighting
++aubio_filter_set_samplerate
++aubio_filterbank_do
++aubio_filterbank_get_coeffs
++aubio_filterbank_get_norm
++aubio_filterbank_get_power
++aubio_filterbank_set_coeffs
++aubio_filterbank_set_mel_coeffs
++aubio_filterbank_set_mel_coeffs_htk
++aubio_filterbank_set_mel_coeffs_slaney
++aubio_filterbank_set_norm
++aubio_filterbank_set_power
++aubio_filterbank_set_triangle_bands
++aubio_freqtobin
++aubio_freqtomidi
++aubio_hist_do
++aubio_hist_do_notnull
++aubio_hist_dyn_notnull
++aubio_hist_mean
++aubio_hist_weight
++aubio_hztomel
++aubio_hztomel_htk
++aubio_io_validate_channels
++aubio_io_validate_samplerate
++aubio_is_power_of_two
++aubio_level_detection
++aubio_level_lin
++aubio_log
++aubio_log_reset
++aubio_log_set_function
++aubio_log_set_level_function
++aubio_meltohz
++aubio_meltohz_htk
++aubio_mfcc_do
++aubio_mfcc_get_power
++aubio_mfcc_get_scale
++aubio_mfcc_set_mel_coeffs
++aubio_mfcc_set_mel_coeffs_htk
++aubio_mfcc_set_mel_coeffs_slaney
++aubio_mfcc_set_power
++aubio_mfcc_set_scale
++aubio_miditobin
++aubio_miditofreq
++aubio_next_power_of_two
++aubio_notes_do
++aubio_notes_get_minioi_ms
++aubio_notes_get_release_drop
++aubio_notes_get_silence
++aubio_notes_set_minioi_ms
++aubio_notes_set_release_drop
++aubio_notes_set_silence
++aubio_onset_do
++aubio_onset_get_awhitening
++aubio_onset_get_compression
++aubio_onset_get_delay
++aubio_onset_get_delay_ms
++aubio_onset_get_delay_s
++aubio_onset_get_descriptor
++aubio_onset_get_last
++aubio_onset_get_last_ms
++aubio_onset_get_last_s
++aubio_onset_get_minioi
++aubio_onset_get_minioi_ms
++aubio_onset_get_minioi_s
++aubio_onset_get_silence
++aubio_onset_get_threshold
++aubio_onset_get_thresholded_descriptor
++aubio_onset_reset
++aubio_onset_set_awhitening
++aubio_onset_set_compression
++aubio_onset_set_default_parameters
++aubio_onset_set_delay
++aubio_onset_set_delay_ms
++aubio_onset_set_delay_s
++aubio_onset_set_minioi
++aubio_onset_set_minioi_ms
++aubio_onset_set_minioi_s
++aubio_onset_set_silence
++aubio_onset_set_threshold
++aubio_ooura_cdft
++aubio_ooura_ddct
++aubio_ooura_ddst
++aubio_ooura_dfct
++aubio_ooura_dfst
++aubio_ooura_rdft
++aubio_parameter_get_current_value
++aubio_parameter_get_max_value
++aubio_parameter_get_min_value
++aubio_parameter_get_next_value
++aubio_parameter_get_steps
++aubio_parameter_set_current_value
++aubio_parameter_set_max_value
++aubio_parameter_set_min_value
++aubio_parameter_set_steps
++aubio_parameter_set_target_value
++aubio_peakpicker_do
++aubio_peakpicker_get_threshold
++aubio_peakpicker_get_thresholded_input
++aubio_peakpicker_get_thresholdfn
++aubio_peakpicker_set_threshold
++aubio_peakpicker_set_thresholdfn
++aubio_pitch_do
++aubio_pitch_get_confidence
++aubio_pitch_get_silence
++aubio_pitch_get_tolerance
++aubio_pitch_set_silence
++aubio_pitch_set_tolerance
++aubio_pitch_set_unit
++aubio_pitch_slideblock
++aubio_pitchfcomb_do
++aubio_pitchmcomb_combdet
++aubio_pitchmcomb_do
++aubio_pitchmcomb_get_root_peak
++aubio_pitchmcomb_quadpick
++aubio_pitchmcomb_spectral_pp
++aubio_pitchschmitt_do
++aubio_pitchspecacf_do
++aubio_pitchspecacf_get_confidence
++aubio_pitchspecacf_get_tolerance
++aubio_pitchspecacf_set_tolerance
++aubio_pitchyin_do
++aubio_pitchyin_get_confidence
++aubio_pitchyin_get_tolerance
++aubio_pitchyin_set_tolerance
++aubio_pitchyinfast_do
++aubio_pitchyinfast_get_confidence
++aubio_pitchyinfast_get_tolerance
++aubio_pitchyinfast_set_tolerance
++aubio_pitchyinfft_do
++aubio_pitchyinfft_get_confidence
++aubio_pitchyinfft_get_tolerance
++aubio_pitchyinfft_set_tolerance
++aubio_power_of_two_order
++aubio_pvoc_do
++aubio_pvoc_get_hop
++aubio_pvoc_get_win
++aubio_pvoc_rdo
++aubio_pvoc_set_window
++aubio_quadfrac
++aubio_resampler_do
++aubio_sampler_do
++aubio_sampler_do_multi
++aubio_sampler_get_playing
++aubio_sampler_load
++aubio_sampler_play
++aubio_sampler_set_playing
++aubio_sampler_stop
++aubio_scale_do
++aubio_scale_set_limits
++aubio_schmittS16LE
++aubio_silence_detection
++aubio_sink_close
++aubio_sink_do
++aubio_sink_do_multi
++aubio_sink_get_channels
++aubio_sink_get_samplerate
++aubio_sink_preset_channels
++aubio_sink_preset_samplerate
++aubio_sink_sndfile_close
++aubio_sink_sndfile_do
++aubio_sink_sndfile_do_multi
++aubio_sink_sndfile_get_channels
++aubio_sink_sndfile_get_samplerate
++aubio_sink_sndfile_open
++aubio_sink_sndfile_preset_channels
++aubio_sink_sndfile_preset_samplerate
++aubio_sink_validate_input_channels
++aubio_sink_validate_input_length
++aubio_sink_wavwrite_close
++aubio_sink_wavwrite_do
++aubio_sink_wavwrite_do_multi
++aubio_sink_wavwrite_get_channels
++aubio_sink_wavwrite_get_samplerate
++aubio_sink_wavwrite_open
++aubio_sink_wavwrite_preset_channels
++aubio_sink_wavwrite_preset_samplerate
++aubio_source_close
++aubio_source_do
++aubio_source_do_multi
++aubio_source_get_channels
++aubio_source_get_duration
++aubio_source_get_samplerate
++aubio_source_pad_multi_output
++aubio_source_pad_output
++aubio_source_seek
++aubio_source_sndfile_close
++aubio_source_sndfile_do
++aubio_source_sndfile_do_multi
++aubio_source_sndfile_get_channels
++aubio_source_sndfile_get_duration
++aubio_source_sndfile_get_samplerate
++aubio_source_sndfile_seek
++aubio_source_validate_input_channels
++aubio_source_validate_input_length
++aubio_source_wavread_close
++aubio_source_wavread_do
++aubio_source_wavread_do_multi
++aubio_source_wavread_get_channels
++aubio_source_wavread_get_duration
++aubio_source_wavread_get_samplerate
++aubio_source_wavread_readframe
++aubio_source_wavread_seek
++aubio_specdesc_centroid
++aubio_specdesc_complex
++aubio_specdesc_decrease
++aubio_specdesc_do
++aubio_specdesc_energy
++aubio_specdesc_hfc
++aubio_specdesc_kl
++aubio_specdesc_kurtosis
++aubio_specdesc_mkl
++aubio_specdesc_phase
++aubio_specdesc_rolloff
++aubio_specdesc_skewness
++aubio_specdesc_slope
++aubio_specdesc_specdiff
++aubio_specdesc_specflux
++aubio_specdesc_spread
++aubio_specdesc_wphase
++aubio_spectral_whitening_do
++aubio_spectral_whitening_get_floor
++aubio_spectral_whitening_get_relax_time
++aubio_spectral_whitening_reset
++aubio_spectral_whitening_set_floor
++aubio_spectral_whitening_set_relax_time
++aubio_tempo_do
++aubio_tempo_get_bpm
++aubio_tempo_get_confidence
++aubio_tempo_get_delay
++aubio_tempo_get_delay_ms
++aubio_tempo_get_delay_s
++aubio_tempo_get_last
++aubio_tempo_get_last_ms
++aubio_tempo_get_last_s
++aubio_tempo_get_last_tatum
++aubio_tempo_get_period
++aubio_tempo_get_period_s
++aubio_tempo_get_silence
++aubio_tempo_get_threshold
++aubio_tempo_set_delay
++aubio_tempo_set_delay_ms
++aubio_tempo_set_delay_s
++aubio_tempo_set_silence
++aubio_tempo_set_tatum_signature
++aubio_tempo_set_threshold
++aubio_tempo_was_tatum
++aubio_tss_do
++aubio_tss_set_alpha
++aubio_tss_set_beta
++aubio_tss_set_threshold
++aubio_unwrap2pi
++aubio_wavetable_do
++aubio_wavetable_do_multi
++aubio_wavetable_get_amp
++aubio_wavetable_get_freq
++aubio_wavetable_get_playing
++aubio_wavetable_load
++aubio_wavetable_play
++aubio_wavetable_set_amp
++aubio_wavetable_set_freq
++aubio_wavetable_set_playing
++aubio_wavetable_stop
++aubio_zero_crossing_rate
++del_aubio_beattracking
++del_aubio_dct
++del_aubio_dct_ooura
++del_aubio_dct_plain
++del_aubio_fft
++del_aubio_filter
++del_aubio_filterbank
++del_aubio_hist
++del_aubio_mfcc
++del_aubio_notes
++del_aubio_onset
++del_aubio_parameter
++del_aubio_peakpicker
++del_aubio_pitch
++del_aubio_pitchfcomb
++del_aubio_pitchmcomb
++del_aubio_pitchschmitt
++del_aubio_pitchspecacf
++del_aubio_pitchyin
++del_aubio_pitchyinfast
++del_aubio_pitchyinfft
++del_aubio_pvoc
++del_aubio_resampler
++del_aubio_sampler
++del_aubio_scale
++del_aubio_sink
++del_aubio_sink_sndfile
++del_aubio_sink_wavwrite
++del_aubio_source
++del_aubio_source_sndfile
++del_aubio_source_wavread
++del_aubio_specdesc
++del_aubio_spectral_whitening
++del_aubio_tempo
++del_aubio_tss
++del_aubio_wavetable
++del_fvec
++fvec_abs
++fvec_adapt_thres
++fvec_add
++fvec_alpha_norm
++fvec_alpha_normalise
++fvec_ceil
++fvec_clamp
++fvec_copy
++fvec_cos
++fvec_exp
++fvec_floor
++fvec_get_data
++fvec_get_sample
++fvec_gettimesig
++fvec_ishift
++fvec_local_hfc
++fvec_log
++fvec_log10
++fvec_max
++fvec_max_elem
++fvec_mean
++fvec_median
++fvec_min
++fvec_min_elem
++fvec_min_removal
++fvec_moving_thres
++fvec_mul
++fvec_ones
++fvec_peakpick
++fvec_pow
++fvec_print
++fvec_push
++fvec_quadratic_peak_mag
++fvec_quadratic_peak_pos
++fvec_rev
++fvec_round
++fvec_set_all
++fvec_set_sample
++fvec_set_window
++fvec_shift
++fvec_sin
++fvec_sqrt
++fvec_sum
++fvec_weight
++fvec_weighted_copy
++fvec_zeros
++new_aubio_beattracking
++new_aubio_dct
++new_aubio_dct_ooura
++new_aubio_dct_plain
++new_aubio_fft
++new_aubio_filter
++new_aubio_filter_a_weighting
++new_aubio_filter_biquad
++new_aubio_filter_c_weighting
++new_aubio_filterbank
++new_aubio_hist
++new_aubio_mfcc
++new_aubio_notes
++new_aubio_onset
++new_aubio_parameter
++new_aubio_peakpicker
++new_aubio_pitch
++new_aubio_pitchfcomb
++new_aubio_pitchmcomb
++new_aubio_pitchschmitt
++new_aubio_pitchspecacf
++new_aubio_pitchyin
++new_aubio_pitchyinfast
++new_aubio_pitchyinfft
++new_aubio_pvoc
++new_aubio_resampler
++new_aubio_sampler
++new_aubio_scale
++new_aubio_sink
++new_aubio_sink_sndfile
++new_aubio_sink_wavwrite
++new_aubio_source
++new_aubio_source_sndfile
++new_aubio_source_wavread
++new_aubio_specdesc
++new_aubio_spectral_whitening
++new_aubio_tempo
++new_aubio_tss
++new_aubio_wavetable
++new_aubio_window
++new_fvec
+diff --git a/tmp.txt b/tmp.txt
+new file mode 100644
+index 00000000..8fd8b001
+--- /dev/null
++++ b/tmp.txt
+@@ -0,0 +1,349 @@
++test-scale.c 
++.appveyor.yml
++.coveragerc
++.gitignore
++.travis.yml
++aubio.pc.in
++AUTHORS
++azure-pipelines.yml
++ChangeLog
++CMakeLists.txt
++COPYING
++Makefile
++MANIFEST.in
++README.md
++requirements.txt
++setup.py
++this_version.py
++tmp.txt
++VERSION
++waf_gensyms.py
++wscript
++about.rst
++android.rst
++aubio.txt
++aubiocut.txt
++aubiomfcc.txt
++aubionotes.txt
++aubioonset.txt
++aubiopitch.txt
++aubioquiet.txt
++aubiotrack.txt
++binaries.rst
++building.rst
++cli.rst
++cli_features.rst
++conf.py
++debian_packages.rst
++develop.rst
++download.rst
++full.cfg
++index.rst
++installing.rst
++make.bat
++Makefile
++python.rst
++python_module.rst
++py_analysis.rst
++py_datatypes.rst
++py_examples.rst
++py_io.rst
++py_spectral.rst
++py_synth.rst
++py_temporal.rst
++py_utils.rst
++requirements.rst
++statuslinks.rst
++web.cfg
++xcode_frameworks.rst
++aubiomfcc.c
++aubionotes.c
++aubioonset.c
++aubiopitch.c
++aubioquiet.c
++aubiotrack.c
++jackio.c
++jackio.h
++parse_args.h
++utils.c
++utils.h
++wscript_build
++README.md
++demo_alsa.py
++demo_bench_yin.py
++demo_bpm_extract.py
++demo_create_test_sounds.py
++demo_filter.py
++demo_filterbank.py
++demo_filterbank_slaney.py
++demo_filterbank_triangle_bands.py
++demo_keyboard.py
++demo_mel-energy.py
++demo_mfcc.py
++demo_miditofreq.py
++demo_notes.py
++demo_onset.py
++demo_onset_plot.py
++demo_pitch.py
++demo_pitch_sinusoid.py
++demo_pyaudio.py
++demo_pysoundcard_play.py
++demo_pysoundcard_record.py
++demo_reading_speed.py
++demo_simple_robot_voice.py
++demo_simple_spectral_weighting.py
++demo_sink.py
++demo_sink_create_woodblock.py
++demo_sink_multi.py
++demo_slicing.py
++demo_source.py
++demo_source_simple.py
++demo_specdesc.py
++demo_spectrogram.py
++demo_tapthebeat.py
++demo_tempo.py
++demo_tempo_plot.py
++demo_timestretch.py
++demo_timestretch_online.py
++demo_tss.py
++demo_wav2midi.py
++demo_waveform_plot.py
++demo_yin_compare.py
++__init__.py
++aubio-docstrings.h
++aubio-types.h
++aubiomodule.c
++aubioproxy.c
++py-cvec.c
++py-fft.c
++py-filter.c
++py-filterbank.c
++py-musicutils.c
++py-musicutils.h
++py-phasevoc.c
++py-sink.c
++py-source.c
++ufuncs.c
++gen_code.py
++gen_external.py
++moresetuptools.py
++cmd.py
++cut.py
++midiconv.py
++slicing.py
++__init__.py
++a_weighting_test_simple.expected
++c_weighting_test_simple.expected
++c_weighting_test_simple_8000.expected
++eval_pitch
++filterbank_mfcc_16000_512.expected
++test_aubio.py
++test_aubio_cmd.py
++test_aubio_cut.py
++test_cvec.py
++test_dct.py
++test_fft.py
++test_filter.py
++test_filterbank.py
++test_filterbank_mel.py
++test_fvec.py
++test_fvec_shift.py
++test_hist.py.old
++test_hztomel.py
++test_mathutils.py
++test_mfcc.py
++test_midi2note.py
++test_musicutils.py
++test_note2midi.py
++test_notes.py
++test_onset.py
++test_peakpicker.py.old
++test_phasevoc.py
++test_pitch.py
++test_scale.py.old
++test_sink.py
++test_slicing.py
++test_source.py
++test_source_channels.py
++test_specdesc.py
++test_tempo.py
++test_zero_crossing_rate.py
++utils.py
++_tools.py
++build_android
++build_apple_frameworks
++build_emscripten
++build_mingw
++get_waf.sh
++setenv_local.sh
++Info.plist
++module.modulemap
++aubio.h
++aubio_priv.h
++clip
++cvec.c
++cvec.h
++fmat.c
++fmat.h
++fvec.c
++fvec.h
++lvec.c
++lvec.h
++mathutils.c
++mathutils.h
++musicutils.c
++musicutils.h
++types.h
++vecutils.c
++vecutils.h
++wscript_build
++audio_unit.c
++audio_unit.h
++ioutils.c
++ioutils.h
++sink.c
++sink.h
++sink_apple_audio.c
++sink_apple_audio.h
++sink_sndfile.c
++sink_sndfile.h
++sink_wavwrite.c
++sink_wavwrite.h
++source.c
++source.h
++source_apple_audio.c
++source_apple_audio.h
++source_avcodec.c
++source_avcodec.h
++source_sndfile.c
++source_sndfile.h
++source_wavread.c
++source_wavread.h
++utils_apple_audio.c
++notes.c
++notes.h
++onset.c
++onset.h
++peakpicker.c
++peakpicker.h
++pitch.c
++pitch.h
++pitchfcomb.c
++pitchfcomb.h
++pitchmcomb.c
++pitchmcomb.h
++pitchschmitt.c
++pitchschmitt.h
++pitchspecacf.c
++pitchspecacf.h
++pitchyin.c
++pitchyin.h
++pitchyinfast.c
++pitchyinfast.h
++pitchyinfft.c
++pitchyinfft.h
++awhitening.c
++awhitening.h
++dct.c
++dct.h
++dct_accelerate.c
++dct_fftw.c
++dct_ipp.c
++dct_ooura.c
++dct_plain.c
++fft.c
++fft.h
++filterbank.c
++filterbank.h
++filterbank_mel.c
++filterbank_mel.h
++mfcc.c
++mfcc.h
++ooura_fft8g.c
++phasevoc.c
++phasevoc.h
++specdesc.c
++specdesc.h
++statistics.c
++tss.c
++tss.h
++sampler.c
++sampler.h
++wavetable.c
++wavetable.h
++beattracking.c
++beattracking.h
++tempo.c
++tempo.h
++a_weighting.c
++a_weighting.h
++biquad.c
++biquad.h
++c_weighting.c
++c_weighting.h
++filter.c
++filter.h
++resampler.c
++resampler.h
++hist.c
++hist.h
++log.c
++log.h
++parameter.c
++parameter.h
++scale.c
++scale.h
++windll.c
++create_tests_source.py
++utils_tests.h
++wscript_build
++test-cvec.c
++test-fmat.c
++test-fvec.c
++test-lvec.c
++test-mathutils-window.c
++test-mathutils.c
++test-vecutils.c
++base-sink_custom.h
++base-source_custom.h
++test-sink.c
++test-sink_apple_audio.c
++test-sink_sndfile.c
++test-sink_wavwrite.c
++test-source.c
++test-source_apple_audio.c
++test-source_avcodec.c
++test-source_sndfile.c
++test-source_wavread.c
++test-notes.c
++test-onset.c
++test-peakpicker.c
++test-pitch.c
++test-pitchfcomb.c
++test-pitchmcomb.c
++test-pitchschmitt.c
++test-pitchspecacf.c
++test-pitchyin.c
++test-pitchyinfft.c
++test-awhitening.c
++test-dct.c
++test-fft.c
++test-filterbank.c
++test-filterbank_mel.c
++test-mfcc.c
++test-phasevoc.c
++test-specdesc.c
++test-tss.c
++test-sampler.c
++test-wavetable.c
++test-beattracking.c
++test-tempo.c
++test-a_weighting.c
++test-biquad.c
++test-c_weighting.c
++test-filter.c
++test-resampler.c
++test-hist.c
++test-log.c
++test-parameter.c
++test-scale.c

@@ -21,7 +21,11 @@ ExternalProject_Add(sp_midi
 
 ExternalProject_Add(ogg
     PREFIX ogg-prefix
-    SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/ogg-1.3.4
+    GIT_REPOSITORY "https://github.com/xiph/ogg.git"
+    GIT_TAG v1.3.4
+    GIT_PROGRESS true
+    SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/.src/ogg-1.3.4
+    PATCH_COMMAND git apply "${CMAKE_CURRENT_LIST_DIR}/_patches/ogg-1.3.4.patch"
 
     INSTALL_DIR ${CMAKE_BINARY_DIR}/ogg-package
     CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/ogg-package
@@ -31,7 +35,12 @@ ExternalProject_Add(ogg
 
 ExternalProject_Add(flac
     PREFIX flac-prefix
-    SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/flac_1_3_3
+    GIT_REPOSITORY "https://github.com/xiph/flac.git"
+    GIT_TAG cffe3890
+    GIT_PROGRESS true
+    SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/.src/flac-1.3.3-cffe3890
+    PATCH_COMMAND git apply "${CMAKE_CURRENT_LIST_DIR}/_patches/flac-1.3.3-cffe3890.patch"
+
     DEPENDS ogg
 
     CMAKE_ARGS -DOGG_ROOT=${CMAKE_BINARY_DIR}/ogg-package
@@ -46,7 +55,11 @@ ExternalProject_Add(flac
 
 ExternalProject_Add(opus
     PREFIX opus-prefix
-    SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/opus-1.2
+    GIT_REPOSITORY "https://github.com/xiph/opus.git"
+    GIT_TAG ad8fe90d
+    GIT_PROGRESS true
+    SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/.src/opus-1.3.1-ad8fe90d
+
     DEPENDS ogg
 
     CMAKE_ARGS -DOGG_ROOT=${CMAKE_BINARY_DIR}/ogg-package
@@ -61,7 +74,12 @@ ExternalProject_Add(opus
 
 ExternalProject_Add(vorbis
     PREFIX vorbis-prefix
-    SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/vorbis-1.3.4
+    GIT_REPOSITORY "https://github.com/xiph/vorbis.git"
+    GIT_TAG 9eadeccd
+    GIT_PROGRESS true
+    SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/.src/vorbis-1.3.6-9eadeccd
+    #PATCH_COMMAND git apply git apply "${CMAKE_CURRENT_LIST_DIR}/_patches/vorbis-1.3.6-9eadeccd.patch"
+
     DEPENDS ogg
 
     CMAKE_ARGS -DOGG_ROOT=${CMAKE_BINARY_DIR}/ogg-package
@@ -76,7 +94,11 @@ ExternalProject_Add(vorbis
 
 ExternalProject_Add(libsndfile
     PREFIX libsndfile-prefix
-    SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/libsndfile
+    GIT_REPOSITORY "https://github.com/erikd/libsndfile.git"
+    GIT_TAG e6909192 # was d3976718
+    GIT_PROGRESS true
+    SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/.src/libsndfile-1.0.28-e6909192
+
     DEPENDS flac vorbis opus
 
     CMAKE_ARGS
@@ -103,7 +125,11 @@ ExternalProject_Add(libsndfile
 
 ExternalProject_Add(aubio
     PREFIX aubio-prefix
-    SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/aubio
+    GIT_REPOSITORY "https://github.com/aubio/aubio.git"
+    GIT_TAG eadb7f61
+    SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/.src/aubio-0.4.9-eadb7f61
+    PATCH_COMMAND git apply "${CMAKE_CURRENT_LIST_DIR}/_patches/aubio-0.4.9-eadb7f61.patch"
+
     DEPENDS libsndfile
 
     CMAKE_ARGS -DLIBSNDFILE_INCLUDE_DIR=${CMAKE_BINARY_DIR}/libsndfile-package/include
