@@ -27,5 +27,9 @@ module SonicPi
       idx = idx.to_i % size if idx.is_a? Numeric
       self.to_a.slice(idx)
     end
+
+    def take(n)
+      self.to_a.take(n)
+    end
   end
 end
