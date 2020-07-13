@@ -87,9 +87,9 @@ for:
   install:
     - cd "$APPVEYOR_BUILD_FOLDER"
     - ls -lA
-    - # Install erlang & aubio
+    - # Install erlang, aubio and qt
     - # (We install aubio using brew instead of building it from source so that the build can complete within the 1 hour time limit)
-    - brew install erlang aubio
+    - brew install erlang aubio qt
     - # Relink gettext to Homebrew folders to hopefully fix symbol errors (based from https://github.com/EOSIO/eos/issues/2174)
     - brew link gettext --force
     - export PATH="/usr/local/opt/gettext/bin:$PATH" # Add gettext to the path
