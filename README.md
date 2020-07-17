@@ -80,6 +80,7 @@ Status                                                                          
 [![Translation Status of Sonic Pi: ru](https://hosted.weblate.org/widgets/sonic-pi/ru/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)           | Russian             | :white_check_mark: | :white_check_mark:
 [![Translation Status of Sonic Pi: zh_Hans](https://hosted.weblate.org/widgets/sonic-pi/zh_Hans/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/) | Simplified Chinese  | :white_check_mark: | :red_circle:
 [![Translation Status of Sonic Pi: es](https://hosted.weblate.org/widgets/sonic-pi/es/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)           | Spanish             | :white_check_mark: | :white_check_mark:
+[![Translation Status of Sonic Pi: si](https://hosted.weblate.org/widgets/sonic-pi/si/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)           | sinhala             | :white_check_mark: | :red_circle:
 
 Would you like to contribute a translation too? If so, please take a look at our [translation docs](https://github.com/samaaron/sonic-pi/blob/main/TRANSLATION.md) to get started.
 
