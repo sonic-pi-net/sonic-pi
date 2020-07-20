@@ -158,7 +158,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2088"/>
         <source>Text Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation>문자 확대</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2094"/>
