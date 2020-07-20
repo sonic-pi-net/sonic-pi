@@ -6,64 +6,64 @@
     <message>
         <location filename="../mainwindow.cpp" line="504"/>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>අවශ්‍යතාව</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="741"/>
         <source>Log</source>
-        <translation type="unfinished"></translation>
+        <translation>ලඝු</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="172"/>
         <location filename="../mainwindow.cpp" line="2431"/>
         <location filename="../mainwindow.cpp" line="2450"/>
         <source>Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>සොනික් පයි</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1498"/>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>කේතය වැඩ කරන ගමන් ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1518"/>
         <source>Beautifying...</source>
         <oldsource>Beautifying....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>අලංකාර කරමින් ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1548"/>
         <source>Reloading...</source>
         <oldsource>Reloading....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>රීලෝඩ් වෙමින් ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1579"/>
         <source>Enabling Mixer HPF...</source>
         <oldsource>Enabling Mixer HPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Mixer HPF සක්‍රීය කරමින් ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1588"/>
         <source>Disabling Mixer HPF...</source>
         <oldsource>Disabling Mixer HPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Mixer HPF අක්‍රීය කරමින් ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="460"/>
         <source>Welcome to Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>අපි ඔබව සොනික් පයි වෙත සාදරයෙන් පිළිගනිමු</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="978"/>
         <source>Indenting selection...</source>
-        <translation type="unfinished"></translation>
+        <translation>තෝරගැනීම පිළිවෙල කරන්න...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="982"/>
         <source>Indenting line...</source>
-        <translation type="unfinished"></translation>
+        <translation>පේළිය පිළිවෙල කරන්න..</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1011"/>
@@ -73,17 +73,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="747"/>
         <source>Cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Cues</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="842"/>
         <source>Full screen mode on.</source>
-        <translation type="unfinished"></translation>
+        <translation>ෆුල්ස්ක්‍රීන් පිහිටීම ක්‍රියාත්මකයි.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="859"/>
         <source>Full screen mode off.</source>
-        <translation type="unfinished"></translation>
+        <translation>ෆුල්ස්ක්‍රීන් පිහිටීම අක්‍රීයයි.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1015"/>
@@ -93,24 +93,24 @@
     <message>
         <location filename="../mainwindow.cpp" line="1097"/>
         <source>The Sonic Pi Server could not be started!</source>
-        <translation type="unfinished"></translation>
+        <translation>සොනික් පයි සේවාදායකය ආරම්භ කළ නොහැකි විය!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2746"/>
         <location filename="../mainwindow.cpp" line="2758"/>
         <source>No connected input devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Input උපාංග කිසිවක් සම්බන්ධ කර නැත</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2747"/>
         <location filename="../mainwindow.cpp" line="2759"/>
         <source>No connected output devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Output උපාංග කිසිවක් සම්බන්ධ කර නැත</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2707"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation type="unfinished"></translation>
+        <translation>http://sonic-pi.net වෙත ගොස් නවතම සංස්කරණය ලබාගන්න</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2776"/>
@@ -130,19 +130,21 @@
     <message>
         <location filename="../mainwindow.cpp" line="2852"/>
         <source>Connected MIDI inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>සම්බන්ධ කර ඇති MIDI ප්‍රදාන</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2857"/>
         <source>Connected MIDI outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>සම්බන්ධ කර ඇති MIDI ප්‍රතිදාන</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1265"/>
         <source>Sonic Pi Boot Error
 
 Apologies, a critical error occurred during startup</source>
-        <translation type="unfinished"></translation>
+        <translation>සොනික් පයි ඇරඹුම් දෝෂයක්
+
+සමාවන්න , මෘදුකාංගය ආරම්භයේදී දෝෂයක් සිදුවිය</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1364"/>
@@ -150,7 +152,7 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="1381"/>
         <location filename="../mainwindow.cpp" line="1384"/>
         <source>Buffer files</source>
-        <translation type="unfinished"></translation>
+        <translation>බෆර් ගොනු</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1367"/>
@@ -161,39 +163,39 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="1367"/>
         <location filename="../mainwindow.cpp" line="1384"/>
         <source>Text files</source>
-        <translation type="unfinished"></translation>
+        <translation>Text ගොනු</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1367"/>
         <location filename="../mainwindow.cpp" line="1384"/>
         <source>Ruby files</source>
-        <translation type="unfinished"></translation>
+        <translation>Ruby ක්‍රමලේඛ භාෂා ගොනු</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1367"/>
         <location filename="../mainwindow.cpp" line="1384"/>
         <source>All files</source>
-        <translation type="unfinished"></translation>
+        <translation>සියලු ගොනු</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1795"/>
         <source>Log Auto Scroll on...</source>
-        <translation type="unfinished"></translation>
+        <translation>ස්වයංක්‍රීය ලඝු චලනය සක්‍රිය කරන්න ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1797"/>
         <source>Log Auto Scroll off...</source>
-        <translation type="unfinished"></translation>
+        <translation>ස්වයංක්‍රීය ලඝු චලනය අක්‍රිය කරන්න ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2053"/>
         <source>Run the code in the current buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>වත්මන් බෆරය තුල කේතය ක්‍රියාත්මක කරන්න</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2075"/>
         <source>Load</source>
-        <translation type="unfinished"></translation>
+        <translation>Load කරන්න</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2077"/>
@@ -203,37 +205,37 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2263"/>
         <source>Wavefile (*.wav)</source>
-        <translation type="unfinished"></translation>
+        <translation>(*.wav) ආකාරයේ ගොනුවක්</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1695"/>
         <source>help visibility changed...</source>
-        <translation type="unfinished"></translation>
+        <translation>උපකාරක පෙනුම වෙනස් විය...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2740"/>
         <source>Enabling MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI සක්‍රීය වෙමින් පවතී...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2748"/>
         <source>Disabling MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI අක්‍රීය වෙමින් පවතී...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2760"/>
         <source>Resetting MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI රීසෙට් වෙමින් පවතී...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2765"/>
         <source>MIDI is disabled...</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI අක්‍රීය කර ඇත...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2808"/>
         <source>Welcome back. Now get your live code on...</source>
-        <translation type="unfinished"></translation>
+        <translation>නැවතත් ඔබට පිළිගන්නවා. දැන් ඔබේ සජීවී කේතය ක්‍රියා කරවන්න...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1384"/>
@@ -243,93 +245,93 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="730"/>
         <source>Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>පථය</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1504"/>
         <source>Zooming In...</source>
-        <translation type="unfinished"></translation>
+        <translation>විශාලනය වෙමින්...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1511"/>
         <source>Zooming Out...</source>
-        <translation type="unfinished"></translation>
+        <translation>කුඩා වෙමින්...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1555"/>
         <source>Checking for updates...</source>
-        <translation type="unfinished"></translation>
+        <translation>යාවත්කාලීන කිරීම් සඳහා පරීක්ෂා වෙමින් ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1563"/>
         <source>Enabling update checking...</source>
-        <translation type="unfinished"></translation>
+        <translation>යාවත්කාලීන කිරීම් ඇතිදැයි සෙවීම සක්‍රීය වෙමින් ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1571"/>
         <source>Disabling update checking...</source>
-        <translation type="unfinished"></translation>
+        <translation>යාවත්කාලීන කිරීම් ඇතිදැයි සෙවීම අක්‍රීය වෙමින් ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1596"/>
         <source>Enabling Mixer LPF...</source>
         <oldsource>Enabling Mixer LPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>මික්සර් LPF සක්‍රීය වෙමින්...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1605"/>
         <source>Disabling Mixer LPF...</source>
         <oldsource>Disabling Mixer LPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>මික්සර් LPF අක්‍රීය වෙමින්...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1613"/>
         <source>Enabling Inverted Stereo...</source>
         <oldsource>Enabling Inverted Stereo....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>ප්‍රතිලෝම ස්ටීරියෝ සක්‍රීය වෙමින්...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1621"/>
         <source>Enabling Standard Stereo...</source>
         <oldsource>Enabling Standard Stereo....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>සාමාන්‍ය ස්ටීරියෝ සක්‍රීය වෙමින්...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1629"/>
         <source>Mono Mode...</source>
         <oldsource>Mono Mode....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>ස්ටීරියෝ අක්‍රීයයි...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1637"/>
         <source>Stereo Mode...</source>
         <oldsource>Stereo Mode....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>ස්ටීරියෝ සක්‍රීයයි...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1646"/>
         <source>Stopping...</source>
-        <translation type="unfinished"></translation>
+        <translation>නැවතෙමින් පවතී...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1753"/>
         <source>Updating System Volume...</source>
-        <translation type="unfinished"></translation>
+        <translation>පද්ධති ධාරිතාව යාවත්කාලීන වෙමින් පවතී...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1826"/>
         <source>Colour Theme: </source>
-        <translation type="unfinished"></translation>
+        <translation>වර්ණ තේමාව: </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2065"/>
         <source>Start recording to a WAV audio file</source>
-        <translation type="unfinished"></translation>
+        <translation>WAV වර්ගයේ ශබ්ද ගොනුවකට රෙකෝඩ් වීම අරඹන්න</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2069"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>සේව් කරන්න</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2071"/>
@@ -349,156 +351,158 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2285"/>
         <source>Ready...</source>
-        <translation type="unfinished"></translation>
+        <translation>සූදානම්...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2443"/>
         <source>File loaded...</source>
-        <translation type="unfinished"></translation>
+        <translation>ගොනුව load වී අවසන්...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2469"/>
         <source>File saved...</source>
-        <translation type="unfinished"></translation>
+        <translation>ගොනුව සේව් වී අවසන්...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2693"/>
         <source>Last checked %1</source>
-        <translation type="unfinished"></translation>
+        <translation>අවසන් වරට සොයා බැලුවේ %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2695"/>
         <source>Sonic Pi checks for updates
 every two weeks.</source>
-        <translation type="unfinished"></translation>
+        <translation>සොනික් පයි වලට යාවත්කාලීන කිරීම් ඇතිදැයි
+ කියා සෑම සති 2 කට වරක්ම සොයා බැලේ.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2697"/>
         <source>This is Sonic Pi %1</source>
-        <translation type="unfinished"></translation>
+        <translation>මේ සොනික් පයි %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2698"/>
         <source>Version %2 is now available!</source>
-        <translation type="unfinished"></translation>
+        <translation>%2 නවතම සංස්කරණය දැන් ලබාගත හැක!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2702"/>
         <source>New version available!
 Get Sonic Pi %1</source>
-        <translation type="unfinished"></translation>
+        <translation>නව සංස්කරණය දැන් ලබාගත හැක!
+සොනික් පයි %1 සංස්කරණය</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2051"/>
         <source>Run</source>
-        <translation type="unfinished"></translation>
+        <translation>ධාවනය කරවන්න</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2057"/>
         <source>Stop</source>
-        <translation type="unfinished"></translation>
+        <translation>නවත්වන්න</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2059"/>
         <source>Stop all running code</source>
-        <translation type="unfinished"></translation>
+        <translation>සියලුම කේත ධාවනය නවතන්න</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2108"/>
         <source>See information about Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>සොනික් පයි ගැන වැඩි විස්තර දැනගන්න</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="790"/>
         <source>Help</source>
-        <translation type="unfinished"></translation>
+        <translation>උපකාර</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1265"/>
         <source>Server boot error...</source>
-        <translation type="unfinished"></translation>
+        <translation>සේවාදායකයේ ඇරඹුම් දෝෂයක්...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1265"/>
         <source>Please consider reporting a bug at</source>
-        <translation type="unfinished"></translation>
+        <translation>දෝෂ ඇත්නම් ඒවා පවසන්න</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2063"/>
         <location filename="../mainwindow.cpp" line="2255"/>
         <source>Start Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>රෙකෝඩ් වීම අරඹන්න</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2082"/>
         <source>Auto-Align Text</source>
         <oldsource>Auto Align Text</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>කේත ස්වයංක්‍රීයව පෙළගස්වන්න</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2090"/>
         <source>Increase Text Size</source>
-        <translation type="unfinished"></translation>
+        <translation>අකුරු විශාලනය කරන්න</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2096"/>
         <source>Decrease Text Size</source>
-        <translation type="unfinished"></translation>
+        <translation>අකුරු කුඩා කරන්න</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2126"/>
         <source>Tools</source>
-        <translation type="unfinished"></translation>
+        <translation>යෙදුම්</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2194"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>සොනික් පයි ගැන විස්තර</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2196"/>
         <source>Core Team</source>
-        <translation type="unfinished"></translation>
+        <translation>ප්‍රධාන කණ්ඩායම</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2197"/>
         <source>Contributors</source>
-        <translation type="unfinished"></translation>
+        <translation>උපකාර කළ අය</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2195"/>
         <source>Community</source>
-        <translation type="unfinished"></translation>
+        <translation>ප්‍රජාව</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="430"/>
         <source>Studio Mode Enabled. Thank-you for supporting Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation>ස්ටුඩියෝ තත්වය ක්‍රියාත්මකයි. සොනික් පයි සඳහා සහය දැක්වීම ගැන ස්තූතියි.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="434"/>
         <source>No Matching Studio Hash Found...</source>
-        <translation type="unfinished"></translation>
+        <translation>ගැළපෙන ස්ටුඩියෝ හෑශ් නැත...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="670"/>
         <source>| %1 |</source>
-        <translation type="unfinished"></translation>
+        <translation>| %1 |</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2084"/>
         <source>Align code to improve readability</source>
-        <translation type="unfinished"></translation>
+        <translation>කේතය පිළිවෙළට සකසන්න</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2088"/>
         <source>Text Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation>අකුරු විශාල කරන්න</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2094"/>
         <source>Text Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation>අකුරු කුඩා කරන්න</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2100"/>
@@ -513,69 +517,71 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2106"/>
         <source>Show Info</source>
-        <translation type="unfinished"></translation>
+        <translation>විස්තර පෙන්වන්න</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2112"/>
         <source>Toggle Help</source>
-        <translation type="unfinished"></translation>
+        <translation>උපකාර ගොනු පෙන්වන්න</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2118"/>
         <source>Toggle Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>වෙනස්කම් සිදුකරන්න</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2149"/>
         <source>&amp;File</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;File</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2156"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Edit</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2160"/>
         <source>&amp;Window</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Window</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2198"/>
         <source>License</source>
-        <translation type="unfinished"></translation>
+        <translation>බලපත්‍රය</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2199"/>
         <source>History</source>
-        <translation type="unfinished"></translation>
+        <translation>අතීතය</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2219"/>
         <source>Sonic Pi - Info</source>
-        <translation type="unfinished"></translation>
+        <translation>සොනික් පයි - විස්තර</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2245"/>
         <source>Stop Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>රෙකෝඩ් වීම නවතන්න</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2263"/>
         <source>Save Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>රෙකෝඩ් වූ හඩ පටය සේව් කරන්න</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2432"/>
         <source>Cannot read file %1:
 %2.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1: ගොනුව කියවිය නොහැක
+%2.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2451"/>
         <source>Cannot write file %1:
 %2.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1: ගොනුව ලිවිය නොහැක
+%2.</translation>
     </message>
 </context>
 <context>
@@ -583,7 +589,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../main.cpp" line="58"/>
         <source>Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>සොනික් පයි</translation>
     </message>
 </context>
 <context>
@@ -591,32 +597,32 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../visualizer/scope.cpp" line="392"/>
         <source>Lissajous</source>
-        <translation type="unfinished"></translation>
+        <translation>lissajous</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="393"/>
         <source>Left</source>
-        <translation type="unfinished"></translation>
+        <translation>වම</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="394"/>
         <source>Right</source>
-        <translation type="unfinished"></translation>
+        <translation>දකුණ</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="395"/>
         <source>Mono</source>
-        <translation type="unfinished"></translation>
+        <translation>මෝනෝ</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="396"/>
         <source>Mirror Stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>ස්ටීරියෝ</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="398"/>
         <source>Spectrum</source>
-        <translation type="unfinished"></translation>
+        <translation>වර්ණාවලිය</translation>
     </message>
 </context>
 <context>
@@ -624,43 +630,43 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="31"/>
         <source>Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>ශබ්දය</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="34"/>
         <source>IO</source>
-        <translation type="unfinished"></translation>
+        <translation>IO</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="37"/>
         <source>Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>සංස්කාරකය</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="40"/>
         <source>Visuals</source>
-        <translation type="unfinished"></translation>
+        <translation>දර්ශන</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="43"/>
         <location filename="../widgets/settingswidget.cpp" line="409"/>
         <source>Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>යාවත්කාලීන කිරීම්</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="80"/>
         <source>Master Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>ප්‍රධාන ශබ්දය</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="81"/>
         <source>Use this slider to change the system volume.</source>
-        <translation type="unfinished"></translation>
+        <translation>System volume වෙනස් කිරීම.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="87"/>
         <source>Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>හඩ output</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="88"/>
@@ -671,7 +677,7 @@ external PA systems when performing with Sonic Pi.</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="89"/>
         <source>Invert stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>ස්ටීරියෝ හුවමාරු කරන්න</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="90"/>
@@ -683,7 +689,7 @@ be routed to the right speaker and vice versa.</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="91"/>
         <source>Force mono</source>
-        <translation type="unfinished"></translation>
+        <translation>මෝනෝ අනිවාර්ය කරන්න</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="92"/>
@@ -697,17 +703,17 @@ can only handle mono.</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="101"/>
         <source>Synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Synth සහ FX</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="102"/>
         <source>Modify behaviour of synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Synth සහ FX වල හැසිරීම වෙනස් කරන්න</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="104"/>
         <source>Safe mode</source>
-        <translation type="unfinished"></translation>
+        <translation>ආරක්ශිත ක්‍රමය</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="105"/>
@@ -719,7 +725,7 @@ create unexpectedly loud or uncomfortable sounds.</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="107"/>
         <source>Enforce timing guarantees</source>
-        <translation type="unfinished"></translation>
+        <translation>Timing guarantees බලාත්මක කරන්න</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="108"/>
@@ -735,7 +741,7 @@ even when a little late.</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="110"/>
         <source>Enable external synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>අභ්‍යන්තර Synth සහ FX ක්‍රියාත්මක කරන්න</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="111"/>
@@ -751,34 +757,36 @@ which isn&apos;t recognised.</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="135"/>
         <source>Networked OSC</source>
-        <translation type="unfinished"></translation>
+        <translation>OSC ජාලය</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="136"/>
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation type="unfinished"></translation>
+        <translation>සොනික් පයි හට දැනට සම්බන්ධිත ජාලය හරහා
+ විවෘත ශබ්ද පාලන පණිවිඩ
+ යැවීමට සහ ලැබීමට හැකිය.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="139"/>
         <source>Local IP address</source>
-        <translation type="unfinished"></translation>
+        <translation>Local IP ලිපිනය</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="140"/>
         <source>Listening for OSC messages on port</source>
-        <translation type="unfinished"></translation>
+        <translation>OSC පණිවුඩ අසමින්</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="159"/>
         <source>Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>ලබාගත නොහැක</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="165"/>
         <source>Send/Receive remote OSC messages</source>
-        <translation type="unfinished"></translation>
+        <translation>දුරස්ථ OSC පණිවුඩ යවන්න/ලබාගන්න</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="166"/>
@@ -789,7 +797,7 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="168"/>
         <source>Enable OSC server</source>
-        <translation type="unfinished"></translation>
+        <translation>OSC සේවාදායකය සක්‍රීය කරන්න</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="169"/>
@@ -815,107 +823,110 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="181"/>
         <source>List all connected MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>සම්බන්ධ වී ඇති සියලු MIDI උපාංග පෙන්වන්න</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="183"/>
         <source>Enable MIDI subsystems</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI උප-පද්ධති ක්‍රියාත්මක කරන්න</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="184"/>
         <source>Enable or disable incoming and outgoing MIDI communication</source>
-        <translation type="unfinished"></translation>
+        <translation>පැමිණෙන සහ පිටවන MIDI සන්නිවේදනය, සක්‍රිය හෝ අක්‍රීය කරන්න</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="186"/>
         <source>Reset MIDI</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI නැවත සකසන්න</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="187"/>
         <source>Reset MIDI subsystems 
 (Required to detect device changes on macOS)</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI නැවත සකසන්න
+(macOS හි උපාංග වෙනස්වීම් හඳුනා ගැනීමට අවශ්‍ය වේ)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="213"/>
         <source>Default MIDI channel (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation>Default MIDI නාලිකාව (* සියල්ලෙන්ම)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="214"/>
         <location filename="../widgets/settingswidget.cpp" line="218"/>
         <source>Default MIDI Channel to send messages to</source>
-        <translation type="unfinished"></translation>
+        <translation>පණිවිඩ යැවීමට Default MIDI නාලිකාව</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="229"/>
         <source>No connected input devices</source>
-        <translation type="unfinished"></translation>
+        <translation>ආදාන උපාංග සම්බන්ධ කර නොමැත</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="230"/>
         <source>No connected output devices</source>
-        <translation type="unfinished"></translation>
+        <translation>ප්‍රතිදාන උපාංග සම්බන්ධ කර නොමැත</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="231"/>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI ආදාන උපාංග සොනික් පයි වෙත
+ MIDI පණිවිඩ කෙලින්ම යවයි
+(ඒවා ඉසව් සිදුවීම් ලෙස පිළිගනු ලැබේ)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="232"/>
         <source>MIDI output devices receive MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI ප්‍රතිදාන උපාංගවලට MIDI පණිවිඩ කෙලින්ම ලැබේ</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="262"/>
         <source>Show and Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>පෙන්වීම හා වසන් කිරීම</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="263"/>
         <source>Configure editor display options.</source>
-        <translation type="unfinished"></translation>
+        <translation>දෘශ්‍ය සැකසුම් වෙනස් කරන්න.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="264"/>
         <source>Look and Feel</source>
-        <translation type="unfinished"></translation>
+        <translation>පෙනුම හා පහසුව</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="265"/>
         <source>Configure editor look and feel.</source>
-        <translation type="unfinished"></translation>
+        <translation>පෙනුම හා පහසුව ගැලපෙන පරිදි සකසන්න.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="266"/>
         <source>Automation</source>
-        <translation type="unfinished"></translation>
+        <translation>ස්වයංක්‍රීය කිරීම</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="267"/>
         <source>Configure automation features.</source>
-        <translation type="unfinished"></translation>
+        <translation>ස්වයංක්‍රීය කිරීමේ විශේෂාංග සකසන්න.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="269"/>
         <source>Auto-align</source>
-        <translation type="unfinished"></translation>
+        <translation>Auto-align කරන්න</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="270"/>
         <source>Automatically align code on Run</source>
-        <translation type="unfinished"></translation>
+        <translation>කේතය ක්‍රියාත්මක වන විට එය ස්වයංක්‍රීයව align කරන්න</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="272"/>
         <source>Show line numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>පේළි වල අංක පෙන්වන්න</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="273"/>
@@ -925,7 +936,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="274"/>
         <source>Show log</source>
-        <translation type="unfinished"></translation>
+        <translation>ලොග් පෙන්වන්න</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="275"/>
@@ -935,7 +946,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="278"/>
         <source>Show cue log</source>
-        <translation type="unfinished"></translation>
+        <translation>වාර්තා ලොග් පෙන්වන්න</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="279"/>
@@ -945,84 +956,85 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="282"/>
         <source>Show buttons</source>
-        <translation type="unfinished"></translation>
+        <translation>Buttons පෙන්වන්න</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="283"/>
         <source>Toggle visibility of the control buttons.</source>
-        <translation type="unfinished"></translation>
+        <translation>පාලක Button පෙන්වීම සකසන්න.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="285"/>
         <source>Show tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>ටැබ්ස් පෙන්වන්න</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="287"/>
         <source>Toggle visibility of the buffer selection tabs.</source>
-        <translation type="unfinished"></translation>
+        <translation>බෆර් තේරීම් ටැබ් පෙන්වීම සකසන්න.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="288"/>
         <source>Full screen</source>
-        <translation type="unfinished"></translation>
+        <translation>ෆුල්ස්ක්‍රීන්</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="289"/>
         <source>Toggle full screen mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>ෆුල්ස්ක්‍රීන් මට්ටම සකසන්න.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="292"/>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation>ආලෝකය</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="293"/>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>කලුවර</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="294"/>
         <source>Pro Light</source>
-        <translation type="unfinished"></translation>
+        <translation>අධික ආලෝකය</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="295"/>
         <source>Pro Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>අධික අදුර</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="296"/>
         <source>High Contrast</source>
-        <translation type="unfinished"></translation>
+        <translation>අධික contrast</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="326"/>
         <source>Logging</source>
-        <translation type="unfinished"></translation>
+        <translation>ලොග් කිරීම</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="327"/>
         <source>Configure debug behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation>නිදොස් කිරීමේ හැසිරීම සකසන්න</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="329"/>
         <source>Log synths</source>
-        <translation type="unfinished"></translation>
+        <translation>Synth වල ලොග්</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="330"/>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation type="unfinished"></translation>
+        <translation>ලොග් පණිවුඩ පෙන්වන්න
+මෙය අක්‍රිය කළ විට යම් අවස්ථා වාර්තා නොවේ.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="332"/>
         <source>Clear log on run</source>
-        <translation type="unfinished"></translation>
+        <translation>ධාවනය කරන විට ලොග් සියල්ල clear කරන්න</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="333"/>
@@ -1034,7 +1046,7 @@ time the run button is pressed.</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="335"/>
         <source>Log cues</source>
-        <translation type="unfinished"></translation>
+        <translation>ලොග් සැකසුම්</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="336"/>
@@ -1102,7 +1114,7 @@ Stereo - shows two independent scopes for left and right channels</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="388"/>
         <source>Transparency</source>
-        <translation type="unfinished"></translation>
+        <translation>විනිවිද භාවය</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="411"/>
