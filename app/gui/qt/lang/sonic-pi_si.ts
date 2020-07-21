@@ -1053,12 +1053,14 @@ time the run button is pressed.</source>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation type="unfinished"></translation>
+        <translation>සැකසුම් ලොග් කිරීම අරඹන්න/ නවතන්න.
+අක්‍රිය නම්, සැකසුම් ක්‍රියා කළද,
+ලොග් නොවේ.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="338"/>
         <source>Auto-scroll log</source>
-        <translation type="unfinished"></translation>
+        <translation>ස්වයංක්‍රීයව ලොග් scroll කරන්න</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="339"/>
