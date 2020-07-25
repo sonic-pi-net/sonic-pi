@@ -4,9 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-06-28 18:41+0000\n"
-"Last-Translator: Thiago Buenos Aires Mattos <thiagobuenosairesmattos@gmail."
-"com>\n"
+"PO-Revision-Date: 2020-07-26 16:41+0000\n"
+"Last-Translator: Adeilson Silva <adeilson@protonmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/pt_BR/>\n"
 "Language: pt-BR\n"
@@ -2595,6 +2594,9 @@ msgid ""
 "add up to 1.5s, the sustain is automatically set to 0.25s. This allows us to e"
 "asily fade the sample in and out."
 msgstr ""
+"Como a duração completa do sample é de 1.75s e nossas fases de ataque e "
+"release somam 1.5s, o sustain é automaticamente ajustado para 0.25s. Isso "
+"nos permite fazer facilmente um fade in e out no sample."
 
 #: 03.4-Enveloped-Samples.md:86
 msgid "Explicit sustain"
@@ -2620,16 +2622,23 @@ msgid ""
 "s there for 0s then releases back down to 0 amplitude over the release period "
 "- 0.75s."
 msgstr ""
+"Agora, nosso sample toca apenas durante 0.75 segundos no total. Com os "
+"valores padrão de `attack:` e `decay:` em 0, o sample pula direto para a "
+"amplitude máxima, permanece (sustain) lá por 0s e volta (release) para "
+"amplitude 0 durante o tempo de release -0.75s."
 
 #: 03.4-Enveloped-Samples.md:100
 msgid "Percussive cymbals"
-msgstr ""
+msgstr "Pratos percussivos"
 
 #: 03.4-Enveloped-Samples.md:102
 msgid ""
 "We can use this behaviour to good effect to turn longer sounding samples into "
 "shorter, more percussive versions. Consider the sample `:drum_cymbal_open`:"
 msgstr ""
+"Nós podemos utilizar esse comportamento a nosso favor para tornar samples "
+"longos em versões mais curtas e percussivas. Considere o sample "
+"`:drum_cymbal_open`:"
 
 #: 03.4-Enveloped-Samples.md:106
 #, no-wrap
@@ -2641,6 +2650,8 @@ msgid ""
 "You can hear the cymbal sound ringing out over a period of time. However, we c"
 "an use our envelope to make it more percussive:"
 msgstr ""
+"Você pode ouvir os pratos soando por um período de tempo. Entretanto, nós "
+"podemos utilizar nosso envelope para fazê-lo soar mais percussivo:"
 
 #: 03.4-Enveloped-Samples.md:113
 #, no-wrap
@@ -2652,6 +2663,8 @@ msgid ""
 "You can then emulate hitting the cymbal and then dampening it by increasing th"
 "e sustain period:"
 msgstr ""
+"Você pode emular o tocar e amortecer do prato aumentanto o período de "
+"sustain:"
 
 #: 03.4-Enveloped-Samples.md:120
 #, no-wrap
@@ -2663,6 +2676,8 @@ msgid ""
 "Now go and have fun putting envelopes over the samples. Try changing the rate "
 "too for really interesting results."
 msgstr ""
+"Agora vá e divirta-se colocando envelopes sobre os samples. Tente modificar "
+"também a taxa para resultados realmente interessantes."
 
 #: 03.5-Partial-Samples.md:1
 msgid "3.5 Partial Samples"
@@ -2677,16 +2692,23 @@ msgid ""
 "This section will conclude our exploration of Sonic Pi's sample player. Let's "
 "do a quick recap. So far we've looked at how we can trigger samples:"
 msgstr ""
+"Esta seção concluirá nossa exploração do reprodutor de samples do Sonic Pi. "
+"Vamos fazer uma rápida revisão. Até agora nós vimos como podemos ativar "
+"samples:"
 
 #: 03.5-Partial-Samples.md:13
 msgid ""
 "We then looked at how we can change the rate of samples such as playing them a"
 "t half speed:"
 msgstr ""
+"E então nós vimos como mudar a taxa dos samples, como tocando eles com "
+"metade da velocidade:"
 
 #: 03.5-Partial-Samples.md:20
 msgid "Next, we looked at how we could fade a sample in (let's do it at half speed):"
 msgstr ""
+"Depois, nós vimos como podemos fazer um \"fade in\" no sample (vamos fazer "
+"com metade da velocidade):"
 
 #: 03.5-Partial-Samples.md:23
 #, no-wrap
@@ -2699,6 +2721,9 @@ msgid ""
 "g `sustain:` an explicit value and setting both the attack and release to be s"
 "hort values:"
 msgstr ""
+"Nós também vimos como poderíamos usar o início do sample de maneira "
+"percussiva adicionando ao `sustain:` um valor explícito e setando attack e "
+"release para valores pequenos:"
 
 #: 03.5-Partial-Samples.md:31
 #, no-wrap
@@ -2711,10 +2736,13 @@ msgid ""
 "g of the sample? Wouldn't it also be nice if we didn't have to always finish a"
 "t the end of the sample?"
 msgstr ""
+"De qualquer forma, não seria ótimo se não tivéssemos sempre que começar no "
+"início do sample? Não seria ótimo também se nós não tivéssemos que sempre "
+"terminar no fim do sample?"
 
 #: 03.5-Partial-Samples.md:39
 msgid "Choosing a starting point"
-msgstr ""
+msgstr "Escolhendo um ponto de partida"
 
 #: 03.5-Partial-Samples.md:41
 msgid ""
@@ -2723,6 +2751,9 @@ msgid ""
 "lf way through the sample. Let's try playing only the last half of the amen br"
 "eak:"
 msgstr ""
+"É possível escolher um ponto de partida qualquer no sample com valores entre "
+"0 e 1, onde 0 é o início do sample, 1 é o fim e 0.5 é o meio. Vamos tentar "
+"tocar apenas a metade final de amen break:"
 
 #: 03.5-Partial-Samples.md:46
 #, no-wrap
@@ -2731,7 +2762,7 @@ msgstr ""
 
 #: 03.5-Partial-Samples.md:50
 msgid "How about the last quarter of the sample:"
-msgstr ""
+msgstr "E o último quarto do sample:"
 
 #: 03.5-Partial-Samples.md:52
 #, no-wrap
@@ -2740,13 +2771,15 @@ msgstr ""
 
 #: 03.5-Partial-Samples.md:56
 msgid "Choosing a finish point"
-msgstr ""
+msgstr "Escolhendo um ponto final"
 
 #: 03.5-Partial-Samples.md:58
 msgid ""
 "Similarly, it is possible to choose an arbitrary finish point in the sample as"
 " a value between 0 and 1. Let's finish the amen break half way through:"
 msgstr ""
+"De maneira parecida, é possível escolher um ponto final qualquer no sample "
+"com valores entre 0 e 1. Vamos finalizar o amen break na metade:"
 
 #: 03.5-Partial-Samples.md:62 A.12-sample-slicing.md:62
 #, no-wrap
@@ -2755,13 +2788,15 @@ msgstr ""
 
 #: 03.5-Partial-Samples.md:66
 msgid "Specifying start and finish"
-msgstr ""
+msgstr "Especificando início e fim"
 
 #: 03.5-Partial-Samples.md:68
 msgid ""
 "Of course, we can combine these two to play arbitrary segments of the audio fi"
 "le. How about only a small section in the middle:"
 msgstr ""
+"Com certeza nós podemos combinar as duas coisas para tocar qualquer segmento "
+"do arquivo de áudio. Que tal apenas uma pequena seção no meio:"
 
 #: 03.5-Partial-Samples.md:71
 #, no-wrap
@@ -2779,11 +2814,11 @@ msgstr ""
 
 #: 03.5-Partial-Samples.md:82
 msgid "Cool! It plays it backwards!"
-msgstr ""
+msgstr "Massa! Ele toca ao contrário!"
 
 #: 03.5-Partial-Samples.md:84
 msgid "Combining with rate"
-msgstr ""
+msgstr "Combinando com a taxa"
 
 #: 03.5-Partial-Samples.md:86
 msgid ""
@@ -2791,6 +2826,9 @@ msgid ""
 "riend `rate:`. For example, we can play a very small section of the middle of "
 "the amen break very slowly:"
 msgstr ""
+"Nós podemos combinar essa nova habilidade de tocar qualquer parte do audio "
+"com o nosso amigo `rate:``(taxa). Por exemplo, nós podemos tocar uma pequena "
+"seção no meio do amen break bem devagar:"
 
 #: 03.5-Partial-Samples.md:90
 #, no-wrap
@@ -2799,13 +2837,15 @@ msgstr ""
 
 #: 03.5-Partial-Samples.md:94
 msgid "Combining with envelopes"
-msgstr ""
+msgstr "Combinando com envelopes"
 
 #: 03.5-Partial-Samples.md:96
 msgid ""
 "Finally, we can combine all of this with our ADSR envelopes to produce interes"
 "ting results:"
 msgstr ""
+"Por último, nós podemos combinar tudo isso com nossos envelopes ADSR para "
+"produzir resultados interessantes:"
 
 #: 03.5-Partial-Samples.md:99
 #, no-wrap
@@ -2816,15 +2856,15 @@ msgstr ""
 
 #: 03.5-Partial-Samples.md:103
 msgid "Now go and have a play mashing up samples with all of this fun stuff..."
-msgstr ""
+msgstr "Agora tente combinar samples com todas essas coisas divertidas..."
 
 #: 03.6-External-Samples.md:1
 msgid "3.6 External Samples"
-msgstr ""
+msgstr "3.6 Samples externos"
 
 #: 03.6-External-Samples.md:3
 msgid "External Samples"
-msgstr ""
+msgstr "Samples Externos"
 
 #: 03.6-External-Samples.md:5
 msgid ""
@@ -2833,10 +2873,14 @@ msgid ""
 "orts this. First though, let's have a quick discussion on the portability of y"
 "our piece."
 msgstr ""
+"Enquanto os samples internos podem te ajudar a iniciar rapidamente, você "
+"pode querer experimentar com outros sons gravados na sua música. Sonic Pi "
+"suporta isso integralmente. Primeiro, vamos ter uma pequena discussão sobre "
+"a portabilidade da sua produção."
 
 #: 03.6-External-Samples.md:10
 msgid "Portability"
-msgstr ""
+msgstr "Portabilidade"
 
 #: 03.6-External-Samples.md:12
 msgid ""
@@ -2847,6 +2891,13 @@ msgid ""
 "your sounds. That makes it *really easy to share* with your friends as they ju"
 "st need to get hold of the code."
 msgstr ""
+"Quando você compõe sua música puramente com os sintetizadores e samples "
+"internos, o código é tudo que você precisa para reproduzir sua música "
+"fielmente. Pense nisso por um momento - isso é maravilhoso! Um pequeno "
+"pedaço de texto que você pode enviar por email ou colocar num "
+"[Gist](https://gist.github.com) representa tudo que você precisa para "
+"reproduzir seus sons. Isso a torna *muito fácil de compartilhar* com seus "
+"amigos, já que eles só precisam receber o código."
 
 #: 03.6-External-Samples.md:19
 msgid ""
@@ -2856,6 +2907,12 @@ msgid ""
 "pulate, mash-up and experiment with your work. Of course this shouldn't stop y"
 "ou from using your own samples, it's just something to consider."
 msgstr ""
+"Entretanto, se você começa a usar seus próprios samples pré-gravados, você "
+"perde essa portabilidade. Isso porquê para reproduzir sua música outras "
+"pessoas precisam não apenas do seu código, mas eles precisam dos seus "
+"samples também. Isso limita a habilidade dos outros de manipular, modificar "
+"e experimentar com seu trabalho. Claro que isso não deveria te limitar em "
+"usar seus próprios samples, é apenas algo a ser considerado."
 
 #: 03.6-External-Samples.md:26
 msgid "Local Samples"
