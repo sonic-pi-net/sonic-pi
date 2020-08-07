@@ -492,8 +492,8 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="2432"/>
         <source>Cannot read file %1:
 %2.</source>
-        <translation>无法读取文件 %1:
-        %2.</translation>
+        <translation type="unfinished">无法读取文件 %1:
+%2.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2443"/>
