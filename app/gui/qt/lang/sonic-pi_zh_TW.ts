@@ -1013,7 +1013,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="296"/>
         <source>High Contrast</source>
-        <translation type="unfinished"></translation>
+        <translation>高對比</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="326"/>
