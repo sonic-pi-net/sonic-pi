@@ -6,12 +6,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="504"/>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>偏好設定</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="741"/>
         <source>Log</source>
-        <translation type="unfinished"></translation>
+        <translation>日誌</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="172"/>
@@ -24,41 +24,41 @@
         <location filename="../mainwindow.cpp" line="1498"/>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>運行編碼中...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1518"/>
         <source>Beautifying...</source>
         <oldsource>Beautifying....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>美化中...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1548"/>
         <source>Reloading...</source>
         <oldsource>Reloading....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>重新載入中...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1579"/>
         <source>Enabling Mixer HPF...</source>
         <oldsource>Enabling Mixer HPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>啟用高通濾波器...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1588"/>
         <source>Disabling Mixer HPF...</source>
         <oldsource>Disabling Mixer HPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>關閉高通濾波器...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="460"/>
         <source>Welcome to Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>歡迎使用Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="978"/>
         <source>Indenting selection...</source>
-        <translation type="unfinished"></translation>
+        <translation>選擇縮排...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="982"/>
