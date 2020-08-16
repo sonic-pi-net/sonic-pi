@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-08-08 06:32+0000\n"
-"Last-Translator: Kaijing Zheng <zh_k_j@163.com>\n"
+"PO-Revision-Date: 2020-08-16 03:12+0000\n"
+"Last-Translator: Shu Shean <shu@cyaned.co>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/zh_Hans/>\n"
 "Language: zh-Hans\n"
@@ -2589,18 +2589,18 @@ msgid "Typically in order to play the piano sample we can use the full path:"
 msgstr "要播放钢琴采样时，我们可以用完整的路径："
 
 #: 03.7-Sample-Packs.md:34
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "sample \"/path/to/my/samples/120_Bb_piano1.wav\""
-msgstr "sample \"/path/to/my/samples/120_Bb_piano1.wav\""
+msgstr "采样样本 \"/path/to/my/samples/120_Bb_piano1.wav\""
 
 #: 03.7-Sample-Packs.md:38
 msgid "If we want to then play the guitar sample we can use its full path too:"
 msgstr "又或者如果我们要播放吉他采样，也可以用完整的路径："
 
 #: 03.7-Sample-Packs.md:40
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "sample \"/path/to/my/samples/120_Bb_guit.wav\""
-msgstr "sample \"/path/to/my/samples/120_Bb_guit.wav\""
+msgstr "采样样本 \"/path/to/my/samples/120_Bb_guit.wav\""
 
 #: 03.7-Sample-Packs.md:44
 msgid ""
@@ -2620,9 +2620,9 @@ msgid ""
 msgstr "如果我们想播放一个目录下的第一个采样，只需要像这样，在'sample'后加上目录名和索引号'0' ："
 
 #: 03.7-Sample-Packs.md:53
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "sample \"/path/to/my/samples/\", 0"
-msgstr "sample \"/path/to/my/samples/\", 0"
+msgstr "采样样本 \"/path/to/my/samples/\", 0"
 
 #: 03.7-Sample-Packs.md:57
 msgid "We can even make a shortcut to our directory path using a variable:"
