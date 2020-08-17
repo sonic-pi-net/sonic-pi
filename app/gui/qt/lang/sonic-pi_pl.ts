@@ -114,7 +114,7 @@ Przepraszam, ale w trakcie startu wystąpił krytyczny błąd</translation>
     <message>
         <location filename="../mainwindow.cpp" line="730"/>
         <source>Scope</source>
-        <translation type="unfinished">Oscyl.</translation>
+        <translation>Zakres</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1364"/>
