@@ -1188,6 +1188,7 @@ synth :dsaw, note: :e3 # This is triggered after 0.5s from start"
 
 
       def play(n, *args, &blk)
+        raise "Play expects a note to play, if you did something like 'play sample ...' you should probably remove 'play'" if n.is_a?(SonicPi::Node)
         if n.is_a?(Hash) && args.empty?
           synth nil, n, &blk
         else
