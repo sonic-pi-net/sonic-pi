@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-05-08 17:13+0000\n"
-"Last-Translator: Moru <brdevcon@gmail.com>\n"
+"PO-Revision-Date: 2020-08-21 09:36+0000\n"
+"Last-Translator: Luna Jernberg <droidbittin@gmail.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/sv/>\n"
 "Language: sv\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.1-dev\n"
+"X-Generator: Weblate 4.2.1-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -964,7 +964,7 @@ msgstr ""
 
 #: 02.2-Synth-Params.md:13
 msgid "Options"
-msgstr "Alternativ"
+msgstr "Inställningar"
 
 #: 02.2-Synth-Params.md:15
 msgid ""
