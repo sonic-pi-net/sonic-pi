@@ -424,17 +424,17 @@ Obter o Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2776"/>
         <source>Disabling OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>A desativar a porta de sinalização OSC...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2785"/>
         <source>Enabling external OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>A ativar a porta de sinalização OSC externa ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2794"/>
         <source>Enabling internal OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>A ativar a porta de sinalização OSC interna ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2852"/>
@@ -629,28 +629,28 @@ Obter o Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="31"/>
         <source>Audio</source>
-        <translation type="unfinished">Audio</translation>
+        <translation>Áudio</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="34"/>
         <source>IO</source>
-        <translation type="unfinished">IO</translation>
+        <translation>ES</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="37"/>
         <source>Editor</source>
-        <translation type="unfinished">Editor</translation>
+        <translation>Editor</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="40"/>
         <source>Visuals</source>
-        <translation type="unfinished">Visuais</translation>
+        <translation>Elementos visuais</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="43"/>
         <location filename="../widgets/settingswidget.cpp" line="409"/>
         <source>Updates</source>
-        <translation type="unfinished">Actualizações</translation>
+        <translation>Atualizações</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="80"/>
@@ -660,7 +660,7 @@ Obter o Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="81"/>
         <source>Use this slider to change the system volume.</source>
-        <translation type="unfinished">Use este slider para mudar o volume do sistema.</translation>
+        <translation>Use este slider para alterar o volume do sistema.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="87"/>
@@ -677,7 +677,7 @@ sistemas de P.A. externos quando se apresentar com o Sonic Pi.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="89"/>
         <source>Invert stereo</source>
-        <translation type="unfinished">Inverter sinal stereo</translation>
+        <translation>Inverter estéreo</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="90"/>
@@ -691,7 +691,7 @@ ser roteada para a coluna direita e vice versa.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="91"/>
         <source>Force mono</source>
-        <translation type="unfinished">Forçar mono</translation>
+        <translation>Forçar mono</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="92"/>
@@ -709,7 +709,7 @@ apenas suportam mono.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="101"/>
         <source>Synths and FX</source>
-        <translation type="unfinished">Sintetizadores e efeitos</translation>
+        <translation>Sintetizadores e Efeitos (FX)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="102"/>
@@ -719,7 +719,7 @@ apenas suportam mono.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="104"/>
         <source>Safe mode</source>
-        <translation type="unfinished">Modo Segurança</translation>
+        <translation>Modo Seguro</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="105"/>
@@ -733,7 +733,7 @@ criar sons extremamente altos ou desconfortáveis de forma inesperada.</translat
     <message>
         <location filename="../widgets/settingswidget.cpp" line="107"/>
         <source>Enforce timing guarantees</source>
-        <translation type="unfinished">Forçar garantias de temporização</translation>
+        <translation>Forçar garantias de temporização</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="108"/>
@@ -804,13 +804,14 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="165"/>
         <source>Send/Receive remote OSC messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Enviar/Receber mensagens OSC remotas</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="166"/>
         <source>When checked, Sonic Pi will let you send and receive OSC messages to and from remote machines.
  When unchecked, only sending and receiving from the local machine will be enabled.</source>
-        <translation type="unfinished"></translation>
+        <translation>Quando marcado, Sonic Pi permitirá enviar e receber mensagens OSC para máquinas remotas.
+Quando desmarcado, apenas envio e recebimento da máquina local será permitido.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="168"/>
@@ -1005,12 +1006,12 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="292"/>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Claro</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="293"/>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Escuro</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="294"/>
@@ -1025,7 +1026,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="296"/>
         <source>High Contrast</source>
-        <translation type="unfinished"></translation>
+        <translation>Contraste Alto</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="326"/>
