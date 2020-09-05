@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-03-06 16:33+0000\n"
-"Last-Translator: gedobbles <gedobbles@web.de>\n"
+"PO-Revision-Date: 2020-09-06 09:36+0000\n"
+"Last-Translator: Thiemo Zaugg <thiemo55@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "de/>\n"
 "Language: de\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.0-dev\n"
+"X-Generator: Weblate 4.3-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -10104,7 +10104,7 @@ msgstr "Zeitzustand (Time State)"
 
 #: 12.1-Receiving-OSC.md:15
 msgid "A Basic OSC Listener"
-msgstr ""
+msgstr "Ein einfacher OSC Listener"
 
 #: 12.1-Receiving-OSC.md:17
 msgid "Let's build a basic OSC listener:"
@@ -10237,7 +10237,7 @@ msgstr ""
 
 #: 12.2-Sending-OSC.md:1
 msgid "12.2 Sending OSC"
-msgstr ""
+msgstr "12.2 OSC senden"
 
 #: 12.2-Sending-OSC.md:3
 msgid "Sending OSC"
@@ -10272,8 +10272,9 @@ msgid ""
 msgstr ""
 
 #: 12.2-Sending-OSC.md:25
+#, fuzzy
 msgid "Sending OSC to other programs"
-msgstr ""
+msgstr "OSC zu anderen Programmen senden"
 
 #: 12.2-Sending-OSC.md:27
 msgid ""
