@@ -68,7 +68,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1011"/>
         <source>Toggle selection comment...</source>
-        <translation type="unfinished"></translation>
+        <translation>සටහන් තෝරාගැනීම...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="747"/>
@@ -88,7 +88,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1015"/>
         <source>Toggle line comment...</source>
-        <translation type="unfinished"></translation>
+        <translation>සටහන් පේළි යොදන්න...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1097"/>
@@ -115,17 +115,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="2776"/>
         <source>Disabling OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>OSC යෙදුම අක්‍රීය වෙමින්...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2785"/>
         <source>Enabling external OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>බාහිර OSC යෙදුම සක්‍රීය වෙමින්...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2794"/>
         <source>Enabling internal OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>අභ්‍යන්තර OSC යෙදුම සක්‍රීය වෙමින්...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2852"/>
@@ -157,7 +157,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1367"/>
         <source>Load Sonic Pi Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>බෆර් ගොනු ලෝඩ් කරන්න</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1367"/>
