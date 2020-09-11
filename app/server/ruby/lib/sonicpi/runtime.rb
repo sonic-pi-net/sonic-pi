@@ -54,7 +54,6 @@ module SonicPi
     def load_snippets(path=snippets_path, quiet=false)
       path = File.expand_path(path)
       Dir["#{path}/**/*.sps"].each do |p|
-
         lines = File.readlines(p)
         key = nil
         completion = ""
@@ -785,26 +784,12 @@ module SonicPi
       firstline = 1
       firstline -= code.lines.to_a.take_while{|l| l.include? "#__nosave__"}.count
       start_t_prom = Promise.new
-
-      # If a filepath is given, use it; otherwise use the buffer name
-      case info[:type]
-      when :workspace
-        info[:display_name] = "buffer #{normalise_buffer_name(info[:workspace])}"
-        info[:name] = info[:workspace]
-      when :file
-        info[:display_name] = info[:path]
-        info[:name] = info[:path]
-      when :eval
-        info[:name] = "eval" unless info[:name]
-        info[:display_name] = info[:name] unless info[:display_name]
-      else
-        info[:name] = "eval" unless info[:name]
-        info[:display_name] = info[:name] unless info[:display_name]
-      end
+      
+      display_name = get_spider_eval_display_name(info[:type], info[:name])
 
       info[:name].freeze
-      info[:display_name].freeze
       info.freeze
+      display_name.freeze
 
       job_in_thread = nil
       job = Thread.new do
@@ -850,7 +835,7 @@ module SonicPi
             if line
               line = line.to_i
 
-              err_msg = "[#{info[:display_name]}, line #{line}] \n #{message}"
+              err_msg = "[#{display_name}, line #{line}] \n #{message}"
               error_line = code.lines.to_a[line - firstline] ||  ""
             else
               line = -1
@@ -1276,6 +1261,31 @@ module SonicPi
       res = RBeautify.beautify_string :ruby, source
       res = res.gsub(') ___SONIC_PI_RND_TMP_PLACEHOLDER___ /', ')/')
       res = res.gsub('] ___SONIC_PI_SQR_TMP_PLACEHOLDER___ /', ']/')
+    end
+      
+    def get_spider_eval_display_name(type, name)
+       case info[:type]
+         when :workspace
+           "buffer #{normalise_buffer_name(name)}"
+         when :file
+           name
+         when :eval
+           normalise_eval_name(name)
+       end
+    end
+      
+    def normalise_eval_name(name)
+      if (name.nil?)
+        return "unnamed eval"
+      end
+      
+      norm = case name
+        when "osc-/run-code"
+          "eval"
+        else
+          name
+      end
+      return norm
     end
 
     def normalise_buffer_name(name)
