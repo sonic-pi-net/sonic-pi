@@ -3331,7 +3331,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         args_h.keys.each do |k|
           v = args_h[k]
           case v
-          when Numeric, Buffer
+          when Numeric, Buffer, Array, SonicPi::Core::RingVector
             # do nothing
           when Proc
             res = v.call

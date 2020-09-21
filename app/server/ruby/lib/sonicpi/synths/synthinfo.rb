@@ -148,7 +148,12 @@ module SonicPi
           #        raise "Value of argument #{k_sym.inspect} must be a number, got #{v.inspect}." unless v.is_a? Numeric
 
           arg_validations(k_sym).each do |v_fn, msg|
-            raise "Value of opt #{k_sym.inspect} #{msg}, got #{v.inspect}." unless v_fn.call(args_h)
+            value = if is_list_like?(v)
+                      v.length
+                    else
+                      v.inspect
+                    end
+            raise "Value of opt #{k_sym.inspect} #{msg}, got #{value}." unless v_fn.call(args_h, arg_defaults)
           end
         end
       end
@@ -256,7 +261,7 @@ module SonicPi
       private
 
       def v_buffer_like(arg)
-        l = lambda do |args|
+        l = lambda do |args, _defaults|
           a = args[arg]
           a &&
             (
@@ -283,47 +288,67 @@ module SonicPi
       end
 
       def v_sum_less_than_oet(arg1, arg2, max)
-        [lambda{|args| (args[arg1] + args[arg2]) <= max}, "added to #{arg2.to_sym} must be less than or equal to #{max}"]
+        [lambda{|args, _defaults| (args[arg1] + args[arg2]) <= max}, "added to #{arg2.to_sym} must be less than or equal to #{max}"]
+      end
+
+      def v_product_less_than_oet(arg1, arg2, max)
+        l = lambda do|args, defaults|
+          arg2_val = args[arg2] || defaults[arg2]
+          (args[arg1] * arg2_val) <= max
+        end
+        [l, "multiplied by #{arg2.to_sym} must be less than or equal to #{max}"]
+      end
+
+      def v_list_like(arg)
+        [lambda{|args, _defaults| is_list_like?(args[arg])}, "must be list-like (an array or ring)"]
+      end
+
+      def v_length_equals(arg1, arg2)
+        l = lambda do |args, defaults|
+          arg2_val = args[arg2] || defaults[arg2]
+          puts "args: #{args}, args[arg1].length: #{args[arg1].length}, args[arg2]: #{arg2_val}"; args[arg1].length == arg2_val
+        end
+        [l, "must have the same number of items as the value of #{arg2.to_sym}"]
       end
 
       def v_positive(arg)
-        [lambda{|args| args[arg] >= 0}, "must be zero or greater"]
+        [lambda{|args, _defaults| args[arg] >= 0}, "must be zero or greater"]
       end
 
       def v_positive_not_zero(arg)
-        [lambda{|args| args[arg] > 0}, "must be greater than zero"]
+        [lambda{|args, _defaults| args[arg] > 0}, "must be greater than zero"]
       end
 
       def v_between_inclusive(arg, min, max)
-        [lambda{|args| args[arg] >= min && args[arg] <= max}, "must be a value between #{min} and #{max} inclusively"]
+        [lambda{|args, _defaults| args[arg] >= min && args[arg] <= max}, "must be a value between #{min} and #{max} inclusively"]
       end
 
       def v_between_exclusive(arg, min, max)
-        [lambda{|args| args[arg] > min && args[arg] < max}, "must be a value between #{min} and #{max} exclusively"]
+        [lambda{|args, _defaults| args[arg] > min && args[arg] < max}, "must be a value between #{min} and #{max} exclusively"]
       end
 
       def v_less_than(arg,  max)
-        [lambda{|args| args[arg] < max}, "must be a value less than #{max}"]
+        [lambda{|args, _defaults| args[arg] < max}, "must be a value less than #{max}"]
       end
 
       def v_less_than_oet(arg,  max)
-        [lambda{|args| args[arg] <= max}, "must be a value less than or equal to #{max}"]
+        [lambda{|args, _defaults| args[arg] <= max}, "must be a value less than or equal to #{max}"]
       end
 
       def v_greater_than(arg,  min)
-        [lambda{|args| args[arg] > min}, "must be a value greater than #{min}"]
+        [lambda{|args, _defaults| args[arg] > min}, "must be a value greater than #{min}"]
       end
 
       def v_greater_than_oet(arg,  min)
-        [lambda{|args| args[arg] >= min}, "must be a value greater than or equal to #{min}"]
+        [lambda{|args, _defaults| args[arg] >= min}, "must be a value greater than or equal to #{min}"]
       end
 
       def v_one_of(arg, valid_options)
-        [lambda{|args| valid_options.include?(args[arg])}, "must be one of the following values: #{valid_options.inspect}"]
+        [lambda{|args, _defaults| valid_options.include?(args[arg])}, "must be one of the following values: #{valid_options.inspect}"]
       end
 
       def v_not_zero(arg)
-        [lambda{|args| args[arg] != 0}, "must not be zero"]
+        [lambda{|args, _defaults| args[arg] != 0}, "must not be zero"]
       end
 
       def default_arg_info
@@ -3287,6 +3312,209 @@ Steal This Sound,  Mitchell Sigman"
           :res_slide_curve => 0,
 
         }
+      end
+    end
+
+    class Flock < SonicPiSynth
+      def name
+        "Flock"
+      end
+
+      def introduced
+        Version.new(3,3,0)
+      end
+
+      def synth_name
+        "flock"
+      end
+
+      def doc
+        <<~TEXT
+This is a semi-chaotic synth that simulates 'flocking' behaviour in a group of 'boids'. Think of a bird flying around - by itself, the way it travels might not seem unusual. However, birds flying in groups often seem to end up flying in interesting formations and paths - even though there is no centrally agreed 'flight plan'.
+
+For this synth, each individual boid in the simulated flock controls a simple sine wave. Each boid travels in a certain direction but wants to stick 'close, but not too close' to its nearest neighbours. The pitch of each boid's sine wave depends on which direction it is heading. Over time, the path of the boids as a whole will shift and turn in interesting ways, as each boid reacts to its neighbours, and the overall sound will change accordingly, as the separate sine waves rise and fall and mingle with one another.
+
+Note: this synth is fairly demanding on computer resources, so you may need to adjust the `num_boids:` opt to suit your system best. The default, 20, is a fairly reasonable maximum in most cases.
+TEXT
+      end
+
+      def on_start(studio, args_h)
+        args_h[:bufnum] = studio.rand_buf_id
+      end
+
+      def arg_defaults
+        {
+          :note => 52,
+          :seed => 0,
+          :num_boids => 20,
+          :amp => 1,
+          :amp_slide => 0,
+          :amp_slide_shape => 1,
+          :amp_slide_curve => 0,
+          :pan => 0,
+          :pan_slide => 0,
+          :pan_slide_shape => 1,
+          :pan_slide_curve => 0,
+          :attack => 0,
+          :decay => 0,
+          :sustain => 0,
+          :release => 1,
+          :attack_level => 1,
+          :decay_level => :sustain_level,
+          :sustain_level => 1,
+          :env_curve => 2
+        }
+      end
+
+      def specific_arg_info
+        super.merge({
+                      :seed =>
+                      {
+                        :doc => "Seed value for rand num generator used to choose the speed and direction of each boid",
+                        :modulatable => false
+                      },
+                      :num_boids =>
+                      {
+                        :doc => "Number of boids (and therefore sine waves) to simulate in the flock",
+                        :validations => [
+                          v_positive(:num_boids)
+                        ],
+                        :modulatable => false
+                      }
+                    })
+      end
+    end
+
+    class Automatone < SonicPiSynth
+      def name
+        "Automatone"
+      end
+
+      def introduced
+        Version.new(3,3,0)
+      end
+
+      def synth_name
+        "automatone"
+      end
+
+      def doc
+        <<~TEXT
+A synth that creates a steady sound by combining several sine waves together in an interesting way.
+Just like the `:flock` synth, `:automatone` generates its sound by running a simulation of a special behaviour called 'Emergent Behaviour'. However, where the `:flock` synth simulates a 'flocking' behaviour, (such as you might see in a flock of birds), `:automatone` simulates the behaviour of a kind of 'machine' known as an 'Elementary Cellular Automaton'. Here's the basic idea:
+- Take a grid of 'cells', with a certain number of rows and columns, where each grid cell can only hold binary values. (`1` or `0`).
+- Tell the automaton that the first row of cells contains a certain arrangement of 1s and 0s. (Maybe something like `[1, 0, 1, 0, 1, 0, 1, 0]` for example).
+- Tell the automaton that it has to look at this first row in the grid and add new rows by using a certain set of rules.
+- For each cell of each row, if the cell contains 1, add a sine wave into the final sound.  (Combining multiple sine waves into one is called Additive Synthesis - you can learn more about it in the tutorial in Appendix A, section A.18).
+Note: the maximum number of sine waves that can be combined together is 100. This means that the values of the `num_columns:` and `num_rows:` opts multiplied together cannot be more than this.
+TEXT
+      end
+
+      def on_start(studio, args_h)
+        args_h[:bufnum] = studio.rand_buf_id
+        if args_h[:initial_row]
+          args_h[:sarray] = args_h[:initial_row].join.to_i(2)
+          args_h.delete(:initial_row)
+        end
+      end
+
+      def arg_defaults
+        {
+          :note => 52,
+          :seed => 0,
+          :wolfram_code => 255,
+          :num_columns => 8,
+          :num_rows => 2,
+          :width => 1,
+          :odd_skew => 0,
+          :even_skew => 0,
+          :amp_tilt => 1,
+          :balance => 0,
+          :randomise => 0,
+          :initial_row => [1, 1, 1, 1, 1, 1, 1, 1],
+          :amp => 1,
+          :amp_slide => 0,
+          :amp_slide_shape => 1,
+          :amp_slide_curve => 0,
+          :pan => 0,
+          :pan_slide => 0,
+          :pan_slide_shape => 1,
+          :pan_slide_curve => 0,
+          :attack => 0,
+          :decay => 0,
+          :sustain => 0,
+          :release => 1,
+          :attack_level => 1,
+          :decay_level => :sustain_level,
+          :sustain_level => 1,
+          :env_curve => 2
+        }
+      end
+
+      def specific_arg_info
+        super.merge({
+                      :seed =>
+                      {
+                        :doc => "Seed value for rand num generator used to pick values for the automaton's initial row (when `randomise:` is 1).",
+                        :modulatable => false
+                      },
+                      :wolfram_code =>
+                      {
+                        :doc => "The code number of the type of elementary cellular automaton to create. There are 256 different types, with numbers from 0 to 255. This opt will accept floats but round to the nearest integer.",
+                        :validations => [v_between_inclusive(:wolfram_code, 0, 255)],
+                        :modulatable => false
+                      },
+                      :num_columns =>
+                      {
+                        :doc => "The number of columns in the automaton's simulated 'grid' of binary values.",
+                        :validations => [v_product_less_than_oet(:num_columns, :num_rows, 100)],
+                        :modulatable => false
+                      },
+                      :num_rows =>
+                      {
+                        :doc => "The number of rows in the automaton's simulated 'grid' of binary values.",
+                        :validations => [v_product_less_than_oet(:num_rows, :num_columns, 100)],
+                        :modulatable => false
+                      },
+                      :initial_row =>
+                      {
+                        :doc => "An array or ring of binary (0 or 1) values to give to the automaton as its first row to process. This in turn will provide the 'on/off' toggles for the first N partials, where N is `num_columns:`. For example, if `initial_row:` is [1, 1, 1, 1, 1, 1, 1, 0], then the first 7 partials will be added to the final output, but the 8th will not.",
+                        :validations => [v_list_like(:initial_row), v_length_equals(:initial_row, :num_columns)],
+                        :modulatable => false
+                      },
+                      :width =>
+                      {
+                        :doc => "The relative spacing (width) between each possible partial in the final output. For example: a value of 1 means that each possible partial will be 1 octave higher than the previous one.",
+                        :validations => [v_between_inclusive(:width, 0, 2)],
+                        :modulatable => false
+                      },
+                      :odd_skew =>
+                      {
+                        :doc => "Adjusts the spacing of odd-numbered partials up or down relative to `width:`",
+                        :modulatable => false
+                      },
+                      :even_skew =>
+                      {
+                        :doc => "Adjusts the spacing of even-numbered partials up or down relative to `width:`",
+                        :modulatable => false
+                      },
+                      :amp_tilt =>
+                      {
+                        :doc => "Applies a positive or negative (upwards sloping or downwards sloping) tilt to the amp of the partials as a group. For example: a value of 1 means that the amps of each possible partial decrease proportionally to their increasing frequency.",
+                        :modulatable => false
+                      },
+                      :balance =>
+                      {
+                        :doc => "Reduces the amps of either the odd or even partials.",
+                        :modulatable => false
+                      },
+                      :randomise =>
+                      {
+                        :doc => "Enable or disable automatic randomised values for `initial_row:`. If `randomise:` is 1, this will override any manually given value for `initial_row:`.",
+                        :validations => [v_one_of(:randomise, [0, 1])],
+                        :modulatable => false
+                      }
+                    })
       end
     end
 
@@ -8157,6 +8385,8 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
         :kalimba => SynthKalimba.new,
         :pluck => SynthPluck.new,
         :tech_saws => TechSaws.new,
+
+        :automatone => Automatone.new,
         :winwood_lead => WinwoodLead.new,
         :bass_foundation => BassFoundation.new,
         :bass_highend => BassHighend.new,
@@ -8169,7 +8399,7 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
         :gnoise => GNoise.new,
         :cnoise => CNoise.new,
         :chipnoise => ChipNoise.new,
-
+        :flock => Flock.new,
         :basic_mono_player => BasicMonoPlayer.new,
         :basic_stereo_player => BasicStereoPlayer.new,
         :basic_mixer => BasicMixer.new,
