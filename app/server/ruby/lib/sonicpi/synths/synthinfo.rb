@@ -132,7 +132,7 @@ module SonicPi
           next unless arg_information
           arg_validations = arg_information[:validations] || []
           arg_validations.each do |v_fn, msg|
-            raise "Value of opt #{k_sym.inspect} #{msg}, got #{v.inspect}." unless v_fn.call(args_h)
+            raise "Value of opt #{k_sym.inspect} #{msg}, got #{v.inspect}." unless v_fn.call(args_h, arg_defaults)
           end
 
           raise "Invalid arg modulation attempt for #{synth_name.to_sym.inspect}. Opt #{k_sym.inspect} is not modulatable" unless arg_information[:modulatable]
@@ -3332,9 +3332,13 @@ Steal This Sound,  Mitchell Sigman"
         <<~TEXT
 This is a semi-chaotic synth that simulates 'flocking' behaviour in a group of 'boids'. Think of a bird flying around - by itself, the way it travels might not seem unusual. However, birds flying in groups often seem to end up flying in interesting formations and paths - even though there is no centrally agreed 'flight plan'.
 
-For this synth, each individual boid in the simulated flock controls a simple sine wave. Each boid travels in a certain direction but wants to stick 'close, but not too close' to its nearest neighbours. The pitch of each boid's sine wave depends on which direction it is heading. Over time, the path of the boids as a whole will shift and turn in interesting ways, as each boid reacts to its neighbours, and the overall sound will change accordingly, as the separate sine waves rise and fall and mingle with one another.
+As each boid flies around, it wants to stick close (but not too close) to its nearest neighbours. You can also tell the simulation the amount of chance that a boid is a 'predator'. Predator boids reach a higher speed than 'normal' boids, experience higher forces (eg acceleration) and cause normal boids to move further away from them than usual.
 
-Note: this synth is fairly demanding on computer resources, so you may need to adjust the `num_boids:` opt to suit your system best. The default, 20, is a fairly reasonable maximum in most cases.
+Each boid in the simulated flock controls its own simple sine wave sound, in one of several ways. Over time, the path of the boids as a whole will shift and turn in interesting ways, as each boid reacts to its neighbours, and the overall sound will change accordingly, as the separate sine waves rise and fall and mingle with one another.
+
+Don't worry if any of this seems confusing. Just play around with the synth opts and see what happens!
+
+Note: the more boids that you simulate in the flock, the more demanding on computer resources this synth may become - so if you find the synth starting to cause problems, you can always reduce the value of the `num_boids:` opt.
 TEXT
       end
 
@@ -3347,6 +3351,15 @@ TEXT
           :note => 52,
           :seed => 0,
           :num_boids => 20,
+          :min_start_speed => 0,
+          :max_speed => 3.5,
+          :max_force => 0.5,
+          :note_mod_source => 3,
+          :note_mod_amount => 1,
+          :note_mod_amount_slide => 0,
+          :note_mod_amount_slide_shape => 1,
+          :note_mod_amount_slide_curve => 0,
+          :predator_probability => 0,
           :amp => 1,
           :amp_slide => 0,
           :amp_slide_shape => 1,
@@ -3367,18 +3380,89 @@ TEXT
       end
 
       def specific_arg_info
+        max_speed_doc = <<~TEXT
+Maximum speed 'normal' boids are allowed to travel at. (Predator boids will always have a slightly higher maximum speed than this).
+TEXT
+        max_force_doc = <<~TEXT
+Maximum amount of force (eg acceleration) that can be applied to 'normal' boids. (Predator boids will always have a slightly higher possible maximum force that they can experience than this).
+TEXT
+        note_mod_source_doc = <<~TEXT
+Which property of a boid to use to affect its sine wave. 0 = x (horizontal) position, 1 = y (vertical) position, 2 = speed, 3 = angle of heading.\n
+- X and y position will often have a very similar effect, both creating a sound that might start on a low note and sweep up to a high note, (or high and sweep down to low) and then repeat.\n
+- Speed will often have a fairly subtle effect on the sound, as the boids may not dramatically change speed once they have all reached a certain limit.\n
+- Angle will often have the most noticeable and unpredictable effect on the sound, since small changes in position, speed or angle can cause dramatic shifts in the direction that boids end up heading in.
+TEXT
+        note_mod_amount_doc = <<~TEXT
+The amount of change the boid's property (position, speed or angle of heading) has on its sine wave. 0 = no effect, 1 = full effect.
+TEXT
+        predator_probability_doc = <<~TEXT
+The probability that when each boid is created, it will be a predator. The more predators that there are in the flock, the wilder and more noisy the overall sound will be.
+TEXT
         super.merge({
                       :seed =>
                       {
-                        :doc => "Seed value for rand num generator used to choose the speed and direction of each boid",
+                        :doc => "Seed value for rand num generator used to choose the speed and direction of each boid.",
                         :modulatable => false
                       },
                       :num_boids =>
                       {
-                        :doc => "Number of boids (and therefore sine waves) to simulate in the flock",
+                        :doc => "Number of boids (and therefore sine waves) to simulate in the flock.",
                         :validations => [
-                          v_positive(:num_boids)
+                          v_greater_than(:num_boids, 1)
                         ],
+                        :modulatable => false
+                      },
+                      :min_start_speed =>
+                      {
+                        :doc => "Minimum value allowed when deciding the starting speed of each newly created boid.",
+                        :validations => [
+                          v_positive(:min_start_speed)
+                        ],
+                        :modulatable => false
+                      },
+                      :max_speed =>
+                      {
+                        :doc => max_speed_doc,
+                        :validations => [
+                          v_positive(:max_speed)
+                        ],
+                        :modulatable => false
+                      },
+                      :max_force =>
+                      {
+                        :doc => max_force_doc,
+                        :validations => [
+                          v_positive(:max_force)
+                        ],
+                        :modulatable => false
+                      },
+                      :note_mod_source =>
+                      {
+                        :doc => note_mod_source_doc,
+                        :validations => [
+                          v_one_of(:note_mod_source, [0, 1, 2, 3])
+                        ],
+                        :modulatable => false
+                      },
+                      :note_mod_amount =>
+                      {
+                        :doc => note_mod_amount_doc,
+                        :validations => [
+                          v_between_inclusive(:note_mod_amount, 0, 1)
+                        ],
+                        :modulatable => true
+                      },
+                      :note_mod_amount_slide =>
+                      {
+                        :doc => generic_slide_doc(:note_mod_amount),
+                        :validations => [v_positive(:note_mod_amount_slide)],
+                        :modulatable => true,
+                        :bpm_scale => true
+                      },
+                      :predator_probability =>
+                      {
+                        :doc => predator_probability_doc,
+                        :validations => [v_between_inclusive(:predator_probability, 0, 1)],
                         :modulatable => false
                       }
                     })
@@ -3401,11 +3485,12 @@ TEXT
       def doc
         <<~TEXT
 A synth that creates a steady sound by combining several sine waves together in an interesting way.
-Just like the `:flock` synth, `:automatone` generates its sound by running a simulation of a special behaviour called 'Emergent Behaviour'. However, where the `:flock` synth simulates a 'flocking' behaviour, (such as you might see in a flock of birds), `:automatone` simulates the behaviour of a kind of 'machine' known as an 'Elementary Cellular Automaton'. Here's the basic idea:
-- Take a grid of 'cells', with a certain number of rows and columns, where each grid cell can only hold binary values. (`1` or `0`).
-- Tell the automaton that the first row of cells contains a certain arrangement of 1s and 0s. (Maybe something like `[1, 0, 1, 0, 1, 0, 1, 0]` for example).
-- Tell the automaton that it has to look at this first row in the grid and add new rows by using a certain set of rules.
-- For each cell of each row, if the cell contains 1, add a sine wave into the final sound.  (Combining multiple sine waves into one is called Additive Synthesis - you can learn more about it in the tutorial in Appendix A, section A.18).
+Just like the `:flock` synth, `:automatone` generates its sound by running a simulation of a special behaviour called 'Emergent Behaviour'. However, where the `:flock` synth simulates a 'flocking' behaviour, (such as you might see in a flock of birds), `:automatone` simulates the behaviour of a kind of 'machine' known as an 'elementary cellular automaton'. Here's the basic idea:\n
+- Take a grid of 'cells', with a certain number of rows and columns, where each grid cell can only hold binary values. (`1` or `0`).\n
+- Tell the automaton that the first row of cells contains a certain arrangement of `1`s and `0`s. (Maybe something like `[1, 0, 1, 0, 1, 0, 1, 0]` for example).\n
+- Tell the automaton that it has to look at this first row in the grid and add new rows by using a certain set of rules.\n
+- For each cell of each row, if the cell contains `1`, add a sine wave into the final sound.  (Combining multiple sine waves into one is called additive synthesis - you can learn more about it in the tutorial in Appendix A, section A.18).\n
+Don't worry if any of this seems confusing. Just play around with the synth opts and see what happens! An interesting thing to do is to turn on Sonic Pi's 'spectrum' scope visualiser to have a look at the effects when you change opt values.\n
 Note: the maximum number of sine waves that can be combined together is 100. This means that the values of the `num_columns:` and `num_rows:` opts multiplied together cannot be more than this.
 TEXT
       end
@@ -3413,7 +3498,7 @@ TEXT
       def on_start(studio, args_h)
         args_h[:bufnum] = studio.rand_buf_id
         if args_h[:initial_row]
-          args_h[:sarray] = args_h[:initial_row].join.to_i(2)
+          args_h[:encoded_partials] = args_h[:initial_row].join.to_i(2)
           args_h.delete(:initial_row)
         end
       end
@@ -3452,6 +3537,31 @@ TEXT
       end
 
       def specific_arg_info
+        wolfram_code_doc = <<~TEXT
+The code number of the type of elementary cellular automaton to create.
+There are 256 different types, with numbers from `0` to `255`.
+This opt will accept floats but round to the nearest integer.
+TEXT
+        initial_row_doc = <<~TEXT
+An array or ring of binary (`0` or `1`) values to give to the automaton as its first row to process. This in turn will provide the 'on/off' toggles for the first N sine waves in the combined sound, where N is the value of `num_columns:`. For example, if `initial_row:` is `[1, 1, 1, 1, 1, 1, 1, 0]`, then the first 7 sine waves will be added to the final output, but the 8th will not.
+TEXT
+        width_doc = <<~TEXT
+If we looked at a graph of the output of this `:automatone` synth, with the pitch of each individual sine wave on the x (horizontal) axis, and the amp of each individual sine wave on the y (vertical) axis, we would see several 'spikes' at very specific points along the pitch axis, for each individual sine wave. (Try it with the Sonic Pi 'spectrum' scope turned on to see!)
+
+The `width:` opt controls the relative width between each possible sine wave spike on this graph - which results in controlling how close together or far apart in pitch each sine wave sounds from one another. For example, a value of `1` means that each possible sine wave will be 1 octave higher than the previous one. A value of `0` means that all individual sine waves will be exactly the same pitch.
+TEXT
+        odd_skew_doc = <<~TEXT
+Adjusts the spacing of odd-numbered sine waves (except for the first one) up or down relative to `width:`. For example, if there are 8 sine waves in the final output, then waves 3, 5 and 7 will be shifted slightly lower or higher in pitch compared to the others.
+TEXT
+        even_skew_doc = <<~TEXT
+Adjusts the spacing of even-numbered sine waves up or down relative to `width:`. For example, if there are 8 sine waves in the final output, then waves 2, 4, 6 and 8 will be shifted slightly lower or higher in pitch compared to the others.
+TEXT
+        amp_tilt_doc = <<~TEXT
+Applies a positive or negative (upwards sloping or downwards sloping) tilt to the amp of the sine waves as a group. For example, a value of `1` means that the amps of each possible sine wave in the final output decrease in proportion to their increasing pitch.
+TEXT
+        randomise_doc = <<~TEXT
+Enable or disable automatic randomised values for `initial_row:`. If `randomise:` is `1`, this will override any manually given value for `initial_row:`.
+TEXT
         super.merge({
                       :seed =>
                       {
@@ -3460,7 +3570,7 @@ TEXT
                       },
                       :wolfram_code =>
                       {
-                        :doc => "The code number of the type of elementary cellular automaton to create. There are 256 different types, with numbers from 0 to 255. This opt will accept floats but round to the nearest integer.",
+                        :doc => wolfram_code_doc,
                         :validations => [v_between_inclusive(:wolfram_code, 0, 255)],
                         :modulatable => false
                       },
@@ -3478,39 +3588,39 @@ TEXT
                       },
                       :initial_row =>
                       {
-                        :doc => "An array or ring of binary (0 or 1) values to give to the automaton as its first row to process. This in turn will provide the 'on/off' toggles for the first N partials, where N is `num_columns:`. For example, if `initial_row:` is [1, 1, 1, 1, 1, 1, 1, 0], then the first 7 partials will be added to the final output, but the 8th will not.",
+                        :doc => initial_row_doc,
                         :validations => [v_list_like(:initial_row), v_length_equals(:initial_row, :num_columns)],
                         :modulatable => false
                       },
                       :width =>
                       {
-                        :doc => "The relative spacing (width) between each possible partial in the final output. For example: a value of 1 means that each possible partial will be 1 octave higher than the previous one.",
+                        :doc => width_doc,
                         :validations => [v_between_inclusive(:width, 0, 2)],
                         :modulatable => false
                       },
                       :odd_skew =>
                       {
-                        :doc => "Adjusts the spacing of odd-numbered partials up or down relative to `width:`",
+                        :doc => odd_skew_doc,
                         :modulatable => false
                       },
                       :even_skew =>
                       {
-                        :doc => "Adjusts the spacing of even-numbered partials up or down relative to `width:`",
+                        :doc => even_skew_doc,
                         :modulatable => false
                       },
                       :amp_tilt =>
                       {
-                        :doc => "Applies a positive or negative (upwards sloping or downwards sloping) tilt to the amp of the partials as a group. For example: a value of 1 means that the amps of each possible partial decrease proportionally to their increasing frequency.",
+                        :doc => amp_tilt_doc,
                         :modulatable => false
                       },
                       :balance =>
                       {
-                        :doc => "Reduces the amps of either the odd or even partials.",
+                        :doc => "Reduces the amps of either the odd sine waves (except for the first one) or the even sine waves.",
                         :modulatable => false
                       },
                       :randomise =>
                       {
-                        :doc => "Enable or disable automatic randomised values for `initial_row:`. If `randomise:` is 1, this will override any manually given value for `initial_row:`.",
+                        :doc => randomise_doc,
                         :validations => [v_one_of(:randomise, [0, 1])],
                         :modulatable => false
                       }
