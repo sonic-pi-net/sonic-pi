@@ -132,7 +132,8 @@ module SonicPi
           next unless arg_information
           arg_validations = arg_information[:validations] || []
           arg_validations.each do |v_fn, msg|
-            raise "Value of opt #{k_sym.inspect} #{msg}, got #{v.inspect}." unless v_fn.call(args_h, arg_defaults)
+            value, valid = v_fn.call(args_h, arg_defaults).values_at(:value, :valid)
+            raise "Value of opt #{k_sym.inspect} #{msg}, got #{value.inspect}." unless valid
           end
 
           raise "Invalid arg modulation attempt for #{synth_name.to_sym.inspect}. Opt #{k_sym.inspect} is not modulatable" unless arg_information[:modulatable]
@@ -148,12 +149,8 @@ module SonicPi
           #        raise "Value of argument #{k_sym.inspect} must be a number, got #{v.inspect}." unless v.is_a? Numeric
 
           arg_validations(k_sym).each do |v_fn, msg|
-            value = if is_list_like?(v)
-                      v.length
-                    else
-                      v.inspect
-                    end
-            raise "Value of opt #{k_sym.inspect} #{msg}, got #{value}." unless v_fn.call(args_h, arg_defaults)
+            value, valid = v_fn.call(args_h, arg_defaults).values_at(:value, :valid)
+            raise "Value of opt #{k_sym.inspect} #{msg}, got #{value.inspect}." unless valid
           end
         end
       end
@@ -263,7 +260,7 @@ module SonicPi
       def v_buffer_like(arg)
         l = lambda do |args, _defaults|
           a = args[arg]
-          a &&
+          valid = a &&
             (
             # straight up buffer
             a.is_a?(Buffer)  ||
@@ -282,73 +279,123 @@ module SonicPi
               a.size == 2 &&
               (a[0].is_a?(Symbol) || a[0].is_a?(String)) &&
               a[1].is_a?(Numeric)
-              ))
+            ))
+          { value: a, valid: valid }
         end
         [l, "must be a buffer description, such as a buffer, :foo, \"foo\", or [:foo, 4]"]
       end
 
       def v_sum_less_than_oet(arg1, arg2, max)
-        [lambda{|args, _defaults| (args[arg1] + args[arg2]) <= max}, "added to #{arg2.to_sym} must be less than or equal to #{max}"]
+        l = lambda do|args, _defaults|
+          { value: args[arg1] + args[arg2], valid: (args[arg1] + args[arg2]) <= max }
+        end
+        [l, "added to #{arg2} must be less than or equal to #{max}"]
       end
 
       def v_product_less_than_oet(arg1, arg2, max)
         l = lambda do|args, defaults|
           arg2_val = args[arg2] || defaults[arg2]
-          (args[arg1] * arg2_val) <= max
+          { value: args[arg1] * arg2_val, valid: (args[arg1] * arg2_val) <= max }
         end
-        [l, "multiplied by #{arg2.to_sym} must be less than or equal to #{max}"]
+        [l, "multiplied by #{arg2} must be less than or equal to #{max}"]
       end
 
       def v_list_like(arg)
-        [lambda{|args, _defaults| is_list_like?(args[arg])}, "must be list-like (an array or ring)"]
+        l = lambda do |args, _defaults|
+          { value: args[arg], valid: is_list_like?(args[arg]) }
+        end
+        [l, "must be list-like (an array or ring)"]
+      end
+
+      def v_list_satisfies(arg, l_fn, message)
+        l = lambda do |args, _defaults|
+          { value: args[arg], valid: l_fn.call(args[arg]) }
+        end
+        [l, message]
       end
 
       def v_length_equals(arg1, arg2)
         l = lambda do |args, defaults|
           arg2_val = args[arg2] || defaults[arg2]
-          puts "args: #{args}, args[arg1].length: #{args[arg1].length}, args[arg2]: #{arg2_val}"; args[arg1].length == arg2_val
+          puts "args: #{args}, args[arg1].length: #{args[arg1].length}, args[arg2]: #{arg2_val}"
+          { value: args[arg1].length, valid: args[arg1].length == arg2_val }
         end
-        [l, "must have the same number of items as the value of #{arg2.to_sym}"]
+        [l, "must have the same number of items as the value of #{arg2}"]
       end
 
       def v_positive(arg)
-        [lambda{|args, _defaults| args[arg] >= 0}, "must be zero or greater"]
+        l = lambda do |args, _defaults|
+          { value: args[arg], valid: args[arg] >= 0 }
+        end
+        [l, "must be zero or greater"]
       end
 
       def v_positive_not_zero(arg)
-        [lambda{|args, _defaults| args[arg] > 0}, "must be greater than zero"]
+        l = lambda do |args, _defaults|
+          { value: args[arg], valid: args[arg] > 0 }
+        end
+        [l, "must be greater than zero"]
       end
 
       def v_between_inclusive(arg, min, max)
-        [lambda{|args, _defaults| args[arg] >= min && args[arg] <= max}, "must be a value between #{min} and #{max} inclusively"]
+        l = lambda do |args, _defaults|
+          { value: args[arg], valid: args[arg] >= min && args[arg] <= max }
+        end
+        [l, "must be a value between #{min} and #{max} inclusively"]
       end
 
       def v_between_exclusive(arg, min, max)
-        [lambda{|args, _defaults| args[arg] > min && args[arg] < max}, "must be a value between #{min} and #{max} exclusively"]
+        l = lambda do |args, _defaults|
+          { value: args[arg], valid: args[arg] > min && args[arg] < max }
+        end
+        [l, "must be a value between #{min} and #{max} exclusively"]
       end
 
       def v_less_than(arg,  max)
-        [lambda{|args, _defaults| args[arg] < max}, "must be a value less than #{max}"]
+        l = lambda do |args, _defaults|
+          { value: args[arg], valid: args[arg] < max }
+        end
+        [l, "must be a value less than #{max}"]
       end
 
       def v_less_than_oet(arg,  max)
-        [lambda{|args, _defaults| args[arg] <= max}, "must be a value less than or equal to #{max}"]
+        l = lambda do |args, defaults|
+          max_val = if max.is_a?(Numeric)
+                       max
+                    else
+                      args[max] || defaults[max]
+                    end
+          { value: args[arg], valid: args[arg] <= max_val }
+        end
+        [l, "must be a value less than or equal to #{max}"]
       end
 
       def v_greater_than(arg,  min)
-        [lambda{|args, _defaults| args[arg] > min}, "must be a value greater than #{min}"]
+        l = lambda do |args, _defaults|
+          { value: args[arg], valid: args[arg] > min }
+        end
+        [l, "must be a value greater than #{min}"]
       end
 
       def v_greater_than_oet(arg,  min)
-        [lambda{|args, _defaults| args[arg] >= min}, "must be a value greater than or equal to #{min}"]
+        l = lambda do |args, _defaults|
+          { value: args[arg], valid: args[arg] >= min }
+        end
+        [l, "must be a value greater than or equal to #{min}"]
       end
 
       def v_one_of(arg, valid_options)
-        [lambda{|args, _defaults| valid_options.include?(args[arg])}, "must be one of the following values: #{valid_options.inspect}"]
+        l = lambda do |args, _defaults|
+          { value: args[arg], valid: valid_options.include?(args[arg]) }
+        end
+        [l, "must be one of the following values: #{valid_options.inspect}"]
       end
 
       def v_not_zero(arg)
-        [lambda{|args, _defaults| args[arg] != 0}, "must not be zero"]
+        l = lambda do |args, _defaults|
+          { value: args[arg], valid: args[arg] != 0 }
+        end
+        [l, "must not be zero"]
       end
 
       def default_arg_info
@@ -3407,49 +3454,38 @@ TEXT
                       :num_boids =>
                       {
                         :doc => "Number of boids (and therefore sine waves) to simulate in the flock.",
-                        :validations => [
-                          v_greater_than(:num_boids, 1)
-                        ],
+                        :validations => [v_greater_than_oet(:num_boids, 1)],
                         :modulatable => false
                       },
                       :min_start_speed =>
                       {
                         :doc => "Minimum value allowed when deciding the starting speed of each newly created boid.",
-                        :validations => [
-                          v_positive(:min_start_speed)
+                        :validations => [v_positive(:min_start_speed), v_less_than_oet(:min_start_speed, :max_speed)
                         ],
                         :modulatable => false
                       },
                       :max_speed =>
                       {
                         :doc => max_speed_doc,
-                        :validations => [
-                          v_positive(:max_speed)
-                        ],
+                        :validations => [v_positive(:max_speed)],
                         :modulatable => false
                       },
                       :max_force =>
                       {
                         :doc => max_force_doc,
-                        :validations => [
-                          v_positive(:max_force)
-                        ],
+                        :validations => [v_positive_not_zero(:max_force)],
                         :modulatable => false
                       },
                       :note_mod_source =>
                       {
                         :doc => note_mod_source_doc,
-                        :validations => [
-                          v_one_of(:note_mod_source, [0, 1, 2, 3])
-                        ],
+                        :validations => [v_one_of(:note_mod_source, [0, 1, 2, 3])],
                         :modulatable => false
                       },
                       :note_mod_amount =>
                       {
                         :doc => note_mod_amount_doc,
-                        :validations => [
-                          v_between_inclusive(:note_mod_amount, 0, 1)
-                        ],
+                        :validations => [v_between_inclusive(:note_mod_amount, 0, 1)],
                         :modulatable => true
                       },
                       :note_mod_amount_slide =>
@@ -3577,19 +3613,27 @@ TEXT
                       :num_columns =>
                       {
                         :doc => "The number of columns in the automaton's simulated 'grid' of binary values.",
-                        :validations => [v_product_less_than_oet(:num_columns, :num_rows, 100)],
+                        :validations => [v_greater_than_oet(:num_columns, 1), v_product_less_than_oet(:num_columns, :num_rows, 100)],
                         :modulatable => false
                       },
                       :num_rows =>
                       {
                         :doc => "The number of rows in the automaton's simulated 'grid' of binary values.",
-                        :validations => [v_product_less_than_oet(:num_rows, :num_columns, 100)],
+                        :validations => [v_greater_than_oet(:num_rows, 1), v_product_less_than_oet(:num_rows, :num_columns, 100)],
                         :modulatable => false
                       },
                       :initial_row =>
                       {
                         :doc => initial_row_doc,
-                        :validations => [v_list_like(:initial_row), v_length_equals(:initial_row, :num_columns)],
+                        :validations => [
+                          v_list_like(:initial_row),
+                          v_length_equals(:initial_row, :num_columns),
+                          v_list_satisfies(
+                            :initial_row,
+                            ->(x) { x.all? { |i| i == 0 || i == 1 } },
+                            "must contain only 1s or 0s"
+                          )
+                        ],
                         :modulatable => false
                       },
                       :width =>
@@ -3601,21 +3645,25 @@ TEXT
                       :odd_skew =>
                       {
                         :doc => odd_skew_doc,
+                        :validations => [v_between_inclusive(:odd_skew, -0.99, 0.99)],
                         :modulatable => false
                       },
                       :even_skew =>
                       {
                         :doc => even_skew_doc,
+                        :validations => [v_between_inclusive(:even_skew, -0.99, 0.99)],
                         :modulatable => false
                       },
                       :amp_tilt =>
                       {
                         :doc => amp_tilt_doc,
+                        :validations => [v_between_inclusive(:amp_tilt, -1, 3)],
                         :modulatable => false
                       },
                       :balance =>
                       {
                         :doc => "Reduces the amps of either the odd sine waves (except for the first one) or the even sine waves.",
+                        :validations => [v_between_inclusive(:balance, -1, 1)],
                         :modulatable => false
                       },
                       :randomise =>
