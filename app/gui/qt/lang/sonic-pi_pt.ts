@@ -11,7 +11,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="741"/>
         <source>Log</source>
-        <translation>Registro</translation>
+        <translation>Registo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="172"/>
@@ -127,12 +127,12 @@ Pedimos desculpa, um erro crítico aconteceu durante o processo de inicializaç�
     <message>
         <location filename="../mainwindow.cpp" line="1795"/>
         <source>Log Auto Scroll on...</source>
-        <translation>Auto-deslizamento de registro...</translation>
+        <translation>Auto-deslizamento de registo...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1797"/>
         <source>Log Auto Scroll off...</source>
-        <translation>Auto-deslizmento de registro desactivado...</translation>
+        <translation>Auto-deslizmento de registo desativado...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2053"/>
