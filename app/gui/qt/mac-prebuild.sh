@@ -19,7 +19,7 @@ done
 
 if [ "$1" = "--build-aubio" ]; then
   mkdir -p "${SCRIPT_DIR}/../../server/native/lib"
-  cp "${SCRIPT_DIR}/external/build/aubio-prefix/src/aubio-build/libaubio-5.so" "${SCRIPT_DIR}/../../server/native/lib/"
+  cp "${SCRIPT_DIR}/external/build/aubio-prefix/src/aubio-build/libaubio-5.dylib" "${SCRIPT_DIR}/../../server/native/lib/"
 fi
 
 #dont remove ruby-aubio-prerelease, as needed in linux build
