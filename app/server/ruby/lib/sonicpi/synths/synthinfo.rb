@@ -4076,7 +4076,8 @@ Steal This Sound,  Mitchell Sigman"
                       {
                         :doc => "Amount of time (in beats) for the mix value to change. A long slide value means that the mix takes a long time to slide from the previous value to the new value. A slide of 0 means that the mix instantly changes to the new value.",
                         :validations => [v_positive(:mix_slide)],
-                        :modulatable => true
+                        :modulatable => true,
+                        :bpm_scale => true
                       },
 
                       :pre_mix =>
@@ -4090,7 +4091,8 @@ Steal This Sound,  Mitchell Sigman"
                       {
                         :doc => "Amount of time (in beats) for the pre_mix value to change. A long slide value means that the pre_mix takes a long time to slide from the previous value to the new value. A slide of 0 means that the pre_mix instantly changes to the new value.",
                         :validations => [v_positive(:pre_mix_slide)],
-                        :modulatable => true
+                        :modulatable => true,
+                        :bpm_scale => true
                       },
 
                       :pre_amp =>
@@ -4104,7 +4106,8 @@ Steal This Sound,  Mitchell Sigman"
                       {
                         :doc => generic_slide_doc(:pre_amp),
                         :validations => [v_positive(:pre_amp_slide)],
-                        :modulatable => true
+                        :modulatable => true,
+                        :bpm_scale => true
                       },
 
                       :phase_offset =>
