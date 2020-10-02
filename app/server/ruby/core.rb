@@ -831,7 +831,7 @@ module SonicPi
 
       def take_last(n=1)
         self if n >= size
-        self[(size-n)..-1]
+        self[(size-n)..size-1]
       end
 
       def butlast
