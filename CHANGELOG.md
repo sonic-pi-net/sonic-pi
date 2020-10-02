@@ -29,7 +29,7 @@
 
 
 ### New Fns
-* `use/with_random_type` - change the current random stream used when selecting random values. We now have `:white`, `:pink` and `:perlin`.  Default is `:white` which is the same stream as previous releases to preserve compatibility.
+* `use/with_random_stream` - change the current random stream used when selecting random values. We now have `:white`, `:light_pink`, `:pink`, `:dark_pink` and `:perlin`.  Default is `:white` which is the same stream as previous releases to preserve compatibility.
 
 
 ### Synths & FX
@@ -39,7 +39,7 @@
 
 ### GUI
 * New optional keyboard shortcuts for switching directly to a buffer. When enabled in the preferences S-M-1 (hold shift and Meta and the number 1) will jump to buffer 1. Meta is Cmd on macOS and alt on Windows/Linux.
-* Sample listings in the help system now have a handy play button that allow you to preview them by clicking rather than having to write any code.
+* Sample listings in the help system now have a handy play button that allows you to preview them by clicking rather than having to write any code.
 * Minor improvements for Danish, Chinese, Swedish, Slovak, Italian, Korean, Dutch, Catalan, French, Norwegian translations.
 * GUI now has an exit menu option on Windows and Linux.
 
