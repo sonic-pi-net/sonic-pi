@@ -76,6 +76,16 @@ void SonicPiAPIs::addCuePath(QString path) {
   keywords[CuePath] << path;
 }
 
+void SonicPiAPIs::updateMidiOuts(QString port_info) {
+  // port info is a \n separate list of MIDI port names. Need to first split it up
+  keywords[MidiOuts].clear();
+
+  for ( const auto& i : port_info.split(QRegExp("[\r\n]")) )
+    {
+      keywords[MidiOuts] << QString("\"%1\"").arg(i);
+    }
+}
+
 void SonicPiAPIs::updateAutoCompletionList(const QStringList &context,
 					   QStringList &list) {
   if (context.isEmpty()) return;
@@ -159,7 +169,9 @@ void SonicPiAPIs::updateAutoCompletionList(const QStringList &context,
   } else if (first == "use_sample_defaults" || first == "with_sample_defaults") {
     if (last.endsWith(':')) return; // don't try to complete parameters
     ctx = SampleParam;
-  } else if (words.length() >= 2 && first == "midi") {
+  } else if ((first == "midi" || (first.startsWith("midi_"))) && last == "port:") {
+    ctx = MidiOuts;
+  }  else if (words.length() >= 2 && first == "midi") {
     if (last.endsWith(':')) return; // don't try to complete parameters
     ctx = MidiParam;
   } else if (context.length() > 1) {

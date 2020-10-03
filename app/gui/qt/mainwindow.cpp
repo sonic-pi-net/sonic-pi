@@ -3025,6 +3025,7 @@ void MainWindow::updateMIDIInPorts(QString port_info) {
 void MainWindow::updateMIDIOutPorts(QString port_info) {
     QString output_header = tr("Connected MIDI outputs") + ":\n\n";
     settingsWidget->updateMidiOutPorts(output_header + port_info);
+    autocomplete->updateMidiOuts(port_info);
 }
 
 void MainWindow::focusLogs() {

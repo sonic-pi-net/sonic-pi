@@ -17,7 +17,7 @@
 class SonicPiAPIs : public QsciAbstractAPIs
 {
  public:
-  enum { Func, FX, Synth, Sample, Chord, Scale, MCBlock, PlayParam, SampleParam, Tuning, Examples, MidiParam, CuePath, NContext};
+  enum { Func, FX, Synth, Sample, Chord, Scale, MCBlock, PlayParam, SampleParam, Tuning, Examples, MidiParam, MidiOuts, CuePath, NContext};
 
   SonicPiAPIs(QsciLexer *lexer);
 
@@ -27,6 +27,7 @@ class SonicPiAPIs : public QsciAbstractAPIs
   void addSynthArgs(QString fx, QStringList args);
   void addCuePath(QString path);
   void loadSamples(QString sample_path);
+  void updateMidiOuts(QString port_info);
 
 
   //! \reimp
