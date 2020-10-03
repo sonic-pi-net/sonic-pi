@@ -54,6 +54,7 @@ module SonicPi
     def load_snippets(path=snippets_path, quiet=false)
       path = File.expand_path(path)
       Dir["#{path}/**/*.sps"].each do |p|
+
         lines = File.readlines(p)
         key = nil
         completion = ""
@@ -313,8 +314,14 @@ module SonicPi
       info = __current_job_info
       err_msg.gsub(/for #<SonicPiSpiderUser[a-z0-9:]+>/, '')
       res = ""
-      w = info[:display_name]
+      w = info[:workspace]
       if line != -1
+
+        # TODO: Remove this hack when we have projects
+        w = normalise_buffer_name(w)
+        w = "buffer " + w
+        # TODO: end of hack
+
         res = res + "[#{w}, line #{line}]"
       else
         res = res + "[#{w}]"
@@ -784,12 +791,10 @@ module SonicPi
       firstline = 1
       firstline -= code.lines.to_a.take_while{|l| l.include? "#__nosave__"}.count
       start_t_prom = Promise.new
-      
-      display_name = get_spider_eval_display_name(info[:type], info[:name])
+      info[:workspace] = 'eval' unless info[:workspace]
 
-      info[:name].freeze
+      info[:workspace].freeze
       info.freeze
-      display_name.freeze
 
       job_in_thread = nil
       job = Thread.new do
@@ -821,7 +826,7 @@ module SonicPi
           code = PreParser.preparse(code, SonicPi::Lang::Core.vec_fns)
 
           job_in_thread = in_thread seed: 0 do
-            eval(code, nil, info[:name], firstline)
+            eval(code, nil, info[:workspace], firstline)
           end
           __schedule_delayed_blocks_and_messages!
         rescue Stop => e
@@ -835,7 +840,13 @@ module SonicPi
             if line
               line = line.to_i
 
-              err_msg = "[#{display_name}, line #{line}] \n #{message}"
+              # TODO: Remove this hack when we have projects
+              w = info[:workspace]
+              w = normalise_buffer_name(w)
+              w = "buffer #{w}"
+              # TODO: end of hack
+
+              err_msg = "[#{w}, line #{line}] \n #{message}"
               error_line = code.lines.to_a[line - firstline] ||  ""
             else
               line = -1
@@ -1261,31 +1272,6 @@ module SonicPi
       res = RBeautify.beautify_string :ruby, source
       res = res.gsub(') ___SONIC_PI_RND_TMP_PLACEHOLDER___ /', ')/')
       res = res.gsub('] ___SONIC_PI_SQR_TMP_PLACEHOLDER___ /', ']/')
-    end
-      
-    def get_spider_eval_display_name(type, name)
-       case info[:type]
-         when :workspace
-           "buffer #{normalise_buffer_name(name)}"
-         when :file
-           name
-         when :eval
-           normalise_eval_name(name)
-       end
-    end
-      
-    def normalise_eval_name(name)
-      if (name.nil?)
-        return "unnamed eval"
-      end
-      
-      norm = case name
-        when "osc-/run-code"
-          "eval"
-        else
-          name
-      end
-      return norm
     end
 
     def normalise_buffer_name(name)
