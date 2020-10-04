@@ -1269,7 +1269,7 @@ module SonicPi
     end
       
     def get_spider_eval_display_name(type, name)
-       case info[:type]
+       case type
          when :workspace
            "buffer #{normalise_buffer_name(name)}"
          when :file
