@@ -314,7 +314,7 @@ module SonicPi
       info = __current_job_info
       err_msg.gsub(/for #<SonicPiSpiderUser[a-z0-9:]+>/, '')
       res = ""
-      w = info[:display_name]
+      w = get_job_display_name(info[:type], info[:name])
       if line != -1
         res = res + "[#{w}, line #{line}]"
       else
@@ -785,10 +785,9 @@ module SonicPi
       firstline = 1
       firstline -= code.lines.to_a.take_while{|l| l.include? "#__nosave__"}.count
       start_t_prom = Promise.new
-      
-      display_name = get_spider_eval_display_name(info[:type], info[:name])
 
-      info[:name].freeze
+      display_name = get_job_display_name(info[:type], info[:name])
+
       info.freeze
       display_name.freeze
 
@@ -1267,8 +1266,8 @@ module SonicPi
       res = res.gsub(') ___SONIC_PI_RND_TMP_PLACEHOLDER___ /', ')/')
       res = res.gsub('] ___SONIC_PI_SQR_TMP_PLACEHOLDER___ /', ']/')
     end
-      
-    def get_spider_eval_display_name(type, name)
+
+    def get_job_display_name(type, name)
        case type
          when :workspace
            "buffer #{normalise_buffer_name(name)}"
