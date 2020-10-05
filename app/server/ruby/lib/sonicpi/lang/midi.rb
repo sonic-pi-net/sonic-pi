@@ -692,7 +692,7 @@ Typical MIDI values such as note or cc are represented with 7 bit numbers which 
         program_num     = params[0]
         ports           = __resolve_midi_ports(opts)
         on_val          = opts.fetch(:on, 1)
-SonicPi::OSC::Blob.new(m)
+
         if program_num == nil #deal with missing midi_pc paramter
           return nil
         end
