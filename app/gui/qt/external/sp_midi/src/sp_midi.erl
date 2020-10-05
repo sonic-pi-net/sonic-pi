@@ -3,28 +3,19 @@
         set_this_pid/1, set_log_level/1, schedule_callback/3, get_current_time_microseconds/0]).
 -on_load(init/0).
 
--define(APPLICATION, sonic_pi_server).
--define(LIBNAME, "libsp_midi").
-
 init() ->
-    SoName = case code:priv_dir(?APPLICATION) of
-        {error, bad_name} ->
-            case filelib:is_dir(filename:join(["..", priv])) of
-                true ->
-                    filename:join(["..", priv, ?LIBNAME]);
-                _ ->
-                    filename:join([priv, ?LIBNAME])
-            end;
-        Dir ->
-            filename:join(Dir, ?LIBNAME)
-    end,
-    erlang:load_nif(SoName, 0).
+    case os:type() of
+    {win32, _} ->
+        ok = erlang:load_nif("D:/projects/sp_midi/build/Debug/libsp_midi", 0);
+    _Else ->
+        ok = erlang:load_nif("/home/luis/projects/sp_midi/build/libsp_midi", 0)
+    end.
 
 midi_init() ->
     exit(nif_library_not_loaded).
 midi_deinit() ->
     exit(nif_library_not_loaded).
-midi_send(A, B) ->
+midi_send(_, _) ->
     exit(nif_library_not_loaded).
 midi_flush() ->
     exit(nif_library_not_loaded).
