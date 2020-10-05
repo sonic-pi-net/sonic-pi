@@ -113,7 +113,7 @@ loop(State) ->
                     ?MODULE:loop(NewState);
                 {cmd, ["/midi", OSC]} ->
                     MIDIServer = maps:get(midi_server, State),
-                    MIDIServer ! {send_now, OSC},
+                    MIDIServer ! {send, OSC},
                     ?MODULE:loop(State);
                 {cmd, ["/midi_flush"]=Cmd} ->
                     debug_cmd(Cmd),

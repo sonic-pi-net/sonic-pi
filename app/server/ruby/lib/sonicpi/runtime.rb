@@ -435,13 +435,13 @@ module SonicPi
     def __update_midi_ins(ins)
       # @midi_out_ports = args
       desc = ins.join("\n")
-      __msg_queue.push({:type => :midi_out_ports, :val => desc})
+      __msg_queue.push({:type => :midi_in_ports, :val => desc})
     end
 
     def __update_midi_outs(outs)
       # @midi_in_ports = args
       desc = outs.join("\n")
-      __msg_queue.push({:type => :midi_in_ports, :val => desc})
+      __msg_queue.push({:type => :midi_out_ports, :val => desc})
     end
     def __osc_flush!
       @osc_client.send("/flush", "default")

@@ -1,3 +1,17 @@
+%% Sonic Pi MIDI IO
+%% --
+%% This file is part of Sonic Pi: http://sonic-pi.net
+%% Full project source: https://github.com/sonic-pi-net/sonic-pi
+%% License: https://github.com/sonic-pi-net/sonic-pi/blob/main/LICENSE.md
+%%
+%% Copyright 2020 Sam Aaron
+%% All rights reserved.
+%%
+%% Permission is granted for use, copying, modification, and
+%% distribution of modified versions of this work as long as this
+%% notice is included.
+%% ++
+
 -module(pi_server_midi).
 
 -export([start_link/1, server_name/0]).
@@ -58,9 +72,6 @@ init(Parent, CueServer) ->
 
 loop(State) ->
     receive
-        {send_now, Data} ->
-            midi_send_now(Data),
-            ?MODULE:loop(State);
         {send, Time, Data} ->
             midi_send(Time, Data),
             ?MODULE:loop(State);
@@ -72,28 +83,22 @@ loop(State) ->
             sp_midi:midi_flush(),
             debug("Flushing MIDI", []),
             ?MODULE:loop(State);
-        {midi_in, Bin} ->
-            try osc:decode(Bin) of
-                {cmd, [Path | Args]} ->
-                    RE = maps:get(active_sensing_regexp, State),
-                    case re:run(Path,RE,[{capture,none}]) of
-                        match ->
-                            %% # Ignore Active Sensing MIDI messages.
-                            %% # This message is intended to be sent repeatedly to tell the receiver
-                            %% # that a connection is alive.
-                            %% # A MIDI device sending these will send one every 300ms.
-                            %% # They quickly full up the Sonic Pi cue log.
-                            %% # In the future it might be good to have this be optionally ignored
-                            do_nothing;
-                        nomatch ->
-                            maps:get(cue_server, State) ! {midi_in, Path, Args}
-                    end;
-                Other ->
-                    log("Unexpected MIDI in content :~p~n", [Other])
-            catch
-                Class:Term:Trace ->
-                    log("Error decoding incoming MIDI OSC: ~p~n~p:~p~n~p~n",
-                        [Bin, Class, Term, Trace])
+        {midi_in, PortName, <<Bin/binary>>} ->
+            case pi_server_midi_in:info(PortName, Bin) of
+                {unknown, ErrStr} ->
+                    log(ErrStr);
+                {error, ErrStr} ->
+                    log(ErrStr);
+                {active_sensing, _, _} ->
+                    %% # Ignore Active Sensing MIDI messages.
+                    %% # This message is intended to be sent repeatedly to tell the receiver
+                    %% # that a connection is alive.
+                    %% # A MIDI device sending these will send one every 300ms.
+                    %% # They quickly full up the Sonic Pi cue log.
+                    %% # In the future it might be good to have this be optionally ignored
+                    do_nothing;
+                {_, Path, Args} ->
+                    maps:get(cue_server, State) ! {midi_in, Path, Args}
             end,
             ?MODULE:loop(State);
         {timeout, _Timer, update_midi_ports} ->
@@ -121,13 +126,18 @@ update_midi_ports(State) ->
                    midi_outs := NewOuts}
     end.
 
-midi_send(_Time, Data) ->
+midi_send(_Time, <<Data/binary>>) ->
     debug("sending MIDI: ~p~n", [Data]),
-    sp_midi:midi_send(Data).
-
-midi_send_now(Data) ->
-    log("sending MIDI now: ~p~n", [Data]),
-    sp_midi:midi_send(Data).
+    case pi_server_midi_out:encode_midi_from_osc(Data) of
+        {ok, multi_chan, _, PortName, MIDIBinaries} ->
+            [sp_midi:midi_send(PortName, MB) || MB <- MIDIBinaries];
+        {ok,  _, PortName, MIDIBinary} ->
+            sp_midi:midi_send(PortName, MIDIBinary);
+        {error, ErrStr} ->
+            log(ErrStr);
+        _ ->
+            log("Unable to encode midi from OSC")
+    end.
 
 
 %% sys module callbacks
