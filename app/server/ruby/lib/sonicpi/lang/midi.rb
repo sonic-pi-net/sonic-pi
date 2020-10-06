@@ -693,7 +693,7 @@ Typical MIDI values such as note or cc are represented with 7 bit numbers which 
         ports           = __resolve_midi_ports(opts)
         on_val          = opts.fetch(:on, 1)
 
-        if program_num == nil #deal with missing midi_pc paramter
+        if program_num == nil #deal with missing midi_pc parameter
           return nil
         end
 
@@ -769,7 +769,7 @@ Program number can be passed as a note such as `:e3` and decimal values will be 
           accepts_block:  false,
           doc:"Sends the raw MIDI message to *all* connected MIDI devices. Gives you direct access to sending the individual bytes of a MIDI message. Typically this should be rarely used - prefer the other `midi_` fns where possible.
 
-A raw MIDI message consists of a multiple bytes as numbers in decimal notation (i.e. 176), hex (0xb0) or binary (0b10110000).
+A raw MIDI message consists of multiple bytes as numbers in decimal notation (i.e. 176), hex (0xb0) or binary (0b10110000).
 
 See https://www.midi.org/specifications/item/table-1-summary-of-midi-message for a summary of MIDI messages and their corresponding byte structures.
 ",

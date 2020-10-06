@@ -77,7 +77,7 @@ void SonicPiAPIs::addCuePath(QString path) {
 }
 
 void SonicPiAPIs::updateMidiOuts(QString port_info) {
-  // port info is a \n separate list of MIDI port names. Need to first split it up
+  // port info is a \n separated list of MIDI port names. Need to first split it up
   keywords[MidiOuts].clear();
 
   for ( const auto& i : port_info.split(QRegExp("[\r\n]")) )
