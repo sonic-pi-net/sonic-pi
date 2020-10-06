@@ -40,6 +40,7 @@ private slots:
     void forceMidiReset();
     void changeMainVolume(int);
     void toggleLineNumbers();
+    void showAutoCompletion();
     void toggleLog();
     void toggleCuesLog();
     void toggleButtons();
@@ -64,6 +65,7 @@ signals:
     void resetMidi();
     void volumeChanged(int vol);
     void showLineNumbersChanged();
+    void showAutoCompletionChanged();
     void showLogChanged();
     void showCuesChanged();
     void showButtonsChanged();
@@ -103,6 +105,7 @@ private:
     QCheckBox *show_tabs;
     QCheckBox *check_updates;
     QCheckBox *studio_mode;
+    QCheckBox *show_autocompletion;
 
     QComboBox *midi_default_channel_combo;
     QCheckBox *midi_enable_check;

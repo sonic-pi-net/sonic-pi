@@ -37,6 +37,7 @@ public:
     bool log_cues;
     bool log_auto_scroll;
     int gui_transparency;
+    bool show_autocompletion;
     SonicPiTheme::Style themeStyle;
 
     // UpdateSettings;

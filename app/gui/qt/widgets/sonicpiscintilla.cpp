@@ -669,3 +669,11 @@ void SonicPiScintilla::sp_cut() {
   deselect();
   mutex->unlock();
 }
+
+void SonicPiScintilla::showAutoCompletion(bool val) {
+  if(val) {
+      setAutoCompletionThreshold(1);
+    } else {
+    setAutoCompletionThreshold(-1);
+  }
+}

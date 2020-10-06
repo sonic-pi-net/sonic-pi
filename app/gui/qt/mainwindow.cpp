@@ -524,6 +524,7 @@ void MainWindow::setupWindowStructure() {
     connect(settingsWidget, SIGNAL(resetMidi()), this, SLOT(resetMidi()));
     connect(settingsWidget, SIGNAL(oscSettingsChanged()), this, SLOT(toggleOSCServer()));
     connect(settingsWidget, SIGNAL(showLineNumbersChanged()), this, SLOT(changeShowLineNumbers()));
+    connect(settingsWidget, SIGNAL(showAutoCompletionChanged()), this, SLOT(changeShowAutoCompletion()));
     connect(settingsWidget, SIGNAL(showLogChanged()), this, SLOT(updateLogVisibility()));
     connect(settingsWidget, SIGNAL(showCuesChanged()), this, SLOT(updateCuesVisibility()));
     connect(settingsWidget, SIGNAL(showButtonsChanged()), this, SLOT(updateButtonVisibility()));
@@ -1265,6 +1266,7 @@ void MainWindow::honourPrefs() {
     toggleOSCServer(1);
     toggleIcons();
     scope();
+    changeShowAutoCompletion();
 }
 
 void MainWindow::setMessageBoxStyle() {
@@ -1806,6 +1808,7 @@ void MainWindow::changeSystemPreAmp(int val, int silent)
     statusBar()->showMessage(tr("Updating System Volume..."), 2000);
 }
 
+
 void MainWindow::toggleScope(QString name) {
     scopeInterface->EnableScope( name, piSettings->isScopeActive(name));
 }
@@ -1946,6 +1949,20 @@ void MainWindow::changeShowLineNumbers(){
         } else {
             ws->hideLineNumbers();
         }
+    }
+}
+
+void MainWindow::changeShowAutoCompletion() {
+  bool show = piSettings->show_autocompletion;
+  if(show) {
+      statusBar()->showMessage(tr("Show autocompletion on"), 2000);
+    } else {
+      statusBar()->showMessage(tr("Show autocompletion off"), 2000);
+  }
+
+    for(int i=0; i < tabs->count(); i++){
+        SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
+        ws->showAutoCompletion(show);
     }
 }
 
@@ -2508,6 +2525,8 @@ void MainWindow::readSettings() {
     QString styleName = settings.value("prefs/theme", "").toString();
     piSettings->themeStyle = theme->themeNameToStyle(styleName);
 
+    piSettings->show_autocompletion = settings.value("prefs/show-autocompletion", true).toBool();
+
     emit settingsChanged();
 }
 
@@ -2553,6 +2572,8 @@ void MainWindow::writeSettings()
     settings.setValue("prefs/show_cues", piSettings->show_cues);
     settings.setValue("prefs/goto_buffer_shortcuts", piSettings->goto_buffer_shortcuts);
     settings.setValue("prefs/theme", theme->themeStyleToName(piSettings->themeStyle));
+
+    settings.setValue("prefs/show-autocompletion", piSettings->show_autocompletion);
 
     for ( auto name : piSettings->scope_names ) {
         settings.setValue("prefs/scope/show-"+name.toLower(), piSettings->isScopeActive(name));

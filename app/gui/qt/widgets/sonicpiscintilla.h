@@ -74,6 +74,7 @@ class SonicPiScintilla : public QsciScintilla
     void sp_paste();
     void sp_cut();
 
+    void showAutoCompletion(bool val);
  private:
     void addKeyBinding(QSettings &qs, int cmd, int key);
     void addOtherKeyBinding(QSettings &qs, int cmd, int key);

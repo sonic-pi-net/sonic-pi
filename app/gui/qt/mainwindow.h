@@ -146,6 +146,7 @@ signals:
         void changeSystemPreAmp(int val, int silent=0);
         void changeGUITransparency(int val);
         void changeShowLineNumbers();
+        void changeShowAutoCompletion();
         void toggleScope(QString name);
         void toggleLeftScope();
         void toggleRightScope();
@@ -218,7 +219,6 @@ signals:
         void focusHelpListing();
         void focusHelpDetails();
         void focusErrors();
-
 
     private:
         bool initAndCheckPorts();
