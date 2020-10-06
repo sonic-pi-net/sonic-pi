@@ -2,7 +2,7 @@ b = Buffer.read(s, "/Users/sam/Development/RPi/sonic-pi/etc/buffers/rand-stream.
 
 SynthDef("sonic-pi-flock",
   {|bufnum = 0, num_boids = 20, seed = 0, min_start_speed = 0, max_speed = 3.5, max_force = 0.5,
-    note_mod_source = 0,
+    note_mod_source = 3,
     note_mod_amount = 1, note_mod_amount_slide = 0, note_mod_amount_slide_shape = 1, note_mod_amount_slide_curve = 0,
     predator_probability = 0,
     note = 52, note_slide = 0, note_slide_shape = 1, note_slide_curve = 0,
