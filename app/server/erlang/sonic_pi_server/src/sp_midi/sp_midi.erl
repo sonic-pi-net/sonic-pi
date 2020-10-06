@@ -24,7 +24,7 @@ midi_init() ->
     exit(nif_library_not_loaded).
 midi_deinit() ->
     exit(nif_library_not_loaded).
-midi_send(A, B) ->
+midi_send(_, _) ->
     exit(nif_library_not_loaded).
 midi_flush() ->
     exit(nif_library_not_loaded).
