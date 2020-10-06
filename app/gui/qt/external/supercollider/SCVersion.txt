@@ -1,0 +1,39 @@
+# This file is included by CMakeLists.txt and is the single place where SC version should be updated.
+# Note that you need to "make install" for this information to be copied into all places.
+
+set(SC_VERSION_MAJOR 3)
+set(SC_VERSION_MINOR 11)
+set(SC_VERSION_PATCH 1)
+set(SC_VERSION_TWEAK "")
+set(SC_VERSION ${SC_VERSION_MAJOR}.${SC_VERSION_MINOR}.${SC_VERSION_PATCH}${SC_VERSION_TWEAK})
+
+# Note: these are provided for backwards compatibility only. In the main project, PROJECT_VERSION_PATCH
+# will be stripped of anything after the patch number (e.g., "-beta1", "-rc2" will be removed).
+# Historically, the _PATCH version also included a leading period. New code and project should use the
+# SC_ variables above instead of these.
+set(PROJECT_VERSION_MAJOR ${SC_VERSION_MAJOR})
+set(PROJECT_VERSION_MINOR ${SC_VERSION_MINOR})
+set(PROJECT_VERSION_PATCH .${SC_VERSION_PATCH}${SC_VERSION_TWEAK})
+
+if(EXISTS "${CMAKE_SOURCE_DIR}/.git")
+
+  execute_process(
+    COMMAND git rev-parse --abbrev-ref HEAD
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    OUTPUT_VARIABLE GIT_BRANCH
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+  )
+
+  execute_process(
+    COMMAND git log -1 --format=%h
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    OUTPUT_VARIABLE GIT_COMMIT_HASH
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+  )
+
+else()
+
+  SET(GIT_BRANCH not_a_git_checkout)
+  SET(GIT_COMMIT_HASH na)
+
+endif()

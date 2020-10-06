@@ -1,0 +1,184 @@
+nova simd
+
+nova simd provides a framework of simdfied vector functions, designed
+mainly for computer music applications.
+it currently supports the following instruction sets:
+- sse/sse2 family
+- ppc/altivec
+- avx
+- arm/neon
+
+
+vec class:
+the simd functionality is built around a templated vec class. it usually maps
+to a simd vector. the vec class can be used to compose more specific algorithms,
+hiding different implementations under a common API.
+
+template <typename FloatType>
+class vec
+{
+public:
+    typedef FloatType float_type;
+
+    static const int size; // number of samples per vector
+    static const int objects_per_cacheline; // typical number of objects per cacheline
+
+    /* constructors */
+    vec(void);
+    vec(double f);
+    vec(float f);
+    vec(vec const & rhs);
+
+    /* element access */
+    FloatType get (int index) const;
+
+    /* set vector */
+    void set (int index, FloatType arg);
+    void set_vec (FloatType value);
+    FloatType set_slope(FloatType start, FloatType slope);
+    FloatType set_exp(FloatType start, FloatType curve);
+
+    /* load and store */
+    void load(const WrappedType * src);
+    void load_first(const WrappedType * src);
+    void load_aligned(const WrappedType * data);
+
+    void store(WrappedType * dest) const;
+    void store_aligned(WrappedType * dest) const;
+    void store_aligned_stream(WrappedType * dest) const;
+
+    void clear(void);
+
+    vec_base operator+(vec_base const & rhs) const
+    vec_base operator-(vec_base const & rhs) const
+    vec_base operator*(vec_base const & rhs) const
+    vec_base operator/(vec_base const & rhs) const
+
+    vec_base & operator+=(vec_base const & rhs)
+    vec_base & operator-=(vec_base const & rhs)
+    vec_base & operator*=(vec_base const & rhs)
+    vec_base & operator/=(vec_base const & rhs)
+
+    vec_base operator<(vec_base const & rhs) const
+    vec_base operator<=(vec_base const & rhs) const
+    vec_base operator==(vec_base const & rhs) const
+    vec_base operator!=(vec_base const & rhs) const
+    vec_base operator>(vec_base const & rhs) const
+    vec_base operator>=(vec_base const & rhs) const
+
+    friend vec madd(vec const & arg1, vec const & arg2, vec const & arg3);
+
+    friend vec sin(vec const & arg);
+    friend vec cos(vec const & arg);
+    friend vec tan(vec const & arg);
+    friend vec asin(vec const & arg);
+    friend vec acos(vec const & arg);
+    friend vec atan(vec const & arg);
+
+    friend vec tanh(vec const & arg);
+
+    friend vec log(vec const & arg);
+    friend vec log2(vec const & arg);
+    friend vec log10(vec const & arg);
+    friend vec exp(vec const & arg);
+    friend vec pow(vec const & lhs, vec const & rhs);
+
+    friend vec abs(vec const & arg);
+    friend vec sign(vec const & arg);
+    friend vec square(vec const & arg);
+    friend vec cube(vec const & arg);
+
+    friend vec signed_sqrt(vec const & arg);
+    friend vec signed_pow(vec const & lhs, vec const & rhs);
+
+    friend vec min_(vec const & lhs, vec const & rhs);
+    friend vec max_(vec const & lhs, vec const & rhs);
+
+    friend vec round(vec const & arg);
+    friend vec ceil(vec const & arg);
+    friend vec floor(vec const & arg);
+    friend vec frac(vec const & arg);
+    friend vec trunc(vec const & arg);
+};
+
+
+vector functions:
+
+this vec class has been used as building block for a number of vector functions,
+which provides a traditional c++-style interface to perform a specific operation
+on buffers.
+(for details consult the simd_*.hpp files)
+
+for an unary operation `foo', the following functions must be:
+
+/* arbitrary number of iterations */
+template <typename float_type>
+inline void foo_vec(float_type * out, const float_type * in, unsigned int n);
+
+/* number of iterations must be a multiple of
+ * unroll_constraints<float_type>::samples_per_loop
+ */
+template <typename float_type>
+inline void foo_vec_simd(float_type * out, const float_type * in, unsigned int n);
+
+/* number of iterations must be a multiple of
+ * unroll_constraints<float_type>::samples_per_loop
+ */
+template <int n,
+          typename FloatType
+         >
+inline void foo_vec_simd(FloatType * out, const FloatType * in);
+
+
+for binary and ternary operations, instances are provided for mixed
+vector and scalar arguments. using the suffix _simd provides versions for compile-time
+and run-time unrolled code:
+
+template <typename float_type,
+          typename Arg1,
+          typename Arg2
+         >
+inline void foo_vec(float_type * out, Arg1 arg1, Arg2 arg2, unsigned int n);
+
+template <typename float_type,
+          typename Arg1,
+          typename Arg2
+         >
+inline void foo_vec_simd(float_type * out, Arg1 arg1, Arg2 arg2, unsigned int n);
+
+template <unsigned int n,
+          typename float_type,
+          typename Arg1,
+          typename Arg2
+         >
+inline void foo_vec_simd(float_type * out, Arg1 arg1, Arg2 arg2);
+
+
+for scalar arguments, an extension is provided to support ramping by
+adding a slope to the scalar after each iteration. for binary functions,
+c++ function overloading is used. compile-time unrolled versions of these
+functions are also provided.
+
+
+argument wrapper:
+to support different kinds of arguments with a generic interface, nova-simd provides
+argument wrappers. these can be generated with the following functions:
+
+/* wrap a scalar argument */
+template <typename FloatType>
+/unspecified/ nova::wrap_arguments(FloatType f);
+
+/* wrap a vector argument */
+template <typename FloatType>
+/unspecified/ nova::wrap_arguments(const FloatType * f);
+
+/* wrap a ramp argument */
+template <typename FloatType>
+/unspecified/ nova::wrap_arguments(FloatType base, FloatType slope);
+
+
+building and testing:
+
+nova simd is a header-only library, so it cannot be compiled as
+standalone libray. however some benchmark and test programs are
+provided, using a cmake build system.

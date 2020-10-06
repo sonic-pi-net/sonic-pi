@@ -1,0 +1,1 @@
+python C:\\Users\\Ethan\\repos\\supercollider/tools/cmake_gen/generate_server_plugin_cmake.py -P "EmergentUGens" -p "plugins/EmergentUGens" -a "Ethan Crawford"

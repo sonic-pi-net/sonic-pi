@@ -144,6 +144,13 @@ ExternalProject_Add(aubio
     INSTALL_COMMAND ""
     )
 
+ExternalProject_Add(supercollider-plugins
+    PREFIX supercollider-plugins-prefix
+    SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/supercollider-plugins
+
+    CMAKE_ARGS -DSUPERNOVA=OFF
+    INSTALL_COMMAND ""
+    )
 # Kick off a generation by making a dummy/empty project
 add_library(AubioBuilder STATIC externals.cpp)
 

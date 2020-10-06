@@ -1,0 +1,35 @@
+language: cpp
+
+matrix:
+  include:
+    - os: linux
+      sudo: required
+      dist: trusty
+    - os: osx
+
+before_install:
+    - git clone --recursive --depth 1 https://github.com/supercollider/supercollider.git ../supercollider
+
+before_script:
+    - mkdir build
+    - cd build
+    - cmake -DCMAKE_INSTALL_PREFIX=_install -DCMAKE_BUILD_TYPE=Release -DCMAKE_PATH=../supercollider ..
+
+script:
+    - cmake --build . --target install
+
+before_deploy:
+    - mkdir -p $HOME/artifacts
+    - cd $TRAVIS_BUILD_DIR/build/_install
+    - zip -r --symlinks $HOME/artifacts/supercollider-plugins-$TRAVIS_OS_NAME-$TRAVIS_TAG.zip *
+
+deploy:
+    # github releases - only tags
+    - provider: releases
+      api_key: $GITHUB_TOKEN
+      file: $HOME/artifacts/supercollider-plugins-$TRAVIS_OS_NAME-$TRAVIS_TAG.zip
+      skip_cleanup: true
+      on:
+          condition: -n "$GITHUB_TOKEN"
+          tags: true
+          all_branches: true

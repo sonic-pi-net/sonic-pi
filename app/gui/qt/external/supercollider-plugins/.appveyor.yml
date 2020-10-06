@@ -1,0 +1,49 @@
+version: '{build}'
+
+clone_depth: 5
+
+# https://www.appveyor.com/docs/build-environment/#build-worker-images
+image: Visual Studio 2017
+
+test: off
+
+environment:
+    CMAKE_CONFIGURATION: Release
+
+    matrix:
+        - CMAKE_GENERATOR: "Visual Studio 15 2017"
+          ARCH: "x86"
+          # https://www.appveyor.com/docs/lang/cpp/
+          VCVARS_SCRIPT: "C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/VC/Auxiliary/Build/vcvars32.bat"
+
+        - CMAKE_GENERATOR: "Visual Studio 15 2017 Win64"
+          ARCH: "x64"
+          VCVARS_SCRIPT: "C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/VC/Auxiliary/Build/vcvars64.bat"
+
+install:
+# Load command-line tools (lib.exe)
+- cmd: call "%VCVARS_SCRIPT%"
+
+- cmd: echo "Get SuperCollider"
+- cmd: git clone --recursive --depth 1 https://github.com/supercollider/supercollider ../supercollider
+
+before_build:
+- mkdir build
+- cd build
+
+build_script:
+- cmake -G "%CMAKE_GENERATOR%" -DSC_PATH=../supercollider -DCMAKE_INSTALL_PREFIX=_install ..
+- cmake --build . --target install --config %CMAKE_CONFIGURATION%
+
+artifacts:
+- path: build\_install
+  name: supercollider-plugins-windows-$(ARCH)-$(APPVEYOR_REPO_TAG_NAME)
+
+# deploy:
+# - provider: GitHub
+#   description: A collection of plugins that generate audio signals using emergent behaviour algorithms - Release $(APPVEYOR_REPO_TAG_NAME)
+#   artifact: supercollider-plugins-windows-$(ARCH)-$(APPVEYOR_REPO_TAG_NAME)
+#   auth_token:
+#       secure: YOUR_TOKEN_HERE
+#   on:
+#       appveyor_repo_tag: true
