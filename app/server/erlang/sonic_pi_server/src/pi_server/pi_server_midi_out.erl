@@ -151,7 +151,7 @@ encode_midi_from_osc(<<Bin/binary>>) ->
                 _ ->
                     {error, mk_chan_out_of_bounds_err_str(OSC)}
             end;
-o
+
         {cmd, ["/raw", PortName | Data]} ->
             {ok, raw, PortName, list_to_binary(Data)};
 
