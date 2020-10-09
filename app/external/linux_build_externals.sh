@@ -13,4 +13,7 @@ cmake -DERLANG_INCLUDE_PATH=${ERLANG_INCLUDE_PATH} -G "Unix Makefiles" ..
 echo "Building external deps..."
 cmake --build . --config Release
 
+echo "Building supercollider-plugins..."
+cmake --build . --target supercollider-plugins
+
 cd "${SCRIPT_DIR}"
