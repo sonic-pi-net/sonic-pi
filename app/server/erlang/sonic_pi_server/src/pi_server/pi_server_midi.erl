@@ -70,6 +70,19 @@ init(Parent, CueServer) ->
 
     loop(State).
 
+mk_str(S, Args) ->
+    lists:flatten(io_lib:format(S, Args)).
+
+to_str(A) when is_list(A) ->
+    A;
+to_str(A) ->
+    mk_str("~p", [A]).
+
+mk_tau_str({tau, Kind, Event, Source, _}) ->
+    SourceStrings = [to_str(S) || S <- Source],
+    SourceStr = string:join(SourceStrings, ":"),
+    mk_str("~s/~s/~s", [Kind, Event, SourceStr]).
+
 loop(State) ->
     receive
         {send, Time, Data} ->
@@ -85,11 +98,9 @@ loop(State) ->
             ?MODULE:loop(State);
         {midi_in, PortName, <<Bin/binary>>} ->
             case pi_server_midi_in:info(PortName, Bin) of
-                {unknown, ErrStr} ->
-                    log(ErrStr);
-                {error, ErrStr} ->
-                    log(ErrStr);
-                {active_sensing, _, _} ->
+                {tau, error, _Reason, _Source, _Args}=Event ->
+                    log(mk_tau_str(Event));
+                {tau, midi, active_sensing, _, _} ->
                     %% # Ignore Active Sensing MIDI messages.
                     %% # This message is intended to be sent repeatedly to tell the receiver
                     %% # that a connection is alive.
@@ -97,7 +108,8 @@ loop(State) ->
                     %% # They quickly full up the Sonic Pi cue log.
                     %% # In the future it might be good to have this be optionally ignored
                     do_nothing;
-                {_, Path, Args} ->
+                {tau, midi, _Event, _Source, Args}=Event ->
+                    Path = mk_tau_str(Event),
                     maps:get(cue_server, State) ! {midi_in, Path, Args}
             end,
             ?MODULE:loop(State);
