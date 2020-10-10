@@ -169,7 +169,7 @@ void SonicPiAPIs::updateAutoCompletionList(const QStringList &context,
   } else if (first == "use_sample_defaults" || first == "with_sample_defaults") {
     if (last.endsWith(':')) return; // don't try to complete parameters
     ctx = SampleParam;
-  } else if ((first == "midi" || (first.startsWith("midi_"))) && last == "port:") {
+  } else if ((first == "midi" || (first.startsWith("midi_")) || (first == "use_midi_defaults") || (first == "with_midi_defaults")) && last == "port:") {
     ctx = MidiOuts;
   }  else if (words.length() >= 2 && first == "midi") {
     if (last.endsWith(':')) return; // don't try to complete parameters
