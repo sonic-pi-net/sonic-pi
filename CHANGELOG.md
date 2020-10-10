@@ -56,7 +56,7 @@
 ### Improvements
 * Many minor improvements to the documentation.
 * Unsent external MIDI messages are now flushed and no longer sent after hitting the Stop button.
-* The common mistake of calling both `play` and `sample` on the same line such as `play sample :loop_amen` is now an error with an appropriately helpful descirption to explain that `play` should be removed.
+* The common mistake of calling both `play` and `sample` on the same line such as `play sample :loop_amen` is now an error with an appropriately helpful description to explain that `play` should be removed.
 
 ### Bugfixes
 * Fix `pulse_width_curve:` and `pulse_width_slide:` opts which were incorrectly swapped on `pulse`, `subpulse` and `dpulse` synths.
