@@ -51,7 +51,6 @@
 * Sinhalese translation added.
 * GUI now has an exit menu option on Windows and Linux.
 * MIDI port names are now autocompleted.
-* Auto
 
 
 ### Improvements
