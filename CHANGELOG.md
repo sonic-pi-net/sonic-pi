@@ -25,28 +25,39 @@
 <a name="v3.3"></a>
 *To be released...*
 
+
 ### Breaking Changes
+* MIDI port description names may be slightly different from previous versions. Precise matches on MIDI ports via `sync` and `get` will have to be updated accordingly.
 
 
-### New Fns
+### New 
+* Completely new MIDI subsystem.
 * `use/with_random_stream` - change the current random stream used when selecting random values. We now have `:white`, `:light_pink`, `:pink`, `:dark_pink` and `:perlin`.  Default is `:white` which is the same stream as previous releases to preserve compatibility.
+* Many Turkish scales (makams) have been added.
 
 
 ### Synths & FX
-* New synth `:rodeo` - emulating an electric piano
-* New synth `:kalimba` - an African thumb piano
-* Add sliding to `:autotuner` FX opts `note:` and `formant_ratio:`
+* New synth `:rodeo` - emulating an electric piano.
+* New synth `:kalimba` - an African thumb piano.
+* Add sliding to `:autotuner` FX opts `note:` and `formant_ratio:`.
+* `mix`, `pre_mix` and `pre_amp` opts are now affected by `slide:`.
+
 
 ### GUI
 * New optional keyboard shortcuts for switching directly to a buffer. When enabled in the preferences S-M-1 (hold shift and Meta and the number 1) will jump to buffer 1. Meta is Cmd on macOS and alt on Windows/Linux.
+* Autocompletion system can now be enabled or disabled. This is intended to help those using screen readers for which the autocompletion system is currently incompatible. 
 * Sample listings in the help system now have a handy play button that allows you to preview them by clicking rather than having to write any code.
-* Minor improvements for Danish, Chinese, Swedish, Slovak, Italian, Korean, Dutch, Catalan, French, Norwegian translations.
+* Improvements for Catalan, Chinese, Danish, Dutch, French, German, Italian, Korean, Norwegian, Polish, Portuguese, Slovak, Swedish and Thai translations.
+* Sinhalese translation added.
 * GUI now has an exit menu option on Windows and Linux.
+* MIDI port names are now autocompleted.
+* Auto
 
 
 ### Improvements
 * Many minor improvements to the documentation.
 * Unsent external MIDI messages are now flushed and no longer sent after hitting the Stop button.
+* The common mistake of calling both `play` and `sample` on the same line such as `play sample :loop_amen` is now an error with an appropriately helpful descirption to explain that `play` should be removed.
 
 ### Bugfixes
 * Fix `pulse_width_curve:` and `pulse_width_slide:` opts which were incorrectly swapped on `pulse`, `subpulse` and `dpulse` synths.
@@ -54,6 +65,8 @@
 * Fix issue causing the incorrect error line to be highlighted in the GUI
 * Fix issue when syncing with cues with `-` symbols in their paths.
 * Fix bug with `use_merged_synth_defaults` after a call to `use_synth_defaults`. This bug was triggered in the "Sonic Dreams" example which now plays through correctly again.
+* MIDI device hotswapping (detecting whether devices were connected or disconnected) now works on macOS.
+* Fix `.take_last` to no longer return `nil` for min and max of the range.
 
 
 
