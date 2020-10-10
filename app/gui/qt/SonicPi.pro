@@ -91,22 +91,27 @@ HEADERS  += mainwindow.h \
             external/kiss_fft/kiss_fft.h
 
 TRANSLATIONS = lang/sonic-pi_bg.ts \
+            lang/sonic-pi_bn.ts \
     lang/sonic-pi_bs.ts \
                lang/sonic-pi_ca.ts \
+            lang/sonic-pi_ca@valencia.ts \
                lang/sonic-pi_cs.ts \
                lang/sonic-pi_da.ts \
                lang/sonic-pi_de.ts \
                lang/sonic-pi_el.ts \
                lang/sonic-pi_en_US.ts \
+            lang/sonic-pi_eo.ts \
                lang/sonic-pi_es.ts \
                lang/sonic-pi_et.ts \
     lang/sonic-pi_fa.ts \
                lang/sonic-pi_fi.ts \
                lang/sonic-pi_fr.ts \
+            lang/sonic-pi_ga.ts \
     lang/sonic-pi_gl.ts \
     lang/sonic-pi_he.ts \
                lang/sonic-pi_hi.ts \
                lang/sonic-pi_hu.ts \
+            lang/sonic-pi_hy.ts \
                lang/sonic-pi_id.ts \
                lang/sonic-pi_is.ts \
                lang/sonic-pi_it.ts \
@@ -120,9 +125,12 @@ TRANSLATIONS = lang/sonic-pi_bg.ts \
                lang/sonic-pi_pt_BR.ts \
                lang/sonic-pi_ro.ts \
                lang/sonic-pi_ru.ts \
+            lang/sonic-pi_si.ts \
     lang/sonic-pi_sk.ts \
     lang/sonic-pi_sl.ts \
                lang/sonic-pi_sv.ts \
+            lang/sonic-pi_sw.ts \
+            lang/sonic-pi_th.ts \
                lang/sonic-pi_tr.ts \
     lang/sonic-pi_ug.ts \
                lang/sonic-pi_uk.ts \
