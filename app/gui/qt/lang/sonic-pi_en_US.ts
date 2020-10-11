@@ -115,17 +115,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="2776"/>
         <source>Disabling OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>Disabling OSC cue port...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2785"/>
         <source>Enabling external OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>Enabling external OSC cue port...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2794"/>
         <source>Enabling internal OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>Enabling internal OSC cue port...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2852"/>
@@ -245,7 +245,7 @@ Apologies, a critical error occurred during startup</translation>
     <message>
         <location filename="../mainwindow.cpp" line="730"/>
         <source>Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Scope</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1504"/>
@@ -597,32 +597,32 @@ Get Sonic Pi %1</translation>
     <message>
         <location filename="../visualizer/scope.cpp" line="392"/>
         <source>Lissajous</source>
-        <translation type="unfinished"></translation>
+        <translation>Lissajous</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="393"/>
         <source>Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Left</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="394"/>
         <source>Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Right</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="395"/>
         <source>Mono</source>
-        <translation type="unfinished"></translation>
+        <translation>Mono</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="396"/>
         <source>Mirror Stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>Mirror Stereo</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="398"/>
         <source>Spectrum</source>
-        <translation type="unfinished"></translation>
+        <translation>Spectrum</translation>
     </message>
 </context>
 <context>
@@ -685,7 +685,9 @@ external PA systems when performing with Sonic Pi.</translation>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and vice versa.</source>
-        <translation type="unfinished"></translation>
+        <translation>Toggle stereo inversion.
+If enabled, audio sent to the left speaker will
+be routed to the right speaker and vice versa.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="91"/>
@@ -805,13 +807,14 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="165"/>
         <source>Send/Receive remote OSC messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Send/Receive remote OSC messages</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="166"/>
         <source>When checked, Sonic Pi will let you send and receive OSC messages to and from remote machines.
  When unchecked, only sending and receiving from the local machine will be enabled.</source>
-        <translation type="unfinished"></translation>
+        <translation>When checked, Sonic Pi will let you send and receive OSC messages to and from remote machines.
+ When unchecked, only sending and receiving from the local machine will be enabled.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="168"/>
