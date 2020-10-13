@@ -81,7 +81,7 @@ to_str(A) ->
 mk_tau_str({tau, Kind, Event, Source, _}) ->
     SourceStrings = [to_str(S) || S <- Source],
     SourceStr = string:join(SourceStrings, ":"),
-    mk_str("/~s/~s/~s", [Kind, SourceStr, Event]).
+    mk_str("/~s:~s/~s", [Kind, SourceStr, Event]).
 
 loop(State) ->
     receive
