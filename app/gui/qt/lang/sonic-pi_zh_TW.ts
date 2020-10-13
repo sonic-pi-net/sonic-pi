@@ -4,89 +4,89 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../mainwindow.cpp" line="504"/>
+        <location filename="../mainwindow.cpp" line="515"/>
         <source>Preferences</source>
         <translation>偏好設定</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="741"/>
+        <location filename="../mainwindow.cpp" line="751"/>
         <source>Log</source>
         <translation>日誌</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="172"/>
-        <location filename="../mainwindow.cpp" line="2431"/>
-        <location filename="../mainwindow.cpp" line="2450"/>
+        <location filename="../mainwindow.cpp" line="176"/>
+        <location filename="../mainwindow.cpp" line="2598"/>
+        <location filename="../mainwindow.cpp" line="2617"/>
         <source>Sonic Pi</source>
         <translation>Sonic Pi</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1498"/>
+        <location filename="../mainwindow.cpp" line="1553"/>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
         <translation>程式碼執行中……</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1518"/>
+        <location filename="../mainwindow.cpp" line="1573"/>
         <source>Beautifying...</source>
         <oldsource>Beautifying....</oldsource>
         <translation>美化...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1548"/>
+        <location filename="../mainwindow.cpp" line="1603"/>
         <source>Reloading...</source>
         <oldsource>Reloading....</oldsource>
         <translation>重新載入...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1579"/>
+        <location filename="../mainwindow.cpp" line="1634"/>
         <source>Enabling Mixer HPF...</source>
         <oldsource>Enabling Mixer HPF....</oldsource>
         <translation>啓用高通濾波器...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1588"/>
+        <location filename="../mainwindow.cpp" line="1643"/>
         <source>Disabling Mixer HPF...</source>
         <oldsource>Disabling Mixer HPF....</oldsource>
         <translation>禁用高通濾波器...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="460"/>
+        <location filename="../mainwindow.cpp" line="456"/>
         <source>Welcome to Sonic Pi</source>
         <translation>歡迎進入Sonic Pi的世界</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="978"/>
+        <location filename="../mainwindow.cpp" line="1026"/>
         <source>Indenting selection...</source>
         <translation>縮小選擇區域……</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="982"/>
+        <location filename="../mainwindow.cpp" line="1030"/>
         <source>Indenting line...</source>
         <translation>縮小此行……</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1011"/>
+        <location filename="../mainwindow.cpp" line="1059"/>
         <source>Toggle selection comment...</source>
         <translation>註解選擇區域……</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1015"/>
+        <location filename="../mainwindow.cpp" line="1063"/>
         <source>Toggle line comment...</source>
         <translation>註解當前行……</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1097"/>
+        <location filename="../mainwindow.cpp" line="1149"/>
         <source>The Sonic Pi Server could not be started!</source>
         <translation>Sonic Pi Server無法啓動！</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2707"/>
+        <location filename="../mainwindow.cpp" line="2899"/>
         <source>Visit http://sonic-pi.net to download new version</source>
         <translation>瀏覽http://sonic-pi.net下載新版本</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1265"/>
+        <location filename="../mainwindow.cpp" line="1318"/>
         <source>Sonic Pi Boot Error
 
 Apologies, a critical error occurred during startup</source>
@@ -95,498 +95,648 @@ Apologies, a critical error occurred during startup</source>
 抱歉，Sonic Pi啓動過程中發生嚴重錯誤</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1364"/>
-        <location filename="../mainwindow.cpp" line="1367"/>
-        <location filename="../mainwindow.cpp" line="1381"/>
-        <location filename="../mainwindow.cpp" line="1384"/>
+        <location filename="../mainwindow.cpp" line="1418"/>
+        <location filename="../mainwindow.cpp" line="1421"/>
+        <location filename="../mainwindow.cpp" line="1435"/>
+        <location filename="../mainwindow.cpp" line="1438"/>
         <source>Buffer files</source>
         <translation>Buffer文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1367"/>
+        <location filename="../mainwindow.cpp" line="1421"/>
         <source>Load Sonic Pi Buffer</source>
         <translation>開啟Sonic Pi Buffer文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1367"/>
-        <location filename="../mainwindow.cpp" line="1384"/>
+        <location filename="../mainwindow.cpp" line="1421"/>
+        <location filename="../mainwindow.cpp" line="1438"/>
         <source>Text files</source>
         <translation>文本文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1367"/>
-        <location filename="../mainwindow.cpp" line="1384"/>
+        <location filename="../mainwindow.cpp" line="1421"/>
+        <location filename="../mainwindow.cpp" line="1438"/>
         <source>Ruby files</source>
         <translation>Ruby文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1367"/>
-        <location filename="../mainwindow.cpp" line="1384"/>
+        <location filename="../mainwindow.cpp" line="1421"/>
+        <location filename="../mainwindow.cpp" line="1438"/>
         <source>All files</source>
         <translation>所有文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1795"/>
+        <location filename="../mainwindow.cpp" line="1851"/>
         <source>Log Auto Scroll on...</source>
         <translation>日誌窗口自動滾動開啓...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1797"/>
+        <location filename="../mainwindow.cpp" line="1853"/>
         <source>Log Auto Scroll off...</source>
         <translation>日誌窗口自動滾動關閉...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2053"/>
+        <location filename="../mainwindow.cpp" line="2147"/>
         <source>Run the code in the current buffer</source>
         <translation>執行當前編輯器窗口內的程式碼</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2075"/>
+        <location filename="../mainwindow.cpp" line="2169"/>
         <source>Load</source>
         <translation>載入</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2077"/>
+        <location filename="../mainwindow.cpp" line="2171"/>
         <source>Load an external file in the current buffer</source>
         <translation>載入外部文件到當前編輯器窗口</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2084"/>
+        <location filename="../mainwindow.cpp" line="2178"/>
         <source>Align code to improve readability</source>
         <translation>把程式碼對齊以便增進可讀性</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2088"/>
+        <location filename="../mainwindow.cpp" line="2182"/>
         <source>Text Size Up</source>
         <translation>放大字體</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2094"/>
+        <location filename="../mainwindow.cpp" line="2188"/>
         <source>Text Size Down</source>
         <translation>縮小字體</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2100"/>
+        <location filename="../mainwindow.cpp" line="2194"/>
         <source>Toggle Scope</source>
         <translation>範圍切換</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2102"/>
+        <location filename="../mainwindow.cpp" line="2196"/>
         <source>Toggle visibility of audio oscilloscope</source>
         <translation>切換音頻示波器的可見性</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2106"/>
-        <source>Show Info</source>
-        <translation>顯示訊息</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2112"/>
+        <location filename="../mainwindow.cpp" line="2206"/>
         <source>Toggle Help</source>
         <translation>切換幫助</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2118"/>
+        <location filename="../mainwindow.cpp" line="2212"/>
         <source>Toggle Preferences</source>
         <translation>切換偏好設定</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2149"/>
+        <location filename="../mainwindow.cpp" line="2243"/>
         <source>&amp;File</source>
         <translation>及文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2156"/>
+        <location filename="../mainwindow.cpp" line="2253"/>
         <source>&amp;Edit</source>
         <translation>及編輯</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2160"/>
+        <location filename="../mainwindow.cpp" line="2257"/>
         <source>&amp;Window</source>
         <translation>及視窗</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2263"/>
+        <location filename="../mainwindow.cpp" line="2424"/>
         <source>Wavefile (*.wav)</source>
         <translation>波形文件 (*.wav)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1695"/>
+        <location filename="../mainwindow.cpp" line="1750"/>
         <source>help visibility changed...</source>
         <translation>幫助是否可見已修改...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2740"/>
-        <source>Enabling MIDI...</source>
-        <translation>正在啟用 MIDI...</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2748"/>
-        <source>Disabling MIDI...</source>
-        <translation>正在停用 MIDI...</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2760"/>
+        <location filename="../mainwindow.cpp" line="2950"/>
         <source>Resetting MIDI...</source>
         <translation>正在重設 MIDI...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2765"/>
+        <location filename="../mainwindow.cpp" line="2955"/>
         <source>MIDI is disabled...</source>
         <translation>MIDI 已停用...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2808"/>
+        <location filename="../mainwindow.cpp" line="2998"/>
         <source>Welcome back. Now get your live code on...</source>
         <translation>歡迎回來。現在加載你的程式碼...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1384"/>
+        <location filename="../mainwindow.cpp" line="1438"/>
         <source>Save Current Buffer</source>
         <translation>保存當前編輯器窗口程式碼</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="747"/>
+        <location filename="../mainwindow.cpp" line="757"/>
         <source>Cues</source>
         <translation>標記</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="842"/>
+        <location filename="../mainwindow.cpp" line="890"/>
         <source>Full screen mode on.</source>
         <translation>開啟全螢幕模式。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="859"/>
+        <location filename="../mainwindow.cpp" line="907"/>
         <source>Full screen mode off.</source>
         <translation>關閉全螢幕模式。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2746"/>
-        <location filename="../mainwindow.cpp" line="2758"/>
+        <location filename="../mainwindow.cpp" line="2948"/>
         <source>No connected input devices</source>
         <translation>沒有已連線的輸入裝置</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2747"/>
-        <location filename="../mainwindow.cpp" line="2759"/>
+        <location filename="../mainwindow.cpp" line="2949"/>
         <source>No connected output devices</source>
         <translation>沒有已連線的輸出裝置</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1504"/>
+        <location filename="../mainwindow.cpp" line="1559"/>
         <source>Zooming In...</source>
         <translation>放大...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="730"/>
+        <location filename="../mainwindow.cpp" line="740"/>
         <source>Scope</source>
         <translation>作用域</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1511"/>
+        <location filename="../mainwindow.cpp" line="859"/>
+        <source>Playing Sample...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1566"/>
         <source>Zooming Out...</source>
         <translation>縮小...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1555"/>
+        <location filename="../mainwindow.cpp" line="1610"/>
         <source>Checking for updates...</source>
         <translation>檢查更新...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1563"/>
+        <location filename="../mainwindow.cpp" line="1618"/>
         <source>Enabling update checking...</source>
         <translation>開啓更新檢查...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1571"/>
+        <location filename="../mainwindow.cpp" line="1626"/>
         <source>Disabling update checking...</source>
         <translation>關閉更新檢查...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1596"/>
+        <location filename="../mainwindow.cpp" line="1651"/>
         <source>Enabling Mixer LPF...</source>
         <oldsource>Enabling Mixer LPF....</oldsource>
         <translation>啓用低通濾波器...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1605"/>
+        <location filename="../mainwindow.cpp" line="1660"/>
         <source>Disabling Mixer LPF...</source>
         <oldsource>Disabling Mixer LPF....</oldsource>
         <translation>停用低通濾波器...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1613"/>
+        <location filename="../mainwindow.cpp" line="1668"/>
         <source>Enabling Inverted Stereo...</source>
         <oldsource>Enabling Inverted Stereo....</oldsource>
         <translation>啓用反轉立體聲...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1621"/>
+        <location filename="../mainwindow.cpp" line="1676"/>
         <source>Enabling Standard Stereo...</source>
         <oldsource>Enabling Standard Stereo....</oldsource>
         <translation>啓用標准立體聲...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1629"/>
+        <location filename="../mainwindow.cpp" line="1684"/>
         <source>Mono Mode...</source>
         <oldsource>Mono Mode....</oldsource>
         <translation>單聲道模式...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1637"/>
+        <location filename="../mainwindow.cpp" line="1692"/>
         <source>Stereo Mode...</source>
         <oldsource>Stereo Mode....</oldsource>
         <translation>立體聲模式...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1646"/>
+        <location filename="../mainwindow.cpp" line="1701"/>
         <source>Stopping...</source>
         <translation>終止當前任務...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1753"/>
+        <location filename="../mainwindow.cpp" line="1808"/>
         <source>Updating System Volume...</source>
         <translation>更新系統音量...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1826"/>
+        <location filename="../mainwindow.cpp" line="1882"/>
         <source>Colour Theme: </source>
         <translation>色彩主題 </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2065"/>
+        <location filename="../mainwindow.cpp" line="1958"/>
+        <source>Show autocompletion on</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1960"/>
+        <source>Show autocompletion off</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2140"/>
+        <source>Exit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2159"/>
         <source>Start recording to a WAV audio file</source>
         <translation>開始錄製為 WAV 音訊檔</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2069"/>
+        <location filename="../mainwindow.cpp" line="2163"/>
         <source>Save</source>
         <translation>儲存</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2071"/>
+        <location filename="../mainwindow.cpp" line="2165"/>
         <source>Save current buffer as an external file</source>
         <translation>儲存當前編輯器窗口至外部文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2114"/>
+        <location filename="../mainwindow.cpp" line="2200"/>
+        <source>Toggle Info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2202"/>
+        <source>Toggle information about Sonic Pi</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2208"/>
         <source>Toggle the visibility of the help pane</source>
         <translation>切換說明面板的可見度</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2120"/>
+        <location filename="../mainwindow.cpp" line="2214"/>
         <source>Toggle the visibility of the preferences pane</source>
         <translation>切換偏好設定面板的可見度</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2285"/>
+        <location filename="../mainwindow.cpp" line="2266"/>
+        <source>Focus Editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2268"/>
+        <source>Place focus on the code editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2272"/>
+        <source>Focus Logs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2274"/>
+        <source>Place focus on the log pane</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2278"/>
+        <source>Focus Cues</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2280"/>
+        <source>Place focus on the cue event pane</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2284"/>
+        <source>Focus Preferences</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2286"/>
+        <source>Place focus on preferences</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2290"/>
+        <source>Focus Help Listing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2292"/>
+        <source>Place focus on help listing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2296"/>
+        <source>Focus Help Details</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2298"/>
+        <source>Place focus on help details</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2302"/>
+        <source>Focus Errors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2304"/>
+        <source>Place focus on errors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2446"/>
         <source>Ready...</source>
         <translation>就緒...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2443"/>
+        <location filename="../mainwindow.cpp" line="2610"/>
         <source>File loaded...</source>
         <translation>文件已加載...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2469"/>
+        <location filename="../mainwindow.cpp" line="2636"/>
         <source>File saved...</source>
         <translation>文件已保存...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2693"/>
+        <location filename="../mainwindow.cpp" line="2885"/>
         <source>Last checked %1</source>
         <translation>上次檢查 %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2695"/>
+        <location filename="../mainwindow.cpp" line="2887"/>
         <source>Sonic Pi checks for updates
 every two weeks.</source>
         <translation>Sonic Pi每兩周檢查一次更新。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2697"/>
+        <location filename="../mainwindow.cpp" line="2889"/>
         <source>This is Sonic Pi %1</source>
         <translation>這是Sonic Pi %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2698"/>
+        <location filename="../mainwindow.cpp" line="2890"/>
         <source>Version %2 is now available!</source>
         <translation>新版本 %2 已經就緒，可供下載！</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2702"/>
+        <location filename="../mainwindow.cpp" line="2894"/>
         <source>New version available!
 Get Sonic Pi %1</source>
         <translation>發現新版本！
         獲取Sonic Pi %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2776"/>
+        <location filename="../mainwindow.cpp" line="2932"/>
+        <source>Enabling MIDI input...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2938"/>
+        <source>Disabling MIDI input...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2966"/>
         <source>Disabling OSC cue port...</source>
         <translation>禁用 OSC 提示端口...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2785"/>
+        <location filename="../mainwindow.cpp" line="2975"/>
         <source>Enabling external OSC cue port...</source>
         <translation>啟用 OSC 提示端口...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2794"/>
+        <location filename="../mainwindow.cpp" line="2984"/>
         <source>Enabling internal OSC cue port...</source>
         <translation>啟用內部 OSC 提示端口...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2852"/>
+        <location filename="../mainwindow.cpp" line="3042"/>
         <source>Connected MIDI inputs</source>
         <translation>已連線的 MIDI 輸入</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2857"/>
+        <location filename="../mainwindow.cpp" line="3047"/>
         <source>Connected MIDI outputs</source>
         <translation>已連線的 MIDI 輸出</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2051"/>
+        <location filename="../mainwindow.cpp" line="2145"/>
         <source>Run</source>
         <translation>執行</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2057"/>
+        <location filename="../mainwindow.cpp" line="2151"/>
         <source>Stop</source>
         <translation>停止</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2059"/>
+        <location filename="../mainwindow.cpp" line="2153"/>
         <source>Stop all running code</source>
         <translation>停止所有程式碼執行</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2108"/>
-        <source>See information about Sonic Pi</source>
-        <translation>查看Sonic Pi相關信息</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="790"/>
+        <location filename="../mainwindow.cpp" line="809"/>
         <source>Help</source>
         <translation>幫助</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1265"/>
+        <location filename="../mainwindow.cpp" line="1318"/>
         <source>Server boot error...</source>
         <translation>服務器啓動錯誤...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1265"/>
+        <location filename="../mainwindow.cpp" line="1318"/>
         <source>Please consider reporting a bug at</source>
         <translation>你可以報告這個bug</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2063"/>
-        <location filename="../mainwindow.cpp" line="2255"/>
+        <location filename="../mainwindow.cpp" line="2157"/>
+        <location filename="../mainwindow.cpp" line="2416"/>
         <source>Start Recording</source>
         <translation>開始錄制</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2082"/>
+        <location filename="../mainwindow.cpp" line="2176"/>
         <source>Auto-Align Text</source>
         <oldsource>Auto Align Text</oldsource>
         <translation>自動對齊</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2090"/>
+        <location filename="../mainwindow.cpp" line="2184"/>
         <source>Increase Text Size</source>
         <translation>放大字體</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2096"/>
+        <location filename="../mainwindow.cpp" line="2190"/>
         <source>Decrease Text Size</source>
         <translation>縮小字體</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2126"/>
+        <location filename="../mainwindow.cpp" line="2220"/>
         <source>Tools</source>
         <translation>工具</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2194"/>
+        <location filename="../mainwindow.cpp" line="2343"/>
         <source>About</source>
         <translation>關於</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2196"/>
+        <location filename="../mainwindow.cpp" line="2345"/>
         <source>Core Team</source>
         <translation>核心團隊</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2197"/>
+        <location filename="../mainwindow.cpp" line="2346"/>
         <source>Contributors</source>
         <translation>項目參與者</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2195"/>
+        <location filename="../mainwindow.cpp" line="2344"/>
         <source>Community</source>
         <translation>社群</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="430"/>
+        <location filename="../mainwindow.cpp" line="426"/>
         <source>Studio Mode Enabled. Thank-you for supporting Sonic Pi.</source>
         <translation>工作室模式啟動。感謝您支持 Sonic Pi。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="434"/>
+        <location filename="../mainwindow.cpp" line="430"/>
         <source>No Matching Studio Hash Found...</source>
         <translation>無符合的工作室雜湊值...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="670"/>
+        <location filename="../mainwindow.cpp" line="681"/>
         <source>| %1 |</source>
         <translation>| %1 |</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2198"/>
+        <location filename="../mainwindow.cpp" line="2347"/>
         <source>License</source>
         <translation>許可證</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2199"/>
+        <location filename="../mainwindow.cpp" line="2348"/>
         <source>History</source>
         <translation>歷史</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2219"/>
+        <location filename="../mainwindow.cpp" line="2380"/>
         <source>Sonic Pi - Info</source>
         <translation>Sonic Pi - 信息</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2245"/>
+        <location filename="../mainwindow.cpp" line="2406"/>
         <source>Stop Recording</source>
         <translation>停止錄制</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2263"/>
+        <location filename="../mainwindow.cpp" line="2424"/>
         <source>Save Recording</source>
         <translation>保存錄音</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2432"/>
+        <location filename="../mainwindow.cpp" line="2599"/>
         <source>Cannot read file %1:
 %2.</source>
         <translation>無法讀取文件 %1:
         %2.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2451"/>
+        <location filename="../mainwindow.cpp" line="2618"/>
         <source>Cannot write file %1:
 %2.</source>
         <translation>無法寫入文件 %1:
         %2.</translation>
     </message>
+    <message>
+        <location filename="../utils/ruby_help.h" line="117"/>
+        <location filename="../utils/ruby_help.h" line="214"/>
+        <location filename="../utils/ruby_help.h" line="311"/>
+        <location filename="../utils/ruby_help.h" line="408"/>
+        <location filename="../utils/ruby_help.h" line="505"/>
+        <location filename="../utils/ruby_help.h" line="601"/>
+        <location filename="../utils/ruby_help.h" line="698"/>
+        <location filename="../utils/ruby_help.h" line="795"/>
+        <location filename="../utils/ruby_help.h" line="892"/>
+        <location filename="../utils/ruby_help.h" line="989"/>
+        <location filename="../utils/ruby_help.h" line="1085"/>
+        <location filename="../utils/ruby_help.h" line="1182"/>
+        <location filename="../utils/ruby_help.h" line="1279"/>
+        <location filename="../utils/ruby_help.h" line="1376"/>
+        <location filename="../utils/ruby_help.h" line="1473"/>
+        <location filename="../utils/ruby_help.h" line="1570"/>
+        <location filename="../utils/ruby_help.h" line="1667"/>
+        <location filename="../utils/ruby_help.h" line="1764"/>
+        <location filename="../utils/ruby_help.h" line="1861"/>
+        <location filename="../utils/ruby_help.h" line="1958"/>
+        <location filename="../utils/ruby_help.h" line="2055"/>
+        <location filename="../utils/ruby_help.h" line="2152"/>
+        <location filename="../utils/ruby_help.h" line="2249"/>
+        <location filename="../utils/ruby_help.h" line="2346"/>
+        <location filename="../utils/ruby_help.h" line="2443"/>
+        <location filename="../utils/ruby_help.h" line="2540"/>
+        <location filename="../utils/ruby_help.h" line="2635"/>
+        <location filename="../utils/ruby_help.h" line="2732"/>
+        <location filename="../utils/ruby_help.h" line="2829"/>
+        <location filename="../utils/ruby_help.h" line="2926"/>
+        <location filename="../utils/ruby_help.h" line="3023"/>
+        <location filename="../utils/ruby_help.h" line="3120"/>
+        <location filename="../utils/ruby_help.h" line="3217"/>
+        <source>Tutorial</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/ruby_help.h" line="3252"/>
+        <source>Examples</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/ruby_help.h" line="3303"/>
+        <source>Synths</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/ruby_help.h" line="3352"/>
+        <source>Fx</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/ruby_help.h" line="3373"/>
+        <source>Samples</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/ruby_help.h" line="3628"/>
+        <source>Lang</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../main.cpp" line="58"/>
+        <location filename="../main.cpp" line="59"/>
         <source>Sonic Pi</source>
         <translation>Sonic Pi</translation>
     </message>
@@ -627,60 +777,55 @@ Get Sonic Pi %1</source>
 <context>
     <name>SettingsWidget</name>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="31"/>
+        <location filename="../widgets/settingswidget.cpp" line="32"/>
         <source>Audio</source>
         <translation>音頻</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="34"/>
+        <location filename="../widgets/settingswidget.cpp" line="35"/>
         <source>IO</source>
         <translation>IO 輸入輸出</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="37"/>
+        <location filename="../widgets/settingswidget.cpp" line="38"/>
         <source>Editor</source>
         <translation>編輯器</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="40"/>
+        <location filename="../widgets/settingswidget.cpp" line="41"/>
         <source>Visuals</source>
         <translation>視覺效果</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="43"/>
-        <location filename="../widgets/settingswidget.cpp" line="409"/>
+        <location filename="../widgets/settingswidget.cpp" line="44"/>
+        <location filename="../widgets/settingswidget.cpp" line="427"/>
         <source>Updates</source>
         <translation>軟體更新</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="80"/>
-        <source>Master Volume</source>
-        <translation>主音量</translation>
-    </message>
-    <message>
-        <location filename="../widgets/settingswidget.cpp" line="81"/>
+        <location filename="../widgets/settingswidget.cpp" line="87"/>
         <source>Use this slider to change the system volume.</source>
         <translation>使用滑桿來變更系統音量。</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="87"/>
+        <location filename="../widgets/settingswidget.cpp" line="93"/>
         <source>Audio Output</source>
         <translation>音訊輸出</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="88"/>
+        <location filename="../widgets/settingswidget.cpp" line="94"/>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
         <translation>使用外部 PA 系統進行表演時
 進行高級音量設定。</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="89"/>
+        <location filename="../widgets/settingswidget.cpp" line="95"/>
         <source>Invert stereo</source>
         <translation>反轉立體聲</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="90"/>
+        <location filename="../widgets/settingswidget.cpp" line="96"/>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and vice versa.</source>
@@ -689,12 +834,12 @@ be routed to the right speaker and vice versa.</source>
 被送入右揚聲器，反之亦然。</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="91"/>
+        <location filename="../widgets/settingswidget.cpp" line="97"/>
         <source>Force mono</source>
         <translation>強制使用單聲道</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="92"/>
+        <location filename="../widgets/settingswidget.cpp" line="98"/>
         <source>Toggle mono mode.
 If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
@@ -706,22 +851,22 @@ can only handle mono.</source>
 該選項對於只能處理單聲道信號的輸出對象裝置相當有用。</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="101"/>
+        <location filename="../widgets/settingswidget.cpp" line="107"/>
         <source>Synths and FX</source>
         <translation type="unfinished">合成器與效果器</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="102"/>
+        <location filename="../widgets/settingswidget.cpp" line="108"/>
         <source>Modify behaviour of synths and FX</source>
         <translation>修改合成器和效果器參數</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="104"/>
+        <location filename="../widgets/settingswidget.cpp" line="110"/>
         <source>Safe mode</source>
         <translation>安全模式</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="105"/>
+        <location filename="../widgets/settingswidget.cpp" line="111"/>
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
@@ -729,12 +874,12 @@ create unexpectedly loud or uncomfortable sounds.</source>
 取消該選項時，某些合成器在應用不合理的參數值時將可能產生不可預知的大信號或不舒服的聲音信號。</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="107"/>
+        <location filename="../widgets/settingswidget.cpp" line="113"/>
         <source>Enforce timing guarantees</source>
         <translation type="unfinished">強制精確計時</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="108"/>
+        <location filename="../widgets/settingswidget.cpp" line="114"/>
         <source>When enabled, Sonic Pi will refuse
 to trigger synths and FX if
 it is too late to do so
@@ -746,12 +891,7 @@ even when a little late.</source>
 取消該選項時，即使發生延遲，Sonic Pi也將嘗試觸發合成器和效果器。</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="110"/>
-        <source>Enable external synths and FX</source>
-        <translation type="unfinished">允許外部合成器和效果器</translation>
-    </message>
-    <message>
-        <location filename="../widgets/settingswidget.cpp" line="111"/>
+        <location filename="../widgets/settingswidget.cpp" line="117"/>
         <source>When enabled, Sonic Pi will allow
 synths and FX loaded via load_synthdefs
 to be triggered.
@@ -763,120 +903,89 @@ which isn&apos;t recognised.</source>
 取消該選項時，Sonic Pi將在嘗試載入未被識別的合成器或效果器時發出警告。</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="135"/>
+        <location filename="../widgets/settingswidget.cpp" line="141"/>
         <source>Networked OSC</source>
         <translation type="unfinished">網路OSC</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="136"/>
+        <location filename="../widgets/settingswidget.cpp" line="142"/>
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
         <translation type="unfinished">Sonic Pi 可以透過當下連接的網路向其他程式或電腦發送/接收 Open Sound Control 訊息。</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="139"/>
+        <location filename="../widgets/settingswidget.cpp" line="145"/>
         <source>Local IP address</source>
         <translation type="unfinished">本機 IP 位址</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="140"/>
-        <source>Listening for OSC messages on port</source>
-        <translation type="unfinished">正在監聽連接埠上的 OSC 訊息</translation>
-    </message>
-    <message>
-        <location filename="../widgets/settingswidget.cpp" line="159"/>
+        <location filename="../widgets/settingswidget.cpp" line="165"/>
         <source>Unavailable</source>
         <translation type="unfinished">不可用</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="165"/>
-        <source>Send/Receive remote OSC messages</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../widgets/settingswidget.cpp" line="166"/>
+        <location filename="../widgets/settingswidget.cpp" line="172"/>
         <source>When checked, Sonic Pi will let you send and receive OSC messages to and from remote machines.
  When unchecked, only sending and receiving from the local machine will be enabled.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="168"/>
+        <location filename="../widgets/settingswidget.cpp" line="174"/>
         <source>Enable OSC server</source>
         <translation type="unfinished">啟用 OSC 伺服器</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="169"/>
+        <location filename="../widgets/settingswidget.cpp" line="175"/>
         <source>When checked, Sonic Pi will listen for OSC messages.
  When unchecked no OSC messages will be received.</source>
         <translation type="unfinished">當勾選時，Sonic Pi 將會監聽 OSC 訊息。
 當取消勾選時，將不會接收 OSC 訊息。</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="177"/>
+        <location filename="../widgets/settingswidget.cpp" line="183"/>
         <source>MIDI Configuration</source>
         <translation type="unfinished">MIDI設定</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="178"/>
+        <location filename="../widgets/settingswidget.cpp" line="184"/>
         <source>Configure MIDI behaviour</source>
         <translation type="unfinished">設定 MIDI 行為</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="180"/>
+        <location filename="../widgets/settingswidget.cpp" line="186"/>
         <source>MIDI Ports</source>
         <translation type="unfinished">MIDI連接埠</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="181"/>
+        <location filename="../widgets/settingswidget.cpp" line="187"/>
         <source>List all connected MIDI Ports</source>
         <translation type="unfinished">已連接的MIDI連接埠列表</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="183"/>
-        <source>Enable MIDI subsystems</source>
-        <translation type="unfinished">啟用 MIDI 子系統</translation>
-    </message>
-    <message>
-        <location filename="../widgets/settingswidget.cpp" line="184"/>
-        <source>Enable or disable incoming and outgoing MIDI communication</source>
-        <translation type="unfinished">啟用或停用連入或連出的 MIDI 通訊</translation>
-    </message>
-    <message>
-        <location filename="../widgets/settingswidget.cpp" line="186"/>
+        <location filename="../widgets/settingswidget.cpp" line="192"/>
         <source>Reset MIDI</source>
         <translation type="unfinished">重設 MIDI</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="187"/>
+        <location filename="../widgets/settingswidget.cpp" line="194"/>
         <source>Reset MIDI subsystems 
 (Required to detect device changes on macOS)</source>
         <translation type="unfinished">重設 MIDI 子系統
 （在 macOS 上需要偵測裝置變更）</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="213"/>
-        <source>Default MIDI channel (* means all)</source>
-        <translation type="unfinished">預設 MIDI 頻道（* 代表全部）</translation>
-    </message>
-    <message>
-        <location filename="../widgets/settingswidget.cpp" line="214"/>
-        <location filename="../widgets/settingswidget.cpp" line="218"/>
-        <source>Default MIDI Channel to send messages to</source>
-        <translation type="unfinished">預設的 MIDI 頻道以傳送訊息給</translation>
-    </message>
-    <message>
-        <location filename="../widgets/settingswidget.cpp" line="229"/>
+        <location filename="../widgets/settingswidget.cpp" line="236"/>
         <source>No connected input devices</source>
         <translation type="unfinished">沒有已連線的輸入裝置</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="230"/>
+        <location filename="../widgets/settingswidget.cpp" line="237"/>
         <source>No connected output devices</source>
         <translation type="unfinished">沒有已連線的輸出裝置</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="231"/>
+        <location filename="../widgets/settingswidget.cpp" line="238"/>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
@@ -885,153 +994,218 @@ Sonic Pi 並接收為標記活動
 （類似連入的 OSC 訊息與內部標記）</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="232"/>
+        <location filename="../widgets/settingswidget.cpp" line="239"/>
         <source>MIDI output devices receive MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
         <translation type="unfinished">MIDI輸出裝置可以直接從Sonic Pi接收以midi_* 函式形式發送的MIDI訊號</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="262"/>
+        <location filename="../widgets/settingswidget.cpp" line="272"/>
         <source>Show and Hide</source>
         <translation type="unfinished">顯示/隱藏</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="263"/>
+        <location filename="../widgets/settingswidget.cpp" line="273"/>
         <source>Configure editor display options.</source>
         <translation type="unfinished">設定編輯器顯示選項。</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="264"/>
+        <location filename="../widgets/settingswidget.cpp" line="274"/>
         <source>Look and Feel</source>
         <translation type="unfinished">外觀</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="265"/>
+        <location filename="../widgets/settingswidget.cpp" line="275"/>
         <source>Configure editor look and feel.</source>
         <translation type="unfinished">設定程式碼編輯器外觀。</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="266"/>
-        <source>Automation</source>
-        <translation type="unfinished">自動化</translation>
+        <location filename="../widgets/settingswidget.cpp" line="86"/>
+        <source>Main Volume</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="267"/>
-        <source>Configure automation features.</source>
-        <translation type="unfinished">設定自動化選項。</translation>
+        <location filename="../widgets/settingswidget.cpp" line="116"/>
+        <source>Enable external synths/FX</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="269"/>
+        <location filename="../widgets/settingswidget.cpp" line="146"/>
+        <source>Incoming OSC port</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../widgets/settingswidget.cpp" line="171"/>
+        <source>Send/Receive remote OSC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../widgets/settingswidget.cpp" line="189"/>
+        <source>Enable incoming MIDI cues</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../widgets/settingswidget.cpp" line="190"/>
+        <source>Enable or disable automatic conversion of incoming MIDI messages to cue events</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../widgets/settingswidget.cpp" line="220"/>
+        <source>Default MIDI channel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../widgets/settingswidget.cpp" line="221"/>
+        <source>Default MIDI Channel to send messages to (* means all)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../widgets/settingswidget.cpp" line="225"/>
+        <source>Default MIDI Channel to send messages to  (* means all)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../widgets/settingswidget.cpp" line="276"/>
+        <source>Automation / Misc</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../widgets/settingswidget.cpp" line="277"/>
+        <source>Configure automation and other features.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../widgets/settingswidget.cpp" line="279"/>
         <source>Auto-align</source>
         <translation type="unfinished">自動對齊</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="270"/>
+        <location filename="../widgets/settingswidget.cpp" line="280"/>
         <source>Automatically align code on Run</source>
         <translation type="unfinished">執行時自動對齊程式碼</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="272"/>
+        <location filename="../widgets/settingswidget.cpp" line="282"/>
         <source>Show line numbers</source>
         <translation type="unfinished">顯示行號</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="273"/>
+        <location filename="../widgets/settingswidget.cpp" line="283"/>
         <source>Toggle line number visibility.</source>
         <translation type="unfinished">切換是否顯示行號。</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="274"/>
+        <location filename="../widgets/settingswidget.cpp" line="285"/>
+        <source>Show AutoCompletion</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../widgets/settingswidget.cpp" line="286"/>
+        <source>When enabled, Sonic Pi&apos;s editor will attempt to autocomplete your code with suggestions. When disabled, these suggestions will not be visible.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../widgets/settingswidget.cpp" line="288"/>
         <source>Show log</source>
         <translation type="unfinished">顯示日誌</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="275"/>
+        <location filename="../widgets/settingswidget.cpp" line="289"/>
         <source>Toggle visibility of the log.</source>
         <translation type="unfinished">切換是否顯示日誌。</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="278"/>
+        <location filename="../widgets/settingswidget.cpp" line="292"/>
         <source>Show cue log</source>
         <translation type="unfinished">顯示標記紀錄</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="279"/>
+        <location filename="../widgets/settingswidget.cpp" line="293"/>
         <source>Toggle visibility of cue log which displays internal cues &amp; incoming OSC/MIDI messages.</source>
         <translation type="unfinished">切換顯內部標記與連入 OSC/MIDI 訊息標記紀錄的可見性。</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="282"/>
+        <location filename="../widgets/settingswidget.cpp" line="296"/>
         <source>Show buttons</source>
         <translation type="unfinished">顯示控制按鈕</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="283"/>
+        <location filename="../widgets/settingswidget.cpp" line="297"/>
         <source>Toggle visibility of the control buttons.</source>
         <translation type="unfinished">切換是否顯示控制按鈕。</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="285"/>
+        <location filename="../widgets/settingswidget.cpp" line="299"/>
         <source>Show tabs</source>
         <translation type="unfinished">顯示分頁</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="287"/>
+        <location filename="../widgets/settingswidget.cpp" line="301"/>
         <source>Toggle visibility of the buffer selection tabs.</source>
         <translation type="unfinished">切換是否顯示編輯器窗口Buffer選擇分頁。</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="288"/>
+        <location filename="../widgets/settingswidget.cpp" line="302"/>
         <source>Full screen</source>
         <translation type="unfinished">全螢幕模式</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="289"/>
+        <location filename="../widgets/settingswidget.cpp" line="303"/>
         <source>Toggle full screen mode.</source>
         <translation type="unfinished">打開/關閉全螢幕模式。</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="292"/>
+        <location filename="../widgets/settingswidget.cpp" line="304"/>
+        <source>Go to buffer shortcuts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../widgets/settingswidget.cpp" line="305"/>
+        <source>Use C-M-0 .. C-M-9 to go to buffer directly</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../widgets/settingswidget.cpp" line="308"/>
         <source>Light</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="293"/>
+        <location filename="../widgets/settingswidget.cpp" line="309"/>
         <source>Dark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="294"/>
+        <location filename="../widgets/settingswidget.cpp" line="310"/>
         <source>Pro Light</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="295"/>
+        <location filename="../widgets/settingswidget.cpp" line="311"/>
         <source>Pro Dark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="296"/>
+        <location filename="../widgets/settingswidget.cpp" line="312"/>
         <source>High Contrast</source>
         <translation>高對比</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="326"/>
+        <location filename="../widgets/settingswidget.cpp" line="344"/>
         <source>Logging</source>
         <translation type="unfinished">日誌</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="327"/>
+        <location filename="../widgets/settingswidget.cpp" line="345"/>
         <source>Configure debug behaviour</source>
         <translation type="unfinished">配置除錯模式</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="329"/>
+        <location filename="../widgets/settingswidget.cpp" line="347"/>
         <source>Log synths</source>
         <translation type="unfinished">記錄合成</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="330"/>
+        <location filename="../widgets/settingswidget.cpp" line="348"/>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
@@ -1039,12 +1213,12 @@ triggering will not be printed to the log by default.</source>
 取消該選項時，合成器和取樣事件觸發的信息默認將不在日誌視窗中顯示。</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="332"/>
+        <location filename="../widgets/settingswidget.cpp" line="350"/>
         <source>Clear log on run</source>
         <translation type="unfinished">重新執行時清空日誌</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="333"/>
+        <location filename="../widgets/settingswidget.cpp" line="351"/>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
@@ -1052,12 +1226,12 @@ time the run button is pressed.</source>
 選中該選項時，每次執行按鈕被按下時，log日誌窗口將自動清空所有訊息。</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="335"/>
+        <location filename="../widgets/settingswidget.cpp" line="353"/>
         <source>Log cues</source>
         <translation type="unfinished">記錄提示</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="336"/>
+        <location filename="../widgets/settingswidget.cpp" line="354"/>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
@@ -1065,113 +1239,110 @@ However, they will not be visible in the logs.</source>
 取消該選項時，提示訊息仍能夠被觸發，但將不在出現在日誌中。</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="338"/>
+        <location filename="../widgets/settingswidget.cpp" line="356"/>
         <source>Auto-scroll log</source>
         <translation type="unfinished">自動捲動紀錄</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="339"/>
+        <location filename="../widgets/settingswidget.cpp" line="357"/>
         <source>Toggle log auto scrolling.
 If enabled the log is scrolled to the bottom after every new message is displayed.</source>
         <translation type="unfinished">日誌自動捲動開關。
 打開該選項，控制台中新的消息出現時將自動捲動日誌到底部。</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="362"/>
+        <location filename="../widgets/settingswidget.cpp" line="380"/>
         <source>Settings useful for performing with Sonic Pi</source>
         <translation type="unfinished">表演用設置</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="366"/>
+        <location filename="../widgets/settingswidget.cpp" line="384"/>
         <source>Show and Hide Scope</source>
         <translation type="unfinished">顯示與隱藏波形</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="367"/>
+        <location filename="../widgets/settingswidget.cpp" line="385"/>
         <source>Scope Kinds</source>
         <translation type="unfinished">波形種類</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="375"/>
+        <location filename="../widgets/settingswidget.cpp" line="393"/>
         <source>Show Scopes</source>
         <translation type="unfinished">顯示波形</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="376"/>
+        <location filename="../widgets/settingswidget.cpp" line="394"/>
         <source>Toggle the visibility of the audio oscilloscopes.</source>
         <translation type="unfinished">切換音訊示波器的可見性。</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="377"/>
-        <source>Show Axes</source>
-        <translation type="unfinished">顯示波形軸</translation>
+        <location filename="../widgets/settingswidget.cpp" line="395"/>
+        <source>Show Labels</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="378"/>
-        <source>Toggle the visibility of the axes for the audio oscilloscopes</source>
-        <translation type="unfinished">切換音訊示波器軸的可見性</translation>
+        <location filename="../widgets/settingswidget.cpp" line="396"/>
+        <source>Toggle the visibility of the labels for the audio oscilloscopes</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="381"/>
-        <source>The audio oscilloscope comes in three flavours which may
+        <location filename="../widgets/settingswidget.cpp" line="399"/>
+        <source>The audio oscilloscope comes in several flavours which may
 be viewed independently or all together:
 
 Lissajous - illustrates the phase relationship between the left and right channels
+Mirror Stereo - simple left/right composite wave, with left on top, right on bottom
 Mono - shows a combined view of the left and right channels (using RMS)
+Spectrum - shows the sound frequencies as a spectrum, from low to high frequencies
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished">音訊示波器有三種風格，其可以單獨
-觀看，也可以全部一起觀看：
-
-Lissjous - 顯示左右聲道間的相位關係
-單聲道 - 顯示左右聲道的綜合檢視（使用 RMS）
-立體聲 - 顯示左右兩個聲道獨立的範圍</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="388"/>
+        <location filename="../widgets/settingswidget.cpp" line="406"/>
         <source>Transparency</source>
         <translation type="unfinished">透明度</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="411"/>
+        <location filename="../widgets/settingswidget.cpp" line="429"/>
         <source>Check for updates</source>
         <translation type="unfinished">檢查更新</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="413"/>
+        <location filename="../widgets/settingswidget.cpp" line="431"/>
         <source>Toggle automatic update checking.
 This check involves sending anonymous information about your platform and version.</source>
         <translation type="unfinished">切換自動更新檢查。
 該選項將向開發者匿名發送當前用戶操作系統類型和Sonic Pi版本訊息。</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="414"/>
+        <location filename="../widgets/settingswidget.cpp" line="432"/>
         <source>Check now</source>
         <translation type="unfinished">立即檢查更新</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="415"/>
+        <location filename="../widgets/settingswidget.cpp" line="434"/>
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
         <translation type="unfinished">強制立即檢查更新。
 該選項將匿名向開發者發送當前用戶操作系統類型和Sonic Pi版本訊息。</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="416"/>
+        <location filename="../widgets/settingswidget.cpp" line="435"/>
         <source>Get update</source>
         <translation type="unfinished">取得更新</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="417"/>
+        <location filename="../widgets/settingswidget.cpp" line="436"/>
         <source>Visit http://sonic-pi.net to download new version</source>
         <translation type="unfinished">瀏覽http://sonic-pi.net下載新版本</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="420"/>
+        <location filename="../widgets/settingswidget.cpp" line="439"/>
         <source>Update Info</source>
         <translation type="unfinished">更新訊息</translation>
     </message>
     <message>
-        <location filename="../widgets/settingswidget.cpp" line="423"/>
+        <location filename="../widgets/settingswidget.cpp" line="442"/>
         <source>Sonic Pi update info</source>
         <translation type="unfinished">Sonic Pi更新資訊</translation>
     </message>
