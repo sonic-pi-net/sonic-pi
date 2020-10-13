@@ -145,37 +145,54 @@
         <file>theme/dark/doc-styles.css</file>
         <file>theme/high_contrast/doc-styles.css</file>
 
+        <file>lang/sonic-pi_bg.qm</file>
+        <file>lang/sonic-pi_bn.qm</file>
         <file>lang/sonic-pi_bs.qm</file>
         <file>lang/sonic-pi_ca.qm</file>
+        <file>lang/sonic-pi_ca@valencia.qm</file>
         <file>lang/sonic-pi_cs.qm</file>
         <file>lang/sonic-pi_da.qm</file>
         <file>lang/sonic-pi_de.qm</file>
         <file>lang/sonic-pi_el.qm</file>
         <file>lang/sonic-pi_en_US.qm</file>
+        <file>lang/sonic-pi_eo.qm</file>
         <file>lang/sonic-pi_es.qm</file>
         <file>lang/sonic-pi_et.qm</file>
+        <file>lang/sonic-pi_fa.qm</file>
         <file>lang/sonic-pi_fi.qm</file>
         <file>lang/sonic-pi_fr.qm</file>
+        <file>lang/sonic-pi_ga.qm</file>
+        <file>lang/sonic-pi_gl.qm</file>
+        <file>lang/sonic-pi_he.qm</file>
         <file>lang/sonic-pi_hi.qm</file>
         <file>lang/sonic-pi_hu.qm</file>
+        <file>lang/sonic-pi_hy.qm</file>
         <file>lang/sonic-pi_id.qm</file>
         <file>lang/sonic-pi_is.qm</file>
         <file>lang/sonic-pi_it.qm</file>
         <file>lang/sonic-pi_ja.qm</file>
+        <file>lang/sonic-pi_ka.qm</file>
         <file>lang/sonic-pi_ko.qm</file>
         <file>lang/sonic-pi_nb.qm</file>
         <file>lang/sonic-pi_nl.qm</file>
         <file>lang/sonic-pi_pl.qm</file>
-        <file>lang/sonic-pi_pt.qm</file>
         <file>lang/sonic-pi_pt_BR.qm</file>
+        <file>lang/sonic-pi_pt.qm</file>
         <file>lang/sonic-pi_ro.qm</file>
         <file>lang/sonic-pi_ru.qm</file>
+        <file>lang/sonic-pi_si.qm</file>
+        <file>lang/sonic-pi_sk.qm</file>
+        <file>lang/sonic-pi_sl.qm</file>
         <file>lang/sonic-pi_sv.qm</file>
+        <file>lang/sonic-pi_sw.qm</file>
+        <file>lang/sonic-pi_th.qm</file>
         <file>lang/sonic-pi_tr.qm</file>
+        <file>lang/sonic-pi_ug.qm</file>
         <file>lang/sonic-pi_uk.qm</file>
+        <file>lang/sonic-pi_vi.qm</file>
         <file>lang/sonic-pi_zh-Hans.qm</file>
-        <file>lang/sonic-pi_zh.qm</file>
         <file>lang/sonic-pi_zh_HK.qm</file>
+        <file>lang/sonic-pi_zh.qm</file>
         <file>lang/sonic-pi_zh_TW.qm</file>
 
 
