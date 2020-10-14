@@ -98,12 +98,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2932"/>
         <source>Enabling MIDI input...</source>
-        <translation type="unfinished"></translation>
+        <translation>Habilitant entrada MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2938"/>
         <source>Disabling MIDI input...</source>
-        <translation type="unfinished"></translation>
+        <translation>Deshabilitant entrada MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2948"/>
@@ -248,7 +248,7 @@ Ho lamentem, ha ocorregut un error crític durant l&apos;inici</translation>
     <message>
         <location filename="../mainwindow.cpp" line="859"/>
         <source>Playing Sample...</source>
-        <translation type="unfinished"></translation>
+        <translation>Reproduint mostra...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1559"/>
@@ -329,17 +329,17 @@ Ho lamentem, ha ocorregut un error crític durant l&apos;inici</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1958"/>
         <source>Show autocompletion on</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar autocompletat activat</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1960"/>
         <source>Show autocompletion off</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar autocompletat desactivat</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2140"/>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Eixir</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2159"/>
@@ -359,12 +359,12 @@ Ho lamentem, ha ocorregut un error crític durant l&apos;inici</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2200"/>
         <source>Toggle Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar Info</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2202"/>
         <source>Toggle information about Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar informació sobre Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2208"/>
@@ -379,72 +379,72 @@ Ho lamentem, ha ocorregut un error crític durant l&apos;inici</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2266"/>
         <source>Focus Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Enfocar l&apos;editor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2268"/>
         <source>Place focus on the code editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Situar el focus a l&apos;editor de codi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2272"/>
         <source>Focus Logs</source>
-        <translation type="unfinished"></translation>
+        <translation>Enfocar els registres</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2274"/>
         <source>Place focus on the log pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Situar el focus al panell de registre</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2278"/>
         <source>Focus Cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Enfocar els senyals (cues)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2280"/>
         <source>Place focus on the cue event pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Situar el focus al panell d&apos;esdeveniments de senyals (cue event)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2284"/>
         <source>Focus Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Enfocar les preferències</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2286"/>
         <source>Place focus on preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Situar el focus a les preferències</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2290"/>
         <source>Focus Help Listing</source>
-        <translation type="unfinished"></translation>
+        <translation>Enfocar el llistat d&apos;ajuda</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2292"/>
         <source>Place focus on help listing</source>
-        <translation type="unfinished"></translation>
+        <translation>Situar el focus al llistat d&apos;ajuda</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2296"/>
         <source>Focus Help Details</source>
-        <translation type="unfinished"></translation>
+        <translation>Enfocar els detalls d&apos;ajuda</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2298"/>
         <source>Place focus on help details</source>
-        <translation type="unfinished"></translation>
+        <translation>Situar el focus als detalls d&apos;ajuda</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2302"/>
         <source>Focus Errors</source>
-        <translation type="unfinished"></translation>
+        <translation>Enfocar les errades</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2304"/>
         <source>Place focus on errors</source>
-        <translation type="unfinished"></translation>
+        <translation>Situar el focus en les errades</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2446"/>
@@ -706,32 +706,32 @@ Aconsegueix Sonic Pi %1</translation>
         <location filename="../utils/ruby_help.h" line="3120"/>
         <location filename="../utils/ruby_help.h" line="3217"/>
         <source>Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation>Tutorial</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3252"/>
         <source>Examples</source>
-        <translation type="unfinished"></translation>
+        <translation>Exemples</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3303"/>
         <source>Synths</source>
-        <translation type="unfinished"></translation>
+        <translation>Sintetitzadors</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3352"/>
         <source>Fx</source>
-        <translation type="unfinished"></translation>
+        <translation>Efectes</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3373"/>
         <source>Samples</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostres (samples)</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3628"/>
         <source>Lang</source>
-        <translation type="unfinished"></translation>
+        <translation>Llenguatge</translation>
     </message>
 </context>
 <context>
@@ -1039,57 +1039,57 @@ Sonic Pi. Poden enviar-se des de la funció midi_* fns</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="86"/>
         <source>Main Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Volum principal</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="116"/>
         <source>Enable external synths/FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Activar els sintetitzadors/efectes externs</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="146"/>
         <source>Incoming OSC port</source>
-        <translation type="unfinished"></translation>
+        <translation>Port OSC d&apos;entrada</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="171"/>
         <source>Send/Receive remote OSC</source>
-        <translation type="unfinished"></translation>
+        <translation>Enviar/rebre OSC remot</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="189"/>
         <source>Enable incoming MIDI cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Activar senyals MIDI entrants</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="190"/>
         <source>Enable or disable automatic conversion of incoming MIDI messages to cue events</source>
-        <translation type="unfinished"></translation>
+        <translation>Activar o desactivar la conversió automàtica de missatges MIDI entrants a esdeveniments de senyal</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="220"/>
         <source>Default MIDI channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Canal MIDI per defecte</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="221"/>
         <source>Default MIDI Channel to send messages to (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation>Canal MIDI per defecte per enviar missatges a (* significa tot)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="225"/>
         <source>Default MIDI Channel to send messages to  (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation>Canal MIDI per defecte per enviar missatges a (* significa tot)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="276"/>
         <source>Automation / Misc</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatització / Misc</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="277"/>
         <source>Configure automation and other features.</source>
-        <translation type="unfinished"></translation>
+        <translation>Configura automatització i altres característiques.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="279"/>
@@ -1114,7 +1114,7 @@ Sonic Pi. Poden enviar-se des de la funció midi_* fns</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="285"/>
         <source>Show AutoCompletion</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra AutoCompleció</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="286"/>
