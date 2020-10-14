@@ -98,12 +98,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2932"/>
         <source>Enabling MIDI input...</source>
-        <translation type="unfinished"></translation>
+        <translation>קלט ה־MIDI מופעל…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2938"/>
         <source>Disabling MIDI input...</source>
-        <translation type="unfinished"></translation>
+        <translation>קלט ה־MIDI מושבת…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2948"/>
@@ -248,7 +248,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="859"/>
         <source>Playing Sample...</source>
-        <translation type="unfinished"></translation>
+        <translation>הדגימה מתנגנת…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1559"/>
@@ -329,17 +329,17 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1958"/>
         <source>Show autocompletion on</source>
-        <translation type="unfinished"></translation>
+        <translation>הצגת מילוי אוטומטי פעילה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1960"/>
         <source>Show autocompletion off</source>
-        <translation type="unfinished"></translation>
+        <translation>הצגת מילוי אוטומטי כבויה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2140"/>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>יציאה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2159"/>
@@ -359,12 +359,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2200"/>
         <source>Toggle Info</source>
-        <translation type="unfinished"></translation>
+        <translation>החלפת הצגת מידע</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2202"/>
         <source>Toggle information about Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>הצגה או הסתרה של מידע על Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2208"/>
@@ -379,72 +379,72 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2266"/>
         <source>Focus Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>התמקדות על העורך</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2268"/>
         <source>Place focus on the code editor</source>
-        <translation type="unfinished"></translation>
+        <translation>הצבת המיקוד על עורך הקוד</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2272"/>
         <source>Focus Logs</source>
-        <translation type="unfinished"></translation>
+        <translation>התמקדות על היומנים</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2274"/>
         <source>Place focus on the log pane</source>
-        <translation type="unfinished"></translation>
+        <translation>הצבת המיקוד על חלונית היומנים</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2278"/>
         <source>Focus Cues</source>
-        <translation type="unfinished"></translation>
+        <translation>התמקדות על האותות</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2280"/>
         <source>Place focus on the cue event pane</source>
-        <translation type="unfinished"></translation>
+        <translation>הצמכת המיקוד על חלונית אירועי האותות</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2284"/>
         <source>Focus Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>התמקדות על ההעדפות</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2286"/>
         <source>Place focus on preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>הצבת המיקוד על ההעדפות</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2290"/>
         <source>Focus Help Listing</source>
-        <translation type="unfinished"></translation>
+        <translation>התמקדות על רישומי עזרה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2292"/>
         <source>Place focus on help listing</source>
-        <translation type="unfinished"></translation>
+        <translation>הצבת המיקוד על רישומי העזרה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2296"/>
         <source>Focus Help Details</source>
-        <translation type="unfinished"></translation>
+        <translation>התמקדות על פרטי העזרה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2298"/>
         <source>Place focus on help details</source>
-        <translation type="unfinished"></translation>
+        <translation>הצגת המיקוד על פרטי העזרה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2302"/>
         <source>Focus Errors</source>
-        <translation type="unfinished"></translation>
+        <translation>התמקדות על שגיאות</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2304"/>
         <source>Place focus on errors</source>
-        <translation type="unfinished"></translation>
+        <translation>הצגת המיקוד על השגיאות</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2446"/>
@@ -706,32 +706,32 @@ Get Sonic Pi %1</source>
         <location filename="../utils/ruby_help.h" line="3120"/>
         <location filename="../utils/ruby_help.h" line="3217"/>
         <source>Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation>הדרכה</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3252"/>
         <source>Examples</source>
-        <translation type="unfinished"></translation>
+        <translation>דוגמאות</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3303"/>
         <source>Synths</source>
-        <translation type="unfinished"></translation>
+        <translation>צלילים</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3352"/>
         <source>Fx</source>
-        <translation type="unfinished"></translation>
+        <translation>אפקטים</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3373"/>
         <source>Samples</source>
-        <translation type="unfinished"></translation>
+        <translation>דגימות</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3628"/>
         <source>Lang</source>
-        <translation type="unfinished"></translation>
+        <translation>שפה</translation>
     </message>
 </context>
 <context>
@@ -894,7 +894,7 @@ even when a little late.</source>
 להפעיל צלילים ואפקטים אם
 מאוחר מדי לעשות זאת.
 
-כאשר מושבתת, &#xa0;תמיד ינסה
+כאשר מושבתת,  תמיד ינסה
 Sonic Pi להפעיל צלילים
 ואפקטים אפילו אם מאוחר מדי.</translation>
     </message>
@@ -1039,57 +1039,57 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="86"/>
         <source>Main Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>עצמת השמע הראשית</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="116"/>
         <source>Enable external synths/FX</source>
-        <translation type="unfinished"></translation>
+        <translation>הפעלת צלילים/אפקטים חיצוניים</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="146"/>
         <source>Incoming OSC port</source>
-        <translation type="unfinished"></translation>
+        <translation>פתחת OSC נכנסת</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="171"/>
         <source>Send/Receive remote OSC</source>
-        <translation type="unfinished"></translation>
+        <translation>שליחת/קבלת OSC מרוחק</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="189"/>
         <source>Enable incoming MIDI cues</source>
-        <translation type="unfinished"></translation>
+        <translation>הפעלת אותות MIDI נכנסים</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="190"/>
         <source>Enable or disable automatic conversion of incoming MIDI messages to cue events</source>
-        <translation type="unfinished"></translation>
+        <translation>להפעיל או להשבית המרה אוטומטית של הודעות MIDI נכנסות לאירועי אותות</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="220"/>
         <source>Default MIDI channel</source>
-        <translation type="unfinished"></translation>
+        <translation>ערוץ MIDI כבררת מחדל</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="221"/>
         <source>Default MIDI Channel to send messages to (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation>ערוץ MIDI כבררת מחדל לשלוח אליו הודעות (* מייצג את כולם)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="225"/>
         <source>Default MIDI Channel to send messages to  (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation>ערוץ MIDI כבררת מחדל לשלוח אליו הודעות (* מייצג את כולם)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="276"/>
         <source>Automation / Misc</source>
-        <translation type="unfinished"></translation>
+        <translation>אוטומציה/שונות</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="277"/>
         <source>Configure automation and other features.</source>
-        <translation type="unfinished"></translation>
+        <translation>הגדרת אוטומציה ושאר יכולות.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="279"/>
@@ -1114,12 +1114,12 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="285"/>
         <source>Show AutoCompletion</source>
-        <translation type="unfinished"></translation>
+        <translation>הצגת השלמה אוטומטית</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="286"/>
         <source>When enabled, Sonic Pi&apos;s editor will attempt to autocomplete your code with suggestions. When disabled, these suggestions will not be visible.</source>
-        <translation type="unfinished"></translation>
+        <translation>כשהאפשרות פעילה, העורך של Sonic Pi ינסה להשלים את הקוד שלך אוטומטית בהצעות. כשהיא מושבתת, ההצעות האלו לא תופענה.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="288"/>
@@ -1174,12 +1174,12 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="304"/>
         <source>Go to buffer shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation>מעבר לקיצורי חוצץ</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="305"/>
         <source>Use C-M-0 .. C-M-9 to go to buffer directly</source>
-        <translation type="unfinished"></translation>
+        <translation>יש להשתמש ב־C-M-0 .. C-M-9 כדי לעבור לחוצץ ישירות</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="308"/>
@@ -1293,17 +1293,17 @@ If enabled the log is scrolled to the bottom after every new message is displaye
     <message>
         <location filename="../widgets/settingswidget.cpp" line="394"/>
         <source>Toggle the visibility of the audio oscilloscopes.</source>
-        <translation>החלפת מצב התצורה של מתנדי השמע.</translation>
+        <translation>החלפת מצב התצוגה של מתנדי השמע.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="395"/>
         <source>Show Labels</source>
-        <translation type="unfinished"></translation>
+        <translation>הצגת תוויות</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="396"/>
         <source>Toggle the visibility of the labels for the audio oscilloscopes</source>
-        <translation type="unfinished"></translation>
+        <translation>החלפת מצב התצוגה של התוויות של מתנדי השמע</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="399"/>
@@ -1315,7 +1315,14 @@ Mirror Stereo - simple left/right composite wave, with left on top, right on bot
 Mono - shows a combined view of the left and right channels (using RMS)
 Spectrum - shows the sound frequencies as a spectrum, from low to high frequencies
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished"></translation>
+        <translation>מתנד השמע מגיע במגוון טעמים שניתן לצפות בהם
+בנפרד או בכולם יחד:
+
+ליסז׳ו - מציג את יחסי השלבים בין ערוצי שמאל וימין
+היפוך סטריאו - גל משולב פשוט לימין/שמאל, עם שמאל למעלה, ימין למטה
+מונו - מציג תצוגה משולבת של ערוצי שמאל וימין (באמצעות RMS)
+ספקטרום - מציג את תדירויות השמע כספקטרום, מתדירות נמוכה לגבוהה
+סטריאו - מציג שני טווחים עצמאיים לערוצים שמאל וימין</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="406"/>
