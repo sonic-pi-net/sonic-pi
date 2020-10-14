@@ -67,6 +67,7 @@ SOURCES += main.cpp \
            widgets/sonicpiscintilla.cpp \
            widgets/sonicpilexer.cpp \
            widgets/settingswidget.cpp \
+           widgets/sonicpicontext.cpp \
            model/sonicpitheme.cpp \
            visualizer/scope.cpp \
            external/kiss_fft/kiss_fft.c
@@ -77,6 +78,7 @@ HEADERS  += mainwindow.h \
             widgets/sonicpilexer.h \
             widgets/sonicpiscintilla.h \
             widgets/settingswidget.h \
+            widgets/sonicpicontext.h \
             utils/sonicpiapis.h \
             utils/ruby_help.h \
             osc/oscpkt.hh \
