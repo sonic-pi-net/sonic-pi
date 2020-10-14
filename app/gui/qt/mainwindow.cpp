@@ -64,6 +64,7 @@
 #include "widgets/infowidget.h"
 #include "model/settings.h"
 #include "widgets/settingswidget.h"
+#include "widgets/sonicpicontext.h"
 
 #include "utils/ruby_help.h"
 
@@ -497,8 +498,11 @@ void MainWindow::setupWindowStructure() {
 
     outputPane = new SonicPiLog;
     incomingPane = new SonicPiLog;
+    contextPane = new SonicPiContext;
     errorPane = new QTextBrowser;
     errorPane->setOpenExternalLinks(true);
+
+
 
     // Window layout
     tabs = new QTabWidget();
@@ -569,6 +573,8 @@ void MainWindow::setupWindowStructure() {
         //      fix the return issue on Japanese keyboards.
 
         SonicPiScintilla *workspace = new SonicPiScintilla(lexer, theme, fileName, oscSender, auto_indent);
+
+
 
         workspace->setObjectName(QString("Buffer %1").arg(ws));
 
@@ -681,6 +687,8 @@ void MainWindow::setupWindowStructure() {
         QString w = QString(tr("| %1 |")).arg(QString::number(ws));
         workspaces[ws] = workspace;
         tabs->addTab(workspace, w);
+
+       connect(workspace, SIGNAL(cursorPositionChanged(int, int)), this, SLOT(updateContext(int, int)));
     }
 
     connect(signalMapper, SIGNAL(mapped(int)), this, SLOT(changeTab(int)));
@@ -702,12 +710,19 @@ void MainWindow::setupWindowStructure() {
 #endif
     addUniversalCopyShortcuts(errorPane);
     outputPane->setReadOnly(true);
-    incomingPane->setReadOnly(true);
-    errorPane->setReadOnly(true);
     outputPane->setLineWrapMode(QPlainTextEdit::NoWrap);
     outputPane->setFontFamily("Hack");
+
+    incomingPane->setReadOnly(true);
     incomingPane->setLineWrapMode(QPlainTextEdit::NoWrap);
     incomingPane->setFontFamily("Hack");
+
+    errorPane->setReadOnly(true);
+
+    contextPane->setReadOnly(true);
+    contextPane->setLineWrapMode(QPlainTextEdit::NoWrap);
+    contextPane->setFontFamily("Hack");
+
 
     if(!theme->font("LogFace").isEmpty()){
         outputPane->setFontFamily(theme->font("LogFace"));
@@ -717,11 +732,17 @@ void MainWindow::setupWindowStructure() {
     outputPane->document()->setMaximumBlockCount(1000);
     incomingPane->document()->setMaximumBlockCount(1000);
     errorPane->document()->setMaximumBlockCount(1000);
+    contextPane->document()->setMaximumBlockCount(1000);
 
     outputPane->setTextColor(QColor(theme->color("LogForeground")));
     outputPane->appendPlainText("\n");
+
     incomingPane->setTextColor(QColor(theme->color("LogForeground")));
     incomingPane->appendPlainText("\n");
+
+    contextPane->setTextColor(QColor(theme->color("LogForeground")));
+    contextPane->appendPlainText("\n");
+
 
     errorPane->zoomIn(1);
     errorPane->setFixedHeight(ScaleHeightForDPI(200));
@@ -760,10 +781,18 @@ void MainWindow::setupWindowStructure() {
     incomingWidget->setAllowedAreas(Qt::RightDockWidgetArea);
     incomingWidget->setWidget(incomingPane);
 
+    contextWidget = new QDockWidget(tr("Context"), this);
+    contextWidget->setFocusPolicy(Qt::NoFocus);
+    contextWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
+    contextWidget->setAllowedAreas(Qt::RightDockWidgetArea);
+    contextWidget->setWidget(contextPane);
+
     addDockWidget(Qt::RightDockWidgetArea, outputWidget);
     addDockWidget(Qt::RightDockWidgetArea, incomingWidget);
+    addDockWidget(Qt::RightDockWidgetArea, contextWidget);
     outputWidget->setObjectName("output");
     incomingWidget->setObjectName("input");
+    contextWidget->setObjectName("context");
 
     blankWidget = new QWidget();
     outputWidgetTitle = outputWidget->titleBarWidget();
@@ -2274,6 +2303,11 @@ void  MainWindow::createToolBar()
     updateAction(focusLogsAct, focusLogsSc, tr("Place focus on the log pane"));
     connect(focusLogsAct, SIGNAL(triggered()), this, SLOT(focusLogs()));
 
+    focusContextAct = new QAction(theme->getHelpIcon(false), tr("Focus Context"), this);
+    focusContextSc = new QShortcut(ctrlShiftKey('T'), this, SLOT(focusContext()));
+    updateAction(focusContextAct, focusContextSc, tr("Place focus on the context pane"));
+    connect(focusContextAct, SIGNAL(triggered()), this, SLOT(focusContext()));
+
     //Focus Cues
     focusCuesAct = new QAction(theme->getHelpIcon(false), tr("Focus Cues"), this);
     focusCuesSc = new QShortcut(ctrlShiftKey('C'), this, SLOT(focusCues()));
@@ -2308,6 +2342,7 @@ void  MainWindow::createToolBar()
     windowMenu->addAction(focusEditorAct);
     windowMenu->addAction(focusLogsAct);
     windowMenu->addAction(focusCuesAct);
+    windowMenu->addAction(focusContextAct);
     windowMenu->addAction(focusPreferencesAct);
     windowMenu->addAction(focusHelpListingAct);
     windowMenu->addAction(focusHelpDetailsAct);
@@ -3031,11 +3066,13 @@ QString MainWindow::sonicPiHomePath() {
 void MainWindow::zoomInLogs() {
     outputPane->zoomIn();
     incomingPane->zoomIn();
+    contextPane->zoomIn();
 }
 
 void MainWindow::zoomOutLogs() {
     outputPane->zoomOut();
     incomingPane->zoomOut();
+    contextPane->zoomOut();
 }
 
 void MainWindow::updateMIDIInPorts(QString port_info) {
@@ -3048,6 +3085,16 @@ void MainWindow::updateMIDIOutPorts(QString port_info) {
     settingsWidget->updateMidiOutPorts(output_header + port_info);
     autocomplete->updateMidiOuts(port_info);
 }
+
+void MainWindow::focusContext() {
+  contextPane->showNormal();
+  contextPane->setFocusPolicy(Qt::StrongFocus);
+  contextPane->setFocus();
+  contextPane->raise();
+  contextPane->setVisible(true);
+  contextPane->activateWindow();
+}
+
 
 void MainWindow::focusLogs() {
   outputPane->showNormal();
@@ -3116,4 +3163,8 @@ void MainWindow::focusErrors(){
   errorPane->raise();
   errorPane->setVisible(true);
   errorPane->activateWindow();
+}
+
+void MainWindow::updateContext(int line, int index){
+  contextPane->setContent(tr("Line: %1,  Position: %2").arg(line + 1).arg(index + 1));
 }

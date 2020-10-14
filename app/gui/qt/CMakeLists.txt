@@ -95,6 +95,8 @@ set(SOURCES
     ${APP_ROOT}/utils/sonicpiapis.cpp
     ${APP_ROOT}/widgets/sonicpilog.cpp
     ${APP_ROOT}/widgets/sonicpilog.h
+    ${APP_ROOT}/widgets/sonicpicontext.cpp
+    ${APP_ROOT}/widgets/sonicpicontext.h
     ${APP_ROOT}/utils/sonicpiapis.h
     ${APP_ROOT}/utils/ruby_help.h
     ${APP_ROOT}/model/settings.h

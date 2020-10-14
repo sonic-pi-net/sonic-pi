@@ -57,6 +57,7 @@ class SonicPiOSCServer;
 class SonicPiTheme;
 class SonicPiLexer;
 class SonicPiSettings;
+class SonicPiContext;
 
 struct help_page {
     QString title;
@@ -96,8 +97,10 @@ class MainWindow : public QMainWindow
 signals:
         void settingsChanged();
 
-        private slots:
-            void addCuePath(QString path, QString val);
+       private slots:
+
+        void updateContext(int line, int index);
+        void addCuePath(QString path, QString val);
         void docLinkClicked(const QUrl &url);
         void handleCustomUrl(const QUrl &url);
         void zoomInLogs();
@@ -215,6 +218,7 @@ signals:
         void focusLogs();
         void focusEditor();
         void focusCues();
+        void focusContext();
         void focusPreferences();
         void focusHelpListing();
         void focusHelpDetails();
@@ -298,12 +302,14 @@ signals:
         QTabWidget *docsCentral;
         SonicPiLog *outputPane;
         SonicPiLog *incomingPane;
+        SonicPiContext *contextPane;
         QTextBrowser *errorPane;
         QDockWidget *outputWidget;
         QDockWidget *incomingWidget;
         QDockWidget *prefsWidget;
         QDockWidget *hudWidget;
         QDockWidget *docWidget;
+        QDockWidget *contextWidget;
         QWidget *blankWidget;
         QWidget *outputWidgetTitle;
         QTextBrowser *docPane;
@@ -322,8 +328,8 @@ signals:
 
         QToolBar *toolBar;
 
-        QAction *exitAct, *runAct, *stopAct, *saveAsAct, *loadFileAct, *recAct, *textAlignAct, *textIncAct, *textDecAct, *scopeAct, *infoAct, *helpAct, *prefsAct, *focusEditorAct, *focusLogsAct, *focusCuesAct, *focusPreferencesAct, *focusHelpListingAct, *focusHelpDetailsAct, *focusErrorsAct;
-        QShortcut *runSc, *stopSc, *saveAsSc, *loadFileSc, *recSc, *textAlignSc, *textIncSc, *textDecSc, *scopeSc, *infoSc, *helpSc, *prefsSc, *focusEditorSc, *focusLogsSc, *focusCuesSc, *focusPreferencesSc, *focusHelpListingSc, *focusHelpDetailsSc, *focusErrorsSc;
+  QAction *exitAct, *runAct, *stopAct, *saveAsAct, *loadFileAct, *recAct, *textAlignAct, *textIncAct, *textDecAct, *scopeAct, *infoAct, *helpAct, *prefsAct, *focusEditorAct, *focusLogsAct, *focusContextAct, *focusCuesAct, *focusPreferencesAct, *focusHelpListingAct, *focusHelpDetailsAct, *focusErrorsAct;
+  QShortcut *runSc, *stopSc, *saveAsSc, *loadFileSc, *recSc, *textAlignSc, *textIncSc, *textDecSc, *scopeSc, *infoSc, *helpSc, *prefsSc, *focusEditorSc, *focusLogsSc, *focusContextSc, *focusCuesSc, *focusPreferencesSc, *focusHelpListingSc, *focusHelpDetailsSc, *focusErrorsSc;
 
         SettingsWidget *settingsWidget;
 
