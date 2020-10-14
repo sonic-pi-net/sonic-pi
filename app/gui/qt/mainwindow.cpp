@@ -1969,8 +1969,22 @@ void MainWindow::updateColourTheme(){
     lexer->unhighlightAll();
 }
 
+void MainWindow::showLineNumbersMenuChanged() {
+  piSettings->show_line_numbers = showLineNumbersAct->isChecked();
+  emit settingsChanged();
+  changeShowLineNumbers();
+}
+
+void MainWindow::showAutoCompletionMenuChanged() {
+  piSettings->show_autocompletion = showAutoCompletionAct->isChecked();
+  emit settingsChanged();
+  changeShowAutoCompletion();
+}
+
 void MainWindow::changeShowLineNumbers(){
+
     bool show = piSettings->show_line_numbers;
+
     for(int i=0; i < tabs->count(); i++){
         SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
         if (show) {
@@ -1979,6 +1993,10 @@ void MainWindow::changeShowLineNumbers(){
             ws->hideLineNumbers();
         }
     }
+
+    QSignalBlocker blocker( showLineNumbersAct );
+    showLineNumbersAct->setChecked(piSettings->show_line_numbers);
+
 }
 
 void MainWindow::changeShowAutoCompletion() {
@@ -1993,6 +2011,9 @@ void MainWindow::changeShowAutoCompletion() {
         SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
         ws->showAutoCompletion(show);
     }
+
+    QSignalBlocker blocker( showAutoCompletionAct );
+    showAutoCompletionAct->setChecked(piSettings->show_autocompletion);
 }
 
 void MainWindow::togglePrefs() {
@@ -2201,8 +2222,7 @@ void  MainWindow::createToolBar()
     connect(loadFileAct, SIGNAL(triggered()), this, SLOT(loadFile()));
 
     // Align
-    textAlignAct = new QAction(QIcon(":/images/align.png"),
-            tr("Auto-Align Text"), this);
+    textAlignAct = new QAction(QIcon(":/images/align.png"), tr("Align Text"), this);
     textAlignSc = new QShortcut(metaKey('M'), this, SLOT(beautifyCode()));
     updateAction(textAlignAct, textAlignSc, tr("Align code to improve readability"));
     connect(textAlignAct, SIGNAL(triggered()), this, SLOT(beautifyCode()));
@@ -2245,7 +2265,6 @@ void  MainWindow::createToolBar()
 
     QWidget *spacer = new QWidget();
     spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-
     toolBar = addToolBar(tr("Tools"));
     toolBar->setObjectName("toolbar");
 
@@ -2264,6 +2283,16 @@ void  MainWindow::createToolBar()
     dynamic_cast<QToolButton*>(toolBar->widgetForAction(textDecAct))->setAutoRepeat(true);
     dynamic_cast<QToolButton*>(toolBar->widgetForAction(textIncAct))->setAutoRepeat(true);
 
+    showLineNumbersAct = new QAction(tr("Show Line Numbers"), this);
+    showLineNumbersAct->setCheckable(true);
+    showLineNumbersAct->setChecked(piSettings->show_line_numbers);
+    showAutoCompletionAct = new QAction(tr("Show Code Completion"), this);
+    showAutoCompletionAct->setCheckable(true);
+    showAutoCompletionAct->setChecked(piSettings->show_autocompletion);
+
+    connect(showLineNumbersAct, SIGNAL(triggered()), this, SLOT(showLineNumbersMenuChanged()));
+    connect(showAutoCompletionAct, SIGNAL(triggered()), this, SLOT(showAutoCompletionMenuChanged()));
+
     toolBar->addAction(scopeAct);
     toolBar->addAction(infoAct);
     toolBar->addAction(helpAct);
@@ -2279,9 +2308,12 @@ void  MainWindow::createToolBar()
     fileMenu->addSeparator();
     fileMenu->addAction(exitAct);
 
-    editMenu = menuBar()->addMenu(tr("&Edit"));
+    editMenu = menuBar()->addMenu(tr("&Editor"));
     editMenu->addAction(textIncAct);
     editMenu->addAction(textDecAct);
+    editMenu->addAction(textAlignAct);
+    editMenu->addAction(showLineNumbersAct);
+    editMenu->addAction(showAutoCompletionAct);
 
     windowMenu = menuBar()->addMenu(tr("&Window"));
     windowMenu->addAction(scopeAct);

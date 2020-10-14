@@ -282,7 +282,7 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     show_line_numbers = new QCheckBox(tr("Show line numbers"));
     show_line_numbers->setToolTip(tr("Toggle line number visibility."));
 
-    show_autocompletion = new QCheckBox(tr("Show AutoCompletion"));
+    show_autocompletion = new QCheckBox(tr("Show code-completion"));
     show_autocompletion->setToolTip(tr("When enabled, Sonic Pi's editor will attempt to autocomplete your code with suggestions. When disabled, these suggestions will not be visible."));
 
     show_log = new QCheckBox(tr("Show log"));
@@ -301,7 +301,7 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     show_tabs->setToolTip(tr("Toggle visibility of the buffer selection tabs."));
     full_screen = new QCheckBox(tr("Full screen"));
     full_screen->setToolTip(tooltipStrShiftMeta('F', tr("Toggle full screen mode.")));
-    goto_buffer_shortcuts = new QCheckBox(tr("Go to buffer shortcuts"));
+    goto_buffer_shortcuts = new QCheckBox(tr("Enable buffer shortcuts"));
     goto_buffer_shortcuts->setToolTip(tr("Use C-M-0 .. C-M-9 to go to buffer directly"));
 
     colourModeButtonGroup = new QButtonGroup(this);

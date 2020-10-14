@@ -149,6 +149,8 @@ signals:
         void changeSystemPreAmp(int val, int silent=0);
         void changeGUITransparency(int val);
         void changeShowLineNumbers();
+        void showLineNumbersMenuChanged();
+        void showAutoCompletionMenuChanged();
         void changeShowAutoCompletion();
         void toggleScope(QString name);
         void toggleLeftScope();
@@ -328,7 +330,7 @@ signals:
 
         QToolBar *toolBar;
 
-  QAction *exitAct, *runAct, *stopAct, *saveAsAct, *loadFileAct, *recAct, *textAlignAct, *textIncAct, *textDecAct, *scopeAct, *infoAct, *helpAct, *prefsAct, *focusEditorAct, *focusLogsAct, *focusContextAct, *focusCuesAct, *focusPreferencesAct, *focusHelpListingAct, *focusHelpDetailsAct, *focusErrorsAct;
+  QAction *exitAct, *runAct, *stopAct, *saveAsAct, *loadFileAct, *recAct, *textAlignAct, *textIncAct, *textDecAct, *scopeAct, *infoAct, *helpAct, *prefsAct, *focusEditorAct, *focusLogsAct, *focusContextAct, *focusCuesAct, *focusPreferencesAct, *focusHelpListingAct, *focusHelpDetailsAct, *focusErrorsAct, *showLineNumbersAct, *showAutoCompletionAct;
   QShortcut *runSc, *stopSc, *saveAsSc, *loadFileSc, *recSc, *textAlignSc, *textIncSc, *textDecSc, *scopeSc, *infoSc, *helpSc, *prefsSc, *focusEditorSc, *focusLogsSc, *focusContextSc, *focusCuesSc, *focusPreferencesSc, *focusHelpListingSc, *focusHelpDetailsSc, *focusErrorsSc;
 
         SettingsWidget *settingsWidget;
