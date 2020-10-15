@@ -276,7 +276,7 @@ signals:
 
         void addUniversalCopyShortcuts(QTextEdit *te);
 
-        QMenu *fileMenu, *editMenu, *windowMenu;
+        QMenu *liveMenu, *codeMenu, *displayMenu, *focusMenu;
 
         SonicPiSettings *piSettings;
 

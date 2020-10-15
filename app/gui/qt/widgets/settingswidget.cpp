@@ -282,7 +282,7 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     show_line_numbers = new QCheckBox(tr("Show line numbers"));
     show_line_numbers->setToolTip(tr("Toggle line number visibility."));
 
-    show_autocompletion = new QCheckBox(tr("Show code-completion"));
+    show_autocompletion = new QCheckBox(tr("Show code completion"));
     show_autocompletion->setToolTip(tr("When enabled, Sonic Pi's editor will attempt to autocomplete your code with suggestions. When disabled, these suggestions will not be visible."));
 
     show_log = new QCheckBox(tr("Show log"));

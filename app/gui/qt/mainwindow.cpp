@@ -2223,19 +2223,19 @@ void  MainWindow::createToolBar()
     connect(loadFileAct, SIGNAL(triggered()), this, SLOT(loadFile()));
 
     // Align
-    textAlignAct = new QAction(QIcon(":/images/align.png"), tr("Align Text"), this);
+    textAlignAct = new QAction(QIcon(":/images/align.png"), tr("Align Code"), this);
     textAlignSc = new QShortcut(metaKey('M'), this, SLOT(beautifyCode()));
     updateAction(textAlignAct, textAlignSc, tr("Align code to improve readability"));
     connect(textAlignAct, SIGNAL(triggered()), this, SLOT(beautifyCode()));
 
     // Font Size Increase
-    textIncAct = new QAction(theme->getTextIncIcon(), tr("Text Size Up"), this);
+    textIncAct = new QAction(theme->getTextIncIcon(), tr("Code Size Up"), this);
     textIncSc = new QShortcut(metaKey('+'), this, SLOT(zoomCurrentWorkspaceIn()));
     updateAction(textIncAct, textIncSc, tr("Increase Text Size"));
     connect(textIncAct, SIGNAL(triggered()), this, SLOT(zoomCurrentWorkspaceIn()));
 
     // Font Size Decrease
-    textDecAct = new QAction(theme->getTextDecIcon(), tr("Text Size Down"), this);
+    textDecAct = new QAction(theme->getTextDecIcon(), tr("Code Size Down"), this);
     textDecSc = new QShortcut(metaKey('-'), this, SLOT(zoomCurrentWorkspaceOut()));
     updateAction(textDecAct, textDecSc, tr("Decrease Text Size"));
     connect(textDecAct, SIGNAL(triggered()), this, SLOT(zoomCurrentWorkspaceOut()));
@@ -2299,28 +2299,31 @@ void  MainWindow::createToolBar()
     toolBar->addAction(helpAct);
     toolBar->addAction(prefsAct);
 
-    fileMenu = menuBar()->addMenu(tr("&File"));
-    fileMenu->addAction(runAct);
-    fileMenu->addAction(stopAct);
-    fileMenu->addAction(recAct);
-    fileMenu->addAction(saveAsAct);
-    fileMenu->addAction(loadFileAct);
+    liveMenu = menuBar()->addMenu(tr("&Live"));
+    liveMenu->addAction(runAct);
+    liveMenu->addAction(stopAct);
+    liveMenu->addAction(recAct);
+    liveMenu->addSeparator();
+    liveMenu->addAction(exitAct);
 
-    fileMenu->addSeparator();
-    fileMenu->addAction(exitAct);
+    codeMenu = menuBar()->addMenu(tr("&Code"));
+    codeMenu->addAction(saveAsAct);
+    codeMenu->addAction(loadFileAct);
+    codeMenu->addSeparator();
+    codeMenu->addAction(textIncAct);
+    codeMenu->addAction(textDecAct);
+    codeMenu->addAction(textAlignAct);
+    codeMenu->addSeparator();
+    codeMenu->addAction(showLineNumbersAct);
+    codeMenu->addAction(showAutoCompletionAct);
 
-    editMenu = menuBar()->addMenu(tr("&Editor"));
-    editMenu->addAction(textIncAct);
-    editMenu->addAction(textDecAct);
-    editMenu->addAction(textAlignAct);
-    editMenu->addAction(showLineNumbersAct);
-    editMenu->addAction(showAutoCompletionAct);
+    displayMenu = menuBar()->addMenu(tr("&Display"));
+    displayMenu->addAction(scopeAct);
+    displayMenu->addAction(infoAct);
+    displayMenu->addAction(helpAct);
+    displayMenu->addAction(prefsAct);
 
-    windowMenu = menuBar()->addMenu(tr("&Window"));
-    windowMenu->addAction(scopeAct);
-    windowMenu->addAction(infoAct);
-    windowMenu->addAction(helpAct);
-    windowMenu->addAction(prefsAct);
+    focusMenu = menuBar()->addMenu(tr("&Focus"));
 
     //Accessibility shortcuts
 
@@ -2371,15 +2374,15 @@ void  MainWindow::createToolBar()
     updateAction(focusErrorsAct, focusErrorsSc, tr("Place focus on errors"));
     connect(focusErrorsAct, SIGNAL(triggered()), this, SLOT(focusErrors()));
 
-    windowMenu->addSeparator();
-    windowMenu->addAction(focusEditorAct);
-    windowMenu->addAction(focusLogsAct);
-    windowMenu->addAction(focusCuesAct);
-    windowMenu->addAction(focusContextAct);
-    windowMenu->addAction(focusPreferencesAct);
-    windowMenu->addAction(focusHelpListingAct);
-    windowMenu->addAction(focusHelpDetailsAct);
-    windowMenu->addAction(focusErrorsAct);
+    focusMenu->addSeparator();
+    focusMenu->addAction(focusEditorAct);
+    focusMenu->addAction(focusLogsAct);
+    focusMenu->addAction(focusCuesAct);
+    focusMenu->addAction(focusContextAct);
+    focusMenu->addAction(focusPreferencesAct);
+    focusMenu->addAction(focusHelpListingAct);
+    focusMenu->addAction(focusHelpDetailsAct);
+    focusMenu->addAction(focusErrorsAct);
 }
 
 QString MainWindow::readFile(QString name)
