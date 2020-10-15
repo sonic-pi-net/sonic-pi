@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-05-17 01:41+0000\n"
-"Last-Translator: arnovbr <arno@arcode.nl>\n"
-"Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-pi/tutorial/nl"
-"/>\n"
+"PO-Revision-Date: 2020-10-16 14:26+0000\n"
+"Last-Translator: Lukas Spee <lukasspee@gmail.com>\n"
+"Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
+"nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.1-dev\n"
+"X-Generator: Weblate 4.3.1-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -1375,6 +1375,8 @@ msgid ""
 "Now multiple sounds at the same time (by not sleeping between successive calls"
 " to `play`):"
 msgstr ""
+"Nu klinken er meerdere tonen tegelijk (omdat er geen pauze zit tussen de "
+"opeenvolgende aanroepen van `play`):"
 
 #: 02.3-Switching-Synths.md:60
 #, no-wrap
@@ -5569,6 +5571,16 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
+"a = (ring 6, 5, 4, 3, 2, 1)\n"
+"live_loop :sorted do\n"
+"  a = a.sort\n"
+"  sleep 0.5\n"
+"  puts \"sorted: \", a\n"
+"end\n"
+"live_loop :shuffled do\n"
+"  a = a.shuffle\n"
+"  sleep 0.5\n"
+"end"
 
 #: 05.6-Variables.md:154
 msgid ""
@@ -9150,7 +9162,7 @@ msgstr ""
 #: 10.3-Pattern-Matching.md:17
 #, no-wrap
 msgid "sync \"/*/*/*\""
-msgstr ""
+msgstr "sync \"/*/*/*\""
 
 #: 10.3-Pattern-Matching.md:21
 msgid ""
@@ -9169,11 +9181,11 @@ msgstr "`cue \"/bla/baz/quux\"`"
 
 #: 10.3-Pattern-Matching.md:26
 msgid "`cue \"/eggs/beans/toast\"`"
-msgstr ""
+msgstr "`cue \"/eggs/beans/toast\"`"
 
 #: 10.3-Pattern-Matching.md:27
 msgid "`cue \"/moog/synths/rule\"`"
-msgstr ""
+msgstr "`cue \"/moog/synths/rule\"`"
 
 #: 10.3-Pattern-Matching.md:29
 msgid ""
@@ -9191,7 +9203,7 @@ msgstr "`cue \"/bla/baz/quux/quaax\"`"
 
 #: 10.3-Pattern-Matching.md:34
 msgid "`cue \"/eggs\"`"
-msgstr ""
+msgstr "`cue \"/eggs\"`"
 
 #: 10.3-Pattern-Matching.md:36
 msgid ""
@@ -9282,15 +9294,15 @@ msgstr ""
 
 #: 10.3-Pattern-Matching.md:79
 msgid "`cue \"/goo/bar/baz\"`"
-msgstr ""
+msgstr "`cue \"/goo/bar/baz\"`"
 
 #: 10.3-Pattern-Matching.md:80
 msgid "`cue \"/too/bar/baz\"`"
-msgstr ""
+msgstr "`cue \"/too/bar/baz\"`"
 
 #: 10.3-Pattern-Matching.md:81
 msgid "`cue \"/woo/bar/baz\"`"
-msgstr ""
+msgstr "`cue \"/woo/bar/baz\"`"
 
 #: 10.3-Pattern-Matching.md:83
 msgid "Matching Multiple Words"
@@ -9391,11 +9403,11 @@ msgstr ""
 
 #: 11-MIDI.md:1
 msgid "11 MIDI"
-msgstr ""
+msgstr "11 MIDI"
 
 #: 11-MIDI.md:3
 msgid "MIDI"
-msgstr ""
+msgstr "MIDI"
 
 #: 11-MIDI.md:5
 msgid ""
