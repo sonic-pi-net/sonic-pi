@@ -57,6 +57,7 @@ private slots:
     void updateSettings();
     void updateTransparency(int t);
     void settingsChanged();
+    void showContext();
 
 signals:
     void mixerSettingsChanged();
@@ -79,6 +80,7 @@ signals:
     void transparencyChanged(int t);
     void checkUpdatesChanged();
     void forceCheckUpdates();
+    void showContextChanged();
 
 private:
     SonicPiSettings* piSettings;
@@ -106,6 +108,7 @@ private:
     QCheckBox *check_updates;
     QCheckBox *studio_mode;
     QCheckBox *show_autocompletion;
+    QCheckBox *show_context;
 
     QComboBox *midi_default_channel_combo;
     QCheckBox *midi_enable_check;

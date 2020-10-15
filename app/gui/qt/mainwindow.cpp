@@ -543,6 +543,7 @@ void MainWindow::setupWindowStructure() {
 
     connect(settingsWidget, SIGNAL(checkUpdatesChanged()), this, SLOT(update_check_updates()));
     connect(settingsWidget, SIGNAL(forceCheckUpdates()), this, SLOT(check_for_updates_now()));
+    connect(settingsWidget, SIGNAL(showContextChanged()), this, SLOT(changeShowContext()));
 
     connect(this, SIGNAL(settingsChanged()), settingsWidget, SLOT(settingsChanged()));
 
@@ -1296,6 +1297,7 @@ void MainWindow::honourPrefs() {
     toggleIcons();
     scope();
     changeShowAutoCompletion();
+    changeShowContext();
 }
 
 void MainWindow::setMessageBoxStyle() {
@@ -1987,6 +1989,12 @@ void MainWindow::showAutoCompletionMenuChanged() {
   changeShowAutoCompletion();
 }
 
+void MainWindow::showContextMenuChanged() {
+  piSettings->show_context = showContextAct->isChecked();
+  emit settingsChanged();
+  changeShowContext();
+}
+
 void MainWindow::changeShowLineNumbers(){
 
     bool show = piSettings->show_line_numbers;
@@ -2020,6 +2028,21 @@ void MainWindow::changeShowAutoCompletion() {
 
     QSignalBlocker blocker( showAutoCompletionAct );
     showAutoCompletionAct->setChecked(piSettings->show_autocompletion);
+}
+
+void MainWindow::changeShowContext() {
+  bool show = piSettings->show_context;
+  if(show) {
+      statusBar()->showMessage(tr("Show context on"), 2000);
+      contextWidget->show();
+    } else {
+      statusBar()->showMessage(tr("Show context off"), 2000);
+      contextWidget->hide();
+  }
+
+
+    QSignalBlocker blocker( showContextAct );
+    showContextAct->setChecked(piSettings->show_context);
 }
 
 void MainWindow::togglePrefs() {
@@ -2296,8 +2319,13 @@ void  MainWindow::createToolBar()
     showAutoCompletionAct->setCheckable(true);
     showAutoCompletionAct->setChecked(piSettings->show_autocompletion);
 
+    showContextAct = new QAction(tr("Show Code Context"), this);
+    showContextAct->setCheckable(true);
+    showContextAct->setChecked(piSettings->show_context);
+
     connect(showLineNumbersAct, SIGNAL(triggered()), this, SLOT(showLineNumbersMenuChanged()));
     connect(showAutoCompletionAct, SIGNAL(triggered()), this, SLOT(showAutoCompletionMenuChanged()));
+    connect(showContextAct, SIGNAL(triggered()), this, SLOT(showContextMenuChanged()));
 
     toolBar->addAction(scopeAct);
     toolBar->addAction(infoAct);
@@ -2327,6 +2355,7 @@ void  MainWindow::createToolBar()
     displayMenu->addAction(infoAct);
     displayMenu->addAction(helpAct);
     displayMenu->addAction(prefsAct);
+    displayMenu->addAction(showContextAct);
 
     focusMenu = menuBar()->addMenu(tr("&Focus"));
 
@@ -2599,8 +2628,8 @@ void MainWindow::readSettings() {
     piSettings->goto_buffer_shortcuts = settings.value("prefs/goto_buffer_shortcuts", false).toBool();
     QString styleName = settings.value("prefs/theme", "").toString();
     piSettings->themeStyle = theme->themeNameToStyle(styleName);
-
     piSettings->show_autocompletion = settings.value("prefs/show-autocompletion", true).toBool();
+    piSettings->show_context = settings.value("prefs/show-context", true).toBool();
 
     emit settingsChanged();
 }
@@ -2653,6 +2682,7 @@ void MainWindow::writeSettings()
     settings.setValue("prefs/show-buttons", piSettings->show_buttons);
     settings.setValue("prefs/show-tabs", piSettings->show_tabs);
     settings.setValue("prefs/show-log", piSettings->show_log);
+    settings.setValue("prefs/show-context", piSettings->show_context);
 
     for ( auto name : piSettings->scope_names ) {
         settings.setValue("prefs/scope/show-"+name.toLower(), piSettings->isScopeActive(name));

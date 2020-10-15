@@ -285,6 +285,9 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     show_autocompletion = new QCheckBox(tr("Show code completion"));
     show_autocompletion->setToolTip(tr("When enabled, Sonic Pi's editor will attempt to autocomplete your code with suggestions. When disabled, these suggestions will not be visible."));
 
+    show_context = new QCheckBox(tr("Show code context"));
+    show_context->setToolTip(tr("When enabled, Sonic Pi's editor will show a pane which will display context-specific information for the code such as the current line and position of the cursor."));
+
     show_log = new QCheckBox(tr("Show log"));
     show_log->setToolTip(tooltipStrShiftMeta('L', tr("Toggle visibility of the log.")));
     show_log->setChecked(true);
@@ -323,6 +326,7 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
 
     editor_display_box_layout->addWidget(show_line_numbers);
     editor_display_box_layout->addWidget(show_autocompletion);
+    editor_display_box_layout->addWidget(show_context);
     editor_display_box_layout->addWidget(show_log);
     editor_display_box_layout->addWidget(show_cues);
     editor_display_box_layout->addWidget(show_buttons);
@@ -533,6 +537,10 @@ void SettingsWidget::showAutoCompletion() {
   emit showAutoCompletionChanged();
 }
 
+void SettingsWidget::showContext() {
+  emit showContextChanged();
+}
+
 void SettingsWidget::toggleLog() {
     emit showLogChanged();
 }
@@ -610,6 +618,7 @@ void SettingsWidget::updateSettings() {
     piSettings->auto_indent_on_run = auto_indent_on_run->isChecked();
     piSettings->show_line_numbers = show_line_numbers->isChecked();
     piSettings->show_autocompletion = show_autocompletion->isChecked();
+    piSettings->show_context = show_context->isChecked();
     piSettings->show_log = show_log->isChecked();
     piSettings->show_cues = show_cues->isChecked();
     piSettings->show_buttons = show_buttons->isChecked();
@@ -672,6 +681,7 @@ void SettingsWidget::settingsChanged() {
 
     check_updates->setChecked(piSettings->check_updates);
     show_autocompletion->setChecked(piSettings->show_autocompletion);
+    show_context->setChecked(piSettings->show_context);
 }
 
 void SettingsWidget::connectAll() {
@@ -713,6 +723,7 @@ void SettingsWidget::connectAll() {
     connect(gui_transparency_slider, SIGNAL(valueChanged(int)), this, SLOT(updateSettings()));
 
     connect(show_autocompletion, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(show_context, SIGNAL(clicked()), this, SLOT(updateSettings()));
 
     connect(show_line_numbers, SIGNAL(clicked()), this, SLOT(toggleLineNumbers()));
     connect(show_log, SIGNAL(clicked()), this, SLOT(toggleLog()));
@@ -739,4 +750,5 @@ void SettingsWidget::connectAll() {
     connect(check_updates_now, SIGNAL(clicked()), this, SLOT(checkForUpdatesNow()));
 
     connect(show_autocompletion, SIGNAL(clicked()), this, SLOT(showAutoCompletion()));
+    connect(show_context, SIGNAL(clicked()), this, SLOT(showContext()));
 }
