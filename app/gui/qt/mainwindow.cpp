@@ -1759,17 +1759,26 @@ void MainWindow::scope() {
     {
         scopeWidget->hide();
     }
+
+    QSignalBlocker blocker( scopeAct );
+    scopeAct->setChecked(piSettings->show_scopes);
 }
 
 void MainWindow::about() {
     // todo: this is returning true even after the window disappears
     // Qt::Tool windows get closed automatically when app loses focus
+    QSignalBlocker blocker( infoAct );
+
     if(infoWidg->isVisible()) {
+        statusBar()->showMessage(tr("Hiding about window..."), 2000);
         infoWidg->hide();
+        infoAct->setChecked(false);
 
     } else {
+        statusBar()->showMessage(tr("Showing about window..."), 2000);
         infoWidg->raise();
         infoWidg->show();
+        infoAct->setChecked(true);
     }
     infoAct->setIcon( theme->getInfoIcon( infoWidg->isVisible()));
 }
@@ -1778,11 +1787,17 @@ void MainWindow::toggleHelpIcon() {
     helpAct->setIcon( theme->getHelpIcon( docWidget->isVisible()));
 }
 void MainWindow::help() {
-    statusBar()->showMessage(tr("help visibility changed..."), 2000);
+
+    QSignalBlocker blocker(helpAct);
+
     if(docWidget->isVisible()) {
-        docWidget->hide();
+      statusBar()->showMessage(tr("Hiding help..."), 2000);
+      docWidget->hide();
+      helpAct->setChecked(false);
     } else {
-        docWidget->show();
+      statusBar()->showMessage(tr("Showing help..."), 2000);
+      docWidget->show();
+      helpAct->setChecked(true);
     }
     helpAct->setIcon( theme->getHelpIcon( docWidget->isVisible()));
 }
@@ -2046,10 +2061,15 @@ void MainWindow::changeShowContext() {
 }
 
 void MainWindow::togglePrefs() {
+    QSignalBlocker blocker(prefsAct);
     if(prefsWidget->isVisible()) {
+        statusBar()->showMessage(tr("Hiding preferences..."), 2000);
         prefsWidget->hide();
+        prefsAct->setChecked(false);
     } else {
+        statusBar()->showMessage(tr("Showing preferences..."), 2000);
         prefsWidget->show();
+        prefsAct->setChecked(true);
     }
     updatePrefsIcon();
 }
@@ -2269,25 +2289,33 @@ void  MainWindow::createToolBar()
     connect(textDecAct, SIGNAL(triggered()), this, SLOT(zoomCurrentWorkspaceOut()));
 
     // Scope
-    scopeAct = new QAction(theme->getScopeIcon(false), tr("Toggle Scope"), this);
+    scopeAct = new QAction(theme->getScopeIcon(false), tr("Show Scope"), this);
+    scopeAct->setCheckable(true);
+    scopeAct->setChecked(piSettings->show_scopes);
     scopeSc = new QShortcut(metaKey('O'), this, SLOT(toggleScope()));
     updateAction(scopeAct, scopeSc, tr("Toggle visibility of audio oscilloscope"));
     connect(scopeAct, SIGNAL(triggered()), this, SLOT(toggleScope()));
 
     // Info
-    infoAct = new QAction(theme->getInfoIcon(false), tr("Toggle Info"), this);
+    infoAct = new QAction(theme->getInfoIcon(false), tr("Show Info"), this);
+    infoAct->setCheckable(true);
+    infoAct->setChecked(false);
     infoSc = new QShortcut(metaKey('1'), this, SLOT(about()));
     updateAction(infoAct, infoSc, tr("Toggle information about Sonic Pi"));
     connect(infoAct, SIGNAL(triggered()), this, SLOT(about()));
 
 
-    helpAct = new QAction(theme->getHelpIcon(false), tr("Toggle Help"), this);
+    helpAct = new QAction(theme->getHelpIcon(false), tr("Show Help"), this);
+    helpAct->setCheckable(true);
+    helpAct->setChecked(false);
     helpSc = new QShortcut(metaKey('I'), this, SLOT(help()));
     updateAction(helpAct, helpSc, tr("Toggle the visibility of the help pane"));
     connect(helpAct, SIGNAL(triggered()), this, SLOT(help()));
 
     // Preferences
-    prefsAct = new QAction(theme->getPrefsIcon(false), tr("Toggle Preferences"), this);
+    prefsAct = new QAction(theme->getPrefsIcon(false), tr("Show Preferences"), this);
+    prefsAct->setCheckable(true);
+    prefsAct->setChecked(false);
     prefsSc = new QShortcut(metaKey('P'), this, SLOT(togglePrefs()));
     updateAction(prefsAct, prefsSc, tr("Toggle the visibility of the preferences pane"));
     connect(prefsAct, SIGNAL(triggered()), this, SLOT(togglePrefs()));
@@ -3248,4 +3276,5 @@ void MainWindow::updateContextWithCurrentWs() {
 
 void MainWindow::updateContext(int line, int index){
   contextPane->setContent(tr("Line: %1,  Position: %2").arg(line + 1).arg(index + 1));
+
 }
