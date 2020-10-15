@@ -1922,7 +1922,10 @@ void MainWindow::updateColourTheme(){
     }
 
     errorPane->document()->setDefaultStyleSheet(css);
+
+    // update context pane
     contextPane->setTextColor(QColor(theme->color("LogForeground")));
+    updateContextWithCurrentWs();
 
     // clear stylesheets
     this->setStyleSheet("");
@@ -1968,6 +1971,8 @@ void MainWindow::updateColourTheme(){
     scopeInterface->SetColor(theme->color("Scope"));
     scopeInterface->SetColor2(theme->color("Scope_2"));
     lexer->unhighlightAll();
+
+
 }
 
 void MainWindow::showLineNumbersMenuChanged() {
@@ -3199,6 +3204,13 @@ void MainWindow::focusErrors(){
   errorPane->raise();
   errorPane->setVisible(true);
   errorPane->activateWindow();
+}
+
+void MainWindow::updateContextWithCurrentWs() {
+  SonicPiScintilla* ws = ((SonicPiScintilla*)tabs->currentWidget());
+  int line, index;
+  ws->getCursorPosition(&line, &index);
+  updateContext(line, index);
 }
 
 void MainWindow::updateContext(int line, int index){

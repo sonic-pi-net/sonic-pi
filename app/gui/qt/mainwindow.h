@@ -100,6 +100,7 @@ signals:
        private slots:
 
         void updateContext(int line, int index);
+        void updateContextWithCurrentWs();
         void addCuePath(QString path, QString val);
         void docLinkClicked(const QUrl &url);
         void handleCustomUrl(const QUrl &url);
