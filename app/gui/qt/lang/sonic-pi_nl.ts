@@ -98,12 +98,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2932"/>
         <source>Enabling MIDI input...</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI-invoer inschakelen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2938"/>
         <source>Disabling MIDI input...</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI-invoer uitschakelen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2948"/>
@@ -123,17 +123,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="2966"/>
         <source>Disabling OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>OSC cue-poort wordt uitgeschakeld...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2975"/>
         <source>Enabling external OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>Externe OSC cue-poort wordt geactiveerd...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2984"/>
         <source>Enabling internal OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>Interne OSC cue-poort wordt geactiveerd...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3042"/>
@@ -248,7 +248,7 @@ Sorry, er trad een belangrijke fout op tijdens het opstarten</translation>
     <message>
         <location filename="../mainwindow.cpp" line="859"/>
         <source>Playing Sample...</source>
-        <translation type="unfinished"></translation>
+        <translation>Sample afspelen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1559"/>
@@ -339,7 +339,7 @@ Sorry, er trad een belangrijke fout op tijdens het opstarten</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2140"/>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Afsluiten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2159"/>
@@ -359,12 +359,12 @@ Sorry, er trad een belangrijke fout op tijdens het opstarten</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2200"/>
         <source>Toggle Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Info in-/uitschakelen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2202"/>
         <source>Toggle information about Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Informatie over Sonic PI in-/uitschakelen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2208"/>
