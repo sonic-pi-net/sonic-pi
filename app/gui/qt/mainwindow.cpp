@@ -1922,6 +1922,7 @@ void MainWindow::updateColourTheme(){
     }
 
     errorPane->document()->setDefaultStyleSheet(css);
+    contextPane->setTextColor(QColor(theme->color("LogForeground")));
 
     // clear stylesheets
     this->setStyleSheet("");
