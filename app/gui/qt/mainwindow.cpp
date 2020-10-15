@@ -2570,11 +2570,10 @@ void MainWindow::readSettings() {
     std::cout << "[GUI] - reading settings" << std::endl;
     QSettings settings(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net", "gui-settings");
 
-    piSettings->show_buttons = true;
-    piSettings->show_tabs = true;
-    piSettings->show_log = true;
-
     // Read in preferences from previous session
+    piSettings->show_buttons = settings.value("prefs/show-buttons", true).toBool();
+    piSettings->show_tabs = settings.value("prefs/show-tabs", true).toBool();
+    piSettings->show_log =  settings.value("prefs/show-log", true).toBool();
     piSettings->osc_public = settings.value("prefs/osc-public", false).toBool();
     piSettings->osc_server_enabled = settings.value("prefs/osc-enabled", true).toBool();
     piSettings->midi_enabled =  settings.value("prefs/midi-enable", true).toBool();
@@ -2650,6 +2649,10 @@ void MainWindow::writeSettings()
     settings.setValue("prefs/theme", theme->themeStyleToName(piSettings->themeStyle));
 
     settings.setValue("prefs/show-autocompletion", piSettings->show_autocompletion);
+
+    settings.setValue("prefs/show-buttons", piSettings->show_buttons);
+    settings.setValue("prefs/show-tabs", piSettings->show_tabs);
+    settings.setValue("prefs/show-log", piSettings->show_log);
 
     for ( auto name : piSettings->scope_names ) {
         settings.setValue("prefs/scope/show-"+name.toLower(), piSettings->isScopeActive(name));
