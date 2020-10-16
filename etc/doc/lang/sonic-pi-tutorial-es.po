@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2023-08-20 06:46+0000\n"
-"Last-Translator: Nicolás Londoño <nilocuru@hotmail.com>\n"
+"PO-Revision-Date: 2024-04-29 17:03+0000\n"
+"Last-Translator: Vibo Lavida <vibo@firemail.cc>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/es/>\n"
 "Language: es\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.0-dev\n"
+"X-Generator: Weblate 5.5.2\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -9155,9 +9155,9 @@ msgid ""
 "o random behaviour. This stops us from being able to reliably reproduce code s"
 "uch as this:"
 msgstr ""
-"Ya en la Sección 5.6 discutimos por qué el uso de variables entre hilos puede "
-"conducir a un comportamiento aleatorio. Esto nos impide poder reproducir de ma"
-"nera fiable un código como este:"
+"Ya en la Sección 5.6 discutimos por qué el uso de variables entre hilos "
+"puede conducir a un comportamiento aleatorio. Esto nos impide poder "
+"reproducir de manera fiable un código como este:"
 
 #: 10.1-Set-and-Get.md:113
 #, no-wrap
