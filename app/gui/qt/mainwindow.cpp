@@ -546,6 +546,7 @@ void MainWindow::setupWindowStructure() {
     connect(settingsWidget, SIGNAL(showContextChanged()), this, SLOT(changeShowContext()));
     connect(settingsWidget, SIGNAL(checkArgsChanged()), this, SLOT(changeAudioSafeMode()));
     connect(settingsWidget, SIGNAL(synthTriggerTimingGuaranteesChanged()), this, SLOT(changeAudioTimingGuarantees()));
+    connect(settingsWidget, SIGNAL(enableExternalSynthsChanged()), this, SLOT(changeEnableExternalSynths()));
 
     connect(this, SIGNAL(settingsChanged()), settingsWidget, SLOT(settingsChanged()));
 
@@ -1301,6 +1302,7 @@ void MainWindow::honourPrefs() {
     changeShowAutoCompletion();
     changeShowContext();
     changeAudioSafeMode();
+    changeEnableExternalSynths();
 }
 
 void MainWindow::setMessageBoxStyle() {
@@ -2030,6 +2032,17 @@ void MainWindow::changeAudioTimingGuarantees() {
   audioTimingGuaranteesAct->setChecked(piSettings->synth_trigger_timing_guarantees);
 }
 
+void MainWindow::enableExternalSynthsMenuChanged() {
+  piSettings->enable_external_synths = enableExternalSynthsAct->isChecked();
+  emit settingsChanged();
+  changeEnableExternalSynths();
+}
+
+void MainWindow::changeEnableExternalSynths() {
+  QSignalBlocker blocker( enableExternalSynthsAct );
+  enableExternalSynthsAct->setChecked(piSettings->enable_external_synths);
+}
+
 void MainWindow::changeAudioSafeMode() {
     QSignalBlocker blocker( audioSafeAct );
     audioSafeAct->setChecked(piSettings->check_args);
@@ -2390,6 +2403,11 @@ void  MainWindow::createToolBar()
     audioTimingGuaranteesAct->setChecked(piSettings->synth_trigger_timing_guarantees);
     connect(audioTimingGuaranteesAct, SIGNAL(triggered()), this, SLOT(audioTimingGuaranteesMenuChanged()));
 
+    enableExternalSynthsAct = new QAction(tr("Enable External Synths"), this);
+    enableExternalSynthsAct->setCheckable(true);
+    enableExternalSynthsAct->setChecked(piSettings->enable_external_synths);
+    connect(enableExternalSynthsAct, SIGNAL(triggered()), this, SLOT(enableExternalSynthsMenuChanged()));
+
 
     toolBar->addAction(scopeAct);
     toolBar->addAction(infoAct);
@@ -2415,6 +2433,7 @@ void  MainWindow::createToolBar()
     codeMenu->addAction(showAutoCompletionAct);
 
     audioMenu = menuBar()->addMenu(tr("&Audio"));
+    audioMenu->addAction(enableExternalSynthsAct);
     audioMenu->addAction(audioSafeAct);
     audioMenu->addAction(audioTimingGuaranteesAct);
 

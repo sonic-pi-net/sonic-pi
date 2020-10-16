@@ -60,6 +60,7 @@ private slots:
     void showContext();
     void checkArgs();
     void synthTriggerTimingGuarantees();
+    void enableExternalSynths();
 
 signals:
     void mixerSettingsChanged();
@@ -85,6 +86,7 @@ signals:
     void showContextChanged();
     void checkArgsChanged();
     void synthTriggerTimingGuaranteesChanged();
+    void enableExternalSynthsChanged();
 
 private:
     SonicPiSettings* piSettings;
