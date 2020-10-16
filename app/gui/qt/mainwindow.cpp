@@ -1268,6 +1268,12 @@ void MainWindow::midiEnabledMenuChanged() {
   toggleMidi();
 }
 
+void MainWindow::oscServerEnabledMenuChanged() {
+  piSettings->osc_server_enabled = enableOSCServerAct->isChecked();
+  emit settingsChanged();
+  toggleOSCServer();
+}
+
 void MainWindow::mixerInvertStereoMenuChanged() {
   piSettings->mixer_invert_stereo = mixerInvertStereoAct->isChecked();
   emit settingsChanged();
@@ -2477,6 +2483,11 @@ void  MainWindow::createToolBar()
     midiEnabledAct->setChecked(piSettings->midi_enabled);
     connect(midiEnabledAct, SIGNAL(triggered()), this, SLOT(midiEnabledMenuChanged()));
 
+    enableOSCServerAct = new QAction(tr("Enable OSC Server"), this);
+    enableOSCServerAct->setCheckable(true);
+    enableOSCServerAct->setChecked(piSettings->osc_server_enabled);
+    connect(enableOSCServerAct, SIGNAL(triggered()), this, SLOT(oscServerEnabledMenuChanged()));
+
     toolBar->addAction(scopeAct);
     toolBar->addAction(infoAct);
     toolBar->addAction(helpAct);
@@ -2610,6 +2621,8 @@ void  MainWindow::createToolBar()
     midiOutChanMenu16->setChecked(false);
     connect(midiOutChanMenu16, &QAction::triggered, [this](){ midiDefaultChannelMenuChanged(16);});
 
+    ioMenu->addSeparator();
+    ioMenu->addAction(enableOSCServerAct);
 
     focusMenu = menuBar()->addMenu(tr("&Focus"));
 
@@ -3329,12 +3342,16 @@ void MainWindow::resetMidi() {
 }
 
 void MainWindow::toggleOSCServer(int silent) {
+    QSignalBlocker blocker( enableOSCServerAct );
     if (piSettings->osc_server_enabled) {
+      enableOSCServerAct->setChecked(true);
       std::cout << "[GUI] - asking OSC server to start" << std::endl;
       Message msg("/cue-port-start");
       msg.pushStr(guiID.toStdString());
       sendOSC(msg);
     } else {
+
+      enableOSCServerAct->setChecked(false);
       statusBar()->showMessage(tr("Disabling OSC cue port..."), 2000);
       std::cout << "[GUI] - asking OSC server to stop" << std::endl;
       Message msg("/cue-port-stop");
