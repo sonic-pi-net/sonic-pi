@@ -601,6 +601,10 @@ void SettingsWidget::enableExternalSynths() {
   emit enableExternalSynthsChanged();
 }
 
+void SettingsWidget::midiDefaultChannel() {
+  emit midiDefaultChannelChanged();
+}
+
 void SettingsWidget::openSonicPiNet() {
   QDesktopServices::openUrl(QUrl("http://sonic-pi.net", QUrl::TolerantMode));
 }
@@ -766,4 +770,6 @@ void SettingsWidget::connectAll() {
     connect(check_args, SIGNAL(clicked()), this, SLOT(checkArgs()));
     connect(synth_trigger_timing_guarantees_cb, SIGNAL(clicked()), this, SLOT(synthTriggerTimingGuarantees()));
     connect(enable_external_synths_cb, SIGNAL(clicked()), this, SLOT(enableExternalSynths()));
+    connect(midi_default_channel_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(midiDefaultChannel()));
+
 }

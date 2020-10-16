@@ -547,6 +547,7 @@ void MainWindow::setupWindowStructure() {
     connect(settingsWidget, SIGNAL(checkArgsChanged()), this, SLOT(changeAudioSafeMode()));
     connect(settingsWidget, SIGNAL(synthTriggerTimingGuaranteesChanged()), this, SLOT(changeAudioTimingGuarantees()));
     connect(settingsWidget, SIGNAL(enableExternalSynthsChanged()), this, SLOT(changeEnableExternalSynths()));
+    connect(settingsWidget, SIGNAL(midiDefaultChannelChanged()), this, SLOT(changeMidiDefaultChannel()));
 
     connect(this, SIGNAL(settingsChanged()), settingsWidget, SLOT(settingsChanged()));
 
@@ -1326,6 +1327,7 @@ void MainWindow::honourPrefs() {
     changeAudioSafeMode();
     changeEnableExternalSynths();
     mixerSettingsChanged();
+    changeMidiDefaultChannel();
 }
 
 void MainWindow::setMessageBoxStyle() {
@@ -2071,6 +2073,35 @@ void MainWindow::changeAudioSafeMode() {
     audioSafeAct->setChecked(piSettings->check_args);
 }
 
+void MainWindow::midiDefaultChannelMenuChanged(int idx) {
+  piSettings->midi_default_channel = idx;
+  emit settingsChanged();
+  changeMidiDefaultChannel();
+}
+
+void MainWindow::changeMidiDefaultChannel() {
+  int idx = piSettings->midi_default_channel;
+
+  int i = 0;
+  foreach (QAction *action, ioMidiOutChannelMenu->actions()) {
+    if (i == idx) {
+      const bool wasBlocked = action->blockSignals(true);
+      action->setChecked(true);
+      action->blockSignals(wasBlocked);
+
+    } else {
+      const bool wasBlocked = action->blockSignals(true);
+      action->setChecked(false);
+      action->blockSignals(wasBlocked);
+    }
+
+    i++;
+  }
+
+
+
+}
+
 void MainWindow::changeShowLineNumbers(){
 
     bool show = piSettings->show_line_numbers;
@@ -2492,6 +2523,92 @@ void  MainWindow::createToolBar()
     ioMidiOutMenu = ioMenu->addMenu(tr("MIDI Outputs"));
     ioMidiOutMenu->addAction(tr("No Connected Outputs"));
 
+    ioMidiOutChannelMenu = ioMenu->addMenu(tr("Default MIDI Out Channel"));
+
+    QAction *midiOutChanMenuAll = ioMidiOutChannelMenu->addAction(tr("All Channels"));
+    midiOutChanMenuAll->setCheckable(true);
+    midiOutChanMenuAll->setChecked(true);
+    connect(midiOutChanMenuAll, &QAction::triggered, [this](){ midiDefaultChannelMenuChanged(0);});
+
+    QAction *midiOutChanMenu1 = ioMidiOutChannelMenu->addAction(tr("1"));
+    midiOutChanMenu1->setCheckable(true);
+    midiOutChanMenu1->setChecked(false);
+    connect(midiOutChanMenu1, &QAction::triggered, [this](){ midiDefaultChannelMenuChanged(1);});
+
+    QAction *midiOutChanMenu2 = ioMidiOutChannelMenu->addAction(tr("2"));
+    midiOutChanMenu2->setCheckable(true);
+    midiOutChanMenu2->setChecked(false);
+    connect(midiOutChanMenu2, &QAction::triggered, [this](){ midiDefaultChannelMenuChanged(2);});
+
+    QAction *midiOutChanMenu3 = ioMidiOutChannelMenu->addAction(tr("3"));
+    midiOutChanMenu3->setCheckable(true);
+    midiOutChanMenu3->setChecked(false);
+    connect(midiOutChanMenu3, &QAction::triggered, [this](){ midiDefaultChannelMenuChanged(3);});
+
+    QAction *midiOutChanMenu4 = ioMidiOutChannelMenu->addAction(tr("4"));
+    midiOutChanMenu4->setCheckable(true);
+    midiOutChanMenu4->setChecked(false);
+    connect(midiOutChanMenu4, &QAction::triggered, [this](){ midiDefaultChannelMenuChanged(4);});
+
+    QAction *midiOutChanMenu5 = ioMidiOutChannelMenu->addAction(tr("5"));
+    midiOutChanMenu5->setCheckable(true);
+    midiOutChanMenu5->setChecked(false);
+    connect(midiOutChanMenu5, &QAction::triggered, [this](){ midiDefaultChannelMenuChanged(5);});
+
+    QAction *midiOutChanMenu6 = ioMidiOutChannelMenu->addAction(tr("6"));
+    midiOutChanMenu6->setCheckable(true);
+    midiOutChanMenu6->setChecked(false);
+    connect(midiOutChanMenu6, &QAction::triggered, [this](){ midiDefaultChannelMenuChanged(6);});
+
+    QAction *midiOutChanMenu7 = ioMidiOutChannelMenu->addAction(tr("7"));
+    midiOutChanMenu7->setCheckable(true);
+    midiOutChanMenu7->setChecked(false);
+    connect(midiOutChanMenu7, &QAction::triggered, [this](){ midiDefaultChannelMenuChanged(7);});
+
+    QAction *midiOutChanMenu8 = ioMidiOutChannelMenu->addAction(tr("8"));
+    midiOutChanMenu8->setCheckable(true);
+    midiOutChanMenu8->setChecked(false);
+    connect(midiOutChanMenu8, &QAction::triggered, [this](){ midiDefaultChannelMenuChanged(8);});
+
+    QAction *midiOutChanMenu9 = ioMidiOutChannelMenu->addAction(tr("9"));
+    midiOutChanMenu9->setCheckable(true);
+    midiOutChanMenu9->setChecked(false);
+    connect(midiOutChanMenu9, &QAction::triggered, [this](){ midiDefaultChannelMenuChanged(9);});
+
+    QAction *midiOutChanMenu10 = ioMidiOutChannelMenu->addAction(tr("10"));
+    midiOutChanMenu10->setCheckable(true);
+    midiOutChanMenu10->setChecked(false);
+    connect(midiOutChanMenu10, &QAction::triggered, [this](){ midiDefaultChannelMenuChanged(10);});
+
+    QAction *midiOutChanMenu11 = ioMidiOutChannelMenu->addAction(tr("11"));
+    midiOutChanMenu11->setCheckable(true);
+    midiOutChanMenu11->setChecked(false);
+    connect(midiOutChanMenu11, &QAction::triggered, [this](){ midiDefaultChannelMenuChanged(11);});
+
+    QAction *midiOutChanMenu12 = ioMidiOutChannelMenu->addAction(tr("12"));
+    midiOutChanMenu12->setCheckable(true);
+    midiOutChanMenu12->setChecked(false);
+    connect(midiOutChanMenu12, &QAction::triggered, [this](){ midiDefaultChannelMenuChanged(12);});
+
+    QAction *midiOutChanMenu13 = ioMidiOutChannelMenu->addAction(tr("13"));
+    midiOutChanMenu13->setCheckable(true);
+    midiOutChanMenu13->setChecked(false);
+    connect(midiOutChanMenu13, &QAction::triggered, [this](){ midiDefaultChannelMenuChanged(13);});
+
+    QAction *midiOutChanMenu14 = ioMidiOutChannelMenu->addAction(tr("14"));
+    midiOutChanMenu14->setCheckable(true);
+    midiOutChanMenu14->setChecked(false);
+    connect(midiOutChanMenu14, &QAction::triggered, [this](){ midiDefaultChannelMenuChanged(14);});
+
+    QAction *midiOutChanMenu15 = ioMidiOutChannelMenu->addAction(tr("15"));
+    midiOutChanMenu15->setCheckable(true);
+    midiOutChanMenu15->setChecked(false);
+    connect(midiOutChanMenu15, &QAction::triggered, [this](){ midiDefaultChannelMenuChanged(15);});
+
+    QAction *midiOutChanMenu16 = ioMidiOutChannelMenu->addAction(tr("16"));
+    midiOutChanMenu16->setCheckable(true);
+    midiOutChanMenu16->setChecked(false);
+    connect(midiOutChanMenu16, &QAction::triggered, [this](){ midiDefaultChannelMenuChanged(16);});
 
 
     focusMenu = menuBar()->addMenu(tr("&Focus"));

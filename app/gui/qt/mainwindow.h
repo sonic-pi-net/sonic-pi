@@ -154,6 +154,8 @@ signals:
         void showAutoCompletionMenuChanged();
         void audioSafeMenuChanged();
         void changeAudioSafeMode();
+        void changeMidiDefaultChannel();
+        void midiDefaultChannelMenuChanged(int idx);
         void audioTimingGuaranteesMenuChanged();
         void changeAudioTimingGuarantees();
         void enableExternalSynthsMenuChanged();
@@ -288,7 +290,7 @@ signals:
 
         void addUniversalCopyShortcuts(QTextEdit *te);
 
-  QMenu *liveMenu, *codeMenu, *audioMenu, *displayMenu, *focusMenu, *ioMenu, *ioMidiInMenu, *ioMidiOutMenu;
+        QMenu *liveMenu, *codeMenu, *audioMenu, *displayMenu, *focusMenu, *ioMenu, *ioMidiInMenu, *ioMidiOutMenu, *ioMidiOutChannelMenu;
 
         SonicPiSettings *piSettings;
 

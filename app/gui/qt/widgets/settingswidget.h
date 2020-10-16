@@ -61,6 +61,7 @@ private slots:
     void checkArgs();
     void synthTriggerTimingGuarantees();
     void enableExternalSynths();
+    void midiDefaultChannel();
 
 signals:
     void mixerSettingsChanged();
@@ -87,6 +88,7 @@ signals:
     void checkArgsChanged();
     void synthTriggerTimingGuaranteesChanged();
     void enableExternalSynthsChanged();
+    void midiDefaultChannelChanged();
 
 private:
     SonicPiSettings* piSettings;
