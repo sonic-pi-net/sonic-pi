@@ -2475,9 +2475,9 @@ void  MainWindow::createToolBar()
     displayMenu->addAction(showContextAct);
 
     ioMenu = menuBar()->addMenu(tr("&IO"));
-    ioMidiInMenu = ioMenu->addMenu(tr("Connected MIDI Inputs"));
+    ioMidiInMenu = ioMenu->addMenu(tr("MIDI Inputs"));
     ioMidiInMenu->addAction(tr("No Connected Inputs"));
-    ioMidiOutMenu = ioMenu->addMenu(tr("Connected MIDI Outputs"));
+    ioMidiOutMenu = ioMenu->addMenu(tr("MIDI Outputs"));
     ioMidiOutMenu->addAction(tr("No Connected Outputs"));
 
 
