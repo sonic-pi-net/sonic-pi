@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-02-09 13:57+0000\n"
-"Last-Translator: Sam Aaron <samaaron@gmail.com>\n"
-"Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
-"es/>\n"
+"PO-Revision-Date: 2020-10-16 14:26+0000\n"
+"Last-Translator: Vibo Lavida <vibo@firemail.cc>\n"
+"Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-pi/"
+"tutorial/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.11-dev\n"
+"X-Generator: Weblate 4.3.1-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -5695,7 +5695,7 @@ msgstr ""
 " dentro de un hilo. Por ejemplo, *no hagas esto*:"
 
 #: 05.6-Variables.md:139
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "a = (ring 6, 5, 4, 3, 2, 1)\n"
 "live_loop :sorted do\n"
@@ -5708,6 +5708,16 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
+"a = (ring 6, 5, 4, 3, 2, 1)\n"
+"live_loop :sorted do\n"
+"  a = a.sort\n"
+"  sleep 0.5\n"
+"  puts \"sorted: \", a\n"
+"end\n"
+"live_loop :shuffled do\n"
+"  a = a.shuffle\n"
+"  sleep 0.5\n"
+"end"
 
 #: 05.6-Variables.md:154
 msgid ""
@@ -9127,12 +9137,14 @@ msgid "A Simple Deterministic State System"
 msgstr ""
 
 #: 10.1-Set-and-Get.md:109
-#, fuzzy
 msgid ""
 "Back in Section 5.6 we discussed why using variables across threads can lead t"
 "o random behaviour. This stops us from being able to reliably reproduce code s"
 "uch as this:"
-msgstr "rand"
+msgstr ""
+"Ya en la Sección 5.6 discutimos por qué el uso de variables entre hilos "
+"puede conducir a un comportamiento aleatorio. Esto nos impide poder "
+"reproducir de manera fiable un código como este:"
 
 #: 10.1-Set-and-Get.md:113
 #, no-wrap
@@ -9159,7 +9171,7 @@ msgstr ""
 
 #: 10.1-Set-and-Get.md:136
 msgid "Let's take a look at how this might look using `get` and `set`:"
-msgstr ""
+msgstr "Echemos un vistazo a cómo se vería esto usando `get` y` set`:"
 
 #: 10.1-Set-and-Get.md:138
 #, no-wrap
@@ -9218,7 +9230,7 @@ msgstr ""
 
 #: 10.2-Sync.md:15
 msgid "Waiting for Events"
-msgstr ""
+msgstr "Esperando eventos"
 
 #: 10.2-Sync.md:17
 msgid ""
@@ -9319,9 +9331,9 @@ msgid "Let's assume we want to wait for the next event that has three path segme
 msgstr ""
 
 #: 10.3-Pattern-Matching.md:17
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sync \"/*/*/*\""
-msgstr ""
+msgstr "sync \"/*/*/*\""
 
 #: 10.3-Pattern-Matching.md:21
 msgid ""
@@ -9341,12 +9353,14 @@ msgid "`cue \"/foo/baz/quux\"`"
 msgstr "foo"
 
 #: 10.3-Pattern-Matching.md:26
+#, fuzzy
 msgid "`cue \"/eggs/beans/toast\"`"
-msgstr ""
+msgstr "`cue \"/eggs/beans/toast\"`"
 
 #: 10.3-Pattern-Matching.md:27
+#, fuzzy
 msgid "`cue \"/moog/synths/rule\"`"
-msgstr ""
+msgstr "`cue \"/moog/synths/rule\"`"
 
 #: 10.3-Pattern-Matching.md:29
 msgid ""
@@ -9365,8 +9379,9 @@ msgid "`cue \"/foo/baz/quux/quaax\"`"
 msgstr "foo"
 
 #: 10.3-Pattern-Matching.md:34
+#, fuzzy
 msgid "`cue \"/eggs\"`"
-msgstr ""
+msgstr "`cue \"/eggs\"`"
 
 #: 10.3-Pattern-Matching.md:36
 msgid ""
@@ -9464,16 +9479,19 @@ msgid ""
 msgstr ""
 
 #: 10.3-Pattern-Matching.md:79
+#, fuzzy
 msgid "`cue \"/goo/bar/baz\"`"
-msgstr ""
+msgstr "`cue \"/goo/bar/baz\"`"
 
 #: 10.3-Pattern-Matching.md:80
+#, fuzzy
 msgid "`cue \"/too/bar/baz\"`"
-msgstr ""
+msgstr "`cue \"/too/bar/baz\"`"
 
 #: 10.3-Pattern-Matching.md:81
+#, fuzzy
 msgid "`cue \"/woo/bar/baz\"`"
-msgstr ""
+msgstr "`cue \"/woo/bar/baz\"`"
 
 #: 10.3-Pattern-Matching.md:83
 msgid "Matching Multiple Words"
@@ -9567,7 +9585,13 @@ msgid ""
 "end\n"
 "sleep 1\n"
 "cue \"/foo/beans/a/b/c/d/e/bark/quux/\""
-msgstr "sample :loop_amen"
+msgstr ""
+"in_thread do\n"
+"  sync \"/?oo/[a-z]*/**/ba*/{quux,quaax}/\"\n"
+"  sample :loop_amen\n"
+"end\n"
+"sleep 1\n"
+"cue \"/foo/beans/a/b/c/d/e/bark/quux/\""
 
 #: 10.3-Pattern-Matching.md:129
 msgid "OSC Pattern Matching"
@@ -9585,8 +9609,9 @@ msgid "11 MIDI"
 msgstr ""
 
 #: 11-MIDI.md:3
+#, fuzzy
 msgid "MIDI"
-msgstr ""
+msgstr "MIDI"
 
 #: 11-MIDI.md:5
 msgid ""
@@ -9769,7 +9794,7 @@ msgstr ""
 
 #: 11.1-MIDI-In.md:105
 msgid "Removing Latency"
-msgstr ""
+msgstr "Eliminar la latencia"
 
 #: 11.1-MIDI-In.md:107
 msgid ""
@@ -9920,9 +9945,9 @@ msgid ""
 msgstr ""
 
 #: 11.2-MIDI-Out.md:47
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "midi_note_off :e3"
-msgstr ""
+msgstr "midi_note_off :e3"
 
 #: 11.2-MIDI-Out.md:51
 msgid "Selecting a MIDI device"
@@ -10225,7 +10250,7 @@ msgstr ""
 
 #: 13-Multichannel-Audio.md:3
 msgid "Multichannel Audio"
-msgstr ""
+msgstr "Audio multicanal"
 
 #: 13-Multichannel-Audio.md:5
 msgid ""
@@ -10355,7 +10380,7 @@ msgstr ""
 
 #: 13.1-Sound-In.md:72
 msgid "Potential Issues"
-msgstr ""
+msgstr "Problemas potenciales"
 
 #: 13.1-Sound-In.md:74
 msgid ""
@@ -10517,7 +10542,7 @@ msgstr ""
 
 #: 13.2-Live-Audio.md:99
 msgid "Stereo input"
-msgstr ""
+msgstr "Entrada estéreo"
 
 #: 13.2-Live-Audio.md:101
 msgid ""
@@ -10564,7 +10589,7 @@ msgstr ""
 
 #: 13.3-Sound-Out.md:11
 msgid "Output contexts"
-msgstr ""
+msgstr "Contextos de salida"
 
 #: 13.3-Sound-Out.md:13
 msgid ""
@@ -18314,8 +18339,9 @@ msgid "`S-M-1` - Switch to buffer 1"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:28
+#, fuzzy
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: B.02-Shortcut-Cheatsheet.md:29
 msgid "`S-M-9` - Switch to buffer 9"
