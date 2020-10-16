@@ -544,6 +544,8 @@ void MainWindow::setupWindowStructure() {
     connect(settingsWidget, SIGNAL(checkUpdatesChanged()), this, SLOT(update_check_updates()));
     connect(settingsWidget, SIGNAL(forceCheckUpdates()), this, SLOT(check_for_updates_now()));
     connect(settingsWidget, SIGNAL(showContextChanged()), this, SLOT(changeShowContext()));
+    connect(settingsWidget, SIGNAL(checkArgsChanged()), this, SLOT(changeAudioSafeMode()));
+    connect(settingsWidget, SIGNAL(synthTriggerTimingGuaranteesChanged()), this, SLOT(changeAudioTimingGuarantees()));
 
     connect(this, SIGNAL(settingsChanged()), settingsWidget, SLOT(settingsChanged()));
 
@@ -1298,6 +1300,7 @@ void MainWindow::honourPrefs() {
     scope();
     changeShowAutoCompletion();
     changeShowContext();
+    changeAudioSafeMode();
 }
 
 void MainWindow::setMessageBoxStyle() {
@@ -2010,6 +2013,28 @@ void MainWindow::showContextMenuChanged() {
   changeShowContext();
 }
 
+void MainWindow::audioSafeMenuChanged() {
+  piSettings->check_args = audioSafeAct->isChecked();
+  emit settingsChanged();
+  changeAudioSafeMode();
+}
+
+void MainWindow::audioTimingGuaranteesMenuChanged() {
+  piSettings->synth_trigger_timing_guarantees = audioTimingGuaranteesAct->isChecked();
+  emit settingsChanged();
+  changeAudioTimingGuarantees();
+}
+
+void MainWindow::changeAudioTimingGuarantees() {
+  QSignalBlocker blocker( audioTimingGuaranteesAct );
+  audioTimingGuaranteesAct->setChecked(piSettings->synth_trigger_timing_guarantees);
+}
+
+void MainWindow::changeAudioSafeMode() {
+    QSignalBlocker blocker( audioSafeAct );
+    audioSafeAct->setChecked(piSettings->check_args);
+}
+
 void MainWindow::changeShowLineNumbers(){
 
     bool show = piSettings->show_line_numbers;
@@ -2343,17 +2368,28 @@ void  MainWindow::createToolBar()
     showLineNumbersAct = new QAction(tr("Show Line Numbers"), this);
     showLineNumbersAct->setCheckable(true);
     showLineNumbersAct->setChecked(piSettings->show_line_numbers);
+    connect(showLineNumbersAct, SIGNAL(triggered()), this, SLOT(showLineNumbersMenuChanged()));
+
     showAutoCompletionAct = new QAction(tr("Show Code Completion"), this);
     showAutoCompletionAct->setCheckable(true);
     showAutoCompletionAct->setChecked(piSettings->show_autocompletion);
+    connect(showAutoCompletionAct, SIGNAL(triggered()), this, SLOT(showAutoCompletionMenuChanged()));
 
     showContextAct = new QAction(tr("Show Code Context"), this);
     showContextAct->setCheckable(true);
     showContextAct->setChecked(piSettings->show_context);
-
-    connect(showLineNumbersAct, SIGNAL(triggered()), this, SLOT(showLineNumbersMenuChanged()));
-    connect(showAutoCompletionAct, SIGNAL(triggered()), this, SLOT(showAutoCompletionMenuChanged()));
     connect(showContextAct, SIGNAL(triggered()), this, SLOT(showContextMenuChanged()));
+
+    audioSafeAct = new QAction(tr("Safe Audio Mode"), this);
+    audioSafeAct->setCheckable(true);
+    audioSafeAct->setChecked(piSettings->check_args);
+    connect(audioSafeAct, SIGNAL(triggered()), this, SLOT(audioSafeMenuChanged()));
+
+    audioTimingGuaranteesAct = new QAction(tr("Enforce Timing Guarantees"), this);
+    audioTimingGuaranteesAct->setCheckable(true);
+    audioTimingGuaranteesAct->setChecked(piSettings->synth_trigger_timing_guarantees);
+    connect(audioTimingGuaranteesAct, SIGNAL(triggered()), this, SLOT(audioTimingGuaranteesMenuChanged()));
+
 
     toolBar->addAction(scopeAct);
     toolBar->addAction(infoAct);
@@ -2378,7 +2414,12 @@ void  MainWindow::createToolBar()
     codeMenu->addAction(showLineNumbersAct);
     codeMenu->addAction(showAutoCompletionAct);
 
-    displayMenu = menuBar()->addMenu(tr("&Display"));
+    audioMenu = menuBar()->addMenu(tr("&Audio"));
+    audioMenu->addAction(audioSafeAct);
+    audioMenu->addAction(audioTimingGuaranteesAct);
+
+
+    displayMenu = menuBar()->addMenu(tr("&Visuals"));
     displayMenu->addAction(scopeAct);
     displayMenu->addAction(infoAct);
     displayMenu->addAction(helpAct);

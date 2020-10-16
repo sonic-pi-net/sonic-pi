@@ -152,6 +152,10 @@ signals:
         void changeShowLineNumbers();
         void showLineNumbersMenuChanged();
         void showAutoCompletionMenuChanged();
+        void audioSafeMenuChanged();
+        void changeAudioSafeMode();
+        void audioTimingGuaranteesMenuChanged();
+        void changeAudioTimingGuarantees();
         void changeShowAutoCompletion();
         void changeShowContext();
         void showContextMenuChanged();
@@ -279,7 +283,7 @@ signals:
 
         void addUniversalCopyShortcuts(QTextEdit *te);
 
-        QMenu *liveMenu, *codeMenu, *displayMenu, *focusMenu;
+        QMenu *liveMenu, *codeMenu, *audioMenu, *displayMenu, *focusMenu;
 
         SonicPiSettings *piSettings;
 
@@ -333,7 +337,7 @@ signals:
 
         QToolBar *toolBar;
 
-  QAction *exitAct, *runAct, *stopAct, *saveAsAct, *loadFileAct, *recAct, *textAlignAct, *textIncAct, *textDecAct, *scopeAct, *infoAct, *helpAct, *prefsAct, *focusEditorAct, *focusLogsAct, *focusContextAct, *focusCuesAct, *focusPreferencesAct, *focusHelpListingAct, *focusHelpDetailsAct, *focusErrorsAct, *showLineNumbersAct, *showAutoCompletionAct, *showContextAct;
+  QAction *exitAct, *runAct, *stopAct, *saveAsAct, *loadFileAct, *recAct, *textAlignAct, *textIncAct, *textDecAct, *scopeAct, *infoAct, *helpAct, *prefsAct, *focusEditorAct, *focusLogsAct, *focusContextAct, *focusCuesAct, *focusPreferencesAct, *focusHelpListingAct, *focusHelpDetailsAct, *focusErrorsAct, *showLineNumbersAct, *showAutoCompletionAct, *showContextAct, *audioSafeAct, *audioTimingGuaranteesAct;
   QShortcut *runSc, *stopSc, *saveAsSc, *loadFileSc, *recSc, *textAlignSc, *textIncSc, *textDecSc, *scopeSc, *infoSc, *helpSc, *prefsSc, *focusEditorSc, *focusLogsSc, *focusContextSc, *focusCuesSc, *focusPreferencesSc, *focusHelpListingSc, *focusHelpDetailsSc, *focusErrorsSc;
 
         SettingsWidget *settingsWidget;

@@ -58,6 +58,8 @@ private slots:
     void updateTransparency(int t);
     void settingsChanged();
     void showContext();
+    void checkArgs();
+    void synthTriggerTimingGuarantees();
 
 signals:
     void mixerSettingsChanged();
@@ -81,6 +83,8 @@ signals:
     void checkUpdatesChanged();
     void forceCheckUpdates();
     void showContextChanged();
+    void checkArgsChanged();
+    void synthTriggerTimingGuaranteesChanged();
 
 private:
     SonicPiSettings* piSettings;

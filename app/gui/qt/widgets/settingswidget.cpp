@@ -589,6 +589,14 @@ void SettingsWidget::checkForUpdatesNow() {
     emit forceCheckUpdates();
 }
 
+void SettingsWidget::checkArgs() {
+  emit checkArgsChanged();
+}
+
+void SettingsWidget::synthTriggerTimingGuarantees() {
+  emit synthTriggerTimingGuaranteesChanged();
+}
+
 void SettingsWidget::openSonicPiNet() {
   QDesktopServices::openUrl(QUrl("http://sonic-pi.net", QUrl::TolerantMode));
 }
@@ -751,4 +759,6 @@ void SettingsWidget::connectAll() {
 
     connect(show_autocompletion, SIGNAL(clicked()), this, SLOT(showAutoCompletion()));
     connect(show_context, SIGNAL(clicked()), this, SLOT(showContext()));
+    connect(check_args, SIGNAL(clicked()), this, SLOT(checkArgs()));
+    connect(synth_trigger_timing_guarantees_cb, SIGNAL(clicked()), this, SLOT(synthTriggerTimingGuarantees()));
 }
