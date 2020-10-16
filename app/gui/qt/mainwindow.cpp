@@ -1261,6 +1261,12 @@ void MainWindow::mixerForceMonoMenuChanged() {
   mixerSettingsChanged();
 }
 
+void MainWindow::midiEnabledMenuChanged() {
+  piSettings->midi_enabled = midiEnabledAct->isChecked();
+  emit settingsChanged();
+  toggleMidi();
+}
+
 void MainWindow::mixerInvertStereoMenuChanged() {
   piSettings->mixer_invert_stereo = mixerInvertStereoAct->isChecked();
   emit settingsChanged();
@@ -2435,6 +2441,11 @@ void  MainWindow::createToolBar()
     mixerForceMonoAct->setChecked(piSettings->mixer_force_mono);
     connect(mixerForceMonoAct, SIGNAL(triggered()), this, SLOT(mixerForceMonoMenuChanged()));
 
+    midiEnabledAct = new QAction(tr("Enable Incoming MIDI Cues"), this);
+    midiEnabledAct->setCheckable(true);
+    midiEnabledAct->setChecked(piSettings->midi_enabled);
+    connect(midiEnabledAct, SIGNAL(triggered()), this, SLOT(midiEnabledMenuChanged()));
+
     toolBar->addAction(scopeAct);
     toolBar->addAction(infoAct);
     toolBar->addAction(helpAct);
@@ -2475,10 +2486,12 @@ void  MainWindow::createToolBar()
     displayMenu->addAction(showContextAct);
 
     ioMenu = menuBar()->addMenu(tr("&IO"));
+    ioMenu->addAction(midiEnabledAct);
     ioMidiInMenu = ioMenu->addMenu(tr("MIDI Inputs"));
     ioMidiInMenu->addAction(tr("No Connected Inputs"));
     ioMidiOutMenu = ioMenu->addMenu(tr("MIDI Outputs"));
     ioMidiOutMenu->addAction(tr("No Connected Outputs"));
+
 
 
     focusMenu = menuBar()->addMenu(tr("&Focus"));
@@ -3161,6 +3174,9 @@ void MainWindow::setupLogPathAndRedirectStdOut() {
 }
 
 void MainWindow::toggleMidi(int silent) {
+    QSignalBlocker blocker( midiEnabledAct );
+    midiEnabledAct->setChecked(piSettings->midi_enabled);
+
     if (piSettings->midi_enabled) {
         statusBar()->showMessage(tr("Enabling MIDI input..."), 2000);
         Message msg("/midi-start");
