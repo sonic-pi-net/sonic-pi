@@ -2474,6 +2474,13 @@ void  MainWindow::createToolBar()
     displayMenu->addAction(prefsAct);
     displayMenu->addAction(showContextAct);
 
+    ioMenu = menuBar()->addMenu(tr("&IO"));
+    ioMidiInMenu = ioMenu->addMenu(tr("Connected MIDI Inputs"));
+    ioMidiInMenu->addAction(tr("No Connected Inputs"));
+    ioMidiOutMenu = ioMenu->addMenu(tr("Connected MIDI Outputs"));
+    ioMidiOutMenu->addAction(tr("No Connected Outputs"));
+
+
     focusMenu = menuBar()->addMenu(tr("&Focus"));
 
     //Accessibility shortcuts
@@ -3171,6 +3178,12 @@ void MainWindow::toggleMidi(int silent) {
 
 void MainWindow::resetMidi() {
     if (piSettings->midi_enabled) {
+
+        ioMidiOutMenu->clear();
+        ioMidiOutMenu->addAction(tr("No Connected Outputs"));
+        ioMidiInMenu->clear();
+        ioMidiInMenu->addAction(tr("No Connected Inputs"));
+
         settingsWidget->updateMidiInPorts(tr("No connected input devices"));
         settingsWidget->updateMidiOutPorts(tr("No connected output devices"));
         statusBar()->showMessage(tr("Resetting MIDI..."), 2000);
@@ -3269,12 +3282,34 @@ void MainWindow::zoomOutLogs() {
 void MainWindow::updateMIDIInPorts(QString port_info) {
     QString input_header = tr("Connected MIDI inputs") + ":\n\n";
     settingsWidget->updateMidiInPorts(input_header + port_info);
+    ioMidiInMenu->clear();
+    port_info = port_info.trimmed();
+    if (port_info.isEmpty()) {
+      ioMidiInMenu->addAction(tr("No Connected Inputs"));
+    } else {
+      QStringList input_ports = port_info.split("\n");
+
+      for (int i = 0; i < input_ports.size(); ++i) {
+        ioMidiInMenu->addAction(input_ports.at(i));
+      }
+    }
 }
 
 void MainWindow::updateMIDIOutPorts(QString port_info) {
     QString output_header = tr("Connected MIDI outputs") + ":\n\n";
     settingsWidget->updateMidiOutPorts(output_header + port_info);
     autocomplete->updateMidiOuts(port_info);
+    ioMidiOutMenu->clear();
+    port_info = port_info.trimmed();
+    if (port_info.isEmpty()) {
+      ioMidiOutMenu->addAction(tr("No Connected Outputs"));
+    } else {
+      QStringList output_ports = port_info.split("\n");
+
+      for (int i = 0; i < output_ports.size(); ++i) {
+        ioMidiOutMenu->addAction(output_ports.at(i));
+      }
+    }
 }
 
 void MainWindow::focusContext() {
