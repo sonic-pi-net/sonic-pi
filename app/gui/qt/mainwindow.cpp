@@ -2743,7 +2743,7 @@ void MainWindow::readSettings() {
     piSettings->osc_public = settings.value("prefs/osc-public", false).toBool();
     piSettings->osc_server_enabled = settings.value("prefs/osc-enabled", true).toBool();
     piSettings->midi_enabled =  settings.value("prefs/midi-enable", true).toBool();
-    piSettings->midi_default_channel =  settings.value("prefs/default-midi-channel", 0).toInt();
+    piSettings->midi_default_channel =  settings.value("prefs/midi-default-channel", 0).toInt();
     piSettings->check_args =  settings.value("prefs/check-args", true).toBool();
     piSettings->print_output =  settings.value("prefs/print-output", true).toBool();
     piSettings->clear_output_on_run = settings.value("prefs/clear-output-on-run", true).toBool();
