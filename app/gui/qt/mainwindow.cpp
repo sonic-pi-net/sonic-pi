@@ -1255,14 +1255,30 @@ void MainWindow::showWindow() {
     changeShowLineNumbers();
 }
 
+void MainWindow::mixerForceMonoMenuChanged() {
+  piSettings->mixer_force_mono = mixerForceMonoAct->isChecked();
+  emit settingsChanged();
+  mixerSettingsChanged();
+}
+
+void MainWindow::mixerInvertStereoMenuChanged() {
+  piSettings->mixer_invert_stereo = mixerInvertStereoAct->isChecked();
+  emit settingsChanged();
+  mixerSettingsChanged();
+}
+
+
 void MainWindow::mixerSettingsChanged() {
-    std::cout << "Mixer Settings Changed!" << std::endl;
+    QSignalBlocker blocker( mixerInvertStereoAct );
+    mixerInvertStereoAct->setChecked(piSettings->mixer_invert_stereo);
     if (piSettings->mixer_invert_stereo) {
         mixerInvertStereo();
     } else {
         mixerStandardStereo();
     }
 
+    QSignalBlocker blocker2( mixerForceMonoAct );
+    mixerForceMonoAct->setChecked(piSettings->mixer_force_mono);
     if (piSettings->mixer_force_mono) {
         mixerMonoMode();
     } else {
@@ -1303,6 +1319,7 @@ void MainWindow::honourPrefs() {
     changeShowContext();
     changeAudioSafeMode();
     changeEnableExternalSynths();
+    mixerSettingsChanged();
 }
 
 void MainWindow::setMessageBoxStyle() {
@@ -2408,6 +2425,15 @@ void  MainWindow::createToolBar()
     enableExternalSynthsAct->setChecked(piSettings->enable_external_synths);
     connect(enableExternalSynthsAct, SIGNAL(triggered()), this, SLOT(enableExternalSynthsMenuChanged()));
 
+    mixerInvertStereoAct = new QAction(tr("Invert Stereo"), this);
+    mixerInvertStereoAct->setCheckable(true);
+    mixerInvertStereoAct->setChecked(piSettings->mixer_invert_stereo);
+    connect(mixerInvertStereoAct, SIGNAL(triggered()), this, SLOT(mixerInvertStereoMenuChanged()));
+
+    mixerForceMonoAct = new QAction(tr("Force Mono"), this);
+    mixerForceMonoAct->setCheckable(true);
+    mixerForceMonoAct->setChecked(piSettings->mixer_force_mono);
+    connect(mixerForceMonoAct, SIGNAL(triggered()), this, SLOT(mixerForceMonoMenuChanged()));
 
     toolBar->addAction(scopeAct);
     toolBar->addAction(infoAct);
@@ -2436,6 +2462,9 @@ void  MainWindow::createToolBar()
     audioMenu->addAction(enableExternalSynthsAct);
     audioMenu->addAction(audioSafeAct);
     audioMenu->addAction(audioTimingGuaranteesAct);
+    audioMenu->addSeparator();
+    audioMenu->addAction(mixerInvertStereoAct);
+    audioMenu->addAction(mixerForceMonoAct);
 
 
     displayMenu = menuBar()->addMenu(tr("&Visuals"));
