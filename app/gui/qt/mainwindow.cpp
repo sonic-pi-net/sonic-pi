@@ -1287,7 +1287,6 @@ void MainWindow::mixerInvertStereoMenuChanged() {
   mixerSettingsChanged();
 }
 
-
 void MainWindow::mixerSettingsChanged() {
     QSignalBlocker blocker( mixerInvertStereoAct );
     mixerInvertStereoAct->setChecked(piSettings->mixer_invert_stereo);
@@ -2637,6 +2636,21 @@ void  MainWindow::createToolBar()
     ioMenu->addSeparator();
     ioMenu->addAction(enableOSCServerAct);
     ioMenu->addAction(allowRemoteOSCAct);
+    localIpAddressesMenu = ioMenu->addMenu(tr("Local IP Addresses"));
+    QList<QHostAddress> list = QNetworkInterface::allAddresses();
+
+    for(int nIter=0; nIter<list.count(); nIter++)
+      {
+        if(!list[nIter].isLoopback()) {
+          if (list[nIter].protocol() == QAbstractSocket::IPv4Protocol ) {
+            localIpAddressesMenu->addAction(list[nIter].toString() );
+          }
+        }
+      }
+
+    QMenu *incomingOSCPortMenu = ioMenu->addMenu(tr("Incoming OSC Port"));
+    incomingOSCPortMenu->addAction(QString::number(server_osc_cues_port));
+
     focusMenu = menuBar()->addMenu(tr("&Focus"));
 
     //Accessibility shortcuts
