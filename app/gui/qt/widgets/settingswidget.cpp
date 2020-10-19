@@ -168,10 +168,10 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
     network_ip_label->setText(ip_address_trans + ": " + ip_address + "\n" + port_num_trans + + ": " + QString::number(server_osc_cues_port));
     network_ip_label->setToolTip(all_ip_addresses);
 
-    osc_public_check = new QCheckBox(tr("Send/Receive remote OSC"));
+    osc_public_check = new QCheckBox(tr("Allow non-local OSC"));
     osc_public_check->setToolTip(tr("When checked, Sonic Pi will let you send and receive OSC messages to and from remote machines.\n When unchecked, only sending and receiving from the local machine will be enabled."));
 
-    osc_server_enabled_check = new QCheckBox(tr("Enable OSC server"));
+    osc_server_enabled_check = new QCheckBox(tr("Allow incoming OSC"));
     osc_server_enabled_check->setToolTip(tr("When checked, Sonic Pi will listen for OSC messages.\n When unchecked no OSC messages will be received."));
 
     QVBoxLayout *network_box_layout = new QVBoxLayout;
