@@ -2521,6 +2521,8 @@ void  MainWindow::createToolBar()
     codeMenu->addSeparator();
     codeMenu->addAction(showLineNumbersAct);
     codeMenu->addAction(showAutoCompletionAct);
+    codeMenu->addAction(showContextAct);
+
 
     audioMenu = menuBar()->addMenu(tr("&Audio"));
     audioMenu->addAction(enableExternalSynthsAct);
@@ -2536,7 +2538,6 @@ void  MainWindow::createToolBar()
     displayMenu->addAction(infoAct);
     displayMenu->addAction(helpAct);
     displayMenu->addAction(prefsAct);
-    displayMenu->addAction(showContextAct);
 
     ioMenu = menuBar()->addMenu(tr("&IO"));
     ioMenu->addAction(midiEnabledAct);
