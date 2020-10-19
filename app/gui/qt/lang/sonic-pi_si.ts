@@ -98,12 +98,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2932"/>
         <source>Enabling MIDI input...</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI ඇතුල්කිරීම් සක්‍රීයයි...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2938"/>
         <source>Disabling MIDI input...</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI ඇතුල්කිරීම් අක්‍රීයයි...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2948"/>
@@ -208,7 +208,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2171"/>
         <source>Load an external file in the current buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>වත්මන් බෆර් ගොනුවේ අරඹන්න</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2424"/>
@@ -238,7 +238,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1438"/>
         <source>Save Current Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>වත්මන් ගොනුවේ සේව් කරන්න</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="740"/>
