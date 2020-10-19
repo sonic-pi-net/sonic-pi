@@ -1274,6 +1274,13 @@ void MainWindow::oscServerEnabledMenuChanged() {
   toggleOSCServer();
 }
 
+
+void MainWindow::allowRemoteOSCMenuChanged() {
+  piSettings->osc_public = allowRemoteOSCAct->isChecked();
+  emit settingsChanged();
+  toggleOSCServer();
+}
+
 void MainWindow::mixerInvertStereoMenuChanged() {
   piSettings->mixer_invert_stereo = mixerInvertStereoAct->isChecked();
   emit settingsChanged();
@@ -2483,10 +2490,15 @@ void  MainWindow::createToolBar()
     midiEnabledAct->setChecked(piSettings->midi_enabled);
     connect(midiEnabledAct, SIGNAL(triggered()), this, SLOT(midiEnabledMenuChanged()));
 
-    enableOSCServerAct = new QAction(tr("Enable OSC Server"), this);
+    enableOSCServerAct = new QAction(tr("Allow Incoming OSC"), this);
     enableOSCServerAct->setCheckable(true);
     enableOSCServerAct->setChecked(piSettings->osc_server_enabled);
     connect(enableOSCServerAct, SIGNAL(triggered()), this, SLOT(oscServerEnabledMenuChanged()));
+
+    allowRemoteOSCAct = new QAction(tr("Allow Remote OSC"), this);
+    allowRemoteOSCAct->setCheckable(true);
+    allowRemoteOSCAct->setChecked(piSettings->osc_public);
+    connect(allowRemoteOSCAct, SIGNAL(triggered()), this, SLOT(allowRemoteOSCMenuChanged()));
 
     toolBar->addAction(scopeAct);
     toolBar->addAction(infoAct);
@@ -2535,6 +2547,7 @@ void  MainWindow::createToolBar()
     ioMidiOutMenu->addAction(tr("No Connected Outputs"));
 
     ioMidiOutChannelMenu = ioMenu->addMenu(tr("Default MIDI Out Channel"));
+
 
     QAction *midiOutChanMenuAll = ioMidiOutChannelMenu->addAction(tr("All Channels"));
     midiOutChanMenuAll->setCheckable(true);
@@ -2623,7 +2636,7 @@ void  MainWindow::createToolBar()
 
     ioMenu->addSeparator();
     ioMenu->addAction(enableOSCServerAct);
-
+    ioMenu->addAction(allowRemoteOSCAct);
     focusMenu = menuBar()->addMenu(tr("&Focus"));
 
     //Accessibility shortcuts
@@ -3359,7 +3372,10 @@ void MainWindow::toggleOSCServer(int silent) {
       sendOSC(msg);
     }
 
+    QSignalBlocker blocker2( allowRemoteOSCAct );
     if(piSettings->osc_public) {
+      allowRemoteOSCAct->setChecked(true);
+
       if (piSettings->osc_server_enabled ) {
         statusBar()->showMessage(tr("Enabling external OSC cue port..."), 2000);
       }
@@ -3368,7 +3384,10 @@ void MainWindow::toggleOSCServer(int silent) {
       Message msg("/cue-port-external");
       msg.pushStr(guiID.toStdString());
       sendOSC(msg);
+
     } else  {
+      allowRemoteOSCAct->setChecked(false);
+
       if (piSettings->osc_server_enabled ) {
         statusBar()->showMessage(tr("Enabling internal OSC cue port..."), 2000);
       }
@@ -3377,7 +3396,6 @@ void MainWindow::toggleOSCServer(int silent) {
       msg.pushStr(guiID.toStdString());
       sendOSC(msg);
     }
-
 }
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *evt)
