@@ -2494,7 +2494,7 @@ void  MainWindow::createToolBar()
     enableOSCServerAct->setChecked(piSettings->osc_server_enabled);
     connect(enableOSCServerAct, SIGNAL(triggered()), this, SLOT(oscServerEnabledMenuChanged()));
 
-    allowRemoteOSCAct = new QAction(tr("Allow Remote OSC"), this);
+    allowRemoteOSCAct = new QAction(tr("Allow OSC From Other Computers"), this);
     allowRemoteOSCAct->setCheckable(true);
     allowRemoteOSCAct->setChecked(piSettings->osc_public);
     connect(allowRemoteOSCAct, SIGNAL(triggered()), this, SLOT(allowRemoteOSCMenuChanged()));
