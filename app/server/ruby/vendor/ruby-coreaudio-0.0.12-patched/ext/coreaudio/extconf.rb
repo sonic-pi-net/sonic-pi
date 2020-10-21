@@ -1,6 +1,6 @@
 require 'mkmf'
 
-$CFLAGS << " " << "-ObjC"
+$CFLAGS << " " << "-ObjC" << " " << "-Wno-implicit-function-declaration"
 
 unless defined?(have_framework)
   def have_framework(fw, &b)
