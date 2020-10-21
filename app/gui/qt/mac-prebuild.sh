@@ -1,13 +1,14 @@
 #!/bin/bash
 set -e # Quit script on error
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-echo "Warning: Unix build scripts are still a work in progress!"
 
 # Build external dependencies
-if [ "$1" = "--build-aubio" ]; then
-  "${SCRIPT_DIR}/external/mac_build_externals.sh" --build-aubio
+if [ "$1" = "--without-aubio" ]; then
+    "${SCRIPT_DIR}/external/mac_build_externals.sh"
 else
-  "${SCRIPT_DIR}/external/mac_build_externals.sh"
+    "${SCRIPT_DIR}/external/mac_build_externals.sh" --build-aubio
+    mkdir -p "${SCRIPT_DIR}/../../server/native/lib"
+    cp "${SCRIPT_DIR}/external/build/aubio-prefix/src/aubio-build/libaubio-5.dylib" "${SCRIPT_DIR}/../../server/native/lib/"
 fi
 
 # Install dependencies to server
@@ -16,11 +17,6 @@ mkdir -p "${SCRIPT_DIR}/../../server/erlang/sonic_pi_server/priv/"
 for f in ${SCRIPT_DIR}/external/build/sp_midi-prefix/src/sp_midi-build/*.dylib; do
     cp $f ${SCRIPT_DIR}/../../server/erlang/sonic_pi_server/priv/$(basename $f .dylib).so
 done
-
-if [ "$1" = "--build-aubio" ]; then
-  mkdir -p "${SCRIPT_DIR}/../../server/native/lib"
-  cp "${SCRIPT_DIR}/external/build/aubio-prefix/src/aubio-build/libaubio-5.dylib" "${SCRIPT_DIR}/../../server/native/lib/"
-fi
 
 #dont remove ruby-aubio-prerelease, as needed in linux build
 #it is removed in the windows-prebuild
