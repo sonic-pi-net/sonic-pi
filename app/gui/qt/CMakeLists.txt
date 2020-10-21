@@ -2,9 +2,11 @@ cmake_minimum_required(VERSION 3.2)
 
 message(STATUS " CMakeLists: Sonic Pi")
 
-project(SonicPi
+project("Sonic Pi"
     LANGUAGES CXX C
-    VERSION 3.2.0
+  DESCRIPTION "A code-based music creation and performance tool"
+  VERSION 3.3.3
+  HOMEPAGE_URL "https://sonic-pi.net"
     )
 
 set(CMAKE_CXX_STANDARD 14)
@@ -118,7 +120,60 @@ endif()
 set(ALL_SOURCES ${OSC_SOURCES} ${QT_SOURCES} ${SOURCES} ${EDITOR_SOURCES})
 
 # Create the Qt version of the app
-add_executable(${APP_NAME} WIN32 ${ALL_SOURCES} ${RESOURCES}) # Win32 ignored on non-windows
+if (APPLE)
+    set(MACOSX_BUNDLE_BUNDLE_NAME ${PROJECT_NAME})
+    set(MACOSX_BUNDLE_GUI_IDENTIFIER "net.sonic-pi.app")
+    set(MACOSX_BUNDLE_INFO_STRING "A code-based music creation and performance tool")
+    set(MACOSX_BUNDLE_ICON_FILE "app.icns")
+    set(MACOSX_BUNDLE_LONG_VERSION_STRING ${PROJECT_VERSION})
+    set(MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION})
+    set(MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION})
+    add_executable(${APP_NAME} MACOSX_BUNDLE ${ALL_SOURCES} ${RESOURCES} )
+
+else()
+  add_executable(${APP_NAME} WIN32 ${ALL_SOURCES} ${RESOURCES}) # Win32 ignored on non-windows
+endif()
+
+if (APPLE)
+  set_target_properties(
+    ${APP_NAME}
+    PROPERTIES
+    RESOURCE "images/app.icns"
+    )
+  add_custom_command(
+    TARGET ${APP_NAME}
+    POST_BUILD
+    COMMAND macdeployqt ${APP_NAME}.app
+    )
+  add_custom_command(
+    TARGET ${APP_NAME}
+    POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E create_symlink ../../../../../../../app app
+    POST_BUILD
+    WORKING_DIRECTORY ${APP_NAME}.app/Contents/Resources
+    )
+  add_custom_command(
+    TARGET ${APP_NAME}
+    POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E create_symlink ../../../../../../server server
+    POST_BUILD
+    WORKING_DIRECTORY ${APP_NAME}.app/Contents/Resources
+    )
+    add_custom_command(
+    TARGET ${APP_NAME}
+    POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E create_symlink ../../../../../../../etc etc
+    POST_BUILD
+    WORKING_DIRECTORY ${APP_NAME}.app/Contents/Resources
+    )
+   add_custom_command(
+     TARGET ${APP_NAME}
+     POST_BUILD
+     COMMAND plutil -replace NSHighResolutionCapable -bool true ${APP_NAME}.app/Contents/Info.plist
+     )
+endif()
+
+
 set_property(TARGET ${APP_NAME} PROPERTY POSITION_INDEPENDENT_CODE ON) # Qt requires this?
 target_include_directories(${APP_NAME}
     PRIVATE
