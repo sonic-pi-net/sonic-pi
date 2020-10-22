@@ -996,11 +996,20 @@ void MainWindow::toggleCuesVisibility() {
 }
 
 void MainWindow::updateLogVisibility(){
+    QSignalBlocker blocker( showLogAct );
+    showLogAct->setChecked(piSettings->show_log);
+
     if(piSettings->show_log) {
         outputWidget->show();
     } else{
         outputWidget->close();
     }
+}
+
+void MainWindow::showLogMenuChanged(){
+  piSettings->show_log = showLogAct->isChecked();
+  emit settingsChanged();
+  updateLogVisibility();
 }
 
 void MainWindow::updateCuesVisibility(){
@@ -2393,7 +2402,7 @@ void  MainWindow::createToolBar()
     connect(textDecAct, SIGNAL(triggered()), this, SLOT(zoomCurrentWorkspaceOut()));
 
     // Scope
-    scopeAct = new QAction(theme->getScopeIcon(false), tr("Show Scope"), this);
+    scopeAct = new QAction(theme->getScopeIcon(false), tr("Show Scopes"), this);
     scopeAct->setCheckable(true);
     scopeAct->setChecked(piSettings->show_scopes);
     scopeSc = new QShortcut(metaKey('O'), this, SLOT(toggleScope()));
@@ -2535,9 +2544,7 @@ void  MainWindow::createToolBar()
 
     displayMenu = menuBar()->addMenu(tr("&Visuals"));
     displayMenu->addAction(scopeAct);
-    displayMenu->addAction(infoAct);
-    displayMenu->addAction(helpAct);
-    displayMenu->addAction(prefsAct);
+
 
     ioMenu = menuBar()->addMenu(tr("&IO"));
     ioMenu->addAction(midiEnabledAct);
@@ -2652,7 +2659,9 @@ void  MainWindow::createToolBar()
     QMenu *incomingOSCPortMenu = ioMenu->addMenu(tr("Incoming OSC Port"));
     incomingOSCPortMenu->addAction(QString::number(server_osc_cues_port));
 
-    focusMenu = menuBar()->addMenu(tr("&Focus"));
+    viewMenu = menuBar()->addMenu(tr("&View"));
+
+
 
     //Accessibility shortcuts
 
@@ -2703,15 +2712,25 @@ void  MainWindow::createToolBar()
     updateAction(focusErrorsAct, focusErrorsSc, tr("Place focus on errors"));
     connect(focusErrorsAct, SIGNAL(triggered()), this, SLOT(focusErrors()));
 
-    focusMenu->addSeparator();
-    focusMenu->addAction(focusEditorAct);
-    focusMenu->addAction(focusLogsAct);
-    focusMenu->addAction(focusCuesAct);
-    focusMenu->addAction(focusContextAct);
-    focusMenu->addAction(focusPreferencesAct);
-    focusMenu->addAction(focusHelpListingAct);
-    focusMenu->addAction(focusHelpDetailsAct);
-    focusMenu->addAction(focusErrorsAct);
+    showLogAct = new QAction(tr("Show Log"), this);
+    showLogAct->setCheckable(true);
+    showLogAct->setChecked(piSettings->show_log);
+    connect(showLogAct, SIGNAL(triggered()), this, SLOT(showLogMenuChanged()));
+
+    viewMenu->addAction(showLogAct);
+
+    viewMenu->addAction(infoAct);
+    viewMenu->addAction(helpAct);
+    viewMenu->addAction(prefsAct);
+    viewMenu->addSeparator();
+    viewMenu->addAction(focusEditorAct);
+    viewMenu->addAction(focusLogsAct);
+    viewMenu->addAction(focusCuesAct);
+    viewMenu->addAction(focusContextAct);
+    viewMenu->addAction(focusPreferencesAct);
+    viewMenu->addAction(focusHelpListingAct);
+    viewMenu->addAction(focusHelpDetailsAct);
+    viewMenu->addAction(focusErrorsAct);
 }
 
 QString MainWindow::readFile(QString name)
