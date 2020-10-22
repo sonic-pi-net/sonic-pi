@@ -1951,14 +1951,23 @@ void MainWindow::cycleThemes() {
     updateColourTheme();
 }
 
+void MainWindow::logAutoScrollMenuChanged() {
+  piSettings->log_auto_scroll = logAutoScrollAct->isChecked();
+  emit settingsChanged();
+  updateLogAutoScroll();
+}
+
 void MainWindow::updateLogAutoScroll() {
-    bool val = piSettings->log_auto_scroll;
-    outputPane->forceScrollDown(val);
-    if(val) {
-        statusBar()->showMessage(tr("Log Auto Scroll on..."), 2000);
-    } else {
-        statusBar()->showMessage(tr("Log Auto Scroll off..."), 2000);
-    }
+  QSignalBlocker blocker( logAutoScrollAct );
+  logAutoScrollAct->setChecked(piSettings->log_auto_scroll);
+  bool val = piSettings->log_auto_scroll;
+
+  outputPane->forceScrollDown(val);
+  if(val) {
+    statusBar()->showMessage(tr("Log Auto Scroll on..."), 2000);
+  } else {
+    statusBar()->showMessage(tr("Log Auto Scroll off..."), 2000);
+  }
 }
 
 void MainWindow::toggleIcons() {
@@ -2540,7 +2549,7 @@ void  MainWindow::createToolBar()
     codeMenu->addSeparator();
     codeMenu->addAction(showLineNumbersAct);
     codeMenu->addAction(showAutoCompletionAct);
-    codeMenu->addAction(showContextAct);
+
 
 
     audioMenu = menuBar()->addMenu(tr("&Audio"));
@@ -2732,8 +2741,16 @@ void  MainWindow::createToolBar()
     showCuesAct->setChecked(piSettings->show_cues);
     connect(showCuesAct, SIGNAL(triggered()), this, SLOT(showCuesMenuChanged()));
 
+    logAutoScrollAct = new QAction(tr("Auto-Scroll Log"), this);
+    logAutoScrollAct->setCheckable(true);
+    logAutoScrollAct->setChecked(piSettings->log_auto_scroll);
+    connect(logAutoScrollAct, SIGNAL(triggered()), this, SLOT(logAutoScrollMenuChanged()));
+
     viewMenu->addAction(showLogAct);
     viewMenu->addAction(showCuesAct);
+    viewMenu->addAction(showContextAct);
+    viewMenu->addSeparator();
+    viewMenu->addAction(logAutoScrollAct);
     viewMenu->addSeparator();
     viewMenu->addAction(infoAct);
     viewMenu->addAction(helpAct);
