@@ -1006,6 +1006,13 @@ void MainWindow::updateLogVisibility(){
     }
 }
 
+
+void MainWindow::showCuesMenuChanged(){
+  piSettings->show_cues = showCuesAct->isChecked();
+  emit settingsChanged();
+  updateCuesVisibility();
+}
+
 void MainWindow::showLogMenuChanged(){
   piSettings->show_log = showLogAct->isChecked();
   emit settingsChanged();
@@ -1013,11 +1020,14 @@ void MainWindow::showLogMenuChanged(){
 }
 
 void MainWindow::updateCuesVisibility(){
-    if(piSettings->show_cues) {
-        incomingWidget->show();
-    } else{
-        incomingWidget->close();
-    }
+  QSignalBlocker blocker( showCuesAct );
+  showCuesAct->setChecked(piSettings->show_cues);
+
+  if(piSettings->show_cues) {
+    incomingWidget->show();
+  } else{
+    incomingWidget->close();
+  }
 }
 
 void MainWindow::toggleTabsVisibility() {
@@ -2717,8 +2727,14 @@ void  MainWindow::createToolBar()
     showLogAct->setChecked(piSettings->show_log);
     connect(showLogAct, SIGNAL(triggered()), this, SLOT(showLogMenuChanged()));
 
-    viewMenu->addAction(showLogAct);
+    showCuesAct = new QAction(tr("Show Cue Log"), this);
+    showCuesAct->setCheckable(true);
+    showCuesAct->setChecked(piSettings->show_cues);
+    connect(showCuesAct, SIGNAL(triggered()), this, SLOT(showCuesMenuChanged()));
 
+    viewMenu->addAction(showLogAct);
+    viewMenu->addAction(showCuesAct);
+    viewMenu->addSeparator();
     viewMenu->addAction(infoAct);
     viewMenu->addAction(helpAct);
     viewMenu->addAction(prefsAct);
