@@ -194,8 +194,8 @@ target_include_directories(${APP_NAME}
 target_link_libraries(${APP_NAME}
     PRIVATE
     QScintilla
-    Qt5::Core 
-    Qt5::Gui 
+    Qt5::Core
+    Qt5::Gui
     Qt5::Widgets
     Qt5::OpenGL
     Qt5::Concurrent
@@ -231,5 +231,5 @@ source_group(Osc FILES ${OSC_SOURCES})
 source_group(Scintilla FILES ${EDITOR_SOURCES})
 source_group(Qt FILES ${QT_SOURCES})
 
-source_group(Qt\\AutoMoc FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}_automoc.cpp ) 
-source_group(Qt\\AutoMoc REGULAR_EXPRESSION "(mocs_*|qrc_.*|QtAwesome.*)" ) 
+source_group(Qt\\AutoMoc FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}_automoc.cpp )
+source_group(Qt\\AutoMoc REGULAR_EXPRESSION "(mocs_*|qrc_.*|QtAwesome.*)" )
