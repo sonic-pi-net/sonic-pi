@@ -34,7 +34,9 @@ cp "${SCRIPT_DIR}/utils/ruby_help.tmpl" "${SCRIPT_DIR}/utils/ruby_help.h"
 ruby "${SCRIPT_DIR}/../../server/ruby/bin/qt-doc.rb" -o "${SCRIPT_DIR}/utils/ruby_help.h"
 
 echo "Updating GUI translation files..."
-lrelease "${SCRIPT_DIR}"/lang/*.ts
+# Use lrelease on PATH if available otherwise assume Qt was installed via homebrew
+PATH=$PATH:/usr/local/opt/qt/bin lrelease "${SCRIPT_DIR}"/lang/*.ts
+
 
 echo "Compiling erlang files..."
 cd "${SCRIPT_DIR}/../../server/erlang/sonic_pi_server"
