@@ -401,10 +401,19 @@ module SonicPi
       when :windows
         erlang_bin_path = "\"#{File.join(native_path, "erlang", "bin", "erl.exe")}\""
       when :osx
-        erlang_bin_path = File.join(native_path, "erlang", "erl")
-        "\"#{ruby_path}\" \"#{erlang_bin_path}\""
-        # Uncomment this if you want to use the system Erlang:
-        #"erl"
+        user_erl = File.join(native_path, "erlang", "bin", "erl")
+        ruby_erl = File.join(native_path, "erlang", "rerl")
+        qt_erl = "/usr/local/bin/erl"
+
+        if File.exist?(user_erl)
+          user_erl
+        elsif File.exist?(ruby_erl)
+          "\"#{ruby_path}\" \"#{ruby_erl}\""
+        elsif File.exist?(qt_erl)
+          qt_erl
+        else
+          "erl"
+        end
       when :raspberry, :linux
         "erl"
       end
