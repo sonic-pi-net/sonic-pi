@@ -23,8 +23,7 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 set(oscpack_path ${PROJECT_SOURCE_DIR}/external_libs/oscpack_1_1_0)
 add_subdirectory(${oscpack_path})
-include_directories(${oscpack_path} ${PROJECT_SOURCE_DIR}/external_libs/spdlog-0.11.0/include JuceLibraryCode JuceLibraryCode/modules  ${PROJECT_SOURCE_DIR}/external_libs/cxxopts)
-
+include_directories(${oscpack_path} ${PROJECT_SOURCE_DIR}/external_libs/spdlog-0.11.0/include JuceLibraryCode JuceLibraryCode/modules ${PROJECT_SOURCE_DIR}/external_libs/cxxopts ${PROJECT_SOURCE_DIR}/external_libs)
 
 set(sp_midi_sources
     src/sp_midi.cpp
@@ -37,11 +36,13 @@ set(sp_midi_sources
 
 if(MSVC)
     list(APPEND sp_midi_sources ${PROJECT_SOURCE_DIR}/external_libs/rtmidi/RtMidi.cpp)
-    include_directories(${PROJECT_SOURCE_DIR}/external_libs)
     add_definitions(-D__WINDOWS_MM__)
 endif(MSVC)
 
-
+if(APPLE)
+    list(APPEND sp_midi_sources ${PROJECT_SOURCE_DIR}/external_libs/rtmidi/RtMidi.cpp)
+    add_definitions(-D__MACOSX_CORE__)
+endif(APPLE)
 
 if(APPLE)
     set(juce_sources
@@ -92,4 +93,3 @@ elseif(UNIX)
     add_definitions(-DLINUX=1 -DNDEBUG=1 -DJUCER_LINUX_MAKE_6D53C8B4=1 -DJUCE_APP_VERSION=1.0.0 -DJUCE_APP_VERSION_HEX=0x10000)
     target_link_libraries(libsp_midi pthread ${ALSA_LIBRARY} dl rtmidi)
 endif(MSVC)
-
