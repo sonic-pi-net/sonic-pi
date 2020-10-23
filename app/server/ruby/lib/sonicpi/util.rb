@@ -388,7 +388,9 @@ module SonicPi
       when :windows
         File.join(native_path, "ruby", "bin", "ruby.exe")
       when :osx
-        File.join(native_path, "ruby", "bin", "ruby")
+        require 'rbconfig'
+        File.join(RbConfig::CONFIG['bindir'],
+                  RbConfig::CONFIG['RUBY_INSTALL_NAME'] + RbConfig::CONFIG['EXEEXT'])
       when  :raspberry, :linux
         "ruby"
       end
