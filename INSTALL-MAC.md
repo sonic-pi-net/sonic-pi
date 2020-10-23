@@ -74,9 +74,9 @@ brew cask install supercollider
 ```
 
 (Note, if you have already manually installed recent version of
-SuperCollider installed into your `/Application` folder directly then
-there's no need to `brew cask install supercollider` as this will
-complain as an existing version of the app is already installed).
+SuperCollider into your `/Application` folder directly then there's no
+need to `brew cask install supercollider` as this will complain as an
+existing version of the app is already installed).
 
 ## 2. Preparing the Build
 
@@ -97,7 +97,8 @@ git clone https://github.com/samaaron/sonic-pi.git ~/Development/sonic-pi
 ``` 
 
 If you don't have Git installed you should be able to download a `.zip`
-file of the latest commit or specific release you'd like to build:
+file of the latest commit or specific release (v3.3+) you'd like to
+build:
 
 https://github.com/samaaron/sonic-pi/archive/main.zip
 
