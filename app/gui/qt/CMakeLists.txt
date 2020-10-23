@@ -140,10 +140,14 @@ if (APPLE)
     PROPERTIES
     RESOURCE "images/app.icns"
     )
+  file(
+    GENERATE OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/run-macdeployqt.sh"
+    CONTENT "PATH=$PATH:/usr/local/opt/qt5/bin macdeployqt $1"
+    )
   add_custom_command(
     TARGET ${APP_NAME}
     POST_BUILD
-    COMMAND macdeployqt ${APP_NAME}.app
+    COMMAND bash "${CMAKE_CURRENT_BINARY_DIR}/run-macdeployqt.sh" ${APP_NAME}.app
     )
   add_custom_command(
     TARGET ${APP_NAME}
