@@ -65,7 +65,7 @@ yourself they aren't doing anything malicious.
 ### 1.3 Install all other dependencies
 
 Once you have Homebrew installed, pulling in the rest of the
-dependencies is just another line to execute wihin a terminal:
+dependencies is a couple of lines to execute within a terminal:
 
 ```
 brew install qt cmake ruby erlang 
