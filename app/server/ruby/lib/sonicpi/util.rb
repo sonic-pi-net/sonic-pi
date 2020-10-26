@@ -60,11 +60,16 @@ module SonicPi
     @@raspberry_pi_2 = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['a01040','a01041','a22042'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
     @@raspberry_pi_3 = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['a02082','a22082','a32082'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
     @@raspberry_pi_3bplus = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['a020d3'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
+    @@raspberry_pi_3_64 = RUBY_PLATFORM.match(/aarch64.*-linux.*/) && ['a02082','a22082','a32082'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
+    @@raspberry_pi_3bplus_64 = RUBY_PLATFORM.match(/aarch64.*-linux.*/) && ['a020d3'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
     @@raspberry_pi_4_1gb =  RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['a03111'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
     @@raspberry_pi_4_2gb =  RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['b03111','b03112'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
     @@raspberry_pi_4_4gb =  RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['c03111','c03112'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
-   @@raspberry_pi_4_8gb =  RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['d03114'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
-   @@raspberry_pi_4_8gb_64 =  RUBY_PLATFORM.match(/aarch64.*linux.*/) && ['d03114'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
+    @@raspberry_pi_4_8gb =  RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['d03114'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
+    @@raspberry_pi_4_1gb_64 =  RUBY_PLATFORM.match(/aarch64.*-linux.*/) && ['a03111'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
+    @@raspberry_pi_4_2gb_64 =  RUBY_PLATFORM.match(/aarch64.*-linux.*/) && ['b03111','b03112'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
+    @@raspberry_pi_4_4gb_64 =  RUBY_PLATFORM.match(/aarch64.*-linux.*/) && ['c03111','c03112'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n")) 
+    @@raspberry_pi_4_8gb_64 =  RUBY_PLATFORM.match(/aarch64.*linux.*/) && ['d03114'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
     @@home_dir = File.expand_path((ENV['SONIC_PI_HOME'] || @@user_dir) + '/.sonic-pi/')
     @@project_path = @@home_dir + '/store/default/'
     @@log_path = @@home_dir + '/log/'
@@ -126,7 +131,15 @@ module SonicPi
       os == :raspberry && @@raspberry_pi_3bplus
     end
 
-    def raspberry_pi_4_1gb?
+    def raspberry_pi_3_64?
+      os == :raspberry && @@raspberry_pi_3_64
+    end
+
+    def raspberry_pi_3bplus_64?
+      os == :raspberry && @@raspberry_pi_3bplus_64
+    end
+
+   def raspberry_pi_4_1gb?
       os == :raspberry && @@raspberry_pi_4_1gb
     end
 
@@ -142,7 +155,19 @@ module SonicPi
       os == :raspberry && @@raspberry_pi_4_8gb
     end
 
-    def raspberry_pi_4_8gb_64?
+    def raspberry_pi_4_1gb_64?
+      os == :raspberry && @@raspberry_pi_4_1gb_64
+    end
+
+    def raspberry_pi_4_2gb_64?
+      os == :raspberry && @@raspberry_pi_4_2gb_64
+    end
+
+      def raspberry_pi_4_4gb_64?
+      os == :raspberry && @@raspberry_pi_4_4gb_64
+    end
+
+     def raspberry_pi_4_8gb_64?
       os == :raspberry && @@raspberry_pi_4_8gb_64
     end
 
@@ -186,6 +211,10 @@ module SonicPi
           "Raspberry Pi 3B"
         elsif raspberry_pi_3bplus?
           "Raspberry Pi 3B+"
+        elsif raspberry_pi_3_64?
+          "Raspberry Pi 3B 64bit OS"
+        elsif raspberry_pi_3bplus_64?
+          "Raspberry Pi 3B+ 64bit OS"
         elsif raspberry_pi_4_1gb?
           "Raspberry Pi 4B:1Gb"
         elsif raspberry_pi_4_2gb?
@@ -194,6 +223,12 @@ module SonicPi
           "Raspberry Pi 4B:4Gb"
         elsif raspberry_pi_4_8gb?
           "Raspberry Pi 4B:8Gb"
+        elsif raspberry_pi_4_1gb_64?
+          "Raspberry Pi 4B:1Gb 64bit OS"
+        elsif raspberry_pi_4_2gb_64?
+          "Raspberry Pi 4B:2Gb 64bit OS"
+        elsif raspberry_pi_4_4gb_64?
+          "Raspberry Pi 4B:4Gb 64bit OS"
         elsif raspberry_pi_4_8gb_64?
           "Raspberry Pi 4B:8Gb 64bit OS"
         else
