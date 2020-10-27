@@ -1,13 +1,17 @@
 #pragma once
 #include <vector>
+#include <memory>
 #include <string>
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "midiin.h"
+#include "midisendprocessor.h"
 
 
 // FIXME: this should go into a header file
-extern void prepareMidiInputs(std::vector<std::unique_ptr<MidiIn> >& midiInputs);
+void prepareMidiInputs(std::vector<std::unique_ptr<MidiIn> >& midiInputs);
 extern std::vector<std::unique_ptr<MidiIn> > midiInputs;
+void prepareMidiSendProcessorOutputs(std::unique_ptr<MidiSendProcessor>& midiSendProcessor);
+extern std::unique_ptr<MidiSendProcessor> midiSendProcessor;
 
 class HotPlugThread : public juce::Thread
 {
@@ -16,15 +20,24 @@ public:
 
     void run() override
     {
-        std::vector<std::string> lastAvailablePorts = MidiIn::getInputNames();
+        std::vector<std::string> lastAvailableInputPorts = MidiIn::getInputNames();
+        std::vector<std::string> lastAvailableOutputPorts = MidiOut::getOutputNames();
         while (!threadShouldExit()){
             wait(500);
-            auto newAvailablePorts = MidiIn::getInputNames();
+            auto newAvailableInputPorts = MidiIn::getInputNames();
             // Was something added or removed?
-            if (newAvailablePorts != lastAvailablePorts) {
+            if (newAvailableInputPorts != lastAvailableInputPorts) {
                 prepareMidiInputs(midiInputs);
-                lastAvailablePorts = newAvailablePorts;
+                lastAvailableInputPorts = newAvailableInputPorts;
             }
+
+            auto newAvailableOutputPorts = MidiOut::getOutputNames();
+            // Was something added or removed?
+            if (newAvailableOutputPorts != lastAvailableOutputPorts) {
+                prepareMidiSendProcessorOutputs(midiSendProcessor);
+                lastAvailableOutputPorts = newAvailableOutputPorts;
+            }
+
         }
     }
 };

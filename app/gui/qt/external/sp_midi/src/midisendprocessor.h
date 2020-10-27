@@ -31,7 +31,7 @@
 #include "monitorlogger.h"
 
 
-class OscInProcessor : public juce::Thread{
+class MidiSendProcessor : public juce::Thread{
 private:
     typedef struct{
         std::string device_name;
@@ -39,15 +39,15 @@ private:
     } MidiDeviceAndMessage;
 
 public:
-    OscInProcessor() : Thread("oscinprocessor thread"){}
+    MidiSendProcessor() : Thread("midisendprocessor thread"){}
 
     void prepareOutputs(const std::vector<std::string>& outputNames);
 
     void processMessage(const MidiDeviceAndMessage& message_from_c);
 
-    ~OscInProcessor()
+    ~MidiSendProcessor()
     {
-        m_logger.trace("OscInProcessor destructor");
+        m_logger.trace("MidiSendProcessor destructor");
     }
 
     int getNMidiOuts() const;
@@ -62,7 +62,7 @@ public:
 
 private:
     void send(const std::string& outDevice, const std::vector< unsigned char >* msg);
-    
+
     std::vector<std::unique_ptr<MidiOut> > m_outputs;
     MonitorLogger& m_logger{ MonitorLogger::getInstance() };
 

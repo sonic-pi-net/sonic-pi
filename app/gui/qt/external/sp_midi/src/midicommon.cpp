@@ -24,7 +24,6 @@
 #include "midicommon.h"
 
 using namespace std;
-using namespace juce;
 
 map<string, int> MidiCommon::m_midiNameToRtMidiId;
 map<string, int> MidiCommon::m_midiNameToStickyId;
@@ -50,22 +49,6 @@ string MidiCommon::getNormalizedPortName() const
 int MidiCommon::getPortId() const
 {
     return m_stickyId;
-}
-
-// Checks if the name matches the id. They may stop matching because of adding or removing MIDI devices while running
-// This should be called after we detect a change in the list of MIDI devices, for finer control of which MidiIns to keep
-bool MidiCommon::checkValid() const
-{
-    auto strArray = MidiInput::getDevices();
-    int nPorts = strArray.size();
-    if (m_rtMidiId >= nPorts)
-        return false;
-
-    string nameForId = strArray[m_rtMidiId].toStdString();
-    if (nameForId != m_portName)
-        return false;
-
-    return true;
 }
 
 int MidiCommon::getRtMidiIdFromName(const string& portName)

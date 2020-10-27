@@ -64,6 +64,10 @@ void safeOscString(string& str)
     replace_chars(str, ']', '_');
     replace_chars(str, '{', '_');
     replace_chars(str, '}', '_');
+
+    // Colons are used by Sonic Pi to separate source
+    // segments, so remove them from MIDI source names
+    replace_chars(str, ':', '_');
     downcase(str);
 }
 

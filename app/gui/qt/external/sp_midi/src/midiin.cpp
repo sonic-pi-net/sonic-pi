@@ -23,11 +23,9 @@
 #include <iostream>
 #include "sp_midi.h"
 #include "midiin.h"
-#include "osc/OscOutboundPacketStream.h"
 #include "utils.h"
 
 using namespace std;
-using namespace juce;
 
 MidiIn::MidiIn(const string& portName, bool isVirtual) : m_oscRawMidiMessage(false)
 {
@@ -50,7 +48,7 @@ MidiIn::MidiIn(const string& portName, bool isVirtual) : m_oscRawMidiMessage(fal
         m_midiIn->ignoreTypes( false, false, false );
     }
 // TODO: do the virtual ports
-#if 0
+#if 0    
     else {
 #ifndef WIN32
         m_logger.trace("*** Creating new MIDI device: ", m_portName);
@@ -74,7 +72,7 @@ MidiIn::~MidiIn()
 
 
 void MidiIn::staticMidiCallback(double timeStamp, std::vector< unsigned char > *midiMessage, void *userData)
-{
+{    
     MidiIn *midiIn = (MidiIn *)userData;
     midiIn->midiCallback(timeStamp, midiMessage);
 }

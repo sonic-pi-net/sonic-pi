@@ -1,5 +1,5 @@
 -module(sp_midi_test).
--export([start/0, midi_process/0, test_get_current_time_microseconds/2, test_scheduler_callback_process/1]).
+-export([start/0, midi_process/0, test_get_current_time_microseconds/2, test_scheduler_callback_process/1, list_devices/1]).
 
 
 midi_process() ->
@@ -36,6 +36,17 @@ test_get_current_time_microseconds(Count, SleepMillis) ->
     timer:sleep(SleepMillis),
     test_get_current_time_microseconds(Count-1, SleepMillis).
 
+list_devices(0) ->
+    done;
+list_devices(N) ->
+    INS = sp_midi:midi_ins(),
+    OUTS = sp_midi:midi_outs(),
+    io:fwrite("MIDI INs:~p~n", [INS]),
+    io:fwrite("MIDI OUTs:~p~n", [OUTS]),
+    timer:sleep(1000),
+    list_devices(N-1).
+
+
 
 start() ->
 %    cd("d:/projects/sp_midi/src").
@@ -44,10 +55,10 @@ start() ->
     %io:fwrite("Testing NIF function to return current time in microseconds. The values should be around 1000 miliseconds away~n"),
     %test_get_current_time_microseconds(3, 1000),
 
-    Aon = binary:list_to_bin("/*/note_on"),
-    Mon = <<Aon/binary, <<0, 0, 44, 105, 105, 105, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 64, 0, 0, 0, 100>>/binary >>,
-    Aoff = binary:list_to_bin("/*/note_off"),
-    Moff = << Aoff/binary, <<0, 44, 105, 105, 105, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 64, 0, 0, 0, 100>>/binary >>,
+    %Aon = binary:list_to_bin("/*/note_on"),
+    %Mon = <<Aon/binary, <<0, 0, 44, 105, 105, 105, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 64, 0, 0, 0, 100>>/binary >>,
+    %Aoff = binary:list_to_bin("/*/note_off"),
+    %Moff = << Aoff/binary, <<0, 44, 105, 105, 105, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 64, 0, 0, 0, 100>>/binary >>,
 
     sp_midi:midi_init(),
 
@@ -68,8 +79,11 @@ start() ->
     Pid = spawn(sp_midi_test, midi_process, []),
     sp_midi:set_this_pid(Pid),
 
-    INS = sp_midi:midi_ins(),
-    OUTS = sp_midi:midi_outs(),
+    %INS = sp_midi:midi_ins(),
+    %OUTS = sp_midi:midi_outs(),
+
+    list_devices(10),
+
 
     %io:fwrite("MIDI INs:~p~n", [INS]),
 

@@ -21,9 +21,11 @@ endif(APPLE)
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-set(oscpack_path ${PROJECT_SOURCE_DIR}/external_libs/oscpack_1_1_0)
-add_subdirectory(${oscpack_path})
-include_directories(${oscpack_path} ${PROJECT_SOURCE_DIR}/external_libs/spdlog-0.11.0/include JuceLibraryCode JuceLibraryCode/modules ${PROJECT_SOURCE_DIR}/external_libs/cxxopts ${PROJECT_SOURCE_DIR}/external_libs)
+#set(oscpack_path ${PROJECT_SOURCE_DIR}/external_libs/oscpack_1_1_0)
+#add_subdirectory(${oscpack_path})
+include_directories( ${PROJECT_SOURCE_DIR}/external_libs/spdlog-0.11.0/include JuceLibraryCode JuceLibraryCode/modules ${PROJECT_SOURCE_DIR}/external_libs/cxxopts ${PROJECT_SOURCE_DIR}/external_libs)
+#include_directories(${PROJECT_SOURCE_DIR}/external_libs/spdlog-0.11.0/include JuceLibraryCode JuceLibraryCode/modules ${PROJECT_SOURCE_DIR}/external_libs/cxxopts)
+
 
 set(sp_midi_sources
     src/sp_midi.cpp
@@ -46,15 +48,11 @@ endif(APPLE)
 
 if(APPLE)
     set(juce_sources
-        JuceLibraryCode/include_juce_audio_basics.mm
-        JuceLibraryCode/include_juce_audio_devices.mm
         JuceLibraryCode/include_juce_core.mm
         JuceLibraryCode/include_juce_events.mm
     )
 else(APPLE)
     set(juce_sources
-        JuceLibraryCode/include_juce_audio_basics.cpp
-        JuceLibraryCode/include_juce_audio_devices.cpp
         JuceLibraryCode/include_juce_core.cpp
         JuceLibraryCode/include_juce_events.cpp
     )
@@ -67,9 +65,7 @@ SET_TARGET_PROPERTIES(libsp_midi PROPERTIES PREFIX "")
 #check if armv7l architecture (Raspberry Pi OS 32bit) and add atomic linking if so
 if (${CMAKE_HOST_SYSTEM_PROCESSOR} MATCHES "armv7l")
     message(STATUS("linking atomic for armv7l architecture"))
-    target_link_libraries(libsp_midi oscpack atomic)
-else()
-    target_link_libraries(libsp_midi oscpack)
+    target_link_libraries(libsp_midi atomic)
 endif()
 
 add_definitions(-DJUCE_ALSA_MIDI_NAME="sp_midi")
@@ -93,3 +89,4 @@ elseif(UNIX)
     add_definitions(-DLINUX=1 -DNDEBUG=1 -DJUCER_LINUX_MAKE_6D53C8B4=1 -DJUCE_APP_VERSION=1.0.0 -DJUCE_APP_VERSION_HEX=0x10000)
     target_link_libraries(libsp_midi pthread ${ALSA_LIBRARY} dl rtmidi)
 endif(MSVC)
+

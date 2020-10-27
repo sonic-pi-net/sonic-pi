@@ -27,7 +27,7 @@
 using namespace std;
 
 
-void OscInProcessor::prepareOutputs(const vector<string>& outputNames)
+void MidiSendProcessor::prepareOutputs(const vector<string>& outputNames)
 {
     m_outputs.clear();
     for (auto& outputName : outputNames) {
@@ -45,7 +45,7 @@ void OscInProcessor::prepareOutputs(const vector<string>& outputNames)
 // TODO: during initial testing to measure latency of async calls
 void print_time_stamp(char type);
 
-bool OscInProcessor::addMessage(const char* device_name, const unsigned char* c_message, std::size_t size)
+bool MidiSendProcessor::addMessage(const char* device_name, const unsigned char* c_message, std::size_t size)
 {
     lock_guard<mutex> lock(m_messages_mutex);
     vector<unsigned char> midi_data;
@@ -57,14 +57,14 @@ bool OscInProcessor::addMessage(const char* device_name, const unsigned char* c_
 }
 
 
-void OscInProcessor::flushMessages()
+void MidiSendProcessor::flushMessages()
 {
     lock_guard<mutex> lock(m_messages_mutex);
     m_messages.clear();
 }
 
 
-void OscInProcessor::run()
+void MidiSendProcessor::run()
 {
     while (!threadShouldExit()){
         if (m_data_in_midi_queue.wait(500) == true){
@@ -78,19 +78,19 @@ void OscInProcessor::run()
 }
 
 
-void OscInProcessor::processMessage(const MidiDeviceAndMessage& message_from_c)
+void MidiSendProcessor::processMessage(const MidiDeviceAndMessage& message_from_c)
 {
     try{
         //print_time_stamp('B');
         send(message_from_c.device_name, &message_from_c.midi);
     }
     catch (const std::exception& e){
-        m_logger.error("Exception thrown in OscInProcessor::ProcessMessage: {}!!!", e.what());
+        m_logger.error("Exception thrown in MidiSendProcessor::ProcessMessage: {}!!!", e.what());
     }
 }
 
 
-void OscInProcessor::send(const string& outDevice, const std::vector< unsigned char >* msg)
+void MidiSendProcessor::send(const string& outDevice, const std::vector< unsigned char >* msg)
 {
     if (outDevice == "*") {
         // send to every known midi device
@@ -112,22 +112,22 @@ void OscInProcessor::send(const string& outDevice, const std::vector< unsigned c
 
 
 // TODO: can we remove these?
-int OscInProcessor::getNMidiOuts() const
+int MidiSendProcessor::getNMidiOuts() const
 {
     return static_cast<int>(m_outputs.size());
 }
 
-int OscInProcessor::getMidiOutId(int n) const
+int MidiSendProcessor::getMidiOutId(int n) const
 {
     return m_outputs[n]->getPortId();
 }
 
-string OscInProcessor::getMidiOutName(int n) const
+string MidiSendProcessor::getMidiOutName(int n) const
 {
     return m_outputs[n]->getPortName();
 }
 
-string OscInProcessor::getNormalizedMidiOutName(int n) const
+string MidiSendProcessor::getNormalizedMidiOutName(int n) const
 {
     return m_outputs[n]->getNormalizedPortName();
 }

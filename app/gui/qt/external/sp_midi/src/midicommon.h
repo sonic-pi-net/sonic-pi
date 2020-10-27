@@ -40,8 +40,6 @@ public:
 
     virtual ~MidiCommon();
 
-    bool checkValid() const;
-
     std::string getPortName() const;
     std::string getNormalizedPortName() const;
     int getPortId() const;

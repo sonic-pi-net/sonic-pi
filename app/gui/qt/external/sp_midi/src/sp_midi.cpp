@@ -30,7 +30,6 @@
 #include "midiout.h"
 #include "midiin.h"
 #include "midisendprocessor.h"
-#include "osc/OscOutboundPacketStream.h"
 #include "version.h"
 #include "utils.h"
 #include "monitorlogger.h"
@@ -42,7 +41,7 @@ using namespace std;
 // FIXME: need to test what happens when MIDI devices are already in use by another application
 // and sp_midi cannot open them
 // MIDI out
-static std::unique_ptr<OscInProcessor> midiSendProcessor;
+std::unique_ptr<MidiSendProcessor> midiSendProcessor;
 
 // MIDI in
 vector<unique_ptr<MidiIn> > midiInputs;
@@ -55,7 +54,7 @@ static ErlNifPid midi_process_pid;
 
 static atomic<bool> g_already_initialized(false);
 
-static void prepareOscProcessorOutputs(unique_ptr<OscInProcessor>& midiSendProcessor)
+void prepareMidiSendProcessorOutputs(unique_ptr<MidiSendProcessor>& midiSendProcessor)
 {
     // Open all MIDI devices. This is what Sonic Pi does
     vector<string> midiOutputsToOpen = MidiOut::getOutputNames();
@@ -126,10 +125,10 @@ int sp_midi_init()
     g_already_initialized = true;
     MonitorLogger::getInstance().setLogLevel(g_monitor_level);
 
-    midiSendProcessor = make_unique<OscInProcessor>();
+    midiSendProcessor = make_unique<MidiSendProcessor>();
     // Prepare the MIDI outputs
     try {
-        prepareOscProcessorOutputs(midiSendProcessor);
+        prepareMidiSendProcessorOutputs(midiSendProcessor);
     } catch (const std::out_of_range&) {
         cout << "Error opening MIDI outputs" << endl;
         return -1;
@@ -257,7 +256,6 @@ ERL_NIF_TERM sp_midi_deinit_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
 
 ERL_NIF_TERM sp_midi_send_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    ERL_NIF_TERM term1;
     ErlNifBinary bin;
     char device_name[256];
 

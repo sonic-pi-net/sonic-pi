@@ -25,7 +25,6 @@
 #include "utils.h"
 
 using namespace std;
-using namespace juce;
 
 MidiOut::MidiOut(const string& portName)
 {
