@@ -63,6 +63,7 @@ private slots:
     void enableExternalSynths();
     void midiDefaultChannel();
     void logCues();
+    void logSynths();
 
 signals:
     void mixerSettingsChanged();
@@ -91,6 +92,7 @@ signals:
     void enableExternalSynthsChanged();
     void midiDefaultChannelChanged();
     void logCuesChanged();
+    void logSynthsChanged();
 
 private:
     SonicPiSettings* piSettings;
@@ -100,7 +102,7 @@ private:
 
     QCheckBox *mixer_invert_stereo;
     QCheckBox *mixer_force_mono;
-    QCheckBox *print_output;
+    QCheckBox *log_synths;
     QCheckBox *check_args;
     QCheckBox *clear_output_on_run;
     QCheckBox *log_cues;

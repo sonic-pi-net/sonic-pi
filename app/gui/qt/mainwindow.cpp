@@ -549,6 +549,7 @@ void MainWindow::setupWindowStructure() {
     connect(settingsWidget, SIGNAL(enableExternalSynthsChanged()), this, SLOT(changeEnableExternalSynths()));
     connect(settingsWidget, SIGNAL(midiDefaultChannelChanged()), this, SLOT(changeMidiDefaultChannel()));
     connect(settingsWidget, SIGNAL(logCuesChanged()), this, SLOT(changeLogCues()));
+    connect(settingsWidget, SIGNAL(logSynthsChanged()), this, SLOT(changeLogSynths()));
 
     connect(this, SIGNAL(settingsChanged()), settingsWidget, SLOT(settingsChanged()));
 
@@ -1590,7 +1591,7 @@ void MainWindow::runCode()
 
     QString code = ws->text();
 
-    if(!piSettings->print_output) {
+    if(!piSettings->log_synths) {
         code = "use_debug false #__nosave__ set by Qt GUI user preferences.\n" + code ;
     }
 
@@ -2130,6 +2131,16 @@ void MainWindow::changeLogCues() {
   logCuesAct->setChecked(piSettings->log_cues);
 }
 
+void MainWindow::logSynthsMenuChanged() {
+  piSettings->log_synths = logSynthsAct->isChecked();
+  emit settingsChanged();
+}
+
+void MainWindow::changeLogSynths() {
+  QSignalBlocker blocker( logSynthsAct );
+  logSynthsAct->setChecked(piSettings->log_synths);
+}
+
 void MainWindow::changeMidiDefaultChannel() {
   int idx = piSettings->midi_default_channel;
 
@@ -2543,6 +2554,11 @@ void  MainWindow::createToolBar()
     logCuesAct->setChecked(piSettings->log_cues);
     connect(logCuesAct, SIGNAL(triggered()), this, SLOT(logCuesMenuChanged()));
 
+    logSynthsAct = new QAction(tr("Log Synths"), this);
+    logSynthsAct->setCheckable(true);
+    logSynthsAct->setChecked(piSettings->log_cues);
+    connect(logSynthsAct, SIGNAL(triggered()), this, SLOT(logSynthsMenuChanged()));
+
     toolBar->addAction(scopeAct);
     toolBar->addAction(infoAct);
     toolBar->addAction(helpAct);
@@ -2554,6 +2570,7 @@ void  MainWindow::createToolBar()
     liveMenu->addAction(recAct);
     liveMenu->addSeparator();
     liveMenu->addAction(logCuesAct);
+    liveMenu->addAction(logSynthsAct);
     liveMenu->addSeparator();
     liveMenu->addAction(exitAct);
 
@@ -2973,7 +2990,7 @@ void MainWindow::readSettings() {
     piSettings->midi_enabled =  settings.value("prefs/midi-enable", true).toBool();
     piSettings->midi_default_channel =  settings.value("prefs/midi-default-channel", 0).toInt();
     piSettings->check_args =  settings.value("prefs/check-args", true).toBool();
-    piSettings->print_output =  settings.value("prefs/print-output", true).toBool();
+    piSettings->log_synths =  settings.value("prefs/log-synths", true).toBool();
     piSettings->clear_output_on_run = settings.value("prefs/clear-output-on-run", true).toBool();
     piSettings->log_cues = settings.value("prefs/log-cues", false).toBool();
     piSettings->log_auto_scroll = settings.value("prefs/log-auto-scroll", true).toBool();
@@ -3023,7 +3040,7 @@ void MainWindow::writeSettings()
     settings.setValue("prefs/osc-enabled", piSettings->osc_server_enabled);
 
     settings.setValue("prefs/check-args", piSettings->check_args);
-    settings.setValue("prefs/print-output", piSettings->print_output);
+    settings.setValue("prefs/log-synths", piSettings->log_synths);
     settings.setValue("prefs/clear-output-on-run", piSettings->clear_output_on_run);
     settings.setValue("prefs/log-cues", piSettings->log_cues);
     settings.setValue("prefs/log-auto-scroll", piSettings->log_auto_scroll);

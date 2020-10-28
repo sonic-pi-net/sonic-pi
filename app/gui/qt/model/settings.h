@@ -32,7 +32,7 @@ public:
     bool show_tabs;
     bool full_screen;
     bool goto_buffer_shortcuts;
-    bool print_output;
+    bool log_synths;
     bool clear_output_on_run;
     bool log_cues;
     bool log_auto_scroll;

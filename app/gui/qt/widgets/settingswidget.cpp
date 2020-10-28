@@ -348,8 +348,8 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     QGroupBox *debug_box = new QGroupBox(tr("Logging"));
     debug_box->setToolTip(tr("Configure debug behaviour"));
 
-    print_output = new QCheckBox(tr("Log synths"));
-    print_output->setToolTip(tr("Toggle log messages.\nIf disabled, activity such as synth and sample\ntriggering will not be printed to the log by default."));
+    log_synths = new QCheckBox(tr("Log synths"));
+    log_synths->setToolTip(tr("Toggle log messages.\nIf disabled, activity such as synth and sample\ntriggering will not be printed to the log by default."));
 
     clear_output_on_run = new QCheckBox(tr("Clear log on run"));
     clear_output_on_run->setToolTip(tr("Toggle log clearing on run.\nIf enabled, the log is cleared each\ntime the run button is pressed."));
@@ -361,7 +361,7 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     log_auto_scroll->setToolTip(tr("Toggle log auto scrolling.\nIf enabled the log is scrolled to the bottom after every new message is displayed."));
 
     QVBoxLayout *debug_box_layout = new QVBoxLayout;
-    debug_box_layout->addWidget(print_output);
+    debug_box_layout->addWidget(log_synths);
     debug_box_layout->addWidget(log_cues);
     debug_box_layout->addWidget(log_auto_scroll);
     debug_box_layout->addWidget(clear_output_on_run);
@@ -609,6 +609,10 @@ void SettingsWidget::logCues() {
   emit logCuesChanged();
 }
 
+void SettingsWidget::logSynths() {
+  emit logSynthsChanged();
+}
+
 void SettingsWidget::openSonicPiNet() {
   QDesktopServices::openUrl(QUrl("http://sonic-pi.net", QUrl::TolerantMode));
 }
@@ -645,7 +649,7 @@ void SettingsWidget::updateSettings() {
     piSettings->show_tabs = show_tabs->isChecked();
     piSettings->full_screen = full_screen->isChecked();
     piSettings->goto_buffer_shortcuts = goto_buffer_shortcuts->isChecked();
-    piSettings->print_output = print_output->isChecked();
+    piSettings->log_synths = log_synths->isChecked();
     piSettings->clear_output_on_run = clear_output_on_run->isChecked();
     piSettings->log_cues = log_cues->isChecked();
     piSettings->log_auto_scroll = log_auto_scroll->isChecked();
@@ -685,7 +689,7 @@ void SettingsWidget::settingsChanged() {
     show_tabs->setChecked(piSettings->show_tabs);
     full_screen->setChecked(piSettings->full_screen);
     goto_buffer_shortcuts->setChecked(piSettings->goto_buffer_shortcuts);
-    print_output->setChecked(piSettings->print_output);
+    log_synths->setChecked(piSettings->log_synths);
     clear_output_on_run->setChecked(piSettings->clear_output_on_run);
     log_cues->setChecked(piSettings->log_cues);
     log_auto_scroll->setChecked(piSettings->log_auto_scroll);
@@ -731,7 +735,7 @@ void SettingsWidget::connectAll() {
     connect(show_tabs, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(full_screen, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(goto_buffer_shortcuts, SIGNAL(clicked()), this, SLOT(updateSettings()));
-    connect(print_output, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(log_synths, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(clear_output_on_run, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(log_cues, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(log_auto_scroll, SIGNAL(clicked()), this, SLOT(updateSettings()));
@@ -776,5 +780,5 @@ void SettingsWidget::connectAll() {
     connect(enable_external_synths_cb, SIGNAL(clicked()), this, SLOT(enableExternalSynths()));
     connect(midi_default_channel_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(midiDefaultChannel()));
     connect(log_cues, SIGNAL(clicked()), this, SLOT(logCues()));
-
+    connect(log_synths, SIGNAL(clicked()), this, SLOT(logSynths()));
 }
