@@ -32,16 +32,14 @@ jobs:
     - name: Link to Ruby install
       run: |
         cd app\server\native
-        where ruby
-        where gem
-        new-item -itemtype symboliclink -path . -name ruby -value C:\Ruby27-x64
+        new-item -itemtype symboliclink -path . -name ruby -value D:\rubyinstaller-2.7.1-1-x64
         cd ..\..\..
 
     - name: Prebuild & config
       run: |
         cd app\gui\qt
-        win-prebuild.bat
-        win-config.bag
+        cmd /c win-prebuild.bat
+        cmd /c win-config.bat
         cd ..\..\..
 
     - name: Generate translation files
