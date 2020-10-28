@@ -548,6 +548,7 @@ void MainWindow::setupWindowStructure() {
     connect(settingsWidget, SIGNAL(synthTriggerTimingGuaranteesChanged()), this, SLOT(changeAudioTimingGuarantees()));
     connect(settingsWidget, SIGNAL(enableExternalSynthsChanged()), this, SLOT(changeEnableExternalSynths()));
     connect(settingsWidget, SIGNAL(midiDefaultChannelChanged()), this, SLOT(changeMidiDefaultChannel()));
+    connect(settingsWidget, SIGNAL(logCuesChanged()), this, SLOT(changeLogCues()));
 
     connect(this, SIGNAL(settingsChanged()), settingsWidget, SLOT(settingsChanged()));
 
@@ -2119,6 +2120,16 @@ void MainWindow::midiDefaultChannelMenuChanged(int idx) {
   changeMidiDefaultChannel();
 }
 
+void MainWindow::logCuesMenuChanged() {
+  piSettings->log_cues = logCuesAct->isChecked();
+  emit settingsChanged();
+}
+
+void MainWindow::changeLogCues() {
+  QSignalBlocker blocker( logCuesAct );
+  logCuesAct->setChecked(piSettings->log_cues);
+}
+
 void MainWindow::changeMidiDefaultChannel() {
   int idx = piSettings->midi_default_channel;
 
@@ -2527,6 +2538,11 @@ void  MainWindow::createToolBar()
     allowRemoteOSCAct->setChecked(piSettings->osc_public);
     connect(allowRemoteOSCAct, SIGNAL(triggered()), this, SLOT(allowRemoteOSCMenuChanged()));
 
+    logCuesAct = new QAction(tr("Log Cues"), this);
+    logCuesAct->setCheckable(true);
+    logCuesAct->setChecked(piSettings->log_cues);
+    connect(logCuesAct, SIGNAL(triggered()), this, SLOT(logCuesMenuChanged()));
+
     toolBar->addAction(scopeAct);
     toolBar->addAction(infoAct);
     toolBar->addAction(helpAct);
@@ -2536,6 +2552,8 @@ void  MainWindow::createToolBar()
     liveMenu->addAction(runAct);
     liveMenu->addAction(stopAct);
     liveMenu->addAction(recAct);
+    liveMenu->addSeparator();
+    liveMenu->addAction(logCuesAct);
     liveMenu->addSeparator();
     liveMenu->addAction(exitAct);
 
