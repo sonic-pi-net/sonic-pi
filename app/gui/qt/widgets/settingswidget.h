@@ -64,6 +64,7 @@ private slots:
     void midiDefaultChannel();
     void logCues();
     void logSynths();
+    void clearOutputOnRun();
 
 signals:
     void mixerSettingsChanged();
@@ -93,6 +94,7 @@ signals:
     void midiDefaultChannelChanged();
     void logCuesChanged();
     void logSynthsChanged();
+    void clearOutputOnRunChanged();
 
 private:
     SonicPiSettings* piSettings;

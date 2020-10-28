@@ -613,6 +613,10 @@ void SettingsWidget::logSynths() {
   emit logSynthsChanged();
 }
 
+void SettingsWidget::clearOutputOnRun() {
+  emit clearOutputOnRunChanged();
+}
+
 void SettingsWidget::openSonicPiNet() {
   QDesktopServices::openUrl(QUrl("http://sonic-pi.net", QUrl::TolerantMode));
 }
@@ -781,4 +785,5 @@ void SettingsWidget::connectAll() {
     connect(midi_default_channel_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(midiDefaultChannel()));
     connect(log_cues, SIGNAL(clicked()), this, SLOT(logCues()));
     connect(log_synths, SIGNAL(clicked()), this, SLOT(logSynths()));
+    connect(clear_output_on_run, SIGNAL(clicked()), this, SLOT(clearOutputOnRun()));
 }

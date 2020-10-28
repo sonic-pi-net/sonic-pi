@@ -550,6 +550,7 @@ void MainWindow::setupWindowStructure() {
     connect(settingsWidget, SIGNAL(midiDefaultChannelChanged()), this, SLOT(changeMidiDefaultChannel()));
     connect(settingsWidget, SIGNAL(logCuesChanged()), this, SLOT(changeLogCues()));
     connect(settingsWidget, SIGNAL(logSynthsChanged()), this, SLOT(changeLogSynths()));
+    connect(settingsWidget, SIGNAL(clearOutputOnRunChanged()), this, SLOT(changeClearOutputOnRun()));
 
     connect(this, SIGNAL(settingsChanged()), settingsWidget, SLOT(settingsChanged()));
 
@@ -2141,6 +2142,16 @@ void MainWindow::changeLogSynths() {
   logSynthsAct->setChecked(piSettings->log_synths);
 }
 
+void MainWindow::clearOutputOnRunMenuChanged() {
+  piSettings->clear_output_on_run = clearOutputOnRunAct->isChecked();
+  emit settingsChanged();
+}
+
+void MainWindow::changeClearOutputOnRun() {
+  QSignalBlocker blocker( clearOutputOnRunAct );
+  clearOutputOnRunAct->setChecked(piSettings->clear_output_on_run);
+}
+
 void MainWindow::changeMidiDefaultChannel() {
   int idx = piSettings->midi_default_channel;
 
@@ -2559,6 +2570,11 @@ void  MainWindow::createToolBar()
     logSynthsAct->setChecked(piSettings->log_cues);
     connect(logSynthsAct, SIGNAL(triggered()), this, SLOT(logSynthsMenuChanged()));
 
+    clearOutputOnRunAct = new QAction(tr("Clear Logs on Run"), this);
+    clearOutputOnRunAct->setCheckable(true);
+    clearOutputOnRunAct->setChecked(piSettings->log_cues);
+    connect(clearOutputOnRunAct, SIGNAL(triggered()), this, SLOT(clearOutputOnRunMenuChanged()));
+
     toolBar->addAction(scopeAct);
     toolBar->addAction(infoAct);
     toolBar->addAction(helpAct);
@@ -2571,6 +2587,7 @@ void  MainWindow::createToolBar()
     liveMenu->addSeparator();
     liveMenu->addAction(logCuesAct);
     liveMenu->addAction(logSynthsAct);
+    liveMenu->addAction(clearOutputOnRunAct);
     liveMenu->addSeparator();
     liveMenu->addAction(exitAct);
 
