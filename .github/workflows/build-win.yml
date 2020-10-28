@@ -15,6 +15,9 @@ jobs:
     - name: Install Qt
       uses: jurplel/install-qt-action@v2
 
+    - name: Set env var for Qt location
+      run: setx QT_INSTALL_LOCATION c:\Qt\5.12.9\msvc2017_64
+
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
@@ -25,3 +28,24 @@ jobs:
         gem install win32-process
         gem install rugged --version 0.27.1
         gem install ffi
+
+    - name: Link to Ruby install
+      run: |
+        cd app\server\native
+        mklink /d ruby C:\Ruby27-x64
+        cd ..\..\..
+
+    - name: Prebuild & config
+      run: |
+        cd app\gui\qt
+        win-prebuild.bat
+        win-config.bag
+        cd ..\..\..
+
+
+    # assuming Qt install brings in CMake & ninja
+    - name: CMake build release
+      run: |
+        cd app\gui\qt
+        cmake --build . --config Release
+        cd ..\..\..
