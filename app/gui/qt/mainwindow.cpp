@@ -1362,6 +1362,9 @@ void MainWindow::honourPrefs() {
     changeEnableExternalSynths();
     mixerSettingsChanged();
     changeMidiDefaultChannel();
+    changeLogSynths();
+    changeLogCues();
+    changeClearOutputOnRun();
 }
 
 void MainWindow::setMessageBoxStyle() {
