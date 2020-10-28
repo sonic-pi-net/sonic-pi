@@ -1,0 +1,27 @@
+name: build win
+
+on:
+  push:
+    branches: [ action-build-win ]
+
+jobs:
+  test:
+
+    runs-on: windows
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v2
+
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 2.7.1
+
+    - name: Install dependencies
+      run: |
+        gem install win32-process
+        gem install rugged --version 0.27.1
+        gem install ffi
