@@ -2578,6 +2578,11 @@ void  MainWindow::createToolBar()
     clearOutputOnRunAct->setChecked(piSettings->log_cues);
     connect(clearOutputOnRunAct, SIGNAL(triggered()), this, SLOT(clearOutputOnRunMenuChanged()));
 
+    logAutoScrollAct = new QAction(tr("Auto-Scroll Log"), this);
+    logAutoScrollAct->setCheckable(true);
+    logAutoScrollAct->setChecked(piSettings->log_auto_scroll);
+    connect(logAutoScrollAct, SIGNAL(triggered()), this, SLOT(logAutoScrollMenuChanged()));
+
     toolBar->addAction(scopeAct);
     toolBar->addAction(infoAct);
     toolBar->addAction(helpAct);
@@ -2588,8 +2593,9 @@ void  MainWindow::createToolBar()
     liveMenu->addAction(stopAct);
     liveMenu->addAction(recAct);
     liveMenu->addSeparator();
-    liveMenu->addAction(logCuesAct);
     liveMenu->addAction(logSynthsAct);
+    liveMenu->addAction(logCuesAct);
+    liveMenu->addAction(logAutoScrollAct);
     liveMenu->addAction(clearOutputOnRunAct);
     liveMenu->addSeparator();
     liveMenu->addAction(exitAct);
@@ -2796,16 +2802,11 @@ void  MainWindow::createToolBar()
     showCuesAct->setChecked(piSettings->show_cues);
     connect(showCuesAct, SIGNAL(triggered()), this, SLOT(showCuesMenuChanged()));
 
-    logAutoScrollAct = new QAction(tr("Auto-Scroll Log"), this);
-    logAutoScrollAct->setCheckable(true);
-    logAutoScrollAct->setChecked(piSettings->log_auto_scroll);
-    connect(logAutoScrollAct, SIGNAL(triggered()), this, SLOT(logAutoScrollMenuChanged()));
+
 
     viewMenu->addAction(showLogAct);
     viewMenu->addAction(showCuesAct);
     viewMenu->addAction(showContextAct);
-    viewMenu->addSeparator();
-    viewMenu->addAction(logAutoScrollAct);
     viewMenu->addSeparator();
     viewMenu->addAction(infoAct);
     viewMenu->addAction(helpAct);
