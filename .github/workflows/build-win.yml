@@ -32,7 +32,9 @@ jobs:
     - name: Link to Ruby install
       run: |
         cd app\server\native
-        mklink /d ruby C:\Ruby27-x64
+        where ruby
+        where gem
+        new-item -itemtype symboliclink -path . -name ruby -value C:\Ruby27-x64
         cd ..\..\..
 
     - name: Prebuild & config
@@ -42,6 +44,11 @@ jobs:
         win-config.bag
         cd ..\..\..
 
+    - name: Generate translation files
+      run: |
+        cd app\gui\qt
+        %QT_INSTALL_LOCATION%\bin\lrelease SonicPi.pro
+        cd ..\..\..
 
     # assuming Qt install brings in CMake & ninja
     - name: CMake build release
