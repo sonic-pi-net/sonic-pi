@@ -148,12 +148,12 @@ cmake --build . --config Release
 
 ## 4. Start Sonic Pi
 
-Finally, you can run your newly compiled Sonic Pi app within the `build`
+Finally, you can run your newly compiled `Sonic Pi` app within the `build`
 directly either by double clicking it in the Finder or via the terminal
 (from within the `build` directory):
 
 ```
-sonic-pi.app/Contents/MacOS/sonic-pi
+./Sonic\ Pi.app/Contents/MacOS/Sonic\ Pi
 
 ```
 
