@@ -52,6 +52,7 @@ find_package(Threads REQUIRED)
 add_subdirectory(external/QScintilla-2.11.4)
 
 set(APP_NAME sonic-pi)
+set(MACOS_APP_NAME "Sonic Pi")
 
 set(OSC_SOURCES
     ${APP_ROOT}/osc/oschandler.cpp
@@ -121,60 +122,63 @@ set(ALL_SOURCES ${OSC_SOURCES} ${QT_SOURCES} ${SOURCES} ${EDITOR_SOURCES})
 
 # Create the Qt version of the app
 if (APPLE)
-    set(MACOSX_BUNDLE_BUNDLE_NAME ${PROJECT_NAME})
-    set(MACOSX_BUNDLE_GUI_IDENTIFIER "net.sonic-pi.app")
-    set(MACOSX_BUNDLE_INFO_STRING "A code-based music creation and performance tool")
-    set(MACOSX_BUNDLE_ICON_FILE "app.icns")
-    set(MACOSX_BUNDLE_LONG_VERSION_STRING ${PROJECT_VERSION})
-    set(MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION})
-    set(MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION})
-    add_executable(${APP_NAME} MACOSX_BUNDLE ${ALL_SOURCES} ${RESOURCES} )
-
+  add_executable(${APP_NAME} MACOSX_BUNDLE ${ALL_SOURCES} ${RESOURCES} )
 else()
   add_executable(${APP_NAME} WIN32 ${ALL_SOURCES} ${RESOURCES}) # Win32 ignored on non-windows
 endif()
 
 if (APPLE)
   set_target_properties(
-    ${APP_NAME}
-    PROPERTIES
+    ${APP_NAME} PROPERTIES
+    OUTPUT_NAME "Sonic Pi"
+    MACOSX_RPATH TRUE
+    XCODE_ATTRIBUTE_ENABLE_HARDENED_RUNTIME TRUE
+    MACOSX_BUNDLE_BUNDLE_NAME ${PROJECT_NAME}
+    MACOSX_BUNDLE_GUI_IDENTIFIER "net.sonic-pi.app"
+    MACOSX_BUNDLE_INFO_STRING "A code-based music creation and performance tool"
+    MACOSX_BUNDLE_ICON_FILE "app.icns"
+    MACOSX_BUNDLE_LONG_VERSION_STRING ${PROJECT_VERSION}
+    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION}
+    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     RESOURCE "images/app.icns"
+    OUTPUT_NAME ${MACOS_APP_NAME}
     )
   file(
     GENERATE OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/run-macdeployqt.sh"
-    CONTENT "PATH=$PATH:/usr/local/opt/qt5/bin macdeployqt $1"
+    CONTENT "PATH=$PATH:/usr/local/opt/qt5/bin macdeployqt \"$1\""
     )
+
   add_custom_command(
     TARGET ${APP_NAME}
     POST_BUILD
-    COMMAND bash "${CMAKE_CURRENT_BINARY_DIR}/run-macdeployqt.sh" ${APP_NAME}.app
+    COMMAND bash "${CMAKE_CURRENT_BINARY_DIR}/run-macdeployqt.sh" ${MACOS_APP_NAME}.app
     )
   add_custom_command(
     TARGET ${APP_NAME}
     POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E create_symlink ../../../../../../../app app
     POST_BUILD
-    WORKING_DIRECTORY ${APP_NAME}.app/Contents/Resources
+    WORKING_DIRECTORY ${MACOS_APP_NAME}.app/Contents/Resources
     )
   add_custom_command(
     TARGET ${APP_NAME}
     POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E create_symlink ../../../../../../server server
     POST_BUILD
-    WORKING_DIRECTORY ${APP_NAME}.app/Contents/Resources
+    WORKING_DIRECTORY ${MACOS_APP_NAME}.app/Contents/Resources
     )
-    add_custom_command(
+  add_custom_command(
     TARGET ${APP_NAME}
     POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E create_symlink ../../../../../../../etc etc
     POST_BUILD
-    WORKING_DIRECTORY ${APP_NAME}.app/Contents/Resources
+    WORKING_DIRECTORY ${MACOS_APP_NAME}.app/Contents/Resources
     )
-   add_custom_command(
-     TARGET ${APP_NAME}
-     POST_BUILD
-     COMMAND plutil -replace NSHighResolutionCapable -bool true ${APP_NAME}.app/Contents/Info.plist
-     )
+  add_custom_command(
+    TARGET ${APP_NAME}
+    POST_BUILD
+    COMMAND plutil -replace NSHighResolutionCapable -bool true ${MACOS_APP_NAME}.app/Contents/Info.plist
+  )
 endif()
 
 
