@@ -2,6 +2,7 @@
 set -e # Quit script on error
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+
 # Build external dependencies
 if [ "$1" = "--without-aubio" ]; then
     "${SCRIPT_DIR}/external/mac_build_externals.sh"
@@ -18,8 +19,16 @@ for f in ${SCRIPT_DIR}/external/build/sp_midi-prefix/src/sp_midi-build/*.dylib; 
     cp $f ${SCRIPT_DIR}/../../server/erlang/sonic_pi_server/priv/$(basename $f .dylib).so
 done
 
-#dont remove ruby-aubio-prerelease, as needed in linux build
-#it is removed in the windows-prebuild
+
+# Copy prebuilt native files to server
+echo "Copying prebuilt binaries to the server..."
+mkdir -p ${SCRIPT_DIR}/../../server/native/
+rm -rf ${SCRIPT_DIR}/../../server/native/supercollider
+rm -rf ${SCRIPT_DIR}/../../server/native/erlang
+rm -rf ${SCRIPT_DIR}/../../server/native/scsynth
+cp -R ${SCRIPT_DIR}/../../../prebuilt/macos/x64/* ${SCRIPT_DIR}/../../server/native/
+cd ${SCRIPT_DIR}/../../server/native/
+ln -s supercollider/scsynth scsynth
 
 echo "Compiling native ruby extensions..."
 ruby "${SCRIPT_DIR}/../../server/ruby/bin/compile-extensions.rb"
