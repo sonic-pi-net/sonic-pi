@@ -2588,7 +2588,7 @@ void  MainWindow::createToolBar()
     toolBar->addAction(helpAct);
     toolBar->addAction(prefsAct);
 
-    liveMenu = menuBar()->addMenu(tr("&Live"));
+    liveMenu = menuBar()->addMenu(tr("Live"));
     liveMenu->addAction(runAct);
     liveMenu->addAction(stopAct);
     liveMenu->addAction(recAct);
@@ -2600,7 +2600,7 @@ void  MainWindow::createToolBar()
     liveMenu->addSeparator();
     liveMenu->addAction(exitAct);
 
-    codeMenu = menuBar()->addMenu(tr("&Code"));
+    codeMenu = menuBar()->addMenu(tr("Code"));
     codeMenu->addAction(saveAsAct);
     codeMenu->addAction(loadFileAct);
     codeMenu->addSeparator();
@@ -2613,7 +2613,7 @@ void  MainWindow::createToolBar()
 
 
 
-    audioMenu = menuBar()->addMenu(tr("&Audio"));
+    audioMenu = menuBar()->addMenu(tr("Audio"));
     audioMenu->addAction(enableExternalSynthsAct);
     audioMenu->addAction(audioSafeAct);
     audioMenu->addAction(audioTimingGuaranteesAct);
@@ -2622,11 +2622,11 @@ void  MainWindow::createToolBar()
     audioMenu->addAction(mixerForceMonoAct);
 
 
-    displayMenu = menuBar()->addMenu(tr("&Visuals"));
+    displayMenu = menuBar()->addMenu(tr("Visuals"));
     displayMenu->addAction(scopeAct);
 
 
-    ioMenu = menuBar()->addMenu(tr("&IO"));
+    ioMenu = menuBar()->addMenu(tr("IO"));
     ioMenu->addAction(midiEnabledAct);
     ioMidiInMenu = ioMenu->addMenu(tr("MIDI Inputs"));
     ioMidiInMenu->addAction(tr("No Connected Inputs"));
@@ -2739,7 +2739,7 @@ void  MainWindow::createToolBar()
     QMenu *incomingOSCPortMenu = ioMenu->addMenu(tr("Incoming OSC Port"));
     incomingOSCPortMenu->addAction(QString::number(server_osc_cues_port));
 
-    viewMenu = menuBar()->addMenu(tr("&View"));
+    viewMenu = menuBar()->addMenu(tr("View"));
 
 
 
