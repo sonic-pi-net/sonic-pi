@@ -39,7 +39,7 @@ few dependencies:
 
 1. Xcode (12.1+) and command line tools
 2. Homebrew
-3. All other dependencies - Qt (5.15+), CMake (3.18+), Ruby (2.7.2+), Erlang (23.1+)
+3. All other dependencies - Qt (5.15+), CMake (3.18+)
 
 ### 1.1 Install Xcode
 
@@ -68,15 +68,9 @@ Once you have Homebrew installed, pulling in the rest of the
 dependencies is a couple of lines to execute within a terminal:
 
 ```
-brew install qt cmake ruby erlang 
-brew cask install supercollider
+brew install qt cmake
 
 ```
-
-(Note, if you have already manually installed recent version of
-SuperCollider into your `/Application` folder directly then there's no
-need to `brew cask install supercollider` as this will complain as an
-existing version of the app is already installed).
 
 ## 2. Preparing the Build
 
