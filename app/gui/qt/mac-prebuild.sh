@@ -29,6 +29,8 @@ rm -rf ${SCRIPT_DIR}/../../server/native/scsynth
 cp -R ${SCRIPT_DIR}/../../../prebuilt/macos/x64/* ${SCRIPT_DIR}/../../server/native/
 cd ${SCRIPT_DIR}/../../server/native/
 ln -s supercollider/scsynth scsynth
+mv supercollider/extra-plugins/* supercollider/plugins/
+rm -rf supercollider/extra-plugins
 
 echo "Compiling native ruby extensions..."
 ruby "${SCRIPT_DIR}/../../server/ruby/bin/compile-extensions.rb"
