@@ -16,7 +16,9 @@ jobs:
       uses: jurplel/install-qt-action@v2
 
     - name: Set env var for Qt location
-      run: setx QT_INSTALL_LOCATION c:\Qt\5.12.9\msvc2017_64
+      run: |
+        cmd /c "setx QT_INSTALL_LOCATION c:\Qt\5.12.9\msvc2017_64"
+        $env:QT_INSTALL_LOCATION = "c:\Qt\5.12.9\msvc2017_64"
 
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
@@ -45,7 +47,7 @@ jobs:
     - name: Generate translation files
       run: |
         cd app\gui\qt
-        %QT_INSTALL_LOCATION%\bin\lrelease SonicPi.pro
+        $env:QT_INSTALL_LOCATION\bin\lrelease SonicPi.pro
         cd ..\..\..
 
     # assuming Qt install brings in CMake & ninja
