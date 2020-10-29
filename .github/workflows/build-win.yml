@@ -53,6 +53,6 @@ jobs:
     # assuming Qt install brings in CMake & ninja
     - name: CMake build release
       run: |
-        cd app\gui\qt
+        cd app\gui\qt\build
         cmake --build . --config Release
-        cd ..\..\..
+        cd ..\..\..\..
