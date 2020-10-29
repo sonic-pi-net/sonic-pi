@@ -364,7 +364,7 @@ module SonicPi
 
       local_scsynth_opts = {
         "-i" => num_inputs,
-        "-U" => "#{native_path}/supercollider/plugins/"
+        "-U" => "#{native_path}/supercollider/plugins/;#{native_path}/supercollider/extra-plugins"
       }
 
       scsynth_opts = @default_scsynth_opts.merge(local_scsynth_opts).merge(@user_scsynth_opts).to_a.flatten
