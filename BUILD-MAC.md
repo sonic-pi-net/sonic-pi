@@ -24,7 +24,7 @@ OK, so just to get you prepared, we're going to do a few things:
 and to run
 2. Prepare the build by running some command scripts
 3. Build Sonic Pi using `cmake`
-4. Start your new Sonic Pi using your newly built executable
+4. Start your new Sonic Pi using your newly built app
 
 ### Notes
 
@@ -56,11 +56,11 @@ Install [Homebrew](https://brew.sh) by running the following within a terminal:
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 ```
 
-Note that running arbitrary scripts from the internet via `curl` is
+_Note that running arbitrary scripts from the internet via `curl` is
 usually a bad idea from a security perspective. Whilst, Homebrew is a
 trusted system used by many developers globally you're always
 recommended to read any scripts before executing them to reassure
-yourself they aren't doing anything malicious.
+yourself they aren't doing anything malicious._
 
 ### 1.3 Install all other dependencies
 
@@ -80,16 +80,10 @@ existing version of the app is already installed).
 
 ## 2. Preparing the Build
 
-Once we have installed all the dependencies, we're now ready to build
-Sonic Pi. We need to: 
+Once we have installed all the dependencies, we're almost ready to build
+Sonic Pi. However, we must first grab a copy of Sonic Pi's source code.
 
-1. Get a copy of Sonic Pi's source code
-2. Link the version of Ruby you installed into the source code.
-
-### 2.1 Fetch Source
-
-Before we can build Sonic Pi we must first get a copy of the source
-code. The easiest way of getting this is likely to be cloning from GitHub
+The easiest way of getting this is likely to be cloning from GitHub
 into a folder on your hard drive such as `~/Development/sonic-pi`:
 
 ```
