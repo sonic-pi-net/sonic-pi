@@ -2706,6 +2706,44 @@ void  MainWindow::createToolBar()
 
 
     displayMenu = menuBar()->addMenu(tr("Visuals"));
+
+    lightThemeAct = new QAction(tr("Light"));
+    lightThemeAct->setCheckable(true);
+    lightThemeAct->setChecked(false);
+    connect(lightThemeAct, &QAction::triggered, [this](){ colourThemeMenuChanged(1);});
+
+    darkThemeAct = new QAction(tr("Dark"));
+    darkThemeAct->setCheckable(true);
+    darkThemeAct->setChecked(false);
+    connect(darkThemeAct, &QAction::triggered, [this](){ colourThemeMenuChanged(2);});
+
+    proLightThemeAct = new QAction(tr("Pro Light"));
+    proLightThemeAct->setCheckable(true);
+    proLightThemeAct->setChecked(false);
+    connect(proLightThemeAct, &QAction::triggered, [this](){ colourThemeMenuChanged(3);});
+
+    proDarkThemeAct = new QAction(tr("Pro Dark"));
+    proDarkThemeAct->setCheckable(true);
+    proDarkThemeAct->setChecked(false);
+    connect(proDarkThemeAct, &QAction::triggered, [this](){ colourThemeMenuChanged(4);});
+
+    highContrastThemeAct = new QAction(tr("High Contrast"));
+    highContrastThemeAct->setCheckable(true);
+    highContrastThemeAct->setChecked(false);
+    connect(highContrastThemeAct, &QAction::triggered, [this](){ colourThemeMenuChanged(5);});
+
+    showScopeLabelsAct = new QAction(tr("Show Scope Labels"));
+    showScopeLabelsAct->setCheckable(true);
+    showScopeLabelsAct->setChecked(false);
+    connect(showScopeLabelsAct, SIGNAL(triggered()), this, SLOT(showScopeLabelsMenuChanged()));
+
+    themeMenu = displayMenu->addMenu(tr("Colour Theme"));
+    themeMenu->addAction(lightThemeAct);
+    themeMenu->addAction(darkThemeAct);
+    themeMenu->addAction(proLightThemeAct);
+    themeMenu->addAction(proDarkThemeAct);
+    themeMenu->addAction(highContrastThemeAct);
+    displayMenu->addSeparator();
     displayMenu->addAction(scopeAct);
 
 
@@ -2903,39 +2941,6 @@ void  MainWindow::createToolBar()
 
     viewMenu->addAction(fullScreenAct);
     viewMenu->addSeparator();
-
-    lightThemeAct = new QAction(tr("Light"));
-    lightThemeAct->setCheckable(true);
-    lightThemeAct->setChecked(false);
-    connect(lightThemeAct, &QAction::triggered, [this](){ colourThemeMenuChanged(1);});
-
-    darkThemeAct = new QAction(tr("Dark"));
-    darkThemeAct->setCheckable(true);
-    darkThemeAct->setChecked(false);
-    connect(darkThemeAct, &QAction::triggered, [this](){ colourThemeMenuChanged(2);});
-
-    proLightThemeAct = new QAction(tr("Pro Light"));
-    proLightThemeAct->setCheckable(true);
-    proLightThemeAct->setChecked(false);
-    connect(proLightThemeAct, &QAction::triggered, [this](){ colourThemeMenuChanged(3);});
-
-    proDarkThemeAct = new QAction(tr("Pro Dark"));
-    proDarkThemeAct->setCheckable(true);
-    proDarkThemeAct->setChecked(false);
-    connect(proDarkThemeAct, &QAction::triggered, [this](){ colourThemeMenuChanged(4);});
-
-    highContrastThemeAct = new QAction(tr("High Contrast"));
-    highContrastThemeAct->setCheckable(true);
-    highContrastThemeAct->setChecked(false);
-    connect(highContrastThemeAct, &QAction::triggered, [this](){ colourThemeMenuChanged(5);});
-
-    themeMenu = viewMenu->addMenu("Colour Theme");
-    themeMenu->addAction(lightThemeAct);
-    themeMenu->addAction(darkThemeAct);
-    themeMenu->addAction(proLightThemeAct);
-    themeMenu->addAction(proDarkThemeAct);
-    themeMenu->addAction(highContrastThemeAct);
-
     viewMenu->addAction(showLogAct);
     viewMenu->addAction(showCuesAct);
     viewMenu->addAction(showContextAct);
