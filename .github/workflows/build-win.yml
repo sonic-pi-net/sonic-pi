@@ -37,17 +37,8 @@ jobs:
         new-item -itemtype symboliclink -path . -name ruby -value D:\rubyinstaller-2.7.1-1-x64
         cd ..\..\..
 
-    - name: debug
-      run: echo $PWD
-
-    - name: debug 2
-      run: dir
-
     - name: Prebuild & config
       run: .\build-config.ps1
-
-    - name: debug 3
-      run: dir app\gui\qt
 
     - name: Generate translation files
       run: |
@@ -58,6 +49,7 @@ jobs:
     # assuming Qt install brings in CMake & ninja
     - name: CMake build release
       run: |
-        cd app\gui\qt\build
+        cd app\gui\qt
+        cd build
         cmake --build . --config Release
         cd ..\..\..\..
