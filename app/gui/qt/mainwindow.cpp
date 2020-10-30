@@ -2469,7 +2469,7 @@ void  MainWindow::createToolBar()
     connect(loadFileAct, SIGNAL(triggered()), this, SLOT(loadFile()));
 
     // Align
-    textAlignAct = new QAction(QIcon(":/images/align.png"), tr("Align Code"), this);
+    textAlignAct = new QAction(QIcon(":/images/align.png"), tr("Indent Code Buffer"), this);
     textAlignSc = new QShortcut(metaKey('M'), this, SLOT(beautifyCode()));
     updateAction(textAlignAct, textAlignSc, tr("Align code to improve readability"));
     connect(textAlignAct, SIGNAL(triggered()), this, SLOT(beautifyCode()));
@@ -2608,7 +2608,7 @@ void  MainWindow::createToolBar()
     clearOutputOnRunAct->setChecked(piSettings->log_cues);
     connect(clearOutputOnRunAct, SIGNAL(triggered()), this, SLOT(clearOutputOnRunMenuChanged()));
 
-    autoIndentOnRunAct = new QAction(tr("Auto Indent Code on Run"), this);
+    autoIndentOnRunAct = new QAction(tr("Auto Indent Code Buffer on Run"), this);
     autoIndentOnRunAct->setCheckable(true);
     autoIndentOnRunAct->setChecked(piSettings->auto_indent_on_run);
     connect(autoIndentOnRunAct, SIGNAL(triggered()), this, SLOT(autoIndentOnRunMenuChanged()));
