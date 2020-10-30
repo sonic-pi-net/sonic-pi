@@ -538,7 +538,7 @@ void MainWindow::setupWindowStructure() {
     connect(settingsWidget, SIGNAL(themeChanged()), this, SLOT(updateColourTheme()));
     connect(settingsWidget, SIGNAL(scopeChanged()), this, SLOT(scope()));
     connect(settingsWidget, SIGNAL(scopeChanged(QString)), this, SLOT(toggleScope(QString)));
-    connect(settingsWidget, SIGNAL(scopeLabelsChanged()), this, SLOT(toggleScopeLabels()));
+    connect(settingsWidget, SIGNAL(scopeLabelsChanged()), this, SLOT(changeScopeLabels()));
     connect(settingsWidget, SIGNAL(transparencyChanged(int)), this, SLOT(changeGUITransparency(int)));
 
     connect(settingsWidget, SIGNAL(checkUpdatesChanged()), this, SLOT(update_check_updates()));
@@ -1379,7 +1379,7 @@ void MainWindow::honourPrefs() {
     update_check_updates();
     updateLogAutoScroll();
     changeGUITransparency(piSettings->gui_transparency);
-    toggleScopeLabels();
+    changeScopeLabels();
     toggleMidi(1);
     toggleOSCServer(1);
     toggleIcons();
@@ -1965,8 +1965,16 @@ void MainWindow::toggleRightScope()
     //scopeInterface->enableScope("Right",show_right_scope->isChecked());
 }
 
-void MainWindow::toggleScopeLabels()
+void MainWindow::showScopeLabelsMenuChanged() {
+  piSettings->show_scope_labels = showScopeLabelsAct->isChecked();
+  emit settingsChanged();
+  changeScopeLabels();
+}
+
+void MainWindow::changeScopeLabels()
 {
+  QSignalBlocker blocker( showScopeLabelsAct );
+  showScopeLabelsAct->setChecked(piSettings->show_scope_labels);
   scopeInterface->SetScopeLabels(piSettings->show_scope_labels);
 }
 
@@ -2707,6 +2715,7 @@ void  MainWindow::createToolBar()
 
     displayMenu = menuBar()->addMenu(tr("Visuals"));
 
+
     lightThemeAct = new QAction(tr("Light"));
     lightThemeAct->setCheckable(true);
     lightThemeAct->setChecked(false);
@@ -2745,6 +2754,7 @@ void  MainWindow::createToolBar()
     themeMenu->addAction(highContrastThemeAct);
     displayMenu->addSeparator();
     displayMenu->addAction(scopeAct);
+    displayMenu->addAction(showScopeLabelsAct);
 
 
     ioMenu = menuBar()->addMenu(tr("IO"));

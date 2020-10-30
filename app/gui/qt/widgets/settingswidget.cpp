@@ -394,7 +394,7 @@ QGroupBox* SettingsWidget::createVisualizationPrefsTab() {
     scopeSignalMap = new QSignalMapper(this);
     show_scopes = new QCheckBox(tr("Show Scopes"));
     show_scopes->setToolTip(tr("Toggle the visibility of the audio oscilloscopes."));
-    show_scope_labels = new QCheckBox(tr("Show Labels"));
+    show_scope_labels = new QCheckBox(tr("Show Scope Labels"));
     show_scope_labels->setToolTip(tr("Toggle the visibility of the labels for the audio oscilloscopes"));
     show_scope_labels->setChecked(true);
     scope_box_kinds->setLayout(scope_box_kinds_layout);
