@@ -622,42 +622,42 @@ Unnskyld, det oppstod en kritisk feil under oppstart</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2846"/>
         <source>10</source>
-        <translation type="unfinished"></translation>
+        <translation>10</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2851"/>
         <source>11</source>
-        <translation type="unfinished"></translation>
+        <translation>11</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2856"/>
         <source>12</source>
-        <translation type="unfinished"></translation>
+        <translation>12</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2861"/>
         <source>13</source>
-        <translation type="unfinished"></translation>
+        <translation>13</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2866"/>
         <source>14</source>
-        <translation type="unfinished"></translation>
+        <translation>14</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2871"/>
         <source>15</source>
-        <translation type="unfinished"></translation>
+        <translation>15</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2876"/>
         <source>16</source>
-        <translation type="unfinished"></translation>
+        <translation>16</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2884"/>
         <source>Local IP Addresses</source>
-        <translation type="unfinished"></translation>
+        <translation>Lokale IP-adresser</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2896"/>
@@ -667,7 +667,7 @@ Unnskyld, det oppstod en kritisk feil under oppstart</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2899"/>
         <source>View</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2917"/>
@@ -682,7 +682,7 @@ Unnskyld, det oppstod en kritisk feil under oppstart</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2952"/>
         <source>Show Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis logg</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2957"/>
@@ -692,12 +692,12 @@ Unnskyld, det oppstod en kritisk feil under oppstart</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2962"/>
         <source>Show Buttons</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis knapper</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2967"/>
         <source>Show Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis faner</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2973"/>
@@ -1403,7 +1403,7 @@ Sonic PI, som kan sendes gjennom midi_*fns</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="220"/>
         <source>Default MIDI channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Forvalgt MIDI-kanal</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="221"/>
@@ -1418,12 +1418,12 @@ Sonic PI, som kan sendes gjennom midi_*fns</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="276"/>
         <source>Automation / Misc</source>
-        <translation type="unfinished"></translation>
+        <translation>Automasjon/ymse</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="277"/>
         <source>Configure automation and other features.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sett opp automasjon og andre funksjoner.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="279"/>
