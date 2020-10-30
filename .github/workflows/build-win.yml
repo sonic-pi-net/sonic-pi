@@ -44,11 +44,7 @@ jobs:
       run: dir
 
     - name: Prebuild & config
-      run: |
-        cd app\gui\qt
-        cmd /c win-prebuild.bat
-        cmd /c win-config.bat
-        cd ..\..\..
+      run: .\build-config.ps1
 
     - name: debug 3
       run: dir app\gui\qt
