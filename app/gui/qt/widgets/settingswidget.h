@@ -65,6 +65,7 @@ private slots:
     void logCues();
     void logSynths();
     void clearOutputOnRun();
+    void autoIndentOnRun();
 
 signals:
     void mixerSettingsChanged();
@@ -95,6 +96,7 @@ signals:
     void logCuesChanged();
     void logSynthsChanged();
     void clearOutputOnRunChanged();
+    void autoIndentOnRunChanged();
 
 private:
     SonicPiSettings* piSettings;

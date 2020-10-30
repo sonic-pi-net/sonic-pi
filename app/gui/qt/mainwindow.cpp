@@ -551,6 +551,7 @@ void MainWindow::setupWindowStructure() {
     connect(settingsWidget, SIGNAL(logCuesChanged()), this, SLOT(changeLogCues()));
     connect(settingsWidget, SIGNAL(logSynthsChanged()), this, SLOT(changeLogSynths()));
     connect(settingsWidget, SIGNAL(clearOutputOnRunChanged()), this, SLOT(changeClearOutputOnRun()));
+    connect(settingsWidget, SIGNAL(autoIndentOnRunChanged()), this, SLOT(changeAutoIndentOnRun()));
 
     connect(this, SIGNAL(settingsChanged()), settingsWidget, SLOT(settingsChanged()));
 
@@ -1365,6 +1366,7 @@ void MainWindow::honourPrefs() {
     changeLogSynths();
     changeLogCues();
     changeClearOutputOnRun();
+    changeAutoIndentOnRun();
 }
 
 void MainWindow::setMessageBoxStyle() {
@@ -2155,6 +2157,16 @@ void MainWindow::changeClearOutputOnRun() {
   clearOutputOnRunAct->setChecked(piSettings->clear_output_on_run);
 }
 
+void MainWindow::autoIndentOnRunMenuChanged() {
+  piSettings->auto_indent_on_run = autoIndentOnRunAct->isChecked();
+  emit settingsChanged();
+}
+
+void MainWindow::changeAutoIndentOnRun() {
+  QSignalBlocker blocker( autoIndentOnRunAct );
+  autoIndentOnRunAct->setChecked(piSettings->auto_indent_on_run);
+}
+
 void MainWindow::changeMidiDefaultChannel() {
   int idx = piSettings->midi_default_channel;
 
@@ -2578,6 +2590,11 @@ void  MainWindow::createToolBar()
     clearOutputOnRunAct->setChecked(piSettings->log_cues);
     connect(clearOutputOnRunAct, SIGNAL(triggered()), this, SLOT(clearOutputOnRunMenuChanged()));
 
+    autoIndentOnRunAct = new QAction(tr("Auto Indent Code on Run"), this);
+    autoIndentOnRunAct->setCheckable(true);
+    autoIndentOnRunAct->setChecked(piSettings->auto_indent_on_run);
+    connect(autoIndentOnRunAct, SIGNAL(triggered()), this, SLOT(autoIndentOnRunMenuChanged()));
+
     logAutoScrollAct = new QAction(tr("Auto-Scroll Log"), this);
     logAutoScrollAct->setCheckable(true);
     logAutoScrollAct->setChecked(piSettings->log_auto_scroll);
@@ -2610,8 +2627,7 @@ void  MainWindow::createToolBar()
     codeMenu->addSeparator();
     codeMenu->addAction(showLineNumbersAct);
     codeMenu->addAction(showAutoCompletionAct);
-
-
+    codeMenu->addAction(autoIndentOnRunAct);
 
     audioMenu = menuBar()->addMenu(tr("Audio"));
     audioMenu->addAction(enableExternalSynthsAct);

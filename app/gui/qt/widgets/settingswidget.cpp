@@ -617,6 +617,11 @@ void SettingsWidget::clearOutputOnRun() {
   emit clearOutputOnRunChanged();
 }
 
+
+void SettingsWidget::autoIndentOnRun() {
+  emit autoIndentOnRunChanged();
+}
+
 void SettingsWidget::openSonicPiNet() {
   QDesktopServices::openUrl(QUrl("http://sonic-pi.net", QUrl::TolerantMode));
 }
@@ -786,4 +791,5 @@ void SettingsWidget::connectAll() {
     connect(log_cues, SIGNAL(clicked()), this, SLOT(logCues()));
     connect(log_synths, SIGNAL(clicked()), this, SLOT(logSynths()));
     connect(clear_output_on_run, SIGNAL(clicked()), this, SLOT(clearOutputOnRun()));
+    connect(auto_indent_on_run, SIGNAL(clicked()), this, SLOT(autoIndentOnRun()));
 }
