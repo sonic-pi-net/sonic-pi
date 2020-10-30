@@ -537,7 +537,7 @@ void MainWindow::setupWindowStructure() {
     connect(settingsWidget, SIGNAL(logAutoScrollChanged()), this, SLOT(updateLogAutoScroll()));
     connect(settingsWidget, SIGNAL(themeChanged()), this, SLOT(updateColourTheme()));
     connect(settingsWidget, SIGNAL(scopeChanged()), this, SLOT(scope()));
-    connect(settingsWidget, SIGNAL(scopeChanged(QString)), this, SLOT(toggleScope(QString)));
+    connect(settingsWidget, SIGNAL(scopeChanged(QString)), this, SLOT(changeScopeKindVisibility(QString)));
     connect(settingsWidget, SIGNAL(scopeLabelsChanged()), this, SLOT(changeScopeLabels()));
     connect(settingsWidget, SIGNAL(transparencyChanged(int)), this, SLOT(changeGUITransparency(int)));
 
@@ -1951,8 +1951,24 @@ void MainWindow::changeSystemPreAmp(int val, int silent)
 }
 
 
-void MainWindow::toggleScope(QString name) {
-    scopeInterface->EnableScope( name, piSettings->isScopeActive(name));
+void MainWindow::changeScopeKindVisibility(QString name) {
+  foreach (QAction *action, scopeKindVisibilityMenu->actions()) {
+    if (action->text() == name) {
+      QSignalBlocker blocker( action );
+      action->setChecked(piSettings->isScopeActive(name));
+    }
+  }
+
+  scopeInterface->EnableScope( name, piSettings->isScopeActive(name));
+}
+
+void MainWindow::scopeKindVisibilityMenuChanged() {
+  foreach (QAction *action, scopeKindVisibilityMenu->actions()) {
+    piSettings->setScopeState(action->text(), action->isChecked());
+    changeScopeKindVisibility(action->text());
+  }
+
+  emit settingsChanged();
 }
 
 void MainWindow::toggleLeftScope()
@@ -2716,6 +2732,7 @@ void  MainWindow::createToolBar()
     displayMenu = menuBar()->addMenu(tr("Visuals"));
 
 
+
     lightThemeAct = new QAction(tr("Light"));
     lightThemeAct->setCheckable(true);
     lightThemeAct->setChecked(false);
@@ -2755,6 +2772,15 @@ void  MainWindow::createToolBar()
     displayMenu->addSeparator();
     displayMenu->addAction(scopeAct);
     displayMenu->addAction(showScopeLabelsAct);
+    scopeKindVisibilityMenu = displayMenu->addMenu(tr("Show Scope Kinds"));
+
+    for( auto name : scopeInterface->GetScopeCategories()) {
+      QAction *act = new QAction(name);
+      act->setCheckable(true);
+      act->setChecked(piSettings->isScopeActive(name));
+      connect(act, SIGNAL(triggered()), this, SLOT(scopeKindVisibilityMenuChanged()));
+      scopeKindVisibilityMenu->addAction(act);
+    }
 
 
     ioMenu = menuBar()->addMenu(tr("IO"));

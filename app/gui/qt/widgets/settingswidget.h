@@ -165,6 +165,8 @@ private:
     QString tooltipStrShiftMeta(char key, QString str);
 
     void connectAll();
+    void updateScopeKindVisibility();
+
 };
 
 #endif

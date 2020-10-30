@@ -172,7 +172,8 @@ signals:
         void showLogMenuChanged();
         void showCuesMenuChanged();
         void logAutoScrollMenuChanged();
-        void toggleScope(QString name);
+        void changeScopeKindVisibility(QString name);
+        void scopeKindVisibilityMenuChanged();
         void toggleLeftScope();
         void toggleRightScope();
         void changeScopeLabels();
@@ -308,7 +309,7 @@ signals:
 
         void addUniversalCopyShortcuts(QTextEdit *te);
 
-  QMenu *liveMenu, *codeMenu, *audioMenu, *displayMenu, *viewMenu, *ioMenu, *ioMidiInMenu, *ioMidiOutMenu, *ioMidiOutChannelMenu, *localIpAddressesMenu, *themeMenu;
+  QMenu *liveMenu, *codeMenu, *audioMenu, *displayMenu, *viewMenu, *ioMenu, *ioMidiInMenu, *ioMidiOutMenu, *ioMidiOutChannelMenu, *localIpAddressesMenu, *themeMenu, *scopeKindVisibilityMenu;
 
         SonicPiSettings *piSettings;
 

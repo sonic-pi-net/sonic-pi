@@ -485,6 +485,14 @@ void SettingsWidget::updateScopeNames( std::vector<QString> names ) {
     connect( scopeSignalMap, SIGNAL(mapped(QWidget*)), this, SLOT(toggleScope(QWidget*)));
 }
 
+void SettingsWidget::updateScopeKindVisibility() {
+  for (int i = 0; i < scope_box_kinds_layout->count(); ++i) {
+    QCheckBox *cb = qobject_cast<QCheckBox*>(scope_box_kinds_layout->itemAt(i)->widget());
+    cb->setChecked(piSettings->isScopeActive(cb->text()));
+  }
+
+}
+
 void SettingsWidget::toggleScope( QWidget* qw ) {
   QCheckBox* cb = static_cast<QCheckBox*>(qw);
   //QSettings settings(QSettings::IniFormat, QSettings::UserScope,    "sonic-pi.net", "gui-settings");
@@ -673,6 +681,7 @@ void SettingsWidget::updateSettings() {
 }
 
 void SettingsWidget::settingsChanged() {
+
     mixer_invert_stereo->setChecked(piSettings->mixer_invert_stereo);
     mixer_force_mono->setChecked(piSettings->mixer_force_mono);
     check_args->setChecked(piSettings->check_args);
@@ -711,6 +720,7 @@ void SettingsWidget::settingsChanged() {
     check_updates->setChecked(piSettings->check_updates);
     show_autocompletion->setChecked(piSettings->show_autocompletion);
     show_context->setChecked(piSettings->show_context);
+    updateScopeKindVisibility();
 }
 
 void SettingsWidget::connectAll() {
