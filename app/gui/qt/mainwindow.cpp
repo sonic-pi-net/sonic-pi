@@ -1040,15 +1040,24 @@ void MainWindow::toggleTabsVisibility() {
     updateTabsVisibility();
 }
 
-void MainWindow::updateTabsVisibility(){
-    QTabBar *tabBar = tabs->findChild<QTabBar *>();
+void MainWindow::showTabsMenuChanged() {
+  piSettings->show_tabs = showTabsAct->isChecked();
+  emit settingsChanged();
+  updateTabsVisibility();
+}
 
-    if(piSettings->show_tabs) {
-        tabBar->show();
-    }
-    else{
-        tabBar->hide();
-    }
+void MainWindow::updateTabsVisibility(){
+  QSignalBlocker blocker( showTabsAct );
+  showTabsAct->setChecked(piSettings->show_tabs);
+
+  QTabBar *tabBar = tabs->findChild<QTabBar *>();
+
+  if(piSettings->show_tabs) {
+    tabBar->show();
+  }
+  else{
+    tabBar->hide();
+  }
 }
 
 void MainWindow::toggleButtonVisibility() {
@@ -2830,15 +2839,20 @@ void  MainWindow::createToolBar()
     showButtonsAct = new QAction(tr("Show Buttons"), this);
     showButtonsAct->setCheckable(true);
     showButtonsAct->setChecked(piSettings->show_buttons);
-    connect(showButtonsAct, SIGNAL(triggered()), this, SLOT(showButtonsMenuChanged()))
-;
+    connect(showButtonsAct, SIGNAL(triggered()), this, SLOT(showButtonsMenuChanged()));
+
+    showTabsAct = new QAction(tr("Show Tabs"), this);
+    showTabsAct->setCheckable(true);
+    showTabsAct->setChecked(piSettings->show_tabs);
+    connect(showTabsAct, SIGNAL(triggered()), this, SLOT(showTabsMenuChanged()));
 
 
     viewMenu->addAction(showLogAct);
     viewMenu->addAction(showCuesAct);
     viewMenu->addAction(showContextAct);
-    viewMenu->addSeparator()
+    viewMenu->addSeparator();
     viewMenu->addAction(showButtonsAct);
+    viewMenu->addAction(showTabsAct);
     viewMenu->addSeparator();
     viewMenu->addAction(infoAct);
     viewMenu->addAction(helpAct);
