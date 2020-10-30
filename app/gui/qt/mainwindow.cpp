@@ -918,33 +918,42 @@ void MainWindow::toggleFullScreenMode() {
     updateFullScreenMode();
 }
 
+void MainWindow::fullScreenMenuChanged() {
+  piSettings->full_screen = fullScreenAct->isChecked();
+  emit settingsChanged();
+  updateFullScreenMode();
+}
+
 void MainWindow::updateFullScreenMode(){
-    if (piSettings->full_screen) {
-        outputWidget->setTitleBarWidget(blankWidget);
+  QSignalBlocker blocker( fullScreenAct );
+  fullScreenAct->setChecked(piSettings->full_screen);
+
+  if (piSettings->full_screen) {
+    outputWidget->setTitleBarWidget(blankWidget);
 #ifdef Q_OS_WIN
-        this->setWindowFlags(Qt::FramelessWindowHint);
+    this->setWindowFlags(Qt::FramelessWindowHint);
 #endif
-        int currentScreen = QApplication::desktop()->screenNumber(this);
-        statusBar()->showMessage(tr("Full screen mode on."), 2000);
+    int currentScreen = QApplication::desktop()->screenNumber(this);
+    statusBar()->showMessage(tr("Full screen mode on."), 2000);
 #if QT_VERSION >= 0x050400
-        //requires Qt5
-        this->windowHandle()->setScreen(qApp->screens()[currentScreen]);
+    //requires Qt5
+    this->windowHandle()->setScreen(qApp->screens()[currentScreen]);
 #endif
-        this->setWindowState(Qt::WindowFullScreen);
-        this->show();
-    }
-    else {
-        outputWidget->setTitleBarWidget(outputWidgetTitle);
-        this->setWindowState(windowState() & ~(Qt::WindowFullScreen));
+    this->setWindowState(Qt::WindowFullScreen);
+    this->show();
+  }
+  else {
+    outputWidget->setTitleBarWidget(outputWidgetTitle);
+    this->setWindowState(windowState() & ~(Qt::WindowFullScreen));
 #ifdef Q_OS_WIN
-        this->setWindowFlags(Qt::WindowTitleHint | Qt::WindowSystemMenuHint |
-                Qt::WindowMinimizeButtonHint |
-                Qt::WindowMaximizeButtonHint |
-                Qt::WindowCloseButtonHint);
+    this->setWindowFlags(Qt::WindowTitleHint | Qt::WindowSystemMenuHint |
+                         Qt::WindowMinimizeButtonHint |
+                         Qt::WindowMaximizeButtonHint |
+                         Qt::WindowCloseButtonHint);
 #endif
-        statusBar()->showMessage(tr("Full screen mode off."), 2000);
-        this->show();
-    }
+    statusBar()->showMessage(tr("Full screen mode off."), 2000);
+    this->show();
+  }
 }
 
 void MainWindow::toggleFocusMode() {
@@ -2847,6 +2856,13 @@ void  MainWindow::createToolBar()
     connect(showTabsAct, SIGNAL(triggered()), this, SLOT(showTabsMenuChanged()));
 
 
+    fullScreenAct = new QAction(tr("Full Screen Mode"), this);
+    fullScreenAct->setCheckable(true);
+    fullScreenAct->setChecked(piSettings->full_screen);
+    connect(fullScreenAct, SIGNAL(triggered()), this, SLOT(fullScreenMenuChanged()));
+
+    viewMenu->addAction(fullScreenAct);
+    viewMenu->addSeparator();
     viewMenu->addAction(showLogAct);
     viewMenu->addAction(showCuesAct);
     viewMenu->addAction(showContextAct);
