@@ -37,12 +37,21 @@ jobs:
         new-item -itemtype symboliclink -path . -name ruby -value D:\rubyinstaller-2.7.1-1-x64
         cd ..\..\..
 
+    - name: debug
+      run: echo $PWD
+
+    - name: debug 2
+      run: dir
+
     - name: Prebuild & config
       run: |
         cd app\gui\qt
         cmd /c win-prebuild.bat
         cmd /c win-config.bat
         cd ..\..\..
+
+    - name: debug 3
+      run: dir app\gui\qt
 
     - name: Generate translation files
       run: |
