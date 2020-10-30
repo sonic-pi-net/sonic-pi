@@ -1057,13 +1057,22 @@ void MainWindow::toggleButtonVisibility() {
     updateButtonVisibility();
 }
 
+void MainWindow::showButtonsMenuChanged() {
+  piSettings->show_buttons = showButtonsAct->isChecked();
+  emit settingsChanged();
+  updateButtonVisibility();
+}
+
 void MainWindow::updateButtonVisibility(){
-    if (piSettings->show_buttons) {
-        toolBar->show();
-    }
-    else {
-        toolBar->close();
-    }
+  QSignalBlocker blocker( showButtonsAct );
+  showButtonsAct->setChecked(piSettings->show_buttons);
+
+  if (piSettings->show_buttons) {
+    toolBar->show();
+  }
+  else {
+    toolBar->close();
+  }
 }
 
 void MainWindow::completeSnippetListOrIndentLine(QObject* ws){
@@ -2818,11 +2827,18 @@ void  MainWindow::createToolBar()
     showCuesAct->setChecked(piSettings->show_cues);
     connect(showCuesAct, SIGNAL(triggered()), this, SLOT(showCuesMenuChanged()));
 
+    showButtonsAct = new QAction(tr("Show Buttons"), this);
+    showButtonsAct->setCheckable(true);
+    showButtonsAct->setChecked(piSettings->show_buttons);
+    connect(showButtonsAct, SIGNAL(triggered()), this, SLOT(showButtonsMenuChanged()))
+;
 
 
     viewMenu->addAction(showLogAct);
     viewMenu->addAction(showCuesAct);
     viewMenu->addAction(showContextAct);
+    viewMenu->addSeparator()
+    viewMenu->addAction(showButtonsAct);
     viewMenu->addSeparator();
     viewMenu->addAction(infoAct);
     viewMenu->addAction(helpAct);
