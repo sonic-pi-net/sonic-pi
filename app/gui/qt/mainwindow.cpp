@@ -1986,6 +1986,23 @@ void MainWindow::cycleThemes() {
     updateColourTheme();
 }
 
+void MainWindow::colourThemeMenuChanged(int themeID) {
+  if (themeID == 2) {
+    piSettings->themeStyle = SonicPiTheme::DarkMode;
+  } else if (themeID == 3) {
+    piSettings->themeStyle = SonicPiTheme::LightProMode;
+  } else if (themeID == 4) {
+    piSettings->themeStyle = SonicPiTheme::DarkProMode;
+  } else if (themeID == 5) {
+    piSettings->themeStyle = SonicPiTheme::HighContrastMode;
+  } else {
+    piSettings->themeStyle = SonicPiTheme::LightMode;
+  }
+
+  emit settingsChanged();
+  updateColourTheme();
+}
+
 void MainWindow::logAutoScrollMenuChanged() {
   piSettings->log_auto_scroll = logAutoScrollAct->isChecked();
   emit settingsChanged();
@@ -2029,6 +2046,29 @@ void MainWindow::toggleIcons() {
 }
 
 void MainWindow::updateColourTheme(){
+  QSignalBlocker lightBlocker( lightThemeAct );
+  lightThemeAct->setChecked(false);
+  QSignalBlocker darkBlocker( darkThemeAct );
+  darkThemeAct->setChecked(false);
+  QSignalBlocker proLightBlocker( proLightThemeAct );
+  proLightThemeAct->setChecked(false);
+  QSignalBlocker proDarkBlocker( proDarkThemeAct );
+  proDarkThemeAct->setChecked(false);
+  QSignalBlocker highContrastBlocker( highContrastThemeAct );
+  highContrastThemeAct->setChecked(false);
+
+  if ( piSettings->themeStyle == SonicPiTheme::LightMode ) {
+    lightThemeAct->setChecked(true);
+  } else if ( piSettings->themeStyle == SonicPiTheme::DarkMode ) {
+    darkThemeAct->setChecked(true);
+  } else if ( piSettings->themeStyle == SonicPiTheme::LightProMode ) {
+    proLightThemeAct->setChecked(true);
+  } else if ( piSettings->themeStyle == SonicPiTheme::DarkProMode ) {
+    proDarkThemeAct->setChecked(true);
+  } else if ( piSettings->themeStyle == SonicPiTheme::HighContrastMode ) {
+    highContrastThemeAct->setChecked(true);
+  }
+
     theme->switchStyle( piSettings->themeStyle );
     statusBar()->showMessage(tr("Colour Theme: ")+theme->getName(), 2000);
 
@@ -2863,6 +2903,39 @@ void  MainWindow::createToolBar()
 
     viewMenu->addAction(fullScreenAct);
     viewMenu->addSeparator();
+
+    lightThemeAct = new QAction(tr("Light"));
+    lightThemeAct->setCheckable(true);
+    lightThemeAct->setChecked(false);
+    connect(lightThemeAct, &QAction::triggered, [this](){ colourThemeMenuChanged(1);});
+
+    darkThemeAct = new QAction(tr("Dark"));
+    darkThemeAct->setCheckable(true);
+    darkThemeAct->setChecked(false);
+    connect(darkThemeAct, &QAction::triggered, [this](){ colourThemeMenuChanged(2);});
+
+    proLightThemeAct = new QAction(tr("Pro Light"));
+    proLightThemeAct->setCheckable(true);
+    proLightThemeAct->setChecked(false);
+    connect(proLightThemeAct, &QAction::triggered, [this](){ colourThemeMenuChanged(3);});
+
+    proDarkThemeAct = new QAction(tr("Pro Dark"));
+    proDarkThemeAct->setCheckable(true);
+    proDarkThemeAct->setChecked(false);
+    connect(proDarkThemeAct, &QAction::triggered, [this](){ colourThemeMenuChanged(4);});
+
+    highContrastThemeAct = new QAction(tr("High Contrast"));
+    highContrastThemeAct->setCheckable(true);
+    highContrastThemeAct->setChecked(false);
+    connect(highContrastThemeAct, &QAction::triggered, [this](){ colourThemeMenuChanged(5);});
+
+    themeMenu = viewMenu->addMenu("Colour Theme");
+    themeMenu->addAction(lightThemeAct);
+    themeMenu->addAction(darkThemeAct);
+    themeMenu->addAction(proLightThemeAct);
+    themeMenu->addAction(proDarkThemeAct);
+    themeMenu->addAction(highContrastThemeAct);
+
     viewMenu->addAction(showLogAct);
     viewMenu->addAction(showCuesAct);
     viewMenu->addAction(showContextAct);
