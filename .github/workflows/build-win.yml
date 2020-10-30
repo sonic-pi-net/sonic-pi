@@ -38,7 +38,13 @@ jobs:
         cd ..\..\..
 
     - name: Prebuild & config
-      run: .\build-config.ps1
+      run: |
+        cd app\gui\qt
+        win-prebuild.bat
+        win-config.bat
+        dir
+        cd ..\..\..
+      shell: cmd
 
     - name: Generate translation files
       run: |
