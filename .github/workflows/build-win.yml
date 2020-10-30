@@ -46,16 +46,12 @@ jobs:
         cd ..\..\..
       shell: cmd
 
-    - name: Generate translation files
-      run: |
-        cd app\gui\qt
-        cmd /k "$env:QT_INSTALL_LOCATION\bin\lrelease.exe SonicPi.pro"
-        cd ..\..\..
-
     # assuming Qt install brings in CMake & ninja
     - name: CMake build release
       run: |
         cd app\gui\qt
+        dir
         cd build
         cmake --build . --config Release
         cd ..\..\..\..
+      shell: cmd
