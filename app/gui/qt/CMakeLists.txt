@@ -186,7 +186,7 @@ set_property(TARGET ${APP_NAME} PROPERTY POSITION_INDEPENDENT_CODE ON) # Qt requ
 target_include_directories(${APP_NAME}
     PRIVATE
     ${APP_ROOT}
-    ${APP_ROOT}/external/boost_1_72_0
+    ${APP_ROOT}/external/scsynth_3_11_1_boost
     ${APP_ROOT}/external
     ${APP_ROOT}/osc
     ${APP_ROOT}/model
