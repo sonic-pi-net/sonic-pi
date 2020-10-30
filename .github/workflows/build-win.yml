@@ -15,43 +15,11 @@ jobs:
     - name: Install Qt
       uses: jurplel/install-qt-action@v2
 
-    - name: Set env var for Qt location
-      run: |
-        cmd /c "setx QT_INSTALL_LOCATION c:\Qt\5.12.9\msvc2017_64"
-        $env:QT_INSTALL_LOCATION = "c:\Qt\5.12.9\msvc2017_64"
-
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: 2.7.1
 
-    - name: Install dependencies
-      run: |
-        gem install win32-process
-        gem install rugged --version 0.27.1
-        gem install ffi
-
-    - name: Link to Ruby install
-      run: |
-        cd app\server\native
-        new-item -itemtype symboliclink -path . -name ruby -value D:\rubyinstaller-2.7.1-1-x64
-        cd ..\..\..
-
-    - name: Prebuild & config
-      run: |
-        cd app\gui\qt
-        win-prebuild.bat
-        win-config.bat
-        dir
-        cd ..\..\..
-      shell: cmd
-
-    # assuming Qt install brings in CMake & ninja
-    - name: CMake build release
-      run: |
-        cd app\gui\qt
-        dir
-        cd build
-        cmake --build . --config Release
-        cd ..\..\..\..
+    - name: Run build script
+      run: build.bat
       shell: cmd
