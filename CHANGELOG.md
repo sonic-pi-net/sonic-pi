@@ -50,9 +50,9 @@
 * Sample listings in the help system now have a handy play button that allows you to preview them by clicking rather than having to write any code.
 * Improvements for Catalan, Chinese, Danish, Dutch, French, German, Hebrew, Italian, Korean, Norwegian, Polish, Portuguese, Slovak, Spanish, Swedish and Thai translations.
 * Sinhalese translation added.
-* GUI now has a much more complete  menu bar which duplicates the functionality of the preferences pane whilst making it easily accessible to screen readers.
+* GUI now has a much more complete menu bar which duplicates the functionality of the preferences pane whilst making it easily accessible to screen readers.
 * MIDI port names are now autocompleted.
-* The GUI now correctly saves and restores the visibility preferences for the buttons, tabss and log pane.
+* The GUI now correctly saves and restores the visibility preferences for the buttons, tabs and log pane.
 
 
 
@@ -64,7 +64,7 @@
 ### Bugfixes
 * Fix `pulse_width_curve:` and `pulse_width_slide:` opts which were incorrectly swapped on `pulse`, `subpulse` and `dpulse` synths.
 * Improve boot on Windows systems that have default locale code pages currently unsupported by Ruby. We now force UTF-8.
-* Fix issue causing the incorrect error line to be highlighted in the GUI
+* Fix issue causing the incorrect error line to be highlighted in the GUI.
 * Fix issue when syncing with cues with `-` symbols in their paths.
 * Fix bug with `use_merged_synth_defaults` after a call to `use_synth_defaults`. This bug was triggered in the "Sonic Dreams" example which now plays through correctly again.
 * MIDI device hotswapping (detecting whether devices were connected or disconnected) now works on macOS.
