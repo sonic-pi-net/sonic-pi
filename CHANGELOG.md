@@ -52,7 +52,7 @@
 * Sinhalese translation added.
 * GUI now has a much more complete  menu bar which duplicates the functionality of the preferences pane whilst making it easily accessible to screen readers.
 * MIDI port names are now autocompleted.
-* The GUI now correctly saves and restores the visibility preferences for the buttons, tabss and log pane.
+* The GUI now correctly saves and restores the visibility preferences for the buttons, tabs and log pane.
 
 
 
