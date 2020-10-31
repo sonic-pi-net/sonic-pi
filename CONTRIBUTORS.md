@@ -74,6 +74,7 @@ especially the following individuals who have been remarkably generous:
 * [Bartosz Majsak](https://twitter.com/majson)
 * [Ben Davis](https://soundcloud.com/ben_davis_noise)
 * [Benjamin Reitzammer](https://cto.coffee)
+* brainTrain
 * [Boris Bokowski](https://twitter.com/bokowski)
 * [Brandon Weaver](https://twitter.com/keystonelemur)
 * [Chih-Chun Chen](http://abmcet.net/Chih-Chun_Chen/home.html)
