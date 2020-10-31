@@ -44,13 +44,16 @@
 
 
 ### GUI
-* New optional keyboard shortcuts for switching directly to a buffer. When enabled in the preferences S-M-1 (hold shift and Meta and the number 1) will jump to buffer 1. Meta is Cmd on macOS and alt on Windows/Linux.
+* New context pane which displays the current line number and position making this information accessible to screen readers. This may be shown/hidden with a preference setting.
+* New keyboard shortcuts for switching directly to a buffer. S-M-1 (hold shift and Meta and the number 1) will jump to buffer 1. Meta is Cmd on macOS and alt on Windows/Linux.
 * Autocompletion system can now be enabled or disabled. This is intended to help those using screen readers for which the autocompletion system is currently incompatible. 
 * Sample listings in the help system now have a handy play button that allows you to preview them by clicking rather than having to write any code.
-* Improvements for Catalan, Chinese, Danish, Dutch, French, German, Italian, Korean, Norwegian, Polish, Portuguese, Slovak, Swedish and Thai translations.
+* Improvements for Catalan, Chinese, Danish, Dutch, French, German, Hebrew, Italian, Korean, Norwegian, Polish, Portuguese, Slovak, Spanish, Swedish and Thai translations.
 * Sinhalese translation added.
-* GUI now has an exit menu option on Windows and Linux.
+* GUI now has a much more complete  menu bar which duplicates the functionality of the preferences pane whilst making it easily accessible to screen readers.
 * MIDI port names are now autocompleted.
+* The GUI now correctly saves and restores the visibility preferences for the buttons, tabss and log pane.
+
 
 
 ### Improvements
