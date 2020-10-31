@@ -32,6 +32,18 @@ _These build instructions assume you're running under macOS 10.15+. If
 you're using an older version of macOS some steps may need
 modification._
 
+#### Anaconda users beware!
+
+Anaconda (a popular data science toolkit) installs a lot of extra programs, including one called `macdeployqt` which conflicts with the build you're about to try.
+
+If you run:
+
+```
+conda deactivate
+```
+
+Before the following steps that should stop things breaking. Once Sonic Pi is built, you can use `conda` as normal after that.
+
 ## 1. Installing Dependencies
 
 In order to build Sonic Pi's various components, we need to install a
