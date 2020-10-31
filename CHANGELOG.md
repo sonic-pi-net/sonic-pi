@@ -50,7 +50,7 @@
 * Sample listings in the help system now have a handy play button that allows you to preview them by clicking rather than having to write any code.
 * Improvements for Catalan, Chinese, Danish, Dutch, French, German, Hebrew, Italian, Korean, Norwegian, Polish, Portuguese, Slovak, Spanish, Swedish and Thai translations.
 * Sinhalese translation added.
-* GUI now has a much more complete  menu bar which duplicates the functionality of the preferences pane whilst making it easily accessible to screen readers.
+* GUI now has a much more complete menu bar which duplicates the functionality of the preferences pane whilst making it easily accessible to screen readers.
 * MIDI port names are now autocompleted.
 * The GUI now correctly saves and restores the visibility preferences for the buttons, tabs and log pane.
 
