@@ -51,6 +51,6 @@ PATH=$PATH:/usr/local/opt/qt/bin lrelease "${SCRIPT_DIR}"/lang/*.ts
 
 echo "Compiling erlang files..."
 cd "${SCRIPT_DIR}/../../server/erlang/sonic_pi_server"
-erl -make
+../../native/erlang/erl -make
 cp src/sonic_pi_server.app.src ebin/sonic_pi_server.app
 cd "${SCRIPT_DIR}"

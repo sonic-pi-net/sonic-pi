@@ -68,7 +68,7 @@ module SonicPi
     @@raspberry_pi_4_8gb =  RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['d03114'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
     @@raspberry_pi_4_1gb_64 =  RUBY_PLATFORM.match(/aarch64.*-linux.*/) && ['a03111'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
     @@raspberry_pi_4_2gb_64 =  RUBY_PLATFORM.match(/aarch64.*-linux.*/) && ['b03111','b03112'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
-    @@raspberry_pi_4_4gb_64 =  RUBY_PLATFORM.match(/aarch64.*-linux.*/) && ['c03111','c03112'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n")) 
+    @@raspberry_pi_4_4gb_64 =  RUBY_PLATFORM.match(/aarch64.*-linux.*/) && ['c03111','c03112'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
     @@raspberry_pi_4_8gb_64 =  RUBY_PLATFORM.match(/aarch64.*linux.*/) && ['d03114'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
     @@home_dir = File.expand_path((ENV['SONIC_PI_HOME'] || @@user_dir) + '/.sonic-pi/')
     @@project_path = @@home_dir + '/store/default/'
@@ -434,22 +434,10 @@ module SonicPi
     def erlang_boot_path
       case os
       when :windows
-        erlang_bin_path = "\"#{File.join(native_path, "erlang", "bin", "erl.exe")}\""
+        "\"#{File.join(native_path, "erlang", "bin", "erl.exe")}\""
       when :osx
-        user_erl = File.join(native_path, "erlang", "bin", "erl")
-        ruby_erl = File.join(native_path, "erlang", "rerl")
-        qt_erl = "/usr/local/bin/erl"
-
-        if File.exist?(user_erl)
-          user_erl
-        elsif File.exist?(ruby_erl)
-          "\"#{ruby_path}\" \"#{ruby_erl}\""
-        elsif File.exist?(qt_erl)
-          qt_erl
-        else
-          "erl"
-        end
-      when :raspberry, :linux
+        File.join(native_path, "erlang", "erl")
+      else
         "erl"
       end
     end
