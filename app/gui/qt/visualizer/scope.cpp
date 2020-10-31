@@ -311,7 +311,7 @@ void AudioProcessingThread::run()
         // We want to try again pretty soon, but we don't want to spin while the UI is doing its thing
         if (!m_processedAudio.m_consumed.load())
         {
-            std::this_thread::yield();
+            std::this_thread::sleep_until(nextTime);
             continue;
         }
 
