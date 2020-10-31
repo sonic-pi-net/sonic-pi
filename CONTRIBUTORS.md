@@ -93,6 +93,7 @@ especially the following individuals who have been remarkably generous:
 * [Marco Rolappe](https://rolappe.it)
 * [Mark Rendle](https://twitter.com/markrendle)
 * [Markku Rontu](https://twitter.com/zorcam)
+* [Marmaduke Woodman](https://github.com/maedoc)
 * [Martin Butz](https://github.com/mbutz)
 * [Martin McDermott](https://twitter.com/marv_mcd)
 * [Matthew Gilliard](https://twitter.com/MaximumGilliard)
