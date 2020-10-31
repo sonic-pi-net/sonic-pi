@@ -124,28 +124,17 @@ void AudioProcessingThread::GenLogSpace(uint32_t limit, uint32_t n)
     // Remember what we did last
     m_lastSpectrumPartitions = std::make_pair(limit, n);
 
-    m_spectrumPartitions.resize(1);
-    m_spectrumPartitions[0] = 1;
+    m_spectrumPartitions.clear();
 
-    float ratio = std::pow(float(limit), (1.0f / float(n - 1)));
-    while (m_spectrumPartitions.size() < n)
+    // Geneate buckets using a power factor, with each bucket advancing on the last
+    uint32_t lastValue = 0;
+    for (float fVal = 0.0f; fVal <= 1.0f; fVal += 1.0f / float(n))
     {
-        auto lastValue = m_spectrumPartitions[m_spectrumPartitions.size() - 1];
-
-        auto next_value = lastValue * ratio;
-        if ((next_value - lastValue) >= 1)
-        {
-            // safe zone.next_value will be a different integer
-            m_spectrumPartitions.push_back(next_value);
-        }
-        else
-        {
-            // problem !same integer.we need to find next_value by artificially incrementing previous value
-            m_spectrumPartitions.push_back(lastValue + 1);
-
-            // recalculate the ratio so that the remaining values will scale correctly
-            ratio = pow(limit / (lastValue + 1), (1.0f / (n - float(m_spectrumPartitions.size()))));
-        }
+        const float curveSharpness = 8.0f;
+        auto step = uint32_t(limit * std::pow(fVal, curveSharpness));
+        step = std::max(step, lastValue + 1);
+        lastValue = step;
+        m_spectrumPartitions.push_back(step);
     }
 }
 
@@ -747,13 +736,13 @@ bool Scope::EnableScope(const QString& category, bool on)
 
 bool Scope::SetScopeLabels(bool on)
 {
-  for (auto& scope : m_panels)
-  {
-      scope.titleVisible = on;
-  }
-  Layout();
-  Refresh();
-  return on;
+    for (auto& scope : m_panels)
+    {
+        scope.titleVisible = on;
+    }
+    Layout();
+    Refresh();
+    return on;
 }
 
 void Scope::ScsynthBooted()
