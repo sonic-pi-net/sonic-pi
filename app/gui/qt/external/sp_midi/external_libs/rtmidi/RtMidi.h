@@ -65,6 +65,7 @@
 #include <string>
 #include <vector>
 
+
 /************************************************************************/
 /*! \class RtMidiError
     \brief Exception handling class for RtMidi.
@@ -523,6 +524,7 @@ protected:
   RtMidiErrorCallback errorCallback_;
   bool firstErrorOccurred_;
   void *errorCallbackUserData_;
+
 };
 
 class RTMIDI_DLL_PUBLIC MidiInApi : public MidiApi
@@ -625,5 +627,14 @@ inline std::string RtMidiOut :: getPortName( unsigned int portNumber ) { return 
 inline void RtMidiOut :: sendMessage( const std::vector<unsigned char> *message ) { static_cast<MidiOutApi *>(rtapi_)->sendMessage( &message->at(0), message->size() ); }
 inline void RtMidiOut :: sendMessage( const unsigned char *message, size_t size ) { static_cast<MidiOutApi *>(rtapi_)->sendMessage( message, size ); }
 inline void RtMidiOut :: setErrorCallback( RtMidiErrorCallback errorCallback, void *userData ) { rtapi_->setErrorCallback(errorCallback, userData); }
+
+#if defined(__APPLE__) || defined(__MACOSX_CORE__)
+
+#include <CoreMIDI/CoreMIDI.h>
+
+void RtMidi_setCoreMidiClientSingleton(MIDIClientRef client);
+void RtMidi_disposeCoreMidiClientSingleton();
+
+#endif /* __APPLE__ */
 
 #endif

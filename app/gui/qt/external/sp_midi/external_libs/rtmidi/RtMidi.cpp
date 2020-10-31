@@ -40,7 +40,7 @@
 #include "RtMidi.h"
 #include <sstream>
 
-#if defined(TARGET_OS_IPHONE)
+#if (TARGET_OS_IPHONE == 1)
 
     #define AudioGetCurrentHostTime CAHostTimeBase::GetCurrentTime
     #define AudioConvertHostTimeToNanos CAHostTimeBase::ConvertToNanos
@@ -98,6 +98,7 @@ class MidiInCore: public MidiInApi
   std::string getPortName( unsigned int portNumber );
 
  protected:
+  MIDIClientRef getCoreMidiClientSingleton(const std::string& clientName) throw();
   void initialize( const std::string& clientName );
 };
 
@@ -117,6 +118,7 @@ class MidiOutCore: public MidiOutApi
   void sendMessage( const unsigned char *message, size_t size );
 
  protected:
+  MIDIClientRef getCoreMidiClientSingleton(const std::string& clientName) throw();
   void initialize( const std::string& clientName );
 };
 
@@ -736,8 +738,7 @@ MidiOutApi :: ~MidiOutApi( void )
 // MIDI input.  We convert the system specific time stamps to delta
 // time values.
 
-// OS-X CoreMIDI header files.
-#include <CoreMIDI/CoreMIDI.h>
+// OS-X CoreMIDI header files. (<CoreMIDI/CoreMIDI.h> moved to RtMidi.h)
 
 // these are not available on iOS.
 #if (TARGET_OS_IPHONE == 0)
@@ -755,6 +756,21 @@ struct CoreMidiData {
   unsigned long long lastTime;
   MIDISysexSendRequest sysexreq;
 };
+
+
+static MIDIClientRef CoreMidiClientSingleton = 0;
+
+void RtMidi_setCoreMidiClientSingleton(MIDIClientRef client){
+  CoreMidiClientSingleton = client;
+}
+
+void RtMidi_disposeCoreMidiClientSingleton(){
+  if (CoreMidiClientSingleton == 0){
+    return;
+  }
+  MIDIClientDispose( CoreMidiClientSingleton );
+  CoreMidiClientSingleton = 0;
+}
 
 //*********************************************************************//
 //  API: OS-X
@@ -923,24 +939,37 @@ MidiInCore :: ~MidiInCore( void )
 
   // Cleanup.
   CoreMidiData *data = static_cast<CoreMidiData *> (apiData_);
-  MIDIClientDispose( data->client );
   if ( data->endpoint ) MIDIEndpointDispose( data->endpoint );
   delete data;
+}
+
+MIDIClientRef MidiInCore::getCoreMidiClientSingleton(const std::string& clientName) throw() {
+
+  if (CoreMidiClientSingleton == 0){
+      // Set up our client.
+      MIDIClientRef client;
+
+      CFStringRef name = CFStringCreateWithCString( NULL, clientName.c_str(), kCFStringEncodingASCII );
+      OSStatus result = MIDIClientCreate(name, NULL, NULL, &client );
+      if ( result != noErr ) {
+        std::ostringstream ost;
+        ost << "MidiInCore::initialize: error creating OS-X MIDI client object (" << result << ").";
+        errorString_ = ost.str();
+        error( RtMidiError::DRIVER_ERROR, errorString_ );
+        return 0;
+      }
+      CFRelease( name );
+
+      CoreMidiClientSingleton = client;
+  }
+
+  return CoreMidiClientSingleton;
 }
 
 void MidiInCore :: initialize( const std::string& clientName )
 {
   // Set up our client.
-  MIDIClientRef client;
-  CFStringRef name = CFStringCreateWithCString( NULL, clientName.c_str(), kCFStringEncodingASCII );
-  OSStatus result = MIDIClientCreate(name, NULL, NULL, &client );
-  if ( result != noErr ) {
-    std::ostringstream ost;
-    ost << "MidiInCore::initialize: error creating OS-X MIDI client object (" << result << ").";
-    errorString_ = ost.str();
-    error( RtMidiError::DRIVER_ERROR, errorString_ );
-    return;
-  }
+  MIDIClientRef client = getCoreMidiClientSingleton(clientName);
 
   // Save our api-specific connection information.
   CoreMidiData *data = (CoreMidiData *) new CoreMidiData;
@@ -948,7 +977,6 @@ void MidiInCore :: initialize( const std::string& clientName )
   data->endpoint = 0;
   apiData_ = (void *) data;
   inputData_.apiData = (void *) data;
-  CFRelease( name );
 }
 
 void MidiInCore :: openPort( unsigned int portNumber, const std::string &portName )
@@ -984,7 +1012,6 @@ void MidiInCore :: openPort( unsigned int portNumber, const std::string &portNam
   CFRelease( portNameRef );
 
   if ( result != noErr ) {
-    MIDIClientDispose( data->client );
     errorString_ = "MidiInCore::openPort: error creating OS-X MIDI input port.";
     error( RtMidiError::DRIVER_ERROR, errorString_ );
     return;
@@ -994,7 +1021,6 @@ void MidiInCore :: openPort( unsigned int portNumber, const std::string &portNam
   MIDIEndpointRef endpoint = MIDIGetSource( portNumber );
   if ( endpoint == 0 ) {
     MIDIPortDispose( port );
-    MIDIClientDispose( data->client );
     errorString_ = "MidiInCore::openPort: error getting MIDI input source reference.";
     error( RtMidiError::DRIVER_ERROR, errorString_ );
     return;
@@ -1004,7 +1030,6 @@ void MidiInCore :: openPort( unsigned int portNumber, const std::string &portNam
   result = MIDIPortConnectSource( port, endpoint, NULL );
   if ( result != noErr ) {
     MIDIPortDispose( port );
-    MIDIClientDispose( data->client );
     errorString_ = "MidiInCore::openPort: error connecting OS-X MIDI input port.";
     error( RtMidiError::DRIVER_ERROR, errorString_ );
     return;
@@ -1247,31 +1272,43 @@ MidiOutCore :: ~MidiOutCore( void )
 
   // Cleanup.
   CoreMidiData *data = static_cast<CoreMidiData *> (apiData_);
-  MIDIClientDispose( data->client );
   if ( data->endpoint ) MIDIEndpointDispose( data->endpoint );
   delete data;
+}
+
+MIDIClientRef MidiOutCore::getCoreMidiClientSingleton(const std::string& clientName) throw() {
+
+  if (CoreMidiClientSingleton == 0){
+      // Set up our client.
+      MIDIClientRef client;
+
+      CFStringRef name = CFStringCreateWithCString( NULL, clientName.c_str(), kCFStringEncodingASCII );
+      OSStatus result = MIDIClientCreate(name, NULL, NULL, &client );
+      if ( result != noErr ) {
+        std::ostringstream ost;
+        ost << "MidiInCore::initialize: error creating OS-X MIDI client object (" << result << ").";
+        errorString_ = ost.str();
+        error( RtMidiError::DRIVER_ERROR, errorString_ );
+        return 0;
+      }
+      CFRelease( name );
+
+      CoreMidiClientSingleton = client;
+  }
+
+  return CoreMidiClientSingleton;
 }
 
 void MidiOutCore :: initialize( const std::string& clientName )
 {
   // Set up our client.
-  MIDIClientRef client;
-  CFStringRef name = CFStringCreateWithCString( NULL, clientName.c_str(), kCFStringEncodingASCII );
-  OSStatus result = MIDIClientCreate(name, NULL, NULL, &client );
-  if ( result != noErr ) {
-    std::ostringstream ost;
-    ost << "MidiInCore::initialize: error creating OS-X MIDI client object (" << result << ").";
-    errorString_ = ost.str();
-    error( RtMidiError::DRIVER_ERROR, errorString_ );
-    return;
-  }
+  MIDIClientRef client = getCoreMidiClientSingleton(clientName);
 
   // Save our api-specific connection information.
   CoreMidiData *data = (CoreMidiData *) new CoreMidiData;
   data->client = client;
   data->endpoint = 0;
   apiData_ = (void *) data;
-  CFRelease( name );
 }
 
 unsigned int MidiOutCore :: getPortCount()
@@ -1334,7 +1371,6 @@ void MidiOutCore :: openPort( unsigned int portNumber, const std::string &portNa
   OSStatus result = MIDIOutputPortCreate( data->client, portNameRef, &port );
   CFRelease( portNameRef );
   if ( result != noErr ) {
-    MIDIClientDispose( data->client );
     errorString_ = "MidiOutCore::openPort: error creating OS-X MIDI output port.";
     error( RtMidiError::DRIVER_ERROR, errorString_ );
     return;
@@ -1344,7 +1380,6 @@ void MidiOutCore :: openPort( unsigned int portNumber, const std::string &portNa
   MIDIEndpointRef destination = MIDIGetDestination( portNumber );
   if ( destination == 0 ) {
     MIDIPortDispose( port );
-    MIDIClientDispose( data->client );
     errorString_ = "MidiOutCore::openPort: error getting MIDI output destination reference.";
     error( RtMidiError::DRIVER_ERROR, errorString_ );
     return;
