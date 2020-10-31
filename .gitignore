@@ -64,6 +64,9 @@ app/gui/qt/qrc_help_files.cpp
 app/gui/qt/Sonic-Pi.app
 app/gui/qt/Sonic Pi.app
 app/gui/qt/build
+app/gui/qt/cmake-build-*
+app/gui/qt/.idea
+app/gui/qt/.vscode
 
 app/gui/qt/info
 app/gui/qt/qrc*.cpp
