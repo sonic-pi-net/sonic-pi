@@ -246,9 +246,9 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
     midi_ports_box_layout->addWidget(midi_in_ports_label);
     midi_ports_box_layout->addWidget(midi_out_ports_label);
 
-#ifdef Q_OS_MAC
-    midi_ports_box_layout->addWidget(midi_reset_button);
-#endif
+
+    #midi_ports_box_layout->addWidget(midi_reset_button);
+
 
     connect(midi_reset_button, SIGNAL(clicked()), this, SLOT(forceMidiReset()));
 
