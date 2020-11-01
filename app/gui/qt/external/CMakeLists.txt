@@ -8,14 +8,19 @@ project(AubioBuilder
     VERSION 1.0.0
     )
 
-include(ExternalProject)
 
-# sp_midi
+  include(ExternalProject)
+
+  set(CMAKE_OSX_DEPLOYMENT_TARGET '10.13')
+
+  # sp_midi
 ExternalProject_Add(sp_midi
     PREFIX sp_midi-prefix
     SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/sp_midi
     INSTALL_COMMAND ""
-    CMAKE_ARGS -DERLANG_INCLUDE_PATH=${ERLANG_INCLUDE_PATH}
+    CMAKE_ARGS
+        -DERLANG_INCLUDE_PATH=${ERLANG_INCLUDE_PATH}
+        -DCMAKE_OSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}
     BUILD_COMMAND ${CMAKE_COMMAND} --build . --config Release
     )
 
@@ -24,9 +29,11 @@ ExternalProject_Add(ogg
     SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/ogg-1.3.4
 
     INSTALL_DIR ${CMAKE_BINARY_DIR}/ogg-package
-    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/ogg-package
+    CMAKE_ARGS
+        -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/ogg-package
         -DBUILD_TESTING=OFF
         -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+        -DCMAKE_OSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}
     )
 
 ExternalProject_Add(flac
@@ -39,6 +46,7 @@ ExternalProject_Add(flac
         -DBUILD_DOCS=OFF
         -DBUILD_EXAMPLES=OFF
         -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+        -DCMAKE_OSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}
 
     INSTALL_DIR ${CMAKE_BINARY_DIR}/flac-package
     CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/flac-package
@@ -54,6 +62,7 @@ ExternalProject_Add(opus
         -DBUILD_EXAMPLES=OFF
         -DBUILD_TESTING=OFF
         -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+        -DCMAKE_OSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}
 
     INSTALL_DIR ${CMAKE_BINARY_DIR}/opus-package
     CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/opus-package
@@ -69,6 +78,7 @@ ExternalProject_Add(vorbis
         -DBUILD_EXAMPLES=OFF
         -DBUILD_TESTING=OFF
         -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+        -DCMAKE_OSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}
 
     INSTALL_DIR ${CMAKE_BINARY_DIR}/vorbis-package
     CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/vorbis-package
@@ -96,6 +106,7 @@ ExternalProject_Add(libsndfile
         -DPC_VORBISENC_LIBRARY_DIRS=${CMAKE_BINARY_DIR}/vorbis-package/lib
         -DPC_OPUS_INCLUDE_DIRS=${CMAKE_BINARY_DIR}/opus-package/include
         -DPC_OPUS_LIBRARY_DIRS=${CMAKE_BINARY_DIR}/opus-package/lib
+        -DCMAKE_OSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}
 
         INSTALL_DIR ${CMAKE_BINARY_DIR}/libsndfile-package
         CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/libsndfile-package
@@ -106,17 +117,19 @@ ExternalProject_Add(aubio
     SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/aubio
     DEPENDS libsndfile
 
-    CMAKE_ARGS -DLIBSNDFILE_INCLUDE_DIR=${CMAKE_BINARY_DIR}/libsndfile-package/include
-            -DLIBSNDFILE_LIBRARY_DIR=${CMAKE_BINARY_DIR}/libsndfile-package/lib
-            -DLIBOGG_LIBRARY_DIR=${CMAKE_BINARY_DIR}/ogg-package/lib
-            -DLIBVORBIS_LIBRARY_DIR=${CMAKE_BINARY_DIR}/vorbis-package/lib
-            -DLIBOPUS_LIBRARY_DIR=${CMAKE_BINARY_DIR}/opus-package/lib
-            -DLIBFLAC_LIBRARY_DIR=${CMAKE_BINARY_DIR}/flac-package/lib
+    CMAKE_ARGS
+        -DLIBSNDFILE_INCLUDE_DIR=${CMAKE_BINARY_DIR}/libsndfile-package/include
+        -DLIBSNDFILE_LIBRARY_DIR=${CMAKE_BINARY_DIR}/libsndfile-package/lib
+        -DLIBOGG_LIBRARY_DIR=${CMAKE_BINARY_DIR}/ogg-package/lib
+        -DLIBVORBIS_LIBRARY_DIR=${CMAKE_BINARY_DIR}/vorbis-package/lib
+        -DLIBOPUS_LIBRARY_DIR=${CMAKE_BINARY_DIR}/opus-package/lib
+        -DLIBFLAC_LIBRARY_DIR=${CMAKE_BINARY_DIR}/flac-package/lib
 
-            -DPC_OGG_INCLUDE_DIRS=${CMAKE_BINARY_DIR}/ogg-package/include
-            -DPC_VORBIS_INCLUDE_DIRS=${CMAKE_BINARY_DIR}/vorbis-package/include
-            -DPC_VORBISENC_INCLUDE_DIRS=${CMAKE_BINARY_DIR}/vorbis-package/include
-            -DPC_OPUS_INCLUDE_DIRS=${CMAKE_BINARY_DIR}/opus-package/include
+        -DPC_OGG_INCLUDE_DIRS=${CMAKE_BINARY_DIR}/ogg-package/include
+        -DPC_VORBIS_INCLUDE_DIRS=${CMAKE_BINARY_DIR}/vorbis-package/include
+        -DPC_VORBISENC_INCLUDE_DIRS=${CMAKE_BINARY_DIR}/vorbis-package/include
+        -DPC_OPUS_INCLUDE_DIRS=${CMAKE_BINARY_DIR}/opus-package/include
+        -DCMAKE_OSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}
     INSTALL_COMMAND ""
     )
 
