@@ -32,18 +32,6 @@ _These build instructions assume you're running under macOS 10.15+. If
 you're using an older version of macOS some steps may need
 modification._
 
-#### Anaconda users beware!
-
-Anaconda (a popular data science toolkit) installs a lot of extra programs, including one called `macdeployqt` which conflicts with the build you're about to try.
-
-If you run:
-
-```
-conda deactivate
-```
-
-Before the following steps that should stop things breaking. Once Sonic Pi is built, you can use `conda` as normal after that.
-
 ## 1. Installing Dependencies
 
 In order to build Sonic Pi's various components, we need to install a
@@ -51,7 +39,7 @@ few dependencies:
 
 1. Xcode (12.1+) and command line tools
 2. Homebrew
-3. All other dependencies - Qt (5.15+), CMake (3.18+), Erlang (23.1.1+)
+3. All other dependencies - Qt (5.15+), CMake (3.18+)
 
 ### 1.1 Install Xcode
 
@@ -80,7 +68,7 @@ Once you have Homebrew installed, pulling in the rest of the
 dependencies is a couple of lines to execute within a terminal:
 
 ```
-brew install qt cmake erlang
+brew install qt cmake
 
 ```
 
@@ -156,6 +144,19 @@ directly either by double clicking it in the Finder or via the terminal
 ./Sonic\ Pi.app/Contents/MacOS/Sonic\ Pi
 
 ```
+
+#### Anaconda users beware!
+
+Anaconda (a popular data science toolkit) installs a lot of extra programs, including one called `macdeployqt` which conflicts with the build process mentioned above.
+
+If you run:
+
+```
+conda deactivate
+```
+
+Before the build steps that should stop things breaking. Once Sonic Pi is built, you can use `conda` as normal after that.
+
 
 ## Good Luck!
 
