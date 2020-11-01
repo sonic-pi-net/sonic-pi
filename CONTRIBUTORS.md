@@ -87,6 +87,7 @@ especially the following individuals who have been remarkably generous:
 * [Florian Gilcher](https://twitter.com/Argorak)
 * [Gabe Jackson](https://github.com/gj)
 * [James Abley](https://twitter.com/jabley)
+* Jaroslav Lichtblau
 * [Justin Worrall](https://twitter.com/juzbo)
 * [Lily Foster](https://lily.flowers/)
 * [Luis Espinoza](https://twitter.com/luis_espinoza)
@@ -109,6 +110,7 @@ especially the following individuals who have been remarkably generous:
 * [Sam Halliday](https://github.com/fommil)
 * [Sean Raser](https://twitter.com/sraser88)
 * [Sébastien Rannou](https://mxs.sbrk.org/)
+* [Scott Fleckenstein](http://nullstyle.com))
 * [Scott Turner](https://twitter.com/scottturneruon)
 * [Simon Woodman](https://twitter.com/sjwoodman)
 * Terry Wisniewski
