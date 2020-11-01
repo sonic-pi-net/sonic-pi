@@ -81,7 +81,12 @@ module SonicPi
           summary:       "Use new MIDI defaults",
           doc:           "Specify new default values to be used by all subsequent calls to `midi_*` fns. Will remove and override any previous defaults.",
           args:          [],
-          opts:          {},
+          opts:          {
+                           channel: "MIDI channel(s) to send event on",
+                           port: "MIDI port(s) to send to",
+                           velocity: "Note velocity as a MIDI number.",
+                           vel_f: "Velocity as a value between 0 and 1 (will be converted to a MIDI velocity between 0 and 127)",
+                           on: "If specified and false/nil/0 will stop the midi note on message from being sent out. (Ensures all opts are evaluated in this call to `midi_note_on` regardless of value)."},
           accepts_block: false,
           examples:      ["
 midi_note_on :e1 # Sends MIDI :e1 note_on with default opts
@@ -114,7 +119,12 @@ midi_note_on :e2 # Sends MIDI :e2 note_on to channel 1. Note that the port is ba
           summary:        "Block-level use new MIDI defaults",
           doc:            "Specify new default values to be used by all calls to `midi_*` fns within the `do`/`end` block. After the `do`/`end` block has completed the previous MIDI defaults (if any) are restored.",
           args:           [],
-          opts:           {},
+          opts:          {
+                           channel: "MIDI channel(s) to send event on",
+                           port: "MIDI port(s) to send to",
+                           velocity: "Note velocity as a MIDI number.",
+                           vel_f: "Velocity as a value between 0 and 1 (will be converted to a MIDI velocity between 0 and 127)",
+                           on: "If specified and false/nil/0 will stop the midi note on message from being sent out. (Ensures all opts are evaluated in this call to `midi_note_on` regardless of value)."},
           accepts_block:  true,
           requires_block: true,
           examples:       ["
@@ -150,7 +160,12 @@ end
           summary:       "Merge MIDI defaults",
           doc:           "Specify new default values to be used by all subsequent calls to `midi_*` fns. Merges the specified values with any previous defaults, rather than replacing them",
           args:          [],
-          opts:          {},
+          opts:          {
+                           channel: "MIDI channel(s) to send event on",
+                           port: "MIDI port(s) to send to",
+                           velocity: "Note velocity as a MIDI number.",
+                           vel_f: "Velocity as a value between 0 and 1 (will be converted to a MIDI velocity between 0 and 127)",
+                           on: "If specified and false/nil/0 will stop the midi note on message from being sent out. (Ensures all opts are evaluated in this call to `midi_note_on` regardless of value)."},
           accepts_block: false,
           examples:      ["
 midi_note_on :e1 # Sends MIDI :e1 note_on with default opts
@@ -185,7 +200,12 @@ midi_note_on :e2 # Sends MIDI :e2 note_on to channel 1 on port \"foo\".
           summary:        "Block-level merge midi defaults",
           doc:            "Specify opt values to be used by any following call to the `midi_*` fns within the specified `do`/`end` block. Merges the specified values with any previous midi defaults, rather than replacing them. After the `do`/`end` block has completed, previous defaults (if any) are restored.",
           args:           [],
-          opts:           {},
+          opts:          {
+                           channel: "MIDI channel(s) to send event on",
+                           port: "MIDI port(s) to send to",
+                           velocity: "Note velocity as a MIDI number.",
+                           vel_f: "Velocity as a value between 0 and 1 (will be converted to a MIDI velocity between 0 and 127)",
+                           on: "If specified and false/nil/0 will stop the midi note on message from being sent out. (Ensures all opts are evaluated in this call to `midi_note_on` regardless of value)."},
           accepts_block:  true,
           requires_block: true,
           examples:       ["
