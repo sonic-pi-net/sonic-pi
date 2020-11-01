@@ -436,7 +436,7 @@ module SonicPi
       when :windows
         "\"#{File.join(native_path, "erlang", "bin", "erl.exe")}\""
       when :osx
-        File.join(native_path, "erlang", "erl")
+        "\"#{File.join(native_path, "erlang", "erl")}\""
       else
         "erl"
       end
