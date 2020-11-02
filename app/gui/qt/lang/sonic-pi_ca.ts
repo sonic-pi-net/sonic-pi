@@ -213,27 +213,27 @@ Ho lamentem, ha ocorregut un error crític durant l&apos;inici</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2545"/>
         <source>Indent Code Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>Indenta la memòria intermèdia de codi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2551"/>
         <source>Code Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Augmenta la mida del codi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2557"/>
         <source>Code Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Disminueix la mida del codi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2563"/>
         <source>Show Scopes</source>
-        <translation type="unfinished">Mostra els visors</translation>
+        <translation>Mostra els visors</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2571"/>
         <source>Show Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra informació</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3108"/>
@@ -268,7 +268,7 @@ Ho lamentem, ha ocorregut un error crític durant l&apos;inici</translation>
     <message>
         <location filename="../mainwindow.cpp" line="793"/>
         <source>Context</source>
-        <translation type="unfinished"></translation>
+        <translation>Context</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="897"/>
@@ -344,22 +344,22 @@ Ho lamentem, ha ocorregut un error crític durant l&apos;inici</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1869"/>
         <source>Hiding about window...</source>
-        <translation type="unfinished"></translation>
+        <translation>Amagant la finestra Quant a...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1874"/>
         <source>Showing about window...</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrant la finestra Quant a...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1890"/>
         <source>Hiding help...</source>
-        <translation type="unfinished"></translation>
+        <translation>Amagant l&apos;ajuda...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1894"/>
         <source>Showing help...</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrant l&apos;ajuda...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1950"/>
@@ -384,22 +384,22 @@ Ho lamentem, ha ocorregut un error crític durant l&apos;inici</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2322"/>
         <source>Show context on</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;Mostra el context&quot; activat</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2325"/>
         <source>Show context off</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;Mostra el context&quot; desactivat</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2337"/>
         <source>Hiding preferences...</source>
-        <translation type="unfinished"></translation>
+        <translation>Amagant les preferències...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2341"/>
         <source>Showing preferences...</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrant les preferències...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2510"/>
@@ -429,7 +429,7 @@ Ho lamentem, ha ocorregut un error crític durant l&apos;inici</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2579"/>
         <source>Show Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra l&apos;ajuda</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2583"/>
@@ -439,7 +439,7 @@ Ho lamentem, ha ocorregut un error crític durant l&apos;inici</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2587"/>
         <source>Show Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra les preferències</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2591"/>
@@ -449,276 +449,276 @@ Ho lamentem, ha ocorregut un error crític durant l&apos;inici</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2614"/>
         <source>Show Line Numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra els números de línia</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2619"/>
         <source>Show Code Completion</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra la compleció de codi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2624"/>
         <source>Show Code Context</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra el context del codi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2629"/>
         <source>Safe Audio Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Mode d&apos;àudio segur</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2634"/>
         <source>Enforce Timing Guarantees</source>
-        <translation type="unfinished"></translation>
+        <translation>Imposa garanties de sincronització</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2639"/>
         <source>Enable External Synths</source>
-        <translation type="unfinished"></translation>
+        <translation>Activa els sintetitzadors externs</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2644"/>
         <source>Invert Stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>Inverteix l&apos;estèreo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2649"/>
         <source>Force Mono</source>
-        <translation type="unfinished"></translation>
+        <translation>Força a Mono</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2654"/>
         <source>Enable Incoming MIDI Cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Activa l&apos;entrada de senyals MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2659"/>
         <source>Allow Incoming OSC</source>
-        <translation type="unfinished"></translation>
+        <translation>Permet l&apos;entrada d&apos;OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2664"/>
         <source>Allow OSC From Other Computers</source>
-        <translation type="unfinished"></translation>
+        <translation>Permet l&apos;OSC des d&apos;altres ordinadors</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2669"/>
         <source>Log Cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Registre de senyals (Cue)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2674"/>
         <source>Log Synths</source>
-        <translation type="unfinished"></translation>
+        <translation>Registre de sintetitzadors</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2679"/>
         <source>Clear Logs on Run</source>
-        <translation type="unfinished"></translation>
+        <translation>Neteja registres en executar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2684"/>
         <source>Auto Indent Code Buffer on Run</source>
-        <translation type="unfinished"></translation>
+        <translation>Indenta automàticament el buffer de codi en executar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2689"/>
         <source>Auto-Scroll Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Desplaçament automàtic al registre</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2699"/>
         <source>Live</source>
-        <translation type="unfinished"></translation>
+        <translation>En viu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2711"/>
         <source>Code</source>
-        <translation type="unfinished"></translation>
+        <translation>Codi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2723"/>
         <source>Audio</source>
-        <translation type="unfinished">Àudio</translation>
+        <translation>Àudio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2732"/>
         <source>Visuals</source>
-        <translation type="unfinished">Visuals</translation>
+        <translation>Visuals</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2736"/>
         <source>Light</source>
-        <translation type="unfinished">Clar</translation>
+        <translation>Clar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2741"/>
         <source>Dark</source>
-        <translation type="unfinished">Fosc</translation>
+        <translation>Fosc</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2746"/>
         <source>Pro Light</source>
-        <translation type="unfinished">Clar Pro</translation>
+        <translation>Clar Pro</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2751"/>
         <source>Pro Dark</source>
-        <translation type="unfinished">Fosc Pro</translation>
+        <translation>Fosc Pro</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2756"/>
         <source>High Contrast</source>
-        <translation type="unfinished">Contrast alt</translation>
+        <translation>Contrast alt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2761"/>
         <source>Show Scope Labels</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar etiquetes de visors</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2766"/>
         <source>Colour Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Color del tema</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2775"/>
         <source>Show Scope Kinds</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra tipus de visors</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2786"/>
         <source>IO</source>
-        <translation type="unfinished">Entrada/Eixida</translation>
+        <translation>Entrada/Eixida</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2788"/>
         <source>MIDI Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrades MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2789"/>
         <location filename="../mainwindow.cpp" line="3638"/>
         <location filename="../mainwindow.cpp" line="3750"/>
         <source>No Connected Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrades no connectades</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2790"/>
         <source>MIDI Outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Eixides MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2791"/>
         <location filename="../mainwindow.cpp" line="3636"/>
         <location filename="../mainwindow.cpp" line="3767"/>
         <source>No Connected Outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Eixides no connectades</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2793"/>
         <source>Default MIDI Out Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Canal d&apos;eixida MIDI per defecte</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2796"/>
         <source>All Channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Tots els canals</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2801"/>
         <source>1</source>
-        <translation type="unfinished"></translation>
+        <translation>1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2806"/>
         <source>2</source>
-        <translation type="unfinished"></translation>
+        <translation>2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2811"/>
         <source>3</source>
-        <translation type="unfinished"></translation>
+        <translation>3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2816"/>
         <source>4</source>
-        <translation type="unfinished"></translation>
+        <translation>4</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2821"/>
         <source>5</source>
-        <translation type="unfinished"></translation>
+        <translation>5</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2826"/>
         <source>6</source>
-        <translation type="unfinished"></translation>
+        <translation>6</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2831"/>
         <source>7</source>
-        <translation type="unfinished"></translation>
+        <translation>7</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2836"/>
         <source>8</source>
-        <translation type="unfinished"></translation>
+        <translation>8</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2841"/>
         <source>9</source>
-        <translation type="unfinished"></translation>
+        <translation>9</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2846"/>
         <source>10</source>
-        <translation type="unfinished"></translation>
+        <translation>10</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2851"/>
         <source>11</source>
-        <translation type="unfinished"></translation>
+        <translation>11</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2856"/>
         <source>12</source>
-        <translation type="unfinished"></translation>
+        <translation>12</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2861"/>
         <source>13</source>
-        <translation type="unfinished"></translation>
+        <translation>13</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2866"/>
         <source>14</source>
-        <translation type="unfinished"></translation>
+        <translation>14</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2871"/>
         <source>15</source>
-        <translation type="unfinished"></translation>
+        <translation>15</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2876"/>
         <source>16</source>
-        <translation type="unfinished"></translation>
+        <translation>16</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2884"/>
         <source>Local IP Addresses</source>
-        <translation type="unfinished"></translation>
+        <translation>Adreces IP locals</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2896"/>
         <source>Incoming OSC Port</source>
-        <translation type="unfinished"></translation>
+        <translation>Port OSC d&apos;entrada</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2899"/>
         <source>View</source>
-        <translation type="unfinished"></translation>
+        <translation>Vista</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2906"/>
@@ -743,12 +743,12 @@ Ho lamentem, ha ocorregut un error crític durant l&apos;inici</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2917"/>
         <source>Focus Context</source>
-        <translation type="unfinished"></translation>
+        <translation>Context d&apos;enfocament</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2919"/>
         <source>Place focus on the context pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Posa el focus en el panell de context</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2923"/>
@@ -803,27 +803,27 @@ Ho lamentem, ha ocorregut un error crític durant l&apos;inici</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2952"/>
         <source>Show Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra el registre</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2957"/>
         <source>Show Cue Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra el registre d&apos;entrades (Cue)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2962"/>
         <source>Show Buttons</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra els botons</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2967"/>
         <source>Show Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra les pestanyes</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2973"/>
         <source>Full Screen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Mode de pantalla completa</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3130"/>
@@ -872,7 +872,7 @@ Aconsegueix Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3864"/>
         <source>Line: %1,  Position: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Línia: %1,  Posició: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2515"/>
@@ -1280,7 +1280,7 @@ a través de la xarxa a la que està connectada actualment.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="171"/>
         <source>Allow OSC from other computers</source>
-        <translation type="unfinished"></translation>
+        <translation>Permetre OSC des d&apos;altres ordinadors</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="172"/>
@@ -1292,17 +1292,17 @@ Quan no estiga marcat, només s&apos;enviaran i rebran missatges de la màquina 
     <message>
         <location filename="../widgets/settingswidget.cpp" line="174"/>
         <source>Allow incoming OSC</source>
-        <translation type="unfinished"></translation>
+        <translation>Permetre OSC d&apos;entrada</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="285"/>
         <source>Show code completion</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra la compleció de codi</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="397"/>
         <source>Show Scope Labels</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra les etiquetes de visor</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="175"/>
@@ -1462,17 +1462,17 @@ Sonic Pi. Poden enviar-se des de la funció midi_* fns</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="286"/>
         <source>When enabled, Sonic Pi&apos;s editor will attempt to autocomplete your code with suggestions. When disabled, these suggestions will not be visible.</source>
-        <translation type="unfinished"></translation>
+        <translation>Quan s&apos;habilita, l&apos;editor de Sonic Pi intentarà autocompletar el codi amb suggerències. Quan es deshabilita, aquestes suggerències no seran visibles.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="288"/>
         <source>Show code context</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra el context del codi</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="289"/>
         <source>When enabled, Sonic Pi&apos;s editor will show a pane which will display context-specific information for the code such as the current line and position of the cursor.</source>
-        <translation type="unfinished"></translation>
+        <translation>Quan està habilitat, l&apos;editor de Sonic Pi mostrarà un panell que on hi haurà informació específica de context per al codi, tal com la línia actual i la posició del cursor.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="291"/>
@@ -1641,7 +1641,7 @@ Si s&apos;activa, el registre es desplaça al final després de cada nou missatg
     <message>
         <location filename="../widgets/settingswidget.cpp" line="398"/>
         <source>Toggle the visibility of the labels for the audio oscilloscopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Activa la visibilitat de les etiquetes per a osciloscopis d&apos;àudio</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="401"/>
@@ -1653,7 +1653,14 @@ Mirror Stereo - simple left/right composite wave, with left on top, right on bot
 Mono - shows a combined view of the left and right channels (using RMS)
 Spectrum - shows the sound frequencies as a spectrum, from low to high frequencies
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;oscil·loscopi d&apos;àudio té diversos sabors que
+es poden veure de forma independent o tots junts:
+
+Lissajous - il·lustra la relació de fase entre els canals esquerre i dret
+Mirror Stereo - ona composta esquerra / dreta senzilla, amb esquerra a la part superior, dreta a la part inferior
+Mono - mostra una vista combinada dels canals esquerre i dret (mitjançant RMS)
+Espectre - mostra les freqüències de so com un espectre, de freqüències baixes a altes
+Estèreo - mostra dos visors independents per als canals esquerre i dret</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="408"/>
