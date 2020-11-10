@@ -29,6 +29,10 @@
 #include <QtPlatformHeaders\QWindowsWindowFunctions>
 #endif
 
+#ifdef Q_OS_MAC
+    #include "platform/macos.h"
+#endif
+
 int main(int argc, char *argv[])
 {
 
@@ -115,6 +119,8 @@ int main(int argc, char *argv[])
 
 #elif __APPLE__
   // macOS code goes here
+
+  SonicPi::removeMacosSpecificMenuItems();
 
   QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 

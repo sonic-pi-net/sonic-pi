@@ -120,6 +120,9 @@ SET(RESOURCES
 # Enable tracy profiler on debug and rel with debug builds
 if(WIN32)
 SET (SOURCES ${SOURCES} ${APP_ROOT}/external/tracy/TracyClient.cpp)
+elseif(APPLE)
+  SET (SOURCES ${SOURCES} ${APP_ROOT}/platform/macos.mm)
+  SET (SOURCES ${SOURCES} ${APP_ROOT}/platform/macos.h)
 endif()
 
 set(ALL_SOURCES ${OSC_SOURCES} ${QT_SOURCES} ${SOURCES} ${EDITOR_SOURCES})
@@ -145,6 +148,7 @@ if (APPLE)
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION}
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     RESOURCE "images/app.icns"
+    LINK_FLAGS "-framework AppKit"
     OUTPUT_NAME ${MACOS_APP_NAME}
     )
   file(
