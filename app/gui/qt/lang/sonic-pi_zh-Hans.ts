@@ -97,7 +97,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="3618"/>
         <source>Enabling MIDI input...</source>
-        <translation type="unfinished"></translation>
+        <translation>开启MIDI输入</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3624"/>
@@ -268,7 +268,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1894"/>
         <source>Showing help...</source>
-        <translation type="unfinished"></translation>
+        <translation>显示帮助...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1950"/>
@@ -323,7 +323,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2510"/>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>退出</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2515"/>
@@ -388,7 +388,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2579"/>
         <source>Show Help</source>
-        <translation type="unfinished"></translation>
+        <translation>显示帮助</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2587"/>
@@ -463,7 +463,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2679"/>
         <source>Clear Logs on Run</source>
-        <translation type="unfinished"></translation>
+        <translation>运行时清除日志</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2684"/>
@@ -528,7 +528,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2766"/>
         <source>Colour Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>主题色彩</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2775"/>
@@ -562,7 +562,7 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="3636"/>
         <location filename="../mainwindow.cpp" line="3767"/>
         <source>No Connected Outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>没有可用的输出设备</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2793"/>
@@ -577,7 +577,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2801"/>
         <source>1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2806"/>
@@ -617,47 +617,47 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2841"/>
         <source>9</source>
-        <translation type="unfinished"></translation>
+        <translation>9</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2846"/>
         <source>10</source>
-        <translation type="unfinished"></translation>
+        <translation>10</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2851"/>
         <source>11</source>
-        <translation type="unfinished"></translation>
+        <translation>11</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2856"/>
         <source>12</source>
-        <translation type="unfinished"></translation>
+        <translation>12</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2861"/>
         <source>13</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">13</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2866"/>
         <source>14</source>
-        <translation type="unfinished"></translation>
+        <translation>14</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2871"/>
         <source>15</source>
-        <translation type="unfinished"></translation>
+        <translation>15</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2876"/>
         <source>16</source>
-        <translation type="unfinished"></translation>
+        <translation>16</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2884"/>
         <source>Local IP Addresses</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">本地IP地址</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2896"/>
