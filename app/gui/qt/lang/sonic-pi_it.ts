@@ -233,7 +233,7 @@ Siamo spiacenti, si è verificato un errore durante l&apos;avvio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2571"/>
         <source>Show Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra informazioni</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3108"/>
@@ -273,7 +273,7 @@ Siamo spiacenti, si è verificato un errore durante l&apos;avvio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="897"/>
         <source>Playing Sample...</source>
-        <translation type="unfinished"></translation>
+        <translation>Sample in riproduzione...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1686"/>
@@ -1387,12 +1387,12 @@ Sonic Pi e che possono essere inviati attraverso il midi_*fns</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="86"/>
         <source>Main Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Volume principale</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="116"/>
         <source>Enable external synths/FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Abilita synth/FX esterni</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="146"/>
@@ -1412,7 +1412,7 @@ Sonic Pi e che possono essere inviati attraverso il midi_*fns</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="220"/>
         <source>Default MIDI channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Canale MIDI di default</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="221"/>
