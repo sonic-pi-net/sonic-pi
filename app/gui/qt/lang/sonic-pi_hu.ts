@@ -43,7 +43,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1143"/>
         <source>Toggle selection comment...</source>
-        <translation type="unfinished"></translation>
+        <translation>Kijelölt kódrészlet aktiválása/inaktiválása...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="937"/>
