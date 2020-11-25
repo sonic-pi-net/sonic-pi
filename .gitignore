@@ -117,6 +117,8 @@ app/server/rb-native/
 **/vendor/ffi-*/ext/ffi_c/libffi*/
 **/vendor/**/build/
 
+app/gui/qt/external/.src
+
 ## Book
 
 book/

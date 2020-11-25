@@ -1,0 +1,26 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 0a28e5ab..061cafba 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -2,6 +2,8 @@ cmake_minimum_required (VERSION 3.1.3)
+ 
+ project(sndfile VERSION 1.0.29)
+ 
++cmake_policy(SET CMP0074 NEW)
++set(CMAKE_FIND_DEBUG_MODE 1)
+ #
+ # Variables
+ #
+diff --git a/cmake/FindFLAC.cmake b/cmake/FindFLAC.cmake
+index 601e5665..3a6aeef1 100644
+--- a/cmake/FindFLAC.cmake
++++ b/cmake/FindFLAC.cmake
+@@ -11,7 +11,7 @@ if (FLAC_INCLUDE_DIR)
+     set (FLAC_FIND_QUIETLY TRUE)
+ endif ()
+ 
+-find_package (Ogg QUIET)
++find_package (Ogg REQUIRED)
+ 
+ find_package (PkgConfig QUIET)
+ pkg_check_modules(PC_FLAC QUIET flac)
