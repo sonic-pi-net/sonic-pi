@@ -4,20 +4,20 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-02-14 03:17+0000\n"
-"Last-Translator: Salih Vatansever <salih.vtnsvr@gmail.com>\n"
-"Language-Team: Turkish <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
-"tr/>\n"
+"PO-Revision-Date: 2020-12-01 01:29+0000\n"
+"Last-Translator: burak tufekci <tufekcib61@gmail.com>\n"
+"Language-Team: Turkish <https://hosted.weblate.org/projects/sonic-pi/"
+"tutorial/tr/>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.11-dev\n"
+"X-Generator: Weblate 4.4-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
-msgstr "Sonic Pi'ye hoş geldiniz."
+msgstr "1 Sonic Pi'ye hoş geldiniz"
 
 #: 01-Welcome-to-Sonic-Pi.md:3
 msgid "Welcome friend :-)"
@@ -30,6 +30,10 @@ msgid ""
 "earn all about music, synthesis, programming, composition, performance and mor"
 "e."
 msgstr ""
+"Sonic Pi'ye hoşgeldiniz. Umarım, sende, sana göstereceğim gibi çılgın sesler "
+"oluşturmaya başlamak için heyacanlısındır. Müzik, sentez, programlama, "
+"kompozisyon, performans ve daha fazlası hakkında her şeyi öğreneceğin "
+"gerçekten * eğlenceli * bir yolculuk olacak."
 
 #: 01-Welcome-to-Sonic-Pi.md:10
 msgid ""
@@ -40,6 +44,13 @@ msgid ""
 "ve Coding Performances](https://youtube.com/samaaron) where I code with Sonic "
 "Pi live in front of audiences."
 msgstr ""
+"Ama bekle, ne kadar kabayım! Önce kendimi tanıtmama izin ver - Ben [Sam "
+"Aaron](https://twitter.com/samaaron) - Sonic Pi'yi ortaya çıkaran adamım. "
+"Beni Twitter'da [@samaaron] (http://twitter.com/samaaron) adresinde "
+"bulabilirsiniz ve size merhaba demekten çok mutlu olurum. Benim hakkımda "
+"daha fazla bilgi edinmek de ilginizi çekebilir, izleyicilerin önünde canlı "
+"olarak Sonic Pi ile yazdığım kod[Canlı Kodlama Performanslarım] "
+"(https://youtube.com/samaaron)."
 
 #: 01-Welcome-to-Sonic-Pi.md:18
 msgid ""
@@ -47,6 +58,9 @@ msgid ""
 "n - feedback is so helpful. You never know, your idea might be the next big fe"
 "ature!"
 msgstr ""
+"Sonic Pi'yi iyileştirmek için herhangi bir düşünceniz veya fikriniz varsa - "
+"lütfen bunları iletin - geri bildirim çok faydalıdır. Asla bilemezsiniz, "
+"fikriniz bir sonraki önemli özellik olabilir!"
 
 #: 01-Welcome-to-Sonic-Pi.md:22
 msgid ""
@@ -55,6 +69,11 @@ msgid ""
 "ree just to dip in and out of sections as you see fit. If you feel that there'"
 "s something missing, do let me know and I'll consider it for a future version."
 msgstr ""
+"Bu eğitim, kategoriye göre gruplandırılmış bölümlere ayrılmıştır. Baştan "
+"sona kolay bir öğrenme serisi için yazmış olsam da, uygun gördüğünüz şekilde "
+"bölümlere girip çıkmak için çok rahat hissedin. Eksik bir şey olduğunu "
+"düşünüyorsanız, bana bildirin ve bunu gelecekteki bir versiyon için "
+"değerlendireceğim."
 
 #: 01-Welcome-to-Sonic-Pi.md:28
 msgid ""
@@ -62,6 +81,10 @@ msgid ""
 " stream live on [https://youtube.com/samaaron](http://youtube.com/samaaron) so"
 " please do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
+"Son olarak, başkalarının kodlarını canlı izlemek, öğrenmek için gerçekten "
+"harika bir yoldur. Düzenli olarak [https://youtube.com/"
+"samaaron](http://youtube.com/samaaron) üzerinden canlı yayın yapıyorum, bu "
+"yüzden lütfen uğrayın, merhaba deyin ve bana birçok soru sorun :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
@@ -83,6 +106,11 @@ msgid ""
 "uitar. This means that given some practice you can take Sonic Pi on stage and "
 "gig with it."
 msgstr ""
+"Sonic Pi'nin en heyecan verici yönlerinden biri, tıpkı bir gitarla canlı "
+"performans sergileyebileceğiniz gibi, müzik yapmak için kodu yazmanıza ve * "
+"canlı olarak değiştirmenize * olanak vermesidir. Bu, biraz pratik yaptıktan "
+"sonra Sonic Pi'yi sahneye alıp onunla birlikte çalışabileceğiniz anlamına "
+"gelir."
 
 #: 01.1-Live-Coding.md:10
 msgid "Free your mind"
@@ -95,6 +123,10 @@ msgid ""
 "on't worry if you don't understand much (or any) of this. Just try to hold ont"
 "o your seats and enjoy..."
 msgstr ""
+"Bu eğitimin geri kalanında Sonic Pi'nin nasıl çalıştığına dair gerçek "
+"ayrıntılara girmeden önce, size kodlamanın tadını çıkarmanın nasıl olduğunun "
+"bir pratiğini vermek isterim. Bunu (veya herhangi birini) pek anlamadıysanız "
+"endişelenmeyin. Sadece koltuklarınıza oturun ve ..."
 
 #: 01.1-Live-Coding.md:17
 msgid "A live loop"
@@ -123,28 +155,34 @@ msgid ""
 ". If at any time you wish to stop the sound just hit the `Stop` button. Althou"
 "gh don't hit it just yet... Instead, follow these steps:"
 msgstr ""
+"Şimdi, `Çalıştır` düğmesine basın ve güzel, hızlı bir bas davulunun "
+"çaldığını duyacaksınız. Herhangi bir anda sesi durdurmak isterseniz, sadece "
+"`Durdur` düğmesine basın. Henüz vurmasa da ... Bunun yerine şu adımları "
+"izleyin:"
 
 #: 01.1-Live-Coding.md:32
 msgid "Make sure the bass drum sound is still running"
-msgstr ""
+msgstr "Bas davul sesinin hala çalıştığından emin olun"
 
 #: 01.1-Live-Coding.md:33
 msgid "Change the `sleep` value from `0.5` to something higher like `1`."
-msgstr ""
+msgstr "`Uyku` değerini `0,5` ten `1` gibi daha yüksek bir değerle değiştirin."
 
 #: 01.1-Live-Coding.md:34
 msgid "Press the `Run` button again"
-msgstr ""
+msgstr "Tekrar `Çalıştır` düğmesine basın"
 
 #: 01.1-Live-Coding.md:35
 msgid "Notice how the drum speed has changed."
-msgstr ""
+msgstr "Davul sesinin hızının nasıl değiştiğine dikkat edin."
 
 #: 01.1-Live-Coding.md:36
 msgid ""
 "Finally, *remember this moment*, this is the first time you've live coded with"
 " Sonic Pi and it's unlikely to be your last..."
 msgstr ""
+"Son olarak, * bu anı hatırla *, bu, Sonic Pi ile canlı kodlanmış olarak "
+"yaşadığın ilk an ve muhtemelen sonuncusu olmayacak ..."
 
 #: 01.1-Live-Coding.md:39
 msgid ""
