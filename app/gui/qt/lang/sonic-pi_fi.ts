@@ -98,12 +98,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="3618"/>
         <source>Enabling MIDI input...</source>
-        <translation type="unfinished"></translation>
+        <translation>Otetaan MIDI-tulo käyttöön...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3624"/>
         <source>Disabling MIDI input...</source>
-        <translation type="unfinished"></translation>
+        <translation>Poistetaan MIDI-tulo käytöstä...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3640"/>
@@ -118,7 +118,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3582"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation>Lataa uusin versio osoitteesta http://sonic-pi.net</translation>
+        <translation>Lataa uusi versio osoitteesta http://sonic-pi.net</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3662"/>
@@ -253,7 +253,7 @@ Pahoittelut, vakava virhe käynnistäessä</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3699"/>
         <source>Welcome back. Now get your live code on...</source>
-        <translation>Tervetuloa takaisin. Nyt aloita live-koodaus...</translation>
+        <translation>Tervetuloa takaisin. Sitten vaan live-koodaamaan...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1565"/>
@@ -316,13 +316,13 @@ Pahoittelut, vakava virhe käynnistäessä</translation>
         <location filename="../mainwindow.cpp" line="1795"/>
         <source>Enabling Inverted Stereo...</source>
         <oldsource>Enabling Inverted Stereo....</oldsource>
-        <translation>Invertoitu stereo käyttöön...</translation>
+        <translation>Otetaan käänteinen stereo käyttöön...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1803"/>
         <source>Enabling Standard Stereo...</source>
         <oldsource>Enabling Standard Stereo....</oldsource>
-        <translation>Normaali stereo käyttöön...</translation>
+        <translation>Otetaan tavallinen stereo käyttöön...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1811"/>
@@ -354,22 +354,22 @@ Pahoittelut, vakava virhe käynnistäessä</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1890"/>
         <source>Hiding help...</source>
-        <translation type="unfinished"></translation>
+        <translation>Piilotetaan ohje...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1894"/>
         <source>Showing help...</source>
-        <translation type="unfinished"></translation>
+        <translation>Näytetään ohje...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1950"/>
         <source>Updating System Volume...</source>
-        <translation>Päivitetään järjestelmää...</translation>
+        <translation type="unfinished">Päivitetään järjestelmää...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2097"/>
         <source>Colour Theme: </source>
-        <translation type="unfinished"></translation>
+        <translation>Väriteema: </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2305"/>
@@ -394,12 +394,12 @@ Pahoittelut, vakava virhe käynnistäessä</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2337"/>
         <source>Hiding preferences...</source>
-        <translation type="unfinished"></translation>
+        <translation>Piilotetaan asetukset...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2341"/>
         <source>Showing preferences...</source>
-        <translation type="unfinished"></translation>
+        <translation>Näytetään asetukset...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2510"/>
@@ -414,7 +414,7 @@ Pahoittelut, vakava virhe käynnistäessä</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2533"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Tallenna</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2535"/>
@@ -429,7 +429,7 @@ Pahoittelut, vakava virhe käynnistäessä</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2579"/>
         <source>Show Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Näytä ohje</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2583"/>
@@ -439,7 +439,7 @@ Pahoittelut, vakava virhe käynnistäessä</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2587"/>
         <source>Show Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Näytä asetukset</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2591"/>
@@ -449,7 +449,7 @@ Pahoittelut, vakava virhe käynnistäessä</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2614"/>
         <source>Show Line Numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>Näytä rivinumerot</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2619"/>
@@ -549,12 +549,12 @@ Pahoittelut, vakava virhe käynnistäessä</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2736"/>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Vaalea</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2741"/>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Tumma</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2746"/>
@@ -569,7 +569,7 @@ Pahoittelut, vakava virhe käynnistäessä</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2756"/>
         <source>High Contrast</source>
-        <translation type="unfinished"></translation>
+        <translation>Suuri kontrasti</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2761"/>
@@ -579,7 +579,7 @@ Pahoittelut, vakava virhe käynnistäessä</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2766"/>
         <source>Colour Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Väriteema</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2775"/>
@@ -594,7 +594,7 @@ Pahoittelut, vakava virhe käynnistäessä</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2788"/>
         <source>MIDI Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI-tulot</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2789"/>
@@ -606,7 +606,7 @@ Pahoittelut, vakava virhe käynnistäessä</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2790"/>
         <source>MIDI Outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI-lähdöt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2791"/>
@@ -708,7 +708,7 @@ Pahoittelut, vakava virhe käynnistäessä</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2884"/>
         <source>Local IP Addresses</source>
-        <translation type="unfinished"></translation>
+        <translation>Paikalliset IP-osoitteet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2896"/>
@@ -823,7 +823,7 @@ Pahoittelut, vakava virhe käynnistäessä</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2973"/>
         <source>Full Screen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Koko näytön tila</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3130"/>
@@ -948,7 +948,7 @@ Lataa Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="427"/>
         <source>Studio Mode Enabled. Thank-you for supporting Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation>Studiotila käytössä. Kiitos Sonic Pi:n tukemisesta.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="431"/>
@@ -963,7 +963,7 @@ Lataa Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2547"/>
         <source>Align code to improve readability</source>
-        <translation type="unfinished"></translation>
+        <translation>Paranna luettavuutta tasaamalla koodi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2567"/>
@@ -1049,7 +1049,7 @@ Lataa Sonic Pi %1</translation>
     <message>
         <location filename="../utils/ruby_help.h" line="3252"/>
         <source>Examples</source>
-        <translation type="unfinished"></translation>
+        <translation>Esimerkit</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3303"/>
@@ -1090,17 +1090,17 @@ Lataa Sonic Pi %1</translation>
     <message>
         <location filename="../visualizer/scope.cpp" line="393"/>
         <source>Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Vasen</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="394"/>
         <source>Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Oikea</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="395"/>
         <source>Mono</source>
-        <translation type="unfinished"></translation>
+        <translation>Mono</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="396"/>
@@ -1110,7 +1110,7 @@ Lataa Sonic Pi %1</translation>
     <message>
         <location filename="../visualizer/scope.cpp" line="398"/>
         <source>Spectrum</source>
-        <translation type="unfinished"></translation>
+        <translation>Spektri</translation>
     </message>
 </context>
 <context>
@@ -1161,7 +1161,7 @@ kanssa työskentelyyn kun esiinnytään Sonic Pi:llä.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="95"/>
         <source>Invert stereo</source>
-        <translation type="unfinished">Stereo-inversio</translation>
+        <translation>Käänteinen stereo</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="96"/>
@@ -1254,7 +1254,7 @@ jota ei tunnisteta.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="141"/>
         <source>Networked OSC</source>
-        <translation type="unfinished"></translation>
+        <translation>Verkko-OSC</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="142"/>
@@ -1276,7 +1276,7 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="171"/>
         <source>Allow OSC from other computers</source>
-        <translation type="unfinished"></translation>
+        <translation>Salli OSC muilta tietokoneilta</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="172"/>
@@ -1287,7 +1287,7 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="174"/>
         <source>Allow incoming OSC</source>
-        <translation type="unfinished"></translation>
+        <translation>Salli saapuva OSC</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="285"/>
@@ -1309,7 +1309,7 @@ Kun asetus on pois päältä, OSC-viestejä ei vastaanoteta.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="183"/>
         <source>MIDI Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI-asetukset</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="184"/>
@@ -1436,12 +1436,12 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="279"/>
         <source>Auto-align</source>
-        <translation type="unfinished">Automaattinen tasaus</translation>
+        <translation>Automaattinen tasaus</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="280"/>
         <source>Automatically align code on Run</source>
-        <translation type="unfinished">Kohdista koodi automaattisesti käynnistäessä</translation>
+        <translation>Tasaa koodi automaattisesti suoritettaessa</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="282"/>
@@ -1521,12 +1521,12 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="309"/>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Vaalea</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="310"/>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Tumma</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="311"/>
@@ -1541,7 +1541,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="313"/>
         <source>High Contrast</source>
-        <translation type="unfinished"></translation>
+        <translation>Suuri kontrasti</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="346"/>
@@ -1657,7 +1657,7 @@ Stereo - shows two independent scopes for left and right channels</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="431"/>
         <source>Check for updates</source>
-        <translation type="unfinished">Tarkista päivitykset</translation>
+        <translation>Tarkista päivitykset</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="433"/>
@@ -1686,7 +1686,7 @@ Tämä tarkistus sisältää anonyymin tiedon lähettämisen ympäristöstäsi j
     <message>
         <location filename="../widgets/settingswidget.cpp" line="438"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation type="unfinished">Lataa uusin versio osoitteesta http://sonic-pi.net</translation>
+        <translation>Lataa uusi versio osoitteesta http://sonic-pi.net</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="441"/>
