@@ -8,7 +8,7 @@ repositories without having to build the app yourself. The available versions va
 | Distribution | Install Command |
 |---|---|
 | Debian / Ubuntu / Raspbian / Linux Mint | `sudo apt-get install sonic-pi` |
-| Arch Linux | `sudo pacman -S sonic-pi` |
+| Arch Linux / Manjaro | `sudo pacman -S sonic-pi` |
 
 ## Building from source
 
