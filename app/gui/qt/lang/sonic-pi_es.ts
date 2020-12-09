@@ -430,7 +430,7 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2634"/>
         <source>Enforce Timing Guarantees</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Forzar Garantías de Tiempo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2639"/>
@@ -450,7 +450,7 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2654"/>
         <source>Enable Incoming MIDI Cues</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Habilitar registros MIDI entrantes</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2659"/>
@@ -465,7 +465,7 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2669"/>
         <source>Log Cues</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Guardar Registros</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2674"/>
@@ -475,7 +475,7 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2679"/>
         <source>Clear Logs on Run</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Eliminar Registros al Ejecutar código</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2684"/>
