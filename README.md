@@ -92,7 +92,10 @@ Sonic Pi is under active development, and welcomes new contributors:
 * [Change log](CHANGELOG.md)
 * [Community](COMMUNITY.md)
 * [Contributors](CONTRIBUTORS.md)
-* [Installation](INSTALL.md)
+* Building
+  - [Linux](BUILD-LINUX.md)
+  - [Mac](BUILD-MAC.md)
+  - [Windows](BUILD-WINDOWS.md)
 * [License](LICENSE.md)
 * [Testing](TESTING.md)
 * [Translation](TRANSLATION.md)
