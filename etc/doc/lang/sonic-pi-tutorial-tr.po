@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-12-01 01:29+0000\n"
-"Last-Translator: burak tufekci <tufekcib61@gmail.com>\n"
+"PO-Revision-Date: 2020-12-10 07:29+0000\n"
+"Last-Translator: VOLKAN BAKIR <volkan.bakir@bahcesehir.edu.tr>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/tr/>\n"
 "Language: tr\n"
@@ -190,6 +190,9 @@ msgid ""
 "le :bd_haus` add the line `sample :ambi_choir, rate: 0.3`. Your code should lo"
 "ok like this:"
 msgstr ""
+"Evet, bu yeterince kolaydı. Şimdi de düzenlemeye yeni bir şeyler ekleyelim. "
+"`sample:bd_haus` satrının hemen üstüne `sample:ambi_choir,rate:0.3` satırını "
+"ekleyelim. Kodunuz şöyle görünmeli:"
 
 #: 01.1-Live-Coding.md:43
 #, no-wrap
@@ -200,6 +203,11 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
+"live_loop :flibble do\n"
+"  sample :ambi_choir, rate: 0.3\n"
+"  sample :bd_haus, rate: 1\n"
+"  sleep 1\n"
+"end"
 
 #: 01.1-Live-Coding.md:51
 msgid ""
@@ -210,13 +218,23 @@ msgid ""
 "t your computer will stop with an error because it can't keep up (if that happ"
 "ens, just choose a bigger `sleep` time and hit `Run` again)."
 msgstr ""
+"Şimdi oynatalım. Şimdi ayarları biraz değiştirelim - yüksek değeler "
+"kullandığınızda ne oluyor veya küçük değerler veya negatif değerler? "
+"`:ambi_choir` örneği için `rate:` değerini bir parça (örneğin `0.29`) "
+"değiştirdiğinizde ne olduğuna bakın. `sleep`değeri için çok küçük bir değer "
+"seçtiğinizde ne oluyor? Bunu çok hızlandırdığınızda bilgisayarınızın hata "
+"verip durduğunu göreceksiniz çünkü bu işlemi daha fazla yapamaz (eğer böyle "
+"olursa, `sleep` değeri için daha büyük bir değer seçip `Run`komutunu tekrar "
+"çalıştırın)."
 
 #: 01.1-Live-Coding.md:59
 msgid "Try commenting one of the `sample` lines out by adding a `#` to the beginning:"
 msgstr ""
+"`sample` satırlarından birisini satır başına `#` karakteri ekleyerek yorum "
+"yapmayı deneyin:"
 
 #: 01.1-Live-Coding.md:62
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :flibble do\n"
 "  sample :ambi_choir, rate: 0.3\n"
@@ -224,6 +242,11 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
+"live_loop :flibble do\n"
+"  sample :ambi_choir, rate: 0.3\n"
+"#  sample :bd_haus, rate: 1\n"
+"  sleep 1\n"
+"end"
 
 #: 01.1-Live-Coding.md:70
 msgid ""
