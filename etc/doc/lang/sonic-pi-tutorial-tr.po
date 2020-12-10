@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-12-10 07:29+0000\n"
+"PO-Revision-Date: 2020-12-11 04:41+0000\n"
 "Last-Translator: VOLKAN BAKIR <volkan.bakir@bahcesehir.edu.tr>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/tr/>\n"
@@ -254,6 +254,11 @@ msgid ""
 "lled a comment. In Sonic Pi we can use comments to remove and add things into "
 "the mix."
 msgstr ""
+"Bilgisayarın bu satırı görmezden gelmesini söylediğine ve bu satırı "
+"duymadığınızı göreceksiniz. Bu satır yorum satırı olarak adlandırılır. Sonic "
+"Pi'da düzenlemedeki bazı satırları kaldırmak için yorum satırına "
+"dönüştürebiliriz veya yorum satırı olan satırları düzenlemeye eklemek için "
+"yorum satırı olmaktan çıkarabiliriz."
 
 #: 01.1-Live-Coding.md:74
 msgid ""
@@ -263,28 +268,41 @@ msgid ""
 " Now, do what you do best - experiment and play around. Here are some suggesti"
 "ons:"
 msgstr ""
+"Son olarak, size eğlenmeniz için bir şeyler bırakmama izin verin. Aşağıdaki "
+"kodu kopyalarak boş bir buffer'a alın. Şimdilik kodu anlamaya çalışmayın "
+"ancak iki döngü olduğuna dikkat edin, yani iki döngü aynı anda çalışacak. "
+"Şimdi kendinize zaman ayırın ve deneyerek yapabileceğinizin en iyisini "
+"yapmaya çalışın. Sizin için bazı tavsiyeler:"
 
 #: 01.1-Live-Coding.md:80
 msgid "Try changing the blue `rate:` values to hear the sample sound change."
 msgstr ""
+"Örnek sesin değiştiğini görmek için mavi `rate:` değerini değiştirmeyi "
+"deneyin."
 
 #: 01.1-Live-Coding.md:81
 msgid ""
 "Try changing the `sleep` times and hear that both loops can spin round at diff"
 "erent rates."
 msgstr ""
+"`sleep` sürelerini değiştirmeyi deneyin ve döngülerin farklı oranlarda "
+"çalındığını duyun."
 
 #: 01.1-Live-Coding.md:83
 msgid ""
 "Try uncommenting the sample line (remove the `#`) and enjoy the sound of the g"
 "uitar played backwards."
 msgstr ""
+"Örnek satırı yorum satırı olmaktan çıkarmayı deneyin (`#` işaretini silin) "
+"ve geriye doğru çalan gitarın sesinin tadını çıkarın."
 
 #: 01.1-Live-Coding.md:85
 msgid ""
 "Try changing any of the blue `mix:` values to numbers between `0` (not in the "
 "mix) and `1` (fully in the mix)."
 msgstr ""
+"Herhangi bir mavi `mix:` değerini `0` (düzenleme içinde değil) ve `1` (tüm "
+"düzenleme içinde) değiştirmeyi deneyin."
 
 #: 01.1-Live-Coding.md:88
 msgid ""
@@ -293,9 +311,13 @@ msgid ""
 "e buffer and paste a fresh copy in and you're ready to jam again. Making mista"
 "kes is how you'll learn the quickest..."
 msgstr ""
+"Döngü bir daha döndüğünde değişiklikleri duymak için `Run`butonuna tıklamayı "
+"unutmayın. Eğer bir sorunla karşılaşırsanız endişelenmeyin ve `Stop`butonuna "
+"tıklayın, buffer'daki tüm kodu temizleyerek kodun temiz bir örneğini tekrar "
+"yapıştırın ve yeniden başlayın. En hızlı öğrenme yöntemi hata yapmaktır..."
 
 #: 01.1-Live-Coding.md:94
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :guit do\n"
 "  with_fx :echo, mix: 0.3, phase: 0.25 do\n"
@@ -311,6 +333,19 @@ msgid ""
 "  sleep 8\n"
 "end"
 msgstr ""
+"live_loop :guit do\n"
+"  with_fx :echo, mix: 0.3, phase: 0.25 do\n"
+"    sample :guit_em9, rate: 0.5\n"
+"  end\n"
+"#  sample :guit_em9, rate: -0.5\n"
+"  sleep 8\n"
+"end\n"
+"live_loop :boom do\n"
+"  with_fx :reverb, room: 1 do\n"
+"    sample :bd_boom, amp: 10, rate: 1\n"
+"  end\n"
+"  sleep 8\n"
+"end"
 
 #: 01.1-Live-Coding.md:111
 msgid ""
@@ -318,68 +353,73 @@ msgid ""
 "tually works kicks in and you start wondering what else you can do with this. "
 "You're now ready to read the rest of the tutorial."
 msgstr ""
+"Şimdi, bunun nasıl çalıştığı ile ilgili merakınızı giderene kadar ayarlarla "
+"oynamaya ve denemeler yapmaya devam edin ve başka neler yapabileceğinizi "
+"düşünmeye başlayın. Şimdi rehberin geri kalanını okumaya hazırsınız."
 
 #: 01.1-Live-Coding.md:115
 msgid "So what are you waiting for..."
-msgstr ""
+msgstr "Öyleyse ne bekliyorsunuz..."
 
 #: 01.2-Exploring-the-Interface.md:1
 msgid "1.2 Exploring the Interface"
-msgstr ""
+msgstr "1.2 Arayüzü Keşfetme"
 
 #: 01.2-Exploring-the-Interface.md:3
 msgid "The Sonic Pi Interface"
-msgstr ""
+msgstr "Sonic Pi Arayüzü"
 
 #: 01.2-Exploring-the-Interface.md:5
 msgid ""
 "Sonic Pi has a very simple interface for coding music. Let's spend a little ti"
 "me exploring it."
 msgstr ""
+"Sonic Pi müzik kodlamak için çok basit bir arayüze sahiptir. Haydi bu "
+"arayüzü keşfetmek için biraz vakit ayıralım."
 
 #: 01.2-Exploring-the-Interface.md:8
 msgid "![Sonic Pi Interface](../../../etc/doc/images/tutorial/GUI.png)"
-msgstr ""
+msgstr "![Sonic Pi Arayüzü](../../../etc/doc/images/tutorial/GUI.png)"
 
 #: 01.2-Exploring-the-Interface.md:11
 msgid "*A* - Play Controls"
-msgstr ""
+msgstr "*A* - Oynatma Kontrolleri"
 
 #: 01.2-Exploring-the-Interface.md:12
 msgid "*B* - Editor Controls"
-msgstr ""
+msgstr "*B* - Düzenleme Kontrolleri"
 
 #: 01.2-Exploring-the-Interface.md:13
 msgid "*C* - Info and Help"
-msgstr ""
+msgstr "*C* - Bilgi ve Yardım"
 
 #: 01.2-Exploring-the-Interface.md:14
 msgid "*D* - Code Editor"
-msgstr ""
+msgstr "*D* - Kod Düzenleyici"
 
 #: 01.2-Exploring-the-Interface.md:15
 msgid "*E* - Prefs Panel"
-msgstr ""
+msgstr "*E* - Tercihler Paneli"
 
 #: 01.2-Exploring-the-Interface.md:16
 msgid "*F* - Log Viewer"
-msgstr ""
+msgstr "*F* - Günlük Görüntüleyici"
 
 #: 01.2-Exploring-the-Interface.md:17
 msgid "*G* - Help System"
-msgstr ""
+msgstr "*G* - Yardım Sistemi"
 
 #: 01.2-Exploring-the-Interface.md:18
 msgid "*H* - Scope Viewer"
-msgstr ""
+msgstr "*H* - Kapsam Görüntüleyici"
 
 #: 01.2-Exploring-the-Interface.md:19
 msgid "*I* - Cue Viewer"
-msgstr ""
+msgstr "*I* - İpucu Görüntüleyici"
 
 #: 01.2-Exploring-the-Interface.md:21
 msgid "A. Play Controls"
-msgstr ""
+msgstr "A. Oynatma Kontrolleri"
 
 #: 01.2-Exploring-the-Interface.md:23
 msgid ""
@@ -388,20 +428,27 @@ msgid ""
 "all running code, *Save* for saving the code to an external file and *Record* "
 "to create a recording (a WAV file) of the sound playing."
 msgstr ""
+"Bu pembe butonlar sesleri başlatmak ve durdurmak için ana kontrollerdir. "
+"Düzenleyicide sesleri çalmak için *Run* butonu, durdurmak için *Stop* "
+"butonu, kodu harici bir dosyaya kaydetmek için *Save* butonu ve çalan sesin "
+"bir kaydını oluşturmak için (bir WAV dosyası) *Record* butonu yer alıyor."
 
 #: 01.2-Exploring-the-Interface.md:29
 msgid "B. Editor Controls"
-msgstr ""
+msgstr "B. Düzenleyici Kontrolleri"
 
 #: 01.2-Exploring-the-Interface.md:31
 msgid ""
 "These orange buttons allow you to manipulate the code editor. The *Size +* and"
 " *Size -* buttons allow you to make the text bigger and smaller."
 msgstr ""
+"Bu turuncu butonlar kod düzenleyiciyi değiştirmenize olanak sağlar. *Size+* "
+"ve *Size-* butonları metni daha büyük veya daha küçük yapmanıza olanak "
+"sağlar."
 
 #: 01.2-Exploring-the-Interface.md:35
 msgid "C. Info and Help"
-msgstr ""
+msgstr "C. Bilgi ve Yardım"
 
 #: 01.2-Exploring-the-Interface.md:37
 msgid ""
@@ -411,10 +458,15 @@ msgid ""
 "*Help* button toggles the help system (*G*) and the *Prefs* button toggles the"
 " preferences window which allows you to control some basic system parameters."
 msgstr ""
+"Bu mavi butonlar bilgi, yardım ve tercihlere erişmenizi sağlar. *Info* "
+"butonu Sonic Pi ile ilgili bilgileri içeren - çekirdek ekip, tarihçe, katkı "
+"sağlayanlar ve topluluk - pencereyi açar. *Help* butonu yardım sistemine "
+"(*G*) geçmenizi ve *Prefs* butonu bazı sistem değişkenlerini kontrol "
+"etmenizi sağlayan tercihler penceresine geçmenizi sağlar."
 
 #: 01.2-Exploring-the-Interface.md:44
 msgid "D. Code Editor"
-msgstr ""
+msgstr "D. Kod Düzenleyici"
 
 #: 01.2-Exploring-the-Interface.md:46
 msgid ""
@@ -425,10 +477,17 @@ msgid ""
 "trange at first, but you'll soon find it very useful. For example, you'll know"
 " something is a number because it is blue."
 msgstr ""
+"Bu alan kodunuzu yazacağınız ve müzik düzenleme veya çalma alanıdır. Burası "
+"kodunuzu yazabileceğiniz, silebileceğiniz, kesme ve kopyalama işlemlerini "
+"yapabileceğiniz basit bir metin düzenleyicidir. Bunu Word veya Google Docs "
+"uygulamalarının basit bir versiyonu olarak düşünün. Düzenleyici sözcükleri "
+"kod içerisindeki anlamlarına göre otomatik olarak renklendirecektir. Bu, ilk "
+"bakışta garip görünse de kısa sürede çok faydalı olduğunu göreceksiniz. "
+"Örneğin, bir kelime eğer maviyse bunun sayı olduğunu anlayacaksınız."
 
 #: 01.2-Exploring-the-Interface.md:54
 msgid "E. Prefs Panel"
-msgstr ""
+msgstr "E. Tercihler Paneli"
 
 #: 01.2-Exploring-the-Interface.md:56
 msgid ""
@@ -438,10 +497,16 @@ msgid ""
 "ged. Examples are forcing mono mode, inverting stereo, toggling log output ver"
 "bosity and also a volume slider and audio selector on the Raspberry Pi."
 msgstr ""
+"Sonic Pi Bilgi ve Yardım düğme grubunda yer alan *prefs* düğmesi ile geçiş "
+"yapabileceğiniz birtakım kişiselleştirme tercihleri sunar. Bu Tercihler "
+"Panelinin görünürlüğünü değiştirerek birtakım değiştirebilir seçenekleri "
+"gösterir. Örnek olarak, tekil biçimi zorlamak, stereoyu ters çevirmek, "
+"günlük çıktılarının ayrıntı seviyesini değiştirmek ve Raspberry Pi için bir "
+"ses kaydırıcı ve ses seçici."
 
 #: 01.2-Exploring-the-Interface.md:63
 msgid "F. Log Viewer"
-msgstr ""
+msgstr "F. Günlük Görüntüleyici"
 
 #: 01.2-Exploring-the-Interface.md:65
 msgid ""
@@ -450,10 +515,14 @@ msgid ""
 "u create with the exact time the sound was triggered. This is very useful for "
 "debugging your code and understanding what your code is doing."
 msgstr ""
+"Kodunuzu çalıştırdığınızda, programın ne yaptığı günlük görüntüleyicide "
+"görüntülenir. Varsayılan olarak, yarattığınız her ses için ses tetiklendiği "
+"anda bir mesaj göreceksiniz. Bu kodunuzdaki hataları ayıklamanız ve "
+"kodunuzun ne yaptığını anlamanız için çok faydalı olacaktır."
 
 #: 01.2-Exploring-the-Interface.md:71
 msgid "G. Help System"
-msgstr ""
+msgstr "G. Yardım Sistemi"
 
 #: 01.2-Exploring-the-Interface.md:73
 msgid ""
@@ -464,10 +533,16 @@ msgid ""
 "ynths, samples, examples, FX and a full list of all the functions Sonic Pi pro"
 "vides for coding music."
 msgstr ""
+"Sonic Pi arayüzünün en önemli parçalarından biri de pencerenin alt kısmında "
+"yer alan yardım sistemidir. Bu kısım mavi *Help* butonuna tıklayarak açılıp "
+"kapatılabilir. Yardım sistemi; bu rehberi, kullanılabilir synth listesini, "
+"örnekleri, FX ve Sonic Pi'ın müzik kodlamak için sağladığı tüm "
+"fonksiyonların listesini de içeren Sonic Pi için tüm yardım ve bilgi "
+"sistemini içerir."
 
 #: 01.2-Exploring-the-Interface.md:81
 msgid "H. Scope Viewer"
-msgstr ""
+msgstr "H. Kapsam Görüntüleyici"
 
 #: 01.2-Exploring-the-Interface.md:83
 msgid ""
@@ -481,10 +556,19 @@ msgid ""
 " you to draw pretty pictures with sound (https://en.wikipedia.org/wiki/Lissajo"
 "us_curve)."
 msgstr ""
+"Kapsam görüntüleyici duyduğunuz sesi görmenizi sağlar. Testere dişlisi "
+"dalgasının tıpkı bir testere gibi ve temel bip sesinin ise kavisli bir sinüs "
+"dalgası şeklinde olduğunu kolayca görebilirsiniz. Bunun yanında yüksek ve "
+"düşük sesleri çizgilerin yüksekliğinden ayırt edebilirsiniz. 3 tip kapsam "
+"bulunmaktadır: varsayılan sol ve sağ kanallar için birleştirilmiş kapsam, "
+"bir diğeri ise her kanal için ayrı bir kapsam çizen stereo kapsamdır, son "
+"olarak ise sağ ve sol kanal arasındaki faz ilişkisini gösteren ve müzikle "
+"harika resimler elde etmenizi sağlayan Lissajous eğrisi kapsamıdır "
+"(https://en.wikipedia.org/wiki/Lissajous_curve)."
 
 #: 01.2-Exploring-the-Interface.md:93
 msgid "I. Cue Viewer"
-msgstr ""
+msgstr "I. İpucu Görüntüleyici"
 
 #: 01.2-Exploring-the-Interface.md:95
 msgid ""
