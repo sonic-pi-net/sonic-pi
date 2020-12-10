@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-12-07 17:29+0000\n"
-"Last-Translator: Daria Szatan <bla_ke@tuta.io>\n"
+"PO-Revision-Date: 2020-12-11 04:41+0000\n"
+"Last-Translator: Nimplex <frekerhugug@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "pl/>\n"
 "Language: pl\n"
@@ -3704,7 +3704,6 @@ msgstr ""
 
 #: 04-Randomisation.md:56
 #, no-wrap
-#, fuzzy
 msgid ""
 "loop do\n"
 "  sample :perc_bell, rate: rrand(0.125, 1.5)\n"
@@ -8081,7 +8080,6 @@ msgstr ""
 
 #: 09.1-Live-Coding-Fundamentals.md:55
 #, no-wrap
-#, fuzzy
 msgid ""
 "define :my_sound do\n"
 "  use_synth :tb303\n"
@@ -8105,7 +8103,6 @@ msgstr ""
 
 #: 09.1-Live-Coding-Fundamentals.md:67
 #, no-wrap
-#, fuzzy
 msgid ""
 "define :my_sound do\n"
 "  use_synth :tb303\n"
@@ -8125,7 +8122,6 @@ msgstr "A co powiesz na granie losowych nut z akordu:"
 
 #: 09.1-Live-Coding-Fundamentals.md:77
 #, no-wrap
-#, fuzzy
 msgid ""
 "define :my_sound do\n"
 "  use_synth :tb303\n"
@@ -8145,7 +8141,6 @@ msgstr "Albo użycie losowej wartości dla parametru odcięcia (cutoff):"
 
 #: 09.1-Live-Coding-Fundamentals.md:87
 #, no-wrap
-#, fuzzy
 msgid ""
 "define :my_sound do\n"
 "  use_synth :tb303\n"
@@ -8165,7 +8160,6 @@ msgstr "I na sam koniec dodajmy trochę bębnów:"
 
 #: 09.1-Live-Coding-Fundamentals.md:97
 #, no-wrap
-#, fuzzy
 msgid ""
 "define :my_sound do\n"
 "  use_synth :tb303\n"
