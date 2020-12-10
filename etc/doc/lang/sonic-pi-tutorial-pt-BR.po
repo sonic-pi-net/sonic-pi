@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-12-07 17:29+0000\n"
-"Last-Translator: Breu Webber <breuwebber@gmail.com>\n"
+"PO-Revision-Date: 2020-12-11 04:41+0000\n"
+"Last-Translator: Kaipo James Wilmeth <kaipojames12@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/pt_BR/>\n"
 "Language: pt-BR\n"
@@ -579,7 +579,22 @@ msgid ""
 "nction. Anything that appears in the Cue Viewer can be used to trigger somethi"
 "ng happening. This is covered in more detail in Sections 10 to 12 of this tuto"
 "rial."
-msgstr "MIDI"
+msgstr ""
+"Todos os eventos internois e externois(são chamados 'cues' em Sonic Pi) são "
+"logados automaticamente no Visualizador de logs. Por exemplo, se você tenha "
+"um controlador MIDI que está conectado e pressione um dos butões dele, você "
+"verá um novo evento cue no Visualizador de logs contando para você o nome do "
+"controlador e qual butão que você pressionou. Quando você tem dominado os "
+"básicos de fazer e de produzir os sons, você começará a querer a cue os sons "
+"ou seções inteiras de sons baseadas nos eventos como esses. um evento cue é "
+"só um indicação que algo aconteçeu. Por exemplo, cada vez que um ciclo ao "
+"vivo vai girar em volta, ele vai mandar um evento cue a fora que é logado no "
+"Visualizador de logs. Também, os eventos externos como as mensagens MIDI do "
+"equipamentos MIDI que estão ligados e as mensagens OSC das outras programas "
+"ou computadores são também exibidas no Visualizador de logs. É também "
+"possível diretamente girar um evento cue usando a função 'cue'. Qualquer "
+"coisa que aparece no Visualizador de logs pode ser usado a desencadear algo "
+"acontecendo. Isso é coberto mais em detalhe nas seções 10 a 12 deste tutório."
 
 #: 01.3-Learning-through-Play.md:1
 msgid "1.3 Learning through Play"
@@ -2966,10 +2981,11 @@ msgstr ""
 "sample \"C:/Users/sam/Desktop/my-sound.wav\""
 
 #: 03.6-External-Samples.md:38
+#, fuzzy
 msgid ""
 "Sonic Pi will automatically load and play the sample. You can also pass all th"
 "e standard params you're used to passing `sample`:"
-msgstr ""
+msgstr "O Sonic Pi automaticamente vai carregar e jogar a amostra."
 
 #: 03.6-External-Samples.md:41
 #, no-wrap
