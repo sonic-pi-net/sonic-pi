@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-10-27 00:26+0000\n"
-"Last-Translator: Vladimir Támara Patiño <vtamara@pasosdejesus.org>\n"
-"Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
-"es/>\n"
+"PO-Revision-Date: 2020-12-11 04:41+0000\n"
+"Last-Translator: manuel carcach <mfcarcache@gmail.com>\n"
+"Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-pi/"
+"tutorial/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.3.2-dev\n"
+"X-Generator: Weblate 4.4-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -2432,7 +2432,6 @@ msgstr ""
 "s."
 
 #: 03.3-Stretching-Samples.md:137
-#, fuzzy
 msgid ""
 "If you take a waveform and squash it it will move up and down more times per s"
 "econd. This will make it sound higher pitched. It turns out that doubling the "
@@ -2441,17 +2440,18 @@ msgid ""
 "*halving the rate will halve the frequency*. Other rates will affect the frequ"
 "ency accordingly."
 msgstr ""
-"Si tomas una forma de onda y la comprimes, se moverá más veces por segundo hac"
-"ia arriba y hacia abajo, lo que producirá un sonido más agudo. Significa que d"
-"oblando la cantidad de movimientos verticales (oscilaciones) dobla la frecuenc"
-"ia. Así: *ejecutar tu sampleo al doble de velocidad, doblará la frecuencia esc"
-"uchada*. Asimismo, *reduciendo la velocidad a la mitad, también reduce la frec"
-"uencia a la mitad*. Otras velocidades afectarán la frecuencia en acordancia."
+"Si tomas una forma de onda y la comprimes en el eje de las \"x\"(tiempo), se "
+"moverá más veces por segundo hacia arriba y hacia abajo, lo que producirá un "
+"sonido más agudo. Significa que doblando la cantidad de movimientos "
+"verticales (oscilaciones) se dobla la frecuencia. Así: *tocar tu onda sonora "
+"al doble de velocidad, doblará la frecuencia a la que la escuchas*. "
+"Asimismo, *reduciendo la velocidad a la mitad, también reduce la frecuencia "
+"a la mitad*. En consecuencia, cambios en las velocidades afectarán la "
+"frecuencia."
 
 #: 03.4-Enveloped-Samples.md:1
-#, fuzzy
 msgid "3.4 Enveloped Samples"
-msgstr "3.4 Sobres para sampleos"
+msgstr "3.4 Onda de muestra con envolvente"
 
 #: 03.4-Enveloped-Samples.md:3
 #, fuzzy
@@ -2459,7 +2459,6 @@ msgid "Enveloped Samples"
 msgstr "Sobres para sampleos"
 
 #: 03.4-Enveloped-Samples.md:5
-#, fuzzy
 msgid ""
 "It is also possible to modify the *duration* and *amplitude* of a sample using"
 " an ADSR envelope. However, this works slightly differently to the ADSR envelo"
@@ -2469,18 +2468,19 @@ msgid ""
 "hever is first. So, if you use a very long `release:`, it won't extend the dur"
 "ation of the sample."
 msgstr ""
-"Es posible modificar la *duración* y *amplitud* de un sampleo usando un sobre "
-"ADSR. sin embargo, esto funciona algo diferentemente que con los sintetizadore"
-"s (synths), ya que los sobres para sampleos sólo te permiten reducir la amplit"
-"ud y duración de un sampleo, pero nunca incrementarlo. El sampleo terminará su"
-" ejecución ya sea cuando se acabe o cuando el sobre lo haga, lo que suceda ant"
-"es. Así que si utilizas un largo 'release', ello no extenderá la duración del "
-"sampleo."
+"Es posible modificar la *duración* y *amplitud* de una onda muestral (sample)"
+" usando un envolvente acústico del tipo ADSR. sin embargo, este funciona un "
+"tanto diferente al envolvente acústico ADSR de los sintetizadores (synths), "
+"ya que los envolventes acústicos para ondas muestral sólo te permiten "
+"reducir la amplitud y duración de una onda sonora, pero nunca "
+"incrementarlos. La onda muestral terminará su ejecución ya sea cuando se "
+"acabe o cuando el envolvente lo haga, lo que suceda primero. Así que si "
+"utilizas un \"desvanecimiento\"(release) largo, ello no extenderá la "
+"duración de la onda muestral."
 
 #: 03.4-Enveloped-Samples.md:13
-#, fuzzy
 msgid "Amen Envelopes"
-msgstr "Sobres para Amen"
+msgstr "Envolventes Acústicos para Amen"
 
 #: 03.4-Enveloped-Samples.md:15
 #, fuzzy
@@ -2488,13 +2488,13 @@ msgid "Let's return to our trusty friend the Amen Break:"
 msgstr "Volvamos a nuestro amigo, el Amen Break:"
 
 #: 03.4-Enveloped-Samples.md:21
-#, fuzzy
 msgid ""
 "With no opts, we hear the full sample at full amplitude. If we want to fade th"
 "is in over 1 second we can use the `attack:` param:"
 msgstr ""
-"Sin operandos, escuchamos el sampleo completo y amplitud completa. Si quisiéra"
-"mos aparecerlo dentro de 1 segundo, podemos utilizar el parámetro `attack:`:"
+"Sin parámetros , escuchamos la onda muestral a su amplitud total. Si "
+"quisiéramos aparecerla dentro de 1 segundo, podemos utilizar el parámetro "
+"`attack:`:"
 
 #: 03.4-Enveloped-Samples.md:24
 #, no-wrap
@@ -2502,9 +2502,8 @@ msgid "sample :loop_amen, attack: 1"
 msgstr "sample :loop_amen, attack: 1"
 
 #: 03.4-Enveloped-Samples.md:28
-#, fuzzy
 msgid "For a shorter fade in, choose a shorter attack value:"
-msgstr "Para un desaparecimiento más corto, elegiríamos un valor de ataque menor:"
+msgstr "Para un aparecimiento más corto, elegiríamos un valor de ataque menor:"
 
 #: 03.4-Enveloped-Samples.md:30
 #, no-wrap
@@ -2516,7 +2515,6 @@ msgid "Auto Sustain"
 msgstr "Sustain Automático"
 
 #: 03.4-Enveloped-Samples.md:36
-#, fuzzy
 msgid ""
 "Where the ADSR envelope's behaviour differs from the standard synth envelope i"
 "s in the *sustain* value. In the standard synth envelope, the sustain defaulte"
@@ -2529,16 +2527,19 @@ msgid ""
 " values add up to more than the duration of the sample, the sustain is simply "
 "set to 0."
 msgstr ""
-"Donde el sobre ADSR difiera en su conducta con el de un sintetizador es en el "
-"valor del *sustain*. En el sobre de un sintetizador, el sustain está predeterm"
-"inado a 0 si no lo cambias manualmente. Con sampleos, el valor predeterminado "
-"de sustain está en *automágico* - el tiempo que resta para terminar el resto d"
-"el sampleo. A ello se debe que podamos escuchar el sampleo completo cuando no "
-"pasamos parámetros. Si los valores de ataque, decaimiento,sustain y release fu"
-"eran 0, nunca escucharíamos el sampleo. Por eso Sonic Pi calcula qué tan largo"
-" es el sampleo, deduce su ataque, decaimiento y tiempo de release, para utiliz"
-"ar esa sumatoria como tiempo de sustain. Si los valores de ataque, decaimiento"
-" y release son mayores al sampleo, el sustain se vuelve 0, simplemente."
+"Donde el envolvente acústico ADSR difiere en su conducta con el de un "
+"sintetizador es en el valor del sostenimiento *sustain*. En el envolvente "
+"acústico del sintetizador, el sostenimiento está predeterminado a 0 a menos "
+"que lo cambies manualmente. Con ondas muestrales, el valor predeterminado de "
+"sustain está en *automágico* el tiempo que resta para terminar el resto de "
+"la onda. A ello se debe que podamos escuchar la onda muestra completa cuando "
+"nocambiamos los parámetros por defecto. Si los valores de ataque, "
+"decaimiento,sostenimiento y desvanecimiento fueran 0, nunca escucharíamos "
+"ningún sonido de la onda. Por eso Sonic Pi calcula qué tan larga es la onda "
+"muestra, deduce su ataque, decaimiento y tiempo de desvanecimiento, para "
+"utilizar esa sumatoria como tiempo de sostenimiento. Si los valores de "
+"ataque, decaimiento y desvanecimiento son mayores al tiempo de la onda "
+"muestra,sencillamente el sostenimiennto de vuelve 0."
 
 #: 03.4-Enveloped-Samples.md:48
 #, fuzzy
@@ -2591,9 +2592,10 @@ msgstr ""
 "litud antes de comenzar a desvanecerse por los 0.75 segundos finales."
 
 #: 03.4-Enveloped-Samples.md:71
-#, fuzzy
 msgid "Remember: by default, `release:` fades out at the end of a sample."
-msgstr "Recuerda: por defecto, `release:` se desvanece al final de un sample."
+msgstr ""
+"Recuerda: por defecto, \"desvanecimiento\"(release) :se desvanece al final "
+"de un sample."
 
 #: 03.4-Enveloped-Samples.md:73
 #, fuzzy
@@ -2644,17 +2646,16 @@ msgid "sample :loop_amen, sustain: 0, release: 0.75"
 msgstr "sample :loop_amen, sustain: 0, release: 0.75"
 
 #: 03.4-Enveloped-Samples.md:95
-#, fuzzy
 msgid ""
 "Now, our sample only plays for 0.75 seconds in total. With the default for `at"
 "tack:` and `decay:` at 0, the sample jumps straight to full amplitude, sustain"
 "s there for 0s then releases back down to 0 amplitude over the release period "
 "- 0.75s."
 msgstr ""
-"Ahora bien, nuestro sampleo suena por 0.75 en total. Los parámetros pre- deter"
-"minados para 'attack:` y `decay:\\` son 0, el sampleo salta directamente a full"
-" amplitud por 0s y después baja a 0 de amplitud por un periodo de release de 0"
-".75s"
+"Ahora bien, nuestra onda muestra suena por 0.75 en total. Los parámetros pre-"
+" determinados para \"ataque (attack)\" y \"decaimiento(decay)\": son 0, la "
+"onda muestra salta directamente aamplitud total por 0 segundos y después "
+"baja a amplitud 0 por un periodo de desvanecimiento de 0.75 segundos."
 
 #: 03.4-Enveloped-Samples.md:100
 msgid "Percussive cymbals"
