@@ -123,12 +123,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="3662"/>
         <source>Disabling OSC cue port...</source>
-        <translation>OSC cue-poort wordt uitgeschakeld...</translation>
+        <translation>Schakel OSC cue poort uit...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3674"/>
         <source>Enabling external OSC cue port...</source>
-        <translation>Externe OSC cue-poort wordt geactiveerd...</translation>
+        <translation>Activeer externe OSC cue poort...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3686"/>
