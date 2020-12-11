@@ -213,17 +213,17 @@ Sorry, er trad een belangrijke fout op tijdens het opstarten</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2545"/>
         <source>Indent Code Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>Verklein code buffer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2551"/>
         <source>Code Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Vergroot code</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2557"/>
         <source>Code Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Verklein code</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2563"/>
@@ -233,7 +233,7 @@ Sorry, er trad een belangrijke fout op tijdens het opstarten</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2571"/>
         <source>Show Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon informatie</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3108"/>
@@ -344,22 +344,22 @@ Sorry, er trad een belangrijke fout op tijdens het opstarten</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1869"/>
         <source>Hiding about window...</source>
-        <translation type="unfinished"></translation>
+        <translation>Verberg het &apos;over&apos; scherm…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1874"/>
         <source>Showing about window...</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon het &apos;over&apos; scherm…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1890"/>
         <source>Hiding help...</source>
-        <translation type="unfinished"></translation>
+        <translation>Verberg hulp...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1894"/>
         <source>Showing help...</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon hulp...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1950"/>
@@ -369,17 +369,17 @@ Sorry, er trad een belangrijke fout op tijdens het opstarten</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2097"/>
         <source>Colour Theme: </source>
-        <translation>Kleurenschema: </translation>
+        <translation>Kleurschema: </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2305"/>
         <source>Show autocompletion on</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon automatisch aanvullen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2307"/>
         <source>Show autocompletion off</source>
-        <translation type="unfinished"></translation>
+        <translation>Verberg automatisch aanvullen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2322"/>
@@ -394,12 +394,12 @@ Sorry, er trad een belangrijke fout op tijdens het opstarten</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2337"/>
         <source>Hiding preferences...</source>
-        <translation type="unfinished"></translation>
+        <translation>Voorkeuren verbergen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2341"/>
         <source>Showing preferences...</source>
-        <translation type="unfinished"></translation>
+        <translation>Voorkeuren zichtbaar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2510"/>
@@ -429,7 +429,7 @@ Sorry, er trad een belangrijke fout op tijdens het opstarten</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2579"/>
         <source>Show Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon Hulp</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2583"/>
@@ -439,7 +439,7 @@ Sorry, er trad een belangrijke fout op tijdens het opstarten</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2587"/>
         <source>Show Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon voorkeuren</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2591"/>
@@ -449,7 +449,7 @@ Sorry, er trad een belangrijke fout op tijdens het opstarten</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2614"/>
         <source>Show Line Numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon regelnummers</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2619"/>
