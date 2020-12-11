@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-08-16 03:12+0000\n"
-"Last-Translator: Shu Shean <shu@cyaned.co>\n"
-"Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/sonic"
-"-pi/tutorial/zh_Hans/>\n"
+"PO-Revision-Date: 2020-12-12 21:29+0000\n"
+"Last-Translator: AgentWu <wuyuan9209@163.com>\n"
+"Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
+"sonic-pi/tutorial/zh_Hans/>\n"
 "Language: zh-Hans\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.2-dev\n"
+"X-Generator: Weblate 4.4-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -14256,7 +14256,7 @@ msgstr ""
 
 #: C.01-Basic-API.md:89
 msgid "Let's Build!"
-msgstr ""
+msgstr "构建！"
 
 #: C.01-Basic-API.md:91
 msgid ""
