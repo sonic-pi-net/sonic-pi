@@ -100,6 +100,9 @@ To install the newest version, you can:
   sudo apt-get install apt-transport-https ca-certificates gnupg software-properties-common wget
   wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | sudo apt-key add -
 
+  # Ubuntu Focal (20.04)
+  sudo apt-add-repository 'deb https://apt.kitware.com/ubuntu/ focal main'
+
   # Ubuntu Bionic (18.04)
   sudo apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic main'
 
