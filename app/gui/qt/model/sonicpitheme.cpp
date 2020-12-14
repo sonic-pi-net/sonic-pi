@@ -643,7 +643,7 @@ QMap<QString, QString> SonicPiTheme::highContrastTheme(){
     QString dt_gold = "#4F4303";
     QString dt_orange = "#4F4303";
 
-    QString dt_not_supported = "white";
+    QString dt_not_supported = "black";
     QString dt_warning = "red";
     QString dt_green = "#285516";
     QString theme_bg = dt_lightgrey;
