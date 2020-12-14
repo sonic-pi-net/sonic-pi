@@ -53,7 +53,7 @@ find_package(Qt5 COMPONENTS Core Widgets Gui Concurrent Network OpenGL PrintSupp
 find_package(Threads REQUIRED)
 
 # We build scintilla as part of the main project to make it easy to debug/fix
-add_subdirectory(external/QScintilla-2.11.4)
+add_subdirectory(external/QScintilla-2.11.6)
 
 set(APP_NAME sonic-pi)
 set(MACOS_APP_NAME "Sonic Pi")
