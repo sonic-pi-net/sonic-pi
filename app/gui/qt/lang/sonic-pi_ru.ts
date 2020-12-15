@@ -78,12 +78,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2575"/>
         <source>Toggle information about Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать информацию о Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3618"/>
         <source>Enabling MIDI input...</source>
-        <translation type="unfinished"></translation>
+        <translation>Включение MIDI ввода...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3624"/>
@@ -118,7 +118,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="897"/>
         <source>Playing Sample...</source>
-        <translation type="unfinished"></translation>
+        <translation>Проигрывается пример...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1445"/>
