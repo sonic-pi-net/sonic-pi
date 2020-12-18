@@ -88,6 +88,7 @@ especially the following individuals who have been remarkably generous:
 * [Gabe Jackson](https://github.com/gj)
 * [James Abley](https://twitter.com/jabley)
 * Jaroslav Lichtblau
+* [Justin Balthrop](http://ninjudd.com)
 * [Justin Worrall](https://twitter.com/juzbo)
 * [Lily Foster](https://lily.flowers/)
 * [Luis Espinoza](https://twitter.com/luis_espinoza)
