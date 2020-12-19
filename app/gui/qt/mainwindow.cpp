@@ -481,7 +481,7 @@ void MainWindow::showWelcomeScreen() {
 
 void MainWindow::setupTheme() {
     // Syntax highlighting
-    QString themeFilename = QDir::homePath() + QDir::separator() + ".sonic-pi" + QDir::separator() + "theme.properties";
+    QString themeFilename = QDir::homePath() + QDir::separator() + ".sonic-pi" + QDir::separator() + "config" + QDir::separator() + "colour-theme.properties";
     this->theme = new SonicPiTheme(this, themeFilename, rootPath());
 }
 
