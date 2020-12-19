@@ -21,7 +21,7 @@ include SonicPi::Util
 url = ARGV[0]
 check_window_size = ARGV[1].to_i
 
-settings = SonicPi::Config::Settings.new(user_settings_path)
+settings = SonicPi::Config::Settings.new(system_cache_store_path)
 body = settings.get("cached_url_#{url}")
 last_checked = settings.get("cached_url_last_checked_#{url}", Time.now).to_i
 

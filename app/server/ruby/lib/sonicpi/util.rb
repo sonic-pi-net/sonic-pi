@@ -72,25 +72,26 @@ module SonicPi
     @@raspberry_pi_4_8gb_64 =  RUBY_PLATFORM.match(/aarch64.*linux.*/) && ['d03114'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
     @@home_dir = File.expand_path((ENV['SONIC_PI_HOME'] || @@user_dir) + '/.sonic-pi/')
     @@project_path = @@home_dir + '/store/default/'
-    @@log_path = @@home_dir + '/log/'
+    @@log_path = @@home_dir + '/log'
 
     @@cached_samples_path = File.absolute_path("#{@@project_path}/cached_samples")
 
-    [@@home_dir, @@project_path, @@log_path, @@cached_samples_path].each do |dir|
+    begin
+      debug_log = File.absolute_path("#{@@log_path}/debug.log")
 
+      # ensure_dir
       begin
-        FileUtils.mkdir_p(dir) unless File.exist?(dir)
+        FileUtils.mkdir_p(@@log_path) unless File.exist?(@@log_path)
       rescue
         @@safe_mode = true
-        STDERR.puts "Unable to create #{dir} due to permissions errors"
+        log "Unable to create log path dir#{@@log_path} due to permissions errors"
       end
-    end
 
-    begin
-      @@log_file = File.open("#{@@log_path}/debug.log", 'a')
-    rescue
+      @@log_file ||= File.open(debug_log, 'a')
+    rescue Exception => e
       @@safe_mode = true
       STDERR.puts "Unable to open log file #{@@log_path}/debug.log"
+      STDERR.puts e.inspect
       @@log_file = nil
     end
 
@@ -255,12 +256,12 @@ module SonicPi
       end
     end
 
-    def home_dir
+    def home_dir_path
       @@home_dir
     end
 
     def init_path
-      home_dir + '/init.rb'
+      File.absolute_path("#{home_dir_path}/init.rb")
     end
 
     def project_path
@@ -280,7 +281,7 @@ module SonicPi
       return @@current_uuid if @@current_uuid
       @@util_lock.synchronize do
         return @@current_uuid if @@current_uuid
-        path = home_dir + '/.uuid'
+        path = File.absolute_path("#{home_dir_path}/.uuid")
 
         if (File.exist? path)
           old_id = File.readlines(path).first.strip
@@ -382,6 +383,14 @@ module SonicPi
       File.absolute_path("#{app_path}/server")
     end
 
+    def config_path
+      File.absolute_path("#{home_dir_path}/config")
+    end
+
+    def system_store_path
+      File.absolute_path("#{home_dir_path}/store/system")
+    end
+
     def server_bin_path
       File.absolute_path("#{server_path}/ruby/bin")
     end
@@ -446,9 +455,18 @@ module SonicPi
       File.join(server_path, "erlang", "sonic_pi_server", "ebin")
     end
 
-    def user_settings_path
-      File.absolute_path("#{home_dir}/settings.json")
+    def user_audio_settings_path
+      File.absolute_path("#{config_path}/audio-settings.toml")
     end
+
+    def system_cache_store_path
+      File.absolute_path("#{system_store_path}/cache.json")
+    end
+
+    def user_config_examples_path
+      File.absolute_path("#{app_path}/config/user-examples")
+    end
+
 
     def fetch_url(url, anonymous_uuid=true)
       begin

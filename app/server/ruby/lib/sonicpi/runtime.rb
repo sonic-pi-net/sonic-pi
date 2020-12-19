@@ -25,6 +25,7 @@ require_relative "version"
 require_relative "sthread"
 require_relative "version"
 require_relative "config/settings"
+require_relative "config/scsynth_settings"
 require_relative "preparser"
 require_relative "event_history"
 require_relative "thread_id"
@@ -40,7 +41,7 @@ require 'set'
 require 'ruby-beautify'
 require 'securerandom'
 require 'active_support/core_ext/integer/inflections'
-require 'shellwords'
+
 
 module SonicPi
   class Stop < StandardError ; end
@@ -1319,11 +1320,17 @@ module SonicPi
       @ports = ports
       @git_hash = __extract_git_hash
       gh_short = @git_hash ? "-#{@git_hash[0, 5]}" : ""
-      @settings = Config::Settings.new(user_settings_path)
-      @scsynth_clobber_args = Shellwords.split(@settings.get(:scsynth!, ""))
-      scsynth_args = Shellwords.split(@settings.get_or_set(:scsynth, ""))
-      @scsynth_opts = scsynth_args.each_slice(2).to_h
-      @version = Version.new(3, 3, 0, "dev#{gh_short}")
+      @settings = Config::Settings.new(system_cache_store_path)
+      begin
+        @audio_settings = SonicPi::Config::ScsynthSettings.new(user_audio_settings_path)
+      rescue
+        # log error
+        log "Unable to load user audio settings at #{user_audio_settings_path}... reverting to defaults"
+        @audio_settings = SonicPi::Config::ScsynthSettings.new("", dummy: true)
+      end
+      @scsynth_clobber_args = @audio_settings.scsynth_opts_override
+      @scsynth_opts = @audio_settings.scsynth_opts
+      @version = Version.new(3, 3, 0, "beta-2")
       @server_version = __server_version
       @life_hooks = LifeCycleHooks.new
       @msg_queue = msg_queue
@@ -1414,7 +1421,7 @@ module SonicPi
       __info "Initialised Erlang OSC Scheduler"
 
       if safe_mode?
-        __info "!!WARNING!! - file permissions issue:\n   Unable to write to folder #{home_dir} \n   Booting in SAFE MODE.\n   Buffer auto-saving is disabled, please save your work manually.", 1
+        __info "!!WARNING!! - file permissions issue:\n   Unable to write to folder #{home_dir_path} \n   Booting in SAFE MODE.\n   Buffer auto-saving is disabled, please save your work manually.", 1
       end
 
       log "Unable to initialise git repo at #{project_path}" unless @gitsave

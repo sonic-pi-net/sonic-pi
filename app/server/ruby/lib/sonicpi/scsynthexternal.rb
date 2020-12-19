@@ -36,10 +36,10 @@ module SonicPi
       @out_queue = SizedQueue.new(20)
       @scsynth_thread_id = ThreadId.new(-5)
       @version = request_version.freeze
-      @scsynth_clobber = opts[:scsynth_clobber] || []
+      @scsynth_clobber = opts[:scsynth_clobber] || {}
 
       # shell clobber is either nil for no clobber,
-      # or an argv array of user supplied opts
+      # or a map of user supplied opts
       # which will be used to completely replace (clobber)
       # any default options (including user specied non-clobber options)
 
@@ -208,9 +208,10 @@ module SonicPi
       end
     end
 
-    def boot_and_wait(*args, &on_complete_or_error)
+    def boot_and_wait(scsynth_path, opts, &on_complete_or_error)
       puts "Boot - Starting the SuperCollider server..."
-      args = @scsynth_clobber unless @scsynth_clobber.empty?
+      opts = @scsynth_clobber unless @scsynth_clobber.empty?
+      opts_a = opts.to_a.flatten.unshift(scsynth_path)
 
       p = Promise.new
       p2 = Promise.new
@@ -225,7 +226,7 @@ module SonicPi
       end
       @scsynth_log_file.puts "# Starting SuperCollider #{Time.now.strftime("%Y-%m-%d %H:%M:%S")}" if @scsynth_log_file
       at_exit { @scsynth_log_file.close if @scsynth_log_file}
-      scsynth_pipe = IO.popen(args)
+      scsynth_pipe = IO.popen(opts_a)
       @scsynth_pid = scsynth_pipe.pid
 
       if os == :windows
@@ -367,9 +368,9 @@ module SonicPi
         "-U" => "#{native_path}/supercollider/plugins/"
       }
 
-      scsynth_opts = @default_scsynth_opts.merge(local_scsynth_opts).merge(@user_scsynth_opts).to_a.flatten
+      scsynth_opts = @default_scsynth_opts.merge(local_scsynth_opts).merge(@user_scsynth_opts)
 
-      boot_and_wait(scsynth_path, *scsynth_opts) do
+      boot_and_wait(scsynth_path, scsynth_opts) do
         if temp_switch
           puts "Boot - switching rate of temp input back to original: #{temp_input_rate}"
           CoreAudio.default_input_device(nominal_rate: temp_input_rate)
@@ -392,8 +393,8 @@ module SonicPi
 
       local_scsynth_opts = {"-U" => "#{native_path}/plugins/"}
 
-      scsynth_opts = @default_scsynth_opts.merge(local_scsynth_opts).merge(@user_scsynth_opts).to_a.flatten
-      boot_and_wait(scsynth_path, *scsynth_opts)
+      scsynth_opts = @default_scsynth_opts.merge(local_scsynth_opts).merge(@user_scsynth_opts)
+      boot_and_wait(scsynth_path, scsynth_opts)
   end
 
     def boot_server_raspberry_pi
@@ -430,9 +431,9 @@ module SonicPi
         "-o" => "2",
         "-U" => "/usr/lib/SuperCollider/plugins"}
 
-      scsynth_opts = @default_scsynth_opts.merge(local_scsynth_opts).merge(@user_scsynth_opts).to_a.flatten
+      scsynth_opts = @default_scsynth_opts.merge(local_scsynth_opts).merge(@user_scsynth_opts)
 
-      boot_and_wait(scsynth_path, *scsynth_opts)
+      boot_and_wait(scsynth_path, scsynth_opts)
 
       `jack_connect SuperCollider:out_1 system:playback_1`
       `jack_connect SuperCollider:out_2 system:playback_2`
@@ -458,9 +459,9 @@ module SonicPi
 
       local_scsynth_opts = {}
 
-      scsynth_opts = @default_scsynth_opts.merge(local_scsynth_opts).merge(@user_scsynth_opts).to_a.flatten
+      scsynth_opts = @default_scsynth_opts.merge(local_scsynth_opts).merge(@user_scsynth_opts)
 
-      boot_and_wait(scsynth_path, *scsynth_opts)
+      boot_and_wait(scsynth_path, scsynth_opts)
 
       `jack_connect SuperCollider:out_1 system:playback_1`
       `jack_connect SuperCollider:out_2 system:playback_2`

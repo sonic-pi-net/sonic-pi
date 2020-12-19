@@ -32,12 +32,35 @@ require_relative "../lib/sonicpi/runtime"
 
 require 'multi_json'
 require 'memoist'
+require 'fileutils'
 
 include SonicPi::Util
 
 ## This is where the server starts....
 STDOUT.puts "Sonic Pi server booting..."
 STDOUT.puts "The time is #{Time.now}"
+
+## Ensure ~/.sonic-pi/* user config, history and setting directories exist
+[home_dir_path, project_path, log_path, cached_samples_path, config_path, system_store_path].each do |d|
+  ensure_dir(d)
+end
+
+## Just check to see if the user still has an old settings.json and if
+## so, remove it. This is now stored in system_cache_store_path
+old_settings_file_path = File.absolute_path("#{home_dir_path}/settings.json")
+File.delete(old_settings_file_path) if File.exist?(old_settings_file_path)
+
+## Move across any config example files if they don't
+## exist so the user has a starting point for
+## modifying them.
+
+Dir["#{user_config_examples_path}/*"].each do |f|
+  basename = File.basename(f)
+  full_config_path = File.absolute_path("#{config_path}/#{basename}")
+  unless File.exist?(full_config_path)
+    FileUtils.cp(f, full_config_path)
+  end
+end
 
 ## Select the primary GUI protocol
 gui_protocol = case ARGV[0]
@@ -286,15 +309,7 @@ begin
   if File.exists?(init_path)
     sp.__spider_eval(File.read(init_path), silent: true)
   else
-    begin
-    File.open(init_path, "w") do |f|
-      f.puts "# Sonic Pi init file"
-      f.puts "# Code in here will be evaluated on launch."
-      f.puts ""
-      end
-    rescue
-      log "Warning: unable to create init file at #{init_path}"
-    end
+    STDOUT.puts "Could not find init.rb file: #{init_path} "
   end
 
   sp.__print_boot_messages
