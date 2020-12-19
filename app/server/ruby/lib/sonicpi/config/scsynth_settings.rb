@@ -57,13 +57,12 @@ module SonicPi
                 0
               when String
                 v.strip
-                next if v.empty?
               else
                 v
               end
 
           command_line_key = key_conversion[k.to_sym]
-          val = v.inspect
+          val = v.to_s
 
           #raise "Unknown SuperCollider scsynth arg: #{k}. Expected one of #{key_conversion.keys.inspect}" unless command_line_key
           next unless command_line_key
