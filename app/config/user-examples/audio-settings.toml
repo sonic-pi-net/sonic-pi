@@ -28,11 +28,11 @@
 # Sonic Pi uses the SuperCollider audio server to generate all the
 # lovely sounds you can hear.
 #
-# Supercollider is a powerful and flexible open source sound system with
+# SuperCollider is a powerful and flexible open source sound system with
 # a lot of configuration options. Whilst we do a lot of work to
 # configure everything with sensible defaults, there are times you may
-# wish or need to change a few options to improve things on your your
-# system. For example, you may wish to specify a specific sound card,
+# wish or need to change a few options to improve things on your
+# system. For example, you may wish to use a specific sound card,
 # audio rate, number of inputs, etc. All of this is possible by
 # modifying this file prior to launching Sonic Pi.
 #
@@ -63,7 +63,7 @@
 # by the computer. This line that you're reading is actually a comment.
 #
 # In order to make one of the following configuration lines active, you
-# need to remove the # at the beginnint of the line.
+# need to remove the # at the beginning of the line.
 #
 # Once the # is removed, you can then modify the value on the right hand
 # side of the = to pass a new option.
@@ -134,7 +134,7 @@
 # scsynth_opts = ""
 
 ## scsynth_opts_override is a string with standard command line opts in
-## the format that SuperCollider scynth expects. If used and non-empty,
+## the format that SuperCollider scsynth expects. If used and non-empty,
 ## this will override and replace any other settings in this file and
 ## any defaults.
 ##

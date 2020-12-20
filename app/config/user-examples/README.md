@@ -7,7 +7,7 @@ behaviour of Sonic Pi. Have fun and happy live coding!
 ## init.rb
 
 This is a Sonic Pi code file which will be executed at boot time. This
-lets you put any code or function definitions which you'd like to be
+lets you put in any code or function definitions which you'd like to be
 able to use in every Sonic Pi session.
 
 
