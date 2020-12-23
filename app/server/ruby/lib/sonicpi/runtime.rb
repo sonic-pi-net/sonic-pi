@@ -1003,7 +1003,9 @@ module SonicPi
             # has removed itself) then it's also safe to assume that the
             # main thread cannot spawn any further subthreads.
             if __system_thread_locals(main_in_thread).get(:sonic_pi_local_spider_subthreads).empty?
-              __system_thread_locals(main_in_thread).get(:sonic_pi_local_spider_subthread_empty).deliver!(true)
+              # Don't raise error as other existing GC threads may also get to this point.
+              __system_thread_locals(main_in_thread).get(:sonic_pi_local_spider_subthread_empty).deliver!(true, false)
+
             end
 
             # remove any un-matched event matchers created
