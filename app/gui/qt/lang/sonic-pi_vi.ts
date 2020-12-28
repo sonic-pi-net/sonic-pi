@@ -103,7 +103,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3624"/>
         <source>Disabling MIDI input...</source>
-        <translation type="unfinished"></translation>
+        <translation>Đang tắt đầu vào MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3640"/>
@@ -213,17 +213,17 @@ Xin lỗi, đã xảy ra lỗi nghiêm trọng khi khởi động chương trìn
     <message>
         <location filename="../mainwindow.cpp" line="2545"/>
         <source>Indent Code Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>Canh lề mã trong bộ đệm</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2551"/>
         <source>Code Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Tăng kích cỡ mã</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2557"/>
         <source>Code Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Giảm kích cỡ mã</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2563"/>
@@ -233,7 +233,7 @@ Xin lỗi, đã xảy ra lỗi nghiêm trọng khi khởi động chương trìn
     <message>
         <location filename="../mainwindow.cpp" line="2571"/>
         <source>Show Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Hiển thị thông tin</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3108"/>
@@ -268,7 +268,7 @@ Xin lỗi, đã xảy ra lỗi nghiêm trọng khi khởi động chương trìn
     <message>
         <location filename="../mainwindow.cpp" line="793"/>
         <source>Context</source>
-        <translation type="unfinished"></translation>
+        <translation>Ngữ cảnh</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="897"/>
@@ -354,7 +354,7 @@ Xin lỗi, đã xảy ra lỗi nghiêm trọng khi khởi động chương trìn
     <message>
         <location filename="../mainwindow.cpp" line="1890"/>
         <source>Hiding help...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ẩn trợ giúp...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1894"/>
