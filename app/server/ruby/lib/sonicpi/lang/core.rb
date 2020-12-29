@@ -3429,18 +3429,24 @@ print rand_i_look(5) #=> will print the same number as the previous statement"
         SonicPi::Core::SPRand.set_random_number_distribution!(noise_type)
       end
       doc name:           :use_random_stream,
-          introduced:     Version.new(3,2,3),
+          introduced:     Version.new(3,3,0),
           summary:        "Change how random numbers are chosen",
           args:           [[:noise_type, :symbol]],
           opts:           nil,
           accepts_block:  false,
-          doc:            "Sets the random number source to be one of :white, :pink, :light_pink, :dark_pink or :perlin.
-      :white is totally random - between 0 and 1, you can expect an even spread of values around 0.1, 0.2, 0.3 etc. This means that jumping around within the range (including large jumps) is expected.
-      :pink is more likely to produce values in the middle of the range and less likely to produce values at the extremes. Between 0 and 1 you expect to see a concentration of values around 0.5. This can make random melodies a little bit more smooth.
-      :perlin is a special kind of noise which produces gradients, a bit like a mountain landscape. Large jumps are much less likely and you will tend to see lots of smooth motion going either up or down
-      :light_pink is halfway between white noise and pink noise - more random and jumpy
-      :dark_pink is halfway between pink noise and brown noise - less jumpy with smoother slopes
-      You can see the 'buckets' that the numbers between 0 and 1 fall into with the following code:
+          doc:            "Sets the random number source to be one of `:white`, `:pink`, `:light_pink`, `:dark_pink` or `:perlin`.
+
+`:white` is totally random - between 0 and 1, you can expect an even spread of values around 0.1, 0.2, 0.3 etc. This means that jumping around within the range (including large jumps) is expected.
+
+`:pink` is more likely to produce values in the middle of the range and less likely to produce values at the extremes. Between 0 and 1 you expect to see a concentration of values around 0.5. This can make random melodies a little bit more smooth.
+
+`:perlin` is a special kind of noise which produces gradients, a bit like a mountain landscape. Large jumps are much less likely and you will tend to see lots of smooth motion going either up or down
+
+`:light_pink` is halfway between white noise and pink noise - more random and jumpy
+
+`:dark_pink` is halfway between pink noise and brown noise - less jumpy with smoother slopes
+
+You can see the 'buckets' that the numbers between 0 and 1 fall into with the following code:
 
         rand_type :white
         puts 10000.times.collect { rand.round(1) }.tally.sort
@@ -3488,7 +3494,7 @@ print rand_i_look(5) #=> will print the same number as the previous statement"
         res
       end
       doc name:           :with_random_stream,
-          introduced:     Version.new(3,2,3),
+          introduced:     Version.new(3,3,0),
           summary:        "Specify random distribution for code block",
           doc:            "Resets the random number generator to the specified noise type for the specified code block. All generated random numbers and randomisation functions such as `shuffle` and `choose` within the code block will use this new generator. Once the code block has completed, the original generator is restored and the code block generator is discarded. Use this to change the sequence of random numbers in your piece in a way that can be reproduced. Especially useful if combined with iteration. See examples.",
           args:           [[:noise_type, :symbol]],
