@@ -3429,7 +3429,7 @@ print rand_i_look(5) #=> will print the same number as the previous statement"
         SonicPi::Core::SPRand.set_random_number_distribution!(noise_type)
       end
       doc name:           :use_random_stream,
-          introduced:     Version.new(3,2,3),
+          introduced:     Version.new(3,3,0),
           summary:        "Change how random numbers are chosen",
           args:           [[:noise_type, :symbol]],
           opts:           nil,
@@ -3488,7 +3488,7 @@ print rand_i_look(5) #=> will print the same number as the previous statement"
         res
       end
       doc name:           :with_random_stream,
-          introduced:     Version.new(3,2,3),
+          introduced:     Version.new(3,3,0),
           summary:        "Specify random distribution for code block",
           doc:            "Resets the random number generator to the specified noise type for the specified code block. All generated random numbers and randomisation functions such as `shuffle` and `choose` within the code block will use this new generator. Once the code block has completed, the original generator is restored and the code block generator is discarded. Use this to change the sequence of random numbers in your piece in a way that can be reproduced. Especially useful if combined with iteration. See examples.",
           args:           [[:noise_type, :symbol]],
