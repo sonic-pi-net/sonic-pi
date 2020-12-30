@@ -390,7 +390,7 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2563"/>
         <source>Show Scopes</source>
-        <translation type="unfinished">Mostrar Osciloscopios</translation>
+        <translation>Mostrar visualizadores</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2571"/>
@@ -450,7 +450,7 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2654"/>
         <source>Enable Incoming MIDI Cues</source>
-        <translation type="unfinished">Habilitar registros MIDI entrantes</translation>
+        <translation>Habilitar colas MIDI entrantes</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2659"/>
@@ -465,7 +465,7 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2669"/>
         <source>Log Cues</source>
-        <translation type="unfinished">Guardar Registros</translation>
+        <translation>Guardar colas</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2674"/>
@@ -475,7 +475,7 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2679"/>
         <source>Clear Logs on Run</source>
-        <translation type="unfinished">Eliminar Registros al Ejecutar código</translation>
+        <translation>Eliminar registros al ejecutar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2684"/>
@@ -485,12 +485,12 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2689"/>
         <source>Auto-Scroll Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Desplazar hasta el final</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2699"/>
         <source>Live</source>
-        <translation type="unfinished"></translation>
+        <translation>En directo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2711"/>
@@ -535,7 +535,7 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2761"/>
         <source>Show Scope Labels</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar nombres de visualizadores</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2766"/>
@@ -550,7 +550,7 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2786"/>
         <source>IO</source>
-        <translation type="unfinished">Entrada/Salida</translation>
+        <translation>E/S</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2788"/>
@@ -562,7 +562,7 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
         <location filename="../mainwindow.cpp" line="3638"/>
         <location filename="../mainwindow.cpp" line="3750"/>
         <source>No Connected Inputs</source>
-        <translation type="unfinished">Ninguna Entrada Conectada</translation>
+        <translation>No hay entradas conectadas</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2790"/>
@@ -579,12 +579,12 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2793"/>
         <source>Default MIDI Out Channel</source>
-        <translation type="unfinished">Canal de Salida MIDI por Defecto</translation>
+        <translation>Canal de salida MIDI por defecto</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2796"/>
         <source>All Channels</source>
-        <translation type="unfinished">Todos los Canales</translation>
+        <translation>Todos los canales</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2801"/>
@@ -674,27 +674,27 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2896"/>
         <source>Incoming OSC Port</source>
-        <translation type="unfinished">Puerto OSC Entrante</translation>
+        <translation>Puerto OSC entrante</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2899"/>
         <source>View</source>
-        <translation type="unfinished">Ver</translation>
+        <translation>Ver</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2917"/>
         <source>Focus Context</source>
-        <translation type="unfinished">Enfocar Contexto</translation>
+        <translation>Enfocar contexto</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2919"/>
         <source>Place focus on the context pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Colocar foco en el panel de contexto</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2952"/>
         <source>Show Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar registros</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2957"/>
@@ -714,7 +714,7 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2973"/>
         <source>Full Screen Mode</source>
-        <translation type="unfinished">Pantalla Completa</translation>
+        <translation>Modo pantalla completa</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3662"/>
@@ -744,7 +744,7 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3864"/>
         <source>Line: %1,  Position: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Línea: %1,  Posición: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2527"/>
@@ -1269,7 +1269,7 @@ a través de la red actualmente conectada.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="171"/>
         <source>Allow OSC from other computers</source>
-        <translation type="unfinished"></translation>
+        <translation>Permitir OSC desde otros dispositivos</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="172"/>
@@ -1281,17 +1281,17 @@ Cuando no se elije, solo se habilita envío y recepción desde la máquina local
     <message>
         <location filename="../widgets/settingswidget.cpp" line="174"/>
         <source>Allow incoming OSC</source>
-        <translation type="unfinished"></translation>
+        <translation>Permitir OSC entrante</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="285"/>
         <source>Show code completion</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar finalización del código</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="397"/>
         <source>Show Scope Labels</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar etiquetas de visualizadores</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="175"/>
@@ -1456,12 +1456,12 @@ Sonic Pi, los cuales pueden ser enviados a través de los fns midi_*</translatio
     <message>
         <location filename="../widgets/settingswidget.cpp" line="288"/>
         <source>Show code context</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar contexto del código</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="289"/>
         <source>When enabled, Sonic Pi&apos;s editor will show a pane which will display context-specific information for the code such as the current line and position of the cursor.</source>
-        <translation type="unfinished"></translation>
+        <translation>Al habilitar la opción, el editor Sonic Pi mostrará un panel con la información específica del contexto del código, la posición y línea actual del cursor.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="291"/>
