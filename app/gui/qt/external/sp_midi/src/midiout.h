@@ -42,6 +42,7 @@ public:
     void send(const std::vector< unsigned char >* msg);
 
     static std::vector<std::string> getOutputNames();
+    static std::vector<std::string> getNonRtMidiOutputNames();
 
 protected:
     void updateMidiDevicesNamesMapping() override;

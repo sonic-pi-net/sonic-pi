@@ -57,7 +57,7 @@ static atomic<bool> g_already_initialized(false);
 void prepareMidiSendProcessorOutputs(unique_ptr<MidiSendProcessor>& midiSendProcessor)
 {
     // Open all MIDI devices. This is what Sonic Pi does
-    vector<string> midiOutputsToOpen = MidiOut::getOutputNames();
+    vector<string> midiOutputsToOpen = MidiOut::getNonRtMidiOutputNames();
     {
         midiSendProcessor->prepareOutputs(midiOutputsToOpen);
     }
@@ -67,7 +67,7 @@ void prepareMidiSendProcessorOutputs(unique_ptr<MidiSendProcessor>& midiSendProc
 void prepareMidiInputs(vector<unique_ptr<MidiIn> >& midiInputs)
 {
     // Should we open all devices, or just the ones passed as parameters?
-    vector<string> midiInputsToOpen = MidiIn::getInputNames();
+    vector<string> midiInputsToOpen = MidiIn::getNonRtMidiInputNames();
 
     midiInputs.clear();
     for (const auto& input : midiInputsToOpen) {
@@ -198,7 +198,7 @@ static char **vector_str_to_c(const vector<string>& vector_str)
 
 char **sp_midi_outs(int *n_list)
 {
-    auto outputs = MidiOut::getOutputNames();
+    auto outputs = MidiOut::getNonRtMidiOutputNames();
     char **c_str_list = vector_str_to_c(outputs);
     *n_list = (int)outputs.size();
     return c_str_list;
@@ -206,7 +206,7 @@ char **sp_midi_outs(int *n_list)
 
 char **sp_midi_ins(int *n_list)
 {
-    auto inputs = MidiIn::getInputNames();
+    auto inputs = MidiIn::getNonRtMidiInputNames();
     char **c_str_list = vector_str_to_c(inputs);
     *n_list = (int)inputs.size();
     return c_str_list;

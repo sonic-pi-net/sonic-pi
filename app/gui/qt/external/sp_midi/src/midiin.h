@@ -38,6 +38,7 @@ public:
     virtual ~MidiIn();
 
     static std::vector<std::string> getInputNames();
+    static std::vector<std::string> getNonRtMidiInputNames();
 
 protected:
     void updateMidiDevicesNamesMapping() override;

@@ -106,6 +106,26 @@ vector<string> MidiIn::getInputNames()
     return names;
 }
 
+vector<string> MidiIn::getNonRtMidiInputNames()
+{
+  vector<string> all_names = getInputNames();
+  vector<string> filtered_names;
+
+  for (int i = 0; i < all_names.size() ; i++) {
+    auto s = all_names[i];
+    if (s.rfind("rtmidi_", 0) == 0) {
+      // The fact that the port name starts with rtmidi tells us that
+      // this is a virtual midi port namecreated by RtMidi - ignore it
+    } else {
+      filtered_names.push_back(s);
+    }
+  }
+
+  return filtered_names;
+
+}
+
+
 void MidiIn::updateMidiDevicesNamesMapping()
 {
     m_midiRtMidiIdToName = MidiIn::getInputNames();
