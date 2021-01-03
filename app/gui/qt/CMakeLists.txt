@@ -5,7 +5,7 @@ message(STATUS " CMakeLists: Sonic Pi")
 project("Sonic Pi"
     LANGUAGES CXX C
   DESCRIPTION "A code-based music creation and performance tool"
-  VERSION 3.3.3
+  VERSION 3.3.0
   HOMEPAGE_URL "https://sonic-pi.net"
     )
 
