@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-12-11 04:41+0000\n"
-"Last-Translator: Stefan <stebf@protonmail.com>\n"
+"PO-Revision-Date: 2021-01-06 12:29+0000\n"
+"Last-Translator: Michael Peters <michaelpeters5647@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "de/>\n"
 "Language: de\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.4-dev\n"
+"X-Generator: Weblate 4.4.1-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -571,7 +571,6 @@ msgid "I. Cue Viewer"
 msgstr "F. Protokoll-Fenster"
 
 #: 01.2-Exploring-the-Interface.md:95
-#, fuzzy
 msgid ""
 "All internal and external events (called cues in Sonic Pi) are automatically l"
 "ogged in the Cue Viewer. For example, if you have a MIDI controller connected "
@@ -587,7 +586,18 @@ msgid ""
 "nction. Anything that appears in the Cue Viewer can be used to trigger somethi"
 "ng happening. This is covered in more detail in Sections 10 to 12 of this tuto"
 "rial."
-msgstr "MIDI"
+msgstr ""
+"Alle internen und externen Ereignisse (in Sonic Pi \"Protokolle\" genannt) "
+"werden automatisch im Protokoll angezeigt. Sie sind Indikatoren dafür, dass "
+"etwas neues Geschehen ist. Betätigst du zum Beispiel einen verbundenen MIDI "
+"Kontroller, erscheinen die Bezeichnung des gedrückten Knopfes und des "
+"Kontrollers im Protokoll. Unter Ereignissen verstehen wir auch Signale von "
+"MIDI Kontrollen, Programmen und Computern welche ebenfalls im Protokoll "
+"erscheinen. Außerdem werden auch u.a. manche Funktionen und Schleifen wie "
+"`live_loop` protokolliert. Zudem ist es auch möglich mithilfe der "
+"Protokollfunktion `cue` Einträge ins Protokoll zu machen. In den Kapiteln 10 "
+"bis 12 lernst du wie du Protokolleinträge als Trigger für andere Abläufe "
+"benutzen kannst."
 
 #: 01.3-Learning-through-Play.md:1
 msgid "1.3 Learning through Play"
@@ -1311,7 +1321,6 @@ msgstr "Einen spaßigen Sound ergibt die *Sägezahn-Welle* - probieren wir es ma
 
 #: 02.3-Switching-Synths.md:25
 #, no-wrap
-#, fuzzy
 msgid ""
 "use_synth :saw\n"
 "play 38\n"
@@ -1325,8 +1334,7 @@ msgstr ""
 "sleep 0.25\n"
 "play 50\n"
 "sleep 0.25\n"
-"play 62\n"
-"sleep 0.25"
+"play 62"
 
 #: 02.3-Switching-Synths.md:34
 msgid "Let's try another sound - the *prophet*:"
@@ -5588,7 +5596,7 @@ msgstr ""
 "xt eines Threads verwendet werden. Das Folgende sollte man daher *nicht tun*:"
 
 #: 05.6-Variables.md:139
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "a = (ring 6, 5, 4, 3, 2, 1)\n"
 "live_loop :sorted do\n"
@@ -5601,6 +5609,16 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
+"a = (ring 6, 5, 4, 3, 2, 1)\n"
+"live_loop :sorted do\n"
+"  a = a.sort\n"
+"  sleep 0.5\n"
+"  puts \"sorted: \", a\n"
+"end\n"
+"live_loop :shuffled do\n"
+"  a = a.shuffle\n"
+"  sleep 0.5\n"
+"end"
 
 #: 05.6-Variables.md:154
 msgid ""
@@ -9185,12 +9203,13 @@ msgid ""
 "d pattern matching system to `get` and `sync` with 'similar' rather than 'iden"
 "tical' paths. Let's take a look."
 msgstr ""
-"Beim Einlesen und Setzen von Informationen in den Zeitstatus ist es möglich, k"
-"omplexere Tasten als einfache Symbole wie `:foo` und `:bar` zu verwenden. Sie "
-"können auch URL-Style-Strings wie `\"/foo/bar/baz\"` verwenden. Sobald wir mit P"
-"faden arbeiten, können wir die Vorteile von Sonic Pi's ausgeklügeltem Pattern-"
-"Matching-System nutzen, um `Get` und `Sync` mit `ähnlichen' statt `identischen"
-"' Pfaden zu nutzen. Schauen wir uns das mal an."
+"Beim Abrufen und Einstellen von Informationen in den Zeitzustand ist es "
+"möglich, komplexere Tasten zu verwenden als einfache Symbole wie `:foo` und "
+"`:bar`. Sie können auch Zeichenketten im URL-Stil verwenden, wie z.B. `\"/"
+"foo/bar/baz\"`. Sobald wir mit Pfaden arbeiten, können wir dann die Vorteile "
+"des ausgeklügelten Pattern-Matching-Systems von Sonic Pi nutzen, um `get` "
+"und `sync` mit `ähnlichen' und nicht mit `identischen' Pfaden zu "
+"synchronisieren. Lass uns einen Blick darauf werfen."
 
 #: 10.3-Pattern-Matching.md:13
 msgid "Match any path segment"
@@ -9455,7 +9474,13 @@ msgid ""
 "end\n"
 "sleep 1\n"
 "cue \"/foo/beans/a/b/c/d/e/bark/quux/\""
-msgstr "sample :loop_amen"
+msgstr ""
+"in_thread do\n"
+"  sync \"/?oo/[a-z]*/**/ba*/{quux,quaax}/\"\n"
+"  sample :loop_amen\n"
+"end\n"
+"sleep 1\n"
+"cue \"/foo/beans/a/b/c/d/e/bark/quux/\""
 
 #: 10.3-Pattern-Matching.md:129
 msgid "OSC Pattern Matching"
@@ -9872,15 +9897,15 @@ msgstr ""
 
 #: 11.2-MIDI-Out.md:9
 msgid "Note on - `midi_note_on`"
-msgstr ""
+msgstr "Note an - `midi_note_on`"
 
 #: 11.2-MIDI-Out.md:10
 msgid "Note off - `midi_note_off`"
-msgstr ""
+msgstr "Note aus - `midi_note_off`"
 
 #: 11.2-MIDI-Out.md:11
 msgid "Control change - `midi_cc`"
-msgstr ""
+msgstr "Controllerveränderung - `midi_cc`"
 
 #: 11.2-MIDI-Out.md:12
 msgid "Pitch bend - `midi_pitch_bend`"
@@ -9936,7 +9961,7 @@ msgstr "Die verschiedenen `midi_*` Funktionen verhalten sich genauso wie `play` 
 #: 11.2-MIDI-Out.md:36
 #, no-wrap
 msgid "midi_note_on :e3, 50"
-msgstr ""
+msgstr "midi_note_on :e3, 50"
 
 #: 11.2-MIDI-Out.md:40
 #, fuzzy
@@ -9960,7 +9985,7 @@ msgstr ""
 #: 11.2-MIDI-Out.md:47
 #, no-wrap
 msgid "midi_note_off :e3"
-msgstr ""
+msgstr "midi_note_off :e3"
 
 #: 11.2-MIDI-Out.md:51
 msgid "Selecting a MIDI device"
@@ -9997,7 +10022,7 @@ msgstr ""
 #: 11.2-MIDI-Out.md:65
 #, no-wrap
 msgid "midi_note_on :e3, port: \"moog_minitaur\""
-msgstr ""
+msgstr "midi_note_on :e3, port: \"moog_minitaur\""
 
 #: 11.2-MIDI-Out.md:69
 msgid ""
@@ -10010,7 +10035,7 @@ msgstr ""
 #: 11.2-MIDI-Out.md:72
 #, no-wrap
 msgid "midi_note_on :e3, channel: 3"
-msgstr ""
+msgstr "midi_note_on :e3, channel: 3"
 
 #: 11.2-MIDI-Out.md:76
 msgid ""
@@ -10023,7 +10048,7 @@ msgstr ""
 #: 11.2-MIDI-Out.md:79
 #, no-wrap
 msgid "midi_note_on :e3, port: \"moog_minitaur\", channel: 5"
-msgstr ""
+msgstr "midi_note_on :e3, port: \"moog_minitaur\", channel: 5"
 
 #: 11.2-MIDI-Out.md:83
 msgid "MIDI Studio"
@@ -10066,11 +10091,11 @@ msgstr ""
 
 #: 12-OSC.md:1
 msgid "12 OSC"
-msgstr ""
+msgstr "12 OSC"
 
 #: 12-OSC.md:3
 msgid "OSC"
-msgstr ""
+msgstr "OSC"
 
 #: 12-OSC.md:5
 msgid ""
@@ -10102,11 +10127,11 @@ msgstr ""
 
 #: 12.1-Receiving-OSC.md:1
 msgid "12.1 Receiving OSC"
-msgstr ""
+msgstr "12.1 OSC empfangen"
 
 #: 12.1-Receiving-OSC.md:3
 msgid "Receiving OSC"
-msgstr ""
+msgstr "OSC empfangen"
 
 #: 12.1-Receiving-OSC.md:5
 #, fuzzy
@@ -10268,6 +10293,9 @@ msgid ""
 "messages in time with our music). We just need to know which IP address and po"
 "rt we're sending to. Let's give it a try:"
 msgstr ""
+"Neben MIDI-Nachrichten können wir mithilfe von Time State und unserer Musik "
+"auch OSC-Nachrichten in Echtzeit versenden. Dazu müssen wir nur wissen, an "
+"welche IP-Adresse und Port die Nachricht senden wollen. Probieren wir es aus:"
 
 #: 12.2-Sending-OSC.md:10
 #, no-wrap
@@ -10275,6 +10303,8 @@ msgid ""
 "use_osc \"localhost\", 4560\n"
 "osc \"/hello/world\""
 msgstr ""
+"use_osc \"localhost\", 4560\n"
+"osc \"/hello/world\""
 
 #: 12.2-Sending-OSC.md:15
 msgid ""
@@ -10288,6 +10318,15 @@ msgid ""
 " Sonic Pi automatically prefixes all incoming OSC messages with `/osc` and the"
 "n the hostname and port of the sender.)"
 msgstr ""
+"Wenn du den Code von oben ausführst, wird dir auffallen, dass Sonic Pi an "
+"sich selbst eine OSC Nachricht sendet. Das kommt daher, dass die IP Adresse "
+"und der Port auf den Standart OSC-Port von Sonic Pi gerichtet sind. Im "
+"Grundegenommen ist es dasselbe als würden wir einen Brief an uns selber "
+"schreiben - das OSC Packet wird erstellt, verlässt Sonic Pi, landet auf dem "
+"Netzwerkstapel unseres Betriebssystems und wird dann wieder an Sonic Pi, mit "
+"der im Protokoll sichtbaren standart OSC-Nachricht (`/osc:127.0.0.1:4560`) "
+"gesendet. (Sieh wie Sonic Pi automatisch das `/osc` Prefix für alle "
+"einkommenden Nachrichten setzt)"
 
 #: 12.2-Sending-OSC.md:25
 #, fuzzy
@@ -10299,13 +10338,18 @@ msgid ""
 "Of course, sending OSC messages to ourselves may be fun but it's not that usef"
 "ul. The real benefit starts when we send messages to other programs:"
 msgstr ""
+"Natürlich ist es Lustig an sich selbst OSC-Nachrichten zu addressieren, "
+"hilfreich ist es aber nicht. Der Nutzen wir dann sichtbar, wenn wir "
+"Nachrichten an andere Programme senden:"
 
 #: 12.2-Sending-OSC.md:32
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "use_osc \"localhost\", 123456\n"
 "osc \"/hello/world\""
 msgstr ""
+"use_osc \"localhost\", 123456\n"
+"osc \"/hello/world\""
 
 #: 12.2-Sending-OSC.md:37
 msgid ""
@@ -10313,6 +10357,9 @@ msgid ""
 "ing to port 123456. If there is, then it will receive a `\"/hello/world` OSC me"
 "ssage with which it can do what it wants."
 msgstr ""
+"In diesem Beispiel nehemen wir an, dass ein Programm auf dem selben Computer "
+"am Port 123456 wartet. Falls dies der Fall ist, wird es eine OSC-Nachricht "
+"mit dem Inhalt `\"/hello/world\"` erhalten, welche es dann verarbeiten kann."
 
 #: 12.2-Sending-OSC.md:41
 msgid ""
@@ -10323,17 +10370,21 @@ msgstr ""
 "se kennen, die wir anstelle von `\"localhost\"`verwenden:"
 
 #: 12.2-Sending-OSC.md:44
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "use_osc \"192.168.10.23\", 123456\n"
 "osc \"/hello/world\""
 msgstr ""
+"use_osc \"192.168.10.23\", 123456\n"
+"osc \"/hello/world\""
 
 #: 12.2-Sending-OSC.md:49
 msgid ""
 "Now we can send OSC messages to any device reachable to us via our local netwo"
 "rks and even the internet!"
 msgstr ""
+"Nun können wir OSC-Nachrichten zu jedem, über das lokale Netzwerk oder das "
+"Internet erreichbaren, Gerät senden!"
 
 #: 13-Multichannel-Audio.md:1
 msgid "13 Multichannel Audio"
@@ -10355,25 +10406,37 @@ msgid ""
 " a look at how we can take advantage of these external sound cards and effortl"
 "essly work with multiple channels of audio in and out of Sonic Pi."
 msgstr ""
+"Bis jetzt in Sachen der Tonproduktion, haben wir das triggern von Synths und "
+"aufgenommenen Tönen über die Funktionen `play`, `synth` und `sample` "
+"erkundet. Diese haben dann hörbare Töne über unser Stereo Lautsprecher "
+"System gespielt. Es gibt aber viele Computer die auch die möglichkeit haben, "
+"über ein Mikrofon zum Beispiel, Töne einzugeben, oder Sound über zwei "
+"Lautsprecher zu spielen. Oft werden diese Funktionen mit dem Gebrauch einer "
+"externen Soundkarte möglichgemacht - diese sind für alle Platformen "
+"verfügar. In diesem Kapitel der Tutorials schauen wir uns an wie wir eine "
+"externe Soundkarte benutzen und mühelos mit mehreren Audio ein- und "
+"ausgängen und mit Sonic Pi arbeiten."
 
 #: 13.1-Sound-In.md:1
 msgid "13.1 Sound In"
-msgstr ""
+msgstr "13.1 Sound Ein"
 
 #: 13.1-Sound-In.md:3
 msgid "Sound In"
-msgstr ""
+msgstr "Sound Ein"
 
 #: 13.1-Sound-In.md:5
 msgid ""
 "One simple (and perhaps familiar) way of accessing sound inputs is using our f"
 "riend `synth` by specifying the `:sound_in` synth:"
 msgstr ""
+"Ein einfacher (wahrscheinlich bekannter) Weg um Sound Eingänge zu erreichen "
+"ist unser Freund `synth` beim Festlegen des `:sound_in` Synth:"
 
 #: 13.1-Sound-In.md:7
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "synth :sound_in"
-msgstr ""
+msgstr "synth :sound_in"
 
 #: 13.1-Sound-In.md:11
 msgid ""
@@ -10383,6 +10446,11 @@ msgid ""
 " if you have an external sound card, you can plug any audio input to the first"
 " input."
 msgstr ""
+"Dies wird genause Funktionieren wie jeder andere Synth, wie zum Beispiel "
+"`synth:dsaw` mit der Außnahme, dass der gespielte Ton direkt vom ersten "
+"Eintrag deiner Systemsoundkarte gelesen wird. Auf Laptops ist dies "
+"normalerweise das eingebaute Mikrofon, falls du aber eine externe Soundcarte "
+"hast, kannst du jeden Audioeingang an den ersten Eintrag anschließen."
 
 #: 13.1-Sound-In.md:17
 msgid "Increasing the Duration"
@@ -10396,20 +10464,26 @@ msgid ""
 "e following will keep the synth open for 8 beats before closing the connection"
 ":"
 msgstr ""
+"Eine Sache die du vielleicht schon bemerkt hast ist, dass genauso wie "
+"`synth:dsaw` der `:sound_in` Synth nur für einen Beat hälft weil er "
+"standartmäßig Verpackt ist. Falls du ihn für etwas länger offen halten "
+"möchtest, kannst du die ADSR-Verpackungseinstellungen ändern:"
 
 #: 13.1-Sound-In.md:22
 #, no-wrap
 msgid "synth :sound_in, sustain: 8"
-msgstr ""
+msgstr "synth :sound_in, sustain: 8"
 
 #: 13.1-Sound-In.md:28
 msgid ""
 "Of course, just like any normal synth, you can easily layer on effects with th"
 "e FX block:"
 msgstr ""
+"Natürlich ist es wie jeder andere Synth, wir können einfach mit dem FX-Block "
+"Effekte auftragen:"
 
 #: 13.1-Sound-In.md:30
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "with_fx :reverb do\n"
 "  with_fx :distortion do\n"
@@ -10417,12 +10491,20 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"with_fx :reverb do\n"
+"  with_fx :distortion do\n"
+"    synth :sound_in, sustain: 8\n"
+"  end\n"
+"end"
 
 #: 13.1-Sound-In.md:38
 msgid ""
 "If you have plugged in a guitar to your first input, you should be able to hea"
 "r it with distortion and reverb until the synth terminates as expected."
 msgstr ""
+"Falls du eine Gitarre an den ersten Eingang angeschlossen hast, solltest du "
+"es jetzt mit einer Vernzerrung und Hall, bis zum ende des Synth, wie "
+"erwartet, hören können."
 
 #: 13.1-Sound-In.md:40
 msgid ""
@@ -10431,6 +10513,10 @@ msgid ""
 "will play two `:sound_in` synths at the same time - one through distortion and"
 " one through reverb:"
 msgstr ""
+"Benutze `:sound_in` Synth so oft du möchtest (genauso wie du es mit jedem "
+"anderen Synth machen würdest). Zum Beispiel werden im Folgenden zwei "
+"`:sound_in` Synths gleichzeitig gespielt - einer mit Verzerrung der andere "
+"mit Hall:"
 
 #: 13.1-Sound-In.md:42
 #, no-wrap
@@ -10442,6 +10528,12 @@ msgid ""
 "  synth :sound_in, sustain: 8\n"
 "end"
 msgstr ""
+"with_fx :distortion do\n"
+"  synth :sound_in, sustain: 8\n"
+"end\n"
+"with_fx :reverb do  \n"
+"  synth :sound_in, sustain: 8\n"
+"end"
 
 #: 13.1-Sound-In.md:52
 #, fuzzy
@@ -10467,6 +10559,12 @@ msgid ""
 "  synth :sound_in, sustain: 8, input: 3\n"
 "end"
 msgstr ""
+"with_fx :distortion do\n"
+"  synth :sound_in_stereo, sustain: 8, input: 1\n"
+"end\n"
+"with_fx :reverb do  \n"
+"  synth :sound_in, sustain: 8, input: 3\n"
+"end"
 
 #: 13.1-Sound-In.md:72
 msgid "Potential Issues"
@@ -10485,8 +10583,9 @@ msgid ""
 msgstr ""
 
 #: 13.2-Live-Audio.md:1
+#, fuzzy
 msgid "13.2 Live Audio"
-msgstr ""
+msgstr "13.2 Live Audio"
 
 #: 13.2-Live-Audio.md:3
 #, fuzzy
@@ -10504,7 +10603,7 @@ msgstr ""
 
 #: 13.2-Live-Audio.md:12
 msgid "A Named Audio Input"
-msgstr ""
+msgstr "Ein Benannter Audio Eingang"
 
 #: 13.2-Live-Audio.md:14
 msgid ""
@@ -13603,6 +13702,9 @@ msgid ""
 "m. Grab your current location and use it to create a few sand blocks up in the"
 " sky nearby:"
 msgstr ""
+"Lass es uns etwas regnen lassen bevor wir die ganze Kraft des Sturms "
+"enthüllen. Versuche mit dem Wissen das du hast ein paar Sandblöke im Himmel "
+"zu erschaffen:"
 
 #: A.08-minecraft-vj.md:62
 #, no-wrap
