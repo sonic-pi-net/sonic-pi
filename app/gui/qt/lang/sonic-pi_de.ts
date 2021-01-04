@@ -469,7 +469,7 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2634"/>
         <source>Enforce Timing Guarantees</source>
-        <translation type="unfinished"></translation>
+        <translation>Timing Garantie erzwingen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2639"/>
@@ -479,7 +479,7 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2644"/>
         <source>Invert Stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>Stereo invertieren</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2649"/>
@@ -589,7 +589,7 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2786"/>
         <source>IO</source>
-        <translation type="unfinished">I/O</translation>
+        <translation>I/O</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2788"/>
@@ -738,7 +738,7 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2914"/>
         <source>Place focus on the log pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Fokus auf das Protokoll Panel richten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2917"/>
