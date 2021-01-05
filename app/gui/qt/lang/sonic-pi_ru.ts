@@ -1173,10 +1173,9 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation type="unfinished">Включить/выключить моно режим.
-Если включено, правый и левый аудио 
-каналы смешиваются и этот смешанный сигнал
- поступает в оба динамика.
+        <translation>Включить/выключить моно режим.
+Если включен, смешанный сигнал из правого и левого
+каналов поступает в оба динамика.
 Полезно при работе с внешними системами,
 способными обрабатывать только моно сигнал.</translation>
     </message>
