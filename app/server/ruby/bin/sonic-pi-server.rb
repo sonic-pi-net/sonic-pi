@@ -40,6 +40,23 @@ include SonicPi::Util
 STDOUT.puts "Sonic Pi server booting..."
 STDOUT.puts "The time is #{Time.now}"
 
+# Start Compton if using Raspberry Pi: enables transparency to
+# work. This really should be done by the GUI as it is nothing to do
+# with the language runtime or server
+# TODO: If we enable a headless server, this needs to move.
+if os==:raspberry
+  compton_cmd="/usr/bin/compton"
+  if File.exist?(compton_cmd)
+    STDOUT.puts  "Starting Compton for Raspberry Pi transparency"
+    compton_pid = spawn("exec #{compton_cmd}",[:out,:err]=>"/dev/null")
+    register_process(compton_pid)
+  else
+    STDOUT.puts('Compton not installed on your Raspberry Pi so transparency is not available')
+    STDOUT.puts('If you wish to have transparency run the following in a terminal:')
+    STDOUT.puts('sudo apt install compton')
+  end
+end
+
 ## Ensure ~/.sonic-pi/* user config, history and setting directories exist
 [home_dir_path, project_path, log_path, cached_samples_path, config_path, system_store_path].each do |d|
   ensure_dir(d)
