@@ -102,7 +102,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="3624"/>
         <source>Disabling MIDI input...</source>
-        <translation type="unfinished"></translation>
+        <translation>关闭MIDI输入...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3640"/>
@@ -135,7 +135,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="897"/>
         <source>Playing Sample...</source>
-        <translation type="unfinished"></translation>
+        <translation>播放采样...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1548"/>
@@ -253,17 +253,17 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1869"/>
         <source>Hiding about window...</source>
-        <translation type="unfinished"></translation>
+        <translation>隐藏关于窗口...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1874"/>
         <source>Showing about window...</source>
-        <translation type="unfinished"></translation>
+        <translation>显示关于窗口...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1890"/>
         <source>Hiding help...</source>
-        <translation type="unfinished"></translation>
+        <translation>隐藏帮助...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1894"/>
@@ -313,12 +313,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2337"/>
         <source>Hiding preferences...</source>
-        <translation type="unfinished"></translation>
+        <translation>隐藏选项...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2341"/>
         <source>Showing preferences...</source>
-        <translation type="unfinished"></translation>
+        <translation>显示选项...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2510"/>
@@ -368,22 +368,22 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2551"/>
         <source>Code Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation>增大代码字体尺寸</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2557"/>
         <source>Code Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation>减小代码字体尺寸</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2563"/>
         <source>Show Scopes</source>
-        <translation type="unfinished">显示示波器</translation>
+        <translation>显示示波器</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2571"/>
         <source>Show Info</source>
-        <translation type="unfinished"></translation>
+        <translation>显示信息</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2579"/>
@@ -393,17 +393,17 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2587"/>
         <source>Show Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>显示选项</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2614"/>
         <source>Show Line Numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>显示行数</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2619"/>
         <source>Show Code Completion</source>
-        <translation type="unfinished"></translation>
+        <translation>显示代码补完</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2624"/>
@@ -423,7 +423,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2639"/>
         <source>Enable External Synths</source>
-        <translation type="unfinished"></translation>
+        <translation>允许外接合成器</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2644"/>
@@ -433,7 +433,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2649"/>
         <source>Force Mono</source>
-        <translation type="unfinished"></translation>
+        <translation>强制单声道</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2654"/>
