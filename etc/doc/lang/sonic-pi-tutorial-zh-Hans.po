@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-12-12 21:29+0000\n"
-"Last-Translator: AgentWu <wuyuan9209@163.com>\n"
+"PO-Revision-Date: 2021-01-06 12:29+0000\n"
+"Last-Translator: Bote Wang <retr0p@outlook.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/zh_Hans/>\n"
 "Language: zh-Hans\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.4-dev\n"
+"X-Generator: Weblate 4.4.1-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -356,9 +356,8 @@ msgid "*H* - Scope Viewer"
 msgstr "*H* - 波形查看器"
 
 #: 01.2-Exploring-the-Interface.md:19
-#, fuzzy
 msgid "*I* - Cue Viewer"
-msgstr "*F* - 日志窗口"
+msgstr "*I* - 查看Cue"
 
 #: 01.2-Exploring-the-Interface.md:21
 msgid "A. Play Controls"
@@ -481,9 +480,8 @@ msgstr ""
 "你可以通过李萨如图形画出漂亮的音乐图像。"
 
 #: 01.2-Exploring-the-Interface.md:93
-#, fuzzy
 msgid "I. Cue Viewer"
-msgstr "F. 日志查看器"
+msgstr "I. 查看Cue"
 
 #: 01.2-Exploring-the-Interface.md:95
 msgid ""
@@ -624,7 +622,7 @@ msgstr "蜂鸣声！"
 
 #: 02.1-Your-First-Beeps.md:17
 msgid "Intense. Press it again. And again. *And again...*"
-msgstr "刺激。再点一下，再点一下，*点一下。。。*"
+msgstr "真刺激。再点一下，再点一下，*再点一下...*"
 
 #: 02.1-Your-First-Beeps.md:19
 msgid ""
@@ -1202,7 +1200,7 @@ msgstr ""
 
 #: 02.3-Switching-Synths.md:75
 msgid "Discovering Synths"
-msgstr " 探索合成器"
+msgstr "探索合成器"
 
 #: 02.3-Switching-Synths.md:77
 msgid ""
@@ -1845,7 +1843,7 @@ msgstr ""
 
 #: 03.2-Sample-Params.md:30
 msgid "Note that 0.877 is half the duration of the `:loop_amen` sample in seconds."
-msgstr "注意0.877（以秒为单位）是`：loop_amen`采样持续时间的一半"
+msgstr "注意0.877（以秒为单位）是`：loop_amen`采样持续时间的一半。"
 
 #: 03.2-Sample-Params.md:33
 msgid ""
@@ -6202,14 +6200,18 @@ msgstr ""
 
 #: 09.1-Live-Coding-Fundamentals.md:87
 #, no-wrap
-#, fuzzy
 msgid ""
 "define :my_sound do\n"
 "  use_synth :tb303\n"
 "  play choose(chord(:e3, :minor)), release: 0.2, cutoff: rrand(60, 130)\n"
 "  sleep 0.25\n"
 "end"
-msgstr "rand"
+msgstr ""
+"define :my_sound do\n"
+"  use_synth :tb303\n"
+"  play choose(chord(:e3, :minor)), release: 0.2, cutoff: rrand(60, 130)\n"
+"  sleep 0.25\n"
+"end"
 
 #: 09.1-Live-Coding-Fundamentals.md:95
 msgid "Finally, add some drums:"
@@ -6217,7 +6219,6 @@ msgstr ""
 
 #: 09.1-Live-Coding-Fundamentals.md:97
 #, no-wrap
-#, fuzzy
 msgid ""
 "define :my_sound do\n"
 "  use_synth :tb303\n"
@@ -6225,7 +6226,13 @@ msgid ""
 "  play choose(chord(:e3, :minor)), release: 0.2, cutoff: rrand(60, 130)\n"
 "  sleep 0.25\n"
 "end"
-msgstr "rand"
+msgstr ""
+"define :my_sound do\n"
+"  use_synth :tb303\n"
+"  sample :drum_bass_hard, rate: rrand(0.5, 2)\n"
+"  play choose(chord(:e3, :minor)), release: 0.2, cutoff: rrand(60, 130)\n"
+"  sleep 0.25\n"
+"end"
 
 #: 09.1-Live-Coding-Fundamentals.md:106
 msgid "Now things are getting exciting!"
@@ -12398,7 +12405,6 @@ msgid "Hear the Code"
 msgstr ""
 
 #: A.16-practice.md:112
-#, fuzzy
 msgid ""
 "Many musicians can look at a musical score and hear the music in their head wi"
 "thout having to play it. This is a very useful skill and it's well worth incor"
@@ -12410,7 +12416,11 @@ msgid ""
 " to hear music in your head and know what code to write to make it. It may tak"
 "e you a long time to master this, but once you do, you'll be able to improvise"
 " on stage and express your ideas fluently."
-msgstr "rand"
+msgstr ""
+"很多音乐家可以在脑海中把看到的乐曲谱子想象着播放出来。这个技能非常有用，也非常值得你在即时用代码写音乐的时候融合进去。重点是你应该能够大体知道你写下的代码"
+"会产生出什么样的声音。你不需要像音乐家一样，在脑海中把它们完美的想象出来，但至少，知道你自己写下的代码会听起来是快，慢，响，有节奏感，有旋律感，很随机，等"
+"等。这一系列的最终目的是能够把这套东西反过来——在你的脑海中先产生音乐，然后用相应的代码来把它实现出来。想要完全掌握这项技能需要你下一定功夫，但是你一旦掌"
+"握了，就能在现场表演的时候很好的即兴创作，和表达你的音乐点子啦！"
 
 #: A.16-practice.md:124
 msgid ""
@@ -12847,12 +12857,13 @@ msgid ""
 msgstr ""
 
 #: A.18-additive-synthesis.md:87
-#, fuzzy
 msgid ""
 "Some of the built-in synths already include a detune option that does exactly "
 "this in one synth. Try playing with the `detune:` opt of `:dsaw`, `:dpulse` an"
 "d `:dtri`."
-msgstr "`:dsaw`"
+msgstr ""
+"有几个软件本身附带的合成器，已经包含了一个detune的模式，这模式和现在这一个合成器表达出来是一样的。试试看用`detune:`模式来播放`:dsaw`"
+"，`:dpulse`和`:dtri`。"
 
 #: A.18-additive-synthesis.md:92
 msgid "Amplitude shaping"
@@ -13243,13 +13254,16 @@ msgid "Sonic Pi Performances"
 msgstr ""
 
 #: A.20-creative-coding-in-the-classroom.md:64
-#, fuzzy
 msgid ""
 "![Jylda Live Coding in the Sage Gateshead](../../../etc/doc/images/tutorial/ar"
 "ticles/A.20-creative-coding-in-the-classroom/jylda-small.png) Jylda and Sam Aa"
 "ron perform at the Thinking Digital Conference in the Sage Gateshead. Photo cr"
 "edit: TyneSight Photos."
-msgstr "即时代码"
+msgstr ""
+"![Jylda Live Coding in the Sage Gateshead](../../../etc/doc/images/tutorial/"
+"articles/A.20-creative-coding-in-the-classroom/jylda-small.png) Jylda and "
+"Sam Aaron perform at the Thinking Digital Conference in the Sage Gateshead. "
+"Photo credit: TyneSight Photos."
 
 #: A.20-creative-coding-in-the-classroom.md:68
 msgid ""
@@ -13424,13 +13438,14 @@ msgid ""
 msgstr ""
 
 #: A.20-creative-coding-in-the-classroom.md:209
-#, fuzzy
 msgid ""
 "In this example we introduce a basic loop called :jungle which picks a random "
 "drum hit from our audio sample, waits for an eighth of a second and then picks"
 " another drum hit. This results in an endless stream of random drum beats to d"
 "ance to whilst you experience what a loop is."
-msgstr "rand"
+msgstr ""
+"在这个例子中，我们来看一看一个叫做:jungle的简单循环。这个循环会从我们的采样中随机播放一个击鼓的声音，接着等候八分之一秒，再随机播放一个击鼓声音。这"
+"个的效果就是一系列有节奏的、无穷无尽的随机鼓声，很适合你一边跳着舞，一边感受一下循环能干啥。"
 
 #: B-Essential-Knowledge.md:1
 msgid "B Essential Knowledge"
