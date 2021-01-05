@@ -1538,7 +1538,7 @@ Sonic PI, som kan sendes gjennom midi_*fns</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="346"/>
         <source>Logging</source>
-        <translation type="unfinished">Logging</translation>
+        <translation>Logging</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="347"/>
