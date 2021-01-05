@@ -1822,11 +1822,9 @@ end"
         raise ArgumentError, "steps: opt for fn line should be a positive non-zero whole number" unless num_slices > 0
 
         if inclusive
-          step_size = (start - finish).abs.to_f / (num_slices - 1)
-          range(start.to_f, finish.to_f, inclusive: true,  step: step_size)
+          range(0, num_slices).scale((finish - start) / (num_slices - 1)) + start
         else
-          step_size = (start - finish).abs.to_f / num_slices
-          range(start.to_f, finish.to_f, step: step_size)
+          range(0, num_slices).scale((finish - start) / num_slices) + start
         end
       end
       doc name:           :line,
