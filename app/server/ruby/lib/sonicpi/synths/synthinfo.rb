@@ -7780,7 +7780,8 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
             :bass_woodsy_c,
             :bass_voxy_c,
             :bass_voxy_hit_c,
-            :bass_dnb_f]},
+            :bass_dnb_f,
+            :bass_trance_c]},
 
         :sn => {
           :desc => "Snare Drums",
