@@ -88,7 +88,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3624"/>
         <source>Disabling MIDI input...</source>
-        <translation type="unfinished"></translation>
+        <translation>Отлючение MIDI ввода...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3640"/>
@@ -127,7 +127,7 @@
 Apologies, a critical error occurred during startup</source>
         <translation>Ошибка Загрузки Sonic Pi
 
-Извините, произошла критическая ошибка во время запуска</translation>
+Извините, произошла критическая ошибка запуска</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1445"/>
@@ -1558,10 +1558,9 @@ Sonic Pi, которые могут быть отправлены через mid
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation type="unfinished">Включить/выключить журнал сообщений.
-Если отключено, активность, такая как срабатывание
-синтезатора или сэмпла не будет выводиться
-в журнал по умолчанию.</translation>
+        <translation>Включить/выключить журнал сообщений.
+Если отключено, активности срабатывания синтезатора или сэмпла
+не будут выводиться в журнал по умолчанию.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="352"/>
@@ -1587,8 +1586,8 @@ time the run button is pressed.</source>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation type="unfinished">Включить/выключить ведение журнала сигналов.
-Если отключить, сигналы по-прежнему будут воспроизводиться.
+        <translation>Включить/выключить ведение журнала сигналов.
+Если отключено, сигналы по-прежнему будут воспроизводиться.
 Однако они не будут видны в журнале.</translation>
     </message>
     <message>
