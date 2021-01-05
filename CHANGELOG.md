@@ -34,6 +34,7 @@
 * Completely new MIDI subsystem.
 * `use/with_random_stream` - change the current random stream used when selecting random values. We now have `:white`, `:light_pink`, `:pink`, `:dark_pink` and `:perlin`.  Default is `:white` which is the same stream as previous releases to preserve compatibility.
 * Many Turkish scales (makams) have been added.
+* New user config directory for fine tuning aspects of the app such as advanced audio settings. See `~/.sonic-pi/config/README.md` for more information.
 
 
 ### Synths & FX
@@ -48,7 +49,7 @@
 * New keyboard shortcuts for switching directly to a buffer. S-M-1 (hold shift and Meta and the number 1) will jump to buffer 1. Meta is Cmd on macOS and alt on Windows/Linux.
 * Autocompletion system can now be enabled or disabled. This is intended to help those using screen readers for which the autocompletion system is currently incompatible. 
 * Sample listings in the help system now have a handy play button that allows you to preview them by clicking rather than having to write any code.
-* Improvements for Catalan, Chinese, Danish, Dutch, French, German, Hebrew, Italian, Korean, Norwegian, Polish, Portuguese, Slovak, Spanish, Swedish and Thai translations.
+* Improvements for Catalan, Chinese, Danish, Dutch, Finnish, French, German, Hebrew, Hungarian, Icelandic, Italian, Korean, Norwegian, Polish, Portuguese, Portuguese (Brazil), Russian, Slovak, Spanish, Swedish, Thai, Turkish and Vietnamese translations.
 * Sinhalese translation added.
 * GUI now has a much more complete menu bar which duplicates the functionality of the preferences pane whilst making it easily accessible to screen readers.
 * MIDI port names are now autocompleted.
@@ -69,6 +70,7 @@
 * Fix bug with `use_merged_synth_defaults` after a call to `use_synth_defaults`. This bug was triggered in the "Sonic Dreams" example which now plays through correctly again.
 * MIDI device hotswapping (detecting whether devices were connected or disconnected) now works on macOS.
 * Fix `.take_last` to no longer return `nil` for min and max of the range.
+* Fix off-by-one error in `line` fn. Now should always return rings of the correct length.
 
 
 
