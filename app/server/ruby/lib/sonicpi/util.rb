@@ -264,6 +264,10 @@ module SonicPi
       File.absolute_path("#{config_path}/init.rb")
     end
 
+    def original_init_path
+      File.absolute_path("#{home_dir_path}/init.rb")
+    end
+
     def project_path
       @@project_path
     end
