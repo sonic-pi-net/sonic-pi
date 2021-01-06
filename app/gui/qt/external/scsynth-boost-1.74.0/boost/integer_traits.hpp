@@ -103,7 +103,7 @@ class integer_traits<wchar_t>
     // library: they are wrong!
 #if defined(WCHAR_MIN) && defined(WCHAR_MAX) && !defined(__APPLE__)
     public detail::integer_traits_base<wchar_t, WCHAR_MIN, WCHAR_MAX>
-#elif defined(__BORLANDC__) || defined(__CYGWIN__) || defined(__MINGW32__) || (defined(__BEOS__) && defined(__GNUC__))
+#elif defined(BOOST_BORLANDC) || defined(__CYGWIN__) || defined(__MINGW32__) || (defined(__BEOS__) && defined(__GNUC__))
     // No WCHAR_MIN and WCHAR_MAX, whar_t is short and unsigned:
     public detail::integer_traits_base<wchar_t, 0, 0xffff>
 #elif (defined(__sgi) && (!defined(__SGI_STL_PORT) || __SGI_STL_PORT < 0x400))\

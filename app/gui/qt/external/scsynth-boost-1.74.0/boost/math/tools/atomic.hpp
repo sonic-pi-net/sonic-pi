@@ -8,6 +8,7 @@
 #define BOOST_MATH_ATOMIC_DETAIL_HPP
 
 #include <boost/config.hpp>
+#include <boost/math/tools/cxx03_warn.hpp>
 
 #ifdef BOOST_HAS_THREADS
 

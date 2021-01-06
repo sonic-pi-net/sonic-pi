@@ -11,35 +11,36 @@ http://www.boost.org/LICENSE_1_0.txt)
 #include <boost/predef/version_number.h>
 #include <boost/predef/make.h>
 
-/*`
-[heading `BOOST_ARCH_X86_32`]
+/* tag::reference[]
+= `BOOST_ARCH_X86_32`
 
-[@http://en.wikipedia.org/wiki/X86 Intel x86] architecture:
-If available versions \[3-6\] are specifically detected.
+http://en.wikipedia.org/wiki/X86[Intel x86] architecture:
+If available versions [3-6] are specifically detected.
 
-[table
-    [[__predef_symbol__] [__predef_version__]]
+[options="header"]
+|===
+| {predef_symbol} | {predef_version}
 
-    [[`i386`] [__predef_detection__]]
-    [[`__i386__`] [__predef_detection__]]
-    [[`__i486__`] [__predef_detection__]]
-    [[`__i586__`] [__predef_detection__]]
-    [[`__i686__`] [__predef_detection__]]
-    [[`__i386`] [__predef_detection__]]
-    [[`_M_IX86`] [__predef_detection__]]
-    [[`_X86_`] [__predef_detection__]]
-    [[`__THW_INTEL__`] [__predef_detection__]]
-    [[`__I86__`] [__predef_detection__]]
-    [[`__INTEL__`] [__predef_detection__]]
+| `i386` | {predef_detection}
+| `+__i386__+` | {predef_detection}
+| `+__i486__+` | {predef_detection}
+| `+__i586__+` | {predef_detection}
+| `+__i686__+` | {predef_detection}
+| `+__i386+` | {predef_detection}
+| `+_M_IX86+` | {predef_detection}
+| `+_X86_+` | {predef_detection}
+| `+__THW_INTEL__+` | {predef_detection}
+| `+__I86__+` | {predef_detection}
+| `+__INTEL__+` | {predef_detection}
 
-    [[`__I86__`] [V.0.0]]
-    [[`_M_IX86`] [V.0.0]]
-    [[`__i686__`] [6.0.0]]
-    [[`__i586__`] [5.0.0]]
-    [[`__i486__`] [4.0.0]]
-    [[`__i386__`] [3.0.0]]
-    ]
- */
+| `+__I86__+` | V.0.0
+| `+_M_IX86+` | V.0.0
+| `+__i686__+` | 6.0.0
+| `+__i586__+` | 5.0.0
+| `+__i486__+` | 4.0.0
+| `+__i386__+` | 3.0.0
+|===
+*/ // end::reference[]
 
 #define BOOST_ARCH_X86_32 BOOST_VERSION_NUMBER_NOT_AVAILABLE
 

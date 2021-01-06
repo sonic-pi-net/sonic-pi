@@ -174,7 +174,7 @@ template <class charT>
 struct cpp_regex_traits_base
 {
    cpp_regex_traits_base(const std::locale& l)
-   { imbue(l); }
+   { (void)imbue(l); }
    std::locale imbue(const std::locale& l);
 
    std::locale m_locale;
@@ -616,7 +616,7 @@ typename cpp_regex_traits_implementation<charT>::string_type
       // std::collate<wchar_t>::transform returns a different string!
       // So as a workaround, we'll truncate the string at the first NULL
       // which _seems_ to work....
-#if BOOST_WORKAROUND(__BORLANDC__, < 0x580)
+#if BOOST_WORKAROUND(BOOST_BORLANDC, < 0x580)
       result.erase(result.find(charT(0)));
 #else
       //
@@ -669,7 +669,7 @@ typename cpp_regex_traits_implementation<charT>::string_type
          return pos->second;
    }
 #if !defined(BOOST_NO_TEMPLATED_ITERATOR_CONSTRUCTORS)\
-               && !BOOST_WORKAROUND(__BORLANDC__, <= 0x0551)
+               && !BOOST_WORKAROUND(BOOST_BORLANDC, <= 0x0551)
    std::string name(p1, p2);
 #else
    std::string name;
@@ -679,7 +679,7 @@ typename cpp_regex_traits_implementation<charT>::string_type
 #endif
    name = lookup_default_collate_name(name);
 #if !defined(BOOST_NO_TEMPLATED_ITERATOR_CONSTRUCTORS)\
-               && !BOOST_WORKAROUND(__BORLANDC__, <= 0x0551)
+               && !BOOST_WORKAROUND(BOOST_BORLANDC, <= 0x0551)
    if(name.size())
       return string_type(name.begin(), name.end());
 #else

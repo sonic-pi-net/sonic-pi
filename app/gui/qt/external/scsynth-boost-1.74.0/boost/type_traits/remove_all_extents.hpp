@@ -22,7 +22,7 @@ template <class T, std::size_t N> struct remove_all_extents<T[N]> : public remov
 template <class T, std::size_t N> struct remove_all_extents<T const[N]> : public remove_all_extents<T const>{};
 template <class T, std::size_t N> struct remove_all_extents<T volatile[N]> : public remove_all_extents<T volatile>{};
 template <class T, std::size_t N> struct remove_all_extents<T const volatile[N]> : public remove_all_extents<T const volatile>{};
-#if !BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x610)) && !defined(__IBMCPP__) &&  !BOOST_WORKAROUND(__DMC__, BOOST_TESTED_AT(0x840))
+#if !BOOST_WORKAROUND(BOOST_BORLANDC, BOOST_TESTED_AT(0x610)) && !defined(__IBMCPP__) &&  !BOOST_WORKAROUND(__DMC__, BOOST_TESTED_AT(0x840))
 template <class T> struct remove_all_extents<T[]> : public remove_all_extents<T>{};
 template <class T> struct remove_all_extents<T const[]> : public remove_all_extents<T const>{};
 template <class T> struct remove_all_extents<T volatile[]> : public remove_all_extents<T volatile>{};

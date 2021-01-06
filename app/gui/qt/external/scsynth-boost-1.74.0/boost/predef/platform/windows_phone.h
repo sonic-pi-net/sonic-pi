@@ -14,18 +14,19 @@ http://www.boost.org/LICENSE_1_0.txt)
 #include <boost/predef/platform/windows_uwp.h>
 #include <boost/predef/version_number.h>
 
-/*`
-[heading `BOOST_PLAT_WINDOWS_PHONE`]
+/* tag::reference[]
+= `BOOST_PLAT_WINDOWS_PHONE`
 
-[@https://docs.microsoft.com/en-us/windows/uwp/get-started/universal-application-platform-guide UWP]
+https://docs.microsoft.com/en-us/windows/uwp/get-started/universal-application-platform-guide[UWP]
 for Windows Phone development.
 
-[table
-    [[__predef_symbol__] [__predef_version__]]
+[options="header"]
+|===
+| {predef_symbol} | {predef_version}
 
-    [[`WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP`] [__predef_detection__]]
-    ]
- */
+| `WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP` | {predef_detection}
+|===
+*/ // end::reference[]
 
 #define BOOST_PLAT_WINDOWS_PHONE BOOST_VERSION_NUMBER_NOT_AVAILABLE
 

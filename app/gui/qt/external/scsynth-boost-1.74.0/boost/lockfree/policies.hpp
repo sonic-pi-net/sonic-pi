@@ -9,7 +9,7 @@
 #ifndef BOOST_LOCKFREE_POLICIES_HPP_INCLUDED
 #define BOOST_LOCKFREE_POLICIES_HPP_INCLUDED
 
-#include <boost/parameter/aux_/template_keyword.hpp>
+#include <boost/parameter/template_keyword.hpp>
 #include <boost/mpl/bool.hpp>
 #include <boost/mpl/size_t.hpp>
 

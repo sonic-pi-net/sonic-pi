@@ -11,7 +11,6 @@
 #ifndef BOOST_STRING_FORMATTER_HPP
 #define BOOST_STRING_FORMATTER_HPP
 
-#include <boost/detail/iterator.hpp>
 #include <boost/range/value_type.hpp>
 #include <boost/range/iterator_range_core.hpp>
 #include <boost/range/as_literal.hpp>

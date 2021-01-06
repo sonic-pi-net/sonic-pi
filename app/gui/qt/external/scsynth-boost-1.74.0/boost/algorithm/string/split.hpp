@@ -61,7 +61,11 @@ namespace boost {
         template< typename SequenceSequenceT, typename Range1T, typename Range2T >
         inline SequenceSequenceT& find_all(
             SequenceSequenceT& Result,
+#if !defined(BOOST_NO_CXX11_RVALUE_REFERENCES)
+            Range1T&& Input,
+#else
             Range1T& Input,
+#endif
             const Range2T& Search)
         {
             return ::boost::algorithm::iter_find(
@@ -96,7 +100,11 @@ namespace boost {
         template< typename SequenceSequenceT, typename Range1T, typename Range2T >
         inline SequenceSequenceT& ifind_all(
             SequenceSequenceT& Result,
+#if !defined(BOOST_NO_CXX11_RVALUE_REFERENCES)
+            Range1T&& Input,
+#else
             Range1T& Input,
+#endif
             const Range2T& Search,
             const std::locale& Loc=std::locale() )
         {
@@ -139,7 +147,11 @@ namespace boost {
         template< typename SequenceSequenceT, typename RangeT, typename PredicateT >
         inline SequenceSequenceT& split(
             SequenceSequenceT& Result,
+#if !defined(BOOST_NO_CXX11_RVALUE_REFERENCES)
+            RangeT&& Input,
+#else
             RangeT& Input,
+#endif
             PredicateT Pred,
             token_compress_mode_type eCompress=token_compress_off )
         {

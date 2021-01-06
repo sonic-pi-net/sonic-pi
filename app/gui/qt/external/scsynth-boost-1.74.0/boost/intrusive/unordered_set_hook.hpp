@@ -82,22 +82,22 @@ struct unordered_node_traits
    static const bool store_hash        = StoreHash;
    static const bool optimize_multikey = OptimizeMultiKey;
 
-   static node_ptr get_next(const const_node_ptr & n)
+   BOOST_INTRUSIVE_FORCEINLINE static node_ptr get_next(const const_node_ptr & n)
    {  return pointer_traits<node_ptr>::static_cast_from(n->next_);  }
 
-   static void set_next(const node_ptr & n, const node_ptr & next)
+   BOOST_INTRUSIVE_FORCEINLINE static void set_next(node_ptr n, node_ptr next)
    {  n->next_ = next;  }
 
-   static node_ptr get_prev_in_group(const const_node_ptr & n)
+   BOOST_INTRUSIVE_FORCEINLINE static node_ptr get_prev_in_group(const const_node_ptr & n)
    {  return n->prev_in_group_;  }
 
-   static void set_prev_in_group(const node_ptr & n, const node_ptr & prev)
+   BOOST_INTRUSIVE_FORCEINLINE static void set_prev_in_group(node_ptr n, node_ptr prev)
    {  n->prev_in_group_ = prev;  }
 
-   static std::size_t get_hash(const const_node_ptr & n)
+   BOOST_INTRUSIVE_FORCEINLINE static std::size_t get_hash(const const_node_ptr & n)
    {  return n->hash_;  }
 
-   static void set_hash(const node_ptr & n, std::size_t h)
+   BOOST_INTRUSIVE_FORCEINLINE static void set_hash(const node_ptr & n, std::size_t h)
    {  n->hash_ = h;  }
 };
 
@@ -111,7 +111,7 @@ struct unordered_group_adapter
    static node_ptr get_next(const const_node_ptr & n)
    {  return NodeTraits::get_prev_in_group(n);  }
 
-   static void set_next(const node_ptr & n, const node_ptr & next)
+   static void set_next(node_ptr n, node_ptr next)
    {  NodeTraits::set_prev_in_group(n, next);   }
 };
 
@@ -127,19 +127,19 @@ struct unordered_algorithms
    typedef typename NodeTraits::node_ptr           node_ptr;
    typedef typename NodeTraits::const_node_ptr     const_node_ptr;
 
-   static void init(typename base_type::node_ptr n)
+   BOOST_INTRUSIVE_FORCEINLINE static void init(typename base_type::node_ptr n)
    {
       base_type::init(n);
       group_algorithms::init(n);
    }
 
-   static void init_header(typename base_type::node_ptr n)
+   BOOST_INTRUSIVE_FORCEINLINE static void init_header(typename base_type::node_ptr n)
    {
       base_type::init_header(n);
       group_algorithms::init_header(n);
    }
 
-   static void unlink(typename base_type::node_ptr n)
+   BOOST_INTRUSIVE_FORCEINLINE static void unlink(typename base_type::node_ptr n)
    {
       base_type::unlink(n);
       group_algorithms::unlink(n);

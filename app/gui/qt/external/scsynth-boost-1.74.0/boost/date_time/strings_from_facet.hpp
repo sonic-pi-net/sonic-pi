@@ -9,10 +9,12 @@
  * $Date$
  */
 
+#include <cstring>
 #include <sstream>
 #include <string>
 #include <vector>
 #include <locale>
+#include <iterator>
 
 namespace boost { namespace date_time {
 
@@ -50,7 +52,7 @@ gather_month_strings(const std::locale& locale, bool short_strings=true)
     //output each month
     const charT* p_outfmt = outfmt.c_str(), *p_outfmt_end = p_outfmt + outfmt.size();
     tm tm_value;
-    memset(&tm_value, 0, sizeof(tm_value));
+    std::memset(&tm_value, 0, sizeof(tm_value));
     for (int m=0; m < 12; m++) {
       tm_value.tm_mon = m;
       stringstream_type ss;
@@ -103,7 +105,7 @@ gather_weekday_strings(const std::locale& locale, bool short_strings=true)
     //output each month / weekday
     const charT* p_outfmt = outfmt.c_str(), *p_outfmt_end = p_outfmt + outfmt.size();
     tm tm_value;
-    memset(&tm_value, 0, sizeof(tm_value));
+    std::memset(&tm_value, 0, sizeof(tm_value));
     for (int i=0; i < 7; i++) {
       tm_value.tm_wday = i;
       stringstream_type ss;

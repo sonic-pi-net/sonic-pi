@@ -11,7 +11,7 @@
 // Note: this header is a header template and must NOT have multiple-inclusion
 // protection.
 #include <boost/function/detail/prologue.hpp>
-#include <boost/detail/no_exceptions_support.hpp>
+#include <boost/core/no_exceptions_support.hpp>
 
 #if defined(BOOST_MSVC)
 #   pragma warning( push )
@@ -29,8 +29,7 @@
 #ifdef BOOST_NO_CXX11_RVALUE_REFERENCES
 #   define BOOST_FUNCTION_ARGS BOOST_PP_ENUM_PARAMS(BOOST_FUNCTION_NUM_ARGS, a)
 #else
-#   include <boost/move/utility_core.hpp>
-#   define BOOST_FUNCTION_ARG(J,I,D) ::boost::forward< BOOST_PP_CAT(T,I) >(BOOST_PP_CAT(a,I))
+#   define BOOST_FUNCTION_ARG(J,I,D) static_cast<BOOST_PP_CAT(T,I)&&>(BOOST_PP_CAT(a,I))
 #   define BOOST_FUNCTION_ARGS BOOST_PP_ENUM(BOOST_FUNCTION_NUM_ARGS,BOOST_FUNCTION_ARG,BOOST_PP_EMPTY)
 #endif
 
@@ -240,7 +239,7 @@ namespace boost {
       >
       struct BOOST_FUNCTION_GET_FUNCTION_INVOKER
       {
-        typedef typename mpl::if_c<(is_void<R>::value),
+        typedef typename conditional<(is_void<R>::value),
                             BOOST_FUNCTION_VOID_FUNCTION_INVOKER<
                             FunctionPtr,
                             R BOOST_FUNCTION_COMMA
@@ -261,7 +260,7 @@ namespace boost {
        >
       struct BOOST_FUNCTION_GET_FUNCTION_OBJ_INVOKER
       {
-        typedef typename mpl::if_c<(is_void<R>::value),
+        typedef typename conditional<(is_void<R>::value),
                             BOOST_FUNCTION_VOID_FUNCTION_OBJ_INVOKER<
                             FunctionObj,
                             R BOOST_FUNCTION_COMMA
@@ -282,7 +281,7 @@ namespace boost {
        >
       struct BOOST_FUNCTION_GET_FUNCTION_REF_INVOKER
       {
-        typedef typename mpl::if_c<(is_void<R>::value),
+        typedef typename conditional<(is_void<R>::value),
                             BOOST_FUNCTION_VOID_FUNCTION_REF_INVOKER<
                             FunctionObj,
                             R BOOST_FUNCTION_COMMA
@@ -305,7 +304,7 @@ namespace boost {
        >
       struct BOOST_FUNCTION_GET_MEMBER_INVOKER
       {
-        typedef typename mpl::if_c<(is_void<R>::value),
+        typedef typename conditional<(is_void<R>::value),
                             BOOST_FUNCTION_VOID_MEMBER_INVOKER<
                             MemberPtr,
                             R BOOST_FUNCTION_COMMA
@@ -350,9 +349,8 @@ namespace boost {
           typedef functor_manager<FunctionPtr> manager_type;
         };
 
-        template<typename FunctionPtr,
-                 typename R BOOST_FUNCTION_COMMA BOOST_FUNCTION_TEMPLATE_PARMS,
-                 typename Allocator>
+        template<typename FunctionPtr, typename Allocator,
+                 typename R BOOST_FUNCTION_COMMA BOOST_FUNCTION_TEMPLATE_PARMS>
         struct apply_a
         {
           typedef typename BOOST_FUNCTION_GET_FUNCTION_INVOKER<
@@ -385,9 +383,8 @@ namespace boost {
           typedef functor_manager<MemberPtr> manager_type;
         };
 
-        template<typename MemberPtr,
-                 typename R BOOST_FUNCTION_COMMA BOOST_FUNCTION_TEMPLATE_PARMS,
-                 typename Allocator>
+        template<typename MemberPtr, typename Allocator,
+                 typename R BOOST_FUNCTION_COMMA BOOST_FUNCTION_TEMPLATE_PARMS>
         struct apply_a
         {
           typedef typename BOOST_FUNCTION_GET_MEMBER_INVOKER<
@@ -420,9 +417,8 @@ namespace boost {
           typedef functor_manager<FunctionObj> manager_type;
         };
 
-        template<typename FunctionObj,
-                 typename R BOOST_FUNCTION_COMMA BOOST_FUNCTION_TEMPLATE_PARMS,
-                 typename Allocator>
+        template<typename FunctionObj, typename Allocator,
+                 typename R BOOST_FUNCTION_COMMA BOOST_FUNCTION_TEMPLATE_PARMS>
         struct apply_a
         {
           typedef typename BOOST_FUNCTION_GET_FUNCTION_OBJ_INVOKER<
@@ -454,9 +450,8 @@ namespace boost {
           typedef reference_manager<typename RefWrapper::type> manager_type;
         };
 
-        template<typename RefWrapper,
-                 typename R BOOST_FUNCTION_COMMA BOOST_FUNCTION_TEMPLATE_PARMS,
-                 typename Allocator>
+        template<typename RefWrapper, typename Allocator,
+                 typename R BOOST_FUNCTION_COMMA BOOST_FUNCTION_TEMPLATE_PARMS>
         struct apply_a
         {
           typedef typename BOOST_FUNCTION_GET_FUNCTION_REF_INVOKER<
@@ -567,35 +562,44 @@ namespace boost {
         // Assign to a function object using the small object optimization
         template<typename FunctionObj>
         void
-        assign_functor(FunctionObj f, function_buffer& functor, mpl::true_) const
+        assign_functor(FunctionObj f, function_buffer& functor, true_type) const
         {
           new (reinterpret_cast<void*>(functor.data)) FunctionObj(f);
         }
         template<typename FunctionObj,typename Allocator>
         void
-        assign_functor_a(FunctionObj f, function_buffer& functor, Allocator, mpl::true_) const
+        assign_functor_a(FunctionObj f, function_buffer& functor, Allocator, true_type) const
         {
-          assign_functor(f,functor,mpl::true_());
+          assign_functor(f,functor,true_type());
         }
 
         // Assign to a function object allocated on the heap.
         template<typename FunctionObj>
         void
-        assign_functor(FunctionObj f, function_buffer& functor, mpl::false_) const
+        assign_functor(FunctionObj f, function_buffer& functor, false_type) const
         {
           functor.members.obj_ptr = new FunctionObj(f);
         }
         template<typename FunctionObj,typename Allocator>
         void
-        assign_functor_a(FunctionObj f, function_buffer& functor, Allocator a, mpl::false_) const
+        assign_functor_a(FunctionObj f, function_buffer& functor, Allocator a, false_type) const
         {
           typedef functor_wrapper<FunctionObj,Allocator> functor_wrapper_type;
+#if defined(BOOST_NO_CXX11_ALLOCATOR)
           typedef typename Allocator::template rebind<functor_wrapper_type>::other
             wrapper_allocator_type;
           typedef typename wrapper_allocator_type::pointer wrapper_allocator_pointer_type;
+#else
+          using wrapper_allocator_type = typename std::allocator_traits<Allocator>::template rebind_alloc<functor_wrapper_type>;
+          using wrapper_allocator_pointer_type = typename std::allocator_traits<wrapper_allocator_type>::pointer;
+#endif
           wrapper_allocator_type wrapper_allocator(a);
           wrapper_allocator_pointer_type copy = wrapper_allocator.allocate(1);
+#if defined(BOOST_NO_CXX11_ALLOCATOR)
           wrapper_allocator.construct(copy, functor_wrapper_type(f,a));
+#else
+          std::allocator_traits<wrapper_allocator_type>::construct(wrapper_allocator, copy, functor_wrapper_type(f,a));
+#endif
           functor_wrapper_type* new_f = static_cast<functor_wrapper_type*>(copy);
           functor.members.obj_ptr = new_f;
         }
@@ -606,7 +610,7 @@ namespace boost {
         {
           if (!boost::detail::function::has_empty_target(boost::addressof(f))) {
             assign_functor(f, functor,
-                           mpl::bool_<(function_allows_small_object_optimization<FunctionObj>::value)>());
+                           integral_constant<bool, (function_allows_small_object_optimization<FunctionObj>::value)>());
             return true;
           } else {
             return false;
@@ -618,7 +622,7 @@ namespace boost {
         {
           if (!boost::detail::function::has_empty_target(boost::addressof(f))) {
             assign_functor_a(f, functor, a,
-                           mpl::bool_<(function_allows_small_object_optimization<FunctionObj>::value)>());
+                           integral_constant<bool, (function_allows_small_object_optimization<FunctionObj>::value)>());
             return true;
           } else {
             return false;
@@ -699,14 +703,14 @@ namespace boost {
 
     typedef BOOST_FUNCTION_FUNCTION self_type;
 
-    BOOST_FUNCTION_FUNCTION() : function_base() { }
+    BOOST_DEFAULTED_FUNCTION(BOOST_FUNCTION_FUNCTION(), : function_base() {})
 
     // MSVC chokes if the following two constructors are collapsed into
     // one with a default parameter.
     template<typename Functor>
     BOOST_FUNCTION_FUNCTION(Functor BOOST_FUNCTION_TARGET_FIX(const &) f
 #ifndef BOOST_NO_SFINAE
-                            ,typename boost::enable_if_c<
+                            ,typename boost::enable_if_<
                              !(is_integral<Functor>::value),
                                         int>::type = 0
 #endif // BOOST_NO_SFINAE
@@ -718,7 +722,7 @@ namespace boost {
     template<typename Functor,typename Allocator>
     BOOST_FUNCTION_FUNCTION(Functor BOOST_FUNCTION_TARGET_FIX(const &) f, Allocator a
 #ifndef BOOST_NO_SFINAE
-                            ,typename boost::enable_if_c<
+                            ,typename boost::enable_if_<
                               !(is_integral<Functor>::value),
                                         int>::type = 0
 #endif // BOOST_NO_SFINAE
@@ -767,7 +771,7 @@ namespace boost {
     // construct.
     template<typename Functor>
 #ifndef BOOST_NO_SFINAE
-    typename boost::enable_if_c<
+    typename boost::enable_if_<
                   !(is_integral<Functor>::value),
                BOOST_FUNCTION_FUNCTION&>::type
 #else
@@ -894,9 +898,20 @@ namespace boost {
     {
       if (!f.empty()) {
         this->vtable = f.vtable;
-        if (this->has_trivial_copy_and_destroy())
-          this->functor = f.functor;
-        else
+        if (this->has_trivial_copy_and_destroy()) {
+          // Don't operate on storage directly since union type doesn't relax
+          // strict aliasing rules, despite of having member char type.
+#         if defined(BOOST_GCC) && (BOOST_GCC >= 40700)
+#           pragma GCC diagnostic push
+            // This warning is technically correct, but we don't want to pay the price for initializing
+            // just to silence a warning: https://github.com/boostorg/function/issues/27
+#           pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+#         endif
+          std::memcpy(this->functor.data, f.functor.data, sizeof(boost::detail::function::function_buffer));
+#         if defined(BOOST_GCC) && (BOOST_GCC >= 40700)
+#           pragma GCC diagnostic pop
+#         endif
+        } else
           get_vtable()->base.manager(f.functor, this->functor,
                                      boost::detail::function::clone_functor_tag);
       }
@@ -944,9 +959,8 @@ namespace boost {
       typedef typename boost::detail::function::get_function_tag<Functor>::type tag;
       typedef boost::detail::function::BOOST_FUNCTION_GET_INVOKER<tag> get_invoker;
       typedef typename get_invoker::
-                         template apply_a<Functor, R BOOST_FUNCTION_COMMA
-                         BOOST_FUNCTION_TEMPLATE_ARGS,
-                         Allocator>
+                         template apply_a<Functor, Allocator, R BOOST_FUNCTION_COMMA
+                         BOOST_FUNCTION_TEMPLATE_ARGS>
         handler_type;
 
       typedef typename handler_type::invoker_type invoker_type;
@@ -982,9 +996,20 @@ namespace boost {
       BOOST_TRY {
         if (!f.empty()) {
           this->vtable = f.vtable;
-          if (this->has_trivial_copy_and_destroy())
-            this->functor = f.functor;
-          else
+          if (this->has_trivial_copy_and_destroy()) {
+            // Don't operate on storage directly since union type doesn't relax
+            // strict aliasing rules, despite of having member char type.
+#           if defined(BOOST_GCC) && (BOOST_GCC >= 40700)
+#             pragma GCC diagnostic push
+              // This warning is technically correct, but we don't want to pay the price for initializing
+              // just to silence a warning: https://github.com/boostorg/function/issues/27
+#             pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+#           endif
+            std::memcpy(this->functor.data, f.functor.data, sizeof(this->functor.data));
+#           if defined(BOOST_GCC) && (BOOST_GCC >= 40700)
+#             pragma GCC diagnostic pop
+#           endif
+          } else
             get_vtable()->base.manager(f.functor, this->functor,
                                      boost::detail::function::move_functor_tag);
           f.vtable = 0;
@@ -1033,7 +1058,7 @@ template<typename R BOOST_FUNCTION_COMMA BOOST_FUNCTION_TEMPLATE_PARMS>
 #if BOOST_FUNCTION_NUM_ARGS == 0
 #define BOOST_FUNCTION_PARTIAL_SPEC R (void)
 #else
-#define BOOST_FUNCTION_PARTIAL_SPEC R (BOOST_PP_ENUM_PARAMS(BOOST_FUNCTION_NUM_ARGS,T))
+#define BOOST_FUNCTION_PARTIAL_SPEC R (BOOST_FUNCTION_TEMPLATE_ARGS)
 #endif
 
 template<typename R BOOST_FUNCTION_COMMA
@@ -1048,12 +1073,12 @@ class function<BOOST_FUNCTION_PARTIAL_SPEC>
 
 public:
 
-  function() : base_type() {}
+  BOOST_DEFAULTED_FUNCTION(function(), : base_type() {})
 
   template<typename Functor>
   function(Functor f
 #ifndef BOOST_NO_SFINAE
-           ,typename boost::enable_if_c<
+           ,typename boost::enable_if_<
                           !(is_integral<Functor>::value),
                        int>::type = 0
 #endif
@@ -1064,7 +1089,7 @@ public:
   template<typename Functor,typename Allocator>
   function(Functor f, Allocator a
 #ifndef BOOST_NO_SFINAE
-           ,typename boost::enable_if_c<
+           ,typename boost::enable_if_<
                            !(is_integral<Functor>::value),
                        int>::type = 0
 #endif
@@ -1103,7 +1128,7 @@ public:
 
   template<typename Functor>
 #ifndef BOOST_NO_SFINAE
-  typename boost::enable_if_c<
+  typename boost::enable_if_<
                          !(is_integral<Functor>::value),
                       self_type&>::type
 #else

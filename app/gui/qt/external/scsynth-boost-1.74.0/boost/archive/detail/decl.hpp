@@ -1,10 +1,10 @@
 #ifndef BOOST_ARCHIVE_DETAIL_DECL_HPP
-#define BOOST_ARCHIVE_DETAIL_DECL_HPP 
+#define BOOST_ARCHIVE_DETAIL_DECL_HPP
 
 // MS compatible compilers support #pragma once
 #if defined(_MSC_VER)
 # pragma once
-#endif 
+#endif
 
 /////////1/////////2///////// 3/////////4/////////5/////////6/////////7/////////8
 //  decl.hpp
@@ -16,7 +16,7 @@
 
 //  See library home page at http://www.boost.org/libs/serialization
 
-//----------------------------------------------------------------------------// 
+//----------------------------------------------------------------------------//
 
 // This header implements separate compilation features as described in
 // http://www.boost.org/more/separate_compilation.html

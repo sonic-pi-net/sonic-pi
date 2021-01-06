@@ -5,9 +5,9 @@
 #ifndef BOOST_TYPEOF_INT_ENCODING_HPP_INCLUDED
 #define BOOST_TYPEOF_INT_ENCODING_HPP_INCLUDED
 
-#include <boost/mpl/if.hpp>
-#include <boost/mpl/size_t.hpp>
 #include <boost/config.hpp>
+#include <boost/typeof/constant.hpp>
+#include <cstddef> // for std::size_t
 
 namespace boost { namespace type_of {
 
@@ -56,15 +56,15 @@ namespace boost { namespace type_of {
     template<class V, std::size_t n, bool overflow = (n >= 0x3fffffff)>
     struct encode_size_t : push_back<
         V,
-        boost::mpl::size_t<pack<n, false>::value>
+        boost::type_of::constant<std::size_t,pack<n, false>::value>
     >
     {};
 
     template<class V, std::size_t n>
     struct encode_size_t<V, n, true> : push_back<typename push_back<
         V,
-        boost::mpl::size_t<pack<n % 0x3ffffffe, true>::value> >::type,
-        boost::mpl::size_t<n / 0x3ffffffe>
+        boost::type_of::constant<std::size_t,pack<n % 0x3ffffffe, true>::value> >::type,
+        boost::type_of::constant<std::size_t,n / 0x3ffffffe>
     >
     {};
 

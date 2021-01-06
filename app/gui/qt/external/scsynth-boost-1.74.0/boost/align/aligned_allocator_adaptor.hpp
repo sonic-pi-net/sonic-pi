@@ -54,9 +54,12 @@ public:
     typedef std::ptrdiff_t difference_type;
 
 private:
-    enum {
-        min_align = detail::max_size<Alignment,
-            detail::max_align<value_type, char_ptr>::value>::value
+    template<class U>
+    struct min_align {
+        enum {
+            value = detail::max_size<Alignment,
+                detail::max_align<U, char_ptr>::value>::value
+        };
     };
 
 public:
@@ -71,12 +74,8 @@ public:
 #endif
     };
 
-#if !defined(BOOST_NO_CXX11_DEFAULTED_FUNCTIONS)
-    aligned_allocator_adaptor() = default;
-#else
     aligned_allocator_adaptor()
         : Allocator() { }
-#endif
 
 #if !defined(BOOST_NO_CXX11_RVALUE_REFERENCES)
     template<class A>
@@ -102,19 +101,25 @@ public:
     }
 
     pointer allocate(size_type size) {
+        enum {
+            m = min_align<value_type>::value
+        };
         std::size_t s = size * sizeof(value_type);
-        std::size_t n = s + min_align - 1;
+        std::size_t n = s + m - 1;
         char_alloc a(base());
         char_ptr p = a.allocate(sizeof p + n);
-        void* r = boost::pointer_traits<char_ptr>::to_address(p) + sizeof p;
-        (void)align(min_align, s, r, n);
+        void* r = boost::to_address(p) + sizeof p;
+        (void)boost::alignment::align(m, s, r, n);
         ::new(static_cast<void*>(static_cast<char_ptr*>(r) - 1)) char_ptr(p);
         return static_cast<pointer>(r);
     }
 
     pointer allocate(size_type size, const_void_pointer hint) {
+        enum {
+            m = min_align<value_type>::value
+        };
         std::size_t s = size * sizeof(value_type);
-        std::size_t n = s + min_align - 1;
+        std::size_t n = s + m - 1;
         char_ptr h = char_ptr();
         if (hint) {
             h = *(static_cast<const char_ptr*>(hint) - 1);
@@ -125,18 +130,21 @@ public:
 #else
         char_ptr p = a.allocate(sizeof p + n, h);
 #endif
-        void* r = boost::pointer_traits<char_ptr>::to_address(p) + sizeof p;
-        (void)align(min_align, s, r, n);
+        void* r = boost::to_address(p) + sizeof p;
+        (void)boost::alignment::align(m, s, r, n);
         ::new(static_cast<void*>(static_cast<char_ptr*>(r) - 1)) char_ptr(p);
         return static_cast<pointer>(r);
     }
 
     void deallocate(pointer ptr, size_type size) {
+        enum {
+            m = min_align<value_type>::value
+        };
         char_ptr* p = reinterpret_cast<char_ptr*>(ptr) - 1;
         char_ptr r = *p;
         p->~char_ptr();
         char_alloc a(base());
-        a.deallocate(r, sizeof r + size * sizeof(value_type) + min_align - 1);
+        a.deallocate(r, sizeof r + size * sizeof(value_type) + m - 1);
     }
 };
 

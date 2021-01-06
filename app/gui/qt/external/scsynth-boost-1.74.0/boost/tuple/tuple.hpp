@@ -63,5 +63,56 @@ get(const tuples::cons<HT, TT>& c) {
 
 } // end namespace boost
 
+#if !defined(BOOST_NO_CXX11_HDR_TUPLE)
+
+#include <tuple>
+#include <cstddef>
+
+namespace std
+{
+
+#if defined(BOOST_CLANG)
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wmismatched-tags"
+#endif
+
+// std::tuple_size
+
+template<class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10>
+    class tuple_size< boost::tuples::tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> >:
+        public boost::tuples::length< boost::tuples::tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> >
+{
+};
+
+template<class H, class T> class tuple_size< boost::tuples::cons<H, T> >:
+    public boost::tuples::length< boost::tuples::cons<H, T> >
+{
+};
+
+template<> class tuple_size< boost::tuples::null_type >:
+    public boost::tuples::length< boost::tuples::null_type >
+{
+};
+
+// std::tuple_element
+
+template<std::size_t I, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10>
+    class tuple_element< I, boost::tuples::tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> >:
+        public boost::tuples::element< I, boost::tuples::tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> >
+{
+};
+
+template<std::size_t I, class H, class T> class tuple_element< I, boost::tuples::cons<H, T> >:
+    public boost::tuples::element< I, boost::tuples::cons<H, T> >
+{
+};
+
+#if defined(BOOST_CLANG)
+# pragma clang diagnostic pop
+#endif
+
+} // namespace std
+
+#endif // !defined(BOOST_NO_CXX11_HDR_TUPLE)
 
 #endif // BOOST_TUPLE_HPP

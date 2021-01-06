@@ -30,6 +30,8 @@
 #include <boost/interprocess/detail/workaround.hpp>
 #include <boost/interprocess/detail/posix_time_types_wrk.hpp>
 #include <boost/assert.hpp>
+#include <boost/interprocess/sync/detail/common_algorithms.hpp>
+
 
 #if !defined(BOOST_INTERPROCESS_FORCE_GENERIC_EMULATION) && defined (BOOST_INTERPROCESS_POSIX_PROCESS_SHARED)
    #include <boost/interprocess/sync/posix/mutex.hpp>
@@ -155,21 +157,7 @@ inline interprocess_mutex::interprocess_mutex(){}
 inline interprocess_mutex::~interprocess_mutex(){}
 
 inline void interprocess_mutex::lock()
-{
-   #ifdef BOOST_INTERPROCESS_ENABLE_TIMEOUT_WHEN_LOCKING
-      boost::posix_time::ptime wait_time
-         = microsec_clock::universal_time()
-         + boost::posix_time::milliseconds(BOOST_INTERPROCESS_TIMEOUT_WHEN_LOCKING_DURATION_MS);
-      if (!m_mutex.timed_lock(wait_time))
-      {
-         throw interprocess_exception(timeout_when_locking_error
-                                     , "Interprocess mutex timeout when locking. Possible deadlock: "
-                                       "owner died without unlocking?");
-      }
-   #else
-      m_mutex.lock();
-   #endif
-}
+{  ipcdetail::timeout_when_locking_aware_lock(m_mutex);  }
 
 inline bool interprocess_mutex::try_lock()
 { return m_mutex.try_lock(); }

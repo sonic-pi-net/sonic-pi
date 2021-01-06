@@ -20,9 +20,6 @@
 #ifdef BOOST_TEST_TOOLS_DEBUGGABLE
 #include <boost/test/debug.hpp>
 #endif
-#ifdef BOOST_NO_CXX11_AUTO_DECLARATIONS
-#include <boost/test/tools/detail/expression_holder.hpp>
-#endif
 
 #include <boost/test/detail/pp_variadic.hpp>
 

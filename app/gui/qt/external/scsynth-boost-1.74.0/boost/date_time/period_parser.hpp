@@ -3,14 +3,19 @@
 #define DATETIME_PERIOD_PARSER_HPP___
 
 /* Copyright (c) 2002-2004 CrystalClear Software, Inc.
- * Use, modification and distribution is subject to the 
+ * Use, modification and distribution is subject to the
  * Boost Software License, Version 1.0. (See accompanying
  * file LICENSE_1_0.txt or http://www.boost.org/LICENSE_1_0.txt)
  * Author: Jeff Garland, Bart Garst
  * $Date$
  */
 
+#include <ios>
+#include <string>
+#include <vector>
+#include <iterator>
 #include <boost/throw_exception.hpp>
+#include <boost/date_time/special_defs.hpp>
 #include <boost/date_time/string_parse_tree.hpp>
 #include <boost/date_time/string_convert.hpp>
 
@@ -18,12 +23,12 @@
 namespace boost { namespace date_time {
 
 
-  //! Not a facet, but a class used to specify and control period parsing 
+  //! Not a facet, but a class used to specify and control period parsing
   /*! Provides settings for the following:
    *   - period_separator -- default '/'
    *   - period_open_start_delimeter -- default '['
-   *   - period_open_range_end_delimeter -- default ')' 
-   *   - period_closed_range_end_delimeter -- default ']' 
+   *   - period_open_range_end_delimeter -- default ')'
+   *   - period_closed_range_end_delimeter -- default ']'
    *   - display_as_open_range, display_as_closed_range -- default closed_range
    *
    *  For a typical date_period, the contents of the input stream would be
@@ -64,12 +69,6 @@ namespace boost { namespace date_time {
       delimiters.push_back(string_type(period_closed_range_end_delimeter));
     }
 
-    period_parser(const period_parser<date_type,CharT>& p_parser)
-    {
-      this->delimiters = p_parser.delimiters;
-      this->m_range_option = p_parser.m_range_option;
-    }
-
     period_range_option range_option() const
     {
       return m_range_option;
@@ -99,11 +98,11 @@ namespace boost { namespace date_time {
      *  to get the 'elements'.  For example, in the case of a date_period
      *  the elements will be instances of a date which will be parsed
      *  according the to setup in the passed facet parameter.
-     * 
+     *
      *  The steps for parsing a period are always the same:
      *  - consume the start delimiter
      *  - get start element
-     *  - consume the separator 
+     *  - consume the separator
      *  - get either last or end element depending on range settings
      *  - consume the end delimeter depending on range settings
      *
@@ -117,15 +116,15 @@ namespace boost { namespace date_time {
      *@endcode
      */
     template<class period_type, class duration_type, class facet_type>
-    period_type get_period(stream_itr_type& sitr, 
+    period_type get_period(stream_itr_type& sitr,
                            stream_itr_type& stream_end,
-                           std::ios_base& a_ios, 
+                           std::ios_base& a_ios,
                            const period_type& /* p */,
                            const duration_type& dur_unit,
-                           const facet_type& facet) const 
+                           const facet_type& facet) const
     {
       // skip leading whitespace
-      while(std::isspace(*sitr) && sitr != stream_end) { ++sitr; } 
+      while(std::isspace(*sitr) && sitr != stream_end) { ++sitr; }
 
       typedef typename period_type::point_type point_type;
       point_type p1(not_a_date_time), p2(not_a_date_time);
@@ -150,7 +149,7 @@ namespace boost { namespace date_time {
     }
 
   private:
-    collection_type delimiters; 
+    collection_type delimiters;
     period_range_option m_range_option;
 
     enum delim_ids { SEPARATOR, START, OPEN_END, CLOSED_END };
@@ -160,10 +159,10 @@ namespace boost { namespace date_time {
                        stream_itr_type& stream_end,
                        const string_type& delim) const
     {
-      /* string_parse_tree will not parse a string of punctuation characters 
+      /* string_parse_tree will not parse a string of punctuation characters
        * without knowing exactly how many characters to process
-       * Ex [2000. Will not parse out the '[' string without knowing 
-       * to process only one character. By using length of the delimiter 
+       * Ex [2000. Will not parse out the '[' string without knowing
+       * to process only one character. By using length of the delimiter
        * string we can safely iterate past it. */
       string_type s;
       for(unsigned int i = 0; i < delim.length() && sitr != stream_end; ++i) {
@@ -177,20 +176,20 @@ namespace boost { namespace date_time {
     }
   };
 
-  template <class date_type, class char_type>  
-  const typename period_parser<date_type, char_type>::char_type 
+  template <class date_type, class char_type>
+  const typename period_parser<date_type, char_type>::char_type
   period_parser<date_type, char_type>::default_period_separator[2] = {'/'};
 
-  template <class date_type, class char_type>  
-  const typename period_parser<date_type, char_type>::char_type 
+  template <class date_type, class char_type>
+  const typename period_parser<date_type, char_type>::char_type
   period_parser<date_type, char_type>::default_period_start_delimeter[2] = {'['};
 
-  template <class date_type, class char_type>  
-  const typename period_parser<date_type, char_type>::char_type 
+  template <class date_type, class char_type>
+  const typename period_parser<date_type, char_type>::char_type
   period_parser<date_type, char_type>::default_period_open_range_end_delimeter[2] = {')'};
 
-  template <class date_type, class char_type>  
-  const typename period_parser<date_type, char_type>::char_type 
+  template <class date_type, class char_type>
+  const typename period_parser<date_type, char_type>::char_type
   period_parser<date_type, char_type>::default_period_closed_range_end_delimeter[2] = {']'};
 
  } } //namespace boost::date_time

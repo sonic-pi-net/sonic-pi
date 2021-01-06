@@ -11,7 +11,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/align/detail/element_type.hpp>
 #include <boost/align/alignment_of_forward.hpp>
 
-#if defined(BOOST_MSVC)
+#if defined(_MSC_VER) && defined(__clang__)
+#include <boost/align/detail/alignment_of_cxx11.hpp>
+#elif defined(BOOST_MSVC)
 #include <boost/align/detail/alignment_of_msvc.hpp>
 #elif defined(__GNUC__) && defined(__unix__) && !defined(__LP64__)
 #include <boost/align/detail/alignment_of.hpp>
@@ -21,7 +23,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/align/detail/alignment_of_cxx11.hpp>
 #elif defined(__ghs__) && (__GHS_VERSION_NUMBER >= 600)
 #include <boost/align/detail/alignment_of_gcc.hpp>
-#elif defined(__CODEGEARC__)
+#elif defined(BOOST_CODEGEARC)
 #include <boost/align/detail/alignment_of_codegear.hpp>
 #elif defined(BOOST_CLANG)
 #include <boost/align/detail/alignment_of_clang.hpp>

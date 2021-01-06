@@ -37,8 +37,8 @@ typedef boost::match_flag_type match_flag_type;
 
 namespace boost{
 
-#ifdef __BORLANDC__
-#if __BORLANDC__ < 0x530
+#ifdef BOOST_BORLANDC
+#if BOOST_BORLANDC < 0x530
 //
 // we need to instantiate the vector classes we use
 // since declaring a reference to type doesn't seem to
@@ -70,6 +70,10 @@ inline std::string to_string(const char* i, const char* j)
 }
 namespace BOOST_REGEX_DETAIL_NS{
 
+#ifdef BOOST_MSVC
+#  pragma warning(push)
+#pragma warning(disable:26812)
+#endif
 class RegExData
 {
 public:
@@ -103,6 +107,9 @@ public:
 #endif
    strings(), positions() {}
 };
+#ifdef BOOST_MSVC
+#  pragma warning(pop)
+#endif
 
 void RegExData::update()
 {
@@ -491,8 +498,8 @@ std::size_t RegEx::Position(int i)const
    {
    case BOOST_REGEX_DETAIL_NS::RegExData::type_pc:
       return pdata->m[i].matched ? pdata->m[i].first - pdata->pbase : RegEx::npos;
-#ifndef BOOST_REGEX_NO_FILEITER
    case BOOST_REGEX_DETAIL_NS::RegExData::type_pf:
+#ifndef BOOST_REGEX_NO_FILEITER
       return pdata->fm[i].matched ? pdata->fm[i].first - pdata->fbase : RegEx::npos;
 #endif
    case BOOST_REGEX_DETAIL_NS::RegExData::type_copy:
@@ -518,8 +525,8 @@ std::size_t RegEx::Length(int i)const
    {
    case BOOST_REGEX_DETAIL_NS::RegExData::type_pc:
       return pdata->m[i].matched ? pdata->m[i].second - pdata->m[i].first : RegEx::npos;
-#ifndef BOOST_REGEX_NO_FILEITER
    case BOOST_REGEX_DETAIL_NS::RegExData::type_pf:
+#ifndef BOOST_REGEX_NO_FILEITER
       return pdata->fm[i].matched ? pdata->fm[i].second - pdata->fm[i].first : RegEx::npos;
 #endif
    case BOOST_REGEX_DETAIL_NS::RegExData::type_copy:
@@ -539,10 +546,10 @@ bool RegEx::Matched(int i)const
    {
    case BOOST_REGEX_DETAIL_NS::RegExData::type_pc:
       return pdata->m[i].matched;
-#ifndef BOOST_REGEX_NO_FILEITER
    case BOOST_REGEX_DETAIL_NS::RegExData::type_pf:
+#ifndef BOOST_REGEX_NO_FILEITER
       return pdata->fm[i].matched;
-#endif      
+#endif
    case BOOST_REGEX_DETAIL_NS::RegExData::type_copy:
       {
       std::map<int, std::string, std::less<int> >::iterator pos = pdata->strings.find(i);
@@ -583,7 +590,7 @@ const std::size_t RegEx::npos = ~static_cast<std::size_t>(0);
 
 } // namespace boost
 
-#if defined(__BORLANDC__) && (__BORLANDC__ >= 0x550) && (__BORLANDC__ <= 0x551) && !defined(_RWSTD_COMPILE_INSTANTIATE)
+#if defined(BOOST_BORLANDC) && (BOOST_BORLANDC >= 0x550) && (BOOST_BORLANDC <= 0x551) && !defined(_RWSTD_COMPILE_INSTANTIATE)
 //
 // this is an ugly hack to work around an ugly problem:
 // by default this file will produce unresolved externals during

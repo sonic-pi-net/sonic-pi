@@ -118,7 +118,7 @@ namespace boost { namespace fusion
         >::type
     at_c(Sequence& seq)
     {
-        return fusion::at<mpl::int_<N> >(seq);
+        return result_of::at_c<Sequence, N>::call(seq);
     }
 
     template <int N, typename Sequence>
@@ -126,7 +126,7 @@ namespace boost { namespace fusion
     inline typename result_of::at_c<Sequence const, N>::type
     at_c(Sequence const& seq)
     {
-        return fusion::at<mpl::int_<N> >(seq);
+        return result_of::at_c<Sequence const, N>::call(seq);
     }
 }}
 

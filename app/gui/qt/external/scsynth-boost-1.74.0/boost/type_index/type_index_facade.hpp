@@ -1,5 +1,5 @@
 //
-// Copyright (c) Antony Polukhin, 2013-2015.
+// Copyright 2013-2020 Antony Polukhin.
 //
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
@@ -10,6 +10,7 @@
 #define BOOST_TYPE_INDEX_TYPE_INDEX_FACADE_HPP
 
 #include <boost/config.hpp>
+#include <boost/container_hash/hash_fwd.hpp>
 #include <string>
 #include <cstring>
 
@@ -24,11 +25,6 @@
 #ifdef BOOST_HAS_PRAGMA_ONCE
 # pragma once
 #endif
-
-// Forward declaration from #include <boost/functional/hash_fwd.hpp>
-namespace boost {
-    template <class It> std::size_t hash_range(It, It);
-}
 
 namespace boost { namespace typeindex {
 
@@ -103,7 +99,7 @@ public:
 
     /// \b Override: This function \b may be redefined in Derived class. Overrides \b must not throw.
     /// \return Hash code of a type. By default hashes types by raw_name().
-    /// \note Derived class header \b must include <boost/functional/hash.hpp>, \b unless this function is redefined in
+    /// \note Derived class header \b must include <boost/container_hash/hash.hpp>, \b unless this function is redefined in
     /// Derived class to not use boost::hash_range().
     inline std::size_t hash_code() const BOOST_NOEXCEPT {
         const char* const name_raw = derived().raw_name();
@@ -289,7 +285,7 @@ inline std::basic_ostream<CharT, TriatT>& operator<<(
 #endif // BOOST_NO_IOSTREAM
 
 /// This free function is used by Boost's unordered containers.
-/// \note <boost/functional/hash.hpp> has to be included if this function is used.
+/// \note <boost/container_hash/hash.hpp> has to be included if this function is used.
 template <class Derived, class TypeInfo>
 inline std::size_t hash_value(const type_index_facade<Derived, TypeInfo>& lhs) BOOST_NOEXCEPT {
     return static_cast<Derived const&>(lhs).hash_code();

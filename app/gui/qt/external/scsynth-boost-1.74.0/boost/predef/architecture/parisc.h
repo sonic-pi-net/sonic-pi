@@ -11,28 +11,29 @@ http://www.boost.org/LICENSE_1_0.txt)
 #include <boost/predef/version_number.h>
 #include <boost/predef/make.h>
 
-/*`
-[heading `BOOST_ARCH_PARISC`]
+/* tag::reference[]
+= `BOOST_ARCH_PARISC`
 
-[@http://en.wikipedia.org/wiki/PA-RISC_family HP/PA RISC] architecture.
+http://en.wikipedia.org/wiki/PA-RISC_family[HP/PA RISC] architecture.
 
-[table
-    [[__predef_symbol__] [__predef_version__]]
+[options="header"]
+|===
+| {predef_symbol} | {predef_version}
 
-    [[`__hppa__`] [__predef_detection__]]
-    [[`__hppa`] [__predef_detection__]]
-    [[`__HPPA__`] [__predef_detection__]]
+| `+__hppa__+` | {predef_detection}
+| `+__hppa+` | {predef_detection}
+| `+__HPPA__+` | {predef_detection}
 
-    [[`_PA_RISC1_0`] [1.0.0]]
-    [[`_PA_RISC1_1`] [1.1.0]]
-    [[`__HPPA11__`] [1.1.0]]
-    [[`__PA7100__`] [1.1.0]]
-    [[`_PA_RISC2_0`] [2.0.0]]
-    [[`__RISC2_0__`] [2.0.0]]
-    [[`__HPPA20__`] [2.0.0]]
-    [[`__PA8000__`] [2.0.0]]
-    ]
- */
+| `+_PA_RISC1_0+` | 1.0.0
+| `+_PA_RISC1_1+` | 1.1.0
+| `+__HPPA11__+` | 1.1.0
+| `+__PA7100__+` | 1.1.0
+| `+_PA_RISC2_0+` | 2.0.0
+| `+__RISC2_0__+` | 2.0.0
+| `+__HPPA20__+` | 2.0.0
+| `+__PA8000__+` | 2.0.0
+|===
+*/ // end::reference[]
 
 #define BOOST_ARCH_PARISC BOOST_VERSION_NUMBER_NOT_AVAILABLE
 

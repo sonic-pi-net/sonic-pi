@@ -20,6 +20,8 @@
 #ifndef BOOST_REGEX_V4_BASIC_REGEX_CREATOR_HPP
 #define BOOST_REGEX_V4_BASIC_REGEX_CREATOR_HPP
 
+#include <boost/regex/v4/indexed_bit_flag.hpp>
+
 #ifdef BOOST_MSVC
 #pragma warning(push)
 #pragma warning(disable: 4103)
@@ -33,7 +35,9 @@
 
 #ifdef BOOST_MSVC
 #  pragma warning(push)
-#  pragma warning(disable: 4800)
+#if BOOST_MSVC < 1910
+#pragma warning(disable:4800)
+#endif
 #endif
 
 namespace boost{
@@ -237,7 +241,7 @@ protected:
    bool                          m_icase;              // true for case insensitive matches
    unsigned                      m_repeater_id;        // the state_id of the next repeater
    bool                          m_has_backrefs;       // true if there are actually any backrefs
-   unsigned                      m_backrefs;           // bitmask of permitted backrefs
+   indexed_bit_flag              m_backrefs;           // bitmask of permitted backrefs
    boost::uintmax_t              m_bad_repeats;        // bitmask of repeats we can't deduce a startmap for;
    bool                          m_has_recursions;     // set when we have recursive expresisons to fixup
    std::vector<unsigned char>    m_recursion_checks;   // notes which recursions we've followed while analysing this expression
@@ -265,7 +269,8 @@ private:
 
 template <class charT, class traits>
 basic_regex_creator<charT, traits>::basic_regex_creator(regex_data<charT, traits>* data)
-   : m_pdata(data), m_traits(*(data->m_ptraits)), m_last_state(0), m_repeater_id(0), m_has_backrefs(false), m_backrefs(0), m_has_recursions(false)
+   : m_pdata(data), m_traits(*(data->m_ptraits)), m_last_state(0), m_icase(false), m_repeater_id(0), 
+   m_has_backrefs(false), m_bad_repeats(0), m_has_recursions(false), m_word_mask(0), m_mask_space(0), m_lower_mask(0), m_upper_mask(0), m_alpha_mask(0)
 {
    m_pdata->m_data.clear();
    m_pdata->m_status = ::boost::regex_constants::error_ok;
@@ -589,7 +594,7 @@ re_syntax_base* basic_regex_creator<charT, traits>::append_set(
             return 0;
          }
          // everything in range matches:
-         std::memset(result->_map + static_cast<unsigned char>(c1), true, 1 + static_cast<unsigned char>(c2) - static_cast<unsigned char>(c1));
+         std::memset(result->_map + static_cast<unsigned char>(c1), true, static_cast<unsigned char>(1u) + static_cast<unsigned char>(static_cast<unsigned char>(c2) - static_cast<unsigned char>(c1)));
       }
    }
    //
@@ -761,7 +766,7 @@ void basic_regex_creator<charT, traits>::fixup_recursions(re_syntax_base* state)
             if(idx < 0)
             {
                idx = -idx-1;
-               if(idx >= 10000)
+               if(idx >= hash_value_mask)
                {
                   idx = m_pdata->get_id(idx);
                   if(idx <= 0)
@@ -793,7 +798,7 @@ void basic_regex_creator<charT, traits>::fixup_recursions(re_syntax_base* state)
             bool ok = false;
             re_syntax_base* p = base;
             std::ptrdiff_t idx = static_cast<re_jump*>(state)->alt.i;
-            if(idx > 10000)
+            if(idx >= hash_value_mask)
             {
                //
                // There may be more than one capture group with this hash, just do what Perl
@@ -1065,9 +1070,21 @@ int basic_regex_creator<charT, traits>::calculate_backstep(re_syntax_base* state
    return -1;
 }
 
+struct recursion_saver
+{
+   std::vector<unsigned char> saved_state;
+   std::vector<unsigned char>* state;
+   recursion_saver(std::vector<unsigned char>* p) : saved_state(*p), state(p) {}
+   ~recursion_saver()
+   {
+      state->swap(saved_state);
+   }
+};
+
 template <class charT, class traits>
 void basic_regex_creator<charT, traits>::create_startmap(re_syntax_base* state, unsigned char* l_map, unsigned int* pnull, unsigned char mask)
 {
+   recursion_saver saved_recursions(&m_recursion_checks);
    int not_last_jump = 1;
    re_syntax_base* recursion_start = 0;
    int recursion_sub = 0;
@@ -1510,6 +1527,10 @@ void basic_regex_creator<charT, traits>::probe_leading_repeat(re_syntax_base* st
             state = state->next.p;
             continue;
          }
+#ifdef BOOST_MSVC
+#  pragma warning(push)
+#pragma warning(disable:6011)
+#endif
          if((static_cast<re_brace*>(state)->index == -1)
             || (static_cast<re_brace*>(state)->index == -2))
          {
@@ -1517,6 +1538,9 @@ void basic_regex_creator<charT, traits>::probe_leading_repeat(re_syntax_base* st
             state = static_cast<const re_jump*>(state->next.p)->alt.p->next.p;
             continue;
          }
+#ifdef BOOST_MSVC
+#  pragma warning(pop)
+#endif
          if(static_cast<re_brace*>(state)->index == -3)
          {
             // Have to skip the leading jump state:

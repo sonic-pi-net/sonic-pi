@@ -28,14 +28,29 @@ struct antistable
       : m_comp(comp)
    {}
 
+   antistable(const antistable & other)
+      : m_comp(other.m_comp)
+   {}
+
    template<class U, class V>
    bool operator()(const U &u, const V & v)
    {  return !m_comp(v, u);  }
+
+   const Comp &get() const
+   {  return m_comp; }
 
    private:
    antistable & operator=(const antistable &);
    Comp &m_comp;
 };
+
+template<class Comp>
+Comp unantistable(Comp comp)
+{   return comp;  }
+
+template<class Comp>
+Comp unantistable(antistable<Comp> comp)
+{   return comp.get();  }
 
 template <class Comp>
 class negate

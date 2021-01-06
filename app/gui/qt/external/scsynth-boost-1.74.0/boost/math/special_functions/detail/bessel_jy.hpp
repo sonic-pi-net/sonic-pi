@@ -510,7 +510,7 @@ namespace boost { namespace math {
             T t = u / x - fu;                   // t = J'/J
             gamma = (p - t) / q;
             //
-            // We can't allow gamma to cancel out to zero competely as it messes up
+            // We can't allow gamma to cancel out to zero completely as it messes up
             // the subsequent logic.  So pretend that one bit didn't cancel out
             // and set to a suitably small value.  The only test case we've been able to
             // find for this, is when v = 8.5 and x = 4*PI.
@@ -561,11 +561,11 @@ namespace boost { namespace math {
          if (reflect)
          {
             if((sp != 0) && (tools::max_value<T>() * fabs(Yv_scale) < fabs(sp * Yv)))
-               *J = org_kind & need_j ? T(-sign(sp) * sign(Yv) * sign(Yv_scale) * policies::raise_overflow_error<T>(function, 0, pol)) : T(0);
+               *J = org_kind & need_j ? T(-sign(sp) * sign(Yv) * (Yv_scale != 0 ? sign(Yv_scale) : 1) * policies::raise_overflow_error<T>(function, 0, pol)) : T(0);
             else
                *J = cp * Jv - (sp == 0 ? T(0) : T((sp * Yv) / Yv_scale));     // reflection formula
             if((cp != 0) && (tools::max_value<T>() * fabs(Yv_scale) < fabs(cp * Yv)))
-               *Y = org_kind & need_y ? T(-sign(cp) * sign(Yv) * sign(Yv_scale) * policies::raise_overflow_error<T>(function, 0, pol)) : T(0);
+               *Y = org_kind & need_y ? T(-sign(cp) * sign(Yv) * (Yv_scale != 0 ? sign(Yv_scale) : 1) * policies::raise_overflow_error<T>(function, 0, pol)) : T(0);
             else
                *Y = (sp != 0 ? sp * Jv : T(0)) + (cp == 0 ? T(0) : T((cp * Yv) / Yv_scale));
          }

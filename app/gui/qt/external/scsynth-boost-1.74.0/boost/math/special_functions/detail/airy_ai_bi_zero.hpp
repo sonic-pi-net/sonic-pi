@@ -10,8 +10,8 @@
 // This header contains implementation details for estimating the zeros
 // of the Airy functions airy_ai and airy_bi on the negative real axis.
 //
-#ifndef _AIRY_AI_BI_ZERO_2013_01_20_HPP_
-  #define _AIRY_AI_BI_ZERO_2013_01_20_HPP_
+#ifndef BOOST_MATH_AIRY_AI_BI_ZERO_2013_01_20_HPP_
+  #define BOOST_MATH_AIRY_AI_BI_ZERO_2013_01_20_HPP_
 
   #include <boost/math/constants/constants.hpp>
   #include <boost/math/special_functions/cbrt.hpp>
@@ -157,4 +157,4 @@
   } // namespace math
   } // namespaces boost
 
-#endif // _AIRY_AI_BI_ZERO_2013_01_20_HPP_
+#endif // BOOST_MATH_AIRY_AI_BI_ZERO_2013_01_20_HPP_

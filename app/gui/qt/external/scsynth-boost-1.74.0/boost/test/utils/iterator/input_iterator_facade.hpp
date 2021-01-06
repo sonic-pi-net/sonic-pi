@@ -29,7 +29,7 @@ namespace utils {
 
 class input_iterator_core_access
 {
-#if defined(BOOST_NO_MEMBER_TEMPLATE_FRIENDS) || BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x551))
+#if defined(BOOST_NO_MEMBER_TEMPLATE_FRIENDS) || BOOST_WORKAROUND(BOOST_BORLANDC, BOOST_TESTED_AT(0x551))
 public:
 #else
     template <class I, class V, class R, class TC> friend class input_iterator_facade;

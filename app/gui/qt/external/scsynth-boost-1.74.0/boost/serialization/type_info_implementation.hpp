@@ -9,7 +9,7 @@
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8
 // type_info_implementation.hpp: interface for portable version of type_info
 
-// (C) Copyright 2002 Robert Ramey - http://www.rrsd.com . 
+// (C) Copyright 2002 Robert Ramey - http://www.rrsd.com .
 // Use, modification and distribution is subject to the Boost Software
 // License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
@@ -39,7 +39,7 @@ struct type_info_implementation {
     };
     // note: at least one compiler complained w/o the full qualification
     // on basic traits below
-    typedef 
+    typedef
         typename mpl::eval_if<
             is_base_and_derived<boost::serialization::basic_traits, T>,
             traits_class_typeinfo_implementation< T >,
@@ -54,7 +54,7 @@ struct type_info_implementation {
 } // namespace boost
 
 // define a macro to assign a particular derivation of extended_type_info
-// to a specified a class. 
+// to a specified a class.
 #define BOOST_CLASS_TYPE_INFO(T, ETI)              \
 namespace boost {                                  \
 namespace serialization {                          \

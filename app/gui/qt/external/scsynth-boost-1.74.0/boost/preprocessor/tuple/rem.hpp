@@ -22,10 +22,10 @@
 # /* BOOST_PP_REM */
 #
 # if BOOST_PP_VARIADICS
-# 	 if BOOST_PP_VARIADICS_MSVC
-		/* To be used internally when __VA_ARGS__ could be empty ( or is a single element ) */
-#    	define BOOST_PP_REM_CAT(...) BOOST_PP_CAT(__VA_ARGS__,)
-# 	 endif
+#    if BOOST_PP_VARIADICS_MSVC
+        /* To be used internally when __VA_ARGS__ could be empty ( or is a single element ) */
+#       define BOOST_PP_REM_CAT(...) BOOST_PP_CAT(__VA_ARGS__,)
+#    endif
 #    define BOOST_PP_REM(...) __VA_ARGS__
 # else
 #    define BOOST_PP_REM(x) x
@@ -37,10 +37,10 @@
   VC++8.0 cannot handle the variadic version of BOOST_PP_TUPLE_REM(size)
 */
 # if BOOST_PP_VARIADICS && !(BOOST_PP_VARIADICS_MSVC && _MSC_VER <= 1400)
-# 	 if BOOST_PP_VARIADICS_MSVC
-		/* To be used internally when the size could be 0 ( or 1 ) */
-#    	define BOOST_PP_TUPLE_REM_CAT(size) BOOST_PP_REM_CAT
-# 	 endif
+#    if BOOST_PP_VARIADICS_MSVC
+        /* To be used internally when the size could be 0 ( or 1 ) */
+#       define BOOST_PP_TUPLE_REM_CAT(size) BOOST_PP_REM_CAT
+#    endif
 #    define BOOST_PP_TUPLE_REM(size) BOOST_PP_REM
 # else
 #    if ~BOOST_PP_CONFIG_FLAGS() & BOOST_PP_CONFIG_MWCC()
@@ -124,10 +124,10 @@
 #        define BOOST_PP_TUPLE_REM_CTOR(...) BOOST_PP_TUPLE_REM_CTOR_I(BOOST_PP_OVERLOAD(BOOST_PP_TUPLE_REM_CTOR_O_, __VA_ARGS__), (__VA_ARGS__))
 #        define BOOST_PP_TUPLE_REM_CTOR_I(m, args) BOOST_PP_TUPLE_REM_CTOR_II(m, args)
 #        define BOOST_PP_TUPLE_REM_CTOR_II(m, args) BOOST_PP_CAT(m ## args,)
-#    	 define BOOST_PP_TUPLE_REM_CTOR_O_1(tuple) BOOST_PP_EXPAND(BOOST_PP_TUPLE_IS_SINGLE_RETURN(BOOST_PP_REM_CAT,BOOST_PP_REM,tuple) tuple)
+#        define BOOST_PP_TUPLE_REM_CTOR_O_1(tuple) BOOST_PP_EXPAND(BOOST_PP_TUPLE_IS_SINGLE_RETURN(BOOST_PP_REM_CAT,BOOST_PP_REM,tuple) tuple)
 #    else
 #        define BOOST_PP_TUPLE_REM_CTOR(...) BOOST_PP_OVERLOAD(BOOST_PP_TUPLE_REM_CTOR_O_, __VA_ARGS__)(__VA_ARGS__)
-#    	 define BOOST_PP_TUPLE_REM_CTOR_O_1(tuple) BOOST_PP_REM tuple
+#        define BOOST_PP_TUPLE_REM_CTOR_O_1(tuple) BOOST_PP_REM tuple
 #    endif
 #    define BOOST_PP_TUPLE_REM_CTOR_O_2(size, tuple) BOOST_PP_TUPLE_REM_CTOR_O_1(tuple)
 # else

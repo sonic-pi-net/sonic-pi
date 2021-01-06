@@ -19,8 +19,11 @@
 #include <boost/test/tools/detail/fwd.hpp>
 #include <boost/test/tools/detail/indirections.hpp>
 
+#include <boost/test/utils/lazy_ostream.hpp>
 #include <boost/test/tools/fpc_tolerance.hpp>
 #include <boost/test/tools/floating_point_comparison.hpp>
+
+#include <ostream>
 
 #include <boost/test/detail/suppress_warnings.hpp>
 
@@ -34,6 +37,8 @@ namespace tt_detail {
 // **************           fpc tolerance manipulator          ************** //
 // ************************************************************************** //
 
+//! Tolerance manipulator, not to be used directly
+//! This is not a terminal of the expression
 template<typename FPT>
 struct tolerance_manip {
     explicit tolerance_manip( FPT const & tol ) : m_value( tol ) {}
@@ -55,28 +60,47 @@ operator%( FPT v, tolerance_manip_delay const& )
     return tolerance_manip<FPT>( FPT(v / 100) );
 }
 
+template <typename FPT>
+struct tolerance_evaluation_context: assertion_evaluation_context {
+    tolerance_evaluation_context(FPT tol)
+    : assertion_evaluation_context( true ) // has report
+    , m_tolerance_context(tol)
+    {}
+
+    local_fpc_tolerance<FPT> m_tolerance_context;
+};
+
 //____________________________________________________________________________//
 
 template<typename E, typename FPT>
-inline assertion_result
+inline assertion_evaluate_t<E>
 operator<<(assertion_evaluate_t<E> const& ae, tolerance_manip<FPT> const& tol)
 {
-    local_fpc_tolerance<FPT> lt( tol.m_value );
-
-    return ae.m_e.evaluate();
+    return ae.stack_context(
+      typename assertion_evaluate_t<E>::context_holder(
+        new tolerance_evaluation_context<FPT>( tol.m_value ))
+    );
 }
 
 //____________________________________________________________________________//
 
 template<typename FPT>
-inline int
-operator<<( unit_test::lazy_ostream const&, tolerance_manip<FPT> const& )   { return 0; }
+unit_test::lazy_ostream &
+operator<<( unit_test::lazy_ostream &o, tolerance_manip<FPT> const& )   { return o; }
+
+// needed for the lazy evaluation in lazy_ostream as for commutativity with other arguments
+template<typename FPT>
+std::ostream& 
+operator<<( std::ostream& o, tolerance_manip<FPT> const& )              { return o; }
+
 
 //____________________________________________________________________________//
 
 template<typename FPT>
-inline check_type
-operator<<( assertion_type const& /*at*/, tolerance_manip<FPT> const& )         { return CHECK_BUILT_ASSERTION; }
+inline assertion_type
+operator<<( assertion_type const& /*at*/, tolerance_manip<FPT> const& ) {
+    return assertion_type(CHECK_BUILT_ASSERTION); 
+}
 
 //____________________________________________________________________________//
 

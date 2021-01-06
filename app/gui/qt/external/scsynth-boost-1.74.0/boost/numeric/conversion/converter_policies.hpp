@@ -12,6 +12,7 @@
 
 #include <typeinfo> // for std::bad_cast
 
+#include <boost/config.hpp>
 #include <boost/config/no_tr1/cmath.hpp> // for std::floor and std::ceil
 #include <boost/throw_exception.hpp>
 
@@ -136,7 +137,7 @@ class bad_numeric_cast : public std::bad_cast
 {
   public:
 
-    virtual const char * what() const throw()
+    virtual const char * what() const BOOST_NOEXCEPT_OR_NOTHROW
       {  return "bad numeric conversion: overflow"; }
 };
 
@@ -144,14 +145,14 @@ class negative_overflow : public bad_numeric_cast
 {
   public:
 
-    virtual const char * what() const throw()
+    virtual const char * what() const BOOST_NOEXCEPT_OR_NOTHROW
       {  return "bad numeric conversion: negative overflow"; }
 };
 class positive_overflow : public bad_numeric_cast
 {
   public:
 
-    virtual const char * what() const throw()
+    virtual const char * what() const BOOST_NOEXCEPT_OR_NOTHROW
       { return "bad numeric conversion: positive overflow"; }
 };
 

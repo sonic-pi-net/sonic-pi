@@ -2,7 +2,7 @@
 // bind_executor.hpp
 // ~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2017 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -21,6 +21,7 @@
 #include <boost/asio/associated_executor.hpp>
 #include <boost/asio/associated_allocator.hpp>
 #include <boost/asio/async_result.hpp>
+#include <boost/asio/execution/executor.hpp>
 #include <boost/asio/execution_context.hpp>
 #include <boost/asio/is_executor.hpp>
 #include <boost/asio/uses_executor.hpp>
@@ -30,12 +31,6 @@
 namespace boost {
 namespace asio {
 namespace detail {
-
-template <typename T>
-struct executor_binder_check
-{
-  typedef void type;
-};
 
 // Helper to automatically define nested typedef result_type.
 
@@ -48,7 +43,7 @@ protected:
 
 template <typename T>
 struct executor_binder_result_type<T,
-  typename executor_binder_check<typename T::result_type>::type>
+  typename void_type<typename T::result_type>::type>
 {
   typedef typename T::result_type result_type;
 protected:
@@ -110,7 +105,7 @@ struct executor_binder_argument_type {};
 
 template <typename T>
 struct executor_binder_argument_type<T,
-  typename executor_binder_check<typename T::argument_type>::type>
+  typename void_type<typename T::argument_type>::type>
 {
   typedef typename T::argument_type argument_type;
 };
@@ -135,7 +130,7 @@ struct executor_binder_argument_types {};
 
 template <typename T>
 struct executor_binder_argument_types<T,
-  typename executor_binder_check<typename T::first_argument_type>::type>
+  typename void_type<typename T::first_argument_type>::type>
 {
   typedef typename T::first_argument_type first_argument_type;
   typedef typename T::second_argument_type second_argument_type;
@@ -155,16 +150,14 @@ struct executor_binder_argument_type<R(&)(A1, A2)>
   typedef A2 second_argument_type;
 };
 
-// Helper to:
-// - Apply the empty base optimisation to the executor.
-// - Perform uses_executor construction of the target type, if required.
+// Helper to perform uses_executor construction of the target type, if
+// required.
 
 template <typename T, typename Executor, bool UsesExecutor>
 class executor_binder_base;
 
 template <typename T, typename Executor>
 class executor_binder_base<T, Executor, true>
-  : protected Executor
 {
 protected:
   template <typename E, typename U>
@@ -203,7 +196,7 @@ struct executor_binder_result_of0
 
 template <typename T>
 struct executor_binder_result_of0<T,
-  typename executor_binder_check<typename result_of<T()>::type>::type>
+  typename void_type<typename result_of<T()>::type>::type>
 {
   typedef typename result_of<T()>::type type;
 };
@@ -496,7 +489,9 @@ private:
 template <typename Executor, typename T>
 inline executor_binder<typename decay<T>::type, Executor>
 bind_executor(const Executor& ex, BOOST_ASIO_MOVE_ARG(T) t,
-    typename enable_if<is_executor<Executor>::value>::type* = 0)
+    typename enable_if<
+      is_executor<Executor>::value || execution::is_executor<Executor>::value
+    >::type* = 0)
 {
   return executor_binder<typename decay<T>::type, Executor>(
       executor_arg_t(), ex, BOOST_ASIO_MOVE_CAST(T)(t));
@@ -547,37 +542,6 @@ private:
 
   async_result<T, Signature> target_;
 };
-
-#if !defined(BOOST_ASIO_NO_DEPRECATED)
-
-template <typename T, typename Executor, typename Signature>
-struct handler_type<executor_binder<T, Executor>, Signature>
-{
-  typedef executor_binder<
-    typename handler_type<T, Signature>::type, Executor> type;
-};
-
-template <typename T, typename Executor>
-class async_result<executor_binder<T, Executor> >
-{
-public:
-  typedef typename async_result<T>::type type;
-
-  explicit async_result(executor_binder<T, Executor>& b)
-    : target_(b.get())
-  {
-  }
-
-  type get()
-  {
-    return target_.get();
-  }
-
-private:
-  async_result<T> target_;
-};
-
-#endif // !defined(BOOST_ASIO_NO_DEPRECATED)
 
 template <typename T, typename Executor, typename Allocator>
 struct associated_allocator<executor_binder<T, Executor>, Allocator>

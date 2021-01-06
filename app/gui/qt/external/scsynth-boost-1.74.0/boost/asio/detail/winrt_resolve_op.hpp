@@ -2,7 +2,7 @@
 // detail/winrt_resolve_op.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2017 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -23,6 +23,7 @@
 #include <boost/asio/detail/fenced_block.hpp>
 #include <boost/asio/detail/handler_alloc_helpers.hpp>
 #include <boost/asio/detail/handler_invoke_helpers.hpp>
+#include <boost/asio/detail/handler_work.hpp>
 #include <boost/asio/detail/memory.hpp>
 #include <boost/asio/detail/winrt_async_op.hpp>
 #include <boost/asio/ip/basic_resolver_results.hpp>
@@ -34,7 +35,7 @@ namespace boost {
 namespace asio {
 namespace detail {
 
-template <typename Protocol, typename Handler>
+template <typename Protocol, typename Handler, typename IoExecutor>
 class winrt_resolve_op :
   public winrt_async_op<
     Windows::Foundation::Collections::IVectorView<
@@ -47,15 +48,16 @@ public:
   typedef boost::asio::ip::basic_resolver_query<Protocol> query_type;
   typedef boost::asio::ip::basic_resolver_results<Protocol> results_type;
 
-  winrt_resolve_op(const query_type& query, Handler& handler)
+  winrt_resolve_op(const query_type& query,
+      Handler& handler, const IoExecutor& io_ex)
     : winrt_async_op<
         Windows::Foundation::Collections::IVectorView<
           Windows::Networking::EndpointPair^>^>(
             &winrt_resolve_op::do_complete),
       query_(query),
-      handler_(BOOST_ASIO_MOVE_CAST(Handler)(handler))
+      handler_(BOOST_ASIO_MOVE_CAST(Handler)(handler)),
+      work_(handler_, io_ex)
   {
-    handler_work<Handler>::start(handler_);
   }
 
   static void do_complete(void* owner, operation* base,
@@ -64,9 +66,13 @@ public:
     // Take ownership of the operation object.
     winrt_resolve_op* o(static_cast<winrt_resolve_op*>(base));
     ptr p = { boost::asio::detail::addressof(o->handler_), o, o };
-    handler_work<Handler> w(o->handler_);
 
     BOOST_ASIO_HANDLER_COMPLETION((*o));
+
+    // Take ownership of the operation's outstanding work.
+    handler_work<Handler, IoExecutor> w(
+        BOOST_ASIO_MOVE_CAST2(handler_work<Handler, IoExecutor>)(
+          o->work_));
 
     results_type results = results_type();
     if (!o->ec_)
@@ -107,6 +113,7 @@ public:
 private:
   query_type query_;
   Handler handler_;
+  handler_work<Handler, IoExecutor> executor_;
 };
 
 } // namespace detail

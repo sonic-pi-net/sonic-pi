@@ -29,33 +29,16 @@ namespace unit_test {
 // **************           framework_init_observer_t          ************** //
 // ************************************************************************** //
 
-namespace {
-
-struct test_init_observer_check {
-    bool has_failure;
-
-    void clear()
-    {
-      has_failure = false;
-    }
-};
-
-
-test_init_observer_check& s_tioc_impl() { static test_init_observer_check the_inst; return the_inst; }
-
-} // local namespace
-
 void
 framework_init_observer_t::clear()
 {
-    if(!framework::test_in_progress())
-        s_tioc_impl().clear();
+    m_has_failure = false;
 }
 
 //____________________________________________________________________________//
 
 void
-framework_init_observer_t::test_start( counter_t )
+framework_init_observer_t::test_start( counter_t, test_unit_id )
 {
     clear();
 }
@@ -65,11 +48,8 @@ framework_init_observer_t::test_start( counter_t )
 void
 framework_init_observer_t::assertion_result( unit_test::assertion_result ar )
 {
-    test_init_observer_check& tr = s_tioc_impl();
     switch( ar ) {
-    case AR_TRIGGERED: break;
-    case AR_PASSED: break;
-    case AR_FAILED: tr.has_failure = true; break;
+    case AR_FAILED: m_has_failure = true; break;
     default:
         break;
     }
@@ -80,14 +60,13 @@ framework_init_observer_t::assertion_result( unit_test::assertion_result ar )
 void
 framework_init_observer_t::exception_caught( execution_exception const& )
 {
-    test_init_observer_check& tr = s_tioc_impl();
-    tr.has_failure = true;
+    m_has_failure = true;
 }
 
 void
 framework_init_observer_t::test_aborted()
 {
-    s_tioc_impl().has_failure = true;
+    m_has_failure = true;
 }
 
 
@@ -96,7 +75,7 @@ framework_init_observer_t::test_aborted()
 bool
 framework_init_observer_t::has_failed() const
 {
-    return s_tioc_impl().has_failure;
+    return m_has_failure;
 }
 
 //____________________________________________________________________________//

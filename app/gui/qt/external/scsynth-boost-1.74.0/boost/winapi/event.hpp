@@ -10,6 +10,7 @@
 #define BOOST_WINAPI_EVENT_HPP_INCLUDED_
 
 #include <boost/winapi/basic_types.hpp>
+#include <boost/winapi/detail/header.hpp>
 
 #ifdef BOOST_HAS_PRAGMA_ONCE
 #pragma once
@@ -18,7 +19,7 @@
 #if !defined( BOOST_USE_WINDOWS_H ) && BOOST_WINAPI_PARTITION_APP_SYSTEM
 extern "C" {
 #if !defined( BOOST_NO_ANSI_APIS )
-BOOST_SYMBOL_IMPORT boost::winapi::HANDLE_ WINAPI
+BOOST_WINAPI_IMPORT boost::winapi::HANDLE_ BOOST_WINAPI_WINAPI_CC
 CreateEventA(
     ::_SECURITY_ATTRIBUTES* lpEventAttributes,
     boost::winapi::BOOL_ bManualReset,
@@ -26,7 +27,7 @@ CreateEventA(
     boost::winapi::LPCSTR_ lpName);
 #endif
 
-BOOST_SYMBOL_IMPORT boost::winapi::HANDLE_ WINAPI
+BOOST_WINAPI_IMPORT_EXCEPT_WM boost::winapi::HANDLE_ BOOST_WINAPI_WINAPI_CC
 CreateEventW(
     ::_SECURITY_ATTRIBUTES* lpEventAttributes,
     boost::winapi::BOOL_ bManualReset,
@@ -39,7 +40,7 @@ CreateEventW(
 extern "C" {
 #if !defined( BOOST_NO_ANSI_APIS )
 #if BOOST_USE_WINAPI_VERSION >= BOOST_WINAPI_VERSION_WIN6
-BOOST_SYMBOL_IMPORT boost::winapi::HANDLE_ WINAPI
+BOOST_WINAPI_IMPORT boost::winapi::HANDLE_ BOOST_WINAPI_WINAPI_CC
 CreateEventExA(
     ::_SECURITY_ATTRIBUTES *lpEventAttributes,
     boost::winapi::LPCSTR_ lpName,
@@ -47,7 +48,7 @@ CreateEventExA(
     boost::winapi::DWORD_ dwDesiredAccess);
 #endif
 
-BOOST_SYMBOL_IMPORT boost::winapi::HANDLE_ WINAPI
+BOOST_WINAPI_IMPORT boost::winapi::HANDLE_ BOOST_WINAPI_WINAPI_CC
 OpenEventA(
     boost::winapi::DWORD_ dwDesiredAccess,
     boost::winapi::BOOL_ bInheritHandle,
@@ -55,7 +56,7 @@ OpenEventA(
 #endif // !defined( BOOST_NO_ANSI_APIS )
 
 #if BOOST_USE_WINAPI_VERSION >= BOOST_WINAPI_VERSION_WIN6
-BOOST_SYMBOL_IMPORT boost::winapi::HANDLE_ WINAPI
+BOOST_WINAPI_IMPORT boost::winapi::HANDLE_ BOOST_WINAPI_WINAPI_CC
 CreateEventExW(
     ::_SECURITY_ATTRIBUTES *lpEventAttributes,
     boost::winapi::LPCWSTR_ lpName,
@@ -63,7 +64,7 @@ CreateEventExW(
     boost::winapi::DWORD_ dwDesiredAccess);
 #endif
 
-BOOST_SYMBOL_IMPORT boost::winapi::HANDLE_ WINAPI
+BOOST_WINAPI_IMPORT_EXCEPT_WM boost::winapi::HANDLE_ BOOST_WINAPI_WINAPI_CC
 OpenEventW(
     boost::winapi::DWORD_ dwDesiredAccess,
     boost::winapi::BOOL_ bInheritHandle,
@@ -71,10 +72,10 @@ OpenEventW(
 
 // Windows CE define SetEvent/ResetEvent as inline functions in kfuncs.h
 #if !defined( UNDER_CE )
-BOOST_SYMBOL_IMPORT boost::winapi::BOOL_ WINAPI
+BOOST_WINAPI_IMPORT boost::winapi::BOOL_ BOOST_WINAPI_WINAPI_CC
 SetEvent(boost::winapi::HANDLE_ hEvent);
 
-BOOST_SYMBOL_IMPORT boost::winapi::BOOL_ WINAPI
+BOOST_WINAPI_IMPORT boost::winapi::BOOL_ BOOST_WINAPI_WINAPI_CC
 ResetEvent(boost::winapi::HANDLE_ hEvent);
 #endif
 } // extern "C"
@@ -92,33 +93,33 @@ using ::ResetEvent;
 
 #if defined( BOOST_USE_WINDOWS_H )
 
-const DWORD_ EVENT_ALL_ACCESS_ = EVENT_ALL_ACCESS;
-const DWORD_ EVENT_MODIFY_STATE_ = EVENT_MODIFY_STATE;
+BOOST_CONSTEXPR_OR_CONST DWORD_ EVENT_ALL_ACCESS_ = EVENT_ALL_ACCESS;
+BOOST_CONSTEXPR_OR_CONST DWORD_ EVENT_MODIFY_STATE_ = EVENT_MODIFY_STATE;
 #if BOOST_USE_WINAPI_VERSION >= BOOST_WINAPI_VERSION_WIN6
-const DWORD_ CREATE_EVENT_INITIAL_SET_ = CREATE_EVENT_INITIAL_SET;
-const DWORD_ CREATE_EVENT_MANUAL_RESET_ = CREATE_EVENT_MANUAL_RESET;
+BOOST_CONSTEXPR_OR_CONST DWORD_ CREATE_EVENT_INITIAL_SET_ = CREATE_EVENT_INITIAL_SET;
+BOOST_CONSTEXPR_OR_CONST DWORD_ CREATE_EVENT_MANUAL_RESET_ = CREATE_EVENT_MANUAL_RESET;
 #endif
 
 #else // defined( BOOST_USE_WINDOWS_H )
 
-const DWORD_ EVENT_ALL_ACCESS_ = 0x001F0003;
-const DWORD_ EVENT_MODIFY_STATE_ = 0x00000002;
+BOOST_CONSTEXPR_OR_CONST DWORD_ EVENT_ALL_ACCESS_ = 0x001F0003;
+BOOST_CONSTEXPR_OR_CONST DWORD_ EVENT_MODIFY_STATE_ = 0x00000002;
 #if BOOST_USE_WINAPI_VERSION >= BOOST_WINAPI_VERSION_WIN6
-const DWORD_ CREATE_EVENT_INITIAL_SET_ = 0x00000002;
-const DWORD_ CREATE_EVENT_MANUAL_RESET_ = 0x00000001;
+BOOST_CONSTEXPR_OR_CONST DWORD_ CREATE_EVENT_INITIAL_SET_ = 0x00000002;
+BOOST_CONSTEXPR_OR_CONST DWORD_ CREATE_EVENT_MANUAL_RESET_ = 0x00000001;
 #endif
 
 #endif // defined( BOOST_USE_WINDOWS_H )
 
 // Undocumented and not present in Windows SDK. Enables NtQueryEvent.
 // http://undocumented.ntinternals.net/index.html?page=UserMode%2FUndocumented%20Functions%2FNT%20Objects%2FEvent%2FNtQueryEvent.html
-const DWORD_ EVENT_QUERY_STATE_ = 0x00000001;
+BOOST_CONSTEXPR_OR_CONST DWORD_ EVENT_QUERY_STATE_ = 0x00000001;
 
-const DWORD_ event_all_access = EVENT_ALL_ACCESS_;
-const DWORD_ event_modify_state = EVENT_MODIFY_STATE_;
+BOOST_CONSTEXPR_OR_CONST DWORD_ event_all_access = EVENT_ALL_ACCESS_;
+BOOST_CONSTEXPR_OR_CONST DWORD_ event_modify_state = EVENT_MODIFY_STATE_;
 #if BOOST_USE_WINAPI_VERSION >= BOOST_WINAPI_VERSION_WIN6
-const DWORD_ create_event_initial_set = CREATE_EVENT_INITIAL_SET_;
-const DWORD_ create_event_manual_reset = CREATE_EVENT_MANUAL_RESET_;
+BOOST_CONSTEXPR_OR_CONST DWORD_ create_event_initial_set = CREATE_EVENT_INITIAL_SET_;
+BOOST_CONSTEXPR_OR_CONST DWORD_ create_event_manual_reset = CREATE_EVENT_MANUAL_RESET_;
 #endif
 
 #if !defined( BOOST_NO_ANSI_APIS )
@@ -186,5 +187,7 @@ BOOST_FORCEINLINE HANDLE_ create_anonymous_event(SECURITY_ATTRIBUTES_* lpEventAt
 
 }
 }
+
+#include <boost/winapi/detail/footer.hpp>
 
 #endif // BOOST_WINAPI_EVENT_HPP_INCLUDED_

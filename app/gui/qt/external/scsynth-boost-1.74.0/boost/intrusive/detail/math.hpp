@@ -24,6 +24,7 @@
 #include <cstddef>
 #include <climits>
 #include <boost/intrusive/detail/mpl.hpp>
+#include <cstring>
 
 namespace boost {
 namespace intrusive {
@@ -208,19 +209,13 @@ namespace detail {
 //http://www.flipcode.com/archives/Fast_log_Function.shtml
 inline float fast_log2 (float val)
 {
-   union caster_t
-   {
-      unsigned x;
-      float val;
-   } caster;
-
-   caster.val = val;
-   unsigned x = caster.x;
+   float f = val;
+   unsigned x;
+   std::memcpy(&x, &val, sizeof(f));
    const int log_2 = int((x >> 23) & 255) - 128;
    x &= ~(unsigned(255u) << 23u);
    x += unsigned(127) << 23u;
-   caster.x = x;
-   val = caster.val;
+   std::memcpy(&val, &x, sizeof(f));
    //1+log2(m), m ranging from 1 to 2
    //3rd degree polynomial keeping first derivate continuity.
    //For less precision the line can be commented out
@@ -262,7 +257,7 @@ template<class SizeType, class Enabler = void >
 struct sqrt2_pow_max;
 
 template <class SizeType>
-struct sqrt2_pow_max<SizeType, typename enable_if< numbits_eq<SizeType, 32> >::type>
+struct sqrt2_pow_max<SizeType, typename voider<typename enable_if< numbits_eq<SizeType, 32> >::type>::type>
 {
    static const SizeType value = 0xb504f334;
    static const std::size_t pow   = 31;
@@ -271,7 +266,7 @@ struct sqrt2_pow_max<SizeType, typename enable_if< numbits_eq<SizeType, 32> >::t
 #ifndef BOOST_NO_INT64_T
 
 template <class SizeType>
-struct sqrt2_pow_max<SizeType, typename enable_if< numbits_eq<SizeType, 64> >::type>
+struct sqrt2_pow_max<SizeType, typename voider<typename enable_if< numbits_eq<SizeType, 64> >::type>::type>
 {
    static const SizeType value = 0xb504f333f9de6484ull;
    static const std::size_t pow   = 63;

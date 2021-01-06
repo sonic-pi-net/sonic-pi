@@ -131,11 +131,18 @@ struct unit_test_log_impl {
     typedef std::vector<unit_test_log_data_helper_impl> v_formatter_data_t;
     v_formatter_data_t m_log_formatter_data;
 
+    typedef std::vector<unit_test_log_data_helper_impl*> vp_formatter_data_t;
+    vp_formatter_data_t m_active_log_formatter_data;
+
     // entry data
     log_entry_data      m_entry_data;
 
     bool has_entry_in_progress() const {
-        BOOST_TEST_FOREACH( unit_test_log_data_helper_impl const&, current_logger_data, m_log_formatter_data ) {
+        for( vp_formatter_data_t::const_iterator it(m_active_log_formatter_data.begin()), ite(m_active_log_formatter_data.end()); 
+             it < ite; 
+             ++it)
+        {
+            unit_test_log_data_helper_impl& current_logger_data = **it;
             if( current_logger_data.m_entry_in_progress )
                 return true;
         }
@@ -155,25 +162,80 @@ struct unit_test_log_impl {
 
 unit_test_log_impl& s_log_impl() { static unit_test_log_impl the_inst; return the_inst; }
 
-} // local namespace
 
 //____________________________________________________________________________//
 
 void
-unit_test_log_t::test_start( counter_t test_cases_amount )
+log_entry_context( log_level l, unit_test_log_data_helper_impl& current_logger_data)
 {
-    BOOST_TEST_FOREACH( unit_test_log_data_helper_impl&, current_logger_data, s_log_impl().m_log_formatter_data ) {
-      if( !current_logger_data.m_enabled || current_logger_data.get_log_level() == log_nothing )
+    framework::context_generator const& context = framework::get_context();
+    if( context.is_empty() )
+        return;
+
+    const_string frame;
+    current_logger_data.m_log_formatter->entry_context_start( current_logger_data.stream(), l );
+    while( !(frame=context.next()).is_empty() )
+    {
+        current_logger_data.m_log_formatter->log_entry_context( current_logger_data.stream(), l, frame );
+    }
+    current_logger_data.m_log_formatter->entry_context_finish( current_logger_data.stream(), l );
+}
+
+//____________________________________________________________________________//
+
+void
+clear_entry_context()
+{
+    framework::clear_context();
+}
+
+// convenience
+typedef unit_test_log_impl::vp_formatter_data_t vp_logger_t;
+typedef unit_test_log_impl::v_formatter_data_t v_logger_t;
+
+} // local namespace
+
+//____________________________________________________________________________//
+
+BOOST_TEST_SINGLETON_CONS_IMPL( unit_test_log_t )
+
+void
+unit_test_log_t::configure( )
+{
+    // configure is not test_start:
+    // test_start pushes the necessary log information when the test module is starting, and implies configure.
+    // configure: should be called each time the set of loggers, stream or configuration is changed.
+    s_log_impl().m_active_log_formatter_data.clear();
+    for( unit_test_log_impl::v_formatter_data_t::iterator it(s_log_impl().m_log_formatter_data.begin()), 
+                                                          ite(s_log_impl().m_log_formatter_data.end());
+        it < ite;
+        ++it)
+    {
+      if( !it->m_enabled || it->get_log_level() == log_nothing )
           continue;
 
-      current_logger_data.m_log_formatter->log_start( current_logger_data.stream(), test_cases_amount );
+      s_log_impl().m_active_log_formatter_data.push_back(&*it);
+      it->m_entry_in_progress = false;
+    }
+}
 
-      if( runtime_config::get<bool>( runtime_config::btrt_build_info ) )
-          current_logger_data.m_log_formatter->log_build_info( current_logger_data.stream() );
+//____________________________________________________________________________//
+
+void
+unit_test_log_t::test_start( counter_t test_cases_amount, test_unit_id )
+{
+    configure();
+    vp_logger_t& vloggers = s_log_impl().m_active_log_formatter_data;
+    for( vp_logger_t::iterator it(vloggers.begin()), ite(vloggers.end()); it < ite; ++it)
+    {
+      unit_test_log_data_helper_impl& current_logger_data = **it;
+
+      current_logger_data.m_log_formatter->log_start( current_logger_data.stream(), test_cases_amount );
+      current_logger_data.m_log_formatter->log_build_info(
+          current_logger_data.stream(),
+          runtime_config::get<bool>( runtime_config::btrt_build_info ));
 
       //current_logger_data.stream().flush();
-
-      current_logger_data.m_entry_in_progress = false;
     }
 }
 
@@ -182,12 +244,11 @@ unit_test_log_t::test_start( counter_t test_cases_amount )
 void
 unit_test_log_t::test_finish()
 {
-    BOOST_TEST_FOREACH( unit_test_log_data_helper_impl&, current_logger_data, s_log_impl().m_log_formatter_data ) {
-      if( !current_logger_data.m_enabled || current_logger_data.get_log_level() == log_nothing )
-          continue;
-
+    vp_logger_t& vloggers = s_log_impl().m_active_log_formatter_data;
+    for( vp_logger_t::iterator it(vloggers.begin()), ite(vloggers.end()); it < ite; ++it)
+    {
+      unit_test_log_data_helper_impl& current_logger_data = **it;
       current_logger_data.m_log_formatter->log_finish( current_logger_data.stream() );
-
       current_logger_data.stream().flush();
     }
 }
@@ -207,8 +268,12 @@ unit_test_log_t::test_unit_start( test_unit const& tu )
 {
     if( s_log_impl().has_entry_in_progress() )
         *this << log::end();
-    BOOST_TEST_FOREACH( unit_test_log_data_helper_impl&, current_logger_data, s_log_impl().m_log_formatter_data ) {
-        if( !current_logger_data.m_enabled || current_logger_data.get_log_level() > log_test_units )
+
+    vp_logger_t& vloggers = s_log_impl().m_active_log_formatter_data;
+    for( vp_logger_t::iterator it(vloggers.begin()), ite(vloggers.end()); it < ite; ++it)
+    {
+        unit_test_log_data_helper_impl& current_logger_data = **it;
+        if( current_logger_data.get_log_level() > log_test_units )
             continue;
         current_logger_data.m_log_formatter->test_unit_start( current_logger_data.stream(), tu );
     }
@@ -224,9 +289,11 @@ unit_test_log_t::test_unit_finish( test_unit const& tu, unsigned long elapsed )
     if( s_log_impl().has_entry_in_progress() )
         *this << log::end();
 
-    BOOST_TEST_FOREACH( unit_test_log_data_helper_impl&, current_logger_data, s_log_impl().m_log_formatter_data ) {
-
-        if( !current_logger_data.m_enabled || current_logger_data.get_log_level() > log_test_units )
+    vp_logger_t& vloggers = s_log_impl().m_active_log_formatter_data;
+    for( vp_logger_t::iterator it(vloggers.begin()), ite(vloggers.end()); it < ite; ++it)
+    {
+        unit_test_log_data_helper_impl& current_logger_data = **it;
+        if( current_logger_data.get_log_level() > log_test_units )
             continue;
 
         current_logger_data.m_log_formatter->test_unit_finish( current_logger_data.stream(), tu, elapsed );
@@ -241,8 +308,11 @@ unit_test_log_t::test_unit_skipped( test_unit const& tu, const_string reason )
     if( s_log_impl().has_entry_in_progress() )
         *this << log::end();
 
-    BOOST_TEST_FOREACH( unit_test_log_data_helper_impl&, current_logger_data, s_log_impl().m_log_formatter_data ) {
-        if( !current_logger_data.m_enabled || current_logger_data.get_log_level() > log_test_units )
+    vp_logger_t& vloggers = s_log_impl().m_active_log_formatter_data;
+    for( vp_logger_t::iterator it(vloggers.begin()), ite(vloggers.end()); it < ite; ++it)
+    {
+        unit_test_log_data_helper_impl& current_logger_data = **it;
+        if( current_logger_data.get_log_level() > log_test_units )
             continue;
 
         current_logger_data.m_log_formatter->test_unit_skipped( current_logger_data.stream(), tu, reason );
@@ -255,11 +325,31 @@ unit_test_log_t::test_unit_aborted( test_unit const& tu )
     if( s_log_impl().has_entry_in_progress() )
         *this << log::end();
 
-    BOOST_TEST_FOREACH( unit_test_log_data_helper_impl&, current_logger_data, s_log_impl().m_log_formatter_data ) {
-        if( !current_logger_data.m_enabled || current_logger_data.get_log_level() > log_test_units )
+    vp_logger_t& vloggers = s_log_impl().m_active_log_formatter_data;
+    for( vp_logger_t::iterator it(vloggers.begin()), ite(vloggers.end()); it < ite; ++it)
+    {
+        unit_test_log_data_helper_impl& current_logger_data = **it;
+        if( current_logger_data.get_log_level() > log_test_units )
             continue;
 
         current_logger_data.m_log_formatter->test_unit_aborted(current_logger_data.stream(), tu );
+    }
+}
+
+void
+unit_test_log_t::test_unit_timed_out( test_unit const& tu )
+{
+    if( s_log_impl().has_entry_in_progress() )
+        *this << log::end();
+
+    vp_logger_t& vloggers = s_log_impl().m_active_log_formatter_data;
+    for( vp_logger_t::iterator it(vloggers.begin()), ite(vloggers.end()); it < ite; ++it)
+    {
+        unit_test_log_data_helper_impl& current_logger_data = **it;
+        if( current_logger_data.get_log_level() > log_test_units )
+            continue;
+
+        current_logger_data.m_log_formatter->test_unit_timed_out(current_logger_data.stream(), tu );
     }
 }
 
@@ -276,13 +366,16 @@ unit_test_log_t::exception_caught( execution_exception const& ex )
     if( s_log_impl().has_entry_in_progress() )
         *this << log::end();
 
-    BOOST_TEST_FOREACH( unit_test_log_data_helper_impl&, current_logger_data, s_log_impl().m_log_formatter_data ) {
+    vp_logger_t& vloggers = s_log_impl().m_active_log_formatter_data;
+    for( vp_logger_t::iterator it(vloggers.begin()), ite(vloggers.end()); it < ite; ++it)
+    {
+      unit_test_log_data_helper_impl& current_logger_data = **it;
 
-      if( current_logger_data.m_enabled && l >= current_logger_data.get_log_level() ) {
+      if( l >= current_logger_data.get_log_level() ) {
 
           current_logger_data.m_log_formatter->log_exception_start( current_logger_data.stream(), s_log_impl().m_checkpoint_data, ex );
 
-          log_entry_context( l );
+          log_entry_context( l, current_logger_data );
 
           current_logger_data.m_log_formatter->log_exception_finish( current_logger_data.stream() );
       }
@@ -312,10 +405,11 @@ unit_test_log_t::operator<<( log::begin const& b )
     if( s_log_impl().has_entry_in_progress() )
         *this << log::end();
 
-    BOOST_TEST_FOREACH( unit_test_log_data_helper_impl&, current_logger_data, s_log_impl().m_log_formatter_data ) {
-        if( current_logger_data.m_enabled ) {
-            current_logger_data.m_stream_state_saver->restore();
-        }
+    vp_logger_t& vloggers = s_log_impl().m_active_log_formatter_data;
+    for( vp_logger_t::iterator it(vloggers.begin()), ite(vloggers.end()); it < ite; ++it)
+    {
+      unit_test_log_data_helper_impl& current_logger_data = **it;
+      current_logger_data.m_stream_state_saver->restore();
     }
 
     s_log_impl().m_entry_data.clear();
@@ -338,10 +432,15 @@ unit_test_log_t&
 unit_test_log_t::operator<<( log::end const& )
 {
     if( s_log_impl().has_entry_in_progress() ) {
-        log_entry_context( s_log_impl().m_entry_data.m_level );
-
-        BOOST_TEST_FOREACH( unit_test_log_data_helper_impl&, current_logger_data, s_log_impl().m_log_formatter_data ) {
-            if( current_logger_data.m_enabled && current_logger_data.m_entry_in_progress ) {
+        vp_logger_t& vloggers = s_log_impl().m_active_log_formatter_data;
+        log_level l = s_log_impl().m_entry_data.m_level;
+        for( vp_logger_t::iterator it(vloggers.begin()), ite(vloggers.end()); it < ite; ++it)
+        {
+            unit_test_log_data_helper_impl& current_logger_data = **it;
+            if( current_logger_data.m_entry_in_progress ) {
+                if( l >= current_logger_data.get_log_level() ) {
+                    log_entry_context( l, current_logger_data );
+                }
                 current_logger_data.m_log_formatter->log_entry_finish( current_logger_data.stream() );
             }
             current_logger_data.m_entry_in_progress = false;
@@ -376,53 +475,42 @@ unit_test_log_t::operator()( log_level l )
 //____________________________________________________________________________//
 
 bool
-unit_test_log_t::log_entry_start(output_format log_format)
+log_entry_start(unit_test_log_data_helper_impl &current_logger_data)
 {
-    BOOST_TEST_FOREACH( unit_test_log_data_helper_impl&, current_logger_data, s_log_impl().m_log_formatter_data ) {
-
-        if( current_logger_data.m_format != log_format )
-            continue;
-
-        if( current_logger_data.m_entry_in_progress )
-            return true;
-
-        if( !current_logger_data.m_enabled )
-            return false;
-
-        switch( s_log_impl().m_entry_data.m_level ) {
-        case log_successful_tests:
-            current_logger_data.m_log_formatter->log_entry_start( current_logger_data.stream(), s_log_impl().m_entry_data,
-                                                  unit_test_log_formatter::BOOST_UTL_ET_INFO );
-            break;
-        case log_messages:
-            current_logger_data.m_log_formatter->log_entry_start( current_logger_data.stream(), s_log_impl().m_entry_data,
-                                                  unit_test_log_formatter::BOOST_UTL_ET_MESSAGE );
-            break;
-        case log_warnings:
-            current_logger_data.m_log_formatter->log_entry_start( current_logger_data.stream(), s_log_impl().m_entry_data,
-                                                  unit_test_log_formatter::BOOST_UTL_ET_WARNING );
-            break;
-        case log_all_errors:
-        case log_cpp_exception_errors:
-        case log_system_errors:
-            current_logger_data.m_log_formatter->log_entry_start( current_logger_data.stream(), s_log_impl().m_entry_data,
-                                                  unit_test_log_formatter::BOOST_UTL_ET_ERROR );
-            break;
-        case log_fatal_errors:
-            current_logger_data.m_log_formatter->log_entry_start( current_logger_data.stream(), s_log_impl().m_entry_data,
-                                                  unit_test_log_formatter::BOOST_UTL_ET_FATAL_ERROR );
-            break;
-        case log_nothing:
-        case log_test_units:
-        case invalid_log_level:
-            return false;
-        }
-
-        current_logger_data.m_entry_in_progress = true;
+    if( current_logger_data.m_entry_in_progress )
         return true;
+
+    switch( s_log_impl().m_entry_data.m_level ) {
+    case log_successful_tests:
+        current_logger_data.m_log_formatter->log_entry_start( current_logger_data.stream(), s_log_impl().m_entry_data,
+                                              unit_test_log_formatter::BOOST_UTL_ET_INFO );
+        break;
+    case log_messages:
+        current_logger_data.m_log_formatter->log_entry_start( current_logger_data.stream(), s_log_impl().m_entry_data,
+                                              unit_test_log_formatter::BOOST_UTL_ET_MESSAGE );
+        break;
+    case log_warnings:
+        current_logger_data.m_log_formatter->log_entry_start( current_logger_data.stream(), s_log_impl().m_entry_data,
+                                              unit_test_log_formatter::BOOST_UTL_ET_WARNING );
+        break;
+    case log_all_errors:
+    case log_cpp_exception_errors:
+    case log_system_errors:
+        current_logger_data.m_log_formatter->log_entry_start( current_logger_data.stream(), s_log_impl().m_entry_data,
+                                              unit_test_log_formatter::BOOST_UTL_ET_ERROR );
+        break;
+    case log_fatal_errors:
+        current_logger_data.m_log_formatter->log_entry_start( current_logger_data.stream(), s_log_impl().m_entry_data,
+                                              unit_test_log_formatter::BOOST_UTL_ET_FATAL_ERROR );
+        break;
+    case log_nothing:
+    case log_test_units:
+    case invalid_log_level:
+        return false;
     }
 
-    return false;
+    current_logger_data.m_entry_in_progress = true;
+    return true;
 }
 
 //____________________________________________________________________________//
@@ -430,10 +518,18 @@ unit_test_log_t::log_entry_start(output_format log_format)
 unit_test_log_t&
 unit_test_log_t::operator<<( const_string value )
 {
-    BOOST_TEST_FOREACH( unit_test_log_data_helper_impl&, current_logger_data, s_log_impl().m_log_formatter_data ) {
-        if( current_logger_data.m_enabled && s_log_impl().m_entry_data.m_level >= current_logger_data.get_log_level() && !value.empty() && log_entry_start(current_logger_data.m_format) )
-            current_logger_data.m_log_formatter->log_entry_value( current_logger_data.stream(), value );
+    if(value.empty()) {
+        return *this;
+    }
 
+    vp_logger_t& vloggers = s_log_impl().m_active_log_formatter_data;
+    for( vp_logger_t::iterator it(vloggers.begin()), ite(vloggers.end()); it < ite; ++it)
+    {
+        unit_test_log_data_helper_impl& current_logger_data = **it;
+        if( s_log_impl().m_entry_data.m_level >= current_logger_data.get_log_level() )
+            if( log_entry_start(current_logger_data) ) {
+                current_logger_data.m_log_formatter->log_entry_value( current_logger_data.stream(), value );
+            }
     }
     return *this;
 }
@@ -443,9 +539,16 @@ unit_test_log_t::operator<<( const_string value )
 unit_test_log_t&
 unit_test_log_t::operator<<( lazy_ostream const& value )
 {
-    BOOST_TEST_FOREACH( unit_test_log_data_helper_impl&, current_logger_data, s_log_impl().m_log_formatter_data ) {
-        if( current_logger_data.m_enabled && s_log_impl().m_entry_data.m_level >= current_logger_data.get_log_level() && !value.empty() ) {
-            if( log_entry_start(current_logger_data.m_format) ) {
+    if(value.empty()) {
+        return *this;
+    }
+
+    vp_logger_t& vloggers = s_log_impl().m_active_log_formatter_data;
+    for( vp_logger_t::iterator it(vloggers.begin()), ite(vloggers.end()); it < ite; ++it)
+    {
+        unit_test_log_data_helper_impl& current_logger_data = **it;
+        if( s_log_impl().m_entry_data.m_level >= current_logger_data.get_log_level() ) {
+            if( log_entry_start(current_logger_data) ) {
                 current_logger_data.m_log_formatter->log_entry_value( current_logger_data.stream(), value );
             }
         }
@@ -456,53 +559,16 @@ unit_test_log_t::operator<<( lazy_ostream const& value )
 //____________________________________________________________________________//
 
 void
-unit_test_log_t::log_entry_context( log_level l )
-{
-    framework::context_generator const& context = framework::get_context();
-    if( context.is_empty() )
-        return;
-
-    const_string frame;
-
-    BOOST_TEST_FOREACH( unit_test_log_data_helper_impl&, current_logger_data, s_log_impl().m_log_formatter_data ) {
-        if( current_logger_data.m_enabled ) {
-            current_logger_data.m_log_formatter->entry_context_start( current_logger_data.stream(), l );
-        }
-    }
-
-    while( !(frame=context.next()).is_empty() )
-    {
-        BOOST_TEST_FOREACH( unit_test_log_data_helper_impl&, current_logger_data, s_log_impl().m_log_formatter_data ) {
-            if( current_logger_data.m_enabled ) {
-                current_logger_data.m_log_formatter->log_entry_context( current_logger_data.stream(), l, frame );
-            }
-        }
-    }
-
-    BOOST_TEST_FOREACH( unit_test_log_data_helper_impl&, current_logger_data, s_log_impl().m_log_formatter_data ) {
-        if( current_logger_data.m_enabled ) {
-            current_logger_data.m_log_formatter->entry_context_finish( current_logger_data.stream(), l );
-        }
-    }
-}
-
-//____________________________________________________________________________//
-
-void
-unit_test_log_t::clear_entry_context()
-{
-    framework::clear_context();
-}
-
-//____________________________________________________________________________//
-
-void
 unit_test_log_t::set_stream( std::ostream& str )
 {
     if( s_log_impl().has_entry_in_progress() )
         return;
 
-    BOOST_TEST_FOREACH( unit_test_log_data_helper_impl&, current_logger_data, s_log_impl().m_log_formatter_data ) {
+    v_logger_t& vloggers = s_log_impl().m_log_formatter_data;
+    for( v_logger_t::iterator it(vloggers.begin()), ite(vloggers.end()); it < ite; ++it)
+    {
+        unit_test_log_data_helper_impl& current_logger_data = *it;
+
         current_logger_data.m_stream = &str;
         current_logger_data.m_stream_state_saver.reset( new io_saver_type( str ) );
     }
@@ -516,7 +582,10 @@ unit_test_log_t::set_stream( output_format log_format, std::ostream& str )
     if( s_log_impl().has_entry_in_progress() )
         return;
 
-    BOOST_TEST_FOREACH( unit_test_log_data_helper_impl&, current_logger_data, s_log_impl().m_log_formatter_data ) {
+    v_logger_t& vloggers = s_log_impl().m_log_formatter_data;
+    for( v_logger_t::iterator it(vloggers.begin()), ite(vloggers.end()); it < ite; ++it)
+    {
+        unit_test_log_data_helper_impl& current_logger_data = *it;
         if( current_logger_data.m_format == log_format) {
             current_logger_data.m_stream = &str;
             current_logger_data.m_stream_state_saver.reset( new io_saver_type( str ) );
@@ -525,33 +594,59 @@ unit_test_log_t::set_stream( output_format log_format, std::ostream& str )
     }
 }
 
-//____________________________________________________________________________//
-
-void
-unit_test_log_t::set_threshold_level( log_level lev )
+std::ostream*
+unit_test_log_t::get_stream( output_format log_format ) const
 {
-    if( s_log_impl().has_entry_in_progress() || lev == invalid_log_level )
-        return;
-
-    BOOST_TEST_FOREACH( unit_test_log_data_helper_impl&, current_logger_data, s_log_impl().m_log_formatter_data ) {
-        current_logger_data.m_log_formatter->set_log_level( lev );
+    v_logger_t& vloggers = s_log_impl().m_log_formatter_data;
+    for( v_logger_t::iterator it(vloggers.begin()), ite(vloggers.end()); it < ite; ++it)
+    {
+        unit_test_log_data_helper_impl& current_logger_data = *it;
+        if( current_logger_data.m_format == log_format) {
+            return current_logger_data.m_stream;
+        }
     }
+    return 0;
 }
 
 //____________________________________________________________________________//
 
-void
+log_level
+unit_test_log_t::set_threshold_level( log_level lev )
+{
+    if( s_log_impl().has_entry_in_progress() || lev == invalid_log_level )
+        return invalid_log_level;
+
+    log_level ret = log_nothing;
+    v_logger_t& vloggers = s_log_impl().m_log_formatter_data;
+    for( v_logger_t::iterator it(vloggers.begin()), ite(vloggers.end()); it < ite; ++it)
+    {
+        unit_test_log_data_helper_impl& current_logger_data = *it;
+        ret = (std::min)(ret, current_logger_data.m_log_formatter->get_log_level());
+        current_logger_data.m_log_formatter->set_log_level( lev );
+    }
+    return ret;
+}
+
+//____________________________________________________________________________//
+
+log_level
 unit_test_log_t::set_threshold_level( output_format log_format, log_level lev )
 {
     if( s_log_impl().has_entry_in_progress() || lev == invalid_log_level )
-        return;
+        return invalid_log_level;
 
-    BOOST_TEST_FOREACH( unit_test_log_data_helper_impl&, current_logger_data, s_log_impl().m_log_formatter_data ) {
+    log_level ret = log_nothing;
+    v_logger_t& vloggers = s_log_impl().m_log_formatter_data;
+    for( v_logger_t::iterator it(vloggers.begin()), ite(vloggers.end()); it < ite; ++it)
+    {
+        unit_test_log_data_helper_impl& current_logger_data = *it;
         if( current_logger_data.m_format == log_format) {
+            ret = current_logger_data.m_log_formatter->get_log_level(); 
             current_logger_data.m_log_formatter->set_log_level( lev );
             break;
         }
     }
+    return ret;
 }
 
 //____________________________________________________________________________//
@@ -562,7 +657,10 @@ unit_test_log_t::set_format( output_format log_format )
     if( s_log_impl().has_entry_in_progress() )
         return;
 
-    BOOST_TEST_FOREACH( unit_test_log_data_helper_impl&, current_logger_data, s_log_impl().m_log_formatter_data ) {
+    v_logger_t& vloggers = s_log_impl().m_log_formatter_data;
+    for( v_logger_t::iterator it(vloggers.begin()), ite(vloggers.end()); it < ite; ++it)
+    {
+        unit_test_log_data_helper_impl& current_logger_data = *it;
         current_logger_data.m_enabled = current_logger_data.m_format == log_format;
     }
 }
@@ -575,7 +673,10 @@ unit_test_log_t::add_format( output_format log_format )
     if( s_log_impl().has_entry_in_progress() )
         return;
 
-    BOOST_TEST_FOREACH( unit_test_log_data_helper_impl&, current_logger_data, s_log_impl().m_log_formatter_data ) {
+    v_logger_t& vloggers = s_log_impl().m_log_formatter_data;
+    for( v_logger_t::iterator it(vloggers.begin()), ite(vloggers.end()); it < ite; ++it)
+    {
+        unit_test_log_data_helper_impl& current_logger_data = *it;
         if( current_logger_data.m_format == log_format) {
             current_logger_data.m_enabled = true;
             break;
@@ -587,7 +688,11 @@ unit_test_log_t::add_format( output_format log_format )
 
 unit_test_log_formatter*
 unit_test_log_t::get_formatter( output_format log_format ) {
-    BOOST_TEST_FOREACH( unit_test_log_data_helper_impl&, current_logger_data, s_log_impl().m_log_formatter_data ) {
+    
+    v_logger_t& vloggers = s_log_impl().m_log_formatter_data;
+    for( v_logger_t::iterator it(vloggers.begin()), ite(vloggers.end()); it < ite; ++it)
+    {
+        unit_test_log_data_helper_impl& current_logger_data = *it;
         if( current_logger_data.m_format == log_format) {
             return current_logger_data.m_log_formatter.get();
         }
@@ -600,10 +705,8 @@ void
 unit_test_log_t::add_formatter( unit_test_log_formatter* the_formatter )
 {
     // remove only user defined logger
-    for(unit_test_log_impl::v_formatter_data_t::iterator it(s_log_impl().m_log_formatter_data.begin()),
-            ite(s_log_impl().m_log_formatter_data.end());
-        it != ite;
-        ++it)
+    v_logger_t& vloggers = s_log_impl().m_log_formatter_data;
+    for(v_logger_t::iterator it(vloggers.begin()), ite(vloggers.end()); it < ite; ++it)
     {
         if( it->m_format == OF_CUSTOM_LOGGER) {
             s_log_impl().m_log_formatter_data.erase(it);
@@ -612,21 +715,23 @@ unit_test_log_t::add_formatter( unit_test_log_formatter* the_formatter )
     }
 
     if( the_formatter ) {
-        s_log_impl().m_log_formatter_data.push_back( unit_test_log_data_helper_impl(the_formatter, OF_CUSTOM_LOGGER, true) );
+        s_log_impl().m_active_log_formatter_data.clear(); // otherwise dandling references
+        vloggers.push_back( unit_test_log_data_helper_impl(the_formatter, OF_CUSTOM_LOGGER, true) );
     }
 }
 
 void
 unit_test_log_t::set_formatter( unit_test_log_formatter* the_formatter )
 {
+    if( s_log_impl().has_entry_in_progress() )
+        return;
+
     // remove only user defined logger
     log_level current_level = invalid_log_level;
     std::ostream *current_stream = 0;
     output_format previous_format = OF_INVALID;
-    for(unit_test_log_impl::v_formatter_data_t::iterator it(s_log_impl().m_log_formatter_data.begin()),
-            ite(s_log_impl().m_log_formatter_data.end());
-        it != ite;
-        ++it)
+    v_logger_t& vloggers = s_log_impl().m_log_formatter_data;
+    for(v_logger_t::iterator it(vloggers.begin()), ite(vloggers.end()); it < ite; ++it)
     {
         if( it->m_enabled ) {
             if( current_level == invalid_log_level || it->m_format < previous_format || it->m_format == OF_CUSTOM_LOGGER) {
@@ -643,6 +748,8 @@ unit_test_log_t::set_formatter( unit_test_log_formatter* the_formatter )
         set_threshold_level(OF_CUSTOM_LOGGER, current_level);
         set_stream(OF_CUSTOM_LOGGER, *current_stream);
     }
+
+    configure();
 }
 
 //____________________________________________________________________________//

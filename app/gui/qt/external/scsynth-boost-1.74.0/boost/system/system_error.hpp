@@ -8,10 +8,10 @@
 #ifndef BOOST_SYSTEM_SYSTEM_ERROR_HPP
 #define BOOST_SYSTEM_SYSTEM_ERROR_HPP
 
+#include <boost/system/error_code.hpp>
 #include <string>
 #include <stdexcept>
 #include <cassert>
-#include <boost/system/error_code.hpp>
 
 namespace boost
 {
@@ -24,7 +24,7 @@ namespace boost
     // library can be caught. See svn.boost.org/trac/boost/ticket/3697
     {
     public:
-      system_error( error_code ec )
+      explicit system_error( error_code ec )
           : std::runtime_error(""), m_error_code(ec) {}
 
       system_error( error_code ec, const std::string & what_arg )
@@ -46,8 +46,8 @@ namespace boost
 
       virtual ~system_error() BOOST_NOEXCEPT_OR_NOTHROW {}
 
-      const error_code &  code() const BOOST_NOEXCEPT_OR_NOTHROW { return m_error_code; }
-      const char *        what() const BOOST_NOEXCEPT_OR_NOTHROW;
+      error_code code() const BOOST_NOEXCEPT { return m_error_code; }
+      const char * what() const BOOST_NOEXCEPT_OR_NOTHROW BOOST_OVERRIDE;
 
     private:
       error_code           m_error_code;

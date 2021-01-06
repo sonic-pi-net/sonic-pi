@@ -13,7 +13,7 @@
 
 #include <boost/algorithm/string/config.hpp>
 #include <boost/algorithm/string/constants.hpp>
-#include <boost/detail/iterator.hpp>
+#include <iterator>
 
 #include <boost/range/iterator_range_core.hpp>
 #include <boost/range/begin.hpp>
@@ -127,8 +127,8 @@ namespace boost {
                     if( boost::empty(m_Search) )
                         return result_type( End, End );
 
-                    typedef BOOST_STRING_TYPENAME boost::detail::
-                        iterator_traits<ForwardIteratorT>::iterator_category category;
+                    typedef BOOST_STRING_TYPENAME
+                        std::iterator_traits<ForwardIteratorT>::iterator_category category;
 
                     return findit( Begin, End, category() );
                 }
@@ -344,9 +344,8 @@ namespace boost {
                 typedef iterator_range<ForwardIteratorT> result_type;
 
                 input_iterator_type It=Begin;
-                for(
-                    unsigned int Index=0;
-                    Index<N && It!=End; ++Index,++It ) {};
+                for( unsigned int Index=0; Index<N && It!=End; ++Index,++It )
+                    ;
 
                 return result_type( Begin, It );
             }
@@ -375,8 +374,8 @@ namespace boost {
                 ForwardIteratorT End,
                 unsigned int N )
             {
-                typedef BOOST_STRING_TYPENAME boost::detail::
-                    iterator_traits<ForwardIteratorT>::iterator_category category;
+                typedef BOOST_STRING_TYPENAME
+                    std::iterator_traits<ForwardIteratorT>::iterator_category category;
 
                 return ::boost::algorithm::detail::find_head_impl( Begin, End, N, category() );
             }
@@ -397,10 +396,12 @@ namespace boost {
                 input_iterator_type It2=Begin;
 
                 // Advance It2 by N increments
-                for( Index=0; Index<N && It2!=End; ++Index,++It2 ) {};
+                for( Index=0; Index<N && It2!=End; ++Index,++It2 )
+                    ;
 
                 // Advance It, It2 to the end
-                for(; It2!=End; ++It,++It2 ) {};
+                for(; It2!=End; ++It,++It2 )
+                	;
 
                 return result_type( It, It2 );
             }
@@ -417,9 +418,8 @@ namespace boost {
                 typedef iterator_range<ForwardIteratorT> result_type;
 
                 input_iterator_type It=End;
-                for(
-                    unsigned int Index=0;
-                    Index<N && It!=Begin; ++Index,--It ) {};
+                for( unsigned int Index=0; Index<N && It!=Begin; ++Index,--It )
+                    ;
 
                 return result_type( It, End );
             }
@@ -448,8 +448,8 @@ namespace boost {
                 ForwardIteratorT End,
                 unsigned int N )
             {
-                typedef BOOST_STRING_TYPENAME boost::detail::
-                    iterator_traits<ForwardIteratorT>::iterator_category category;
+                typedef BOOST_STRING_TYPENAME
+                    std::iterator_traits<ForwardIteratorT>::iterator_category category;
 
                 return ::boost::algorithm::detail::find_tail_impl( Begin, End, N, category() );
             }

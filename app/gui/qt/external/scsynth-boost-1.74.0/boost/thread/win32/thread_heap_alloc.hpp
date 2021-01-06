@@ -12,7 +12,7 @@
 #include <boost/throw_exception.hpp>
 #include <boost/core/no_exceptions_support.hpp>
 
-#include <boost/detail/winapi/heap_memory.hpp>
+#include <boost/winapi/heap_memory.hpp>
 
 #include <boost/config/abi_prefix.hpp>
 
@@ -22,7 +22,7 @@ namespace boost
     {
         inline void* allocate_raw_heap_memory(unsigned size)
         {
-            void* const heap_memory=detail::winapi::HeapAlloc(detail::winapi::GetProcessHeap(),0,size);
+            void* const heap_memory=winapi::HeapAlloc(winapi::GetProcessHeap(),0,size);
             if(!heap_memory)
             {
                 boost::throw_exception(std::bad_alloc());
@@ -32,7 +32,7 @@ namespace boost
 
         inline void free_raw_heap_memory(void* heap_memory)
         {
-            BOOST_VERIFY(detail::winapi::HeapFree(detail::winapi::GetProcessHeap(),0,heap_memory)!=0);
+            BOOST_VERIFY(winapi::HeapFree(winapi::GetProcessHeap(),0,heap_memory)!=0);
         }
 #if defined(BOOST_THREAD_PROVIDES_VARIADIC_THREAD) && ! defined (BOOST_NO_CXX11_RVALUE_REFERENCES)
         template<typename T,typename... Args>

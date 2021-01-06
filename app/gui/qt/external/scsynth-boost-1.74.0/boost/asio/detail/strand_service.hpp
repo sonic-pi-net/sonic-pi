@@ -2,7 +2,7 @@
 // detail/strand_service.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2017 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -109,8 +109,11 @@ private:
       operation* base, const boost::system::error_code& ec,
       std::size_t bytes_transferred);
 
+  // The io_context used to obtain an I/O executor.
+  io_context& io_context_;
+
   // The io_context implementation used to post completions.
-  io_context_impl& io_context_;
+  io_context_impl& io_context_impl_;
 
   // Mutex to protect access to the array of implementations.
   boost::asio::detail::mutex mutex_;

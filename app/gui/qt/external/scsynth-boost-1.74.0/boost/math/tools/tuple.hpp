@@ -7,6 +7,7 @@
 #  define BOOST_MATH_TUPLE_HPP_INCLUDED
 #  include <boost/config.hpp>
 #  include <boost/detail/workaround.hpp>
+#  include <boost/math/tools/cxx03_warn.hpp>
 
 #if !defined(BOOST_NO_CXX11_HDR_TUPLE) && !BOOST_WORKAROUND(BOOST_GCC_VERSION, < 40500)
 

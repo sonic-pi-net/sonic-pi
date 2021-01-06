@@ -2,7 +2,7 @@
 // ip/impl/address.ipp
 // ~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2017 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -30,28 +30,30 @@ namespace boost {
 namespace asio {
 namespace ip {
 
-address::address()
+address::address() BOOST_ASIO_NOEXCEPT
   : type_(ipv4),
     ipv4_address_(),
     ipv6_address_()
 {
 }
 
-address::address(const boost::asio::ip::address_v4& ipv4_address)
+address::address(
+    const boost::asio::ip::address_v4& ipv4_address) BOOST_ASIO_NOEXCEPT
   : type_(ipv4),
     ipv4_address_(ipv4_address),
     ipv6_address_()
 {
 }
 
-address::address(const boost::asio::ip::address_v6& ipv6_address)
+address::address(
+    const boost::asio::ip::address_v6& ipv6_address) BOOST_ASIO_NOEXCEPT
   : type_(ipv6),
     ipv4_address_(),
     ipv6_address_(ipv6_address)
 {
 }
 
-address::address(const address& other)
+address::address(const address& other) BOOST_ASIO_NOEXCEPT
   : type_(other.type_),
     ipv4_address_(other.ipv4_address_),
     ipv6_address_(other.ipv6_address_)
@@ -59,7 +61,7 @@ address::address(const address& other)
 }
 
 #if defined(BOOST_ASIO_HAS_MOVE)
-address::address(address&& other)
+address::address(address&& other) BOOST_ASIO_NOEXCEPT
   : type_(other.type_),
     ipv4_address_(other.ipv4_address_),
     ipv6_address_(other.ipv6_address_)
@@ -67,7 +69,7 @@ address::address(address&& other)
 }
 #endif // defined(BOOST_ASIO_HAS_MOVE)
 
-address& address::operator=(const address& other)
+address& address::operator=(const address& other) BOOST_ASIO_NOEXCEPT
 {
   type_ = other.type_;
   ipv4_address_ = other.ipv4_address_;
@@ -76,7 +78,7 @@ address& address::operator=(const address& other)
 }
 
 #if defined(BOOST_ASIO_HAS_MOVE)
-address& address::operator=(address&& other)
+address& address::operator=(address&& other) BOOST_ASIO_NOEXCEPT
 {
   type_ = other.type_;
   ipv4_address_ = other.ipv4_address_;
@@ -85,7 +87,8 @@ address& address::operator=(address&& other)
 }
 #endif // defined(BOOST_ASIO_HAS_MOVE)
 
-address& address::operator=(const boost::asio::ip::address_v4& ipv4_address)
+address& address::operator=(
+    const boost::asio::ip::address_v4& ipv4_address) BOOST_ASIO_NOEXCEPT
 {
   type_ = ipv4;
   ipv4_address_ = ipv4_address;
@@ -93,7 +96,8 @@ address& address::operator=(const boost::asio::ip::address_v4& ipv4_address)
   return *this;
 }
 
-address& address::operator=(const boost::asio::ip::address_v6& ipv6_address)
+address& address::operator=(
+    const boost::asio::ip::address_v6& ipv6_address) BOOST_ASIO_NOEXCEPT
 {
   type_ = ipv6;
   ipv4_address_ = boost::asio::ip::address_v4();
@@ -109,7 +113,8 @@ address make_address(const char* str)
   return addr;
 }
 
-address make_address(const char* str, boost::system::error_code& ec)
+address make_address(const char* str,
+    boost::system::error_code& ec) BOOST_ASIO_NOEXCEPT
 {
   boost::asio::ip::address_v6 ipv6_address =
     boost::asio::ip::make_address_v6(str, ec);
@@ -130,12 +135,12 @@ address make_address(const std::string& str)
 }
 
 address make_address(const std::string& str,
-    boost::system::error_code& ec)
+    boost::system::error_code& ec) BOOST_ASIO_NOEXCEPT
 {
   return make_address(str.c_str(), ec);
 }
 
-#if defined(BOOST_ASIO_HAS_STD_STRING_VIEW)
+#if defined(BOOST_ASIO_HAS_STRING_VIEW)
 
 address make_address(string_view str)
 {
@@ -143,12 +148,12 @@ address make_address(string_view str)
 }
 
 address make_address(string_view str,
-    boost::system::error_code& ec)
+    boost::system::error_code& ec) BOOST_ASIO_NOEXCEPT
 {
   return make_address(static_cast<std::string>(str), ec);
 }
 
-#endif // defined(BOOST_ASIO_HAS_STD_STRING_VIEW)
+#endif // defined(BOOST_ASIO_HAS_STRING_VIEW)
 
 boost::asio::ip::address_v4 address::to_v4() const
 {
@@ -186,28 +191,28 @@ std::string address::to_string(boost::system::error_code& ec) const
 }
 #endif // !defined(BOOST_ASIO_NO_DEPRECATED)
 
-bool address::is_loopback() const
+bool address::is_loopback() const BOOST_ASIO_NOEXCEPT
 {
   return (type_ == ipv4)
     ? ipv4_address_.is_loopback()
     : ipv6_address_.is_loopback();
 }
 
-bool address::is_unspecified() const
+bool address::is_unspecified() const BOOST_ASIO_NOEXCEPT
 {
   return (type_ == ipv4)
     ? ipv4_address_.is_unspecified()
     : ipv6_address_.is_unspecified();
 }
 
-bool address::is_multicast() const
+bool address::is_multicast() const BOOST_ASIO_NOEXCEPT
 {
   return (type_ == ipv4)
     ? ipv4_address_.is_multicast()
     : ipv6_address_.is_multicast();
 }
 
-bool operator==(const address& a1, const address& a2)
+bool operator==(const address& a1, const address& a2) BOOST_ASIO_NOEXCEPT
 {
   if (a1.type_ != a2.type_)
     return false;
@@ -216,7 +221,7 @@ bool operator==(const address& a1, const address& a2)
   return a1.ipv4_address_ == a2.ipv4_address_;
 }
 
-bool operator<(const address& a1, const address& a2)
+bool operator<(const address& a1, const address& a2) BOOST_ASIO_NOEXCEPT
 {
   if (a1.type_ < a2.type_)
     return true;

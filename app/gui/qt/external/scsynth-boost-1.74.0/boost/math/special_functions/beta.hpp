@@ -121,7 +121,7 @@ T beta_imp(T a, T b, const Lanczos&, const Policy& pol)
 // (Caution this is slow!!!):
 //
 template <class T, class Policy>
-T beta_imp(T a, T b, const lanczos::undefined_lanczos& /* l */, const Policy& pol)
+T beta_imp(T a, T b, const lanczos::undefined_lanczos& l, const Policy& pol)
 {
    BOOST_MATH_STD_USING
 
@@ -130,60 +130,65 @@ T beta_imp(T a, T b, const lanczos::undefined_lanczos& /* l */, const Policy& po
    if(b <= 0)
       return policies::raise_domain_error<T>("boost::math::beta<%1%>(%1%,%1%)", "The arguments to the beta function must be greater than zero (got b=%1%).", b, pol);
 
-   T result;
+   const T c = a + b;
 
-   T prefix = 1;
-   T c = a + b;
-
-   // special cases:
-   if((c == a) && (b < tools::epsilon<T>()))
-      return boost::math::tgamma(b, pol);
-   else if((c == b) && (a < tools::epsilon<T>()))
-      return boost::math::tgamma(a, pol);
-   if(b == 1)
-      return 1/a;
-   else if(a == 1)
-      return 1/b;
-
-   // shift to a and b > 1 if required:
-   if(a < 1)
+   // Special cases:
+   if ((c == a) && (b < tools::epsilon<T>()))
+      return 1 / b;
+   else if ((c == b) && (a < tools::epsilon<T>()))
+      return 1 / a;
+   if (b == 1)
+      return 1 / a;
+   else if (a == 1)
+      return 1 / b;
+   else if (c < tools::epsilon<T>())
    {
-      prefix *= c / a;
-      c += 1;
-      a += 1;
+      T result = c / a;
+      result /= b;
+      return result;
    }
-   if(b < 1)
+
+   // Regular cases start here:
+   const T min_sterling = minimum_argument_for_bernoulli_recursion<T>();
+
+   long shift_a = 0;
+   long shift_b = 0;
+
+   if(a < min_sterling)
+      shift_a = 1 + ltrunc(min_sterling - a);
+   if(b < min_sterling)
+      shift_b = 1 + ltrunc(min_sterling - b);
+   long shift_c = shift_a + shift_b;
+
+   if ((shift_a == 0) && (shift_b == 0))
    {
-      prefix *= c / b;
-      c += 1;
-      b += 1;
+      return pow(a / c, a) * pow(b / c, b) * scaled_tgamma_no_lanczos(a, pol) * scaled_tgamma_no_lanczos(b, pol) / scaled_tgamma_no_lanczos(c, pol);
    }
-   if(a < b)
-      std::swap(a, b);
+   else if ((a < 1) && (b < 1))
+   {
+      return boost::math::tgamma(a, pol) * (boost::math::tgamma(b, pol) / boost::math::tgamma(c));
+   }
+   else if(a < 1)
+      return boost::math::tgamma(a, pol) * boost::math::tgamma_delta_ratio(b, a, pol);
+   else if(b < 1)
+      return boost::math::tgamma(b, pol) * boost::math::tgamma_delta_ratio(a, b, pol);
+   else
+   {
+      T result = beta_imp(T(a + shift_a), T(b + shift_b), l, pol);
+      //
+      // Recursion:
+      //
+      for (long i = 0; i < shift_c; ++i)
+      {
+         result *= c + i;
+         if (i < shift_a)
+            result /= a + i;
+         if (i < shift_b)
+            result /= b + i;
+      }
+      return result;
+   }
 
-   // set integration limits:
-   T la = (std::max)(T(10), a);
-   T lb = (std::max)(T(10), b);
-   T lc = (std::max)(T(10), T(a+b));
-
-   // calculate the fraction parts:
-   T sa = detail::lower_gamma_series(a, la, pol) / a;
-   sa += detail::upper_gamma_fraction(a, la, ::boost::math::policies::get_epsilon<T, Policy>());
-   T sb = detail::lower_gamma_series(b, lb, pol) / b;
-   sb += detail::upper_gamma_fraction(b, lb, ::boost::math::policies::get_epsilon<T, Policy>());
-   T sc = detail::lower_gamma_series(c, lc, pol) / c;
-   sc += detail::upper_gamma_fraction(c, lc, ::boost::math::policies::get_epsilon<T, Policy>());
-
-   // and the exponent part:
-   result = exp(lc - la - lb) * pow(la/lc, a) * pow(lb/lc, b);
-
-   // and combine:
-   result *= sa * sb / sc;
-
-   // if a and b were originally less than 1 we need to scale the result:
-   result *= prefix;
-
-   return result;
 } // template <class T>T beta_imp(T a, T b, const lanczos::undefined_lanczos& l)
 
 
@@ -241,16 +246,16 @@ T ibeta_power_terms(T a,
       if((l1 * l2 > 0) || ((std::min)(a, b) < 1))
       {
          //
-         // This first branch handles the simple cases where either: 
+         // This first branch handles the simple cases where either:
          //
-         // * The two power terms both go in the same direction 
-         // (towards zero or towards infinity).  In this case if either 
-         // term overflows or underflows, then the product of the two must 
-         // do so also.  
-         // *Alternatively if one exponent is less than one, then we 
-         // can't productively use it to eliminate overflow or underflow 
-         // from the other term.  Problems with spurious overflow/underflow 
-         // can't be ruled out in this case, but it is *very* unlikely 
+         // * The two power terms both go in the same direction
+         // (towards zero or towards infinity).  In this case if either
+         // term overflows or underflows, then the product of the two must
+         // do so also.
+         // *Alternatively if one exponent is less than one, then we
+         // can't productively use it to eliminate overflow or underflow
+         // from the other term.  Problems with spurious overflow/underflow
+         // can't be ruled out in this case, but it is *very* unlikely
          // since one of the power terms will evaluate to a number close to 1.
          //
          if(fabs(l1) < 0.1)
@@ -277,10 +282,10 @@ T ibeta_power_terms(T a,
       else if((std::max)(fabs(l1), fabs(l2)) < 0.5)
       {
          //
-         // Both exponents are near one and both the exponents are 
-         // greater than one and further these two 
-         // power terms tend in opposite directions (one towards zero, 
-         // the other towards infinity), so we have to combine the terms 
+         // Both exponents are near one and both the exponents are
+         // greater than one and further these two
+         // power terms tend in opposite directions (one towards zero,
+         // the other towards infinity), so we have to combine the terms
          // to avoid any risk of overflow or underflow.
          //
          // We do this by moving one power term inside the other, we have:
@@ -431,9 +436,9 @@ T ibeta_power_terms(T a,
                         T b,
                         T x,
                         T y,
-                        const boost::math::lanczos::undefined_lanczos&,
+                        const boost::math::lanczos::undefined_lanczos& l,
                         bool normalised,
-                        const Policy& pol, 
+                        const Policy& pol,
                         T prefix = 1,
                         const char* = "boost::math::ibeta<%1%>(%1%, %1%, %1%)")
 {
@@ -441,65 +446,79 @@ T ibeta_power_terms(T a,
 
    if(!normalised)
    {
-      return pow(x, a) * pow(y, b);
+      return prefix * pow(x, a) * pow(y, b);
    }
-
-   T result= 0; // assignment here silences warnings later
 
    T c = a + b;
 
-   // integration limits for the gamma functions:
-   //T la = (std::max)(T(10), a);
-   //T lb = (std::max)(T(10), b);
-   //T lc = (std::max)(T(10), a+b);
-   T la = a + 5;
-   T lb = b + 5;
-   T lc = a + b + 5;
-   // gamma function partials:
-   T sa = detail::lower_gamma_series(a, la, pol) / a;
-   sa += detail::upper_gamma_fraction(a, la, ::boost::math::policies::get_epsilon<T, Policy>());
-   T sb = detail::lower_gamma_series(b, lb, pol) / b;
-   sb += detail::upper_gamma_fraction(b, lb, ::boost::math::policies::get_epsilon<T, Policy>());
-   T sc = detail::lower_gamma_series(c, lc, pol) / c;
-   sc += detail::upper_gamma_fraction(c, lc, ::boost::math::policies::get_epsilon<T, Policy>());
-   // gamma function powers combined with incomplete beta powers:
+   const T min_sterling = minimum_argument_for_bernoulli_recursion<T>();
 
-   T b1 = (x * lc) / la;
-   T b2 = (y * lc) / lb;
-   T e1 = -5; // lc - la - lb;
-   T lb1 = a * log(b1);
-   T lb2 = b * log(b2);
+   long shift_a = 0;
+   long shift_b = 0;
 
-   if((lb1 >= tools::log_max_value<T>())
-      || (lb1 <= tools::log_min_value<T>())
-      || (lb2 >= tools::log_max_value<T>())
-      || (lb2 <= tools::log_min_value<T>())
-      || (e1 >= tools::log_max_value<T>())
-      || (e1 <= tools::log_min_value<T>())
-      )
+   if (a < min_sterling)
+      shift_a = 1 + ltrunc(min_sterling - a);
+   if (b < min_sterling)
+      shift_b = 1 + ltrunc(min_sterling - b);
+
+   if ((shift_a == 0) && (shift_b == 0))
    {
-      result = exp(lb1 + lb2 - e1 + log(prefix));
-   }
-   else
-   {
-      T p1, p2;
-      p1 = (x * b - y * la) / la;
-      if(fabs(p1) < 0.5f)
-         p1 = exp(a * boost::math::log1p(p1, pol));
+      T power1, power2;
+      if (a < b)
+      {
+         power1 = pow((x * y * c * c) / (a * b), a);
+         power2 = pow((y * c) / b, b - a);
+      }
       else
-         p1 = pow(b1, a);
-      p2 = (y * a - x * lb) / lb;
-      if(fabs(p2) < 0.5f)
-         p2 = exp(b * boost::math::log1p(p2, pol));
-      else
-         p2 = pow(b2, b);
-      T p3 = exp(e1);
-      result = prefix * p1 * (p2 / p3);
+      {
+         power1 = pow((x * y * c * c) / (a * b), b);
+         power2 = pow((x * c) / a, a - b);
+      }
+      if (!(boost::math::isnormal)(power1) || !(boost::math::isnormal)(power2))
+      {
+         // We have to use logs :(
+         return prefix * exp(a * log(x * c / a) + b * log(y * c / b)) * scaled_tgamma_no_lanczos(c, pol) / (scaled_tgamma_no_lanczos(a, pol) * scaled_tgamma_no_lanczos(b, pol));
+      }
+      return prefix * power1 * power2 * scaled_tgamma_no_lanczos(c, pol) / (scaled_tgamma_no_lanczos(a, pol) * scaled_tgamma_no_lanczos(b, pol));
    }
-   // and combine with the remaining gamma function components:
-   result /= sa * sb / sc;
 
-   return result;
+   T power1 = pow(x, a);
+   T power2 = pow(y, b);
+   T bet = beta_imp(a, b, l, pol);
+
+   if(!(boost::math::isnormal)(power1) || !(boost::math::isnormal)(power2) || !(boost::math::isnormal)(bet))
+   {
+      int shift_c = shift_a + shift_b;
+      T result = ibeta_power_terms(T(a + shift_a), T(b + shift_b), x, y, l, normalised, pol, prefix);
+      if ((boost::math::isnormal)(result))
+      {
+         for (int i = 0; i < shift_c; ++i)
+         {
+            result /= c + i;
+               if (i < shift_a)
+               {
+                  result *= a + i;
+                     result /= x;
+               }
+            if (i < shift_b)
+            {
+               result *= b + i;
+               result /= y;
+            }
+         }
+         return prefix * result;
+      }
+      else
+      {
+         T log_result = log(x) * a + log(y) * b + log(prefix);
+         if ((boost::math::isnormal)(bet))
+            log_result -= log(bet);
+         else
+            log_result += boost::math::lgamma(c, pol) - boost::math::lgamma(a) - boost::math::lgamma(c, pol);
+         return exp(log_result);
+      }
+   }
+   return prefix * power1 * (power2 / bet);
 }
 //
 // Series approximation to the incomplete beta:
@@ -593,7 +612,7 @@ T ibeta_series(T a, T b, T x, T s0, const Lanczos&, bool normalised, T* p_deriva
 // Incomplete Beta series again, this time without Lanczos support:
 //
 template <class T, class Policy>
-T ibeta_series(T a, T b, T x, T s0, const boost::math::lanczos::undefined_lanczos&, bool normalised, T* p_derivative, T y, const Policy& pol)
+T ibeta_series(T a, T b, T x, T s0, const boost::math::lanczos::undefined_lanczos& l, bool normalised, T* p_derivative, T y, const Policy& pol)
 {
    BOOST_MATH_STD_USING
 
@@ -602,53 +621,35 @@ T ibeta_series(T a, T b, T x, T s0, const boost::math::lanczos::undefined_lanczo
 
    if(normalised)
    {
+      const T min_sterling = minimum_argument_for_bernoulli_recursion<T>();
+
+      long shift_a = 0;
+      long shift_b = 0;
+
+      if (a < min_sterling)
+         shift_a = 1 + ltrunc(min_sterling - a);
+      if (b < min_sterling)
+         shift_b = 1 + ltrunc(min_sterling - b);
+
       T c = a + b;
 
-      // figure out integration limits for the gamma function:
-      //T la = (std::max)(T(10), a);
-      //T lb = (std::max)(T(10), b);
-      //T lc = (std::max)(T(10), a+b);
-      T la = a + 5;
-      T lb = b + 5;
-      T lc = a + b + 5;
-
-      // calculate the gamma parts:
-      T sa = detail::lower_gamma_series(a, la, pol) / a;
-      sa += detail::upper_gamma_fraction(a, la, ::boost::math::policies::get_epsilon<T, Policy>());
-      T sb = detail::lower_gamma_series(b, lb, pol) / b;
-      sb += detail::upper_gamma_fraction(b, lb, ::boost::math::policies::get_epsilon<T, Policy>());
-      T sc = detail::lower_gamma_series(c, lc, pol) / c;
-      sc += detail::upper_gamma_fraction(c, lc, ::boost::math::policies::get_epsilon<T, Policy>());
-
-      // and their combined power-terms:
-      T b1 = (x * lc) / la;
-      T b2 = lc/lb;
-      T e1 = lc - la - lb;
-      T lb1 = a * log(b1);
-      T lb2 = b * log(b2);
-
-      if((lb1 >= tools::log_max_value<T>())
-         || (lb1 <= tools::log_min_value<T>())
-         || (lb2 >= tools::log_max_value<T>())
-         || (lb2 <= tools::log_min_value<T>())
-         || (e1 >= tools::log_max_value<T>())
-         || (e1 <= tools::log_min_value<T>()) )
+      if ((shift_a == 0) && (shift_b == 0))
       {
-         T p = lb1 + lb2 - e1;
-         result = exp(p);
+         result = pow(x * c / a, a) * pow(c / b, b) * scaled_tgamma_no_lanczos(c, pol) / (scaled_tgamma_no_lanczos(a, pol) * scaled_tgamma_no_lanczos(b, pol));
       }
+      else if ((a < 1) && (b > 1))
+         result = pow(x, a) / (boost::math::tgamma(a, pol) * boost::math::tgamma_delta_ratio(b, a, pol));
       else
       {
-         result = pow(b1, a);
-         if(a * b < lb * 10)
-            result *= exp(b * boost::math::log1p(a / lb, pol));
+         T power = pow(x, a);
+         T bet = beta_imp(a, b, l, pol);
+         if (!(boost::math::isnormal)(power) || !(boost::math::isnormal)(bet))
+         {
+            result = exp(a * log(x) + boost::math::lgamma(c, pol) - boost::math::lgamma(a, pol) - boost::math::lgamma(b, pol));
+         }
          else
-            result *= pow(b2, b);
-         result /= exp(e1);
+            result = power / bet;
       }
-      // and combine the results:
-      result /= sa * sb / sc;
-
       if(p_derivative)
       {
          *p_derivative = result * pow(y, b);
@@ -781,7 +782,7 @@ inline T rising_factorial_ratio(T a, T b, int k)
 // Routine for a > 15, b < 1
 //
 // Begin by figuring out how large our table of Pn's should be,
-// quoted accuracies are "guestimates" based on empiracal observation.
+// quoted accuracies are "guesstimates" based on empirical observation.
 // Note that the table size should never exceed the size of our
 // tables of factorials.
 //
@@ -790,8 +791,11 @@ struct Pn_size
 {
    // This is likely to be enough for ~35-50 digit accuracy
    // but it's hard to quantify exactly:
-   BOOST_STATIC_CONSTANT(unsigned, value = 50);
-   BOOST_STATIC_ASSERT(::boost::math::max_factorial<T>::value >= 100);
+   BOOST_STATIC_CONSTANT(unsigned, value =
+      ::boost::math::max_factorial<T>::value >= 100 ? 50
+   : ::boost::math::max_factorial<T>::value >= ::boost::math::max_factorial<double>::value ? 30
+   : ::boost::math::max_factorial<T>::value >= ::boost::math::max_factorial<float>::value ? 15 : 1);
+   BOOST_STATIC_ASSERT(::boost::math::max_factorial<T>::value >= ::boost::math::max_factorial<float>::value);
 };
 template <>
 struct Pn_size<float>
@@ -846,7 +850,7 @@ T beta_small_b_large_a_series(T a, T b, T x, T y, T s0, T mult, const Policy& po
    }
    prefix *= mult;
    //
-   // now we need the quantity Pn, unfortunatately this is computed
+   // now we need the quantity Pn, unfortunately this is computed
    // recursively, and requires a full history of all the previous values
    // so no choice but to declare a big table and hope it's big enough...
    //
@@ -950,7 +954,7 @@ T binomial_ccdf(T n, T k, T x, T y)
       result = pow(x, start) * pow(y, n - start) * boost::math::binomial_coefficient<T>(itrunc(n), itrunc(start));
       if(result == 0)
       {
-         // OK, starting slightly above the mode didn't work, 
+         // OK, starting slightly above the mode didn't work,
          // we'll have to sum the terms the old fashioned way:
          for(unsigned i = start - 1; i > k; --i)
          {
@@ -981,7 +985,7 @@ T binomial_ccdf(T n, T k, T x, T y)
 
 //
 // The incomplete beta function implementation:
-// This is just a big bunch of spagetti code to divide up the
+// This is just a big bunch of spaghetti code to divide up the
 // input range and select the right implementation method for
 // each domain:
 //
@@ -1083,7 +1087,7 @@ T ibeta_imp(T a, T b, T x, const Policy& pol, bool inv, bool normalised, T* p_de
             *p_derivative = 1;
          return invert ? y : x;
       }
-      
+
       if(p_derivative)
       {
          *p_derivative = a * pow(x, a - 1);
@@ -1276,7 +1280,7 @@ T ibeta_imp(T a, T b, T x, const Policy& pol, bool inv, bool normalised, T* p_de
          invert = !invert;
          BOOST_MATH_INSTRUMENT_VARIABLE(invert);
       }
-      
+
       if(b < 40)
       {
          if((floor(a) == a) && (floor(b) == b) && (a < (std::numeric_limits<int>::max)() - 100) && (y != 1))
@@ -1373,7 +1377,7 @@ T ibeta_imp(T a, T b, T x, const Policy& pol, bool inv, bool normalised, T* p_de
       {
          if((tools::max_value<T>() * div < *p_derivative))
          {
-            // overflow, return an arbitarily large value:
+            // overflow, return an arbitrarily large value:
             *p_derivative = tools::max_value<T>() / 2;
          }
          else
@@ -1409,7 +1413,7 @@ T ibeta_derivative_imp(T a, T b, T x, const Policy& pol)
    //
    if(x == 0)
    {
-      return (a > 1) ? 0 : 
+      return (a > 1) ? 0 :
          (a == 1) ? 1 / boost::math::beta(a, b, pol) : policies::raise_overflow_error<T>(function, 0, pol);
    }
    else if(x == 1)
@@ -1429,25 +1433,25 @@ T ibeta_derivative_imp(T a, T b, T x, const Policy& pol)
 // Some forwarding functions that dis-ambiguate the third argument type:
 //
 template <class RT1, class RT2, class Policy>
-inline typename tools::promote_args<RT1, RT2>::type 
-   beta(RT1 a, RT2 b, const Policy&, const mpl::true_*)
+inline typename tools::promote_args<RT1, RT2>::type
+   beta(RT1 a, RT2 b, const Policy&, const boost::true_type*)
 {
    BOOST_FPU_EXCEPTION_GUARD
    typedef typename tools::promote_args<RT1, RT2>::type result_type;
    typedef typename policies::evaluation<result_type, Policy>::type value_type;
    typedef typename lanczos::lanczos<value_type, Policy>::type evaluation_type;
    typedef typename policies::normalise<
-      Policy, 
-      policies::promote_float<false>, 
-      policies::promote_double<false>, 
+      Policy,
+      policies::promote_float<false>,
+      policies::promote_double<false>,
       policies::discrete_quantile<>,
       policies::assert_undefined<> >::type forwarding_policy;
 
    return policies::checked_narrowing_cast<result_type, forwarding_policy>(detail::beta_imp(static_cast<value_type>(a), static_cast<value_type>(b), evaluation_type(), forwarding_policy()), "boost::math::beta<%1%>(%1%,%1%)");
 }
 template <class RT1, class RT2, class RT3>
-inline typename tools::promote_args<RT1, RT2, RT3>::type 
-   beta(RT1 a, RT2 b, RT3 x, const mpl::false_*)
+inline typename tools::promote_args<RT1, RT2, RT3>::type
+   beta(RT1 a, RT2 b, RT3 x, const boost::false_type*)
 {
    return boost::math::beta(a, b, x, policies::policy<>());
 }
@@ -1459,7 +1463,7 @@ inline typename tools::promote_args<RT1, RT2, RT3>::type
 // and forward to the implementation functions:
 //
 template <class RT1, class RT2, class A>
-inline typename tools::promote_args<RT1, RT2, A>::type 
+inline typename tools::promote_args<RT1, RT2, A>::type
    beta(RT1 a, RT2 b, A arg)
 {
    typedef typename policies::is_policy<A>::type tag;
@@ -1467,23 +1471,23 @@ inline typename tools::promote_args<RT1, RT2, A>::type
 }
 
 template <class RT1, class RT2>
-inline typename tools::promote_args<RT1, RT2>::type 
+inline typename tools::promote_args<RT1, RT2>::type
    beta(RT1 a, RT2 b)
 {
    return boost::math::beta(a, b, policies::policy<>());
 }
 
 template <class RT1, class RT2, class RT3, class Policy>
-inline typename tools::promote_args<RT1, RT2, RT3>::type 
+inline typename tools::promote_args<RT1, RT2, RT3>::type
    beta(RT1 a, RT2 b, RT3 x, const Policy&)
 {
    BOOST_FPU_EXCEPTION_GUARD
    typedef typename tools::promote_args<RT1, RT2, RT3>::type result_type;
    typedef typename policies::evaluation<result_type, Policy>::type value_type;
    typedef typename policies::normalise<
-      Policy, 
-      policies::promote_float<false>, 
-      policies::promote_double<false>, 
+      Policy,
+      policies::promote_float<false>,
+      policies::promote_double<false>,
       policies::discrete_quantile<>,
       policies::assert_undefined<> >::type forwarding_policy;
 
@@ -1491,92 +1495,92 @@ inline typename tools::promote_args<RT1, RT2, RT3>::type
 }
 
 template <class RT1, class RT2, class RT3, class Policy>
-inline typename tools::promote_args<RT1, RT2, RT3>::type 
+inline typename tools::promote_args<RT1, RT2, RT3>::type
    betac(RT1 a, RT2 b, RT3 x, const Policy&)
 {
    BOOST_FPU_EXCEPTION_GUARD
    typedef typename tools::promote_args<RT1, RT2, RT3>::type result_type;
    typedef typename policies::evaluation<result_type, Policy>::type value_type;
    typedef typename policies::normalise<
-      Policy, 
-      policies::promote_float<false>, 
-      policies::promote_double<false>, 
+      Policy,
+      policies::promote_float<false>,
+      policies::promote_double<false>,
       policies::discrete_quantile<>,
       policies::assert_undefined<> >::type forwarding_policy;
 
    return policies::checked_narrowing_cast<result_type, forwarding_policy>(detail::ibeta_imp(static_cast<value_type>(a), static_cast<value_type>(b), static_cast<value_type>(x), forwarding_policy(), true, false), "boost::math::betac<%1%>(%1%,%1%,%1%)");
 }
 template <class RT1, class RT2, class RT3>
-inline typename tools::promote_args<RT1, RT2, RT3>::type 
+inline typename tools::promote_args<RT1, RT2, RT3>::type
    betac(RT1 a, RT2 b, RT3 x)
 {
    return boost::math::betac(a, b, x, policies::policy<>());
 }
 
 template <class RT1, class RT2, class RT3, class Policy>
-inline typename tools::promote_args<RT1, RT2, RT3>::type 
+inline typename tools::promote_args<RT1, RT2, RT3>::type
    ibeta(RT1 a, RT2 b, RT3 x, const Policy&)
 {
    BOOST_FPU_EXCEPTION_GUARD
    typedef typename tools::promote_args<RT1, RT2, RT3>::type result_type;
    typedef typename policies::evaluation<result_type, Policy>::type value_type;
    typedef typename policies::normalise<
-      Policy, 
-      policies::promote_float<false>, 
-      policies::promote_double<false>, 
+      Policy,
+      policies::promote_float<false>,
+      policies::promote_double<false>,
       policies::discrete_quantile<>,
       policies::assert_undefined<> >::type forwarding_policy;
 
    return policies::checked_narrowing_cast<result_type, forwarding_policy>(detail::ibeta_imp(static_cast<value_type>(a), static_cast<value_type>(b), static_cast<value_type>(x), forwarding_policy(), false, true), "boost::math::ibeta<%1%>(%1%,%1%,%1%)");
 }
 template <class RT1, class RT2, class RT3>
-inline typename tools::promote_args<RT1, RT2, RT3>::type 
+inline typename tools::promote_args<RT1, RT2, RT3>::type
    ibeta(RT1 a, RT2 b, RT3 x)
 {
    return boost::math::ibeta(a, b, x, policies::policy<>());
 }
 
 template <class RT1, class RT2, class RT3, class Policy>
-inline typename tools::promote_args<RT1, RT2, RT3>::type 
+inline typename tools::promote_args<RT1, RT2, RT3>::type
    ibetac(RT1 a, RT2 b, RT3 x, const Policy&)
 {
    BOOST_FPU_EXCEPTION_GUARD
    typedef typename tools::promote_args<RT1, RT2, RT3>::type result_type;
    typedef typename policies::evaluation<result_type, Policy>::type value_type;
    typedef typename policies::normalise<
-      Policy, 
-      policies::promote_float<false>, 
-      policies::promote_double<false>, 
+      Policy,
+      policies::promote_float<false>,
+      policies::promote_double<false>,
       policies::discrete_quantile<>,
       policies::assert_undefined<> >::type forwarding_policy;
 
    return policies::checked_narrowing_cast<result_type, forwarding_policy>(detail::ibeta_imp(static_cast<value_type>(a), static_cast<value_type>(b), static_cast<value_type>(x), forwarding_policy(), true, true), "boost::math::ibetac<%1%>(%1%,%1%,%1%)");
 }
 template <class RT1, class RT2, class RT3>
-inline typename tools::promote_args<RT1, RT2, RT3>::type 
+inline typename tools::promote_args<RT1, RT2, RT3>::type
    ibetac(RT1 a, RT2 b, RT3 x)
 {
    return boost::math::ibetac(a, b, x, policies::policy<>());
 }
 
 template <class RT1, class RT2, class RT3, class Policy>
-inline typename tools::promote_args<RT1, RT2, RT3>::type 
+inline typename tools::promote_args<RT1, RT2, RT3>::type
    ibeta_derivative(RT1 a, RT2 b, RT3 x, const Policy&)
 {
    BOOST_FPU_EXCEPTION_GUARD
    typedef typename tools::promote_args<RT1, RT2, RT3>::type result_type;
    typedef typename policies::evaluation<result_type, Policy>::type value_type;
    typedef typename policies::normalise<
-      Policy, 
-      policies::promote_float<false>, 
-      policies::promote_double<false>, 
+      Policy,
+      policies::promote_float<false>,
+      policies::promote_double<false>,
       policies::discrete_quantile<>,
       policies::assert_undefined<> >::type forwarding_policy;
 
    return policies::checked_narrowing_cast<result_type, forwarding_policy>(detail::ibeta_derivative_imp(static_cast<value_type>(a), static_cast<value_type>(b), static_cast<value_type>(x), forwarding_policy()), "boost::math::ibeta_derivative<%1%>(%1%,%1%,%1%)");
 }
 template <class RT1, class RT2, class RT3>
-inline typename tools::promote_args<RT1, RT2, RT3>::type 
+inline typename tools::promote_args<RT1, RT2, RT3>::type
    ibeta_derivative(RT1 a, RT2 b, RT3 x)
 {
    return boost::math::ibeta_derivative(a, b, x, policies::policy<>());
@@ -1589,8 +1593,3 @@ inline typename tools::promote_args<RT1, RT2, RT3>::type
 #include <boost/math/special_functions/detail/ibeta_inv_ab.hpp>
 
 #endif // BOOST_MATH_SPECIAL_BETA_HPP
-
-
-
-
-

@@ -81,10 +81,10 @@ namespace boost { namespace type_of {
         BOOST_PP_ENUM_PARAMS(\
         BOOST_PP_SEQ_SIZE(Params),\
         P)> >\
-        : boost::type_of::push_back<V, boost::mpl::size_t<ID> >\
+        : boost::type_of::push_back<V, boost::type_of::constant<std::size_t,ID> >\
     {\
     };\
-    template<class Iter> struct decode_template_impl<boost::mpl::size_t<ID>, Iter>\
+    template<class Iter> struct decode_template_impl<boost::type_of::constant<std::size_t,ID>, Iter>\
     {\
         BOOST_PP_REPEAT(BOOST_PP_SEQ_SIZE(Params),BOOST_TYPEOF_TYPEDEF_INT_PN,_)\
         typedef Name<BOOST_TYPEOF_SEQ_ENUM(Params,BOOST_TYPEOF_PLACEHOLDER) > type;\

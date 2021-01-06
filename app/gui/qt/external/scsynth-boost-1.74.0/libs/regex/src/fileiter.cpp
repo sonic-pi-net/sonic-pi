@@ -61,7 +61,7 @@ namespace boost{
    namespace BOOST_REGEX_DETAIL_NS{
 // start with the operating system specific stuff:
 
-#if (defined(__BORLANDC__) || defined(BOOST_REGEX_FI_WIN32_DIR) || defined(BOOST_MSVC)) && !defined(BOOST_RE_NO_WIN32)
+#if (defined(BOOST_BORLANDC) || defined(BOOST_REGEX_FI_WIN32_DIR) || defined(BOOST_MSVC)) && !defined(BOOST_RE_NO_WIN32)
 
 // platform is DOS or Windows
 // directories are separated with '\\'
@@ -112,16 +112,21 @@ void mapfile::open(const char* file)
          std::runtime_error err("Unable to create file mapping.");
          boost::BOOST_REGEX_DETAIL_NS::raise_runtime_error(err);
       }
-      _first = static_cast<const char*>(MapViewOfFile(hmap, FILE_MAP_READ, 0, 0, 0));
-      if(_first == 0)
+      else
       {
-         CloseHandle(hmap);
-         CloseHandle(hfile);
-         hmap = 0;
-         hfile = 0;
-         std::runtime_error err("Unable to create file mapping.");
+         _first = static_cast<const char*>(MapViewOfFile(hmap, FILE_MAP_READ, 0, 0, 0));
+         if (_first == 0)
+         {
+            CloseHandle(hmap);
+            CloseHandle(hfile);
+            hmap = 0;
+            hfile = 0;
+            std::runtime_error err("Unable to create file mapping.");
+            boost::BOOST_REGEX_DETAIL_NS::raise_runtime_error(err);
+         }
+         else
+            _last = _first + GetFileSize(hfile, 0);
       }
-      _last = _first + GetFileSize(hfile, 0);
    }
    else
    {
@@ -832,7 +837,7 @@ bool iswild(const char* mask, const char* name)
             ++mask;
             continue;
          }
-         // fall through:
+         // fall through
       default:
          if(BOOST_REGEX_FI_TRANSLATE(*mask) != BOOST_REGEX_FI_TRANSLATE(*name))
             return false;

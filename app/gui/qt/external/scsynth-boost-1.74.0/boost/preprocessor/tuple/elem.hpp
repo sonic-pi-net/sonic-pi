@@ -33,12 +33,12 @@
   else use BOOST_PP_REM. This fixes a VC++ problem with an empty tuple and BOOST_PP_TUPLE_ELEM
   functionality. See tuple_elem_bug_test.cxx.
 */
-#    	 define BOOST_PP_TUPLE_ELEM_O_2(n, tuple) \
-			BOOST_PP_VARIADIC_ELEM(n, BOOST_PP_EXPAND(BOOST_PP_TUPLE_IS_SINGLE_RETURN(BOOST_PP_REM_CAT,BOOST_PP_REM,tuple) tuple)) \
-			/**/
+#        define BOOST_PP_TUPLE_ELEM_O_2(n, tuple) \
+            BOOST_PP_VARIADIC_ELEM(n, BOOST_PP_EXPAND(BOOST_PP_TUPLE_IS_SINGLE_RETURN(BOOST_PP_REM_CAT,BOOST_PP_REM,tuple) tuple)) \
+            /**/
 #    else
 #        define BOOST_PP_TUPLE_ELEM(...) BOOST_PP_OVERLOAD(BOOST_PP_TUPLE_ELEM_O_, __VA_ARGS__)(__VA_ARGS__)
-#    	 define BOOST_PP_TUPLE_ELEM_O_2(n, tuple) BOOST_PP_VARIADIC_ELEM(n, BOOST_PP_REM tuple)
+#        define BOOST_PP_TUPLE_ELEM_O_2(n, tuple) BOOST_PP_VARIADIC_ELEM(n, BOOST_PP_REM tuple)
 #    endif
 #    define BOOST_PP_TUPLE_ELEM_O_3(size, n, tuple) BOOST_PP_TUPLE_ELEM_O_2(n, tuple)
 # else

@@ -19,6 +19,13 @@
 
 #include <boost/smart_ptr/detail/sp_interlocked.hpp>
 
+#if defined(BOOST_SP_REPORT_IMPLEMENTATION)
+
+#include <boost/config/pragma_message.hpp>
+BOOST_PRAGMA_MESSAGE("Using Win32 atomic_count")
+
+#endif
+
 namespace boost
 {
 

@@ -109,7 +109,7 @@ class allocator
    #if !defined(BOOST_INTERPROCESS_DOXYGEN_INVOKED)
 
    //Experimental. Don't use.
-   typedef boost::container::container_detail::transform_multiallocation_chain
+   typedef boost::container::dtl::transform_multiallocation_chain
       <typename SegmentManager::multiallocation_chain, T>multiallocation_chain;
    #endif   //#ifndef BOOST_INTERPROCESS_DOXYGEN_INVOKED
 

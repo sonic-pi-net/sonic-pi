@@ -25,10 +25,12 @@
 
 #if defined(BOOST_MSVC)
 #pragma warning(push)
+// conditional expression is constant
+#pragma warning(disable : 4127)
 #if BOOST_MSVC >= 1400
-#pragma warning(disable : 4396) // the inline specifier cannot be used when a
-// friend declaration refers to a specialization
-// of a function template
+// the inline specifier cannot be used when a friend declaration refers to a
+// specialization of a function template
+#pragma warning(disable : 4396)
 #endif
 #endif
 
@@ -149,10 +151,9 @@ namespace boost {
       }
 
       unordered_set& operator=(BOOST_RV_REF(unordered_set) x)
-      // C++17 support: BOOST_NOEXCEPT_IF(
-      //    value_allocator_traits::is_always_equal::value &&
-      //    is_nothrow_move_assignable_v<H> &&
-      //    is_nothrow_move_assignable_v<P>)
+        BOOST_NOEXCEPT_IF(value_allocator_traits::is_always_equal::value&&
+            boost::is_nothrow_move_assignable<H>::value&&
+              boost::is_nothrow_move_assignable<P>::value)
       {
         table_.move_assign(x.table_, boost::unordered::detail::true_type());
         return *this;
@@ -166,10 +167,9 @@ namespace boost {
 
 #if !defined(BOOST_NO_CXX11_RVALUE_REFERENCES)
       unordered_set& operator=(unordered_set&& x)
-      // C++17 support: BOOST_NOEXCEPT_IF(
-      //    value_allocator_traits::is_always_equal::value &&
-      //    is_nothrow_move_assignable_v<H> &&
-      //    is_nothrow_move_assignable_v<P>)
+        BOOST_NOEXCEPT_IF(value_allocator_traits::is_always_equal::value&&
+            boost::is_nothrow_move_assignable<H>::value&&
+              boost::is_nothrow_move_assignable<P>::value)
       {
         table_.move_assign(x.table_, boost::unordered::detail::true_type());
         return *this;
@@ -441,11 +441,10 @@ namespace boost {
       BOOST_UNORDERED_DEPRECATED("Use erase instead")
       void erase_return_void(const_iterator it) { erase(it); }
 
-      void swap(unordered_set&);
-      // C++17 support: BOOST_NOEXCEPT_IF(
-      //    value_allocator_traits::is_always_equal::value &&
-      //    is_nothrow_move_assignable_v<H> &&
-      //    is_nothrow_move_assignable_v<P>)
+      void swap(unordered_set&)
+        BOOST_NOEXCEPT_IF(value_allocator_traits::is_always_equal::value&&
+            boost::is_nothrow_swappable<H>::value&&
+              boost::is_nothrow_swappable<P>::value);
       void clear() BOOST_NOEXCEPT { table_.clear_impl(); }
 
       template <typename H2, typename P2>
@@ -544,6 +543,52 @@ namespace boost {
         <T, H, P, A>(unordered_set const&, unordered_set const&);
 #endif
     }; // class template unordered_set
+
+#if BOOST_UNORDERED_TEMPLATE_DEDUCTION_GUIDES
+
+    template <class InputIterator,
+      class Hash =
+        boost::hash<typename std::iterator_traits<InputIterator>::value_type>,
+      class Pred =
+        std::equal_to<typename std::iterator_traits<InputIterator>::value_type>,
+      class Allocator = std::allocator<
+        typename std::iterator_traits<InputIterator>::value_type> >
+    unordered_set(InputIterator, InputIterator,
+      std::size_t = boost::unordered::detail::default_bucket_count,
+      Hash = Hash(), Pred = Pred(), Allocator = Allocator())
+      ->unordered_set<typename std::iterator_traits<InputIterator>::value_type,
+        Hash, Pred, Allocator>;
+
+    template <class T, class Hash = boost::hash<T>,
+      class Pred = std::equal_to<T>, class Allocator = std::allocator<T> >
+    unordered_set(std::initializer_list<T>,
+      std::size_t = boost::unordered::detail::default_bucket_count,
+      Hash = Hash(), Pred = Pred(), Allocator = Allocator())
+      ->unordered_set<T, Hash, Pred, Allocator>;
+
+    template <class InputIterator, class Allocator>
+    unordered_set(InputIterator, InputIterator, std::size_t, Allocator)
+      ->unordered_set<typename std::iterator_traits<InputIterator>::value_type,
+        boost::hash<typename std::iterator_traits<InputIterator>::value_type>,
+        std::equal_to<typename std::iterator_traits<InputIterator>::value_type>,
+        Allocator>;
+
+    template <class InputIterator, class Hash, class Allocator>
+    unordered_set(InputIterator, InputIterator, std::size_t, Hash, Allocator)
+      ->unordered_set<typename std::iterator_traits<InputIterator>::value_type,
+        Hash,
+        std::equal_to<typename std::iterator_traits<InputIterator>::value_type>,
+        Allocator>;
+
+    template <class T, class Allocator>
+    unordered_set(std::initializer_list<T>, std::size_t, Allocator)
+      ->unordered_set<T, boost::hash<T>, std::equal_to<T>, Allocator>;
+
+    template <class T, class Hash, class Allocator>
+    unordered_set(std::initializer_list<T>, std::size_t, Hash, Allocator)
+      ->unordered_set<T, Hash, std::equal_to<T>, Allocator>;
+
+#endif
 
     template <class T, class H, class P, class A> class unordered_multiset
     {
@@ -661,10 +706,9 @@ namespace boost {
       }
 
       unordered_multiset& operator=(BOOST_RV_REF(unordered_multiset) x)
-      // C++17 support: BOOST_NOEXCEPT_IF(
-      //    value_allocator_traits::is_always_equal::value &&
-      //    is_nothrow_move_assignable_v<H> &&
-      //    is_nothrow_move_assignable_v<P>)
+        BOOST_NOEXCEPT_IF(value_allocator_traits::is_always_equal::value&&
+            boost::is_nothrow_move_assignable<H>::value&&
+              boost::is_nothrow_move_assignable<P>::value)
       {
         table_.move_assign(x.table_, boost::unordered::detail::false_type());
         return *this;
@@ -678,10 +722,9 @@ namespace boost {
 
 #if !defined(BOOST_NO_CXX11_RVALUE_REFERENCES)
       unordered_multiset& operator=(unordered_multiset&& x)
-      // C++17 support: BOOST_NOEXCEPT_IF(
-      //    value_allocator_traits::is_always_equal::value &&
-      //    is_nothrow_move_assignable_v<H> &&
-      //    is_nothrow_move_assignable_v<P>)
+        BOOST_NOEXCEPT_IF(value_allocator_traits::is_always_equal::value&&
+            boost::is_nothrow_move_assignable<H>::value&&
+              boost::is_nothrow_move_assignable<P>::value)
       {
         table_.move_assign(x.table_, boost::unordered::detail::false_type());
         return *this;
@@ -945,11 +988,10 @@ namespace boost {
       BOOST_UNORDERED_DEPRECATED("Use erase instead")
       void erase_return_void(const_iterator it) { erase(it); }
 
-      void swap(unordered_multiset&);
-      // C++17 support: BOOST_NOEXCEPT_IF(
-      //    value_allocator_traits::is_always_equal::value &&
-      //    is_nothrow_move_assignable_v<H> &&
-      //    is_nothrow_move_assignable_v<P>)
+      void swap(unordered_multiset&)
+        BOOST_NOEXCEPT_IF(value_allocator_traits::is_always_equal::value&&
+            boost::is_nothrow_swappable<H>::value&&
+              boost::is_nothrow_swappable<P>::value);
       void clear() BOOST_NOEXCEPT { table_.clear_impl(); }
 
       template <typename H2, typename P2>
@@ -1048,6 +1090,55 @@ namespace boost {
         <T, H, P, A>(unordered_multiset const&, unordered_multiset const&);
 #endif
     }; // class template unordered_multiset
+
+#if BOOST_UNORDERED_TEMPLATE_DEDUCTION_GUIDES
+
+    template <class InputIterator,
+      class Hash =
+        boost::hash<typename std::iterator_traits<InputIterator>::value_type>,
+      class Pred =
+        std::equal_to<typename std::iterator_traits<InputIterator>::value_type>,
+      class Allocator = std::allocator<
+        typename std::iterator_traits<InputIterator>::value_type> >
+    unordered_multiset(InputIterator, InputIterator,
+      std::size_t = boost::unordered::detail::default_bucket_count,
+      Hash = Hash(), Pred = Pred(), Allocator = Allocator())
+      ->unordered_multiset<
+        typename std::iterator_traits<InputIterator>::value_type, Hash, Pred,
+        Allocator>;
+
+    template <class T, class Hash = boost::hash<T>,
+      class Pred = std::equal_to<T>, class Allocator = std::allocator<T> >
+    unordered_multiset(std::initializer_list<T>,
+      std::size_t = boost::unordered::detail::default_bucket_count,
+      Hash = Hash(), Pred = Pred(), Allocator = Allocator())
+      ->unordered_multiset<T, Hash, Pred, Allocator>;
+
+    template <class InputIterator, class Allocator>
+    unordered_multiset(InputIterator, InputIterator, std::size_t, Allocator)
+      ->unordered_multiset<
+        typename std::iterator_traits<InputIterator>::value_type,
+        boost::hash<typename std::iterator_traits<InputIterator>::value_type>,
+        std::equal_to<typename std::iterator_traits<InputIterator>::value_type>,
+        Allocator>;
+
+    template <class InputIterator, class Hash, class Allocator>
+    unordered_multiset(
+      InputIterator, InputIterator, std::size_t, Hash, Allocator)
+      ->unordered_multiset<
+        typename std::iterator_traits<InputIterator>::value_type, Hash,
+        std::equal_to<typename std::iterator_traits<InputIterator>::value_type>,
+        Allocator>;
+
+    template <class T, class Allocator>
+    unordered_multiset(std::initializer_list<T>, std::size_t, Allocator)
+      ->unordered_multiset<T, boost::hash<T>, std::equal_to<T>, Allocator>;
+
+    template <class T, class Hash, class Allocator>
+    unordered_multiset(std::initializer_list<T>, std::size_t, Hash, Allocator)
+      ->unordered_multiset<T, Hash, std::equal_to<T>, Allocator>;
+
+#endif
 
     ////////////////////////////////////////////////////////////////////////////
     template <class T, class H, class P, class A>
@@ -1270,10 +1361,9 @@ namespace boost {
 
     template <class T, class H, class P, class A>
     void unordered_set<T, H, P, A>::swap(unordered_set& other)
-    // C++17 support: BOOST_NOEXCEPT_IF(
-    //    value_allocator_traits::is_always_equal::value &&
-    //    is_nothrow_move_assignable_v<H> &&
-    //    is_nothrow_move_assignable_v<P>)
+      BOOST_NOEXCEPT_IF(value_allocator_traits::is_always_equal::value&&
+          boost::is_nothrow_swappable<H>::value&&
+            boost::is_nothrow_swappable<P>::value)
     {
       table_.swap(other.table_);
     }
@@ -1665,10 +1755,9 @@ namespace boost {
 
     template <class T, class H, class P, class A>
     void unordered_multiset<T, H, P, A>::swap(unordered_multiset& other)
-    // C++17 support: BOOST_NOEXCEPT_IF(
-    //    value_allocator_traits::is_always_equal::value &&
-    //    is_nothrow_move_assignable_v<H> &&
-    //    is_nothrow_move_assignable_v<P>)
+      BOOST_NOEXCEPT_IF(value_allocator_traits::is_always_equal::value&&
+          boost::is_nothrow_swappable<H>::value&&
+            boost::is_nothrow_swappable<P>::value)
     {
       table_.swap(other.table_);
     }
@@ -1875,15 +1964,11 @@ namespace boost {
     private:
       node_pointer ptr_;
       bool has_alloc_;
-      boost::unordered::detail::value_base<value_allocator> alloc_;
+      boost::unordered::detail::optional<value_allocator> alloc_;
 
       node_handle_set(node_pointer ptr, allocator_type const& a)
-          : ptr_(ptr), has_alloc_(false)
+          : ptr_(ptr), alloc_(a)
       {
-        if (ptr_) {
-          new ((void*)&alloc_) value_allocator(a);
-          has_alloc_ = true;
-        }
       }
 
     public:
@@ -1894,52 +1979,39 @@ namespace boost {
 
       ~node_handle_set()
       {
-        if (has_alloc_ && ptr_) {
-          node_allocator node_alloc(alloc_.value());
+        if (ptr_) {
+          node_allocator node_alloc(*alloc_);
           boost::unordered::detail::node_tmp<node_allocator> tmp(
             ptr_, node_alloc);
-        }
-        if (has_alloc_) {
-          alloc_.value_ptr()->~value_allocator();
         }
       }
 
       node_handle_set(BOOST_RV_REF(node_handle_set) n) BOOST_NOEXCEPT
         : ptr_(n.ptr_),
-          has_alloc_(false)
+          alloc_(boost::move(n.alloc_))
       {
-        if (n.has_alloc_) {
-          new ((void*)&alloc_) value_allocator(boost::move(n.alloc_.value()));
-          has_alloc_ = true;
-          n.ptr_ = node_pointer();
-          n.alloc_.value_ptr()->~value_allocator();
-          n.has_alloc_ = false;
-        }
+        n.ptr_ = node_pointer();
       }
 
       node_handle_set& operator=(BOOST_RV_REF(node_handle_set) n)
       {
-        BOOST_ASSERT(!has_alloc_ ||
+        BOOST_ASSERT(!alloc_.has_value() ||
                      value_allocator_traits::
                        propagate_on_container_move_assignment::value ||
-                     (n.has_alloc_ && alloc_.value() == n.alloc_.value()));
+                     (n.alloc_.has_value() && alloc_ == n.alloc_));
 
         if (ptr_) {
-          node_allocator node_alloc(alloc_.value());
+          node_allocator node_alloc(*alloc_);
           boost::unordered::detail::node_tmp<node_allocator> tmp(
             ptr_, node_alloc);
           ptr_ = node_pointer();
         }
 
-        if (has_alloc_) {
-          alloc_.value_ptr()->~value_allocator();
-          has_alloc_ = false;
+        if (!alloc_.has_value() ||
+            value_allocator_traits::propagate_on_container_move_assignment::
+              value) {
+          alloc_ = boost::move(n.alloc_);
         }
-
-        if (!has_alloc_ && n.has_alloc_) {
-          move_allocator(n);
-        }
-
         ptr_ = n.ptr_;
         n.ptr_ = node_pointer();
 
@@ -1948,7 +2020,7 @@ namespace boost {
 
       value_type& value() const { return ptr_->value(); }
 
-      allocator_type get_allocator() const { return alloc_.value(); }
+      allocator_type get_allocator() const { return *alloc_; }
 
       BOOST_EXPLICIT_OPERATOR_BOOL_NOEXCEPT()
 
@@ -1957,37 +2029,18 @@ namespace boost {
       bool empty() const BOOST_NOEXCEPT { return ptr_ ? 0 : 1; }
 
       void swap(node_handle_set& n) BOOST_NOEXCEPT_IF(
-        value_allocator_traits::propagate_on_container_swap::value
-        /* || value_allocator_traits::is_always_equal::value */)
+        value_allocator_traits::propagate_on_container_swap::value ||
+        value_allocator_traits::is_always_equal::value)
       {
-        if (!has_alloc_) {
-          if (n.has_alloc_) {
-            move_allocator(n);
-          }
-        } else if (!n.has_alloc_) {
-          n.move_allocator(*this);
-        } else {
-          swap_impl(
-            n, boost::unordered::detail::integral_constant<bool,
-                 value_allocator_traits::propagate_on_container_swap::value>());
+        BOOST_ASSERT(
+          !alloc_.has_value() || !n.alloc_.has_value() ||
+          value_allocator_traits::propagate_on_container_swap::value ||
+          alloc_ == n.alloc_);
+        if (value_allocator_traits::propagate_on_container_swap::value ||
+            !alloc_.has_value() || !n.alloc_.has_value()) {
+          boost::swap(alloc_, n.alloc_);
         }
         boost::swap(ptr_, n.ptr_);
-      }
-
-    private:
-      void move_allocator(node_handle_set& n)
-      {
-        new ((void*)&alloc_) value_allocator(boost::move(n.alloc_.value()));
-        n.alloc_.value_ptr()->~value_allocator();
-        has_alloc_ = true;
-        n.has_alloc_ = false;
-      }
-
-      void swap_impl(node_handle_set&, boost::unordered::detail::false_type) {}
-
-      void swap_impl(node_handle_set& n, boost::unordered::detail::true_type)
-      {
-        boost::swap(alloc_, n.alloc_);
       }
     };
 

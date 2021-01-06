@@ -23,7 +23,6 @@
 
 // Boost.Test
 #include <boost/test/detail/config.hpp>
-#include <boost/test/detail/workaround.hpp>
 #include <boost/test/detail/throw_exception.hpp>
 #include <boost/test/execution_monitor.hpp>
 #include <boost/test/debug.hpp>
@@ -35,6 +34,7 @@
 #ifndef BOOST_NO_EXCEPTIONS
 #include <boost/exception/get_error_info.hpp> // for get_error_info
 #include <boost/exception/current_exception_cast.hpp> // for current_exception_cast
+#include <boost/exception/diagnostic_information.hpp>
 #endif
 
 // STL
@@ -47,39 +47,43 @@
 #include <cassert>              // for assert
 #include <cstddef>              // for NULL
 #include <cstdio>               // for vsnprintf
+#include <stdio.h>
 #include <cstdarg>              // for varargs
+#include <stdarg.h>
+#include <cmath>                // for ceil
 
 #include <iostream>              // for varargs
 
 #ifdef BOOST_NO_STDC_NAMESPACE
-namespace std { using ::strerror; using ::strlen; using ::strncat; }
+namespace std { using ::strerror; using ::strlen; using ::strncat; using ::ceil; }
 #endif
 
 // to use vsnprintf
-#if defined(__SUNPRO_CC) || defined(__SunOS)
-#  include <stdio.h>
-#  include <stdarg.h>
+#if defined(__SUNPRO_CC) || defined(__SunOS) || defined(__QNXNTO__) || defined(__VXWORKS__)
 using std::va_list;
 #endif
 
-// to use vsnprintf
-#if defined(__QNXNTO__)
-#  include <stdio.h>
-using std::va_list;
+#if defined(__VXWORKS__)
+# define BOOST_TEST_LIMITED_SIGNAL_DETAILS
 #endif
 
 #ifdef BOOST_SEH_BASED_SIGNAL_HANDLING
+
+# if !defined(_WIN32_WINNT) // WinXP
+#   define _WIN32_WINNT  0x0501
+# endif
+
 #  include <windows.h>
 
 #  if defined(__MWERKS__) || (defined(_MSC_VER) && !defined(UNDER_CE))
 #    include <eh.h>
 #  endif
 
-#  if defined(__BORLANDC__) && __BORLANDC__ >= 0x560 || defined(__MWERKS__)
+#  if defined(BOOST_BORLANDC) && BOOST_BORLANDC >= 0x560 || defined(__MWERKS__)
 #    include <stdint.h>
 #  endif
 
-#  if defined(__BORLANDC__) && __BORLANDC__ < 0x560
+#  if defined(BOOST_BORLANDC) && BOOST_BORLANDC < 0x560
     typedef unsigned uintptr_t;
 #  endif
 
@@ -102,6 +106,10 @@ using std::va_list;
 #    define BOOST_TEST_CRT_SET_HOOK(H)  (void*)(H)
 #  endif
 
+#  if defined(_WIN32_WINNT) && (_WIN32_WINNT >= 0x0501) /* WinXP */
+#    define BOOST_TEST_WIN32_WAITABLE_TIMERS
+#  endif
+
 #  if (!BOOST_WORKAROUND(_MSC_VER,  >= 1400 ) && \
       !defined(BOOST_COMO)) || defined(UNDER_CE)
 
@@ -115,7 +123,7 @@ _set_invalid_parameter_handler( _invalid_parameter_handler arg )
 
 #  endif
 
-#  if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x0564)) || defined(UNDER_CE)
+#  if BOOST_WORKAROUND(BOOST_BORLANDC, BOOST_TESTED_AT(0x0564)) || defined(UNDER_CE)
 
 namespace { void _set_se_translator( void* ) {} }
 
@@ -206,14 +214,23 @@ void throw_exception( std::exception const & e ) { abort(); }
 
 namespace detail {
 
-#ifdef __BORLANDC__
+#ifdef BOOST_BORLANDC
 #  define BOOST_TEST_VSNPRINTF( a1, a2, a3, a4 ) std::vsnprintf( (a1), (a2), (a3), (a4) )
 #elif BOOST_WORKAROUND(_MSC_VER, <= 1310) || \
       BOOST_WORKAROUND(__MWERKS__, BOOST_TESTED_AT(0x3000)) || \
-      defined(UNDER_CE)
+      defined(UNDER_CE) || \
+      (defined(__MINGW32__) && !defined(__MINGW64_VERSION_MAJOR))
 #  define BOOST_TEST_VSNPRINTF( a1, a2, a3, a4 ) _vsnprintf( (a1), (a2), (a3), (a4) )
 #else
 #  define BOOST_TEST_VSNPRINTF( a1, a2, a3, a4 ) vsnprintf( (a1), (a2), (a3), (a4) )
+#endif
+
+
+/* checks the printf formatting by adding a decorator to the function */
+#if __GNUC__ >= 3 || defined(BOOST_EMBTC)
+#define BOOST_TEST_PRINTF_ATTRIBUTE_CHECK(x, y) __attribute__((__format__ (__printf__, x, y)))
+#else
+#define BOOST_TEST_PRINTF_ATTRIBUTE_CHECK(x, y)
 #endif
 
 #ifndef BOOST_NO_EXCEPTIONS
@@ -233,6 +250,7 @@ extract( boost::exception const* ex )
 //____________________________________________________________________________//
 
 static void
+BOOST_TEST_PRINTF_ATTRIBUTE_CHECK(3, 0)
 report_error( execution_exception::error_code ec, boost::exception const* be, char const* format, va_list* args )
 {
     static const int REPORT_ERROR_BUFFER_SIZE = 4096;
@@ -251,6 +269,7 @@ report_error( execution_exception::error_code ec, boost::exception const* be, ch
 //____________________________________________________________________________//
 
 static void
+BOOST_TEST_PRINTF_ATTRIBUTE_CHECK(3, 4)
 report_error( execution_exception::error_code ec, boost::exception const* be, char const* format, ... )
 {
     va_list args;
@@ -264,6 +283,7 @@ report_error( execution_exception::error_code ec, boost::exception const* be, ch
 //____________________________________________________________________________//
 
 static void
+BOOST_TEST_PRINTF_ATTRIBUTE_CHECK(2, 3)
 report_error( execution_exception::error_code ec, char const* format, ... )
 {
     va_list args;
@@ -363,11 +383,17 @@ system_signal_exception::report() const
         return; // no error actually occur?
 
     switch( m_sig_info->si_code ) {
+#ifdef __VXWORKS__
+// a bit of a hack to adapt code to small m_sig_info VxWorks uses
+#define si_addr si_value.sival_int
+#define si_band si_value.sival_int
+#else
     case SI_USER:
         report_error( execution_exception::system_error,
                       "signal: generated by kill() (or family); uid=%d; pid=%d",
                       (int)m_sig_info->si_uid, (int)m_sig_info->si_pid );
         break;
+#endif
     case SI_QUEUE:
         report_error( execution_exception::system_error,
                       "signal: sent by sigqueue()" );
@@ -376,14 +402,19 @@ system_signal_exception::report() const
         report_error( execution_exception::system_error,
                       "signal: the expiration of a timer set by timer_settimer()" );
         break;
+// OpenBSD was missing SI_ASYNCIO and SI_MESGQ
+#ifdef SI_ASYNCIO
     case SI_ASYNCIO:
         report_error( execution_exception::system_error,
                       "signal: generated by the completion of an asynchronous I/O request" );
         break;
+#endif
+#ifdef SI_MESGQ
     case SI_MESGQ:
         report_error( execution_exception::system_error,
                       "signal: generated by the the arrival of a message on an empty message queue" );
         break;
+#endif
     default:
         break;
     }
@@ -395,48 +426,48 @@ system_signal_exception::report() const
         case ILL_ILLOPC:
             report_error( execution_exception::system_fatal_error,
                           "signal: illegal opcode; address of failing instruction: 0x%08lx",
-                          m_sig_info->si_addr );
+                          (uintptr_t) m_sig_info->si_addr );
             break;
         case ILL_ILLTRP:
             report_error( execution_exception::system_fatal_error,
                           "signal: illegal trap; address of failing instruction: 0x%08lx",
-                          m_sig_info->si_addr );
+                          (uintptr_t) m_sig_info->si_addr );
             break;
         case ILL_PRVREG:
             report_error( execution_exception::system_fatal_error,
                           "signal: privileged register; address of failing instruction: 0x%08lx",
-                          m_sig_info->si_addr );
+                          (uintptr_t) m_sig_info->si_addr );
             break;
         case ILL_BADSTK:
             report_error( execution_exception::system_fatal_error,
                           "signal: internal stack error; address of failing instruction: 0x%08lx",
-                          m_sig_info->si_addr );
+                          (uintptr_t) m_sig_info->si_addr );
             break;
 #endif
         case ILL_ILLOPN:
             report_error( execution_exception::system_fatal_error,
                           "signal: illegal operand; address of failing instruction: 0x%08lx",
-                          m_sig_info->si_addr );
+                          (uintptr_t) m_sig_info->si_addr );
             break;
         case ILL_ILLADR:
             report_error( execution_exception::system_fatal_error,
                           "signal: illegal addressing mode; address of failing instruction: 0x%08lx",
-                          m_sig_info->si_addr );
+                          (uintptr_t) m_sig_info->si_addr );
             break;
         case ILL_PRVOPC:
             report_error( execution_exception::system_fatal_error,
                           "signal: privileged opcode; address of failing instruction: 0x%08lx",
-                          m_sig_info->si_addr );
+                          (uintptr_t) m_sig_info->si_addr );
             break;
         case ILL_COPROC:
             report_error( execution_exception::system_fatal_error,
                           "signal: co-processor error; address of failing instruction: 0x%08lx",
-                          m_sig_info->si_addr );
+                          (uintptr_t) m_sig_info->si_addr );
             break;
         default:
             report_error( execution_exception::system_fatal_error,
                           "signal: SIGILL, si_code: %d (illegal instruction; address of failing instruction: 0x%08lx)",
-                          m_sig_info->si_addr, m_sig_info->si_code );
+                          m_sig_info->si_code, (uintptr_t) m_sig_info->si_addr );
             break;
         }
         break;
@@ -446,47 +477,47 @@ system_signal_exception::report() const
         case FPE_INTDIV:
             report_error( execution_exception::system_error,
                           "signal: integer divide by zero; address of failing instruction: 0x%08lx",
-                          m_sig_info->si_addr );
+                          (uintptr_t) m_sig_info->si_addr );
             break;
         case FPE_INTOVF:
             report_error( execution_exception::system_error,
                           "signal: integer overflow; address of failing instruction: 0x%08lx",
-                          m_sig_info->si_addr );
+                          (uintptr_t) m_sig_info->si_addr );
             break;
         case FPE_FLTDIV:
             report_error( execution_exception::system_error,
                           "signal: floating point divide by zero; address of failing instruction: 0x%08lx",
-                          m_sig_info->si_addr );
+                          (uintptr_t) m_sig_info->si_addr );
             break;
         case FPE_FLTOVF:
             report_error( execution_exception::system_error,
                           "signal: floating point overflow; address of failing instruction: 0x%08lx",
-                          m_sig_info->si_addr );
+                          (uintptr_t) m_sig_info->si_addr );
             break;
         case FPE_FLTUND:
             report_error( execution_exception::system_error,
                           "signal: floating point underflow; address of failing instruction: 0x%08lx",
-                          m_sig_info->si_addr );
+                          (uintptr_t) m_sig_info->si_addr );
             break;
         case FPE_FLTRES:
             report_error( execution_exception::system_error,
                           "signal: floating point inexact result; address of failing instruction: 0x%08lx",
-                          m_sig_info->si_addr );
+                          (uintptr_t) m_sig_info->si_addr );
             break;
         case FPE_FLTINV:
             report_error( execution_exception::system_error,
                           "signal: invalid floating point operation; address of failing instruction: 0x%08lx",
-                          m_sig_info->si_addr );
+                          (uintptr_t) m_sig_info->si_addr );
             break;
         case FPE_FLTSUB:
             report_error( execution_exception::system_error,
                           "signal: subscript out of range; address of failing instruction: 0x%08lx",
-                          m_sig_info->si_addr );
+                          (uintptr_t) m_sig_info->si_addr );
             break;
         default:
             report_error( execution_exception::system_error,
                           "signal: SIGFPE, si_code: %d (errnoneous arithmetic operations; address of failing instruction: 0x%08lx)",
-                          m_sig_info->si_addr, m_sig_info->si_code );
+                          m_sig_info->si_code, (uintptr_t) m_sig_info->si_addr );
             break;
         }
         break;
@@ -497,18 +528,18 @@ system_signal_exception::report() const
         case SEGV_MAPERR:
             report_error( execution_exception::system_fatal_error,
                           "memory access violation at address: 0x%08lx: no mapping at fault address",
-                          m_sig_info->si_addr );
+                          (uintptr_t) m_sig_info->si_addr );
             break;
         case SEGV_ACCERR:
             report_error( execution_exception::system_fatal_error,
                           "memory access violation at address: 0x%08lx: invalid permissions",
-                          m_sig_info->si_addr );
+                          (uintptr_t) m_sig_info->si_addr );
             break;
 #endif
         default:
             report_error( execution_exception::system_fatal_error,
                           "signal: SIGSEGV, si_code: %d (memory access violation at address: 0x%08lx)",
-                          m_sig_info->si_addr, m_sig_info->si_code );
+                          m_sig_info->si_code, (uintptr_t) m_sig_info->si_addr );
             break;
         }
         break;
@@ -519,23 +550,23 @@ system_signal_exception::report() const
         case BUS_ADRALN:
             report_error( execution_exception::system_fatal_error,
                           "memory access violation at address: 0x%08lx: invalid address alignment",
-                          m_sig_info->si_addr );
+                          (uintptr_t) m_sig_info->si_addr );
             break;
         case BUS_ADRERR:
             report_error( execution_exception::system_fatal_error,
                           "memory access violation at address: 0x%08lx: non-existent physical address",
-                          m_sig_info->si_addr );
+                          (uintptr_t) m_sig_info->si_addr );
             break;
         case BUS_OBJERR:
             report_error( execution_exception::system_fatal_error,
                           "memory access violation at address: 0x%08lx: object specific hardware error",
-                          m_sig_info->si_addr );
+                          (uintptr_t) m_sig_info->si_addr );
             break;
 #endif
         default:
             report_error( execution_exception::system_fatal_error,
                           "signal: SIGSEGV, si_code: %d (memory access violation at address: 0x%08lx)",
-                          m_sig_info->si_addr, m_sig_info->si_code );
+                          m_sig_info->si_code, (uintptr_t) m_sig_info->si_addr );
             break;
         }
         break;
@@ -581,7 +612,7 @@ system_signal_exception::report() const
         default:
             report_error( execution_exception::system_error,
                           "signal: SIGPOLL, si_code: %d (asynchronous I/O event occurred; band event %d)",
-                          (int)m_sig_info->si_band, m_sig_info->si_code );
+                          m_sig_info->si_code, (int)m_sig_info->si_band );
             break;
         }
         break;
@@ -686,7 +717,11 @@ signal_action::~signal_action()
 class signal_handler {
 public:
     // Constructor
-    explicit signal_handler( bool catch_system_errors, bool detect_fpe, unsigned timeout, bool attach_dbg, char* alt_stack );
+    explicit signal_handler( bool catch_system_errors,
+                             bool detect_fpe,
+                             unsigned long int timeout_microseconds,
+                             bool attach_dbg,
+                             char* alt_stack );
 
     // Destructor
     ~signal_handler();
@@ -709,7 +744,7 @@ public:
 private:
     // Data members
     signal_handler*         m_prev_handler;
-    unsigned                m_timeout;
+    unsigned long int       m_timeout_microseconds;
 
     // Note: We intentionality do not catch SIGCHLD. Users have to deal with it themselves
     signal_action           m_ILL_action;
@@ -733,24 +768,28 @@ signal_handler* signal_handler::s_active_handler = signal_handler_ptr();
 
 //____________________________________________________________________________//
 
-signal_handler::signal_handler( bool catch_system_errors, bool detect_fpe, unsigned timeout, bool attach_dbg, char* alt_stack )
+signal_handler::signal_handler( bool catch_system_errors,
+                                bool detect_fpe,
+                                unsigned long int timeout_microseconds,
+                                bool attach_dbg,
+                                char* alt_stack )
 : m_prev_handler( s_active_handler )
-, m_timeout( timeout )
-, m_ILL_action ( SIGILL , catch_system_errors, attach_dbg, alt_stack )
-, m_FPE_action ( SIGFPE , detect_fpe         , attach_dbg, alt_stack )
-, m_SEGV_action( SIGSEGV, catch_system_errors, attach_dbg, alt_stack )
-, m_BUS_action ( SIGBUS , catch_system_errors, attach_dbg, alt_stack )
+, m_timeout_microseconds( timeout_microseconds )
+, m_ILL_action ( SIGILL , catch_system_errors,      attach_dbg, alt_stack )
+, m_FPE_action ( SIGFPE , detect_fpe         ,      attach_dbg, alt_stack )
+, m_SEGV_action( SIGSEGV, catch_system_errors,      attach_dbg, alt_stack )
+, m_BUS_action ( SIGBUS , catch_system_errors,      attach_dbg, alt_stack )
 #ifdef BOOST_TEST_CATCH_SIGPOLL
-, m_POLL_action( SIGPOLL, catch_system_errors, attach_dbg, alt_stack )
+, m_POLL_action( SIGPOLL, catch_system_errors,      attach_dbg, alt_stack )
 #endif
-, m_ABRT_action( SIGABRT, catch_system_errors, attach_dbg, alt_stack )
-, m_ALRM_action( SIGALRM, timeout > 0        , attach_dbg, alt_stack )
+, m_ABRT_action( SIGABRT, catch_system_errors,      attach_dbg, alt_stack )
+, m_ALRM_action( SIGALRM, timeout_microseconds > 0, attach_dbg, alt_stack )
 {
     s_active_handler = this;
 
-    if( m_timeout > 0 ) {
+    if( m_timeout_microseconds > 0 ) {
         ::alarm( 0 );
-        ::alarm( timeout );
+        ::alarm( static_cast<unsigned int>(std::ceil(timeout_microseconds / 1E6) )); // alarm has a precision to the seconds
     }
 
 #ifdef BOOST_TEST_USE_ALT_STACK
@@ -776,7 +815,7 @@ signal_handler::~signal_handler()
 {
     assert( s_active_handler == this );
 
-    if( m_timeout > 0 )
+    if( m_timeout_microseconds > 0 )
         ::alarm( 0 );
 
 #ifdef BOOST_TEST_USE_ALT_STACK
@@ -874,7 +913,7 @@ execution_monitor::catch_signals( boost::function<int ()> const& F )
 // **************   Microsoft structured exception handling    ************** //
 // ************************************************************************** //
 
-#if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x0564))
+#if BOOST_WORKAROUND(BOOST_BORLANDC, BOOST_TESTED_AT(0x0564))
 namespace { void _set_se_translator( void* ) {} }
 #endif
 
@@ -892,8 +931,10 @@ public:
     , m_se_id( 0 )
     , m_fault_address( 0 )
     , m_dir( false )
+    , m_timeout( false )
     {}
 
+    void                set_timed_out();
     void                report() const;
     int                 operator()( unsigned id, _EXCEPTION_POINTERS* exps );
 
@@ -904,6 +945,7 @@ private:
     unsigned            m_se_id;
     void*               m_fault_address;
     bool                m_dir;
+    bool                m_timeout;
 };
 
 //____________________________________________________________________________//
@@ -915,6 +957,14 @@ seh_catch_preventer( unsigned /* id */, _EXCEPTION_POINTERS* /* exps */ )
     throw;
 }
 #endif
+
+//____________________________________________________________________________//
+
+void
+system_signal_exception::set_timed_out()
+{
+    m_timeout = true;
+}
 
 //____________________________________________________________________________//
 
@@ -1069,7 +1119,12 @@ system_signal_exception::report() const
         break;
 
     default:
-        detail::report_error( execution_exception::system_error, "unrecognized exception. Id: 0x%08lx", m_se_id );
+        if( m_timeout ) {
+            detail::report_error(execution_exception::timeout_error, "timeout while executing function");
+        }
+        else {
+            detail::report_error( execution_exception::system_error, "unrecognized exception. Id: 0x%08lx", m_se_id );
+        }
         break;
     }
 }
@@ -1128,6 +1183,31 @@ execution_monitor::catch_signals( boost::function<int ()> const& F )
 #endif
     }
 
+#if defined(BOOST_TEST_WIN32_WAITABLE_TIMERS)
+    HANDLE htimer = INVALID_HANDLE_VALUE;
+    BOOL bTimerSuccess = FALSE;
+
+    if( p_timeout ) {
+        htimer = ::CreateWaitableTimer(
+            NULL,
+            TRUE,
+            NULL); // naming the timer might create collisions
+
+        if( htimer != INVALID_HANDLE_VALUE ) {
+            LARGE_INTEGER liDueTime;
+            liDueTime.QuadPart = - static_cast<LONGLONG>(p_timeout) * 10ll; // resolution of 100 ns
+
+            bTimerSuccess = ::SetWaitableTimer(
+                htimer,
+                &liDueTime,
+                0,
+                0,
+                0,
+                FALSE);           // Do not restore a suspended system
+        }
+    }
+#endif 
+
     detail::system_signal_exception SSE( this );
 
     int ret_val = 0;
@@ -1141,8 +1221,26 @@ execution_monitor::catch_signals( boost::function<int ()> const& F )
         __except( SSE( GetExceptionCode(), GetExceptionInformation() ) ) {
             throw SSE;
         }
+
+        // we check for time outs: we do not have any signaling facility on Win32
+        // however, we signal a timeout as a hard error as for the other operating systems
+        // and throw the signal error handler
+        if( bTimerSuccess && htimer != INVALID_HANDLE_VALUE) {
+            if (::WaitForSingleObject(htimer, 0) == WAIT_OBJECT_0) {
+                SSE.set_timed_out();
+                throw SSE;
+            }
+        }
+
     }
     __finally {
+
+#if defined(BOOST_TEST_WIN32_WAITABLE_TIMERS)
+        if( htimer != INVALID_HANDLE_VALUE ) {
+            ::CloseHandle(htimer);
+        }
+#endif
+
         if( l_catch_system_errors ) {
             BOOST_TEST_CRT_SET_HOOK( old_crt_hook );
 
@@ -1198,7 +1296,7 @@ execution_monitor::execute( boost::function<int ()> const& F )
 
     BOOST_TEST_I_TRY {
         detail::fpe_except_guard G( p_detect_fp_exceptions );
-        unit_test::ut_detail::ignore_unused_variable_warning( G );
+        boost::ignore_unused( G );
 
         return catch_signals( F );
     }
@@ -1216,6 +1314,12 @@ execution_monitor::execute( boost::function<int ()> const& F )
     catch( std::string const& ex )
       { detail::report_error( execution_exception::cpp_exception_error,
                               "std::string: %s", ex.c_str() ); }
+
+    // boost::exception (before std::exception, with extended diagnostic)
+    catch( boost::exception const& ex )
+      { detail::report_error( execution_exception::cpp_exception_error,
+                              &ex,
+                              "%s", boost::diagnostic_information(ex).c_str() ); }
 
     //  std:: exceptions
 #if defined(BOOST_NO_TYPEID) || defined(BOOST_NO_RTTI)
@@ -1235,15 +1339,8 @@ execution_monitor::execute( boost::function<int ()> const& F )
 #endif
 
     CATCH_AND_REPORT_STD_EXCEPTION( std::bad_alloc )
-
-#if BOOST_WORKAROUND(__BORLANDC__, <= 0x0551)
     CATCH_AND_REPORT_STD_EXCEPTION( std::bad_cast )
     CATCH_AND_REPORT_STD_EXCEPTION( std::bad_typeid )
-#else
-    CATCH_AND_REPORT_STD_EXCEPTION( std::bad_cast )
-    CATCH_AND_REPORT_STD_EXCEPTION( std::bad_typeid )
-#endif
-
     CATCH_AND_REPORT_STD_EXCEPTION( std::bad_exception )
     CATCH_AND_REPORT_STD_EXCEPTION( std::domain_error )
     CATCH_AND_REPORT_STD_EXCEPTION( std::invalid_argument )
@@ -1256,15 +1353,6 @@ execution_monitor::execute( boost::function<int ()> const& F )
     CATCH_AND_REPORT_STD_EXCEPTION( std::runtime_error )
     CATCH_AND_REPORT_STD_EXCEPTION( std::exception )
 #undef CATCH_AND_REPORT_STD_EXCEPTION
-
-    catch( boost::exception const& ex )
-      { detail::report_error( execution_exception::cpp_exception_error,
-                              &ex,
-#if defined(BOOST_NO_TYPEID) || defined(BOOST_NO_RTTI)
-                              "unknown boost::exception" ); }
-#else
-                              typeid(ex).name()          ); }
-#endif
 
     // system errors
     catch( system_error const& ex )
@@ -1287,7 +1375,7 @@ execution_monitor::execute( boost::function<int ()> const& F )
 
 #endif // !BOOST_NO_EXCEPTIONS
 
-    return 0;  // never reached; supplied to quiet compiler warnings
+    BOOST_TEST_UNREACHABLE_RETURN(0);  // never reached; supplied to quiet compiler warnings
 } // execute
 
 //____________________________________________________________________________//

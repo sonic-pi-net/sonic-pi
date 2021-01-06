@@ -59,6 +59,8 @@ xml_report_formatter::test_unit_report_start( test_unit const& tu, std::ostream&
         descr = "passed";
     else if( tr.p_skipped )
         descr = "skipped";
+    else if( tr.p_timed_out )
+        descr = "timed-out";
     else if( tr.p_aborted )
         descr = "aborted";
     else
@@ -70,14 +72,18 @@ xml_report_formatter::test_unit_report_start( test_unit const& tu, std::ostream&
          << " assertions_passed"        << utils::attr_value() << tr.p_assertions_passed
          << " assertions_failed"        << utils::attr_value() << tr.p_assertions_failed
          << " warnings_failed"          << utils::attr_value() << tr.p_warnings_failed
-         << " expected_failures"        << utils::attr_value() << tr.p_expected_failures;
+         << " expected_failures"        << utils::attr_value() << tr.p_expected_failures
+            ;
 
     if( tu.p_type == TUT_SUITE ) {
         ostr << " test_cases_passed"    << utils::attr_value() << tr.p_test_cases_passed
              << " test_cases_passed_with_warnings" << utils::attr_value() << tr.p_test_cases_warned
              << " test_cases_failed"    << utils::attr_value() << tr.p_test_cases_failed
              << " test_cases_skipped"   << utils::attr_value() << tr.p_test_cases_skipped
-             << " test_cases_aborted"   << utils::attr_value() << tr.p_test_cases_aborted;
+             << " test_cases_aborted"   << utils::attr_value() << tr.p_test_cases_aborted
+             << " test_cases_timed_out" << utils::attr_value() << tr.p_test_cases_timed_out
+             << " test_suites_timed_out"<< utils::attr_value() << tr.p_test_suites_timed_out
+             ;
     }
 
     ostr << '>';

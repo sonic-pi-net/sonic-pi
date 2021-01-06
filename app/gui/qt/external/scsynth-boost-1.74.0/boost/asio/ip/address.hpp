@@ -2,7 +2,7 @@
 // ip/address.hpp
 // ~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2017 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -48,46 +48,48 @@ class address
 {
 public:
   /// Default constructor.
-  BOOST_ASIO_DECL address();
+  BOOST_ASIO_DECL address() BOOST_ASIO_NOEXCEPT;
 
   /// Construct an address from an IPv4 address.
-  BOOST_ASIO_DECL address(const boost::asio::ip::address_v4& ipv4_address);
+  BOOST_ASIO_DECL address(
+      const boost::asio::ip::address_v4& ipv4_address) BOOST_ASIO_NOEXCEPT;
 
   /// Construct an address from an IPv6 address.
-  BOOST_ASIO_DECL address(const boost::asio::ip::address_v6& ipv6_address);
+  BOOST_ASIO_DECL address(
+      const boost::asio::ip::address_v6& ipv6_address) BOOST_ASIO_NOEXCEPT;
 
   /// Copy constructor.
-  BOOST_ASIO_DECL address(const address& other);
+  BOOST_ASIO_DECL address(const address& other) BOOST_ASIO_NOEXCEPT;
 
 #if defined(BOOST_ASIO_HAS_MOVE)
   /// Move constructor.
-  BOOST_ASIO_DECL address(address&& other);
+  BOOST_ASIO_DECL address(address&& other) BOOST_ASIO_NOEXCEPT;
 #endif // defined(BOOST_ASIO_HAS_MOVE)
 
   /// Assign from another address.
-  BOOST_ASIO_DECL address& operator=(const address& other);
+  BOOST_ASIO_DECL address& operator=(const address& other) BOOST_ASIO_NOEXCEPT;
 
 #if defined(BOOST_ASIO_HAS_MOVE)
   /// Move-assign from another address.
-  BOOST_ASIO_DECL address& operator=(address&& other);
+  BOOST_ASIO_DECL address& operator=(address&& other) BOOST_ASIO_NOEXCEPT;
 #endif // defined(BOOST_ASIO_HAS_MOVE)
 
   /// Assign from an IPv4 address.
   BOOST_ASIO_DECL address& operator=(
-      const boost::asio::ip::address_v4& ipv4_address);
+      const boost::asio::ip::address_v4& ipv4_address) BOOST_ASIO_NOEXCEPT;
 
   /// Assign from an IPv6 address.
   BOOST_ASIO_DECL address& operator=(
-      const boost::asio::ip::address_v6& ipv6_address);
+      const boost::asio::ip::address_v6& ipv6_address) BOOST_ASIO_NOEXCEPT;
 
   /// Get whether the address is an IP version 4 address.
-  bool is_v4() const
+  bool is_v4() const BOOST_ASIO_NOEXCEPT
   {
     return type_ == ipv4;
   }
 
   /// Get whether the address is an IP version 6 address.
-  bool is_v6() const
+  bool is_v6() const BOOST_ASIO_NOEXCEPT
   {
     return type_ == ipv6;
   }
@@ -128,40 +130,46 @@ public:
 #endif // !defined(BOOST_ASIO_NO_DEPRECATED)
 
   /// Determine whether the address is a loopback address.
-  BOOST_ASIO_DECL bool is_loopback() const;
+  BOOST_ASIO_DECL bool is_loopback() const BOOST_ASIO_NOEXCEPT;
 
   /// Determine whether the address is unspecified.
-  BOOST_ASIO_DECL bool is_unspecified() const;
+  BOOST_ASIO_DECL bool is_unspecified() const BOOST_ASIO_NOEXCEPT;
 
   /// Determine whether the address is a multicast address.
-  BOOST_ASIO_DECL bool is_multicast() const;
+  BOOST_ASIO_DECL bool is_multicast() const BOOST_ASIO_NOEXCEPT;
 
   /// Compare two addresses for equality.
-  BOOST_ASIO_DECL friend bool operator==(const address& a1, const address& a2);
+  BOOST_ASIO_DECL friend bool operator==(const address& a1,
+      const address& a2) BOOST_ASIO_NOEXCEPT;
 
   /// Compare two addresses for inequality.
-  friend bool operator!=(const address& a1, const address& a2)
+  friend bool operator!=(const address& a1,
+      const address& a2) BOOST_ASIO_NOEXCEPT
   {
     return !(a1 == a2);
   }
 
   /// Compare addresses for ordering.
-  BOOST_ASIO_DECL friend bool operator<(const address& a1, const address& a2);
+  BOOST_ASIO_DECL friend bool operator<(const address& a1,
+      const address& a2) BOOST_ASIO_NOEXCEPT;
 
   /// Compare addresses for ordering.
-  friend bool operator>(const address& a1, const address& a2)
+  friend bool operator>(const address& a1,
+      const address& a2) BOOST_ASIO_NOEXCEPT
   {
     return a2 < a1;
   }
 
   /// Compare addresses for ordering.
-  friend bool operator<=(const address& a1, const address& a2)
+  friend bool operator<=(const address& a1,
+      const address& a2) BOOST_ASIO_NOEXCEPT
   {
     return !(a2 < a1);
   }
 
   /// Compare addresses for ordering.
-  friend bool operator>=(const address& a1, const address& a2)
+  friend bool operator>=(const address& a1,
+      const address& a2) BOOST_ASIO_NOEXCEPT
   {
     return !(a1 < a2);
   }
@@ -189,8 +197,8 @@ BOOST_ASIO_DECL address make_address(const char* str);
 /**
  * @relates address
  */
-BOOST_ASIO_DECL address make_address(
-    const char* str, boost::system::error_code& ec);
+BOOST_ASIO_DECL address make_address(const char* str,
+    boost::system::error_code& ec) BOOST_ASIO_NOEXCEPT;
 
 /// Create an address from an IPv4 address string in dotted decimal form,
 /// or from an IPv6 address in hexadecimal notation.
@@ -204,10 +212,10 @@ BOOST_ASIO_DECL address make_address(const std::string& str);
 /**
  * @relates address
  */
-BOOST_ASIO_DECL address make_address(
-    const std::string& str, boost::system::error_code& ec);
+BOOST_ASIO_DECL address make_address(const std::string& str,
+    boost::system::error_code& ec) BOOST_ASIO_NOEXCEPT;
 
-#if defined(BOOST_ASIO_HAS_STD_STRING_VIEW) \
+#if defined(BOOST_ASIO_HAS_STRING_VIEW) \
   || defined(GENERATING_DOCUMENTATION)
 
 /// Create an address from an IPv4 address string in dotted decimal form,
@@ -222,10 +230,10 @@ BOOST_ASIO_DECL address make_address(string_view str);
 /**
  * @relates address
  */
-BOOST_ASIO_DECL address make_address(
-    string_view str, boost::system::error_code& ec);
+BOOST_ASIO_DECL address make_address(string_view str,
+    boost::system::error_code& ec) BOOST_ASIO_NOEXCEPT;
 
-#endif // defined(BOOST_ASIO_HAS_STD_STRING_VIEW)
+#endif // defined(BOOST_ASIO_HAS_STRING_VIEW)
        //  || defined(GENERATING_DOCUMENTATION)
 
 #if !defined(BOOST_ASIO_NO_IOSTREAM)

@@ -32,7 +32,7 @@
 namespace boost {
 
 #ifndef BOOST_IS_ENUM
-#if !(defined(__BORLANDC__) && (__BORLANDC__ <= 0x551))
+#if !(defined(BOOST_BORLANDC) && (BOOST_BORLANDC <= 0x551))
 
 namespace detail {
 
@@ -49,7 +49,7 @@ struct is_class_or_union
 template <typename T>
 struct is_class_or_union
 {
-# if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x581))// we simply can't detect it this way.
+# if BOOST_WORKAROUND(BOOST_BORLANDC, BOOST_TESTED_AT(0x581))// we simply can't detect it this way.
     BOOST_STATIC_CONSTANT(bool, value = false);
 # else
     template <class U> static ::boost::type_traits::yes_type is_class_or_union_tester(void(U::*)(void));
@@ -131,7 +131,7 @@ template <typename T> struct is_enum_impl
     
 #endif
 
-#if BOOST_WORKAROUND(__BORLANDC__, < 0x600)
+#if BOOST_WORKAROUND(BOOST_BORLANDC, < 0x600)
     typedef ::boost::detail::is_enum_helper<
           ::boost::detail::is_enum_impl<T>::selector
         > se_t;
@@ -147,7 +147,7 @@ template <typename T> struct is_enum_impl
 
 template <class T> struct is_enum : public integral_constant<bool, ::boost::detail::is_enum_impl<T>::value> {};
 
-#else // __BORLANDC__
+#else // BOOST_BORLANDC
 //
 // buggy is_convertible prevents working
 // implementation of is_enum:

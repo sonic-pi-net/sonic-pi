@@ -26,7 +26,7 @@ namespace boost {
 namespace detail {
 
 #ifndef BOOST_IS_BASE_OF
-#if !BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x581)) \
+#if !BOOST_WORKAROUND(BOOST_BORLANDC, BOOST_TESTED_AT(0x581)) \
  && !BOOST_WORKAROUND(__SUNPRO_CC , <= 0x540) \
  && !BOOST_WORKAROUND(__EDG_VERSION__, <= 243) \
  && !BOOST_WORKAROUND(__DMC__, BOOST_TESTED_AT(0x840))
@@ -235,7 +235,7 @@ template <class Base, class Derived> struct is_base_and_derived<Base&, Derived> 
 template <class Base, class Derived> struct is_base_and_derived<Base, Derived&> : public false_type{};
 template <class Base, class Derived> struct is_base_and_derived<Base&, Derived&> : public false_type{};
 
-#if BOOST_WORKAROUND(__CODEGEARC__, BOOST_TESTED_AT(0x610))
+#if BOOST_WORKAROUND(BOOST_CODEGEARC, BOOST_TESTED_AT(0x610))
 template <class Base> struct is_base_and_derived<Base, Base> : public true_type{};
 #endif
 

@@ -26,7 +26,7 @@
 
 namespace boost {
 
-#if defined( __CODEGEARC__ )
+#if defined( BOOST_CODEGEARC )
 
    template <class T>
    struct is_const : public integral_constant<bool, __is_const(T)> {};

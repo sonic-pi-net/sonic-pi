@@ -5,7 +5,7 @@
  *
  * Copyright (c) 2009 Helge Bahmann
  * Copyright (c) 2012 Tim Blechmann
- * Copyright (c) 2013 - 2014 Andrey Semashev
+ * Copyright (c) 2013 - 2018, 2020 Andrey Semashev
  */
 /*!
  * \file   atomic/detail/bitwise_cast.hpp
@@ -16,59 +16,72 @@
 #ifndef BOOST_ATOMIC_DETAIL_BITWISE_CAST_HPP_INCLUDED_
 #define BOOST_ATOMIC_DETAIL_BITWISE_CAST_HPP_INCLUDED_
 
+#include <cstddef>
 #include <boost/atomic/detail/config.hpp>
-#if !defined(BOOST_ATOMIC_DETAIL_HAS_BUILTIN_MEMCPY)
-#include <cstring>
-#endif
+#include <boost/atomic/detail/addressof.hpp>
+#include <boost/atomic/detail/string_ops.hpp>
+#include <boost/atomic/detail/type_traits/integral_constant.hpp>
+#include <boost/atomic/detail/header.hpp>
 
 #ifdef BOOST_HAS_PRAGMA_ONCE
 #pragma once
 #endif
 
-#if defined(BOOST_GCC) && (BOOST_GCC+0) >= 40600
+#if defined(BOOST_GCC) && BOOST_GCC >= 80000
 #pragma GCC diagnostic push
-// missing initializer for member var
-#pragma GCC diagnostic ignored "-Wmissing-field-initializers"
+// copying an object of non-trivial type X from an array of Y. This is benign because we use memcpy to copy trivially copyable objects.
+#pragma GCC diagnostic ignored "-Wclass-memaccess"
 #endif
 
 namespace boost {
 namespace atomics {
 namespace detail {
 
-template< typename T >
-BOOST_FORCEINLINE T* addressof(T& value) BOOST_NOEXCEPT
+template< std::size_t FromSize, typename To >
+BOOST_FORCEINLINE void clear_tail_padding_bits(To& to, atomics::detail::true_type) BOOST_NOEXCEPT
 {
-    // Note: The point of using a local struct as the intermediate type instead of char is to avoid gcc warnings
-    // if T is a const volatile char*:
-    // warning: casting 'const volatile char* const' to 'const volatile char&' does not dereference pointer
-    // The local struct makes sure T is not related to the cast target type.
-    struct opaque_type;
-    return reinterpret_cast< T* >(&const_cast< opaque_type& >(reinterpret_cast< const volatile opaque_type& >(value)));
+    BOOST_ATOMIC_DETAIL_MEMSET(reinterpret_cast< unsigned char* >(atomics::detail::addressof(to)) + FromSize, 0, sizeof(To) - FromSize);
+}
+
+template< std::size_t FromSize, typename To >
+BOOST_FORCEINLINE void clear_tail_padding_bits(To&, atomics::detail::false_type) BOOST_NOEXCEPT
+{
+}
+
+template< std::size_t FromSize, typename To >
+BOOST_FORCEINLINE void clear_tail_padding_bits(To& to) BOOST_NOEXCEPT
+{
+    atomics::detail::clear_tail_padding_bits< FromSize >(to, atomics::detail::integral_constant< bool, FromSize < sizeof(To) >());
+}
+
+template< typename To, std::size_t FromSize, typename From >
+BOOST_FORCEINLINE To bitwise_cast(From const& from) BOOST_NOEXCEPT
+{
+    To to;
+    BOOST_ATOMIC_DETAIL_MEMCPY
+    (
+        atomics::detail::addressof(to),
+        atomics::detail::addressof(from),
+        (FromSize < sizeof(To) ? FromSize : sizeof(To))
+    );
+    atomics::detail::clear_tail_padding_bits< FromSize >(to);
+    return to;
 }
 
 template< typename To, typename From >
 BOOST_FORCEINLINE To bitwise_cast(From const& from) BOOST_NOEXCEPT
 {
-    struct
-    {
-        To to;
-    }
-    value = {};
-    BOOST_ATOMIC_DETAIL_MEMCPY
-    (
-        atomics::detail::addressof(value.to),
-        atomics::detail::addressof(from),
-        (sizeof(From) < sizeof(To) ? sizeof(From) : sizeof(To))
-    );
-    return value.to;
+    return atomics::detail::bitwise_cast< To, sizeof(From) >(from);
 }
 
 } // namespace detail
 } // namespace atomics
 } // namespace boost
 
-#if defined(BOOST_GCC) && (BOOST_GCC+0) >= 40600
+#if defined(BOOST_GCC) && BOOST_GCC >= 80000
 #pragma GCC diagnostic pop
 #endif
+
+#include <boost/atomic/detail/footer.hpp>
 
 #endif // BOOST_ATOMIC_DETAIL_BITWISE_CAST_HPP_INCLUDED_

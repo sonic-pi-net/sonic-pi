@@ -11,11 +11,19 @@
 
 #include <boost/predef/version_number.h>
 #include <boost/predef/platform.h>
+#if defined(__CYGWIN__)
+// Cygwin 64 compiler does not define _WIN64 and instead defines it in a private header. We can't define _WIN64 ourselves because
+// the header defines the macro unconditionally and if the user includes both Boost.WinAPI and Cygwin WinAPI headers there will be conflict.
+#include <_cygwin.h>
+#endif
 
 // BOOST_WINAPI_IS_MINGW indicates that the target Windows SDK is provided by MinGW (http://mingw.org/).
 // BOOST_WINAPI_IS_MINGW_W64 indicates that the target Windows SDK is provided by MinGW-w64 (http://mingw-w64.org).
-#if BOOST_PLAT_MINGW
-#if defined __MINGW64_VERSION_MAJOR
+// BOOST_WINAPI_IS_CYGWIN indicates that the target Windows SDK is provided by MinGW variant from Cygwin (https://cygwin.com/).
+#if defined(__CYGWIN__)
+#define BOOST_WINAPI_IS_CYGWIN
+#elif BOOST_PLAT_MINGW
+#if defined(__MINGW64_VERSION_MAJOR)
 #define BOOST_WINAPI_IS_MINGW_W64
 #else
 #define BOOST_WINAPI_IS_MINGW
@@ -85,6 +93,7 @@
 #define BOOST_WINAPI_NTDDI_WIN10_TH2 0x0A000001
 #define BOOST_WINAPI_NTDDI_WIN10_RS1 0x0A000002
 #define BOOST_WINAPI_NTDDI_WIN10_RS2 0x0A000003
+#define BOOST_WINAPI_NTDDI_WIN10_RS3 0x0A000004
 
 #define BOOST_WINAPI_DETAIL_MAKE_NTDDI_VERSION2(x) x##0000
 #define BOOST_WINAPI_DETAIL_MAKE_NTDDI_VERSION(x) BOOST_WINAPI_DETAIL_MAKE_NTDDI_VERSION2(x)
@@ -95,11 +104,13 @@
 #elif defined(WINVER)
 #define BOOST_USE_WINAPI_VERSION WINVER
 #else
-// By default use Windows Vista API on compilers that support it and XP on the others
+// By default use Windows 7 API on compilers that support it and Vista or XP on the others
 #if (defined(_MSC_VER) && _MSC_VER < 1500) || defined(BOOST_WINAPI_IS_MINGW)
 #define BOOST_USE_WINAPI_VERSION BOOST_WINAPI_VERSION_WINXP
-#else
+#elif (defined(_MSC_VER) && _MSC_VER < 1600)
 #define BOOST_USE_WINAPI_VERSION BOOST_WINAPI_VERSION_WIN6
+#else
+#define BOOST_USE_WINAPI_VERSION BOOST_WINAPI_VERSION_WIN7
 #endif
 #endif
 #endif
@@ -119,7 +130,7 @@
 #elif BOOST_USE_WINAPI_VERSION == BOOST_WINAPI_VERSION_WIN7
 #define BOOST_USE_NTDDI_VERSION BOOST_WINAPI_NTDDI_WIN7SP1
 #elif BOOST_USE_WINAPI_VERSION == BOOST_WINAPI_VERSION_WIN10
-#define BOOST_USE_NTDDI_VERSION BOOST_WINAPI_NTDDI_WIN10_RS2
+#define BOOST_USE_NTDDI_VERSION BOOST_WINAPI_NTDDI_WIN10_RS3
 #else
 #define BOOST_USE_NTDDI_VERSION BOOST_WINAPI_DETAIL_MAKE_NTDDI_VERSION(BOOST_USE_WINAPI_VERSION)
 #endif
@@ -134,7 +145,8 @@
 #define BOOST_WINAPI_WINDOWS_SDK_8_0 BOOST_VERSION_NUMBER(0, 0, 9200) // Windows SDK 8.0
 #define BOOST_WINAPI_WINDOWS_SDK_8_1 BOOST_VERSION_NUMBER(0, 0, 9600) // Windows SDK 8.1
 #define BOOST_WINAPI_WINDOWS_SDK_10_0 BOOST_VERSION_NUMBER(0, 0, 10011) // Windows SDK 10.0
-// MinGW does not have the ntverp.h header but it defines VER_PRODUCTBUILD in ddk/ntifs.h
+// MinGW does not have the ntverp.h header but it defines VER_PRODUCTBUILD in ddk/ntifs.h.
+// Cygwin MinGW also defines this version.
 #define BOOST_WINAPI_WINDOWS_SDK_MINGW BOOST_VERSION_NUMBER(0, 0, 10000)
 // MinGW-w64 defines the same version as the Windows SDK bundled with MSVC 8
 #define BOOST_WINAPI_WINDOWS_SDK_MINGW_W64 BOOST_VERSION_NUMBER(0, 0, 3790)
@@ -153,7 +165,7 @@
 //
 // UWP Support
 //
-// On platforms without windows family partition support it is assumed one 
+// On platforms without windows family partition support it is assumed one
 // has all APIs and access is controlled by _WIN32_WINNT or similar mechanisms.
 //
 // Leveraging Boost.Predef here
@@ -175,9 +187,9 @@
 #endif // BOOST_PLAT_WINDOWS_UWP
 
 //
-// Windows 8.x SDK defines some items in the DESKTOP partition and then Windows SDK 10.0 defines 
-// the same items to be in APP or SYSTEM partitions, and APP expands to DESKTOP or PC or PHONE.  
-// The definition of BOOST_WINAPI_PARTITION_APP_SYSTEM provides a universal way to get this 
+// Windows 8.x SDK defines some items in the DESKTOP partition and then Windows SDK 10.0 defines
+// the same items to be in APP or SYSTEM partitions, and APP expands to DESKTOP or PC or PHONE.
+// The definition of BOOST_WINAPI_PARTITION_APP_SYSTEM provides a universal way to get this
 // right as it is seen in a number of places in the SDK.
 //
 #define BOOST_WINAPI_PARTITION_APP_SYSTEM \
@@ -207,6 +219,17 @@
 #if !defined(WINAPI_FAMILY) && defined(BOOST_USE_WINAPI_FAMILY)
 #define WINAPI_FAMILY BOOST_USE_WINAPI_FAMILY
 #endif
+#endif
+
+#if defined (WIN32_PLATFORM_PSPC)
+#define BOOST_WINAPI_IMPORT BOOST_SYMBOL_IMPORT
+#define BOOST_WINAPI_IMPORT_EXCEPT_WM
+#elif defined (_WIN32_WCE)
+#define BOOST_WINAPI_IMPORT
+#define BOOST_WINAPI_IMPORT_EXCEPT_WM
+#else
+#define BOOST_WINAPI_IMPORT BOOST_SYMBOL_IMPORT
+#define BOOST_WINAPI_IMPORT_EXCEPT_WM BOOST_SYMBOL_IMPORT
 #endif
 
 #include <boost/config.hpp>

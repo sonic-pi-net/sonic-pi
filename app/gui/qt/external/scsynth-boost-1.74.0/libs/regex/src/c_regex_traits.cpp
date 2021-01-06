@@ -23,7 +23,7 @@
 #include <boost/detail/workaround.hpp>
 #include "internals.hpp"
 
-#if !BOOST_WORKAROUND(__BORLANDC__, < 0x560)
+#if !BOOST_WORKAROUND(BOOST_BORLANDC, < 0x560)
 
 #include <boost/regex/v4/c_regex_traits.hpp>
 #include <boost/regex/v4/primary_transform.hpp>
@@ -157,7 +157,7 @@ c_regex_traits<char>::char_class_type BOOST_REGEX_CALL c_regex_traits<char>::loo
          s[i] = static_cast<char>((std::tolower)(static_cast<unsigned char>(s[i])));
       idx = ::boost::BOOST_REGEX_DETAIL_NS::get_default_class_id(&*s.begin(), &*s.begin() + s.size());
    }
-   BOOST_ASSERT(std::size_t(idx+1) < sizeof(masks) / sizeof(masks[0]));
+   BOOST_ASSERT(std::size_t(idx) + 1u < sizeof(masks) / sizeof(masks[0]));
    return masks[idx+1];
 }
 

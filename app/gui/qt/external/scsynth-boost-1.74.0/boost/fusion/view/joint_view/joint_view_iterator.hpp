@@ -50,9 +50,8 @@ namespace boost { namespace fusion
         first_type first;
         concat_type concat;
 
-    private:
         // silence MSVC warning C4512: assignment operator could not be generated
-        joint_view_iterator& operator= (joint_view_iterator const&);
+        BOOST_DELETED_FUNCTION(joint_view_iterator& operator= (joint_view_iterator const&))
     };
 }}
 

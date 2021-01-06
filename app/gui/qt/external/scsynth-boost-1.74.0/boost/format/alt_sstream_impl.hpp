@@ -38,10 +38,10 @@ namespace boost {
             size_type sz=s.size();
             if(sz != 0 && mode_ & (::std::ios_base::in | ::std::ios_base::out) ) {
 #ifdef _RWSTD_NO_CLASS_PARTIAL_SPEC
-                void *vd_ptr = alloc_.allocate(sz, is_allocated_? eback() : 0);
+                void *vd_ptr = boost::allocator_allocate(alloc_, sz, is_allocated_? eback() : 0);
                 Ch *new_ptr = static_cast<Ch *>(vd_ptr);
 #else
-                Ch *new_ptr = alloc_.allocate(sz, is_allocated_? eback() : 0);
+                Ch *new_ptr = boost::allocator_allocate(alloc_, sz, is_allocated_? eback() : 0);
 #endif
                 // if this didnt throw, we're safe, update the buffer
                 dealloc();
@@ -255,10 +255,10 @@ namespace boost {
                 if(0 < add_size) {
                     new_size += add_size;
 #ifdef _RWSTD_NO_CLASS_PARTIAL_SPEC
-                    void *vdptr = alloc_.allocate(new_size, is_allocated_? oldptr : 0);
+                    void *vdptr = boost::allocator_allocate(alloc_, new_size, is_allocated_? oldptr : 0);
                     newptr = static_cast<Ch *>(vdptr);
 #else
-                    newptr = alloc_.allocate(new_size, is_allocated_? oldptr : 0);
+                    newptr = boost::allocator_allocate(alloc_, new_size, is_allocated_? oldptr : 0);
 #endif
                 }
 

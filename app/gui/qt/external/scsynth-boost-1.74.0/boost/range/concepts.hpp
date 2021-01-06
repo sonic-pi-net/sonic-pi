@@ -84,7 +84,7 @@ namespace boost {
     #endif
 #endif
 
-    #ifdef __BORLANDC__
+    #ifdef BOOST_BORLANDC
         #define BOOST_RANGE_ENABLE_CONCEPT_ASSERT 0
     #endif
 
@@ -252,7 +252,7 @@ namespace boost {
                  n = i - j;
              }
          private:
-             BOOST_DEDUCED_TYPENAME RandomAccessIteratorConcept::difference_type n;
+             BOOST_DEDUCED_TYPENAME BidirectionalIteratorConcept<Iterator>::difference_type n;
              Iterator i;
              Iterator j;
  #endif

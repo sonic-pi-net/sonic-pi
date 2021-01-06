@@ -76,6 +76,10 @@ const wchar_t* wnames[] = {
 
 typedef boost::basic_regex<wchar_t, c_regex_traits<wchar_t> > wc_regex_type;
 
+#ifdef BOOST_MSVC
+#  pragma warning(push)
+#pragma warning(disable:26812)
+#endif
 BOOST_REGEX_DECL int BOOST_REGEX_CCALL regcompW(regex_tW* expression, const wchar_t* ptr, int f)
 {
 #ifndef BOOST_NO_EXCEPTIONS
@@ -150,6 +154,9 @@ BOOST_REGEX_DECL int BOOST_REGEX_CCALL regcompW(regex_tW* expression, const wcha
    return result;
 
 }
+#ifdef BOOST_MSVC
+#  pragma warning(pop)
+#endif
 
 BOOST_REGEX_DECL regsize_t BOOST_REGEX_CCALL regerrorW(int code, const regex_tW* e, wchar_t* buf, regsize_t buf_size)
 {

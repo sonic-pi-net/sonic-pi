@@ -33,7 +33,7 @@
 #include <boost/preprocessor/repetition/enum_params.hpp>
 #include <boost/preprocessor/repetition/enum_trailing_params.hpp>
 
-#if BOOST_WORKAROUND( __BORLANDC__, BOOST_TESTED_AT(0x590) )
+#if BOOST_WORKAROUND( BOOST_BORLANDC, BOOST_TESTED_AT(0x590) )
 # include <boost/type_traits/is_class.hpp>
 #endif
 
@@ -196,7 +196,7 @@ struct trait \
 }; \
 /**/
 
-#   elif BOOST_WORKAROUND( __BORLANDC__, BOOST_TESTED_AT(0x590) )
+#   elif BOOST_WORKAROUND( BOOST_BORLANDC, BOOST_TESTED_AT(0x590) )
 
 #   define BOOST_MPL_HAS_XXX_TRAIT_NAMED_BCB_DEF(trait, trait_tester, name, default_) \
 template< typename T, bool IS_CLASS > \

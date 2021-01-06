@@ -11,6 +11,8 @@
 #define BOOST_THREAD_EXECUTORS_BASIC_THREAD_POOL_HPP
 
 #include <boost/thread/detail/config.hpp>
+#if defined BOOST_THREAD_PROVIDES_FUTURE_CONTINUATION && defined BOOST_THREAD_PROVIDES_EXECUTORS && defined BOOST_THREAD_USES_MOVE
+
 #include <boost/thread/detail/delete.hpp>
 #include <boost/thread/detail/move.hpp>
 #include <boost/thread/thread.hpp>
@@ -237,13 +239,36 @@ namespace executors
       // signal to all the worker threads that there will be no more submissions.
       close();
       // joins all the threads before destroying the thread pool resources (e.g. the queue).
-      join();
+      interrupt_and_join();
     }
 
     /**
      * \b Effects: join all the threads.
      */
     void join()
+    {
+      for (unsigned i = 0; i < threads.size(); ++i)
+      {
+        //threads[i].interrupt();
+        threads[i].join();
+      }
+    }
+
+    /**
+     * \b Effects: interrupt all the threads.
+     */
+    void interrupt()
+    {
+      for (unsigned i = 0; i < threads.size(); ++i)
+      {
+        threads[i].interrupt();
+      }
+    }
+
+    /**
+     * \b Effects: interrupt and join all the threads.
+     */
+    void interrupt_and_join()
     {
       for (unsigned i = 0; i < threads.size(); ++i)
       {
@@ -329,4 +354,5 @@ using executors::basic_thread_pool;
 
 #include <boost/config/abi_suffix.hpp>
 
+#endif
 #endif

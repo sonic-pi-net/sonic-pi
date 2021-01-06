@@ -42,18 +42,18 @@ struct avltree_node_cloner
    typedef typename NodeTraits::node_ptr  node_ptr;
    typedef detail::ebo_functor_holder<F>  base_t;
 
-   avltree_node_cloner(F f)
+   BOOST_INTRUSIVE_FORCEINLINE avltree_node_cloner(F f)
       :  base_t(f)
    {}
 
-   node_ptr operator()(const node_ptr & p)
+   BOOST_INTRUSIVE_FORCEINLINE node_ptr operator()(const node_ptr & p)
    {
       node_ptr n = base_t::get()(p);
       NodeTraits::set_balance(n, NodeTraits::get_balance(p));
       return n;
    }
 
-   node_ptr operator()(const node_ptr & p) const
+   BOOST_INTRUSIVE_FORCEINLINE node_ptr operator()(const node_ptr & p) const
    {
       node_ptr n = base_t::get()(p);
       NodeTraits::set_balance(n, NodeTraits::get_balance(p));
@@ -176,12 +176,12 @@ class avltree_algorithms
    static node_ptr end_node(const const_node_ptr & header);
 
    //! @copydoc ::boost::intrusive::bstree_algorithms::swap_tree
-   static void swap_tree(const node_ptr & header1, const node_ptr & header2);
+   static void swap_tree(node_ptr header1, node_ptr header2);
 
    #endif   //#ifdef BOOST_INTRUSIVE_DOXYGEN_INVOKED
 
-   //! @copydoc ::boost::intrusive::bstree_algorithms::swap_nodes(const node_ptr&,const node_ptr&)
-   static void swap_nodes(const node_ptr & node1, const node_ptr & node2)
+   //! @copydoc ::boost::intrusive::bstree_algorithms::swap_nodes(node_ptr,node_ptr)
+   static void swap_nodes(node_ptr node1, node_ptr node2)
    {
       if(node1 == node2)
          return;
@@ -190,8 +190,8 @@ class avltree_algorithms
       swap_nodes(node1, header1, node2, header2);
    }
 
-   //! @copydoc ::boost::intrusive::bstree_algorithms::swap_nodes(const node_ptr&,const node_ptr&,const node_ptr&,const node_ptr&)
-   static void swap_nodes(const node_ptr & node1, const node_ptr & header1, const node_ptr & node2, const node_ptr & header2)
+   //! @copydoc ::boost::intrusive::bstree_algorithms::swap_nodes(node_ptr,node_ptr,node_ptr,node_ptr)
+   static void swap_nodes(node_ptr node1, node_ptr header1, node_ptr node2, node_ptr header2)
    {
       if(node1 == node2)   return;
 
@@ -202,23 +202,23 @@ class avltree_algorithms
       NodeTraits::set_balance(node2, c);
    }
 
-   //! @copydoc ::boost::intrusive::bstree_algorithms::replace_node(const node_ptr&,const node_ptr&)
-   static void replace_node(const node_ptr & node_to_be_replaced, const node_ptr & new_node)
+   //! @copydoc ::boost::intrusive::bstree_algorithms::replace_node(node_ptr,node_ptr)
+   static void replace_node(node_ptr node_to_be_replaced, node_ptr new_node)
    {
       if(node_to_be_replaced == new_node)
          return;
       replace_node(node_to_be_replaced, bstree_algo::get_header(node_to_be_replaced), new_node);
    }
 
-   //! @copydoc ::boost::intrusive::bstree_algorithms::replace_node(const node_ptr&,const node_ptr&,const node_ptr&)
-   static void replace_node(const node_ptr & node_to_be_replaced, const node_ptr & header, const node_ptr & new_node)
+   //! @copydoc ::boost::intrusive::bstree_algorithms::replace_node(node_ptr,node_ptr,node_ptr)
+   static void replace_node(node_ptr node_to_be_replaced, node_ptr header, node_ptr new_node)
    {
       bstree_algo::replace_node(node_to_be_replaced, header, new_node);
       NodeTraits::set_balance(new_node, NodeTraits::get_balance(node_to_be_replaced));
    }
 
-   //! @copydoc ::boost::intrusive::bstree_algorithms::unlink(const node_ptr&)
-   static void unlink(const node_ptr & node)
+   //! @copydoc ::boost::intrusive::bstree_algorithms::unlink(node_ptr)
+   static void unlink(node_ptr node)
    {
       node_ptr x = NodeTraits::get_parent(node);
       if(x){
@@ -244,7 +244,7 @@ class avltree_algorithms
    //! @copydoc ::boost::intrusive::bstree_algorithms::prev_node(const node_ptr&)
    static node_ptr prev_node(const node_ptr & node);
 
-   //! @copydoc ::boost::intrusive::bstree_algorithms::init(const node_ptr&)
+   //! @copydoc ::boost::intrusive::bstree_algorithms::init(node_ptr)
    static void init(const node_ptr & node);
    #endif   //#ifdef BOOST_INTRUSIVE_DOXYGEN_INVOKED
 
@@ -258,14 +258,14 @@ class avltree_algorithms
    //! <b>Throws</b>: Nothing.
    //!
    //! <b>Nodes</b>: If node is inserted in a tree, this function corrupts the tree.
-   static void init_header(const node_ptr & header)
+   static void init_header(node_ptr header)
    {
       bstree_algo::init_header(header);
       NodeTraits::set_balance(header, NodeTraits::zero());
    }
 
-   //! @copydoc ::boost::intrusive::bstree_algorithms::erase(const node_ptr&,const node_ptr&)
-   static node_ptr erase(const node_ptr & header, const node_ptr & z)
+   //! @copydoc ::boost::intrusive::bstree_algorithms::erase(node_ptr,node_ptr)
+   static node_ptr erase(node_ptr header, node_ptr z)
    {
       typename bstree_algo::data_for_rebalance info;
       bstree_algo::erase(header, z, info);
@@ -276,7 +276,7 @@ class avltree_algorithms
    //! @copydoc ::boost::intrusive::bstree_algorithms::transfer_unique
    template<class NodePtrCompare>
    static bool transfer_unique
-      (const node_ptr & header1, NodePtrCompare comp, const node_ptr &header2, const node_ptr & z)
+      (node_ptr header1, NodePtrCompare comp, node_ptr header2, node_ptr z)
    {
       typename bstree_algo::data_for_rebalance info;
       bool const transferred = bstree_algo::transfer_unique(header1, comp, header2, z, info);
@@ -290,7 +290,7 @@ class avltree_algorithms
    //! @copydoc ::boost::intrusive::bstree_algorithms::transfer_equal
    template<class NodePtrCompare>
    static void transfer_equal
-      (const node_ptr & header1, NodePtrCompare comp, const node_ptr &header2, const node_ptr & z)
+      (node_ptr header1, NodePtrCompare comp, node_ptr header2, node_ptr z)
    {
       typename bstree_algo::data_for_rebalance info;
       bstree_algo::transfer_equal(header1, comp, header2, z, info);
@@ -298,10 +298,10 @@ class avltree_algorithms
       rebalance_after_insertion(header1, z);
    }
 
-   //! @copydoc ::boost::intrusive::bstree_algorithms::clone(const const_node_ptr&,const node_ptr&,Cloner,Disposer)
+   //! @copydoc ::boost::intrusive::bstree_algorithms::clone(const const_node_ptr&,node_ptr,Cloner,Disposer)
    template <class Cloner, class Disposer>
    static void clone
-      (const const_node_ptr & source_header, const node_ptr & target_header, Cloner cloner, Disposer disposer)
+      (const const_node_ptr & source_header, node_ptr target_header, Cloner cloner, Disposer disposer)
    {
       avltree_node_cloner<NodeTraits, Cloner> new_cloner(cloner);
       bstree_algo::clone(source_header, target_header, new_cloner, disposer);
@@ -344,54 +344,54 @@ class avltree_algorithms
 
    #endif   //#ifdef BOOST_INTRUSIVE_DOXYGEN_INVOKED
 
-   //! @copydoc ::boost::intrusive::bstree_algorithms::insert_equal_upper_bound(const node_ptr&,const node_ptr&,NodePtrCompare)
+   //! @copydoc ::boost::intrusive::bstree_algorithms::insert_equal_upper_bound(node_ptr,node_ptr,NodePtrCompare)
    template<class NodePtrCompare>
    static node_ptr insert_equal_upper_bound
-      (const node_ptr & h, const node_ptr & new_node, NodePtrCompare comp)
+      (node_ptr h, node_ptr new_node, NodePtrCompare comp)
    {
       bstree_algo::insert_equal_upper_bound(h, new_node, comp);
       rebalance_after_insertion(h, new_node);
       return new_node;
    }
 
-   //! @copydoc ::boost::intrusive::bstree_algorithms::insert_equal_lower_bound(const node_ptr&,const node_ptr&,NodePtrCompare)
+   //! @copydoc ::boost::intrusive::bstree_algorithms::insert_equal_lower_bound(node_ptr,node_ptr,NodePtrCompare)
    template<class NodePtrCompare>
    static node_ptr insert_equal_lower_bound
-      (const node_ptr & h, const node_ptr & new_node, NodePtrCompare comp)
+      (node_ptr h, node_ptr new_node, NodePtrCompare comp)
    {
       bstree_algo::insert_equal_lower_bound(h, new_node, comp);
       rebalance_after_insertion(h, new_node);
       return new_node;
    }
 
-   //! @copydoc ::boost::intrusive::bstree_algorithms::insert_equal(const node_ptr&,const node_ptr&,const node_ptr&,NodePtrCompare)
+   //! @copydoc ::boost::intrusive::bstree_algorithms::insert_equal(node_ptr,node_ptr,node_ptr,NodePtrCompare)
    template<class NodePtrCompare>
    static node_ptr insert_equal
-      (const node_ptr & header, const node_ptr & hint, const node_ptr & new_node, NodePtrCompare comp)
+      (node_ptr header, node_ptr hint, node_ptr new_node, NodePtrCompare comp)
    {
       bstree_algo::insert_equal(header, hint, new_node, comp);
       rebalance_after_insertion(header, new_node);
       return new_node;
    }
 
-   //! @copydoc ::boost::intrusive::bstree_algorithms::insert_before(const node_ptr&,const node_ptr&,const node_ptr&)
+   //! @copydoc ::boost::intrusive::bstree_algorithms::insert_before(node_ptr,node_ptr,node_ptr)
    static node_ptr insert_before
-      (const node_ptr & header, const node_ptr & pos, const node_ptr & new_node)
+      (node_ptr header, node_ptr pos, node_ptr new_node)
    {
       bstree_algo::insert_before(header, pos, new_node);
       rebalance_after_insertion(header, new_node);
       return new_node;
    }
 
-   //! @copydoc ::boost::intrusive::bstree_algorithms::push_back(const node_ptr&,const node_ptr&)
-   static void push_back(const node_ptr & header, const node_ptr & new_node)
+   //! @copydoc ::boost::intrusive::bstree_algorithms::push_back(node_ptr,node_ptr)
+   static void push_back(node_ptr header, node_ptr new_node)
    {
       bstree_algo::push_back(header, new_node);
       rebalance_after_insertion(header, new_node);
    }
 
-   //! @copydoc ::boost::intrusive::bstree_algorithms::push_front(const node_ptr&,const node_ptr&)
-   static void push_front(const node_ptr & header, const node_ptr & new_node)
+   //! @copydoc ::boost::intrusive::bstree_algorithms::push_front(node_ptr,node_ptr)
+   static void push_front(node_ptr header, node_ptr new_node)
    {
       bstree_algo::push_front(header, new_node);
       rebalance_after_insertion(header, new_node);
@@ -411,9 +411,9 @@ class avltree_algorithms
       ,KeyNodePtrCompare comp, insert_commit_data &commit_data);
    #endif   //#ifdef BOOST_INTRUSIVE_DOXYGEN_INVOKED
 
-   //! @copydoc ::boost::intrusive::bstree_algorithms::insert_unique_commit(const node_ptr&,const node_ptr&,const insert_commit_data &)
+   //! @copydoc ::boost::intrusive::bstree_algorithms::insert_unique_commit(node_ptr,node_ptr,const insert_commit_data &)
    static void insert_unique_commit
-      (const node_ptr & header, const node_ptr & new_value, const insert_commit_data &commit_data)
+      (node_ptr header, node_ptr new_value, const insert_commit_data &commit_data)
    {
       bstree_algo::insert_unique_commit(header, new_value, commit_data);
       rebalance_after_insertion(header, new_value);
@@ -483,7 +483,7 @@ class avltree_algorithms
    }
 
    static void rebalance_after_erasure
-      ( const node_ptr & header, const node_ptr &z, const typename bstree_algo::data_for_rebalance &info)
+      ( node_ptr header, node_ptr z, const typename bstree_algo::data_for_rebalance &info)
    {
       if(info.y != z){
          NodeTraits::set_balance(info.y, NodeTraits::get_balance(z));
@@ -492,7 +492,7 @@ class avltree_algorithms
       rebalance_after_erasure_restore_invariants(header, info.x, info.x_parent);
    }
 
-   static void rebalance_after_erasure_restore_invariants(const node_ptr & header, node_ptr x, node_ptr x_parent)
+   static void rebalance_after_erasure_restore_invariants(node_ptr header, node_ptr x, node_ptr x_parent)
    {
       for ( node_ptr root = NodeTraits::get_parent(header)
           ; x != root
@@ -560,7 +560,7 @@ class avltree_algorithms
       }
    }
 
-   static void rebalance_after_insertion(const node_ptr & header, node_ptr x)
+   static void rebalance_after_insertion(node_ptr header, node_ptr x)
    {
       NodeTraits::set_balance(x, NodeTraits::zero());
       // Rebalance.
@@ -605,7 +605,7 @@ class avltree_algorithms
       }
    }
 
-   static void left_right_balancing(const node_ptr & a, const node_ptr & b, const node_ptr & c)
+   static void left_right_balancing(node_ptr a, node_ptr b, node_ptr c)
    {
       // balancing...
       const balance c_balance = NodeTraits::get_balance(c);
@@ -630,7 +630,7 @@ class avltree_algorithms
       }
    }
 
-   static node_ptr avl_rotate_left_right(const node_ptr a, const node_ptr a_oldleft, const node_ptr & hdr)
+   static node_ptr avl_rotate_left_right(const node_ptr a, const node_ptr a_oldleft, node_ptr hdr)
    {  // [note: 'a_oldleft' is 'b']
       //             |                               |         //
       //             a(-2)                           c         //
@@ -650,7 +650,7 @@ class avltree_algorithms
       return c;
    }
 
-   static node_ptr avl_rotate_right_left(const node_ptr a, const node_ptr a_oldright, const node_ptr & hdr)
+   static node_ptr avl_rotate_right_left(const node_ptr a, const node_ptr a_oldright, node_ptr hdr)
    {  // [note: 'a_oldright' is 'b']
       //              |                               |           //
       //              a(pos)                          c           //
@@ -670,7 +670,7 @@ class avltree_algorithms
       return c;
    }
 
-   static void avl_rotate_left(const node_ptr &x, const node_ptr &x_oldright, const node_ptr & hdr)
+   static void avl_rotate_left(node_ptr x, node_ptr x_oldright, node_ptr hdr)
    {
       bstree_algo::rotate_left(x, x_oldright, NodeTraits::get_parent(x), hdr);
 
@@ -685,7 +685,7 @@ class avltree_algorithms
       }
    }
 
-   static void avl_rotate_right(const node_ptr &x, const node_ptr &x_oldleft, const node_ptr & hdr)
+   static void avl_rotate_right(node_ptr x, node_ptr x_oldleft, node_ptr hdr)
    {
       bstree_algo::rotate_right(x, x_oldleft, NodeTraits::get_parent(x), hdr);
 

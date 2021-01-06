@@ -24,6 +24,7 @@
 //!   - boost::container::vector
 //!   - boost::container::stable_vector
 //!   - boost::container::static_vector
+//!   - boost::container::small_vector_base
 //!   - boost::container::small_vector
 //!   - boost::container::slist
 //!   - boost::container::list
@@ -67,7 +68,7 @@ namespace detail{
    //Create namespace to avoid compilation errors
 }}}
 
-namespace boost{ namespace container{ namespace container_detail{
+namespace boost{ namespace container{ namespace dtl{
    namespace bi = boost::intrusive;
    namespace bid = boost::intrusive::detail;
 }}}
@@ -88,117 +89,190 @@ namespace boost{ namespace container{ namespace pmr{
 namespace boost {
 namespace container {
 
-//! Enumeration used to configure ordered associative containers
-//! with a concrete tree implementation.
-enum tree_type_enum
-{
-   red_black_tree,
-   avl_tree,
-   scapegoat_tree,
-   splay_tree
-};
-
 #ifndef BOOST_CONTAINER_DOXYGEN_INVOKED
+
+template<class T1, class T2>
+struct pair;
 
 template<class T>
 class new_allocator;
 
 template <class T
-         ,class Allocator = new_allocator<T> >
+         ,class Allocator = void
+         ,class Options   = void>
 class vector;
 
 template <class T
-         ,class Allocator = new_allocator<T> >
+         ,class Allocator = void >
 class stable_vector;
 
-template <class T, std::size_t Capacity>
+template < class T
+         , std::size_t Capacity
+         , class Options = void>
 class static_vector;
 
-template < class T, std::size_t N
-         , class Allocator= new_allocator<T> >
+template < class T
+         , class Allocator = void
+         , class Options   = void >
+class small_vector_base;
+
+template < class T
+         , std::size_t N
+         , class Allocator = void
+         , class Options   = void  >
 class small_vector;
 
 template <class T
-         ,class Allocator = new_allocator<T> >
+         ,class Allocator = void
+         ,class Options   = void>
 class deque;
 
 template <class T
-         ,class Allocator = new_allocator<T> >
+         ,class Allocator = void >
 class list;
 
 template <class T
-         ,class Allocator = new_allocator<T> >
+         ,class Allocator = void >
 class slist;
-
-template<tree_type_enum TreeType, bool OptimizeSize>
-struct tree_opt;
-
-typedef tree_opt<red_black_tree, true> tree_assoc_defaults;
 
 template <class Key
          ,class Compare  = std::less<Key>
-         ,class Allocator = new_allocator<Key>
-         ,class Options = tree_assoc_defaults >
+         ,class Allocator = void
+         ,class Options = void>
 class set;
 
 template <class Key
          ,class Compare  = std::less<Key>
-         ,class Allocator = new_allocator<Key>
-         ,class Options = tree_assoc_defaults >
+         ,class Allocator = void
+         ,class Options = void >
 class multiset;
 
 template <class Key
          ,class T
          ,class Compare  = std::less<Key>
-         ,class Allocator = new_allocator<std::pair<const Key, T> >
-         ,class Options = tree_assoc_defaults >
+         ,class Allocator = void
+         ,class Options = void >
 class map;
 
 template <class Key
          ,class T
          ,class Compare  = std::less<Key>
-         ,class Allocator = new_allocator<std::pair<const Key, T> >
-         ,class Options = tree_assoc_defaults >
+         ,class Allocator = void
+         ,class Options = void >
 class multimap;
 
 template <class Key
          ,class Compare  = std::less<Key>
-         ,class Allocator = new_allocator<Key> >
+         ,class Allocator = void >
 class flat_set;
 
 template <class Key
          ,class Compare  = std::less<Key>
-         ,class Allocator = new_allocator<Key> >
+         ,class Allocator = void >
 class flat_multiset;
 
 template <class Key
          ,class T
          ,class Compare  = std::less<Key>
-         ,class Allocator = new_allocator<std::pair<Key, T> > >
+         ,class Allocator = void >
 class flat_map;
 
 template <class Key
          ,class T
          ,class Compare  = std::less<Key>
-         ,class Allocator = new_allocator<std::pair<Key, T> > >
+         ,class Allocator = void >
 class flat_multimap;
+
+#ifndef BOOST_NO_CXX11_TEMPLATE_ALIASES
+
+//! Alias templates for small_flat_[multi]{set|map} using small_vector as container
+
+template < class Key
+         , std::size_t N
+         , class Compare  = std::less<Key>
+         , class SmallVectorAllocator = void
+         , class SmallVectorOptions   = void  >
+using small_flat_set = flat_set<Key, Compare, small_vector<Key, N, SmallVectorAllocator, SmallVectorOptions>>;
+
+template < class Key
+         , std::size_t N
+         , class Compare  = std::less<Key>
+         , class SmallVectorAllocator = void
+         , class SmallVectorOptions   = void  >
+using small_flat_multiset = flat_multiset<Key, Compare, small_vector<Key, N, SmallVectorAllocator, SmallVectorOptions>>;
+
+template < class Key
+         , class T
+         , std::size_t N
+         , class Compare  = std::less<Key>
+         , class SmallVectorAllocator = void
+         , class SmallVectorOptions   = void  >
+using small_flat_map = flat_map<Key, T, Compare, small_vector<std::pair<Key, T>, N, SmallVectorAllocator, SmallVectorOptions>>;
+
+template < class Key
+         , class T
+         , std::size_t N
+         , class Compare  = std::less<Key>
+         , class SmallVectorAllocator = void
+         , class SmallVectorOptions   = void  >
+using small_flat_multimap = flat_multimap<Key, T, Compare, small_vector<std::pair<Key, T>, N, SmallVectorAllocator, SmallVectorOptions>>;
+
+#endif // #ifndef BOOST_NO_CXX11_TEMPLATE_ALIASES
+
+
+//! A portable metafunction to obtain a small_flat_set
+template < class Key
+         , std::size_t N
+         , class Compare  = std::less<Key>
+         , class SmallVectorAllocator = void
+         , class SmallVectorOptions   = void  >
+struct small_flat_set_of
+{
+   typedef flat_set<Key, Compare, small_vector<Key, N, SmallVectorAllocator, SmallVectorOptions> > type;
+};
+
+//! A portable metafunction to obtain a small_flat_multiset
+template < class Key
+         , std::size_t N
+         , class Compare  = std::less<Key>
+         , class SmallVectorAllocator = void
+         , class SmallVectorOptions   = void  >
+struct small_flat_multiset_of
+{
+   typedef flat_multiset<Key, Compare, small_vector<Key, N, SmallVectorAllocator, SmallVectorOptions> > type;
+};
+
+//! A portable metafunction to obtain a small_flat_map
+template < class Key
+         , class T
+         , std::size_t N
+         , class Compare  = std::less<Key>
+         , class SmallVectorAllocator = void
+         , class SmallVectorOptions   = void  >
+struct small_flat_map_of
+{
+   typedef flat_map<Key, T, Compare, small_vector<std::pair<Key, T>, N, SmallVectorAllocator, SmallVectorOptions> > type;
+};
+
+//! A portable metafunction to obtain a small_flat_multimap
+template < class Key
+         , class T
+         , std::size_t N
+         , class Compare  = std::less<Key>
+         , class SmallVectorAllocator = void
+         , class SmallVectorOptions   = void  >
+struct small_flat_multimap_of
+{
+   typedef flat_multimap<Key, T, Compare, small_vector<std::pair<Key, T>, N, SmallVectorAllocator, SmallVectorOptions> > type;
+};
 
 template <class CharT
          ,class Traits = std::char_traits<CharT>
-         ,class Allocator  = new_allocator<CharT> >
+         ,class Allocator  = void >
 class basic_string;
 
-typedef basic_string
-   <char
-   ,std::char_traits<char>
-   ,new_allocator<char> >
-string;
-
-typedef basic_string
-   <wchar_t
-   ,std::char_traits<wchar_t>
-   ,new_allocator<wchar_t> >
-wstring;
+typedef basic_string <char>   string;
+typedef basic_string<wchar_t> wstring;
 
 static const std::size_t ADP_nodes_per_block    = 256u;
 static const std::size_t ADP_max_free_blocks    = 2u;
@@ -245,13 +319,6 @@ class unsynchronized_pool_resource;
 class synchronized_pool_resource;
 
 }  //namespace pmr {
-
-#else
-
-//! Default options for tree-based associative containers
-//!   - tree_type<red_black_tree>
-//!   - optimize_size<true>
-typedef implementation_defined tree_assoc_defaults;
 
 #endif   //#ifndef BOOST_CONTAINER_DOXYGEN_INVOKED
 

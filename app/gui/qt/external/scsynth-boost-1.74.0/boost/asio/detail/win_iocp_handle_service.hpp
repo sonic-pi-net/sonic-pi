@@ -2,7 +2,7 @@
 // detail/win_iocp_handle_service.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2017 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 // Copyright (c) 2008 Rep Invariant Systems, Inc. (info@repinvariant.com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
@@ -21,7 +21,7 @@
 #if defined(BOOST_ASIO_HAS_IOCP)
 
 #include <boost/asio/error.hpp>
-#include <boost/asio/io_context.hpp>
+#include <boost/asio/execution_context.hpp>
 #include <boost/asio/detail/buffer_sequence_adapter.hpp>
 #include <boost/asio/detail/cstdint.hpp>
 #include <boost/asio/detail/handler_alloc_helpers.hpp>
@@ -39,7 +39,7 @@ namespace asio {
 namespace detail {
 
 class win_iocp_handle_service :
-  public service_base<win_iocp_handle_service>
+  public execution_context_service_base<win_iocp_handle_service>
 {
 public:
   // The native type of a stream handle.
@@ -76,7 +76,7 @@ public:
     implementation_type* prev_;
   };
 
-  BOOST_ASIO_DECL win_iocp_handle_service(boost::asio::io_context& io_context);
+  BOOST_ASIO_DECL win_iocp_handle_service(execution_context& context);
 
   // Destroy all user-defined handler objects owned by the service.
   BOOST_ASIO_DECL void shutdown();
@@ -143,15 +143,17 @@ public:
 
   // Start an asynchronous write. The data being written must be valid for the
   // lifetime of the asynchronous operation.
-  template <typename ConstBufferSequence, typename Handler>
+  template <typename ConstBufferSequence, typename Handler, typename IoExecutor>
   void async_write_some(implementation_type& impl,
-      const ConstBufferSequence& buffers, Handler& handler)
+      const ConstBufferSequence& buffers,
+      Handler& handler, const IoExecutor& io_ex)
   {
     // Allocate and construct an operation to wrap the handler.
-    typedef win_iocp_handle_write_op<ConstBufferSequence, Handler> op;
+    typedef win_iocp_handle_write_op<
+        ConstBufferSequence, Handler, IoExecutor> op;
     typename op::ptr p = { boost::asio::detail::addressof(handler),
       op::ptr::allocate(handler), 0 };
-    p.p = new (p.v) op(buffers, handler);
+    p.p = new (p.v) op(buffers, handler, io_ex);
 
     BOOST_ASIO_HANDLER_CREATION((iocp_service_.context(), *p.p, "handle", &impl,
           reinterpret_cast<uintmax_t>(impl.handle_), "async_write_some"));
@@ -164,15 +166,17 @@ public:
 
   // Start an asynchronous write at a specified offset. The data being written
   // must be valid for the lifetime of the asynchronous operation.
-  template <typename ConstBufferSequence, typename Handler>
-  void async_write_some_at(implementation_type& impl, uint64_t offset,
-      const ConstBufferSequence& buffers, Handler& handler)
+  template <typename ConstBufferSequence, typename Handler, typename IoExecutor>
+  void async_write_some_at(implementation_type& impl,
+      uint64_t offset, const ConstBufferSequence& buffers,
+      Handler& handler, const IoExecutor& io_ex)
   {
     // Allocate and construct an operation to wrap the handler.
-    typedef win_iocp_handle_write_op<ConstBufferSequence, Handler> op;
+    typedef win_iocp_handle_write_op<
+        ConstBufferSequence, Handler, IoExecutor> op;
     typename op::ptr p = { boost::asio::detail::addressof(handler),
       op::ptr::allocate(handler), 0 };
-    p.p = new (p.v) op(buffers, handler);
+    p.p = new (p.v) op(buffers, handler, io_ex);
 
     BOOST_ASIO_HANDLER_CREATION((iocp_service_.context(), *p.p, "handle", &impl,
           reinterpret_cast<uintmax_t>(impl.handle_), "async_write_some_at"));
@@ -205,15 +209,18 @@ public:
 
   // Start an asynchronous read. The buffer for the data being received must be
   // valid for the lifetime of the asynchronous operation.
-  template <typename MutableBufferSequence, typename Handler>
+  template <typename MutableBufferSequence,
+      typename Handler, typename IoExecutor>
   void async_read_some(implementation_type& impl,
-      const MutableBufferSequence& buffers, Handler& handler)
+      const MutableBufferSequence& buffers,
+      Handler& handler, const IoExecutor& io_ex)
   {
     // Allocate and construct an operation to wrap the handler.
-    typedef win_iocp_handle_read_op<MutableBufferSequence, Handler> op;
+    typedef win_iocp_handle_read_op<
+        MutableBufferSequence, Handler, IoExecutor> op;
     typename op::ptr p = { boost::asio::detail::addressof(handler),
       op::ptr::allocate(handler), 0 };
-    p.p = new (p.v) op(buffers, handler);
+    p.p = new (p.v) op(buffers, handler, io_ex);
 
     BOOST_ASIO_HANDLER_CREATION((iocp_service_.context(), *p.p, "handle", &impl,
           reinterpret_cast<uintmax_t>(impl.handle_), "async_read_some"));
@@ -227,15 +234,18 @@ public:
   // Start an asynchronous read at a specified offset. The buffer for the data
   // being received must be valid for the lifetime of the asynchronous
   // operation.
-  template <typename MutableBufferSequence, typename Handler>
-  void async_read_some_at(implementation_type& impl, uint64_t offset,
-      const MutableBufferSequence& buffers, Handler& handler)
+  template <typename MutableBufferSequence,
+      typename Handler, typename IoExecutor>
+  void async_read_some_at(implementation_type& impl,
+      uint64_t offset, const MutableBufferSequence& buffers,
+      Handler& handler, const IoExecutor& io_ex)
   {
     // Allocate and construct an operation to wrap the handler.
-    typedef win_iocp_handle_read_op<MutableBufferSequence, Handler> op;
+    typedef win_iocp_handle_read_op<
+        MutableBufferSequence, Handler, IoExecutor> op;
     typename op::ptr p = { boost::asio::detail::addressof(handler),
       op::ptr::allocate(handler), 0 };
-    p.p = new (p.v) op(buffers, handler);
+    p.p = new (p.v) op(buffers, handler, io_ex);
 
     BOOST_ASIO_HANDLER_CREATION((iocp_service_.context(), *p.p, "handle", &impl,
           reinterpret_cast<uintmax_t>(impl.handle_), "async_read_some_at"));
@@ -252,22 +262,24 @@ private:
       const null_buffers& buffers, boost::system::error_code& ec);
   size_t write_some_at(implementation_type& impl, uint64_t offset,
       const null_buffers& buffers, boost::system::error_code& ec);
-  template <typename Handler>
+  template <typename Handler, typename IoExecutor>
   void async_write_some(implementation_type& impl,
-      const null_buffers& buffers, Handler& handler);
-  template <typename Handler>
+      const null_buffers& buffers, Handler& handler,
+      const IoExecutor& io_ex);
+  template <typename Handler, typename IoExecutor>
   void async_write_some_at(implementation_type& impl, uint64_t offset,
-      const null_buffers& buffers, Handler& handler);
+      const null_buffers& buffers, Handler& handler, const IoExecutor& io_ex);
   size_t read_some(implementation_type& impl,
       const null_buffers& buffers, boost::system::error_code& ec);
   size_t read_some_at(implementation_type& impl, uint64_t offset,
       const null_buffers& buffers, boost::system::error_code& ec);
-  template <typename Handler>
+  template <typename Handler, typename IoExecutor>
   void async_read_some(implementation_type& impl,
-      const null_buffers& buffers, Handler& handler);
-  template <typename Handler>
+      const null_buffers& buffers, Handler& handler,
+      const IoExecutor& io_ex);
+  template <typename Handler, typename IoExecutor>
   void async_read_some_at(implementation_type& impl, uint64_t offset,
-      const null_buffers& buffers, Handler& handler);
+      const null_buffers& buffers, Handler& handler, const IoExecutor& io_ex);
 
   // Helper class for waiting for synchronous operations to complete.
   class overlapped_wrapper;

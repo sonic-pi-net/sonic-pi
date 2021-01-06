@@ -11,19 +11,20 @@ http://www.boost.org/LICENSE_1_0.txt)
 #include <boost/predef/version_number.h>
 #include <boost/predef/make.h>
 
-/*`
-[heading `BOOST_COMP_PGI`]
+/* tag::reference[]
+= `BOOST_COMP_PGI`
 
-[@http://en.wikipedia.org/wiki/The_Portland_Group Portland Group C/C++] compiler.
+http://en.wikipedia.org/wiki/The_Portland_Group[Portland Group C/{CPP}] compiler.
 
-[table
-    [[__predef_symbol__] [__predef_version__]]
+[options="header"]
+|===
+| {predef_symbol} | {predef_version}
 
-    [[`__PGI`] [__predef_detection__]]
+| `+__PGI+` | {predef_detection}
 
-    [[`__PGIC__`, `__PGIC_MINOR__`, `__PGIC_PATCHLEVEL__`] [V.R.P]]
-    ]
- */
+| `+__PGIC__+`, `+__PGIC_MINOR__+`, `+__PGIC_PATCHLEVEL__+` | V.R.P
+|===
+*/ // end::reference[]
 
 #define BOOST_COMP_PGI BOOST_VERSION_NUMBER_NOT_AVAILABLE
 

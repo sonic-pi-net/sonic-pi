@@ -158,7 +158,7 @@ template<typename T>
 struct is_unary_or_binary_function : is_unary_or_binary_function_impl<T>
 {};
 
-template<typename T, bool = is_unary_or_binary_function<T>::value>
+template<typename T, typename Tag = void, bool = is_unary_or_binary_function<T>::value>
 class ebo_functor_holder
 {
    BOOST_COPYABLE_AND_MOVABLE(ebo_functor_holder)
@@ -222,8 +222,8 @@ class ebo_functor_holder
    T t_;
 };
 
-template<typename T>
-class ebo_functor_holder<T, false>
+template<typename T, typename Tag>
+class ebo_functor_holder<T, Tag, false>
    :  public T
 {
    BOOST_COPYABLE_AND_MOVABLE(ebo_functor_holder)

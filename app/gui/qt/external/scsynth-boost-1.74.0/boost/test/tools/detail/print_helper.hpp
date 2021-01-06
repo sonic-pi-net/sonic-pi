@@ -18,7 +18,6 @@
 // Boost.Test
 #include <boost/test/detail/config.hpp>
 #include <boost/test/detail/global_typedef.hpp>
-#include <boost/test/detail/workaround.hpp>
 
 // Boost
 #include <boost/mpl/or.hpp>
@@ -28,6 +27,8 @@
 #include <boost/type_traits/is_abstract.hpp>
 #include <boost/type_traits/has_left_shift.hpp>
 
+#include <ios>
+#include <iostream>
 #include <limits>
 
 #if !defined(BOOST_NO_CXX11_NULLPTR)
@@ -119,7 +120,7 @@ struct print_log_value {
 
 //____________________________________________________________________________//
 
-#if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
+#if BOOST_WORKAROUND(BOOST_BORLANDC, BOOST_TESTED_AT(0x564))
 template<typename T, std::size_t N >
 struct print_log_value< T[N] > {
     void    operator()( std::ostream& ostr, T const* t )
@@ -166,8 +167,11 @@ struct BOOST_TEST_DECL print_log_value<wchar_t const*> {
 
 #if !defined(BOOST_NO_CXX11_NULLPTR)
 template<>
-struct BOOST_TEST_DECL print_log_value<std::nullptr_t> {
-    void    operator()( std::ostream& ostr, std::nullptr_t t );
+struct print_log_value<std::nullptr_t> {
+    // declaration and definition is here because of #12969 https://svn.boost.org/trac10/ticket/12969
+    void    operator()( std::ostream& ostr, std::nullptr_t /*t*/ ) {
+        ostr << "nullptr";
+    }
 };
 #endif
 
@@ -188,7 +192,7 @@ struct print_helper_t {
 
 //____________________________________________________________________________//
 
-#if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
+#if BOOST_WORKAROUND(BOOST_BORLANDC, BOOST_TESTED_AT(0x564))
 // Borland suffers premature pointer decay passing arrays by reference
 template<typename T, std::size_t N >
 struct print_helper_t< T[N] > {

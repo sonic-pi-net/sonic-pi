@@ -8,7 +8,7 @@
 
 //  See library home page at http://www.boost.org/libs/filesystem
 
-//----------------------------------------------------------------------------// 
+//----------------------------------------------------------------------------//
 
 #ifndef BOOST_FILESYSTEM3_CONVENIENCE_HPP
 #define BOOST_FILESYSTEM3_CONVENIENCE_HPP
@@ -42,7 +42,7 @@ namespace boost
     }
 
     inline path change_extension( const path & p, const path & new_extension )
-    { 
+    {
       path new_p( p );
       new_p.replace_extension( new_extension );
       return new_p;

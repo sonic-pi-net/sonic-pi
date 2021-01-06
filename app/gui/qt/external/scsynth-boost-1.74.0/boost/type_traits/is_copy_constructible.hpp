@@ -37,8 +37,7 @@ template <> struct is_copy_constructible<void volatile> : public false_type{};
 // an incorrect value, which just defers the issue into the users code) as well.  We can at least fix
 // boost::non_copyable as a base class as a special case:
 //
-#include <boost/type_traits/is_base_and_derived.hpp>
-#include <boost/noncopyable.hpp>
+#include <boost/type_traits/is_noncopyable.hpp>
 
 namespace boost {
 
@@ -50,7 +49,7 @@ namespace boost {
 
    }
 
-   template <class T> struct is_copy_constructible : public detail::is_copy_constructible_imp<T, is_base_and_derived<boost::noncopyable, T>::value>{};
+   template <class T> struct is_copy_constructible : public detail::is_copy_constructible_imp<T, is_noncopyable<T>::value>{};
 
    template <> struct is_copy_constructible<void> : public false_type{};
    template <> struct is_copy_constructible<void const> : public false_type{};
@@ -64,13 +63,12 @@ namespace boost {
 #else
 
 #include <boost/type_traits/detail/yes_no_type.hpp>
-#include <boost/type_traits/is_base_and_derived.hpp>
+#include <boost/type_traits/is_noncopyable.hpp>
 #include <boost/type_traits/add_reference.hpp>
 #include <boost/type_traits/is_rvalue_reference.hpp>
 #include <boost/type_traits/declval.hpp>
 #include <boost/type_traits/is_array.hpp>
 #include <boost/type_traits/declval.hpp>
-#include <boost/noncopyable.hpp>
 
 #ifdef BOOST_MSVC
 #pragma warning(push)
@@ -160,7 +158,7 @@ namespace boost {
 
          BOOST_STATIC_CONSTANT(bool, value = (
             boost::detail::is_copy_constructible_impl2<
-            boost::is_base_and_derived<boost::noncopyable, T>::value,
+            boost::is_noncopyable<T>::value,
             T
             >::value
             ));

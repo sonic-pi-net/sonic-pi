@@ -16,7 +16,7 @@
 #include <boost/config.hpp>
 
 #include <boost/assert.hpp>
-#include <boost/detail/workaround.hpp>
+#include <boost/config/workaround.hpp>
 #include <boost/smart_ptr/detail/sp_convertible.hpp>
 #include <boost/smart_ptr/detail/sp_nullptr_t.hpp>
 #include <boost/smart_ptr/detail/sp_noexcept.hpp>
@@ -297,6 +297,8 @@ template<class T> T * get_pointer(intrusive_ptr<T> const & p) BOOST_SP_NOEXCEPT
     return p.get();
 }
 
+// pointer casts
+
 template<class T, class U> intrusive_ptr<T> static_pointer_cast(intrusive_ptr<U> const & p)
 {
     return static_cast<T *>(p.get());
@@ -311,6 +313,31 @@ template<class T, class U> intrusive_ptr<T> dynamic_pointer_cast(intrusive_ptr<U
 {
     return dynamic_cast<T *>(p.get());
 }
+
+#if !defined( BOOST_NO_CXX11_RVALUE_REFERENCES )
+
+template<class T, class U> intrusive_ptr<T> static_pointer_cast( intrusive_ptr<U> && p ) BOOST_SP_NOEXCEPT
+{
+    return intrusive_ptr<T>( static_cast<T*>( p.detach() ), false );
+}
+
+template<class T, class U> intrusive_ptr<T> const_pointer_cast( intrusive_ptr<U> && p ) BOOST_SP_NOEXCEPT
+{
+    return intrusive_ptr<T>( const_cast<T*>( p.detach() ), false );
+}
+
+template<class T, class U> intrusive_ptr<T> dynamic_pointer_cast( intrusive_ptr<U> && p ) BOOST_SP_NOEXCEPT
+{
+    T * p2 = dynamic_cast<T*>( p.get() );
+
+    intrusive_ptr<T> r( p2, false );
+
+    if( p2 ) p.detach();
+
+    return r;
+}
+
+#endif // defined( BOOST_NO_CXX11_RVALUE_REFERENCES )
 
 // operator<<
 
@@ -357,5 +384,24 @@ template< class T > std::size_t hash_value( boost::intrusive_ptr<T> const & p ) 
 }
 
 } // namespace boost
+
+// std::hash
+
+#if !defined(BOOST_NO_CXX11_HDR_FUNCTIONAL)
+
+namespace std
+{
+
+template<class T> struct hash< ::boost::intrusive_ptr<T> >
+{
+    std::size_t operator()( ::boost::intrusive_ptr<T> const & p ) const BOOST_SP_NOEXCEPT
+    {
+        return std::hash< T* >()( p.get() );
+    }
+};
+
+} // namespace std
+
+#endif // #if !defined(BOOST_NO_CXX11_HDR_FUNCTIONAL)
 
 #endif  // #ifndef BOOST_SMART_PTR_INTRUSIVE_PTR_HPP_INCLUDED

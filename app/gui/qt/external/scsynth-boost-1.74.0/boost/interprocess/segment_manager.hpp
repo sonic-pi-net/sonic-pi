@@ -424,6 +424,13 @@ class segment_manager
       const void *const segm_addr  = static_cast<segment_manager_base_t*>(this);
       (void)this_addr;  (void)segm_addr;
       BOOST_ASSERT( this_addr == segm_addr);
+      const std::size_t void_ptr_alignment = boost::move_detail::alignment_of<void_pointer>::value; (void)void_ptr_alignment;
+      BOOST_ASSERT((0 == (std::size_t)this_addr % void_ptr_alignment));
+      BOOST_ASSERT((0 == (std::size_t)segm_addr % void_ptr_alignment));
+      BOOST_ASSERT((0 == (std::size_t)&m_header % void_ptr_alignment));
+      BOOST_STATIC_ASSERT((boost::move_detail::alignment_of<segment_manager>::value >= void_ptr_alignment));
+      BOOST_STATIC_ASSERT((boost::move_detail::alignment_of<segment_manager_base_t>::value >= void_ptr_alignment));
+      BOOST_STATIC_ASSERT((boost::move_detail::alignment_of<header_t>::value >= void_ptr_alignment));
    }
 
    //!Tries to find a previous named/unique allocation. Returns the address
@@ -630,7 +637,7 @@ class segment_manager
    //!the named allocations performed in this segment manager
    const_named_iterator named_begin() const
    {
-      return make_transform_iterator
+      return (make_transform_iterator)
          (m_header.m_named_index.begin(), named_transform());
    }
 
@@ -638,7 +645,7 @@ class segment_manager
    //!the named allocations performed in this segment manager
    const_named_iterator named_end() const
    {
-      return make_transform_iterator
+      return (make_transform_iterator)
          (m_header.m_named_index.end(), named_transform());
    }
 
@@ -646,7 +653,7 @@ class segment_manager
    //!the unique allocations performed in this segment manager
    const_unique_iterator unique_begin() const
    {
-      return make_transform_iterator
+      return (make_transform_iterator)
          (m_header.m_unique_index.begin(), unique_transform());
    }
 
@@ -654,7 +661,7 @@ class segment_manager
    //!the unique allocations performed in this segment manager
    const_unique_iterator unique_end() const
    {
-      return make_transform_iterator
+      return (make_transform_iterator)
          (m_header.m_unique_index.end(), unique_transform());
    }
 

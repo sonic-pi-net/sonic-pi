@@ -11,22 +11,23 @@ http://www.boost.org/LICENSE_1_0.txt)
 #include <boost/predef/version_number.h>
 #include <boost/predef/make.h>
 
-/*`
-[heading `BOOST_ARCH_ALPHA`]
+/* tag::reference[]
+= `BOOST_ARCH_ALPHA`
 
-[@http://en.wikipedia.org/wiki/DEC_Alpha DEC Alpha] architecture.
+http://en.wikipedia.org/wiki/DEC_Alpha[DEC Alpha] architecture.
 
-[table
-    [[__predef_symbol__] [__predef_version__]]
-    [[`__alpha__`] [__predef_detection__]]
-    [[`__alpha`] [__predef_detection__]]
-    [[`_M_ALPHA`] [__predef_detection__]]
+[options="header"]
+|===
+| {predef_symbol} | {predef_version}
+| `+__alpha__+` | {predef_detection}
+| `+__alpha+` | {predef_detection}
+| `+_M_ALPHA+` | {predef_detection}
 
-    [[`__alpha_ev4__`] [4.0.0]]
-    [[`__alpha_ev5__`] [5.0.0]]
-    [[`__alpha_ev6__`] [6.0.0]]
-    ]
- */
+| `+__alpha_ev4__+` | 4.0.0
+| `+__alpha_ev5__+` | 5.0.0
+| `+__alpha_ev6__+` | 6.0.0
+|===
+*/ // end::reference[]
 
 #define BOOST_ARCH_ALPHA BOOST_VERSION_NUMBER_NOT_AVAILABLE
 

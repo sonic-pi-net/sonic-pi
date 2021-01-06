@@ -11,10 +11,21 @@
 
 // locate which std lib we are using and define BOOST_STDLIB_CONFIG as needed:
 
-// First include <cstddef> to determine if some version of STLport is in use as the std lib
+// First, check if __has_include is available and <version> include can be located,
+// otherwise include <cstddef> to determine if some version of STLport is in use as the std lib
 // (do not rely on this header being included since users can short-circuit this header 
 //  if they know whose std lib they are using.)
-#ifdef __cplusplus
+#if defined(__cplusplus) && defined(__has_include)
+#  if __has_include(<version>)
+// It should be safe to include `<version>` when it is present without checking
+// the actual C++ language version as it consists solely of macro definitions.
+// [version.syn] p1: The header <version> supplies implementation-dependent
+// information about the C++ standard library (e.g., version number and release date).
+#    include <version>
+#  else
+#    include <cstddef>
+#  endif
+#elif defined(__cplusplus)
 #  include <cstddef>
 #else
 #  include <stddef.h>

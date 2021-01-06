@@ -8,7 +8,7 @@
 
 #ifndef BOOST_TYPEOF_VECTOR_HPP_INCLUDED
 
-#include <boost/mpl/int.hpp>
+#include <boost/typeof/constant.hpp>
 #include <boost/preprocessor/iteration/self.hpp>
 
 #ifndef BOOST_TYPEOF_LIMIT_SIZE
@@ -76,10 +76,10 @@
 
 #     define BOOST_TYPEOF_spec_iter(n)\
         template<class V>\
-        struct v_iter<V, mpl::int_<n> >\
+        struct v_iter<V, constant<int,n> >\
         {\
             typedef typename V::item ## n type;\
-            typedef v_iter<V, mpl::int_<n + 1> > next;\
+            typedef v_iter<V, constant<int,n + 1> > next;\
         };
 
 namespace boost { namespace type_of {
@@ -101,13 +101,13 @@ namespace boost { namespace type_of {
         typedef P ## n item ## n;
 
 #     define BOOST_TYPEOF_typedef_fake_item(z, n, _)\
-        typedef mpl::int_<1> item ## n;
+        typedef constant<int,1> item ## n;
 
 #     define BOOST_TYPEOF_define_vector(n)\
         template<BOOST_PP_ENUM_PARAMS(n, class P) BOOST_PP_EXPR_IIF(BOOST_PP_NOT(n), class T = void)>\
         struct vector ## n\
         {\
-            typedef v_iter<vector ## n<BOOST_PP_ENUM_PARAMS(n,P)>, boost::mpl::int_<0> > begin;\
+            typedef v_iter<vector ## n<BOOST_PP_ENUM_PARAMS(n,P)>, boost::type_of::constant<int,0> > begin;\
             BOOST_PP_REPEAT(n, BOOST_TYPEOF_typedef_item, ~)\
             BOOST_PP_REPEAT_FROM_TO(n, BOOST_TYPEOF_PP_NEXT_SIZE, BOOST_TYPEOF_typedef_fake_item, ~)\
         };

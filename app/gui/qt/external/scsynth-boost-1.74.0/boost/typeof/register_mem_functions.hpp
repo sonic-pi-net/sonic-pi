@@ -15,7 +15,7 @@ struct encode_type_impl<V, R(T::*)(BOOST_PP_ENUM_PARAMS(n, P)) BOOST_TYPEOF_qual
 };
 
 template<class Iter>
-struct decode_type_impl<boost::mpl::size_t<BOOST_TYPEOF_id + n>, Iter>
+struct decode_type_impl<boost::type_of::constant<std::size_t,BOOST_TYPEOF_id + n>, Iter>
 {
     typedef Iter iter0;
     BOOST_TYPEOF_DECODE_PARAMS(BOOST_PP_ADD(n, 2))

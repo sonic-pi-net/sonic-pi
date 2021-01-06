@@ -7,10 +7,10 @@
 // Boost Software License, Version 1.0. (See accompanying file
 // LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#include <boost/detail/winapi/config.hpp>
+#include <boost/winapi/config.hpp>
 #include <boost/thread/detail/config.hpp>
 
-#if defined(BOOST_HAS_WINTHREADS) && defined(BOOST_THREAD_BUILD_LIB)
+#if defined(BOOST_THREAD_WIN32) && defined(BOOST_THREAD_BUILD_LIB)
 
 #if (defined(__MINGW32__) && !defined(_WIN64)) || defined(__MINGW64__) || (__MINGW64_VERSION_MAJOR)
 
@@ -98,11 +98,11 @@ extern BOOL (WINAPI * const _pRawDllMainOrig)(HINSTANCE, DWORD, LPVOID);
 extern BOOL (WINAPI * const _pDefaultRawDllMainOrig)(HINSTANCE, DWORD, LPVOID) = NULL;
 #if defined (_M_IX86)
 #pragma comment(linker, "/alternatename:__pRawDllMainOrig=__pDefaultRawDllMainOrig")
-#elif defined (_M_X64) || defined (_M_ARM)
+#elif defined (_M_X64) || defined (_M_ARM) || defined (_M_ARM64)
 #pragma comment(linker, "/alternatename:_pRawDllMainOrig=_pDefaultRawDllMainOrig")
-#else  /* defined (_M_X64) || defined (_M_ARM) */
+#else  /* unknown Windows target (not x86, x64, ARM, ARM64) */
 #error Unsupported platform
-#endif  /* defined (_M_X64) || defined (_M_ARM) */
+#endif  /* defined (_M_X64) || defined (_M_ARM) || defined (_M_ARM64) */
 }
 
 #endif
@@ -152,19 +152,25 @@ extern BOOL (WINAPI * const _pDefaultRawDllMainOrig)(HINSTANCE, DWORD, LPVOID) =
         static PVAPI_V on_process_init();
         static PVAPI_V on_process_term();
         static void NTAPI on_tls_callback(HINSTANCE, DWORD, PVOID);
+    }
 
+    namespace boost
+    {
         //The .CRT$Xxx information is taken from Codeguru:
         //http://www.codeguru.com/Cpp/misc/misc/threadsprocesses/article.php/c6945__2/
+
+        // Variables below are not referenced anywhere and
+        // to not be optimized away has to have external linkage
 
 #if (_MSC_VER >= 1400)
 #pragma section(".CRT$XIU",long,read)
 #pragma section(".CRT$XCU",long,read)
 #pragma section(".CRT$XTU",long,read)
 #pragma section(".CRT$XLC",long,read)
-        __declspec(allocate(".CRT$XLC")) _TLSCB __xl_ca=on_tls_callback;
-        __declspec(allocate(".CRT$XIU"))_PIFV_ p_tls_prepare = on_tls_prepare;
-        __declspec(allocate(".CRT$XCU"))_PVFV_ p_process_init = on_process_init;
-        __declspec(allocate(".CRT$XTU"))_PVFV_ p_process_term = on_process_term;
+        extern const __declspec(allocate(".CRT$XLC")) _TLSCB p_tls_callback = on_tls_callback;
+        extern const __declspec(allocate(".CRT$XIU")) _PIFV_ p_tls_prepare = on_tls_prepare;
+        extern const __declspec(allocate(".CRT$XCU")) _PVFV_ p_process_init = on_process_init;
+        extern const __declspec(allocate(".CRT$XTU")) _PVFV_ p_process_term = on_process_term;
 #else
         #if (_MSC_VER >= 1300) // 1300 == VC++ 7.0
         #   pragma data_seg(push, old_seg)
@@ -176,30 +182,33 @@ extern BOOL (WINAPI * const _pDefaultRawDllMainOrig)(HINSTANCE, DWORD, LPVOID) =
             //this could be changed easily if required.
 
             #pragma data_seg(".CRT$XIU")
-            static _PIFV_ p_tls_prepare = on_tls_prepare;
+            extern const _PIFV_ p_tls_prepare = on_tls_prepare;
             #pragma data_seg()
 
             //Callback after all global ctors.
 
             #pragma data_seg(".CRT$XCU")
-            static _PVFV_ p_process_init = on_process_init;
+            extern const _PVFV_ p_process_init = on_process_init;
             #pragma data_seg()
 
             //Callback for tls notifications.
 
             #pragma data_seg(".CRT$XLB")
-            _TLSCB p_thread_callback = on_tls_callback;
+            extern const _TLSCB p_thread_callback = on_tls_callback;
             #pragma data_seg()
             //Callback for termination.
 
             #pragma data_seg(".CRT$XTU")
-            static _PVFV_ p_process_term = on_process_term;
+            extern const _PVFV_ p_process_term = on_process_term;
             #pragma data_seg()
         #if (_MSC_VER >= 1300) // 1300 == VC++ 7.0
         #   pragma data_seg(pop, old_seg)
         #endif
 #endif
+    } // namespace boost
 
+    namespace
+    {
 #ifdef BOOST_MSVC
 #pragma warning(push)
 #pragma warning(disable:4189)
@@ -334,4 +343,4 @@ namespace boost
 
 #endif //defined(_MSC_VER) && !defined(UNDER_CE)
 
-#endif //defined(BOOST_HAS_WINTHREADS) && defined(BOOST_THREAD_BUILD_LIB)
+#endif //defined(BOOST_THREAD_WIN32) && defined(BOOST_THREAD_BUILD_LIB)

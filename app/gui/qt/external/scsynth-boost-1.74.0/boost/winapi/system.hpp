@@ -11,15 +11,10 @@
 #define BOOST_WINAPI_SYSTEM_HPP_INCLUDED_
 
 #include <boost/winapi/basic_types.hpp>
+#include <boost/winapi/detail/header.hpp>
 
 #ifdef BOOST_HAS_PRAGMA_ONCE
 #pragma once
-#endif
-
-#if defined(BOOST_MSVC)
-#pragma warning(push)
-// nonstandard extension used : nameless struct/union
-#pragma warning(disable: 4201)
 #endif
 
 #if !defined( BOOST_USE_WINDOWS_H )
@@ -27,13 +22,13 @@ extern "C" {
 struct _SYSTEM_INFO;
 
 #if BOOST_WINAPI_PARTITION_APP_SYSTEM
-BOOST_SYMBOL_IMPORT boost::winapi::VOID_ WINAPI
+BOOST_WINAPI_IMPORT_EXCEPT_WM boost::winapi::VOID_ BOOST_WINAPI_WINAPI_CC
 GetSystemInfo(::_SYSTEM_INFO* lpSystemInfo);
 #endif
 
 #if BOOST_WINAPI_PARTITION_APP || BOOST_WINAPI_PARTITION_SYSTEM
 #if BOOST_USE_WINAPI_VERSION >= BOOST_WINAPI_VERSION_WINXP
-BOOST_SYMBOL_IMPORT boost::winapi::VOID_ WINAPI
+BOOST_WINAPI_IMPORT boost::winapi::VOID_ BOOST_WINAPI_WINAPI_CC
 GetNativeSystemInfo(::_SYSTEM_INFO* lpSystemInfo);
 #endif
 #endif
@@ -80,8 +75,6 @@ BOOST_FORCEINLINE VOID_ GetNativeSystemInfo(LPSYSTEM_INFO_ lpSystemInfo)
 }
 }
 
-#if defined(BOOST_MSVC)
-#pragma warning(pop)
-#endif
+#include <boost/winapi/detail/footer.hpp>
 
 #endif // BOOST_WINAPI_SYSTEM_HPP_INCLUDED_

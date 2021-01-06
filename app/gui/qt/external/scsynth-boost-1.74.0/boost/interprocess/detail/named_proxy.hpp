@@ -274,7 +274,7 @@ class named_proxy
    T *operator()( BOOST_MOVE_UREF##N ) const\
    {\
       typedef typename if_c<is_iterator \
-         , CtorIt##N<T BOOST_MOVE_I##N BOOST_MOVE_TARG##N> \
+         , CtorIt##N <T BOOST_MOVE_I##N BOOST_MOVE_TARG##N> \
          , CtorArg##N<T BOOST_MOVE_I##N BOOST_MOVE_TARG##N> \
          >::type ctor_obj_t;\
       ctor_obj_t ctor_obj = ctor_obj_t( BOOST_MOVE_FWD##N );\

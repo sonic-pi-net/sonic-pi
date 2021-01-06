@@ -8,7 +8,6 @@
 #include "./once_atomic.cpp"
 #else
 #define __STDC_CONSTANT_MACROS
-#include <boost/thread/pthread/pthread_mutex_scoped_lock.hpp>
 #include <boost/thread/once.hpp>
 #include <boost/assert.hpp>
 #include <boost/throw_exception.hpp>

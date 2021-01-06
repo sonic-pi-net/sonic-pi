@@ -69,10 +69,10 @@ namespace boost { namespace fusion
         BOOST_CONSTEXPR BOOST_FUSION_GPU_ENABLED
         concat_last_type concat_last() const { return fusion::end(seq2); }
 
-    private:
         // silence MSVC warning C4512: assignment operator could not be generated
-        joint_view& operator= (joint_view const&);
+        BOOST_DELETED_FUNCTION(joint_view& operator= (joint_view const&))
 
+    private:
         typename mpl::if_<traits::is_view<Sequence1>, Sequence1, Sequence1&>::type seq1;
         typename mpl::if_<traits::is_view<Sequence2>, Sequence2, Sequence2&>::type seq2;
     };

@@ -65,12 +65,12 @@ namespace assertion {
 namespace op {
 
 #define BOOST_TEST_FOR_EACH_COMP_OP(action) \
-    action( < , LT, >= )                    \
-    action( <=, LE, >  )                    \
-    action( > , GT, <= )                    \
-    action( >=, GE, <  )                    \
-    action( ==, EQ, != )                    \
-    action( !=, NE, == )                    \
+    action( < , LT, >=, GE )                \
+    action( <=, LE, > , GT )                \
+    action( > , GT, <=, LE )                \
+    action( >=, GE, < , LT )                \
+    action( ==, EQ, !=, NE )                \
+    action( !=, NE, ==, EQ )                \
 /**/
 
 //____________________________________________________________________________//
@@ -78,23 +78,23 @@ namespace op {
 #ifndef BOOST_NO_CXX11_DECLTYPE
 
 #define BOOST_TEST_FOR_EACH_CONST_OP(action)\
-    action(->*, MEMP, ->* )                 \
+    action(->*, MEMP, ->*, MEMP )           \
                                             \
-    action( * , MUL, * )                    \
-    action( / , DIV, / )                    \
-    action( % , MOD, % )                    \
+    action( * , MUL , *  , MUL  )           \
+    action( / , DIV , /  , DIV  )           \
+    action( % , MOD , %  , MOD  )           \
                                             \
-    action( + , ADD, + )                    \
-    action( - , SUB, - )                    \
+    action( + , ADD , +  , ADD  )           \
+    action( - , SUB , -  , SUB  )           \
                                             \
-    action( <<, LSH, << )                   \
-    action( >>, RSH, >> )                   \
+    action( <<, LSH , << , LSH  )           \
+    action( >>, RSH , >> , RSH  )           \
                                             \
     BOOST_TEST_FOR_EACH_COMP_OP(action)     \
                                             \
-    action( & , BAND, & )                   \
-    action( ^ , XOR, ^ )                    \
-    action( | , BOR, | )                    \
+    action( & , BAND, &  , BAND )           \
+    action( ^ , XOR , ^  , XOR  )           \
+    action( | , BOR , |  , BOR  )           \
 /**/
 
 #else
@@ -108,17 +108,17 @@ namespace op {
 //____________________________________________________________________________//
 
 #define BOOST_TEST_FOR_EACH_MUT_OP(action)  \
-    action( = , SET , =  )                  \
-    action( +=, IADD, += )                  \
-    action( -=, ISUB, -= )                  \
-    action( *=, IMUL, *= )                  \
-    action( /=, IDIV, /= )                  \
-    action( %=, IMOD, %= )                  \
-    action(<<=, ILSH, <<=)                  \
-    action(>>=, IRSH, >>=)                  \
-    action( &=, IAND, &= )                  \
-    action( ^=, IXOR, ^= )                  \
-    action( |=, IOR , |= )                  \
+    action( = , SET , =  , SET  )           \
+    action( +=, IADD, += , IADD )           \
+    action( -=, ISUB, -= , ISUB )           \
+    action( *=, IMUL, *= , IMUL )           \
+    action( /=, IDIV, /= , IDIV )           \
+    action( %=, IMOD, %= , IMOD )           \
+    action(<<=, ILSH, <<=, ILSH )           \
+    action(>>=, IRSH, >>=, IRSH )           \
+    action( &=, IAND, &= , IAND )           \
+    action( ^=, IXOR, ^= , IXOR )           \
+    action( |=, IOR , |= , IOR  )           \
 /**/
 
 //____________________________________________________________________________//
@@ -132,11 +132,20 @@ namespace op {
 #   define DEDUCE_RESULT_TYPE( oper ) bool
 #endif
 
-#define DEFINE_CONST_OPER( oper, name, rev )        \
+#define DEFINE_CONST_OPER_FWD_DECL( oper, name, rev, name_inverse ) \
 template<typename Lhs, typename Rhs,                \
          typename Enabler=void>                     \
+struct name;                                        \
+/**/
+
+BOOST_TEST_FOR_EACH_CONST_OP( DEFINE_CONST_OPER_FWD_DECL )
+
+#define DEFINE_CONST_OPER( oper, name, rev, name_inverse ) \
+template<typename Lhs, typename Rhs,                \
+         typename Enabler>                          \
 struct name {                                       \
     typedef DEDUCE_RESULT_TYPE( oper ) result_type; \
+    typedef name_inverse<Lhs, Rhs> inverse;         \
                                                     \
     static result_type                              \
     eval( Lhs const& lhs, Rhs const& rhs )          \
@@ -155,6 +164,8 @@ struct name {                                       \
              << tt_detail::print_helper( rhs );     \
     }                                               \
                                                     \
+    static char const* forward()                    \
+    { return " " #oper " "; }                       \
     static char const* revert()                     \
     { return " " #rev " "; }                        \
 };                                                  \
@@ -184,7 +195,7 @@ public:
     template<typename T>
     struct RhsT : remove_const<typename remove_reference<T>::type> {};
     
-#define ADD_OP_SUPPORT( oper, name, _ )                         \
+#define ADD_OP_SUPPORT( oper, name, _, _i )                     \
     template<typename T>                                        \
     binary_expr<ExprType,T,                                     \
         op::name<ValType,typename RhsT<T>::type> >              \
@@ -199,7 +210,7 @@ public:
 /**/
 #else
 
-#define ADD_OP_SUPPORT( oper, name, _ )                         \
+#define ADD_OP_SUPPORT( oper, name, _, _i )                     \
     template<typename T>                                        \
     binary_expr<ExprType,typename boost::decay<T const>::type,  \
         op::name<ValType,typename boost::decay<T const>::type> >\
@@ -277,11 +288,11 @@ public:
     }
     void                        report( std::ostream& ostr ) const
     {
-        ostr << tt_detail::print_helper( m_value );
+        ostr << tt_detail::print_helper( value() );
     }
 
     // Mutating operators
-#define ADD_OP_SUPPORT( OPER, ID, _ )   \
+#define ADD_OP_SUPPORT( OPER, ID, _, _i)\
     template<typename U>                \
     value_expr<T>&                      \
     operator OPER( U const& rhs )       \
@@ -309,8 +320,11 @@ public:
 
 private:
     template<typename U>
-    static void format_message( wrap_stringstream& ostr, U const& v )   { ostr << "[(bool)" << v << " is false]"; }
-    static void format_message( wrap_stringstream& /*ostr*/, bool /*v*/ )       {}
+    static void format_message( wrap_stringstream& ostr, U const& v )
+    {
+        ostr << "['" << tt_detail::print_helper(v) << "' evaluates to false]";
+    }
+    static void format_message( wrap_stringstream& /*ostr*/, bool /*v*/ ) {}
     static void format_message( wrap_stringstream& /*ostr*/, assertion_result const& /*v*/ ) {}
 
     // Data members

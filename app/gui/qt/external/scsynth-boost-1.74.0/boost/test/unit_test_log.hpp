@@ -22,7 +22,6 @@
 #include <boost/test/detail/fwd_decl.hpp>
 
 #include <boost/test/utils/wrap_stringstream.hpp>
-#include <boost/test/utils/trivial_singleton.hpp>
 #include <boost/test/utils/lazy_ostream.hpp>
 
 // Boost
@@ -109,21 +108,22 @@ private:
 /// @see
 /// - boost::unit_test::test_observer
 /// - boost::unit_test::unit_test_log_formatter
-class BOOST_TEST_DECL unit_test_log_t : public test_observer, public singleton<unit_test_log_t> {
+class BOOST_TEST_DECL unit_test_log_t : public test_observer {
 public:
     // test_observer interface implementation
-    virtual void        test_start( counter_t test_cases_amount );
-    virtual void        test_finish();
-    virtual void        test_aborted();
+    void        test_start( counter_t test_cases_amount, test_unit_id ) BOOST_OVERRIDE;
+    void        test_finish() BOOST_OVERRIDE;
+    void        test_aborted() BOOST_OVERRIDE;
 
-    virtual void        test_unit_start( test_unit const& );
-    virtual void        test_unit_finish( test_unit const&, unsigned long elapsed );
-    virtual void        test_unit_skipped( test_unit const&, const_string );
-    virtual void        test_unit_aborted( test_unit const& );
+    void        test_unit_start( test_unit const& ) BOOST_OVERRIDE;
+    void        test_unit_finish( test_unit const&, unsigned long elapsed ) BOOST_OVERRIDE;
+    void        test_unit_skipped( test_unit const&, const_string ) BOOST_OVERRIDE;
+    void        test_unit_aborted( test_unit const& ) BOOST_OVERRIDE;
+    void        test_unit_timed_out( test_unit const& ) BOOST_OVERRIDE;
 
-    virtual void        exception_caught( execution_exception const& ex );
+    void        exception_caught( execution_exception const& ex ) BOOST_OVERRIDE;
 
-    virtual int         priority() { return 2; }
+    int         priority() BOOST_OVERRIDE { return 2; }
 
     // log configuration methods
     //! Sets the stream for all loggers
@@ -137,16 +137,25 @@ public:
     //! @par Since Boost 1.62
     void                set_stream( output_format, std::ostream& );
 
+    //! Returns a pointer to the stream associated to specific logger
+    //!
+    //! @note Returns a null pointer if the format is not found
+    //! @par Since Boost 1.67
+    std::ostream*       get_stream( output_format ) const;
+
+
     //! Sets the threshold level for all loggers/formatters.
     //!
     //! This will override the log level of all loggers, whether enabled or not.
-    void                set_threshold_level( log_level );
+    //! @return the minimum of the previous log level of all formatters (new in Boost 1.73)
+    log_level           set_threshold_level( log_level );
 
     //! Sets the threshold/log level of a specific format
     //!
     //! @note Has no effect if the specified format is not found
     //! @par Since Boost 1.62
-    void                set_threshold_level( output_format, log_level );
+    //! @return the previous log level of the corresponding formatter (new in Boost 1.73)
+    log_level           set_threshold_level( output_format, log_level );
 
     //! Add a format to the set of loggers
     //!
@@ -176,7 +185,7 @@ public:
     //! several loggers are active, the order of priority is CUSTOM, HRF, XML, and JUNIT.
     //! If (unit_test_log_formatter*)0 is given as argument, the custom logger (if any) is removed.
     //!
-    //! @note The ownership of the pointer is transfered to the Boost.Test framework. This call is equivalent to
+    //! @note The ownership of the pointer is transferred to the Boost.Test framework. This call is equivalent to
     //! - a call to @c add_formatter
     //! - a call to @c set_format(OF_CUSTOM_LOGGER)
     //! - a configuration of the newly added logger with a previously configured stream and log level.
@@ -192,7 +201,7 @@ public:
     //! If (unit_test_log_formatter*)0 is given as argument, the custom logger (if any) is removed and
     //! no other action is performed.
     //!
-    //! @note The ownership of the pointer is transfered to the Boost.Test framework.
+    //! @note The ownership of the pointer is transferred to the Boost.Test framework.
     //! @par Since Boost 1.62
     void                add_formatter( unit_test_log_formatter* the_formatter );
 
@@ -208,12 +217,10 @@ public:
 
     ut_detail::entry_value_collector operator()( log_level );   // initiate entry collection
 
+    //! Prepares internal states after log levels, streams and format has been set up
+    void                configure();
 private:
-    // Implementation helpers
-    bool                log_entry_start(output_format log_format);
-    void                log_entry_context( log_level l );
-    void                clear_entry_context();
-
+    // Singleton
     BOOST_TEST_SINGLETON_CONS( unit_test_log_t )
 }; // unit_test_log_t
 
@@ -237,7 +244,7 @@ BOOST_TEST_SINGLETON_INST( unit_test_log )
    (::boost::unit_test::unit_test_log                           \
         << ::boost::unit_test::log::begin(                      \
                 "boost.test framework",                         \
-                __LINE__ ))                                     \
+                0 ))                                     \
              ( ::boost::unit_test::log_messages )               \
     << BOOST_TEST_LAZY_MSG( M )                                 \
 /**/

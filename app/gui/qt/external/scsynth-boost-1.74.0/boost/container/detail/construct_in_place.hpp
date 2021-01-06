@@ -67,7 +67,7 @@ BOOST_CONTAINER_FORCEINLINE void assign_in_place(DstIt dest, InpIt source)
 template<class DstIt, class U, class D>
 BOOST_CONTAINER_FORCEINLINE void assign_in_place(DstIt dest, value_init_construct_iterator<U, D>)
 {
-   container_detail::value_init<U> val;
+   dtl::value_init<U> val;
    *dest = boost::move(val.get());
 }
 

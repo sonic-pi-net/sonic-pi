@@ -114,7 +114,7 @@ inline assertion_result equal_impl( char const* left, char* right ) { return equ
 inline assertion_result equal_impl( char* left, char* right )       { return equal_impl( static_cast<char const*>(left), static_cast<char const*>(right) ); }
 
 #if !defined( BOOST_NO_CWCHAR )
-assertion_result        BOOST_TEST_DECL equal_impl( wchar_t const* left, wchar_t const* right );
+BOOST_TEST_DECL assertion_result equal_impl( wchar_t const* left, wchar_t const* right );
 inline assertion_result equal_impl( wchar_t* left, wchar_t const* right ) { return equal_impl( static_cast<wchar_t const*>(left), static_cast<wchar_t const*>(right) ); }
 inline assertion_result equal_impl( wchar_t const* left, wchar_t* right ) { return equal_impl( static_cast<wchar_t const*>(left), static_cast<wchar_t const*>(right) ); }
 inline assertion_result equal_impl( wchar_t* left, wchar_t* right )       { return equal_impl( static_cast<wchar_t const*>(left), static_cast<wchar_t const*>(right) ); }

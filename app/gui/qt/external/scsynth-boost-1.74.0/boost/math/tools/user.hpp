@@ -54,7 +54,7 @@
 //
 // #define BOOST_MATH_EVALUATION_ERROR_POLICY throw_on_error
 //
-// Underfow:
+// Underflow:
 //
 // #define BOOST_MATH_UNDERFLOW_ERROR_POLICY ignore_error
 //
@@ -84,7 +84,7 @@
 //
 // #define BOOST_MATH_ASSERT_UNDEFINED_POLICY true
 //
-// Maximum series iterstions permitted:
+// Maximum series iterations permitted:
 //
 // #define BOOST_MATH_MAX_SERIES_ITERATION_POLICY 1000000
 //

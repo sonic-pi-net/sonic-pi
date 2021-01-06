@@ -136,7 +136,7 @@ namespace boost { namespace program_options { namespace detail {
                       const std::vector<style_parser>& style_parsers);
 
         // Copies of input.
-        std::vector<std::string> args;
+        std::vector<std::string> m_args;
         style_t m_style;
         bool m_allow_unregistered;
 

@@ -1,7 +1,7 @@
 #ifndef GREG_DAY_HPP___
 #define GREG_DAY_HPP___
 
-/* Copyright (c) 2002,2003 CrystalClear Software, Inc.
+/* Copyright (c) 2002,2003,2020 CrystalClear Software, Inc.
  * Use, modification and distribution is subject to the 
  * Boost Software License, Version 1.0. (See accompanying
  * file LICENSE_1_0.txt or http://www.boost.org/LICENSE_1_0.txt)
@@ -42,9 +42,9 @@ namespace gregorian {
   */
   class BOOST_SYMBOL_VISIBLE greg_day : public greg_day_rep {
   public:
-    greg_day(value_type day_of_month) : greg_day_rep(day_of_month) {}
-    value_type as_number() const {return value_;}
-    operator value_type()  const {return value_;}
+    BOOST_CXX14_CONSTEXPR greg_day(value_type day_of_month) : greg_day_rep(day_of_month) {}
+    BOOST_CXX14_CONSTEXPR value_type as_number() const {return value_;}
+    BOOST_CXX14_CONSTEXPR operator value_type()  const {return value_;}
   private:
     
   };

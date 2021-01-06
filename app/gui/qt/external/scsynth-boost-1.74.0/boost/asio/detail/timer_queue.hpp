@@ -2,7 +2,7 @@
 // detail/timer_queue.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2017 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -267,11 +267,13 @@ private:
     {
       if (index == heap_.size() - 1)
       {
+        timer.heap_index_ = (std::numeric_limits<std::size_t>::max)();
         heap_.pop_back();
       }
       else
       {
         swap_heap(index, heap_.size() - 1);
+        timer.heap_index_ = (std::numeric_limits<std::size_t>::max)();
         heap_.pop_back();
         if (index > 0 && Time_Traits::less_than(
               heap_[index].time_, heap_[(index - 1) / 2].time_))

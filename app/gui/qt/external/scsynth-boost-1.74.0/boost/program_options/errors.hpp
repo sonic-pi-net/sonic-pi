@@ -375,11 +375,14 @@ namespace boost { namespace program_options {
                    const std::string& option_name = "",
                    const std::string& original_token = "",
                    int option_style              = 0):
-        error_with_option_name(get_template(kind), option_name, original_token, option_style)
+        error_with_option_name(get_template(kind), option_name, original_token, option_style),
+        m_kind(kind)
         {
         }
 
         ~validation_error() throw() {}
+
+        kind_t kind() const { return m_kind; }
 
     protected:
         /** Used to convert kind_t to a related error text */

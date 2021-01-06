@@ -39,7 +39,7 @@ protected:
    typedef typename base_type::off_type off_type;
 
 public:
-   basic_pointerbuf() : base_type() { setbuf(0, 0); }
+   basic_pointerbuf() : base_type() { this_type::setbuf(0, 0); }
    const charT* getnext() { return this->gptr(); }
 
 #ifndef BOOST_NO_USING_TEMPLATE
@@ -55,9 +55,9 @@ protected:
    // Marking those functions with `inline` suppresses the warnings.
    // There must be no harm from marking virtual functions as inline: inline virtual
    // call can be inlined ONLY when the compiler knows the "exact class".
-   inline base_type* setbuf(char_type* s, streamsize n);
-   inline typename this_type::pos_type seekpos(pos_type sp, ::std::ios_base::openmode which);
-   inline typename this_type::pos_type seekoff(off_type off, ::std::ios_base::seekdir way, ::std::ios_base::openmode which);
+   inline base_type* setbuf(char_type* s, streamsize n) BOOST_OVERRIDE;
+   inline typename this_type::pos_type seekpos(pos_type sp, ::std::ios_base::openmode which) BOOST_OVERRIDE;
+   inline typename this_type::pos_type seekoff(off_type off, ::std::ios_base::seekdir way, ::std::ios_base::openmode which) BOOST_OVERRIDE;
 
 private:
    basic_pointerbuf& operator=(const basic_pointerbuf&);
@@ -136,4 +136,3 @@ basic_pointerbuf<charT, BufferT>::seekpos(pos_type sp, ::std::ios_base::openmode
 }} // namespace boost::detail
 
 #endif // BOOST_DETAIL_BASIC_POINTERBUF_HPP
-

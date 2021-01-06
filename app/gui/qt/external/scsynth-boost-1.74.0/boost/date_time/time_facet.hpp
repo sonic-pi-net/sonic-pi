@@ -11,13 +11,13 @@
  */
 
 #include <cctype>
-#include <locale>
-#include <limits>
-#include <string>
-#include <sstream>
+#include <exception>
 #include <iomanip>
 #include <iterator> // i/ostreambuf_iterator
-#include <exception>
+#include <locale>
+#include <limits>
+#include <sstream>
+#include <string>
 #include <boost/assert.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/throw_exception.hpp>
@@ -269,11 +269,11 @@ namespace date_time {
       m_time_duration_format = format;
     }
 
-    virtual void set_iso_format()
+    void set_iso_format() BOOST_OVERRIDE
     {
       this->m_format = iso_time_format_specifier;
     }
-    virtual void set_iso_extended_format()
+    void set_iso_extended_format() BOOST_OVERRIDE
     {
       this->m_format = iso_time_format_extended_specifier;
     }
@@ -409,7 +409,7 @@ namespace date_time {
         // replace %F with nnnnnnn or nothing if fs == 0
         frac_str =
           fractional_seconds_as_string(time_arg.time_of_day(), true);
-        if (frac_str.size()) {
+        if (!frac_str.empty()) {
           char_type sep = std::use_facet<std::numpunct<char_type> >(ios_arg.getloc()).decimal_point();
           string_type replace_string;
           replace_string += sep;
@@ -866,6 +866,7 @@ namespace date_time {
                     break;
                   // %s is the same as %S%f so we drop through into %f
                 }
+                /* Falls through. */
               case 'f':
                 {
                   // check for decimal, check special_values if missing
@@ -957,7 +958,7 @@ namespace date_time {
         while((sitr != stream_end) && std::isspace(*sitr)) { ++sitr; }
 
         bool use_current_char = false;
-        bool use_current_format_char = false; // used whith two character flags
+        bool use_current_format_char = false; // used with two character flags
 
         // num_get will consume the +/-, we may need a copy if special_value
         char_type c = '\0';
@@ -1088,9 +1089,12 @@ namespace date_time {
                     break;
                   }
                 case 'd':
+                case 'e':
                   {
                     try {
-                      t_day = this->m_parser.parse_day_of_month(sitr, stream_end);
+                      t_day = (*itr == 'd') ?
+                          this->m_parser.parse_day_of_month(sitr, stream_end) :
+                          this->m_parser.parse_var_day_of_month(sitr, stream_end);
                     }
                     catch(std::out_of_range&) { // base class for exception bad_day_of_month
                       match_results mr;
@@ -1136,6 +1140,7 @@ namespace date_time {
                     // %s is the same as %S%f so we drop through into %f if we are
                     // not at the end of the stream
                   }
+                  /* Falls through. */
                 case 'f':
                   {
                     // check for decimal, check SV if missing
@@ -1227,7 +1232,7 @@ namespace date_time {
 
         date_type d(not_a_date_time);
         if (day_of_year > 0) {
-          d = date_type(static_cast<unsigned short>(t_year-1),12,31) + date_duration_type(day_of_year);
+          d = date_type(static_cast<unsigned short>(t_year),1,1) + date_duration_type(day_of_year-1);
         }
         else {
           d = date_type(t_year, t_month, t_day);
@@ -1250,7 +1255,7 @@ namespace date_time {
         if((c == '-' || c == '+') && (*sitr != c)) { // was the first character consumed?
           mr.cache += c;
         }
-        this->m_sv_parser.match(sitr, stream_end, mr);
+        (void)this->m_sv_parser.match(sitr, stream_end, mr);
         if(mr.current_match == match_results::PARSE_ERROR) {
           std::string tmp = convert_string_type<char_type, char>(mr.cache);
           boost::throw_exception(std::ios_base::failure("Parse failed. No match found for '" + tmp + "'"));
@@ -1360,9 +1365,6 @@ template <class time_type, class CharT, class InItrT>
   const typename time_input_facet<time_type, CharT, InItrT>::char_type*
   time_input_facet<time_type, CharT, InItrT>::default_time_duration_format = time_formats<CharT>::default_time_duration_format;
 
-
 } } // namespaces
 
-
 #endif
-

@@ -35,7 +35,7 @@ inline typename Functor::result_type sum_series(Functor& func, const U& factor, 
       next_term = func();
       result += next_term;
    }
-   while((fabs(factor * result) < fabs(next_term)) && --counter);
+   while((abs(factor * result) < abs(next_term)) && --counter);
 
    // set max_terms to the actual number of terms of the series evaluated:
    max_terms = max_terms - counter;
@@ -85,6 +85,32 @@ inline typename Functor::result_type sum_series(Functor& func, int bits, const U
    boost::uintmax_t iters = (std::numeric_limits<boost::uintmax_t>::max)();
    return sum_series(func, bits, iters, init_value);
 }
+//
+// Checked summation:
+//
+template <class Functor, class U, class V>
+inline typename Functor::result_type checked_sum_series(Functor& func, const U& factor, boost::uintmax_t& max_terms, const V& init_value, V& norm) BOOST_NOEXCEPT_IF(BOOST_MATH_IS_FLOAT(typename Functor::result_type) && noexcept(std::declval<Functor>()()))
+{
+   BOOST_MATH_STD_USING
+
+   typedef typename Functor::result_type result_type;
+
+   boost::uintmax_t counter = max_terms;
+
+   result_type result = init_value;
+   result_type next_term;
+   do {
+      next_term = func();
+      result += next_term;
+      norm += fabs(next_term);
+   } while ((abs(factor * result) < abs(next_term)) && --counter);
+
+   // set max_terms to the actual number of terms of the series evaluated:
+   max_terms = max_terms - counter;
+
+   return result;
+}
+
 
 //
 // Algorithm kahan_sum_series invokes Functor func until the N'th

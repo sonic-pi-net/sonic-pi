@@ -9,44 +9,63 @@
  * $Date$
  */
 
-#include "boost/date_time/gregorian/gregorian_types.hpp"
-#include "boost/date_time/date_parsing.hpp"
-#include "boost/date_time/compiler_config.hpp"
-#include "boost/date_time/parse_format_base.hpp"
+#include <boost/date_time/gregorian/gregorian_types.hpp>
+#include <boost/date_time/date_parsing.hpp>
+#include <boost/date_time/compiler_config.hpp>
+#include <boost/date_time/parse_format_base.hpp>
+#include <boost/date_time/special_defs.hpp>
+#include <boost/date_time/find_match.hpp>
 #include <string>
-#include <sstream>
+#include <iterator>
 
 namespace boost {
 namespace gregorian {
 
   //! Return special_value from string argument
-  /*! Return special_value from string argument. If argument is 
-   * not one of the special value names (defined in src/gregorian/names.hpp), 
+  /*! Return special_value from string argument. If argument is
+   * not one of the special value names (defined in names.hpp),
    * return 'not_special' */
-  BOOST_DATE_TIME_DECL special_values special_value_from_string(const std::string& s);
+  inline
+  date_time::special_values
+  special_value_from_string(const std::string& s) {
+    static const char* const special_value_names[date_time::NumSpecialValues]
+      = {"not-a-date-time","-infinity","+infinity","min_date_time",
+         "max_date_time","not_special"};
+
+    short i = date_time::find_match(special_value_names,
+                                    special_value_names,
+                                    date_time::NumSpecialValues,
+                                    s);
+    if(i >= date_time::NumSpecialValues) { // match not found
+      return date_time::not_special;
+    }
+    else {
+      return static_cast<date_time::special_values>(i);
+    }
+  }
 
   //! Deprecated: Use from_simple_string
-  inline date from_string(std::string s) {
+  inline date from_string(const std::string& s) {
     return date_time::parse_date<date>(s);
   }
 
   //! From delimited date string where with order year-month-day eg: 2002-1-25 or 2003-Jan-25 (full month name is also accepted)
-  inline date from_simple_string(std::string s) {
+  inline date from_simple_string(const std::string& s) {
     return date_time::parse_date<date>(s, date_time::ymd_order_iso);
   }
   
   //! From delimited date string where with order year-month-day eg: 1-25-2003 or Jan-25-2003 (full month name is also accepted)
-  inline date from_us_string(std::string s) {
+  inline date from_us_string(const std::string& s) {
     return date_time::parse_date<date>(s, date_time::ymd_order_us);
   }
   
   //! From delimited date string where with order day-month-year eg: 25-1-2002 or 25-Jan-2003 (full month name is also accepted)
-  inline date from_uk_string(std::string s) {
+  inline date from_uk_string(const std::string& s) {
     return date_time::parse_date<date>(s, date_time::ymd_order_dmy);
   }
   
   //! From iso type date string where with order year-month-day eg: 20020125
-  inline date from_undelimited_string(std::string s) {
+  inline date from_undelimited_string(const std::string& s) {
     return date_time::parse_undelimited_date<date>(s);
   }
 

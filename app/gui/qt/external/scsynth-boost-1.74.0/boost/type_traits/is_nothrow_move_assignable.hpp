@@ -16,15 +16,20 @@
 #include <boost/type_traits/has_nothrow_assign.hpp>
 #include <boost/type_traits/is_array.hpp>
 #include <boost/type_traits/is_reference.hpp>
-#include <boost/utility/enable_if.hpp>
+#include <boost/type_traits/enable_if.hpp>
 #include <boost/type_traits/declval.hpp>
+#include <boost/type_traits/is_complete.hpp>
+#include <boost/static_assert.hpp>
 
 namespace boost {
 
 #ifdef BOOST_IS_NOTHROW_MOVE_ASSIGN
 
 template <class T>
-struct is_nothrow_move_assignable : public integral_constant<bool, BOOST_IS_NOTHROW_MOVE_ASSIGN(T)>{};
+struct is_nothrow_move_assignable : public integral_constant<bool, BOOST_IS_NOTHROW_MOVE_ASSIGN(T)>
+{
+   BOOST_STATIC_ASSERT_MSG(boost::is_complete<T>::value, "Arguments to is_nothrow_move_assignable must be complete types");
+};
 template <class T> struct is_nothrow_move_assignable<T const> : public false_type{};
 template <class T> struct is_nothrow_move_assignable<T volatile> : public false_type{};
 template <class T> struct is_nothrow_move_assignable<T const volatile> : public false_type{};
@@ -43,14 +48,17 @@ struct false_or_cpp11_noexcept_move_assignable: public ::boost::false_type {};
 template <class T>
 struct false_or_cpp11_noexcept_move_assignable <
         T,
-        typename ::boost::enable_if_c<sizeof(T) && BOOST_NOEXCEPT_EXPR(::boost::declval<T&>() = ::boost::declval<T>())>::type
+        typename ::boost::enable_if_<sizeof(T) && BOOST_NOEXCEPT_EXPR(::boost::declval<T&>() = ::boost::declval<T>())>::type
     > : public ::boost::integral_constant<bool, BOOST_NOEXCEPT_EXPR(::boost::declval<T&>() = ::boost::declval<T>())>
 {};
 
 }
 
 template <class T>
-struct is_nothrow_move_assignable : public integral_constant<bool, ::boost::detail::false_or_cpp11_noexcept_move_assignable<T>::value>{};
+struct is_nothrow_move_assignable : public integral_constant<bool, ::boost::detail::false_or_cpp11_noexcept_move_assignable<T>::value>
+{
+   BOOST_STATIC_ASSERT_MSG(boost::is_complete<T>::value, "Arguments to is_nothrow_move_assignable must be complete types");
+};
 
 template <class T> struct is_nothrow_move_assignable<T const> : public ::boost::false_type {};
 template <class T> struct is_nothrow_move_assignable<T const volatile> : public ::boost::false_type{};
@@ -64,7 +72,10 @@ template <class T> struct is_nothrow_move_assignable<T&&> : public ::boost::fals
 
 template <class T>
 struct is_nothrow_move_assignable : public integral_constant<bool,
-   (::boost::has_trivial_move_assign<T>::value || ::boost::has_nothrow_assign<T>::value) &&  ! ::boost::is_array<T>::value>{};
+   (::boost::has_trivial_move_assign<T>::value || ::boost::has_nothrow_assign<T>::value) &&  ! ::boost::is_array<T>::value>
+{
+   BOOST_STATIC_ASSERT_MSG(boost::is_complete<T>::value, "Arguments to is_nothrow_move_assignable must be complete types");
+};
 
 #endif
 

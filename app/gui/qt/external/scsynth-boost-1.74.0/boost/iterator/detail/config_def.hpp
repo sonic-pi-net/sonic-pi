@@ -27,7 +27,7 @@
 // because the operator-> return is improperly deduced as a non-const
 // pointer.
 #if 1 || defined(BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION)           \
-    || BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x531))
+    || BOOST_WORKAROUND(BOOST_BORLANDC, BOOST_TESTED_AT(0x531))
 
 // Recall that in general, compilers without partial specialization
 // can't strip constness.  Consider counting_iterator, which normally
@@ -46,7 +46,7 @@
 
 #endif
 
-#if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x5A0))                      \
+#if BOOST_WORKAROUND(BOOST_BORLANDC, BOOST_TESTED_AT(0x5A0))                      \
     || (BOOST_WORKAROUND(BOOST_INTEL_CXX_VERSION, <= 700) && defined(_MSC_VER)) \
     || BOOST_WORKAROUND(__DECCXX_VER, BOOST_TESTED_AT(60590042))                \
     || BOOST_WORKAROUND(__SUNPRO_CC, BOOST_TESTED_AT(0x590))
@@ -88,7 +88,7 @@
 #endif
 
 #if BOOST_WORKAROUND(__GNUC__, == 3) && BOOST_WORKAROUND(__GNUC_MINOR__, < 4) && !defined(__EDG_VERSION__)   \
-    || BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x551))
+    || BOOST_WORKAROUND(BOOST_BORLANDC, BOOST_TESTED_AT(0x551))
 #  define BOOST_NO_IS_CONVERTIBLE_TEMPLATE // The following program fails to compile:
 
 #  if 0 // test code
@@ -114,7 +114,7 @@
 # define BOOST_NO_STRICT_ITERATOR_INTEROPERABILITY
 #endif 
 
-# if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
+# if BOOST_WORKAROUND(BOOST_BORLANDC, BOOST_TESTED_AT(0x564))
 
 // GCC-2.95 (obsolete) eagerly instantiates templated constructors and conversion
 // operators in convertibility checks, causing premature errors.

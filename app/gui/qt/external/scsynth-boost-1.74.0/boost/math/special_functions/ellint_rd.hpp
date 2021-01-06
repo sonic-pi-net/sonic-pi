@@ -119,7 +119,7 @@ T ellint_rd_imp(T x, T y, T z, const Policy& pol)
       //
       T pt = (x0 + 3 * y0) / (4 * z * (x0 + y0));
       //
-      // Since we've moved the demoninator from eq.47 inside the expression, we
+      // Since we've moved the denominator from eq.47 inside the expression, we
       // need to also scale "sum" by the same value:
       //
       pt -= sum / (z * (y - z));
@@ -133,6 +133,7 @@ T ellint_rd_imp(T x, T y, T z, const Policy& pol)
    T A0 = An;
    // This has an extra 1.2 fudge factor which is really only needed when x, y and z are close in magnitude:
    T Q = pow(tools::epsilon<T>() / 4, -T(1) / 8) * (std::max)((std::max)(An - x, An - y), An - z) * 1.2f;
+   BOOST_MATH_INSTRUMENT_VARIABLE(Q);
    T lambda, rx, ry, rz;
    unsigned k = 0;
    T fn = 1;
@@ -151,6 +152,9 @@ T ellint_rd_imp(T x, T y, T z, const Policy& pol)
       zn = (zn + lambda) / 4;
       fn /= 4;
       Q /= 4;
+      BOOST_MATH_INSTRUMENT_VARIABLE(k);
+      BOOST_MATH_INSTRUMENT_VARIABLE(RD_sum);
+      BOOST_MATH_INSTRUMENT_VARIABLE(Q);
       if(Q < An)
          break;
    }
@@ -168,6 +172,7 @@ T ellint_rd_imp(T x, T y, T z, const Policy& pol)
    T result = fn * pow(An, T(-3) / 2) *
       (1 - 3 * E2 / 14 + E3 / 6 + 9 * E2 * E2 / 88 - 3 * E4 / 22 - 9 * E2 * E3 / 52 + 3 * E5 / 26 - E2 * E2 * E2 / 16
       + 3 * E3 * E3 / 40 + 3 * E2 * E4 / 20 + 45 * E2 * E2 * E3 / 272 - 9 * (E3 * E4 + E2 * E5) / 68);
+   BOOST_MATH_INSTRUMENT_VARIABLE(result);
    result += 3 * RD_sum;
 
    return result;

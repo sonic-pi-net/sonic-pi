@@ -15,6 +15,16 @@
 #include <boost/math/tools/big_constant.hpp>
 #include <boost/assert.hpp>
 
+#if defined(__GNUC__) && defined(BOOST_MATH_USE_FLOAT128)
+//
+// This is the only way we can avoid
+// warning: non-standard suffix on floating constant [-Wpedantic]
+// when building with -Wall -pedantic.  Neither __extension__
+// nor #pragma diagnostic ignored work :(
+//
+#pragma GCC system_header
+#endif
+
 // Bessel function of the first kind of order zero
 // x <= 8, minimax rational approximations on root-bracketing intervals
 // x > 8, Hankel asymptotic expansion in Hart, Computer Approximations, 1968

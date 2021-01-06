@@ -9,13 +9,16 @@
  * $Date$
  */
 
+#include <map>
 #include <string>
+#include <sstream>
 #include <iterator>
 #include <algorithm>
 #include <boost/tokenizer.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/date_time/compiler_config.hpp>
 #include <boost/date_time/parse_format_base.hpp>
+#include <boost/date_time/period.hpp>
 
 #if defined(BOOST_DATE_TIME_NO_LOCALE)
 #include <cctype> // ::tolower(int)
@@ -54,8 +57,6 @@ namespace date_time {
   }
 
     //! Helper function for parse_date.
-    /* Used by-value parameter because we change the string and may
-     * want to preserve the original argument */
     template<class month_type>
     inline unsigned short
     month_str_to_ushort(std::string const& s) {
@@ -64,34 +65,59 @@ namespace date_time {
       }
       else {
         std::string str = convert_to_lower(s);
-        typename month_type::month_map_ptr_type ptr = month_type::get_month_map_ptr();
-        typename month_type::month_map_type::iterator iter = ptr->find(str);
-        if(iter != ptr->end()) { // required for STLport
-          return iter->second;
+        //c++98 support
+#if defined(BOOST_NO_CXX11_UNIFIED_INITIALIZATION_SYNTAX)
+        static std::map<std::string, unsigned short> month_map;
+        typedef std::map<std::string, unsigned short>::value_type vtype;
+        if( month_map.empty() ) {
+          month_map.insert( vtype("jan", static_cast<unsigned short>(1)) );
+          month_map.insert( vtype("january", static_cast<unsigned short>(1)) );
+          month_map.insert( vtype("feb", static_cast<unsigned short>(2)) );
+          month_map.insert( vtype("february", static_cast<unsigned short>(2)) );
+          month_map.insert( vtype("mar", static_cast<unsigned short>(3)) );
+          month_map.insert( vtype("march", static_cast<unsigned short>(3)) );
+          month_map.insert( vtype("apr", static_cast<unsigned short>(4)) );
+          month_map.insert( vtype("april", static_cast<unsigned short>(4)) );
+          month_map.insert( vtype("may", static_cast<unsigned short>(5)) );
+          month_map.insert( vtype("jun", static_cast<unsigned short>(6)) );
+          month_map.insert( vtype("june", static_cast<unsigned short>(6)) );
+          month_map.insert( vtype("jul", static_cast<unsigned short>(7)) );
+          month_map.insert( vtype("july", static_cast<unsigned short>(7)) );
+          month_map.insert( vtype("aug", static_cast<unsigned short>(8)) );
+          month_map.insert( vtype("august", static_cast<unsigned short>(8)) );
+          month_map.insert( vtype("sep", static_cast<unsigned short>(9)) );
+          month_map.insert( vtype("september", static_cast<unsigned short>(9)) );
+          month_map.insert( vtype("oct", static_cast<unsigned short>(10)) );
+          month_map.insert( vtype("october", static_cast<unsigned short>(10)) );
+          month_map.insert( vtype("nov", static_cast<unsigned short>(11)) );
+          month_map.insert( vtype("november", static_cast<unsigned short>(11)) );
+          month_map.insert( vtype("dec", static_cast<unsigned short>(12)) );
+          month_map.insert( vtype("december", static_cast<unsigned short>(12)) );
+        }
+#else  //c+11 and beyond
+        static std::map<std::string, unsigned short> month_map =
+          { { "jan", static_cast<unsigned short>(1) },  { "january",   static_cast<unsigned short>(1) },
+            { "feb", static_cast<unsigned short>(2) },  { "february",  static_cast<unsigned short>(2) },
+            { "mar", static_cast<unsigned short>(3) },  { "march",     static_cast<unsigned short>(3) },
+            { "apr", static_cast<unsigned short>(4) },  { "april",     static_cast<unsigned short>(4) },
+            { "may", static_cast<unsigned short>(5) },
+            { "jun", static_cast<unsigned short>(6) },  { "june",      static_cast<unsigned short>(6) },
+            { "jul", static_cast<unsigned short>(7) },  { "july",      static_cast<unsigned short>(7) },
+            { "aug", static_cast<unsigned short>(8) },  { "august",    static_cast<unsigned short>(8) },
+            { "sep", static_cast<unsigned short>(9) },  { "september", static_cast<unsigned short>(9) },
+            { "oct", static_cast<unsigned short>(10) }, { "october",   static_cast<unsigned short>(10)},
+            { "nov", static_cast<unsigned short>(11) }, { "november",  static_cast<unsigned short>(11)},
+            { "dec", static_cast<unsigned short>(12) }, { "december",  static_cast<unsigned short>(12)}
+          };
+#endif
+        std::map<std::string, unsigned short>::const_iterator mitr = month_map.find( str );
+        if ( mitr !=  month_map.end() ) {
+          return mitr->second;
         }
       }
       return 13; // intentionally out of range - name not found
     }
  
-    //! Find index of a string in either of 2 arrays
-    /*! find_match searches both arrays for a match to 's'. Both arrays
-     * must contain 'size' elements. The index of the match is returned.
-     * If no match is found, 'size' is returned.
-     * Ex. "Jan" returns 0, "Dec" returns 11, "Tue" returns 2.
-     * 'size' can be sent in with: (greg_month::max)() (which 12),
-     * (greg_weekday::max)() + 1 (which is 7) or date_time::NumSpecialValues */
-    template<class charT>
-    short find_match(const charT* const* short_names,
-                     const charT* const* long_names,
-                     short size,
-                     const std::basic_string<charT>& s) {
-      for(short i = 0; i < size; ++i){
-        if(short_names[i] == s || long_names[i] == s){
-          return i;
-        }
-      }
-      return size; // not-found, return a value out of range
-    }
 
     //! Generic function to parse a delimited date (eg: 2002-02-10)
     /*! Accepted formats are: "2003-02-10" or " 2003-Feb-10" or

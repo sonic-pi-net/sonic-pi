@@ -19,6 +19,8 @@
 // Define compiler barriers
 #if defined(__INTEL_COMPILER)
 #define BOOST_THREAD_DETAIL_COMPILER_BARRIER() __memory_barrier()
+#elif defined(__clang__)
+#define BOOST_THREAD_DETAIL_COMPILER_BARRIER() __atomic_signal_fence(__ATOMIC_SEQ_CST)
 #elif defined(_MSC_VER) && !defined(_WIN32_WCE)
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
@@ -87,9 +89,9 @@ namespace boost
         {
             void* const res=
 #if defined(_M_ARM64)
-                __iso_volatile_load64((const volatile __int64*)x);
+                (void*)__iso_volatile_load64((const volatile __int64*)x);
 #else
-                __iso_volatile_load32((const volatile __int32*)x);
+                (void*)__iso_volatile_load32((const volatile __int32*)x);
 #endif
             BOOST_THREAD_DETAIL_COMPILER_BARRIER();
             __dmb(0xB); // _ARM_BARRIER_ISH, see armintr.h from MSVC 11 and later

@@ -12,6 +12,8 @@
 #ifndef BOOST_TEST_LOG_LEVEL_HPP_011605GER
 #define BOOST_TEST_LOG_LEVEL_HPP_011605GER
 
+#include <boost/test/detail/config.hpp>
+
 namespace boost {
 namespace unit_test {
 
@@ -20,7 +22,7 @@ namespace unit_test {
 // ************************************************************************** //
 
 //  each log level includes all subsequent higher loging levels
-enum            log_level {
+enum BOOST_TEST_ENUM_SYMBOL_VISIBLE log_level {
     invalid_log_level        = -1,
     log_successful_tests     = 0,
     log_test_units           = 1,

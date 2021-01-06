@@ -570,6 +570,60 @@ inline void atomic_write32(volatile boost::uint32_t *mem, boost::uint32_t val)
 }  //namespace ipcdetail{
 }  //namespace interprocess{
 }  //namespace boost{
+#elif defined(__VXWORKS__)
+
+#include <vxAtomicLib.h>
+// VxWorks atomic32_t is not volatile, for some unknown reason
+#define vx_atomic_cast(_i)   (reinterpret_cast< ::atomic32_t *>( const_cast<boost::uint32_t *>(_i)))
+
+namespace boost {
+namespace interprocess {
+namespace ipcdetail{
+
+//! Atomically add 'val' to an boost::uint32_t
+//! "mem": pointer to the object
+//! "val": amount to add
+//! Returns the old value pointed to by mem
+inline boost::uint32_t atomic_add32
+   (volatile boost::uint32_t *mem, boost::uint32_t val)
+{  return ::vxAtomic32Add( vx_atomic_cast(mem), val);   }
+
+//! Atomically increment an apr_uint32_t by 1
+//! "mem": pointer to the object
+//! Returns the old value pointed to by mem
+inline boost::uint32_t atomic_inc32(volatile boost::uint32_t *mem)
+{  return ::vxAtomic32Inc( vx_atomic_cast(mem) );  }
+
+//! Atomically decrement an boost::uint32_t by 1
+//! "mem": pointer to the atomic value
+//! Returns the old value pointed to by mem
+inline boost::uint32_t atomic_dec32(volatile boost::uint32_t *mem)
+{  return ::vxAtomic32Dec( vx_atomic_cast(mem) );   }
+
+//! Atomically read an boost::uint32_t from memory
+inline boost::uint32_t atomic_read32(volatile boost::uint32_t *mem)
+{  return ::vxAtomic32Get( vx_atomic_cast(mem) );  }
+
+//! Compare an boost::uint32_t's value with "cmp".
+//! If they are the same swap the value with "with"
+//! "mem": pointer to the value
+//! "with" what to swap it with
+//! "cmp": the value to compare it to
+//! Returns the old value of *mem
+inline boost::uint32_t atomic_cas32
+   (volatile boost::uint32_t *mem, boost::uint32_t with, boost::uint32_t cmp)
+{  return ::vxAtomic32Cas( vx_atomic_cast(mem), cmp, with);  }
+
+//! Atomically set an boost::uint32_t in memory
+//! "mem": pointer to the object
+//! "param": val value that the object will assume
+inline void atomic_write32(volatile boost::uint32_t *mem, boost::uint32_t val)
+{  ::vxAtomic32Set( vx_atomic_cast(mem), val);  }
+
+
+}  //namespace ipcdetail{
+}  //namespace interprocess{
+}  //namespace boost{
 
 #else
 

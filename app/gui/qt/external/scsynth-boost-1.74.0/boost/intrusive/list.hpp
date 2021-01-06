@@ -1471,38 +1471,38 @@ class list
    typedef typename Base::iterator              iterator;
    typedef typename Base::const_iterator        const_iterator;
 
-   list()
+   BOOST_INTRUSIVE_FORCEINLINE list()
       :  Base()
    {}
 
-   explicit list(const value_traits &v_traits)
+   BOOST_INTRUSIVE_FORCEINLINE explicit list(const value_traits &v_traits)
       :  Base(v_traits)
    {}
 
    template<class Iterator>
-   list(Iterator b, Iterator e, const value_traits &v_traits = value_traits())
+   BOOST_INTRUSIVE_FORCEINLINE list(Iterator b, Iterator e, const value_traits &v_traits = value_traits())
       :  Base(b, e, v_traits)
    {}
 
-   list(BOOST_RV_REF(list) x)
+   BOOST_INTRUSIVE_FORCEINLINE list(BOOST_RV_REF(list) x)
       :  Base(BOOST_MOVE_BASE(Base, x))
    {}
 
-   list& operator=(BOOST_RV_REF(list) x)
+   BOOST_INTRUSIVE_FORCEINLINE list& operator=(BOOST_RV_REF(list) x)
    {  return static_cast<list &>(this->Base::operator=(BOOST_MOVE_BASE(Base, x)));  }
 
    template <class Cloner, class Disposer>
-   void clone_from(const list &src, Cloner cloner, Disposer disposer)
+   BOOST_INTRUSIVE_FORCEINLINE void clone_from(const list &src, Cloner cloner, Disposer disposer)
    {  Base::clone_from(src, cloner, disposer);  }
 
    template <class Cloner, class Disposer>
-   void clone_from(BOOST_RV_REF(list) src, Cloner cloner, Disposer disposer)
+   BOOST_INTRUSIVE_FORCEINLINE void clone_from(BOOST_RV_REF(list) src, Cloner cloner, Disposer disposer)
    {  Base::clone_from(BOOST_MOVE_BASE(Base, src), cloner, disposer);  }
 
-   static list &container_from_end_iterator(iterator end_iterator)
+   BOOST_INTRUSIVE_FORCEINLINE static list &container_from_end_iterator(iterator end_iterator)
    {  return static_cast<list &>(Base::container_from_end_iterator(end_iterator));   }
 
-   static const list &container_from_end_iterator(const_iterator end_iterator)
+   BOOST_INTRUSIVE_FORCEINLINE static const list &container_from_end_iterator(const_iterator end_iterator)
    {  return static_cast<const list &>(Base::container_from_end_iterator(end_iterator));   }
 };
 

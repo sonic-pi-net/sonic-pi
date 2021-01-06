@@ -39,7 +39,7 @@
 // The values obtained agree with those obtained by Didonato and Morris
 // (at least to the first 30 digits that they provide).
 // At double precision the degrees of polynomial required for full
-// machine precision are close to those recomended to Didonato and Morris,
+// machine precision are close to those recommended to Didonato and Morris,
 // but of course many more terms are needed for larger types.
 //
 #ifndef BOOST_MATH_DETAIL_IGAMMA_LARGE
@@ -49,13 +49,23 @@
 #pragma once
 #endif
 
+#if defined(__GNUC__) && defined(BOOST_MATH_USE_FLOAT128)
+//
+// This is the only way we can avoid
+// warning: non-standard suffix on floating constant [-Wpedantic]
+// when building with -Wall -pedantic.  Neither __extension__
+// nor #pragma diagnostic ignored work :(
+//
+#pragma GCC system_header
+#endif
+
 namespace boost{ namespace math{ namespace detail{
 
 // This version will never be called (at runtime), it's a stub used
 // when T is unsuitable to be passed to these routines:
 //
 template <class T, class Policy>
-inline T igamma_temme_large(T, T, const Policy& /* pol */, mpl::int_<0> const *)
+inline T igamma_temme_large(T, T, const Policy& /* pol */, boost::integral_constant<int, 0> const *)
 {
    // stub function, should never actually be called
    BOOST_ASSERT(0);
@@ -66,7 +76,7 @@ inline T igamma_temme_large(T, T, const Policy& /* pol */, mpl::int_<0> const *)
 // (80-bit long double, or 10^-20).
 //
 template <class T, class Policy>
-T igamma_temme_large(T a, T x, const Policy& pol, mpl::int_<64> const *)
+T igamma_temme_large(T a, T x, const Policy& pol, boost::integral_constant<int, 64> const *)
 {
    BOOST_MATH_STD_USING // ADL of std functions
    T sigma = (x - a) / a;
@@ -271,7 +281,7 @@ T igamma_temme_large(T a, T x, const Policy& pol, mpl::int_<64> const *)
 // (IEEE double precision or 10^-17).
 //
 template <class T, class Policy>
-T igamma_temme_large(T a, T x, const Policy& pol, mpl::int_<53> const *)
+T igamma_temme_large(T a, T x, const Policy& pol, boost::integral_constant<int, 53> const *)
 {
    BOOST_MATH_STD_USING // ADL of std functions
    T sigma = (x - a) / a;
@@ -413,7 +423,7 @@ T igamma_temme_large(T a, T x, const Policy& pol, mpl::int_<53> const *)
 // (IEEE float precision, or 10^-8)
 //
 template <class T, class Policy>
-T igamma_temme_large(T a, T x, const Policy& pol, mpl::int_<24> const *)
+T igamma_temme_large(T a, T x, const Policy& pol, boost::integral_constant<int, 24> const *)
 {
    BOOST_MATH_STD_USING // ADL of std functions
    T sigma = (x - a) / a;
@@ -465,11 +475,11 @@ T igamma_temme_large(T a, T x, const Policy& pol, mpl::int_<24> const *)
 // And finally, a version for 113-bit mantissa's
 // (128-bit long doubles, or 10^-34).
 // Note this one has been optimised for a > 200
-// It's use for a < 200 is not recomended, that would
+// It's use for a < 200 is not recommended, that would
 // require many more terms in the polynomials.
 //
 template <class T, class Policy>
-T igamma_temme_large(T a, T x, const Policy& pol, mpl::int_<113> const *)
+T igamma_temme_large(T a, T x, const Policy& pol, boost::integral_constant<int, 113> const *)
 {
    BOOST_MATH_STD_USING // ADL of std functions
    T sigma = (x - a) / a;

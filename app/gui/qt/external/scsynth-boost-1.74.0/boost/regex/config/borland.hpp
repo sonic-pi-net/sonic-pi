@@ -17,7 +17,7 @@
   */
 
 
-#if defined(__BORLANDC__)
+#if defined(__BORLANDC__) && !defined(__clang__)
 #  if (__BORLANDC__ == 0x550) || (__BORLANDC__ == 0x551)
       // problems with std::basic_string and dll RTL:
 #     if defined(_RTLDLL) && defined(_RWSTD_COMPILE_INSTANTIATE)

@@ -2,7 +2,7 @@
 // system_context.hpp
 // ~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2017 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -18,6 +18,7 @@
 #include <boost/asio/detail/config.hpp>
 #include <boost/asio/detail/scheduler.hpp>
 #include <boost/asio/detail/thread_group.hpp>
+#include <boost/asio/execution.hpp>
 #include <boost/asio/execution_context.hpp>
 
 #include <boost/asio/detail/push_options.hpp>
@@ -25,14 +26,19 @@
 namespace boost {
 namespace asio {
 
-class system_executor;
+template <typename Blocking, typename Relationship, typename Allocator>
+class basic_system_executor;
 
 /// The executor context for the system executor.
 class system_context : public execution_context
 {
 public:
   /// The executor type associated with the context.
-  typedef system_executor executor_type;
+  typedef basic_system_executor<
+      execution::blocking_t::possibly_t,
+      execution::relationship_t::fork_t,
+      std::allocator<void>
+    > executor_type;
 
   /// Destructor shuts down all threads in the system thread pool.
   BOOST_ASIO_DECL ~system_context();
@@ -56,15 +62,21 @@ private:
   BOOST_ASIO_DECL system_context();
 
 private:
-  friend class system_executor;
+  template <typename, typename, typename> friend class basic_system_executor;
 
   struct thread_function;
+
+  // Helper function to create the underlying scheduler.
+  BOOST_ASIO_DECL detail::scheduler& add_scheduler(detail::scheduler* s);
 
   // The underlying scheduler.
   detail::scheduler& scheduler_;
 
   // The threads in the system thread pool.
   detail::thread_group threads_;
+
+  // The number of threads in the pool.
+  std::size_t num_threads_;
 };
 
 } // namespace asio

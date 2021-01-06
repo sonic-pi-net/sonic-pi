@@ -328,7 +328,7 @@ inline bool shared_memory_object::priv_open_or_create
       {
          //We need a create/open loop to change permissions correctly using fchmod, since
          //with "O_CREAT" only we don't know if we've created or opened the shm.
-         while(1){
+         while(true){
             //Try to create shared memory
             m_handle = shm_open(m_filename.c_str(), oflag | (O_CREAT | O_EXCL), unix_perm);
             //If successful change real permissions

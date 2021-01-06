@@ -2,7 +2,7 @@
 // detail/win_iocp_handle_write_op.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2017 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 // Copyright (c) 2008 Rep Invariant Systems, Inc. (info@repinvariant.com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
@@ -20,14 +20,15 @@
 
 #if defined(BOOST_ASIO_HAS_IOCP)
 
-#include <boost/asio/error.hpp>
 #include <boost/asio/detail/bind_handler.hpp>
 #include <boost/asio/detail/buffer_sequence_adapter.hpp>
 #include <boost/asio/detail/fenced_block.hpp>
 #include <boost/asio/detail/handler_alloc_helpers.hpp>
 #include <boost/asio/detail/handler_invoke_helpers.hpp>
+#include <boost/asio/detail/handler_work.hpp>
 #include <boost/asio/detail/memory.hpp>
 #include <boost/asio/detail/operation.hpp>
+#include <boost/asio/error.hpp>
 
 #include <boost/asio/detail/push_options.hpp>
 
@@ -35,18 +36,19 @@ namespace boost {
 namespace asio {
 namespace detail {
 
-template <typename ConstBufferSequence, typename Handler>
+template <typename ConstBufferSequence, typename Handler, typename IoExecutor>
 class win_iocp_handle_write_op : public operation
 {
 public:
   BOOST_ASIO_DEFINE_HANDLER_PTR(win_iocp_handle_write_op);
 
-  win_iocp_handle_write_op(const ConstBufferSequence& buffers, Handler& handler)
+  win_iocp_handle_write_op(const ConstBufferSequence& buffers,
+      Handler& handler, const IoExecutor& io_ex)
     : operation(&win_iocp_handle_write_op::do_complete),
       buffers_(buffers),
-      handler_(BOOST_ASIO_MOVE_CAST(Handler)(handler))
+      handler_(BOOST_ASIO_MOVE_CAST(Handler)(handler)),
+      work_(handler_, io_ex)
   {
-    handler_work<Handler>::start(handler_);
   }
 
   static void do_complete(void* owner, operation* base,
@@ -55,9 +57,13 @@ public:
     // Take ownership of the operation object.
     win_iocp_handle_write_op* o(static_cast<win_iocp_handle_write_op*>(base));
     ptr p = { boost::asio::detail::addressof(o->handler_), o, o };
-    handler_work<Handler> w(o->handler_);
 
     BOOST_ASIO_HANDLER_COMPLETION((*o));
+
+    // Take ownership of the operation's outstanding work.
+    handler_work<Handler, IoExecutor> w(
+        BOOST_ASIO_MOVE_CAST2(handler_work<Handler, IoExecutor>)(
+          o->work_));
 
 #if defined(BOOST_ASIO_ENABLE_BUFFER_DEBUGGING)
     if (owner)
@@ -92,6 +98,7 @@ public:
 private:
   ConstBufferSequence buffers_;
   Handler handler_;
+  handler_work<Handler, IoExecutor> work_;
 };
 
 } // namespace detail

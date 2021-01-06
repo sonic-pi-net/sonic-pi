@@ -42,9 +42,8 @@ namespace boost { namespace fusion
 
         cons_type& cons;
 
-    private:
         // silence MSVC warning C4512: assignment operator could not be generated
-        cons_iterator& operator= (cons_iterator const&);
+        BOOST_DELETED_FUNCTION(cons_iterator& operator= (cons_iterator const&))
     };
 
     struct nil_iterator : iterator_base<nil_iterator>

@@ -23,7 +23,7 @@ namespace boost
 {
 
   template <typename Mutex>
-  class lock_guard
+  class BOOST_THREAD_SCOPED_CAPABILITY lock_guard
   {
   private:
     Mutex& m;
@@ -32,13 +32,13 @@ namespace boost
     typedef Mutex mutex_type;
     BOOST_THREAD_NO_COPYABLE( lock_guard )
 
-    explicit lock_guard(Mutex& m_) :
+    explicit lock_guard(Mutex& m_) BOOST_THREAD_ACQUIRE(m_) :
       m(m_)
     {
       m.lock();
     }
 
-    lock_guard(Mutex& m_, adopt_lock_t) :
+    lock_guard(Mutex& m_, adopt_lock_t) BOOST_THREAD_REQUIRES(m_) :
       m(m_)
     {
 #if ! defined BOOST_THREAD_PROVIDES_NESTED_LOCKS
@@ -62,7 +62,7 @@ namespace boost
     }
 
 #endif
-    ~lock_guard()
+    ~lock_guard() BOOST_THREAD_RELEASE()
     {
       m.unlock();
     }

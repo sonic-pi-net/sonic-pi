@@ -103,7 +103,7 @@ namespace boost { namespace program_options { namespace detail {
     void
     cmdline::init(const vector<string>& args)
     {
-        this->args = args;        
+        this->m_args = args;        
         m_style = command_line_style::default_style;
         m_desc = 0;
         m_positional = 0;
@@ -244,6 +244,7 @@ namespace boost { namespace program_options { namespace detail {
         style_parsers.push_back(boost::bind(&cmdline::parse_terminator, this, _1));
 
         vector<option> result;
+        vector<string>& args = m_args;
         while(!args.empty())
         {
             bool ok = false;

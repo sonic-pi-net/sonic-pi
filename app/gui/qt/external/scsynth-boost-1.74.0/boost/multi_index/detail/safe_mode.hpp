@@ -1,4 +1,4 @@
-/* Copyright 2003-2013 Joaquin M Lopez Munoz.
+/* Copyright 2003-2020 Joaquin M Lopez Munoz.
  * Distributed under the Boost Software License, Version 1.0.
  * (See accompanying file LICENSE_1_0.txt or copy at
  * http://www.boost.org/LICENSE_1_0.txt)
@@ -105,10 +105,14 @@
     safe_mode::check_different_container(cont0,cont1),                       \
     safe_mode::same_container);
 
+#define BOOST_MULTI_INDEX_CHECK_EQUAL_ALLOCATORS(cont0,cont1)                 \
+  BOOST_MULTI_INDEX_SAFE_MODE_ASSERT(                                        \
+    safe_mode::check_equal_allocators(cont0,cont1),                           \
+    safe_mode::unequal_allocators);
+
 #if defined(BOOST_MULTI_INDEX_ENABLE_SAFE_MODE)
 #include <boost/config.hpp> /* keep it first to prevent nasty warns in MSVC */
 #include <algorithm>
-#include <boost/detail/iterator.hpp>
 #include <boost/multi_index/detail/access_specifier.hpp>
 #include <boost/multi_index/detail/iter_adaptor.hpp>
 #include <boost/multi_index/safe_mode_errors.hpp>
@@ -227,6 +231,13 @@ inline bool check_different_container(
   const Container& cont0,const Container& cont1)
 {
   return &cont0!=&cont1;
+}
+
+template<typename Container0,typename Container1>
+inline bool check_equal_allocators(
+  const Container0& cont0,const Container1& cont1)
+{
+  return cont0.get_allocator()==cont1.get_allocator();
 }
 
 /* Invalidates all iterators equivalent to that given. Safe containers
@@ -430,6 +441,7 @@ public:
   safe_iterator(
     const T0& t0,const T1& t1,safe_container<container_type>* cont_):
     super(Iterator(t0,t1)),safe_super(cont_){}
+  safe_iterator(const safe_iterator& x):super(x),safe_super(x){}
 
   safe_iterator& operator=(const safe_iterator& x)
   {

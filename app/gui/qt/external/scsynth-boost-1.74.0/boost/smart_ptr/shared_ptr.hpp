@@ -14,23 +14,16 @@
 //  See http://www.boost.org/libs/smart_ptr/ for documentation.
 //
 
-#include <boost/config.hpp>   // for broken compiler workarounds
-
-// In order to avoid circular dependencies with Boost.TR1
-// we make sure that our include of <memory> doesn't try to
-// pull in the TR1 headers: that's why we use this header 
-// rather than including <memory> directly:
-#include <boost/config/no_tr1/memory.hpp>  // std::auto_ptr
-
-#include <boost/assert.hpp>
-#include <boost/checked_delete.hpp>
-#include <boost/throw_exception.hpp>
 #include <boost/smart_ptr/detail/shared_count.hpp>
-#include <boost/detail/workaround.hpp>
 #include <boost/smart_ptr/detail/sp_convertible.hpp>
 #include <boost/smart_ptr/detail/sp_nullptr_t.hpp>
 #include <boost/smart_ptr/detail/sp_disable_deprecated.hpp>
 #include <boost/smart_ptr/detail/sp_noexcept.hpp>
+#include <boost/checked_delete.hpp>
+#include <boost/throw_exception.hpp>
+#include <boost/assert.hpp>
+#include <boost/config.hpp>
+#include <boost/config/workaround.hpp>
 
 #if !defined(BOOST_SP_NO_ATOMIC_ACCESS)
 #include <boost/smart_ptr/detail/spinlock_pool.hpp>
@@ -40,6 +33,7 @@
 #include <functional>           // for std::less
 #include <typeinfo>             // for std::bad_cast
 #include <cstddef>              // for std::size_t
+#include <memory>               // for std::auto_ptr
 
 #if !defined(BOOST_NO_IOSTREAM)
 #if !defined(BOOST_NO_IOSFWD)
@@ -86,7 +80,7 @@ template< class T > struct sp_element< T[] >
     typedef T type;
 };
 
-#if !defined( __BORLANDC__ ) || !BOOST_WORKAROUND( __BORLANDC__, < 0x600 )
+#if !defined( BOOST_BORLANDC ) || !BOOST_WORKAROUND( BOOST_BORLANDC, < 0x600 )
 
 template< class T, std::size_t N > struct sp_element< T[N] >
 {
@@ -135,7 +129,7 @@ template< class T > struct sp_dereference< T[] >
     typedef void type;
 };
 
-#if !defined( __BORLANDC__ ) || !BOOST_WORKAROUND( __BORLANDC__, < 0x600 )
+#if !defined( BOOST_BORLANDC ) || !BOOST_WORKAROUND( BOOST_BORLANDC, < 0x600 )
 
 template< class T, std::size_t N > struct sp_dereference< T[N] >
 {
@@ -160,7 +154,7 @@ template< class T > struct sp_member_access< T[] >
     typedef void type;
 };
 
-#if !defined( __BORLANDC__ ) || !BOOST_WORKAROUND( __BORLANDC__, < 0x600 )
+#if !defined( BOOST_BORLANDC ) || !BOOST_WORKAROUND( BOOST_BORLANDC, < 0x600 )
 
 template< class T, std::size_t N > struct sp_member_access< T[N] >
 {
@@ -185,7 +179,7 @@ template< class T > struct sp_array_access< T[] >
     typedef T & type;
 };
 
-#if !defined( __BORLANDC__ ) || !BOOST_WORKAROUND( __BORLANDC__, < 0x600 )
+#if !defined( BOOST_BORLANDC ) || !BOOST_WORKAROUND( BOOST_BORLANDC, < 0x600 )
 
 template< class T, std::size_t N > struct sp_array_access< T[N] >
 {
@@ -777,12 +771,27 @@ public:
         return pn < rhs.pn;
     }
 
-    void * _internal_get_deleter( boost::detail::sp_typeinfo const & ti ) const BOOST_SP_NOEXCEPT
+    template<class Y> bool owner_equals( shared_ptr<Y> const & rhs ) const BOOST_SP_NOEXCEPT
+    {
+        return pn == rhs.pn;
+    }
+
+    template<class Y> bool owner_equals( weak_ptr<Y> const & rhs ) const BOOST_SP_NOEXCEPT
+    {
+        return pn == rhs.pn;
+    }
+
+    std::size_t owner_hash_value() const BOOST_SP_NOEXCEPT
+    {
+        return pn.hash_value();
+    }
+
+    void * _internal_get_deleter( boost::detail::sp_typeinfo_ const & ti ) const BOOST_SP_NOEXCEPT
     {
         return pn.get_deleter( ti );
     }
 
-    void * _internal_get_local_deleter( boost::detail::sp_typeinfo const & ti ) const BOOST_SP_NOEXCEPT
+    void * _internal_get_local_deleter( boost::detail::sp_typeinfo_ const & ti ) const BOOST_SP_NOEXCEPT
     {
         return pn.get_local_deleter( ti );
     }
@@ -797,7 +806,7 @@ public:
         return px == r.px && pn == r.pn;
     }
 
-    boost::detail::shared_count _internal_count() const BOOST_NOEXCEPT
+    boost::detail::shared_count _internal_count() const BOOST_SP_NOEXCEPT
     {
         return pn;
     }
@@ -1008,7 +1017,7 @@ namespace detail
 
 template<class D, class T> D * basic_get_deleter( shared_ptr<T> const & p ) BOOST_SP_NOEXCEPT
 {
-    return static_cast<D *>( p._internal_get_deleter(BOOST_SP_TYPEID(D)) );
+    return static_cast<D *>( p._internal_get_deleter(BOOST_SP_TYPEID_(D)) );
 }
 
 template<class D, class T> D * basic_get_local_deleter( D *, shared_ptr<T> const & p ) BOOST_SP_NOEXCEPT;
@@ -1022,7 +1031,7 @@ private:
 
 public:
 
-    esft2_deleter_wrapper()
+    esft2_deleter_wrapper() BOOST_SP_NOEXCEPT
     {
     }
 
@@ -1080,7 +1089,7 @@ template<class T> shared_ptr<T> atomic_load( shared_ptr<T> const * p ) BOOST_SP_
     return *p;
 }
 
-template<class T> inline shared_ptr<T> atomic_load_explicit( shared_ptr<T> const * p, /*memory_order mo*/ int ) BOOST_SP_NOEXCEPT
+template<class T, class M> inline shared_ptr<T> atomic_load_explicit( shared_ptr<T> const * p, /*memory_order mo*/ M ) BOOST_SP_NOEXCEPT
 {
     return atomic_load( p );
 }
@@ -1091,7 +1100,7 @@ template<class T> void atomic_store( shared_ptr<T> * p, shared_ptr<T> r ) BOOST_
     p->swap( r );
 }
 
-template<class T> inline void atomic_store_explicit( shared_ptr<T> * p, shared_ptr<T> r, /*memory_order mo*/ int ) BOOST_SP_NOEXCEPT
+template<class T, class M> inline void atomic_store_explicit( shared_ptr<T> * p, shared_ptr<T> r, /*memory_order mo*/ M ) BOOST_SP_NOEXCEPT
 {
     atomic_store( p, r ); // std::move( r )
 }
@@ -1107,7 +1116,7 @@ template<class T> shared_ptr<T> atomic_exchange( shared_ptr<T> * p, shared_ptr<T
     return r; // return std::move( r )
 }
 
-template<class T> shared_ptr<T> inline atomic_exchange_explicit( shared_ptr<T> * p, shared_ptr<T> r, /*memory_order mo*/ int ) BOOST_SP_NOEXCEPT
+template<class T, class M> shared_ptr<T> inline atomic_exchange_explicit( shared_ptr<T> * p, shared_ptr<T> r, /*memory_order mo*/ M ) BOOST_SP_NOEXCEPT
 {
     return atomic_exchange( p, r ); // std::move( r )
 }
@@ -1137,7 +1146,7 @@ template<class T> bool atomic_compare_exchange( shared_ptr<T> * p, shared_ptr<T>
     }
 }
 
-template<class T> inline bool atomic_compare_exchange_explicit( shared_ptr<T> * p, shared_ptr<T> * v, shared_ptr<T> w, /*memory_order success*/ int, /*memory_order failure*/ int ) BOOST_SP_NOEXCEPT
+template<class T, class M> inline bool atomic_compare_exchange_explicit( shared_ptr<T> * p, shared_ptr<T> * v, shared_ptr<T> w, /*memory_order success*/ M, /*memory_order failure*/ M ) BOOST_SP_NOEXCEPT
 {
     return atomic_compare_exchange( p, v, w ); // std::move( w )
 }
@@ -1155,6 +1164,25 @@ template< class T > std::size_t hash_value( boost::shared_ptr<T> const & p ) BOO
 
 } // namespace boost
 
+// std::hash
+
+#if !defined(BOOST_NO_CXX11_HDR_FUNCTIONAL)
+
+namespace std
+{
+
+template<class T> struct hash< ::boost::shared_ptr<T> >
+{
+    std::size_t operator()( ::boost::shared_ptr<T> const & p ) const BOOST_SP_NOEXCEPT
+    {
+        return std::hash< typename ::boost::shared_ptr<T>::element_type* >()( p.get() );
+    }
+};
+
+} // namespace std
+
+#endif // #if !defined(BOOST_NO_CXX11_HDR_FUNCTIONAL)
+
 #include <boost/smart_ptr/detail/local_sp_deleter.hpp>
 
 namespace boost
@@ -1165,15 +1193,22 @@ namespace detail
 
 template<class D, class T> D * basic_get_local_deleter( D *, shared_ptr<T> const & p ) BOOST_SP_NOEXCEPT
 {
-    return static_cast<D *>( p._internal_get_local_deleter( BOOST_SP_TYPEID(local_sp_deleter<D>) ) );
+    return static_cast<D *>( p._internal_get_local_deleter( BOOST_SP_TYPEID_(local_sp_deleter<D>) ) );
 }
 
 template<class D, class T> D const * basic_get_local_deleter( D const *, shared_ptr<T> const & p ) BOOST_SP_NOEXCEPT
 {
-    return static_cast<D *>( p._internal_get_local_deleter( BOOST_SP_TYPEID(local_sp_deleter<D>) ) );
+    return static_cast<D *>( p._internal_get_local_deleter( BOOST_SP_TYPEID_(local_sp_deleter<D>) ) );
 }
 
 } // namespace detail
+
+#if defined(__cpp_deduction_guides)
+
+template<class T> shared_ptr( weak_ptr<T> ) -> shared_ptr<T>;
+template<class T, class D> shared_ptr( std::unique_ptr<T, D> ) -> shared_ptr<T>;
+
+#endif
 
 } // namespace boost
 

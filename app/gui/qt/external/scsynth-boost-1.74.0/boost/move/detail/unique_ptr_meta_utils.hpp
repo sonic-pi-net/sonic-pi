@@ -546,7 +546,7 @@ struct is_unary_function
 #  define BOOST_MOVEUP_HAS_VIRTUAL_DESTRUCTOR(T) __has_virtual_destructor(T)
 #elif defined(__ghs__) && (__GHS_VERSION_NUMBER >= 600)
 #  define BOOST_MOVEUP_HAS_VIRTUAL_DESTRUCTOR(T) __has_virtual_destructor(T)
-#elif defined(__CODEGEARC__)
+#elif defined(BOOST_CODEGEARC)
 #  define BOOST_MOVEUP_HAS_VIRTUAL_DESTRUCTOR(T) __has_virtual_destructor(T)
 #endif
 

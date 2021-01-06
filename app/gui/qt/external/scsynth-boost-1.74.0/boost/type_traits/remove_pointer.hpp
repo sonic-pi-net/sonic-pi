@@ -10,6 +10,7 @@
 #define BOOST_TT_REMOVE_POINTER_HPP_INCLUDED
 
 #include <boost/config.hpp>
+#include <boost/config/workaround.hpp>
 
 #if defined(BOOST_MSVC)
 #include <boost/type_traits/remove_cv.hpp>

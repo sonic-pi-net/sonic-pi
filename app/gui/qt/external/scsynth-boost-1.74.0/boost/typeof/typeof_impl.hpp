@@ -6,12 +6,13 @@
 #ifndef BOOST_TYPEOF_TYPEOF_IMPL_HPP_INCLUDED
 #define BOOST_TYPEOF_TYPEOF_IMPL_HPP_INCLUDED
 
-#include <boost/mpl/size_t.hpp>
 #include <boost/preprocessor/repetition/enum.hpp>
+#include <boost/typeof/constant.hpp>
 #include <boost/typeof/encode_decode.hpp>
 #include <boost/typeof/vector.hpp>
+#include <boost/type_traits/enable_if.hpp>
 #include <boost/type_traits/is_function.hpp>
-#include <boost/utility/enable_if.hpp>
+#include <cstddef> // for std::size_t
 
 #define BOOST_TYPEOF_VECTOR(n) BOOST_PP_CAT(boost::type_of::vector, n)
 
@@ -39,13 +40,13 @@ namespace boost { namespace type_of {
     sizer<typename encode_type<V, T>::type> encode(const T&);
 # else
     template<class V, class T>
-    typename enable_if<
-        typename is_function<T>::type,
+    typename enable_if_<
+        is_function<T>::value,
         sizer<typename encode_type<V, T>::type> >::type encode(T&);
 
     template<class V, class T>
-    typename disable_if<
-        typename is_function<T>::type,
+    typename enable_if_<
+        !is_function<T>::value,
         sizer<typename encode_type<V, T>::type> >::type encode(const T&);
 # endif
 }}
@@ -60,7 +61,7 @@ namespace boost { namespace type_of {
 }}
 
 #define BOOST_TYPEOF_TYPEITEM(z, n, expr)\
-    boost::mpl::size_t<sizeof(boost::type_of::encode<BOOST_TYPEOF_VECTOR(0)<> >(expr).item ## n)>
+    boost::type_of::constant<std::size_t,sizeof(boost::type_of::encode<BOOST_TYPEOF_VECTOR(0)<> >(expr).item ## n)>
 
 #define BOOST_TYPEOF_ENCODED_VECTOR(Expr)                                   \
     BOOST_TYPEOF_VECTOR(BOOST_TYPEOF_LIMIT_SIZE)<                           \
@@ -85,14 +86,14 @@ namespace boost { namespace type_of {
     };
 
     template<class V,class T>
-    struct push_back<boost::type_of::offset_vector<V,mpl::size_t<0> >,T> {
+    struct push_back<boost::type_of::offset_vector<V,constant<std::size_t,0> >,T> {
         typedef typename push_back<V,T>::type type;
     };
 }}
 
 #define BOOST_TYPEOF_NESTED_TYPEITEM(z, n, expr)\
     BOOST_STATIC_CONSTANT(int,BOOST_PP_CAT(value,n) = sizeof(boost::type_of::encode<_typeof_start_vector>(expr).item ## n));\
-    typedef boost::mpl::size_t<BOOST_PP_CAT(self_t::value,n)> BOOST_PP_CAT(item,n);
+    typedef boost::type_of::constant<std::size_t,BOOST_PP_CAT(self_t::value,n)> BOOST_PP_CAT(item,n);
 
 #ifdef __DMC__
 #define BOOST_TYPEOF_NESTED_TYPEITEM_2(z,n,expr)\
@@ -116,7 +117,7 @@ namespace boost { namespace type_of {
         static const int where=pos%5;
         typedef typename Iter::template _apply_next<self_t::iteration>::type fraction_type;
         typedef generic_typeof_fraction_iter<typename Pos::next,Iter> next;
-        typedef typename v_iter<fraction_type,mpl::int_<self_t::where> >::type type;
+        typedef typename v_iter<fraction_type,constant<int, self_t::where> >::type type;
     };
 }}
 #define BOOST_TYPEOF_NESTED_TYPEDEF_IMPL(expr) \
@@ -124,7 +125,7 @@ namespace boost { namespace type_of {
         struct _typeof_encode_fraction {\
             typedef _typeof_encode_fraction<_Typeof_Iteration> self_t;\
             BOOST_STATIC_CONSTANT(int,_typeof_encode_offset = (_Typeof_Iteration*BOOST_TYPEOF_LIMIT_SIZE));\
-            typedef boost::type_of::offset_vector<BOOST_TYPEOF_VECTOR(0)<>,boost::mpl::size_t<self_t::_typeof_encode_offset> > _typeof_start_vector;\
+            typedef boost::type_of::offset_vector<BOOST_TYPEOF_VECTOR(0)<>,boost::type_of::constant<std::size_t,self_t::_typeof_encode_offset> > _typeof_start_vector;\
             BOOST_PP_REPEAT(BOOST_TYPEOF_LIMIT_SIZE,BOOST_TYPEOF_NESTED_TYPEITEM,expr)\
             template<int Next>\
             struct _apply_next {\
@@ -143,7 +144,7 @@ namespace boost { namespace type_of {
         struct _typeof_encode_fraction {\
             typedef _typeof_encode_fraction<_Typeof_Iteration> self_t;\
             BOOST_STATIC_CONSTANT(int,_typeof_encode_offset = (_Typeof_Iteration*BOOST_TYPEOF_LIMIT_SIZE));\
-            typedef boost::type_of::offset_vector<BOOST_TYPEOF_VECTOR(0)<>,boost::mpl::size_t<self_t::_typeof_encode_offset> > _typeof_start_vector;\
+            typedef boost::type_of::offset_vector<BOOST_TYPEOF_VECTOR(0)<>,boost::type_of::constant<std::size_t,self_t::_typeof_encode_offset> > _typeof_start_vector;\
             BOOST_PP_REPEAT(BOOST_TYPEOF_LIMIT_SIZE,BOOST_TYPEOF_NESTED_TYPEITEM,expr)\
         };\
         template<typename Pos>\
@@ -153,7 +154,7 @@ namespace boost { namespace type_of {
             BOOST_STATIC_CONSTANT(int,iteration=(pos/BOOST_TYPEOF_LIMIT_SIZE));\
             BOOST_STATIC_CONSTANT(int,where=pos%BOOST_TYPEOF_LIMIT_SIZE);\
             BOOST_TYPEOF_FRACTIONTYPE()\
-            typedef typename boost::type_of::v_iter<fraction_type,boost::mpl::int_<self_t::where> >::type type;\
+            typedef typename boost::type_of::v_iter<fraction_type,boost::type_of::constant<int,self_t::where> >::type type;\
             typedef _typeof_fraction_iter<typename Pos::next> next;\
         };
 #endif
@@ -163,7 +164,7 @@ namespace boost { namespace type_of {
 template<typename T>\
 struct BOOST_PP_CAT(_typeof_template_,name) {\
     BOOST_TYPEOF_NESTED_TYPEDEF_IMPL(expr)\
-    typedef typename boost::type_of::decode_type<_typeof_fraction_iter<boost::mpl::size_t<0> > >::type type;\
+    typedef typename boost::type_of::decode_type<_typeof_fraction_iter<boost::type_of::constant<std::size_t,0> > >::type type;\
 };\
 typedef BOOST_PP_CAT(_typeof_template_,name)<int> name;
 
@@ -173,13 +174,13 @@ typedef BOOST_PP_CAT(_typeof_template_,name)<int> name;
 # define BOOST_TYPEOF_NESTED_TYPEDEF_TPL(name,expr) \
     struct name {\
         BOOST_TYPEOF_NESTED_TYPEDEF_IMPL(expr)\
-        typedef typename boost::type_of::decode_type<_typeof_fraction_iter<boost::mpl::size_t<0> > >::type type;\
+        typedef typename boost::type_of::decode_type<_typeof_fraction_iter<boost::type_of::constant<std::size_t,0> > >::type type;\
     };
 
 # define BOOST_TYPEOF_NESTED_TYPEDEF(name,expr) \
     struct name {\
         BOOST_TYPEOF_NESTED_TYPEDEF_IMPL(expr)\
-        typedef boost::type_of::decode_type<_typeof_fraction_iter<boost::mpl::size_t<0> > >::type type;\
+        typedef boost::type_of::decode_type<_typeof_fraction_iter<boost::type_of::constant<std::size_t,0> > >::type type;\
     };
 #endif
 

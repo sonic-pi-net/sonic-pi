@@ -12,19 +12,6 @@
 #include <boost/config.hpp>
 #include <boost/detail/workaround.hpp>
 
-// With boost release 1.33, date_time will be using a different,
-// more flexible, IO system. This new system is not compatible with
-// old compilers. The original date_time IO system remains for those
-// compilers. They must define this macro to use the legacy IO.
-//     (defined(__BORLANDC__) && (__BORLANDC__ <= 0x0581) ) )   &&
- #if(  BOOST_WORKAROUND( __BORLANDC__, BOOST_TESTED_AT(0x581) ) \
-    || BOOST_WORKAROUND( __GNUC__, < 3)                         \
-    || (BOOST_WORKAROUND( _MSC_VER, <= 1300) )                  \
-    )                                                           \
-    && !defined(USE_DATE_TIME_PRE_1_33_FACET_IO)
-# define USE_DATE_TIME_PRE_1_33_FACET_IO
-#endif
-
 
 // This file performs some local compiler configurations
 
@@ -46,7 +33,7 @@
 #undef BOOST_DATE_TIME_OPTIONAL_GREGORIAN_TYPES
 #endif
 
-#if (defined(BOOST_NO_INCLASS_MEMBER_INITIALIZATION) || BOOST_WORKAROUND( __BORLANDC__,  BOOST_TESTED_AT(0x581) ) )
+#if (defined(BOOST_NO_INCLASS_MEMBER_INITIALIZATION) || BOOST_WORKAROUND( BOOST_BORLANDC,  BOOST_TESTED_AT(0x581) ) )
 #define BOOST_DATE_TIME_NO_MEMBER_INIT
 #endif
 
@@ -60,13 +47,13 @@
 
 
 /* Workaround for Borland iterator error. Error was "Cannot convert 'istream *' to 'wistream *' in function istream_iterator<>::istream_iterator() */
-#if defined(__BORLANDC__) && defined(BOOST_BCB_WITH_RW_LIB)
+#if defined(BOOST_BORLANDC) && defined(BOOST_BCB_WITH_RW_LIB)
 #define BOOST_DATE_TIME_NO_WISTREAM_ITERATOR
 #endif
 
 
 // Borland v5.64 does not have the following in std namespace; v5.5.1 does
-#if defined(__BORLANDC__) && defined(BOOST_BCB_WITH_STLPORT)
+#if defined(BOOST_BORLANDC) && defined(BOOST_BCB_WITH_STLPORT)
 #include <locale>
 namespace std {
   using stlport::tolower;
@@ -83,7 +70,7 @@ namespace std {
 #if (((defined(__GNUC__) && (__GNUC__ < 3)) || \
       (defined(_MSC_VER) && (_MSC_VER < 1300)) ) && \
       !defined(_STLP_OWN_IOSTREAMS) ) || \
-      BOOST_WORKAROUND( __BORLANDC__, BOOST_TESTED_AT(0x581) )
+      BOOST_WORKAROUND( BOOST_BORLANDC, BOOST_TESTED_AT(0x581) )
 #define BOOST_DATE_TIME_INCLUDE_LIMITED_HEADERS
 #endif
 
@@ -165,5 +152,10 @@ namespace std {
 #  endif
 #endif
 
+#if defined(BOOST_NO_CXX11_NULLPTR)
+#  define BOOST_DATE_TIME_NULLPTR 0
+#else
+#  define BOOST_DATE_TIME_NULLPTR nullptr
+#endif
 
 #endif

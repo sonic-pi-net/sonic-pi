@@ -27,7 +27,7 @@
 #include <boost/move/utility_core.hpp>
 #include <boost/move/detail/iterator_traits.hpp>
 #include <boost/move/detail/iterator_to_raw_pointer.hpp>
-#include <boost/detail/no_exceptions_support.hpp>
+#include <boost/core/no_exceptions_support.hpp>
 
 namespace boost {
 

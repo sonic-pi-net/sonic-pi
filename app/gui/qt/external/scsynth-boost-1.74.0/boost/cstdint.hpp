@@ -34,6 +34,17 @@
 #endif
 
 #include <boost/config.hpp>
+//
+// For the following code we get several warnings along the lines of:
+//
+// boost/cstdint.hpp:428:35: error: use of C99 long long integer constant
+//
+// So we declare this a system header to suppress these warnings.
+// See also https://github.com/boostorg/config/issues/190
+//
+#if defined(__GNUC__) && (__GNUC__ >= 4)
+#pragma GCC system_header
+#endif
 
 //
 // Note that GLIBC is a bit inconsistent about whether int64_t is defined or not
@@ -41,9 +52,9 @@
 // so we disable use of stdint.h when GLIBC does not define __GLIBC_HAVE_LONG_LONG.
 // See https://svn.boost.org/trac/boost/ticket/3548 and http://sources.redhat.com/bugzilla/show_bug.cgi?id=10990
 //
-#if defined(BOOST_HAS_STDINT_H)					\
-  && (!defined(__GLIBC__)					\
-      || defined(__GLIBC_HAVE_LONG_LONG)			\
+#if defined(BOOST_HAS_STDINT_H)            \
+  && (!defined(__GLIBC__)                  \
+      || defined(__GLIBC_HAVE_LONG_LONG)   \
       || (defined(__GLIBC__) && ((__GLIBC__ > 2) || ((__GLIBC__ == 2) && (__GLIBC_MINOR__ >= 17)))))
 
 // The following #include is an implementation artifact; not part of interface.
@@ -60,7 +71,7 @@
 #   include <stdint.h>
 
 // There is a bug in Cygwin two _C macros
-#   if defined(__STDC_CONSTANT_MACROS) && defined(__CYGWIN__)
+#   if defined(INTMAX_C) && defined(__CYGWIN__)
 #     undef INTMAX_C
 #     undef UINTMAX_C
 #     define INTMAX_C(c) c##LL
@@ -295,7 +306,7 @@ namespace boost
 //  64-bit types + intmax_t and uintmax_t  ----------------------------------//
 
 # if defined(BOOST_HAS_LONG_LONG) && \
-   !defined(BOOST_MSVC) && !defined(__BORLANDC__) && \
+   !defined(BOOST_MSVC) && !defined(BOOST_BORLANDC) && \
    (!defined(__GLIBCPP__) || defined(_GLIBCPP_USE_LONG_LONG)) && \
    (defined(ULLONG_MAX) || defined(ULONG_LONG_MAX) || defined(ULONGLONG_MAX))
 #    if defined(__hpux)
@@ -408,16 +419,6 @@ INT#_C macros if they're not already defined (John Maddock).
 #if !defined(BOOST__STDC_CONSTANT_MACROS_DEFINED) && \
    (!defined(INT8_C) || !defined(INT16_C) || !defined(INT32_C) || !defined(INT64_C))
 //
-// For the following code we get several warnings along the lines of:
-//
-// boost/cstdint.hpp:428:35: error: use of C99 long long integer constant
-//
-// So we declare this a system header to suppress these warnings.
-//
-#if defined(__GNUC__) && (__GNUC__ >= 4)
-#pragma GCC system_header
-#endif
-//
 // Undef the macros as a precaution, since we may get here if <stdint.h> has failed
 // to define them all, see https://svn.boost.org/trac/boost/ticket/12786
 //
@@ -450,7 +451,7 @@ INT#_C macros if they're not already defined (John Maddock).
 #ifndef INT64_C
 #  define INT64_C(value)    value##i64
 #endif
-#  ifdef __BORLANDC__
+#  ifdef BOOST_BORLANDC
     // Borland bug: appending ui8 makes the type a signed char
 #   define UINT8_C(value)    static_cast<unsigned char>(value##u)
 #  else

@@ -1,4 +1,4 @@
-/* Copyright 2003-2017 Joaquin M Lopez Munoz.
+/* Copyright 2003-2020 Joaquin M Lopez Munoz.
  * Distributed under the Boost Software License, Version 1.0.
  * (See accompanying file LICENSE_1_0.txt or copy at
  * http://www.boost.org/LICENSE_1_0.txt)
@@ -14,14 +14,15 @@
 #endif
 
 #include <boost/config.hpp> /* keep it first to prevent nasty warns in MSVC */
-#include <boost/detail/allocator_utilities.hpp>
-#include <boost/detail/no_exceptions_support.hpp>
+#include <boost/core/addressof.hpp>
+#include <boost/core/no_exceptions_support.hpp>
 #include <boost/detail/workaround.hpp>
-#include <boost/move/core.hpp>
-#include <boost/move/utility.hpp>
+#include <boost/move/utility_core.hpp>
 #include <boost/mpl/vector.hpp>
+#include <boost/multi_index/detail/allocator_traits.hpp>
 #include <boost/multi_index/detail/copy_map.hpp>
 #include <boost/multi_index/detail/do_not_copy_elements_tag.hpp>
+#include <boost/multi_index/detail/node_handle.hpp>
 #include <boost/multi_index/detail/node_type.hpp>
 #include <boost/multi_index/detail/vartempl_support.hpp>
 #include <boost/multi_index_container_fwd.hpp>
@@ -55,17 +56,17 @@ template<typename Value,typename IndexSpecifierList,typename Allocator>
 class index_base
 {
 protected:
-  typedef index_node_base<Value,Allocator>    node_type;
+  typedef index_node_base<Value,Allocator>    index_node_type;
   typedef typename multi_index_node_type<
     Value,IndexSpecifierList,Allocator>::type final_node_type;
   typedef multi_index_container<
     Value,IndexSpecifierList,Allocator>       final_type;
   typedef tuples::null_type                   ctor_args_list;
-  typedef typename 
-  boost::detail::allocator::rebind_to<
-    Allocator,
-    typename Allocator::value_type
+  typedef typename rebind_alloc_for<
+    Allocator,typename Allocator::value_type
   >::type                                     final_allocator_type;
+  typedef node_handle<
+    final_node_type,final_allocator_type>     final_node_handle_type;
   typedef mpl::vector0<>                      index_type_list;
   typedef mpl::vector0<>                      iterator_type_list;
   typedef mpl::vector0<>                      const_iterator_type_list;
@@ -75,16 +76,18 @@ protected:
 
 #if !defined(BOOST_MULTI_INDEX_DISABLE_SERIALIZATION)
   typedef index_saver<
-    node_type,
+    index_node_type,
     final_allocator_type>                     index_saver_type;
   typedef index_loader<
-    node_type,
+    index_node_type,
     final_node_type,
     final_allocator_type>                     index_loader_type;
 #endif
 
 private:
   typedef Value                               value_type;
+  typedef allocator_traits<Allocator>         alloc_traits;
+  typedef typename alloc_traits::size_type    size_type;
 
 protected:
   explicit index_base(const ctor_args_list&,const Allocator&){}
@@ -102,7 +105,7 @@ protected:
   {
     x=final().allocate_node();
     BOOST_TRY{
-      boost::detail::allocator::construct(&x->value(),v);
+      final().construct_value(x,v);
     }
     BOOST_CATCH(...){
       final().deallocate_node(x);
@@ -116,14 +119,7 @@ protected:
   {
     x=final().allocate_node();
     BOOST_TRY{
-      /* This shoud have used a modified, T&&-compatible version of
-       * boost::detail::allocator::construct, but 
-       * <boost/detail/allocator_utilities.hpp> is too old and venerable to
-       * mess with; besides, it is a general internal utility and the imperfect
-       * perfect forwarding emulation of Boost.Move might break other libs.
-       */
-
-      new (&x->value()) value_type(boost::move(const_cast<value_type&>(v)));
+      final().construct_value(x,boost::move(const_cast<value_type&>(v)));
     }
     BOOST_CATCH(...){
       final().deallocate_node(x);
@@ -139,56 +135,52 @@ protected:
   }
 
   final_node_type* insert_(
-    const value_type& v,node_type*,final_node_type*& x,lvalue_tag)
+    const value_type& v,index_node_type*,final_node_type*& x,lvalue_tag)
   {
     return insert_(v,x,lvalue_tag());
   }
 
   final_node_type* insert_(
-    const value_type& v,node_type*,final_node_type*& x,rvalue_tag)
+    const value_type& v,index_node_type*,final_node_type*& x,rvalue_tag)
   {
     return insert_(v,x,rvalue_tag());
   }
 
   final_node_type* insert_(
-    const value_type&,node_type*,final_node_type*& x,emplaced_tag)
+    const value_type&,index_node_type*,final_node_type*& x,emplaced_tag)
   {
     return x;
   }
 
-  void erase_(node_type* x)
-  {
-    boost::detail::allocator::destroy(&x->value());
-  }
-
-  void delete_node_(node_type* x)
-  {
-    boost::detail::allocator::destroy(&x->value());
-  }
+  void extract_(index_node_type*){}
 
   void clear_(){}
 
-  void swap_(index_base<Value,IndexSpecifierList,Allocator>&){}
+  template<typename BoolConstant>
+  void swap_(
+    index_base<Value,IndexSpecifierList,Allocator>&,
+    BoolConstant /* swap_allocators */)
+  {}
 
   void swap_elements_(index_base<Value,IndexSpecifierList,Allocator>&){}
 
-  bool replace_(const value_type& v,node_type* x,lvalue_tag)
+  bool replace_(const value_type& v,index_node_type* x,lvalue_tag)
   {
     x->value()=v;
     return true;
   }
 
-  bool replace_(const value_type& v,node_type* x,rvalue_tag)
+  bool replace_(const value_type& v,index_node_type* x,rvalue_tag)
   {
     x->value()=boost::move(const_cast<value_type&>(v));
     return true;
   }
 
-  bool modify_(node_type*){return true;}
+  bool modify_(index_node_type*){return true;}
 
-  bool modify_rollback_(node_type*){return true;}
+  bool modify_rollback_(index_node_type*){return true;}
 
-  bool check_rollback_(node_type*)const{return true;}
+  bool check_rollback_(index_node_type*)const{return true;}
 
 #if !defined(BOOST_MULTI_INDEX_DISABLE_SERIALIZATION)
   /* serialization */
@@ -213,9 +205,9 @@ protected:
 
   final_node_type* final_header()const{return final().header();}
 
-  bool        final_empty_()const{return final().empty_();}
-  std::size_t final_size_()const{return final().size_();}
-  std::size_t final_max_size_()const{return final().max_size_();}
+  bool      final_empty_()const{return final().empty_();}
+  size_type final_size_()const{return final().size_();}
+  size_type final_max_size_()const{return final().max_size_();}
 
   std::pair<final_node_type*,bool> final_insert_(const value_type& x)
     {return final().insert_(x);}
@@ -227,6 +219,8 @@ protected:
   template<typename T>
   std::pair<final_node_type*,bool> final_insert_ref_(T& t)
     {return final().insert_ref_(t);}
+  std::pair<final_node_type*,bool> final_insert_nh_(final_node_handle_type& nh)
+    {return final().insert_nh_(nh);}
 
   template<BOOST_MULTI_INDEX_TEMPLATE_PARAM_PACK>
   std::pair<final_node_type*,bool> final_emplace_(
@@ -249,6 +243,9 @@ protected:
   std::pair<final_node_type*,bool> final_insert_ref_(
     T& t,final_node_type* position)
     {return final().insert_ref_(t,position);}
+  std::pair<final_node_type*,bool> final_insert_nh_(
+    final_node_handle_type& nh,final_node_type* position)
+    {return final().insert_nh_(nh,position);}
 
   template<BOOST_MULTI_INDEX_TEMPLATE_PARAM_PACK>
   std::pair<final_node_type*,bool> final_emplace_hint_(
@@ -257,6 +254,11 @@ protected:
     return final().emplace_hint_(
       position,BOOST_MULTI_INDEX_FORWARD_PARAM_PACK);
   }
+
+  final_node_handle_type final_extract_(final_node_type* x)
+  {
+    return final().extract_(x);
+  } 
 
   void final_erase_(final_node_type* x){final().erase_(x);}
 

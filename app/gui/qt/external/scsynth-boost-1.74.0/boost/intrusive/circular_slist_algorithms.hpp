@@ -141,7 +141,7 @@ class circular_slist_algorithms
    //! <b>Complexity</b>: Constant
    //!
    //! <b>Throws</b>: Nothing.
-   BOOST_INTRUSIVE_FORCEINLINE static void init_header(const node_ptr &this_node)
+   BOOST_INTRUSIVE_FORCEINLINE static void init_header(node_ptr this_node)
    {  NodeTraits::set_next(this_node, this_node);  }
 
    //! <b>Requires</b>: this_node and prev_init_node must be in the same circular list.
@@ -223,7 +223,7 @@ class circular_slist_algorithms
    //! <b>Complexity</b>: Linear to the number of elements in the circular list
    //!
    //! <b>Throws</b>: Nothing.
-   BOOST_INTRUSIVE_FORCEINLINE static void unlink(const node_ptr & this_node)
+   BOOST_INTRUSIVE_FORCEINLINE static void unlink(node_ptr this_node)
    {
       if(NodeTraits::get_next(this_node))
          base_t::unlink_after(get_previous_node(this_node));
@@ -236,7 +236,7 @@ class circular_slist_algorithms
    //! <b>Complexity</b>: Linear to the number of elements in the circular list.
    //!
    //! <b>Throws</b>: Nothing.
-   BOOST_INTRUSIVE_FORCEINLINE static void link_before (const node_ptr & nxt_node, const node_ptr & this_node)
+   BOOST_INTRUSIVE_FORCEINLINE static void link_before (node_ptr nxt_node, node_ptr this_node)
    {  base_t::link_after(get_previous_node(nxt_node), this_node);   }
 
    //! <b>Requires</b>: this_node and other_node must be nodes inserted
@@ -249,7 +249,7 @@ class circular_slist_algorithms
    //! <b>Complexity</b>: Linear to number of elements of both lists
    //!
    //! <b>Throws</b>: Nothing.
-   static void swap_nodes(const node_ptr & this_node, const node_ptr & other_node)
+   static void swap_nodes(node_ptr this_node, node_ptr other_node)
    {
       if (other_node == this_node)
          return;
@@ -275,7 +275,7 @@ class circular_slist_algorithms
    //! <b>Throws</b>: Nothing.
    //!
    //! <b>Complexity</b>: This function is linear to the contained elements.
-   static void reverse(const node_ptr & p)
+   static void reverse(node_ptr p)
    {
       node_ptr i = NodeTraits::get_next(p), e(p);
       for (;;) {
@@ -294,7 +294,7 @@ class circular_slist_algorithms
    //! <b>Throws</b>: Nothing.
    //!
    //! <b>Complexity</b>: Linear to the number of elements plus the number moved positions.
-   static node_ptr move_backwards(const node_ptr & p, std::size_t n)
+   static node_ptr move_backwards(node_ptr p, std::size_t n)
    {
       //Null shift, nothing to do
       if(!n) return node_ptr();
@@ -346,7 +346,7 @@ class circular_slist_algorithms
    //! <b>Throws</b>: Nothing.
    //!
    //! <b>Complexity</b>: Linear to the number of elements plus the number moved positions.
-   static node_ptr move_forward(const node_ptr & p, std::size_t n)
+   static node_ptr move_forward(node_ptr p, std::size_t n)
    {
       //Null shift, nothing to do
       if(!n) return node_ptr();

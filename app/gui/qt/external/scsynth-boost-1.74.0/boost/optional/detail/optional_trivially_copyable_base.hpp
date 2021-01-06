@@ -30,7 +30,7 @@ class tc_optional_base : public optional_tag
       :
       m_initialized(false) {}
 
-    tc_optional_base ( argument_type val )
+    tc_optional_base ( init_value_tag, argument_type val )
       :
       m_initialized(true), m_storage(val) {}
 
@@ -71,7 +71,7 @@ class tc_optional_base : public optional_tag
     // Assigns from another optional<T> (deep-copies the rhs value)
     void assign ( tc_optional_base const& rhs ) 
     {
-      this->operator=(rhs);
+      *this = rhs;
     }
 
     // Assigns from another _convertible_ optional<U> (deep-copies the rhs value)
@@ -127,7 +127,7 @@ class tc_optional_base : public optional_tag
 
   public :
 
-    // **DEPPRECATED** Destroys the current value, if any, leaving this UNINITIALIZED
+    // Destroys the current value, if any, leaving this UNINITIALIZED
     // No-throw (assuming T::~T() doesn't)
     void reset() BOOST_NOEXCEPT { destroy(); }
 
@@ -359,7 +359,7 @@ class tc_optional_base : public optional_tag
     template<class Expr>
     void construct ( Expr const& factory, in_place_factory_base const* )
      {
-       boost_optional_detail::construct<value_type>(factory, m_storage.address());
+       boost_optional_detail::construct<value_type>(factory, boost::addressof(m_storage));
        m_initialized = true ;
      }
 

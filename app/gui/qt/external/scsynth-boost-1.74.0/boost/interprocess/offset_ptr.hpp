@@ -66,7 +66,7 @@ namespace ipcdetail {
 
       OffsetType m_offset; //Distance between this object and pointee address
 
-      typename ::boost::container::container_detail::aligned_storage
+      typename ::boost::container::dtl::aligned_storage
          < sizeof(OffsetType)//for offset_type_alignment m_offset will be enough
          , (OffsetAlignment == offset_type_alignment) ? 1u : OffsetAlignment
          >::type alignment_helper;

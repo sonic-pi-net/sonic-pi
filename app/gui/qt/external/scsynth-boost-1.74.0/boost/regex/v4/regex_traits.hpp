@@ -39,7 +39,7 @@
 #     include <boost/regex/v4/cpp_regex_traits.hpp>
 #  endif
 #endif
-#if !BOOST_WORKAROUND(__BORLANDC__, < 0x560)
+#if !BOOST_WORKAROUND(BOOST_BORLANDC, < 0x560)
 #  ifndef BOOST_C_REGEX_TRAITS_HPP_INCLUDED
 #     include <boost/regex/v4/c_regex_traits.hpp>
 #  endif

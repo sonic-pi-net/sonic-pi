@@ -32,7 +32,7 @@ template<class MutexType>
 bool try_based_timed_lock(MutexType &m, const boost::posix_time::ptime &abs_time)
 {
    //Same as lock()
-   if(abs_time == boost::posix_time::pos_infin){
+   if(abs_time.is_pos_infinity()){
       m.lock();
       return true;
    }
@@ -70,6 +70,24 @@ void try_based_lock(MutexType &m)
       }
       while(1);
    }
+}
+
+template<class MutexType>
+void timeout_when_locking_aware_lock(MutexType &m)
+{
+   #ifdef BOOST_INTERPROCESS_ENABLE_TIMEOUT_WHEN_LOCKING
+      boost::posix_time::ptime wait_time
+         = microsec_clock::universal_time()
+         + boost::posix_time::milliseconds(BOOST_INTERPROCESS_TIMEOUT_WHEN_LOCKING_DURATION_MS);
+      if (!m.timed_lock(wait_time))
+      {
+         throw interprocess_exception(timeout_when_locking_error
+                                     , "Interprocess mutex timeout when locking. Possible deadlock: "
+                                       "owner died without unlocking?");
+      }
+   #else
+      m.lock();
+   #endif
 }
 
 }  //namespace ipcdetail

@@ -72,7 +72,7 @@ struct is_named_param_pack<named_parameter_combine<NP,Rest> > : public mpl::true
 // **************                  param_type                  ************** //
 // ************************************************************************** //
 
-/// param_type<Params,Keyword,Default>::type is is the type of the parameter
+/// param_type<Params,Keyword,Default>::type is the type of the parameter
 /// corresponding to the Keyword (if parameter is present) or Default
 
 template<typename NP, typename Keyword, typename DefaultType=void>
@@ -91,7 +91,7 @@ struct param_type<named_parameter_combine<NP,Rest>,Keyword,DefaultType>
 // **************                  has_param                   ************** //
 // ************************************************************************** //
 
-/// has_param<Params,Keyword>::value is true id Params has parameter corresponding
+/// has_param<Params,Keyword>::value is true if Params has parameter corresponding
 /// to the Keyword
 
 template<typename NP, typename Keyword>
@@ -126,7 +126,7 @@ report_access_to_invalid_parameter( bool v )
 
 struct nil {
     template<typename T>
-#if defined(__GNUC__) || defined(__HP_aCC) || defined(__EDG__) || defined(__SUNPRO_CC)
+#if defined(__GNUC__) || defined(__HP_aCC) || defined(__EDG__) || defined(__SUNPRO_CC) || defined(BOOST_EMBTC)
     operator T() const
 #else
     operator T const&() const

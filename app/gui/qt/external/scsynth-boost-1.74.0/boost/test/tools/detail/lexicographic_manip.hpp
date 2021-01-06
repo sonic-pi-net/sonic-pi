@@ -17,7 +17,10 @@
 #include <boost/test/tools/detail/indirections.hpp>
 
 #include <boost/test/tools/assertion.hpp>
+#include <boost/test/utils/lazy_ostream.hpp>
 #include <boost/test/tools/collection_comparison_op.hpp>
+
+#include <ostream>
 
 #include <boost/test/detail/suppress_warnings.hpp>
 
@@ -31,12 +34,17 @@ namespace test_tools {
 // ************************************************************************** //
 
 //! Lexicographic comparison manipulator, for containers
+//! This is a terminal that involves evaluation of the expression
 struct lexicographic {};
 
 //____________________________________________________________________________//
 
-inline int
-operator<<( unit_test::lazy_ostream const&, lexicographic )   { return 0; }
+inline unit_test::lazy_ostream&
+operator<<( unit_test::lazy_ostream & o, lexicographic )   { return o; }
+
+// needed for the lazy evaluation in lazy_ostream as lexicographic is a terminal
+inline std::ostream& 
+operator<<( std::ostream& o, lexicographic )               { return o; }
 
 //____________________________________________________________________________//
 
@@ -52,10 +60,10 @@ operator<<(assertion_evaluate_t<assertion::binary_expr<T1,T2,OP> > const& ae, le
 
 //____________________________________________________________________________//
 
-inline check_type
+inline assertion_type
 operator<<( assertion_type const&, lexicographic )
 {
-    return CHECK_BUILT_ASSERTION;
+    return assertion_type(CHECK_BUILT_ASSERTION);
 }
 
 //____________________________________________________________________________//

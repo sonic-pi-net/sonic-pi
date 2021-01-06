@@ -23,6 +23,9 @@
 #ifdef BOOST_MSVC
 #pragma warning(push)
 #pragma warning(disable: 4103)
+#if BOOST_MSVC >= 1800
+#pragma warning(disable: 26812)
+#endif
 #endif
 #ifdef BOOST_HAS_ABI_HEADERS
 #  include BOOST_ABI_PREFIX
@@ -31,18 +34,24 @@
 #pragma warning(pop)
 #endif
 
-#ifdef __BORLANDC__
+#ifdef BOOST_BORLANDC
 #  pragma option push -w-8008 -w-8066
 #endif
 #ifdef BOOST_MSVC
 #  pragma warning(push)
-#  pragma warning(disable: 4800)
+#if BOOST_MSVC < 1910
+#pragma warning(disable:4800)
+#endif
 #endif
 
 namespace boost{
 namespace BOOST_REGEX_DETAIL_NS{
 
-template <class BidiIterator, class Allocator, class traits>
+#ifdef BOOST_MSVC
+#  pragma warning(push)
+#pragma warning(disable:26812)
+#endif
+   template <class BidiIterator, class Allocator, class traits>
 void perl_matcher<BidiIterator, Allocator, traits>::construct_init(const basic_regex<char_type, traits>& e, match_flag_type f)
 { 
    typedef typename regex_iterator_traits<BidiIterator>::iterator_category category;
@@ -92,6 +101,9 @@ void perl_matcher<BidiIterator, Allocator, traits>::construct_init(const basic_r
    if(e.get_data().m_disable_match_any)
       m_match_flags &= regex_constants::match_not_any;
 }
+#ifdef BOOST_MSVC
+#  pragma warning(pop)
+#endif
 
 template <class BidiIterator, class Allocator, class traits>
 void perl_matcher<BidiIterator, Allocator, traits>::estimate_max_state_count(std::random_access_iterator_tag*)
@@ -476,12 +488,14 @@ bool perl_matcher<BidiIterator, Allocator, traits>::match_word_boundary()
    }
    else
    {
-      b = (m_match_flags & match_not_eow) ? true : false;
+      if (m_match_flags & match_not_eow)
+         return false;
+      b = false;
    }
    if((position == backstop) && ((m_match_flags & match_prev_avail) == 0))
    {
       if(m_match_flags & match_not_bow)
-         b ^= true;
+         return false;
       else
          b ^= false;
    }
@@ -605,7 +619,7 @@ bool perl_matcher<BidiIterator, Allocator, traits>::match_backref()
    // or PCRE.
    //
    int index = static_cast<const re_brace*>(pstate)->index;
-   if(index >= 10000)
+   if(index >= hash_value_mask)
    {
       named_subexpressions::range_type r = re.get_data().equal_range(index);
       BOOST_ASSERT(r.first != r.second);
@@ -754,7 +768,7 @@ inline bool perl_matcher<BidiIterator, Allocator, traits>::match_assert_backref(
    {
       // Have we matched subexpression "index"?
       // Check if index is a hash value:
-      if(index >= 10000)
+      if(index >= hash_value_mask)
       {
          named_subexpressions::range_type r = re.get_data().equal_range(index);
          while(r.first != r.second)
@@ -778,7 +792,7 @@ inline bool perl_matcher<BidiIterator, Allocator, traits>::match_assert_backref(
       // Have we recursed into subexpression "index"?
       // If index == 0 then check for any recursion at all, otherwise for recursion to -index-1.
       int idx = -(index+1);
-      if(idx >= 10000)
+      if(idx >= hash_value_mask)
       {
          named_subexpressions::range_type r = re.get_data().equal_range(idx);
          int stack_index = recursion_stack.empty() ? -1 : recursion_stack.back().idx;
@@ -998,7 +1012,7 @@ bool perl_matcher<BidiIterator, Allocator, traits>::find_restart_lit()
 #  pragma warning(pop)
 #endif
 
-#ifdef __BORLANDC__
+#ifdef BOOST_BORLANDC
 #  pragma option pop
 #endif
 #ifdef BOOST_MSVC

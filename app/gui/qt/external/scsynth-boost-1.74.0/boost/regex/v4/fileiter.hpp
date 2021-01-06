@@ -195,9 +195,6 @@ public:
 };
 
 class BOOST_REGEX_DECL mapfile_iterator
-#if !defined(BOOST_NO_STD_ITERATOR) || defined(BOOST_MSVC_STD_ITERATOR)
-: public std::iterator<std::random_access_iterator_tag, char>
-#endif
 {
    typedef mapfile::pointer internal_pointer;
    internal_pointer* node;
@@ -273,6 +270,8 @@ public:
       return *this;
    }
 
+   #if !defined(BOOST_EMBTC)
+      
    friend inline bool operator==(const mapfile_iterator& i, const mapfile_iterator& j)
    {
       return (i.file == j.file) && (i.node == j.node) && (i.offset == j.offset);
@@ -311,7 +310,63 @@ public:
    {
       return i.position() - j.position();
    }
+   
+   #else
+      
+   friend bool operator==(const mapfile_iterator& i, const mapfile_iterator& j);
+   friend bool operator!=(const mapfile_iterator& i, const mapfile_iterator& j);
+   friend bool operator<(const mapfile_iterator& i, const mapfile_iterator& j);
+   friend bool operator>(const mapfile_iterator& i, const mapfile_iterator& j);
+   friend bool operator<=(const mapfile_iterator& i, const mapfile_iterator& j);
+   friend bool operator>=(const mapfile_iterator& i, const mapfile_iterator& j);
+   friend mapfile_iterator operator + (const mapfile_iterator& i, long off);
+   friend mapfile_iterator operator + (long off, const mapfile_iterator& i);
+   friend mapfile_iterator operator - (const mapfile_iterator& i, long off);
+   friend long operator - (const mapfile_iterator& i, const mapfile_iterator& j);
+   
+   #endif
+      
 };
+
+#if defined(BOOST_EMBTC)
+
+   inline bool operator==(const mapfile_iterator& i, const mapfile_iterator& j)
+   {
+      return (i.file == j.file) && (i.node == j.node) && (i.offset == j.offset);
+   }
+
+   inline bool operator!=(const mapfile_iterator& i, const mapfile_iterator& j)
+   {
+      return !(i == j);
+   }
+
+   inline bool operator<(const mapfile_iterator& i, const mapfile_iterator& j)
+   {
+      return i.position() < j.position();
+   }
+   inline bool operator>(const mapfile_iterator& i, const mapfile_iterator& j)
+   {
+      return i.position() > j.position();
+   }
+   inline bool operator<=(const mapfile_iterator& i, const mapfile_iterator& j)
+   {
+      return i.position() <= j.position();
+   }
+   inline bool operator>=(const mapfile_iterator& i, const mapfile_iterator& j)
+   {
+      return i.position() >= j.position();
+   }
+   mapfile_iterator operator + (long off, const mapfile_iterator& i)
+   {
+      mapfile_iterator tmp(i);
+      return tmp += off;
+   }
+   inline long operator - (const mapfile_iterator& i, const mapfile_iterator& j)
+   {
+      return i.position() - j.position();
+   }
+   
+#endif
 
 #endif
 
@@ -354,6 +409,8 @@ public:
    file_iterator operator++(int);
    const char* operator*() { return path(); }
 
+   #if !defined(BOOST_EMBTC)
+      
    friend inline bool operator == (const file_iterator& f1, const file_iterator& f2)
    {
       return ((f1.ref->hf == _fi_invalid_handle) && (f2.ref->hf == _fi_invalid_handle));
@@ -364,8 +421,29 @@ public:
       return !(f1 == f2);
    }
 
+   #else
+     
+   friend bool operator == (const file_iterator& f1, const file_iterator& f2);
+   friend bool operator != (const file_iterator& f1, const file_iterator& f2);
+
+   #endif
+      
 };
 
+#if defined(BOOST_EMBTC)
+
+   inline bool operator == (const file_iterator& f1, const file_iterator& f2)
+   {
+      return ((f1.ref->hf == _fi_invalid_handle) && (f2.ref->hf == _fi_invalid_handle));
+   }
+
+   inline bool operator != (const file_iterator& f1, const file_iterator& f2)
+   {
+      return !(f1 == f2);
+   }
+
+#endif
+    
 // dwa 9/13/00 - suppress unused parameter warning
 inline bool operator < (const file_iterator&, const file_iterator&)
 {
@@ -404,6 +482,8 @@ public:
 
    static const char* separator() { return _fi_sep; }
 
+   #if !defined(BOOST_EMBTC)
+      
    friend inline bool operator == (const directory_iterator& f1, const directory_iterator& f2)
    {
       return ((f1.ref->hf == _fi_invalid_handle) && (f2.ref->hf == _fi_invalid_handle));
@@ -415,8 +495,30 @@ public:
       return !(f1 == f2);
    }
 
+   #else
+     
+   friend bool operator == (const directory_iterator& f1, const directory_iterator& f2);
+   friend bool operator != (const directory_iterator& f1, const directory_iterator& f2);
+
+   #endif
+      
    };
 
+#if defined(BOOST_EMBTC)
+
+   inline bool operator == (const directory_iterator& f1, const directory_iterator& f2)
+   {
+      return ((f1.ref->hf == _fi_invalid_handle) && (f2.ref->hf == _fi_invalid_handle));
+   }
+
+
+   inline bool operator != (const directory_iterator& f1, const directory_iterator& f2)
+   {
+      return !(f1 == f2);
+   }
+
+#endif
+    
 inline bool operator < (const directory_iterator&, const directory_iterator&)
 {
    return false;

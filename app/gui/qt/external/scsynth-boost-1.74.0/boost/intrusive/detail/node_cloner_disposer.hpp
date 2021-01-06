@@ -59,7 +59,7 @@ struct node_cloner
    {}
 
    // tree-based containers use this method, which is proxy-reference friendly
-   node_ptr operator()(const node_ptr & p)
+   BOOST_INTRUSIVE_FORCEINLINE node_ptr operator()(const node_ptr & p)
    {
       reference_type v = *traits_->to_value_ptr(p);
       node_ptr n = traits_->to_node_ptr(*base_t::get()(v));
@@ -89,7 +89,7 @@ struct node_disposer
       :  base_t(f), traits_(cont)
    {}
 
-   void operator()(const node_ptr & p)
+   BOOST_INTRUSIVE_FORCEINLINE void operator()(const node_ptr & p)
    {
       if(safemode_or_autounlink)
          node_algorithms::init(p);

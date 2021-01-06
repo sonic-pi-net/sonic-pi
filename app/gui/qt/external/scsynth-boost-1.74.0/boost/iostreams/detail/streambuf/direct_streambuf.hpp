@@ -14,9 +14,9 @@
 
 #include <boost/assert.hpp>
 #include <cstddef>
-#include <typeinfo>
 #include <utility>                                 // pair.
 #include <boost/config.hpp>                        // BOOST_DEDUCED_TYPENAME, 
+#include <boost/core/typeinfo.hpp>
 #include <boost/iostreams/detail/char_traits.hpp>  // member template friends.
 #include <boost/iostreams/detail/config/wide_streams.hpp>
 #include <boost/iostreams/detail/error.hpp>
@@ -74,7 +74,7 @@ protected:
 
     // Declared in linked_streambuf.
     void close_impl(BOOST_IOS::openmode m);
-    const std::type_info& component_type() const { return typeid(T); }
+    const boost::core::typeinfo& component_type() const { return BOOST_CORE_TYPEID(T); }
     void* component_impl() { return component(); } 
 #ifdef BOOST_IOSTREAMS_NO_STREAM_TEMPLATES
     public:

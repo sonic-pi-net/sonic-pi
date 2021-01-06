@@ -20,7 +20,7 @@
 #define BOOST_REGEX_V4_BASIC_REGEX_HPP
 
 #include <boost/type_traits/is_same.hpp>
-#include <boost/functional/hash.hpp>
+#include <boost/container_hash/hash.hpp>
 
 #ifdef BOOST_MSVC
 #pragma warning(push)
@@ -36,9 +36,15 @@
 namespace boost{
 #ifdef BOOST_MSVC
 #pragma warning(push)
-#pragma warning(disable : 4251 4231 4800)
+#pragma warning(disable : 4251)
+#if BOOST_MSVC < 1700
+#     pragma warning(disable : 4231)
+#endif
 #if BOOST_MSVC < 1600
 #pragma warning(disable : 4660)
+#endif
+#if BOOST_MSVC < 1910
+#pragma warning(disable:4800)
 #endif
 #endif
 
@@ -64,13 +70,14 @@ void bubble_down_one(I first, I last)
    }
 }
 
+static const int hash_value_mask = 1 << (std::numeric_limits<int>::digits - 1);
+
 template <class Iterator>
 inline int hash_value_from_capture_name(Iterator i, Iterator j)
 {
    std::size_t r = boost::hash_range(i, j);
-   r %= ((std::numeric_limits<int>::max)() - 10001);
-   r += 10000;
-   return static_cast<int>(r);
+   r %= ((std::numeric_limits<int>::max)());
+   return static_cast<int>(r) | hash_value_mask;
 }
 
 class named_subexpressions
@@ -164,9 +171,19 @@ struct regex_data : public named_subexpressions
 
    regex_data(const ::boost::shared_ptr<
       ::boost::regex_traits_wrapper<traits> >& t) 
-      : m_ptraits(t), m_expression(0), m_expression_len(0), m_disable_match_any(false) {}
+      : m_ptraits(t), m_flags(0), m_status(0), m_expression(0), m_expression_len(0),
+         m_mark_count(0), m_first_state(0), m_restart_type(0),
+#if !defined(BOOST_NO_CXX11_UNIFIED_INITIALIZATION_SYNTAX) && !(defined(BOOST_MSVC) && (BOOST_MSVC < 1900))
+         m_startmap{ 0 },
+#endif
+         m_can_be_null(0), m_word_mask(0), m_has_recursions(false), m_disable_match_any(false) {}
    regex_data() 
-      : m_ptraits(new ::boost::regex_traits_wrapper<traits>()), m_expression(0), m_expression_len(0), m_disable_match_any(false) {}
+      : m_ptraits(new ::boost::regex_traits_wrapper<traits>()), m_flags(0), m_status(0), m_expression(0), m_expression_len(0), 
+         m_mark_count(0), m_first_state(0), m_restart_type(0), 
+#if !defined(BOOST_NO_CXX11_UNIFIED_INITIALIZATION_SYNTAX) && !(defined(BOOST_MSVC) && (BOOST_MSVC < 1900))
+      m_startmap{ 0 },
+#endif
+         m_can_be_null(0), m_word_mask(0), m_has_recursions(false), m_disable_match_any(false) {}
 
    ::boost::shared_ptr<
       ::boost::regex_traits_wrapper<traits>

@@ -21,7 +21,7 @@ namespace filesystem
 inline
 void save_string_file(const path& p, const std::string& str)
 {
-  ofstream file;
+  filesystem::ofstream file;
   file.exceptions(std::ofstream::failbit | std::ofstream::badbit);
   file.open(p, std::ios_base::binary);
   file.write(str.c_str(), str.size());
@@ -30,10 +30,10 @@ void save_string_file(const path& p, const std::string& str)
 inline
 void load_string_file(const path& p, std::string& str)
 {
-  ifstream file;
+  filesystem::ifstream file;
   file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
   file.open(p, std::ios_base::binary);
-  std::size_t sz = static_cast<std::size_t>(file_size(p));
+  std::size_t sz = static_cast<std::size_t>(filesystem::file_size(p));
   str.resize(sz, '\0');
   file.read(&str[0], sz);
 }

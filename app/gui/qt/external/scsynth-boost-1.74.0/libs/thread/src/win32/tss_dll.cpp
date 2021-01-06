@@ -3,11 +3,11 @@
 // Boost Software License, Version 1.0. (See accompanying file
 // LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#include <boost/detail/winapi/config.hpp>
+#include <boost/winapi/config.hpp>
 #include <boost/thread/detail/config.hpp>
 
 
-#if defined(BOOST_HAS_WINTHREADS) && defined(BOOST_THREAD_BUILD_DLL)
+#if defined(BOOST_THREAD_WIN32) && defined(BOOST_THREAD_BUILD_DLL)
 
     #include <boost/thread/detail/tss_hooks.hpp>
 
@@ -73,7 +73,7 @@ namespace boost
     }
 }
 
-#else //defined(BOOST_HAS_WINTHREADS) && defined(BOOST_THREAD_BUILD_DLL)
+#else //defined(BOOST_THREAD_WIN32) && defined(BOOST_THREAD_BUILD_DLL)
 
 #ifdef _MSC_VER
 // Prevent LNK4221 warning with link=static
@@ -82,4 +82,4 @@ namespace boost { namespace link_static_warning_inhibit {
 } }
 #endif
 
-#endif //defined(BOOST_HAS_WINTHREADS) && defined(BOOST_THREAD_BUILD_DLL)
+#endif //defined(BOOST_THREAD_WIN32) && defined(BOOST_THREAD_BUILD_DLL)

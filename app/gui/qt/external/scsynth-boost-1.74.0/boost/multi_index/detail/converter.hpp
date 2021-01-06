@@ -1,4 +1,4 @@
-/* Copyright 2003-2013 Joaquin M Lopez Munoz.
+/* Copyright 2003-2020 Joaquin M Lopez Munoz.
  * Distributed under the Boost Software License, Version 1.0.
  * (See accompanying file LICENSE_1_0.txt or copy at
  * http://www.boost.org/LICENSE_1_0.txt)
@@ -31,13 +31,15 @@ struct converter
   static Index&       index(MultiIndexContainer& x){return x;}
 
   static typename Index::const_iterator const_iterator(
-    const MultiIndexContainer& x,typename MultiIndexContainer::node_type* node)
+    const MultiIndexContainer& x,
+    typename MultiIndexContainer::final_node_type* node)
   {
     return x.Index::make_iterator(node);
   }
 
   static typename Index::iterator iterator(
-    MultiIndexContainer& x,typename MultiIndexContainer::node_type* node)
+    MultiIndexContainer& x,
+    typename MultiIndexContainer::final_node_type* node)
   {
     return x.Index::make_iterator(node);
   }

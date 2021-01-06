@@ -10,10 +10,10 @@
 # define BOOST_TYPEOF_MSVC_TYPEOF_IMPL_HPP_INCLUDED
 
 # include <boost/config.hpp>
-# include <boost/detail/workaround.hpp>
-# include <boost/mpl/int.hpp>
+# include <boost/config/workaround.hpp>
+# include <boost/typeof/constant.hpp>
+# include <boost/type_traits/enable_if.hpp>
 # include <boost/type_traits/is_function.hpp>
-# include <boost/utility/enable_if.hpp>
 
 # include <typeinfo>
 
@@ -135,7 +135,7 @@ namespace boost
 
         template<int ID>
         struct msvc_typeid_wrapper {
-            typedef typename msvc_extract_type<mpl::int_<ID> >::id2type id2type;
+            typedef typename msvc_extract_type<constant<int,ID> >::id2type id2type;
             typedef typename id2type::type type;
         };
         //Workaround for ETI-bug for VC6 and VC7
@@ -156,7 +156,7 @@ namespace boost
             //Get the next available compile time constants index
             BOOST_STATIC_CONSTANT(unsigned,value=BOOST_TYPEOF_INDEX(T));
             //Instantiate the template
-            typedef typename msvc_register_type<T,mpl::int_<value> >::id2type type;
+            typedef typename msvc_register_type<T,constant<int,value> >::id2type type;
             //Set the next compile time constants index
             BOOST_STATIC_CONSTANT(unsigned,next=value+1);
             //Increment the compile time constant (only needed when extensions are not active
@@ -168,12 +168,12 @@ namespace boost
         {
             typedef char(*type)[encode_type<T>::value];
         };
-        template<typename T> typename disable_if<
-            typename is_function<T>::type,
+        template<typename T> typename enable_if_<
+            !is_function<T>::value,
             typename sizer<T>::type>::type encode_start(T const&);
 
-        template<typename T> typename enable_if<
-            typename is_function<T>::type,
+        template<typename T> typename enable_if_<
+            is_function<T>::value,
             typename sizer<T>::type>::type encode_start(T&);
         template<typename Organizer, typename T>
         msvc_register_type<T,Organizer> typeof_register_type(const T&,Organizer* =0);

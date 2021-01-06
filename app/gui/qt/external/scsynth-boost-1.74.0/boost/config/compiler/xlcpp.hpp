@@ -194,6 +194,11 @@
 
 #if !__has_feature(cxx_override_control)
 #  define BOOST_NO_CXX11_FINAL
+#  define BOOST_NO_CXX11_OVERRIDE
+#endif
+
+#if !__has_feature(cxx_unrestricted_unions)
+#  define BOOST_NO_CXX11_UNRESTRICTED_UNION
 #endif
 
 #if !(__has_feature(__cxx_binary_literals__) || __has_extension(__cxx_binary_literals__))
@@ -244,6 +249,10 @@
 
 #if !defined(__cpp_structured_bindings) || (__cpp_structured_bindings < 201606)
 #  define BOOST_NO_CXX17_STRUCTURED_BINDINGS
+#endif
+
+#if !defined(__cpp_if_constexpr) || (__cpp_if_constexpr < 201606)
+#  define BOOST_NO_CXX17_IF_CONSTEXPR
 #endif
 
 // Clang 3.9+ in c++1z

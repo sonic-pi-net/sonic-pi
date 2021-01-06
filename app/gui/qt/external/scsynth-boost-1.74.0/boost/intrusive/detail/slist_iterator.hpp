@@ -49,6 +49,11 @@ class slist_iterator
    typedef typename types_t::node                           node;
    typedef typename types_t::node_ptr                       node_ptr;
    typedef typename types_t::const_value_traits_ptr         const_value_traits_ptr;
+   class nat;
+   typedef typename
+      detail::if_c< IsConst
+                  , slist_iterator<value_traits, false>
+                  , nat>::type                              nonconst_iterator;
 
    public:
    typedef typename types_t::iterator_type::difference_type    difference_type;
@@ -64,11 +69,18 @@ class slist_iterator
       : members_(nodeptr, traits_ptr)
    {}
 
-   BOOST_INTRUSIVE_FORCEINLINE slist_iterator(slist_iterator<ValueTraits, false> const& other)
+   BOOST_INTRUSIVE_FORCEINLINE slist_iterator(const slist_iterator &other)
       :  members_(other.pointed_node(), other.get_value_traits())
    {}
 
-   BOOST_INTRUSIVE_FORCEINLINE const node_ptr &pointed_node() const
+   BOOST_INTRUSIVE_FORCEINLINE slist_iterator(const nonconst_iterator &other)
+      :  members_(other.pointed_node(), other.get_value_traits())
+   {}
+
+   BOOST_INTRUSIVE_FORCEINLINE slist_iterator &operator=(const slist_iterator &other)
+   {  members_.nodeptr_ = other.members_.nodeptr_;  return *this;  }
+
+   BOOST_INTRUSIVE_FORCEINLINE node_ptr pointed_node() const
    { return members_.nodeptr_; }
 
    BOOST_INTRUSIVE_FORCEINLINE slist_iterator &operator=(const node_ptr &node)

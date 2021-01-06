@@ -49,6 +49,9 @@ T ellint_e_imp(T phi, T k, const Policy& pol)
     using namespace boost::math::constants;
 
     bool invert = false;
+    if (phi == 0)
+       return 0;
+
     if(phi < 0)
     {
        phi = fabs(phi);
@@ -95,11 +98,7 @@ T ellint_e_imp(T phi, T k, const Policy& pol)
           rphi = constants::half_pi<T>() - rphi;
        }
        T k2 = k * k;
-       if(k2 > 1)
-       {
-          return policies::raise_domain_error<T>("boost::math::ellint_2<%1%>(%1%, %1%)", "The parameter k is out of range, got k = %1%", k, pol);
-       }
-       else if(rphi < tools::root_epsilon<T>())
+       if(boost::math::pow<3>(rphi) * k2 / 6 < tools::epsilon<T>() * fabs(rphi))
        {
           // See http://functions.wolfram.com/EllipticIntegrals/EllipticE2/06/01/03/0001/
           result = s * rphi;
@@ -108,6 +107,10 @@ T ellint_e_imp(T phi, T k, const Policy& pol)
        {
           // http://dlmf.nist.gov/19.25#E10
           T sinp = sin(rphi);
+          if (k2 * sinp * sinp >= 1)
+          {
+             return policies::raise_domain_error<T>("boost::math::ellint_2<%1%>(%1%, %1%)", "The parameter k is out of range, got k = %1%", k, pol);
+          }
           T cosp = cos(rphi);
           T c = 1 / (sinp * sinp);
           T cm1 = cosp * cosp / (sinp * sinp);  // c - 1
@@ -146,7 +149,7 @@ T ellint_e_imp(T k, const Policy& pol)
 }
 
 template <typename T, typename Policy>
-inline typename tools::promote_args<T>::type ellint_2(T k, const Policy& pol, const mpl::true_&)
+inline typename tools::promote_args<T>::type ellint_2(T k, const Policy& pol, const boost::true_type&)
 {
    typedef typename tools::promote_args<T>::type result_type;
    typedef typename policies::evaluation<result_type, Policy>::type value_type;
@@ -155,7 +158,7 @@ inline typename tools::promote_args<T>::type ellint_2(T k, const Policy& pol, co
 
 // Elliptic integral (Legendre form) of the second kind
 template <class T1, class T2>
-inline typename tools::promote_args<T1, T2>::type ellint_2(T1 k, T2 phi, const mpl::false_&)
+inline typename tools::promote_args<T1, T2>::type ellint_2(T1 k, T2 phi, const boost::false_type&)
 {
    return boost::math::ellint_2(k, phi, policies::policy<>());
 }

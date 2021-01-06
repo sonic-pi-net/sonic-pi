@@ -73,7 +73,7 @@ template <
     , std::size_t alignment_ = std::size_t(-1)
 >
 class aligned_storage : 
-#ifndef __BORLANDC__
+#ifndef BOOST_BORLANDC
    private 
 #else
    public

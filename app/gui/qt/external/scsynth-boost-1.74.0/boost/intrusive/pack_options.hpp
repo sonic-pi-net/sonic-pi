@@ -209,6 +209,12 @@ struct do_pack<typelist<Prev, Last> >
    typedef typename Prev::template pack<Last> type;
 };
 
+template<class ...Others>
+struct do_pack<typelist<void, Others...> >
+{
+   typedef typename do_pack<typelist<Others...> >::type type;
+};
+
 template<class Prev, class ...Others>
 struct do_pack<typelist<Prev, Others...> >
 {

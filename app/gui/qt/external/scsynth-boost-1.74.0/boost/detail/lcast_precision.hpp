@@ -17,7 +17,7 @@
 
 #ifndef BOOST_NO_IS_ABSTRACT
 // Fix for SF:1358600 - lexical_cast & pure virtual functions & VC 8 STL
-#include <boost/mpl/if.hpp>
+#include <boost/type_traits/conditional.hpp>
 #include <boost/type_traits/is_abstract.hpp>
 #endif
 
@@ -47,8 +47,8 @@ struct lcast_precision
 #ifdef BOOST_NO_IS_ABSTRACT
     typedef std::numeric_limits<T> limits; // No fix for SF:1358600.
 #else
-    typedef BOOST_DEDUCED_TYPENAME boost::mpl::if_<
-        boost::is_abstract<T>
+    typedef BOOST_DEDUCED_TYPENAME boost::conditional<
+        boost::is_abstract<T>::value
       , std::numeric_limits<lcast_abstract_stub>
       , std::numeric_limits<T>
       >::type limits;
@@ -105,8 +105,8 @@ inline std::streamsize lcast_get_precision(T* = 0)
 #ifdef BOOST_NO_IS_ABSTRACT
     typedef std::numeric_limits<T> limits; // No fix for SF:1358600.
 #else
-    typedef BOOST_DEDUCED_TYPENAME boost::mpl::if_<
-        boost::is_abstract<T>
+    typedef BOOST_DEDUCED_TYPENAME boost::conditional<
+        boost::is_abstract<T>::value
       , std::numeric_limits<lcast_abstract_stub>
       , std::numeric_limits<T>
       >::type limits;

@@ -21,7 +21,6 @@
 #include <boost/test/detail/global_typedef.hpp>
 #include <boost/test/detail/fwd_decl.hpp>
 
-#include <boost/test/utils/trivial_singleton.hpp>
 #include <boost/test/utils/class_properties.hpp>
 
 #include <boost/test/detail/suppress_warnings.hpp>
@@ -63,6 +62,7 @@ public:
                                                 (test_results)
                                                 (results_collect_helper) ) bool_prop;
 
+    counter_prop    p_test_suites;              //!< Number of test suites
     counter_prop    p_assertions_passed;        //!< Number of successful assertions
     counter_prop    p_assertions_failed;        //!< Number of failing assertions
     counter_prop    p_warnings_failed;          //!< Number of warnings
@@ -72,12 +72,21 @@ public:
     counter_prop    p_test_cases_failed;        //!< Number of failing test cases
     counter_prop    p_test_cases_skipped;       //!< Number of skipped test cases
     counter_prop    p_test_cases_aborted;       //!< Number of aborted test cases
+    counter_prop    p_test_cases_timed_out;     //!< Number of timed out test cases
+    counter_prop    p_test_suites_timed_out;    //!< Number of timed out test suites
     counter_prop    p_duration_microseconds;    //!< Duration of the test in microseconds
     bool_prop       p_aborted;                  //!< Indicates that the test unit execution has been aborted
     bool_prop       p_skipped;                  //!< Indicates that the test unit execution has been skipped
+    bool_prop       p_timed_out;                //!< Indicates that the test unit has timed out
 
     /// Returns true if test unit passed
     bool            passed() const;
+
+    /// Returns true if test unit skipped
+    ///
+    /// For test suites, this indicates if the test suite itself has been marked as
+    /// skipped, and not if the test suite contains any skipped test.
+    bool            skipped() const;
 
     /// Returns true if the test unit was aborted (hard failure)
     bool            aborted() const;
@@ -88,7 +97,7 @@ public:
     /// @returns
     ///   - @c boost::exit_success on success,
     ///   - @c boost::exit_exception_failure in case test unit
-    ///     was aborted for any reason (incuding uncaught exception)
+    ///     was aborted for any reason (including uncaught exception)
     ///   - and @c boost::exit_test_failure otherwise
     int             result_code() const;
 
@@ -109,27 +118,28 @@ public:
 /// of the test tree.
 ///
 /// @see boost::unit_test::test_observer
-class BOOST_TEST_DECL results_collector_t : public test_observer, public singleton<results_collector_t> {
+class BOOST_TEST_DECL results_collector_t : public test_observer {
 public:
 
-    virtual void        test_start( counter_t );
+    void        test_start( counter_t, test_unit_id ) BOOST_OVERRIDE;
 
-    virtual void        test_unit_start( test_unit const& );
-    virtual void        test_unit_finish( test_unit const&, unsigned long );
-    virtual void        test_unit_skipped( test_unit const&, const_string );
-    virtual void        test_unit_aborted( test_unit const& );
+    void        test_unit_start( test_unit const& ) BOOST_OVERRIDE;
+    void        test_unit_finish( test_unit const&, unsigned long ) BOOST_OVERRIDE;
+    void        test_unit_skipped( test_unit const&, const_string ) BOOST_OVERRIDE;
+    void        test_unit_aborted( test_unit const& ) BOOST_OVERRIDE;
+    void        test_unit_timed_out( test_unit const& ) BOOST_OVERRIDE;
 
-    virtual void        assertion_result( unit_test::assertion_result );
-    virtual void        exception_caught( execution_exception const& );
+    void        assertion_result( unit_test::assertion_result ) BOOST_OVERRIDE;
+    void        exception_caught( execution_exception const& ) BOOST_OVERRIDE;
 
-    virtual int         priority() { return 3; }
+    int         priority() BOOST_OVERRIDE { return 3; }
 
     /// Results access per test unit
     ///
     /// @param[in] tu_id id of a test unit
     test_results const& results( test_unit_id tu_id ) const;
 
-private:
+    /// Singleton pattern
     BOOST_TEST_SINGLETON_CONS( results_collector_t )
 };
 

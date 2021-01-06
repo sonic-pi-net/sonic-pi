@@ -21,7 +21,15 @@ namespace detail   {
 
 
 template <class T>
-class BOOST_ALIGNMENT(2 * sizeof(void*)) tagged_ptr
+class
+#if BOOST_COMP_MSVC && BOOST_ARCH_X86_64
+BOOST_ALIGNMENT(16)
+#elif BOOST_COMP_MSVC && BOOST_ARCH_X86_32
+BOOST_ALIGNMENT(8)
+#else
+BOOST_ALIGNMENT(2 * sizeof(void*))
+#endif
+  tagged_ptr
 {
 public:
     typedef std::size_t tag_t;

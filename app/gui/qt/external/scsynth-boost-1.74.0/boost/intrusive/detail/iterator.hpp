@@ -147,7 +147,7 @@ BOOST_INTRUSIVE_FORCEINLINE typename iterator_enable_if_tag<InputIt, std::input_
    iterator_advance(InputIt& it, Distance n)
 {
    while(n--)
-	   ++it;
+      ++it;
 }
 
 template<class InputIt, class Distance>
@@ -155,7 +155,7 @@ typename iterator_enable_if_tag<InputIt, std::forward_iterator_tag>::type
    iterator_advance(InputIt& it, Distance n)
 {
    while(n--)
-	   ++it;
+      ++it;
 }
 
 template<class InputIt, class Distance>
@@ -163,9 +163,9 @@ BOOST_INTRUSIVE_FORCEINLINE typename iterator_enable_if_tag<InputIt, std::bidire
    iterator_advance(InputIt& it, Distance n)
 {
    for (; 0 < n; --n)
-	   ++it;
+      ++it;
    for (; n < 0; ++n)
-	   --it;
+      --it;
 }
 
 template<class InputIt, class Distance>
@@ -181,7 +181,7 @@ BOOST_INTRUSIVE_FORCEINLINE typename iterator_enable_if_convertible_tag
    iterator_advance(InputIt& it, Distance n)
 {
    while(n--)
-	   ++it;
+      ++it;
 }
 
 template<class InputIt, class Distance>
@@ -190,7 +190,7 @@ BOOST_INTRUSIVE_FORCEINLINE typename iterator_enable_if_convertible_tag
    iterator_advance(InputIt& it, Distance n)
 {
    while(n--)
-	   ++it;
+      ++it;
 }
 
 template<class InputIt, class Distance>
@@ -199,7 +199,7 @@ BOOST_INTRUSIVE_FORCEINLINE typename iterator_enable_if_convertible_tag
    iterator_advance(InputIt& it, Distance n)
 {
    while(n--)
-	   ++it;
+      ++it;
 }
 
 template<class InputIt, class Distance>
@@ -208,9 +208,9 @@ BOOST_INTRUSIVE_FORCEINLINE typename iterator_enable_if_convertible_tag
    iterator_advance(InputIt& it, Distance n)
 {
    for (; 0 < n; --n)
-	   ++it;
+      ++it;
    for (; n < 0; ++n)
-	   --it;
+      --it;
 }
 
 class fake{};
@@ -233,7 +233,7 @@ typename iterator_disable_if_tag_difference_type
 {
    typename iterator_traits<InputIt>::difference_type off = 0;
    while(first != last){
-	   ++off;
+      ++off;
       ++first;
    }
    return off;

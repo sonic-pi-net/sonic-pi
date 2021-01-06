@@ -2,7 +2,7 @@
 // detail/conditionally_enabled_event.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2017 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -59,6 +59,14 @@ public:
 
   // Unlock the mutex and signal one waiter.
   void unlock_and_signal_one(
+      conditionally_enabled_mutex::scoped_lock& lock)
+  {
+    if (lock.mutex_.enabled_)
+      event_.unlock_and_signal_one(lock);
+  }
+
+  // Unlock the mutex and signal one waiter who may destroy us.
+  void unlock_and_signal_one_for_destruction(
       conditionally_enabled_mutex::scoped_lock& lock)
   {
     if (lock.mutex_.enabled_)

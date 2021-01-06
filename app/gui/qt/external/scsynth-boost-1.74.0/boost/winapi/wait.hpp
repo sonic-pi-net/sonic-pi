@@ -11,6 +11,8 @@
 #define BOOST_WINAPI_WAIT_HPP_INCLUDED_
 
 #include <boost/winapi/basic_types.hpp>
+#include <boost/winapi/wait_constants.hpp>
+#include <boost/winapi/detail/header.hpp>
 
 #ifdef BOOST_HAS_PRAGMA_ONCE
 #pragma once
@@ -20,7 +22,7 @@
 extern "C" {
 
 #if BOOST_WINAPI_PARTITION_APP || BOOST_WINAPI_PARTITION_SYSTEM
-BOOST_SYMBOL_IMPORT boost::winapi::DWORD_ WINAPI
+BOOST_WINAPI_IMPORT boost::winapi::DWORD_ BOOST_WINAPI_WINAPI_CC
 WaitForSingleObjectEx(
     boost::winapi::HANDLE_ hHandle,
     boost::winapi::DWORD_ dwMilliseconds,
@@ -29,7 +31,7 @@ WaitForSingleObjectEx(
 
 #if BOOST_WINAPI_PARTITION_DESKTOP || BOOST_WINAPI_PARTITION_SYSTEM
 #if BOOST_USE_WINAPI_VERSION >= BOOST_WINAPI_VERSION_NT4
-BOOST_SYMBOL_IMPORT boost::winapi::DWORD_ WINAPI
+BOOST_WINAPI_IMPORT boost::winapi::DWORD_ BOOST_WINAPI_WINAPI_CC
 SignalObjectAndWait(
     boost::winapi::HANDLE_ hObjectToSignal,
     boost::winapi::HANDLE_ hObjectToWaitOn,
@@ -39,19 +41,19 @@ SignalObjectAndWait(
 #endif
 
 #if BOOST_WINAPI_PARTITION_APP_SYSTEM
-BOOST_SYMBOL_IMPORT boost::winapi::DWORD_ WINAPI
+BOOST_WINAPI_IMPORT_EXCEPT_WM boost::winapi::DWORD_ BOOST_WINAPI_WINAPI_CC
 WaitForSingleObject(
     boost::winapi::HANDLE_ hHandle,
     boost::winapi::DWORD_ dwMilliseconds);
 
-BOOST_SYMBOL_IMPORT boost::winapi::DWORD_ WINAPI
+BOOST_WINAPI_IMPORT_EXCEPT_WM boost::winapi::DWORD_ BOOST_WINAPI_WINAPI_CC
 WaitForMultipleObjects(
     boost::winapi::DWORD_ nCount,
     boost::winapi::HANDLE_ const* lpHandles,
     boost::winapi::BOOL_ bWaitAll,
     boost::winapi::DWORD_ dwMilliseconds);
 
-BOOST_SYMBOL_IMPORT boost::winapi::DWORD_ WINAPI
+BOOST_WINAPI_IMPORT boost::winapi::DWORD_ BOOST_WINAPI_WINAPI_CC
 WaitForMultipleObjectsEx(
     boost::winapi::DWORD_ nCount,
     boost::winapi::HANDLE_ const* lpHandles,
@@ -81,33 +83,9 @@ using ::WaitForMultipleObjectsEx;
 using ::WaitForSingleObject;
 #endif
 
-#if defined( BOOST_USE_WINDOWS_H )
-
-const DWORD_ INFINITE_ = INFINITE;
-const DWORD_ WAIT_ABANDONED_ = WAIT_ABANDONED;
-const DWORD_ WAIT_OBJECT_0_ = WAIT_OBJECT_0;
-const DWORD_ WAIT_TIMEOUT_ = WAIT_TIMEOUT;
-const DWORD_ WAIT_FAILED_ = WAIT_FAILED;
-
-#else // defined( BOOST_USE_WINDOWS_H )
-
-const DWORD_ INFINITE_ = (DWORD_)0xFFFFFFFF;
-const DWORD_ WAIT_ABANDONED_ = 0x00000080L;
-const DWORD_ WAIT_OBJECT_0_ = 0x00000000L;
-const DWORD_ WAIT_TIMEOUT_ = 0x00000102L;
-const DWORD_ WAIT_FAILED_ = (DWORD_)0xFFFFFFFF;
-
-#endif // defined( BOOST_USE_WINDOWS_H )
-
-const DWORD_ infinite = INFINITE_;
-const DWORD_ wait_abandoned = WAIT_ABANDONED_;
-const DWORD_ wait_object_0 = WAIT_OBJECT_0_;
-const DWORD_ wait_timeout = WAIT_TIMEOUT_;
-const DWORD_ wait_failed = WAIT_FAILED_;
-
-const DWORD_ max_non_infinite_wait = (DWORD_)0xFFFFFFFE;
-
 }
 }
+
+#include <boost/winapi/detail/footer.hpp>
 
 #endif // BOOST_WINAPI_WAIT_HPP_INCLUDED_

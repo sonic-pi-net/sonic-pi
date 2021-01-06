@@ -2,7 +2,7 @@
 // ip/v6_only.hpp
 // ~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2017 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -32,7 +32,7 @@ namespace ip {
  * @par Examples
  * Setting the option:
  * @code
- * boost::asio::ip::tcp::socket socket(io_context); 
+ * boost::asio::ip::tcp::socket socket(my_context);
  * ...
  * boost::asio::ip::v6_only option(true);
  * socket.set_option(option);
@@ -41,7 +41,7 @@ namespace ip {
  * @par
  * Getting the current option value:
  * @code
- * boost::asio::ip::tcp::socket socket(io_context); 
+ * boost::asio::ip::tcp::socket socket(my_context);
  * ...
  * boost::asio::ip::v6_only option;
  * socket.get_option(option);

@@ -261,6 +261,12 @@ BidirIt2 adl_move_swap_ranges_backward(BidirIt1 first1, BidirIt1 last1, BidirIt2
    return last2;
 }
 
+template<class ForwardIt1, class ForwardIt2>
+void adl_move_iter_swap(ForwardIt1 a, ForwardIt2 b)
+{
+   boost::adl_move_swap(*a, *b); 
+}
+
 }  //namespace boost{
 
 #endif   //#ifndef BOOST_MOVE_ADL_MOVE_SWAP_HPP

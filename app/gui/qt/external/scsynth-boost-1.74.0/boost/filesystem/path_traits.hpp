@@ -17,10 +17,10 @@
 # endif
 
 #include <boost/filesystem/config.hpp>
-#include <boost/utility/enable_if.hpp>
 #include <boost/type_traits/is_array.hpp>
 #include <boost/type_traits/decay.hpp>
 #include <boost/system/error_code.hpp>
+#include <boost/core/enable_if.hpp>
 #include <cwchar>  // for mbstate_t
 #include <string>
 #include <vector>
@@ -46,9 +46,9 @@ namespace boost { namespace filesystem {
   //              conversion was necessary.
 
   class directory_entry;
-  
+
 namespace path_traits {
- 
+
   typedef std::codecvt<wchar_t, char, std::mbstate_t> codecvt_type;
 
   //  is_pathable type trait; allows disabling over-agressive class path member templates
@@ -72,7 +72,7 @@ namespace path_traits {
 
   template <class Container> inline
     // disable_if aids broken compilers (IBM, old GCC, etc.) and is harmless for
-    // conforming compilers. Replace by plain "bool" at some future date (2012?) 
+    // conforming compilers. Replace by plain "bool" at some future date (2012?)
     typename boost::disable_if<boost::is_array<Container>, bool>::type
       empty(const Container & c)
         { return c.begin() == c.end(); }
@@ -226,25 +226,25 @@ namespace path_traits {
   template <class U> inline
     void dispatch(const std::string& c, U& to, const codecvt_type& cvt)
   {
-    if (c.size())
+    if (!c.empty())
       convert(&*c.begin(), &*c.begin() + c.size(), to, cvt);
   }
   template <class U> inline
     void dispatch(const std::wstring& c, U& to, const codecvt_type& cvt)
   {
-    if (c.size())
+    if (!c.empty())
       convert(&*c.begin(), &*c.begin() + c.size(), to, cvt);
   }
   template <class U> inline
     void dispatch(const std::vector<char>& c, U& to, const codecvt_type& cvt)
   {
-    if (c.size())
+    if (!c.empty())
       convert(&*c.begin(), &*c.begin() + c.size(), to, cvt);
   }
   template <class U> inline
     void dispatch(const std::vector<wchar_t>& c, U& to, const codecvt_type& cvt)
   {
-    if (c.size())
+    if (!c.empty())
       convert(&*c.begin(), &*c.begin() + c.size(), to, cvt);
   }
 
@@ -252,36 +252,36 @@ namespace path_traits {
   template <class U> inline
     void dispatch(const std::string& c, U& to)
   {
-    if (c.size())
+    if (!c.empty())
       convert(&*c.begin(), &*c.begin() + c.size(), to);
   }
   template <class U> inline
     void dispatch(const std::wstring& c, U& to)
   {
-    if (c.size())
+    if (!c.empty())
       convert(&*c.begin(), &*c.begin() + c.size(), to);
   }
   template <class U> inline
     void dispatch(const std::vector<char>& c, U& to)
   {
-    if (c.size())
+    if (!c.empty())
       convert(&*c.begin(), &*c.begin() + c.size(), to);
   }
   template <class U> inline
     void dispatch(const std::vector<wchar_t>& c, U& to)
   {
-    if (c.size())
+    if (!c.empty())
       convert(&*c.begin(), &*c.begin() + c.size(), to);
   }
 
   //  non-contiguous containers with codecvt
   template <class Container, class U> inline
     // disable_if aids broken compilers (IBM, old GCC, etc.) and is harmless for
-    // conforming compilers. Replace by plain "void" at some future date (2012?) 
+    // conforming compilers. Replace by plain "void" at some future date (2012?)
     typename boost::disable_if<boost::is_array<Container>, void>::type
     dispatch(const Container & c, U& to, const codecvt_type& cvt)
   {
-    if (c.size())
+    if (!c.empty())
     {
       std::basic_string<typename Container::value_type> s(c.begin(), c.end());
       convert(s.c_str(), s.c_str()+s.size(), to, cvt);
@@ -298,13 +298,13 @@ namespace path_traits {
   }
 
   //  Note: there is no dispatch on C-style arrays because the array may
-  //  contain a string smaller than the array size. 
+  //  contain a string smaller than the array size.
 
   BOOST_FILESYSTEM_DECL
     void dispatch(const directory_entry & de,
 #                ifdef BOOST_WINDOWS_API
     std::wstring & to,
-#                else   
+#                else
     std::string & to,
 #                endif
     const codecvt_type&);
@@ -312,11 +312,11 @@ namespace path_traits {
   //  non-contiguous containers without codecvt
   template <class Container, class U> inline
     // disable_if aids broken compilers (IBM, old GCC, etc.) and is harmless for
-    // conforming compilers. Replace by plain "void" at some future date (2012?) 
+    // conforming compilers. Replace by plain "void" at some future date (2012?)
     typename boost::disable_if<boost::is_array<Container>, void>::type
     dispatch(const Container & c, U& to)
   {
-    if (c.size())
+    if (!c.empty())
     {
       std::basic_string<typename Container::value_type> seq(c.begin(), c.end());
       convert(seq.c_str(), seq.c_str()+seq.size(), to);
@@ -333,13 +333,13 @@ namespace path_traits {
   }
 
   //  Note: there is no dispatch on C-style arrays because the array may
-  //  contain a string smaller than the array size. 
+  //  contain a string smaller than the array size.
 
   BOOST_FILESYSTEM_DECL
     void dispatch(const directory_entry & de,
 #                ifdef BOOST_WINDOWS_API
     std::wstring & to
-#                else   
+#                else
     std::string & to
 #                endif
     );

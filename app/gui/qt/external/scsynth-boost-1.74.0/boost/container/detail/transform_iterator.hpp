@@ -63,7 +63,7 @@ class transform_iterator
    : public UnaryFunction
    , public boost::container::iterator
       < typename Iterator::iterator_category
-      , typename container_detail::remove_reference<typename UnaryFunction::result_type>::type
+      , typename dtl::remove_reference<typename UnaryFunction::result_type>::type
       , typename Iterator::difference_type
       , operator_arrow_proxy<typename UnaryFunction::result_type>
       , typename UnaryFunction::result_type>

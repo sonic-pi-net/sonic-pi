@@ -177,6 +177,7 @@ class basic_managed_memory_impl
       //throw if constructor allocates memory. So we must catch it.
       BOOST_TRY{
          //Let's construct the allocator in memory
+         BOOST_ASSERT((0 == (std::size_t)addr % boost::move_detail::alignment_of<segment_manager>::value));
          mp_header       = ::new(addr, boost_container_new_t()) segment_manager(size);
       }
       BOOST_CATCH(...){

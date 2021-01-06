@@ -13,7 +13,7 @@
 
 namespace boost {
 
-#if defined(__BORLANDC__) && (__BORLANDC__ < 0x5A0)
+#if defined(BOOST_BORLANDC) && (BOOST_BORLANDC < 0x5A0)
 //
 // For some reason this implementation stops Borlands compiler
 // from dropping cv-qualifiers, it still fails with references

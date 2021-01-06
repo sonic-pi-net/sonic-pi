@@ -9,7 +9,7 @@
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8
 // split_free.hpp:
 
-// (C) Copyright 2002 Robert Ramey - http://www.rrsd.com . 
+// (C) Copyright 2002 Robert Ramey - http://www.rrsd.com .
 // Use, modification and distribution is subject to the Boost Software
 // License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
@@ -35,8 +35,8 @@ namespace serialization {
 template<class Archive, class T>
 struct free_saver {
     static void invoke(
-        Archive & ar, 
-        const  T & t, 
+        Archive & ar,
+        const  T & t,
         const unsigned int file_version
     ){
         // use function overload (version_type) to workaround
@@ -48,8 +48,8 @@ struct free_saver {
 template<class Archive, class T>
 struct free_loader {
     static void invoke(
-        Archive & ar, 
-        T & t, 
+        Archive & ar,
+        T & t,
         const unsigned int file_version
     ){
         // use function overload (version_type) to workaround
@@ -62,13 +62,13 @@ struct free_loader {
 
 template<class Archive, class T>
 inline void split_free(
-    Archive & ar, 
-    T & t, 
+    Archive & ar,
+    T & t,
     const unsigned int file_version
 ){
     typedef typename mpl::eval_if<
         typename Archive::is_saving,
-        mpl::identity</* detail:: */ free_saver<Archive, T> >, 
+        mpl::identity</* detail:: */ free_saver<Archive, T> >,
         mpl::identity</* detail:: */ free_loader<Archive, T> >
     >::type typex;
     typex::invoke(ar, t, file_version);

@@ -8,6 +8,7 @@
 
 #include <pthread.h>
 #include <boost/assert.hpp>
+#include <boost/thread/pthread/pthread_helpers.hpp>
 
 #include <boost/config/abi_prefix.hpp>
 
@@ -23,11 +24,11 @@ namespace boost
             explicit pthread_mutex_scoped_lock(pthread_mutex_t* m_) BOOST_NOEXCEPT:
                 m(m_),locked(true)
             {
-                BOOST_VERIFY(!pthread_mutex_lock(m));
+                BOOST_VERIFY(!posix::pthread_mutex_lock(m));
             }
             void unlock() BOOST_NOEXCEPT
             {
-                BOOST_VERIFY(!pthread_mutex_unlock(m));
+                BOOST_VERIFY(!posix::pthread_mutex_unlock(m));
                 locked=false;
             }
             void unlock_if_locked() BOOST_NOEXCEPT
@@ -54,11 +55,11 @@ namespace boost
             explicit pthread_mutex_scoped_unlock(pthread_mutex_t* m_) BOOST_NOEXCEPT:
                 m(m_)
             {
-                BOOST_VERIFY(!pthread_mutex_unlock(m));
+                BOOST_VERIFY(!posix::pthread_mutex_unlock(m));
             }
             ~pthread_mutex_scoped_unlock() BOOST_NOEXCEPT
             {
-                BOOST_VERIFY(!pthread_mutex_lock(m));
+                BOOST_VERIFY(!posix::pthread_mutex_lock(m));
             }
 
         };

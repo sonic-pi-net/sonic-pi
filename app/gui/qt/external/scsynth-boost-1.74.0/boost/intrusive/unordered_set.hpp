@@ -498,6 +498,7 @@ class unordered_set
    typedef typename Base::hasher             hasher;
    typedef typename Base::key_equal          key_equal;
 
+   BOOST_INTRUSIVE_FORCEINLINE
    explicit unordered_set  ( const bucket_traits &b_traits
                            , const hasher & hash_func = hasher()
                            , const key_equal &equal_func = key_equal()
@@ -506,7 +507,8 @@ class unordered_set
    {}
 
    template<class Iterator>
-   BOOST_INTRUSIVE_FORCEINLINE unordered_set
+   BOOST_INTRUSIVE_FORCEINLINE
+   unordered_set
                   ( Iterator b, Iterator e
                   , const bucket_traits &b_traits
                   , const hasher & hash_func = hasher()
@@ -947,6 +949,7 @@ class unordered_multiset
    typedef typename Base::hasher             hasher;
    typedef typename Base::key_equal          key_equal;
 
+   BOOST_INTRUSIVE_FORCEINLINE
    explicit unordered_multiset( const bucket_traits &b_traits
                               , const hasher & hash_func = hasher()
                               , const key_equal &equal_func = key_equal()
@@ -954,7 +957,8 @@ class unordered_multiset
       :  Base(b_traits, hash_func, equal_func, v_traits)
    {}
 
-   template<class Iterator> BOOST_INTRUSIVE_FORCEINLINE
+   template<class Iterator>
+   BOOST_INTRUSIVE_FORCEINLINE
    unordered_multiset( Iterator b
                      , Iterator e
                      , const bucket_traits &b_traits

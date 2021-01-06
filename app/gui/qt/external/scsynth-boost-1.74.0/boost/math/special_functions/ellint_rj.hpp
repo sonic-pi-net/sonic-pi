@@ -221,7 +221,7 @@ T ellint_rj_imp(T x, T y, T z, T p, const Policy& pol)
       if((En < -0.5) && (En > -1.5))
       {
          //
-         // Occationally En ~ -1, we then have no means of calculating
+         // Occasionally En ~ -1, we then have no means of calculating
          // RC(1, 1+En) without terrible cancellation error, so we
          // need to get to 1+En directly.  By substitution we have
          //

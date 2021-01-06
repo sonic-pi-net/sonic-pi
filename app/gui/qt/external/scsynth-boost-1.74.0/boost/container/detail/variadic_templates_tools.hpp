@@ -28,7 +28,7 @@
 
 namespace boost {
 namespace container {
-namespace container_detail {
+namespace dtl {
 
 template<typename... Values>
 class tuple;
@@ -78,7 +78,7 @@ class tuple<Head, Tail...>
 
 
 template<typename... Values>
-tuple<Values&&...> forward_as_tuple(Values&&... values)
+tuple<Values&&...> forward_as_tuple_impl(Values&&... values)
 { return tuple<Values&&...>(::boost::forward<Values>(values)...); }
 
 template<int I, typename Tuple>
@@ -156,7 +156,7 @@ struct build_number_seq
 template<> struct build_number_seq<0> : index_tuple<>{};
 template<> struct build_number_seq<1> : index_tuple<0>{};
 
-}}}   //namespace boost { namespace container { namespace container_detail {
+}}}   //namespace boost { namespace container { namespace dtl {
 
 #include <boost/container/detail/config_end.hpp>
 

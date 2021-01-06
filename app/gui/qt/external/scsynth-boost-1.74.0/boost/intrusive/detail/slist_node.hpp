@@ -52,7 +52,7 @@ struct slist_node_traits
    BOOST_INTRUSIVE_FORCEINLINE static node_ptr get_next(const node_ptr & n)
    {  return n->next_;  }
 
-   BOOST_INTRUSIVE_FORCEINLINE static void set_next(const node_ptr & n, const node_ptr & next)
+   BOOST_INTRUSIVE_FORCEINLINE static void set_next(node_ptr n, node_ptr next)
    {  n->next_ = next;  }
 };
 

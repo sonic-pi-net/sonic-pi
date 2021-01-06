@@ -2,7 +2,7 @@
 // detail/consuming_buffers.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2017 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -102,7 +102,7 @@ public:
 
     std::advance(next, next_elem_);
     std::size_t elem_offset = next_elem_offset_;
-    while (next != end && max_size > 0 && result.count < result.max_buffers)
+    while (next != end && max_size > 0 && (result.count) < result.max_buffers)
     {
       Buffer next_buf = Buffer(*next) + elem_offset;
       result.elems[result.count] = boost::asio::buffer(next_buf, max_size);
@@ -401,7 +401,7 @@ public:
     // No-op.
   }
 
-  std::size_t total_consume() const
+  std::size_t total_consumed() const
   {
     return 0;
   }

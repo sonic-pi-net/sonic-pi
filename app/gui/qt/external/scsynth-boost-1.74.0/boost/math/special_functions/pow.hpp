@@ -114,8 +114,8 @@ template <int N>
 struct select_power_if_positive
 {
     typedef typename mpl::greater_equal<
-                         mpl::int_<N>,
-                         mpl::int_<0>
+                         boost::integral_constant<int, N>,
+                         boost::integral_constant<int, 0>
                      >::type is_positive;
 
     typedef power_if_positive<N, is_positive::value> type;

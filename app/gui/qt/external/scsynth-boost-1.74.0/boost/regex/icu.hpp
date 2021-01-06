@@ -26,6 +26,7 @@
 #include <boost/regex.hpp>
 #include <boost/regex/pending/unicode_iterator.hpp>
 #include <boost/mpl/int_fwd.hpp>
+#include <boost/static_assert.hpp>
 #include <bitset>
 
 #ifdef BOOST_MSVC
@@ -334,6 +335,34 @@ inline u32regex do_make_u32regex(InputIterator i,
 #endif
 }
 
+// BOOST_REGEX_UCHAR_IS_WCHAR_T
+//
+// Source inspection of unicode/umachine.h in ICU version 59 indicates that:
+//
+// On version 59, UChar is always char16_t in C++ mode (and uint16_t in C mode)
+//
+// On earlier versions, the logic is
+//
+// #if U_SIZEOF_WCHAR_T==2
+//   typedef wchar_t OldUChar;
+// #elif defined(__CHAR16_TYPE__)
+//   typedef __CHAR16_TYPE__ OldUChar;
+// #else
+//   typedef uint16_t OldUChar;
+// #endif
+//
+// That is, UChar is wchar_t only on versions below 59, when U_SIZEOF_WCHAR_T==2
+//
+// Hence,
+
+#define BOOST_REGEX_UCHAR_IS_WCHAR_T (U_ICU_VERSION_MAJOR_NUM < 59 && U_SIZEOF_WCHAR_T == 2)
+
+#if BOOST_REGEX_UCHAR_IS_WCHAR_T
+  BOOST_STATIC_ASSERT((boost::is_same<UChar, wchar_t>::value));
+#else
+  BOOST_STATIC_ASSERT(!(boost::is_same<UChar, wchar_t>::value));
+#endif
+
 //
 // Construction from an iterator pair:
 //
@@ -364,7 +393,7 @@ inline u32regex make_u32regex(const wchar_t* p, boost::regex_constants::syntax_o
    return BOOST_REGEX_DETAIL_NS::do_make_u32regex(p, p + std::wcslen(p), opt, static_cast<boost::mpl::int_<sizeof(wchar_t)> const*>(0));
 }
 #endif
-#if !defined(U_WCHAR_IS_UTF16) && (U_SIZEOF_WCHAR_T != 2)
+#if !BOOST_REGEX_UCHAR_IS_WCHAR_T
 inline u32regex make_u32regex(const UChar* p, boost::regex_constants::syntax_option_type opt = boost::regex_constants::perl)
 {
    return BOOST_REGEX_DETAIL_NS::do_make_u32regex(p, p + u_strlen(p), opt, static_cast<boost::mpl::int_<2> const*>(0));
@@ -481,7 +510,7 @@ inline bool u32regex_match(const UChar* p,
 {
    return BOOST_REGEX_DETAIL_NS::do_regex_match(p, p+u_strlen(p), m, e, flags, static_cast<mpl::int_<2> const*>(0));
 }
-#if !defined(U_WCHAR_IS_UTF16) && (U_SIZEOF_WCHAR_T != 2) && !defined(BOOST_NO_WREGEX)
+#if !BOOST_REGEX_UCHAR_IS_WCHAR_T && !defined(BOOST_NO_WREGEX)
 inline bool u32regex_match(const wchar_t* p, 
                  match_results<const wchar_t*>& m, 
                  const u32regex& e, 
@@ -545,7 +574,7 @@ inline bool u32regex_match(const UChar* p,
    match_results<const UChar*> m;
    return BOOST_REGEX_DETAIL_NS::do_regex_match(p, p+u_strlen(p), m, e, flags, static_cast<mpl::int_<2> const*>(0));
 }
-#if !defined(U_WCHAR_IS_UTF16) && (U_SIZEOF_WCHAR_T != 2) && !defined(BOOST_NO_WREGEX)
+#if !BOOST_REGEX_UCHAR_IS_WCHAR_T && !defined(BOOST_NO_WREGEX)
 inline bool u32regex_match(const wchar_t* p, 
                  const u32regex& e, 
                  match_flag_type flags = match_default)
@@ -666,7 +695,7 @@ inline bool u32regex_search(const UChar* p,
 {
    return BOOST_REGEX_DETAIL_NS::do_regex_search(p, p+u_strlen(p), m, e, flags, p, static_cast<mpl::int_<2> const*>(0));
 }
-#if !defined(U_WCHAR_IS_UTF16) && (U_SIZEOF_WCHAR_T != 2) && !defined(BOOST_NO_WREGEX)
+#if !BOOST_REGEX_UCHAR_IS_WCHAR_T && !defined(BOOST_NO_WREGEX)
 inline bool u32regex_search(const wchar_t* p, 
                  match_results<const wchar_t*>& m, 
                  const u32regex& e, 
@@ -727,7 +756,7 @@ inline bool u32regex_search(const UChar* p,
    match_results<const UChar*> m;
    return BOOST_REGEX_DETAIL_NS::do_regex_search(p, p+u_strlen(p), m, e, flags, p, static_cast<mpl::int_<2> const*>(0));
 }
-#if !defined(U_WCHAR_IS_UTF16) && (U_SIZEOF_WCHAR_T != 2) && !defined(BOOST_NO_WREGEX)
+#if !BOOST_REGEX_UCHAR_IS_WCHAR_T && !defined(BOOST_NO_WREGEX)
 inline bool u32regex_search(const wchar_t* p, 
                  const u32regex& e, 
                  match_flag_type flags = match_default)

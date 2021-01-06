@@ -1,4 +1,4 @@
-/* Copyright 2003-2014 Joaquin M Lopez Munoz.
+/* Copyright 2003-2020 Joaquin M Lopez Munoz.
  * Distributed under the Boost Software License, Version 1.0.
  * (See accompanying file LICENSE_1_0.txt or copy at
  * http://www.boost.org/LICENSE_1_0.txt)
@@ -34,12 +34,15 @@ namespace detail{
 struct hashed_index_global_iterator_tag{};
 struct hashed_index_local_iterator_tag{};
 
-template<typename Node,typename BucketArray,typename Category>
+template<
+  typename Node,typename BucketArray,
+  typename IndexCategory,typename IteratorCategory
+>
 class hashed_index_iterator:
   public forward_iterator_helper<
-    hashed_index_iterator<Node,BucketArray,Category>,
+    hashed_index_iterator<Node,BucketArray,IndexCategory,IteratorCategory>,
     typename Node::value_type,
-    std::ptrdiff_t,
+    typename Node::difference_type,
     const typename Node::value_type*,
     const typename Node::value_type&>
 {
@@ -55,7 +58,7 @@ public:
 
   hashed_index_iterator& operator++()
   {
-    this->increment(Category());
+    this->increment(IteratorCategory());
     return *this;
   }
 
@@ -78,7 +81,7 @@ public:
   template<class Archive>
   void load(Archive& ar,const unsigned int version)
   {
-    load(ar,version,Category());
+    load(ar,version,IteratorCategory());
   }
 
   template<class Archive>
@@ -122,21 +125,26 @@ private:
 
   void increment(hashed_index_global_iterator_tag)
   {
-    Node::increment(node);
+    Node::template increment<IndexCategory>(node);
   }
 
   void increment(hashed_index_local_iterator_tag)
   {
-    Node::increment_local(node);
+    Node::template increment_local<IndexCategory>(node);
   }
 
   Node* node;
 };
 
-template<typename Node,typename BucketArray,typename Category>
+template<
+  typename Node,typename BucketArray,
+  typename IndexCategory,typename IteratorCategory
+>
 bool operator==(
-  const hashed_index_iterator<Node,BucketArray,Category>& x,
-  const hashed_index_iterator<Node,BucketArray,Category>& y)
+  const hashed_index_iterator<
+    Node,BucketArray,IndexCategory,IteratorCategory>& x,
+  const hashed_index_iterator<
+    Node,BucketArray,IndexCategory,IteratorCategory>& y)
 {
   return x.get_node()==y.get_node();
 }
@@ -151,9 +159,14 @@ bool operator==(
  */
 
 namespace serialization {
-template<typename Node,typename BucketArray,typename Category>
+template<
+  typename Node,typename BucketArray,
+  typename IndexCategory,typename IteratorCategory
+>
 struct version<
-  boost::multi_index::detail::hashed_index_iterator<Node,BucketArray,Category>
+  boost::multi_index::detail::hashed_index_iterator<
+    Node,BucketArray,IndexCategory,IteratorCategory
+  >
 >
 {
   BOOST_STATIC_CONSTANT(int,value=1);

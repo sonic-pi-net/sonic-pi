@@ -40,6 +40,7 @@
 #include <boost/interprocess/detail/config_begin.hpp>
 #include <boost/interprocess/detail/workaround.hpp>
 #include <boost/interprocess/detail/posix_time_types_wrk.hpp>
+#include <boost/interprocess/sync/detail/common_algorithms.hpp>
 #include <boost/assert.hpp>
 
 #if !defined(BOOST_INTERPROCESS_FORCE_GENERIC_EMULATION) && \
@@ -151,18 +152,7 @@ inline interprocess_recursive_mutex::interprocess_recursive_mutex(){}
 inline interprocess_recursive_mutex::~interprocess_recursive_mutex(){}
 
 inline void interprocess_recursive_mutex::lock()
-{
-   #ifdef BOOST_INTERPROCESS_ENABLE_TIMEOUT_WHEN_LOCKING
-      boost::posix_time::ptime wait_time
-         = microsec_clock::universal_time()
-         + boost::posix_time::milliseconds(BOOST_INTERPROCESS_TIMEOUT_WHEN_LOCKING_DURATION_MS);
-      if (!mutex.timed_lock(wait_time)){
-         throw interprocess_exception(timeout_when_locking_error, "Interprocess mutex timeout when locking. Possible deadlock: owner died without unlocking?");
-      }
-   #else
-      mutex.lock();
-   #endif
-}
+{  ipcdetail::timeout_when_locking_aware_lock(mutex);  }
 
 inline bool interprocess_recursive_mutex::try_lock()
 { return mutex.try_lock(); }

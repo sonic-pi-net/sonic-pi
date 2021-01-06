@@ -18,8 +18,6 @@
 #include <boost/test/detail/fwd_decl.hpp>
 #include <boost/test/detail/throw_exception.hpp>
 
-#include <boost/test/utils/trivial_singleton.hpp>
-
 #include <boost/test/detail/suppress_warnings.hpp>
 
 // STL
@@ -145,13 +143,13 @@ BOOST_TEST_DECL void                deregister_observer( test_observer& to );
 /// any other tests finished.
 /// Test unit fixture lifetime should exceed the testing execution timeframe
 /// @param[in]  tuf  fixture to add
-BOOST_TEST_DECL void                register_global_fixture( test_unit_fixture& tuf );
+BOOST_TEST_DECL void                register_global_fixture( global_fixture& tuf );
 
 /// Removes a test global fixture from the framework
 ///
 /// Test unit fixture lifetime should exceed the testing execution timeframe
 /// @param[in]  tuf  fixture to remove
-BOOST_TEST_DECL void                deregister_global_fixture( test_unit_fixture& tuf );
+BOOST_TEST_DECL void                deregister_global_fixture( global_fixture& tuf );
 /// @}
 
 /// @name Assertion/uncaught exception context support
@@ -264,6 +262,12 @@ namespace impl {
 // exclusively for self test
 BOOST_TEST_DECL void                setup_for_execution( test_unit const& );
 BOOST_TEST_DECL void                setup_loggers( );
+
+// Helper for setting the name of the master test suite globally
+struct BOOST_TEST_DECL master_test_suite_name_setter {
+  master_test_suite_name_setter( const_string name );
+};
+
 } // namespace impl
 
 // ************************************************************************** //

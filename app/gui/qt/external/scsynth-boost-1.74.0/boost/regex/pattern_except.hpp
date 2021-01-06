@@ -43,13 +43,16 @@ namespace boost{
 #ifdef BOOST_MSVC
 #pragma warning(push)
 #pragma warning(disable : 4275)
+#if BOOST_MSVC >= 1800
+#pragma warning(disable : 26812)
+#endif
 #endif
 class BOOST_REGEX_DECL regex_error : public std::runtime_error
 {
 public:
    explicit regex_error(const std::string& s, regex_constants::error_type err = regex_constants::error_unknown, std::ptrdiff_t pos = 0);
    explicit regex_error(regex_constants::error_type err);
-   ~regex_error() throw();
+   ~regex_error() BOOST_NOEXCEPT_OR_NOTHROW;
    regex_constants::error_type code()const
    { return m_error_code; }
    std::ptrdiff_t position()const

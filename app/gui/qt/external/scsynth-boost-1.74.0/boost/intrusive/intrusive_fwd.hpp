@@ -384,6 +384,7 @@ template
    , class O4  = void
    , class O5  = void
    , class O6  = void
+   , class O7  = void
    >
 #else
 template<class T, class ...Options>
@@ -399,6 +400,7 @@ template
    , class O4  = void
    , class O5  = void
    , class O6  = void
+   , class O7  = void
    >
 #else
 template<class T, class ...Options>
@@ -414,6 +416,7 @@ template
    , class O4  = void
    , class O5  = void
    , class O6  = void
+   , class O7  = void
    >
 #else
 template<class T, class ...Options>

@@ -53,7 +53,7 @@ namespace boost
                 else if(x < 1.5f)
                 {
                    // This is just a rearrangement of the standard form below
-                   // devised to minimse loss of precision when x ~ 1:
+                   // devised to minimise loss of precision when x ~ 1:
                    T y = x - 1;
                    return boost::math::log1p(y + sqrt(y * y + 2 * y), pol);
                 }

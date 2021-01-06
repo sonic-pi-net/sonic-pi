@@ -8,6 +8,8 @@
 //  See http://www.boost.org/libs/conversion for Documentation.
 
 //  Revision History
+//  02 Jun 14  Remove VC6 workarounds.
+//  16 Jul 11  Bugfixes for VC6.
 //  23 JUN 05  Code extracted from /boost/cast.hpp into this new header.
 //             Keeps this legacy version of numeric_cast<> for old compilers
 //             wich can't compile the new version in /boost/numeric/conversion/cast.hpp
@@ -52,19 +54,6 @@
 # include <boost/type.hpp>
 # include <boost/limits.hpp>
 # include <boost/numeric/conversion/converter_policies.hpp>
-
-//  It has been demonstrated numerous times that MSVC 6.0 fails silently at link
-//  time if you use a template function which has template parameters that don't
-//  appear in the function's argument list.
-//
-//  TODO: Add this to config.hpp?
-//  FLC: This macro is repeated in boost/cast.hpp but only locally (is undefined at the bottom)
-//       so is OK to reproduce it here.
-# if defined(BOOST_MSVC) && BOOST_MSVC < 1300
-#  define BOOST_EXPLICIT_DEFAULT_TARGET , ::boost::type<Target>* = 0
-# else
-#  define BOOST_EXPLICIT_DEFAULT_TARGET
-# endif
 
 namespace boost
 {
@@ -214,24 +203,6 @@ namespace boost
         template <class X, class Y>
         static inline bool check(X x, Y)
             { return x >= 0 && static_cast<X>(static_cast<Y>(x)) != x; }
-
-# if defined(BOOST_MSVC) && BOOST_MSVC < 1300
-        // MSVC6 can't static_cast  unsigned __int64 -> floating types
-#  define BOOST_UINT64_CAST(src_type)                                   \
-        static inline bool check(src_type x, unsigned __int64)          \
-        {                                                               \
-            if (x < 0) return false;                                    \
-            unsigned __int64 y = static_cast<unsigned __int64>(x);      \
-            bool odd = y & 0x1;                                         \
-            __int64 div2 = static_cast<__int64>(y >> 1);                \
-            return ((static_cast<src_type>(div2) * 2.0) + odd) != x;    \
-        }
-
-        BOOST_UINT64_CAST(long double);
-        BOOST_UINT64_CAST(double);
-        BOOST_UINT64_CAST(float);
-#  undef BOOST_UINT64_CAST
-# endif
     };
 
     template<>
@@ -285,7 +256,7 @@ namespace boost
 #endif
 
     template<typename Target, typename Source>
-    inline Target numeric_cast(Source arg BOOST_EXPLICIT_DEFAULT_TARGET)
+    inline Target numeric_cast(Source arg)
     {
         // typedefs abbreviating respective trait classes
         typedef detail::fixed_numeric_limits<Source> arg_traits;
@@ -331,8 +302,6 @@ namespace boost
         }
         return static_cast<Target>(arg);
     } // numeric_cast
-
-#  undef BOOST_EXPLICIT_DEFAULT_TARGET
 
 } // namespace boost
 

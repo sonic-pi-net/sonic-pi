@@ -15,25 +15,26 @@ http://www.boost.org/LICENSE_1_0.txt)
 #include <boost/predef/version_number.h>
 #include <boost/predef/make.h>
 
-/*`
-[heading `BOOST_COMP_MSVC`]
+/* tag::reference[]
+= `BOOST_COMP_MSVC`
 
-[@http://en.wikipedia.org/wiki/Visual_studio Microsoft Visual C/C++] compiler.
+http://en.wikipedia.org/wiki/Visual_studio[Microsoft Visual C/{CPP}] compiler.
 Version number available as major, minor, and patch.
 
-[table
-    [[__predef_symbol__] [__predef_version__]]
+[options="header"]
+|===
+| {predef_symbol} | {predef_version}
 
-    [[`_MSC_VER`] [__predef_detection__]]
+| `+_MSC_VER+` | {predef_detection}
 
-    [[`_MSC_FULL_VER`] [V.R.P]]
-    [[`_MSC_VER`] [V.R.0]]
-    ]
+| `+_MSC_FULL_VER+` | V.R.P
+| `+_MSC_VER+` | V.R.0
+|===
 
-[note Release of Visual Studio after 2015 will no longer be identified
+NOTE: Release of Visual Studio after 2015 will no longer be identified
 by Boost Predef as the marketing version number. Instead we use the
-compiler version number directly, i.e. the _MSC_VER number.]
- */
+compiler version number directly, i.e. the _MSC_VER number.
+*/ // end::reference[]
 
 #define BOOST_COMP_MSVC BOOST_VERSION_NUMBER_NOT_AVAILABLE
 

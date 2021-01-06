@@ -37,6 +37,7 @@
 
 #include <boost/type_traits/cv_traits.hpp>
 #include <boost/type_traits/function_traits.hpp>
+#include <boost/type_traits/integral_constant.hpp>
 #include <boost/utility/swap.hpp>
 
 #include <boost/detail/workaround.hpp> // needed for BOOST_WORKAROUND
@@ -140,7 +141,7 @@ private:
   typedef BOOST_DEDUCED_TYPENAME detail::drop_front<N>::BOOST_NESTED_TEMPLATE
       apply<T>::type::head_type unqualified_type;
 public:
-#if BOOST_WORKAROUND(__BORLANDC__,<0x600)
+#if BOOST_WORKAROUND(BOOST_BORLANDC,<0x600)
   typedef const unqualified_type type;
 #else
   typedef BOOST_DEDUCED_TYPENAME boost::add_const<unqualified_type>::type type;
@@ -309,6 +310,7 @@ struct cons {
       tail (t2, t3, t4, t5, t6, t7, t8, t9, t10, detail::cnull())
       {}
 
+  cons( const cons& u ) : head(u.head), tail(u.tail) {}
 
   template <class HT2, class TT2>
   cons( const cons<HT2, TT2>& u ) : head(u.head), tail(u.tail) {}
@@ -388,6 +390,8 @@ struct cons<HT, null_type> {
        const null_type&, const null_type&, const null_type&)
   : head () {}
 
+  cons( const cons& u ) : head(u.head) {}
+
   template <class HT2>
   cons( const cons<HT2, null_type>& u ) : head(u.head) {}
 
@@ -420,28 +424,28 @@ struct cons<HT, null_type> {
 // templates for finding out the length of the tuple -------------------
 
 template<class T>
-struct length  {
-  BOOST_STATIC_CONSTANT(int, value = 1 + length<typename T::tail_type>::value);
+struct length: boost::integral_constant<int, 1 + length<typename T::tail_type>::value>
+{
 };
 
 template<>
-struct length<tuple<> > {
-  BOOST_STATIC_CONSTANT(int, value = 0);
+struct length<tuple<> >: boost::integral_constant<int, 0>
+{
 };
 
 template<>
-struct length<tuple<> const> {
-  BOOST_STATIC_CONSTANT(int, value = 0);
+struct length<tuple<> const>: boost::integral_constant<int, 0>
+{
 };
 
 template<>
-struct length<null_type> {
-  BOOST_STATIC_CONSTANT(int, value = 0);
+struct length<null_type>: boost::integral_constant<int, 0>
+{
 };
 
 template<>
-struct length<null_type const> {
-  BOOST_STATIC_CONSTANT(int, value = 0);
+struct length<null_type const>: boost::integral_constant<int, 0>
+{
 };
 
 namespace detail {

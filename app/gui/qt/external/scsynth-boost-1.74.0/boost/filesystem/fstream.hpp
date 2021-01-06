@@ -7,7 +7,7 @@
 
 //  Library home page: http://www.boost.org/libs/filesystem
 
-//--------------------------------------------------------------------------------------// 
+//--------------------------------------------------------------------------------------//
 
 #ifndef BOOST_FILESYSTEM3_FSTREAM_HPP
 #define BOOST_FILESYSTEM3_FSTREAM_HPP
@@ -34,6 +34,12 @@
 # define BOOST_FILESYSTEM_C_STR c_str()
 #endif
 
+#if defined(BOOST_MSVC)
+#pragma warning(push)
+// 'boost::filesystem::basic_fstream<charT>' : inherits 'std::basic_istream<_Elem,_Traits>::std::basic_istream<_Elem,_Traits>::_Add_vtordisp1' via dominance
+#pragma warning(disable: 4250)
+#endif
+
 namespace boost
 {
 namespace filesystem
@@ -55,7 +61,7 @@ namespace filesystem
     virtual ~basic_filebuf() {}
 
     basic_filebuf<charT,traits>*
-      open(const path& p, std::ios_base::openmode mode) 
+      open(const path& p, std::ios_base::openmode mode)
     {
       return std::basic_filebuf<charT,traits>::open(p.BOOST_FILESYSTEM_C_STR, mode)
         ? this : 0;
@@ -174,9 +180,13 @@ namespace filesystem
   typedef basic_ifstream<wchar_t> wifstream;
   typedef basic_ofstream<wchar_t> wofstream;
   typedef basic_fstream<wchar_t> wfstream;
-  
+
 } // namespace filesystem
 } // namespace boost
+
+#if defined(BOOST_MSVC)
+#pragma warning(pop)
+#endif
 
 #include <boost/config/abi_suffix.hpp> // pops abi_prefix.hpp pragmas
 #endif  // BOOST_FILESYSTEM3_FSTREAM_HPP

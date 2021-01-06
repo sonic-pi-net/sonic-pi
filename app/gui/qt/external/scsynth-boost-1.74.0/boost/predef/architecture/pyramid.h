@@ -11,17 +11,18 @@ http://www.boost.org/LICENSE_1_0.txt)
 #include <boost/predef/version_number.h>
 #include <boost/predef/make.h>
 
-/*`
-[heading `BOOST_ARCH_PYRAMID`]
+/* tag::reference[]
+= `BOOST_ARCH_PYRAMID`
 
 Pyramid 9810 architecture.
 
-[table
-    [[__predef_symbol__] [__predef_version__]]
+[options="header"]
+|===
+| {predef_symbol} | {predef_version}
 
-    [[`pyr`] [__predef_detection__]]
-    ]
- */
+| `pyr` | {predef_detection}
+|===
+*/ // end::reference[]
 
 #define BOOST_ARCH_PYRAMID BOOST_VERSION_NUMBER_NOT_AVAILABLE
 

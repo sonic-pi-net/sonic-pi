@@ -26,6 +26,10 @@
 // STL
 #include <string>
 
+#if defined(BOOST_TEST_STRING_VIEW)
+#include <string_view>
+#endif
+
 #include <boost/test/detail/suppress_warnings.hpp>
 
 //____________________________________________________________________________//
@@ -39,7 +43,7 @@ namespace unit_test {
 // ************************************************************************** //
 
 template<typename CharT>
-class basic_cstring {
+class BOOST_SYMBOL_VISIBLE basic_cstring {
     typedef basic_cstring<CharT>                        self_type;
 public:
     // Subtypes
@@ -60,8 +64,8 @@ public:
 
     // !! should also present reverse_iterator, const_reverse_iterator
 
-#if !BOOST_WORKAROUND(__IBMCPP__, BOOST_TESTED_AT(600))
-    enum npos_type { npos = static_cast<size_type>(-1) };
+#if !BOOST_WORKAROUND(__IBMCPP__, BOOST_TESTED_AT(600)) && !defined(__DCC__)
+    BOOST_STATIC_CONSTANT(size_type, npos = static_cast<size_type>(-1));
 #else
     // IBM/VisualAge version 6 is not able to handle enums larger than 4 bytes.
     // But size_type is 8 bytes in 64bit mode.
@@ -163,7 +167,37 @@ private:
     // Data members
     iterator        m_begin;
     iterator        m_end;
+    static CharT null;
 };
+
+// ************************************************************************** //
+// **************         cstring_string_view_helper           ************** //
+// ************************************************************************** //
+
+
+#if defined(BOOST_TEST_STRING_VIEW)
+// Helper for instanciating a subclass of cstring using a string_view. We do not
+// change the API of cstring using BOOST_TEST_STRING_VIEW as the code should remain
+// compatible between boost.test and test module using different compiler options.
+//! @internal
+template <class CharT, class string_view_t = std::basic_string_view<CharT>>
+class BOOST_SYMBOL_VISIBLE stringview_cstring_helper : public basic_cstring<CharT> {
+public:
+  stringview_cstring_helper(string_view_t const& sv)
+  : basic_cstring<CharT>(const_cast<CharT*>(sv.data()), sv.size())
+  {}
+};
+#endif
+
+
+// ************************************************************************** //
+// **************            basic_cstring::impl               ************** //
+// ************************************************************************** //
+
+//____________________________________________________________________________//
+
+template<typename CharT>
+CharT basic_cstring<CharT>::null = 0;
 
 //____________________________________________________________________________//
 
@@ -171,7 +205,6 @@ template<typename CharT>
 inline typename basic_cstring<CharT>::pointer
 basic_cstring<CharT>::null_str()
 {
-    static CharT null = 0;
     return &null;
 }
 

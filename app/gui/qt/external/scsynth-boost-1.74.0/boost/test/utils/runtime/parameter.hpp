@@ -24,9 +24,10 @@
 // Boost.Test
 #include <boost/test/utils/class_properties.hpp>
 #include <boost/test/utils/foreach.hpp>
+#include <boost/test/utils/setcolor.hpp>
 
 // Boost
-#include <boost/function/function2.hpp>
+#include <boost/function.hpp>
 #include <boost/algorithm/cxx11/all_of.hpp>
 
 // STL
@@ -36,6 +37,40 @@
 
 namespace boost {
 namespace runtime {
+
+inline
+std::ostream& commandline_pretty_print(
+    std::ostream& ostr, 
+    std::string const& prefix, 
+    std::string const& to_print) {
+    
+    const int split_at = 80;
+
+    std::string::size_type current = 0;
+
+    while(current < to_print.size()) {
+
+        // discards spaces at the beginning
+        std::string::size_type startpos = to_print.find_first_not_of(" \t\n", current);
+        current += startpos - current;
+
+        bool has_more_lines = (current + split_at) < to_print.size();
+
+        if(has_more_lines) {
+          std::string::size_type endpos = to_print.find_last_of(" \t\n", current + split_at);
+          std::string sub(to_print.substr(current, endpos - current));
+          ostr << prefix << sub;
+          ostr << "\n";
+          current += endpos - current;
+        }
+        else 
+        {
+          ostr << prefix << to_print.substr(current, split_at);
+          current += split_at;
+        }
+    }
+    return ostr;
+}
 
 // ************************************************************************** //
 // **************           runtime::parameter_cla_id          ************** //
@@ -142,29 +177,44 @@ public:
     virtual void            produce_default( arguments_store& store ) const = 0;
 
     /// interfaces for help message reporting
-    virtual void            usage( std::ostream& ostr, cstring negation_prefix_ )
+    virtual void            usage( std::ostream& ostr, cstring negation_prefix_, bool use_color = true )
     {
-        ostr     << "Parameter: " << p_name << '\n';
-        if( !p_description.empty() )
-            ostr << ' ' << p_description << '\n';
+        namespace utils = unit_test::utils;
+        namespace ut_detail = unit_test::ut_detail;
 
-        ostr     << " Command line formats:\n";
+        // 
+        ostr  << "  ";
+        {
+
+          BOOST_TEST_SCOPE_SETCOLOR( use_color, ostr, term_attr::BRIGHT, term_color::GREEN );
+          ostr << p_name;
+        }
+
+        ostr << '\n';
+
+        if( !p_description.empty() ) {
+          commandline_pretty_print(ostr, "    ", p_description) << '\n';
+        }
+
         BOOST_TEST_FOREACH( parameter_cla_id const&, id, cla_ids() ) {
             if( id.m_prefix == help_prefix )
                 continue;
 
-            ostr << "   " << id.m_prefix;
-            if( id.m_negatable )
-                cla_name_help( ostr, id.m_tag, negation_prefix_ );
-            else
-                cla_name_help( ostr, id.m_tag, "" );
+            ostr << "    " << id.m_prefix;
 
+            if( id.m_negatable )
+                cla_name_help( ostr, id.m_tag, negation_prefix_, use_color );
+            else
+                cla_name_help( ostr, id.m_tag, "", use_color );
+
+            BOOST_TEST_SCOPE_SETCOLOR( use_color, ostr, term_attr::BRIGHT, term_color::YELLOW );
             bool optional_value_ = false;
 
             if( p_has_optional_value ) {
                 optional_value_ = true;
                 ostr << '[';
             }
+
 
             if( id.m_value_separator.empty() )
                 ostr << ' ';
@@ -179,16 +229,16 @@ public:
 
             ostr << '\n';
         }
-        if( !p_env_var.empty() )
-            ostr << " Environment variable: " << p_env_var << '\n';
     }
 
-    virtual void            help( std::ostream& ostr, cstring negation_prefix_ )
+    virtual void            help( std::ostream& ostr, cstring negation_prefix_, bool use_color = true )
     {
-        usage( ostr, negation_prefix_ );
+        usage( ostr, negation_prefix_, use_color );
 
-        if( !p_help.empty() )
-            ostr << '\n' << p_help << '\n';
+        if( !p_help.empty() ) {
+            ostr << '\n';
+            commandline_pretty_print(ostr, "  ", p_help);
+        }
     }
 
 protected:
@@ -220,7 +270,7 @@ protected:
 
 private:
     /// interface for usage/help customization
-    virtual void            cla_name_help( std::ostream& ostr, cstring cla_tag, cstring /* negation_prefix_ */) const
+    virtual void            cla_name_help( std::ostream& ostr, cstring cla_tag, cstring /*negation_prefix_*/, bool /*use_color*/ = true) const
     {
         ostr << cla_tag;
     }
@@ -272,15 +322,15 @@ public:
     }
 
 private:
-    virtual basic_param_ptr clone() const
+    basic_param_ptr clone() const BOOST_OVERRIDE
     {
         return basic_param_ptr( new parameter( *this ) );
     }
-    virtual void    produce_argument( cstring token, bool , arguments_store& store ) const
+    void    produce_argument( cstring token, bool , arguments_store& store ) const BOOST_OVERRIDE
     {
         m_arg_factory.produce_argument( token, this->p_name, store );
     }
-    virtual void    produce_default( arguments_store& store ) const
+    void    produce_default( arguments_store& store ) const BOOST_OVERRIDE
     {
         if( !this->p_has_default_value )
             return;
@@ -316,12 +366,12 @@ public:
     }
 
 private:
-    virtual basic_param_ptr clone() const
+    basic_param_ptr clone() const BOOST_OVERRIDE
     {
         return basic_param_ptr( new option( *this ) );
     }
 
-    virtual void    produce_argument( cstring token, bool negative_form, arguments_store& store ) const
+    void    produce_argument( cstring token, bool negative_form, arguments_store& store ) const BOOST_OVERRIDE
     {
         if( token.empty() )
             store.set( p_name, !negative_form );
@@ -333,18 +383,22 @@ private:
         }
     }
 
-    virtual void    produce_default( arguments_store& store ) const
+    void    produce_default( arguments_store& store ) const BOOST_OVERRIDE
     {
         m_arg_factory.produce_default( p_name, store );
     }
-    virtual void    cla_name_help( std::ostream& ostr, cstring cla_tag, cstring negation_prefix_ ) const
+    void    cla_name_help( std::ostream& ostr, cstring cla_tag, cstring negation_prefix_, bool use_color = true ) const BOOST_OVERRIDE
     {
-        if( negation_prefix_.is_empty() )
-            ostr << cla_tag;
-        else
-            ostr << '[' << negation_prefix_ << ']' << cla_tag;
+        namespace utils = unit_test::utils;
+        namespace ut_detail = unit_test::ut_detail;
+
+        if( !negation_prefix_.is_empty() ) {
+            BOOST_TEST_SCOPE_SETCOLOR( use_color, ostr, term_attr::BRIGHT, term_color::YELLOW );
+            ostr << '[' << negation_prefix_ << ']';
+        }
+        ostr << cla_tag;
     }
-    virtual void    value_help( std::ostream& ostr ) const
+    void    value_help( std::ostream& ostr ) const BOOST_OVERRIDE
     {
         if( p_value_hint.empty() )
             ostr << "<boolean value>";
@@ -387,12 +441,12 @@ public:
     }
 
 private:
-    virtual basic_param_ptr clone() const
+    basic_param_ptr clone() const BOOST_OVERRIDE
     {
         return basic_param_ptr( new enum_parameter( *this ) );
     }
 
-    virtual void    value_help( std::ostream& ostr ) const
+    void    value_help( std::ostream& ostr ) const BOOST_OVERRIDE
     {
         if( this->p_value_hint.empty() ) {
             ostr << "<";
@@ -444,7 +498,7 @@ public:
     bool                    is_empty() const    { return m_parameters.empty(); }
     /// Returns map of all the registered parameter
     storage_type const&     all() const         { return m_parameters; }
-    /// Returns true if parameter with psecified name is registered
+    /// Returns true if parameter with specified name is registered
     bool                    has( cstring name ) const
     {
         return m_parameters.find( name ) != m_parameters.end();

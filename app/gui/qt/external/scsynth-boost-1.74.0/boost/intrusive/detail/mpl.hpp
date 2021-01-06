@@ -40,6 +40,7 @@ using boost::move_detail::remove_pointer;
 using boost::move_detail::add_pointer;
 using boost::move_detail::true_type;
 using boost::move_detail::false_type;
+using boost::move_detail::voider;
 using boost::move_detail::enable_if_c;
 using boost::move_detail::enable_if;
 using boost::move_detail::disable_if_c;

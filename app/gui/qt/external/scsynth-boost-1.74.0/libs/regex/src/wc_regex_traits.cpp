@@ -71,7 +71,7 @@ template BOOST_REGEX_STDLIB_DECL bool __cdecl operator>(
 #include <boost/regex/config.hpp>
 #include <boost/detail/workaround.hpp>
 
-#if !BOOST_WORKAROUND(__BORLANDC__, < 0x560)
+#if !BOOST_WORKAROUND(BOOST_BORLANDC, < 0x560)
 
 #include <boost/regex/v4/c_regex_traits.hpp>
 #ifndef BOOST_NO_WREGEX
@@ -224,7 +224,7 @@ c_regex_traits<wchar_t>::string_type BOOST_REGEX_CALL c_regex_traits<wchar_t>::l
 {
 #if !defined(BOOST_NO_TEMPLATED_ITERATOR_CONSTRUCTORS)\
                && !BOOST_WORKAROUND(BOOST_MSVC, < 1300)\
-               && !BOOST_WORKAROUND(__BORLANDC__, <= 0x0551)
+               && !BOOST_WORKAROUND(BOOST_BORLANDC, <= 0x0551)
    std::string name(p1, p2);
 #else
    std::string name;
@@ -235,7 +235,7 @@ c_regex_traits<wchar_t>::string_type BOOST_REGEX_CALL c_regex_traits<wchar_t>::l
    name = ::boost::BOOST_REGEX_DETAIL_NS::lookup_default_collate_name(name);
 #if !defined(BOOST_NO_TEMPLATED_ITERATOR_CONSTRUCTORS)\
                && !BOOST_WORKAROUND(BOOST_MSVC, < 1300)\
-               && !BOOST_WORKAROUND(__BORLANDC__, <= 0x0551)
+               && !BOOST_WORKAROUND(BOOST_BORLANDC, <= 0x0551)
    if(name.size())
       return string_type(name.begin(), name.end());
 #else
@@ -257,7 +257,7 @@ c_regex_traits<wchar_t>::string_type BOOST_REGEX_CALL c_regex_traits<wchar_t>::l
 
 int BOOST_REGEX_CALL c_regex_traits<wchar_t>::value(wchar_t c, int radix) 
 {
-#ifdef __BORLANDC__
+#ifdef BOOST_BORLANDC
    // workaround for broken wcstol:
    if((std::iswxdigit)(c) == 0)
       return -1;
@@ -310,5 +310,5 @@ int BOOST_REGEX_CALL c_regex_traits<unsigned short>::value(unsigned short c, int
 
 #endif // BOOST_NO_WREGEX
 
-#endif // __BORLANDC__
+#endif // BOOST_BORLANDC
 

@@ -57,6 +57,14 @@
 #  define BOOST_HAS_STDINT_H
 #endif
 
+#if (defined(linux) || defined(__linux) || defined(__linux__) || defined(__GNU__) || defined(__GLIBC__)) && !defined(_CRAYC)
+#if (__clang_major__ >= 4) && defined(__has_include)
+#if __has_include(<quadmath.h>)
+#  define BOOST_HAS_FLOAT128
+#endif
+#endif
+#endif
+
 
 #define BOOST_HAS_NRVO
 
@@ -98,10 +106,14 @@
 //
 // Dynamic shared object (DSO) and dynamic-link library (DLL) support
 //
-#if !defined(_WIN32) && !defined(__WIN32__) && !defined(WIN32)
+#if defined(_WIN32) || defined(__WIN32__) || defined(WIN32) || defined(__CYGWIN__)
+#  define BOOST_HAS_DECLSPEC
+#  define BOOST_SYMBOL_EXPORT __attribute__((__dllexport__))
+#  define BOOST_SYMBOL_IMPORT __attribute__((__dllimport__))
+#else
 #  define BOOST_SYMBOL_EXPORT __attribute__((__visibility__("default")))
-#  define BOOST_SYMBOL_IMPORT
 #  define BOOST_SYMBOL_VISIBLE __attribute__((__visibility__("default")))
+#  define BOOST_SYMBOL_IMPORT
 #endif
 
 //
@@ -238,6 +250,11 @@
 
 #if !__has_feature(cxx_override_control)
 #  define BOOST_NO_CXX11_FINAL
+#  define BOOST_NO_CXX11_OVERRIDE
+#endif
+
+#if !__has_feature(cxx_unrestricted_unions)
+#  define BOOST_NO_CXX11_UNRESTRICTED_UNION
 #endif
 
 #if !(__has_feature(__cxx_binary_literals__) || __has_extension(__cxx_binary_literals__))
@@ -288,6 +305,10 @@
 
 #if !defined(__cpp_structured_bindings) || (__cpp_structured_bindings < 201606)
 #  define BOOST_NO_CXX17_STRUCTURED_BINDINGS
+#endif
+
+#if !defined(__cpp_if_constexpr) || (__cpp_if_constexpr < 201606)
+#  define BOOST_NO_CXX17_IF_CONSTEXPR
 #endif
 
 // Clang 3.9+ in c++1z

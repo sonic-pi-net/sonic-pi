@@ -22,6 +22,20 @@
 #  pragma once
 #endif
 
+
+//GCC reports uninitialized values when an uninitialized pointer plus bits type
+//is asigned some bits or some pointer value, but that's ok, because we don't want
+//to default initialize parts that are not being updated.
+#if defined(BOOST_GCC)
+#  if (BOOST_GCC >= 40600)
+#     pragma GCC diagnostic push
+#     pragma GCC diagnostic ignored "-Wuninitialized"
+#     if (BOOST_GCC >= 40700)
+#        pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+#     endif
+#  endif
+#endif
+
 namespace boost {
 namespace intrusive {
 
@@ -88,6 +102,10 @@ struct pointer_plus_bits<T*, NumBits>
 
 } //namespace intrusive
 } //namespace boost
+
+#if defined(BOOST_GCC) && (BOOST_GCC >= 40600)
+#  pragma GCC diagnostic pop
+#endif
 
 #include <boost/intrusive/detail/config_end.hpp>
 

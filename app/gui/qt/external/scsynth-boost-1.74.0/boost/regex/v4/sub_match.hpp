@@ -50,7 +50,7 @@ struct sub_match : public std::pair<BidiIterator, BidiIterator>
    sub_match() : std::pair<BidiIterator, BidiIterator>(), matched(false) {}
    sub_match(BidiIterator i) : std::pair<BidiIterator, BidiIterator>(i, i), matched(false) {}
 #if !defined(BOOST_NO_TEMPLATED_ITERATOR_CONSTRUCTORS)\
-               && !BOOST_WORKAROUND(__BORLANDC__, <= 0x0551)\
+               && !BOOST_WORKAROUND(BOOST_BORLANDC, <= 0x0551)\
                && !BOOST_WORKAROUND(__DECCXX_VER, BOOST_TESTED_AT(60590042))
    template <class T, class A>
    operator std::basic_string<value_type, T, A> ()const

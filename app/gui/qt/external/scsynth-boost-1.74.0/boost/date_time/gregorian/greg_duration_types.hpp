@@ -31,9 +31,9 @@ namespace gregorian {
 
   class BOOST_SYMBOL_VISIBLE weeks_duration : public date_duration {
   public:
-    weeks_duration(duration_rep w) 
+    BOOST_CXX14_CONSTEXPR weeks_duration(duration_rep w) 
       : date_duration(w * 7) {}
-    weeks_duration(date_time::special_values sv) 
+    BOOST_CXX14_CONSTEXPR weeks_duration(date_time::special_values sv) 
       : date_duration(sv) {}
   };
 

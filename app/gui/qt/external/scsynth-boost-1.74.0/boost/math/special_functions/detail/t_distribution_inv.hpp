@@ -112,7 +112,7 @@ T inverse_students_t_tail_series(T df, T v, const Policy& pol)
             * ((((((((((((945 * df) + 31506) * df + 425858) * df + 2980236) * df + 11266745) * df + 20675018) * df + 7747124) * df - 22574632) * df - 8565600) * df + 18108416) * df - 7099392) * df + 884736)
             / (46080 * np2 * np4 * np6 * (df + 8) * (df + 10) * (df +12));
    //
-   // Now bring everthing together to provide the result,
+   // Now bring everything together to provide the result,
    // this is Eq 62 of Shaw:
    //
    T rn = sqrt(df);
@@ -208,7 +208,7 @@ T inverse_students_t(T df, T u, T v, const Policy& pol, bool* pexact = 0)
 {
    //
    // df = number of degrees of freedom.
-   // u = probablity.
+   // u = probability.
    // v = 1 - u.
    // l = lanczos type to use.
    //
@@ -397,7 +397,7 @@ calculate_real:
       else
       {
          //
-         // Use Hill's method except in the exteme tails
+         // Use Hill's method except in the extreme tails
          // where we use Shaw's tail series.
          // The crossover point is roughly exponential in -df:
          //
@@ -427,7 +427,7 @@ inline T find_ibeta_inv_from_t_dist(T a, T p, T /*q*/, T* py, const Policy& pol)
 }
 
 template <class T, class Policy>
-inline T fast_students_t_quantile_imp(T df, T p, const Policy& pol, const mpl::false_*)
+inline T fast_students_t_quantile_imp(T df, T p, const Policy& pol, const boost::false_type*)
 {
    BOOST_MATH_STD_USING
    //
@@ -450,12 +450,12 @@ inline T fast_students_t_quantile_imp(T df, T p, const Policy& pol, const mpl::f
 }
 
 template <class T, class Policy>
-T fast_students_t_quantile_imp(T df, T p, const Policy& pol, const mpl::true_*)
+T fast_students_t_quantile_imp(T df, T p, const Policy& pol, const boost::true_type*)
 {
    BOOST_MATH_STD_USING
    bool invert = false;
    if((df < 2) && (floor(df) != df))
-      return boost::math::detail::fast_students_t_quantile_imp(df, p, pol, static_cast<mpl::false_*>(0));
+      return boost::math::detail::fast_students_t_quantile_imp(df, p, pol, static_cast<boost::false_type*>(0));
    if(p > 0.5)
    {
       p = 1 - p;
@@ -531,7 +531,7 @@ inline T fast_students_t_quantile(T df, T p, const Policy& pol)
       policies::discrete_quantile<>,
       policies::assert_undefined<> >::type forwarding_policy;
 
-   typedef mpl::bool_<
+   typedef boost::integral_constant<bool,
       (std::numeric_limits<T>::digits <= 53)
        &&
       (std::numeric_limits<T>::is_specialized)

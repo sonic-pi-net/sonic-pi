@@ -13,6 +13,7 @@
 
 #include <boost/assert.hpp>
 #include <boost/static_assert.hpp>
+#include <boost/core/allocator_access.hpp>
 #include <boost/type_traits/has_trivial_assign.hpp>
 #include <boost/type_traits/has_trivial_destructor.hpp>
 #include <boost/config.hpp> // for BOOST_LIKELY & BOOST_ALIGNMENT
@@ -34,6 +35,14 @@
 #pragma warning(push)
 #pragma warning(disable: 4324) // structure was padded due to __declspec(align())
 #endif
+
+#if defined(BOOST_INTEL) && (BOOST_INTEL_CXX_VERSION > 1000)
+#pragma warning(push)
+#pragma warning(disable:488) // template parameter unused in declaring parameter types, 
+                             // gets erronously triggered the queue constructor which
+                             // takes an allocator of another type and rebinds it
+#endif
+
 
 
 namespace boost    {
@@ -108,7 +117,7 @@ private:
         typedef typename detail::select_tagged_handle<node, node_based>::handle_type handle_type;
 
         node(T const & v, handle_type null_handle):
-            data(v)//, next(tagged_node_handle(0, 0))
+            data(v)
         {
             /* increment tag to avoid ABA problem */
             tagged_node_handle old_next = next.load(memory_order_relaxed);
@@ -169,19 +178,27 @@ public:
         return head_.is_lock_free() && tail_.is_lock_free() && pool.is_lock_free();
     }
 
-    //! Construct queue
-    // @{
+    /** Construct a fixed-sized queue
+     *
+     *  \pre Must specify a capacity<> argument
+     * */
     queue(void):
         head_(tagged_node_handle(0, 0)),
         tail_(tagged_node_handle(0, 0)),
         pool(node_allocator(), capacity)
     {
+        // Don't use BOOST_STATIC_ASSERT() here since it will be evaluated when compiling
+        // this function and this function may be compiled even when it isn't being used.
         BOOST_ASSERT(has_capacity);
         initialize();
     }
 
+    /** Construct a fixed-sized queue with a custom allocator
+     *
+     *  \pre Must specify a capacity<> argument
+     * */
     template <typename U>
-    explicit queue(typename node_allocator::template rebind<U>::other const & alloc):
+    explicit queue(typename boost::allocator_rebind<node_allocator, U>::type const & alloc):
         head_(tagged_node_handle(0, 0)),
         tail_(tagged_node_handle(0, 0)),
         pool(alloc, capacity)
@@ -190,29 +207,46 @@ public:
         initialize();
     }
 
+    /** Construct a fixed-sized queue with a custom allocator
+     *
+     *  \pre Must specify a capacity<> argument
+     * */
     explicit queue(allocator const & alloc):
         head_(tagged_node_handle(0, 0)),
         tail_(tagged_node_handle(0, 0)),
         pool(alloc, capacity)
     {
+        // Don't use BOOST_STATIC_ASSERT() here since it will be evaluated when compiling
+        // this function and this function may be compiled even when it isn't being used.
         BOOST_ASSERT(has_capacity);
         initialize();
     }
-    // @}
 
-    //! Construct queue, allocate n nodes for the freelist.
-    // @{
+    /** Construct a variable-sized queue
+     *
+     *  Allocate n nodes initially for the freelist
+     *
+     *  \pre Must \b not specify a capacity<> argument
+     * */
     explicit queue(size_type n):
         head_(tagged_node_handle(0, 0)),
         tail_(tagged_node_handle(0, 0)),
         pool(node_allocator(), n + 1)
     {
+        // Don't use BOOST_STATIC_ASSERT() here since it will be evaluated when compiling
+        // this function and this function may be compiled even when it isn't being used.
         BOOST_ASSERT(!has_capacity);
         initialize();
     }
 
+    /** Construct a variable-sized queue with a custom allocator
+     *
+     *  Allocate n nodes initially for the freelist
+     *
+     *  \pre Must \b not specify a capacity<> argument
+     * */
     template <typename U>
-    queue(size_type n, typename node_allocator::template rebind<U>::other const & alloc):
+    queue(size_type n, typename boost::allocator_rebind<node_allocator, U>::type const & alloc):
         head_(tagged_node_handle(0, 0)),
         tail_(tagged_node_handle(0, 0)),
         pool(alloc, n + 1)
@@ -220,7 +254,6 @@ public:
         BOOST_STATIC_ASSERT(!has_capacity);
         initialize();
     }
-    // @}
 
     /** \copydoc boost::lockfree::stack::reserve
      * */
@@ -543,6 +576,10 @@ private:
 
 } /* namespace lockfree */
 } /* namespace boost */
+
+#if defined(BOOST_INTEL) && (BOOST_INTEL_CXX_VERSION > 1000)
+#pragma warning(pop)
+#endif
 
 #if defined(_MSC_VER)
 #pragma warning(pop)

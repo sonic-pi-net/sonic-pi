@@ -233,7 +233,7 @@ class slist_impl
    {};
 
    struct data_t
-      :  public slist_impl::value_traits
+      :  public value_traits
    {
       typedef typename slist_impl::value_traits value_traits;
       explicit data_t(const value_traits &val_traits)
@@ -1995,7 +1995,7 @@ class slist_impl
    {  x.swap(y);  }
 
    private:
-   void priv_splice_after(const node_ptr & prev_pos_n, slist_impl &x, const node_ptr & before_f_n, const node_ptr & before_l_n)
+   void priv_splice_after(node_ptr prev_pos_n, slist_impl &x, node_ptr before_f_n, node_ptr before_l_n)
    {
       if (cache_last && (before_f_n != before_l_n)){
          if(prev_pos_n == this->get_last_node()){
@@ -2008,7 +2008,7 @@ class slist_impl
       node_algorithms::transfer_after(prev_pos_n, before_f_n, before_l_n);
    }
 
-   void priv_incorporate_after(const node_ptr & prev_pos_n, const node_ptr & first_n, const node_ptr & before_l_n)
+   void priv_incorporate_after(node_ptr prev_pos_n, node_ptr first_n, node_ptr before_l_n)
    {
       if(cache_last){
          if(prev_pos_n == this->get_last_node()){
@@ -2108,11 +2108,11 @@ class slist_impl
    }
 
    //circular version
-   static void priv_swap_lists(const node_ptr & this_node, const node_ptr & other_node, detail::bool_<false>)
+   static void priv_swap_lists(node_ptr this_node, node_ptr other_node, detail::bool_<false>)
    {  node_algorithms::swap_nodes(this_node, other_node); }
 
    //linear version
-   static void priv_swap_lists(const node_ptr & this_node, const node_ptr & other_node, detail::bool_<true>)
+   static void priv_swap_lists(node_ptr this_node, node_ptr other_node, detail::bool_<true>)
    {  node_algorithms::swap_trailing_nodes(this_node, other_node); }
 
    static slist_impl &priv_container_from_end_iterator(const const_iterator &end_iterator)
@@ -2202,45 +2202,45 @@ class slist
    typedef typename Base::size_type          size_type;
    typedef typename Base::node_ptr           node_ptr;
 
-   slist()
+   BOOST_INTRUSIVE_FORCEINLINE slist()
       :  Base()
    {}
 
-   explicit slist(const value_traits &v_traits)
+   BOOST_INTRUSIVE_FORCEINLINE explicit slist(const value_traits &v_traits)
       :  Base(v_traits)
    {}
 
    struct incorporate_t{};
 
-   slist( const node_ptr & f, const node_ptr & before_l
+   BOOST_INTRUSIVE_FORCEINLINE slist( const node_ptr & f, const node_ptr & before_l
              , size_type n, const value_traits &v_traits = value_traits())
       :  Base(f, before_l, n, v_traits)
    {}
 
    template<class Iterator>
-   slist(Iterator b, Iterator e, const value_traits &v_traits = value_traits())
+   BOOST_INTRUSIVE_FORCEINLINE slist(Iterator b, Iterator e, const value_traits &v_traits = value_traits())
       :  Base(b, e, v_traits)
    {}
 
-   slist(BOOST_RV_REF(slist) x)
+   BOOST_INTRUSIVE_FORCEINLINE slist(BOOST_RV_REF(slist) x)
       :  Base(BOOST_MOVE_BASE(Base, x))
    {}
 
-   slist& operator=(BOOST_RV_REF(slist) x)
+   BOOST_INTRUSIVE_FORCEINLINE slist& operator=(BOOST_RV_REF(slist) x)
    {  return static_cast<slist &>(this->Base::operator=(BOOST_MOVE_BASE(Base, x)));  }
 
    template <class Cloner, class Disposer>
-   void clone_from(const slist &src, Cloner cloner, Disposer disposer)
+   BOOST_INTRUSIVE_FORCEINLINE void clone_from(const slist &src, Cloner cloner, Disposer disposer)
    {  Base::clone_from(src, cloner, disposer);  }
 
    template <class Cloner, class Disposer>
-   void clone_from(BOOST_RV_REF(slist) src, Cloner cloner, Disposer disposer)
+   BOOST_INTRUSIVE_FORCEINLINE void clone_from(BOOST_RV_REF(slist) src, Cloner cloner, Disposer disposer)
    {  Base::clone_from(BOOST_MOVE_BASE(Base, src), cloner, disposer);  }
 
-   static slist &container_from_end_iterator(iterator end_iterator)
+   BOOST_INTRUSIVE_FORCEINLINE static slist &container_from_end_iterator(iterator end_iterator)
    {  return static_cast<slist &>(Base::container_from_end_iterator(end_iterator));   }
 
-   static const slist &container_from_end_iterator(const_iterator end_iterator)
+   BOOST_INTRUSIVE_FORCEINLINE static const slist &container_from_end_iterator(const_iterator end_iterator)
    {  return static_cast<const slist &>(Base::container_from_end_iterator(end_iterator));   }
 };
 

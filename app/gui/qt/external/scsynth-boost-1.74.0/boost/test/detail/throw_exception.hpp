@@ -33,7 +33,7 @@ namespace ut_detail {
 
 template<typename E>
 BOOST_NORETURN inline void
-throw_exception(E const& e) { abort(); }
+throw_exception(E const& /*e*/) { abort(); }
 
 #define BOOST_TEST_I_TRY
 #define BOOST_TEST_I_CATCH( T, var ) for(T const& var = *(T*)0; false;)

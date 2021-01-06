@@ -44,7 +44,8 @@ public:
     //!
     //! @param[in] number_of_test_cases indicates the number of test cases. Only active
     //! test cases are taken into account.
-    virtual void    test_start( counter_t /* number_of_test_cases */ ) {}
+    //! @param[in] root_test_unit_id the ID root of the test tree currently being tested
+    virtual void    test_start( counter_t /* number_of_test_cases */, test_unit_id /* root_test_unit_id */ ) {}
 
     //! Called after the framework ends executing the test cases
     //!
@@ -72,6 +73,12 @@ public:
     virtual void    test_unit_skipped( test_unit const& tu, const_string ) { test_unit_skipped( tu ); }
     virtual void    test_unit_skipped( test_unit const& ) {} ///< backward compatibility
 
+    //! Called when the test timed out
+    //!
+    //! This function is called to signal that a test unit (case or suite) timed out.
+    //! A valid test unit is available through boost::unit_test::framework::current_test_unit
+    virtual void    test_unit_timed_out( test_unit const& ) {}
+
     //! Called when a test unit indicates a fatal error.
     //!
     //! A fatal error happens when
@@ -79,14 +86,8 @@ public:
     //! - an unexpected exception is caught by the Boost.Test framework
     virtual void    test_unit_aborted( test_unit const& ) {}
 
-    virtual void    assertion_result( unit_test::assertion_result ar )
+    virtual void    assertion_result( unit_test::assertion_result /* ar */ )
     {
-        switch( ar ) {
-        case AR_PASSED: assertion_result( true ); break;
-        case AR_FAILED: assertion_result( false ); break;
-        case AR_TRIGGERED: break;
-        default: break;
-        }
     }
 
     //! Called when an exception is intercepted
@@ -101,8 +102,6 @@ public:
     virtual int     priority() { return 0; }
 
 protected:
-    //! Deprecated
-    virtual void    assertion_result( bool /* passed */ ) {}
 
     BOOST_TEST_PROTECTED_VIRTUAL ~test_observer() {}
 };

@@ -132,7 +132,7 @@ private:
 // Series form for BesselY' as z -> 0,
 // It's derivative of http://functions.wolfram.com/Bessel-TypeFunctions/BesselY/06/01/04/01/01/0003/
 // This series is only useful when the second term is small compared to the first
-// otherwise we get catestrophic cancellation errors.
+// otherwise we get catastrophic cancellation errors.
 //
 // Approximating tgamma(v) by v^v, and assuming |tgamma(-z)| < eps we end up requiring:
 // eps/2 * v^v(x/2)^-v > (x/2)^v or log(eps/2) > v log((x/2)^2/v)

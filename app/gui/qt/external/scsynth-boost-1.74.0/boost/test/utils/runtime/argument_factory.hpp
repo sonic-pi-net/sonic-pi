@@ -18,6 +18,7 @@
 // Boost.Test Runtime parameters
 #include <boost/test/utils/runtime/errors.hpp>
 #include <boost/test/utils/runtime/argument.hpp>
+#include <boost/test/utils/runtime/modifier.hpp>
 
 // Boost.Test
 #include <boost/test/utils/basic_cstring/io.hpp>

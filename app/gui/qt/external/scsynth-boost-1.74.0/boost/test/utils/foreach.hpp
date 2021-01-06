@@ -26,7 +26,6 @@
 // Boost
 #include <boost/type.hpp>
 #include <boost/mpl/bool.hpp>
-#include <boost/test/detail/workaround.hpp>
 
 #include <boost/type_traits/is_const.hpp>
 

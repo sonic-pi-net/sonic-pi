@@ -174,9 +174,9 @@ class node_handle
    //!   of a node handle is void.
    template<class KeyMapped2>
    node_handle( BOOST_RV_REF_BEG node_handle<NodeAllocator, KeyMapped2> BOOST_RV_REF_END nh
-               , typename container_detail::enable_if_c
-                  < ((unsigned)container_detail::is_same<KeyMapped,  void>::value +
-                     (unsigned)container_detail::is_same<KeyMapped2, void>::value) == 1u
+               , typename dtl::enable_if_c
+                  < ((unsigned)dtl::is_same<KeyMapped,  void>::value +
+                     (unsigned)dtl::is_same<KeyMapped2, void>::value) == 1u
                   >::type* = 0) BOOST_NOEXCEPT
       :  m_ptr(nh.get())
    {  this->move_construct_end(nh);  }
@@ -250,7 +250,7 @@ class node_handle
    //! <b>Throws</b>: Nothing.
    value_type& value() const BOOST_NOEXCEPT
    {
-      BOOST_STATIC_ASSERT((container_detail::is_same<KeyMapped, void>::value));
+      BOOST_STATIC_ASSERT((dtl::is_same<KeyMapped, void>::value));
       BOOST_ASSERT(!empty());
       return m_ptr->get_data();
    }
@@ -265,7 +265,7 @@ class node_handle
    //! <b>Requires</b>: Modifying the key through the returned reference is permitted.
    key_type& key() const BOOST_NOEXCEPT
    {
-      BOOST_STATIC_ASSERT((!container_detail::is_same<KeyMapped, void>::value));
+      BOOST_STATIC_ASSERT((!dtl::is_same<KeyMapped, void>::value));
       BOOST_ASSERT(!empty());
       return const_cast<key_type &>(KeyMapped().key_of_value(m_ptr->get_data()));
    }
@@ -278,7 +278,7 @@ class node_handle
    //! <b>Throws</b>: Nothing.
    mapped_type& mapped() const BOOST_NOEXCEPT
    {
-      BOOST_STATIC_ASSERT((!container_detail::is_same<KeyMapped, void>::value));
+      BOOST_STATIC_ASSERT((!dtl::is_same<KeyMapped, void>::value));
       BOOST_ASSERT(!empty());
       return KeyMapped().mapped_of_value(m_ptr->get_data());
    }

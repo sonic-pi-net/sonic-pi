@@ -23,7 +23,6 @@
 #include <boost/test/framework.hpp>
 
 #include <boost/test/tree/visitor.hpp>
-#include <boost/test/tree/test_case_counter.hpp>
 #include <boost/test/tree/traverse.hpp>
 #include <boost/test/results_collector.hpp>
 
@@ -35,6 +34,7 @@
 
 // Boost
 #include <boost/version.hpp>
+#include <boost/core/ignore_unused.hpp>
 
 // STL
 #include <iostream>
@@ -241,7 +241,10 @@ public:
         }
 
         if( tu.p_type == TUT_SUITE ) {
-            name += "-setup-teardown";
+            if(tr->p_timed_out)
+              name += "-timed-execution";
+            else
+              name += "-setup-teardown";
         }
 
         m_stream << "<testcase assertions" << utils::attr_value() << nb_assertions;
@@ -359,7 +362,7 @@ public:
             }
         }
         else {
-            nb_assertions = tr->p_assertions_passed + tr->p_assertions_failed;
+            nb_assertions = static_cast<int>(tr->p_assertions_passed + tr->p_assertions_failed);
         }
 
         return nb_assertions;
@@ -394,7 +397,7 @@ public:
         m_stream << "</testcase>" << std::endl;
     }
 
-    void    visit( test_case const& tc )
+    void    visit( test_case const& tc ) BOOST_OVERRIDE
     {
 
         test_results const& tr = results_collector.results( tc.p_id );
@@ -409,7 +412,7 @@ public:
         }
     }
 
-    bool    test_suite_start( test_suite const& ts )
+    bool    test_suite_start( test_suite const& ts ) BOOST_OVERRIDE
     {
         test_results const& tr = results_collector.results( ts.p_id );
 
@@ -417,12 +420,25 @@ public:
         if( m_ts.p_id == ts.p_id ) {
             m_stream << "<testsuite";
 
+            // think about: maybe we should add the number of fixtures of a test_suite as
+            // independent tests (field p_fixtures).
+            // same goes for the timed-execution: we can think of that as a separate test-unit
+            // in the suite.
+            // see https://llg.cubic.org/docs/junit/ and
+            // http://svn.apache.org/viewvc/ant/core/trunk/src/main/org/apache/tools/ant/taskdefs/optional/junit/XMLJUnitResultFormatter.java?view=markup
             m_stream
               // << "disabled=\"" << tr.p_test_cases_skipped << "\" "
-              << " tests"     << utils::attr_value() << tr.p_test_cases_passed
+              << " tests"     << utils::attr_value()
+                  << tr.p_test_cases_passed
+                     + tr.p_test_cases_failed
+                     // + tr.p_test_cases_aborted // aborted is also failed, we avoid counting it twice
               << " skipped"   << utils::attr_value() << tr.p_test_cases_skipped
               << " errors"    << utils::attr_value() << tr.p_test_cases_aborted
-              << " failures"  << utils::attr_value() << tr.p_test_cases_failed
+              << " failures"  << utils::attr_value()
+                  << tr.p_test_cases_failed
+                     + tr.p_test_suites_timed_out
+                     + tr.p_test_cases_timed_out
+                     - tr.p_test_cases_aborted // failed is not aborted in the Junit sense
               << " id"        << utils::attr_value() << m_id++
               << " name"      << utils::attr_value() << tu_name_normalize(ts.p_name)
               << " time"      << utils::attr_value() << (tr.p_duration_microseconds * 1E-6)
@@ -431,13 +447,13 @@ public:
             if(m_display_build_info)
             {
                 m_stream  << "<properties>" << std::endl;
-                m_stream  << "<property name=\"platform\" value" << utils::attr_value() << BOOST_PLATFORM << std::endl;
-                m_stream  << "<property name=\"compiler\" value" << utils::attr_value() << BOOST_COMPILER << std::endl;
-                m_stream  << "<property name=\"stl\" value" << utils::attr_value() << BOOST_STDLIB << std::endl;
+                m_stream  << "<property name=\"platform\" value" << utils::attr_value() << BOOST_PLATFORM << " />" << std::endl;
+                m_stream  << "<property name=\"compiler\" value" << utils::attr_value() << BOOST_COMPILER << " />" << std::endl;
+                m_stream  << "<property name=\"stl\" value" << utils::attr_value() << BOOST_STDLIB << " />" << std::endl;
 
                 std::ostringstream o;
                 o << BOOST_VERSION/100000 << "." << BOOST_VERSION/100 % 1000 << "." << BOOST_VERSION % 100;
-                m_stream  << "<property name=\"boost\" value" << utils::attr_value() << o.str() << std::endl;
+                m_stream  << "<property name=\"boost\" value" << utils::attr_value() << o.str() << " />" << std::endl;
                 m_stream  << "</properties>" << std::endl;
             }
         }
@@ -455,7 +471,7 @@ public:
         return true; // indicates that the children should also be parsed
     }
 
-    virtual void    test_suite_finish( test_suite const& ts )
+    void    test_suite_finish( test_suite const& ts ) BOOST_OVERRIDE
     {
         if( m_ts.p_id == ts.p_id ) {
             write_testcase_system_out(runner_log, 0, false);
@@ -507,9 +523,9 @@ junit_log_formatter::log_finish( std::ostream& ostr )
 //____________________________________________________________________________//
 
 void
-junit_log_formatter::log_build_info( std::ostream& /*ostr*/ )
+junit_log_formatter::log_build_info( std::ostream& /*ostr*/, bool log_build_info )
 {
-    m_display_build_info = true;
+    m_display_build_info = log_build_info;
 }
 
 //____________________________________________________________________________//
@@ -525,10 +541,12 @@ junit_log_formatter::test_unit_start( std::ostream& /*ostr*/, test_unit const& t
 
 //____________________________________________________________________________//
 
+
 void
 junit_log_formatter::test_unit_finish( std::ostream& /*ostr*/, test_unit const& tu, unsigned long /*elapsed*/ )
 {
     // the time is already stored in the result_reporter
+    boost::ignore_unused( tu );
     assert( tu.p_id == list_path_to_root.back() );
     list_path_to_root.pop_back();
 }
@@ -536,8 +554,28 @@ junit_log_formatter::test_unit_finish( std::ostream& /*ostr*/, test_unit const& 
 void
 junit_log_formatter::test_unit_aborted( std::ostream& /*ostr*/, test_unit const& tu )
 {
+    boost::ignore_unused( tu );
     assert( tu.p_id == list_path_to_root.back() );
     //list_path_to_root.pop_back();
+}
+
+//____________________________________________________________________________//
+
+void
+junit_log_formatter::test_unit_timed_out( std::ostream& /*os*/, test_unit const& tu)
+{
+    if(tu.p_type == TUT_SUITE)
+    {
+        // if we reach this call, it means that the test has already started and
+        // test_unit_start has already been called on the tu.
+        junit_impl::junit_log_helper& last_entry = get_current_log_entry();
+        junit_impl::junit_log_helper::assertion_entry entry;
+        entry.logentry_message = "test-suite time out";
+        entry.logentry_type = "execution timeout";
+        entry.log_entry = junit_impl::junit_log_helper::assertion_entry::log_entry_error;
+        entry.output = "the current suite exceeded the allocated execution time";
+        last_entry.assertion_entries.push_back(entry);
+    }
 }
 
 //____________________________________________________________________________//
@@ -646,7 +684,7 @@ junit_log_formatter::log_entry_start( std::ostream& /*ostr*/, log_entry_data con
           last_entry.skipping = true;
           break;
         }
-        // no break on purpose
+        BOOST_FALLTHROUGH;
       }
       case unit_test_log_formatter::BOOST_UTL_ET_MESSAGE:
       {
@@ -654,7 +692,7 @@ junit_log_formatter::log_entry_start( std::ostream& /*ostr*/, log_entry_data con
           last_entry.skipping = true;
           break;
         }
-        // no break on purpose
+        BOOST_FALLTHROUGH;
       }
       case unit_test_log_formatter::BOOST_UTL_ET_WARNING:
       {

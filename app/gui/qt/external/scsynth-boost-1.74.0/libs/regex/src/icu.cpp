@@ -354,8 +354,8 @@ icu_regex_traits::char_class_type icu_regex_traits::lookup_icu_mask(const ::UCha
    };
 
 
-   static const BOOST_REGEX_DETAIL_NS::character_pointer_range< ::UChar32>* ranges_begin = range_data;
-   static const BOOST_REGEX_DETAIL_NS::character_pointer_range< ::UChar32>* ranges_end = range_data + (sizeof(range_data)/sizeof(range_data[0]));
+   const BOOST_REGEX_DETAIL_NS::character_pointer_range< ::UChar32>* ranges_begin = range_data;
+   const BOOST_REGEX_DETAIL_NS::character_pointer_range< ::UChar32>* ranges_end = range_data + (sizeof(range_data)/sizeof(range_data[0]));
    
    BOOST_REGEX_DETAIL_NS::character_pointer_range< ::UChar32> t = { p1, p2, };
    const BOOST_REGEX_DETAIL_NS::character_pointer_range< ::UChar32>* p = std::lower_bound(ranges_begin, ranges_end, t);
@@ -481,7 +481,7 @@ icu_regex_traits::string_type icu_regex_traits::lookup_collatename(const char_ty
 bool icu_regex_traits::isctype(char_type c, char_class_type f) const
 {
    // check for standard catagories first:
-   char_class_type m = char_class_type(1u << u_charType(c));
+   char_class_type m = char_class_type(static_cast<char_class_type>(1) << u_charType(c));
    if((m & f) != 0) 
       return true;
    // now check for special cases:

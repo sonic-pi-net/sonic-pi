@@ -20,6 +20,7 @@
 
 // Boost
 #include <boost/type_traits/common_type.hpp>
+#include <boost/type_traits/is_arithmetic.hpp>
 #include <boost/utility/enable_if.hpp>
 
 #include <boost/test/detail/suppress_warnings.hpp>
@@ -65,11 +66,33 @@ template <typename FPT, typename Lhs, typename Rhs, typename OP>
 inline assertion_result
 compare_fpv( Lhs const& lhs, Rhs const& rhs, OP* cmp_operator)
 {
-    bool result = cmp_operator->eval_direct(lhs, rhs);
+    assertion_result result_direct_compare = cmp_operator->eval_direct(lhs, rhs);
     if(fpctraits<OP>::equality_logical_disjunction) {
-        return result || compare_fpv<FPT>(lhs, rhs, (op::EQ<Lhs, Rhs>*)0);
+        // this look like this can be simplified, but combining result && compare_fpv
+        // looses the message in the return value of compare_fpv
+        if( result_direct_compare ) {
+            result_direct_compare.message() << "operation" << OP::forward() << "on arguments yields 'true'.";
+            return result_direct_compare;
+        }
+        // result || compare_fpv(EQ)
+        assertion_result result_eq = compare_fpv<FPT>(lhs, rhs, (op::EQ<Lhs, Rhs>*)0);
+        result_direct_compare = result_direct_compare || result_eq;
+        if( !result_eq ) {
+            result_direct_compare.message() << "operation" << op::EQ<Lhs, Rhs>::forward() << "on arguments yields 'false': " << result_eq.message() << ".";
+        }
+        return result_direct_compare;
     }
-    return result && compare_fpv<FPT>(lhs, rhs, (op::NE<Lhs, Rhs>*)0);
+    if( !result_direct_compare ) {
+        result_direct_compare.message() << "operation" << OP::forward() << " on arguments yields 'false'.";
+        return result_direct_compare;
+    }
+    // result && compare_fpv(NE)
+    assertion_result result_neq = compare_fpv<FPT>(lhs, rhs, (op::NE<Lhs, Rhs>*)0);
+    result_direct_compare = result_direct_compare && result_neq;
+    if( !result_neq ) {
+        result_direct_compare.message() << "operation" << op::NE<Lhs, Rhs>::forward() << "on arguments yields 'false': " << result_neq.message() << ".";
+    }
+    return result_direct_compare;
 }
 
 //____________________________________________________________________________//
@@ -82,7 +105,7 @@ compare_fpv_near_zero( FPT const& fpv, op::EQ<Lhs,Rhs>* )
 
     assertion_result ar( P( fpv ) );
     if( !ar )
-        ar.message() << "Absolute value exceeds tolerance [|" << fpv << "| > "<< fpc_tolerance<FPT>() << ']';
+        ar.message() << "absolute value exceeds tolerance [|" << fpv << "| > "<< fpc_tolerance<FPT>() << ']';
 
     return ar;
 }
@@ -97,7 +120,7 @@ compare_fpv_near_zero( FPT const& fpv, op::NE<Lhs,Rhs>* )
 
     assertion_result ar( !P( fpv ) );
     if( !ar )
-        ar.message() << "Absolute value is within tolerance [|" << fpv << "| < "<< fpc_tolerance<FPT>() << ']';
+        ar.message() << "absolute value is within tolerance [|" << fpv << "| < "<< fpc_tolerance<FPT>() << ']';
     return ar;
 }
 
@@ -108,17 +131,17 @@ inline assertion_result
 compare_fpv( Lhs const& lhs, Rhs const& rhs, op::EQ<Lhs,Rhs>* )
 {
     if( lhs == 0 ) {
-        return compare_fpv_near_zero( rhs, (op::EQ<Lhs,Rhs>*)0 );
+        return compare_fpv_near_zero<FPT>( rhs, (op::EQ<Lhs,Rhs>*)0 );
     }
     else if( rhs == 0) {
-        return compare_fpv_near_zero( lhs, (op::EQ<Lhs,Rhs>*)0 );
+        return compare_fpv_near_zero<FPT>( lhs, (op::EQ<Lhs,Rhs>*)0 );
     }
     else {
         fpc::close_at_tolerance<FPT> P( fpc_tolerance<FPT>(), fpc::FPC_STRONG );
 
         assertion_result ar( P( lhs, rhs ) );
         if( !ar )
-            ar.message() << "Relative difference exceeds tolerance ["
+            ar.message() << "relative difference exceeds tolerance ["
                          << P.tested_rel_diff() << " > " << P.fraction_tolerance() << ']';
         return ar;
     }
@@ -131,17 +154,17 @@ inline assertion_result
 compare_fpv( Lhs const& lhs, Rhs const& rhs, op::NE<Lhs,Rhs>* )
 {
     if( lhs == 0 ) {
-        return compare_fpv_near_zero( rhs, (op::NE<Lhs,Rhs>*)0 );
+        return compare_fpv_near_zero<FPT>( rhs, (op::NE<Lhs,Rhs>*)0 );
     }
     else if( rhs == 0 ) {
-        return compare_fpv_near_zero( lhs, (op::NE<Lhs,Rhs>*)0 );
+        return compare_fpv_near_zero<FPT>( lhs, (op::NE<Lhs,Rhs>*)0 );
     }
     else {
         fpc::close_at_tolerance<FPT> P( fpc_tolerance<FPT>(), fpc::FPC_WEAK );
 
         assertion_result ar( !P( lhs, rhs ) );
         if( !ar )
-            ar.message() << "Relative difference is within tolerance ["
+            ar.message() << "relative difference is within tolerance ["
                          << P.tested_rel_diff() << " < " << fpc_tolerance<FPT>() << ']';
 
         return ar;
@@ -150,14 +173,20 @@ compare_fpv( Lhs const& lhs, Rhs const& rhs, op::NE<Lhs,Rhs>* )
 
 //____________________________________________________________________________//
 
-#define DEFINE_FPV_COMPARISON( oper, name, rev )                        \
+#define DEFINE_FPV_COMPARISON( oper, name, rev, name_inverse )          \
 template<typename Lhs,typename Rhs>                                     \
 struct name<Lhs,Rhs,typename boost::enable_if_c<                        \
     (fpc::tolerance_based<Lhs>::value &&                                \
-     fpc::tolerance_based<Rhs>::value)>::type> {                        \
+     fpc::tolerance_based<Rhs>::value) ||                               \
+    (fpc::tolerance_based<Lhs>::value &&                                \
+     boost::is_arithmetic<Rhs>::value) ||                               \
+    (boost::is_arithmetic<Lhs>::value &&                                \
+     fpc::tolerance_based<Rhs>::value)                                  \
+     >::type> {                                                         \
 public:                                                                 \
     typedef typename common_type<Lhs,Rhs>::type FPT;                    \
     typedef name<Lhs,Rhs> OP;                                           \
+    typedef name_inverse<Lhs, Rhs> inverse;                             \
                                                                         \
     typedef assertion_result result_type;                               \
                                                                         \
@@ -170,7 +199,11 @@ public:                                                                 \
     static assertion_result                                             \
     eval( Lhs const& lhs, Rhs const& rhs )                              \
     {                                                                   \
-        if( fpc_tolerance<FPT>() == FPT(0) )                            \
+        if( fpc_tolerance<FPT>() == FPT(0)                              \
+            || (std::numeric_limits<Lhs>::has_infinity                  \
+                && (lhs == std::numeric_limits<Lhs>::infinity()))       \
+            || (std::numeric_limits<Rhs>::has_infinity                  \
+                && (rhs == std::numeric_limits<Rhs>::infinity())))      \
         {                                                               \
             return eval_direct( lhs, rhs );                             \
         }                                                               \
@@ -189,6 +222,8 @@ public:                                                                 \
              << tt_detail::print_helper( rhs );                         \
     }                                                                   \
                                                                         \
+    static char const* forward()                                        \
+    { return " " #oper " "; }                                           \
     static char const* revert()                                         \
     { return " " #rev " "; }                                            \
 };                                                                      \
@@ -207,4 +242,3 @@ BOOST_TEST_FOR_EACH_COMP_OP( DEFINE_FPV_COMPARISON )
 #include <boost/test/detail/enable_warnings.hpp>
 
 #endif // BOOST_TEST_TOOLS_FPC_OP_HPP_050915GER
-

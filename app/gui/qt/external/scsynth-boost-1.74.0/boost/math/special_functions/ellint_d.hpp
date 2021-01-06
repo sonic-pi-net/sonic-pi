@@ -82,12 +82,16 @@ T ellint_d_imp(T phi, T k, const Policy& pol)
           s = -1;
           rphi = constants::half_pi<T>() - rphi;
        }
+       BOOST_MATH_INSTRUMENT_VARIABLE(rphi);
+       BOOST_MATH_INSTRUMENT_VARIABLE(m);
        T sinp = sin(rphi);
        T cosp = cos(rphi);
+       BOOST_MATH_INSTRUMENT_VARIABLE(sinp);
+       BOOST_MATH_INSTRUMENT_VARIABLE(cosp);
        T c = 1 / (sinp * sinp);
        T cm1 = cosp * cosp / (sinp * sinp);  // c - 1
        T k2 = k * k;
-       if(k2 > 1)
+       if(k2 * sinp * sinp > 1)
        {
           return policies::raise_domain_error<T>("boost::math::ellint_d<%1%>(%1%, %1%)", "The parameter k is out of range, got k = %1%", k, pol);
        }
@@ -99,6 +103,7 @@ T ellint_d_imp(T phi, T k, const Policy& pol)
        {
           // http://dlmf.nist.gov/19.25#E10
           result = s * ellint_rd_imp(cm1, T(c - k2), c, pol) / 3;
+          BOOST_MATH_INSTRUMENT_VARIABLE(result);
        }
        if(m != 0)
           result += m * ellint_d_imp(k, pol);
@@ -131,7 +136,7 @@ T ellint_d_imp(T k, const Policy& pol)
 }
 
 template <typename T, typename Policy>
-inline typename tools::promote_args<T>::type ellint_d(T k, const Policy& pol, const mpl::true_&)
+inline typename tools::promote_args<T>::type ellint_d(T k, const Policy& pol, const boost::true_type&)
 {
    typedef typename tools::promote_args<T>::type result_type;
    typedef typename policies::evaluation<result_type, Policy>::type value_type;
@@ -140,7 +145,7 @@ inline typename tools::promote_args<T>::type ellint_d(T k, const Policy& pol, co
 
 // Elliptic integral (Legendre form) of the second kind
 template <class T1, class T2>
-inline typename tools::promote_args<T1, T2>::type ellint_d(T1 k, T2 phi, const mpl::false_&)
+inline typename tools::promote_args<T1, T2>::type ellint_d(T1 k, T2 phi, const boost::false_type&)
 {
    return boost::math::ellint_d(k, phi, policies::policy<>());
 }

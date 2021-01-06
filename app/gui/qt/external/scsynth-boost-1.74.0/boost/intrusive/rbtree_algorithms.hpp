@@ -54,7 +54,7 @@ struct rbtree_node_cloner
       :  base_t(f)
    {}
 
-   node_ptr operator()(const node_ptr & p)
+   BOOST_INTRUSIVE_FORCEINLINE node_ptr operator()(node_ptr p)
    {
       node_ptr n = base_t::get()(p);
       NodeTraits::set_color(n, NodeTraits::get_color(p));
@@ -200,12 +200,12 @@ class rbtree_algorithms
    static node_ptr end_node(const const_node_ptr & header);
 
    //! @copydoc ::boost::intrusive::bstree_algorithms::swap_tree
-   static void swap_tree(const node_ptr & header1, const node_ptr & header2);
+   static void swap_tree(node_ptr header1, node_ptr header2);
 
    #endif   //#ifdef BOOST_INTRUSIVE_DOXYGEN_INVOKED
 
-   //! @copydoc ::boost::intrusive::bstree_algorithms::swap_nodes(const node_ptr&,const node_ptr&)
-   static void swap_nodes(const node_ptr & node1, const node_ptr & node2)
+   //! @copydoc ::boost::intrusive::bstree_algorithms::swap_nodes(node_ptr,node_ptr)
+   static void swap_nodes(node_ptr node1, node_ptr node2)
    {
       if(node1 == node2)
          return;
@@ -214,8 +214,8 @@ class rbtree_algorithms
       swap_nodes(node1, header1, node2, header2);
    }
 
-   //! @copydoc ::boost::intrusive::bstree_algorithms::swap_nodes(const node_ptr&,const node_ptr&,const node_ptr&,const node_ptr&)
-   static void swap_nodes(const node_ptr & node1, const node_ptr & header1, const node_ptr & node2, const node_ptr & header2)
+   //! @copydoc ::boost::intrusive::bstree_algorithms::swap_nodes(node_ptr,node_ptr,node_ptr,node_ptr)
+   static void swap_nodes(node_ptr node1, node_ptr header1, node_ptr node2, node_ptr header2)
    {
       if(node1 == node2)   return;
 
@@ -226,22 +226,22 @@ class rbtree_algorithms
       NodeTraits::set_color(node2, c);
    }
 
-   //! @copydoc ::boost::intrusive::bstree_algorithms::replace_node(const node_ptr&,const node_ptr&)
-   static void replace_node(const node_ptr & node_to_be_replaced, const node_ptr & new_node)
+   //! @copydoc ::boost::intrusive::bstree_algorithms::replace_node(node_ptr,node_ptr)
+   static void replace_node(node_ptr node_to_be_replaced, node_ptr new_node)
    {
       if(node_to_be_replaced == new_node)
          return;
       replace_node(node_to_be_replaced, bstree_algo::get_header(node_to_be_replaced), new_node);
    }
 
-   //! @copydoc ::boost::intrusive::bstree_algorithms::replace_node(const node_ptr&,const node_ptr&,const node_ptr&)
-   static void replace_node(const node_ptr & node_to_be_replaced, const node_ptr & header, const node_ptr & new_node)
+   //! @copydoc ::boost::intrusive::bstree_algorithms::replace_node(node_ptr,node_ptr,node_ptr)
+   static void replace_node(node_ptr node_to_be_replaced, node_ptr header, node_ptr new_node)
    {
       bstree_algo::replace_node(node_to_be_replaced, header, new_node);
       NodeTraits::set_color(new_node, NodeTraits::get_color(node_to_be_replaced));
    }
 
-   //! @copydoc ::boost::intrusive::bstree_algorithms::unlink(const node_ptr&)
+   //! @copydoc ::boost::intrusive::bstree_algorithms::unlink(node_ptr)
    static void unlink(const node_ptr& node)
    {
       node_ptr x = NodeTraits::get_parent(node);
@@ -268,19 +268,19 @@ class rbtree_algorithms
    //! @copydoc ::boost::intrusive::bstree_algorithms::prev_node(const node_ptr&)
    static node_ptr prev_node(const node_ptr & node);
 
-   //! @copydoc ::boost::intrusive::bstree_algorithms::init(const node_ptr&)
+   //! @copydoc ::boost::intrusive::bstree_algorithms::init(node_ptr)
    static void init(const node_ptr & node);
    #endif   //#ifdef BOOST_INTRUSIVE_DOXYGEN_INVOKED
 
-   //! @copydoc ::boost::intrusive::bstree_algorithms::init_header(const node_ptr&)
-   static void init_header(const node_ptr & header)
+   //! @copydoc ::boost::intrusive::bstree_algorithms::init_header(node_ptr)
+   BOOST_INTRUSIVE_FORCEINLINE static void init_header(node_ptr header)
    {
       bstree_algo::init_header(header);
       NodeTraits::set_color(header, NodeTraits::red());
    }
 
-   //! @copydoc ::boost::intrusive::bstree_algorithms::erase(const node_ptr&,const node_ptr&)
-   static node_ptr erase(const node_ptr & header, const node_ptr & z)
+   //! @copydoc ::boost::intrusive::bstree_algorithms::erase(node_ptr,node_ptr)
+   static node_ptr erase(node_ptr header, node_ptr z)
    {
       typename bstree_algo::data_for_rebalance info;
       bstree_algo::erase(header, z, info);
@@ -291,7 +291,7 @@ class rbtree_algorithms
    //! @copydoc ::boost::intrusive::bstree_algorithms::transfer_unique
    template<class NodePtrCompare>
    static bool transfer_unique
-      (const node_ptr & header1, NodePtrCompare comp, const node_ptr &header2, const node_ptr & z)
+      (node_ptr header1, NodePtrCompare comp, node_ptr header2, node_ptr z)
    {
       typename bstree_algo::data_for_rebalance info;
       bool const transferred = bstree_algo::transfer_unique(header1, comp, header2, z, info);
@@ -305,7 +305,7 @@ class rbtree_algorithms
    //! @copydoc ::boost::intrusive::bstree_algorithms::transfer_equal
    template<class NodePtrCompare>
    static void transfer_equal
-      (const node_ptr & header1, NodePtrCompare comp, const node_ptr &header2, const node_ptr & z)
+      (node_ptr header1, NodePtrCompare comp, node_ptr header2, node_ptr z)
    {
       typename bstree_algo::data_for_rebalance info;
       bstree_algo::transfer_equal(header1, comp, header2, z, info);
@@ -313,10 +313,10 @@ class rbtree_algorithms
       rebalance_after_insertion(header1, z);
    }
 
-   //! @copydoc ::boost::intrusive::bstree_algorithms::clone(const const_node_ptr&,const node_ptr&,Cloner,Disposer)
+   //! @copydoc ::boost::intrusive::bstree_algorithms::clone(const const_node_ptr&,node_ptr,Cloner,Disposer)
    template <class Cloner, class Disposer>
    static void clone
-      (const const_node_ptr & source_header, const node_ptr & target_header, Cloner cloner, Disposer disposer)
+      (const_node_ptr source_header, node_ptr target_header, Cloner cloner, Disposer disposer)
    {
       rbtree_node_cloner<NodeTraits, Cloner> new_cloner(cloner);
       bstree_algo::clone(source_header, target_header, new_cloner, disposer);
@@ -359,54 +359,54 @@ class rbtree_algorithms
 
    #endif   //#ifdef BOOST_INTRUSIVE_DOXYGEN_INVOKED
 
-   //! @copydoc ::boost::intrusive::bstree_algorithms::insert_equal_upper_bound(const node_ptr&,const node_ptr&,NodePtrCompare)
+   //! @copydoc ::boost::intrusive::bstree_algorithms::insert_equal_upper_bound(node_ptr,node_ptr,NodePtrCompare)
    template<class NodePtrCompare>
    static node_ptr insert_equal_upper_bound
-      (const node_ptr & h, const node_ptr & new_node, NodePtrCompare comp)
+      (node_ptr h, node_ptr new_node, NodePtrCompare comp)
    {
       bstree_algo::insert_equal_upper_bound(h, new_node, comp);
       rebalance_after_insertion(h, new_node);
       return new_node;
    }
 
-   //! @copydoc ::boost::intrusive::bstree_algorithms::insert_equal_lower_bound(const node_ptr&,const node_ptr&,NodePtrCompare)
+   //! @copydoc ::boost::intrusive::bstree_algorithms::insert_equal_lower_bound(node_ptr,node_ptr,NodePtrCompare)
    template<class NodePtrCompare>
    static node_ptr insert_equal_lower_bound
-      (const node_ptr & h, const node_ptr & new_node, NodePtrCompare comp)
+      (node_ptr h, node_ptr new_node, NodePtrCompare comp)
    {
       bstree_algo::insert_equal_lower_bound(h, new_node, comp);
       rebalance_after_insertion(h, new_node);
       return new_node;
    }
 
-   //! @copydoc ::boost::intrusive::bstree_algorithms::insert_equal(const node_ptr&,const node_ptr&,const node_ptr&,NodePtrCompare)
+   //! @copydoc ::boost::intrusive::bstree_algorithms::insert_equal(node_ptr,node_ptr,node_ptr,NodePtrCompare)
    template<class NodePtrCompare>
    static node_ptr insert_equal
-      (const node_ptr & header, const node_ptr & hint, const node_ptr & new_node, NodePtrCompare comp)
+      (node_ptr header, node_ptr hint, node_ptr new_node, NodePtrCompare comp)
    {
       bstree_algo::insert_equal(header, hint, new_node, comp);
       rebalance_after_insertion(header, new_node);
       return new_node;
    }
 
-   //! @copydoc ::boost::intrusive::bstree_algorithms::insert_before(const node_ptr&,const node_ptr&,const node_ptr&)
+   //! @copydoc ::boost::intrusive::bstree_algorithms::insert_before(node_ptr,node_ptr,node_ptr)
    static node_ptr insert_before
-      (const node_ptr & header, const node_ptr & pos, const node_ptr & new_node)
+      (node_ptr header, node_ptr pos, node_ptr new_node)
    {
       bstree_algo::insert_before(header, pos, new_node);
       rebalance_after_insertion(header, new_node);
       return new_node;
    }
 
-   //! @copydoc ::boost::intrusive::bstree_algorithms::push_back(const node_ptr&,const node_ptr&)
-   static void push_back(const node_ptr & header, const node_ptr & new_node)
+   //! @copydoc ::boost::intrusive::bstree_algorithms::push_back(node_ptr,node_ptr)
+   static void push_back(node_ptr header, node_ptr new_node)
    {
       bstree_algo::push_back(header, new_node);
       rebalance_after_insertion(header, new_node);
    }
 
-   //! @copydoc ::boost::intrusive::bstree_algorithms::push_front(const node_ptr&,const node_ptr&)
-   static void push_front(const node_ptr & header, const node_ptr & new_node)
+   //! @copydoc ::boost::intrusive::bstree_algorithms::push_front(node_ptr,node_ptr)
+   static void push_front(node_ptr header, node_ptr new_node)
    {
       bstree_algo::push_front(header, new_node);
       rebalance_after_insertion(header, new_node);
@@ -416,19 +416,19 @@ class rbtree_algorithms
    //! @copydoc ::boost::intrusive::bstree_algorithms::insert_unique_check(const const_node_ptr&,const KeyType&,KeyNodePtrCompare,insert_commit_data&)
    template<class KeyType, class KeyNodePtrCompare>
    static std::pair<node_ptr, bool> insert_unique_check
-      (const const_node_ptr & header,  const KeyType &key
+      (const_node_ptr header,  const KeyType &key
       ,KeyNodePtrCompare comp, insert_commit_data &commit_data);
 
    //! @copydoc ::boost::intrusive::bstree_algorithms::insert_unique_check(const const_node_ptr&,const node_ptr&,const KeyType&,KeyNodePtrCompare,insert_commit_data&)
    template<class KeyType, class KeyNodePtrCompare>
    static std::pair<node_ptr, bool> insert_unique_check
-      (const const_node_ptr & header, const node_ptr &hint, const KeyType &key
+      (const_node_ptr header, node_ptr hint, const KeyType &key
       ,KeyNodePtrCompare comp, insert_commit_data &commit_data);
    #endif   //#ifdef BOOST_INTRUSIVE_DOXYGEN_INVOKED
 
-   //! @copydoc ::boost::intrusive::bstree_algorithms::insert_unique_commit(const node_ptr&,const node_ptr&,const insert_commit_data&)
+   //! @copydoc ::boost::intrusive::bstree_algorithms::insert_unique_commit(node_ptr,node_ptr,const insert_commit_data&)
    static void insert_unique_commit
-      (const node_ptr & header, const node_ptr & new_value, const insert_commit_data &commit_data)
+      (node_ptr header, node_ptr new_value, const insert_commit_data &commit_data)
    {
       bstree_algo::insert_unique_commit(header, new_value, commit_data);
       rebalance_after_insertion(header, new_value);
@@ -445,7 +445,7 @@ class rbtree_algorithms
    private:
 
    static void rebalance_after_erasure
-      ( const node_ptr & header, const node_ptr &z, const typename bstree_algo::data_for_rebalance &info)
+      ( node_ptr header, node_ptr z, const typename bstree_algo::data_for_rebalance &info)
    {
       color new_z_color;
       if(info.y != z){
@@ -461,7 +461,7 @@ class rbtree_algorithms
       }
    }
 
-   static void rebalance_after_erasure_restore_invariants(const node_ptr & header, node_ptr x, node_ptr x_parent)
+   static void rebalance_after_erasure_restore_invariants(node_ptr header, node_ptr x, node_ptr x_parent)
    {
       while(1){
          if(x_parent == header || (x && NodeTraits::get_color(x) != NodeTraits::black())){
@@ -545,7 +545,7 @@ class rbtree_algorithms
          NodeTraits::set_color(x, NodeTraits::black());
    }
 
-   static void rebalance_after_insertion(const node_ptr & header, node_ptr p)
+   static void rebalance_after_insertion(node_ptr header, node_ptr p)
    {
       NodeTraits::set_color(p, NodeTraits::red());
       while(1){

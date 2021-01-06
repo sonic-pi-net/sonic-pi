@@ -12,9 +12,7 @@
 //        with features contributed and bugs found by
 //        Antony Polukhin, Ed Brey, Mark Rodgers, 
 //        Peter Dimov, and James Curran
-// when:  July 2001, April 2013 - May 2013
-
-#include <algorithm>
+// when:  July 2001, April 2013 - 2020
 
 #include <boost/config.hpp>
 #include <boost/type_index.hpp>
@@ -30,7 +28,7 @@
 #include <boost/core/addressof.hpp>
 #include <boost/type_traits/is_same.hpp>
 #include <boost/type_traits/is_const.hpp>
-#include <boost/mpl/if.hpp>
+#include <boost/type_traits/conditional.hpp>
 
 namespace boost
 {
@@ -38,7 +36,7 @@ namespace boost
     {
     public: // structors
 
-        any() BOOST_NOEXCEPT
+        BOOST_CONSTEXPR any() BOOST_NOEXCEPT
           : content(0)
         {
         }
@@ -83,7 +81,9 @@ namespace boost
 
         any & swap(any & rhs) BOOST_NOEXCEPT
         {
-            std::swap(content, rhs.content);
+            placeholder* tmp = content;
+            content = rhs.content;
+            rhs.content = tmp;
             return *this;
         }
 
@@ -98,7 +98,7 @@ namespace boost
 
         any & operator=(any rhs)
         {
-            any(rhs).swap(*this);
+            rhs.swap(*this);
             return *this;
         }
 
@@ -109,7 +109,7 @@ namespace boost
             return *this;
         }
 
-        // move assignement
+        // move assignment
         any & operator=(any&& rhs) BOOST_NOEXCEPT
         {
             rhs.swap(*this);
@@ -149,7 +149,7 @@ namespace boost
     public: // types (public so any_cast can be non-friend)
 #endif
 
-        class placeholder
+        class BOOST_SYMBOL_VISIBLE placeholder
         {
         public: // structors
 
@@ -166,7 +166,11 @@ namespace boost
         };
 
         template<typename ValueType>
-        class holder : public placeholder
+        class holder
+#ifndef BOOST_NO_CXX11_FINAL
+          final
+#endif
+          : public placeholder
         {
         public: // structors
 
@@ -183,12 +187,12 @@ namespace boost
 #endif
         public: // queries
 
-            virtual const boost::typeindex::type_info& type() const BOOST_NOEXCEPT
+            const boost::typeindex::type_info& type() const BOOST_NOEXCEPT BOOST_OVERRIDE
             {
                 return boost::typeindex::type_id<ValueType>().type_info();
             }
 
-            virtual placeholder * clone() const
+            placeholder * clone() const BOOST_OVERRIDE
             {
                 return new holder(held);
             }
@@ -234,7 +238,7 @@ namespace boost
 #endif
     {
     public:
-        virtual const char * what() const BOOST_NOEXCEPT_OR_NOTHROW
+        const char * what() const BOOST_NOEXCEPT_OR_NOTHROW BOOST_OVERRIDE
         {
             return "boost::bad_any_cast: "
                    "failed conversion using boost::any_cast";
@@ -271,8 +275,8 @@ namespace boost
         // `ValueType` is not a reference. Example:
         // `static_cast<std::string>(*result);` 
         // which is equal to `std::string(*result);`
-        typedef BOOST_DEDUCED_TYPENAME boost::mpl::if_<
-            boost::is_reference<ValueType>,
+        typedef BOOST_DEDUCED_TYPENAME boost::conditional<
+            boost::is_reference<ValueType>::value,
             ValueType,
             BOOST_DEDUCED_TYPENAME boost::add_reference<ValueType>::type
         >::type ref_type;
@@ -329,6 +333,7 @@ namespace boost
 }
 
 // Copyright Kevlin Henney, 2000, 2001, 2002. All rights reserved.
+// Copyright Antony Polukhin, 2013-2020.
 //
 // Distributed under the Boost Software License, Version 1.0. (See
 // accompanying file LICENSE_1_0.txt or copy at

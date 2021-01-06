@@ -22,7 +22,7 @@
  * Borland C++ Fix/error check
  * this has to go *before* we include any std lib headers:
  */
-#if defined(__BORLANDC__)
+#if defined(__BORLANDC__) && !defined(__clang__)
 #  include <boost/regex/config/borland.hpp>
 #endif
 #include <boost/version.hpp>
@@ -113,6 +113,17 @@
 #if defined(__MINGW32__)
 #  define BOOST_REGEX_NO_EXTERNAL_TEMPLATES
 #endif
+/*
+ * Clang fails to export template instances with -fvisibility=hidden, see
+ * https://github.com/boostorg/regex/issues/49
+ */
+#ifdef __clang__
+#  define BOOST_REGEX_NO_EXTERNAL_TEMPLATES
+#endif
+#ifdef __CYGWIN__
+/* We get multiply defined symbols without this: */
+#  define BOOST_REGEX_NO_EXTERNAL_TEMPLATES
+#endif
 
 /*
  * If there isn't good enough wide character support then there will
@@ -201,7 +212,10 @@
 #  define BOOST_REGEX_HAS_OTHER_WCHAR_T
 #  ifdef BOOST_MSVC
 #     pragma warning(push)
-#     pragma warning(disable : 4251 4231)
+#     pragma warning(disable : 4251)
+#if BOOST_MSVC < 1700
+#     pragma warning(disable : 4231)
+#endif
 #     if BOOST_MSVC < 1600
 #        pragma warning(disable : 4660)
 #     endif
@@ -265,8 +279,13 @@
 #endif
 
 #if defined(__BORLANDC__) && !defined(BOOST_DISABLE_WIN32)
+#if defined(__clang__)
+#  define BOOST_REGEX_CALL __cdecl
+#  define BOOST_REGEX_CCALL __cdecl
+#else
 #  define BOOST_REGEX_CALL __fastcall
 #  define BOOST_REGEX_CCALL __stdcall
+#endif
 #endif
 
 #ifndef BOOST_REGEX_CALL
@@ -364,7 +383,7 @@ if(0 == (x))\
 
 #if !defined(BOOST_REGEX_NO_W32) && !defined(BOOST_REGEX_V3)
 #  if(defined(_WIN32) || defined(_WIN64) || defined(_WINCE)) \
-        && !defined(__GNUC__) \
+        && !(defined(__GNUC__) || defined(__BORLANDC__) && defined(__clang__)) \
         && !(defined(__BORLANDC__) && (__BORLANDC__ >= 0x600)) \
         && !(defined(__MWERKS__) && (__MWERKS__ <= 0x3003))
 #     define BOOST_REGEX_HAS_MS_STACK_GUARD

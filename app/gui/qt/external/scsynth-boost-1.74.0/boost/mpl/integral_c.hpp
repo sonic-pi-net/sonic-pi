@@ -33,7 +33,7 @@
 
 
 #if !defined(BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION) \
- && !BOOST_WORKAROUND(__BORLANDC__, <= 0x551)
+ && !BOOST_WORKAROUND(BOOST_BORLANDC, <= 0x551)
 BOOST_MPL_AUX_ADL_BARRIER_NAMESPACE_OPEN
 // 'bool' constant doesn't have 'next'/'prior' members
 template< bool C >

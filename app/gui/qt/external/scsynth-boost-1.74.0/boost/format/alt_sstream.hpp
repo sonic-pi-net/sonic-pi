@@ -16,6 +16,7 @@
 #define BOOST_SK_ALT_SSTREAM_HPP
 
 #include <string>
+#include <boost/core/allocator_access.hpp>
 #include <boost/format/detail/compat_workarounds.hpp>
 #include <boost/utility/base_from_member.hpp>
 #include <boost/shared_ptr.hpp>

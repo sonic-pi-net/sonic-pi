@@ -17,11 +17,12 @@
 #include <boost/math/special_functions/factorials.hpp>
 #include <boost/math/tools/roots.hpp>
 #include <boost/math/tools/config.hpp>
+#include <boost/math/tools/cxx03_warn.hpp>
 
 namespace boost{
 namespace math{
 
-// Recurrance relation for legendre P and Q polynomials:
+// Recurrence relation for legendre P and Q polynomials:
 template <class T1, class T2, class T3>
 inline typename tools::promote_args<T1, T2, T3>::type
    legendre_next(unsigned l, T1 x, T2 Pl, T3 Plm1)
@@ -32,7 +33,7 @@ inline typename tools::promote_args<T1, T2, T3>::type
 
 namespace detail{
 
-// Implement Legendre P and Q polynomials via recurrance:
+// Implement Legendre P and Q polynomials via recurrence:
 template <class T, class Policy>
 T legendre_imp(unsigned l, T x, const Policy& pol, bool second = false)
 {
@@ -357,7 +358,7 @@ inline typename tools::promote_args<T>::type
 {
    typedef typename tools::promote_args<T>::type result_type;
    typedef typename policies::evaluation<result_type, Policy>::type value_type;
-   return policies::checked_narrowing_cast<result_type, Policy>(detail::legendre_p_imp(l, m, static_cast<value_type>(x), pol), "bost::math::legendre_p<%1%>(int, int, %1%)");
+   return policies::checked_narrowing_cast<result_type, Policy>(detail::legendre_p_imp(l, m, static_cast<value_type>(x), pol), "boost::math::legendre_p<%1%>(int, int, %1%)");
 }
 
 template <class T>

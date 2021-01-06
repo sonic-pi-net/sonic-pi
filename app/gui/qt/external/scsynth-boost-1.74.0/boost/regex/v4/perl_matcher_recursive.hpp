@@ -548,7 +548,7 @@ bool perl_matcher<BidiIterator, Allocator, traits>::match_char_repeat()
 #pragma warning(disable:4127)
 #pragma warning(disable:4267)
 #endif
-#ifdef __BORLANDC__
+#ifdef BOOST_BORLANDC
 #pragma option push -w-8008 -w-8066 -w-8004
 #endif
    const re_repeat* rep = static_cast<const re_repeat*>(pstate);
@@ -637,7 +637,7 @@ bool perl_matcher<BidiIterator, Allocator, traits>::match_char_repeat()
          return false;
       }
    }while(true);
-#ifdef __BORLANDC__
+#ifdef BOOST_BORLANDC
 #pragma option pop
 #endif
 #ifdef BOOST_MSVC
@@ -652,7 +652,7 @@ bool perl_matcher<BidiIterator, Allocator, traits>::match_set_repeat()
 #pragma warning(push)
 #pragma warning(disable:4127)
 #endif
-#ifdef __BORLANDC__
+#ifdef BOOST_BORLANDC
 #pragma option push -w-8008 -w-8066 -w-8004
 #endif
    const re_repeat* rep = static_cast<const re_repeat*>(pstate);
@@ -732,7 +732,7 @@ bool perl_matcher<BidiIterator, Allocator, traits>::match_set_repeat()
          return false;
       }
    }while(true);
-#ifdef __BORLANDC__
+#ifdef BOOST_BORLANDC
 #pragma option pop
 #endif
 #ifdef BOOST_MSVC
@@ -747,7 +747,7 @@ bool perl_matcher<BidiIterator, Allocator, traits>::match_long_set_repeat()
 #pragma warning(push)
 #pragma warning(disable:4127)
 #endif
-#ifdef __BORLANDC__
+#ifdef BOOST_BORLANDC
 #pragma option push -w-8008 -w-8066 -w-8004
 #endif
    typedef typename traits::char_class_type char_class_type;
@@ -828,7 +828,7 @@ bool perl_matcher<BidiIterator, Allocator, traits>::match_long_set_repeat()
          return false;
       }
    }while(true);
-#ifdef __BORLANDC__
+#ifdef BOOST_BORLANDC
 #pragma option pop
 #endif
 #ifdef BOOST_MSVC

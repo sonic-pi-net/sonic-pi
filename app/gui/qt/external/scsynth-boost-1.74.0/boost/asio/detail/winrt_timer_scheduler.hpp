@@ -2,7 +2,7 @@
 // detail/winrt_timer_scheduler.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2017 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -28,7 +28,13 @@
 #include <boost/asio/detail/timer_queue_base.hpp>
 #include <boost/asio/detail/timer_queue_set.hpp>
 #include <boost/asio/detail/wait_op.hpp>
-#include <boost/asio/io_context.hpp>
+#include <boost/asio/execution_context.hpp>
+
+#if defined(BOOST_ASIO_HAS_IOCP)
+# include <boost/asio/detail/win_iocp_io_context.hpp>
+#else // defined(BOOST_ASIO_HAS_IOCP)
+# include <boost/asio/detail/scheduler.hpp>
+#endif // defined(BOOST_ASIO_HAS_IOCP)
 
 #if defined(BOOST_ASIO_HAS_IOCP)
 # include <boost/asio/detail/thread.hpp>
@@ -41,11 +47,11 @@ namespace asio {
 namespace detail {
 
 class winrt_timer_scheduler
-  : public boost::asio::detail::service_base<winrt_timer_scheduler>
+  : public execution_context_service_base<winrt_timer_scheduler>
 {
 public:
   // Constructor.
-  BOOST_ASIO_DECL winrt_timer_scheduler(boost::asio::io_context& io_context);
+  BOOST_ASIO_DECL winrt_timer_scheduler(execution_context& context);
 
   // Destructor.
   BOOST_ASIO_DECL ~winrt_timer_scheduler();
@@ -54,8 +60,7 @@ public:
   BOOST_ASIO_DECL void shutdown();
 
   // Recreate internal descriptors following a fork.
-  BOOST_ASIO_DECL void notify_fork(
-      boost::asio::io_context::fork_event fork_ev);
+  BOOST_ASIO_DECL void notify_fork(execution_context::fork_event fork_ev);
 
   // Initialise the task. No effect as this class uses its own thread.
   BOOST_ASIO_DECL void init_task();
@@ -101,8 +106,13 @@ private:
   // Helper function to remove a timer queue.
   BOOST_ASIO_DECL void do_remove_timer_queue(timer_queue_base& queue);
 
-  // The io_context implementation used to post completions.
-  io_context_impl& io_context_;
+  // The scheduler implementation used to post completions.
+#if defined(BOOST_ASIO_HAS_IOCP)
+  typedef class win_iocp_io_context scheduler_impl;
+#else
+  typedef class scheduler scheduler_impl;
+#endif
+  scheduler_impl& scheduler_;
 
   // Mutex used to protect internal variables.
   boost::asio::detail::mutex mutex_;

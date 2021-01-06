@@ -297,7 +297,7 @@ inline bool mapped_region::priv_flush_param_check
    if(m_base == 0)
       return false;
 
-   if(mapping_offset >= m_size || (mapping_offset + numbytes) > m_size){
+   if(mapping_offset >= m_size || numbytes > (m_size - size_t(mapping_offset))){
       return false;
    }
 
@@ -346,14 +346,14 @@ inline void mapped_region::priv_size_from_mapping_size
    (offset_t mapping_size, offset_t offset, offset_t page_offset, std::size_t &size)
 {
    //Check if mapping size fits in the user address space
-   //as offset_t is the maximum file size and its signed.
+   //as offset_t is the maximum file size and it's signed.
    if(mapping_size < offset ||
       boost::uintmax_t(mapping_size - (offset - page_offset)) >
          boost::uintmax_t(std::size_t(-1))){
       error_info err(size_error);
       throw interprocess_exception(err);
    }
-   size = static_cast<std::size_t>(mapping_size - (offset - page_offset));
+   size = static_cast<std::size_t>(mapping_size - offset);
 }
 
 inline offset_t mapped_region::priv_page_offset_addr_fixup(offset_t offset, const void *&address)
@@ -383,7 +383,7 @@ inline mapped_region::mapped_region()
 template<int dummy>
 inline std::size_t mapped_region::page_size_holder<dummy>::get_page_size()
 {
-   winapi::system_info info;
+   winapi::interprocess_system_info info;
    winapi::get_system_info(&info);
    return std::size_t(info.dwAllocationGranularity);
 }

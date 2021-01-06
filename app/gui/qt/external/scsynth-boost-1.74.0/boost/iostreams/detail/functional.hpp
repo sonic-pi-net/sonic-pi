@@ -38,7 +38,7 @@ public:
         { }
     void operator()() const { boost::iostreams::close(t_, which_); }
 private:
-    device_close_operation& operator=(const device_close_operation&);
+    BOOST_DELETED_FUNCTION(device_close_operation& operator=(const device_close_operation&));
     T&                   t_;
     BOOST_IOS::openmode  which_;
 };
@@ -52,7 +52,7 @@ public:
         { }
     void operator()() const { boost::iostreams::close(t_, snk_, which_); }
 private:
-    filter_close_operation& operator=(const filter_close_operation&);
+    BOOST_DELETED_FUNCTION(filter_close_operation& operator=(const filter_close_operation&));
     T&                   t_;
     Sink&                snk_;
     BOOST_IOS::openmode  which_;
@@ -78,7 +78,7 @@ public:
     device_close_all_operation(T& t) : t_(t) { }
     void operator()() const { detail::close_all(t_); }
 private:
-    device_close_all_operation& operator=(const device_close_all_operation&);
+    BOOST_DELETED_FUNCTION(device_close_all_operation& operator=(const device_close_all_operation&));
     T& t_;
 };
 
@@ -89,7 +89,7 @@ public:
     filter_close_all_operation(T& t, Sink& snk) : t_(t), snk_(snk) { }
     void operator()() const { detail::close_all(t_, snk_); }
 private:
-    filter_close_all_operation& operator=(const filter_close_all_operation&);
+    BOOST_DELETED_FUNCTION(filter_close_all_operation& operator=(const filter_close_all_operation&));
     T&     t_;
     Sink&  snk_;
 };
@@ -115,7 +115,7 @@ public:
         { }
     void operator()() const { t_.close(which_); }
 private:
-    member_close_operation& operator=(const member_close_operation&);
+    BOOST_DELETED_FUNCTION(member_close_operation& operator=(const member_close_operation&));
     T&                   t_;
     BOOST_IOS::openmode  which_;
 };
@@ -133,7 +133,7 @@ public:
     reset_operation(T& t) : t_(t) { }
     void operator()() const { t_.reset(); }
 private:
-    reset_operation& operator=(const reset_operation&);
+    BOOST_DELETED_FUNCTION(reset_operation& operator=(const reset_operation&));
     T& t_;
 };
 
@@ -149,7 +149,7 @@ public:
     clear_flags_operation(T& t) : t_(t) { }
     void operator()() const { t_ = 0; }
 private:
-    clear_flags_operation& operator=(const clear_flags_operation&);
+    BOOST_DELETED_FUNCTION(clear_flags_operation& operator=(const clear_flags_operation&));
     T& t_;
 };
 
@@ -173,7 +173,7 @@ public:
             buf_.flush(dev_);
     }
 private:
-    flush_buffer_operation& operator=(const flush_buffer_operation&);
+    BOOST_DELETED_FUNCTION(flush_buffer_operation& operator=(const flush_buffer_operation&));
     Buffer&  buf_;
     Device&  dev_;
     bool     flush_;

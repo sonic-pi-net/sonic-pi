@@ -16,7 +16,7 @@
 
 #include <boost/atomic/detail/config.hpp>
 // Some versions of libstdc++ don't consider __int128 an integral type. Use Boost.TypeTraits because of that.
-#if !defined(BOOST_ATOMIC_DETAIL_NO_CXX11_HDR_TYPE_TRAITS) && !defined(BOOST_HAS_INT128)
+#if !defined(BOOST_ATOMIC_DETAIL_NO_CXX11_BASIC_HDR_TYPE_TRAITS) && !defined(BOOST_HAS_INT128)
 #include <type_traits>
 #else
 #include <boost/type_traits/is_signed.hpp>
@@ -30,7 +30,7 @@ namespace boost {
 namespace atomics {
 namespace detail {
 
-#if !defined(BOOST_ATOMIC_DETAIL_NO_CXX11_HDR_TYPE_TRAITS) && !defined(BOOST_HAS_INT128)
+#if !defined(BOOST_ATOMIC_DETAIL_NO_CXX11_BASIC_HDR_TYPE_TRAITS) && !defined(BOOST_HAS_INT128)
 using std::is_signed;
 #else
 using boost::is_signed;

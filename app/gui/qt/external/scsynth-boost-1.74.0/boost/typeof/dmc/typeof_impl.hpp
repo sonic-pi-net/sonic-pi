@@ -7,8 +7,8 @@
 # define BOOST_TYPEOF_MSVC_TYPEOF_IMPL_HPP_INCLUDED
 
 # include <boost/config.hpp>
-# include <boost/detail/workaround.hpp>
-# include <boost/mpl/int.hpp>
+# include <boost/config/workaround.hpp>
+# include <boost/typeof/constant.hpp>
 
 namespace boost
 {
@@ -45,7 +45,7 @@ namespace boost
 
         template<int ID>
         struct msvc_typeid_wrapper {
-            typedef typename msvc_extract_type<mpl::int_<ID> >::id2type id2type;
+            typedef typename msvc_extract_type<constant<int,ID> >::id2type id2type;
             typedef typename id2type::type type;
         };
 
@@ -56,7 +56,7 @@ namespace boost
             //Get the next available compile time constants index
             BOOST_STATIC_CONSTANT(unsigned,value=BOOST_TYPEOF_INDEX(T));
             //Instantiate the template
-            typedef typename msvc_register_type<T,mpl::int_<value> >::id2type type;
+            typedef typename msvc_register_type<T,constant<int,value> >::id2type type;
             //Set the next compile time constants index
             BOOST_STATIC_CONSTANT(unsigned,next=value+1);
             //Increment the compile time constant (only needed when extensions are not active

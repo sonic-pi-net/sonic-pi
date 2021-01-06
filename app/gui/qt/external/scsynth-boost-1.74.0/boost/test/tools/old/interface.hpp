@@ -20,6 +20,8 @@
 #include <boost/preprocessor/seq/size.hpp>
 #include <boost/preprocessor/seq/to_tuple.hpp>
 
+#include <boost/core/ignore_unused.hpp>
+
 #include <boost/test/detail/suppress_warnings.hpp>
 
 //____________________________________________________________________________//
@@ -95,7 +97,7 @@ do {                                                                            
 
 //____________________________________________________________________________//
 
-#define BOOST_CHECK_THROW_IMPL( S, E, P, postfix, TL )                                   \
+#define BOOST_CHECK_THROW_IMPL( S, E, P, postfix, TL )                                  \
 do {                                                                                    \
     try {                                                                               \
         BOOST_TEST_PASSPOINT();                                                         \
@@ -103,9 +105,9 @@ do {                                                                            
         BOOST_TEST_TOOL_IMPL( 2, false, "exception " BOOST_STRINGIZE(E) " expected but not raised", \
                               TL, CHECK_MSG, _ );                                       \
     } catch( E const& ex ) {                                                            \
-        ::boost::unit_test::ut_detail::ignore_unused_variable_warning( ex );            \
-        BOOST_TEST_TOOL_IMPL( 2, P, \
-                              "exception \"" BOOST_STRINGIZE( E )"\" raised as expected" postfix,           \
+        boost::ignore_unused( ex );                                                     \
+        BOOST_TEST_TOOL_IMPL( 2, P,                                                     \
+                              "exception \"" BOOST_STRINGIZE( E )"\" raised as expected" postfix,   \
                               TL, CHECK_MSG, _  );                                      \
     }                                                                                   \
 } while( ::boost::test_tools::tt_detail::dummy_cond() )                                 \

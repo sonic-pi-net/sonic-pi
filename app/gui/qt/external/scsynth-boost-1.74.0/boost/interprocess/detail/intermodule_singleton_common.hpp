@@ -290,7 +290,7 @@ class intermodule_singleton_common
    static union mem_holder_t
    {
       unsigned char map_mem [sizeof(ThreadSafeGlobalMap)];
-      ::boost::container::container_detail::max_align_t aligner;
+      ::boost::container::dtl::max_align_t aligner;
    } mem_holder;
 };
 

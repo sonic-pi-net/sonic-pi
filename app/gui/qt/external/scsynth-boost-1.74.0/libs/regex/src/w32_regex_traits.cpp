@@ -23,7 +23,9 @@
 #include <boost/regex/regex_traits.hpp>
 #include <boost/regex/pattern_except.hpp>
 
-#define WIN32_LEAN_AND_MEAN
+#ifndef WIN32_LEAN_AND_MEAN
+#  define WIN32_LEAN_AND_MEAN
+#endif
 #ifndef NOMINMAX
 #  define NOMINMAX
 #endif

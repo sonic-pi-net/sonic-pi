@@ -1,5 +1,6 @@
 /*=============================================================================
     Copyright (c) 2016 Lee Clagett
+    Copyright (c) 2018 Kohei Takahashi
 
     Distributed under the Boost Software License, Version 1.0. (See accompanying
     file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -8,6 +9,7 @@
 #define FUSION_AND_07152016_1625
 
 #include <boost/config.hpp>
+#include <boost/config/workaround.hpp>
 #include <boost/type_traits/integral_constant.hpp>
 
 #if defined(BOOST_NO_CXX11_VARIADIC_TEMPLATES)
@@ -15,6 +17,8 @@
 #endif
 
 namespace boost { namespace fusion { namespace detail {
+#if defined(BOOST_NO_CXX17_FOLD_EXPRESSIONS) \
+ || BOOST_WORKAROUND(BOOST_MSVC, BOOST_TESTED_AT(1913))
     template<typename ...Cond>
     struct and_impl : false_type {};
 
@@ -34,6 +38,10 @@ namespace boost { namespace fusion { namespace detail {
          recursive. */
     template<typename ...Cond>
     struct and_ : and_impl1<Cond::value...> {};
+#else
+    template <typename ...Cond>
+    struct and_ : integral_constant<bool, ((bool)Cond::value && ...)> {};
+#endif
 }}}
 
 #endif // FUSION_AND_07152016_1625

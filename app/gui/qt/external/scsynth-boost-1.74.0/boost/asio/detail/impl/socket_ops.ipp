@@ -2,7 +2,7 @@
 // detail/impl/socket_ops.ipp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2017 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -74,18 +74,23 @@ inline void clear_last_error()
 
 #if !defined(BOOST_ASIO_WINDOWS_RUNTIME)
 
-template <typename ReturnType>
-inline ReturnType error_wrapper(ReturnType return_value,
-    boost::system::error_code& ec)
+inline void get_last_error(
+    boost::system::error_code& ec, bool is_error_condition)
 {
+  if (!is_error_condition)
+  {
+    ec.assign(0, ec.category());
+  }
+  else
+  {
 #if defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
-  ec = boost::system::error_code(WSAGetLastError(),
-      boost::asio::error::get_system_category());
+    ec = boost::system::error_code(WSAGetLastError(),
+        boost::asio::error::get_system_category());
 #else
-  ec = boost::system::error_code(errno,
-      boost::asio::error::get_system_category());
+    ec = boost::system::error_code(errno,
+        boost::asio::error::get_system_category());
 #endif
-  return return_value;
+  }
 }
 
 template <typename SockLenType>
@@ -108,17 +113,16 @@ socket_type accept(socket_type s, socket_addr_type* addr,
     return invalid_socket;
   }
 
-  clear_last_error();
-
-  socket_type new_s = error_wrapper(call_accept(
-        &msghdr::msg_namelen, s, addr, addrlen), ec);
+  socket_type new_s = call_accept(&msghdr::msg_namelen, s, addr, addrlen);
+  get_last_error(ec, new_s == invalid_socket);
   if (new_s == invalid_socket)
     return new_s;
 
 #if defined(__MACH__) && defined(__APPLE__) || defined(__FreeBSD__)
   int optval = 1;
-  int result = error_wrapper(::setsockopt(new_s,
-        SOL_SOCKET, SO_NOSIGPIPE, &optval, sizeof(optval)), ec);
+  int result = ::setsockopt(new_s, SOL_SOCKET,
+      SO_NOSIGPIPE, &optval, sizeof(optval));
+  get_last_error(ec, result != 0);
   if (result != 0)
   {
     ::close(new_s);
@@ -126,7 +130,7 @@ socket_type accept(socket_type s, socket_addr_type* addr,
   }
 #endif
 
-  ec = boost::system::error_code();
+  ec.assign(0, ec.category());
   return new_s;
 }
 
@@ -283,11 +287,8 @@ int bind(socket_type s, const socket_addr_type* addr,
     return socket_error_retval;
   }
 
-  clear_last_error();
-  int result = error_wrapper(call_bind(
-        &msghdr::msg_namelen, s, addr, addrlen), ec);
-  if (result == 0)
-    ec = boost::system::error_code();
+  int result = call_bind(&msghdr::msg_namelen, s, addr, addrlen);
+  get_last_error(ec, result != 0);
   return result;
 }
 
@@ -310,12 +311,12 @@ int close(socket_type s, state_type& state,
           SO_LINGER, &opt, sizeof(opt), ignored_ec);
     }
 
-    clear_last_error();
 #if defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
-    result = error_wrapper(::closesocket(s), ec);
+    result = ::closesocket(s);
 #else // defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
-    result = error_wrapper(::close(s), ec);
+    result = ::close(s);
 #endif // defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
+    get_last_error(ec, result != 0);
 
     if (result != 0
         && (ec == boost::asio::error::would_block
@@ -331,28 +332,26 @@ int close(socket_type s, state_type& state,
       ioctl_arg_type arg = 0;
       ::ioctlsocket(s, FIONBIO, &arg);
 #else // defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
-# if defined(__SYMBIAN32__)
+# if defined(__SYMBIAN32__) || defined(__EMSCRIPTEN__)
       int flags = ::fcntl(s, F_GETFL, 0);
       if (flags >= 0)
         ::fcntl(s, F_SETFL, flags & ~O_NONBLOCK);
-# else // defined(__SYMBIAN32__)
+# else // defined(__SYMBIAN32__) || defined(__EMSCRIPTEN__)
       ioctl_arg_type arg = 0;
       ::ioctl(s, FIONBIO, &arg);
-# endif // defined(__SYMBIAN32__)
+# endif // defined(__SYMBIAN32__) || defined(__EMSCRIPTEN__)
 #endif // defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
       state &= ~non_blocking;
 
-      clear_last_error();
 #if defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
-      result = error_wrapper(::closesocket(s), ec);
+      result = ::closesocket(s);
 #else // defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
-      result = error_wrapper(::close(s), ec);
+      result = ::close(s);
 #endif // defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
+      get_last_error(ec, result != 0);
     }
   }
 
-  if (result == 0)
-    ec = boost::system::error_code();
   return result;
 }
 
@@ -365,26 +364,27 @@ bool set_user_non_blocking(socket_type s,
     return false;
   }
 
-  clear_last_error();
 #if defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
   ioctl_arg_type arg = (value ? 1 : 0);
-  int result = error_wrapper(::ioctlsocket(s, FIONBIO, &arg), ec);
-#elif defined(__SYMBIAN32__)
-  int result = error_wrapper(::fcntl(s, F_GETFL, 0), ec);
+  int result = ::ioctlsocket(s, FIONBIO, &arg);
+  get_last_error(ec, result < 0);
+#elif defined(__SYMBIAN32__) || defined(__EMSCRIPTEN__)
+  int result = ::fcntl(s, F_GETFL, 0);
+  get_last_error(ec, result < 0);
   if (result >= 0)
   {
-    clear_last_error();
     int flag = (value ? (result | O_NONBLOCK) : (result & ~O_NONBLOCK));
-    result = error_wrapper(::fcntl(s, F_SETFL, flag), ec);
+    result = ::fcntl(s, F_SETFL, flag);
+    get_last_error(ec, result < 0);
   }
 #else
   ioctl_arg_type arg = (value ? 1 : 0);
-  int result = error_wrapper(::ioctl(s, FIONBIO, &arg), ec);
+  int result = ::ioctl(s, FIONBIO, &arg);
+  get_last_error(ec, result < 0);
 #endif
 
   if (result >= 0)
   {
-    ec = boost::system::error_code();
     if (value)
       state |= user_set_non_blocking;
     else
@@ -418,26 +418,27 @@ bool set_internal_non_blocking(socket_type s,
     return false;
   }
 
-  clear_last_error();
 #if defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
   ioctl_arg_type arg = (value ? 1 : 0);
-  int result = error_wrapper(::ioctlsocket(s, FIONBIO, &arg), ec);
-#elif defined(__SYMBIAN32__)
-  int result = error_wrapper(::fcntl(s, F_GETFL, 0), ec);
+  int result = ::ioctlsocket(s, FIONBIO, &arg);
+  get_last_error(ec, result < 0);
+#elif defined(__SYMBIAN32__) || defined(__EMSCRIPTEN__)
+  int result = ::fcntl(s, F_GETFL, 0);
+  get_last_error(ec, result < 0);
   if (result >= 0)
   {
-    clear_last_error();
     int flag = (value ? (result | O_NONBLOCK) : (result & ~O_NONBLOCK));
-    result = error_wrapper(::fcntl(s, F_SETFL, flag), ec);
+    result = ::fcntl(s, F_SETFL, flag);
+    get_last_error(ec, result < 0);
   }
 #else
   ioctl_arg_type arg = (value ? 1 : 0);
-  int result = error_wrapper(::ioctl(s, FIONBIO, &arg), ec);
+  int result = ::ioctl(s, FIONBIO, &arg);
+  get_last_error(ec, result < 0);
 #endif
 
   if (result >= 0)
   {
-    ec = boost::system::error_code();
     if (value)
       state |= internal_non_blocking;
     else
@@ -456,10 +457,8 @@ int shutdown(socket_type s, int what, boost::system::error_code& ec)
     return socket_error_retval;
   }
 
-  clear_last_error();
-  int result = error_wrapper(::shutdown(s, what), ec);
-  if (result == 0)
-    ec = boost::system::error_code();
+  int result = ::shutdown(s, what);
+  get_last_error(ec, result != 0);
   return result;
 }
 
@@ -479,13 +478,10 @@ int connect(socket_type s, const socket_addr_type* addr,
     return socket_error_retval;
   }
 
-  clear_last_error();
-  int result = error_wrapper(call_connect(
-        &msghdr::msg_namelen, s, addr, addrlen), ec);
-  if (result == 0)
-    ec = boost::system::error_code();
+  int result = call_connect(&msghdr::msg_namelen, s, addr, addrlen);
+  get_last_error(ec, result != 0);
 #if defined(__linux__)
-  else if (ec == boost::asio::error::try_again)
+  if (result != 0 && ec == boost::asio::error::try_again)
     ec = boost::asio::error::no_buffer_space;
 #endif // defined(__linux__)
   return result;
@@ -601,7 +597,7 @@ bool non_blocking_connect(socket_type s, boost::system::error_code& ec)
           boost::asio::error::get_system_category());
     }
     else
-      ec = boost::system::error_code();
+      ec.assign(0, ec.category());
   }
 
   return true;
@@ -618,10 +614,8 @@ int socketpair(int af, int type, int protocol,
   ec = boost::asio::error::operation_not_supported;
   return socket_error_retval;
 #else
-  clear_last_error();
-  int result = error_wrapper(::socketpair(af, type, protocol, sv), ec);
-  if (result == 0)
-    ec = boost::system::error_code();
+  int result = ::socketpair(af, type, protocol, sv);
+  get_last_error(ec, result != 0);
   return result;
 #endif
 }
@@ -637,20 +631,18 @@ bool sockatmark(socket_type s, boost::system::error_code& ec)
 #if defined(SIOCATMARK)
   ioctl_arg_type value = 0;
 # if defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
-  int result = error_wrapper(::ioctlsocket(s, SIOCATMARK, &value), ec);
+  int result = ::ioctlsocket(s, SIOCATMARK, &value);
 # else // defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
-  int result = error_wrapper(::ioctl(s, SIOCATMARK, &value), ec);
+  int result = ::ioctl(s, SIOCATMARK, &value);
 # endif // defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
-  if (result == 0)
-    ec = boost::system::error_code();
+  get_last_error(ec, result < 0);
 # if defined(ENOTTY)
   if (ec.value() == ENOTTY)
     ec = boost::asio::error::not_socket;
 # endif // defined(ENOTTY)
 #else // defined(SIOCATMARK)
-  int value = error_wrapper(::sockatmark(s), ec);
-  if (value != -1)
-    ec = boost::system::error_code();
+  int value = ::sockatmark(s);
+  get_last_error(ec, result < 0);
 #endif // defined(SIOCATMARK)
 
   return ec ? false : value != 0;
@@ -666,12 +658,11 @@ size_t available(socket_type s, boost::system::error_code& ec)
 
   ioctl_arg_type value = 0;
 #if defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
-  int result = error_wrapper(::ioctlsocket(s, FIONREAD, &value), ec);
+  int result = ::ioctlsocket(s, FIONREAD, &value);
 #else // defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
-  int result = error_wrapper(::ioctl(s, FIONREAD, &value), ec);
+  int result = ::ioctl(s, FIONREAD, &value);
 #endif // defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
-  if (result == 0)
-    ec = boost::system::error_code();
+  get_last_error(ec, result < 0);
 #if defined(ENOTTY)
   if (ec.value() == ENOTTY)
     ec = boost::asio::error::not_socket;
@@ -688,10 +679,8 @@ int listen(socket_type s, int backlog, boost::system::error_code& ec)
     return socket_error_retval;
   }
 
-  clear_last_error();
-  int result = error_wrapper(::listen(s, backlog), ec);
-  if (result == 0)
-    ec = boost::system::error_code();
+  int result = ::listen(s, backlog);
+  get_last_error(ec, result != 0);
   return result;
 }
 
@@ -759,31 +748,60 @@ inline void init_msghdr_msg_name(T& name, const socket_addr_type* addr)
 signed_size_type recv(socket_type s, buf* bufs, size_t count,
     int flags, boost::system::error_code& ec)
 {
-  clear_last_error();
 #if defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
   // Receive some data.
   DWORD recv_buf_count = static_cast<DWORD>(count);
   DWORD bytes_transferred = 0;
   DWORD recv_flags = flags;
-  int result = error_wrapper(::WSARecv(s, bufs,
-        recv_buf_count, &bytes_transferred, &recv_flags, 0, 0), ec);
+  int result = ::WSARecv(s, bufs, recv_buf_count,
+      &bytes_transferred, &recv_flags, 0, 0);
+  get_last_error(ec, true);
   if (ec.value() == ERROR_NETNAME_DELETED)
     ec = boost::asio::error::connection_reset;
   else if (ec.value() == ERROR_PORT_UNREACHABLE)
     ec = boost::asio::error::connection_refused;
   else if (ec.value() == WSAEMSGSIZE || ec.value() == ERROR_MORE_DATA)
-    ec.assign(0, ec.category());
+    result = 0;
   if (result != 0)
     return socket_error_retval;
-  ec = boost::system::error_code();
+  ec.assign(0, ec.category());
   return bytes_transferred;
 #else // defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
   msghdr msg = msghdr();
   msg.msg_iov = bufs;
   msg.msg_iovlen = static_cast<int>(count);
-  signed_size_type result = error_wrapper(::recvmsg(s, &msg, flags), ec);
-  if (result >= 0)
-    ec = boost::system::error_code();
+  signed_size_type result = ::recvmsg(s, &msg, flags);
+  get_last_error(ec, result < 0);
+  return result;
+#endif // defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
+}
+
+signed_size_type recv1(socket_type s, void* data, size_t size,
+    int flags, boost::system::error_code& ec)
+{
+#if defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
+  // Receive some data.
+  WSABUF buf;
+  buf.buf = const_cast<char*>(static_cast<const char*>(data));
+  buf.len = static_cast<ULONG>(size);
+  DWORD bytes_transferred = 0;
+  DWORD recv_flags = flags;
+  int result = ::WSARecv(s, &buf, 1,
+      &bytes_transferred, &recv_flags, 0, 0);
+  get_last_error(ec, true);
+  if (ec.value() == ERROR_NETNAME_DELETED)
+    ec = boost::asio::error::connection_reset;
+  else if (ec.value() == ERROR_PORT_UNREACHABLE)
+    ec = boost::asio::error::connection_refused;
+  else if (ec.value() == WSAEMSGSIZE || ec.value() == ERROR_MORE_DATA)
+    result = 0;
+  if (result != 0)
+    return socket_error_retval;
+  ec.assign(0, ec.category());
+  return bytes_transferred;
+#else // defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
+  signed_size_type result = ::recv(s, static_cast<char*>(data), size, flags);
+  get_last_error(ec, result < 0);
   return result;
 #endif // defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
 }
@@ -800,7 +818,7 @@ size_t sync_recv(socket_type s, state_type state, buf* bufs,
   // A request to read 0 bytes on a stream is a no-op.
   if (all_empty && (state & stream_oriented))
   {
-    ec = boost::system::error_code();
+    ec.assign(0, ec.category());
     return 0;
   }
 
@@ -810,9 +828,50 @@ size_t sync_recv(socket_type s, state_type state, buf* bufs,
     // Try to complete the operation without blocking.
     signed_size_type bytes = socket_ops::recv(s, bufs, count, flags, ec);
 
+    // Check for EOF.
+    if ((state & stream_oriented) && bytes == 0)
+    {
+      ec = boost::asio::error::eof;
+      return 0;
+    }
+
     // Check if operation succeeded.
-    if (bytes > 0)
+    if (bytes >= 0)
       return bytes;
+
+    // Operation failed.
+    if ((state & user_set_non_blocking)
+        || (ec != boost::asio::error::would_block
+          && ec != boost::asio::error::try_again))
+      return 0;
+
+    // Wait for socket to become ready.
+    if (socket_ops::poll_read(s, 0, -1, ec) < 0)
+      return 0;
+  }
+}
+
+size_t sync_recv1(socket_type s, state_type state, void* data,
+    size_t size, int flags, boost::system::error_code& ec)
+{
+  if (s == invalid_socket)
+  {
+    ec = boost::asio::error::bad_descriptor;
+    return 0;
+  }
+
+  // A request to read 0 bytes on a stream is a no-op.
+  if (size == 0 && (state & stream_oriented))
+  {
+    ec.assign(0, ec.category());
+    return 0;
+  }
+
+  // Read some data.
+  for (;;)
+  {
+    // Try to complete the operation without blocking.
+    signed_size_type bytes = socket_ops::recv1(s, data, size, flags, ec);
 
     // Check for EOF.
     if ((state & stream_oriented) && bytes == 0)
@@ -820,6 +879,10 @@ size_t sync_recv(socket_type s, state_type state, buf* bufs,
       ec = boost::asio::error::eof;
       return 0;
     }
+
+    // Check if operation succeeded.
+    if (bytes >= 0)
+      return bytes;
 
     // Operation failed.
     if ((state & user_set_non_blocking)
@@ -883,6 +946,13 @@ bool non_blocking_recv(socket_type s,
       return true;
     }
 
+    // Check if operation succeeded.
+    if (bytes >= 0)
+    {
+      bytes_transferred = bytes;
+      return true;
+    }
+
     // Retry operation if interrupted by signal.
     if (ec == boost::asio::error::interrupted)
       continue;
@@ -892,15 +962,46 @@ bool non_blocking_recv(socket_type s,
         || ec == boost::asio::error::try_again)
       return false;
 
-    // Operation is complete.
+    // Operation failed.
+    bytes_transferred = 0;
+    return true;
+  }
+}
+
+bool non_blocking_recv1(socket_type s,
+    void* data, size_t size, int flags, bool is_stream,
+    boost::system::error_code& ec, size_t& bytes_transferred)
+{
+  for (;;)
+  {
+    // Read some data.
+    signed_size_type bytes = socket_ops::recv1(s, data, size, flags, ec);
+
+    // Check for end of stream.
+    if (is_stream && bytes == 0)
+    {
+      ec = boost::asio::error::eof;
+      return true;
+    }
+
+    // Check if operation succeeded.
     if (bytes >= 0)
     {
-      ec = boost::system::error_code();
       bytes_transferred = bytes;
+      return true;
     }
-    else
-      bytes_transferred = 0;
 
+    // Retry operation if interrupted by signal.
+    if (ec == boost::asio::error::interrupted)
+      continue;
+
+    // Check if we need to run the operation again.
+    if (ec == boost::asio::error::would_block
+        || ec == boost::asio::error::try_again)
+      return false;
+
+    // Operation failed.
+    bytes_transferred = 0;
     return true;
   }
 }
@@ -911,25 +1012,25 @@ signed_size_type recvfrom(socket_type s, buf* bufs, size_t count,
     int flags, socket_addr_type* addr, std::size_t* addrlen,
     boost::system::error_code& ec)
 {
-  clear_last_error();
 #if defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
   // Receive some data.
   DWORD recv_buf_count = static_cast<DWORD>(count);
   DWORD bytes_transferred = 0;
   DWORD recv_flags = flags;
   int tmp_addrlen = (int)*addrlen;
-  int result = error_wrapper(::WSARecvFrom(s, bufs, recv_buf_count,
-        &bytes_transferred, &recv_flags, addr, &tmp_addrlen, 0, 0), ec);
+  int result = ::WSARecvFrom(s, bufs, recv_buf_count,
+        &bytes_transferred, &recv_flags, addr, &tmp_addrlen, 0, 0);
+  get_last_error(ec, true);
   *addrlen = (std::size_t)tmp_addrlen;
   if (ec.value() == ERROR_NETNAME_DELETED)
     ec = boost::asio::error::connection_reset;
   else if (ec.value() == ERROR_PORT_UNREACHABLE)
     ec = boost::asio::error::connection_refused;
   else if (ec.value() == WSAEMSGSIZE || ec.value() == ERROR_MORE_DATA)
-    ec.assign(0, ec.category());
+    result = 0;
   if (result != 0)
     return socket_error_retval;
-  ec = boost::system::error_code();
+  ec.assign(0, ec.category());
   return bytes_transferred;
 #else // defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
   msghdr msg = msghdr();
@@ -937,10 +1038,56 @@ signed_size_type recvfrom(socket_type s, buf* bufs, size_t count,
   msg.msg_namelen = static_cast<int>(*addrlen);
   msg.msg_iov = bufs;
   msg.msg_iovlen = static_cast<int>(count);
-  signed_size_type result = error_wrapper(::recvmsg(s, &msg, flags), ec);
+  signed_size_type result = ::recvmsg(s, &msg, flags);
+  get_last_error(ec, result < 0);
   *addrlen = msg.msg_namelen;
-  if (result >= 0)
-    ec = boost::system::error_code();
+  return result;
+#endif // defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
+}
+
+template <typename SockLenType>
+inline signed_size_type call_recvfrom(SockLenType msghdr::*,
+    socket_type s, void* data, size_t size, int flags,
+    socket_addr_type* addr, std::size_t* addrlen)
+{
+  SockLenType tmp_addrlen = addrlen ? (SockLenType)*addrlen : 0;
+  signed_size_type result = ::recvfrom(s, static_cast<char*>(data),
+      size, flags, addr, addrlen ? &tmp_addrlen : 0);
+  if (addrlen)
+    *addrlen = (std::size_t)tmp_addrlen;
+  return result;
+}
+
+signed_size_type recvfrom1(socket_type s, void* data, size_t size,
+    int flags, socket_addr_type* addr, std::size_t* addrlen,
+    boost::system::error_code& ec)
+{
+#if defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
+  // Receive some data.
+  WSABUF buf;
+  buf.buf = static_cast<char*>(data);
+  buf.len = static_cast<ULONG>(size);
+  DWORD bytes_transferred = 0;
+  DWORD recv_flags = flags;
+  int tmp_addrlen = (int)*addrlen;
+  int result = ::WSARecvFrom(s, &buf, 1, &bytes_transferred,
+      &recv_flags, addr, &tmp_addrlen, 0, 0);
+  get_last_error(ec, true);
+  *addrlen = (std::size_t)tmp_addrlen;
+  if (ec.value() == ERROR_NETNAME_DELETED)
+    ec = boost::asio::error::connection_reset;
+  else if (ec.value() == ERROR_PORT_UNREACHABLE)
+    ec = boost::asio::error::connection_refused;
+  else if (ec.value() == WSAEMSGSIZE || ec.value() == ERROR_MORE_DATA)
+    result = 0;
+  if (result != 0)
+    return socket_error_retval;
+  ec.assign(0, ec.category());
+  return bytes_transferred;
+#else // defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
+  signed_size_type result = call_recvfrom(&msghdr::msg_namelen,
+      s, data, size, flags, addr, addrlen);
+  get_last_error(ec, result < 0);
   return result;
 #endif // defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
 }
@@ -961,6 +1108,39 @@ size_t sync_recvfrom(socket_type s, state_type state, buf* bufs,
     // Try to complete the operation without blocking.
     signed_size_type bytes = socket_ops::recvfrom(
         s, bufs, count, flags, addr, addrlen, ec);
+
+    // Check if operation succeeded.
+    if (bytes >= 0)
+      return bytes;
+
+    // Operation failed.
+    if ((state & user_set_non_blocking)
+        || (ec != boost::asio::error::would_block
+          && ec != boost::asio::error::try_again))
+      return 0;
+
+    // Wait for socket to become ready.
+    if (socket_ops::poll_read(s, 0, -1, ec) < 0)
+      return 0;
+  }
+}
+
+size_t sync_recvfrom1(socket_type s, state_type state, void* data,
+    size_t size, int flags, socket_addr_type* addr,
+    std::size_t* addrlen, boost::system::error_code& ec)
+{
+  if (s == invalid_socket)
+  {
+    ec = boost::asio::error::bad_descriptor;
+    return 0;
+  }
+
+  // Read some data.
+  for (;;)
+  {
+    // Try to complete the operation without blocking.
+    signed_size_type bytes = socket_ops::recvfrom1(
+        s, data, size, flags, addr, addrlen, ec);
 
     // Check if operation succeeded.
     if (bytes >= 0)
@@ -1015,6 +1195,13 @@ bool non_blocking_recvfrom(socket_type s,
     signed_size_type bytes = socket_ops::recvfrom(
         s, bufs, count, flags, addr, addrlen, ec);
 
+    // Check if operation succeeded.
+    if (bytes >= 0)
+    {
+      bytes_transferred = bytes;
+      return true;
+    }
+
     // Retry operation if interrupted by signal.
     if (ec == boost::asio::error::interrupted)
       continue;
@@ -1024,15 +1211,41 @@ bool non_blocking_recvfrom(socket_type s,
         || ec == boost::asio::error::try_again)
       return false;
 
-    // Operation is complete.
+    // Operation failed.
+    bytes_transferred = 0;
+    return true;
+  }
+}
+
+bool non_blocking_recvfrom1(socket_type s,
+    void* data, size_t size, int flags,
+    socket_addr_type* addr, std::size_t* addrlen,
+    boost::system::error_code& ec, size_t& bytes_transferred)
+{
+  for (;;)
+  {
+    // Read some data.
+    signed_size_type bytes = socket_ops::recvfrom1(
+        s, data, size, flags, addr, addrlen, ec);
+
+    // Check if operation succeeded.
     if (bytes >= 0)
     {
-      ec = boost::system::error_code();
       bytes_transferred = bytes;
+      return true;
     }
-    else
-      bytes_transferred = 0;
 
+    // Retry operation if interrupted by signal.
+    if (ec == boost::asio::error::interrupted)
+      continue;
+
+    // Check if we need to run the operation again.
+    if (ec == boost::asio::error::would_block
+        || ec == boost::asio::error::try_again)
+      return false;
+
+    // Operation failed.
+    bytes_transferred = 0;
     return true;
   }
 }
@@ -1042,7 +1255,6 @@ bool non_blocking_recvfrom(socket_type s,
 signed_size_type recvmsg(socket_type s, buf* bufs, size_t count,
     int in_flags, int& out_flags, boost::system::error_code& ec)
 {
-  clear_last_error();
 #if defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
   out_flags = 0;
   return socket_ops::recv(s, bufs, count, in_flags, ec);
@@ -1050,12 +1262,10 @@ signed_size_type recvmsg(socket_type s, buf* bufs, size_t count,
   msghdr msg = msghdr();
   msg.msg_iov = bufs;
   msg.msg_iovlen = static_cast<int>(count);
-  signed_size_type result = error_wrapper(::recvmsg(s, &msg, in_flags), ec);
+  signed_size_type result = ::recvmsg(s, &msg, in_flags);
+  get_last_error(ec, result < 0);
   if (result >= 0)
-  {
-    ec = boost::system::error_code();
     out_flags = msg.msg_flags;
-  }
   else
     out_flags = 0;
   return result;
@@ -1131,6 +1341,13 @@ bool non_blocking_recvmsg(socket_type s,
     signed_size_type bytes = socket_ops::recvmsg(
         s, bufs, count, in_flags, out_flags, ec);
 
+    // Check if operation succeeded.
+    if (bytes >= 0)
+    {
+      bytes_transferred = bytes;
+      return true;
+    }
+
     // Retry operation if interrupted by signal.
     if (ec == boost::asio::error::interrupted)
       continue;
@@ -1140,15 +1357,8 @@ bool non_blocking_recvmsg(socket_type s,
         || ec == boost::asio::error::try_again)
       return false;
 
-    // Operation is complete.
-    if (bytes >= 0)
-    {
-      ec = boost::system::error_code();
-      bytes_transferred = bytes;
-    }
-    else
-      bytes_transferred = 0;
-
+    // Operation failed.
+    bytes_transferred = 0;
     return true;
   }
 }
@@ -1158,21 +1368,21 @@ bool non_blocking_recvmsg(socket_type s,
 signed_size_type send(socket_type s, const buf* bufs, size_t count,
     int flags, boost::system::error_code& ec)
 {
-  clear_last_error();
 #if defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
   // Send the data.
   DWORD send_buf_count = static_cast<DWORD>(count);
   DWORD bytes_transferred = 0;
   DWORD send_flags = flags;
-  int result = error_wrapper(::WSASend(s, const_cast<buf*>(bufs),
-        send_buf_count, &bytes_transferred, send_flags, 0, 0), ec);
+  int result = ::WSASend(s, const_cast<buf*>(bufs),
+        send_buf_count, &bytes_transferred, send_flags, 0, 0);
+  get_last_error(ec, true);
   if (ec.value() == ERROR_NETNAME_DELETED)
     ec = boost::asio::error::connection_reset;
   else if (ec.value() == ERROR_PORT_UNREACHABLE)
     ec = boost::asio::error::connection_refused;
   if (result != 0)
     return socket_error_retval;
-  ec = boost::system::error_code();
+  ec.assign(0, ec.category());
   return bytes_transferred;
 #else // defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
   msghdr msg = msghdr();
@@ -1181,9 +1391,40 @@ signed_size_type send(socket_type s, const buf* bufs, size_t count,
 #if defined(__linux__)
   flags |= MSG_NOSIGNAL;
 #endif // defined(__linux__)
-  signed_size_type result = error_wrapper(::sendmsg(s, &msg, flags), ec);
-  if (result >= 0)
-    ec = boost::system::error_code();
+  signed_size_type result = ::sendmsg(s, &msg, flags);
+  get_last_error(ec, result < 0);
+  return result;
+#endif // defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
+}
+
+signed_size_type send1(socket_type s, const void* data, size_t size,
+    int flags, boost::system::error_code& ec)
+{
+#if defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
+  // Send the data.
+  WSABUF buf;
+  buf.buf = const_cast<char*>(static_cast<const char*>(data));
+  buf.len = static_cast<ULONG>(size);
+  DWORD bytes_transferred = 0;
+  DWORD send_flags = flags;
+  int result = ::WSASend(s, &buf, 1,
+        &bytes_transferred, send_flags, 0, 0);
+  get_last_error(ec, true);
+  if (ec.value() == ERROR_NETNAME_DELETED)
+    ec = boost::asio::error::connection_reset;
+  else if (ec.value() == ERROR_PORT_UNREACHABLE)
+    ec = boost::asio::error::connection_refused;
+  if (result != 0)
+    return socket_error_retval;
+  ec.assign(0, ec.category());
+  return bytes_transferred;
+#else // defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
+#if defined(__linux__)
+  flags |= MSG_NOSIGNAL;
+#endif // defined(__linux__)
+  signed_size_type result = ::send(s,
+      static_cast<const char*>(data), size, flags);
+  get_last_error(ec, result < 0);
   return result;
 #endif // defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
 }
@@ -1200,7 +1441,7 @@ size_t sync_send(socket_type s, state_type state, const buf* bufs,
   // A request to write 0 bytes to a stream is a no-op.
   if (all_empty && (state & stream_oriented))
   {
-    ec = boost::system::error_code();
+    ec.assign(0, ec.category());
     return 0;
   }
 
@@ -1209,6 +1450,44 @@ size_t sync_send(socket_type s, state_type state, const buf* bufs,
   {
     // Try to complete the operation without blocking.
     signed_size_type bytes = socket_ops::send(s, bufs, count, flags, ec);
+
+    // Check if operation succeeded.
+    if (bytes >= 0)
+      return bytes;
+
+    // Operation failed.
+    if ((state & user_set_non_blocking)
+        || (ec != boost::asio::error::would_block
+          && ec != boost::asio::error::try_again))
+      return 0;
+
+    // Wait for socket to become ready.
+    if (socket_ops::poll_write(s, 0, -1, ec) < 0)
+      return 0;
+  }
+}
+
+size_t sync_send1(socket_type s, state_type state, const void* data,
+    size_t size, int flags, boost::system::error_code& ec)
+{
+  if (s == invalid_socket)
+  {
+    ec = boost::asio::error::bad_descriptor;
+    return 0;
+  }
+
+  // A request to write 0 bytes to a stream is a no-op.
+  if (size == 0 && (state & stream_oriented))
+  {
+    ec.assign(0, ec.category());
+    return 0;
+  }
+
+  // Read some data.
+  for (;;)
+  {
+    // Try to complete the operation without blocking.
+    signed_size_type bytes = socket_ops::send1(s, data, size, flags, ec);
 
     // Check if operation succeeded.
     if (bytes >= 0)
@@ -1257,6 +1536,13 @@ bool non_blocking_send(socket_type s,
     // Write some data.
     signed_size_type bytes = socket_ops::send(s, bufs, count, flags, ec);
 
+    // Check if operation succeeded.
+    if (bytes >= 0)
+    {
+      bytes_transferred = bytes;
+      return true;
+    }
+
     // Retry operation if interrupted by signal.
     if (ec == boost::asio::error::interrupted)
       continue;
@@ -1266,15 +1552,39 @@ bool non_blocking_send(socket_type s,
         || ec == boost::asio::error::try_again)
       return false;
 
-    // Operation is complete.
+    // Operation failed.
+    bytes_transferred = 0;
+    return true;
+  }
+}
+
+bool non_blocking_send1(socket_type s,
+    const void* data, size_t size, int flags,
+    boost::system::error_code& ec, size_t& bytes_transferred)
+{
+  for (;;)
+  {
+    // Write some data.
+    signed_size_type bytes = socket_ops::send1(s, data, size, flags, ec);
+
+    // Check if operation succeeded.
     if (bytes >= 0)
     {
-      ec = boost::system::error_code();
       bytes_transferred = bytes;
+      return true;
     }
-    else
-      bytes_transferred = 0;
 
+    // Retry operation if interrupted by signal.
+    if (ec == boost::asio::error::interrupted)
+      continue;
+
+    // Check if we need to run the operation again.
+    if (ec == boost::asio::error::would_block
+        || ec == boost::asio::error::try_again)
+      return false;
+
+    // Operation failed.
+    bytes_transferred = 0;
     return true;
   }
 }
@@ -1285,21 +1595,21 @@ signed_size_type sendto(socket_type s, const buf* bufs, size_t count,
     int flags, const socket_addr_type* addr, std::size_t addrlen,
     boost::system::error_code& ec)
 {
-  clear_last_error();
 #if defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
   // Send the data.
   DWORD send_buf_count = static_cast<DWORD>(count);
   DWORD bytes_transferred = 0;
-  int result = error_wrapper(::WSASendTo(s, const_cast<buf*>(bufs),
+  int result = ::WSASendTo(s, const_cast<buf*>(bufs),
         send_buf_count, &bytes_transferred, flags, addr,
-        static_cast<int>(addrlen), 0, 0), ec);
+        static_cast<int>(addrlen), 0, 0);
+  get_last_error(ec, true);
   if (ec.value() == ERROR_NETNAME_DELETED)
     ec = boost::asio::error::connection_reset;
   else if (ec.value() == ERROR_PORT_UNREACHABLE)
     ec = boost::asio::error::connection_refused;
   if (result != 0)
     return socket_error_retval;
-  ec = boost::system::error_code();
+  ec.assign(0, ec.category());
   return bytes_transferred;
 #else // defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
   msghdr msg = msghdr();
@@ -1310,9 +1620,49 @@ signed_size_type sendto(socket_type s, const buf* bufs, size_t count,
 #if defined(__linux__)
   flags |= MSG_NOSIGNAL;
 #endif // defined(__linux__)
-  signed_size_type result = error_wrapper(::sendmsg(s, &msg, flags), ec);
-  if (result >= 0)
-    ec = boost::system::error_code();
+  signed_size_type result = ::sendmsg(s, &msg, flags);
+  get_last_error(ec, result < 0);
+  return result;
+#endif // defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
+}
+
+template <typename SockLenType>
+inline signed_size_type call_sendto(SockLenType msghdr::*,
+    socket_type s, const void* data, size_t size, int flags,
+    const socket_addr_type* addr, std::size_t addrlen)
+{
+  return ::sendto(s, static_cast<char*>(const_cast<void*>(data)),
+      size, flags, addr, (SockLenType)addrlen);
+}
+
+signed_size_type sendto1(socket_type s, const void* data, size_t size,
+    int flags, const socket_addr_type* addr, std::size_t addrlen,
+    boost::system::error_code& ec)
+{
+#if defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
+  // Send the data.
+  WSABUF buf;
+  buf.buf = const_cast<char*>(static_cast<const char*>(data));
+  buf.len = static_cast<ULONG>(size);
+  DWORD bytes_transferred = 0;
+  int result = ::WSASendTo(s, &buf, 1, &bytes_transferred,
+      flags, addr, static_cast<int>(addrlen), 0, 0);
+  get_last_error(ec, true);
+  if (ec.value() == ERROR_NETNAME_DELETED)
+    ec = boost::asio::error::connection_reset;
+  else if (ec.value() == ERROR_PORT_UNREACHABLE)
+    ec = boost::asio::error::connection_refused;
+  if (result != 0)
+    return socket_error_retval;
+  ec.assign(0, ec.category());
+  return bytes_transferred;
+#else // defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
+#if defined(__linux__)
+  flags |= MSG_NOSIGNAL;
+#endif // defined(__linux__)
+  signed_size_type result = call_sendto(&msghdr::msg_namelen,
+      s, data, size, flags, addr, addrlen);
+  get_last_error(ec, result < 0);
   return result;
 #endif // defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
 }
@@ -1350,6 +1700,39 @@ size_t sync_sendto(socket_type s, state_type state, const buf* bufs,
   }
 }
 
+size_t sync_sendto1(socket_type s, state_type state, const void* data,
+    size_t size, int flags, const socket_addr_type* addr,
+    std::size_t addrlen, boost::system::error_code& ec)
+{
+  if (s == invalid_socket)
+  {
+    ec = boost::asio::error::bad_descriptor;
+    return 0;
+  }
+
+  // Write some data.
+  for (;;)
+  {
+    // Try to complete the operation without blocking.
+    signed_size_type bytes = socket_ops::sendto1(
+        s, data, size, flags, addr, addrlen, ec);
+
+    // Check if operation succeeded.
+    if (bytes >= 0)
+      return bytes;
+
+    // Operation failed.
+    if ((state & user_set_non_blocking)
+        || (ec != boost::asio::error::would_block
+          && ec != boost::asio::error::try_again))
+      return 0;
+
+    // Wait for socket to become ready.
+    if (socket_ops::poll_write(s, 0, -1, ec) < 0)
+      return 0;
+  }
+}
+
 #if !defined(BOOST_ASIO_HAS_IOCP)
 
 bool non_blocking_sendto(socket_type s,
@@ -1363,6 +1746,13 @@ bool non_blocking_sendto(socket_type s,
     signed_size_type bytes = socket_ops::sendto(
         s, bufs, count, flags, addr, addrlen, ec);
 
+    // Check if operation succeeded.
+    if (bytes >= 0)
+    {
+      bytes_transferred = bytes;
+      return true;
+    }
+
     // Retry operation if interrupted by signal.
     if (ec == boost::asio::error::interrupted)
       continue;
@@ -1372,15 +1762,41 @@ bool non_blocking_sendto(socket_type s,
         || ec == boost::asio::error::try_again)
       return false;
 
-    // Operation is complete.
+    // Operation failed.
+    bytes_transferred = 0;
+    return true;
+  }
+}
+
+bool non_blocking_sendto1(socket_type s,
+    const void* data, size_t size, int flags,
+    const socket_addr_type* addr, std::size_t addrlen,
+    boost::system::error_code& ec, size_t& bytes_transferred)
+{
+  for (;;)
+  {
+    // Write some data.
+    signed_size_type bytes = socket_ops::sendto1(
+        s, data, size, flags, addr, addrlen, ec);
+
+    // Check if operation succeeded.
     if (bytes >= 0)
     {
-      ec = boost::system::error_code();
       bytes_transferred = bytes;
+      return true;
     }
-    else
-      bytes_transferred = 0;
 
+    // Retry operation if interrupted by signal.
+    if (ec == boost::asio::error::interrupted)
+      continue;
+
+    // Check if we need to run the operation again.
+    if (ec == boost::asio::error::would_block
+        || ec == boost::asio::error::try_again)
+      return false;
+
+    // Operation failed.
+    bytes_transferred = 0;
     return true;
   }
 }
@@ -1390,10 +1806,9 @@ bool non_blocking_sendto(socket_type s,
 socket_type socket(int af, int type, int protocol,
     boost::system::error_code& ec)
 {
-  clear_last_error();
 #if defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
-  socket_type s = error_wrapper(::WSASocketW(af, type, protocol, 0, 0,
-        WSA_FLAG_OVERLAPPED), ec);
+  socket_type s = ::WSASocketW(af, type, protocol, 0, 0, WSA_FLAG_OVERLAPPED);
+  get_last_error(ec, s == invalid_socket);
   if (s == invalid_socket)
     return s;
 
@@ -1407,17 +1822,15 @@ socket_type socket(int af, int type, int protocol,
         reinterpret_cast<const char*>(&optval), sizeof(optval));
   }
 
-  ec = boost::system::error_code();
-
   return s;
 #elif defined(__MACH__) && defined(__APPLE__) || defined(__FreeBSD__)
-  socket_type s = error_wrapper(::socket(af, type, protocol), ec);
-  if (s == invalid_socket)
-    return s;
+  socket_type s = ::socket(af, type, protocol);
+  get_last_error(ec, s < 0);
 
   int optval = 1;
-  int result = error_wrapper(::setsockopt(s,
-        SOL_SOCKET, SO_NOSIGPIPE, &optval, sizeof(optval)), ec);
+  int result = ::setsockopt(s, SOL_SOCKET,
+      SO_NOSIGPIPE, &optval, sizeof(optval));
+  get_last_error(ec, result != 0);
   if (result != 0)
   {
     ::close(s);
@@ -1426,9 +1839,8 @@ socket_type socket(int af, int type, int protocol,
 
   return s;
 #else
-  int s = error_wrapper(::socket(af, type, protocol), ec);
-  if (s >= 0)
-    ec = boost::system::error_code();
+  int s = ::socket(af, type, protocol);
+  get_last_error(ec, s < 0);
   return s;
 #endif
 }
@@ -1470,7 +1882,7 @@ int setsockopt(socket_type s, state_type& state, int level, int optname,
       state |= enable_connection_aborted;
     else
       state &= ~enable_connection_aborted;
-    ec = boost::system::error_code();
+    ec.assign(0, ec.category());
     return 0;
   }
 
@@ -1486,24 +1898,24 @@ int setsockopt(socket_type s, state_type& state, int level, int optname,
     typedef int (WSAAPI *sso_t)(SOCKET, int, int, const char*, int);
     if (sso_t sso = (sso_t)::GetProcAddress(winsock_module, "setsockopt"))
     {
-      clear_last_error();
-      return error_wrapper(sso(s, level, optname,
+      int result = sso(s, level, optname,
             reinterpret_cast<const char*>(optval),
-            static_cast<int>(optlen)), ec);
+            static_cast<int>(optlen));
+      get_last_error(ec, result != 0);
+      return result;
     }
   }
   ec = boost::asio::error::fault;
   return socket_error_retval;
 #else // defined(__BORLANDC__)
-  clear_last_error();
-  int result = error_wrapper(call_setsockopt(&msghdr::msg_namelen,
-        s, level, optname, optval, optlen), ec);
+  int result = call_setsockopt(&msghdr::msg_namelen,
+        s, level, optname, optval, optlen);
+  get_last_error(ec, result != 0);
   if (result == 0)
   {
-    ec = boost::system::error_code();
-
 #if defined(__MACH__) && defined(__APPLE__) \
-  || defined(__NetBSD__) || defined(__FreeBSD__) || defined(__OpenBSD__)
+  || defined(__NetBSD__) || defined(__FreeBSD__) \
+  || defined(__OpenBSD__) || defined(__QNX__)
     // To implement portable behaviour for SO_REUSEADDR with UDP sockets we
     // need to also set SO_REUSEPORT on BSD-based platforms.
     if ((state & datagram_oriented)
@@ -1555,7 +1967,7 @@ int getsockopt(socket_type s, state_type state, int level, int optname,
     }
 
     *static_cast<int*>(optval) = (state & enable_connection_aborted) ? 1 : 0;
-    ec = boost::system::error_code();
+    ec.assign(0, ec.category());
     return 0;
   }
 
@@ -1568,10 +1980,10 @@ int getsockopt(socket_type s, state_type state, int level, int optname,
     typedef int (WSAAPI *gso_t)(SOCKET, int, int, char*, int*);
     if (gso_t gso = (gso_t)::GetProcAddress(winsock_module, "getsockopt"))
     {
-      clear_last_error();
       int tmp_optlen = static_cast<int>(*optlen);
-      int result = error_wrapper(gso(s, level, optname,
-            reinterpret_cast<char*>(optval), &tmp_optlen), ec);
+      int result = gso(s, level, optname,
+            reinterpret_cast<char*>(optval), &tmp_optlen);
+      get_last_error(ec, result != 0);
       *optlen = static_cast<size_t>(tmp_optlen);
       if (result != 0 && level == IPPROTO_IPV6 && optname == IPV6_V6ONLY
           && ec.value() == WSAENOPROTOOPT && *optlen == sizeof(DWORD))
@@ -1582,7 +1994,7 @@ int getsockopt(socket_type s, state_type state, int level, int optname,
         // value is non-zero (i.e. true). This corresponds to the behavior of
         // IPv6 sockets on Windows platforms pre-Vista.
         *static_cast<DWORD*>(optval) = 1;
-        ec = boost::system::error_code();
+        ec.assign(0, ec.category());
       }
       return result;
     }
@@ -1590,9 +2002,9 @@ int getsockopt(socket_type s, state_type state, int level, int optname,
   ec = boost::asio::error::fault;
   return socket_error_retval;
 #elif defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
-  clear_last_error();
-  int result = error_wrapper(call_getsockopt(&msghdr::msg_namelen,
-        s, level, optname, optval, optlen), ec);
+  int result = call_getsockopt(&msghdr::msg_namelen,
+        s, level, optname, optval, optlen);
+  get_last_error(ec, result != 0);
   if (result != 0 && level == IPPROTO_IPV6 && optname == IPV6_V6ONLY
       && ec.value() == WSAENOPROTOOPT && *optlen == sizeof(DWORD))
   {
@@ -1602,15 +2014,13 @@ int getsockopt(socket_type s, state_type state, int level, int optname,
     // non-zero (i.e. true). This corresponds to the behavior of IPv6 sockets
     // on Windows platforms pre-Vista.
     *static_cast<DWORD*>(optval) = 1;
-    ec = boost::system::error_code();
+    ec.assign(0, ec.category());
   }
-  if (result == 0)
-    ec = boost::system::error_code();
   return result;
 #else // defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
-  clear_last_error();
-  int result = error_wrapper(call_getsockopt(&msghdr::msg_namelen,
-        s, level, optname, optval, optlen), ec);
+  int result = call_getsockopt(&msghdr::msg_namelen,
+        s, level, optname, optval, optlen);
+  get_last_error(ec, result != 0);
 #if defined(__linux__)
   if (result == 0 && level == SOL_SOCKET && *optlen == sizeof(int)
       && (optname == SO_SNDBUF || optname == SO_RCVBUF))
@@ -1623,8 +2033,6 @@ int getsockopt(socket_type s, state_type state, int level, int optname,
     *static_cast<int*>(optval) /= 2;
   }
 #endif // defined(__linux__)
-  if (result == 0)
-    ec = boost::system::error_code();
   return result;
 #endif // defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
 }
@@ -1667,7 +2075,7 @@ int getpeername(socket_type s, socket_addr_type* addr,
     }
 
     // The cached value is still valid.
-    ec = boost::system::error_code();
+    ec.assign(0, ec.category());
     return 0;
   }
 #else // defined(BOOST_ASIO_WINDOWS) && !defined(BOOST_ASIO_WINDOWS_APP)
@@ -1676,11 +2084,8 @@ int getpeername(socket_type s, socket_addr_type* addr,
 #endif // defined(BOOST_ASIO_WINDOWS) && !defined(BOOST_ASIO_WINDOWS_APP)
        // || defined(__CYGWIN__)
 
-  clear_last_error();
-  int result = error_wrapper(call_getpeername(
-        &msghdr::msg_namelen, s, addr, addrlen), ec);
-  if (result == 0)
-    ec = boost::system::error_code();
+  int result = call_getpeername(&msghdr::msg_namelen, s, addr, addrlen);
+  get_last_error(ec, result != 0);
   return result;
 }
 
@@ -1703,11 +2108,8 @@ int getsockname(socket_type s, socket_addr_type* addr,
     return socket_error_retval;
   }
 
-  clear_last_error();
-  int result = error_wrapper(call_getsockname(
-        &msghdr::msg_namelen, s, addr, addrlen), ec);
-  if (result == 0)
-    ec = boost::system::error_code();
+  int result = call_getsockname(&msghdr::msg_namelen, s, addr, addrlen);
+  get_last_error(ec, result != 0);
   return result;
 }
 
@@ -1720,20 +2122,17 @@ int ioctl(socket_type s, state_type& state, int cmd,
     return socket_error_retval;
   }
 
-  clear_last_error();
 #if defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
-  int result = error_wrapper(::ioctlsocket(s, cmd, arg), ec);
+  int result = ::ioctlsocket(s, cmd, arg);
 #elif defined(__MACH__) && defined(__APPLE__) \
   || defined(__NetBSD__) || defined(__FreeBSD__) || defined(__OpenBSD__)
-  int result = error_wrapper(::ioctl(s,
-        static_cast<unsigned int>(cmd), arg), ec);
+  int result = ::ioctl(s, static_cast<unsigned int>(cmd), arg);
 #else
-  int result = error_wrapper(::ioctl(s, cmd, arg), ec);
+  int result = ::ioctl(s, cmd, arg);
 #endif
+  get_last_error(ec, result < 0);
   if (result >= 0)
   {
-    ec = boost::system::error_code();
-
     // When updating the non-blocking mode we always perform the ioctl syscall,
     // even if the flags would otherwise indicate that the socket is already in
     // the correct state. This ensures that the underlying socket is put into
@@ -1761,7 +2160,9 @@ int ioctl(socket_type s, state_type& state, int cmd,
 int select(int nfds, fd_set* readfds, fd_set* writefds,
     fd_set* exceptfds, timeval* timeout, boost::system::error_code& ec)
 {
-  clear_last_error();
+#if defined(__EMSCRIPTEN__)
+  exceptfds = 0;
+#endif // defined(__EMSCRIPTEN__)
 #if defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
   if (!readfds && !writefds && !exceptfds && timeout)
   {
@@ -1769,7 +2170,7 @@ int select(int nfds, fd_set* readfds, fd_set* writefds,
     if (milliseconds == 0)
       milliseconds = 1; // Force context switch.
     ::Sleep(milliseconds);
-    ec = boost::system::error_code();
+    ec.assign(0, ec.category());
     return 0;
   }
 
@@ -1788,15 +2189,13 @@ int select(int nfds, fd_set* readfds, fd_set* writefds,
   timespec ts;
   ts.tv_sec = timeout ? timeout->tv_sec : 0;
   ts.tv_nsec = timeout ? timeout->tv_usec * 1000 : 0;
-  return error_wrapper(::pselect(nfds, readfds,
-        writefds, exceptfds, timeout ? &ts : 0, 0), ec);
+  int result = ::pselect(nfds, readfds,
+        writefds, exceptfds, timeout ? &ts : 0, 0);
 #else
-  int result = error_wrapper(::select(nfds, readfds,
-        writefds, exceptfds, timeout), ec);
-  if (result >= 0)
-    ec = boost::system::error_code();
-  return result;
+  int result = ::select(nfds, readfds, writefds, exceptfds, timeout);
 #endif
+  get_last_error(ec, result < 0);
+  return result;
 }
 
 int poll_read(socket_type s, state_type state,
@@ -1830,8 +2229,8 @@ int poll_read(socket_type s, state_type state,
   }
   else
     timeout = 0;
-  clear_last_error();
-  int result = error_wrapper(::select(s + 1, &fds, 0, 0, timeout), ec);
+  int result = ::select(s + 1, &fds, 0, 0, timeout);
+  get_last_error(ec, result < 0);
 #else // defined(BOOST_ASIO_WINDOWS)
       // || defined(__CYGWIN__)
       // || defined(__SYMBIAN32__)
@@ -1840,16 +2239,14 @@ int poll_read(socket_type s, state_type state,
   fds.events = POLLIN;
   fds.revents = 0;
   int timeout = (state & user_set_non_blocking) ? 0 : msec;
-  clear_last_error();
-  int result = error_wrapper(::poll(&fds, 1, timeout), ec);
+  int result = ::poll(&fds, 1, timeout);
+  get_last_error(ec, result < 0);
 #endif // defined(BOOST_ASIO_WINDOWS)
        // || defined(__CYGWIN__)
        // || defined(__SYMBIAN32__)
   if (result == 0)
-    ec = (state & user_set_non_blocking)
-      ? boost::asio::error::would_block : boost::system::error_code();
-  else if (result > 0)
-    ec = boost::system::error_code();
+    if (state & user_set_non_blocking)
+      ec = boost::asio::error::would_block;
   return result;
 }
 
@@ -1884,8 +2281,8 @@ int poll_write(socket_type s, state_type state,
   }
   else
     timeout = 0;
-  clear_last_error();
-  int result = error_wrapper(::select(s + 1, 0, &fds, 0, timeout), ec);
+  int result = ::select(s + 1, 0, &fds, 0, timeout);
+  get_last_error(ec, result < 0);
 #else // defined(BOOST_ASIO_WINDOWS)
       // || defined(__CYGWIN__)
       // || defined(__SYMBIAN32__)
@@ -1894,16 +2291,14 @@ int poll_write(socket_type s, state_type state,
   fds.events = POLLOUT;
   fds.revents = 0;
   int timeout = (state & user_set_non_blocking) ? 0 : msec;
-  clear_last_error();
-  int result = error_wrapper(::poll(&fds, 1, timeout), ec);
+  int result = ::poll(&fds, 1, timeout);
+  get_last_error(ec, result < 0);
 #endif // defined(BOOST_ASIO_WINDOWS)
        // || defined(__CYGWIN__)
        // || defined(__SYMBIAN32__)
   if (result == 0)
-    ec = (state & user_set_non_blocking)
-      ? boost::asio::error::would_block : boost::system::error_code();
-  else if (result > 0)
-    ec = boost::system::error_code();
+    if (state & user_set_non_blocking)
+      ec = boost::asio::error::would_block;
   return result;
 }
 
@@ -1938,8 +2333,8 @@ int poll_error(socket_type s, state_type state,
   }
   else
     timeout = 0;
-  clear_last_error();
-  int result = error_wrapper(::select(s + 1, 0, 0, &fds, timeout), ec);
+  int result = ::select(s + 1, 0, 0, &fds, timeout);
+  get_last_error(ec, result < 0);
 #else // defined(BOOST_ASIO_WINDOWS)
       // || defined(__CYGWIN__)
       // || defined(__SYMBIAN32__)
@@ -1948,16 +2343,14 @@ int poll_error(socket_type s, state_type state,
   fds.events = POLLPRI | POLLERR | POLLHUP;
   fds.revents = 0;
   int timeout = (state & user_set_non_blocking) ? 0 : msec;
-  clear_last_error();
-  int result = error_wrapper(::poll(&fds, 1, timeout), ec);
+  int result = ::poll(&fds, 1, timeout);
+  get_last_error(ec, result < 0);
 #endif // defined(BOOST_ASIO_WINDOWS)
        // || defined(__CYGWIN__)
        // || defined(__SYMBIAN32__)
   if (result == 0)
-    ec = (state & user_set_non_blocking)
-      ? boost::asio::error::would_block : boost::system::error_code();
-  else if (result > 0)
-    ec = boost::system::error_code();
+    if (state & user_set_non_blocking)
+      ec = boost::asio::error::would_block;
   return result;
 }
 
@@ -1988,11 +2381,8 @@ int poll_connect(socket_type s, int msec, boost::system::error_code& ec)
   }
   else
     timeout = 0;
-  clear_last_error();
-  int result = error_wrapper(::select(
-        s + 1, 0, &write_fds, &except_fds, timeout), ec);
-  if (result >= 0)
-    ec = boost::system::error_code();
+  int result = ::select(s + 1, 0, &write_fds, &except_fds, timeout);
+  get_last_error(ec, result < 0);
   return result;
 #else // defined(BOOST_ASIO_WINDOWS)
       // || defined(__CYGWIN__)
@@ -2001,10 +2391,8 @@ int poll_connect(socket_type s, int msec, boost::system::error_code& ec)
   fds.fd = s;
   fds.events = POLLOUT;
   fds.revents = 0;
-  clear_last_error();
-  int result = error_wrapper(::poll(&fds, 1, msec), ec);
-  if (result >= 0)
-    ec = boost::system::error_code();
+  int result = ::poll(&fds, 1, msec);
+  get_last_error(ec, result < 0);
   return result;
 #endif // defined(BOOST_ASIO_WINDOWS)
        // || defined(__CYGWIN__)
@@ -2089,18 +2477,20 @@ const char* inet_ntop(int af, const void* src, char* dest, size_t length,
   DWORD string_length = static_cast<DWORD>(length);
 #if defined(BOOST_NO_ANSI_APIS) || (defined(_MSC_VER) && (_MSC_VER >= 1800))
   LPWSTR string_buffer = (LPWSTR)_alloca(length * sizeof(WCHAR));
-  int result = error_wrapper(::WSAAddressToStringW(&address.base,
-        address_length, 0, string_buffer, &string_length), ec);
+  int result = ::WSAAddressToStringW(&address.base,
+        address_length, 0, string_buffer, &string_length);
+  get_last_error(ec, true);
   ::WideCharToMultiByte(CP_ACP, 0, string_buffer, -1,
       dest, static_cast<int>(length), 0, 0);
 #else
-  int result = error_wrapper(::WSAAddressToStringA(
-        &address.base, address_length, 0, dest, &string_length), ec);
+  int result = ::WSAAddressToStringA(&address.base,
+      address_length, 0, dest, &string_length);
+  get_last_error(ec, true);
 #endif
 
   // Windows may set error code on success.
   if (result != socket_error_retval)
-    ec = boost::system::error_code();
+    ec.assign(0, ec.category());
 
   // Windows may not set an error code on failure.
   else if (result == socket_error_retval && !ec)
@@ -2108,14 +2498,14 @@ const char* inet_ntop(int af, const void* src, char* dest, size_t length,
 
   return result == socket_error_retval ? 0 : dest;
 #else // defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
-  const char* result = error_wrapper(::inet_ntop(
-        af, src, dest, static_cast<int>(length)), ec);
+  const char* result = ::inet_ntop(af, src, dest, static_cast<int>(length));
+  get_last_error(ec, true);
   if (result == 0 && !ec)
     ec = boost::asio::error::invalid_argument;
   if (result != 0 && af == BOOST_ASIO_OS_DEF(AF_INET6) && scope_id != 0)
   {
     using namespace std; // For strcat and sprintf.
-    char if_name[IF_NAMESIZE + 1] = "%";
+    char if_name[(IF_NAMESIZE > 21 ? IF_NAMESIZE : 21) + 1] = "%";
     const in6_addr_type* ipv6_address = static_cast<const in6_addr_type*>(src);
     bool is_link_local = ((ipv6_address->s6_addr[0] == 0xfe)
         && ((ipv6_address->s6_addr[1] & 0xc0) == 0x80));
@@ -2154,7 +2544,7 @@ int inet_pton(int af, const char* src, void* dest,
     bytes[1] = static_cast<unsigned char>(b1);
     bytes[2] = static_cast<unsigned char>(b2);
     bytes[3] = static_cast<unsigned char>(b3);
-    ec = boost::system::error_code();
+    ec.assign(), ec.category());
     return 1;
   }
   else if (af == BOOST_ASIO_OS_DEF(AF_INET6))
@@ -2270,7 +2660,7 @@ int inet_pton(int af, const char* src, void* dest,
     for (int i = 0; i < num_back_bytes; ++i)
       bytes[16 - num_back_bytes + i] = back_bytes[i];
 
-    ec = boost::system::error_code();
+    ec.assign(0, ec.category());
     return 1;
   }
   else
@@ -2299,11 +2689,13 @@ int inet_pton(int af, const char* src, void* dest,
   int num_wide_chars = static_cast<int>(strlen(src)) + 1;
   LPWSTR wide_buffer = (LPWSTR)_alloca(num_wide_chars * sizeof(WCHAR));
   ::MultiByteToWideChar(CP_ACP, 0, src, -1, wide_buffer, num_wide_chars);
-  int result = error_wrapper(::WSAStringToAddressW(
-        wide_buffer, af, 0, &address.base, &address_length), ec);
+  int result = ::WSAStringToAddressW(wide_buffer,
+      af, 0, &address.base, &address_length);
+  get_last_error(ec, true);
 #else
-  int result = error_wrapper(::WSAStringToAddressA(
-        const_cast<char*>(src), af, 0, &address.base, &address_length), ec);
+  int result = ::WSAStringToAddressA(const_cast<char*>(src),
+      af, 0, &address.base, &address_length);
+  get_last_error(ec, true);
 #endif
 
   if (af == BOOST_ASIO_OS_DEF(AF_INET))
@@ -2311,12 +2703,12 @@ int inet_pton(int af, const char* src, void* dest,
     if (result != socket_error_retval)
     {
       memcpy(dest, &address.v4.sin_addr, sizeof(in4_addr_type));
-      ec = boost::system::error_code();
+      ec.assign(0, ec.category());
     }
     else if (strcmp(src, "255.255.255.255") == 0)
     {
       static_cast<in4_addr_type*>(dest)->s_addr = INADDR_NONE;
-      ec = boost::system::error_code();
+      ec.assign(0, ec.category());
     }
   }
   else // AF_INET6
@@ -2326,7 +2718,7 @@ int inet_pton(int af, const char* src, void* dest,
       memcpy(dest, &address.v6.sin6_addr, sizeof(in6_addr_type));
       if (scope_id)
         *scope_id = address.v6.sin6_scope_id;
-      ec = boost::system::error_code();
+      ec.assign(0, ec.category());
     }
   }
 
@@ -2335,7 +2727,7 @@ int inet_pton(int af, const char* src, void* dest,
     ec = boost::asio::error::invalid_argument;
 
   if (result != socket_error_retval)
-    ec = boost::system::error_code();
+    ec.assign(0, ec.category());
 
   return result == socket_error_retval ? -1 : 1;
 #else // defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
@@ -2359,7 +2751,8 @@ int inet_pton(int af, const char* src, void* dest,
     src_ptr = src_buf;
   }
 
-  int result = error_wrapper(::inet_pton(af, src_ptr, dest), ec);
+  int result = ::inet_pton(af, src_ptr, dest);
+  get_last_error(ec, true);
   if (result <= 0 && !ec)
     ec = boost::asio::error::invalid_argument;
   if (result > 0 && is_v6 && scope_id)
@@ -2385,7 +2778,6 @@ int inet_pton(int af, const char* src, void* dest,
 
 int gethostname(char* name, int namelen, boost::system::error_code& ec)
 {
-  clear_last_error();
 #if defined(BOOST_ASIO_WINDOWS_RUNTIME)
   try
   {
@@ -2416,11 +2808,8 @@ int gethostname(char* name, int namelen, boost::system::error_code& ec)
     return -1;
   }
 #else // defined(BOOST_ASIO_WINDOWS_RUNTIME)
-  int result = error_wrapper(::gethostname(name, namelen), ec);
-# if defined(BOOST_ASIO_WINDOWS)
-  if (result == 0)
-    ec = boost::system::error_code();
-# endif // defined(BOOST_ASIO_WINDOWS)
+  int result = ::gethostname(name, namelen);
+  get_last_error(ec, result != 0);
   return result;
 #endif // defined(BOOST_ASIO_WINDOWS_RUNTIME)
 }
@@ -2455,20 +2844,20 @@ inline boost::system::error_code translate_netdb_error(int error)
 inline hostent* gethostbyaddr(const char* addr, int length, int af,
     hostent* result, char* buffer, int buflength, boost::system::error_code& ec)
 {
-  clear_last_error();
 #if defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
   (void)(buffer);
   (void)(buflength);
-  hostent* retval = error_wrapper(::gethostbyaddr(addr, length, af), ec);
+  hostent* retval = ::gethostbyaddr(addr, length, af);
+  get_last_error(ec, !retval);
   if (!retval)
     return 0;
-  ec = boost::system::error_code();
   *result = *retval;
   return retval;
 #elif defined(__sun) || defined(__QNX__)
   int error = 0;
-  hostent* retval = error_wrapper(::gethostbyaddr_r(addr, length, af, result,
-        buffer, buflength, &error), ec);
+  hostent* retval = ::gethostbyaddr_r(addr, length,
+      af, result, buffer, buflength, &error);
+  get_last_error(ec, !retval);
   if (error)
     ec = translate_netdb_error(error);
   return retval;
@@ -2476,8 +2865,8 @@ inline hostent* gethostbyaddr(const char* addr, int length, int af,
   (void)(buffer);
   (void)(buflength);
   int error = 0;
-  hostent* retval = error_wrapper(::getipnodebyaddr(
-        addr, length, af, &error), ec);
+  hostent* retval = ::getipnodebyaddr(addr, length, af, &error);
+  get_last_error(ec, !retval);
   if (error)
     ec = translate_netdb_error(error);
   if (!retval)
@@ -2487,8 +2876,10 @@ inline hostent* gethostbyaddr(const char* addr, int length, int af,
 #else
   hostent* retval = 0;
   int error = 0;
-  error_wrapper(::gethostbyaddr_r(addr, length, af, result, buffer,
-        buflength, &retval, &error), ec);
+  clear_last_error();
+  ::gethostbyaddr_r(addr, length, af, result,
+      buffer, buflength, &retval, &error);
+  get_last_error(ec, true);
   if (error)
     ec = translate_netdb_error(error);
   return retval;
@@ -2498,7 +2889,6 @@ inline hostent* gethostbyaddr(const char* addr, int length, int af,
 inline hostent* gethostbyname(const char* name, int af, struct hostent* result,
     char* buffer, int buflength, int ai_flags, boost::system::error_code& ec)
 {
-  clear_last_error();
 #if defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
   (void)(buffer);
   (void)(buflength);
@@ -2508,10 +2898,10 @@ inline hostent* gethostbyname(const char* name, int af, struct hostent* result,
     ec = boost::asio::error::address_family_not_supported;
     return 0;
   }
-  hostent* retval = error_wrapper(::gethostbyname(name), ec);
+  hostent* retval = ::gethostbyname(name);
+  get_last_error(ec, !retval);
   if (!retval)
     return 0;
-  ec = boost::system::error_code();
   *result = *retval;
   return result;
 #elif defined(__sun) || defined(__QNX__)
@@ -2522,8 +2912,8 @@ inline hostent* gethostbyname(const char* name, int af, struct hostent* result,
     return 0;
   }
   int error = 0;
-  hostent* retval = error_wrapper(::gethostbyname_r(name, result, buffer,
-        buflength, &error), ec);
+  hostent* retval = ::gethostbyname_r(name, result, buffer, buflength, &error);
+  get_last_error(ec, !retval);
   if (error)
     ec = translate_netdb_error(error);
   return retval;
@@ -2531,8 +2921,8 @@ inline hostent* gethostbyname(const char* name, int af, struct hostent* result,
   (void)(buffer);
   (void)(buflength);
   int error = 0;
-  hostent* retval = error_wrapper(::getipnodebyname(
-        name, af, ai_flags, &error), ec);
+  hostent* retval = ::getipnodebyname(name, af, ai_flags, &error);
+  get_last_error(ec, !retval);
   if (error)
     ec = translate_netdb_error(error);
   if (!retval)
@@ -2548,8 +2938,9 @@ inline hostent* gethostbyname(const char* name, int af, struct hostent* result,
   }
   hostent* retval = 0;
   int error = 0;
-  error_wrapper(::gethostbyname_r(name, result,
-        buffer, buflength, &retval, &error), ec);
+  clear_last_error();
+  ::gethostbyname_r(name, result, buffer, buflength, &retval, &error);
+  get_last_error(ec, true);
   if (error)
     ec = translate_netdb_error(error);
   return retval;
@@ -3265,7 +3656,7 @@ inline boost::system::error_code getnameinfo_emulation(
     }
   }
 
-  ec = boost::system::error_code();
+  ec.assign(0, ec.category());
   return ec;
 }
 

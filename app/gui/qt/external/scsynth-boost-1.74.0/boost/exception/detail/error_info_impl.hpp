@@ -3,8 +3,8 @@
 //Distributed under the Boost Software License, Version 1.0. (See accompanying
 //file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef UUID_CE6983AC753411DDA764247956D89593
-#define UUID_CE6983AC753411DDA764247956D89593
+#ifndef BOOST_EXCEPTION_CE6983AC753411DDA764247956D89593
+#define BOOST_EXCEPTION_CE6983AC753411DDA764247956D89593
 
 #include <boost/config.hpp>
 #ifndef BOOST_NO_CXX11_RVALUE_REFERENCES
@@ -13,11 +13,16 @@
 #include <utility>
 #include <string>
 
-#if (__GNUC__*100+__GNUC_MINOR__>301) && !defined(BOOST_EXCEPTION_ENABLE_WARNINGS)
+#ifndef BOOST_EXCEPTION_ENABLE_WARNINGS
+#if __GNUC__*100+__GNUC_MINOR__>301
 #pragma GCC system_header
 #endif
-#if defined(_MSC_VER) && !defined(BOOST_EXCEPTION_ENABLE_WARNINGS)
+#ifdef __clang__
+#pragma clang system_header
+#endif
+#ifdef _MSC_VER
 #pragma warning(push,1)
+#endif
 #endif
 
 namespace
@@ -35,7 +40,7 @@ boost
             virtual error_info_base * clone() const = 0;
 
             virtual
-            ~error_info_base() throw()
+            ~error_info_base() BOOST_NOEXCEPT_OR_NOTHROW
                 {
                 }
             };
@@ -46,7 +51,7 @@ boost
     error_info:
         public exception_detail::error_info_base
         {
-        error_info_base *
+        exception_detail::error_info_base *
         clone() const
             {
             return new error_info<Tag,T>(*this);
@@ -73,7 +78,7 @@ boost
             }
 #endif
 #endif
-        ~error_info() throw()
+        ~error_info() BOOST_NOEXCEPT_OR_NOTHROW
             {
             }
         value_type const &

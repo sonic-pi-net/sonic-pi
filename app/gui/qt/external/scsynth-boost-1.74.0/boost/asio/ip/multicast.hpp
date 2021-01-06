@@ -2,7 +2,7 @@
 // ip/multicast.hpp
 // ~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2017 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -33,7 +33,7 @@ namespace multicast {
  * @par Examples
  * Setting the option to join a multicast group:
  * @code
- * boost::asio::ip::udp::socket socket(io_context); 
+ * boost::asio::ip::udp::socket socket(my_context);
  * ...
  * boost::asio::ip::address multicast_address =
  *   boost::asio::ip::address::from_string("225.0.0.1");
@@ -61,7 +61,7 @@ typedef boost::asio::ip::detail::socket_option::multicast_request<
  * @par Examples
  * Setting the option to leave a multicast group:
  * @code
- * boost::asio::ip::udp::socket socket(io_context); 
+ * boost::asio::ip::udp::socket socket(my_context);
  * ...
  * boost::asio::ip::address multicast_address =
  *   boost::asio::ip::address::from_string("225.0.0.1");
@@ -89,7 +89,7 @@ typedef boost::asio::ip::detail::socket_option::multicast_request<
  * @par Examples
  * Setting the option:
  * @code
- * boost::asio::ip::udp::socket socket(io_context); 
+ * boost::asio::ip::udp::socket socket(my_context);
  * ...
  * boost::asio::ip::address_v4 local_interface =
  *   boost::asio::ip::address_v4::from_string("1.2.3.4");
@@ -117,7 +117,7 @@ typedef boost::asio::ip::detail::socket_option::network_interface<
  * @par Examples
  * Setting the option:
  * @code
- * boost::asio::ip::udp::socket socket(io_context); 
+ * boost::asio::ip::udp::socket socket(my_context);
  * ...
  * boost::asio::ip::multicast::hops option(4);
  * socket.set_option(option);
@@ -126,7 +126,7 @@ typedef boost::asio::ip::detail::socket_option::network_interface<
  * @par
  * Getting the current option value:
  * @code
- * boost::asio::ip::udp::socket socket(io_context); 
+ * boost::asio::ip::udp::socket socket(my_context);
  * ...
  * boost::asio::ip::multicast::hops option;
  * socket.get_option(option);
@@ -154,7 +154,7 @@ typedef boost::asio::ip::detail::socket_option::multicast_hops<
  * @par Examples
  * Setting the option:
  * @code
- * boost::asio::ip::udp::socket socket(io_context); 
+ * boost::asio::ip::udp::socket socket(my_context);
  * ...
  * boost::asio::ip::multicast::enable_loopback option(true);
  * socket.set_option(option);
@@ -163,7 +163,7 @@ typedef boost::asio::ip::detail::socket_option::multicast_hops<
  * @par
  * Getting the current option value:
  * @code
- * boost::asio::ip::udp::socket socket(io_context); 
+ * boost::asio::ip::udp::socket socket(my_context);
  * ...
  * boost::asio::ip::multicast::enable_loopback option;
  * socket.get_option(option);

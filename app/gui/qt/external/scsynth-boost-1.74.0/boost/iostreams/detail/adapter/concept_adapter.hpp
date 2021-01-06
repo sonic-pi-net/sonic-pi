@@ -117,8 +117,8 @@ public:
 
     std::streamsize optimal_buffer_size() const
     { return iostreams::optimal_buffer_size(t_); }
-public:
-    concept_adapter& operator=(const concept_adapter&);
+private:
+    BOOST_DELETED_FUNCTION(concept_adapter& operator=(const concept_adapter&));
     value_type t_;
 };
 

@@ -51,6 +51,15 @@ inline double lanczos13m53::lanczos_sum<double>(const double& x)
       static_cast<double>(23531376880.41075968857200767445163675473L),
       static_cast<double>(0u)
    };
+
+   static const double lim = 4.31965e+25; // By experiment, the largest x for which the SSE2 code does not go bad.
+
+   if (x > lim)
+   {
+      double z = 1 / x;
+      return ((((((((((((coeff[24] * z + coeff[22]) * z + coeff[20]) * z + coeff[18]) * z + coeff[16]) * z + coeff[14]) * z + coeff[12]) * z + coeff[10]) * z + coeff[8]) * z + coeff[6]) * z + coeff[4]) * z + coeff[2]) * z + coeff[0]) / ((((((((((((coeff[25] * z + coeff[23]) * z + coeff[21]) * z + coeff[19]) * z + coeff[17]) * z + coeff[15]) * z + coeff[13]) * z + coeff[11]) * z + coeff[9]) * z + coeff[7]) * z + coeff[5]) * z + coeff[3]) * z + coeff[1]);
+   }
+
    __m128d vx = _mm_load1_pd(&x);
    __m128d sum_even = _mm_load_pd(coeff);
    __m128d sum_odd = _mm_load_pd(coeff+2);
@@ -136,6 +145,15 @@ inline double lanczos13m53::lanczos_sum_expG_scaled<double>(const double& x)
          static_cast<double>(56906521.91347156388090791033559122686859L),
          static_cast<double>(0u)
    };
+
+   static const double lim = 4.76886e+25; // By experiment, the largest x for which the SSE2 code does not go bad.
+
+   if (x > lim)
+   {
+      double z = 1 / x;
+      return ((((((((((((coeff[24] * z + coeff[22]) * z + coeff[20]) * z + coeff[18]) * z + coeff[16]) * z + coeff[14]) * z + coeff[12]) * z + coeff[10]) * z + coeff[8]) * z + coeff[6]) * z + coeff[4]) * z + coeff[2]) * z + coeff[0]) / ((((((((((((coeff[25] * z + coeff[23]) * z + coeff[21]) * z + coeff[19]) * z + coeff[17]) * z + coeff[15]) * z + coeff[13]) * z + coeff[11]) * z + coeff[9]) * z + coeff[7]) * z + coeff[5]) * z + coeff[3]) * z + coeff[1]);
+   }
+
    __m128d vx = _mm_load1_pd(&x);
    __m128d sum_even = _mm_load_pd(coeff);
    __m128d sum_odd = _mm_load_pd(coeff+2);

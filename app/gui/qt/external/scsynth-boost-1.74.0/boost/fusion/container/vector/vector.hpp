@@ -168,8 +168,14 @@ namespace boost { namespace fusion
                 : elem(std::forward<U>(rhs))
             {}
 
+            using elem_type = T;
             T elem;
         };
+
+        // placed outside of vector_data due to GCC < 6 bug
+        template <std::size_t J, typename U>
+        static inline BOOST_FUSION_GPU_ENABLED
+        store<J, U> store_at_impl(store<J, U>*);
 
         template <typename I, typename ...T>
         struct vector_data;
@@ -231,32 +237,23 @@ namespace boost { namespace fusion
                 assign(std::forward<Sequence>(seq), detail::index_sequence<M...>());
             }
 
-            template <std::size_t N, typename U>
-            static BOOST_CXX14_CONSTEXPR BOOST_FUSION_GPU_ENABLED
-            U& at_detail(store<N, U>* this_)
-            {
-                return this_->elem;
-            }
+        private:
+            template <std::size_t J>
+            using store_at = decltype(store_at_impl<J>(static_cast<vector_data*>(nullptr)));
 
-            template <std::size_t N, typename U>
-            static BOOST_CONSTEXPR BOOST_FUSION_GPU_ENABLED
-            U const& at_detail(store<N, U> const* this_)
-            {
-                return this_->elem;
-            }
-
+        public:
             template <typename J>
             BOOST_CXX14_CONSTEXPR BOOST_FUSION_GPU_ENABLED
-            auto at_impl(J) -> decltype(at_detail<J::value>(this))
+            typename store_at<J::value>::elem_type& at_impl(J)
             {
-                return at_detail<J::value>(this);
+                return store_at<J::value>::elem;
             }
 
             template <typename J>
             BOOST_CONSTEXPR BOOST_FUSION_GPU_ENABLED
-            auto at_impl(J) const -> decltype(at_detail<J::value>(this))
+            typename store_at<J::value>::elem_type const& at_impl(J) const
             {
-                return at_detail<J::value>(this);
+                return store_at<J::value>::elem;
             }
         };
     } // namespace boost::fusion::vector_detail

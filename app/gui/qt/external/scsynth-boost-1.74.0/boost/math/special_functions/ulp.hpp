@@ -18,7 +18,7 @@
 namespace boost{ namespace math{ namespace detail{
 
 template <class T, class Policy>
-T ulp_imp(const T& val, const mpl::true_&, const Policy& pol)
+T ulp_imp(const T& val, const boost::true_type&, const Policy& pol)
 {
    BOOST_MATH_STD_USING
    int expon;
@@ -50,7 +50,7 @@ T ulp_imp(const T& val, const mpl::true_&, const Policy& pol)
 }
 // non-binary version:
 template <class T, class Policy>
-T ulp_imp(const T& val, const mpl::false_&, const Policy& pol)
+T ulp_imp(const T& val, const boost::false_type&, const Policy& pol)
 {
    BOOST_STATIC_ASSERT(std::numeric_limits<T>::is_specialized);
    BOOST_STATIC_ASSERT(std::numeric_limits<T>::radix != 2);
@@ -89,7 +89,7 @@ template <class T, class Policy>
 inline typename tools::promote_args<T>::type ulp(const T& val, const Policy& pol)
 {
    typedef typename tools::promote_args<T>::type result_type;
-   return detail::ulp_imp(static_cast<result_type>(val), mpl::bool_<!std::numeric_limits<result_type>::is_specialized || (std::numeric_limits<result_type>::radix == 2)>(), pol);
+   return detail::ulp_imp(static_cast<result_type>(val), boost::integral_constant<bool, !std::numeric_limits<result_type>::is_specialized || (std::numeric_limits<result_type>::radix == 2)>(), pol);
 }
 
 template <class T>

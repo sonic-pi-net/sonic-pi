@@ -152,7 +152,16 @@ namespace boost { namespace program_options {
         {
             boost::throw_exception(reading_file(filename));
         }
-        return parse_config_file(strm, desc, allow_unregistered);
+
+        basic_parsed_options<charT> result
+                = parse_config_file(strm, desc, allow_unregistered);
+
+        if (strm.bad())
+        {
+            boost::throw_exception(reading_file(filename));
+        }
+
+        return result;
     }
 
     template

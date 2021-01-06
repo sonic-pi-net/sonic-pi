@@ -66,6 +66,10 @@ const char* names[] = {
 
 typedef boost::basic_regex<char, c_regex_traits<char> > c_regex_type;
 
+#ifdef BOOST_MSVC
+#  pragma warning(push)
+#pragma warning(disable:26812)
+#endif
 BOOST_REGEX_DECL int BOOST_REGEX_CCALL regcompA(regex_tA* expression, const char* ptr, int f)
 {
 #ifndef BOOST_NO_EXCEPTIONS
@@ -140,6 +144,9 @@ BOOST_REGEX_DECL int BOOST_REGEX_CCALL regcompA(regex_tA* expression, const char
    return result;
 
 }
+#ifdef BOOST_MSVC
+#  pragma warning(pop)
+#endif
 
 BOOST_REGEX_DECL regsize_t BOOST_REGEX_CCALL regerrorA(int code, const regex_tA* e, char* buf, regsize_t buf_size)
 {

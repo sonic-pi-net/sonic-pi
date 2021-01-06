@@ -7,7 +7,7 @@
 
 //  Library home page: http://www.boost.org/libs/filesystem
 
-//--------------------------------------------------------------------------------------// 
+//--------------------------------------------------------------------------------------//
 
 #ifndef BOOST_FILESYSTEM3_CONFIG_HPP
 #define BOOST_FILESYSTEM3_CONFIG_HPP
@@ -61,9 +61,9 @@
 #endif
 
 #if defined(BOOST_ALL_DYN_LINK) && !defined(BOOST_FILESYSTEM_DYN_LINK)
-# define BOOST_FILESYSTEM_DYN_LINK 
+# define BOOST_FILESYSTEM_DYN_LINK
 #elif defined(BOOST_ALL_STATIC_LINK) && !defined(BOOST_FILESYSTEM_STATIC_LINK)
-# define BOOST_FILESYSTEM_STATIC_LINK 
+# define BOOST_FILESYSTEM_STATIC_LINK
 #endif
 
 #if defined(BOOST_FILESYSTEM_DYN_LINK) && defined(BOOST_FILESYSTEM_STATIC_LINK)
@@ -71,7 +71,7 @@
 #endif
 
 #if defined(BOOST_ALL_NO_LIB) && !defined(BOOST_FILESYSTEM_NO_LIB)
-# define BOOST_FILESYSTEM_NO_LIB 
+# define BOOST_FILESYSTEM_NO_LIB
 #endif
 
 //  enable dynamic linking  ------------------------------------------------------------//
@@ -79,14 +79,14 @@
 #if defined(BOOST_ALL_DYN_LINK) || defined(BOOST_FILESYSTEM_DYN_LINK)
 # if defined(BOOST_FILESYSTEM_SOURCE)
 #   define BOOST_FILESYSTEM_DECL BOOST_SYMBOL_EXPORT
-# else 
+# else
 #   define BOOST_FILESYSTEM_DECL BOOST_SYMBOL_IMPORT
 # endif
 #else
 # define BOOST_FILESYSTEM_DECL
 #endif
 
-//  enable automatic library variant selection  ----------------------------------------// 
+//  enable automatic library variant selection  ----------------------------------------//
 
 #if !defined(BOOST_FILESYSTEM_SOURCE) && !defined(BOOST_ALL_NO_LIB) \
   && !defined(BOOST_FILESYSTEM_NO_LIB)

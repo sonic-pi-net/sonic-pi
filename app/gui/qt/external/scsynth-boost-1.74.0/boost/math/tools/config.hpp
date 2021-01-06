@@ -11,7 +11,7 @@
 #endif
 
 #include <boost/config.hpp>
-#include <boost/predef.h>
+#include <boost/predef/architecture/x86.h>
 #include <boost/cstdint.hpp> // for boost::uintmax_t
 #include <boost/detail/workaround.hpp>
 #include <boost/type_traits/is_integral.hpp>
@@ -31,7 +31,7 @@
 #if (defined(__CYGWIN__) || defined(__FreeBSD__) || defined(__NetBSD__) \
    || (defined(__hppa) && !defined(__OpenBSD__)) || (defined(__NO_LONG_DOUBLE_MATH) && (DBL_MANT_DIG != LDBL_MANT_DIG))) \
    && !defined(BOOST_MATH_NO_LONG_DOUBLE_MATH_FUNCTIONS)
-//#  define BOOST_MATH_NO_LONG_DOUBLE_MATH_FUNCTIONS
+#  define BOOST_MATH_NO_LONG_DOUBLE_MATH_FUNCTIONS
 #endif
 #if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x582))
 //
@@ -46,7 +46,7 @@
 #endif
 #ifdef __IBMCPP__
 //
-// For reasons I don't unserstand, the tests with IMB's compiler all
+// For reasons I don't understand, the tests with IMB's compiler all
 // pass at long double precision, but fail with real_concept, those tests
 // are disabled for now.  (JM 2012).
 #  define BOOST_MATH_NO_REAL_CONCEPT_TESTS
@@ -184,10 +184,20 @@
 //
 #ifdef BOOST_MSVC
 #  define BOOST_MATH_POLY_METHOD 2
+#if BOOST_MSVC <= 1900
 #  define BOOST_MATH_RATIONAL_METHOD 1
+#else
+#  define BOOST_MATH_RATIONAL_METHOD 2
+#endif
+#if BOOST_MSVC > 1900
+#  define BOOST_MATH_INT_TABLE_TYPE(RT, IT) RT
+#  define BOOST_MATH_INT_VALUE_SUFFIX(RV, SUF) RV##.0L
+#endif
+
 #elif defined(BOOST_INTEL)
 #  define BOOST_MATH_POLY_METHOD 2
 #  define BOOST_MATH_RATIONAL_METHOD 1
+
 #elif defined(__GNUC__)
 #if __GNUC__ < 4
 #  define BOOST_MATH_POLY_METHOD 3
@@ -196,8 +206,18 @@
 #  define BOOST_MATH_INT_VALUE_SUFFIX(RV, SUF) RV##.0L
 #else
 #  define BOOST_MATH_POLY_METHOD 3
-#  define BOOST_MATH_RATIONAL_METHOD 1
+#  define BOOST_MATH_RATIONAL_METHOD 3
 #endif
+
+#elif defined(__clang__)
+
+#if __clang__ > 6
+#  define BOOST_MATH_POLY_METHOD 3
+#  define BOOST_MATH_RATIONAL_METHOD 3
+#  define BOOST_MATH_INT_TABLE_TYPE(RT, IT) RT
+#  define BOOST_MATH_INT_VALUE_SUFFIX(RV, SUF) RV##.0L
+#endif
+
 #endif
 
 #if defined(BOOST_NO_LONG_LONG) && !defined(BOOST_MATH_INT_TABLE_TYPE)
@@ -209,7 +229,7 @@
 // constexpr support, early GCC implementations can't cope so disable
 // constexpr for them:
 //
-#if !defined(__clang) && defined(__GNUC__)
+#if !defined(__clang__) && defined(__GNUC__)
 #if (__GNUC__ * 100 + __GNUC_MINOR__) < 490
 #  define BOOST_MATH_DISABLE_CONSTEXPR
 #endif
@@ -450,6 +470,17 @@ namespace boost{ namespace math{
 #else
 #  define BOOST_MATH_THREAD_LOCAL
 #endif
+
+//
+// Can we have constexpr tables?
+//
+#if (!defined(BOOST_NO_CXX11_HDR_ARRAY) && !defined(BOOST_NO_CXX14_CONSTEXPR)) || BOOST_WORKAROUND(BOOST_MSVC, >= 1910)
+#define BOOST_MATH_HAVE_CONSTEXPR_TABLES
+#define BOOST_MATH_CONSTEXPR_TABLE_FUNCTION constexpr
+#else
+#define BOOST_MATH_CONSTEXPR_TABLE_FUNCTION
+#endif
+
 
 #endif // BOOST_MATH_TOOLS_CONFIG_HPP
 

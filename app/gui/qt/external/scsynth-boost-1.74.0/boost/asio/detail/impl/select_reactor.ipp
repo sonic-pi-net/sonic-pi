@@ -2,7 +2,7 @@
 // detail/impl/select_reactor.ipp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2017 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -81,13 +81,14 @@ void select_reactor::shutdown()
   shutdown_ = true;
 #if defined(BOOST_ASIO_HAS_IOCP)
   stop_thread_ = true;
+  if (thread_)
+    interrupter_.interrupt();
 #endif // defined(BOOST_ASIO_HAS_IOCP)
   lock.unlock();
 
 #if defined(BOOST_ASIO_HAS_IOCP)
   if (thread_)
   {
-    interrupter_.interrupt();
     thread_->join();
     delete thread_;
     thread_ = 0;
@@ -240,7 +241,11 @@ void select_reactor::run(long usec, op_queue<operation>& ops)
   // Reset the interrupter.
   if (retval > 0 && fd_sets_[read_op].is_set(interrupter_.read_descriptor()))
   {
-    interrupter_.reset();
+    if (!interrupter_.reset())
+    {
+      lock.lock();
+      interrupter_.recreate();
+    }
     --retval;
   }
 

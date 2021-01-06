@@ -49,21 +49,21 @@ namespace boost { namespace program_options {
     }
     
     option_description::
-    option_description(const char* name,
+    option_description(const char* names,
                        const value_semantic* s)
     : m_value_semantic(s)
     {
-        this->set_name(name);
+        this->set_names(names);
     }
                                            
 
     option_description::
-    option_description(const char* name,
+    option_description(const char* names,
                        const value_semantic* s,
                        const char* description)
     : m_description(description), m_value_semantic(s)
     {
-        this->set_name(name);
+        this->set_names(names);
     }
 
     option_description::~option_description()
@@ -77,38 +77,42 @@ namespace boost { namespace program_options {
                               bool short_ignore_case) const
     {
         match_result result = no_match;        
+        std::string local_option = (long_ignore_case ? tolower_(option) : option);
         
-        std::string local_long_name((long_ignore_case ? tolower_(m_long_name) : m_long_name));
-        
-        if (!local_long_name.empty()) {
-        
-            std::string local_option = (long_ignore_case ? tolower_(option) : option);
+        for(std::vector<std::string>::const_iterator it(m_long_names.begin()); it != m_long_names.end(); it++)
+        {
+            std::string local_long_name((long_ignore_case ? tolower_(*it) : *it));
 
-            if (*local_long_name.rbegin() == '*')
-            {
-                // The name ends with '*'. Any specified name with the given
-                // prefix is OK.
-                if (local_option.find(local_long_name.substr(0, local_long_name.length()-1))
-                    == 0)
-                    result = approximate_match;
-            }
+            if (!local_long_name.empty()) {
 
-            if (local_long_name == local_option)
-            {
-                result = full_match;
-            }
-            else if (approx)
-            {
-                if (local_long_name.find(local_option) == 0)
+
+                if ((result == no_match) && (*local_long_name.rbegin() == '*'))
                 {
-                    result = approximate_match;
+                    // The name ends with '*'. Any specified name with the given
+                    // prefix is OK.
+                    if (local_option.find(local_long_name.substr(0, local_long_name.length()-1))
+                        == 0)
+                        result = approximate_match;
+                }
+
+                if (local_long_name == local_option)
+                {
+                    result = full_match;
+                    break;
+                }
+                else if (approx)
+                {
+                    if (local_long_name.find(local_option) == 0)
+                    {
+                        result = approximate_match;
+                    }
                 }
             }
+
         }
-         
+
         if (result != full_match)
         {
-            std::string local_option(short_ignore_case ? tolower_(option) : option);
             std::string local_short_name(short_ignore_case ? tolower_(m_short_name) : m_short_name);
 
             if (local_short_name == local_option)
@@ -122,9 +126,12 @@ namespace boost { namespace program_options {
 
     const std::string& 
     option_description::key(const std::string& option) const
-    {        
-        if (!m_long_name.empty()) 
-            if (m_long_name.find('*') != string::npos)
+    {
+        // We make the arbitrary choise of using the first long
+        // name as the key, regardless of anything else
+        if (!m_long_names.empty()) {
+            const std::string& first_long_name = *m_long_names.begin();
+            if (first_long_name.find('*') != string::npos)
                 // The '*' character means we're long_name
                 // matches only part of the input. So, returning
                 // long name will remove some of the information,
@@ -132,7 +139,8 @@ namespace boost { namespace program_options {
                 // in the source.
                 return option;
             else
-                return m_long_name;
+                return first_long_name;
+        }
         else
             return m_short_name;
     }
@@ -140,12 +148,13 @@ namespace boost { namespace program_options {
     std::string 
     option_description::canonical_display_name(int prefix_style) const
     {
-        if (!m_long_name.empty()) 
+        // We prefer the first long name over any others
+        if (!m_long_names.empty())
         {
             if (prefix_style == command_line_style::allow_long)
-                return "--" + m_long_name;
+                return "--" + *m_long_names.begin();
             if (prefix_style == command_line_style::allow_long_disguise)
-                return "-" + m_long_name;
+                return "-" + *m_long_names.begin();
         }
         // sanity check: m_short_name[0] should be '-' or '/'
         if (m_short_name.length() == 2)
@@ -155,8 +164,8 @@ namespace boost { namespace program_options {
             if (prefix_style == command_line_style::allow_dash_for_short)
                 return string("-") + m_short_name[1];
         }
-        if (!m_long_name.empty()) 
-            return m_long_name;
+        if (!m_long_names.empty())
+            return *m_long_names.begin();
         else
             return m_short_name;
     }
@@ -165,21 +174,47 @@ namespace boost { namespace program_options {
     const std::string&
     option_description::long_name() const
     {
-        return m_long_name;
+        static std::string empty_string("");
+        return m_long_names.empty() ? empty_string : *m_long_names.begin();
+    }
+
+    const std::pair<const std::string*, std::size_t>
+    option_description::long_names() const
+    {
+        // reinterpret_cast is to please msvc 10.
+        return (m_long_names.empty())
+            ? std::pair<const std::string*, size_t>(reinterpret_cast<const std::string*>(0), 0 )
+            : std::pair<const std::string*, size_t>( &(*m_long_names.begin()), m_long_names.size());
     }
 
     option_description&
-    option_description::set_name(const char* _name)
+    option_description::set_names(const char* _names)
     {
-        std::string name(_name);
-        string::size_type n = name.find(',');
-        if (n != string::npos) {
-            assert(n == name.size()-2);
-            m_long_name = name.substr(0, n);
-            m_short_name = '-' + name.substr(n+1,1);
-        } else {
-            m_long_name = name;
+        m_long_names.clear();
+        std::istringstream iss(_names);
+        std::string name;
+
+        while(std::getline(iss, name, ',')) {
+            m_long_names.push_back(name);
         }
+        assert(!m_long_names.empty() && "No option names were specified");
+
+        bool try_interpreting_last_name_as_a_switch = m_long_names.size() > 1;
+        if (try_interpreting_last_name_as_a_switch) {
+            const std::string& last_name = *m_long_names.rbegin();
+            if (last_name.length() == 1) {
+                m_short_name = '-' + last_name;
+                m_long_names.pop_back();
+                // The following caters to the (valid) input of ",c" for some
+                // character c, where the caller only wants this option to have
+                // a short name.
+                if (m_long_names.size() == 1 && (*m_long_names.begin()).empty()) {
+                    m_long_names.clear();
+                }
+            }
+        }
+        // We could theoretically also ensure no remaining long names
+        // are empty, or that none of them have length 1
         return *this;
     }
 
@@ -200,12 +235,12 @@ namespace boost { namespace program_options {
     {
         if (!m_short_name.empty())
         {
-            return m_long_name.empty() 
+            return m_long_names.empty()
                 ? m_short_name 
                 : string(m_short_name).append(" [ --").
-                  append(m_long_name).append(" ]");
+                  append(*m_long_names.begin()).append(" ]");
         }
-        return string("--").append(m_long_name);
+        return string("--").append(*m_long_names.begin());
     }
 
     std::string 

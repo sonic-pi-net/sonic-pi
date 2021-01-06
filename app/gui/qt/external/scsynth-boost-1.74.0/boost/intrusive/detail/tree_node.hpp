@@ -50,7 +50,7 @@ struct tree_node_traits
    BOOST_INTRUSIVE_FORCEINLINE static node_ptr get_parent(const node_ptr & n)
    {  return n->parent_;  }
 
-   BOOST_INTRUSIVE_FORCEINLINE static void set_parent(const node_ptr & n, const node_ptr & p)
+   BOOST_INTRUSIVE_FORCEINLINE static void set_parent(node_ptr n, node_ptr p)
    {  n->parent_ = p;  }
 
    BOOST_INTRUSIVE_FORCEINLINE static node_ptr get_left(const const_node_ptr & n)
@@ -59,7 +59,7 @@ struct tree_node_traits
    BOOST_INTRUSIVE_FORCEINLINE static node_ptr get_left(const node_ptr & n)
    {  return n->left_;  }
 
-   BOOST_INTRUSIVE_FORCEINLINE static void set_left(const node_ptr & n, const node_ptr & l)
+   BOOST_INTRUSIVE_FORCEINLINE static void set_left(node_ptr n, node_ptr l)
    {  n->left_ = l;  }
 
    BOOST_INTRUSIVE_FORCEINLINE static node_ptr get_right(const const_node_ptr & n)
@@ -68,7 +68,7 @@ struct tree_node_traits
    BOOST_INTRUSIVE_FORCEINLINE static node_ptr get_right(const node_ptr & n)
    {  return n->right_;  }
 
-   BOOST_INTRUSIVE_FORCEINLINE static void set_right(const node_ptr & n, const node_ptr & r)
+   BOOST_INTRUSIVE_FORCEINLINE static void set_right(node_ptr n, node_ptr r)
    {  n->right_ = r;  }
 };
 

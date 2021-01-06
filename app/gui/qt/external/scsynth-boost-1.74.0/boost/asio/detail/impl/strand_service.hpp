@@ -2,7 +2,7 @@
 // detail/impl/strand_service.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2017 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -36,7 +36,7 @@ inline strand_service::strand_impl::strand_impl()
 
 struct strand_service::on_dispatch_exit
 {
-  io_context_impl* io_context_;
+  io_context_impl* io_context_impl_;
   strand_impl* impl_;
 
   ~on_dispatch_exit()
@@ -47,7 +47,7 @@ struct strand_service::on_dispatch_exit
     impl_->mutex_.unlock();
 
     if (more_handlers)
-      io_context_->post_immediate_completion(impl_, false);
+      io_context_impl_->post_immediate_completion(impl_, false);
   }
 };
 
@@ -64,10 +64,10 @@ void strand_service::dispatch(strand_service::implementation_type& impl,
   }
 
   // Allocate and construct an operation to wrap the handler.
-  typedef completion_handler<Handler> op;
+  typedef completion_handler<Handler, io_context::executor_type> op;
   typename op::ptr p = { boost::asio::detail::addressof(handler),
     op::ptr::allocate(handler), 0 };
-  p.p = new (p.v) op(handler);
+  p.p = new (p.v) op(handler, io_context_.get_executor());
 
   BOOST_ASIO_HANDLER_CREATION((this->context(),
         *p.p, "strand", impl, 0, "dispatch"));
@@ -82,11 +82,10 @@ void strand_service::dispatch(strand_service::implementation_type& impl,
     call_stack<strand_impl>::context ctx(impl);
 
     // Ensure the next handler, if any, is scheduled on block exit.
-    on_dispatch_exit on_exit = { &io_context_, impl };
+    on_dispatch_exit on_exit = { &io_context_impl_, impl };
     (void)on_exit;
 
-    completion_handler<Handler>::do_complete(
-        &io_context_, o, boost::system::error_code(), 0);
+    op::do_complete(&io_context_impl_, o, boost::system::error_code(), 0);
   }
 }
 
@@ -99,10 +98,10 @@ void strand_service::post(strand_service::implementation_type& impl,
     boost_asio_handler_cont_helpers::is_continuation(handler);
 
   // Allocate and construct an operation to wrap the handler.
-  typedef completion_handler<Handler> op;
+  typedef completion_handler<Handler, io_context::executor_type> op;
   typename op::ptr p = { boost::asio::detail::addressof(handler),
     op::ptr::allocate(handler), 0 };
-  p.p = new (p.v) op(handler);
+  p.p = new (p.v) op(handler, io_context_.get_executor());
 
   BOOST_ASIO_HANDLER_CREATION((this->context(),
         *p.p, "strand", impl, 0, "post"));

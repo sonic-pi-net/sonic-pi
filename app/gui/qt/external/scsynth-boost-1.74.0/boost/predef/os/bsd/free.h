@@ -10,19 +10,20 @@ http://www.boost.org/LICENSE_1_0.txt)
 
 #include <boost/predef/os/bsd.h>
 
-/*`
-[heading `BOOST_OS_BSD_FREE`]
+/* tag::reference[]
+= `BOOST_OS_BSD_FREE`
 
-[@http://en.wikipedia.org/wiki/Freebsd FreeBSD] operating system.
+http://en.wikipedia.org/wiki/Freebsd[FreeBSD] operating system.
 
-[table
-    [[__predef_symbol__] [__predef_version__]]
+[options="header"]
+|===
+| {predef_symbol} | {predef_version}
 
-    [[`__FreeBSD__`] [__predef_detection__]]
+| `+__FreeBSD__+` | {predef_detection}
 
-    [[`__FreeBSD_version`] [V.R.P]]
-    ]
- */
+| `+__FreeBSD_version+` | V.R.P
+|===
+*/ // end::reference[]
 
 #define BOOST_OS_BSD_FREE BOOST_VERSION_NUMBER_NOT_AVAILABLE
 

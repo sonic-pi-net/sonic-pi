@@ -18,23 +18,31 @@
 
 #if _WIN32_WCE >= 0x600
 
-extern "C" long __cdecl _InterlockedCompareExchange( long volatile *, long, long );
-extern "C" long __cdecl _InterlockedExchangeAdd( long volatile *, long );
-extern "C" long __cdecl _InterlockedExchange( long volatile *, long );
+extern "C" long __cdecl _InterlockedCompareExchange(long volatile*, long, long);
+extern "C" long __cdecl _InterlockedExchangeAdd(long volatile*, long);
+extern "C" long __cdecl _InterlockedExchange(long volatile*, long);
+extern "C" long __cdecl _InterlockedIncrement(long volatile*);
+extern "C" long __cdecl _InterlockedDecrement(long volatile*);
 
 #define BOOST_ATOMIC_INTERLOCKED_COMPARE_EXCHANGE(dest, exchange, compare) _InterlockedCompareExchange((long*)(dest), exchange, compare)
 #define BOOST_ATOMIC_INTERLOCKED_EXCHANGE_ADD(dest, addend) _InterlockedExchangeAdd((long*)(dest), (long)(addend))
 #define BOOST_ATOMIC_INTERLOCKED_EXCHANGE(dest, newval) _InterlockedExchange((long*)(dest), (long)(newval))
+#define BOOST_ATOMIC_INTERLOCKED_INCREMENT(dest) _InterlockedIncrement((long*)(dest))
+#define BOOST_ATOMIC_INTERLOCKED_DECREMENT(dest) _InterlockedDecrement((long*)(dest))
 
 #else // _WIN32_WCE >= 0x600
 
-extern "C" long __cdecl InterlockedCompareExchange( long*, long, long );
-extern "C" long __cdecl InterlockedExchangeAdd( long*, long );
-extern "C" long __cdecl InterlockedExchange( long*, long );
+extern "C" long __cdecl InterlockedCompareExchange(long*, long, long);
+extern "C" long __cdecl InterlockedExchangeAdd(long*, long);
+extern "C" long __cdecl InterlockedExchange(long*, long);
+extern "C" long __cdecl InterlockedIncrement(long*);
+extern "C" long __cdecl InterlockedDecrement(long*);
 
 #define BOOST_ATOMIC_INTERLOCKED_COMPARE_EXCHANGE(dest, exchange, compare) InterlockedCompareExchange((long*)(dest), exchange, compare)
 #define BOOST_ATOMIC_INTERLOCKED_EXCHANGE_ADD(dest, addend) InterlockedExchangeAdd((long*)(dest), (long)(addend))
 #define BOOST_ATOMIC_INTERLOCKED_EXCHANGE(dest, newval) InterlockedExchange((long*)(dest), (long)(newval))
+#define BOOST_ATOMIC_INTERLOCKED_INCREMENT(dest) InterlockedIncrement((long*)(dest))
+#define BOOST_ATOMIC_INTERLOCKED_DECREMENT(dest) InterlockedDecrement((long*)(dest))
 
 #endif // _WIN32_WCE >= 0x600
 
@@ -45,19 +53,25 @@ extern "C" long __cdecl InterlockedExchange( long*, long );
 
 #if _MSC_VER < 1400
 
-extern "C" long __cdecl _InterlockedCompareExchange( long volatile *, long, long );
-extern "C" long __cdecl _InterlockedExchangeAdd( long volatile *, long );
-extern "C" long __cdecl _InterlockedExchange( long volatile *, long );
+extern "C" long __cdecl _InterlockedCompareExchange(long volatile*, long, long);
+extern "C" long __cdecl _InterlockedExchangeAdd(long volatile*, long);
+extern "C" long __cdecl _InterlockedExchange(long volatile*, long);
+extern "C" long __cdecl _InterlockedIncrement(long volatile*);
+extern "C" long __cdecl _InterlockedDecrement(long volatile*);
 
 #if defined(BOOST_MSVC)
 #pragma intrinsic(_InterlockedCompareExchange)
 #pragma intrinsic(_InterlockedExchangeAdd)
 #pragma intrinsic(_InterlockedExchange)
+#pragma intrinsic(_InterlockedIncrement)
+#pragma intrinsic(_InterlockedDecrement)
 #endif
 
 #define BOOST_ATOMIC_INTERLOCKED_COMPARE_EXCHANGE(dest, exchange, compare) _InterlockedCompareExchange((long*)(dest), exchange, compare)
 #define BOOST_ATOMIC_INTERLOCKED_EXCHANGE_ADD(dest, addend) _InterlockedExchangeAdd((long*)(dest), (long)(addend))
 #define BOOST_ATOMIC_INTERLOCKED_EXCHANGE(dest, newval) _InterlockedExchange((long*)(dest), (long)(newval))
+#define BOOST_ATOMIC_INTERLOCKED_INCREMENT(dest) _InterlockedIncrement((long*)(dest))
+#define BOOST_ATOMIC_INTERLOCKED_DECREMENT(dest) _InterlockedDecrement((long*)(dest))
 
 #define BOOST_ATOMIC_INTERLOCKED_COMPARE_EXCHANGE_POINTER(dest, exchange, compare) ((void*)BOOST_ATOMIC_INTERLOCKED_COMPARE_EXCHANGE((long*)(dest), (long)(exchange), (long)(compare)))
 #define BOOST_ATOMIC_INTERLOCKED_EXCHANGE_POINTER(dest, exchange) ((void*)BOOST_ATOMIC_INTERLOCKED_EXCHANGE((long*)(dest), (long)(exchange)))
@@ -70,6 +84,8 @@ extern "C" long __cdecl _InterlockedExchange( long volatile *, long );
 #pragma intrinsic(_InterlockedCompareExchange)
 #pragma intrinsic(_InterlockedExchangeAdd)
 #pragma intrinsic(_InterlockedExchange)
+#pragma intrinsic(_InterlockedIncrement)
+#pragma intrinsic(_InterlockedDecrement)
 #pragma intrinsic(_InterlockedAnd)
 #pragma intrinsic(_InterlockedOr)
 #pragma intrinsic(_InterlockedXor)
@@ -80,6 +96,8 @@ extern "C" long __cdecl _InterlockedExchange( long volatile *, long );
 #define BOOST_ATOMIC_INTERLOCKED_COMPARE_EXCHANGE(dest, exchange, compare) _InterlockedCompareExchange((long*)(dest), (long)(exchange), (long)(compare))
 #define BOOST_ATOMIC_INTERLOCKED_EXCHANGE_ADD(dest, addend) _InterlockedExchangeAdd((long*)(dest), (long)(addend))
 #define BOOST_ATOMIC_INTERLOCKED_EXCHANGE(dest, newval) _InterlockedExchange((long*)(dest), (long)(newval))
+#define BOOST_ATOMIC_INTERLOCKED_INCREMENT(dest) _InterlockedIncrement((long*)(dest))
+#define BOOST_ATOMIC_INTERLOCKED_DECREMENT(dest) _InterlockedDecrement((long*)(dest))
 #define BOOST_ATOMIC_INTERLOCKED_AND(dest, arg) _InterlockedAnd((long*)(dest), (long)(arg))
 #define BOOST_ATOMIC_INTERLOCKED_OR(dest, arg) _InterlockedOr((long*)(dest), (long)(arg))
 #define BOOST_ATOMIC_INTERLOCKED_XOR(dest, arg) _InterlockedXor((long*)(dest), (long)(arg))
@@ -441,6 +459,8 @@ extern "C" long __cdecl _InterlockedExchange( long volatile *, long );
 #define BOOST_ATOMIC_INTERLOCKED_COMPARE_EXCHANGE(dest, exchange, compare) InterlockedCompareExchange((long*)(dest), (long)(exchange), (long)(compare))
 #define BOOST_ATOMIC_INTERLOCKED_EXCHANGE(dest, newval) InterlockedExchange((long*)(dest), (long)(newval))
 #define BOOST_ATOMIC_INTERLOCKED_EXCHANGE_ADD(dest, addend) InterlockedExchangeAdd((long*)(dest), (long)(addend))
+#define BOOST_ATOMIC_INTERLOCKED_INCREMENT(dest) InterlockedIncrement((long*)(dest))
+#define BOOST_ATOMIC_INTERLOCKED_DECREMENT(dest) InterlockedDecrement((long*)(dest))
 
 #if defined(_WIN64)
 
@@ -477,10 +497,14 @@ extern "C" {
 BOOST_ATOMIC_INTERLOCKED_IMPORT long __stdcall InterlockedCompareExchange(long volatile*, long, long);
 BOOST_ATOMIC_INTERLOCKED_IMPORT long __stdcall InterlockedExchange(long volatile*, long);
 BOOST_ATOMIC_INTERLOCKED_IMPORT long __stdcall InterlockedExchangeAdd(long volatile*, long);
+BOOST_ATOMIC_INTERLOCKED_IMPORT long __stdcall InterlockedIncrement(long volatile*, long);
+BOOST_ATOMIC_INTERLOCKED_IMPORT long __stdcall InterlockedDecrement(long volatile*, long);
 
 #define BOOST_ATOMIC_INTERLOCKED_COMPARE_EXCHANGE(dest, exchange, compare) boost::atomics::detail::InterlockedCompareExchange((long*)(dest), (long)(exchange), (long)(compare))
 #define BOOST_ATOMIC_INTERLOCKED_EXCHANGE(dest, newval) boost::atomics::detail::InterlockedExchange((long*)(dest), (long)(newval))
 #define BOOST_ATOMIC_INTERLOCKED_EXCHANGE_ADD(dest, addend) boost::atomics::detail::InterlockedExchangeAdd((long*)(dest), (long)(addend))
+#define BOOST_ATOMIC_INTERLOCKED_INCREMENT(dest) boost::atomics::detail::InterlockedIncrement((long*)(dest))
+#define BOOST_ATOMIC_INTERLOCKED_DECREMENT(dest) boost::atomics::detail::InterlockedDecrement((long*)(dest))
 
 #if defined(_WIN64)
 
@@ -488,8 +512,8 @@ BOOST_ATOMIC_INTERLOCKED_IMPORT __int64 __stdcall InterlockedCompareExchange64(_
 BOOST_ATOMIC_INTERLOCKED_IMPORT __int64 __stdcall InterlockedExchange64(__int64 volatile*, __int64);
 BOOST_ATOMIC_INTERLOCKED_IMPORT __int64 __stdcall InterlockedExchangeAdd64(__int64 volatile*, __int64);
 
-BOOST_ATOMIC_INTERLOCKED_IMPORT void* __stdcall InterlockedCompareExchangePointer(void* volatile *, void*, void*);
-BOOST_ATOMIC_INTERLOCKED_IMPORT void* __stdcall InterlockedExchangePointer(void* volatile *, void*);
+BOOST_ATOMIC_INTERLOCKED_IMPORT void* __stdcall InterlockedCompareExchangePointer(void* volatile*, void*, void*);
+BOOST_ATOMIC_INTERLOCKED_IMPORT void* __stdcall InterlockedExchangePointer(void* volatile*, void*);
 
 #define BOOST_ATOMIC_INTERLOCKED_COMPARE_EXCHANGE64(dest, exchange, compare) boost::atomics::detail::InterlockedCompareExchange64((__int64*)(dest), (__int64)(exchange), (__int64)(compare))
 #define BOOST_ATOMIC_INTERLOCKED_EXCHANGE64(dest, newval) boost::atomics::detail::InterlockedExchange64((__int64*)(dest), (__int64)(newval))

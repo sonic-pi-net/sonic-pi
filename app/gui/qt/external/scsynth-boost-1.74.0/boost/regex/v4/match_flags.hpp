@@ -22,11 +22,17 @@
 #ifdef __cplusplus
 #  include <boost/cstdint.hpp>
 #endif
-#include <boost/detail/workaround.hpp>
 
 #ifdef __cplusplus
 namespace boost{
    namespace regex_constants{
+#endif
+
+#ifdef BOOST_MSVC
+#pragma warning(push)
+#if BOOST_MSVC >= 1800
+#pragma warning(disable : 26812)
+#endif
 #endif
 
 typedef enum _match_flags
@@ -83,7 +89,7 @@ typedef enum _match_flags
 
 } match_flags;
 
-#if defined(__BORLANDC__) || BOOST_WORKAROUND(BOOST_MSVC, <= 1310)
+#if defined(BOOST_BORLANDC) || (defined(_MSC_VER) && (_MSC_VER <= 1310))
 typedef unsigned long match_flag_type;
 #else
 typedef match_flags match_flag_type;
@@ -143,6 +149,11 @@ using regex_constants::format_default;
 using regex_constants::format_no_copy;
 using regex_constants::format_first_only;
 /*using regex_constants::format_is_if;*/
+
+#ifdef BOOST_MSVC
+#pragma warning(pop)
+#endif
+
 
 } /* namespace boost */
 #endif /* __cplusplus */

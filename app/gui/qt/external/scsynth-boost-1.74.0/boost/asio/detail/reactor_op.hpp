@@ -2,7 +2,7 @@
 // detail/reactor_op.hpp
 // ~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2017 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -47,8 +47,10 @@ public:
 protected:
   typedef status (*perform_func_type)(reactor_op*);
 
-  reactor_op(perform_func_type perform_func, func_type complete_func)
+  reactor_op(const boost::system::error_code& success_ec,
+      perform_func_type perform_func, func_type complete_func)
     : operation(complete_func),
+      ec_(success_ec),
       bytes_transferred_(0),
       perform_func_(perform_func)
   {

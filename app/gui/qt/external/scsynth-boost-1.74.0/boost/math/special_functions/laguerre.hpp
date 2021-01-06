@@ -18,7 +18,7 @@
 namespace boost{
 namespace math{
 
-// Recurrance relation for Laguerre polynomials:
+// Recurrence relation for Laguerre polynomials:
 template <class T1, class T2, class T3>
 inline typename tools::promote_args<T1, T2, T3>::type  
    laguerre_next(unsigned n, T1 x, T2 Ln, T3 Lnm1)
@@ -29,7 +29,7 @@ inline typename tools::promote_args<T1, T2, T3>::type
 
 namespace detail{
 
-// Implement Laguerre polynomials via recurrance:
+// Implement Laguerre polynomials via recurrence:
 template <class T>
 T laguerre_imp(unsigned n, T x)
 {
@@ -52,7 +52,7 @@ T laguerre_imp(unsigned n, T x)
 
 template <class T, class Policy>
 inline typename tools::promote_args<T>::type 
-laguerre(unsigned n, T x, const Policy&, const mpl::true_&)
+laguerre(unsigned n, T x, const Policy&, const boost::true_type&)
 {
    typedef typename tools::promote_args<T>::type result_type;
    typedef typename policies::evaluation<result_type, Policy>::type value_type;
@@ -61,7 +61,7 @@ laguerre(unsigned n, T x, const Policy&, const mpl::true_&)
 
 template <class T>
 inline typename tools::promote_args<T>::type 
-   laguerre(unsigned n, unsigned m, T x, const mpl::false_&)
+   laguerre(unsigned n, unsigned m, T x, const boost::false_type&)
 {
    return boost::math::laguerre(n, m, x, policies::policy<>());
 }

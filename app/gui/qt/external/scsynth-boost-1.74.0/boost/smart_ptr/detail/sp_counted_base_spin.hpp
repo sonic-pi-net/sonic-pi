@@ -18,8 +18,16 @@
 //  http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#include <boost/detail/sp_typeinfo.hpp>
+#include <boost/smart_ptr/detail/sp_typeinfo_.hpp>
 #include <boost/smart_ptr/detail/spinlock_pool.hpp>
+#include <boost/config.hpp>
+
+#if defined(BOOST_SP_REPORT_IMPLEMENTATION)
+
+#include <boost/config/pragma_message.hpp>
+BOOST_PRAGMA_MESSAGE("Using spinlock-based sp_counted_base")
+
+#endif
 
 namespace boost
 {
@@ -51,7 +59,7 @@ inline int atomic_conditional_increment( int * pw )
     return rv;
 }
 
-class sp_counted_base
+class BOOST_SYMBOL_VISIBLE sp_counted_base
 {
 private:
 
@@ -83,8 +91,8 @@ public:
         delete this;
     }
 
-    virtual void * get_deleter( sp_typeinfo const & ti ) = 0;
-    virtual void * get_local_deleter( sp_typeinfo const & ti ) = 0;
+    virtual void * get_deleter( sp_typeinfo_ const & ti ) = 0;
+    virtual void * get_local_deleter( sp_typeinfo_ const & ti ) = 0;
     virtual void * get_untyped_deleter() = 0;
 
     void add_ref_copy()

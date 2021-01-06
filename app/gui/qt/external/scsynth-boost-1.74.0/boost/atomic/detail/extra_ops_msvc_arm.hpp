@@ -18,10 +18,10 @@
 #include <boost/memory_order.hpp>
 #include <boost/atomic/detail/config.hpp>
 #include <boost/atomic/detail/interlocked.hpp>
-#include <boost/atomic/detail/storage_type.hpp>
+#include <boost/atomic/detail/storage_traits.hpp>
 #include <boost/atomic/detail/extra_operations_fwd.hpp>
 #include <boost/atomic/detail/extra_ops_generic.hpp>
-#include <boost/atomic/capabilities.hpp>
+#include <boost/atomic/detail/header.hpp>
 
 #ifdef BOOST_HAS_PRAGMA_ONCE
 #pragma once
@@ -34,10 +34,10 @@ namespace detail {
 #if defined(BOOST_ATOMIC_INTERLOCKED_BTS) && defined(BOOST_ATOMIC_INTERLOCKED_BTR)
 
 template< typename Base, std::size_t Size, bool Signed >
-struct extra_operations< Base, 4u, Signed > :
-    public generic_extra_operations< Base, 4u, Signed >
+struct extra_operations< Base, 4u, Signed, true > :
+    public extra_operations_generic< Base, 4u, Signed >
 {
-    typedef generic_extra_operations< Base, 4u, Signed > base_type;
+    typedef extra_operations_generic< Base, 4u, Signed > base_type;
     typedef typename base_type::storage_type storage_type;
 
     static BOOST_FORCEINLINE bool bit_test_and_set(storage_type volatile& storage, unsigned int bit_number, memory_order order) BOOST_NOEXCEPT
@@ -102,5 +102,7 @@ struct extra_operations< Base, 4u, Signed > :
 } // namespace detail
 } // namespace atomics
 } // namespace boost
+
+#include <boost/atomic/detail/footer.hpp>
 
 #endif // BOOST_ATOMIC_DETAIL_EXTRA_OPS_MSVC_ARM_HPP_INCLUDED_

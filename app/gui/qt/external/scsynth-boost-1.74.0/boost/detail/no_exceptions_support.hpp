@@ -12,6 +12,10 @@
 // The header file at this path is deprecated;
 // use boost/core/no_exceptions_support.hpp instead.
 
+#include <boost/config/header_deprecated.hpp>
+
+BOOST_HEADER_DEPRECATED("<boost/core/no_exceptions_support.hpp>")
+
 #include <boost/core/no_exceptions_support.hpp>
 
 #endif

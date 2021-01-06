@@ -114,7 +114,7 @@ struct BOOST_UTF8_DECL utf8_codecvt_facet :
 {
 public:
     explicit utf8_codecvt_facet(std::size_t no_locale_manage=0);
-    virtual ~utf8_codecvt_facet(){}
+    virtual ~utf8_codecvt_facet();
 protected:
     virtual std::codecvt_base::result do_in(
         std::mbstate_t& state, 

@@ -2,7 +2,7 @@
 // handler_invoke_hook.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2017 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -24,7 +24,8 @@ namespace asio {
 
 /** @defgroup asio_handler_invoke boost::asio::asio_handler_invoke
  *
- * @brief Default invoke function for handlers.
+ * @brief (Deprecated: Use the associated_executor trait.) Default invoke
+ * function for handlers.
  *
  * Completion handlers for asynchronous operations are invoked by the
  * io_context associated with the corresponding object (e.g. a socket or
@@ -62,19 +63,44 @@ namespace asio {
  */
 /*@{*/
 
+#if defined(BOOST_ASIO_NO_DEPRECATED)
+
+// Places in asio that would have previously called the invocation hook to
+// execute a handler, now call it only to check whether the result type is this
+// type. If the result is not this type, it indicates that the user code still
+// has the old hooks in place, and if so we want to trigger a compile error.
+enum asio_handler_invoke_is_no_longer_used {};
+
+typedef asio_handler_invoke_is_no_longer_used
+  asio_handler_invoke_is_deprecated;
+
+#else // defined(BOOST_ASIO_NO_DEPRECATED)
+
+typedef void asio_handler_invoke_is_deprecated;
+
+#endif // defined(BOOST_ASIO_NO_DEPRECATED)
+
 /// Default handler invocation hook used for non-const function objects.
 template <typename Function>
-inline void asio_handler_invoke(Function& function, ...)
+inline asio_handler_invoke_is_deprecated
+asio_handler_invoke(Function& function, ...)
 {
   function();
+#if defined(BOOST_ASIO_NO_DEPRECATED)
+  return asio_handler_invoke_is_no_longer_used();
+#endif // defined(BOOST_ASIO_NO_DEPRECATED)
 }
 
 /// Default handler invocation hook used for const function objects.
 template <typename Function>
-inline void asio_handler_invoke(const Function& function, ...)
+inline asio_handler_invoke_is_deprecated
+asio_handler_invoke(const Function& function, ...)
 {
   Function tmp(function);
   tmp();
+#if defined(BOOST_ASIO_NO_DEPRECATED)
+  return asio_handler_invoke_is_no_longer_used();
+#endif // defined(BOOST_ASIO_NO_DEPRECATED)
 }
 
 /*@}*/

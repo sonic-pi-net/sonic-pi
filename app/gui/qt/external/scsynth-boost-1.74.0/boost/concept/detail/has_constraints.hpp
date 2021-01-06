@@ -4,8 +4,8 @@
 #ifndef BOOST_CONCEPT_DETAIL_HAS_CONSTRAINTS_DWA2006429_HPP
 # define BOOST_CONCEPT_DETAIL_HAS_CONSTRAINTS_DWA2006429_HPP
 
-# include <boost/mpl/bool.hpp>
-# include <boost/detail/workaround.hpp>
+# include <boost/type_traits/integral_constant.hpp>
+# include <boost/config/workaround.hpp>
 # include <boost/concept/detail/backward_compatibility.hpp>
 
 namespace boost { namespace concepts {
@@ -42,7 +42,7 @@ struct not_satisfied
     BOOST_STATIC_CONSTANT(
         bool
       , value = sizeof( detail::has_constraints_((Model*)0) ) == sizeof(detail::yes) );
-    typedef mpl::bool_<value> type;
+    typedef boost::integral_constant<bool, value> type;
 };
 
 }} // namespace boost::concepts::detail

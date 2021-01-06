@@ -26,7 +26,7 @@
 
 namespace boost {
 
-#if defined( __CODEGEARC__ )
+#if defined( BOOST_CODEGEARC )
 template <class T> struct is_member_pointer : public integral_constant<bool, __is_member_pointer(T)>{};
 #else
 template <class T> struct is_member_pointer : public integral_constant<bool, ::boost::is_member_function_pointer<T>::value>{};

@@ -2,7 +2,7 @@
 // ip/unicast.hpp
 // ~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2017 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -33,7 +33,7 @@ namespace unicast {
  * @par Examples
  * Setting the option:
  * @code
- * boost::asio::ip::udp::socket socket(io_context); 
+ * boost::asio::ip::udp::socket socket(my_context);
  * ...
  * boost::asio::ip::unicast::hops option(4);
  * socket.set_option(option);
@@ -42,7 +42,7 @@ namespace unicast {
  * @par
  * Getting the current option value:
  * @code
- * boost::asio::ip::udp::socket socket(io_context); 
+ * boost::asio::ip::udp::socket socket(my_context);
  * ...
  * boost::asio::ip::unicast::hops option;
  * socket.get_option(option);

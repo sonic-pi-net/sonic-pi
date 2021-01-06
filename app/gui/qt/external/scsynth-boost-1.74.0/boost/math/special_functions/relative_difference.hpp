@@ -39,7 +39,7 @@ namespace boost{
          // Screen out NaN's first, if either value is a NaN then the distance is "infinite":
          if((boost::math::isnan)(a) || (boost::math::isnan)(b))
             return max_val;
-         // Screen out infinites:
+         // Screen out infinities:
          if(fabs(b) > max_val)
          {
             if(fabs(a) > max_val)
@@ -69,7 +69,7 @@ namespace boost{
          return (std::max)(fabs((a - b) / a), fabs((a - b) / b));
       }
 
-#if defined(macintosh) || defined(__APPLE__) || defined(__APPLE_CC__)
+#if (defined(macintosh) || defined(__APPLE__) || defined(__APPLE_CC__)) && (LDBL_MAX_EXP <= DBL_MAX_EXP)
       template <>
       inline boost::math::tools::promote_args<double, double>::type relative_difference(const double& arg_a, const double& arg_b)
       {
@@ -88,7 +88,7 @@ namespace boost{
          // Screen out NaN's first, if either value is a NaN then the distance is "infinite":
          if((boost::math::isnan)(a) || (boost::math::isnan)(b))
             return max_val;
-         // Screen out infinites:
+         // Screen out infinities:
          if(fabs(b) > max_val)
          {
             if(fabs(a) > max_val)

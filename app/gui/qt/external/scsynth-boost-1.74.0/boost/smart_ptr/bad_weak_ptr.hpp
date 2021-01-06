@@ -20,7 +20,7 @@
 #include <boost/config.hpp>
 #include <exception>
 
-#ifdef __BORLANDC__
+#ifdef BOOST_BORLANDC
 # pragma warn -8026     // Functions with excep. spec. are not expanded inline
 #endif
 
@@ -33,7 +33,7 @@ namespace boost
 // is compiled with -ps, the compiler issues an error.
 // Hence, the temporary #pragma option -pc below.
 
-#if defined(__BORLANDC__) && __BORLANDC__ <= 0x564
+#if defined(BOOST_BORLANDC) && BOOST_BORLANDC <= 0x564
 # pragma option push -pc
 #endif
 
@@ -47,7 +47,7 @@ class bad_weak_ptr: public std::exception
 {
 public:
 
-    virtual char const * what() const throw()
+    char const * what() const BOOST_NOEXCEPT_OR_NOTHROW BOOST_OVERRIDE
     {
         return "tr1::bad_weak_ptr";
     }
@@ -57,13 +57,13 @@ public:
 # pragma clang diagnostic pop
 #endif
 
-#if defined(__BORLANDC__) && __BORLANDC__ <= 0x564
+#if defined(BOOST_BORLANDC) && BOOST_BORLANDC <= 0x564
 # pragma option pop
 #endif
 
 } // namespace boost
 
-#ifdef __BORLANDC__
+#ifdef BOOST_BORLANDC
 # pragma warn .8026     // Functions with excep. spec. are not expanded inline
 #endif
 

@@ -41,7 +41,7 @@ struct treap_node_extra_checker
    typedef ExtraChecker                            base_checker_t;
    typedef ValueTraits                             value_traits;
    typedef typename value_traits::node_traits      node_traits;
-   typedef typename node_traits::const_node_ptr    const_node_ptr;
+   typedef typename node_traits::const_node_ptr const_node_ptr;
 
    typedef typename base_checker_t::return_type    return_type;
 
@@ -114,8 +114,8 @@ class treap_algorithms
    public:
    typedef NodeTraits                           node_traits;
    typedef typename NodeTraits::node            node;
-   typedef typename NodeTraits::node_ptr        node_ptr;
-   typedef typename NodeTraits::const_node_ptr  const_node_ptr;
+   typedef typename NodeTraits::node_ptr       node_ptr;
+   typedef typename NodeTraits::const_node_ptr const_node_ptr;
 
    /// @cond
    private:
@@ -127,7 +127,7 @@ class treap_algorithms
       rerotate_on_destroy& operator=(const rerotate_on_destroy&);
 
       public:
-      rerotate_on_destroy(const node_ptr & header, const node_ptr & p, std::size_t &n)
+      rerotate_on_destroy(node_ptr header, node_ptr p, std::size_t &n)
          :  header_(header), p_(p), n_(n), remove_it_(true)
       {}
 
@@ -181,33 +181,33 @@ class treap_algorithms
    #ifdef BOOST_INTRUSIVE_DOXYGEN_INVOKED
 
    //! @copydoc ::boost::intrusive::bstree_algorithms::get_header(const const_node_ptr&)
-   static node_ptr get_header(const const_node_ptr & n);
+   static node_ptr get_header(const_node_ptr n);
 
    //! @copydoc ::boost::intrusive::bstree_algorithms::begin_node
-   static node_ptr begin_node(const const_node_ptr & header);
+   static node_ptr begin_node(const_node_ptr header);
 
    //! @copydoc ::boost::intrusive::bstree_algorithms::end_node
-   static node_ptr end_node(const const_node_ptr & header);
+   static node_ptr end_node(const_node_ptr header);
 
    //! @copydoc ::boost::intrusive::bstree_algorithms::swap_tree
-   static void swap_tree(const node_ptr & header1, const node_ptr & header2);
+   static void swap_tree(node_ptr header1, node_ptr header2);
 
-   //! @copydoc ::boost::intrusive::bstree_algorithms::swap_nodes(const node_ptr&,const node_ptr&)
-   static void swap_nodes(const node_ptr & node1, const node_ptr & node2);
+   //! @copydoc ::boost::intrusive::bstree_algorithms::swap_nodes(node_ptr,node_ptr)
+   static void swap_nodes(node_ptr node1, node_ptr node2);
 
-   //! @copydoc ::boost::intrusive::bstree_algorithms::swap_nodes(const node_ptr&,const node_ptr&,const node_ptr&,const node_ptr&)
-   static void swap_nodes(const node_ptr & node1, const node_ptr & header1, const node_ptr & node2, const node_ptr & header2);
+   //! @copydoc ::boost::intrusive::bstree_algorithms::swap_nodes(node_ptr,node_ptr,node_ptr,node_ptr)
+   static void swap_nodes(node_ptr node1, node_ptr header1, node_ptr node2, node_ptr header2);
 
-   //! @copydoc ::boost::intrusive::bstree_algorithms::replace_node(const node_ptr&,const node_ptr&)
-   static void replace_node(const node_ptr & node_to_be_replaced, const node_ptr & new_node);
+   //! @copydoc ::boost::intrusive::bstree_algorithms::replace_node(node_ptr,node_ptr)
+   static void replace_node(node_ptr node_to_be_replaced, node_ptr new_node);
 
-   //! @copydoc ::boost::intrusive::bstree_algorithms::replace_node(const node_ptr&,const node_ptr&,const node_ptr&)
-   static void replace_node(const node_ptr & node_to_be_replaced, const node_ptr & header, const node_ptr & new_node);
+   //! @copydoc ::boost::intrusive::bstree_algorithms::replace_node(node_ptr,node_ptr,node_ptr)
+   static void replace_node(node_ptr node_to_be_replaced, node_ptr header, node_ptr new_node);
    #endif   //#ifdef BOOST_INTRUSIVE_DOXYGEN_INVOKED
 
-   //! @copydoc ::boost::intrusive::bstree_algorithms::unlink(const node_ptr&)
+   //! @copydoc ::boost::intrusive::bstree_algorithms::unlink(node_ptr)
    template<class NodePtrPriorityCompare>
-   static void unlink(const node_ptr & node, NodePtrPriorityCompare pcomp)
+   static void unlink(node_ptr node, NodePtrPriorityCompare pcomp)
    {
       node_ptr x = NodeTraits::get_parent(node);
       if(x){
@@ -219,30 +219,30 @@ class treap_algorithms
 
    #ifdef BOOST_INTRUSIVE_DOXYGEN_INVOKED
    //! @copydoc ::boost::intrusive::bstree_algorithms::unlink_leftmost_without_rebalance
-   static node_ptr unlink_leftmost_without_rebalance(const node_ptr & header);
+   static node_ptr unlink_leftmost_without_rebalance(node_ptr header);
 
    //! @copydoc ::boost::intrusive::bstree_algorithms::unique(const const_node_ptr&)
-   static bool unique(const const_node_ptr & node);
+   static bool unique(const_node_ptr node);
 
    //! @copydoc ::boost::intrusive::bstree_algorithms::size(const const_node_ptr&)
-   static std::size_t size(const const_node_ptr & header);
+   static std::size_t size(const_node_ptr header);
 
    //! @copydoc ::boost::intrusive::bstree_algorithms::next_node(const node_ptr&)
-   static node_ptr next_node(const node_ptr & node);
+   static node_ptr next_node(node_ptr node);
 
    //! @copydoc ::boost::intrusive::bstree_algorithms::prev_node(const node_ptr&)
-   static node_ptr prev_node(const node_ptr & node);
+   static node_ptr prev_node(node_ptr node);
 
-   //! @copydoc ::boost::intrusive::bstree_algorithms::init(const node_ptr&)
-   static void init(const node_ptr & node);
+   //! @copydoc ::boost::intrusive::bstree_algorithms::init(node_ptr)
+   static void init(node_ptr node);
 
-   //! @copydoc ::boost::intrusive::bstree_algorithms::init_header(const node_ptr&)
-   static void init_header(const node_ptr & header);
+   //! @copydoc ::boost::intrusive::bstree_algorithms::init_header(node_ptr)
+   static void init_header(node_ptr header);
    #endif   //#ifdef BOOST_INTRUSIVE_DOXYGEN_INVOKED
 
-   //! @copydoc ::boost::intrusive::bstree_algorithms::erase(const node_ptr&,const node_ptr&)
+   //! @copydoc ::boost::intrusive::bstree_algorithms::erase(node_ptr,node_ptr)
    template<class NodePtrPriorityCompare>
-   static node_ptr erase(const node_ptr & header, const node_ptr & z, NodePtrPriorityCompare pcomp)
+   static node_ptr erase(node_ptr header, node_ptr z, NodePtrPriorityCompare pcomp)
    {
       rebalance_for_erasure(header, z, pcomp);
       bstree_algo::erase(header, z);
@@ -250,44 +250,44 @@ class treap_algorithms
    }
 
    #ifdef BOOST_INTRUSIVE_DOXYGEN_INVOKED
-   //! @copydoc ::boost::intrusive::bstree_algorithms::clone(const const_node_ptr&,const node_ptr&,Cloner,Disposer)
+   //! @copydoc ::boost::intrusive::bstree_algorithms::clone(const const_node_ptr&,node_ptr,Cloner,Disposer)
    template <class Cloner, class Disposer>
    static void clone
-      (const const_node_ptr & source_header, const node_ptr & target_header, Cloner cloner, Disposer disposer);
+      (const_node_ptr source_header, node_ptr target_header, Cloner cloner, Disposer disposer);
 
    //! @copydoc ::boost::intrusive::bstree_algorithms::clear_and_dispose(const node_ptr&,Disposer)
    template<class Disposer>
-   static void clear_and_dispose(const node_ptr & header, Disposer disposer);
+   static void clear_and_dispose(node_ptr header, Disposer disposer);
 
    //! @copydoc ::boost::intrusive::bstree_algorithms::lower_bound(const const_node_ptr&,const KeyType&,KeyNodePtrCompare)
    template<class KeyType, class KeyNodePtrCompare>
    static node_ptr lower_bound
-      (const const_node_ptr & header, const KeyType &key, KeyNodePtrCompare comp);
+      (const_node_ptr header, const KeyType &key, KeyNodePtrCompare comp);
 
    //! @copydoc ::boost::intrusive::bstree_algorithms::upper_bound(const const_node_ptr&,const KeyType&,KeyNodePtrCompare)
    template<class KeyType, class KeyNodePtrCompare>
    static node_ptr upper_bound
-      (const const_node_ptr & header, const KeyType &key, KeyNodePtrCompare comp);
+      (const_node_ptr header, const KeyType &key, KeyNodePtrCompare comp);
 
    //! @copydoc ::boost::intrusive::bstree_algorithms::find(const const_node_ptr&, const KeyType&,KeyNodePtrCompare)
    template<class KeyType, class KeyNodePtrCompare>
    static node_ptr find
-      (const const_node_ptr & header, const KeyType &key, KeyNodePtrCompare comp);
+      (const_node_ptr header, const KeyType &key, KeyNodePtrCompare comp);
 
    //! @copydoc ::boost::intrusive::bstree_algorithms::equal_range(const const_node_ptr&,const KeyType&,KeyNodePtrCompare)
    template<class KeyType, class KeyNodePtrCompare>
    static std::pair<node_ptr, node_ptr> equal_range
-      (const const_node_ptr & header, const KeyType &key, KeyNodePtrCompare comp);
+      (const_node_ptr header, const KeyType &key, KeyNodePtrCompare comp);
 
    //! @copydoc ::boost::intrusive::bstree_algorithms::bounded_range(const const_node_ptr&,const KeyType&,const KeyType&,KeyNodePtrCompare,bool,bool)
    template<class KeyType, class KeyNodePtrCompare>
    static std::pair<node_ptr, node_ptr> bounded_range
-      (const const_node_ptr & header, const KeyType &lower_key, const KeyType &upper_key, KeyNodePtrCompare comp
+      (const_node_ptr header, const KeyType &lower_key, const KeyType &upper_key, KeyNodePtrCompare comp
       , bool left_closed, bool right_closed);
 
    //! @copydoc ::boost::intrusive::bstree_algorithms::count(const const_node_ptr&,const KeyType&,KeyNodePtrCompare)
    template<class KeyType, class KeyNodePtrCompare>
-   static std::size_t count(const const_node_ptr & header, const KeyType &key, KeyNodePtrCompare comp);
+   static std::size_t count(const_node_ptr header, const KeyType &key, KeyNodePtrCompare comp);
 
    #endif   //#ifdef BOOST_INTRUSIVE_DOXYGEN_INVOKED
 
@@ -308,7 +308,7 @@ class treap_algorithms
    //! <b>Throws</b>: If "comp" throw or "pcomp" throw.
    template<class NodePtrCompare, class NodePtrPriorityCompare>
    static node_ptr insert_equal_upper_bound
-      (const node_ptr & h, const node_ptr & new_node, NodePtrCompare comp, NodePtrPriorityCompare pcomp)
+      (node_ptr h, node_ptr new_node, NodePtrCompare comp, NodePtrPriorityCompare pcomp)
    {
       insert_commit_data commit_data;
       bstree_algo::insert_equal_upper_bound_check(h, new_node, comp, commit_data);
@@ -333,7 +333,7 @@ class treap_algorithms
    //! <b>Throws</b>: If "comp" throws.
    template<class NodePtrCompare, class NodePtrPriorityCompare>
    static node_ptr insert_equal_lower_bound
-      (const node_ptr & h, const node_ptr & new_node, NodePtrCompare comp, NodePtrPriorityCompare pcomp)
+      (node_ptr h, node_ptr new_node, NodePtrCompare comp, NodePtrPriorityCompare pcomp)
    {
       insert_commit_data commit_data;
       bstree_algo::insert_equal_lower_bound_check(h, new_node, comp, commit_data);
@@ -361,7 +361,7 @@ class treap_algorithms
    //! <b>Throws</b>: If "comp" throw or "pcomp" throw.
    template<class NodePtrCompare, class NodePtrPriorityCompare>
    static node_ptr insert_equal
-      (const node_ptr & h, const node_ptr & hint, const node_ptr & new_node, NodePtrCompare comp, NodePtrPriorityCompare pcomp)
+      (node_ptr h, node_ptr hint, node_ptr new_node, NodePtrCompare comp, NodePtrPriorityCompare pcomp)
    {
       insert_commit_data commit_data;
       bstree_algo::insert_equal_check(h, hint, new_node, comp, commit_data);
@@ -389,7 +389,7 @@ class treap_algorithms
    //! tree invariants might be broken.
    template<class NodePtrPriorityCompare>
    static node_ptr insert_before
-      (const node_ptr & header, const node_ptr & pos, const node_ptr & new_node, NodePtrPriorityCompare pcomp)
+      (node_ptr header, node_ptr pos, node_ptr new_node, NodePtrPriorityCompare pcomp)
    {
       insert_commit_data commit_data;
       bstree_algo::insert_before_check(header, pos, commit_data);
@@ -415,7 +415,7 @@ class treap_algorithms
    //! tree invariants are broken. This function is slightly faster than
    //! using "insert_before".
    template<class NodePtrPriorityCompare>
-   static void push_back(const node_ptr & header, const node_ptr & new_node, NodePtrPriorityCompare pcomp)
+   static void push_back(node_ptr header, node_ptr new_node, NodePtrPriorityCompare pcomp)
    {
       insert_commit_data commit_data;
       bstree_algo::push_back_check(header, commit_data);
@@ -440,7 +440,7 @@ class treap_algorithms
    //! tree invariants are broken. This function is slightly faster than
    //! using "insert_before".
    template<class NodePtrPriorityCompare>
-   static void push_front(const node_ptr & header, const node_ptr & new_node, NodePtrPriorityCompare pcomp)
+   static void push_front(node_ptr header, node_ptr new_node, NodePtrPriorityCompare pcomp)
    {
       insert_commit_data commit_data;
       bstree_algo::push_front_check(header, commit_data);
@@ -481,16 +481,17 @@ class treap_algorithms
    //!
    //!   "commit_data" remains valid for a subsequent "insert_unique_commit" only
    //!   if no more objects are inserted or erased from the set.
-   template<class KeyType, class KeyNodePtrCompare, class KeyNodePtrPrioCompare>
+   template<class KeyType, class KeyNodePtrCompare, class PrioType, class PrioNodePtrPrioCompare>
    static std::pair<node_ptr, bool> insert_unique_check
-      (const const_node_ptr & header,  const KeyType &key
-      ,KeyNodePtrCompare comp, KeyNodePtrPrioCompare pcomp
-      ,insert_commit_data &commit_data)
+      ( const_node_ptr header
+      , const KeyType &key, KeyNodePtrCompare comp
+      , const PrioType &prio, PrioNodePtrPrioCompare pcomp
+      , insert_commit_data &commit_data)
    {
       std::pair<node_ptr, bool> ret =
          bstree_algo::insert_unique_check(header, key, comp, commit_data);
       if(ret.second)
-         rebalance_after_insertion_check(header, commit_data.node, key, pcomp, commit_data.rotations);
+         rebalance_after_insertion_check(header, commit_data.node, prio, pcomp, commit_data.rotations);
       return ret;
    }
 
@@ -533,15 +534,17 @@ class treap_algorithms
    //!
    //!   "commit_data" remains valid for a subsequent "insert_unique_commit" only
    //!   if no more objects are inserted or erased from the set.
-   template<class KeyType, class KeyNodePtrCompare, class KeyNodePtrPrioCompare>
+   template<class KeyType, class KeyNodePtrCompare, class PrioType, class PrioNodePtrPrioCompare>
    static std::pair<node_ptr, bool> insert_unique_check
-      (const const_node_ptr & header, const node_ptr & hint, const KeyType &key
-      ,KeyNodePtrCompare comp, KeyNodePtrPrioCompare pcomp, insert_commit_data &commit_data)
+      ( const_node_ptr header, node_ptr hint
+      , const KeyType &key, KeyNodePtrCompare comp
+      , const PrioType &prio, PrioNodePtrPrioCompare pcomp
+      , insert_commit_data &commit_data)
    {
       std::pair<node_ptr, bool> ret =
          bstree_algo::insert_unique_check(header, hint, key, comp, commit_data);
       if(ret.second)
-         rebalance_after_insertion_check(header, commit_data.node, key, pcomp, commit_data.rotations);
+         rebalance_after_insertion_check(header, commit_data.node, prio, pcomp, commit_data.rotations);
       return ret;
    }
 
@@ -563,19 +566,19 @@ class treap_algorithms
    //!   previously executed to fill "commit_data". No value should be inserted or
    //!   erased between the "insert_check" and "insert_commit" calls.
    static void insert_unique_commit
-      (const node_ptr & header, const node_ptr & new_node, const insert_commit_data &commit_data)
+      (node_ptr header, node_ptr new_node, const insert_commit_data &commit_data)
    {
       bstree_algo::insert_unique_commit(header, new_node, commit_data);
       rotate_up_n(header, new_node, commit_data.rotations);
    }
 
    //! @copydoc ::boost::intrusive::bstree_algorithms::transfer_unique
-   template<class NodePtrCompare, class KeyNodePtrPrioCompare>
+   template<class NodePtrCompare, class PrioNodePtrPrioCompare>
    static bool transfer_unique
-      (const node_ptr & header1, NodePtrCompare comp, KeyNodePtrPrioCompare pcomp, const node_ptr &header2, const node_ptr & z)
+      (node_ptr header1, NodePtrCompare comp, PrioNodePtrPrioCompare pcomp, node_ptr header2, node_ptr z)
    {
       insert_commit_data commit_data;
-      bool const transferable = insert_unique_check(header1, z, comp, pcomp, commit_data).second;
+      bool const transferable = insert_unique_check(header1, z, comp, z, pcomp, commit_data).second;
       if(transferable){
          erase(header2, z, pcomp);
          insert_unique_commit(header1, z, commit_data);         
@@ -584,9 +587,9 @@ class treap_algorithms
    }
 
    //! @copydoc ::boost::intrusive::bstree_algorithms::transfer_equal
-   template<class NodePtrCompare, class KeyNodePtrPrioCompare>
+   template<class NodePtrCompare, class PrioNodePtrPrioCompare>
    static void transfer_equal
-      (const node_ptr & header1, NodePtrCompare comp, KeyNodePtrPrioCompare pcomp, const node_ptr &header2, const node_ptr & z)
+      (node_ptr header1, NodePtrCompare comp, PrioNodePtrPrioCompare pcomp, node_ptr header2, node_ptr z)
    {
       insert_commit_data commit_data;
       bstree_algo::insert_equal_upper_bound_check(header1, z, comp, commit_data);
@@ -600,14 +603,14 @@ class treap_algorithms
    #ifdef BOOST_INTRUSIVE_DOXYGEN_INVOKED
 
    //! @copydoc ::boost::intrusive::bstree_algorithms::is_header
-   static bool is_header(const const_node_ptr & p);
+   static bool is_header(const_node_ptr p);
    #endif   //#ifdef BOOST_INTRUSIVE_DOXYGEN_INVOKED
 
    /// @cond
    private:
 
    template<class NodePtrPriorityCompare>
-   static void rebalance_for_erasure(const node_ptr & header, const node_ptr & z, NodePtrPriorityCompare pcomp)
+   static void rebalance_for_erasure(node_ptr header, node_ptr z, NodePtrPriorityCompare pcomp)
    {
       std::size_t n = 0;
       rerotate_on_destroy rb(header, z, n);
@@ -631,7 +634,7 @@ class treap_algorithms
 
    template<class NodePtrPriorityCompare>
    static void rebalance_check_and_commit
-      (const node_ptr & h, const node_ptr & new_node, NodePtrPriorityCompare pcomp, insert_commit_data &commit_data)
+      (node_ptr h, node_ptr new_node, NodePtrPriorityCompare pcomp, insert_commit_data &commit_data)
    {
       rebalance_after_insertion_check(h, commit_data.node, new_node, pcomp, commit_data.rotations);
       //No-throw
@@ -641,7 +644,7 @@ class treap_algorithms
 
    template<class Key, class KeyNodePriorityCompare>
    static void rebalance_after_insertion_check
-      (const const_node_ptr &header, const const_node_ptr & up, const Key &k
+      (const_node_ptr header, const_node_ptr up, const Key &k
       , KeyNodePriorityCompare pcomp, std::size_t &num_rotations)
    {
       const_node_ptr upnode(up);
@@ -656,7 +659,7 @@ class treap_algorithms
    }
 
    template<class NodePtrPriorityCompare>
-   static bool check_invariant(const const_node_ptr & header, NodePtrPriorityCompare pcomp)
+   static bool check_invariant(const_node_ptr header, NodePtrPriorityCompare pcomp)
    {
       node_ptr beg = begin_node(header);
       node_ptr end = end_node(header);

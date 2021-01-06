@@ -231,7 +231,7 @@ struct pred4;
 
 }  /* namespace BOOST_REGEX_DETAIL_NS */
 
-#if (defined(BOOST_MSVC) || defined(__BORLANDC__)) && !defined(BOOST_DISABLE_WIN32)
+#if (defined(BOOST_MSVC) || defined(BOOST_BORLANDC)) && !defined(BOOST_DISABLE_WIN32)
 typedef bool (__cdecl *GrepCallback)(const RegEx& expression);
 typedef bool (__cdecl *GrepFileCallback)(const char* file, const RegEx& expression);
 typedef bool (__cdecl *FindFilesCallback)(const char* file);

@@ -33,12 +33,12 @@
 
 namespace boost {
 namespace container {
-namespace container_detail {
+namespace dtl {
 
-template<class Allocator, unsigned Version = boost::container::container_detail::version<Allocator>::value>
+template<class Allocator, unsigned Version = boost::container::dtl::version<Allocator>::value>
 struct allocator_version_traits
 {
-   typedef ::boost::container::container_detail::integral_constant
+   typedef ::boost::container::dtl::integral_constant
       <unsigned, Version> alloc_version;
 
    typedef typename Allocator::multiallocation_chain multiallocation_chain;
@@ -67,7 +67,7 @@ struct allocator_version_traits
 template<class Allocator>
 struct allocator_version_traits<Allocator, 1>
 {
-   typedef ::boost::container::container_detail::integral_constant
+   typedef ::boost::container::dtl::integral_constant
       <unsigned, 1> alloc_version;
 
    typedef typename boost::container::allocator_traits<Allocator>::pointer    pointer;
@@ -76,9 +76,9 @@ struct allocator_version_traits<Allocator, 1>
 
    typedef typename boost::intrusive::pointer_traits<pointer>::
          template rebind_pointer<void>::type                void_ptr;
-   typedef container_detail::basic_multiallocation_chain
+   typedef dtl::basic_multiallocation_chain
       <void_ptr>                                            multialloc_cached_counted;
-   typedef boost::container::container_detail::
+   typedef boost::container::dtl::
       transform_multiallocation_chain
          < multialloc_cached_counted, value_type>           multiallocation_chain;
 
@@ -93,7 +93,8 @@ struct allocator_version_traits<Allocator, 1>
    {
       size_type n = holder.size();
       typename multiallocation_chain::iterator it = holder.begin();
-      while(n--){
+      while(n){
+         --n;
          pointer p = boost::intrusive::pointer_traits<pointer>::pointer_to(*it);
          ++it;
          a.deallocate(p, 1);
@@ -153,7 +154,7 @@ struct allocator_version_traits<Allocator, 1>
    }
 };
 
-}  //namespace container_detail {
+}  //namespace dtl {
 }  //namespace container {
 }  //namespace boost {
 

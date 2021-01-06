@@ -767,7 +767,7 @@ namespace boost
     }
     inline int32_t days_from_1970(int32_t year)
     {
-      static const int days_from_0_to_1970 = days_from_0(1970);
+      static const int32_t days_from_0_to_1970 = days_from_0(1970);
       return days_from_0(year) - days_from_0_to_1970;
     }
     inline int32_t days_from_1jan(int32_t year,int32_t month,int32_t day)

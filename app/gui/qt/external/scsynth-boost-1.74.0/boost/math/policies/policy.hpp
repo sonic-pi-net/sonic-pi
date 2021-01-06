@@ -118,7 +118,7 @@ namespace policies{
 
 #if !defined(__BORLANDC__)
 #define BOOST_MATH_META_INT(type, name, Default)\
-   template <type N = Default> struct name : public boost::mpl::int_<N>{};\
+   template <type N = Default> struct name : public boost::integral_constant<int, N>{};\
    namespace detail{\
    template <type N>\
    char test_is_valid_arg(const name<N>*);\
@@ -130,10 +130,10 @@ namespace policies{
       BOOST_STATIC_CONSTANT(bool, value = sizeof(test(static_cast<T*>(0))) == 1);\
    };\
    }\
-   template <class T> struct is_##name : public boost::mpl::bool_< ::boost::math::policies::detail::is_##name##_imp<T>::value>{};
+   template <class T> struct is_##name : public boost::integral_constant<bool, ::boost::math::policies::detail::is_##name##_imp<T>::value>{};
 
 #define BOOST_MATH_META_BOOL(name, Default)\
-   template <bool N = Default> struct name : public boost::mpl::bool_<N>{};\
+   template <bool N = Default> struct name : public boost::integral_constant<bool, N>{};\
    namespace detail{\
    template <bool N>\
    char test_is_valid_arg(const name<N>*);\
@@ -145,10 +145,10 @@ namespace policies{
       BOOST_STATIC_CONSTANT(bool, value = sizeof(test(static_cast<T*>(0))) == 1);\
    };\
    }\
-   template <class T> struct is_##name : public boost::mpl::bool_< ::boost::math::policies::detail::is_##name##_imp<T>::value>{};
+   template <class T> struct is_##name : public boost::integral_constant<bool, ::boost::math::policies::detail::is_##name##_imp<T>::value>{};
 #else
 #define BOOST_MATH_META_INT(Type, name, Default)\
-   template <Type N = Default> struct name : public boost::mpl::int_<N>{};\
+   template <Type N = Default> struct name : public boost::integral_constant<int, N>{};\
    namespace detail{\
    template <Type N>\
    char test_is_valid_arg(const name<N>*);\
@@ -164,13 +164,13 @@ namespace policies{
       BOOST_STATIC_CONSTANT(bool, value = sizeof( ::boost::math::policies::detail::is_##name##_tester<T>::test(inst)) == 1);\
    };\
    }\
-   template <class T> struct is_##name : public boost::mpl::bool_< ::boost::math::policies::detail::is_##name##_imp<T>::value>\
+   template <class T> struct is_##name : public boost::integral_constant<bool, ::boost::math::policies::detail::is_##name##_imp<T>::value>\
    {\
       template <class U> struct apply{ typedef is_##name<U> type; };\
    };
 
 #define BOOST_MATH_META_BOOL(name, Default)\
-   template <bool N = Default> struct name : public boost::mpl::bool_<N>{};\
+   template <bool N = Default> struct name : public boost::integral_constant<bool, N>{};\
    namespace detail{\
    template <bool N>\
    char test_is_valid_arg(const name<N>*);\
@@ -186,7 +186,7 @@ namespace policies{
       BOOST_STATIC_CONSTANT(bool, value = sizeof( ::boost::math::policies::detail::is_##name##_tester<T>::test(inst)) == 1);\
    };\
    }\
-   template <class T> struct is_##name : public boost::mpl::bool_< ::boost::math::policies::detail::is_##name##_imp<T>::value>\
+   template <class T> struct is_##name : public boost::integral_constant<bool, ::boost::math::policies::detail::is_##name##_imp<T>::value>\
    {\
       template <class U> struct apply{ typedef is_##name<U> type;  };\
    };
@@ -318,13 +318,11 @@ struct is_default_policy_imp
 };
 
 template <class T> struct is_valid_policy 
-: public mpl::bool_< 
-   ::boost::math::policies::detail::is_valid_policy_imp<T>::value>
+: public boost::integral_constant<bool, ::boost::math::policies::detail::is_valid_policy_imp<T>::value>
 {};
 
 template <class T> struct is_default_policy 
-: public mpl::bool_< 
-   ::boost::math::policies::detail::is_default_policy_imp<T>::value>
+: public boost::integral_constant<bool, ::boost::math::policies::detail::is_default_policy_imp<T>::value>
 {
    template <class U>
    struct apply
@@ -593,19 +591,19 @@ private:
    typedef typename detail::append_N<reduced_list, default_policy, (14 - ::boost::mpl::size<reduced_list>::value)>::type result_type;
 public:
    typedef policy<
-      typename mpl::at<result_type, mpl::int_<0> >::type,
-      typename mpl::at<result_type, mpl::int_<1> >::type,
-      typename mpl::at<result_type, mpl::int_<2> >::type,
-      typename mpl::at<result_type, mpl::int_<3> >::type,
-      typename mpl::at<result_type, mpl::int_<4> >::type,
-      typename mpl::at<result_type, mpl::int_<5> >::type,
-      typename mpl::at<result_type, mpl::int_<6> >::type,
-      typename mpl::at<result_type, mpl::int_<7> >::type,
-      typename mpl::at<result_type, mpl::int_<8> >::type,
-      typename mpl::at<result_type, mpl::int_<9> >::type,
-      typename mpl::at<result_type, mpl::int_<10> >::type,
-      typename mpl::at<result_type, mpl::int_<11> >::type,
-      typename mpl::at<result_type, mpl::int_<12> >::type > type;
+      typename mpl::at<result_type, boost::integral_constant<int, 0> >::type,
+      typename mpl::at<result_type, boost::integral_constant<int, 1> >::type,
+      typename mpl::at<result_type, boost::integral_constant<int, 2> >::type,
+      typename mpl::at<result_type, boost::integral_constant<int, 3> >::type,
+      typename mpl::at<result_type, boost::integral_constant<int, 4> >::type,
+      typename mpl::at<result_type, boost::integral_constant<int, 5> >::type,
+      typename mpl::at<result_type, boost::integral_constant<int, 6> >::type,
+      typename mpl::at<result_type, boost::integral_constant<int, 7> >::type,
+      typename mpl::at<result_type, boost::integral_constant<int, 8> >::type,
+      typename mpl::at<result_type, boost::integral_constant<int, 9> >::type,
+      typename mpl::at<result_type, boost::integral_constant<int, 10> >::type,
+      typename mpl::at<result_type, boost::integral_constant<int, 11> >::type,
+      typename mpl::at<result_type, boost::integral_constant<int, 12> >::type > type;
 };
 //
 // Full specialisation to speed up compilation of the common case:
@@ -748,13 +746,13 @@ struct evaluation<double, Policy>
 #ifdef BOOST_NO_LIMITS_COMPILE_TIME_CONSTANTS
 
 template <class Real>
-struct basic_digits : public mpl::int_<0>{ };
+struct basic_digits : public boost::integral_constant<int, 0>{ };
 template <>
-struct basic_digits<float> : public mpl::int_<FLT_MANT_DIG>{ };
+struct basic_digits<float> : public boost::integral_constant<int, FLT_MANT_DIG>{ };
 template <>
-struct basic_digits<double> : public mpl::int_<DBL_MANT_DIG>{ };
+struct basic_digits<double> : public boost::integral_constant<int, DBL_MANT_DIG>{ };
 template <>
-struct basic_digits<long double> : public mpl::int_<LDBL_MANT_DIG>{ };
+struct basic_digits<long double> : public boost::integral_constant<int, LDBL_MANT_DIG>{ };
 
 template <class Real, class Policy>
 struct precision
@@ -763,11 +761,11 @@ struct precision
    typedef typename Policy::precision_type precision_type;
    typedef basic_digits<Real> digits_t;
    typedef typename mpl::if_<
-      mpl::equal_to<digits_t, mpl::int_<0> >,
+      mpl::equal_to<digits_t, boost::integral_constant<int, 0> >,
       // Possibly unknown precision:
       precision_type,
       typename mpl::if_<
-         mpl::or_<mpl::less_equal<digits_t, precision_type>, mpl::less_equal<precision_type, mpl::int_<0> > >,
+         mpl::or_<mpl::less_equal<digits_t, precision_type>, mpl::less_equal<precision_type, boost::integral_constant<int, 0> > >,
          // Default case, full precision for RealType:
          digits2< ::std::numeric_limits<Real>::digits>,
          // User customised precision:
@@ -815,14 +813,14 @@ struct precision
    >::type type;
 #else
    typedef typename Policy::precision_type precision_type;
-   typedef mpl::int_< ::std::numeric_limits<Real>::digits> digits_t;
-   typedef mpl::bool_< ::std::numeric_limits<Real>::is_specialized> spec_t;
+   typedef boost::integral_constant<int, ::std::numeric_limits<Real>::digits> digits_t;
+   typedef boost::integral_constant<bool, ::std::numeric_limits<Real>::is_specialized> spec_t;
    typedef typename mpl::if_<
-      mpl::or_<mpl::equal_to<spec_t, mpl::false_>, mpl::equal_to<digits_t, mpl::int_<0> > >,
+      mpl::or_<mpl::equal_to<spec_t, boost::true_type>, mpl::equal_to<digits_t, boost::integral_constant<int, 0> > >,
       // Possibly unknown precision:
       precision_type,
       typename mpl::if_<
-         mpl::or_<mpl::less_equal<digits_t, precision_type>, mpl::less_equal<precision_type, mpl::int_<0> > >,
+         mpl::or_<mpl::less_equal<digits_t, precision_type>, mpl::less_equal<precision_type, boost::integral_constant<int, 0> > >,
          // Default case, full precision for RealType:
          digits2< ::std::numeric_limits<Real>::digits>,
          // User customised precision:
@@ -839,7 +837,7 @@ struct precision
 template <class Policy>
 struct precision<BOOST_MATH_FLOAT128_TYPE, Policy>
 {
-   typedef mpl::int_<113> type;
+   typedef boost::integral_constant<int, 113> type;
 };
 
 #endif
@@ -847,7 +845,7 @@ struct precision<BOOST_MATH_FLOAT128_TYPE, Policy>
 namespace detail{
 
 template <class T, class Policy>
-inline BOOST_MATH_CONSTEXPR int digits_imp(mpl::true_ const&) BOOST_NOEXCEPT
+inline BOOST_MATH_CONSTEXPR int digits_imp(boost::true_type const&) BOOST_NOEXCEPT
 {
 #ifndef BOOST_NO_LIMITS_COMPILE_TIME_CONSTANTS
    BOOST_STATIC_ASSERT( ::std::numeric_limits<T>::is_specialized);
@@ -859,7 +857,7 @@ inline BOOST_MATH_CONSTEXPR int digits_imp(mpl::true_ const&) BOOST_NOEXCEPT
 }
 
 template <class T, class Policy>
-inline BOOST_MATH_CONSTEXPR int digits_imp(mpl::false_ const&) BOOST_NOEXCEPT
+inline BOOST_MATH_CONSTEXPR int digits_imp(boost::false_type const&) BOOST_NOEXCEPT
 {
    return tools::digits<T>();
 }
@@ -869,7 +867,7 @@ inline BOOST_MATH_CONSTEXPR int digits_imp(mpl::false_ const&) BOOST_NOEXCEPT
 template <class T, class Policy>
 inline BOOST_MATH_CONSTEXPR int digits(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE(T)) BOOST_NOEXCEPT
 {
-   typedef mpl::bool_< std::numeric_limits<T>::is_specialized > tag_type;
+   typedef boost::integral_constant<bool, std::numeric_limits<T>::is_specialized > tag_type;
    return detail::digits_imp<T, Policy>(tag_type());
 }
 template <class T, class Policy>
@@ -904,7 +902,7 @@ struct series_factor_calc
 };
 
 template <class T, class Digits>
-struct series_factor_calc<T, Digits, mpl::true_, mpl::true_>
+struct series_factor_calc<T, Digits, boost::true_type, boost::true_type>
 {
    static BOOST_MATH_CONSTEXPR T get() BOOST_MATH_NOEXCEPT(T)
    {
@@ -912,7 +910,7 @@ struct series_factor_calc<T, Digits, mpl::true_, mpl::true_>
    }
 };
 template <class T, class Digits>
-struct series_factor_calc<T, Digits, mpl::true_, mpl::false_>
+struct series_factor_calc<T, Digits, boost::true_type, boost::false_type>
 {
    static BOOST_MATH_CONSTEXPR T get() BOOST_MATH_NOEXCEPT(T)
    {
@@ -920,7 +918,7 @@ struct series_factor_calc<T, Digits, mpl::true_, mpl::false_>
    }
 };
 template <class T, class Digits>
-struct series_factor_calc<T, Digits, mpl::false_, mpl::true_>
+struct series_factor_calc<T, Digits, boost::false_type, boost::true_type>
 {
    static BOOST_MATH_CONSTEXPR T get() BOOST_MATH_NOEXCEPT(T)
    {
@@ -929,7 +927,7 @@ struct series_factor_calc<T, Digits, mpl::false_, mpl::true_>
 };
 
 template <class T, class Policy>
-inline BOOST_MATH_CONSTEXPR T get_epsilon_imp(mpl::true_ const&) BOOST_MATH_NOEXCEPT(T)
+inline BOOST_MATH_CONSTEXPR T get_epsilon_imp(boost::true_type const&) BOOST_MATH_NOEXCEPT(T)
 {
 #ifndef BOOST_NO_LIMITS_COMPILE_TIME_CONSTANTS
    BOOST_STATIC_ASSERT( ::std::numeric_limits<T>::is_specialized);
@@ -939,13 +937,13 @@ inline BOOST_MATH_CONSTEXPR T get_epsilon_imp(mpl::true_ const&) BOOST_MATH_NOEX
    BOOST_ASSERT(::std::numeric_limits<T>::radix == 2);
 #endif
    typedef typename boost::math::policies::precision<T, Policy>::type p_t;
-   typedef mpl::bool_<p_t::value <= std::numeric_limits<boost::uintmax_t>::digits> is_small_int;
-   typedef mpl::bool_<p_t::value >= std::numeric_limits<T>::digits> is_default_value;
+   typedef boost::integral_constant<bool, p_t::value <= std::numeric_limits<boost::uintmax_t>::digits> is_small_int;
+   typedef boost::integral_constant<bool, p_t::value >= std::numeric_limits<T>::digits> is_default_value;
    return series_factor_calc<T, p_t, is_small_int, is_default_value>::get();
 }
 
 template <class T, class Policy>
-inline BOOST_MATH_CONSTEXPR T get_epsilon_imp(mpl::false_ const&) BOOST_MATH_NOEXCEPT(T)
+inline BOOST_MATH_CONSTEXPR T get_epsilon_imp(boost::false_type const&) BOOST_MATH_NOEXCEPT(T)
 {
    return tools::epsilon<T>();
 }
@@ -955,7 +953,7 @@ inline BOOST_MATH_CONSTEXPR T get_epsilon_imp(mpl::false_ const&) BOOST_MATH_NOE
 template <class T, class Policy>
 inline BOOST_MATH_CONSTEXPR T get_epsilon(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE(T)) BOOST_MATH_NOEXCEPT(T)
 {
-   typedef mpl::bool_< (std::numeric_limits<T>::is_specialized && (std::numeric_limits<T>::radix == 2)) > tag_type;
+   typedef boost::integral_constant<bool, (std::numeric_limits<T>::is_specialized && (std::numeric_limits<T>::radix == 2)) > tag_type;
    return detail::get_epsilon_imp<T, Policy>(tag_type());
 }
 
@@ -984,7 +982,7 @@ struct is_policy_imp
 }
 
 template <class P>
-struct is_policy : public mpl::bool_< ::boost::math::policies::detail::is_policy_imp<P>::value> {};
+struct is_policy : public boost::integral_constant<bool, ::boost::math::policies::detail::is_policy_imp<P>::value> {};
 
 //
 // Helper traits class for distribution error handling:
@@ -995,8 +993,8 @@ struct constructor_error_check
    typedef typename Policy::domain_error_type domain_error_type;
    typedef typename mpl::if_c<
       (domain_error_type::value == throw_on_error) || (domain_error_type::value == user_error) || (domain_error_type::value == errno_on_error),
-      mpl::true_,
-      mpl::false_>::type type;
+      boost::true_type,
+      boost::false_type>::type type;
 };
 
 template <class Policy>
@@ -1005,8 +1003,8 @@ struct method_error_check
    typedef typename Policy::domain_error_type domain_error_type;
    typedef typename mpl::if_c<
       (domain_error_type::value == throw_on_error) && (domain_error_type::value != user_error),
-      mpl::false_,
-      mpl::true_>::type type;
+      boost::false_type,
+      boost::true_type>::type type;
 };
 //
 // Does the Policy ever throw on error?

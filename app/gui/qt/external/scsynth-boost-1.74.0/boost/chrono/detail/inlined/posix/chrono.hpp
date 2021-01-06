@@ -12,6 +12,7 @@
 
 #include <time.h>  // for clock_gettime
 #include <boost/assert.hpp>
+#include <boost/predef/os.h>
 
 namespace boost
 {
@@ -36,22 +37,22 @@ namespace chrono
     timespec ts;
     if ( ::clock_gettime( CLOCK_REALTIME, &ts ) )
     {
-        if (BOOST_CHRONO_IS_THROWS(ec))
+        if (::boost::chrono::is_throws(ec))
         {
             boost::throw_exception(
                     system::system_error(
                             errno,
-                            BOOST_CHRONO_SYSTEM_CATEGORY,
+                            ::boost::system::system_category(),
                             "chrono::system_clock" ));
         }
         else
         {
-            ec.assign( errno, BOOST_CHRONO_SYSTEM_CATEGORY );
+            ec.assign( errno, ::boost::system::system_category() );
             return time_point();
         }
     }
 
-    if (!BOOST_CHRONO_IS_THROWS(ec))
+    if (!::boost::chrono::is_throws(ec))
     {
         ec.clear();
     }
@@ -75,11 +76,20 @@ namespace chrono
   steady_clock::time_point steady_clock::now() BOOST_NOEXCEPT
   {
     timespec ts;
-    if ( ::clock_gettime( CLOCK_MONOTONIC, &ts ) )
+#if BOOST_OS_CYGWIN
+    // lack of thread safety in high resolution timer initialization
+    // can lead to a timespec of zero without an error; was reported
+    // to the cygwin mailing list and can be removed once fixed
+    do
     {
-      BOOST_ASSERT(0 && "Boost::Chrono - Internal Error");
-    }
-
+#endif
+      if ( ::clock_gettime( CLOCK_MONOTONIC, &ts ) )
+      {
+        BOOST_ASSERT(0 && "Boost::Chrono - Internal Error");
+      }
+#if BOOST_OS_CYGWIN
+    } while (ts.tv_sec == 0 && ts.tv_nsec == 0);
+#endif
     return time_point(duration(
       static_cast<steady_clock::rep>( ts.tv_sec ) * 1000000000 + ts.tv_nsec));
   }
@@ -88,24 +98,34 @@ namespace chrono
   steady_clock::time_point steady_clock::now(system::error_code & ec)
   {
     timespec ts;
-    if ( ::clock_gettime( CLOCK_MONOTONIC, &ts ) )
+#if BOOST_OS_CYGWIN
+    // lack of thread safety in high resolution timer initialization
+    // can lead to a timespec of zero without an error; was reported
+    // to the cygwin mailing list and can be removed once fixed
+    do
     {
-        if (BOOST_CHRONO_IS_THROWS(ec))
+#endif
+      if ( ::clock_gettime( CLOCK_MONOTONIC, &ts ) )
+      {
+        if (::boost::chrono::is_throws(ec))
         {
             boost::throw_exception(
                     system::system_error(
                             errno,
-                            BOOST_CHRONO_SYSTEM_CATEGORY,
+                            ::boost::system::system_category(),
                             "chrono::steady_clock" ));
         }
         else
         {
-            ec.assign( errno, BOOST_CHRONO_SYSTEM_CATEGORY );
+            ec.assign( errno, ::boost::system::system_category() );
             return time_point();
         }
-    }
+      }
+#if BOOST_OS_CYGWIN
+    } while (ts.tv_sec == 0 && ts.tv_nsec == 0);
+#endif
 
-    if (!BOOST_CHRONO_IS_THROWS(ec))
+    if (!::boost::chrono::is_throws(ec))
     {
         ec.clear();
     }

@@ -26,7 +26,7 @@
 
 //____________________________________________________________________________//
 
-# if defined(BOOST_NO_STDC_NAMESPACE) && !BOOST_WORKAROUND(__BORLANDC__, <= 0x570)
+# if defined(BOOST_NO_STDC_NAMESPACE) && !BOOST_WORKAROUND(BOOST_BORLANDC, <= 0x570)
 namespace std { using ::toupper; }
 # endif
 
@@ -82,7 +82,7 @@ public:
     typedef bool result_type;
     typedef basic_cstring<CharT> first_argument_type;
     typedef basic_cstring<CharT> second_argument_type;
-	
+
     bool operator()( basic_cstring<CharT> x, basic_cstring<CharT> y ) const
     {
         return x.size() != y.size()

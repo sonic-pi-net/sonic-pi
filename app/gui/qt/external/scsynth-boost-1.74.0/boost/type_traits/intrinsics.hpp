@@ -122,18 +122,24 @@
 //  This one fails if the default alignment has been changed with /Zp:
 //  #   define BOOST_ALIGNMENT_OF(T) __alignof(T)
 
-#   if defined(_MSC_VER) && (_MSC_VER >= 1700)
+#   if defined(_MSC_VER) && (_MSC_VER >= 1800)
+#       define BOOST_HAS_TRIVIAL_MOVE_CONSTRUCTOR(T) ((__is_trivially_constructible(T, T&&) || boost::is_pod<T>::value) && ! ::boost::is_volatile<T>::value && ! ::boost::is_reference<T>::value)
+#       define BOOST_HAS_TRIVIAL_MOVE_ASSIGN(T) ((__is_trivially_assignable(T, T&&) || boost::is_pod<T>::value) && ! ::boost::is_const<T>::value && !::boost::is_volatile<T>::value && ! ::boost::is_reference<T>::value)
+#   elif defined(_MSC_VER) && (_MSC_VER >= 1700)
 #       define BOOST_HAS_TRIVIAL_MOVE_CONSTRUCTOR(T) ((__has_trivial_move_constructor(T) || boost::is_pod<T>::value) && ! ::boost::is_volatile<T>::value && ! ::boost::is_reference<T>::value)
 #       define BOOST_HAS_TRIVIAL_MOVE_ASSIGN(T) ((__has_trivial_move_assign(T) || boost::is_pod<T>::value) && ! ::boost::is_const<T>::value && !::boost::is_volatile<T>::value && ! ::boost::is_reference<T>::value)
 #   endif
 #ifndef BOOST_NO_CXX11_FINAL
 //  This one doesn't quite always do the right thing on older VC++ versions
-//  we really need it when the final keyword is supporyted though:
+//  we really need it when the final keyword is supported though:
 #   define BOOST_IS_POLYMORPHIC(T) __is_polymorphic(T)
 #endif
 #if _MSC_FULL_VER >= 180020827
 #   define BOOST_IS_NOTHROW_MOVE_ASSIGN(T) (__is_nothrow_assignable(T&, T&&))
 #   define BOOST_IS_NOTHROW_MOVE_CONSTRUCT(T) (__is_nothrow_constructible(T, T&&))
+#endif
+#if _MSC_VER >= 1800
+#   define BOOST_IS_FINAL(T) __is_final(T)
 #endif
 #   define BOOST_HAS_TYPE_TRAITS_INTRINSICS
 #endif
@@ -219,12 +225,14 @@
 #   if __has_feature(is_polymorphic)
 #     define BOOST_IS_POLYMORPHIC(T) __is_polymorphic(T)
 #   endif
-#   if __has_feature(has_trivial_move_constructor)
-#     define BOOST_HAS_TRIVIAL_MOVE_CONSTRUCTOR(T) (__has_trivial_move_constructor(T)  && is_constructible<T, T&&>::value && !::boost::is_volatile<T>::value)
+#ifndef BOOST_NO_CXX11_RVALUE_REFERENCES
+#   if __has_extension(is_trivially_constructible)
+#     define BOOST_HAS_TRIVIAL_MOVE_CONSTRUCTOR(T) (__is_trivially_constructible(T, T&&) && is_constructible<T, T&&>::value && !::boost::is_volatile<T>::value)
 #   endif
-#   if __has_feature(has_trivial_move_assign)
-#     define BOOST_HAS_TRIVIAL_MOVE_ASSIGN(T) (__has_trivial_move_assign(T) && is_assignable<T&, T&&>::value && !::boost::is_volatile<T>::value)
+#   if __has_extension(is_trivially_assignable)
+#     define BOOST_HAS_TRIVIAL_MOVE_ASSIGN(T) (__is_trivially_assignable(T&, T&&) && is_assignable<T&, T&&>::value && !::boost::is_volatile<T>::value)
 #   endif
+#endif
 #   if (!defined(unix) && !defined(__unix__)) || defined(__LP64__) || !defined(__GNUC__)
 // GCC sometimes lies about alignment requirements
 // of type double on 32-bit unix platforms, use the
@@ -266,7 +274,9 @@
 #   define BOOST_HAS_TRIVIAL_ASSIGN(T) ((__has_trivial_assign(T) BOOST_INTEL_TT_OPTS) && ! ::boost::is_volatile<T>::value && ! ::boost::is_const<T>::value)
 #   define BOOST_HAS_TRIVIAL_DESTRUCTOR(T) (__has_trivial_destructor(T) BOOST_INTEL_TT_OPTS)
 #   define BOOST_HAS_NOTHROW_CONSTRUCTOR(T) (__has_nothrow_constructor(T) BOOST_INTEL_TT_OPTS)
+#if ((__GNUC__ * 100 + __GNUC_MINOR__) != 407) && ((__GNUC__ * 100 + __GNUC_MINOR__) != 408)
 #   define BOOST_HAS_NOTHROW_COPY(T) ((__has_nothrow_copy(T) BOOST_INTEL_TT_OPTS) && !is_volatile<T>::value && !is_reference<T>::value && !is_array<T>::value)
+#endif
 #   define BOOST_HAS_NOTHROW_ASSIGN(T) ((__has_nothrow_assign(T) BOOST_INTEL_TT_OPTS) && !is_volatile<T>::value && !is_const<T>::value && !is_array<T>::value)
 #endif
 #   define BOOST_HAS_VIRTUAL_DESTRUCTOR(T) __has_virtual_destructor(T)
@@ -276,7 +286,8 @@
 #   define BOOST_IS_CLASS(T) __is_class(T)
 #   define BOOST_IS_ENUM(T) __is_enum(T)
 #   define BOOST_IS_POLYMORPHIC(T) __is_polymorphic(T)
-#   if (!defined(unix) && !defined(__unix__)) || defined(__LP64__)
+#   if (!defined(unix) && !defined(__unix__) && \
+       !(defined(__VXWORKS__) && defined(__i386__)))  || defined(__LP64__)
       // GCC sometimes lies about alignment requirements
       // of type double on 32-bit unix platforms, use the
       // old implementation instead in that case:
@@ -345,7 +356,7 @@
 #   define BOOST_HAS_TYPE_TRAITS_INTRINSICS
 #endif
 
-# if defined(__CODEGEARC__)
+# if defined(BOOST_CODEGEARC)
 #   include <boost/type_traits/is_same.hpp>
 #   include <boost/type_traits/is_reference.hpp>
 #   include <boost/type_traits/is_volatile.hpp>

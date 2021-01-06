@@ -29,7 +29,7 @@ template< typename Tag >
 struct size_impl
 {
     template< typename Sequence > struct apply
-#if !BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x561))
+#if !BOOST_WORKAROUND(BOOST_BORLANDC, BOOST_TESTED_AT(0x561))
         : distance<
               typename begin<Sequence>::type
             , typename end<Sequence>::type

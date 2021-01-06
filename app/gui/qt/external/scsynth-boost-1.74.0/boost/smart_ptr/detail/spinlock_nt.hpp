@@ -17,6 +17,13 @@
 
 #include <boost/assert.hpp>
 
+#if defined(BOOST_SP_REPORT_IMPLEMENTATION)
+
+#include <boost/config/pragma_message.hpp>
+BOOST_PRAGMA_MESSAGE("Using single-threaded spinlock emulation")
+
+#endif
+
 namespace boost
 {
 

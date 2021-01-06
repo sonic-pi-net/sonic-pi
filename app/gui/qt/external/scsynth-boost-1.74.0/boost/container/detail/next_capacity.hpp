@@ -23,52 +23,54 @@
 // container/detail
 #include <boost/container/detail/min_max.hpp>
 
+#include <boost/static_assert.hpp>
+
 namespace boost {
 namespace container {
-namespace container_detail {
+namespace dtl {
 
-enum NextCapacityOption { NextCapacityDouble, NextCapacity60Percent };
-
-template<class SizeType, NextCapacityOption Option>
-struct next_capacity_calculator;
-
-template<class SizeType>
-struct next_capacity_calculator<SizeType, NextCapacityDouble>
+template<unsigned Minimum, unsigned Numerator, unsigned Denominator>
+struct grow_factor_ratio
 {
-   static SizeType get(const SizeType max_size
-                      ,const SizeType capacity
-                      ,const SizeType n)
+   BOOST_STATIC_ASSERT(Numerator > Denominator);
+   BOOST_STATIC_ASSERT(Numerator   < 100);
+   BOOST_STATIC_ASSERT(Denominator < 100);
+   BOOST_STATIC_ASSERT(Denominator == 1 || (0 != Numerator % Denominator));
+
+   template<class SizeType>
+   SizeType operator()(const SizeType cur_cap, const SizeType add_min_cap, const SizeType max_cap) const
    {
-      const SizeType remaining = max_size - capacity;
-      if ( remaining < n )
-         boost::container::throw_length_error("get_next_capacity, allocator's max_size reached");
-      const SizeType additional = max_value(n, capacity);
-      return ( remaining < additional ) ? max_size : ( capacity + additional );
+      const SizeType overflow_limit  = ((SizeType)-1) / Numerator;
+
+      SizeType new_cap = 0;
+
+      if(cur_cap <= overflow_limit){
+         new_cap = cur_cap * Numerator / Denominator;
+      }
+      else if(Denominator == 1 || (SizeType(new_cap = cur_cap) / Denominator) > overflow_limit){
+         new_cap = (SizeType)-1;
+      }
+      else{
+         new_cap *= Numerator;
+      }
+      return max_value(SizeType(Minimum), max_value(cur_cap+add_min_cap, min_value(max_cap, new_cap)));
    }
 };
 
-template<class SizeType>
-struct next_capacity_calculator<SizeType, NextCapacity60Percent>
-{
-   static SizeType get(const SizeType max_size
-                     ,const SizeType capacity
-                     ,const SizeType n)
-   {
-      const SizeType remaining = max_size - capacity;
-      if ( remaining < n )
-         boost::container::throw_length_error("get_next_capacity, allocator's max_size reached");
-      const SizeType m3 = max_size/3;
+}  //namespace dtl {
 
-      if (capacity < m3)
-         return capacity + max_value(3*(capacity+1)/5, n);
+struct growth_factor_50
+   : dtl::grow_factor_ratio<0, 3, 2>
+{};
 
-      if (capacity < m3*2)
-         return capacity + max_value((capacity+1)/2, n);
-      return max_size;
-   }
-};
+struct growth_factor_60
+   : dtl::grow_factor_ratio<0, 8, 5>
+{};
 
-}  //namespace container_detail {
+struct growth_factor_100
+   : dtl::grow_factor_ratio<0, 2, 1>
+{};
+
 }  //namespace container {
 }  //namespace boost {
 

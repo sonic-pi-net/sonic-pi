@@ -20,7 +20,7 @@ namespace boost { namespace math {
 namespace detail {
 
 template <class T, class OutputIterator, class Policy, int N>
-OutputIterator bernoulli_number_imp(OutputIterator out, std::size_t start, std::size_t n, const Policy& pol, const mpl::int_<N>& tag)
+OutputIterator bernoulli_number_imp(OutputIterator out, std::size_t start, std::size_t n, const Policy& pol, const boost::integral_constant<int, N>& tag)
 {
    for(std::size_t i = start; (i <= max_bernoulli_b2n<T>::value) && (i < start + n); ++i)
    {
@@ -38,7 +38,7 @@ OutputIterator bernoulli_number_imp(OutputIterator out, std::size_t start, std::
 }
 
 template <class T, class OutputIterator, class Policy>
-OutputIterator bernoulli_number_imp(OutputIterator out, std::size_t start, std::size_t n, const Policy& pol, const mpl::int_<0>& tag)
+OutputIterator bernoulli_number_imp(OutputIterator out, std::size_t start, std::size_t n, const Policy& pol, const boost::integral_constant<int, 0>& tag)
 {
    for(std::size_t i = start; (i <= max_bernoulli_b2n<T>::value) && (i < start + n); ++i)
    {
@@ -59,7 +59,7 @@ OutputIterator bernoulli_number_imp(OutputIterator out, std::size_t start, std::
 template <class T, class Policy>
 inline T bernoulli_b2n(const int i, const Policy &pol)
 {
-   typedef mpl::int_<detail::bernoulli_imp_variant<T>::value> tag_type;
+   typedef boost::integral_constant<int, detail::bernoulli_imp_variant<T>::value> tag_type;
    if(i < 0)
       return policies::raise_domain_error<T>("boost::math::bernoulli_b2n<%1%>", "Index should be >= 0 but got %1%", T(i), pol);
 
@@ -80,7 +80,7 @@ inline OutputIterator bernoulli_b2n(const int start_index,
                                     OutputIterator out_it,
                                     const Policy& pol)
 {
-   typedef mpl::int_<detail::bernoulli_imp_variant<T>::value> tag_type;
+   typedef boost::integral_constant<int, detail::bernoulli_imp_variant<T>::value> tag_type;
    if(start_index < 0)
    {
       *out_it = policies::raise_domain_error<T>("boost::math::bernoulli_b2n<%1%>", "Index should be >= 0 but got %1%", T(start_index), pol);

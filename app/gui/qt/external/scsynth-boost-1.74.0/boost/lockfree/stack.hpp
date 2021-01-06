@@ -9,6 +9,7 @@
 
 #include <boost/assert.hpp>
 #include <boost/checked_delete.hpp>
+#include <boost/core/allocator_access.hpp>
 #include <boost/core/no_exceptions_support.hpp>
 #include <boost/integer_traits.hpp>
 #include <boost/static_assert.hpp>
@@ -134,48 +135,72 @@ public:
         return tos.is_lock_free() && pool.is_lock_free();
     }
 
-    //! Construct stack
-    // @{
+    /** Construct a fixed-sized stack
+     *
+     *  \pre Must specify a capacity<> argument
+     * */
     stack(void):
         pool(node_allocator(), capacity)
     {
+        // Don't use BOOST_STATIC_ASSERT() here since it will be evaluated when compiling
+        // this function and this function may be compiled even when it isn't being used.
         BOOST_ASSERT(has_capacity);
         initialize();
     }
 
+    /** Construct a fixed-sized stack with a custom allocator
+     *
+     *  \pre Must specify a capacity<> argument
+     * */
     template <typename U>
-    explicit stack(typename node_allocator::template rebind<U>::other const & alloc):
+    explicit stack(typename boost::allocator_rebind<node_allocator, U>::type const & alloc):
         pool(alloc, capacity)
     {
         BOOST_STATIC_ASSERT(has_capacity);
         initialize();
     }
 
+    /** Construct a fixed-sized stack with a custom allocator
+     *
+     *  \pre Must specify a capacity<> argument
+     * */
     explicit stack(allocator const & alloc):
         pool(alloc, capacity)
     {
+        // Don't use BOOST_STATIC_ASSERT() here since it will be evaluated when compiling
+        // this function and this function may be compiled even when it isn't being used.
         BOOST_ASSERT(has_capacity);
         initialize();
     }
-    // @}
 
-    //! Construct stack, allocate n nodes for the freelist.
-    // @{
+    /** Construct a variable-sized stack
+     *
+     *  Allocate n nodes initially for the freelist
+     *
+     *  \pre Must \b not specify a capacity<> argument
+     * */
     explicit stack(size_type n):
         pool(node_allocator(), n)
     {
+        // Don't use BOOST_STATIC_ASSERT() here since it will be evaluated when compiling
+        // this function and this function may be compiled even when it isn't being used.
         BOOST_ASSERT(!has_capacity);
         initialize();
     }
 
+    /** Construct a variable-sized stack with a custom allocator
+     *
+     *  Allocate n nodes initially for the freelist
+     *
+     *  \pre Must \b not specify a capacity<> argument
+     * */
     template <typename U>
-    stack(size_type n, typename node_allocator::template rebind<U>::other const & alloc):
+    stack(size_type n, typename boost::allocator_rebind<node_allocator, U>::type const & alloc):
         pool(alloc, n)
     {
         BOOST_STATIC_ASSERT(!has_capacity);
         initialize();
     }
-    // @}
 
     /** Allocate n nodes for freelist
      *
@@ -185,7 +210,9 @@ public:
      * */
     void reserve(size_type n)
     {
-        BOOST_STATIC_ASSERT(!has_capacity);
+        // Don't use BOOST_STATIC_ASSERT() here since it will be evaluated when compiling
+        // this function and this function may be compiled even when it isn't being used.
+        BOOST_ASSERT(!has_capacity);
         pool.template reserve<true>(n);
     }
 
@@ -197,7 +224,9 @@ public:
      * */
     void reserve_unsafe(size_type n)
     {
-        BOOST_STATIC_ASSERT(!has_capacity);
+        // Don't use BOOST_STATIC_ASSERT() here since it will be evaluated when compiling
+        // this function and this function may be compiled even when it isn't being used.
+        BOOST_ASSERT(!has_capacity);
         pool.template reserve<false>(n);
     }
 
@@ -237,7 +266,7 @@ private:
         tagged_node_handle old_tos = tos.load(detail::memory_order_relaxed);
 
         tagged_node_handle new_tos (pool.get_handle(new_top_node), old_tos.get_tag());
-        end_node->next = pool.get_pointer(old_tos);
+        end_node->next = pool.get_handle(old_tos);
 
         tos.store(new_tos, memory_order_relaxed);
     }

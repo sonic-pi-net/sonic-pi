@@ -1,6 +1,6 @@
 /*
  * Copyright 2010 Vicente J. Botet Escriba
- * Copyright 2015 Andrey Semashev
+ * Copyright 2015-2018 Andrey Semashev
  *
  * Distributed under the Boost Software License, Version 1.0.
  * See http://www.boost.org/LICENSE_1_0.txt
@@ -9,18 +9,15 @@
 #ifndef BOOST_WINAPI_BASIC_TYPES_HPP_INCLUDED_
 #define BOOST_WINAPI_BASIC_TYPES_HPP_INCLUDED_
 
-#include <cstdarg>
-#include <boost/cstdint.hpp>
 #include <boost/winapi/config.hpp>
 
 #ifdef BOOST_HAS_PRAGMA_ONCE
 #pragma once
 #endif
 
-#if defined( BOOST_USE_WINDOWS_H )
+#if defined(BOOST_USE_WINDOWS_H)
 # include <windows.h>
-#elif defined( WIN32 ) || defined( _WIN32 ) || defined( __WIN32__ ) ||  defined(__CYGWIN__)
-# include <winerror.h>
+#elif defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__CYGWIN__)
 # ifdef UNDER_CE
 #  ifndef WINAPI
 #   ifndef _WIN32_WCE_EMULATION
@@ -33,17 +30,39 @@
 typedef int BOOL;
 typedef unsigned long DWORD;
 typedef void* HANDLE;
+typedef HANDLE HGLOBAL;
+typedef void* LPVOID;
 #  include <kfuncs.h>
-# else
-#  ifndef WINAPI
-#   define WINAPI  __stdcall
-#  endif
-# endif
-# ifndef NTAPI
-#  define NTAPI __stdcall
-# endif
+# endif // UNDER_CE
 #else
 # error "Win32 functions not available"
+#endif
+
+#include <boost/winapi/detail/header.hpp>
+
+#if defined(_M_IX86) || defined(__i386__)
+#define BOOST_WINAPI_DETAIL_STDCALL __stdcall
+#else
+// On architectures other than 32-bit x86 __stdcall is ignored. Clang also issues a warning.
+#define BOOST_WINAPI_DETAIL_STDCALL
+#endif
+
+#if defined(WINAPI)
+#define BOOST_WINAPI_WINAPI_CC WINAPI
+#else
+#define BOOST_WINAPI_WINAPI_CC BOOST_WINAPI_DETAIL_STDCALL
+#endif
+
+#if defined(CALLBACK)
+#define BOOST_WINAPI_CALLBACK_CC CALLBACK
+#else
+#define BOOST_WINAPI_CALLBACK_CC BOOST_WINAPI_DETAIL_STDCALL
+#endif
+
+#if defined(NTAPI)
+#define BOOST_WINAPI_NTAPI_CC NTAPI
+#else
+#define BOOST_WINAPI_NTAPI_CC BOOST_WINAPI_DETAIL_STDCALL
 #endif
 
 #ifndef NO_STRICT
@@ -58,7 +77,7 @@ typedef void* HANDLE;
 #define BOOST_WINAPI_DETAIL_DECLARE_HANDLE(x) typedef void* x
 #endif
 
-#if !defined( BOOST_USE_WINDOWS_H )
+#if !defined(BOOST_USE_WINDOWS_H)
 extern "C" {
 union _LARGE_INTEGER;
 struct _SECURITY_ATTRIBUTES;
@@ -79,7 +98,7 @@ typedef HINSTANCE HMODULE;
 
 namespace boost {
 namespace winapi {
-#if defined( BOOST_USE_WINDOWS_H )
+#if defined(BOOST_USE_WINDOWS_H)
 
 typedef ::BOOL BOOL_;
 typedef ::PBOOL PBOOL_;
@@ -138,10 +157,6 @@ typedef ::WCHAR WCHAR_;
 typedef ::LPWSTR LPWSTR_;
 typedef ::LPCWSTR LPCWSTR_;
 
-// ::NTSTATUS is defined in ntdef.h, which is not included by windows.h by default
-typedef LONG_ NTSTATUS_;
-typedef NTSTATUS_ *PNTSTATUS_;
-
 #else // defined( BOOST_USE_WINDOWS_H )
 
 typedef int BOOL_;
@@ -157,7 +172,11 @@ typedef BOOLEAN_* PBOOLEAN_;
 typedef unsigned short WORD_;
 typedef WORD_* PWORD_;
 typedef WORD_* LPWORD_;
+#if !defined(__LP64__)
 typedef unsigned long DWORD_;
+#else
+typedef unsigned int DWORD_;
+#endif
 typedef DWORD_* PDWORD_;
 typedef DWORD_* LPDWORD_;
 typedef void* HANDLE_;
@@ -172,35 +191,37 @@ typedef INT_* PINT_;
 typedef INT_* LPINT_;
 typedef unsigned int UINT_;
 typedef UINT_* PUINT_;
+#if !defined(__LP64__)
 typedef long LONG_;
+typedef unsigned long ULONG_;
+#else
+typedef int LONG_;
+typedef unsigned int ULONG_;
+#endif
 typedef LONG_* PLONG_;
 typedef LONG_* LPLONG_;
-typedef unsigned long ULONG_;
 typedef ULONG_* PULONG_;
-typedef boost::uint64_t ULONG64_;
-typedef ULONG64_ * PULONG64_;
+#if defined(BOOST_HAS_MS_INT64)
+BOOST_WINAPI_DETAIL_EXTENSION typedef __int64 LONGLONG_;
+BOOST_WINAPI_DETAIL_EXTENSION typedef unsigned __int64 ULONGLONG_;
+#else
+BOOST_WINAPI_DETAIL_EXTENSION typedef long long LONGLONG_;
+BOOST_WINAPI_DETAIL_EXTENSION typedef unsigned long long ULONGLONG_;
+#endif
+typedef LONGLONG_ LONG64_, *PLONG64_;
+typedef ULONGLONG_ ULONG64_, *PULONG64_;
 
-typedef boost::int64_t LONGLONG_;
-typedef boost::uint64_t ULONGLONG_;
-
-# ifdef _WIN64
-#  if defined(__CYGWIN__)
-typedef long INT_PTR_;
-typedef unsigned long UINT_PTR_;
-typedef long LONG_PTR_;
-typedef unsigned long ULONG_PTR_;
-#  else
-typedef __int64 INT_PTR_;
-typedef unsigned __int64 UINT_PTR_;
-typedef __int64 LONG_PTR_;
-typedef unsigned __int64 ULONG_PTR_;
-#  endif
-# else
+#if defined(_WIN64)
+typedef LONGLONG_ INT_PTR_;
+typedef ULONGLONG_ UINT_PTR_;
+typedef LONGLONG_ LONG_PTR_;
+typedef ULONGLONG_ ULONG_PTR_;
+#else
 typedef int INT_PTR_;
 typedef unsigned int UINT_PTR_;
 typedef long LONG_PTR_;
 typedef unsigned long ULONG_PTR_;
-# endif
+#endif
 
 typedef ULONG_PTR_ DWORD_PTR_, *PDWORD_PTR_;
 typedef ULONG_PTR_ SIZE_T_, *PSIZE_T_;
@@ -219,29 +240,25 @@ typedef wchar_t WCHAR_;
 typedef WCHAR_ *LPWSTR_;
 typedef const WCHAR_ *LPCWSTR_;
 
-typedef long NTSTATUS_;
-typedef NTSTATUS_ * PNTSTATUS_;
-
 #endif // defined( BOOST_USE_WINDOWS_H )
+
+// ::NTSTATUS is defined in ntdef.h, which is not included by windows.h by default, so alwaus use LONG_
+typedef LONG_ NTSTATUS_;
+typedef NTSTATUS_ *PNTSTATUS_;
 
 typedef ::HMODULE HMODULE_;
 
-#ifdef BOOST_MSVC
-#pragma warning(push)
-#pragma warning(disable:4201) // nonstandard extension used : nameless struct/union
-#endif
-
 typedef union BOOST_MAY_ALIAS _LARGE_INTEGER {
+    BOOST_WINAPI_DETAIL_EXTENSION struct {
+        DWORD_ LowPart;
+        LONG_ HighPart;
+    };
     struct {
         DWORD_ LowPart;
         LONG_ HighPart;
     } u;
     LONGLONG_ QuadPart;
 } LARGE_INTEGER_, *PLARGE_INTEGER_;
-
-#ifdef BOOST_MSVC
-#pragma warning(pop)
-#endif
 
 typedef struct BOOST_MAY_ALIAS _SECURITY_ATTRIBUTES {
     DWORD_  nLength;
@@ -251,5 +268,7 @@ typedef struct BOOST_MAY_ALIAS _SECURITY_ATTRIBUTES {
 
 }
 }
+
+#include <boost/winapi/detail/footer.hpp>
 
 #endif // BOOST_WINAPI_BASIC_TYPES_HPP_INCLUDED_

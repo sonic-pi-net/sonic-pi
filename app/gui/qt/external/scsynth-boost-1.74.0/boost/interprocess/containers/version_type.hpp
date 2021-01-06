@@ -25,8 +25,8 @@
 namespace boost {
 namespace interprocess {
 
-using boost::container::container_detail::version_type;
-using boost::container::container_detail::version;
+using boost::container::dtl::version_type;
+using boost::container::dtl::version;
 
 }  //namespace interprocess {
 }  //namespace boost {

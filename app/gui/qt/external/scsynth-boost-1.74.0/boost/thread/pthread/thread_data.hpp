@@ -12,10 +12,12 @@
 #include <boost/thread/lock_types.hpp>
 #include <boost/thread/mutex.hpp>
 #include <boost/thread/pthread/condition_variable_fwd.hpp>
+#include <boost/thread/pthread/pthread_helpers.hpp>
 
 #include <boost/shared_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/assert.hpp>
+#include <boost/thread/detail/platform_time.hpp>
 #ifdef BOOST_THREAD_USES_CHRONO
 #include <boost/chrono/system_clocks.hpp>
 #endif
@@ -92,12 +94,15 @@ namespace boost
         struct thread_exit_callback_node;
         struct tss_data_node
         {
-            boost::shared_ptr<boost::detail::tss_cleanup_function> func;
+            typedef void(*cleanup_func_t)(void*);
+            typedef void(*cleanup_caller_t)(cleanup_func_t, void*);
+
+            cleanup_caller_t caller;
+            cleanup_func_t func;
             void* value;
 
-            tss_data_node(boost::shared_ptr<boost::detail::tss_cleanup_function> func_,
-                          void* value_):
-                func(func_),value(value_)
+            tss_data_node(cleanup_caller_t caller_,cleanup_func_t func_,void* value_):
+                caller(caller_),func(func_),value(value_)
             {}
         };
 
@@ -111,8 +116,6 @@ namespace boost
             pthread_t thread_handle;
             boost::mutex data_mutex;
             boost::condition_variable done_condition;
-            boost::mutex sleep_mutex;
-            boost::condition_variable sleep_condition;
             bool done;
             bool join_started;
             bool joined;
@@ -131,9 +134,10 @@ namespace boost
             > notify_list_t;
             notify_list_t notify;
 
+//#ifndef BOOST_NO_EXCEPTIONS
             typedef std::vector<shared_ptr<shared_state_base> > async_states_t;
             async_states_t async_states_;
-
+//#endif
 //#if defined BOOST_THREAD_PROVIDES_INTERRUPTIONS
             // These data must be at the end so that the access to the other fields doesn't change
             // when BOOST_THREAD_PROVIDES_INTERRUPTIONS is defined.
@@ -149,8 +153,10 @@ namespace boost
                 cond_mutex(0),
                 current_cond(0),
 //#endif
-                notify(),
-                async_states_()
+                notify()
+//#ifndef BOOST_NO_EXCEPTIONS
+                , async_states_()
+//#endif
 //#if defined BOOST_THREAD_PROVIDES_INTERRUPTIONS
                 , interrupt_enabled(true)
                 , interrupt_requested(false)
@@ -166,11 +172,12 @@ namespace boost
               notify.push_back(std::pair<condition_variable*, mutex*>(cv, m));
             }
 
+//#ifndef BOOST_NO_EXCEPTIONS
             void make_ready_at_thread_exit(shared_ptr<shared_state_base> as)
             {
               async_states_.push_back(as);
             }
-
+//#endif
         };
 
         BOOST_THREAD_DECL thread_data_base* get_current_thread_data();
@@ -206,11 +213,11 @@ namespace boost
                     check_for_interruption();
                     thread_info->cond_mutex=cond_mutex;
                     thread_info->current_cond=cond;
-                    BOOST_VERIFY(!pthread_mutex_lock(m));
+                    BOOST_VERIFY(!posix::pthread_mutex_lock(m));
                 }
                 else
                 {
-                    BOOST_VERIFY(!pthread_mutex_lock(m));
+                    BOOST_VERIFY(!posix::pthread_mutex_lock(m));
                 }
             }
             void unlock_if_locked()
@@ -218,14 +225,14 @@ namespace boost
               if ( ! done) {
                 if (set)
                 {
-                    BOOST_VERIFY(!pthread_mutex_unlock(m));
+                    BOOST_VERIFY(!posix::pthread_mutex_unlock(m));
                     lock_guard<mutex> guard(thread_info->data_mutex);
                     thread_info->cond_mutex=NULL;
                     thread_info->current_cond=NULL;
                 }
                 else
                 {
-                    BOOST_VERIFY(!pthread_mutex_unlock(m));
+                    BOOST_VERIFY(!posix::pthread_mutex_unlock(m));
                 }
                 done = true;
               }
@@ -241,49 +248,15 @@ namespace boost
 
     namespace this_thread
     {
+        void BOOST_THREAD_DECL yield() BOOST_NOEXCEPT;
+
         namespace hidden
         {
-          void BOOST_THREAD_DECL sleep_for(const timespec& ts);
-          void BOOST_THREAD_DECL sleep_until_realtime(const timespec& ts);
-        }
-
-#ifdef BOOST_THREAD_USES_CHRONO
-        template <class Rep, class Period>
-        void sleep_for(const chrono::duration<Rep, Period>& d);
-#ifdef BOOST_THREAD_SLEEP_FOR_IS_STEADY
-
-        inline
-        void BOOST_SYMBOL_VISIBLE sleep_for(const chrono::nanoseconds& ns)
-        {
-            return boost::this_thread::hidden::sleep_for(boost::detail::to_timespec(ns));
-        }
-#endif
-#endif // BOOST_THREAD_USES_CHRONO
-
-        namespace no_interruption_point
-        {
-          namespace hidden
+          inline bool always_false()
           {
-            void BOOST_THREAD_DECL sleep_for(const timespec& ts);
-            void BOOST_THREAD_DECL sleep_until_realtime(const timespec& ts);
+            return false;
           }
-
-    #ifdef BOOST_THREAD_USES_CHRONO
-          template <class Rep, class Period>
-          void sleep_for(const chrono::duration<Rep, Period>& d);
-    #ifdef BOOST_THREAD_SLEEP_FOR_IS_STEADY
-
-          inline
-          void BOOST_SYMBOL_VISIBLE sleep_for(const chrono::nanoseconds& ns)
-          {
-              return boost::this_thread::no_interruption_point::hidden::sleep_for(boost::detail::to_timespec(ns));
-          }
-    #endif
-    #endif // BOOST_THREAD_USES_CHRONO
-
-        } // no_interruption_point
-
-        void BOOST_THREAD_DECL yield() BOOST_NOEXCEPT;
+        }
 
 #if defined BOOST_THREAD_USES_DATETIME
 #ifdef __DECXXX
@@ -292,15 +265,141 @@ namespace boost
 #endif
         inline void sleep(system_time const& abs_time)
         {
-          return boost::this_thread::hidden::sleep_until_realtime(boost::detail::to_timespec(abs_time));
+          mutex mx;
+          unique_lock<mutex> lock(mx);
+          condition_variable cond;
+          cond.timed_wait(lock, abs_time, hidden::always_false);
         }
 
         template<typename TimeDuration>
-        inline BOOST_SYMBOL_VISIBLE void sleep(TimeDuration const& rel_time)
+        void sleep(TimeDuration const& rel_time)
         {
-            this_thread::sleep(get_system_time()+rel_time);
+          mutex mx;
+          unique_lock<mutex> lock(mx);
+          condition_variable cond;
+          cond.timed_wait(lock, rel_time, hidden::always_false);
         }
-#endif // BOOST_THREAD_USES_DATETIME
+#endif
+
+#ifdef BOOST_THREAD_USES_CHRONO
+        template <class Clock, class Duration>
+        void sleep_until(const chrono::time_point<Clock, Duration>& t)
+        {
+          mutex mut;
+          unique_lock<mutex> lk(mut);
+          condition_variable cv;
+          cv.wait_until(lk, t, hidden::always_false);
+        }
+
+        template <class Rep, class Period>
+        void sleep_for(const chrono::duration<Rep, Period>& d)
+        {
+          mutex mut;
+          unique_lock<mutex> lk(mut);
+          condition_variable cv;
+          cv.wait_for(lk, d, hidden::always_false);
+        }
+#endif
+
+        namespace no_interruption_point
+        {
+#if defined BOOST_THREAD_SLEEP_FOR_IS_STEADY
+// Use pthread_delay_np or nanosleep when available
+// because they do not provide an interruption point.
+
+          namespace hidden
+          {
+            void BOOST_THREAD_DECL sleep_for_internal(const detail::platform_duration& ts);
+          }
+
+#if defined BOOST_THREAD_USES_DATETIME
+#ifdef __DECXXX
+          /// Workaround of DECCXX issue of incorrect template substitution
+          template<>
+#endif
+          inline void sleep(system_time const& abs_time)
+          {
+            const detail::real_platform_timepoint ts(abs_time);
+            detail::platform_duration d(ts - detail::real_platform_clock::now());
+            while (d > detail::platform_duration::zero())
+            {
+              d = (std::min)(d, detail::platform_milliseconds(BOOST_THREAD_POLL_INTERVAL_MILLISECONDS));
+              hidden::sleep_for_internal(d);
+              d = ts - detail::real_platform_clock::now();
+            }
+          }
+
+          template<typename TimeDuration>
+          void sleep(TimeDuration const& rel_time)
+          {
+            hidden::sleep_for_internal(detail::platform_duration(rel_time));
+          }
+#endif
+
+#ifdef BOOST_THREAD_USES_CHRONO
+          template <class Rep, class Period>
+          void sleep_for(const chrono::duration<Rep, Period>& d)
+          {
+            hidden::sleep_for_internal(detail::platform_duration(d));
+          }
+
+          template <class Duration>
+          void sleep_until(const chrono::time_point<chrono::steady_clock, Duration>& t)
+          {
+            sleep_for(t - chrono::steady_clock::now());
+          }
+
+          template <class Clock, class Duration>
+          void sleep_until(const chrono::time_point<Clock, Duration>& t)
+          {
+            typedef typename common_type<Duration, typename Clock::duration>::type common_duration;
+            common_duration d(t - Clock::now());
+            while (d > common_duration::zero())
+            {
+              d = (std::min)(d, common_duration(chrono::milliseconds(BOOST_THREAD_POLL_INTERVAL_MILLISECONDS)));
+              hidden::sleep_for_internal(detail::platform_duration(d));
+              d = t - Clock::now();
+            }
+          }
+#endif
+
+#else // BOOST_THREAD_SLEEP_FOR_IS_STEADY
+// When pthread_delay_np and nanosleep are not available,
+// fall back to using the interruptible sleep functions.
+
+#if defined BOOST_THREAD_USES_DATETIME
+#ifdef __DECXXX
+          /// Workaround of DECCXX issue of incorrect template substitution
+          template<>
+#endif
+          inline void sleep(system_time const& abs_time)
+          {
+            this_thread::sleep(abs_time);
+          }
+
+          template<typename TimeDuration>
+          void sleep(TimeDuration const& rel_time)
+          {
+            this_thread::sleep(rel_time);
+          }
+#endif
+
+#ifdef BOOST_THREAD_USES_CHRONO
+          template <class Clock, class Duration>
+          void sleep_until(const chrono::time_point<Clock, Duration>& t)
+          {
+            this_thread::sleep_until(t);
+          }
+
+          template <class Rep, class Period>
+          void sleep_for(const chrono::duration<Rep, Period>& d)
+          {
+            this_thread::sleep_for(d);
+          }
+#endif
+
+#endif // BOOST_THREAD_SLEEP_FOR_IS_STEADY
+        } // no_interruption_point
     } // this_thread
 }
 

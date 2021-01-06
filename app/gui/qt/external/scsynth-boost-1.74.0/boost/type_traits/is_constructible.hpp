@@ -18,6 +18,10 @@
 #include <boost/type_traits/is_default_constructible.hpp>
 #include <boost/type_traits/detail/yes_no_type.hpp>
 #include <boost/type_traits/declval.hpp>
+#include <boost/type_traits/is_complete.hpp>
+#include <boost/static_assert.hpp>
+
+#define BOOST_TT_IS_CONSTRUCTIBLE_CONFORMING 1
 
 namespace boost{
 
@@ -43,8 +47,14 @@ namespace boost{
 
    }
 
-   template <class T, class ...Args> struct is_constructible : public integral_constant<bool, sizeof(detail::is_constructible_imp::test<T, Args...>(0)) == sizeof(boost::type_traits::yes_type)>{};
-   template <class T, class Arg> struct is_constructible<T, Arg> : public integral_constant<bool, is_destructible<T>::value && sizeof(detail::is_constructible_imp::test1<T, Arg>(0)) == sizeof(boost::type_traits::yes_type)>{};
+   template <class T, class ...Args> struct is_constructible : public integral_constant<bool, sizeof(detail::is_constructible_imp::test<T, Args...>(0)) == sizeof(boost::type_traits::yes_type)>
+   {
+      BOOST_STATIC_ASSERT_MSG(::boost::is_complete<T>::value, "The target type must be complete in order to test for constructibility");
+   };
+   template <class T, class Arg> struct is_constructible<T, Arg> : public integral_constant<bool, is_destructible<T>::value && sizeof(boost::detail::is_constructible_imp::test1<T, Arg>(0)) == sizeof(boost::type_traits::yes_type)>
+   {
+      BOOST_STATIC_ASSERT_MSG(::boost::is_complete<T>::value, "The target type must be complete in order to test for constructibility");
+   };
    template <class Ref, class Arg> struct is_constructible<Ref&, Arg> : public integral_constant<bool, sizeof(detail::is_constructible_imp::ref_test<Ref&>(boost::declval<Arg>())) == sizeof(boost::type_traits::yes_type)>{};
    template <class Ref, class Arg> struct is_constructible<Ref&&, Arg> : public integral_constant<bool, sizeof(detail::is_constructible_imp::ref_test<Ref&&>(boost::declval<Arg>())) == sizeof(boost::type_traits::yes_type)>{};
 

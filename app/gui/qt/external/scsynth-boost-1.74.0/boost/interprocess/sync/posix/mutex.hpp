@@ -109,7 +109,7 @@ inline bool posix_mutex::timed_lock(const boost::posix_time::ptime &abs_time)
 {
    #ifdef BOOST_INTERPROCESS_POSIX_TIMEOUTS
    //Posix does not support infinity absolute time so handle it here
-   if(abs_time == boost::posix_time::pos_infin){
+   if(abs_time.is_pos_infinity()){
       this->lock();
       return true;
    }

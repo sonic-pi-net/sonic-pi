@@ -2,7 +2,7 @@
 // impl/handler_alloc_hook.ipp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2017 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -25,9 +25,13 @@
 namespace boost {
 namespace asio {
 
-void* asio_handler_allocate(std::size_t size, ...)
+asio_handler_allocate_is_deprecated
+asio_handler_allocate(std::size_t size, ...)
 {
-#if !defined(BOOST_ASIO_DISABLE_SMALL_BLOCK_RECYCLING)
+#if defined(BOOST_ASIO_NO_DEPRECATED)
+  (void)size;
+  return asio_handler_allocate_is_no_longer_used();
+#elif !defined(BOOST_ASIO_DISABLE_SMALL_BLOCK_RECYCLING)
   return detail::thread_info_base::allocate(
       detail::thread_context::thread_call_stack::top(), size);
 #else // !defined(BOOST_ASIO_DISABLE_SMALL_BLOCK_RECYCLING)
@@ -35,9 +39,14 @@ void* asio_handler_allocate(std::size_t size, ...)
 #endif // !defined(BOOST_ASIO_DISABLE_SMALL_BLOCK_RECYCLING)
 }
 
-void asio_handler_deallocate(void* pointer, std::size_t size, ...)
+asio_handler_deallocate_is_deprecated
+asio_handler_deallocate(void* pointer, std::size_t size, ...)
 {
-#if !defined(BOOST_ASIO_DISABLE_SMALL_BLOCK_RECYCLING)
+#if defined(BOOST_ASIO_NO_DEPRECATED)
+  (void)pointer;
+  (void)size;
+  return asio_handler_deallocate_is_no_longer_used();
+#elif !defined(BOOST_ASIO_DISABLE_SMALL_BLOCK_RECYCLING)
   detail::thread_info_base::deallocate(
       detail::thread_context::thread_call_stack::top(), pointer, size);
 #else // !defined(BOOST_ASIO_DISABLE_SMALL_BLOCK_RECYCLING)

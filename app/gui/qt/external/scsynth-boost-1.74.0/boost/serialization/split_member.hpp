@@ -9,7 +9,7 @@
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8
 // split_member.hpp:
 
-// (C) Copyright 2002 Robert Ramey - http://www.rrsd.com . 
+// (C) Copyright 2002 Robert Ramey - http://www.rrsd.com .
 // Use, modification and distribution is subject to the Boost Software
 // License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
@@ -36,7 +36,7 @@ namespace detail {
     template<class Archive, class T>
     struct member_saver {
         static void invoke(
-            Archive & ar, 
+            Archive & ar,
             const T & t,
             const unsigned int file_version
         ){
@@ -47,7 +47,7 @@ namespace detail {
     template<class Archive, class T>
     struct member_loader {
         static void invoke(
-            Archive & ar, 
+            Archive & ar,
             T & t,
             const unsigned int file_version
         ){
@@ -63,7 +63,7 @@ inline void split_member(
 ){
     typedef typename mpl::eval_if<
         typename Archive::is_saving,
-        mpl::identity<detail::member_saver<Archive, T> >, 
+        mpl::identity<detail::member_saver<Archive, T> >,
         mpl::identity<detail::member_loader<Archive, T> >
     >::type typex;
     typex::invoke(ar, t, file_version);

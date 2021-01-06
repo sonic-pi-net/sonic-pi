@@ -16,8 +16,8 @@
     defined(BOOST_NO_CXX11_NULLPTR) || \
     defined(BOOST_NO_CXX11_TRAILING_RESULT_TYPES)
 
-  // some issues with boost.config
-  #if !defined(BOOST_MSVC) || BOOST_MSVC_FULL_VER < 170061030 /* VC2012 upd 5 */
+  // this feature works with VC2012 upd 5 while BOOST_NO_CXX11_TRAILING_RESULT_TYPES is defined
+  #if !defined(BOOST_MSVC) || BOOST_MSVC_FULL_VER < 170061232 /* VC2012 upd 5 */
     #define BOOST_TEST_FWD_ITERABLE_CXX03
   #endif
 #endif
@@ -35,8 +35,8 @@
 #else
 
 // Boost
+#include <boost/static_assert.hpp>
 #include <boost/utility/declval.hpp>
-#include <boost/range.hpp>
 #include <boost/type_traits/is_same.hpp>
 #include <boost/type_traits/remove_reference.hpp>
 #include <boost/type_traits/remove_cv.hpp>
@@ -122,8 +122,6 @@ private:
     template<typename>    static nil_t test( ... );
 public:
     static bool const value = !std::is_same< decltype(test<T>( nullptr )), nil_t>::value;
-
-
 };
 
 //____________________________________________________________________________//
@@ -196,14 +194,27 @@ struct is_container_forward_iterable {
 
 #endif /* defined(BOOST_TEST_FWD_ITERABLE_CXX03) */
 
+
+//! Helper structure for accessing the content of a container or an array
 template <typename T, bool is_forward_iterable = is_forward_iterable<T>::value >
 struct bt_iterator_traits;
 
 template <typename T>
 struct bt_iterator_traits< T, true >{
-    BOOST_STATIC_ASSERT((is_forward_iterable<T>::value)); //, "only for forward iterable types");
+    BOOST_STATIC_ASSERT((is_forward_iterable<T>::value));
+
+#if defined(BOOST_TEST_FWD_ITERABLE_CXX03) || \
+    (defined(BOOST_MSVC) && (BOOST_MSVC_FULL_VER <= 170061232))
     typedef typename T::const_iterator const_iterator;
-    typedef typename T::value_type value_type;
+    typedef typename std::iterator_traits<const_iterator>::value_type value_type;
+#else
+    typedef decltype(boost::declval<
+        typename boost::add_const<
+          typename boost::remove_reference<T>::type
+        >::type>().begin()) const_iterator;
+
+    typedef typename std::iterator_traits<const_iterator>::value_type value_type;
+#endif /* BOOST_TEST_FWD_ITERABLE_CXX03 */
 
     static const_iterator begin(T const& container) {
         return container.begin();
@@ -211,9 +222,26 @@ struct bt_iterator_traits< T, true >{
     static const_iterator end(T const& container) {
         return container.end();
     }
-    static std::size_t size(T const& container) {
+
+#if defined(BOOST_TEST_FWD_ITERABLE_CXX03) || \
+    (defined(BOOST_MSVC) && (BOOST_MSVC_FULL_VER <= 170061232))
+    static std::size_t
+    size(T const& container) {
         return container.size();
     }
+#else
+    static std::size_t
+    size(T const& container) {
+        return size(container,
+                    std::integral_constant<bool, ut_detail::has_member_size<T>::value>());
+    }
+private:
+    static std::size_t
+    size(T const& container, std::true_type)  { return container.size(); }
+
+    static std::size_t
+    size(T const& container, std::false_type) { return std::distance(begin(container), end(container)); }
+#endif /* BOOST_TEST_FWD_ITERABLE_CXX03 */
 };
 
 template <typename T, std::size_t N>

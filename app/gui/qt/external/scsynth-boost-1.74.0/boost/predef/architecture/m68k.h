@@ -11,37 +11,38 @@ http://www.boost.org/LICENSE_1_0.txt)
 #include <boost/predef/version_number.h>
 #include <boost/predef/make.h>
 
-/*`
-[heading `BOOST_ARCH_M68K`]
+/* tag::reference[]
+= `BOOST_ARCH_M68K`
 
-[@http://en.wikipedia.org/wiki/M68k Motorola 68k] architecture.
+http://en.wikipedia.org/wiki/M68k[Motorola 68k] architecture.
 
-[table
-    [[__predef_symbol__] [__predef_version__]]
+[options="header"]
+|===
+| {predef_symbol} | {predef_version}
 
-    [[`__m68k__`] [__predef_detection__]]
-    [[`M68000`] [__predef_detection__]]
+| `+__m68k__+` | {predef_detection}
+| `M68000` | {predef_detection}
 
-    [[`__mc68060__`] [6.0.0]]
-    [[`mc68060`] [6.0.0]]
-    [[`__mc68060`] [6.0.0]]
-    [[`__mc68040__`] [4.0.0]]
-    [[`mc68040`] [4.0.0]]
-    [[`__mc68040`] [4.0.0]]
-    [[`__mc68030__`] [3.0.0]]
-    [[`mc68030`] [3.0.0]]
-    [[`__mc68030`] [3.0.0]]
-    [[`__mc68020__`] [2.0.0]]
-    [[`mc68020`] [2.0.0]]
-    [[`__mc68020`] [2.0.0]]
-    [[`__mc68010__`] [1.0.0]]
-    [[`mc68010`] [1.0.0]]
-    [[`__mc68010`] [1.0.0]]
-    [[`__mc68000__`] [0.0.1]]
-    [[`mc68000`] [0.0.1]]
-    [[`__mc68000`] [0.0.1]]
-    ]
- */
+| `+__mc68060__+` | 6.0.0
+| `mc68060` | 6.0.0
+| `+__mc68060+` | 6.0.0
+| `+__mc68040__+` | 4.0.0
+| `mc68040` | 4.0.0
+| `+__mc68040+` | 4.0.0
+| `+__mc68030__+` | 3.0.0
+| `mc68030` | 3.0.0
+| `+__mc68030+` | 3.0.0
+| `+__mc68020__+` | 2.0.0
+| `mc68020` | 2.0.0
+| `+__mc68020+` | 2.0.0
+| `+__mc68010__+` | 1.0.0
+| `mc68010` | 1.0.0
+| `+__mc68010+` | 1.0.0
+| `+__mc68000__+` | 0.0.1
+| `mc68000` | 0.0.1
+| `+__mc68000+` | 0.0.1
+|===
+*/ // end::reference[]
 
 #define BOOST_ARCH_M68K BOOST_VERSION_NUMBER_NOT_AVAILABLE
 

@@ -9,7 +9,7 @@
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8
 // access.hpp: interface for serialization system.
 
-// (C) Copyright 2002 Robert Ramey - http://www.rrsd.com . 
+// (C) Copyright 2002 Robert Ramey - http://www.rrsd.com .
 // Use, modification and distribution is subject to the Boost Software
 // License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
@@ -41,8 +41,8 @@ namespace detail {
     struct member_loader;
 } // namespace detail
 
-// use an "accessor class so that we can use: 
-// "friend class boost::serialization::access;" 
+// use an "accessor class so that we can use:
+// "friend class boost::serialization::access;"
 // in any serialized class to permit clean, safe access to private class members
 // by the serialization system
 
@@ -62,20 +62,20 @@ public:
     friend class archive::detail::oserializer;
     template<class Archive, class T>
     friend inline void serialize(
-        Archive & ar, 
-        T & t, 
+        Archive & ar,
+        T & t,
         const unsigned int file_version
     );
     template<class Archive, class T>
     friend inline void save_construct_data(
-        Archive & ar, 
-        const T * t, 
+        Archive & ar,
+        const T * t,
         const unsigned int file_version
     );
     template<class Archive, class T>
     friend inline void load_construct_data(
-        Archive & ar, 
-        T * t, 
+        Archive & ar,
+        T * t,
         const unsigned int file_version
     );
 #endif
@@ -83,7 +83,7 @@ public:
     // pass calls to users's class implementation
     template<class Archive, class T>
     static void member_save(
-        Archive & ar, 
+        Archive & ar,
         //const T & t,
         T & t,
         const unsigned int file_version
@@ -92,7 +92,7 @@ public:
     }
     template<class Archive, class T>
     static void member_load(
-        Archive & ar, 
+        Archive & ar,
         T & t,
         const unsigned int file_version
     ){
@@ -100,15 +100,15 @@ public:
     }
     template<class Archive, class T>
     static void serialize(
-        Archive & ar, 
-        T & t, 
+        Archive & ar,
+        T & t,
         const unsigned int file_version
     ){
         // note: if you get a compile time error here with a
         // message something like:
         // cannot convert parameter 1 from <file type 1> to <file type 2 &>
-        // a likely possible cause is that the class T contains a 
-        // serialize function - but that serialize function isn't 
+        // a likely possible cause is that the class T contains a
+        // serialize function - but that serialize function isn't
         // a template and corresponds to a file type different than
         // the class Archive.  To resolve this, don't include an
         // archive type other than that for which the serialization

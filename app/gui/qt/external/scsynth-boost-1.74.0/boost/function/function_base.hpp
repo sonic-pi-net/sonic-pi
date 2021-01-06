@@ -26,13 +26,13 @@
 #include <boost/type_traits/is_volatile.hpp>
 #include <boost/type_traits/composite_traits.hpp>
 #include <boost/ref.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/detail/workaround.hpp>
+#include <boost/type_traits/conditional.hpp>
+#include <boost/config/workaround.hpp>
 #include <boost/type_traits/alignment_of.hpp>
 #ifndef BOOST_NO_SFINAE
-#  include "boost/utility/enable_if.hpp"
+#include <boost/type_traits/enable_if.hpp>
 #else
-#  include "boost/mpl/bool.hpp"
+#include <boost/type_traits/integral_constant.hpp>
 #endif
 #include <boost/function_equal.hpp>
 #include <boost/function/function_fwd.hpp>
@@ -50,7 +50,7 @@
 #endif // __ICL etc
 
 #  define BOOST_FUNCTION_ENABLE_IF_NOT_INTEGRAL(Functor,Type)              \
-      typename ::boost::enable_if_c<          \
+      typename ::boost::enable_if_<          \
                            !(::boost::is_integral<Functor>::value), \
                            Type>::type
 
@@ -101,7 +101,7 @@ namespace boost {
         } obj_ref;
       };
 
-      union function_buffer
+      union BOOST_SYMBOL_VISIBLE function_buffer
       {
         // Type-specific union members
         mutable function_buffer_members members;
@@ -152,15 +152,15 @@ namespace boost {
       template<typename F>
       class get_function_tag
       {
-        typedef typename mpl::if_c<(is_pointer<F>::value),
+        typedef typename conditional<(is_pointer<F>::value),
                                    function_ptr_tag,
                                    function_obj_tag>::type ptr_or_obj_tag;
 
-        typedef typename mpl::if_c<(is_member_pointer<F>::value),
+        typedef typename conditional<(is_member_pointer<F>::value),
                                    member_ptr_tag,
                                    ptr_or_obj_tag>::type ptr_or_obj_or_mem_tag;
 
-        typedef typename mpl::if_c<(is_reference_wrapper<F>::value),
+        typedef typename conditional<(is_reference_wrapper<F>::value),
                                    function_obj_ref_tag,
                                    ptr_or_obj_or_mem_tag>::type or_ref_tag;
 
@@ -328,7 +328,7 @@ namespace boost {
         // Function objects that fit in the small-object buffer.
         static inline void
         manager(const function_buffer& in_buffer, function_buffer& out_buffer,
-                functor_manager_operation_type op, mpl::true_)
+                functor_manager_operation_type op, true_type)
         {
           functor_manager_common<Functor>::manage_small(in_buffer,out_buffer,op);
         }
@@ -336,7 +336,7 @@ namespace boost {
         // Function objects that require heap allocation
         static inline void
         manager(const function_buffer& in_buffer, function_buffer& out_buffer,
-                functor_manager_operation_type op, mpl::false_)
+                functor_manager_operation_type op, false_type)
         {
           if (op == clone_functor_tag) {
             // Clone the functor
@@ -377,7 +377,7 @@ namespace boost {
                 functor_manager_operation_type op, function_obj_tag)
         {
           manager(in_buffer, out_buffer, op,
-                  mpl::bool_<(function_allows_small_object_optimization<functor_type>::value)>());
+                  integral_constant<bool, (function_allows_small_object_optimization<functor_type>::value)>());
         }
 
         // For member pointers, we use the small-object optimization buffer.
@@ -385,7 +385,7 @@ namespace boost {
         manager(const function_buffer& in_buffer, function_buffer& out_buffer,
                 functor_manager_operation_type op, member_ptr_tag)
         {
-          manager(in_buffer, out_buffer, op, mpl::true_());
+          manager(in_buffer, out_buffer, op, true_type());
         }
 
       public:
@@ -396,16 +396,12 @@ namespace boost {
                functor_manager_operation_type op)
         {
           typedef typename get_function_tag<functor_type>::type tag_type;
-          switch (op) {
-          case get_functor_type_tag:
+          if (op == get_functor_type_tag) {
             out_buffer.members.type.type = &boost::typeindex::type_id<functor_type>().type_info();
             out_buffer.members.type.const_qualified = false;
             out_buffer.members.type.volatile_qualified = false;
-            return;
-
-          default:
+          } else {
             manager(in_buffer, out_buffer, op, tag_type());
-            return;
           }
         }
       };
@@ -427,7 +423,7 @@ namespace boost {
         // Function objects that fit in the small-object buffer.
         static inline void
         manager(const function_buffer& in_buffer, function_buffer& out_buffer,
-                functor_manager_operation_type op, mpl::true_)
+                functor_manager_operation_type op, true_type)
         {
           functor_manager_common<Functor>::manage_small(in_buffer,out_buffer,op);
         }
@@ -435,12 +431,17 @@ namespace boost {
         // Function objects that require heap allocation
         static inline void
         manager(const function_buffer& in_buffer, function_buffer& out_buffer,
-                functor_manager_operation_type op, mpl::false_)
+                functor_manager_operation_type op, false_type)
         {
           typedef functor_wrapper<Functor,Allocator> functor_wrapper_type;
+#if defined(BOOST_NO_CXX11_ALLOCATOR)
           typedef typename Allocator::template rebind<functor_wrapper_type>::other
             wrapper_allocator_type;
           typedef typename wrapper_allocator_type::pointer wrapper_allocator_pointer_type;
+#else
+          using wrapper_allocator_type = typename std::allocator_traits<Allocator>::template rebind_alloc<functor_wrapper_type>;
+          using wrapper_allocator_pointer_type = typename std::allocator_traits<wrapper_allocator_type>::pointer;
+#endif
 
           if (op == clone_functor_tag) {
             // Clone the functor
@@ -450,7 +451,11 @@ namespace boost {
               static_cast<const functor_wrapper_type*>(in_buffer.members.obj_ptr);
             wrapper_allocator_type wrapper_allocator(static_cast<Allocator const &>(*f));
             wrapper_allocator_pointer_type copy = wrapper_allocator.allocate(1);
+#if defined(BOOST_NO_CXX11_ALLOCATOR)
             wrapper_allocator.construct(copy, *f);
+#else
+            std::allocator_traits<wrapper_allocator_type>::construct(wrapper_allocator, copy, *f);
+#endif
 
             // Get back to the original pointer type
             functor_wrapper_type* new_f = static_cast<functor_wrapper_type*>(copy);
@@ -463,7 +468,11 @@ namespace boost {
             functor_wrapper_type* victim =
               static_cast<functor_wrapper_type*>(in_buffer.members.obj_ptr);
             wrapper_allocator_type wrapper_allocator(static_cast<Allocator const &>(*victim));
+#if defined(BOOST_NO_CXX11_ALLOCATOR)
             wrapper_allocator.destroy(victim);
+#else
+            std::allocator_traits<wrapper_allocator_type>::destroy(wrapper_allocator, victim);
+#endif
             wrapper_allocator.deallocate(victim,1);
             out_buffer.members.obj_ptr = 0;
           } else if (op == check_functor_type_tag) {
@@ -486,7 +495,7 @@ namespace boost {
                 functor_manager_operation_type op, function_obj_tag)
         {
           manager(in_buffer, out_buffer, op,
-                  mpl::bool_<(function_allows_small_object_optimization<functor_type>::value)>());
+                  integral_constant<bool, (function_allows_small_object_optimization<functor_type>::value)>());
         }
 
       public:
@@ -497,16 +506,12 @@ namespace boost {
                functor_manager_operation_type op)
         {
           typedef typename get_function_tag<functor_type>::type tag_type;
-          switch (op) {
-          case get_functor_type_tag:
+          if (op == get_functor_type_tag) {
             out_buffer.members.type.type = &boost::typeindex::type_id<functor_type>().type_info();
             out_buffer.members.type.const_qualified = false;
             out_buffer.members.type.volatile_qualified = false;
-            return;
-
-          default:
+          } else {
             manager(in_buffer, out_buffer, op, tag_type());
-            return;
           }
         }
       };
@@ -517,24 +522,24 @@ namespace boost {
 #ifdef BOOST_NO_SFINAE
       // These routines perform comparisons between a Boost.Function
       // object and an arbitrary function object (when the last
-      // parameter is mpl::bool_<false>) or against zero (when the
-      // last parameter is mpl::bool_<true>). They are only necessary
+      // parameter is false_type) or against zero (when the
+      // last parameter is true_type). They are only necessary
       // for compilers that don't support SFINAE.
       template<typename Function, typename Functor>
         bool
-        compare_equal(const Function& f, const Functor&, int, mpl::bool_<true>)
+        compare_equal(const Function& f, const Functor&, int, true_type)
         { return f.empty(); }
 
       template<typename Function, typename Functor>
         bool
         compare_not_equal(const Function& f, const Functor&, int,
-                          mpl::bool_<true>)
+                          true_type)
         { return !f.empty(); }
 
       template<typename Function, typename Functor>
         bool
         compare_equal(const Function& f, const Functor& g, long,
-                      mpl::bool_<false>)
+                      false_type)
         {
           if (const Functor* fp = f.template target<Functor>())
             return function_equal(*fp, g);
@@ -544,7 +549,7 @@ namespace boost {
       template<typename Function, typename Functor>
         bool
         compare_equal(const Function& f, const reference_wrapper<Functor>& g,
-                      int, mpl::bool_<false>)
+                      int, false_type)
         {
           if (const Functor* fp = f.template target<Functor>())
             return fp == g.get_pointer();
@@ -554,7 +559,7 @@ namespace boost {
       template<typename Function, typename Functor>
         bool
         compare_not_equal(const Function& f, const Functor& g, long,
-                          mpl::bool_<false>)
+                          false_type)
         {
           if (const Functor* fp = f.template target<Functor>())
             return !function_equal(*fp, g);
@@ -565,7 +570,7 @@ namespace boost {
         bool
         compare_not_equal(const Function& f,
                           const reference_wrapper<Functor>& g, int,
-                          mpl::bool_<false>)
+                          false_type)
         {
           if (const Functor* fp = f.template target<Functor>())
             return fp != g.get_pointer();
@@ -697,7 +702,7 @@ public: // should be protected, but GCC 2.95.3 will fail to allow access
  * The bad_function_call exception class is thrown when a boost::function
  * object is invoked
  */
-class bad_function_call : public std::runtime_error
+class BOOST_SYMBOL_VISIBLE bad_function_call : public std::runtime_error
 {
 public:
   bad_function_call() : std::runtime_error("call to empty boost::function") {}
@@ -737,28 +742,28 @@ inline bool operator!=(detail::function::useless_clear_type*,
 template<typename Functor>
   inline bool operator==(const function_base& f, Functor g)
   {
-    typedef mpl::bool_<(is_integral<Functor>::value)> integral;
+    typedef integral_constant<bool, (is_integral<Functor>::value)> integral;
     return detail::function::compare_equal(f, g, 0, integral());
   }
 
 template<typename Functor>
   inline bool operator==(Functor g, const function_base& f)
   {
-    typedef mpl::bool_<(is_integral<Functor>::value)> integral;
+    typedef integral_constant<bool, (is_integral<Functor>::value)> integral;
     return detail::function::compare_equal(f, g, 0, integral());
   }
 
 template<typename Functor>
   inline bool operator!=(const function_base& f, Functor g)
   {
-    typedef mpl::bool_<(is_integral<Functor>::value)> integral;
+    typedef integral_constant<bool, (is_integral<Functor>::value)> integral;
     return detail::function::compare_not_equal(f, g, 0, integral());
   }
 
 template<typename Functor>
   inline bool operator!=(Functor g, const function_base& f)
   {
-    typedef mpl::bool_<(is_integral<Functor>::value)> integral;
+    typedef integral_constant<bool, (is_integral<Functor>::value)> integral;
     return detail::function::compare_not_equal(f, g, 0, integral());
   }
 #else

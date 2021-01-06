@@ -19,7 +19,8 @@
 //  Copyright (C) 2002 David Abrahams
 //
 //  Copyright (C) 2014 Glen Joseph Fernandes
-//  glenfe at live dot com
+//  (glenjofe@gmail.com)
+//
 //  Copyright (C) 2014 Agustin Berge
 //
 // Distributed under the Boost Software License, Version 1.0. (See
@@ -115,7 +116,7 @@ private:
 /**
  @cond
 */
-#if defined( __BORLANDC__ ) && BOOST_WORKAROUND( __BORLANDC__, BOOST_TESTED_AT(0x581) )
+#if defined( BOOST_BORLANDC ) && BOOST_WORKAROUND( BOOST_BORLANDC, BOOST_TESTED_AT(0x581) )
 #  define BOOST_REF_CONST
 #else
 #  define BOOST_REF_CONST const

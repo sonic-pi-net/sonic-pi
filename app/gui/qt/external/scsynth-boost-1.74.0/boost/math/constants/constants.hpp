@@ -8,6 +8,7 @@
 #define BOOST_MATH_CONSTANTS_CONSTANTS_INCLUDED
 
 #include <boost/math/tools/config.hpp>
+#include <boost/math/tools/cxx03_warn.hpp>
 #include <boost/math/policies/policy.hpp>
 #include <boost/math/tools/precision.hpp>
 #include <boost/math/tools/convert_from_string.hpp>
@@ -27,6 +28,15 @@
 #include <boost/type_traits/is_convertible.hpp>
 #include <boost/utility/declval.hpp>
 
+#if defined(__GNUC__) && defined(BOOST_MATH_USE_FLOAT128)
+//
+// This is the only way we can avoid
+// warning: non-standard suffix on floating constant [-Wpedantic]
+// when building with -Wall -pedantic.  Neither __extension__
+// nor #pragma diagnostic ignored work :(
+//
+#pragma GCC system_header
+#endif
 
 namespace boost{ namespace math
 {
@@ -65,8 +75,7 @@ namespace boost{ namespace math
    struct dummy_size{};
 
    //
-   // Max number of binary digits in the string representations
-   // of our constants:
+   // Max number of binary digits in the string representations of our constants:
    //
    BOOST_STATIC_CONSTANT(int, max_string_digits = (101 * 1000L) / 301L);
 
@@ -74,43 +83,21 @@ namespace boost{ namespace math
    struct construction_traits
    {
    private:
-      typedef typename policies::precision<Real, Policy>::type t1;
-      typedef typename policies::precision<float, Policy>::type t2;
-      typedef typename policies::precision<double, Policy>::type t3;
-      typedef typename policies::precision<long double, Policy>::type t4;
-#ifdef BOOST_MATH_USE_FLOAT128
-      typedef mpl::int_<113> t5;
-#endif
+      typedef typename policies::precision<Real, Policy>::type real_precision;
+      typedef typename policies::precision<float, Policy>::type float_precision;
+      typedef typename policies::precision<double, Policy>::type double_precision;
+      typedef typename policies::precision<long double, Policy>::type long_double_precision;
    public:
-      typedef typename mpl::if_<
-         mpl::and_<boost::is_convertible<float, Real>, mpl::bool_< t1::value <= t2::value>, mpl::bool_<0 != t1::value> >,
-         mpl::int_<construct_from_float>,
-         typename mpl::if_<
-            mpl::and_<boost::is_convertible<double, Real>, mpl::bool_< t1::value <= t3::value>, mpl::bool_<0 != t1::value> >,
-            mpl::int_<construct_from_double>,
-            typename mpl::if_<
-               mpl::and_<boost::is_convertible<long double, Real>, mpl::bool_< t1::value <= t4::value>, mpl::bool_<0 != t1::value> >,
-               mpl::int_<construct_from_long_double>,
+      typedef boost::integral_constant<int,
+         (0 == real_precision::value) ? 0 :
+         boost::is_convertible<float, Real>::value && (real_precision::value <= float_precision::value)? construct_from_float :
+         boost::is_convertible<double, Real>::value && (real_precision::value <= double_precision::value)? construct_from_double :
+         boost::is_convertible<long double, Real>::value && (real_precision::value <= long_double_precision::value)? construct_from_long_double :
 #ifdef BOOST_MATH_USE_FLOAT128
-               typename mpl::if_<
-               mpl::and_<boost::is_convertible<BOOST_MATH_FLOAT128_TYPE, Real>, mpl::bool_< t1::value <= t5::value>, mpl::bool_<0 != t1::value> >,
-                  mpl::int_<construct_from_float128>,
-                  typename mpl::if_<
-                     mpl::and_<mpl::bool_< t1::value <= max_string_digits>, mpl::bool_<0 != t1::value> >,
-                     mpl::int_<construct_from_string>,
-                     mpl::int_<t1::value>
-                  >::type
-               >::type
-#else
-               typename mpl::if_<
-                  mpl::and_<mpl::bool_< t1::value <= max_string_digits>, mpl::bool_<0 != t1::value> >,
-                  mpl::int_<construct_from_string>,
-                  mpl::int_<t1::value>
-               >::type
+         boost::is_convertible<BOOST_MATH_FLOAT128_TYPE, Real>::value && (real_precision::value <= 113) ? construct_from_float128 :
 #endif
-            >::type
-         >::type
-      >::type type;
+         (real_precision::value <= max_string_digits) ? construct_from_string : real_precision::value
+      > type;
    };
 
 #ifdef BOOST_HAS_THREADS
@@ -154,7 +141,7 @@ namespace boost{ namespace math
       template <class T, const T& (*F)()>
       typename constant_initializer<T, F>::initializer const constant_initializer<T, F>::init;
 
-      template <class T, int N, const T& (*F)(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(mpl::int_<N>) BOOST_MATH_APPEND_EXPLICIT_TEMPLATE_TYPE_SPEC(T))>
+      template <class T, int N, const T& (*F)(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((boost::integral_constant<int, N>)) BOOST_MATH_APPEND_EXPLICIT_TEMPLATE_TYPE_SPEC(T))>
       struct constant_initializer2
       {
          static void force_instantiate()
@@ -173,14 +160,14 @@ namespace boost{ namespace math
          static const initializer init;
       };
 
-      template <class T, int N, const T& (*F)(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(mpl::int_<N>) BOOST_MATH_APPEND_EXPLICIT_TEMPLATE_TYPE_SPEC(T))>
+      template <class T, int N, const T& (*F)(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((boost::integral_constant<int, N>)) BOOST_MATH_APPEND_EXPLICIT_TEMPLATE_TYPE_SPEC(T))>
       typename constant_initializer2<T, N, F>::initializer const constant_initializer2<T, N, F>::init;
 
    }
 
 #ifdef BOOST_MATH_USE_FLOAT128
 #  define BOOST_MATH_FLOAT128_CONSTANT_OVERLOAD(x) \
-   static inline BOOST_CONSTEXPR T get(const mpl::int_<construct_from_float128>&) BOOST_NOEXCEPT\
+   static inline BOOST_CONSTEXPR T get(const boost::integral_constant<int, construct_from_float128>&) BOOST_NOEXCEPT\
    { return BOOST_JOIN(x, Q); }
 #else
 #  define BOOST_MATH_FLOAT128_CONSTANT_OVERLOAD(x)
@@ -203,8 +190,8 @@ namespace boost{ namespace math
       return result;\
    }\
    /* This one is for very high precision that is none the less known at compile time: */ \
-   template <int N> static T compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(mpl::int_<N>));\
-   template <int N> static inline const T& get_from_compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(mpl::int_<N>))\
+   template <int N> static T compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((boost::integral_constant<int, N>)));\
+   template <int N> static inline const T& get_from_compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((boost::integral_constant<int, N>)))\
    {\
       static const T result = compute<N>();\
       return result;\
@@ -223,25 +210,25 @@ namespace boost{ namespace math
    }\
    /* public getters come next */\
    public:\
-   static inline const T& get(const mpl::int_<construct_from_string>&)\
+   static inline const T& get(const boost::integral_constant<int, construct_from_string>&)\
    {\
       constant_initializer<T, & BOOST_JOIN(constant_, name)<T>::get_from_string >::force_instantiate();\
       return get_from_string();\
    }\
-   static inline BOOST_CONSTEXPR T get(const mpl::int_<construct_from_float>) BOOST_NOEXCEPT\
+   static inline BOOST_CONSTEXPR T get(const boost::integral_constant<int, construct_from_float>) BOOST_NOEXCEPT\
    { return BOOST_JOIN(x, F); }\
-   static inline BOOST_CONSTEXPR T get(const mpl::int_<construct_from_double>&) BOOST_NOEXCEPT\
+   static inline BOOST_CONSTEXPR T get(const boost::integral_constant<int, construct_from_double>&) BOOST_NOEXCEPT\
    { return x; }\
-   static inline BOOST_CONSTEXPR T get(const mpl::int_<construct_from_long_double>&) BOOST_NOEXCEPT\
+   static inline BOOST_CONSTEXPR T get(const boost::integral_constant<int, construct_from_long_double>&) BOOST_NOEXCEPT\
    { return BOOST_JOIN(x, L); }\
    BOOST_MATH_FLOAT128_CONSTANT_OVERLOAD(x) \
-   template <int N> static inline const T& get(const mpl::int_<N>&)\
+   template <int N> static inline const T& get(const boost::integral_constant<int, N>&)\
    {\
       constant_initializer2<T, N, & BOOST_JOIN(constant_, name)<T>::template get_from_compute<N> >::force_instantiate();\
       return get_from_compute<N>(); \
    }\
-   /* This one is for true arbitary precision, which may well vary at runtime: */ \
-   static inline T get(const mpl::int_<0>&)\
+   /* This one is for true arbitrary precision, which may well vary at runtime: */ \
+   static inline T get(const boost::integral_constant<int, 0>&)\
    {\
       BOOST_MATH_PRECOMPUTE_IF_NOT_LOCAL(constant_, name)\
       return get_from_variable_precision(); }\
@@ -266,7 +253,7 @@ namespace boost{ namespace math
   BOOST_DEFINE_MATH_CONSTANT(third, 3.333333333333333333333333333333333333e-01, "3.33333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333e-01")
   BOOST_DEFINE_MATH_CONSTANT(twothirds, 6.666666666666666666666666666666666666e-01, "6.66666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666667e-01")
   BOOST_DEFINE_MATH_CONSTANT(two_thirds, 6.666666666666666666666666666666666666e-01, "6.66666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666667e-01")
-  BOOST_DEFINE_MATH_CONSTANT(sixth, 1.66666666666666666666666666666666666666666e-01, "1.66666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666667e-01")
+  BOOST_DEFINE_MATH_CONSTANT(sixth, 1.666666666666666666666666666666666666e-01, "1.66666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666667e-01")
   BOOST_DEFINE_MATH_CONSTANT(three_quarters, 7.500000000000000000000000000000000000e-01, "7.50000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000e-01")
   BOOST_DEFINE_MATH_CONSTANT(root_two, 1.414213562373095048801688724209698078e+00, "1.41421356237309504880168872420969807856967187537694807317667973799073247846210703885038753432764157273501384623e+00")
   BOOST_DEFINE_MATH_CONSTANT(root_three, 1.732050807568877293527446341505872366e+00, "1.73205080756887729352744634150587236694280525381038062805580697945193301690880003708114618675724857567562614142e+00")
@@ -300,8 +287,10 @@ namespace boost{ namespace math
   BOOST_DEFINE_MATH_CONSTANT(pi_cubed, 3.100627668029982017547631506710139520e+01, "3.10062766802998201754763150671013952022252885658851076941445381038063949174657060375667010326028861930301219616e+01")
   BOOST_DEFINE_MATH_CONSTANT(cbrt_pi, 1.464591887561523263020142527263790391e+00, "1.46459188756152326302014252726379039173859685562793717435725593713839364979828626614568206782035382089750397002e+00")
   BOOST_DEFINE_MATH_CONSTANT(one_div_cbrt_pi, 6.827840632552956814670208331581645981e-01, "6.82784063255295681467020833158164598108367515632448804042681583118899226433403918237673501922595519865685577274e-01")
+  BOOST_DEFINE_MATH_CONSTANT(log2_e, 1.44269504088896340735992468100189213742664595415298, "1.44269504088896340735992468100189213742664595415298593413544940693110921918118507988552662289350634449699751830965e+00")
   BOOST_DEFINE_MATH_CONSTANT(e, 2.718281828459045235360287471352662497e+00, "2.71828182845904523536028747135266249775724709369995957496696762772407663035354759457138217852516642742746639193e+00")
   BOOST_DEFINE_MATH_CONSTANT(exp_minus_half, 6.065306597126334236037995349911804534e-01, "6.06530659712633423603799534991180453441918135487186955682892158735056519413748423998647611507989456026423789794e-01")
+  BOOST_DEFINE_MATH_CONSTANT(exp_minus_one, 3.678794411714423215955237701614608674e-01, "3.67879441171442321595523770161460867445811131031767834507836801697461495744899803357147274345919643746627325277e-01")
   BOOST_DEFINE_MATH_CONSTANT(e_pow_pi, 2.314069263277926900572908636794854738e+01, "2.31406926327792690057290863679485473802661062426002119934450464095243423506904527835169719970675492196759527048e+01")
   BOOST_DEFINE_MATH_CONSTANT(root_e, 1.648721270700128146848650787814163571e+00, "1.64872127070012814684865078781416357165377610071014801157507931164066102119421560863277652005636664300286663776e+00")
   BOOST_DEFINE_MATH_CONSTANT(log10_e, 4.342944819032518276511289189166050822e-01, "4.34294481903251827651128918916605082294397005803666566114453783165864649208870774729224949338431748318706106745e-01")
@@ -331,6 +320,9 @@ namespace boost{ namespace math
 
   BOOST_DEFINE_MATH_CONSTANT(two_div_pi, 6.366197723675813430755350534900574481e-01, "6.36619772367581343075535053490057448137838582961825794990669376235587190536906140360455211065012343824291370907e-01")
   BOOST_DEFINE_MATH_CONSTANT(root_two_div_pi, 7.978845608028653558798921198687637369e-01, "7.97884560802865355879892119868763736951717262329869315331851659341315851798603677002504667814613872860605117725e-01")
+  BOOST_DEFINE_MATH_CONSTANT(quarter_pi, 0.785398163397448309615660845819875721049292, "0.785398163397448309615660845819875721049292349843776455243736148076954101571552249657008706335529266995537021628320576661773")
+  BOOST_DEFINE_MATH_CONSTANT(one_div_pi, 0.3183098861837906715377675267450287240689192, "0.31830988618379067153776752674502872406891929148091289749533468811779359526845307018022760553250617191214568545351")
+  BOOST_DEFINE_MATH_CONSTANT(two_div_root_pi, 1.12837916709551257389615890312154517168810125, "1.12837916709551257389615890312154517168810125865799771368817144342128493688298682897348732040421472688605669581272")
 
 
 } // namespace constants
@@ -344,3 +336,5 @@ namespace boost{ namespace math
 #include <boost/math/constants/calculate_constants.hpp>
 
 #endif // BOOST_MATH_CONSTANTS_CONSTANTS_INCLUDED
+
+

@@ -10,6 +10,7 @@
 #define BOOST_WINAPI_SEMAPHORE_HPP_INCLUDED_
 
 #include <boost/winapi/basic_types.hpp>
+#include <boost/winapi/detail/header.hpp>
 
 #ifdef BOOST_HAS_PRAGMA_ONCE
 #pragma once
@@ -21,7 +22,7 @@ extern "C" {
 #if BOOST_WINAPI_PARTITION_APP_SYSTEM
 #if !defined( BOOST_NO_ANSI_APIS )
 
-BOOST_SYMBOL_IMPORT boost::winapi::HANDLE_ WINAPI
+BOOST_WINAPI_IMPORT boost::winapi::HANDLE_ BOOST_WINAPI_WINAPI_CC
 CreateSemaphoreA(
     ::_SECURITY_ATTRIBUTES* lpSemaphoreAttributes,
     boost::winapi::LONG_ lInitialCount,
@@ -29,7 +30,7 @@ CreateSemaphoreA(
     boost::winapi::LPCSTR_ lpName);
 
 #if BOOST_USE_WINAPI_VERSION >= BOOST_WINAPI_VERSION_WIN6
-BOOST_SYMBOL_IMPORT boost::winapi::HANDLE_ WINAPI
+BOOST_WINAPI_IMPORT boost::winapi::HANDLE_ BOOST_WINAPI_WINAPI_CC
 CreateSemaphoreExA(
     ::_SECURITY_ATTRIBUTES* lpSemaphoreAttributes,
     boost::winapi::LONG_ lInitialCount,
@@ -41,7 +42,7 @@ CreateSemaphoreExA(
 
 #endif // !defined( BOOST_NO_ANSI_APIS )
 
-BOOST_SYMBOL_IMPORT boost::winapi::HANDLE_ WINAPI
+BOOST_WINAPI_IMPORT_EXCEPT_WM boost::winapi::HANDLE_ BOOST_WINAPI_WINAPI_CC
 CreateSemaphoreW(
     ::_SECURITY_ATTRIBUTES* lpSemaphoreAttributes,
     boost::winapi::LONG_ lInitialCount,
@@ -49,7 +50,7 @@ CreateSemaphoreW(
     boost::winapi::LPCWSTR_ lpName);
 
 #if BOOST_USE_WINAPI_VERSION >= BOOST_WINAPI_VERSION_WIN6
-BOOST_SYMBOL_IMPORT boost::winapi::HANDLE_ WINAPI
+BOOST_WINAPI_IMPORT_EXCEPT_WM boost::winapi::HANDLE_ BOOST_WINAPI_WINAPI_CC
 CreateSemaphoreExW(
     ::_SECURITY_ATTRIBUTES* lpSemaphoreAttributes,
     boost::winapi::LONG_ lInitialCount,
@@ -59,7 +60,7 @@ CreateSemaphoreExW(
     boost::winapi::DWORD_ dwDesiredAccess);
 #endif
 
-BOOST_SYMBOL_IMPORT boost::winapi::BOOL_ WINAPI
+BOOST_WINAPI_IMPORT_EXCEPT_WM boost::winapi::BOOL_ BOOST_WINAPI_WINAPI_CC
 ReleaseSemaphore(
     boost::winapi::HANDLE_ hSemaphore,
     boost::winapi::LONG_ lReleaseCount,
@@ -70,14 +71,14 @@ ReleaseSemaphore(
 #if BOOST_WINAPI_PARTITION_DESKTOP_SYSTEM
 
 #if !defined( BOOST_NO_ANSI_APIS )
-BOOST_SYMBOL_IMPORT boost::winapi::HANDLE_ WINAPI
+BOOST_WINAPI_IMPORT boost::winapi::HANDLE_ BOOST_WINAPI_WINAPI_CC
 OpenSemaphoreA(
     boost::winapi::DWORD_ dwDesiredAccess,
     boost::winapi::BOOL_ bInheritHandle,
     boost::winapi::LPCSTR_ lpName);
 #endif // !defined( BOOST_NO_ANSI_APIS )
 
-BOOST_SYMBOL_IMPORT boost::winapi::HANDLE_ WINAPI
+BOOST_WINAPI_IMPORT boost::winapi::HANDLE_ BOOST_WINAPI_WINAPI_CC
 OpenSemaphoreW(
     boost::winapi::DWORD_ dwDesiredAccess,
     boost::winapi::BOOL_ bInheritHandle,
@@ -97,22 +98,22 @@ using ::ReleaseSemaphore;
 
 #if defined( BOOST_USE_WINDOWS_H )
 
-const DWORD_ SEMAPHORE_ALL_ACCESS_ = SEMAPHORE_ALL_ACCESS;
-const DWORD_ SEMAPHORE_MODIFY_STATE_ = SEMAPHORE_MODIFY_STATE;
+BOOST_CONSTEXPR_OR_CONST DWORD_ SEMAPHORE_ALL_ACCESS_ = SEMAPHORE_ALL_ACCESS;
+BOOST_CONSTEXPR_OR_CONST DWORD_ SEMAPHORE_MODIFY_STATE_ = SEMAPHORE_MODIFY_STATE;
 
 #else // defined( BOOST_USE_WINDOWS_H )
 
-const DWORD_ SEMAPHORE_ALL_ACCESS_ = 0x001F0003;
-const DWORD_ SEMAPHORE_MODIFY_STATE_ = 0x00000002;
+BOOST_CONSTEXPR_OR_CONST DWORD_ SEMAPHORE_ALL_ACCESS_ = 0x001F0003;
+BOOST_CONSTEXPR_OR_CONST DWORD_ SEMAPHORE_MODIFY_STATE_ = 0x00000002;
 
 #endif // defined( BOOST_USE_WINDOWS_H )
 
 // Undocumented and not present in Windows SDK. Enables NtQuerySemaphore.
 // http://undocumented.ntinternals.net/index.html?page=UserMode%2FUndocumented%20Functions%2FNT%20Objects%2FEvent%2FNtQueryEvent.html
-const DWORD_ SEMAPHORE_QUERY_STATE_ = 0x00000001;
+BOOST_CONSTEXPR_OR_CONST DWORD_ SEMAPHORE_QUERY_STATE_ = 0x00000001;
 
-const DWORD_ semaphore_all_access = SEMAPHORE_ALL_ACCESS_;
-const DWORD_ semaphore_modify_state = SEMAPHORE_MODIFY_STATE_;
+BOOST_CONSTEXPR_OR_CONST DWORD_ semaphore_all_access = SEMAPHORE_ALL_ACCESS_;
+BOOST_CONSTEXPR_OR_CONST DWORD_ semaphore_modify_state = SEMAPHORE_MODIFY_STATE_;
 
 
 #if !defined( BOOST_NO_ANSI_APIS )
@@ -182,5 +183,7 @@ BOOST_FORCEINLINE HANDLE_ open_semaphore(DWORD_ dwDesiredAccess, BOOL_ bInheritH
 
 }
 }
+
+#include <boost/winapi/detail/footer.hpp>
 
 #endif // BOOST_WINAPI_SEMAPHORE_HPP_INCLUDED_

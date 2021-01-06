@@ -20,6 +20,16 @@
 #include <boost/math/tools/big_constant.hpp>
 #include <boost/math/special_functions/polygamma.hpp>
 
+#if defined(__GNUC__) && defined(BOOST_MATH_USE_FLOAT128)
+//
+// This is the only way we can avoid
+// warning: non-standard suffix on floating constant [-Wpedantic]
+// when building with -Wall -pedantic.  Neither __extension__
+// nor #pragma diagnostic ignored work :(
+//
+#pragma GCC system_header
+#endif
+
 namespace boost{
 namespace math{
 namespace detail{
@@ -28,7 +38,7 @@ template<class T, class Policy>
 T polygamma_imp(const int n, T x, const Policy &pol);
 
 template <class T, class Policy>
-T trigamma_prec(T x, const mpl::int_<53>*, const Policy&)
+T trigamma_prec(T x, const boost::integral_constant<int, 53>*, const Policy&)
 {
    // Max error in interpolated form: 3.736e-017
    static const T offset = BOOST_MATH_BIG_CONSTANT(T, 53, 2.1093254089355469);
@@ -101,7 +111,7 @@ T trigamma_prec(T x, const mpl::int_<53>*, const Policy&)
 }
    
 template <class T, class Policy>
-T trigamma_prec(T x, const mpl::int_<64>*, const Policy&)
+T trigamma_prec(T x, const boost::integral_constant<int, 64>*, const Policy&)
 {
    // Max error in interpolated form: 1.178e-020
    static const T offset_1_2 = BOOST_MATH_BIG_CONSTANT(T, 64, 2.109325408935546875);
@@ -179,7 +189,7 @@ T trigamma_prec(T x, const mpl::int_<64>*, const Policy&)
 }
 
 template <class T, class Policy>
-T trigamma_prec(T x, const mpl::int_<113>*, const Policy&)
+T trigamma_prec(T x, const boost::integral_constant<int, 113>*, const Policy&)
 {
    // Max error in interpolated form: 1.916e-035
 
@@ -381,7 +391,7 @@ T trigamma_imp(T x, const Tag* t, const Policy& pol)
 }
 
 template <class T, class Policy>
-T trigamma_imp(T x, const mpl::int_<0>*, const Policy& pol)
+T trigamma_imp(T x, const boost::integral_constant<int, 0>*, const Policy& pol)
 {
    return polygamma_imp(1, x, pol);
 }
@@ -396,13 +406,13 @@ struct trigamma_initializer
       init()
       {
          typedef typename policies::precision<T, Policy>::type precision_type;
-         do_init(mpl::bool_<precision_type::value && (precision_type::value <= 113)>());
+         do_init(boost::integral_constant<bool, precision_type::value && (precision_type::value <= 113)>());
       }
-      void do_init(const mpl::true_&)
+      void do_init(const boost::true_type&)
       {
          boost::math::trigamma(T(2.5), Policy());
       }
-      void do_init(const mpl::false_&){}
+      void do_init(const boost::false_type&){}
       void force_instantiate()const{}
    };
    static const init initializer;
@@ -424,23 +434,12 @@ inline typename tools::promote_args<T>::type
    typedef typename tools::promote_args<T>::type result_type;
    typedef typename policies::evaluation<result_type, Policy>::type value_type;
    typedef typename policies::precision<T, Policy>::type precision_type;
-   typedef typename mpl::if_<
-      mpl::or_<
-         mpl::less_equal<precision_type, mpl::int_<0> >,
-         mpl::greater<precision_type, mpl::int_<114> >
-      >,
-      mpl::int_<0>,
-      typename mpl::if_<
-         mpl::less<precision_type, mpl::int_<54> >,
-         mpl::int_<53>,
-         typename mpl::if_<
-            mpl::less<precision_type, mpl::int_<65> >,
-            mpl::int_<64>,
-            mpl::int_<113>
-         >::type
-      >::type
-   >::type tag_type;
-
+   typedef boost::integral_constant<int,
+      precision_type::value <= 0 ? 0 :
+      precision_type::value <= 53 ? 53 :
+      precision_type::value <= 64 ? 64 :
+      precision_type::value <= 113 ? 113 : 0
+   > tag_type;
    typedef typename policies::normalise<
       Policy,
       policies::promote_float<false>,

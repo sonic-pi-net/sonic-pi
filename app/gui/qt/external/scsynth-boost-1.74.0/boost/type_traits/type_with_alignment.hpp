@@ -25,9 +25,8 @@
 #endif
 
 namespace boost {
+#ifndef BOOST_BORLANDC
    namespace detail{
-
-#ifndef __BORLANDC__
 
       union max_align
       {
@@ -76,7 +75,7 @@ template <std::size_t Target> struct short_alignment<Target, false>{ typedef typ
 template <std::size_t Target, bool check> struct char_alignment{ typedef char type; };
 template <std::size_t Target> struct char_alignment<Target, false>{ typedef typename short_alignment<Target, boost::alignment_of<short>::value >= Target>::type type; };
 
-}
+} // namespace detail
 
 template <std::size_t Align>
 struct type_with_alignment 
@@ -228,7 +227,7 @@ namespace detail {
 typedef ::boost::tt_align_ns::a16 max_align;
 
 }
-//#if ! BOOST_WORKAROUND(__CODEGEARC__, BOOST_TESTED_AT(0x610))
+//#if ! BOOST_WORKAROUND(BOOST_CODEGEARC, BOOST_TESTED_AT(0x610))
 template <> struct is_pod< ::boost::tt_align_ns::a2> : public true_type{};
 template <> struct is_pod< ::boost::tt_align_ns::a4> : public true_type{};
 template <> struct is_pod< ::boost::tt_align_ns::a8> : public true_type{};
