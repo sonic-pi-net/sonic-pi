@@ -28,6 +28,8 @@ xcopy /Y /I /R /E ..\..\app\server\native\ruby\bin app\server\native\ruby\bin
 xcopy /Y /I /R /E ..\..\app\server\native\ruby\lib app\server\native\ruby\lib
 xcopy /Y /I /R /E ..\..\app\server\native\ruby\share app\server\native\ruby\share
 xcopy /Y /I /R /E ..\..\app\server\native\ruby\ssl app\server\native\ruby\ssl
+xcopy /Y /I /R /E ..\..\app\config app\config
+
 xcopy /Y ..\..\app\server\native\*.* app\server\native
 
 xcopy /Y /I /R /E ..\..\app\server\ruby app\server\ruby

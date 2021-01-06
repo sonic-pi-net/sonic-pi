@@ -50,6 +50,7 @@
             <ComponentGroupRef Id="ETC"/>
             <ComponentGroupRef Id="GUI"/>
             <ComponentGroupRef Id="SERVER"/>
+            <ComponentGroupRef Id="CONFIG"/>
             <ComponentRef Id="SONIC_PI.EXE" />
             <ComponentRef Id="StartMenuShortcuts" />
         </Feature>
