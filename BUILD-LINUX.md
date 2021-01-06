@@ -42,7 +42,7 @@ few dependencies:
 * Build Tools (c++ compiler, cmake, git.)
 * Qt + Dev tools (5.15+)
 * Jack (and pulse-audio-module-jack if you are running Raspberry Pi OS)
-* Ruby + Dev tools (2.7+)
+* Ruby + Dev tools (2.5+)
 * Erlang + Dev tools (21+)
 * SuperCollider + SC3 plugins
 * 
@@ -50,7 +50,9 @@ few dependencies:
 
 ### 1.1 Raspberry Pi OS
 
-``` 
+The following is a list of packages required for Raspberry Pi OS released in Dec 2020:
+
+```  
 sudo apt-get install -y \
      build-essential cmake git libssl-dev \
      ruby-dev erlang-base erlang-dev erlang-tools \
@@ -59,38 +61,6 @@ sudo apt-get install -y \
      compton
 ```     
 
-
-### 1.1 Install Xcode
-
-Firstly open the App Store and install the latest Xcode (12.1 at the
-
-time of writing). Also install the command line tools which will give
-you access to a compiler necessary to build the GUI and other
-components.
-
-### 1.2 Install Homebrew
-
-Install [Homebrew](https://brew.sh) by running the following within a terminal:
-
-```
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-```
-
-_Note that running arbitrary scripts from the internet via `curl` is
-usually a bad idea from a security perspective. Whilst, Homebrew is a
-trusted system used by many developers globally you're always
-recommended to read any scripts before executing them to reassure
-yourself they aren't doing anything malicious._
-
-### 1.3 Install all other dependencies
-
-Once you have Homebrew installed, pulling in the rest of the
-dependencies is a couple of lines to execute within a terminal:
-
-```
-brew install qt cmake
-
-```
 
 ## 2. Preparing the Build
 
@@ -139,8 +109,8 @@ cd ~/Development/sonic-pi/app/gui/qt
 Next we run the prebuild and config scripts:
 
 ```
-./mac-prebuild.sh
-./mac-config.sh
+./linux-prebuild.sh
+./linux-config.sh
 ```
 
 ### 3.3 Build
@@ -161,7 +131,7 @@ directly either by double clicking it in the Finder or via the terminal
 (from within the `build` directory):
 
 ```
-./Sonic\ Pi.app/Contents/MacOS/Sonic\ Pi
+./sonic-pi
 
 ```
 
