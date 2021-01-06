@@ -1,215 +1,173 @@
-**Note: Sonic Pi for Linux isn't currently officially supported.**
+# Building the Latest Sonic Pi on Linux
 
-## Pre-built packages
+Hello there lovely Linux user - welcome to our build instructions.
 
-On multiple distributions, there are Sonic Pi releases that you can install from the main
-repositories without having to build the app yourself. The available versions vary between distros.
+**Note: Sonic Pi for Linux isn't currently officially supported and we
+  can't guarantee that it will work on all variants of Linux on all
+  hardware. However, we provide these instructions in the hope that they
+  can help you get Sonic Pi running on your specific Linux
+  distribution.**
 
-| Distribution | Install Command |
-|---|---|
-| Debian / Ubuntu / Raspbian / Linux Mint | `sudo apt-get install sonic-pi` |
-| Arch Linux / Manjaro | `sudo pacman -S sonic-pi` |
 
-## Building from source
+### Installing vs Building
 
-**The Linux build process is a work in progress and is very likely to change. It may not work properly in some cases.**
+These instructions are for people wanting to build/compile their own
+version of Sonic Pi. If you're just looking to install it it might be
+the case that a kind maintainer has already done this work for you and
+packaged it up for your Linux distribution. If you just want to get
+started as quickly as possible it might be worth checking your
+distribution's package system to see if a package is already
+available. However, if you want to use the absolute latest development
+version or get involved with modifying and changign the source code,
+you'll need to build things yourself and hopefully this document will
+help you do just that.
 
-### 1. Install dependencies & prerequisites
+OK, so just to get you prepared, we're going to do a few things:
+ 
+1. Install the various dependencies that Sonic Pi needs both to be built
+and to run
+2. Prepare the build by running some command scripts
+3. Build Sonic Pi using `cmake`
+4. Start your new Sonic Pi using your newly built app
 
-_Note: This list may need refining and correcting._
+### Notes
 
-#### Runtime Dependencies
+_These build instructions assume you're running under a Debian-based Linux. You may need to modify the package names and other aspects to match your specific Linux distribution._
 
-* Ruby (>= 2.4)
-* Erlang (>= 21)
-* Supercollider scsynth (>= 3.9.1)
-* SC3-Plugins
-* jackd
-* Qt5 [?]
-* libffi [?]
-* libaubio5 (if not built as part of Sonic Pi)
+## 1. Installing Dependencies
 
-_Note: The required Ruby gems are included in the source, and the native extensions are compiled by app/server/ruby/bin/compile-extensions.rb. This is done in linux-prebuild.sh._
+In order to build Sonic Pi's various components, we need to install a
+few dependencies:
 
-#### Build-time Dependencies
+* Build Tools (c++ compiler, cmake, git.)
+* Qt + Dev tools (5.15+)
+* Jack (and pulse-audio-module-jack if you are running Raspberry Pi OS)
+* Ruby + Dev tools (2.7+)
+* Erlang + Dev tools (21+)
+* SuperCollider + SC3 plugins
+* 
 
-**All the above, and:**
 
-* Git
-* CMake (>= 3.2)
-* Make
-* Ruby-dev
-* GCC (or Clang)
-* Qt5 dev tools (e.g. lrelease)
-* Qt5svg5-dev
-* QtDeclarative5-dev
-* Qt5Webkit5-dev
-* QtPositioning5-dev
-* Qt5Sensors5-dev
-* QtMultimedia5-dev
-* Qt5OpenGL5-dev
-* libffi-dev
-* libjack-jackd2-dev
-* libxt-dev
-* libudev-dev
-* libboost-dev
-* libasound2-dev
-* libavahi-client-dev
-* libicu-dev
-* libreadline6-dev
-* libfftw3-dev
+### 1.1 Raspberry Pi OS
 
-#### How to install the dependencies
+``` 
+sudo apt-get install -y \
+     build-essential cmake git libssl-dev \
+     ruby-dev erlang-base erlang-dev erlang-tools \
+     supercollider-server sc3-plugins-server alsa-utils libaubio5  jackd2 libjack-jackd2-dev libjack-jackd2-0 libasound2-dev librtmidi-dev pulseaudio-module-jack\
+     qt5-default qttools5-dev-tools libqt5concurrent5 libqt5core5a libqt5gui5 libqt5network5 libqt5opengl5 libqt5printsupport5 libqt5concurrent5 libqt5svg5 libqt5widgets5 libqt5svg5-dev \
+     compton
+```     
 
-On Debian and Ubuntu:
 
-```bash
-    sudo apt-get install \
-      build-essential cmake git \
-      ruby ruby-dev \
-      erlang-base erlang-dev erlang-tools \
-      libasound2-dev libaubio5 libavahi-client-dev libboost-dev \
-      libffi-dev libffi7 \
-      libfftw3-dev libicu-dev \
-      libjack-jackd2-0 libjack-jackd2-dev \
-      libqt5opengl5-dev libqt5sensors5-dev libqt5svg5-dev libqt5webkit5-dev \
-      libreadline6-dev libscsynth1 libudev-dev libxt-dev \
-      qt5-default qtdeclarative5-dev qtmultimedia5-dev qtpositioning5-dev \
-      qttools5-dev qttools5-dev-tools \
-      sc3-plugins
+### 1.1 Install Xcode
+
+Firstly open the App Store and install the latest Xcode (12.1 at the
+
+time of writing). Also install the command line tools which will give
+you access to a compiler necessary to build the GUI and other
+components.
+
+### 1.2 Install Homebrew
+
+Install [Homebrew](https://brew.sh) by running the following within a terminal:
+
+```
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 ```
 
-:information_source: **Note about CMake**: On some distros you may need a newer version of CMake
-than the one that's available in the main package repository. (CMake 2.3 or above is required)
+_Note that running arbitrary scripts from the internet via `curl` is
+usually a bad idea from a security perspective. Whilst, Homebrew is a
+trusted system used by many developers globally you're always
+recommended to read any scripts before executing them to reassure
+yourself they aren't doing anything malicious._
 
-To install the newest version, you can:
+### 1.3 Install all other dependencies
 
-* Build it from source (download source code from CMake website)
-* Download the latest version binary from the CMake website
-* Add Kitware's apt repository and install the latest CMake package on **Debian or Ubuntu** (see https://apt.kitware.com/ for more detail):
+Once you have Homebrew installed, pulling in the rest of the
+dependencies is a couple of lines to execute within a terminal:
 
-```bash
-  # Install required packages
-  sudo apt-get update
-  sudo apt-get install apt-transport-https ca-certificates gnupg software-properties-common wget
+```
+brew install qt cmake
 
-  # Remove old versions of CMake if pre-installed
-  sudo apt-get purge -y --auto-remove cmake
-
-  # Add Kitware's apt repo (for newest CMake)
-  sudo apt-get install apt-transport-https ca-certificates gnupg software-properties-common wget
-  wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | sudo apt-key add -
-
-  # Ubuntu Bionic (18.04)
-  sudo apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic main'
-
-  # Ubuntu Xenial (16.04)
-  sudo apt-add-repository 'deb https://apt.kitware.com/ubuntu/ xenial main'
-
-  sudo apt-get update
 ```
 
-* Install the Snap or pip package
+## 2. Preparing the Build
 
-**See https://cmake.org/download/ for more info.**
-  
-:information_source: **Note about Erlang**: On some distros, you may need a newer version of Erlang
-than the one that's available in the main package repository. (Erlang 21 or above is required)
-  
-To install the newest version, you can:
+Once we have installed all the dependencies, we're almost ready to build
+Sonic Pi. However, we must first grab a copy of Sonic Pi's source code.
 
-* Build it from source (see https://github.com/erlang/otp)
-* Download the latest binary package from the Erlang website
-* Use [Kerl](https://github.com/kerl/kerl) to install Erlang
+The easiest way of getting this is likely to be cloning from GitHub
+into a folder on your hard drive such as `~/Development/sonic-pi`:
 
-**See https://www.erlang.org/downloads for more info.**
+```
+git clone https://github.com/samaaron/sonic-pi.git ~/Development/sonic-pi
+``` 
 
-### 2. Clone the source code
+If you don't have Git installed you should be able to download a `.zip`
+file of the latest commit or specific release (v3.3+) you'd like to
+build:
 
-```bash
-    git clone https://github.com/samaaron/sonic-pi.git
-    cd sonic-pi
+https://github.com/samaaron/sonic-pi/archive/main.zip
+
+From now on these instructions will assume you downloaded the source 
+into `~/Development/sonic-pi`. If you used a different location be sure to
+change any future references to `~/Development/sonic-pi` to your chosen location.
+
+
+## 3. Running the Build
+
+Nowe we're ready to build everything. This is achieved with 3 commands
+which will:
+
+1. Run the prebuild script which builds and sets up a lot of the
+   dependencies.
+2. Run the config script to set up the build system.
+3. Run cmake to build the final entry-point binary.
+
+
+### 3.1 Prebuild
+
+Firstly, we need to change to the `qt` directory which is within `app/gui`:
+
+```
+cd ~/Development/sonic-pi/app/gui/qt
 ```
 
-### 3. Build
+### 3.2 Config
 
-```bash
-    cd app/gui/qt
+Next we run the prebuild and config scripts:
 
-    chmod u+x linux-prebuild.sh linux-config.sh
-
-    ./linux-prebuild.sh --build-aubio
-
-    # Note: If you don't want to build & bundle libaubio with Sonic Pi
-    # and instead use the distro's package,
-    # remove the --build-aubio option in the above command, like so:
-    # ./linux-prebuild.sh
-
-    ./linux-config.sh
-
-    cd build
-    cmake --build .
+```
+./mac-prebuild.sh
+./mac-config.sh
 ```
 
-### 4. Run!
+### 3.3 Build
 
-```bash
-  cd ../../../../
-  ./bin/sonic-pi
+Once these have completed (it might take a while the first time you run
+a build) you'll find that you now have a `build` directory that's
+waiting for you to run your first build:
+
+```
+cd build
+cmake --build . --config Release
 ```
 
-### Tips
+## 4. Start Sonic Pi
 
-* If `compile-extensions.rb` fails, you can try installing the required gems with native extensions to the system:
+Finally, you can run your newly compiled `Sonic Pi` app within the `build`
+directly either by double clicking it in the Finder or via the terminal
+(from within the `build` directory):
 
-```bash
-    sudo gem install aubio sys-proctable fast_osc
-    sudo gem install rugged --version 0.27.1
+```
+./Sonic\ Pi.app/Contents/MacOS/Sonic\ Pi
+
 ```
 
-  If you get aubio related errors, try using the distro's libaubio5 package and make sure that the
-  `AUBIO_LIB` environment variable is set to the path to the library
+## Good Luck!
 
-* Error logs are written to `~/.sonic-pi/logs`, and are useful to diagnose any startup problems.
+Good luck and please share your new live coding adventure with us over on:
 
-* If you're getting 'port unavailable' errors on startup, try running
-  `app/qt/gui/linux-killprocess.sh`. Or go to your task manager/system monitor and look for any Sonic
-  Pi processes and close them (be careful not to close any important programs).
+https://in-thread.sonic-pi.net
 
-* If you're having issues with jackd when running Sonic Pi, try using `qjackctl` to start it *before* running Sonic Pi.
-
-  If that doesn't work, then try starting jackd manually: `jackd -R -d alsa -d hw:1`.
-  On systems like Ubuntu that run pulseaudio, use `pasuspender -- jackd -R -d alsa`.
-
-* If the :piano synth makes no sound then make sure sc3-plugins is installed.
-
-* For identifying any possible issue with real-time audio playback in your Ubuntu machine, it is
-  useful to run [RealTimeConfigQuickScan](https://github.com/raboof/realtimeconfigquickscan). It
-  provides warnings for possible settings that may not allow Supercollider or Sonic-Pi to execute correctly.
-
-### Configuration script usage
-
-* `app/gui/qt/linux-prebuild.sh`:
-
-    `linux-prebuild.sh [--build-aubio]`
-
-    Builds server dependencies; compiles Erlang files; translates tutorial; and generates Qt GUI docs.
-
-    Options:
-
-    * `--build-aubio` - Build aubio and copy the library to the server native folder (instead of using the distro's package)
-
-
-* `app/gui/qt/linux-config.sh`:
-
-    `linux-config.sh [--config <Release|Debug|RelWithDebInfo|MinSizeRel>]`
-
-    Creates a build directory and uses CMake to generate the build system files for the GUI.
-
-    Options:
-
-    * `--config <Release|Debug|RelWithDebInfo|MinSizeRel>` - Specify a specific configuration to build the GUI with.
-
-      This sets the `CMAKE_BUILD_TYPE` option when generating the build system files.
-
-      It must be followed by one of the following configurations: `Release, Debug, RelWithDebInfo, or MinSizeRel`
