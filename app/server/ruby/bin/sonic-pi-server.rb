@@ -75,7 +75,7 @@ File.delete(old_settings_file_path) if File.exist?(old_settings_file_path)
 begin
   if File.exists?(original_init_path)
     if (File.exists?(init_path))
-      STDOUT.puts "Warning, you have an older init.rb file in #{original_init_path} which is now being ignored as your newer config/init.rb file is being used insted. Consider deleting your old init.rb (perhaps copying anything useful across first)."
+      STDOUT.puts "Warning, you have an older init.rb file in #{original_init_path} which is now being ignored as your newer config/init.rb file is being used instead. Consider deleting your old init.rb (perhaps copying anything useful across first)."
     else
       STDOUT.puts "Found init.rb in old location #{original_init_path}. Moving it to the new config directory #{init_path}."
       FileUtils.mv(original_init_path, init_path)
