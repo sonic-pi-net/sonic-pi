@@ -3420,13 +3420,13 @@ print rand_i_look(5) #=> will print the same number as the previous statement"
 
 
 
-      def use_random_stream(noise_type, &block)
-        raise ArgumentError, "use_random_stream does not work with a block. Perhaps you meant with_random_stream" if block
+      def use_random_source(noise_type, &block)
+        raise ArgumentError, "use_random_source does not work with a block. Perhaps you meant with_random_stream" if block
         raise ArgumentError, "invalid noise type '#{noise_type}' - please use one of :white, :pink, :light_pink, :dark_pink or :perlin instead" unless %w(white pink light_pink dark_pink perlin).include?(noise_type.to_s)
 
         SonicPi::Core::SPRand.set_random_number_distribution!(noise_type)
       end
-      doc name:           :use_random_stream,
+      doc name:           :use_random_source,
           introduced:     Version.new(3,3,0),
           summary:        "Change how random numbers are chosen",
           args:           [[:noise_type, :symbol]],
@@ -3455,17 +3455,17 @@ You can see the 'buckets' that the numbers between 0 and 1 fall into with the fo
 
       ",
           examples:       ["
-  use_random_stream :white # use white noise as the distribution (default)
+  use_random_source :white # use white noise as the distribution (default)
   rand_reset # reset random seed
   puts rand # => 0.75006103515625
   puts rand # => 0.733917236328125
   puts rand # => 0.464202880859375
   rand_reset # reset it again
-  use_random_stream :pink # use pink noise as the distribution
+  use_random_source :pink # use pink noise as the distribution
   puts rand # => 0.47808837890625
   puts rand # => 0.56011962890625
   rand_reset # reset it
-  use_random_stream :perlin # use perlin noise as the distribution
+  use_random_source :perlin # use perlin noise as the distribution
   puts rand # => 0.546478271484375
   puts rand # => 0.573150634765625
 
@@ -3482,7 +3482,7 @@ You can see the 'buckets' that the numbers between 0 and 1 fall into with the fo
 
 
       def with_random_stream(noise_type, &block)
-        raise ArgumentError, "with_random_stream requires a block. Perhaps you meant use_random_stream" unless block
+        raise ArgumentError, "with_random_stream requires a block. Perhaps you meant use_random_source" unless block
         raise ArgumentError, "invalid noise type '#{noise_type}' - please use one of :white, :pink, :light_pink, :dark_pink or :perlin instead" unless %w(white pink light_pink dark_pink perlin).include?(noise_type.to_s)
         new_thread_gen_type = SonicPi::Core::SPRand.get_random_number_distribution
 
@@ -3500,17 +3500,17 @@ You can see the 'buckets' that the numbers between 0 and 1 fall into with the fo
           accepts_block:  true,
           requires_block: true,
           examples:      ["
-  use_random_stream :white # use white noise as the distribution (default)
+  use_random_source :white # use white noise as the distribution (default)
   rand_reset # reset random seed
   puts rand # => 0.75006103515625
   puts rand # => 0.733917236328125
   puts rand # => 0.464202880859375
   rand_reset # reset it again
-  use_random_stream :pink # use pink noise as the distribution
+  use_random_source :pink # use pink noise as the distribution
   puts rand # => 0.47808837890625
   puts rand # => 0.56011962890625
   rand_reset # reset it
-  use_random_stream :perlin # use perlin noise as the distribution
+  use_random_source :perlin # use perlin noise as the distribution
   puts rand # => 0.546478271484375
   puts rand # => 0.573150634765625
 

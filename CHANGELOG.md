@@ -32,7 +32,7 @@
 
 ### New 
 * Completely new MIDI subsystem.
-* `use/with_random_stream` - change the current random stream used when selecting random values. We now have `:white`, `:light_pink`, `:pink`, `:dark_pink` and `:perlin`.  Default is `:white` which is the same stream as previous releases to preserve compatibility.
+* `use/with_random_source` - change the current random stream used when selecting random values. We now have `:white`, `:light_pink`, `:pink`, `:dark_pink` and `:perlin`.  Default is `:white` which is the same stream as previous releases to preserve compatibility.
 * Many Turkish scales (makams) have been added.
 * New user config directory for fine tuning aspects of the app such as advanced audio settings. See `~/.sonic-pi/config/README.md` for more information.
 
