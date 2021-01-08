@@ -39,7 +39,7 @@ module SonicPi
       rand_reset
       assert_equal(rand, 0.546478271484375)
       assert_equal(rand, 0.573150634765625)
-      with_random_stream :white do
+      with_random_source :white do
         # matches 3rd value from test_rand
         # index is not reset when changing type
         assert_equal(rand, 0.464202880859375)
