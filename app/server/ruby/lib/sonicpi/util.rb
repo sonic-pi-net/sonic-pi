@@ -71,6 +71,8 @@ module SonicPi
     @@raspberry_pi_4_4gb_64 =  RUBY_PLATFORM.match(/aarch64.*-linux.*/) && ['c03111','c03112'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
     @@raspberry_pi_4_8gb_64 =  RUBY_PLATFORM.match(/aarch64.*linux.*/) && ['d03114'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
     @@home_dir = File.expand_path((ENV['SONIC_PI_HOME'] || @@user_dir) + '/.sonic-pi/')
+    @@raspberry_pi_400 =  RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['c03130'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
+    @@raspberry_pi_400_64 =  RUBY_PLATFORM.match(/aarch64.*linux.*/) && ['c03130'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
     @@project_path = @@home_dir + '/store/default/'
     @@log_path = @@home_dir + '/log'
 
@@ -172,7 +174,15 @@ module SonicPi
       os == :raspberry && @@raspberry_pi_4_8gb_64
     end
 
-    def unify_tilde_dir(path)
+      def raspberry_pi_400?
+      os == :raspberry && @@raspberry_pi_400
+    end
+
+     def raspberry_pi_400_64?
+      os == :raspberry && @@raspberry_pi_40_64
+    end
+    
+   def unify_tilde_dir(path)
       if os == :windows
         path
       else
@@ -232,7 +242,11 @@ module SonicPi
           "Raspberry Pi 4B:4Gb 64bit OS"
         elsif raspberry_pi_4_8gb_64?
           "Raspberry Pi 4B:8Gb 64bit OS"
-        else
+         elsif raspberry_pi_400?
+          "Raspberry Pi 400:4Gb"
+        elsif raspberry_pi_400_64?
+          "Raspberry Pi 400:4Gb 64bit OS"
+       else
           "Raspberry Pi"
         end
       when :linux
