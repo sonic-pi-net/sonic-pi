@@ -18,7 +18,7 @@ packaged it up for your Linux distribution. If you just want to get
 started as quickly as possible it might be worth checking your
 distribution's package system to see if a package is already
 available. However, if you want to use the absolute latest development
-version or get involved with modifying and changign the source code,
+version or get involved with modifying and changing the source code,
 you'll need to build things yourself and hopefully this document will
 help you do just that.
 
@@ -87,7 +87,7 @@ change any future references to `~/Development/sonic-pi` to your chosen location
 
 ## 3. Running the Build
 
-Nowe we're ready to build everything. This is achieved with 3 commands
+Now we're ready to build everything. This is achieved with 3 commands
 which will:
 
 1. Run the prebuild script which builds and sets up a lot of the
