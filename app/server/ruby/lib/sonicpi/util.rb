@@ -179,7 +179,7 @@ module SonicPi
     end
 
      def raspberry_pi_400_64?
-      os == :raspberry && @@raspberry_pi_40_64
+      os == :raspberry && @@raspberry_pi_400_64
     end
     
    def unify_tilde_dir(path)
