@@ -3421,7 +3421,7 @@ print rand_i_look(5) #=> will print the same number as the previous statement"
 
 
       def use_random_source(noise_type, &block)
-        raise ArgumentError, "use_random_source does not work with a block. Perhaps you meant with_random_stream" if block
+        raise ArgumentError, "use_random_source does not work with a block. Perhaps you meant with_random_source" if block
         raise ArgumentError, "invalid noise type '#{noise_type}' - please use one of :white, :pink, :light_pink, :dark_pink or :perlin instead" unless %w(white pink light_pink dark_pink perlin).include?(noise_type.to_s)
 
         SonicPi::Core::SPRand.set_random_number_distribution!(noise_type)
@@ -3469,7 +3469,7 @@ You can see the 'buckets' that the numbers between 0 and 1 fall into with the fo
   puts rand # => 0.546478271484375
   puts rand # => 0.573150634765625
 
-  with_random_stream :white do # use white noise just for this block
+  with_random_source :white do # use white noise just for this block
     puts rand # => 0.464202880859375
   end
 
@@ -3481,8 +3481,8 @@ You can see the 'buckets' that the numbers between 0 and 1 fall into with the fo
 
 
 
-      def with_random_stream(noise_type, &block)
-        raise ArgumentError, "with_random_stream requires a block. Perhaps you meant use_random_source" unless block
+      def with_random_source(noise_type, &block)
+        raise ArgumentError, "with_random_source requires a block. Perhaps you meant use_random_source" unless block
         raise ArgumentError, "invalid noise type '#{noise_type}' - please use one of :white, :pink, :light_pink, :dark_pink or :perlin instead" unless %w(white pink light_pink dark_pink perlin).include?(noise_type.to_s)
         new_thread_gen_type = SonicPi::Core::SPRand.get_random_number_distribution
 
@@ -3491,7 +3491,7 @@ You can see the 'buckets' that the numbers between 0 and 1 fall into with the fo
         SonicPi::Core::SPRand.set_random_number_distribution!(new_thread_gen_type)
         res
       end
-      doc name:           :with_random_stream,
+      doc name:           :with_random_source,
           introduced:     Version.new(3,3,0),
           summary:        "Specify random distribution for code block",
           doc:            "Resets the random number generator to the specified noise type for the specified code block. All generated random numbers and randomisation functions such as `shuffle` and `choose` within the code block will use this new generator. Once the code block has completed, the original generator is restored and the code block generator is discarded. Use this to change the sequence of random numbers in your piece in a way that can be reproduced. Especially useful if combined with iteration. See examples.",
@@ -3514,7 +3514,7 @@ You can see the 'buckets' that the numbers between 0 and 1 fall into with the fo
   puts rand # => 0.546478271484375
   puts rand # => 0.573150634765625
 
-  with_random_stream :white do # use white noise just for this block
+  with_random_source :white do # use white noise just for this block
     puts rand # => 0.464202880859375
   end
 
