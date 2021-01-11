@@ -153,7 +153,7 @@ Desculpe, um erro critico ocorreu durante a inicialização</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2545"/>
         <source>Indent Code Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>Indentar o Code Buffer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2547"/>
@@ -228,12 +228,12 @@ Desculpe, um erro critico ocorreu durante a inicialização</translation>
     <message>
         <location filename="../mainwindow.cpp" line="793"/>
         <source>Context</source>
-        <translation type="unfinished"></translation>
+        <translation>Contexto</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="897"/>
         <source>Playing Sample...</source>
-        <translation type="unfinished"></translation>
+        <translation>Tocando Sample...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1693"/>
@@ -299,22 +299,22 @@ Desculpe, um erro critico ocorreu durante a inicialização</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1869"/>
         <source>Hiding about window...</source>
-        <translation type="unfinished"></translation>
+        <translation>Minimizando a janela &quot;about&quot;...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1874"/>
         <source>Showing about window...</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrando a janela &quot;about&quot;...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1890"/>
         <source>Hiding help...</source>
-        <translation type="unfinished"></translation>
+        <translation>Minimizando &quot;ajuda&quot;...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1894"/>
         <source>Showing help...</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrando &quot;ajuda&quot;...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1950"/>
@@ -329,37 +329,37 @@ Desculpe, um erro critico ocorreu durante a inicialização</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2305"/>
         <source>Show autocompletion on</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar autocompletar ligado</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2307"/>
         <source>Show autocompletion off</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar autocompletar desligado</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2322"/>
         <source>Show context on</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar contexto ligado</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2325"/>
         <source>Show context off</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar contexto desligado</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2337"/>
         <source>Hiding preferences...</source>
-        <translation type="unfinished"></translation>
+        <translation>Escondendo preferencias...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2341"/>
         <source>Showing preferences...</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrando preferencias...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2510"/>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Sair</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2529"/>
@@ -379,12 +379,12 @@ Desculpe, um erro critico ocorreu durante a inicialização</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2575"/>
         <source>Toggle information about Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar informação sobre Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2579"/>
         <source>Show Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar ajuda</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2583"/>
@@ -394,7 +394,7 @@ Desculpe, um erro critico ocorreu durante a inicialização</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2587"/>
         <source>Show Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar preferências</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2591"/>
@@ -404,7 +404,7 @@ Desculpe, um erro critico ocorreu durante a inicialização</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2614"/>
         <source>Show Line Numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar números das linhas</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2619"/>
@@ -414,7 +414,7 @@ Desculpe, um erro critico ocorreu durante a inicialização</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2624"/>
         <source>Show Code Context</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar Contexto Do Código</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2629"/>
