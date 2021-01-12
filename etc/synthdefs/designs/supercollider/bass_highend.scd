@@ -54,5 +54,5 @@ SynthDef('sonic-pi-bass_highend',{|
 
 	Out.ar(out_bus, snd * amp);
 
-}).writeDefFile("/home/bmarx/music/sonic_pi/synthdefs/compiled/");
+}).writeDefFile("/Users/sam/Development/RPi/sonic-pi/etc/synthdefs/compiled/");
 )

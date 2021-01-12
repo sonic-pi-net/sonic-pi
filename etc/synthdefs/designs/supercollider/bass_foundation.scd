@@ -42,5 +42,5 @@ SynthDef('sonic-pi-bass_foundation', {|
 	snd = Pan2.ar(Mix(snd) * EnvGen.kr(env, doneAction: 2), pan);
 
 	Out.ar(out_bus, snd * amp);
-}).writeDefFile("/home/bmarx/music/sonic_pi/synthdefs/compiled/");
+}).writeDefFile("/Users/sam/Development/RPi/sonic-pi/etc/synthdefs/compiled/");
 )
