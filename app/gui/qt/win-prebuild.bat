@@ -4,7 +4,7 @@ call external/win_x64_build_externals.bat
 cd %~dp0
 
 @echo Cleaning out native dir....
-del ..\..\server\native\*.* /s /q
+REM del ..\..\server\native\*.* /s /q
 rmdir ..\..\server\native\erlang /s /q
 rmdir ..\..\server\erlang\sonic_pi_server\priv /s /q
 rmdir ..\..\server\native\plugins /s /q
