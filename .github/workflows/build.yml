@@ -1,0 +1,132 @@
+name: Build
+
+on:
+  push:
+    branches: [ dev, main, features/build-sonic-pi ]
+  pull_request:
+    branches: [ dev, main, features/build-sonic-pi ]
+
+jobs:
+  build:
+    name: "${{matrix.title}} (${{matrix.cc}}, ${{matrix.arch}}, ${{matrix.build_type}})"
+    runs-on: ${{matrix.os}}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+           - { title: "Linux", os: "ubuntu-latest", cc: "clang", arch: "x64", build_type: "Release" }
+           - { title: "Linux", os: "ubuntu-latest", cc: "clang", arch: "x64", build_type: "Debug" }
+           - { title: "Linux", os: "ubuntu-latest", cc: "gcc", arch: "x64", build_type: "Release" }
+           - { title: "Linux", os: "ubuntu-latest", cc: "gcc", arch: "x64", build_type: "Debug" }
+           - { title: "Windows", os: "windows-latest", cc: "vs2019", arch: "x64", build_type: "Release" }
+           - { title: "Windows", os: "windows-latest", cc: "vs2019", arch: "x64", build_type: "Debug" }
+           #- { title: "Mac", os: "macos-latest", cc: "clang", arch: "x64", build_type: "Release" }
+           #- { title: "Mac", os: "macos-latest", cc: "clang", arch: "x64", build_type: "Debug" }
+
+    steps:
+
+    # Get the code
+    - uses: actions/checkout@v2
+
+    # Install Ruby for the windows build
+    - uses: ruby/setup-ruby@v1
+      id: ruby-inst
+      with:
+        ruby-version: 2.7
+      if: matrix.os == 'windows-latest'
+
+    # Install gems Windows
+    - name: Setup Ruby Windows
+      working-directory: ${{github.workspace}}/app/gui/qt
+      run: |
+          gem install win32-process
+          gem install rugged --version 0.27.1
+          gem install ffi
+      if: matrix.os == 'windows-latest'
+
+    # Install gems Linux - needs sudo
+    - name: Setup Ruby Linux
+      working-directory: ${{github.workspace}}/app/gui/qt
+      run: |
+          sudo gem install win32-process
+          sudo gem install rugged --version 0.27.1
+          sudo gem install ffi
+      if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
+
+    # For windows we build a symlink in the bash shell because the windows method does not seem to work.
+    - name: Add SymLink for Windows
+      working-directory: ${{github.workspace}}/app/gui/qt
+      run: |
+        cd ..\..\server\native
+        ln -s ${{steps.ruby-inst.outputs.ruby-prefix}} ruby
+      if: matrix.os == 'windows-latest'
+
+      # Keep a cached copy of the Qt build so we can speed up subsequent builds
+    - name: Cache Qt
+      id: cache-qt
+      uses: actions/cache@v1
+      with:
+        path: ../Qt
+        key: ${{ runner.os }}-QtCache
+
+      # Get Qt
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v2
+      with:
+        cached: ${{ steps.cache-qt.outputs.cache-hit }}
+
+      # Latest Erlang
+    - uses: gleam-lang/setup-erlang@v1.1.2
+      with:
+        otp-version: 23.2.1
+      if: matrix.os == 'ubuntu-latest'
+
+    - name: Prebuild Linux
+      working-directory: ${{github.workspace}}/app/gui/qt
+      env:
+        CC: ${{ matrix.cc }}  
+        QT_INSTALL_LOCATION: ${{env.Qt5_DIR}}
+      run: |
+        sudo apt install -y libssl-dev ruby-dev supercollider-server sc3-plugins-server alsa-utils jackd2 libjack-jackd2-dev libjack-jackd2-0 libasound2-dev librtmidi-dev pulseaudio-module-jack
+        ./linux-prebuild.sh --build-aubio
+      if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
+   
+    # Note that we 'hide' the msys folders on windows to stop conflicts when building 
+    # Flac
+    - name: Prebuild Windows
+      working-directory: ${{github.workspace}}/app/gui/qt
+      shell: cmd
+      env:
+        CC: ${{ matrix.cc }}  
+        QT_INSTALL_LOCATION: ${{env.Qt5_DIR}}
+      run: |
+        mv c:/msys64 c:/__msys64
+        win-prebuild.bat
+      if: matrix.os == 'windows-latest'
+    
+      #- name: Setup tmate session
+      # uses: mxschmitt/action-tmate@v3
+        
+    - name: Config Linux
+      working-directory: ${{github.workspace}}/app/gui/qt
+      env:
+        CC: ${{ matrix.cc }}  
+        QT_INSTALL_LOCATION: ${{env.Qt5_DIR}}
+      run: |
+        ./linux-config.sh
+      if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
+    
+    - name: Config Windows
+      working-directory: ${{github.workspace}}/app/gui/qt
+      shell: cmd
+      env:
+        CC: ${{ matrix.cc }}  
+        QT_INSTALL_LOCATION: ${{env.Qt5_DIR}}
+      run: |
+        win-config.bat
+      if: matrix.os == 'windows-latest'
+    
+    - name: Do build
+      working-directory: ${{github.workspace}}/app/gui/qt/build
+      run: cmake --build . --config ${{ matrix.build_type }}
+
