@@ -42,6 +42,7 @@ jobs:
           gem install win32-process
           gem install rugged --version 0.27.1
           gem install ffi
+          gem install test-unit
       if: matrix.os == 'windows-latest'
 
     # Install gems Linux/Max - needs sudo
@@ -51,6 +52,7 @@ jobs:
           sudo gem install win32-process
           sudo gem install rugged --version 0.27.1
           sudo gem install ffi
+          sudo gem install test-unit
       if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
 
     # For windows we build a symlink in the bash shell because the windows method does not seem to work.
@@ -155,4 +157,10 @@ jobs:
     - name: Do build
       working-directory: ${{github.workspace}}/app/gui/qt/build
       run: cmake --build . --config ${{ matrix.build_type }}
+    
+    - name: Ruby Tests Linux/Mac (Windows TBD)
+      working-directory: ${{github.workspace}}/app/server/ruby
+      run: rake test 
+      if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
+
 
