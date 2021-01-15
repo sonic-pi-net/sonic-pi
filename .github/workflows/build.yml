@@ -2,9 +2,9 @@ name: Build
 
 on:
   push:
-    branches: [ dev, main, workflow_dispatch ]
+    branches: [ dev, main, workflow_dispatch, features/mac-action ]
   pull_request:
-    branches: [ dev, main, workflow_dispatch ]
+    branches: [ dev, main, workflow_dispatch, features/mac-action ]
 
 jobs:
   build:
@@ -20,8 +20,8 @@ jobs:
            - { title: "Linux", os: "ubuntu-latest", cc: "gcc", arch: "x64", build_type: "Debug" }
            - { title: "Windows", os: "windows-latest", cc: "vs2019", arch: "x64", build_type: "Release" }
            - { title: "Windows", os: "windows-latest", cc: "vs2019", arch: "x64", build_type: "Debug" }
-           #- { title: "Mac", os: "macos-latest", cc: "clang", arch: "x64", build_type: "Release" }
-           #- { title: "Mac", os: "macos-latest", cc: "clang", arch: "x64", build_type: "Debug" }
+           - { title: "Mac", os: "macos-latest", cc: "clang", arch: "x64", build_type: "Release" }
+           - { title: "Mac", os: "macos-latest", cc: "clang", arch: "x64", build_type: "Debug" }
 
     steps:
 
@@ -44,8 +44,8 @@ jobs:
           gem install ffi
       if: matrix.os == 'windows-latest'
 
-    # Install gems Linux - needs sudo
-    - name: Setup Ruby Linux
+    # Install gems Linux/Max - needs sudo
+    - name: Setup Ruby Gems
       working-directory: ${{github.workspace}}/app/gui/qt
       run: |
           sudo gem install win32-process
@@ -75,11 +75,19 @@ jobs:
       with:
         cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
-      # Latest Erlang
+      # Latest Erlang on Ubuntu
     - uses: gleam-lang/setup-erlang@v1.1.2
       with:
         otp-version: 23.2.1
       if: matrix.os == 'ubuntu-latest'
+
+    - name: Mac Erlang
+      continue-on-error: true
+      run: |
+        export HOMEBREW_NO_INSTALL_CLEANUP=1
+        brew update
+        brew install erlang
+      if: matrix.os == 'macos-latest'
 
     - name: Prebuild Linux
       working-directory: ${{github.workspace}}/app/gui/qt
@@ -89,7 +97,16 @@ jobs:
       run: |
         sudo apt install -y libssl-dev ruby-dev supercollider-server sc3-plugins-server alsa-utils jackd2 libjack-jackd2-dev libjack-jackd2-0 libasound2-dev librtmidi-dev pulseaudio-module-jack
         ./linux-prebuild.sh --build-aubio
-      if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
+      if: matrix.os == 'ubuntu-latest'
+   
+    - name: Prebuild Mac
+      working-directory: ${{github.workspace}}/app/gui/qt
+      env:
+        CC: ${{ matrix.cc }}  
+        QT_INSTALL_LOCATION: ${{env.Qt5_DIR}}
+      run: |
+        ./mac-prebuild.sh
+      if: matrix.os == 'macos-latest'
    
     # Note that we 'hide' the msys folders on windows to stop conflicts when building 
     # Flac
@@ -114,7 +131,16 @@ jobs:
         QT_INSTALL_LOCATION: ${{env.Qt5_DIR}}
       run: |
         ./linux-config.sh
-      if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
+      if: matrix.os == 'ubuntu-latest'
+    
+    - name: Config Mac
+      working-directory: ${{github.workspace}}/app/gui/qt
+      env:
+        CC: ${{ matrix.cc }}  
+        QT_INSTALL_LOCATION: ${{env.Qt5_DIR}}
+      run: |
+        ./mac-config.sh
+      if: matrix.os == 'macos-latest'
     
     - name: Config Windows
       working-directory: ${{github.workspace}}/app/gui/qt
