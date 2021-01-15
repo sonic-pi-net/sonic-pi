@@ -96,7 +96,7 @@ module SonicPi
                     0.45833333333333315,
         0.47916666666666646].map{|x| x.round(14)}.ring
 
-      assert_equal midi_clocks_half, line(0, 0.5, steps: 24, inclusive: false)
+      assert_equal midi_clocks_half, line(0, 0.5, steps: 24, inclusive: false).map{ |x| x.round(14)}.ring
     end
 
     def test_ring
