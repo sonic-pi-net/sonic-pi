@@ -2,9 +2,9 @@ name: Build
 
 on:
   push:
-    branches: [ dev, main, workflow_dispatch, features/mac-action ]
+    branches: [ dev, main, workflow_dispatch, features/new-layout-and-api ]
   pull_request:
-    branches: [ dev, main, workflow_dispatch, features/mac-action ]
+    branches: [ dev, main, workflow_dispatch, features/new-layout-and-api ]
 
 jobs:
   build:
@@ -37,7 +37,7 @@ jobs:
 
     # Install gems Windows
     - name: Setup Ruby Windows
-      working-directory: ${{github.workspace}}/app/gui/qt
+      working-directory: ${{github.workspace}}/app
       run: |
           gem install win32-process
           gem install rugged --version 0.27.1
@@ -47,7 +47,7 @@ jobs:
 
     # Install gems Linux/Max - needs sudo
     - name: Setup Ruby Gems
-      working-directory: ${{github.workspace}}/app/gui/qt
+      working-directory: ${{github.workspace}}/app
       run: |
           sudo gem install win32-process
           sudo gem install rugged --version 0.27.1
@@ -57,25 +57,24 @@ jobs:
 
     # For windows we build a symlink in the bash shell because the windows method does not seem to work.
     - name: Add SymLink for Windows
-      working-directory: ${{github.workspace}}/app/gui/qt
+      working-directory: ${{github.workspace}}/app/server/native
       run: |
-        cd ..\..\server\native
         ln -s ${{steps.ruby-inst.outputs.ruby-prefix}} ruby
       if: matrix.os == 'windows-latest'
 
       # Keep a cached copy of the Qt build so we can speed up subsequent builds
     - name: Cache Qt
-      id: cache-qt
+      id: cache-qt2
       uses: actions/cache@v1
       with:
-        path: ../Qt
-        key: ${{ runner.os }}-QtCache
+        path: ../Qt2
+        key: ${{ runner.os }}-QtCache2
 
       # Get Qt
     - name: Install Qt
       uses: jurplel/install-qt-action@v2
       with:
-        cached: ${{ steps.cache-qt.outputs.cache-hit }}
+        cached: ${{ steps.cache-qt2.outputs.cache-hit }}
 
       # Latest Erlang on Ubuntu
     - uses: gleam-lang/setup-erlang@v1.1.2
@@ -92,7 +91,7 @@ jobs:
       if: matrix.os == 'macos-latest'
 
     - name: Prebuild Linux
-      working-directory: ${{github.workspace}}/app/gui/qt
+      working-directory: ${{github.workspace}}/app
       env:
         CC: ${{ matrix.cc }}  
         QT_INSTALL_LOCATION: ${{env.Qt5_DIR}}
@@ -102,7 +101,7 @@ jobs:
       if: matrix.os == 'ubuntu-latest'
    
     - name: Prebuild Mac
-      working-directory: ${{github.workspace}}/app/gui/qt
+      working-directory: ${{github.workspace}}/app
       env:
         CC: ${{ matrix.cc }}  
         QT_INSTALL_LOCATION: ${{env.Qt5_DIR}}
@@ -113,7 +112,7 @@ jobs:
     # Note that we 'hide' the msys folders on windows to stop conflicts when building 
     # Flac
     - name: Prebuild Windows
-      working-directory: ${{github.workspace}}/app/gui/qt
+      working-directory: ${{github.workspace}}/app
       shell: cmd
       env:
         CC: ${{ matrix.cc }}  
@@ -127,7 +126,7 @@ jobs:
       # uses: mxschmitt/action-tmate@v3
         
     - name: Config Linux
-      working-directory: ${{github.workspace}}/app/gui/qt
+      working-directory: ${{github.workspace}}/app
       env:
         CC: ${{ matrix.cc }}  
         QT_INSTALL_LOCATION: ${{env.Qt5_DIR}}
@@ -136,7 +135,7 @@ jobs:
       if: matrix.os == 'ubuntu-latest'
     
     - name: Config Mac
-      working-directory: ${{github.workspace}}/app/gui/qt
+      working-directory: ${{github.workspace}}/app
       env:
         CC: ${{ matrix.cc }}  
         QT_INSTALL_LOCATION: ${{env.Qt5_DIR}}
@@ -145,7 +144,7 @@ jobs:
       if: matrix.os == 'macos-latest'
     
     - name: Config Windows
-      working-directory: ${{github.workspace}}/app/gui/qt
+      working-directory: ${{github.workspace}}/app
       shell: cmd
       env:
         CC: ${{ matrix.cc }}  
@@ -155,10 +154,10 @@ jobs:
       if: matrix.os == 'windows-latest'
     
     - name: Do build
-      working-directory: ${{github.workspace}}/app/gui/qt/build
+      working-directory: ${{github.workspace}}/app/build
       run: cmake --build . --config ${{ matrix.build_type }}
     
-    - name: Ruby Tests Linux/Mac (Windows TBD)
+    - name: Ruby Tests (Mac/Linux)
       working-directory: ${{github.workspace}}/app/server/ruby
       run: rake test 
       if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'

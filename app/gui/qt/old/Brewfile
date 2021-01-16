@@ -1,7 +1,0 @@
-brew "qt"
-brew "boost"
-brew "cmake"
-brew "pkg-config"
-brew "aubio"
-brew "wget"
-brew "qscintilla2"

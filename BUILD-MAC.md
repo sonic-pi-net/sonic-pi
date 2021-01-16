@@ -108,10 +108,10 @@ which will:
 
 ### 3.1 Prebuild
 
-Firstly, we need to change to the `qt` directory which is within `app/gui`:
+Firstly, we need to change to the `app` directory at the root of the Sonic Pi repository:
 
 ```
-cd ~/Development/sonic-pi/app/gui/qt
+cd ~/Development/sonic-pi/app
 ```
 
 ### 3.2 Config

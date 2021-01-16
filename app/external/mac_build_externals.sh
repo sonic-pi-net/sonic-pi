@@ -6,8 +6,8 @@ echo "Building server external dependencies..."
 mkdir -p "${SCRIPT_DIR}/build"
 cd "${SCRIPT_DIR}/build"
 
-echo "Running cmake with: ERLANG_INCLUDE_PATH=\"${SCRIPT_DIR}/../../../../prebuilt/macos/headers/erlang/\""
-cmake -G "Unix Makefiles" -D ERLANG_INCLUDE_PATH="${SCRIPT_DIR}/../../../../prebuilt/macos/headers/erlang/" ..
+echo "Running cmake with: ERLANG_INCLUDE_PATH=\"${SCRIPT_DIR}/../../prebuilt/macos/headers/erlang/\""
+cmake -G "Unix Makefiles" -D ERLANG_INCLUDE_PATH="${SCRIPT_DIR}/../../prebuilt/macos/headers/erlang/" ..
 
 echo "Building sp_midi..."
 cmake  --build . --target sp_midi
