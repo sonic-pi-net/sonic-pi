@@ -178,10 +178,10 @@ which will:
 
 ### 3.1 Prebuild
 
-Firstly, we need to change to the `Qt` directory which is within `app\gui`:
+Firstly, we need to change to the `app` directory at the root of the Sonic Pi repository:
 
 ```
-cd C:\dev\sonic-pi\app\gui\qt
+cd C:\dev\sonic-pi\app
 ```
 
 ### 3.2 Config
@@ -219,7 +219,7 @@ Release\sonic-pi.exe
 Or from anywhere using the full path:
 
 ```
-C:\dev\sonic-pi\app\gui\qt\build\Release\sonic-pi.exe
+C:\dev\sonic-pi\app\build\Release\sonic-pi.exe
 ```
 
 ## Good Luck!

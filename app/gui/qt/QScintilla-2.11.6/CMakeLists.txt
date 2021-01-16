@@ -1,3 +1,5 @@
+find_package(Qt5 COMPONENTS Core Widgets Gui Concurrent Network OpenGL PrintSupport Xml Svg REQUIRED)
+
 set(SOURCES
 Qt4Qt5/InputMethod.cpp
 Qt4Qt5/ListBoxQt.cpp

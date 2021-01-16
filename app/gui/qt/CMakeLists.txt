@@ -13,7 +13,7 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-set(CMAKE_MODULE_PATH ${APP_ROOT}/cmake)
+set(CMAKE_MODULE_PATH ${QTAPP_ROOT}/cmake)
 
 if(APPLE)
   set(CMAKE_OSX_DEPLOYMENT_TARGET '10.13')
@@ -21,8 +21,7 @@ endif()
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-set(APP_ROOT ${CMAKE_CURRENT_LIST_DIR})
-set(SONIC_PI_ROOT ${CMAKE_CURRENT_LIST_DIR}/../../..)
+set(QTAPP_ROOT ${CMAKE_CURRENT_LIST_DIR})
 
 # Set cmake prefix path so it can find the Qt libraries
 if((${BUILD_32BIT}) AND (DEFINED ENV{QT_INSTALL_LOCATION32}))
@@ -52,77 +51,78 @@ set_property(GLOBAL PROPERTY AUTOGEN_TARGETS_FOLDER Automoc)
 find_package(Qt5 COMPONENTS Core Widgets Gui Concurrent Network OpenGL PrintSupport Xml Svg REQUIRED)
 find_package(Threads REQUIRED)
 
-# We build scintilla as part of the main project to make it easy to debug/fix
-add_subdirectory(external/QScintilla-2.11.6)
+# We build scintilla as part of the main pkoject to make it easy to debug/fix
+# It is not build as part of externals
+add_subdirectory(QScintilla-2.11.6)
 
 set(APP_NAME sonic-pi)
 set(MACOS_APP_NAME "Sonic Pi")
 
 set(OSC_SOURCES
-    ${APP_ROOT}/osc/oschandler.cpp
-    ${APP_ROOT}/osc/oscsender.cpp
-    ${APP_ROOT}/osc/sonic_pi_osc_server.cpp
-    ${APP_ROOT}/osc/sonic_pi_udp_osc_server.cpp
-    ${APP_ROOT}/osc/sonic_pi_tcp_osc_server.cpp
-    ${APP_ROOT}/osc/oscpkt.hh
-    ${APP_ROOT}/osc/udp.hh
-    ${APP_ROOT}/osc/oschandler.h
-    ${APP_ROOT}/osc/oscsender.h
-    ${APP_ROOT}/osc/sonic_pi_osc_server.h
-    ${APP_ROOT}/osc/sonic_pi_udp_osc_server.h
-    ${APP_ROOT}/osc/sonic_pi_tcp_osc_server.h
+    ${QTAPP_ROOT}/osc/oschandler.cpp
+    ${QTAPP_ROOT}/osc/oscsender.cpp
+    ${QTAPP_ROOT}/osc/sonic_pi_osc_server.cpp
+    ${QTAPP_ROOT}/osc/sonic_pi_udp_osc_server.cpp
+    ${QTAPP_ROOT}/osc/sonic_pi_tcp_osc_server.cpp
+    ${QTAPP_ROOT}/osc/oscpkt.hh
+    ${QTAPP_ROOT}/osc/udp.hh
+    ${QTAPP_ROOT}/osc/oschandler.h
+    ${QTAPP_ROOT}/osc/oscsender.h
+    ${QTAPP_ROOT}/osc/sonic_pi_osc_server.h
+    ${QTAPP_ROOT}/osc/sonic_pi_udp_osc_server.h
+    ${QTAPP_ROOT}/osc/sonic_pi_tcp_osc_server.h
     )
 
 set(EDITOR_SOURCES
-    ${APP_ROOT}/widgets/sonicpiscintilla.cpp
-    ${APP_ROOT}/widgets/sonicpilexer.cpp
-    ${APP_ROOT}/widgets/sonicpilexer.h
-    ${APP_ROOT}/widgets/sonicpiscintilla.h
+    ${QTAPP_ROOT}/widgets/sonicpiscintilla.cpp
+    ${QTAPP_ROOT}/widgets/sonicpilexer.cpp
+    ${QTAPP_ROOT}/widgets/sonicpilexer.h
+    ${QTAPP_ROOT}/widgets/sonicpiscintilla.h
     )
 
 set(QT_SOURCES
-    ${APP_ROOT}/widgets/infowidget.cpp
-    ${APP_ROOT}/widgets/settingswidget.cpp
-    ${APP_ROOT}/mainwindow.cpp
-    ${APP_ROOT}/mainwindow.h
-    ${APP_ROOT}/model/sonicpitheme.cpp
-    ${APP_ROOT}/model/sonicpitheme.h
-    ${APP_ROOT}/widgets/infowidget.h
-    ${APP_ROOT}/widgets/settingswidget.h
+    ${QTAPP_ROOT}/widgets/infowidget.cpp
+    ${QTAPP_ROOT}/widgets/settingswidget.cpp
+    ${QTAPP_ROOT}/mainwindow.cpp
+    ${QTAPP_ROOT}/mainwindow.h
+    ${QTAPP_ROOT}/model/sonicpitheme.cpp
+    ${QTAPP_ROOT}/model/sonicpitheme.h
+    ${QTAPP_ROOT}/widgets/infowidget.h
+    ${QTAPP_ROOT}/widgets/settingswidget.h
     )
 
 set(SOURCES
     ${APP_ROOT}/external/kiss_fft/kiss_fft.c
     ${APP_ROOT}/external/kiss_fft/kiss_fft.h
-    ${APP_ROOT}/visualizer/scope.cpp
-    ${APP_ROOT}/visualizer/scope.h
-    ${APP_ROOT}/visualizer/scope_buffer.hpp
-    ${APP_ROOT}/visualizer/server_shm.hpp
-    ${APP_ROOT}/main.cpp
-    ${APP_ROOT}/utils/sonicpiapis.cpp
-    ${APP_ROOT}/widgets/sonicpilog.cpp
-    ${APP_ROOT}/widgets/sonicpilog.h
-    ${APP_ROOT}/widgets/sonicpicontext.cpp
-    ${APP_ROOT}/widgets/sonicpicontext.h
-    ${APP_ROOT}/utils/sonicpiapis.h
-    ${APP_ROOT}/utils/ruby_help.h
-    ${APP_ROOT}/model/settings.h
+    ${QTAPP_ROOT}/visualizer/scope.cpp
+    ${QTAPP_ROOT}/visualizer/scope.h
+    ${QTAPP_ROOT}/visualizer/scope_buffer.hpp
+    ${QTAPP_ROOT}/visualizer/server_shm.hpp
+    ${QTAPP_ROOT}/main.cpp
+    ${QTAPP_ROOT}/utils/sonicpiapis.cpp
+    ${QTAPP_ROOT}/widgets/sonicpilog.cpp
+    ${QTAPP_ROOT}/widgets/sonicpilog.h
+    ${QTAPP_ROOT}/widgets/sonicpicontext.cpp
+    ${QTAPP_ROOT}/widgets/sonicpicontext.h
+    ${QTAPP_ROOT}/utils/sonicpiapis.h
+    ${QTAPP_ROOT}/utils/ruby_help.h
+    ${QTAPP_ROOT}/model/settings.h
     )
 
 SET(RESOURCES
-    ${APP_ROOT}/SonicPi.qrc
-    ${APP_ROOT}/help_files.qrc
-    ${APP_ROOT}/info_files.qrc
-    ${APP_ROOT}/SonicPi.rc
-    ${APP_ROOT}/images/app.icns
+    ${QTAPP_ROOT}/SonicPi.qrc
+    ${QTAPP_ROOT}/help_files.qrc
+    ${QTAPP_ROOT}/info_files.qrc
+    ${QTAPP_ROOT}/SonicPi.rc
+    ${QTAPP_ROOT}/images/app.icns
     )
 
 # Enable tracy profiler on debug and rel with debug builds
 if(WIN32)
-SET (SOURCES ${SOURCES} ${APP_ROOT}/external/tracy/TracyClient.cpp)
+    SET (SOURCES ${SOURCES} ${APP_ROOT}/external/tracy/TracyClient.cpp)
 elseif(APPLE)
-  SET (SOURCES ${SOURCES} ${APP_ROOT}/platform/macos.mm)
-  SET (SOURCES ${SOURCES} ${APP_ROOT}/platform/macos.h)
+  SET (SOURCES ${SOURCES} ${QTAPP_ROOT}/platform/macos.mm)
+  SET (SOURCES ${SOURCES} ${QTAPP_ROOT}/platform/macos.h)
 endif()
 
 set(ALL_SOURCES ${OSC_SOURCES} ${QT_SOURCES} ${SOURCES} ${EDITOR_SOURCES})
@@ -189,19 +189,20 @@ if (APPLE)
   )
 endif()
 
+message(INFO "App Root: ${APP_ROOT}")
 
 set_property(TARGET ${APP_NAME} PROPERTY POSITION_INDEPENDENT_CODE ON) # Qt requires this?
 target_include_directories(${APP_NAME}
     PRIVATE
-    ${APP_ROOT}
+    ${QTAPP_ROOT}
     ${APP_ROOT}/external/scsynth-boost-1.74.0
     ${APP_ROOT}/external/TLSF-2.4.6/src
     ${APP_ROOT}/external
-    ${APP_ROOT}/osc
-    ${APP_ROOT}/model
-    ${APP_ROOT}/visualizer
-    ${APP_ROOT}/widgets
-    ${APP_ROOT}/Utils
+    ${QTAPP_ROOT}/osc
+    ${QTAPP_ROOT}/model
+    ${QTAPP_ROOT}/visualizer
+    ${QTAPP_ROOT}/widgets
+    ${QTAPP_ROOT}/Utils
     ${Qt5Widgets_INCLUDE_DIRS}
     ${Qt5Gui_INCLUDE_DIRS}
     ${Qt5Core_INCLUDE_DIRS}
@@ -210,6 +211,7 @@ target_include_directories(${APP_NAME}
 
 target_link_libraries(${APP_NAME}
     PRIVATE
+    SonicPi::SonicPiAPI
     QScintilla
     Qt5::Core
     Qt5::Gui
