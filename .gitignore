@@ -83,6 +83,11 @@ app/gui/html/resources/public/js/generated
 app/gui/html/target
 app/gui/html/resources/public/js/cljs-main.js
 
+# Bundler
+# --------
+app/server/ruby/vendor/bundle
+app/server/ruby/.bundle
+
 
 # QT makefile
 # --------

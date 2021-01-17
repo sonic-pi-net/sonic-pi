@@ -18,6 +18,11 @@ xcopy /Y /I /R /E ..\prebuilt\windows\x86\*.* server\native
 @echo Copying sp_midi dll to the erlang bin directory...
 xcopy /Y /I /R /E external\build\sp_midi-prefix\src\sp_midi-build\Release\*.dll server\erlang\sonic_pi_server\priv\
 
+@echo Bundling required ruby gems...
+cd "%~dp0\..\..\server\ruby"
+bundle install --deployment --with=:default,:development
+cd %~dp0
+
 @echo Translating tutorial...
 server\native\ruby\bin\ruby server/ruby/bin/i18n-tool.rb -t
 

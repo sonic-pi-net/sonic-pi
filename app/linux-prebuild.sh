@@ -23,8 +23,9 @@ fi
 #dont remove ruby-aubio-prerelease, as needed in linux build
 #it is removed in the windows-prebuild
 
-echo "Compiling native ruby extensions..."
-ruby "${SCRIPT_DIR}/server/ruby/bin/compile-extensions.rb"
+echo "Bundling required ruby gems..."
+cd "${SCRIPT_DIR}/server/ruby"
+bundle install --deployment --with=:default,:development
 
 echo "Translating tutorial..."
 #assumes linux uses system ruby

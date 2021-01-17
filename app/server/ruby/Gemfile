@@ -15,6 +15,8 @@ gem "rugged",         "~> 0.28.4.1"
 gem "sys-proctable",  "~> 1.2.2"
 gem "treetop",        "~> 1.6.10"
 gem "wavefile",       "~> 0.8.1"
+gem "tomlrb",         "~> 2.0.0"
+
 # Windows only
 install_if -> { RUBY_PLATFORM =~ /.*mingw.*|.*mswin.*|.*msys.*|.*cygwin.*|.*bccwin.*|.*wince.*|.*emc.*/ } do
   gem "win32-process"
