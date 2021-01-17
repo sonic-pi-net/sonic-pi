@@ -51,8 +51,8 @@ set_property(GLOBAL PROPERTY AUTOGEN_TARGETS_FOLDER Automoc)
 find_package(Qt5 COMPONENTS Core Widgets Gui Concurrent Network OpenGL PrintSupport Xml Svg REQUIRED)
 find_package(Threads REQUIRED)
 
-# We build scintilla as part of the main pkoject to make it easy to debug/fix
-# It is not build as part of externals
+# We build QScintilla as part of the main project to make it easy to debug/fix
+# It is not built as part of externals
 add_subdirectory(QScintilla-2.11.6)
 
 set(APP_NAME sonic-pi)
