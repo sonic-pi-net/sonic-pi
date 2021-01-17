@@ -28,27 +28,27 @@ jobs:
     # Get the code
     - uses: actions/checkout@v2
 
-    # Install Ruby for the windows build
+    # Install Ruby
     - uses: ruby/setup-ruby@v1
       id: ruby-inst
       with:
         ruby-version: 2.7
-      if: matrix.os == 'windows-latest'
 
-    # Install gems Windows
-    - name: Install Bundler and Rake (Windows)
-      working-directory: ${{github.workspace}}/app
-      run: |
-          gem install bundler rake
-      if: matrix.os == 'windows-latest' || matrix.os == 'macos-latest'
+    # Install gems Windows - rake is already installed on the build instances
+    #- name: Install Bundler (Windows)
+    #  working-directory: ${{github.workspace}}/app
+    #  run: |
+    #      gem install bundler
+    #  if: matrix.os == 'windows-latest' || matrix.os == 'macos-latest'
 
 
-    # Install gems Linux/Mac - needs sudo
-    - name: Install Bundler and Rake (Linux & Mac)
+    # Install gems Linux - needs sudo
+    # These are already installed on the macOS build instances
+    - name: Install Bundler and Rake (Linux)
       working-directory: ${{github.workspace}}/app
       run: |
           sudo gem install bundler rake
-      if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
+      if: matrix.os == 'ubuntu-latest' #|| matrix.os == 'macos-latest'
 
     # For windows we build a symlink in the bash shell because the windows method does not seem to work.
     - name: Add SymLink for Windows
@@ -117,6 +117,11 @@ jobs:
         win-prebuild.bat
       if: matrix.os == 'windows-latest'
 
+      - name: Ruby Tests (Mac/Linux)
+        working-directory: ${{github.workspace}}/app/server/ruby
+        run: rake test
+        if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
+
       #- name: Setup tmate session
       # uses: mxschmitt/action-tmate@v3
 
@@ -151,8 +156,3 @@ jobs:
     - name: Do build
       working-directory: ${{github.workspace}}/app/build
       run: cmake --build . --config ${{ matrix.build_type }}
-
-    - name: Ruby Tests (Mac/Linux)
-      working-directory: ${{github.workspace}}/app/server/ruby
-      run: rake test
-      if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'

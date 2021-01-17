@@ -19,7 +19,7 @@ xcopy /Y /I /R /E ..\prebuilt\windows\x86\*.* server\native
 xcopy /Y /I /R /E external\build\sp_midi-prefix\src\sp_midi-build\Release\*.dll server\erlang\sonic_pi_server\priv\
 
 @echo Bundling required ruby gems...
-cd "%~dp0\..\..\server\ruby"
+cd "%~dp0\server\ruby"
 bundle config set --local path "vendor/bundle"
 bundle config set --local with :default,:development
 bundle install
