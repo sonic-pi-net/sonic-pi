@@ -117,10 +117,10 @@ jobs:
         win-prebuild.bat
       if: matrix.os == 'windows-latest'
 
-      - name: Ruby Tests (Mac/Linux)
-        working-directory: ${{github.workspace}}/app/server/ruby
-        run: rake test
-        if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
+    - name: Ruby Tests (Mac/Linux)
+      working-directory: ${{github.workspace}}/app/server/ruby
+      run: rake test
+      if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
 
       #- name: Setup tmate session
       # uses: mxschmitt/action-tmate@v3
