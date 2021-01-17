@@ -36,24 +36,19 @@ jobs:
       if: matrix.os == 'windows-latest'
 
     # Install gems Windows
-    - name: Setup Ruby Windows
+    - name: Install Bundler and Rake (Windows)
       working-directory: ${{github.workspace}}/app
       run: |
-          gem install win32-process
-          gem install rugged --version 0.27.1
-          gem install ffi
-          gem install test-unit
-      if: matrix.os == 'windows-latest'
+          gem install bundler rake
+      if: matrix.os == 'windows-latest' || matrix.os == 'macos-latest'
 
-    # Install gems Linux/Max - needs sudo
-    #- name: Setup Ruby Gems
-    #  working-directory: ${{github.workspace}}/app
-    #  run: |
-    #      sudo gem install win32-process
-    #      sudo gem install rugged --version 0.27.1
-    #      sudo gem install ffi
-    #      sudo gem install test-unit
-    #  if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
+
+    # Install gems Linux/Mac - needs sudo
+    - name: Install Bundler and Rake (Linux & Mac)
+      working-directory: ${{github.workspace}}/app
+      run: |
+          sudo gem install bundler rake
+      if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
 
     # For windows we build a symlink in the bash shell because the windows method does not seem to work.
     - name: Add SymLink for Windows
