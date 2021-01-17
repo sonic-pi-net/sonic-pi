@@ -20,7 +20,9 @@ xcopy /Y /I /R /E external\build\sp_midi-prefix\src\sp_midi-build\Release\*.dll 
 
 @echo Bundling required ruby gems...
 cd "%~dp0\..\..\server\ruby"
-bundle install --deployment --with=:default,:development
+bundle config set --local path "vendor/bundle"
+bundle config set --local with :default,:development
+bundle install
 cd %~dp0
 
 @echo Translating tutorial...

@@ -34,7 +34,9 @@ rm -rf supercollider/extra-plugins
 
 echo "Bundling required ruby gems..."
 cd "${SCRIPT_DIR}/server/ruby"
-bundle install --deployment --with=:default,:development
+bundle config set --local path "vendor/bundle"
+bundle config set --local with :default,:development
+bundle install
 
 echo "Translating tutorial..."
 #assumes linux uses system ruby
