@@ -25,27 +25,26 @@
 #include <vector>
 #include <string>
 #include <rtmidi/RtMidi.h>
-#include "../JuceLibraryCode/JuceHeader.h"
 #include "midicommon.h"
+#include "midi_port_info.h"
 
 // This class manages a MIDI input device as seen by JUCE
 class MidiIn : public MidiCommon {
 public:
-    MidiIn(const std::string& portName, bool isVirtual = false);
+    MidiIn(const std::string& portName, const std::string& normalizedPortName, int portId, bool isVirtual = false);
     MidiIn(const MidiIn&) = delete;
     MidiIn& operator=(const MidiIn&) = delete;
 
     virtual ~MidiIn();
 
-    static std::vector<std::string> getInputNames();
-    static std::vector<std::string> getNonRtMidiInputNames();
+    static std::vector<std::string> getNormalizedInputNames();
+    static std::vector<MidiPortInfo> getInputPortInfo();
 
 protected:
-    void updateMidiDevicesNamesMapping() override;
-    std::unique_ptr<RtMidiIn> m_midiIn;
 
+    std::unique_ptr<RtMidiIn> m_midiIn;
     std::mutex m_cb_mutex;
-    static void staticMidiCallback(double timeStamp, std::vector< unsigned char > *message, void *userData);    
+    static void staticMidiCallback(double timeStamp, std::vector< unsigned char > *message, void *userData);
     void midiCallback(double timeStamp, std::vector< unsigned char > *message);
 
     // TODO: do we need to send the raw message to Sonic Pi?

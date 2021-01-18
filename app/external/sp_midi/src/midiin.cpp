@@ -24,31 +24,25 @@
 #include "sp_midi.h"
 #include "midiin.h"
 #include "utils.h"
+#include "midi_port_info.h"
 
 using namespace std;
 
-MidiIn::MidiIn(const string& portName, bool isVirtual) : m_oscRawMidiMessage(false)
+MidiIn::MidiIn(const string& portName, const string& normalizedPortName, int portId, bool isVirtual) : m_oscRawMidiMessage(false)
 {
     m_logger.debug("MidiIn constructor for {}", portName);
-    updateMidiDevicesNamesMapping();
     m_portName = portName;
-    m_normalizedPortName = portName;
-    local_utils::safeOscString(m_normalizedPortName);
-
-    if (!nameInStickyTable(m_portName))
-        m_stickyId = addNameToStickyTable(m_portName);
-    else
-        m_stickyId = getStickyIdFromName(m_portName);
+    m_normalizedPortName = normalizedPortName;
 
     // FIXME: need to check if name does not exist
     if (!isVirtual) {
-        m_rtMidiId = getRtMidiIdFromName(m_portName);
+        m_rtMidiId = portId;
         m_midiIn = make_unique<RtMidiIn>();
         m_midiIn->openPort(m_rtMidiId);
         m_midiIn->ignoreTypes( false, false, false );
     }
 // TODO: do the virtual ports
-#if 0    
+#if 0
     else {
 #ifndef WIN32
         m_logger.trace("*** Creating new MIDI device: ", m_portName);
@@ -72,7 +66,7 @@ MidiIn::~MidiIn()
 
 
 void MidiIn::staticMidiCallback(double timeStamp, std::vector< unsigned char > *midiMessage, void *userData)
-{    
+{
     MidiIn *midiIn = (MidiIn *)userData;
     midiIn->midiCallback(timeStamp, midiMessage);
 }
@@ -90,46 +84,15 @@ void MidiIn::midiCallback(double timeStamp, std::vector< unsigned char > *midiMe
     send_midi_osc_to_erlang(getNormalizedPortName().c_str(), midiMessage->data(), midiMessage->size());
 }
 
-
-
-vector<string> MidiIn::getInputNames()
+vector<MidiPortInfo> MidiIn::getInputPortInfo()
 {
     RtMidiIn ins;
-    int nPorts = ins.getPortCount();
-    vector<string> names(nPorts);
-
-    for (int i = 0; i < nPorts; i++) {
-        auto name = ins.getPortName(i);
-        local_utils::safeOscString(name);
-        names[i] = name;
-    }
-    return names;
+    auto ins_info = getPortInfo(ins);
+    return ins_info;
 }
 
-vector<string> MidiIn::getNonRtMidiInputNames()
+vector<string> MidiIn::getNormalizedInputNames()
 {
-  vector<string> all_names = getInputNames();
-  vector<string> filtered_names;
-
-  for (int i = 0; i < all_names.size() ; i++) {
-    auto s = all_names[i];
-    if (s.rfind("rtmidi_", 0) == 0) {
-      // The fact that the port name starts with rtmidi tells us that
-      // this is a virtual midi port namecreated by RtMidi - ignore it
-    } else {
-      filtered_names.push_back(s);
-    }
-  }
-
-  return filtered_names;
-
-}
-
-
-void MidiIn::updateMidiDevicesNamesMapping()
-{
-    m_midiRtMidiIdToName = MidiIn::getInputNames();
-    for (int i = 0; i < m_midiRtMidiIdToName.size(); i++) {
-        m_midiNameToRtMidiId[m_midiRtMidiIdToName[i]] = i;
-    }
+    vector<MidiPortInfo> info = getInputPortInfo();
+    return getNormalizedNamesFromPortInfos(info);
 }
