@@ -28,30 +28,15 @@ jobs:
     # Get the code
     - uses: actions/checkout@v2
 
-    # Install Ruby
-    - uses: ruby/setup-ruby@v1
+    # Install Ruby (and Bundler)
+    - name: Install Ruby
+      uses: ruby/setup-ruby@v1
       id: ruby-inst
       with:
         ruby-version: 2.7
 
-    # Install gems Windows - rake is already installed on the build instances
-    #- name: Install Bundler (Windows)
-    #  working-directory: ${{github.workspace}}/app
-    #  run: |
-    #      gem install bundler
-    #  if: matrix.os == 'windows-latest' || matrix.os == 'macos-latest'
-
-
-    # Install gems Linux - needs sudo
-    # These are already installed on the macOS build instances
-    - name: Install Bundler and Rake (Linux)
-      working-directory: ${{github.workspace}}/app
-      run: |
-          sudo gem install bundler rake
-      if: matrix.os == 'ubuntu-latest' #|| matrix.os == 'macos-latest'
-
     # For windows we build a symlink in the bash shell because the windows method does not seem to work.
-    - name: Add SymLink for Windows
+    - name: [Windows]: Add Ruby SymLink
       working-directory: ${{github.workspace}}/app/server/native
       run: |
         ln -s ${{steps.ruby-inst.outputs.ruby-prefix}} ruby
@@ -72,12 +57,13 @@ jobs:
         cached: ${{ steps.cache-qt2.outputs.cache-hit }}
 
       # Latest Erlang on Ubuntu
-    - uses: gleam-lang/setup-erlang@v1.1.2
+    - name: [Linux]: Install Erlang
+      uses: gleam-lang/setup-erlang@v1.1.2
       with:
         otp-version: 23.2.1
       if: matrix.os == 'ubuntu-latest'
 
-    - name: Mac Erlang
+    - name: [Mac]: Install Erlang
       continue-on-error: true
       run: |
         export HOMEBREW_NO_INSTALL_CLEANUP=1
@@ -85,17 +71,17 @@ jobs:
         brew install erlang
       if: matrix.os == 'macos-latest'
 
-    - name: Prebuild Linux
+    - name: [Linux]: Prebuild
       working-directory: ${{github.workspace}}/app
       env:
         CC: ${{ matrix.cc }}
         QT_INSTALL_LOCATION: ${{env.Qt5_DIR}}
       run: |
-        sudo apt install -y libssl-dev ruby-dev supercollider-server sc3-plugins-server alsa-utils jackd2 libjack-jackd2-dev libjack-jackd2-0 libasound2-dev librtmidi-dev pulseaudio-module-jack
+        sudo apt-get install -y libssl-dev ruby-dev supercollider-server sc3-plugins-server alsa-utils jackd2 libjack-jackd2-dev libjack-jackd2-0 libasound2-dev librtmidi-dev pulseaudio-module-jack
         ./linux-prebuild.sh --build-aubio
       if: matrix.os == 'ubuntu-latest'
 
-    - name: Prebuild Mac
+    - name: [Mac]: Prebuild
       working-directory: ${{github.workspace}}/app
       env:
         CC: ${{ matrix.cc }}
@@ -106,7 +92,7 @@ jobs:
 
     # Note that we 'hide' the msys folders on windows to stop conflicts when building
     # Flac
-    - name: Prebuild Windows
+    - name: [Windows]: Prebuild
       working-directory: ${{github.workspace}}/app
       shell: cmd
       env:
@@ -117,33 +103,32 @@ jobs:
         win-prebuild.bat
       if: matrix.os == 'windows-latest'
 
-    - name: Ruby Tests (Mac/Linux)
+    - name: Ruby Server Tests
       working-directory: ${{github.workspace}}/app/server/ruby
       run: rake test
-      if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
 
       #- name: Setup tmate session
       # uses: mxschmitt/action-tmate@v3
 
-    - name: Config Linux
+    - name: [Linux]: Config
       working-directory: ${{github.workspace}}/app
       env:
         CC: ${{ matrix.cc }}
         QT_INSTALL_LOCATION: ${{env.Qt5_DIR}}
       run: |
-        ./linux-config.sh
+        ./linux-config.sh --config ${{ matrix.build_type }}
       if: matrix.os == 'ubuntu-latest'
 
-    - name: Config Mac
+    - name: [Mac]: Config
       working-directory: ${{github.workspace}}/app
       env:
         CC: ${{ matrix.cc }}
         QT_INSTALL_LOCATION: ${{env.Qt5_DIR}}
       run: |
-        ./mac-config.sh
+        ./mac-config.sh --config ${{ matrix.build_type }}
       if: matrix.os == 'macos-latest'
 
-    - name: Config Windows
+    - name: [Windows]: Config
       working-directory: ${{github.workspace}}/app
       shell: cmd
       env:
@@ -153,6 +138,9 @@ jobs:
         win-config.bat
       if: matrix.os == 'windows-latest'
 
-    - name: Do build
+    - name: Build Qt GUI
       working-directory: ${{github.workspace}}/app/build
       run: cmake --build . --config ${{ matrix.build_type }}
+      # The config option here only applies to Windows (since gcc/clang require
+      # setting the config when generating the build system), whilst VC2019 
+      # selects it at build time.
