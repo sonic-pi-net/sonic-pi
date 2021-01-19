@@ -1332,7 +1332,7 @@ module SonicPi
       end
       @scsynth_clobber_args = @audio_settings.scsynth_opts_override
       @scsynth_opts = @audio_settings.scsynth_opts
-      @version = Version.new(3, 3, 0, "beta-4")
+      @version = Version.new(3, 3, 0, "beta-5")
       @server_version = __server_version
       @life_hooks = LifeCycleHooks.new
       @msg_queue = msg_queue
