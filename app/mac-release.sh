@@ -3,7 +3,7 @@ set -eux # Quit script on error
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-cd "${SCRIPT_DIR}/build/Sonic Pi.app/Contents/Resources"
+cd "${SCRIPT_DIR}/build/gui/qt/Sonic Pi.app/Contents/Resources"
 
 rm app etc server
 mkdir app
