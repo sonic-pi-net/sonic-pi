@@ -1,6 +1,6 @@
 ﻿// MIT License
 
-// Copyright (c) 2016 Luis Lloret
+// Copyright (c) 2016-2021 Luis Lloret
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -26,20 +26,13 @@
 
 using namespace std;
 
-MidiOut::MidiOut(const string& portName)
+MidiOut::MidiOut(const std::string& portName, const std::string& normalizedPortName, int portId)
 {
     m_logger.debug("MidiOut constructor for {}", portName);
-    updateMidiDevicesNamesMapping();
+
     m_portName = portName;
-    m_normalizedPortName = portName;
-    local_utils::safeOscString(m_normalizedPortName);
-
-    if (!nameInStickyTable(m_portName))
-        m_stickyId = addNameToStickyTable(m_portName);
-    else
-        m_stickyId = getStickyIdFromName(m_portName);
-
-    m_rtMidiId = getRtMidiIdFromName(m_portName);
+    m_normalizedPortName = normalizedPortName;
+    m_rtMidiId = portId;
 
     // FIXME: need to check if name does not exist
     m_midiOut = make_unique<RtMidiOut>();
@@ -61,42 +54,15 @@ void MidiOut::send(const std::vector< unsigned char >* msg)
     m_midiOut->sendMessage(msg);
 }
 
-vector<string> MidiOut::getOutputNames()
+vector<MidiPortInfo> MidiOut::getOutputPortInfo()
 {
     RtMidiOut outs;
-    int nPorts = outs.getPortCount();
-    vector<string> names(nPorts);
-
-    for (int i = 0; i < nPorts; i++) {
-        auto name = outs.getPortName(i);
-        local_utils::safeOscString(name);
-        names[i] = name;
-    }
-    return names;
+    auto outs_info = getPortInfo(outs);
+    return outs_info;
 }
 
-vector<string> MidiOut::getNonRtMidiOutputNames()
+vector<string> MidiOut::getNormalizedOutputNames()
 {
-  vector<string> all_names = getOutputNames();
-  vector<string> filtered_names;
-
-  for (int i = 0; i < all_names.size() ; i++) {
-    auto s = all_names[i];
-    if (s.rfind("rtmidi_", 0) == 0) {
-      // The fact that the port name starts with rtmidi tells us that
-      // this is a virtual midi port created by RtMidi - ignore it
-    } else {
-      filtered_names.push_back(s);
-    }
-  }
-
-  return filtered_names;
-}
-
-void MidiOut::updateMidiDevicesNamesMapping()
-{
-    m_midiRtMidiIdToName = MidiOut::getOutputNames();
-    for (int i = 0; i < m_midiRtMidiIdToName.size(); i++) {
-        m_midiNameToRtMidiId[m_midiRtMidiIdToName[i]] = i;
-    }
+    vector<MidiPortInfo> info = getOutputPortInfo();
+    return getNormalizedNamesFromPortInfos(info);
 }

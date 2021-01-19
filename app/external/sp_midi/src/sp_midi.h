@@ -1,3 +1,25 @@
+// MIT License
+
+// Copyright (c) 2016-2021 Luis Lloret
+
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
 #pragma once
 
 #include <erl_nif.h>
@@ -14,14 +36,14 @@ extern "C" {
 
     // TODO: These are exported for C tests. Once we are happy that it's working they should not be exported
     /**
-     * Initialize the spmidi_library. Must be called before anything else.
+     * Initialize the spmidi library. Must be called before anything else.
      *
      * @return 0 if ok, < 0 if error
      */
     DllExport int sp_midi_init();
 
     /**
-     * Deinitialize the spmidi_library.
+     * Deinitialize the spmidi library.
      */
     DllExport void sp_midi_deinit();
 
@@ -56,27 +78,28 @@ extern "C" {
     /************** Functions for the erlang integration below ***************/
 
     /**
-     * Send the MIDI in event to the erlang process as an OSC message. Will use enif_send() to send
+     * Send the MIDI in event to the erlang process as binary data. Will use enif_send() to send
      * the data to the erlang process
      *
+     * @param device_name: name of the device that got the data
      * @param data: pointer to the message (this is a binary message that might contain 0s in the middle)
      * @param size: size of the message. This is required since we cannot count on 0s to indicate its end
      * @return the list of devices as a pointer to a pointer to chars
      */
-    int send_midi_osc_to_erlang(const char *data, size_t size);
+    int send_midi_data_to_erlang(const char *device_name, const unsigned char *data, size_t size);
 
     // Erlang NIFs. The NIF parameters are always the same, I will only explain the parameters as unpacked from erlang.
     // Note that the only NIF that passes data is sp_midi_send_nif(), the rest do not pass anything, and are simple
     // wrappers for the C functions that do the real work.
     /**
-     * Initialize the spmidi_library. Must be called before anything else.
+     * Initialize the spmidi library. Must be called before anything else.
      *
      * @return 0 if ok, < 0 if error
      */
     DllExport ERL_NIF_TERM sp_midi_init_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
 
     /**
-     * Deinitialize the spmidi_library.
+     * Deinitialize the spmidi library.
      */
     DllExport ERL_NIF_TERM sp_midi_deinit_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
 

@@ -1,6 +1,6 @@
 // MIT License
 
-// Copyright (c) 2016 Luis Lloret
+// Copyright (c) 2016-2021 Luis Lloret
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -28,8 +28,9 @@
 #include <vector>
 #include <map>
 #include <string>
-#include "../JuceLibraryCode/JuceHeader.h"
 #include "monitorlogger.h"
+#include "midi_port_info.h"
+#include <rtmidi/RtMidi.h>
 
 // This class manages the common parts of our MIDI handling, like sticky ids
 class MidiCommon {
@@ -45,12 +46,12 @@ public:
     int getPortId() const;
 
     static int getRtMidiIdFromName(const std::string& portName);
-
-protected:
-    virtual void updateMidiDevicesNamesMapping() = 0;
     std::string m_portName;
     std::string m_normalizedPortName;
     int m_rtMidiId;
+protected:
+
+
     int m_stickyId;
     static bool nameInStickyTable(const std::string& portName);
     unsigned int addNameToStickyTable(const std::string& portName);
@@ -60,4 +61,7 @@ protected:
     static std::map<std::string, int> m_midiNameToStickyId;
     static unsigned int m_nStickyIds;
     MonitorLogger &m_logger{ MonitorLogger::getInstance() };
+    static std::vector<MidiPortInfo> getPortInfo(RtMidi& ports);
+    static std::vector<std::string> getNormalizedNamesFromPortInfos(std::vector<MidiPortInfo>& info);
+
 };

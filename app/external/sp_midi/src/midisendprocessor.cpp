@@ -1,6 +1,6 @@
 ﻿// MIT License
 
-// Copyright (c) 2016-2020 Luis Lloret
+// Copyright (c) 2016-2021 Luis Lloret
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,19 +24,35 @@
 #include "midisendprocessor.h"
 #include "utils.h"
 
+
 using namespace std;
+using namespace moodycamel;
 
 
-void MidiSendProcessor::prepareOutputs(const vector<string>& outputNames)
+void MidiSendProcessor::startThread()
+{
+    m_thread = std::thread(&MidiSendProcessor::run, this);
+}
+
+MidiSendProcessor::~MidiSendProcessor()
+{
+    m_logger.trace("MidiSendProcessor destructor");
+    if (m_thread.joinable()){
+        m_thread.join();
+    }
+}
+
+
+void MidiSendProcessor::prepareOutputs(const vector<MidiPortInfo>& portsInfo)
 {
     m_outputs.clear();
-    for (auto& outputName : outputNames) {
+    for (auto& output : portsInfo) {
         try {
-            auto midiOut = make_unique<MidiOut>(outputName);
+            auto midiOut = make_unique<MidiOut>(output.portName, output.normalizedPortName, output.portId);
             m_outputs.push_back(std::move(midiOut));
         }
         catch (const RtMidiError& e) {
-            cout << "Could not open output device " << outputName << ": " << e.what() << endl;
+            cout << "Could not open output device " << output.portName << ": " << e.what() << endl;
             //throw;
         }
     }
@@ -47,32 +63,32 @@ void print_time_stamp(char type);
 
 bool MidiSendProcessor::addMessage(const char* device_name, const unsigned char* c_message, std::size_t size)
 {
-    lock_guard<mutex> lock(m_messages_mutex);
     vector<unsigned char> midi_data;
     midi_data.assign(c_message, c_message + size);
     MidiDeviceAndMessage msg{ device_name, midi_data };
-    m_messages.emplace_back(msg);
-    m_data_in_midi_queue.signal();
+    m_messages.enqueue(std::move(msg));
     return true;
 }
 
 
 void MidiSendProcessor::flushMessages()
 {
-    lock_guard<mutex> lock(m_messages_mutex);
-    m_messages.clear();
+    m_flushing = true;
+    MidiDeviceAndMessage msg;
+    while (m_messages.try_dequeue(msg)) {
+        // Just discard the message
+    }
+    m_flushing = false;
 }
 
 
 void MidiSendProcessor::run()
 {
-    while (!threadShouldExit()){
-        if (m_data_in_midi_queue.wait(500) == true){
-            lock_guard<mutex> lock(m_messages_mutex);
-            while (!m_messages.empty()){
-                processMessage(m_messages.front());
-                m_messages.pop_front();
-            }
+    MidiDeviceAndMessage msg;
+    while (!g_threadsShouldFinish){
+        bool available = m_messages.wait_dequeue_timed(msg, std::chrono::milliseconds(500));
+        if (available && !m_flushing){
+            processMessage(msg);
         }
     }
 }
@@ -106,7 +122,7 @@ void MidiSendProcessor::send(const string& outDevice, const std::vector< unsigne
                 return;
             }
         }
-        m_logger.error("Could not find the MIDI device specified in the OSC message: {}", outDevice);
+        m_logger.error("Could not find the specified MIDI device: {}", outDevice);
     }
 }
 

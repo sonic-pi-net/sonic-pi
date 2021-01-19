@@ -1,21 +1,11 @@
-sp_midi uses the JUCE library, with its license:
-Copyright (c) 2017 - ROLI Ltd.
-
-The core JUCE modules (juce_audio_basics, juce_audio_devices, juce_blocks_basics,
-juce_core and juce_events) are permissively licensed under the terms of the ISC 
-license. Other modules are covered by a GPL v3 license.
-
-JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
-EXPRESSED OR IMPLIED, INCLUDING WARRANTY OF MERCHANTABILITY AND FITNESS FOR A
-PARTICULAR PURPOSE, ARE DISCLAIMED.
-
+sp_midi uses concurrent_queue, rtmidi and spdlog. Please see the licenses in the respective "external_libs" directories
 
 -------------------------------------------------------------------------------
-For my own work (Luis Lloret):
+For sp_midi itself:
 
 MIT License
 
-Copyright (c) 2016-2020 Luis Lloret
+Copyright (c) 2016-2021 Luis Lloret
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

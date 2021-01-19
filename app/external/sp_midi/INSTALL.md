@@ -19,7 +19,7 @@ Don't know yet...
 * go to the root directory where you have the sp_midi sources (probably where this file is)
 * create `build` directory, and get into it (`mkdir build`, and then `cd build`)
 * It is normally enough to do `cmake ..`. If cmake complains about not finding a library make sure that it is installed.
-* On Linux, if cmake was succesful then it created the necessary Makefiles. Do `make`, and that will compile the code and create the binaries.
+* On Linux, if cmake was successful then it created the necessary Makefiles. Do `make`, and that will compile the code and create the binaries.
 * On Windows, if cmake was successful then it created the necessary Visual Studio solution and Project files. Open the `sp_midi.sln` file, and Build normally to create the binaries.
 
 

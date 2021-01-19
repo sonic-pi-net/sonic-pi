@@ -3,6 +3,7 @@
 #include <iostream>
 #include <memory>
 #include "spdlog/spdlog.h"
+#include "spdlog/sinks/stdout_sinks.h"
 
 class MonitorLogger {
 public:
