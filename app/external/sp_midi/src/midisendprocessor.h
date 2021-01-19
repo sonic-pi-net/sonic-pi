@@ -1,6 +1,6 @@
 // MIT License
 
-// Copyright (c) 2016 - 2020 Luis Lloret
+// Copyright (c) 2016-2021 Luis Lloret
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,14 +24,16 @@
 #include <memory.h>
 #include <vector>
 #include <string>
+#include <thread>
 #include <mutex>
-#include <deque>
-#include "../JuceLibraryCode/JuceHeader.h"
+#include "blockingconcurrentqueue.h"
 #include "midiout.h"
 #include "monitorlogger.h"
 
+extern std::atomic<bool> g_threadsShouldFinish;
 
-class MidiSendProcessor : public juce::Thread{
+class MidiSendProcessor
+{
 private:
     typedef struct{
         std::string device_name;
@@ -39,16 +41,15 @@ private:
     } MidiDeviceAndMessage;
 
 public:
-    MidiSendProcessor() : Thread("midisendprocessor thread"){}
+    MidiSendProcessor() : m_flushing(false) {};
+    ~MidiSendProcessor();
 
-    void prepareOutputs(const std::vector<std::string>& outputNames);
+    void startThread();
+
+    void prepareOutputs(const std::vector<MidiPortInfo>& portsInfo);
 
     void processMessage(const MidiDeviceAndMessage& message_from_c);
 
-    ~MidiSendProcessor()
-    {
-        m_logger.trace("MidiSendProcessor destructor");
-    }
 
     int getNMidiOuts() const;
     std::string getMidiOutName(int n) const;
@@ -66,12 +67,9 @@ private:
     std::vector<std::unique_ptr<MidiOut> > m_outputs;
     MonitorLogger& m_logger{ MonitorLogger::getInstance() };
 
-    juce::WaitableEvent m_data_in_midi_queue;
-    std::mutex m_messages_mutex;
-    std::deque<MidiDeviceAndMessage> m_messages;
+    moodycamel::BlockingConcurrentQueue<MidiDeviceAndMessage> m_messages;
 
-    void run() override;
+    std::thread m_thread;
+    std::atomic<bool> m_flushing;
+    void run();
 };
-
-
-
