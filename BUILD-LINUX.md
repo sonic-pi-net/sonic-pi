@@ -58,7 +58,7 @@ sudo apt-get install -y \
      ruby-dev erlang-base erlang-dev erlang-tools \
      supercollider-server sc3-plugins-server alsa-utils libaubio5  jackd2 libjack-jackd2-dev libjack-jackd2-0 libasound2-dev librtmidi-dev pulseaudio-module-jack\
      qt5-default qttools5-dev-tools libqt5concurrent5 libqt5core5a libqt5gui5 libqt5network5 libqt5opengl5 libqt5printsupport5 libqt5concurrent5 libqt5svg5 libqt5widgets5 libqt5svg5-dev \
-     compton
+     compton pulseaudio-module-jack
 ```     
 
 
