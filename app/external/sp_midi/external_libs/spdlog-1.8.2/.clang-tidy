@@ -1,0 +1,54 @@
+Checks: 'cppcoreguidelines-*,
+performance-*,
+modernize-*,
+google-*,
+misc-*,
+cert-*,
+readability-*,
+clang-analyzer-*,
+-performance-unnecessary-value-param,
+-modernize-use-trailing-return-type,
+-google-runtime-references,
+-misc-non-private-member-variables-in-classes,
+-readability-braces-around-statements,
+-google-readability-braces-around-statements,
+-cppcoreguidelines-avoid-magic-numbers,
+-readability-magic-numbers,
+-readability-magic-numbers,
+-cppcoreguidelines-pro-type-vararg,
+-cppcoreguidelines-pro-bounds-pointer-arithmetic,
+-cppcoreguidelines-avoid-c-arrays,
+-modernize-avoid-c-arrays,
+-cppcoreguidelines-pro-bounds-array-to-pointer-decay,
+-readability-named-parameter,
+-cert-env33-c
+'
+
+
+WarningsAsErrors: ''
+HeaderFilterRegex: '*spdlog/[^f].*'
+AnalyzeTemporaryDtors: false
+FormatStyle:     none
+
+CheckOptions:    
+  - key:             google-readability-braces-around-statements.ShortStatementLines
+    value:           '1'
+  - key:             google-readability-function-size.StatementThreshold
+    value:           '800'
+  - key:             google-readability-namespace-comments.ShortNamespaceLines
+    value:           '10'
+  - key:             google-readability-namespace-comments.SpacesBeforeComments
+    value:           '2'
+  - key:             modernize-loop-convert.MaxCopySize
+    value:           '16'
+  - key:             modernize-loop-convert.MinConfidence
+    value:           reasonable
+  - key:             modernize-loop-convert.NamingStyle
+    value:           CamelCase
+  - key:             modernize-pass-by-value.IncludeStyle
+    value:           llvm
+  - key:             modernize-replace-auto-ptr.IncludeStyle
+    value:           llvm
+  - key:             modernize-use-nullptr.NullMacros
+    value:           'NULL'
+

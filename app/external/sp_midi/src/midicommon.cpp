@@ -1,6 +1,6 @@
 // MIT License
 
-// Copyright (c) 2016 Luis Lloret
+// Copyright (c) 2016-2021 Luis Lloret
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,6 +22,7 @@
 
 #include <iostream>
 #include "midicommon.h"
+#include "utils.h"
 
 using namespace std;
 
@@ -71,4 +72,60 @@ unsigned int MidiCommon::addNameToStickyTable(const string& portName)
 unsigned int MidiCommon::getStickyIdFromName(const string& portName)
 {
     return m_midiNameToStickyId[portName];
+}
+
+std::vector<MidiPortInfo> MidiCommon::getPortInfo(RtMidi& ports)
+{
+    int nPorts = ports.getPortCount();
+    std::vector<MidiPortInfo> connectedInputPortsInfo;
+
+    for (int i = 0; i < nPorts; i++) {
+        auto name = ports.getPortName(i);
+
+        if (name.rfind("rtmidi_", 0) == 0) {
+            // The fact that the port name starts with rtmidi tells us that
+            // this is a virtual midi port name created by RtMidi - ignore it
+        } else {
+
+            auto normalizedPortName = name;
+            local_utils::safeOscString(normalizedPortName);
+
+            // Now we need to check for duplicate port names and if they exist,
+            // append an integer count to subsequent port names to ensure that
+            // they are all unique.  So if there were three devices
+            // simultaneously connected all with the port name
+            // nanokontrol_slider_knob, their "safe names" will become:
+            //
+            // nanokontrol_slider_knob
+            // nanokontrol_slider_knob_2
+            // nanokontrol_slider_knob_3
+
+            int cnt = 1;
+            for (int j = 0; j < connectedInputPortsInfo.size(); j++) {
+                if(connectedInputPortsInfo[j].normalizedPortName == normalizedPortName) {
+                    cnt += 1;
+                }
+            }
+
+            if(cnt != 1) {
+                normalizedPortName += "_";
+                normalizedPortName += std::to_string(cnt);
+            }
+
+            MidiPortInfo info{name, normalizedPortName, i};
+            connectedInputPortsInfo.push_back(info);
+        }
+    }
+    return connectedInputPortsInfo;
+}
+
+vector<string> MidiCommon::getNormalizedNamesFromPortInfos(std::vector<MidiPortInfo>& info)
+{
+    vector<string> all_names;
+
+    for (int i = 0; i < info.size(); i++) {
+        auto s = info[i];
+        all_names.push_back(s.normalizedPortName);
+    }
+    return all_names;
 }

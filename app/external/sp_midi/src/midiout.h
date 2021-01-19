@@ -1,6 +1,6 @@
 // MIT License
 
-// Copyright (c) 2016 Luis Lloret
+// Copyright (c) 2016-2021 Luis Lloret
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -28,12 +28,11 @@
 #include <memory>
 #include <rtmidi/RtMidi.h>
 #include "midicommon.h"
-//#include "../JuceLibraryCode/JuceHeader.h"
 
 // This class manages a MIDI output device
 class MidiOut : public MidiCommon {
 public:
-    MidiOut(const std::string& portName);
+    MidiOut(const std::string& portName, const std::string& normalizedPortName, int portId);
     MidiOut(const MidiOut&) = delete;
     MidiOut& operator=(const MidiOut&) = delete;
 
@@ -41,11 +40,10 @@ public:
 
     void send(const std::vector< unsigned char >* msg);
 
-    static std::vector<std::string> getOutputNames();
-    static std::vector<std::string> getNonRtMidiOutputNames();
-
+    static std::vector<std::string> getNormalizedOutputNames();
+    static std::vector<MidiPortInfo> getOutputPortInfo();
 protected:
-    void updateMidiDevicesNamesMapping() override;
+
 
 private:
     std::unique_ptr<RtMidiOut> m_midiOut;

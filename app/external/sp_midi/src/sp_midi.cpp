@@ -1,6 +1,6 @@
 // MIT License
 
-// Copyright (c) 2016-2020 Luis Lloret
+// Copyright (c) 2016-2021 Luis Lloret
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -26,13 +26,13 @@
 #include <atomic>
 #include "sp_midi.h"
 #include "hotplug_thread.h"
-#include "scheduler_callback_thread.h"
 #include "midiout.h"
 #include "midiin.h"
 #include "midisendprocessor.h"
 #include "version.h"
 #include "utils.h"
 #include "monitorlogger.h"
+#include "midi_port_info.h"
 
 static int g_monitor_level = 6;
 
@@ -46,20 +46,21 @@ std::unique_ptr<MidiSendProcessor> midiSendProcessor;
 // MIDI in
 vector<unique_ptr<MidiIn> > midiInputs;
 
-HotPlugThread *hotplug_thread = nullptr;
 
-SchedulerCallbackThread *scheduler_callback_thread = nullptr;
+// Threading
+HotPlugThread *hotplug_thread = nullptr;
+std::atomic<bool> g_threadsShouldFinish { false };
 
 static ErlNifPid midi_process_pid;
 
-static atomic<bool> g_already_initialized(false);
+static atomic<bool> g_already_initialized { false };
 
 void prepareMidiSendProcessorOutputs(unique_ptr<MidiSendProcessor>& midiSendProcessor)
 {
     // Open all MIDI devices. This is what Sonic Pi does
-    vector<string> midiOutputsToOpen = MidiOut::getNonRtMidiOutputNames();
+    vector<MidiPortInfo> connectedOutputPortsInfo = MidiIn::getInputPortInfo();
     {
-        midiSendProcessor->prepareOutputs(midiOutputsToOpen);
+        midiSendProcessor->prepareOutputs(connectedOutputPortsInfo);
     }
 }
 
@@ -67,21 +68,22 @@ void prepareMidiSendProcessorOutputs(unique_ptr<MidiSendProcessor>& midiSendProc
 void prepareMidiInputs(vector<unique_ptr<MidiIn> >& midiInputs)
 {
     // Should we open all devices, or just the ones passed as parameters?
-    vector<string> midiInputsToOpen = MidiIn::getNonRtMidiInputNames();
+    vector<MidiPortInfo> connectedInputPortsInfo = MidiIn::getInputPortInfo();
 
     midiInputs.clear();
-    for (const auto& input : midiInputsToOpen) {
+    for (const auto& input : connectedInputPortsInfo) {
         try {
-            auto midiInput = make_unique<MidiIn>(input, false);
+            auto midiInput = make_unique<MidiIn>(input.portName, input.normalizedPortName, input.portId, false);
             midiInputs.push_back(std::move(midiInput));
         } catch (const RtMidiError& e) {
-            cout << "Could not open input device " << input << ": " << e.what() << endl;
+            cout << "Could not open input device " << input.portName << ": " << e.what() << endl;
             //throw;
         }
     }
 }
 
 
+// This was used for some timing tests. Leave it here for reference, in case it is useful in the future
 struct timestamp {
     char type;
     int id;
@@ -144,9 +146,6 @@ int sp_midi_init()
 
     midiSendProcessor->startThread();
 
-    scheduler_callback_thread = new SchedulerCallbackThread;
-    scheduler_callback_thread->startThread();
-
     hotplug_thread = new HotPlugThread;
     hotplug_thread->startThread();
 
@@ -161,26 +160,16 @@ void sp_midi_deinit()
     g_already_initialized = false;
     //output_time_stamps();
 
-    // We tell the threads that we are going to exit. We need to do it this way because there is no MessageManager
-    midiSendProcessor->signalThreadShouldExit();
-    hotplug_thread->signalThreadShouldExit();
-    scheduler_callback_thread->signalThreadShouldExit();
+    // We tell the threads that we are going to exit
+    g_threadsShouldFinish = true;
 
     // We give them some time to exit
-    juce::Thread::sleep(1000);
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
     // And we stop them
-    midiSendProcessor->stopThread(0);
     midiInputs.clear();
     midiSendProcessor.reset(nullptr);
-
-    hotplug_thread->stopThread(0);
     delete hotplug_thread;
-
-    scheduler_callback_thread->stopThread(0);
-    delete scheduler_callback_thread;
-
-    juce::DeletedAtShutdown::deleteAll();
 }
 
 static char **vector_str_to_c(const vector<string>& vector_str)
@@ -198,7 +187,7 @@ static char **vector_str_to_c(const vector<string>& vector_str)
 
 char **sp_midi_outs(int *n_list)
 {
-    auto outputs = MidiOut::getNonRtMidiOutputNames();
+    auto outputs = MidiOut::getNormalizedOutputNames();
     char **c_str_list = vector_str_to_c(outputs);
     *n_list = (int)outputs.size();
     return c_str_list;
@@ -206,7 +195,7 @@ char **sp_midi_outs(int *n_list)
 
 char **sp_midi_ins(int *n_list)
 {
-    auto inputs = MidiIn::getNonRtMidiInputNames();
+    auto inputs = MidiIn::getNormalizedInputNames();
     char **c_str_list = vector_str_to_c(inputs);
     *n_list = (int)inputs.size();
     return c_str_list;
@@ -333,7 +322,7 @@ ERL_NIF_TERM sp_midi_get_current_time_microseconds_nif(ErlNifEnv* env, int argc,
     return enif_make_int64(env, sp_midi_get_current_time_microseconds());
 }
 
-int send_midi_osc_to_erlang(const char *device_name, const unsigned char *data, size_t size)
+int send_midi_data_to_erlang(const char *device_name, const unsigned char *data, size_t size)
 {
     ErlNifEnv *msg_env = enif_alloc_env();
     ERL_NIF_TERM term1;
@@ -353,30 +342,6 @@ int send_midi_osc_to_erlang(const char *device_name, const unsigned char *data, 
 }
 
 
-ERL_NIF_TERM sp_midi_schedule_callback_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
-{
-    ErlNifSInt64 time_to_trigger;
-    ErlNifPid pid;
-    ErlNifSInt64 integer;
-
-    if (!enif_get_int64(env, argv[0], &time_to_trigger)){
-        return enif_make_badarg(env);
-    }
-    if (!enif_is_pid(env, argv[1])){
-        return enif_make_badarg(env);
-    }
-    if (!enif_get_local_pid(env, argv[1], &pid)){
-        return enif_make_badarg(env);
-    }
-    if (!enif_get_int64(env, argv[2], &integer)){
-        return enif_make_badarg(env);
-    }
-
-    scheduler_callback_thread->trigger_callback_at(time_to_trigger, pid, integer);
-    return enif_make_atom(env, "ok");
-}
-
-
 static ErlNifFunc nif_funcs[] = {
     {"midi_init", 0, sp_midi_init_nif},
     {"midi_deinit", 0, sp_midi_deinit_nif},
@@ -387,7 +352,6 @@ static ErlNifFunc nif_funcs[] = {
     {"have_my_pid", 0, sp_midi_have_my_pid_nif},
     {"set_this_pid", 1, sp_midi_set_this_pid_nif},
     {"set_log_level", 1, sp_midi_set_log_level_nif},
-    {"schedule_callback", 3, sp_midi_schedule_callback_nif},
     {"get_current_time_microseconds", 0, sp_midi_get_current_time_microseconds_nif}
 };
 
