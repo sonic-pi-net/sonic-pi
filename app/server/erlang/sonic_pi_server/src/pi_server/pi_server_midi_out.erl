@@ -40,7 +40,7 @@ encode({song_select, Value}) ->
     <<1:1, 7:3, 3:4, 0:1, Value:7>>;
 encode(tune_request) ->
     <<1:1, 7:3, 6:4>>;
-encode(timing_clock) ->
+encode(clock) ->
     <<248:8>>;
 encode(start) ->
     <<250:8>>;

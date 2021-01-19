@@ -50,7 +50,7 @@ parse(<<1:1, 7:3, 6:4>>) ->
     tune_request;
 
 parse(<<248:8>>) ->
-    timing_clock;
+    clock;
 
 parse(<<250:8>>) ->
     start;
@@ -108,8 +108,8 @@ info(Device, <<Bin/binary>>) ->
         tune_request ->
             {tau, midi, tune_request, [Device], []};
 
-        timing_clock ->
-            {tau, midi, timing_clock, [Device], []};
+        clock ->
+            {tau, midi, clock, [Device], []};
 
         start ->
             {tau, midi, start, [Device], []};
