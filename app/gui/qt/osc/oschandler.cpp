@@ -28,7 +28,7 @@ OscHandler::OscHandler(MainWindow *parent, SonicPiLog *outPane,  SonicPiLog *inc
     incoming = incomingPane;
     signal_server_stop = false;
     server_started = false;
-    int last_incoming_path_lens [20] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+    last_incoming_path_lens.fill(0);
     this->theme = theme;
 }
 
@@ -68,7 +68,7 @@ void OscHandler::oscMessage(std::vector<char> buffer)
         std::string args;
         if (msg->arg().popStr(time).popInt32(id).popStr(address).popStr(args).isOkNoMoreArgs()) {
           int max_path_len = 0;
-          for (int i = 0; i < 20 ; i++) {
+          for (int i = 0; i < last_incoming_path_lens.size() ; i++) {
             if (last_incoming_path_lens[i] > max_path_len) {
               max_path_len = last_incoming_path_lens[i];
             }
@@ -103,7 +103,7 @@ void OscHandler::oscMessage(std::vector<char> buffer)
             //QMetaObject::invokeMethod( incoming, "setTextBgFgColors",      Qt::QueuedConnection, Q_ARG(QColor, QColor(255, 153, 0, idmod)), Q_ARG(QColor,g"white"));
               QMetaObject::invokeMethod( incoming, "insertPlainText",        Qt::QueuedConnection,
                                          Q_ARG(QString, QString::fromStdString(args) ) );
-              last_incoming_path_lens[id % 20] = int(address.length());
+              last_incoming_path_lens[id % last_incoming_path_lens.size()] = int(address.length());
             }
           QMetaObject::invokeMethod( window, "addCuePath", Qt::QueuedConnection, Q_ARG(QString, qs_address), Q_ARG(QString, QString::fromStdString(args)));
             } else {
