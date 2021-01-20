@@ -14,6 +14,7 @@
 #ifndef OSCHANDLER_H
 #define OSCHANDLER_H
 
+#include <array>
 #include "oscpkt.hh"
 #include "mainwindow.h"
 class SonicPiTheme;
@@ -32,7 +33,7 @@ private:
     MainWindow *window;
     SonicPiLog  *out;
     SonicPiLog  *incoming;
-    int last_incoming_path_lens [20];
+    std::array<int, 20> last_incoming_path_lens;
 
     oscpkt::PacketReader pr;
     oscpkt::PacketWriter pw;
