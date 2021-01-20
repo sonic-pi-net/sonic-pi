@@ -163,7 +163,7 @@ Vabandust, käivitumisel tuvastati kriitiline viga</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2567"/>
         <source>Toggle visibility of audio oscilloscope</source>
-        <translation type="unfinished"></translation>
+        <translation>Lülita heli ostsilloskoobi kuvamist</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3108"/>
@@ -494,12 +494,12 @@ Vabandust, käivitumisel tuvastati kriitiline viga</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2723"/>
         <source>Audio</source>
-        <translation type="unfinished">Audio</translation>
+        <translation>Heli</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2732"/>
         <source>Visuals</source>
-        <translation type="unfinished">Visuaalid</translation>
+        <translation>Visuaalid</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2736"/>
@@ -529,7 +529,7 @@ Vabandust, käivitumisel tuvastati kriitiline viga</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2761"/>
         <source>Show Scope Labels</source>
-        <translation type="unfinished"></translation>
+        <translation>Kuva ostsilloskoopide sildid</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2766"/>
@@ -539,12 +539,12 @@ Vabandust, käivitumisel tuvastati kriitiline viga</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2775"/>
         <source>Show Scope Kinds</source>
-        <translation type="unfinished"></translation>
+        <translation>Kuva ostsilloskoopide liigid</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2786"/>
         <source>IO</source>
-        <translation type="unfinished">I/O</translation>
+        <translation>Sisend/väljund</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2788"/>
@@ -963,7 +963,7 @@ Laadi Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2563"/>
         <source>Show Scopes</source>
-        <translation type="unfinished">Kuva ostsilloskoobid</translation>
+        <translation>Kuva ostsilloskoobid</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2571"/>
@@ -1118,50 +1118,50 @@ Laadi Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="32"/>
         <source>Audio</source>
-        <translation type="unfinished">Audio</translation>
+        <translation>Heli</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="35"/>
         <source>IO</source>
-        <translation type="unfinished">I/O</translation>
+        <translation>Sisend/väljund</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="38"/>
         <source>Editor</source>
-        <translation type="unfinished">Toimeti</translation>
+        <translation>Toimeti</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="41"/>
         <source>Visuals</source>
-        <translation type="unfinished">Visuaalid</translation>
+        <translation>Visuaalid</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="44"/>
         <location filename="../widgets/settingswidget.cpp" line="429"/>
         <source>Updates</source>
-        <translation type="unfinished">Uuendused</translation>
+        <translation>Uuendused</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="87"/>
         <source>Use this slider to change the system volume.</source>
-        <translation type="unfinished">Kasuta seda liugurit süsteemi helitugevuse muutmiseks.</translation>
+        <translation>Kasuta seda liugurit süsteemi helitugevuse muutmiseks.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="93"/>
         <source>Audio Output</source>
-        <translation type="unfinished">Heli väljund</translation>
+        <translation>Heliväljund</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="94"/>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
-        <translation type="unfinished">Täiendavad audio seaded töötamaks väliste
-PA süsteemidega, kui esinetake Sonic Pi&apos;ga.</translation>
+        <translation>Täiendavad heliseaded töötamaks väliste
+PA süsteemidega, kui esinetakse Sonic Pi&apos;ga.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="95"/>
         <source>Invert stereo</source>
-        <translation type="unfinished">Stereokanalite vahetus</translation>
+        <translation>Stereokanalite vahetus</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="96"/>
@@ -1173,7 +1173,7 @@ be routed to the right speaker and vice versa.</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="97"/>
         <source>Force mono</source>
-        <translation type="unfinished">Sunni mono</translation>
+        <translation>Sunni mono</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="98"/>
@@ -1182,40 +1182,40 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation type="unfinished">Mono
-Sisselülitatuna ühendatakse parempoolne ja 
-vasakpoolne heli üheks ning mõlemast kõlarist
-kuuled sama heli.
-Kasulik kui kõlar suudab ainult monoheli mängida.</translation>
+        <translation>Mono
+Sisselülitatuna ühendatakse parem ja vasak
+helikanal üheks ning mõlemast kõlarist kostub 
+sama heli. Kasulik kui kõlar suudab mängida
+ainult monoheli.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="107"/>
         <source>Synths and FX</source>
-        <translation type="unfinished">Süntesaatorid ja efektid</translation>
+        <translation>Süntesaatorid ja efektid</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="108"/>
         <source>Modify behaviour of synths and FX</source>
-        <translation type="unfinished">Muuda süntesaatorite ja efektide käitumist</translation>
+        <translation>Muuda süntesaatorite ja efektide käitumist</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="110"/>
         <source>Safe mode</source>
-        <translation type="unfinished">Ohutu režiim</translation>
+        <translation>Ohutu režiim</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="111"/>
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
-        <translation type="unfinished">Lülita süntesaatori argumentide kontrolli funtsioone.
+        <translation>Lülita süntesaatori argumentide kontrolli funktsioone.
 Keelatud olekus võivad mõned süntesaatori loodud
-helid olla ootamatult valjud või ebameeldivaid.</translation>
+helid olla ootamatult valjud või ebameeldivad.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="113"/>
         <source>Enforce timing guarantees</source>
-        <translation type="unfinished">Jõusta ajastusgarantiid</translation>
+        <translation>Jõusta ajastusgarantiid</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="114"/>
@@ -1226,7 +1226,7 @@ it is too late to do so
 When disabled, Sonic Pi will always
 attempt to trigger synths and FX
 even when a little late.</source>
-        <translation type="unfinished">Sisselülitatult keeldub Sonic Pi
+        <translation>Sisselülitatult keeldub Sonic Pi
 kasutamast süntesaatorit või efekti,
 kui see juhtub liiga hilja.
 
@@ -1243,9 +1243,9 @@ to be triggered.
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
 which isn&apos;t recognised.</source>
-        <translation type="unfinished">Sisselülitatult lubab Sonic Pi kasutada
+        <translation>Sisselülitatult lubab Sonic Pi kasutada
 süntesaatoreid ja efekte, mis on laetud
-load_synthdefs funktsiooniga.
+funktsiooniga load_synthdefs.
 
 Väljalülitatult kaebab Sonic Pi katsest
 kasutada tundmatut süntesaatorit või
@@ -1254,25 +1254,25 @@ efekti.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="141"/>
         <source>Networked OSC</source>
-        <translation type="unfinished">Võrgu OSC</translation>
+        <translation>Võrgu OSC</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="142"/>
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation type="unfinished">Sonic Pi võib saata ja vastuvõtta Open Sound Control sõnumeid
+        <translation>Sonic Pi võib saata ja vastuvõtta Open Sound Control sõnumeid
 teistelt programmidelt ja hetkel võrku ühendatud arvutitelt.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="145"/>
         <source>Local IP address</source>
-        <translation type="unfinished">Kohalik IP aadress</translation>
+        <translation>Kohalik IP aadress</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="165"/>
         <source>Unavailable</source>
-        <translation type="unfinished">Pole saadaval</translation>
+        <translation>Pole saadaval</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="171"/>
@@ -1298,92 +1298,92 @@ teistelt programmidelt ja hetkel võrku ühendatud arvutitelt.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="397"/>
         <source>Show Scope Labels</source>
-        <translation type="unfinished"></translation>
+        <translation>Kuva ostsilloskooppide sildid</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="175"/>
         <source>When checked, Sonic Pi will listen for OSC messages.
  When unchecked no OSC messages will be received.</source>
-        <translation type="unfinished">Valitud olekus võtab Sonic Pi vastu OSC sõnumeid.
- Valimata olekus OSC sõnumeid vastu ei võeta.</translation>
+        <translation>Valitud olekus võtab Sonic Pi vastu OSC sõnumeid.
+Valimata olekus OSC sõnumeid vastu ei võeta.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="183"/>
         <source>MIDI Configuration</source>
-        <translation type="unfinished">MIDI seadistamine</translation>
+        <translation>MIDI seadistamine</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="184"/>
         <source>Configure MIDI behaviour</source>
-        <translation type="unfinished">Seadista MIDI käitumine</translation>
+        <translation>Seadista MIDI käitumine</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="186"/>
         <source>MIDI Ports</source>
-        <translation type="unfinished">MIDI pordid</translation>
+        <translation>MIDI pordid</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="187"/>
         <source>List all connected MIDI Ports</source>
-        <translation type="unfinished">Kuva kõik ühendatud MIDI pordid</translation>
+        <translation>Kuva kõik ühendatud MIDI pordid</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="192"/>
         <source>Reset MIDI</source>
-        <translation type="unfinished">Lähtesta MIDI</translation>
+        <translation>Lähtesta MIDI</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="194"/>
         <source>Reset MIDI subsystems 
 (Required to detect device changes on macOS)</source>
-        <translation type="unfinished">Lähtesta MIDI alamsüsteemid
-(vajalik tuvastamaks seadmete muutust macOSis)</translation>
+        <translation>Lähtesta MIDI alamsüsteemid
+(Vajalik tuvastamaks seadmete muutust macOSis)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="236"/>
         <source>No connected input devices</source>
-        <translation type="unfinished">Ühendatud sisendseadmeid ei ole</translation>
+        <translation>Ühendatud sisendseadmeid ei ole</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="237"/>
         <source>No connected output devices</source>
-        <translation type="unfinished">Ühendatud väljundseadmeid ei ole</translation>
+        <translation>Ühendatud väljundseadmeid ei ole</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="238"/>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation type="unfinished">MIDI sisendseadmed saadavad MIDI sõnumeid 
-Sonic Pile otse ja neid käsitletakse vihjete sündmustena
+        <translation>MIDI sisendseadmed saadavad MIDI sõnumeid 
+Sonic Pi&apos;le otse ja neid käsitletakse vihjete sündmustena
 (sarnaselt sisenevatele OSC sõnumitele ja sisevihjetele)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="239"/>
         <source>MIDI output devices receive MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished">MIDI väljundseadmed võtavad Sonic Pi&apos;lt MIDI sõnumeid 
+        <translation>MIDI väljundseadmed võtavad Sonic Pi&apos;lt MIDI sõnumeid 
 otse vastu; neid saab saata midi_* funktsioonidega</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="272"/>
         <source>Show and Hide</source>
-        <translation type="unfinished">Kuva ja peida</translation>
+        <translation>Kuva ja peida</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="273"/>
         <source>Configure editor display options.</source>
-        <translation type="unfinished">Konfigureeri toimeti kuvamise seadeid.</translation>
+        <translation>Seadista toimeti kuvamise seadeid.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="274"/>
         <source>Look and Feel</source>
-        <translation type="unfinished">Väljanägemine</translation>
+        <translation>Väljanägemine</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="275"/>
         <source>Configure editor look and feel.</source>
-        <translation type="unfinished">Konfigureeri toimeti väljanägemist.</translation>
+        <translation>Seadista toimeti väljanägemist.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="86"/>
@@ -1438,7 +1438,7 @@ otse vastu; neid saab saata midi_* funktsioonidega</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="279"/>
         <source>Auto-align</source>
-        <translation type="unfinished">Automaatne joondamine</translation>
+        <translation>Automaatne joondamine</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="280"/>
@@ -1448,12 +1448,12 @@ otse vastu; neid saab saata midi_* funktsioonidega</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="282"/>
         <source>Show line numbers</source>
-        <translation type="unfinished">Kuva reanumbrid</translation>
+        <translation>Kuva reanumbrid</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="283"/>
         <source>Toggle line number visibility.</source>
-        <translation type="unfinished">Lülita reanumbrite kuvamine.</translation>
+        <translation>Lülita reanumbrite kuvamine.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="286"/>
@@ -1473,52 +1473,52 @@ otse vastu; neid saab saata midi_* funktsioonidega</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="291"/>
         <source>Show log</source>
-        <translation type="unfinished">Kuva logi</translation>
+        <translation>Kuva logi</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="292"/>
         <source>Toggle visibility of the log.</source>
-        <translation type="unfinished">Lülitab logi kuvamist.</translation>
+        <translation>Lülitab logi kuvamist.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="295"/>
         <source>Show cue log</source>
-        <translation type="unfinished">Kuva vihjete logi</translation>
+        <translation>Kuva vihjete logi</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="296"/>
         <source>Toggle visibility of cue log which displays internal cues &amp; incoming OSC/MIDI messages.</source>
-        <translation type="unfinished">Lülitab nii sisevihjete kui ka sisenevate OSC ja MIDI vihjete logi kuvamist.</translation>
+        <translation>Lülitab nii sisevihjete kui ka sisenevate OSC ja MIDI vihjete logi kuvamist.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="299"/>
         <source>Show buttons</source>
-        <translation type="unfinished">Kuva nupud</translation>
+        <translation>Kuva nupud</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="300"/>
         <source>Toggle visibility of the control buttons.</source>
-        <translation type="unfinished">Lülitab juhtnuppude kuvamist.</translation>
+        <translation>Lülitab juhtnuppude kuvamist.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="302"/>
         <source>Show tabs</source>
-        <translation type="unfinished">Kuva vahekaardid</translation>
+        <translation>Kuva vahekaardid</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="304"/>
         <source>Toggle visibility of the buffer selection tabs.</source>
-        <translation type="unfinished">Lülitab puhvri valiku vahekaartide kuvamist.</translation>
+        <translation>Lülitab puhvri valiku vahekaartide kuvamist.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="305"/>
         <source>Full screen</source>
-        <translation type="unfinished">Täisekraan</translation>
+        <translation>Täisekraan</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="306"/>
         <source>Toggle full screen mode.</source>
-        <translation type="unfinished">Lülitab täisekraani režiimi.</translation>
+        <translation>Lülitab täisekraani režiimi.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="309"/>
@@ -1548,96 +1548,96 @@ otse vastu; neid saab saata midi_* funktsioonidega</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="346"/>
         <source>Logging</source>
-        <translation type="unfinished">Logimine</translation>
+        <translation>Logimine</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="347"/>
         <source>Configure debug behaviour</source>
-        <translation type="unfinished">Seadista silumise käitumist</translation>
+        <translation>Seadista silumise käitumist</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="349"/>
         <source>Log synths</source>
-        <translation type="unfinished">Logi süntesaatoreid</translation>
+        <translation>Logi süntesaatoreid</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="350"/>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation type="unfinished">Logisõnumid
+        <translation>Logisõnumid
 Keelatuna ei trüki logiväljundisse
-sünti ja sämplite mängimist vaikimisi.</translation>
+süntesaatori ja sämplite mängimist.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="352"/>
         <source>Clear log on run</source>
-        <translation type="unfinished">Tühjenda logi mängimisel</translation>
+        <translation>Tühjenda logi käivitamisel</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="353"/>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation type="unfinished">Lülita logi puhastamine käivitamisel.
+        <translation>Lülita logi puhastamine käivitamisel.
 Kui lubatud, siis puhastatakse logi
-iga kord kui vajutatake nuppu &quot;Käivita&quot;.</translation>
+iga kord kui vajutatakse nuppu &quot;Käivita&quot;.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="355"/>
         <source>Log cues</source>
-        <translation type="unfinished">Logi vihjeid</translation>
+        <translation>Logi vihjeid</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="356"/>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation type="unfinished">Luba või keela vihjete logimine.
+        <translation>Luba või keela vihjete logimine.
 Keelatud olekus käivitatakse vihjed 
-ikkagi, kuid nad ei ole logides näha.</translation>
+ikkagi, kuid neid ei ole logides näha.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="358"/>
         <source>Auto-scroll log</source>
-        <translation type="unfinished">Logi automaatne kerimine</translation>
+        <translation>Logi automaatne kerimine</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="359"/>
         <source>Toggle log auto scrolling.
 If enabled the log is scrolled to the bottom after every new message is displayed.</source>
-        <translation type="unfinished">Lülita automaatne kerimine.
-Sisselülitatud olekus keritake logi iga sõnumi logimisel kohe edasi.</translation>
+        <translation>Lülita automaatne kerimine.
+Sisselülitatud olekus keritakse logi iga sõnumi logimisel kohe edasi.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="382"/>
         <source>Settings useful for performing with Sonic Pi</source>
-        <translation type="unfinished">Seaded, mis on olulised Sonic Piga koos esinedes</translation>
+        <translation>Sätted, mis on olulised Sonic Pi&apos;ga koos esinedes</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="386"/>
         <source>Show and Hide Scope</source>
-        <translation type="unfinished">Kuva või peida skoop</translation>
+        <translation>Kuva või peida ostsilloskoop</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="387"/>
         <source>Scope Kinds</source>
-        <translation type="unfinished">Ostsilloskoobi tüübid</translation>
+        <translation>Ostsilloskoopide liigid</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="395"/>
         <source>Show Scopes</source>
-        <translation type="unfinished">Kuva ostsilloskoobid</translation>
+        <translation>Kuva ostsilloskoobid</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="396"/>
         <source>Toggle the visibility of the audio oscilloscopes.</source>
-        <translation type="unfinished">Lülitab audio ostsilloskoopide kuvamist.</translation>
+        <translation>Lülitab heli ostsilloskoopide kuvamist.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="398"/>
         <source>Toggle the visibility of the labels for the audio oscilloscopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Lülita heli ostsilloskoopide siltide kuvamist</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="401"/>
@@ -1654,51 +1654,51 @@ Stereo - shows two independent scopes for left and right channels</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="408"/>
         <source>Transparency</source>
-        <translation type="unfinished">Läbipaistvus</translation>
+        <translation>Läbipaistvus</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="431"/>
         <source>Check for updates</source>
-        <translation type="unfinished">Kontrolli uuendusi</translation>
+        <translation>Kontrolli uuendusi</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="433"/>
         <source>Toggle automatic update checking.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished">Lülitab automaatse värskenduste kontrolli.
+        <translation>Lülitab automaatse uuenduste kontrolli.
 See kontroll sisaldab anonüümse informatsiooni saatmist kasutavast platvormist ja versioonist.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="434"/>
         <source>Check now</source>
-        <translation type="unfinished">Kontrolli nüüd</translation>
+        <translation>Kontrolli kohe</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="436"/>
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished">Sunni kohene värskenduste kontroll.
+        <translation>Sunni kohene uuenduste kontroll.
 Kontrollimisel saadetakse anonüümne informatsioon sinu platvormist ja versioonist.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="437"/>
         <source>Get update</source>
-        <translation type="unfinished">Hangi värskendus</translation>
+        <translation>Hangi uuendus</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="438"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation type="unfinished">Laadi uuem versioon aadressilt http://sonic-pi.net</translation>
+        <translation>Laadi uuem versioon aadressilt http://sonic-pi.net</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="441"/>
         <source>Update Info</source>
-        <translation type="unfinished">Värskenduse teave</translation>
+        <translation>Uuenduse teave</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="444"/>
         <source>Sonic Pi update info</source>
-        <translation type="unfinished">Sonic Pi värskenduse info</translation>
+        <translation>Sonic Pi uuenduse info</translation>
     </message>
 </context>
 <context>
