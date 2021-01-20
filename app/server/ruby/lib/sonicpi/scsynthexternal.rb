@@ -404,18 +404,12 @@ module SonicPi
       else
          puts "Booting on Raspberry Pi (32bit OS)"
       end
-      begin
-        asoundrc = File.read(Dir.home + "/.asoundrc")
-        audio_card = (asoundrc.match(/pcm.output\s+{[^}]+\n\s+card\s+([0-9]+)/m))[1]
-      rescue
-        audio_card = "0"
-      end
 
       #Start Jack if not already running
       if `ps cax | grep jackd`.split(" ").first.nil?
         #Jack not running - start a new instance
         puts "Jackd not running on system. Starting..."
-       jackCmd="jackd -R -p 32 -d alsa -d hw:#{audio_card} -n 3 -p 2048 -o2 -r 44100 "
+        jackCmd="jackd -T -ddummy -r48000 -p1024"
         jack_pid = spawn "exec #{jackCmd}"
         register_process jack_pid
       else
@@ -435,11 +429,13 @@ module SonicPi
 
       boot_and_wait(scsynth_path, scsynth_opts)
 
-      `jack_connect SuperCollider:out_1 system:playback_1`
-      `jack_connect SuperCollider:out_2 system:playback_2`
       `jack_connect SuperCollider:in_1 system_capture_1`
       `jack_connect SuperCollider:in_2 system_capture_2`
-
+      `pactl load-module module-jack-source connect=0 client_name=JACK_to_PulseAudio`
+      `pactl load-module module-loopback source=jack_in`
+      `jack_connect SuperCollider:out_1 JACK_to_PulseAudio:front-left`
+      `jack_connect SuperCollider:out_2 JACK_to_PulseAudio:front-right`
+      
       sleep 3
     end
 
