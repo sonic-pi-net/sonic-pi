@@ -118,7 +118,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="897"/>
         <source>Playing Sample...</source>
-        <translation type="unfinished"></translation>
+        <translation>En jouant un sample...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1445"/>
@@ -258,22 +258,22 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="1869"/>
         <source>Hiding about window...</source>
-        <translation type="unfinished"></translation>
+        <translation>Cache la zone A propos...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1874"/>
         <source>Showing about window...</source>
-        <translation type="unfinished"></translation>
+        <translation>Affiche la zone A propos...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1890"/>
         <source>Hiding help...</source>
-        <translation type="unfinished"></translation>
+        <translation>Cache l&apos;aide...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1894"/>
         <source>Showing help...</source>
-        <translation>Montrer l&apos;aide</translation>
+        <translation>Montrer l&apos;aide...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1950"/>
@@ -298,37 +298,37 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="2305"/>
         <source>Show autocompletion on</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher l&apos;autocomplétion</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2307"/>
         <source>Show autocompletion off</source>
-        <translation type="unfinished"></translation>
+        <translation>Cacher l&apos;autocomplétion</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2322"/>
         <source>Show context on</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher le contexte</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2325"/>
         <source>Show context off</source>
-        <translation type="unfinished"></translation>
+        <translation>Cacher le contexte</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2337"/>
         <source>Hiding preferences...</source>
-        <translation type="unfinished"></translation>
+        <translation>Occupé à cacher les préférences...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2341"/>
         <source>Showing preferences...</source>
-        <translation type="unfinished"></translation>
+        <translation>Occupé à afficher les préférences...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2510"/>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Quitter</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2515"/>
@@ -393,22 +393,22 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="2587"/>
         <source>Show Preferences</source>
-        <translation>Afficher les préférences</translation>
+        <translation>Préférences</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2614"/>
         <source>Show Line Numbers</source>
-        <translation>Afficher les numéros de ligne</translation>
+        <translation>Numéros de ligne</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2619"/>
         <source>Show Code Completion</source>
-        <translation>Afficher la complétion du code</translation>
+        <translation>Complétion du code</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2624"/>
         <source>Show Code Context</source>
-        <translation type="unfinished"></translation>
+        <translation>Montrer la zone Contexte du code</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2629"/>
@@ -458,32 +458,32 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="2674"/>
         <source>Log Synths</source>
-        <translation type="unfinished"></translation>
+        <translation>Active le journal pour les synthés</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2679"/>
         <source>Clear Logs on Run</source>
-        <translation type="unfinished"></translation>
+        <translation>Effacer les journaux au démarrage</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2684"/>
         <source>Auto Indent Code Buffer on Run</source>
-        <translation type="unfinished"></translation>
+        <translation>Indentation automatique du code au démarrage</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2689"/>
         <source>Auto-Scroll Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Défilement automatique des logs</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2699"/>
         <source>Live</source>
-        <translation type="unfinished"></translation>
+        <translation>Live</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2711"/>
         <source>Code</source>
-        <translation type="unfinished"></translation>
+        <translation>Code</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2723"/>
@@ -518,191 +518,191 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="2756"/>
         <source>High Contrast</source>
-        <translation type="unfinished">Haut contraste</translation>
+        <translation>Haut contraste</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2761"/>
         <source>Show Scope Labels</source>
-        <translation type="unfinished"></translation>
+        <translation>Libellés des oscilloscopes</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2766"/>
         <source>Colour Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Couleur de thème</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2775"/>
         <source>Show Scope Kinds</source>
-        <translation type="unfinished"></translation>
+        <translation>Types d&apos;oscilloscope</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2786"/>
         <source>IO</source>
-        <translation type="unfinished">Entrée/Sortie</translation>
+        <translation>Entrée / Sortie</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2788"/>
         <source>MIDI Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrée MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2789"/>
         <location filename="../mainwindow.cpp" line="3638"/>
         <location filename="../mainwindow.cpp" line="3750"/>
         <source>No Connected Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrées non connectées</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2790"/>
         <source>MIDI Outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Sorties MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2791"/>
         <location filename="../mainwindow.cpp" line="3636"/>
         <location filename="../mainwindow.cpp" line="3767"/>
         <source>No Connected Outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Sorties non connectées</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2793"/>
         <source>Default MIDI Out Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Canal de sortie MIDI par défaut</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2796"/>
         <source>All Channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Tous les canaux MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2801"/>
         <source>1</source>
-        <translation type="unfinished"></translation>
+        <translation>1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2806"/>
         <source>2</source>
-        <translation type="unfinished"></translation>
+        <translation>2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2811"/>
         <source>3</source>
-        <translation type="unfinished"></translation>
+        <translation>3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2816"/>
         <source>4</source>
-        <translation type="unfinished"></translation>
+        <translation>4</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2821"/>
         <source>5</source>
-        <translation type="unfinished"></translation>
+        <translation>5</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2826"/>
         <source>6</source>
-        <translation type="unfinished"></translation>
+        <translation>6</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2831"/>
         <source>7</source>
-        <translation type="unfinished"></translation>
+        <translation>7</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2836"/>
         <source>8</source>
-        <translation type="unfinished"></translation>
+        <translation>8</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2841"/>
         <source>9</source>
-        <translation type="unfinished"></translation>
+        <translation>9</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2846"/>
         <source>10</source>
-        <translation type="unfinished"></translation>
+        <translation>10</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2851"/>
         <source>11</source>
-        <translation type="unfinished"></translation>
+        <translation>11</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2856"/>
         <source>12</source>
-        <translation type="unfinished"></translation>
+        <translation>12</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2861"/>
         <source>13</source>
-        <translation type="unfinished"></translation>
+        <translation>13</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2866"/>
         <source>14</source>
-        <translation type="unfinished"></translation>
+        <translation>14</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2871"/>
         <source>15</source>
-        <translation type="unfinished"></translation>
+        <translation>15</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2876"/>
         <source>16</source>
-        <translation type="unfinished"></translation>
+        <translation>16</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2884"/>
         <source>Local IP Addresses</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresses IP locales</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2896"/>
         <source>Incoming OSC Port</source>
-        <translation type="unfinished"></translation>
+        <translation>Port d&apos;entrée OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2899"/>
         <source>View</source>
-        <translation type="unfinished"></translation>
+        <translation>Fenêtres</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2917"/>
         <source>Focus Context</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Atteindre le contexte</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2919"/>
         <source>Place focus on the context pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Focus sur le panneau contexte</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2952"/>
         <source>Show Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Journaux d&apos;exécution</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2957"/>
         <source>Show Cue Log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Affiche le journal des signaux</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2962"/>
         <source>Show Buttons</source>
-        <translation type="unfinished"></translation>
+        <translation>Affiche les boutons</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2967"/>
         <source>Show Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Affiche les onglets de buffer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2973"/>
         <source>Full Screen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Mode plein écran</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3662"/>
@@ -732,7 +732,7 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="3864"/>
         <source>Line: %1,  Position: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Ligne : %1, Position : %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2527"/>
@@ -813,7 +813,7 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="2547"/>
         <source>Align code to improve readability</source>
-        <translation>Aligne le code pour une meilleure lisibilité</translation>
+        <translation>Aligner le code pour améliorer sa lisibilité</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2567"/>
@@ -823,72 +823,72 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="2906"/>
         <source>Focus Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Focus sur la zone Editeur</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2908"/>
         <source>Place focus on the code editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Place le focus sur la zone éditeur de code</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2912"/>
         <source>Focus Logs</source>
-        <translation type="unfinished"></translation>
+        <translation>Focus sur la zone Journaux</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2914"/>
         <source>Place focus on the log pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Placer le focus sur la zone Journaux</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2923"/>
         <source>Focus Cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Focus sur la zone Signaux</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2925"/>
         <source>Place focus on the cue event pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Placer le focus sur la zone SIgnaux</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2929"/>
         <source>Focus Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Focus sur la zone Préférences</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2931"/>
         <source>Place focus on preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Placer le focus sur la zone Préférences</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2935"/>
         <source>Focus Help Listing</source>
-        <translation type="unfinished"></translation>
+        <translation>Focus sur la zone gauche de l&apos;aide</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2937"/>
         <source>Place focus on help listing</source>
-        <translation type="unfinished"></translation>
+        <translation>Placer le focus sur la zone de gauche de l&apos;aide</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2941"/>
         <source>Focus Help Details</source>
-        <translation type="unfinished"></translation>
+        <translation>Focus sur la zone de détails de l&apos;aide</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2943"/>
         <source>Place focus on help details</source>
-        <translation type="unfinished"></translation>
+        <translation>PLacer le focus sur la zone de détails de l&apos;aide</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2947"/>
         <source>Focus Errors</source>
-        <translation type="unfinished"></translation>
+        <translation>Focus sur la zone erreurs</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2949"/>
         <source>Place focus on errors</source>
-        <translation type="unfinished"></translation>
+        <translation>Place le focus dans la zone Erreurs</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3031"/>
@@ -903,7 +903,7 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="3064"/>
         <source>Sonic Pi - Info</source>
-        <translation>Sonic Pi - Info</translation>
+        <translation>Sonic Pi - Information</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3090"/>
@@ -952,7 +952,7 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="2575"/>
         <source>Toggle information about Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Bascule vers les informations concernant Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3568"/>
@@ -1033,32 +1033,32 @@ Obtenez Sonic Pi %1</translation>
         <location filename="../utils/ruby_help.h" line="3120"/>
         <location filename="../utils/ruby_help.h" line="3217"/>
         <source>Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation>Tutoriel</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3252"/>
         <source>Examples</source>
-        <translation type="unfinished"></translation>
+        <translation>Exemples</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3303"/>
         <source>Synths</source>
-        <translation type="unfinished"></translation>
+        <translation>Synthés</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3352"/>
         <source>Fx</source>
-        <translation type="unfinished"></translation>
+        <translation>Effets spéciaux (Fx)</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3373"/>
         <source>Samples</source>
-        <translation type="unfinished"></translation>
+        <translation>Samples</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3628"/>
         <source>Lang</source>
-        <translation type="unfinished"></translation>
+        <translation>Langue</translation>
     </message>
 </context>
 <context>
@@ -1269,7 +1269,7 @@ via le réseau actuellement connecté.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="171"/>
         <source>Allow OSC from other computers</source>
-        <translation type="unfinished"></translation>
+        <translation>Autorise OSC provenant d&apos;autres ordinateurs</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="172"/>
@@ -1281,17 +1281,17 @@ via le réseau actuellement connecté.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="174"/>
         <source>Allow incoming OSC</source>
-        <translation type="unfinished"></translation>
+        <translation>Autorise l&apos;OSC entrant</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="285"/>
         <source>Show code completion</source>
-        <translation type="unfinished"></translation>
+        <translation>Montre la complétion de code</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="397"/>
         <source>Show Scope Labels</source>
-        <translation type="unfinished"></translation>
+        <translation>Montre les libellés d&apos;oscilloscope</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="175"/>
@@ -1381,52 +1381,52 @@ Sonic Pi qui peut être envoyés via les fonctions midi_*</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="86"/>
         <source>Main Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Volume principal</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="116"/>
         <source>Enable external synths/FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Permet les synthés et effets spéciaux externes</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="146"/>
         <source>Incoming OSC port</source>
-        <translation type="unfinished"></translation>
+        <translation>Port pour l&apos;OSC entrant</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="189"/>
         <source>Enable incoming MIDI cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Permet les signaux MIDI entrants</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="190"/>
         <source>Enable or disable automatic conversion of incoming MIDI messages to cue events</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Active ou désactive la conversion automatique des messages MIDI entrants en signaux d&apos;événements</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="220"/>
         <source>Default MIDI channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Canal midi par défaut</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="221"/>
         <source>Default MIDI Channel to send messages to (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation>Canal MIDI par défaut sur lequel envoyer les messages MIDI (* signifie tous)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="225"/>
         <source>Default MIDI Channel to send messages to  (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation>Canal MIDI par défaut sur lequel envoyer les messages MIDI (* signifie tous)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="276"/>
         <source>Automation / Misc</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatisation / Divers</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="277"/>
         <source>Configure automation and other features.</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramétrer l&apos;automatisation et autres caractéristiques.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="279"/>
@@ -1451,17 +1451,17 @@ Sonic Pi qui peut être envoyés via les fonctions midi_*</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="286"/>
         <source>When enabled, Sonic Pi&apos;s editor will attempt to autocomplete your code with suggestions. When disabled, these suggestions will not be visible.</source>
-        <translation type="unfinished"></translation>
+        <translation>Quand activé, l&apos;éditeur de code de Sonic Pi tentera d&apos;auto-compléter votre code avec des suggestions. Sinon, les suggestions seront cachées.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="288"/>
         <source>Show code context</source>
-        <translation type="unfinished"></translation>
+        <translation>Montre la position du curseur</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="289"/>
         <source>When enabled, Sonic Pi&apos;s editor will show a pane which will display context-specific information for the code such as the current line and position of the cursor.</source>
-        <translation type="unfinished"></translation>
+        <translation>Quand activé, l&apos;éditeur de code de Sonic Pi affichera une zone de contexte indiquant la position du curseur, ligne et colonne.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="291"/>
@@ -1630,7 +1630,7 @@ Si activé le journal défilera vers le bas à chaque nouveau message.</translat
     <message>
         <location filename="../widgets/settingswidget.cpp" line="398"/>
         <source>Toggle the visibility of the labels for the audio oscilloscopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Bascule la visibilité des libellés des oscilloscopes audio</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="401"/>
