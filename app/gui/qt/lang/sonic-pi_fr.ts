@@ -363,17 +363,17 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="2545"/>
         <source>Indent Code Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>Indenter le code</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2551"/>
         <source>Code Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Augmenter la taille du code</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2557"/>
         <source>Code Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Diminuer la taille du code</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2563"/>
@@ -383,27 +383,27 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="2571"/>
         <source>Show Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher les informations</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2579"/>
         <source>Show Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher l&apos;aide</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2587"/>
         <source>Show Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher les préférences</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2614"/>
         <source>Show Line Numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher les numéros de ligne</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2619"/>
         <source>Show Code Completion</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher la complétion du code</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2624"/>
@@ -413,47 +413,47 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="2629"/>
         <source>Safe Audio Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Mode Audio sûr</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2634"/>
         <source>Enforce Timing Guarantees</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Force les garanties de temps</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2639"/>
         <source>Enable External Synths</source>
-        <translation type="unfinished"></translation>
+        <translation>Autoriser les synthés externes</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2644"/>
         <source>Invert Stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>Intervertir la stéréo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2649"/>
         <source>Force Mono</source>
-        <translation type="unfinished"></translation>
+        <translation>Forcer le mono</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2654"/>
         <source>Enable Incoming MIDI Cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Autoriser les signaux midi entrants</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2659"/>
         <source>Allow Incoming OSC</source>
-        <translation type="unfinished"></translation>
+        <translation>Autoriser l&apos;OSC entrant</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2664"/>
         <source>Allow OSC From Other Computers</source>
-        <translation type="unfinished"></translation>
+        <translation>Autoriser l&apos;OSC provenant d&apos;autres ordinateurs</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2669"/>
         <source>Log Cues</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Log des signaux</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2674"/>
