@@ -430,7 +430,7 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2634"/>
         <source>Enforce Timing Guarantees</source>
-        <translation type="unfinished">Forzar Garantías de Tiempo</translation>
+        <translation type="unfinished">Imponer Garantías de Tiempo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2639"/>
@@ -699,7 +699,7 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2957"/>
         <source>Show Cue Log</source>
-        <translation type="unfinished">Mostrar Registro de Señales</translation>
+        <translation type="unfinished">Mostrar Registro de Señales cue</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2962"/>
