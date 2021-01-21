@@ -1793,7 +1793,7 @@ end"
       doc name:           :range,
           introduced:     Version.new(2,2,0),
           summary:        "Create a ring buffer with the specified start, finish and step size",
-          args:           [[:start, :number], [:finish, :number], [:step_size, :number]],
+          args:           [[:start, :number], [:finish, :number], [:step, :number]],
           returns:        :ring,
           opts:           {:step      => "Size of increment between steps; step size.",
                            :inclusive => "If set to true, range is inclusive of finish value"},
