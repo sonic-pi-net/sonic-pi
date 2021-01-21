@@ -83,12 +83,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="3618"/>
         <source>Enabling MIDI input...</source>
-        <translation type="unfinished"></translation>
+        <translation>Activation de l&apos;entrée MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3624"/>
         <source>Disabling MIDI input...</source>
-        <translation type="unfinished"></translation>
+        <translation>Désactivation de l&apos;entrée MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3640"/>
@@ -113,7 +113,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="793"/>
         <source>Context</source>
-        <translation type="unfinished"></translation>
+        <translation>Contexte</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="897"/>
@@ -273,7 +273,7 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="1894"/>
         <source>Showing help...</source>
-        <translation type="unfinished"></translation>
+        <translation>Montrer l&apos;aide</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1950"/>
