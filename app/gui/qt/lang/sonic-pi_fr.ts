@@ -848,7 +848,7 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="2925"/>
         <source>Place focus on the cue event pane</source>
-        <translation>Placer le focus sur la zone SIgnaux</translation>
+        <translation>Placer le focus sur la zone Signaux</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2929"/>
@@ -878,7 +878,7 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="2943"/>
         <source>Place focus on help details</source>
-        <translation>PLacer le focus sur la zone de détails de l&apos;aide</translation>
+        <translation>Placer le focus sur la zone de détails de l&apos;aide</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2947"/>
