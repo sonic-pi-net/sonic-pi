@@ -273,7 +273,7 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="1894"/>
         <source>Showing help...</source>
-        <translation>Montre l&apos;aide...</translation>
+        <translation>Affichage de l&apos;aide...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1950"/>
