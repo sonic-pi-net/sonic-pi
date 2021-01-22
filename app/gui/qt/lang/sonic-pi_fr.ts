@@ -78,7 +78,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="787"/>
         <source>Cues</source>
-        <translation>Marqueurs</translation>
+        <translation>Signaux (Cues)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3618"/>
@@ -118,7 +118,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="897"/>
         <source>Playing Sample...</source>
-        <translation>En jouant un sample...</translation>
+        <translation>Lecture d&apos;un sample...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1445"/>
@@ -273,7 +273,7 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="1894"/>
         <source>Showing help...</source>
-        <translation>Montrer l&apos;aide...</translation>
+        <translation>Montre l&apos;aide...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1950"/>
@@ -378,7 +378,7 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="2563"/>
         <source>Show Scopes</source>
-        <translation type="unfinished">Afficher les oscilloscopes</translation>
+        <translation>Afficher les oscilloscopes</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2571"/>
@@ -418,7 +418,7 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="2634"/>
         <source>Enforce Timing Guarantees</source>
-        <translation type="unfinished">Force les garanties de temps</translation>
+        <translation>Appliquer les garanties de synchronisation</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2639"/>
@@ -453,7 +453,7 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="2669"/>
         <source>Log Cues</source>
-        <translation type="unfinished">Log des signaux</translation>
+        <translation>Log des Signaux (Cues)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2674"/>
@@ -488,32 +488,32 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="2723"/>
         <source>Audio</source>
-        <translation type="unfinished">Audio</translation>
+        <translation>Audio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2732"/>
         <source>Visuals</source>
-        <translation type="unfinished">Visuels</translation>
+        <translation>Visuels</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2736"/>
         <source>Light</source>
-        <translation type="unfinished">Clair</translation>
+        <translation>Clair</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2741"/>
         <source>Dark</source>
-        <translation type="unfinished">Sombre</translation>
+        <translation>Sombre</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2746"/>
         <source>Pro Light</source>
-        <translation type="unfinished">Clair Pro</translation>
+        <translation>Clair Pro</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2751"/>
         <source>Pro Dark</source>
-        <translation type="unfinished">Sombre Pro</translation>
+        <translation>Sombre Pro</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2756"/>
@@ -667,12 +667,12 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="2899"/>
         <source>View</source>
-        <translation>Fenêtres</translation>
+        <translation>Vue</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2917"/>
         <source>Focus Context</source>
-        <translation type="unfinished">Atteindre le contexte</translation>
+        <translation>Atteindre la zone contexte</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2919"/>
@@ -687,7 +687,7 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="2957"/>
         <source>Show Cue Log</source>
-        <translation type="unfinished">Affiche le journal des signaux</translation>
+        <translation>Afficher le journal des Signaux (Cues)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2962"/>
@@ -707,17 +707,17 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="3662"/>
         <source>Disabling OSC cue port...</source>
-        <translation>Désactivation du port de repère de l&apos;OSC...</translation>
+        <translation>Désactivation des signaux (cues) du port OSC...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3674"/>
         <source>Enabling external OSC cue port...</source>
-        <translation>Activation du port de repère OSC externe...</translation>
+        <translation>Autorisation du port des messages OSC externe...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3686"/>
         <source>Enabling internal OSC cue port...</source>
-        <translation>Activation du port de repère interne de l&apos;OSC...</translation>
+        <translation>Activation des signaux du port OSC interne...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3745"/>
@@ -843,7 +843,7 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="2923"/>
         <source>Focus Cues</source>
-        <translation>Focus sur la zone Signaux</translation>
+        <translation>Focus sur la zone Signaux (Cues)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2925"/>
@@ -1401,7 +1401,7 @@ Sonic Pi qui peut être envoyés via les fonctions midi_*</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="190"/>
         <source>Enable or disable automatic conversion of incoming MIDI messages to cue events</source>
-        <translation type="unfinished">Active ou désactive la conversion automatique des messages MIDI entrants en signaux d&apos;événements</translation>
+        <translation>Active ou désactive la conversion automatique des messages MIDI entrants en signaux d&apos;événements</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="220"/>
@@ -1642,7 +1642,14 @@ Mirror Stereo - simple left/right composite wave, with left on top, right on bot
 Mono - shows a combined view of the left and right channels (using RMS)
 Spectrum - shows the sound frequencies as a spectrum, from low to high frequencies
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;oscilloscope audio propose plusieurs saveurs pouvant être
+vues indépendamment ou toutes ensembles :
+
+Lissajous - montre la relation de phase entre le canal gauche et la canal droit
+Mirror Stereo - montre une onde composite gauche / droite, en haut le canal gauche, en bas le droit.
+Mono - affiche une vue combinée des canaux gauche et droit (utilisation de RMS)
+Spectrum - affiche un spectre des fréquences sons des basses fréquences vers les hautes
+Stereo - affiche deux oscilloscopes indépendants pour les canaux gauche et droit</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="408"/>
