@@ -33,11 +33,34 @@ pid_path = "#{pids_store}/#{pid}"
 
 f = nil
 
+os = case RUBY_PLATFORM
+     when /.*arm.*-linux.*/
+       :raspberry
+     when /.*linux.*/
+       :linux
+     when /.*darwin.*/
+       :osx
+     when /.*mingw.*/
+       :windows
+     else
+       :unknown
+     end
+
+command_line = ""
+
 begin
-  if s = Sys::ProcTable.ps(pid: pid)
+  if os == :osx
+      # We can't use ProcTable.ps or `ps` from within a hardened runtime
+      # on macOS So don't attempt to extract command line for pid
+  else
+    info = Sys::ProcTable.ps(pid: pid)
+    command_line = info.cmdline.strip
+  end
+
+  if command_line
     f = File.open(pid_path, 'w')
-    f.puts s.cmdline
-    log_process_info "Started [#{pid}] [-] #{s.cmdline} [-] #{pid_path}"
+    f.puts command_line
+    log_process_info "Started [#{pid}] [-] #{command_line} [-] #{pid_path}"
   end
 rescue Exception => e
   log_process_info "ERROR: Unable to write information for PID #{pid} to path #{pid_path}!"
