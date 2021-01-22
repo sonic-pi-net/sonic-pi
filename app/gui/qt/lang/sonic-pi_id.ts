@@ -6,7 +6,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="519"/>
         <source>Preferences</source>
-        <translation>Pilihan</translation>
+        <translation>Preferensi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="781"/>
@@ -18,13 +18,13 @@
         <location filename="../mainwindow.cpp" line="3284"/>
         <location filename="../mainwindow.cpp" line="3303"/>
         <source>Sonic Pi</source>
-        <translation>Sonic_Pi</translation>
+        <translation>Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1680"/>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
-        <translation>Menjalankan Kode ...</translation>
+        <translation>Menjalankan Kode...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1700"/>
@@ -36,7 +36,7 @@
         <location filename="../mainwindow.cpp" line="1730"/>
         <source>Reloading...</source>
         <oldsource>Reloading....</oldsource>
-        <translation>Membuka...</translation>
+        <translation>Memuat ulang...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1761"/>
@@ -58,12 +58,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="1110"/>
         <source>Indenting selection...</source>
-        <translation>Indentasi seleksi ...</translation>
+        <translation>Indentasi pilihan...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1114"/>
         <source>Indenting line...</source>
-        <translation>Indentasi baris ...</translation>
+        <translation>Indentasi baris...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1143"/>
@@ -118,8 +118,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3582"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation>Kunjungi http://sonic-pi.net 
-untuk men-download versi baru</translation>
+        <translation>Kunjungi https://sonic-pi.net untuk mengunduh versi baru</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3662"/>
@@ -1156,7 +1155,8 @@ Dapatkan Sonic Pi %1</translation>
         <location filename="../widgets/settingswidget.cpp" line="94"/>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
-        <translation type="unfinished">Pengaturan audio canggih ketika bekerja dengan sistem PA eksternal ketika tampil dengan Sonic Pi.</translation>
+        <translation>Pengaturan audio lanjutan untuk bekerja dengan
+sistem PA eksternal ketika tampil dengan Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="95"/>
@@ -1329,7 +1329,8 @@ to and from other programs or computers
         <location filename="../widgets/settingswidget.cpp" line="194"/>
         <source>Reset MIDI subsystems 
 (Required to detect device changes on macOS)</source>
-        <translation type="unfinished">Reset MIDI subsistem (diperlukan untuk mendeteksi perubahan-perubahan perangkat pada macOS)</translation>
+        <translation>Setel ulang sub-sistem MIDI
+(Dibutuhkan untuk mendeteksi perubahan perangkat di macOS)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="236"/>
@@ -1673,8 +1674,7 @@ Pemeriksaan ini melibatkan pengiriman informasi anonim tentang platform Anda dan
     <message>
         <location filename="../widgets/settingswidget.cpp" line="438"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation type="unfinished">Kunjungi http://sonic-pi.net 
-untuk men-download versi baru</translation>
+        <translation>Kunjungi https://sonic-pi.net untuk mengunduh versi baru</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="441"/>
