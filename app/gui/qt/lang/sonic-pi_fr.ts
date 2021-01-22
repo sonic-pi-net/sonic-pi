@@ -848,7 +848,7 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="2925"/>
         <source>Place focus on the cue event pane</source>
-        <translation>Placer le focus sur la zone Signaux</translation>
+        <translation>Placer le focus sur la zone Signaux (Cues)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2929"/>
@@ -1476,12 +1476,12 @@ Sonic Pi qui peut être envoyés via les fonctions midi_*</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="295"/>
         <source>Show cue log</source>
-        <translation>Afficher le journal des signaux</translation>
+        <translation>Afficher le journal des signaux Cue</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="296"/>
         <source>Toggle visibility of cue log which displays internal cues &amp; incoming OSC/MIDI messages.</source>
-        <translation>Activer/désactiver la visibilité du journal des signaux qui affiche les signaux internes et les messages entrant OSC/MIDI.</translation>
+        <translation>Activer/désactiver la visibilité du journal des signaux Cue. Ce dernier affiche les signaux internes et les messages entrant OSC / MIDI.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="299"/>
@@ -1579,7 +1579,7 @@ chaque appui sur le bouton run.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="355"/>
         <source>Log cues</source>
-        <translation>Journal des signaux</translation>
+        <translation>Journal des signaux cues</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="356"/>
@@ -1647,7 +1647,7 @@ vues indépendamment ou toutes ensembles :
 
 Lissajous - montre la relation de phase entre le canal gauche et la canal droit
 Mirror Stereo - montre une onde composite gauche / droite, en haut le canal gauche, en bas le droit.
-Mono - affiche une vue combinée des canaux gauche et droit (utilisation de RMS)
+Mono - affiche une vue combinée des canaux gauche et droit (utilisation de RMS - Pression acoustique efficace)
 Spectrum - affiche un spectre des fréquences sons des basses fréquences vers les hautes
 Stereo - affiche deux oscilloscopes indépendants pour les canaux gauche et droit</translation>
     </message>
