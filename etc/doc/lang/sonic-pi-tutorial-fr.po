@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-09-15 06:36+0000\n"
-"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
-"Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/f"
-"r/>\n"
+"PO-Revision-Date: 2021-01-23 13:32+0000\n"
+"Last-Translator: nlb <nlebellier@gmail.com>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
+"fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.3-dev\n"
+"X-Generator: Weblate 4.5-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -96,7 +96,7 @@ msgstr "1.1 Codage en 'live'"
 #: 01.1-Live-Coding.md:3 09-Live-Coding.md:3 09.1-Live-Coding-Fundamentals.md:3
 #: A.02-live-coding.md:3
 msgid "Live Coding"
-msgstr "Programmation en direct"
+msgstr "Programmation interactive (Live Coding)"
 
 #: 01.1-Live-Coding.md:5
 msgid ""
@@ -410,9 +410,8 @@ msgid "*H* - Scope Viewer"
 msgstr "*H* - Visualisateur de la portée"
 
 #: 01.2-Exploring-the-Interface.md:19
-#, fuzzy
 msgid "*I* - Cue Viewer"
-msgstr "*F* - Visualisateur de la trace"
+msgstr "*F* - Visualiseur des Signaux (Cue)"
 
 #: 01.2-Exploring-the-Interface.md:21
 msgid "A. Play Controls"
@@ -569,12 +568,10 @@ msgstr ""
 "ve)."
 
 #: 01.2-Exploring-the-Interface.md:93
-#, fuzzy
 msgid "I. Cue Viewer"
-msgstr "F. Visualisateur de la trace"
+msgstr "I. Visualiseur de signal (cue)"
 
 #: 01.2-Exploring-the-Interface.md:95
-#, fuzzy
 msgid ""
 "All internal and external events (called cues in Sonic Pi) are automatically l"
 "ogged in the Cue Viewer. For example, if you have a MIDI controller connected "
@@ -590,7 +587,24 @@ msgid ""
 "nction. Anything that appears in the Cue Viewer can be used to trigger somethi"
 "ng happening. This is covered in more detail in Sections 10 to 12 of this tuto"
 "rial."
-msgstr "MIDI"
+msgstr ""
+"Tous les événements internes et externes (appelés cues dans Sonic Pi) sont "
+"automatiquement enregistrés dans le Cue Viewer. Par exemple, si vous avez un "
+"contrôleur MIDI connecté et que vous appuyez sur l'un de ses boutons, vous "
+"verrez un nouvel événement dans le Cue Viewer vous indiquant le nom du "
+"contrôleur et le bouton sur lequel vous avez appuyé. Une fois que vous aurez "
+"maîtrisé les bases de la création et de la production de sons, vous "
+"commencerez à vouloir marquer des sons ou des sections entières de sons en "
+"fonction d'événements tels que ceux-ci. Un signal sonore n'est qu'une "
+"indication que quelque chose s'est produit. Par exemple, chaque fois qu'une "
+"boucle en direct tourne, elle envoie un signal qui est enregistré dans le "
+"Cue Viewer. De plus, des événements externes tels que des messages MIDI "
+"provenant d'un équipement MIDI connecté et des messages OSC provenant "
+"d'autres programmes ou ordinateurs sont également affichés dans le Cue "
+"Viewer. Il est également possible de générer directement des événements de "
+"cue en utilisant la fonction \"rescue\". Tout ce qui apparaît dans le Cue "
+"Viewer peut être utilisé pour déclencher un événement. Ce point est traité "
+"plus en détail dans les sections 10 à 12 de ce tutoriel."
 
 #: 01.3-Learning-through-Play.md:1
 msgid "1.3 Learning through Play"
@@ -1331,8 +1345,7 @@ msgstr ""
 "sleep 0.25\n"
 "play 50\n"
 "sleep 0.25\n"
-"play 62\n"
-"sleep 0.25"
+"play 62"
 
 #: 02.3-Switching-Synths.md:34
 msgid "Let's try another sound - the *prophet*:"
@@ -1353,8 +1366,7 @@ msgstr ""
 "sleep 0.25\n"
 "play 50\n"
 "sleep 0.25\n"
-"play 62\n"
-"sleep 0.25"
+"play 62"
 
 #: 02.3-Switching-Synths.md:45
 msgid "How about combining two sounds. First one after another:"
@@ -1377,8 +1389,7 @@ msgstr ""
 "play 50\n"
 "sleep 0.25\n"
 "use_synth :prophet\n"
-"play 57\n"
-"sleep 0.25"
+"play 57"
 
 #: 02.3-Switching-Synths.md:57
 msgid ""
@@ -1405,8 +1416,7 @@ msgstr ""
 "play 50\n"
 "sleep 0.25\n"
 "use_synth :prophet\n"
-"play 57\n"
-"sleep 0.25"
+"play 57"
 
 #: 02.3-Switching-Synths.md:69
 msgid ""
@@ -3654,7 +3664,6 @@ msgstr ""
 
 #: 04-Randomisation.md:56
 #, no-wrap
-#, fuzzy
 msgid ""
 "loop do\n"
 "  sample :perc_bell, rate: rrand(0.125, 1.5)\n"
@@ -5608,6 +5617,16 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
+"a = (ring 6, 5, 4, 3, 2, 1)\n"
+"live_loop :sorted do\n"
+"  a = a.sort\n"
+"  sleep 0.5\n"
+"  puts \"sorted: \", a\n"
+"end\n"
+"live_loop :shuffled do\n"
+"  a = a.shuffle\n"
+"  sleep 0.5\n"
+"end"
 
 #: 05.6-Variables.md:154
 msgid ""
@@ -10342,7 +10361,6 @@ msgstr ""
 "osc \"/hello/world\""
 
 #: 12.2-Sending-OSC.md:15
-#, fuzzy
 msgid ""
 "If you run the code above, you'll notice that Sonic Pi is sending itself an OS"
 "C message! This is because we set the IP address to the current machine and th"
@@ -10354,16 +10372,16 @@ msgid ""
 " Sonic Pi automatically prefixes all incoming OSC messages with `/osc` and the"
 "n the hostname and port of the sender.)"
 msgstr ""
-"Si vous exécutez le code ci-dessus, vous allez remarquer que Sonic Pi s'envoie"
-" lui-même un message OSC ! Ceci parce que nous avons configuré l'adresse IP de"
-" la machine courante et le port au port par défaut pour OSC. C'est essentielle"
-"ment la même chose que de se poster une lettre à soi-même - le paquet OSC est "
-"créé, quitte Sonic Pi, se rend à la pile réseau du système d'exploitation qui "
-"va retourner le paquet à Sonic Pi et il recevra ensuite un message OSC standar"
-"d qui est visible dans la queue du journal en tant que message entrant `\"/osc:"
-"127.0.0.1:4560/hello/world`. (Remarquez comment Sonic Pi préfixe automatiqueme"
-"nt tous les messages OSC entrants avec `/osc` puis le nom d'hôte et le port de"
-" l'expéditeur.)"
+"Si vous exécutez le code ci-dessus, vous allez remarquer que Sonic Pi "
+"s'envoie lui-même un message OSC ! Ceci parce que nous avons configuré "
+"l'adresse IP de la machine courante et le port au port par défaut pour OSC. "
+"C'est essentiellement la même chose que de se poster une lettre à soi-même - "
+"le paquet OSC est créé, quitte Sonic Pi, se rend à la pile réseau du système "
+"d'exploitation qui va retourner le paquet à Sonic Pi et il recevra ensuite "
+"un message OSC standard qui est visible dans la queue du journal en tant que "
+"message entrant `\"/osc:127.0.0.1:4560/hello/world`. (Remarquez comment "
+"Sonic Pi préfixe automatiquement tous les messages OSC entrants avec `/osc` "
+"puis le nom d'hôte et le port de l'expéditeur.)"
 
 #: 12.2-Sending-OSC.md:25
 msgid "Sending OSC to other programs"
@@ -16805,12 +16823,10 @@ msgstr ""
 "arrer les choses sans l'arrêt du morceau complet."
 
 #: A.15-performance.md:97
-#, fuzzy
 msgid "4. Use the Main Mixer"
-msgstr "4. Utiliser le mixeur général"
+msgstr "4. Utiliser le mixer général"
 
 #: A.15-performance.md:99
-#, fuzzy
 msgid ""
 "One of Sonic Pi's best kept secrets is that it has a main mixer through which "
 "all sound flows. This mixer has both a low pass filter and a high pass filter "
@@ -16819,13 +16835,13 @@ msgid ""
 "xample, whilst some code is running and making sound, enter this into a spare "
 "buffer and hit `Run`:"
 msgstr ""
-"L'un des secrets les mieux gardés de Sonic Pi est qu'il a un mixeur maître par"
-" lequel passent tous les flux de sons. Ce mixeur a un filtre de passe basse et"
-" un filtre de passe élevé inclus, afin que vous puissiez facilement effectuer "
-"des modifications globales au son. La fonctionnalité du mixeur maître est acce"
-"ssible via la fonction `set_mixer_control!`. Par exemple, pendant que du code "
-"s'exécute et fait du son, entrez ceci dans un tampon supplémentaire et pressez"
-" `Run` :"
+"L'un des secrets les mieux gardés de Sonic Pi est qu'il a un mixeur maître "
+"par lequel passent tous les flux de sons. Ce mixeur a un filtre de passe "
+"basse et un filtre de passe élevé inclus, afin que vous puissiez facilement "
+"effectuer des modifications globales au son. La fonctionnalité du mixeur "
+"maître est accessible via la fonction `set_mixer_control!`. Par exemple, "
+"pendant que du code s'exécute et fait du son, entrez ceci dans un tampon "
+"supplémentaire et pressez `Run` :"
 
 #: A.15-performance.md:107
 msgid "` set_mixer_control! lpf: 50 `"
@@ -16920,7 +16936,6 @@ msgstr ""
 "ctionne bien avec les sons courants."
 
 #: A.15-performance.md:154
-#, fuzzy
 msgid ""
 "This month, instead of giving you a final example that combines all the things"
 " discussed, let's part by setting down a challenge. See if you can spend a wee"
@@ -16930,12 +16945,13 @@ msgid ""
 "clunky at first - just keep practicing and before you know it you'll be live c"
 "oding for a real audience."
 msgstr ""
-"Ce mois-ci, au lieu de vous donner un exemple final qui combine toutes les cho"
-"ses dont nous avons discuté, essayons plutôt de poser un défi. Voyez si vous p"
-"ouvez passer une semaine à pratiquer l'une de ces idées tous les jours. Par ex"
-"emple, une journée pratiquez les déclencheurs manuels, la suivante faites du t"
-"ravail basique de `live_loop` et avant que vous ne vous en rendiez compte, vou"
-"s serez en train de coder en direct pour un vrai public."
+"Ce mois-ci, au lieu de vous donner un exemple final qui combine toutes les "
+"choses dont nous avons discuté, essayons plutôt de poser un défi. Voyez si "
+"vous pouvez passer une semaine à pratiquer l'une de ces idées tous les "
+"jours. Par exemple, une journée pratiquez les déclencheurs manuels, la "
+"suivante faites du travail basique de `live_loop` et avant que vous ne vous "
+"en rendiez compte, vous serez en train de coder en direct pour un vrai "
+"public."
 
 #: A.16-practice.md:1
 msgid "A.16 How to Practice Live Coding"
@@ -18163,6 +18179,9 @@ msgid ""
 "![Varying amounts of low pass filtering](../../../etc/doc/images/tutorial/arti"
 "cles/A.19-subtractive-synthesis/subtractive-synthesis-waveforms.png)"
 msgstr ""
+"![Variation les quantités de filtre passe-bas en cours](../../../etc/doc/"
+"images/tutorial/articles/A.19-subtractive-synthesis/subtractive-synthesis-"
+"waveforms.png)"
 
 #: A.19-subtractive-synthesis.md:90
 msgid ""
@@ -18239,7 +18258,6 @@ msgstr ""
 "end"
 
 #: A.19-subtractive-synthesis.md:127
-#, fuzzy
 msgid ""
 "Let's take a quick look at what's going on here. Firstly we start an `:lpf` FX"
 " block as normal with an initial `cutoff:` of a low `50`. However, the first l"
@@ -18251,16 +18269,17 @@ msgid ""
 "ats. Finally we also trigger a source signal synth so we can hear the effect o"
 "f the modulated low pass filter."
 msgstr ""
-"Jetons un coup d’œil rapide à ce qui se passe ici. Premièrement, nous commenço"
-"ns avec un bloc FX `:lpf` avec un `cutoff:` initial d'un très bas `20`. Cepend"
-"ant, la première ligne termine également avec l'étrange `|fx|` à la fin. C'est"
-" une partie optionnelle de la syntaxe `with_fx` qui vous permet de nommer dire"
-"ctement et de contrôler le synthé FX qui s'exécute. La ligne 2 fait exactement"
-" cela et contrôle le FX pour définir la valeur de l'option `cutoff_slide:` à 4"
-" et la nouvelle cible de `cutoff:` à `130`. Ce FX commencera donc à glisser la"
-" valeur de l'option `cutoff:` de `50` à `130` sur une période de trois temps. "
-"Finalement, nous déclenchons également un synthé de signal source pour que nou"
-"s puissions entendre l'effet du filtre passe-bas modulé."
+"Jetons un coup d’œil rapide à ce qui se passe ici. Premièrement, nous "
+"commençons avec un bloc FX `:lpf` avec un `cutoff:` initial d'un très bas "
+"`20`. Cependant, la première ligne termine également avec l'étrange `|fx|` à "
+"la fin. C'est une partie optionnelle de la syntaxe `with_fx` qui vous permet "
+"de nommer directement et de contrôler le synthé FX qui s'exécute. La ligne 2 "
+"fait exactement cela et contrôle le FX pour définir la valeur de l'option "
+"`cutoff_slide:` à 4 et la nouvelle cible de `cutoff:` à `130`. Ce FX "
+"commencera donc à glisser la valeur de l'option `cutoff:` de `50` à `130` "
+"sur une période de trois temps. Finalement, nous déclenchons également un "
+"synthé de signal source pour que nous puissions entendre l'effet du filtre "
+"passe-bas modulé."
 
 #: A.19-subtractive-synthesis.md:140
 msgid ""
@@ -18994,11 +19013,10 @@ msgstr ""
 "ntanée !"
 
 #: B.01-Using-Shortcuts.md:84
-#, fuzzy
 msgid "For a full list take a look at section B.2 Shortcut Cheatsheet."
 msgstr ""
-"Pour une liste complète, jetez un œil à la section 10.2 - Antisèche des raccou"
-"rcis."
+"Pour une liste complète, jetez un œil à la section B.2 - Antisèche des "
+"raccourcis."
 
 #: B.02-Shortcut-Cheatsheet.md:1
 msgid "B.2 Shortcut Cheatsheet"
@@ -19009,13 +19027,13 @@ msgid "Shortcut Cheatsheet"
 msgstr "Antisèche des raccourcis"
 
 #: B.02-Shortcut-Cheatsheet.md:5
-#, fuzzy
 msgid ""
 "The following is a summary of the main shortcuts available within Sonic Pi. Pl"
 "ease see Section B.1 for motivation and background."
 msgstr ""
-"Ce qui suit est un récapitulatif des principaux raccourcis clavier disponibles"
-" avec Sonic Pi. Voyez svp la section 10.1 pour la motivation et le contexte."
+"Ce qui suit est un récapitulatif des principaux raccourcis clavier "
+"disponibles avec Sonic Pi. Voyez svp la section B.1 pour la motivation et le "
+"contexte."
 
 #: B.02-Shortcut-Cheatsheet.md:8
 msgid "Conventions"
@@ -19092,19 +19110,19 @@ msgstr "`M-}` - Bascule sur le buffer de droite"
 
 #: B.02-Shortcut-Cheatsheet.md:26
 msgid "`S-M-0` - Switch to buffer 0"
-msgstr ""
+msgstr "`S-M-0` - Bascule vers le tampon 0"
 
 #: B.02-Shortcut-Cheatsheet.md:27
 msgid "`S-M-1` - Switch to buffer 1"
-msgstr ""
+msgstr "`S-M-1` - Bascule vers le tampon 1"
 
 #: B.02-Shortcut-Cheatsheet.md:28
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: B.02-Shortcut-Cheatsheet.md:29
 msgid "`S-M-9` - Switch to buffer 9"
-msgstr ""
+msgstr "`S-M-9` - Bascule vers le tampon 9"
 
 #: B.02-Shortcut-Cheatsheet.md:30
 msgid "`M-+` - Increase text size of current buffer"
@@ -19605,16 +19623,15 @@ msgid "API Support"
 msgstr "Support de l'API"
 
 #: C-Minecraft-Pi.md:47
-#, fuzzy
 msgid ""
 "At this stage, Sonic Pi supports basic block and player manipulations which ar"
 "e detailed in Section C.1. Support for event callbacks triggered by player int"
 "eractions in the world is planned for a future release."
 msgstr ""
-"À cette étape, Sonic Pi supporte les manipulations basiques des joueurs et des"
-" blocs qui sont détaillées dans la section 11.1. Le support pour les retours d"
-"'appel d'événements déclenchés par les interactions des joueurs dans le monde "
-"est planifié pour une version future."
+"À cette étape, Sonic Pi supporte les manipulations basiques des joueurs et "
+"des blocs qui sont détaillées dans la section C.1. Le support pour les "
+"retours d'appel d'événements déclenchés par les interactions des joueurs "
+"dans le monde est planifié pour une version future."
 
 #: C.01-Basic-API.md:1
 msgid "C.1 Basic API"
@@ -19700,7 +19717,6 @@ msgid "mc_teleport 50, 50, 50"
 msgstr "mc_teleport 50, 50, 50"
 
 #: C.01-Basic-API.md:42
-#, fuzzy
 msgid ""
 "When you hit *Run* - boom! You're instantly transported to a new place. Most l"
 "ikely it was somewhere in the sky and you fell down either to dry land or into"
@@ -19709,13 +19725,13 @@ msgid ""
 "e what coordinates are and how they work because they're really, really import"
 "ant for programming Minecraft."
 msgstr ""
-"Quand vous pressez le bouton *Run* - boum ! Vous avez été instantanément trans"
-"porté à un nouvel endroit. Le plus probablement, c'était dans le ciel et vous "
-"êtes tombé soit sur la terre ferme, soit dans l'eau. Maintenant, quels sont ce"
-"s nombres : `50, 50, 50` ? Ce sont les coordonnées de l'endroit où vous essayi"
-"ez d'être téléporté. Prenons un bref moment pour explorer ce que sont ces coor"
-"données et comment elles fonctionnent parce qu'elles sont réellement, réelleme"
-"nt importantes pour programmer Minecraft."
+"Quand vous pressez le bouton *Run* - boum ! Vous avez été instantanément "
+"transporté à un nouvel endroit. Le plus probablement, c'était dans le ciel "
+"et vous êtes tombé soit sur la terre ferme, soit dans l'eau. Maintenant, "
+"quels sont ces nombres : `50, 50, 50` ? Ce sont les coordonnées de l'endroit "
+"où vous essayiez d'être téléporté. Prenons un bref moment pour explorer ce "
+"que sont ces coordonnées et comment elles fonctionnent parce qu'elles sont "
+"réellement, réellement importantes pour programmer Minecraft."
 
 #: C.01-Basic-API.md:50
 msgid "Coordinates"
