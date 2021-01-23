@@ -118,7 +118,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="897"/>
         <source>Playing Sample...</source>
-        <translation>Lecture d&apos;un sample...</translation>
+        <translation>Lecture d&apos;un échantillon...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1445"/>
@@ -258,12 +258,12 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="1869"/>
         <source>Hiding about window...</source>
-        <translation>Cache la zone A propos...</translation>
+        <translation>Cache la fenêtre À propos...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1874"/>
         <source>Showing about window...</source>
-        <translation>Affiche la zone A propos...</translation>
+        <translation>Affiche la fenêtre À propos...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1890"/>
