@@ -914,6 +914,10 @@ QString SonicPiTheme::getAppStylesheet() {
 
     appStyling.replace("fixedWidthFont", "\"Hack\"");
 
+    #if defined(Q_OS_LINUX)
+    appStyling = "QWidget\n{\nbackground: paneColor;\n}\n" + appStyling;
+    #endif
+    
     appStyling
         .replace("windowColor", windowColor)
         .replace("windowForegroundColor", windowForegroundColor)
