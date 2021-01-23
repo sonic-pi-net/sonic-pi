@@ -81,15 +81,13 @@ std::vector<MidiPortInfo> MidiCommon::getPortInfo(RtMidi& ports)
 
     for (int i = 0; i < nPorts; i++) {
         auto name = ports.getPortName(i);
+        auto normalizedPortName = name;
+        local_utils::safeOscString(normalizedPortName);
 
-        if (name.rfind("rtmidi_", 0) == 0) {
+        if (normalizedPortName.rfind("rtmidi_", 0) == 0) {
             // The fact that the port name starts with rtmidi tells us that
             // this is a virtual midi port name created by RtMidi - ignore it
         } else {
-
-            auto normalizedPortName = name;
-            local_utils::safeOscString(normalizedPortName);
-
             // Now we need to check for duplicate port names and if they exist,
             // append an integer count to subsequent port names to ensure that
             // they are all unique.  So if there were three devices

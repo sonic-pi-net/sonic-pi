@@ -58,7 +58,7 @@ static atomic<bool> g_already_initialized { false };
 void prepareMidiSendProcessorOutputs(unique_ptr<MidiSendProcessor>& midiSendProcessor)
 {
     // Open all MIDI devices. This is what Sonic Pi does
-    vector<MidiPortInfo> connectedOutputPortsInfo = MidiIn::getInputPortInfo();
+    vector<MidiPortInfo> connectedOutputPortsInfo = MidiOut::getOutputPortInfo();
     {
         midiSendProcessor->prepareOutputs(connectedOutputPortsInfo);
     }
