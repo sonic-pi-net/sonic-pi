@@ -1706,7 +1706,7 @@ Cette vérification implique l&apos;envoi d&apos;informations anonymes à propos
     <message>
         <location filename="../osc/sonic_pi_udp_osc_server.cpp" line="38"/>
         <source>Is Sonic Pi already running?  Can&apos;t open UDP port.</source>
-        <translation>Est-ce que Sonic Pi fonctionne déjà ? Impossible d&apos;ouvrir le port UDP.</translation>
+        <translation>Est-ce que Sonic Pi est déjà lancé ? Impossible d&apos;ouvrir le port UDP.</translation>
     </message>
 </context>
 </TS>
