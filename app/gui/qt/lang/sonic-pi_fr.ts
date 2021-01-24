@@ -408,7 +408,7 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="2624"/>
         <source>Show Code Context</source>
-        <translation>Montrer la zone Contexte du code</translation>
+        <translation>Montrer Contexte du code</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2629"/>
@@ -672,7 +672,7 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="2917"/>
         <source>Focus Context</source>
-        <translation>Atteindre la zone contexte</translation>
+        <translation>Atteindre Contexte</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2919"/>
@@ -823,72 +823,72 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="2906"/>
         <source>Focus Editor</source>
-        <translation>Focus sur la zone Editeur</translation>
+        <translation>Focus sur Editeur</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2908"/>
         <source>Place focus on the code editor</source>
-        <translation>Place le focus sur la zone éditeur de code</translation>
+        <translation>Place le focus sur l&apos;éditeur de code</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2912"/>
         <source>Focus Logs</source>
-        <translation>Focus sur la zone Journaux</translation>
+        <translation>Focus sur Journaux</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2914"/>
         <source>Place focus on the log pane</source>
-        <translation>Placer le focus sur la zone Journaux</translation>
+        <translation>Placer le focus sur Journaux</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2923"/>
         <source>Focus Cues</source>
-        <translation>Focus sur la zone Signaux (Cues)</translation>
+        <translation>Focus sur Signaux (Cues)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2925"/>
         <source>Place focus on the cue event pane</source>
-        <translation>Placer le focus sur la zone Signaux (Cues)</translation>
+        <translation>Placer le focus sur Signaux (Cues)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2929"/>
         <source>Focus Preferences</source>
-        <translation>Focus sur la zone Préférences</translation>
+        <translation>Focus sur Préférences</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2931"/>
         <source>Place focus on preferences</source>
-        <translation>Placer le focus sur la zone Préférences</translation>
+        <translation>Placer le focus sur Préférences</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2935"/>
         <source>Focus Help Listing</source>
-        <translation>Focus sur la zone gauche de l&apos;aide</translation>
+        <translation>Focus sur la liste de l&apos;aide</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2937"/>
         <source>Place focus on help listing</source>
-        <translation>Placer le focus sur la zone de gauche de l&apos;aide</translation>
+        <translation>Placer le focus sur la liste de l&apos;aide</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2941"/>
         <source>Focus Help Details</source>
-        <translation>Focus sur la zone de détails de l&apos;aide</translation>
+        <translation>Focus sur les détails de l&apos;aide</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2943"/>
         <source>Place focus on help details</source>
-        <translation>Placer le focus sur la zone de détails de l&apos;aide</translation>
+        <translation>Placer le focus sur les détails de l&apos;aide</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2947"/>
         <source>Focus Errors</source>
-        <translation>Focus sur la zone erreurs</translation>
+        <translation>Focus sur Erreurs</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2949"/>
         <source>Place focus on errors</source>
-        <translation>Place le focus dans la zone Erreurs</translation>
+        <translation>Place le focus sur Erreurs</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3031"/>
