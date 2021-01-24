@@ -258,12 +258,12 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="1869"/>
         <source>Hiding about window...</source>
-        <translation>Cache la fenêtre À propos...</translation>
+        <translation>Cache À propos...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1874"/>
         <source>Showing about window...</source>
-        <translation>Affiche la fenêtre À propos...</translation>
+        <translation>Affiche À propos...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1890"/>
