@@ -108,7 +108,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="770"/>
         <source>Scope</source>
-        <translation>Domaine d&apos;application</translation>
+        <translation>Oscilloscope</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="793"/>
@@ -543,7 +543,7 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="2788"/>
         <source>MIDI Inputs</source>
-        <translation>Entrée MIDI</translation>
+        <translation>Entrées MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2789"/>
@@ -1112,7 +1112,7 @@ Obtenez Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="35"/>
         <source>IO</source>
-        <translation>Entrée/Sortie</translation>
+        <translation>Entrée / Sortie</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="38"/>
