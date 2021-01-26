@@ -108,6 +108,11 @@ loop(State) ->
                     %% # They quickly full up the Sonic Pi cue log.
                     %% # In the future it might be good to have this be optionally ignored
                     do_nothing;
+                {tau, midi, clock, _, _} ->
+                    %% # Ignore incoming MIDI clock messages
+                    %% # They quickly full up the Sonic Pi cue log.
+                    %% # In the future it might be good to have this be optionally ignored
+                    do_nothing;
                 {tau, midi, _Event, _Source, Args}=Event ->
                     Path = mk_tau_str(Event),
                     maps:get(cue_server, State) ! {midi_in, Path, Args}
