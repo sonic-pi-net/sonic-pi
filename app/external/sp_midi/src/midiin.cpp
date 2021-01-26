@@ -45,7 +45,7 @@ MidiIn::MidiIn(const string& portName, const string& normalizedPortName, int por
         }
         catch(const RtMidiError& err)
         {
-            m_logger.debug("Failed to open midi out port");
+            m_logger.debug("Failed to open midi in port");
         }
 
         m_midiIn->ignoreTypes( false, false, false );
