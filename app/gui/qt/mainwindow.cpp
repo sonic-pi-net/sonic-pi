@@ -158,7 +158,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     // show an error dialogue to the user and then kill the app if any of
     // the ports aren't available
     initAndCheckPorts();
-    startRubyServer();
+
 
     std::cout << "[GUI] - hiding main window" << std::endl;
     hide();
@@ -201,6 +201,8 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
         sonicPiOSCServer = new SonicPiTCPOSCServer(this, handler);
         sonicPiOSCServer->start();
     }
+
+    startRubyServer();
 
     QThreadPool::globalInstance()->setMaxThreadCount(3);
     //get their user email address from settings
