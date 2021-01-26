@@ -38,7 +38,16 @@ MidiIn::MidiIn(const string& portName, const string& normalizedPortName, int por
     if (!isVirtual) {
         m_rtMidiId = portId;
         m_midiIn = make_unique<RtMidiIn>();
-        m_midiIn->openPort(m_rtMidiId);
+
+        try
+        {
+            m_midiIn->openPort(m_rtMidiId);
+        }
+        catch(const RtMidiError& err)
+        {
+            m_logger.debug("Failed to open midi out port");
+        }
+
         m_midiIn->ignoreTypes( false, false, false );
     }
 // TODO: do the virtual ports
