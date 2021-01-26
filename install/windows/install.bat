@@ -7,6 +7,7 @@ REM /I Ensures directories get copied properly
 REM Pass 'Release' or 'Debug' on the command line
 REM
 REM
+cd %~dp0
 @echo Remember to update version number in wix\sonic-pi.wxs!!
 
 REM Clear previous MSI build artefacts if present
@@ -15,7 +16,7 @@ mkdir app
 rmdir /S /Q etc
 mkdir etc
 
-xcopy /Y /I /R /E ..\..\app\build\Release app\gui\qt\build\Release
+xcopy /Y /I /R /E ..\..\app\build\gui\qt\Release app\gui\qt\build\Release
 xcopy /Y /I /R /E ..\..\app\gui\qt\theme app\gui\qt\theme
 xcopy /Y /I /R /E ..\..\etc etc\
 
@@ -42,6 +43,8 @@ ruby prune.rb app/server/ruby/vendor
 REM Now we have etc/app folders, generate the installer from them
 del gui.wix
 del etc.wix
+del config.wix
 del *.wixobj
 call wix\gen_wix.bat
 call wix\gen_msi.bat
+cd %~dp0
