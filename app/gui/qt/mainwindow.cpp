@@ -1274,6 +1274,8 @@ bool MainWindow::waitForServiceSync() {
             msg.pushStr(guiID.toStdString());
             msg.pushStr("QtClient/1/hello");
             sendOSC(msg);
+        } else {
+          std::cout << "!";
         }
     }
     if (!sonicPiOSCServer->isServerStarted()) {
