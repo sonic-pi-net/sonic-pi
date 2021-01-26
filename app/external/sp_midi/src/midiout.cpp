@@ -36,7 +36,15 @@ MidiOut::MidiOut(const std::string& portName, const std::string& normalizedPortN
 
     // FIXME: need to check if name does not exist
     m_midiOut = make_unique<RtMidiOut>();
-    m_midiOut->openPort(m_rtMidiId);
+
+    try
+    {
+        m_midiOut->openPort(m_rtMidiId);
+    }
+    catch(const RtMidiError& err)
+    {
+        m_logger.debug("Failed to open midi out port");
+    }
 }
 
 MidiOut::~MidiOut()
