@@ -342,6 +342,7 @@ ws_out = Queue.new
 begin
   STDOUT.puts "Starting Server Runtime"
   sp =  klass.new sonic_pi_ports, ws_out, user_methods
+  STDOUT.puts "Server Runtime Initialised"
 
   # read in init.rb if exists
   if File.exists?(init_path)
@@ -464,6 +465,7 @@ register_api = lambda do |server|
   server.add_method("/ping") do |args|
     gui_id = args[0]
     id = args[1]
+    STDOUT.puts "Received /ping, sending /ack to GUI"
     gui.send("/ack", id)
   end
 
