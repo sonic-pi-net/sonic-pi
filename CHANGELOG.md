@@ -32,7 +32,7 @@ Ten months of development, over 700 individual commits, loving
 contributions from many many people have gone into this new version of
 Sonic Pi. This release is also the result of a 3 month long community
 beta process which took place over on
-[Patreon](https://patreon.com/sonic-pi-net) where supporters got access
+[Patreon](https://patreon.com/samaaron) where supporters got access
 to early releases and really helped polish and shape development. Huge
 thanks to everyone that has supported continued development. We're
 really excited and proud to share this new release with you all.
@@ -45,7 +45,7 @@ developments in the future. We're essentially moving much more of the
 core input/output functionality of Sonic Pi into a special system called
 the BEAM and a language called [Erlang](https://www.erlang.org). This is
 a system that has a strong emphasis on low latency, low jitter and high
-q!concurrency which is exactly what the IO of a music system requires!
+concurrency which is exactly what the IO of a music system requires!
 We're so excited to see what we'll be able to achieve with this new
 approach that the BEAM features as the codename of this release.
 
