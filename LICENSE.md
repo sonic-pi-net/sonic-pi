@@ -79,7 +79,7 @@ relevant licenses:
 * [SuperCollider](http://supercollider.sourceforge.net) - [GNU General Public License v3](https://www.gnu.org/licenses/gpl-3.0.html)
 * [Erlang](http://erlang.org) - [Erlang Public License](https://www.erlang.org/EPLICENSE)
 * [sp_midi](https://github.com/llloret/sp_midi) - [MIT License](http://opensource.org/licenses/MIT)
-* [RtMidi](https://github.com/thestk/rtmidi) - [MIT License](http://opensource.org/licenses/MIT)
+* [RtMidi](https://github.com/thestk/rtmidi) - [MIT License + sharing request](https://github.com/thestk/rtmidi/blob/master/LICENSE)
 
 
 
