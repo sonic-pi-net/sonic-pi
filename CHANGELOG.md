@@ -31,7 +31,7 @@
 Ten months of development, over 700 individual commits, loving
 contributions from many many people have gone into this new version of
 Sonic Pi. This release is also the result of a 3 month long community
-beta process took place over on
+beta process which took place over on
 [Patreon](https://patreon.com/sonic-pi-net) where supporters got access
 to early releases and really helped polish and shape development. Huge
 thanks to everyone that has supported continued development. We're
