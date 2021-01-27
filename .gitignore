@@ -48,6 +48,7 @@ build32
 install/windows/gui.wxs
 install/windows/etc.wxs
 install/windows/server.wxs
+install/windows/config.wxs
 install/windows/etc
 install/windows/app
 
