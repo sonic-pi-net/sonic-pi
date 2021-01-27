@@ -239,7 +239,7 @@ Now, go and get live coding!
 After a long 2 years without updates, we are threaded with excitement to
 bring you Sonic Pi's first fully independent release. Sam Aaron's work
 on this release has been 100% supported by kind and generous donations
-from people on [Patreon](https://patreon.com/sonic-pi-net) in addition to
+from people on [Patreon](https://patreon.com/samaaron) in addition to
 funds raised by delivering talks, workshops and performances. Sam's work
 has also been hugely assisted by many wonderful code and translation
 contributions both by members of the Core Team and by our growing
