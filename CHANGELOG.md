@@ -1,5 +1,5 @@
 # History
-* [v3.3 'Beam'](#v3.3), 28th Jan, 2020
+* [v3.3 'Beam'](#v3.3), 28th Jan, 2021
 * [v3.2.2 'Tau3'](#v3.2.2), 5th April, 2020
 * [v3.2.1 'Take Tau'](#v3.2.1), 3rd April, 2020
 * [v3.2.0 'Tau'](#v3.2.0), 28th Feb, 2020
@@ -25,7 +25,7 @@
 <a name="v3.3"></a>
 
 ## Version 3.3.0 - 'Beam'
-28th Jan, 2020
+28th Jan, 2021
 [(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v3.3.0):
 
 Ten months of development, over 700 individual commits, loving
@@ -45,7 +45,7 @@ developments in the future. We're essentially moving much more of the
 core input/output functionality of Sonic Pi into a special system called
 the BEAM and a language called [Erlang](https://www.erlang.org). This is
 a system that has a strong emphasis on low latency, low jitter and high
-concurrency which is exactly what the IO of a music system requires!
+q!concurrency which is exactly what the IO of a music system requires!
 We're so excited to see what we'll be able to achieve with this new
 approach that the BEAM features as the codename of this release.
 
