@@ -1,5 +1,5 @@
 # History
-* [v3.3 'To be named'](#v3.3), To be released...
+* [v3.3 'Beam'](#v3.3), 28th Jan, 2020
 * [v3.2.2 'Tau3'](#v3.2.2), 5th April, 2020
 * [v3.2.1 'Take Tau'](#v3.2.1), 3rd April, 2020
 * [v3.2.0 'Tau'](#v3.2.0), 28th Feb, 2020
@@ -23,11 +23,64 @@
 * [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
 
 <a name="v3.3"></a>
-*To be released...*
+
+## Version 3.3.0 - 'Beam'
+28th Jan, 2020
+[(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v3.3.0):
+
+Ten months of development, over 700 individual commits, loving
+contributions from many many people have gone into this new version of
+Sonic Pi. This release is also the result of a 3 month long community
+beta process took place over on
+[Patreon](https://patreon.com/sonic-pi-net) where supporters got access
+to early releases and really helped polish and shape development. Huge
+thanks to everyone that has supported continued development. We're
+really excited and proud to share this new release with you all.
+
+In terms of significant changes, there have been many internal
+improvements, including a full rewrite of our MIDI subsystem. This
+shouldn't result in much change as a user (although some MIDI cue names
+might have changed slightly) but it really sets us up for some exciting
+developments in the future. We're essentially moving much more of the
+core input/output functionality of Sonic Pi into a special system called
+the BEAM and a language called [Erlang](https://www.erlang.org). This is
+a system that has a strong emphasis on low latency, low jitter and high
+concurrency which is exactly what the IO of a music system requires!
+We're so excited to see what we'll be able to achieve with this new
+approach that the BEAM features as the codename of this release.
+
+Another area that has seen a lot of love and attention is our strong
+focus on accessibility. We now have a much improved menu bar which
+essentially duplicates much of the functionality found in the
+preferences but in a format that's extremely easy to work with via a
+screen reader. We've also added a new context pane that displays the
+current line and character position as a direct result of a
+collaboration with Leiden University's accessibility group. There have
+already been numerous studies that are reporting success for blind and
+low-vision users of Sonic Pi - so we're confident we're on the right
+track with respect to accessibility. We're also not stopping here and are
+always looking for ways to lower the many barriers to entry for creative
+experiences with code for everyone.
+
+This is also the first release where we officially welcome Chris Maughan
+as the latest member of the Sonic Pi core team. Chris has made
+significant contributions over the last year including improvements to
+the scope and a complete reworking of our build process. I hope you join
+us in welcoming Chris to the team.
+
+Finally, we have official support for macOS Big Sur, some lovely new
+synths and FX, improved translations, support for advanced configuration
+(audio and colour theming), new Turkish scales and many, many bug fixes
+and improvements.
+
+We really hope you love this version of Sonic Pi as much as we do.
+
+Happy Live Coding!
 
 
 ### Breaking Changes
 * MIDI port description names may be slightly different from previous versions. Precise matches on MIDI ports via `sync` and `get` will have to be updated accordingly.
+* Incoming MIDI cues now no longer include clock tick events. Optionally re-enabling these and new ways of working with incoming timing systems will feature in a future release.
 
 
 ### New 
@@ -78,7 +131,7 @@
 
 ## Version 3.2.2 - 'Tau3'
 *5th April, 2020*
-[(view commits)](https://github.com/samaaron/sonic-pi/commits/v3.2.2):
+[(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v3.2.2):
 
 This is a minor bugfix and maintenance release. 
 
@@ -94,7 +147,7 @@ This is a minor bugfix and maintenance release.
 
 ## Version 3.2.1 - 'Take Tau'
 *3rd April, 2020*
-[(view commits)](https://github.com/samaaron/sonic-pi/commits/v3.2.1):
+[(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v3.2.1):
 
 This release is another maintenance release with a primary focus on
 increasing stability and reliability. There are therefore no major new
@@ -181,12 +234,12 @@ Now, go and get live coding!
 
 ## Version 3.2.0 - 'Tau'
 *28th Feb, 2020*
-[(view commits)](https://github.com/samaaron/sonic-pi/commits/v3.2.0):
+[(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v3.2.0):
 
 After a long 2 years without updates, we are threaded with excitement to
 bring you Sonic Pi's first fully independent release. Sam Aaron's work
 on this release has been 100% supported by kind and generous donations
-from people on [Patreon](https://patreon.com/samaaron) in addition to
+from people on [Patreon](https://patreon.com/sonic-pi-net) in addition to
 funds raised by delivering talks, workshops and performances. Sam's work
 has also been hugely assisted by many wonderful code and translation
 contributions both by members of the Core Team and by our growing
@@ -360,7 +413,7 @@ Now, go and make some noise with code!
 
 ## Version 3.1.0 - 'Sauna'
 *23rd Jan, 2018*
-[(view commits)](https://github.com/samaaron/sonic-pi/commits/v3.1.0):
+[(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v3.1.0):
 
 The major feature of this release is that it brings v3 functionality to
 Windows. Windows now supports all the good stuff listed alongside
@@ -440,7 +493,7 @@ users!
 
 ## Version 3.0.1 - 'IOIO'
 *28th July, 2017*
-[(view commits)](https://github.com/samaaron/sonic-pi/commits/v3.0.1):
+[(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v3.0.1):
 
 This is a minor release addressing a few bugs and includes a small
 number of modifications.
@@ -469,7 +522,7 @@ number of modifications.
 ## Version 3.0 - 'IO'
 
 *18th July, 2017*
-[(view commits)](https://github.com/samaaron/sonic-pi/commits/v3.0):
+[(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v3.0):
 
 
 This release is our most ambitious to date. The goal is to open up the
@@ -580,7 +633,7 @@ fully programmable music studio. Have fun live coding!
 ## Version 2.11.1 - 'Hack'
 
 *16th Dec, 2016*
-[(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.11.1)
+[(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v2.11.1)
 
 This is primarily a maintainance release containing a number of bug
 fixes and minor tweaks. The feature set remains unchanged from `v2.11`.
@@ -637,7 +690,7 @@ used for Windows.
 ## Version 2.11 - 'Time Warp'
 
 *3rd Nov, 2016*
-[(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.11.0)
+[(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v2.11.0)
 
 This release is the biggest and most adventurous release yet. There are
 as many (invisible) modifications and improvements to the internal
@@ -841,7 +894,7 @@ effort. Thanks to Hanno Zulla for making this possible.
 ## Version 2.10 - 'Cowbell'
 
 *Friday 15th April, 2016*
-[(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.10.0)
+[(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v2.10.0)
 
 _"I gotta have more cowbell!"_ - The Bruce Dickinson
 
@@ -1018,7 +1071,7 @@ Now go and get your live code on!
 ## Version 2.9 - 'Venster'
 
 *Thursday 31st December, 2015*
-[(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.9.0)
+[(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v2.9.0)
 
 Hot on the heels of the previous release comes `v2.9` codenamed
 `Venster` (Dutch for window). This release has a specific focus on
@@ -1144,7 +1197,7 @@ Happy Live Coding!
 
 ## Version 2.8 - 'Karlsruhe'
 *Friday 20th November, 2015*
-[(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.8.0)
+[(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v2.8.0)
 
 This release, named after Karlsruhe, one of the home cities of live
 coding, is mainly a maintenance release with a strong focus on both
@@ -1245,7 +1298,7 @@ cutoff envelopes on the sampler.
 ## Version 2.7 - 'Rerezzed'
 
 *Thursday 10th September, 2015*
-[(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.7.0)
+[(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v2.7.0)
 
 This release brings a substantial change to the random number
 generator. This has the unfortunate side effect of breaking backwards
@@ -1363,7 +1416,7 @@ Have fun and happy live coding!
 ## Version 2.6 - 'Algorave'
 
 *Thursday 30th July, 2015*
-[(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.6.0)
+[(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v2.6.0)
 
 
 The laser beams sliced through the wafts of smoke as the subwoofer
@@ -1527,7 +1580,7 @@ Enjoy this release and happy [Algoraving!](http://algorave.com)
 ## Version 2.5 - 'Craft'
 
 *Monday 13th April, 2015*
-[(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.5.0)
+[(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v2.5.0)
 
 This release comes with support for
 [Minecraft: Pi Edition](http://pi.minecraft.net) installed on the
@@ -1614,7 +1667,7 @@ most powerful text editor in use by wizard programmers today.
 
 ## Version 2.4 - 'Defrost'
 *Wednesday 11th February, 2015*
-[(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.4.0)
+[(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v2.4.0)
 
 A quick release following `v2.3` to address an issue with the GUI
 freezing on specific CPUs. However, although this release has had a
@@ -1670,7 +1723,7 @@ fun!
 
 ## Version 2.3 - 'Bitcrush'
 *Wednesday 28th January, 2015*
-[(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.3.0)
+[(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v2.3.0)
 
 
 ### Breaking Changes
@@ -1756,7 +1809,7 @@ fun!
 
 ## Version 2.2 - 'Slicer'
  *Thursday 18th December, 2014*
-[(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.2.0)
+[(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v2.2.0)
 
 This release brings a number of nice enhancements. However the main
 feature is the accurate timing for triggering FX. This means you can now
@@ -1815,7 +1868,7 @@ and echoes.
 
 ## Version 2.1.1 - 'Firewall'
 *Tuesday 25th November, 2014*
-[(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.1.1)
+[(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v2.1.1)
 
 * Windows version no longer needs special firewall exceptions to run
 * Added license information to info window
@@ -1826,7 +1879,7 @@ and echoes.
 
 ## Version 2.1 - 'Core'
 *Friday 21st November, 2014*
-[(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.1.0)
+[(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v2.1.0)
 
 The focus of release is very much on technical improvements, efficiency
 and general polish.
@@ -1915,7 +1968,7 @@ Riley, Jeremy Weatherford and Joseph Wilk.
 ## Version 2.0.1
 
 *Tuesday 9th September, 2014*
-[(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.0.1)
+[(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v2.0.1)
 
 * Fix recording functionality
 * Improve documentation content and layout
@@ -1935,7 +1988,7 @@ Riley, Jeremy Weatherford and Joseph Wilk.
 ## Version 2.0 - 'Phoenix'
 
 *Tuesday 2nd September, 2014*
-[(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.0.0)
+[(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v2.0.0)
 
 * Complete rewrite since v1.0
 * Support for Live Coding - redefining behaviour whilst music is playing
