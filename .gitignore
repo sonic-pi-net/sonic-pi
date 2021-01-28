@@ -84,6 +84,11 @@ app/gui/html/resources/public/js/generated
 app/gui/html/target
 app/gui/html/resources/public/js/cljs-main.js
 
+# Bundler
+# --------
+app/server/ruby/vendor/bundle
+app/server/ruby/.bundle
+
 
 # QT makefile
 # --------
@@ -110,13 +115,7 @@ app/gui/qt/qrc__*
 
 app/server/native/
 app/server/rb-native/
-# Patterns like this catch both
-# app/server/vendor/ffi/ext/ and app/server/ruby/vendor/ffi/ext/
-# (the latter is found in the Mac OS X build)
-**/vendor/*/ext/**/Makefile
-**/vendor/ffi-*/ext/ffi_c/extconf.h
-**/vendor/ffi-*/ext/ffi_c/libffi*/
-**/vendor/**/build/
+app/server/ruby/vendor/bundle
 
 ## Book
 

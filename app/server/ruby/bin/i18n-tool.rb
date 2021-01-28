@@ -14,6 +14,7 @@
 
 # This script creates translated versions of the English tutorial.
 require_relative "../core.rb"
+Bundler.setup(:development) # Gems in the :default category are already loaded in core.rb
 
 require 'kramdown'
 require 'gettext'

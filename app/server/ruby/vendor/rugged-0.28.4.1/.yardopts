@@ -1,1 +1,0 @@
-{lib,app}/**/*.rb ext/rugged/rugged_object.c ext/rugged/rugged_reference.c ext/**/*.c

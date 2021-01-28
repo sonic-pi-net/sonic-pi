@@ -1,5 +1,0 @@
-# A variable name on its own is valid
-[some.section]
-		variable
-# A variable and '=' is accepted, but it's not considered true
-		variableeq =

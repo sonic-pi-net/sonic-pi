@@ -1,7 +1,0 @@
-require 'text/double_metaphone'
-require 'text/levenshtein'
-require 'text/metaphone'
-require 'text/porter_stemming'
-require 'text/soundex'
-require 'text/version'
-require 'text/white_similarity'

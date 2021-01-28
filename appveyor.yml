@@ -12,6 +12,11 @@ branches:
   only:
   - main
 
+# Ignore commits which only modify these files
+skip_commits:
+    files:
+      - .travis.yml
+
 platform:
   - x64
 
@@ -47,8 +52,7 @@ for:
     - cd app\server\native
     - mklink /d ruby c:\Ruby26-x64
     - set PATH=c:\Ruby26-x64\bin;C:\Program Files (x86)\WiX Toolset v3.11\bin;%PATH%
-    - gem install aubio win32-process
-    - gem install rugged --version 0.27.1
+    - gem install bundler
     - set QT_INSTALL_LOCATION=C:\Qt\5.14\msvc2017_64
     - set Qt5_DIR=C:\Qt\5.14\msvc2017_64\lib\cmake\Qt5
   build_script:

@@ -32,8 +32,11 @@ ln -s supercollider/scsynth scsynth
 mv supercollider/extra-plugins/* supercollider/plugins/
 rm -rf supercollider/extra-plugins
 
-echo "Compiling native ruby extensions..."
-ruby "${SCRIPT_DIR}/server/ruby/bin/compile-extensions.rb"
+echo "Bundling required ruby gems..."
+cd "${SCRIPT_DIR}/server/ruby"
+bundle config set --local path "vendor/bundle"
+bundle config set --local with :default,:development
+bundle install
 
 echo "Translating tutorial..."
 #assumes linux uses system ruby

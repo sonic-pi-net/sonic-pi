@@ -4,6 +4,7 @@ require_relative "../lib/sonicpi/lang/core"
 require_relative "../lib/sonicpi/event_history"
 require_relative "../lib/sonicpi/thread_id"
 require_relative "../lib/sonicpi/lang/western_theory"
+Bundler.setup(:development) # Gems in the :default category are already loaded in core.rb
 require 'minitest'
 require 'minitest/autorun'
 
