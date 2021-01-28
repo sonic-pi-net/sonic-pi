@@ -108,7 +108,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="770"/>
         <source>Scope</source>
-        <translation>Domaine d&apos;application</translation>
+        <translation>Oscilloscope</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="793"/>
@@ -118,7 +118,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="897"/>
         <source>Playing Sample...</source>
-        <translation>Lecture d&apos;un sample...</translation>
+        <translation>Lecture d&apos;un échantillon...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1445"/>
@@ -258,12 +258,12 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="1869"/>
         <source>Hiding about window...</source>
-        <translation>Cache la zone A propos...</translation>
+        <translation>Cache À propos...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1874"/>
         <source>Showing about window...</source>
-        <translation>Affiche la zone A propos...</translation>
+        <translation>Affiche À propos...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1890"/>
@@ -408,7 +408,7 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="2624"/>
         <source>Show Code Context</source>
-        <translation>Montrer la zone Contexte du code</translation>
+        <translation>Montrer Contexte du code</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2629"/>
@@ -543,7 +543,7 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="2788"/>
         <source>MIDI Inputs</source>
-        <translation>Entrée MIDI</translation>
+        <translation>Entrées MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2789"/>
@@ -672,7 +672,7 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="2917"/>
         <source>Focus Context</source>
-        <translation>Atteindre la zone contexte</translation>
+        <translation>Atteindre Contexte</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2919"/>
@@ -823,72 +823,72 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="2906"/>
         <source>Focus Editor</source>
-        <translation>Focus sur la zone Editeur</translation>
+        <translation>Focus sur Editeur</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2908"/>
         <source>Place focus on the code editor</source>
-        <translation>Place le focus sur la zone éditeur de code</translation>
+        <translation>Place le focus sur l&apos;éditeur de code</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2912"/>
         <source>Focus Logs</source>
-        <translation>Focus sur la zone Journaux</translation>
+        <translation>Focus sur Journaux</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2914"/>
         <source>Place focus on the log pane</source>
-        <translation>Placer le focus sur la zone Journaux</translation>
+        <translation>Placer le focus sur Journaux</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2923"/>
         <source>Focus Cues</source>
-        <translation>Focus sur la zone Signaux (Cues)</translation>
+        <translation>Focus sur Signaux (Cues)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2925"/>
         <source>Place focus on the cue event pane</source>
-        <translation>Placer le focus sur la zone Signaux (Cues)</translation>
+        <translation>Placer le focus sur Signaux (Cues)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2929"/>
         <source>Focus Preferences</source>
-        <translation>Focus sur la zone Préférences</translation>
+        <translation>Focus sur Préférences</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2931"/>
         <source>Place focus on preferences</source>
-        <translation>Placer le focus sur la zone Préférences</translation>
+        <translation>Placer le focus sur Préférences</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2935"/>
         <source>Focus Help Listing</source>
-        <translation>Focus sur la zone gauche de l&apos;aide</translation>
+        <translation>Focus sur la liste de l&apos;aide</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2937"/>
         <source>Place focus on help listing</source>
-        <translation>Placer le focus sur la zone de gauche de l&apos;aide</translation>
+        <translation>Placer le focus sur la liste de l&apos;aide</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2941"/>
         <source>Focus Help Details</source>
-        <translation>Focus sur la zone de détails de l&apos;aide</translation>
+        <translation>Focus sur les détails de l&apos;aide</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2943"/>
         <source>Place focus on help details</source>
-        <translation>Placer le focus sur la zone de détails de l&apos;aide</translation>
+        <translation>Placer le focus sur les détails de l&apos;aide</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2947"/>
         <source>Focus Errors</source>
-        <translation>Focus sur la zone erreurs</translation>
+        <translation>Focus sur Erreurs</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2949"/>
         <source>Place focus on errors</source>
-        <translation>Place le focus dans la zone Erreurs</translation>
+        <translation>Place le focus sur Erreurs</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3031"/>
@@ -1112,7 +1112,7 @@ Obtenez Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="35"/>
         <source>IO</source>
-        <translation>Entrée/Sortie</translation>
+        <translation>Entrée / Sortie</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="38"/>
@@ -1706,7 +1706,7 @@ Cette vérification implique l&apos;envoi d&apos;informations anonymes à propos
     <message>
         <location filename="../osc/sonic_pi_udp_osc_server.cpp" line="38"/>
         <source>Is Sonic Pi already running?  Can&apos;t open UDP port.</source>
-        <translation>Est-ce que Sonic Pi fonctionne déjà ? Impossible d&apos;ouvrir le port UDP.</translation>
+        <translation>Est-ce que Sonic Pi est déjà lancé ? Impossible d&apos;ouvrir le port UDP.</translation>
     </message>
 </context>
 </TS>

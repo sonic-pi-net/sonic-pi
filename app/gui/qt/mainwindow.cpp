@@ -128,7 +128,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     show_rec_icon_a = false;
     restoreDocPane = false;
     focusMode = false;
-    version = "3.3-BETA-6";
+    version = "3.3.0";
     latest_version = "";
     version_num = 0;
     latest_version_num = 0;
@@ -158,7 +158,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     // show an error dialogue to the user and then kill the app if any of
     // the ports aren't available
     initAndCheckPorts();
-    startRubyServer();
+
 
     std::cout << "[GUI] - hiding main window" << std::endl;
     hide();
@@ -201,6 +201,8 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
         sonicPiOSCServer = new SonicPiTCPOSCServer(this, handler);
         sonicPiOSCServer->start();
     }
+
+    startRubyServer();
 
     QThreadPool::globalInstance()->setMaxThreadCount(3);
     //get their user email address from settings
@@ -1274,6 +1276,8 @@ bool MainWindow::waitForServiceSync() {
             msg.pushStr(guiID.toStdString());
             msg.pushStr("QtClient/1/hello");
             sendOSC(msg);
+        } else {
+          std::cout << "!";
         }
     }
     if (!sonicPiOSCServer->isServerStarted()) {
