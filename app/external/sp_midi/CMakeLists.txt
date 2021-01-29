@@ -33,7 +33,7 @@ if(WIN32)
 elseif(APPLE)
  include_directories( ${PROJECT_SOURCE_DIR}/external_libs/spdlog-1.8.2/include ${PROJECT_SOURCE_DIR}/external_libs/concurrentqueue ${PROJECT_SOURCE_DIR}/external_libs)
 else()
- include_directories(${PROJECT_SOURCE_DIR}/external_libs/spdlog-1.8.2/include ${PROJECT_SOURCE_DIR}/external_libs/concurrentqueue)
+ include_directories(${PROJECT_SOURCE_DIR}/external_libs/spdlog-1.8.2/include ${PROJECT_SOURCE_DIR}/external_libs/concurrentqueue ${PROJECT_SOURCE_DIR}/external_libs)
 endif()
 
 set(sp_midi_sources
@@ -43,17 +43,16 @@ set(sp_midi_sources
     src/midicommon.cpp
     src/midisendprocessor.cpp
     src/utils.cpp
+    ${PROJECT_SOURCE_DIR}/external_libs/rtmidi/RtMidi.cpp
 )
 
 if(MSVC)
-    list(APPEND sp_midi_sources ${PROJECT_SOURCE_DIR}/external_libs/rtmidi/RtMidi.cpp)
     add_definitions(-D__WINDOWS_MM__)
-endif(MSVC)
-
-if(APPLE)
-    list(APPEND sp_midi_sources ${PROJECT_SOURCE_DIR}/external_libs/rtmidi/RtMidi.cpp)
+elseif(APPLE)
     add_definitions(-D__MACOSX_CORE__)
-endif(APPLE)
+elseif(UNIX)
+    add_definitions(-D__LINUX_ALSA__)
+endif(MSVC)
 
 # sp_midi_sources
 add_library(libsp_midi SHARED ${sp_midi_sources})
@@ -82,6 +81,6 @@ elseif(APPLE)
 elseif(UNIX)
     add_definitions(-DLINUX=1 -DNDEBUG=1)
     include_directories(${ERLANG_INCLUDE_PATH})
-    target_link_libraries(libsp_midi pthread ${ALSA_LIBRARY} dl rtmidi)
+    target_link_libraries(libsp_midi pthread ${ALSA_LIBRARY} dl)
 endif(MSVC)
 
