@@ -535,7 +535,7 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2761"/>
         <source>Show Scope Labels</source>
-        <translation>Mostrar Nombres de Vizualizadores</translation>
+        <translation>Mostrar Nombres de Visualizadores</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2766"/>
