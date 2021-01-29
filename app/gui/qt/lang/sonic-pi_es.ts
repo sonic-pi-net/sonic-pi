@@ -694,7 +694,7 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2952"/>
         <source>Show Log</source>
-        <translation>Mostrar registros</translation>
+        <translation>Mostrar Registro</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2957"/>
