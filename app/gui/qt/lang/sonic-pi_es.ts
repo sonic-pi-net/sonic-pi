@@ -490,7 +490,7 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2699"/>
         <source>Live</source>
-        <translation>En directo</translation>
+        <translation>En Vivo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2711"/>
@@ -535,7 +535,7 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2761"/>
         <source>Show Scope Labels</source>
-        <translation>Mostrar nombres de visualizadores</translation>
+        <translation>Mostrar Nombres de Vizualizadores</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2766"/>
