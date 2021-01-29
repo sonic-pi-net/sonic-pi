@@ -430,7 +430,7 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2634"/>
         <source>Enforce Timing Guarantees</source>
-        <translation type="unfinished">Imponer Garantías de Tiempo</translation>
+        <translation>Imponer Garantías de Tiempo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2639"/>
