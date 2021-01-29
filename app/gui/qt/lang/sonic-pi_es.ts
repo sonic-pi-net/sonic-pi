@@ -475,7 +475,7 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2679"/>
         <source>Clear Logs on Run</source>
-        <translation>Eliminar registros al ejecutar</translation>
+        <translation>Eliminar Registros al Ejecutar código</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2684"/>
@@ -485,7 +485,7 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2689"/>
         <source>Auto-Scroll Log</source>
-        <translation>Desplazar hasta el final</translation>
+        <translation>Desplazar Registro Automáticamente</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2699"/>
