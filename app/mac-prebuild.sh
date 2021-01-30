@@ -2,15 +2,24 @@
 set -e # Quit script on error
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+# Check to see if we have a bundled Ruby and if so, use that
+# Otherwise use system ruby
+
+BUNDLED_RUBY="${SCRIPT_DIR}/server/native/ruby/bin/ruby"
+if [ -f "$BUNDLED_RUBY" ]; then
+    echo "Found bundled Ruby: ${BUNDLED_RUBY}"
+    RUBY=$BUNDLED_RUBY
+else
+    echo "Using system Ruby"
+    RUBY=ruby
+fi
+
 
 # Build external dependencies
-if [ "$1" = "--without-aubio" ]; then
-    "${SCRIPT_DIR}/external/mac_build_externals.sh"
-else
-    "${SCRIPT_DIR}/external/mac_build_externals.sh" --build-aubio
-    mkdir -p "${SCRIPT_DIR}/server/native/lib"
-    cp "${SCRIPT_DIR}/external/build/aubio-prefix/src/aubio-build/libaubio-5.dylib" "${SCRIPT_DIR}/server/native/lib/"
-fi
+"${SCRIPT_DIR}/external/mac_build_externals.sh"
+# mkdir -p "${SCRIPT_DIR}/server/native/lib"
+ cp "${SCRIPT_DIR}/external/build/aubio-prefix/src/aubio-build/aubio_onset" "${SCRIPT_DIR}/server/native/"
+
 
 # Install dependencies to server
 echo "Copying external dependencies to the server..."
@@ -33,16 +42,15 @@ mv supercollider/extra-plugins/* supercollider/plugins/
 rm -rf supercollider/extra-plugins
 
 echo "Compiling native ruby extensions..."
-ruby "${SCRIPT_DIR}/server/ruby/bin/compile-extensions.rb"
+$RUBY "${SCRIPT_DIR}/server/ruby/bin/compile-extensions.rb"
 
 echo "Translating tutorial..."
-#assumes linux uses system ruby
-#so dont use prefix server/native/ruby/bin/ruby, as unnecessary to set this up
-ruby "${SCRIPT_DIR}/server/ruby/bin/i18n-tool.rb" -t
+
+$RUBY "${SCRIPT_DIR}/server/ruby/bin/i18n-tool.rb" -t
 
 echo "Generating docs for the Qt GUI..."
 cp "${SCRIPT_DIR}/gui/qt/utils/ruby_help.tmpl" "${SCRIPT_DIR}/gui/qt/utils/ruby_help.h"
-ruby "${SCRIPT_DIR}/server/ruby/bin/qt-doc.rb" -o "${SCRIPT_DIR}/gui/qt/utils/ruby_help.h"
+$RUBY "${SCRIPT_DIR}/server/ruby/bin/qt-doc.rb" -o "${SCRIPT_DIR}/gui/qt/utils/ruby_help.h"
 
 echo "Updating GUI translation files..."
 # Use lrelease on PATH if available otherwise assume Qt was installed via homebrew

@@ -3,22 +3,17 @@ set -e # Quit script on error
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 echo "Warning: Unix build scripts are still a work in progress!"
 
-# Build external dependencies
-if [ "$1" = "--build-aubio" ]; then
-  "${SCRIPT_DIR}/external/linux_build_externals.sh" --build-aubio
-else
-  "${SCRIPT_DIR}/external/linux_build_externals.sh"
-fi
+
+
+"${SCRIPT_DIR}/external/linux_build_externals.sh"
+
 
 # Install dependencies to server
 echo "Copying external dependencies to the server..."
 mkdir -p "${SCRIPT_DIR}/server/erlang/sonic_pi_server/priv/"
 cp ${SCRIPT_DIR}/external/build/sp_midi-prefix/src/sp_midi-build/*.so ${SCRIPT_DIR}/server/erlang/sonic_pi_server/priv/
 
-if [ "$1" = "--build-aubio" ]; then
-  mkdir -p "${SCRIPT_DIR}/server/native/lib"
-  cp "${SCRIPT_DIR}/external/build/aubio-prefix/src/aubio-build/libaubio-5.so" "${SCRIPT_DIR}/server/native/lib/"
-fi
+cp "${SCRIPT_DIR}/external/build/aubio-prefix/src/aubio-build/aubio_onset" "${SCRIPT_DIR}/server/native/"
 
 #dont remove ruby-aubio-prerelease, as needed in linux build
 #it is removed in the windows-prebuild

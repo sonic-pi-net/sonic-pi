@@ -38,13 +38,22 @@ int usejack = 0;
 char_t *sink_uri = NULL;
 char_t *source_uri = NULL;
 // general stuff
+
+// Use defaults as found in the original aubio Ruby gem
+// to match existing behaviour:
+// [:window_size]     1024
+// [:hop_size]        512
+// [:onset_threshold] 0.3
+// [:minioi_ms]       12.0 (ms)
+
+
 uint_t samplerate = 0;
-uint_t buffer_size = 512;
-uint_t hop_size = 256;
+uint_t buffer_size = 1024;
+uint_t hop_size = 512;
 // onset stuff
 char_t * onset_method = "default";
-smpl_t onset_threshold = 0.0; // will be set if != 0.
-smpl_t onset_minioi = 0.0; // will be set if != 0.
+smpl_t onset_threshold = 0.3; // will be set if != 0.
+smpl_t onset_minioi = 0.012; // will be set if != 0.
 // pitch stuff
 char_t * pitch_unit = "default";
 char_t * pitch_method = "default";
