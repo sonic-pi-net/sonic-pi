@@ -11,11 +11,7 @@ cmake -G "Unix Makefiles" -D ERLANG_INCLUDE_PATH="${SCRIPT_DIR}/../../prebuilt/m
 
 echo "Building sp_midi..."
 cmake  --build . --target sp_midi
-
-
-if [ "$1" = "--build-aubio" ]; then
-  echo "Building aubio..."
-  cmake --build . --target aubio
-fi
+echo "Building aubio onset..."
+cmake --build . --target aubio
 
 cd "${SCRIPT_DIR}"

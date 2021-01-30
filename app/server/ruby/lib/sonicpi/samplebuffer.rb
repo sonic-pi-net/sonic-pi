@@ -14,7 +14,6 @@
 require_relative "buffer"
 require_relative "util"
 require_relative "sox"
-require 'aubio'
 
 
 module SonicPi
@@ -87,14 +86,31 @@ module SonicPi
     end
 
     def onset_data
-      return @aubio_onset_data if @aubio_onset_data
+     return @aubio_onset_data if @aubio_onset_data
       @aubio_sem.synchronize do
-        return @aubio_onset_data if @aubio_onset_data
+       return @aubio_onset_data if @aubio_onset_data
         __no_kill_block do
-          aubio_file = Aubio.open(@path, {sample_rate: sample_rate})
-          native_onsets = aubio_file.onsets.to_a.ring
-          aubio_file.close
-          @aubio_onset_data = native_onsets
+
+          # These are the aubio defaults set by old gem and now
+          # hard-coded into the aubio_onset binary: (this was worth
+          # maintaining to preserve backwards compatibility. Might also
+          # be nice to let users tweak these values in the future)
+
+          # [:window_size]     1024
+          # [:hop_size]        512
+          # [:onset_threshold] 0.3
+          # [:minioi_ms]       12.0 (ms)
+
+          begin
+            aubio_onsets_command = "'#{aubio_onset_path}' '#{@path}'"
+            onsets_str = `#{aubio_onsets_command}`
+            onsets = onsets_str.split.map(&:to_f)
+          rescue Exception => e
+            log_exception e
+            onsets = []
+          end
+
+          @aubio_onset_data = onsets.ring
         end
       end
       return @aubio_onset_data
@@ -106,7 +122,7 @@ module SonicPi
       @aubio_sem.synchronize do
         return @aubio_onsets[stretch] if @aubio_onsets[stretch]
         onset_times = data.map do |el|
-          [1, (el[:s].to_f / duration)].min * stretch
+          [1, (el / duration)].min * stretch
         end
         @aubio_onsets[stretch] = onset_times
       end

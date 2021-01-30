@@ -181,7 +181,7 @@ module SonicPi
      def raspberry_pi_400_64?
       os == :raspberry && @@raspberry_pi_400_64
     end
-    
+
    def unify_tilde_dir(path)
       if os == :windows
         path
@@ -415,6 +415,15 @@ module SonicPi
 
     def native_path
       File.absolute_path("#{server_path}/native/")
+    end
+
+    def aubio_onset_path
+      case os
+      when :windows
+        File.absolute_path("#{native_path}/aubio_onset.exe")
+      else
+        File.absolute_path("#{native_path}/aubio_onset")
+      end
     end
 
     def sox_path
