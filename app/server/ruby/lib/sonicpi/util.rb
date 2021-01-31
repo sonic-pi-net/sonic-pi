@@ -417,28 +417,12 @@ module SonicPi
       File.join(native_path, "sox", __exe_fix("sox"))
     end
 
-    def osmid_o2m_path
-      File.join(native_path, "osmid", __exe_fix("o2m"))
-    end
-
-    def osmid_m2o_path
-      File.join(native_path, "osmid", __exe_fix("m2o"))
-    end
-
     def scsynth_log_path
       log_path + '/scsynth.log'
     end
 
     def erlang_log_path
       log_path + '/erlang.log'
-    end
-
-    def osmid_m2o_log_path
-      log_path + '/osmid_m2o.log'
-    end
-
-    def osmid_o2m_log_path
-      log_path + '/osmid_o2m.log'
     end
 
     def ruby_path
