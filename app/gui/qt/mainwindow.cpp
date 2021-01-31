@@ -148,11 +148,20 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
     // Throw all stdout into ~/.sonic-pi/log/gui.log
     setupLogPathAndRedirectStdOut();
-
+    std::cout << "[GUI] -                            " << std::endl;
+    std::cout << "[GUI] -                            " << std::endl;
+    std::cout << "[GUI] -                            " << std::endl;
     std::cout << "[GUI] - Welcome to the Sonic Pi GUI" << std::endl;
     std::cout << "[GUI] - ===========================" << std::endl;
     std::cout << "[GUI] -                            " << std::endl;
     std::cout << "[GUI] - " << guiID.toStdString() << std::endl;
+    std::cout << "[GUI] - locale: " << QLocale::system().uiLanguages()[0].toStdString() << std::endl;
+
+    if(i18n) {
+      std::cout << "[GUI] - translations available " << std::endl;
+    } else {
+      std::cout << "[GUI] - translations unavailable (using EN)" << std::endl;
+    }
 
     // dynamically discover port numbers and then check them this will
     // show an error dialogue to the user and then kill the app if any of

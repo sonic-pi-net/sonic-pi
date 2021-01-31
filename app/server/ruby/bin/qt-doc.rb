@@ -216,7 +216,7 @@ languages =
   map { |p| File.basename(p).gsub(/sonic-pi-tutorial-(.*?).po/, '\1') }.
   sort_by {|n| -n.length}
 
-docs << "\n  QString systemLocale = QLocale::system().name();\n\n" unless languages.empty?
+docs << "\n  QString systemLocale = QLocale::system().uiLanguages()[0];\n\n" unless languages.empty?
 
 # first, try to match all non-default languages (those that aren't "en")
 languages.each do |lang|
