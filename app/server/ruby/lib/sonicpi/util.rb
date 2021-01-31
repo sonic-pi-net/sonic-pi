@@ -56,7 +56,6 @@ module SonicPi
     @@current_uuid = nil
     @@home_dir = nil
     @@util_lock = Mutex.new
-    @@raspberry_pi_1 = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && File.exist?('/proc/cpuinfo') && !(`cat /proc/cpuinfo | grep BCM2708`).empty?
     @@raspberry_pi_2 = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['a01040','a01041','a22042'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
     @@raspberry_pi_3 = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['a02082','a22082','a32082'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
     @@raspberry_pi_3bplus = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['a020d3'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
@@ -116,10 +115,6 @@ module SonicPi
 
     def raspberry_pi?
       os == :raspberry
-    end
-
-    def raspberry_pi_1?
-      os == :raspberry && @@raspberry_pi_1
     end
 
     def raspberry_pi_2?
@@ -195,17 +190,15 @@ module SonicPi
     end
 
     def num_audio_busses_for_current_os
-      if os == :raspberry && @@raspberry_pi_1
-        64
-      else
         1024
-      end
-
     end
 
     def default_sched_ahead_time
-      if raspberry_pi_1?
-        1
+      if raspberry_pi_2?
+        2
+      elsif  raspberry_pi_3? or raspberry_pi_3bplus? \
+         or raspberry_pi_3_64? or raspberry_pi_3bplus_64?
+        1.5
       else
         0.5
       end
@@ -214,9 +207,7 @@ module SonicPi
     def host_platform_desc
       case os
       when :raspberry
-        if raspberry_pi_1?
-          "Raspberry Pi 1"
-        elsif raspberry_pi_2?
+        if raspberry_pi_2?
           "Raspberry Pi 2B"
         elsif raspberry_pi_3?
           "Raspberry Pi 3B"
@@ -260,11 +251,7 @@ module SonicPi
 
     def default_control_delta
       if raspberry_pi?
-        if raspberry_pi_1?
-          0.02
-        else
           0.013
-        end
       else
         0.005
       end
@@ -430,28 +417,12 @@ module SonicPi
       File.join(native_path, "sox", __exe_fix("sox"))
     end
 
-    def osmid_o2m_path
-      File.join(native_path, "osmid", __exe_fix("o2m"))
-    end
-
-    def osmid_m2o_path
-      File.join(native_path, "osmid", __exe_fix("m2o"))
-    end
-
     def scsynth_log_path
       log_path + '/scsynth.log'
     end
 
     def erlang_log_path
       log_path + '/erlang.log'
-    end
-
-    def osmid_m2o_log_path
-      log_path + '/osmid_m2o.log'
-    end
-
-    def osmid_o2m_log_path
-      log_path + '/osmid_o2m.log'
     end
 
     def ruby_path

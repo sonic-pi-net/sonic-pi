@@ -416,7 +416,7 @@ module SonicPi
         puts "Jackd already running. Not starting another server..."
       end
 
-      block_size = raspberry_pi_1? ? 512 : 128
+      block_size = 128
 
       local_scsynth_opts = {
         "-c" => "128",
@@ -429,10 +429,11 @@ module SonicPi
 
       boot_and_wait(scsynth_path, scsynth_opts)
 
-      `jack_connect SuperCollider:in_1 system_capture_1`
-      `jack_connect SuperCollider:in_2 system_capture_2`
       `pactl load-module module-jack-source connect=0 client_name=JACK_to_PulseAudio`
       `pactl load-module module-loopback source=jack_in`
+      `pactl load-module module-jack-sink channels=2 connect=0 client_name=PulseAudio_to_JACK`
+      `jack_connect PulseAudio_to_JACK:front-left SuperCollider:in_1`
+      `jack_connect PulseAudio_to_JACK:front-right SuperCollider:in_2`
       `jack_connect SuperCollider:out_1 JACK_to_PulseAudio:front-left`
       `jack_connect SuperCollider:out_2 JACK_to_PulseAudio:front-right`
       
@@ -440,6 +441,7 @@ module SonicPi
     end
 
     def boot_server_linux
+      #to do -- needs further work
       log_boot_msg
       puts "Booting on Linux"
       #Start Jack if not already running
