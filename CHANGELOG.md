@@ -1,4 +1,5 @@
 # History
+* [v3.3.1 'Beamer'](#v3.3.1), 31st Jan, 2021
 * [v3.3 'Beam'](#v3.3), 28th Jan, 2021
 * [v3.2.2 'Tau3'](#v3.2.2), 5th April, 2020
 * [v3.2.1 'Take Tau'](#v3.2.1), 3rd April, 2020
@@ -21,6 +22,22 @@
 * [v2.1 'Core'](#v2.1), 21st Nov, 2014
 * [v2.0.1](#v2.0.1), 9th Sept, 2014
 * [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
+
+<a name="v3.3.1"></a>
+
+## Version 3.3.1 - 'Beamer'
+31st Jan, 2021
+[(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v3.3.1):
+
+This is compatibility release addressing two issues with macOS Big Sur: 
+
+1. Correct language translations now used based on user's current locale
+2. The language server is no longer killed by macOS Gatekeeper when a
+   sample's onset times are queried.
+   
+This release also includes minor translation updates.
+
+   
 
 <a name="v3.3"></a>
 
