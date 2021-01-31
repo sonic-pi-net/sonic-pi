@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
   app.installTranslator(&qtTranslator);
 
   QTranslator translator;
-  bool i18n = translator.load("sonic-pi_" + systemLocale, ":/lang/") || systemLocale.startsWith("en") || systemLocale == "C";
+  bool i18n = translator.load(QLocale(), QLatin1String("sonic-pi"), QLatin1String("_"), QLatin1String(":/lang")) ||  systemLocale.startsWith("en") || systemLocale == "C";
   app.installTranslator(&translator);
 
   app.setApplicationName(QObject::tr("Sonic Pi"));
