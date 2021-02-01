@@ -155,7 +155,9 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     std::cout << "[GUI] - ===========================" << std::endl;
     std::cout << "[GUI] -                            " << std::endl;
     std::cout << "[GUI] - " << guiID.toStdString() << std::endl;
-    std::cout << "[GUI] - locale: " << QLocale::system().uiLanguages()[0].toStdString() << std::endl;
+    std::cout << "[GUI] - ui locale:  " << QLocale::system().uiLanguages()[0].toStdString() << std::endl;
+    std::cout << "[GUI] - sys locale: " << QLocale::system().name().toStdString()           << std::endl;
+
 
     if(i18n) {
       std::cout << "[GUI] - translations available " << std::endl;
