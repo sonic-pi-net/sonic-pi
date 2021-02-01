@@ -1,5 +1,5 @@
 # History
-* [v3.3.1 'Beamer'](#v3.3.1), 31st Jan, 2021
+* [v3.3.1 'Beamer'](#v3.3.1), 1st Feb, 2021
 * [v3.3 'Beam'](#v3.3), 28th Jan, 2021
 * [v3.2.2 'Tau3'](#v3.2.2), 5th April, 2020
 * [v3.2.1 'Take Tau'](#v3.2.1), 3rd April, 2020
@@ -26,7 +26,7 @@
 <a name="v3.3.1"></a>
 
 ## Version 3.3.1 - 'Beamer'
-31st Jan, 2021
+1st Feb, 2021
 [(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v3.3.1):
 
 This is compatibility release addressing two issues with macOS Big Sur: 
