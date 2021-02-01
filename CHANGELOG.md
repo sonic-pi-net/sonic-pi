@@ -29,7 +29,7 @@
 1st Feb, 2021
 [(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v3.3.1):
 
-This is compatibility release addressing two issues with macOS Big Sur: 
+This is a compatibility release addressing two issues with macOS Big Sur:
 
 1. Correct language translations now used based on user's current locale
 2. The language server is no longer killed by macOS Gatekeeper when a
