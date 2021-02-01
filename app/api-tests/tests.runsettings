@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+  <!-- Configurations that affect the Test Framework -->
+  <RunConfiguration>
+    <MaxCpuCount>4</MaxCpuCount>
+    <ResultsDirectory>.\TestResults</ResultsDirectory><!-- Path relative to solution directory -->
+    <TestSessionTimeout>60000</TestSessionTimeout><!-- Milliseconds -->
+  </RunConfiguration>
+
+  <!-- Adapter Specific sections -->
+
+  <!-- Catch2 adapter -->
+  <Catch2Adapter disabled="false">
+    <DebugBreak>on</DebugBreak>
+    <DiscoverTimeout>500</DiscoverTimeout>
+    <FilenameFilter>^api-tests</FilenameFilter>
+    <IncludeHidden>true</IncludeHidden>
+    <Logging>Normal</Logging>
+    <MessageFormat>StatsOnly</MessageFormat>
+    <StackTraceFormat>ShortInfo</StackTraceFormat>
+    <StackTracePointReplacement>,</StackTracePointReplacement>
+    <TestCaseTimeout>20000</TestCaseTimeout><!-- Milliseconds -->
+    <WorkingDirectory></WorkingDirectory>
+    <WorkingDirectoryRoot>Executable</WorkingDirectoryRoot>
+  </Catch2Adapter>
+
+</RunSettings>

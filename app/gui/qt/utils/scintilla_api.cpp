@@ -15,12 +15,12 @@
 #include <QDir>
 #include <iostream>
 
-#include "sonicpiapis.h"
+#include "scintilla_api.h"
 
 using namespace std;
 
 // The ctor.
-SonicPiAPIs::SonicPiAPIs(QsciLexer *lexer)
+ScintillaAPI::ScintillaAPI(QsciLexer *lexer)
     : QsciAbstractAPIs(lexer)
 {
   // manually managed for now
@@ -44,7 +44,7 @@ SonicPiAPIs::SonicPiAPIs(QsciLexer *lexer)
 
 
 
-void SonicPiAPIs::loadSamples(QString sample_path) {
+void ScintillaAPI::loadSamples(QString sample_path) {
   QDir dir(sample_path);
   QStringList filetypes;
   filetypes << "*.wav" << "*.wave" << "*.aif" << "*.aiff" << "*.flac";
@@ -56,27 +56,27 @@ void SonicPiAPIs::loadSamples(QString sample_path) {
   }
 }
 
-void SonicPiAPIs::addSymbol(int context, QString sym) {
+void ScintillaAPI::addSymbol(int context, QString sym) {
   addKeyword(context, QString(":" + sym));
 }
 
-void SonicPiAPIs::addKeyword(int context, QString keyword) {
+void ScintillaAPI::addKeyword(int context, QString keyword) {
   keywords[context] << keyword;
 }
 
-void SonicPiAPIs::addFXArgs(QString fx, QStringList args) {
+void ScintillaAPI::addFXArgs(QString fx, QStringList args) {
   fxArgs.insert(fx, args);
 }
 
-void SonicPiAPIs::addSynthArgs(QString fx, QStringList args) {
+void ScintillaAPI::addSynthArgs(QString fx, QStringList args) {
   synthArgs.insert(fx, args);
 }
 
-void SonicPiAPIs::addCuePath(QString path) {
+void ScintillaAPI::addCuePath(QString path) {
   keywords[CuePath] << path;
 }
 
-void SonicPiAPIs::updateMidiOuts(QString port_info) {
+void ScintillaAPI::updateMidiOuts(QString port_info) {
   // port info is a \n separated list of MIDI port names. Need to first split it up
   keywords[MidiOuts].clear();
 
@@ -86,7 +86,7 @@ void SonicPiAPIs::updateMidiOuts(QString port_info) {
     }
 }
 
-void SonicPiAPIs::updateAutoCompletionList(const QStringList &context,
+void ScintillaAPI::updateAutoCompletionList(const QStringList &context,
 					   QStringList &list) {
   if (context.isEmpty()) return;
 
@@ -193,7 +193,7 @@ void SonicPiAPIs::updateAutoCompletionList(const QStringList &context,
   }
 }
 
-QStringList SonicPiAPIs::callTips(const QStringList &context, int commas, QsciScintilla::CallTipsStyle style, QList<int> &shifts) {
+QStringList ScintillaAPI::callTips(const QStringList &context, int commas, QsciScintilla::CallTipsStyle style, QList<int> &shifts) {
   Q_UNUSED( commas );
   Q_UNUSED( style );
   Q_UNUSED( shifts );

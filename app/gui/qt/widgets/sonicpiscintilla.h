@@ -13,7 +13,6 @@
 
 #include <Qsci/qsciscintilla.h>
 #include "model/sonicpitheme.h"
-#include "osc/oscsender.h"
 #include "widgets/sonicpilog.h"
 #include <QCheckBox>
 
@@ -25,16 +24,18 @@ class SonicPiScintilla : public QsciScintilla
   Q_OBJECT
 
  public:
-  SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme, QString fileName, OscSender *oscSender, bool autoIndent);
+  SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme, QString fileName, bool autoIndent);
 
   virtual QStringList apiContext(int pos, int &context_start,
 				 int &last_word_start);
   SonicPiTheme *theme;
   QString fileName;
-  OscSender *oscSender;
   bool selectionMode;
 
   void redraw();
+
+signals:
+  void bufferNewlineAndIndent(int point_line, int point_index, int first_line, const std::string& code, const std::string& fileName, const std::string& id);
 
   public slots:
     void cutLineFromPoint();

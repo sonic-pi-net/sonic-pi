@@ -14,12 +14,12 @@
 #include <Qsci/qsciabstractapis.h>
 #include <QHash>
 
-class SonicPiAPIs : public QsciAbstractAPIs
+class ScintillaAPI : public QsciAbstractAPIs
 {
  public:
   enum { Func, FX, Synth, Sample, Chord, Scale, MCBlock, PlayParam, SampleParam, Tuning, Examples, MidiParam, MidiOuts, CuePath, NContext};
 
-  SonicPiAPIs(QsciLexer *lexer);
+  ScintillaAPI(QsciLexer *lexer);
 
   void addSymbol(int context, QString sym);
   void addKeyword(int context, QString keyword);

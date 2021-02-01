@@ -9,16 +9,6 @@ project("Sonic Pi"
   HOMEPAGE_URL "https://sonic-pi.net"
     )
 
-set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-set(CMAKE_MODULE_PATH ${QTAPP_ROOT}/cmake)
-
-if(APPLE)
-  set(CMAKE_OSX_DEPLOYMENT_TARGET '10.13')
-endif()
-
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 set(QTAPP_ROOT ${CMAKE_CURRENT_LIST_DIR})
@@ -36,8 +26,6 @@ elseif(APPLE AND EXISTS /usr/local/opt/qt5)
   message(STATUS "Setting prefix to Homebrew's Qt install location: /usr/local/opt/qt5")
   set(CMAKE_PREFIX_PATH /usr/local/opt/qt5)
 endif()
-
-CONFIGURE_FILE(${CMAKE_CURRENT_LIST_DIR}/cmake/config.h.cmake ${CMAKE_BINARY_DIR}/config.h)
 
 # Qt Setup
 set(CMAKE_AUTOMOC ON)
@@ -58,7 +46,8 @@ add_subdirectory(QScintilla-2.11.6)
 set(APP_NAME sonic-pi)
 set(MACOS_APP_NAME "Sonic Pi")
 
-set(OSC_SOURCES
+if (QT_OLD_API)
+set(OLD_API_SOURCES
     ${QTAPP_ROOT}/osc/oschandler.cpp
     ${QTAPP_ROOT}/osc/oscsender.cpp
     ${QTAPP_ROOT}/osc/sonic_pi_osc_server.cpp
@@ -71,7 +60,25 @@ set(OSC_SOURCES
     ${QTAPP_ROOT}/osc/sonic_pi_osc_server.h
     ${QTAPP_ROOT}/osc/sonic_pi_udp_osc_server.h
     ${QTAPP_ROOT}/osc/sonic_pi_tcp_osc_server.h
+    
+    ${QTAPP_ROOT}/visualizer/scope.cpp
+    ${QTAPP_ROOT}/visualizer/scope.h
+    ${QTAPP_ROOT}/visualizer/scope_buffer.hpp
+    ${QTAPP_ROOT}/visualizer/server_shm.hpp
+
+    ${APP_ROOT}/external/kiss_fft/kiss_fft.c
+    ${APP_ROOT}/external/kiss_fft/kiss_fft.h
     )
+endif()
+
+if (NOT QT_OLD_API)
+set(NEW_API_SOURCES 
+    ${QTAPP_ROOT}/qt_api_client.cpp
+    ${QTAPP_ROOT}/qt_api_client.h
+    ${QTAPP_ROOT}/visualizer/scope_window.cpp
+    ${QTAPP_ROOT}/visualizer/scope_window.h
+    )
+endif()
 
 set(EDITOR_SOURCES
     ${QTAPP_ROOT}/widgets/sonicpiscintilla.cpp
@@ -92,19 +99,13 @@ set(QT_SOURCES
     )
 
 set(SOURCES
-    ${APP_ROOT}/external/kiss_fft/kiss_fft.c
-    ${APP_ROOT}/external/kiss_fft/kiss_fft.h
-    ${QTAPP_ROOT}/visualizer/scope.cpp
-    ${QTAPP_ROOT}/visualizer/scope.h
-    ${QTAPP_ROOT}/visualizer/scope_buffer.hpp
-    ${QTAPP_ROOT}/visualizer/server_shm.hpp
     ${QTAPP_ROOT}/main.cpp
-    ${QTAPP_ROOT}/utils/sonicpiapis.cpp
+    ${QTAPP_ROOT}/utils/scintilla_api.cpp
     ${QTAPP_ROOT}/widgets/sonicpilog.cpp
     ${QTAPP_ROOT}/widgets/sonicpilog.h
     ${QTAPP_ROOT}/widgets/sonicpicontext.cpp
     ${QTAPP_ROOT}/widgets/sonicpicontext.h
-    ${QTAPP_ROOT}/utils/sonicpiapis.h
+    ${QTAPP_ROOT}/utils/scintilla_api.h
     ${QTAPP_ROOT}/utils/ruby_help.h
     ${QTAPP_ROOT}/model/settings.h
     )
@@ -125,11 +126,12 @@ elseif(APPLE)
   SET (SOURCES ${SOURCES} ${QTAPP_ROOT}/platform/macos.h)
 endif()
 
-set(ALL_SOURCES ${OSC_SOURCES} ${QT_SOURCES} ${SOURCES} ${EDITOR_SOURCES})
+set(ALL_SOURCES ${QT_SOURCES} ${SOURCES} ${EDITOR_SOURCES} ${OLD_API_SOURCES} ${NEW_API_SOURCES})
 
 # Create the Qt version of the app
 if (APPLE)
-  add_executable(${APP_NAME} MACOSX_BUNDLE ${ALL_SOURCES} ${RESOURCES} )
+    # NOTE! The underscore here works around a subtle problem with  vcpkg toolchain and is required
+  _add_executable(${APP_NAME} MACOSX_BUNDLE ${ALL_SOURCES} ${RESOURCES} )
 else()
   add_executable(${APP_NAME} WIN32 ${ALL_SOURCES} ${RESOURCES}) # Win32 ignored on non-windows
 endif()
@@ -189,7 +191,7 @@ if (APPLE)
   )
 endif()
 
-message(INFO "App Root: ${APP_ROOT}")
+message(STATUS "App Root: ${APP_ROOT}")
 
 set_property(TARGET ${APP_NAME} PROPERTY POSITION_INDEPENDENT_CODE ON) # Qt requires this?
 target_include_directories(${APP_NAME}
@@ -211,7 +213,7 @@ target_include_directories(${APP_NAME}
 
 target_link_libraries(${APP_NAME}
     PRIVATE
-    SonicPi::SonicPiAPI
+    SonicPi::API
     QScintilla
     Qt5::Core
     Qt5::Gui
@@ -249,6 +251,8 @@ source_group(SonicPi FILES ${SOURCES})
 source_group(Osc FILES ${OSC_SOURCES})
 source_group(Scintilla FILES ${EDITOR_SOURCES})
 source_group(Qt FILES ${QT_SOURCES})
+source_group(OldApi FILES ${OLD_API_SOURCES})
+source_group(NewApi FILES ${NEW_API_SOURCES})
 
 source_group(Qt\\AutoMoc FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}_automoc.cpp )
 source_group(Qt\\AutoMoc REGULAR_EXPRESSION "(mocs_*|qrc_.*|QtAwesome.*)" )

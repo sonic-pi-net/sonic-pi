@@ -1,0 +1,5 @@
+@PACKAGE_INIT@
+
+set_and_check(ghcfilesystem_INCLUDE_DIRS "@PACKAGE_INCLUDE_INSTALL_DIR@")
+
+check_required_components(ghcfilesystem)

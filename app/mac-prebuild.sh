@@ -4,6 +4,25 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Check to see if we have a bundled Ruby and if so, use that
 # Otherwise use system ruby
+# Build vcpkg
+if [ ! -d "vcpkg" ]; then 
+    echo "Cloning vcpkg"
+    git clone --single-branch --branch master https://github.com/microsoft/vcpkg.git vcpkg
+fi
+
+if [ ! -f "vcpkg/vcpkg" ]; then
+    echo "Building vcpkg"
+    cd vcpkg 
+    ./bootstrap-vcpkg.sh -disableMetrics
+    cd ${SCRIPT_DIR} 
+fi
+
+triplet=(x64-osx)
+
+cd vcpkg
+./vcpkg install kissfft fmt sdl2 gl3w reproc gsl-lite concurrentqueue platform-folders catch2 --triplet ${triplet[0]} --recurse
+
+cd ${SCRIPT_DIR}
 
 BUNDLED_RUBY="${SCRIPT_DIR}/server/native/ruby/bin/ruby"
 if [ -f "$BUNDLED_RUBY" ]; then
