@@ -49,15 +49,14 @@ int main(int argc, char *argv[])
 
   qRegisterMetaType<SonicPiLog::MultiMessage>("SonicPiLog::MultiMessage");
 
-  QString systemLocale = QLocale::system().name();
-
+  QString systemLocale = QLocale::system().uiLanguages()[0].replace("-", "_");
 
   QTranslator qtTranslator;
   qtTranslator.load("qt_" + systemLocale, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
   app.installTranslator(&qtTranslator);
 
   QTranslator translator;
-  bool i18n = translator.load("sonic-pi_" + systemLocale, ":/lang/") || systemLocale.startsWith("en") || systemLocale == "C";
+  bool i18n = translator.load(QLatin1String("sonic-pi_") + systemLocale, QLatin1String(":/lang")) ||  systemLocale.startsWith("en") || systemLocale == "C";
   app.installTranslator(&translator);
 
   app.setApplicationName(QObject::tr("Sonic Pi"));

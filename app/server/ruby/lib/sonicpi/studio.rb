@@ -565,7 +565,7 @@ module SonicPi
       # set_mixer! :basic
       # set_mixer! :default
       log_message "Starting mixer"
-      mixer_synth = raspberry_pi_1? ? "sonic-pi-basic_mixer" : "sonic-pi-mixer"
+      mixer_synth = "sonic-pi-mixer"
       @mixer = @server.trigger_synth(:head, @mixer_group, mixer_synth, {"in_bus" => @mixer_bus.to_i}, nil, true)
     end
 

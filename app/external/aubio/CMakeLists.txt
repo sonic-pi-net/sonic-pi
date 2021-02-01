@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.12)
 
 project(aubio-5)
 set(SOURCE_ROOT ${CMAKE_CURRENT_LIST_DIR}/src)
+set(EXAMPLES_ROOT ${CMAKE_CURRENT_LIST_DIR}/examples)
 
 set(SOURCES
     ${SOURCE_ROOT}/exports.def
@@ -122,8 +123,20 @@ set(SOURCES
     ${SOURCE_ROOT}/utils/windll.c
 )
 
-add_library(${PROJECT_NAME} SHARED ${SOURCES} ${RESOURCES}) # Win32 ignored on non-windows
+add_library(${PROJECT_NAME} STATIC ${SOURCES} ${RESOURCES}) # Win32 ignored on non-windows
 target_include_directories(${PROJECT_NAME}
+    PRIVATE
+    src
+    ${LIBSNDFILE_INCLUDE_DIR}
+    )
+
+add_executable(aubio_onset
+    ${EXAMPLES_ROOT}/aubioonset.c
+    ${EXAMPLES_ROOT}/utils.c)
+
+target_link_libraries(aubio_onset PRIVATE ${PROJECT_NAME})
+
+target_include_directories(aubio_onset
     PRIVATE
     src
     ${LIBSNDFILE_INCLUDE_DIR}
@@ -206,6 +219,7 @@ target_compile_definitions(${PROJECT_NAME}
     -DHAVE_SWRESAMPLE
     -DHAVE_MEMCPY_HACKS
     -DHAVE_SNDFILE
+    -DHAVE_CONFIG
     #-DHAVE_ACCELERATE
     #-DHAVE_INTEL_IPP (needs intel lib)
     #-DHAVE_SAMPLERATE (needs extra lib in path)

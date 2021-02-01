@@ -430,7 +430,7 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2634"/>
         <source>Enforce Timing Guarantees</source>
-        <translation type="unfinished">Imponer Garantías de Tiempo</translation>
+        <translation>Imponer Garantías de Tiempo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2639"/>
@@ -475,7 +475,7 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2679"/>
         <source>Clear Logs on Run</source>
-        <translation>Eliminar registros al ejecutar</translation>
+        <translation>Eliminar Registros al Ejecutar código</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2684"/>
@@ -485,12 +485,12 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2689"/>
         <source>Auto-Scroll Log</source>
-        <translation>Desplazar hasta el final</translation>
+        <translation>Desplazar Registro Automáticamente</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2699"/>
         <source>Live</source>
-        <translation>En directo</translation>
+        <translation>En Vivo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2711"/>
@@ -535,7 +535,7 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2761"/>
         <source>Show Scope Labels</source>
-        <translation>Mostrar nombres de visualizadores</translation>
+        <translation>Mostrar Nombres de Visualizadores</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2766"/>
@@ -694,7 +694,7 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2952"/>
         <source>Show Log</source>
-        <translation>Mostrar registros</translation>
+        <translation>Mostrar Registro</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2957"/>
