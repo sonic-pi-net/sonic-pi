@@ -745,7 +745,7 @@ bool Scope::SetScopeLabels(bool on)
     return on;
 }
 
-void Scope::ScsynthBooted()
+void Scope::Booted()
 {
     assert(m_pAudioThread);
     if (m_pAudioThread)

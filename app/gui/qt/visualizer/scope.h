@@ -10,7 +10,6 @@
 // distribution of modified versions of this work as long as this
 // notice is included.
 //++
-
 #pragma once
 
 #include <QWidget>
@@ -27,6 +26,8 @@
 
 #include "kiss_fft/kiss_fft.h"
 #include "profiler.h"
+
+#include "config.h"
 
 QT_FORWARD_DECLARE_CLASS(QPaintEvent)
 QT_FORWARD_DECLARE_CLASS(QResizeEvent)
@@ -143,7 +144,7 @@ public:
     void Pause();
     void Resume();
     void Refresh();
-    void ScsynthBooted();
+    void Booted();
     void SetColor(QColor c);
     void SetColor2(QColor c);
 
@@ -151,6 +152,7 @@ public:
     void DrawMirrorStereo(const ProcessedAudio& audio, QPainter& painter, Panel& panel);
     void DrawLissajous(const ProcessedAudio& audio, QPainter& painter, Panel& panel);
     void DrawSpectrumAnalysis(const ProcessedAudio& audio, QPainter& painter, Panel& panel);
+
 
     void ShutDown();
 
@@ -166,7 +168,8 @@ private slots:
 
 private:
     std::vector<Panel> m_panels;
-    int m_scsynthPort = 0;
     bool m_paused = false;
+    int m_scsynthPort = 0;
     AudioProcessingThread* m_pAudioThread = nullptr;
 };
+

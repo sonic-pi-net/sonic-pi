@@ -2,9 +2,9 @@ name: Build
 
 on:
   push:
-    branches: [ dev, main, workflow_dispatch, features/new-layout-and-api ]
+    branches: [ dev, main, workflow_dispatch, features/sp-api ]
   pull_request:
-    branches: [ dev, main, workflow_dispatch, features/new-layout-and-api ]
+    branches: [ dev, main, workflow_dispatch, features/sp-api ]
 
 jobs:
   build:
@@ -97,7 +97,7 @@ jobs:
         CC: ${{ matrix.cc }}  
         QT_INSTALL_LOCATION: ${{env.Qt5_DIR}}
       run: |
-        sudo apt install -y libssl-dev ruby-dev supercollider-server sc3-plugins-server alsa-utils jackd2 libjack-jackd2-dev libjack-jackd2-0 libasound2-dev librtmidi-dev pulseaudio-module-jack
+        sudo apt install -y pulseaudio dbus-x11 libssl-dev ruby-dev supercollider-server sc3-plugins-server alsa-utils jackd2 libjack-jackd2-dev libjack-jackd2-0 libasound2-dev librtmidi-dev pulseaudio-module-jack
         ./linux-prebuild.sh --build-aubio
       if: matrix.os == 'ubuntu-latest'
    
@@ -162,5 +162,45 @@ jobs:
       working-directory: ${{github.workspace}}/app/server/ruby
       run: rake test 
       if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
+
+    - name: API Tests - Mac
+      working-directory: ${{github.workspace}}/app/build/api-tests
+      run: ctest --verbose
+      if: matrix.os == 'macos-latest'
+    
+    - name: API Tests - Linux
+      working-directory: ${{github.workspace}}/app/build/api-tests
+      run: |
+        jackd -d dummy &
+        ctest --verbose
+      if: matrix.os == 'ubuntu-latest' 
+    
+    - name: API Tests Windows - Install Scream Audio Device 
+      shell: powershell
+      run: |
+        Start-Service audio*
+        Invoke-WebRequest https://github.com/duncanthrax/scream/releases/download/3.6/Scream3.6.zip -OutFile C:\Scream3.6.zip
+        Extract-7Zip -Path C:\Scream3.6.zip -DestinationPath C:\Scream
+        $cert = (Get-AuthenticodeSignature C:\Scream\Install\driver\Scream.sys).SignerCertificate
+        $store = [System.Security.Cryptography.X509Certificates.X509Store]::new("TrustedPublisher", "LocalMachine")
+        $store.Open("ReadWrite")
+        $store.Add($cert)
+        $store.Close()
+        cd C:\Scream\Install\driver
+        C:\Scream\Install\helpers\devcon install Scream.inf *Scream
+      if: matrix.os == 'windows-latest'
+
+    - name: API Tests - Windows
+      shell: cmd
+      working-directory: ${{github.workspace}}/app/build/api-tests
+      run: ctest --verbose
+      if: matrix.os == 'windows-latest'
+
+    - name: Archive Logs
+      uses: actions/upload-artifact@v2
+      with:
+          name: Logs_${{matrix.title}}_${{matrix.build_type}}
+          path: |
+            ~/.sonic-pi/log/*.log
 
 
