@@ -153,7 +153,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2545"/>
         <source>Indent Code Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>縮排當前編輯窗口</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2547"/>
@@ -384,7 +384,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2579"/>
         <source>Show Help</source>
-        <translation type="unfinished"></translation>
+        <translation>顯示幫助</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2583"/>
@@ -394,7 +394,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2587"/>
         <source>Show Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>顯示偏好設定</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2591"/>
@@ -404,7 +404,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2614"/>
         <source>Show Line Numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>顯示行數</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2619"/>
