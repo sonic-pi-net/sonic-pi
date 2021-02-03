@@ -72,6 +72,17 @@ target_include_directories(${APP_NAME}
     ${CMAKE_BINARY_DIR}
     )
 
+# Extras for compiling on PI:  Use ES2
+if (RASPBERRY_PI)
+target_compile_definitions(${APP_NAME} PRIVATE 
+	IMGUI_IMPL_OPENGL_ES2)
+
+target_link_directories(${APP_NAME}
+	PRIVATE
+	 /opt/vc/lib
+	 )
+endif()
+
 target_link_libraries (${APP_NAME} 
     PRIVATE
     SonicPi::API
