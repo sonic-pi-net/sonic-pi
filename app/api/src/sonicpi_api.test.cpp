@@ -70,11 +70,10 @@ TEST_CASE("Init", "API")
 
     api.Shutdown();
 
-    // Get the logs after shutdown because tehn cout is not redirected...
+    // Get the logs after shutdown because then cout is not redirected...
     std::cout << "Logs: " << std::endl
               << api.GetLogs() << std::flush;
 
     // Require this later to ensure logs are dumped
     //REQUIRE(executeResult == true);
 }
-

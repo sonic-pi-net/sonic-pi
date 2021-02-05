@@ -560,7 +560,7 @@ bool SonicPiAPI::Init(const fs::path& root)
     {
         MessageInfo message;
         message.type = MessageType::StartupError;
-        message.text = "Couldnot find root path: " + root.string();
+        message.text = "Could not find root path: " + root.string();
 
         m_pClient->Report(message);
         return false;
@@ -589,7 +589,7 @@ bool SonicPiAPI::Init(const fs::path& root)
     m_paths[SonicPiPath::ExitScriptPath] = m_paths[SonicPiPath::RootPath] / "app/server/ruby/bin/exit-script.rb";
     m_paths[SonicPiPath::TaskRegisterPath] = m_paths[SonicPiPath::RootPath] / "app/server/ruby/bin/task-register.rb";
 
-    // Sanity check on script existance
+    // Sanity check on script existence
     const auto checkPaths = std::vector<SonicPiPath>{ SonicPiPath::RubyServerPath, SonicPiPath::PortDiscoveryPath, SonicPiPath::FetchUrlPath, SonicPiPath::InitScriptPath, SonicPiPath::ExitScriptPath, SonicPiPath::TaskRegisterPath };
     for (const auto& check : checkPaths)
     {
