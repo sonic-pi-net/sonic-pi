@@ -234,12 +234,12 @@ struct APISettings
             code = "use_cue_logging false #__nosave__ set by Qt GUI user preferences.\n" + code;
         }
 
-        if (!checkArgs)
+        if (checkArgs)
         {
             code = "use_arg_checks true #__nosave__ set by Qt GUI user preferences.\n" + code;
         }
 
-        if (!enableExternalSynths)
+        if (enableExternalSynths)
         {
             code = "use_external_synths true #__nosave__ set by Qt GUI user preferences.\n" + code;
         }
