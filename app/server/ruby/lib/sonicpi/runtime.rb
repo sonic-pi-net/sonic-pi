@@ -1049,7 +1049,9 @@ module SonicPi
           __thread_locals_reset!(new_tls)
           __system_thread_locals_reset!(new_system_tls)
           __set_default_system_thread_locals!
-
+          unless SonicPi::Core::SPRand.get_random_number_distribution
+            SonicPi::Core::SPRand.set_random_number_distribution!(:white)
+          end
           __system_thread_locals.set_local(:sonic_pi_local_thread_group, :job_subthread)
           __system_thread_locals.set_local(:sonic_pi_spider_thread_id_path, new_thread_id_path)
           __system_thread_locals.set_local :sonic_pi_local_spider_users_thread_name, name if name
