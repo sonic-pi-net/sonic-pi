@@ -52,6 +52,13 @@ module SonicPi
       use_random_source :white
     end
 
+    def test_current_random_source
+      use_random_source :perlin
+      assert_equal(:perlin, current_random_source)
+      # return to default
+      use_random_source :white
+    end
+
     def test_rand_reset
       rand_reset
       assert_equal(rand, 0.75006103515625)
