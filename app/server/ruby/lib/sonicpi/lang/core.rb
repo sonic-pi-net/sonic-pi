@@ -3871,6 +3871,34 @@ puts rand               #=> 0.464202880859375
 puts rand               #=> 0.24249267578125
 "]
 
+      def current_random_source
+        SonicPi::Core::SPRand.get_random_number_distribution
+      end
+      doc name:          :current_random_source,
+          introduced:    Version.new(3,3,2),
+          summary:       "Get current random source",
+          doc:           "Returns the source of the current random number generator (what kind of noise is generating the random numbers).
+
+This can be set via the fns `use_random_source` and `with_random_source`. Each source will provide a different pattern of random numbers.",
+          args:          [],
+          opts:          nil,
+          accepts_block: false,
+          examples:      ["
+  puts current_random_source # Print out the current random source",
+"
+use_random_source :white # Use white noise as the distribution (default)
+puts rand # => 0.75006103515625
+puts rand # => 0.733917236328125
+a = current_random_source # Grab the current random number source (:white)
+use_random_source :perlin # Use perlin noise as the distribution
+puts rand # => 0.58526611328125
+puts rand # => 0.597015380859375
+use_random_source a # Restore the previous random number source (:white)
+                    # The numbers will again be generated from a white noise distribution
+puts rand # => 0.10821533203125
+puts rand # => 0.54010009765625
+"]
+
 
       def current_bpm
         __current_bpm
