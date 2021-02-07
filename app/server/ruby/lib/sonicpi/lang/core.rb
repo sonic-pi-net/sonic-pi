@@ -3315,9 +3315,9 @@ print rand_i_look(5) #=> will print the same number as the previous statement"
   ## Basic usage
 
   use_random_seed 1 # reset random seed to 1
-  puts rand # => 0.417022004702574
+  puts rand # => 0.733917236328125
   use_random_seed 1 # reset random seed back to 1
-  puts rand  #=> 0.417022004702574
+  puts rand  #=> 0.733917236328125
   ",
   "
   ## Generating melodies
@@ -3372,15 +3372,15 @@ print rand_i_look(5) #=> will print the same number as the previous statement"
           requires_block: true,
           examples:      ["
   use_random_seed 1 # reset random seed to 1
-  puts rand # => 0.417022004702574
-  puts rand  #=> 0.7203244934421581
+  puts rand # => 0.733917236328125
+  puts rand  #=> 0.464202880859375
   use_random_seed 1 # reset it back to 1
-  puts rand # => 0.417022004702574
+  puts rand # => 0.733917236328125
   with_random_seed 1 do # reset seed back to 1 just for this block
-    puts rand # => 0.417022004702574
-    puts rand #=> 0.7203244934421581
+    puts rand # => 0.733917236328125
+    puts rand #=> 0.464202880859375
   end
-  puts rand # => 0.7203244934421581
+  puts rand # => 0.464202880859375
             # notice how the original generator is restored",
   "
   ## Generating melodies
