@@ -3132,14 +3132,16 @@ end
 
 Does not consume a random value from the stream. Therefore, multiple sequential calls to `rand_look` will all return the same value.",
           examples:       ["
-  print rand_look(0.5) #=> will print a number like 0.375030517578125 to the output pane",
+print rand_look(0.5) # will print a number like 0.375030517578125 to the output pane",
 
         "
-  print rand_look(0.5) #=> will print a number like 0.375030517578125 to the output pane
-  print rand_look(0.5) #=> will print the same number again
-  print rand_look(0.5) #=> will print the same number again
-  print rand(0.5) #=> will print a different random number
-  print rand_look(0.5) #=> will print the same number as the previous line again."
+print rand_look(0.5) # will print a number like 0.375030517578125 to the output pane
+print rand_look(0.5) # will print the same number again
+print rand_look(0.5) # will print the same number again
+print rand(0.5) # will still print the same number again
+                # (this is the number rand_look was 'looking ahead' at)
+                # the number is now consumed
+print rand_look(0.5) # will print a new number like 0.3669586181640625 to the output pane"
       ]
 
 
@@ -3160,14 +3162,16 @@ Does not consume a random value from the stream. Therefore, multiple sequential 
 
 Does not consume a random value from the stream. Therefore, multiple sequential calls to `rand_i_look` will all return the same value.",
           examples:       ["
-print rand_i_look(5) #=> will print either 0, 1, 2, 3, or 4 to the output pane",
+print rand_i_look(5) # will print either 0, 1, 2, 3, or 4 to the output pane",
 
         "
-print rand_i_look(5) #=> will print either 0, 1, 2, 3, or 4 to the output pane
-print rand_i_look(5) #=> will print the same number again
-print rand_i_look(5) #=> will print the same number again
-print rand_i(5) #=> will print either 0, 1, 2, 3, or 4 to the output pane
-print rand_i_look(5) #=> will print the same number as the previous statement"
+print rand_i_look(5) # will print either 0, 1, 2, 3, or 4 to the output pane
+print rand_i_look(5) # will print the same number again
+print rand_i_look(5) # will print the same number again
+print rand_i(5) # will still print the same number again
+                # (this is the number rand_i_look was 'looking ahead' at)
+                # the number is now consumed
+print rand_i_look(5) # will print either 0, 1, 2, 3, or 4 to the output pane"
       ]
 
 
