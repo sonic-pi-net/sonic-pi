@@ -554,7 +554,7 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2741"/>
         <source>Dark</source>
-        <translation type="unfinished">Dunkel</translation>
+        <translation>Dunkel</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2746"/>
@@ -569,7 +569,7 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2756"/>
         <source>High Contrast</source>
-        <translation type="unfinished">Hoher Kontrast</translation>
+        <translation>Hoher Kontrast</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2761"/>
@@ -803,7 +803,7 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2952"/>
         <source>Show Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Log anzeigen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2957"/>
@@ -813,12 +813,12 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2962"/>
         <source>Show Buttons</source>
-        <translation type="unfinished"></translation>
+        <translation>Buttons anzeigen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2967"/>
         <source>Show Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Tabs anzeigen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2973"/>
@@ -1063,7 +1063,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../utils/ruby_help.h" line="3373"/>
         <source>Samples</source>
-        <translation type="unfinished"></translation>
+        <translation>Samples</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3628"/>
