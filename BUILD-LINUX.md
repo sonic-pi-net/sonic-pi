@@ -128,7 +128,7 @@ cmake --build . --config Release
 
 Finally, you can run your newly compiled `Sonic Pi` app within the `build`
 directly either by double clicking it in your file manager or via the terminal
-(from within the `build` directory):
+(from within the `build/gui/qt/sonic-pi` directory):
 
 ```
 ./sonic-pi
