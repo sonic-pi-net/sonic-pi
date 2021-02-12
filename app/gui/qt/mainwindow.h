@@ -11,17 +11,26 @@
 // notice is included.
 //++
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#pragma once
+
+#include <fstream>
+#include <vector>
+#include <memory>
 
 #include <QDate>
 #include <QMainWindow>
 #include <QFuture>
 #include <QSet>
-#include "osc/oscpkt.hh"
-#include <fstream>
 #include <QIcon>
-#include <vector>
+
+// On windows, we need to include winsock2 before other instances of winsock
+#ifdef WIN32
+#include <winsock2.h>
+#endif
+
+#include "osc/oscpkt.hh"
+
+#include "config.h"
 
 class QAction;
 class QMenu;
@@ -34,7 +43,18 @@ class QTextBrowser;
 class QString;
 class QSlider;
 class QSplitter;
+#ifdef QT_OLD_API
 class OscSender;
+class QTcpSocket;
+class SonicPiOSCServer;
+#else
+namespace SonicPi
+{
+class QtAPIClient;
+class SonicPiAPI;
+class ScopeWindow;
+}
+#endif
 class QShortcut;
 class QDockWidget;
 class QListWidget;
@@ -43,17 +63,15 @@ class QSignalMapper;
 class QTabWidget;
 class QCheckBox;
 class QVBoxLayout;
-class QTcpSocket;
 class QSplashScreen;
 class QLabel;
 
 class InfoWidget;
 class SettingsWidget;
 class Scope;
-class SonicPiAPIs;
+class ScintillaAPI;
 class SonicPiLog;
 class SonicPiScintilla;
-class SonicPiOSCServer;
 class SonicPiTheme;
 class SonicPiLexer;
 class SonicPiSettings;
@@ -81,8 +99,28 @@ class MainWindow : public QMainWindow
         MainWindow(QApplication &ref, bool i18n, QSplashScreen* splash);
 #endif
 
+        SonicPiLog* GetOutputPane() const;
+        SonicPiLog* GetIncomingPane() const;
+        SonicPiTheme* GetTheme() const;
+
+#ifdef QT_OLD_API
         SonicPiOSCServer *sonicPiOSCServer;
         enum {UDP=0, TCP=1};
+#else
+        void addCuePath(QString path, QString val);
+        void setLineMarkerinCurrentWorkspace(int num);
+        void showError(QString msg);
+        void replaceBuffer(QString id, QString content, int line, int index, int first_line);
+        void replaceBufferIdx(int buf_idx, QString content, int line, int index, int first_line);
+        void setUpdateInfoText(QString t);
+        void allJobsCompleted();
+        void updateVersionNumber(QString version, int version_num, QString latest_version, int latest_version_num, QDate last_checked_date, QString platform);
+        void updateMIDIInPorts(QString port_info);
+        void updateMIDIOutPorts(QString port_info);
+        void replaceLines(QString id, QString content, int first_line, int finish_line, int point_line, int point_index);
+        void runBufferIdx(int idx);
+#endif
+
         bool loaded_workspaces;
         QString hash_salt;
 
@@ -101,7 +139,6 @@ signals:
 
         void updateContext(int line, int index);
         void updateContextWithCurrentWs();
-        void addCuePath(QString path, QString val);
         void docLinkClicked(const QUrl &url);
         void handleCustomUrl(const QUrl &url);
         void zoomInLogs();
@@ -113,7 +150,6 @@ signals:
         QString asciiArtLogo();
         void printAsciiArtLogo();
         void runCode();
-        void runBufferIdx(int idx);
         void update_check_updates();
         void mixerSettingsChanged();
         void check_for_updates_now();
@@ -197,9 +233,6 @@ signals:
         void splashClose();
         void setMessageBoxStyle();
         void startupError(QString msg);
-        void replaceBuffer(QString id, QString content, int line, int index, int first_line);
-        void replaceBufferIdx(int buf_idx, QString content, int line, int index, int first_line);
-        void replaceLines(QString id, QString content, int first_line, int finish_line, int point_line, int point_index);
         void tabNext();
         void tabPrev();
         void tabGoto(int index);
@@ -227,9 +260,20 @@ signals:
         void updateButtonVisibility();
         void showButtonsMenuChanged();
         void toggleButtonVisibility();
+#ifdef QT_OLD_API
+        void addCuePath(QString path, QString val);
         void setLineMarkerinCurrentWorkspace(int num);
+        void showError(QString msg);
+        void replaceBuffer(QString id, QString content, int line, int index, int first_line);
+        void replaceBufferIdx(int buf_idx, QString content, int line, int index, int first_line);
         void setUpdateInfoText(QString t);
+        void allJobsCompleted();
         void updateVersionNumber(QString version, int version_num, QString latest_version, int latest_version_num, QDate last_checked_date, QString platform);
+        void updateMIDIInPorts(QString port_info);
+        void updateMIDIOutPorts(QString port_info);
+        void replaceLines(QString id, QString content, int first_line, int finish_line, int point_line, int point_index);
+        void runBufferIdx(int idx);
+#endif
         void requestVersion();
         void heartbeatOSC();
         void zoomCurrentWorkspaceIn();
@@ -238,15 +282,11 @@ signals:
         void setupWindowStructure();
         void setupTheme();
         void escapeWorkspaces();
-        void allJobsCompleted();
         void toggleMidi(int silent=0);
         void toggleOSCServer(int silent=0);
         void resetMidi();
         void honourPrefs();
-        void updateMIDIInPorts(QString port_info);
-        void updateMIDIOutPorts(QString port_info);
 
-        void showError(QString msg);
         void showBufferCapacityError();
         void checkForStudioMode();
 
@@ -260,15 +300,17 @@ signals:
         void focusErrors();
 
     private:
-        bool initAndCheckPorts();
         void initPaths();
-        bool checkPort(int port);
         QString osDescription();
-        void setupLogPathAndRedirectStdOut();
         QSignalMapper *signalMapper;
+#ifdef QT_OLD_API
+        bool initAndCheckPorts();
+        bool checkPort(int port);
+        void setupLogPathAndRedirectStdOut();
         void startRubyServer();
         void cleanupRunningProcesses();
         bool waitForServiceSync();
+#endif
         void clearOutputPanels();
         void createShortcuts();
         void createToolBar();
@@ -286,6 +328,7 @@ signals:
         std::string number_name(int);
         std::string workspaceFilename(SonicPiScintilla* text);
         SonicPiScintilla* filenameToWorkspace(std::string filename);
+        
         bool sendOSC(oscpkt::Message m);
         //   void initPrefsWindow();
         void initDocsWindow();
@@ -313,11 +356,16 @@ signals:
 
         SonicPiSettings *piSettings;
 
-        QTcpSocket *clientSock;
+#ifdef QT_OLD_API
         QFuture<void> osc_thread, server_thread;
         int protocol;
         QHash<QString, int> port_map;
         int gui_listen_to_server_port, gui_send_to_server_port, server_listen_to_gui_port, server_send_to_gui_port, scsynth_port, scsynth_send_port, server_osc_cues_port, erlang_router_port, osc_midi_out_port, osc_midi_in_port, websocket_port;
+#else
+        int server_osc_cues_port;
+        int scsynth_port;
+#endif
+
         bool focusMode;
         QCheckBox *startup_error_reported;
         bool is_recording;
@@ -381,7 +429,7 @@ signals:
         std::streambuf *coutbuf;
         std::ofstream stdlog;
 
-        SonicPiAPIs *autocomplete;
+        ScintillaAPI *autocomplete;
         QString fetch_url_path, sample_path, log_path, sp_user_path, sp_user_tmp_path, ruby_server_path, ruby_path, server_error_log_path, server_output_log_path, gui_log_path, scsynth_log_path, init_script_path, exit_script_path, tmp_file_store, process_log_path, port_discovery_path, qt_app_theme_path, qt_browser_dark_css, qt_browser_light_css, qt_browser_hc_css;
         QString defaultTextBrowserStyle;
 
@@ -393,14 +441,21 @@ signals:
         QSplitter *docsplit;
 
         QLabel *versionLabel;
-        Scope* scopeInterface;
-        QString guiID;
-        bool homeDirWritable, tmpFileStoreAvailable;
+        bool tmpFileStoreAvailable;
         bool updated_dark_mode_for_help, updated_dark_mode_for_prefs;
+        QString guiID;
 
+#ifdef QT_OLD_API
+        Scope* scopeWindow;
+        bool homeDirWritable;
         OscSender *oscSender;
+        QTcpSocket *clientSock;
+#else
+        SonicPi::ScopeWindow* scopeWindow;
+        std::shared_ptr<SonicPi::QtAPIClient> m_spClient;
+        std::shared_ptr<SonicPi::SonicPiAPI> m_spAPI;
+#endif
         QSet<QString> cuePaths;
 
 };
 
-#endif

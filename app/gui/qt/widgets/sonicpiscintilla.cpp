@@ -24,12 +24,11 @@
 #include <Qsci/qscilexer.h>
 #include <QCheckBox>
 
-SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme, QString fileName, OscSender *oscSender, bool autoIndent)
+SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme, QString fileName, bool autoIndent)
   : QsciScintilla()
 {
   setAcceptDrops(true);
   this->theme = theme;
-  this->oscSender = oscSender;
   this->fileName = fileName;
   this->autoIndent = autoIndent;
   this->selectionMode = false;
@@ -607,7 +606,7 @@ void SonicPiScintilla::newlineAndIndent() {
   // TODO: fix this:
   std::string id = "foobar";
 
-  oscSender->bufferNewlineAndIndent(point_line, point_index, first_line, code, fileName.toStdString(), id);
+  emit bufferNewlineAndIndent(point_line, point_index, first_line, code, fileName.toStdString(), id);
   mutex->unlock();
 }
 

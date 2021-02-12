@@ -1,7 +1,24 @@
 #!/bin/bash
+
 set -e # Quit script on error
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-echo "Warning: Unix build scripts are still a work in progress!"
+
+if [ ! -d "vcpkg" ]; then 
+    echo "Cloning vcpkg"
+    git clone --single-branch --branch master https://github.com/microsoft/vcpkg.git vcpkg
+fi
+
+if [ ! -f "vcpkg/vcpkg" ]; then
+    echo "Building vcpkg"
+    cd vcpkg 
+    ./bootstrap-vcpkg.sh -disableMetrics
+    cd ${SCRIPT_DIR} 
+fi
+
+cd vcpkg
+./vcpkg install kissfft fmt crossguid sdl2 gl3w reproc gsl-lite concurrentqueue platform-folders catch2 --recurse
+
+cd ${SCRIPT_DIR}
 
 
 

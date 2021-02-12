@@ -32,6 +32,9 @@ build32
 # Core dumps
 *.dump
 
+# Ignore vcpkg
+app/vcpkg
+
 # QT GUI
 # --------
 

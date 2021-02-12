@@ -1,0 +1,100 @@
+language: cpp
+
+dist: xenial # default distribution
+os: linux # default os
+sudo: false
+
+
+matrix:
+  fast_finish: true
+  include:
+    - env: MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && GENERATOR='Unix Makefiles' && CONFIG=Release"
+      addons: { apt: { packages: ["g++-5"], sources: ["ubuntu-toolchain-r-test"] } }
+
+    - env: MATRIX_EVAL="CC=gcc-6 && CXX=g++-6 && GENERATOR='Unix Makefiles' && CONFIG=Release"
+      addons: { apt: { packages: ["g++-6"], sources: ["ubuntu-toolchain-r-test"] } }
+
+    - env: MATRIX_EVAL="CC=gcc-7 && CXX=g++-7 && GENERATOR='Unix Makefiles' && CONFIG=Release"
+      addons: { apt: { packages: ["g++-7"], sources: ["ubuntu-toolchain-r-test"] } }
+
+    - env: MATRIX_EVAL="CC=gcc-7 && CXX=g++-7 && GENERATOR='Unix Makefiles' && CONFIG=Debug && GHC_COVERAGE=1"
+      addons: { apt: { packages: ["g++-7", "lcov"], sources: ["ubuntu-toolchain-r-test"] } }
+
+    - env: MATRIX_EVAL="CC=gcc-8 && CXX=g++-8 && GENERATOR='Unix Makefiles' && CONFIG=Release"
+      addons: { apt: { packages: ["g++-8"], sources: ["ubuntu-toolchain-r-test"] } }
+
+    - env: MATRIX_EVAL="CC=gcc-9 && CXX=g++-9 && GENERATOR='Unix Makefiles' && CONFIG=Release"
+      addons: { apt: { packages: ["g++-9"], sources: ["ubuntu-toolchain-r-test"] } }
+
+    - env: MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0 && GENERATOR='Unix Makefiles' && CONFIG=Release"
+      addons: { apt: { packages: ["clang-5.0"] } }
+
+    - env: MATRIX_EVAL="CC=clang-6.0 && CXX=clang++-6.0 && GENERATOR='Unix Makefiles' && CONFIG=Release"
+      addons: { apt: { packages: ["clang-6.0"] } }
+
+    - env: MATRIX_EVAL="CC=clang-7 && CXX=clang++-7 && GENERATOR='Unix Makefiles' && CONFIG=Release"
+      addons: { apt: { packages: ["clang-7", "libc++-7-dev", "libc++abi-7-dev"], sources: ["llvm-toolchain-xenial-7"] } }
+
+    - env: MATRIX_EVAL="CC=clang-8 && CXX=clang++-8 && GENERATOR='Unix Makefiles' && CONFIG=Release"
+      addons: { apt: { packages: ["clang-8", "libc++-8-dev", "libc++abi-8-dev"], sources: ["llvm-toolchain-xenial-8"] } }
+
+    - env: MATRIX_EVAL="CC=clang-9 && CXX=clang++-9 && GENERATOR='Unix Makefiles' && CONFIG=Release"
+      addons: { apt: { packages: ["clang-9", "libc++-9-dev", "libc++abi-9-dev"], sources: [{sourceline: 'deb https://apt.llvm.org/xenial/ llvm-toolchain-xenial-9 main', key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'}] } }
+
+    - os: osx
+      env: MATRIX_EVAL="CC=clang && CXX=clang++ && GENERATOR=Xcode && CONFIG=Release"
+      osx_image: xcode9.2
+
+    - os: osx
+      env: MATRIX_EVAL="CC=clang && CXX=clang++ && GENERATOR=Xcode && CONFIG=Release"
+      osx_image: xcode10.1
+
+    - os: osx
+      env: MATRIX_EVAL="CC=clang && CXX=clang++ && GENERATOR=Xcode && CONFIG=Release"
+      osx_image: xcode11.3
+
+install:
+  - eval "${MATRIX_EVAL}"
+  - |
+    if [ "${GHC_COVERAGE}" = "1" ]; then
+      gem install coveralls-lcov
+    fi
+  - $CC --version
+  - $CXX --version
+  - cmake --version
+
+before_script:
+  - eval "${MATRIX_EVAL}"
+  - mkdir build
+  - cd build
+  - export VERBOSE=1
+  - |
+    if [ "${CONFIG}" = "Debug" ]; then
+      cmake -G"${GENERATOR}" -DCMAKE_CXX_COMPILER=${CXX} -DCMAKE_C_COMPILER=${CC} -DCMAKE_BUILD_TYPE=${CONFIG} -DGHC_COVERAGE=ON ..
+    else
+      cmake -G"${GENERATOR}" -DCMAKE_CXX_COMPILER=${CXX} -DCMAKE_C_COMPILER=${CC} -DCMAKE_BUILD_TYPE=${CONFIG} ..
+    fi
+
+script:
+  - export VERBOSE=1
+  - cmake --build . --config ${CONFIG} --target filesystem_test
+  - |
+    if [ "${GHC_COVERAGE}" = "1" ]; then
+      cmake --build . --config ${CONFIG} --target filesystem_test
+      test/filesystem_test
+    else
+      cmake --build . --config ${CONFIG}
+      ctest -C ${CONFIG} -E Windows
+      if [ -f "test/std_filesystem_test" ]; then
+        test/std_filesystem_test || true
+      fi
+    fi
+
+after_success:
+  - |
+    if [ "${GHC_COVERAGE}" = "1" ]; then
+      lcov --compat-libtool --directory . --capture --output-file coverage_output.info
+      lcov --remove coverage_output.info '/usr/*' '*/c++/*' '*.h' '*/catch.hpp' -o coverage.info
+      sed -i 's|SF:/.*/filesystem/|SF:../|g' coverage.info
+      coveralls-lcov coverage.info
+    fi

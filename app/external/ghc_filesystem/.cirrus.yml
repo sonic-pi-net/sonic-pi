@@ -1,0 +1,35 @@
+freebsd_task:
+  freebsd_instance:
+    image_family: freebsd-12-1
+  install_script: |
+    pkg install -y cmake
+    pw groupadd testgrp
+    pw useradd testuser -g testgrp -w none -m
+    chown -R testuser:testgrp .
+  build_script: |
+    sudo -u testuser .ci/unix-build.sh
+  test_script: |
+    sudo -u testuser .ci/unix-test.sh
+
+centos7_task:
+  container:
+    image: centos:7
+  install_script: |
+    yum install -y centos-release-scl
+    yum install -y devtoolset-9
+    curl -L https://github.com/Kitware/CMake/releases/download/v3.16.4/cmake-3.16.4-Linux-x86_64.tar.gz | tar xzvf - -C /usr/local --strip-components 1
+  build_script: |
+    source /opt/rh/devtoolset-9/enable && PATH=$PATH:/usr/local/bin .ci/unix-build.sh
+  test_script: |
+    PATH=$PATH:/usr/local/bin .ci/unix-test.sh
+
+centos8_task:
+  container:
+    image: centos:8
+  install_script: |
+    yum group install -y "Development Tools"
+    curl -L https://github.com/Kitware/CMake/releases/download/v3.16.4/cmake-3.16.4-Linux-x86_64.tar.gz | tar xzvf - -C /usr/local --strip-components 1
+  build_script: |
+    PATH=$PATH:/usr/local/bin .ci/unix-build.sh
+  test_script: |
+    PATH=$PATH:/usr/local/bin .ci/unix-test.sh

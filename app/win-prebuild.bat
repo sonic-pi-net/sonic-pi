@@ -3,6 +3,24 @@ call external/win_x64_build_externals.bat
 
 cd %~dp0
 
+if not exist "vcpkg\" (
+    echo Download vcpkg from github
+    git clone --single-branch --branch master https://github.com/microsoft/vcpkg vcpkg
+)
+
+if not exist "vcpkg\vcpkg.exe" (
+    cd vcpkg 
+    echo Building vcpkg
+    call bootstrap-vcpkg.bat -disableMetrics
+    cd %~dp0
+)
+
+cd vcpkg
+echo Installing Libraries 
+vcpkg install kissfft fmt crossguid sdl2 gl3w reproc gsl-lite concurrentqueue platform-folders catch2 --triplet x64-windows-static-md --recurse
+
+cd %~dp0
+
 @echo Cleaning out native dir....
 REM del server\native\*.* /s /q
 rmdir server\native\erlang /s /q

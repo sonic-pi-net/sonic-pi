@@ -1,0 +1,7 @@
+API TODO:
+
+Fix mac deploy target back to .13 and substitute filesystem
+Fix win thread priority
+Add TCP functionality for future
+More unit tests
+Figure out CI for Windows virtual audio device

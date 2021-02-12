@@ -1,0 +1,85 @@
+environment:
+  matrix:
+    - platform: x86
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      generator: "Visual Studio 14 2015"
+      compiler: msvc
+      configuration: Release
+
+    - platform: x64
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      generator: "Visual Studio 14 2015 Win64"
+      compiler: msvc
+      configuration: Release
+
+    - platform: x86
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      generator: "Visual Studio 15 2017"
+      compiler: msvc
+      configuration: Release
+
+    - platform: x64
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      generator: "Visual Studio 15 2017 Win64"
+      compiler: msvc
+      configuration: Release
+
+    - platform: x86
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      generator: "Visual Studio 16 2019"
+      compiler: msvc19
+      configuration: Release
+      arch: Win32
+
+    - platform: x64
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      generator: "Visual Studio 16 2019"
+      compiler: msvc19
+      configuration: Release
+      arch: x64
+
+    - platform: x86
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      generator: "MinGW Makefiles"
+      compiler: mingw
+      TOOLCHAIN_PATH: C:\mingw-w64\i686-6.3.0-posix-dwarf-rt_v5-rev1/mingw32\bin
+      CC: C:/mingw-w64/i686-6.3.0-posix-dwarf-rt_v5-rev1/mingw32/bin/gcc.exe
+      CXX: C:/mingw-w64/i686-6.3.0-posix-dwarf-rt_v5-rev1/mingw32/bin/g++.exe
+      configuration: Release
+
+    - platform: x64
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      generator: "MinGW Makefiles"
+      compiler: mingw
+      TOOLCHAIN_PATH: C:\mingw-w64\x86_64-7.2.0-posix-seh-rt_v5-rev1\mingw64\bin
+      CC: C:/mingw-w64/x86_64-7.2.0-posix-seh-rt_v5-rev1/mingw64/bin/gcc.exe
+      CXX: C:/mingw-w64/x86_64-7.2.0-posix-seh-rt_v5-rev1/mingw64/bin/g++.exe
+      configuration: Release
+
+matrix:
+  fast_finish: false
+
+init:
+  - cmd: cmake --version
+  - cmd: msbuild /version
+
+install:
+  - cmd: reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" /t REG_DWORD /f /v "AllowDevelopmentWithoutDevLicense" /d "1"
+  - cmd: ren "C:\Program Files\Git\usr\bin\sh.exe" _sh.exe
+
+build_script:
+  - mkdir build
+  - cd build
+  - if [%compiler%]==[msvc] cmake -G"%generator%" ..
+  - if [%compiler%]==[msvc19] cmake -G"%generator%" -A "%arch%" ..
+  - if [%compiler%]==[mingw] set PATH=%TOOLCHAIN_PATH%;%PATH%
+  - if [%compiler%]==[mingw] cmake -G"%generator%" -DCMAKE_C_COMPILER=%CC% -DCMAKE_CXX_COMPILER=%CXX% -DCMAKE_SH=CMAKE_SH-NOTFOUND -DCMAKE_BUILD_TYPE=%configuration% ..
+  - cmake --build . --config %configuration%
+  
+test_script:
+  - cd %APPVEYOR_BUILD_FOLDER%\build
+  - set CTEST_OUTPUT_ON_FAILURE=1
+  - ctest -C %configuration% 
+  - if exist "test\Release\std_filesystem_test.exe" test\Release\std_filesystem_test.exe & exit 0
+  - cd ..
+
