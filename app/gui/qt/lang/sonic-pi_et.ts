@@ -698,22 +698,22 @@ Vabandust, käivitumisel tuvastati kriitiline viga</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2917"/>
         <source>Focus Context</source>
-        <translation type="unfinished"></translation>
+        <translation>Fookus kontekstile</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2919"/>
         <source>Place focus on the context pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Vii fookus kontekstipaanile</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2923"/>
         <source>Focus Cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Fookus vihjetele</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2925"/>
         <source>Place focus on the cue event pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Vii fookus vihjete sündmuste paanile</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2929"/>
@@ -763,7 +763,7 @@ Vabandust, käivitumisel tuvastati kriitiline viga</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2957"/>
         <source>Show Cue Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Kuva vihjete logi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2962"/>
@@ -1261,8 +1261,9 @@ efekti.</translation>
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation>Sonic Pi võib saata ja vastuvõtta Open Sound Control sõnumeid
-teistelt programmidelt ja hetkel võrku ühendatud arvutitelt.</translation>
+        <translation>Sonic Pi võib saata ja vastuvõtta Open Sound Control
+sõnumeid teistelt programmidelt ja hetkel võrku
+ühendatud arvutitelt.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="145"/>
@@ -1355,7 +1356,7 @@ Valimata olekus OSC sõnumeid vastu ei võeta.</translation>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation>MIDI sisendseadmed saadavad MIDI sõnumeid 
+        <translation>MIDI sisendseadmed saadavad MIDI sõnumeid
 Sonic Pi&apos;le otse ja neid käsitletakse vihjete sündmustena
 (sarnaselt sisenevatele OSC sõnumitele ja sisevihjetele)</translation>
     </message>
@@ -1404,12 +1405,12 @@ otse vastu; neid saab saata midi_* funktsioonidega</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="189"/>
         <source>Enable incoming MIDI cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Luba sisenevad MIDI vihjed</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="190"/>
         <source>Enable or disable automatic conversion of incoming MIDI messages to cue events</source>
-        <translation type="unfinished"></translation>
+        <translation>Luba või keela sisenevate MIDI sõnumite automaatne teisendamine vihjesündmusteks</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="220"/>
@@ -1595,7 +1596,7 @@ iga kord kui vajutatakse nuppu &quot;Käivita&quot;.</translation>
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
         <translation>Luba või keela vihjete logimine.
-Keelatud olekus käivitatakse vihjed 
+Keelatud olekus käivitatakse vihjed
 ikkagi, kuid neid ei ole logides näha.</translation>
     </message>
     <message>
