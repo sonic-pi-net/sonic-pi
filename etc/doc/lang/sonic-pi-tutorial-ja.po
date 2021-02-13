@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2021-02-08 08:00+0000\n"
-"Last-Translator: kaz yamazaki <k.yamazaki@yamajilab.com>\n"
+"PO-Revision-Date: 2021-02-14 08:00+0000\n"
+"Last-Translator: Haruki Niwa <haruki.nw33@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/ja/>\n"
 "Language: ja\n"
@@ -67,14 +67,14 @@ msgstr ""
 "、自由に、色々なセクションを覗いてみてください。何か、不足している点に気がついたら、将来のバージョンのために検討したいので、知らせてください。"
 
 #: 01-Welcome-to-Sonic-Pi.md:28
-#, fuzzy
 msgid ""
 "Finally, watching others live code is a really great way to learn. I regularly"
 " stream live on [https://youtube.com/samaaron](http://youtube.com/samaaron) so"
 " please do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
-"最後に、他の人がライブコーディングするのを見るのはとても良い学習方法です。私は定期的に[http://youtube.com/samaaron](http:"
-"//youtube.com/samaaron)でライブをストリーミングしているので、ぜひ立ち寄って、たくさんの質問をしてみてください :-)"
+"最後に、他人のライブコーディングを見るのはとても良い学習方法です。私は定期的に[http://youtube.com/"
+"samaaron](http://youtube.com/samaaron)でライブをストリーミングしているので、ぜひ立ち寄って、"
+"たくさんの質問をしてみてください :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
@@ -118,9 +118,8 @@ msgid "A live loop"
 msgstr "ライブループ"
 
 #: 01.1-Live-Coding.md:19
-#, fuzzy
 msgid "Let's get started, copy the following code into an empty buffer:"
-msgstr "さぁ、はじめましょう！ 下のコードを上の空欄のBuffer（バッファ）にコピーしてみましょう。"
+msgstr "さぁ、はじめましょう！ 下のコードを上の空欄のエディタにコピーしてみましょう。"
 
 #: 01.1-Live-Coding.md:21
 #, no-wrap
@@ -439,7 +438,6 @@ msgid "E. Prefs Panel"
 msgstr "E. 設定画面"
 
 #: 01.2-Exploring-the-Interface.md:56
-#, fuzzy
 msgid ""
 "Sonic Pi supports a number of tweakable preferences which can be accessed by t"
 "oggling the *prefs* button in the Info and Help button set. This will toggle t"
@@ -447,9 +445,9 @@ msgid ""
 "ged. Examples are forcing mono mode, inverting stereo, toggling log output ver"
 "bosity and also a volume slider and audio selector on the Raspberry Pi."
 msgstr ""
-"Sonic Piには多くの変更可能な設定があり、*Prefs*ボタンを切り替えることでアクセスできます。このボタンにより、多くの変更可能なオプションを含む環"
-"境設定パネルの表示/非表示を切り替えることができます。オプションの例としては、モノラルモードへの強制変更や、ステレオ反転、ログ出力の切り替え、さらにRasp"
-"berry Piのボリュームスライダーやオーディオセレクターなどがあります。"
+"Sonic Piには変更可能な設定がたくさんあり、*Prefs*ボタンを切り替えることでアクセスできます。このボタンにより、環境設定パネルの表示/非表示を"
+"切り替えることができます。設定の例としては、モノラルモードへの変更や、ステレオ反転、ログ出力の切り替え、さらにRaspberry "
+"Piのボリュームスライダーやオーディオセレクターなどがあります。"
 
 #: 01.2-Exploring-the-Interface.md:63
 msgid "F. Log Viewer"
@@ -498,18 +496,18 @@ msgid ""
 " you to draw pretty pictures with sound (https://en.wikipedia.org/wiki/Lissajo"
 "us_curve)."
 msgstr ""
-"スコープビューアは、あなたの聞いている音を見ることを可能にします。ノコギリ波がのこぎりのようだったり、単純なビープ音が正弦波であることを簡単に見ることが出来"
-"ます。また、うるさい音と静かな音の違いを線の大きさで見ることも可能です。Sonic Piには、3つのスコープがあります。デフォルトは左右のチャネルを混ぜあわ"
-"せたモノラルスコープです。左右のチャネルを別々のスコープで描画するステレオスコープがあります。最後に、左右のチャネルの位相の関係を描画するリサジュースコープ"
-"があります。（https://ja.wikipedia.org/wiki/%E3%83%AA%E3%82%B5%E3%82%B8%E3%83%A5%E3%8"
-"3%BC%E5%9B%B3%E5%BD%A2）"
+"スコープビューアは、あなたの聞いている音を見ることを可能にします。ノコギリ波がのこぎりのようだったり、単純なビープ音が正弦波であることを簡単に見ることが出"
+"来ます。また、うるさい音と静かな音の違いを線の大きさで見ることも可能です。Sonic Piには、3つのスコープがあります。デフォルトは左右のチャネルを混ぜ"
+"あわせたモノラルスコープです。左右のチャネルを別々のスコープで描画するステレオスコープがあります。最後に、左右のチャネルの位相の関係を描画する[リサジュー"
+"ス曲線](https://ja.wikipedia.org/wiki/"
+"%E3%83%AA%E3%82%B5%E3%82%B8%E3%83%A5%E3%83%BC%E5%9B%B3%E5%BD%A2)スコープがあります。"
 
 #: 01.2-Exploring-the-Interface.md:93
-#, fuzzy
 msgid "I. Cue Viewer"
-msgstr "F. ログビューア"
+msgstr "F. キュービューア"
 
 #: 01.2-Exploring-the-Interface.md:95
+#, fuzzy
 msgid ""
 "All internal and external events (called cues in Sonic Pi) are automatically l"
 "ogged in the Cue Viewer. For example, if you have a MIDI controller connected "
@@ -526,6 +524,13 @@ msgid ""
 "ng happening. This is covered in more detail in Sections 10 to 12 of this tuto"
 "rial."
 msgstr ""
+"すべての内部および外部のイベント（Sonic Piではキューと呼ばれます）は、キュービューアーに自動的に記録されます。たとえば、MIDIコントローラーが接"
+"続された状態でボタンを押すと、コントローラーの名前からなる新しいキューイベントがキュービューアーに表示されます。サウンドの作成と生成の基本をマスターすると"
+"、このようなイベントに基づいて、サウンドまたはサウンドのセクション全体をキューに入れたいと思うようになります。キューイベントは、何かが起こったことを示すだ"
+"けです。たとえば、ライブループが回転するたびに、キュービューアに記録されているキューイベントが送信されます。また、接続されているMIDI機器からのMIDI"
+"メッセージや他のプログラムやコンピューターからのOSCメッセージなどの外部イベントもキュービューアーに表示されます。 `cue`関数を使用してキューイベン"
+"トを直接生成することもできます。キュービューアに表示されるものはすべて、何かが発生するようにトリガーするために使用できます。これについては、このチュートリ"
+"アルのセクション10〜12で詳しく説明しています。"
 
 #: 01.3-Learning-through-Play.md:1
 msgid "1.3 Learning through Play"
