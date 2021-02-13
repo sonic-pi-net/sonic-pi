@@ -8,3 +8,4 @@ osmid.sublime-workspace
 *.beam
 .vs/
 *.bak
+.#*
