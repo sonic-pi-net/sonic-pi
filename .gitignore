@@ -62,7 +62,7 @@ app/gui/qt/moc_sonicpiudpserver.cpp
 app/gui/qt/qrc_SonicPi.cpp
 app/gui/qt/utils/ruby_help.h
 app/gui/qt/utils/lang_list.h
-app/gui/qt/help
+app/gui/qt/help/*.html
 app/gui/qt/help_files.qrc
 app/gui/qt/lang/*.qm
 app/gui/qt/qrc_help_files.cpp
