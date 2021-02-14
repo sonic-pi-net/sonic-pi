@@ -34,7 +34,7 @@ include SonicPi::Util
 @lang_names = Hash[
   "bg" => "български", # Bulgarian
   "bn" => "বাংলা", # Bengali/Bangla
-  "bs" => "Bosanski/босански", # Bosnian
+  "bs" => "Bosanski", # Bosnian
   "ca" => "Català", # Catalan
   "ca@valencia" => "Valencià", # Valencian
   "cs" => "Čeština", # Czech
@@ -79,10 +79,10 @@ include SonicPi::Util
   "ug" => "ئۇيغۇر تىلى", # Uyghur
   "uk" => "Українська", # Ukranian
   "vi" => "Tiếng Việt", # Vietnamese
-  "zh" => "简体中文", # Mandarin Chinese (Simplified)
-  "zh_Hans" => "简体中文", # Mandarin Chinese (Simplified)
-  "zh_HK" => "廣東話", # Mandarin Chinese (Traditional, Hong Kong)
-  "zh_TW" => "臺灣華語" # Mandarin Chinese (Traditional, Taiwan)
+  "zh" => "简体中文", # Chinese (Simplified)
+  "zh_Hans" => "简体中文", # Chinese (Simplified)
+  "zh_HK" => "廣東話", # Chinese (Traditional, Hong Kong)
+  "zh_TW" => "臺灣華語" # Chinese (Traditional, Taiwan)
 ]
 
 FileUtils::rm_rf "#{qt_gui_path}/help/"
