@@ -319,49 +319,23 @@ SonicPi::Synths::SynthInfo.get_all.each do |k, v|
 end
 
 def generate_ui_lang_names
-  # Make a function to define the locale list map -----
+  # Define the language list map -----
   ui_languages = @lang_names.keys
   ui_languages = ui_languages.sort_by {|l| l.downcase}
   locale_arrays = []
   locale_arrays << "std::map<QString, QString> SonicPii18n::native_language_names = {\n"
+
   # # Add each language
-  # locale_arrays << "{0, \"system_locale\"}"
-  # i = 1
-  # ui_languages.each do |lang|
-  #   locale_arrays << ",\n"
-  #   locale_arrays << "{#{i.to_s}, \"#{lang}\"}"
-  #   i += 1
-  # end
-  # # End the map
-  # locale_arrays << "\n};\n"
-  #
-  # # Create a map of the locales to their indices in availableLocales, called localeIndex
-  # locale_arrays << "localeIndex = {\n"
-  # # Add each language
-  # locale_arrays << "{\"system_locale\", 0}"
-  # i = 1
-  # ui_languages.each do |lang|
-  #   locale_arrays << ",\n"
-  #   locale_arrays << "{\"#{lang}\", #{i.to_s}}"
-  #   i += 1
-  # end
-  # # End the map
-  # locale_arrays << "\n};\n"
-  #
-  # # Create a map of the locales to their native names, called localeNames
-  # locale_arrays << "localeNames = {\n"
-  # Add each language
-  locale_arrays << "{\"system_locale\", \"\"}"
-  ui_languages.each do |lang|
-    locale_arrays << ",\n"
+  for i in 0..(ui_languages.length()-1) do
+    lang = ui_languages[i]
+    locale_arrays << ",\n" if i != 0
     locale_arrays << "{\"#{lang}\", \"#{@lang_names[lang]}\"}"
   end
+
   # End the map
   locale_arrays << "\n};\n"
 
-  # End the function
-  #locale_arrays << "};\n"
-
+  # Write the map to lang_list.h
   content = File.readlines("#{qt_gui_path}/utils/lang_list.tmpl")
   lang_names_generated = content.take_while { |line| !line.start_with?("// AUTO-GENERATED")}
   lang_names_generated << "// AUTO-GENERATED HEADER FILE\n"

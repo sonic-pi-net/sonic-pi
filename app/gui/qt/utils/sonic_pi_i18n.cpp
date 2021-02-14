@@ -14,21 +14,9 @@
 SonicPii18n::SonicPii18n(QString rootpath) {
   this->root_path = rootpath;
   this->available_languages = findAvailableLanguages();
+
   // Set to true unless we can't load the system language
   this->system_language_available = true;
-
-  // // Print all Qt's language codes for debugging
-  // QList<QLocale> allLocales = QLocale::matchingLocales(
-  //           QLocale::AnyLanguage,
-  //           QLocale::AnyScript,
-  //           QLocale::AnyCountry);
-  // QStringList iso639LanguageCodes;
-  //
-  // for(const QLocale &locale : allLocales) {
-  //     iso639LanguageCodes << locale.name();
-  // }
-  //
-  // std::cout << iso639LanguageCodes.join("\n").toUtf8().constData() << std::endl;
 }
 
 SonicPii18n::~SonicPii18n() {
@@ -39,7 +27,7 @@ QString SonicPii18n::determineUILanguage(QString lang_pref) {
   //std::cout << available_languages.join("\n").toUtf8().constData() << std::endl;
   QLocale locale;
 
-  if (lang_pref != "system_locale") {
+  if (lang_pref != "system_language") {
     if (available_languages.contains(lang_pref)) {
         return lang_pref;
     }
@@ -54,7 +42,7 @@ QString SonicPii18n::determineUILanguage(QString lang_pref) {
     }
   } else {
     QStringList preferred_languages = locale.uiLanguages();
-    // If the specified language isn't available, or if the setting is set to system_locale...
+    // If the specified language isn't available, or if the setting is set to system_language...
       // ...run through the list of preferred languages
     std::cout << "Looping through preferred ui languages" << std::endl;
 
@@ -80,7 +68,7 @@ QStringList SonicPii18n::findAvailableLanguages() {
   QLocale locale;
 
   QString m_langPath = root_path + "/app/gui/qt/lang";
-  std::cout << m_langPath.toUtf8().constData() << "\n";
+  //std::cout << m_langPath.toUtf8().constData() << "\n";
   QDir dir(m_langPath);
   QStringList fileNames = dir.entryList(QStringList("sonic-pi_*.qm"));
 
@@ -133,12 +121,14 @@ std::map<QString, QString> SonicPii18n::getNativeLanguageNameList() {
 }
 
 QString SonicPii18n::getNativeLanguageName(QString lang) {
+  if (lang == "system_language") {
+    return tr("System language");
+  }
+
   std::map<QString, QString>::iterator it = native_language_names.find(lang);
   if(it != native_language_names.end()) {
     // language found
     return native_language_names[lang];
-  } else if (lang == "system_locale") {
-    return tr("System language");
   } else {
     std::cout << "Warning: Predefined language name not found'" << lang.toUtf8().constData() << "'" << std::endl;
     // Try using QLocale to find the native language name

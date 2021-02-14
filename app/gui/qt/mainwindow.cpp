@@ -162,6 +162,7 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
 
     bool startupOK = false;
     this->sonicPii18n = new SonicPii18n(rootPath());
+    std::cout << "Language setting: " << piSettings->language.toUtf8().constData() << std::endl;
     this->ui_language = sonicPii18n->determineUILanguage(piSettings->language);
     std::cout << "Using language: " << ui_language.toUtf8().constData() << std::endl;
     this->i18n = sonicPii18n->loadTranslations(ui_language);
@@ -182,8 +183,8 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
     std::cout << "[GUI] - ===========================" << std::endl;
     std::cout << "[GUI] -                            " << std::endl;
     std::cout << "[GUI] - " << guiID.toStdString() << std::endl;
-    std::cout << "[GUI] - ui locale:  " << QLocale::system().uiLanguages()[0].toStdString() << std::endl;
-    std::cout << "[GUI] - sys locale: " << QLocale::system().name().toStdString()           << std::endl;
+    std::cout << "[GUI] - ui locale:  " << ui_language.toUtf8().constData()       << std::endl;
+    std::cout << "[GUI] - sys locale: " << QLocale::system().name().toStdString() << std::endl;
 
 
     if(i18n) {
@@ -2206,16 +2207,12 @@ void MainWindow::changeUILanguage(QString lang) {
 
         if (msgBox.clickedButton() == (QAbstractButton*)restartButton) {
             piSettings->language = lang;
-            writeSettings();
             restartApp();
-            //statusBar()->showMessage(tr("Updated UI language setting, please restart Sonic Pi to apply it"), 2000);
         } else if (msgBox.clickedButton() == (QAbstractButton*)dismissButton) {
             // Don't apply the new language settings
             settingsWidget->updateSelectedUILanguage(piSettings->language);
         }
 
-        // Load previously set language
-        //sonicPii18n->loadTranslations(ui_language);
     }
 }
 
@@ -3540,7 +3537,7 @@ void MainWindow::readSettings()
     QSettings settings(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net", "gui-settings");
 
     // Read in preferences from previous session
-    piSettings->language = settings.value("prefs/language", "system_locale").toString();
+    piSettings->language = settings.value("prefs/language", "system_language").toString();
 
     piSettings->show_buttons = settings.value("prefs/show-buttons", true).toBool();
     piSettings->show_tabs = settings.value("prefs/show-tabs", true).toBool();
@@ -3778,13 +3775,14 @@ void MainWindow::onExitCleanup()
 void MainWindow::restartApp() {
     QApplication* app = dynamic_cast<QApplication*>(parent());
     statusBar()->showMessage(tr("Restarting Sonic Pi..."), 10000);
+
     // Save settings and perform some cleanup
     writeSettings();
     onExitCleanup();
-    sleep(1);
     std::cout << "Performing application restart... please wait..." << std::endl;
-    //this->hide(); // So it doesn't look like the app's frozen or crashed
-    sleep(4); // Allow cleanup to complete
+    // Allow cleanup to complete
+    std::this_thread::sleep_for(2s);
+
     // Create new process
     QStringList args = qApp->arguments();
     args.removeFirst();
@@ -3795,6 +3793,7 @@ void MainWindow::restartApp() {
     } else {
       std::cout << "Failed to restart sonic-pi" << std::endl;
     }
+
     // Quit
     app->exit(0);
     exit(0);
@@ -4373,7 +4372,7 @@ SonicPiLog* MainWindow::GetIncomingPane() const
 {
     return incomingPane;
 }
-        
+
 SonicPiTheme* MainWindow::GetTheme() const
 {
     return theme;

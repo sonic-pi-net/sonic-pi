@@ -27,7 +27,7 @@ SettingsWidget::SettingsWidget(int port, bool i18n, SonicPiSettings *piSettings,
     this->sonicPii18n = sonicPii18n;
     this->localeNames = sonicPii18n->getNativeLanguageNameList();
     this->available_languages = sonicPii18n->getAvailableLanguages();
-    available_languages.prepend("system_locale");
+    available_languages.prepend("system_language");
     server_osc_cues_port = port;
 
     prefTabs = new QTabWidget();
@@ -850,7 +850,7 @@ void SettingsWidget::add_language_combo_box_entries(QComboBox* combo) {
 
   for (auto const &language : available_languages) {
     std::cout << "[Debug] Adding language " << language.toUtf8().data() << " to the combo box" << std::endl;
-    if (language != "system_locale") {
+    if (language != "system_language") {
       // Add the language's name to the combo box
       combo->addItem(sonicPii18n->getNativeLanguageName(language));
     } else {
