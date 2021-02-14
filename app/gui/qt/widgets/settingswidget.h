@@ -72,7 +72,8 @@ private slots:
     void autoIndentOnRun();
 
 signals:
-    void uiLanguageChanged(QString lang);
+    void restartApp();
+    //void uiLanguageChanged(QString lang); // TODO: Implement real-time language switching
     void mixerSettingsChanged();
     void oscSettingsChanged();
     void midiSettingsChanged();

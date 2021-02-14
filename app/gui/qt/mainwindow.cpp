@@ -583,7 +583,7 @@ void MainWindow::setupWindowStructure()
     prefsWidget->setFeatures(QDockWidget::DockWidgetClosable);
 
     settingsWidget = new SettingsWidget(server_osc_cues_port, i18n, piSettings, sonicPii18n, this);
-    connect(settingsWidget, SIGNAL(uiLanguageChanged(QString)), this, SLOT(changeUILanguage(QString)));
+    connect(settingsWidget, SIGNAL(restartApp()), this, SLOT(restartApp()));
     connect(settingsWidget, SIGNAL(volumeChanged(int)), this, SLOT(changeSystemPreAmp(int)));
     connect(settingsWidget, SIGNAL(mixerSettingsChanged()), this, SLOT(mixerSettingsChanged()));
     connect(settingsWidget, SIGNAL(midiSettingsChanged()), this, SLOT(toggleMidi()));

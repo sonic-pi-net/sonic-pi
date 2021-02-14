@@ -16,6 +16,7 @@
 #include <QPushButton>
 #include <QSignalMapper>
 #include <QVBoxLayout>
+#include <QMessageBox>
 #include <QSize>
 
 /**
@@ -538,10 +539,40 @@ void SettingsWidget::toggleScope( QWidget* qw ) {
   emit scopeChanged(name);
 }
 
+// TODO: Implement real-time language switching
 void SettingsWidget::updateUILanguage(int index) {
-  QString lang = available_languages[index];
-  std::cout << "Changed language to " << lang.toUtf8().constData() << std::endl;
-  emit uiLanguageChanged(lang);
+    QString lang = available_languages[index];
+    std::cout << "Changed language to " << lang.toUtf8().constData() << std::endl;
+    if (lang != piSettings->language) {
+        std::cout << "Current language:  " << piSettings->language.toUtf8().constData() << std::endl;
+        std::cout << "New language selected: " << lang.toUtf8().constData() << std::endl;
+        QString old_lang = sonicPii18n->getNativeLanguageName(piSettings->language);
+        QString new_lang = sonicPii18n->getNativeLanguageName(lang);
+
+        // Load new language
+        //QString language = sonicPii18n->determineUILanguage(lang);
+        //sonicPii18n->loadTranslations(language);
+        //QString title_new = tr("Updated the UI language from %s to %s").arg();
+
+        QMessageBox msgBox(this);
+        msgBox.setText(QString(tr("You've selected a new language: %1")).arg(new_lang));
+        msgBox.setInformativeText(tr("Do you want to apply this language?\nApplying the new language will restart Sonic Pi."));
+        QPushButton *restartButton = msgBox.addButton(tr("Apply and Restart"), QMessageBox::ActionRole);
+        QPushButton *dismissButton = msgBox.addButton(tr("Cancel"), QMessageBox::RejectRole);
+        msgBox.setDefaultButton(restartButton);
+        msgBox.setIcon(QMessageBox::Information);
+        msgBox.exec();
+
+        if (msgBox.clickedButton() == (QAbstractButton*)restartButton) {
+            piSettings->language = lang;
+            emit restartApp();
+            //emit uiLanguageChanged(lang);
+        } else if (msgBox.clickedButton() == (QAbstractButton*)dismissButton) {
+            // Don't apply the new language settings
+            updateSelectedUILanguage(piSettings->language);
+        }
+
+    }
 }
 
 void SettingsWidget::update_mixer_invert_stereo() {
