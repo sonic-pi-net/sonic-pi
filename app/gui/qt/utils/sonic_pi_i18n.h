@@ -28,7 +28,7 @@ public slots:
   std::map<QString, QString> getNativeLanguageNameList();
   QString getNativeLanguageName(QString lang);
   bool loadTranslations(QString lang);
-  
+
   bool system_language_available;
 
 private:
@@ -39,5 +39,6 @@ private:
   static std::map<QString, QString> native_language_names;
 
   QStringList findAvailableLanguages();
+  bool checkAllTranslations();
 };
 #endif

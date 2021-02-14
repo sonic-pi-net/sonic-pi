@@ -13,10 +13,10 @@
 
 SonicPii18n::SonicPii18n(QString rootpath) {
   this->root_path = rootpath;
-  this->available_languages = findAvailableLanguages();
+  this->system_language_available = true; // Set to true unless we can't load the system language
 
-  // Set to true unless we can't load the system language
-  this->system_language_available = true;
+  this->available_languages = findAvailableLanguages();
+  //checkAllTranslations(); // For testing and debugging purposes
 }
 
 SonicPii18n::~SonicPii18n() {
@@ -65,22 +65,21 @@ QString SonicPii18n::determineUILanguage(QString lang_pref) {
 
 QStringList SonicPii18n::findAvailableLanguages() {
   QStringList languages;
-  QLocale locale;
 
   QString m_langPath = root_path + "/app/gui/qt/lang";
-  //std::cout << m_langPath.toUtf8().constData() << "\n";
+  //std::cout << m_langPath.toUtf8().constData() << std::endl;
   QDir dir(m_langPath);
   QStringList fileNames = dir.entryList(QStringList("sonic-pi_*.qm"));
 
   for (int i = 0; i < fileNames.size(); ++i) {
-    // get locale extracted by filename
-    QString locale;
-    locale = fileNames[i]; // "sonic-pi_pt_BR.qm"
-    locale.truncate(locale.lastIndexOf('.')); // "sonic-pi_pt_BR"
-    locale.remove(0, locale.lastIndexOf("sonic-pi_") + 9); // "pt_BR"
-    //locale.replace("_", "-"); // Replace underscores with dashes so it matches the language codes e.g: "pt-BR"
-    //std::cout << locale.toUtf8().constData() << '\n';
-    languages << locale;
+    // extract the language from the filename
+    QString lang;
+    lang = fileNames[i]; // "sonic-pi_pt_BR.qm"
+    lang.truncate(lang.lastIndexOf('.')); // "sonic-pi_pt_BR"
+    lang.remove(0, lang.lastIndexOf("sonic-pi_") + 9); // "pt_BR"
+    //lang.replace("_", "-"); // Replace underscores with dashes so it matches the language codes e.g: "pt-BR"
+    //std::cout << lang.toUtf8().constData() << '\n';
+    languages << lang;
   }
   // Add the source language
   languages << "en_GB";
@@ -101,7 +100,7 @@ bool SonicPii18n::loadTranslations(QString lang) {
 
   i18n = translator.load("sonic-pi_" + language, ":/lang/") || language == "en_GB" || language == "en" || language == "C";
   if (!i18n) {
-    std::cout << language.toUtf8().constData() << ": Language translation not available" << std::endl;
+    std::cout << "Error: Failed to load language translation for " << language.toUtf8().constData() << std::endl;
     language = "en";
   }
   app->installTranslator(&translator);
@@ -141,4 +140,36 @@ QString SonicPii18n::getNativeLanguageName(QString lang) {
       return lang;
     }
   }
+}
+
+// For testing and debugging purposes
+bool SonicPii18n::checkAllTranslations() {
+  QStringList failed_to_load = QStringList();
+  bool all_succeeded = true;
+
+  std::cout << "==========================================" << std::endl;
+  std::cout << "Testing all found language translations..." << std::endl;
+  for (int i = 0; i < this->available_languages.size(); ++i) {
+    QString lang = this->available_languages[i];
+    bool success = loadTranslations(lang);
+    if (success) {
+      std::cout << lang.toUtf8().constData() << ": ✓" << std::endl;
+    } else {
+      std::cout << lang.toUtf8().constData() << ": ✗" << std::endl;
+      failed_to_load << lang;
+      all_succeeded = false;
+    }
+  }
+  std::cout << "Done" << std::endl;
+
+  std::cout << "------------------------------------------" << std::endl;
+  if (failed_to_load.length() > 0) {
+    std::cout << "Some translations failed to load:" << std::endl;
+    std::cout << failed_to_load.join("\n").toUtf8().constData() << std::endl;
+  } else {
+    std::cout << "All found translations loaded successfully :)" << std::endl;
+  }
+  std::cout << "==========================================" << std::endl;
+
+  return all_succeeded;
 }
