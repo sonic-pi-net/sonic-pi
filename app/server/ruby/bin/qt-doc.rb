@@ -79,8 +79,8 @@ include SonicPi::Util
   "ug" => "ئۇيغۇر تىلى", # Uyghur
   "uk" => "Українська", # Ukranian
   "vi" => "Tiếng Việt", # Vietnamese
-  "zh" => "简体中文", # Chinese (Simplified)
-  "zh_Hans" => "简体中文", # Chinese (Simplified)
+  "zh" => "中文", # Chinese
+  "zh-Hans" => "简体中文", # Chinese (Simplified)
   "zh_HK" => "廣東話", # Chinese (Traditional, Hong Kong)
   "zh_TW" => "臺灣華語" # Chinese (Traditional, Taiwan)
 ]
