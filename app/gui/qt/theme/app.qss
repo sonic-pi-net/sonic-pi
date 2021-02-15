@@ -535,3 +535,8 @@ QPushButton::pressed
     background-color: pressedButtonColor;
     color: pressedButtonTextColor;
 }
+
+QMessageBox
+{
+    background: windowColor;
+}
