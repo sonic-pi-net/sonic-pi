@@ -161,11 +161,6 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
     initPaths();
 
     bool startupOK = false;
-    this->sonicPii18n = new SonicPii18n(rootPath());
-    std::cout << "Language setting: " << piSettings->language.toUtf8().constData() << std::endl;
-    this->ui_language = sonicPii18n->determineUILanguage(piSettings->language);
-    std::cout << "Using language: " << ui_language.toUtf8().constData() << std::endl;
-    this->i18n = sonicPii18n->loadTranslations(ui_language);
 
 #ifdef QT_OLD_API
     // Clear out old tasks from previous sessions if they still exist
@@ -183,15 +178,6 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
     std::cout << "[GUI] - ===========================" << std::endl;
     std::cout << "[GUI] -                            " << std::endl;
     std::cout << "[GUI] - " << guiID.toStdString() << std::endl;
-    std::cout << "[GUI] - ui locale:  " << ui_language.toUtf8().constData()       << std::endl;
-    std::cout << "[GUI] - sys locale: " << QLocale::system().name().toStdString() << std::endl;
-
-
-    if(i18n) {
-      std::cout << "[GUI] - translations available " << std::endl;
-    } else {
-      std::cout << "[GUI] - translations unavailable (using EN)" << std::endl;
-    }
 
     // dynamically discover port numbers and then check them this will
     // show an error dialogue to the user and then kill the app if any of
@@ -200,6 +186,19 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
 #else
     m_spAPI->Init(rootPath().toStdString());
 #endif
+
+    this->sonicPii18n = new SonicPii18n(rootPath());
+    std::cout << "[GUI] - Language setting: " << piSettings->language.toUtf8().constData() << std::endl;
+    std::cout << "[GUI] - System language: " << QLocale::system().name().toStdString() << std::endl;
+    this->ui_language = sonicPii18n->determineUILanguage(piSettings->language);
+    std::cout << "[GUI] - Using language: " << ui_language.toUtf8().constData() << std::endl;
+    this->i18n = sonicPii18n->loadTranslations(ui_language);
+
+    if(i18n) {
+      std::cout << "[GUI] - translations available " << std::endl;
+    } else {
+      std::cout << "[GUI] - translations unavailable (using EN)" << std::endl;
+    }
 
     std::cout << "[GUI] - hiding main window" << std::endl;
     hide();
