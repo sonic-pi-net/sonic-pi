@@ -301,6 +301,11 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
     toggleOSCServer(1);
 
     app.setActiveWindow(tabs->currentWidget());
+
+    if (!i18n) {
+      showLanguageLoadingError();
+    }
+
     showWelcomeScreen();
 }
 
@@ -1626,6 +1631,18 @@ void MainWindow::startupError(QString msg)
     QApplication::exit(-1);
     exit(EXIT_FAILURE);
 #endif
+}
+
+void MainWindow::showLanguageLoadingError() {
+  QMessageBox msgBox(this);
+  msgBox.setIcon(QMessageBox::Warning);
+  msgBox.setText(QString(tr("Failed to load translations for language: %1")).arg(sonicPii18n->getNativeLanguageName(this->ui_language)));
+  msgBox.setInformativeText(tr("Falling back to English. Sorry about this.") + "\n" + tr("Please consider reporting a bug at") + "\nhttp://github.com/sonic-pi-net/sonic-pi/issues");
+
+  QPushButton *okButton = msgBox.addButton(tr("OK"), QMessageBox::AcceptRole);
+  msgBox.setDefaultButton(okButton);
+
+  msgBox.exec();
 }
 
 void MainWindow::replaceBuffer(QString id, QString content, int line, int index, int first_line)

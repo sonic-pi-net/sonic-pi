@@ -556,7 +556,7 @@ void SettingsWidget::updateUILanguage(int index) {
 
         QMessageBox msgBox(this);
         msgBox.setText(QString(tr("You've selected a new language: %1")).arg(new_lang));
-        msgBox.setInformativeText(tr("Do you want to apply this language?\nApplying the new language will restart Sonic Pi."));
+        msgBox.setInformativeText(tr("Do you want to apply this language?") + "\n" + tr("Applying the new language will stop any current runs & recordings, and restart Sonic Pi."));
         QPushButton *restartButton = msgBox.addButton(tr("Apply and Restart"), QMessageBox::ActionRole);
         QPushButton *dismissButton = msgBox.addButton(tr("Cancel"), QMessageBox::RejectRole);
         msgBox.setDefaultButton(restartButton);
