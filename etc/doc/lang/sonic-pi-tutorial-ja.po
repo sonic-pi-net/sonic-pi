@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2021-02-14 08:00+0000\n"
+"PO-Revision-Date: 2021-02-17 04:50+0000\n"
 "Last-Translator: Haruki Niwa <haruki.nw33@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/ja/>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.5-dev\n"
+"X-Generator: Weblate 4.5\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -692,6 +692,8 @@ msgid ""
 "left hand side) play lower notes and the keys on the higher part of the piano "
 "(the right hand side) play higher notes."
 msgstr ""
+"したがって、数値が小さいほどビープ音のピッチが低くなり、数値が大きいほどビープ音のピッチが高くなります。 "
+"ピアノと同じように、ピアノの下部（左側）のキーは低い音を演奏し、ピアノの上部（右側）のキーは高い音を演奏します。"
 
 #: 02.1-Your-First-Beeps.md:38
 #, fuzzy
@@ -709,8 +711,8 @@ msgid ""
 "ted. All that matters right now is that you know that *low numbers make lower "
 "beeps* and *high numbers make higher beeps*."
 msgstr ""
-"もし、これがあなたにとって何の意味か分からなくても*心配しない*でください。私も始めた時は同じでした。いま重要なことは、*低い数値は低い音*を、*高い数値は"
-"高い音*を生み出す、ということを知っておくことです。"
+"もし、これがあなたにとって何の意味か分からなくても*心配しない*でください。私も始めた時は同じでした。いま重要なことは、*小さい数値は低い音*を、*大きい"
+"数値は高い音*を生み出す、ということを知っておくことです。"
 
 #: 02.1-Your-First-Beeps.md:44 08.2-Chords.md:3
 msgid "Chords"
@@ -1166,7 +1168,6 @@ msgstr "面白い音は、*ノコギリ（saw）波*です。試してみまし�
 
 #: 02.3-Switching-Synths.md:25
 #, no-wrap
-#, fuzzy
 msgid ""
 "use_synth :saw\n"
 "play 38\n"
@@ -1180,8 +1181,7 @@ msgstr ""
 "sleep 0.25\n"
 "play 50\n"
 "sleep 0.25\n"
-"play 62\n"
-"sleep 0.25"
+"play 62"
 
 #: 02.3-Switching-Synths.md:34
 msgid "Let's try another sound - the *prophet*:"
@@ -1189,7 +1189,6 @@ msgstr "他の音*prophet*を試してみましょう。"
 
 #: 02.3-Switching-Synths.md:36
 #, no-wrap
-#, fuzzy
 msgid ""
 "use_synth :prophet\n"
 "play 38\n"
@@ -1203,8 +1202,7 @@ msgstr ""
 "sleep 0.25\n"
 "play 50\n"
 "sleep 0.25\n"
-"play 62\n"
-"sleep 0.25"
+"play 62"
 
 #: 02.3-Switching-Synths.md:45
 msgid "How about combining two sounds. First one after another:"
@@ -1212,7 +1210,6 @@ msgstr "2つを一緒にしたらどうでしょう。一方のあとに、も�
 
 #: 02.3-Switching-Synths.md:47
 #, no-wrap
-#, fuzzy
 msgid ""
 "use_synth :saw\n"
 "play 38\n"
@@ -1228,18 +1225,16 @@ msgstr ""
 "play 50\n"
 "sleep 0.25\n"
 "use_synth :prophet\n"
-"play 57\n"
-"sleep 0.25"
+"play 57"
 
 #: 02.3-Switching-Synths.md:57
 msgid ""
 "Now multiple sounds at the same time (by not sleeping between successive calls"
 " to `play`):"
-msgstr ""
+msgstr "（連続する `play`の間にスリープを入れないことで）同時に複数のサウンドが鳴ります："
 
 #: 02.3-Switching-Synths.md:60
 #, no-wrap
-#, fuzzy
 msgid ""
 "use_synth :tb303\n"
 "play 38\n"
@@ -1250,13 +1245,10 @@ msgid ""
 msgstr ""
 "use_synth :tb303\n"
 "play 38\n"
-"sleep 0.25\n"
 "use_synth :dsaw\n"
 "play 50\n"
-"sleep 0.25\n"
 "use_synth :prophet\n"
-"play 57\n"
-"sleep 0.25"
+"play 57"
 
 #: 02.3-Switching-Synths.md:69
 msgid ""
@@ -1273,14 +1265,13 @@ msgid "Discovering Synths"
 msgstr "シンセを見つける"
 
 #: 02.3-Switching-Synths.md:77
-#, fuzzy
 msgid ""
 "To see which synths Sonic Pi has for you to play with take a look at the Synth"
 "s option in the menu at the bottom of this help screen (between Examples & Fx)"
 ". There are over 20 to choose from. Here are a few of my favourites:"
 msgstr ""
-"Sonic Piにどのようなシンセがあるのか見るには、左端のメニュー（エフェクトの上）にあるシンセ・オプションを見てください。20以上が用意されています。私"
-"のお気に入りを以下に紹介します："
+"Sonic Piにあるシンセを確認するには、このヘルプ画面の下部にあるメニューのシンセ・オプション確認してください（ExamplesとFxの間）。20種類"
+"以上あります。その中から私のお気に入りをいくつか紹介します："
 
 #: 02.3-Switching-Synths.md:81
 msgid "`:prophet`"
@@ -5014,6 +5005,16 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
+"a = (ring 6, 5, 4, 3, 2, 1)\n"
+"live_loop :sorted do\n"
+"  a = a.sort\n"
+"  sleep 0.5\n"
+"  puts \"sorted: \", a\n"
+"end\n"
+"live_loop :shuffled do\n"
+"  a = a.shuffle\n"
+"  sleep 0.5\n"
+"end"
 
 #: 05.6-Variables.md:154
 msgid ""
@@ -5053,6 +5054,17 @@ msgid ""
 "  puts \"sorted: \", a\n"
 "end"
 msgstr ""
+"live_loop :shuffled do\n"
+"  a = (ring 6, 5, 4, 3, 2, 1)\n"
+"  a = a.shuffle\n"
+"  sleep 0.5\n"
+"end\n"
+"live_loop :sorted do\n"
+"  a = (ring 6, 5, 4, 3, 2, 1)\n"
+"  a = a.sort\n"
+"  sleep 0.5\n"
+"  puts \"sorted: \", a\n"
+"end"
 
 #: 05.6-Variables.md:188
 msgid ""
