@@ -718,47 +718,47 @@ Vabandust, käivitumisel tuvastati kriitiline viga</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2929"/>
         <source>Focus Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Fookus seadistustele</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2931"/>
         <source>Place focus on preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Vii fookus seadistustele</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2935"/>
         <source>Focus Help Listing</source>
-        <translation type="unfinished"></translation>
+        <translation>Fookus abi loendile</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2937"/>
         <source>Place focus on help listing</source>
-        <translation type="unfinished"></translation>
+        <translation>Vii fookus abi loendile</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2941"/>
         <source>Focus Help Details</source>
-        <translation type="unfinished"></translation>
+        <translation>Fookus abi detailidele</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2943"/>
         <source>Place focus on help details</source>
-        <translation type="unfinished"></translation>
+        <translation>Vii fookus abi detailidele</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2947"/>
         <source>Focus Errors</source>
-        <translation type="unfinished"></translation>
+        <translation>Fookus vigadele</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2949"/>
         <source>Place focus on errors</source>
-        <translation type="unfinished"></translation>
+        <translation>Vii fookus vigadele</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2952"/>
         <source>Show Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Kuva logi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2957"/>
@@ -768,17 +768,17 @@ Vabandust, käivitumisel tuvastati kriitiline viga</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2962"/>
         <source>Show Buttons</source>
-        <translation type="unfinished"></translation>
+        <translation>Kuva nupud</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2967"/>
         <source>Show Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Kuva vahekaardid</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2973"/>
         <source>Full Screen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Täisekraani režiim</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3130"/>
@@ -827,12 +827,12 @@ Laadi Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3618"/>
         <source>Enabling MIDI input...</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI sisendi lubamine...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3624"/>
         <source>Disabling MIDI input...</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI sisendi keelamine...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3662"/>
@@ -862,7 +862,7 @@ Laadi Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3864"/>
         <source>Line: %1,  Position: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Rida: %1,  veerg: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2515"/>
@@ -938,27 +938,27 @@ Laadi Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="427"/>
         <source>Studio Mode Enabled. Thank-you for supporting Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation>Stuudiorežiim lubatud. Täname, et toetad Sonic Pid.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="431"/>
         <source>No Matching Studio Hash Found...</source>
-        <translation type="unfinished"></translation>
+        <translation>Sobivat suudioräsi ei leitud...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="696"/>
         <source>| %1 |</source>
-        <translation type="unfinished"></translation>
+        <translation>| %1 |</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2551"/>
         <source>Code Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Koodi suurus üles</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2557"/>
         <source>Code Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Koodi suurus alla</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2563"/>
@@ -968,7 +968,7 @@ Laadi Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2571"/>
         <source>Show Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Kuva teave</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3031"/>
@@ -1044,32 +1044,32 @@ Laadi Sonic Pi %1</translation>
         <location filename="../utils/ruby_help.h" line="3120"/>
         <location filename="../utils/ruby_help.h" line="3217"/>
         <source>Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation>Õpetus</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3252"/>
         <source>Examples</source>
-        <translation type="unfinished"></translation>
+        <translation>Näited</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3303"/>
         <source>Synths</source>
-        <translation type="unfinished"></translation>
+        <translation>Süntesaatorid</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3352"/>
         <source>Fx</source>
-        <translation type="unfinished"></translation>
+        <translation>Efektid</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3373"/>
         <source>Samples</source>
-        <translation type="unfinished"></translation>
+        <translation>Sämplid</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3628"/>
         <source>Lang</source>
-        <translation type="unfinished"></translation>
+        <translation>Keel</translation>
     </message>
 </context>
 <context>
@@ -1085,32 +1085,32 @@ Laadi Sonic Pi %1</translation>
     <message>
         <location filename="../visualizer/scope.cpp" line="392"/>
         <source>Lissajous</source>
-        <translation type="unfinished"></translation>
+        <translation>Lissajous</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="393"/>
         <source>Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Vasak</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="394"/>
         <source>Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Parem</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="395"/>
         <source>Mono</source>
-        <translation type="unfinished"></translation>
+        <translation>Mono</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="396"/>
         <source>Mirror Stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>Peegeldatud stereo</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="398"/>
         <source>Spectrum</source>
-        <translation type="unfinished"></translation>
+        <translation>Spekter</translation>
     </message>
 </context>
 <context>
@@ -1168,7 +1168,9 @@ PA süsteemidega, kui esinetakse Sonic Pi&apos;ga.</translation>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and vice versa.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lülita stereo pööramine.
+Lubatult saadetakse vasaku kõlari heli
+paremasse kõlarisse ja vastpidi.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="97"/>
@@ -1295,7 +1297,7 @@ sõnumeid teistelt programmidelt ja hetkel võrku
     <message>
         <location filename="../widgets/settingswidget.cpp" line="285"/>
         <source>Show code completion</source>
-        <translation type="unfinished"></translation>
+        <translation>Kuva koodi lõpetamine</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="397"/>
@@ -1390,12 +1392,12 @@ otse vastu; neid saab saata midi_* funktsioonidega</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="86"/>
         <source>Main Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Peamine helitugevus</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="116"/>
         <source>Enable external synths/FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Luba välised süntesaatorid/efektid</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="146"/>
@@ -1415,27 +1417,27 @@ otse vastu; neid saab saata midi_* funktsioonidega</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="220"/>
         <source>Default MIDI channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Vaikimisi MIDI kanal</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="221"/>
         <source>Default MIDI Channel to send messages to (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation>Vaikimisi MIDI kanal, kuhu saata sõnumeid (* - kõik kanalid)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="225"/>
         <source>Default MIDI Channel to send messages to  (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation>Vaikimisi MIDI kanal, kuhu saata sõnumeid (* - kõik kanalid)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="276"/>
         <source>Automation / Misc</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatiseerimine / Muu</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="277"/>
         <source>Configure automation and other features.</source>
-        <translation type="unfinished"></translation>
+        <translation>Seadista automatiseerimist ja muid funktsioone.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="279"/>
@@ -1460,17 +1462,17 @@ otse vastu; neid saab saata midi_* funktsioonidega</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="286"/>
         <source>When enabled, Sonic Pi&apos;s editor will attempt to autocomplete your code with suggestions. When disabled, these suggestions will not be visible.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lubatult proovib Sonic Pi toimeti su koodi soovitustega automaatselt lõpetada. Keelatult jäävad soovitused kuvamata.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="288"/>
         <source>Show code context</source>
-        <translation type="unfinished"></translation>
+        <translation>Kuva koodi kontekst</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="289"/>
         <source>When enabled, Sonic Pi&apos;s editor will show a pane which will display context-specific information for the code such as the current line and position of the cursor.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lubatult kuvab Sonic Pi toimeti paani, millel näidatakse koodi kontekstile vastavat teavet nagu kursori rida ja veerg.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="291"/>
@@ -1525,27 +1527,27 @@ otse vastu; neid saab saata midi_* funktsioonidega</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="309"/>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Hele</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="310"/>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Tume</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="311"/>
         <source>Pro Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Hele (pro)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="312"/>
         <source>Pro Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Tume (pro)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="313"/>
         <source>High Contrast</source>
-        <translation type="unfinished"></translation>
+        <translation>Suur kontrast</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="346"/>
