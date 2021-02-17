@@ -182,7 +182,7 @@ void OscHandler::oscMessage(std::vector<char> buffer)
         else if (msg->match("/buffer/replace-lines"))
         {
             BufferInfo info;
-            info.type = BufferType::Replace;
+            info.type = BufferType::ReplaceLines;
             if (msg->arg().popStr(info.id).popStr(info.content).popInt32(info.startLine).popInt32(info.finishLine).popInt32(info.pointLine).popInt32(info.pointIndex).isOkNoMoreArgs())
             {
                 LOG(DBG, "/buffer/replace-lines: " << info.index);
