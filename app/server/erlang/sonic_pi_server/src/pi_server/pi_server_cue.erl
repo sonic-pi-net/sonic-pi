@@ -213,9 +213,25 @@ send_forward(Socket, Time, {Host, Port, Bin}) ->
           [Time, Now-Time]),
     ok.
 
-send_udp(Socket, Host, Port, Bin) ->
-    gen_udp:send(Socket, Host, Port, Bin),
-    ok.
+send_udp(Socket, Host, Port, Bin)
+  when is_port(Socket) ->
+    %% check to see if host is correct and usable
+    case inet_db:lookup_socket(Socket) of
+	{ok, Mod} ->
+	    case Mod:getaddr(Host) of
+		{ok,_} ->
+		    case Mod:getserv(Port) of
+			{ok,_} ->
+                            debug("Sending UDP to - ~p ~p ~n", [Host, Port]),
+                            gen_udp:send(Socket, Host, Port, Bin);
+			{error,einval} -> debug("Unable to send UDP - bad hostname (getserv einval): ~p~n", [Host]);
+			Error -> debug("Unable to send UDP - bad hostname (getserv ~p): ~p~n", [Error, Host])
+		    end;
+		{error,einval} -> debug("Unable to send UDP - bad hostname (getaddr einval): ~p~n", [Host]);
+		Error -> debug("Unable to send UDP - bad hostname (getaddr: ~p ): ~p~n", [Error, Host])
+	    end;
+	Error -> debug("Unable to send UDP - bad socket (~p): ~p~n", [Error, Host])
+    end.
 
 update_midi_in_ports(CueHost, CuePort, InSocket, Args) ->
     Bin = osc:encode(["/midi-ins", "erlang" | Args]),
