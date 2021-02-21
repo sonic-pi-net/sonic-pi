@@ -4072,7 +4072,7 @@ See `use_sched_ahead_time` for a version of this function which allows you to se
           opts:          nil,
           modifies_env: true,
           accepts_block: false,
-          examples:      ["use_real_time 1 # Code will now run approximately 1 second ahead of audio."]
+          examples:      ["use_real_time # Code will now produce sound without a scheduling delay."]
 
 
       def with_real_time(&blk)
@@ -4101,8 +4101,12 @@ See `with_sched_ahead_time` for a version of this function which allows you to s
           opts:          nil,
           modifies_env: true,
           accepts_block: false,
-          examples:      ["use_real_time 1 # Code will now run approximately 1 second ahead of audio."]
+          examples:      ["
+with_real_time do
+  play 70  # Sound will happen without a scheduling delay.
+end
 
+play 70  # Sound will happen with the default latency (0.5s)."]
 
       def with_sched_ahead_time t, &blk
         raise ArgumentError, "with_sched_ahead_time must be called with a do/end block. Perhaps you meant use_sched_ahead_time" unless blk
