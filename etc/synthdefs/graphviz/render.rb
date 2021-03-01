@@ -13,7 +13,7 @@
 # notice is included.
 #++
 
-path = File.expand_path(File.dirname(__FILE__))
+path = __dir__
 
 Dir["#{path}/*.dot"].each do |f|
 #  `dot #{f} -Tpng -o #{f[0..-5]}.png`
