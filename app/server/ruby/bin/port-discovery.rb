@@ -79,7 +79,7 @@ port_map = [
 
   "server-osc-cues",
   "erlang-router",
-  "websocket"].inject({}) do |res, port_name|
+  "websocket"].each_with_object({}) do |port_name, res|
 
   default = nil
   case port_name
@@ -109,7 +109,6 @@ port_map = [
     res[port_name] = port.to_i
   end
 
-  res
 end
 
 port_map.each do |k, v|
