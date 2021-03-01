@@ -12,7 +12,7 @@
 #++
 
 module SonicPi
-  class AllocationError < Exception ; end
+  class AllocationError < RuntimeError ; end
   class Allocator
     attr_reader :max_id
     def initialize(max_id)
