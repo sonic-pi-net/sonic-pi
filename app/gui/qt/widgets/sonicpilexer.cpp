@@ -40,7 +40,8 @@ void SonicPiLexer::highlightAll()
 
 void SonicPiLexer::unhighlightAll()
 {
-    setPaper(theme->color("Background"));
+    setPaper(theme->color("DefaultBackground"), -1);
+    this->setDefaultPaper(theme->color("Background"));
     setColor(theme->color("Foreground"));
 
     setColor(theme->color("DefaultForeground"), Default);
