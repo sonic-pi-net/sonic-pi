@@ -8,7 +8,7 @@
 
 #include <iostream>
 
-#include "sonic_pi_i18n.h"
+#include "sonicpi_i18n.h"
 #include "lang_list.h"
 
 SonicPii18n::SonicPii18n(QString rootpath) {

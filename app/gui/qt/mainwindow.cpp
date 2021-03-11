@@ -52,7 +52,7 @@
 #include "widgets/sonicpilexer.h"
 #include "widgets/sonicpiscintilla.h"
 
-#include "utils/sonic_pi_i18n.h"
+#include "utils/sonicpi_i18n.h"
 
 #include "utils/borderlesslinksproxystyle.h"
 

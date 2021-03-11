@@ -14,8 +14,8 @@
 #include <QObject>
 #include <map>
 
-#ifndef SONIC_PI_I18N_H
-#define SONIC_PI_I18N_H
+#ifndef SONICPI_I18N_H
+#define SONICPI_I18N_H
 
 class SonicPii18n : public QObject {
 public:
