@@ -963,12 +963,12 @@ Sonic Pi krijgen %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2547"/>
         <source>Align code to improve readability</source>
-        <translation type="unfinished"></translation>
+        <translation>Code uitlijnen om de leesbaarheid te verbeteren</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2567"/>
         <source>Toggle visibility of audio oscilloscope</source>
-        <translation type="unfinished"></translation>
+        <translation>Wissel de zichtbaarheid van de audio oscilloscoop</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3031"/>
@@ -1560,7 +1560,7 @@ Sonic Pi die verstuurd kunnen worden via de midi_* functies</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="349"/>
         <source>Log synths</source>
-        <translation type="unfinished">Log synths</translation>
+        <translation>Log synthesizers</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="350"/>
