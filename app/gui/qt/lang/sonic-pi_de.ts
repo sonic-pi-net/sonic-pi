@@ -808,7 +808,7 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2957"/>
         <source>Show Cue Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Cue Log zeigen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2962"/>
@@ -1132,7 +1132,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="41"/>
         <source>Visuals</source>
-        <translation type="unfinished">Anzeigen</translation>
+        <translation>Visualisierung</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="44"/>
@@ -1466,7 +1466,7 @@ Sonic Pi, die über die midi_* fns gesendet werden können</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="288"/>
         <source>Show code context</source>
-        <translation type="unfinished"></translation>
+        <translation>Code-Kontext anzeigen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="289"/>
