@@ -1279,7 +1279,7 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="171"/>
         <source>Allow OSC from other computers</source>
-        <translation type="unfinished"></translation>
+        <translation>OSC von anderen Computern erlauben</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="172"/>
