@@ -897,7 +897,7 @@ Sonic Pi krijgen %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1445"/>
         <source>Server boot error...</source>
-        <translation>Opstartfout van de Server...</translation>
+        <translation>Fout tijdens opstarten van de Server...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1445"/>
