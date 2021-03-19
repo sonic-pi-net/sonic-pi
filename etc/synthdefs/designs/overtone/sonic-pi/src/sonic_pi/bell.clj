@@ -105,8 +105,9 @@
            amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
            pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
            freq        (midicps note)
-           snd         (* amp (bell-partials freq attack decay sustain release attack_level decay_level sustain_level dull-partials))]
-       (detect-silence snd :action FREE)
+           snd         (* amp (bell-partials freq attack decay sustain release attack_level decay_level sustain_level dull-partials))
+           det         (+ snd (impulse:ar 0))]
+       (detect-silence det :action FREE)
        (out out_bus (pan2 snd pan))))
 
    (defsynth sonic-pi-pretty_bell [note 52
@@ -135,8 +136,9 @@
            amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
            pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
            freq        (midicps note)
-           snd         (* amp (bell-partials freq attack decay sustain release attack_level decay_level sustain_level partials))]
-       (detect-silence snd :action FREE)
+           snd         (* amp (bell-partials freq attack decay sustain release attack_level decay_level sustain_level partials))
+           det         (+ snd (impulse:ar 0))]
+       (detect-silence det :action FREE)
        (out out_bus (pan2 snd pan)))))
 
   (comment
