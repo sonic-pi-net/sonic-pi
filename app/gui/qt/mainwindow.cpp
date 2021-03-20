@@ -2199,39 +2199,6 @@ void MainWindow::changeSystemPreAmp(int val, int silent)
     statusBar()->showMessage(tr("Updating System Volume..."), 2000);
 }
 
-// TODO: Implement real-time language switching
-void MainWindow::changeUILanguage(QString lang) {
-    if (lang != piSettings->language) {
-        std::cout << "Current language:  " << piSettings->language.toUtf8().constData() << std::endl;
-        std::cout << "New language selected: " << lang.toUtf8().constData() << std::endl;
-        QString old_lang = sonicPii18n->getNativeLanguageName(piSettings->language);
-        QString new_lang = sonicPii18n->getNativeLanguageName(lang);
-
-        // Load new language
-        //QString language = sonicPii18n->determineUILanguage(lang);
-        //sonicPii18n->loadTranslations(language);
-        //QString title_new = tr("Updated the UI language from %s to %s").arg();
-
-        QMessageBox msgBox(this);
-        msgBox.setText(QString(tr("You've selected a new language: %1")).arg(new_lang));
-        msgBox.setInformativeText(tr("Do you want to apply this language?\nApplying the new language will restart Sonic Pi."));
-        QPushButton *restartButton = msgBox.addButton(tr("Apply and Restart"), QMessageBox::ActionRole);
-        QPushButton *dismissButton = msgBox.addButton(tr("Cancel"), QMessageBox::RejectRole);
-        msgBox.setDefaultButton(restartButton);
-        msgBox.setIcon(QMessageBox::Information);
-        msgBox.exec();
-
-        if (msgBox.clickedButton() == (QAbstractButton*)restartButton) {
-            piSettings->language = lang;
-            restartApp();
-        } else if (msgBox.clickedButton() == (QAbstractButton*)dismissButton) {
-            // Don't apply the new language settings
-            settingsWidget->updateSelectedUILanguage(piSettings->language);
-        }
-
-    }
-}
-
 void MainWindow::changeScopeKindVisibility(QString name)
 {
     foreach (QAction* action, scopeKindVisibilityMenu->actions())
@@ -3356,6 +3323,39 @@ void MainWindow::createToolBar()
     viewMenu->addAction(focusHelpListingAct);
     viewMenu->addAction(focusHelpDetailsAct);
     viewMenu->addAction(focusErrorsAct);
+
+    languageMenu = menuBar()->addMenu(tr("Language"));
+    QStringList available_languages = sonicPii18n->getAvailableLanguages();
+
+    langActionGroup = new QActionGroup(this);
+    langActionGroup->setExclusionPolicy(QActionGroup::ExclusionPolicy::Exclusive);
+
+    QSignalMapper *signalMapper = new QSignalMapper(this);
+
+    for (size_t i = 0; i < available_languages.length(); i += 1) {
+      bool is_current_lang = (available_languages[i] == piSettings->language);
+
+      QAction *langAct = new QAction(sonicPii18n->getNativeLanguageName(available_languages[i]), this);
+      langAct->setCheckable(true);
+      langAct->setChecked(is_current_lang);
+
+      connect(langAct, SIGNAL(triggered()), signalMapper, SLOT(map()));
+      signalMapper->setMapping(langAct, i);
+
+      langActionGroup->addAction(langAct);
+      languageMenu->addAction(langAct);
+
+      if (i == 0) { // add separator after System language
+        languageMenu->addSeparator();
+      }
+    }
+
+    connect(signalMapper, SIGNAL(mappedInt(int)), settingsWidget, SLOT(updateUILanguage(int)));
+    connect(settingsWidget, SIGNAL(uiLanguageChanged(QString)), this, SLOT(updateSelectedUILanguageAction(QString)));
+}
+
+void MainWindow::updateSelectedUILanguageAction(QString lang) {
+  langActionGroup->actions()[sonicPii18n->getAvailableLanguages().indexOf(lang)]->setChecked(true);
 }
 
 QString MainWindow::readFile(QString name)

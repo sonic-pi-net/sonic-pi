@@ -2,7 +2,7 @@
 #define SETTINGSWIDGET_H
 
 #include "model/settings.h"
-#include "utils/sonic_pi_i18n.h"
+#include "utils/sonicpi_i18n.h"
 
 #include <QWidget>
 
@@ -35,8 +35,10 @@ public:
 
     QSize sizeHint() const;
 
-private slots:
+public slots:
     void updateUILanguage(int index);
+
+private slots:
     void update_mixer_invert_stereo();
     void update_mixer_force_mono();
     void toggleOscServer();
@@ -73,7 +75,7 @@ private slots:
 
 signals:
     void restartApp();
-    //void uiLanguageChanged(QString lang); // TODO: Implement real-time language switching
+    void uiLanguageChanged(QString lang); // TODO: Implement real-time language switching
     void mixerSettingsChanged();
     void oscSettingsChanged();
     void midiSettingsChanged();
@@ -174,6 +176,7 @@ private:
     QGroupBox* createEditorPrefsTab();
     QGroupBox* createVisualizationPrefsTab();
     QGroupBox* createUpdatePrefsTab();
+    QGroupBox* createLanguagePrefsTab();
 
     void add_language_combo_box_entries(QComboBox* combo);
 

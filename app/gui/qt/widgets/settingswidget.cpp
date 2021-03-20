@@ -1,5 +1,5 @@
 #include "settingswidget.h"
-#include "utils/sonic_pi_i18n.h"
+#include "utils/sonicpi_i18n.h"
 
 #include <QSettings>
 #include <QVBoxLayout>
@@ -28,7 +28,6 @@ SettingsWidget::SettingsWidget(int port, bool i18n, SonicPiSettings *piSettings,
     this->sonicPii18n = sonicPii18n;
     this->localeNames = sonicPii18n->getNativeLanguageNameList();
     this->available_languages = sonicPii18n->getAvailableLanguages();
-    available_languages.prepend("system_language");
     server_osc_cues_port = port;
 
     prefTabs = new QTabWidget();
@@ -50,6 +49,9 @@ SettingsWidget::SettingsWidget(int port, bool i18n, SonicPiSettings *piSettings,
 
     QGroupBox *update_prefs_box = createUpdatePrefsTab();
     prefTabs->addTab(update_prefs_box, tr("Updates"));
+
+    QGroupBox *language_prefs_box = createLanguagePrefsTab();
+    prefTabs->addTab(language_prefs_box, tr("Language"));
 
     if (!sonicPii18n->system_language_available) {
         QGroupBox *translation_box = new QGroupBox("Translation");
@@ -374,34 +376,12 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     debug_box->setLayout(debug_box_layout);
 
 
-    QGroupBox *language_box = new QGroupBox(tr("Language"));
-    language_box->setToolTip(tr("Configure language settings"));
-
-    language_combo = new QComboBox();
-    add_language_combo_box_entries(language_combo);
-    language_combo->setToolTip(tr("Change the language of the UI & Tutorial (Requires a restart to take effect)"));
-    language_combo->setMinimumContentsLength(2);
-    language_combo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLength);
-
-    language_option_label = new QLabel;
-    language_option_label->setText(tr("UI & Tutorial Language (Requires a restart to take effect)"));
-    language_option_label->setToolTip(tr("Change the language of the UI & Tutorial (Requires a restart to take effect)"));
-
-    language_info_label = new QLabel;
-    language_info_label->setText(tr("Translations have been generously provided by volunteers \non https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)"));
-
-    QVBoxLayout *language_box_layout = new QVBoxLayout;
-    language_box_layout->addWidget(language_combo);
-    language_box_layout->addWidget(language_option_label);
-    language_box_layout->addWidget(language_info_label);
-
-    language_box->setLayout(language_box_layout);
 
     gridEditorPrefs->addWidget(editor_display_box, 0, 0);
     gridEditorPrefs->addWidget(editor_look_feel_box, 0, 1);
     gridEditorPrefs->addWidget(automation_box, 1, 1);
     gridEditorPrefs->addWidget(debug_box, 1, 0);
-    gridEditorPrefs->addWidget(language_box, 2, 0, 1, 2);
+
 
     editor_box->setLayout(gridEditorPrefs);
     return editor_box;
@@ -496,6 +476,42 @@ QGroupBox* SettingsWidget::createUpdatePrefsTab() {
     return update_prefs_box;
 }
 
+/**
+ * create Language Preferences Tab of Settings Widget
+ */
+QGroupBox* SettingsWidget::createLanguagePrefsTab() {
+    QGroupBox *language_box = new QGroupBox(tr("Language"));
+    language_box->setToolTip(tr("Configure language settings"));
+    QSizePolicy languagePrefSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
+    language_box->setSizePolicy(languagePrefSizePolicy);
+
+    language_option_label = new QLabel;
+    language_option_label->setText(tr("UI & Tutorial Language (Requires a restart to take effect)"));
+    language_option_label->setToolTip(tr("Change the language of the UI & Tutorial (Requires a restart to take effect)"));
+
+    language_combo = new QComboBox();
+    add_language_combo_box_entries(language_combo);
+    language_combo->setToolTip(tr("Change the language of the UI & Tutorial (Requires a restart to take effect)"));
+    language_combo->setMinimumContentsLength(2);
+    language_combo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLength);
+
+    language_info_label = new QLabel;
+    language_info_label->setText(tr("Translations have been generously provided by volunteers \non https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)"));
+
+    QVBoxLayout *language_box_layout = new QVBoxLayout;
+
+    language_box_layout->addWidget(language_option_label);
+    language_box_layout->addWidget(language_combo);
+    language_box_layout->addWidget(language_info_label);
+
+    language_box->setLayout(language_box_layout);
+
+    QGroupBox *language_prefs_box = new QGroupBox();
+    QGridLayout *language_prefs_box_layout = new QGridLayout;
+    language_prefs_box_layout->addWidget(language_box, 0, 0, 0, 0);
+    language_prefs_box->setLayout(language_prefs_box_layout);
+    return language_prefs_box;
+}
 
 // TODO utils?
 QString SettingsWidget::tooltipStrShiftMeta(char key, QString str) {
@@ -556,7 +572,13 @@ void SettingsWidget::updateUILanguage(int index) {
 
         QMessageBox msgBox(this);
         msgBox.setText(QString(tr("You've selected a new language: %1")).arg(new_lang));
-        msgBox.setInformativeText(tr("Do you want to apply this language?") + "\n" + tr("Applying the new language will stop any current runs & recordings, and restart Sonic Pi."));
+        QString info_text = tr("Do you want to apply this language?") + "\n" + tr("Applying the new language will stop any current runs & recordings, and restart Sonic Pi.");
+
+        if (lang == "system_language") {
+          info_text = tr("System languages found %1").arg(sonicPii18n->getNativeLanguageNames(sonicPii18n->system_languages).join(", ")) + "\n" + info_text;
+        }
+
+        msgBox.setInformativeText(info_text);
         QPushButton *restartButton = msgBox.addButton(tr("Apply and Restart"), QMessageBox::ActionRole);
         QPushButton *dismissButton = msgBox.addButton(tr("Cancel"), QMessageBox::RejectRole);
         msgBox.setDefaultButton(restartButton);
@@ -570,6 +592,7 @@ void SettingsWidget::updateUILanguage(int index) {
         } else if (msgBox.clickedButton() == (QAbstractButton*)dismissButton) {
             // Don't apply the new language settings
             updateSelectedUILanguage(piSettings->language);
+            emit uiLanguageChanged(piSettings->language);
         }
 
     }
@@ -755,6 +778,13 @@ void SettingsWidget::updateSettings() {
 
 void SettingsWidget::settingsChanged() {
     language_combo->setCurrentIndex(available_languages.indexOf(piSettings->language));
+    if (piSettings->language == "system_language") {
+      language_info_label->setText(
+        tr("System languages: %1").arg(sonicPii18n->getNativeLanguageNames(sonicPii18n->system_languages).join(", ")) + "\n" + tr("Current UI language: %1").arg(sonicPii18n->getNativeLanguageName(sonicPii18n->currently_loaded_language))
+        + "\n\n" + tr("Translations have been generously provided by volunteers \non https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)")
+      );
+    }
+
     mixer_invert_stereo->setChecked(piSettings->mixer_invert_stereo);
     mixer_force_mono->setChecked(piSettings->mixer_force_mono);
     check_args->setChecked(piSettings->check_args);

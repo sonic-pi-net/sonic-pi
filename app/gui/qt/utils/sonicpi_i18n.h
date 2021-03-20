@@ -22,14 +22,17 @@ public:
   SonicPii18n(QString rootpath);
   ~SonicPii18n();
 
+  QStringList system_languages;
+  bool system_language_available;
+  QString currently_loaded_language;
+
 public slots:
   QString determineUILanguage(QString lang_pref);
   QStringList getAvailableLanguages();
   std::map<QString, QString> getNativeLanguageNameList();
   QString getNativeLanguageName(QString lang);
+  QStringList getNativeLanguageNames(QStringList languages);
   bool loadTranslations(QString lang);
-
-  bool system_language_available;
 
 private:
   QString root_path;
@@ -39,6 +42,7 @@ private:
   static std::map<QString, QString> native_language_names;
 
   QStringList findAvailableLanguages();
+  QStringList findSystemLanguages();
   bool checkAllTranslations();
 };
 #endif

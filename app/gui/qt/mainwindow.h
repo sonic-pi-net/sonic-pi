@@ -34,6 +34,7 @@
 #include "config.h"
 
 class QAction;
+class QActionGroup;
 class QMenu;
 class QToolBar;
 class QLineEdit;
@@ -141,7 +142,7 @@ signals:
 
        private slots:
 
-        void changeUILanguage(QString lang);
+        void updateSelectedUILanguageAction(QString lang);
         void updateContext(int line, int index);
         void updateContextWithCurrentWs();
         void docLinkClicked(const QUrl &url);
@@ -335,7 +336,7 @@ signals:
         std::string number_name(int);
         std::string workspaceFilename(SonicPiScintilla* text);
         SonicPiScintilla* filenameToWorkspace(std::string filename);
-        
+
         bool sendOSC(oscpkt::Message m);
         //   void initPrefsWindow();
         void initDocsWindow();
@@ -360,7 +361,7 @@ signals:
         void addUniversalCopyShortcuts(QTextEdit *te);
         void updateTranslatedUIText();
 
-  QMenu *liveMenu, *codeMenu, *audioMenu, *displayMenu, *viewMenu, *ioMenu, *ioMidiInMenu, *ioMidiOutMenu, *ioMidiOutChannelMenu, *localIpAddressesMenu, *themeMenu, *scopeKindVisibilityMenu;
+  QMenu *liveMenu, *codeMenu, *audioMenu, *displayMenu, *viewMenu, *ioMenu, *ioMidiInMenu, *ioMidiOutMenu, *ioMidiOutChannelMenu, *localIpAddressesMenu, *themeMenu, *scopeKindVisibilityMenu, *languageMenu;
 
         SonicPiSettings *piSettings;
         SonicPii18n *sonicPii18n;
@@ -422,6 +423,7 @@ signals:
 
   QAction *exitAct, *runAct, *stopAct, *saveAsAct, *loadFileAct, *recAct, *textAlignAct, *textIncAct, *textDecAct, *scopeAct, *infoAct, *helpAct, *prefsAct, *focusEditorAct, *focusLogsAct, *focusContextAct, *focusCuesAct, *focusPreferencesAct, *focusHelpListingAct, *focusHelpDetailsAct, *focusErrorsAct, *showLineNumbersAct, *showAutoCompletionAct, *showContextAct, *audioSafeAct, *audioTimingGuaranteesAct, *enableExternalSynthsAct, *mixerInvertStereoAct, *mixerForceMonoAct, *midiEnabledAct, *enableOSCServerAct, *allowRemoteOSCAct, *showLogAct, *showCuesAct, *logAutoScrollAct, *logCuesAct, *logSynthsAct, *clearOutputOnRunAct, *autoIndentOnRunAct, *showButtonsAct, *showTabsAct, *fullScreenAct, *lightThemeAct, *darkThemeAct, *proLightThemeAct, *proDarkThemeAct, *highContrastThemeAct, *showScopeLabelsAct;
   QShortcut *runSc, *stopSc, *saveAsSc, *loadFileSc, *recSc, *textAlignSc, *textIncSc, *textDecSc, *scopeSc, *infoSc, *helpSc, *prefsSc, *focusEditorSc, *focusLogsSc, *focusContextSc, *focusCuesSc, *focusPreferencesSc, *focusHelpListingSc, *focusHelpDetailsSc, *focusErrorsSc;
+        QActionGroup *langActionGroup;
 
         SettingsWidget *settingsWidget;
 

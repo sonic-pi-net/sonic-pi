@@ -13,13 +13,26 @@
 
 SonicPii18n::SonicPii18n(QString rootpath) {
   this->root_path = rootpath;
+  this->system_languages = findSystemLanguages();
   this->system_language_available = true; // Set to true unless we can't load the system language
-
   this->available_languages = findAvailableLanguages();
+  this->currently_loaded_language = "en";
+
+
   //checkAllTranslations(); // For testing and debugging purposes
 }
 
 SonicPii18n::~SonicPii18n() {
+}
+
+QStringList SonicPii18n::findSystemLanguages() {
+  QLocale locale;
+  QStringList preferred_languages = locale.uiLanguages();
+  std::cout << "Looping through preferred ui languages" << std::endl;
+  for (int i = 0; i < preferred_languages.length(); i += 1) {
+    preferred_languages[i] = preferred_languages[i].replace("-", "_");
+  }
+  return preferred_languages;
 }
 
 QString SonicPii18n::determineUILanguage(QString lang_pref) {
@@ -42,7 +55,7 @@ QString SonicPii18n::determineUILanguage(QString lang_pref) {
     }
   } else {
     QStringList preferred_languages = locale.uiLanguages();
-    // If the specified language isn't available, or if the setting is set to system_language...
+    // If the setting is set to system_language...
       // ...run through the list of preferred languages
     std::cout << "Looping through preferred ui languages" << std::endl;
 
@@ -108,11 +121,15 @@ bool SonicPii18n::loadTranslations(QString lang) {
   qtTranslator.load("qt_" + language, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
   app->installTranslator(&qtTranslator);
 
+  this->currently_loaded_language = language;
+
   return i18n;
 }
 
 QStringList SonicPii18n::getAvailableLanguages() {
-  return this->available_languages;
+  QStringList list = this->available_languages;
+  list.prepend("system_language");
+  return list;
 }
 
 std::map<QString, QString> SonicPii18n::getNativeLanguageNameList() {
@@ -140,6 +157,14 @@ QString SonicPii18n::getNativeLanguageName(QString lang) {
       return lang;
     }
   }
+}
+
+QStringList SonicPii18n::getNativeLanguageNames(QStringList languages) {
+  QStringList language_names;
+  for (size_t i = 0; i < languages.length(); i += 1) {
+    language_names << getNativeLanguageName(languages[i]);
+  }
+  return language_names;
 }
 
 // For testing and debugging purposes
