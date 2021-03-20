@@ -40,6 +40,8 @@ ScintillaAPI::ScintillaAPI(QsciLexer *lexer)
   keywords[Tuning] << ":just" << ":pythagorean" << ":meantone" << ":equal";
 
   keywords[MidiParam] << "sustain:" << "velocity:" << "vel:" << "velocity_f:" << "vel_f:" << "port:" << "channel:";
+
+  keywords[RandomSource] << ":white" << ":light_pink" << ":pink" << ":dark_pink" << ":perlin";
 }
 
 
@@ -127,7 +129,8 @@ void ScintillaAPI::updateAutoCompletionList(const QStringList &context,
     ctx = Synth;
   } else if (last == "load_example") {
     ctx = Examples;
-
+  } else if (last == "use_random_source" || last == "with_random_source") {
+    ctx = RandomSource;
   // autocomplete the second arg of scale/chord
   } else if (lastButOne == "scale") {
     ctx = Scale;
