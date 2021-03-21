@@ -18,21 +18,10 @@ SonicPii18n::SonicPii18n(QString rootpath) {
   this->available_languages = findAvailableLanguages();
   this->currently_loaded_language = "en";
 
-
   //checkAllTranslations(); // For testing and debugging purposes
 }
 
 SonicPii18n::~SonicPii18n() {
-}
-
-QStringList SonicPii18n::findSystemLanguages() {
-  QLocale locale;
-  QStringList preferred_languages = locale.uiLanguages();
-  std::cout << "Looping through preferred ui languages" << std::endl;
-  for (int i = 0; i < preferred_languages.length(); i += 1) {
-    preferred_languages[i] = preferred_languages[i].replace("-", "_");
-  }
-  return preferred_languages;
 }
 
 QString SonicPii18n::determineUILanguage(QString lang_pref) {
@@ -74,6 +63,16 @@ QString SonicPii18n::determineUILanguage(QString lang_pref) {
   // Fallback to English
   this->system_language_available = false;
   return "en";
+}
+
+QStringList SonicPii18n::findSystemLanguages() {
+  QLocale locale;
+  QStringList preferred_languages = locale.uiLanguages();
+  std::cout << "Looping through preferred ui languages" << std::endl;
+  for (int i = 0; i < preferred_languages.length(); i += 1) {
+    preferred_languages[i] = preferred_languages[i].replace("-", "_");
+  }
+  return preferred_languages;
 }
 
 QStringList SonicPii18n::findAvailableLanguages() {
@@ -132,9 +131,17 @@ QStringList SonicPii18n::getAvailableLanguages() {
   return list;
 }
 
-std::map<QString, QString> SonicPii18n::getNativeLanguageNameList() {
-  return native_language_names;
-}
+QStringList SonicPii18n::getSystemLanguages() {
+  return system_languages;
+};
+
+bool SonicPii18n::isSystemLanguageAvailable() {
+  return system_language_available;
+};
+
+QString SonicPii18n::currentlyLoadedLanguage() {
+  return currently_loaded_language;
+};
 
 QString SonicPii18n::getNativeLanguageName(QString lang) {
   if (lang == "system_language") {
@@ -153,7 +160,7 @@ QString SonicPii18n::getNativeLanguageName(QString lang) {
     if (name != "C" && name != "") {
       return locale.nativeLanguageName();
     } else {
-      std::cout << "Warning: Invalid language code '" << lang.toUtf8().constData() << "'" << std::endl;
+      std::cout << "Warning: Invalid language code: '" << lang.toUtf8().constData() << "'" << std::endl;
       return lang;
     }
   }

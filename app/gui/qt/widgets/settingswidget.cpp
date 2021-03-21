@@ -26,7 +26,6 @@ SettingsWidget::SettingsWidget(int port, bool i18n, SonicPiSettings *piSettings,
     this->piSettings = piSettings;
     this->i18n = i18n;
     this->sonicPii18n = sonicPii18n;
-    this->localeNames = sonicPii18n->getNativeLanguageNameList();
     this->available_languages = sonicPii18n->getAvailableLanguages();
     server_osc_cues_port = port;
 
@@ -53,25 +52,28 @@ SettingsWidget::SettingsWidget(int port, bool i18n, SonicPiSettings *piSettings,
     QGroupBox *language_prefs_box = createLanguagePrefsTab();
     prefTabs->addTab(language_prefs_box, tr("Language"));
 
-    if (!sonicPii18n->system_language_available) {
-        QGroupBox *translation_box = new QGroupBox("Translation");
-        QVBoxLayout *translation_box_layout = new QVBoxLayout;
-        QLabel *go_translate = new QLabel;
-        go_translate->setOpenExternalLinks(true);
-        go_translate->setText(
-                "Sonic Pi hasn't been translated to " +
-                QLocale::languageToString(QLocale::system().language()) +
-                " yet.<br/>" +
-                "We rely on crowdsourcing to help create and maintain translations.<br/>" +
-                "<a href=\"https://github.com/sonic-pi-net/sonic-pi/blob/main/TRANSLATION.md\">" +
-                "Please consider helping to translate Sonic Pi to your language.</a> "
-                );
-        go_translate->setTextFormat(Qt::RichText);
-        translation_box_layout->addWidget(go_translate);
-        translation_box->setLayout(translation_box_layout);
+    if (piSettings->language == "system_language") {
+      if (!sonicPii18n->isSystemLanguageAvailable()) {
+          QGroupBox *translation_box = new QGroupBox("Translation");
+          QVBoxLayout *translation_box_layout = new QVBoxLayout;
+          QLabel *go_translate = new QLabel;
+          go_translate->setOpenExternalLinks(true);
+          go_translate->setText(
+                  "Sonic Pi hasn't been translated to " +
+                  QLocale::languageToString(QLocale::system().language()) +
+                  " yet.<br/>" +
+                  "We rely on crowdsourcing to help create and maintain translations.<br/>" +
+                  "<a href=\"https://github.com/sonic-pi-net/sonic-pi/blob/main/TRANSLATION.md\">" +
+                  "Please consider helping to translate Sonic Pi to your language.</a> "
+                  );
+          go_translate->setTextFormat(Qt::RichText);
+          translation_box_layout->addWidget(go_translate);
+          translation_box->setLayout(translation_box_layout);
 
-        grid->addWidget(translation_box, 3, 0, 1, 2);
+          grid->addWidget(translation_box, 3, 0, 1, 2);
+      }
     }
+
     settingsChanged();
     connectAll();
     setLayout(grid);
@@ -491,9 +493,11 @@ QGroupBox* SettingsWidget::createLanguagePrefsTab() {
 
     language_combo = new QComboBox();
     add_language_combo_box_entries(language_combo);
-    language_combo->setToolTip(tr("Change the language of the UI & Tutorial (Requires a restart to take effect)"));
+    language_combo->setToolTip(tr("Change the language of the UI & Tutorial"));
     language_combo->setMinimumContentsLength(2);
     language_combo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLength);
+
+    language_details_label = new QLabel;
 
     language_info_label = new QLabel;
     language_info_label->setText(tr("Translations have been generously provided by volunteers \non https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)"));
@@ -502,6 +506,7 @@ QGroupBox* SettingsWidget::createLanguagePrefsTab() {
 
     language_box_layout->addWidget(language_option_label);
     language_box_layout->addWidget(language_combo);
+    language_box_layout->addWidget(language_details_label);
     language_box_layout->addWidget(language_info_label);
 
     language_box->setLayout(language_box_layout);
@@ -572,22 +577,46 @@ void SettingsWidget::updateUILanguage(int index) {
 
         QMessageBox msgBox(this);
         msgBox.setText(QString(tr("You've selected a new language: %1")).arg(new_lang));
-        QString info_text = tr("Do you want to apply this language?") + "\n" + tr("Applying the new language will stop any current runs & recordings, and restart Sonic Pi.");
+        QString info_text = (
+          tr("Do you want to apply this language?")
+          + "\n"
+          + tr("The new language will be applied when you next start Sonic Pi.")
+        );
 
         if (lang == "system_language") {
-          info_text = tr("System languages found %1").arg(sonicPii18n->getNativeLanguageNames(sonicPii18n->system_languages).join(", ")) + "\n" + info_text;
+          info_text = tr("System languages found: %1").arg(sonicPii18n->getNativeLanguageNames(sonicPii18n->getSystemLanguages()).join(", ")) + "\n" + info_text;
         }
 
         msgBox.setInformativeText(info_text);
-        QPushButton *restartButton = msgBox.addButton(tr("Apply and Restart"), QMessageBox::ActionRole);
+        QPushButton *applyButton = msgBox.addButton(tr("Apply"), QMessageBox::ActionRole);
         QPushButton *dismissButton = msgBox.addButton(tr("Cancel"), QMessageBox::RejectRole);
-        msgBox.setDefaultButton(restartButton);
-        msgBox.setIcon(QMessageBox::Information);
+        msgBox.setDefaultButton(applyButton);
+        msgBox.setIcon(QMessageBox::Question);
         msgBox.exec();
 
-        if (msgBox.clickedButton() == (QAbstractButton*)restartButton) {
-            piSettings->language = lang;
+        if (msgBox.clickedButton() == (QAbstractButton*)applyButton) {
+          piSettings->language = lang;
+          updateSelectedUILanguage(piSettings->language);
+          emit uiLanguageChanged(piSettings->language);
+
+          language_details_label->setText(
+            tr("<b>The new language will be applied when you next start Sonic Pi.</b>")
+            + " "
+            + tr("Current UI language: %1").arg(sonicPii18n->getNativeLanguageName(sonicPii18n->currentlyLoadedLanguage()))
+          );
+
+          QMessageBox restartMsgBox(this);
+          restartMsgBox.setText(QString(tr("Restart Sonic Pi?")));
+          QString info_text = (tr("Do you want to restart Sonic Pi now? This will stop any current runs & recordings."));
+          QPushButton *restartButton = restartMsgBox.addButton(tr("Restart"), QMessageBox::ActionRole);
+          QPushButton *dismissButton = restartMsgBox.addButton(tr("Dismiss"), QMessageBox::RejectRole);
+          restartMsgBox.setInformativeText(info_text);
+          restartMsgBox.setDefaultButton(dismissButton);
+          restartMsgBox.setIcon(QMessageBox::Question);
+          restartMsgBox.exec();
+          if (restartMsgBox.clickedButton() == (QAbstractButton*)restartButton) {
             emit restartApp();
+          }
             //emit uiLanguageChanged(lang);
         } else if (msgBox.clickedButton() == (QAbstractButton*)dismissButton) {
             // Don't apply the new language settings
@@ -779,9 +808,8 @@ void SettingsWidget::updateSettings() {
 void SettingsWidget::settingsChanged() {
     language_combo->setCurrentIndex(available_languages.indexOf(piSettings->language));
     if (piSettings->language == "system_language") {
-      language_info_label->setText(
-        tr("System languages: %1").arg(sonicPii18n->getNativeLanguageNames(sonicPii18n->system_languages).join(", ")) + "\n" + tr("Current UI language: %1").arg(sonicPii18n->getNativeLanguageName(sonicPii18n->currently_loaded_language))
-        + "\n\n" + tr("Translations have been generously provided by volunteers \non https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)")
+      language_details_label->setText(
+        tr("System languages: %1").arg(sonicPii18n->getNativeLanguageNames(sonicPii18n->getSystemLanguages()).join(", ")) + "\n" + tr("Current UI language: %1").arg(sonicPii18n->getNativeLanguageName(sonicPii18n->currentlyLoadedLanguage()))
       );
     }
 

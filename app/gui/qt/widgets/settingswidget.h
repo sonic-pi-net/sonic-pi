@@ -168,6 +168,7 @@ private:
 
     QComboBox *language_combo;
     QLabel *language_option_label;
+    QLabel *language_details_label;
     QLabel *language_info_label;
 
     // TODO
