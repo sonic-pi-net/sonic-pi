@@ -36,9 +36,29 @@ class QtDocs
   include SonicPi::Util
   include GetText
 
+  def doc_collections
+    synths = SonicPi::Synths::SynthInfo.get_all.select do |k, v|
+      v.is_a?(SonicPi::Synths::SynthInfo) && v.user_facing?
+    end
+    [
+      {
+        items: synths,
+        template_path: synth_and_fx_template_path,
+        interpolated_path: synths_interpolated_path,
+        output_path: synths_toml_path,
+        klass: SonicPi::Synths::SynthInfo
+      },
+      {
+        items: @@docs,
+        template_path: lang_template_path,
+        interpolated_path: lang_interpolated_path,
+        output_path: lang_toml_path
+      }
+    ]
+  end
+
   def run
-    # _generate_lang_docs
-    _generate_synth_docs
+    _generate_docs
   end
 
   def t_(arg)
@@ -46,35 +66,40 @@ class QtDocs
   end
 
   private
-  def _generate_lang_docs
-    _generate_docs(@@docs, lang_template_path, lang_toml_path)
+  def _generate_docs
+    interpolated_file_paths = doc_collections.each_with_object([]) do |collection, paths|
+      original_template = File.read(collection[:template_path])
+      collection[:items].to_a.take(2).each do |key, item|
+        interpolated_file_path = "#{collection[:interpolated_path]}/#{key}.toml.erb"
+        template = ERB.new(original_template).result(binding)
+        File.open(interpolated_file_path, 'w') do |f|
+          f.write template
+        end
+        paths << interpolated_file_path
+      end
+    end
+    _generate_pot_file(interpolated_file_paths)
+    _generate_toml_files
+
   end
 
-  def _generate_synth_docs
-    collection = SonicPi::Synths::SynthInfo.get_all.select do |k, v|
-      v.is_a?(SonicPi::Synths::SynthInfo) && v.user_facing?
-    end
-    _generate_docs(
-      collection,
-      synth_and_fx_template_path,
-      synth_toml_path,
-      SonicPi::Synths::SynthInfo
+
+  def _generate_pot_file(interpolated_file_paths)
+    GetText::Tools::XGetText.run(
+      *interpolated_file_paths,
+      "-o ../../../../../../etc/doc/generated/toml/synths/test.pot"
     )
   end
 
-  def _generate_docs(collection, template_path, output_path, klass = nil)
-    original_template = File.read(template_path)
-    collection.to_a.take(2).map do |key, item|
-      template = ERB.new(original_template).result(binding)
-      interpolated_path = "#{interpolated_template_path}/#{key}.toml.erb"
-      File.open(interpolated_path, 'w') do |f|
-        f.write template
+  def _generate_toml_files
+    doc_collections.each do |collection|
+      collection[:items].to_a.take(2).each do |key, item|
+        interpolated_file = File.read("#{collection[:interpolated_path]}/#{key}.toml.erb")
+        output = ERB.new(interpolated_file).result(binding)
+        File.open("#{collection[:output_path]}/#{key}.toml", 'w') do |f|
+          f.write output
+        end
       end
-
-      GetText::Tools::XGetText.run(
-        interpolated_path,
-        "-o ../../../../../../etc/doc/generated/toml/synths/test.pot"
-      )
     end
   end
 end

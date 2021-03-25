@@ -1,9 +1,14 @@
 [sliding]
-slide_label = "Slide Options"
+slide_label = "<%= t_('Slide Options') %>"
 slide_description = '''
+<%=
+t_(<<~TEXT
 Any parameter that is slidable has three additional options named _slide,
 slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also
 set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:
+TEXT
+)
+%>
 '''
 <%
 slide_opts = {
@@ -17,6 +22,6 @@ slide_opts = {
 name = "<%= name %>"
 default = "<%= attributes[:default] %>"
 doc = '''
-<%= attributes[:doc] %>
+<%= t_(attributes[:doc]) %>
 '''
 <% end %>

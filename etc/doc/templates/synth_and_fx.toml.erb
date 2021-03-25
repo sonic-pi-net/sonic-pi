@@ -9,7 +9,7 @@ t_(<<~TEXT
 TEXT
 )
 %>
-[:<%= key %>]
+[<%= key %>]
 
 <%=
 t_(<<~TEXT
@@ -23,9 +23,9 @@ name = "<%= t_(item.name) %>"
 <%= t_('# A basic code example of how to use the synth or fx.') %>
 usage = '''
 <%=
-if klass == SonicPi::Synths::SynthInfo
+if collection[:klass] == SonicPi::Synths::SynthInfo
   "use_synth :#{key}"
-elsif klass == SonicPi::Synths::FXInfo
+elsif collection[:klass] == SonicPi::Synths::FXInfo
   fx_string = <<~TEXT
 with_fx :#{key.to_s[3..-1]} do
   play 50
@@ -47,30 +47,30 @@ t_(<<~TEXT
 TEXT
 )
 %>
-[:<%= key %>.introduced]
+[<%= key %>.introduced]
 label = "<%= t_("Introduced in #{item.introduced.to_s}") %>"
 
 <%=
 t_(<<~TEXT
 # The options are the opts of this synth or fx.
-# In the documentation, we currently display two table of opts:
+# In the documentation, we currently display two tables of opts:
 # - one listing the name of each opt and its default value for easy reference
 # - a second, more detailed table labelled 'Options', containing:
 #   - the name of each opt
 #   - a detailed description of it
 #   - its default value
-#   - (if the opt has constraints (limits or range of permitted values, etc):
-#     the constraints of the opt
+#   - (if the opt has constraints (limits or a specific range of permitted
+#     values, etc)): the constraints of the opt
 #   - a label describing whether this opt can be modulated (altered) while the
 #     synth or fx is running
 #   - (if the opt is slidable): a label indicating that the opt is slidable
 TEXT
 )
 %>
-[:<%= key %>.options]
+[<%= key %>.options]
 label = "<%= t_('Options') %>"
 <% item.arg_info.each do |name, attributes| %>
-[[:<%= key %>.options.list]]
+[[<%= key %>.options.list]]
 name = "<%= name %>:"
 doc = "<%= t_(attributes[:doc] || 'write me') %>"
 default_value = "<%= attributes[:default] %>"
@@ -91,9 +91,8 @@ t_(
 %>
 '''
 <% end %>
-
 <%=
-  if item.arg_info.any? { |name, arg| arg[:slidable] }
-    ERB.new(File.read(slides_template_path), eoutvar: '_slide01').result(binding)
-  end
+if item.arg_info.any? { |name, arg| arg[:slidable] }
+  ERB.new(File.read(slides_template_path), eoutvar: '_slide01').result(binding)
+end
 %>
