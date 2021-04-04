@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2021-04-02 08:00+0000\n"
+"PO-Revision-Date: 2021-04-05 08:00+0000\n"
 "Last-Translator: neginex <kanta.negishi.2021b@mlab.info>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/ja/>\n"
@@ -8169,7 +8169,7 @@ msgstr ""
 msgid ""
 "However, it will *not* match paths with fewer or more path segments. The follo"
 "wing will not match:"
-msgstr ""
+msgstr "しかし,  区分の数が少なかったり多かったりするpathにはマッチしません。 例えば以下のものにはマッチしないでしょう:"
 
 #: 10.3-Pattern-Matching.md:32
 #, fuzzy
@@ -8190,6 +8190,8 @@ msgid ""
 "Each `*` means *any content*. So we could match paths with just one segment wi"
 "th `/*` or paths with five segments with `/*/*/*/*/*`"
 msgstr ""
+"それぞれの`*`は「あらゆるもの」を意味しています。 なので、区分が一つだけのpathには `/*` でマッチでき、5つの区分を持つpathには "
+"`/*/*/*/*/*` でマッチできるのです。"
 
 #: 10.3-Pattern-Matching.md:38
 msgid "Matching partial segments"
@@ -8396,6 +8398,8 @@ msgid ""
 "ttern matching specification which is explained in detail here: http://opensou"
 "ndcontrol.org/spec-1_0"
 msgstr ""
+"気になる人のために説明すると、これらのマッチング規則はこのリンク先に詳しく書かれているOpen Sound Control "
+"パターンマッチング仕様に基づいています: http://opensoundcontrol.org/spec-1_0"
 
 #: 11-MIDI.md:1
 msgid "11 MIDI"
@@ -8455,6 +8459,8 @@ msgid ""
 "into Sonic Pi to control our synths and sounds. Go and grab a MIDI controller "
 "such as a keyboard or control surface and let's get physical!"
 msgstr ""
+"このセクションでは、MIDIコントローラを接続し、シンセや音をコントロールするためにSonic "
+"Piへイベントを送信する方法を学びます。キーボード、またはコントローラを接続して実際に動かしてみましょう！"
 
 #: 11.1-MIDI-In.md:11
 msgid "Connecting a MIDI Controller"
