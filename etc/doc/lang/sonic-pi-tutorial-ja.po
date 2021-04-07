@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2021-04-05 08:00+0000\n"
+"PO-Revision-Date: 2021-04-07 08:00+0000\n"
 "Last-Translator: neginex <kanta.negishi.2021b@mlab.info>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/ja/>\n"
@@ -5031,6 +5031,12 @@ msgid ""
 " racing to do something different to the same variable and every time round a "
 "different loop 'wins'."
 msgstr ""
+"上の例では変数`a`に数字のリングを割り当て、2つの別々の`live_loop`の中でそれを利用しました。最初のライブループでは0.5秒ごとにリング `("
+"ring 1, 2, 3, 4, 5, 6)`をソートしてログにprint出力しています。コードを実行すれば、printされたリストが*いつもソートされて"
+"いるわけではない*ことがわかるでしょう。もしかすると、リストがソートされていたり、されていなかったりすることにびっくりするかもしれません。これは非決定的挙"
+"動と呼ばれるもので、レースコンディションというやっかいな問題の結果でもあります。その問題の原因は2つ目のライブループもまたlistを操作(この例ではlis"
+"tをシャッフル)していることにあり、リストはprintされる時に、ちょうどソートされた状態であることもあれば、ちょうどシャッフルされた状態であることもある"
+"のです。2つのライブループが同じ変数に対して別々のことをしようと競い合っていて、毎回どちらか異なる方が勝っているということです。"
 
 #: 05.6-Variables.md:168
 msgid ""
@@ -5038,6 +5044,8 @@ msgid ""
 "iple live loops or threads*. For example, the following code will always print"
 " a sorted list as each live loop has its own separate variable:"
 msgstr ""
+"これに対して2つの解決策があります。　1つは、*複数のライブループやスレッドで同じ変数を使わない*ことです。例えば、以下のコードはそれぞれのライブループが"
+"別々の変数を持っているので常にソートされたリストがプリントされます。"
 
 #: 05.6-Variables.md:173
 #, no-wrap
