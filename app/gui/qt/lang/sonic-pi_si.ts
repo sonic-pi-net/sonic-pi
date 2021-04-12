@@ -24,7 +24,7 @@
         <location filename="../mainwindow.cpp" line="1553"/>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
-        <translation>කේතය වැඩ කරන ගමන් ...</translation>
+        <translation>කේතය ධාවනය වෙමින්...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1573"/>
@@ -36,19 +36,19 @@
         <location filename="../mainwindow.cpp" line="1603"/>
         <source>Reloading...</source>
         <oldsource>Reloading....</oldsource>
-        <translation>රීලෝඩ් වෙමින් ...</translation>
+        <translation>නැවත පූරණය වෙමින් ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1634"/>
         <source>Enabling Mixer HPF...</source>
         <oldsource>Enabling Mixer HPF....</oldsource>
-        <translation>Mixer HPF සක්‍රීය කරමින් ...</translation>
+        <translation>මික්සර් එච්පීඑෆ් සබල කරමින් ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1643"/>
         <source>Disabling Mixer HPF...</source>
         <oldsource>Disabling Mixer HPF....</oldsource>
-        <translation>Mixer HPF අක්‍රීය කරමින් ...</translation>
+        <translation>මික්සර් එච්පීඑෆ් අබල කරමින්...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="456"/>
@@ -349,7 +349,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2163"/>
         <source>Save</source>
-        <translation>සේව් කරන්න</translation>
+        <translation>සුරකින්න</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2165"/>
@@ -454,12 +454,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2610"/>
         <source>File loaded...</source>
-        <translation>ගොනුව load වී අවසන්...</translation>
+        <translation>ගොනුව පූරණය වී ඇත...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2636"/>
         <source>File saved...</source>
-        <translation>ගොනුව සේව් වී අවසන්...</translation>
+        <translation>ගොනුව සුරකින ලදි...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2885"/>
