@@ -93,12 +93,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="3618"/>
         <source>Enabling MIDI input...</source>
-        <translation type="unfinished"></translation>
+        <translation>Włącz wejście MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3624"/>
         <source>Disabling MIDI input...</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyłącz wejście MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3640"/>
@@ -349,8 +349,7 @@ Przepraszam, ale w trakcie startu wystąpił krytyczny błąd</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2535"/>
         <source>Save current buffer as an external file</source>
-        <translation>Zapisz zawartość aktualnego buforu 
-do zewnętrznego pliku</translation>
+        <translation>Zapisz zawartość aktualnego buforu do zewnętrznego pliku</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2539"/>
@@ -360,8 +359,7 @@ do zewnętrznego pliku</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2541"/>
         <source>Load an external file in the current buffer</source>
-        <translation>Wczytaj zawartość pliku znajdującego się 
-na twoim komputerze do aktualnego buforu</translation>
+        <translation>Wczytaj zawartość pliku znajdującego się na twoim komputerze do aktualnego buforu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2545"/>
@@ -381,7 +379,7 @@ na twoim komputerze do aktualnego buforu</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2563"/>
         <source>Show Scopes</source>
-        <translation type="unfinished">Pokaż Skale</translation>
+        <translation>Pokaż zasięgi widoczności</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2571"/>
@@ -491,37 +489,37 @@ na twoim komputerze do aktualnego buforu</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2723"/>
         <source>Audio</source>
-        <translation type="unfinished">Audio</translation>
+        <translation>Audio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2732"/>
         <source>Visuals</source>
-        <translation type="unfinished">Wizualizacje</translation>
+        <translation>Wygląd</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2736"/>
         <source>Light</source>
-        <translation type="unfinished">Jasny</translation>
+        <translation>Jasny</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2741"/>
         <source>Dark</source>
-        <translation type="unfinished">Ciemny</translation>
+        <translation>Ciemny</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2746"/>
         <source>Pro Light</source>
-        <translation type="unfinished">Jasny Pro</translation>
+        <translation>Jasny Pro</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2751"/>
         <source>Pro Dark</source>
-        <translation type="unfinished">Ciemny Pro</translation>
+        <translation>Ciemny Pro</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2756"/>
         <source>High Contrast</source>
-        <translation type="unfinished">Wysoki kontrast</translation>
+        <translation>Wysoki kontrast</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2761"/>
@@ -541,7 +539,7 @@ na twoim komputerze do aktualnego buforu</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2786"/>
         <source>IO</source>
-        <translation type="unfinished">IO</translation>
+        <translation>Wejście/Wyjście</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2788"/>
