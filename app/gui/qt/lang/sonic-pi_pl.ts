@@ -127,12 +127,12 @@ Przepraszam, ale w trakcie startu wystąpił krytyczny błąd</translation>
     <message>
         <location filename="../mainwindow.cpp" line="793"/>
         <source>Context</source>
-        <translation type="unfinished"></translation>
+        <translation>Kontekst</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="897"/>
         <source>Playing Sample...</source>
-        <translation type="unfinished"></translation>
+        <translation>Odtwarzanie próbki...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1545"/>
@@ -259,22 +259,22 @@ Przepraszam, ale w trakcie startu wystąpił krytyczny błąd</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1869"/>
         <source>Hiding about window...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukrywam okno informacji o programie...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1874"/>
         <source>Showing about window...</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokazuję okno informacji o programie...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1890"/>
         <source>Hiding help...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukrywam pomoc...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1894"/>
         <source>Showing help...</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokazuję pomoc...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1950"/>
@@ -299,37 +299,37 @@ Przepraszam, ale w trakcie startu wystąpił krytyczny błąd</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2305"/>
         <source>Show autocompletion on</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyświetlanie autouzupełniania włączone</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2307"/>
         <source>Show autocompletion off</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyświetlanie autouzupełniania wyłączone</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2322"/>
         <source>Show context on</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyświetlanie kontekstu włączone</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2325"/>
         <source>Show context off</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyświetlanie kontekstu wyłączone</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2337"/>
         <source>Hiding preferences...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukrywam opcje...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2341"/>
         <source>Showing preferences...</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokazuję opcje...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2510"/>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyjście</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2515"/>
