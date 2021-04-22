@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-12-11 04:41+0000\n"
-"Last-Translator: manuel carcach <mfcarcache@gmail.com>\n"
+"PO-Revision-Date: 2021-04-23 12:31+0000\n"
+"Last-Translator: Abdeselam El-Haman <aelhaman@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/es/>\n"
 "Language: es\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.4-dev\n"
+"X-Generator: Weblate 4.7-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -2454,9 +2454,8 @@ msgid "3.4 Enveloped Samples"
 msgstr "3.4 Onda de muestra con envolvente"
 
 #: 03.4-Enveloped-Samples.md:3
-#, fuzzy
 msgid "Enveloped Samples"
-msgstr "Sobres para sampleos"
+msgstr "Envolventes para samples"
 
 #: 03.4-Enveloped-Samples.md:5
 msgid ""
@@ -2483,7 +2482,6 @@ msgid "Amen Envelopes"
 msgstr "Envolventes Acústicos para Amen"
 
 #: 03.4-Enveloped-Samples.md:15
-#, fuzzy
 msgid "Let's return to our trusty friend the Amen Break:"
 msgstr "Volvamos a nuestro amigo, el Amen Break:"
 
@@ -2547,13 +2545,12 @@ msgid "Fade Outs"
 msgstr "Apagando (fade out)"
 
 #: 03.4-Enveloped-Samples.md:50
-#, fuzzy
 msgid ""
 "To explore this, let's consider our Amen break in more detail. If we ask Sonic"
 " Pi how long the sample is:"
 msgstr ""
-"Para explorar esto, consideremos nuestra pista Amen break en detalle. Si le pr"
-"eguntamos a Sonic Pi cuán largo es el sampleo:"
+"Para explorar esto, consideremos nuestra pista Amen break en detalle. Si le "
+"preguntamos a Sonic Pi cuán largo es el sample:"
 
 #: 03.4-Enveloped-Samples.md:53
 #, no-wrap
@@ -2561,15 +2558,14 @@ msgid "print sample_duration :loop_amen"
 msgstr "print sample_duration :loop_amen"
 
 #: 03.4-Enveloped-Samples.md:57
-#, fuzzy
 msgid ""
 "It will print out `1.753310657596372` which is the length of the sample in sec"
 "onds. Let's just round that to `1.75` for convenience here. Now, if we set the"
 " release to `0.75`, something surprising will happen:"
 msgstr ""
-"Imprimirá `1.753310657596372` que es el tamaño del sampleo en segundos. Consid"
-"eremos redondearlo a `1.75` por conveniencia. Ahora, si seteamos el release a "
-"`0.75`, algo sorpresivo pasará:"
+"Imprimirá `1.753310657596372` que es el tamaño del sample en segundos. "
+"Consideremos redondearlo a `1.75` por conveniencia. Ahora, si seteamos el "
+"release a `0.75`, algo sorprendente pasará:"
 
 #: 03.4-Enveloped-Samples.md:61
 #, no-wrap
@@ -2577,7 +2573,6 @@ msgid "sample :loop_amen, release: 0.75"
 msgstr "sample :loop_amen, release: 0.75"
 
 #: 03.4-Enveloped-Samples.md:65
-#, fuzzy
 msgid ""
 "It will play the first second of the sample at full amplitude before then fadi"
 "ng out over a period of 0.75 seconds. This is the *auto sustain* in action. By"
@@ -2585,11 +2580,12 @@ msgid ""
 "as 10.75 seconds long, it would play the first 10 seconds at full amplitude be"
 "fore fading out over 0.75s."
 msgstr ""
-"Ejecutará el primer segundo del sampleo a amplitud completa antes de desvanece"
-"rse por un periodo de 0.75 segundos. Esto es el *auto sustain* en acción. Pred"
-"eterminado, el release siempre trabaja al final del sampleo. si tu sampleo fue"
-"ra 10.75 segundos de largo, ejecutaría los primeros 10 segundos a completa amp"
-"litud antes de comenzar a desvanecerse por los 0.75 segundos finales."
+"Ejecutará el primer segundo del sample a amplitud completa antes de "
+"desvanecerse por un periodo de 0.75 segundos. Esto es el *auto sustain* en "
+"acción. Predeterminado, el release siempre trabaja al final del sample. si "
+"tu sample fuera 10.75 segundos de largo, ejecutaría los primeros 10 segundos "
+"a completa amplitud antes de comenzar a desvanecerse por los 0.75 segundos "
+"finales."
 
 #: 03.4-Enveloped-Samples.md:71
 msgid "Remember: by default, `release:` fades out at the end of a sample."
@@ -2598,9 +2594,8 @@ msgstr ""
 "de un sample."
 
 #: 03.4-Enveloped-Samples.md:73
-#, fuzzy
 msgid "Fade In and Out"
-msgstr "Aparecimiento y desvanecimiento (Fade In and Out)"
+msgstr "Fade In y Fade Out"
 
 #: 03.4-Enveloped-Samples.md:75
 #, fuzzy
