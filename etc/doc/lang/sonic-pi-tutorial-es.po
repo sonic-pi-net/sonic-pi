@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
 "PO-Revision-Date: 2024-10-20 19:18+0000\n"
-"Last-Translator: Esteban Betancur <essteb@gmail.com>\n"
+"Last-Translator: Abdeselam El-Haman <aelhaman@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/es/>\n"
 "Language: es\n"
@@ -1139,8 +1139,8 @@ msgid ""
 "To change the amplitude of a sound, you can use the `amp:` opt. For example, t"
 "o play at half amplitude pass 0.5:"
 msgstr ""
-"Para cambiar la amplitud de un sonido, utiliza el opt `amp:`. Por ejemplo, par"
-"a tocar a la mitad de la amplitud cámbialo a 0.5:"
+"Para cambiar la amplitud de un sonido, utiliza el opt `amp:`. Por ejemplo, "
+"para tocar a la mitad de la amplitud cámbialo a 0.5:"
 
 #: 02.2-Synth-Params.md:84
 #, no-wrap
@@ -2569,8 +2569,8 @@ msgid ""
 "To explore this, let's consider our Amen break in more detail. If we ask Sonic"
 " Pi how long the sample is:"
 msgstr ""
-"Para explorar esto, consideremos nuestra pista Amen break en detalle. Si le pr"
-"eguntamos a Sonic Pi cuán largo es el sample:"
+"Para explorar esto, consideremos nuestra pista Amen break en detalle. Si le "
+"preguntamos a Sonic Pi cuán largo es el sample:"
 
 #: 03.4-Enveloped-Samples.md:53
 #, no-wrap
@@ -2583,9 +2583,9 @@ msgid ""
 "onds. Let's just round that to `1.75` for convenience here. Now, if we set the"
 " release to `0.75`, something surprising will happen:"
 msgstr ""
-"Imprimirá `1.753310657596372` que es el tamaño del sample en segundos. Conside"
-"remos redondearlo a `1.75` por conveniencia. Ahora, si seteamos el release a `"
-"0.75`, algo sorprendente pasará:"
+"Imprimirá `1.753310657596372` que es el tamaño del sample en segundos. "
+"Consideremos redondearlo a `1.75` por conveniencia. Ahora, si seteamos el "
+"release a `0.75`, algo sorprendente pasará:"
 
 #: 03.4-Enveloped-Samples.md:61
 #, no-wrap
@@ -2600,11 +2600,12 @@ msgid ""
 "as 10.75 seconds long, it would play the first 10 seconds at full amplitude be"
 "fore fading out over 0.75s."
 msgstr ""
-"Ejecutará el primer segundo del sample a amplitud completa antes de desvanecer"
-"se por un periodo de 0.75 segundos. Esto es el *auto sustain* en acción. Prede"
-"terminado, el release siempre trabaja al final del sample. si tu sample fuera "
-"10.75 segundos de largo, ejecutaría los primeros 10 segundos a completa amplit"
-"ud antes de comenzar a desvanecerse por los 0.75 segundos finales."
+"Ejecutará el primer segundo del sample a amplitud completa antes de "
+"desvanecerse por un periodo de 0.75 segundos. Esto es el *auto sustain* en "
+"acción. Predeterminado, el release siempre trabaja al final del sample. si "
+"tu sample fuera 10.75 segundos de largo, ejecutaría los primeros 10 segundos "
+"a completa amplitud antes de comenzar a desvanecerse por los 0.75 segundos "
+"finales."
 
 #: 03.4-Enveloped-Samples.md:71
 msgid "Remember: by default, `release:` fades out at the end of a sample."
@@ -2621,8 +2622,8 @@ msgid ""
 "We can use both `attack:` and `release:` together with the auto sustain behavi"
 "our to fade both in and out over the duration of the sample:"
 msgstr ""
-"Podemos utilizar tanto el `attack:` como el `release:` juntos con el auto sust"
-"ain para aparecer y desvanecer en la duración del sample:"
+"Podemos utilizar tanto el `attack:` como el `release:` juntos con el auto "
+"sustain para aparecer y desvanecer en la duración del sample:"
 
 #: 03.4-Enveloped-Samples.md:78
 #, no-wrap
