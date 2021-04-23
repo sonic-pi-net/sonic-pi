@@ -871,7 +871,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="3864"/>
         <source>Line: %1,  Position: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeile: %1, Position: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2515"/>
@@ -1296,7 +1296,7 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="285"/>
         <source>Show code completion</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige Codevervollständigung</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="397"/>
