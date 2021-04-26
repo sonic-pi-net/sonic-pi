@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-10-02 21:41+0000\n"
-"Last-Translator: achimkoh <achim.koh@gmail.com>\n"
-"Language-Team: Korean <https://hosted.weblate.org/projects/sonic-pi/tutorial/k"
-"o/>\n"
+"PO-Revision-Date: 2021-04-20 10:28+0000\n"
+"Last-Translator: 조현퇴 <hyuntoe@gmail.com>\n"
+"Language-Team: Korean <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
+"ko/>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.3-dev\n"
+"X-Generator: Weblate 4.7-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -67,14 +67,14 @@ msgstr ""
 "을 들락날락 할 수 있습니다. 만약 무언가가 부족하다고 생각되면 알려주세요. 나중에 쓸 수 있도록 고려해 보겠습니다."
 
 #: 01-Welcome-to-Sonic-Pi.md:28
-#, fuzzy
 msgid ""
 "Finally, watching others live code is a really great way to learn. I regularly"
 " stream live on [https://youtube.com/samaaron](http://youtube.com/samaaron) so"
 " please do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
-"끝으로, 다른 라이브 코드를 보는 것도 정말 훌륭한 학습법입니다. 저는 정기적으로 [http://youtube.com/samaaron](ht"
-"tp://youtube.com/samaaron)에서 라이브 공연을 합니다. 한번 오셔서 아는척하시고 질문도 많이 해주세요 ^^"
+"끝으로, 다른 사람들의 라이브 코드를 보는 것도 정말 훌륭한 학습법입니다. 저는 정기적으로 [http://youtube.com/"
+"samaaron](http://youtube.com/samaaron)에서 라이브 스트리밍을 합니다. 들러서 인사하시고 질문도 많이 "
+"해주세요 ^^"
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
@@ -118,9 +118,8 @@ msgid "A live loop"
 msgstr "라이브 루프"
 
 #: 01.1-Live-Coding.md:19
-#, fuzzy
 msgid "Let's get started, copy the following code into an empty buffer:"
-msgstr "자~ 시작하죠! 아래 코드를 복사해서 비어있는 버퍼에 붙여넣읍시다:"
+msgstr "자~ 시작하죠! 다음의 코드를 복사해서 비어있는 버퍼에 붙여넣으세요:"
 
 #: 01.1-Live-Coding.md:21
 #, no-wrap

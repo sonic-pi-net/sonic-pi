@@ -6,7 +6,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="519"/>
         <source>Preferences</source>
-        <translation>Preferências</translation>
+        <translation type="unfinished">Configurações</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="781"/>
@@ -419,27 +419,27 @@ Desculpe, um erro critico ocorreu durante a inicialização</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2629"/>
         <source>Safe Audio Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Áudio em modo de segurança</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2634"/>
         <source>Enforce Timing Guarantees</source>
-        <translation type="unfinished"></translation>
+        <translation>Impor garantias de tempo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2639"/>
         <source>Enable External Synths</source>
-        <translation type="unfinished"></translation>
+        <translation>Habilitar sintetizadores externos</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2644"/>
         <source>Invert Stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>Inverter estéreo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2649"/>
         <source>Force Mono</source>
-        <translation type="unfinished"></translation>
+        <translation>Forçar Mono</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2654"/>
@@ -464,22 +464,22 @@ Desculpe, um erro critico ocorreu durante a inicialização</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2674"/>
         <source>Log Synths</source>
-        <translation type="unfinished"></translation>
+        <translation>Registrar Sintetizadores</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2679"/>
         <source>Clear Logs on Run</source>
-        <translation type="unfinished"></translation>
+        <translation>Apagar registro quando executar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2684"/>
         <source>Auto Indent Code Buffer on Run</source>
-        <translation type="unfinished"></translation>
+        <translation>Indentar código automaticamente</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2689"/>
         <source>Auto-Scroll Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Rolar registro automaticamente</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2699"/>
@@ -489,7 +489,7 @@ Desculpe, um erro critico ocorreu durante a inicialização</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2711"/>
         <source>Code</source>
-        <translation type="unfinished"></translation>
+        <translation>Código</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2723"/>

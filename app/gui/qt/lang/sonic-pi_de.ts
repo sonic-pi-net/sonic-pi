@@ -808,7 +808,7 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2957"/>
         <source>Show Cue Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Cue Log zeigen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2962"/>
@@ -871,7 +871,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="3864"/>
         <source>Line: %1,  Position: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeile: %1, Position: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2515"/>
@@ -1132,7 +1132,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="41"/>
         <source>Visuals</source>
-        <translation type="unfinished">Anzeigen</translation>
+        <translation>Visualisierung</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="44"/>
@@ -1279,7 +1279,7 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="171"/>
         <source>Allow OSC from other computers</source>
-        <translation type="unfinished"></translation>
+        <translation>OSC von anderen Computern erlauben</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="172"/>
@@ -1296,7 +1296,7 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="285"/>
         <source>Show code completion</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige Codevervollständigung</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="397"/>
@@ -1466,7 +1466,7 @@ Sonic Pi, die über die midi_* fns gesendet werden können</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="288"/>
         <source>Show code context</source>
-        <translation type="unfinished"></translation>
+        <translation>Code-Kontext anzeigen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="289"/>
