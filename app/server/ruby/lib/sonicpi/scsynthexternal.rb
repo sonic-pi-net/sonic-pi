@@ -229,11 +229,6 @@ module SonicPi
       scsynth_pipe = IO.popen(opts_a)
       @scsynth_pid = scsynth_pipe.pid
 
-      if os == :windows
-        # set priority of supercollider server on Windows to be high
-        `wmic process where processid='#{@scsynth_pid}' CALL setpriority \"high priority\"`
-      end
-
       register_process(@scsynth_pid)
       t1 = Thread.new do
         __system_thread_locals.set_local(:sonic_pi_local_thread_group, :scsynth_log_tracker)
