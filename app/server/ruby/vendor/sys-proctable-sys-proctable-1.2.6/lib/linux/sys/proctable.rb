@@ -20,62 +20,67 @@ module Sys
     @boot_time = IO.read("/proc/stat")[/btime.*/].split.last.to_i rescue nil
 
     @fields = [
-      'cmdline',     # Complete command line
-      'cwd',         # Current working directory
-      'environ',     # Environment
-      'exe',         # Actual pathname of the executed command
-      'fd',          # File descriptors open by process
-      'root',        # Root directory of process
-      'pid',         # Process ID
-      'comm',        # Filename of executable
-      'state',       # Single character state abbreviation
-      'ppid',        # Parent process ID
-      'pgrp',        # Process group
-      'session',     # Session ID
-      'tty_nr',      # TTY (terminal) associated with the process
-      'tpgid',       # Group ID of the TTY
-      'flags',       # Kernel flags
-      'minflt',      # Number of minor faults
-      'cminflt',     # Number of minor faults of waited-for children
-      'majflt',      # Number of major faults
-      'cmajflt',     # Number of major faults of waited-for children
-      'utime',       # Number of user mode jiffies
-      'stime',       # Number of kernel mode jiffies
-      'cutime',      # Number of children's user mode jiffies
-      'cstime',      # Number of children's kernel mode jiffies
-      'priority',    # Nice value plus 15
-      'nice',        # Nice value
-      'itrealvalue', # Time in jiffies before next SIGALRM
-      'starttime',   # Time in jiffies since system boot
-      'vsize',       # Virtual memory size in bytes
-      'rss',         # Resident set size
-      'rlim',        # Current limit on the rss in bytes
-      'startcode',   # Address above which program text can run
-      'endcode',     # Address below which program text can run
-      'startstack',  # Address of the startstack
-      'kstkesp',     # Kernel stack page address
-      'kstkeip',     # Kernel instruction pointer
-      'signal',      # Bitmap of pending signals
-      'blocked',     # Bitmap of blocked signals
-      'sigignore',   # Bitmap of ignored signals
-      'sigcatch',    # Bitmap of caught signals
-      'wchan',       # Channel in which the process is waiting
-      'nswap',       # Number of pages swapped
-      'cnswap',      # Cumulative nswap for child processes
-      'exit_signal', # Signal to be sent to parent when process dies
-      'processor',   # CPU number last executed on
-      'rt_priority', # Real time scheduling priority
-      'policy',      # Scheduling policy
-      'name',        # Process name
-      'uid',         # Real user ID
-      'euid',        # Effective user ID
-      'gid',         # Real group ID
-      'egid',        # Effective group ID
-      'pctcpu',      # Percent of CPU usage (custom field)
-      'pctmem',      # Percent of Memory usage (custom field)
-      'nlwp',        # Number of Light-Weight Processes associated with the process (threads)
-      'cgroup',      # Control groups to which the process belongs
-      'smaps'        # Process memory size for all mapped files
+      'cmdline',               # Complete command line
+      'cwd',                   # Current working directory
+      'environ',               # Environment
+      'exe',                   # Actual pathname of the executed command
+      'fd',                    # File descriptors open by process
+      'root',                  # Root directory of process
+      'pid',                   # Process ID
+      'comm',                  # Filename of executable
+      'state',                 # Single character state abbreviation
+      'ppid',                  # Parent process ID
+      'pgrp',                  # Process group
+      'session',               # Session ID
+      'tty_nr',                # TTY (terminal) associated with the process
+      'tpgid',                 # Group ID of the TTY
+      'flags',                 # Kernel flags
+      'minflt',                # Number of minor faults
+      'cminflt',               # Number of minor faults of waited-for children
+      'majflt',                # Number of major faults
+      'cmajflt',               # Number of major faults of waited-for children
+      'utime',                 # Number of user mode jiffies
+      'stime',                 # Number of kernel mode jiffies
+      'cutime',                # Number of children's user mode jiffies
+      'cstime',                # Number of children's kernel mode jiffies
+      'priority',              # Nice value plus 15
+      'nice',                  # Nice value
+      'num_threads',           # Number of threads in this process
+      'itrealvalue',           # Time in jiffies before next SIGALRM
+      'starttime',             # Time in jiffies since system boot
+      'vsize',                 # Virtual memory size in bytes
+      'rss',                   # Resident set size
+      'rlim',                  # Current limit on the rss in bytes (old)
+      'rsslim',                # Current limit on the rss in bytes (current)
+      'startcode',             # Address above which program text can run
+      'endcode',               # Address below which program text can run
+      'startstack',            # Address of the startstack
+      'kstkesp',               # Kernel stack page address
+      'kstkeip',               # Kernel instruction pointer
+      'signal',                # Bitmap of pending signals
+      'blocked',               # Bitmap of blocked signals
+      'sigignore',             # Bitmap of ignored signals
+      'sigcatch',              # Bitmap of caught signals
+      'wchan',                 # Channel in which the process is waiting
+      'nswap',                 # Number of pages swapped
+      'cnswap',                # Cumulative nswap for child processes
+      'exit_signal',           # Signal to be sent to parent when process dies
+      'processor',             # CPU number last executed on
+      'rt_priority',           # Real time scheduling priority
+      'policy',                # Scheduling policy
+      'delayacct_blkio_ticks', # Aggregated block I/O delays
+      'guest_time',            # Guest time of the process
+      'cguest_time',           # Guest time of the process's children
+      'name',                  # Process name
+      'uid',                   # Real user ID
+      'euid',                  # Effective user ID
+      'gid',                   # Real group ID
+      'egid',                  # Effective group ID
+      'pctcpu',                # Percent of CPU usage (custom field)
+      'pctmem',                # Percent of Memory usage (custom field)
+      'nlwp',                  # Number of Light-Weight Processes associated with the process (threads)
+      'cgroup',                # Control groups to which the process belongs
+      'smaps'                  # Process memory size for all mapped files
     ]
 
     public
@@ -141,7 +146,7 @@ module Sys
         struct.environ = {}
 
         begin
-          IO.read("/proc/#{file}/environ").split("\0").each{ |str|
+          IO.read("/proc/#{file}/environ").force_encoding("UTF-8").split("\0").each{ |str|
             key, value = str.split('=')
             struct.environ[key] = value
           }
@@ -197,47 +202,51 @@ module Sys
 
         stat = stat.split
 
-        struct.pid         = stat[0].to_i
-        struct.comm        = stat[1].tr('()','') # Remove parens
-        struct.state       = stat[2]
-        struct.ppid        = stat[3].to_i
-        struct.pgrp        = stat[4].to_i
-        struct.session     = stat[5].to_i
-        struct.tty_nr      = stat[6].to_i
-        struct.tpgid       = stat[7].to_i
-        struct.flags       = stat[8].to_i
-        struct.minflt      = stat[9].to_i
-        struct.cminflt     = stat[10].to_i
-        struct.majflt      = stat[11].to_i
-        struct.cmajflt     = stat[12].to_i
-        struct.utime       = stat[13].to_i
-        struct.stime       = stat[14].to_i
-        struct.cutime      = stat[15].to_i
-        struct.cstime      = stat[16].to_i
-        struct.priority    = stat[17].to_i
-        struct.nice        = stat[18].to_i
-        # Skip 19
-        struct.itrealvalue = stat[20].to_i
-        struct.starttime   = stat[21].to_i
-        struct.vsize       = stat[22].to_i
-        struct.rss         = stat[23].to_i
-        struct.rlim        = stat[24].to_i
-        struct.startcode   = stat[25].to_i
-        struct.endcode     = stat[26].to_i
-        struct.startstack  = stat[27].to_i
-        struct.kstkesp     = stat[28].to_i
-        struct.kstkeip     = stat[29].to_i
-        struct.signal      = stat[30].to_i
-        struct.blocked     = stat[31].to_i
-        struct.sigignore   = stat[32].to_i
-        struct.sigcatch    = stat[33].to_i
-        struct.wchan       = stat[34].to_i
-        struct.nswap       = stat[35].to_i
-        struct.cnswap      = stat[36].to_i
-        struct.exit_signal = stat[37].to_i
-        struct.processor   = stat[38].to_i
-        struct.rt_priority = stat[39].to_i
-        struct.policy      = stat[40].to_i
+        struct.pid                   = stat[0].to_i
+        struct.comm                  = stat[1].tr('()','') # Remove parens
+        struct.state                 = stat[2]
+        struct.ppid                  = stat[3].to_i
+        struct.pgrp                  = stat[4].to_i
+        struct.session               = stat[5].to_i
+        struct.tty_nr                = stat[6].to_i
+        struct.tpgid                 = stat[7].to_i
+        struct.flags                 = stat[8].to_i
+        struct.minflt                = stat[9].to_i
+        struct.cminflt               = stat[10].to_i
+        struct.majflt                = stat[11].to_i
+        struct.cmajflt               = stat[12].to_i
+        struct.utime                 = stat[13].to_i
+        struct.stime                 = stat[14].to_i
+        struct.cutime                = stat[15].to_i
+        struct.cstime                = stat[16].to_i
+        struct.priority              = stat[17].to_i
+        struct.nice                  = stat[18].to_i
+        struct.num_threads           = stat[19].to_i
+        struct.itrealvalue           = stat[20].to_i
+        struct.starttime             = stat[21].to_i
+        struct.vsize                 = stat[22].to_i
+        struct.rss                   = stat[23].to_i
+        struct.rlim                  = stat[24].to_i # Old name for backwards compatibility
+        struct.rsslim                = stat[24].to_i
+        struct.startcode             = stat[25].to_i
+        struct.endcode               = stat[26].to_i
+        struct.startstack            = stat[27].to_i
+        struct.kstkesp               = stat[28].to_i
+        struct.kstkeip               = stat[29].to_i
+        struct.signal                = stat[30].to_i
+        struct.blocked               = stat[31].to_i
+        struct.sigignore             = stat[32].to_i
+        struct.sigcatch              = stat[33].to_i
+        struct.wchan                 = stat[34].to_i
+        struct.nswap                 = stat[35].to_i
+        struct.cnswap                = stat[36].to_i
+        struct.exit_signal           = stat[37].to_i
+        struct.processor             = stat[38].to_i
+        struct.rt_priority           = stat[39].to_i
+        struct.policy                = stat[40].to_i
+        struct.delayacct_blkio_ticks = stat[41].to_i
+        struct.guest_time            = stat[42].to_i
+        struct.cguest_time           = stat[43].to_i
 
         # Get /proc/<pid>/status information (name, uid, euid, gid, egid)
         begin

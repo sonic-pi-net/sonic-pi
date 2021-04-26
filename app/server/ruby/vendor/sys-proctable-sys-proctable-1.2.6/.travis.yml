@@ -1,15 +1,13 @@
 sudo: false
 language: ruby
 rvm:
-  - '2.3.3'
   - '2.4.5'
-  - '2.5.5'
+  - '2.5.7'
+  - '2.6.5'
   - 'jruby-9.2.7.0'
 install: gem install rspec ffi
 script: rake
 matrix:
   include:
     - os: osx
-      rvm: '2.3.3'
-    - os: osx
-      rvm: '2.4.5'
+      rvm: '2.4.3'

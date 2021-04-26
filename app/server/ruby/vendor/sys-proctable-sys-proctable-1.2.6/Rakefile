@@ -51,7 +51,7 @@ end
 
 desc 'Run the test suite for the sys-proctable library'
 RSpec::Core::RakeTask.new(:spec) do |t|
-  t.pattern = ['spec/spec_helper.rb', 'spec/sys_proctable_all_spec.rb']
+  t.pattern = ['spec/sys_proctable_all_spec.rb']
 
   case CONFIG['host_os']
     when /aix/i
