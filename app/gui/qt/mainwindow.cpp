@@ -3140,7 +3140,7 @@ void MainWindow::readSettings()
     std::cout << "[GUI] - reading settings" << std::endl;
 
     // Read in preferences from previous session
-    piSettings->language = gui_settings.value("prefs/language", "system_language").toString();
+    piSettings->language = gui_settings->value("prefs/language", "system_language").toString();
     piSettings->show_buttons = gui_settings->value("prefs/show-buttons", true).toBool();
     piSettings->show_tabs = gui_settings->value("prefs/show-tabs", true).toBool();
     piSettings->show_log = gui_settings->value("prefs/show-log", true).toBool();
@@ -3167,7 +3167,7 @@ void MainWindow::readSettings()
     piSettings->show_scope_labels = gui_settings->value("prefs/scope/show-labels", false).toBool();
     piSettings->show_cues = gui_settings->value("prefs/show_cues", true).toBool();
     QString styleName = gui_settings->value("prefs/theme", "").toString();
-    
+
     piSettings->themeStyle = theme->themeNameToStyle(styleName);
     piSettings->show_autocompletion = gui_settings->value("prefs/show-autocompletion", true).toBool();
     piSettings->show_context = gui_settings->value("prefs/show-context", true).toBool();
@@ -3189,11 +3189,11 @@ void MainWindow::restoreScopeState(std::vector<QString> names)
 void MainWindow::writeSettings()
 {
     std::cout << "[GUI] - writing settings" << std::endl;
-    
+
     gui_settings->setValue("pos", pos());
     gui_settings->setValue("size", size());
     gui_settings->setValue("first_time", 0);
-  
+
     gui_settings->setValue("prefs/language", piSettings->language);
 
     gui_settings->setValue("prefs/midi-default-channel", piSettings->midi_default_channel);
@@ -3330,6 +3330,7 @@ void MainWindow::onExitCleanup()
       // Shuts down the client/server connection
       m_spAPI->Shutdown();
     }
+}
 
 void MainWindow::restartApp() {
     QApplication* app = dynamic_cast<QApplication*>(parent());
