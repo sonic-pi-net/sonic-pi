@@ -22,6 +22,7 @@
 #include <QFuture>
 #include <QSet>
 #include <QIcon>
+#include <QSettings>
 
 // On windows, we need to include winsock2 before other instances of winsock
 #ifdef WIN32
@@ -138,6 +139,7 @@ signals:
         void zoomInLogs();
         void zoomOutLogs();
         QString sonicPiHomePath();
+        QString sonicPiConfigPath();
         void updateLogAutoScroll();
         bool eventFilter(QObject *obj, QEvent *evt);
         void changeTab(int id);
@@ -328,6 +330,7 @@ signals:
 
   QMenu *liveMenu, *codeMenu, *audioMenu, *displayMenu, *viewMenu, *ioMenu, *ioMidiInMenu, *ioMidiOutMenu, *ioMidiOutChannelMenu, *localIpAddressesMenu, *themeMenu, *scopeKindVisibilityMenu;
 
+        QSettings *gui_settings;
         SonicPiSettings *piSettings;
 
         int server_osc_cues_port;

@@ -127,8 +127,9 @@ MainWindow::MainWindow(QApplication& app, bool i18n, QSplashScreen* splash)
     latest_version_num = 0;
     this->splash = splash;
     this->i18n = i18n;
+    QString settings_path = sonicPiConfigPath() + QDir::separator() + "gui-settings.ini";
 
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net", "gui-settings");
+    gui_settings = new QSettings(settings_path, QSettings::IniFormat);
 
     readSettings();
     initPaths();
@@ -277,8 +278,7 @@ void MainWindow::checkForStudioMode()
 
 void MainWindow::showWelcomeScreen()
 {
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net", "gui-settings");
-    if (settings.value("first_time", 1).toInt() == 1)
+    if (gui_settings->value("first_time", 1).toInt() == 1)
     {
         QTextBrowser* startupPane = new QTextBrowser;
         startupPane->setFixedSize(ScaleHeightForDPI(600), ScaleHeightForDPI(650));
@@ -1070,8 +1070,7 @@ void MainWindow::splashClose()
 
 void MainWindow::showWindow()
 {
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net", "gui-settings");
-    if (settings.value("first_time", 1).toInt() == 1)
+    if (gui_settings->value("first_time", 1).toInt() == 1)
     {
         showMaximized();
     }
@@ -1324,13 +1323,12 @@ QString MainWindow::currentTabLabel()
 bool MainWindow::loadFile()
 {
     QString selfilter = QString("%1 (*.rb *.txt)").arg(tr("Buffer files"));
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net", "gui-settings");
-    QString lastDir = settings.value("lastDir", QDir::homePath() + "/Desktop").toString();
+    QString lastDir = gui_settings->value("lastDir", QDir::homePath() + "/Desktop").toString();
     QString fileName = QFileDialog::getOpenFileName(this, tr("Load Sonic Pi Buffer"), lastDir, QString("%1 (*.rb *.txt);;%2 (*.txt);;%3 (*.rb);;%4 (*.*)").arg(tr("Buffer files")).arg(tr("Text files")).arg(tr("Ruby files")).arg(tr("All files")), &selfilter);
     if (!fileName.isEmpty())
     {
         QFileInfo fi = fileName;
-        settings.setValue("lastDir", fi.dir().absolutePath());
+        gui_settings->setValue("lastDir", fi.dir().absolutePath());
         SonicPiScintilla* p = (SonicPiScintilla*)tabs->currentWidget();
         loadFile(fileName, p);
         return true;
@@ -1344,14 +1342,13 @@ bool MainWindow::loadFile()
 bool MainWindow::saveAs()
 {
     QString selfilter = QString("%1 (*.rb *.txt)").arg(tr("Buffer files"));
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net", "gui-settings");
-    QString lastDir = settings.value("lastDir", QDir::homePath() + "/Desktop").toString();
+    QString lastDir = gui_settings->value("lastDir", QDir::homePath() + "/Desktop").toString();
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save Current Buffer"), lastDir, QString("%1 (*.rb *.txt);;%2 (*.txt);;%3 (*.rb);;%4 (*.*)").arg(tr("Buffer files")).arg(tr("Text files")).arg(tr("Ruby files")).arg(tr("All files")), &selfilter);
 
     if (!fileName.isEmpty())
     {
         QFileInfo fi = fileName;
-        settings.setValue("lastDir", fi.dir().absolutePath());
+        gui_settings->setValue("lastDir", fi.dir().absolutePath());
         if (!fileName.contains(QRegExp("\\.[a-z]+$")))
         {
             fileName = fileName + ".txt";
@@ -2999,13 +2996,12 @@ void MainWindow::toggleRecording()
         Message msg("/stop-recording");
         msg.pushStr(guiID.toStdString());
         sendOSC(msg);
-        QSettings settings(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net", "gui-settings");
-        QString lastDir = settings.value("lastDir", QDir::homePath() + "/Desktop").toString();
+        QString lastDir = gui_settings->value("lastDir", QDir::homePath() + "/Desktop").toString();
         QString fileName = QFileDialog::getSaveFileName(this, tr("Save Recording"), lastDir, tr("Wavefile (*.wav)"));
         if (!fileName.isEmpty())
         {
             QFileInfo fi = fileName;
-            settings.setValue("lastDir", fi.dir().absolutePath());
+            gui_settings->setValue("lastDir", fi.dir().absolutePath());
             Message msg("/save-recording");
             msg.pushStr(guiID.toStdString());
             msg.pushStr(fileName.toStdString());
@@ -3035,19 +3031,18 @@ void MainWindow::createStatusBar()
  */
 void MainWindow::restoreWindows()
 {
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net", "gui-settings");
     QRect rec = QGuiApplication::primaryScreen()->geometry();
-    QPoint pos = settings.value("pos", QPoint(0, 0)).toPoint();
-    QSize size = settings.value("size", QSize(rec.width(), rec.height())).toSize();
+    QPoint pos = gui_settings->value("pos", QPoint(0, 0)).toPoint();
+    QSize size = gui_settings->value("size", QSize(rec.width(), rec.height())).toSize();
 
-    int index = settings.value("workspace", 0).toInt();
+    int index = gui_settings->value("workspace", 0).toInt();
     if (index < tabs->count())
         tabs->setCurrentIndex(index);
 
     for (int w = 0; w < workspace_max; w++)
     {
         // default zoom is 13
-        int zoom = settings.value(QString("workspace%1zoom").arg(w), 2)
+        int zoom = gui_settings->value(QString("workspace%1zoom").arg(w), 2)
                        .toInt();
         if (zoom < -5)
             zoom = -5;
@@ -3058,9 +3053,9 @@ void MainWindow::restoreWindows()
         workspaces[w]->zoomTo(zoom);
     }
 
-    docsplit->restoreState(settings.value("docsplitState").toByteArray());
+    docsplit->restoreState(gui_settings->value("docsplitState").toByteArray());
     //bool visualizer = piSettings->show_scopes;
-    restoreState(settings.value("windowState").toByteArray());
+    restoreState(gui_settings->value("windowState").toByteArray());
     //    restoreGeometry(settings.value("windowGeom").toByteArray());
 
     //    if (visualizer != piSettings->show_scopes) {
@@ -3079,38 +3074,37 @@ void MainWindow::restoreWindows()
 void MainWindow::readSettings()
 {
     std::cout << "[GUI] - reading settings" << std::endl;
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net", "gui-settings");
 
     // Read in preferences from previous session
-    piSettings->show_buttons = settings.value("prefs/show-buttons", true).toBool();
-    piSettings->show_tabs = settings.value("prefs/show-tabs", true).toBool();
-    piSettings->show_log = settings.value("prefs/show-log", true).toBool();
-    piSettings->osc_public = settings.value("prefs/osc-public", false).toBool();
-    piSettings->osc_server_enabled = settings.value("prefs/osc-enabled", true).toBool();
-    piSettings->midi_enabled = settings.value("prefs/midi-enable", true).toBool();
-    piSettings->midi_default_channel = settings.value("prefs/midi-default-channel", 0).toInt();
-    piSettings->check_args = settings.value("prefs/check-args", true).toBool();
-    piSettings->log_synths = settings.value("prefs/log-synths", true).toBool();
-    piSettings->clear_output_on_run = settings.value("prefs/clear-output-on-run", true).toBool();
-    piSettings->log_cues = settings.value("prefs/log-cues", false).toBool();
-    piSettings->log_auto_scroll = settings.value("prefs/log-auto-scroll", true).toBool();
-    piSettings->show_line_numbers = settings.value("prefs/show-line-numbers", true).toBool();
-    piSettings->enable_external_synths = settings.value("prefs/enable-external-synths", false).toBool();
-    piSettings->synth_trigger_timing_guarantees = settings.value("prefs/synth-trigger-timing-guarantees", false).toBool();
+    piSettings->show_buttons = gui_settings->value("prefs/show-buttons", true).toBool();
+    piSettings->show_tabs = gui_settings->value("prefs/show-tabs", true).toBool();
+    piSettings->show_log = gui_settings->value("prefs/show-log", true).toBool();
+    piSettings->osc_public = gui_settings->value("prefs/osc-public", false).toBool();
+    piSettings->osc_server_enabled = gui_settings->value("prefs/osc-enabled", true).toBool();
+    piSettings->midi_enabled = gui_settings->value("prefs/midi-enable", true).toBool();
+    piSettings->midi_default_channel = gui_settings->value("prefs/midi-default-channel", 0).toInt();
+    piSettings->check_args = gui_settings->value("prefs/check-args", true).toBool();
+    piSettings->log_synths = gui_settings->value("prefs/log-synths", true).toBool();
+    piSettings->clear_output_on_run = gui_settings->value("prefs/clear-output-on-run", true).toBool();
+    piSettings->log_cues = gui_settings->value("prefs/log-cues", false).toBool();
+    piSettings->log_auto_scroll = gui_settings->value("prefs/log-auto-scroll", true).toBool();
+    piSettings->show_line_numbers = gui_settings->value("prefs/show-line-numbers", true).toBool();
+    piSettings->enable_external_synths = gui_settings->value("prefs/enable-external-synths", false).toBool();
+    piSettings->synth_trigger_timing_guarantees = gui_settings->value("prefs/synth-trigger-timing-guarantees", false).toBool();
 
-    piSettings->main_volume = settings.value("prefs/system-vol", 80).toInt();
-    piSettings->mixer_force_mono = settings.value("prefs/mixer-force-mono", false).toBool();
-    piSettings->mixer_invert_stereo = settings.value("prefs/mixer-invert-stereo", false).toBool();
-    piSettings->check_updates = settings.value("prefs/rp/check-updates", true).toBool();
-    piSettings->auto_indent_on_run = settings.value("prefs/auto-indent-on-run", true).toBool();
-    piSettings->gui_transparency = settings.value("prefs/gui_transparency", 0).toInt();
-    piSettings->show_scopes = settings.value("prefs/scope/show-scopes", true).toBool();
-    piSettings->show_scope_labels = settings.value("prefs/scope/show-labels", false).toBool();
-    piSettings->show_cues = settings.value("prefs/show_cues", true).toBool();
-    QString styleName = settings.value("prefs/theme", "").toString();
+    piSettings->main_volume = gui_settings->value("prefs/system-vol", 80).toInt();
+    piSettings->mixer_force_mono = gui_settings->value("prefs/mixer-force-mono", false).toBool();
+    piSettings->mixer_invert_stereo = gui_settings->value("prefs/mixer-invert-stereo", false).toBool();
+    piSettings->check_updates = gui_settings->value("prefs/rp/check-updates", true).toBool();
+    piSettings->auto_indent_on_run = gui_settings->value("prefs/auto-indent-on-run", true).toBool();
+    piSettings->gui_transparency = gui_settings->value("prefs/gui_transparency", 0).toInt();
+    piSettings->show_scopes = gui_settings->value("prefs/scope/show-scopes", true).toBool();
+    piSettings->show_scope_labels = gui_settings->value("prefs/scope/show-labels", false).toBool();
+    piSettings->show_cues = gui_settings->value("prefs/show_cues", true).toBool();
+    QString styleName = gui_settings->value("prefs/theme", "").toString();
     piSettings->themeStyle = theme->themeNameToStyle(styleName);
-    piSettings->show_autocompletion = settings.value("prefs/show-autocompletion", true).toBool();
-    piSettings->show_context = settings.value("prefs/show-context", true).toBool();
+    piSettings->show_autocompletion = gui_settings->value("prefs/show-autocompletion", true).toBool();
+    piSettings->show_context = gui_settings->value("prefs/show-context", true).toBool();
 
     emit settingsChanged();
 }
@@ -3118,70 +3112,68 @@ void MainWindow::readSettings()
 void MainWindow::restoreScopeState(std::vector<QString> names)
 {
     std::cout << "[GUI] - restoring scope states " << std::endl;
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net", "gui-settings");
 
     for (auto name : names)
     {
         bool def = (name.toLower() == "spectrum");
-        piSettings->setScopeState(name, settings.value("prefs/scope/show-" + name.toLower(), def).toBool());
+        piSettings->setScopeState(name, gui_settings->value("prefs/scope/show-" + name.toLower(), def).toBool());
     }
 }
 
 void MainWindow::writeSettings()
 {
     std::cout << "[GUI] - writing settings" << std::endl;
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net", "gui-settings");
-    settings.setValue("pos", pos());
-    settings.setValue("size", size());
-    settings.setValue("first_time", 0);
+    gui_settings->setValue("pos", pos());
+    gui_settings->setValue("size", size());
+    gui_settings->setValue("first_time", 0);
 
-    settings.setValue("prefs/midi-default-channel", piSettings->midi_default_channel);
-    settings.setValue("prefs/midi-enable", piSettings->midi_enabled);
-    settings.setValue("prefs/osc-public", piSettings->osc_public);
-    settings.setValue("prefs/osc-enabled", piSettings->osc_server_enabled);
+    gui_settings->setValue("prefs/midi-default-channel", piSettings->midi_default_channel);
+    gui_settings->setValue("prefs/midi-enable", piSettings->midi_enabled);
+    gui_settings->setValue("prefs/osc-public", piSettings->osc_public);
+    gui_settings->setValue("prefs/osc-enabled", piSettings->osc_server_enabled);
 
-    settings.setValue("prefs/check-args", piSettings->check_args);
-    settings.setValue("prefs/log-synths", piSettings->log_synths);
-    settings.setValue("prefs/clear-output-on-run", piSettings->clear_output_on_run);
-    settings.setValue("prefs/log-cues", piSettings->log_cues);
-    settings.setValue("prefs/log-auto-scroll", piSettings->log_auto_scroll);
-    settings.setValue("prefs/show-line-numbers", piSettings->show_line_numbers);
-    settings.setValue("prefs/enable-external-synths", piSettings->enable_external_synths);
-    settings.setValue("prefs/synth-trigger-timing-guarantees", piSettings->synth_trigger_timing_guarantees);
-    settings.setValue("prefs/mixer-force-mono", piSettings->mixer_force_mono);
-    settings.setValue("prefs/mixer-invert-stereo", piSettings->mixer_invert_stereo);
-    settings.setValue("prefs/system-vol", piSettings->main_volume);
-    settings.setValue("prefs/rp/check-updates", piSettings->check_updates);
-    settings.setValue("prefs/auto-indent-on-run", piSettings->auto_indent_on_run);
-    settings.setValue("prefs/gui_transparency", piSettings->gui_transparency);
-    settings.setValue("prefs/scope/show-labels", piSettings->show_scope_labels);
-    settings.setValue("prefs/scope/show-scopes", piSettings->show_scopes);
-    settings.setValue("prefs/show_cues", piSettings->show_cues);
-    settings.setValue("prefs/theme", theme->themeStyleToName(piSettings->themeStyle));
+    gui_settings->setValue("prefs/check-args", piSettings->check_args);
+    gui_settings->setValue("prefs/log-synths", piSettings->log_synths);
+    gui_settings->setValue("prefs/clear-output-on-run", piSettings->clear_output_on_run);
+    gui_settings->setValue("prefs/log-cues", piSettings->log_cues);
+    gui_settings->setValue("prefs/log-auto-scroll", piSettings->log_auto_scroll);
+    gui_settings->setValue("prefs/show-line-numbers", piSettings->show_line_numbers);
+    gui_settings->setValue("prefs/enable-external-synths", piSettings->enable_external_synths);
+    gui_settings->setValue("prefs/synth-trigger-timing-guarantees", piSettings->synth_trigger_timing_guarantees);
+    gui_settings->setValue("prefs/mixer-force-mono", piSettings->mixer_force_mono);
+    gui_settings->setValue("prefs/mixer-invert-stereo", piSettings->mixer_invert_stereo);
+    gui_settings->setValue("prefs/system-vol", piSettings->main_volume);
+    gui_settings->setValue("prefs/rp/check-updates", piSettings->check_updates);
+    gui_settings->setValue("prefs/auto-indent-on-run", piSettings->auto_indent_on_run);
+    gui_settings->setValue("prefs/gui_transparency", piSettings->gui_transparency);
+    gui_settings->setValue("prefs/scope/show-labels", piSettings->show_scope_labels);
+    gui_settings->setValue("prefs/scope/show-scopes", piSettings->show_scopes);
+    gui_settings->setValue("prefs/show_cues", piSettings->show_cues);
+    gui_settings->setValue("prefs/theme", theme->themeStyleToName(piSettings->themeStyle));
 
-    settings.setValue("prefs/show-autocompletion", piSettings->show_autocompletion);
+    gui_settings->setValue("prefs/show-autocompletion", piSettings->show_autocompletion);
 
-    settings.setValue("prefs/show-buttons", piSettings->show_buttons);
-    settings.setValue("prefs/show-tabs", piSettings->show_tabs);
-    settings.setValue("prefs/show-log", piSettings->show_log);
-    settings.setValue("prefs/show-context", piSettings->show_context);
+    gui_settings->setValue("prefs/show-buttons", piSettings->show_buttons);
+    gui_settings->setValue("prefs/show-tabs", piSettings->show_tabs);
+    gui_settings->setValue("prefs/show-log", piSettings->show_log);
+    gui_settings->setValue("prefs/show-context", piSettings->show_context);
 
     for (auto name : piSettings->scope_names)
     {
-        settings.setValue("prefs/scope/show-" + name.toLower(), piSettings->isScopeActive(name));
+        gui_settings->setValue("prefs/scope/show-" + name.toLower(), piSettings->isScopeActive(name));
     }
 
-    settings.setValue("workspace", tabs->currentIndex());
+    gui_settings->setValue("workspace", tabs->currentIndex());
 
     for (int w = 0; w < workspace_max; w++)
     {
-        settings.setValue(QString("workspace%1zoom").arg(w),
+        gui_settings->setValue(QString("workspace%1zoom").arg(w),
             workspaces[w]->property("zoom"));
     }
 
-    settings.setValue("docsplitState", docsplit->saveState());
-    settings.setValue("windowState", saveState());
-    settings.setValue("windowGeom", saveGeometry());
+    gui_settings->setValue("docsplitState", docsplit->saveState());
+    gui_settings->setValue("windowState", saveState());
+    gui_settings->setValue("windowGeom", saveGeometry());
 }
 
 void MainWindow::loadFile(const QString& fileName, SonicPiScintilla*& text)
@@ -3646,12 +3638,17 @@ QString MainWindow::sonicPiHomePath()
     QString path = qgetenv("SONIC_PI_HOME").constData();
     if (path.isEmpty())
     {
-        return QDir::homePath();
+      return QDir::homePath() + QDir::separator() + ".sonic-pi";
     }
     else
     {
-        return path;
+      return path;
     }
+}
+
+QString MainWindow::sonicPiConfigPath()
+{
+  return sonicPiHomePath() + QDir::separator() + "config";
 }
 
 void MainWindow::zoomInLogs()
