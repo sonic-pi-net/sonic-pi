@@ -13,7 +13,7 @@
 // notice is included.
 //++
 
-#ifndef QT_OLD_API
+
 
 #include <QDebug>
 #include <QIcon>
@@ -462,5 +462,3 @@ void ScopeWindow::OnConsumeAudioData(const ProcessedAudio& audio)
 }
 
 } // namespace SonicPi
-
-#endif

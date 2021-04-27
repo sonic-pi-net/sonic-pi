@@ -43,18 +43,14 @@ class QTextBrowser;
 class QString;
 class QSlider;
 class QSplitter;
-#ifdef QT_OLD_API
-class OscSender;
-class QTcpSocket;
-class SonicPiOSCServer;
-#else
+
 namespace SonicPi
 {
 class QtAPIClient;
 class SonicPiAPI;
 class ScopeWindow;
 }
-#endif
+
 class QShortcut;
 class QDockWidget;
 class QListWidget;
@@ -103,10 +99,8 @@ class MainWindow : public QMainWindow
         SonicPiLog* GetIncomingPane() const;
         SonicPiTheme* GetTheme() const;
 
-#ifdef QT_OLD_API
-        SonicPiOSCServer *sonicPiOSCServer;
-        enum {UDP=0, TCP=1};
-#else
+
+
         void addCuePath(QString path, QString val);
         void setLineMarkerinCurrentWorkspace(int num);
         void showError(QString msg);
@@ -119,7 +113,7 @@ class MainWindow : public QMainWindow
         void updateMIDIOutPorts(QString port_info);
         void replaceLines(QString id, QString content, int first_line, int finish_line, int point_line, int point_index);
         void runBufferIdx(int idx);
-#endif
+
 
         bool loaded_workspaces;
         QString hash_salt;
@@ -260,20 +254,7 @@ signals:
         void updateButtonVisibility();
         void showButtonsMenuChanged();
         void toggleButtonVisibility();
-#ifdef QT_OLD_API
-        void addCuePath(QString path, QString val);
-        void setLineMarkerinCurrentWorkspace(int num);
-        void showError(QString msg);
-        void replaceBuffer(QString id, QString content, int line, int index, int first_line);
-        void replaceBufferIdx(int buf_idx, QString content, int line, int index, int first_line);
-        void setUpdateInfoText(QString t);
-        void allJobsCompleted();
-        void updateVersionNumber(QString version, int version_num, QString latest_version, int latest_version_num, QDate last_checked_date, QString platform);
-        void updateMIDIInPorts(QString port_info);
-        void updateMIDIOutPorts(QString port_info);
-        void replaceLines(QString id, QString content, int first_line, int finish_line, int point_line, int point_index);
-        void runBufferIdx(int idx);
-#endif
+
         void requestVersion();
         void heartbeatOSC();
         void zoomCurrentWorkspaceIn();
@@ -303,14 +284,7 @@ signals:
         void initPaths();
         QString osDescription();
         QSignalMapper *signalMapper;
-#ifdef QT_OLD_API
-        bool initAndCheckPorts();
-        bool checkPort(int port);
-        void setupLogPathAndRedirectStdOut();
-        void startRubyServer();
-        void cleanupRunningProcesses();
-        bool waitForServiceSync();
-#endif
+
         void clearOutputPanels();
         void createShortcuts();
         void createToolBar();
@@ -328,7 +302,7 @@ signals:
         std::string number_name(int);
         std::string workspaceFilename(SonicPiScintilla* text);
         SonicPiScintilla* filenameToWorkspace(std::string filename);
-        
+
         bool sendOSC(oscpkt::Message m);
         //   void initPrefsWindow();
         void initDocsWindow();
@@ -356,15 +330,8 @@ signals:
 
         SonicPiSettings *piSettings;
 
-#ifdef QT_OLD_API
-        QFuture<void> osc_thread, server_thread;
-        int protocol;
-        QHash<QString, int> port_map;
-        int gui_listen_to_server_port, gui_send_to_server_port, server_listen_to_gui_port, server_send_to_gui_port, scsynth_port, scsynth_send_port, server_osc_cues_port, erlang_router_port, osc_midi_out_port, osc_midi_in_port, websocket_port;
-#else
         int server_osc_cues_port;
         int scsynth_port;
-#endif
 
         bool focusMode;
         QCheckBox *startup_error_reported;
@@ -445,17 +412,10 @@ signals:
         bool updated_dark_mode_for_help, updated_dark_mode_for_prefs;
         QString guiID;
 
-#ifdef QT_OLD_API
-        Scope* scopeWindow;
-        bool homeDirWritable;
-        OscSender *oscSender;
-        QTcpSocket *clientSock;
-#else
         SonicPi::ScopeWindow* scopeWindow;
         std::shared_ptr<SonicPi::QtAPIClient> m_spClient;
         std::shared_ptr<SonicPi::SonicPiAPI> m_spAPI;
-#endif
+
         QSet<QString> cuePaths;
 
 };
-
