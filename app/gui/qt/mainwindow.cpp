@@ -165,7 +165,7 @@ MainWindow::MainWindow(QApplication& app, bool i18n, QSplashScreen* splash)
     initDocsWindow();
 
     //setup autocompletion
-    autocomplete->loadSamples(sample_path);
+    autocomplete->loadSamples(QString::fromStdString(m_spAPI->GetPath(SonicPiPath::SamplePath)));
 
     QThreadPool::globalInstance()->setMaxThreadCount(3);
 
@@ -248,8 +248,8 @@ void MainWindow::checkForStudioMode()
     std::cout << "[GUI] - Fetching Studio hashes" << std::endl;
     QProcess* fetchStudioHashes = new QProcess();
     QStringList fetch_studio_hashes_send_args;
-    fetch_studio_hashes_send_args << fetch_url_path << "http://sonic-pi.net/static/info/studio-hashes.txt";
-    fetchStudioHashes->start(ruby_path, fetch_studio_hashes_send_args);
+    fetch_studio_hashes_send_args << QString::fromStdString(m_spAPI->GetPath(SonicPiPath::FetchUrlPath)) << "http://sonic-pi.net/static/info/studio-hashes.txt";
+    fetchStudioHashes->start(QString::fromStdString(m_spAPI->GetPath(SonicPiPath::RubyPath)), fetch_studio_hashes_send_args);
     fetchStudioHashes->waitForFinished();
     QTextStream stream(fetchStudioHashes->readAllStandardOutput().trimmed());
     QString line = stream.readLine();
