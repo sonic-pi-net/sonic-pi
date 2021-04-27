@@ -3243,6 +3243,9 @@ void MainWindow::writeSettings()
     gui_settings->setValue("docsplitState", docsplit->saveState());
     gui_settings->setValue("windowState", saveState());
     gui_settings->setValue("windowGeom", saveGeometry());
+
+    // Force Qt to write the settings to the ini file
+    gui_settings->sync();
 }
 
 void MainWindow::loadFile(const QString& fileName, SonicPiScintilla*& text)
@@ -3339,9 +3342,7 @@ void MainWindow::restartApp() {
     // Save settings and perform some cleanup
     writeSettings();
     onExitCleanup();
-    std::cout << "Performing application restart... please wait..." << std::endl;
-    // Allow cleanup to complete
-    std::this_thread::sleep_for(2s);
+    std::cout << "Performing application restart..." << std::endl;
 
     // Create new process
     QStringList args = qApp->arguments();
