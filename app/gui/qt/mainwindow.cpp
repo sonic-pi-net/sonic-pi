@@ -55,21 +55,7 @@
 #include "utils/sonicpi_i18n.h"
 
 #include "utils/borderlesslinksproxystyle.h"
-
-// OSC stuff
-#ifdef QT_OLD_API
-#include "osc/oschandler.h"
-#include "osc/oscpkt.hh"
-#include "osc/oscsender.h"
-#include "osc/sonic_pi_tcp_osc_server.h"
-#include "osc/sonic_pi_udp_osc_server.h"
-#include "osc/udp.hh"
-
-#include "visualizer/scope.h"
-#else
 #include "visualizer/scope_window.h"
-#endif
-
 
 #include "qt_api_client.h"
 using namespace oscpkt; // OSC specific stuff
@@ -102,9 +88,7 @@ using namespace oscpkt; // OSC specific stuff
 
 using namespace std::chrono;
 
-#ifndef QT_OLD_API
 using namespace SonicPi;
-#endif
 
 #ifdef Q_OS_MAC
 MainWindow::MainWindow(QApplication& app, QMainWindow* splash)
@@ -120,25 +104,16 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
 
     this->piSettings = new SonicPiSettings();
 
-#ifdef QT_OLD_API
-    sonicPiOSCServer = NULL;
-#else
+    this->splash = splash;
+
     // API and Client
     m_spClient = std::make_shared<QtAPIClient>(this);
     m_spAPI = std::make_shared<SonicPiAPI>(m_spClient.get(), APIProtocol::UDP, LogOption::File);
-#endif
+
     startup_error_reported = new QCheckBox;
     startup_error_reported->setChecked(false);
 
     hash_salt = "Secret Hash ;-)";
-
-#ifdef QT_OLD_API
-    protocol = UDP;
-    if (protocol == TCP)
-    {
-        clientSock = new QTcpSocket(this);
-    }
-#endif
 
     updated_dark_mode_for_help = false;
     updated_dark_mode_for_prefs = false;
@@ -147,45 +122,21 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
     show_rec_icon_a = false;
     restoreDocPane = false;
     focusMode = false;
-    version = "3.3.1";
+    version = "3.4-dev";
     latest_version = "";
     version_num = 0;
     latest_version_num = 0;
     this->splash = splash;
-#ifdef QT_OLD_API
-    guiID = QUuid::createUuid().toString();
-#endif
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net", "gui-settings");
+    QString settings_path = sonicPiConfigPath() + QDir::separator() + "gui-settings.ini";
+
+    gui_settings = new QSettings(settings_path, QSettings::IniFormat);
 
     readSettings();
     initPaths();
 
     bool startupOK = false;
 
-#ifdef QT_OLD_API
-    // Clear out old tasks from previous sessions if they still exist
-    // in addtition to clearing out the logs
-    QProcess* initProcess = new QProcess();
-    initProcess->start(ruby_path, QStringList(init_script_path));
-    initProcess->waitForFinished();
-
-    // Throw all stdout into ~/.sonic-pi/log/gui.log
-    setupLogPathAndRedirectStdOut();
-    std::cout << "[GUI] -                            " << std::endl;
-    std::cout << "[GUI] -                            " << std::endl;
-    std::cout << "[GUI] -                            " << std::endl;
-    std::cout << "[GUI] - Welcome to the Sonic Pi GUI" << std::endl;
-    std::cout << "[GUI] - ===========================" << std::endl;
-    std::cout << "[GUI] -                            " << std::endl;
-    std::cout << "[GUI] - " << guiID.toStdString() << std::endl;
-
-    // dynamically discover port numbers and then check them this will
-    // show an error dialogue to the user and then kill the app if any of
-    // the ports aren't available
-    initAndCheckPorts();
-#else
     m_spAPI->Init(rootPath().toStdString());
-#endif
 
     this->sonicPii18n = new SonicPii18n(rootPath());
     std::cout << "[GUI] - Language setting: " << piSettings->language.toUtf8().constData() << std::endl;
@@ -209,10 +160,6 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
     QPalette p = theme->createPalette();
     QApplication::setPalette(p);
 
-#ifdef QT_OLD_API
-    oscSender = new ::OscSender(gui_send_to_server_port);
-#endif
-
     setupWindowStructure();
     createStatusBar();
     createInfoPane();
@@ -231,35 +178,14 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
     initDocsWindow();
 
     //setup autocompletion
-    autocomplete->loadSamples(sample_path);
+    autocomplete->loadSamples(QString::fromStdString(m_spAPI->GetPath(SonicPiPath::SamplePath)));
 
     QThreadPool::globalInstance()->setMaxThreadCount(3);
 
-#ifdef QT_OLD_API
-    OscHandler* handler = new OscHandler(this, outputPane, incomingPane, theme);
-
-    if (protocol == UDP)
-    {
-        sonicPiOSCServer = new SonicPiUDPOSCServer(this, handler, gui_listen_to_server_port);
-        osc_thread = QtConcurrent::run(sonicPiOSCServer, &SonicPiOSCServer::start);
-    }
-    else
-    {
-        sonicPiOSCServer = new SonicPiTCPOSCServer(this, handler);
-        sonicPiOSCServer->start();
-    }
-
-    startRubyServer();
-
-    // Wait to hear back from the Ruby language server before continuing
-    std::cout << "[GUI] - wait for sync" << std::endl;
-    startupOK = waitForServiceSync();
-#else
     startupOK = m_spAPI->WaitForServer();
     guiID = QString::fromStdString(m_spAPI->GetGuid());
     server_osc_cues_port = m_spAPI->GetPort(SonicPiPortId::server_osc_cues);
     scsynth_port = m_spAPI->GetPort(SonicPiPortId::scsynth);
-#endif
 
     if (startupOK)
     {
@@ -309,132 +235,9 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
     showWelcomeScreen();
 }
 
-#ifdef QT_OLD_API
-bool MainWindow::initAndCheckPorts()
-{
-    std::cout << "[GUI] - Discovering port numbers..." << std::endl;
-
-    QProcess* determinePortNumbers = new QProcess();
-    QStringList determine_port_numbers_send_args;
-    determine_port_numbers_send_args << port_discovery_path;
-    determinePortNumbers->start(ruby_path, determine_port_numbers_send_args);
-    determinePortNumbers->waitForFinished();
-    QTextStream determine_port_numbers_stream(determinePortNumbers->readAllStandardOutput().trimmed());
-    QString determine_port_numbers_line = determine_port_numbers_stream.readLine();
-    while (!determine_port_numbers_line.isNull())
-    {
-        auto parts = determine_port_numbers_line.split(": ");
-        std::cout << "[GUI] - Port entry " << parts[0].trimmed().toStdString() << " : " << parts[1].trimmed().toStdString() << QString(" : %1").arg(parts[1].trimmed().toInt()).toStdString() << std::endl;
-        port_map[parts[0].trimmed()] = parts[1].trimmed().toInt();
-        determine_port_numbers_line = determine_port_numbers_stream.readLine();
-    };
-
-    gui_send_to_server_port = port_map["gui-send-to-server"];
-    gui_listen_to_server_port = port_map["gui-listen-to-server"];
-    server_listen_to_gui_port = port_map["server-listen-to-gui"];
-    server_osc_cues_port = port_map["server-osc-cues"];
-    server_send_to_gui_port = port_map["server-send-to-gui"];
-    scsynth_port = port_map["scsynth"];
-    scsynth_send_port = port_map["scsynth-send"];
-    erlang_router_port = port_map["erlang-router"];
-    websocket_port = port_map["websocket"];
-
-    std::cout << "[GUI] - Detecting port numbers..." << std::endl;
-
-    std::cout << "[GUI] - GUI listen to server port " << gui_listen_to_server_port << std::endl;
-    bool glts_available = checkPort(gui_listen_to_server_port);
-
-    std::cout << "[GUI] - Server listen to gui port " << server_listen_to_gui_port << std::endl;
-    bool sltg_available = checkPort(server_listen_to_gui_port);
-
-    std::cout << "[GUI] - Server incoming OSC cues port " << server_osc_cues_port << std::endl;
-    bool soc_available = checkPort(server_osc_cues_port);
-
-    std::cout << "[GUI] - Scsynth port " << scsynth_port << std::endl;
-    bool s_available = checkPort(scsynth_port);
-
-    std::cout << "[GUI] - Server send to GUI port " << server_send_to_gui_port << std::endl;
-    bool sstg_available = checkPort(server_send_to_gui_port);
-
-    std::cout << "[GUI] - GUI send to server port " << gui_send_to_server_port << std::endl;
-    bool gsts_available = checkPort(gui_send_to_server_port);
-
-    std::cout << "[GUI] - Scsynth send port " << scsynth_send_port << std::endl;
-    bool ss_available = checkPort(scsynth_send_port);
-
-    std::cout << "[GUI] - Erlang router port " << erlang_router_port << std::endl;
-    bool er_available = checkPort(erlang_router_port);
-
-    std::cout << "[GUI] - Websocket port " << websocket_port << std::endl;
-    bool ws_available = checkPort(websocket_port);
-
-    if (!(glts_available && sltg_available && soc_available && s_available && sstg_available && gsts_available && ss_available && er_available && ws_available))
-    {
-        std::cout << "[GUI] - Critical Error. One or more ports is not available." << std::endl;
-        startupError("One or more ports is not available. Is Sonic Pi already running? If not, please reboot your machine and try again.");
-        return false;
-    }
-    else
-    {
-        std::cout << "[GUI] - All ports OK" << std::endl;
-        return true;
-    }
-}
-#endif
-
 void MainWindow::initPaths()
 {
     QString root_path = rootPath();
-
-#ifdef QT_OLD_API
-#if defined(Q_OS_WIN)
-    ruby_path = QDir::toNativeSeparators(root_path + "/app/server/native/ruby/bin/ruby.exe");
-#elif defined(Q_OS_MAC)
-    ruby_path = root_path + "/app/server/native/ruby/bin/ruby";
-#else
-    ruby_path = root_path + "/app/server/native/ruby/bin/ruby";
-#endif
-
-    QFile file(ruby_path);
-    if (!file.exists())
-    {
-        // fallback to user's locally installed ruby
-        ruby_path = "ruby";
-    }
-
-    ruby_server_path = QDir::toNativeSeparators(root_path + "/app/server/ruby/bin/sonic-pi-server.rb");
-    port_discovery_path = QDir::toNativeSeparators(root_path + "/app/server/ruby/bin/port-discovery.rb");
-    fetch_url_path = QDir::toNativeSeparators(root_path + "/app/server/ruby/bin/fetch-url.rb");
-    sample_path = QDir::toNativeSeparators(root_path + "/etc/samples");
-
-    sp_user_path = QDir::toNativeSeparators(sonicPiHomePath() + "/.sonic-pi");
-    sp_user_tmp_path = QDir::toNativeSeparators(sp_user_path + "/.writableTesterPath");
-    log_path = QDir::toNativeSeparators(sp_user_path + "/log");
-    server_error_log_path = QDir::toNativeSeparators(log_path + "/server-errors.log");
-    server_output_log_path = QDir::toNativeSeparators(log_path + "/server-output.log");
-    gui_log_path = QDir::toNativeSeparators(log_path + QDir::separator() + "gui.log");
-    process_log_path = QDir::toNativeSeparators(log_path + "/processes.log");
-    scsynth_log_path = QDir::toNativeSeparators(log_path + QDir::separator() + "scsynth.log");
-
-    init_script_path = QDir::toNativeSeparators(root_path + "/app/server/ruby/bin/init-script.rb");
-    exit_script_path = QDir::toNativeSeparators(root_path + "/app/server/ruby/bin/exit-script.rb");
-
-    // attempt to create log directory
-    QDir logDir(log_path);
-    logDir.mkpath(logDir.absolutePath());
-
-    // check to see if the home directory is writable
-    QFile tmpFile(sp_user_tmp_path);
-    if (!tmpFile.open(QIODevice::WriteOnly))
-    {
-        homeDirWritable = false;
-    }
-    else
-    {
-        homeDirWritable = true;
-        tmpFile.close();
-    }
-#endif
 
     qt_app_theme_path = QDir::toNativeSeparators(root_path + "/app/gui/qt/theme/app.qss");
     qt_browser_dark_css = QDir::toNativeSeparators(root_path + "/app/gui/qt/theme/dark/doc-styles.css");
@@ -463,8 +266,8 @@ void MainWindow::checkForStudioMode()
     std::cout << "[GUI] - Fetching Studio hashes" << std::endl;
     QProcess* fetchStudioHashes = new QProcess();
     QStringList fetch_studio_hashes_send_args;
-    fetch_studio_hashes_send_args << fetch_url_path << "http://sonic-pi.net/static/info/studio-hashes.txt";
-    fetchStudioHashes->start(ruby_path, fetch_studio_hashes_send_args);
+    fetch_studio_hashes_send_args << QString::fromStdString(m_spAPI->GetPath(SonicPiPath::FetchUrlPath)) << "http://sonic-pi.net/static/info/studio-hashes.txt";
+    fetchStudioHashes->start(QString::fromStdString(m_spAPI->GetPath(SonicPiPath::RubyPath)), fetch_studio_hashes_send_args);
     fetchStudioHashes->waitForFinished();
     QTextStream stream(fetchStudioHashes->readAllStandardOutput().trimmed());
     QString line = stream.readLine();
@@ -490,31 +293,10 @@ void MainWindow::checkForStudioMode()
     }
 }
 
-#ifdef QT_OLD_API
-bool MainWindow::checkPort(int port)
-{
-    bool available = false;
-    oscpkt::UdpSocket sock;
-    sock.bindTo(port);
-    if ((port < 1024) || (!sock.isOk()))
-    {
-        std::cout << "[GUI] -    port: " << port << " [Not Available]" << std::endl;
-        available = false;
-    }
-    else
-    {
-        std::cout << "[GUI] -    port: " << port << " [OK]" << std::endl;
-        available = true;
-    }
-    sock.close();
-    return available;
-}
-#endif
 
 void MainWindow::showWelcomeScreen()
 {
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net", "gui-settings");
-    if (settings.value("first_time", 1).toInt() == 1)
+    if (gui_settings->value("first_time", 1).toInt() == 1)
     {
         QTextBrowser* startupPane = new QTextBrowser;
         startupPane->setFixedSize(ScaleHeightForDPI(600), ScaleHeightForDPI(650));
@@ -621,11 +403,8 @@ void MainWindow::setupWindowStructure()
 
     connect(this, SIGNAL(settingsChanged()), settingsWidget, SLOT(settingsChanged()));
 
-#ifdef QT_OLD_API
-    scopeWindow = new Scope(scsynth_port);
-#else
     scopeWindow = new ScopeWindow(m_spClient, m_spAPI, this);
-#endif
+
     scopeWindow->Pause();
     scopeWindow->setObjectName("scopes");
 
@@ -655,11 +434,8 @@ void MainWindow::setupWindowStructure()
 
         SonicPiScintilla* workspace = new SonicPiScintilla(lexer, theme, fileName, auto_indent);
         connect(workspace, &SonicPiScintilla::bufferNewlineAndIndent, this, [this](int point_line, int point_index, int first_line, const std::string& code, const std::string& fileName, const std::string& id) {
-#ifdef QT_OLD_API
-            oscSender->bufferNewlineAndIndent(point_line, point_index, first_line, code, fileName, id);
-#else
-            m_spAPI->BufferNewLineAndIndent(point_line, point_index, first_line, code, fileName, id);
-#endif
+
+          m_spAPI->BufferNewLineAndIndent(point_line, point_index, first_line, code, fileName, id);
         });
 
         workspace->setObjectName(QString("Buffer %1").arg(ws));
@@ -1302,136 +1078,6 @@ QString MainWindow::rootPath()
 #endif
 }
 
-#ifdef QT_OLD_API
-void MainWindow::startRubyServer()
-{
-
-    // kill any zombie processes that may exist
-    // better: test to see if UDP ports are in use, only kill/sleep if so
-    // best: kill SCSynth directly if needed
-    serverProcess = new QProcess();
-
-    QStringList args;
-    args << "--enable-frozen-string-literal"
-         << "-E"
-         << "utf-8";
-    args << ruby_server_path;
-
-    if (protocol == TCP)
-    {
-        args << "-t";
-    }
-    else
-    {
-        args << "-u";
-    }
-
-    args << QString("%1").arg(server_listen_to_gui_port) << QString("%1").arg(server_send_to_gui_port) << QString("%1").arg(scsynth_port) << QString("%1").arg(scsynth_send_port) << QString("%1").arg(server_osc_cues_port) << QString("%1").arg(erlang_router_port) << QString("%1").arg(websocket_port);
-    ;
-    std::cout << "[GUI] - launching Sonic Pi Runtime Server:" << std::endl;
-    if (homeDirWritable)
-    {
-        serverProcess->setStandardErrorFile(server_error_log_path);
-        serverProcess->setStandardOutputFile(server_output_log_path);
-    }
-    serverProcess->start(ruby_path, args);
-
-#ifdef Q_OS_WIN
-    //set priority of Ruby server to be "above normal" on Windows
-    QProcess::startDetached("wmic process where processid='" + QString::number(serverProcess->processId()) + "' CALL setpriority \"above normal\"");
-#endif
-
-    // Register server pid for potential zombie clearing
-    QStringList regServerArgs;
-#if QT_VERSION >= QT_VERSION_CHECK(5, 3, 0)
-    regServerArgs << QDir::toNativeSeparators(rootPath() + "/app/server/ruby/bin/task-register.rb") << QString::number(serverProcess->processId());
-#endif
-    QProcess* regServerProcess = new QProcess();
-    regServerProcess->start(ruby_path, regServerArgs);
-    regServerProcess->waitForFinished();
-#if QT_VERSION >= QT_VERSION_CHECK(5, 3, 0)
-    std::cout << "[GUI] - Ruby server pid registered: " << serverProcess->processId() << std::endl;
-#endif
-
-    if (!serverProcess->waitForStarted())
-    {
-        invokeStartupError(tr("The Sonic Pi Server could not be started!"));
-        return;
-    }
-}
-
-bool MainWindow::waitForServiceSync()
-{
-    QString contents;
-    std::cout << "[GUI] - waiting for Sonic Pi Server to boot..." << std::endl;
-    bool server_booted = false;
-    if (!homeDirWritable)
-    {
-        // we can't monitor the logs so hope for the best!
-        std::this_thread::sleep_for(15s);
-        server_booted = true;
-    }
-    else
-    {
-        for (int i = 0; i < 60; i++)
-        {
-            qApp->processEvents();
-            contents = readFile(server_output_log_path);
-            if (contents.contains("Sonic Pi Server successfully booted."))
-            {
-                std::cout << std::endl
-                          << "[GUI] - Sonic Pi Server successfully booted." << std::endl;
-                server_booted = true;
-                break;
-            }
-            else
-            {
-                std::cout << ".";
-                std::this_thread::sleep_for(1s);
-            }
-        }
-    }
-
-    if (!server_booted)
-    {
-        std::cout << std::endl
-                  << "[GUI] - Critical error! Could not boot Sonic Pi Server." << std::endl;
-        invokeStartupError("Critical error! - Could not boot Sonic Pi Server.");
-        return false;
-    }
-
-    int timeout = 60;
-    std::cout << "[GUI] - waiting for Sonic Pi Server to respond..." << std::endl;
-    while (sonicPiOSCServer->waitForServer() && timeout-- > 0)
-    {
-        std::this_thread::sleep_for(1s);
-        std::cout << ".";
-        if (sonicPiOSCServer->isIncomingPortOpen())
-        {
-            Message msg("/ping");
-            msg.pushStr(guiID.toStdString());
-            msg.pushStr("QtClient/1/hello");
-            sendOSC(msg);
-        } else {
-          std::cout << "!";
-        }
-    }
-    if (!sonicPiOSCServer->isServerStarted())
-    {
-        std::cout << std::endl
-                  << "[GUI] - Critical error! Could not connect to Sonic Pi Server." << std::endl;
-        invokeStartupError("Critical server error - could not connect to Sonic Pi Server!");
-        return false;
-    }
-    else
-    {
-        std::cout << std::endl
-                  << "[GUI] - Sonic Pi Server connection established" << std::endl;
-        return true;
-    }
-}
-#endif
-
 void MainWindow::splashClose()
 {
 #if defined(Q_OS_MAC)
@@ -1443,8 +1089,7 @@ void MainWindow::splashClose()
 
 void MainWindow::showWindow()
 {
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net", "gui-settings");
-    if (settings.value("first_time", 1).toInt() == 1)
+    if (gui_settings->value("first_time", 1).toInt() == 1)
     {
         showMaximized();
     }
@@ -1581,9 +1226,7 @@ void MainWindow::invokeStartupError(QString msg)
     }
 
     startup_error_reported->setChecked(true);
-#ifdef QT_OLD_API
-    sonicPiOSCServer->stop();
-#endif
+
     QMetaObject::invokeMethod(this, "startupError",
         Qt::QueuedConnection,
         Q_ARG(QString, msg));
@@ -1592,45 +1235,6 @@ void MainWindow::invokeStartupError(QString msg)
 void MainWindow::startupError(QString msg)
 {
 // TODO: Add format error to API
-#ifdef QT_OLD_API
-    splashClose();
-    setMessageBoxStyle();
-    QString gui_log;
-    QString scsynth_log;
-    QString processes_log;
-    QString server_output_log;
-    QString server_error_log;
-    if (homeDirWritable)
-    {
-        gui_log = readFile(gui_log_path);
-        scsynth_log = readFile(scsynth_log_path);
-        processes_log = readFile(process_log_path);
-        server_output_log = readFile(server_output_log_path);
-        server_error_log = readFile(server_error_log_path);
-    }
-    else
-    {
-        gui_log = "Permissions error: unable to access log";
-        scsynth_log = "Permissions error: unable to access log";
-        server_output_log = "Permissions error: unable to access log";
-        server_error_log = "Permissions error: unable to access log";
-        processes_log = "Permissions error: unable to access log";
-    }
-
-    QMessageBox* box = new QMessageBox(QMessageBox::Warning,
-        tr("Server boot error..."), tr("Sonic Pi Boot Error\n\nApologies, a critical error occurred during startup") + ":\n\n " + msg + "\n\n" + tr("Please consider reporting a bug at") + "\nhttp://github.com/samaaron/sonic-pi/issues");
-    QString error_report = "Sonic Pi Boot Error Report\n==================\n\n\nSystem Information\n----------------\n\n* Sonic Pi version: " + version + "\n* OS: " + osDescription() + "\n\n\nGUI Log\n-------\n\n**`" + gui_log_path + "`**\n```\n" + gui_log + "\n```\n\n\nServer Errors\n-------------\n\n**`" + server_error_log_path + "`**\n```\n" + server_error_log + "\n```\n\n\nServer Output\n-------------\n\n**`" + server_output_log_path + "`**\n```\n" + server_output_log + "\n```\n\n\nScsynth Output\n--------------\n\n**`" + scsynth_log_path + "`**\n```\n" + scsynth_log + "\n```\n\n\nProcess Log\n--------------\n\n**`" + process_log_path + "`**\n```\n" + processes_log + "\n\n\n```\n";
-    box->setDetailedText(error_report);
-
-    QGridLayout* layout = (QGridLayout*)box->layout();
-    QSpacerItem* hSpacer = new QSpacerItem(200, 0, QSizePolicy::Minimum, QSizePolicy::Expanding);
-    layout->addItem(hSpacer, layout->rowCount(), 0, 1, layout->columnCount());
-    box->exec();
-    std::cout << "[GUI] - Aborting. Sorry about this." << std::endl;
-    cleanupRunningProcesses();
-    QApplication::exit(-1);
-    exit(EXIT_FAILURE);
-#endif
 }
 
 void MainWindow::showLanguageLoadingError() {
@@ -1739,9 +1343,6 @@ void MainWindow::saveWorkspaces()
 void MainWindow::closeEvent(QCloseEvent* event)
 {
     writeSettings();
-#ifdef QT_OLD_API
-    std::cout.rdbuf(coutbuf); // reset to stdout before exiting
-#endif
     event->accept();
 }
 
@@ -1753,13 +1354,12 @@ QString MainWindow::currentTabLabel()
 bool MainWindow::loadFile()
 {
     QString selfilter = QString("%1 (*.rb *.txt)").arg(tr("Buffer files"));
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net", "gui-settings");
-    QString lastDir = settings.value("lastDir", QDir::homePath() + "/Desktop").toString();
+    QString lastDir = gui_settings->value("lastDir", QDir::homePath() + "/Desktop").toString();
     QString fileName = QFileDialog::getOpenFileName(this, tr("Load Sonic Pi Buffer"), lastDir, QString("%1 (*.rb *.txt);;%2 (*.txt);;%3 (*.rb);;%4 (*.*)").arg(tr("Buffer files")).arg(tr("Text files")).arg(tr("Ruby files")).arg(tr("All files")), &selfilter);
     if (!fileName.isEmpty())
     {
         QFileInfo fi = fileName;
-        settings.setValue("lastDir", fi.dir().absolutePath());
+        gui_settings->setValue("lastDir", fi.dir().absolutePath());
         SonicPiScintilla* p = (SonicPiScintilla*)tabs->currentWidget();
         loadFile(fileName, p);
         return true;
@@ -1773,14 +1373,13 @@ bool MainWindow::loadFile()
 bool MainWindow::saveAs()
 {
     QString selfilter = QString("%1 (*.rb *.txt)").arg(tr("Buffer files"));
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net", "gui-settings");
-    QString lastDir = settings.value("lastDir", QDir::homePath() + "/Desktop").toString();
+    QString lastDir = gui_settings->value("lastDir", QDir::homePath() + "/Desktop").toString();
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save Current Buffer"), lastDir, QString("%1 (*.rb *.txt);;%2 (*.txt);;%3 (*.rb);;%4 (*.*)").arg(tr("Buffer files")).arg(tr("Text files")).arg(tr("Ruby files")).arg(tr("All files")), &selfilter);
 
     if (!fileName.isEmpty())
     {
         QFileInfo fi = fileName;
-        settings.setValue("lastDir", fi.dir().absolutePath());
+        gui_settings->setValue("lastDir", fi.dir().absolutePath());
         if (!fileName.contains(QRegExp("\\.[a-z]+$")))
         {
             fileName = fileName + ".txt";
@@ -1944,16 +1543,7 @@ void MainWindow::beautifyCode()
 
 bool MainWindow::sendOSC(Message m)
 {
-#ifdef QT_OLD_API
-    bool res = oscSender->sendOSC(m);
-    if (!res)
-    {
-        std::cout << "[GUI] - Could Not Send OSC" << std::endl;
-    }
-    return res;
-#else
-    return m_spAPI->SendOSC(m);
-#endif
+  return m_spAPI->SendOSC(m);
 }
 
 void MainWindow::reloadServerCode()
@@ -3470,13 +3060,12 @@ void MainWindow::toggleRecording()
         Message msg("/stop-recording");
         msg.pushStr(guiID.toStdString());
         sendOSC(msg);
-        QSettings settings(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net", "gui-settings");
-        QString lastDir = settings.value("lastDir", QDir::homePath() + "/Desktop").toString();
+        QString lastDir = gui_settings->value("lastDir", QDir::homePath() + "/Desktop").toString();
         QString fileName = QFileDialog::getSaveFileName(this, tr("Save Recording"), lastDir, tr("Wavefile (*.wav)"));
         if (!fileName.isEmpty())
         {
             QFileInfo fi = fileName;
-            settings.setValue("lastDir", fi.dir().absolutePath());
+            gui_settings->setValue("lastDir", fi.dir().absolutePath());
             Message msg("/save-recording");
             msg.pushStr(guiID.toStdString());
             msg.pushStr(fileName.toStdString());
@@ -3506,19 +3095,18 @@ void MainWindow::createStatusBar()
  */
 void MainWindow::restoreWindows()
 {
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net", "gui-settings");
     QRect rec = QGuiApplication::primaryScreen()->geometry();
-    QPoint pos = settings.value("pos", QPoint(0, 0)).toPoint();
-    QSize size = settings.value("size", QSize(rec.width(), rec.height())).toSize();
+    QPoint pos = gui_settings->value("pos", QPoint(0, 0)).toPoint();
+    QSize size = gui_settings->value("size", QSize(rec.width(), rec.height())).toSize();
 
-    int index = settings.value("workspace", 0).toInt();
+    int index = gui_settings->value("workspace", 0).toInt();
     if (index < tabs->count())
         tabs->setCurrentIndex(index);
 
     for (int w = 0; w < workspace_max; w++)
     {
         // default zoom is 13
-        int zoom = settings.value(QString("workspace%1zoom").arg(w), 2)
+        int zoom = gui_settings->value(QString("workspace%1zoom").arg(w), 2)
                        .toInt();
         if (zoom < -5)
             zoom = -5;
@@ -3529,9 +3117,9 @@ void MainWindow::restoreWindows()
         workspaces[w]->zoomTo(zoom);
     }
 
-    docsplit->restoreState(settings.value("docsplitState").toByteArray());
+    docsplit->restoreState(gui_settings->value("docsplitState").toByteArray());
     //bool visualizer = piSettings->show_scopes;
-    restoreState(settings.value("windowState").toByteArray());
+    restoreState(gui_settings->value("windowState").toByteArray());
     //    restoreGeometry(settings.value("windowGeom").toByteArray());
 
     //    if (visualizer != piSettings->show_scopes) {
@@ -3550,40 +3138,39 @@ void MainWindow::restoreWindows()
 void MainWindow::readSettings()
 {
     std::cout << "[GUI] - reading settings" << std::endl;
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net", "gui-settings");
 
     // Read in preferences from previous session
-    piSettings->language = settings.value("prefs/language", "system_language").toString();
+    piSettings->language = gui_settings.value("prefs/language", "system_language").toString();
+    piSettings->show_buttons = gui_settings->value("prefs/show-buttons", true).toBool();
+    piSettings->show_tabs = gui_settings->value("prefs/show-tabs", true).toBool();
+    piSettings->show_log = gui_settings->value("prefs/show-log", true).toBool();
+    piSettings->osc_public = gui_settings->value("prefs/osc-public", false).toBool();
+    piSettings->osc_server_enabled = gui_settings->value("prefs/osc-enabled", true).toBool();
+    piSettings->midi_enabled = gui_settings->value("prefs/midi-enable", true).toBool();
+    piSettings->midi_default_channel = gui_settings->value("prefs/midi-default-channel", 0).toInt();
+    piSettings->check_args = gui_settings->value("prefs/check-args", true).toBool();
+    piSettings->log_synths = gui_settings->value("prefs/log-synths", true).toBool();
+    piSettings->clear_output_on_run = gui_settings->value("prefs/clear-output-on-run", true).toBool();
+    piSettings->log_cues = gui_settings->value("prefs/log-cues", false).toBool();
+    piSettings->log_auto_scroll = gui_settings->value("prefs/log-auto-scroll", true).toBool();
+    piSettings->show_line_numbers = gui_settings->value("prefs/show-line-numbers", true).toBool();
+    piSettings->enable_external_synths = gui_settings->value("prefs/enable-external-synths", false).toBool();
+    piSettings->synth_trigger_timing_guarantees = gui_settings->value("prefs/synth-trigger-timing-guarantees", false).toBool();
 
-    piSettings->show_buttons = settings.value("prefs/show-buttons", true).toBool();
-    piSettings->show_tabs = settings.value("prefs/show-tabs", true).toBool();
-    piSettings->show_log = settings.value("prefs/show-log", true).toBool();
-    piSettings->osc_public = settings.value("prefs/osc-public", false).toBool();
-    piSettings->osc_server_enabled = settings.value("prefs/osc-enabled", true).toBool();
-    piSettings->midi_enabled = settings.value("prefs/midi-enable", true).toBool();
-    piSettings->midi_default_channel = settings.value("prefs/midi-default-channel", 0).toInt();
-    piSettings->check_args = settings.value("prefs/check-args", true).toBool();
-    piSettings->log_synths = settings.value("prefs/log-synths", true).toBool();
-    piSettings->clear_output_on_run = settings.value("prefs/clear-output-on-run", true).toBool();
-    piSettings->log_cues = settings.value("prefs/log-cues", false).toBool();
-    piSettings->log_auto_scroll = settings.value("prefs/log-auto-scroll", true).toBool();
-    piSettings->show_line_numbers = settings.value("prefs/show-line-numbers", true).toBool();
-    piSettings->enable_external_synths = settings.value("prefs/enable-external-synths", false).toBool();
-    piSettings->synth_trigger_timing_guarantees = settings.value("prefs/synth-trigger-timing-guarantees", false).toBool();
-
-    piSettings->main_volume = settings.value("prefs/system-vol", 80).toInt();
-    piSettings->mixer_force_mono = settings.value("prefs/mixer-force-mono", false).toBool();
-    piSettings->mixer_invert_stereo = settings.value("prefs/mixer-invert-stereo", false).toBool();
-    piSettings->check_updates = settings.value("prefs/rp/check-updates", true).toBool();
-    piSettings->auto_indent_on_run = settings.value("prefs/auto-indent-on-run", true).toBool();
-    piSettings->gui_transparency = settings.value("prefs/gui_transparency", 0).toInt();
-    piSettings->show_scopes = settings.value("prefs/scope/show-scopes", true).toBool();
-    piSettings->show_scope_labels = settings.value("prefs/scope/show-labels", false).toBool();
-    piSettings->show_cues = settings.value("prefs/show_cues", true).toBool();
-    QString styleName = settings.value("prefs/theme", "").toString();
+    piSettings->main_volume = gui_settings->value("prefs/system-vol", 80).toInt();
+    piSettings->mixer_force_mono = gui_settings->value("prefs/mixer-force-mono", false).toBool();
+    piSettings->mixer_invert_stereo = gui_settings->value("prefs/mixer-invert-stereo", false).toBool();
+    piSettings->check_updates = gui_settings->value("prefs/rp/check-updates", true).toBool();
+    piSettings->auto_indent_on_run = gui_settings->value("prefs/auto-indent-on-run", true).toBool();
+    piSettings->gui_transparency = gui_settings->value("prefs/gui_transparency", 0).toInt();
+    piSettings->show_scopes = gui_settings->value("prefs/scope/show-scopes", true).toBool();
+    piSettings->show_scope_labels = gui_settings->value("prefs/scope/show-labels", false).toBool();
+    piSettings->show_cues = gui_settings->value("prefs/show_cues", true).toBool();
+    QString styleName = gui_settings->value("prefs/theme", "").toString();
+    
     piSettings->themeStyle = theme->themeNameToStyle(styleName);
-    piSettings->show_autocompletion = settings.value("prefs/show-autocompletion", true).toBool();
-    piSettings->show_context = settings.value("prefs/show-context", true).toBool();
+    piSettings->show_autocompletion = gui_settings->value("prefs/show-autocompletion", true).toBool();
+    piSettings->show_context = gui_settings->value("prefs/show-context", true).toBool();
 
     emit settingsChanged();
 }
@@ -3591,71 +3178,71 @@ void MainWindow::readSettings()
 void MainWindow::restoreScopeState(std::vector<QString> names)
 {
     std::cout << "[GUI] - restoring scope states " << std::endl;
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net", "gui-settings");
 
     for (auto name : names)
     {
         bool def = (name.toLower() == "spectrum");
-        piSettings->setScopeState(name, settings.value("prefs/scope/show-" + name.toLower(), def).toBool());
+        piSettings->setScopeState(name, gui_settings->value("prefs/scope/show-" + name.toLower(), def).toBool());
     }
 }
 
 void MainWindow::writeSettings()
 {
     std::cout << "[GUI] - writing settings" << std::endl;
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net", "gui-settings");
-    settings.setValue("prefs/language", piSettings->language);
-    settings.setValue("pos", pos());
-    settings.setValue("size", size());
-    settings.setValue("first_time", 0);
+    
+    gui_settings->setValue("pos", pos());
+    gui_settings->setValue("size", size());
+    gui_settings->setValue("first_time", 0);
+  
+    gui_settings->setValue("prefs/language", piSettings->language);
 
-    settings.setValue("prefs/midi-default-channel", piSettings->midi_default_channel);
-    settings.setValue("prefs/midi-enable", piSettings->midi_enabled);
-    settings.setValue("prefs/osc-public", piSettings->osc_public);
-    settings.setValue("prefs/osc-enabled", piSettings->osc_server_enabled);
+    gui_settings->setValue("prefs/midi-default-channel", piSettings->midi_default_channel);
+    gui_settings->setValue("prefs/midi-enable", piSettings->midi_enabled);
+    gui_settings->setValue("prefs/osc-public", piSettings->osc_public);
+    gui_settings->setValue("prefs/osc-enabled", piSettings->osc_server_enabled);
 
-    settings.setValue("prefs/check-args", piSettings->check_args);
-    settings.setValue("prefs/log-synths", piSettings->log_synths);
-    settings.setValue("prefs/clear-output-on-run", piSettings->clear_output_on_run);
-    settings.setValue("prefs/log-cues", piSettings->log_cues);
-    settings.setValue("prefs/log-auto-scroll", piSettings->log_auto_scroll);
-    settings.setValue("prefs/show-line-numbers", piSettings->show_line_numbers);
-    settings.setValue("prefs/enable-external-synths", piSettings->enable_external_synths);
-    settings.setValue("prefs/synth-trigger-timing-guarantees", piSettings->synth_trigger_timing_guarantees);
-    settings.setValue("prefs/mixer-force-mono", piSettings->mixer_force_mono);
-    settings.setValue("prefs/mixer-invert-stereo", piSettings->mixer_invert_stereo);
-    settings.setValue("prefs/system-vol", piSettings->main_volume);
-    settings.setValue("prefs/rp/check-updates", piSettings->check_updates);
-    settings.setValue("prefs/auto-indent-on-run", piSettings->auto_indent_on_run);
-    settings.setValue("prefs/gui_transparency", piSettings->gui_transparency);
-    settings.setValue("prefs/scope/show-labels", piSettings->show_scope_labels);
-    settings.setValue("prefs/scope/show-scopes", piSettings->show_scopes);
-    settings.setValue("prefs/show_cues", piSettings->show_cues);
-    settings.setValue("prefs/theme", theme->themeStyleToName(piSettings->themeStyle));
+    gui_settings->setValue("prefs/check-args", piSettings->check_args);
+    gui_settings->setValue("prefs/log-synths", piSettings->log_synths);
+    gui_settings->setValue("prefs/clear-output-on-run", piSettings->clear_output_on_run);
+    gui_settings->setValue("prefs/log-cues", piSettings->log_cues);
+    gui_settings->setValue("prefs/log-auto-scroll", piSettings->log_auto_scroll);
+    gui_settings->setValue("prefs/show-line-numbers", piSettings->show_line_numbers);
+    gui_settings->setValue("prefs/enable-external-synths", piSettings->enable_external_synths);
+    gui_settings->setValue("prefs/synth-trigger-timing-guarantees", piSettings->synth_trigger_timing_guarantees);
+    gui_settings->setValue("prefs/mixer-force-mono", piSettings->mixer_force_mono);
+    gui_settings->setValue("prefs/mixer-invert-stereo", piSettings->mixer_invert_stereo);
+    gui_settings->setValue("prefs/system-vol", piSettings->main_volume);
+    gui_settings->setValue("prefs/rp/check-updates", piSettings->check_updates);
+    gui_settings->setValue("prefs/auto-indent-on-run", piSettings->auto_indent_on_run);
+    gui_settings->setValue("prefs/gui_transparency", piSettings->gui_transparency);
+    gui_settings->setValue("prefs/scope/show-labels", piSettings->show_scope_labels);
+    gui_settings->setValue("prefs/scope/show-scopes", piSettings->show_scopes);
+    gui_settings->setValue("prefs/show_cues", piSettings->show_cues);
+    gui_settings->setValue("prefs/theme", theme->themeStyleToName(piSettings->themeStyle));
 
-    settings.setValue("prefs/show-autocompletion", piSettings->show_autocompletion);
+    gui_settings->setValue("prefs/show-autocompletion", piSettings->show_autocompletion);
 
-    settings.setValue("prefs/show-buttons", piSettings->show_buttons);
-    settings.setValue("prefs/show-tabs", piSettings->show_tabs);
-    settings.setValue("prefs/show-log", piSettings->show_log);
-    settings.setValue("prefs/show-context", piSettings->show_context);
+    gui_settings->setValue("prefs/show-buttons", piSettings->show_buttons);
+    gui_settings->setValue("prefs/show-tabs", piSettings->show_tabs);
+    gui_settings->setValue("prefs/show-log", piSettings->show_log);
+    gui_settings->setValue("prefs/show-context", piSettings->show_context);
 
     for (auto name : piSettings->scope_names)
     {
-        settings.setValue("prefs/scope/show-" + name.toLower(), piSettings->isScopeActive(name));
+        gui_settings->setValue("prefs/scope/show-" + name.toLower(), piSettings->isScopeActive(name));
     }
 
-    settings.setValue("workspace", tabs->currentIndex());
+    gui_settings->setValue("workspace", tabs->currentIndex());
 
     for (int w = 0; w < workspace_max; w++)
     {
-        settings.setValue(QString("workspace%1zoom").arg(w),
+        gui_settings->setValue(QString("workspace%1zoom").arg(w),
             workspaces[w]->property("zoom"));
     }
 
-    settings.setValue("docsplitState", docsplit->saveState());
-    settings.setValue("windowState", saveState());
-    settings.setValue("windowGeom", saveGeometry());
+    gui_settings->setValue("docsplitState", docsplit->saveState());
+    gui_settings->setValue("windowState", saveState());
+    gui_settings->setValue("windowGeom", saveGeometry());
 }
 
 void MainWindow::loadFile(const QString& fileName, SonicPiScintilla*& text)
@@ -3723,70 +3310,26 @@ SonicPiScintilla* MainWindow::filenameToWorkspace(std::string filename)
 
 void MainWindow::onExitCleanup()
 {
-#ifdef QT_OLD_API
-    if (scopeWindow)
+  if (scopeWindow)
     {
-        scopeWindow->ShutDown();
+      scopeWindow->ShutDown();
     }
-    setupLogPathAndRedirectStdOut();
-    std::cout << "[GUI] - stopping OSC server" << std::endl;
-    sonicPiOSCServer->stop();
-    if (protocol == TCP)
+
+  if (m_spClient)
     {
-        clientSock->close();
-    }
-    if (serverProcess->state() == QProcess::NotRunning)
-    {
-        std::cout << "[GUI] - warning, server process is not running." << std::endl;
-    }
-    else
-    {
-        if (loaded_workspaces)
+      if (loaded_workspaces)
         {
-            // this should be a synchorous call to avoid the following sleep
-            saveWorkspaces();
+          // this should be a synchorous call to avoid the following sleep
+          saveWorkspaces();
         }
-        std::this_thread::sleep_for(1s);
-        std::cout << "[GUI] - asking server process to exit..." << std::endl;
-        Message msg("/exit");
-        msg.pushStr(guiID.toStdString());
-        sendOSC(msg);
+      std::this_thread::sleep_for(1s);
+
+      // Do this before closing the client, so the io redirect happens after
+      std::cout << "[GUI] - exiting. Cheerio :-)" << std::endl;
+
+      // Shuts down the client/server connection
+      m_spAPI->Shutdown();
     }
-    if (protocol == UDP)
-    {
-        osc_thread.waitForFinished();
-    }
-    std::this_thread::sleep_for(2s);
-
-    // ensure all child processes are nuked if they didn't die gracefully
-    cleanupRunningProcesses();
-
-    std::cout << "[GUI] - exiting. Cheerio :-)" << std::endl;
-    std::cout.rdbuf(coutbuf); // reset to stdout before exiting
-
-#else
-    if (scopeWindow)
-    {
-        scopeWindow->ShutDown();
-    }
-
-    if (m_spClient)
-    {
-        if (loaded_workspaces)
-        {
-            // this should be a synchorous call to avoid the following sleep
-            saveWorkspaces();
-        }
-        std::this_thread::sleep_for(1s);
-
-        // Do this before closing the client, so the io redirect happens after
-        std::cout << "[GUI] - exiting. Cheerio :-)" << std::endl;
-
-        // Shuts down the client/server connection
-        m_spAPI->Shutdown();
-    }
-#endif
-}
 
 void MainWindow::restartApp() {
     QApplication* app = dynamic_cast<QApplication*>(parent());
@@ -3814,16 +3357,6 @@ void MainWindow::restartApp() {
     app->exit(0);
     exit(0);
 }
-
-#ifdef QT_OLD_API
-void MainWindow::cleanupRunningProcesses()
-{
-    std::cout << "[GUI] - executing exit script" << std::endl;
-    QProcess* exitProcess = new QProcess();
-    exitProcess->start(ruby_path, QStringList(exit_script_path));
-    exitProcess->waitForFinished();
-}
-#endif
 
 void MainWindow::heartbeatOSC()
 {
@@ -4070,21 +3603,6 @@ void MainWindow::addCuePath(QString path, QString val)
     }
 }
 
-#ifdef QT_OLD_API
-void MainWindow::setupLogPathAndRedirectStdOut()
-{
-    QDir().mkdir(sp_user_path);
-    QDir().mkdir(log_path);
-
-    if (homeDirWritable)
-    {
-        coutbuf = std::cout.rdbuf();
-        stdlog.open(gui_log_path.toStdString().c_str());
-        std::cout.rdbuf(stdlog.rdbuf());
-    }
-}
-#endif
-
 void MainWindow::toggleMidi(int silent)
 {
     QSignalBlocker blocker(midiEnabledAct);
@@ -4215,12 +3733,17 @@ QString MainWindow::sonicPiHomePath()
     QString path = qgetenv("SONIC_PI_HOME").constData();
     if (path.isEmpty())
     {
-        return QDir::homePath();
+      return QDir::homePath() + QDir::separator() + ".sonic-pi";
     }
     else
     {
-        return path;
+      return path;
     }
+}
+
+QString MainWindow::sonicPiConfigPath()
+{
+  return sonicPiHomePath() + QDir::separator() + "config";
 }
 
 void MainWindow::zoomInLogs()

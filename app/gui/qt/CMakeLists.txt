@@ -46,39 +46,12 @@ add_subdirectory(QScintilla-2.11.6)
 set(APP_NAME sonic-pi)
 set(MACOS_APP_NAME "Sonic Pi")
 
-if (QT_OLD_API)
-set(OLD_API_SOURCES
-    ${QTAPP_ROOT}/osc/oschandler.cpp
-    ${QTAPP_ROOT}/osc/oscsender.cpp
-    ${QTAPP_ROOT}/osc/sonic_pi_osc_server.cpp
-    ${QTAPP_ROOT}/osc/sonic_pi_udp_osc_server.cpp
-    ${QTAPP_ROOT}/osc/sonic_pi_tcp_osc_server.cpp
-    ${QTAPP_ROOT}/osc/oscpkt.hh
-    ${QTAPP_ROOT}/osc/udp.hh
-    ${QTAPP_ROOT}/osc/oschandler.h
-    ${QTAPP_ROOT}/osc/oscsender.h
-    ${QTAPP_ROOT}/osc/sonic_pi_osc_server.h
-    ${QTAPP_ROOT}/osc/sonic_pi_udp_osc_server.h
-    ${QTAPP_ROOT}/osc/sonic_pi_tcp_osc_server.h
-    
-    ${QTAPP_ROOT}/visualizer/scope.cpp
-    ${QTAPP_ROOT}/visualizer/scope.h
-    ${QTAPP_ROOT}/visualizer/scope_buffer.hpp
-    ${QTAPP_ROOT}/visualizer/server_shm.hpp
-
-    ${APP_ROOT}/external/kiss_fft/kiss_fft.c
-    ${APP_ROOT}/external/kiss_fft/kiss_fft.h
-    )
-endif()
-
-if (NOT QT_OLD_API)
-set(NEW_API_SOURCES 
+set(NEW_API_SOURCES
     ${QTAPP_ROOT}/qt_api_client.cpp
     ${QTAPP_ROOT}/qt_api_client.h
     ${QTAPP_ROOT}/visualizer/scope_window.cpp
     ${QTAPP_ROOT}/visualizer/scope_window.h
     )
-endif()
 
 set(EDITOR_SOURCES
     ${QTAPP_ROOT}/widgets/sonicpiscintilla.cpp

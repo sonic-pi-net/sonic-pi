@@ -26,9 +26,13 @@ module Sys
     MAXTHREADNAMESIZE = 64
     PROC_PIDPATHINFO_MAXSIZE = MAXPATHLEN * 4
 
-    # JRuby on Mac
+    # JRuby/Truffleruby on Mac
     unless defined? FFI::StructLayout::CharArray
-      FFI::StructLayout::CharArray = FFI::StructLayout::CharArrayProxy
+      if defined? FFI::StructLayout::CharArrayProxy
+        FFI::StructLayout::CharArray = FFI::StructLayout::CharArrayProxy
+      else
+        FFI::StructLayout::CharArray = FFI::Struct::CharArray
+      end
     end
 
     class ProcBsdInfo < FFI::Struct

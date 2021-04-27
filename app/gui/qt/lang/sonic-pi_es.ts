@@ -545,7 +545,7 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2775"/>
         <source>Show Scope Kinds</source>
-        <translation>Mostrar Tipos de Vizualizadores</translation>
+        <translation>Mostrar Tipos de Visualizadores</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2786"/>
@@ -880,7 +880,7 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2937"/>
         <source>Place focus on help listing</source>
-        <translation>POner foco en listado de ayuda</translation>
+        <translation>Poner foco en listado de ayuda</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2941"/>

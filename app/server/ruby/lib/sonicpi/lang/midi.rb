@@ -1415,8 +1415,9 @@ Upon receiving the MIDI continue event, the MIDI device(s) will continue at the 
 The MIDI specification requires 24 clock tick events to be sent per beat. These can either be sent manually using `midi_clock_tick` or all 24 can be scheduled in one go using this fn. `midi_clock_beat` will therefore schedule for 24 clock ticks to be sent linearly spread over duration beats. This fn will automatically take into account the current BPM and any `time_warp`s.
 ",
           examples:       [
-        "midi_clock_beat #=> Send 24 clock ticks over a period of 1 beat",
-        "midi_clock_beat 0.5 #=> Send 24 clock ticks over a period of 0.5 beats",
+        "midi_clock_beat #=> Send 24 clock ticks over a period of 1 beat to all connected MIDI devices",
+        "midi_clock_beat 0.5 #=> Send 24 clock ticks over a period of 0.5 beats to all connected MIDI devices",
+        "midi_clock_beat port: \"moog_subphatty\" #=> Send 24 clock ticks over a period of 1 beat to just the MIDI port with name moog_subphatty",
         "
 live_loop :clock do  # Create a live loop which continually sends out MIDI clock
   midi_clock_beat    # events at the current BPM

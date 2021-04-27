@@ -904,8 +904,9 @@ module SonicPi
 
     class RingVector < SPVector
       def map_index(idx)
-        idx = idx % size
-        return idx
+        return idx unless size.positive?
+
+        idx % size
       end
 
       def ___sp_vector_name

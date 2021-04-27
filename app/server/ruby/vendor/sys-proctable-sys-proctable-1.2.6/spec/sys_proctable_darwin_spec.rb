@@ -21,8 +21,8 @@ describe Sys::ProcTable do
   }
 
   before(:all) do
-    @pid1 = fork { exec('env', '-i', 'A=B', 'Z=', 'sleep', '60') }
-    @pid2 = fork { exec('ruby', '-Ilib', '-e', 'sleep \'120\'.to_i', '--', 'foo bar') }
+    @pid1 = Process.spawn({'A' => 'B', 'Z' => nil}, "sleep 60")
+    @pid2 = Process.spawn("ruby", "-Ilib", "-e", "sleep \'120\'.to_i", "--", "foo bar")
     sleep 1 # wait to make sure env is replaced by sleep
   end
 
@@ -38,7 +38,7 @@ describe Sys::ProcTable do
 
     it "returns the expected results for the fields method" do
       expect(described_class.fields).to be_kind_of(Array)
-      expect(described_class.fields).to eql(fields)
+      expect(described_class.fields).to eq(fields)
     end
   end
 
@@ -48,72 +48,72 @@ describe Sys::ProcTable do
     it "contains a pid member and returns the expected value" do
       expect(subject).to respond_to(:pid)
       expect(subject.pid).to be_kind_of(Numeric)
-      expect(subject.pid).to eql(@pid1)
+      expect(subject.pid).to eq(@pid1)
     end
 
     it "contains a ppid member and returns the expected value" do
       expect(subject).to respond_to(:ppid)
       expect(subject.ppid).to be_kind_of(Numeric)
-      expect(subject.ppid).to eql(Process.pid)
+      expect(subject.ppid).to eq(Process.pid)
     end
 
     it "contains a pgid member and returns the expected value" do
       expect(subject).to respond_to(:pgid)
       expect(subject.pgid).to be_kind_of(Numeric)
-      expect(subject.pgid).to eql(Process.getpgrp)
+      expect(subject.pgid).to eq(Process.getpgrp)
     end
 
     it "contains a ruid member and returns the expected value" do
       expect(subject).to respond_to(:ruid)
       expect(subject.ruid).to be_kind_of(Numeric)
-      expect(subject.ruid).to eql(Process.uid)
+      expect(subject.ruid).to eq(Process.uid)
     end
 
     it "contains an rgid member and returns the expected value" do
       expect(subject).to respond_to(:rgid)
       expect(subject.rgid).to be_kind_of(Numeric)
-      expect(subject.rgid).to eql(Process.gid)
+      expect(subject.rgid).to eq(Process.gid)
     end
 
     it "contains an svuid member and returns the expected value" do
       expect(subject).to respond_to(:svuid)
       expect(subject.svuid).to be_kind_of(Numeric)
-      expect(subject.svuid).to eql(Process.uid)
+      expect(subject.svuid).to eq(Process.uid)
     end
 
     it "contains an svgid member and returns the expected value" do
       expect(subject).to respond_to(:svgid)
       expect(subject.svgid).to be_kind_of(Numeric)
-      expect(subject.svgid).to eql(Process.gid)
+      expect(subject.svgid).to eq(Process.gid)
     end
 
-    it "contains a comm member and returns the expected value", :skip_jruby do
+    it "contains a comm member and returns the expected value" do
       expect(subject).to respond_to(:comm)
       expect(subject.comm).to be_kind_of(String)
-      expect(subject.comm).to eql('sleep')
+      expect(subject.comm).to eq('sleep')
     end
 
-    it "contains a cmdline member and returns the expected value", :skip_jruby do
+    it "contains a cmdline member and returns the expected value" do
       expect(subject).to respond_to(:cmdline)
       expect(subject.cmdline).to be_kind_of(String)
-      expect(subject.cmdline).to eql('sleep 60')
+      expect(subject.cmdline).to eq('sleep 60')
     end
 
-    it "returns a string with the expected arguments for the cmdline member", :skip_jruby do
+    it "returns a string with the expected arguments for the cmdline member" do
       ptable = Sys::ProcTable.ps(pid: @pid2)
-      expect(ptable.cmdline).to eql('ruby -Ilib -e sleep \'120\'.to_i -- foo bar')
+      expect(ptable.cmdline).to eq('ruby -Ilib -e sleep \'120\'.to_i -- foo bar')
     end
 
-    it "contains an exe member and returns the expected value", :skip_jruby do
+    it "contains an exe member and returns the expected value" do
       expect(subject).to respond_to(:exe)
       expect(subject.exe).to be_kind_of(String)
-      expect(subject.exe).to eql(`which sleep`.chomp)
+      expect(subject.exe).to eq(`which sleep`.chomp)
     end
 
-    it "contains an environ member and returns the expected value", :skip_jruby do
+    it "contains an environ member and returns the expected value" do
       expect(subject).to respond_to(:environ)
       expect(subject.environ).to be_kind_of(Hash)
-      expect(subject.environ['A']).to eql('B')
+      expect(subject.environ['A']).to eq('B')
       expect(subject.environ['Z']).to be_nil
     end
   end

@@ -1,4 +1,3 @@
-#ifndef QT_OLD_API
 #include <iostream>
 
 #include "qt_api_client.h"
@@ -68,7 +67,7 @@ void QtAPIClient::ReportGui(const MessageInfo& info)
     else if (info.type == MessageType::SyntaxError)
     {
         m_pMainWindow->setLineMarkerinCurrentWorkspace(info.line);
-        
+
         QString html_response = "<h2 class=\"syntax_error_description\"><pre>Syntax Error: " + QString::fromStdString(info.text) + "</pre></h2><pre class=\"error_msg\">";
         if (info.line == -1)
         {
@@ -159,7 +158,7 @@ void QtAPIClient::MidiGui(const MidiInfo& info)
     {
         m_pMainWindow->updateMIDIOutPorts(QString::fromStdString(info.portInfo));
     }
-    
+
 }
 
 void QtAPIClient::VersionGui(const VersionInfo& info)
@@ -226,5 +225,3 @@ void QtAPIClient::Buffer(const BufferInfo& info)
 }
 
 } // namespace SonicPi
-
-#endif

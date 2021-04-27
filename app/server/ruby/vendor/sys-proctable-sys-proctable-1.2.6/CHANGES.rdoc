@@ -1,3 +1,27 @@
+== 1.2.6 - 25-Aug-2020
+* Made some updates so that it worked properly with TruffleRuby on Mac.
+* Fixed an issue on Linux where non-ascii environ strings could cause failure.
+  Thanks go to deemytch for the spot and original patch.
+* Removed the spec_helper.rb file, just use Process.spawn instead of messing
+  around with custom fork implementations. This also helps with implementations
+  that don't support fork.
+* Updated the MANIFEST.
+
+== 1.2.5 - 19-Jun-2020
+* Added the delayacct_blkio_ticks, guest_time, and cguest_time fields on Linux.
+  These require 2.6.18 or later, but will simply be nil on earlier versions.
+* Added the rsslim synonym for the rlim field for Linux.
+
+== 1.2.4 - 18-Jun-2020
+* Added the num_threads field for Linux. This was originally a dead field in
+  older versions of Linux that was skipped, but as of Linux 2.6+ it actually
+  holds meaningful data.
+* Updated the specs for Linux.
+
+== 1.2.3 - 17-Mar-2020
+* Properly include a copy of Apache-2.0 in LICENSE file as part of library.
+* Add explicit .rdoc extensions to CHANGES and MANIFEST files.
+
 == 1.2.2 - 12-Aug-2019
 * Added compatibility for JRuby on Mac which apparently doesn't define a
   read_uint64 method, nor a CharArray. Thanks go to Adithya Pentela for

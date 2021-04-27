@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2021-02-08 08:00+0000\n"
-"Last-Translator: kaz yamazaki <k.yamazaki@yamajilab.com>\n"
+"PO-Revision-Date: 2021-04-13 08:00+0000\n"
+"Last-Translator: neginex <kanta.negishi.2021b@mlab.info>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/ja/>\n"
 "Language: ja\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.5-dev\n"
+"X-Generator: Weblate 4.6-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -67,14 +67,14 @@ msgstr ""
 "、自由に、色々なセクションを覗いてみてください。何か、不足している点に気がついたら、将来のバージョンのために検討したいので、知らせてください。"
 
 #: 01-Welcome-to-Sonic-Pi.md:28
-#, fuzzy
 msgid ""
 "Finally, watching others live code is a really great way to learn. I regularly"
 " stream live on [https://youtube.com/samaaron](http://youtube.com/samaaron) so"
 " please do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
-"最後に、他の人がライブコーディングするのを見るのはとても良い学習方法です。私は定期的に[http://youtube.com/samaaron](http:"
-"//youtube.com/samaaron)でライブをストリーミングしているので、ぜひ立ち寄って、たくさんの質問をしてみてください :-)"
+"最後に、他人のライブコーディングを見るのはとても良い学習方法です。私は定期的に[http://youtube.com/"
+"samaaron](http://youtube.com/samaaron)でライブをストリーミングしているので、ぜひ立ち寄って、"
+"たくさんの質問をしてみてください :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
@@ -118,9 +118,8 @@ msgid "A live loop"
 msgstr "ライブループ"
 
 #: 01.1-Live-Coding.md:19
-#, fuzzy
 msgid "Let's get started, copy the following code into an empty buffer:"
-msgstr "さぁ、はじめましょう！ 下のコードを上の空欄のBuffer（バッファ）にコピーしてみましょう。"
+msgstr "さぁ、はじめましょう！ 下のコードを上の空欄のエディタにコピーしてみましょう。"
 
 #: 01.1-Live-Coding.md:21
 #, no-wrap
@@ -439,7 +438,6 @@ msgid "E. Prefs Panel"
 msgstr "E. 設定画面"
 
 #: 01.2-Exploring-the-Interface.md:56
-#, fuzzy
 msgid ""
 "Sonic Pi supports a number of tweakable preferences which can be accessed by t"
 "oggling the *prefs* button in the Info and Help button set. This will toggle t"
@@ -447,9 +445,9 @@ msgid ""
 "ged. Examples are forcing mono mode, inverting stereo, toggling log output ver"
 "bosity and also a volume slider and audio selector on the Raspberry Pi."
 msgstr ""
-"Sonic Piには多くの変更可能な設定があり、*Prefs*ボタンを切り替えることでアクセスできます。このボタンにより、多くの変更可能なオプションを含む環"
-"境設定パネルの表示/非表示を切り替えることができます。オプションの例としては、モノラルモードへの強制変更や、ステレオ反転、ログ出力の切り替え、さらにRasp"
-"berry Piのボリュームスライダーやオーディオセレクターなどがあります。"
+"Sonic Piには変更可能な設定がたくさんあり、*Prefs*ボタンを切り替えることでアクセスできます。このボタンにより、環境設定パネルの表示/非表示を"
+"切り替えることができます。設定の例としては、モノラルモードへの変更や、ステレオ反転、ログ出力の切り替え、さらにRaspberry "
+"Piのボリュームスライダーやオーディオセレクターなどがあります。"
 
 #: 01.2-Exploring-the-Interface.md:63
 msgid "F. Log Viewer"
@@ -498,18 +496,18 @@ msgid ""
 " you to draw pretty pictures with sound (https://en.wikipedia.org/wiki/Lissajo"
 "us_curve)."
 msgstr ""
-"スコープビューアは、あなたの聞いている音を見ることを可能にします。ノコギリ波がのこぎりのようだったり、単純なビープ音が正弦波であることを簡単に見ることが出来"
-"ます。また、うるさい音と静かな音の違いを線の大きさで見ることも可能です。Sonic Piには、3つのスコープがあります。デフォルトは左右のチャネルを混ぜあわ"
-"せたモノラルスコープです。左右のチャネルを別々のスコープで描画するステレオスコープがあります。最後に、左右のチャネルの位相の関係を描画するリサジュースコープ"
-"があります。（https://ja.wikipedia.org/wiki/%E3%83%AA%E3%82%B5%E3%82%B8%E3%83%A5%E3%8"
-"3%BC%E5%9B%B3%E5%BD%A2）"
+"スコープビューアは、あなたの聞いている音を見ることを可能にします。ノコギリ波がのこぎりのようだったり、単純なビープ音が正弦波であることを簡単に見ることが出"
+"来ます。また、うるさい音と静かな音の違いを線の大きさで見ることも可能です。Sonic Piには、3つのスコープがあります。デフォルトは左右のチャネルを混ぜ"
+"あわせたモノラルスコープです。左右のチャネルを別々のスコープで描画するステレオスコープがあります。最後に、左右のチャネルの位相の関係を描画する[リサジュー"
+"ス曲線](https://ja.wikipedia.org/wiki/"
+"%E3%83%AA%E3%82%B5%E3%82%B8%E3%83%A5%E3%83%BC%E5%9B%B3%E5%BD%A2)スコープがあります。"
 
 #: 01.2-Exploring-the-Interface.md:93
-#, fuzzy
 msgid "I. Cue Viewer"
-msgstr "F. ログビューア"
+msgstr "F. キュービューア"
 
 #: 01.2-Exploring-the-Interface.md:95
+#, fuzzy
 msgid ""
 "All internal and external events (called cues in Sonic Pi) are automatically l"
 "ogged in the Cue Viewer. For example, if you have a MIDI controller connected "
@@ -526,6 +524,13 @@ msgid ""
 "ng happening. This is covered in more detail in Sections 10 to 12 of this tuto"
 "rial."
 msgstr ""
+"すべての内部および外部のイベント（Sonic Piではキューと呼ばれます）は、キュービューアーに自動的に記録されます。たとえば、MIDIコントローラーが接"
+"続された状態でボタンを押すと、コントローラーの名前からなる新しいキューイベントがキュービューアーに表示されます。サウンドの作成と生成の基本をマスターすると"
+"、このようなイベントに基づいて、サウンドまたはサウンドのセクション全体をキューに入れたいと思うようになります。キューイベントは、何かが起こったことを示すだ"
+"けです。たとえば、ライブループが回転するたびに、キュービューアに記録されているキューイベントが送信されます。また、接続されているMIDI機器からのMIDI"
+"メッセージや他のプログラムやコンピューターからのOSCメッセージなどの外部イベントもキュービューアーに表示されます。 `cue`関数を使用してキューイベン"
+"トを直接生成することもできます。キュービューアに表示されるものはすべて、何かが発生するようにトリガーするために使用できます。これについては、このチュートリ"
+"アルのセクション10〜12で詳しく説明しています。"
 
 #: 01.3-Learning-through-Play.md:1
 msgid "1.3 Learning through Play"
@@ -687,6 +692,8 @@ msgid ""
 "left hand side) play lower notes and the keys on the higher part of the piano "
 "(the right hand side) play higher notes."
 msgstr ""
+"したがって、数値が小さいほどビープ音のピッチが低くなり、数値が大きいほどビープ音のピッチが高くなります。 "
+"ピアノと同じように、ピアノの下部（左側）のキーは低い音を演奏し、ピアノの上部（右側）のキーは高い音を演奏します。"
 
 #: 02.1-Your-First-Beeps.md:38
 #, fuzzy
@@ -704,8 +711,8 @@ msgid ""
 "ted. All that matters right now is that you know that *low numbers make lower "
 "beeps* and *high numbers make higher beeps*."
 msgstr ""
-"もし、これがあなたにとって何の意味か分からなくても*心配しない*でください。私も始めた時は同じでした。いま重要なことは、*低い数値は低い音*を、*高い数値は"
-"高い音*を生み出す、ということを知っておくことです。"
+"もし、これがあなたにとって何の意味か分からなくても*心配しない*でください。私も始めた時は同じでした。いま重要なことは、*小さい数値は低い音*を、*大きい"
+"数値は高い音*を生み出す、ということを知っておくことです。"
 
 #: 02.1-Your-First-Beeps.md:44 08.2-Chords.md:3
 msgid "Chords"
@@ -1161,7 +1168,6 @@ msgstr "面白い音は、*ノコギリ（saw）波*です。試してみまし�
 
 #: 02.3-Switching-Synths.md:25
 #, no-wrap
-#, fuzzy
 msgid ""
 "use_synth :saw\n"
 "play 38\n"
@@ -1175,8 +1181,7 @@ msgstr ""
 "sleep 0.25\n"
 "play 50\n"
 "sleep 0.25\n"
-"play 62\n"
-"sleep 0.25"
+"play 62"
 
 #: 02.3-Switching-Synths.md:34
 msgid "Let's try another sound - the *prophet*:"
@@ -1184,7 +1189,6 @@ msgstr "他の音*prophet*を試してみましょう。"
 
 #: 02.3-Switching-Synths.md:36
 #, no-wrap
-#, fuzzy
 msgid ""
 "use_synth :prophet\n"
 "play 38\n"
@@ -1198,8 +1202,7 @@ msgstr ""
 "sleep 0.25\n"
 "play 50\n"
 "sleep 0.25\n"
-"play 62\n"
-"sleep 0.25"
+"play 62"
 
 #: 02.3-Switching-Synths.md:45
 msgid "How about combining two sounds. First one after another:"
@@ -1207,7 +1210,6 @@ msgstr "2つを一緒にしたらどうでしょう。一方のあとに、も�
 
 #: 02.3-Switching-Synths.md:47
 #, no-wrap
-#, fuzzy
 msgid ""
 "use_synth :saw\n"
 "play 38\n"
@@ -1223,18 +1225,16 @@ msgstr ""
 "play 50\n"
 "sleep 0.25\n"
 "use_synth :prophet\n"
-"play 57\n"
-"sleep 0.25"
+"play 57"
 
 #: 02.3-Switching-Synths.md:57
 msgid ""
 "Now multiple sounds at the same time (by not sleeping between successive calls"
 " to `play`):"
-msgstr ""
+msgstr "（連続する `play`の間にスリープを入れないことで）同時に複数のサウンドが鳴ります："
 
 #: 02.3-Switching-Synths.md:60
 #, no-wrap
-#, fuzzy
 msgid ""
 "use_synth :tb303\n"
 "play 38\n"
@@ -1245,13 +1245,10 @@ msgid ""
 msgstr ""
 "use_synth :tb303\n"
 "play 38\n"
-"sleep 0.25\n"
 "use_synth :dsaw\n"
 "play 50\n"
-"sleep 0.25\n"
 "use_synth :prophet\n"
-"play 57\n"
-"sleep 0.25"
+"play 57"
 
 #: 02.3-Switching-Synths.md:69
 msgid ""
@@ -1268,14 +1265,13 @@ msgid "Discovering Synths"
 msgstr "シンセを見つける"
 
 #: 02.3-Switching-Synths.md:77
-#, fuzzy
 msgid ""
 "To see which synths Sonic Pi has for you to play with take a look at the Synth"
 "s option in the menu at the bottom of this help screen (between Examples & Fx)"
 ". There are over 20 to choose from. Here are a few of my favourites:"
 msgstr ""
-"Sonic Piにどのようなシンセがあるのか見るには、左端のメニュー（エフェクトの上）にあるシンセ・オプションを見てください。20以上が用意されています。私"
-"のお気に入りを以下に紹介します："
+"Sonic Piにあるシンセを確認するには、このヘルプ画面の下部にあるメニューのシンセ・オプション確認してください（ExamplesとFxの間）。20種類"
+"以上あります。その中から私のお気に入りをいくつか紹介します："
 
 #: 02.3-Switching-Synths.md:81
 msgid "`:prophet`"
@@ -5009,6 +5005,16 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
+"a = (ring 6, 5, 4, 3, 2, 1)\n"
+"live_loop :sorted do\n"
+"  a = a.sort\n"
+"  sleep 0.5\n"
+"  puts \"sorted: \", a\n"
+"end\n"
+"live_loop :shuffled do\n"
+"  a = a.shuffle\n"
+"  sleep 0.5\n"
+"end"
 
 #: 05.6-Variables.md:154
 msgid ""
@@ -5025,6 +5031,12 @@ msgid ""
 " racing to do something different to the same variable and every time round a "
 "different loop 'wins'."
 msgstr ""
+"上の例では変数`a`に数字のリングを割り当て、2つの別々の`live_loop`の中でそれを利用しました。最初のライブループでは0.5秒ごとにリング `("
+"ring 1, 2, 3, 4, 5, 6)`をソートしてログにprint出力しています。コードを実行すれば、printされたリストが*いつもソートされて"
+"いるわけではない*ことがわかるでしょう。もしかすると、リストがソートされていたり、されていなかったりすることにびっくりするかもしれません。これは非決定的挙"
+"動と呼ばれるもので、レースコンディションというやっかいな問題の結果でもあります。その問題の原因は2つ目のライブループもまたlistを操作(この例ではlis"
+"tをシャッフル)していることにあり、リストはprintされる時に、ちょうどソートされた状態であることもあれば、ちょうどシャッフルされた状態であることもある"
+"のです。2つのライブループが同じ変数に対して別々のことをしようと競い合っていて、毎回どちらか異なる方が勝っているということです。"
 
 #: 05.6-Variables.md:168
 msgid ""
@@ -5032,6 +5044,8 @@ msgid ""
 "iple live loops or threads*. For example, the following code will always print"
 " a sorted list as each live loop has its own separate variable:"
 msgstr ""
+"これに対して2つの解決策があります。　1つは、*複数のライブループやスレッドで同じ変数を使わない*ことです。例えば、以下のコードはそれぞれのライブループが"
+"別々の変数を持っているので常にソートされたリストがプリントされます。"
 
 #: 05.6-Variables.md:173
 #, no-wrap
@@ -5048,6 +5062,17 @@ msgid ""
 "  puts \"sorted: \", a\n"
 "end"
 msgstr ""
+"live_loop :shuffled do\n"
+"  a = (ring 6, 5, 4, 3, 2, 1)\n"
+"  a = a.shuffle\n"
+"  sleep 0.5\n"
+"end\n"
+"live_loop :sorted do\n"
+"  a = (ring 6, 5, 4, 3, 2, 1)\n"
+"  a = a.sort\n"
+"  sleep 0.5\n"
+"  puts \"sorted: \", a\n"
+"end"
 
 #: 05.6-Variables.md:188
 msgid ""
@@ -7799,11 +7824,11 @@ msgstr ""
 
 #: 10.1-Set-and-Get.md:11
 msgid "To store information into the Time State we need two things:"
-msgstr ""
+msgstr "Time Stateに情報を格納するためには2つのことが必要です。"
 
 #: 10.1-Set-and-Get.md:13
 msgid "the information we want to store,"
-msgstr ""
+msgstr "格納したい情報と、"
 
 #: 10.1-Set-and-Get.md:14
 msgid "a unique name (key) for the information."
@@ -7814,6 +7839,7 @@ msgid ""
 "For example, we might want to store the number `3000` with the key `:intensity"
 "`. This is possible using the `set` function:"
 msgstr ""
+"例えば、`3000`という数字を`:intensity`というキーで保存したいことがあるかもしれません。 このことは`set`関数によって可能になります。"
 
 #: 10.1-Set-and-Get.md:19
 #, no-wrap
@@ -8127,7 +8153,7 @@ msgstr ""
 msgid ""
 "This will match any Time State event with exactly three path segments, regardl"
 "ess of their names. For example:"
-msgstr ""
+msgstr "このパターンはちょうど3つの区分を持つpathならば, その区分の名前に関わらずどんなTime Stateイベントにもマッチします。 例えば:"
 
 #: 10.3-Pattern-Matching.md:24 10.3-Pattern-Matching.md:46
 #: 10.3-Pattern-Matching.md:68 10.3-Pattern-Matching.md:78
@@ -8152,7 +8178,7 @@ msgstr ""
 msgid ""
 "However, it will *not* match paths with fewer or more path segments. The follo"
 "wing will not match:"
-msgstr ""
+msgstr "しかし,  区分の数が少なかったり多かったりするpathにはマッチしません。 例えば以下のものにはマッチしないでしょう:"
 
 #: 10.3-Pattern-Matching.md:32
 #, fuzzy
@@ -8173,6 +8199,8 @@ msgid ""
 "Each `*` means *any content*. So we could match paths with just one segment wi"
 "th `/*` or paths with five segments with `/*/*/*/*/*`"
 msgstr ""
+"それぞれの`*`は「あらゆるもの」を意味しています。 なので、区分が一つだけのpathには `/*` でマッチでき、5つの区分を持つpathには "
+"`/*/*/*/*/*` でマッチできるのです。"
 
 #: 10.3-Pattern-Matching.md:38
 msgid "Matching partial segments"
@@ -8379,6 +8407,8 @@ msgid ""
 "ttern matching specification which is explained in detail here: http://opensou"
 "ndcontrol.org/spec-1_0"
 msgstr ""
+"気になる人のために説明すると、これらのマッチング規則はこのリンク先に詳しく書かれているOpen Sound Control "
+"パターンマッチング仕様に基づいています: http://opensoundcontrol.org/spec-1_0"
 
 #: 11-MIDI.md:1
 msgid "11 MIDI"
@@ -8438,6 +8468,8 @@ msgid ""
 "into Sonic Pi to control our synths and sounds. Go and grab a MIDI controller "
 "such as a keyboard or control surface and let's get physical!"
 msgstr ""
+"このセクションでは、MIDIコントローラを接続し、シンセや音をコントロールするためにSonic "
+"Piへイベントを送信する方法を学びます。キーボード、またはコントローラを接続して実際に動かしてみましょう！"
 
 #: 11.1-MIDI-In.md:11
 msgid "Connecting a MIDI Controller"

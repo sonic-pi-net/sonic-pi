@@ -229,11 +229,6 @@ module SonicPi
       scsynth_pipe = IO.popen(opts_a)
       @scsynth_pid = scsynth_pipe.pid
 
-      if os == :windows
-        # set priority of supercollider server on Windows to be high
-        `wmic process where processid='#{@scsynth_pid}' CALL setpriority \"high priority\"`
-      end
-
       register_process(@scsynth_pid)
       t1 = Thread.new do
         __system_thread_locals.set_local(:sonic_pi_local_thread_group, :scsynth_log_tracker)
@@ -412,8 +407,10 @@ module SonicPi
         jackCmd="jackd -T -ddummy -r48000 -p1024"
         jack_pid = spawn "exec #{jackCmd}"
         register_process jack_pid
+        jackAlreadyStarted=true
       else
         puts "Jackd already running. Not starting another server..."
+        jackAlreadyStarted=false
       end
 
       block_size = 128
@@ -429,15 +426,21 @@ module SonicPi
 
       boot_and_wait(scsynth_path, scsynth_opts)
 
-      `pactl load-module module-jack-source connect=0 client_name=JACK_to_PulseAudio`
-      `pactl load-module module-loopback source=jack_in`
-      `pactl load-module module-jack-sink channels=2 connect=0 client_name=PulseAudio_to_JACK`
-      `jack_connect PulseAudio_to_JACK:front-left SuperCollider:in_1`
-      `jack_connect PulseAudio_to_JACK:front-right SuperCollider:in_2`
-      `jack_connect SuperCollider:out_1 JACK_to_PulseAudio:front-left`
-      `jack_connect SuperCollider:out_2 JACK_to_PulseAudio:front-right`
-      
-      sleep 3
+      if jackAlreadyStarted 
+        `pactl load-module module-jack-source channels=2 connect=0 client_name=JACK_to_PulseAudio`
+        `pactl load-module module-loopback source=jack_in`
+        `pactl load-module module-jack-sink channels=2 connect=0 client_name=PulseAudio_to_JACK`
+        `jack_connect PulseAudio_to_JACK:front-left SuperCollider:in_1`
+        `jack_connect PulseAudio_to_JACK:front-right SuperCollider:in_2`
+        `jack_connect SuperCollider:out_1 JACK_to_PulseAudio:front-left`
+        `jack_connect SuperCollider:out_2 JACK_to_PulseAudio:front-right`
+      else
+        `jack_connect SuperCollider:out_1 system:playback_1`
+        `jack_connect SuperCollider:out_2 system:playback_2`
+        `jack_connect SuperCollider:in_1 system:capture_1`
+        `jack_connect SuperCollider:in_2 system:capture_2`
+      end
+      sleep 2
     end
 
     def boot_server_linux
@@ -447,12 +450,18 @@ module SonicPi
       #Start Jack if not already running
       if `ps cax | grep jackd`.split(" ").first.nil?
         #Jack not running - start a new instance
+        #First clear up any pulseaudio remains of module-loopback source=jack_in
+        `pactl list short modules |grep source=jack_in| cut -f1 | xargs -L1 pactl unload-module`
+        sleep 0.5
         puts "Jackd not running on system. Starting..."
-        jackCmd = "jackd -R -T -p 32 -d alsa -n 3 -p 2048 -r 44100"
+        jackCmd="jackd -T -ddummy -r48000 -p1024"
+        #jackCmd = "jackd -R -T -p 32 -d alsa -n 3 -p 2048 -r 44100"
         jack_pid = spawn  "exec #{jackCmd}"
         register_process jack_pid
+        jackAlreadyStarted=true
       else
         puts "Jackd already running. Not starting another server..."
+        jackAlreadyStarted=false
       end
 
       local_scsynth_opts = {}
@@ -461,10 +470,21 @@ module SonicPi
 
       boot_and_wait(scsynth_path, scsynth_opts)
 
-      `jack_connect SuperCollider:out_1 system:playback_1`
-      `jack_connect SuperCollider:out_2 system:playback_2`
-      `jack_connect SuperCollider:in_1 system:capture_1`
-      `jack_connect SuperCollider:in_2 system:capture_2`
+      if jackAlreadyStarted
+        `pactl load-module module-jack-source channels=2 connect=0 client_name=JACK_to_PulseAudio`
+        `pactl load-module module-loopback source=jack_in`
+        `pactl load-module module-jack-sink channels=2 connect=0 client_name=PulseAudio_to_JACK`
+        `jack_connect PulseAudio_to_JACK:front-left SuperCollider:in_1`
+        `jack_connect PulseAudio_to_JACK:front-right SuperCollider:in_2`
+        `jack_connect SuperCollider:out_1 JACK_to_PulseAudio:front-left`
+        `jack_connect SuperCollider:out_2 JACK_to_PulseAudio:front-right`
+      else
+        `jack_connect SuperCollider:out_1 system:playback_1`
+        `jack_connect SuperCollider:out_2 system:playback_2`
+        `jack_connect SuperCollider:in_1 system:capture_1`
+        `jack_connect SuperCollider:in_2 system:capture_2`
+      end
+      sleep 1
     end
   end
 end

@@ -1,4 +1,5 @@
 * CHANGES
+* LICENSE
 * MANIFEST
 * Rakefile
 * README
@@ -7,6 +8,8 @@
 * benchmarks/bench_ips_ps.rb
 * example/example_ps.rb
 * lib/sys-proctable.rb
+* lib/sys-top.rb
+* lib/sys/proctable.rb
 * lib/sys/top.rb
 * lib/sys/proctable/version.rb
 * lib/aix/sys/proctable.rb
@@ -15,11 +18,11 @@
 * lib/linux/sys/proctable.rb
 * lib/sunos/sys/proctable.rb
 * lib/windows/sys/proctable.rb
-* test/test_sys_proctable_aix.rb
-* test/test_sys_proctable_all.rb
-* test/test_sys_proctable_darwin.rb
-* test/test_sys_proctable_freebsd.rb
-* test/test_sys_proctable_linux.rb
-* test/test_sys_proctable_sunos.rb
-* test/test_sys_proctable_windows.rb
-* test/test_sys_top.rb
+* spec/sys_proctable_aix_spec.rb
+* spec/sys_proctable_all_spec.rb
+* spec/sys_proctable_darwin_spec.rb
+* spec/sys_proctable_freebsd_spec.rb
+* spec/sys_proctable_linux_spec.rb
+* spec/sys_proctable_sunos_spec.rb
+* spec/sys_proctable_windows_spec.rb
+* spec/sys_top_spec.rb

@@ -11,8 +11,6 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-#set (QT_OLD_API 1)
-
 if(APPLE)
   set(CMAKE_OSX_DEPLOYMENT_TARGET '10.13')
 endif()
@@ -38,4 +36,3 @@ configure_file(${APP_ROOT}/cmake/config.h.cmake ${CMAKE_BINARY_DIR}/config.h)
 add_subdirectory(api)
 add_subdirectory(api-tests)
 add_subdirectory(gui)
-

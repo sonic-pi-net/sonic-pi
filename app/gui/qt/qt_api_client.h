@@ -1,6 +1,6 @@
 #pragma once
 
-#ifndef QT_OLD_API
+
 #include <array>
 #include <QObject>
 #include <QString>
@@ -29,7 +29,7 @@ public:
     ~QtAPIClient();
 
     // IAPIClient
-    // This is not thread safe; each of these calls is marshalled onto their 'Gui' 
+    // This is not thread safe; each of these calls is marshalled onto their 'Gui'
     // equivalents below, which are then on the Gui thread.
     virtual void Report(const SonicPi::MessageInfo& message) override;
     virtual void Cue(const SonicPi::CueInfo& info) override;
@@ -57,5 +57,3 @@ private:
 };
 
 } // namespace SonicPi
-
-#endif

@@ -202,5 +202,9 @@ module SonicPi
       assert_equal(3, r.tick)
       assert_equal(3, r.tick)
     end
+
+    def test_index_empty_ring
+      assert_nil(ring()[0])
+    end
   end
 end

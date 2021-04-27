@@ -10,12 +10,12 @@ require_relative 'sys_proctable_all_spec'
 
 describe Sys::ProcTable do
   let(:fields){ %w[
-      cmdline cwd exe pid name uid euid gid egid comm state ppid pgrp
-      session tty_num tpgid flags minflt cminflt majflt cmajflt utime
-      stime cutime cstime priority nice itrealvalue starttime vsize
-      rss rlim startcode endcode startstack kstkesp kstkeip signal blocked
-      sigignore sigcatch wchan nswap cnswap exit_signal processor environ
-      pctcpu pctmem nlwp cgroup smaps
+      cmdline cwd environ exe fd root pid name uid euid gid egid comm state ppid pgrp
+      session tty_nr tpgid flags minflt cminflt majflt cmajflt utime
+      stime cutime cstime priority nice num_threads itrealvalue starttime vsize
+      rss rlim rsslim startcode endcode startstack kstkesp kstkeip signal blocked
+      sigignore sigcatch wchan nswap cnswap exit_signal processor rt_priority
+      policy delayacct_blkio_ticks guest_time cguest_time pctcpu pctmem nlwp cgroup smaps
     ]
   }
 
@@ -147,6 +147,11 @@ describe Sys::ProcTable do
       expect(subject.nice).to be_kind_of(Numeric)
     end
 
+    it "contains a num_threads member and returns the expected value" do
+      expect(subject).to respond_to(:num_threads)
+      expect(subject.num_threads).to be_kind_of(Numeric)
+    end
+
     it "contains a itrealvalue member and returns the expected value" do
       expect(subject).to respond_to(:itrealvalue)
       expect(subject.itrealvalue).to be_kind_of(Numeric)
@@ -167,9 +172,10 @@ describe Sys::ProcTable do
       expect(subject.rss).to be_kind_of(Numeric)
     end
 
-    it "contains an rlim member and returns the expected value" do
-      expect(subject).to respond_to(:rlim)
-      expect(subject.rlim).to be_kind_of(Numeric)
+    it "contains an rsslim member and returns the expected value" do
+      expect(subject).to respond_to(:rsslim)
+      expect(subject.rsslim).to be_kind_of(Numeric)
+      expect(subject.rsslim).to eq(subject.rlim)
     end
 
     it "contains an startcode member and returns the expected value" do
@@ -252,6 +258,21 @@ describe Sys::ProcTable do
       expect(subject.policy).to be_kind_of(Integer)
     end
 
+    it "contains a delayacct_blkio_ticks member and returns the expected value" do
+      expect(subject).to respond_to(:delayacct_blkio_ticks)
+      expect(subject.delayacct_blkio_ticks).to be_kind_of(Integer)
+    end
+
+    it "contains a guest_time member and returns the expected value" do
+      expect(subject).to respond_to(:guest_time)
+      expect(subject.guest_time).to be_kind_of(Integer)
+    end
+
+    it "contains a cguest_time member and returns the expected value" do
+      expect(subject).to respond_to(:cguest_time)
+      expect(subject.cguest_time).to be_kind_of(Integer)
+    end
+
     it "contains a name member and returns the expected value" do
       expect(subject).to respond_to(:name)
       expect(subject.name).to be_kind_of(String)
@@ -305,6 +326,14 @@ describe Sys::ProcTable do
     it "contains a smaps member and returns the expected value" do
       expect(subject).to respond_to(:cgroup)
       expect(subject.smaps).to be_kind_of(Sys::ProcTable::Smaps)
+    end
+  end
+
+  context "fields" do
+    it "has a fields method that returns the expected results" do
+      expect(described_class).to respond_to(:fields)
+      expect(described_class.fields).to be_kind_of(Array)
+      expect(described_class.fields).to match_array(fields)
     end
   end
 end
