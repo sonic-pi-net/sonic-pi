@@ -600,9 +600,8 @@ void SettingsWidget::updateUILanguage(int index) {
           emit uiLanguageChanged(piSettings->language);
 
           language_details_label->setText(
-            tr("<b>The new language will be applied when you next start Sonic Pi.</b>")
-            + " "
-            + tr("Current UI language: %1").arg(sonicPii18n->getNativeLanguageName(sonicPii18n->currentlyLoadedLanguage()))
+            tr("<b>The new language will be applied when you next start Sonic Pi.</b><br>")
+            + tr("Current UI language: %1\n").arg(sonicPii18n->getNativeLanguageName(sonicPii18n->currentlyLoadedLanguage()))
           );
 
           QMessageBox restartMsgBox(this);
@@ -807,11 +806,17 @@ void SettingsWidget::updateSettings() {
 
 void SettingsWidget::settingsChanged() {
     language_combo->setCurrentIndex(available_languages.indexOf(piSettings->language));
+    QString language_detail_text = "";
+    if (!i18n) {
+      language_detail_text += "<b>Failed to load language translation. Using English (UK).</b>";
+    }
     if (piSettings->language == "system_language") {
-      language_details_label->setText(
-        tr("System languages: %1").arg(sonicPii18n->getNativeLanguageNames(sonicPii18n->getSystemLanguages()).join(", ")) + "\n" + tr("Current UI language: %1").arg(sonicPii18n->getNativeLanguageName(sonicPii18n->currentlyLoadedLanguage()))
+      language_detail_text += (
+        tr("System languages: %1\n").arg(sonicPii18n->getNativeLanguageNames(sonicPii18n->getSystemLanguages()).join(", "))
+        + tr("Current UI language: %1\n").arg(sonicPii18n->getNativeLanguageName(sonicPii18n->currentlyLoadedLanguage()))
       );
     }
+    language_details_label->setText(language_detail_text);
 
     mixer_invert_stereo->setChecked(piSettings->mixer_invert_stereo);
     mixer_force_mono->setChecked(piSettings->mixer_force_mono);

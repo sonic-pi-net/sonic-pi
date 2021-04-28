@@ -46,7 +46,7 @@ QString SonicPii18n::determineUILanguage(QString lang_pref) {
     QStringList preferred_languages = locale.uiLanguages();
     // If the setting is set to system_language...
       // ...run through the list of preferred languages
-    std::cout << "Looping through preferred ui languages" << std::endl;
+    std::cout << "[GUI] [i18n] - Looping through preferred ui languages" << std::endl;
 
     QString l;
     for (int i = 0; i < preferred_languages.length(); i += 1) {
@@ -68,7 +68,7 @@ QString SonicPii18n::determineUILanguage(QString lang_pref) {
 QStringList SonicPii18n::findSystemLanguages() {
   QLocale locale;
   QStringList preferred_languages = locale.uiLanguages();
-  std::cout << "Looping through preferred ui languages" << std::endl;
+  std::cout << "[GUI] [i18n] - Looping through preferred ui languages" << std::endl;
   for (int i = 0; i < preferred_languages.length(); i += 1) {
     preferred_languages[i] = preferred_languages[i].replace("-", "_");
   }
@@ -108,12 +108,12 @@ bool SonicPii18n::loadTranslations(QString lang) {
   app->removeTranslator(&translator);
   app->removeTranslator(&qtTranslator);
 
-  std::cout << "Loading translations for " << language.toUtf8().constData() << std::endl;
+  std::cout << "[GUI] [i18n] - Loading translations for " << language.toUtf8().constData() << std::endl;
 
   i18n = translator.load("sonic-pi_" + language, ":/lang/") || language == "en_GB" || language == "en" || language == "C";
   if (!i18n) {
-    std::cout << "Error: Failed to load language translation for " << language.toUtf8().constData() << std::endl;
-    language = "en";
+    std::cout << "[GUI] [i18n] - Error: Failed to load language translation for " << language.toUtf8().constData() << std::endl;
+    language = "en_GB";
   }
   app->installTranslator(&translator);
 
@@ -153,14 +153,14 @@ QString SonicPii18n::getNativeLanguageName(QString lang) {
     // language found
     return native_language_names[lang];
   } else {
-    std::cout << "Warning: Predefined language name not found: '" << lang.toUtf8().constData() << "'" << std::endl;
+    std::cout << "[GUI] [i18n] - Warning: Predefined language name not found: '" << lang.toUtf8().constData() << "'" << std::endl;
     // Try using QLocale to find the native language name
     QLocale locale(lang);
     QString name = locale.nativeLanguageName();
     if (name != "C" && name != "") {
       return locale.nativeLanguageName();
     } else {
-      std::cout << "Warning: Invalid language code: '" << lang.toUtf8().constData() << "'" << std::endl;
+      std::cout << "[GUI] [i18n] - Warning: Invalid language code: '" << lang.toUtf8().constData() << "'" << std::endl;
       return lang;
     }
   }

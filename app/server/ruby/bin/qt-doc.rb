@@ -41,12 +41,14 @@ include SonicPi::Util
   "da" => "Dansk", # Danish
   "de" => "Deutsch", # German
   "el" => "ελληνικά", # Greek
+  "en" => "English", # English
   "en_AU" => "English (Australian)", # English (Australian)
   "en_GB" => "English (UK)", # English (UK) - default language
   "en_US" => "English (US)", # English (US)
   "eo" => "Esperanto", # Esperanto
   "es" => "Español", # Spanish
   "et" => "Eesti keel", # Estonian
+  "eu" => "Euskara", # Basque
   "fa" => "فارسی", # Persian
   "fi" => "Suomi", # Finnish
   "fr" => "Français", # French
