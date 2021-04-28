@@ -52,7 +52,7 @@ unless RBeautify::Language.language(:ruby)
                    :nest_except => [:double_quote, :single_quote, :regex, :back_tick])
 
   ruby.add_matcher(:standard,
-                   /(#{start_statement_boundary}(module|class|def))/,
+                   /(#{start_statement_boundary}(module|class|def)\b)/,
                    /(((^|;|\s)end)|#{continue_statement_boundary}(rescue|ensure))\b/,
                    :nest_except => [:double_quote, :regex, :backtick])
 
