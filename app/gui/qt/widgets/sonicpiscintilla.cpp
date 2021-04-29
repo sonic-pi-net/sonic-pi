@@ -23,6 +23,7 @@
 #include <Qsci/qscicommandset.h>
 #include <Qsci/qscilexer.h>
 #include <QCheckBox>
+#include <QRegularExpression>
 
 SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme, QString fileName, bool autoIndent)
   : QsciScintilla()
@@ -226,7 +227,7 @@ void SonicPiScintilla::cutLineFromPoint()
   int linenum, index;
   getCursorPosition(&linenum, &index);
 
-  if (text(linenum).mid(index).contains(QRegExp("^\\s*\\n")))
+  if (text(linenum).mid(index).contains(QRegularExpression("^\\s*\\n")))
   {
     setSelection(linenum, index, linenum + 1, 0);
     SendScintilla(SCI_CUT);
@@ -452,7 +453,7 @@ QStringList SonicPiScintilla::apiContext(int pos, int &context_start,
   getCursorPosition(&linenum, &cursor);
   QString line = text(linenum);
   line.truncate(cursor);
-  context = line.split(QRegExp("[ ,(){}]+"));
+  context = line.split(QRegularExpression("[ ,(){}]+"));
 
   context_start = 0;
   last_word_start = pos;

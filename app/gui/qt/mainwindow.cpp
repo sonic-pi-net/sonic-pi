@@ -723,7 +723,7 @@ void MainWindow::handleCustomUrl(const QUrl& url)
     if (url.host() == "play-sample")
     {
         QString sample = url.path();
-        sample.remove(QRegExp("^/"));
+        sample.remove(QRegularExpression("^/"));
         QString code = "use_debug false\n"
                        "use_real_time\n"
                        "sample :"
@@ -1349,7 +1349,7 @@ bool MainWindow::saveAs()
     {
         QFileInfo fi = fileName;
         gui_settings->setValue("lastDir", fi.dir().absolutePath());
-        if (!fileName.contains(QRegExp("\\.[a-z]+$")))
+        if (!fileName.contains(QRegularExpression("\\.[a-z]+$")))
         {
             fileName = fileName + ".txt";
         }

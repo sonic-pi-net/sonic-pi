@@ -99,7 +99,7 @@ void SonicPiLog::handleMultiMessage(SonicPiLog::MultiMessage mm)
       int msg_type = mm.messages[i].msg_type;
       std::string s = mm.messages[i].s;
 
-      QStringList lines = QString::fromUtf8(s.c_str()).split(QRegExp("\\n"));
+      QStringList lines = QString::fromUtf8(s.c_str()).split(QRegularExpression("\\n"));
 
       if (s.empty()) {
           ss.append(QString::fromUtf8(" │"));
