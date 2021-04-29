@@ -3685,7 +3685,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
           elsif onset_idx.is_a? Proc
             onset = onset_idx.call(onsets)
             onset = onset[0] if is_list_like?(onset)
-            raise "Result of onset: proc should be a Map such as {:start => 0, :finish => 0.125}. Got: #{res.inspect}" unless onset.respond_to?(:has_key?) && onset[:start].is_a?(Numeric) && onset[:finish].is_a?(Numeric)
+            raise "Result of onset: proc should be a Map such as {:start => 0, :finish => 0.125}. Got: #{onset.inspect}" unless onset.respond_to?(:has_key?) && onset[:start].is_a?(Numeric) && onset[:finish].is_a?(Numeric)
           else
             raise "Unknown sample onset: value. Expected a number or a proc. Got #{onset_idx.inspect}"
           end
