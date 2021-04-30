@@ -1,4 +1,5 @@
 # History
+* [v3.4.0 'Beta'](#v3.4.0), To be released...
 * [v3.3.1 'Beamer'](#v3.3.1), 1st Feb, 2021
 * [v3.3 'Beam'](#v3.3), 28th Jan, 2021
 * [v3.2.2 'Tau3'](#v3.2.2), 5th April, 2020
@@ -22,6 +23,48 @@
 * [v2.1 'Core'](#v2.1), 21st Nov, 2014
 * [v2.0.1](#v2.0.1), 9th Sept, 2014
 * [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
+
+<a name="v3.4.0"></a>
+
+## Version 3.4.0 - 'Beta'
+To be released...
+<!-- [(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v3.4.0): -->
+
+
+### Breaking Changes
+* Previously it was possible that the `onset:` option for `sample`
+  silently ignored the last onset of a given sample. This has now been
+  fixed. Some samples may therefore have an additional onset index which
+  won't affect any code using earlier indexes but will affect code which
+  uses indexes larger than the number of onsets (and therefore relying
+  on the index wrapping behaviour).
+
+
+### New 
+* New fn `current_random_source` which returns the current random number source kind (see `use_random_source`).
+
+
+### Synths & FX
+
+
+### GUI
+* Teach autocompletion abotu random source choices: `:white, `:light_pink`, `:pink`, etc.
+* Improve syntax indentation.
+* Improvements for Dutch, Estonian, German, Italian, Japanese, Korean, Polish, Portuguese (Brazil), Sinhala, Spanish
+* Introduced new translations for Basque.
+
+
+### Improvements
+* Many minor documentation fixes and improvements.
+* When running on Rasperry Pi pulse audio is now connected to by default.
+
+
+### Bugfixes
+* Improve robustness of outgoing OSC messages in the case where an outgoing hostname is malformed and can't be resolved. 
+* Synths `dull_bell` and `pretty_bell` now properly free themselves when they finish playing which now means the resources they consumed are also properly freed. 
+* Indexing into an empty ring no longer causes a divide by zero error.
+* No longer attempt to increase audio server prioirty on Windows which causes booting errors in some cases.
+
 
 <a name="v3.3.1"></a>
 
