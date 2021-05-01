@@ -333,9 +333,6 @@ signals:
         QSettings *gui_settings;
         SonicPiSettings *piSettings;
 
-        int server_osc_cues_port;
-        int scsynth_port;
-
         bool focusMode;
         QCheckBox *startup_error_reported;
         bool is_recording;

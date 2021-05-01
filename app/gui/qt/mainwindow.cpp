@@ -137,6 +137,7 @@ MainWindow::MainWindow(QApplication& app, bool i18n, QSplashScreen* splash)
     bool startupOK = false;
 
     m_spAPI->Init(rootPath().toStdString());
+    guiID = QString::fromStdString(m_spAPI->GetGuid());
 
     std::cout << "[GUI] - hiding main window" << std::endl;
     hide();
@@ -170,9 +171,6 @@ MainWindow::MainWindow(QApplication& app, bool i18n, QSplashScreen* splash)
     QThreadPool::globalInstance()->setMaxThreadCount(3);
 
     startupOK = m_spAPI->WaitForServer();
-    guiID = QString::fromStdString(m_spAPI->GetGuid());
-    server_osc_cues_port = m_spAPI->GetPort(SonicPiPortId::server_osc_cues);
-    scsynth_port = m_spAPI->GetPort(SonicPiPortId::scsynth);
 
     if (startupOK)
     {
@@ -350,7 +348,7 @@ void MainWindow::setupWindowStructure()
     prefsWidget->setAllowedAreas(Qt::RightDockWidgetArea);
     prefsWidget->setFeatures(QDockWidget::DockWidgetClosable);
 
-    settingsWidget = new SettingsWidget(server_osc_cues_port, piSettings, this);
+    settingsWidget = new SettingsWidget(m_spAPI->GetPort(SonicPiPortId::server_osc_cues), piSettings, this);
     connect(settingsWidget, SIGNAL(volumeChanged(int)), this, SLOT(changeSystemPreAmp(int)));
     connect(settingsWidget, SIGNAL(mixerSettingsChanged()), this, SLOT(mixerSettingsChanged()));
     connect(settingsWidget, SIGNAL(midiSettingsChanged()), this, SLOT(toggleMidi()));
@@ -2783,7 +2781,7 @@ void MainWindow::createToolBar()
     }
 
     QMenu* incomingOSCPortMenu = ioMenu->addMenu(tr("Incoming OSC Port"));
-    incomingOSCPortMenu->addAction(QString::number(server_osc_cues_port));
+    incomingOSCPortMenu->addAction(QString::number(m_spAPI->GetPort(SonicPiPortId::server_osc_cues)));
 
     viewMenu = menuBar()->addMenu(tr("View"));
 
