@@ -48,7 +48,7 @@ To be released...
 
 
 ### GUI
-* Teach autocompletion abotu random source choices: `:white, `:light_pink`, `:pink`, etc.
+* Teach autocompletion about random source choices: `:white`, `:light_pink`, `:pink`, etc.
 * Improve syntax indentation.
 * Improvements for Dutch, Estonian, German, Italian, Japanese, Korean, Polish, Portuguese (Brazil), Sinhala, Spanish
 * Introduced new translations for Basque.
@@ -56,14 +56,14 @@ To be released...
 
 ### Improvements
 * Many minor documentation fixes and improvements.
-* When running on Rasperry Pi pulse audio is now connected to by default.
+* When running on Raspberry Pi, Sonic Pi connects to PulseAudio by default.
 
 
 ### Bugfixes
 * Improve robustness of outgoing OSC messages in the case where an outgoing hostname is malformed and can't be resolved. 
-* Synths `dull_bell` and `pretty_bell` now properly free themselves when they finish playing which now means the resources they consumed are also properly freed. 
+* Synths `:dull_bell` and `:pretty_bell` now properly free themselves when they finish playing, which now means the resources they consumed are also properly freed. 
 * Indexing into an empty ring no longer causes a divide by zero error.
-* No longer attempt to increase audio server prioirty on Windows which causes booting errors in some cases.
+* No longer attempt to increase audio server priority on Windows which causes booting errors in some cases.
 
 
 <a name="v3.3.1"></a>
