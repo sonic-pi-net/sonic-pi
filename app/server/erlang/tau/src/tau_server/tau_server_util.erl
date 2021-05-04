@@ -5,7 +5,7 @@
 %% License: https://github.com/samaaron/sonic-pi/blob/main/LICENSE.md
 %% ++
 
--module(pi_server_util).
+-module(tau_server_util).
 
 -export([log/1, log/2, log/3, debug/2, debug/3, debug/4]).
 

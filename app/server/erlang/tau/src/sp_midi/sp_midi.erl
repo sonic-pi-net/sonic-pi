@@ -3,7 +3,7 @@
         set_this_pid/1, set_log_level/1, get_current_time_microseconds/0]).
 -on_load(init/0).
 
--define(APPLICATION, sonic_pi_server).
+-define(APPLICATION, tau).
 -define(LIBNAME, "libsp_midi").
 
 init() ->

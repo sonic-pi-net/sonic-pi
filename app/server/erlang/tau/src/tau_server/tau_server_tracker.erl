@@ -6,7 +6,7 @@
 %% License: https://github.com/samaaron/sonic-pi/blob/main/LICENSE.md
 %% ++
 
--module(pi_server_tracker).
+-module(tau_server_tracker).
 
 %% API
 -export([start_link/1, track/3, forget/2, flush/2]).
@@ -15,7 +15,7 @@
 -export([loop/2]).
 
 
--import(pi_server_util,
+-import(tau_server_util,
         [debug/2, debug/3]).
 
 

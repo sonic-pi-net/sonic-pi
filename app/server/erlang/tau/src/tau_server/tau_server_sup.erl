@@ -1,6 +1,6 @@
 %% Application supervision tree
 
--module(pi_server_sup).
+-module(tau_server_sup).
 
 -behaviour(supervisor).
 
@@ -11,13 +11,13 @@
 -export([init/1]).
 
 
--define(APPLICATION, sonic_pi_server).
+-define(APPLICATION, tau).
 
 -define(SERVER, ?MODULE).
 
 
 %% ------------------------------------------------------------------------
-%% API for use from the application module (pi_server_app.erl)
+%% API for use from the application module (tau_server_app.erl)
 
 start_link() ->
     Name = ?SERVER,
@@ -33,8 +33,8 @@ start_link() ->
 %% would prevent the application from even being started.
 
 init(_Args) ->
-    CueServer = pi_server_cue:server_name(),
-    MIDIServer = pi_server_midi:server_name(),
+    CueServer = tau_server_cue:server_name(),
+    MIDIServer = tau_server_midi:server_name(),
 
     %% Use rest_for_one since the api server requires the cue server.
     %% Try to keep going even if we restart up to 50 times per 30 seconds.
@@ -44,14 +44,14 @@ init(_Args) ->
 
     %% Specifies the worker processes to run under the supervisor
     ChildSpecs = [
-                  #{id => pi_server_cue,
-                    start => {pi_server_cue, start_link, []}
+                  #{id => tau_server_cue,
+                    start => {tau_server_cue, start_link, []}
                    },
-                  #{id => pi_server_api,
-                    start => {pi_server_api, start_link, [CueServer, MIDIServer]}
+                  #{id => tau_server_api,
+                    start => {tau_server_api, start_link, [CueServer, MIDIServer]}
                    },
-                  #{id => pi_server_midi,
-                    start => {pi_server_midi, start_link, [CueServer]}
+                  #{id => tau_server_midi,
+                    start => {tau_server_midi, start_link, [CueServer]}
                    }
                  ],
 

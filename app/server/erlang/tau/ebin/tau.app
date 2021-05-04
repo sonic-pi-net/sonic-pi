@@ -1,14 +1,14 @@
 %% This is an -*- erlang -*- file.
-{application, sonic_pi_server,
- [{description, "Sonic Pi Server"},
+{application, tau,
+ [{description, "Sonic Pi Tau Server"},
   {vsn, ""},
-  {modules, [pi_server,
-             pi_server_app,
-             pi_server_sup,
+  {modules, [tau_server,
+             tau_server_app,
+             tau_server_sup,
              osc
             ]},
   {registered,[]},
-  {mod,{pi_server_app,[]}},
+  {mod,{tau_server_app,[]}},
   {env, [{enabled, true},
          {midi_enabled, true},
          {in_port, 4560},    % sane defaults for the ports

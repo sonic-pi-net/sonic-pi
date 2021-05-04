@@ -12,7 +12,7 @@
 %% notice is included.
 %% ++
 
--module(pi_server_cue).
+-module(tau_server_cue).
 
 -export([start_link/0, server_name/0]).
 
@@ -24,10 +24,10 @@
 -export([system_continue/3, system_terminate/4, system_code_change/4,
          system_get_state/1, system_replace_state/2]).
 
--define(APPLICATION, sonic_pi_server).
+-define(APPLICATION, tau).
 -define(SERVER, ?MODULE).
 
--import(pi_server_util,
+-import(tau_server_util,
         [log/1, log/2, debug/2, debug/3, debug/4]).
 
 
@@ -50,6 +50,7 @@ init(Parent) ->
     io:format("~n"
               "+--------------------------------------+~n"
               "    This is the Sonic Pi OSC Server     ~n"
+              "             == Tau ==                  ~n"
               "       Powered by Erlang ~s             ~n"
               "                                        ~n"
               "        Incoming OSC on port ~p         ~n"
@@ -175,7 +176,7 @@ loop(State) ->
 
         {timeout, Timer, {forward, Time, Data, Tracker}} ->
             send_forward(maps:get(in_socket, State), Time, Data),
-            pi_server_tracker:forget(Timer, Tracker),
+            tau_server_tracker:forget(Timer, Tracker),
             ?MODULE:loop(State);
 
         {forward, Time, Data} ->

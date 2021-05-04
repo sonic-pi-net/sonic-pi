@@ -1,4 +1,4 @@
--module(pi_server).
+-module(tau_server).
 %% --
 %% This file is part of Sonic Pi: http://sonic-pi.net
 %% Full project source: https://github.com/samaaron/sonic-pi
@@ -14,13 +14,13 @@
 
 -export([start/0]).
 
--define(APPLICATION, sonic_pi_server).
+-define(APPLICATION, tau).
 
 
 %% API for launching as an OTP application from the command line
-%% "erl -pi_server api_port $API_PORT in_port $IN_PORT cue_port $CUE_PORT \
-%%      -s pi_server start"
+%% "erl -tau_server api_port $API_PORT in_port $IN_PORT cue_port $CUE_PORT \
+%%      -s tau_server start"
 start() ->
-    %% note that this will dispatch using the 'mod' entry in pi_server.app
+    %% note that this will dispatch using the 'mod' entry in tau_server.app
     {ok, _} = application:ensure_all_started(?APPLICATION),
     ok.

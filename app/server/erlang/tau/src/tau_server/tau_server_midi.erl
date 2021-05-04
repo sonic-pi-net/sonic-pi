@@ -12,7 +12,7 @@
 %% notice is included.
 %% ++
 
--module(pi_server_midi).
+-module(tau_server_midi).
 
 -export([start_link/1, server_name/0]).
 
@@ -23,10 +23,10 @@
 -export([system_continue/3, system_terminate/4, system_code_change/4,
          system_get_state/1, system_replace_state/2]).
 
--define(APPLICATION, sonic_pi_server).
+-define(APPLICATION, tau_server).
 -define(SERVER, ?MODULE).
 
--import(pi_server_util,
+-import(tau_server_util,
         [log/1, log/2, debug/2, debug/3, debug/4]).
 
 server_name() ->
@@ -90,14 +90,14 @@ loop(State) ->
             ?MODULE:loop(State);
         {timeout, Timer, {send, Time, Data, Tracker}} ->
             midi_send(Time, Data),
-            pi_server_tracker:forget(Timer, Tracker),
+            tau_server_tracker:forget(Timer, Tracker),
             ?MODULE:loop(State);
         {flush} ->
             sp_midi:midi_flush(),
             debug("Flushing MIDI", []),
             ?MODULE:loop(State);
         {midi_in, PortName, <<Bin/binary>>} ->
-            case pi_server_midi_in:info(PortName, Bin) of
+            case tau_server_midi_in:info(PortName, Bin) of
                 {tau, error, _Reason, _Source, _Args}=Event ->
                     log(mk_tau_str(Event));
                 {tau, midi, active_sensing, _, _} ->
@@ -145,7 +145,7 @@ update_midi_ports(State) ->
 
 midi_send(_Time, <<Data/binary>>) ->
     debug("sending MIDI: ~p~n", [Data]),
-    case pi_server_midi_out:encode_midi_from_osc(Data) of
+    case tau_server_midi_out:encode_midi_from_osc(Data) of
         {ok, multi_chan, _, PortName, MIDIBinaries} ->
             [sp_midi:midi_send(PortName, MB) || MB <- MIDIBinaries];
         {ok,  _, PortName, MIDIBinary} ->

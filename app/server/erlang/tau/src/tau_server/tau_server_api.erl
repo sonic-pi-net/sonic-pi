@@ -12,7 +12,7 @@
 %% notice is included.
 %% ++
 
--module(pi_server_api).
+-module(tau_server_api).
 
 -export([start_link/2]).
 
@@ -23,14 +23,14 @@
 -export([system_continue/3, system_terminate/4, system_code_change/4,
          system_get_state/1, system_replace_state/2]).
 
--define(APPLICATION, sonic_pi_server).
+-define(APPLICATION, tau).
 -define(SERVER, ?MODULE).
 
 %% Bundles whose delay time is not greater than NODELAY_LIMIT
 %% are forwarded directly without starting a timer.
 -define(NODELAY_LIMIT, 1).
 
--import(pi_server_util,
+-import(tau_server_util,
         [log/1, log/2, debug/2, debug/3]).
 
 
@@ -123,7 +123,7 @@ loop(State) ->
                 {cmd, ["/flush", Tag]=Cmd} ->
                     debug_cmd(Cmd),
                     {Tracker, NewState} = tracker_pid(Tag, State),
-                    pi_server_tracker:flush(all, Tracker),
+                    tau_server_tracker:flush(all, Tracker),
                     ?MODULE:loop(NewState);
                 {cmd, ["/internal-cue-port", Flag]=Cmd} ->
                     debug_cmd(Cmd),
@@ -201,7 +201,7 @@ schedule_midi(Tag, Time, Data, State) ->
             %% at that time, the message will be quietly dropped
             Timer = erlang:start_timer(MsDelay, MIDIServer, Msg),
             debug(2, "start (MIDI) timer of ~w ms for time ~f~n", [MsDelay, Time]),
-            pi_server_tracker:track(Timer, Time, Tracker);
+            tau_server_tracker:track(Timer, Time, Tracker);
        true ->
             MIDIServer ! {send, Time, Data},
             debug(2, "directly forward (MIDI) message for delay ~f~n", [Delay])
@@ -223,7 +223,7 @@ schedule_cmd(Tag, Time, Host, Port, OSC, State) ->
             CueServer = maps:get(cue_server, State),
             Timer = erlang:start_timer(MsDelay, CueServer, Msg),
             debug(2, "start timer of ~w ms for time ~f~n", [MsDelay, Time]),
-            pi_server_tracker:track(Timer, Time, Tracker);
+            tau_server_tracker:track(Timer, Time, Tracker);
        true ->
             send_to_cue({forward, Time, Data}, NewState),
             debug(2, "directly forward message for delay ~f~n", [Delay])
@@ -237,7 +237,7 @@ tracker_pid(Tag, State) ->
         {ok, Pid} ->
             {Pid, State};
         error ->
-            Pid = pi_server_tracker:start_link(Tag),
+            Pid = tau_server_tracker:start_link(Tag),
             debug("start new tracker process for tag \"~s\"~n", [Tag]),
             {Pid, State#{tag_map := maps:put(Tag, Pid, TagMap)}}
     end.

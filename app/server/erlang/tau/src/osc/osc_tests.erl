@@ -15,7 +15,7 @@
 
 -compile(export_all).
 
--define(APPLICATION, sonic_pi_server).
+-define(APPLICATION, tau).
 
 %% TODO: make eunit tests instead of manual test functions
 
@@ -43,8 +43,8 @@ test3() ->
     APIPort = application:get_env(?APPLICATION, api_port, undefined),
     OSCInPort = application:get_env(?APPLICATION, in_port, undefined),
     FwPort = 6000,
-    lists:member(pi_server_api, registered()) orelse
-        pi_server:start(),
+    lists:member(tau_server_api, registered()) orelse
+        tau_server:start(),
     SendLater = ["/sendmidi", 12, 34, 56],
     EncodedLater = osc:encode(SendLater),
     {ok, Socket} = gen_udp:open(FwPort, [binary, {ip, loopback}]),

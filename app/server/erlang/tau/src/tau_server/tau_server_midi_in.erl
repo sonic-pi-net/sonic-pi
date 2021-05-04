@@ -12,7 +12,7 @@
 %% notice is included.
 %% ++
 
--module(pi_server_midi_in).
+-module(tau_server_midi_in).
 
 -export([info/2, parse/1]).
 

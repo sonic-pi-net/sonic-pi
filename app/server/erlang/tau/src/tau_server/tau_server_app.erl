@@ -1,6 +1,6 @@
-%% Application startup - entry point from pi_server.app
+%% Application startup - entry point from tau_server.app
 
--module(pi_server_app).
+-module(tau_server_app).
 
 -behaviour(application).
 
@@ -12,7 +12,7 @@
 
 start(_Type, _StartArgs) ->
     %% launches the top level supervisor
-    pi_server_sup:start_link().
+    tau_server_sup:start_link().
 
 prep_stop(State) ->
     %% handles any preparations before the processes are stopped

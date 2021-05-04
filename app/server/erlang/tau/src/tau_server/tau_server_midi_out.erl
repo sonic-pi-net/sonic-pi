@@ -11,7 +11,7 @@
 %% distribution of modified versions of this work as long as this
 %% notice is included.
 %% ++
--module(pi_server_midi_out).
+-module(tau_server_midi_out).
 
 -export([encode_midi_from_osc/1]).
 
