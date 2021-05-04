@@ -50,5 +50,5 @@ forfiles /p gui\qt\lang /s /m *.ts /c "cmd /c %QT_INSTALL_LOCATION%\bin\lrelease
 cd %~dp0\server\erlang\tau
 %~dp0\server\native\erlang\bin\erl.exe -make
 cd %~dp0\server\erlang\tau
-copy /Y src\tau_server.app.src .\ebin\tau.app
+copy /Y src\tau.app.src .\ebin\tau.app
 cd %~dp0
