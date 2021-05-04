@@ -9,14 +9,14 @@ if not exist "vcpkg\" (
 )
 
 if not exist "vcpkg\vcpkg.exe" (
-    cd vcpkg 
+    cd vcpkg
     echo Building vcpkg
     call bootstrap-vcpkg.bat -disableMetrics
     cd %~dp0
 )
 
 cd vcpkg
-echo Installing Libraries 
+echo Installing Libraries
 vcpkg install kissfft fmt crossguid sdl2 gl3w reproc gsl-lite concurrentqueue platform-folders catch2 --triplet x64-windows-static-md --recurse
 
 cd %~dp0

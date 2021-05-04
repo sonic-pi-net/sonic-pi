@@ -3,16 +3,16 @@
 set -e # Quit script on error
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-if [ ! -d "vcpkg" ]; then 
+if [ ! -d "vcpkg" ]; then
     echo "Cloning vcpkg"
     git clone --single-branch --branch master https://github.com/microsoft/vcpkg.git vcpkg
 fi
 
 if [ ! -f "vcpkg/vcpkg" ]; then
     echo "Building vcpkg"
-    cd vcpkg 
+    cd vcpkg
     ./bootstrap-vcpkg.sh -disableMetrics
-    cd ${SCRIPT_DIR} 
+    cd ${SCRIPT_DIR}
 fi
 
 cd vcpkg

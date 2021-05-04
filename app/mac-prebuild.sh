@@ -5,16 +5,16 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 # Check to see if we have a bundled Ruby and if so, use that
 # Otherwise use system ruby
 # Build vcpkg
-if [ ! -d "vcpkg" ]; then 
+if [ ! -d "vcpkg" ]; then
     echo "Cloning vcpkg"
     git clone --single-branch --branch master https://github.com/microsoft/vcpkg.git vcpkg
 fi
 
 if [ ! -f "vcpkg/vcpkg" ]; then
     echo "Building vcpkg"
-    cd vcpkg 
+    cd vcpkg
     ./bootstrap-vcpkg.sh -disableMetrics
-    cd ${SCRIPT_DIR} 
+    cd ${SCRIPT_DIR}
 fi
 
 triplet=(x64-osx)
