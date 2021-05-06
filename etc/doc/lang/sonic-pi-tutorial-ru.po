@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2021-04-30 22:32+0000\n"
-"Last-Translator: Yakov Till <yakov.till@gmail.com>\n"
+"PO-Revision-Date: 2021-05-07 11:31+0000\n"
+"Last-Translator: meTur4ik <tur4ikkk@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/ru/>\n"
 "Language: ru\n"
@@ -772,16 +772,27 @@ msgid ""
 "left hand side) play lower notes and the keys on the higher part of the piano "
 "(the right hand side) play higher notes."
 msgstr ""
+"Таким образом, меньшие числа соответствуют более низким издаваемым звукам, а "
+"большие - более высоким. Подобно тому, как работает пианино: клавиши, "
+"которые находятся в более низком регистре (по левую руку), играют более "
+"низкие ноты, а клавиши, которые находятся в более высоком регистре (по "
+"правую руку), играют более высокие ноты."
 
 #: 02.1-Your-First-Beeps.md:38
-#, fuzzy
 msgid ""
 "It turns out that the C of the 4th octave (C in English notation) is identifie"
 "d by the number 60. `play 60` therefore plays the C of the 4th octave. To play"
 " the next piano key to the right, you have to add 1 to 60 and then type `play "
 "61`, which in this case is the black key of the C sharp. To play the D, the ne"
 "xt key to the right, `play 62`."
-msgstr "play 60"
+msgstr ""
+"Получается, что ноте \"До\" 4-й октавы (C в английской нотации) "
+"соответствует число 60. `play 60`, собственно и воспроизведёт ноту \"До\" 4-"
+"й октавы. чтобы сыграть ноту, соответствующую следующей клавише на пианино, "
+"вам следует добавить 1 к 60 и ввести команду `play 61`, которая в данном "
+"случае будет обозначать соседний \"До диез\" (ему соответствует чёрная "
+"клавиша между \"До\" и \"Ре\"). Чтобы воспроизвести ноту \"Ре\", введите `"
+"play 62`."
 
 #: 02.1-Your-First-Beeps.md:40
 msgid ""
@@ -1365,6 +1376,7 @@ msgid ""
 "Now multiple sounds at the same time (by not sleeping between successive calls"
 " to `play`):"
 msgstr ""
+"А теперь несколько звуков одновременно (без засыпания между вызовами `play`):"
 
 #: 02.3-Switching-Synths.md:60
 #, no-wrap
@@ -4255,9 +4267,8 @@ msgstr ""
 "end"
 
 #: 05.2-Iteration-and-Loops.md:123
-#, fuzzy
 msgid "Looping"
-msgstr "Цикличность"
+msgstr "Зацикливание"
 
 #: 05.2-Iteration-and-Loops.md:125
 #, fuzzy
@@ -4465,7 +4476,6 @@ msgstr ""
 "исимости от сделанного выбора."
 
 #: 05.3-Conditionals.md:68
-#, fuzzy
 msgid "Simple if"
 msgstr "Простое Условие"
 
@@ -18130,7 +18140,7 @@ msgstr ""
 
 #: A.19-subtractive-synthesis.md:86
 msgid "Low Pass Filter"
-msgstr ""
+msgstr "Фильтр нижних частот"
 
 #: A.19-subtractive-synthesis.md:88
 msgid ""
@@ -18303,17 +18313,20 @@ msgstr ""
 
 #: A.20-creative-coding-in-the-classroom.md:1
 msgid "A.20 Creative coding in the classroom with Sonic Pi"
-msgstr ""
+msgstr "A.20 Креативное написание кода в классе с Sonic Pi"
 
 #: A.20-creative-coding-in-the-classroom.md:3
 msgid "Creative coding in the classroom with Sonic Pi"
-msgstr ""
+msgstr "Креативное написание кода в классе с Sonic Pi"
 
 #: A.20-creative-coding-in-the-classroom.md:5
 msgid ""
 "(This article was published in [issue 9 of the Hello World Magazine](https://h"
 "elloworld.raspberrypi.org/issues/9))"
 msgstr ""
+"(Эта статья была опубликована в [issue 9 of the Hello World "
+"Magazine](https://helloworld.raspberrypi.org/issues/9), источник на "
+"английском)"
 
 #: A.20-creative-coding-in-the-classroom.md:7
 msgid ""
@@ -18325,6 +18338,13 @@ msgid ""
 "agic of code we are able to conjure up individually meaningful stories and lea"
 "rning experiences."
 msgstr ""
+"Код - один из самых креативных инструментов, созданных людьми. Изначально "
+"непонятные символы скобок и лямбд не просто глубоко укоренились в науке и "
+"математике. Они - самое близкое, чего нам удалось достичь практике в "
+"произнесении заклинаний, подобно Гендальфу и Гарри Поттеру. Я думаю, что это "
+"даёт нам мощные средства вовлечения в наши пространства обучения. С помощью "
+"магии кода мы можем сотворить индивидуально значимые истории и поучительный "
+"опыт."
 
 #: A.20-creative-coding-in-the-classroom.md:15
 msgid ""
