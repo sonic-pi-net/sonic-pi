@@ -25,6 +25,9 @@
 %% To do check endian
 %% I've said Int64 are unsigned-little-integers
 %% I think they should be big
+%% (Edit: Yep, Joe, this hunch was correct for the 'h' type.
+%%        I've now fixed it. Sam.)
+
 
 %% The OSC spec is unclear about this point
 
@@ -96,7 +99,7 @@ encode_arg(X) when is_list(X)    -> encode_string(X);
 encode_arg(X) when is_atom(X)    -> encode_string(atom_to_list(X));
 encode_arg(X) when is_integer(X) -> <<X:32>>;
 encode_arg(X) when is_float(X)   -> <<X:32/float>>; %
-encode_arg({int64,X})            -> <<X:64/unsigned-little-integer>>;
+encode_arg({int64,X})            -> <<X:64/big-signed-integer>>;
 encode_arg(X) when is_binary(X)  -> encode_binary(X).
 
 %% bundles
@@ -163,7 +166,7 @@ get_args([$i|T1], <<I:32/signed-integer,T2/binary>>, L) ->
     get_args(T1, T2, [I|L]);
 get_args([$f|T1], <<F:32/float, T2/binary>>, L) ->
     get_args(T1, T2, [F|L]);
-get_args([$h|T1], <<I:64/unsigned-little-integer, T2/binary>>, L) ->
+get_args([$h|T1], <<I:64/big-signed-integer, T2/binary>>, L) ->
     get_args(T1, T2, [{int64,I}|L]);
 get_args([$d|T1], <<Double:64/float, T2/binary>>, L) ->
     get_args(T1, T2, [Double|L]);
