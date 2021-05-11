@@ -409,7 +409,7 @@ Desculpe, um erro critico ocorreu durante a inicialização</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2619"/>
         <source>Show Code Completion</source>
-        <translation type="unfinished"></translation>
+        <translation>Exibir autocompletar no código</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2624"/>
