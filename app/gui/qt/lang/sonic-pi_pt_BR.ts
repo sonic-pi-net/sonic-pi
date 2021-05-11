@@ -6,7 +6,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="519"/>
         <source>Preferences</source>
-        <translation type="unfinished">Configurações</translation>
+        <translation>Preferências</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="781"/>
@@ -133,7 +133,7 @@ Desculpe, um erro critico ocorreu durante a inicialização</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2045"/>
         <source>Log Auto Scroll off...</source>
-        <translation>Auto rolamento do registro desativado...</translation>
+        <translation>Desativar rolagem automática...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2517"/>
