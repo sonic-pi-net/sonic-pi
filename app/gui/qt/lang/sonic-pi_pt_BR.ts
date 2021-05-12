@@ -1105,7 +1105,7 @@ Baixar Sonic Pi %1</translation>
     <message>
         <location filename="../visualizer/scope.cpp" line="396"/>
         <source>Mirror Stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>Espelhar Estéreo</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="398"/>
