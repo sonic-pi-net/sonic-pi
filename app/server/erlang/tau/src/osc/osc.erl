@@ -167,7 +167,7 @@ get_args([$i|T1], <<I:32/signed-integer,T2/binary>>, L) ->
 get_args([$f|T1], <<F:32/float, T2/binary>>, L) ->
     get_args(T1, T2, [F|L]);
 get_args([$h|T1], <<I:64/big-signed-integer, T2/binary>>, L) ->
-    get_args(T1, T2, [{int64,I}|L]);
+    get_args(T1, T2, [I|L]);
 get_args([$d|T1], <<Double:64/float, T2/binary>>, L) ->
     get_args(T1, T2, [Double|L]);
 get_args([$s|T1], B0, L) ->
