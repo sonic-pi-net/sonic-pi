@@ -22,6 +22,7 @@ module SonicPi
         # add padding
 
         @binary = b + ("\000" * ((4 - (b.size % 4)) % 4))
+
       end
 
       def to_s
@@ -32,6 +33,22 @@ module SonicPi
         @binary.inspect
       end
 
+    end
+
+    class Int64
+      attr_reader :binary
+      def initialize(val)
+        @val = val
+        @binary = [val].pack('q>')
+      end
+
+      def to_i
+        @val.to_i
+      end
+
+      def inspect
+        @val.inspect
+      end
     end
   end
 end
