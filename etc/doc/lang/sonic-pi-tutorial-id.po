@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-07-15 15:41+0000\n"
-"Last-Translator: TA <semifluid12@gmail.com>\n"
-"Language-Team: Indonesian <https://hosted.weblate.org/projects/sonic-pi/tutori"
-"al/id/>\n"
+"PO-Revision-Date: 2021-05-20 04:32+0000\n"
+"Last-Translator: Jacque Fresco <aidter@use.startmail.com>\n"
+"Language-Team: Indonesian <https://hosted.weblate.org/projects/sonic-pi/"
+"tutorial/id/>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.2-dev\n"
+"X-Generator: Weblate 4.7-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -1068,7 +1068,7 @@ msgstr ""
 
 #: 02.3-Switching-Synths.md:84
 msgid "`:tb303`"
-msgstr ""
+msgstr "`:tb303`"
 
 #: 02.3-Switching-Synths.md:85
 msgid "`:pulse`"
@@ -2321,27 +2321,27 @@ msgstr ""
 
 #: 03.7-Sample-Packs.md:25 03.7-Sample-Packs.md:86
 msgid "`100_A#_melody1.wav`"
-msgstr ""
+msgstr "`100_A#_melody1.wav`"
 
 #: 03.7-Sample-Packs.md:26 03.7-Sample-Packs.md:87
 msgid "`100_A#_melody2.wav`"
-msgstr ""
+msgstr "`100_A#_melody2.wav`"
 
 #: 03.7-Sample-Packs.md:27 03.7-Sample-Packs.md:88
 msgid "`100_A#_melody3.wav`"
-msgstr ""
+msgstr "`100_A#_melody3.wav`"
 
 #: 03.7-Sample-Packs.md:28 03.7-Sample-Packs.md:89
 msgid "`120_A#_melody4.wav`"
-msgstr ""
+msgstr "`120_A#_melody4.wav`"
 
 #: 03.7-Sample-Packs.md:29 03.7-Sample-Packs.md:90
 msgid "`120_Bb_guit1.wav`"
-msgstr ""
+msgstr "`120_Bb_guit1.wav`"
 
 #: 03.7-Sample-Packs.md:30 03.7-Sample-Packs.md:91
 msgid "`120_Bb_piano1.wav`"
-msgstr ""
+msgstr "`120_Bb_piano1.wav`"
 
 #: 03.7-Sample-Packs.md:32
 msgid "Typically in order to play the piano sample we can use the full path:"
@@ -2844,7 +2844,7 @@ msgstr ""
 #: 04-Randomisation.md:122
 #, no-wrap
 msgid "choose([60, 65, 72])"
-msgstr ""
+msgstr "pilih([60, 65, 72])"
 
 #: 04-Randomisation.md:126
 msgid "Let's hear what that sounds like:"
@@ -4327,7 +4327,7 @@ msgstr ""
 
 #: 06-FX.md:1
 msgid "6 FX"
-msgstr ""
+msgstr "6 FX"
 
 #: 06-FX.md:3
 msgid "Studio FX"
@@ -5124,7 +5124,7 @@ msgstr ""
 #: 08.1-Lists.md:64
 #, no-wrap
 msgid "[52, 55, 59]"
-msgstr ""
+msgstr "[52, 55, 59]"
 
 #: 08.1-Lists.md:68
 msgid ""
@@ -6915,7 +6915,7 @@ msgstr ""
 
 #: 11-MIDI.md:1
 msgid "11 MIDI"
-msgstr ""
+msgstr "11 MIDI"
 
 #: 11-MIDI.md:3
 msgid "MIDI"
@@ -6959,7 +6959,7 @@ msgstr ""
 
 #: 11.1-MIDI-In.md:1
 msgid "11.1 MIDI In"
-msgstr ""
+msgstr "11.1 MIDI In"
 
 #: 11.1-MIDI-In.md:3
 msgid "MIDI In"
@@ -7164,7 +7164,7 @@ msgstr ""
 
 #: 11.2-MIDI-Out.md:1
 msgid "11.2 MIDI Out"
-msgstr ""
+msgstr "11.2 MIDI Out"
 
 #: 11.2-MIDI-Out.md:3
 msgid "MIDI Out"
@@ -7233,7 +7233,7 @@ msgstr ""
 #: 11.2-MIDI-Out.md:36
 #, no-wrap
 msgid "midi_note_on :e3, 50"
-msgstr ""
+msgstr "midi_note_on :e3, 50"
 
 #: 11.2-MIDI-Out.md:40
 msgid ""
@@ -7334,7 +7334,7 @@ msgstr ""
 
 #: 12-OSC.md:1
 msgid "12 OSC"
-msgstr ""
+msgstr "12 OSC"
 
 #: 12-OSC.md:3
 msgid "OSC"
@@ -7695,7 +7695,7 @@ msgstr ""
 
 #: 13.2-Live-Audio.md:1
 msgid "13.2 Live Audio"
-msgstr ""
+msgstr "13.2 Audio Live"
 
 #: 13.2-Live-Audio.md:3
 msgid "Live Audio"
@@ -8235,7 +8235,7 @@ msgstr ""
 
 #: A.01-tips.md:110
 msgid "4. Live Code"
-msgstr ""
+msgstr "4. Kode Langsung"
 
 #: A.01-tips.md:112
 msgid ""
@@ -9404,6 +9404,8 @@ msgid ""
 "![Screen 0](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-M"
 "inecraft-0-small.png)"
 msgstr ""
+"![Layar 0](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-"
+"Minecraft-0-small.png)"
 
 #: A.06-minecraft.md:38
 msgid "Sonic Teleporter"
@@ -9485,6 +9487,8 @@ msgid ""
 "![Screen 1](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-M"
 "inecraft-1-small.png)"
 msgstr ""
+"![Layar 1](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-"
+"Minecraft-1-small.png)"
 
 #: A.06-minecraft.md:88
 msgid "Magic Blocks"
@@ -9584,6 +9588,8 @@ msgid ""
 "![Screen 2](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-M"
 "inecraft-2-small.png)"
 msgstr ""
+"![Layar 2](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-"
+"Minecraft-2-small.png)"
 
 #: A.06-minecraft.md:160
 msgid ""
@@ -9672,6 +9678,8 @@ msgid ""
 "![Habanera Riff](../../../etc/doc/images/tutorial/articles/A.07-bizet/habanera"
 ".png)"
 msgstr ""
+"![Habanera Riff](../../../etc/doc/images/tutorial/articles/A.07-bizet/"
+"habanera.png)"
 
 #: A.07-bizet.md:31
 msgid ""
@@ -9704,6 +9712,7 @@ msgstr ""
 #: A.07-bizet.md:49
 msgid "![Notes](../../../etc/doc/images/tutorial/articles/A.07-bizet/notes.png)"
 msgstr ""
+"![Daftar](../../../etc/doc/images/tutorial/articles/A.07-bizet/notes.png)"
 
 #: A.07-bizet.md:51
 msgid "Rests"
@@ -9756,6 +9765,8 @@ msgid ""
 "![Habanera Riff 2](../../../etc/doc/images/tutorial/articles/A.07-bizet/habane"
 "ra2.png)"
 msgstr ""
+"![Habanera Riff 2](../../../etc/doc/images/tutorial/articles/A.07-bizet/"
+"habanera2.png)"
 
 #: A.07-bizet.md:85
 msgid "Re-coding the Habanera"
@@ -9889,6 +9900,8 @@ msgid ""
 "![Screen 0](../../../etc/doc/images/tutorial/articles/A.08-minecraft-vj/minecr"
 "aft-vj-0-small.png)"
 msgstr ""
+"![Layar 0](../../../etc/doc/images/tutorial/articles/A.08-minecraft-vj/"
+"minecraft-vj-0-small.png)"
 
 #: A.08-minecraft-vj.md:7
 msgid ""
@@ -10525,7 +10538,7 @@ msgstr ""
 
 #: A.10-controlling-your-sound.md:76
 msgid "Default: 0"
-msgstr ""
+msgstr "Asali: 0"
 
 #: A.10-controlling-your-sound.md:77
 msgid "Must be zero or greater"
@@ -10668,7 +10681,7 @@ msgstr ""
 
 #: A.11-beat-tracking.md:1
 msgid "A.11 Tick Tock"
-msgstr ""
+msgstr "A.11 Tik Tok"
 
 #: A.11-beat-tracking.md:3
 msgid "Tracking the Beat"
@@ -11868,7 +11881,7 @@ msgstr ""
 
 #: A.15-performance.md:136
 msgid "5. Practice"
-msgstr ""
+msgstr "5. Latihan"
 
 #: A.15-performance.md:138
 msgid ""
@@ -13095,7 +13108,7 @@ msgstr ""
 
 #: B.01-Using-Shortcuts.md:1
 msgid "B.1 Using Shortcuts"
-msgstr ""
+msgstr "B.1 Menggunakan Pintasan"
 
 #: B.01-Using-Shortcuts.md:3
 msgid "Using Shortcuts"
@@ -13525,7 +13538,7 @@ msgstr ""
 
 #: B.03-Sharing.md:1
 msgid "B.3 Sharing"
-msgstr ""
+msgstr "B.3 Bersedekah"
 
 #: B.03-Sharing.md:3
 msgid "Sharing"
