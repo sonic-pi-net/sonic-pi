@@ -5,16 +5,16 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 # Check to see if we have a bundled Ruby and if so, use that
 # Otherwise use system ruby
 # Build vcpkg
-if [ ! -d "vcpkg" ]; then 
+if [ ! -d "vcpkg" ]; then
     echo "Cloning vcpkg"
     git clone --single-branch --branch master https://github.com/microsoft/vcpkg.git vcpkg
 fi
 
 if [ ! -f "vcpkg/vcpkg" ]; then
     echo "Building vcpkg"
-    cd vcpkg 
+    cd vcpkg
     ./bootstrap-vcpkg.sh -disableMetrics
-    cd ${SCRIPT_DIR} 
+    cd ${SCRIPT_DIR}
 fi
 
 triplet=(x64-osx)
@@ -42,9 +42,9 @@ fi
 
 # Install dependencies to server
 echo "Copying external dependencies to the server..."
-mkdir -p "${SCRIPT_DIR}/server/erlang/sonic_pi_server/priv/"
+mkdir -p "${SCRIPT_DIR}/server/erlang/tau/priv/"
 for f in ${SCRIPT_DIR}/external/build/sp_midi-prefix/src/sp_midi-build/*.dylib; do
-    cp $f ${SCRIPT_DIR}/server/erlang/sonic_pi_server/priv/$(basename $f .dylib).so
+    cp $f ${SCRIPT_DIR}/server/erlang/tau/priv/$(basename $f .dylib).so
 done
 
 
@@ -76,7 +76,7 @@ echo "Updating GUI translation files..."
 PATH=$PATH:/usr/local/opt/qt/bin lrelease "${SCRIPT_DIR}"/gui/qt/lang/*.ts
 
 echo "Compiling erlang files..."
-cd "${SCRIPT_DIR}/server/erlang/sonic_pi_server"
+cd "${SCRIPT_DIR}/server/erlang/tau"
 ../../native/erlang/erl -make
-cp src/sonic_pi_server.app.src ebin/sonic_pi_server.app
+cp src/tau.app.src ebin/tau.app
 cd "${SCRIPT_DIR}"

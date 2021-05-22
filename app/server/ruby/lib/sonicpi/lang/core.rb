@@ -3875,7 +3875,7 @@ puts rand               #=> 0.24249267578125
         SonicPi::Core::SPRand.get_random_number_distribution
       end
       doc name:          :current_random_source,
-          introduced:    Version.new(3,3,2),
+          introduced:    Version.new(3,4,0),
           summary:       "Get current random source",
           doc:           "Returns the source of the current random number generator (what kind of noise is generating the random numbers).
 

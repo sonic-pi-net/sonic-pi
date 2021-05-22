@@ -137,6 +137,7 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
     bool startupOK = false;
 
     m_spAPI->Init(rootPath().toStdString());
+    guiID = QString::fromStdString(m_spAPI->GetGuid());
 
     this->sonicPii18n = new SonicPii18n(rootPath());
     std::cout << "[GUI] - Language setting: " << piSettings->language.toUtf8().constData() << std::endl;
@@ -183,9 +184,6 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
     QThreadPool::globalInstance()->setMaxThreadCount(3);
 
     startupOK = m_spAPI->WaitForServer();
-    guiID = QString::fromStdString(m_spAPI->GetGuid());
-    server_osc_cues_port = m_spAPI->GetPort(SonicPiPortId::server_osc_cues);
-    scsynth_port = m_spAPI->GetPort(SonicPiPortId::scsynth);
 
     if (startupOK)
     {
@@ -368,7 +366,7 @@ void MainWindow::setupWindowStructure()
     prefsWidget->setAllowedAreas(Qt::RightDockWidgetArea);
     prefsWidget->setFeatures(QDockWidget::DockWidgetClosable);
 
-    settingsWidget = new SettingsWidget(server_osc_cues_port, i18n, piSettings, sonicPii18n, this);
+    settingsWidget = new SettingsWidget(m_spAPI->GetPort(SonicPiPortId::server_osc_cues), i18n, piSettings, sonicPii18n, this);
     connect(settingsWidget, SIGNAL(restartApp()), this, SLOT(restartApp()));
     connect(settingsWidget, SIGNAL(volumeChanged(int)), this, SLOT(changeSystemPreAmp(int)));
     connect(settingsWidget, SIGNAL(mixerSettingsChanged()), this, SLOT(mixerSettingsChanged()));
@@ -742,7 +740,7 @@ void MainWindow::handleCustomUrl(const QUrl& url)
     if (url.host() == "play-sample")
     {
         QString sample = url.path();
-        sample.remove(QRegExp("^/"));
+        sample.remove(QRegularExpression("^/"));
         QString code = "use_debug false\n"
                        "use_real_time\n"
                        "sample :"
@@ -1380,7 +1378,7 @@ bool MainWindow::saveAs()
     {
         QFileInfo fi = fileName;
         gui_settings->setValue("lastDir", fi.dir().absolutePath());
-        if (!fileName.contains(QRegExp("\\.[a-z]+$")))
+        if (!fileName.contains(QRegularExpression("\\.[a-z]+$")))
         {
             fileName = fileName + ".txt";
         }
@@ -2814,7 +2812,7 @@ void MainWindow::createToolBar()
     }
 
     QMenu* incomingOSCPortMenu = ioMenu->addMenu(tr("Incoming OSC Port"));
-    incomingOSCPortMenu->addAction(QString::number(server_osc_cues_port));
+    incomingOSCPortMenu->addAction(QString::number(m_spAPI->GetPort(SonicPiPortId::server_osc_cues)));
 
     viewMenu = menuBar()->addMenu(tr("View"));
 

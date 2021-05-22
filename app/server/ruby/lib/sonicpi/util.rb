@@ -450,7 +450,7 @@ module SonicPi
     end
 
     def erlang_server_path
-      File.join(server_path, "erlang", "sonic_pi_server", "ebin")
+      File.join(server_path, "erlang", "tau", "ebin")
     end
 
     def user_audio_settings_path

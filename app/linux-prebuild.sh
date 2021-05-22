@@ -3,16 +3,16 @@
 set -e # Quit script on error
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-if [ ! -d "vcpkg" ]; then 
+if [ ! -d "vcpkg" ]; then
     echo "Cloning vcpkg"
     git clone --single-branch --branch master https://github.com/microsoft/vcpkg.git vcpkg
 fi
 
 if [ ! -f "vcpkg/vcpkg" ]; then
     echo "Building vcpkg"
-    cd vcpkg 
+    cd vcpkg
     ./bootstrap-vcpkg.sh -disableMetrics
-    cd ${SCRIPT_DIR} 
+    cd ${SCRIPT_DIR}
 fi
 
 cd vcpkg
@@ -27,8 +27,8 @@ cd ${SCRIPT_DIR}
 
 # Install dependencies to server
 echo "Copying external dependencies to the server..."
-mkdir -p "${SCRIPT_DIR}/server/erlang/sonic_pi_server/priv/"
-cp ${SCRIPT_DIR}/external/build/sp_midi-prefix/src/sp_midi-build/*.so ${SCRIPT_DIR}/server/erlang/sonic_pi_server/priv/
+mkdir -p "${SCRIPT_DIR}/server/erlang/tau/priv/"
+cp ${SCRIPT_DIR}/external/build/sp_midi-prefix/src/sp_midi-build/*.so ${SCRIPT_DIR}/server/erlang/tau/priv/
 
 cp "${SCRIPT_DIR}/external/build/aubio-prefix/src/aubio-build/aubio_onset" "${SCRIPT_DIR}/server/native/"
 
@@ -51,7 +51,7 @@ echo "Updating GUI translation files..."
 PATH=`pkg-config --variable bindir Qt5`:$PATH lrelease "${SCRIPT_DIR}"/gui/qt/lang/*.ts
 
 echo "Compiling erlang files..."
-cd "${SCRIPT_DIR}/server/erlang/sonic_pi_server"
+cd "${SCRIPT_DIR}/server/erlang/tau"
 erl -make
-cp src/sonic_pi_server.app.src ebin/sonic_pi_server.app
+cp src/tau.app.src ebin/tau.app
 cd "${SCRIPT_DIR}"

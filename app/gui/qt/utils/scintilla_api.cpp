@@ -14,7 +14,7 @@
 
 #include <QDir>
 #include <iostream>
-
+#include <QRegularExpression>
 #include "scintilla_api.h"
 
 using namespace std;
@@ -82,7 +82,7 @@ void ScintillaAPI::updateMidiOuts(QString port_info) {
   // port info is a \n separated list of MIDI port names. Need to first split it up
   keywords[MidiOuts].clear();
 
-  for ( const auto& i : port_info.split(QRegExp("[\r\n]")) )
+  for ( const auto& i : port_info.split(QRegularExpression("[\r\n]")) )
     {
       keywords[MidiOuts] << QString("\"%1\"").arg(i);
     }

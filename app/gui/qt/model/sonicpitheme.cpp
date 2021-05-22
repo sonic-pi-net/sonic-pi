@@ -239,7 +239,7 @@ QMap<QString, QString> SonicPiTheme::lightTheme(){
     QString dt_warning = "red";
     QString dt_green = "#61CE3C";
 
-    QString theme_bg = dt_lightgrey;
+    QString theme_bg = dt_white;
     QString theme_fg = dt_darkgrey;
 
     themeSettings["Base"] = dt_lightgrey;
@@ -646,7 +646,7 @@ QMap<QString, QString> SonicPiTheme::highContrastTheme(){
     QString dt_not_supported = "black";
     QString dt_warning = "red";
     QString dt_green = "#285516";
-    QString theme_bg = dt_lightgrey;
+    QString theme_bg = dt_white;
     QString theme_fg = dt_darkgrey;
 
     themeSettings["Base"] = dt_lightgrey;
@@ -917,7 +917,7 @@ QString SonicPiTheme::getAppStylesheet() {
     #if defined(Q_OS_LINUX)
     appStyling = "QWidget\n{\nbackground: paneColor;\n}\n" + appStyling;
     #endif
-    
+
     appStyling
         .replace("windowColor", windowColor)
         .replace("windowForegroundColor", windowForegroundColor)
