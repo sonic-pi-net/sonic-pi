@@ -3290,6 +3290,214 @@ Steal This Sound,  Mitchell Sigman"
       end
     end
 
+    class WinwoodLead < SonicPiSynth
+      def name
+        "Winwood Lead"
+      end
+
+      def introduced
+        Version.new(3,3,0)
+      end
+
+      def synth_name
+        "winwood_lead"
+      end
+
+      def on_start(studio, args_h)
+        args_h[:rand_buf] = studio.rand_buf_id
+      end
+
+      def doc
+        "A lead synth inspired by the Winwood songs from the early 80s.  Adapted for Sonic Pi from [Steal This Sound](https://raw.githubusercontent.com/supercollider/supercollider/develop/examples/demonstrations/stealthissound.scd). Published there under [GPL v3](https://www.gnu.org/licenses/gpl-3.0.en.html), so re-published under the same terms. The source code is available [on the Sonic Pi GitHub repository](https://github.com/sonic-pi-net/sonic-pi). Date of modification: 10.01.2021"
+      end
+
+      def arg_defaults
+        {
+          :note => 69,
+          :note_slide => 0,
+          :note_slide_shape => 1,
+          :note_slide_curve => 0,
+          :amp => 1,
+          :amp_slide => 0,
+          :amp_slide_shape => 1,
+          :amp_slide_curve => 0,
+          :pan => 0,
+          :pan_slide => 0,
+          :pan_slide_shape => 1,
+          :pan_slide_curve => 0,
+
+          :attack => 0.01,
+          :decay => 0,
+          :sustain => 0.9,
+          :release => 0.05,
+          :attack_level => 1,
+          :decay_level => 0.5,
+          :sustain_level => 0.5,
+
+          :cutoff => 119,
+          :cutoff_slide => 0,
+          :cutoff_slide_shape => 1,
+          :cutoff_slide_curve => 0,
+
+          :res => 0.8,
+          :res_slide => 0,
+          :res_slide_shape => 1,
+          :res_slide_curve => 0,
+          :lfo_width => 0.01,
+          :lfo_width_slide => 0,
+          :lfo_width_slide_shape => 1,
+          :lfo_width_slide_curve => 0,
+          :lfo_rate => 8,
+          :lfo_rate_slide => 0,
+          :lfo_rate_slide_shape => 1,
+          :lfo_rate_slide_curve => 0,
+          :seed => 0,
+        }
+      end
+      
+      def specific_arg_info
+        {
+          :seed =>
+          {
+            :doc => "Seed value for rand num generator used for the phase offset of the triangle low-frequency oscillator (LFO)",
+            :modulatable => false
+          },
+          :lfo_width =>
+          {
+            :doc => "Width of the low-frequency oscillator (LFO) which determines how wide base tones oscillate around their base frequencies",
+            :modulatable => true
+          },
+          :lfo_rate =>
+          {
+            :doc => "Width of the low-frequency oscillator (LFO) which determines how fast base tones oscillate around their base frequencies",
+            :modulatable => true
+          },
+        }
+      end
+    end
+
+    class BassFoundation < SonicPiSynth
+      def name
+        "Bass Foundation"
+      end
+
+      def introduced
+        Version.new(3,3,0)
+      end
+
+      def synth_name
+        "bass_foundation"
+      end
+
+      def doc
+        "A soft bass synth inspired by the sounds of the 80s. Use together with :bass_highend if you want to give it a gargling component. Adapted for Sonic Pi from [Steal This Sound](https://raw.githubusercontent.com/supercollider/supercollider/develop/examples/demonstrations/stealthissound.scd). Published there under [GPL v3](https://www.gnu.org/licenses/gpl-3.0.en.html), so re-published under the same terms. The source code is available [on the Sonic Pi GitHub repository](https://github.com/sonic-pi-net/sonic-pi). Date of modification: 10.01.2021"
+      end
+
+      def arg_defaults
+        {
+          :note => 40,
+          :note_slide => 0,
+          :note_slide_shape => 1,
+          :note_slide_curve => 0,
+          :amp => 1,
+          :amp_slide => 0,
+          :amp_slide_shape => 1,
+          :amp_slide_curve => 0,
+          :pan => 0,
+          :pan_slide => 0,
+          :pan_slide_shape => 1,
+          :pan_slide_curve => 0,
+
+          :attack => 0.01,
+          :decay => 0,
+          :sustain => 0.9,
+          :release => 0.05,
+          :attack_level => 1,
+          :decay_level => 0.5,
+          :sustain_level => 0,
+
+          :cutoff => 83,
+          :cutoff_slide => 0,
+          :cutoff_slide_shape => 1,
+          :cutoff_slide_curve => 0,
+
+          :res => 0.5,
+          :res_slide => 0,
+          :res_slide_shape => 1,
+          :res_slide_curve => 0,
+        }
+      end
+    end
+
+    class BassHighend < SonicPiSynth
+      def name
+        "Bass Highend"
+      end
+
+      def introduced
+        Version.new(3,3,0)
+      end
+
+      def synth_name
+        "bass_highend"
+      end
+
+      def doc
+        "An addition to the :bass_foundation synth inspired by the sounds of the 80s. Use them together if you want to give it a rough, slurping, or gargling component. Adapted for Sonic Pi from [Steal This Sound](https://raw.githubusercontent.com/supercollider/supercollider/develop/examples/demonstrations/stealthissound.scd). Published there under [GPL v3](https://www.gnu.org/licenses/gpl-3.0.en.html), so re-published under the same terms. The source code is available [on the Sonic Pi GitHub repository](https://github.com/sonic-pi-net/sonic-pi). Date of modification: 11.01.2021"
+      end
+
+      def arg_defaults
+        {
+          :note => 40,
+          :note_slide => 0,
+          :note_slide_shape => 1,
+          :note_slide_curve => 0,
+          :amp => 1,
+          :amp_slide => 0,
+          :amp_slide_shape => 1,
+          :amp_slide_curve => 0,
+          :pan => 0,
+          :pan_slide => 0,
+          :pan_slide_shape => 1,
+          :pan_slide_curve => 0,
+
+          :attack => 0.01,
+          :decay => 0,
+          :sustain => 0.9,
+          :release => 0.05,
+          :attack_level => 1,
+          :decay_level => 0.5,
+          :sustain_level => 0,
+
+          :cutoff => 102,
+          :cutoff_slide => 0,
+          :cutoff_slide_shape => 1,
+          :cutoff_slide_curve => 0,
+
+          :res => 0.1,
+          :res_slide => 0,
+          :res_slide_shape => 1,
+          :res_slide_curve => 0,
+
+          :drive => 2.0,
+          :drive_slide => 0,
+          :drive_slide_shape => 1,
+          :drive_slide_curve => 0,
+        }
+      end
+
+      def specific_arg_info
+        {
+          :drive =>
+          {
+            :doc => "Higher drive values make the sound louder and rougher.",
+            :validations => [v_positive(:drive)],
+            :modulatable => true
+            },
+          }
+      end
+    end
+
     class StudioInfo < SonicPiSynth
       def user_facing?
         false
@@ -7949,6 +8157,9 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
         :kalimba => SynthKalimba.new,
         :pluck => SynthPluck.new,
         :tech_saws => TechSaws.new,
+        :winwood_lead => WinwoodLead.new,
+        :bass_foundation => BassFoundation.new,
+        :bass_highend => BassHighend.new,
 
         :sound_in => SoundIn.new,
         :sound_in_stereo => SoundInStereo.new,

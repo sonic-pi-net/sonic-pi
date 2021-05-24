@@ -52,6 +52,8 @@
 #include "widgets/sonicpilexer.h"
 #include "widgets/sonicpiscintilla.h"
 
+#include "utils/sonicpi_i18n.h"
+
 #include "utils/borderlesslinksproxystyle.h"
 #include "visualizer/scope_window.h"
 
@@ -89,9 +91,9 @@ using namespace std::chrono;
 using namespace SonicPi;
 
 #ifdef Q_OS_MAC
-MainWindow::MainWindow(QApplication& app, bool i18n, QMainWindow* splash)
+MainWindow::MainWindow(QApplication& app, QMainWindow* splash)
 #else
-MainWindow::MainWindow(QApplication& app, bool i18n, QSplashScreen* splash)
+MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
 #endif
 {
     app.installEventFilter(this);
@@ -103,7 +105,6 @@ MainWindow::MainWindow(QApplication& app, bool i18n, QSplashScreen* splash)
     this->piSettings = new SonicPiSettings();
 
     this->splash = splash;
-    this->i18n = i18n;
 
     // API and Client
     m_spClient = std::make_shared<QtAPIClient>(this);
@@ -126,7 +127,6 @@ MainWindow::MainWindow(QApplication& app, bool i18n, QSplashScreen* splash)
     version_num = 0;
     latest_version_num = 0;
     this->splash = splash;
-    this->i18n = i18n;
     QString settings_path = sonicPiConfigPath() + QDir::separator() + "gui-settings.ini";
 
     gui_settings = new QSettings(settings_path, QSettings::IniFormat);
@@ -138,6 +138,19 @@ MainWindow::MainWindow(QApplication& app, bool i18n, QSplashScreen* splash)
 
     m_spAPI->Init(rootPath().toStdString());
     guiID = QString::fromStdString(m_spAPI->GetGuid());
+
+    this->sonicPii18n = new SonicPii18n(rootPath());
+    std::cout << "[GUI] - Language setting: " << piSettings->language.toUtf8().constData() << std::endl;
+    std::cout << "[GUI] - System language: " << QLocale::system().name().toStdString() << std::endl;
+    this->ui_language = sonicPii18n->determineUILanguage(piSettings->language);
+    std::cout << "[GUI] - Using language: " << ui_language.toUtf8().constData() << std::endl;
+    this->i18n = sonicPii18n->loadTranslations(ui_language);
+
+    if(i18n) {
+      std::cout << "[GUI] - translations available " << std::endl;
+    } else {
+      std::cout << "[GUI] - translations unavailable (using EN)" << std::endl;
+    }
 
     std::cout << "[GUI] - hiding main window" << std::endl;
     hide();
@@ -212,6 +225,11 @@ MainWindow::MainWindow(QApplication& app, bool i18n, QSplashScreen* splash)
     toggleOSCServer(1);
 
     app.setActiveWindow(tabs->currentWidget());
+
+    if (!i18n) {
+      showLanguageLoadingError();
+    }
+
     showWelcomeScreen();
 }
 
@@ -348,7 +366,8 @@ void MainWindow::setupWindowStructure()
     prefsWidget->setAllowedAreas(Qt::RightDockWidgetArea);
     prefsWidget->setFeatures(QDockWidget::DockWidgetClosable);
 
-    settingsWidget = new SettingsWidget(m_spAPI->GetPort(SonicPiPortId::server_osc_cues), piSettings, this);
+    settingsWidget = new SettingsWidget(m_spAPI->GetPort(SonicPiPortId::server_osc_cues), i18n, piSettings, sonicPii18n, this);
+    connect(settingsWidget, SIGNAL(restartApp()), this, SLOT(restartApp()));
     connect(settingsWidget, SIGNAL(volumeChanged(int)), this, SLOT(changeSystemPreAmp(int)));
     connect(settingsWidget, SIGNAL(mixerSettingsChanged()), this, SLOT(mixerSettingsChanged()));
     connect(settingsWidget, SIGNAL(midiSettingsChanged()), this, SLOT(toggleMidi()));
@@ -1214,6 +1233,18 @@ void MainWindow::invokeStartupError(QString msg)
 void MainWindow::startupError(QString msg)
 {
 // TODO: Add format error to API
+}
+
+void MainWindow::showLanguageLoadingError() {
+  QMessageBox msgBox(this);
+  msgBox.setIcon(QMessageBox::Warning);
+  msgBox.setText(QString(tr("Failed to load translations for language: %1")).arg(sonicPii18n->getNativeLanguageName(this->ui_language)));
+  msgBox.setInformativeText(tr("Falling back to English. Sorry about this.") + "\n" + tr("Please consider reporting a bug at") + "\nhttp://github.com/sonic-pi-net/sonic-pi/issues");
+
+  QPushButton *okButton = msgBox.addButton(tr("OK"), QMessageBox::AcceptRole);
+  msgBox.setDefaultButton(okButton);
+
+  msgBox.exec();
 }
 
 void MainWindow::replaceBuffer(QString id, QString content, int line, int index, int first_line)
@@ -2880,6 +2911,39 @@ void MainWindow::createToolBar()
     viewMenu->addAction(focusHelpListingAct);
     viewMenu->addAction(focusHelpDetailsAct);
     viewMenu->addAction(focusErrorsAct);
+
+    languageMenu = menuBar()->addMenu(tr("Language"));
+    QStringList available_languages = sonicPii18n->getAvailableLanguages();
+
+    langActionGroup = new QActionGroup(this);
+    langActionGroup->setExclusionPolicy(QActionGroup::ExclusionPolicy::Exclusive);
+
+    QSignalMapper *signalMapper = new QSignalMapper(this);
+
+    for (size_t i = 0; i < available_languages.length(); i += 1) {
+      bool is_current_lang = (available_languages[i] == piSettings->language);
+
+      QAction *langAct = new QAction(sonicPii18n->getNativeLanguageName(available_languages[i]), this);
+      langAct->setCheckable(true);
+      langAct->setChecked(is_current_lang);
+
+      connect(langAct, SIGNAL(triggered()), signalMapper, SLOT(map()));
+      signalMapper->setMapping(langAct, i);
+
+      langActionGroup->addAction(langAct);
+      languageMenu->addAction(langAct);
+
+      if (i == 0) { // add separator after System language
+        languageMenu->addSeparator();
+      }
+    }
+
+    connect(signalMapper, SIGNAL(mappedInt(int)), settingsWidget, SLOT(updateUILanguage(int)));
+    connect(settingsWidget, SIGNAL(uiLanguageChanged(QString)), this, SLOT(updateSelectedUILanguageAction(QString)));
+}
+
+void MainWindow::updateSelectedUILanguageAction(QString lang) {
+  langActionGroup->actions()[sonicPii18n->getAvailableLanguages().indexOf(lang)]->setChecked(true);
 }
 
 QString MainWindow::readFile(QString name)
@@ -3074,6 +3138,7 @@ void MainWindow::readSettings()
     std::cout << "[GUI] - reading settings" << std::endl;
 
     // Read in preferences from previous session
+    piSettings->language = gui_settings->value("prefs/language", "system_language").toString();
     piSettings->show_buttons = gui_settings->value("prefs/show-buttons", true).toBool();
     piSettings->show_tabs = gui_settings->value("prefs/show-tabs", true).toBool();
     piSettings->show_log = gui_settings->value("prefs/show-log", true).toBool();
@@ -3100,6 +3165,7 @@ void MainWindow::readSettings()
     piSettings->show_scope_labels = gui_settings->value("prefs/scope/show-labels", false).toBool();
     piSettings->show_cues = gui_settings->value("prefs/show_cues", true).toBool();
     QString styleName = gui_settings->value("prefs/theme", "").toString();
+
     piSettings->themeStyle = theme->themeNameToStyle(styleName);
     piSettings->show_autocompletion = gui_settings->value("prefs/show-autocompletion", true).toBool();
     piSettings->show_context = gui_settings->value("prefs/show-context", true).toBool();
@@ -3121,9 +3187,12 @@ void MainWindow::restoreScopeState(std::vector<QString> names)
 void MainWindow::writeSettings()
 {
     std::cout << "[GUI] - writing settings" << std::endl;
+
     gui_settings->setValue("pos", pos());
     gui_settings->setValue("size", size());
     gui_settings->setValue("first_time", 0);
+
+    gui_settings->setValue("prefs/language", piSettings->language);
 
     gui_settings->setValue("prefs/midi-default-channel", piSettings->midi_default_channel);
     gui_settings->setValue("prefs/midi-enable", piSettings->midi_enabled);
@@ -3172,6 +3241,9 @@ void MainWindow::writeSettings()
     gui_settings->setValue("docsplitState", docsplit->saveState());
     gui_settings->setValue("windowState", saveState());
     gui_settings->setValue("windowGeom", saveGeometry());
+
+    // Force Qt to write the settings to the ini file
+    gui_settings->sync();
 }
 
 void MainWindow::loadFile(const QString& fileName, SonicPiScintilla*& text)
@@ -3259,6 +3331,31 @@ void MainWindow::onExitCleanup()
       // Shuts down the client/server connection
       m_spAPI->Shutdown();
     }
+}
+
+void MainWindow::restartApp() {
+    QApplication* app = dynamic_cast<QApplication*>(parent());
+    statusBar()->showMessage(tr("Restarting Sonic Pi..."), 10000);
+
+    // Save settings and perform some cleanup
+    writeSettings();
+    onExitCleanup();
+    std::cout << "Performing application restart..." << std::endl;
+
+    // Create new process
+    QStringList args = qApp->arguments();
+    args.removeFirst();
+    QProcess process;
+    bool restart_success = process.startDetached(qApp->arguments()[0], args);
+    if (restart_success) {
+      std::cout << "Successfully restarted sonic-pi" << std::endl;
+    } else {
+      std::cout << "Failed to restart sonic-pi" << std::endl;
+    }
+
+    // Quit
+    app->exit(0);
+    exit(0);
 }
 
 void MainWindow::heartbeatOSC()

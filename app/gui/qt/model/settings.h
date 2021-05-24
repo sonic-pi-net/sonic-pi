@@ -24,6 +24,7 @@ public:
     QString midi_default_channel_str;
 
     // EditorSettings
+    QString language;
     bool auto_indent_on_run;
     bool show_line_numbers;
     bool show_log;

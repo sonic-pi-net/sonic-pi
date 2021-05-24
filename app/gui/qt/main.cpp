@@ -11,12 +11,13 @@
 // notice is included.
 //++
 
+#include <iostream>
+
 #include <QApplication>
 #include <QSplashScreen>
 #include <QPixmap>
 #include <QBitmap>
 #include <QLabel>
-#include <QTranslator>
 #include <QLibraryInfo>
 
 #include "mainwindow.h"
@@ -35,7 +36,7 @@
 
 int main(int argc, char *argv[])
 {
-
+  std::cout << "Starting Sonic Pi..." << std::endl;
 #ifndef Q_OS_MAC
   Q_INIT_RESOURCE(SonicPi);
 #endif
@@ -48,16 +49,6 @@ int main(int argc, char *argv[])
   QFontDatabase::addApplicationFont(":/fonts/Hack-Italic.ttf");
 
   qRegisterMetaType<SonicPiLog::MultiMessage>("SonicPiLog::MultiMessage");
-
-  QString systemLocale = QLocale::system().uiLanguages()[0].replace("-", "_");
-
-  QTranslator qtTranslator;
-  qtTranslator.load("qt_" + systemLocale, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
-  app.installTranslator(&qtTranslator);
-
-  QTranslator translator;
-  bool i18n = translator.load(QLatin1String("sonic-pi_") + systemLocale, QLatin1String(":/lang")) ||  systemLocale.startsWith("en") || systemLocale == "C";
-  app.installTranslator(&translator);
 
   app.setApplicationName(QObject::tr("Sonic Pi"));
   app.setStyle("gtk");
@@ -75,7 +66,7 @@ int main(int argc, char *argv[])
   splash->show();
   splash->repaint();
   app.processEvents();
-  MainWindow mainWin(app, i18n, splash);
+  MainWindow mainWin(app, splash);
 
   return app.exec();
 #elif _WIN32
@@ -109,7 +100,7 @@ int main(int argc, char *argv[])
   splash->show();
   splash->repaint();
   app.processEvents();
-  MainWindow mainWin(app, i18n, splash);
+  MainWindow mainWin(app, splash);
 
   // Fix for full screen mode. See: https://doc.qt.io/qt-5/windows-issues.html#fullscreen-opengl-based-windows
   QWindowsWindowFunctions::setHasBorderInFullScreen(mainWin.windowHandle(), true);
@@ -139,9 +130,8 @@ int main(int argc, char *argv[])
   splashWindow->show();
   app.processEvents();
 
-  MainWindow mainWin(app, i18n, splashWindow);
+  MainWindow mainWin(app, splashWindow);
   return app.exec();
 
 #endif
-
 }

@@ -2,6 +2,7 @@
 #define SETTINGSWIDGET_H
 
 #include "model/settings.h"
+#include "utils/sonicpi_i18n.h"
 
 #include <QWidget>
 
@@ -23,14 +24,19 @@ class SettingsWidget : public QWidget
     Q_OBJECT
 
 public:
-    SettingsWidget( int server_osc_cues_port, SonicPiSettings *piSettings, QWidget *parent = 0);
+    SettingsWidget(int server_osc_cues_port, bool i18n, SonicPiSettings *piSettings, SonicPii18n *sonicPii18n, QWidget *parent = nullptr);
     ~SettingsWidget();
 
     void updateVersionInfo( QString info_string, QString visit, bool sonic_pi_net_visible, bool check_now_visible);
     void updateMidiInPorts( QString in );
     void updateMidiOutPorts( QString out );
     void updateScopeNames(std::vector<QString>);
+    void updateSelectedUILanguage(QString lang);
+
     QSize sizeHint() const;
+
+public slots:
+    void updateUILanguage(int index);
 
 private slots:
     void update_mixer_invert_stereo();
@@ -68,6 +74,8 @@ private slots:
     void autoIndentOnRun();
 
 signals:
+    void restartApp();
+    void uiLanguageChanged(QString lang); // TODO: Implement real-time language switching
     void mixerSettingsChanged();
     void oscSettingsChanged();
     void midiSettingsChanged();
@@ -100,6 +108,10 @@ signals:
 
 private:
     SonicPiSettings* piSettings;
+    SonicPii18n* sonicPii18n;
+    std::map<QString, QString> localeNames;
+    QStringList available_languages;
+    bool i18n;
     int server_osc_cues_port;
 
     QTabWidget *prefTabs;
@@ -154,13 +166,20 @@ private:
     QSlider *system_vol_slider;
     QSlider *gui_transparency_slider;
 
+    QComboBox *language_combo;
+    QLabel *language_option_label;
+    QLabel *language_details_label;
+    QLabel *language_info_label;
+
     // TODO
-    bool i18n = true;
     QGroupBox* createAudioPrefsTab();
     QGroupBox* createIoPrefsTab();
     QGroupBox* createEditorPrefsTab();
     QGroupBox* createVisualizationPrefsTab();
     QGroupBox* createUpdatePrefsTab();
+    QGroupBox* createLanguagePrefsTab();
+
+    void add_language_combo_box_entries(QComboBox* combo);
 
     QString tooltipStrShiftMeta(char key, QString str);
 
