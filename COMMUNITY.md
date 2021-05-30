@@ -41,7 +41,7 @@ please drop by, say hello and ask lots of questions.
 
 
 ## GitHub
-*<https://github.com/samaaron/sonic-pi>*
+*<https://github.com/sonic-pi-net/sonic-pi>*
 
 For developers interested in the full source code. The issue tracker is
 also hosted here.
