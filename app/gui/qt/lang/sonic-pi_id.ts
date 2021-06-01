@@ -554,7 +554,7 @@ Permintaan maaf, kesalahan kritis terjadi selama startup</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2741"/>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Thema Malam</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2746"/>
@@ -1518,7 +1518,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="310"/>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Thema Malam</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="311"/>
