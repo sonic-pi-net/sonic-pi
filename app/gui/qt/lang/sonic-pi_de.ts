@@ -379,7 +379,7 @@ Entschuldigung, beim Start ist ein kritischer Fehler aufgetreten</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2307"/>
         <source>Show autocompletion off</source>
-        <translation>Ausgeschaltete Autovervollständig anzeigen</translation>
+        <translation>Autovervollständigung anzeigen ausgeschaltet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2322"/>
