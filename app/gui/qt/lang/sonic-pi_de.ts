@@ -123,7 +123,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3662"/>
         <source>Disabling OSC cue port...</source>
-        <translation>OSC cue port wird deaktiviert...</translation>
+        <translation>OSC Hinweis-Port wird deaktiviert...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3674"/>
