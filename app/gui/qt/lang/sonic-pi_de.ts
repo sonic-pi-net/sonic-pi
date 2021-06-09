@@ -128,7 +128,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3674"/>
         <source>Enabling external OSC cue port...</source>
-        <translation>Externer OSC cue port wird aktiviert...</translation>
+        <translation>Externer OSC Hinweis-Port wird aktiviert...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3686"/>
@@ -218,12 +218,12 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2551"/>
         <source>Code Size Up</source>
-        <translation>Code vergrößern</translation>
+        <translation>Code-Schrift größer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2557"/>
         <source>Code Size Down</source>
-        <translation>Code verkleinern</translation>
+        <translation>Code-Schrift kleiner</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2563"/>
@@ -273,7 +273,7 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="897"/>
         <source>Playing Sample...</source>
-        <translation>Sample wird gespielt...</translation>
+        <translation>Sample wird abgespielt...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1686"/>
@@ -344,12 +344,12 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1869"/>
         <source>Hiding about window...</source>
-        <translation>Info Fenster verbergen...</translation>
+        <translation>Info-Fenster verbergen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1874"/>
         <source>Showing about window...</source>
-        <translation>Info Fenster anzeigen...</translation>
+        <translation>Info-Fenster anzeigen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1890"/>
@@ -374,12 +374,12 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2305"/>
         <source>Show autocompletion on</source>
-        <translation>Autovervollständig eingeschaltet anzeigen</translation>
+        <translation>Eingeschaltete Autovervollständigung anzeigen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2307"/>
         <source>Show autocompletion off</source>
-        <translation>Autovervollständig ausgeschaltet anzeigen</translation>
+        <translation>Ausgeschaltete Autovervollständig anzeigen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2322"/>
@@ -404,7 +404,7 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2510"/>
         <source>Exit</source>
-        <translation>Verlassen</translation>
+        <translation>Beenden</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2529"/>
@@ -601,7 +601,7 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
         <location filename="../mainwindow.cpp" line="3638"/>
         <location filename="../mainwindow.cpp" line="3750"/>
         <source>No Connected Inputs</source>
-        <translation>Keine Verbundenen Eingänge</translation>
+        <translation>Keine belegte Eingänge</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2790"/>
@@ -1183,12 +1183,11 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation type="unfinished">Mono-Ton.
-Der Ton des linken und rechten Kanals wird
-gemischt und das gleiche Mono-Tonsignal
-an beide Lautsprecher geschickt.
-Praktisch, wenn der externe Verstärker nur
-Mono-Ton verarbeiten kann.</translation>
+        <translation>Mono-Modus einschalten.
+Signale des linken und des rechten Kanals werden gemischt
+- an beide Lautsprecher wird das gleiche Signal geschickt.
+Praktisch, wenn das externe System nur
+Mono-Signale verarbeiten kann.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="107"/>
