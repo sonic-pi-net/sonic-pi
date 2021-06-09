@@ -33,12 +33,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="1110"/>
         <source>Indenting selection...</source>
-        <translation>Indentation de la sélection...</translation>
+        <translation>Indentation de la sélection…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1114"/>
         <source>Indenting line...</source>
-        <translation>Indentation de la ligne...</translation>
+        <translation>Indentation de la ligne…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1143"/>
