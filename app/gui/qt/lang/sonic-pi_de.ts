@@ -524,7 +524,7 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2689"/>
         <source>Auto-Scroll Log</source>
-        <translation>Eintrag Auto-Scroll</translation>
+        <translation>Protokoll automatisch scrollen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2699"/>
@@ -579,7 +579,7 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2766"/>
         <source>Colour Theme</source>
-        <translation>Farbschema</translation>
+        <translation>Farbthema</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2775"/>
@@ -723,7 +723,7 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2906"/>
         <source>Focus Editor</source>
-        <translation>Editor Fokussieren</translation>
+        <translation>Editor fokussieren</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2908"/>
@@ -733,7 +733,7 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2912"/>
         <source>Focus Logs</source>
-        <translation>Einträge Fokussieren</translation>
+        <translation>Protokoll fokussieren</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2914"/>
@@ -803,7 +803,7 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2952"/>
         <source>Show Log</source>
-        <translation>Log anzeigen</translation>
+        <translation>Protokoll anzeigen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2957"/>
