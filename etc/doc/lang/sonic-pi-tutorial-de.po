@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2021-06-09 14:32+0000\n"
+"PO-Revision-Date: 2021-06-10 15:33+0000\n"
 "Last-Translator: Boris Vogeler <smplrtrn@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "de/>\n"
@@ -71,11 +71,12 @@ msgid ""
 "ree just to dip in and out of sections as you see fit. If you feel that there'"
 "s something missing, do let me know and I'll consider it for a future version."
 msgstr ""
-"Dieses Tutorial ist in Kapitel aufgeteilt, die nach Themen gruppiert sind. Auc"
-"h wenn ich es so geschrieben habe, dass man damit von Anfang bis zum Ende einf"
-"ach lernen kann, kannst Du an jeder Stelle einsteigen, ganz wie es Dir gefällt"
-". Wenn Du etwas im Tutorial vermisst, lass es mich wissen, und ich überlege, w"
-"ie ich das in zukünftige Versionen einbauen kann."
+"Dieses Tutorial ist in Kapitel aufgeteilt, die nach Themen gruppiert sind. "
+"Auch wenn ich es so geschrieben habe, dass du damit vom Anfang bis zum Ende "
+"einfach lernen kann, kannst du ebenso gut an jeder anderen Stelle "
+"einsteigen, und wieder aussteigen, ganz wie es dir gefällt. Wenn du etwas im "
+"Tutorial vermisst, lass es mich wissen, und ich werde überlegen, wie ich das "
+"in zukünftige Versionen einbauen kann."
 
 #: 01-Welcome-to-Sonic-Pi.md:28
 msgid ""
@@ -108,13 +109,14 @@ msgid ""
 "uitar. This means that given some practice you can take Sonic Pi on stage and "
 "gig with it."
 msgstr ""
-"Mit Sonic Pi kannst Du etwas sehr aufregendes tun: Du kannst Musik aus Code li"
-"ve schreiben und *verändern, während sie spielt*. Fast so wie mit einer Gitarr"
-"e. Mit anderen Worten: Du kannst Sonic Pi mit auf die Bühne nehmen und jammen."
+"Einer der aufregendsten Aspekte von Sonic Pi ist, dass du Code *live "
+"schreiben und verändern* kannst, um Musik zu machen. Ganz so wie du auch mit "
+"einer Gitarre auftreten würdest. Mit anderen Worten: Wenn du etwas Übung "
+"hast, kannst du Sonic Pi mit auf die Bühne nehmen und jammen."
 
 #: 01.1-Live-Coding.md:10
 msgid "Free your mind"
-msgstr "Mach mal kurz den Kopf frei"
+msgstr "Mach den Kopf frei"
 
 #: 01.1-Live-Coding.md:12
 msgid ""
@@ -123,19 +125,19 @@ msgid ""
 "on't worry if you don't understand much (or any) of this. Just try to hold ont"
 "o your seats and enjoy..."
 msgstr ""
-"Wir werden in diesem Tutorial in die Details von Sonic Pi eintauchen. Jetzt mö"
-"chte ich Dir aber erst einmal zeigen, wie das ist, live Musik zu programmieren"
-". Keine Sorge, Du wirst vielleicht nicht sofort alles verstehen. Aber das mach"
-"t nichts. Genieße kurz diesen Einblick."
+"Bevor wir in diesem Tutorial in die ganzen Details von Sonic Pi eintauchen, "
+"möchte ich dir erst einmal zeigen, wie sich das anfühlt live Musik zu "
+"programmieren. Keine Sorge, wenn du nicht alles (oder auch nur irgend etwas "
+"davon) verstehst. Das macht nichts. Versuch' dich zurückzulehnen - und "
+"genieße..."
 
 #: 01.1-Live-Coding.md:17
 msgid "A live loop"
-msgstr "Eine Live-Loop"
+msgstr "Ein Live-Loop"
 
 #: 01.1-Live-Coding.md:19
 msgid "Let's get started, copy the following code into an empty buffer:"
-msgstr ""
-"Lass uns loslegen. Kopiere den folgenden Code in einen leeren Abschnitt:"
+msgstr "Lass uns loslegen. Kopiere den folgenden Code in einen leeren Puffer:"
 
 #: 01.1-Live-Coding.md:21
 #, no-wrap
@@ -156,34 +158,36 @@ msgid ""
 ". If at any time you wish to stop the sound just hit the `Stop` button. Althou"
 "gh don't hit it just yet... Instead, follow these steps:"
 msgstr ""
-"Jetzt drücke den `Ausführen`-Button und Du wirst eine schöne Bass-Drum hören, "
-"die schnell vor sich hin hämmert. Mit einem Druck auf den `Stopp`-Button hört "
-"die Musik wieder auf. Aber drücke bitte noch nicht darauf ... sondern probiere"
-" die folgenden Veränderungen aus:"
+"Jetzt klicke die `Ausführen`-Schaltfläche und du wirst eine schöne Bass-Drum "
+"hören, die schnell vor sich hin hämmert. Mit einem Klick auf den `Stopp`-"
+"Schaltfläche hört die Musik wieder auf. Aber klicke bitte noch nicht gleich "
+"darauf... sondern probiere stattdessen die folgenden Schritte aus:"
 
 #: 01.1-Live-Coding.md:32
 msgid "Make sure the bass drum sound is still running"
-msgstr "Lass den Beat der Bass-Drum weiter laufen"
+msgstr "Lass den Bass-Drum-Sound weiter laufen"
 
 #: 01.1-Live-Coding.md:33
 msgid "Change the `sleep` value from `0.5` to something higher like `1`."
-msgstr "Verändere den Wert von `sleep` von `0.5` auf einen höheren Wert, etwa `1`."
+msgstr "Setze den Wert von `sleep` von `0.5` auf einen höheren Wert, etwa `1`."
 
 #: 01.1-Live-Coding.md:34
 msgid "Press the `Run` button again"
-msgstr "Drücke wieder den `Ausführen`-Button"
+msgstr "Klicke wieder die `Ausführen`-Schaltfläche"
 
 #: 01.1-Live-Coding.md:35
 msgid "Notice how the drum speed has changed."
-msgstr "Gemerkt? Die Geschwindigkeit der Bass-Drum hat sich verändert."
+msgstr ""
+"Bemerke, wie die Geschwindigkeit des Bass-Drum-Beats sich verändert hat."
 
 #: 01.1-Live-Coding.md:36
 msgid ""
 "Finally, *remember this moment*, this is the first time you've live coded with"
 " Sonic Pi and it's unlikely to be your last..."
 msgstr ""
-"*Merke Dir diesen Moment.* Du hast mit Sonic Pi zum ersten Mal live Code gesch"
-"rieben. Wahrscheinlich wird es nicht das letzte Mal sein …"
+"Nun, *merke dir diesen Moment*! Dies war das erste Mal, dass du mit Sonic Pi "
+"live Code geschrieben hast. Und es ist unwahrscheinlich, dass es das letzte "
+"Mal sein wird…"
 
 #: 01.1-Live-Coding.md:39
 msgid ""
@@ -191,9 +195,9 @@ msgid ""
 "le :bd_haus` add the line `sample :ambi_choir, rate: 0.3`. Your code should lo"
 "ok like this:"
 msgstr ""
-"Ok, das war einfach. Verändern wir also die Zutaten ein wenig. Vor `sample :bd"
-"_haus` kannst Du die Zeile `sample :ambi_choir, rate: 0.3` einfügen. Dein Code"
-" müsste dann so aussehen:"
+"Ok, das war einfach. Fügen wir etwas anderes hinzu. Über `sample :bd_haus` "
+"füge die Zeile `sample :ambi_choir, rate: 0.3` ein. Dein Code sollte dann so "
+"aussehen:"
 
 #: 01.1-Live-Coding.md:43
 #, no-wrap
@@ -219,17 +223,21 @@ msgid ""
 "t your computer will stop with an error because it can't keep up (if that happ"
 "ens, just choose a bigger `sleep` time and hit `Run` again)."
 msgstr ""
-"So, jetzt spiele damit herum. Verändere die Werte für `rate:` – was passiert, "
-"wenn Du hohe, kleine oder negative Zahlen einträgst? Hast Du gemerkt, wie sich"
-" eine sehr kleine Änderung des `rate:`-Wertes für das `:ambi_choir`-Sample aus"
-"wirkt (z. B. 0.29)? Was passiert bei einem wirklich kleinen `sleep`-Wert? Kann"
-"st Du eine Fehlermeldung Deines Computers auslösen, wenn Du den Wert immer kle"
-"iner werden lässt? (Wenn das geschieht, nimm einfach wieder einen größeren Wer"
-"t für `sleep` und drücke auf `Ausführen`)."
+"So, jetzt spiele damit herum. Verändere die Werte für `rate:` – was "
+"passiert, wenn du hohe, niedrige oder negative Zahlen einträgst? Achte "
+"darauf, wie sich eine sehr kleine Änderung des `rate:`-Wertes für das "
+"`:ambi_choir`-Sample auswirkt (z. B. 0.29)? Was passiert wenn du einen "
+"wirklich kleinen `sleep`-Wert einträgst? Probiere aus, ob du es so schnell "
+"machen kannst, dass du einen Stopp und eine Fehlermeldung deines Computers "
+"auslöst, weil er nicht mehr hinterher kommt. (Wenn das geschieht, nimm "
+"einfach wieder einen größeren Wert für `sleep` und klicke wieder auf "
+"`Ausführen`)."
 
 #: 01.1-Live-Coding.md:59
 msgid "Try commenting one of the `sample` lines out by adding a `#` to the beginning:"
-msgstr "Kommentiere eine Code-Zeile aus, indem Du ein `#` an ihren Anfang schreibst:"
+msgstr ""
+"Versuche eine Zeile mit dem `sample`-Code auszukommentieren, indem du ein `#`"
+" an ihren Anfang schreibst:"
 
 #: 01.1-Live-Coding.md:62
 #, no-wrap
@@ -252,9 +260,10 @@ msgid ""
 "lled a comment. In Sonic Pi we can use comments to remove and add things into "
 "the mix."
 msgstr ""
-"Siehst Du? Jetzt ignoriert der Computer diese Zeile und wir hören den Befehl n"
-"icht mehr. Was hinter einem `#` steht ist ein Kommentar. Wir können dieses Zei"
-"chen benutzen, um Code schnell zu entfernen und später wieder einzufügen."
+"Beachte wie das Zeichen den Computer anweist die Zeile zu ignorieren - wir "
+"hören das Ergebnis des Befehls darin nicht mehr. Was hinter einem `#` steht "
+"ist ein Kommentar. Wir können dieses Zeichen in Sonic Pi benutzen, um Dinge "
+"schnell aus dem Mix zu entfernen und später wieder hinzuzuzufügen."
 
 #: 01.1-Live-Coding.md:74
 msgid ""
@@ -264,41 +273,41 @@ msgid ""
 " Now, do what you do best - experiment and play around. Here are some suggesti"
 "ons:"
 msgstr ""
-"Zum Abschluss möchte ich Dir etwas zum Spielen geben. Nimm den Code unten und "
-"kopiere ihn in einen freien Puffer. Macht nix, Du musst noch nicht alles davon"
-" durchschauen, aber Du siehst, dass da zwei Loops sind – zwei Schleifen, die g"
-"leichzeitig laufen und sich endlos wiederholen. Jetzt tue, was Du am besten ka"
-"nnst: Experimentiere und spiele herum. Hier sind ein paar Vorschläge:"
+"Abschließend möchte ich dir etwas unterhaltsames zum Spielen geben. Nimm den "
+"Code unten und kopiere ihn in einen freien Puffer. Versuche nicht mehr davon "
+"zu verstehen, als dass da zwei Loops sind – zwei Schleifen, die gleichzeitig "
+"laufen und sich endlos wiederholen. Jetzt tue, was du am besten kannst - "
+"experimentiere und spiele damit herum. Hier ein paar Vorschläge:"
 
 #: 01.1-Live-Coding.md:80
 msgid "Try changing the blue `rate:` values to hear the sample sound change."
 msgstr ""
-"Ändere die blauen Werte hinter `rate:` und höre zu, wie sich das Sample veränd"
-"ert."
+"Ändere die blauen Werte hinter `rate:` und achte darauf, wie sich das Sample "
+"verändert."
 
 #: 01.1-Live-Coding.md:81
 msgid ""
 "Try changing the `sleep` times and hear that both loops can spin round at diff"
 "erent rates."
 msgstr ""
-"Ändere die Zeitwerte von `sleep` und beobachte, wie die beiden Schleifen in un"
-"terschiedlicher Weise aneinander vorbei laufen."
+"Ändere die Zeitwerte von `sleep` und achte darauf, wie die beiden Schleifen "
+"mit unterschiedlicher Geschwindigkeit aneinander vorbei laufen."
 
 #: 01.1-Live-Coding.md:83
 msgid ""
 "Try uncommenting the sample line (remove the `#`) and enjoy the sound of the g"
 "uitar played backwards."
 msgstr ""
-"Hole die auskommentierte Sample-Zeile wieder hervor und genieße den Sound eine"
-"r umgekehrt abgespielten Gitarre."
+"Versuche die auskommentierte Sample-Zeile zu aktivieren (entferne das `#`) "
+"und genieße den Klang einer umgekehrt abgespielten Gitarre."
 
 #: 01.1-Live-Coding.md:85
 msgid ""
 "Try changing any of the blue `mix:` values to numbers between `0` (not in the "
 "mix) and `1` (fully in the mix)."
 msgstr ""
-"Probiere, die blauen Werte von `mix:` auf Werte zwischen `0` (nicht im Mix) un"
-"d `1` (voll im Mix) zu ändern."
+"Probiere, die blauen Werte für `mix:` auf Werte zwischen `0` (nicht im Mix) "
+"und `1` (voll im Mix) zu ändern."
 
 #: 01.1-Live-Coding.md:88
 msgid ""
@@ -307,10 +316,11 @@ msgid ""
 "e buffer and paste a fresh copy in and you're ready to jam again. Making mista"
 "kes is how you'll learn the quickest..."
 msgstr ""
-"Vergiss nicht, `Ausführen` zu drücken, dann hörst Du sofort beim nächsten Durc"
-"hlauf der Loops Deine Änderungen. Wenn irgendwas schiefgeht – macht nichts! Dr"
-"ücke `Stopp`, lösche den kaputten Code und fang mit dem ursprünglichen Code no"
-"ch einmal von vorn an. Denn am besten lernt man beim Fehlermachen …"
+"Denke daran `Ausführen` zu klicken, dann hörst du sofort beim nächsten "
+"Durchlauf eines Loops deine Änderungen. Wenn irgendwas schiefgeht – macht "
+"nichts! Klicke auf `Stopp`, lösche den kaputten Code im Puffer und fange mit "
+"einer frischen Kopie noch einmal von vorn an zu jammen. Am schnellsten "
+"lernst du, wenn du Fehler machst…"
 
 #: 01.1-Live-Coding.md:94
 #, no-wrap
@@ -349,14 +359,14 @@ msgid ""
 "tually works kicks in and you start wondering what else you can do with this. "
 "You're now ready to read the rest of the tutorial."
 msgstr ""
-"Spiele also herum und experimentiere, bis Deine Neugierde einsetzt und Du Dich"
-" fragst, wie das hier alles eigentlich wirklich funktioniert und was man noch "
-"so alles damit anstellen kann. Jetzt bist Du bereit für den Rest dieses Tutori"
-"als."
+"Spiele solange herum und experimentiere, bis deine Neugierde einsetzt und du "
+"dich fragst, wie das hier alles eigentlich wirklich funktioniert, und was "
+"man noch so alles damit anstellen kann. Du bist jetzt bereit für den Rest "
+"dieses Tutorials."
 
 #: 01.1-Live-Coding.md:115
 msgid "So what are you waiting for..."
-msgstr "Also, worauf wartest Du …"
+msgstr "Also, worauf wartest du…"
 
 #: 01.2-Exploring-the-Interface.md:1
 msgid "1.2 Exploring the Interface"
@@ -371,11 +381,10 @@ msgid ""
 "Sonic Pi has a very simple interface for coding music. Let's spend a little ti"
 "me exploring it."
 msgstr ""
-"Sonic PI hat eine sehr einfache Oberfläche zum Programmieren von Musik. Schaue"
-"n wir sie uns einmal genauer an."
+"Sonic PI hat eine sehr einfache Oberfläche für das Programmieren von Musik. "
+"Schauen wir sie uns einmal genauer an."
 
 #: 01.2-Exploring-the-Interface.md:8
-#, fuzzy
 msgid "![Sonic Pi Interface](../../../etc/doc/images/tutorial/GUI.png)"
 msgstr "![Sonic Pi Interface](../../../etc/doc/images/tutorial/GUI.png)"
 
@@ -401,7 +410,7 @@ msgstr "*E* - Einstellungen"
 
 #: 01.2-Exploring-the-Interface.md:16
 msgid "*F* - Log Viewer"
-msgstr "*F* - Protokoll-Fenster"
+msgstr "*F* - Log-Fenster"
 
 #: 01.2-Exploring-the-Interface.md:17
 msgid "*G* - Help System"
@@ -412,9 +421,8 @@ msgid "*H* - Scope Viewer"
 msgstr "*H* - Oszilloskop"
 
 #: 01.2-Exploring-the-Interface.md:19
-#, fuzzy
 msgid "*I* - Cue Viewer"
-msgstr "*F* - Protokoll-Fenster"
+msgstr "*F* - Log-Fenster"
 
 #: 01.2-Exploring-the-Interface.md:21
 msgid "A. Play Controls"
@@ -427,10 +435,10 @@ msgid ""
 "all running code, *Save* for saving the code to an external file and *Record* "
 "to create a recording (a WAV file) of the sound playing."
 msgstr ""
-"Mit diesen pinkfarbenen Buttons kannst Du Klänge abspielen und stoppen. Der *A"
-"usführen*-Button startet den Code im Editor, *Stopp* hält den ablaufenden Code"
-" an, *Speichern* schreibt den Code in eine Datei und *Aufnehmen* nimmt den ger"
-"ade laufenden Sound (in einer WAV-Datei) auf."
+"Mittels dieser pinkfarbenen Schaltflächen kannst du Klänge abspielen und "
+"stoppen. Der *Ausführen*-Button startet den Code im Editor, *Stopp* hält den "
+"ablaufenden Code an, *Speichern* schreibt den Code in eine Datei und "
+"*Aufnehmen* nimmt den gerade laufenden Sound (in einer WAV-Datei) auf."
 
 #: 01.2-Exploring-the-Interface.md:29
 msgid "B. Editor Controls"
@@ -441,9 +449,9 @@ msgid ""
 "These orange buttons allow you to manipulate the code editor. The *Size +* and"
 " *Size -* buttons allow you to make the text bigger and smaller."
 msgstr ""
-"Diese orangen Knöpfe erlauben es Dir, den Code-Editor zu manipulieren. Mit den"
-" *Size +* und *Size -* Knöpfen kannst du den Text vergrössern oder verkleinern"
-"."
+"Diese orangenen Schaltflächen erlauben dir, den Code-Editor zu manipulieren. "
+"Mit den *Size +* und *Size -* Knöpfen kannst du den Text vergrößern oder "
+"verkleinern."
 
 #: 01.2-Exploring-the-Interface.md:35
 msgid "C. Info and Help"
@@ -457,12 +465,12 @@ msgid ""
 "*Help* button toggles the help system (*G*) and the *Prefs* button toggles the"
 " preferences window which allows you to control some basic system parameters."
 msgstr ""
-"Die blauen Buttons bieten Dir den Zugriff auf Informationen, die Hilfe und die"
-" Voreinstellungen. Der *Info*-Button öffnet ein Fenster mit Informationen über"
-" Sonic Pi selbst und wo Du mehr Informationen und Hilfe von anderen findest. D"
-"er *Help*-Button zeigt/verbirgt das eingebaute Hilfesystem (*F*) und *Prefs* z"
-"eigt/verbirgt das Fenster, wo Du einige grundsätzliche Einstellungen regeln ka"
-"nnst."
+"Die blauen Schaltflächen bieten dir Zugriff auf Informationen, die Hilfe und "
+"die Voreinstellungen. Der *Info*-Schalter öffnet ein Fenster mit "
+"Informationen über Sonic Pi selbst - das Entwickler-Team, Geschichte, "
+"Mitwirkende und Community. Der *Help*-Schalter zeigt/verbirgt das eingebaute "
+"Hilfesystem (*F*) und *Prefs* zeigt/verbirgt das Fenster, wo du einige "
+"grundsätzliche Einstellungen vornehmen kannst."
 
 #: 01.2-Exploring-the-Interface.md:44
 msgid "D. Code Editor"
@@ -477,13 +485,14 @@ msgid ""
 "trange at first, but you'll soon find it very useful. For example, you'll know"
 " something is a number because it is blue."
 msgstr ""
-"In diesem Bereich schreibst Du Deinen Code, komponierst Du Deine Musik und füh"
-"rst sie später auf. Es ist ein einfacher Texteditor, in dem Du Code eingibst u"
-"nd bearbeitest; so eine Art sehr einfache Textverarbeitung wie Word oder Googl"
-"e Docs. Der Editor färbt bestimmte Begriffe automatisch ein, je nachdem, welch"
-"e Bedeutung sie innerhalb des Codes haben. Am Anfang ist das vielleicht ein we"
-"nig merkwürdig, aber Du wirst es bald nützlich finden. Zum Beispiel erkennst D"
-"u Zahlen sofort daran, dass sie blau eingefärbt sind."
+"In diesem Bereich schreibst du deinen Code und komponierst und führst deine "
+"Musik auf. Es ist ein einfacher Texteditor, in dem du Code schreiben, "
+"löschen, ausschneiden und einfügen kannst u.s.w. Stelle es dir als sehr "
+"einfache Version von Word oder Google Docs vor. Der Editor färbt bestimmte "
+"Begriffe automatisch ein, je nachdem, welche Bedeutung sie innerhalb des "
+"Codes haben. Am Anfang mag dir das vielleicht ein wenig merkwürdig "
+"erscheinen, aber du wirst es bald sehr nützlich finden. Zum Beispiel "
+"erkennst du Zahlen sofort daran, dass sie blau sind."
 
 #: 01.2-Exploring-the-Interface.md:54
 msgid "E. Prefs Panel"
@@ -497,15 +506,17 @@ msgid ""
 "ged. Examples are forcing mono mode, inverting stereo, toggling log output ver"
 "bosity and also a volume slider and audio selector on the Raspberry Pi."
 msgstr ""
-"Du kannst verschiedene Einstellungen von Sonic Pi verändern, wenn Du den *Pref"
-"s*-Button drückst. Einige davon sind z.B.: Die Ausgabe von Mono-Ton, der Tausc"
-"h der Stereokanäle, die Ausführlichkeit des Protokolls. Auf dem Raspberry Pi k"
-"annst Du hier auch noch die Lautstärke und den Ausgabekanal für den Ton auswäh"
-"len."
+"Sonic Pi enthält eine Reihe von veränderbaren Einstellungen, die über den "
+"*Prefs*-Schalter im Info- und Hilfe-Abschnitt erreicht werden können. In den "
+"Einstellungen sind einige Optionen verfügbar, die geändert werden können, "
+"darunter z. B.: Wechsel in den Mono-Modus, Tauschen der Stereokanäle, "
+"Einstellung der Ausführlichkeit der Log-Ausgabe und ein Volumen-Regler. Auf "
+"einem Raspberry Pi kannst du hier auch das Ausgabemodul für den Ton "
+"auswählen."
 
 #: 01.2-Exploring-the-Interface.md:63
 msgid "F. Log Viewer"
-msgstr "F. Protokoll-Fenster"
+msgstr "F. Log-Fenster"
 
 #: 01.2-Exploring-the-Interface.md:65
 msgid ""
@@ -514,10 +525,11 @@ msgid ""
 "u create with the exact time the sound was triggered. This is very useful for "
 "debugging your code and understanding what your code is doing."
 msgstr ""
-"Wenn Dein Code abläuft, siehst Du im Protokoll-Fenster, was das Programm gerad"
-"e tut. Standardmäßig siehst Du eine Nachricht für jeden erzeugten Klang und di"
-"e exakte Zeit, wann der Klang ausgelöst wurde. Bei der Suche nach Fehlern kann"
-" das sehr hilfreich sein und Du verstehst schneller, was Dein Code macht."
+"Wenn du deinen Code ablaufen lässt, siehst du im Log-Fenster, was das "
+"Programm gerade tut. Standardmäßig siehst du eine Nachricht für jeden "
+"erzeugten Klang und die exakte Zeit, wann der Klang ausgelöst wurde. Bei der "
+"Suche nach Fehlern (Debugging) kann das sehr hilfreich sein, und du "
+"verstehst schneller, was dein Code macht."
 
 #: 01.2-Exploring-the-Interface.md:71
 msgid "G. Help System"
@@ -532,14 +544,13 @@ msgid ""
 "ynths, samples, examples, FX and a full list of all the functions Sonic Pi pro"
 "vides for coding music."
 msgstr ""
-"Das Hilfe-System im unteren Bereich des Programmfensters ist einer der wichtig"
-"sten Teile von Sonic Pi. Du kannst es ein- und ausblenden, wenn Du den blauen`"
-"Hilfe`-Button klickst. Es zeigt Hilfe und Informationen über alle Aspekte von "
-"Sonic Pi, einschließlich dieses Tutorials, einer Liste der mitgelieferten Synt"
-"hs, Samples, Beispiele, Effekte (Im Englischen wird der Begriff *Effekte* manc"
-"hmal lautmalerisch mit *FX* (\"ef-eks\") abgekürzt; *FX* bezeichnet also die Kla"
-"ngeffekte in Sonic Pi.) sowie eine komplette Liste aller Funktionen, die Sonic"
-" Pi zum Coden von Musik bereitstellt."
+"Eines der wichtigsten Elemente des Sonic Pi Programmfensters ist das Hilfe-"
+"System, das am unteren Ende des Fensters auftaucht. Du kannst es ein- und "
+"ausblenden, indem du den blauen `Hilfe`-Schalter klickst. Das Hilfe-System "
+"zeigt Hilfe und Informationen zu allen Aspekten von Sonic Pi an, "
+"einschließlich dieses Tutorials, einer Liste der mitgelieferten Synthesizer, "
+"Samples, Beispiele, Effekte (FX) sowie eine komplette Liste aller Funktionen "
+"(Sprachbefehle), die Sonic Pi zum Coden von Musik bereitstellt."
 
 #: 01.2-Exploring-the-Interface.md:81
 msgid "H. Scope Viewer"
@@ -557,20 +568,20 @@ msgid ""
 " you to draw pretty pictures with sound (https://en.wikipedia.org/wiki/Lissajo"
 "us_curve)."
 msgstr ""
-"Das Oszilloskop kann dir die Töne die Du hörst, anzeigen. Du kannst leicht erk"
-"ennen, dass die Sägezahnwelle wie eine Säge aussieht und der Beep wie eine kur"
-"vige Sinus-Kurve. Du kannst auch den Unterschied zwischen lauten und leisen Tö"
-"nen anhand der Größe der Linien erkennen. Es gibt drei Felder, mit denen Du sp"
-"ielen kannst. Standardmäßig ist es ein kombiniertes aus dem linken und rechten"
-" Kanal, es gibt ein Stereo-Oszilloskop das für jeden Kanal einen eigenen Berei"
-"ch anzeigt. Zu guter Letzt gibt es die Lissajous-Figur, sie zeigt Dir die Phas"
-"en-Beziehung zwischen dem linken und rechten Kanal. Damit kann man schöne Bild"
-"er aus Klängen malen (https://de.wikipedia.org/wiki/Lissajous-Figur)."
+"Das Oszilloskop kann dir die Töne die du hörst, anzeigen. Du kannst leicht "
+"erkennen, dass die Sägezahnwelle wie eine Säge aussieht und der Beep wie "
+"eine kurvige Sinus-Welle. Du kannst auch den Unterschied zwischen lauten und "
+"leisen Tönen anhand der Größe der Linien erkennen. Es gibt drei "
+"Oszilloskope, mit denen du spielen kannst. Standard ist ein aus dem linken "
+"und rechten Kanal kombiniertes Oszilloskop, es gibt daneben ein Stereo-"
+"Oszilloskop, das beide Kanäle einzeln anzeigt. Und zu guter Letzt gibt es "
+"das Lissajous-Oszilloskop, das dir die Phasen-Beziehung zwischen dem linken "
+"und rechten Kanal anzeigt - es ermöglicht dir auch das Zeichnen von Bildern "
+"mit Klängen (https://de.wikipedia.org/wiki/Lissajous-Figur)."
 
 #: 01.2-Exploring-the-Interface.md:93
-#, fuzzy
 msgid "I. Cue Viewer"
-msgstr "F. Protokoll-Fenster"
+msgstr "F. Einsatz-Fenster"
 
 #: 01.2-Exploring-the-Interface.md:95
 msgid ""
@@ -589,25 +600,30 @@ msgid ""
 "ng happening. This is covered in more detail in Sections 10 to 12 of this tuto"
 "rial."
 msgstr ""
-"Alle internen und externen Ereignisse (in Sonic Pi \"Protokolle\" genannt) "
-"werden automatisch im Protokoll angezeigt. Sie sind Indikatoren dafür, dass "
-"etwas neues Geschehen ist. Betätigst du zum Beispiel einen verbundenen MIDI "
-"Kontroller, erscheinen die Bezeichnung des gedrückten Knopfes und des "
-"Kontrollers im Protokoll. Unter Ereignissen verstehen wir auch Signale von "
-"MIDI Kontrollen, Programmen und Computern welche ebenfalls im Protokoll "
-"erscheinen. Außerdem werden auch u.a. manche Funktionen und Schleifen wie "
-"`live_loop` protokolliert. Zudem ist es auch möglich mithilfe der "
-"Protokollfunktion `cue` Einträge ins Protokoll zu machen. In den Kapiteln 10 "
-"bis 12 lernst du wie du Protokolleinträge als Trigger für andere Abläufe "
+"Alle internen und externen Ereignisse (in der deutschen Version von Sonic Pi "
+"Einsätze genannt - englisch: cues) werden automatisch im Einsatz-Log "
+"angezeigt. Betätigst du zum Beispiel einen verbundenen MIDI-Controller, "
+"erscheinen die Bezeichnung des betätigten Schalters/Reglers und des "
+"Controllers im Log. Sobald du die Grundlagen der Herstellung und "
+"Hervorbringung von Klängen gemeistert hast, wirst du auch Einsätze (Cues) "
+"für Klänge oder ganze Abschnitte von Klängen mit diesen Mitteln steuern "
+"wollen. Einsatz-Ereignisse (Cue Events) sind Indikatoren dafür, dass etwas "
+"geschehen ist. Zum Beispiel schickt ein Live-Loop jedes Mal wenn er eine "
+"Runde ausführt ein solches Einsatz-Ereignis, das im Einsatz-Log angezeigt "
+"wird. Auch externe Ereignisse, wie MIDI-Nachrichten von verbundenen MIDI-"
+"Geräten, und OSC-Nachrichten von anderen Programmen und Computern werden im "
+"Einsatz-Log angezeigt. Zudem ist es auch möglich mithilfe der `cue`-Funktion "
+"Einträge im Log zu generieren. In den Abschnitten 10 bis 12 lernst du im "
+"Einzelnen, wie du Log-Einträge als Auslöser (Trigger) für andere Abläufe "
 "benutzen kannst."
 
 #: 01.3-Learning-through-Play.md:1
 msgid "1.3 Learning through Play"
-msgstr "1.3 Spielend lernen"
+msgstr "1.3 Lernen durch Spielen"
 
 #: 01.3-Learning-through-Play.md:3
 msgid "Learning through Play"
-msgstr "Spielend lernen"
+msgstr "Lernen durch Spielen"
 
 #: 01.3-Learning-through-Play.md:5
 msgid ""
@@ -616,10 +632,10 @@ msgid ""
 "fore you know it you'll have accidentally learned how to code, compose and per"
 "form."
 msgstr ""
-"Mit Sonic Pi kannst Du etwas über Computer und Musik zu lernen - und zwar auf "
-"eine spielerische und experimentelle Weise. Das allerwichtigste ist, dass Du S"
-"paß hast. Und bevor Du es überhaupt bemerkt hast, wirst Du zufällig gelernt ha"
-"ben, Code zu schreiben, zu komponieren und Musik aufzuführen."
+"Sonic Pi ermutigt dich etwas über Computer und Musik zu lernen - durch "
+"Spielen und Experimentieren. Das aller Wichtigste ist, dass du Spaß hast, "
+"und bevor du es überhaupt bemerkst, wirst du zufällig gelernt haben Code zu "
+"schreiben, Musik zu komponieren und aufzuführen."
 
 #: 01.3-Learning-through-Play.md:10
 msgid "There are no mistakes"
@@ -638,21 +654,22 @@ msgid ""
 "sound, manipulate it and morph it into something awesome. The crowd will go *w"
 "ild*."
 msgstr ""
-"Einen kleinen Rat möchte ich Dir noch geben, bevor wir anfangen. In den "
-"Jahren, in denen ich Musik live programmiert habe, konnte ich eines lernen - "
-"*es gibt keine Fehler, nur Gelegenheiten*. Das sagen sie sonst über Jazz, "
-"aber es stimmt ebenso für Live-Coding. Es spielt keine Rolle, wie viel "
-"Erfahrung Du hast, ob Du ein absoluter Anfänger oder ein erfahrender "
-"Algoraver bist. Du wirst Code laufen lassen, der vollkommen unerwartete "
-"Ergebnisse mit sich bringt. Kann sein, dass es unglaublich cool klingt - "
-"dann mache weiter. Kann auch sein, dass es schrecklich klingt und vollkommen "
-"fehl am Platz ist. Es ist egal, wenn das passiert, wichtig ist, was Du damit "
-"als nächstes machst. Nimm den Sound, bearbeite ihn und mach daraus etwas "
-"Tolles. Die Menge wird *durchdrehen*."
+"Wo wir gerade dabei sind, möchte ich dir noch einen Rat geben, etwas das ich "
+"in den Jahren, in denen ich Musik live programmiert habe gelernt habe - *es "
+"gibt keine Fehler, nur Gelegenheiten*. Ich habe das oft im Bezug auf Jazz "
+"gehört, aber es trifft ebenso gut auf Live-Coding zu. Es spielt keine Rolle, "
+"wie viel Erfahrung du hast, ob du ein absoluter Anfänger oder ein "
+"erfahrender Live-Coder bist. Du wirst Code laufen lassen, der vollkommen "
+"unerwartete Ergebnisse hervorbringt. Kann sein, dass es unglaublich cool "
+"klingt - dann mache da weiter. Wie dem auch sei, kann sein, dass es "
+"schrecklich klingt und vollkommen fehl am Platz ist. Es ist egal, wenn das "
+"passiert, wichtig ist, was du dann damit als Nächstes tust. Nimm den Klang, "
+"bearbeite ihn und verwandle ihn in etwas Tolles. Die Menge wird "
+"*durchdrehen*."
 
 #: 01.3-Learning-through-Play.md:24
 msgid "Start Simple"
-msgstr "Fang einfach an"
+msgstr "Beginne einfach"
 
 #: 01.3-Learning-through-Play.md:26
 msgid ""
@@ -664,30 +681,31 @@ msgid ""
 "with it and then see what new ideas it gives you. Before long you'll be too bu"
 "sy having fun and making real progress."
 msgstr ""
-"Wenn man lernt, will man die tollen Sachen am liebsten *sofort* machen. Vergis"
-"s das nicht, aber sieh es als ein Ziel an, welches Du erst etwas *später* erre"
-"ichen kannst. Denke lieber erst einmal an *einfachste* Sache, die Dir Spaß mac"
-"hen wird und die lohnend erscheint; diese Sache ist ein kleiner Schritt auf de"
-"m Weg zu dem faszinierenden Ding, das Dir im Kopf herum geht. Wenn Dir dieser "
-"einfache Schritt klar ist, versuche ihn umzusetzen, spiele damit herum und fin"
-"de heraus, auf was für neue Ideen Du kommst. Du wirst bald viel Spaß haben und"
-" schnell Fortschritte machen."
+"Wenn du lernst, willst du die tollen Sachen vielleicht am liebsten *sofort* "
+"machen. Halte solche Gedanken fest, aber sieh sie als ein Ziel an, welches "
+"du etwas *später* erreichen wirst. Denke zunächst erst einmal an die "
+"*einfachste* Sache, die du schreiben kannst, die dir Spaß machen würde und "
+"dir lohnend erscheint; diese Sache ist ein kleiner Schritt auf dem Weg zu "
+"den faszinierenden Dingen, die dir im Kopf herum gehen. Wenn dir die Idee zu "
+"diesem einfachen Schritt klar ist, versuche ihn umzusetzen, spiele damit "
+"herum und finde heraus, auf was für neue Ideen du dadurch kommst. Du wirst "
+"bald sehr viel Spaß daran haben und echte Fortschritte machen."
 
 #: 01.3-Learning-through-Play.md:35
 msgid "Just make sure to share your work with others!"
-msgstr "Und: Sorg dafür, dass Du Deine Werke mit anderen teilst!"
+msgstr "Stelle sicher, dass du deine Werke mit anderen teilst!"
 
 #: 02-Synths.md:1
 msgid "2 Synths"
-msgstr "2 Synths"
+msgstr "2 Synthesizer"
 
 #: 02-Synths.md:3 02.3-Switching-Synths.md:11
 msgid "Synths"
-msgstr "Synths"
+msgstr "Synthesizer"
 
 #: 02-Synths.md:5
 msgid "OK, enough of the intros - let's get into some sound."
-msgstr "Ok, genug der Einführung - jetzt wollen wir Klänge machen."
+msgstr "Ok, genug der Einführung - lasst uns Klänge machen."
 
 #: 02-Synths.md:7
 msgid ""
@@ -698,12 +716,13 @@ msgid ""
 " Sonic Pi gives you much of that power in a very simple and approachable manne"
 "r."
 msgstr ""
-"In diesem Abschnitt besprechen wir, wie man Synths ansteuert und manipuliert. "
-"Synth ist die Kurzform von Synthesizer - ein hochtrabendes Wort für ein Ding, "
-"das einen Klang erzeugt. Typischerweise sind Synths ziemlich kompliziert im Ge"
-"brauch, vor allem analoge Synths mit ihren vielen Kabeln und Modulen. Sonic Pi"
-" stellt Dir aber vieles davon auf eine einfache und gut zugängliche Art zur Ve"
-"rfügung."
+"In diesem Abschnitt besprechen wir, wie man Synths ansteuert und "
+"manipuliert. Synth ist die Kurzform von Synthesizer - dem genauen Wortlaut "
+"für ein Ding, das Klänge erzeugt. Typischerweise sind Synths ziemlich "
+"kompliziert im Gebrauch, vor allem analoge Synths wie Eurorack-Module, "
+"verbunden mit einem Durcheinander von Kabeln. Sonic Pi stellt dir viele von "
+"deren mächtigen Möglichkeiten auf eine einfache und gut zugängliche Art zur "
+"Verfügung."
 
 #: 02-Synths.md:14
 msgid ""
@@ -711,21 +730,21 @@ msgid ""
 "et very deep into very sophisticated sound manipulation if that's your thing. "
 "Hold on to your hats..."
 msgstr ""
-"Die Programmoberfläche von Sonic Pi mag simpel erscheinen, doch wenn Du willst"
-", kannst Du damit sehr tief in ausgeklügelte Klangmanipulationen eintauchen. A"
-"lso festhalten..."
+"Lass dich nicht täuschen von der einfachen Programmoberfläche von Sonic Pi. "
+"Wenn du willst, kannst du damit sehr tief in sehr ausgeklügelte "
+"Klangmanipulationen eintauchen. Also festhalten..."
 
 #: 02.1-Your-First-Beeps.md:1
 msgid "2.1 Your First Beeps"
-msgstr "2.1 Deine ersten Klänge"
+msgstr "2.1 Deine ersten Beeps"
 
 #: 02.1-Your-First-Beeps.md:3
 msgid "Your First Beeps"
-msgstr "Deine ersten Klänge"
+msgstr "Deine ersten Beeps"
 
 #: 02.1-Your-First-Beeps.md:5
 msgid "Take a look at the following code:"
-msgstr "Sieh Dir mal den folgenden Code an:"
+msgstr "Sieh dir den folgenden Code an:"
 
 #: 02.1-Your-First-Beeps.md:7 02.4-Durations-with-Envelopes.md:49
 #: A.20-creative-coding-in-the-classroom.md:158
@@ -739,9 +758,9 @@ msgid ""
 "at the top of the app (the big white space under the Run button). Now, press R"
 "un..."
 msgstr ""
-"Damit fängt alles an. Leg los, kopiere und setze das in das Code-Fenster oben "
-"im Programm ein (der große weiße Bereich unter dem Ausführen-Button). Nun klic"
-"ke auf Ausführen..."
+"Damit fängt alles an. Leg los, kopiere und setze das in das Code-Fenster "
+"oben im Programm ein (der große weiße Bereich unter der Ausführen-"
+"Schaltfläche). Nun klicke auf Ausführen..."
 
 #: 02.1-Your-First-Beeps.md:15
 msgid "Beep!"
@@ -749,16 +768,16 @@ msgstr "Beep!"
 
 #: 02.1-Your-First-Beeps.md:17
 msgid "Intense. Press it again. And again. *And again...*"
-msgstr "Stark. Klicke den Button nochmal. Und nochmal. *Und nochmal...*"
+msgstr "Stark. Klicke die Schaltfläche nochmal. Und nochmal. *Und nochmal...*"
 
 #: 02.1-Your-First-Beeps.md:19
 msgid ""
 "Woah, crazy, I'm sure you could keep doing that all day. But wait, before you "
 "lose yourself in an infinite stream of beeps, try changing the number:"
 msgstr ""
-"Wow, verrückt, ich bin sicher, dass könntest Du den ganzen Tag lang machen. Ab"
-"er halt, bevor Du Dich in einem endlosen Strom von Piepstönen verliert, versuc"
-"he es mit einer anderen Zahl:"
+"Wow, verrückt, ich bin sicher, du könntest das den ganzen Tag lang machen. "
+"Aber halt, bevor du dich in einem endlosen Strom von Piepstönen verlierst, "
+"versuche es mit einer anderen Zahl:"
 
 #: 02.1-Your-First-Beeps.md:23
 #, no-wrap
@@ -767,7 +786,7 @@ msgstr "play 75"
 
 #: 02.1-Your-First-Beeps.md:27
 msgid "Can you hear the difference? Try a lower number:"
-msgstr "Hörst Du den Unterschied? Nimm eine kleinere Zahl:"
+msgstr "Hörst du den Unterschied? Nimm eine kleinere Zahl:"
 
 #: 02.1-Your-First-Beeps.md:29
 #, no-wrap
@@ -781,9 +800,10 @@ msgid ""
 "left hand side) play lower notes and the keys on the higher part of the piano "
 "(the right hand side) play higher notes."
 msgstr ""
-"Also, kleinere Zahlen machen tiefere Töne und größere Zahlen höhere Töne. Es i"
-"st wie bei einem Klavier, die Tasten weiter links erzeugen tiefere Töne als di"
-"e Tasten weiter rechts, die höhere Töne erzeugen."
+"Also, niedrigere Zahlen machen tiefere Töne und höhere Zahlen höhere Töne. "
+"Wie bei einem Klavier erzeugen, von links nach rechts gesehen, die "
+"*niedrigeren* Tasten weiter links tiefere Töne als die *höheren* Tasten "
+"weiter rechts, die höhere Töne erzeugen."
 
 #: 02.1-Your-First-Beeps.md:38
 msgid ""
@@ -793,11 +813,12 @@ msgid ""
 "61`, which in this case is the black key of the C sharp. To play the D, the ne"
 "xt key to the right, `play 62`."
 msgstr ""
-"Es stellt sich heraus, dass das C in der vierten Oktave mit der Zahl 60 bezeic"
-"hnet wird. `play 60` spielt also ein C der vierten Oktave. Um den nächsthöhere"
-"n Ton auf der Klaviatur zu spielen, musst du 1 zu 60 addieren, also `play 61` "
-"schreiben. Das wird dann ein Cis (oder C# in englischer Schreibweise) sein. Um"
-" ein D, den Ton noch eins weiter, zu spielen, musst du `play 62` schreiben."
+"Es ist gut zu wissen, dass das C in der vierten Oktave mit der Zahl 60 "
+"bezeichnet wird. `play 60` spielt also ein C der vierten Oktave. Um den "
+"nächsthöheren Ton rechts davon auf der Klaviatur zu spielen, musst du 1 zu "
+"60 addieren und `play 61` schreiben. Das ist dann die schwarze Taste rechts "
+"vom C, ein Cis (oder C# in englischer Schreibweise). Um nun ein D, den "
+"nächst höheren Ton rechts davon, zu spielen, schreibe `play 62`."
 
 #: 02.1-Your-First-Beeps.md:40
 msgid ""
@@ -805,9 +826,10 @@ msgid ""
 "ted. All that matters right now is that you know that *low numbers make lower "
 "beeps* and *high numbers make higher beeps*."
 msgstr ""
-"*Keine Sorge*, wenn Du keine Ahnung hast, was das alles bedeutet. Mir ging es "
-"zu Beginn auch so. Für den Anfang reicht es zu wissen: *Kleinere Zahlen bedeut"
-"en tiefere Klänge* und *größere Zahlen bedeuten höhere Klänge*."
+"*Keine Sorge*, wenn du keine Ahnung hast, was das alles bedeutet. Mir ging "
+"es genauso als ich anfing. Für den Beginn reicht es völlig zu wissen, *"
+"niedrigere Zahlen bedeuten tiefere Klänge* und *höhere Zahlen bedeuten "
+"höhere Klänge*."
 
 #: 02.1-Your-First-Beeps.md:44 08.2-Chords.md:3
 msgid "Chords"
@@ -838,9 +860,10 @@ msgid ""
 "y it for yourself - which numbers sound good together? Which sound terrible? E"
 "xperiment, explore and find out for yourself."
 msgstr ""
-"Wow! Wenn Du also mehrere `play`s hinschreibst, spielen sie alle zur selben Ze"
-"it. Versuche es selbst - welche Nummern klingen gut zusammen? Was klingt fürch"
-"terlich? Experimentiere, erforsche und erkunde selbst."
+"Jazzig! Wenn du also mehrere `play`s hinschreibst, spielen sie alle zur "
+"selben Zeit. Probiere selbst aus - welche Nummern klingen gut zusammen? "
+"Welche klingen fürchterlich? Experimentiere, erforsche und finde es für dich "
+"selbst heraus."
 
 #: 02.1-Your-First-Beeps.md:59
 msgid "Melody"
@@ -852,10 +875,10 @@ msgid ""
 "ed to play one note after another and not at the same time? Well, that's easy,"
 " you just need to `sleep` between the notes:"
 msgstr ""
-"Einzelne Noten und Akkorde zu spielen macht Spaß - aber wie wäre es mit einer "
-"Melodie? Was, wenn Du eine Note nach der anderen spielen wolltest und nicht al"
-"le zur selben Zeit? Also das geht ganz einfach, Du brauchst nur ein `sleep` zw"
-"ischen den Noten:"
+"Einzelne Noten und Akkorde zu spielen macht Spaß - aber wie wäre es mit "
+"einer Melodie? Was, wenn du eine Note nach der anderen spielen wolltest und "
+"nicht alle zur selben Zeit? Also, das ist ganz einfach, du brauchst nur ein "
+"`sleep` zwischen den Noten:"
 
 #: 02.1-Your-First-Beeps.md:65
 #, no-wrap
@@ -880,12 +903,12 @@ msgid ""
 "to make our arpeggio a little faster? Well, we need to use shorter sleep value"
 "s. What about a half i.e. `0.5`:"
 msgstr ""
-"Wie hübsch, ein kleines Arpeggio. Was bedeutet die `1` in `sleep 1`? Sie gibt "
-"die *Dauer von sleep* an. Tatsächlich bedeutet das: Schlafe für einen Schlag. "
-"Aber vorläufig können wir uns vorstellen, dass es bedeutet: Schlafe für eine S"
-"ekunde. Wie könnten wir unser Arpeggio schneller ablaufen lassen? Dazu brauche"
-"n wir kürzere Werte für sleep. Wie wäre es z.B. mit der Hälfte, also mit `0.5`"
-":"
+"Wie hübsch, ein kleines Arpeggio. Was bedeutet die `1` in `sleep 1`? Sie "
+"gibt die *Dauer von sleep* an. Tatsächlich bedeutet das: Schlafe für einen "
+"Schlag. Aber vorläufig können wir uns vorstellen, dass es bedeutet: Schlafe "
+"für eine Sekunde. Wie könnten wir unser Arpeggio schneller ablaufen lassen? "
+"Dazu brauchen wir kürzere Werte für sleep. Wie wäre es z.B. mit der Hälfte, "
+"also `0.5`:"
 
 #: 02.1-Your-First-Beeps.md:79
 #, no-wrap
@@ -907,8 +930,8 @@ msgid ""
 "Notice how it plays faster. Now, try for yourself, change the times - use diff"
 "erent times and notes."
 msgstr ""
-"Achte darauf, dass die Melodie nun schneller spielt. Probiere das selbst aus, "
-"ändere die Zeiten, verwende unterschiedliche Zeiten und Noten."
+"Achte darauf, wie die Melodie nun schneller spielt. Probiere es für dich "
+"selbst aus, ändere die Zeiten - verwende unterschiedliche Zeiten und Noten."
 
 #: 02.1-Your-First-Beeps.md:90
 msgid ""
@@ -916,12 +939,11 @@ msgid ""
 "re's absolutely no need to stick to standard whole notes. Play around and have"
 " fun."
 msgstr ""
-"Versuche einmal Zwischennoten wie `play 52.3` und `play 52.63`. (Warum `52.2` "
-"und nicht `52,3`? Im deutschsprachigen Raum schreibt man solche Zahlen normale"
-"rweise mit Komma, der Computer verwendet in seiner Programmiersprache aber die"
-" englische Schreibweise. Deshalb verwenden wir für Zahlen mit Nachkommastellen"
-" einen Punkt - also `52.3`.) Es gibt überhaupt keinen Grund, nur ganze Zahlen "
-"zu verwenden. Spiel damit herum und hab Spaß dabei."
+"Versuche einmal Zwischennoten wie `play 52.3` und `play 52.63`. Es gibt "
+"überhaupt keinen Grund, nur ganze Zahlen zu verwenden. Spiel damit herum und "
+"hab Spaß dabei. *Beachte* dabei, dass Computer grundsätzlich die englische "
+"Schreibweise für Zahlen verwenden - setze also stets einen Punkt vor die "
+"Nachkommastellen (sic!), kein Komma!"
 
 #: 02.1-Your-First-Beeps.md:95
 msgid "Traditional Note Names"
@@ -934,13 +956,13 @@ msgid ""
 "ote names such as C and F# rather than numbers. Sonic Pi has you covered. You "
 "can do the following:"
 msgstr ""
-"Für die unter Euch, die das Notenschreiben schon ein bisschen kennen (keine So"
-"rge, wenn nicht - Du brauchst es nicht unbedingt) - vielleicht möchtet Ihr ein"
-"e Melodie mit Notennamen anstelle von Zahlen schreiben, also C oder F#. Auch d"
-"as geht mit Sonic Pi. Beachte dabei nur, dass es die englische Namensgebung fü"
-"r Notennamen verwendet, dort heißt Fis \"F sharp\" oder auch \"F#\" und Fes \"F fla"
-"t\" bzw. \"Fb\". Weiterhin heißt die Note H im englischen Sprachraum \"B\". Du kann"
-"st folgendes machen:"
+"*Beachte* für das folgende, dass Sonic Pi die englischen Notennamen "
+"verwendet, *Fis* ist *F sharp* oder auch *F#* und *Fes* ist *F flat* bzw. "
+"*Fb*. Die Note H heißt im Englischen *B*.\n"
+"Für die unter euch, die die musikalische Notation schon ein wenig kennen ("
+"keine Sorge, wenn nicht - du brauchst es nicht unbedingt) - vielleicht "
+"möchtet ihr eine Melodie mit Notennamen anstelle von Zahlen schreiben, also "
+"C oder F#. Auch das geht mit Sonic Pi. Du kannst folgendes machen:"
 
 #: 02.1-Your-First-Beeps.md:102
 #, no-wrap
@@ -962,9 +984,9 @@ msgid ""
 "Remember to put the colon `:` in front of your note name so that it goes pink."
 " Also, you can specify the octave by adding a number after the note name:"
 msgstr ""
-"Denk daran, vor den Notennamen einen Doppelpunkt `:` zu stellen, sodass dieser"
-" sich Pink einfärbt. Die jeweilige Oktave kannst Du als Zahl dahinter schreibe"
-"n:"
+"Denk daran, direkt vor den Notennamen einen Doppelpunkt `:` zu stellen, "
+"sodass dieser sich Pink färbt. Du kannst ebenfalls die Oktave festlegen, "
+"indem du eine Zahl direkt hinter den Notennamen schreibst:"
 
 #: 02.1-Your-First-Beeps.md:114
 #, no-wrap
@@ -986,13 +1008,13 @@ msgid ""
 "If you want to make a note sharp, add an `s` after the note name such as `play"
 " :Fs3` and if you want to make a note flat, add a `b` such as `play :Eb3`."
 msgstr ""
-"Wenn Du eine Note um einen Halbton erhöhen willst, füge ein `s` hinzu, also `p"
-"lay :Fs3`. Und wenn Du die Note um einen Halbton verringern möchtest, füge ein"
-" `b` an, also `play :Eb3`."
+"Wenn du eine Note um einen Halbton erhöhen willst, füge ein `s` hinzu, also `"
+"play :Fs3`. Und wenn du eine Note um einen Halbton verringern möchtest, füge "
+"ein `b` an, also `play :Eb3`."
 
 #: 02.1-Your-First-Beeps.md:125
 msgid "Now go *crazy* and have fun making your own tunes."
-msgstr "Jetzt mach was *Verrücktes* und baue Deine eigenen Melodien."
+msgstr "Jetzt spiel' *verrückt* und baue dir deine eigenen Melodien."
 
 #: 02.2-Synth-Params.md:1
 msgid "2.2 Synth Options"
@@ -1011,11 +1033,13 @@ msgid ""
 "the most useful: *amplitude* and *pan*. First, let's look at what options actu"
 "ally are."
 msgstr ""
-"Mit Sonic Pi kannst Du nicht nur Noten und Samples abspielen, Du kannst die Kl"
-"änge mit Optionen gestalten und beeinflussen. Wir werden viele davon in diesem"
-" Tutorial behandeln, für jede Option gibt es ausführliche Informationen in der"
-" Hilfe. Zwei der nützlichsten sehen wir uns gleich mal an: *Amplitude* und *Pa"
-"n*. Aber vorher lass mich kurz erklären, was Optionen eigentlich sind."
+"So wie es dich kontrollieren lässt welche Noten du erzeugst und welche "
+"Samples du abspielst, kannst du in Sonic Pi mit einer ganzen Bandbreite von "
+"Optionen die Klänge gestalten und kontrollieren. Wir werden viele davon in "
+"diesem Tutorial behandeln, und für jede Option gibt es eine ausführliche "
+"Dokumentation im Hilfe-System. Für den Moment werden wir uns zunächst zwei "
+"der nützlichsten ansehen: *Amplitude* und *Pan*. Aber vorher will ich kurz "
+"erklären, was Optionen eigentlich sind."
 
 #: 02.2-Synth-Params.md:13
 msgid "Options"
@@ -1029,12 +1053,12 @@ msgid ""
 "owever, there are common sets of opts shared by many sounds such as `amp:` and"
 " envelope opts (covered in another section)."
 msgstr ""
-"Die Synths von Sonic Pi lassen sich über verschiedene Optionen (oder kurz: Opt"
-"s) verändern. Opts sind Regler, die `play` oder `sample` übergeben werden; sie"
-" verändern und steuern die Art, wie sich die Klänge anhören. Jeder Synth hat s"
-"eine eigenen Opts, um den Klang fein einzustellen. Es gibt auch Opts, die für "
-"viele Klänge gleich sind, z.B. `amp:` und Hüllkurven-Opts (die wir an anderer "
-"Stelle besprechen)."
+"Die Synths von Sonic Pi lassen sich über verschiedene Optionen (oder kurz: "
+"Opts) verändern. Opts sind Regler, die an `play` oder `sample` übergeben "
+"werden; sie verändern und steuern unterschiedliche Aspekte der Klänge, die "
+"du hörst. Jeder Synth hat seinen eigenen Satz Opts, um den Klang fein "
+"einzustellen. Es gibt auch Opts, die für viele Klänge identisch sind, z.B. "
+"`amp:` und Hüllkurven-Opts (die wir in einer anderen Sektion besprechen)."
 
 #: 02.2-Synth-Params.md:22
 msgid ""
@@ -1042,10 +1066,10 @@ msgid ""
 "e (the value you want to set the control at). For example, you might have a op"
 "t called `cheese:` and want to set it with a value of `1`."
 msgstr ""
-"Opts bestehen aus zwei Teilen: Ihrem Namen (der Name des Reglers) und ihrem We"
-"rt (den Wert, auf den Du den Regler setzten möchtest). Zum Beispiel könntest D"
-"u eine Option mit dem Namen `cheese:` haben, der Du den Wert `1` geben möchtes"
-"t."
+"Opts bestehen aus zwei Teilen, ihrem Namen (der Name des Reglers) und ihrem "
+"Wert (der Wert, auf den du den Regler setzten möchtest). Zum Beispiel "
+"könntest du eine Option mit dem Namen `cheese:` haben, der du den Wert `1` "
+"geben möchtest."
 
 #: 02.2-Synth-Params.md:27
 msgid ""
@@ -1053,9 +1077,10 @@ msgid ""
 "he opt such as `amp:` (don't forget the colon `:`) and then a space and the va"
 "lue of the opt. For example:"
 msgstr ""
-"Opts werden den Aufrufen von `play` und `sample` mit einem Komma `,` übergeben"
-", dem der Name der Opt folgt, etwa `amp:` (vergiss den Doppelpunkt `:` nicht),"
-" dann eine Leerstelle und schließlich der Wert der Opt. Zum Beispiel:"
+"Opts werden den Aufrufen von `play` und `sample` nach einem Komma `,` "
+"übergeben, dem der Name der Option folgt, etwa `amp:` (vergiss den "
+"Doppelpunkt `:` nicht), dann eine Leerstelle und schließlich der Wert der "
+"Option. Zum Beispiel:"
 
 #: 02.2-Synth-Params.md:31
 #, no-wrap
@@ -1065,14 +1090,13 @@ msgstr "play 50, cheese: 1"
 #: 02.2-Synth-Params.md:35
 msgid "(Note that `cheese:` isn't a valid opt, we're just using it as an example)."
 msgstr ""
-"(Die `cheese:`-Opt gibt es in Wirklichkeit gar nicht, wir nehmen sie hier nur "
-"als Beispiel)."
+"(`cheese:` ist keine gültige Option, wir nehmen sie hier nur als Beispiel)."
 
 #: 02.2-Synth-Params.md:37
 msgid "You can pass multiple opts by separating them with a comma:"
 msgstr ""
-"Du kannst mehrere Opts hintereinander schreiben, indem Du sie mit weiteren Kom"
-"mata abtrennst:"
+"Du kannst mehrere Opts hintereinander schreiben, indem du sie jeweils mit "
+"einem weiteren Komma abtrennst:"
 
 #: 02.2-Synth-Params.md:39
 #, no-wrap
@@ -1082,8 +1106,8 @@ msgstr "play 50, cheese: 1, beans: 0.5"
 #: 02.2-Synth-Params.md:43
 msgid "The order of the opts doesn't matter, so the following is identical:"
 msgstr ""
-"Die Reihenfolge der Opts spielt keine Rolle, so dass die folgende Zeile dassel"
-"be tun würde wie die vorherige:"
+"Die Reihenfolge der Opts spielt keine Rolle, so dass die folgende Zeile "
+"hätte dasselbe Ergebnis:"
 
 #: 02.2-Synth-Params.md:45
 #, no-wrap
@@ -1095,18 +1119,17 @@ msgid ""
 "Opts that aren't recognised by the synth are just ignored (like `cheese` and `"
 "beans` which are clearly ridiculous opt names!)"
 msgstr ""
-"Opts, die der Synth nicht kennt, lässt er einfach links liegen und ignoriert s"
-"ie. (So wie `cheese` und `beans`, die ja wirklich lachhafte Namen für Optionen"
-" wären!)"
+"Opts, die der Synth nicht kennt, ignoriert er einfach. (wie `cheese` und "
+"`beans`, die ja nun wirklich alberne Namen für Optionen sind!)"
 
 #: 02.2-Synth-Params.md:52
 msgid ""
 "If you accidentally use the same opt twice with different values, the last one"
 " wins. For example, `beans:` here will have the value 2 rather than 0.5:"
 msgstr ""
-"Wenn Du aus Versehen zweimal dieselbe Opt mit unterschiedlichen Werten benutzt"
-", gewinnt die letzte. Im folgenden Beispiel wird `beans` den Wert 2 bekommen u"
-"nd nicht 0.5:"
+"Wenn du aus Versehen zweimal dieselbe Opt mit unterschiedlichen Werten "
+"benutzt, gewinnt die letzte. Im folgenden Beispiel wird `beans` den Wert 2 "
+"bekommen und nicht 0.5:"
 
 #: 02.2-Synth-Params.md:56
 #, no-wrap
@@ -1118,9 +1141,9 @@ msgid ""
 "Many things in Sonic Pi accept opts, so just spend a little time learning how "
 "to use them and you'll be set! Let's play with our first opt: `amp:`."
 msgstr ""
-"Viele Dinge in Sonic Pi lassen sich über Optionen steuern; nimm Dir ein bissch"
-"en Zeit zu lernen, wie Du sie einsetzen kannst, und Du bist startklar. Jetzt s"
-"pielen wir mal mit unserer ersten Opt: `amp:`."
+"Viele Dinge in Sonic Pi akzeptieren Optionen, also verbringe ein wenig Zeit "
+"damit zu lernen, wie du sie einsetzen kannst, und du wirst bald startklar "
+"sein! Spielen wir mal mit unserer ersten Opt: `amp:`."
 
 #: 02.2-Synth-Params.md:64 02.4-Durations-with-Envelopes.md:25
 msgid "Amplitude"
@@ -1139,29 +1162,30 @@ msgid ""
 "e the sound muddy and strange. So try to use low amplitudes, i.e. in the range"
 " 0 to 0.5 to avoid compression."
 msgstr ""
-"Die Amplitude ist die Weise, wie sich der Computer die Lautstärke eines Klangs"
-" vorstellt. Eine *hohe Amplitude ergibt einen lauteren Klang* und eine *niedri"
-"ge Amplitude ergibt einen leiseren Klang*. So wie Sonic Pi Zahlen dazu benutzt"
-", um Zeit und Töne darzustellen, bildet es auch die Lautstärke mit Zahlen ab. "
-"Eine Amplitude von 0 bedeutet Stille (Du wirst nichts hören), eine Amplitude v"
-"on 1 steht für normale Lautstärke. Du kannst die Amplitude aufdrehen auf 2, 10"
-", 100. Aber Vorsicht: Wenn die Amplitude aller gemeinsamen Klänge zu hoch wird"
-", setzt Sonic Pi einen sogenannten Kompressor ein, damit die Klänge nicht zu l"
-"aut für Dein Ohr werden. Oft klingt das dann matschig und schräg. Verwende als"
-"o lieber niedrigere Amplituden, das heißt zwischen 0 und 0.5, um die Kompressi"
-"on zu verhindern."
+"Die Amplitude ist wie der Computer die Lautheit eines Klangs repräsentiert. "
+"Eine *hohe Amplitude bringt einen lauten Klang hervor*, und eine *niedrige "
+"Amplitude ergibt einen leisen Klang*. So wie Sonic Pi Zahlen dazu benutzt, "
+"um Zeit und Töne darzustellen, bildet es auch die Lautstärke mit Hilfe von "
+"Zahlen ab. Eine Amplitude von 0 bedeutet Stille (du wirst nichts hören), "
+"eine Amplitude von 1 steht für normale Lautstärke. Du kannst die Amplitude "
+"aufdrehen auf 2, 10, 100. Aber Vorsicht: Wenn die Amplitude aller "
+"gemeinsamen Klänge zu hoch wird, setzt Sonic Pi einen so genannten "
+"Kompressor ein, der sie zusammen quetscht, damit die Klänge nicht zu laut "
+"für dein Ohr werden. Oft klingt das dann matschig und schräg. Verwende also "
+"lieber niedrige Amplituden, das heißt im Bereich zwischen 0 und 0.5, um "
+"Kompression zu verhindern."
 
 #: 02.2-Synth-Params.md:79
 msgid "Amp it up"
-msgstr "Amp verwenden"
+msgstr "Amp aufdrehen"
 
 #: 02.2-Synth-Params.md:81
 msgid ""
 "To change the amplitude of a sound, you can use the `amp:` opt. For example, t"
 "o play at half amplitude pass 0.5:"
 msgstr ""
-"Um die Amplitude eines Klangs zu ändern, setze die Opt `amp:` ein. Mit 0.5 läs"
-"st Du zum Beispiel den Klang mit halber Amplitude spielen:"
+"Um die Amplitude eines Klangs zu ändern, setze die Opt `amp:` ein. Um zum "
+"Beispiel mit halber Amplitude abzuspielen übergebe 0.5:"
 
 #: 02.2-Synth-Params.md:84
 #, no-wrap
@@ -1170,7 +1194,7 @@ msgstr "play 60, amp: 0.5"
 
 #: 02.2-Synth-Params.md:88
 msgid "To play at double amplitude pass 2:"
-msgstr "Und für die doppelte Amplitude:"
+msgstr "Für die doppelte Amplitude übergebe 2:"
 
 #: 02.2-Synth-Params.md:90
 #, no-wrap
@@ -1202,8 +1226,8 @@ msgstr ""
 #: 02.2-Synth-Params.md:104
 msgid "Of course, you can use different `amp:` values for each call to play:"
 msgstr ""
-"Natürlich kannst Du für jeden Aufruf von `play` andere Werte für `amp:` festle"
-"gen:"
+"Natürlich kannst du für jeden Aufruf von `play` andere Werte für `amp:` "
+"festlegen:"
 
 #: 02.2-Synth-Params.md:106
 #, no-wrap
@@ -1237,15 +1261,18 @@ msgid ""
 "to represent fully right in the stereo field. Of course, we're free to use any"
 " value between -1 and 1 to control the exact positioning of our sound."
 msgstr ""
-"Eine weitere interessante Opt ist `pan:`. Ihr Wert gibt an, aus welcher Richtu"
-"ng der Klang kommt, wenn wir in Stereo hören. Der Wert -1 schiebt den Klang ga"
-"nz nach links, 0 steht für die Mitte und 1 lässt den Klang nur aus dem rechten"
-" Lautsprecher kommen. Natürlich kannst Du jeden Wert zwischen -1 und 1 verwend"
-"en, um Deine Klänge im Stereofeld zu positionieren."
+"Eine weitere interessante Opt ist `pan:`. Ihr Wert gibt an, aus welcher "
+"Richtung der Klang kommt, wenn wir in Stereo hören. Panning nach links "
+"bedeutet, dass du denKlang aus dem linken Lautsprecher und Panning nach "
+"rechts, dass du ihn aus dem rechten Lautsprecher hörst. Für unsere Werte "
+"benutzen wir -1 , um den Klang ganz nach links zu schieben, 0 steht für die "
+"Mitte und mit 1 schieben wir den Klang ganz nach rechts. Natürlich können "
+"wir jeden Wert zwischen -1 und 1 verwenden, um die Klänge exakt im "
+"Stereofeld zu positionieren."
 
 #: 02.2-Synth-Params.md:126
 msgid "Let's play a beep out of the left speaker:"
-msgstr "Spiel einen Klang, der nur aus linken Lautsprecher kommt:"
+msgstr "Lasst uns einen Beep nur aus dem linken Lautsprecher abspielen:"
 
 #: 02.2-Synth-Params.md:128
 #, no-wrap
@@ -1263,7 +1290,9 @@ msgstr "play 60, pan: 1"
 
 #: 02.2-Synth-Params.md:138
 msgid "Finally let's play it back out of the center of both (the default position):"
-msgstr "Nun lass den Klang aus der Mitte herauskommen (die Standardposition):"
+msgstr ""
+"Nun wollen wir den Klang aus der Mitte zwischen beiden Lautsprechern "
+"herauskommen lassen (die Standardposition):"
 
 #: 02.2-Synth-Params.md:141
 #, no-wrap
@@ -1272,7 +1301,9 @@ msgstr "play 60, pan: 0"
 
 #: 02.2-Synth-Params.md:145
 msgid "Now, go and have fun changing the amplitude and panning of your sounds!"
-msgstr "Jetzt leg' los und verändere die Amplitude und das Panning Deiner Sounds!"
+msgstr ""
+"Jetzt leg' einfach los und verändere die Amplitude und das Panning deiner "
+"Klänge!"
 
 #: 02.3-Switching-Synths.md:1
 msgid "2.3 Switching Synths"
@@ -1283,7 +1314,6 @@ msgid "Switching Synths"
 msgstr "Synths wechseln"
 
 #: 02.3-Switching-Synths.md:5
-#, fuzzy
 msgid ""
 "So far we've had quite a lot of fun making beeps. However, you're probably sta"
 "rting to get bored of the basic beep noise. Is that all Sonic Pi has to offer?"
@@ -1291,11 +1321,12 @@ msgid ""
 " in this section we'll explore some of the exciting range of sounds that Sonic"
 " Pi has to offer."
 msgstr ""
-"Bisher hatten wir viel Spaß damit Pieptöne zu erzeugen. Aber wahrscheinlich la"
-"ngweilt es dich langsam, immer wieder denselben Klang zu hören. Ist das alles,"
-" was Sonic Pi zu bieten hat? Live-Coding kann doch sicher mehr als nur einen e"
-"infachen Piepton zu spielen? Aber klar doch! In diesem Abschnitt schauen wir u"
-"ns die aufregende Vielfalt der Klänge, die uns Sonic Pi bietet, an."
+"Bisher hatten unseren Spaß daran Pieptöne zu erzeugen. Aber wahrscheinlich "
+"es langsam an dich zu langweilen, immer wieder denselben Beep zu hören. Ist "
+"das alles, was Sonic Pi zu bieten hat? Live-Coding kann doch sicher mehr als "
+"nur einen einfachen Piepton zu spielen? Aber klar doch - in diesem Abschnitt "
+"schauen wir uns die aufregende Vielfalt der Klänge an, die uns Sonic Pi "
+"bietet."
 
 #: 02.3-Switching-Synths.md:13
 msgid ""
@@ -1306,20 +1337,21 @@ msgid ""
 "xpressive and you'll have a lot of fun exploring and playing with them. First,"
 " let's learn how to select the current synth to use."
 msgstr ""
-"Sonic Pi bringt eine Palette an Instrumenten mit, die Synths heißen, eine Kurz"
-"form für Synthesizer (Klangerzeuger). Samples sind vorher aufgenommene Klänge;"
-" demgegenüber erzeugen Synths neue Klänge, je nachdem, wie Du sie anlegst (wie"
-" das geht, werden wir später sehen). Die Synths von Sonic Pi sind sehr wirkung"
-"svoll und ausdrucksstark und man kann damit tolle Sachen machen. Als erstes le"
-"rnen wir, wie man einen Synth auswählt, den man benutzen möchte."
+"Sonic Pi verfügt über eine ganze Palette unterschiedlicher Instrumenten, die "
+"es Synths nennt (kurz für Synthesizer - Klangerzeuger), wohingegen Samples "
+"bereits aufgenommene Klänge sind. Synths erzeugen neue Klänge, je nachdem, "
+"wie du sie kontrollierst (das werden wir später im Tutorial entdecken). Die "
+"Synths von Sonic Pi sind sehr kraftvoll und ausdrucksstark, und du wirst "
+"viel Spaß daran finden sie zu erforschen und damit spielen. Als erstes "
+"lernen wir, wie ein Synth ausgewählt wird, um ihn nutzen zu können."
 
 #: 02.3-Switching-Synths.md:21
 msgid "Buzzy saws and prophets"
-msgstr "Brilliante Sägen und Prophets"
+msgstr "Brummende Sägen und Propheten"
 
 #: 02.3-Switching-Synths.md:23
 msgid "A fun sound is the *saw wave* - let's give it a try:"
-msgstr "Einen spaßigen Sound ergibt die *Sägezahn-Welle* - probieren wir es mal aus:"
+msgstr "Ein lustiger Klang ist die *Sägezahn-Welle* - probieren wir es mal aus:"
 
 #: 02.3-Switching-Synths.md:25
 #, no-wrap
@@ -1363,7 +1395,7 @@ msgstr ""
 
 #: 02.3-Switching-Synths.md:45
 msgid "How about combining two sounds. First one after another:"
-msgstr "Wie wäre es damit, beide Sounds zu verbinden? Zuerst nacheinander:"
+msgstr "Wie wäre es beide Klänge zu verbinden? Zuerst nacheinander:"
 
 #: 02.3-Switching-Synths.md:47
 #, no-wrap
@@ -1391,8 +1423,8 @@ msgid ""
 "Now multiple sounds at the same time (by not sleeping between successive calls"
 " to `play`):"
 msgstr ""
-"Jetzt machen wir mehrere Töne gleichzeitig, indem wir keine Pausen mit `sleep`"
-" zwischen Aufrufen von `play` einfügen:"
+"Jetzt mehrere Töne gleichzeitig (keine Pausen mit `sleep` zwischen "
+"aufeinander folgenden Aufrufen von `play`):"
 
 #: 02.3-Switching-Synths.md:60
 #, no-wrap
@@ -1422,26 +1454,25 @@ msgid ""
 "th it's currently pointing to. You can move the switch to a new synth with `us"
 "e_synth`."
 msgstr ""
-"Hast Du bemerkt, dass das `use_synth`-Kommando nur die nachfolgenden `play`-Ko"
-"mmandos beeinflusst? Stell Dir das als einen *großen Schalter* vor - neue Aufr"
-"ufe von `play` werden immer den Synth benutzen, auf den der Schalter gerade ze"
-"igt. Du kannst diesen Schalter mit `use_synth` auf einen anderen Synth umschal"
-"ten."
+"Achte darauf, wie das `use_synth`-Kommando nur die nachfolgenden `play`-"
+"Kommandos beeinflusst. Stell dir das wie einen *großen Schalter* vor - neue "
+"Aufrufe von `play` werden immer den Synth benutzen, auf den der Schalter "
+"gerade zeigt. Du kannst diesen Schalter mit `use_synth` auf einen anderen "
+"Synth umschalten."
 
 #: 02.3-Switching-Synths.md:75
 msgid "Discovering Synths"
 msgstr "Synths entdecken"
 
 #: 02.3-Switching-Synths.md:77
-#, fuzzy
 msgid ""
 "To see which synths Sonic Pi has for you to play with take a look at the Synth"
 "s option in the menu at the bottom of this help screen (between Examples & Fx)"
 ". There are over 20 to choose from. Here are a few of my favourites:"
 msgstr ""
-"Welche Synths Sonic Pi für Dich bereitstellt, kannst Du im Synths-Bereich auf "
-"der linken Seite des Hilfe-Fensters entdecken (gleich neben *Fx*). Es gibt übe"
-"r 20 Stück. Hier sind einige meiner Lieblings-Synths:"
+"Um zu entdecken welche Synths Sonic Pi für dich zum Spielen bereithält, "
+"schau im Synths-Option im Menü links unten im Hilfe-Fenster nach (gleich "
+"neben *FX*). Es gibt über 20 zur Auswahl. Hier sind einige meiner Favoriten:"
 
 #: 02.3-Switching-Synths.md:81
 msgid "`:prophet`"
@@ -1469,17 +1500,17 @@ msgid ""
 "synths to make new sounds as well as using different synths for different sect"
 "ions of your music."
 msgstr ""
-"Spiel mal ein bisschen herum, indem Du *in Deinem Stück die Synths wechselst*."
-" Kombiniere unterschiedliche Synths oder setze sie für unterschiedliche Stelle"
-"n in Deinem Stück ein."
+"Spiele ein bisschen herum und *wechsle die Synths, während du spielst*. "
+"Kombiniere unterschiedliche Synths, um neue Klänge zu erzeugen, oder setze "
+"sie für unterschiedliche Sektionen in deinem Stück ein."
 
 #: 02.4-Durations-with-Envelopes.md:1
 msgid "2.4 Duration with Envelopes"
-msgstr "2.4 Dauer und Hüllkurven"
+msgstr "2.4 Dauer bei Hüllkurven"
 
 #: 02.4-Durations-with-Envelopes.md:3
 msgid "Duration with Envelopes"
-msgstr "Dauer und Hüllkurven"
+msgstr "Dauer bei Hüllkurven"
 
 #: 02.4-Durations-with-Envelopes.md:5
 msgid ""
