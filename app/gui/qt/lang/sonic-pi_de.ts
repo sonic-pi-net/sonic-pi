@@ -544,7 +544,7 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2732"/>
         <source>Visuals</source>
-        <translation type="unfinished">Anzeigen</translation>
+        <translation>Visualisierung</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2736"/>
@@ -1415,7 +1415,7 @@ Sonic Pi, die über die midi_* fns gesendet werden können</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="220"/>
         <source>Default MIDI channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Standard MIDI-Kanal</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="221"/>
@@ -1430,7 +1430,7 @@ Sonic Pi, die über die midi_* fns gesendet werden können</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="276"/>
         <source>Automation / Misc</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatisierung / Sonstiges</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="277"/>
@@ -1555,7 +1555,7 @@ Sonic Pi, die über die midi_* fns gesendet werden können</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="347"/>
         <source>Configure debug behaviour</source>
-        <translation type="unfinished">Debug-Optionen bearbeiten</translation>
+        <translation>Debug-Verhalten konfigurieren</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="349"/>
@@ -1614,7 +1614,7 @@ Das Protokoll scrollt nach jedem Eintrag automatisch weiter.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="382"/>
         <source>Settings useful for performing with Sonic Pi</source>
-        <translation type="unfinished">Nützliche Einstellungen für den Umgang mit Sonic Pi</translation>
+        <translation>Nützliche Einstellungen für Performances mit Sonic Pi</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="386"/>
@@ -1629,7 +1629,7 @@ Das Protokoll scrollt nach jedem Eintrag automatisch weiter.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="395"/>
         <source>Show Scopes</source>
-        <translation type="unfinished">Oszilloskop</translation>
+        <translation>Oszilloskop anzeigen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="396"/>
@@ -1685,7 +1685,7 @@ Diese Suche versendet anonyme Informationen über Deine Plattform und Version.</
     <message>
         <location filename="../widgets/settingswidget.cpp" line="437"/>
         <source>Get update</source>
-        <translation type="unfinished">Aktualisierung holen</translation>
+        <translation>Aktualisieren</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="438"/>
