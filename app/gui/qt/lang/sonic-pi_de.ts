@@ -133,17 +133,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="3686"/>
         <source>Enabling internal OSC cue port...</source>
-        <translation>Interner OSC cue port wird aktiviert...</translation>
+        <translation>Aktiviere internen OSC Hinweis-Port...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3745"/>
         <source>Connected MIDI inputs</source>
-        <translation>Angeschlossene MIDI-Eingänge</translation>
+        <translation>Belegte MIDI-Eingänge</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3761"/>
         <source>Connected MIDI outputs</source>
-        <translation>Angeschlossene MIDI-Ausgänge</translation>
+        <translation>Belegte MIDI-Ausgänge</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1445"/>
@@ -152,7 +152,7 @@
 Apologies, a critical error occurred during startup</source>
         <translation>Sonic Pi Boot Error
 
-Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
+Entschuldigung, beim Start ist ein kritischer Fehler aufgetreten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1545"/>
@@ -160,7 +160,7 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
         <location filename="../mainwindow.cpp" line="1562"/>
         <location filename="../mainwindow.cpp" line="1565"/>
         <source>Buffer files</source>
-        <translation>Pufferdateien</translation>
+        <translation>Puffer-Dateien</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1548"/>
@@ -188,12 +188,12 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2043"/>
         <source>Log Auto Scroll on...</source>
-        <translation>Automatisches Protokoll-blättern einschalten …</translation>
+        <translation>Automatisches Protokoll-Blättern einschalten…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2045"/>
         <source>Log Auto Scroll off...</source>
-        <translation>Automatisches Protokoll-blättern ausschalten …</translation>
+        <translation>Automatisches Protokoll-Blättern ausschalten…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2517"/>
@@ -208,22 +208,22 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2541"/>
         <source>Load an external file in the current buffer</source>
-        <translation>Eine Datei in den aktuellen Puffer laden</translation>
+        <translation>Eine externe Datei in den aktuellen Puffer laden</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2545"/>
         <source>Indent Code Buffer</source>
-        <translation>Puffer für Einrückungscode</translation>
+        <translation>Code im Puffer einrücken</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2551"/>
         <source>Code Size Up</source>
-        <translation>Code-Schrift größer</translation>
+        <translation>Code-Schrift größer anzeigen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2557"/>
         <source>Code Size Down</source>
-        <translation>Code-Schrift kleiner</translation>
+        <translation>Code-Schrift kleiner anzeigen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2563"/>
@@ -243,17 +243,17 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3642"/>
         <source>Resetting MIDI...</source>
-        <translation>MIDI wird zurückgesetzt …</translation>
+        <translation>MIDI wird zurückgesetzt…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3647"/>
         <source>MIDI is disabled...</source>
-        <translation>MIDI ist deaktiviert …</translation>
+        <translation>MIDI ist deaktiviert…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3699"/>
         <source>Welcome back. Now get your live code on...</source>
-        <translation>Willkommen zurück. Legen wir los mit dem Live-Code …</translation>
+        <translation>Willkommen zurück. Leg los mit dem Live-Code…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1565"/>
@@ -263,7 +263,7 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="770"/>
         <source>Scope</source>
-        <translation>Scope</translation>
+        <translation>Oszilloskop</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="793"/>
@@ -288,58 +288,58 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1737"/>
         <source>Checking for updates...</source>
-        <translation>Auf Aktualisierungen prüfen …</translation>
+        <translation>Auf Aktualisierungen prüfen…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1745"/>
         <source>Enabling update checking...</source>
-        <translation>Aktualisierungsprüfung aktiv …</translation>
+        <translation>Einschalten der Aktualisierungsprüfung…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1753"/>
         <source>Disabling update checking...</source>
-        <translation>Aktualisierungsprüfung inaktiv …</translation>
+        <translation>Ausschalten der Aktualisierungsprüfung…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1778"/>
         <source>Enabling Mixer LPF...</source>
         <oldsource>Enabling Mixer LPF....</oldsource>
-        <translation>Mixer-Tiefpassfilter aktiv …</translation>
+        <translation>Aktivieren des Mischer-Tief-Pass-Filter (LPF)…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1787"/>
         <source>Disabling Mixer LPF...</source>
         <oldsource>Disabling Mixer LPF....</oldsource>
-        <translation>Mixer-Tiefpassfilter inaktiv …</translation>
+        <translation>Deaktivieren des Mischer-Tief-Pass-Filter (LPF)…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1795"/>
         <source>Enabling Inverted Stereo...</source>
         <oldsource>Enabling Inverted Stereo....</oldsource>
-        <translation>Stereo-Kanaltausch aktiv …</translation>
+        <translation>Aktiviere invertiertes Stereo…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1803"/>
         <source>Enabling Standard Stereo...</source>
         <oldsource>Enabling Standard Stereo....</oldsource>
-        <translation>Stereo-Kanaltausch inaktiv …</translation>
+        <translation>Deaktiviere invertiertes Stereo…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1811"/>
         <source>Mono Mode...</source>
         <oldsource>Mono Mode....</oldsource>
-        <translation>Monomodus …</translation>
+        <translation>Mono-Modus…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1819"/>
         <source>Stereo Mode...</source>
         <oldsource>Stereo Mode....</oldsource>
-        <translation>Stereomodus …</translation>
+        <translation>Stereo-Modus…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1828"/>
         <source>Stopping...</source>
-        <translation>Stopp …</translation>
+        <translation>Stoppen…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1869"/>
@@ -354,7 +354,7 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1890"/>
         <source>Hiding help...</source>
-        <translation>Hilfe verstecken...</translation>
+        <translation>Hilfe ausblenden...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1894"/>
@@ -364,7 +364,7 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1950"/>
         <source>Updating System Volume...</source>
-        <translation>Systemlautstärke wird aktualisiert …</translation>
+        <translation>Aktualisiere Systemlautstärke…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2097"/>
@@ -374,7 +374,7 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2305"/>
         <source>Show autocompletion on</source>
-        <translation>Eingeschaltete Autovervollständigung anzeigen</translation>
+        <translation>Autovervollständigung einschalten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2307"/>
@@ -394,7 +394,7 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2337"/>
         <source>Hiding preferences...</source>
-        <translation>Einstellungen verbergen...</translation>
+        <translation>Einstellungen ausblenden...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2341"/>
@@ -474,7 +474,7 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2639"/>
         <source>Enable External Synths</source>
-        <translation>Externen Synthesizer aktivieren</translation>
+        <translation>Externe Synthesizer aktivieren</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2644"/>
@@ -519,7 +519,7 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2684"/>
         <source>Auto Indent Code Buffer on Run</source>
-        <translation>Code beim Start automatisch Einrücken</translation>
+        <translation>Code im Puffer beim Start automatisch Einrücken</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2689"/>
@@ -549,7 +549,7 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2736"/>
         <source>Light</source>
-        <translation type="unfinished">Hell</translation>
+        <translation>Hell</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2741"/>
@@ -601,7 +601,7 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
         <location filename="../mainwindow.cpp" line="3638"/>
         <location filename="../mainwindow.cpp" line="3750"/>
         <source>No Connected Inputs</source>
-        <translation>Keine belegte Eingänge</translation>
+        <translation>Keine belegten Eingänge</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2790"/>
@@ -618,7 +618,7 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2793"/>
         <source>Default MIDI Out Channel</source>
-        <translation>Standart MIDI Ausgabe Kanal</translation>
+        <translation>Standard MIDI-Ausgabe-Kanal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2796"/>
@@ -728,7 +728,7 @@ Entschuldigung, beim Start trat ein kritischer Fehler auf</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2908"/>
         <source>Place focus on the code editor</source>
-        <translation>Fokus auf den Code-Editor legen</translation>
+        <translation>Fokus auf den Code-Editor richten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2912"/>
@@ -866,7 +866,8 @@ nach Aktualisierungen.</translation>
         <location filename="../mainwindow.cpp" line="3577"/>
         <source>New version available!
 Get Sonic Pi %1</source>
-        <translation>Eine neue Version ist verfügbar! Lade Sonic Pi %1 herunter</translation>
+        <translation>Eine neue Version ist verfügbar!
+Lade Sonic Pi %1 herunter</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3864"/>
@@ -1209,14 +1210,14 @@ Mono-Signale verarbeiten kann.</translation>
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
-        <translation type="unfinished">Überprüft Synth-Parameter zusätzlich.
-Ohne diese Prüfung können Synth-Werte auch mal
-unerwartet laute oder unangenehme Sounds erzeugen.</translation>
+        <translation>Schalte Überprüfung von Synth-Parametern ein- oder aus.
+Ohne diese Überprüfung können bestimmte Werte in den Parametern
+unerwartet laute oder unangenehme Töne erzeugen.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="113"/>
         <source>Enforce timing guarantees</source>
-        <translation type="unfinished">Takt-Timing garantieren</translation>
+        <translation>Taktgebung erzwingen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="114"/>
@@ -1227,14 +1228,13 @@ it is too late to do so
 When disabled, Sonic Pi will always
 attempt to trigger synths and FX
 even when a little late.</source>
-        <translation type="unfinished">Sonic Pi kann sich beschweren,
-wenn der Computer zu langsam
-wird, um Synths und FX auszulösen.
+        <translation>Wenn aktiviert, wird Sonic Pi nicht versuchen
+Synthesizer und FX zu starten, wenn es
+das Signal nach dem Takt erhält.
 
-Wenn Du dies abschaltest, wird
-Sonic Pi diese auch dann abspielen,
-wenn sie etwas zu spät hinter dem
-Takt ausgelöst werden.</translation>
+Wenn deaktiviert, wird Sonic Pi versuchen
+Synthesizer und FX auch dann zu starten,
+wenn es das Signal nach dem Takt erhält.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="117"/>
@@ -1263,7 +1263,9 @@ Synth oder FX beschweren.</translation>
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation type="unfinished">Sonic Pi kann „Open Sound Control“-Nachrichten über das momentane Netzwerk sowohl an andere Programme und Computer senden, als auch von anderen Programmen und Computern empfangen.</translation>
+        <translation>Sonic Pi kann Open Sound Control-Nachrichten anderer
+Programme und Computer über das gegenwärtig
+verbundene Netzwerk sowohl senden als auch empfangen.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="145"/>
@@ -1290,17 +1292,17 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="174"/>
         <source>Allow incoming OSC</source>
-        <translation type="unfinished"></translation>
+        <translation>Eingehendes OSC erlauben</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="285"/>
         <source>Show code completion</source>
-        <translation>Zeige Codevervollständigung</translation>
+        <translation>Code-Vervollständigung anzeigen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="397"/>
         <source>Show Scope Labels</source>
-        <translation type="unfinished"></translation>
+        <translation>Oszilloskop-Label anzeigen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="175"/>
@@ -1390,12 +1392,12 @@ Sonic Pi, die über die midi_* fns gesendet werden können</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="86"/>
         <source>Main Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Master-Lautstärke</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="116"/>
         <source>Enable external synths/FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Externe Synthesizer/FX aktivieren</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="146"/>
@@ -1410,7 +1412,7 @@ Sonic Pi, die über die midi_* fns gesendet werden können</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="190"/>
         <source>Enable or disable automatic conversion of incoming MIDI messages to cue events</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktivieren oder Deaktivieren der automatischen Konvertierung von MIDI-Nachrichten in Cue-Events</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="220"/>
@@ -1435,7 +1437,7 @@ Sonic Pi, die über die midi_* fns gesendet werden können</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="277"/>
         <source>Configure automation and other features.</source>
-        <translation type="unfinished"></translation>
+        <translation>Automation und andere Merkmale konfigurieren.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="279"/>
@@ -1455,7 +1457,7 @@ Sonic Pi, die über die midi_* fns gesendet werden können</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="283"/>
         <source>Toggle line number visibility.</source>
-        <translation type="unfinished">Zeilennummernsichtbarkeit umschalten.</translation>
+        <translation>Zeilennummerierung anzeigen/ausblenden.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="286"/>
@@ -1490,7 +1492,7 @@ Sonic Pi, die über die midi_* fns gesendet werden können</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="296"/>
         <source>Toggle visibility of cue log which displays internal cues &amp; incoming OSC/MIDI messages.</source>
-        <translation type="unfinished">Schaltet die Sichtbarkeit vom cue Log, welcher interne cues und eingehende OSC/MIDI Nachrichten anzeigt, um.</translation>
+        <translation>Anzeige des Hinweis-Protokolls interner Hinweise und eingehender OSC/MIDI-Nachrichten ein-/ausschalten.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="299"/>
@@ -1510,7 +1512,7 @@ Sonic Pi, die über die midi_* fns gesendet werden können</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="304"/>
         <source>Toggle visibility of the buffer selection tabs.</source>
-        <translation type="unfinished">Sichtbarkeit der Pufferauswahltabs umschalten.</translation>
+        <translation>Anzeige der Puffer-Tabs ein-/ausschalten.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="305"/>
@@ -1560,7 +1562,7 @@ Sonic Pi, die über die midi_* fns gesendet werden können</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="349"/>
         <source>Log synths</source>
-        <translation type="unfinished">Synths protokollieren</translation>
+        <translation>Synthesizer protokollieren</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="350"/>
@@ -1574,7 +1576,7 @@ Sample ausgelöst wird, lassen sich hier abschalten.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="352"/>
         <source>Clear log on run</source>
-        <translation type="unfinished">Protokoll beim Ausführen leeren</translation>
+        <translation>Protokoll beim Starten leeren</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="353"/>
@@ -1695,12 +1697,12 @@ Diese Suche versendet anonyme Informationen über Deine Plattform und Version.</
     <message>
         <location filename="../widgets/settingswidget.cpp" line="441"/>
         <source>Update Info</source>
-        <translation type="unfinished">Aktualisierungsinformation</translation>
+        <translation>Aktualisierungsinformation</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="444"/>
         <source>Sonic Pi update info</source>
-        <translation type="unfinished">Sonic Pi Aktualisierungsinformationen</translation>
+        <translation>Sonic Pi Aktualisierungsinformationen</translation>
     </message>
 </context>
 <context>
