@@ -24,7 +24,7 @@
         <location filename="../mainwindow.cpp" line="1680"/>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
-        <translation>Programm wird ausgeführt …</translation>
+        <translation>Programm-Code wird ausgeführt …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1700"/>
@@ -42,13 +42,13 @@
         <location filename="../mainwindow.cpp" line="1761"/>
         <source>Enabling Mixer HPF...</source>
         <oldsource>Enabling Mixer HPF....</oldsource>
-        <translation>Aktiviere Mischer-Hochpassfilter (HPF) …</translation>
+        <translation>Aktiviere Hochpassfilter (HPF) …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1770"/>
         <source>Disabling Mixer HPF...</source>
         <oldsource>Disabling Mixer HPF....</oldsource>
-        <translation>Deaktiviere Mischer-Hochpassfilter (HPF) …</translation>
+        <translation>Deaktiviere Hochpassfilter (HPF) …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="457"/>
@@ -73,7 +73,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="787"/>
         <source>Cues</source>
-        <translation>Einsätze</translation>
+        <translation>Cues</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="937"/>
@@ -123,17 +123,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="3662"/>
         <source>Disabling OSC cue port...</source>
-        <translation>Deaktiviere OSC Einsatz-Port ...</translation>
+        <translation>Deaktiviere OSC Cue-Port ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3674"/>
         <source>Enabling external OSC cue port...</source>
-        <translation>Aktiviere externen OSC Einsatz-Port ...</translation>
+        <translation>Aktiviere externen OSC Cue-Port ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3686"/>
         <source>Enabling internal OSC cue port...</source>
-        <translation>Aktiviere internen OSC Einsatz-Port ...</translation>
+        <translation>Aktiviere internen OSC Cue-Port ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3745"/>
@@ -198,7 +198,7 @@ Entschuldigung, beim Start ist ein kritischer Fehler aufgetreten</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2517"/>
         <source>Run the code in the current buffer</source>
-        <translation>Programm im aktuellen Puffer ausführen</translation>
+        <translation>Programm-Code im aktuellen Puffer ausführen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2539"/>
@@ -273,7 +273,7 @@ Entschuldigung, beim Start ist ein kritischer Fehler aufgetreten</translation>
     <message>
         <location filename="../mainwindow.cpp" line="897"/>
         <source>Playing Sample...</source>
-        <translation>Sample wird abgespielt ...</translation>
+        <translation>Sample wird gespielt ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1686"/>
@@ -304,13 +304,13 @@ Entschuldigung, beim Start ist ein kritischer Fehler aufgetreten</translation>
         <location filename="../mainwindow.cpp" line="1778"/>
         <source>Enabling Mixer LPF...</source>
         <oldsource>Enabling Mixer LPF....</oldsource>
-        <translation>Aktiviere Mischer-Tiefpassfilter (LPF) …</translation>
+        <translation>Aktiviere Tiefpassfilter (LPF) …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1787"/>
         <source>Disabling Mixer LPF...</source>
         <oldsource>Disabling Mixer LPF....</oldsource>
-        <translation>Deaktiviere Mischer-Tiefpassfilter (LPF) …</translation>
+        <translation>Deaktiviere Tiefpassfilter (LPF) …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1795"/>
@@ -384,12 +384,12 @@ Entschuldigung, beim Start ist ein kritischer Fehler aufgetreten</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2322"/>
         <source>Show context on</source>
-        <translation>Kontextanzeige an</translation>
+        <translation>Anzeige Kontext an</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2325"/>
         <source>Show context off</source>
-        <translation>Kontextanzeige aus</translation>
+        <translation>Anzeige Kontext aus</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2337"/>
@@ -489,7 +489,7 @@ Entschuldigung, beim Start ist ein kritischer Fehler aufgetreten</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2654"/>
         <source>Enable Incoming MIDI Cues</source>
-        <translation>Aktiviere eingehende MIDI-Einsätze</translation>
+        <translation>Aktiviere eingehende MIDI-Cues</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2659"/>
@@ -504,7 +504,7 @@ Entschuldigung, beim Start ist ein kritischer Fehler aufgetreten</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2669"/>
         <source>Log Cues</source>
-        <translation>Protokolliere Einsätze</translation>
+        <translation>Protokolliere Cues</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2674"/>
@@ -514,12 +514,12 @@ Entschuldigung, beim Start ist ein kritischer Fehler aufgetreten</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2679"/>
         <source>Clear Logs on Run</source>
-        <translation>Lösche Protokoll beim Ausführen</translation>
+        <translation>Lösche Protokoll beim Start</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2684"/>
         <source>Auto Indent Code Buffer on Run</source>
-        <translation>Setze Einzug im Programm-Code im Puffer beim Ausführen</translation>
+        <translation>Setze Einzug im Programm-Code im Puffer beim Start</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2689"/>
@@ -584,7 +584,7 @@ Entschuldigung, beim Start ist ein kritischer Fehler aufgetreten</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2775"/>
         <source>Show Scope Kinds</source>
-        <translation>Zeige Oszilloskop-Typen an</translation>
+        <translation>Zeige Oszilloskop-Arten an</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2786"/>
@@ -601,7 +601,7 @@ Entschuldigung, beim Start ist ein kritischer Fehler aufgetreten</translation>
         <location filename="../mainwindow.cpp" line="3638"/>
         <location filename="../mainwindow.cpp" line="3750"/>
         <source>No Connected Inputs</source>
-        <translation>Keine belegten Eingänge</translation>
+        <translation>Keine Eingänge belegt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2790"/>
@@ -723,12 +723,12 @@ Entschuldigung, beim Start ist ein kritischer Fehler aufgetreten</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2906"/>
         <source>Focus Editor</source>
-        <translation>Fokus auf Editor</translation>
+        <translation>Fokus auf Programm-Code-Editor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2908"/>
         <source>Place focus on the code editor</source>
-        <translation>Fokus auf Programm-Code-Editor</translation>
+        <translation>Fokus auf Programm-Code-Editor setzen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2912"/>
@@ -738,7 +738,7 @@ Entschuldigung, beim Start ist ein kritischer Fehler aufgetreten</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2914"/>
         <source>Place focus on the log pane</source>
-        <translation>Fokus auf Protokoll-Fenster</translation>
+        <translation>Fokus auf Protokoll-Fenster setzen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2917"/>
@@ -753,12 +753,12 @@ Entschuldigung, beim Start ist ein kritischer Fehler aufgetreten</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2923"/>
         <source>Focus Cues</source>
-        <translation>Fokus auf Einsätze</translation>
+        <translation>Fokus auf Cues</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2925"/>
         <source>Place focus on the cue event pane</source>
-        <translation>Fokus auf Einsatz-Ereignis-Fenster setzen</translation>
+        <translation>Fokus auf Cue-Ereignis-Fenster setzen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2929"/>
@@ -882,12 +882,12 @@ Lade Sonic Pi %1 herunter</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2521"/>
         <source>Stop</source>
-        <translation>Stoppen</translation>
+        <translation>Stopp</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2523"/>
         <source>Stop all running code</source>
-        <translation>Beende alle laufenden Programme</translation>
+        <translation>Beende allen laufenden Programme-Code</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="847"/>
@@ -1069,7 +1069,7 @@ Lade Sonic Pi %1 herunter</translation>
     <message>
         <location filename="../utils/ruby_help.h" line="3628"/>
         <source>Lang</source>
-        <translation>Sprache</translation>
+        <translation>Codes</translation>
     </message>
 </context>
 <context>
@@ -1193,12 +1193,12 @@ das nur Mono-Signale verarbeiten kann.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="107"/>
         <source>Synths and FX</source>
-        <translation>Synths und FX</translation>
+        <translation>Synths und Effekte</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="108"/>
         <source>Modify behaviour of synths and FX</source>
-        <translation>Verändere das Verhalten von Synths und FX</translation>
+        <translation>Verändere das Verhalten von Synths und Effekten</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="110"/>
@@ -1229,11 +1229,11 @@ When disabled, Sonic Pi will always
 attempt to trigger synths and FX
 even when a little late.</source>
         <translation>Wenn aktiviert, wird Sonic Pi nicht versuchen
-Synths und FX zu starten, wenn es
+Synths und Effekte zu starten, wenn es
 das Signal dazu nach dem Takt erhält.
 
 Wenn deaktiviert, wird Sonic Pi versuchen
-Synths und FX auch dann zu starten,
+Synths und Effekte auch dann zu starten,
 wenn es das Signal dazu nach dem Takt erhält.</translation>
     </message>
     <message>
@@ -1246,26 +1246,26 @@ When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
 which isn&apos;t recognised.</source>
         <translation>Wenn aktiviert, wird Sonic Pi erlauben,
-dass Synths und FX mittels
+dass Synths und Effekte mittels
 load_synthdefs geladen werden.
 
 Wenn deaktiviert, wird Sonic Pi beim
 Laden eines nicht erkannten Synths
-oder FX eine Fehlermeldung anzeigen.</translation>
+oder Effekts eine Fehlermeldung anzeigen.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="141"/>
         <source>Networked OSC</source>
-        <translation>Netzwerk basiertes OSC</translation>
+        <translation>Netzwerkbasiertes OSC</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="142"/>
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation>Sonic Pi kann Open-Sound-Control-Nachrichten anderer
-Programme und Computer über das gegenwärtig
-verbundene Netzwerk sowohl senden als auch empfangen.</translation>
+        <translation>Sonic Pi kann Open-Sound-Control-Signale von anderen
+Programmen und Computern über das gegenwärtig
+verbundene Netzwerk empfangen und auch an sie senden.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="145"/>
@@ -1286,8 +1286,8 @@ verbundene Netzwerk sowohl senden als auch empfangen.</translation>
         <location filename="../widgets/settingswidget.cpp" line="172"/>
         <source>When checked, Sonic Pi will let you send and receive OSC messages to and from remote machines.
  When unchecked, only sending and receiving from the local machine will be enabled.</source>
-        <translation>Wenn aktiviert, erlaubt Sonic Pi OSC-Nachrichten an externe Maschinen zu senden und von dort zu empfangen.
-Wenn deaktiviert, können OSC-Nachrichten nur auf dem Computer gesendet und empfangen werden, auf dem Sonic Pi ausgeführt wird.</translation>
+        <translation>Wenn aktiviert, erlaubt es Sonic Pi OSC-Signale an externe Maschinen zu senden und von diesen zu empfangen.
+Wenn deaktiviert, können OSC-Signale innerhalb des Computers gesendet und empfangen werden, auf dem Sonic Pi ausgeführt wird.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="174"/>
@@ -1308,8 +1308,8 @@ Wenn deaktiviert, können OSC-Nachrichten nur auf dem Computer gesendet und empf
         <location filename="../widgets/settingswidget.cpp" line="175"/>
         <source>When checked, Sonic Pi will listen for OSC messages.
  When unchecked no OSC messages will be received.</source>
-        <translation>Wenn aktiviert, wird Sonic Pi auf OSC-Nachrichten reagieren.
-Wenn deaktiviert werden keine OSC-Nachrichten empfangen.</translation>
+        <translation>Wenn aktiviert, wird Sonic Pi auf OSC-Signale reagieren.
+Wenn deaktiviert werden keine OSC-Signale empfangen.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="183"/>
@@ -1358,16 +1358,16 @@ Wenn deaktiviert werden keine OSC-Nachrichten empfangen.</translation>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation>MIDI-Eingabegeräte senden MIDI-Nachrichten direkt an
-Sonic Pi, diese werden als Einsatz-Ereignisse empfangen
-(ähnlich wie eingehende OSC-Nachrichten und interne Einsätze)</translation>
+        <translation>MIDI-Eingabegeräte senden MIDI-Signale direkt an
+Sonic Pi, diese werden als Cue-Ereignisse empfangen
+(ähnlich wie eingehende OSC-Signale und interne Cues)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="239"/>
         <source>MIDI output devices receive MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation>MIDI-Ausgabegeräte empfangen MIDI-Nachrichten direkt von
-Sonic Pi, diese können über die midi_* fns gesendet werden</translation>
+        <translation>MIDI-Ausgabegeräte empfangen MIDI-Signale, die über
+midi_*-Funktionen gesendet werden können direkt von Sonic Pi</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="272"/>
@@ -1377,7 +1377,7 @@ Sonic Pi, diese können über die midi_* fns gesendet werden</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="273"/>
         <source>Configure editor display options.</source>
-        <translation>Konfiguriere Ansichtsoptionen des Editors.</translation>
+        <translation>Konfiguriere Ansichtsoptionen des Programm-Code-Editors.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="274"/>
@@ -1397,7 +1397,7 @@ Sonic Pi, diese können über die midi_* fns gesendet werden</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="116"/>
         <source>Enable external synths/FX</source>
-        <translation>Aktiviere externe Synthesizer/FX</translation>
+        <translation>Aktiviere externe Synthesizer/Effekte</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="146"/>
@@ -1407,12 +1407,12 @@ Sonic Pi, diese können über die midi_* fns gesendet werden</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="189"/>
         <source>Enable incoming MIDI cues</source>
-        <translation>Aktiviere eingehende MIDI-Einsätze</translation>
+        <translation>Aktiviere eingehende MIDI-Cues</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="190"/>
         <source>Enable or disable automatic conversion of incoming MIDI messages to cue events</source>
-        <translation>Aktiviere oder deaktiviere automatische Konvertierung von MIDI-Nachrichten in Einsatz-Ereignisse</translation>
+        <translation>Aktiviere oder deaktiviere automatische Konvertierung von MIDI-Signalen in Cue-Ereignisse</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="220"/>
@@ -1422,12 +1422,12 @@ Sonic Pi, diese können über die midi_* fns gesendet werden</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="221"/>
         <source>Default MIDI Channel to send messages to (* means all)</source>
-        <translation>Standard MIDI-Kanal zum Senden von MIDI-Nachrichten (* für Alle)</translation>
+        <translation>Standard MIDI-Kanal für das Senden von MIDI-Signalen (* bedeutet alle)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="225"/>
         <source>Default MIDI Channel to send messages to  (* means all)</source>
-        <translation>Standard MIDI-Kanal zum Empfangen von MIDI-Nachrichten (* für Alle)</translation>
+        <translation>Standard MIDI-Kanal für das Empfangen von MIDI-Signalen (* bedeutet alle)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="276"/>
@@ -1447,7 +1447,7 @@ Sonic Pi, diese können über die midi_* fns gesendet werden</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="280"/>
         <source>Automatically align code on Run</source>
-        <translation>Richte Programm-Code beim Ausführen automatisch aus</translation>
+        <translation>Richte Programm-Code beim Starten automatisch aus</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="282"/>
@@ -1462,7 +1462,7 @@ Sonic Pi, diese können über die midi_* fns gesendet werden</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="286"/>
         <source>When enabled, Sonic Pi&apos;s editor will attempt to autocomplete your code with suggestions. When disabled, these suggestions will not be visible.</source>
-        <translation>Wenn aktiviert, wird Sonic Pi&apos;s Editor Vorschläge zur Vervollständigung von Eingaben machen. Wenn deaktiviert, werden die Vorschläge nicht angezeigt.</translation>
+        <translation>Wenn aktiviert, wird Sonic Pi&apos;s Programm-Code-Editor Vorschläge zur Vervollständigung von Eingaben machen. Wenn deaktiviert, werden Vorschläge nicht angezeigt.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="288"/>
@@ -1472,7 +1472,7 @@ Sonic Pi, diese können über die midi_* fns gesendet werden</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="289"/>
         <source>When enabled, Sonic Pi&apos;s editor will show a pane which will display context-specific information for the code such as the current line and position of the cursor.</source>
-        <translation>Wenn aktiviert, wird Sonic Pi&apos;s Editor ein Feld einblenden, das kontextspezifische Informationen, bezogen auf den Code, wie Zeilennummer und Position des Curser, anzeigt.</translation>
+        <translation>Wenn aktiviert, wird Sonic Pis Programm-Code-Editor ein Feld anzeigen, das für den Code spezifische Informationen anzeigt - wie gegenwärtige Zeilennummer und Position des Cursors.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="291"/>
@@ -1487,12 +1487,12 @@ Sonic Pi, diese können über die midi_* fns gesendet werden</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="295"/>
         <source>Show cue log</source>
-        <translation>Zeige Einsatz-Protokoll an</translation>
+        <translation>Zeige Cue-Protokoll an</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="296"/>
         <source>Toggle visibility of cue log which displays internal cues &amp; incoming OSC/MIDI messages.</source>
-        <translation>Schalte Einsatz-Protokoll-Anzeige für interne Einsätze und eingehende OSC/MIDI-Nachrichten ein-/aus.</translation>
+        <translation>Schalte Cue-Protokoll-Anzeige für interne Cues und eingehende OSC/MIDI-Signale ein-/aus.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="299"/>
@@ -1570,35 +1570,35 @@ Sonic Pi, diese können über die midi_* fns gesendet werden</translation>
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
         <translation>Protokoll-Nachrichten ein-/ausschalten.
-Wenn deaktiviert, werden Aktivitäten wie das Auslösen
+Wenn deaktiviert, werden Aktivitäten wie das Triggern
 von Synths und Samples nicht im Protokoll angezeigt.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="352"/>
         <source>Clear log on run</source>
-        <translation>Leere Protokoll beim Ausführen</translation>
+        <translation>Leere Protokoll beim Starten</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="353"/>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation>Protokoll beim Ausführen leeren.
-Wenn aktiviert, wird das Protokoll jedes Mal
-beim Ausführen eines Puffers gelöscht.</translation>
+        <translation>Protokoll beim Starten leeren.
+Wenn aktiviert, wird das Protokoll bei
+jedem Klick auf Ausführen gelöscht.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="355"/>
         <source>Log cues</source>
-        <translation>Protokolliere Einsätze</translation>
+        <translation>Protokolliere Cues</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="356"/>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation>Aktivieren/Deaktivieren des Protokollierens von Einsätzen.
-Wenn deaktiviert, werden Einsätze weiterhin ausgelöst.
+        <translation>Aktiviere/Deaktiviere die Protokollierung von Cues.
+Wenn deaktiviert, werden Cues weiterhin Trigger auslösen.
 Sie sind jedoch im Protokoll nicht mehr sichtbar.</translation>
     </message>
     <message>
@@ -1626,7 +1626,7 @@ Wenn aktiviert, wird das Protokoll mit jedem neuen Eintrag nach oben weitergebl�
     <message>
         <location filename="../widgets/settingswidget.cpp" line="387"/>
         <source>Scope Kinds</source>
-        <translation>Oszilloskop-Typen</translation>
+        <translation>Oszilloskop-Arten</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="395"/>
@@ -1641,7 +1641,7 @@ Wenn aktiviert, wird das Protokoll mit jedem neuen Eintrag nach oben weitergebl�
     <message>
         <location filename="../widgets/settingswidget.cpp" line="398"/>
         <source>Toggle the visibility of the labels for the audio oscilloscopes</source>
-        <translation>Schalte Typen-Anzeige für Audio-Oszilloskope ein-/aus</translation>
+        <translation>Schalte Anzeige für Bezeichnungen der Oszilloskop-Arten ein-/aus</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="401"/>
