@@ -241,7 +241,7 @@ end
 example_html_map = {}
 example_dirs = ["Apprentice", "Illusionist", "Magician", "Sorcerer", "Wizard", "Algomancer"]
 example_dirs.each do |ex_dir|
-  Dir["#{examples_path}/#{ex_dir.downcase}/*.rb"].each do |path|
+  Dir["#{examples_path}/#{ex_dir.downcase}/*.rb"].sort.each do |path|
     bname = File.basename(path, ".rb")
     bname = ActiveSupport::Inflector.titleize(bname)
     name = "[#{ex_dir}] #{bname}"
@@ -271,7 +271,7 @@ ruby_html_map = {
 languages =
   Dir[File.expand_path("../lang/sonic-pi-tutorial-*.po", tutorial_path)].
   map { |p| File.basename(p).gsub(/sonic-pi-tutorial-(.*?).po/, '\1') }.
-  sort_by {|n| -n.length}
+  sort_by {|n| [-n.length, n]}
 
 docs << "\n"
 
