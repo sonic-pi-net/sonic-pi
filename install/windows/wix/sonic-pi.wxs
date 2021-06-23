@@ -56,13 +56,20 @@
         </Feature>
 
         <UI Id="UserInterface">
-            <UIRef Id="WixUI_Minimal" />
+            <UIRef Id="WixUI_InstallDir" />
             <Property Id="WIXUI_INSTALLDIR" Value="TARGETDIR" />
+
+            <DialogRef Id="BrowseDlg"/>
+            <DialogRef Id="DiskCostDlg"/>
+            <DialogRef Id="InstallDirDlg"/>
+            <DialogRef Id="InvalidDirDlg"/>
+
             <DialogRef Id="ProgressDlg" />
             <DialogRef Id="ErrorDlg" />
             <DialogRef Id="FilesInUse" />
             <DialogRef Id="FatalError" />
             <DialogRef Id="UserExit" />
+
             <Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="LaunchApplication" Order="999">WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed</Publish>
             <Publish Dialog="WelcomeDlg" Control="Next" Event="EndDialog" Value="Return" Order="2"></Publish>
         </UI>
