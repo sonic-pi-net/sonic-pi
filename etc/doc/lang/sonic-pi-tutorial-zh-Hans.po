@@ -2268,7 +2268,7 @@ msgstr "我们可以好好利用前述的特性，将时间长的采样变得更
 #: 03.4-Enveloped-Samples.md:106
 #, no-wrap
 msgid "sample :drum_cymbal_open"
-msgstr "样本：鼓_镲片_开放"
+msgstr "sample :drum_cymbal_open"
 
 #: 03.4-Enveloped-Samples.md:110
 msgid ""
@@ -2325,7 +2325,7 @@ msgstr "接下来，我们看看如何淡入一个样本(我们以半速来做)�
 #: 03.5-Partial-Samples.md:23
 #, no-wrap
 msgid "sample :loop_amen, rate: 0.5, attack: 1"
-msgstr "样本：loop_amen，速率：0.5，起音：1"
+msgstr "sample :loop_amen, rate: 0.5, attack: 1"
 
 #: 03.5-Partial-Samples.md:27
 msgid ""
@@ -2337,7 +2337,7 @@ msgstr "我们还研究了如何通过给出一个显式的“延音”值并将
 #: 03.5-Partial-Samples.md:31
 #, no-wrap
 msgid "sample :loop_amen, rate: 2, attack: 0.01, sustain: 0, release: 0.35"
-msgstr "样本：loop_amen，速率：2，起音：0.01，延音：0，释音：0.35"
+msgstr "sample :loop_amen, rate: 2, attack: 0.01, sustain: 0, release: 0.35"
 
 #: 03.5-Partial-Samples.md:35
 msgid ""
@@ -2361,7 +2361,7 @@ msgstr "可以在样本中选择0到1之间的任意起点，其中0是样本的
 #: 03.5-Partial-Samples.md:46
 #, no-wrap
 msgid "sample :loop_amen, start: 0.5"
-msgstr "样本：loop_amen，起始值：0.5"
+msgstr "sample :loop_amen, start: 0.5"
 
 #: 03.5-Partial-Samples.md:50
 msgid "How about the last quarter of the sample:"
@@ -2370,7 +2370,7 @@ msgstr "关于最后1 / 4的样本："
 #: 03.5-Partial-Samples.md:52
 #, no-wrap
 msgid "sample :loop_amen, start: 0.75"
-msgstr "样本：loop_amen，起始值：0.75"
+msgstr "sample :loop_amen, start: 0.75"
 
 #: 03.5-Partial-Samples.md:56
 msgid "Choosing a finish point"
@@ -2385,7 +2385,7 @@ msgstr "类似地，也可以在样本中选择0到1之间的任意结束点。�
 #: 03.5-Partial-Samples.md:62 A.12-sample-slicing.md:62
 #, no-wrap
 msgid "sample :loop_amen, finish: 0.5"
-msgstr "样本：loop_amen，结束：0.5"
+msgstr "sample :loop_amen, finish: 0.5"
 
 #: 03.5-Partial-Samples.md:66
 msgid "Specifying start and finish"
@@ -2400,7 +2400,7 @@ msgstr "当然，我们可以结合这两个去播放音频文件的任意片段
 #: 03.5-Partial-Samples.md:71
 #, no-wrap
 msgid "sample :loop_amen, start: 0.4, finish: 0.6"
-msgstr "样本：loop_amen，起始：0.4，结束：0.6"
+msgstr "sample :loop_amen, start: 0.4, finish: 0.6"
 
 #: 03.5-Partial-Samples.md:75
 msgid "What happens if we choose a start position after the finish position?"
@@ -2409,7 +2409,7 @@ msgstr "如果我们把起始位置放在在结束位置之后，会发生什么
 #: 03.5-Partial-Samples.md:78
 #, no-wrap
 msgid "sample :loop_amen, start: 0.6, finish: 0.4"
-msgstr "样本：loop_amen，起始：0.6，结束：0.4"
+msgstr "sample :loop_amen, start: 0.6, finish: 0.4"
 
 #: 03.5-Partial-Samples.md:82
 msgid "Cool! It plays it backwards!"
@@ -2612,7 +2612,7 @@ msgstr "要播放钢琴采样时，我们可以用完整的路径："
 #: 03.7-Sample-Packs.md:34
 #, no-wrap
 msgid "sample \"/path/to/my/samples/120_Bb_piano1.wav\""
-msgstr "采样样本 \"/path/to/my/samples/120_Bb_piano1.wav\""
+msgstr "sample \"/path/to/my/samples/120_Bb_piano1.wav\""
 
 #: 03.7-Sample-Packs.md:38
 msgid "If we want to then play the guitar sample we can use its full path too:"
@@ -2621,7 +2621,7 @@ msgstr "又或者如果我们要播放吉他采样，也可以用完整的路径
 #: 03.7-Sample-Packs.md:40
 #, no-wrap
 msgid "sample \"/path/to/my/samples/120_Bb_guit.wav\""
-msgstr "采样样本 \"/path/to/my/samples/120_Bb_guit.wav\""
+msgstr "sample \"/path/to/my/samples/120_Bb_guit.wav\""
 
 #: 03.7-Sample-Packs.md:44
 msgid ""
@@ -2643,7 +2643,7 @@ msgstr "如果我们想播放一个目录下的第一个采样，只需要像这
 #: 03.7-Sample-Packs.md:53
 #, no-wrap
 msgid "sample \"/path/to/my/samples/\", 0"
-msgstr "采样样本 \"/path/to/my/samples/\", 0"
+msgstr "sample \"/path/to/my/samples/\", 0"
 
 #: 03.7-Sample-Packs.md:57
 msgid "We can even make a shortcut to our directory path using a variable:"
