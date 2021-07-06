@@ -73,6 +73,7 @@ app/gui/qt/cmake-build-*
 app/gui/qt/.idea
 app/gui/qt/.vscode
 
+app/gui/qt/help
 app/gui/qt/info
 app/gui/qt/qrc*.cpp
 app/gui/qt/resources
@@ -134,7 +135,12 @@ book/
 
 etc/doc/lang/sonic-pi-tutorial.pot
 etc/doc/generated/
-
+etc/doc/html/generated_src
+etc/doc/html/_site
+etc/doc/html/vendor
+etc/doc/html/.bundle
+.jekyll-metadata
+.jekyll-cache
 
 # Clojure synths native dir
 

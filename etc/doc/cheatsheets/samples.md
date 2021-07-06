@@ -19,6 +19,8 @@
 * :drum_cymbal_pedal
 * :drum_bass_soft
 * :drum_bass_hard
+* :drum_cowbell
+* :drum_roll
 
 
 ## Electric Sounds
@@ -58,12 +60,21 @@
 
 ## Miscellaneous Sounds
 * :misc_burp
+* :misc_crow
+* :misc_cineboom
 
 
 ## Percussive Sounds
 * :perc_bell
+* :perc_bell2
 * :perc_snap
 * :perc_snap2
+* :perc_swash
+* :perc_till
+* :perc_door
+* :perc_impact1
+* :perc_impact2
+* :perc_swoosh
 
 
 ## Ambient Sounds
@@ -77,6 +88,7 @@
 * :ambi_lunar_land
 * :ambi_dark_woosh
 * :ambi_choir
+* :ambi_sauna
 
 
 ## Bass Sounds
@@ -88,12 +100,14 @@
 * :bass_voxy_c
 * :bass_voxy_hit_c
 * :bass_dnb_f
+* :bass_trance_c
 
 
 ## Snare Drums
 * :sn_dub
 * :sn_dolf
 * :sn_zome
+* :sn_generic
 
 
 ## Bass Drums
@@ -109,6 +123,7 @@
 * :bd_klub
 * :bd_fat
 * :bd_tek
+* :bd_mehackit
 
 
 ## Sounds for Looping
@@ -119,5 +134,76 @@
 * :loop_garzul
 * :loop_mika
 * :loop_breakbeat
+* :loop_safari
+* :loop_tabla
+* :loop_3d_printer
+* :loop_drone_g_97
+* :loop_electric
+* :loop_mehackit1
+* :loop_mehackit2
+* :loop_perc1
+* :loop_perc2
+* :loop_weirdo
+
+
+## Sounds of a Tabla Drum
+* :tabla_tas1
+* :tabla_tas2
+* :tabla_tas3
+* :tabla_ke1
+* :tabla_ke2
+* :tabla_ke3
+* :tabla_na
+* :tabla_na_o
+* :tabla_tun1
+* :tabla_tun2
+* :tabla_tun3
+* :tabla_te1
+* :tabla_te2
+* :tabla_te_ne
+* :tabla_te_m
+* :tabla_ghe1
+* :tabla_ghe2
+* :tabla_ghe3
+* :tabla_ghe4
+* :tabla_ghe5
+* :tabla_ghe6
+* :tabla_ghe7
+* :tabla_ghe8
+* :tabla_dhec
+* :tabla_na_s
+* :tabla_re
+
+
+## Glitchy Sounds
+* :glitch_bass_g
+* :glitch_perc1
+* :glitch_perc2
+* :glitch_perc3
+* :glitch_perc4
+* :glitch_perc5
+* :glitch_robot1
+* :glitch_robot2
+
+
+## Vinyl sounds
+* :vinyl_backspin
+* :vinyl_rewind
+* :vinyl_scratch
+* :vinyl_hiss
+
+
+## Mehackit Sounds
+* :mehackit_phone1
+* :mehackit_phone2
+* :mehackit_phone3
+* :mehackit_phone4
+* :mehackit_robot1
+* :mehackit_robot2
+* :mehackit_robot3
+* :mehackit_robot4
+* :mehackit_robot5
+* :mehackit_robot6
+* :mehackit_robot7
 
 

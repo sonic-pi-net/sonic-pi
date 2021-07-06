@@ -20,6 +20,8 @@
 * [Modulated Sine Wave](#modulated-sine-wave)
 * [Modulated Triangle Wave](#modulated-triangle-wave)
 * [Modulated Pulse](#modulated-pulse)
+* [Chip Lead](#chip-lead)
+* [Chip Bass](#chip-bass)
 * [TB-303 Emulation](#tb-303-emulation)
 * [Supersaw](#supersaw)
 * [Hoover](#hoover)
@@ -32,13 +34,18 @@
 * [Stereo Sample Player](#stereo-sample-player)
 * [Blade Runner style strings](#blade-runner-style-strings)
 * [SynthPiano](#synthpiano)
+* [SynthRodeo](#synthrodeo)
+* [SynthKalimba](#synthkalimba)
 * [SynthPluck](#synthpluck)
+* [TechSaws](#techsaws)
 * [Sound In](#sound-in)
+* [Sound In Stereo](#sound-in-stereo)
 * [Noise](#noise)
 * [Pink Noise](#pink-noise)
 * [Brown Noise](#brown-noise)
 * [Grey Noise](#grey-noise)
 * [Clip Noise](#clip-noise)
+* [Chip Noise](#chip-noise)
 * [Basic Mono Sample Player (no env)](#basic-mono-sample-player-(no-env))
 * [Basic Stereo Sample Player (no env)](#basic-stereo-sample-player-(no-env))
 * [Basic Mixer](#basic-mixer)
@@ -58,19 +65,19 @@
     - default: 52
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * amp:
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)
     - default: 1
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pan:
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * attack:
     - doc: Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.
     - default: 0
@@ -131,19 +138,19 @@
     - default: 52
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * amp:
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)
     - default: 1
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pan:
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * attack:
     - doc: Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.
     - default: 0
@@ -204,19 +211,19 @@
     - default: 52
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * amp:
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)
     - default: 1
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pan:
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * attack:
     - doc: Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.
     - default: 0
@@ -277,19 +284,19 @@
     - default: 52
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * amp:
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)
     - default: 1
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pan:
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * attack:
     - doc: Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.
     - default: 0
@@ -350,19 +357,19 @@
     - default: 52
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * amp:
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)
     - default: 1
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pan:
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * attack:
     - doc: Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.
     - default: 0
@@ -407,6 +414,12 @@
     - default: 2
     - constraints: must be one of the following values: [1, 2, 3, 4, 6, 7]
     - Can not be changed once set
+  * cutoff:
+    - doc: MIDI note representing the highest frequencies allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy.
+    - default: 100
+    - constraints: must be zero or greater,must be a value less than 131
+    - May be changed whilst playing
+    - Has slide options for shaping changes
 
 
 ## Pulse Wave
@@ -423,19 +436,19 @@
     - default: 52
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * amp:
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)
     - default: 1
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pan:
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * attack:
     - doc: Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.
     - default: 0
@@ -485,13 +498,13 @@
     - default: 100
     - constraints: must be zero or greater,must be a value less than 131
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pulse_width:
     - doc: The width of the pulse wave as a value between 0 and 1. A width of 0.5 will produce a square wave. Different values will change the timbre of the sound. Only valid if wave is type pulse.
     - default: 0.5
     - constraints: must be a value between 0 and 1 exclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
 
 
 ## Pulse Wave with sub
@@ -508,19 +521,19 @@
     - default: 52
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * amp:
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)
     - default: 1
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pan:
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * attack:
     - doc: Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.
     - default: 0
@@ -570,25 +583,25 @@
     - default: 100
     - constraints: must be zero or greater,must be a value less than 131
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pulse_width:
     - doc: The width of the pulse wave as a value between 0 and 1. A width of 0.5 will produce a square wave. Different values will change the timbre of the sound. Only valid if wave is type pulse.
     - default: 0.5
     - constraints: must be a value between 0 and 1 exclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * sub_amp:
     - doc: Amplitude for the additional sine wave.
     - default: 1
     - constraints: none
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * sub_detune:
     - doc: Amount of detune from the note for the additional sine wave. Default is -12
     - default: -12
     - constraints: none
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
 
 
 ## Square Wave
@@ -605,19 +618,19 @@
     - default: 52
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * amp:
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)
     - default: 1
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pan:
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * attack:
     - doc: Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.
     - default: 0
@@ -667,7 +680,7 @@
     - default: 100
     - constraints: must be zero or greater,must be a value less than 131
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
 
 
 ## Triangle Wave
@@ -684,19 +697,19 @@
     - default: 52
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * amp:
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)
     - default: 1
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pan:
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * attack:
     - doc: Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.
     - default: 0
@@ -746,13 +759,13 @@
     - default: 100
     - constraints: must be zero or greater,must be a value less than 131
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pulse_width:
     - doc: The width of the pulse wave as a value between 0 and 1. A width of 0.5 will produce a square wave. Different values will change the timbre of the sound. Only valid if wave is type pulse.
     - default: 0.5
     - constraints: must be a value between 0 and 1 exclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
 
 
 ## Detuned Saw wave
@@ -769,19 +782,19 @@
     - default: 52
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * amp:
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)
     - default: 1
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pan:
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * attack:
     - doc: Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.
     - default: 0
@@ -831,13 +844,13 @@
     - default: 100
     - constraints: must be zero or greater,must be a value less than 131
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * detune:
     - doc: Distance (in MIDI notes) between components of sound. Affects thickness, sense of tuning and harmony. Tiny values such as 0.1 create a thick sound. Larger values such as 0.5 make the tuning sound strange. Even bigger values such as 5 create chord-like sounds.
     - default: 0.1
     - constraints: none
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
 
 
 ## Detuned Pulse Wave
@@ -854,19 +867,19 @@
     - default: 52
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * amp:
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)
     - default: 1
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pan:
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * attack:
     - doc: Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.
     - default: 0
@@ -916,25 +929,25 @@
     - default: 100
     - constraints: must be zero or greater,must be a value less than 131
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * detune:
     - doc: Distance (in MIDI notes) between components of sound. Affects thickness, sense of tuning and harmony. Tiny values such as 0.1 create a thick sound. Larger values such as 0.5 make the tuning sound strange. Even bigger values such as 5 create chord-like sounds.
     - default: 0.1
     - constraints: none
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pulse_width:
     - doc: The width of the pulse wave as a value between 0 and 1. A width of 0.5 will produce a square wave. Different values will change the timbre of the sound. Only valid if wave is type pulse.
     - default: 0.5
     - constraints: must be a value between 0 and 1 exclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * dpulse_width:
     - doc: The width of the second detuned pulse wave as a value between 0 and 1. A width of 0.5 will produce a square wave. Different values will change the timbre of the sound. Only valid if wave is type pulse.
     - default: pulse_width
     - constraints: must be a value between 0 and 1 exclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
 
 
 ## Detuned Triangle Wave
@@ -951,19 +964,19 @@
     - default: 52
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * amp:
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)
     - default: 1
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pan:
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * attack:
     - doc: Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.
     - default: 0
@@ -1013,13 +1026,13 @@
     - default: 100
     - constraints: must be zero or greater,must be a value less than 131
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * detune:
     - doc: Distance (in MIDI notes) between components of sound. Affects thickness, sense of tuning and harmony. Tiny values such as 0.1 create a thick sound. Larger values such as 0.5 make the tuning sound strange. Even bigger values such as 5 create chord-like sounds.
     - default: 0.1
     - constraints: none
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
 
 
 ## Basic FM synthesis
@@ -1036,19 +1049,19 @@
     - default: 52
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * amp:
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)
     - default: 1
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pan:
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * attack:
     - doc: Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.
     - default: 0
@@ -1098,19 +1111,19 @@
     - default: 100
     - constraints: must be zero or greater,must be a value less than 131
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * divisor:
     - doc: Modifies the frequency of the modulator oscillator relative to the carrier. Don't worry too much about what this means - just try different numbers out!
     - default: 2
     - constraints: none
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * depth:
     - doc: Modifies the depth of the carrier wave used to modify fundamental frequency. Don't worry too much about what this means - just try different numbers out!
     - default: 1
     - constraints: none
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
 
 
 ## Basic FM synthesis with frequency modulation.
@@ -1127,19 +1140,19 @@
     - default: 52
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * amp:
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)
     - default: 1
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pan:
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * attack:
     - doc: Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.
     - default: 0
@@ -1189,19 +1202,19 @@
     - default: 100
     - constraints: must be zero or greater,must be a value less than 131
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * divisor:
     - doc: Modifies the frequency of the modulator oscillator relative to the carrier. Don't worry too much about what this means - just try different numbers out!
     - default: 2
     - constraints: none
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * depth:
     - doc: Modifies the depth of the carrier wave used to modify fundamental frequency. Don't worry too much about what this means - just try different numbers out!
     - default: 1
     - constraints: none
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * mod_phase:
     - doc: Phase duration in beats of oscillations between the two notes. Time it takes to switch between the notes.
     - default: 0.25
@@ -1249,19 +1262,19 @@
     - default: 52
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * amp:
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)
     - default: 1
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pan:
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * attack:
     - doc: Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.
     - default: 0
@@ -1311,26 +1324,26 @@
     - default: 100
     - constraints: must be zero or greater,must be a value less than 131
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * mod_phase:
     - doc: Phase duration in beats of oscillations between the two notes. Time it takes to switch between the notes.
     - default: 0.25
     - constraints: must be greater than zero
     - May be changed whilst playing
     - Scaled with current BPM value
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * mod_range:
     - doc: The size of gap between modulation notes. A gap of 12 is one octave.
     - default: 5
     - constraints: none
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * mod_pulse_width:
     - doc: The width of the modulated pulse wave as a value between 0 and 1. A width of 0.5 will produce a square wave. Only valid if mod wave is type pulse.
     - default: 0.5
     - constraints: must be a value between 0 and 1 exclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * mod_phase_offset:
     - doc: Initial modulation phase offset (a value between 0 and 1).
     - default: 0
@@ -1362,19 +1375,19 @@
     - default: 52
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * amp:
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)
     - default: 1
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pan:
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * attack:
     - doc: Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.
     - default: 0
@@ -1424,26 +1437,26 @@
     - default: 100
     - constraints: must be zero or greater,must be a value less than 131
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * mod_phase:
     - doc: Phase duration in beats of oscillations between the two notes. Time it takes to switch between the notes.
     - default: 0.25
     - constraints: must be greater than zero
     - May be changed whilst playing
     - Scaled with current BPM value
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * mod_range:
     - doc: The size of gap between modulation notes. A gap of 12 is one octave.
     - default: 5
     - constraints: none
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * mod_pulse_width:
     - doc: The width of the modulated pulse wave as a value between 0 and 1. A width of 0.5 will produce a square wave. Only valid if mod wave is type pulse.
     - default: 0.5
     - constraints: must be a value between 0 and 1 exclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * mod_phase_offset:
     - doc: Initial modulation phase offset (a value between 0 and 1).
     - default: 0
@@ -1464,7 +1477,7 @@
     - default: 0.1
     - constraints: none
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
 
 
 ## Modulated Sine Wave
@@ -1481,19 +1494,19 @@
     - default: 52
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * amp:
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)
     - default: 1
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pan:
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * attack:
     - doc: Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.
     - default: 0
@@ -1543,26 +1556,26 @@
     - default: 100
     - constraints: must be zero or greater,must be a value less than 131
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * mod_phase:
     - doc: Phase duration in beats of oscillations between the two notes. Time it takes to switch between the notes.
     - default: 0.25
     - constraints: must be greater than zero
     - May be changed whilst playing
     - Scaled with current BPM value
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * mod_range:
     - doc: The size of gap between modulation notes. A gap of 12 is one octave.
     - default: 5
     - constraints: none
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * mod_pulse_width:
     - doc: The width of the modulated pulse wave as a value between 0 and 1. A width of 0.5 will produce a square wave. Only valid if mod wave is type pulse.
     - default: 0.5
     - constraints: must be a value between 0 and 1 exclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * mod_phase_offset:
     - doc: Initial modulation phase offset (a value between 0 and 1).
     - default: 0
@@ -1594,19 +1607,19 @@
     - default: 52
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * amp:
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)
     - default: 1
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pan:
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * attack:
     - doc: Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.
     - default: 0
@@ -1656,26 +1669,26 @@
     - default: 100
     - constraints: must be zero or greater,must be a value less than 131
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * mod_phase:
     - doc: Phase duration in beats of oscillations between the two notes. Time it takes to switch between the notes.
     - default: 0.25
     - constraints: must be greater than zero
     - May be changed whilst playing
     - Scaled with current BPM value
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * mod_range:
     - doc: The size of gap between modulation notes. A gap of 12 is one octave.
     - default: 5
     - constraints: none
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * mod_pulse_width:
     - doc: The width of the modulated pulse wave as a value between 0 and 1. A width of 0.5 will produce a square wave. Only valid if mod wave is type pulse.
     - default: 0.5
     - constraints: must be a value between 0 and 1 exclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * mod_phase_offset:
     - doc: Initial modulation phase offset (a value between 0 and 1).
     - default: 0
@@ -1707,19 +1720,19 @@
     - default: 52
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * amp:
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)
     - default: 1
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pan:
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * attack:
     - doc: Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.
     - default: 0
@@ -1769,26 +1782,26 @@
     - default: 100
     - constraints: must be zero or greater,must be a value less than 131
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * mod_phase:
     - doc: Phase duration in beats of oscillations between the two notes. Time it takes to switch between the notes.
     - default: 0.25
     - constraints: must be greater than zero
     - May be changed whilst playing
     - Scaled with current BPM value
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * mod_range:
     - doc: The size of gap between modulation notes. A gap of 12 is one octave.
     - default: 5
     - constraints: none
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * mod_pulse_width:
     - doc: The width of the modulated pulse wave as a value between 0 and 1. A width of 0.5 will produce a square wave. Only valid if mod wave is type pulse.
     - default: 0.5
     - constraints: must be a value between 0 and 1 exclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * mod_phase_offset:
     - doc: Initial modulation phase offset (a value between 0 and 1).
     - default: 0
@@ -1820,19 +1833,19 @@
     - default: 52
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * amp:
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)
     - default: 1
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pan:
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * attack:
     - doc: Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.
     - default: 0
@@ -1882,26 +1895,26 @@
     - default: 100
     - constraints: must be zero or greater,must be a value less than 131
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * mod_phase:
     - doc: Phase duration in beats of oscillations between the two notes. Time it takes to switch between the notes.
     - default: 0.25
     - constraints: must be greater than zero
     - May be changed whilst playing
     - Scaled with current BPM value
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * mod_range:
     - doc: The size of gap between modulation notes. A gap of 12 is one octave.
     - default: 5
     - constraints: none
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * mod_pulse_width:
     - doc: The width of the modulated pulse wave as a value between 0 and 1. A width of 0.5 will produce a square wave. Only valid if mod wave is type pulse.
     - default: 0.5
     - constraints: must be a value between 0 and 1 exclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * mod_phase_offset:
     - doc: Initial modulation phase offset (a value between 0 and 1).
     - default: 0
@@ -1922,7 +1935,168 @@
     - default: 0.5
     - constraints: must be a value between 0 and 1 exclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
+
+
+## Chip Lead
+
+### Key:
+  :chiplead
+
+### Doc:
+  A slightly clipped square (pulse) wave with phases of 12.5%, 25% or 50% modelled after the 2A03 chip found in voices 1 and 2 of the NES games console. This can be used for retro sounding leads and harmonised lines. This also adds an opt 'note_resolution' which locks the note slide to certain pitches which are multiples of the step size. This allows for emulation of the sweep setting on the 2A03.
+
+### Opts:
+  * note:
+    - doc: Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, `:C`, `:C2`, `:Eb4`, or `:Ds3`
+    - default: 60
+    - constraints: must be zero or greater
+    - May be changed whilst playing
+    - Has slide options for shaping changes
+  * note_resolution:
+    - doc: Locks down the note resolution to be multiples of this (MIDI) number. For example, a `note_resolution:` of 1 will only allow semitones to be played. When used in conjunction with `note_slide:` produces a staircase of notes rather than a continuous line which is how things were on the NES. Set to 0 to disable. This wasn't a feature of this triangle (bass) channel on the original chip but some emulators have added it in since.
+    - default: 0.1
+    - constraints: must be zero or greater
+    - May be changed whilst playing
+  * amp:
+    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)
+    - default: 1
+    - constraints: must be zero or greater
+    - May be changed whilst playing
+    - Has slide options for shaping changes
+  * pan:
+    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
+    - default: 0
+    - constraints: must be a value between -1 and 1 inclusively
+    - May be changed whilst playing
+    - Has slide options for shaping changes
+  * attack:
+    - doc: Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.
+    - default: 0
+    - constraints: must be zero or greater
+    - Can not be changed once set
+    - Scaled with current BPM value
+  * decay:
+    - doc: Amount of time (in beats) for the sound to move from full amplitude (attack_level) to the sustain amplitude (sustain_level).
+    - default: 0
+    - constraints: must be zero or greater
+    - Can not be changed once set
+    - Scaled with current BPM value
+  * sustain:
+    - doc: Amount of time (in beats) for sound to remain at sustain level amplitude. Longer sustain values result in longer sounds. Full length of sound is attack + decay + sustain + release.
+    - default: 0
+    - constraints: must be zero or greater
+    - Can not be changed once set
+    - Scaled with current BPM value
+  * release:
+    - doc: Amount of time (in beats) for sound to move from sustain level amplitude to silent. A short release (i.e. 0.01) makes the final part of the sound very percussive (potentially resulting in a click). A longer release (i.e 1) fades the sound out gently. Full length of sound is attack + decay + sustain + release.
+    - default: 1
+    - constraints: must be zero or greater
+    - Can not be changed once set
+    - Scaled with current BPM value
+  * attack_level:
+    - doc: Amplitude level reached after attack phase and immediately before decay phase
+    - default: 1
+    - constraints: must be zero or greater
+    - Can not be changed once set
+  * decay_level:
+    - doc: Amplitude level reached after decay phase and immediately before sustain phase. Defaults to sustain_level unless explicitly set
+    - default: sustain_level
+    - constraints: must be zero or greater
+    - Can not be changed once set
+  * sustain_level:
+    - doc: Amplitude level reached after decay phase and immediately before release phase.
+    - default: 1
+    - constraints: must be zero or greater
+    - Can not be changed once set
+  * env_curve:
+    - doc: Select the shape of the curve between levels in the envelope. 1=linear, 2=exponential, 3=sine, 4=welch, 6=squared, 7=cubed
+    - default: 2
+    - constraints: must be one of the following values: [1, 2, 3, 4, 6, 7]
+    - Can not be changed once set
+  * width:
+    - doc: Which of the three pulse_widths to use - 0 => 12.5%, 1 => 25%, 2 => 50%
+    - default: 0
+    - constraints: must be one of the following values: [0, 1, 2]
+    - May be changed whilst playing
+
+
+## Chip Bass
+
+### Key:
+  :chipbass
+
+### Doc:
+  A 16 step triangle wave modelled after the 2A03 chip found in voice 3 of the NES games console. This can be used for retro sounding basslines. For complete authenticity with the 2A03 bear in mind that the triangle channel on that chip didn't have a volume control.
+
+### Opts:
+  * note:
+    - doc: Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, `:C`, `:C2`, `:Eb4`, or `:Ds3`
+    - default: 60
+    - constraints: must be zero or greater
+    - May be changed whilst playing
+    - Has slide options for shaping changes
+  * note_resolution:
+    - doc: Locks down the note resolution to be multiples of this (MIDI) number. For example, a `note_resolution:` of 1 will only allow semitones to be played. When used in conjunction with `note_slide:` produces a staircase of notes rather than a continuous line which is how things were on the NES. Set to 0 to disable. This wasn't a feature of this triangle (bass) channel on the original chip but some emulators have added it in since.
+    - default: 0.1
+    - constraints: must be zero or greater
+    - May be changed whilst playing
+  * amp:
+    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)
+    - default: 1
+    - constraints: must be zero or greater
+    - May be changed whilst playing
+    - Has slide options for shaping changes
+  * pan:
+    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
+    - default: 0
+    - constraints: must be a value between -1 and 1 inclusively
+    - May be changed whilst playing
+    - Has slide options for shaping changes
+  * attack:
+    - doc: Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.
+    - default: 0
+    - constraints: must be zero or greater
+    - Can not be changed once set
+    - Scaled with current BPM value
+  * decay:
+    - doc: Amount of time (in beats) for the sound to move from full amplitude (attack_level) to the sustain amplitude (sustain_level).
+    - default: 0
+    - constraints: must be zero or greater
+    - Can not be changed once set
+    - Scaled with current BPM value
+  * sustain:
+    - doc: Amount of time (in beats) for sound to remain at sustain level amplitude. Longer sustain values result in longer sounds. Full length of sound is attack + decay + sustain + release.
+    - default: 0
+    - constraints: must be zero or greater
+    - Can not be changed once set
+    - Scaled with current BPM value
+  * release:
+    - doc: Amount of time (in beats) for sound to move from sustain level amplitude to silent. A short release (i.e. 0.01) makes the final part of the sound very percussive (potentially resulting in a click). A longer release (i.e 1) fades the sound out gently. Full length of sound is attack + decay + sustain + release.
+    - default: 1
+    - constraints: must be zero or greater
+    - Can not be changed once set
+    - Scaled with current BPM value
+  * attack_level:
+    - doc: Amplitude level reached after attack phase and immediately before decay phase
+    - default: 1
+    - constraints: must be zero or greater
+    - Can not be changed once set
+  * decay_level:
+    - doc: Amplitude level reached after decay phase and immediately before sustain phase. Defaults to sustain_level unless explicitly set
+    - default: sustain_level
+    - constraints: must be zero or greater
+    - Can not be changed once set
+  * sustain_level:
+    - doc: Amplitude level reached after decay phase and immediately before release phase.
+    - default: 1
+    - constraints: must be zero or greater
+    - Can not be changed once set
+  * env_curve:
+    - doc: Select the shape of the curve between levels in the envelope. 1=linear, 2=exponential, 3=sine, 4=welch, 6=squared, 7=cubed
+    - default: 2
+    - constraints: must be one of the following values: [1, 2, 3, 4, 6, 7]
+    - Can not be changed once set
 
 
 ## TB-303 Emulation
@@ -1939,19 +2113,19 @@
     - default: 52
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * amp:
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)
     - default: 1
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pan:
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * attack:
     - doc: Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.
     - default: 0
@@ -2001,13 +2175,13 @@
     - default: 120
     - constraints: must be a value less than or equal to 130
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * cutoff_min:
     - doc: The minimum cutoff value.
     - default: 30
     - constraints: must be a value less than or equal to 130
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * cutoff_attack:
     - doc: Attack time for cutoff filter. Amount of time (in beats) for sound to reach full cutoff value. Default value is set to match amp envelope's attack value.
     - default: attack
@@ -2052,7 +2226,7 @@
     - default: 0.9
     - constraints: must be zero or greater,must be a value less than 1
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * wave:
     - doc: Wave type - 0 saw, 1 pulse, 2 triangle. Different waves will produce different sounds.
     - default: 0
@@ -2063,7 +2237,7 @@
     - default: 0.5
     - constraints: must be a value between 0 and 1 exclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
 
 
 ## Supersaw
@@ -2080,19 +2254,19 @@
     - default: 52
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * amp:
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)
     - default: 1
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pan:
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * attack:
     - doc: Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.
     - default: 0
@@ -2142,13 +2316,13 @@
     - default: 130
     - constraints: must be zero or greater,must be a value less than 131
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * res:
     - doc: Filter resonance as a value between 0 and 1. Large amounts of resonance (a res: near 1) can create a whistling sound around the cutoff frequency. Smaller values produce less resonance.
     - default: 0.7
     - constraints: must be zero or greater,must be a value less than 1
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
 
 
 ## Hoover
@@ -2165,19 +2339,19 @@
     - default: 52
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * amp:
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)
     - default: 1
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pan:
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * attack:
     - doc: Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.
     - default: 0.05
@@ -2227,13 +2401,13 @@
     - default: 130
     - constraints: must be zero or greater,must be a value less than 131
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * res:
     - doc: Filter resonance as a value between 0 and 1. Large amounts of resonance (a res: near 1) can create a whistling sound around the cutoff frequency. Smaller values produce less resonance.
     - default: 0.1
     - constraints: must be zero or greater,must be a value less than 1
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
 
 
 ## The Prophet
@@ -2244,25 +2418,29 @@
 ### Doc:
   Dark and swirly, this synth uses Pulse Width Modulation (PWM) to create a timbre which continually moves around. This effect is created using the pulse ugen which produces a variable width square wave. We then control the width of the pulses using a variety of LFOs - sin-osc and lf-tri in this case. We use a number of these LFO modulated pulse ugens with varying LFO type and rate (and phase in some cases) to provide the LFO with a different starting point. We then mix all these pulses together to create a thick sound and then feed it through a resonant low pass filter (rlpf). For extra bass, one of the pulses is an octave lower (half the frequency) and its LFO has a little bit of randomisation thrown into its frequency component for that extra bit of variety.
 
+Synth design adapted from:
+The Prophet Speaks (page 2)
+Steal This Sound,  Mitchell Sigman
+
 ### Opts:
   * note:
     - doc: Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, `:C`, `:C2`, `:Eb4`, or `:Ds3`
     - default: 52
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * amp:
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)
     - default: 1
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pan:
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * attack:
     - doc: Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.
     - default: 0
@@ -2312,13 +2490,13 @@
     - default: 110
     - constraints: must be zero or greater,must be a value less than 131
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * res:
     - doc: Filter resonance as a value between 0 and 1. Large amounts of resonance (a res: near 1) can create a whistling sound around the cutoff frequency. Smaller values produce less resonance.
     - default: 0.7
     - constraints: must be zero or greater,must be a value less than 1
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
 
 
 ## Zawa
@@ -2335,19 +2513,19 @@
     - default: 52
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * amp:
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)
     - default: 1
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pan:
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * attack:
     - doc: Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.
     - default: 0
@@ -2392,20 +2570,20 @@
     - default: 100
     - constraints: must be zero or greater,must be a value less than 131
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * res:
     - doc: Filter resonance as a value between 0 and 1. Large amounts of resonance (a res: near 1) can create a whistling sound around the cutoff frequency. Smaller values produce less resonance.
     - default: 0.9
     - constraints: must be zero or greater,must be a value less than 1
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * phase:
     - doc: Phase duration in beats of timbre modulation.
     - default: 1
     - constraints: must be greater than zero
     - May be changed whilst playing
     - Scaled with current BPM value
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * phase_offset:
     - doc: Initial phase offset of the sync wave (a value between 0 and 1).
     - default: 0
@@ -2426,7 +2604,7 @@
     - default: 24
     - constraints: must be a value between 0 and 90 inclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * disable_wave:
     - doc: Enable and disable sync control wave (setting to 1 will stop timbre movement).
     - default: 0
@@ -2437,7 +2615,7 @@
     - default: 0.5
     - constraints: must be a value between 0 and 1 exclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
 
 
 ## Dark Ambience
@@ -2454,19 +2632,19 @@
     - default: 52
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * amp:
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)
     - default: 1
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pan:
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * attack:
     - doc: Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.
     - default: 0
@@ -2516,25 +2694,25 @@
     - default: 110
     - constraints: must be zero or greater,must be a value less than 131
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * res:
     - doc: Filter resonance as a value between 0 and 1. Large amounts of resonance (a res: near 1) can create a whistling sound around the cutoff frequency. Smaller values produce less resonance.
     - default: 0.7
     - constraints: must be zero or greater,must be a value less than 1
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * detune1:
     - doc: Distance (in MIDI notes) between the main note and the second component of sound. Affects thickness, sense of tuning and harmony.
     - default: 12
     - constraints: none
     - Can not be changed once set
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * detune2:
     - doc: Distance (in MIDI notes) between the main note and the third component of sound. Affects thickness, sense of tuning and harmony. Tiny values such as 0.1 create a thick sound.
     - default: 24
     - constraints: none
     - Can not be changed once set
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * noise:
     - doc: Noise source. Has a subtle effect on the timbre of the sound. 0=pink noise (the default), 1=brown noise, 2=white noise, 3=clip noise and 4=grey noise
     - default: 0
@@ -2571,19 +2749,19 @@
     - default: 52
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * amp:
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)
     - default: 1
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pan:
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * attack:
     - doc: Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.
     - default: 0.1
@@ -2633,13 +2811,13 @@
     - default: 130
     - constraints: must be zero or greater,must be a value less than 131
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * res:
     - doc: Filter resonance as a value between 0 and 1. Large amounts of resonance (a res: near 1) can create a whistling sound around the cutoff frequency. Smaller values produce less resonance.
     - default: 0.7
     - constraints: must be zero or greater,must be a value less than 1
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
 
 
 ## Hollow
@@ -2656,19 +2834,19 @@
     - default: 52
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * amp:
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)
     - default: 1
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pan:
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * attack:
     - doc: Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.
     - default: 0
@@ -2718,20 +2896,20 @@
     - default: 90
     - constraints: must be zero or greater,must be a value less than 131
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * res:
     - doc: Filter resonance as a value between 0 and 1. Only functional if a cutoff value is specified. Large amounts of resonance (a res: near 1) can create a whistling sound around the cutoff frequency. Smaller values produce less resonance.
     - default: 0.99
     - constraints: must be zero or greater,must be a value less than 1
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * noise:
     - doc: Noise source. Has a subtle effect on the timbre of the sound. 0=pink noise, 1=brown noise (the default), 2=white noise, 3=clip noise and 4=grey noise
     - default: 1
     - constraints: must be one of the following values: [0, 1, 2, 3, 4]
     - May be changed whilst playing
   * norm:
-    - doc: Normalise the audio (make quieter parts of the sample louder and louder parts quieter) - this is similar to the normaliser FX. This may emphasise any clicks caused by clipping.
+    - doc: Normalise the audio (make quieter parts of the synth's sound louder and louder parts quieter) - this is similar to the normaliser FX. This may emphasise any clicks caused by clipping.
     - default: 0
     - constraints: must be one of the following values: [0, 1]
     - May be changed whilst playing
@@ -2751,19 +2929,19 @@
     - default: 1
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pre_amp:
     - doc: Amplitude multiplier which takes place immediately before any internal FX such as the low pass filter, compressor or pitch modification. Use this opt if you want to overload the compressor.
     - default: 1
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pan:
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * attack:
     - doc: Duration of the attack phase of the envelope.
     - default: 0
@@ -2784,6 +2962,130 @@
     - default: 0
     - constraints: must be zero or greater
     - Can not be changed once set
+  * lpf:
+    - doc: Low pass filter cutoff value. A MIDI note representing the highest frequencies allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy.
+    - default: -1
+    - constraints: must be zero or greater,must be a value less than 131
+    - May be changed whilst playing
+    - Has slide options for shaping changes
+  * lpf_attack:
+    - doc: Attack time for low pass filter envelope. Amount of time (in beats) for sound to reach attack_level value. This envelope is bypassed if no lpf env opts are specified.  Default value is set to match amp envelope's attack value.
+    - default: attack
+    - constraints: must be zero or greater
+    - Can not be changed once set
+  * lpf_decay:
+    - doc: Decay time for low pass filter envelope. Amount of time (in beats) for sound to move from `lpf_attack_level:` to the `lpf_sustain_level:`. This envelope is bypassed if no lpf env opts are specified.  Default value is set to match amp envelope's decay value.
+    - default: decay
+    - constraints: must be zero or greater
+    - Can not be changed once set
+  * lpf_sustain:
+    - doc: Amount of time for low pass filter envelope value to remain at sustain level in beats. This envelope is bypassed if no lpf env opts are specified.  When -1 (the default) will auto-stretch.
+    - default: sustain
+    - constraints: must either be a positive value or -1
+    - Can not be changed once set
+  * lpf_release:
+    - doc: Amount of time (in beats) for sound to move from `lpf_sustain_level:` to `lpf_release_level:`. This envelope is bypassed if no lpf env opts are specified. 
+    - default: release
+    - constraints: must be zero or greater
+    - Can not be changed once set
+  * lpf_init_level:
+    - doc: The initial low pass filter envelope value as a MIDI note. This envelope is bypassed if no lpf env opts are specified. Default value is to match the `lpf_min:` opt.
+    - default: lpf_min
+    - constraints: must be a value between 0 and 130 inclusively
+    - Can not be changed once set
+  * lpf_attack_level:
+    - doc: The peak low pass filter envelope value after the attack phase as a MIDI note. This envelope is bypassed if no lpf env opts are specified. Default value is match the `lpf_decay_level:` opt.
+    - default: lpf_decay_level
+    - constraints: must be a value between 0 and 130 inclusively
+    - Can not be changed once set
+  * lpf_decay_level:
+    - doc: The level of the low pass filter envelope after the decay phase as a MIDI note. This envelope is bypassed if no lpf env opts are specified. Default value is to match the `lpf_sustain_level:` opt.
+    - default: lpf_sustain_level
+    - constraints: must be a value between 0 and 130 inclusively
+    - Can not be changed once set
+  * lpf_sustain_level:
+    - doc: The level of the low pass filter envelope after the sustain phase as a MIDI note. This envelope is bypassed if no lpf env opts are specified. Default value is to match the `lpf_release_level:` opt.
+    - default: lpf_release_level
+    - constraints: must be a value between 0 and 130 inclusively
+    - Can not be changed once set
+  * lpf_release_level:
+    - doc: The final value of the low pass filter envelope as a MIDI note. This envelope is bypassed if no lpf env opts are specified. Default value is to match the `lpf:` opt.
+    - default: lpf
+    - constraints: must be a value between 0 and 130 inclusively
+    - Can not be changed once set
+  * lpf_env_curve:
+    - doc: Select the shape of the curve between levels in the cutoff envelope. 1=linear, 2=exponential, 3=sine, 4=welch, 6=squared, 7=cubed
+    - default: 2
+    - constraints: must be one of the following values: [1, 2, 3, 4, 6, 7]
+    - Can not be changed once set
+  * lpf_min:
+    - doc: The minimum low pass filter value.
+    - default: 130
+    - constraints: must be a value less than or equal to 130
+    - May be changed whilst playing
+    - Has slide options for shaping changes
+  * hpf:
+    - doc: High pass filter cutoff value. A MIDI note representing the lowest frequencies allowed to be present in the sound. A high value like 100 makes the sound thin and whispy, a low value like 40 removes just the lower bass components of the sound.
+    - default: -1
+    - constraints: must be zero or greater,must be a value less than 119
+    - May be changed whilst playing
+    - Has slide options for shaping changes
+  * hpf_attack:
+    - doc: Attack time for hpf cutoff filter. Amount of time (in beats) for sound to reach full hpf cutoff value. Default value is set to match amp envelope's attack value.
+    - default: attack
+    - constraints: must be zero or greater
+    - Can not be changed once set
+  * hpf_sustain:
+    - doc: Amount of time for hpf cutoff value to remain at hpf sustain level in beats. When -1 (the default) will auto-stretch.
+    - default: sustain
+    - constraints: must either be a positive value or -1
+    - Can not be changed once set
+  * hpf_decay:
+    - doc: Decay time for hpf cutoff filter. Amount of time (in beats) for sound to move from full hpf cutoff value (cutoff attack level) to the hpf cutoff sustain level. Default value is set to match amp envelope's decay value.
+    - default: decay
+    - constraints: must be zero or greater
+    - Can not be changed once set
+  * hpf_release:
+    - doc: Amount of time (in beats) for sound to move from hpf cutoff sustain value to hpf cutoff min value. Default value is set to match amp envelope's release value.
+    - default: release
+    - constraints: must be zero or greater
+    - Can not be changed once set
+  * hpf_init_level:
+    - doc: The initial high pass filter envelope value as a MIDI note. This envelope is bypassed if no hpf env opts are specified. Default value is set to 130
+    - default: 130
+    - constraints: must be a value between 0 and 130 inclusively
+    - Can not be changed once set
+  * hpf_attack_level:
+    - doc: The peak hpf cutoff (value of hpf cutoff at peak of attack) as a MIDI note.
+    - default: hpf_decay_level
+    - constraints: must be a value between 0 and 130 inclusively
+    - Can not be changed once set
+  * hpf_decay_level:
+    - doc: The level of hpf cutoff after the decay phase as a MIDI note.
+    - default: hpf_sustain_level
+    - constraints: must be a value between 0 and 130 inclusively
+    - Can not be changed once set
+  * hpf_sustain_level:
+    - doc: The sustain hpf cutoff (value of hpf cutoff at sustain time) as a MIDI note.
+    - default: hpf_release_level
+    - constraints: must be a value between 0 and 130 inclusively
+    - Can not be changed once set
+  * hpf_release_level:
+    - doc: The sustain hpf cutoff (value of hpf cutoff at sustain time) as a MIDI note.
+    - default: hpf
+    - constraints: must be a value between 0 and 130 inclusively
+    - Can not be changed once set
+  * hpf_env_curve:
+    - doc: Select the shape of the curve between levels in the hpf cutoff envelope. 1=linear, 2=exponential, 3=sine, 4=welch, 6=squared, 7=cubed
+    - default: 2
+    - constraints: must be one of the following values: [1, 2, 3, 4, 6, 7]
+    - Can not be changed once set
+  * hpf_max:
+    - doc: The maximum high pass filter value.
+    - default: 200
+    - constraints: must be a value less than or equal to 130
+    - May be changed whilst playing
+    - Has slide options for shaping changes
   * attack_level:
     - doc: Amplitude level reached after attack phase and immediately before decay phase
     - default: 1
@@ -2804,52 +3106,6 @@
     - default: 2
     - constraints: must be one of the following values: [1, 2, 3, 4, 6, 7]
     - Can not be changed once set
-  * cutoff_attack:
-    - doc: Attack time for cutoff filter. Amount of time (in beats) for sound to reach full cutoff value. Default value is set to match amp envelope's attack value.
-    - default: attack
-    - constraints: must be zero or greater
-    - Can not be changed once set
-  * cutoff_decay:
-    - doc: Decay time for cutoff filter. Amount of time (in beats) for sound to move from full cutoff value (cutoff attack level) to the cutoff sustain level. Default value is set to match amp envelope's decay value.
-    - default: decay
-    - constraints: must be zero or greater
-    - Can not be changed once set
-  * cutoff_sustain:
-    - doc: Amount of time for cutoff value to remain at sustain level in beats. When -1 (the default) will auto-stretch.
-    - default: sustain
-    - constraints: must either be a positive value or -1
-    - Can not be changed once set
-  * cutoff_release:
-    - doc: Amount of time (in beats) for sound to move from cutoff sustain value to cutoff min value. Default value is set to match amp envelope's release value.
-    - default: release
-    - constraints: must be zero or greater
-    - Can not be changed once set
-  * cutoff_attack_level:
-    - doc: The peak cutoff (value of cutoff at peak of attack) as a MIDI note.
-    - default: cutoff
-    - constraints: must be a value between 0 and 130 inclusively
-    - Can not be changed once set
-  * cutoff_decay_level:
-    - doc: The level of cutoff after the decay phase as a MIDI note.
-    - default: cutoff
-    - constraints: must be a value between 0 and 130 inclusively
-    - Can not be changed once set
-  * cutoff_sustain_level:
-    - doc: The sustain cutoff (value of cutoff at sustain time) as a MIDI note.
-    - default: cutoff
-    - constraints: must be a value between 0 and 130 inclusively
-    - Can not be changed once set
-  * cutoff_env_curve:
-    - doc: Select the shape of the curve between levels in the cutoff envelope. 1=linear, 2=exponential, 3=sine, 4=welch, 6=squared, 7=cubed
-    - default: 2
-    - constraints: must be one of the following values: [1, 2, 3, 4, 6, 7]
-    - Can not be changed once set
-  * cutoff_min:
-    - doc: The minimum cutoff value.
-    - default: 30
-    - constraints: must be a value less than or equal to 130
-    - May be changed whilst playing
-    - Has slide parameters for shaping changes
   * rate:
     - doc: Rate with which to play back - default is 1. Playing the sample at rate 2 will play it back at double the normal speed. This will have the effect of doubling the frequencies in the sample and halving the playback time. Use rates lower than 1 to slow the sample down. Negative rates will play the sample in reverse.
     - default: 1
@@ -2865,29 +3121,17 @@
     - default: 1
     - constraints: must be a value between 0 and 1 inclusively
     - Can not be changed once set
-  * res:
-    - doc: Filter resonance as a value between 0 and 1. Only functional if a cutoff value is specified. Large amounts of resonance (a res: near 1) can create a whistling sound around the cutoff frequency. Smaller values produce less resonance.
-    - default: 0
-    - constraints: must be zero or greater,must be a value less than 1
-    - May be changed whilst playing
-    - Has slide parameters for shaping changes
-  * cutoff:
-    - doc: MIDI note representing the highest frequencies allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy.
-    - default: 0
-    - constraints: must be zero or greater,must be a value less than 131
-    - May be changed whilst playing
-    - Has slide parameters for shaping changes
   * norm:
     - doc: Normalise the audio (make quieter parts of the sample louder and louder parts quieter) - this is similar to the normaliser FX. This may emphasise any clicks caused by clipping.
     - default: 0
     - constraints: must be one of the following values: [0, 1]
     - May be changed whilst playing
   * pitch:
-    - doc: write me
+    - doc: Pitch adjustment in semitones. 1 is up a semitone, 12 is up an octave, -12 is down an octave etc. Maximum upper limit of 24 (up 2 octaves). Lower limit of -72 (down 6 octaves). Decimal numbers can be used for fine tuning.
     - default: 0
-    - constraints: none
-    - Can not be changed once set
-    - Has slide parameters for shaping changes
+    - constraints: must be a value greater than or equal to -72,must be a value less than or equal to 24
+    - May be changed whilst playing
+    - Has slide options for shaping changes
   * window_size:
     - doc: Pitch shift works by chopping the input into tiny slices, then playing these slices at a higher or lower rate. If we make the slices small enough and overlap them, it sounds like the original sound with the pitch changed.
 
@@ -2895,19 +3139,19 @@
     - default: 0.2
     - constraints: must be a value greater than 5.0e-05
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pitch_dis:
     - doc: Pitch dispersion - how much random variation in pitch to add. Using a low value like 0.001 can help to "soften up" the metallic sounds, especially on drum loops. To be really technical, pitch_dispersion is the maximum random deviation of the pitch from the pitch ratio (which is set by the pitch param)
     - default: 0.0
     - constraints: must be a value greater than or equal to 0
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * time_dis:
     - doc: Time dispersion - how much random delay before playing each grain (measured in seconds). Again, low values here like 0.001 can help to soften up metallic sounds introduced by the effect. Large values are also fun as they can make soundscapes and textures from the input, although you will most likely lose the rhythm of the original. NB - This won't have an effect if it's larger than window_size.
     - default: 0.0
     - constraints: must be a value greater than or equal to 0
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * compress:
     - doc: Enable the compressor. This sits at the end of the internal FX chain immediately before the `amp:` opt. Therefore to drive the compressor use the `pre_amp:` opt which will amplify the signal before it hits any internal FX. The compressor compresses the dynamic range of the incoming signal. Equivalent to automatically turning the amp down when the signal gets too loud and then back up again when it's quiet. Useful for ensuring the containing signal doesn't overwhelm other aspects of the sound. Also a general purpose hard-knee dynamic range processor which can be tuned via the opts to both expand and compress the signal.
     - default: 0
@@ -2918,31 +3162,31 @@
     - default: 0.2
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * clamp_time:
     - doc: Time taken for the amplitude adjustments to kick in fully (in seconds). This is usually pretty small (not much more than 10 milliseconds). Also known as the time of the attack phase. Only valid if the compressor is enabled by turning on the compress: opt.
     - default: 0.01
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * slope_above:
     - doc: Slope of the amplitude curve above the threshold. A value of 1 means that the output of signals with amplitude above the threshold will be unaffected. Greater values will magnify and smaller values will attenuate the signal. Only valid if the compressor is enabled by turning on the compress: opt.
     - default: 0.5
     - constraints: none
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * slope_below:
     - doc: Slope of the amplitude curve below the threshold. A value of 1 means that the output of signals with amplitude below the threshold will be unaffected. Greater values will magnify and smaller values will attenuate the signal. Only valid if the compressor is enabled by turning on the compress: opt.
     - default: 1
     - constraints: none
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * relax_time:
     - doc: Time taken for the amplitude adjustments to be released. Usually a little longer than clamp_time. If both times are too short, you can get some (possibly unwanted) artefacts. Also known as the time of the release phase. Only valid if the compressor is enabled by turning on the compress: opt.
     - default: 0.01
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
 
 
 ## Stereo Sample Player
@@ -2959,19 +3203,19 @@
     - default: 1
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pre_amp:
     - doc: Amplitude multiplier which takes place immediately before any internal FX such as the low pass filter, compressor or pitch modification. Use this opt if you want to overload the compressor.
     - default: 1
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pan:
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * attack:
     - doc: Duration of the attack phase of the envelope.
     - default: 0
@@ -2992,6 +3236,130 @@
     - default: 0
     - constraints: must be zero or greater
     - Can not be changed once set
+  * lpf:
+    - doc: Low pass filter cutoff value. A MIDI note representing the highest frequencies allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy.
+    - default: -1
+    - constraints: must be zero or greater,must be a value less than 131
+    - May be changed whilst playing
+    - Has slide options for shaping changes
+  * lpf_attack:
+    - doc: Attack time for low pass filter envelope. Amount of time (in beats) for sound to reach attack_level value. This envelope is bypassed if no lpf env opts are specified.  Default value is set to match amp envelope's attack value.
+    - default: attack
+    - constraints: must be zero or greater
+    - Can not be changed once set
+  * lpf_decay:
+    - doc: Decay time for low pass filter envelope. Amount of time (in beats) for sound to move from `lpf_attack_level:` to the `lpf_sustain_level:`. This envelope is bypassed if no lpf env opts are specified.  Default value is set to match amp envelope's decay value.
+    - default: decay
+    - constraints: must be zero or greater
+    - Can not be changed once set
+  * lpf_sustain:
+    - doc: Amount of time for low pass filter envelope value to remain at sustain level in beats. This envelope is bypassed if no lpf env opts are specified.  When -1 (the default) will auto-stretch.
+    - default: sustain
+    - constraints: must either be a positive value or -1
+    - Can not be changed once set
+  * lpf_release:
+    - doc: Amount of time (in beats) for sound to move from `lpf_sustain_level:` to `lpf_release_level:`. This envelope is bypassed if no lpf env opts are specified. 
+    - default: release
+    - constraints: must be zero or greater
+    - Can not be changed once set
+  * lpf_init_level:
+    - doc: The initial low pass filter envelope value as a MIDI note. This envelope is bypassed if no lpf env opts are specified. Default value is to match the `lpf_min:` opt.
+    - default: lpf_min
+    - constraints: must be a value between 0 and 130 inclusively
+    - Can not be changed once set
+  * lpf_attack_level:
+    - doc: The peak low pass filter envelope value after the attack phase as a MIDI note. This envelope is bypassed if no lpf env opts are specified. Default value is match the `lpf_decay_level:` opt.
+    - default: lpf_decay_level
+    - constraints: must be a value between 0 and 130 inclusively
+    - Can not be changed once set
+  * lpf_decay_level:
+    - doc: The level of the low pass filter envelope after the decay phase as a MIDI note. This envelope is bypassed if no lpf env opts are specified. Default value is to match the `lpf_sustain_level:` opt.
+    - default: lpf_sustain_level
+    - constraints: must be a value between 0 and 130 inclusively
+    - Can not be changed once set
+  * lpf_sustain_level:
+    - doc: The level of the low pass filter envelope after the sustain phase as a MIDI note. This envelope is bypassed if no lpf env opts are specified. Default value is to match the `lpf_release_level:` opt.
+    - default: lpf_release_level
+    - constraints: must be a value between 0 and 130 inclusively
+    - Can not be changed once set
+  * lpf_release_level:
+    - doc: The final value of the low pass filter envelope as a MIDI note. This envelope is bypassed if no lpf env opts are specified. Default value is to match the `lpf:` opt.
+    - default: lpf
+    - constraints: must be a value between 0 and 130 inclusively
+    - Can not be changed once set
+  * lpf_env_curve:
+    - doc: Select the shape of the curve between levels in the cutoff envelope. 1=linear, 2=exponential, 3=sine, 4=welch, 6=squared, 7=cubed
+    - default: 2
+    - constraints: must be one of the following values: [1, 2, 3, 4, 6, 7]
+    - Can not be changed once set
+  * lpf_min:
+    - doc: The minimum low pass filter value.
+    - default: 130
+    - constraints: must be a value less than or equal to 130
+    - May be changed whilst playing
+    - Has slide options for shaping changes
+  * hpf:
+    - doc: High pass filter cutoff value. A MIDI note representing the lowest frequencies allowed to be present in the sound. A high value like 100 makes the sound thin and whispy, a low value like 40 removes just the lower bass components of the sound.
+    - default: -1
+    - constraints: must be zero or greater,must be a value less than 119
+    - May be changed whilst playing
+    - Has slide options for shaping changes
+  * hpf_attack:
+    - doc: Attack time for hpf cutoff filter. Amount of time (in beats) for sound to reach full hpf cutoff value. Default value is set to match amp envelope's attack value.
+    - default: attack
+    - constraints: must be zero or greater
+    - Can not be changed once set
+  * hpf_sustain:
+    - doc: Amount of time for hpf cutoff value to remain at hpf sustain level in beats. When -1 (the default) will auto-stretch.
+    - default: sustain
+    - constraints: must either be a positive value or -1
+    - Can not be changed once set
+  * hpf_decay:
+    - doc: Decay time for hpf cutoff filter. Amount of time (in beats) for sound to move from full hpf cutoff value (cutoff attack level) to the hpf cutoff sustain level. Default value is set to match amp envelope's decay value.
+    - default: decay
+    - constraints: must be zero or greater
+    - Can not be changed once set
+  * hpf_release:
+    - doc: Amount of time (in beats) for sound to move from hpf cutoff sustain value to hpf cutoff min value. Default value is set to match amp envelope's release value.
+    - default: release
+    - constraints: must be zero or greater
+    - Can not be changed once set
+  * hpf_init_level:
+    - doc: The initial high pass filter envelope value as a MIDI note. This envelope is bypassed if no hpf env opts are specified. Default value is set to 130
+    - default: 130
+    - constraints: must be a value between 0 and 130 inclusively
+    - Can not be changed once set
+  * hpf_attack_level:
+    - doc: The peak hpf cutoff (value of hpf cutoff at peak of attack) as a MIDI note.
+    - default: hpf_decay_level
+    - constraints: must be a value between 0 and 130 inclusively
+    - Can not be changed once set
+  * hpf_decay_level:
+    - doc: The level of hpf cutoff after the decay phase as a MIDI note.
+    - default: hpf_sustain_level
+    - constraints: must be a value between 0 and 130 inclusively
+    - Can not be changed once set
+  * hpf_sustain_level:
+    - doc: The sustain hpf cutoff (value of hpf cutoff at sustain time) as a MIDI note.
+    - default: hpf_release_level
+    - constraints: must be a value between 0 and 130 inclusively
+    - Can not be changed once set
+  * hpf_release_level:
+    - doc: The sustain hpf cutoff (value of hpf cutoff at sustain time) as a MIDI note.
+    - default: hpf
+    - constraints: must be a value between 0 and 130 inclusively
+    - Can not be changed once set
+  * hpf_env_curve:
+    - doc: Select the shape of the curve between levels in the hpf cutoff envelope. 1=linear, 2=exponential, 3=sine, 4=welch, 6=squared, 7=cubed
+    - default: 2
+    - constraints: must be one of the following values: [1, 2, 3, 4, 6, 7]
+    - Can not be changed once set
+  * hpf_max:
+    - doc: The maximum high pass filter value.
+    - default: 200
+    - constraints: must be a value less than or equal to 130
+    - May be changed whilst playing
+    - Has slide options for shaping changes
   * attack_level:
     - doc: Amplitude level reached after attack phase and immediately before decay phase
     - default: 1
@@ -3012,52 +3380,6 @@
     - default: 2
     - constraints: must be one of the following values: [1, 2, 3, 4, 6, 7]
     - Can not be changed once set
-  * cutoff_attack:
-    - doc: Attack time for cutoff filter. Amount of time (in beats) for sound to reach full cutoff value. Default value is set to match amp envelope's attack value.
-    - default: attack
-    - constraints: must be zero or greater
-    - Can not be changed once set
-  * cutoff_decay:
-    - doc: Decay time for cutoff filter. Amount of time (in beats) for sound to move from full cutoff value (cutoff attack level) to the cutoff sustain level. Default value is set to match amp envelope's decay value.
-    - default: decay
-    - constraints: must be zero or greater
-    - Can not be changed once set
-  * cutoff_sustain:
-    - doc: Amount of time for cutoff value to remain at sustain level in beats. When -1 (the default) will auto-stretch.
-    - default: sustain
-    - constraints: must either be a positive value or -1
-    - Can not be changed once set
-  * cutoff_release:
-    - doc: Amount of time (in beats) for sound to move from cutoff sustain value to cutoff min value. Default value is set to match amp envelope's release value.
-    - default: release
-    - constraints: must be zero or greater
-    - Can not be changed once set
-  * cutoff_attack_level:
-    - doc: The peak cutoff (value of cutoff at peak of attack) as a MIDI note.
-    - default: cutoff
-    - constraints: must be a value between 0 and 130 inclusively
-    - Can not be changed once set
-  * cutoff_decay_level:
-    - doc: The level of cutoff after the decay phase as a MIDI note.
-    - default: cutoff
-    - constraints: must be a value between 0 and 130 inclusively
-    - Can not be changed once set
-  * cutoff_sustain_level:
-    - doc: The sustain cutoff (value of cutoff at sustain time) as a MIDI note.
-    - default: cutoff
-    - constraints: must be a value between 0 and 130 inclusively
-    - Can not be changed once set
-  * cutoff_env_curve:
-    - doc: Select the shape of the curve between levels in the cutoff envelope. 1=linear, 2=exponential, 3=sine, 4=welch, 6=squared, 7=cubed
-    - default: 2
-    - constraints: must be one of the following values: [1, 2, 3, 4, 6, 7]
-    - Can not be changed once set
-  * cutoff_min:
-    - doc: The minimum cutoff value.
-    - default: 30
-    - constraints: must be a value less than or equal to 130
-    - May be changed whilst playing
-    - Has slide parameters for shaping changes
   * rate:
     - doc: Rate with which to play back - default is 1. Playing the sample at rate 2 will play it back at double the normal speed. This will have the effect of doubling the frequencies in the sample and halving the playback time. Use rates lower than 1 to slow the sample down. Negative rates will play the sample in reverse.
     - default: 1
@@ -3073,29 +3395,17 @@
     - default: 1
     - constraints: must be a value between 0 and 1 inclusively
     - Can not be changed once set
-  * res:
-    - doc: Filter resonance as a value between 0 and 1. Only functional if a cutoff value is specified. Large amounts of resonance (a res: near 1) can create a whistling sound around the cutoff frequency. Smaller values produce less resonance.
-    - default: 0
-    - constraints: must be zero or greater,must be a value less than 1
-    - May be changed whilst playing
-    - Has slide parameters for shaping changes
-  * cutoff:
-    - doc: MIDI note representing the highest frequencies allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy.
-    - default: 0
-    - constraints: must be zero or greater,must be a value less than 131
-    - May be changed whilst playing
-    - Has slide parameters for shaping changes
   * norm:
     - doc: Normalise the audio (make quieter parts of the sample louder and louder parts quieter) - this is similar to the normaliser FX. This may emphasise any clicks caused by clipping.
     - default: 0
     - constraints: must be one of the following values: [0, 1]
     - May be changed whilst playing
   * pitch:
-    - doc: write me
+    - doc: Pitch adjustment in semitones. 1 is up a semitone, 12 is up an octave, -12 is down an octave etc. Maximum upper limit of 24 (up 2 octaves). Lower limit of -72 (down 6 octaves). Decimal numbers can be used for fine tuning.
     - default: 0
-    - constraints: none
-    - Can not be changed once set
-    - Has slide parameters for shaping changes
+    - constraints: must be a value greater than or equal to -72,must be a value less than or equal to 24
+    - May be changed whilst playing
+    - Has slide options for shaping changes
   * window_size:
     - doc: Pitch shift works by chopping the input into tiny slices, then playing these slices at a higher or lower rate. If we make the slices small enough and overlap them, it sounds like the original sound with the pitch changed.
 
@@ -3103,19 +3413,19 @@
     - default: 0.2
     - constraints: must be a value greater than 5.0e-05
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pitch_dis:
     - doc: Pitch dispersion - how much random variation in pitch to add. Using a low value like 0.001 can help to "soften up" the metallic sounds, especially on drum loops. To be really technical, pitch_dispersion is the maximum random deviation of the pitch from the pitch ratio (which is set by the pitch param)
     - default: 0.0
     - constraints: must be a value greater than or equal to 0
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * time_dis:
     - doc: Time dispersion - how much random delay before playing each grain (measured in seconds). Again, low values here like 0.001 can help to soften up metallic sounds introduced by the effect. Large values are also fun as they can make soundscapes and textures from the input, although you will most likely lose the rhythm of the original. NB - This won't have an effect if it's larger than window_size.
     - default: 0.0
     - constraints: must be a value greater than or equal to 0
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * compress:
     - doc: Enable the compressor. This sits at the end of the internal FX chain immediately before the `amp:` opt. Therefore to drive the compressor use the `pre_amp:` opt which will amplify the signal before it hits any internal FX. The compressor compresses the dynamic range of the incoming signal. Equivalent to automatically turning the amp down when the signal gets too loud and then back up again when it's quiet. Useful for ensuring the containing signal doesn't overwhelm other aspects of the sound. Also a general purpose hard-knee dynamic range processor which can be tuned via the opts to both expand and compress the signal.
     - default: 0
@@ -3126,31 +3436,31 @@
     - default: 0.2
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * clamp_time:
     - doc: Time taken for the amplitude adjustments to kick in fully (in seconds). This is usually pretty small (not much more than 10 milliseconds). Also known as the time of the attack phase. Only valid if the compressor is enabled by turning on the compress: opt.
     - default: 0.01
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * slope_above:
     - doc: Slope of the amplitude curve above the threshold. A value of 1 means that the output of signals with amplitude above the threshold will be unaffected. Greater values will magnify and smaller values will attenuate the signal. Only valid if the compressor is enabled by turning on the compress: opt.
     - default: 0.5
     - constraints: none
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * slope_below:
     - doc: Slope of the amplitude curve below the threshold. A value of 1 means that the output of signals with amplitude below the threshold will be unaffected. Greater values will magnify and smaller values will attenuate the signal. Only valid if the compressor is enabled by turning on the compress: opt.
     - default: 1
     - constraints: none
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * relax_time:
     - doc: Time taken for the amplitude adjustments to be released. Usually a little longer than clamp_time. If both times are too short, you can get some (possibly unwanted) artefacts. Also known as the time of the release phase. Only valid if the compressor is enabled by turning on the compress: opt.
     - default: 0.01
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
 
 
 ## Blade Runner style strings
@@ -3167,19 +3477,19 @@
     - default: 52
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * amp:
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)
     - default: 1
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pan:
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * attack:
     - doc: Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.
     - default: 0
@@ -3229,19 +3539,19 @@
     - default: 100
     - constraints: must be zero or greater,must be a value less than 131
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * vibrato_rate:
     - doc: Number of wobbles per second. For realism this should be between 6 and 8, maybe even faster for really high notes.
     - default: 6
     - constraints: must be a value greater than or equal to 0.0,must be a value less than or equal to 20.0
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * vibrato_depth:
     - doc: Amount of variation around the central note. 1 is the sensible maximum (but you can go up to 5 if you want a special effect), 0 would mean no vibrato. Works well around 0.15 but you can experiment.
     - default: 0.15
     - constraints: must be a value greater than or equal to 0.0,must be a value less than or equal to 5.0
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * vibrato_delay:
     - doc: How long in seconds before the vibrato kicks in.
     - default: 0.5
@@ -3260,27 +3570,27 @@
   :piano
 
 ### Doc:
-  A basic piano synthesiser. Note that due to the plucked nature of this synth the envelope opts such as `attack:`, `sustain:` and `release:` do not work as expected. They can only shorten the natural length of the note, not prolong it. Also, the `note:` opt will only honour whole tones.
+  A basic piano synthesiser. Note that due to the plucked nature of this synth the envelope opts such as `attack:`, `sustain:` and `release:` do not work as expected. They can only shorten the natural length of the note, not prolong it.
 
 ### Opts:
   * note:
-    - doc: Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, `:C`, `:C2`, `:Eb4`, or `:Ds3`. Note that the piano synth can only play whole tones such as 60 and does not handle floats such as 60.3
+    - doc: Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, 56.5, `:C`, `:C2`, `:Eb4`, or `:Ds3`.
     - default: 52
-    - constraints: must be zero or greater
+    - constraints: must be zero or greater,must be a value less than 231
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * amp:
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)
     - default: 1
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pan:
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * vel:
     - doc: Velocity of keypress. 
     - default: 0.2
@@ -3337,6 +3647,163 @@
     - Can not be changed once set
 
 
+## SynthRodeo
+
+### Key:
+  :rodeo
+
+### Doc:
+  Classic 70's electric piano sound, with built-in compressor and chorus.
+
+### Opts:
+  * note:
+    - doc: Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, `:C`, `:C2`, `:Eb4`, or `:Ds3`
+    - default: 52
+    - constraints: must be zero or greater
+    - May be changed whilst playing
+    - Has slide options for shaping changes
+  * amp:
+    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)
+    - default: 1
+    - constraints: must be zero or greater
+    - May be changed whilst playing
+    - Has slide options for shaping changes
+  * pan:
+    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
+    - default: 0
+    - constraints: must be a value between -1 and 1 inclusively
+    - May be changed whilst playing
+    - Has slide options for shaping changes
+  * attack:
+    - doc: Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.
+    - default: 0
+    - constraints: must be zero or greater
+    - Can not be changed once set
+    - Scaled with current BPM value
+  * decay:
+    - doc: Amount of time (in beats) for the sound to move from full amplitude (attack_level) to the sustain amplitude (sustain_level).
+    - default: 1
+    - constraints: must be zero or greater
+    - Can not be changed once set
+    - Scaled with current BPM value
+  * sustain:
+    - doc: Amount of time (in beats) for sound to remain at sustain level amplitude. Longer sustain values result in longer sounds. Full length of sound is attack + decay + sustain + release.
+    - default: 0.8
+    - constraints: must be zero or greater
+    - Can not be changed once set
+    - Scaled with current BPM value
+  * release:
+    - doc: Amount of time (in beats) for sound to move from sustain level amplitude to silent. A short release (i.e. 0.01) makes the final part of the sound very percussive (potentially resulting in a click). A longer release (i.e 1) fades the sound out gently. Full length of sound is attack + decay + sustain + release.
+    - default: 1
+    - constraints: must be zero or greater
+    - Can not be changed once set
+    - Scaled with current BPM value
+  * attack_level:
+    - doc: Amplitude level reached after attack phase and immediately before decay phase
+    - default: 1
+    - constraints: must be zero or greater
+    - Can not be changed once set
+  * decay_level:
+    - doc: Amplitude level reached after decay phase and immediately before sustain phase. Defaults to sustain_level unless explicitly set
+    - default: sustain_level
+    - constraints: must be zero or greater
+    - Can not be changed once set
+  * sustain_level:
+    - doc: Amplitude level reached after decay phase and immediately before release phase.
+    - default: 1
+    - constraints: must be zero or greater
+    - Can not be changed once set
+  * use_chorus:
+    - doc: Enable the chorus effect (on by default).
+    - default: 1
+    - constraints: must be one of the following values: [0, 1]
+    - Can not be changed once set
+  * use_compressor:
+    - doc: Enable the compressor (on by default).
+    - default: 1
+    - constraints: must be one of the following values: [0, 1]
+    - Can not be changed once set
+  * cutoff:
+    - doc: MIDI note representing the highest frequencies allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy.
+    - default: 72
+    - constraints: must be zero or greater,must be a value less than 131
+    - May be changed whilst playing
+    - Has slide options for shaping changes
+
+
+## SynthKalimba
+
+### Key:
+  :kalimba
+
+### Doc:
+  A synthesised kalimba (a type of African thumb piano). Note that due to the plucked nature of this synth the envelope opts such as `attack:`, `sustain:` and `release:` do not work as expected. They can only shorten the natural length of the note, not prolong it. Note the default envelope is longer than usual - sustain: 4 and release: 1
+
+### Opts:
+  * note:
+    - doc: Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, `:C`, `:C2`, `:Eb4`, or `:Ds3`
+    - default: 52
+    - constraints: must be zero or greater
+    - May be changed whilst playing
+    - Has slide options for shaping changes
+  * amp:
+    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)
+    - default: 1
+    - constraints: must be zero or greater
+    - May be changed whilst playing
+    - Has slide options for shaping changes
+  * pan:
+    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
+    - default: 0
+    - constraints: must be a value between -1 and 1 inclusively
+    - May be changed whilst playing
+    - Has slide options for shaping changes
+  * attack:
+    - doc: Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. With the kalimba synth, this opt can only have the effect of shortening the attack phase, not prolonging it.
+    - default: 0
+    - constraints: must be zero or greater
+    - Can not be changed once set
+    - Scaled with current BPM value
+  * decay:
+    - doc: Amount of time (in beats) for the sound to move from full amplitude (attack_level) to the sustain amplitude (sustain_level). With the kalimba synth, this opt can only have the effect of controlling the amp within the natural duration of the note and can not prolong the sound.
+    - default: 0
+    - constraints: must be zero or greater
+    - Can not be changed once set
+    - Scaled with current BPM value
+  * sustain:
+    - doc: Amount of time (in beats) for sound to remain at sustain level amplitude. Longer sustain values result in longer sounds. With the kalimba synth, this opt can only have the effect of controlling the amp within the natural duration of the note and can not prolong the sound.
+    - default: 4
+    - constraints: must be zero or greater
+    - Can not be changed once set
+    - Scaled with current BPM value
+  * release:
+    - doc: Amount of time (in beats) for sound to move from sustain level amplitude to silent. A short release (i.e. 0.01) makes the final part of the sound very percussive (potentially resulting in a click). A longer release (i.e 1) fades the sound out gently. With the kalimba synth, this opt can only have the effect of controlling the amp within the natural duration of the note and can not prolong the sound.
+    - default: 1
+    - constraints: must be zero or greater
+    - Can not be changed once set
+    - Scaled with current BPM value
+  * attack_level:
+    - doc: Amplitude level reached after attack phase and immediately before decay phase
+    - default: 1
+    - constraints: must be zero or greater
+    - Can not be changed once set
+  * decay_level:
+    - doc: Amplitude level reached after decay phase and immediately before sustain phase. Defaults to sustain_level unless explicitly set
+    - default: sustain_level
+    - constraints: must be zero or greater
+    - Can not be changed once set
+  * sustain_level:
+    - doc: Amplitude level reached after decay phase and immediately before release phase.
+    - default: 1
+    - constraints: must be zero or greater
+    - Can not be changed once set
+  * clickiness:
+    - doc: Ratio of percussive click to melodic note in the sound. A low clickiness like 0.1 works well - higher values might give the impression that the instrument is being played harder. Very high values (towards 1) will be louder!
+    - default: 0.1
+    - constraints: must be a value between 0 and 1 inclusively
+    - Can not be changed once set
+
+
 ## SynthPluck
 
 ### Key:
@@ -3351,19 +3818,19 @@
     - default: 52
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * amp:
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)
     - default: 1
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pan:
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * attack:
     - doc: Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.
     - default: 0
@@ -3425,13 +3892,120 @@
     - Can not be changed once set
 
 
+## TechSaws
+
+### Key:
+  :tech_saws
+
+### Doc:
+  Slightly modified supersaw implementation based on http://sccode.org/1-4YS
+
+### Opts:
+  * note:
+    - doc: Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, `:C`, `:C2`, `:Eb4`, or `:Ds3`
+    - default: 52
+    - constraints: must be zero or greater
+    - May be changed whilst playing
+    - Has slide options for shaping changes
+  * amp:
+    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)
+    - default: 1
+    - constraints: must be zero or greater
+    - May be changed whilst playing
+    - Has slide options for shaping changes
+  * pan:
+    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
+    - default: 0
+    - constraints: must be a value between -1 and 1 inclusively
+    - May be changed whilst playing
+    - Has slide options for shaping changes
+  * attack:
+    - doc: Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.
+    - default: 0
+    - constraints: must be zero or greater
+    - Can not be changed once set
+    - Scaled with current BPM value
+  * decay:
+    - doc: Amount of time (in beats) for the sound to move from full amplitude (attack_level) to the sustain amplitude (sustain_level).
+    - default: 0
+    - constraints: must be zero or greater
+    - Can not be changed once set
+    - Scaled with current BPM value
+  * sustain:
+    - doc: Amount of time (in beats) for sound to remain at sustain level amplitude. Longer sustain values result in longer sounds. Full length of sound is attack + decay + sustain + release.
+    - default: 0
+    - constraints: must be zero or greater
+    - Can not be changed once set
+    - Scaled with current BPM value
+  * release:
+    - doc: Amount of time (in beats) for sound to move from sustain level amplitude to silent. A short release (i.e. 0.01) makes the final part of the sound very percussive (potentially resulting in a click). A longer release (i.e 1) fades the sound out gently. Full length of sound is attack + decay + sustain + release.
+    - default: 1
+    - constraints: must be zero or greater
+    - Can not be changed once set
+    - Scaled with current BPM value
+  * attack_level:
+    - doc: Amplitude level reached after attack phase and immediately before decay phase
+    - default: 1
+    - constraints: must be zero or greater
+    - Can not be changed once set
+  * decay_level:
+    - doc: Amplitude level reached after decay phase and immediately before sustain phase. Defaults to sustain_level unless explicitly set
+    - default: sustain_level
+    - constraints: must be zero or greater
+    - Can not be changed once set
+  * sustain_level:
+    - doc: Amplitude level reached after decay phase and immediately before release phase.
+    - default: 1
+    - constraints: must be zero or greater
+    - Can not be changed once set
+  * env_curve:
+    - doc: Select the shape of the curve between levels in the envelope. 1=linear, 2=exponential, 3=sine, 4=welch, 6=squared, 7=cubed
+    - default: 2
+    - constraints: must be one of the following values: [1, 2, 3, 4, 6, 7]
+    - Can not be changed once set
+  * cutoff:
+    - doc: MIDI note representing the highest frequencies allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy.
+    - default: 130
+    - constraints: must be zero or greater,must be a value less than 131
+    - May be changed whilst playing
+    - Has slide options for shaping changes
+  * res:
+    - doc: Filter resonance as a value between 0 and 1. Large amounts of resonance (a res: near 1) can create a whistling sound around the cutoff frequency. Smaller values produce less resonance.
+    - default: 0.7
+    - constraints: must be zero or greater,must be a value less than 1
+    - May be changed whilst playing
+    - Has slide options for shaping changes
+
+
 ## Sound In
 
 ### Key:
   :sound_in
 
 ### Doc:
-  Please write documentation!
+  Treat sound card input as a synth. If your audio card has inputs, you may use this synth to feed the incoming audio into Sonic Pi. This synth will read in a single mono audio stream - for example from a standard microphone or guitar. See `:sound_in_stereo` for a similar synth capable of reading in a stereo signal.
+
+As with all Sonic Pi synths, there is a default envelope which determines the duration of the lifetime of the synth. Therefore, to get a continuous stream of audio, you need to place consecutive calls to this synth in iteration or a `live_loop`. For example:
+
+```
+live_loop :playback do
+```
+
+```
+   synth :sound_in, sustain: 8
+```
+
+```
+   sleep 8
+```
+
+```
+end
+```
+
+Note that if the microphone and speaker are close together (on a laptop or in a small room) you will potentially get a harsh feedback sound.
+
+Also, note that audio in isn't yet supported on Raspberry Pi.
 
 ### Opts:
   * amp:
@@ -3439,18 +4013,156 @@
     - default: 1
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pan:
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
-  * input:
-    - doc: write me
+    - Has slide options for shaping changes
+  * attack:
+    - doc: Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.
     - default: 0
-    - constraints: none
+    - constraints: must be zero or greater
     - Can not be changed once set
+    - Scaled with current BPM value
+  * decay:
+    - doc: Amount of time (in beats) for the sound to move from full amplitude (attack_level) to the sustain amplitude (sustain_level).
+    - default: 0
+    - constraints: must be zero or greater
+    - Can not be changed once set
+    - Scaled with current BPM value
+  * sustain:
+    - doc: Amount of time (in beats) for sound to remain at sustain level amplitude. Longer sustain values result in longer sounds. Full length of sound is attack + decay + sustain + release.
+    - default: 1
+    - constraints: must be zero or greater
+    - Can not be changed once set
+    - Scaled with current BPM value
+  * release:
+    - doc: Amount of time (in beats) for sound to move from sustain level amplitude to silent. A short release (i.e. 0.01) makes the final part of the sound very percussive (potentially resulting in a click). A longer release (i.e 1) fades the sound out gently. Full length of sound is attack + decay + sustain + release.
+    - default: 0
+    - constraints: must be zero or greater
+    - Can not be changed once set
+    - Scaled with current BPM value
+  * attack_level:
+    - doc: Amplitude level reached after attack phase and immediately before decay phase
+    - default: 1
+    - constraints: must be zero or greater
+    - Can not be changed once set
+  * decay_level:
+    - doc: Amplitude level reached after decay phase and immediately before sustain phase. Defaults to sustain_level unless explicitly set
+    - default: sustain_level
+    - constraints: must be zero or greater
+    - Can not be changed once set
+  * sustain_level:
+    - doc: Amplitude level reached after decay phase and immediately before release phase.
+    - default: 1
+    - constraints: must be zero or greater
+    - Can not be changed once set
+  * env_curve:
+    - doc: Select the shape of the curve between levels in the envelope. 1=linear, 2=exponential, 3=sine, 4=welch, 6=squared, 7=cubed
+    - default: 0
+    - constraints: must be one of the following values: [1, 2, 3, 4, 6, 7]
+    - Can not be changed once set
+  * input:
+    - doc: Sound card input channel to obtain audio from. Indexing starts at 1 so input 1 represents the first channel, and channel 2 can be represented by `input: 2`
+    - default: 1
+    - constraints: must be a value greater than or equal to 1
+    - May be changed whilst playing
+
+
+## Sound In Stereo
+
+### Key:
+  :sound_in_stereo
+
+### Doc:
+  Treat sound card input as a synth. If your audio card has inputs, you may use this synth to feed the incoming audio into Sonic Pi. This synth will read in a stereo audio stream - for example from a stereo microphone or external stereo keyboard. See `:sound_in` for a similar synth capable of reading in a mono signal. The stereo input is expected to be on consecutive sound card channels.
+
+As with all Sonic Pi synths, there is a default envelope which determines the duration of the lifetime of the synth. Therefore, to get a continuous stream of audio, you need to place consecutive calls to this synth in iteration or a `live_loop`. For example:
+
+```
+live_loop :playback do
+```
+
+```
+   synth :sound_in_stereo, sustain: 8
+```
+
+```
+   sleep 8
+```
+
+```
+end
+```
+
+Note that if the microphone and speaker are close together (on a laptop or in a small room) you will potentially get a harsh feedback sound.
+
+Also, note that audio in isn't yet supported on Raspberry Pi.
+
+### Opts:
+  * amp:
+    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)
+    - default: 1
+    - constraints: must be zero or greater
+    - May be changed whilst playing
+    - Has slide options for shaping changes
+  * pan:
+    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
+    - default: 0
+    - constraints: must be a value between -1 and 1 inclusively
+    - May be changed whilst playing
+    - Has slide options for shaping changes
+  * attack:
+    - doc: Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.
+    - default: 0
+    - constraints: must be zero or greater
+    - Can not be changed once set
+    - Scaled with current BPM value
+  * decay:
+    - doc: Amount of time (in beats) for the sound to move from full amplitude (attack_level) to the sustain amplitude (sustain_level).
+    - default: 0
+    - constraints: must be zero or greater
+    - Can not be changed once set
+    - Scaled with current BPM value
+  * sustain:
+    - doc: Amount of time (in beats) for sound to remain at sustain level amplitude. Longer sustain values result in longer sounds. Full length of sound is attack + decay + sustain + release.
+    - default: 1
+    - constraints: must be zero or greater
+    - Can not be changed once set
+    - Scaled with current BPM value
+  * release:
+    - doc: Amount of time (in beats) for sound to move from sustain level amplitude to silent. A short release (i.e. 0.01) makes the final part of the sound very percussive (potentially resulting in a click). A longer release (i.e 1) fades the sound out gently. Full length of sound is attack + decay + sustain + release.
+    - default: 0
+    - constraints: must be zero or greater
+    - Can not be changed once set
+    - Scaled with current BPM value
+  * attack_level:
+    - doc: Amplitude level reached after attack phase and immediately before decay phase
+    - default: 1
+    - constraints: must be zero or greater
+    - Can not be changed once set
+  * decay_level:
+    - doc: Amplitude level reached after decay phase and immediately before sustain phase. Defaults to sustain_level unless explicitly set
+    - default: sustain_level
+    - constraints: must be zero or greater
+    - Can not be changed once set
+  * sustain_level:
+    - doc: Amplitude level reached after decay phase and immediately before release phase.
+    - default: 1
+    - constraints: must be zero or greater
+    - Can not be changed once set
+  * env_curve:
+    - doc: Select the shape of the curve between levels in the envelope. 1=linear, 2=exponential, 3=sine, 4=welch, 6=squared, 7=cubed
+    - default: 0
+    - constraints: must be one of the following values: [1, 2, 3, 4, 6, 7]
+    - Can not be changed once set
+  * input:
+    - doc: First of two consecutive sound card input channels to obtain audio from. Indexing starts at 1 so input 1 represents the first channel, and channel 2 can be represented by `input: 2`
+    - default: 1
+    - constraints: must be a value greater than or equal to 1
+    - May be changed whilst playing
 
 
 ## Noise
@@ -3467,13 +4179,13 @@
     - default: 1
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pan:
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * attack:
     - doc: Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.
     - default: 0
@@ -3523,13 +4235,13 @@
     - default: 110
     - constraints: must be zero or greater,must be a value less than 131
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * res:
     - doc: Filter resonance as a value between 0 and 1. Large amounts of resonance (a res: near 1) can create a whistling sound around the cutoff frequency. Smaller values produce less resonance.
     - default: 0
     - constraints: must be zero or greater,must be a value less than 1
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
 
 
 ## Pink Noise
@@ -3546,13 +4258,13 @@
     - default: 1
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pan:
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * attack:
     - doc: Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.
     - default: 0
@@ -3602,13 +4314,13 @@
     - default: 110
     - constraints: must be zero or greater,must be a value less than 131
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * res:
     - doc: Filter resonance as a value between 0 and 1. Large amounts of resonance (a res: near 1) can create a whistling sound around the cutoff frequency. Smaller values produce less resonance.
     - default: 0
     - constraints: must be zero or greater,must be a value less than 1
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
 
 
 ## Brown Noise
@@ -3625,13 +4337,13 @@
     - default: 1
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pan:
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * attack:
     - doc: Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.
     - default: 0
@@ -3681,13 +4393,13 @@
     - default: 110
     - constraints: must be zero or greater,must be a value less than 131
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * res:
     - doc: Filter resonance as a value between 0 and 1. Large amounts of resonance (a res: near 1) can create a whistling sound around the cutoff frequency. Smaller values produce less resonance.
     - default: 0
     - constraints: must be zero or greater,must be a value less than 1
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
 
 
 ## Grey Noise
@@ -3704,13 +4416,13 @@
     - default: 1
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pan:
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * attack:
     - doc: Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.
     - default: 0
@@ -3760,13 +4472,13 @@
     - default: 110
     - constraints: must be zero or greater,must be a value less than 131
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * res:
     - doc: Filter resonance as a value between 0 and 1. Large amounts of resonance (a res: near 1) can create a whistling sound around the cutoff frequency. Smaller values produce less resonance.
     - default: 0
     - constraints: must be zero or greater,must be a value less than 1
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
 
 
 ## Clip Noise
@@ -3783,13 +4495,13 @@
     - default: 1
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pan:
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * attack:
     - doc: Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.
     - default: 0
@@ -3839,13 +4551,86 @@
     - default: 110
     - constraints: must be zero or greater,must be a value less than 131
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * res:
     - doc: Filter resonance as a value between 0 and 1. Large amounts of resonance (a res: near 1) can create a whistling sound around the cutoff frequency. Smaller values produce less resonance.
     - default: 0
     - constraints: must be zero or greater,must be a value less than 1
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
+
+
+## Chip Noise
+
+### Key:
+  :chipnoise
+
+### Doc:
+  Generates noise whose values are either -1 or 1 (like a pulse or square wave) with one of 16 particular frequencies. This is similar to the noise channel on the 2A03 chip used in the NES games console, although it lacks the same Pseudo-Random Number Generator (PRNG) and doesn't implement the 2A03's lesser used noise mode. The amplitude envelope defaults to moving by step to keep that 16 bit feel and this synth also has a slight soft clipping to better imitate the original sound of the device. Use for retro effects, hand claps, snare drums and hi-hats.
+
+### Opts:
+  * amp:
+    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)
+    - default: 1
+    - constraints: must be zero or greater
+    - May be changed whilst playing
+    - Has slide options for shaping changes
+  * pan:
+    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
+    - default: 0
+    - constraints: must be a value between -1 and 1 inclusively
+    - May be changed whilst playing
+    - Has slide options for shaping changes
+  * attack:
+    - doc: Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.
+    - default: 0
+    - constraints: must be zero or greater
+    - Can not be changed once set
+    - Scaled with current BPM value
+  * decay:
+    - doc: Amount of time (in beats) for the sound to move from full amplitude (attack_level) to the sustain amplitude (sustain_level).
+    - default: 0
+    - constraints: must be zero or greater
+    - Can not be changed once set
+    - Scaled with current BPM value
+  * sustain:
+    - doc: Amount of time (in beats) for sound to remain at sustain level amplitude. Longer sustain values result in longer sounds. Full length of sound is attack + decay + sustain + release.
+    - default: 0
+    - constraints: must be zero or greater
+    - Can not be changed once set
+    - Scaled with current BPM value
+  * release:
+    - doc: Amount of time (in beats) for sound to move from sustain level amplitude to silent. A short release (i.e. 0.01) makes the final part of the sound very percussive (potentially resulting in a click). A longer release (i.e 1) fades the sound out gently. Full length of sound is attack + decay + sustain + release.
+    - default: 1
+    - constraints: must be zero or greater
+    - Can not be changed once set
+    - Scaled with current BPM value
+  * attack_level:
+    - doc: Amplitude level reached after attack phase and immediately before decay phase
+    - default: 1
+    - constraints: must be zero or greater
+    - Can not be changed once set
+  * decay_level:
+    - doc: Amplitude level reached after decay phase and immediately before sustain phase. Defaults to sustain_level unless explicitly set
+    - default: sustain_level
+    - constraints: must be zero or greater
+    - Can not be changed once set
+  * sustain_level:
+    - doc: Amplitude level reached after decay phase and immediately before release phase.
+    - default: 1
+    - constraints: must be zero or greater
+    - Can not be changed once set
+  * env_curve:
+    - doc: Select the shape of the curve between levels in the envelope. 1=linear, 2=exponential, 3=sine, 4=welch, 6=squared, 7=cubed
+    - default: 0
+    - constraints: must be one of the following values: [1, 2, 3, 4, 6, 7]
+    - Can not be changed once set
+  * freq_band:
+    - doc: Which of the 16 frequency bands to use, from 0 to 15. These range from 220Hz to 225kHz as on the original chip. This arg will accept floats but round to the nearest integer to allow for sweeping through the 16 set points with envelopes.
+    - default: 0
+    - constraints: must be a value between 0 and 15 inclusively
+    - May be changed whilst playing
+    - Has slide options for shaping changes
 
 
 ## Basic Mono Sample Player (no env)
@@ -3862,30 +4647,30 @@
     - default: 1
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pan:
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * rate:
     - doc: write me
     - default: 1
     - constraints: must not be zero
     - Can not be changed once set
-  * cutoff:
-    - doc: MIDI note representing the highest frequencies allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy.
-    - default: 0
+  * lpf:
+    - doc: Low pass filter cutoff value. A MIDI note representing the highest frequencies allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy.
+    - default: -1
     - constraints: must be zero or greater,must be a value less than 131
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
-  * res:
-    - doc: Filter resonance as a value between 0 and 1. Large amounts of resonance (a res: near 1) can create a whistling sound around the cutoff frequency. Smaller values produce less resonance.
-    - default: 0
-    - constraints: must be zero or greater,must be a value less than 1
+    - Has slide options for shaping changes
+  * hpf:
+    - doc: High pass filter cutoff value. A MIDI note representing the lowest frequencies allowed to be present in the sound. A high value like 100 makes the sound thin and whispy, a low value like 40 removes just the lower bass components of the sound.
+    - default: -1
+    - constraints: must be zero or greater,must be a value less than 119
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
 
 
 ## Basic Stereo Sample Player (no env)
@@ -3902,30 +4687,30 @@
     - default: 1
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pan:
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * rate:
     - doc: write me
     - default: 1
     - constraints: must not be zero
     - Can not be changed once set
-  * cutoff:
-    - doc: MIDI note representing the highest frequencies allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy.
-    - default: 0
+  * lpf:
+    - doc: Low pass filter cutoff value. A MIDI note representing the highest frequencies allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy.
+    - default: -1
     - constraints: must be zero or greater,must be a value less than 131
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
-  * res:
-    - doc: Filter resonance as a value between 0 and 1. Large amounts of resonance (a res: near 1) can create a whistling sound around the cutoff frequency. Smaller values produce less resonance.
-    - default: 0
-    - constraints: must be zero or greater,must be a value less than 1
+    - Has slide options for shaping changes
+  * hpf:
+    - doc: High pass filter cutoff value. A MIDI note representing the lowest frequencies allowed to be present in the sound. A high value like 100 makes the sound thin and whispy, a low value like 40 removes just the lower bass components of the sound.
+    - default: -1
+    - constraints: must be zero or greater,must be a value less than 119
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
 
 
 ## Basic Mixer
@@ -3942,7 +4727,7 @@
     - default: 1
     - constraints: must be zero or greater
     - May be changed whilst playing
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
 
 
 ## Main Mixer
@@ -3959,25 +4744,25 @@
     - default: 1
     - constraints: none
     - Can not be changed once set
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * pre_amp:
     - doc: write me
     - default: 1
     - constraints: none
     - Can not be changed once set
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * hpf:
     - doc: write me
     - default: 0
     - constraints: none
     - Can not be changed once set
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * lpf:
     - doc: write me
     - default: 135.5
     - constraints: none
     - Can not be changed once set
-    - Has slide parameters for shaping changes
+    - Has slide options for shaping changes
   * hpf_bypass:
     - doc: write me
     - default: 0
