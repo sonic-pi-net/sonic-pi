@@ -93,12 +93,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="3618"/>
         <source>Enabling MIDI input...</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktiver MIDI-inngang...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3624"/>
         <source>Disabling MIDI input...</source>
-        <translation type="unfinished"></translation>
+        <translation>Koble ut MIDI-inngang...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3640"/>
@@ -127,12 +127,12 @@ Unnskyld, det oppstod en kritisk feil under oppstart</translation>
     <message>
         <location filename="../mainwindow.cpp" line="793"/>
         <source>Context</source>
-        <translation type="unfinished"></translation>
+        <translation>Sammenheng</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="897"/>
         <source>Playing Sample...</source>
-        <translation type="unfinished"></translation>
+        <translation>Spiller lydklipp...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1545"/>
@@ -258,22 +258,22 @@ Unnskyld, det oppstod en kritisk feil under oppstart</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1869"/>
         <source>Hiding about window...</source>
-        <translation type="unfinished"></translation>
+        <translation>Skjuler om-vindu...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1874"/>
         <source>Showing about window...</source>
-        <translation type="unfinished"></translation>
+        <translation>Viser om-vindu...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1890"/>
         <source>Hiding help...</source>
-        <translation type="unfinished"></translation>
+        <translation>Skjuler hjelp...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1894"/>
         <source>Showing help...</source>
-        <translation type="unfinished"></translation>
+        <translation>Viser hjelp...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1950"/>
@@ -318,17 +318,17 @@ Unnskyld, det oppstod en kritisk feil under oppstart</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2337"/>
         <source>Hiding preferences...</source>
-        <translation type="unfinished"></translation>
+        <translation>Skjuler innstillinger...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2341"/>
         <source>Showing preferences...</source>
-        <translation type="unfinished"></translation>
+        <translation>Viser innstillinger...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2510"/>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Avslutt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2515"/>
@@ -383,22 +383,22 @@ Unnskyld, det oppstod en kritisk feil under oppstart</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2571"/>
         <source>Show Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis informasjon</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2579"/>
         <source>Show Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis hjelp</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2587"/>
         <source>Show Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis innstillinger</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2614"/>
         <source>Show Line Numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis linjenummer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2619"/>
@@ -418,22 +418,22 @@ Unnskyld, det oppstod en kritisk feil under oppstart</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2634"/>
         <source>Enforce Timing Guarantees</source>
-        <translation type="unfinished"></translation>
+        <translation>Håndhev tidsgarantier</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2639"/>
         <source>Enable External Synths</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktiver eksterne synthesizere</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2644"/>
         <source>Invert Stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>Inverter stereo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2649"/>
         <source>Force Mono</source>
-        <translation type="unfinished"></translation>
+        <translation>Tving mono</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2654"/>
@@ -488,7 +488,7 @@ Unnskyld, det oppstod en kritisk feil under oppstart</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2723"/>
         <source>Audio</source>
-        <translation type="unfinished">Lyd</translation>
+        <translation>Lyd</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2732"/>
@@ -498,27 +498,27 @@ Unnskyld, det oppstod en kritisk feil under oppstart</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2736"/>
         <source>Light</source>
-        <translation type="unfinished">Lys</translation>
+        <translation>Lys</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2741"/>
         <source>Dark</source>
-        <translation type="unfinished">Mørk</translation>
+        <translation>Mørk</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2746"/>
         <source>Pro Light</source>
-        <translation type="unfinished">Pro-lys</translation>
+        <translation>Pro-lys</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2751"/>
         <source>Pro Dark</source>
-        <translation type="unfinished">Pro-mørk</translation>
+        <translation>Pro-mørk</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2756"/>
         <source>High Contrast</source>
-        <translation type="unfinished">Høykontrast</translation>
+        <translation>Høykontrast</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2761"/>
@@ -538,7 +538,7 @@ Unnskyld, det oppstod en kritisk feil under oppstart</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2786"/>
         <source>IO</source>
-        <translation type="unfinished">IO</translation>
+        <translation>I/O</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2788"/>
@@ -1107,12 +1107,12 @@ Skaff Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="32"/>
         <source>Audio</source>
-        <translation type="unfinished">Lyd</translation>
+        <translation>Lyd</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="35"/>
         <source>IO</source>
-        <translation type="unfinished">IO</translation>
+        <translation>I/O</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="38"/>
@@ -1128,29 +1128,29 @@ Skaff Sonic Pi %1</translation>
         <location filename="../widgets/settingswidget.cpp" line="44"/>
         <location filename="../widgets/settingswidget.cpp" line="429"/>
         <source>Updates</source>
-        <translation type="unfinished">Oppdateringer</translation>
+        <translation>Oppdateringer</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="87"/>
         <source>Use this slider to change the system volume.</source>
-        <translation type="unfinished">Bruk denne glideren for å endre systemlydnivået.</translation>
+        <translation>Bruk denne glideren for å endre systemlydnivået.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="93"/>
         <source>Audio Output</source>
-        <translation type="unfinished">Lydutgang</translation>
+        <translation>Lydutgang</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="94"/>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
-        <translation type="unfinished">Avanserte lydoppsett for å bruke eksterne
-PA-systemer mens du spiller med Sonic Pi.</translation>
+        <translation>Avansert lydoppsett for eksterne
+PA-systemer til Sonic Pi-konserter.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="95"/>
         <source>Invert stereo</source>
-        <translation type="unfinished">Inverter stereo</translation>
+        <translation>Inverter stereo</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="96"/>
@@ -1162,7 +1162,7 @@ be routed to the right speaker and vice versa.</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="97"/>
         <source>Force mono</source>
-        <translation type="unfinished">Tving mono</translation>
+        <translation>Tving mono</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="98"/>
@@ -1688,7 +1688,7 @@ Denne sjekken innebærer å sende anonym informasjon om din platform og versjon.
     <message>
         <location filename="../widgets/settingswidget.cpp" line="444"/>
         <source>Sonic Pi update info</source>
-        <translation type="unfinished">Oppdateringsopplysninger for Sonic Pi</translation>
+        <translation>Oppdateringsopplysninger for Sonic Pi</translation>
     </message>
 </context>
 <context>
