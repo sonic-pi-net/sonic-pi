@@ -56,12 +56,12 @@ TEST_CASE("Init", "API")
 
     REQUIRE(api.Init("bad-path") == false);
     REQUIRE(api.Init(".") == false);
-   
+
     // Pass the valid path to the root sonic pi folder
     auto executeResult = api.Init(fs::path(APP_ROOT) / "..");
     if (executeResult)
     {
-        if (api.WaitForServer())
+        if (api.WaitUntilReady())
         {
             api.TestAudio();
             std::this_thread::sleep_for(3s);

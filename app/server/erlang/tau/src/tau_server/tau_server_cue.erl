@@ -183,9 +183,9 @@ loop(State) ->
             send_forward(maps:get(in_socket, State), Time, Data),
             ?MODULE:loop(State);
 
-        {udp_error, _Port, econnreset} ->
+        {udp_error, Port, econnreset} ->
             %% Should not happen, but can happen anyway on Windows
-            debug(2, "got UDP ECONNRESET - ignored~n", []),
+            debug(2, "got UDP ECONNRESET for port ~p- ignored~n", [Port]),
             ?MODULE:loop(State);
 
         {system, From, Request} ->

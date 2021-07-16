@@ -29,6 +29,7 @@ require_relative "config/scsynth_settings"
 require_relative "preparser"
 require_relative "event_history"
 require_relative "thread_id"
+require_relative "tau_comms.rb"
 
 #require_relative "oscevent"
 #require_relative "stream"
@@ -1351,7 +1352,7 @@ module SonicPi
       @snippets = {}
       @osc_cues_port = ports[:osc_cues_port]
       @osc_router_port = ports[:erlang_port]
-      @osc_client = SonicPi::OSC::UDPClient.new("127.0.0.1", @osc_router_port)
+      @osc_client = SonicPi::TauComms.new("127.0.0.1", @osc_router_port)
       @system_state = EventHistory.new(@job_subthreads, @job_subthread_mutex)
       @user_state = EventHistory.new(@job_subthreads, @job_subthread_mutex)
       @event_history = EventHistory.new(@job_subthreads, @job_subthread_mutex)

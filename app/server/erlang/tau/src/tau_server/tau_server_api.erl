@@ -104,13 +104,18 @@ init(Parent, CueServer, MIDIServer) ->
 
 loop(State) ->
     receive
-        {udp, _APISocket, _Ip, _Port, Bin} ->
-            debug(3, "api server got UDP on ~p:~p~n", [_Ip, _Port]),
+        {udp, APISocket, Ip, Port, Bin} ->
+            debug(3, "api server got UDP on ~p:~p~n", [Ip, Port]),
             try osc:decode(Bin) of
                 {bundle, Time, X} ->
                     debug("got bundle for time ~f~n", [Time]),
                     NewState = do_bundle(Time, X, State),
                     ?MODULE:loop(NewState);
+                {cmd, ["/ping"]} ->
+                    debug("sending /pong to  ~p ~p ~n", [Ip, Port]),
+                    PongBin = osc:encode(["/pong"]),
+                    ok = gen_udp:send(APISocket, Ip, Port, PongBin),
+                    ?MODULE:loop(State);
                 {cmd, ["/midi", OSC]} ->
                     MIDIServer = maps:get(midi_server, State),
                     MIDIServer ! {send, OSC},

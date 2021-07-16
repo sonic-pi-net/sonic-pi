@@ -4,11 +4,15 @@
 #include <iomanip>
 #include <iostream>
 #include <sstream>
+#include <future>
+#include <mutex>
+#include <string>
 
 #include <reproc++/drain.hpp>
 #include <reproc++/reproc.hpp>
 #include <reproc++/run.hpp>
 #include <sago/platform_folders.h>
+#include <kissnet.hpp>
 
 #include <api/file_utils.h>
 #include <api/logger.h>
@@ -61,37 +65,6 @@ std::map<T, T> vector_convert_to_pairs(const std::vector<T>& vals)
         itrFirst = ++itrSecond;
     };
     return pairs;
-}
-
-// Compiler doesn't support magic enum on linux, so we
-// can't reflect the enum; just get here instead
-// Note the conversion from '_' to '-'
-SonicPiPortId GetPortId(const std::string id)
-{
-    if (id == "gui-listen-to-server")
-        return SonicPiPortId::gui_listen_to_server;
-    else if (id == "gui-send-to-server")
-        return SonicPiPortId::gui_send_to_server;
-    else if (id == "server-listen-to-gui")
-        return SonicPiPortId::server_listen_to_gui;
-    else if (id == "server-send-to-gui")
-        return SonicPiPortId::server_send_to_gui;
-    else if (id == "scsynth")
-        return SonicPiPortId::scsynth;
-    else if (id == "scsynth-send")
-        return SonicPiPortId::scsynth_send;
-    else if (id == "server-osc-cues")
-        return SonicPiPortId::server_osc_cues;
-    else if (id == "erlang-router")
-        return SonicPiPortId::erlang_router;
-    else if (id == "osc-midi-out")
-        return SonicPiPortId::osc_midi_out;
-    else if (id == "osc-midi-in")
-        return SonicPiPortId::osc_midi_in;
-    else if (id == "websocket")
-        return SonicPiPortId::websocket;
-
-    return SonicPiPortId::Invalid;
 }
 
 } // namespace
@@ -185,30 +158,17 @@ std::error_code SonicPiAPI::RunProcess(const std::vector<std::string>& args, std
     return ec;
 }
 
-std::shared_ptr<reproc::process> SonicPiAPI::StartProcess(const std::vector<std::string>& args, const std::string& outPath, const std::string& errPath)
+std::shared_ptr<reproc::process> SonicPiAPI::StartProcess(const std::vector<std::string>& args)
 {
+
     assert(!args.empty());
 
-    reproc::options options;
-
-    if (!outPath.empty())
-    {
-        options.redirect.out.path = outPath.c_str();
-    }
-
-    if (!errPath.empty())
-    {
-        options.redirect.err.path = errPath.c_str();
-    }
-
-    if (errPath.empty() && outPath.empty())
-    {
-        options.redirect.out.type = reproc::redirect::parent;
-        options.redirect.err.type = reproc::redirect::parent;
-    }
-
     auto spProcess = std::make_shared<reproc::process>();
-    std::error_code ec = spProcess->start(args, options);
+
+    // auto yoProc = reproc::process();
+
+    std::error_code ec = spProcess->start(args);
+    LOG(INFO, "Started...");
 
     if (!ec)
     {
@@ -225,115 +185,29 @@ std::shared_ptr<reproc::process> SonicPiAPI::StartProcess(const std::vector<std:
         if (!args.empty())
             str << " : " << args[0];
         LOG(ERR, str.str());
+
     }
     else if (ec)
     {
         LOG(ERR, "StartProcess - " << ec.message());
     }
 
-    // Fail case
+    // Something went wrong. We've already logged an error
+    // message, but also reset the shared pointer so that
+    // the caller can see there's a problem too.
     spProcess.reset();
     return spProcess;
 }
 
-bool SonicPiAPI::GetPorts()
+bool SonicPiAPI::StartBootDaemon()
 {
-    std::string portString;
-    auto ec = RunProcess(std::vector<std::string>{
-                             m_paths[SonicPiPath::RubyPath].string(),
-                             m_paths[SonicPiPath::PortDiscoveryPath].string() },
-        &portString);
-    if (ec)
-    {
-        return false;
-    }
+    LOG(INFO, "Launching Sonic Pi Boot Daemon:");
 
-    // Split
-    auto ports = string_split(portString, "\r\n:");
-
-    // Trim and replace - with _ because our enum uses underscores
-    std::transform(ports.begin(), ports.end(), ports.begin(), [](std::string& val) { return string_trim(val); });
-
-    // Map
-    auto port_pair = vector_convert_to_pairs(ports);
-
-    LOG(INFO, "Checking Ports: ");
-
-    bool missingPort = false;
-    for (auto& port : port_pair)
-    {
-        auto portId = GetPortId(port.first);
-        if (portId == SonicPiPortId::Invalid)
-        {
-            LOG(ERR, "!Unrecognized Port - " << port.first);
-            missingPort = true;
-            continue;
-        }
-
-        auto portNum = std::stoi(port.second);
-        m_ports[portId] = portNum;
-
-        // Check we can open the port
-        oscpkt::UdpSocket sock;
-        sock.bindTo(portNum);
-        if ((portNum < 1024) || (!sock.isOk()))
-        {
-            LOG(ERR, port.first << ":" << portNum << " [Not Available] ");
-            missingPort = true;
-        }
-        else
-        {
-            LOG(INFO, port.first << ":" << portNum << " [OK] ");
-        }
-        sock.close();
-    }
-
-    if (missingPort)
-    {
-        LOG(ERR, "Critical Error. One or more ports is not available.");
-
-        MessageInfo message;
-        message.type = MessageType::StartupError;
-        message.text = "One or more ports is not available. Is Sonic Pi already running? If not, please reboot your machine and try again.";
-
-        m_pClient->Report(message);
-        return false;
-    }
-    else
-    {
-        LOG(INFO, "All Ports OK!");
-    }
-
-    return true;
-}
-
-bool SonicPiAPI::StartRubyServer()
-{
+    std::string output;
     std::vector<std::string> args;
+
     args.push_back(GetPath(SonicPiPath::RubyPath).string());
-    args.push_back("--enable-frozen-string-literal");
-    args.push_back("-E");
-    args.push_back("utf-8");
-    args.push_back(GetPath(SonicPiPath::RubyServerPath).string());
-
-    if (m_protocol == APIProtocol::TCP)
-    {
-        args.push_back("-t");
-    }
-    else
-    {
-        args.push_back("-u");
-    }
-
-    args.push_back(std::to_string(GetPort(SonicPiPortId::server_listen_to_gui)));
-    args.push_back(std::to_string(GetPort(SonicPiPortId::server_send_to_gui)));
-    args.push_back(std::to_string(GetPort(SonicPiPortId::scsynth)));
-    args.push_back(std::to_string(GetPort(SonicPiPortId::scsynth_send)));
-    args.push_back(std::to_string(GetPort(SonicPiPortId::server_osc_cues)));
-    args.push_back(std::to_string(GetPort(SonicPiPortId::erlang_router)));
-    args.push_back(std::to_string(GetPort(SonicPiPortId::websocket)));
-
-    LOG(INFO, "Launching Sonic Pi Runtime Server:");
+    args.push_back(GetPath(SonicPiPath::BootDaemonPath).string());
 
     std::ostringstream str;
     for (auto& arg : args)
@@ -342,36 +216,82 @@ bool SonicPiAPI::StartRubyServer()
     }
     LOG(INFO, "Args: " << str.str());
 
-    if (m_homeDirWriteable && (m_logOption != LogOption::Console))
-    {
-        m_spRubyServer = StartProcess(args, GetPath(SonicPiPath::ServerOutputLogPath).string(), GetPath(SonicPiPath::ServerErrorLogPath).string());
-    }
-    else
-    {
-        m_spRubyServer = StartProcess(args);
-    }
+    m_bootDaemonProcess = StartProcess(args);
 
-    if (!m_spRubyServer)
+    if (!m_bootDaemonProcess)
     {
         MessageInfo message;
         message.type = MessageType::StartupError;
-        message.text = "The Sonic Pi Server could not be started!";
+        message.text = "The Boot Daemon could not be started!";
 
         m_pClient->Report(message);
 
-        LOG(ERR, "Failed to start ruby server!");
+        LOG(ERR, "Failed to start Boot Daemon!");
         return false;
     }
 
-    // This will raise the process to above normal priority, but only on windows
-    raise_process_priority(m_spRubyServer->pid().first);
+    LOG(INFO, "Attempting to read Boot Daemon output");
 
-    // Register server pid for potential zombie clearing
-    RunProcess(std::vector<std::string>{ GetPath(SonicPiPath::RubyPath).string(), GetPath(SonicPiPath::TaskRegisterPath).string(), std::to_string(m_spRubyServer->pid().first) });
-    LOG(INFO, "Ruby server pid registered: " << m_spRubyServer->pid().first);
+    // We need a mutex along with `output` to prevent the main thread and
+    // background thread from modifying `output` at the same time (`std::string`
+    // is not thread safe).
+    uint8_t buffer[4096];
+    auto res = m_bootDaemonProcess->read(reproc::stream::out, buffer, sizeof(buffer));
+
+    int bytes_read = (int)res.first;
+    std::error_code ec = res.second;
+
+    if(ec || bytes_read < 0) {
+      if(ec) {
+        LOG(ERR, "Error reading ports via Boot Daemon STDOUT");
+      } else {
+        LOG(ERR, "Failed to read ports via Boot Daemon STDOUT. Bytes read: " + std::to_string(bytes_read));
+
+    }
+            return false;
+    }
+
+    std::string input_str(buffer, buffer + bytes_read);
+
+    input_str = string_trim(input_str);
+    auto ports = string_split(input_str, " ");
+    std::transform(ports.begin(), ports.end(), ports.begin(), [](std::string& val) { return string_trim(val); });
+
+
+    for(int i = 0 ; i < ports.size() ; i ++) {
+      int port = std::stoi(ports[i]);
+      LOG(INFO, "port: " + std::to_string(port));
+    }
+
+    if(ports.size() != 5) {
+      LOG(ERR, "\nError. Was expecting 5 port numbers from the Daemon Booter. Got: " + std::to_string(ports.size()) + "\n");
+      return false;
+    }
+
+    m_ports[SonicPiPortId::daemon] = std::stoi(ports[0]);
+    m_ports[SonicPiPortId::gui_listen_to_server] = std::stoi(ports[1]);
+    m_ports[SonicPiPortId::gui_send_to_server] = std::stoi(ports[2]);
+    m_ports[SonicPiPortId::scsynth] = std::stoi(ports[3]);
+    m_ports[SonicPiPortId::server_osc_cues] = std::stoi(ports[4]);
+
+    m_spOscSender = std::make_shared<OscSender>(std::stoi(ports[2]));
+
+    m_bootDaemonSock = std::make_shared<kissnet::tcp_socket>(kissnet::endpoint("127.0.0.1", m_ports[SonicPiPortId::daemon]));
+    m_bootDaemonSock->connect();
+
+    LOG(INFO, "Setting up Boot Daemon keep alive loop");
+    m_bootDaemonSockPingLoopThread = std::thread([&]() {
+      auto keep_alive_msg = std::string{ "keep-alive\n" };
+      while(true)
+      {
+        LOG(DBG, "SND keep_alive");
+        m_bootDaemonSock->send(reinterpret_cast<const std::byte*>(keep_alive_msg.c_str()), keep_alive_msg.size());
+        LOG(DBG, "SND keep_alive sent");
+        std::this_thread::sleep_for(1s);
+      }
+    });
 
     m_startServerTime = timer_start();
-
     return true;
 }
 
@@ -388,9 +308,7 @@ void SonicPiAPI::Shutdown()
 
         m_spAudioProcessor.reset();
 
-        StopServerAndOsc();
-
-        RunCleanupScript();
+        StopOscServer();
 
         if (m_coutbuf)
         {
@@ -398,13 +316,25 @@ void SonicPiAPI::Shutdown()
             m_coutbuf = nullptr;
         }
     }
+
+    if (m_bootDaemonSock)
+    {
+          LOG(INFO, "Closing socket to Boot Daemon...");
+        m_bootDaemonSock->close();
+    } else {
+      LOG(INFO, "Boot Daemon socket not found so no need to close...");
+    }
+
     m_state = State::Start;
+    LOG(INFO, "API State set to: Start...");
+
 }
 
 bool SonicPiAPI::StartOscServer()
 {
     if (m_protocol == APIProtocol::UDP)
-    {
+
+      {
         auto listenPort = GetPort(SonicPiPortId::gui_listen_to_server);
 
         m_spOscServer = std::make_shared<OscServerUDP>(m_pClient, std::make_shared<OscHandler>(m_pClient), listenPort);
@@ -424,15 +354,51 @@ bool SonicPiAPI::StartOscServer()
 
 bool SonicPiAPI::SendOSC(Message m)
 {
-    bool res = m_spOscSender->sendOSC(m);
-    if (!res)
+
+    if (WaitUntilReady())
     {
-        LOG(ERR, "Could Not Send OSC");
+        bool res = m_spOscSender->sendOSC(m);
+        if (!res)
+        {
+            LOG(ERR, "Could Not Send OSC");
+            return false;
+        }
+        return true;
     }
-    return res;
+
+    return false;
 }
 
-bool SonicPiAPI::WaitForServer()
+bool SonicPiAPI::WaitUntilReady()
+{
+    if (m_state == State::Created)
+    {
+      return true;
+    }
+
+    int num_tries = 60;
+    while (m_state != State::Created && num_tries > 0)
+    {
+        num_tries--;
+        if (m_state == State::Error)
+        {
+          LOG(ERR, "Oh no, Spider Server got to an Error State whilst starting...");
+          return false;
+        }
+        LOG(ERR, "Waiting Until Ready... " + std::to_string(num_tries));
+        std::this_thread::sleep_for(1s);
+    }
+
+    if (num_tries < 1)
+    {
+      return false;
+    } else {
+      return true;
+    }
+}
+
+
+bool SonicPiAPI::PingUntilServerCreated()
 {
     if (m_state == State::Created)
     {
@@ -444,62 +410,24 @@ bool SonicPiAPI::WaitForServer()
         return false;
     }
 
-    //QString contents;
-    LOG(INFO, "Waiting for Sonic Pi Server to boot...");
-    bool server_booted = false;
-    if (!m_homeDirWriteable)
-    {
-        // we can't monitor the logs so hope for the best!
-        std::this_thread::sleep_for(15s);
-        server_booted = true;
-    }
-    else
-    {
-        // TODO: Is this really necessary?
-        for (int i = 0; i < 30; i++)
-        {
-            auto contents = file_read(GetPath(SonicPiPath::ServerOutputLogPath));
-            if (contents.find("Sonic Pi Server successfully booted.") != std::string::npos)
-            {
-                LOG(INFO, "Sonic Pi Server successfully booted.");
-                server_booted = true;
-                break;
-            }
-            else
-            {
-                std::cout << ".";
-                std::this_thread::sleep_for(2s);
-            }
-            server_booted = true;
-            break;
-        }
-    }
-
-    if (!server_booted)
-    {
-        MessageInfo message;
-        message.type = MessageType::StartupError;
-        message.text = "Critical error! Could not boot Sonic Pi Server.";
-
-        m_pClient->Report(message);
-        return false;
-    }
-
     int timeout = 60;
-    LOG(INFO, "Waiting for Sonic Pi Server to respond...");
+    LOG(INFO, "Waiting for Sonic Pi Spider Server to respond...");
     while (m_spOscServer->waitForServer() && timeout-- > 0)
     {
         std::this_thread::sleep_for(1s);
-        std::cout << ".";
+        LOG(INFO, ".");
         if (m_spOscServer->isIncomingPortOpen())
         {
             Message msg("/ping");
             msg.pushStr(m_guid);
             msg.pushStr("QtClient/1/hello");
-            SendOSC(msg);
+
+            //bypass ::SendOSC as that needs to wait until ready
+            //which is precisely what this message is attempting
+            //to figure out!
+            m_spOscSender->sendOSC(msg);
         }
     }
-    std::cout << std::endl;
 
     if (!m_spOscServer->isServerStarted())
     {
@@ -508,6 +436,7 @@ bool SonicPiAPI::WaitForServer()
         message.text = "Critical error! Could not connect to Sonic Pi Server.";
 
         m_pClient->Report(message);
+        m_state = State::Error;
         return false;
     }
     else
@@ -520,6 +449,7 @@ bool SonicPiAPI::WaitForServer()
 
         // All good
         m_state = State::Created;
+        LOG(INFO, "API State set to: Created...");
 
         return true;
     }
@@ -528,6 +458,9 @@ bool SonicPiAPI::WaitForServer()
 // Initialize the API with the sonic pi root path (the folder containing the app folder)
 bool SonicPiAPI::Init(const fs::path& root)
 {
+
+  m_osc_mtx.lock();
+
     if (m_state == State::Created)
     {
         MessageInfo message;
@@ -538,6 +471,7 @@ bool SonicPiAPI::Init(const fs::path& root)
         LOG(ERR, "Call shutdown before init!");
         return false;
     }
+
 
     // Start again, shutdown if we fail init
     m_state = State::Invalid;
@@ -566,55 +500,16 @@ bool SonicPiAPI::Init(const fs::path& root)
         return false;
     }
 
-    auto homePath = FindHomePath();
-
-    m_paths[SonicPiPath::RootPath] = fs::canonical(fs::absolute(root));
-
-#if defined(WIN32)
-    m_paths[SonicPiPath::RubyPath] = m_paths[SonicPiPath::RootPath] / "app/server/native/ruby/bin/ruby.exe";
-#else
-    m_paths[SonicPiPath::RubyPath] = m_paths[SonicPiPath::RootPath] / "app/server/native/ruby/bin/ruby";
-#endif
-
-    if (!fs::exists(m_paths[SonicPiPath::RubyPath]))
+    if (!InitializePaths(root))
     {
-        m_paths[SonicPiPath::RubyPath] = "ruby";
+      // oh no, something went wrong :-(
+      return false;
     }
-
-    // Create script paths
-    m_paths[SonicPiPath::RubyServerPath] = m_paths[SonicPiPath::RootPath] / "app/server/ruby/bin/sonic-pi-server.rb";
-    m_paths[SonicPiPath::PortDiscoveryPath] = m_paths[SonicPiPath::RootPath] / "app/server/ruby/bin/port-discovery.rb";
-    m_paths[SonicPiPath::FetchUrlPath] = m_paths[SonicPiPath::RootPath] / "app/server/ruby/bin/fetch-url.rb";
-    m_paths[SonicPiPath::InitScriptPath] = m_paths[SonicPiPath::RootPath] / "app/server/ruby/bin/init-script.rb";
-    m_paths[SonicPiPath::ExitScriptPath] = m_paths[SonicPiPath::RootPath] / "app/server/ruby/bin/exit-script.rb";
-    m_paths[SonicPiPath::TaskRegisterPath] = m_paths[SonicPiPath::RootPath] / "app/server/ruby/bin/task-register.rb";
-
-    // Sanity check on script existence
-    const auto checkPaths = std::vector<SonicPiPath>{ SonicPiPath::RubyServerPath, SonicPiPath::PortDiscoveryPath, SonicPiPath::FetchUrlPath, SonicPiPath::InitScriptPath, SonicPiPath::ExitScriptPath, SonicPiPath::TaskRegisterPath };
-    for (const auto& check : checkPaths)
-    {
-        if (!fs::exists(m_paths[SonicPiPath::RubyServerPath]))
-        {
-            MessageInfo message;
-            message.type = MessageType::StartupError;
-            message.text = "Could not find script path: " + m_paths[SonicPiPath::RubyServerPath].string();
-
-            m_pClient->Report(message);
-            return false;
-        }
-    }
-
-    // Samples
-    m_paths[SonicPiPath::SamplePath] = m_paths[SonicPiPath::RootPath] / "etc/samples";
-
-    // Sonic pi home directory
-    m_paths[SonicPiPath::UserPath] = homePath / ".sonic-pi";
-
-    auto logPath = m_paths[SonicPiPath::UserPath] / "log";
 
     // Make the log folder and check we can write to it.
     // This is /usr/home/.sonic-pi/log
     m_homeDirWriteable = true;
+    auto logPath = GetPath(SonicPiPath::LogPath);
     if (!fs::exists(logPath))
     {
         std::error_code err;
@@ -634,22 +529,7 @@ bool SonicPiAPI::Init(const fs::path& root)
         }
     }
 
-    // Our log paths
-    m_paths[SonicPiPath::ServerErrorLogPath] = logPath / "server-errors.log";
-    m_paths[SonicPiPath::ServerOutputLogPath] = logPath / "server-output.log";
-    m_paths[SonicPiPath::ProcessLogPath] = logPath / "processes.log";
-    m_paths[SonicPiPath::SCSynthLogPath] = logPath / "scsynth.log";
-
-    // This is technically 'this' processes log path; but it is called gui log
-    m_paths[SonicPiPath::GUILogPath] = logPath / "gui.log";
-
-    std::for_each(m_paths.begin(), m_paths.end(), [this](auto& entry) {
-        if (fs::exists(entry.second))
-        {
-            entry.second = fs::canonical(entry.second);
-        }
-        return entry;
-    });
+    EnsurePathsAreCanonical();
 
     // Setup redirection of log from this app to our log file
     // stdout into ~/.sonic-pi/log/gui.log
@@ -660,41 +540,105 @@ bool SonicPiAPI::Init(const fs::path& root)
         std::cout.rdbuf(m_stdlog.rdbuf());
     }
 
-    // Clear out old tasks from previous sessions if they still exist
-    // in addition to clearing out the logs
-    auto ec = RunProcess(std::vector<std::string>{
-        m_paths[SonicPiPath::RubyPath].string(),
-        m_paths[SonicPiPath::InitScriptPath].string() });
-    if (ec)
-    {
-        return false;
-    }
-
     LOG(INFO, "Welcome to Sonic Pi");
     LOG(INFO, "===================");
 
-    if (!GetPorts())
+    if (m_homeDirWriteable) {
+        LOG(INFO, "Home dir writable: ");
+      } else {
+        LOG(INFO, "Home dir NOT writable: ");
+    }
+
+    LOG(INFO, "Log PAth: " + GetPath(SonicPiPath::LogPath).string());
+
+
+    // Start the Boot Daemon
+    if (!StartBootDaemon())
     {
         return false;
     }
 
-    if (!StartOscServer())
+    // Start the OC Server
+    if(!StartOscServer())
     {
         return false;
     }
 
-    if (!StartRubyServer())
-    {
-        return false;
-    }
-
-    // Create the sender
-    m_spOscSender = std::make_shared<OscSender>(GetPort(SonicPiPortId::gui_send_to_server));
+    LOG(INFO, "API Init Started...");
 
     m_state = State::Initializing;
+    LOG(INFO, "API State set to: Initializing...");
 
-    LOG(INFO, "Init SonicPi Succeeded...");
+    m_osc_mtx.unlock();
+    LOG(INFO, "Going to start pinging server...");
+    m_pingerThread = std::thread([&]() {
+        PingUntilServerCreated();
+    });
+
     return true;
+}
+
+bool SonicPiAPI::InitializePaths(const fs::path& root)
+{
+    // sanitise and set app root path
+    m_paths[SonicPiPath::RootPath] = fs::canonical(fs::absolute(root));
+
+    // Sonic pi home directory
+    m_paths[SonicPiPath::UserPath] = FindHomePath() / ".sonic-pi";
+
+    // Set path to Ruby executable (system dependent)
+#if defined(WIN32)
+    m_paths[SonicPiPath::RubyPath] = m_paths[SonicPiPath::RootPath] / "app/server/native/ruby/bin/ruby.exe";
+#else
+    m_paths[SonicPiPath::RubyPath] = m_paths[SonicPiPath::RootPath] / "app/server/native/ruby/bin/ruby";
+#endif
+    if (!fs::exists(m_paths[SonicPiPath::RubyPath]))
+    {
+        m_paths[SonicPiPath::RubyPath] = "ruby";
+    }
+
+    // Set Ruby script paths
+    m_paths[SonicPiPath::BootDaemonPath]      = m_paths[SonicPiPath::RootPath] / "app/server/ruby/bin/daemon.rb";
+    m_paths[SonicPiPath::FetchUrlPath]        = m_paths[SonicPiPath::RootPath] / "app/server/ruby/bin/fetch-url.rb";
+
+    // Set Log paths
+    m_paths[SonicPiPath::LogPath] = m_paths[SonicPiPath::UserPath] / "log";
+    m_paths[SonicPiPath::SpiderServerLogPath] = m_paths[SonicPiPath::LogPath] / "spider.log";
+    m_paths[SonicPiPath::BootDaemonLogPath]   = m_paths[SonicPiPath::LogPath] / "daemon.log";
+    m_paths[SonicPiPath::TauLogPath]          = m_paths[SonicPiPath::LogPath] / "tau.log";
+    m_paths[SonicPiPath::SCSynthLogPath]      = m_paths[SonicPiPath::LogPath] / "scsynth.log";
+    m_paths[SonicPiPath::GUILogPath]          = m_paths[SonicPiPath::LogPath] / "gui.log";
+
+    // Set built-in samples path
+    m_paths[SonicPiPath::SamplePath] = m_paths[SonicPiPath::RootPath] / "etc/samples/";
+
+    // Sanity check for script existence
+    const auto checkPaths = std::vector<SonicPiPath>{ SonicPiPath::FetchUrlPath, SonicPiPath::BootDaemonPath };
+    for (const auto& check : checkPaths)
+    {
+        if (!fs::exists(m_paths[check]))
+        {
+            MessageInfo message;
+            message.type = MessageType::StartupError;
+            message.text = "Could not find script path: " + m_paths[check].string();
+
+            m_pClient->Report(message);
+            return false;
+        }
+    }
+
+    return true;
+}
+
+void SonicPiAPI::EnsurePathsAreCanonical()
+{
+    std::for_each(m_paths.begin(), m_paths.end(), [this](auto& entry) {
+        if (fs::exists(entry.second))
+        {
+            entry.second = fs::canonical(entry.second);
+        }
+        return entry;
+    });
 }
 
 bool SonicPiAPI::TestAudio()
@@ -710,53 +654,14 @@ bool SonicPiAPI::TestAudio()
     return res;
 }
 
-void SonicPiAPI::StopServerAndOsc()
+void SonicPiAPI::StopOscServer()
 {
-    /*
-    * TODO: TCP
-    if(m_protocol == APIProtocol::TCP){
-        clientSock->close();
-    }
-    */
-
-    // Ask the server to exit
-    if (!m_spRubyServer)
-    {
-        LOG(DBG, "Server process is not running.");
-    }
-    else
-    {
-        auto timer = timer_start();
-
-        // Ask the server to exit
-        // This happens really fast, and the process is typically gone before we get to the sleep below.
-        LOG(INFO, "Asking server process to exit...");
-        Message msg("/exit");
-        msg.pushStr(m_guid);
-        SendOSC(msg);
-
-        // Reproc is having a hard time figuring out that the process has gone because
-        // the ruby server is holding onto a socket and not cleaning it up.
-        // We use a quick platform-independent check for exit instead, and just give it a second
-        // for that check to succeed before doing reproc's wait/terminate/kill process which 
-        // will inevitably succeed too; just with a longer delay.
-        // We should fix the ruby layer and remove these extra checks
-        std::this_thread::sleep_for(1s);
-
-        // Quick check for it if it now gone
-        if (process_running(m_spRubyServer->pid().first))
-        {
-            // OK, wait to stop it, terminate it, then till it.
-            reproc::stop_actions stopAndKill = {
-                { reproc::stop::wait, reproc::milliseconds(ProcessWaitMilliseconds) },
-                { reproc::stop::terminate, reproc::milliseconds(TerminateProcessMilliseconds) },
-                { reproc::stop::kill, reproc::milliseconds(KillProcessMilliseconds) }
-            };
-            m_spRubyServer->stop(stopAndKill);
-        }
-
-        LOG(INFO, "Server process gone in " << timer_stop(timer) << "s");
-    }
+    // /*
+    // * TODO: TCP
+    // if(m_protocol == APIProtocol::TCP){
+    //     clientSock->close();
+    // }
+    // */
 
     // Stop the osc server and hence the osc thread
     if (m_spOscServer)
@@ -779,20 +684,6 @@ void SonicPiAPI::StopServerAndOsc()
     m_spOscSender.reset();
 }
 
-void SonicPiAPI::RunCleanupScript()
-{
-    if (fs::exists(GetPath(SonicPiPath::ExitScriptPath)))
-    {
-        // Ensure child processes are nuked if they didn't exit gracefully
-        LOG(DBG, "Executing exit script: " << GetPath(SonicPiPath::ExitScriptPath));
-        auto ret = RunProcess({ GetPath(SonicPiPath::RubyPath).string(), GetPath(SonicPiPath::ExitScriptPath).string() });
-        if (ret)
-        {
-            LOG(ERR, "Failed to call exit: " << ret.message());
-            return;
-        }
-    }
-}
 
 const fs::path& SonicPiAPI::GetPath(SonicPiPath piPath)
 {
@@ -806,9 +697,9 @@ const int& SonicPiAPI::GetPort(SonicPiPortId port)
 
 std::string SonicPiAPI::GetLogs()
 {
-    auto logs = std::vector<fs::path>{ GetPath(SonicPiPath::ServerOutputLogPath),
-        GetPath(SonicPiPath::ServerErrorLogPath),
-        GetPath(SonicPiPath::ProcessLogPath),
+    auto logs = std::vector<fs::path>{ GetPath(SonicPiPath::SpiderServerLogPath),
+        GetPath(SonicPiPath::BootDaemonLogPath),
+        GetPath(SonicPiPath::TauLogPath),
         GetPath(SonicPiPath::SCSynthLogPath),
         GetPath(SonicPiPath::GUILogPath) };
 

@@ -29,7 +29,7 @@ OscSender::OscSender(int port)
 
 bool OscSender::sendOSC(Message m)
 {
-    LOG(DBG, "SendOSC" << m.addressPattern()); 
+    LOG(DBG, "SendOSC " << m.addressPattern());
     UdpSocket sock;
     sock.connectTo("127.0.0.1", port);
     if (!sock.isOk())
@@ -57,4 +57,4 @@ void OscSender::bufferNewlineAndIndent(int point_line, int point_index, int firs
     sendOSC(msg);
 }
 
-} // namespace SonicPi 
+} // namespace SonicPi

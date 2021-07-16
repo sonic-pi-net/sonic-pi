@@ -30,6 +30,7 @@ module SonicPi
         else
           @socket.bind('127.0.0.1', port )
         end
+
         @matchers = {}
         @global_matcher = global_method
         @decoder = OscDecode.new(true)
@@ -76,7 +77,7 @@ module SonicPi
             osc_data, sender_addrinfo = @socket.recvfrom( 16384 )
           rescue Exception => e
             STDERR.puts "\n==========="
-            STDERR.puts "Critical: UDP Server for port #{@port} had issues receiving from socket"
+            STDERR.puts "Critical: UDP Server for port #{@socket.addr} had issues receiving from socket"
             STDERR.puts e.message
             STDERR.puts e.backtrace.inspect
             STDERR.puts "===========\n"

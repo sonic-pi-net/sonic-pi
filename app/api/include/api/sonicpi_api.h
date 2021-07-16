@@ -5,8 +5,10 @@
 #include <map>
 #include <string>
 #include <thread>
-
+#include <kissnet.hpp>
+#include <mutex>
 #include <api/osc/osc_pkt.hh>
+
 
 #if 0
 #ifdef __unix__
@@ -38,38 +40,29 @@ class OscServer;
 
 enum class SonicPiPath
 {
-    RootPath, // Sonic Pi Application root
-    RubyPath, // Path to ruby executable
-    RubyServerPath, // Path to the ruby server script
-    PortDiscoveryPath, // Path to the port discovery script
-    FetchUrlPath, // Path to the fetch url script
-    SamplePath, // Path to the samples folder
-    UserPath,
-    ServerErrorLogPath,
-    ServerOutputLogPath,
-    ProcessLogPath,
-    SCSynthLogPath,
-    InitScriptPath,
-    ExitScriptPath,
-    GUILogPath,
-    TaskRegisterPath
+    RootPath,            // Sonic Pi Application root
+    UserPath,            // User-writable folder for config/saves etc.
+    RubyPath,            // Path to ruby executable
+    BootDaemonPath,      // Path to the Boot Daemon script
+    FetchUrlPath,        // Path to the fetch url script
+    SamplePath,          // Path to the samples folder
+    LogPath,             // Base log folder
+    SpiderServerLogPath, // Log file for Spider Server output
+    BootDaemonLogPath,   // Log file for Boot Daemon output
+    TauLogPath,          // Log file for Tau IO Server output
+    SCSynthLogPath,      // Log file for SuperCollider scsynth's output
+    GUILogPath,          // Log file for GUI
 };
 
 // NOTE: These port names returned by ruby; they match the symbols and cannot be changed.
 enum class SonicPiPortId
 {
     Invalid,
+    daemon,
     gui_listen_to_server,
     gui_send_to_server,
-    server_listen_to_gui,
-    server_send_to_gui,
     scsynth,
-    scsynth_send,
-    server_osc_cues,
-    erlang_router,
-    osc_midi_out,
-    osc_midi_in,
-    websocket
+    server_osc_cues
 };
 
 // Log output of the API to the log files or the console?
@@ -263,7 +256,8 @@ public:
     virtual bool Init(const fs::path& rootPath);
 
     // Wait for the server to be in a good state
-    virtual bool WaitForServer();
+    virtual bool PingUntilServerCreated();
+    virtual bool WaitUntilReady();
 
     // Shut down the API, close the server, ports, osc, etc.
     virtual void Shutdown();
@@ -280,7 +274,7 @@ public:
 
     // Enable audio processing
     virtual void AudioProcessor_Enable(bool enable);
-   
+
     // Enable FFT generation
     virtual void AudioProcessor_EnableFFT(bool enable);
 
@@ -305,7 +299,7 @@ public:
     virtual bool SendOSC(oscpkt::Message m);
 
     virtual void LoadWorkspaces();
-    
+
     virtual void SaveWorkspaces(const std::map<uint32_t, std::string>& workspaces);
 
     virtual uint32_t MaxWorkspaces() const;
@@ -318,17 +312,20 @@ public:
 private:
     fs::path FindHomePath() const;
 
-    bool GetPorts();
-    bool StartRubyServer();
+    bool StartBootDaemon();
     bool StartOscServer();
+    void StopOscServer();
 
-    void StopServerAndOsc();
-    void RunCleanupScript();
+    bool InitializePaths(const fs::path& root);
+    void EnsurePathsAreCanonical();
 
     std::error_code RunProcess(const std::vector<std::string>& args, std::string* pOutput = nullptr);
-    std::shared_ptr<reproc::process> StartProcess(const std::vector<std::string>& args, const std::string& outPath = std::string(), const std::string& errPath = std::string());
+    std::shared_ptr<reproc::process> StartProcess(const std::vector<std::string>& args);
+
+
 
 private:
+
     std::map<SonicPiPath, fs::path> m_paths;
     std::map<SonicPiPortId, int> m_ports;
 
@@ -336,10 +333,16 @@ private:
     std::streambuf* m_coutbuf = nullptr;
     std::ofstream m_stdlog;
 
-    std::shared_ptr<reproc::process> m_spRubyServer;
+    std::shared_ptr<reproc::process> m_bootDaemonProcess;
+    std::shared_ptr<kissnet::tcp_socket> m_bootDaemonSock;
+
+    std::mutex m_osc_mtx;
     LogOption m_logOption;
 
+
     std::thread m_oscServerThread;
+    std::thread m_pingerThread;
+    std::thread m_bootDaemonSockPingLoopThread;
 
     std::shared_ptr<OscServer> m_spOscServer;
     std::shared_ptr<OscSender> m_spOscSender;
@@ -354,7 +357,8 @@ private:
         Start,
         Initializing,
         Invalid,
-        Created
+        Created,
+        Error
     };
     State m_state = State::Start;
     uint64_t m_startServerTime;

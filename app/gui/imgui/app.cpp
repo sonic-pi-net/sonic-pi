@@ -80,7 +80,7 @@ void SPClient::Version(const VersionInfo& info)
 {
     log_window_add_log(0, info.version + "\n");
 }
-    
+
 void SPClient::Buffer(const BufferInfo& info)
 {
     // TODO: Fill buffer
@@ -96,7 +96,7 @@ void start_sonic_pi()
 
 bool sync_sonic_pi()
 {
-    bool ok = sonic.spApi->WaitForServer();
+    bool ok = sonic.spApi->WaitUntilReady();
     if (ok)
     {
         sonic.spApi->AudioProcessor_Enable(true);

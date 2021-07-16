@@ -183,7 +183,7 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
 
     QThreadPool::globalInstance()->setMaxThreadCount(3);
 
-    startupOK = m_spAPI->WaitForServer();
+    startupOK = m_spAPI->WaitUntilReady();
 
     if (startupOK)
     {

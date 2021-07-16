@@ -21,7 +21,7 @@ set(OSC_SRC
     ${API_ROOT}/src/osc/osc_server.cpp
     ${API_ROOT}/src/osc/tcp_osc_server.cpp
     ${API_ROOT}/src/osc/udp_osc_server.cpp
-    
+
     ${API_ROOT}/include/api/osc/osc_handler.h
     ${API_ROOT}/include/api/osc/osc_sender.h
     ${API_ROOT}/include/api/osc/osc_server.h
@@ -36,7 +36,7 @@ set(BUFFER_SRC
     ${API_ROOT}/include/api/audio/audio_processor.h
     ${API_ROOT}/include/api/audio/scope_buffer.hpp
     ${API_ROOT}/include/api/audio/server_shm.hpp)
-    
+
 add_library(${PROJECT_NAME} STATIC ${API_SRC} ${OSC_SRC} ${BUFFER_SRC})
 add_library(SonicPi::API ALIAS ${PROJECT_NAME})
 
@@ -53,10 +53,12 @@ target_include_directories(${PROJECT_NAME}
     PUBLIC
         ${API_ROOT}/include
         ${APP_ROOT}/external/ghc_filesystem/include
+        ${APP_ROOT}/external/kissnet-master-34b751b
     PRIVATE
         ${APP_ROOT}/external
         ${APP_ROOT}/external/scsynth-boost-1.74.0
         ${APP_ROOT}/external/TLSF-2.4.6/src
+
     )
 
 target_link_libraries(${PROJECT_NAME}
@@ -70,7 +72,7 @@ target_link_libraries(${PROJECT_NAME}
 # Windows
 if ("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
 find_package(crossguid CONFIG REQUIRED)
-target_link_libraries(${PROJECT_NAME} 
+target_link_libraries(${PROJECT_NAME}
     PRIVATE
         crossguid
     )
@@ -79,7 +81,7 @@ endif()
 # Linux
 if("${CMAKE_SYSTEM_NAME}" STREQUAL "Linux")
 find_package(crossguid CONFIG REQUIRED)
-target_link_libraries(${PROJECT_NAME} 
+target_link_libraries(${PROJECT_NAME}
     PUBLIC
         stdc++fs
     PRIVATE
@@ -89,7 +91,7 @@ endif()
 
 # Mac
 if("${CMAKE_SYSTEM_NAME}" STREQUAL "Darwin")
-target_link_libraries(${PROJECT_NAME} 
+target_link_libraries(${PROJECT_NAME}
     PRIVATE
     )
 endif()
