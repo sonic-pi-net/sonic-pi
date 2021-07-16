@@ -35,8 +35,7 @@ include SonicPi::Util
 
 options = {}
 OptionParser.new do |opts|
-  opts.banner = "Usage: qt-doc.rb [options]"
-  opts.on('-o', '--output NAME', 'Output filename') { |v| options[:output_name] = v }
+  opts.banner = "Usage: create-html.rb [options]"
   opts.on('-l', '--lang LANG', 'Language to generate (if empty, defaults to all languages)') { |v| options[:language] = v }
 
 end.parse!
@@ -59,11 +58,6 @@ end
 
 info_sources = ["CHANGELOG.md", "CONTRIBUTORS.md", "COMMUNITY.md", "CORETEAM.html", "LICENSE.md"]
 
-def change_img_links_for_website(input)
-  output = input.gsub(":/images", "/assets/images").gsub("../../../etc/doc/images", "/assets/images")
-  return output
-end
-
 def make_reference_html_section(section, lang, json_file)
   res = {}
 
@@ -83,6 +77,7 @@ def make_reference_html_section(section, lang, json_file)
   reference_hash.each do |k, v|
     doc = ""
     title = ""
+    keyword = true
 
     case basename
     when "synths.json"
@@ -110,7 +105,7 @@ def make_reference_html_section(section, lang, json_file)
       doc << "<p class=\"introduced\">"
       doc << "Introduced in " << v["introduced"] << "</p>\n\n"
 
-      doc << "<section id=\"options\">\n"
+      doc << "<section id=\"#{k}_options\">\n"
       doc << "<h2>Options</h2>\n"
 
       doc << "<p><table class=\"details\">\n"
@@ -118,7 +113,7 @@ def make_reference_html_section(section, lang, json_file)
       cnt = 0
       v["opts"].each do |ak, av|
         td_class = cnt.even? ? "even" : "odd"
-        doc << "<tr id=\"opt-#{ak}\">\n"
+        doc << "<tr id=\"#{k}_opt-#{ak}\">\n"
         doc << " <td class=\"#{td_class} key\">#{ak}:</td>\n"
         doc << " <td class=\"#{td_class}\">\n"
         docstring = av["description"] || 'write me'
@@ -138,7 +133,7 @@ def make_reference_html_section(section, lang, json_file)
 
       if (v["slide"]) then
         # table for slide parameters
-        doc << "<section id=\"slide\">\n"
+        doc << "<section id=\"#{k}_slide\">\n"
         doc << "<p>#{v["slide"]["slide_doc"]}</p>\n"
         doc << "<p><table class=\"details\">\n"
 
@@ -221,12 +216,56 @@ def make_reference_html_section(section, lang, json_file)
 
     when "samples.json"
       title = v["description"]
+      keyword = false
       doc << "<h1>" << v["description"] << "</h1>\n\n"
       doc << "<ul>\n"
+
+      doc << "<table>\n"
       v["samples"].each do |sample_name|
-        doc << "<li>\n<code><pre>\n<span class=\"symbol\">\n:#{sample_name}\n</span>\n</pre></code>\n</li>\n"
+        doc << "<tr style=\"vertical-align: middle;padding:5px\">\n"
+        doc << "<td><a href=\"sonicpi://play-sample/#{sample_name}\"><img src=\":/images/play.png\" width=\"15\" height=\"16\"></a></td>\n"
+        doc << "<td><p class=\"usage\"><code><pre> sample <span class=\"symbol\">:#{sample_name}</span> </pre></code></p></td>\n"
+        doc << "</tr>\n"
       end
-      doc << "</ul>\n"
+      doc << "</table>\n"
+
+      # TODO: Re-add sample args to documentation
+      #
+      # stereo_player = StereoPlayer.new
+      # stereo_player.arg_info.each do |ak, av|
+      #   doc << "</tr><tr>" if (cnt > 0) and cnt % 4 == 0
+      #   doc << "<td class=\"even\"><a href=\"##{ak}\">#{ak}:</a></td>\n"
+      #   doc << "<td class=\"odd\">#{av[:default]}</td>\n"
+      #   cnt += 1
+      # end
+      # doc << "</tr></table></p>\n"
+      #
+      # doc << "<p><table class=\"details\">\n"
+      #
+      # cnt = 0
+      # any_slidable = false
+      # stereo_player.arg_info.each do |ak, av|
+      #   doc << "<a name=\"#{ak}\"></a>\n"
+      #   doc << "<tr>\n"
+      #   doc << " <td class=\"even key\">#{ak}:</td>\n"
+      #   doc << " <td class=\"odd\">\n"
+      #   doc << "  <p>#{av[:doc] || 'write me'}</p>\n"
+      #   doc << "  <p class=\"properties\">\n"
+      #   doc << "   Default: #{av[:default]}\n"
+      #   doc << "   <br/>#{av[:constraints].join(",")}\n" unless av[:constraints].empty?
+      #   if av[:slidable]
+      #     doc << "   <br/>May be changed whilst playing\n"
+      #     doc << "   <br/><a href=\"#slide\">Has slide options to shape changes</a>\n"
+      #     any_slidable = true
+      #   end
+      #   doc << "   <br/>Scaled with current BPM value\n" if av[:bpm_scale]
+      #   doc << "  </p>\n"
+      #   doc << " </td>\n"
+      #   doc << "</tr>\n"
+      #   cnt += 1
+      # end
+      # doc << "</table></p>\n"
+      # doc << slide_doc_html(stereo_player) if any_slidable
 
     when "lang.json"
       title = k
@@ -298,6 +337,13 @@ def make_reference_html_section(section, lang, json_file)
     #  end
     #end
 
+    page_info = {
+        :name => title,
+        :path => "#{lang}/reference/#{section}/#{k}.html"
+    }
+
+    page_info[:keyword] = k if keyword
+
     if title.start_with?("   ") then
       if parent == nil then
         parent = toc_data[section][:pages].count - 1
@@ -309,16 +355,10 @@ def make_reference_html_section(section, lang, json_file)
     end
 
     if (parent != nil)
-      toc_data[:pages][parent][:subpages].append({
-          :name => title.gsub(/"/, '&quot;'),
-          :url =>"/#{lang}/reference/#{section}/#{k.gsub("?","%3F")}.html"
-      })
+      toc_data[:pages][parent][:subpages].append(page_info)
     else
-      toc_data[:pages].append({
-          :name => title.gsub(/"/, '&quot;'),
-          :url =>"/#{lang}/reference/#{section}/#{k.gsub("?","%3F")}.html",
-          :subpages => []
-      })
+      page_info[:subpages] = []
+      toc_data[:pages].append(page_info)
     end
 
     html[k] = doc
@@ -328,55 +368,51 @@ def make_reference_html_section(section, lang, json_file)
   return [html, titles, toc_data]
 end
 
-example_html_map = {}
+# Generate example HTML pages
+example_toc = []
 example_dirs = ["Apprentice", "Illusionist", "Magician", "Sorcerer", "Wizard", "Algomancer"]
 example_dirs.each do |ex_dir|
+
+  html_output_folder = "#{etc_path}/doc/generated_html/examples/#{ex_dir.downcase}"
+  FileUtils.rm_r html_output_folder if Dir.exists?(html_output_folder)
+  FileUtils.mkdir_p html_output_folder
+
+  puts "Generating #{html_output_folder}"
+
   Dir["#{examples_path}/#{ex_dir.downcase}/*.rb"].each do |path|
     bname = File.basename(path, ".rb")
     bname = ActiveSupport::Inflector.titleize(bname)
     name = "[#{ex_dir}] #{bname}"
     lines = IO.readlines(path).map(&:chop).map{|s| CGI.escapeHTML(s)}
-    html = "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>\n\n"
-    html << "<body class=\"example\">\n"
-    html << '<h1>'
+
+    html = '<h1>'
     html << "# #{bname}"
     html << '</h1>'
     html << "<p><pre><code>\n"
-
     html << "#{lines.join("\n")}\n\n</code></pre></p>\n"
-    html << "</body>\n"
-    example_html_map[name] = html
+
+    File.open("#{html_output_folder}/#{bname}.html", "w") do |f|
+      f.write(html)
+    end
+
+    example_toc.append({
+        :name => "[#{ex_dir}] #{bname}",
+        :path => "examples/#{ex_dir.downcase}/#{bname}.html"
+    })
+
   end
 end
 
-puts "Updating list of languages..."
-FileUtils.rm_r("#{etc_path}/doc/html/generated_src/_data") if Dir.exists?("#{etc_path}/doc/html/generated_src/_data")
-FileUtils.mkdir_p("#{etc_path}/doc/html/generated_src/_data/toc")
-File.open("#{etc_path}/doc/html/generated_src/_data/languages.json", 'w') do |f|
-  lang_list = {}
-  languages.sort.each do |lang|
-    lang_list[lang] = @lang_names[lang]
-  end
-  f << JSON.pretty_generate(lang_list)
+File.open("#{etc_path}/doc/generated_html/examples/toc.json", "w") do |f|
+  f << JSON.pretty_generate({
+      :examples => example_toc
+    })
 end
-
-#File.open("#{etc_path}/doc/html/generated_src/_includes/lang_switcher.html", "w") do |f|
-#  f << "<div class=\"language-combobox\">\n"
-#  f << "<label for=\"language-listbox\">Language</label>\n"
-#  f << "<select id=\"language-listbox\" name=\"language\">\n"
-#  languages.sort.each do |lang|
-#    f << "<option id=\"language-option-#{lang}\" role=\"option\">#{@lang_names[lang]}</li>\n"
-#  end
-#  f << "</select>\n"
-#  f << "</div>\n"
-#end
 
 #make_tab.call("examples", example_html_map, false, false, false, true)
 #make_tab.call("synths", SonicPi::Synths::SynthInfo.synth_doc_html_map, :titleize, true, true, true)
 #make_tab.call("fx", SonicPi::Synths::SynthInfo.fx_doc_html_map, :titleize, true, true, true)
 #make_tab.call("samples", SonicPi::Synths::SynthInfo.samples_doc_html_map, false, true, false, true)
-puts "Copying shared assets..."
-FileUtils.cp_r("#{etc_path}/doc/html/src/.", "#{etc_path}/doc/html/generated_src")
 
 puts "Generating doc HTML pages..."
 languages.each do |lang|
@@ -384,9 +420,7 @@ languages.each do |lang|
   generated_toc = ""
 
   ["tutorial", "synths", "fx", "samples", "lang"].each do |section|
-    qt_output_folder = ""
     html_output_folder = ""
-    relative_css_path = ""
     html = {}
     titles = {}
     toc_data = {
@@ -395,12 +429,8 @@ languages.each do |lang|
     }
 
     if (section == "tutorial")
-      qt_output_folder = "#{root_path}/app/gui/qt/help/#{lang}/tutorial"
-      html_output_folder = "#{etc_path}/doc/html/generated_src/#{lang}/tutorial"
-      #relative_css_path = "../../_theme"
-
-      md_path = "#{etc_path}/doc/generated/#{lang}/tutorial"
-      md_path = "#{etc_path}/doc/tutorial" if (lang == "en")
+      html_output_folder = "#{etc_path}/doc/generated_html/#{lang}/tutorial"
+      md_path = (lang == "en") ? "#{etc_path}/doc/tutorial" : "#{etc_path}/doc/generated/#{lang}/tutorial"
 
       parent = nil
 
@@ -414,7 +444,8 @@ languages.each do |lang|
 
         # read remaining content of markdown
         markdown = f.read
-        html[id] = SonicPi::MarkdownConverter.convert markdown
+        # Remove the first 3 lines and the last line - we don't need the meta or head tags yet!
+        html[id] = SonicPi::MarkdownConverter.convert(markdown).lines[3..-2].join()
         titles[id] = name
 
         if name.start_with?("   ") then
@@ -429,13 +460,13 @@ languages.each do |lang|
 
         if (parent != nil)
           toc_data[:pages][parent][:subpages].append({
-              :name => name.gsub(/"/, '&quot;'),
-              :url =>"/#{lang}/tutorial/#{id.gsub("?","%3F")}.html"
+              :name => titles[id],
+              :path =>"#{lang}/tutorial/#{id}.html"
           })
         else
           toc_data[:pages].append({
-              :name => name.gsub(/"/, '&quot;'),
-              :url =>"/#{lang}/tutorial/#{id.gsub("?","%3F")}.html",
+              :name => titles[id],
+              :path =>"#{lang}/tutorial/#{id}.html",
               :subpages => []
           })
         end
@@ -443,140 +474,31 @@ languages.each do |lang|
       end
 
     else
-      qt_output_folder = "#{root_path}/app/gui/qt/help/#{lang}/reference/#{section}"
-      html_output_folder = "#{etc_path}/doc/html/generated_src/#{lang}/reference/#{section}"
-      relative_css_path = "../../../_theme"
-
+      html_output_folder = "#{etc_path}/doc/generated_html/#{lang}/reference/#{section}"
       json_path = (lang == "en") ? "#{etc_path}/doc/reference/#{section}.json" : "#{etc_path}/doc/generated/#{lang}/reference/#{section}.json"
 
       html, titles, toc_data = make_reference_html_section(section, lang, json_path)
     end
 
-
-    FileUtils.rm_r qt_output_folder if Dir.exists?(qt_output_folder)
-    FileUtils.mkdir_p qt_output_folder
-
     FileUtils.rm_r html_output_folder if Dir.exists?(html_output_folder)
     FileUtils.mkdir_p html_output_folder
 
-    # Qt GUI output
-    html.each do |item_name, doc|
-      output_path = "#{qt_output_folder}/#{item_name}.html"
-      File.open(output_path, 'w') do |f|
-        f << "<!doctype html>\n<html>\n"
-        f << "<head>\n"
-        f << "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>\n"
-        f << "</head>\n"
-        f << "<body class=\"manual\">\n"
-        f << doc << "\n"
-        f << "</body>\n"
-        f << "</html>\n"
-      end
 
+
+    html.each do |item_name, doc|
+      # if (section == "tutorial")
+      #   puts "================================ #{item_name} ==================================="
+      #   puts doc
+      # end
       output_path = "#{html_output_folder}/#{item_name}.html"
       File.open(output_path, 'w') do |f|
-        f << "---\n"
-        f << "layout: doc_manual\n"
-        f << "title: \"#{titles[item_name].gsub(/"/, '\\"')}\"\n"
-        f << "lang: #{lang}\n"
-        f << "section: #{section}\n"
-        f << "---\n"
-        f << change_img_links_for_website(doc) << "\n"
+        f << doc << "\n"
       end
     end
     toc_list[section] = toc_data
   end
 
-  info_toc = {
-    :pages => [
-    ]
-  }
-  info_sources.each do |src|
-    input_path = "#{root_path}/#{src}"
-    base = File.basename(input_path)
-    m = base.match /(.*)\.(.*)/
-    bn = m[1]
-    ext = m[2]
-    info_toc[:pages].append({
-      :name => bn.capitalize.gsub(/"/, '&quot;'),
-      :url => "/#{lang}/info/#{bn.gsub("?","%3F")}.html",
-    })
-  end
-  toc_list["info"] = info_toc
-
-  File.open("#{etc_path}/doc/html/generated_src/_data/toc/#{lang}.json", "w") do |f|
+  File.open("#{etc_path}/doc/generated_html/#{lang}/toc.json", "w") do |f|
     f << JSON.pretty_generate(toc_list)
   end
 end
-
-# Copy images
-FileUtils.rm_r("#{etc_path}/doc/html/generated_src/assets/images") if Dir.exists?("#{etc_path}/doc/html/generated_src/assets/images")
-FileUtils.cp_r("#{etc_path}/doc/images", "#{etc_path}/doc/html/generated_src/assets/images")
-
-###
-# Generate info pages
-###
-puts "Generating info html pages..."
-FileUtils.rm_r("#{etc_path}/doc/html/generated_src/info/") if Dir.exists?("#{etc_path}/doc/html/generated_src/info/")
-FileUtils.mkdir_p("#{etc_path}/doc/html/generated_src/info/")
-
-outputdir = "#{etc_path}/doc/html/generated_src"
-info_toc = ""
-
-info_sources.each do |src|
-  input_path = "#{root_path}/#{src}"
-  base = File.basename(input_path)
-  m = base.match /(.*)\.(.*)/
-  bn = m[1]
-  ext = m[2]
-
-  input = IO.read(input_path, :encoding => 'utf-8')
-  output =  "---\n"
-  output << "layout: info_page\n"
-  output << "section: info\n"
-  output << "title: #{bn.capitalize.gsub(/"/, '\\"')}\n"
-  output << "---\n"
-
-  # Edit image links to correct places for the website
-  input = change_img_links_for_website(input)
-
-  if ext == "md"
-    output << input << "\n"
-  else
-    output << SonicPi::MarkdownConverter.massage!(input)
-  end
-
-  output_path = "#{outputdir}/info/#{bn}.#{ext}"
-
-  File.open(output_path, 'w') do |f|
-    f << output
-  end
-
-end
-
-File.open("#{etc_path}/doc/html/generated_src/_data/version.yml", "w") do |f|
-  f << "- version: \"3.3.1\""
-end
-
-# info_sources.each do |src|
-#
-#   input_path = "#{root_path}/#{src}"
-#   base = File.basename(input_path)
-#   m = base.match /(.*)\.(.*)/
-#   bn = m[1]
-#   ext = m[2]
-#
-#   input = IO.read(input_path, :encoding => 'utf-8')
-#   if ext == "md"
-#     html = SonicPi::MarkdownConverter.convert(input)
-#   else
-#     html = SonicPi::MarkdownConverter.massage!(input)
-#   end
-#
-#   output_path = "#{outputdir}/#{bn}.html"
-#
-#   File.open(output_path, 'w') do |f|
-#     f << html
-#   end
-#
-# end

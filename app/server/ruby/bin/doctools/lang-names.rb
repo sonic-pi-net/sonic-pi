@@ -10,13 +10,14 @@
   "da" => "Dansk", # Danish
   "de" => "Deutsch", # German
   "el" => "ελληνικά", # Greek
-  "en" => "English",
-  "en-AU" => "English (Australian)", # English (Australian)
-  "en-GB" => "English (UK)", # English (UK) - default language
-  "en-US" => "English (US)", # English (US)
+  "en" => "English", # English
+  "en_AU" => "English (Australian)", # English (Australian)
+  "en_GB" => "English (UK)", # English (UK) - default language
+  "en_US" => "English (US)", # English (US)
   "eo" => "Esperanto", # Esperanto
   "es" => "Español", # Spanish
   "et" => "Eesti keel", # Estonian
+  "eu" => "Euskara", # Basque
   "fa" => "فارسی", # Persian
   "fi" => "Suomi", # Finnish
   "fr" => "Français", # French
@@ -36,7 +37,7 @@
   "nl" => "Nederlands", # Dutch (Netherlands)
   "pl" => "Polski", # Polish
   "pt" => "Português", # Portuguese
-  "pt-BR" => "Português do Brasil", # Brazilian Portuguese
+  "pt_BR" => "Português do Brasil", # Brazilian Portuguese
   "ro" => "Română", # Romanian
   "ru" => "Pусский", # Russian
   "si" => "සිංහල", # Sinhala/Sinhalese
@@ -51,6 +52,6 @@
   "vi" => "Tiếng Việt", # Vietnamese
   "zh" => "中文", # Chinese
   "zh-Hans" => "简体中文", # Chinese (Simplified)
-  "zh-Hk" => "廣東話", # Chinese (Traditional, Hong Kong)
-  "zh-TW" => "臺灣華語" # Chinese (Traditional, Taiwan)
+  "zh_HK" => "廣東話", # Chinese (Traditional, Hong Kong)
+  "zh_TW" => "臺灣華語" # Chinese (Traditional, Taiwan)
 ]

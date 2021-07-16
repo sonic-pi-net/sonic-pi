@@ -133,14 +133,10 @@ book/
 
 ## i18n auto-generated files
 
-etc/doc/lang/sonic-pi-tutorial.pot
+etc/doc/translations/tutorial/sonic-pi-tutorial.pot
+etc/doc/translations/reference/sonic-pi-reference.pot
 etc/doc/generated/
-etc/doc/html/generated_src
-etc/doc/html/_site
-etc/doc/html/vendor
-etc/doc/html/.bundle
-.jekyll-metadata
-.jekyll-cache
+etc/doc/generated_html/
 
 # Clojure synths native dir
 

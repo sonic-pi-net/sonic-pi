@@ -19,11 +19,12 @@ xcopy /Y /I /R /E ..\prebuilt\windows\x86\*.* server\native
 xcopy /Y /I /R /E external\build\sp_midi-prefix\src\sp_midi-build\Release\*.dll server\erlang\sonic_pi_server\priv\
 
 @echo Translating tutorial...
-server\native\ruby\bin\ruby server/ruby/bin/i18n-tool.rb -t
+server\native\ruby\bin\ruby server/ruby/bin/doctools/i18n-tool.rb -t
 
 @echo Generating docs for the Qt GUI...
+server\native\ruby\bin\ruby server/ruby/bin/doctools/create-html.rb
 copy /Y gui\qt\utils\ruby_help.tmpl gui\qt\utils\ruby_help.h
-server\native\ruby\bin\ruby server/ruby/bin/qt-doc.rb -o gui\qt\utils/ruby_help.h
+server\native\ruby\bin\ruby server/ruby/bin/doctools/generate-qt-doc.rb -o gui\qt\utils/ruby_help.h
 
 @echo Updating GUI translation files...
 forfiles /p gui\qt\lang /s /m *.ts /c "cmd /c %QT_INSTALL_LOCATION%\bin\lrelease.exe @file"

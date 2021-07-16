@@ -3,6 +3,7 @@
 set -e # Quit script on error
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+
 if [ ! -d "vcpkg" ]; then
     echo "Cloning vcpkg"
     git clone --single-branch --branch master https://github.com/microsoft/vcpkg.git vcpkg
@@ -42,11 +43,12 @@ ruby "${SCRIPT_DIR}/server/ruby/bin/compile-extensions.rb"
 echo "Translating tutorial..."
 #assumes linux uses system ruby
 #so dont use prefix /server/native/ruby/bin/ruby, as unnecessary to set this up
-ruby "${SCRIPT_DIR}/server/ruby/bin/i18n-tool.rb" -t
+ruby "${SCRIPT_DIR}/server/ruby/bin/doctools/i18n-tool.rb" -t
 
 echo "Generating docs for the Qt GUI..."
+ruby "${SCRIPT_DIR}/server/ruby/bin/doctools/create-html.rb"
 cp "${SCRIPT_DIR}/gui/qt/utils/ruby_help.tmpl" "${SCRIPT_DIR}/gui/qt/utils/ruby_help.h"
-ruby "${SCRIPT_DIR}/server/ruby/bin/qt-doc.rb" -o "${SCRIPT_DIR}/gui/qt/utils/ruby_help.h"
+ruby "${SCRIPT_DIR}/server/ruby/bin/doctools/generate-qt-doc.rb"
 
 echo "Updating GUI translation files..."
 PATH=`pkg-config --variable bindir Qt5`:$PATH lrelease "${SCRIPT_DIR}"/gui/qt/lang/*.ts

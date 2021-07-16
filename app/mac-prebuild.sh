@@ -69,11 +69,12 @@ $RUBY "${SCRIPT_DIR}/server/ruby/bin/compile-extensions.rb"
 
 echo "Translating tutorial..."
 
-$RUBY "${SCRIPT_DIR}/server/ruby/bin/i18n-tool.rb" -t
+$RUBY "${SCRIPT_DIR}/server/ruby/bin/doctools/i18n-tool.rb" -t
 
 echo "Generating docs for the Qt GUI..."
+$RUBY "${SCRIPT_DIR}/server/ruby/bin/doctools/create-html.rb"
 cp "${SCRIPT_DIR}/gui/qt/utils/ruby_help.tmpl" "${SCRIPT_DIR}/gui/qt/utils/ruby_help.h"
-$RUBY "${SCRIPT_DIR}/server/ruby/bin/qt-doc.rb" -o "${SCRIPT_DIR}/gui/qt/utils/ruby_help.h"
+$RUBY "${SCRIPT_DIR}/server/ruby/bin/doctools/generate-qt-doc.rb"
 
 echo "Updating GUI translation files..."
 # Use lrelease on PATH if available otherwise assume Qt was installed via homebrew

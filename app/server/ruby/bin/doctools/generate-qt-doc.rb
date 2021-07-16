@@ -15,77 +15,22 @@
 require 'cgi'
 require 'optparse'
 require 'fileutils'
-
-require_relative "../core.rb"
-require_relative "../lib/sonicpi/synths/synthinfo"
-require_relative "../lib/sonicpi/util"
-require_relative "../lib/sonicpi/runtime"
-require_relative "../lib/sonicpi/lang/core"
-require_relative "../lib/sonicpi/lang/sound"
-require_relative "../lib/sonicpi/lang/minecraftpi"
-require_relative "../lib/sonicpi/lang/midi"
-
+require 'json'
 require 'active_support/inflector'
+
+require_relative "../../core.rb"
+require_relative "../../lib/sonicpi/synths/synthinfo"
+require_relative "../../lib/sonicpi/util"
+require_relative "../../lib/sonicpi/runtime"
+require_relative "../../lib/sonicpi/lang/core"
+require_relative "../../lib/sonicpi/lang/sound"
+require_relative "../../lib/sonicpi/lang/minecraftpi"
+require_relative "../../lib/sonicpi/lang/midi"
+
+require_relative "./lang-names"
 
 
 include SonicPi::Util
-
-# List of all languages with GUI translation files
-@lang_names = Hash[
-  "bg" => "български", # Bulgarian
-  "bn" => "বাংলা", # Bengali/Bangla
-  "bs" => "Bosanski", # Bosnian
-  "ca" => "Català", # Catalan
-  "ca@valencia" => "Valencià", # Valencian
-  "cs" => "Čeština", # Czech
-  "da" => "Dansk", # Danish
-  "de" => "Deutsch", # German
-  "el" => "ελληνικά", # Greek
-  "en" => "English", # English
-  "en_AU" => "English (Australian)", # English (Australian)
-  "en_GB" => "English (UK)", # English (UK) - default language
-  "en_US" => "English (US)", # English (US)
-  "eo" => "Esperanto", # Esperanto
-  "es" => "Español", # Spanish
-  "et" => "Eesti keel", # Estonian
-  "eu" => "Euskara", # Basque
-  "fa" => "فارسی", # Persian
-  "fi" => "Suomi", # Finnish
-  "fr" => "Français", # French
-  "ga" => "Gaeilge", # Irish
-  "gl" => "Galego", # Galician
-  "he" => "עברית", # Hebrew
-  "hi" => "हिन्दी", # Hindi
-  "hu" => "Magyar", # Hungarian
-  "hy" => "Հայերեն", # Armenian
-  "id" => "Bahasa Indonesia", # Indonesian
-  "is" => "Íslenska", # Icelandic
-  "it" => "Italiano", # Italian
-  "ja" => "日本語", # Japanese
-  "ka" => "ქართული", # Georgian
-  "ko" => "한국어", # Korean
-  "nb" => "Norsk Bokmål", # Norwegian Bokmål
-  "nl" => "Nederlands", # Dutch (Netherlands)
-  "pl" => "Polski", # Polish
-  "pt" => "Português", # Portuguese
-  "pt_BR" => "Português do Brasil", # Brazilian Portuguese
-  "ro" => "Română", # Romanian
-  "ru" => "Pусский", # Russian
-  "si" => "සිංහල", # Sinhala/Sinhalese
-  "sk" => "Slovenčina",#/Slovenský Jazyk", # Slovak/Slovakian
-  "sl" => "Slovenščina",#/Slovenski Jezik", # Slovenian
-  "sv" => "Svenska", # Swedish
-  "sw" => "Kiswahili", # Swahili
-  "th" => "ไทย", # Thai
-  "tr" => "Türkçe", # Turkish
-  "ug" => "ئۇيغۇر تىلى", # Uyghur
-  "uk" => "Українська", # Ukranian
-  "vi" => "Tiếng Việt", # Vietnamese
-  "zh" => "中文", # Chinese
-  "zh-Hans" => "简体中文", # Chinese (Simplified)
-  "zh_HK" => "廣東話", # Chinese (Traditional, Hong Kong)
-  "zh_TW" => "臺灣華語" # Chinese (Traditional, Taiwan)
-]
 
 FileUtils::rm_rf "#{qt_gui_path}/help/"
 FileUtils::mkdir "#{qt_gui_path}/help/"
@@ -97,7 +42,7 @@ FileUtils::rm_rf "#{qt_gui_path}/book/"
 FileUtils::mkdir "#{qt_gui_path}/book/"
 
 docs = []
-filenames = []
+@filenames = []
 count = 0
 
 options = {}
@@ -105,7 +50,6 @@ OptionParser.new do |opts|
   opts.banner = "Usage: qt-doc.rb [options]"
 
   opts.on('-o', '--output NAME', 'Output filename') { |v| options[:output_name] = v }
-
 end.parse!
 
 # valid names: lang, synths, fx, samples, examples
@@ -238,89 +182,197 @@ make_tutorial = lambda do |lang|
 end
 
 
-example_html_map = {}
-example_dirs = ["Apprentice", "Illusionist", "Magician", "Sorcerer", "Wizard", "Algomancer"]
-example_dirs.each do |ex_dir|
-  Dir["#{examples_path}/#{ex_dir.downcase}/*.rb"].sort.each do |path|
-    bname = File.basename(path, ".rb")
-    bname = ActiveSupport::Inflector.titleize(bname)
-    name = "[#{ex_dir}] #{bname}"
-    lines = IO.readlines(path).map(&:chop).map{|s| CGI.escapeHTML(s)}
-    html = "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>\n\n"
-    html << "<body class=\"example\">\n"
-    html << '<h1>'
-    html << "# #{bname}"
-    html << '</h1>'
-    html << "<p><pre><code>\n"
+def parse_toc(lang)
+  help_index = ""
 
-    html << "#{lines.join("\n")}\n\n</code></pre></p>\n"
-    html << "</body>\n"
-    example_html_map[name] = html
+  toc = {}
+  json_toc = ""
+  File.open("#{etc_path}/doc/generated_html/#{lang}/toc.json", 'r:UTF-8') do |f|
+    json_toc = f.read()
   end
-end
 
-ruby_html_map = {
-#  "n.times" => "Loop n times",
-#  "loop" => "Loop forever",
-}
+  toc = JSON.parse(json_toc)
 
-# this will sort locale code names by reverse length
-# to make sure that a more specific locale is handled
-# before the generic language code,
-# e.g., "de_CH" should be handled before "de"
-languages =
-  Dir[File.expand_path("../lang/sonic-pi-tutorial-*.po", tutorial_path)].
-  map { |p| File.basename(p).gsub(/sonic-pi-tutorial-(.*?).po/, '\1') }.
-  sort_by {|n| [-n.length, n]}
+  toc.each do |section, sec_list|
+    section_filenames = []
 
-docs << "\n"
+    help_index << "    struct help_page #{section}HelpPages[] = {\n"
+    sec_list["pages"].each do |page_info|
+      page_index, page_filenames = generate_page_and_subpages(page_info)
 
-# first, try to match all non-default languages (those that aren't "en")
-languages.each do |lang|
-  docs << "if (this->ui_language.startsWith(\"#{lang}\")) {\n"
-  make_tutorial.call(lang)
-  docs << "} else "
-end
+      help_index += page_index
+      section_filenames += page_filenames
+    end
+    help_index << "};\n"
 
-# finally, add the default language ("en")
-docs << "{\n" unless (languages.empty?)
-make_tutorial.call("en")
-docs << "}\n" unless (languages.empty?)
-
-make_tab.call("examples", example_html_map, false, false, false, true)
-make_tab.call("synths", SonicPi::Synths::SynthInfo.synth_doc_html_map, :titleize, true, true, true)
-make_tab.call("fx", SonicPi::Synths::SynthInfo.fx_doc_html_map, :titleize, true, true, true)
-make_tab.call("samples", SonicPi::Synths::SynthInfo.samples_doc_html_map, false, true, false, true)
-make_tab.call("lang", SonicPi::Lang::Core.docs_html_map.merge(SonicPi::Lang::Sound.docs_html_map).merge(ruby_html_map), false, true, true, false)
-
-docs << "  // FX arguments for autocompletion\n"
-docs << "  QStringList fxtmp;\n"
-SonicPi::Synths::SynthInfo.get_all.each do |k, v|
-  next unless v.is_a? SonicPi::Synths::FXInfo
-  next if (k.to_s.include? 'replace_')
-  safe_k = k.to_s[3..-1]
-  docs << "  // fx :#{safe_k}\n"
-  docs << "  fxtmp.clear(); fxtmp "
-  v.arg_info.each do |ak, av|
-    docs << "<< \"#{ak}:\" ";
+    help_index << "addHelpPage(createHelpTab(tr(\"#{section.capitalize}\")), #{section}HelpPages, #{section_filenames.length});\n\n"
+    @filenames += section_filenames
   end
-  docs << ";\n"
-  docs << "  autocomplete->addFXArgs(\":#{safe_k}\", fxtmp);\n\n"
+
+  return help_index
 end
 
+def generate_page_and_subpages(page_info)
+  puts page_info["path"]
 
-SonicPi::Synths::SynthInfo.get_all.each do |k, v|
-  next unless v.is_a? SonicPi::Synths::SynthInfo
-  docs << "  // synth :#{k}\n"
-  docs << "  fxtmp.clear(); fxtmp "
-  v.arg_info.each do |ak, av|
-    docs << "<< \"#{ak}:\" ";
+  help_index = ""
+  filenames = ["help/#{page_info["path"]}"]
+
+  # Name
+  title = page_info["name"]
+  help_index << "    {"
+  help_index << "QString::fromUtf8(" unless title.ascii_only?
+  help_index << "\"#{title.gsub(/"/, '\\"')}\""
+  help_index << ")" unless title.ascii_only?
+  help_index << ", "
+
+  # Keyword (reference docs)
+  if page_info.has_key?("keyword") then
+    help_index << "\"#{page_info["keyword"].downcase}\""
+  else
+    help_index << "NULL"
   end
-  docs << ";\n"
-  docs << "  autocomplete->addSynthArgs(\":#{k}\", fxtmp);\n\n"
+
+  # File path
+  help_index << ", "
+  help_index << "\"qrc:///help/#{page_info["path"]}\""
+  help_index << "},\n"
+
+  # Copy file to help folder
+  content = IO.readlines("#{etc_path}/doc/generated_html/#{page_info["path"]}")
+
+  html =  "<!doctype html>\n"
+  html << "<html>\n"
+  html << "<head>\n"
+  html << "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>\n"
+  html << "</head>\n"
+  html << "<body class=\"manual\">\n"
+  html << content.join("") << "\n"
+  html << "</body>\n"
+  html << "</html>\n"
+
+  FileUtils::mkdir_p(File.dirname("#{qt_gui_path}/help/#{page_info["path"]}"))
+
+  File.open("#{qt_gui_path}/help/#{page_info["path"]}", 'w') do |f|
+    f << "#{html}"
+  end
+
+  if page_info.has_key?("subpages")
+    page_info["subpages"].each do |subpage_info|
+      subpage_index, subpage_filenames = generate_page_and_subpages(subpage_info)
+
+      help_index += subpage_index
+      filenames += subpage_filenames
+    end
+  end
+
+  return help_index, filenames
 end
 
-def generate_ui_lang_names
+# ruby_html_map = {
+# #  "n.times" => "Loop n times",
+# #  "loop" => "Loop forever",
+# }
+
+
+def synth_fx_autocomplete
+  docs = "  // FX arguments for autocompletion\n"
+  docs << "  QStringList fxtmp;\n"
+  SonicPi::Synths::SynthInfo.get_all.each do |k, v|
+    next unless v.is_a? SonicPi::Synths::FXInfo
+    next if (k.to_s.include? 'replace_')
+    safe_k = k.to_s[3..-1]
+    docs << "  // fx :#{safe_k}\n"
+    docs << "  fxtmp.clear(); fxtmp "
+    v.arg_info.each do |ak, av|
+      docs << "<< \"#{ak}:\" ";
+    end
+    docs << ";\n"
+    docs << "  autocomplete->addFXArgs(\":#{safe_k}\", fxtmp);\n\n"
+  end
+
+
+  SonicPi::Synths::SynthInfo.get_all.each do |k, v|
+    next unless v.is_a? SonicPi::Synths::SynthInfo
+    docs << "  // synth :#{k}\n"
+    docs << "  fxtmp.clear(); fxtmp "
+    v.arg_info.each do |ak, av|
+      docs << "<< \"#{ak}:\" ";
+    end
+    docs << ";\n"
+    docs << "  autocomplete->addSynthArgs(\":#{k}\", fxtmp);\n\n"
+  end
+  return docs
+end
+
+def examples_index
+  help_index = ""
+
+  toc = {}
+  json_toc = ""
+  File.open("#{etc_path}/doc/generated_html/examples/toc.json", 'r:UTF-8') do |f|
+    json_toc = f.read()
+  end
+
+  toc = JSON.parse(json_toc)
+
+  toc.each do |section, sec_list|
+    page_count = 0
+
+    help_index << "    struct help_page #{section}HelpPages[] = {\n"
+    sec_list.each do |page_info|
+      puts page_info["path"]
+      # Name
+      title = page_info["name"]
+      help_index << "    {"
+      help_index << "QString::fromUtf8(" unless title.ascii_only?
+      help_index << "\"#{title.gsub(/"/, '\\"')}\""
+      help_index << ")" unless title.ascii_only?
+      help_index << ", "
+
+      # Keyword (reference docs)
+      if page_info.has_key?("reference") then
+        help_index << "\"#{n.downcase}\""
+      else
+        help_index << "NULL"
+      end
+
+      # File path
+      help_index << ", "
+      help_index << "\"qrc:///help/#{page_info["path"]}\""
+      help_index << "},\n"
+
+      # Copy file to help folder
+      content = IO.readlines("#{etc_path}/doc/generated_html/#{page_info["path"]}")
+
+      html =  "<!doctype html>\n"
+      html << "<html>\n"
+      html << "<head>\n"
+      html << "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>\n"
+      html << "</head>\n"
+      html << "<body class=\"example\">\n"
+      html << content.join("\n") << "\n"
+      html << "</body>\n"
+      html << "</html>\n"
+
+      FileUtils::mkdir_p(File.dirname("#{qt_gui_path}/help/#{page_info["path"]}"))
+
+      File.open("#{qt_gui_path}/help/#{page_info["path"]}", 'w') do |f|
+        f << "#{html}"
+      end
+
+      @filenames << "help/#{page_info["path"]}"
+      page_count += 1
+    end
+    help_index << "};\n"
+
+    help_index << "addHelpPage(createHelpTab(tr(\"#{section.capitalize}\")), #{section}HelpPages, #{page_count});\n\n"
+  end
+
+  return help_index
+end
+
+def generate_ui_lang_names()
   # Define the language list map -----
   ui_languages = @lang_names.keys
   ui_languages = ui_languages.sort_by {|l| l.downcase}
@@ -355,12 +407,34 @@ def generate_ui_lang_names
   end
 end
 
+# this will sort locale code names by reverse length
+# to make sure that a more specific locale is handled
+# before the generic language code,
+# e.g., "de_CH" should be handled before "de"
+
+languages =
+Dir[File.expand_path("../translations/tutorial/sonic-pi-tutorial-*.po", tutorial_path)].
+map { |p| File.basename(p).gsub(/sonic-pi-tutorial-(.*?).po/, '\1') }.
+sort_by {|n| -n.length}
+
+docs << "\n"
+languages.each do |lang|
+  docs << "if (this->ui_language.startsWith(\"#{lang}\")) {\n"
+  docs << parse_toc(lang)
+  docs << "} else "
+end
+docs << "{\n" unless (languages.empty?)
+docs << parse_toc("en")
+docs << "}\n" unless (languages.empty?)
+
+docs << examples_index() << "\n"
+docs << synth_fx_autocomplete() << "\n"
 
 # update ruby_help.h
-if options[:output_name] then
-   cpp = options[:output_name]
+if options[:output_name]
+  cpp = options[:output_name]
 else
-   cpp = "#{qt_gui_path}/ruby_help.h"
+  cpp = "#{qt_gui_path}/utils/ruby_help.h"
 end
 
 content = File.readlines(cpp)
@@ -370,7 +444,7 @@ new_content << "// Do not manually add any code below this comment\n"
 new_content << "// otherwise it may be removed\n"
 new_content << "\n"
 new_content << "void MainWindow::initDocsWindow() {\n"
-new_content += docs
+new_content << docs << "\n"
 new_content << "}\n"
 
 File.open(cpp, 'w') do |f|
@@ -379,7 +453,7 @@ end
 
 File.open("#{qt_gui_path}/help_files.qrc", 'w') do |f|
   f << "<RCC>\n  <qresource prefix=\"/\">\n"
-  f << filenames.map{|n| "    <file>#{n}</file>\n"}.join
+  f << @filenames.map{|n| "    <file>#{n}</file>\n"}.join
   f << "  </qresource>\n</RCC>\n"
 end
 
