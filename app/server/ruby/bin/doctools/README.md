@@ -19,7 +19,7 @@ When building Sonic Pi, run the scripts in the following order:
   i18n-tool.rb -t
   # Generate HTML
   create-html.rb
-  # Format it as a one page HTML document (located in /app/)
+  # Format it as a one page HTML document (located in /app/gui/qt/book/)
   generate-book.rb
 ```
 
@@ -74,7 +74,7 @@ Usage: `create-html.rb [-l LANG]`
 Options:
 * `-l LANG` - Specify the language to generate (if empty or not specified, defaults to all languages)
 
-Generates individual HTML files for each doc page
+Generates individual HTML files for each doc page in /etc/doc/generated_html/
 
 
 ### generate-qt-docs.rb
@@ -84,3 +84,19 @@ Options:
 * `-o HEADER_FILE` - specify the output header file for the Qt TOC (default: /app/gui/qt/utils/ruby_help.h)
 
 Format and generate TOC for Qt GUI
+
+### generate-book.rb
+Usage: `generate-book.rb [-l LANG]`
+
+Options:
+* `-l LANG` - Specify the language to generate (if empty or not specified, defaults to all languages)
+
+Generates single page HTML files for each section in /app/gui/qt/book/
+
+### generate-site.rb
+Usage: `generate-book.rb [-l LANG]`
+
+Options:
+* `-l LANG` - Specify the language to generate (if empty or not specified, defaults to all languages)
+
+Generates the source files for a Jekyll site

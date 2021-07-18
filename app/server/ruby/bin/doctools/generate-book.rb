@@ -15,6 +15,7 @@
 require 'cgi'
 require 'optparse'
 require 'fileutils'
+require 'json'
 
 require_relative "../../core.rb"
 require_relative "../../lib/sonicpi/synths/synthinfo"
@@ -29,7 +30,6 @@ require_relative "../../lib/sonicpi/version"
 require_relative "./lang-names"
 
 require 'active_support/inflector'
-require 'json'
 
 include SonicPi::Util
 

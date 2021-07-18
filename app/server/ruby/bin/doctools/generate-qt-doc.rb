@@ -16,7 +16,6 @@ require 'cgi'
 require 'optparse'
 require 'fileutils'
 require 'json'
-require 'active_support/inflector'
 
 require_relative "../../core.rb"
 require_relative "../../lib/sonicpi/synths/synthinfo"
@@ -26,6 +25,8 @@ require_relative "../../lib/sonicpi/lang/core"
 require_relative "../../lib/sonicpi/lang/sound"
 require_relative "../../lib/sonicpi/lang/minecraftpi"
 require_relative "../../lib/sonicpi/lang/midi"
+
+require 'active_support/inflector'
 
 require_relative "./lang-names"
 
@@ -51,136 +52,6 @@ OptionParser.new do |opts|
 
   opts.on('-o', '--output NAME', 'Output filename') { |v| options[:output_name] = v }
 end.parse!
-
-# valid names: lang, synths, fx, samples, examples
-make_tab = lambda do |name, doc_items, titleize=false, should_sort=true, with_keyword=false, page_break=false, chapters=false, lang="en"|
-  return if doc_items.empty?
-  list_widget = "#{name}NameList"
-  layout = "#{name}Layout"
-  tab_widget = "#{name}TabWidget"
-  help_pages = "#{name}HelpPages"
-
-  docs << "\n"
-  docs << "  // #{name} info\n"
-
-  docs << "  struct help_page #{help_pages}[] = {\n"
-  doc_items = doc_items.sort if should_sort
-
-  book = ""
-  toc = "<ul class=\"toc\">\n"
-  toc_level = 0
-
-  doc_items.each do |n, doc|
-    title = n
-    if titleize == :titleize then
-      title = ActiveSupport::Inflector.titleize(title)
-      # HPF et al get capitalized
-      if name == 'fx' and title =~ /pf$/ then
-        title = title.upcase
-      end
-    end
-
-    item_var = "#{name}_item_#{count+=1}"
-    filename = "help/#{item_var}.html"
-
-    if title.start_with?("   ") then
-      if toc_level == 0 then
-        toc << "<ul class=\"toc\">\n"
-        toc_level += 1
-      end
-    else
-      if toc_level == 1 then
-        toc << "</ul>\n"
-        toc_level -= 1
-      end
-    end
-    toc << "<li><a href=\"\##{item_var}\">#{title.gsub(/"/, '&quot;')}</a></li>\n"
-
-    docs << "    { "
-
-    docs << "QString::fromUtf8(" unless title.ascii_only?
-    docs << "\"#{title.gsub(/"/, '\\"')}\""
-    docs << ")" unless title.ascii_only?
-
-    docs << ", "
-
-    if with_keyword then
-      docs << "\"#{n.downcase}\""
-    else
-      docs << "NULL"
-    end
-
-    docs << ", "
-    docs << "\"qrc:///#{filename}\""
-    docs << "},\n"
-
-    filenames << filename
-
-    File.open("#{qt_gui_path}/#{filename}", 'w') do |f|
-      f << "#{doc}"
-    end
-
-    if chapters then
-      c = title[/\A\s*[0-9]+(\.[0-9]+)?/]
-      doc.gsub!(/(<h1.*?>)/, "\\1#{c} - ")
-    end
-    if page_break then
-      doc.gsub!(/<h1.*?>/, "<h1 id=\"#{item_var}\" style=\"page-break-before: always;\">")
-    else
-      doc.gsub!(/<h1.*?>/, "<h1 id=\"#{item_var}\">")
-    end
-    book << doc
-    book << "<hr/>\n"
-  end
-
-  while toc_level >= 0 do
-    toc << "</ul>\n"
-    toc_level -= 1
-  end
-
-  book_body = book[/<body.*?>/]
-  book.gsub!(/<\/?body.*?>/, '')
-  book.gsub!(/<meta http-equiv.*?>/, '')
-  File.open("#{qt_gui_path}/book/Sonic Pi - #{name.capitalize}" + (lang != "en" ? " (#{lang})" : "") + ".html", 'w') do |f|
-    f << "<link rel=\"stylesheet\" href=\"../theme/light/doc-styles.css\" type=\"text/css\"/>\n"
-    f << "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>\n\n"
-    f << book_body << "\n"
-    f << toc << "\n"
-    f << book << "\n"
-    f << "</body>\n"
-  end
-
-  docs << "  };\n\n"
-  docs << "  addHelpPage(createHelpTab(tr(\"#{name.capitalize}\")), #{help_pages}, #{doc_items.length});\n\n"
-
-  docs
-end
-
-
-make_tutorial = lambda do |lang|
-
-  docs << "\n  // language #{lang}\n"
-  tutorial_html_map = {}
-  if lang == "en" then
-    markdown_path = tutorial_path
-  else
-    markdown_path = File.expand_path("../generated/#{lang}/tutorial", tutorial_path)
-  end
-  Dir["#{markdown_path}/*.md"].sort.each do |path|
-    f = File.open(path, 'r:UTF-8')
-    # read first line (title) of the markdown, use as title
-    name = f.readline.strip
-    # indent subchapters
-    name = "   #{name}" if name.match(/\A[A-Z0-9]+\.[0-9]+ /)
-    # read remaining content of markdown
-    markdown = f.read
-    html = SonicPi::MarkdownConverter.convert markdown
-    tutorial_html_map[name] = html
-  end
-
-  make_tab.call("tutorial", tutorial_html_map, false, false, false, true, true, lang)
-end
-
 
 def parse_toc(lang)
   help_index = ""
