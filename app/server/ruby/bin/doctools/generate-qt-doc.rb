@@ -33,17 +33,24 @@ require_relative "./lang-names"
 
 include SonicPi::Util
 
-FileUtils::rm_rf "#{qt_gui_path}/help/"
-FileUtils::mkdir "#{qt_gui_path}/help/"
+FileUtils::rm_rf "#{qt_gui_path}/resources/help/"
+FileUtils::mkdir_p "#{qt_gui_path}/resources/help/"
 
-FileUtils::rm_rf "#{qt_gui_path}/info/"
-FileUtils::mkdir "#{qt_gui_path}/info/"
+FileUtils::rm_rf "#{qt_gui_path}/resources/info/"
+FileUtils::mkdir_p "#{qt_gui_path}/resources/info/"
 
 FileUtils::rm_rf "#{qt_gui_path}/book/"
 FileUtils::mkdir "#{qt_gui_path}/book/"
 
 docs = []
-@filenames = []
+@filenames = {
+    "tutorial" => [],
+    "lang" => [],
+    "synths" => [],
+    "fx" => [],
+    "samples" => [],
+    "examples" => []
+}
 count = 0
 
 options = {}
@@ -54,6 +61,8 @@ OptionParser.new do |opts|
 end.parse!
 
 def parse_toc(lang)
+  puts("Generating pages for #{lang}...")
+
   help_index = ""
 
   toc = {}
@@ -77,15 +86,13 @@ def parse_toc(lang)
     help_index << "};\n"
 
     help_index << "addHelpPage(createHelpTab(tr(\"#{section.capitalize}\")), #{section}HelpPages, #{section_filenames.length});\n\n"
-    @filenames += section_filenames
+    @filenames[section] += section_filenames
   end
 
   return help_index
 end
 
 def generate_page_and_subpages(page_info)
-  puts page_info["path"]
-
   help_index = ""
   filenames = ["help/#{page_info["path"]}"]
 
@@ -122,9 +129,9 @@ def generate_page_and_subpages(page_info)
   html << "</body>\n"
   html << "</html>\n"
 
-  FileUtils::mkdir_p(File.dirname("#{qt_gui_path}/help/#{page_info["path"]}"))
+  FileUtils::mkdir_p(File.dirname("#{qt_gui_path}/resources/help/#{page_info["path"]}"))
 
-  File.open("#{qt_gui_path}/help/#{page_info["path"]}", 'w') do |f|
+  File.open("#{qt_gui_path}/resources/help/#{page_info["path"]}", 'w') do |f|
     f << "#{html}"
   end
 
@@ -177,6 +184,7 @@ def synth_fx_autocomplete
 end
 
 def examples_index
+  puts("Generating example pages...")
   help_index = ""
 
   toc = {}
@@ -192,7 +200,6 @@ def examples_index
 
     help_index << "    struct help_page #{section}HelpPages[] = {\n"
     sec_list.each do |page_info|
-      puts page_info["path"]
       # Name
       title = page_info["name"]
       help_index << "    {"
@@ -226,18 +233,18 @@ def examples_index
       html << "</body>\n"
       html << "</html>\n"
 
-      FileUtils::mkdir_p(File.dirname("#{qt_gui_path}/help/#{page_info["path"]}"))
+      FileUtils::mkdir_p(File.dirname("#{qt_gui_path}/resources/help/#{page_info["path"]}"))
 
-      File.open("#{qt_gui_path}/help/#{page_info["path"]}", 'w') do |f|
+      File.open("#{qt_gui_path}/resources/help/#{page_info["path"]}", 'w') do |f|
         f << "#{html}"
       end
 
-      @filenames << "help/#{page_info["path"]}"
+      @filenames["examples"] << "help/#{page_info["path"]}"
       page_count += 1
     end
     help_index << "};\n"
 
-    help_index << "addHelpPage(createHelpTab(tr(\"#{section.capitalize}\")), #{section}HelpPages, #{page_count});\n\n"
+    help_index << "addHelpPage(createHelpTab(tr(\"Examples\")), examplesHelpPages, #{page_count});\n\n"
   end
 
   return help_index
@@ -322,19 +329,25 @@ File.open(cpp, 'w') do |f|
   f << new_content.join
 end
 
-File.open("#{qt_gui_path}/help_files.qrc", 'w') do |f|
-  f << "<RCC>\n  <qresource prefix=\"/\">\n"
-  f << @filenames.map{|n| "    <file>#{n}</file>\n"}.join
-  f << "  </qresource>\n</RCC>\n"
-end
-
+# Write .qrc files (split into sections)
+puts("Writing .qrc files...")
+FileUtils.mkdir_p("#{qt_gui_path}/resources/")
+@filenames.each { |section,pages|
+  #puts section
+  #puts pages.to_s
+  File.open("#{qt_gui_path}/resources/help_files_#{section.to_s}.qrc", 'w') do |f|
+    f << "<RCC>\n  <qresource prefix=\"/\">\n"
+    f << pages.map{|n| "    <file>#{n}</file>\n"}.join
+    f << "  </qresource>\n</RCC>\n"
+  end
+}
 
 ###
 # Generate info pages
 ###
 
 info_sources = ["CHANGELOG.md", "CONTRIBUTORS.md", "COMMUNITY.md", "CORETEAM.html", "LICENSE.md"]
-outputdir = "#{qt_gui_path}/info"
+outputdir = "#{qt_gui_path}/resources/info"
 
 info_sources.each do |src|
 
@@ -357,6 +370,12 @@ info_sources.each do |src|
     f << html
   end
 
+end
+
+File.open("#{qt_gui_path}/resources/info_files.qrc", 'w') do |f|
+  f << "<RCC>\n  <qresource prefix=\"/\">\n"
+  f << info_sources.map{|n| "    <file>info/#{n.gsub(".md", ".html")}</file>\n"}.join
+  f << "  </qresource>\n</RCC>\n"
 end
 
 generate_ui_lang_names()

@@ -88,8 +88,13 @@ set(SOURCES
 
 SET(RESOURCES
     ${QTAPP_ROOT}/SonicPi.qrc
-    ${QTAPP_ROOT}/help_files.qrc
-    ${QTAPP_ROOT}/info_files.qrc
+    ${QTAPP_ROOT}/resources/help_files_examples.qrc
+    ${QTAPP_ROOT}/resources/help_files_tutorial.qrc
+    ${QTAPP_ROOT}/resources/help_files_lang.qrc
+    ${QTAPP_ROOT}/resources/help_files_synths.qrc
+    ${QTAPP_ROOT}/resources/help_files_fx.qrc
+    ${QTAPP_ROOT}/resources/help_files_samples.qrc
+    ${QTAPP_ROOT}/resources/info_files.qrc
     ${QTAPP_ROOT}/SonicPi.rc
     ${QTAPP_ROOT}/images/app.icns
     )

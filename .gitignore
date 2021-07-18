@@ -44,6 +44,8 @@ app/vcpkg
 *.pro.user
 *.qmake.stash
 
+CMakeLists.txt.user
+
 # Ignore install artifacts
 *.wixobj
 *.wixpdb

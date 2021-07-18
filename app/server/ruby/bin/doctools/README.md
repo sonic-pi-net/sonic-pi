@@ -83,7 +83,7 @@ Usage `generate-qt-docs.rb [-o HEADER_FILE]`
 Options:
 * `-o HEADER_FILE` - specify the output header file for the Qt TOC (default: /app/gui/qt/utils/ruby_help.h)
 
-Format and generate TOC for Qt GUI
+Copy help pages, generate info pages, and generate help TOC for Qt GUI
 
 ### generate-book.rb
 Usage: `generate-book.rb [-l LANG]`
