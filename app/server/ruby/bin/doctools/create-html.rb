@@ -58,6 +58,11 @@ end
 
 info_sources = ["CHANGELOG.md", "CONTRIBUTORS.md", "COMMUNITY.md", "CORETEAM.html", "LICENSE.md"]
 
+# Remove any invalid file name characters (mostly for Windows)
+def make_valid_file_name(basename)
+  return basename.gsub(/[\/:*?"<>|]/, "_")
+end
+
 def make_reference_html_section(section, lang, json_file)
   res = {}
 
@@ -69,7 +74,6 @@ def make_reference_html_section(section, lang, json_file)
   reference_hash = JSON.parse(content)
 
   html = {}
-  titles = {}
   #toc = "<ul class=\"section_toc_list\">\n"
   #toc_level = 0
   toc_data = { :pages => [] }
@@ -337,9 +341,11 @@ def make_reference_html_section(section, lang, json_file)
     #  end
     #end
 
+    file_name = make_valid_file_name(k)
+
     page_info = {
         :name => title,
-        :path => "#{lang}/reference/#{section}/#{k}.html"
+        :path => "#{lang}/reference/#{section}/#{file_name}.html"
     }
 
     page_info[:keyword] = k if keyword
@@ -361,11 +367,10 @@ def make_reference_html_section(section, lang, json_file)
       toc_data[:pages].append(page_info)
     end
 
-    html[k] = doc
-    titles[k] = title
+    html[file_name] = doc
   end
 
-  return [html, titles, toc_data]
+  return [html, toc_data]
 end
 
 # Generate example HTML pages
@@ -422,7 +427,6 @@ languages.each do |lang|
   ["tutorial", "synths", "fx", "samples", "lang"].each do |section|
     html_output_folder = ""
     html = {}
-    titles = {}
     toc_data = {
       :pages => [
       ]
@@ -446,7 +450,7 @@ languages.each do |lang|
         markdown = f.read
         # Remove the first 3 lines and the last line - we don't need the meta or head tags yet!
         html[id] = SonicPi::MarkdownConverter.convert(markdown).lines[3..-2].join()
-        titles[id] = name
+        title = name
 
         if name.start_with?("   ") then
           if parent == nil then
@@ -460,12 +464,12 @@ languages.each do |lang|
 
         if (parent != nil)
           toc_data[:pages][parent][:subpages].append({
-              :name => titles[id],
+              :name => title,
               :path =>"#{lang}/tutorial/#{id}.html"
           })
         else
           toc_data[:pages].append({
-              :name => titles[id],
+              :name => title,
               :path =>"#{lang}/tutorial/#{id}.html",
               :subpages => []
           })
@@ -477,7 +481,7 @@ languages.each do |lang|
       html_output_folder = "#{etc_path}/doc/generated_html/#{lang}/reference/#{section}"
       json_path = (lang == "en") ? "#{etc_path}/doc/reference/#{section}.json" : "#{etc_path}/doc/generated/#{lang}/reference/#{section}.json"
 
-      html, titles, toc_data = make_reference_html_section(section, lang, json_path)
+      html, toc_data = make_reference_html_section(section, lang, json_path)
     end
 
     FileUtils.rm_r html_output_folder if Dir.exists?(html_output_folder)
@@ -495,6 +499,7 @@ languages.each do |lang|
         f << doc << "\n"
       end
     end
+
     toc_list[section] = toc_data
   end
 

@@ -45,7 +45,7 @@ server\native\ruby\bin\ruby server/ruby/bin/doctools/i18n-tool.rb -t
 @echo Generating docs for the Qt GUI...
 server\native\ruby\bin\ruby server/ruby/bin/doctools/create-html.rb
 copy /Y gui\qt\utils\ruby_help.tmpl gui\qt\utils\ruby_help.h
-server\native\ruby\bin\ruby server/ruby/bin/doctools/generate-qt-doc.rb -o gui\qt\utils/ruby_help.h
+server\native\ruby\bin\ruby server/ruby/bin/doctools/generate-qt-doc.rb -o gui/qt/utils/ruby_help.h
 
 @echo Updating GUI translation files...
 forfiles /p gui\qt\lang /s /m *.ts /c "cmd /c %QT_INSTALL_LOCATION%\bin\lrelease.exe @file"
