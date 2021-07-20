@@ -472,7 +472,7 @@ module SonicPi
     end
 
 
-    class JackdBooter < ProcessBooter
+    class JackBooter < ProcessBooter
       def initialize
         cmd = "jackd"
         args = ["-T", "-d", "dummy", "-r", "48000", "-p", "1024"]
@@ -543,12 +543,8 @@ module SonicPi
         @num_outputs = opts["-o"].to_i
         args = opts.to_a.flatten
         cmd = Paths.scsynth_path
-        super(cmd, args, Paths.scsynth_log_path)
-      end
-
-      def start
         run_pre_start_commands
-        super
+        super(cmd, args, Paths.scsynth_log_path)
         run_post_start_commands
       end
 
@@ -574,6 +570,7 @@ module SonicPi
       def run_post_start_commands
         case Util.os
         when :linux, :raspberry
+          Kernel.sleep 1
           # Note:
           # need to modoify this to take account for @num_inputs and @num_outputs.
           # These might not always be set to two channels each.
