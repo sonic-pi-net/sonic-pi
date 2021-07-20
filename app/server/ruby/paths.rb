@@ -246,7 +246,7 @@ module SonicPi
       File.absolute_path("#{native_path}/plugins")
     end
 
-    def self.scsynth_raspbery_plugin_path
+    def self.scsynth_raspberry_plugin_path
       "/usr/lib/SuperCollider/plugins"
     end
 
