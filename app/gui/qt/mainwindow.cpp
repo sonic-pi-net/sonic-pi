@@ -1776,7 +1776,7 @@ void MainWindow::changeGUITransparency(int val)
 
 void MainWindow::changeSystemPreAmp(int val, int silent)
 {
-    std::cout << "[GUI] Change Volume to " << val << std::endl;
+    std::cout << "[GUI] - Change Volume to " << val << std::endl;
     float v = (float)val;
     v = (v / 100.0) * 2.0;
     Message msg("/mixer-amp");
@@ -3311,25 +3311,29 @@ SonicPiScintilla* MainWindow::filenameToWorkspace(std::string filename)
 
 void MainWindow::onExitCleanup()
 {
-  if (scopeWindow)
+    std::cout << "[GUI] - initiating Shutdown..." << std::endl;
+
+    if (scopeWindow)
     {
+      std::cout << "[GUI] - shutting down scope..." << std::endl;
       scopeWindow->ShutDown();
     }
 
-  if (m_spClient)
+    if (m_spClient)
     {
-      if (loaded_workspaces)
+        if (loaded_workspaces)
         {
           // this should be a synchorous call to avoid the following sleep
           saveWorkspaces();
         }
-      std::this_thread::sleep_for(1s);
 
-      // Do this before closing the client, so the io redirect happens after
-      std::cout << "[GUI] - exiting. Cheerio :-)" << std::endl;
+        std::this_thread::sleep_for(1s);
 
-      // Shuts down the client/server connection
-      m_spAPI->Shutdown();
+        // Do this before closing the client, so the io redirect happens after
+        std::cout << "[GUI] - exiting. Cheerio :-)" << std::endl;
+
+        // Shuts down the client/server connection
+        m_spAPI->Shutdown();
     }
 }
 
@@ -3340,7 +3344,8 @@ void MainWindow::restartApp() {
     // Save settings and perform some cleanup
     writeSettings();
     onExitCleanup();
-    std::cout << "Performing application restart..." << std::endl;
+
+    std::cout << "[GUI] - performing application restart..." << std::endl;
 
     // Create new process
     QStringList args = qApp->arguments();
@@ -3348,9 +3353,9 @@ void MainWindow::restartApp() {
     QProcess process;
     bool restart_success = process.startDetached(qApp->arguments()[0], args);
     if (restart_success) {
-      std::cout << "Successfully restarted sonic-pi" << std::endl;
+      std::cout << "[GUI] - successfully restarted sonic-pi" << std::endl;
     } else {
-      std::cout << "Failed to restart sonic-pi" << std::endl;
+      std::cout << "[GUI] - failed to restart sonic-pi" << std::endl;
     }
 
     // Quit
