@@ -325,8 +325,8 @@ void SonicPiAPI::Shutdown()
       LOG(INFO, "Boot Daemon socket not found so no need to close...");
     }
 
-    m_state = State::Start;
-    LOG(INFO, "API State set to: Start...");
+    m_state = State::Reset;
+    LOG(INFO, "API State set to: Reset...");
 
 }
 

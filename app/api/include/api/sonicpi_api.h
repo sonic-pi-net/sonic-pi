@@ -288,6 +288,7 @@ public:
 
     const std::string& GetGuid() const;
 
+
     virtual bool TestAudio();
 
     // Get a unique path
@@ -354,13 +355,13 @@ private:
 
     enum State
     {
-        Start,
+        Reset,
         Initializing,
         Invalid,
         Created,
         Error
     };
-    State m_state = State::Start;
+    State m_state = State::Reset;
     uint64_t m_startServerTime;
     APISettings m_settings;
 };
