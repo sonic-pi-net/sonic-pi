@@ -302,12 +302,35 @@ SonicPiAPI::~SonicPiAPI()
 
 void SonicPiAPI::Shutdown()
 {
+    LOG(INFO, "Shutdown");
+
+    switch(m_state)
+    {
+    case State::Reset :
+      LOG(INFO, "Shutting down with state: Reset");
+      break;
+    case State::Initializing :
+      LOG(INFO, "Shutting down with state: Initializing");
+      break;
+    case State::Invalid :
+      LOG(INFO, "Shutting down with state: Invalid");
+      break;
+    case State::Created :
+      LOG(INFO, "Shutting down with state: Created");
+      break;
+    case State::Error :
+      LOG(INFO, "Shutting down with state: Error");
+      break;
+    default :
+      LOG(INFO, "Shutting down with unknown state!! Warning!");
+    }
+
     if (m_state == State::Created || m_state == State::Invalid || m_state == State::Initializing)
     {
-        LOG(INFO, "Shutdown");
-
+        LOG(INFO, "Resetting audio processor...");
         m_spAudioProcessor.reset();
 
+        LOG(INFO, "Stopping OSC server...");
         StopOscServer();
 
         if (m_coutbuf)
@@ -319,7 +342,7 @@ void SonicPiAPI::Shutdown()
 
     if (m_bootDaemonSock)
     {
-          LOG(INFO, "Closing socket to Boot Daemon...");
+        LOG(INFO, "Closing socket to Boot Daemon...");
         m_bootDaemonSock->close();
     } else {
       LOG(INFO, "Boot Daemon socket not found so no need to close...");
@@ -400,13 +423,16 @@ bool SonicPiAPI::WaitUntilReady()
 
 bool SonicPiAPI::PingUntilServerCreated()
 {
+    LOG(INFO, "Pinging Spider Server until a response is received...");
     if (m_state == State::Created)
     {
         return true;
+      LOG(ERR, "Error! No need to ping server as it's already created!");
     }
 
     if (m_state != State::Initializing)
     {
+        LOG(ERR, "API is not in the initialisation state. Error!");
         return false;
     }
 
