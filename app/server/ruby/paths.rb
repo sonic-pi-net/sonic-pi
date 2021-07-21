@@ -195,7 +195,12 @@ module SonicPi
         # "sh"
         File.absolute_path("#{native_path}/erlang/erl")
       else
-        "erl"
+        nix_erl_path = "/usr/bin/erl"
+        if File.exist?(nix_erl_path)
+          nix_erl_path
+        else
+          "erl"
+        end
       end
     end
 
