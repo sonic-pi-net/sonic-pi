@@ -303,6 +303,7 @@ SonicPiAPI::~SonicPiAPI()
 void SonicPiAPI::Shutdown()
 {
     LOG(INFO, "Shutdown");
+    std::lock_guard<std::mutex> lg(m_osc_mtx);
 
     switch(m_state)
     {
@@ -396,7 +397,7 @@ bool SonicPiAPI::WaitUntilReady()
 {
     if (m_state == State::Created)
     {
-      return true;
+        return true;
     }
 
     int num_tries = 60;
@@ -424,10 +425,12 @@ bool SonicPiAPI::WaitUntilReady()
 bool SonicPiAPI::PingUntilServerCreated()
 {
     LOG(INFO, "Pinging Spider Server until a response is received...");
+    std::lock_guard<std::mutex> lg(m_osc_mtx);
+
     if (m_state == State::Created)
     {
-        return true;
       LOG(ERR, "Error! No need to ping server as it's already created!");
+      return true;
     }
 
     if (m_state != State::Initializing)
@@ -495,6 +498,8 @@ bool SonicPiAPI::Init(const fs::path& root)
 
         m_pClient->Report(message);
         LOG(ERR, "Call shutdown before init!");
+        m_state = State::Error;
+        m_osc_mtx.unlock();
         return false;
     }
 
@@ -523,12 +528,15 @@ bool SonicPiAPI::Init(const fs::path& root)
         message.text = "Could not find root path: " + root.string();
 
         m_pClient->Report(message);
+        m_state = State::Error;
+        m_osc_mtx.unlock();
         return false;
     }
 
     if (!InitializePaths(root))
     {
       // oh no, something went wrong :-(
+      m_osc_mtx.unlock();
       return false;
     }
 
@@ -577,16 +585,17 @@ bool SonicPiAPI::Init(const fs::path& root)
 
     LOG(INFO, "Log PAth: " + GetPath(SonicPiPath::LogPath).string());
 
-
     // Start the Boot Daemon
     if (!StartBootDaemon())
     {
+        m_osc_mtx.unlock();
         return false;
     }
 
     // Start the OC Server
     if(!StartOscServer())
     {
+        m_osc_mtx.unlock();
         return false;
     }
 
@@ -596,6 +605,7 @@ bool SonicPiAPI::Init(const fs::path& root)
     LOG(INFO, "API State set to: Initializing...");
 
     m_osc_mtx.unlock();
+
     LOG(INFO, "Going to start pinging server...");
     m_pingerThread = std::thread([&]() {
         PingUntilServerCreated();
