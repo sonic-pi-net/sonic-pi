@@ -22,7 +22,7 @@ module SonicPi
 
     attr_accessor :cent_tuning
 
-    def initialize(ports, msg_queue, scsynth_opts, scsynth_clobber, state, register_cue_event_lambda)
+    def initialize(ports, msg_queue, state, register_cue_event_lambda)
 
       STDOUT.puts "studio init"
       STDOUT.flush
@@ -30,7 +30,6 @@ module SonicPi
       @state = state
       @scsynth_port = ports[:scsynth_port]
       @scsynth_send_port = ports[:scsynth_send_port]
-      @osc_cues_port = ports[:osc_cues_port]
       @msg_queue = msg_queue
       @error_occured_mutex = Mutex.new
       @error_occurred_since_last_check = false
@@ -41,8 +40,6 @@ module SonicPi
       @sample_format = "int16"
       @paused = false
       @register_cue_event_lambda = register_cue_event_lambda
-      @scsynth_opts = scsynth_opts
-      @scsynth_clobber = scsynth_clobber
       init_scsynth
       reset_server
       init_studio

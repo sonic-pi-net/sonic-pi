@@ -25,7 +25,6 @@ require_relative "version"
 require_relative "sthread"
 require_relative "version"
 require_relative "config/settings"
-require_relative "config/scsynth_settings"
 require_relative "preparser"
 require_relative "event_history"
 require_relative "thread_id"
@@ -1326,15 +1325,8 @@ module SonicPi
       @git_hash = __extract_git_hash
       gh_short = @git_hash ? "-#{@git_hash[0, 5]}" : ""
       @settings = Config::Settings.new(system_cache_store_path)
-      begin
-        @audio_settings = SonicPi::Config::ScsynthSettings.new(user_audio_settings_path)
-      rescue
-        # log error
-        log "Unable to load user audio settings at #{user_audio_settings_path}... reverting to defaults"
-        @audio_settings = SonicPi::Config::ScsynthSettings.new("", dummy: true)
-      end
-      @scsynth_clobber_args = @audio_settings.scsynth_opts_override
-      @scsynth_opts = @audio_settings.scsynth_opts
+      # @scsynth_clobber_args = @audio_settings.scsynth_opts_override
+      # @scsynth_opts = @audio_settings.scsynth_opts
       @version = Version.new(3, 4, 0, "dev#{gh_short}")
       @server_version = __server_version
       @life_hooks = LifeCycleHooks.new
