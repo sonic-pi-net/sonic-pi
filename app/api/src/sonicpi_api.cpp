@@ -282,7 +282,7 @@ bool SonicPiAPI::StartBootDaemon()
     LOG(INFO, "Setting up Boot Daemon keep alive loop");
     m_bootDaemonSockPingLoopThread = std::thread([&]() {
       auto keep_alive_msg = std::string{ "keep-alive\n" };
-      while(true)
+      while(m_keep_alive.load())
       {
         LOG(DBG, "SND keep_alive");
         m_bootDaemonSock->send(reinterpret_cast<const std::byte*>(keep_alive_msg.c_str()), keep_alive_msg.size());
@@ -302,6 +302,8 @@ SonicPiAPI::~SonicPiAPI()
 
 void SonicPiAPI::Shutdown()
 {
+    std::lock_guard<std::mutex> lg(m_osc_mtx);
+
     if(m_shutdown_engaged)
     {
       LOG(INFO, "Shutdown already initiated...");
@@ -309,14 +311,6 @@ void SonicPiAPI::Shutdown()
     }
 
     LOG(INFO, "Initiating Shutdown");
-
-    std::lock_guard<std::mutex> lg(m_osc_mtx);
-
-    if(m_shutdown_engaged)
-    {
-      LOG(INFO, "Shutdown already initiated..");
-      return;
-    }
 
     m_shutdown_engaged = true;
 
@@ -349,11 +343,8 @@ void SonicPiAPI::Shutdown()
         LOG(INFO, "Stopping OSC server...");
         StopOscServer();
 
-        if (m_coutbuf)
-        {
-            std::cout.rdbuf(m_coutbuf); // reset to stdout before exiting
-            m_coutbuf = nullptr;
-        }
+        LOG(INFO, "Stopping daemon keep alive loop");
+        m_keep_alive.store(false);
     }
 
     if (m_bootDaemonSock)
@@ -366,7 +357,17 @@ void SonicPiAPI::Shutdown()
 
     m_state = State::Reset;
     LOG(INFO, "API State set to: Reset...");
+    LOG(INFO, "Waiting for Daemon keep alive loop to have stopped...");
+    m_bootDaemonSockPingLoopThread.join();
+    m_pingerThread.join();
 
+    LOG(INFO, "API Shutdown complete...");
+
+    if (m_coutbuf)
+    {
+        std::cout.rdbuf(m_coutbuf); // reset to stdout before exiting
+        m_coutbuf = nullptr;
+    }
 }
 
 bool SonicPiAPI::StartOscServer()
@@ -456,7 +457,7 @@ bool SonicPiAPI::PingUntilServerCreated()
 
     int timeout = 60;
     LOG(INFO, "Waiting for Sonic Pi Spider Server to respond...");
-    while (m_spOscServer->waitForServer() && timeout-- > 0)
+    while (m_keep_alive.load() && m_spOscServer->waitForServer() && timeout-- > 0)
     {
         std::this_thread::sleep_for(1s);
         LOG(INFO, ".");
@@ -518,17 +519,6 @@ bool SonicPiAPI::Init(const fs::path& root)
         return false;
     }
 
-
-    // Start again, shutdown if we fail init
-    m_state = State::Invalid;
-    auto exitScope = sg::make_scope_guard([&]() {
-        if (m_state == State::Invalid)
-        {
-            LOG(DBG, "Init failure, calling shutdown");
-            Shutdown();
-        }
-    });
-
     // A new Guid for each initialization
 #if defined(__APPLE__)
     m_guid = random_string(32);
@@ -554,6 +544,7 @@ bool SonicPiAPI::Init(const fs::path& root)
       m_osc_mtx.unlock();
       return false;
     }
+
 
     // Make the log folder and check we can write to it.
     // This is /usr/home/.sonic-pi/log
@@ -589,6 +580,17 @@ bool SonicPiAPI::Init(const fs::path& root)
         std::cout.rdbuf(m_stdlog.rdbuf());
     }
 
+
+    // Start again, shutdown if we fail init
+    m_state = State::Invalid;
+    auto exitScope = sg::make_scope_guard([&]() {
+        if (m_state == State::Invalid)
+        {
+            LOG(DBG, "Init failure, calling shutdown");
+            Shutdown();
+        }
+    });
+
     LOG(INFO, "Welcome to Sonic Pi");
     LOG(INFO, "===================");
 
@@ -598,7 +600,7 @@ bool SonicPiAPI::Init(const fs::path& root)
         LOG(INFO, "Home dir NOT writable: ");
     }
 
-    LOG(INFO, "Log PAth: " + GetPath(SonicPiPath::LogPath).string());
+    LOG(INFO, "Log Path: " + GetPath(SonicPiPath::LogPath).string());
 
     // Start the Boot Daemon
     if (!StartBootDaemon())

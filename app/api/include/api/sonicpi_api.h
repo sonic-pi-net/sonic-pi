@@ -339,6 +339,7 @@ private:
 
     std::mutex m_osc_mtx;
     bool m_shutdown_engaged = false;
+    std::atomic<bool> m_keep_alive = { true };
     LogOption m_logOption;
 
 
