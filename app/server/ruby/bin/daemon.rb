@@ -625,13 +625,12 @@ module SonicPi
       def run_post_start_commands
         case Util.os
         when :linux, :raspberry
-          if @jack_booter
-            Thread.new do
-              Kernel.sleep 5
-              # Note:
-              # need to modify this to take account for @num_inputs and @num_outputs.
-              # These might not always be set to two channels each.
-
+          Thread.new do
+            Kernel.sleep 5
+            # Note:
+            # need to modoify this to take account for @num_inputs and @num_outputs.
+            # These might not always be set to two channels each.
+            if @jack_booter
               #First clear up any pulseaudio remains of module-loopback source=jack_in
               `pactl list short modules |grep source=jack_in| cut -f1 | xargs -L1 pactl unload-module`
               `pactl load-module module-jack-source channels=2 connect=0 client_name=JACK_to_PulseAudio`
