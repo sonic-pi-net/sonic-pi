@@ -302,8 +302,23 @@ SonicPiAPI::~SonicPiAPI()
 
 void SonicPiAPI::Shutdown()
 {
-    LOG(INFO, "Shutdown");
+    if(m_shutdown_engaged)
+    {
+      LOG(INFO, "Shutdown already initiated...");
+      return;
+    }
+
+    LOG(INFO, "Initiating Shutdown");
+
     std::lock_guard<std::mutex> lg(m_osc_mtx);
+
+    if(m_shutdown_engaged)
+    {
+      LOG(INFO, "Shutdown already initiated..");
+      return;
+    }
+
+    m_shutdown_engaged = true;
 
     switch(m_state)
     {

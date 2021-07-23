@@ -338,6 +338,7 @@ private:
     std::shared_ptr<kissnet::tcp_socket> m_bootDaemonSock;
 
     std::mutex m_osc_mtx;
+    bool m_shutdown_engaged = false;
     LogOption m_logOption;
 
 
