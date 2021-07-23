@@ -440,10 +440,6 @@ module SonicPi
       File.join(server_path, "erlang", "tau", "ebin")
     end
 
-    def user_audio_settings_path
-      File.absolute_path("#{config_path}/audio-settings.toml")
-    end
-
     def system_cache_store_path
       File.absolute_path("#{system_store_path}/cache.json")
     end
