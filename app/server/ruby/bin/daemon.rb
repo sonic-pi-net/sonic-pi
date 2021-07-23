@@ -110,6 +110,17 @@ module SonicPi
     class Init
 
       def initialize
+
+        @safe_exit = SafeExit.new do
+          # Register exit routine
+          # This will only be called once
+          Util.log "Daemon Booter is now exiting."
+          Util.log "Cleaning up any running processes..."
+          cleanup_any_running_processes
+          Util.log "Daemon Booter - Over and Out."
+          Util.close_log
+        end
+
         # This is where the Daemon begins and ends.
         @scsynth_booter  = nil
         @tau_booter      = nil
@@ -120,13 +131,7 @@ module SonicPi
         Util.open_log
         Util.log "Welcome to the Daemon Booter"
 
-        at_exit do
-          cleanup_any_running_processes
-          Util.log "Daemon Booter - Over and Out."
-          Util.close_log
-        end
-
-        ports = PortDiscovery.new.ports
+        ports = PortDiscovery.new(@safe_exit).ports
 
         Util.log "Selected ports: "
         Util.log ports.inspect
@@ -135,7 +140,7 @@ module SonicPi
 
         # Let the calling process (likely the GUI) know which port to
         # listen to and communicate on with the Ruby spider server via
-        # STDOUT:
+        # STDOUT.
         puts "#{ports["daemon-keep-alive"]} #{ports["gui-listen-to-server"]} #{ports["gui-send-to-server"]} #{ports["scsynth"]} #{ports["osc-cues"]}"
         STDOUT.flush
 
@@ -158,7 +163,7 @@ module SonicPi
 
         @spider_booter.wait if @spider_booter
         Util.log "Spider Server process has completed"
-     end
+      end
 
 
       # This is the Zombie Kill Switch
@@ -190,7 +195,7 @@ module SonicPi
 
             unless IO.select([keep_alive_server], nil, nil, connect_timeout)
               Util.log "Error. Unable to connect to GUI process on TCP port #{port_num}"
-              exit
+              @safe_exit.exit
             end
 
             client = keep_alive_server.accept
@@ -202,7 +207,8 @@ module SonicPi
               # For debug:
               # Util.log "RCV #{received_data}"
             end
-
+          rescue Errno::ECONNRESET
+            Util.log "GUI forcibly closed the connection."
           rescue StandardError => e
             Util.log "Oh no, something went wrong reading keep alive messages from the GUI"
             Util.log "Error Class: #{e.class}"
@@ -210,10 +216,10 @@ module SonicPi
             Util.log "Error Backtrace: #{e.backtrace.inspect}"
           end
 
-          Util.log "Lost connection to server... shutting down..."
+          Util.log "Shutting down..."
           client.close if client
           keep_alive_server.close if keep_alive_server
-          exit
+          @safe_exit.exit
         end
       end
 
@@ -318,6 +324,50 @@ module SonicPi
           :windows
         else
           raise "Unsupported platform #{RUBY_PLATFORM}"
+        end
+      end
+    end
+
+    class SafeExit
+
+      def initialize(&cleanup_procedure)
+
+        @exit_mut               = Mutex.new
+        @exit_cleanup_mut       = Mutex.new
+        @exit_in_progress       = false
+        @exit_cleanup_completed = false
+        @cleanup_procedure      = cleanup_procedure
+
+        at_exit do
+          @exit_mut.synchronize do
+            @exit_in_progress = true
+            idempotent_exit_cleanup
+          end
+        end
+      end
+
+      def exit
+        Thread.current.kill if @exit_in_progress
+
+        @exit_mut.synchronize do
+          if @exit_in_progress
+            Thread.current.kill
+          else
+            @exit_in_progress = true
+            idempotent_exit_cleanup
+            Kernel.exit
+          end
+        end
+      end
+
+      private
+
+      def idempotent_exit_cleanup
+        @exit_cleanup_mut.synchronize do
+          unless @exit_cleanup_completed
+            @cleanup_procedure.call
+            @exit_cleanup_completed = true
+          end
         end
       end
     end
@@ -694,7 +744,8 @@ module SonicPi
         "websocket" => :dynamic
       }.freeze
 
-      def initialize
+      def initialize(safe_exit)
+        @safe_exit = safe_exit
         # choose random port to try first
         @last_free_port = 49152 + rand(2000)
 
@@ -735,7 +786,7 @@ module SonicPi
               port = find_free_port
             elsif default == :paired
               raise "Invalid port default for port: #{port_name}. This port can not be paired."
-              exit
+              @safe_exit.exit
             else
               port = default
               if(!check_port(port))
@@ -765,7 +816,7 @@ module SonicPi
       def find_free_port
         while !check_port(@last_free_port += 1)
           if @last_free_port > 65535
-            exit
+            @safe_exit.exit
           end
         end
         @last_free_port
