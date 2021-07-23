@@ -145,6 +145,7 @@ module SonicPi
         STDOUT.flush
 
         # Boot processes
+
         Util.log "Booting Scsynth"
         @scsynth_booter = ScsynthBooter.new(ports)
 
@@ -624,25 +625,28 @@ module SonicPi
       def run_post_start_commands
         case Util.os
         when :linux, :raspberry
-          Kernel.sleep 1
-          # Note:
-          # need to modoify this to take account for @num_inputs and @num_outputs.
-          # These might not always be set to two channels each.
           if @jack_booter
-            #First clear up any pulseaudio remains of module-loopback source=jack_in
-            `pactl list short modules |grep source=jack_in| cut -f1 | xargs -L1 pactl unload-module`
-            `pactl load-module module-jack-source channels=2 connect=0 client_name=JACK_to_PulseAudio`
-            `pactl load-module module-loopback source=jack_in`
-            `pactl load-module module-jack-sink channels=2 connect=0 client_name=PulseAudio_to_JACK`
-            `jack_connect PulseAudio_to_JACK:front-left SuperCollider:in_1`
-            `jack_connect PulseAudio_to_JACK:front-right SuperCollider:in_2`
-            `jack_connect SuperCollider:out_1 JACK_to_PulseAudio:front-left`
-            `jack_connect SuperCollider:out_2 JACK_to_PulseAudio:front-right`
-          else
-            `jack_connect SuperCollider:out_1 system:playback_1`
-            `jack_connect SuperCollider:out_2 system:playback_2`
-            `jack_connect SuperCollider:in_1 system:capture_1`
-            `jack_connect SuperCollider:in_2 system:capture_2`
+            Thread.new do
+              Kernel.sleep 5
+              # Note:
+              # need to modify this to take account for @num_inputs and @num_outputs.
+              # These might not always be set to two channels each.
+
+              #First clear up any pulseaudio remains of module-loopback source=jack_in
+              `pactl list short modules |grep source=jack_in| cut -f1 | xargs -L1 pactl unload-module`
+              `pactl load-module module-jack-source channels=2 connect=0 client_name=JACK_to_PulseAudio`
+              `pactl load-module module-loopback source=jack_in`
+              `pactl load-module module-jack-sink channels=2 connect=0 client_name=PulseAudio_to_JACK`
+              `jack_connect PulseAudio_to_JACK:front-left SuperCollider:in_1`
+              `jack_connect PulseAudio_to_JACK:front-right SuperCollider:in_2`
+              `jack_connect SuperCollider:out_1 JACK_to_PulseAudio:front-left`
+              `jack_connect SuperCollider:out_2 JACK_to_PulseAudio:front-right`
+            else
+              `jack_connect SuperCollider:out_1 system:playback_1`
+              `jack_connect SuperCollider:out_2 system:playback_2`
+              `jack_connect SuperCollider:in_1 system:capture_1`
+              `jack_connect SuperCollider:in_2 system:capture_2`
+            end
           end
         end
       end
