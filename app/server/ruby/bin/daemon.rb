@@ -535,7 +535,11 @@ module SonicPi
 
       def initialize(ports)
         @port = ports["scsynth"]
+        # begin
         toml_opts_hash = Tomlrb.load_file(Paths.user_audio_settings_path, symbolize_keys: true).freeze
+        # rescue StandardError
+        #   toml_opts_hash = {}
+        # end
 
         opts = unify_toml_opts_hash(toml_opts_hash)
         opts = merge_opts(opts)
