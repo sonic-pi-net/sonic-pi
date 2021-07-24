@@ -484,7 +484,7 @@ Desculpe, um erro critico ocorreu durante a inicialização</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2699"/>
         <source>Live</source>
-        <translation>Tempo real</translation>
+        <translation>Ao vivo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2711"/>
