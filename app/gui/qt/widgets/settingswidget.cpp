@@ -763,7 +763,8 @@ void SettingsWidget::updateVersionInfo( QString info_string, QString visit, bool
 }
 
 void SettingsWidget::updateSettings() {
-    std::cout << "[GUI] - Update Settings" << std::endl;
+
+    std::cout << "[GUI] - update settings" << std::endl;
     piSettings->language = available_languages[language_combo->currentIndex()];
     piSettings->mixer_invert_stereo = mixer_invert_stereo->isChecked();
     piSettings->mixer_force_mono = mixer_force_mono->isChecked();

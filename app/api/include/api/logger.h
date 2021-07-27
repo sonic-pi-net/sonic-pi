@@ -57,11 +57,13 @@ public:
     {
         if (opened)
         {
-            out << std::endl;
+          std::cout << out.str() << std::endl;
+
 #ifdef WIN32
+            out << std::endl;
             OutputDebugStringA(out.str().c_str());
 #endif
-            std::cout << out.str();
+
         }
         opened = false;
     }

@@ -60,6 +60,8 @@ void OscServerUDP::start()
         {
             handler->oscMessage(sock.buffer);
             std::vector<char>().swap(sock.buffer);
+
+            // TODO what's this for???
             std::cout << std::flush;
         }
     }

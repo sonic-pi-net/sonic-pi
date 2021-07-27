@@ -1,9 +1,3 @@
-#--
-# This file is part of Sonic Pi: http://sonic-pi.net
-# Full project source: https://github.com/samaaron/sonic-pi
-# License: https://github.com/samaaron/sonic-pi/blob/main/LICENSE.md
-#
-# Copyright 2013, 2014, 2015, 2016 by Sam Aaron (http://sam.aaron.name).
 # All rights reserved.
 #
 # Permission is granted for use, copying, modification, and
@@ -28,13 +22,14 @@ module SonicPi
 
     attr_accessor :cent_tuning
 
-    def initialize(ports, msg_queue, scsynth_opts, scsynth_clobber, state, register_cue_event_lambda)
+    def initialize(ports, msg_queue, state, register_cue_event_lambda)
+
+      STDOUT.puts "studio init"
+      STDOUT.flush
+
       @state = state
       @scsynth_port = ports[:scsynth_port]
       @scsynth_send_port = ports[:scsynth_send_port]
-      @osc_cues_port = ports[:osc_cues_port]
-      @erlang_port = ports[:erlang_port]
-      @server_port = ports[:server_port]
       @msg_queue = msg_queue
       @error_occured_mutex = Mutex.new
       @error_occurred_since_last_check = false
@@ -45,14 +40,9 @@ module SonicPi
       @sample_format = "int16"
       @paused = false
       @register_cue_event_lambda = register_cue_event_lambda
-      @erlang_pid = nil
-      @erlang_mut = Mutex.new
-      @scsynth_opts = scsynth_opts
-      @scsynth_clobber = scsynth_clobber
       init_scsynth
       reset_server
       init_studio
-      start_erlang
     end
 
     def __exec_path(path)
@@ -61,47 +51,6 @@ module SonicPi
         path
       else
         "exec #{path}"
-      end
-    end
-
-    def __erl_mut_start_erlang
-      return @erlang_pid if @erlang_pid
-      # Start Erlang (initially with cue forwarding disabled)
-      begin
-        erlang_cmd = __exec_path("#{erlang_boot_path} +C multi_time_warp -noshell -pz \"#{erlang_server_path}\" -tau api_port #{@erlang_port} in_port #{@osc_cues_port} cue_port #{@server_port} enabled false -s tau_server start")
-        STDOUT.puts erlang_cmd
-        @erlang_pid = spawn erlang_cmd, out: erlang_log_path, err: erlang_log_path
-        register_process(@erlang_pid)
-      rescue Exception => e
-        STDOUT.puts "Exception when starting Erlang"
-        STDOUT.puts e.message
-        STDOUT.puts e.backtrace.inspect
-        STDOUT.puts e.backtrace
-      end
-    end
-
-    def __erl_mut_stop_erlang
-      return nil unless @erlang_pid
-      kill_and_deregister_process @erlang_pid
-      @erlang_pid = nil
-    end
-
-    def stop_erlang
-      @erlang_mut.synchronize do
-        __erl_mut_stop_erlang
-      end
-    end
-
-    def start_erlang
-      @erlang_mut.synchronize do
-        __erl_mut_start_erlang
-      end
-    end
-
-    def reset_erlang
-      @erlang_mut.synchronize do
-        __erl_mut_stop_erlang
-        __erl_mut_start_erlang
       end
     end
 
@@ -114,7 +63,7 @@ module SonicPi
     end
 
     def init_scsynth
-      @server = Server.new(@scsynth_port, @scsynth_send_port, @msg_queue, @state, @register_cue_event_lambda, @scsynth_opts, @scsynth_clobber)
+      @server = Server.new(@scsynth_port, @msg_queue, @state, @register_cue_event_lambda)
       message "Initialised SuperCollider Audio Server #{@server.version}"
     end
 
@@ -361,8 +310,6 @@ module SonicPi
       @server.allocate_audio_bus
     end
 
-
-
     def control_delta
       @server.control_delta
     end
@@ -540,9 +487,9 @@ module SonicPi
 
 
     def reset_and_setup_groups_and_busses
+      log_message "Studio - reset and setup groups and busses"
       log_message "Studio - clearing scsynth"
       @server.reset!
-
       log_message "Studio - allocating audio bus"
       @mixer_bus = @server.allocate_audio_bus
 

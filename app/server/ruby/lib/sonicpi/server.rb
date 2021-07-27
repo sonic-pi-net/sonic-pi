@@ -34,7 +34,7 @@ module SonicPi
 
     attr_reader :version
 
-    def initialize(port, send_port, msg_queue, state, register_cue_event_lambda, scsynth_opts, scsynth_clobber)
+    def initialize(port, msg_queue, state, register_cue_event_lambda)
 
       # Cache common OSC path strings as frozen instance
       # vars to reduce object creation cost and GC load
@@ -76,8 +76,7 @@ module SonicPi
       #be dynamically turned on and off
       @debug_mode = debug_mode
       @osc_events = IncomingEvents.new(:internal_events, -10)
-      server_opts = {scsynth_port: port, scsynth_send_port: send_port, register_cue_event_lambda: register_cue_event_lambda, scsynth_opts: scsynth_opts, scsynth_clobber: scsynth_clobber }
-      @scsynth = SCSynthExternal.new(@osc_events, server_opts)
+      @scsynth = SCSynthExternal.new(@osc_events, port, register_cue_event_lambda)
       @version = @scsynth.version.freeze
       @position_codes = {
         head: 0,
@@ -157,14 +156,24 @@ module SonicPi
     end
 
     def clear_scsynth!
+      STDOUT.puts "scsynth - clear!"
+      STDOUT.flush
       info "Clearing scsynth" if @debug_mode
       @CURRENT_NODE_ID.reset!
       @osc_events.reset!
+            STDOUT.puts "scsynth - clear schedule "
+      STDOUT.flush
       clear_schedule
-      Kernel.sleep 0.5
+      STDOUT.puts "scsynth - schedule cleared!"
+      STDOUT.flush
+      Kernel.sleep 0.1
+      STDOUT.puts "scsynth - group clear 0"
+      STDOUT.flush
       with_server_sync do
         group_clear 0, true
       end
+      STDOUT.puts "scsynth - group clear 0 completed"
+      STDOUT.flush
     end
 
     def clear_schedule
@@ -172,10 +181,18 @@ module SonicPi
     end
 
     def reset!
+      STDOUT.puts "scsynth - clear schedule"
+      STDOUT.flush
       clear_schedule
+      STDOUT.puts "scsynth - clear scsynth"
+      STDOUT.flush
       clear_scsynth!
+      STDOUT.puts "scsynth - cleared scsynth"
+      STDOUT.flush
       @AUDIO_BUS_ALLOCATOR.reset!
       @CONTROL_BUS_ALLOCATOR.reset!
+      STDOUT.puts "scsynth - bus allocators reset"
+      STDOUT.flush
     end
 
     def group_clear(id, now=false)

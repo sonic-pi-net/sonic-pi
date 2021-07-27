@@ -1,0 +1,91 @@
+name: ci
+
+on:
+  push:
+    paths:
+      - "**.cpp"
+      - "**.hpp"
+      - "**.cmake"
+      - "**/CMakeLists.txt"
+      - ".github/workflows/ci.yml"
+  pull_request:
+    paths:
+      - "**.cpp"
+      - "**.hpp"
+      - "**.cmake"
+      - "**/CMakeLists.txt"
+      - ".github/workflows/ci.yml"
+
+jobs:
+
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - run: cmake -B build -Dkissnet_BUILD_TESTING:BOOL=on
+      env:
+        CXX: g++-9
+
+    - run: cmake --build build --parallel
+
+    - run: ctest --output-on-failure
+      working-directory: build
+
+
+  mac_gcc:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - run: cmake -B build -DOPENSSL_ROOT_DIR=/usr/local/opt/openssl@1.1/ -Dkissnet_BUILD_TESTING:BOOL=on
+      env:
+        CXX: g++-9
+
+    - run: cmake --build build --parallel
+
+    - run: ctest --output-on-failure
+      working-directory: build
+
+
+  mac_clang:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - run: cmake -B build -DOPENSSL_ROOT_DIR=/usr/local/opt/openssl@1.1/ -Dkissnet_BUILD_TESTING:BOOL=on
+      env:
+        CXX: clang++
+
+    - run: cmake --build build --parallel
+
+    - run: ctest --output-on-failure
+      working-directory: build
+
+
+  mingw:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - run: cinst -y ninja openssl.light
+
+      - run: cmake -B build -G Ninja -Dkissnet_BUILD_TESTING:BOOL=on
+
+      - run: cmake --build build --parallel
+
+      - run: ctest --output-on-failure
+        working-directory: build
+
+
+  msvc:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - run: cmake -B build -Dkissnet_BUILD_TESTING:BOOL=on -DCMAKE_BUILD_TYPE=Debug
+
+      - run: cmake --build build --parallel
+
+      - run: ctest --output-on-failure -C Debug
+        working-directory: build

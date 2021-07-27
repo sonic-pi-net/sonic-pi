@@ -37,25 +37,8 @@ require 'fileutils'
 include SonicPi::Util
 
 ## This is where the server starts....
-STDOUT.puts "Sonic Pi server booting..."
+STDOUT.puts "Sonic Pi Spider Server booting..."
 STDOUT.puts "The time is #{Time.now}"
-
-# Start Compton if using Raspberry Pi: enables transparency to
-# work. This really should be done by the GUI as it is nothing to do
-# with the language runtime or server
-# TODO: If we enable a headless server, this needs to move.
-if os==:raspberry
-  compton_cmd="/usr/bin/compton"
-  if File.exist?(compton_cmd)
-    STDOUT.puts  "Starting Compton for Raspberry Pi transparency"
-    compton_pid = spawn("exec #{compton_cmd}",[:out,:err]=>"/dev/null")
-    register_process(compton_pid)
-  else
-    STDOUT.puts('Compton not installed on your Raspberry Pi so transparency is not available')
-    STDOUT.puts('If you wish to have transparency run the following in a terminal:')
-    STDOUT.puts('sudo apt install compton')
-  end
-end
 
 ## Ensure ~/.sonic-pi/* user config, history and setting directories exist
 [home_dir_path, project_path, log_path, cached_samples_path, config_path, system_store_path].each do |d|
@@ -118,6 +101,7 @@ gui_protocol = case ARGV[0]
 STDOUT.puts "Using primary protocol: #{gui_protocol}"
 STDOUT.puts "Detecting port numbers..."
 
+
 # Port which the server listens to messages from the GUI
 # server-listen-to-gui
 server_port = ARGV[1] ? ARGV[1].to_i : 4557
@@ -149,19 +133,23 @@ erlang_port = ARGV[6] ? ARGV[6].to_i : 4561
 
 # Port which the server uses to communicate via websockets
 # websocket
-websocket_port = ARGV[9] ? ARGV[9].to_i : 4562
+websocket_port = ARGV[7] ? ARGV[7].to_i : 4562
 
 # Create a frozen map of the ports so that this can
 # essentially be treated as a global constant to the
 # language runtime.
 sonic_pi_ports = {
   server_port: server_port,
+  gui_port: gui_port,
   scsynth_port: scsynth_port,
   scsynth_send_port: scsynth_send_port,
   osc_cues_port: osc_cues_port,
   erlang_port: erlang_port,
   websocket_port: websocket_port}.freeze
 
+
+STDOUT.puts "Ports: #{sonic_pi_ports.inspect}"
+STDOUT.flush
 
 # Open up comms to the GUI.
 # We need to do this now so we can communicate with it going forwards
@@ -192,82 +180,17 @@ rescue Exception => e
 end
 
 
-
-# Check ports to ensure they're available on this system.
-
-# This information is very useful for error reporting so print it to
-# STDOUT so it's automatically logged.
-#
-# Note: when booted by Sonic Pi.app all STDOUT is typically configured
-# to pipe to ~/.sonic-pi/log/server-output.log by the C++ GUI which
-# launches the Ruby process evaluating this file.
-
-# First define a helper function to check to see if a given is available
-# on the system and to tell the gui to exit if not.
-check_port = lambda do |port|
-  return false if port < 1024
-
-  available = false
-  begin
-    s = SonicPi::OSC::UDPServer.new(port)
-    s.stop
-    available = true
-  rescue Exception => e
-    available = false
-  end
-  available
-end
-
-ensure_port_or_quit = lambda do |port, gui|
-  if check_port.call(port)
-    STDOUT.puts "  - OK"
-  else
-      STDOUT.puts "Port #{port} unavailable. Perhaps Sonic Pi is already running?"
-    begin
-      gui.send("/exited-with-boot-error", "Port unavailable: " + port.to_s + ", is Sonic Pi already running?")
-    rescue Errno::EPIPE => e
-      STDOUT.puts "GUI not listening, exit anyway."
-    end
-    STDOUT.flush
-    exit
-  end
-end
-
-# Next use this helper function to test all the ports.
-# This will exit this script if a port isn't available.
-unless (gui_protocol == :websockets)
-  STDOUT.puts "Listen port: #{server_port}"
-  ensure_port_or_quit.call(server_port, gui)
-end
-
-STDOUT.puts "Scsynth port: #{scsynth_port}"
-ensure_port_or_quit.call(scsynth_port, gui)
-STDOUT.puts "Scsynth send port: #{scsynth_send_port}"
-ensure_port_or_quit.call(scsynth_send_port, gui)
-STDOUT.puts "OSC cues port: #{osc_cues_port}"
-ensure_port_or_quit.call(osc_cues_port, gui)
-STDOUT.puts "Erlang port: #{erlang_port}"
-ensure_port_or_quit.call(erlang_port, gui)
-STDOUT.puts "Websocket port: #{websocket_port}"
-ensure_port_or_quit.call(websocket_port, gui)
-
-# Yey! all ports are availale if we get this far...  Ensure this is now
-# visible in the log by flushing STDOUT - just in case you're tailing it
-# in the ternimal with tail -f ~/.sonic-pi/log/server-output.log
-
-
-
 # Now we need to set up a server to listen to messages from the GUI.  If
 # we're running with websockets, then this is the same entity as the gui
 # comms which is already a websocket server
 begin
   case gui_protocol
   when :tcp
-    STDOUT.puts "Opening TCP Server to listen to GUI on port: #{server_port}"
     osc_server = SonicPi::OSC::TCPServer.new(server_port, use_decoder_cache: true)
   when :udp
     STDOUT.puts "Opening UDP Server to listen to GUI on port: #{server_port}"
     osc_server = SonicPi::OSC::UDPServer.new(server_port, use_decoder_cache: true)
+
   when :websockets
     STDOUT.puts "Listening to GUI on websocket"
     osc_server = gui
@@ -312,6 +235,8 @@ STDOUT.flush
 #   exit
 # end
 
+STDOUT.puts "Pulling in modules..."
+
 user_methods = Module.new
 name = "SonicPiLang" # this should be autogenerated
 klass = Object.const_set name, Class.new(SonicPi::Runtime)
@@ -339,11 +264,15 @@ klass.send(:define_method, :inspect) { "Runtime" }
 
 ws_out = Queue.new
 
+
 begin
   STDOUT.puts "Starting Server Runtime"
-  sp =  klass.new sonic_pi_ports, ws_out, user_methods
-  STDOUT.puts "Server Runtime Initialised"
+  STDOUT.flush
 
+  sp =  klass.new sonic_pi_ports, ws_out, user_methods
+
+  STDOUT.puts "Server Runtime Initialised"
+  STDOUT.flush
   # read in init.rb if exists
   if File.exists?(init_path)
     sp.__spider_eval(File.read(init_path), silent: true)
@@ -356,6 +285,7 @@ begin
 rescue Exception => e
   STDOUT.puts "Failed to start server: " + e.message
   STDOUT.puts e.backtrace.join("\n")
+  STDOUT.flush
   gui.send("/exited-with-boot-error", "Server Exception:\n #{e.message}\n #{e.backtrace}")
   exit
 end
@@ -371,7 +301,14 @@ at_exit do
   STDOUT.puts "Goodbye :-)"
 end
 
+
 register_api = lambda do |server|
+  STDOUT.puts "Registering incoming Spider Server API endpoints"
+  # server.add_global_method do | *args |
+  #   STDOUT.puts "API In - #{args.inspect}"
+  #   STDOUT.flush
+  # end
+
   server.add_method("/run-code") do |args|
     gui_id = args[0]
     code = args[1].force_encoding("utf-8")
@@ -465,7 +402,6 @@ register_api = lambda do |server|
   server.add_method("/ping") do |args|
     gui_id = args[0]
     id = args[1]
-    STDOUT.puts "Received /ping, sending /ack to GUI"
     gui.send("/ack", id)
   end
 
@@ -619,7 +555,7 @@ register_api = lambda do |server|
     sp.__cue_server_internal!(false)
   end
 
-    server.add_method("/cue-port-internal") do |args|
+  server.add_method("/cue-port-internal") do |args|
     gui_id = args[0]
     sp.__cue_server_internal!(true)
   end

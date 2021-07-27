@@ -1,0 +1,5 @@
+add_executable(loopback_tcp_test main.cpp)
+find_package(Threads)
+if(Threads_FOUND)
+target_link_libraries(loopback_tcp_test PRIVATE Threads::Threads)
+endif()
