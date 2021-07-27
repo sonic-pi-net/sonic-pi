@@ -54,8 +54,8 @@ Thread::abort_on_exception = true
 # as zombies (processes still accidentally running on your computer
 # consuming resources).
 #
-# This is achieved via a "Zombie Kill Switch" - a TCP connection with
-# the an external process (such as the GUI) to monitor its status by
+# This is achieved via a "Zombie Kill Switch" - a TCP connection with an
+# external process (such as the GUI) to monitor its status by
 # continually receiving keep_alive messages. If these messages stop
 # being received (for example, if the GUI process exited normally or
 # even crashed) then the Daemon will ensure all the processes it spawned
@@ -63,7 +63,7 @@ Thread::abort_on_exception = true
 #
 # The port number of this kill switch TCP connection is printed to
 # STDOUT. A external process (such as the GUI) must connect promptly and
-# periodicaly send some bytes (more frequently than every 3s) otherwise
+# periodicaly send some bytes (more frequently than every 5s) otherwise
 # a timeout will trigger the kill switch and kill all the spawned
 # processes.
 #
@@ -72,16 +72,16 @@ Thread::abort_on_exception = true
 # ---------------
 #
 # Boot Daemon figures out appropriate (and currently free) values for
-# all the ports used by various processess within Sonic Pi to
+# all the ports used by various processes within Sonic Pi to
 # communicate with each other. These ports are used to create the
 # correct process arguments for spawning and are also passed to STDOUT.
 #
 # Some of these port numbers need to be known by external processes -
-# such as a GUI process sends code to run and receives log updates both
+# such as a GUI process that sends code to run and receives log updates both
 # via UDP to specific ports.
 #
 # The current allocations of these external port numbers are printed to
-# STDOUT the current allocations for the following order:
+# STDOUT in the following order:
 #
 # daemon-keep-alive gui-listen-to-server gui-send-to-server scsynth osc-cues
 #
@@ -628,7 +628,7 @@ module SonicPi
           Thread.new do
             Kernel.sleep 5
             # Note:
-            # need to modoify this to take account for @num_inputs and @num_outputs.
+            # need to modify this to take account for @num_inputs and @num_outputs.
             # These might not always be set to two channels each.
             if @jack_booter
               #First clear up any pulseaudio remains of module-loopback source=jack_in
@@ -707,7 +707,7 @@ module SonicPi
       attr_reader :ports
 
       # Change these values to alter the ports
-      # Sonic Pi uses to send and receive messages# at run time:
+      # Sonic Pi uses to send and receive messages at run time:
       PORT_CONFIG = {
         # Port daemon uses to communicate with GUI or other controlling process
         "daemon-keep-alive" => :dynamic,
