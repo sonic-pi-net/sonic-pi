@@ -24,6 +24,16 @@ ExternalProject_Add(sp_midi
     BUILD_COMMAND ${CMAKE_COMMAND} --build . --config Release
     )
 
+ExternalProject_Add(sp_link
+    PREFIX sp_link-prefix
+    SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/sp_link
+    INSTALL_COMMAND ""
+    CMAKE_ARGS
+        -DERLANG_INCLUDE_PATH=${ERLANG_INCLUDE_PATH}
+        -DCMAKE_OSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}
+    BUILD_COMMAND ${CMAKE_COMMAND} --build . --config Release
+    )
+
 ExternalProject_Add(ogg
     PREFIX ogg-prefix
     SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/ogg-1.3.4
