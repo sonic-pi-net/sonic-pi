@@ -1,5 +1,5 @@
 # This CMakeLists builds all the external libraries required for a Sonic Pi
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.13)
 
 message(STATUS " Aubio Builder")
 
@@ -11,7 +11,7 @@ project(AubioBuilder
 
   include(ExternalProject)
 
-  set(CMAKE_OSX_DEPLOYMENT_TARGET '10.13')
+  set(CMAKE_OSX_DEPLOYMENT_TARGET '10.14')
 
   # sp_midi
 ExternalProject_Add(sp_midi
