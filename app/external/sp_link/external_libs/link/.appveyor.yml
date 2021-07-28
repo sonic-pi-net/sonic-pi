@@ -1,0 +1,90 @@
+clone_depth: 50
+
+branches:
+  only:
+    - master
+
+# Also includes VS2013 pre-installed
+image:
+  - Visual Studio 2015
+  - Visual Studio 2017
+  - Visual Studio 2019
+
+environment:
+  matrix:
+    # Visual Studio 2013, 32-bit Release, Asio driver
+    - AUDIO_DRIVER: Asio
+      CONFIGURATION: Release
+      GENERATOR: Visual Studio 12 2013
+    # Visual Studio 2013, 64-bit Release, Asio driver
+    - AUDIO_DRIVER: Asio
+      CONFIGURATION: Release
+      GENERATOR: Visual Studio 12 2013 Win64
+    # Visual Studio 2013, 64-bit Debug, Wasapi driver
+    - AUDIO_DRIVER: Wasapi
+      CONFIGURATION: Debug
+      GENERATOR: Visual Studio 12 2013 Win64
+    # Visual Studio 2015, 32-bit Release, Asio driver
+    - AUDIO_DRIVER: Asio
+      CONFIGURATION: Release
+      GENERATOR: Visual Studio 14 2015
+    # Visual Studio 2015, 64-bit Debug, Asio driver
+    - AUDIO_DRIVER: Asio
+      CONFIGURATION: Debug
+      GENERATOR: Visual Studio 14 2015 Win64
+    # Visual Studio 2015, 64-bit Release, Asio driver
+    - AUDIO_DRIVER: Asio
+      CONFIGURATION: Release
+      GENERATOR: Visual Studio 14 2015 Win64
+    # Visual Studio 2015, 64-bit Release, Wasapi driver
+    - AUDIO_DRIVER: Wasapi
+      CONFIGURATION: Release
+      GENERATOR: Visual Studio 14 2015 Win64
+    # Visual Studio 2017, 64-bit Release, Asio driver
+    - AUDIO_DRIVER: Asio
+      CONFIGURATION: Release
+      GENERATOR: Visual Studio 15 2017 Win64
+    # Visual Studio 2019, 64-bit Release, Asio driver
+    - AUDIO_DRIVER: Asio
+      CONFIGURATION: Release
+      GENERATOR: Visual Studio 16 2019
+
+matrix:
+  exclude:
+    - image: Visual Studio 2015
+      GENERATOR: Visual Studio 15 2017 Win64
+    - image: Visual Studio 2015
+      GENERATOR: Visual Studio 16 2019
+    - image: Visual Studio 2017
+      GENERATOR: Visual Studio 12 2013
+    - image: Visual Studio 2017
+      GENERATOR: Visual Studio 12 2013 Win64
+    - image: Visual Studio 2017
+      GENERATOR: Visual Studio 14 2015
+    - image: Visual Studio 2017
+      GENERATOR: Visual Studio 14 2015 Win64
+    - image: Visual Studio 2017
+      GENERATOR: Visual Studio 16 2019
+    - image: Visual Studio 2019
+      GENERATOR: Visual Studio 12 2013
+    - image: Visual Studio 2019
+      GENERATOR: Visual Studio 12 2013 Win64
+    - image: Visual Studio 2019
+      GENERATOR: Visual Studio 14 2015
+    - image: Visual Studio 2019
+      GENERATOR: Visual Studio 14 2015 Win64
+    - image: Visual Studio 2019
+      GENERATOR: Visual Studio 15 2017
+    - image: Visual Studio 2019
+      GENERATOR: Visual Studio 15 2017 Win64
+
+install:
+  - git submodule update --init --recursive
+
+build_script:
+  - python ci/configure.py -a %AUDIO_DRIVER% -g "%GENERATOR%"
+  - python ci/build.py --configuration %CONFIGURATION%
+
+test_script:
+  - python ci/run-tests.py --target LinkCoreTest
+  - python ci/run-tests.py --target LinkDiscoveryTest

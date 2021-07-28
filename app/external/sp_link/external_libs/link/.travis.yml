@@ -1,0 +1,167 @@
+# Copyright (c) 2016 Ableton. All Rights Reserved.
+
+language: cpp
+sudo: required
+branches:
+  only:
+    - master
+
+matrix:
+  include:
+    ###########################################################################
+    #     Build with the main configuration on all the supported compilers
+    ###########################################################################
+    # Mac OS X / XCode 7.3, 64-bit Debug
+    - os: osx
+      env: WORDSIZE=64 CONFIGURATION=Debug
+      osx_image: xcode7.3
+      compiler: clang
+
+    # Mac OS X / XCode 7.3, 64-bit Release
+    - os: osx
+      env: WORDSIZE=64 CONFIGURATION=Release
+      osx_image: xcode7.3
+      compiler: clang
+
+    # Mac OS X / XCode 7.3, 32-bit Release
+    - os: osx
+      env: WORDSIZE=32 CONFIGURATION=Release
+      osx_image: xcode7.3
+      compiler: clang
+
+    # Mac OS X / XCode 9.0, 64-bit Debug
+    - os: osx
+      env: WORDSIZE=64 CONFIGURATION=Debug
+      osx_image: xcode9
+      compiler: clang
+
+    # Linux with Clang 3.6, 64-bit Debug, Alsa
+    - os: linux
+      dist: trusty
+      compiler: clang
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
+          packages: ['clang-3.6', 'g++-5', 'valgrind', 'portaudio19-dev']
+      env: COMPILER=clang++-3.6 WORDSIZE=64 CONFIGURATION=Debug AUDIO=Alsa
+
+    # Linux with Clang 3.8, 64-bit Release, Jack
+    - os: linux
+      dist: trusty
+      compiler: clang
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
+          packages: ['clang-3.8', 'g++-5', 'valgrind', 'portaudio19-dev']
+      env: COMPILER=clang++-3.8 WORDSIZE=64 CONFIGURATION=Release AUDIO=Jack
+
+    # Linux with Clang 5.0, 64-bit Debug, Alsa
+    - os: linux
+      dist: bionic
+      compiler: clang
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
+          packages: ['clang-5.0', 'g++-5', 'valgrind', 'portaudio19-dev']
+      env: COMPILER=clang++-5.0 WORDSIZE=64 CONFIGURATION=Debug AUDIO=Alsa
+
+    # Linux with GCC 5.x, 64-bit Release, Alsa
+    - os: linux
+      dist: bionic
+      compiler: gcc
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
+          packages: ['g++-5', 'valgrind', 'portaudio19-dev']
+      env: COMPILER=g++-5 WORDSIZE=64 CONFIGURATION=Release AUDIO=Alsa
+
+    # Linux with GCC 6.x, 64-bit Release, Alsa
+    - os: linux
+      dist: bionic
+      compiler: gcc
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
+          packages: ['g++-6', 'valgrind', 'portaudio19-dev']
+      env: COMPILER=g++-6 WORDSIZE=64 CONFIGURATION=Release AUDIO=Alsa
+
+    # ESP32
+    - os: linux
+      dist: bionic
+      compiler: clang
+      addons:
+        apt:
+          sources: ['llvm-toolchain-trusty-5.0', 'ubuntu-toolchain-r-test']
+          packages: ['wget', 'flex', 'bison', 'gperf', 'python-pip', 'ninja-build', 'ccache']
+      env: IDF_RELEASE=v4.0-rc IDF_PATH=${HOME}/esp-idf-${IDF_RELEASE} COMPILER=clang
+
+    # Code formatting verification
+    - os: linux
+      dist: bionic
+      compiler: clang
+      env: CONFIGURATION=Formatting LLVM_VERSION=6.0
+      services:
+        - docker
+
+before_install:
+  # Do indentation check
+  - |
+    if [ "$CONFIGURATION" = "Formatting" ]; then
+      docker pull dalg24/clang-format:18.04.0
+      docker run -v $TRAVIS_BUILD_DIR:/ws dalg24/clang-format python /ws/ci/check-formatting.py -c /usr/bin/clang-format-6.0
+      exit $?
+    fi
+
+  # Override Travis' CXX Flag
+  - CXX=$COMPILER
+
+install:
+  - git submodule update --init --recursive
+
+script:
+  - |
+    set -e
+    if [ ! -z "$IDF_PATH" ]; then
+      mkdir -p ${IDF_PATH}
+      wget -P ${HOME} https://github.com/espressif/esp-idf/releases/download/${IDF_RELEASE}/esp-idf-${IDF_RELEASE}.zip
+      unzip -o ${HOME}/esp-idf-${IDF_RELEASE}.zip -d ${HOME}
+      ${IDF_PATH}/install.sh
+      . ${IDF_PATH}/export.sh
+      . ${IDF_PATH}/add_path.sh
+      PATH=${IDF_PATH}/tools:${PATH}
+      cd examples/esp32
+      idf.py build
+    else
+      if [ "$TRAVIS_OS_NAME" = "osx" ]; then
+        if [ "$WORDSIZE" -eq 64 ]; then
+          python ci/configure.py --configuration $CONFIGURATION
+        else
+          python ci/configure.py --configuration $CONFIGURATION --flags "\-DCMAKE_OSX_ARCHITECTURES=i386"
+        fi
+        python ci/build.py --configuration $CONFIGURATION
+      else
+        if [ "$WORDSIZE" -eq 64 ]; then
+          python ci/configure.py --configuration $CONFIGURATION -a $AUDIO
+        else
+          python ci/configure.py --configuration $CONFIGURATION -a $AUDIO --flags "\-DCMAKE_CXX_FLAGS=\"\-m32\""
+        fi
+        python ci/build.py --configuration $CONFIGURATION
+      fi
+    fi
+    set +e
+
+  # Build Tests and run with Valgrind (Linux 64-bit only). Mac OSX supports
+  # valgrind via homebrew, but there is no bottle formula, so it must be
+  # compiled by brew and this takes way too much time on the build server.
+  - |
+    set -e
+    if  [ -z "$IDF_PATH" ]; then
+      if [ "$TRAVIS_OS_NAME" = "linux" ]; then
+        python ci/run-tests.py --target LinkCoreTest --valgrind
+        python ci/run-tests.py --target LinkDiscoveryTest --valgrind
+      else
+        python ci/run-tests.py --target LinkCoreTest
+        python ci/run-tests.py --target LinkDiscoveryTest
+      fi
+    fi
+    set +e

@@ -1,0 +1,21 @@
+# These Glibc-related leaks are common when running Valgrind. For more info,
+# see http://valgrind.org/docs/manual/faq.html#faq.reports
+{
+   glibc-memory-pool-64-bit
+   Memcheck:Leak
+   fun:malloc
+   obj:/usr/lib/x86_64-linux-gnu/libstdc++.so.6.*
+   fun:call_init.part.0
+   ...
+   fun:_dl_init
+   obj:/lib/x86_64-linux-gnu/ld-*.so
+}
+{
+   glibc-memory-pool-32-bit
+   Memcheck:Leak
+   fun:malloc
+   obj:/usr/lib32/libstdc++.so.6.*
+   fun:call_init
+   fun:_dl_init
+   obj:/lib/i386-linux-gnu/ld-*.so
+}

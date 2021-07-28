@@ -1,0 +1,10 @@
+.deps
+.dirstamp
+*.o
+*.obj
+*.exe
+composed_[0-9]
+*.ilk
+*.manifest
+*.pdb
+*.tds
