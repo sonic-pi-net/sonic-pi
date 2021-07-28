@@ -479,6 +479,7 @@ module SonicPi
         osc_cues_port             = ports["osc-cues"]
         tau_port                  = ports["tau"]
         websocket_port            = ports["websocket"]
+        listen_to_tau_port        = ports["listen-to-tau"]
         cmd = Paths.ruby_path
         args = ["--enable-frozen-string-literal", "-E", "utf-8",
           Paths.spider_server_path,
@@ -489,6 +490,7 @@ module SonicPi
           scsynth_send_port,
           osc_cues_port,
           tau_port,
+          listen_to_tau_port,
           websocket_port]
         super(cmd, args, Paths.spider_log_path)
       end
@@ -742,6 +744,9 @@ module SonicPi
         # Port which the Tau listens to.
         "tau" => :dynamic,
 
+        # Port which the Ruby server listens to messages back from the Tau server
+        "listen-to-tau" => :dynamic
+
         # Port which the server uses to communicate via websockets
         # (This is currently unused.)
         "websocket" => :dynamic
@@ -769,6 +774,7 @@ module SonicPi
 
           "osc-cues",
           "tau",
+          "listen-to-tau",
           "websocket"].inject({}) do |res, port_name|
 
           default = nil

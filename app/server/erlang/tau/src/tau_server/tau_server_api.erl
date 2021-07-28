@@ -14,10 +14,10 @@
 
 -module(tau_server_api).
 
--export([start_link/2]).
+-export([start_link/3]).
 
 %% internal
--export([init/3, loop/1]).
+-export([init/4, loop/1]).
 
 %% sys module callbacks
 -export([system_continue/3, system_terminate/4, system_code_change/4,
@@ -70,12 +70,12 @@
 
 
 %% supervisor compliant start function
-start_link(CueServer, MIDIServer) ->
+start_link(CueServer, MIDIServer, LinkServer) ->
     %% synchronous start of the child process
-    proc_lib:start_link(?MODULE, init, [self(), CueServer, MIDIServer]).
+    proc_lib:start_link(?MODULE, init, [self(), CueServer, MIDIServer, LinkServer]).
 
 
-init(Parent, CueServer, MIDIServer) ->
+init(Parent, CueServer, MIDIServer, LinkServer) ->
     register(?SERVER, self()),
     APIPort = application:get_env(?APPLICATION, api_port, undefined),
     io:format("~n"
@@ -98,8 +98,10 @@ init(Parent, CueServer, MIDIServer) ->
               api_socket => APISocket,
               cue_server => CueServer,
               midi_server => MIDIServer,
+              link_server => LinkServer,
               tag_map => #{}
              },
+    send_to_cue({tau_ready}, State),
     loop(State).
 
 loop(State) ->
@@ -143,6 +145,21 @@ loop(State) ->
                     send_to_cue({midi_enabled, Flag =:= 1}, State),
                     ?MODULE:loop(State);
 
+                {cmd, ["/api_rpc", UUID, "/link_current_time"]=Cmd} ->
+                    debug_cmd(Cmd),
+                    send_to_link({link_rpc, UUID, current_time}, State),
+                    ?MODULE:loop(State);
+
+                {cmd, ["/api_rpc", UUID, "/link_get_beat_at_time", Time, Quantum]=Cmd} ->
+                    debug_cmd(Cmd),
+                    send_to_link({link_rpc, UUID, get_beat_at_time, Time, Quantum}, State),
+                    ?MODULE:loop(State);
+
+                {cmd, ["/api_rpc", UUID, "/link_tempo"]=Cmd} ->
+                    debug_cmd(Cmd),
+                    send_to_link({link_rpc, UUID, get_tempo}, State),
+                    ?MODULE:loop(State);
+
                 {cmd, Cmd} ->
                     log("Unknown command: \"~s\"~n", [Cmd]),
                     ?MODULE:loop(State)
@@ -161,6 +178,12 @@ loop(State) ->
             log("API Server got unexpected message: ~p~n", [Any]),
             ?MODULE:loop(State)
     end.
+
+send_to_link(Message, State) ->
+    LinkServer = maps:get(link_server, State),
+    LinkServer ! Message,
+    ok.
+
 
 send_to_cue(Message, State) ->
     CueServer = maps:get(cue_server, State),

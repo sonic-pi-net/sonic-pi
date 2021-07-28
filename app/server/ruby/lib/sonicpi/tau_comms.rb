@@ -21,11 +21,11 @@ module SonicPi
 
     attr_reader :encoder
 
-    def initialize(hostname, port)
-      @hostname = hostname
-      @port = port
-      @udp_client = SonicPi::OSC::UDPClient.new("127.0.0.1", port)
-      @encoder = @udp_client.encoder
+    def initialize(hostname, tau_port, listen_to_tau_port)
+      @hostname = hostname.freeze
+      @port = Integer(tau_port)
+      @udp_server = SonicPi::OSC::UDPServer.new(listen_to_tau_port)
+      @encoder = @udp_server.encoder
       @mut = Mutex.new
       @tau_is_ready = false
       @buffered_msgs = []
@@ -35,9 +35,9 @@ module SonicPi
           # flush stored messages and send them directly
           @buffered_msgs.each do |msg|
             if msg[0] == :send
-              @udp_client.send(msg[1], *msg[2])
+              @udp_server.send(@hostname, @port, msg[1], *msg[2])
             elsif msg[0] == :send_ts
-              @udp_client.send_ts(msg[1], msg[2], *msg[3])
+              @udp_server.send_ts(msg[1], @hostname, @port, msg[2], *msg[3])
             else
               raise StandardError "Unknown TauComms msg type: #{msg[0]}. Expecting one of :send or :send_ts"
             end
@@ -94,11 +94,11 @@ module SonicPi
 
     def send(pattern, *args)
       if @tau_is_ready
-        @udp_client.send(pattern, *args)
+        @udp_server.send(@hostname, @port, pattern, *args)
       else
         @mut.synchronize do
           if @tau_is_ready
-            @udp_client.send(pattern, *args)
+            @udp_server.send(@hostname, @port, pattern, *args)
           else
             @buffered_msgs << [:send, pattern, args]
           end
@@ -108,11 +108,11 @@ module SonicPi
 
     def send_ts(ts, pattern, *args)
       if @tau_is_ready
-        @udp_client.send_ts(ts, pattern, *args)
+        @udp_server.send_ts(ts, @hostname, @port, pattern, *args)
       else
         @mut.synchronize do
           if @tau_is_ready
-            @udp_client.send_ts(ts, pattern, *args)
+            @udp_server.send_ts(ts, @hostname, @port, pattern, *args)
           else
             @buffered_msgs << [:send_ts, ts, pattern, args]
           end

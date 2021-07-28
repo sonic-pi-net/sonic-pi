@@ -129,11 +129,13 @@ osc_cues_port = ARGV[5] ? ARGV[5].to_i : 4560
 
 # Port which the Erlang scheduler/router listens to.
 # erlang-router
-erlang_port = ARGV[6] ? ARGV[6].to_i : 4561
+tau_port = ARGV[6] ? ARGV[6].to_i : 4561
+
+listen_to_tau_port = ARGV[7] ? ARGV[7].to_i : 4562
 
 # Port which the server uses to communicate via websockets
 # websocket
-websocket_port = ARGV[7] ? ARGV[7].to_i : 4562
+websocket_port = ARGV[8] ? ARGV[8].to_i : 4563
 
 # Create a frozen map of the ports so that this can
 # essentially be treated as a global constant to the
@@ -144,7 +146,8 @@ sonic_pi_ports = {
   scsynth_port: scsynth_port,
   scsynth_send_port: scsynth_send_port,
   osc_cues_port: osc_cues_port,
-  erlang_port: erlang_port,
+  tau_port: tau_port,
+  listen_to_tau_port: listen_to_tau_port,
   websocket_port: websocket_port}.freeze
 
 
@@ -543,13 +546,6 @@ register_api = lambda do |server|
     sp.__midi_system_reset(silent)
   end
 
-  server.add_method("/midi-cue") do |args|
-    gui_id = args[0]
-    path = args[1]
-    args = args[2..-1]
-    sp.__register_midi_cue_event(path, args)
-  end
-
   server.add_method("/cue-port-external") do |args|
     gui_id = args[0]
     sp.__cue_server_internal!(false)
@@ -570,15 +566,6 @@ register_api = lambda do |server|
     sp.__stop_start_cue_server!(false)
   end
 
-  server.add_method("/external-osc-cue") do |args|
-    gui_id = args[0]
-    ip = args[0]
-    port = args[1]
-    address = args[2]
-    osc_args = args[3..-1]
-    sp.__register_external_osc_cue_event(Time.now, ip, port, address, osc_args)
-  end
-end
 
 register_api.call(osc_server)
 # register_api.call(ws) unless gui_protocol == :websockets

@@ -28,7 +28,6 @@ require_relative "config/settings"
 require_relative "preparser"
 require_relative "event_history"
 require_relative "thread_id"
-require_relative "tau_comms.rb"
 
 #require_relative "oscevent"
 #require_relative "stream"
@@ -89,7 +88,7 @@ module SonicPi
       end
     end
 
-    def __register_midi_cue_event(address, args)
+    def __register_internal_cue_event(address, args)
       p = 0
       d = 0
       b = 0
@@ -362,19 +361,11 @@ module SonicPi
     end
 
     def __stop_start_cue_server!(stop)
-      if stop
-        @osc_client.send("/stop-start-cue-server", 0)
-      else
-        @osc_client.send("/stop-start-cue-server", 1)
-      end
+      @tau_api.start_stop_cue_server!(stop)
     end
 
     def __cue_server_internal!(internal)
-      if internal
-        @osc_client.send("/internal-cue-port", 1)
-      else
-        @osc_client.send("/internal-cue-port", 0)
-      end
+      @tau_api.cue_server_internal!(internal)
     end
 
     def __stop_job(j)
@@ -407,30 +398,20 @@ module SonicPi
     end
 
     def __midi_flush!
-      @osc_client.send("/midi_flush")
-    end
-
-    def __midi_system_reset(silent=false)
-      __info "Resetting MIDI subsystems..." unless silent
-      __schedule_delayed_blocks_and_messages!
-      begin
-        @mod_sound_studio.reset_erlang
-        __info "MIDI subsystems successfully reset" unless silent
-      rescue
-        __info "Error resetting MIDI subsystems..."
-      end
+      @tau_api.midi_flush
     end
 
     def __midi_system_start(silent=false)
       __info "Enabling incoming MIDI cues..." unless silent
       __schedule_delayed_blocks_and_messages!
       @osc_client.send("/stop-start-midi-cues", 1)
+      @tau_api.midi_system_start
     end
 
     def __midi_system_stop(silent=false)
       __info "Stopping incoming MIDI cues..." unless silent
       __schedule_delayed_blocks_and_messages!
-      @osc_client.send("/stop-start-midi-cues", 0)
+      @tau_api.midi_system_stop
     end
 
     def __update_midi_ins(ins)
@@ -444,8 +425,9 @@ module SonicPi
       desc = outs.join("\n")
       __msg_queue.push({:type => :midi_out_ports, :val => desc})
     end
+
     def __osc_flush!
-      @osc_client.send("/flush", "default")
+      @tau_api.osc_flush!
     end
 
     def __stop_other_jobs
@@ -1342,9 +1324,16 @@ module SonicPi
       @global_start_time = Time.now
       @session_id = SecureRandom.uuid
       @snippets = {}
-      @osc_cues_port = ports[:osc_cues_port]
-      @osc_router_port = ports[:erlang_port]
-      @osc_client = SonicPi::TauComms.new("127.0.0.1", @osc_router_port)
+      @tau_api = @tau_api = TauAPI.new(ports)
+
+      @tau_api.register_external_osc_cue_handler do |time, ip, port, address, args|
+        __register_external_osc_cue_event(time, ip, port, address, args)
+      end
+
+      @tau_api.register_cue_handler do |path, args|
+        __register_internal_cue_event(path, args)
+      end
+
       @system_state = EventHistory.new(@job_subthreads, @job_subthread_mutex)
       @user_state = EventHistory.new(@job_subthreads, @job_subthread_mutex)
       @event_history = EventHistory.new(@job_subthreads, @job_subthread_mutex)

@@ -11,7 +11,7 @@
 
 
 %% set to 0 for no debugging messages
--define(DEBUG_LEVEL, 0).
+-define(DEBUG_LEVEL, 1).
 
 %% set to 0 for no log messages
 -define(LOG_LEVEL, 1).
