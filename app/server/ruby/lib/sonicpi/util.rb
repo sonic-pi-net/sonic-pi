@@ -181,7 +181,7 @@ module SonicPi
      def raspberry_pi_400_64?
       os == :raspberry && @@raspberry_pi_400_64
     end
-    
+
    def unify_tilde_dir(path)
       if os == :windows
         path
@@ -697,7 +697,7 @@ module SonicPi
 
     def register_process(pid)
       pid = spawn "'#{ruby_path}' '#{File.join(server_bin_path, 'task-register.rb')}' #{pid}"
-      Process.waitpid(pid, Process::WNOHANG)
+      Process.detach pid
     end
 
     def kill_and_deregister_process(pid)
