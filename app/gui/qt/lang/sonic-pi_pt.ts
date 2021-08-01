@@ -408,7 +408,7 @@ Pedimos desculpa, um erro crítico aconteceu durante o processo de inicializaç�
     <message>
         <location filename="../mainwindow.cpp" line="2619"/>
         <source>Show Code Completion</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar completamento de código</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2624"/>
@@ -443,27 +443,27 @@ Pedimos desculpa, um erro crítico aconteceu durante o processo de inicializaç�
     <message>
         <location filename="../mainwindow.cpp" line="2654"/>
         <source>Enable Incoming MIDI Cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Habilitar entrada de Midi Cues</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2659"/>
         <source>Allow Incoming OSC</source>
-        <translation type="unfinished"></translation>
+        <translation>Permitir entrada de OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2664"/>
         <source>Allow OSC From Other Computers</source>
-        <translation type="unfinished"></translation>
+        <translation>Permitir OSC de outros computadores</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2669"/>
         <source>Log Cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Registrar Cues</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2674"/>
         <source>Log Synths</source>
-        <translation>Registar Sintetizadores</translation>
+        <translation>Registrar Sintetizadores</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2679"/>
@@ -483,7 +483,7 @@ Pedimos desculpa, um erro crítico aconteceu durante o processo de inicializaç�
     <message>
         <location filename="../mainwindow.cpp" line="2699"/>
         <source>Live</source>
-        <translation type="unfinished"></translation>
+        <translation>Ao Vivo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2711"/>
@@ -533,7 +533,7 @@ Pedimos desculpa, um erro crítico aconteceu durante o processo de inicializaç�
     <message>
         <location filename="../mainwindow.cpp" line="2766"/>
         <source>Colour Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Cor do tema</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2775"/>
@@ -548,7 +548,7 @@ Pedimos desculpa, um erro crítico aconteceu durante o processo de inicializaç�
     <message>
         <location filename="../mainwindow.cpp" line="2788"/>
         <source>MIDI Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Entradas MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2789"/>
@@ -560,14 +560,14 @@ Pedimos desculpa, um erro crítico aconteceu durante o processo de inicializaç�
     <message>
         <location filename="../mainwindow.cpp" line="2790"/>
         <source>MIDI Outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Saídas MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2791"/>
         <location filename="../mainwindow.cpp" line="3636"/>
         <location filename="../mainwindow.cpp" line="3767"/>
         <source>No Connected Outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Sem dispositivos de saída conectados</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2793"/>
@@ -577,7 +577,7 @@ Pedimos desculpa, um erro crítico aconteceu durante o processo de inicializaç�
     <message>
         <location filename="../mainwindow.cpp" line="2796"/>
         <source>All Channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Todos os canais</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2801"/>
