@@ -6,69 +6,69 @@
     <message>
         <location filename="../mainwindow.cpp" line="519"/>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>التفضيلات</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="781"/>
         <source>Log</source>
-        <translation type="unfinished"></translation>
+        <translation>سجل</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="177"/>
         <location filename="../mainwindow.cpp" line="3284"/>
         <location filename="../mainwindow.cpp" line="3303"/>
         <source>Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>سونيك باي</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1680"/>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>جارٍ تشغيل الكود...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1700"/>
         <source>Beautifying...</source>
         <oldsource>Beautifying....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>جارٍ التجميل...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1730"/>
         <source>Reloading...</source>
         <oldsource>Reloading....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>جارٍ إعادة التحميل...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1761"/>
         <source>Enabling Mixer HPF...</source>
         <oldsource>Enabling Mixer HPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>جار تفعيل مازج HPF...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1770"/>
         <source>Disabling Mixer HPF...</source>
         <oldsource>Disabling Mixer HPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>جار اطفاء مازج HPF...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="457"/>
         <source>Welcome to Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>مرحبًا بك في سونيك بي</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1110"/>
         <source>Indenting selection...</source>
-        <translation type="unfinished"></translation>
+        <translation>جار اضافة مسافة بادئة للقطعة المحددة...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1114"/>
         <source>Indenting line...</source>
-        <translation type="unfinished"></translation>
+        <translation>جار اضافة مسافة بادئة للسطر...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1143"/>
         <source>Toggle selection comment...</source>
-        <translation type="unfinished"></translation>
+        <translation>تبديل وضعية التعليق المحدد...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="787"/>
@@ -78,47 +78,47 @@
     <message>
         <location filename="../mainwindow.cpp" line="937"/>
         <source>Full screen mode on.</source>
-        <translation type="unfinished"></translation>
+        <translation>وضع الشاشة الكاملة مفعل.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="954"/>
         <source>Full screen mode off.</source>
-        <translation type="unfinished"></translation>
+        <translation>وضع الشاشة الكاملة مغلق.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1147"/>
         <source>Toggle line comment...</source>
-        <translation type="unfinished"></translation>
+        <translation>تبديل وضعية التعليق في السطر المحدد...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1233"/>
         <source>The Sonic Pi Server could not be started!</source>
-        <translation type="unfinished"></translation>
+        <translation>الخادم الخاص بسونيك باي لم يستطع ان يبدا!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3618"/>
         <source>Enabling MIDI input...</source>
-        <translation type="unfinished"></translation>
+        <translation>جارٍ تفعيل ادخال MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3624"/>
         <source>Disabling MIDI input...</source>
-        <translation type="unfinished"></translation>
+        <translation>جارٍ تعطيل ادخال MIDI ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3640"/>
         <source>No connected input devices</source>
-        <translation type="unfinished"></translation>
+        <translation>لا توجد أجهزة إدخال متصلة</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3641"/>
         <source>No connected output devices</source>
-        <translation type="unfinished"></translation>
+        <translation>لا توجد أجهزة إخراج متصلة</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3582"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation type="unfinished"></translation>
+        <translation>قم بزيارة http://sonic-pi.net لتنزيل الإصدار الجديد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3662"/>
@@ -138,19 +138,21 @@
     <message>
         <location filename="../mainwindow.cpp" line="3745"/>
         <source>Connected MIDI inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>مدخلات MIDI المتصلة</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3761"/>
         <source>Connected MIDI outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>مخرجات MIDI المتصلة</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1445"/>
         <source>Sonic Pi Boot Error
 
 Apologies, a critical error occurred during startup</source>
-        <translation type="unfinished"></translation>
+        <translation>خطأ اثناء بدء تشغيل سونيك باي,
+
+نعتذر, حدث خطأ فادح اثناء بدء التشغيل</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1545"/>
@@ -158,7 +160,7 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="1562"/>
         <location filename="../mainwindow.cpp" line="1565"/>
         <source>Buffer files</source>
-        <translation type="unfinished"></translation>
+        <translation>ملفات الBuffer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1548"/>
