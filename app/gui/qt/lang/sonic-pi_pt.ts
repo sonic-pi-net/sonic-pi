@@ -528,7 +528,7 @@ Pedimos desculpa, um erro crítico aconteceu durante o processo de inicializaç�
     <message>
         <location filename="../mainwindow.cpp" line="2761"/>
         <source>Show Scope Labels</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar rótulos de escopo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2766"/>
@@ -538,7 +538,7 @@ Pedimos desculpa, um erro crítico aconteceu durante o processo de inicializaç�
     <message>
         <location filename="../mainwindow.cpp" line="2775"/>
         <source>Show Scope Kinds</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar tipos de escopo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2786"/>
@@ -555,7 +555,7 @@ Pedimos desculpa, um erro crítico aconteceu durante o processo de inicializaç�
         <location filename="../mainwindow.cpp" line="3638"/>
         <location filename="../mainwindow.cpp" line="3750"/>
         <source>No Connected Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Sem entradas conectadas</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2790"/>
@@ -572,7 +572,7 @@ Pedimos desculpa, um erro crítico aconteceu durante o processo de inicializaç�
     <message>
         <location filename="../mainwindow.cpp" line="2793"/>
         <source>Default MIDI Out Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Canal de saída MIDI padrão</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2796"/>
