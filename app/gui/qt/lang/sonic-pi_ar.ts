@@ -165,35 +165,35 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1548"/>
         <source>Load Sonic Pi Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>تحميل buffer سونيك باي</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1548"/>
         <location filename="../mainwindow.cpp" line="1565"/>
         <source>Text files</source>
-        <translation type="unfinished"></translation>
+        <translation>ملفات نصية</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1548"/>
         <location filename="../mainwindow.cpp" line="1565"/>
         <source>Ruby files</source>
-        <translation type="unfinished"></translation>
+        <translation>ملفات روبي</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1548"/>
         <location filename="../mainwindow.cpp" line="1565"/>
         <source>All files</source>
-        <translation type="unfinished"></translation>
+        <translation>كل الملفات</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2043"/>
         <source>Log Auto Scroll on...</source>
-        <translation type="unfinished"></translation>
+        <translation>خاصية تحريك السجل للاسفل تلقائياً مفعلة...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2045"/>
         <source>Log Auto Scroll off...</source>
-        <translation type="unfinished"></translation>
+        <translation>خاصية تحريك السجل للاسفل تلقائياً معطلة...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2517"/>
@@ -203,7 +203,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2539"/>
         <source>Load</source>
-        <translation type="unfinished"></translation>
+        <translation>فتح</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2541"/>
@@ -228,12 +228,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2563"/>
         <source>Show Scopes</source>
-        <translation type="unfinished"></translation>
+        <translation>إظهار النطاقات</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2571"/>
         <source>Show Info</source>
-        <translation type="unfinished"></translation>
+        <translation>إظهار المعلومات</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3108"/>
@@ -253,7 +253,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="3699"/>
         <source>Welcome back. Now get your live code on...</source>
-        <translation type="unfinished"></translation>
+        <translation>مرحبا بك مرة اخرة. قم بتشغيل الكود الخاص بك الان.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1565"/>
@@ -263,42 +263,42 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="770"/>
         <source>Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>نطاق</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="793"/>
         <source>Context</source>
-        <translation type="unfinished"></translation>
+        <translation>سياق</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="897"/>
         <source>Playing Sample...</source>
-        <translation type="unfinished"></translation>
+        <translation>عزف العينة...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1686"/>
         <source>Zooming In...</source>
-        <translation type="unfinished"></translation>
+        <translation>تكبير ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1693"/>
         <source>Zooming Out...</source>
-        <translation type="unfinished"></translation>
+        <translation>تصغير ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1737"/>
         <source>Checking for updates...</source>
-        <translation type="unfinished"></translation>
+        <translation>البحث عن تحديثات...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1745"/>
         <source>Enabling update checking...</source>
-        <translation type="unfinished"></translation>
+        <translation>تمكين التحقق من تحديثات...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1753"/>
         <source>Disabling update checking...</source>
-        <translation type="unfinished"></translation>
+        <translation>جارٍ تعطيل التحقق من تحديثات ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1778"/>
@@ -339,7 +339,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1828"/>
         <source>Stopping...</source>
-        <translation type="unfinished"></translation>
+        <translation>جاري الايقاف...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1869"/>
@@ -404,7 +404,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2510"/>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>اخرج</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2529"/>
@@ -414,7 +414,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2533"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>حفظ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2535"/>
@@ -439,7 +439,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2587"/>
         <source>Show Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>اظهر التفضيلات</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2591"/>
