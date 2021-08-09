@@ -19,7 +19,7 @@ elseif(MSVC)
     if(DEFINED ENV{GITHUB_ACTION})
         set(ERLANG_INCLUDE_PATH "C:/Program Files/erl10.7/usr/include" CACHE PATH "Path to erlang includes")
     else()
-        set(ERLANG_INCLUDE_PATH "C:/Program Files/erl-23.0/usr/include" CACHE PATH "Path to erlang includes")
+        set(ERLANG_INCLUDE_PATH "C:/Program Files/erl-24.0/usr/include" CACHE PATH "Path to erlang includes")
     endif()
 endif(APPLE)
 
@@ -72,4 +72,3 @@ elseif(UNIX)
     add_definitions(-DLINUX=1 -DNDEBUG=1)
     target_link_libraries(libsp_link Ableton::Link)
 endif(MSVC)
-

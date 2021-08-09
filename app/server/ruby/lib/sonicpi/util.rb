@@ -651,16 +651,6 @@ module SonicPi
       o.is_a?(Array) || o.is_a?(SonicPi::Core::SPVector)
     end
 
-    def register_process(pid)
-      pid = spawn "'#{ruby_path}' '#{File.join(server_bin_path, 'task-register.rb')}' #{pid}"
-      Process.waitpid(pid, Process::WNOHANG)
-    end
-
-    def kill_and_deregister_process(pid)
-      pid = spawn "'#{ruby_path}' '#{File.join(server_bin_path, 'task-clear.rb')}' #{pid}"
-      Process.wait pid
-    end
-
     def __thread_locals(t = Thread.current)
       tls = t.thread_variable_get(:sonic_pi_thread_locals)
       tls = t.thread_variable_set(:sonic_pi_thread_locals, SonicPi::Core::ThreadLocal.new) unless tls

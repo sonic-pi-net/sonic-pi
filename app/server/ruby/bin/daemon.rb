@@ -106,11 +106,9 @@ Thread::abort_on_exception = true
 
 module SonicPi
   module Daemon
-
     class Init
 
       def initialize
-
         @safe_exit = SafeExit.new do
           # Register exit routine
           # This will only be called once
@@ -413,61 +411,63 @@ module SonicPi
       end
 
       def kill
-        Util.log "Process Booter - killing #{@cmd} with pid #{@pid} and args #{@args.inspect}, wait_thr status: #{@wait_thr}, #{@wait_thr.status}"
+        if process_running?
+          Util.log "Process Booter - killing #{@cmd} with pid #{@pid} and args #{@args.inspect}, wait_thr status: #{@wait_thr}, #{@wait_thr.status}"
 
-        unless Util.os == :windows
-
-          Util.log "Process running? #{@pid} - #{process_running?.inspect}"
-          if process_running?
+          unless Util.os == :windows
             begin
               Util.log "Sending TERM kill command to #{@pid.inspect}"
               Process.kill("TERM", @pid)
             rescue Errno::ESRCH
               Util.log "Unable to send TERM kill command to #{@pid.inspect} as it's no longer running"
             end
+
+            countdown = 5
+
+            while process_running? && countdown >= 0
+              Util.log "Process #{@pid.inspect} still running, waiting for it to finish... [#{countdown}]"
+              sleep 1
+              countdown -= 1
+            end
           end
 
-          countdown = 5
+          if process_running?
 
-          while process_running? && countdown >= 0
-            Util.log "Process #{@pid.inspect} still running, waiting for it to finish... [#{countdown}]"
-            sleep 1
-            countdown -= 1
+            # We're either running on Windows (which doesn't seem to
+            # support SIGTERM) or we attempted to kill the process nicely,
+            # but unfortunately that didn't work, so let's forcefully kill
+            # it
+            begin
+              Util.log "Sending KILL kill command to #{@pid.inspect}"
+              Process.kill("KILL", @pid)
+            rescue Errno::ESRCH
+              Util.log "Unable to send KILL kill command to #{@pid.inspect} as it's no longer running"
+            end
+
+            countdown = 5
+
+            while process_running? && countdown >= 0
+              Util.log "Process #{@pid.inspect} still running, waiting for it to finish... [#{countdown}]"
+              sleep 1
+              countdown -= 1
+            end
           end
 
-        end
-
-        if process_running?
-          # We're either running on Windows (which doesn't seem to
-          # support SIGTERM) or we attempted to kill the process nicely,
-          # but unfortunately that didn't work, so let's forcefully kill
-          # it
-          begin
-            Util.log "Sending KILL kill command to #{@pid.inspect}"
-            Process.kill("KILL", @pid)
-          rescue Errno::ESRCH
-            Util.log "Unable to send KILL kill command to #{@pid.inspect} as it's no longer running"
+          if process_running?
+            Util.log "Unable to terminate process #{@pid.inspect}"
+          else
+            Util.log "Process #{@pid.inspect} terminated"
           end
-        end
-
-        countdown = 5
-
-        while process_running? && countdown >= 0
-          Util.log "Process #{@pid.inspect} still running, waiting for it to finish... [#{countdown}]"
-          sleep 1
-          countdown -= 1
-        end
-
-        if process_running?
-          Util.log "Unable to terminate process #{@pid.inspect}"
         else
-          Util.log "Process #{@pid.inspect} terminated"
+          Util.log "Process Booter - no need to kill #{@cmd} with pid #{@pid} and args #{@args.inspect} - already terminated, wait_thr status: #{@wait_thr}, #{@wait_thr.status}"
         end
-      end
 
-      @log_file.close if @log_file
-      @stdout_and_err_thr.kill if @stdout_and_err_thr
+        @log_file.close if @log_file
+        @stdout_and_err_thr.kill if @stdout_and_err_thr
+      end
     end
+
+
 
 
     class SpiderBooter < ProcessBooter
@@ -479,6 +479,7 @@ module SonicPi
         osc_cues_port             = ports["osc-cues"]
         tau_port                  = ports["tau"]
         websocket_port            = ports["websocket"]
+        listen_to_tau_port        = ports["listen-to-tau"]
         cmd = Paths.ruby_path
         args = ["--enable-frozen-string-literal", "-E", "utf-8",
           Paths.spider_server_path,
@@ -489,6 +490,7 @@ module SonicPi
           scsynth_send_port,
           osc_cues_port,
           tau_port,
+          listen_to_tau_port,
           websocket_port]
         super(cmd, args, Paths.spider_log_path)
       end
@@ -499,14 +501,14 @@ module SonicPi
       def initialize(ports)
         listen_port = ports["tau"]
         cues_port   = ports["osc-cues"]
-        gui_port    = ports["server-listen-to-gui"]
+        spider_port = ports["listen-to-tau"]
 
         args = ['+C', 'multi_time_warp', '-noshell', '-pz',
           Paths.tau_app_path,
           '-tau',
           'api_port', listen_port,
           'in_port', cues_port,
-          'cue_port', gui_port,
+          'spider_port', spider_port,
           'enabled', 'false',
           '-s', 'tau_server',
           'start']
@@ -587,7 +589,7 @@ module SonicPi
       def initialize(ports)
         @port = ports["scsynth"]
         begin
-        toml_opts_hash = Tomlrb.load_file(Paths.user_audio_settings_path, symbolize_keys: true).freeze
+          toml_opts_hash = Tomlrb.load_file(Paths.user_audio_settings_path, symbolize_keys: true).freeze
         rescue StandardError
           toml_opts_hash = {}
         end
@@ -742,6 +744,9 @@ module SonicPi
         # Port which the Tau listens to.
         "tau" => :dynamic,
 
+        # Port which the Ruby server listens to messages back from the Tau server
+        "listen-to-tau" => :dynamic,
+
         # Port which the server uses to communicate via websockets
         # (This is currently unused.)
         "websocket" => :dynamic
@@ -769,6 +774,7 @@ module SonicPi
 
           "osc-cues",
           "tau",
+          "listen-to-tau",
           "websocket"].inject({}) do |res, port_name|
 
           default = nil

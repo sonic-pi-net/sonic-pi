@@ -1579,30 +1579,29 @@ end"
         end
       end
 
-
       def __midi_send_timed(path, port)
-        b = OSC::Blob.new(@osc_client.encoder.encode_single_message(path, [port]))
-        __osc_send_api("/midi_at", b)
+        t = __get_spider_schedule_time
+         @tau_api.send_midi_at(t, path, port)
       end
 
       def __midi_send_timed_param_2(path, a, b)
-        b = OSC::Blob.new(@osc_client.encoder.encode_single_message(path, [a, b]))
-        __osc_send_api("/midi_at", b)
+        t = __get_spider_schedule_time
+        @tau_api.send_midi_at(t, path, a, b)
       end
 
       def __midi_send_timed_param_3(path, a, b, c)
-        b = OSC::Blob.new(@osc_client.encoder.encode_single_message(path, [a, b, c]))
-        __osc_send_api("/midi_at", b)
+        t = __get_spider_schedule_time
+        @tau_api.send_midi_at(t, path, a, b, c)
       end
 
       def __midi_send_timed_param_4(path, a, b, c, d)
-        b = OSC::Blob.new(@osc_client.encoder.encode_single_message(path, [a, b, c, d]))
-        __osc_send_api("/midi_at", b)
+        t = __get_spider_schedule_time
+        @tau_api.send_midi_at(t, path, a, b, c, d)
       end
 
       def __midi_send_timed_param_n(path, *args)
-        b = OSC::Blob.new(@osc_client.encoder.encode_single_message(path, args))
-        __osc_send_api("/midi_at", b)
+        t = __get_spider_schedule_time
+        @tau_api.send_midi_at(t, path *args)
       end
 
       def __midi_message(m)

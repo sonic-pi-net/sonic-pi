@@ -22,9 +22,9 @@ module SonicPi
 
     attr_accessor :cent_tuning
 
-    def initialize(ports, msg_queue, state, register_cue_event_lambda)
+    def initialize(ports, msg_queue, state, register_cue_event_lambda, current_spider_time_lambda)
 
-      STDOUT.puts "studio init"
+      STDOUT.puts "studio - init"
       STDOUT.flush
 
       @state = state
@@ -40,6 +40,7 @@ module SonicPi
       @sample_format = "int16"
       @paused = false
       @register_cue_event_lambda = register_cue_event_lambda
+      @current_spider_time_lambda = current_spider_time_lambda
       init_scsynth
       reset_server
       init_studio
@@ -63,7 +64,7 @@ module SonicPi
     end
 
     def init_scsynth
-      @server = Server.new(@scsynth_port, @msg_queue, @state, @register_cue_event_lambda)
+      @server = Server.new(@scsynth_port, @msg_queue, @state, @register_cue_event_lambda, @current_spider_time_lambda)
       message "Initialised SuperCollider Audio Server #{@server.version}"
     end
 
@@ -73,7 +74,6 @@ module SonicPi
       @server.add_event_handler("/sonic-pi/amp", "/sonic-pi/amp") do |payload|
         @amp = [payload[2], payload[3]]
       end
-
 
       old_synthdefs = @loaded_synthdefs
       @loaded_synthdefs = Set.new
@@ -101,7 +101,6 @@ module SonicPi
           internal_load_sample(k, @server)
         end
       end
-
 
       @recorders = {}
       @recording_mutex = Mutex.new
@@ -386,40 +385,6 @@ module SonicPi
       end
     end
 
-    def reboot
-      # Important:
-      # This method should only be called from the @server_rebooter
-      # thread.
-      return nil if @rebooting
-      @reboot_mutex.synchronize do
-        @rebooting = true
-        message "Rebooting SuperCollider Audio Server. Please wait..."
-#        @server.shutdown
-
-        begin
-          reset_server
-        rescue Exception => e
-          message "Error resetting server"
-          message e.message
-          message e.backtrace.inspect
-          message e.backtrace
-        end
-
-        begin
-          init_studio
-        rescue Exception => e
-          message "Error initialising Studio"
-          message e.message
-          message e.backtrace.inspect
-          message e.backtrace
-        end
-
-        message "SuperCollider Audio Server ready."
-        @rebooting = false
-        true
-      end
-    end
-
     def pause(silent=true)
       @recording_mutex.synchronize do
         unless recording? || @paused
@@ -467,7 +432,6 @@ module SonicPi
 
     def check_for_server_rebooting!(msg=nil)
       if @rebooting
-        message "Oops, already rebooting: #{msg}"
         log_message "Oops, already rebooting: #{msg}"
         raise StudioCurrentlyRebootingError if @rebooting
       end
@@ -487,13 +451,13 @@ module SonicPi
 
 
     def reset_and_setup_groups_and_busses
-      log_message "Studio - reset and setup groups and busses"
-      log_message "Studio - clearing scsynth"
+      log_message "Reset and setup groups and busses"
+      log_message "Clearing scsynth"
       @server.reset!
-      log_message "Studio - allocating audio bus"
+      log_message "Allocating audio bus"
       @mixer_bus = @server.allocate_audio_bus
 
-      log_message "Studio - Create Base Synth Groups"
+      log_message "Create Base Synth Groups"
       @mixer_group = @server.create_group(:head, 0, "STUDIO-MIXER")
       @fx_group = @server.create_group(:before, @mixer_group, "STUDIO-FX")
       @synth_group = @server.create_group(:before, @fx_group, "STUDIO-SYNTHS")

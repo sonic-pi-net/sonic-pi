@@ -22,7 +22,7 @@ elseif(MSVC)
     if(DEFINED ENV{GITHUB_ACTION})
         set(ERLANG_INCLUDE_PATH "C:/Program Files/erl10.7/usr/include" CACHE PATH "Path to erlang includes")
     else()
-        set(ERLANG_INCLUDE_PATH "C:/Program Files/erl-23.0/usr/include" CACHE PATH "Path to erlang includes")
+        set(ERLANG_INCLUDE_PATH "C:/Program Files/erl-24.0/usr/include" CACHE PATH "Path to erlang includes")
     endif()
 endif(APPLE)
 
@@ -84,4 +84,3 @@ elseif(UNIX)
     include_directories(${ERLANG_INCLUDE_PATH})
     target_link_libraries(libsp_midi pthread ${ALSA_LIBRARY} dl rtmidi)
 endif(MSVC)
-

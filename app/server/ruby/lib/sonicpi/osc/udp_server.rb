@@ -18,6 +18,9 @@ require_relative "oscdecode"
 module SonicPi
   module OSC
     class UDPServer
+
+      attr_reader :encoder
+
       include Util
 
       def initialize(port, opts={}, &global_method)
@@ -87,12 +90,9 @@ module SonicPi
           begin
             address, args = @decoder.decode_single_message(osc_data)
             log "OSC <-----        #{address} #{args.inspect}" if incoming_osc_debug_mode
-            if @global_matcher
-              @global_matcher.call(address, args, sender_addrinfo)
-            else
-              p = @matchers[address]
-              p.call(args) if p
-            end
+            p = @matchers[address]
+            p.call(args) if p
+            @global_matcher.call(address, args, sender_addrinfo) if @global_matcher
           rescue Exception => e
             STDERR.puts "OSC handler exception for address: #{address}"
             STDERR.puts e.message

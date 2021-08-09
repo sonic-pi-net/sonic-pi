@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.0)
 project(Link)
 
+set(ERLANG_INCLUDE_PATH "/usr/local/lib/erlang/usr/include" CACHE PATH "Path to erlang includes")
+
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 #   ___        _   _
@@ -60,4 +62,3 @@ if(CMAKE_BUILD_TYPE)
 else()
   message("   Build type: Set by IDE")
 endif()
-

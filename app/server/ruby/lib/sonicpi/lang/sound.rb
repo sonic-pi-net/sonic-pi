@@ -86,12 +86,13 @@ module SonicPi
             @job_mixers_mutex = Mutex.new
             @job_busses = {}
             @job_busses_mutex = Mutex.new
-            @mod_sound_studio = Studio.new(ports, msg_queue, @system_state, @register_cue_event_lambda)
+            current_spider_time_lambda = lambda { __get_spider_time }
+            @mod_sound_studio = Studio.new(ports, msg_queue, @system_state, @register_cue_event_lambda, current_spider_time_lambda)
 
             buf_lookup = lambda do |name, duration=nil|
               # scale duration to the current BPM
               duration ||= 8
-              duration = duration * __system_thread_locals.get(:sonic_pi_spider_sleep_mul, 1)
+              duration = duration * (__get_spider_sleep_mul || 1)
               name = name.to_sym
 
               buf, cached = @mod_sound_studio.allocate_buffer(name, duration)
@@ -2243,7 +2244,7 @@ load_sample dir, /[Bb]ar/ # loads first sample which matches regex /[Bb]ar/ in \
         end
 
         if __thread_locals.get(:sonic_pi_spider_arg_bpm_scaling)
-          return real_dur.to_f / __system_thread_locals.get(:sonic_pi_spider_sleep_mul)
+          return real_dur.to_f / __get_spider_sleep_mul
         else
           return real_dur
         end
@@ -3915,7 +3916,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
       def time_diff
         # negative values mean we're ahead of time
         # positive values mean we're behind time
-        vt  = __system_thread_locals.get :sonic_pi_spider_time
+        vt  = __get_spider_time
         sat = current_sched_ahead_time
         compensated = (Time.now - sat)
         compensated - vt
@@ -3964,7 +3965,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
             # allows defaults to be keys one level deep
             # see .normalise_args!
             val = (args_h[val] || defaults[val]) if val.is_a?(Symbol)
-            scaled_val = val * __system_thread_locals.get(:sonic_pi_spider_sleep_mul)
+            scaled_val = val * __get_spider_sleep_mul
 
             default = defaults[arg_name]
             if (args_h.has_key?(arg_name))
@@ -3982,7 +3983,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         else
           # only scale the args that have been passed.
           info.bpm_scale_args.each do |arg_name, default|
-            new_args[arg_name] = args_h[arg_name] * __system_thread_locals.get(:sonic_pi_spider_sleep_mul) if args_h.has_key?(arg_name)
+            new_args[arg_name] = args_h[arg_name] * __get_spider_sleep_mul if args_h.has_key?(arg_name)
 
           end
         end

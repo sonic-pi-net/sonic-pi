@@ -14,10 +14,10 @@
 
 -module(tau_server_api).
 
--export([start_link/2]).
+-export([start_link/3]).
 
 %% internal
--export([init/3, loop/1]).
+-export([init/4, loop/1]).
 
 %% sys module callbacks
 -export([system_continue/3, system_terminate/4, system_code_change/4,
@@ -70,12 +70,12 @@
 
 
 %% supervisor compliant start function
-start_link(CueServer, MIDIServer) ->
+start_link(CueServer, MIDIServer, LinkServer) ->
     %% synchronous start of the child process
-    proc_lib:start_link(?MODULE, init, [self(), CueServer, MIDIServer]).
+    proc_lib:start_link(?MODULE, init, [self(), CueServer, MIDIServer, LinkServer]).
 
 
-init(Parent, CueServer, MIDIServer) ->
+init(Parent, CueServer, MIDIServer, LinkServer) ->
     register(?SERVER, self()),
     APIPort = application:get_env(?APPLICATION, api_port, undefined),
     io:format("~n"
@@ -98,8 +98,10 @@ init(Parent, CueServer, MIDIServer) ->
               api_socket => APISocket,
               cue_server => CueServer,
               midi_server => MIDIServer,
+              link_server => LinkServer,
               tag_map => #{}
              },
+    send_to_cue({tau_ready}, State),
     loop(State).
 
 loop(State) ->
@@ -112,15 +114,16 @@ loop(State) ->
                     NewState = do_bundle(Time, X, State),
                     ?MODULE:loop(NewState);
                 {cmd, ["/ping"]} ->
-                    debug("sending /pong to  ~p ~p ~n", [Ip, Port]),
+                    debug("sending! /pong to  ~p ~p ~n", [Ip, Port]),
                     PongBin = osc:encode(["/pong"]),
                     ok = gen_udp:send(APISocket, Ip, Port, PongBin),
                     ?MODULE:loop(State);
-                {cmd, ["/midi", OSC]} ->
+                {cmd, ["/midi", OSC]=Cmd} ->
+                    debug_cmd(Cmd),
                     MIDIServer = maps:get(midi_server, State),
                     MIDIServer ! {send, OSC},
                     ?MODULE:loop(State);
-                {cmd, ["/midi_flush"]=Cmd} ->
+                {cmd, ["/midi-flush"]=Cmd} ->
                     debug_cmd(Cmd),
                     MIDIServer = maps:get(midi_server, State),
                     MIDIServer ! {flush},
@@ -142,9 +145,33 @@ loop(State) ->
                     debug_cmd(Cmd),
                     send_to_cue({midi_enabled, Flag =:= 1}, State),
                     ?MODULE:loop(State);
+                {cmd, ["/api-rpc", UUID, "/link-get-current-time"]=Cmd} ->
+                    debug_cmd(Cmd),
+                    send_to_link({link_rpc, UUID, get_current_time}, State),
+                    ?MODULE:loop(State);
+
+                {cmd, ["/api-rpc", UUID, "/link-get-beat-at-time", Time, Quantum]=Cmd} ->
+                    debug_cmd(Cmd),
+                    send_to_link({link_rpc, UUID, get_beat_at_time, Time, Quantum}, State),
+                    ?MODULE:loop(State);
+
+                {cmd, ["/api-rpc", UUID, "/link-get-time-at-beat", Beat, Quantum]=Cmd} ->
+                    debug_cmd(Cmd),
+                    send_to_link({link_rpc, UUID, get_time_at_beat, Beat, Quantum}, State),
+                    ?MODULE:loop(State);
+
+                {cmd, ["/api-rpc", UUID, "/link-get-tempo"]=Cmd} ->
+                    debug_cmd(Cmd),
+                    send_to_link({link_rpc, UUID, get_tempo}, State),
+                    ?MODULE:loop(State);
+
+                {cmd, ["/api-rpc", UUID, "/link-get-num-peers"]=Cmd} ->
+                    debug_cmd(Cmd),
+                    send_to_link({link_rpc, UUID, get_num_peers}, State),
+                    ?MODULE:loop(State);
 
                 {cmd, Cmd} ->
-                    log("Unknown command: \"~s\"~n", [Cmd]),
+                    log("Unknown command:: ~p~n", [Cmd]),
                     ?MODULE:loop(State)
             catch
                 Class:Term:Trace ->
@@ -162,6 +189,12 @@ loop(State) ->
             ?MODULE:loop(State)
     end.
 
+send_to_link(Message, State) ->
+    LinkServer = maps:get(link_server, State),
+    LinkServer ! Message,
+    ok.
+
+
 send_to_cue(Message, State) ->
     CueServer = maps:get(cue_server, State),
     CueServer ! Message,
@@ -173,13 +206,13 @@ debug_cmd([Cmd|Args]) ->
 do_bundle(Time, [{_,Bin}|T], State) ->
     NewState =
         try osc:decode(Bin) of
-            {cmd, ["/send_after", Host, Port , OSC]} ->
+            {cmd, ["/send-after", Host, Port , OSC]} ->
                 schedule_cmd("default", Time, Host, Port, OSC, State);
-            {cmd, ["/send_after_tagged", Tag, Host, Port, OSC]} ->
+            {cmd, ["/send-after-tagged", Tag, Host, Port, OSC]} ->
                 schedule_cmd(Tag, Time, Host, Port, OSC, State);
-            {cmd, ["/midi_at", Cmd]} ->
+            {cmd, ["/midi-at", Cmd]} ->
                 schedule_midi("default", Time, Cmd, State);
-            {cmd, ["/midi_at_tagged", Tag, Cmd]} ->
+            {cmd, ["/midi-at-tagged", Tag, Cmd]} ->
                 schedule_midi(Tag, Time, Cmd, State);
             Other ->
                 log("Unexpected bundle content:~p~n", [Other]),

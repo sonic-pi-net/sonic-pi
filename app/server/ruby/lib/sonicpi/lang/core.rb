@@ -102,8 +102,8 @@ module SonicPi
           path = cue_path
         end
 
-        t = __system_thread_locals.get(:sonic_pi_spider_time)
-        b = __system_thread_locals.get(:sonic_pi_spider_beat)
+        t = __get_spider_time
+        b = __get_spider_beat
         i = __current_thread_id
         d = __system_thread_locals.get(:sonic_pi_spider_thread_delta)
         __system_thread_locals.set_local(:sonic_pi_spider_thread_delta, d + 1)
@@ -311,8 +311,8 @@ end
           end
 
 
-          t = __system_thread_locals.get(:sonic_pi_spider_time)
-          b = __system_thread_locals.get(:sonic_pi_spider_beat)
+          t = __get_spider_time
+          b = __get_spider_beat
           i = __current_thread_id
           d = __system_thread_locals.get(:sonic_pi_spider_thread_delta)
           p = __system_thread_locals.get(:sonic_pi_spider_thread_priority, 1001)
@@ -685,27 +685,10 @@ osc \"/foo/baz\"             # Send an OSC message to port 7000
                              # do/end block
 "        ]
 
-      def __osc_send_api(path, *args)
-        t = __system_thread_locals.get(:sonic_pi_spider_time) + current_sched_ahead_time
-        args.map! do |arg|
-          case arg
-          when Numeric, String, SonicPi::OSC::Blob
-            arg
-          else
-            arg.inspect
-          end
-        end
-        @osc_client.send_ts(t, path, *args)
-      end
-
-      def __osc_send(host, port, path, *args)
-        m = @osc_client.encoder.encode_single_message(path, args)
-        __osc_send_api("/send_after", host, port, SonicPi::OSC::Blob.new(m))
-      end
 
       def osc_send(host, port, path, *args)
         host = host.to_s.strip
-        __osc_send(host, port, path, *args)
+        @tau_api.send_osc(host, port, path, *args)
         __delayed_message "OSC -> #{host}, #{port}, #{path}, #{args}" unless __thread_locals.get(:sonic_pi_suppress_osc_logging)
       end
       doc name:           :osc_send,
@@ -738,7 +721,8 @@ osc_send \"localhost\", 7000, \"/foo/baz\"  # Send an OSC message to port 7000
         path = "/#{path}" if path.is_a? Symbol
         host, port = host_and_port.split ":"
         port = port.to_i
-        __osc_send host, port, path, *args
+        t = __get_spider_schedule_time
+        @tau_api.send_osc_at(t, host, port, path, *args)
         __delayed_message "OSC -> #{host}, #{port}, #{path}, #{args}" unless __thread_locals.get(:sonic_pi_suppress_osc_logging)
       end
       doc name:           :osc,
@@ -969,10 +953,10 @@ end"
         raise ArgumentError, "params needs to be a list-like thing" unless params.respond_to? :[]
         raise ArgumentError, "times needs to be a list-like thing" unless times.respond_to? :each_with_index
 
-        vt_orig = __system_thread_locals.get :sonic_pi_spider_time
+        vt_orig = __get_spider_time
         density = __thread_locals.get(:sonic_pi_local_spider_density) || 1.0
-        orig_sleep_mul_w_density = __system_thread_locals.get(:sonic_pi_spider_sleep_mul) * density
-        orig_beat = __system_thread_locals.get(:sonic_pi_spider_beat)
+        orig_sleep_mul_w_density = __get_spider_sleep_mul * density
+        orig_beat = __get_spider_beat
         already_in_time_warp = __system_thread_locals.get :sonic_pi_spider_in_time_warp
 
         __system_thread_locals.set(:sonic_pi_spider_time_warp_start, vt_orig.freeze) unless  already_in_time_warp
@@ -982,8 +966,8 @@ end"
           sleep_time = delta * orig_sleep_mul_w_density
           new_time = vt_orig + sleep_time
 
-          __change_time!(new_time)
-          __system_thread_locals.set :sonic_pi_spider_beat, orig_beat + delta
+          __change_spider_time!(new_time)
+          __change_spider_beat!(orig_beat + delta)
           __system_thread_locals.set_local :sonic_pi_local_control_deltas, {}
           __system_thread_locals.set_local(:sonic_pi_spider_time_state_cache, [])
 
@@ -1006,8 +990,8 @@ end"
           __schedule_delayed_blocks_and_messages!
         end
 
-        __change_time!(vt_orig)
-        __system_thread_locals.set :sonic_pi_spider_beat, orig_beat
+        __change_spider_time!(vt_orig)
+        __change_spider_beat!(orig_beat)
         __system_thread_locals.set_local :sonic_pi_spider_in_time_warp, already_in_time_warp
         __system_thread_locals.set_local :sonic_pi_local_control_deltas, prev_ctl_deltas
         __system_thread_locals.set_local(:sonic_pi_spider_time_state_cache, prev_cache)
@@ -2353,9 +2337,9 @@ end                           # logical time of live loop :bar.
 
 
       def block_duration(&block)
-        t1 = __system_thread_locals.get(:sonic_pi_spider_time)
+        t1 = __get_spider_time
         block.call
-        t2 = __system_thread_locals.get(:sonic_pi_spider_time)
+        t2 = __get_spider_time
         t2 - t1
       end
       doc name:           :block_duration,
@@ -3590,7 +3574,7 @@ You can see the 'buckets' that the numbers between 0 and 1 fall into with the fo
         raise ArgumentError, "use_bpm does not work with a block. Perhaps you meant with_bpm" if block
         raise ArgumentError, "use_bpm's BPM should be a positive value. You tried to use: #{bpm}" unless bpm > 0
         sleep_mul = 60.0 / bpm
-        __system_thread_locals.set(:sonic_pi_spider_sleep_mul, sleep_mul)
+        __change_spider_sleep_mul!(sleep_mul)
       end
       doc name:           :use_bpm,
           introduced:     Version.new(2,0,0),
@@ -3643,11 +3627,11 @@ You can see the 'buckets' that the numbers between 0 and 1 fall into with the fo
       def with_bpm(bpm, &block)
         raise ArgumentError, "with_bpm must be called with a do/end block. Perhaps you meant use_bpm" unless block
         raise ArgumentError, "with_bpm's BPM should be a positive value. You tried to use: #{bpm}" unless bpm > 0
-        current_mul = __system_thread_locals.get(:sonic_pi_spider_sleep_mul)
+        current_mul = __get_spider_time
         sleep_mul = 60.0 / bpm
-        __system_thread_locals.set(:sonic_pi_spider_sleep_mul, sleep_mul)
+        __change_spider_sleep_mul!(sleep_mul)
         res = block.call
-        __system_thread_locals.set(:sonic_pi_spider_sleep_mul, current_mul)
+        __change_spider_sleep_mul!(current_mul)
         res
       end
       doc name:           :with_bpm,
@@ -3701,11 +3685,11 @@ You can see the 'buckets' that the numbers between 0 and 1 fall into with the fo
       def with_bpm_mul(mul, &block)
         raise ArgumentError, "with_bpm_mul must be called with a do/end block. Perhaps you meant use_bpm_mul" unless block
         raise ArgumentError, "with_bpm_mul's mul should be a positive value. You tried to use: #{mul}" unless mul > 0
-        current_mul = __system_thread_locals.get(:sonic_pi_spider_sleep_mul)
+        current_mul = __get_spider_sleep_mul
         new_mul = current_mul.to_f / mul
-        __system_thread_locals.set(:sonic_pi_spider_sleep_mul, new_mul)
+        __change_spider_sleep_mul!(new_mul)
         res = block.call
-        __system_thread_locals.set(:sonic_pi_spider_sleep_mul, current_mul)
+        __change_spider_sleep_mul!(current_mul)
         res
       end
       doc name:           :with_bpm_mul,
@@ -3736,9 +3720,9 @@ You can see the 'buckets' that the numbers between 0 and 1 fall into with the fo
       def use_bpm_mul(mul, &block)
         raise ArgumentError, "use_bpm_mul must not be called with a block. Perhaps you meant with_bpm_mul" if block
         raise ArgumentError, "use_bpm_mul's mul should be a positive value. You tried to use: #{mul}" unless mul > 0
-        current_mul = __system_thread_locals.get(:sonic_pi_spider_sleep_mul)
+        current_mul = __get_spider_sleep_mul
         new_mul = current_mul.to_f / mul
-        __system_thread_locals.set(:sonic_pi_spider_sleep_mul, new_mul)
+        __change_spider_sleep_mul!(new_mul)
       end
       doc name:           :use_bpm_mul,
           introduced:     Version.new(2,3,0),
@@ -3816,7 +3800,7 @@ You can see the 'buckets' that the numbers between 0 and 1 fall into with the fo
 
 
       def current_time
-        __system_thread_locals.get(:sonic_pi_spider_time)
+        __get_spider_time
       end
       doc name:          :current_time,
           introduced:    Version.new(3,0,0),
@@ -3835,10 +3819,10 @@ Unlike `Time.now`, Multiple calls to `current_time` with no interleaved calls to
 #
 # {run: 19, time: 0.0}
 puts \"A\", Time.now.to_f # ├─ \"A\" 1489966042.761211
-puts \"B\", __system_thread_locals.get(:sonic_pi_spider_time).to_f # ├─ \"B\" 1489966042.760181
+puts \"B\", current_time.to_f # ├─ \"B\" 1489966042.760181
 puts \"C\", Time.now.to_f # ├─ \"C\" 1489966042.761235
-puts \"D\", __system_thread_locals.get(:sonic_pi_spider_time).to_f # ├─ \"D\" 1489966042.760181
-puts \"E\", __system_thread_locals.get(:sonic_pi_spider_time).to_f # └─ \"E\" 1489966042.760181
+puts \"D\", current_time.to_f # ├─ \"D\" 1489966042.760181
+puts \"E\", current_time.to_f # └─ \"E\" 1489966042.760181
 
 "]
 
@@ -3901,7 +3885,7 @@ puts rand # => 0.54010009765625
 
 
       def current_bpm
-        __current_bpm
+        __get_spider_bpm
       end
       doc name:          :current_bpm,
           introduced:    Version.new(2,0,0),
@@ -3919,7 +3903,7 @@ This can be set via the fns `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sa
 
 
       def current_beat_duration
-        __system_thread_locals.get(:sonic_pi_spider_sleep_mul)
+        __get_spider_sleep_mul
       end
       doc name:          :current_beat_duration,
           introduced:    Version.new(2,6,0),
@@ -3941,7 +3925,7 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
 
 
       def beat
-        __system_thread_locals.get(:sonic_pi_spider_beat)
+        __get_spider_beat
       end
       doc name:          :beat,
           introduced:    Version.new(2,10,0),
@@ -3963,7 +3947,7 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
 
 
       def rt(t)
-        t / __system_thread_locals.get(:sonic_pi_spider_sleep_mul)
+        t / __get_spider_sleep_mul
       end
       doc name:          :rt,
           introduced:    Version.new(2,0,0),
@@ -3984,7 +3968,7 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
 
 
       def bt(t)
-        t * __system_thread_locals.get(:sonic_pi_spider_sleep_mul)
+        t * __get_spider_sleep_mul
       end
       doc name:          :bt,
           introduced:    Version.new(2,8,0),
@@ -4003,8 +3987,8 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
 "]
 
       def set_sched_ahead_time!(sat)
-        t = __system_thread_locals.get(:sonic_pi_spider_time)
-        b = __system_thread_locals.get(:sonic_pi_spider_beat)
+        t = __get_spider_time
+        b = __get_spider_beat_
         i = __current_thread_id
         m = current_bpm
         @system_state.set(t, 0, i, 0, b, m, :sched_ahead_time, sat)
@@ -4154,45 +4138,31 @@ This can be set via the fn `set_sched_ahead_time!`.",
 set_sched_ahead_time! 0.5
 puts current_sched_ahead_time # Prints 0.5"]
 
-      def __change_time!(new_vt)
-        __system_thread_locals.get(:sonic_pi_spider_time_change).synchronize do
-          __system_thread_locals.set :sonic_pi_spider_time, new_vt.freeze
-
-          # free any state waiters if we've advance time sufficiently
-          unless  __system_thread_locals.get :sonic_pi_spider_in_time_warp
-            __system_thread_locals.get(:sonic_pi_spider_state_waiters).delete_if do |w|
-              w[:prom].deliver! true if new_vt > w[:vt]
-            end
-          end
-        end
-      end
 
       def sleep(beats)
-
         __system_thread_locals.set_local(:sonic_pi_spider_time_state_cache, [])
         __system_thread_locals.set_local(:sonic_pi_local_last_sync, nil)
 
         # Schedule messages
         __schedule_delayed_blocks_and_messages!
-        curr_beat = __system_thread_locals.get(:sonic_pi_spider_beat)
-        __system_thread_locals.set(:sonic_pi_spider_beat, curr_beat + beats)
+        __change_spider_beat!(__get_spider_beat + beats)
         return if beats == 0
 
         # Grab the current virtual time
-        last_vt = __system_thread_locals.get :sonic_pi_spider_time
+        last_vt = __get_spider_time
 
         in_time_warp = __system_thread_locals.get(:sonic_pi_spider_in_time_warp)
 
         # Now get on with syncing the rest of the sleep time...
 
         # Calculate the amount of time to sleep (take into account current bpm setting)
-        sleep_time = beats * __system_thread_locals.get(:sonic_pi_spider_sleep_mul)
+        sleep_time = beats * __get_spider_sleep_mul
 
         # Calculate the new virtual time
         new_vt = last_vt + sleep_time
 
         sat = current_sched_ahead_time
-        __change_time!(new_vt)
+        __change_spider_time!(new_vt)
 
         now = Time.now
 
@@ -4300,7 +4270,7 @@ puts current_sched_ahead_time # Prints 0.5"]
 
 
       def __live_loop_cue(id)
-        t = __system_thread_locals.get(:sonic_pi_spider_time)
+        t = __get_spider_time
         p = -100
         d = __system_thread_locals.get(:sonic_pi_spider_thread_delta)
         __system_thread_locals.set_local(:sonic_pi_spider_thread_delta, d + 1)
@@ -4368,14 +4338,14 @@ puts current_sched_ahead_time # Prints 0.5"]
         se = @event_history.sync(t, p, i, d, b, m, cue_id, arg_matcher)
 
         __system_thread_locals.set(:sonic_pi_spider_synced, true)
-        __system_thread_locals.set :sonic_pi_spider_beat, se.beat
+        __change_spider_beat!(se.beat)
 
-        __change_time!(se.time)
+        __change_spider_time!(se.time)
         __system_thread_locals.set_local :sonic_pi_local_last_sync, se
 
         if bpm_sync
           bpm = se.bpm <= 0 ? 60 : se.bpm
-          __system_thread_locals.set(:sonic_pi_spider_sleep_mul, 60.0 / bpm)
+          __change_spider_sleep_mul!(60.0 / bpm)
         end
 
         run_info = ""
