@@ -20,7 +20,7 @@ after a number of years sitting on guitarist's shelves, they soon could
 be found in the windows of second hand shops. These lonely discarded
 TB-303s were waiting to be discovered by a new generation of
 experimenters who started using them in ways that Roland didn't imagine
-to create new crazy sounds. Acid House was born.
+to create wild new sounds. Acid House was born.
 
 Although getting your hands on an original TB-303 is not so easy you
 will be pleased to know that you can turn your Raspberry Pi into one
@@ -93,7 +93,7 @@ resonance of the filter. A high resonance is characteristic of acid bass
 sounds. We currently have our `res:` set to `0.8`. Try cranking it up to
 `0.85`, then `0.9`, and finally `0.95`. You might find that a cutoff
 such as `110` or higher will make the differences easier to
-hear. Finally go crazy and dial in `0.999` for some insane sounds. At a
+hear. Finally go wild and dial in `0.999` for some insane sounds. At a
 `res` this high, you're hearing the cutoff filter resonate so much it
 starts to make sounds of its own!
 
@@ -138,7 +138,7 @@ end
 For each standard envelope opt, there's a `cutoff_` equivalent opt in
 the `:tb303` synth. So, to change the cutoff attack time we can use the
 `cutoff_attack:` opt. Copy the code above into an empty buffer and hit
-Run. You'll hear a crazy sound warble in and out. Now start to play. Try
+Run. You'll hear a strange sound warble in and out. Now start to play. Try
 changing the `cutoff_attack:` time to `1` and then `0.5`. Now try `8`.
 
 Notice that I've passed everything through a `:reverb` FX for extra
@@ -148,7 +148,7 @@ atmosphere - try other FX to see what works!
 
 Finally, here's a piece I composed using the ideas in this
 tutorial. Copy it into an empty buffer, listen for a while and then
-start live coding your own changes. See what crazy sounds you can make
+start live coding your own changes. See what wild sounds you can make
 with it! See you next time...
 
 ```

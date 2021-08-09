@@ -157,7 +157,7 @@ into an empty Sonic Pi buffer, hit play, listen to it for a while and
 then use it as a starting point for your own piece. See how much fun it
 is to manipulate the playback rate of samples. As an added exercise try
 recording your own sounds and play around with the rate to see what
-crazy sounds you can make.
+wild sounds you can make.
 
 ```
 live_loop :beats do

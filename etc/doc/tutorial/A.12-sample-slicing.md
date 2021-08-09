@@ -6,7 +6,7 @@ Way back in episode 3 of this Sonic Pi series we looked at how to loop,
 stretch and filter one of the most famous drum breaks of all time - the
 Amen Break. In this tutorial we're going to take this one step further
 and learn how to slice it up, shuffle the slices and glue it back
-together in a completely new order. If that sounds a bit crazy to you,
+together in a completely new order. If that sounds a bit wild to you,
 don't worry, it will all become clear and you'll soon master a powerful
 new tool for your live coded sets.
 

@@ -125,7 +125,7 @@ notes in one and two octaves. I have also thrown in a couple of low sine
 waves to give the sound some bass and depth. Finally, I used `define` to
 wrap my code in a function which I can then use to play a melody. Try
 playing your own melody and also messing around with the contents of the
-`:bell` function until you create your own crazy sound to play with!
+`:bell` function until you create your own fun sound to play with!
 
 ```
 define :bell do |n|
