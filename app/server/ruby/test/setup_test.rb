@@ -100,9 +100,8 @@ module SonicPi
         __system_thread_locals.set :sonic_pi_spider_silent, silent
         __system_thread_locals.set :sonic_pi_spider_job_info, info
 
-        __change_spider_time! now
-        __change_spider_beat! 0
-        __system_thread_locals.set :sonic_pi_spider_start_time, now
+        __reset_spider_time_and_beat!
+
         __system_thread_locals.set_local :sonic_pi_local_spider_delayed_messages, []
 
         __set_default_system_thread_locals!

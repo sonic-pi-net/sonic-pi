@@ -138,7 +138,6 @@ module SonicPi
             end
 
             @life_hooks.on_exit do |job_id, payload|
-              __system_thread_locals.set(:sonic_pi_spider_start_time, payload[:start_t])
               __system_thread_locals.set_local(:sonic_pi_local_thread_group, "job_remover-#{job_id}".freeze)
               Thread.current.priority = -10
               shutdown_job_mixer(job_id)

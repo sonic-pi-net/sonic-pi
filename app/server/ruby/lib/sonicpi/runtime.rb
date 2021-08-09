@@ -89,6 +89,68 @@ module SonicPi
       end
     end
 
+    ### Start - Spider Time Management functions
+    ###
+    def __change_spider_time_and_beat!(new_time, new_beat)
+      __system_thread_locals.set :sonic_pi_spider_time, new_time.freeze
+      __system_thread_locals.set(:sonic_pi_spider_beat, new_beat)
+    end
+
+    def __reset_spider_time_and_beat!
+      t = Time.now.freeze
+      __change_spider_time_and_beat!(t, 0)
+      __system_thread_locals.set :sonic_pi_spider_start_time, t
+    end
+
+    def __change_spider_bpm!(new_bpm)
+      __system_thread_locals.set :sonic_pi_spider_bpm, new_bpm.to_f
+    end
+
+    def __reset_spider_bpm!
+      __change_spider_bpm!(60.0)
+    end
+
+    def __change_spider_beat_and_time_by_beat_delta!(beat_delta)
+      sleep_time = beat_delta * __get_spider_sleep_mul
+      new_time   = __get_spider_time + sleep_time
+      new_beat = __get_spider_beat + beat_delta
+      __change_spider_time_and_beat!(new_time, new_beat)
+    end
+
+    def __get_spider_time
+      __system_thread_locals.get(:sonic_pi_spider_time)
+    end
+
+    def __get_spider_schedule_time
+      __system_thread_locals.get(:sonic_pi_spider_time) + current_sched_ahead_time
+    end
+
+    def __get_spider_sleep_mul
+      60.0 / __system_thread_locals.get(:sonic_pi_spider_bpm)
+    end
+
+    def __get_spider_bpm
+      __system_thread_locals.get(:sonic_pi_spider_bpm)
+    end
+
+    def __get_spider_beat
+      __system_thread_locals.get(:sonic_pi_spider_beat)
+    end
+
+    def __get_spider_start_time
+      __system_thread_locals.get :sonic_pi_spider_start_time
+    end
+
+    def __with_preserved_spider_time_and_beat(&blk)
+      time = __get_spider_time
+      beat = __get_spider_beat
+      blk.call
+      __change_spider_time_and_beat!(time, beat)
+    end
+    ### End - Spider Time Management functions
+    ###
+
+
     def __register_internal_cue_event(address, args)
       p = 0
       d = 0
@@ -735,8 +797,8 @@ module SonicPi
     end
 
     def __set_default_user_thread_locals!
+      __reset_spider_bpm!
       __thread_locals.set :sonic_pi_spider_arg_bpm_scaling, true
-      __change_spider_sleep_mul!(1.0)
       __thread_locals.set :sonic_pi_spider_new_thread_random_gen_idx, 0
       __system_thread_locals.set(:sonic_pi_spider_thread_priority, 0)
     end
@@ -774,9 +836,7 @@ module SonicPi
           now = Time.now.freeze
           start_t_prom.deliver! now
           ## fix this for link
-          __change_spider_time! now
-          __system_thread_locals.set :sonic_pi_spider_start_time, now
-          __change_spider_beat! 0
+          __reset_spider_time_and_beat!
           if num_running_jobs == 1
             @global_start_time = now
             # Force a GC collection before we start making music!
@@ -888,37 +948,8 @@ module SonicPi
       @gui_cue_log_idxs
     end
 
-    def __change_spider_time!(new_vt)
-      __system_thread_locals.set :sonic_pi_spider_time, new_vt.freeze
-    end
 
-    def __change_spider_sleep_mul!(new_sleep_mul)
-      __system_thread_locals.set(:sonic_pi_spider_sleep_mul, new_sleep_mul)
-    end
 
-    def __change_spider_beat!(new_beat)
-      __system_thread_locals.set(:sonic_pi_spider_beat, new_beat)
-    end
-
-    def __get_spider_time
-      __system_thread_locals.get(:sonic_pi_spider_time)
-    end
-
-    def __get_spider_schedule_time
-      __system_thread_locals.get(:sonic_pi_spider_time) + current_sched_ahead_time
-    end
-
-    def __get_spider_sleep_mul
-      __system_thread_locals.get(:sonic_pi_spider_sleep_mul)
-    end
-
-    def __get_spider_bpm
-      60.0 / __get_spider_sleep_mul
-    end
-
-    def __get_spider_beat
-      __system_thread_locals.get(:sonic_pi_spider_beat)
-    end
 
 
 

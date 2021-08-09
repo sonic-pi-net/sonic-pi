@@ -52,10 +52,9 @@ module SonicPi
     def send_at(ts, *all_args)
       address, *args = *all_args
       if osc_debug_mode
-
-        if (a = __get_spider_time) && (b = __system_thread_locals.get(:sonic_pi_spider_start_time))
+        if (a = __get_spider_time) && (b = __get_spider_start_time)
           vt = a - b
-        elsif st = __system_thread_locals.get(:sonic_pi_spider_start_time)
+        elsif st = __get_spider_start_time
           vt = ts - st
         else
           vt = -1

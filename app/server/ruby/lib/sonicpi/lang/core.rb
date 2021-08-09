@@ -298,7 +298,7 @@ end
           # If we've time_warped into the future raise a timing exception
           if __system_thread_locals.get(:sonic_pi_spider_in_time_warp)
 
-            if __system_thread_locals.get(:sonic_pi_spider_time_warp_start) < __system_thread_locals.get(:sonic_pi_spider_time)
+            if __system_thread_locals.get(:sonic_pi_spider_time_warp_start) < __get_spider_time
               raise TimingError, "Sadly, you may not time_warp into the future to call get, then bring the result back in time to now."
             end
           end
@@ -939,7 +939,6 @@ end"
       def time_warp(times=0, params=nil, &block)
         __schedule_delayed_blocks_and_messages!
 
-
         raise ArgumentError, "time_warp requires a do/end block" unless block
         prev_ctl_deltas = __system_thread_locals.get(:sonic_pi_local_control_deltas)
         prev_cache = __system_thread_locals.get(:sonic_pi_spider_time_state_cache, [])
@@ -953,45 +952,37 @@ end"
         raise ArgumentError, "params needs to be a list-like thing" unless params.respond_to? :[]
         raise ArgumentError, "times needs to be a list-like thing" unless times.respond_to? :each_with_index
 
-        vt_orig = __get_spider_time
-        density = __thread_locals.get(:sonic_pi_local_spider_density) || 1.0
-        orig_sleep_mul_w_density = __get_spider_sleep_mul * density
-        orig_beat = __get_spider_beat
+
         already_in_time_warp = __system_thread_locals.get :sonic_pi_spider_in_time_warp
 
-        __system_thread_locals.set(:sonic_pi_spider_time_warp_start, vt_orig.freeze) unless  already_in_time_warp
+        __system_thread_locals.set(:sonic_pi_spider_time_warp_start, __get_spider_time) unless  already_in_time_warp
         __system_thread_locals.set_local :sonic_pi_spider_in_time_warp, true
+        __with_preserved_spider_time_and_beat do
 
-        times.each_with_index do |delta, idx|
-          sleep_time = delta * orig_sleep_mul_w_density
-          new_time = vt_orig + sleep_time
+          times.each_with_index do |delta, idx|
 
-          __change_spider_time!(new_time)
-          __change_spider_beat!(orig_beat + delta)
-          __system_thread_locals.set_local :sonic_pi_local_control_deltas, {}
-          __system_thread_locals.set_local(:sonic_pi_spider_time_state_cache, [])
+            sleep delta
 
-          case block.arity
-          when 0
-            block.call
-          when 1
-            block.call(params[idx % params_size])
-          when 2
-            if had_params
-              block.call(delta, params[idx % params_size])
+            case block.arity
+            when 0
+              block.call
+            when 1
+              block.call(params[idx % params_size])
+            when 2
+              if had_params
+                block.call(delta, params[idx % params_size])
+              else
+                block.call(delta, idx)
+              end
+            when 3
+              block.call(t, params[idx % params_size], idx)
             else
-              block.call(delta, idx)
+              raise ArgumentError, "block for time_warp should only accept 0, 1, 2 or 3 parameters. You gave: #{block.arity}."
             end
-          when 3
-            block.call(t, params[idx % params_size], idx)
-          else
-            raise ArgumentError, "block for time_warp should only accept 0, 1, 2 or 3 parameters. You gave: #{block.arity}."
+            __schedule_delayed_blocks_and_messages!
           end
-          __schedule_delayed_blocks_and_messages!
         end
 
-        __change_spider_time!(vt_orig)
-        __change_spider_beat!(orig_beat)
         __system_thread_locals.set_local :sonic_pi_spider_in_time_warp, already_in_time_warp
         __system_thread_locals.set_local :sonic_pi_local_control_deltas, prev_ctl_deltas
         __system_thread_locals.set_local(:sonic_pi_spider_time_state_cache, prev_cache)
@@ -3573,8 +3564,7 @@ You can see the 'buckets' that the numbers between 0 and 1 fall into with the fo
       def use_bpm(bpm, &block)
         raise ArgumentError, "use_bpm does not work with a block. Perhaps you meant with_bpm" if block
         raise ArgumentError, "use_bpm's BPM should be a positive value. You tried to use: #{bpm}" unless bpm > 0
-        sleep_mul = 60.0 / bpm
-        __change_spider_sleep_mul!(sleep_mul)
+        __change_spider_bpm!(bpm)
       end
       doc name:           :use_bpm,
           introduced:     Version.new(2,0,0),
@@ -3627,11 +3617,10 @@ You can see the 'buckets' that the numbers between 0 and 1 fall into with the fo
       def with_bpm(bpm, &block)
         raise ArgumentError, "with_bpm must be called with a do/end block. Perhaps you meant use_bpm" unless block
         raise ArgumentError, "with_bpm's BPM should be a positive value. You tried to use: #{bpm}" unless bpm > 0
-        current_mul = __get_spider_time
-        sleep_mul = 60.0 / bpm
-        __change_spider_sleep_mul!(sleep_mul)
+        current_bpm = __get_spider_bpm
+        __change_spider_bpm!(bpm)
         res = block.call
-        __change_spider_sleep_mul!(current_mul)
+        __change_spider_bpm!(curent_bpm)
         res
       end
       doc name:           :with_bpm,
@@ -3685,11 +3674,11 @@ You can see the 'buckets' that the numbers between 0 and 1 fall into with the fo
       def with_bpm_mul(mul, &block)
         raise ArgumentError, "with_bpm_mul must be called with a do/end block. Perhaps you meant use_bpm_mul" unless block
         raise ArgumentError, "with_bpm_mul's mul should be a positive value. You tried to use: #{mul}" unless mul > 0
-        current_mul = __get_spider_sleep_mul
-        new_mul = current_mul.to_f / mul
-        __change_spider_sleep_mul!(new_mul)
+        current_bpm = __get_spider_bpm
+        new_bpm = current_bpm * mul.to_f
+        __change_spider_bpm!(new_bpm)
         res = block.call
-        __change_spider_sleep_mul!(current_mul)
+        __change_spider_bpm!(current_bpm)
         res
       end
       doc name:           :with_bpm_mul,
@@ -3720,9 +3709,8 @@ You can see the 'buckets' that the numbers between 0 and 1 fall into with the fo
       def use_bpm_mul(mul, &block)
         raise ArgumentError, "use_bpm_mul must not be called with a block. Perhaps you meant with_bpm_mul" if block
         raise ArgumentError, "use_bpm_mul's mul should be a positive value. You tried to use: #{mul}" unless mul > 0
-        current_mul = __get_spider_sleep_mul
-        new_mul = current_mul.to_f / mul
-        __change_spider_sleep_mul!(new_mul)
+        new_bpm = __get_spider_bpm * mul.to_f
+        __change_spider_bpm!(new_bpm)
       end
       doc name:           :use_bpm_mul,
           introduced:     Version.new(2,3,0),
@@ -4145,26 +4133,15 @@ puts current_sched_ahead_time # Prints 0.5"]
 
         # Schedule messages
         __schedule_delayed_blocks_and_messages!
-        __change_spider_beat!(__get_spider_beat + beats)
         return if beats == 0
 
-        # Grab the current virtual time
-        last_vt = __get_spider_time
-
-        in_time_warp = __system_thread_locals.get(:sonic_pi_spider_in_time_warp)
-
-        # Now get on with syncing the rest of the sleep time...
-
-        # Calculate the amount of time to sleep (take into account current bpm setting)
-        sleep_time = beats * __get_spider_sleep_mul
-
-        # Calculate the new virtual time
-        new_vt = last_vt + sleep_time
+        __change_spider_beat_and_time_by_beat_delta!(beats)
 
         sat = current_sched_ahead_time
-        __change_spider_time!(new_vt)
-
+        new_vt = __get_spider_time
         now = Time.now
+
+        in_time_warp = __system_thread_locals.get(:sonic_pi_spider_in_time_warp)
 
         if now - (sat + 0.5) > new_vt
           raise TimingError, "Timing Exception: thread got too far behind time"
@@ -4193,9 +4170,10 @@ puts current_sched_ahead_time # Prints 0.5"]
           end
         else
           if in_time_warp
-            # Don't sleep if within a time shift
+            # Don't sleep if within a time warp
+            #
             # However, do make sure the vt hasn't got too far ahead of the real time
-             raise TimingError, "Timing Exception: thread got too far ahead of time" if  (new_vt - 17) > now
+            # raise TimingError, "Timing Exception: thread got too far ahead of time" if  (new_vt - 17) > now
           else
             Kernel.sleep new_vt - now
           end
@@ -4338,14 +4316,14 @@ puts current_sched_ahead_time # Prints 0.5"]
         se = @event_history.sync(t, p, i, d, b, m, cue_id, arg_matcher)
 
         __system_thread_locals.set(:sonic_pi_spider_synced, true)
-        __change_spider_beat!(se.beat)
 
-        __change_spider_time!(se.time)
+        ## only need to use se for beat and time if not in :link or :metro bpm
+        __change_spider_time_and_beat!(se.time, se.beat)
         __system_thread_locals.set_local :sonic_pi_local_last_sync, se
 
         if bpm_sync
           bpm = se.bpm <= 0 ? 60 : se.bpm
-          __change_spider_sleep_mul!(60.0 / bpm)
+          use_bpm bpm
         end
 
         run_info = ""
