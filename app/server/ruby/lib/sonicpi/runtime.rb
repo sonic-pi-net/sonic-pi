@@ -394,7 +394,7 @@ module SonicPi
     end
 
     def __midi_flush!
-      @tau_api.midi_flush
+      @tau_api.midi_flush!
     end
 
     def __midi_system_start(silent=false)
