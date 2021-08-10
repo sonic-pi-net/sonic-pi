@@ -8,8 +8,8 @@ with a heady mix of synths and dancing. However something wasn't quite
 right in this nightclub. Projected in bright colours above the DJ booth
 was futuristic text, moving, dancing, flashing. This wasn't fancy
 visuals, it was merely a projection of Sonic Pi running on a Raspberry
-Pi. The occupant of the DJ booth wasn't spinning disks, he was writing,
-editing and evaluating code. Live. This is Live Coding.
+Pi. The occupant of the DJ booth wasn't spinning disks, they wrote,
+edited and evaluated code. Live. This is Live Coding.
 
 ![Sam Aaron Live Coding](../../../etc/doc/images/tutorial/articles/A.02-live-coding/sam-aaron-live-coding.png)
 
