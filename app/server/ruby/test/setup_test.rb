@@ -84,14 +84,13 @@ module SonicPi
     end
 
     def run(&blk)
-      id = 0
-      silent = false
-      info = {}.freeze
-      now = Time.now.freeze
+      id            = 0
+      silent        = false
+      info          = {}.freeze
+      now           = Time.now.freeze
       job_in_thread = nil
-      job = Thread.new do
+      job           = Thread.new do
         Thread.current.abort_on_exception = true
-
 
         reg_job 0, Thread.current
         __system_thread_locals.set_local :sonic_pi_local_thread_group, "job-#{id}"
@@ -99,9 +98,7 @@ module SonicPi
         __system_thread_locals.set :sonic_pi_spider_job_id, id
         __system_thread_locals.set :sonic_pi_spider_silent, silent
         __system_thread_locals.set :sonic_pi_spider_job_info, info
-
         __reset_spider_time_and_beat!
-
         __system_thread_locals.set_local :sonic_pi_local_spider_delayed_messages, []
 
         __set_default_system_thread_locals!
@@ -112,7 +109,9 @@ module SonicPi
           self.instance_eval(&blk)
         end
       end
+
       @user_jobs.add_job(id, job, info)
+
       t = Thread.new do
         Thread.current.priority = -10
         __system_thread_locals.set_local(:sonic_pi_local_thread_group, "job-#{id}-GC")
