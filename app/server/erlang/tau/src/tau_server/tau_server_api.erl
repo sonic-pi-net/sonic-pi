@@ -170,6 +170,18 @@ loop(State) ->
                     send_to_link({link_rpc, UUID, get_num_peers}, State),
                     ?MODULE:loop(State);
 
+
+                {cmd, ["/link-disable"]=Cmd} ->
+                    debug_cmd(Cmd),
+                    send_to_link({link_disable}, State),
+                    ?MODULE:loop(State);
+
+                {cmd, ["/link-enable"]=Cmd} ->
+                    debug_cmd(Cmd),
+                    send_to_link({link_enable}, State),
+                    ?MODULE:loop(State);
+
+
                 {cmd, Cmd} ->
                     log("Unknown command:: ~p~n", [Cmd]),
                     ?MODULE:loop(State)

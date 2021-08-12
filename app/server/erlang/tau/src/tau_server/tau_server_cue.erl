@@ -121,6 +121,7 @@ loop(State) ->
                   cue_port := CuePort,
                   in_socket := InSocket} ->
                     forward_internal_cue(CueHost, CuePort, InSocket, "/link/tempo-change", [Tempo]),
+                    send_api_tempo_update(CueHost, CuePort, InSocket, Tempo),
                     ?MODULE:loop(State);
                 _ ->
                     debug("Link cue forwarding disabled - ignored tempo change ~n", []),
@@ -322,6 +323,12 @@ send_api_reply(State, UUID, Args) ->
     Bin = osc:encode(["/tau-api-reply", "erlang", UUID | Args]),
     %% debug("send api reply ~p:~p~n", ToEncode),
     send_udp(InSocket, CueHost, CuePort, Bin),
+    ok.
+
+send_api_tempo_update(CueHost, CuePort, InSocket, Tempo) ->
+    Bin = osc:encode(["/link-tempo-change", "erlang", Tempo]),
+    send_udp(InSocket, CueHost, CuePort, Bin),
+    debug("sending link tempo update [~p] to ~p:~p~n", [Tempo, CueHost, CuePort]),
     ok.
 
 forward_internal_cue(CueHost, CuePort, InSocket, Path, Args) ->

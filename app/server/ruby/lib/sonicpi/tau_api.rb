@@ -38,6 +38,7 @@ module SonicPi
       @link_time = nil
       @local_time = nil
 
+      @tempo = nil
       Thread.new do
         initialize_link_info!
       end
@@ -68,11 +69,17 @@ module SonicPi
 
     def link_current_and_local_time
       api_rpc("/link-get-curent-and-local-time") << Time.now
-    end
 
-    def link_tempo
-      res = api_rpc("/link-get-tempo")
-      res[0]
+    def link_tempo(force_api_call=false)
+      if force_api_call
+        res = api_rpc("/link-get-tempo")
+        @tempo = res[0]
+        return res[0]
+      elsif @tempo
+        return @tempo
+      else
+        @tempo = link_tempo(true)
+      end
     end
 
     def link_num_peers
@@ -88,6 +95,16 @@ module SonicPi
     def link_get_time_at_beat(beat, quantum)
       res = api_rpc("/link-get-time-at-beat", beat, quantum)
       res[0]
+    end
+
+
+
+    def link_disable
+      @tau_comms.send("/link-disable")
+    end
+
+    def link_enable
+      @tau_comms.send("/link-enable")
     end
 
     def midi_system_start!
@@ -137,6 +154,12 @@ module SonicPi
     end
 
     def add_incoming_api_handlers!
+      @tau_comms.add_method("/link-tempo-change") do |args|
+        gui_id = args[0]
+        tempo = args[1].to_f
+        @tempo = tempo
+      end
+
       @tau_comms.add_method("/midi-ins") do |args|
         gui_id = args[0]
         ins = args[1..-1]

@@ -89,6 +89,17 @@ loop(State) ->
             maps:get(cue_server, State) ! {link, stop},
             ?MODULE:loop(State);
 
+
+        {link_disable} ->
+            log("Disabling link~n", []),
+            sp_link:enable(false),
+            ?MODULE:loop(State);
+
+        {link_enable} ->
+            log("Enabling link~n", []),
+            sp_link:enable(true),
+            ?MODULE:loop(State);
+
         {link_rpc, UUID, get_current_time} ->
             Time = sp_link:get_current_time_microseconds(),
             log("Received link rpc current_time [~p]~n", [Time]),
