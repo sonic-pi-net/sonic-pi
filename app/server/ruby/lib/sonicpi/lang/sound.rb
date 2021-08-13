@@ -3909,7 +3909,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
 
       def ensure_good_timing!
         return true if __thread_locals.get(:sonic_pi_mod_sound_disable_timing_warnings)
-        raise "Timing Exception: thread got too far behind time." if time_diff > 1.1
+#        raise "Timing Exception: thread got too far behind time." if time_diff > 1.1
       end
 
       def time_diff
@@ -3918,7 +3918,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         vt  = __get_spider_time
         sat = current_sched_ahead_time
         compensated = (Time.now - sat)
-        compensated - vt
+        (compensated - vt).to_f
       end
 
       def in_good_time?(error_window=0)

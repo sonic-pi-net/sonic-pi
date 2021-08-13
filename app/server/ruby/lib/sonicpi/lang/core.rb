@@ -3563,7 +3563,7 @@ You can see the 'buckets' that the numbers between 0 and 1 fall into with the fo
 
       def use_bpm(bpm, &block)
         raise ArgumentError, "use_bpm does not work with a block. Perhaps you meant with_bpm" if block
-        raise ArgumentError, "use_bpm's BPM should be a positive value. You tried to use: #{bpm}" unless bpm > 0
+        raise ArgumentError, "use_bpm's BPM should be a positive value or :link. You tried to use: #{bpm}" unless bpm == :link || (bpm.is_a?(Numeric) && bpm > 0)
         __change_spider_bpm!(bpm)
       end
       doc name:           :use_bpm,
@@ -3674,11 +3674,10 @@ You can see the 'buckets' that the numbers between 0 and 1 fall into with the fo
       def with_bpm_mul(mul, &block)
         raise ArgumentError, "with_bpm_mul must be called with a do/end block. Perhaps you meant use_bpm_mul" unless block
         raise ArgumentError, "with_bpm_mul's mul should be a positive value. You tried to use: #{mul}" unless mul > 0
-        current_bpm = __get_spider_bpm
-        new_bpm = current_bpm * mul.to_f
-        __change_spider_bpm!(new_bpm)
-        res = block.call
-        __change_spider_bpm!(current_bpm)
+        res = nil
+        __with_spider_time_density(mul) do
+          res = block.call
+        end
         res
       end
       doc name:           :with_bpm_mul,
@@ -3710,7 +3709,7 @@ You can see the 'buckets' that the numbers between 0 and 1 fall into with the fo
         raise ArgumentError, "use_bpm_mul must not be called with a block. Perhaps you meant with_bpm_mul" if block
         raise ArgumentError, "use_bpm_mul's mul should be a positive value. You tried to use: #{mul}" unless mul > 0
         new_bpm = __get_spider_bpm * mul.to_f
-        __change_spider_bpm!(new_bpm)
+        __layer_spider_time_density!(mul)
       end
       doc name:           :use_bpm_mul,
           introduced:     Version.new(2,3,0),
@@ -3738,9 +3737,7 @@ You can see the 'buckets' that the numbers between 0 and 1 fall into with the fo
         raise ArgumentError, "density must be called with a do/end block." unless block
         raise ArgumentError, "density must be a positive number. Got: #{d.inspect}." unless d.is_a?(Numeric) && d > 0
         reps = d < 1 ? 1.0 : d
-        prev_density = __thread_locals.get(:sonic_pi_local_spider_density) || 1.0
-        __thread_locals.set_local(:sonic_pi_local_spider_density, prev_density * d)
-        with_bpm_mul d do
+        __with_spider_time_density(d) do
           if block.arity == 0
             reps.times do
               block.call
@@ -3751,7 +3748,6 @@ You can see the 'buckets' that the numbers between 0 and 1 fall into with the fo
             end
           end
         end
-        __thread_locals.set_local(:sonic_pi_local_spider_density, prev_density)
       end
       doc name:           :density,
           introduced:     Version.new(2,3,0),
@@ -4138,31 +4134,18 @@ puts current_sched_ahead_time # Prints 0.5"]
         __change_spider_beat_and_time_by_beat_delta!(beats)
 
         sat = current_sched_ahead_time
-        new_vt = __get_spider_time
-        now = Time.now
+        new_vt = __get_spider_time.to_r
+        now = Time.now.to_f
 
         in_time_warp = __system_thread_locals.get(:sonic_pi_spider_in_time_warp)
 
-        if now - (sat + 0.5) > new_vt
-          raise TimingError, "Timing Exception: thread got too far behind time"
-        elsif (now - sat) > new_vt
-          # TODO: Empirical tests to see what effect this priority stuff
-          # actually has on typical workloads
+        if (now - (sat + 0.5)) > new_vt
 
-          # Hard warning, system is too far behind, expect timing issues.
-          p = Thread.current.priority
-          p += 10
-          p = 100 if p < 100
-          p = 150 if p > 150
-          Thread.current.priority = p
+          # raise TimingError, "Timing Exception: thread got too far behind time
+          __delayed_serious_warning "Serious timing error. Too far behind time..."
+        elsif (now - sat) > new_vt
           __delayed_serious_warning "Timing error: can't keep up..."
         elsif now > new_vt
-          # Soft warning, system should work correctly, but is currently behind
-          p = Thread.current.priority
-          p += 5
-          p = 50 if p < 50
-          p = 150 if p > 150
-          Thread.current.priority = p
           ## TODO: Remove this and replace with a much better silencing system which
           ## is implemented within the __delayed_* fns
           unless __thread_locals.get(:sonic_pi_mod_sound_synth_silent) || in_time_warp
@@ -4175,7 +4158,8 @@ puts current_sched_ahead_time # Prints 0.5"]
             # However, do make sure the vt hasn't got too far ahead of the real time
             # raise TimingError, "Timing Exception: thread got too far ahead of time" if  (new_vt - 17) > now
           else
-            Kernel.sleep new_vt - now
+            t = (new_vt - now).to_f
+            Kernel.sleep t
           end
         end
 
@@ -4317,13 +4301,17 @@ puts current_sched_ahead_time # Prints 0.5"]
 
         __system_thread_locals.set(:sonic_pi_spider_synced, true)
 
-        ## only need to use se for beat and time if not in :link or :metro bpm
         __change_spider_time_and_beat!(se.time, se.beat)
         __system_thread_locals.set_local :sonic_pi_local_last_sync, se
 
         if bpm_sync
-          bpm = se.bpm <= 0 ? 60 : se.bpm
-          use_bpm bpm
+          if se.bpm == :link
+            use_bpm :link
+          elsif se.bpm.is_a?(Numeric)
+            use_bpm se.bpm
+          else
+            raise StandardError, "Incorrect bpm value. Expecting either :link or a number such as 120"
+          end
         end
 
         run_info = ""

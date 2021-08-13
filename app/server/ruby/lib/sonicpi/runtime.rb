@@ -89,21 +89,63 @@ module SonicPi
       end
     end
 
+
+
     ### Start - Spider Time Management functions
     ###
-    def __change_spider_time_and_beat!(new_time, new_beat)
-      __system_thread_locals.set :sonic_pi_spider_time, new_time.freeze
-      __system_thread_locals.set(:sonic_pi_spider_beat, new_beat)
+    def __layer_spider_time_density!(density)
+      new_density = __get_spider_time_density * density
+      __change_spider_time_density!(new_density)
+    end
+
+    def __change_spider_time_density!(new_density)
+      __thread_locals.set(:sonic_pi_spider_time_density, new_density.to_f)
+    end
+
+    def __with_spider_time_density(density, &blk)
+      prev_density = __get_spider_time_density
+      __layer_spider_time_density!(density)
+      blk.call
+      __change_spider_time_density!(prev_density)
+    end
+
+    def __in_link_bpm_mode
+      __system_thread_locals.get(:sonic_pi_spider_bpm) == :link
+    end
+
+    def __change_spider_time_and_beat!(new_time = nil, new_beat = nil)
+      __system_thread_locals.set :sonic_pi_spider_time, new_time.to_r
+      __system_thread_locals.set(:sonic_pi_spider_beat, new_beat.to_f)
     end
 
     def __reset_spider_time_and_beat!
-      t = Time.now.freeze
-      __change_spider_time_and_beat!(t, 0)
-      __system_thread_locals.set :sonic_pi_spider_start_time, t
+      if __in_link_bpm_mode
+        new_time, new_beat = @tau_api.link_current_time_and_beat(0)
+        __system_thread_locals.set :sonic_pi_spider_time, new_time.to_r
+        __system_thread_locals.set(:sonic_pi_spider_beat, new_beat.to_f)
+        __system_thread_locals.set :sonic_pi_spider_start_time, new_time.to_r
+      else
+        t = Time.now.to_r
+        __change_spider_time_and_beat!(t, 0)
+        __system_thread_locals.set :sonic_pi_spider_start_time, t
+      end
     end
 
     def __change_spider_bpm!(new_bpm)
-      __system_thread_locals.set :sonic_pi_spider_bpm, new_bpm.to_f
+      case new_bpm
+      when :link
+        if __in_link_bpm_mode
+          # do nothing, we're already in link bpm mode
+        else
+          __system_thread_locals.set :sonic_pi_spider_bpm, :link
+          __reset_spider_time_and_beat!
+        end
+
+      when Numeric
+        __system_thread_locals.set :sonic_pi_spider_bpm, new_bpm.to_f
+      else
+        raise StandardError, "Unknown BPM value. Expecting either a number e.g. 120 or :link."
+      end
     end
 
     def __reset_spider_bpm!
@@ -111,34 +153,61 @@ module SonicPi
     end
 
     def __change_spider_beat_and_time_by_beat_delta!(beat_delta)
-      sleep_time = beat_delta * __get_spider_sleep_mul
-      new_time   = __get_spider_time + sleep_time
-      new_beat = __get_spider_beat + beat_delta
-      __change_spider_time_and_beat!(new_time, new_beat)
+      new_beat = __get_spider_beat + (beat_delta / __get_spider_time_density)
+
+      if __in_link_bpm_mode
+        __system_thread_locals.set(:sonic_pi_spider_beat, new_beat.to_f)
+      else
+        sleep_mul = __get_spider_sleep_mul
+        sleep_time = beat_delta * sleep_mul
+        new_time   = __get_spider_time + sleep_time
+        __change_spider_time_and_beat!(new_time, new_beat)
+      end
     end
 
     def __get_spider_time
-      __system_thread_locals.get(:sonic_pi_spider_time)
+      if __in_link_bpm_mode
+        @tau_api.link_get_clock_time_at_beat(__get_spider_beat)
+      else
+        __system_thread_locals.get(:sonic_pi_spider_time)
+      end
+    end
+
+    def __get_spider_time_density
+      __thread_locals.get(:sonic_pi_spider_time_density, 1)
     end
 
     def __get_spider_schedule_time
-      __system_thread_locals.get(:sonic_pi_spider_time) + current_sched_ahead_time
+      __get_spider_time + current_sched_ahead_time
     end
 
     def __get_spider_sleep_mul
-      60.0 / __system_thread_locals.get(:sonic_pi_spider_bpm)
+      (60.0 / __get_spider_bpm)
     end
 
     def __get_spider_bpm
-      __system_thread_locals.get(:sonic_pi_spider_bpm)
+      # take into account density
+      if __in_link_bpm_mode
+        @tau_api.link_tempo * __get_spider_time_density
+      else
+        __system_thread_locals.get(:sonic_pi_spider_bpm) * __get_spider_time_density
+      end
     end
 
     def __get_spider_beat
-      __system_thread_locals.get(:sonic_pi_spider_beat)
+      __system_thread_locals.get :sonic_pi_spider_beat
     end
 
     def __get_spider_start_time
       __system_thread_locals.get :sonic_pi_spider_start_time
+    end
+
+    def __current_run_time
+      (__get_spider_time - @global_start_time).round(6)
+    end
+
+    def __current_local_run_time
+      (__get_spider_time - __get_spider_start_time).to_f.round(6)
     end
 
     def __with_preserved_spider_time_and_beat(&blk)
@@ -323,7 +392,7 @@ module SonicPi
           :thread_name => __current_thread_name}
             last_vt = __get_spider_time
             sched_ahead_sync_t = last_vt + __current_sched_ahead_time
-            sleep_time = sched_ahead_sync_t - Time.now
+            sleep_time = sched_ahead_sync_t.to_f - Time.now.to_f
 
         Thread.new do
             Kernel.sleep(sleep_time) if sleep_time > 0
@@ -390,14 +459,6 @@ module SonicPi
       __msg_queue.push({type: :error, val: res, backtrace: e.backtrace, jobid: __current_job_id, jobinfo: __current_job_info, line: line})
     end
 
-    def __current_run_time
-      (__get_spider_time - @global_start_time).round(6)
-    end
-
-    def __current_local_run_time
-      (__get_spider_time - __system_thread_locals.get(:sonic_pi_spider_start_time)).round(6)
-    end
-
     def __current_thread_name
       __system_thread_locals.get(:sonic_pi_local_spider_users_thread_name) || ""
     end
@@ -408,14 +469,6 @@ module SonicPi
 
     def __current_job_info
       __system_thread_locals.get(:sonic_pi_spider_job_info) || {}
-    end
-
-    def __sync(id, res)
-      @cue_events.event("/sync", {:id => id, :result => res})
-    end
-
-    def __cue_events
-      @cue_events
     end
 
     def __stop_start_cue_server!(stop)
@@ -948,11 +1001,6 @@ module SonicPi
       @gui_cue_log_idxs
     end
 
-
-
-
-
-
     def __in_thread(*opts, &block)
       args_h = resolve_synth_opts_hash_or_array(opts)
       name = args_h[:name]
@@ -1323,11 +1371,7 @@ module SonicPi
              end
       return norm
     end
-
-
-
   end
-
 
 
   class Runtime
@@ -1393,8 +1437,9 @@ module SonicPi
       @system_state.set 0, 0, osc_cue_server_thread_id, 0, 0, 60, :sched_ahead_time, default_sched_ahead_time
       @gui_cue_log_idxs = Counter.new
       @osc_cue_server_mutex = Mutex.new
-      @register_cue_event_lambda = lambda do |t, p, i, d, b, m, address, args, sched_ahead_time=0|
 
+      @register_cue_event_lambda = lambda do |t, p, i, d, b, m, address, args, sched_ahead_time=0|
+        t = t.to_r
         sym = nil
         address, sym = *address if address.is_a?(Array)
 
@@ -1408,7 +1453,8 @@ module SonicPi
                                   :cue => address })
 
         sched_ahead_sync_t = t + sched_ahead_time
-        sleep_time = sched_ahead_sync_t - Time.now
+
+        sleep_time = sched_ahead_sync_t - Time.now.to_r
         if sleep_time > 0
           Thread.new do
             Kernel.sleep(sleep_time)
