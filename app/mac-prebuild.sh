@@ -47,6 +47,10 @@ for f in ${SCRIPT_DIR}/external/build/sp_midi-prefix/src/sp_midi-build/*.dylib; 
     cp $f ${SCRIPT_DIR}/server/erlang/tau/priv/$(basename $f .dylib).so
 done
 
+for f in ${SCRIPT_DIR}/external/build/sp_link-prefix/src/sp_link-build/*.dylib; do
+    cp $f ${SCRIPT_DIR}/server/erlang/tau/priv/$(basename $f .dylib).so
+done
+
 
 # Copy prebuilt native files to server
 echo "Copying prebuilt binaries to the server..."
