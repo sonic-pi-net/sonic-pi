@@ -240,8 +240,6 @@ int sp_link_get_time_at_beat(double beat, double quantum, ErlNifSInt64* micros)
         return -1;
     }
 
-    std::cout << "get time at beat: " << beat << ",  " << quantum << std::endl;
-
     auto state = g_link->captureAppSessionState();
     *micros = state.timeAtBeat(beat, quantum).count();
     return 0;
@@ -308,7 +306,5 @@ int sp_link_get_current_time_microseconds(ErlNifSInt64* micros)
     }
 
     *micros = g_link->clock().micros().count();
-
-    std::cout << "current_time from c++ " << *micros << std::endl;
     return 0;
 }
