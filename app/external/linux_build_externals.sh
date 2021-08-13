@@ -10,8 +10,7 @@ ERLANG_INCLUDE_PATH=`erl -noinput -eval 'io:format("~s~n", [filename:join([lists
 
 cmake -DERLANG_INCLUDE_PATH=${ERLANG_INCLUDE_PATH} -G "Unix Makefiles" ..
 
-echo "Building sp_midi..."
-cmake --build . --target sp_midi
-cmake --build . --target aubio
+echo "Building external deps..."
+cmake --build . --config Release
 
 cd "${SCRIPT_DIR}"
