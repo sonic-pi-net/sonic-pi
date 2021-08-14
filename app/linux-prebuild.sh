@@ -29,8 +29,8 @@ echo "Building external binary dependencies..."
 cp "${SCRIPT_DIR}"/external/build/aubio-prefix/src/aubio-build/aubio_onset "${SCRIPT_DIR}"/server/native/
 
 echo "Copying extra UGens to the server..."
-mkdir -p "${SCRIPT_DIR}/../../server/native/plugins"
-cp ${SCRIPT_DIR}/external/build/supercollider-plugins-prefix/src/supercollider-plugins-build/*.so ${SCRIPT_DIR}/../../server/native/plugins
+mkdir -p "${SCRIPT_DIR}/../../server/native/supercollider/plugins"
+cp ${SCRIPT_DIR}/external/build/supercollider-plugins-prefix/src/supercollider-plugins-build/*.so ${SCRIPT_DIR}/../../server/native/supercollider/plugins
 
 mkdir -p "${SCRIPT_DIR}"/server/beam/tau/priv/
 cp "${SCRIPT_DIR}"/external/build/sp_midi-prefix/src/sp_midi-build/*.so "${SCRIPT_DIR}"/server/beam/tau/priv/

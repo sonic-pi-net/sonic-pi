@@ -68,6 +68,9 @@ ln -s supercollider/scsynth scsynth
 mv supercollider/extra-plugins/* supercollider/plugins/
 rm -rf supercollider/extra-plugins
 
+echo "Copying extra UGens to the server..."
+cp ${SCRIPT_DIR}/external/build/supercollider-plugins-prefix/src/supercollider-plugins-build/*.scx ${SCRIPT_DIR}/server/native/supercollider/plugins
+
 echo "Compiling native ruby extensions..."
 "$RUBY" "${SCRIPT_DIR}"/server/ruby/bin/compile-extensions.rb
 
