@@ -66,7 +66,6 @@ init(Parent, CueServer) ->
 
 loop(State) ->
 
-    io:format("link looper~n", []),
     receive
 
         {link_num_peers, Peers} when is_integer(Peers) ->
