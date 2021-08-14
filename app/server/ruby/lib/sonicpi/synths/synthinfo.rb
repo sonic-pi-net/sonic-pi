@@ -3368,7 +3368,7 @@ Steal This Sound,  Mitchell Sigman"
       end
 
       def introduced
-        Version.new(3,3,0)
+        Version.new(4,0,0)
       end
 
       def synth_name
@@ -3446,62 +3446,62 @@ TEXT
 The probability that when each boid is created, it will be a predator. The more predators that there are in the flock, the wilder and more noisy the overall sound will be.
 TEXT
         super.merge({
-                      :seed =>
-                      {
-                        :doc => "Seed value for rand num generator used to choose the speed and direction of each boid.",
-                        :modulatable => false
-                      },
-                      :num_boids =>
-                      {
-                        :doc => "Number of boids (and therefore sine waves) to simulate in the flock.",
-                        :validations => [v_greater_than_oet(:num_boids, 1)],
-                        :modulatable => false
-                      },
-                      :min_start_speed =>
-                      {
-                        :doc => "Minimum value allowed when deciding the starting speed of each newly created boid.",
-                        :validations => [v_positive(:min_start_speed), v_less_than_oet(:min_start_speed, :max_speed)
-                        ],
-                        :modulatable => false
-                      },
-                      :max_speed =>
-                      {
-                        :doc => max_speed_doc,
-                        :validations => [v_positive(:max_speed)],
-                        :modulatable => false
-                      },
-                      :max_force =>
-                      {
-                        :doc => max_force_doc,
-                        :validations => [v_positive_not_zero(:max_force)],
-                        :modulatable => false
-                      },
-                      :note_mod_source =>
-                      {
-                        :doc => note_mod_source_doc,
-                        :validations => [v_one_of(:note_mod_source, [0, 1, 2, 3])],
-                        :modulatable => false
-                      },
-                      :note_mod_amount =>
-                      {
-                        :doc => note_mod_amount_doc,
-                        :validations => [v_between_inclusive(:note_mod_amount, 0, 1)],
-                        :modulatable => true
-                      },
-                      :note_mod_amount_slide =>
-                      {
-                        :doc => generic_slide_doc(:note_mod_amount),
-                        :validations => [v_positive(:note_mod_amount_slide)],
-                        :modulatable => true,
-                        :bpm_scale => true
-                      },
-                      :predator_probability =>
-                      {
-                        :doc => predator_probability_doc,
-                        :validations => [v_between_inclusive(:predator_probability, 0, 1)],
-                        :modulatable => false
-                      }
-                    })
+          :seed =>
+          {
+            :doc => "Seed value for rand num generator used to choose the speed and direction of each boid.",
+            :modulatable => false
+          },
+          :num_boids =>
+          {
+            :doc => "Number of boids (and therefore sine waves) to simulate in the flock.",
+            :validations => [v_greater_than_oet(:num_boids, 1)],
+            :modulatable => false
+          },
+          :min_start_speed =>
+          {
+            :doc => "Minimum value allowed when deciding the starting speed of each newly created boid.",
+            :validations => [v_positive(:min_start_speed), v_less_than_oet(:min_start_speed, :max_speed)
+            ],
+            :modulatable => false
+          },
+          :max_speed =>
+          {
+            :doc => max_speed_doc,
+            :validations => [v_positive(:max_speed)],
+            :modulatable => false
+          },
+          :max_force =>
+          {
+            :doc => max_force_doc,
+            :validations => [v_positive_not_zero(:max_force)],
+            :modulatable => false
+          },
+          :note_mod_source =>
+          {
+            :doc => note_mod_source_doc,
+            :validations => [v_one_of(:note_mod_source, [0, 1, 2, 3])],
+            :modulatable => false
+          },
+          :note_mod_amount =>
+          {
+            :doc => note_mod_amount_doc,
+            :validations => [v_between_inclusive(:note_mod_amount, 0, 1)],
+            :modulatable => true
+          },
+          :note_mod_amount_slide =>
+          {
+            :doc => generic_slide_doc(:note_mod_amount),
+            :validations => [v_positive(:note_mod_amount_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+          :predator_probability =>
+          {
+            :doc => predator_probability_doc,
+            :validations => [v_between_inclusive(:predator_probability, 0, 1)],
+            :modulatable => false
+          }
+        })
       end
     end
 
@@ -3511,7 +3511,7 @@ TEXT
       end
 
       def introduced
-        Version.new(3,3,0)
+        Version.new(4,0,0)
       end
 
       def synth_name
@@ -3599,80 +3599,80 @@ TEXT
 Enable or disable automatic randomised values for `initial_row:`. If `randomise:` is `1`, this will override any manually given value for `initial_row:`.
 TEXT
         super.merge({
-                      :seed =>
-                      {
-                        :doc => "Seed value for rand num generator used to pick values for the automaton's initial row (when `randomise:` is 1).",
-                        :modulatable => false
-                      },
-                      :wolfram_code =>
-                      {
-                        :doc => wolfram_code_doc,
-                        :validations => [v_between_inclusive(:wolfram_code, 0, 255)],
-                        :modulatable => false
-                      },
-                      :num_columns =>
-                      {
-                        :doc => "The number of columns in the automaton's simulated 'grid' of binary values.",
-                        :validations => [v_greater_than_oet(:num_columns, 1), v_product_less_than_oet(:num_columns, :num_rows, 100)],
-                        :modulatable => false
-                      },
-                      :num_rows =>
-                      {
-                        :doc => "The number of rows in the automaton's simulated 'grid' of binary values.",
-                        :validations => [v_greater_than_oet(:num_rows, 1), v_product_less_than_oet(:num_rows, :num_columns, 100)],
-                        :modulatable => false
-                      },
-                      :initial_row =>
-                      {
-                        :doc => initial_row_doc,
-                        :validations => [
-                          v_list_like(:initial_row),
-                          v_length_equals(:initial_row, :num_columns),
-                          v_list_satisfies(
-                            :initial_row,
-                            ->(x) { x.all? { |i| i == 0 || i == 1 } },
-                            "must contain only 1s or 0s"
-                          )
-                        ],
-                        :modulatable => false
-                      },
-                      :width =>
-                      {
-                        :doc => width_doc,
-                        :validations => [v_between_inclusive(:width, 0, 2)],
-                        :modulatable => false
-                      },
-                      :odd_skew =>
-                      {
-                        :doc => odd_skew_doc,
-                        :validations => [v_between_inclusive(:odd_skew, -0.99, 0.99)],
-                        :modulatable => false
-                      },
-                      :even_skew =>
-                      {
-                        :doc => even_skew_doc,
-                        :validations => [v_between_inclusive(:even_skew, -0.99, 0.99)],
-                        :modulatable => false
-                      },
-                      :amp_tilt =>
-                      {
-                        :doc => amp_tilt_doc,
-                        :validations => [v_between_inclusive(:amp_tilt, -1, 3)],
-                        :modulatable => false
-                      },
-                      :balance =>
-                      {
-                        :doc => "Reduces the amps of either the odd sine waves (except for the first one) or the even sine waves.",
-                        :validations => [v_between_inclusive(:balance, -1, 1)],
-                        :modulatable => false
-                      },
-                      :randomise =>
-                      {
-                        :doc => randomise_doc,
-                        :validations => [v_one_of(:randomise, [0, 1])],
-                        :modulatable => false
-                      }
-                    })
+          :seed =>
+          {
+            :doc => "Seed value for rand num generator used to pick values for the automaton's initial row (when `randomise:` is 1).",
+            :modulatable => false
+          },
+          :wolfram_code =>
+          {
+            :doc => wolfram_code_doc,
+            :validations => [v_between_inclusive(:wolfram_code, 0, 255)],
+            :modulatable => false
+          },
+          :num_columns =>
+          {
+            :doc => "The number of columns in the automaton's simulated 'grid' of binary values.",
+            :validations => [v_greater_than_oet(:num_columns, 1), v_product_less_than_oet(:num_columns, :num_rows, 100)],
+            :modulatable => false
+          },
+          :num_rows =>
+          {
+            :doc => "The number of rows in the automaton's simulated 'grid' of binary values.",
+            :validations => [v_greater_than_oet(:num_rows, 1), v_product_less_than_oet(:num_rows, :num_columns, 100)],
+            :modulatable => false
+          },
+          :initial_row =>
+          {
+            :doc => initial_row_doc,
+            :validations => [
+              v_list_like(:initial_row),
+              v_length_equals(:initial_row, :num_columns),
+              v_list_satisfies(
+                :initial_row,
+                ->(x) { x.all? { |i| i == 0 || i == 1 } },
+                "must contain only 1s or 0s"
+              )
+            ],
+            :modulatable => false
+          },
+          :width =>
+          {
+            :doc => width_doc,
+            :validations => [v_between_inclusive(:width, 0, 2)],
+            :modulatable => false
+          },
+          :odd_skew =>
+          {
+            :doc => odd_skew_doc,
+            :validations => [v_between_inclusive(:odd_skew, -0.99, 0.99)],
+            :modulatable => false
+          },
+          :even_skew =>
+          {
+            :doc => even_skew_doc,
+            :validations => [v_between_inclusive(:even_skew, -0.99, 0.99)],
+            :modulatable => false
+          },
+          :amp_tilt =>
+          {
+            :doc => amp_tilt_doc,
+            :validations => [v_between_inclusive(:amp_tilt, -1, 3)],
+            :modulatable => false
+          },
+          :balance =>
+          {
+            :doc => "Reduces the amps of either the odd sine waves (except for the first one) or the even sine waves.",
+            :validations => [v_between_inclusive(:balance, -1, 1)],
+            :modulatable => false
+          },
+          :randomise =>
+          {
+            :doc => randomise_doc,
+            :validations => [v_one_of(:randomise, [0, 1])],
+            :modulatable => false
+          }
+        })
       end
     end
 
