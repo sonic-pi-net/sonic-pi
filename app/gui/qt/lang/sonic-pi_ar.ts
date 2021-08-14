@@ -238,17 +238,17 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="3108"/>
         <source>Wavefile (*.wav)</source>
-        <translation type="unfinished"></translation>
+        <translation>ملف صوتي (*.wav)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3642"/>
         <source>Resetting MIDI...</source>
-        <translation type="unfinished"></translation>
+        <translation>إعادة تعيين MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3647"/>
         <source>MIDI is disabled...</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI معطل...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3699"/>
@@ -258,7 +258,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1565"/>
         <source>Save Current Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>احفظ الbuffer الحالي</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="770"/>
@@ -328,13 +328,13 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="1811"/>
         <source>Mono Mode...</source>
         <oldsource>Mono Mode....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>وضع أحادي...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1819"/>
         <source>Stereo Mode...</source>
         <oldsource>Stereo Mode....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>وضع الاستريو ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1828"/>
@@ -344,22 +344,22 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1869"/>
         <source>Hiding about window...</source>
-        <translation type="unfinished"></translation>
+        <translation>إخفاء نافذة حول...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1874"/>
         <source>Showing about window...</source>
-        <translation type="unfinished"></translation>
+        <translation>إظهار نافذة حول...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1890"/>
         <source>Hiding help...</source>
-        <translation type="unfinished"></translation>
+        <translation>إخفاء المساعدة...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1894"/>
         <source>Showing help...</source>
-        <translation type="unfinished"></translation>
+        <translation>إظهار التعليمات...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1950"/>
@@ -369,37 +369,37 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2097"/>
         <source>Colour Theme: </source>
-        <translation type="unfinished"></translation>
+        <translation>سمة اللون: </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2305"/>
         <source>Show autocompletion on</source>
-        <translation type="unfinished"></translation>
+        <translation>إظهار الاكمال التلقاىٔي مفعل</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2307"/>
         <source>Show autocompletion off</source>
-        <translation type="unfinished"></translation>
+        <translation>إظهار الاكمال التلقاىٔي معطل</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2322"/>
         <source>Show context on</source>
-        <translation type="unfinished"></translation>
+        <translation>إظهار السياق مفعل</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2325"/>
         <source>Show context off</source>
-        <translation type="unfinished"></translation>
+        <translation>إظهار السياق معطل</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2337"/>
         <source>Hiding preferences...</source>
-        <translation type="unfinished"></translation>
+        <translation>إخفاء التفضيلات...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2341"/>
         <source>Showing preferences...</source>
-        <translation type="unfinished"></translation>
+        <translation>إظهار التفضيلات...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2510"/>
@@ -429,7 +429,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2579"/>
         <source>Show Help</source>
-        <translation type="unfinished"></translation>
+        <translation>إظهر التعليمات</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2583"/>
@@ -449,22 +449,22 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2614"/>
         <source>Show Line Numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>إظهر أرقام الأسطر</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2619"/>
         <source>Show Code Completion</source>
-        <translation type="unfinished"></translation>
+        <translation>إظهار اكمال الكود</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2624"/>
         <source>Show Code Context</source>
-        <translation type="unfinished"></translation>
+        <translation>إظهار سياق الكود</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2629"/>
         <source>Safe Audio Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>وضع الصوت الآمن</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2634"/>
@@ -479,7 +479,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2644"/>
         <source>Invert Stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>عكس الستيريو</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2649"/>
@@ -549,12 +549,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2736"/>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation>فاتح</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2741"/>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>داكن</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2746"/>
@@ -569,7 +569,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2756"/>
         <source>High Contrast</source>
-        <translation type="unfinished"></translation>
+        <translation>تباين عالي</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2761"/>
@@ -579,7 +579,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2766"/>
         <source>Colour Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>سمة اللون</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2775"/>
@@ -594,7 +594,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2788"/>
         <source>MIDI Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>مدخلات MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2789"/>
@@ -628,97 +628,97 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2801"/>
         <source>1</source>
-        <translation type="unfinished"></translation>
+        <translation>١</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2806"/>
         <source>2</source>
-        <translation type="unfinished"></translation>
+        <translation>٢</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2811"/>
         <source>3</source>
-        <translation type="unfinished"></translation>
+        <translation>٣</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2816"/>
         <source>4</source>
-        <translation type="unfinished"></translation>
+        <translation>٤</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2821"/>
         <source>5</source>
-        <translation type="unfinished"></translation>
+        <translation>٥</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2826"/>
         <source>6</source>
-        <translation type="unfinished"></translation>
+        <translation>٦</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2831"/>
         <source>7</source>
-        <translation type="unfinished"></translation>
+        <translation>٧</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2836"/>
         <source>8</source>
-        <translation type="unfinished"></translation>
+        <translation>٨</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2841"/>
         <source>9</source>
-        <translation type="unfinished"></translation>
+        <translation>٩</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2846"/>
         <source>10</source>
-        <translation type="unfinished"></translation>
+        <translation>١٠</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2851"/>
         <source>11</source>
-        <translation type="unfinished"></translation>
+        <translation>١١</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2856"/>
         <source>12</source>
-        <translation type="unfinished"></translation>
+        <translation>١٢</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2861"/>
         <source>13</source>
-        <translation type="unfinished"></translation>
+        <translation>١٣</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2866"/>
         <source>14</source>
-        <translation type="unfinished"></translation>
+        <translation>١٤</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2871"/>
         <source>15</source>
-        <translation type="unfinished"></translation>
+        <translation>١٥</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2876"/>
         <source>16</source>
-        <translation type="unfinished"></translation>
+        <translation>١٦</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2884"/>
         <source>Local IP Addresses</source>
-        <translation type="unfinished"></translation>
+        <translation>عناوين IP المحلية</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2896"/>
         <source>Incoming OSC Port</source>
-        <translation type="unfinished"></translation>
+        <translation>منفذ OSC الوارد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2899"/>
         <source>View</source>
-        <translation type="unfinished"></translation>
+        <translation>إظهار</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2906"/>
@@ -728,7 +728,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2908"/>
         <source>Place focus on the code editor</source>
-        <translation type="unfinished"></translation>
+        <translation>ضع التركيز على محرر الكود</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2912"/>
@@ -738,7 +738,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2914"/>
         <source>Place focus on the log pane</source>
-        <translation type="unfinished"></translation>
+        <translation>ضع التركيز على جزء السجل</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2917"/>
@@ -803,7 +803,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2952"/>
         <source>Show Log</source>
-        <translation type="unfinished"></translation>
+        <translation>إظهر السجل</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2957"/>
@@ -813,43 +813,44 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2962"/>
         <source>Show Buttons</source>
-        <translation type="unfinished"></translation>
+        <translation>إظهر الازرار</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2967"/>
         <source>Show Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>إظهر حروف الجدولة</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2973"/>
         <source>Full Screen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>وضع ملء الشاشة</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3130"/>
         <source>Ready...</source>
-        <translation type="unfinished"></translation>
+        <translation>جاهز...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3296"/>
         <source>File loaded...</source>
-        <translation type="unfinished"></translation>
+        <translation>تم تحميل الملف...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3322"/>
         <source>File saved...</source>
-        <translation type="unfinished"></translation>
+        <translation>تم حفظ الملف...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3568"/>
         <source>Last checked %1</source>
-        <translation type="unfinished"></translation>
+        <translation>آخر فحص ٪1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3570"/>
         <source>Sonic Pi checks for updates
 every two weeks.</source>
-        <translation type="unfinished"></translation>
+        <translation>يتحقق سونيك باي من التحديثات
+كل أسبوعين.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3572"/>
@@ -880,22 +881,22 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2521"/>
         <source>Stop</source>
-        <translation type="unfinished"></translation>
+        <translation>قف</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2523"/>
         <source>Stop all running code</source>
-        <translation type="unfinished"></translation>
+        <translation>قف جميع الاكواد الشغالة</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="847"/>
         <source>Help</source>
-        <translation type="unfinished"></translation>
+        <translation>مساعدة</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1445"/>
         <source>Server boot error...</source>
-        <translation type="unfinished"></translation>
+        <translation>خطأ في تمهيد السرفر ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1445"/>
@@ -921,12 +922,12 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2596"/>
         <source>Tools</source>
-        <translation type="unfinished"></translation>
+        <translation>ادوات</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3027"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>حول</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3029"/>
@@ -941,7 +942,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="3028"/>
         <source>Community</source>
-        <translation type="unfinished"></translation>
+        <translation>مجتمع</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="427"/>
@@ -971,27 +972,27 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="3031"/>
         <source>License</source>
-        <translation type="unfinished"></translation>
+        <translation>رخصة</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3032"/>
         <source>History</source>
-        <translation type="unfinished"></translation>
+        <translation>تاريخ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3064"/>
         <source>Sonic Pi - Info</source>
-        <translation type="unfinished"></translation>
+        <translation>سونيك بي - معلومات</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3090"/>
         <source>Stop Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>إيقاف التسجيل</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3108"/>
         <source>Save Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>حفظ التسجيل</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3285"/>
