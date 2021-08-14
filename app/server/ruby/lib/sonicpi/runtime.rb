@@ -165,6 +165,10 @@ module SonicPi
       end
     end
 
+    def __get_beat_dur_in_ms
+      __get_spider_sleep_mul * 1000.0
+    end
+
     def __get_spider_time
       if __in_link_bpm_mode
         @tau_api.link_get_clock_time_at_beat(__get_spider_beat)

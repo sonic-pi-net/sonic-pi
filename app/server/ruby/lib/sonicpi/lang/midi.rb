@@ -1391,13 +1391,11 @@ Upon receiving the MIDI continue event, the MIDI device(s) will continue at the 
           end
 
           ports.each do |p|
-            time_warp times do |i, el|
-              __midi_send_timed("/clock", p)
-            end
+            __midi_send_timed_param_2("/clock_beat", p, __get_beat_dur_in_ms)
+            __midi_message "midi_clock_beat port: #{port}"
           end
-
-          __midi_message "midi_clock_beat port: #{port}"
         else
+
           __midi_rest_message "midi_clock_beat port: #{port}"
         end
       end

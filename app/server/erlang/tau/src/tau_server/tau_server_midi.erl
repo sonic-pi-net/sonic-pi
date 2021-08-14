@@ -148,6 +148,18 @@ midi_send(_Time, <<Data/binary>>) ->
     case tau_server_midi_out:encode_midi_from_osc(Data) of
         {ok, multi_chan, _, PortName, MIDIBinaries} ->
             [sp_midi:midi_send(PortName, MB) || MB <- MIDIBinaries];
+        {ok, clock_beat, PortName, BeatDurationMs, MIDIBinary} ->
+            %% Send a full MIDI beat's worth of clock tick messages.
+            %% This means 24 message each separated by TickIntervalMs.
+
+            TickIntervalMs = BeatDurationMs / 24.0,
+            lists:foreach(
+              fun(I) ->
+                      spawn(fun () ->
+                                    timer:sleep(round(I * TickIntervalMs)),
+                                    sp_midi:midi_send(PortName, MIDIBinary)
+                            end)
+              end, lists:seq(0, 23));
         {ok,  _, PortName, MIDIBinary} ->
             sp_midi:midi_send(PortName, MIDIBinary);
         {error, ErrStr} ->

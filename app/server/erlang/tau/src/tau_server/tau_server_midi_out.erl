@@ -166,6 +166,10 @@ encode_midi_from_osc(<<Bin/binary>>) ->
             Data = encode(start),
             {ok, start, PortName, Data};
 
+        {cmd, ["/clock_beat", PortName, TickIntervalMs]} ->
+            Data = encode(clock),
+            {ok, clock_beat, PortName, TickIntervalMs, Data};
+
         {cmd, ["/stop", PortName]} ->
             Data = encode(stop),
             {ok, stop, PortName, Data};
