@@ -90,7 +90,7 @@ ERL_NIF_TERM sp_link_set_tempo_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
         return enif_make_atom(env, "error");
     }
 
-    rc = sp_link_set_tempo(bpm, 0);
+    rc = sp_link_set_tempo(bpm, micros);
     return enif_make_atom(env, rc == 0 ? "ok" : "error");
 }
 
