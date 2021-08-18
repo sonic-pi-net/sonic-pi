@@ -85,12 +85,8 @@ mk_tau_str({tau, Kind, Event, Source, _}) ->
 
 loop(State) ->
     receive
-        {send, Time, Data} ->
-            midi_send(Time, Data),
-            ?MODULE:loop(State);
-        {timeout, Timer, {send, Time, Data, Tracker}} ->
-            midi_send(Time, Data),
-            tau_server_tracker:forget(Timer, Tracker),
+        {send_midi, Data} ->
+            midi_send(Data),
             ?MODULE:loop(State);
         {flush} ->
             sp_midi:midi_flush(),
@@ -143,7 +139,7 @@ update_midi_ports(State) ->
                    midi_outs := NewOuts}
     end.
 
-midi_send(_Time, <<Data/binary>>) ->
+midi_send(<<Data/binary>>) ->
     debug("sending MIDI: ~p~n", [Data]),
     case tau_server_midi_out:encode_midi_from_osc(Data) of
         {ok, multi_chan, _, PortName, MIDIBinaries} ->

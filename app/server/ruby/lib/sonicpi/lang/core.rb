@@ -2107,10 +2107,13 @@ end"
         raise ArgumentError, "loop needs a block" unless block
         Kernel.loop do
           __system_thread_locals.set(:sonic_pi_spider_synced, false)
-          slept = block_slept? do
-            block.call
-          end
-          raise ZeroTimeLoopError, "loop did not sleep or sync!" unless slept or __system_thread_locals.get(:sonic_pi_spider_synced)
+          __system_thread_locals.set(:sonic_pi_spider_slept, false)
+
+          block.call
+
+          slept =  __system_thread_locals.get(:sonic_pi_spider_slept)
+          synced = __system_thread_locals.get(:sonic_pi_spider_synced)
+          raise ZeroTimeLoopError, "loop did not sleep or sync!" unless slept or synced
         end
       end
       doc name:           :loop,
@@ -3564,7 +3567,7 @@ You can see the 'buckets' that the numbers between 0 and 1 fall into with the fo
       def use_bpm(bpm, &block)
         raise ArgumentError, "use_bpm does not work with a block. Perhaps you meant with_bpm" if block
         raise ArgumentError, "use_bpm's BPM should be a positive value or :link. You tried to use: #{bpm}" unless bpm == :link || (bpm.is_a?(Numeric) && bpm > 0)
-        __change_spider_bpm!(bpm)
+        __change_spider_bpm_time_and_beat!(bpm, __get_spider_time, __get_spider_beat)
       end
       doc name:           :use_bpm,
           introduced:     Version.new(2,0,0),
@@ -3618,9 +3621,9 @@ You can see the 'buckets' that the numbers between 0 and 1 fall into with the fo
         raise ArgumentError, "with_bpm must be called with a do/end block. Perhaps you meant use_bpm" unless block
         raise ArgumentError, "with_bpm's BPM should be a positive value. You tried to use: #{bpm}" unless bpm > 0
         current_bpm = __get_spider_bpm
-        __change_spider_bpm!(bpm)
+        use_bpm bpm
         res = block.call
-        __change_spider_bpm!(curent_bpm)
+        use_bpm current_bpm
         res
       end
       doc name:           :with_bpm,
@@ -4127,10 +4130,11 @@ puts current_sched_ahead_time # Prints 0.5"]
         __system_thread_locals.set_local(:sonic_pi_spider_time_state_cache, [])
         __system_thread_locals.set_local(:sonic_pi_local_last_sync, nil)
 
+
         # Schedule messages
         __schedule_delayed_blocks_and_messages!
         return if beats == 0
-
+        __system_thread_locals.set(:sonic_pi_spider_slept, true)
         __change_spider_beat_and_time_by_beat_delta!(beats)
 
         sat = current_sched_ahead_time
@@ -4300,18 +4304,13 @@ puts current_sched_ahead_time # Prints 0.5"]
         se = @event_history.sync(t, p, i, d, b, m, cue_id, arg_matcher)
 
         __system_thread_locals.set(:sonic_pi_spider_synced, true)
-
-        __change_spider_time_and_beat!(se.time, se.beat)
         __system_thread_locals.set_local :sonic_pi_local_last_sync, se
 
         if bpm_sync
-          if se.bpm == :link
-            use_bpm :link
-          elsif se.bpm.is_a?(Numeric)
-            use_bpm se.bpm
-          else
-            raise StandardError, "Incorrect bpm value. Expecting either :link or a number such as 120"
-          end
+          raise StandardError, "Incorrect bpm value. Expecting either :link or a number such as 120" unless ((se.bpm == :link) || se.bpm.is_a?(Numeric))
+          __change_spider_bpm_time_and_beat!(se.bpm, se.time, se.beat)
+        else
+          __change_spider_bpm_time_and_beat!(current_bpm, se.time, se.beat)
         end
 
         run_info = ""

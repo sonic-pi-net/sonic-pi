@@ -115,15 +115,15 @@ module SonicPi
 
     def __change_spider_time_and_beat!(new_time = nil, new_beat = nil)
       __system_thread_locals.set :sonic_pi_spider_time, new_time.to_r
-      __system_thread_locals.set(:sonic_pi_spider_beat, new_beat.to_f)
+      __system_thread_locals.set :sonic_pi_spider_beat, new_beat.to_f
     end
 
     def __reset_spider_time_and_beat!
       if __in_link_bpm_mode
-        new_time, new_beat = @tau_api.link_current_time_and_beat(0)
-        __system_thread_locals.set :sonic_pi_spider_time, new_time.to_r
-        __system_thread_locals.set(:sonic_pi_spider_beat, new_beat.to_f)
-        __system_thread_locals.set :sonic_pi_spider_start_time, new_time.to_r
+        clock_time, new_beat = @tau_api.link_current_time_and_beat
+        __system_thread_locals.set :sonic_pi_spider_time, clock_time
+        __system_thread_locals.set :sonic_pi_spider_beat, new_beat
+        __system_thread_locals.set :sonic_pi_spider_start_time, clock_time
       else
         t = Time.now.to_r
         __change_spider_time_and_beat!(t, 0)
@@ -131,32 +131,44 @@ module SonicPi
       end
     end
 
-    def __change_spider_bpm!(new_bpm)
-      case new_bpm
-      when :link
-        if __in_link_bpm_mode
-          # do nothing, we're already in link bpm mode
-        else
-          __system_thread_locals.set :sonic_pi_spider_bpm, :link
-          __reset_spider_time_and_beat!
-        end
+    def __change_spider_bpm_time_and_beat!(bpm, time, beat)
 
-      when Numeric
-        __system_thread_locals.set :sonic_pi_spider_bpm, new_bpm.to_f
+      # Need to be careful here about how to switch bpm modes.
+      # We have 4 main cases:
+      # 1. link -> link
+      # 2. std  -> link
+      # 3. link -> std
+      # 4. std  -> std
+
+      if bpm == :link
+        if __in_link_bpm_mode
+          # 1. link -> link
+          __change_spider_time_and_beat!(time, beat)
+        else
+          # 2. std -> link
+          __system_thread_locals.set(:sonic_pi_spider_bpm, :link)
+          link_beat = __get_link_beat_at_clock_time(time)
+          __change_spider_time_and_beat!(time, link_beat)
+        end
       else
-        raise StandardError, "Unknown BPM value. Expecting either a number e.g. 120 or :link."
+        # 3. link -> std
+        # 4. std  -> std
+        __system_thread_locals.set(:sonic_pi_spider_bpm, bpm.to_f)
+        __change_spider_time_and_beat!(time, beat)
       end
     end
 
-    def __reset_spider_bpm!
-      __change_spider_bpm!(60.0)
+
+    def __get_link_beat_at_clock_time(clock_time)
+      @tau_api.link_get_beat_at_clock_time(clock_time)
     end
 
     def __change_spider_beat_and_time_by_beat_delta!(beat_delta)
       new_beat = __get_spider_beat + (beat_delta / __get_spider_time_density)
 
       if __in_link_bpm_mode
-        __system_thread_locals.set(:sonic_pi_spider_beat, new_beat.to_f)
+        new_time = @tau_api.link_get_clock_time_at_beat(new_beat)
+        __change_spider_time_and_beat!(new_time, new_beat)
       else
         sleep_mul = __get_spider_sleep_mul
         sleep_time = beat_delta * sleep_mul
@@ -170,11 +182,7 @@ module SonicPi
     end
 
     def __get_spider_time
-      if __in_link_bpm_mode
-        @tau_api.link_get_clock_time_at_beat(__get_spider_beat)
-      else
-        __system_thread_locals.get(:sonic_pi_spider_time)
-      end
+      __system_thread_locals.get(:sonic_pi_spider_time)
     end
 
     def __get_spider_time_density
@@ -854,7 +862,7 @@ module SonicPi
     end
 
     def __set_default_user_thread_locals!
-      __reset_spider_bpm!
+      __change_spider_bpm_time_and_beat!(60.0, __get_spider_time, __get_spider_beat)
       __thread_locals.set :sonic_pi_spider_arg_bpm_scaling, true
       __thread_locals.set :sonic_pi_spider_new_thread_random_gen_idx, 0
       __system_thread_locals.set(:sonic_pi_spider_thread_priority, 0)

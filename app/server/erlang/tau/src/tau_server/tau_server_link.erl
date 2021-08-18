@@ -88,6 +88,16 @@ loop(State) ->
             maps:get(cue_server, State) ! {link, stop},
             ?MODULE:loop(State);
 
+        {link_reset} ->
+            log("Resetting link~n", []),
+            case sp_link:is_enabled() of
+                true ->
+                    log("Link is currently enabled, now disabling then re-enabling it...", []),
+                    sp_link:enable(false),
+                    sp_link:enable(true);
+                _ -> ok
+            end,
+            ?MODULE:loop(State);
 
         {link_disable} ->
             log("Disabling link~n", []),
@@ -97,6 +107,11 @@ loop(State) ->
         {link_enable} ->
             log("Enabling link~n", []),
             sp_link:enable(true),
+            ?MODULE:loop(State);
+
+        {link_set_tempo, Tempo} ->
+            TNow = sp_link:get_current_time_microseconds(),
+            sp_link:set_tempo(Tempo, TNow),
             ?MODULE:loop(State);
 
         {link_rpc, UUID, get_current_time} ->
@@ -129,14 +144,20 @@ loop(State) ->
             maps:get(cue_server, State) ! {api_reply, UUID, [NumPeers]},
             ?MODULE:loop(State);
 
+        {link_rpc, UUID, is_enabled} ->
+            Enabled = case sp_link:is_enabled() of
+                          true -> 1;
+                          false -> 0
+                      end,
+            log("Link is enabled:  [~p]~n", [Enabled]),
+            maps:get(cue_server, State) ! {api_reply, UUID, [Enabled]},
+            ?MODULE:loop(State);
+
         Any ->
             io:format("Received something unexpected", []),
             io:format("Unexpected value:  ~p~n", [Any]),
             ?MODULE:loop(State)
     end.
-
-
-
 
 %% sys module callbacks
 

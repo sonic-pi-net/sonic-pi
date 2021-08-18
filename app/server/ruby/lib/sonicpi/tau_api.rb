@@ -68,15 +68,19 @@ module SonicPi
       res[0].to_i
     end
 
-    def link_current_time_and_beat(sched_ahead_time_s=0)
-      t = Time.now.to_r
-      t_micros = t * 1_000_000
-      sched_ahead_time_micros = sched_ahead_time_s.to_f * 1_000_000
-      link_t_micros = t_micros - @link_time_delta_micros_prom.get
-      beat = link_get_beat_at_time(link_t_micros + sched_ahead_time_micros)
-      [t, beat]
-    end
+    def link_current_time_and_beat(quantise_beat=true)
+      link_time = link_current_time
+      beat = link_get_beat_at_time(link_time)
 
+      if quantise_beat
+        beat = (beat + 1).to_i
+        link_time = link_get_time_at_beat(beat)
+      end
+
+      clock_time = (link_time + @link_time_delta_micros_prom.get) / 1_000_000.0
+
+      [clock_time, beat]
+    end
 
     def link_tempo(force_api_call=false)
       if force_api_call
@@ -88,6 +92,11 @@ module SonicPi
       else
         @tempo = link_tempo(true)
       end
+    end
+
+    def link_is_enabled?
+      res = api_rpc("/link-is-enabled")
+      res[0] == 1
     end
 
     def link_num_peers
@@ -115,10 +124,8 @@ module SonicPi
       link_get_beat_at_time(link_time)
     end
 
-
     def link_set_bpm_at_clock_time!(bpm, clock_time)
-      link_time = (clock_time * 1_000_000) - @link_time_delta_micros_prom.get
-      @tau_comms.send("/link-set-tempo", bpm.to_f, SonicPi::OSC::Int64.new(link_time))
+      @tau_comms.send_ts(clock_time, "/link-set-tempo", bpm.to_f)
     end
 
     def link_disable
@@ -127,6 +134,10 @@ module SonicPi
 
     def link_enable
       @tau_comms.send("/link-enable")
+    end
+
+    def link_reset
+      @tau_comms.send("/link-reset")
     end
 
     def midi_system_start!

@@ -236,13 +236,8 @@ loop(State) ->
             log("Disabling midi cue forwarding ~n"),
             ?MODULE:loop(State#{midi_enabled := false});
 
-        {timeout, Timer, {forward, Time, Data, Tracker}} ->
-            send_forward(maps:get(in_socket, State), Time, Data),
-            tau_server_tracker:forget(Timer, Tracker),
-            ?MODULE:loop(State);
-
-        {forward, Time, Data} ->
-            send_forward(maps:get(in_socket, State), Time, Data),
+        {send_osc, Host, Port, OSC} ->
+            send_udp(maps:get(in_socket, State), Host, Port, OSC),
             ?MODULE:loop(State);
 
         {udp_error, _Port, econnreset} ->
@@ -276,13 +271,6 @@ loop(State) ->
 
     end.
 
-
-send_forward(Socket, Time, {Host, Port, Bin}) ->
-    Now = osc:now(),
-    send_udp(Socket, Host, Port, Bin),
-    debug(1, Now, "sent message for time ~f with error ~f~n",
-          [Time, Now-Time]),
-    ok.
 
 send_udp(Socket, Host, Port, Bin)
   when is_port(Socket) ->
