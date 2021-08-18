@@ -21,6 +21,8 @@ module SonicPi
     attr_reader :booted
 
     def initialize(ports, handlers)
+      @incoming_tempo_change_cv = ConditionVariable.new
+      @incoming_tempo_change_mut = Mutex.new
       @tau_api_events = IncomingEvents.new
       @client_id = @tau_api_events.gensym("RubyTauAPI")
       @osc_cues_port = ports[:osc_cues_port]
@@ -40,6 +42,7 @@ module SonicPi
       @link_time_micros = nil
       @local_time_micros = nil
       @link_time_delta_micros_prom = Promise.new
+
       Thread.new do
         initialize_link_info!
       end
@@ -125,7 +128,13 @@ module SonicPi
     end
 
     def link_set_bpm_at_clock_time!(bpm, clock_time)
-      @tau_comms.send_ts(clock_time, "/link-set-tempo", bpm.to_f)
+      res = @tau_comms.send_ts(clock_time, "/link-set-tempo", bpm.to_f)
+
+      # Wait for a max of 100ms for the next tempo change to come in...
+      @incoming_tempo_change_mut.synchronize do
+        @incoming_tempo_change_cv.wait(@incoming_tempo_change_mut, 0.1)
+      end
+      res
     end
 
     def link_disable
@@ -190,6 +199,7 @@ module SonicPi
 
     def add_incoming_api_handlers!
       @tau_comms.add_method("/link-tempo-change") do |args|
+        @incoming_tempo_change_cv.broadcast
         gui_id = args[0]
         tempo = args[1].to_f
         @tempo = tempo
