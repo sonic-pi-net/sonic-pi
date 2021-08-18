@@ -3562,7 +3562,38 @@ You can see the 'buckets' that the numbers between 0 and 1 fall into with the fo
 
 
 
+      def set_link_bpm!(bpm)
+        raise ArgumentError, "use_bpm's BPM should be a positive value or :link. You tried to use: #{bpm}" unless bpm == :link || (bpm.is_a?(Numeric) && bpm > 0)
+        raise "ArgumentErrot, set_link_bpm! requires a number for the bpm argument in the range 20 -> 999. You tried to use: #{bpm}" unless bpm.is_a?(Numeric) && bpm >= 20 && bpm <= 999
+        @tau_api.link_set_bpm_at_clock_time!(bpm.to_f, __get_spider_time)
+      end
+      doc name:      :set_link_bpm!,
+      introduced:    Version.new(3,4,0),
+      summary:       "Set the tempo for the link metronome.",
+      doc:           "Set the tempo for the link metronome in BPM. This is 'global' in that the BPM of all threads/live_loops in Link BPM mode will be affected.
 
+Note that this will *also* change the tempo of *all link metronomes* connected to the local network. This includes other instances of Sonic Pi, Music Production tools like Ableton Live, VJ tools like Resolume, DJ hardware like the MPC and many iPad music apps.
+
+For a full list of link-compatable apps and devices see:  https://www.ableton.com/en/link/products/
+
+Also note that the current thread does not have to be in Link BPM mode for this function to affect the Link clock's BPM.
+
+To change the current thread/live_loop to Link BPM mode see: `use_bpm :link`",
+      args:          [[:bpm, :number]],
+      opts:          nil,
+      accepts_block: false,
+      intro_fn:      false,
+      examples:       ["
+use_bpm :link                                 # Switch to Link BPM mode
+set_link_bpm! 30                              # Change Link BPM to 30
+
+8.times do
+  bpm += 10
+  set_link_bpm! bpm                           # Gradually increase the Link BPM
+  sample :loop_amen, beat_stretch: 2
+  sleep 2
+end
+"]
 
       def use_bpm(bpm, &block)
         raise ArgumentError, "use_bpm does not work with a block. Perhaps you meant with_bpm" if block
