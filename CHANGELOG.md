@@ -1,5 +1,5 @@
 # History
-* [v3.4.0 'Beta'](#v3.4.0), To be released...
+* [v4.0.0 'Beta'](#v3.4.0), To be released...
 * [v3.3.1 'Beamer'](#v3.3.1), 1st Feb, 2021
 * [v3.3 'Beam'](#v3.3), 28th Jan, 2021
 * [v3.2.2 'Tau3'](#v3.2.2), 5th April, 2020
@@ -24,11 +24,11 @@
 * [v2.0.1](#v2.0.1), 9th Sept, 2014
 * [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
 
-<a name="v3.4.0"></a>
+<a name="v4.0.0"></a>
 
-## Version 3.4.0 - 'Beta'
+## Version 4.0.0 - 'Beta'
 To be released...
-<!-- [(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v3.4.0): -->
+<!-- [(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v4.0.0): -->
 
 ### Known Issues (to be addressed in upcoming Betas)
 * Currently the GUI just disappears when there's a boot issue without displaying the error dialog.
