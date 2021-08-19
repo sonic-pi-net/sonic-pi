@@ -21,10 +21,10 @@ if((${BUILD_32BIT}) AND (DEFINED ENV{QT_INSTALL_LOCATION32}))
 elseif(DEFINED ENV{QT_INSTALL_LOCATION})
   message(STATUS "Setting prefix to user-defined Qt install location: $ENV{QT_INSTALL_LOCATION}")
   set(CMAKE_PREFIX_PATH $ENV{QT_INSTALL_LOCATION})
-elseif(APPLE AND EXISTS /usr/local/opt/qt5)
+elseif(APPLE AND EXISTS /usr/local/opt/qt@5)
   # Homebrew installs Qt into/usr/local/qt5
-  message(STATUS "Setting prefix to Homebrew's Qt install location: /usr/local/opt/qt5")
-  set(CMAKE_PREFIX_PATH /usr/local/opt/qt5)
+  message(STATUS "Setting prefix to Homebrew's Qt install location: /usr/local/opt/qt@5")
+  set(CMAKE_PREFIX_PATH /usr/local/opt/qt@5)
 endif()
 
 # Qt Setup
@@ -131,7 +131,7 @@ if (APPLE)
     )
   file(
     GENERATE OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/run-macdeployqt.sh"
-    CONTENT "PATH=$PATH:/usr/local/opt/qt5/bin macdeployqt \"$1\""
+    CONTENT "PATH=$PATH:/usr/local/opt/qt@5/bin macdeployqt \"$1\""
     )
 
   add_custom_command(

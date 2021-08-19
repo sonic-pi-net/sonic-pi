@@ -77,7 +77,7 @@ $RUBY "${SCRIPT_DIR}/server/ruby/bin/qt-doc.rb" -o "${SCRIPT_DIR}/gui/qt/utils/r
 
 echo "Updating GUI translation files..."
 # Use lrelease on PATH if available otherwise assume Qt was installed via homebrew
-PATH=$PATH:/usr/local/opt/qt/bin lrelease "${SCRIPT_DIR}"/gui/qt/lang/*.ts
+PATH=$PATH:/usr/local/opt/qt@5/bin lrelease "${SCRIPT_DIR}"/gui/qt/lang/*.ts
 
 echo "Compiling erlang files..."
 cd "${SCRIPT_DIR}/server/erlang/tau"
