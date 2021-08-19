@@ -103,7 +103,7 @@ with_fx :flanger, feedback: 0.6 do
 end
 ```
 
-Now, try increasing that feedback to 1 to hear some crazy sounds! Read the
+Now, try increasing that feedback to 1 to hear some fun sounds! Read the
 docs for full details on all the many opts available to you.
 
 

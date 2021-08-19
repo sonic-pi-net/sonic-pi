@@ -47,6 +47,10 @@ for f in ${SCRIPT_DIR}/external/build/sp_midi-prefix/src/sp_midi-build/*.dylib; 
     cp $f ${SCRIPT_DIR}/server/erlang/tau/priv/$(basename $f .dylib).so
 done
 
+for f in ${SCRIPT_DIR}/external/build/sp_link-prefix/src/sp_link-build/*.dylib; do
+    cp $f ${SCRIPT_DIR}/server/erlang/tau/priv/$(basename $f .dylib).so
+done
+
 
 # Copy prebuilt native files to server
 echo "Copying prebuilt binaries to the server..."
@@ -73,7 +77,7 @@ $RUBY "${SCRIPT_DIR}/server/ruby/bin/qt-doc.rb" -o "${SCRIPT_DIR}/gui/qt/utils/r
 
 echo "Updating GUI translation files..."
 # Use lrelease on PATH if available otherwise assume Qt was installed via homebrew
-PATH=$PATH:/usr/local/opt/qt/bin lrelease "${SCRIPT_DIR}"/gui/qt/lang/*.ts
+PATH=$PATH:/usr/local/opt/qt@5/bin lrelease "${SCRIPT_DIR}"/gui/qt/lang/*.ts
 
 echo "Compiling erlang files..."
 cd "${SCRIPT_DIR}/server/erlang/tau"

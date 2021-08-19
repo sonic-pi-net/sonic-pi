@@ -21,10 +21,10 @@ if((${BUILD_32BIT}) AND (DEFINED ENV{QT_INSTALL_LOCATION32}))
 elseif(DEFINED ENV{QT_INSTALL_LOCATION})
   message(STATUS "Setting prefix to user-defined Qt install location: $ENV{QT_INSTALL_LOCATION}")
   set(CMAKE_PREFIX_PATH $ENV{QT_INSTALL_LOCATION})
-elseif(APPLE AND EXISTS /usr/local/opt/qt5)
+elseif(APPLE AND EXISTS /usr/local/opt/qt@5)
   # Homebrew installs Qt into/usr/local/qt5
-  message(STATUS "Setting prefix to Homebrew's Qt install location: /usr/local/opt/qt5")
-  set(CMAKE_PREFIX_PATH /usr/local/opt/qt5)
+  message(STATUS "Setting prefix to Homebrew's Qt install location: /usr/local/opt/qt@5")
+  set(CMAKE_PREFIX_PATH /usr/local/opt/qt@5)
 endif()
 
 # Qt Setup
@@ -41,7 +41,7 @@ find_package(Threads REQUIRED)
 
 # We build QScintilla as part of the main project to make it easy to debug/fix
 # It is not built as part of externals
-add_subdirectory(QScintilla-2.12.1)
+add_subdirectory(QScintilla_src-2.13.0)
 
 set(APP_NAME sonic-pi)
 set(MACOS_APP_NAME "Sonic Pi")
@@ -131,7 +131,7 @@ if (APPLE)
     )
   file(
     GENERATE OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/run-macdeployqt.sh"
-    CONTENT "PATH=$PATH:/usr/local/opt/qt5/bin macdeployqt \"$1\""
+    CONTENT "PATH=$PATH:/usr/local/opt/qt@5/bin macdeployqt \"$1\""
     )
 
   add_custom_command(

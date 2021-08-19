@@ -52,10 +52,9 @@ module SonicPi
     def send_at(ts, *all_args)
       address, *args = *all_args
       if osc_debug_mode
-
-        if (a = __system_thread_locals.get(:sonic_pi_spider_time)) && (b = __system_thread_locals.get(:sonic_pi_spider_start_time))
+        if (a = __get_spider_time) && (b = __get_spider_start_time)
           vt = a - b
-        elsif st = __system_thread_locals.get(:sonic_pi_spider_start_time)
+        elsif st = __get_spider_start_time
           vt = ts - st
         else
           vt = -1
@@ -113,7 +112,6 @@ module SonicPi
         server_log "Server already booted..."
         return false
       end
-      puts "Booting server..."
 
       @osc_server = OSC::UDPServer.new(0, use_decoder_cache: true, use_encoder_cache: true)
 
@@ -153,24 +151,15 @@ module SonicPi
       os == :raspberry
     end
 
-    def log_boot_msg
-      puts ""
-      puts ""
-      puts "Booting Sonic Pi"
-      puts "----------------"
-      puts ""
-      log "\n\n\n"
-    end
-
     def wait_for_boot
-      puts "Waiting for the SuperCollider Server to have booted..."
+      puts "scsynth boot - Waiting for the SuperCollider Server to have booted..."
       p = Promise.new
 
       booted = false
       connected = false
 
       boot_s = OSC::UDPServer.new(0) do |a, b, info|
-        puts "Boot - Receiving ack from scsynth"
+        puts "scsynth boot - Receiving ack from scsynth"
         p.deliver! true unless connected
         connected = true
       end
@@ -179,10 +168,10 @@ module SonicPi
         __system_thread_locals.set_local(:sonic_pi_local_thread_group, :scsynth_external_boot_ack)
         Kernel.loop do
           begin
-            puts "Boot - Sending /status to server: #{@hostname}:#{@send_port}"
+            puts "scsynth boot - Sending /status to server: #{@hostname}:#{@send_port}"
             boot_s.send(@hostname, @send_port, "/status")
           rescue Exception => e
-            puts "Boot - Error sending /status to server: #{e.message}"
+            puts "scsynth boot - Error sending /status to server: #{e.message}"
           end
           sleep 1
         end
@@ -191,18 +180,18 @@ module SonicPi
       begin
         p.get(30)
       rescue Exception => e
-        puts "Unable to connect to SuperCollider Audio Server. Exiting..."
+        puts "scsynth boot - Unable to connect to SuperCollider Audio Server. Exiting..."
         exit
       ensure
         t.kill
       end
 
       unless connected
-        puts "Boot - Unable to connect to SuperCollider"
-        raise "Boot - Unable to connect to SuperCollider"
+        puts "scsynth boot - Unable to connect to SuperCollider"
+        raise "scsynth boot - Unable to connect to SuperCollider"
       end
 
-      puts "Boot - Server connection established"
+      puts "scsynth boot - Server connection established"
     end
 
   end

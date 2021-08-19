@@ -42,11 +42,12 @@ start_link() ->
 init(Parent) ->
     register(?SERVER, self()),
     InPort = application:get_env(?APPLICATION, in_port, undefined),
-    CueHost = application:get_env(?APPLICATION, cue_host, {127,0,0,1}),
-    CuePort = application:get_env(?APPLICATION, cue_port, undefined),
+    CueHost = application:get_env(?APPLICATION, cue_host, {127,0,0,2}),
+    CuePort = application:get_env(?APPLICATION, spider_port, undefined),
     Internal = application:get_env(?APPLICATION, internal, true),
     Enabled = application:get_env(?APPLICATION, enabled, true),
     MIDIEnabled = application:get_env(?APPLICATION, midi_enabled, true),
+    LinkEnabled = application:get_env(?APPLICATION, link_enabled, true),
     io:format("~n"
               "+--------------------------------------+~n"
               "    This is the Sonic Pi OSC Server     ~n"
@@ -74,11 +75,13 @@ init(Parent) ->
     State = #{parent => Parent,
               enabled => Enabled,
               midi_enabled => MIDIEnabled,
+              link_enabled => LinkEnabled,
               cue_host => CueHost,
               cue_port => CuePort,
               internal => Internal,
               in_port => InPort,
               in_socket => InSocket
+
              },
     loop(State).
 
@@ -90,12 +93,71 @@ loop(State) ->
                     CueHost = maps:get(cue_host, State),
                     CuePort = maps:get(cue_port, State),
                     InSocket = maps:get(in_socket, State),
-                    forward_midi_cue(CueHost, CuePort, InSocket, Path, Args),
+                    forward_internal_cue(CueHost, CuePort, InSocket, Path, Args),
                     ?MODULE:loop(State);
                 #{midi_enabled := false} ->
                     debug("MIDI cue forwarding disabled - ignored: ~p~n", [{Path, Args}]),
                     ?MODULE:loop(State)
             end;
+
+        {link, num_peers, NumPeers} ->
+            case State of
+                #{link_enabled := true,
+                  cue_host := CueHost,
+                  cue_port := CuePort,
+                  in_socket := InSocket} ->
+                    forward_internal_cue(CueHost, CuePort, InSocket, "/link/num-peers", [NumPeers]),
+                    ?MODULE:loop(State);
+                _ ->
+                    debug("Link cue forwarding disabled - ignored num_peers change ~n", []),
+                    ?MODULE:loop(State)
+            end;
+
+
+        {link, tempo_change, Tempo} ->
+            case State of
+                #{link_enabled := true,
+                  cue_host := CueHost,
+                  cue_port := CuePort,
+                  in_socket := InSocket} ->
+                    forward_internal_cue(CueHost, CuePort, InSocket, "/link/tempo-change", [Tempo]),
+                    send_api_tempo_update(CueHost, CuePort, InSocket, Tempo),
+                    ?MODULE:loop(State);
+                _ ->
+                    debug("Link cue forwarding disabled - ignored tempo change ~n", []),
+                    ?MODULE:loop(State)
+            end;
+
+        {link, start} ->
+            case State of
+                #{link_enabled := true,
+                  cue_host := CueHost,
+                  cue_port := CuePort,
+                  in_socket := InSocket} ->
+                    forward_internal_cue(CueHost, CuePort, InSocket, "/link/start", []),
+                    ?MODULE:loop(State);
+                _ ->
+                    debug("Link cue forwarding disabled - ignored start message ~n", []),
+                    ?MODULE:loop(State)
+            end;
+
+
+        {link, stop} ->
+            case State of
+                #{link_enabled := true,
+                  cue_host := CueHost,
+                  cue_port := CuePort,
+                  in_socket := InSocket} ->
+                    forward_internal_cue(CueHost, CuePort, InSocket, "/link/stop", []),
+                    ?MODULE:loop(State);
+                _ ->
+                    debug("Link cue forwarding disabled - ignored stop message ~n", []),
+                    ?MODULE:loop(State)
+            end;
+
+        {api_reply, UUID, Response} ->
+            send_api_reply(State, UUID, Response),
+            ?MODULE:loop(State);
 
         {update_midi_ports, Ins, Outs} ->
             CueHost = maps:get(cue_host, State),
@@ -174,18 +236,13 @@ loop(State) ->
             log("Disabling midi cue forwarding ~n"),
             ?MODULE:loop(State#{midi_enabled := false});
 
-        {timeout, Timer, {forward, Time, Data, Tracker}} ->
-            send_forward(maps:get(in_socket, State), Time, Data),
-            tau_server_tracker:forget(Timer, Tracker),
+        {send_osc, Host, Port, OSC} ->
+            send_udp(maps:get(in_socket, State), Host, Port, OSC),
             ?MODULE:loop(State);
 
-        {forward, Time, Data} ->
-            send_forward(maps:get(in_socket, State), Time, Data),
-            ?MODULE:loop(State);
-
-        {udp_error, Port, econnreset} ->
+        {udp_error, _Port, econnreset} ->
             %% Should not happen, but can happen anyway on Windows
-            debug(2, "got UDP ECONNRESET for port ~p- ignored~n", [Port]),
+            debug(2, "got UDP ECONNRESET - ignored~n", []),
             ?MODULE:loop(State);
 
         {system, From, Request} ->
@@ -201,18 +258,19 @@ loop(State) ->
             Port = maps:get(cue_port, State),
             send_udp(Socket, Host, Port, Bin),
             ?MODULE:loop(State);
+        {tau_ready} ->
+            Bin = osc:encode(["/tau-ready"]),
+            Socket = maps:get(in_socket, State),
+            Host = maps:get(cue_host, State),
+            Port = maps:get(cue_port, State),
+            send_udp(Socket, Host, Port, Bin),
+            ?MODULE:loop(State);
         Any ->
 	    log("Cue Server got unexpected message: ~p~n", [Any]),
 	    ?MODULE:loop(State)
+
     end.
 
-
-send_forward(Socket, Time, {Host, Port, Bin}) ->
-    Now = osc:now(),
-    send_udp(Socket, Host, Port, Bin),
-    debug(1, Now, "sent message for time ~f with error ~f~n",
-          [Time, Now-Time]),
-    ok.
 
 send_udp(Socket, Host, Port, Bin)
   when is_port(Socket) ->
@@ -246,12 +304,26 @@ update_midi_out_ports(CueHost, CuePort, InSocket, Args) ->
     debug("forwarded new MIDI outs to ~p:~p~n", [CueHost, CuePort]),
     ok.
 
-forward_midi_cue(CueHost, CuePort, InSocket, Path, Args) ->
-    Bin = osc:encode(["/midi-cue", "erlang", Path | Args]),
+send_api_reply(State, UUID, Args) ->
+    CueHost = maps:get(cue_host, State),
+    CuePort = maps:get(cue_port, State),
+    InSocket = maps:get(in_socket, State),
+    Bin = osc:encode(["/tau-api-reply", "erlang", UUID | Args]),
+    %% debug("send api reply ~p:~p~n", ToEncode),
     send_udp(InSocket, CueHost, CuePort, Bin),
-    debug("forwarded MIDI OSC cue to ~p:~p~n", [CueHost, CuePort]),
     ok.
 
+send_api_tempo_update(CueHost, CuePort, InSocket, Tempo) ->
+    Bin = osc:encode(["/link-tempo-change", "erlang", Tempo]),
+    send_udp(InSocket, CueHost, CuePort, Bin),
+    debug("sending link tempo update [~p] to ~p:~p~n", [Tempo, CueHost, CuePort]),
+    ok.
+
+forward_internal_cue(CueHost, CuePort, InSocket, Path, Args) ->
+    Bin = osc:encode(["/internal-cue", "erlang", Path | Args]),
+    send_udp(InSocket, CueHost, CuePort, Bin),
+    debug("forwarded internal OSC cue to ~p:~p~n", [CueHost, CuePort]),
+    ok.
 
 forward_cue(CueHost, CuePort, InSocket, Ip, Port, Cmd) ->
     Bin = osc:encode(["/external-osc-cue", inet:ntoa(Ip), Port] ++ Cmd),

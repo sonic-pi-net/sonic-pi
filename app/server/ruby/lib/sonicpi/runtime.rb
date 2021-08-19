@@ -28,7 +28,7 @@ require_relative "config/settings"
 require_relative "preparser"
 require_relative "event_history"
 require_relative "thread_id"
-require_relative "tau_comms.rb"
+require_relative "tau_api"
 
 #require_relative "oscevent"
 #require_relative "stream"
@@ -89,7 +89,150 @@ module SonicPi
       end
     end
 
-    def __register_midi_cue_event(address, args)
+
+
+    ### Start - Spider Time Management functions
+    ###
+    def __layer_spider_time_density!(density)
+      new_density = __get_spider_time_density * density
+      __change_spider_time_density!(new_density)
+    end
+
+    def __change_spider_time_density!(new_density)
+      __thread_locals.set(:sonic_pi_spider_time_density, new_density.to_f)
+    end
+
+    def __with_spider_time_density(density, &blk)
+      prev_density = __get_spider_time_density
+      __layer_spider_time_density!(density)
+      blk.call
+      __change_spider_time_density!(prev_density)
+    end
+
+    def __in_link_bpm_mode
+      __system_thread_locals.get(:sonic_pi_spider_bpm) == :link
+    end
+
+    def __change_spider_time_and_beat!(new_time = nil, new_beat = nil)
+      __system_thread_locals.set :sonic_pi_spider_time, new_time.to_r
+      __system_thread_locals.set :sonic_pi_spider_beat, new_beat.to_f
+    end
+
+    def __reset_spider_time_and_beat!
+      if __in_link_bpm_mode
+        clock_time, new_beat = @tau_api.link_current_time_and_beat
+        __system_thread_locals.set :sonic_pi_spider_time, clock_time
+        __system_thread_locals.set :sonic_pi_spider_beat, new_beat
+        __system_thread_locals.set :sonic_pi_spider_start_time, clock_time
+      else
+        t = Time.now.to_r
+        __change_spider_time_and_beat!(t, 0)
+        __system_thread_locals.set :sonic_pi_spider_start_time, t
+      end
+    end
+
+    def __change_spider_bpm_time_and_beat!(bpm, time, beat)
+
+      # Need to be careful here about how to switch bpm modes.
+      # We have 4 main cases:
+      # 1. link -> link
+      # 2. std  -> link
+      # 3. link -> std
+      # 4. std  -> std
+
+      if bpm == :link
+        if __in_link_bpm_mode
+          # 1. link -> link
+          __change_spider_time_and_beat!(time, beat)
+        else
+          # 2. std -> link
+          __system_thread_locals.set(:sonic_pi_spider_bpm, :link)
+          link_beat = __get_link_beat_at_clock_time(time)
+          __change_spider_time_and_beat!(time, link_beat)
+        end
+      else
+        # 3. link -> std
+        # 4. std  -> std
+        __system_thread_locals.set(:sonic_pi_spider_bpm, bpm.to_f)
+        __change_spider_time_and_beat!(time, beat)
+      end
+    end
+
+
+    def __get_link_beat_at_clock_time(clock_time)
+      @tau_api.link_get_beat_at_clock_time(clock_time)
+    end
+
+    def __change_spider_beat_and_time_by_beat_delta!(beat_delta)
+      new_beat = __get_spider_beat + (beat_delta / __get_spider_time_density)
+
+      if __in_link_bpm_mode
+        new_time = @tau_api.link_get_clock_time_at_beat(new_beat)
+        __change_spider_time_and_beat!(new_time, new_beat)
+      else
+        sleep_mul = __get_spider_sleep_mul
+        sleep_time = beat_delta * sleep_mul
+        new_time   = __get_spider_time + sleep_time
+        __change_spider_time_and_beat!(new_time, new_beat)
+      end
+    end
+
+    def __get_beat_dur_in_ms
+      __get_spider_sleep_mul * 1000.0
+    end
+
+    def __get_spider_time
+      __system_thread_locals.get(:sonic_pi_spider_time)
+    end
+
+    def __get_spider_time_density
+      __thread_locals.get(:sonic_pi_spider_time_density, 1)
+    end
+
+    def __get_spider_schedule_time
+      __get_spider_time + current_sched_ahead_time
+    end
+
+    def __get_spider_sleep_mul
+      (60.0 / __get_spider_bpm)
+    end
+
+    def __get_spider_bpm
+      # take into account density
+      if __in_link_bpm_mode
+        @tau_api.link_tempo * __get_spider_time_density
+      else
+        __system_thread_locals.get(:sonic_pi_spider_bpm) * __get_spider_time_density
+      end
+    end
+
+    def __get_spider_beat
+      __system_thread_locals.get :sonic_pi_spider_beat
+    end
+
+    def __get_spider_start_time
+      __system_thread_locals.get :sonic_pi_spider_start_time
+    end
+
+    def __current_run_time
+      (__get_spider_time - @global_start_time).round(6)
+    end
+
+    def __current_local_run_time
+      (__get_spider_time - __get_spider_start_time).to_f.round(6)
+    end
+
+    def __with_preserved_spider_time_and_beat(&blk)
+      time = __get_spider_time
+      beat = __get_spider_beat
+      blk.call
+      __change_spider_time_and_beat!(time, beat)
+    end
+    ### End - Spider Time Management functions
+    ###
+
+
+    def __register_internal_cue_event(address, args)
       p = 0
       d = 0
       b = 0
@@ -135,7 +278,6 @@ module SonicPi
       end
 
       __msg_queue.push({:type => :version, :version => @version.to_s, :version_num =>  @version.to_i, :latest_version => v.to_s, :latest_version_num => v.to_i, :last_checked => __last_update_check})
-
     end
 
     def __current_version
@@ -242,14 +384,10 @@ module SonicPi
       __enqueue_multi_message(2, s)
     end
 
-    def __current_bpm
-      60.0 / __system_thread_locals.get(:sonic_pi_spider_sleep_mul, 60)
-    end
-
     def __current_sched_ahead_time
       #TODO: insert thread id and delta correctly
       __system_thread_locals.get(:sonic_pi_spider_sched_ahead_time) ||
-        @system_state.get(__system_thread_locals.get(:sonic_pi_spider_time), 0, __current_thread_id, 0, __system_thread_locals.get(:sonic_pi_spider_beat), __current_bpm, :sched_ahead_time,).val
+        @system_state.get(__get_spider_time, 0, __current_thread_id, 0, __get_spider_beat, __get_spider_bpm, :sched_ahead_time,).val
     end
 
     def __schedule_delayed_blocks_and_messages!
@@ -264,9 +402,9 @@ module SonicPi
           :jobinfo => __current_job_info,
           :runtime => __current_local_run_time.round(4),
           :thread_name => __current_thread_name}
-            last_vt = __system_thread_locals.get :sonic_pi_spider_time
+            last_vt = __get_spider_time
             sched_ahead_sync_t = last_vt + __current_sched_ahead_time
-            sleep_time = sched_ahead_sync_t - Time.now
+            sleep_time = sched_ahead_sync_t.to_f - Time.now.to_f
 
         Thread.new do
             Kernel.sleep(sleep_time) if sleep_time > 0
@@ -333,14 +471,6 @@ module SonicPi
       __msg_queue.push({type: :error, val: res, backtrace: e.backtrace, jobid: __current_job_id, jobinfo: __current_job_info, line: line})
     end
 
-    def __current_run_time
-      (__system_thread_locals.get(:sonic_pi_spider_time) - @global_start_time).round(6)
-    end
-
-    def __current_local_run_time
-      (__system_thread_locals.get(:sonic_pi_spider_time) - __system_thread_locals.get(:sonic_pi_spider_start_time)).round(6)
-    end
-
     def __current_thread_name
       __system_thread_locals.get(:sonic_pi_local_spider_users_thread_name) || ""
     end
@@ -353,28 +483,12 @@ module SonicPi
       __system_thread_locals.get(:sonic_pi_spider_job_info) || {}
     end
 
-    def __sync(id, res)
-      @cue_events.event("/sync", {:id => id, :result => res})
-    end
-
-    def __cue_events
-      @cue_events
-    end
-
     def __stop_start_cue_server!(stop)
-      if stop
-        @osc_client.send("/stop-start-cue-server", 0)
-      else
-        @osc_client.send("/stop-start-cue-server", 1)
-      end
+      @tau_api.start_stop_cue_server!(stop)
     end
 
     def __cue_server_internal!(internal)
-      if internal
-        @osc_client.send("/internal-cue-port", 1)
-      else
-        @osc_client.send("/internal-cue-port", 0)
-      end
+      @tau_api.cue_server_internal!(internal)
     end
 
     def __stop_job(j)
@@ -407,45 +521,33 @@ module SonicPi
     end
 
     def __midi_flush!
-      @osc_client.send("/midi_flush")
-    end
-
-    def __midi_system_reset(silent=false)
-      __info "Resetting MIDI subsystems..." unless silent
-      __schedule_delayed_blocks_and_messages!
-      begin
-        @mod_sound_studio.reset_erlang
-        __info "MIDI subsystems successfully reset" unless silent
-      rescue
-        __info "Error resetting MIDI subsystems..."
-      end
+      @tau_api.midi_flush!
     end
 
     def __midi_system_start(silent=false)
       __info "Enabling incoming MIDI cues..." unless silent
       __schedule_delayed_blocks_and_messages!
-      @osc_client.send("/stop-start-midi-cues", 1)
+      @tau_api.midi_system_start!
     end
 
     def __midi_system_stop(silent=false)
       __info "Stopping incoming MIDI cues..." unless silent
       __schedule_delayed_blocks_and_messages!
-      @osc_client.send("/stop-start-midi-cues", 0)
+      @tau_api.midi_system_stop!
     end
 
     def __update_midi_ins(ins)
-      # @midi_out_ports = args
       desc = ins.join("\n")
       __msg_queue.push({:type => :midi_in_ports, :val => desc})
     end
 
     def __update_midi_outs(outs)
-      # @midi_in_ports = args
       desc = outs.join("\n")
       __msg_queue.push({:type => :midi_out_ports, :val => desc})
     end
+
     def __osc_flush!
-      @osc_client.send("/flush", "default")
+      @tau_api.osc_flush!
     end
 
     def __stop_other_jobs
@@ -737,18 +839,6 @@ module SonicPi
       @settings.del(:no_update_checking)
     end
 
-    def __run_tests
-      path_to_test_folder = File.join(server_path, "sonicpi", "test")
-      test_paths = Dir.glob(File.join(path_to_test_folder, "test_*.rb"))
-      __info "Running tests, hold tight..."
-      #output = []
-      test_paths.each do |test_path|
-        __info "Running #{File.basename(test_path)}"
-        __info `#{ruby_path} #{test_path} 2>&1`
-      end
-      #__error(Exception.new(output.join("\n")))
-    end
-
     def __set_default_system_thread_locals!
       # Give new thread a new subthread mutex
       __system_thread_locals.set_local :sonic_pi_local_spider_subthread_mutex, Mutex.new
@@ -769,16 +859,11 @@ module SonicPi
       __system_thread_locals.set_local(:sonic_pi_spider_num_threads_spawned, 0)
       __system_thread_locals.set_local(:sonic_pi_spider_thread_delta, 0)
 
-      # Thread locals used for waiting for threads (essential for Time State's determinism)
-      __system_thread_locals.set_local(:sonic_pi_spider_state_waiters, [])
-      __system_thread_locals.set_local(:sonic_pi_spider_time_change, Mutex.new)
-
-
     end
 
     def __set_default_user_thread_locals!
+      __change_spider_bpm_time_and_beat!(60.0, __get_spider_time, __get_spider_beat)
       __thread_locals.set :sonic_pi_spider_arg_bpm_scaling, true
-      __system_thread_locals.set :sonic_pi_spider_sleep_mul, 1.0
       __thread_locals.set :sonic_pi_spider_new_thread_random_gen_idx, 0
       __system_thread_locals.set(:sonic_pi_spider_thread_priority, 0)
     end
@@ -815,9 +900,8 @@ module SonicPi
           @life_hooks.init(id, {:thread => Thread.current})
           now = Time.now.freeze
           start_t_prom.deliver! now
-          __system_thread_locals.set :sonic_pi_spider_time, now
-          __system_thread_locals.set :sonic_pi_spider_start_time, now
-          __system_thread_locals.set :sonic_pi_spider_beat, 0
+          ## fix this for link
+          __reset_spider_time_and_beat!
           if num_running_jobs == 1
             @global_start_time = now
             # Force a GC collection before we start making music!
@@ -1012,13 +1096,6 @@ module SonicPi
             # by the thread we're currently cleaning up
             # after:
             @event_history.prune(new_thread_id_path)
-
-            # Remove any time state waiters
-            __system_thread_locals(main_in_thread).get(:sonic_pi_spider_time_change).synchronize do
-              __system_thread_locals(main_in_thread).get(:sonic_pi_spider_state_waiters).delete_if do |w|
-                w[:prom].deliver! true
-              end
-            end
 
             # wait for all subthreads to finish before removing self from
             # the parent subthread tree
@@ -1306,11 +1383,7 @@ module SonicPi
              end
       return norm
     end
-
-
-
   end
-
 
 
   class Runtime
@@ -1342,9 +1415,32 @@ module SonicPi
       @global_start_time = Time.now
       @session_id = SecureRandom.uuid
       @snippets = {}
-      @osc_cues_port = ports[:osc_cues_port]
-      @osc_router_port = ports[:erlang_port]
-      @osc_client = SonicPi::TauComms.new("127.0.0.1", @osc_router_port)
+
+
+      external_osc_cue_handler = lambda do |time, ip, port, address, args|
+        __register_external_osc_cue_event(time, ip, port, address, args)
+      end
+
+      internal_cue_handler = lambda do |path, args|
+        __register_internal_cue_event(path, args)
+      end
+
+      updated_midi_ins_handler = lambda do |ins|
+        __update_midi_ins(ins)
+      end
+
+      updated_midi_outs_handler = lambda do |outs|
+        __update_midi_outs(outs)
+      end
+
+      @tau_api = TauAPI.new(ports,
+                            {
+                              external_osc_cue: external_osc_cue_handler,
+                              internal_cue: internal_cue_handler,
+                              updated_midi_ins: updated_midi_ins_handler,
+                              updated_midi_outs: updated_midi_outs_handler
+                            })
+
       @system_state = EventHistory.new(@job_subthreads, @job_subthread_mutex)
       @user_state = EventHistory.new(@job_subthreads, @job_subthread_mutex)
       @event_history = EventHistory.new(@job_subthreads, @job_subthread_mutex)
@@ -1353,8 +1449,9 @@ module SonicPi
       @system_state.set 0, 0, osc_cue_server_thread_id, 0, 0, 60, :sched_ahead_time, default_sched_ahead_time
       @gui_cue_log_idxs = Counter.new
       @osc_cue_server_mutex = Mutex.new
-      @register_cue_event_lambda = lambda do |t, p, i, d, b, m, address, args, sched_ahead_time=0|
 
+      @register_cue_event_lambda = lambda do |t, p, i, d, b, m, address, args, sched_ahead_time=0|
+        t = t.to_r
         sym = nil
         address, sym = *address if address.is_a?(Array)
 
@@ -1368,7 +1465,8 @@ module SonicPi
                                   :cue => address })
 
         sched_ahead_sync_t = t + sched_ahead_time
-        sleep_time = sched_ahead_sync_t - Time.now
+
+        sleep_time = sched_ahead_sync_t - Time.now.to_r
         if sleep_time > 0
           Thread.new do
             Kernel.sleep(sleep_time)

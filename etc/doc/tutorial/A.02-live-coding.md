@@ -8,8 +8,8 @@ with a heady mix of synths and dancing. However something wasn't quite
 right in this nightclub. Projected in bright colours above the DJ booth
 was futuristic text, moving, dancing, flashing. This wasn't fancy
 visuals, it was merely a projection of Sonic Pi running on a Raspberry
-Pi. The occupant of the DJ booth wasn't spinning disks, he was writing,
-editing and evaluating code. Live. This is Live Coding.
+Pi. The occupant of the DJ booth wasn't spinning disks, they wrote,
+edited and evaluated code. Live. This is Live Coding.
 
 ![Sam Aaron Live Coding](../../../etc/doc/images/tutorial/articles/A.02-live-coding/sam-aaron-live-coding.png)
 
@@ -38,7 +38,7 @@ end
 
 There are 4 core ingredients to a `live_loop`. The first is its
 name. Our `live_loop` above is called `:beats`. You're free to call your
-`live_loop` anything you want. Go crazy. Be creative. I often use names
+`live_loop` anything you want. Go wild. Be creative. I often use names
 that communicate something about the music they're making to the
 audience. The second ingredient is the `do` word which marks where the
 `live_loop` starts. The third is the `end` word which marks where the
@@ -119,7 +119,7 @@ end
 ```
 
 Here, we have two `live_loop`s, one looping quickly making beats and
-another looping slowly making a crazy bass sound.
+another looping slowly making a wild bass sound.
 
 One of the interesting things about using multiple `live_loop`s is that
 they each manage their own time. This means it's really easy to create

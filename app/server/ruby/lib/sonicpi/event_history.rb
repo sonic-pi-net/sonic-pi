@@ -439,59 +439,6 @@ module SonicPi
       # unless @all_threads
       Kernel.sleep 0.001
       return true
-      # end
-
-      # The code below is a work in progress. For now, simply sleep on
-      # reads, but eventually we will just wait for all the tother
-      # hreads to have moved on sufficiently to ensure deterministic
-      # behaviour.
-
-      promises = []
-
-      # p = __system_thread_locals.get(:sonic_pi_spider_thread_priority, 0)
-      # id = __system_thread_locals.get :sonic_pi_spider_thread_id_path
-
-      # First grab the currently running threads. We do this by
-      # obtaining a lock to the creation of new threads so we can get
-      # a consistent view.
-      current_threads = []
-      @thread_mut.synchronize do
-        @all_threads.values.each do |thread_set|
-          thread_set.each do |t|
-            current_threads << t
-          end
-        end
-      end
-
-      # Work through each thread and see if it's behind or ahead of
-      # us. If it's behind, we ask it to notify us when it jumps ahead
-      # by inserting a promise into its state waiters list.
-      current_threads.each do |t|
-        unless t == Thread.current
-          __system_thread_locals(t).get(:sonic_pi_spider_time_change).synchronize do
-            tvt = __system_thread_locals(t).get(:sonic_pi_spider_time)
-            if tvt && ((tvt <= vt))
-              prom = Promise.new
-              promises << prom
-              waiters = __system_thread_locals(t).get(:sonic_pi_spider_state_waiters)
-              waiters << {:vt => vt, :prom => prom}
-            end
-          end
-        end
-
-      end
-
-      if promises.empty?
-        return true
-      else
-        # we have to wait for at least one thread, block until we can
-        # continue
-
-        promises.each { |p| p.get }
-        # The threads we waited for might have spawned new
-        # threads. Check again...
-        wait_for_threads(vt)
-      end
     end
 
     def matching_ancestors(partial, n, res=[])

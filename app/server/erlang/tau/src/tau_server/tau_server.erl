@@ -18,9 +18,9 @@
 
 
 %% API for launching as an OTP application from the command line
-%% "erl -tau_server api_port $API_PORT in_port $IN_PORT cue_port $CUE_PORT \
+%% "erl -tau api_port $API_PORT in_port $IN_PORT spider_port $SPIDER_PORT \
 %%      -s tau_server start"
 start() ->
-    %% note that this will dispatch using the 'mod' entry in tau_server.app
+    %% note that this will dispatch using the 'mod' entry in tau.app
     {ok, _} = application:ensure_all_started(?APPLICATION),
     ok.

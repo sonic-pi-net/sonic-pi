@@ -14,7 +14,7 @@
 -define(DEBUG_LEVEL, 0).
 
 %% set to 0 for no log messages
--define(LOG_LEVEL, 1).
+-define(LOG_LEVEL, 0).
 
 
 log(Msg) ->

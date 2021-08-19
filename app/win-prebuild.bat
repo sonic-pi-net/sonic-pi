@@ -36,6 +36,9 @@ xcopy /Y /I /R /E ..\prebuilt\windows\x64\*.* server\native
 @echo Copying sp_midi dll to the erlang bin directory...
 xcopy /Y /I /R /E external\build\sp_midi-prefix\src\sp_midi-build\Release\*.dll server\erlang\tau\priv\
 
+@echo Copying sp_link dll to the erlang bin directory...
+xcopy /Y /I /R /E external\build\sp_link-prefix\src\sp_link-build\Release\*.dll server\erlang\tau\priv\
+
 @echo Translating tutorial...
 server\native\ruby\bin\ruby server/ruby/bin/i18n-tool.rb -t
 

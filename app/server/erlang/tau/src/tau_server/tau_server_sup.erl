@@ -35,6 +35,7 @@ start_link() ->
 init(_Args) ->
     CueServer = tau_server_cue:server_name(),
     MIDIServer = tau_server_midi:server_name(),
+    LinkServer = tau_server_link:server_name(),
 
     %% Use rest_for_one since the api server requires the cue server.
     %% Try to keep going even if we restart up to 50 times per 30 seconds.
@@ -47,12 +48,16 @@ init(_Args) ->
                   #{id => tau_server_cue,
                     start => {tau_server_cue, start_link, []}
                    },
-                  #{id => tau_server_api,
-                    start => {tau_server_api, start_link, [CueServer, MIDIServer]}
-                   },
                   #{id => tau_server_midi,
                     start => {tau_server_midi, start_link, [CueServer]}
+                   },
+                  #{id => tau_server_link,
+                    start => {tau_server_link, start_link, [CueServer]}
+                   },
+                  #{id => tau_server_api,
+                    start => {tau_server_api, start_link, [CueServer, MIDIServer, LinkServer]}
                    }
+
                  ],
 
     {ok, {SupFlags, ChildSpecs}}.

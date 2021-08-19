@@ -145,3 +145,7 @@ etc/synthdefs/designs/overtone/sonic-pi/native
 
 # Visual Studio settings folder.
 .vs
+
+
+# Erlang priv dir (for dlls)
+app/server/erlang/tau/priv/*

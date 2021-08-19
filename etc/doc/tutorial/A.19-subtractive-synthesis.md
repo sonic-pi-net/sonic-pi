@@ -139,7 +139,7 @@ of the modulated low pass filter.
 
 This is just a very basic taster of what's possible when you use filters
 to modify and change a source sound. Try playing with Sonic Pi's many
-built-in FX to see what crazy sounds you can design. If your sound feels
+built-in FX to see what fun sounds you can design. If your sound feels
 too static, remember you can start modulating the options to create some
 movement.
 

@@ -23,7 +23,7 @@
 -export([system_continue/3, system_terminate/4, system_code_change/4,
          system_get_state/1, system_replace_state/2]).
 
--define(APPLICATION, tau_server).
+-define(APPLICATION, tau).
 -define(SERVER, ?MODULE).
 
 -import(tau_server_util,
@@ -85,12 +85,8 @@ mk_tau_str({tau, Kind, Event, Source, _}) ->
 
 loop(State) ->
     receive
-        {send, Time, Data} ->
-            midi_send(Time, Data),
-            ?MODULE:loop(State);
-        {timeout, Timer, {send, Time, Data, Tracker}} ->
-            midi_send(Time, Data),
-            tau_server_tracker:forget(Timer, Tracker),
+        {send_midi, Data} ->
+            midi_send(Data),
             ?MODULE:loop(State);
         {flush} ->
             sp_midi:midi_flush(),
@@ -143,11 +139,23 @@ update_midi_ports(State) ->
                    midi_outs := NewOuts}
     end.
 
-midi_send(_Time, <<Data/binary>>) ->
+midi_send(<<Data/binary>>) ->
     debug("sending MIDI: ~p~n", [Data]),
     case tau_server_midi_out:encode_midi_from_osc(Data) of
         {ok, multi_chan, _, PortName, MIDIBinaries} ->
             [sp_midi:midi_send(PortName, MB) || MB <- MIDIBinaries];
+        {ok, clock_beat, PortName, BeatDurationMs, MIDIBinary} ->
+            %% Send a full MIDI beat's worth of clock tick messages.
+            %% This means 24 message each separated by TickIntervalMs.
+
+            TickIntervalMs = BeatDurationMs / 24.0,
+            lists:foreach(
+              fun(I) ->
+                      spawn(fun () ->
+                                    timer:sleep(round(I * TickIntervalMs)),
+                                    sp_midi:midi_send(PortName, MIDIBinary)
+                            end)
+              end, lists:seq(0, 23));
         {ok,  _, PortName, MIDIBinary} ->
             sp_midi:midi_send(PortName, MIDIBinary);
         {error, ErrStr} ->

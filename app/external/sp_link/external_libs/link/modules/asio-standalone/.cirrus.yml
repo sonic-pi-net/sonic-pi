@@ -1,0 +1,16 @@
+freebsd_instance:
+  image_family: freebsd-12-1
+  cpu: 1
+
+env:
+  CXXFLAGS: -std=c++14 -Wall -Wextra -O2
+
+task:
+  install_script:
+    - pkg install -y autoconf automake
+  build_script:
+    - cd asio
+    - ./autogen.sh
+    - ./configure --with-boost=no
+    - make
+    - make check

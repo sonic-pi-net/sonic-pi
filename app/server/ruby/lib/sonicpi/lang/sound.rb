@@ -86,12 +86,13 @@ module SonicPi
             @job_mixers_mutex = Mutex.new
             @job_busses = {}
             @job_busses_mutex = Mutex.new
-            @mod_sound_studio = Studio.new(ports, msg_queue, @system_state, @register_cue_event_lambda)
+            current_spider_time_lambda = lambda { __get_spider_time }
+            @mod_sound_studio = Studio.new(ports, msg_queue, @system_state, @register_cue_event_lambda, current_spider_time_lambda)
 
             buf_lookup = lambda do |name, duration=nil|
               # scale duration to the current BPM
               duration ||= 8
-              duration = duration * __system_thread_locals.get(:sonic_pi_spider_sleep_mul, 1)
+              duration = duration * (__get_spider_sleep_mul || 1)
               name = name.to_sym
 
               buf, cached = @mod_sound_studio.allocate_buffer(name, duration)
@@ -137,7 +138,6 @@ module SonicPi
             end
 
             @life_hooks.on_exit do |job_id, payload|
-              __system_thread_locals.set(:sonic_pi_spider_start_time, payload[:start_t])
               __system_thread_locals.set_local(:sonic_pi_local_thread_group, "job_remover-#{job_id}".freeze)
               Thread.current.priority = -10
               shutdown_job_mixer(job_id)
@@ -2243,7 +2243,7 @@ load_sample dir, /[Bb]ar/ # loads first sample which matches regex /[Bb]ar/ in \
         end
 
         if __thread_locals.get(:sonic_pi_spider_arg_bpm_scaling)
-          return real_dur.to_f / __system_thread_locals.get(:sonic_pi_spider_sleep_mul)
+          return real_dur.to_f / __get_spider_sleep_mul
         else
           return real_dur
         end
@@ -3909,16 +3909,16 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
 
       def ensure_good_timing!
         return true if __thread_locals.get(:sonic_pi_mod_sound_disable_timing_warnings)
-        raise "Timing Exception: thread got too far behind time." if time_diff > 1.1
+#        raise "Timing Exception: thread got too far behind time." if time_diff > 1.1
       end
 
       def time_diff
         # negative values mean we're ahead of time
         # positive values mean we're behind time
-        vt  = __system_thread_locals.get :sonic_pi_spider_time
+        vt  = __get_spider_time
         sat = current_sched_ahead_time
         compensated = (Time.now - sat)
-        compensated - vt
+        (compensated - vt).to_f
       end
 
       def in_good_time?(error_window=0)
@@ -3964,7 +3964,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
             # allows defaults to be keys one level deep
             # see .normalise_args!
             val = (args_h[val] || defaults[val]) if val.is_a?(Symbol)
-            scaled_val = val * __system_thread_locals.get(:sonic_pi_spider_sleep_mul)
+            scaled_val = val * __get_spider_sleep_mul
 
             default = defaults[arg_name]
             if (args_h.has_key?(arg_name))
@@ -3982,7 +3982,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         else
           # only scale the args that have been passed.
           info.bpm_scale_args.each do |arg_name, default|
-            new_args[arg_name] = args_h[arg_name] * __system_thread_locals.get(:sonic_pi_spider_sleep_mul) if args_h.has_key?(arg_name)
+            new_args[arg_name] = args_h[arg_name] * __get_spider_sleep_mul if args_h.has_key?(arg_name)
 
           end
         end

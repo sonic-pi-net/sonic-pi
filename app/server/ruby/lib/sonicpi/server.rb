@@ -34,7 +34,9 @@ module SonicPi
 
     attr_reader :version
 
-    def initialize(port, msg_queue, state, register_cue_event_lambda)
+    def initialize(port, msg_queue, state, register_cue_event_lambda, current_spider_time_lambda)
+
+      @current_spider_time_lambda = current_spider_time_lambda
 
       # Cache common OSC path strings as frozen instance
       # vars to reduce object creation cost and GC load
@@ -329,7 +331,7 @@ module SonicPi
             end
 
           else
-            t = __system_thread_locals.get(:sonic_pi_spider_time) || Time.now
+            t = @current_spider_time_lambda.call || Time.now
             ts =  t + sched_ahead_time
             ts = ts - @control_delta if t_minus_delta
             osc_bundle ts, @osc_path_s_new, s_name, node_id, pos_code, group_id, *normalised_args
@@ -373,7 +375,7 @@ module SonicPi
       if now
         osc @osc_path_s_new, s_name, node_id, pos_code, group_id, *normalised_args
       else
-        t = __system_thread_locals.get(:sonic_pi_spider_time) || Time.now
+        t = @current_spider_time_lambda.call || Time.now
         ts =  t + sched_ahead_time
         ts = ts - @control_delta if t_minus_delta
         osc_bundle ts, @osc_path_s_new, s_name, node_id, pos_code, group_id, *normalised_args
@@ -382,7 +384,7 @@ module SonicPi
     end
 
     def sched_ahead_time_for_node_mod(node_id)
-      thread_local_time = __system_thread_locals.get(:sonic_pi_spider_time)
+      thread_local_time = @current_spider_time_lambda.call
 
       if thread_local_time
         thread_local_deltas = __system_thread_locals.get(:sonic_pi_local_control_deltas)
@@ -710,7 +712,7 @@ module SonicPi
       sat = __system_thread_locals.get(:sonic_pi_spider_sched_ahead_time)
       return sat + @latency if sat
 
-      t = __system_thread_locals.get(:sonic_pi_spider_time, Time.now)
+      t = @current_spider_time_lambda.call || Time.now
       i = __system_thread_locals.get(:sonic_pi_spider_thread_id_path, @server_thread_id)
       res = @state.get(t, 0, i, 0, 0, 60, :sched_ahead_time)
       raise "sched_ahead_time, can't get time. Is this a Sonic Pi thread? " unless res
