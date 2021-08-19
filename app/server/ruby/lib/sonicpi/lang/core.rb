@@ -3566,7 +3566,7 @@ You can see the 'buckets' that the numbers between 0 and 1 fall into with the fo
         @tau_api.link_set_bpm_at_clock_time!(bpm.to_f, __get_spider_time)
       end
       doc name:      :set_link_bpm!,
-      introduced:    Version.new(3,4,0),
+      introduced:    Version.new(4,0,0),
       summary:       "Set the tempo for the link metronome.",
       doc:           "Set the tempo for the link metronome in BPM. This is 'global' in that the BPM of all threads/live_loops in Link BPM mode will be affected.
 
@@ -3875,7 +3875,7 @@ puts rand               #=> 0.24249267578125
         SonicPi::Core::SPRand.get_random_number_distribution
       end
       doc name:          :current_random_source,
-          introduced:    Version.new(3,4,0),
+          introduced:    Version.new(4,0,0),
           summary:       "Get current random source",
           doc:           "Returns the source of the current random number generator (what kind of noise is generating the random numbers).
 
