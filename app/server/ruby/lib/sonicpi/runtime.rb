@@ -1400,7 +1400,7 @@ module SonicPi
       @settings = Config::Settings.new(system_cache_store_path)
       # @scsynth_clobber_args = @audio_settings.scsynth_opts_override
       # @scsynth_opts = @audio_settings.scsynth_opts
-      @version = Version.new(3, 4, 0, "dev#{gh_short}")
+      @version = Version.new(4, 0, 0, "beta1")
       @server_version = __server_version
       @life_hooks = LifeCycleHooks.new
       @msg_queue = msg_queue
