@@ -314,12 +314,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1701"/>
         <source>Stopping...</source>
-        <translation>නැවතෙමින් පවතී...</translation>
+        <translation>නැවතෙමින්...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1808"/>
         <source>Updating System Volume...</source>
-        <translation>පද්ධති ධාරිතාව යාවත්කාලීන වෙමින් පවතී...</translation>
+        <translation>පද්ධතියේ ශබ්ද ප්‍රමාණය යාවත්කාල වෙමින්...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1882"/>
@@ -545,22 +545,22 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2220"/>
         <source>Tools</source>
-        <translation>යෙදුම්</translation>
+        <translation>මෙවලම්</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2343"/>
         <source>About</source>
-        <translation>සොනික් පයි ගැන විස්තර</translation>
+        <translation>පිළිබඳව</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2345"/>
         <source>Core Team</source>
-        <translation>ප්‍රධාන කණ්ඩායම</translation>
+        <translation>මූලික කණ්ඩායම</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2346"/>
         <source>Contributors</source>
-        <translation>උපකාර කළ අය</translation>
+        <translation>සහදායකයින්</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2344"/>

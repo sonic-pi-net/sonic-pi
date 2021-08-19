@@ -514,12 +514,12 @@ Sorry, er trad een belangrijke fout op tijdens het opstarten</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2679"/>
         <source>Clear Logs on Run</source>
-        <translation>Schoon log van run</translation>
+        <translation>Leeg log bij Run</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2684"/>
         <source>Auto Indent Code Buffer on Run</source>
-        <translation>Automatisch indenteren code buffer van run</translation>
+        <translation>Automatisch Uitlijnen Code Buffer Bij Run</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2689"/>
@@ -529,12 +529,12 @@ Sorry, er trad een belangrijke fout op tijdens het opstarten</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2699"/>
         <source>Live</source>
-        <translation type="unfinished"></translation>
+        <translation>Live</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2711"/>
         <source>Code</source>
-        <translation type="unfinished"></translation>
+        <translation>Code</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2723"/>
@@ -569,7 +569,7 @@ Sorry, er trad een belangrijke fout op tijdens het opstarten</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2756"/>
         <source>High Contrast</source>
-        <translation>Hoog contrast</translation>
+        <translation>Hoog Contrast</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2761"/>
