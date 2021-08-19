@@ -957,10 +957,8 @@ end"
 
         __system_thread_locals.set(:sonic_pi_spider_time_warp_start, __get_spider_time) unless  already_in_time_warp
         __system_thread_locals.set_local :sonic_pi_spider_in_time_warp, true
-        __with_preserved_spider_time_and_beat do
-
-          times.each_with_index do |delta, idx|
-
+        times.each_with_index do |delta, idx|
+          __with_preserved_spider_time_and_beat do
             sleep delta
 
             case block.arity
