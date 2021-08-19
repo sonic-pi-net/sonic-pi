@@ -65,7 +65,7 @@ module SonicPi
                                   :cue => address })
 
         sched_ahead_sync_t = t + sched_ahead_time
-        sleep_time = sched_ahead_sync_t - Time.now
+        sleep_time = sched_ahead_sync_t.to_f - Time.now.to_f
         if sleep_time > 0
           Thread.new do
             Kernel.sleep(sleep_time) if sleep_time > 0
