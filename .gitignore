@@ -149,3 +149,4 @@ etc/synthdefs/designs/overtone/sonic-pi/native
 
 # Erlang priv dir (for dlls)
 app/server/erlang/tau/priv/*
+app/server/erlang/tau/ebin/*
