@@ -30,6 +30,14 @@
 To be released...
 <!-- [(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v3.4.0): -->
 
+### Known Issues (to be addressed in upcoming Betas)
+* Currently the GUI just disappears when there's a boot issue without displaying the error dialog.
+* On macOS, the booting procedure no longer attempts to tweak the audio-card's sample rates to match and instead crashes on a mismatch.
+* There are no GUI elements to view/manipulate the new Link metronome.
+* Link is enabled by default and cannot be disabled via the GUI.
+* MIDI port names are very long and change on disconnect/reconnect on Linux.
+* Timing safety system (that kills threads if they get too far behind) is currently disabled.  (This is being redesigned to work within the new constraints imposed by the Link system).
+
 
 ### Breaking Changes
 * Previously it was possible that the `onset:` option for `sample`
@@ -41,7 +49,10 @@ To be released...
 
 
 ### New 
+* Support for [Ableton Link](https://www.ableton.com/link/). This enables you to synchronise the tempo of Sonic Pi running on multiple computers connected on the same network. It will also enable automatic BPM synchronisation with music production tools such as Ableton Live, VJ tools such as Resolume, DJ hardware such as the MPC and many compatible iPad music apps. For a full list see: https://www.ableton.com/link/products/,,
 * New fn `current_random_source` which returns the current random number source kind (see `use_random_source`).
+* New `:link` option to fn `use_bpm`. This enables Link mode for the current thread which automatically syncs the BPM to the Link metronome (which also syncs it with all other Link-capable apps running on any computer connected to the local (wired or wifi) network.
+* New fn `set_link_bpm!` to change the BPM/tempo of the Link metronome (and simultaneously change the tempo of all connected Link-capable apps on the network).
 
 
 ### Synths & FX
@@ -50,13 +61,16 @@ To be released...
 ### GUI
 * Teach autocompletion about random source choices: `:white`, `:light_pink`, `:pink`, etc.
 * Improve syntax indentation.
-* Improvements for Dutch, Estonian, German, Italian, Japanese, Korean, Polish, Portuguese (Brazil), Sinhala, Spanish
+* Improvements for Arabic, Dutch, Estonian, German, Italian, Japanese, Korean, Polish, Portuguese (Brazil), Sinhala, Spanish
 * Introduced new translations for Basque.
 
 
 ### Improvements
 * Many minor documentation fixes and improvements.
 * When running on Raspberry Pi, Sonic Pi connects to PulseAudio by default.
+* The scheduling accuracy of outgoing OSC and MIDI messages is improved on Windows.
+* Optimise `midi_clock_beat`.
+
 
 
 ### Bugfixes
