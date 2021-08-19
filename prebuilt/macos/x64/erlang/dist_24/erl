@@ -18,7 +18,7 @@
 #
 # %CopyrightEnd%
 #
-ROOTDIR="/Users/sam/Development/sonic-pi/app/server/native/erlang/dist_24"
+ROOTDIR="/Users/sam/Desktop/erl-distros/24.0"
 BINDIR=$ROOTDIR/bin
 EMU=beam
 PROGNAME=`echo $0 | sed 's/.*\///'`
