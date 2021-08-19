@@ -41,7 +41,7 @@ find_package(Threads REQUIRED)
 
 # We build QScintilla as part of the main project to make it easy to debug/fix
 # It is not built as part of externals
-add_subdirectory(QScintilla-2.12.1)
+add_subdirectory(QScintilla_src-2.13.0)
 
 set(APP_NAME sonic-pi)
 set(MACOS_APP_NAME "Sonic Pi")
