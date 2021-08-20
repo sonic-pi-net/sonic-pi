@@ -148,10 +148,11 @@ QString SonicPii18n::getNativeLanguageName(QString lang) {
     return tr("System language");
   }
 
-  std::map<QString, QString>::iterator it = native_language_names.find(lang);
-  if(it != native_language_names.end()) {
+  std::map <QString, QString> native_names = native_language_names();
+  std::map<QString, QString>::iterator it = native_names.find(lang);
+  if(it != native_names.end()) {
     // language found
-    return native_language_names[lang];
+    return native_names[lang];
   } else {
     std::cout << "[GUI] [i18n] - Warning: Predefined language name not found: '" << lang.toUtf8().constData() << "'" << std::endl;
     // Try using QLocale to find the native language name

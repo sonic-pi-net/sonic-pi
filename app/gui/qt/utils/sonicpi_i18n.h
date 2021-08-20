@@ -47,7 +47,7 @@ private:
   bool system_language_available;
   QString currently_loaded_language;
 
-  static std::map<QString, QString> native_language_names;
+  std::map<QString, QString> native_language_names();
 
   QStringList findAvailableLanguages();
   QStringList findSystemLanguages();
