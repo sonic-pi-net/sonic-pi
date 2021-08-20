@@ -82,8 +82,10 @@ msgstr ""
 #: fx.json:sound_out_stereo:opts:amp:description
 #: fx.json:tanh:opts:amp:description fx.json:tremolo:opts:amp:description
 #: fx.json:vowel:opts:amp:description fx.json:whammy:opts:amp:description
-#: fx.json:wobble:opts:amp:description synths.json:beep:opts:amp:description
-#: synths.json:blade:opts:amp:description
+#: fx.json:wobble:opts:amp:description
+#: synths.json:bass_foundation:opts:amp:description
+#: synths.json:bass_highend:opts:amp:description
+#: synths.json:beep:opts:amp:description synths.json:blade:opts:amp:description
 #: synths.json:bnoise:opts:amp:description
 #: synths.json:chipbass:opts:amp:description
 #: synths.json:chiplead:opts:amp:description
@@ -119,7 +121,9 @@ msgstr ""
 #: synths.json:supersaw:opts:amp:description
 #: synths.json:tb303:opts:amp:description
 #: synths.json:tech_saws:opts:amp:description
-#: synths.json:tri:opts:amp:description synths.json:zawa:opts:amp:description
+#: synths.json:tri:opts:amp:description
+#: synths.json:winwood_lead:opts:amp:description
+#: synths.json:zawa:opts:amp:description
 msgid ""
 "The amplitude of the sound. Typically a value between 0 and 1. Higher amplitud"
 "es may be used, but won't make the sound louder, they will just reduce the qua"
@@ -260,6 +264,335 @@ msgid ""
 "ignal."
 msgstr ""
 
+#: fx.json:autotuner:slide:slide_doc fx.json:band_eq:slide:slide_doc
+#: fx.json:bitcrusher:slide:slide_doc fx.json:bpf:slide:slide_doc
+#: fx.json:compressor:slide:slide_doc fx.json:distortion:slide:slide_doc
+#: fx.json:echo:slide:slide_doc fx.json:eq:slide:slide_doc
+#: fx.json:flanger:slide:slide_doc fx.json:gverb:slide:slide_doc
+#: fx.json:hpf:slide:slide_doc fx.json:ixi_techno:slide:slide_doc
+#: fx.json:krush:slide:slide_doc fx.json:level:slide:slide_doc
+#: fx.json:lpf:slide:slide_doc fx.json:mono:slide:slide_doc
+#: fx.json:nbpf:slide:slide_doc fx.json:nhpf:slide:slide_doc
+#: fx.json:nlpf:slide:slide_doc fx.json:normaliser:slide:slide_doc
+#: fx.json:nrbpf:slide:slide_doc fx.json:nrhpf:slide:slide_doc
+#: fx.json:nrlpf:slide:slide_doc fx.json:octaver:slide:slide_doc
+#: fx.json:pan:slide:slide_doc fx.json:panslicer:slide:slide_doc
+#: fx.json:ping_pong:slide:slide_doc fx.json:pitch_shift:slide:slide_doc
+#: fx.json:rbpf:slide:slide_doc fx.json:record:slide:slide_doc
+#: fx.json:reverb:slide:slide_doc fx.json:rhpf:slide:slide_doc
+#: fx.json:ring_mod:slide:slide_doc fx.json:rlpf:slide:slide_doc
+#: fx.json:slicer:slide:slide_doc fx.json:sound_out:slide:slide_doc
+#: fx.json:sound_out_stereo:slide:slide_doc fx.json:tanh:slide:slide_doc
+#: fx.json:tremolo:slide:slide_doc fx.json:vowel:slide:slide_doc
+#: fx.json:whammy:slide:slide_doc fx.json:wobble:slide:slide_doc
+#: synths.json:bass_foundation:slide:slide_doc
+#: synths.json:bass_highend:slide:slide_doc synths.json:beep:slide:slide_doc
+#: synths.json:blade:slide:slide_doc synths.json:bnoise:slide:slide_doc
+#: synths.json:chipbass:slide:slide_doc synths.json:chiplead:slide:slide_doc
+#: synths.json:chipnoise:slide:slide_doc synths.json:cnoise:slide:slide_doc
+#: synths.json:dark_ambience:slide:slide_doc synths.json:dpulse:slide:slide_doc
+#: synths.json:dsaw:slide:slide_doc synths.json:dtri:slide:slide_doc
+#: synths.json:dull_bell:slide:slide_doc synths.json:fm:slide:slide_doc
+#: synths.json:gnoise:slide:slide_doc synths.json:growl:slide:slide_doc
+#: synths.json:hollow:slide:slide_doc synths.json:hoover:slide:slide_doc
+#: synths.json:kalimba:slide:slide_doc synths.json:mod_dsaw:slide:slide_doc
+#: synths.json:mod_fm:slide:slide_doc synths.json:mod_pulse:slide:slide_doc
+#: synths.json:mod_saw:slide:slide_doc synths.json:mod_sine:slide:slide_doc
+#: synths.json:mod_tri:slide:slide_doc synths.json:noise:slide:slide_doc
+#: synths.json:piano:slide:slide_doc synths.json:pluck:slide:slide_doc
+#: synths.json:pnoise:slide:slide_doc synths.json:pretty_bell:slide:slide_doc
+#: synths.json:prophet:slide:slide_doc synths.json:pulse:slide:slide_doc
+#: synths.json:rodeo:slide:slide_doc synths.json:saw:slide:slide_doc
+#: synths.json:sound_in:slide:slide_doc
+#: synths.json:sound_in_stereo:slide:slide_doc
+#: synths.json:square:slide:slide_doc synths.json:subpulse:slide:slide_doc
+#: synths.json:supersaw:slide:slide_doc synths.json:tb303:slide:slide_doc
+#: synths.json:tech_saws:slide:slide_doc synths.json:tri:slide:slide_doc
+#: synths.json:winwood_lead:slide:slide_doc synths.json:zawa:slide:slide_doc
+msgid ""
+"Any parameter that is slidable has three additional options named _slide, _sli"
+"de_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also s"
+"et amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:"
+msgstr ""
+
+#: fx.json:autotuner:slide:slide_opts:_slide:description
+#: fx.json:band_eq:slide:slide_opts:_slide:description
+#: fx.json:bitcrusher:slide:slide_opts:_slide:description
+#: fx.json:bpf:slide:slide_opts:_slide:description
+#: fx.json:compressor:slide:slide_opts:_slide:description
+#: fx.json:distortion:slide:slide_opts:_slide:description
+#: fx.json:echo:slide:slide_opts:_slide:description
+#: fx.json:eq:slide:slide_opts:_slide:description
+#: fx.json:flanger:slide:slide_opts:_slide:description
+#: fx.json:gverb:slide:slide_opts:_slide:description
+#: fx.json:hpf:slide:slide_opts:_slide:description
+#: fx.json:ixi_techno:slide:slide_opts:_slide:description
+#: fx.json:krush:slide:slide_opts:_slide:description
+#: fx.json:level:slide:slide_opts:_slide:description
+#: fx.json:lpf:slide:slide_opts:_slide:description
+#: fx.json:mono:slide:slide_opts:_slide:description
+#: fx.json:nbpf:slide:slide_opts:_slide:description
+#: fx.json:nhpf:slide:slide_opts:_slide:description
+#: fx.json:nlpf:slide:slide_opts:_slide:description
+#: fx.json:normaliser:slide:slide_opts:_slide:description
+#: fx.json:nrbpf:slide:slide_opts:_slide:description
+#: fx.json:nrhpf:slide:slide_opts:_slide:description
+#: fx.json:nrlpf:slide:slide_opts:_slide:description
+#: fx.json:octaver:slide:slide_opts:_slide:description
+#: fx.json:pan:slide:slide_opts:_slide:description
+#: fx.json:panslicer:slide:slide_opts:_slide:description
+#: fx.json:ping_pong:slide:slide_opts:_slide:description
+#: fx.json:pitch_shift:slide:slide_opts:_slide:description
+#: fx.json:rbpf:slide:slide_opts:_slide:description
+#: fx.json:record:slide:slide_opts:_slide:description
+#: fx.json:reverb:slide:slide_opts:_slide:description
+#: fx.json:rhpf:slide:slide_opts:_slide:description
+#: fx.json:ring_mod:slide:slide_opts:_slide:description
+#: fx.json:rlpf:slide:slide_opts:_slide:description
+#: fx.json:slicer:slide:slide_opts:_slide:description
+#: fx.json:sound_out:slide:slide_opts:_slide:description
+#: fx.json:sound_out_stereo:slide:slide_opts:_slide:description
+#: fx.json:tanh:slide:slide_opts:_slide:description
+#: fx.json:tremolo:slide:slide_opts:_slide:description
+#: fx.json:vowel:slide:slide_opts:_slide:description
+#: fx.json:whammy:slide:slide_opts:_slide:description
+#: fx.json:wobble:slide:slide_opts:_slide:description
+#: synths.json:bass_foundation:slide:slide_opts:_slide:description
+#: synths.json:bass_highend:slide:slide_opts:_slide:description
+#: synths.json:beep:slide:slide_opts:_slide:description
+#: synths.json:blade:slide:slide_opts:_slide:description
+#: synths.json:bnoise:slide:slide_opts:_slide:description
+#: synths.json:chipbass:slide:slide_opts:_slide:description
+#: synths.json:chiplead:slide:slide_opts:_slide:description
+#: synths.json:chipnoise:slide:slide_opts:_slide:description
+#: synths.json:cnoise:slide:slide_opts:_slide:description
+#: synths.json:dark_ambience:slide:slide_opts:_slide:description
+#: synths.json:dpulse:slide:slide_opts:_slide:description
+#: synths.json:dsaw:slide:slide_opts:_slide:description
+#: synths.json:dtri:slide:slide_opts:_slide:description
+#: synths.json:dull_bell:slide:slide_opts:_slide:description
+#: synths.json:fm:slide:slide_opts:_slide:description
+#: synths.json:gnoise:slide:slide_opts:_slide:description
+#: synths.json:growl:slide:slide_opts:_slide:description
+#: synths.json:hollow:slide:slide_opts:_slide:description
+#: synths.json:hoover:slide:slide_opts:_slide:description
+#: synths.json:kalimba:slide:slide_opts:_slide:description
+#: synths.json:mod_dsaw:slide:slide_opts:_slide:description
+#: synths.json:mod_fm:slide:slide_opts:_slide:description
+#: synths.json:mod_pulse:slide:slide_opts:_slide:description
+#: synths.json:mod_saw:slide:slide_opts:_slide:description
+#: synths.json:mod_sine:slide:slide_opts:_slide:description
+#: synths.json:mod_tri:slide:slide_opts:_slide:description
+#: synths.json:noise:slide:slide_opts:_slide:description
+#: synths.json:piano:slide:slide_opts:_slide:description
+#: synths.json:pluck:slide:slide_opts:_slide:description
+#: synths.json:pnoise:slide:slide_opts:_slide:description
+#: synths.json:pretty_bell:slide:slide_opts:_slide:description
+#: synths.json:prophet:slide:slide_opts:_slide:description
+#: synths.json:pulse:slide:slide_opts:_slide:description
+#: synths.json:rodeo:slide:slide_opts:_slide:description
+#: synths.json:saw:slide:slide_opts:_slide:description
+#: synths.json:sound_in:slide:slide_opts:_slide:description
+#: synths.json:sound_in_stereo:slide:slide_opts:_slide:description
+#: synths.json:square:slide:slide_opts:_slide:description
+#: synths.json:subpulse:slide:slide_opts:_slide:description
+#: synths.json:supersaw:slide:slide_opts:_slide:description
+#: synths.json:tb303:slide:slide_opts:_slide:description
+#: synths.json:tech_saws:slide:slide_opts:_slide:description
+#: synths.json:tri:slide:slide_opts:_slide:description
+#: synths.json:winwood_lead:slide:slide_opts:_slide:description
+#: synths.json:zawa:slide:slide_opts:_slide:description
+msgid ""
+"Amount of time (in beats) for the parameter value to change. A long parameter_"
+"slide value means that the parameter takes a long time to slide from the previ"
+"ous value to the new value. A parameter_slide of 0 means that the parameter in"
+"stantly changes to the new value."
+msgstr ""
+
+#: fx.json:autotuner:slide:slide_opts:_slide_curve:description
+#: fx.json:band_eq:slide:slide_opts:_slide_curve:description
+#: fx.json:bitcrusher:slide:slide_opts:_slide_curve:description
+#: fx.json:bpf:slide:slide_opts:_slide_curve:description
+#: fx.json:compressor:slide:slide_opts:_slide_curve:description
+#: fx.json:distortion:slide:slide_opts:_slide_curve:description
+#: fx.json:echo:slide:slide_opts:_slide_curve:description
+#: fx.json:eq:slide:slide_opts:_slide_curve:description
+#: fx.json:flanger:slide:slide_opts:_slide_curve:description
+#: fx.json:gverb:slide:slide_opts:_slide_curve:description
+#: fx.json:hpf:slide:slide_opts:_slide_curve:description
+#: fx.json:ixi_techno:slide:slide_opts:_slide_curve:description
+#: fx.json:krush:slide:slide_opts:_slide_curve:description
+#: fx.json:level:slide:slide_opts:_slide_curve:description
+#: fx.json:lpf:slide:slide_opts:_slide_curve:description
+#: fx.json:mono:slide:slide_opts:_slide_curve:description
+#: fx.json:nbpf:slide:slide_opts:_slide_curve:description
+#: fx.json:nhpf:slide:slide_opts:_slide_curve:description
+#: fx.json:nlpf:slide:slide_opts:_slide_curve:description
+#: fx.json:normaliser:slide:slide_opts:_slide_curve:description
+#: fx.json:nrbpf:slide:slide_opts:_slide_curve:description
+#: fx.json:nrhpf:slide:slide_opts:_slide_curve:description
+#: fx.json:nrlpf:slide:slide_opts:_slide_curve:description
+#: fx.json:octaver:slide:slide_opts:_slide_curve:description
+#: fx.json:pan:slide:slide_opts:_slide_curve:description
+#: fx.json:panslicer:slide:slide_opts:_slide_curve:description
+#: fx.json:ping_pong:slide:slide_opts:_slide_curve:description
+#: fx.json:pitch_shift:slide:slide_opts:_slide_curve:description
+#: fx.json:rbpf:slide:slide_opts:_slide_curve:description
+#: fx.json:record:slide:slide_opts:_slide_curve:description
+#: fx.json:reverb:slide:slide_opts:_slide_curve:description
+#: fx.json:rhpf:slide:slide_opts:_slide_curve:description
+#: fx.json:ring_mod:slide:slide_opts:_slide_curve:description
+#: fx.json:rlpf:slide:slide_opts:_slide_curve:description
+#: fx.json:slicer:slide:slide_opts:_slide_curve:description
+#: fx.json:sound_out:slide:slide_opts:_slide_curve:description
+#: fx.json:sound_out_stereo:slide:slide_opts:_slide_curve:description
+#: fx.json:tanh:slide:slide_opts:_slide_curve:description
+#: fx.json:tremolo:slide:slide_opts:_slide_curve:description
+#: fx.json:vowel:slide:slide_opts:_slide_curve:description
+#: fx.json:whammy:slide:slide_opts:_slide_curve:description
+#: fx.json:wobble:slide:slide_opts:_slide_curve:description
+#: synths.json:bass_foundation:slide:slide_opts:_slide_curve:description
+#: synths.json:bass_highend:slide:slide_opts:_slide_curve:description
+#: synths.json:beep:slide:slide_opts:_slide_curve:description
+#: synths.json:blade:slide:slide_opts:_slide_curve:description
+#: synths.json:bnoise:slide:slide_opts:_slide_curve:description
+#: synths.json:chipbass:slide:slide_opts:_slide_curve:description
+#: synths.json:chiplead:slide:slide_opts:_slide_curve:description
+#: synths.json:chipnoise:slide:slide_opts:_slide_curve:description
+#: synths.json:cnoise:slide:slide_opts:_slide_curve:description
+#: synths.json:dark_ambience:slide:slide_opts:_slide_curve:description
+#: synths.json:dpulse:slide:slide_opts:_slide_curve:description
+#: synths.json:dsaw:slide:slide_opts:_slide_curve:description
+#: synths.json:dtri:slide:slide_opts:_slide_curve:description
+#: synths.json:dull_bell:slide:slide_opts:_slide_curve:description
+#: synths.json:fm:slide:slide_opts:_slide_curve:description
+#: synths.json:gnoise:slide:slide_opts:_slide_curve:description
+#: synths.json:growl:slide:slide_opts:_slide_curve:description
+#: synths.json:hollow:slide:slide_opts:_slide_curve:description
+#: synths.json:hoover:slide:slide_opts:_slide_curve:description
+#: synths.json:kalimba:slide:slide_opts:_slide_curve:description
+#: synths.json:mod_dsaw:slide:slide_opts:_slide_curve:description
+#: synths.json:mod_fm:slide:slide_opts:_slide_curve:description
+#: synths.json:mod_pulse:slide:slide_opts:_slide_curve:description
+#: synths.json:mod_saw:slide:slide_opts:_slide_curve:description
+#: synths.json:mod_sine:slide:slide_opts:_slide_curve:description
+#: synths.json:mod_tri:slide:slide_opts:_slide_curve:description
+#: synths.json:noise:slide:slide_opts:_slide_curve:description
+#: synths.json:piano:slide:slide_opts:_slide_curve:description
+#: synths.json:pluck:slide:slide_opts:_slide_curve:description
+#: synths.json:pnoise:slide:slide_opts:_slide_curve:description
+#: synths.json:pretty_bell:slide:slide_opts:_slide_curve:description
+#: synths.json:prophet:slide:slide_opts:_slide_curve:description
+#: synths.json:pulse:slide:slide_opts:_slide_curve:description
+#: synths.json:rodeo:slide:slide_opts:_slide_curve:description
+#: synths.json:saw:slide:slide_opts:_slide_curve:description
+#: synths.json:sound_in:slide:slide_opts:_slide_curve:description
+#: synths.json:sound_in_stereo:slide:slide_opts:_slide_curve:description
+#: synths.json:square:slide:slide_opts:_slide_curve:description
+#: synths.json:subpulse:slide:slide_opts:_slide_curve:description
+#: synths.json:supersaw:slide:slide_opts:_slide_curve:description
+#: synths.json:tb303:slide:slide_opts:_slide_curve:description
+#: synths.json:tech_saws:slide:slide_opts:_slide_curve:description
+#: synths.json:tri:slide:slide_opts:_slide_curve:description
+#: synths.json:winwood_lead:slide:slide_opts:_slide_curve:description
+#: synths.json:zawa:slide:slide_opts:_slide_curve:description
+msgid ""
+"Shape of the slide curve (only honoured if slide shape is 5). 0 means linear a"
+"nd positive and negative numbers curve the segment up and down respectively."
+msgstr ""
+
+#: fx.json:autotuner:slide:slide_opts:_slide_shape:description
+#: fx.json:band_eq:slide:slide_opts:_slide_shape:description
+#: fx.json:bitcrusher:slide:slide_opts:_slide_shape:description
+#: fx.json:bpf:slide:slide_opts:_slide_shape:description
+#: fx.json:compressor:slide:slide_opts:_slide_shape:description
+#: fx.json:distortion:slide:slide_opts:_slide_shape:description
+#: fx.json:echo:slide:slide_opts:_slide_shape:description
+#: fx.json:eq:slide:slide_opts:_slide_shape:description
+#: fx.json:flanger:slide:slide_opts:_slide_shape:description
+#: fx.json:gverb:slide:slide_opts:_slide_shape:description
+#: fx.json:hpf:slide:slide_opts:_slide_shape:description
+#: fx.json:ixi_techno:slide:slide_opts:_slide_shape:description
+#: fx.json:krush:slide:slide_opts:_slide_shape:description
+#: fx.json:level:slide:slide_opts:_slide_shape:description
+#: fx.json:lpf:slide:slide_opts:_slide_shape:description
+#: fx.json:mono:slide:slide_opts:_slide_shape:description
+#: fx.json:nbpf:slide:slide_opts:_slide_shape:description
+#: fx.json:nhpf:slide:slide_opts:_slide_shape:description
+#: fx.json:nlpf:slide:slide_opts:_slide_shape:description
+#: fx.json:normaliser:slide:slide_opts:_slide_shape:description
+#: fx.json:nrbpf:slide:slide_opts:_slide_shape:description
+#: fx.json:nrhpf:slide:slide_opts:_slide_shape:description
+#: fx.json:nrlpf:slide:slide_opts:_slide_shape:description
+#: fx.json:octaver:slide:slide_opts:_slide_shape:description
+#: fx.json:pan:slide:slide_opts:_slide_shape:description
+#: fx.json:panslicer:slide:slide_opts:_slide_shape:description
+#: fx.json:ping_pong:slide:slide_opts:_slide_shape:description
+#: fx.json:pitch_shift:slide:slide_opts:_slide_shape:description
+#: fx.json:rbpf:slide:slide_opts:_slide_shape:description
+#: fx.json:record:slide:slide_opts:_slide_shape:description
+#: fx.json:reverb:slide:slide_opts:_slide_shape:description
+#: fx.json:rhpf:slide:slide_opts:_slide_shape:description
+#: fx.json:ring_mod:slide:slide_opts:_slide_shape:description
+#: fx.json:rlpf:slide:slide_opts:_slide_shape:description
+#: fx.json:slicer:slide:slide_opts:_slide_shape:description
+#: fx.json:sound_out:slide:slide_opts:_slide_shape:description
+#: fx.json:sound_out_stereo:slide:slide_opts:_slide_shape:description
+#: fx.json:tanh:slide:slide_opts:_slide_shape:description
+#: fx.json:tremolo:slide:slide_opts:_slide_shape:description
+#: fx.json:vowel:slide:slide_opts:_slide_shape:description
+#: fx.json:whammy:slide:slide_opts:_slide_shape:description
+#: fx.json:wobble:slide:slide_opts:_slide_shape:description
+#: synths.json:bass_foundation:slide:slide_opts:_slide_shape:description
+#: synths.json:bass_highend:slide:slide_opts:_slide_shape:description
+#: synths.json:beep:slide:slide_opts:_slide_shape:description
+#: synths.json:blade:slide:slide_opts:_slide_shape:description
+#: synths.json:bnoise:slide:slide_opts:_slide_shape:description
+#: synths.json:chipbass:slide:slide_opts:_slide_shape:description
+#: synths.json:chiplead:slide:slide_opts:_slide_shape:description
+#: synths.json:chipnoise:slide:slide_opts:_slide_shape:description
+#: synths.json:cnoise:slide:slide_opts:_slide_shape:description
+#: synths.json:dark_ambience:slide:slide_opts:_slide_shape:description
+#: synths.json:dpulse:slide:slide_opts:_slide_shape:description
+#: synths.json:dsaw:slide:slide_opts:_slide_shape:description
+#: synths.json:dtri:slide:slide_opts:_slide_shape:description
+#: synths.json:dull_bell:slide:slide_opts:_slide_shape:description
+#: synths.json:fm:slide:slide_opts:_slide_shape:description
+#: synths.json:gnoise:slide:slide_opts:_slide_shape:description
+#: synths.json:growl:slide:slide_opts:_slide_shape:description
+#: synths.json:hollow:slide:slide_opts:_slide_shape:description
+#: synths.json:hoover:slide:slide_opts:_slide_shape:description
+#: synths.json:kalimba:slide:slide_opts:_slide_shape:description
+#: synths.json:mod_dsaw:slide:slide_opts:_slide_shape:description
+#: synths.json:mod_fm:slide:slide_opts:_slide_shape:description
+#: synths.json:mod_pulse:slide:slide_opts:_slide_shape:description
+#: synths.json:mod_saw:slide:slide_opts:_slide_shape:description
+#: synths.json:mod_sine:slide:slide_opts:_slide_shape:description
+#: synths.json:mod_tri:slide:slide_opts:_slide_shape:description
+#: synths.json:noise:slide:slide_opts:_slide_shape:description
+#: synths.json:piano:slide:slide_opts:_slide_shape:description
+#: synths.json:pluck:slide:slide_opts:_slide_shape:description
+#: synths.json:pnoise:slide:slide_opts:_slide_shape:description
+#: synths.json:pretty_bell:slide:slide_opts:_slide_shape:description
+#: synths.json:prophet:slide:slide_opts:_slide_shape:description
+#: synths.json:pulse:slide:slide_opts:_slide_shape:description
+#: synths.json:rodeo:slide:slide_opts:_slide_shape:description
+#: synths.json:saw:slide:slide_opts:_slide_shape:description
+#: synths.json:sound_in:slide:slide_opts:_slide_shape:description
+#: synths.json:sound_in_stereo:slide:slide_opts:_slide_shape:description
+#: synths.json:square:slide:slide_opts:_slide_shape:description
+#: synths.json:subpulse:slide:slide_opts:_slide_shape:description
+#: synths.json:supersaw:slide:slide_opts:_slide_shape:description
+#: synths.json:tb303:slide:slide_opts:_slide_shape:description
+#: synths.json:tech_saws:slide:slide_opts:_slide_shape:description
+#: synths.json:tri:slide:slide_opts:_slide_shape:description
+#: synths.json:winwood_lead:slide:slide_opts:_slide_shape:description
+#: synths.json:zawa:slide:slide_opts:_slide_shape:description
+msgid ""
+"Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_"
+"curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
+msgstr ""
+
 #: fx.json:band_eq:description
 msgid "Attenuate or Boost a frequency band"
 msgstr ""
@@ -300,6 +633,8 @@ msgstr ""
 #: fx.json:nlpf:opts:cutoff:description fx.json:nrhpf:opts:cutoff:description
 #: fx.json:nrlpf:opts:cutoff:description fx.json:rhpf:opts:cutoff:description
 #: fx.json:rlpf:opts:cutoff:description
+#: synths.json:bass_foundation:opts:cutoff:description
+#: synths.json:bass_highend:opts:cutoff:description
 #: synths.json:blade:opts:cutoff:description
 #: synths.json:bnoise:opts:cutoff:description
 #: synths.json:cnoise:opts:cutoff:description
@@ -329,6 +664,7 @@ msgstr ""
 #: synths.json:supersaw:opts:cutoff:description
 #: synths.json:tech_saws:opts:cutoff:description
 #: synths.json:tri:opts:cutoff:description
+#: synths.json:winwood_lead:opts:cutoff:description
 #: synths.json:zawa:opts:cutoff:description
 msgid ""
 "MIDI note representing the highest frequencies allowed to be present in the so"
@@ -369,7 +705,10 @@ msgstr ""
 #: fx.json:nrbpf:opts:res:description fx.json:nrhpf:opts:res:description
 #: fx.json:nrlpf:opts:res:description fx.json:rbpf:opts:res:description
 #: fx.json:rhpf:opts:res:description fx.json:rlpf:opts:res:description
-#: fx.json:wobble:opts:res:description synths.json:bnoise:opts:res:description
+#: fx.json:wobble:opts:res:description
+#: synths.json:bass_foundation:opts:res:description
+#: synths.json:bass_highend:opts:res:description
+#: synths.json:bnoise:opts:res:description
 #: synths.json:cnoise:opts:res:description
 #: synths.json:dark_ambience:opts:res:description
 #: synths.json:gnoise:opts:res:description
@@ -381,6 +720,7 @@ msgstr ""
 #: synths.json:supersaw:opts:res:description
 #: synths.json:tb303:opts:res:description
 #: synths.json:tech_saws:opts:res:description
+#: synths.json:winwood_lead:opts:res:description
 #: synths.json:zawa:opts:res:description
 msgid ""
 "Filter resonance as a value between 0 and 1. Large amounts of resonance (a res"
@@ -788,6 +1128,8 @@ msgid ""
 msgstr ""
 
 #: fx.json:mono:opts:pan:description fx.json:pan:opts:pan:description
+#: synths.json:bass_foundation:opts:pan:description
+#: synths.json:bass_highend:opts:pan:description
 #: synths.json:beep:opts:pan:description synths.json:blade:opts:pan:description
 #: synths.json:bnoise:opts:pan:description
 #: synths.json:chipbass:opts:pan:description
@@ -824,7 +1166,9 @@ msgstr ""
 #: synths.json:supersaw:opts:pan:description
 #: synths.json:tb303:opts:pan:description
 #: synths.json:tech_saws:opts:pan:description
-#: synths.json:tri:opts:pan:description synths.json:zawa:opts:pan:description
+#: synths.json:tri:opts:pan:description
+#: synths.json:winwood_lead:opts:pan:description
+#: synths.json:zawa:opts:pan:description
 msgid ""
 "Position of sound in stereo. With headphones on, this means how much of the so"
 "und is in the left ear, and how much is in the right ear. With a value of -1, "
@@ -2734,6 +3078,39 @@ msgstr ""
 msgid "Get current random seed"
 msgstr ""
 
+#: lang.json:current_random_source:description
+msgid ""
+"Returns the source of the current random number generator (what kind of noise "
+"is generating the random numbers).\n"
+"\n"
+"This can be set via the fns `use_random_source` and `with_random_source`. Each"
+" source will provide a different pattern of random numbers."
+msgstr ""
+
+#: lang.json:current_random_source:examples:0:comments
+msgid ""
+"# Print out the current random source\n"
+msgstr ""
+
+#: lang.json:current_random_source:examples:1:comments
+msgid ""
+"# Use white noise as the distribution (default)\n"
+"# => 0.75006103515625\n"
+"# => 0.733917236328125\n"
+"# Grab the current random number source (:white)\n"
+"# Use perlin noise as the distribution\n"
+"# => 0.58526611328125\n"
+"# => 0.597015380859375\n"
+"# Restore the previous random number source (:white)\n"
+"# The numbers will again be generated from a white noise distribution\n"
+"# => 0.10821533203125\n"
+"# => 0.54010009765625\n"
+msgstr ""
+
+#: lang.json:current_random_source:summary
+msgid "Get current random source"
+msgstr ""
+
 #: lang.json:current_sample_defaults:description
 msgid ""
 "Returns the current sample defaults. This is a map of synth arg names to eithe"
@@ -4569,15 +4946,22 @@ msgstr ""
 
 #: lang.json:midi_clock_beat:examples:0:comments
 msgid ""
-"#=> Send 24 clock ticks over a period of 1 beat\n"
+"#=> Send 24 clock ticks over a period of 1 beat to all connected MIDI devices\n"
 msgstr ""
 
 #: lang.json:midi_clock_beat:examples:1:comments
 msgid ""
-"#=> Send 24 clock ticks over a period of 0.5 beats\n"
+"#=> Send 24 clock ticks over a period of 0.5 beats to all connected MIDI devic"
+"es\n"
 msgstr ""
 
 #: lang.json:midi_clock_beat:examples:2:comments
+msgid ""
+"#=> Send 24 clock ticks over a period of 1 beat to just the MIDI port with nam"
+"e moog_subphatty\n"
+msgstr ""
+
+#: lang.json:midi_clock_beat:examples:3:comments
 msgid ""
 "# Create a live loop which continually sends out MIDI clock\n"
 "# events at the current BPM\n"
@@ -4585,7 +4969,7 @@ msgid ""
 " \n"
 msgstr ""
 
-#: lang.json:midi_clock_beat:examples:3:comments
+#: lang.json:midi_clock_beat:examples:4:comments
 msgid ""
 "# Ensuring Clock Phase is Correct\n"
 " \n"
@@ -5979,6 +6363,8 @@ msgstr ""
 #: lang.json:play_chord:opts:attack_level:description
 #: lang.json:play_pattern_timed:opts:attack_level:description
 #: lang.json:synth:opts:attack_level:description
+#: synths.json:bass_foundation:opts:attack_level:description
+#: synths.json:bass_highend:opts:attack_level:description
 #: synths.json:beep:opts:attack_level:description
 #: synths.json:blade:opts:attack_level:description
 #: synths.json:bnoise:opts:attack_level:description
@@ -6020,6 +6406,7 @@ msgstr ""
 #: synths.json:tb303:opts:attack_level:description
 #: synths.json:tech_saws:opts:attack_level:description
 #: synths.json:tri:opts:attack_level:description
+#: synths.json:winwood_lead:opts:attack_level:description
 #: synths.json:zawa:opts:attack_level:description
 msgid "Amplitude level reached after attack phase and immediately before decay phase"
 msgstr ""
@@ -6028,6 +6415,8 @@ msgstr ""
 #: lang.json:play_chord:opts:decay:description
 #: lang.json:play_pattern_timed:opts:decay:description
 #: lang.json:synth:opts:decay:description
+#: synths.json:bass_foundation:opts:decay:description
+#: synths.json:bass_highend:opts:decay:description
 #: synths.json:beep:opts:decay:description
 #: synths.json:blade:opts:decay:description
 #: synths.json:bnoise:opts:decay:description
@@ -6066,6 +6455,7 @@ msgstr ""
 #: synths.json:tb303:opts:decay:description
 #: synths.json:tech_saws:opts:decay:description
 #: synths.json:tri:opts:decay:description
+#: synths.json:winwood_lead:opts:decay:description
 #: synths.json:zawa:opts:decay:description
 msgid ""
 "Amount of time (in beats) for the sound to move from full amplitude (attack_le"
@@ -6076,6 +6466,8 @@ msgstr ""
 #: lang.json:play_chord:opts:decay_level:description
 #: lang.json:play_pattern_timed:opts:decay_level:description
 #: lang.json:synth:opts:decay_level:description
+#: synths.json:bass_foundation:opts:decay_level:description
+#: synths.json:bass_highend:opts:decay_level:description
 #: synths.json:beep:opts:decay_level:description
 #: synths.json:blade:opts:decay_level:description
 #: synths.json:bnoise:opts:decay_level:description
@@ -6117,6 +6509,7 @@ msgstr ""
 #: synths.json:tb303:opts:decay_level:description
 #: synths.json:tech_saws:opts:decay_level:description
 #: synths.json:tri:opts:decay_level:description
+#: synths.json:winwood_lead:opts:decay_level:description
 #: synths.json:zawa:opts:decay_level:description
 msgid ""
 "Amplitude level reached after decay phase and immediately before sustain phase"
@@ -6226,6 +6619,8 @@ msgstr ""
 #: lang.json:play_chord:opts:sustain:description
 #: lang.json:play_pattern_timed:opts:sustain:description
 #: lang.json:synth:opts:sustain:description
+#: synths.json:bass_foundation:opts:sustain:description
+#: synths.json:bass_highend:opts:sustain:description
 #: synths.json:beep:opts:sustain:description
 #: synths.json:blade:opts:sustain:description
 #: synths.json:bnoise:opts:sustain:description
@@ -6264,6 +6659,7 @@ msgstr ""
 #: synths.json:tb303:opts:sustain:description
 #: synths.json:tech_saws:opts:sustain:description
 #: synths.json:tri:opts:sustain:description
+#: synths.json:winwood_lead:opts:sustain:description
 #: synths.json:zawa:opts:sustain:description
 msgid ""
 "Amount of time (in beats) for sound to remain at sustain level amplitude. Long"
@@ -6275,6 +6671,8 @@ msgstr ""
 #: lang.json:play_chord:opts:sustain_level:description
 #: lang.json:play_pattern_timed:opts:sustain_level:description
 #: lang.json:synth:opts:sustain_level:description
+#: synths.json:bass_foundation:opts:sustain_level:description
+#: synths.json:bass_highend:opts:sustain_level:description
 #: synths.json:beep:opts:sustain_level:description
 #: synths.json:blade:opts:sustain_level:description
 #: synths.json:bnoise:opts:sustain_level:description
@@ -6316,6 +6714,7 @@ msgstr ""
 #: synths.json:tb303:opts:sustain_level:description
 #: synths.json:tech_saws:opts:sustain_level:description
 #: synths.json:tri:opts:sustain_level:description
+#: synths.json:winwood_lead:opts:sustain_level:description
 #: synths.json:zawa:opts:sustain_level:description
 msgid ""
 "Amplitude level reached after decay phase and immediately before release phase"
@@ -6538,7 +6937,7 @@ msgid ""
 "ndom value between `0` and `1`."
 msgstr ""
 
-#: lang.json:rand:examples:0:comments lang.json:rand_look:examples:0:comments
+#: lang.json:rand:examples:0:comments
 msgid ""
 "#=> will print a number like 0.375030517578125 to the output pane\n"
 msgstr ""
@@ -6592,7 +6991,6 @@ msgid ""
 msgstr ""
 
 #: lang.json:rand_i:examples:0:comments
-#: lang.json:rand_i_look:examples:0:comments
 msgid ""
 "#=> will print either 0, 1, 2, 3, or 4 to the output pane\n"
 msgstr ""
@@ -6611,13 +7009,20 @@ msgid ""
 "l calls to `rand_i_look` will all return the same value."
 msgstr ""
 
+#: lang.json:rand_i_look:examples:0:comments
+msgid ""
+"# will print either 0, 1, 2, 3, or 4 to the output pane\n"
+msgstr ""
+
 #: lang.json:rand_i_look:examples:1:comments
 msgid ""
-"#=> will print either 0, 1, 2, 3, or 4 to the output pane\n"
-"#=> will print the same number again\n"
-"#=> will print the same number again\n"
-"#=> will print either 0, 1, 2, 3, or 4 to the output pane\n"
-"#=> will print the same number as the previous statement\n"
+"# will print either 0, 1, 2, 3, or 4 to the output pane\n"
+"# will print the same number again\n"
+"# will print the same number again\n"
+"# will still print the same number again\n"
+"# (this is the number rand_i_look was 'looking ahead' at)\n"
+"# the number is now consumed\n"
+"# will print either 0, 1, 2, 3, or 4 to the output pane\n"
 msgstr ""
 
 #: lang.json:rand_i_look:summary
@@ -6634,13 +7039,20 @@ msgid ""
 "l calls to `rand_look` will all return the same value."
 msgstr ""
 
+#: lang.json:rand_look:examples:0:comments
+msgid ""
+"# will print a number like 0.375030517578125 to the output pane\n"
+msgstr ""
+
 #: lang.json:rand_look:examples:1:comments
 msgid ""
-"#=> will print a number like 0.375030517578125 to the output pane\n"
-"#=> will print the same number again\n"
-"#=> will print the same number again\n"
-"#=> will print a different random number\n"
-"#=> will print the same number as the previous line again.\n"
+"# will print a number like 0.375030517578125 to the output pane\n"
+"# will print the same number again\n"
+"# will print the same number again\n"
+"# will still print the same number again\n"
+"# (this is the number rand_look was 'looking ahead' at)\n"
+"# the number is now consumed\n"
+"# will print a new number like 0.3669586181640625 to the output pane\n"
 msgstr ""
 
 #: lang.json:rand_look:summary
@@ -8673,9 +9085,7 @@ msgid ""
 msgstr ""
 
 #: lang.json:set_sched_ahead_time!:examples:0:comments
-#: lang.json:use_real_time:examples:0:comments
 #: lang.json:use_sched_ahead_time:examples:0:comments
-#: lang.json:with_real_time:examples:0:comments
 msgid ""
 "# Code will now run approximately 1 second ahead of audio.\n"
 msgstr ""
@@ -10033,9 +10443,9 @@ msgstr ""
 msgid ""
 "# Basic usage\n"
 "# reset random seed to 1\n"
-"# => 0.417022004702574\n"
+"# => 0.733917236328125\n"
 "# reset random seed back to 1\n"
-"#=> 0.417022004702574\n"
+"#=> 0.733917236328125\n"
 msgstr ""
 
 #: lang.json:use_random_seed:examples:1:comments
@@ -10141,6 +10551,11 @@ msgid ""
 "set the schedule ahead time to any arbitrary value. Note, `use_real_time` will"
 " override any value set with `set_sched_ahead_time!` for the current thread.\n"
 "\n"
+msgstr ""
+
+#: lang.json:use_real_time:examples:0:comments
+msgid ""
+"# Code will now produce sound without a scheduling delay.\n"
 msgstr ""
 
 #: lang.json:use_real_time:summary
@@ -10928,15 +11343,15 @@ msgstr ""
 #: lang.json:with_random_seed:examples:0:comments
 msgid ""
 "# reset random seed to 1\n"
-"# => 0.417022004702574\n"
-"#=> 0.7203244934421581\n"
+"# => 0.733917236328125\n"
+"#=> 0.464202880859375\n"
 "# reset it back to 1\n"
-"# => 0.417022004702574\n"
+"# => 0.733917236328125\n"
 "# reset seed back to 1 just for this block\n"
-"# => 0.417022004702574\n"
-"#=> 0.7203244934421581\n"
+"# => 0.733917236328125\n"
+"#=> 0.464202880859375\n"
 " \n"
-"# => 0.7203244934421581\n"
+"# => 0.464202880859375\n"
 "# notice how the original generator is restored\n"
 msgstr ""
 
@@ -11001,6 +11416,14 @@ msgid ""
 "ll override any value set with `set_sched_ahead_time!` for the current thread."
 "\n"
 "\n"
+msgstr ""
+
+#: lang.json:with_real_time:examples:0:comments
+msgid ""
+" \n"
+"# Sound will happen without a scheduling delay.\n"
+" \n"
+"# Sound will happen with the default latency (0.5s).\n"
 msgstr ""
 
 #: lang.json:with_real_time:summary
@@ -11367,15 +11790,19 @@ msgstr ""
 msgid "Vinyl sounds"
 msgstr ""
 
-#: synths.json:beep:description
+#: synths.json:bass_foundation:description
 msgid ""
-"A simple pure sine wave. The sine wave is the simplest, purest sound there is "
-"and is the fundamental building block of all noise. The mathematician Fourier "
-"demonstrated that any sound could be built out of a number of sine waves (the "
-"more complex the sound, the more sine waves needed). Have a play combining a n"
-"umber of sine waves to design your own sounds!"
+"A soft bass synth inspired by the sounds of the 80s. Use together with :bass_h"
+"ighend if you want to give it a gargling component. Adapted for Sonic Pi from "
+"[Steal This Sound](https://raw.githubusercontent.com/supercollider/supercollid"
+"er/develop/examples/demonstrations/stealthissound.scd). Published there under "
+"[GPL v3](https://www.gnu.org/licenses/gpl-3.0.en.html), so re-published under "
+"the same terms. The source code is available [on the Sonic Pi GitHub repositor"
+"y](https://github.com/sonic-pi-net/sonic-pi). Date of modification: 10.01.2021"
 msgstr ""
 
+#: synths.json:bass_foundation:opts:attack:description
+#: synths.json:bass_highend:opts:attack:description
 #: synths.json:beep:opts:attack:description
 #: synths.json:blade:opts:attack:description
 #: synths.json:bnoise:opts:attack:description
@@ -11415,6 +11842,7 @@ msgstr ""
 #: synths.json:tb303:opts:attack:description
 #: synths.json:tech_saws:opts:attack:description
 #: synths.json:tri:opts:attack:description
+#: synths.json:winwood_lead:opts:attack:description
 #: synths.json:zawa:opts:attack:description
 msgid ""
 "Amount of time (in beats) for sound to reach full amplitude (attack_level). A "
@@ -11423,6 +11851,8 @@ msgid ""
 "h of sound is attack + decay + sustain + release."
 msgstr ""
 
+#: synths.json:bass_foundation:opts:note:description
+#: synths.json:bass_highend:opts:note:description
 #: synths.json:beep:opts:note:description
 #: synths.json:blade:opts:note:description
 #: synths.json:chipbass:opts:note:description
@@ -11452,12 +11882,16 @@ msgstr ""
 #: synths.json:supersaw:opts:note:description
 #: synths.json:tb303:opts:note:description
 #: synths.json:tech_saws:opts:note:description
-#: synths.json:tri:opts:note:description synths.json:zawa:opts:note:description
+#: synths.json:tri:opts:note:description
+#: synths.json:winwood_lead:opts:note:description
+#: synths.json:zawa:opts:note:description
 msgid ""
 "Note to play. Either a MIDI number or a symbol representing a note. For exampl"
 "e: `30`, `52`, `:C`, `:C2`, `:Eb4`, or `:Ds3`"
 msgstr ""
 
+#: synths.json:bass_foundation:opts:release:description
+#: synths.json:bass_highend:opts:release:description
 #: synths.json:beep:opts:release:description
 #: synths.json:blade:opts:release:description
 #: synths.json:bnoise:opts:release:description
@@ -11496,12 +11930,38 @@ msgstr ""
 #: synths.json:tb303:opts:release:description
 #: synths.json:tech_saws:opts:release:description
 #: synths.json:tri:opts:release:description
+#: synths.json:winwood_lead:opts:release:description
 #: synths.json:zawa:opts:release:description
 msgid ""
 "Amount of time (in beats) for sound to move from sustain level amplitude to si"
 "lent. A short release (i.e. 0.01) makes the final part of the sound very percu"
 "ssive (potentially resulting in a click). A longer release (i.e 1) fades the s"
 "ound out gently. Full length of sound is attack + decay + sustain + release."
+msgstr ""
+
+#: synths.json:bass_highend:description
+msgid ""
+"An addition to the :bass_foundation synth inspired by the sounds of the 80s. U"
+"se them together if you want to give it a rough, slurping, or gargling compone"
+"nt. Adapted for Sonic Pi from [Steal This Sound](https://raw.githubusercontent"
+".com/supercollider/supercollider/develop/examples/demonstrations/stealthissoun"
+"d.scd). Published there under [GPL v3](https://www.gnu.org/licenses/gpl-3.0.en"
+".html), so re-published under the same terms. The source code is available [on"
+" the Sonic Pi GitHub repository](https://github.com/sonic-pi-net/sonic-pi). Da"
+"te of modification: 11.01.2021"
+msgstr ""
+
+#: synths.json:bass_highend:opts:drive:description
+msgid "Higher drive values make the sound louder and rougher."
+msgstr ""
+
+#: synths.json:beep:description
+msgid ""
+"A simple pure sine wave. The sine wave is the simplest, purest sound there is "
+"and is the fundamental building block of all noise. The mathematician Fourier "
+"demonstrated that any sound could be built out of a number of sine waves (the "
+"more complex the sound, the more sine waves needed). Have a play combining a n"
+"umber of sine waves to design your own sounds!"
 msgstr ""
 
 #: synths.json:blade:description
@@ -12247,6 +12707,35 @@ msgstr ""
 
 #: synths.json:tri:description
 msgid "A simple triangle wave with a low pass filter."
+msgstr ""
+
+#: synths.json:winwood_lead:description
+msgid ""
+"A lead synth inspired by the Winwood songs from the early 80s.  Adapted for So"
+"nic Pi from [Steal This Sound](https://raw.githubusercontent.com/supercollider"
+"/supercollider/develop/examples/demonstrations/stealthissound.scd). Published "
+"there under [GPL v3](https://www.gnu.org/licenses/gpl-3.0.en.html), so re-publ"
+"ished under the same terms. The source code is available [on the Sonic Pi GitH"
+"ub repository](https://github.com/sonic-pi-net/sonic-pi). Date of modification"
+": 10.01.2021"
+msgstr ""
+
+#: synths.json:winwood_lead:opts:lfo_rate:description
+msgid ""
+"Width of the low-frequency oscillator (LFO) which determines how fast base ton"
+"es oscillate around their base frequencies"
+msgstr ""
+
+#: synths.json:winwood_lead:opts:lfo_width:description
+msgid ""
+"Width of the low-frequency oscillator (LFO) which determines how wide base ton"
+"es oscillate around their base frequencies"
+msgstr ""
+
+#: synths.json:winwood_lead:opts:seed:description
+msgid ""
+"Seed value for rand num generator used for the phase offset of the triangle lo"
+"w-frequency oscillator (LFO)"
 msgstr ""
 
 #: synths.json:zawa:description
