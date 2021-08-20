@@ -1,5 +1,5 @@
 <%=
-t_(<<~TEXT
+t_(<<~TEXT.chomp
 # This is a data file that contains information describing the text that is
 # displayed on pages in the Synths section of Sonic Pi's help panel.
 
@@ -12,7 +12,7 @@ TEXT
 [<%= key %>]
 
 <%=
-t_(<<~TEXT
+t_(<<~TEXT.chomp
 # A word or short phrase that is used as a label for the synth or fx.
 # (For example: Pretty Bell).
 TEXT
@@ -26,8 +26,8 @@ usage = '''
 if collection[:klass] == SonicPi::Synths::SynthInfo
   "use_synth :#{key}"
 elsif collection[:klass] == SonicPi::Synths::FXInfo
-  fx_string = <<~TEXT
-with_fx :#{key.to_s[3..-1]} do
+  fx_string = <<~TEXT.chomp
+with_fx :#{key} do
   play 50
 end
 TEXT
@@ -41,7 +41,7 @@ doc = '''
 '''
 
 <%=
-t_(<<~TEXT
+t_(<<~TEXT.chomp
 # The label describing the version of Sonic Pi in which this synth or fx first
 # appeared.
 TEXT
@@ -51,7 +51,7 @@ TEXT
 label = "<%= t_("Introduced in #{item.introduced.to_s}") %>"
 
 <%=
-t_(<<~TEXT
+t_(<<~TEXT.chomp
 # The options are the opts of this synth or fx.
 # In the documentation, we currently display two tables of opts:
 # - one listing the name of each opt and its default value for easy reference
@@ -93,6 +93,6 @@ t_(
 <% end %>
 <%=
 if item.arg_info.any? { |name, arg| arg[:slidable] }
-  ERB.new(File.read(slides_template_path), eoutvar: '_slide01').result(binding)
+  ERB.new(File.read(slides_template_path), nil, '-', eoutvar: '_slide01').result(binding)
 end
 %>

@@ -2,8 +2,8 @@ defmodule DocsWeb.PageLive do
   use DocsWeb, :live_view
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, assign(socket, query: "", results: %{})}
+  def mount(_params, %{"metadata" => metadata}, socket) do
+    {:ok, assign(socket, query: "", results: %{}, metadata: metadata)}
   end
 
   @impl true

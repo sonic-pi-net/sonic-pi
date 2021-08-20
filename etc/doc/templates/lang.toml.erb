@@ -1,5 +1,5 @@
 <%=
-t_(<<~TEXT
+t_(<<~TEXT.chomp
 # This is a data file that contains information describing the text that is
 # displayed on pages in the Lang section of Sonic Pi's help panel.
 TEXT
@@ -12,7 +12,7 @@ TEXT
 [<%= item[:name] %>]
 
 <%=
-t_(<<~TEXT
+t_(<<~TEXT.chomp
 # A short phrase describing this Sonic Pi function. (Eg the 'chord' function has
 # a summary phrase: 'Create chord').
 TEXT
@@ -21,14 +21,14 @@ TEXT
 summary = "<%= t_(summary) %>"
 
 <%=
-t_(<<~TEXT
+t_(<<~TEXT.chomp
 # Args are the required parameters for the function. Each arg has two documented
 # properties:
 # - the arg's name
 # - the arg's type (number, integer, symbol, ...).
 TEXT
 )
-%>
+-%>
 <% item[:args].each do |name, type| %>
 [[<%= item[:name] %>.args]]
 name = "<%= name %>"
@@ -40,7 +40,7 @@ doc = '''
 '''
 
 <%=
-t_(<<~TEXT
+t_(<<~TEXT.chomp
 # The label describing the version of Sonic Pi in which this function first
 # appeared.
 TEXT
@@ -51,7 +51,7 @@ label = "<%= t_("Introduced in #{item[:introduced].to_s}") %>"
 <% if item[:opts] && !item[:opts].empty? %>
 
 <%=
-t_(<<~TEXT
+t_(<<~TEXT.chomp
 # The options are the optional parameters of this function.
 # Each option has two documented properties:
 # - the option's name
@@ -68,7 +68,7 @@ doc = "<%= t_(doc) %>"
 <% end %>
 <% end %>
 <%=
-t_(<<~TEXT
+t_(<<~TEXT.chomp
 # Each function may have one or more examples. If it has any, they are listed
 # under an overall 'Example' or 'Examples' label (heading), and each example has
 # a numbered sub-heading, such as 'Example 1'.
