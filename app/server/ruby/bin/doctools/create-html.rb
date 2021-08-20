@@ -126,7 +126,7 @@ def make_reference_html_section(section, lang, json_file)
         doc << "   Default: #{av["default"]}\n"
         doc << "   <br/>#{av["constraints"].join(",").capitalize}\n" unless av["constraints"].empty?
         doc << "   <br/>#{av["modulatable"] ? "May be changed whilst playing" : "Can not be changed once set"}\n"
-        doc << "   <br/><a href=\"#slide\">Has slide options to shape changes</a>\n" if av["slidable"]
+        doc << "   <br/><a href=\"##{k}_slide\">Has slide options to shape changes</a>\n" if av["slidable"]
         doc << "   <br/>Scaled with current BPM value\n" if av["bpm_scale"]
         doc << "  </p>\n"
         doc << " </td>\n"
@@ -291,7 +291,7 @@ def make_reference_html_section(section, lang, json_file)
       doc << "<p class=\"introduced\">"
       doc << "Introduced in " << v["introduced"] << "</p>\n\n"
 
-      if v[:opts] && !v[:opts].empty?
+      if v["opts"] && !v["opts"].empty?
 
         doc << "<h2>Options</h2>"
         doc << "<p><table class=\"details\">\n"

@@ -195,6 +195,28 @@ def extract_lang_docs()
       usage[:args] = args
 
       opts = {}
+      #
+      # # Some functions (e.g. sample) internally pass arguments to a synth
+      # if v[:opts_keys]
+      #   v[:opts_keys].each do |synth_id|
+      #     synth = SonicPi::Synths::SynthInfo.get_info(synth_id)
+      #     synth.arg_info.each do |arg, arg_info|
+      #       opts[arg] = {
+      #         :description => arg_info[:doc],
+      #         :default => arg_info[:default],
+      #         :bpm_scale => arg_info[:bpm_scale],
+      #         :constraints => arg_info[:constraints],
+      #         :modulatable => arg_info[:modulatable],
+      #         :slidable => arg_info[:slidable]
+      #       }
+      #       puts arg_info
+      #       if (arg_info[:slidable])
+      #         any_slidable = true
+      #       end
+      #     end
+      #   end
+      # end
+
       if v[:opts]
         v[:opts].each do |opt_name, opt_doc|
           opts[opt_name] = {
