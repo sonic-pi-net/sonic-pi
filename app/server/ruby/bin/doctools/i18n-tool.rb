@@ -322,6 +322,13 @@ def process_section(section, sources, translation_dir, out_dir, lang)
                 #  reference_hash[k]["opts"][opt_name]["constraints"][idx] = handle_entry(constraint, basename, "_arg_constraints:#{constraint.sub(" ", "_")}")
                 #end
               end
+              if reference_hash[k].has_key?("slide")
+                reference_hash[k]["slide"]["slide_doc"] = handle_entry(v["slide"]["slide_doc"], basename, "#{k}:slide:slide_doc")
+                reference_hash[k]["slide"]["slide_opts"].each do |opt_name, opt_value|
+                  reference_hash[k]["slide"]["slide_opts"][opt_name]["description"] = handle_entry(opt_value["description"], basename, "#{k}:slide:slide_opts:#{opt_name}:description")
+                end
+              end
+
             end
           when "fx.json"
             reference_hash.each do |k, v|
@@ -339,6 +346,13 @@ def process_section(section, sources, translation_dir, out_dir, lang)
                 #  reference_hash[k]["opts"][opt_name]["constraints"][idx] = handle_entry(constraint, basename, "_arg_constraints:#{constraint.sub(" ", "_")}")
                 #end
               end
+              if reference_hash[k].has_key?("slide")
+                reference_hash[k]["slide"]["slide_doc"] = handle_entry(v["slide"]["slide_doc"], basename, "#{k}:slide:slide_doc")
+                reference_hash[k]["slide"]["slide_opts"].each do |opt_name, opt_value|
+                  reference_hash[k]["slide"]["slide_opts"][opt_name]["description"] = handle_entry(opt_value["description"], basename, "#{k}:slide:slide_opts:#{opt_name}:description")
+                end
+              end
+
             end
           when "samples.json"
             reference_hash.each do |k, v|

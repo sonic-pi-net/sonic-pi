@@ -64,6 +64,23 @@
         "modulatable": true,
         "slidable": true
       }
+    },
+    "slide": {
+      "slide_doc": "Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:",
+      "slide_opts": {
+        "_slide": {
+          "default": 0,
+          "description": "Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value."
+        },
+        "_slide_shape": {
+          "default": 5,
+          "description": "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
+        },
+        "_slide_curve": {
+          "default": 0,
+          "description": "Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively."
+        }
+      }
     }
   },
   "band_eq": {
@@ -141,6 +158,23 @@
         ],
         "modulatable": true,
         "slidable": true
+      }
+    },
+    "slide": {
+      "slide_doc": "Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:",
+      "slide_opts": {
+        "_slide": {
+          "default": 0,
+          "description": "Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value."
+        },
+        "_slide_shape": {
+          "default": 5,
+          "description": "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
+        },
+        "_slide_curve": {
+          "default": 0,
+          "description": "Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively."
+        }
       }
     }
   },
@@ -220,6 +254,23 @@
         "modulatable": true,
         "slidable": true
       }
+    },
+    "slide": {
+      "slide_doc": "Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:",
+      "slide_opts": {
+        "_slide": {
+          "default": 0,
+          "description": "Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value."
+        },
+        "_slide_shape": {
+          "default": 5,
+          "description": "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
+        },
+        "_slide_curve": {
+          "default": 0,
+          "description": "Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively."
+        }
+      }
     }
   },
   "bpf": {
@@ -287,6 +338,23 @@
         ],
         "modulatable": true,
         "slidable": true
+      }
+    },
+    "slide": {
+      "slide_doc": "Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:",
+      "slide_opts": {
+        "_slide": {
+          "default": 0,
+          "description": "Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value."
+        },
+        "_slide_shape": {
+          "default": 5,
+          "description": "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
+        },
+        "_slide_curve": {
+          "default": 0,
+          "description": "Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively."
+        }
       }
     }
   },
@@ -385,6 +453,23 @@
         "modulatable": true,
         "slidable": true
       }
+    },
+    "slide": {
+      "slide_doc": "Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:",
+      "slide_opts": {
+        "_slide": {
+          "default": 0,
+          "description": "Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value."
+        },
+        "_slide_shape": {
+          "default": 5,
+          "description": "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
+        },
+        "_slide_curve": {
+          "default": 0,
+          "description": "Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively."
+        }
+      }
     }
   },
   "distortion": {
@@ -442,6 +527,23 @@
         ],
         "modulatable": true,
         "slidable": true
+      }
+    },
+    "slide": {
+      "slide_doc": "Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:",
+      "slide_opts": {
+        "_slide": {
+          "default": 0,
+          "description": "Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value."
+        },
+        "_slide_shape": {
+          "default": 5,
+          "description": "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
+        },
+        "_slide_curve": {
+          "default": 0,
+          "description": "Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively."
+        }
       }
     }
   },
@@ -519,6 +621,23 @@
         ],
         "modulatable": false,
         "slidable": null
+      }
+    },
+    "slide": {
+      "slide_doc": "Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:",
+      "slide_opts": {
+        "_slide": {
+          "default": 0,
+          "description": "Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value."
+        },
+        "_slide_shape": {
+          "default": 5,
+          "description": "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
+        },
+        "_slide_curve": {
+          "default": 0,
+          "description": "Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively."
+        }
       }
     }
   },
@@ -722,6 +841,23 @@
         "modulatable": true,
         "slidable": true
       }
+    },
+    "slide": {
+      "slide_doc": "Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:",
+      "slide_opts": {
+        "_slide": {
+          "default": 0,
+          "description": "Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value."
+        },
+        "_slide_shape": {
+          "default": 5,
+          "description": "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
+        },
+        "_slide_curve": {
+          "default": 0,
+          "description": "Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively."
+        }
+      }
     }
   },
   "flanger": {
@@ -879,6 +1015,23 @@
         "modulatable": true,
         "slidable": null
       }
+    },
+    "slide": {
+      "slide_doc": "Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:",
+      "slide_opts": {
+        "_slide": {
+          "default": 0,
+          "description": "Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value."
+        },
+        "_slide_shape": {
+          "default": 5,
+          "description": "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
+        },
+        "_slide_curve": {
+          "default": 0,
+          "description": "Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively."
+        }
+      }
     }
   },
   "gverb": {
@@ -1006,6 +1159,23 @@
         "modulatable": true,
         "slidable": null
       }
+    },
+    "slide": {
+      "slide_doc": "Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:",
+      "slide_opts": {
+        "_slide": {
+          "default": 0,
+          "description": "Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value."
+        },
+        "_slide_shape": {
+          "default": 5,
+          "description": "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
+        },
+        "_slide_curve": {
+          "default": 0,
+          "description": "Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively."
+        }
+      }
     }
   },
   "hpf": {
@@ -1063,6 +1233,23 @@
         ],
         "modulatable": true,
         "slidable": true
+      }
+    },
+    "slide": {
+      "slide_doc": "Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:",
+      "slide_opts": {
+        "_slide": {
+          "default": 0,
+          "description": "Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value."
+        },
+        "_slide_shape": {
+          "default": 5,
+          "description": "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
+        },
+        "_slide_curve": {
+          "default": 0,
+          "description": "Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively."
+        }
       }
     }
   },
@@ -1164,6 +1351,23 @@
         "modulatable": true,
         "slidable": true
       }
+    },
+    "slide": {
+      "slide_doc": "Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:",
+      "slide_opts": {
+        "_slide": {
+          "default": 0,
+          "description": "Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value."
+        },
+        "_slide_shape": {
+          "default": 5,
+          "description": "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
+        },
+        "_slide_curve": {
+          "default": 0,
+          "description": "Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively."
+        }
+      }
     }
   },
   "krush": {
@@ -1243,6 +1447,23 @@
         "modulatable": true,
         "slidable": true
       }
+    },
+    "slide": {
+      "slide_doc": "Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:",
+      "slide_opts": {
+        "_slide": {
+          "default": 0,
+          "description": "Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value."
+        },
+        "_slide_shape": {
+          "default": 5,
+          "description": "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
+        },
+        "_slide_curve": {
+          "default": 0,
+          "description": "Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively."
+        }
+      }
     }
   },
   "level": {
@@ -1259,6 +1480,23 @@
         ],
         "modulatable": true,
         "slidable": true
+      }
+    },
+    "slide": {
+      "slide_doc": "Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:",
+      "slide_opts": {
+        "_slide": {
+          "default": 0,
+          "description": "Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value."
+        },
+        "_slide_shape": {
+          "default": 5,
+          "description": "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
+        },
+        "_slide_curve": {
+          "default": 0,
+          "description": "Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively."
+        }
       }
     }
   },
@@ -1318,6 +1556,23 @@
         "modulatable": true,
         "slidable": true
       }
+    },
+    "slide": {
+      "slide_doc": "Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:",
+      "slide_opts": {
+        "_slide": {
+          "default": 0,
+          "description": "Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value."
+        },
+        "_slide_shape": {
+          "default": 5,
+          "description": "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
+        },
+        "_slide_curve": {
+          "default": 0,
+          "description": "Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively."
+        }
+      }
     }
   },
   "mono": {
@@ -1374,6 +1629,23 @@
         ],
         "modulatable": true,
         "slidable": true
+      }
+    },
+    "slide": {
+      "slide_doc": "Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:",
+      "slide_opts": {
+        "_slide": {
+          "default": 0,
+          "description": "Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value."
+        },
+        "_slide_shape": {
+          "default": 5,
+          "description": "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
+        },
+        "_slide_curve": {
+          "default": 0,
+          "description": "Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively."
+        }
       }
     }
   },
@@ -1443,6 +1715,23 @@
         "modulatable": true,
         "slidable": true
       }
+    },
+    "slide": {
+      "slide_doc": "Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:",
+      "slide_opts": {
+        "_slide": {
+          "default": 0,
+          "description": "Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value."
+        },
+        "_slide_shape": {
+          "default": 5,
+          "description": "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
+        },
+        "_slide_curve": {
+          "default": 0,
+          "description": "Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively."
+        }
+      }
     }
   },
   "nhpf": {
@@ -1500,6 +1789,23 @@
         ],
         "modulatable": true,
         "slidable": true
+      }
+    },
+    "slide": {
+      "slide_doc": "Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:",
+      "slide_opts": {
+        "_slide": {
+          "default": 0,
+          "description": "Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value."
+        },
+        "_slide_shape": {
+          "default": 5,
+          "description": "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
+        },
+        "_slide_curve": {
+          "default": 0,
+          "description": "Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively."
+        }
       }
     }
   },
@@ -1559,6 +1865,23 @@
         "modulatable": true,
         "slidable": true
       }
+    },
+    "slide": {
+      "slide_doc": "Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:",
+      "slide_opts": {
+        "_slide": {
+          "default": 0,
+          "description": "Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value."
+        },
+        "_slide_shape": {
+          "default": 5,
+          "description": "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
+        },
+        "_slide_curve": {
+          "default": 0,
+          "description": "Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively."
+        }
+      }
     }
   },
   "normaliser": {
@@ -1615,6 +1938,23 @@
         ],
         "modulatable": true,
         "slidable": true
+      }
+    },
+    "slide": {
+      "slide_doc": "Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:",
+      "slide_opts": {
+        "_slide": {
+          "default": 0,
+          "description": "Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value."
+        },
+        "_slide_shape": {
+          "default": 5,
+          "description": "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
+        },
+        "_slide_curve": {
+          "default": 0,
+          "description": "Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively."
+        }
       }
     }
   },
@@ -1683,6 +2023,23 @@
         ],
         "modulatable": true,
         "slidable": true
+      }
+    },
+    "slide": {
+      "slide_doc": "Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:",
+      "slide_opts": {
+        "_slide": {
+          "default": 0,
+          "description": "Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value."
+        },
+        "_slide_shape": {
+          "default": 5,
+          "description": "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
+        },
+        "_slide_curve": {
+          "default": 0,
+          "description": "Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively."
+        }
       }
     }
   },
@@ -1753,6 +2110,23 @@
         "modulatable": true,
         "slidable": true
       }
+    },
+    "slide": {
+      "slide_doc": "Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:",
+      "slide_opts": {
+        "_slide": {
+          "default": 0,
+          "description": "Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value."
+        },
+        "_slide_shape": {
+          "default": 5,
+          "description": "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
+        },
+        "_slide_curve": {
+          "default": 0,
+          "description": "Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively."
+        }
+      }
     }
   },
   "nrlpf": {
@@ -1821,6 +2195,23 @@
         ],
         "modulatable": true,
         "slidable": true
+      }
+    },
+    "slide": {
+      "slide_doc": "Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:",
+      "slide_opts": {
+        "_slide": {
+          "default": 0,
+          "description": "Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value."
+        },
+        "_slide_shape": {
+          "default": 5,
+          "description": "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
+        },
+        "_slide_curve": {
+          "default": 0,
+          "description": "Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively."
+        }
       }
     }
   },
@@ -1899,6 +2290,23 @@
         "modulatable": true,
         "slidable": true
       }
+    },
+    "slide": {
+      "slide_doc": "Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:",
+      "slide_opts": {
+        "_slide": {
+          "default": 0,
+          "description": "Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value."
+        },
+        "_slide_shape": {
+          "default": 5,
+          "description": "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
+        },
+        "_slide_curve": {
+          "default": 0,
+          "description": "Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively."
+        }
+      }
     }
   },
   "pan": {
@@ -1955,6 +2363,23 @@
         ],
         "modulatable": true,
         "slidable": true
+      }
+    },
+    "slide": {
+      "slide_doc": "Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:",
+      "slide_opts": {
+        "_slide": {
+          "default": 0,
+          "description": "Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value."
+        },
+        "_slide_shape": {
+          "default": 5,
+          "description": "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
+        },
+        "_slide_curve": {
+          "default": 0,
+          "description": "Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively."
+        }
       }
     }
   },
@@ -2153,6 +2578,23 @@
         "modulatable": true,
         "slidable": true
       }
+    },
+    "slide": {
+      "slide_doc": "Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:",
+      "slide_opts": {
+        "_slide": {
+          "default": 0,
+          "description": "Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value."
+        },
+        "_slide_shape": {
+          "default": 5,
+          "description": "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
+        },
+        "_slide_curve": {
+          "default": 0,
+          "description": "Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively."
+        }
+      }
     }
   },
   "ping_pong": {
@@ -2240,6 +2682,23 @@
         ],
         "modulatable": false,
         "slidable": null
+      }
+    },
+    "slide": {
+      "slide_doc": "Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:",
+      "slide_opts": {
+        "_slide": {
+          "default": 0,
+          "description": "Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value."
+        },
+        "_slide_shape": {
+          "default": 5,
+          "description": "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
+        },
+        "_slide_curve": {
+          "default": 0,
+          "description": "Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively."
+        }
       }
     }
   },
@@ -2329,6 +2788,23 @@
         "modulatable": true,
         "slidable": true
       }
+    },
+    "slide": {
+      "slide_doc": "Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:",
+      "slide_opts": {
+        "_slide": {
+          "default": 0,
+          "description": "Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value."
+        },
+        "_slide_shape": {
+          "default": 5,
+          "description": "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
+        },
+        "_slide_curve": {
+          "default": 0,
+          "description": "Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively."
+        }
+      }
     }
   },
   "rbpf": {
@@ -2397,6 +2873,23 @@
         "modulatable": true,
         "slidable": true
       }
+    },
+    "slide": {
+      "slide_doc": "Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:",
+      "slide_opts": {
+        "_slide": {
+          "default": 0,
+          "description": "Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value."
+        },
+        "_slide_shape": {
+          "default": 5,
+          "description": "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
+        },
+        "_slide_curve": {
+          "default": 0,
+          "description": "Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively."
+        }
+      }
     }
   },
   "record": {
@@ -2453,6 +2946,23 @@
         ],
         "modulatable": false,
         "slidable": null
+      }
+    },
+    "slide": {
+      "slide_doc": "Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:",
+      "slide_opts": {
+        "_slide": {
+          "default": 0,
+          "description": "Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value."
+        },
+        "_slide_shape": {
+          "default": 5,
+          "description": "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
+        },
+        "_slide_curve": {
+          "default": 0,
+          "description": "Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively."
+        }
       }
     }
   },
@@ -2520,6 +3030,23 @@
         ],
         "modulatable": true,
         "slidable": true
+      }
+    },
+    "slide": {
+      "slide_doc": "Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:",
+      "slide_opts": {
+        "_slide": {
+          "default": 0,
+          "description": "Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value."
+        },
+        "_slide_shape": {
+          "default": 5,
+          "description": "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
+        },
+        "_slide_curve": {
+          "default": 0,
+          "description": "Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively."
+        }
       }
     }
   },
@@ -2590,6 +3117,23 @@
         "modulatable": true,
         "slidable": true
       }
+    },
+    "slide": {
+      "slide_doc": "Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:",
+      "slide_opts": {
+        "_slide": {
+          "default": 0,
+          "description": "Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value."
+        },
+        "_slide_shape": {
+          "default": 5,
+          "description": "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
+        },
+        "_slide_curve": {
+          "default": 0,
+          "description": "Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively."
+        }
+      }
     }
   },
   "ring_mod": {
@@ -2656,6 +3200,23 @@
         ],
         "modulatable": true,
         "slidable": true
+      }
+    },
+    "slide": {
+      "slide_doc": "Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:",
+      "slide_opts": {
+        "_slide": {
+          "default": 0,
+          "description": "Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value."
+        },
+        "_slide_shape": {
+          "default": 5,
+          "description": "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
+        },
+        "_slide_curve": {
+          "default": 0,
+          "description": "Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively."
+        }
       }
     }
   },
@@ -2725,6 +3286,23 @@
         ],
         "modulatable": true,
         "slidable": true
+      }
+    },
+    "slide": {
+      "slide_doc": "Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:",
+      "slide_opts": {
+        "_slide": {
+          "default": 0,
+          "description": "Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value."
+        },
+        "_slide_shape": {
+          "default": 5,
+          "description": "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
+        },
+        "_slide_curve": {
+          "default": 0,
+          "description": "Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively."
+        }
       }
     }
   },
@@ -2903,6 +3481,23 @@
         "modulatable": true,
         "slidable": true
       }
+    },
+    "slide": {
+      "slide_doc": "Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:",
+      "slide_opts": {
+        "_slide": {
+          "default": 0,
+          "description": "Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value."
+        },
+        "_slide_shape": {
+          "default": 5,
+          "description": "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
+        },
+        "_slide_curve": {
+          "default": 0,
+          "description": "Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively."
+        }
+      }
     }
   },
   "sound_out": {
@@ -2969,6 +3564,23 @@
         ],
         "modulatable": true,
         "slidable": null
+      }
+    },
+    "slide": {
+      "slide_doc": "Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:",
+      "slide_opts": {
+        "_slide": {
+          "default": 0,
+          "description": "Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value."
+        },
+        "_slide_shape": {
+          "default": 5,
+          "description": "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
+        },
+        "_slide_curve": {
+          "default": 0,
+          "description": "Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively."
+        }
       }
     }
   },
@@ -3037,6 +3649,23 @@
         "modulatable": true,
         "slidable": null
       }
+    },
+    "slide": {
+      "slide_doc": "Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:",
+      "slide_opts": {
+        "_slide": {
+          "default": 0,
+          "description": "Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value."
+        },
+        "_slide_shape": {
+          "default": 5,
+          "description": "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
+        },
+        "_slide_curve": {
+          "default": 0,
+          "description": "Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively."
+        }
+      }
     }
   },
   "tanh": {
@@ -3093,6 +3722,23 @@
         ],
         "modulatable": true,
         "slidable": true
+      }
+    },
+    "slide": {
+      "slide_doc": "Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:",
+      "slide_opts": {
+        "_slide": {
+          "default": 0,
+          "description": "Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value."
+        },
+        "_slide_shape": {
+          "default": 5,
+          "description": "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
+        },
+        "_slide_curve": {
+          "default": 0,
+          "description": "Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively."
+        }
       }
     }
   },
@@ -3191,6 +3837,23 @@
         "modulatable": true,
         "slidable": true
       }
+    },
+    "slide": {
+      "slide_doc": "Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:",
+      "slide_opts": {
+        "_slide": {
+          "default": 0,
+          "description": "Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value."
+        },
+        "_slide_shape": {
+          "default": 5,
+          "description": "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
+        },
+        "_slide_curve": {
+          "default": 0,
+          "description": "Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively."
+        }
+      }
     }
   },
   "vowel": {
@@ -3257,6 +3920,23 @@
         ],
         "modulatable": true,
         "slidable": null
+      }
+    },
+    "slide": {
+      "slide_doc": "Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:",
+      "slide_opts": {
+        "_slide": {
+          "default": 0,
+          "description": "Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value."
+        },
+        "_slide_shape": {
+          "default": 5,
+          "description": "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
+        },
+        "_slide_curve": {
+          "default": 0,
+          "description": "Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively."
+        }
       }
     }
   },
@@ -3344,6 +4024,23 @@
         ],
         "modulatable": null,
         "slidable": null
+      }
+    },
+    "slide": {
+      "slide_doc": "Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:",
+      "slide_opts": {
+        "_slide": {
+          "default": 0,
+          "description": "Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value."
+        },
+        "_slide_shape": {
+          "default": 5,
+          "description": "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
+        },
+        "_slide_curve": {
+          "default": 0,
+          "description": "Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively."
+        }
       }
     }
   },
@@ -3544,6 +4241,23 @@
         ],
         "modulatable": true,
         "slidable": true
+      }
+    },
+    "slide": {
+      "slide_doc": "Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:",
+      "slide_opts": {
+        "_slide": {
+          "default": 0,
+          "description": "Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value."
+        },
+        "_slide_shape": {
+          "default": 5,
+          "description": "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
+        },
+        "_slide_curve": {
+          "default": 0,
+          "description": "Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively."
+        }
       }
     }
   }

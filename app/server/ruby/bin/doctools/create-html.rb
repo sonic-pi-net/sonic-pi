@@ -135,19 +135,19 @@ def make_reference_html_section(section, lang, json_file)
       end
       doc << "</table></p>\n"
 
-      if (v["slide"]) then
+      if (v.has_key?("slide"))
         # table for slide parameters
         doc << "<section id=\"#{k}_slide\">\n"
         doc << "<p>#{v["slide"]["slide_doc"]}</p>\n"
         doc << "<p><table class=\"details\">\n"
 
         cnt = 0
-        v["slide"]["slide_args"].each do |ak, av|
+        v["slide"]["slide_opts"].each do |ak, av|
           td_class = cnt.even? ? "even" : "odd"
           doc << "<tr>\n"
           doc << " <td class=\"#{td_class} key\">#{ak}:</td>\n"
           doc << " <td class=\"#{td_class}\">\n"
-          doc << "  <p>#{av["doc"] || 'write me'}</p>\n"
+          doc << "  <p>#{av["description"] || 'write me'}</p>\n"
           doc << "  <p class=\"properties\">\n"
           doc << "   Default: #{av["default"]}\n"
           doc << "  </p>\n"
@@ -204,7 +204,7 @@ def make_reference_html_section(section, lang, json_file)
         doc << "   Default: #{av["default"]}\n"
         doc << "   <br/>#{av["constraints"].join(",").capitalize}\n" unless av["constraints"].empty?
         doc << "   <br/>#{av["modulatable"] ? "May be changed whilst playing" : "Can not be changed once set"}\n"
-        doc << "   <br/><a href=\"#slide\">Has slide options to shape changes</a>\n" if av["slidable"]
+        doc << "   <br/><a href=\"##{k}_slide\">Has slide options to shape changes</a>\n" if av["slidable"]
         doc << "   <br/>Scaled with current BPM value\n" if av["bpm_scale"]
         doc << "  </p>\n"
         doc << " </td>\n"
@@ -214,9 +214,30 @@ def make_reference_html_section(section, lang, json_file)
       end
       doc << "</table></p>\n"
 
-      #if any_slidable then
-      #  doc << SonicPi::Synths::SynthInfo.slide_doc_html(k.to_sym)
-      #end # any_slidable
+      if (v.has_key?("slide")) then
+        # table for slide parameters
+        doc << "<section id=\"#{k}_slide\">\n"
+        doc << "<p>#{v["slide"]["slide_doc"]}</p>\n"
+        doc << "<p><table class=\"details\">\n"
+
+        cnt = 0
+        v["slide"]["slide_opts"].each do |ak, av|
+          td_class = cnt.even? ? "even" : "odd"
+          doc << "<tr>\n"
+          doc << " <td class=\"#{td_class} key\">#{ak}:</td>\n"
+          doc << " <td class=\"#{td_class}\">\n"
+          doc << "  <p>#{av["description"] || 'write me'}</p>\n"
+          doc << "  <p class=\"properties\">\n"
+          doc << "   Default: #{av["default"]}\n"
+          doc << "  </p>\n"
+          doc << " </td>\n"
+          doc << "</tr>\n"
+          cnt += 1
+        end
+        doc << "</table></p>\n"
+        doc << "</section>\n"
+      end
+
 
     when "samples.json"
       title = v["description"]

@@ -111,10 +111,10 @@ def extract_synth_docs()
     if (any_slidable)
       synths[id][:slide] = {
         :slide_doc => "Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:",
-        :slide_args => {
-          :_slide => {:default => 0, :doc=> v.generic_slide_doc('parameter')},
-          :_slide_shape => {:default=>5, :doc=> v.generic_slide_shape_doc('parameter')},
-          :_slide_curve => {:default=>0, :doc=> v.generic_slide_curve_doc('parameter')}
+        :slide_opts => {
+          :_slide => {:default => 0, :description=> v.generic_slide_doc('parameter')},
+          :_slide_shape => {:default=>5, :description=> v.generic_slide_shape_doc('parameter')},
+          :_slide_curve => {:default=>0, :description=> v.generic_slide_curve_doc('parameter')}
         }
       }
     end
@@ -137,6 +137,7 @@ def extract_fx_docs()
     usage[:args][":#{id}"] = "symbol"
 
     opts = {}
+    any_slidable = false
     v.arg_info.each do |arg, arg_info|
       opts[arg] = {
         :description => arg_info[:doc],
@@ -146,6 +147,9 @@ def extract_fx_docs()
         :modulatable => arg_info[:modulatable],
         :slidable => arg_info[:slidable]
       }
+      if (arg_info[:slidable])
+        any_slidable = true
+      end
     end
 
     fx[id] = {
@@ -154,6 +158,17 @@ def extract_fx_docs()
       :introduced => v.introduced.to_s,
       :opts => opts
     }
+
+    if (any_slidable)
+      fx[id][:slide] = {
+        :slide_doc => "Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:",
+        :slide_opts => {
+          :_slide => {:default => 0, :description=> v.generic_slide_doc('parameter')},
+          :_slide_shape => {:default=>5, :description=> v.generic_slide_shape_doc('parameter')},
+          :_slide_curve => {:default=>0, :description=> v.generic_slide_curve_doc('parameter')}
+        }
+      }
+    end
   end
   return fx
 end
