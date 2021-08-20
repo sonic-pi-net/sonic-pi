@@ -1143,17 +1143,17 @@ msgid ""
 "Make the incoming signal sound more spacious or distant as if it were played i"
 "n a large room or cave. Signal may also be dampened by reducing the amplitude "
 "of the higher frequencies."
-msgstr ""
+msgstr "Rendre le signal entrant plus spacieux ou distant comme s'il était joué dans une grande pièce ou une grotte. Le signal peut également être atténué en réduisant l'amplitude des fréquences les plus élevées."
 
 #: fx.json:reverb:opts:damp:description
 msgid ""
 "High frequency dampening - a value between 0 (no dampening) and 1 (maximum dam"
 "pening)"
-msgstr ""
+msgstr "Insonorisation d'haute fréquences - une valeur entre 0 (pas de insonorisation) et 1 (insonorisation maximale)"
 
 #: fx.json:reverb:opts:room:description
 msgid "The room size - a value between 0 (no reverb) and 1 (maximum reverb)."
-msgstr ""
+msgstr "La taille de la salle - une valeur entre 0 (pas de réverbération) et 1 (réverbération maximale)"
 
 #: fx.json:ring_mod:description
 msgid ""
