@@ -63,12 +63,14 @@ set(EDITOR_SOURCES
 set(QT_SOURCES
     ${QTAPP_ROOT}/widgets/infowidget.cpp
     ${QTAPP_ROOT}/widgets/settingswidget.cpp
+    ${QTAPP_ROOT}/widgets/docwidget.cpp
     ${QTAPP_ROOT}/mainwindow.cpp
     ${QTAPP_ROOT}/mainwindow.h
     ${QTAPP_ROOT}/model/sonicpitheme.cpp
     ${QTAPP_ROOT}/model/sonicpitheme.h
     ${QTAPP_ROOT}/widgets/infowidget.h
     ${QTAPP_ROOT}/widgets/settingswidget.h
+    ${QTAPP_ROOT}/widgets/docwidget.h
     )
 
 set(SOURCES

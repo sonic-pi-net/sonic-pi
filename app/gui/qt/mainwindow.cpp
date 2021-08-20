@@ -55,6 +55,7 @@
 #include "utils/sonicpi_i18n.h"
 
 #include "utils/borderlesslinksproxystyle.h"
+#include "utils/shortcuts.h"
 #include "visualizer/scope_window.h"
 
 #include "qt_api_client.h"
@@ -63,10 +64,9 @@ using namespace oscpkt; // OSC specific stuff
 #include "model/settings.h"
 #include "widgets/infowidget.h"
 #include "widgets/settingswidget.h"
+#include "widgets/docwidget.h"
 #include "widgets/sonicpicontext.h"
 #include "widgets/sonicpilog.h"
-
-#include "utils/ruby_help.h"
 
 #include "dpi.h"
 
@@ -176,7 +176,7 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
     // The implementation of this method is dynamically generated and can
     // be found in ruby_help.h:
     std::cout << "[GUI] - initialising documentation window" << std::endl;
-    initDocsWindow();
+    docWidget->initDocsWindow();
 
     //setup autocompletion
     autocomplete->loadSamples(QString::fromStdString(m_spAPI->GetPath(SonicPiPath::SamplePath)));
@@ -312,9 +312,7 @@ void MainWindow::showWelcomeScreen()
         source = source.replace("262dx", QString("%1").arg(ScaleHeightForDPI(262)));
         source = source.replace("50dx", QString("%1px").arg(ScaleHeightForDPI(32)));
         startupPane->setHtml(source);
-        docWidget->show();
-        docsCentral->setCurrentIndex(0);
-        helpLists[0]->setCurrentRow(0);
+        helpWidget->show();
         startupPane->show();
         startupPane->raise();
         startupPane->activateWindow();
@@ -653,56 +651,28 @@ void MainWindow::setupWindowStructure()
     blankWidget = new QWidget();
     outputWidgetTitle = outputWidget->titleBarWidget();
 
-    docsCentral = new QTabWidget;
-    docsCentral->setFocusPolicy(Qt::NoFocus);
-    docsCentral->setTabsClosable(false);
-    docsCentral->setMovable(false);
-    docsCentral->setTabPosition(QTabWidget::South);
-    QShortcut* left = new QShortcut(Qt::Key_Left, docsCentral);
-    left->setContext(Qt::WidgetWithChildrenShortcut);
-    connect(left, SIGNAL(activated()), this, SLOT(docPrevTab()));
-    QShortcut* right = new QShortcut(Qt::Key_Right, docsCentral);
-    right->setContext(Qt::WidgetWithChildrenShortcut);
-    connect(right, SIGNAL(activated()), this, SLOT(docNextTab()));
+    //addUniversalCopyShortcuts(docPane);
 
-    docPane = new QTextBrowser;
-    QSizePolicy policy = docPane->sizePolicy();
-    policy.setHorizontalStretch(QSizePolicy::Maximum);
-    docPane->setSizePolicy(policy);
-    docPane->setMinimumHeight(100);
-    docPane->setOpenLinks(false);
-    docPane->setOpenExternalLinks(true);
-    docPane->setStyle(new BorderlessLinksProxyStyle);
-    connect(docPane, SIGNAL(anchorClicked(const QUrl&)), this, SLOT(docLinkClicked(const QUrl&)));
+    docWidget = new DocWidget(this->ui_language);
+    connect(docWidget, SIGNAL(customUrlClicked(const QUrl&)), this, SLOT(handleCustomUrl(const QUrl&)));
+    connect(
+        docWidget, SIGNAL(addAutoCompleteKeyword(QString, QString)),
+        this, SLOT(addAutoCompleteKeyword(QString, QString))
+    );
+    connect(docWidget, SIGNAL(addAutoCompleteArgs(QString, QString, QStringList)), this, SLOT(addAutoCompleteArgs(QString, QString, QStringList)));
 
-    QShortcut* up = new QShortcut(ctrlKey('p'), docPane);
-    up->setContext(Qt::WidgetShortcut);
-    connect(up, SIGNAL(activated()), this, SLOT(docScrollUp()));
-    QShortcut* down = new QShortcut(ctrlKey('n'), docPane);
-    down->setContext(Qt::WidgetShortcut);
-    connect(down, SIGNAL(activated()), this, SLOT(docScrollDown()));
+    helpWidget = new QDockWidget(tr("Help"), this);
+    helpWidget->setFocusPolicy(Qt::NoFocus);
+    helpWidget->setAllowedAreas(Qt::BottomDockWidgetArea);
+    helpWidget->setWidget(docWidget);
+    helpWidget->setObjectName("help");
 
-    docPane->setSource(QUrl("qrc:///html/doc.html"));
-
-    addUniversalCopyShortcuts(docPane);
-
-    docsplit = new QSplitter;
-
-    docsplit->addWidget(docsCentral);
-    docsplit->addWidget(docPane);
-
-    docWidget = new QDockWidget(tr("Help"), this);
-    docWidget->setFocusPolicy(Qt::NoFocus);
-    docWidget->setAllowedAreas(Qt::BottomDockWidgetArea);
-    docWidget->setWidget(docsplit);
-    docWidget->setObjectName("help");
-
-    addDockWidget(Qt::BottomDockWidgetArea, docWidget);
-    docWidget->hide();
+    addDockWidget(Qt::BottomDockWidgetArea, helpWidget);
+    helpWidget->hide();
 
     //Currently causes a segfault when dragging doc pane out of main
     //window:
-    connect(docWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(toggleHelpIcon()));
+    connect(helpWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(toggleHelpIcon()));
 
     mainWidgetLayout = new QVBoxLayout;
     mainWidgetLayout->addWidget(tabs);
@@ -716,22 +686,21 @@ void MainWindow::setupWindowStructure()
     setCentralWidget(mainWidget);
 }
 
-void MainWindow::docLinkClicked(const QUrl& url)
-{
-    QString link = url.toDisplayString();
-    std::cout << "[GUI] Link clicked: " << link.toStdString() << std::endl;
+void MainWindow::addAutoCompleteArgs(QString type, QString name, QStringList args) {
+    if (type == "fx") {
+        autocomplete->addFXArgs(name, args);
+    } else if (type == "synth") {
+        autocomplete->addSynthArgs(name, args);
+    }
+}
 
-    if (url.scheme() == "sonicpi")
-    {
-        handleCustomUrl(url);
-    }
-    else if (url.isRelative() || url.isLocalFile() || url.scheme() == "qrc")
-    {
-        docPane->setSource(url);
-    }
-    else
-    {
-        QDesktopServices::openUrl(url);
+void MainWindow::addAutoCompleteKeyword(QString section, QString keyword) {
+    if (section == "synth") {
+        autocomplete->addSymbol(ScintillaAPI::Synth, keyword);
+    } else if (section == "fx") {
+        autocomplete->addSymbol(ScintillaAPI::FX, keyword);
+    } else if (section == "lang") {
+        autocomplete->addKeyword(ScintillaAPI::Func, keyword);
     }
 }
 
@@ -1706,32 +1675,32 @@ void MainWindow::about()
 
 void MainWindow::toggleHelpIcon()
 {
-    helpAct->setIcon(theme->getHelpIcon(docWidget->isVisible()));
+    helpAct->setIcon(theme->getHelpIcon(helpWidget->isVisible()));
 }
 void MainWindow::help()
 {
 
     QSignalBlocker blocker(helpAct);
 
-    if (docWidget->isVisible())
+    if (helpWidget->isVisible())
     {
         statusBar()->showMessage(tr("Hiding help..."), 2000);
-        docWidget->hide();
+        helpWidget->hide();
         helpAct->setChecked(false);
     }
     else
     {
         statusBar()->showMessage(tr("Showing help..."), 2000);
-        docWidget->show();
+        helpWidget->show();
         helpAct->setChecked(true);
     }
-    helpAct->setIcon(theme->getHelpIcon(docWidget->isVisible()));
+    helpAct->setIcon(theme->getHelpIcon(helpWidget->isVisible()));
 }
 
 void MainWindow::helpContext()
 {
-    if (!docWidget->isVisible())
-        docWidget->show();
+    if (!helpWidget->isVisible())
+        helpWidget->show();
     SonicPiScintilla* ws = ((SonicPiScintilla*)tabs->currentWidget());
     QString selection = ws->selectedText();
     if (selection == "")
@@ -1745,27 +1714,7 @@ void MainWindow::helpContext()
     if (selection[0] == ':')
         selection = selection.mid(1);
 
-    if (helpKeywords.contains(selection))
-    {
-        struct help_entry entry = helpKeywords[selection];
-        QListWidget* list = helpLists[entry.pageIndex];
-
-        // force current row to be changed
-        // by setting it to a different value to
-        // entry.entryIndex and then setting it
-        // back. That way it always gets displayed
-        // in the GUI :-)
-        if (entry.entryIndex == 0)
-        {
-            list->setCurrentRow(1);
-        }
-        else
-        {
-            list->setCurrentRow(0);
-        }
-        docsCentral->setCurrentIndex(entry.pageIndex);
-        list->setCurrentRow(entry.entryIndex);
-    }
+    docWidget->findKeyword(selection);
 }
 
 void MainWindow::changeGUITransparency(int val)
@@ -1922,7 +1871,7 @@ void MainWindow::toggleIcons()
     textIncAct->setIcon(theme->getTextIncIcon());
     textDecAct->setIcon(theme->getTextDecIcon());
 
-    helpAct->setIcon(theme->getHelpIcon(docWidget->isVisible()));
+    helpAct->setIcon(theme->getHelpIcon(helpWidget->isVisible()));
     recAct->setIcon(theme->getRecIcon(false, false));
     prefsAct->setIcon(theme->getPrefsIcon(prefsWidget->isVisible()));
     infoAct->setIcon(theme->getInfoIcon(infoWidg->isVisible()));
@@ -1979,9 +1928,7 @@ void MainWindow::updateColourTheme()
     QString css = theme->getCss();
     toggleIcons();
 
-    docPane->document()->setDefaultStyleSheet(css);
-    docPane->reload();
-
+    docWidget->setStyleSheet(css);
     foreach (QTextBrowser* pane, infoPanes)
     {
         pane->document()->setDefaultStyleSheet(css);
@@ -2005,8 +1952,8 @@ void MainWindow::updateColourTheme()
     tabs->setStyleSheet("");
     //TODO inject to settings Widget
     //prefTabs->setStyleSheet("");
-    docsCentral->setStyleSheet("");
-    docWidget->setStyleSheet("");
+    //docsCentral->setStyleSheet("");
+    helpWidget->setStyleSheet("");
     toolBar->setStyleSheet("");
     scopeWidget->setStyleSheet("");
 
@@ -2297,69 +2244,6 @@ void MainWindow::clearOutputPanels()
     errorPane->clear();
 }
 
-QKeySequence MainWindow::ctrlKey(char key)
-{
-#ifdef Q_OS_MAC
-    return QKeySequence(QString("Meta+%1").arg(key));
-#else
-    return QKeySequence(QString("Ctrl+%1").arg(key));
-#endif
-}
-
-// Cmd on Mac, Alt everywhere else
-QKeySequence MainWindow::metaKey(char key)
-{
-#ifdef Q_OS_MAC
-    return QKeySequence(QString("Ctrl+%1").arg(key));
-#else
-    return QKeySequence(QString("alt+%1").arg(key));
-#endif
-}
-
-Qt::Modifier MainWindow::metaKeyModifier()
-{
-#ifdef Q_OS_MAC
-    return Qt::CTRL;
-#else
-    return Qt::ALT;
-#endif
-}
-
-QKeySequence MainWindow::shiftMetaKey(char key)
-{
-#ifdef Q_OS_MAC
-    return QKeySequence(QString("Shift+Ctrl+%1").arg(key));
-#else
-    return QKeySequence(QString("Shift+alt+%1").arg(key));
-#endif
-}
-
-QKeySequence MainWindow::ctrlMetaKey(char key)
-{
-#ifdef Q_OS_MAC
-    return QKeySequence(QString("Ctrl+Meta+%1").arg(key));
-#else
-    return QKeySequence(QString("Ctrl+alt+%1").arg(key));
-#endif
-}
-
-QKeySequence MainWindow::ctrlShiftMetaKey(char key)
-{
-#ifdef Q_OS_MAC
-    return QKeySequence(QString("Shift+Ctrl+Meta+%1").arg(key));
-#else
-    return QKeySequence(QString("Shift+Ctrl+alt+%1").arg(key));
-#endif
-}
-
-QKeySequence MainWindow::ctrlShiftKey(char key)
-{
-#ifdef Q_OS_MAC
-    return QKeySequence(QString("Shift+Meta+%1").arg(key));
-#else
-    return QKeySequence(QString("Shift+Ctrl+%1").arg(key));
-#endif
-}
 
 char MainWindow::int2char(int i)
 {
@@ -3115,7 +2999,7 @@ void MainWindow::restoreWindows()
         workspaces[w]->zoomTo(zoom);
     }
 
-    docsplit->restoreState(gui_settings->value("docsplitState").toByteArray());
+    docWidget->restoreState(gui_settings->value("docsplitState").toByteArray());
     //bool visualizer = piSettings->show_scopes;
     restoreState(gui_settings->value("windowState").toByteArray());
     //    restoreGeometry(settings.value("windowGeom").toByteArray());
@@ -3238,7 +3122,7 @@ void MainWindow::writeSettings()
             workspaces[w]->property("zoom"));
     }
 
-    gui_settings->setValue("docsplitState", docsplit->saveState());
+    gui_settings->setValue("docsplitState", docWidget->saveState());
     gui_settings->setValue("windowState", saveState());
     gui_settings->setValue("windowGeom", saveGeometry());
 
@@ -3368,124 +3252,6 @@ void MainWindow::heartbeatOSC()
     // Message msg("/gui-heartbeat");
     // msg.pushStr(guiID.toStdString());
     // sendOSC(msg);
-}
-
-void MainWindow::updateDocPane(QListWidgetItem* cur)
-{
-    QString url = cur->data(32).toString();
-    docPane->setSource(QUrl(url));
-}
-
-void MainWindow::updateDocPane2(QListWidgetItem* cur, QListWidgetItem* prev)
-{
-    (void)prev;
-    updateDocPane(cur);
-}
-
-void MainWindow::addHelpPage(QListWidget* nameList,
-    struct help_page* helpPages, int len)
-{
-    int i;
-    struct help_entry entry;
-    entry.pageIndex = docsCentral->count() - 1;
-
-    for (i = 0; i < len; i++)
-    {
-        QListWidgetItem* item = new QListWidgetItem(helpPages[i].title);
-        item->setData(32, QVariant(helpPages[i].url));
-        nameList->addItem(item);
-        entry.entryIndex = nameList->count() - 1;
-
-        if (helpPages[i].keyword != NULL)
-        {
-            helpKeywords.insert(helpPages[i].keyword, entry);
-            // magic numbers ahoy
-            // to be revamped along with the help system
-            switch (entry.pageIndex)
-            {
-            case 2:
-                autocomplete->addSymbol(ScintillaAPI::Synth, helpPages[i].keyword);
-                break;
-            case 3:
-                autocomplete->addSymbol(ScintillaAPI::FX, helpPages[i].keyword);
-                break;
-            case 5:
-                autocomplete->addKeyword(ScintillaAPI::Func, helpPages[i].keyword);
-                break;
-            }
-        }
-    }
-}
-
-QListWidget* MainWindow::createHelpTab(QString name)
-{
-    QListWidget* nameList = new QListWidget;
-    connect(nameList,
-        SIGNAL(itemPressed(QListWidgetItem*)),
-        this, SLOT(updateDocPane(QListWidgetItem*)));
-    connect(nameList,
-        SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)),
-        this, SLOT(updateDocPane2(QListWidgetItem*, QListWidgetItem*)));
-
-    QShortcut* up = new QShortcut(ctrlKey('p'), nameList);
-    up->setContext(Qt::WidgetShortcut);
-    connect(up, SIGNAL(activated()), this, SLOT(helpScrollUp()));
-    QShortcut* down = new QShortcut(ctrlKey('n'), nameList);
-    down->setContext(Qt::WidgetShortcut);
-    connect(down, SIGNAL(activated()), this, SLOT(helpScrollDown()));
-
-    QBoxLayout* layout = new QBoxLayout(QBoxLayout::LeftToRight);
-    layout->addWidget(nameList);
-    layout->setStretch(1, 1);
-    QWidget* tabWidget = new QWidget;
-    tabWidget->setLayout(layout);
-    docsCentral->addTab(tabWidget, name);
-    helpLists.append(nameList);
-    return nameList;
-}
-
-void MainWindow::helpScrollUp()
-{
-    int section = docsCentral->currentIndex();
-    int entry = helpLists[section]->currentRow();
-
-    if (entry > 0)
-        entry--;
-    helpLists[section]->setCurrentRow(entry);
-}
-
-void MainWindow::helpScrollDown()
-{
-    int section = docsCentral->currentIndex();
-    int entry = helpLists[section]->currentRow();
-
-    if (entry < helpLists[section]->count() - 1)
-        entry++;
-    helpLists[section]->setCurrentRow(entry);
-}
-
-void MainWindow::docPrevTab()
-{
-    int section = docsCentral->currentIndex();
-    if (section > 0)
-        docsCentral->setCurrentIndex(section - 1);
-}
-
-void MainWindow::docNextTab()
-{
-    int section = docsCentral->currentIndex();
-    if (section < docsCentral->count() - 1)
-        docsCentral->setCurrentIndex(section + 1);
-}
-
-void MainWindow::docScrollUp()
-{
-    docPane->verticalScrollBar()->triggerAction(QAbstractSlider::SliderSingleStepSub);
-}
-
-void MainWindow::docScrollDown()
-{
-    docPane->verticalScrollBar()->triggerAction(QAbstractSlider::SliderSingleStepAdd);
 }
 
 void MainWindow::tabNext()
@@ -3863,25 +3629,16 @@ void MainWindow::focusPreferences()
 
 void MainWindow::focusHelpListing()
 {
-    docWidget->show();
+    helpWidget->show();
     updatePrefsIcon();
-    docsCentral->showNormal();
-    docsCentral->currentWidget()->setFocus();
-    docsCentral->raise();
-    docsCentral->setVisible(true);
-    docsCentral->activateWindow();
+    docWidget->focusDocsNavigation();
 }
 
 void MainWindow::focusHelpDetails()
 {
-    docWidget->show();
+    helpWidget->show();
     updatePrefsIcon();
-    docPane->showNormal();
-    docPane->setFocusPolicy(Qt::StrongFocus);
-    docPane->setFocus();
-    docPane->raise();
-    docPane->setVisible(true);
-    docPane->activateWindow();
+    docWidget->focusDocViewer();
 }
 
 void MainWindow::focusErrors()

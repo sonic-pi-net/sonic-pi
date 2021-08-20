@@ -85,7 +85,7 @@ def parse_toc(lang)
     end
     help_index << "};\n"
 
-    help_index << "addHelpPage(createHelpTab(tr(\"#{section.capitalize}\")), #{section}HelpPages, #{section_filenames.length});\n\n"
+    help_index << "addHelpPage(\"#{section}\", createHelpTab(tr(\"#{section.capitalize}\")), #{section}HelpPages, #{section_filenames.length});\n\n"
     @filenames[section] += section_filenames
   end
 
@@ -166,7 +166,7 @@ def synth_fx_autocomplete
       docs << "<< \"#{ak}:\" ";
     end
     docs << ";\n"
-    docs << "  autocomplete->addFXArgs(\":#{safe_k}\", fxtmp);\n\n"
+    docs << "  emit addAutoCompleteArgs(\"fx\", \":#{safe_k}\", fxtmp);\n\n"
   end
 
 
@@ -178,7 +178,7 @@ def synth_fx_autocomplete
       docs << "<< \"#{ak}:\" ";
     end
     docs << ";\n"
-    docs << "  autocomplete->addSynthArgs(\":#{k}\", fxtmp);\n\n"
+    docs << "  emit addAutoCompleteArgs(\"synth\", \":#{k}\", fxtmp);\n\n"
   end
   return docs
 end
@@ -221,7 +221,7 @@ def examples_index
       help_index << "},\n"
 
       # Copy file to help folder
-      content = IO.readlines("#{etc_path}/doc/generated_html/#{page_info["path"]}")
+      content = IO.readlines("#{etc_path}/doc/generated_html/#{page_info["path"]}", chomp: true)
 
       html =  "<!doctype html>\n"
       html << "<html>\n"
@@ -244,7 +244,7 @@ def examples_index
     end
     help_index << "};\n"
 
-    help_index << "addHelpPage(createHelpTab(tr(\"Examples\")), examplesHelpPages, #{page_count});\n\n"
+    help_index << "addHelpPage(\"examples\", createHelpTab(tr(\"Examples\")), examplesHelpPages, #{page_count});\n\n"
   end
 
   return help_index
@@ -254,8 +254,9 @@ def generate_ui_lang_names()
   # Define the language list map -----
   ui_languages = @lang_names.keys
   ui_languages = ui_languages.sort_by {|l| l.downcase}
+
   locale_arrays = []
-  locale_arrays << "std::map<QString, QString> SonicPii18n::native_language_names = {\n"
+  locale_arrays << "{"
 
   # # Add each language
   for i in 0..(ui_languages.length()-1) do
@@ -271,13 +272,17 @@ def generate_ui_lang_names()
   content = File.readlines("#{qt_gui_path}/utils/lang_list.tmpl")
   lang_names_generated = content.take_while { |line| !line.start_with?("// AUTO-GENERATED")}
   lang_names_generated << "// AUTO-GENERATED HEADER FILE\n"
-  lang_names_generated << "// Do not add any code to this file\n"
+  lang_names_generated << "// Do not add any code below this comment\n"
   lang_names_generated << "// as it will be removed/overwritten\n"
   lang_names_generated << "\n"
   lang_names_generated << "#ifndef LANG_LIST_H\n"
   lang_names_generated << "#define LANG_LIST_H\n"
   lang_names_generated << "#include <map>\n"
-  lang_names_generated << locale_arrays.join()
+  lang_names_generated << "#include <QString>\n"
+  lang_names_generated << "std::map<QString, QString> SonicPii18n::native_language_names() {\n"
+  lang_names_generated << "  std::map<QString, QString> list = #{locale_arrays.join}"
+  lang_names_generated << "  return list;\n"
+  lang_names_generated << "}\n"
   lang_names_generated << "#endif\n"
 
   File.open("#{qt_gui_path}/utils/lang_list.h", 'w') do |f|
@@ -297,7 +302,7 @@ sort_by {|n| -n.length}
 
 docs << "\n"
 languages.each do |lang|
-  docs << "if (this->ui_language.startsWith(\"#{lang}\")) {\n"
+  docs << "if (this->doc_language.startsWith(\"#{lang}\")) {\n"
   docs << parse_toc(lang)
   docs << "} else "
 end
@@ -321,7 +326,7 @@ new_content << "// AUTO-GENERATED-DOCS\n"
 new_content << "// Do not manually add any code below this comment\n"
 new_content << "// otherwise it may be removed\n"
 new_content << "\n"
-new_content << "void MainWindow::initDocsWindow() {\n"
+new_content << "void DocWidget::initDocsWindow() {\n"
 new_content << docs << "\n"
 new_content << "}\n"
 

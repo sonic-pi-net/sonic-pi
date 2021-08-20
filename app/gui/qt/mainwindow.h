@@ -67,6 +67,7 @@ class QLabel;
 
 class InfoWidget;
 class SettingsWidget;
+class DocWidget;
 class Scope;
 class ScintillaAPI;
 class SonicPii18n;
@@ -76,17 +77,6 @@ class SonicPiTheme;
 class SonicPiLexer;
 class SonicPiSettings;
 class SonicPiContext;
-
-struct help_page {
-    QString title;
-    QString keyword;
-    QString url;
-};
-
-struct help_entry {
-    int pageIndex;
-    int entryIndex;
-};
 
 class MainWindow : public QMainWindow
 {
@@ -140,7 +130,6 @@ signals:
         void updateSelectedUILanguageAction(QString lang);
         void updateContext(int line, int index);
         void updateContextWithCurrentWs();
-        void docLinkClicked(const QUrl &url);
         void handleCustomUrl(const QUrl &url);
         void zoomInLogs();
         void zoomOutLogs();
@@ -192,6 +181,8 @@ signals:
         void changeShowLineNumbers();
         void showLineNumbersMenuChanged();
         void showAutoCompletionMenuChanged();
+        void addAutoCompleteArgs(QString type, QString name, QStringList args);
+        void addAutoCompleteKeyword(QString section, QString keyword);
         void audioSafeMenuChanged();
         void changeAudioSafeMode();
         void changeMidiDefaultChannel();
@@ -230,8 +221,7 @@ signals:
         void colourThemeMenuChanged(int themeID);
         void updatePrefsIcon();
         void togglePrefs();
-        void updateDocPane(QListWidgetItem *cur);
-        void updateDocPane2(QListWidgetItem *cur, QListWidgetItem *prev);
+
         void showWindow();
         void splashClose();
         void setMessageBoxStyle();
@@ -242,12 +232,7 @@ signals:
         void tabGoto(int index);
         void helpContext();
         void resetErrorPane();
-        void helpScrollUp();
-        void helpScrollDown();
-        void docPrevTab();
-        void docNextTab();
-        void docScrollUp();
-        void docScrollDown();
+
         void updateFullScreenMode();
         void toggleFullScreenMode();
         void fullScreenMenuChanged();
@@ -315,18 +300,7 @@ signals:
 
         bool sendOSC(oscpkt::Message m);
         //   void initPrefsWindow();
-        void initDocsWindow();
-        void refreshDocContent();
-        void addHelpPage(QListWidget *nameList, struct help_page *helpPages,
-                int len);
-        QListWidget *createHelpTab(QString name);
-        QKeySequence metaKey(char key);
-        Qt::Modifier metaKeyModifier();
-        QKeySequence shiftMetaKey(char key);
-        QKeySequence ctrlMetaKey(char key);
-        QKeySequence ctrlShiftMetaKey(char key);
-        QKeySequence ctrlShiftKey(char key);
-        QKeySequence ctrlKey(char key);
+
         char int2char(int i);
         void updateAction(QAction *action, QShortcut *sc, QString tooltip, QString desc);
         QString tooltipStrShiftMeta(char key, QString str);
@@ -368,11 +342,10 @@ signals:
         QDockWidget *incomingWidget;
         QDockWidget *prefsWidget;
         QDockWidget *hudWidget;
-        QDockWidget *docWidget;
+        QDockWidget *helpWidget;
         QDockWidget *contextWidget;
         QWidget *blankWidget;
         QWidget *outputWidgetTitle;
-        QTextBrowser *docPane;
         //  QTextBrowser *hudPane;
         QWidget *mainWidget;
         QDockWidget *scopeWidget;
@@ -393,6 +366,7 @@ signals:
         QActionGroup *langActionGroup;
 
         SettingsWidget *settingsWidget;
+        DocWidget *docWidget;
 
         QCheckBox *studio_mode;
         QLineEdit   *user_token;
@@ -402,8 +376,6 @@ signals:
         QTextEdit *startupPane;
         QVBoxLayout *mainWidgetLayout;
 
-        QList<QListWidget *> helpLists;
-        QHash<QString, help_entry> helpKeywords;
         std::streambuf *coutbuf;
         std::ofstream stdlog;
 
