@@ -86,6 +86,7 @@ set(SOURCES
     ${QTAPP_ROOT}/utils/ruby_help.h
     ${QTAPP_ROOT}/utils/lang_list.h
     ${QTAPP_ROOT}/model/settings.h
+    ${QTAPP_ROOT}/utils/shortcuts.h
     )
 
 SET(RESOURCES
