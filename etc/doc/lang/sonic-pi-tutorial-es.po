@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
 "PO-Revision-Date: 2021-08-23 11:22+0000\n"
-"Last-Translator: Ian Molina <iamovaz@gmail.com>\n"
+"Last-Translator: karlox loko <krazy.killa.80@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/es/>\n"
 "Language: es\n"
@@ -2540,9 +2540,8 @@ msgstr ""
 "muestra,sencillamente el sostenimiennto de vuelve 0."
 
 #: 03.4-Enveloped-Samples.md:48
-#, fuzzy
 msgid "Fade Outs"
-msgstr "Apagando (fade out)"
+msgstr "Apagando (desaparición)"
 
 #: 03.4-Enveloped-Samples.md:50
 msgid ""
@@ -2611,28 +2610,26 @@ msgid "sample :loop_amen, attack: 0.75, release: 0.75"
 msgstr "sample :loop_amen, attack: 0.75, release: 0.75"
 
 #: 03.4-Enveloped-Samples.md:82
-#, fuzzy
 msgid ""
 "As the full duration of the sample is 1.75s and our attack and release phases "
 "add up to 1.5s, the sustain is automatically set to 0.25s. This allows us to e"
 "asily fade the sample in and out."
 msgstr ""
-"Como la duración total del sampleo + attack + release suman 1.5s, el sustain q"
-"ueda automáticamente en 0.25s. Esto nos permite aparecer y desvanecer el sampl"
-"eo con facilidad."
+"Como la duración total del sampleo + ataque + release suman 1.5s, el "
+"sostenido queda automáticamente en 0.25s. Esto nos permite aparecer y "
+"desvanecer el sampleo con facilidad."
 
 #: 03.4-Enveloped-Samples.md:86
 msgid "Explicit sustain"
 msgstr "Sostenido explícito"
 
 #: 03.4-Enveloped-Samples.md:88
-#, fuzzy
 msgid ""
 "We can easily get back to our normal synth ADSR behaviour by manually setting "
 "`sustain:` to a value such as 0:"
 msgstr ""
-"Podemos fácilmente volver a los parámetros normales de nuestro ADSR de sinteti"
-"zador al setear manualmente el `sustain:` a un valor como 0:"
+"Podemos fácilmente volver a los parámetros normales de nuestro ADSR de "
+"sintetizador al ajustar manualmente el `sostenido:` a un valor como 0:"
 
 #: 03.4-Enveloped-Samples.md:91
 #, no-wrap
@@ -2685,13 +2682,12 @@ msgid "sample :drum_cymbal_open, attack: 0.01, sustain: 0, release: 0.1"
 msgstr "sample :drum_cymbal_open, attack: 0.01, sustain: 0, release: 0.1"
 
 #: 03.4-Enveloped-Samples.md:117
-#, fuzzy
 msgid ""
 "You can then emulate hitting the cymbal and then dampening it by increasing th"
 "e sustain period:"
 msgstr ""
-"Puedes emular el golpeo del platillo y después apagarlo, al incrementar el per"
-"iodo de sustain:"
+"Puedes emular el golpeo del platillo y después apagarlo, al incrementar el "
+"periodo de mantenido:"
 
 #: 03.4-Enveloped-Samples.md:120
 #, no-wrap
@@ -2737,11 +2733,10 @@ msgstr ""
 "os a media velocidad:"
 
 #: 03.5-Partial-Samples.md:20
-#, fuzzy
 msgid "Next, we looked at how we could fade a sample in (let's do it at half speed):"
 msgstr ""
-"Después miramos como podíamos aparecer un pequeño sampleo (haámoslo a media ve"
-"locidad):"
+"Después miramos como podíamos aparecer un pequeño sampleo (hagámoslo a media "
+"velocidad):"
 
 #: 03.5-Partial-Samples.md:23
 #, no-wrap
@@ -2749,15 +2744,14 @@ msgid "sample :loop_amen, rate: 0.5, attack: 1"
 msgstr "sample :loop_amen, rate: 0.5, attack: 1"
 
 #: 03.5-Partial-Samples.md:27
-#, fuzzy
 msgid ""
 "We also looked at how we could use the start of a sample percussively by givin"
 "g `sustain:` an explicit value and setting both the attack and release to be s"
 "hort values:"
 msgstr ""
-"También miramos como podíamos usar el comienzo de un sampleo percusivamente al"
-" darle a `sustain:` un valor explícito y setear ambos el ataque y el release c"
-"on valores cortos:"
+"También miramos como podíamos usar el comienzo de un sampleo percusivamente "
+"al darle a `mantenido:` un valor explícito y ajustar ambos el ataque y el "
+"release con valores cortos:"
 
 #: 03.5-Partial-Samples.md:31
 #, no-wrap
@@ -2827,18 +2821,16 @@ msgid "sample :loop_amen, finish: 0.5"
 msgstr "sample :loop_amen, finish: 0.5"
 
 #: 03.5-Partial-Samples.md:66
-#, fuzzy
 msgid "Specifying start and finish"
-msgstr "Especificando el comienzo y el fin"
+msgstr "Especificando el comienzo y el final"
 
 #: 03.5-Partial-Samples.md:68
-#, fuzzy
 msgid ""
 "Of course, we can combine these two to play arbitrary segments of the audio fi"
 "le. How about only a small section in the middle:"
 msgstr ""
-"Por supuesto que podemos combinar dos para tocar segmentos del archivo de audi"
-"o arbitrariamente. ¿Qué tal una pequeña sección en el medio?"
+"Por supuesto que podemos combinar dos para tocar segmentos del archivo de "
+"audio arbitrariamente. ¿Qué tal solo una pequeña sección en el medio?"
 
 #: 03.5-Partial-Samples.md:71
 #, no-wrap
