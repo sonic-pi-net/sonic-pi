@@ -49,6 +49,7 @@ class QtDocs
 
   private
   def generate_docs
+    puts 'Rendering the interpolated TOML erb files...'
     interpolated_file_paths = [synths, fx, samples, lang].each_with_object([]) do |collection, paths|
       original_template = File.read(collection[:template_path])
       collection[:items].to_a.take(2).each do |key, item|
@@ -58,25 +59,31 @@ class QtDocs
         key = key.to_s[3..-1] if collection[:klass] == SonicPi::Synths::FXInfo
         interpolated_file_path = "#{collection[:interpolated_path]}/#{key}.toml.erb"
         template = ERB.new(original_template, nil, '-').result(binding)
+        FileUtils.mkdir_p(collection[:interpolated_path]) unless File.exist?(collection[:interpolated_path])
         File.open(interpolated_file_path, 'w') do |f|
           f.write template
         end
         paths << interpolated_file_path
       end
-
     end
     generate_pot_file(interpolated_file_paths)
     generate_toml_files
   end
 
   def generate_pot_file(interpolated_file_paths)
+    puts 'Extracting the translatable text into pot file...'
+    FileUtils.mkdir_p(interpolated_template_path) unless File.exist?(interpolated_template_path)
+    cwd = Dir.pwd
+    Dir.chdir(generated_path)
     GetText::Tools::XGetText.run(
       *interpolated_file_paths,
-      "-o ../../../../../../etc/doc/generated/toml/synths/test.pot"
+      '-otest.pot'
     )
+    Dir.chdir(cwd)
   end
 
   def generate_toml_files
+    puts 'Rendering the final TOML output files...'
     [synths, fx, samples, lang].each do |collection|
       collection[:items].to_a.take(2).each do |key, item|
         key = key.to_s[3..-1] if collection[:klass] == SonicPi::Synths::FXInfo
@@ -90,6 +97,7 @@ class QtDocs
   end
 
   def sync_to_documentation_app
+    puts 'Syncing the TOML files to the documentation web app...'
     FileUtils.cp_r(doc_toml_path, documentation_app_priv_path, remove_destination: true)
   end
 
@@ -137,7 +145,6 @@ class QtDocs
       output_path: lang_toml_path
     }
   end
-
 end
 
 QtDocs.new.run

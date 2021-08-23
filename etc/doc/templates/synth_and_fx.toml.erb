@@ -3,9 +3,8 @@ t_(<<~TEXT.chomp
 # This is a data file that contains information describing the text that is
 # displayed on pages in the Synths section of Sonic Pi's help panel.
 
-# A unique identifier for this synth or fx, the word that is typed in the code
-# to use it.
-# (For example: :pretty_bell).
+# A unique identifier for this synth or fx.
+# (For example: pretty_bell).
 TEXT
 )
 %>
@@ -74,11 +73,11 @@ label = "<%= t_('Options') %>"
 name = "<%= name %>:"
 doc = "<%= t_(attributes[:doc] || 'write me') %>"
 default_value = "<%= attributes[:default] %>"
-<% unless attributes[:constraints].empty? %>
+<% unless attributes[:constraints].empty? -%>
 constraints = '''
 <%= t_(attributes[:constraints].join(', ').capitalize) %>
 '''
-<% end %>
+<% end -%>
 modulatable = '''
 <%=
 t_(

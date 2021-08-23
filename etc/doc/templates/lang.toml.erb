@@ -2,12 +2,11 @@
 t_(<<~TEXT.chomp
 # This is a data file that contains information describing the text that is
 # displayed on pages in the Lang section of Sonic Pi's help panel.
+
+# A unique identifier for this function.
+# (For example: chord).
 TEXT
 )
-%>
-<%
-  summary = item[:summary]
-  summary[0] = summary[0].capitalize
 %>
 [<%= item[:name] %>]
 
@@ -17,6 +16,10 @@ t_(<<~TEXT.chomp
 # a summary phrase: 'Create chord').
 TEXT
 )
+-%>
+<%
+summary = item[:summary]
+summary[0] = summary[0].capitalize
 %>
 summary = "<%= t_(summary) %>"
 
@@ -81,4 +84,7 @@ label_plural = "<%= t_('Examples') %>"
 <% item[:examples].each_with_index do |e, index| %>
 [[<%= item[:name] %>.examples.list]]
 label = "<%= t_("Example #{index + 1}") %>"
+example = '''
+<%= e %>
+'''
 <% end %>
