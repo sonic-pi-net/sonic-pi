@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
 "PO-Revision-Date: 2024-04-29 17:04+0000\n"
-"Last-Translator: Vera Rojman <vrojman@protonmail.com>\n"
+"Last-Translator: Francisco Jose Rey <fcojreyg@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/es/>\n"
 "Language: es\n"
@@ -2691,9 +2691,9 @@ msgid ""
 "We can use this behaviour to good effect to turn longer sounding samples into "
 "shorter, more percussive versions. Consider the sample `:drum_cymbal_open`:"
 msgstr ""
-"Podemos utilizar este comportamiento con buenos resultados para convertir mues"
-"tras más largas en versiones más cortas y percusivas. Considere la muestra `:d"
-"rum_cymbal_open`:"
+"Podemos utilizar este comportamiento con buenos resultados para convertir "
+"muestras más largas en versiones más cortas y percusivas. Considere la "
+"muestra `:drum_cymbal_open`:"
 
 #: 03.4-Enveloped-Samples.md:106
 #, no-wrap
@@ -2705,8 +2705,8 @@ msgid ""
 "You can hear the cymbal sound ringing out over a period of time. However, we c"
 "an use our envelope to make it more percussive:"
 msgstr ""
-"Puedes escuchar el sonido del platillo sonando durante un periodo de tiempo. S"
-"in embargo, podemos utilizar nuestra envolvente para hacerlo más percusivo:"
+"Puedes escuchar el sonido del platillo sonando durante un periodo de tiempo. "
+"Sin embargo, podemos utilizar nuestra envolvente para hacerlo más percusivo:"
 
 #: 03.4-Enveloped-Samples.md:113
 #, no-wrap
@@ -2749,17 +2749,17 @@ msgid ""
 "This section will conclude our exploration of Sonic Pi's sample player. Let's "
 "do a quick recap. So far we've looked at how we can trigger samples:"
 msgstr ""
-"Esta sección concluirá nuestra exploración del reproductor de muestras de Soni"
-"c Pi. Hagamos una rápida recapitulación. Hasta ahora hemos visto cómo podemos "
-"disparar muestras:"
+"Esta sección concluirá nuestra exploración del reproductor de muestras de "
+"Sonic Pi. Hagamos una rápida recapitulación. Hasta ahora hemos visto cómo "
+"podemos disparar muestras:"
 
 #: 03.5-Partial-Samples.md:13
 msgid ""
 "We then looked at how we can change the rate of samples such as playing them a"
 "t half speed:"
 msgstr ""
-"A continuación, analizamos cómo podemos cambiar la velocidad de las muestras, "
-"por ejemplo, reproduciéndolas a media velocidad:"
+"A continuación, analizamos cómo podemos cambiar la velocidad de las "
+"muestras, por ejemplo, reproduciéndolas a media velocidad:"
 
 #: 03.5-Partial-Samples.md:20
 msgid "Next, we looked at how we could fade a sample in (let's do it at half speed):"
@@ -2793,9 +2793,9 @@ msgid ""
 "g of the sample? Wouldn't it also be nice if we didn't have to always finish a"
 "t the end of the sample?"
 msgstr ""
-"Sin embargo, ¿no sería bueno que no tuviéramos que empezar siempre por el prin"
-"cipio de la muestra? ¿No sería bueno que no tuviéramos que terminar siempre al"
-" final de la muestra?"
+"Sin embargo, ¿no sería bueno que no tuviéramos que empezar siempre por el "
+"principio de la muestra? ¿No sería bueno que no tuviéramos que terminar "
+"siempre al final de la muestra?"
 
 #: 03.5-Partial-Samples.md:39
 #, fuzzy
@@ -2907,8 +2907,8 @@ msgid ""
 "Finally, we can combine all of this with our ADSR envelopes to produce interes"
 "ting results:"
 msgstr ""
-"Finalmente, podemos combinar todo esto con nuestras envolventes ADSR para prod"
-"ucir resultados interesantes:"
+"Finalmente, podemos combinar todo esto con nuestras envolventes ADSR para "
+"producir resultados interesantes:"
 
 #: 03.5-Partial-Samples.md:99
 #, no-wrap
@@ -3045,14 +3045,16 @@ msgid ""
 " large directories of your own samples. This will be the case if you've downlo"
 "aded or bought your own sample packs and wish to use them within Sonic Pi.**"
 msgstr ""
-"**Nota: esta sección del tutorial cubre el tema avanzado de trabajar con grand"
-"es directorios de tus propias muestras. Este será el caso si has descargado o "
-"comprado tus propios paquetes de muestras y deseas utilizarlos dentro de Sonic"
-" Pi.**"
+"**Nota: esta sección del tutorial cubre el tema avanzado de trabajar con "
+"grandes directorios de tus propias muestras. Este será el caso si has "
+"descargado o comprado tus propios paquetes de muestras y deseas utilizarlos "
+"dentro de Sonic Pi.**"
 
 #: 03.7-Sample-Packs.md:10
 msgid "**Feel free to skip this if you're happy working with the built-in samples.**"
-msgstr "**Si te gusta trabajar con las muestras incluidas, puedes omitir esta parte.**"
+msgstr ""
+"**Si te gusta trabajar con las muestras incluidas, puedes omitir esta "
+"parte.**"
 
 #: 03.7-Sample-Packs.md:13
 #, fuzzy
@@ -3074,7 +3076,8 @@ msgstr "/path/to/my/samples/"
 
 #: 03.7-Sample-Packs.md:23
 msgid "When we look inside that folder we find the following samples:"
-msgstr "Cuando miramos dentro de esa carpeta encontramos las siguientes muestras:"
+msgstr ""
+"Cuando miramos dentro de esa carpeta encontramos las siguientes muestras:"
 
 #: 03.7-Sample-Packs.md:25 03.7-Sample-Packs.md:86
 msgid "`100_A#_melody1.wav`"
@@ -3103,8 +3106,8 @@ msgstr "`120_Bb_piano1.wav`"
 #: 03.7-Sample-Packs.md:32
 msgid "Typically in order to play the piano sample we can use the full path:"
 msgstr ""
-"Normalmente, para reproducir la muestra del piano podemos utilizar la ruta com"
-"pleta:"
+"Normalmente, para reproducir la muestra del piano podemos utilizar la ruta "
+"completa:"
 
 #: 03.7-Sample-Packs.md:34
 #, no-wrap
