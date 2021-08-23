@@ -324,7 +324,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2097"/>
         <source>Colour Theme: </source>
-        <translation type="unfinished"></translation>
+        <translation>Кольорова тема: </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2305"/>
