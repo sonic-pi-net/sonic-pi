@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2021-04-23 12:31+0000\n"
-"Last-Translator: Abdeselam El-Haman <aelhaman@gmail.com>\n"
+"PO-Revision-Date: 2021-08-23 11:22+0000\n"
+"Last-Translator: Ian Molina <iamovaz@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/es/>\n"
 "Language: es\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.7-dev\n"
+"X-Generator: Weblate 4.8.1-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -2598,13 +2598,12 @@ msgid "Fade In and Out"
 msgstr "Fade In y Fade Out"
 
 #: 03.4-Enveloped-Samples.md:75
-#, fuzzy
 msgid ""
 "We can use both `attack:` and `release:` together with the auto sustain behavi"
 "our to fade both in and out over the duration of the sample:"
 msgstr ""
-"Podemos utilizar tanto el `attack:` como el `release:` juntos con el auto sust"
-"ain para aparecer y desvanecer en la duración del sampleo:"
+"Podemos utilizar tanto el `attack:` como el `release:` juntos con el `auto "
+"sustain` para aparecer y desvanecer en la duración de la muestra:"
 
 #: 03.4-Enveloped-Samples.md:78
 #, no-wrap
