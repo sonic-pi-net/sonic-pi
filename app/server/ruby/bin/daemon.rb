@@ -614,7 +614,7 @@ module SonicPi
         case Util.os
         when :linux, :raspberry
           #Start Jack if not already running
-          if `ps cax | grep jackd`.split(" ").first.nil?
+          if `jack_wait -c`.include? 'not running'
             #Jack not running - start a new instance
             Util.log "Jackd not running on system. Starting..."
             @jack_booter = JackBooter.new
