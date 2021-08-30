@@ -1,10 +1,8 @@
 cd %~dp0
-call external/win_x64_build_externals.bat
 
-cd %~dp0
-
+REM Build vcpkg
 if not exist "vcpkg\" (
-    echo Download vcpkg from github
+    echo Cloning vcpkg
     git clone --single-branch --branch master https://github.com/microsoft/vcpkg vcpkg
 )
 
@@ -16,17 +14,21 @@ if not exist "vcpkg\vcpkg.exe" (
 )
 
 cd vcpkg
-echo Installing Libraries
+@echo Installing Libraries
 vcpkg install kissfft fmt crossguid sdl2 gl3w reproc gsl-lite concurrentqueue platform-folders catch2 --triplet x64-windows-static-md --recurse
 
 cd %~dp0
 
 @echo Cleaning out native dir....
-REM del server\native\*.* /s /q
 rmdir server\native\erlang /s /q
-rmdir server\erlang\tau\priv /s /q
 rmdir server\native\plugins /s /q
+rmdir server\erlang\tau\priv /s /q
 
+REM Build external delendencies and copy to build tree
+@echo Building external binary dependencies...
+call external/win_x64_build_externals.bat
+
+REM Copy prebuilt native files to server
 @echo Copying aubio to the server...
 copy external\build\aubio-prefix\src\aubio-build\Release\aubio_onset.exe server\native\
 
@@ -49,7 +51,7 @@ server\native\ruby\bin\ruby server/ruby/bin/qt-doc.rb -o gui\qt\utils/ruby_help.
 @echo Updating GUI translation files...
 forfiles /p gui\qt\lang /s /m *.ts /c "cmd /c %QT_INSTALL_LOCATION%\bin\lrelease.exe @file"
 
-@echo Compiling Erlang BEAM files...
+@echo Compiling Erlang files...
 cd %~dp0\server\erlang\tau
 %~dp0\server\native\erlang\bin\erl.exe -make
 cd %~dp0\server\erlang\tau
