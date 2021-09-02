@@ -4720,7 +4720,7 @@ assert_equal 3, 5, \"something is seriously wrong!\"
       def assert_similar(a, b, msg=nil)
         case a
           when Numeric
-          assert_equal(a.to_f.round(8), b.to_f.round(8), msg)
+          assert_equal(a.to_f.round(5), b.to_f.round(5), msg)
         else
           assert_equal(a, b, msg)
         end
