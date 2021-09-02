@@ -84,6 +84,7 @@ find_package(crossguid CONFIG REQUIRED)
 target_link_libraries(${PROJECT_NAME}
     PUBLIC
         stdc++fs
+        rt
     PRIVATE
         crossguid
     )
