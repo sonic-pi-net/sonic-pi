@@ -2916,7 +2916,11 @@ void MainWindow::createToolBar()
     QStringList available_languages = sonicPii18n->getAvailableLanguages();
 
     langActionGroup = new QActionGroup(this);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
     langActionGroup->setExclusionPolicy(QActionGroup::ExclusionPolicy::Exclusive);
+#else
+    langActionGroup->setExclusive(true);
+#endif
 
     QSignalMapper *signalMapper = new QSignalMapper(this);
 
