@@ -32,6 +32,8 @@ REM Copy prebuilt native files to server
 @echo Copying aubio to the server...
 copy external\build\aubio-prefix\src\aubio-build\Release\aubio_onset.exe server\native\
 
+cd %~dp0
+
 @echo Copying all other native files to server...
 xcopy /Y /I /R /E ..\prebuilt\windows\x64\*.* server\native
 
