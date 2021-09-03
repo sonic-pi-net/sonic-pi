@@ -80,15 +80,19 @@ jobs:
         cached: ${{ steps.cache-qt2.outputs.cache-hit }}
 
       # Install Elixir on Ubuntu
-    - uses: erlef/setup-beam@v1
-      with:
-        otp-version: 24
-      if: matrix.os == 'ubuntu-latest'
-
-      # Install Elixir on Windows
+    - name: Linux Elixir
     - uses: erlef/setup-beam@v1
       with:
         otp-version: '24'
+        elixir-version: '1.12'
+      if: matrix.os == 'ubuntu-latest'
+
+      # Install Elixir on Windows
+    - name: Win Elixir
+    - uses: erlef/setup-beam@v1
+      with:
+        otp-version: '24'
+        elixir-version: '1.12'
       if: matrix.os == 'windows-latest'
 
       # Install Elixir on MacOS
