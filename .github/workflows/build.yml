@@ -81,7 +81,7 @@ jobs:
 
       # Install Elixir on Ubuntu
     - name: Linux Elixir
-    - uses: erlef/setup-beam@v1
+      uses: erlef/setup-beam@v1
       with:
         otp-version: '24'
         elixir-version: '1.12'
@@ -89,7 +89,7 @@ jobs:
 
       # Install Elixir on Windows
     - name: Win Elixir
-    - uses: erlef/setup-beam@v1
+      uses: erlef/setup-beam@v1
       with:
         otp-version: '24'
         elixir-version: '1.12'
