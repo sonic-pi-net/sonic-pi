@@ -41,13 +41,14 @@ start_link() ->
 
 init(Parent) ->
     register(?SERVER, self()),
-    InPort = application:get_env(?APPLICATION, in_port, undefined),
-    CueHost = application:get_env(?APPLICATION, cue_host, {127,0,0,2}),
-    CuePort = application:get_env(?APPLICATION, spider_port, undefined),
     Internal = application:get_env(?APPLICATION, internal, true),
     Enabled = application:get_env(?APPLICATION, enabled, true),
     MIDIEnabled = application:get_env(?APPLICATION, midi_enabled, true),
     LinkEnabled = application:get_env(?APPLICATION, link_enabled, true),
+    InPort = application:get_env(?APPLICATION, in_port, undefined),
+    CuePort = application:get_env(?APPLICATION, spider_port, undefined),
+    CueHost = {127,0,0,1},
+
     io:format("~n"
               "+--------------------------------------+~n"
               "    This is the Sonic Pi OSC Server     ~n"

@@ -2,11 +2,14 @@
 set -e # Quit script on error
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-cd ${SCRIPT_DIR}
 
+cd ${SCRIPT_DIR}
 "${SCRIPT_DIR}/pi-prebuild.sh"
+
+cd ${SCRIPT_DIR}
 "${SCRIPT_DIR}/pi-config.sh"
 
+cd ${SCRIPT_DIR}
 cd build
 cmake --build . --config Release
 

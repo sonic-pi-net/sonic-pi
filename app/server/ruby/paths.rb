@@ -187,20 +187,15 @@ module SonicPi
       end
     end
 
-    def self.erlang_boot_path
+
+    def self.mix_release_boot_path
       case os
       when :windows
-        File.absolute_path("#{native_path}/erlang/bin/erl.exe")
+        File.absolute_path("#{server_path}/erlang/tau/boot-win.bat")
       when :macos
-        # "sh"
-        File.absolute_path("#{native_path}/erlang/erl")
+        File.absolute_path("#{server_path}/erlang/tau/boot-mac.sh")
       else
-        nix_erl_path = "/usr/bin/erl"
-        if File.exist?(nix_erl_path)
-          nix_erl_path
-        else
-          "erl"
-        end
+        File.absolute_path("#{server_path}/erlang/tau/boot-lin.sh")
       end
     end
 

@@ -79,26 +79,32 @@ jobs:
         extra: '--b http://mirrors.ocf.berkeley.edu/qt/'
         cached: ${{ steps.cache-qt2.outputs.cache-hit }}
 
-      # Latest Erlang on Ubuntu
-    - uses: gleam-lang/setup-erlang@v1.1.2
+      # Install Elixir on Ubuntu
+    - uses: erlef/setup-beam@v1
       with:
-        otp-version: 23.2.1
+        otp-version: 24
       if: matrix.os == 'ubuntu-latest'
 
-      # Install Erlang on MacOS
-    - name: Mac Erlang
+      # Install Elixir on Windows
+    - uses: erlef/setup-beam@v1
+      with:
+        otp-version: '24'
+      if: matrix.os == 'windows-latest'
+
+      # Install Elixir on MacOS
+    - name: Mac Elixir
       continue-on-error: true
       run: |
         export HOMEBREW_NO_INSTALL_CLEANUP=1
         brew update
-        brew install erlang
+        brew install elixir
       if: matrix.os == 'macos-latest'
 
       # Prebuild on Ubuntu
     - name: Prebuild Linux
       working-directory: ${{github.workspace}}/app
       env:
-        CC: ${{ matrix.cc }}  
+        CC: ${{ matrix.cc }}
         QT_INSTALL_LOCATION: ${{env.Qt5_DIR}}
       run: |
         sudo apt install -y pulseaudio dbus-x11 libssl-dev ruby-dev supercollider-server sc3-plugins-server alsa-utils jackd2 libjack-jackd2-dev libjack-jackd2-0 libasound2-dev librtmidi-dev pulseaudio-module-jack
@@ -109,26 +115,26 @@ jobs:
     - name: Prebuild Mac
       working-directory: ${{github.workspace}}/app
       env:
-        CC: ${{ matrix.cc }}  
+        CC: ${{ matrix.cc }}
         QT_INSTALL_LOCATION: ${{env.Qt5_DIR}}
       run: |
         ./mac-prebuild.sh
       if: matrix.os == 'macos-latest'
-   
+
     # Prebuild on Windows
-    # Note that we 'hide' the msys folders on windows to stop conflicts when building 
+    # Note that we 'hide' the msys folders on windows to stop conflicts when building
     # Flac
     - name: Prebuild Windows
       working-directory: ${{github.workspace}}/app
       shell: cmd
       env:
-        CC: ${{ matrix.cc }}  
+        CC: ${{ matrix.cc }}
         QT_INSTALL_LOCATION: ${{env.Qt5_DIR}}
       run: |
         mv c:/msys64 c:/__msys64
         win-prebuild.bat
       if: matrix.os == 'windows-latest'
-    
+
       #- name: Setup tmate session
       # uses: mxschmitt/action-tmate@v3
 
@@ -136,7 +142,7 @@ jobs:
     - name: Config Linux
       working-directory: ${{github.workspace}}/app
       env:
-        CC: ${{ matrix.cc }}  
+        CC: ${{ matrix.cc }}
         QT_INSTALL_LOCATION: ${{env.Qt5_DIR}}
       run: |
         ./linux-config.sh
@@ -146,7 +152,7 @@ jobs:
     - name: Config Mac
       working-directory: ${{github.workspace}}/app
       env:
-        CC: ${{ matrix.cc }}  
+        CC: ${{ matrix.cc }}
         QT_INSTALL_LOCATION: ${{env.Qt5_DIR}}
       run: |
         ./mac-config.sh
@@ -157,35 +163,35 @@ jobs:
       working-directory: ${{github.workspace}}/app
       shell: cmd
       env:
-        CC: ${{ matrix.cc }}  
+        CC: ${{ matrix.cc }}
         QT_INSTALL_LOCATION: ${{env.Qt5_DIR}}
       run: |
         win-config.bat
       if: matrix.os == 'windows-latest'
-    
+
     # Finally: Build
     - name: Do build
       working-directory: ${{github.workspace}}/app/build
       run: cmake --build . --config ${{ matrix.build_type }}
-    
+
     - name: Ruby Tests (Mac/Linux)
       working-directory: ${{github.workspace}}/app/server/ruby
-      run: rake test 
+      run: rake test
       if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
 
     - name: API Tests - Mac
       working-directory: ${{github.workspace}}/app/build/api-tests
       run: ctest --verbose
       if: matrix.os == 'macos-latest'
-    
+
     - name: API Tests - Linux
       working-directory: ${{github.workspace}}/app/build/api-tests
       run: |
         jackd -d dummy &
         ctest --verbose
-      if: matrix.os == 'ubuntu-latest' 
-    
-    - name: API Tests Windows - Install Scream Audio Device 
+      if: matrix.os == 'ubuntu-latest'
+
+    - name: API Tests Windows - Install Scream Audio Device
       shell: powershell
       run: |
         Start-Service audio*
@@ -212,5 +218,3 @@ jobs:
           name: Logs_${{matrix.title}}_${{matrix.build_type}}
           path: |
             ~/.sonic-pi/log/*.log
-
-

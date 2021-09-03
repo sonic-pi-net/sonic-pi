@@ -82,8 +82,11 @@ echo "Updating GUI translation files..."
 # Use lrelease on PATH if available otherwise assume Qt was installed via homebrew
 PATH=$PATH:/usr/local/opt/qt@5/bin lrelease "${SCRIPT_DIR}"/gui/qt/lang/*.ts
 
-echo "Compiling Erlang files..."
+echo "Compiling Erlang/Elixir files..."
 cd "${SCRIPT_DIR}/server/erlang/tau"
-../../native/erlang/erl -make
+mix local.hex --force
+mix deps.get
+mix release
+
 cp src/tau.app.src ebin/tau.app
 cd "${SCRIPT_DIR}"

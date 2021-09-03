@@ -499,25 +499,27 @@ module SonicPi
 
     class TauBooter < ProcessBooter
       def initialize(ports)
-        listen_port = ports["tau"]
-        cues_port   = ports["osc-cues"]
-        spider_port = ports["listen-to-tau"]
+        enabled      = true
+        internal     = false
+        midi_enabled = true
+        link_enabled = true
+        in_port      = ports["osc-cues"]
+        api_port     = ports["tau"]
+        spider_port  = ports["listen-to-tau"]
 
-        args = ['+C', 'multi_time_warp', '-noshell', '-pz',
-          Paths.tau_app_path,
-          '-tau',
-          'api_port', listen_port,
-          'in_port', cues_port,
-          'spider_port', spider_port,
-          'enabled', 'false',
-          '-s', 'tau_server',
-          'start']
+        args = [enabled,
+          internal,
+          midi_enabled,
+          link_enabled,
+          in_port,
+          api_port,
+          spider_port]
 
         if Util.os == :windows
-          cmd = Paths.erlang_boot_path
+          cmd = Paths.mix_release_boot_path
         else
           cmd = "sh"
-          args = [Paths.erlang_boot_path] + args
+          args = [Paths.mix_release_boot_path] + args
         end
 
         super(cmd, args, Paths.tau_log_path)
