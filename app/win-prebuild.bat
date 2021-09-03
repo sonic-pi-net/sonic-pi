@@ -53,9 +53,12 @@ server\native\ruby\bin\ruby server/ruby/bin/qt-doc.rb -o gui\qt\utils/ruby_help.
 @echo Updating GUI translation files...
 forfiles /p gui\qt\lang /s /m *.ts /c "cmd /c %QT_INSTALL_LOCATION%\bin\lrelease.exe @file"
 
-@echo Compiling Erlang files...
+@echo Compiling Erlang/Elixir files...
 cd %~dp0\server\erlang\tau
-%~dp0\server\native\erlang\bin\erl.exe -make
+mix local.hex --force
+mix deps.get
+mix release
+
 cd %~dp0\server\erlang\tau
 copy /Y src\tau.app.src .\ebin\tau.app
 cd %~dp0

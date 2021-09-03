@@ -43,22 +43,23 @@ few dependencies:
 * Qt + Dev tools (5.15+)
 * Jack (and pulse-audio-module-jack if you are running Raspberry Pi OS)
 * Ruby + Dev tools (2.5+)
-* Erlang + Dev tools (21+)
+* Elixir + Dev tools (21+)
 * SuperCollider + SC3 plugins
 * 
 
 
 ### 1.1 Raspberry Pi OS
 
-The following is a list of packages required for Raspberry Pi OS released in Dec 2020:
+The following is a list of packages required for Raspberry Pi OS
+released in August 2021:
 
 ```  
 sudo apt-get install -y \
-     build-essential cmake git libssl-dev \
-     ruby-dev erlang-base erlang-dev erlang-tools \
-     supercollider-server sc3-plugins-server alsa-utils libaubio5  jackd2 libjack-jackd2-dev libjack-jackd2-0 libasound2-dev librtmidi-dev pulseaudio-module-jack\
-     qt5-default qttools5-dev-tools libqt5concurrent5 libqt5core5a libqt5gui5 libqt5network5 libqt5opengl5 libqt5printsupport5 libqt5concurrent5 libqt5svg5 libqt5widgets5 libqt5svg5-dev \
-     compton pulseaudio-module-jack
+     build-essential git libssl-dev \
+     ruby-dev erlang-base erlang-dev erlang-tools elixir \
+     qttools5-dev-tools qttools5-dev libqt5svg5-dev  \
+     supercollider-server sc3-plugins-server alsa-utils libaubio5  librtmidi-dev libasound2-dev  \
+     jackd2 libjack-jackd2-dev libjack-jackd2-0  pulseaudio-module-jack \
 ```     
 
 

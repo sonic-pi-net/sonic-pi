@@ -9,6 +9,7 @@
 
 %% Supervisor callbacks
 -export([init/1]).
+-export([set_application_env/7]).
 
 
 -define(APPLICATION, tau).
@@ -31,6 +32,22 @@ start_link() ->
 %%
 %% NOTE: it is important that this code cannot fail, because that
 %% would prevent the application from even being started.
+
+set_application_env(Enabled,
+                    Internal,
+                    MidiEnabled,
+                    LinkEnabled,
+                    InPort,
+                    ApiPort,
+                    SpiderPort) ->
+
+    application:set_env(?APPLICATION, enabled, Enabled),
+    application:set_env(?APPLICATION, internal, Internal),
+    application:set_env(?APPLICATION, midi_enabled, MidiEnabled),
+    application:set_env(?APPLICATION, link_enabled, LinkEnabled),
+    application:set_env(?APPLICATION, in_port, InPort),
+    application:set_env(?APPLICATION, api_port, ApiPort),
+    application:set_env(?APPLICATION, spider_port, SpiderPort).
 
 init(_Args) ->
     CueServer = tau_server_cue:server_name(),

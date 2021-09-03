@@ -46,6 +46,7 @@ dependencies:
 2. Qt (5.15+)
 3. CMake (3.18+)
 4. Ruby (2.7.1+)
+5. Elixir (1.12+)
 
 Let's look at each in turn.
 
@@ -119,6 +120,14 @@ to Arabic, you need to modify the registry.rb in your Ruby install to
 force the locale to UTF-8. For more information see:
 
 https://github.com/samaaron/sonic-pi/issues/2416 
+
+### 1.5 Install Elixir
+
+Lastly we just need to head over to the Elixir website and download and
+run the installer:
+
+https://elixir-lang.org/install.html#windows
+
 
 ## 2. Preparing the Build
 

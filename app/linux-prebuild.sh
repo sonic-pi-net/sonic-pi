@@ -47,6 +47,9 @@ PATH=`pkg-config --variable bindir Qt5`:$PATH lrelease "${SCRIPT_DIR}"/gui/qt/la
 
 echo "Compiling Erlang files..."
 cd "${SCRIPT_DIR}/server/erlang/tau"
-erl -make
+mix local.hex --force
+mix deps.get
+mix release
+
 cp src/tau.app.src ebin/tau.app
 cd "${SCRIPT_DIR}"
