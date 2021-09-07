@@ -3898,22 +3898,51 @@ use_random_source a # Restore the previous random number source (:white)
 puts rand # => 0.10821533203125
 puts rand # => 0.54010009765625
 "]
-
-
-      def current_bpm
-        __get_spider_bpm
+      def current_bpm_mode
+        __get_spider_bpm_mode
       end
-      doc name:          :current_bpm,
-          introduced:    Version.new(2,0,0),
-          summary:       "Get current tempo",
-          doc:           "Returns the current tempo as a bpm value.
+      doc name:          :current_bpm_mode,
+          introduced:    Version.new(4,0,0),
+          summary:       "Get current tempo mode",
+          doc:           "Returns the current tempo mode - either a bpm value or :link.
+
+To know the current BPM value when this thread is in :link mode see `current_bpm`.
 
 This can be set via the fns `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bpm`.",
           args:          [],
           opts:          nil,
           accepts_block: false,
           examples:      ["
-  puts current_bpm # Print out the current bpm"]
+  use_bpm 60
+  puts current_bpm_mode    # => 60
+  use_bpm 70
+  puts current_bpm_mode    # => 70
+  use_bpm :link
+  puts current_bpm_mode    # => :link"]
+
+
+
+        def current_bpm
+        __get_spider_bpm
+      end
+      doc name:          :current_bpm,
+          introduced:    Version.new(2,0,0),
+          summary:       "Get current tempo",
+          doc:           "Returns the current tempo as a bpm value. If the thread is in :link bpm mode, this will return the latest bpm value of the shared Link network metronome (note that this value may change after reading if the Link bpm isn't static).
+
+To know if this thread is in :link or standard bpm mode see `current_bpm_mode`.
+
+This can be set via the fns `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bpm`.",
+          args:          [],
+          opts:          nil,
+          accepts_block: false,
+          examples:      ["
+  use_bpm 60
+  puts current_bpm_mode    # => 60
+  use_bpm 70
+  puts current_bpm_mode    # => 70
+  use_bpm :link
+  puts current_bpm_mode    # => 120 (or whatever the current Link BPM value is)"]
 
 
 

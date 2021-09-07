@@ -206,6 +206,14 @@ module SonicPi
       end
     end
 
+    def __get_spider_bpm_mode
+      if __in_link_bpm_mode
+        :link
+      else
+        __get_spider_bpm
+      end
+    end
+
     def __get_spider_beat
       __system_thread_locals.get :sonic_pi_spider_beat
     end
