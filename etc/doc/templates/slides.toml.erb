@@ -1,4 +1,4 @@
-[sliding]
+[<%= key %>.sliding]
 slide_label = "<%= t_('Slide Options') %>"
 slide_description = '''
 <%=
@@ -17,7 +17,7 @@ slide_opts = {
 }
 -%>
 <% slide_opts.each do |name, attributes| %>
-[[sliding.slide_opts]]
+[[<%= key %>.sliding.slide_opts]]
 name = "<%= name %>"
 default = "<%= attributes[:default] %>"
 doc = '''
