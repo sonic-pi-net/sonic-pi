@@ -17,6 +17,7 @@ require 'optparse'
 require 'fileutils'
 
 require_relative "../core.rb"
+require_relative "../paths"
 require_relative "../lib/sonicpi/synths/synthinfo"
 require_relative "../lib/sonicpi/util"
 require_relative "../lib/sonicpi/runtime"

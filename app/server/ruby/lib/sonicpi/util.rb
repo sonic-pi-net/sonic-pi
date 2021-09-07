@@ -13,6 +13,7 @@
 require 'cgi'
 require 'fileutils'
 require 'securerandom'
+require_relative '../../paths'
 
 module SonicPi
   module Util
