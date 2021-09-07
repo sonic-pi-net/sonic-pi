@@ -1027,6 +1027,9 @@ module SonicPi
       delay = args_h[:delay]
       sync_sym = args_h[:sync]
       sync_bpm_sym = args_h[:sync_bpm]
+
+      #handle case where user passes both :sync and :sync_bpm opts.
+      # --> sync_bpm overrides sync
       sync_sym = nil if sync_bpm_sym
 
       raise ArgumentError, "in_thread's delay: opt must be a number, got #{delay.inspect}" if delay && !delay.is_a?(Numeric)

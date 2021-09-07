@@ -4189,8 +4189,6 @@ puts current_sched_ahead_time # Prints 0.5"]
 
       def sleep(beats)
         __system_thread_locals.set_local(:sonic_pi_spider_time_state_cache, [])
-        __system_thread_locals.set_local(:sonic_pi_local_last_sync, nil)
-
 
         # Schedule messages
         __schedule_delayed_blocks_and_messages!
@@ -4330,12 +4328,11 @@ puts current_sched_ahead_time # Prints 0.5"]
         k = params[0]
 
         __system_thread_locals.set_local(:sonic_pi_spider_time_state_cache, [])
-        # TODO: need to add this
+
         bpm_sync = truthy?(opts[:bpm_sync])
         arg_matcher = opts[:arg_matcher]
 
         cue_id = __sync_path(k)
-        last_sync = __system_thread_locals.get(:sonic_pi_local_last_sync, nil)
 
         __system_thread_locals.set_local :sonic_pi_local_control_deltas, {}
 
@@ -4345,27 +4342,16 @@ puts current_sched_ahead_time # Prints 0.5"]
 
         __schedule_delayed_blocks_and_messages!
 
-        if last_sync
-          t = last_sync.time
-          i = last_sync.thread_id
-          p = last_sync.priority
-          d = last_sync.delta
-          b = last_sync.beat
-          m = last_sync.bpm
-        else
-          # TODO insert priority and delta values here:
-          t = current_time
-          p = __system_thread_locals.get(:sonic_pi_spider_thread_priority, -100)
-          i = __current_thread_id
-          d = __system_thread_locals.get(:sonic_pi_spider_thread_delta, 0)
-          b = current_beat
-          m = current_bpm
-        end
+        t = current_time
+        p = __system_thread_locals.get(:sonic_pi_spider_thread_priority, -100)
+        i = __current_thread_id
+        d = __system_thread_locals.get(:sonic_pi_spider_thread_delta, 0)
+        b = current_beat
+        m = current_bpm_mode
 
         se = @event_history.sync(t, p, i, d, b, m, cue_id, arg_matcher)
 
         __system_thread_locals.set(:sonic_pi_spider_synced, true)
-        __system_thread_locals.set_local :sonic_pi_local_last_sync, se
 
         if bpm_sync
           raise StandardError, "Incorrect bpm value. Expecting either :link or a number such as 120" unless ((se.bpm == :link) || se.bpm.is_a?(Numeric))
@@ -4384,7 +4370,6 @@ puts current_sched_ahead_time # Prints 0.5"]
             __delayed_highlight2_message "synced #{cue_id.inspect} " + run_info
           end
         end
-        __system_thread_locals.set_local :sonic_pi_local_last_sync, se
         se
       end
 
