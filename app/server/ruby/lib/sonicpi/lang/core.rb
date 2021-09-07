@@ -108,7 +108,7 @@ module SonicPi
         d = __system_thread_locals.get(:sonic_pi_spider_thread_delta)
         __system_thread_locals.set_local(:sonic_pi_spider_thread_delta, d + 1)
         p = __system_thread_locals.get(:sonic_pi_spider_thread_priority, 0)
-        m = current_bpm
+        m = current_bpm_mode
 
         ce = CueEvent.new(t, p, i, d, b, m, cue_path, val)
 
@@ -316,7 +316,7 @@ end
           i = __current_thread_id
           d = __system_thread_locals.get(:sonic_pi_spider_thread_delta)
           p = __system_thread_locals.get(:sonic_pi_spider_thread_priority, 1001)
-          m = current_bpm
+          m = current_bpm_mode
 
           @event_history.get(t, p, i, d, b, m, k)
         end
@@ -2153,6 +2153,9 @@ play 80      # This is *never* played as the program is trapped in the loop abov
 
         sync_sym = args_h[:sync]
         sync_bpm_sym = args_h[:sync_bpm]
+
+        #handle case where user passes both :sync and :sync_bpm opts.
+        # --> sync_bpm overrides sync
         sync_sym = nil if sync_bpm_sym
 
         raise LiveLockError, "livelock detection - live_loop cannot sync with itself - please choose another sync name for live_loop #{name.inspect}" if name == sync_sym || name == sync_bpm_sym
@@ -3649,7 +3652,7 @@ end
       def with_bpm(bpm, &block)
         raise ArgumentError, "with_bpm must be called with a do/end block. Perhaps you meant use_bpm" unless block
         raise ArgumentError, "with_bpm's BPM should be a positive value. You tried to use: #{bpm}" unless bpm > 0
-        current_bpm = __get_spider_bpm
+        current_bpm = __get_spider_bpm_mode
         use_bpm bpm
         res = block.call
         use_bpm current_bpm
@@ -4035,7 +4038,7 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
         t = __get_spider_time
         b = __get_spider_beat_
         i = __current_thread_id
-        m = current_bpm
+        m = current_bpm_mode
         @system_state.set(t, 0, i, 0, b, m, :sched_ahead_time, sat)
         __info "Schedule ahead time set to #{sat}"
       end
@@ -4299,7 +4302,7 @@ puts current_sched_ahead_time # Prints 0.5"]
         d = __system_thread_locals.get(:sonic_pi_spider_thread_delta)
         __system_thread_locals.set_local(:sonic_pi_spider_thread_delta, d + 1)
         cue_path = "/live_loop/#{id}"
-        @register_cue_event_lambda.call(t, p, __current_thread_id, d, current_beat, current_bpm, cue_path, [], __current_sched_ahead_time)
+        @register_cue_event_lambda.call(t, p, __current_thread_id, d, current_beat, current_bpm_mode, cue_path, [], __current_sched_ahead_time)
       end
 
 
@@ -4368,7 +4371,7 @@ puts current_sched_ahead_time # Prints 0.5"]
           raise StandardError, "Incorrect bpm value. Expecting either :link or a number such as 120" unless ((se.bpm == :link) || se.bpm.is_a?(Numeric))
           __change_spider_bpm_time_and_beat!(se.bpm, se.time, se.beat)
         else
-          __change_spider_bpm_time_and_beat!(current_bpm, se.time, se.beat)
+          __change_spider_bpm_time_and_beat!(current_bpm_mode, se.time, se.beat)
         end
 
         run_info = ""

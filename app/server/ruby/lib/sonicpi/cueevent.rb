@@ -30,7 +30,7 @@ module SonicPi
       @thread_id = thread_id
       @delta = delta.to_i
       @beat = beat.to_f
-      @bpm = bpm.to_f
+      @bpm = bpm
 
       if path.is_a?(Symbol)
         @path = @@path_cache[path] || @@path_cache[path] = "/cue/#{path}".strip.freeze
