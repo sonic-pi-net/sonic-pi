@@ -41,6 +41,10 @@ module SonicPi
       File.expand_path((ENV['SONIC_PI_HOME'] || user_dir) + '/.sonic-pi/')
     end
 
+    def self.project_path
+      File.expand_path("#{home_dir_path}/store/default/")
+    end
+
     def self.root_path
       File.absolute_path("#{File.dirname(__FILE__)}/../../../")
     end
@@ -77,6 +81,10 @@ module SonicPi
       File.absolute_path("#{etc_path}/samples")
     end
 
+    def self.cached_samples_path
+      File.absolute_path("#{project_path}/cached_samples")
+    end
+
     def self.buffers_path
       File.absolute_path("#{etc_path}/buffers")
     end
@@ -103,6 +111,14 @@ module SonicPi
 
     def self.config_path
       File.absolute_path("#{home_dir_path}/config")
+    end
+
+    def self.init_path
+      File.absolute_path("#{config_path}/init.rb")
+    end
+
+    def self.original_init_path
+      File.absolute_path("#{home_dir_path}/init.rb")
     end
 
     def self.log_path

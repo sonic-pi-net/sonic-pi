@@ -32,27 +32,7 @@ module SonicPi
       raise "Unsupported platform #{RUBY_PLATFORM}"
     end
 
-    # Figure out the user's home directory
-    case @@os
-    when :windows
-      # On Windows, Ruby lets HOME take precedence if it exists, which is
-      # not what Sonic Pi should do to behave like a native Windows app.
-      # To get the same path as QDir::homePath() used by the GUI, we must
-      # use HOMEDRIVE and HOMEPATH instead, if they are set.
-      home_drive = ENV["HOMEDRIVE"]
-      home_path = ENV["HOMEPATH"]
-      if home_drive and home_path
-        @@user_dir = home_drive + home_path
-      else
-        @@user_dir = Dir.home
-      end
-    else
-        @@user_dir = Dir.home
-    end
-
     @@safe_mode = false
-    @@project_path = nil
-    @@log_path = nil
     @@current_uuid = nil
     @@home_dir = nil
     @@util_lock = Mutex.new
@@ -69,29 +49,25 @@ module SonicPi
     @@raspberry_pi_4_2gb_64 =  RUBY_PLATFORM.match(/aarch64.*-linux.*/) && ['b03111','b03112'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
     @@raspberry_pi_4_4gb_64 =  RUBY_PLATFORM.match(/aarch64.*-linux.*/) && ['c03111','c03112'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
     @@raspberry_pi_4_8gb_64 =  RUBY_PLATFORM.match(/aarch64.*linux.*/) && ['d03114'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
-    @@home_dir = File.expand_path((ENV['SONIC_PI_HOME'] || @@user_dir) + '/.sonic-pi/')
     @@raspberry_pi_400 =  RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['c03130'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
     @@raspberry_pi_400_64 =  RUBY_PLATFORM.match(/aarch64.*linux.*/) && ['c03130'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
-    @@project_path = @@home_dir + '/store/default/'
-    @@log_path = @@home_dir + '/log'
 
-    @@cached_samples_path = File.absolute_path("#{@@project_path}/cached_samples")
 
     begin
-      debug_log = File.absolute_path("#{@@log_path}/debug.log")
+      debug_log = File.absolute_path("#{Paths.log_path}/debug.log")
 
       # ensure_dir
       begin
-        FileUtils.mkdir_p(@@log_path) unless File.exist?(@@log_path)
+        FileUtils.mkdir_p(Paths.log_path) unless File.exist?(Paths.log_path)
       rescue
         @@safe_mode = true
-        log "Unable to create log path dir#{@@log_path} due to permissions errors"
+        log "Unable to create log path dir#{Paths.log_path} due to permissions errors"
       end
 
       @@log_file ||= File.open(debug_log, 'a')
     rescue Exception => e
       @@safe_mode = true
-      STDERR.puts "Unable to open log file #{@@log_path}/debug.log"
+      STDERR.puts "Unable to open log file #{Paths.log_path}/debug.log"
       STDERR.puts e.inspect
       @@log_file = nil
     end
@@ -168,7 +144,7 @@ module SonicPi
       if os == :windows
         path
       else
-        path.gsub(/\A#{@@user_dir}/, "~")
+        path.gsub(/\A#{Paths.user_dir}/, "~")
       end
     end
 
@@ -244,36 +220,11 @@ module SonicPi
       end
     end
 
-    def home_dir_path
-      @@home_dir
-    end
-
-    def init_path
-      File.absolute_path("#{config_path}/init.rb")
-    end
-
-    def original_init_path
-      File.absolute_path("#{home_dir_path}/init.rb")
-    end
-
-    def project_path
-      @@project_path
-    end
-
-    def cached_samples_path
-      @@cached_samples_path
-    end
-
-
-    def log_path
-      @@log_path
-    end
-
     def global_uuid
       return @@current_uuid if @@current_uuid
       @@util_lock.synchronize do
         return @@current_uuid if @@current_uuid
-        path = File.absolute_path("#{home_dir_path}/.uuid")
+        path = File.absolute_path("#{Paths.home_dir_path}/.uuid")
 
         if (File.exist? path)
           old_id = File.readlines(path).first.strip
@@ -314,140 +265,6 @@ module SonicPi
         path
       end
     end
-
-    def root_path
-      File.absolute_path("#{File.dirname(__FILE__)}/../../../../../")
-    end
-
-    def etc_path
-      File.absolute_path("#{root_path}/etc")
-    end
-
-    def snippets_path
-      File.absolute_path("#{etc_path}/snippets")
-    end
-
-    def doc_path
-      File.absolute_path("#{etc_path}/doc")
-    end
-
-    def cheatsheets_path
-      File.absolute_path("#{doc_path}/cheatsheets")
-    end
-
-    def tutorial_path
-      File.absolute_path("#{doc_path}/tutorial")
-    end
-
-    def tmp_path
-      File.absolute_path("#{root_path}/tmp")
-    end
-
-    def synthdef_path
-      File.absolute_path("#{etc_path}/synthdefs/compiled")
-    end
-
-    def samples_path
-      File.absolute_path("#{etc_path}/samples")
-    end
-
-    def buffers_path
-      File.absolute_path("#{etc_path}/buffers")
-    end
-
-    def app_path
-      File.absolute_path("#{root_path}/app")
-    end
-
-    def html_public_path
-      File.absolute_path("#{app_path}/gui/html/public")
-    end
-
-    def qt_gui_path
-      File.absolute_path("#{app_path}/gui/qt")
-    end
-
-    def examples_path
-      File.absolute_path("#{etc_path}/examples")
-    end
-
-    def server_path
-      File.absolute_path("#{app_path}/server")
-    end
-
-    def config_path
-      File.absolute_path("#{home_dir_path}/config")
-    end
-
-    def system_store_path
-      File.absolute_path("#{home_dir_path}/store/system")
-    end
-
-    def server_bin_path
-      File.absolute_path("#{server_path}/ruby/bin")
-    end
-
-    def native_path
-      File.absolute_path("#{server_path}/native/")
-    end
-
-    def aubio_onset_path
-      case os
-      when :windows
-        File.absolute_path("#{native_path}/aubio_onset.exe")
-      else
-        File.absolute_path("#{native_path}/aubio_onset")
-      end
-    end
-
-    def sox_path
-      File.join(native_path, "sox", __exe_fix("sox"))
-    end
-
-    def scsynth_log_path
-      log_path + '/scsynth.log'
-    end
-
-    def erlang_log_path
-      log_path + '/erlang.log'
-    end
-
-    def ruby_path
-      case os
-      when :windows
-        File.join(native_path, "ruby", "bin", "ruby.exe")
-      when :osx
-        require 'rbconfig'
-        File.join(RbConfig::CONFIG['bindir'],
-                  RbConfig::CONFIG['RUBY_INSTALL_NAME'] + RbConfig::CONFIG['EXEEXT'])
-      when  :raspberry, :linux
-        "ruby"
-      end
-    end
-
-    def erlang_boot_path
-      case os
-      when :windows
-        "\"#{File.join(native_path, "erlang", "bin", "erl.exe")}\""
-      when :osx
-        "\"#{File.join(native_path, "erlang", "erl")}\""
-      else
-        "erl"
-      end
-    end
-
-    def erlang_server_path
-      File.join(server_path, "erlang", "tau", "ebin")
-    end
-
-    def system_cache_store_path
-      File.absolute_path("#{system_store_path}/cache.json")
-    end
-
-    def user_config_examples_path
-      File.absolute_path("#{app_path}/config/user-examples")
-    end
-
 
     def fetch_url(url, anonymous_uuid=true)
       begin

@@ -52,7 +52,7 @@ module SonicPi
     ## Probably should be moved somewhere else
     @@stop_job_mutex = Mutex.new
 
-    def load_snippets(path=snippets_path, quiet=false)
+    def load_snippets(path=Paths.snippets_path, quiet=false)
       path = File.expand_path(path)
       Dir["#{path}/**/*.sps"].each do |p|
 
@@ -265,10 +265,10 @@ module SonicPi
     end
 
     def __extract_git_hash
-      head_path = root_path + "/.git/HEAD"
+      head_path = Paths.root_path + "/.git/HEAD"
       if File.exist? head_path
         ref = File.readlines(head_path).first
-        ref_path = root_path + "/.git/" + ref[5..-1]
+        ref_path = Paths.root_path + "/.git/" + ref[5..-1]
         ref_path = ref_path.strip
         if File.exist? ref_path
           return File.readlines(ref_path).first
@@ -568,7 +568,7 @@ module SonicPi
     def __load_buffer(id)
       id = id.to_s
       raise "Aborting load: file name is blank" if  id.empty?
-      path = project_path + id + '.spi'
+      path = File.expand_path("#{Paths.project_path}/#{id}.spi")
       s = "# Welcome to Sonic Pi\n\n"
       if File.exist? path
         s = IO.read(path)
@@ -1408,7 +1408,7 @@ module SonicPi
       @ports = ports
       @git_hash = __extract_git_hash
       gh_short = @git_hash ? "-#{@git_hash[0, 5]}" : ""
-      @settings = Config::Settings.new(system_cache_store_path)
+      @settings = Config::Settings.new(Paths.system_cache_store_path)
       # @scsynth_clobber_args = @audio_settings.scsynth_opts_override
       # @scsynth_opts = @audio_settings.scsynth_opts
       @version = Version.new(4, 0, 0, "beta1")
@@ -1495,7 +1495,7 @@ module SonicPi
       @gui_heartbeats = {}
       @gui_last_heartbeat = nil
       begin
-        @gitsave = GitSave.new(project_path)
+        @gitsave = GitSave.new(Paths.project_path)
       rescue
         @gitsave = nil
       end
@@ -1507,7 +1507,7 @@ module SonicPi
           event = @save_queue.pop
           id, content = *event
           filename = id + '.spi'
-          path = project_path + "/" + filename
+          path = File.expand_path("#{Paths.project_path}/#{filename}")
           content = filter_for_save(content)
           begin
             File.open(path, 'w') {|f| f.write(content) }
@@ -1527,11 +1527,11 @@ module SonicPi
       __info "Initialised Erlang OSC Scheduler"
 
       if safe_mode?
-        __info "!!WARNING!! - file permissions issue:\n   Unable to write to folder #{home_dir_path} \n   Booting in SAFE MODE.\n   Buffer auto-saving is disabled, please save your work manually.", 1
+        __info "!!WARNING!! - file permissions issue:\n   Unable to write to folder #{Paths.home_dir_path} \n   Booting in SAFE MODE.\n   Buffer auto-saving is disabled, please save your work manually.", 1
       end
 
-      log "Unable to initialise git repo at #{project_path}" unless @gitsave
-      load_snippets(snippets_path, true)
+      log "Unable to initialise git repo at #{Paths.project_path}" unless @gitsave
+      load_snippets(Paths.snippets_path, true)
     end
 
     def __print_boot_messages

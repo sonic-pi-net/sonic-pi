@@ -4782,7 +4782,7 @@ load_buffer \"~/sonic-pi-tracks/phat-beats.rb\" # will replace content of curren
 
 
       def load_example(example_name)
-        path = Dir[examples_path + '/**/' + example_name.to_s + '.rb'].first
+        path = Dir[Paths.examples_path + '/**/' + example_name.to_s + '.rb'].first
         raise IOError, "Error - no example found with name: #{example_name.inspect}" unless path
         buf = __current_job_info[:workspace]
         __info "loading #{buf} with #{path}"

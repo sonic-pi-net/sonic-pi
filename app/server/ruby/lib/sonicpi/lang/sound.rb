@@ -78,7 +78,7 @@ module SonicPi
 
             @sample_paths_cache = {}
 
-            @sample_loader = SampleLoader.new("#{samples_path}/**")
+            @sample_loader = SampleLoader.new("#{Paths.samples_path}/**")
 
             @job_groups = {}
             @job_group_mutex = Mutex.new
@@ -3279,7 +3279,7 @@ kill bar"]
           examples:      []
 
 
-      def load_synthdefs(path=synthdef_path)
+      def load_synthdefs(path=Paths.synthdef_path)
         path = File.expand_path(path)
         raise "No directory exists called #{path.inspect}" unless File.exist? path
         @mod_sound_studio.load_synthdefs(path)

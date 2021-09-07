@@ -109,7 +109,7 @@ module SonicPi
       add_event_oneshot_handler("/sonic-pi/server-info") do |payload|
         info_prom.deliver! payload
       end
-      load_synthdefs(synthdef_path)
+      load_synthdefs(Paths.synthdef_path)
       osc @osc_path_s_new, "sonic-pi-server-info", 1, 0, 0
       server_info = info_prom.get
       @scsynth_info = SonicPi::Core::SPMap.new({

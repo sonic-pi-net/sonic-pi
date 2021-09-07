@@ -17,6 +17,7 @@ require 'rbconfig'
 
 
 require_relative "../core.rb"
+require_relative "../paths"
 require_relative "../lib/sonicpi/studio"
 
 require_relative "../lib/sonicpi/server"
@@ -41,13 +42,19 @@ STDOUT.puts "Sonic Pi Spider Server booting..."
 STDOUT.puts "The time is #{Time.now}"
 
 ## Ensure ~/.sonic-pi/* user config, history and setting directories exist
-[home_dir_path, project_path, log_path, cached_samples_path, config_path, system_store_path].each do |d|
+[ SonicPi::Paths.home_dir_path,
+  SonicPi::Paths.project_path,
+  SonicPi::Paths.log_path,
+  SonicPi::Paths.cached_samples_path,
+  SonicPi::Paths.config_path,
+  SonicPi::Paths.system_store_path
+].each do |d|
   ensure_dir(d)
 end
 
 ## Just check to see if the user still has an old settings.json and if
 ## so, remove it. This is now stored in system_cache_store_path
-old_settings_file_path = File.absolute_path("#{home_dir_path}/settings.json")
+old_settings_file_path = File.absolute_path("#{SonicPi::Paths.home_dir_path}/settings.json")
 File.delete(old_settings_file_path) if File.exist?(old_settings_file_path)
 
 ## Move across any config example files if they don't
@@ -56,12 +63,12 @@ File.delete(old_settings_file_path) if File.exist?(old_settings_file_path)
 
 
 begin
-  if File.exists?(original_init_path)
-    if (File.exists?(init_path))
-      STDOUT.puts "Warning, you have an older init.rb file in #{original_init_path} which is now being ignored as your newer config/init.rb file is being used instead. Consider deleting your old init.rb (perhaps copying anything useful across first)."
+  if File.exists?(SonicPi::Paths.original_init_path)
+    if (File.exists?(SonicPi::Paths.init_path))
+      STDOUT.puts "Warning, you have an older init.rb file in #{SonicPi::Paths.original_init_path} which is now being ignored as your newer config/init.rb file is being used instead. Consider deleting your old init.rb (perhaps copying anything useful across first)."
     else
-      STDOUT.puts "Found init.rb in old location #{original_init_path}. Moving it to the new config directory #{init_path}."
-      FileUtils.mv(original_init_path, init_path)
+      STDOUT.puts "Found init.rb in old location #{SonicPi::Paths.original_init_path}. Moving it to the new config directory #{SonicPi::Paths.init_path}."
+      FileUtils.mv(SonicPi::Paths.original_init_path, init_path)
     end
   end
 rescue Exception => e
@@ -75,9 +82,9 @@ end
 
 
 
-Dir["#{user_config_examples_path}/*"].each do |f|
+Dir["#{SonicPi::Paths.user_config_examples_path}/*"].each do |f|
   basename = File.basename(f)
-  full_config_path = File.absolute_path("#{config_path}/#{basename}")
+  full_config_path = File.absolute_path("#{SonicPi::Paths.config_path}/#{basename}")
   unless File.exist?(full_config_path)
     FileUtils.cp(f, full_config_path)
   end
@@ -277,10 +284,10 @@ begin
   STDOUT.puts "Spider - Runtime Server Initialised"
   STDOUT.flush
   # read in init.rb if exists
-  if File.exists?(init_path)
-    sp.__spider_eval(File.read(init_path), silent: true)
+  if File.exists?(SonicPi::Paths.init_path)
+    sp.__spider_eval(File.read(SonicPi::Paths.init_path), silent: true)
   else
-    STDOUT.puts "Spider - Could not find init.rb file: #{init_path} "
+    STDOUT.puts "Spider - Could not find init.rb file: #{SonicPi::Paths.init_path} "
   end
 
   sp.__print_boot_messages

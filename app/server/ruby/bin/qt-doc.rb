@@ -87,14 +87,14 @@ include SonicPi::Util
   "zh_TW" => "臺灣華語" # Chinese (Traditional, Taiwan)
 ]
 
-FileUtils::rm_rf "#{qt_gui_path}/help/"
-FileUtils::mkdir "#{qt_gui_path}/help/"
+FileUtils::rm_rf "#{Paths.qt_gui_path}/help/"
+FileUtils::mkdir "#{Paths.qt_gui_path}/help/"
 
-FileUtils::rm_rf "#{qt_gui_path}/info/"
-FileUtils::mkdir "#{qt_gui_path}/info/"
+FileUtils::rm_rf "#{Paths.qt_gui_path}/info/"
+FileUtils::mkdir "#{Paths.qt_gui_path}/info/"
 
-FileUtils::rm_rf "#{qt_gui_path}/book/"
-FileUtils::mkdir "#{qt_gui_path}/book/"
+FileUtils::rm_rf "#{Paths.qt_gui_path}/book/"
+FileUtils::mkdir "#{Paths.qt_gui_path}/book/"
 
 docs = []
 filenames = []
@@ -172,7 +172,7 @@ make_tab = lambda do |name, doc_items, titleize=false, should_sort=true, with_ke
 
     filenames << filename
 
-    File.open("#{qt_gui_path}/#{filename}", 'w') do |f|
+    File.open("#{Paths.qt_gui_path}/#{filename}", 'w') do |f|
       f << "#{doc}"
     end
 
@@ -197,7 +197,7 @@ make_tab = lambda do |name, doc_items, titleize=false, should_sort=true, with_ke
   book_body = book[/<body.*?>/]
   book.gsub!(/<\/?body.*?>/, '')
   book.gsub!(/<meta http-equiv.*?>/, '')
-  File.open("#{qt_gui_path}/book/Sonic Pi - #{name.capitalize}" + (lang != "en" ? " (#{lang})" : "") + ".html", 'w') do |f|
+  File.open("#{Paths.qt_gui_path}/book/Sonic Pi - #{name.capitalize}" + (lang != "en" ? " (#{lang})" : "") + ".html", 'w') do |f|
     f << "<link rel=\"stylesheet\" href=\"../theme/light/doc-styles.css\" type=\"text/css\"/>\n"
     f << "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>\n\n"
     f << book_body << "\n"
@@ -218,9 +218,9 @@ make_tutorial = lambda do |lang|
   docs << "\n  // language #{lang}\n"
   tutorial_html_map = {}
   if lang == "en" then
-    markdown_path = tutorial_path
+    markdown_path = Paths.tutorial_path
   else
-    markdown_path = File.expand_path("../generated/#{lang}/tutorial", tutorial_path)
+    markdown_path = File.expand_path("../generated/#{lang}/tutorial", Paths.tutorial_path)
   end
   Dir["#{markdown_path}/*.md"].sort.each do |path|
     f = File.open(path, 'r:UTF-8')
@@ -241,7 +241,7 @@ end
 example_html_map = {}
 example_dirs = ["Apprentice", "Illusionist", "Magician", "Sorcerer", "Wizard", "Algomancer"]
 example_dirs.each do |ex_dir|
-  Dir["#{examples_path}/#{ex_dir.downcase}/*.rb"].sort.each do |path|
+  Dir["#{Paths.examples_path}/#{ex_dir.downcase}/*.rb"].sort.each do |path|
     bname = File.basename(path, ".rb")
     bname = ActiveSupport::Inflector.titleize(bname)
     name = "[#{ex_dir}] #{bname}"
@@ -269,7 +269,7 @@ ruby_html_map = {
 # before the generic language code,
 # e.g., "de_CH" should be handled before "de"
 languages =
-  Dir[File.expand_path("../lang/sonic-pi-tutorial-*.po", tutorial_path)].
+  Dir[File.expand_path("../lang/sonic-pi-tutorial-*.po", Paths.tutorial_path)].
   map { |p| File.basename(p).gsub(/sonic-pi-tutorial-(.*?).po/, '\1') }.
   sort_by {|n| [-n.length, n]}
 
@@ -338,7 +338,7 @@ def generate_ui_lang_names
   locale_arrays << "\n};\n"
 
   # Write the map to lang_list.h
-  content = File.readlines("#{qt_gui_path}/utils/lang_list.tmpl")
+  content = File.readlines("#{Paths.qt_gui_path}/utils/lang_list.tmpl")
   lang_names_generated = content.take_while { |line| !line.start_with?("// AUTO-GENERATED")}
   lang_names_generated << "// AUTO-GENERATED HEADER FILE\n"
   lang_names_generated << "// Do not add any code to this file\n"
@@ -350,7 +350,7 @@ def generate_ui_lang_names
   lang_names_generated << locale_arrays.join()
   lang_names_generated << "#endif\n"
 
-  File.open("#{qt_gui_path}/utils/lang_list.h", 'w') do |f|
+  File.open("#{Paths.qt_gui_path}/utils/lang_list.h", 'w') do |f|
     f << lang_names_generated.join()
   end
 end
@@ -360,7 +360,7 @@ end
 if options[:output_name] then
    cpp = options[:output_name]
 else
-   cpp = "#{qt_gui_path}/ruby_help.h"
+   cpp = "#{Paths.qt_gui_path}/ruby_help.h"
 end
 
 content = File.readlines(cpp)
@@ -377,7 +377,7 @@ File.open(cpp, 'w') do |f|
   f << new_content.join
 end
 
-File.open("#{qt_gui_path}/help_files.qrc", 'w') do |f|
+File.open("#{Paths.qt_gui_path}/help_files.qrc", 'w') do |f|
   f << "<RCC>\n  <qresource prefix=\"/\">\n"
   f << filenames.map{|n| "    <file>#{n}</file>\n"}.join
   f << "  </qresource>\n</RCC>\n"
@@ -389,7 +389,7 @@ end
 ###
 
 info_sources = ["CHANGELOG.md", "CONTRIBUTORS.md", "COMMUNITY.md", "CORETEAM.html", "LICENSE.md"]
-outputdir = "#{qt_gui_path}/info"
+outputdir = "#{Paths.qt_gui_path}/info"
 
 info_sources.each do |src|
 
