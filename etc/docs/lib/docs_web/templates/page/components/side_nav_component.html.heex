@@ -1,5 +1,5 @@
 <ul class="nav nav-pills flex-column">
-  <%= for title <- @page_titles do %>
+  <%= for title <- @page_keys do %>
     <li class="nav-item">
       <button
         class={is_active(@active_page, title)}

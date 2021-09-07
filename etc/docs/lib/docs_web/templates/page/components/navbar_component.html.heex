@@ -1,19 +1,21 @@
 <ul class="nav nav-pills justify-content-center">
   <li class="nav-item">
     <button
-      class={is_active(@active_tab, :tutorial)}
+      class={["disabled", is_active(@active_tab, :tutorial)]}
       phx-click="change_tab"
 	    phx-value-active_tab={:tutorial}
       aria-current="page"
+      disabled
       >
       Tutorial
     </button>
   </li>
   <li class="nav-item">
     <button
-      class={is_active(@active_tab, :examples)}
+      class={["disabled", is_active(@active_tab, :examples)]}
       phx-click="change_tab"
 	    phx-value-active_tab={:examples}
+      disabled
       >
       Examples
     </button>
