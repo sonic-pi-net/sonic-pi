@@ -4460,7 +4460,7 @@ It is possible to delay the initial trigger of the thread on creation with both 
           opts:           {:name  => "Make this thread a named thread with name. If a thread with this name already exists, a new thread will not be created.",
                            :delay => "Initial delay in beats before the thread starts. Default is 0.",
                            :sync => "Initial sync symbol. Will sync with this symbol before the thread starts.",
-                           :sync_bpm => "Initial sync symbol. Will sync with this symbol before the live_loop starts. Live loop will also inherit the BPM of the thread which cued the symbol.",},
+                           :sync_bpm => "Initial sync symbol. Will sync with this symbol before the thread starts. Thread will also inherit the BPM of the thread which cued the symbol.",},
           accepts_block:  true,
           requires_block: true,
           async_block:    true,
