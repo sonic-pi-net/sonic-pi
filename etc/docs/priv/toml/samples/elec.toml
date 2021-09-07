@@ -1,0 +1,719 @@
+# This is a data file that contains information describing the text that is
+# displayed on pages in the Samples section of Sonic Pi's help panel.
+
+# A unique identifier for a group of samples, so that samples are grouped
+# into 'categories'.
+# (For example: ambi).
+[elec]
+
+# A word or short phrase that is used as a label for the sample group.
+# (For example: Ambient Sounds).
+name = "Electric Sounds"
+
+# Basic code examples of how to use the samples in the group.
+usage = '''
+sample :elec_triangle
+sample :elec_snare
+sample :elec_lo_snare
+sample :elec_hi_snare
+sample :elec_mid_snare
+sample :elec_cymbal
+sample :elec_soft_kick
+sample :elec_filt_snare
+sample :elec_fuzz_tom
+sample :elec_chime
+sample :elec_bong
+sample :elec_twang
+sample :elec_wood
+sample :elec_pop
+sample :elec_beep
+sample :elec_blip
+sample :elec_blip2
+sample :elec_ping
+sample :elec_bell
+sample :elec_flip
+sample :elec_tick
+sample :elec_hollow_kick
+sample :elec_twip
+sample :elec_plip
+sample :elec_blup
+'''
+
+# The options are the opts of the sample function.
+# In the documentation, we currently display two tables of opts:
+# - one listing the name of each opt and its default value for easy reference
+# - a second, more detailed table labelled 'Options', containing:
+#   - the name of each opt
+#   - a detailed description of it
+#   - its default value
+#   - (if the opt has constraints (limits or a specific range of permitted
+#     values, etc)): the constraints of the opt
+#   - a label describing whether this opt can be modulated (altered) while the
+#     sample is running
+#   - (if the opt is slidable): a label indicating that the opt is slidable
+[elec.options]
+label = "Options"
+
+[[elec.options.list]]
+name = "amp:"
+doc = '''
+The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)
+'''
+default_value = "1"
+constraints = '''
+Must be zero or greater
+'''
+modulatable = '''
+May be changed whilst playing
+'''
+
+[[elec.options.list]]
+name = "pre_amp:"
+doc = '''
+Amplitude multiplier which takes place immediately before any internal FX such as the low pass filter, compressor or pitch modification. Use this opt if you want to overload the compressor.
+'''
+default_value = "1"
+constraints = '''
+Must be zero or greater
+'''
+modulatable = '''
+May be changed whilst playing
+'''
+
+[[elec.options.list]]
+name = "pan:"
+doc = '''
+Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
+'''
+default_value = "0"
+constraints = '''
+Must be a value between -1 and 1 inclusively
+'''
+modulatable = '''
+May be changed whilst playing
+'''
+
+[[elec.options.list]]
+name = "attack:"
+doc = '''
+Duration of the attack phase of the envelope.
+'''
+default_value = "0"
+constraints = '''
+Must be zero or greater
+'''
+modulatable = '''
+Can not be changed once set
+'''
+
+[[elec.options.list]]
+name = "decay:"
+doc = '''
+Duration of the decay phase of the envelope.
+'''
+default_value = "0"
+constraints = '''
+Must be zero or greater
+'''
+modulatable = '''
+Can not be changed once set
+'''
+
+[[elec.options.list]]
+name = "sustain:"
+doc = '''
+Duration of the sustain phase of the envelope. When -1 (the default) will auto-stretch.
+'''
+default_value = "-1"
+constraints = '''
+Must either be a positive value or -1
+'''
+modulatable = '''
+Can not be changed once set
+'''
+
+[[elec.options.list]]
+name = "release:"
+doc = '''
+Duration of the release phase of the envelope.
+'''
+default_value = "0"
+constraints = '''
+Must be zero or greater
+'''
+modulatable = '''
+Can not be changed once set
+'''
+
+[[elec.options.list]]
+name = "lpf:"
+doc = '''
+Low pass filter cutoff value. A MIDI note representing the highest frequencies allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy.
+'''
+default_value = "-1"
+constraints = '''
+Must be zero or greater, must be a value less than 131
+'''
+modulatable = '''
+May be changed whilst playing
+'''
+
+[[elec.options.list]]
+name = "lpf_attack:"
+doc = '''
+Attack time for low pass filter envelope. Amount of time (in beats) for sound to reach attack_level value. This envelope is bypassed if no lpf env opts are specified.  Default value is set to match amp envelope's attack value.
+'''
+default_value = "attack"
+constraints = '''
+Must be zero or greater
+'''
+modulatable = '''
+Can not be changed once set
+'''
+
+[[elec.options.list]]
+name = "lpf_decay:"
+doc = '''
+Decay time for low pass filter envelope. Amount of time (in beats) for sound to move from `lpf_attack_level:` to the `lpf_sustain_level:`. This envelope is bypassed if no lpf env opts are specified.  Default value is set to match amp envelope's decay value.
+'''
+default_value = "decay"
+constraints = '''
+Must be zero or greater
+'''
+modulatable = '''
+Can not be changed once set
+'''
+
+[[elec.options.list]]
+name = "lpf_sustain:"
+doc = '''
+Amount of time for low pass filter envelope value to remain at sustain level in beats. This envelope is bypassed if no lpf env opts are specified.  When -1 (the default) will auto-stretch.
+'''
+default_value = "sustain"
+constraints = '''
+Must either be a positive value or -1
+'''
+modulatable = '''
+Can not be changed once set
+'''
+
+[[elec.options.list]]
+name = "lpf_release:"
+doc = '''
+Amount of time (in beats) for sound to move from `lpf_sustain_level:` to `lpf_release_level:`. This envelope is bypassed if no lpf env opts are specified. 
+'''
+default_value = "release"
+constraints = '''
+Must be zero or greater
+'''
+modulatable = '''
+Can not be changed once set
+'''
+
+[[elec.options.list]]
+name = "lpf_init_level:"
+doc = '''
+The initial low pass filter envelope value as a MIDI note. This envelope is bypassed if no lpf env opts are specified. Default value is to match the `lpf_min:` opt.
+'''
+default_value = "lpf_min"
+constraints = '''
+Must be a value between 0 and 130 inclusively
+'''
+modulatable = '''
+Can not be changed once set
+'''
+
+[[elec.options.list]]
+name = "lpf_attack_level:"
+doc = '''
+The peak low pass filter envelope value after the attack phase as a MIDI note. This envelope is bypassed if no lpf env opts are specified. Default value is match the `lpf_decay_level:` opt.
+'''
+default_value = "lpf_decay_level"
+constraints = '''
+Must be a value between 0 and 130 inclusively
+'''
+modulatable = '''
+Can not be changed once set
+'''
+
+[[elec.options.list]]
+name = "lpf_decay_level:"
+doc = '''
+The level of the low pass filter envelope after the decay phase as a MIDI note. This envelope is bypassed if no lpf env opts are specified. Default value is to match the `lpf_sustain_level:` opt.
+'''
+default_value = "lpf_sustain_level"
+constraints = '''
+Must be a value between 0 and 130 inclusively
+'''
+modulatable = '''
+Can not be changed once set
+'''
+
+[[elec.options.list]]
+name = "lpf_sustain_level:"
+doc = '''
+The level of the low pass filter envelope after the sustain phase as a MIDI note. This envelope is bypassed if no lpf env opts are specified. Default value is to match the `lpf_release_level:` opt.
+'''
+default_value = "lpf_release_level"
+constraints = '''
+Must be a value between 0 and 130 inclusively
+'''
+modulatable = '''
+Can not be changed once set
+'''
+
+[[elec.options.list]]
+name = "lpf_release_level:"
+doc = '''
+The final value of the low pass filter envelope as a MIDI note. This envelope is bypassed if no lpf env opts are specified. Default value is to match the `lpf:` opt.
+'''
+default_value = "lpf"
+constraints = '''
+Must be a value between 0 and 130 inclusively
+'''
+modulatable = '''
+Can not be changed once set
+'''
+
+[[elec.options.list]]
+name = "lpf_env_curve:"
+doc = '''
+Select the shape of the curve between levels in the cutoff envelope. 1=linear, 2=exponential, 3=sine, 4=welch, 6=squared, 7=cubed
+'''
+default_value = "2"
+constraints = '''
+Must be one of the following values: [1, 2, 3, 4, 6, 7]
+'''
+modulatable = '''
+Can not be changed once set
+'''
+
+[[elec.options.list]]
+name = "lpf_min:"
+doc = '''
+The minimum low pass filter value.
+'''
+default_value = "130"
+constraints = '''
+Must be a value less than or equal to 130
+'''
+modulatable = '''
+May be changed whilst playing
+'''
+
+[[elec.options.list]]
+name = "hpf:"
+doc = '''
+High pass filter cutoff value. A MIDI note representing the lowest frequencies allowed to be present in the sound. A high value like 100 makes the sound thin and whispy, a low value like 40 removes just the lower bass components of the sound.
+'''
+default_value = "-1"
+constraints = '''
+Must be zero or greater, must be a value less than 119
+'''
+modulatable = '''
+May be changed whilst playing
+'''
+
+[[elec.options.list]]
+name = "hpf_attack:"
+doc = '''
+Attack time for hpf cutoff filter. Amount of time (in beats) for sound to reach full hpf cutoff value. Default value is set to match amp envelope's attack value.
+'''
+default_value = "attack"
+constraints = '''
+Must be zero or greater
+'''
+modulatable = '''
+Can not be changed once set
+'''
+
+[[elec.options.list]]
+name = "hpf_sustain:"
+doc = '''
+Amount of time for hpf cutoff value to remain at hpf sustain level in beats. When -1 (the default) will auto-stretch.
+'''
+default_value = "sustain"
+constraints = '''
+Must either be a positive value or -1
+'''
+modulatable = '''
+Can not be changed once set
+'''
+
+[[elec.options.list]]
+name = "hpf_decay:"
+doc = '''
+Decay time for hpf cutoff filter. Amount of time (in beats) for sound to move from full hpf cutoff value (cutoff attack level) to the hpf cutoff sustain level. Default value is set to match amp envelope's decay value.
+'''
+default_value = "decay"
+constraints = '''
+Must be zero or greater
+'''
+modulatable = '''
+Can not be changed once set
+'''
+
+[[elec.options.list]]
+name = "hpf_release:"
+doc = '''
+Amount of time (in beats) for sound to move from hpf cutoff sustain value to hpf cutoff min value. Default value is set to match amp envelope's release value.
+'''
+default_value = "release"
+constraints = '''
+Must be zero or greater
+'''
+modulatable = '''
+Can not be changed once set
+'''
+
+[[elec.options.list]]
+name = "hpf_init_level:"
+doc = '''
+The initial high pass filter envelope value as a MIDI note. This envelope is bypassed if no hpf env opts are specified. Default value is set to 130
+'''
+default_value = "130"
+constraints = '''
+Must be a value between 0 and 130 inclusively
+'''
+modulatable = '''
+Can not be changed once set
+'''
+
+[[elec.options.list]]
+name = "hpf_attack_level:"
+doc = '''
+The peak hpf cutoff (value of hpf cutoff at peak of attack) as a MIDI note.
+'''
+default_value = "hpf_decay_level"
+constraints = '''
+Must be a value between 0 and 130 inclusively
+'''
+modulatable = '''
+Can not be changed once set
+'''
+
+[[elec.options.list]]
+name = "hpf_decay_level:"
+doc = '''
+The level of hpf cutoff after the decay phase as a MIDI note.
+'''
+default_value = "hpf_sustain_level"
+constraints = '''
+Must be a value between 0 and 130 inclusively
+'''
+modulatable = '''
+Can not be changed once set
+'''
+
+[[elec.options.list]]
+name = "hpf_sustain_level:"
+doc = '''
+The sustain hpf cutoff (value of hpf cutoff at sustain time) as a MIDI note.
+'''
+default_value = "hpf_release_level"
+constraints = '''
+Must be a value between 0 and 130 inclusively
+'''
+modulatable = '''
+Can not be changed once set
+'''
+
+[[elec.options.list]]
+name = "hpf_release_level:"
+doc = '''
+The sustain hpf cutoff (value of hpf cutoff at sustain time) as a MIDI note.
+'''
+default_value = "hpf"
+constraints = '''
+Must be a value between 0 and 130 inclusively
+'''
+modulatable = '''
+Can not be changed once set
+'''
+
+[[elec.options.list]]
+name = "hpf_env_curve:"
+doc = '''
+Select the shape of the curve between levels in the hpf cutoff envelope. 1=linear, 2=exponential, 3=sine, 4=welch, 6=squared, 7=cubed
+'''
+default_value = "2"
+constraints = '''
+Must be one of the following values: [1, 2, 3, 4, 6, 7]
+'''
+modulatable = '''
+Can not be changed once set
+'''
+
+[[elec.options.list]]
+name = "hpf_max:"
+doc = '''
+The maximum high pass filter value.
+'''
+default_value = "200"
+constraints = '''
+Must be a value less than or equal to 130
+'''
+modulatable = '''
+May be changed whilst playing
+'''
+
+[[elec.options.list]]
+name = "attack_level:"
+doc = '''
+Amplitude level reached after attack phase and immediately before decay phase
+'''
+default_value = "1"
+constraints = '''
+Must be zero or greater
+'''
+modulatable = '''
+Can not be changed once set
+'''
+
+[[elec.options.list]]
+name = "decay_level:"
+doc = '''
+Amplitude level reached after decay phase and immediately before sustain phase. Defaults to sustain_level unless explicitly set
+'''
+default_value = "sustain_level"
+constraints = '''
+Must be zero or greater
+'''
+modulatable = '''
+Can not be changed once set
+'''
+
+[[elec.options.list]]
+name = "sustain_level:"
+doc = '''
+Amplitude level reached after decay phase and immediately before release phase.
+'''
+default_value = "1"
+constraints = '''
+Must be zero or greater
+'''
+modulatable = '''
+Can not be changed once set
+'''
+
+[[elec.options.list]]
+name = "env_curve:"
+doc = '''
+Select the shape of the curve between levels in the envelope. 1=linear, 2=exponential, 3=sine, 4=welch, 6=squared, 7=cubed
+'''
+default_value = "2"
+constraints = '''
+Must be one of the following values: [1, 2, 3, 4, 6, 7]
+'''
+modulatable = '''
+Can not be changed once set
+'''
+
+[[elec.options.list]]
+name = "rate:"
+doc = '''
+Rate with which to play back - default is 1. Playing the sample at rate 2 will play it back at double the normal speed. This will have the effect of doubling the frequencies in the sample and halving the playback time. Use rates lower than 1 to slow the sample down. Negative rates will play the sample in reverse.
+'''
+default_value = "1"
+constraints = '''
+Must not be zero
+'''
+modulatable = '''
+Can not be changed once set
+'''
+
+[[elec.options.list]]
+name = "start:"
+doc = '''
+A fraction (between 0 and 1) representing where in the sample to start playback. 1 represents the end of the sample, 0.5 half-way through etc.
+'''
+default_value = "0"
+constraints = '''
+Must be a value between 0 and 1 inclusively
+'''
+modulatable = '''
+Can not be changed once set
+'''
+
+[[elec.options.list]]
+name = "finish:"
+doc = '''
+A fraction (between 0 and 1) representing where in the sample to finish playback. 1 represents the end of the sample, 0.5 half-way through etc.
+'''
+default_value = "1"
+constraints = '''
+Must be a value between 0 and 1 inclusively
+'''
+modulatable = '''
+Can not be changed once set
+'''
+
+[[elec.options.list]]
+name = "norm:"
+doc = '''
+Normalise the audio (make quieter parts of the sample louder and louder parts quieter) - this is similar to the normaliser FX. This may emphasise any clicks caused by clipping.
+'''
+default_value = "0"
+constraints = '''
+Must be one of the following values: [0, 1]
+'''
+modulatable = '''
+May be changed whilst playing
+'''
+
+[[elec.options.list]]
+name = "pitch:"
+doc = '''
+Pitch adjustment in semitones. 1 is up a semitone, 12 is up an octave, -12 is down an octave etc. Maximum upper limit of 24 (up 2 octaves). Lower limit of -72 (down 6 octaves). Decimal numbers can be used for fine tuning.
+'''
+default_value = "0"
+constraints = '''
+Must be a value greater than or equal to -72, must be a value less than or equal to 24
+'''
+modulatable = '''
+May be changed whilst playing
+'''
+
+[[elec.options.list]]
+name = "window_size:"
+doc = '''
+Pitch shift works by chopping the input into tiny slices, then playing these slices at a higher or lower rate. If we make the slices small enough and overlap them, it sounds like the original sound with the pitch changed.
+
+  The window_size is the length of the slices and is measured in seconds. It needs to be around 0.2 (200ms) or greater for pitched sounds like guitar or bass, and needs to be around 0.02 (20ms) or lower for percussive sounds like drum loops. You can experiment with this to get the best sound for your input.
+'''
+default_value = "0.2"
+constraints = '''
+Must be a value greater than 5.0e-05
+'''
+modulatable = '''
+May be changed whilst playing
+'''
+
+[[elec.options.list]]
+name = "pitch_dis:"
+doc = '''
+Pitch dispersion - how much random variation in pitch to add. Using a low value like 0.001 can help to 'soften up' the metallic sounds, especially on drum loops. To be really technical, pitch_dispersion is the maximum random deviation of the pitch from the pitch ratio (which is set by the pitch param)
+'''
+default_value = "0.0"
+constraints = '''
+Must be a value greater than or equal to 0
+'''
+modulatable = '''
+May be changed whilst playing
+'''
+
+[[elec.options.list]]
+name = "time_dis:"
+doc = '''
+Time dispersion - how much random delay before playing each grain (measured in seconds). Again, low values here like 0.001 can help to soften up metallic sounds introduced by the effect. Large values are also fun as they can make soundscapes and textures from the input, although you will most likely lose the rhythm of the original. NB - This won't have an effect if it's larger than window_size.
+'''
+default_value = "0.0"
+constraints = '''
+Must be a value greater than or equal to 0
+'''
+modulatable = '''
+May be changed whilst playing
+'''
+
+[[elec.options.list]]
+name = "compress:"
+doc = '''
+Enable the compressor. This sits at the end of the internal FX chain immediately before the `amp:` opt. Therefore to drive the compressor use the `pre_amp:` opt which will amplify the signal before it hits any internal FX. The compressor compresses the dynamic range of the incoming signal. Equivalent to automatically turning the amp down when the signal gets too loud and then back up again when it's quiet. Useful for ensuring the containing signal doesn't overwhelm other aspects of the sound. Also a general purpose hard-knee dynamic range processor which can be tuned via the opts to both expand and compress the signal.
+'''
+default_value = "0"
+constraints = '''
+Must be one of the following values: [0, 1]
+'''
+modulatable = '''
+May be changed whilst playing
+'''
+
+[[elec.options.list]]
+name = "threshold:"
+doc = '''
+Threshold value determining the break point between slope_below and slope_above. Only valid if the compressor is enabled by turning on the compress: opt.
+'''
+default_value = "0.2"
+constraints = '''
+Must be zero or greater
+'''
+modulatable = '''
+May be changed whilst playing
+'''
+
+[[elec.options.list]]
+name = "clamp_time:"
+doc = '''
+Time taken for the amplitude adjustments to kick in fully (in seconds). This is usually pretty small (not much more than 10 milliseconds). Also known as the time of the attack phase. Only valid if the compressor is enabled by turning on the compress: opt.
+'''
+default_value = "0.01"
+constraints = '''
+Must be zero or greater
+'''
+modulatable = '''
+May be changed whilst playing
+'''
+
+[[elec.options.list]]
+name = "slope_above:"
+doc = '''
+Slope of the amplitude curve above the threshold. A value of 1 means that the output of signals with amplitude above the threshold will be unaffected. Greater values will magnify and smaller values will attenuate the signal. Only valid if the compressor is enabled by turning on the compress: opt.
+'''
+default_value = "0.5"
+modulatable = '''
+May be changed whilst playing
+'''
+
+[[elec.options.list]]
+name = "slope_below:"
+doc = '''
+Slope of the amplitude curve below the threshold. A value of 1 means that the output of signals with amplitude below the threshold will be unaffected. Greater values will magnify and smaller values will attenuate the signal. Only valid if the compressor is enabled by turning on the compress: opt.
+'''
+default_value = "1"
+modulatable = '''
+May be changed whilst playing
+'''
+
+[[elec.options.list]]
+name = "relax_time:"
+doc = '''
+Time taken for the amplitude adjustments to be released. Usually a little longer than clamp_time. If both times are too short, you can get some (possibly unwanted) artefacts. Also known as the time of the release phase. Only valid if the compressor is enabled by turning on the compress: opt.
+'''
+default_value = "0.01"
+constraints = '''
+Must be zero or greater
+'''
+modulatable = '''
+May be changed whilst playing
+'''
+
+[elec.sliding]
+slide_label = "Slide Options"
+slide_description = '''
+Any parameter that is slidable has three additional options named _slide,
+slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also
+set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:
+'''
+
+[[elec.sliding.slide_opts]]
+name = "_slide"
+default = "0"
+doc = '''
+Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value.
+'''
+
+[[elec.sliding.slide_opts]]
+name = "_slide_shape"
+default = "5"
+doc = '''
+Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. 
+'''
+
+[[elec.sliding.slide_opts]]
+name = "_slide_curve"
+default = "0"
+doc = '''
+Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively.
+'''
+
+

@@ -1,0 +1,60 @@
+# This is a data file that contains information describing the text that is
+# displayed on pages in the Lang section of Sonic Pi's help panel.
+
+# A unique identifier for this function.
+# (For example: chord).
+[load_samples]
+
+# A short phrase describing this Sonic Pi function. (Eg the 'chord' function has
+# a summary phrase: 'Create chord').
+summary = "Pre-load all matching samples"
+
+# Args are the required parameters for the function. Each arg has two documented
+# properties:
+# - the arg's name
+# - the arg's type (number, integer, symbol, ...).
+[[load_samples.args]]
+name = "paths"
+type = "list"
+
+# The detailed description of this function.
+doc = '''
+Given a directory containing multiple `.wav`, `.wave`, `.aif`, `.aiff`, `.ogg`, `.oga` or `.flac` files, pre-loads all the samples into memory.
+
+ You may also specify the same set of source and filter pre-args available to `sample` itself. `load_sample` will load all matching samples (not just the sample `sample` would play given the same opts) - see `sample`'s docs for more information.
+'''
+
+# The label describing the version of Sonic Pi in which this function first
+# appeared.
+[load_samples.introduced]
+label = "Introduced in v2.0"
+
+# Each function may have one or more examples. If it has any, they are listed
+# under an overall 'Example' or 'Examples' label (heading), and each example has
+# a numbered sub-heading, such as 'Example 1'.
+[load_samples.examples]
+label = "Example"
+label_plural = "Examples"
+
+[[load_samples.examples.list]]
+label = "Example 1"
+example = '''
+
+ load_sample :elec_blip # :elec_blip is now loaded and ready to play as a sample
+ sample :elec_blip # No delay takes place when attempting to trigger it
+'''
+
+[[load_samples.examples.list]]
+label = "Example 2"
+example = '''
+# Using source and filter pre-args
+ dir = "/path/to/sample/dir"
+ load_sample dir # loads all samples in "/path/to/sample/dir"
+ load_sample dir, 1 # loads sample with index 1 in "/path/to/sample/dir"
+ load_sample dir, :foo # loads sample with name "foo" in "/path/to/sample/dir"
+ load_sample dir, "quux" # loads all samples with file names containing "quux" in "/path/to/sample/dir"
+ load_sample dir, /[Bb]ar/ # loads all samples which match regex /[Bb]ar/ in "/path/to/sample/dir"
+
+ 
+'''
+

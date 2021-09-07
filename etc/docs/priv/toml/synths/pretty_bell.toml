@@ -1,0 +1,192 @@
+# This is a data file that contains information describing the text that is
+# displayed on pages in the Synths section of Sonic Pi's help panel.
+
+# A unique identifier for this synth or fx.
+# (For example: pretty_bell).
+[pretty_bell]
+
+# A word or short phrase that is used as a label for the synth or fx.
+# (For example: Pretty Bell).
+name = "Pretty Bell"
+
+# A basic code example of how to use the synth or fx.
+usage = '''
+use_synth :pretty_bell
+'''
+
+# The detailed description of the synth or fx.
+doc = '''
+A pretty bell sound. Works well with short attacks and long decays.
+'''
+
+# The label describing the version of Sonic Pi in which this synth or fx first
+# appeared.
+[pretty_bell.introduced]
+label = "Introduced in v2.0"
+
+# The options are the opts of this synth or fx.
+# In the documentation, we currently display two tables of opts:
+# - one listing the name of each opt and its default value for easy reference
+# - a second, more detailed table labelled 'Options', containing:
+#   - the name of each opt
+#   - a detailed description of it
+#   - its default value
+#   - (if the opt has constraints (limits or a specific range of permitted
+#     values, etc)): the constraints of the opt
+#   - a label describing whether this opt can be modulated (altered) while the
+#     synth or fx is running
+#   - (if the opt is slidable): a label indicating that the opt is slidable
+[pretty_bell.options]
+label = "Options"
+
+[[pretty_bell.options.list]]
+name = "note:"
+doc = "Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, `:C`, `:C2`, `:Eb4`, or `:Ds3`"
+default_value = "52"
+constraints = '''
+Must be zero or greater
+'''
+modulatable = '''
+May be changed whilst playing
+'''
+
+[[pretty_bell.options.list]]
+name = "amp:"
+doc = "The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)"
+default_value = "1"
+constraints = '''
+Must be zero or greater
+'''
+modulatable = '''
+May be changed whilst playing
+'''
+
+[[pretty_bell.options.list]]
+name = "pan:"
+doc = "Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly."
+default_value = "0"
+constraints = '''
+Must be a value between -1 and 1 inclusively
+'''
+modulatable = '''
+May be changed whilst playing
+'''
+
+[[pretty_bell.options.list]]
+name = "attack:"
+doc = "Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release."
+default_value = "0"
+constraints = '''
+Must be zero or greater
+'''
+modulatable = '''
+Can not be changed once set
+'''
+
+[[pretty_bell.options.list]]
+name = "decay:"
+doc = "Amount of time (in beats) for the sound to move from full amplitude (attack_level) to the sustain amplitude (sustain_level)."
+default_value = "0"
+constraints = '''
+Must be zero or greater
+'''
+modulatable = '''
+Can not be changed once set
+'''
+
+[[pretty_bell.options.list]]
+name = "sustain:"
+doc = "Amount of time (in beats) for sound to remain at sustain level amplitude. Longer sustain values result in longer sounds. Full length of sound is attack + decay + sustain + release."
+default_value = "0"
+constraints = '''
+Must be zero or greater
+'''
+modulatable = '''
+Can not be changed once set
+'''
+
+[[pretty_bell.options.list]]
+name = "release:"
+doc = "Amount of time (in beats) for sound to move from sustain level amplitude to silent. A short release (i.e. 0.01) makes the final part of the sound very percussive (potentially resulting in a click). A longer release (i.e 1) fades the sound out gently. Full length of sound is attack + decay + sustain + release."
+default_value = "1"
+constraints = '''
+Must be zero or greater
+'''
+modulatable = '''
+Can not be changed once set
+'''
+
+[[pretty_bell.options.list]]
+name = "attack_level:"
+doc = "Amplitude level reached after attack phase and immediately before decay phase"
+default_value = "1"
+constraints = '''
+Must be zero or greater
+'''
+modulatable = '''
+Can not be changed once set
+'''
+
+[[pretty_bell.options.list]]
+name = "decay_level:"
+doc = "Amplitude level reached after decay phase and immediately before sustain phase. Defaults to sustain_level unless explicitly set"
+default_value = "sustain_level"
+constraints = '''
+Must be zero or greater
+'''
+modulatable = '''
+Can not be changed once set
+'''
+
+[[pretty_bell.options.list]]
+name = "sustain_level:"
+doc = "Amplitude level reached after decay phase and immediately before release phase."
+default_value = "1"
+constraints = '''
+Must be zero or greater
+'''
+modulatable = '''
+Can not be changed once set
+'''
+
+[[pretty_bell.options.list]]
+name = "env_curve:"
+doc = "Select the shape of the curve between levels in the envelope. 1=linear, 2=exponential, 3=sine, 4=welch, 6=squared, 7=cubed"
+default_value = "2"
+constraints = '''
+Must be one of the following values: [1, 2, 3, 4, 6, 7]
+'''
+modulatable = '''
+Can not be changed once set
+'''
+
+[pretty_bell.sliding]
+slide_label = "Slide Options"
+slide_description = '''
+Any parameter that is slidable has three additional options named _slide,
+slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also
+set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:
+'''
+
+[[pretty_bell.sliding.slide_opts]]
+name = "_slide"
+default = "0"
+doc = '''
+Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value.
+'''
+
+[[pretty_bell.sliding.slide_opts]]
+name = "_slide_shape"
+default = "5"
+doc = '''
+Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. 
+'''
+
+[[pretty_bell.sliding.slide_opts]]
+name = "_slide_curve"
+default = "0"
+doc = '''
+Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively.
+'''
+
+

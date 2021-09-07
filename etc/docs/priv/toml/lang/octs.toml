@@ -1,0 +1,52 @@
+# This is a data file that contains information describing the text that is
+# displayed on pages in the Lang section of Sonic Pi's help panel.
+
+# A unique identifier for this function.
+# (For example: chord).
+[octs]
+
+# A short phrase describing this Sonic Pi function. (Eg the 'chord' function has
+# a summary phrase: 'Create chord').
+summary = "Create a ring of octaves"
+
+# Args are the required parameters for the function. Each arg has two documented
+# properties:
+# - the arg's name
+# - the arg's type (number, integer, symbol, ...).
+[[octs.args]]
+name = "start"
+type = "note"
+
+[[octs.args]]
+name = "num_octaves"
+type = "pos_int"
+
+# The detailed description of this function.
+doc = '''
+Create a ring of successive octaves starting at `start` for `num_octaves`. 
+'''
+
+# The label describing the version of Sonic Pi in which this function first
+# appeared.
+[octs.introduced]
+label = "Introduced in v2.8"
+
+# Each function may have one or more examples. If it has any, they are listed
+# under an overall 'Example' or 'Examples' label (heading), and each example has
+# a numbered sub-heading, such as 'Example 1'.
+[octs.examples]
+label = "Example"
+label_plural = "Examples"
+
+[[octs.examples.list]]
+label = "Example 1"
+example = '''
+(octs 60, 2)  #=> (ring 60, 72)
+'''
+
+[[octs.examples.list]]
+label = "Example 2"
+example = '''
+(octs :e3, 3) #=> (ring 52, 64, 76)
+'''
+

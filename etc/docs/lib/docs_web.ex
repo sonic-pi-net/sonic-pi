@@ -30,7 +30,7 @@ defmodule DocsWeb do
   def view do
     quote do
       use Phoenix.View,
-        root: "lib/docs_web/templates",
+        root: "lib/docs_web/templates", pattern: "**/*",
         namespace: DocsWeb
 
       # Import convenience functions from controllers
