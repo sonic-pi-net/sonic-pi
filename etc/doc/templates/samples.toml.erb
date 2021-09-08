@@ -74,6 +74,6 @@ t_(
 
 <%=
 if data_object.arg_info.any? { |name, arg| arg[:slidable] }
-    ERB.new(File.read(slides_template_path), nil, '-', eoutvar: '_slide01').result(binding)
+    ERB.new(File.read(::SonicPi::Paths.slides_template_path), nil, '-', eoutvar: '_slide01').result(binding)
 end
 %>

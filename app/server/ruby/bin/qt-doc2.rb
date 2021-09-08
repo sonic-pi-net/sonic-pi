@@ -25,11 +25,11 @@ require_relative "../lib/sonicpi/lang/core"
 require_relative "../lib/sonicpi/lang/sound"
 require_relative "../lib/sonicpi/lang/minecraftpi"
 require_relative "../lib/sonicpi/lang/midi"
+require_relative '../paths'
 require 'active_support/inflector'
 require 'erb'
 require 'gettext'
 require "gettext/tools/xgettext"
-
 
 class QtDocs
   include SonicPi::Lang::Support::DocSystem
@@ -72,9 +72,10 @@ class QtDocs
 
   def generate_pot_file(interpolated_file_paths)
     puts 'Extracting the translatable text into pot file...'
-    FileUtils.mkdir_p(interpolated_template_path) unless File.exist?(interpolated_template_path)
+    FileUtils.mkdir_p(::SonicPi::Paths.interpolated_template_path) unless File.exist?(::SonicPi::Paths.interpolated_template_path)
     cwd = Dir.pwd
-    Dir.chdir(generated_path)
+    FileUtils.mkdir_p(::SonicPi::Paths.generated_path) unless File.exist?(::SonicPi::Paths.generated_path)
+    Dir.chdir(::SonicPi::Paths.generated_path)
     GetText::Tools::XGetText.run(
       *interpolated_file_paths,
       '-otest.pot'
@@ -89,6 +90,7 @@ class QtDocs
         key = key.to_s[3..-1] if collection[:klass] == SonicPi::Synths::FXInfo
         interpolated_file = File.read("#{collection[:interpolated_path]}/#{key}.toml.erb")
         output = ERB.new(interpolated_file, nil, '-').result(binding)
+        FileUtils.mkdir_p(collection[:output_path]) unless File.exist?(collection[:output_path])
         File.open("#{collection[:output_path]}/#{key}.toml", 'w') do |f|
           f.write output
         end
@@ -98,7 +100,7 @@ class QtDocs
 
   def sync_to_documentation_app
     puts 'Syncing the TOML files to the documentation web app...'
-    FileUtils.cp_r(doc_toml_path, documentation_app_priv_path, remove_destination: true)
+    FileUtils.cp_r(::SonicPi::Paths.doc_toml_path, ::SonicPi::Paths.documentation_app_priv_path, remove_destination: true)
   end
 
   def synths
@@ -107,9 +109,9 @@ class QtDocs
     end
     {
       items: items,
-      template_path: synth_and_fx_template_path,
-      interpolated_path: synths_interpolated_path,
-      output_path: synths_toml_path,
+      template_path: ::SonicPi::Paths.synth_and_fx_template_path,
+      interpolated_path: ::SonicPi::Paths.synths_interpolated_path,
+      output_path: ::SonicPi::Paths.synths_toml_path,
       klass: SonicPi::Synths::SynthInfo
     }
   end
@@ -120,9 +122,9 @@ class QtDocs
     end
     {
       items: items,
-      template_path: synth_and_fx_template_path,
-      interpolated_path: fx_interpolated_path,
-      output_path: fx_toml_path,
+      template_path: ::SonicPi::Paths.synth_and_fx_template_path,
+      interpolated_path: ::SonicPi::Paths.fx_interpolated_path,
+      output_path: ::SonicPi::Paths.fx_toml_path,
       klass: SonicPi::Synths::FXInfo
     }
   end
@@ -130,9 +132,9 @@ class QtDocs
   def samples
     {
       items: SonicPi::Synths::SynthInfo.grouped_samples,
-      template_path: samples_template_path,
-      interpolated_path: samples_interpolated_path,
-      output_path: samples_toml_path,
+      template_path: ::SonicPi::Paths.samples_template_path,
+      interpolated_path: ::SonicPi::Paths.samples_interpolated_path,
+      output_path: ::SonicPi::Paths.samples_toml_path,
       data_object: SonicPi::Synths::StereoPlayer.new
     }
   end
@@ -140,9 +142,9 @@ class QtDocs
   def lang
     {
       items: @@docs,
-      template_path: lang_template_path,
-      interpolated_path: lang_interpolated_path,
-      output_path: lang_toml_path
+      template_path: ::SonicPi::Paths.lang_template_path,
+      interpolated_path: ::SonicPi::Paths.lang_interpolated_path,
+      output_path: ::SonicPi::Paths.lang_toml_path
     }
   end
 end
