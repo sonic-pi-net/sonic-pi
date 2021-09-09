@@ -54,4 +54,6 @@ MIX_ENV="${MIX_ENV:-prod}" mix deps.get
 MIX_ENV="${MIX_ENV:-prod}" mix release --overwrite
 
 cp src/tau.app.src ebin/tau.app
+cd "${SCRIPT_DIR}/../etc/docs"
+mix setup
 cd "${SCRIPT_DIR}"

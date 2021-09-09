@@ -64,4 +64,6 @@ cmd /c mix release --overwrite
 
 cd %~dp0\server\beam\tau
 copy /Y src\tau.app.src .\ebin\tau.app
+cd %~dp0\..\etc\docs
+cmd /c mix setup
 cd %~dp0
