@@ -13,4 +13,6 @@ set TAU_IN_PORT=%5%
 set TAU_API_PORT=%6%
 set TAU_SPIDER_PORT=%7%
 
-_build\dev\rel\tau\bin\tau start
+IF NOT DEFINED MIX_ENV SET "MIX_ENV=dev"
+
+_build\%MIX_ENV%\rel\tau\bin\tau start
