@@ -4,22 +4,15 @@ use Application
   @impl true
   def start(_type, _args) do
     IO.puts "All systems booting.,.."
-
-    enabled = extract_env("TAU_ENABLED", :bool)
-    internal = extract_env("TAU_INTERNAL", :bool)
-    midi_enabled = extract_env("TAU_MIDI_ENABLED", :bool)
-    link_enabled = extract_env("TAU_LINK_ENABLED", :bool)
-    in_port = extract_env("TAU_IN_PORT", :int)
-    api_port = extract_env("TAU_API_PORT", :int)
-    spider_port = extract_env("TAU_SPIDER_PORT", :int)
-
-    Application.put_env(:tau, :enabled, enabled)
-    Application.put_env(:tau, :internal, internal)
-    Application.put_env(:tau, :midi_enabled, midi_enabled)
-    Application.put_env(:tau, :link_enabled, link_enabled)
-    Application.put_env(:tau, :in_port, in_port)
-    Application.put_env(:tau, :api_port, api_port)
-    Application.put_env(:tau, :spider_port, spider_port)
+    IO.puts "Pid: #{System.pid()}"
+    enabled      = extract_env("TAU_ENABLED",      :bool, true)
+    internal     = extract_env("TAU_INTERNAL",     :bool, true)
+    midi_enabled = extract_env("TAU_MIDI_ENABLED", :bool, true)
+    link_enabled = extract_env("TAU_LINK_ENABLED", :bool, true)
+    in_port      = extract_env("TAU_IN_PORT",      :int,  5000)
+    api_port     = extract_env("TAU_API_PORT",     :int,  5001)
+    spider_port  = extract_env("TAU_SPIDER_PORT",  :int,  5002)
+    daemon_port  = extract_env("TAU_DAEMON_PORT",  :int,  -1)
 
     :tau_server_sup.set_application_env(enabled,
       internal,
@@ -27,26 +20,29 @@ use Application
       link_enabled,
       in_port,
       api_port,
-      spider_port)
+      spider_port,
+      daemon_port
+    )
 
     # Although we don't use the supervisor name below directly,
     # it can be useful when debugging or introspecting the system.
     :tau_server_sup.start_link()
   end
 
-  def extract_env(name, kind) do
+  def extract_env(name, kind, default) do
     env_val = System.get_env(name)
-    if !env_val do
-      raise "Error, missing ENV Variable #{name}"
+    res = if !env_val do
+      IO.puts "No env variable supplied for #{name} using default: #{default}"
+      default
+    else
+      extracted = case kind do
+                    :bool -> extract_env_bool(env_val)
+                    :int -> extract_env_int(env_val)
+                    :string -> env_val
+                  end
+      IO.puts "extracting env #{name} #{kind} #{extracted}"
+      extracted
     end
-    res = case kind do
-            :bool -> extract_env_bool(env_val)
-            :int -> extract_env_int(env_val)
-            :string -> env_val
-
-          end
-
-    IO.puts "extracting env #{name} #{kind} #{res}"
     res
   end
 

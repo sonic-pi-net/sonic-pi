@@ -18,6 +18,9 @@ require 'open3'
 require 'fileutils'
 require 'time'
 
+require_relative "../lib/sonicpi/osc/osc"
+require_relative "../lib/sonicpi/promise"
+
 # Make sure vendored tomlrb lib is on the Ruby path so it can be required
 Dir["#{File.expand_path("../../vendor", __FILE__)}/*/lib/"].each do |vendor_lib|
   $:.unshift vendor_lib
@@ -148,7 +151,15 @@ module SonicPi
         @scsynth_booter = ScsynthBooter.new(ports)
 
         Util.log "Booting Tau"
-        @tau_booter     = TauBooter.new(ports)
+        begin
+          @tau_booter = TauBooter.new(ports)
+        rescue StandardError => e
+          Util.log "Oh no, something went wrong booting Tau"
+          Util.log "Error Class: #{e.class}"
+          Util.log "Error Message: #{e.message}"
+          Util.log "Error Backtrace: #{e.backtrace.inspect}"
+        end
+
 
         Util.log "Booting Spider Server"
         @spider_booter  = SpiderBooter.new(ports)
@@ -193,7 +204,7 @@ module SonicPi
             Util.log "Waiting for GUI on port #{port_num}...."
 
             unless IO.select([keep_alive_server], nil, nil, connect_timeout)
-              Util.log "Error. Unable to connect to GUI process on TCP port #{port_num}"
+              Util.log "Critical Error. Unable to connect to GUI process on TCP port #{port_num}"
               @safe_exit.exit
             end
 
@@ -215,9 +226,10 @@ module SonicPi
             Util.log "Error Backtrace: #{e.backtrace.inspect}"
           end
 
-          Util.log "Shutting down..."
+          Util.log "Critical Error. Lost comms with GUI."
           client.close if client
           keep_alive_server.close if keep_alive_server
+
           @safe_exit.exit
         end
       end
@@ -371,16 +383,23 @@ module SonicPi
       end
     end
 
-
-
     class ProcessBooter
       attr_reader :pid, :args, :cmd
       def initialize(cmd, args, log_path)
+        @pid = nil
         @args = args.map {|el| el.to_s}
         @cmd = cmd
         @log_file = File.open(log_path, 'a')
         raise "Unable to create log file at path: #{log_path}" unless @log_file
-        boot
+        begin
+          boot
+        rescue StandardError => e
+          Util.log "Error: something went wrong booting process: #{cmd}, #{args}, #{log_path}"
+          Util.log "Error Class: #{e.class}"
+          Util.log "Error Message: #{e.message}"
+          Util.log "Error Backtrace: #{e.backtrace.inspect}"
+          @log_file.close if @log_file
+        end
       end
 
       def inspect
@@ -499,6 +518,7 @@ module SonicPi
 
     class TauBooter < ProcessBooter
       def initialize(ports)
+        @tau_pid = Promise.new
         enabled      = true
         internal     = false
         midi_enabled = true
@@ -506,14 +526,64 @@ module SonicPi
         in_port      = ports["osc-cues"]
         api_port     = ports["tau"]
         spider_port  = ports["listen-to-tau"]
+        daemon_port  = ports["daemon-listen-to-tau"]
 
-        args = [enabled,
+        tau_comms    = TCPServer.new "127.0.0.1", daemon_port
+        osc_decoder  = SonicPi::OSC::OscDecode.new
+
+        Thread.new do
+          client = nil
+
+          @tau_comms_thread = Thread.new do
+            Util.log "----->   Accepting incoming connection from Tau"
+            client = tau_comms.accept    # Wait for a client to connect
+            Util.log "----->   Connection accepted"
+
+            recv_osc = lambda do
+              size_str = client.recvfrom(4, Socket::MSG_WAITALL)[0].chomp
+              size = size_str.unpack('N')[0]
+              raise "Critical Error: Bad TCP OSC size received from Tau #{size_str}" unless size
+              data_raw = client.recvfrom(size, Socket::MSG_WAITALL)[0].chomp
+              osc_decoder.decode_single_message(data_raw)
+            end
+
+
+            begin
+              data = recv_osc.call
+              tau_pid = Integer(data[1][0])
+              @tau_pid.deliver!(tau_pid)
+              Util.log "----->   Tau Pid: #{tau_pid}"
+
+              loop do
+                data = recv_osc.call
+                Util.log "Received OSC from Tau: #{data}"
+                # In the future this is where we can handle any callbacks from Tau
+              end
+            rescue Errno::ECONNRESET
+              Util.log  "Tau closed TCP connection"
+            rescue StandardError => e
+              Util.log "Critical Error, whilst communicating with Tau:"
+              Util.log "Error Class: #{e.class}"
+              Util.log "Error Message: #{e.message}"
+              Util.log "Error Backtrace: #{e.backtrace.inspect}"
+            end
+          end
+
+          @tau_comms_thread.join
+          client.close if client
+          tau_comms.close if tau_comms
+        end
+
+        args = [
+          enabled,
           internal,
           midi_enabled,
           link_enabled,
           in_port,
           api_port,
-          spider_port]
+          spider_port,
+          daemon_port
+        ]
 
         if Util.os == :windows
           cmd = Paths.mix_release_boot_path
@@ -523,6 +593,20 @@ module SonicPi
         end
 
         super(cmd, args, Paths.tau_log_path)
+      end
+
+      def process_running?
+        @tau_comms_thread.alive?
+      end
+
+      def kill
+        @tau_comms_thread.kill
+        @pid = @tau_pid.get
+        super
+      end
+
+      def wait
+        @tau_comms_thread.join
       end
     end
 
@@ -749,6 +833,8 @@ module SonicPi
         # Port which the Ruby server listens to messages back from the Tau server
         "listen-to-tau" => :dynamic,
 
+        "daemon-listen-to-tau" => :dynamic,
+
         # Port which the server uses to communicate via websockets
         # (This is currently unused.)
         "websocket" => :dynamic
@@ -777,6 +863,7 @@ module SonicPi
           "osc-cues",
           "tau",
           "listen-to-tau",
+          "daemon-listen-to-tau",
           "websocket"].inject({}) do |res, port_name|
 
           default = nil
@@ -788,7 +875,11 @@ module SonicPi
             elsif default == :paired
               port = res[port_name[1]]
             else
-              port = default
+              if check_port(default)
+                port = default
+              else
+                port = find_free_port
+              end
             end
             res[port_name[0]] = port.to_i
           else
@@ -796,7 +887,7 @@ module SonicPi
             if default == :dynamic
               port = find_free_port
             elsif default == :paired
-              raise "Invalid port default for port: #{port_name}. This port can not be paired."
+              Util.log "Critical error: Invalid port default for port: #{port_name}. This port can not be paired."
               @safe_exit.exit
             else
               port = default
@@ -816,6 +907,7 @@ module SonicPi
         begin
           socket = UDPSocket.new
           socket.bind('127.0.0.1', port)
+          Util.log "checked port #{port}, #{socket}"
           socket.close
           available = true
         rescue StandardError
@@ -827,6 +919,7 @@ module SonicPi
       def find_free_port
         while !check_port(@last_free_port += 1)
           if @last_free_port > 65535
+            Util.log "Critical error: Unable to find a free port."
             @safe_exit.exit
           end
         end

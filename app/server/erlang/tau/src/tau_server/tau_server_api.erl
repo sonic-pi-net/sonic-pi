@@ -78,6 +78,8 @@ start_link(CueServer, MIDIServer, LinkServer) ->
 init(Parent, CueServer, MIDIServer, LinkServer) ->
     register(?SERVER, self()),
     APIPort = application:get_env(?APPLICATION, api_port, undefined),
+    DaemonPort = application:get_env(?APPLICATION, daemon_port, undefined),
+
     io:format("~n"
               "+--------------------------------------+~n"
               "    This is the Sonic Pi API Server     ~n"
@@ -88,9 +90,23 @@ init(Parent, CueServer, MIDIServer, LinkServer) ->
               [erlang:system_info(otp_release), APIPort]),
 
     {ok, APISocket} = gen_udp:open(APIPort, [binary, {ip, loopback}]),
+    io:format("connecting to Daemon via TCP...~n", []),
+    {ok, DaemonSocket} = gen_tcp:connect({127,0,0,1}, DaemonPort, [
+                                                                   binary,
+                                                                   {active, true},
+                                                                   {packet, 4},
+                                                                   {keepalive, true}
+                                                                  ]),
 
+    PidMsg = osc:encode(["/tau_pid", os:getpid()]),
+    io:format("Sending Pid to Daemon...~n", []),
+
+    gen_tcp:send(DaemonSocket, PidMsg),
     %% tell parent we have allocated resources and are up and running
     proc_lib:init_ack(Parent, {ok, self()}),
+
+
+
 
     debug(2, "listening for API commands on socket: ~p~n",
           [try erlang:port_info(APISocket) catch _:_ -> undefined end]),
@@ -106,6 +122,10 @@ init(Parent, CueServer, MIDIServer, LinkServer) ->
 
 loop(State) ->
     receive
+        {tcp, Socket, Data} ->
+            debug(3, "api server got TCP on ~p:~p~n", [Socket, Data]),
+            ?MODULE:loop(State);
+
         {timeout, Timer, {call, Server, Msg, Tracker}} ->
             Server ! Msg,
             tau_server_tracker:forget(Timer, Tracker),
