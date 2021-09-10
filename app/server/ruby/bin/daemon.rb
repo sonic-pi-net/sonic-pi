@@ -843,7 +843,7 @@ module SonicPi
       def initialize(safe_exit)
         @safe_exit = safe_exit
         # choose random port to try first
-        @last_free_port = 49152 + rand(2000)
+        @last_free_port = 29152 + rand(10000).to_i
 
         @ports = [
           # each entry is the name of a port to determine.
