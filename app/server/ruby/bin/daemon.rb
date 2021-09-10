@@ -489,8 +489,8 @@ module SonicPi
           Util.log "Process Booter - no need to kill #{@cmd} with pid #{@pid} and args #{@args.inspect} - already terminated, wait_thr status: #{@wait_thr}, #{@wait_thr.status}"
         end
 
+        @io_thr.kill if @io_thr
         @log_file.close if @log_file
-        @stdout_and_err_thr.kill if @stdout_and_err_thr
       end
     end
 
