@@ -3308,7 +3308,7 @@ Steal This Sound,  Mitchell Sigman"
       end
 
       def doc
-        "A lead synth inspired by the Winwood songs from the early 80s.  Adapted for Sonic Pi from [Steal This Sound](https://raw.githubusercontent.com/supercollider/supercollider/develop/examples/demonstrations/stealthissound.scd). Published there under [GPL v3](https://www.gnu.org/licenses/gpl-3.0.en.html), so re-published under the same terms. The source code is available [on the Sonic Pi GitHub repository](https://github.com/sonic-pi-net/sonic-pi). Date of modification: 10.01.2021"
+        "A lead synth inspired by the Winwood songs from the early 80s. Adapted for Sonic Pi from [Steal This Sound](https://raw.githubusercontent.com/supercollider/supercollider/develop/examples/demonstrations/stealthissound.scd)."
       end
 
       def arg_defaults
@@ -3390,7 +3390,7 @@ Steal This Sound,  Mitchell Sigman"
       end
 
       def doc
-        "A soft bass synth inspired by the sounds of the 80s. Use together with :bass_highend if you want to give it a gargling component. Adapted for Sonic Pi from [Steal This Sound](https://raw.githubusercontent.com/supercollider/supercollider/develop/examples/demonstrations/stealthissound.scd). Published there under [GPL v3](https://www.gnu.org/licenses/gpl-3.0.en.html), so re-published under the same terms. The source code is available [on the Sonic Pi GitHub repository](https://github.com/sonic-pi-net/sonic-pi). Date of modification: 10.01.2021"
+        "A soft bass synth inspired by the sounds of the 80s. Use together with :bass_highend if you want to give it a gargling component. Adapted for Sonic Pi from [Steal This Sound](https://raw.githubusercontent.com/supercollider/supercollider/develop/examples/demonstrations/stealthissound.scd)."
       end
 
       def arg_defaults
@@ -3443,7 +3443,7 @@ Steal This Sound,  Mitchell Sigman"
       end
 
       def doc
-        "An addition to the :bass_foundation synth inspired by the sounds of the 80s. Use them together if you want to give it a rough, slurping, or gargling component. Adapted for Sonic Pi from [Steal This Sound](https://raw.githubusercontent.com/supercollider/supercollider/develop/examples/demonstrations/stealthissound.scd). Published there under [GPL v3](https://www.gnu.org/licenses/gpl-3.0.en.html), so re-published under the same terms. The source code is available [on the Sonic Pi GitHub repository](https://github.com/sonic-pi-net/sonic-pi). Date of modification: 11.01.2021"
+        "An addition to the :bass_foundation synth inspired by the sounds of the 80s. Use them together if you want to give it a rough, slurping, or gargling component. Adapted for Sonic Pi from [Steal This Sound](https://raw.githubusercontent.com/supercollider/supercollider/develop/examples/demonstrations/stealthissound.scd)."
       end
 
       def arg_defaults
