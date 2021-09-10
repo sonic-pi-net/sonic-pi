@@ -412,7 +412,14 @@ module SonicPi
         @stdin, @stdout_and_err, @wait_thr = Open3.popen2e @cmd, *@args
         @pid = @wait_thr.pid
         @io_thr = Thread.new do
-          @stdout_and_err.each {|line| @log_file << line ; @log_file.flush}
+          @stdout_and_err.each do |line|
+            begin
+              @log_file << line
+              @log_file.flush
+            rescue IOError
+              # don't attempt to write
+            end
+          end
         end
       end
 
@@ -430,6 +437,7 @@ module SonicPi
       end
 
       def kill
+
         if process_running?
           Util.log "Process Booter - killing #{@cmd} with pid #{@pid} and args #{@args.inspect}, wait_thr status: #{@wait_thr}, #{@wait_thr.status}"
 
