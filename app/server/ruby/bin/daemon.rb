@@ -538,11 +538,13 @@ module SonicPi
 
         tau_comms    = TCPServer.new "127.0.0.1", daemon_port
         osc_decoder  = SonicPi::OSC::OscDecode.new
+        comms_thread_started = Promise.new
 
         Thread.new do
           client = nil
 
           @tau_comms_thread = Thread.new do
+            comms_thread_started.deliver! true
             Util.log "----->   Accepting incoming connection from Tau"
             client = tau_comms.accept    # Wait for a client to connect
             Util.log "----->   Connection accepted"
@@ -581,6 +583,8 @@ module SonicPi
           client.close if client
           tau_comms.close if tau_comms
         end
+
+        comms_thread_started.get
 
         args = [
           enabled,
