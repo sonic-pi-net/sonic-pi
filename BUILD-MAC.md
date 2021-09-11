@@ -68,9 +68,11 @@ Once you have Homebrew installed, pulling in the rest of the
 dependencies is a couple of lines to execute within a terminal:
 
 ```
-brew install qt cmake
-
+brew install qt@5 cmake
 ```
+
+The default version Brew installs is Qt 6 which can prevent the application
+from linking correctly in the build.
 
 ## 2. Preparing the Build
 
@@ -141,8 +143,7 @@ directly either by double clicking it in the Finder or via the terminal
 (from within the `build` directory):
 
 ```
-./Sonic\ Pi.app/Contents/MacOS/Sonic\ Pi
-
+./gui/qt/Sonic\ Pi.app/Contents/MacOS/Sonic\ Pi
 ```
 
 ## Good Luck!
