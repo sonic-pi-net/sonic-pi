@@ -111,7 +111,8 @@ jobs:
         CC: ${{ matrix.cc }}
         QT_INSTALL_LOCATION: ${{env.Qt5_DIR}}
       run: |
-        sudo apt install -y pulseaudio dbus-x11 libssl-dev ruby-dev supercollider-server sc3-plugins-server alsa-utils jackd2 libjack-jackd2-dev libjack-jackd2-0 libasound2-dev librtmidi-dev pulseaudio-module-jack
+        sudo apt install -y pulseaudio dbus-x11 libssl-dev ruby-dev supercollider-server sc3-plugins-server alsa-base alsa-utils jackd2 libjack-jackd2-dev libjack-jackd2-0 libasound2-dev librtmidi-dev pulseaudio-module-jack
+        sudo modprobe snd_seq
         ./linux-prebuild.sh --build-aubio
       if: matrix.os == 'ubuntu-latest'
 
