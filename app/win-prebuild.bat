@@ -57,7 +57,7 @@ forfiles /p gui\qt\lang /s /m *.ts /c "cmd /c %QT_INSTALL_LOCATION%\bin\lrelease
 cd %~dp0\server\erlang\tau
 cmd /c mix local.hex --force
 cmd /c mix deps.get
-cmd /c mix release
+cmd /c mix release --overwrite
 
 cd %~dp0\server\erlang\tau
 copy /Y src\tau.app.src .\ebin\tau.app
