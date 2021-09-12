@@ -86,7 +86,7 @@ echo "Compiling Erlang/Elixir files..."
 cd "${SCRIPT_DIR}/server/erlang/tau"
 mix local.hex --force
 mix deps.get
-mix release
+mix release --overwrite
 
 cp src/tau.app.src ebin/tau.app
 cd "${SCRIPT_DIR}"
