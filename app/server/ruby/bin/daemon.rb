@@ -552,7 +552,7 @@ module SonicPi
             recv_osc = lambda do
               size_str = client.recvfrom(4, Socket::MSG_WAITALL)[0].chomp
               size = size_str.unpack('N')[0]
-              raise "Critical Error: Bad TCP OSC size received from Tau #{size_satr.inspect}" unless size
+              raise "Critical Error: Bad TCP OSC size received from Tau #{size_str.inspect}" unless size
               data_raw = client.recvfrom(size, Socket::MSG_WAITALL)[0].chomp
               osc_decoder.decode_single_message(data_raw)
             end
