@@ -125,13 +125,13 @@ module SonicPi
               @mod_sound_studio.start
             end
 
-            @life_hooks.on_killed do |job_id, payload|
-              # Do nothing for now
-            end
+            # @life_hooks.on_killed do |job_id, payload|
+            #   # Do nothing for now
+            # end
 
-            @life_hooks.on_completed do |job_id, payload|
-              # Do nothing for now
-            end
+            # @life_hooks.on_completed do |job_id, payload|
+            #   # Do nothing for now
+            # end
 
             @life_hooks.on_all_completed do |silent=false|
               @mod_sound_studio.pause(silent)
