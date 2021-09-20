@@ -850,6 +850,7 @@ module SonicPi
     end
 
     def __spider_eval(code, info={})
+      now = Time.now.freeze
       # skip __nosave lines for error reporting
       firstline = 1
       firstline -= code.lines.to_a.take_while{|l| l.include? "#__nosave__"}.count
@@ -878,8 +879,7 @@ module SonicPi
           __set_default_user_thread_locals!
           __msg_queue.push({type: :job, jobid: id, action: :start, jobinfo: info})
           @life_hooks.init(id, {:thread => Thread.current})
-          now = Time.now.freeze
-          start_t_prom.deliver! now
+
           ## fix this for link
           __reset_spider_time_and_beat!
           if num_running_jobs == 1
@@ -893,6 +893,8 @@ module SonicPi
           job_in_thread = in_thread seed: 0 do
             eval(code, nil, info[:workspace], firstline)
           end
+
+          start_t_prom.deliver! now
           __schedule_delayed_blocks_and_messages!
         rescue Stop => e
           __no_kill_block do
@@ -937,7 +939,7 @@ module SonicPi
         Thread.current.priority = -10
         __system_thread_locals.set_local(:sonic_pi_local_thread_group, "job-#{id}-GC")
         job.join
-        __system_thread_locals(job_in_thread).get(:sonic_pi_local_spider_subthread_empty).get
+        __system_thread_locals(job_in_thread).get(:sonic_pi_local_spider_subthread_empty).get if job_in_thread
 
         # wait until all synths are dead
         @life_hooks.completed(id)
