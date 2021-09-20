@@ -40,6 +40,7 @@ require 'fileutils'
 require 'set'
 require 'ruby-beautify'
 require 'securerandom'
+require 'monitor'
 require 'active_support/core_ext/integer/inflections'
 
 
@@ -829,7 +830,7 @@ module SonicPi
       # over the alternative of a global no_kill mutex.  Killing a Run
       # then essentially turns into waiting for each no_kill mutext for
       # every sub-in_thread before killing them.
-      __system_thread_locals.set_local :sonic_pi_local_spider_no_kill_mutex, Mutex.new
+      __system_thread_locals.set_local :sonic_pi_local_spider_no_kill_mutex, Monitor.new
 
       # Reset subthreads thread local to the empty set. This shouldn't
       # be inherited from the parent thread.
