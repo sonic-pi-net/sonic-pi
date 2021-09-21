@@ -438,7 +438,7 @@ module SonicPi
 
       def kill
 
-        if process_running?
+        if process_running? && @pid
           Util.log "Process Booter - killing #{@cmd} with pid #{@pid} and args #{@args.inspect}, wait_thr status: #{@wait_thr}, #{@wait_thr.status}"
 
           unless Util.os == :windows
@@ -489,9 +489,16 @@ module SonicPi
           Util.log "Process Booter - no need to kill #{@cmd} with pid #{@pid} and args #{@args.inspect} - already terminated, wait_thr status: #{@wait_thr}, #{@wait_thr.status}"
         end
 
+
+        unless @pid
+          Util.log "Process Booter - Unfortunately we don't have a @pid for  #{@cmd} with args #{@args.inspect}. wait_thr: #{@wait_thr}"
+        end
+
         @io_thr.kill if @io_thr
         @log_file.close if @log_file
+
       end
+
     end
 
 
@@ -612,7 +619,12 @@ module SonicPi
       end
 
       def kill
-        @pid = @tau_pid.get
+        begin
+          @pid = @tau_pid.get(30)
+        rescue SonicPi::PromiseTimeoutError
+          @pid = nil
+          Util.log "Didn't receive Tau's Pid after waiting for 30s..."
+        end
         @tau_comms_thread.kill
         super
       end
@@ -938,7 +950,6 @@ module SonicPi
         @last_free_port
       end
     end
-
   end
 end
 
