@@ -4189,6 +4189,7 @@ puts current_sched_ahead_time # Prints 0.5"]
 
       def sleep(beats)
         __system_thread_locals.set_local(:sonic_pi_spider_time_state_cache, [])
+        __system_thread_locals.set_local(:sonic_pi_local_last_sync, nil)
 
         # Schedule messages
         __schedule_delayed_blocks_and_messages!
@@ -4342,14 +4343,27 @@ puts current_sched_ahead_time # Prints 0.5"]
 
         __schedule_delayed_blocks_and_messages!
 
-        t = current_time
+        last_sync = __system_thread_locals.get(:sonic_pi_local_last_sync, nil)
+
+        if last_sync
+          t = last_sync.time
+          i = last_sync.thread_id
+          p = last_sync.priority
+          d = last_sync.delta
+          b = last_sync.beat
+          m = last_sync.bpm
+        else
+          t = current_time
         p = __system_thread_locals.get(:sonic_pi_spider_thread_priority, -100)
         i = __current_thread_id
         d = __system_thread_locals.get(:sonic_pi_spider_thread_delta, 0)
         b = current_beat
         m = current_bpm_mode
+        end
 
         se = @event_history.sync(t, p, i, d, b, m, cue_id, arg_matcher)
+
+        __system_thread_locals.set_local :sonic_pi_local_last_sync, se
 
         __system_thread_locals.set(:sonic_pi_spider_synced, true)
 
