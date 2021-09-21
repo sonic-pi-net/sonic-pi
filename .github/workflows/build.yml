@@ -74,7 +74,6 @@ jobs:
     - name: Install Qt
       uses: jurplel/install-qt-action@v2
       with:
-        extra: '--b http://mirrors.ocf.berkeley.edu/qt/'
         cached: ${{ steps.cache-qt2.outputs.cache-hit }}
 
       # Latest Erlang on Ubuntu
