@@ -315,9 +315,14 @@ module SonicPi
       end
 
       def self.log(msg)
-        if @@log_file
-          @@log_file.puts("[#{Time.now.strftime("%Y-%m-%d %H:%M:%S")}] #{msg}")
-          @@log_file.flush
+        begin
+          if @@log_file
+            @@log_file.puts("[#{Time.now.strftime("%Y-%m-%d %H:%M:%S")}] #{msg}")
+            @@log_file.flush
+          end
+        rescue IOError => e
+          STDERR.puts "Error. Unable to write to log file: #{e.message}"
+          STDERR.puts e.inspect
         end
       end
 
