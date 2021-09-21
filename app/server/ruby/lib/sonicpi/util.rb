@@ -22,7 +22,7 @@ module SonicPi
     when /.*arm.*-linux.*/
       @@os = :raspberry
     when /aarch64.*linux.*/
-       @@os = :raspberry
+      @@os = :raspberry
     when /.*linux.*/
       @@os = :linux
     when /.*darwin.*/
@@ -101,7 +101,7 @@ module SonicPi
       os == :raspberry && @@raspberry_pi_3bplus_64
     end
 
-   def raspberry_pi_4_1gb?
+    def raspberry_pi_4_1gb?
       os == :raspberry && @@raspberry_pi_4_1gb
     end
 
@@ -125,23 +125,23 @@ module SonicPi
       os == :raspberry && @@raspberry_pi_4_2gb_64
     end
 
-      def raspberry_pi_4_4gb_64?
+    def raspberry_pi_4_4gb_64?
       os == :raspberry && @@raspberry_pi_4_4gb_64
     end
 
-     def raspberry_pi_4_8gb_64?
+    def raspberry_pi_4_8gb_64?
       os == :raspberry && @@raspberry_pi_4_8gb_64
     end
 
-      def raspberry_pi_400?
+    def raspberry_pi_400?
       os == :raspberry && @@raspberry_pi_400
     end
 
-     def raspberry_pi_400_64?
+    def raspberry_pi_400_64?
       os == :raspberry && @@raspberry_pi_400_64
     end
 
-   def unify_tilde_dir(path)
+    def unify_tilde_dir(path)
       if os == :windows
         path
       else
@@ -154,14 +154,14 @@ module SonicPi
     end
 
     def num_audio_busses_for_current_os
-        1024
+      1024
     end
 
     def default_sched_ahead_time
       if raspberry_pi_2?
         2
       elsif  raspberry_pi_3? or raspberry_pi_3bplus? \
-         or raspberry_pi_3_64? or raspberry_pi_3bplus_64?
+        or raspberry_pi_3_64? or raspberry_pi_3bplus_64?
         1.5
       else
         0.5
@@ -197,11 +197,11 @@ module SonicPi
           "Raspberry Pi 4B:4Gb 64bit OS"
         elsif raspberry_pi_4_8gb_64?
           "Raspberry Pi 4B:8Gb 64bit OS"
-         elsif raspberry_pi_400?
+        elsif raspberry_pi_400?
           "Raspberry Pi 400:4Gb"
         elsif raspberry_pi_400_64?
           "Raspberry Pi 400:4Gb 64bit OS"
-       else
+        else
           "Raspberry Pi"
         end
       when :linux
@@ -215,7 +215,7 @@ module SonicPi
 
     def default_control_delta
       if raspberry_pi?
-          0.013
+        0.013
       else
         0.005
       end
@@ -270,10 +270,10 @@ module SonicPi
     def fetch_url(url, anonymous_uuid=true)
       begin
 
-          params = {:ruby_platform => RUBY_PLATFORM,
-                    :ruby_version => RUBY_VERSION,
-                    :ruby_patchlevel => RUBY_PATCHLEVEL,
-                    :sonic_pi_version => @version.to_s}
+        params = {:ruby_platform => RUBY_PLATFORM,
+          :ruby_version => RUBY_VERSION,
+          :ruby_patchlevel => RUBY_PATCHLEVEL,
+          :sonic_pi_version => @version.to_s}
 
         params[:uuid] = global_uuid if anonymous_uuid
 
@@ -359,19 +359,19 @@ module SonicPi
 
     def truthy?(val)
 
-        case val
-        when Numeric
-          return val != 0
-        when NilClass
-          return false
-        when TrueClass
-          return true
-        when FalseClass
-          return false
-        when Proc
-          new_v = val.call
-          return truthy?(new_v)
-        end
+      case val
+      when Numeric
+        return val != 0
+      when NilClass
+        return false
+      when TrueClass
+        return true
+      when FalseClass
+        return false
+      when Proc
+        new_v = val.call
+        return truthy?(new_v)
+      end
     end
 
     def zipmap(a, b)

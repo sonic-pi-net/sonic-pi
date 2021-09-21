@@ -101,7 +101,6 @@ module SonicPi
     def wait_for_tau!
       p = Promise.new
 
-      booted = false
       connected = false
 
       boot_s = OSC::UDPServer.new(0) do |a, b, info|
@@ -125,7 +124,7 @@ module SonicPi
       begin
         p.get(30)
       rescue Exception => e
-        STDOUT.puts "TauComms - Unable to connect to tau. Exiting..."
+        STDOUT.puts "TauComms - Unable to connect to tau (#{e.message}). Exiting..."
         exit
       ensure
         t.kill

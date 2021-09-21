@@ -382,7 +382,6 @@ module SonicPi
 
     def __schedule_delayed_blocks_and_messages!
       delayed_messages = __system_thread_locals.get(:sonic_pi_local_spider_delayed_messages, [])
-      delayed_blocks = __system_thread_locals.get(:sonic_pi_local_spider_delayed_blocks, [])
       __system_thread_locals.set_local(:sonic_pi_local_spider_delayed_messages, [])
       __system_thread_locals.set_local(:sonic_pi_local_spider_delayed_blocks, [])
       if (delayed_messages && (!delayed_messages.empty?) && (!__system_thread_locals.get(:sonic_pi_spider_silent)))
@@ -399,17 +398,7 @@ module SonicPi
         Thread.new do
             Kernel.sleep(sleep_time) if sleep_time > 0
           __msg_queue.push msg
-
-            #We're now in sync with the sched_ahead time
-
-          # delayed_blocks.each do |b|
-          #   begin
-          #     b.call
-          #   rescue => e
-          #     log e.backtrace
-          #   end
-          # end
-
+          #We're now in sync with the sched_ahead time
         end
       end
     end

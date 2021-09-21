@@ -155,7 +155,6 @@ module SonicPi
       puts "scsynth boot - Waiting for the SuperCollider Server to have booted..."
       p = Promise.new
 
-      booted = false
       connected = false
 
       boot_s = OSC::UDPServer.new(0) do |a, b, info|
@@ -180,7 +179,7 @@ module SonicPi
       begin
         p.get(30)
       rescue Exception => e
-        puts "scsynth boot - Unable to connect to SuperCollider Audio Server. Exiting..."
+        puts "scsynth boot - Unable to connect to SuperCollider Audio Server (#{e.message}). Exiting..."
         exit
       ensure
         t.kill

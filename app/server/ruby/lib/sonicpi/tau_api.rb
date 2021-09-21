@@ -120,6 +120,7 @@ module SonicPi
     def link_get_clock_time_at_beat(beat, quantum = 4)
       link_time = link_get_time_at_beat(beat, quantum)
       t_with_delta = (link_time + @link_time_delta_micros_prom.get) / 1_000_000.0
+      t_with_delta
     end
 
     def link_get_beat_at_clock_time(clock_time, quantum = 4)
@@ -200,32 +201,32 @@ module SonicPi
     def add_incoming_api_handlers!
       @tau_comms.add_method("/link-tempo-change") do |args|
         @incoming_tempo_change_cv.broadcast
-        gui_id = args[0]
+        _gui_id = args[0]
         tempo = args[1].to_f
         @tempo = tempo
       end
 
       @tau_comms.add_method("/midi-ins") do |args|
-        gui_id = args[0]
+        _gui_id = args[0]
         ins = args[1..-1]
         @updated_midi_ins_handler.call(ins)
       end
 
       @tau_comms.add_method("/midi-outs") do |args|
-        gui_id = args[0]
+        _gui_id = args[0]
         outs = args[1..-1]
         @updated_midi_outs_handler.call(outs)
       end
 
       @tau_comms.add_method("/tau-api-reply") do |args|
-        gui_id = args[0]
+        _gui_id = args[0]
         key = args[1]
         payload = args[2..-1]
         @tau_api_events.async_event(key, payload)
       end
 
       @tau_comms.add_method("/internal-cue") do |args|
-        gui_id = args[0]
+        _gui_id = args[0]
         path = args[1]
         args = args[2..-1]
         @internal_cue_handler.call(path, args)
@@ -236,7 +237,7 @@ module SonicPi
       end
 
       @tau_comms.add_method("/external-osc-cue") do |args|
-        gui_id = args[0]
+        _gui_id = args[0]
         ip = args[0]
         port = args[1]
         address = args[2]

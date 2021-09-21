@@ -3743,7 +3743,6 @@ end
       def use_bpm_mul(mul, &block)
         raise ArgumentError, "use_bpm_mul must not be called with a block. Perhaps you meant with_bpm_mul" if block
         raise ArgumentError, "use_bpm_mul's mul should be a positive value. You tried to use: #{mul}" unless mul > 0
-        new_bpm = __get_spider_bpm * mul.to_f
         __layer_spider_time_density!(mul)
       end
       doc name:           :use_bpm_mul,
@@ -3925,7 +3924,7 @@ This can be set via the fns `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sa
 
 
 
-        def current_bpm
+      def current_bpm
         __get_spider_bpm
       end
       doc name:          :current_bpm,

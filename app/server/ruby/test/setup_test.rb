@@ -121,33 +121,33 @@ module SonicPi
         end
       end
 
-      external_osc_cue_handler = lambda do |time, ip, port, address, args|
-        address = "/#{address}" unless address.start_with?("/")
-        address = "/osc:#{host}:#{port}#{address}"
-        p = 0
-        d = 0
-        b = 0
-        m = 60
-        @register_cue_event_lambda.call(Time.now, p, @system_init_thread_id, d, b, m, address, args, 0)
-      end
+      # external_osc_cue_handler = lambda do |time, ip, port, address, args|
+      #   address = "/#{address}" unless address.start_with?("/")
+      #   address = "/osc:#{host}:#{port}#{address}"
+      #   p = 0
+      #   d = 0
+      #   b = 0
+      #   m = 60
+      #   @register_cue_event_lambda.call(Time.now, p, @system_init_thread_id, d, b, m, address, args, 0)
+      # end
 
-      internal_cue_handler = lambda do |path, args|
-        p = 0
-        d = 0
-        b = 0
-        m = 60
-        @register_cue_event_lambda.call(Time.now, p, @system_init_thread_id, d, b, m, address, args, 0)
-      end
+      # internal_cue_handler = lambda do |path, args|
+      #   p = 0
+      #   d = 0
+      #   b = 0
+      #   m = 60
+      #   @register_cue_event_lambda.call(Time.now, p, @system_init_thread_id, d, b, m, address, args, 0)
+      # end
 
-      updated_midi_ins_handler = lambda do |ins|
-        desc = ins.join("\n")
-        __msg_queue.push({:type => :midi_in_ports, :val => desc})
-      end
+      # updated_midi_ins_handler = lambda do |ins|
+      #   desc = ins.join("\n")
+      #   __msg_queue.push({:type => :midi_in_ports, :val => desc})
+      # end
 
-      updated_midi_outs_handler = lambda do |outs|
-        desc = outs.join("\n")
-        __msg_queue.push({:type => :midi_out_ports, :val => desc})
-      end
+      # updated_midi_outs_handler = lambda do |outs|
+      #   desc = outs.join("\n")
+      #   __msg_queue.push({:type => :midi_out_ports, :val => desc})
+      # end
 
       # @tau_api = TauAPI.new(ports,
       #                       {

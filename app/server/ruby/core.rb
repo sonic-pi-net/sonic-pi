@@ -34,20 +34,6 @@ end
 
 require 'wavefile'
 
-os = case RUBY_PLATFORM
-     when /.*arm.*-linux.*/
-       :raspberry
-     when /.*linux.*/
-       :linux
-     when /.*darwin.*/
-       :osx
-     when /.*mingw.*/
-       :windows
-     else
-       RUBY_PLATFORM
-     end
-
-
 $:.unshift "#{File.expand_path("../rb-native", __FILE__)}/#{ruby_api}/"
 
 module SonicPi
@@ -483,10 +469,6 @@ module SonicPi
 
       def filter(&block)
         self.class.new(@map.filter(&block))
-      end
-
-      def select(&block)
-        self.class.new(@map.select(&block))
       end
 
       def flatten(*args)
