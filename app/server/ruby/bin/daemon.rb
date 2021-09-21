@@ -613,8 +613,8 @@ module SonicPi
 
       def kill
         @pid = @tau_pid.get
-        super
         @tau_comms_thread.kill
+        super
       end
 
       def wait
