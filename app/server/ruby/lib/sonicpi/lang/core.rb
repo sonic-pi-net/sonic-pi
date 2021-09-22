@@ -3565,7 +3565,7 @@ You can see the 'buckets' that the numbers between 0 and 1 fall into with the fo
 
       def set_link_bpm!(bpm)
         raise ArgumentError, "use_bpm's BPM should be a positive value or :link. You tried to use: #{bpm}" unless bpm == :link || (bpm.is_a?(Numeric) && bpm > 0)
-        raise "ArgumentErrot, set_link_bpm! requires a number for the bpm argument in the range 20 -> 999. You tried to use: #{bpm}" unless bpm.is_a?(Numeric) && bpm >= 20 && bpm <= 999
+        raise ArgumentError, "set_link_bpm! requires a number for the bpm argument in the range 20 -> 999. You tried to use: #{bpm}" unless bpm.is_a?(Numeric) && bpm >= 20 && bpm <= 999
         @tau_api.link_set_bpm_at_clock_time!(bpm.to_f, __get_spider_time)
       end
       doc name:      :set_link_bpm!,
@@ -3575,7 +3575,7 @@ You can see the 'buckets' that the numbers between 0 and 1 fall into with the fo
 
 Note that this will *also* change the tempo of *all link metronomes* connected to the local network. This includes other instances of Sonic Pi, Music Production tools like Ableton Live, VJ tools like Resolume, DJ hardware like the MPC and many iPad music apps.
 
-For a full list of link-compatable apps and devices see:  https://www.ableton.com/en/link/products/
+For a full list of link-compatible apps and devices see:  https://www.ableton.com/en/link/products/
 
 Also note that the current thread does not have to be in Link BPM mode for this function to affect the Link clock's BPM.
 
