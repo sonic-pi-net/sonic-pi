@@ -207,24 +207,16 @@ module SonicPi
     def self.mix_release_boot_path
       case os
       when :windows
-        File.absolute_path("#{server_path}/erlang/tau/boot-win.bat")
+        File.absolute_path("#{server_path}/beam/tau/boot-win.bat")
       when :macos
-        File.absolute_path("#{server_path}/erlang/tau/boot-mac.sh")
+        File.absolute_path("#{server_path}/beam/tau/boot-mac.sh")
       else
-        File.absolute_path("#{server_path}/erlang/tau/boot-lin.sh")
+        File.absolute_path("#{server_path}/beam/tau/boot-lin.sh")
       end
     end
 
-    def self.erlang_root_dir
-      File.absolute_path("#{native_path}/erlang/dist")
-    end
-
-    def self.erlang_bin_dir
-      File.absolute_path("#{erlang_root_dir}/bin")
-    end
-
     def self.tau_app_path
-      File.absolute_path("#{server_path}/erlang/tau/ebin")
+      File.absolute_path("#{server_path}/beam/tau/ebin")
     end
 
     def self.user_audio_settings_path

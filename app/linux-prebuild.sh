@@ -28,9 +28,9 @@ echo "Building external binary dependencies..."
 
 cp "${SCRIPT_DIR}/external/build/aubio-prefix/src/aubio-build/aubio_onset" "${SCRIPT_DIR}/server/native/"
 
-mkdir -p "${SCRIPT_DIR}/server/erlang/tau/priv/"
-cp ${SCRIPT_DIR}/external/build/sp_midi-prefix/src/sp_midi-build/*.so ${SCRIPT_DIR}/server/erlang/tau/priv/
-cp ${SCRIPT_DIR}/external/build/sp_link-prefix/src/sp_link-build/*.so ${SCRIPT_DIR}/server/erlang/tau/priv/
+mkdir -p "${SCRIPT_DIR}/server/beam/tau/priv/"
+cp ${SCRIPT_DIR}/external/build/sp_midi-prefix/src/sp_midi-build/*.so ${SCRIPT_DIR}/server/beam/tau/priv/
+cp ${SCRIPT_DIR}/external/build/sp_link-prefix/src/sp_link-build/*.so ${SCRIPT_DIR}/server/beam/tau/priv/
 
 echo "Compiling native ruby extensions..."
 ruby "${SCRIPT_DIR}/server/ruby/bin/compile-extensions.rb"
@@ -45,8 +45,8 @@ ruby "${SCRIPT_DIR}/server/ruby/bin/qt-doc.rb" -o "${SCRIPT_DIR}/gui/qt/utils/ru
 echo "Updating GUI translation files..."
 PATH=`pkg-config --variable bindir Qt5`:$PATH lrelease "${SCRIPT_DIR}"/gui/qt/lang/*.ts
 
-echo "Compiling Erlang files..."
-cd "${SCRIPT_DIR}/server/erlang/tau"
+echo "Compiling Erlang/Elixir files..."
+cd "${SCRIPT_DIR}/server/beam/tau"
 MIX_ENV="${MIX_ENV:-prod}" mix local.hex --force
 MIX_ENV="${MIX_ENV:-prod}" mix deps.get
 MIX_ENV="${MIX_ENV:-prod}" mix release --overwrite

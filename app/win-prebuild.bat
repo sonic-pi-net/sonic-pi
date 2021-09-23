@@ -20,10 +20,8 @@ vcpkg install kissfft fmt crossguid sdl2 gl3w reproc gsl-lite concurrentqueue pl
 cd %~dp0
 
 @echo Cleaning out native dir....
-rmdir server\native\erlang /s /q
 rmdir server\native\plugins /s /q
-rmdir server\erlang\tau\priv /s /q
-forfiles /p server\erlang\tau\priv /s /m *.dll /c "cmd /c del @file"
+forfiles /p server\beam\tau\priv /s /m *.dll /c "cmd /c del @file"
 
 REM Build external delendencies and copy to build tree
 @echo Building external binary dependencies...
@@ -39,10 +37,10 @@ copy external\build\aubio-prefix\src\aubio-build\Release\aubio_onset.exe server\
 xcopy /Y /I /R /E ..\prebuilt\windows\x64\*.* server\native
 
 @echo Copying sp_midi dll to the erlang bin directory...
-xcopy /Y /I /R /E external\build\sp_midi-prefix\src\sp_midi-build\Release\*.dll server\erlang\tau\priv\
+xcopy /Y /I /R /E external\build\sp_midi-prefix\src\sp_midi-build\Release\*.dll server\beam\tau\priv\
 
 @echo Copying sp_link dll to the erlang bin directory...
-xcopy /Y /I /R /E external\build\sp_link-prefix\src\sp_link-build\Release\*.dll server\erlang\tau\priv\
+xcopy /Y /I /R /E external\build\sp_link-prefix\src\sp_link-build\Release\*.dll server\beam\tau\priv\
 
 @echo Translating tutorial...
 server\native\ruby\bin\ruby server/ruby/bin/i18n-tool.rb -t
@@ -55,13 +53,13 @@ server\native\ruby\bin\ruby server/ruby/bin/qt-doc.rb -o gui\qt\utils/ruby_help.
 forfiles /p gui\qt\lang /s /m *.ts /c "cmd /c %QT_INSTALL_LOCATION%\bin\lrelease.exe @file"
 
 @echo Compiling Erlang/Elixir files...
-cd %~dp0\server\erlang\tau
+cd %~dp0\server\beam\tau
 
 IF NOT DEFINED MIX_ENV SET "MIX_ENV=prod"
 cmd /c mix local.hex --force
 cmd /c mix deps.get
 cmd /c mix release --overwrite
 
-cd %~dp0\server\erlang\tau
+cd %~dp0\server\beam\tau
 copy /Y src\tau.app.src .\ebin\tau.app
 cd %~dp0
