@@ -14,6 +14,6 @@ set TAU_API_PORT=%6%
 set TAU_SPIDER_PORT=%7%
 set TAU_DAEMON_PORT=%8%
 
-IF NOT DEFINED MIX_ENV SET "MIX_ENV=dev"
+IF NOT DEFINED MIX_ENV SET "MIX_ENV=prod"
 
 _build\%MIX_ENV%\rel\tau\bin\tau start

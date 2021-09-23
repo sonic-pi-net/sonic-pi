@@ -23,6 +23,7 @@ cd %~dp0
 rmdir server\native\erlang /s /q
 rmdir server\native\plugins /s /q
 rmdir server\erlang\tau\priv /s /q
+forfiles /p server\erlang\tau\priv /s /m *.dll /c "cmd /c del @file"
 
 REM Build external delendencies and copy to build tree
 @echo Building external binary dependencies...
@@ -55,6 +56,8 @@ forfiles /p gui\qt\lang /s /m *.ts /c "cmd /c %QT_INSTALL_LOCATION%\bin\lrelease
 
 @echo Compiling Erlang/Elixir files...
 cd %~dp0\server\erlang\tau
+
+IF NOT DEFINED MIX_ENV SET "MIX_ENV=prod"
 cmd /c mix local.hex --force
 cmd /c mix deps.get
 cmd /c mix release --overwrite

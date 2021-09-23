@@ -84,9 +84,9 @@ PATH=$PATH:/usr/local/opt/qt@5/bin lrelease "${SCRIPT_DIR}"/gui/qt/lang/*.ts
 
 echo "Compiling Erlang/Elixir files..."
 cd "${SCRIPT_DIR}/server/erlang/tau"
-mix local.hex --force
-mix deps.get
-mix release --overwrite
+MIX_ENV="${MIX_ENV:-prod}" mix local.hex --force
+MIX_ENV="${MIX_ENV:-prod}" mix deps.get
+MIX_ENV="${MIX_ENV:-prod}" mix release --overwrite
 
 cp src/tau.app.src ebin/tau.app
 cd "${SCRIPT_DIR}"
