@@ -1430,7 +1430,7 @@ module SonicPi
 
       external_osc_cue_handler = lambda do |time, ip, port, address, args|
         address = "/#{address}" unless address.start_with?("/")
-        address = "/osc:#{host}:#{port}#{address}"
+        address = "/osc:#{ip}:#{port}#{address}"
         p = 0
         d = 0
         b = 0
@@ -1438,7 +1438,7 @@ module SonicPi
         @register_cue_event_lambda.call(Time.now, p, @system_init_thread_id, d, b, m, address, args, 0)
       end
 
-      internal_cue_handler = lambda do |path, args|
+      internal_cue_handler = lambda do |address, args|
         p = 0
         d = 0
         b = 0
