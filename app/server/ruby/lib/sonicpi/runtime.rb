@@ -1430,7 +1430,7 @@ module SonicPi
 
       external_osc_cue_handler = lambda do |time, ip, port, address, args|
         address = "/#{address}" unless address.start_with?("/")
-        address = "/osc:#{host}:#{port}#{address}"
+        address = "/osc:#{ip}:#{port}#{address}"
         p = 0
         d = 0
         b = 0
