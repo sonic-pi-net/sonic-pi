@@ -47,13 +47,13 @@ echo "Building external binary dependencies..."
 
 cp "${SCRIPT_DIR}/external/build/aubio-prefix/src/aubio-build/aubio_onset" "${SCRIPT_DIR}/server/native/"
 
-mkdir -p "${SCRIPT_DIR}/server/erlang/tau/priv/"
+mkdir -p "${SCRIPT_DIR}/server/beam/tau/priv/"
 for f in ${SCRIPT_DIR}/external/build/sp_midi-prefix/src/sp_midi-build/*.dylib; do
-    cp $f ${SCRIPT_DIR}/server/erlang/tau/priv/$(basename $f .dylib).so
+    cp $f ${SCRIPT_DIR}/server/beam/tau/priv/$(basename $f .dylib).so
 done
 
 for f in ${SCRIPT_DIR}/external/build/sp_link-prefix/src/sp_link-build/*.dylib; do
-    cp $f ${SCRIPT_DIR}/server/erlang/tau/priv/$(basename $f .dylib).so
+    cp $f ${SCRIPT_DIR}/server/beam/tau/priv/$(basename $f .dylib).so
 done
 
 
@@ -83,7 +83,7 @@ echo "Updating GUI translation files..."
 PATH=$PATH:/usr/local/opt/qt@5/bin lrelease "${SCRIPT_DIR}"/gui/qt/lang/*.ts
 
 echo "Compiling Erlang/Elixir files..."
-cd "${SCRIPT_DIR}/server/erlang/tau"
+cd "${SCRIPT_DIR}/server/beam/tau"
 MIX_ENV="${MIX_ENV:-prod}" mix local.hex --force
 MIX_ENV="${MIX_ENV:-prod}" mix deps.get
 MIX_ENV="${MIX_ENV:-prod}" mix release --overwrite
