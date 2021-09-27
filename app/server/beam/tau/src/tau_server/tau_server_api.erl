@@ -90,18 +90,9 @@ init(Parent, CueServer, MIDIServer, LinkServer) ->
               [erlang:system_info(otp_release), APIPort]),
 
     {ok, APISocket} = gen_udp:open(APIPort, [binary, {ip, loopback}]),
-    io:format("connecting to Daemon via TCP...~n", []),
-    {ok, DaemonSocket} = gen_tcp:connect({127,0,0,1}, DaemonPort, [
-                                                                   binary,
-                                                                   {active, true},
-                                                                   {packet, 4},
-                                                                   {keepalive, true}
-                                                                  ]),
 
-    PidMsg = osc:encode(["/tau_pid", os:getpid()]),
-    io:format("Sending Pid to Daemon...~n", []),
+    _KeepAlivePid = tau_keepalive:start(DaemonPort),
 
-    gen_tcp:send(DaemonSocket, PidMsg),
     %% tell parent we have allocated resources and are up and running
     proc_lib:init_ack(Parent, {ok, self()}),
 

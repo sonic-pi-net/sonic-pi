@@ -548,8 +548,11 @@ module SonicPi
         spider_port  = ports["listen-to-tau"]
         daemon_port  = ports["daemon-listen-to-tau"]
 
+        @osc_out_queue = SizedQueue.new(20)
+
         tau_comms    = TCPServer.new "127.0.0.1", daemon_port
         osc_decoder  = SonicPi::OSC::OscDecode.new
+        osc_encoder  = SonicPi::OSC::OscEncode.new
         comms_thread_started = Promise.new
 
         Thread.new do
@@ -561,6 +564,37 @@ module SonicPi
             client = tau_comms.accept    # Wait for a client to connect
             Util.log "----->   Connection accepted"
 
+            @tau_send_thread = Thread.new do
+              loop do
+                begin
+                  osc = @osc_out_queue.pop
+                  client.write([osc.bytesize].pack('N'))
+                  client.write(osc)
+                rescue StandardError => e
+                  Util.log "Critical Error, sending messages to Tau:"
+                  Util.log "Error Class: #{e.class}"
+                  Util.log "Error Message: #{e.message}"
+                  Util.log "Error Backtrace: #{e.backtrace.inspect}"
+                end
+              end
+            end
+
+            @tau_keep_alive_thread = Thread.new do
+              loop do
+                begin
+                  osc = osc_encoder.encode_single_message("/system/keepalive")
+                  @osc_out_queue << osc
+                rescue StandardError => e
+                  Util.log "Critical Error, encoding OSC keepalive message to Tau:"
+                  Util.log "Error Class: #{e.class}"
+                  Util.log "Error Message: #{e.message}"
+                  Util.log "Error Backtrace: #{e.backtrace.inspect}"
+                ensure
+                  Kernel.sleep 4
+                end
+              end
+            end
+
             recv_osc = lambda do
               size_str = client.recvfrom(4, Socket::MSG_WAITALL)[0].chomp
               size = size_str.unpack('N')[0]
@@ -568,7 +602,6 @@ module SonicPi
               data_raw = client.recvfrom(size, Socket::MSG_WAITALL)[0].chomp
               osc_decoder.decode_single_message(data_raw)
             end
-
 
             begin
               data = recv_osc.call
@@ -624,6 +657,8 @@ module SonicPi
       end
 
       def kill
+        @tau_send_thread.kill
+        @tau_keep_alive_thread.kill
         begin
           @pid = @tau_pid.get(30)
         rescue SonicPi::PromiseTimeoutError
