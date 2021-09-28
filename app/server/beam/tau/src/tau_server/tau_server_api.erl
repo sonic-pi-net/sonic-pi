@@ -30,10 +30,6 @@
 %% are forwarded directly without starting a timer.
 -define(NODELAY_LIMIT, 1).
 
--import(tau_server_util,
-        [log/1, log/2, debug/2, debug/3]).
-
-
 %% Bundle Commands
 %% ===============
 
@@ -80,7 +76,7 @@ init(Parent, CueServer, MIDIServer, LinkServer) ->
     APIPort = application:get_env(?APPLICATION, api_port, undefined),
     DaemonPort = application:get_env(?APPLICATION, daemon_port, undefined),
 
-    io:format("~n"
+    logger:info("~n"
               "+--------------------------------------+~n"
               "    This is the Sonic Pi API Server     ~n"
               "       Powered by Erlang ~s             ~n"
@@ -99,7 +95,7 @@ init(Parent, CueServer, MIDIServer, LinkServer) ->
 
 
 
-    debug(2, "listening for API commands on socket: ~p~n",
+    logger:debug("listening for API commands on socket: ~p~n",
           [try erlang:port_info(APISocket) catch _:_ -> undefined end]),
     State = #{parent => Parent,
               api_socket => APISocket,
@@ -114,7 +110,7 @@ init(Parent, CueServer, MIDIServer, LinkServer) ->
 loop(State) ->
     receive
         {tcp, Socket, Data} ->
-            debug(3, "api server got TCP on ~p:~p~n", [Socket, Data]),
+            logger:debug("api server got TCP on ~p:~p~n", [Socket, Data]),
             ?MODULE:loop(State);
 
         {timeout, Timer, {call, Server, Msg, Tracker}} ->
@@ -123,10 +119,10 @@ loop(State) ->
             ?MODULE:loop(State);
 
         {udp, APISocket, Ip, Port, Bin} ->
-            debug(3, "api server got UDP on ~p:~p~n", [Ip, Port]),
+            logger:debug("api server got UDP on ~p:~p~n", [Ip, Port]),
             case osc:decode(Bin) of
                 {cmd, ["/ping"]} ->
-                    debug("sending! /pong to  ~p ~p ~n", [Ip, Port]),
+                    logger:debug("sending! /pong to  ~p ~p ~n", [Ip, Port]),
                     PongBin = osc:encode(["/pong"]),
                     ok = gen_udp:send(APISocket, Ip, Port, PongBin),
                     ?MODULE:loop(State);
@@ -135,7 +131,7 @@ loop(State) ->
             ?MODULE:loop(State);
 
         {bundle, Time, X} ->
-            debug("got bundle for time ~f~n", [Time]),
+            logger:debug("got bundle for time ~f~n", [Time]),
             NewState = do_bundle(Time, X, State),
             ?MODULE:loop(NewState);
 
@@ -218,7 +214,7 @@ loop(State) ->
             ?MODULE:loop(State);
 
         {cmd, Cmd} ->
-            log("Unknown OSC command:: ~p~n", [Cmd]),
+            logger:error("Unknown OSC command:: ~p~n", [Cmd]),
             ?MODULE:loop(State);
 
         {system, From, Request} ->
@@ -227,7 +223,7 @@ loop(State) ->
                                   maps:get(parent, State),
                                   ?MODULE, [], State);
         Any ->
-            log("API Server got unexpected message: ~p~n", [Any]),
+            logger:error("API Server got unexpected message: ~p~n", [Any]),
             ?MODULE:loop(State)
     end.
 
@@ -243,7 +239,7 @@ send_to_cue(Message, State) ->
     ok.
 
 debug_cmd([Cmd|Args]) ->
-    debug("command: ~s ~p~n", [Cmd, Args]).
+    logger:debug("command: ~s ~p~n", [Cmd, Args]).
 
 do_bundle(Time, [{_,Bin}|T], State) ->
     NewState =
@@ -261,11 +257,11 @@ do_bundle(Time, [{_,Bin}|T], State) ->
             {cmd, ["/link-set-tempo-tagged", Tag, Tempo]} ->
                 schedule_link(Time, Tag, State, {link_set_tempo, Tempo});
             Other ->
-                log("Unexpected bundle content:~p~n", [Other]),
+                logger:error("Unexpected bundle content:~p~n", [Other]),
                 State
         catch
             Class:Term:Trace ->
-                log("Error decoding OSC: ~p~n~p:~p~n~p~n",
+                logger:error("Error decoding OSC: ~p~n~p:~p~n~p~n",
                     [Bin, Class, Term, Trace]),
                 State
         end,
@@ -284,11 +280,11 @@ schedule_internal_call(Time, Tag, State, Server, Msg) ->
             %% at that time, the message will be quietly dropped
             SchedMsg = {call, Server, Msg, Tracker},
             Timer = erlang:start_timer(MsDelay, self(), SchedMsg),
-            debug(2, "start (MIDI) timer of ~w ms for time ~f~n", [MsDelay, Time]),
+            logger:debug("start (MIDI) timer of ~w ms for time ~f~n", [MsDelay, Time]),
             tau_server_tracker:track(Timer, Time, Tracker);
        true ->
             Server ! Msg,
-            debug(2, "Directly sent scheduled call~n", [])
+            logger:debug("Directly sent scheduled call~n", [])
     end,
     NewState.
 
@@ -313,7 +309,7 @@ tracker_pid(Tag, State) ->
             {Pid, State};
         error ->
             Pid = tau_server_tracker:start_link(Tag),
-            debug("start new tracker process for tag \"~s\"~n", [Tag]),
+            logger:debug("start new tracker process for tag \"~s\"~n", [Tag]),
             {Pid, State#{tag_map := maps:put(Tag, Pid, TagMap)}}
     end.
 

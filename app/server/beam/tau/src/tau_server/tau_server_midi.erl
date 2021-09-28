@@ -26,9 +26,6 @@
 -define(APPLICATION, tau).
 -define(SERVER, ?MODULE).
 
--import(tau_server_util,
-        [log/1, log/2, debug/2, debug/3, debug/4]).
-
 server_name() ->
     ?SERVER.
 
@@ -41,7 +38,7 @@ init(Parent, CueServer) ->
     sp_midi:have_my_pid(),
     sp_midi:midi_init(),
 
-    io:format("~n"
+    logger:info("~n"
               "+--------------------------------------+~n"
               "    This is the Sonic Pi MIDI Server    ~n"
               "       Powered by Erlang ~s             ~n"
@@ -90,12 +87,12 @@ loop(State) ->
             ?MODULE:loop(State);
         {flush} ->
             sp_midi:midi_flush(),
-            debug("Flushing MIDI", []),
+            logger:debug("Flushing MIDI", []),
             ?MODULE:loop(State);
         {midi_in, PortName, <<Bin/binary>>} ->
             case tau_server_midi_in:info(PortName, Bin) of
                 {tau, error, _Reason, _Source, _Args}=Event ->
-                    log(mk_tau_str(Event));
+                    logger:info(mk_tau_str(Event));
                 {tau, midi, active_sensing, _, _} ->
                     %% # Ignore Active Sensing MIDI messages.
                     %% # This message is intended to be sent repeatedly to tell the receiver
@@ -120,7 +117,7 @@ loop(State) ->
             ?MODULE:loop(NewState);
         Any ->
             S = lists:flatten(io_lib:format("MIDI Server got unexpected message ~p~n", [Any])),
-            log(S),
+            logger:warning(S),
             ?MODULE:loop(State)
     end.
 
@@ -140,7 +137,7 @@ update_midi_ports(State) ->
     end.
 
 midi_send(<<Data/binary>>) ->
-    debug("sending MIDI: ~p~n", [Data]),
+    logger:debug("sending MIDI: ~p~n", [Data]),
     case tau_server_midi_out:encode_midi_from_osc(Data) of
         {ok, multi_chan, _, PortName, MIDIBinaries} ->
             [sp_midi:midi_send(PortName, MB) || MB <- MIDIBinaries];
@@ -159,9 +156,9 @@ midi_send(<<Data/binary>>) ->
         {ok,  _, PortName, MIDIBinary} ->
             sp_midi:midi_send(PortName, MIDIBinary);
         {error, ErrStr} ->
-            log(ErrStr);
+            logger:error(ErrStr);
         _ ->
-            log("Unable to encode midi from OSC")
+            logger:warning("Unable to encode midi from OSC")
     end.
 
 

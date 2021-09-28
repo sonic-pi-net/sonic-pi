@@ -4,6 +4,8 @@
 
 -behaviour(supervisor).
 
+-include_lib("kernel/include/logger.hrl").
+
 %% API
 -export([start_link/0]).
 

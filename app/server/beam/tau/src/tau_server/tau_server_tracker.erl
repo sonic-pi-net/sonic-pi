@@ -14,11 +14,6 @@
 %% internal
 -export([loop/2]).
 
-
--import(tau_server_util,
-        [debug/2, debug/3]).
-
-
 %% API
 
 start_link(Tag) ->
@@ -42,22 +37,22 @@ init(Tag) ->
 loop(Tag, Map) ->
     receive
         {track, Ref, Time} ->
-            debug(2, "track timer ~p for time ~f~n", [Ref, Time]),
+            logger:debug("track timer ~p for time ~f~n", [Ref, Time]),
             Map1 = Map#{Ref => Time},
             ?MODULE:loop(Tag, Map1);
         {forget, Ref} ->
-            debug(2, "forget timer ~p for time ~f~n",
+            logger:debug("forget timer ~p for time ~f~n",
                   [Ref, maps:get(Ref, Map)]),
             Map1 = maps:remove(Ref, Map),
             ?MODULE:loop(Tag, Map1);
         {flush, all} ->
-            debug("forget all timers tagged \"~s\" ~n", [Tag]),
+            logger:debug("forget all timers tagged \"~s\" ~n", [Tag]),
             lists:foreach(fun cancel_timer/1,
                           maps:keys(Map)),
             ?MODULE:loop(Tag, #{});
         {flush, Time} ->
             %% flush all timers to trigger later than a specified time
-            debug("forget timers tagged \"~s\" later than ~p ~n",
+            logger:debug("forget timers tagged \"~s\" later than ~p ~n",
                   [Tag, Time]),
             Map1 = lists:foldl(
                      fun (R, M) ->
