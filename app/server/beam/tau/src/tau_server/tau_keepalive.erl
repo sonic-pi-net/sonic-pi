@@ -14,10 +14,10 @@
 
 -module(tau_keepalive).
 
--export([start/1, init/1, loop/1]).
+-export([start_link/1, init/1, loop/1]).
 
-start(DaemonPortNum) ->
-    spawn(?MODULE, init, [DaemonPortNum]).
+start_link(DaemonPortNum) ->
+    spawn_link(?MODULE, init, [DaemonPortNum]).
 
 init(DaemonPortNum) ->
     logger:info("connecting to Daemon via TCP...", []),
@@ -25,13 +25,13 @@ init(DaemonPortNum) ->
                                                                       binary,
                                                                       {active, true},
                                                                       {packet, 4},
-                                                                      {keepalive, true}
+                                                                      {keepalive, false}
                                                                      ]),
     OSPid = os:getpid(),
     PidMsg = osc:encode(["/tau_pid", OSPid]),
     logger:info("Sending Pid ~p to Daemon...", [OSPid]),
     gen_tcp:send(DaemonSocket, PidMsg),
-    KillSwitch = erlang:start_timer(5000, self(), trigger_kill_switch),
+    KillSwitch = erlang:send_after(5000, self(), trigger_kill_switch),
     logger:info("Waiting for keepalive messages..."),
     loop(KillSwitch).
 
@@ -41,8 +41,8 @@ loop(KillSwitch) ->
             try osc:decode(Bin) of
                 {cmd, ["/system/keepalive"]} ->
                     logger:debug("Received keepalive message from Daemon", []),
-                    erlang:cancel_timer(KillSwitch),
-                    NewKillSwitch = erlang:start_timer(5000, self(), trigger_kill_switch),
+                    ok = erlang:cancel_timer(KillSwitch, [{async, true}, {info, false}]),
+                    NewKillSwitch = erlang:send_after(5000, self(), trigger_kill_switch),
                     ?MODULE:loop(NewKillSwitch);
                 Other ->
                     logger:error("Unexpected message from Daemon:~p", [Other]),
@@ -53,7 +53,7 @@ loop(KillSwitch) ->
                         [Bin, Class, Term, Trace]),
                     ?MODULE:loop(KillSwitch)
             end;
-        {timeout, _Timer, trigger_kill_switch} ->
+        trigger_kill_switch ->
             logger:info("Tau kill switch activated. Shutting down....", []),
             init:stop();
         Any ->

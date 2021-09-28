@@ -74,8 +74,6 @@ start_link(CueServer, MIDIServer, LinkServer) ->
 init(Parent, CueServer, MIDIServer, LinkServer) ->
     register(?SERVER, self()),
     APIPort = application:get_env(?APPLICATION, api_port, undefined),
-    DaemonPort = application:get_env(?APPLICATION, daemon_port, undefined),
-
     logger:info("~n"
               "+--------------------------------------+~n"
               "    This is the Sonic Pi API Server     ~n"
@@ -87,7 +85,6 @@ init(Parent, CueServer, MIDIServer, LinkServer) ->
 
     {ok, APISocket} = gen_udp:open(APIPort, [binary, {ip, loopback}]),
 
-    _KeepAlivePid = tau_keepalive:start(DaemonPort),
 
     %% tell parent we have allocated resources and are up and running
     proc_lib:init_ack(Parent, {ok, self()}),

@@ -26,6 +26,7 @@ use Application
 
     # Although we don't use the supervisor name below directly,
     # it can be useful when debugging or introspecting the system.
+    :tau_keepalive.start_link(daemon_port)
     :tau_server_sup.start_link()
   end
 
