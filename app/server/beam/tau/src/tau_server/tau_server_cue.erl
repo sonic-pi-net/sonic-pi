@@ -174,7 +174,7 @@ loop(State) ->
                         #{enabled := true,
                           cue_host := CueHost,
                           cue_port := CuePort} ->
-                            loggfer:debug("got incoming OSC: ~p", [Cmd]),
+                            logger:debug("got incoming OSC: ~p", [Cmd]),
                             forward_cue(CueHost, CuePort,
                                         InSocket, Ip, Port, Cmd),
                             ?MODULE:loop(State);
