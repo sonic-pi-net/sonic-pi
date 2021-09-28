@@ -116,7 +116,7 @@ loop(State) ->
             erlang:start_timer(5000, ?MODULE, update_midi_ports),
             ?MODULE:loop(NewState);
         Any ->
-            S = lists:flatten(io_lib:format("MIDI Server got unexpected message ~p~n", [Any])),
+            S = lists:flatten(io_lib:format("MIDI Server got unexpected message ~p", [Any])),
             logger:warning(S),
             ?MODULE:loop(State)
     end.
@@ -137,7 +137,7 @@ update_midi_ports(State) ->
     end.
 
 midi_send(<<Data/binary>>) ->
-    logger:debug("sending MIDI: ~p~n", [Data]),
+    logger:debug("sending MIDI: ~p", [Data]),
     case tau_server_midi_out:encode_midi_from_osc(Data) of
         {ok, multi_chan, _, PortName, MIDIBinaries} ->
             [sp_midi:midi_send(PortName, MB) || MB <- MIDIBinaries];

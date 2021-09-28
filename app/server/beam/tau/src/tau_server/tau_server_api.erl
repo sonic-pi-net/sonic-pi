@@ -95,7 +95,7 @@ init(Parent, CueServer, MIDIServer, LinkServer) ->
 
 
 
-    logger:debug("listening for API commands on socket: ~p~n",
+    logger:debug("listening for API commands on socket: ~p",
           [try erlang:port_info(APISocket) catch _:_ -> undefined end]),
     State = #{parent => Parent,
               api_socket => APISocket,
@@ -110,7 +110,7 @@ init(Parent, CueServer, MIDIServer, LinkServer) ->
 loop(State) ->
     receive
         {tcp, Socket, Data} ->
-            logger:debug("api server got TCP on ~p:~p~n", [Socket, Data]),
+            logger:debug("api server got TCP on ~p:~p", [Socket, Data]),
             ?MODULE:loop(State);
 
         {timeout, Timer, {call, Server, Msg, Tracker}} ->
@@ -119,10 +119,10 @@ loop(State) ->
             ?MODULE:loop(State);
 
         {udp, APISocket, Ip, Port, Bin} ->
-            logger:debug("api server got UDP on ~p:~p~n", [Ip, Port]),
+            logger:debug("api server got UDP on ~p:~p", [Ip, Port]),
             case osc:decode(Bin) of
                 {cmd, ["/ping"]} ->
-                    logger:debug("sending! /pong to  ~p ~p ~n", [Ip, Port]),
+                    logger:debug("sending! /pong to  ~p ~p ", [Ip, Port]),
                     PongBin = osc:encode(["/pong"]),
                     ok = gen_udp:send(APISocket, Ip, Port, PongBin),
                     ?MODULE:loop(State);
@@ -131,7 +131,7 @@ loop(State) ->
             ?MODULE:loop(State);
 
         {bundle, Time, X} ->
-            logger:debug("got bundle for time ~f~n", [Time]),
+            logger:debug("got bundle for time ~f", [Time]),
             NewState = do_bundle(Time, X, State),
             ?MODULE:loop(NewState);
 
@@ -214,7 +214,7 @@ loop(State) ->
             ?MODULE:loop(State);
 
         {cmd, Cmd} ->
-            logger:error("Unknown OSC command:: ~p~n", [Cmd]),
+            logger:error("Unknown OSC command:: ~p", [Cmd]),
             ?MODULE:loop(State);
 
         {system, From, Request} ->
@@ -223,7 +223,7 @@ loop(State) ->
                                   maps:get(parent, State),
                                   ?MODULE, [], State);
         Any ->
-            logger:error("API Server got unexpected message: ~p~n", [Any]),
+            logger:error("API Server got unexpected message: ~p", [Any]),
             ?MODULE:loop(State)
     end.
 
@@ -239,7 +239,7 @@ send_to_cue(Message, State) ->
     ok.
 
 debug_cmd([Cmd|Args]) ->
-    logger:debug("command: ~s ~p~n", [Cmd, Args]).
+    logger:debug("command: ~s ~p", [Cmd, Args]).
 
 do_bundle(Time, [{_,Bin}|T], State) ->
     NewState =
@@ -257,11 +257,11 @@ do_bundle(Time, [{_,Bin}|T], State) ->
             {cmd, ["/link-set-tempo-tagged", Tag, Tempo]} ->
                 schedule_link(Time, Tag, State, {link_set_tempo, Tempo});
             Other ->
-                logger:error("Unexpected bundle content:~p~n", [Other]),
+                logger:error("Unexpected bundle content:~p", [Other]),
                 State
         catch
             Class:Term:Trace ->
-                logger:error("Error decoding OSC: ~p~n~p:~p~n~p~n",
+                logger:error("Error decoding OSC: ~p~n~p:~p~n~p",
                     [Bin, Class, Term, Trace]),
                 State
         end,
@@ -280,11 +280,11 @@ schedule_internal_call(Time, Tag, State, Server, Msg) ->
             %% at that time, the message will be quietly dropped
             SchedMsg = {call, Server, Msg, Tracker},
             Timer = erlang:start_timer(MsDelay, self(), SchedMsg),
-            logger:debug("start (MIDI) timer of ~w ms for time ~f~n", [MsDelay, Time]),
+            logger:debug("start (MIDI) timer of ~w ms for time ~f", [MsDelay, Time]),
             tau_server_tracker:track(Timer, Time, Tracker);
        true ->
             Server ! Msg,
-            logger:debug("Directly sent scheduled call~n", [])
+            logger:debug("Directly sent scheduled call", [])
     end,
     NewState.
 
@@ -309,7 +309,7 @@ tracker_pid(Tag, State) ->
             {Pid, State};
         error ->
             Pid = tau_server_tracker:start_link(Tag),
-            logger:debug("start new tracker process for tag \"~s\"~n", [Tag]),
+            logger:debug("start new tracker process for tag \"~s\"", [Tag]),
             {Pid, State#{tag_map := maps:put(Tag, Pid, TagMap)}}
     end.
 

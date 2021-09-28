@@ -20,7 +20,7 @@ start(DaemonPortNum) ->
     spawn(?MODULE, init, [DaemonPortNum]).
 
 init(DaemonPortNum) ->
-    logger:info("connecting to Daemon via TCP...~n", []),
+    logger:info("connecting to Daemon via TCP...", []),
     {ok, DaemonSocket} = gen_tcp:connect({127,0,0,1}, DaemonPortNum, [
                                                                       binary,
                                                                       {active, true},
@@ -29,7 +29,7 @@ init(DaemonPortNum) ->
                                                                      ]),
     OSPid = os:getpid(),
     PidMsg = osc:encode(["/tau_pid", OSPid]),
-    logger:info("Sending Pid ~p to Daemon...~n", [OSPid]),
+    logger:info("Sending Pid ~p to Daemon...", [OSPid]),
     gen_tcp:send(DaemonSocket, PidMsg),
     KillSwitch = erlang:start_timer(5000, self(), trigger_kill_switch),
     logger:info("Waiting for keepalive messages..."),
@@ -40,16 +40,16 @@ loop(KillSwitch) ->
         {tcp, _Socket, Bin} ->
             try osc:decode(Bin) of
                 {cmd, ["/system/keepalive"]} ->
-                    logger:debug("Received keepalive message from Daemon ~n", []),
+                    logger:debug("Received keepalive message from Daemon", []),
                     erlang:cancel_timer(KillSwitch),
                     NewKillSwitch = erlang:start_timer(5000, self(), trigger_kill_switch),
                     ?MODULE:loop(NewKillSwitch);
                 Other ->
-                    logger:error("Unexpected message from Daemon:~p~n", [Other]),
+                    logger:error("Unexpected message from Daemon:~p", [Other]),
                     ?MODULE:loop(KillSwitch)
             catch
                 Class:Term:Trace ->
-                    logger:error("keepalive process: Error decoding OSC: ~p~n~p:~p~n~p~n",
+                    logger:error("keepalive process: Error decoding OSC: ~p~n~p:~p~n~p",
                         [Bin, Class, Term, Trace]),
                     ?MODULE:loop(KillSwitch)
             end;
@@ -57,6 +57,6 @@ loop(KillSwitch) ->
             logger:info("Tau kill switch activated. Shutting down....", []),
             init:stop();
         Any ->
-            logger:error("Tau keepalive received unexpected message: ~p~n", [Any]),
+            logger:error("Tau keepalive received unexpected message: ~p", [Any]),
             ?MODULE:loop(KillSwitch)
     end.

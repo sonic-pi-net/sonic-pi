@@ -66,27 +66,27 @@ loop(State) ->
     receive
 
         {link_num_peers, Peers} when is_integer(Peers) ->
-            logger:debug("Received Link Callback link_num_peers message -> ~p peers~n", [Peers]),
+            logger:debug("Received Link Callback link_num_peers message -> ~p peers", [Peers]),
             maps:get(cue_server, State) ! {link, num_peers, Peers},
             ?MODULE:loop(State);
 
         {link_tempo, Tempo} when is_float(Tempo) ->
-            logger:debug("Received Link Callback link_tempo -> ~p bpm~n", [Tempo]),
+            logger:debug("Received Link Callback link_tempo -> ~p bpm", [Tempo]),
             maps:get(cue_server, State) ! {link, tempo_change, Tempo},
             ?MODULE:loop(State);
 
         {link_start} ->
-            logger:debug("Received Link Callback link_start ~n", []),
+            logger:debug("Received Link Callback link_start ", []),
             maps:get(cue_server, State) ! {link, start},
             ?MODULE:loop(State);
 
         {link_stop} ->
-            logger:debug("Received Link Callback link_stop ~n", []),
+            logger:debug("Received Link Callback link_stop ", []),
             maps:get(cue_server, State) ! {link, stop},
             ?MODULE:loop(State);
 
         {link_reset} ->
-            logger:debug("Resetting link~n", []),
+            logger:debug("Resetting link", []),
             case sp_link:is_enabled() of
                 true ->
                     logger:debug("Link is currently enabled, now disabling then re-enabling it...", []),
@@ -97,12 +97,12 @@ loop(State) ->
             ?MODULE:loop(State);
 
         {link_disable} ->
-            logger:debug("Disabling link~n", []),
+            logger:debug("Disabling link", []),
             sp_link:enable(false),
             ?MODULE:loop(State);
 
         {link_enable} ->
-            logger:debug("Enabling link~n", []),
+            logger:debug("Enabling link", []),
             sp_link:enable(true),
             ?MODULE:loop(State);
 
@@ -113,31 +113,31 @@ loop(State) ->
 
         {link_rpc, UUID, get_current_time} ->
             Time = sp_link:get_current_time_microseconds(),
-            logger:debug("Received link rpc current_time [~p]~n", [Time]),
+            logger:debug("Received link rpc current_time [~p]", [Time]),
             maps:get(cue_server, State) ! {api_reply, UUID, [{int64, Time}]},
             ?MODULE:loop(State);
 
         {link_rpc, UUID, get_beat_at_time, Time, Quantum} ->
             Beat = sp_link:get_beat_at_time(Time, float(Quantum)),
-            logger:debug("Received link rpc get_beat_at_time [~p]~n", [Beat]),
+            logger:debug("Received link rpc get_beat_at_time [~p]", [Beat]),
             maps:get(cue_server, State) ! {api_reply, UUID, [Beat]},
             ?MODULE:loop(State);
 
         {link_rpc, UUID, get_time_at_beat, Beat, Quantum} ->
             Time = sp_link:get_time_at_beat(float(Beat), float(Quantum)),
-            logger:debug("Received link rpc get_time_at_beat [~p]~n", [Time]),
+            logger:debug("Received link rpc get_time_at_beat [~p]", [Time]),
             maps:get(cue_server, State) ! {api_reply, UUID, [{int64, Time}]},
             ?MODULE:loop(State);
 
         {link_rpc, UUID, get_tempo} ->
             Tempo = sp_link:get_tempo(),
-            logger:debug("Received link rpc get_tempo [~p]~n", [Tempo]),
+            logger:debug("Received link rpc get_tempo [~p]", [Tempo]),
             maps:get(cue_server, State) ! {api_reply, UUID, [Tempo]},
             ?MODULE:loop(State);
 
         {link_rpc, UUID, get_num_peers} ->
             NumPeers = sp_link:get_num_peers(),
-            logger:debug("Received link rpc get_num_peers [~p]~n", [NumPeers]),
+            logger:debug("Received link rpc get_num_peers [~p]", [NumPeers]),
             maps:get(cue_server, State) ! {api_reply, UUID, [NumPeers]},
             ?MODULE:loop(State);
 
@@ -146,13 +146,13 @@ loop(State) ->
                           true -> 1;
                           false -> 0
                       end,
-            logger:debug("Link is enabled:  [~p]~n", [Enabled]),
+            logger:debug("Link is enabled:  [~p]", [Enabled]),
             maps:get(cue_server, State) ! {api_reply, UUID, [Enabled]},
             ?MODULE:loop(State);
 
         Any ->
             logger:info("Received something unexpected", []),
-            logger:info("Unexpected value:  ~p~n", [Any]),
+            logger:info("Unexpected value:  ~p", [Any]),
             ?MODULE:loop(State)
     end.
 

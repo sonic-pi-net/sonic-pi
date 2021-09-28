@@ -37,22 +37,22 @@ init(Tag) ->
 loop(Tag, Map) ->
     receive
         {track, Ref, Time} ->
-            logger:debug("track timer ~p for time ~f~n", [Ref, Time]),
+            logger:debug("track timer ~p for time ~f", [Ref, Time]),
             Map1 = Map#{Ref => Time},
             ?MODULE:loop(Tag, Map1);
         {forget, Ref} ->
-            logger:debug("forget timer ~p for time ~f~n",
+            logger:debug("forget timer ~p for time ~f",
                   [Ref, maps:get(Ref, Map)]),
             Map1 = maps:remove(Ref, Map),
             ?MODULE:loop(Tag, Map1);
         {flush, all} ->
-            logger:debug("forget all timers tagged \"~s\" ~n", [Tag]),
+            logger:debug("forget all timers tagged \"~s\" ", [Tag]),
             lists:foreach(fun cancel_timer/1,
                           maps:keys(Map)),
             ?MODULE:loop(Tag, #{});
         {flush, Time} ->
             %% flush all timers to trigger later than a specified time
-            logger:debug("forget timers tagged \"~s\" later than ~p ~n",
+            logger:debug("forget timers tagged \"~s\" later than ~p " ,
                   [Tag, Time]),
             Map1 = lists:foldl(
                      fun (R, M) ->
