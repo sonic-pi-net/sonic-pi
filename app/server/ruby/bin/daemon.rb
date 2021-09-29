@@ -394,8 +394,11 @@ module SonicPi
         @pid = nil
         @args = args.map {|el| el.to_s}
         @cmd = cmd
-        @log_file = File.open(log_path, 'a')
-        raise "Unable to create log file at path: #{log_path}" unless @log_file
+        if log_path
+          @log_file = File.open(log_path, 'a')
+          raise "Unable to create log file at path: #{log_path}" unless @log_file
+        end
+
         begin
           boot
         rescue StandardError => e
@@ -416,13 +419,15 @@ module SonicPi
         Util.log "#{@cmd} #{@args.join(' ')}"
         @stdin, @stdout_and_err, @wait_thr = Open3.popen2e @cmd, *@args
         @pid = @wait_thr.pid
-        @io_thr = Thread.new do
-          @stdout_and_err.each do |line|
-            begin
-              @log_file << line
-              @log_file.flush
-            rescue IOError
-              # don't attempt to write
+        if @log_file
+          @io_thr = Thread.new do
+            @stdout_and_err.each do |line|
+              begin
+                @log_file << line
+                @log_file.flush
+              rescue IOError
+                # don't attempt to write
+              end
             end
           end
         end
@@ -639,7 +644,8 @@ module SonicPi
           in_port,
           api_port,
           spider_port,
-          daemon_port
+          daemon_port,
+          Paths.tau_log_path
         ]
 
         if Util.os == :windows
@@ -649,7 +655,7 @@ module SonicPi
           args = [Paths.mix_release_boot_path] + args
         end
 
-        super(cmd, args, Paths.tau_log_path)
+        super(cmd, args, nil)
       end
 
       def process_running?
