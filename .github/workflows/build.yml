@@ -177,6 +177,17 @@ jobs:
       working-directory: ${{github.workspace}}/app/build
       run: cmake --build . --config ${{ matrix.build_type }}
 
+    - name: BEAM Tests Windows
+      shell: cmd
+      working-directory: ${{github.workspace}}/app/server/beam/tau
+      run: mix test
+      if: matrix.os == 'windows-latest'
+
+    - name: BEAM Tests (Mac/Linux)
+      working-directory: ${{github.workspace}}/app/server/beam/tau
+      run: mix test
+      if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
+
     - name: Ruby Tests (Mac/Linux)
       working-directory: ${{github.workspace}}/app/server/ruby
       run: rake test
