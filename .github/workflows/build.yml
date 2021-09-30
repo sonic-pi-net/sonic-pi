@@ -183,10 +183,17 @@ jobs:
       run: mix test
       if: matrix.os == 'windows-latest'
 
-    - name: BEAM Tests (Mac/Linux)
+    - name: BEAM Tests (Linux)
       working-directory: ${{github.workspace}}/app/server/beam/tau
       run: mix test
-      if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
+      if: matrix.os == 'ubuntu-latest'
+      env:
+        TAU_DISABLE_MIDI: true
+
+    - name: BEAM Tests (macOS)
+      working-directory: ${{github.workspace}}/app/server/beam/tau
+      run: mix test
+      if: matrix.os == 'macos-latest'
 
     - name: Ruby Tests (Mac/Linux)
       working-directory: ${{github.workspace}}/app/server/ruby

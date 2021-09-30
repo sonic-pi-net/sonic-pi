@@ -68,9 +68,6 @@ init(_Args) ->
                   #{id => tau_server_cue,
                     start => {tau_server_cue, start_link, []}
                    },
-                  #{id => tau_server_midi,
-                    start => {tau_server_midi, start_link, [CueServer]}
-                   },
                   #{id => tau_server_link,
                     start => {tau_server_link, start_link, [CueServer]}
                    },
@@ -79,5 +76,19 @@ init(_Args) ->
                    }
 
                  ],
+
+    ENV = os:getenv("TAU_DISABLE_MIDI", "false"),
+    MIDIChildSpecs = if
+                         ENV == "true" ->
+                             ChildSpecs;
+
+                         true ->
+                             [ChildSpecs | #{id    => tau_server_midi,
+                                             start => {tau_server_midi,
+                                                       start_link,
+                                                       [CueServer]}}]
+
+
+                     end,
 
     {ok, {SupFlags, ChildSpecs}}.
