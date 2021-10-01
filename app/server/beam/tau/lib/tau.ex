@@ -26,7 +26,13 @@ use Application
 
     # Although we don't use the supervisor name below directly,
     # it can be useful when debugging or introspecting the system.
+
+    if (daemon_port == -1) do
+      Logger.info("Not starting keepalive server as no daemon port value was given")
+    else
     :tau_keepalive.start_link(daemon_port)
+    end
+
     :tau_server_sup.start_link()
   end
 
