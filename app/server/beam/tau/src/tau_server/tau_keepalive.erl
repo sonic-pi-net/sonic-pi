@@ -55,8 +55,8 @@ loop(KillSwitch) ->
             end;
         trigger_kill_switch ->
             logger:info("Tau kill switch activated. Shutting down....", []),
-            init:stop();
+            halt();
         Any ->
             logger:error("Tau keepalive received unexpected message: ~p", [Any]),
-            ?MODULE:loop(KillSwitch)
+            init:stop()
     end.
