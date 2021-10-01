@@ -183,21 +183,23 @@ jobs:
       run: mix test
       env:
         TAU_LOG_PATH: ${{github.workspace}}/tau_log.txt
+        TAU_DISABLE_MIDI: true
       if: matrix.os == 'windows-latest'
 
     - name: BEAM Tests (Linux)
       working-directory: ${{github.workspace}}/app/server/beam/tau
       run: mix test
-      if: matrix.os == 'ubuntu-latest'
       env:
         TAU_LOG_PATH: ${{github.workspace}}/tau_log.txt
         TAU_DISABLE_MIDI: true
+      if: matrix.os == 'ubuntu-latest'
 
     - name: BEAM Tests (macOS)
       working-directory: ${{github.workspace}}/app/server/beam/tau
       run: mix test
       env:
         TAU_LOG_PATH: ${{github.workspace}}/tau_log.txt
+        TAU_DISABLE_MIDI: true
       if: matrix.os == 'macos-latest'
 
     - name: Ruby Tests (Mac/Linux)
