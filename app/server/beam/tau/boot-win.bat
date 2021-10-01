@@ -17,4 +17,4 @@ set TAU_LOG_PATH=%9%
 
 IF NOT DEFINED MIX_ENV SET "MIX_ENV=prod"
 
-_build\%MIX_ENV%\rel\tau\bin\tau start
+_build\%MIX_ENV%\rel\tau\bin\tau start > "%9%" 2>&1
