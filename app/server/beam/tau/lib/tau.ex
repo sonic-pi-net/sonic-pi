@@ -1,10 +1,10 @@
 defmodule Tau do
-use Application
+  use Application
+  require Logger
 
   @impl true
   def start(_type, _args) do
-    IO.puts "All systems booting.,.."
-    IO.puts "Pid: #{System.pid()}"
+    Logger.info("All systems booting....")
     enabled      = extract_env("TAU_ENABLED",      :bool, true)
     internal     = extract_env("TAU_INTERNAL",     :bool, true)
     midi_enabled = extract_env("TAU_MIDI_ENABLED", :bool, true)
@@ -30,7 +30,7 @@ use Application
     if (daemon_port == -1) do
       Logger.info("Not starting keepalive server as no daemon port value was given")
     else
-    :tau_keepalive.start_link(daemon_port)
+      :tau_keepalive.start_link(daemon_port)
     end
 
     :tau_server_sup.start_link()
@@ -39,7 +39,7 @@ use Application
   def extract_env(name, kind, default) do
     env_val = System.get_env(name)
     res = if !env_val do
-      IO.puts "No env variable supplied for #{name} using default: #{default}"
+      Logger.info( "No env variable supplied for #{name} using default: #{default}")
       default
     else
       extracted = case kind do
@@ -47,7 +47,7 @@ use Application
                     :int -> extract_env_int(env_val)
                     :string -> env_val
                   end
-      IO.puts "extracting env #{name} #{kind} #{extracted}"
+      Logger.info( "extracting env #{name} #{kind} #{extracted}")
       extracted
     end
     res
