@@ -83,12 +83,11 @@ init(_Args) ->
                              ChildSpecs;
 
                          true ->
-                             [ChildSpecs | #{id    => tau_server_midi,
-                                             start => {tau_server_midi,
-                                                       start_link,
-                                                       [CueServer]}}]
-
+                             [#{id    => tau_server_midi,
+                                start => {tau_server_midi,
+                                          start_link,
+                                          [CueServer]}} | ChildSpecs]
 
                      end,
 
-    {ok, {SupFlags, ChildSpecs}}.
+    {ok, {SupFlags, MIDIChildSpecs}}.
