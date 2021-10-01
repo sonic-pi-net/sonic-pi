@@ -430,9 +430,6 @@ module SonicPi
               end
             end
           end
-        else
-          @stdin.close
-          @stdout_and_err.close
         end
       end
 
