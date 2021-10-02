@@ -13,3 +13,4 @@ echo "Building external deps..."
 cmake --build . --config Release
 
 cd "${SCRIPT_DIR}"
+echo "Completed building external deps."

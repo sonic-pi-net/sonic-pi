@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e # Quit script on error
 SCRIPT_DIR="$(dirname "$0")"
-cd ${SCRIPT_DIR}
+cd "${SCRIPT_DIR}"
 
 # Close standard output file descriptor
 exec 1<&-
