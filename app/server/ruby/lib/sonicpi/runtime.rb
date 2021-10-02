@@ -1377,7 +1377,7 @@ module SonicPi
       @git_hash = __extract_git_hash
       gh_short = @git_hash ? "-#{@git_hash[0, 5]}" : ""
       @settings = Config::Settings.new(Paths.system_cache_store_path)
-      @version = Version.new(4, 0, 0, "beta1")
+      @version = Version.new(4, 0, 0, "beta2")
       @server_version = __server_version
       @life_hooks = LifeCycleHooks.new
       @cue_events = IncomingEvents.new
