@@ -3,7 +3,7 @@ cd %~dp0
 REM Build vcpkg
 if not exist "vcpkg\" (
     echo Cloning vcpkg
-    git clone --single-branch --branch master https://github.com/microsoft/vcpkg vcpkg
+    git clone --depth 1 --branch 2021.05.12  https://github.com/microsoft/vcpkg.git vcpkg
 )
 
 if not exist "vcpkg\vcpkg.exe" (
