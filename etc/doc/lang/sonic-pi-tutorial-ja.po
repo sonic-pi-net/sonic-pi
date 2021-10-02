@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2021-04-13 08:00+0000\n"
+"PO-Revision-Date: 2021-09-01 08:01+0000\n"
 "Last-Translator: neginex <kanta.negishi.2021b@mlab.info>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/ja/>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.6-dev\n"
+"X-Generator: Weblate 4.8.1-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -5081,6 +5081,9 @@ msgid ""
 "s special thread-safe state system via the fns `get` and `set`. This is discus"
 "sed later on in section 10."
 msgstr ""
+"しかし、時にはスレッド間で何かを共有したいこともあります。例えば、現在のキー、BPM、シンセなどです。このような場合には、Sonic "
+"Piの特別なスレッドセーフなステートシステムを `get` と `set` "
+"という関数から使うことで解決します。これについては、後ほどセクション10で説明します。"
 
 #: 05.7-Thread-Synchronisation.md:1
 msgid "5.7 Thread Synchronisation"
@@ -8468,7 +8471,7 @@ msgid ""
 "into Sonic Pi to control our synths and sounds. Go and grab a MIDI controller "
 "such as a keyboard or control surface and let's get physical!"
 msgstr ""
-"このセクションでは、MIDIコントローラを接続し、シンセや音をコントロールするためにSonic "
+"この章では、MIDIコントローラを接続し、シンセや音をコントロールするためにSonic "
 "Piへイベントを送信する方法を学びます。キーボード、またはコントローラを接続して実際に動かしてみましょう！"
 
 #: 11.1-MIDI-In.md:11

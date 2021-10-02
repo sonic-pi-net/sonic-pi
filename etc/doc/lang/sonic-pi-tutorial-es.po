@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2021-04-23 12:31+0000\n"
-"Last-Translator: Abdeselam El-Haman <aelhaman@gmail.com>\n"
+"PO-Revision-Date: 2021-08-24 12:34+0000\n"
+"Last-Translator: Francisco Jose Rey <fcojreyg@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/es/>\n"
 "Language: es\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.7-dev\n"
+"X-Generator: Weblate 4.8.1-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -2540,9 +2540,8 @@ msgstr ""
 "muestra,sencillamente el sostenimiennto de vuelve 0."
 
 #: 03.4-Enveloped-Samples.md:48
-#, fuzzy
 msgid "Fade Outs"
-msgstr "Apagando (fade out)"
+msgstr "Apagando (desaparición)"
 
 #: 03.4-Enveloped-Samples.md:50
 msgid ""
@@ -2598,13 +2597,12 @@ msgid "Fade In and Out"
 msgstr "Fade In y Fade Out"
 
 #: 03.4-Enveloped-Samples.md:75
-#, fuzzy
 msgid ""
 "We can use both `attack:` and `release:` together with the auto sustain behavi"
 "our to fade both in and out over the duration of the sample:"
 msgstr ""
-"Podemos utilizar tanto el `attack:` como el `release:` juntos con el auto sust"
-"ain para aparecer y desvanecer en la duración del sampleo:"
+"Podemos utilizar tanto el `attack:` como el `release:` juntos con el auto "
+"sustain para aparecer y desvanecer en la duración del sample:"
 
 #: 03.4-Enveloped-Samples.md:78
 #, no-wrap
@@ -2612,28 +2610,26 @@ msgid "sample :loop_amen, attack: 0.75, release: 0.75"
 msgstr "sample :loop_amen, attack: 0.75, release: 0.75"
 
 #: 03.4-Enveloped-Samples.md:82
-#, fuzzy
 msgid ""
 "As the full duration of the sample is 1.75s and our attack and release phases "
 "add up to 1.5s, the sustain is automatically set to 0.25s. This allows us to e"
 "asily fade the sample in and out."
 msgstr ""
-"Como la duración total del sampleo + attack + release suman 1.5s, el sustain q"
-"ueda automáticamente en 0.25s. Esto nos permite aparecer y desvanecer el sampl"
-"eo con facilidad."
+"Como la duración total del sampleo + ataque + release suman 1.5s, el "
+"sostenido queda automáticamente en 0.25s. Esto nos permite aparecer y "
+"desvanecer el sampleo con facilidad."
 
 #: 03.4-Enveloped-Samples.md:86
 msgid "Explicit sustain"
 msgstr "Sostenido explícito"
 
 #: 03.4-Enveloped-Samples.md:88
-#, fuzzy
 msgid ""
 "We can easily get back to our normal synth ADSR behaviour by manually setting "
 "`sustain:` to a value such as 0:"
 msgstr ""
-"Podemos fácilmente volver a los parámetros normales de nuestro ADSR de sinteti"
-"zador al setear manualmente el `sustain:` a un valor como 0:"
+"Podemos fácilmente volver a los parámetros normales de nuestro ADSR de "
+"sintetizador al ajustar manualmente el `sostenido:` a un valor como 0:"
 
 #: 03.4-Enveloped-Samples.md:91
 #, no-wrap
@@ -2657,14 +2653,13 @@ msgid "Percussive cymbals"
 msgstr "Címbalos"
 
 #: 03.4-Enveloped-Samples.md:102
-#, fuzzy
 msgid ""
 "We can use this behaviour to good effect to turn longer sounding samples into "
 "shorter, more percussive versions. Consider the sample `:drum_cymbal_open`:"
 msgstr ""
-"Podemos utilizar esta conducta a buen efecto para sampleos más largos que requ"
-"ieran los acortemos y percusivos. Considera el siguiente sampleo: `:drum_cymba"
-"l_open`:"
+"Podemos utilizar este comportamiento con buenos resultados para convertir "
+"muestras más largas en versiones más cortas y percusivas. Considere la "
+"muestra `:drum_cymbal_open`:"
 
 #: 03.4-Enveloped-Samples.md:106
 #, no-wrap
@@ -2672,13 +2667,12 @@ msgid "sample :drum_cymbal_open"
 msgstr "sample :drum_cymbal_open"
 
 #: 03.4-Enveloped-Samples.md:110
-#, fuzzy
 msgid ""
 "You can hear the cymbal sound ringing out over a period of time. However, we c"
 "an use our envelope to make it more percussive:"
 msgstr ""
-"Puedes escuchar el sonido del platillo por un periodo de tiempo. Sin embargo, "
-"podemos usar el sobre para hacerlo más percusivo:"
+"Puedes escuchar el sonido del platillo sonando durante un periodo de tiempo. "
+"Sin embargo, podemos utilizar nuestra envolvente para hacerlo más percusivo:"
 
 #: 03.4-Enveloped-Samples.md:113
 #, no-wrap
@@ -2686,13 +2680,12 @@ msgid "sample :drum_cymbal_open, attack: 0.01, sustain: 0, release: 0.1"
 msgstr "sample :drum_cymbal_open, attack: 0.01, sustain: 0, release: 0.1"
 
 #: 03.4-Enveloped-Samples.md:117
-#, fuzzy
 msgid ""
 "You can then emulate hitting the cymbal and then dampening it by increasing th"
 "e sustain period:"
 msgstr ""
-"Puedes emular el golpeo del platillo y después apagarlo, al incrementar el per"
-"iodo de sustain:"
+"Puedes emular el golpeo del platillo y después apagarlo, al incrementar el "
+"periodo de mantenido:"
 
 #: 03.4-Enveloped-Samples.md:120
 #, no-wrap
@@ -2714,35 +2707,31 @@ msgid "3.5 Partial Samples"
 msgstr "3.5 Sampleos parciales"
 
 #: 03.5-Partial-Samples.md:3
-#, fuzzy
 msgid "Partial Samples"
-msgstr "Sampleos parciales"
+msgstr "Muestras parciales"
 
 #: 03.5-Partial-Samples.md:5
-#, fuzzy
 msgid ""
 "This section will conclude our exploration of Sonic Pi's sample player. Let's "
 "do a quick recap. So far we've looked at how we can trigger samples:"
 msgstr ""
-"Esta sección concluirá nuestra exploración del ejecuta sampleos de Sonic Pi. H"
-"agamos un pequeño resumen; Hasta ahora hemos mirado cómo podemos disparar samp"
-"leos:"
+"Esta sección concluirá nuestra exploración del reproductor de muestras de "
+"Sonic Pi. Hagamos una rápida recapitulación. Hasta ahora hemos visto cómo "
+"podemos disparar muestras:"
 
 #: 03.5-Partial-Samples.md:13
-#, fuzzy
 msgid ""
 "We then looked at how we can change the rate of samples such as playing them a"
 "t half speed:"
 msgstr ""
-"Después miramos cómo cambiar la velocidad de los sampleos tales como ejecutarl"
-"os a media velocidad:"
+"A continuación, analizamos cómo podemos cambiar la velocidad de las "
+"muestras, por ejemplo, reproduciéndolas a media velocidad:"
 
 #: 03.5-Partial-Samples.md:20
-#, fuzzy
 msgid "Next, we looked at how we could fade a sample in (let's do it at half speed):"
 msgstr ""
-"Después miramos como podíamos aparecer un pequeño sampleo (haámoslo a media ve"
-"locidad):"
+"Después miramos como podíamos aparecer un pequeño sampleo (hagámoslo a media "
+"velocidad):"
 
 #: 03.5-Partial-Samples.md:23
 #, no-wrap
@@ -2750,15 +2739,14 @@ msgid "sample :loop_amen, rate: 0.5, attack: 1"
 msgstr "sample :loop_amen, rate: 0.5, attack: 1"
 
 #: 03.5-Partial-Samples.md:27
-#, fuzzy
 msgid ""
 "We also looked at how we could use the start of a sample percussively by givin"
 "g `sustain:` an explicit value and setting both the attack and release to be s"
 "hort values:"
 msgstr ""
-"También miramos como podíamos usar el comienzo de un sampleo percusivamente al"
-" darle a `sustain:` un valor explícito y setear ambos el ataque y el release c"
-"on valores cortos:"
+"También miramos como podíamos usar el comienzo de un sampleo percusivamente "
+"al darle a `mantenido:` un valor explícito y ajustar ambos el ataque y el "
+"release con valores cortos:"
 
 #: 03.5-Partial-Samples.md:31
 #, no-wrap
@@ -2766,14 +2754,14 @@ msgid "sample :loop_amen, rate: 2, attack: 0.01, sustain: 0, release: 0.35"
 msgstr "sample :loop_amen, rate: 2, attack: 0.01, sustain: 0, release: 0.35"
 
 #: 03.5-Partial-Samples.md:35
-#, fuzzy
 msgid ""
 "However, wouldn't it be nice if we didn't have to always start at the beginnin"
 "g of the sample? Wouldn't it also be nice if we didn't have to always finish a"
 "t the end of the sample?"
 msgstr ""
-"Sin embargo, ¿No sería mejor si no tuviésemos que comenzar por el principio ó "
-"terminar por el fin..siempre?"
+"Sin embargo, ¿no sería bueno que no tuviéramos que empezar siempre por el "
+"principio de la muestra? ¿No sería bueno que no tuviéramos que terminar "
+"siempre al final de la muestra?"
 
 #: 03.5-Partial-Samples.md:39
 #, fuzzy
@@ -2828,18 +2816,16 @@ msgid "sample :loop_amen, finish: 0.5"
 msgstr "sample :loop_amen, finish: 0.5"
 
 #: 03.5-Partial-Samples.md:66
-#, fuzzy
 msgid "Specifying start and finish"
-msgstr "Especificando el comienzo y el fin"
+msgstr "Especificando el comienzo y el final"
 
 #: 03.5-Partial-Samples.md:68
-#, fuzzy
 msgid ""
 "Of course, we can combine these two to play arbitrary segments of the audio fi"
 "le. How about only a small section in the middle:"
 msgstr ""
-"Por supuesto que podemos combinar dos para tocar segmentos del archivo de audi"
-"o arbitrariamente. ¿Qué tal una pequeña sección en el medio?"
+"Por supuesto que podemos combinar dos para tocar segmentos del archivo de "
+"audio arbitrariamente. ¿Qué tal solo una pequeña sección en el medio?"
 
 #: 03.5-Partial-Samples.md:71
 #, no-wrap
@@ -2857,9 +2843,8 @@ msgid "sample :loop_amen, start: 0.6, finish: 0.4"
 msgstr "sample :loop_amen, start: 0.6, finish: 0.4"
 
 #: 03.5-Partial-Samples.md:82
-#, fuzzy
 msgid "Cool! It plays it backwards!"
-msgstr "¡Cool! ¡Se toca al revés!"
+msgstr "¡Genial! ¡Lo reproduce al revés!"
 
 #: 03.5-Partial-Samples.md:84
 #, fuzzy
@@ -2883,18 +2868,16 @@ msgid "sample :loop_amen, start: 0.5, finish: 0.7, rate: 0.2"
 msgstr "sample :loop_amen, start: 0.5, finish: 0.7, rate: 0.2"
 
 #: 03.5-Partial-Samples.md:94
-#, fuzzy
 msgid "Combining with envelopes"
-msgstr "Combinando con sobres"
+msgstr "Combinando con envolventes"
 
 #: 03.5-Partial-Samples.md:96
-#, fuzzy
 msgid ""
 "Finally, we can combine all of this with our ADSR envelopes to produce interes"
 "ting results:"
 msgstr ""
-"Finalmente podemos combinar todo esto con el sobre ADSR para producir resultad"
-"os interesantes:"
+"Finalmente, podemos combinar todo esto con nuestras envolventes ADSR para "
+"producir resultados interesantes:"
 
 #: 03.5-Partial-Samples.md:99
 #, no-wrap
@@ -2911,14 +2894,12 @@ msgid "Now go and have a play mashing up samples with all of this fun stuff..."
 msgstr "Ahora vete y juega con sampleos y todas estas divertidas herramientas..."
 
 #: 03.6-External-Samples.md:1
-#, fuzzy
 msgid "3.6 External Samples"
-msgstr "Samples externos"
+msgstr "Muestras externas"
 
 #: 03.6-External-Samples.md:3
-#, fuzzy
 msgid "External Samples"
-msgstr "Samples externos"
+msgstr "Muestras externas"
 
 #: 03.6-External-Samples.md:5
 #, fuzzy
@@ -2969,9 +2950,8 @@ msgstr ""
 "etenerte para usar tus propios samples, es solamente algo a considerar."
 
 #: 03.6-External-Samples.md:26
-#, fuzzy
 msgid "Local Samples"
-msgstr "Samples locales"
+msgstr "Muestras locales"
 
 #: 03.6-External-Samples.md:28
 #, fuzzy
@@ -3018,29 +2998,29 @@ msgstr ""
 "sample \"C:/Users/sam/Desktop/my-sound.wav\", rate: 0.5, amp: 0.3"
 
 #: 03.7-Sample-Packs.md:1
-#, fuzzy
 msgid "3.7 Sample Packs"
-msgstr "3.7 Paquete de samples"
+msgstr "3.7 Paquetes de muestras"
 
 #: 03.7-Sample-Packs.md:3
 msgid "Sample Packs"
 msgstr "Paquete de samples"
 
 #: 03.7-Sample-Packs.md:5
-#, fuzzy
 msgid ""
 "**Note: this section of the tutorial covers the advanced topic of working with"
 " large directories of your own samples. This will be the case if you've downlo"
 "aded or bought your own sample packs and wish to use them within Sonic Pi.**"
 msgstr ""
-"**Nota: esta sección del tutorial cubre un tema avanzado con directorios grand"
-"es de tus propios samples. Este puede ser el caso si has descargado o comprado"
-" tus paquetes de samples y deseas usarlos en Sonic Pi.**"
+"**Nota: esta sección del tutorial cubre el tema avanzado de trabajar con "
+"grandes directorios de tus propias muestras. Este será el caso si has "
+"descargado o comprado tus propios paquetes de muestras y deseas utilizarlos "
+"dentro de Sonic Pi.**"
 
 #: 03.7-Sample-Packs.md:10
-#, fuzzy
 msgid "**Feel free to skip this if you're happy working with the built-in samples.**"
-msgstr "**Siéntete libre de leer esto si estás feliz usando los samples incluídos.**"
+msgstr ""
+"**Si te gusta trabajar con las muestras incluidas, puedes omitir esta "
+"parte.**"
 
 #: 03.7-Sample-Packs.md:13
 #, fuzzy
@@ -3061,9 +3041,9 @@ msgid "/path/to/my/samples/"
 msgstr "/path/to/my/samples/"
 
 #: 03.7-Sample-Packs.md:23
-#, fuzzy
 msgid "When we look inside that folder we find the following samples:"
-msgstr "Cuando vemos dentro de la carpeta, encontramos los siguientes samples:"
+msgstr ""
+"Cuando miramos dentro de esa carpeta encontramos las siguientes muestras:"
 
 #: 03.7-Sample-Packs.md:25 03.7-Sample-Packs.md:86
 msgid "`100_A#_melody1.wav`"
@@ -3090,11 +3070,10 @@ msgid "`120_Bb_piano1.wav`"
 msgstr "`120_Bb_piano1.wav`"
 
 #: 03.7-Sample-Packs.md:32
-#, fuzzy
 msgid "Typically in order to play the piano sample we can use the full path:"
 msgstr ""
-"Típicamente, para reproducir un sample de piano, podemos usar la ruta completa"
-":"
+"Normalmente, para reproducir la muestra del piano podemos utilizar la ruta "
+"completa:"
 
 #: 03.7-Sample-Packs.md:34
 #, no-wrap
