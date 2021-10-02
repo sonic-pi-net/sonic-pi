@@ -20,9 +20,8 @@ xcopy /Y /I /R /E ..\..\app\build\gui\qt\Release app\gui\qt\build\Release
 xcopy /Y /I /R /E ..\..\app\gui\qt\theme app\gui\qt\theme
 xcopy /Y /I /R /E ..\..\etc etc\
 
-xcopy /Y /I /R /E ..\..\app\server\erlang app\server\erlang
+xcopy /Y /I /R /E ..\..\app\server\beam app\server\beam
 
-xcopy /Y /I /R /E ..\..\app\server\native\erlang app\server\native\erlang
 xcopy /Y /I /R /E ..\..\app\server\native\osmid app\server\native\osmid
 xcopy /Y /I /R /E ..\..\app\server\native\plugins app\server\native\plugins
 xcopy /Y /I /R /E ..\..\app\server\native\ruby\bin app\server\native\ruby\bin
