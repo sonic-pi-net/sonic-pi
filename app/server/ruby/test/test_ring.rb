@@ -206,5 +206,19 @@ module SonicPi
     def test_index_empty_ring
       assert_nil(ring()[0])
     end
+
+    def test_invert_around
+      assert_equal(ring().invert_around(60), ring())
+      assert_equal(ring(60).invert_around(60), ring(60))
+      assert_equal(ring(60).invert_around(61), ring(62))
+      assert_equal(ring(60).invert_around(0), ring(-60))
+      assert_equal(ring(60).invert_around(60.5), ring(61))
+      assert_equal(ring(:c).invert_around(60), ring(60))
+      assert_equal(ring(60).invert_around(:c), ring(60))
+      assert_equal(ring(:r).invert_around(60), ring(nil))
+      assert_equal(ring(60, 61, 62).invert_around(60), ring(60, 59, 58))
+      assert_equal(ring(60, 61, 62).invert_around(:cs), ring(62, 61, 60))
+      assert_equal(ring(59, :rest, :cs).invert_around(:c), ring(61, nil, 59))
+    end
   end
 end

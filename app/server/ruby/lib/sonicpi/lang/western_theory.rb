@@ -4,39 +4,6 @@ require_relative "../chord"
 require_relative "../chordgroup"
 require_relative "support/docsystem"
 
-class SonicPi::Core::SPVector
-  def notes(*args)
-
-    note = lambda do |n, args|
-      # code copied from the notes fn in this namespace
-      case n
-      when Numeric
-        return n
-      when Symbol
-        return nil if(n == :r || n == :rest)
-      when NilClass
-        return nil
-      when Proc
-        return note(n.call, *args)
-      when Hash
-        raise "Unable to create a note from the Map: #{n.inspect}"
-      end
-
-      return SonicPi::Note.resolve_midi_note_without_octave(n) if args.empty?
-
-      args_h = resolve_synth_opts_hash_or_array(args)
-      octave = args_h[:octave]
-      if octave
-        SonicPi::Note.resolve_midi_note(n, octave)
-      else
-        SonicPi::Note.resolve_midi_note_without_octave(n)
-      end
-    end
-
-    self.map {|n| note.call(n, args) }
-  end
-end
-
 class Symbol
   def -(other)
     return self if (self == :r) || (self == :rest)
@@ -1115,5 +1082,19 @@ play (chord_invert (chord :A3, \"M\"), 2) #Second inversion - (ring 64, 69, 73)
       examples:      ["puts chord_names #=>  prints a list of all the chords"]
 
     end
+  end
+end
+
+class SonicPi::Core::SPVector
+  include SonicPi::Lang::WesternTheory
+
+  def notes(*args)
+    self.map {|n| note(n, *args) }
+  end
+
+  def invert_around(n)
+    n = note(n)
+    raise "Can only invert_around a note, not a rest" unless n
+    notes().map {|e| e && (2 * n - e) }.ring
   end
 end
