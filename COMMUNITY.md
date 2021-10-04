@@ -25,6 +25,7 @@ If Sonic Pi has made you smile and you'd like to help keep it free so it
 can continue to be shared with the world, please consider joining the
 other lovely supporters over on [Patreon](https://patreon.com/samaaron).
 
+Patreon supporters also gain access to an exclusive Sonic Pi Discord server.
 
 ## Twitter 
 *<https://twitter.com/sonic_pi>*
