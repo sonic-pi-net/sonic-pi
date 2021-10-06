@@ -59,7 +59,7 @@ module SonicPi
       tam_ferahnak_beslisi   = [kucuk_mucenneb, tanini, tanini, buyuk_mucenneb]
       eksik_ferahnak_beslisi = [kucuk_mucenneb, tanini, tanini, bakiyye]
       nisabur_dortlusu       = [buyuk_mucenneb, kucuk_mucenneb, tanini]
-      # These intervals are included in Turkish makams but not included in the scales provided, commented out for brevity.
+      # currently unused, but can be used to extend other scales 
       # kurdi_beslisi          = kurdi_dortlusu + [tanini]
       # saba_dortlusu          = [buyuk_mucenneb, kucuk_mucenneb, kucuk_mucenneb]
       # tam_mustear_beslisi    = mustear_dortlusu + [tanini]
