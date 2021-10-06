@@ -213,6 +213,7 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
         emit settingsChanged();
         splashClose();
         showWindow();
+        focusEditor();
         app.processEvents();
         std::cout << "[GUI] - boot sequence completed." << std::endl;
     }
