@@ -2,7 +2,7 @@
 
 Hello! If you are interested in contributing to Sonic Pi in some way, fantastic. Everyone is welcome to help!
 
-Are you wondering about the different ways you might be able to contribute? See [TYPES-OF-CONTRIBUTIONS.md](https://github.com/sonic-pi-net/sonic-pi/TYPES-OF-CONTRIBUTIONS.md).
+Are you wondering about the different ways you might be able to contribute? See [TYPES-OF-CONTRIBUTIONS.md](TYPES-OF-CONTRIBUTIONS.md).
 
 Do you want to know about all the new features that we'd love to see included in Sonic Pi? See [the Sonic Pi features project board](https://github.com/orgs/sonic-pi-net/projects/1). 
 
@@ -10,7 +10,7 @@ Do you want to know about all the new features that we'd love to see included in
 There are several ways that you can learn more about the technical design of the Sonic Pi source code.
 - You can read brief outlines of the source code structure, and see a diagram of the major components, available from the 'Development' section of the sidebar on the [Sonic Pi wiki](https://github.com/sonic-pi-net/sonic-pi/wiki). _**Note: these are all out-of-date to varying degrees and we are in the process of updating them - so for any serious use, feel free to talk with us directly in the mean-time.**_
 - You can study the source code itself at our official [Sonic Pi GitHub repository](https://github.com/sonic-pi-net/sonic-pi)
-- You can ask the core development team or wider Sonic Pi community questions at any of the places we gather as a [community](https://github.com/sonic-pi-net/sonic-pi/COMMUNITY.md)
+- You can ask the core development team or wider Sonic Pi community questions at any of the places we gather as a [community](COMMUNITY.md)
 
 ## Project and development process guidelines
 There are several guidelines that we value when planning the format of new work. We encourage community contributors to keep these in mind also when thinking about contributing to Sonic Pi. They are:
@@ -27,11 +27,11 @@ Also, regarding the Sonic Pi development process:
 - We merge code into `main` branch for stable releases only, and all work in progress we merge into `dev` branch
 - We want code intended to be merged into the `main` or `dev` branches to be passing all tests where possible
 - We prefer an issue ticket to be raised as soon as possible when a new bug is discovered (ideally within 48 hours)
-- When someone intends to start work on an issue or new feature, they check the [Issues page](https://github.com/sonic-pi-net/sonic-pi/issues) or [the Sonic Pi features project board](https://github.com/orgs/sonic-pi-net/projects/1) first. If the issue or feature is not already being worked on, the person who intends to start it mentions this publicly somewhere. (They can do this by updating the issue ticket, or mentioning it in any of the places we gather as a [community](https://github.com/sonic-pi-net/sonic-pi/COMMUNITY.md), in order to minimise the possibility of duplicated work.
+- When someone intends to start work on an issue or new feature, they check the [Issues page](https://github.com/sonic-pi-net/sonic-pi/issues) or [the Sonic Pi features project board](https://github.com/orgs/sonic-pi-net/projects/1) first. If the issue or feature is not already being worked on, the person who intends to start it mentions this publicly somewhere, in order to minimise the possibility of duplicated work. (They can do this by updating the issue ticket, or mentioning it in any of the places we gather as a [community](COMMUNITY.md)).
 
 ## Ideal process for contributing with code
 1. Familiarise yourself with the part(s) of the code that you wish to contribute towards if necessary. We're always happy to answer questions about the Sonic Pi code!
-2. For complex or large code changes, it's worth initially discussing the potential solutions with the core team and other Sonic Pi contributors - either by opening an issue and labelling it as a feature request, or again by chatting with us at any of the places we gather as a [community](https://github.com/sonic-pi-net/sonic-pi/COMMUNITY.md).
+2. For complex or large code changes, it's worth initially discussing the potential solutions with the core team and other Sonic Pi contributors - either by opening an issue and labelling it as a feature request, or again by chatting with us at any of the places we gather as a [community](COMMUNITY.md).
 3. Fork a copy of the Sonic Pi repository to your personal GitHub account.
 4. Clone your fork to your local machine.
 5. Make changes to your local clone of Sonic Pi.
