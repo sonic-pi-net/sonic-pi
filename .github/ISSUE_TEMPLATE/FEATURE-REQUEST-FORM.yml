@@ -1,0 +1,42 @@
+name: A feature request
+description: Describe a new feature or enhancement that you would like to see in Sonic Pi.
+labels: ["Feature Request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Hello! Thank you for your interest in improving Sonic Pi.
+
+        The core Sonic Pi development team is fairly small and made up of volunteers (with the exception of Sam Aaron, who relies much on crowd-funding) so the more help we can receive to manage your ideas the better - help us to help you! Please follow the checklist below - that way you might not even need to raise a feature request after all :smile:
+  - type: checkboxes
+    id: prerequisites
+    attributes:
+      options:
+        - label: I've searched the [Sonic Pi features project](https://github.com/orgs/sonic-pi-net/projects/1) for similar existing feature requests
+          required: true
+        - label: To the best of my knowledge, this feature would fit within the [project guidelines](CONTRIBUTING.md#project-and-development-process-guidelines) 
+          required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Feature Description
+      description: |
+        - Add as much detail as you can about your idea.
+        - What problem would this feature solve, or benefit would it provide? 
+        - If it relates to new functions or changes in the language, give small examples of what you might write in Sonic Pi. Please use code formatting for the examples - if you're not sure how, please see the 'Code' examples at GitHub's [Mastering Markdown examples](https://guides.github.com/features/mastering-markdown/#examples).
+        - You can drag related images into the description if useful - (for example, showing the design or layout of potential features or enhancements in the GUI).
+      placeholder: "Example: I think a foo feature is useful for Sonic Pi because..."
+    validations:
+      required: true
+  - type: textarea
+    id: other-details
+    attributes:
+      label: Other Details
+      description: |
+        Feel free to provide any other relevant information about the feature if you have it, or can get it, such as:
+        - Places where you have seen similar features being used
+        - Ideas about possible ways to build the feature
+        - Etc...
+      placeholder: "Example: We could build the foo feature by adding a bar to the baz panel..."
+    validations:
+      required: false

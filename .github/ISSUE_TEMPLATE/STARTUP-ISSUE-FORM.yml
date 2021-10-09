@@ -1,0 +1,83 @@
+name: A Sonic Pi start up issue
+description: Sonic Pi doesn't start up successfully
+labels: ["triage", "boot"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Hello! Thank you for wanting to raise an issue for us, so that we know what's not working for you.
+
+        Sorry you're having issues getting Sonic pi to start up! We're always working to improve the success rate.
+
+        The core Sonic Pi development team is fairly small and made up of volunteers (with the exception of Sam Aaron, who relies much on crowd-funding) so the more help we can receive to manage, troubleshoot and hopefully fix your issues for you the better - help us to help you! Please follow the checklist below - that way you might not even need to raise an issue after all :smile:
+  - type: checkboxes
+    id: read-troubleshooting-guide
+    attributes:
+      options:
+        - label: I've read the [Sonic Pi troubleshooting guide](https://github.com/sonic-pi-net/sonic-pi/wiki/Troubleshooting-Issues) and followed its suggestions where relevant
+          required: true
+  - type: dropdown
+    id: sonic-pi-version
+    attributes:
+      label: Sonic Pi Version
+      description: What version of Sonic Pi were you running?
+      options:
+        - v4.0-Beta2
+        - v4.0-Beta1
+        - v3.3.1
+        - v3.3
+        - v3.2.2
+        - v3.2.1
+        - v3.2
+        - v3.1
+        - v3.0.1
+        - v3.0
+        - v2.11.1
+        - v2.11
+        - v2.10
+        - v2.9
+        - v2.8
+        - v2.7
+        - v2.6
+        - v2.5
+        - v2.4
+        - v2.3
+        - v2.2
+        - v2.1.1
+        - v2.1
+        - v2.0.1
+        - v2.0
+    validations:
+      required: true
+  - type: input
+    id: os-version
+    attributes:
+      label: Operating System
+      description: "What Operating System (and which version) were you using?"
+      placeholder: "Example: Windows 10"
+    validations:
+      required: true
+  - type: textarea
+    id: log-details
+    attributes:
+      label: Log file details
+      description: |
+        Please paste in the error report or log file details as outlined in the troubleshooting guide.
+        If the `.sonic-pi/log` directory doesn't exist, then Sonic Pi probably doesn't even load far enough to be able to create it. Please tell us if this is the case!
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: other-details
+    attributes:
+      label: Other Details
+      description: |
+        You can drag related images into the description if you like.
+        Feel free to provide any other relevant information about the issue if you have it, or can get it:
+        - Ideas about possible root causes
+        - Links to the problematic commit or location in the source code on GitHub
+        - Workarounds or potential solutions (or even better, send us a pull request!)
+        - Etc...
+      placeholder: "Example: Could this be related to X? Maybe it might be fixed by editing the foo file."
+    validations:
+      required: false
