@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-08-21 09:36+0000\n"
-"Last-Translator: Luna Jernberg <droidbittin@gmail.com>\n"
-"Language-Team: Swedish <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
-"sv/>\n"
+"PO-Revision-Date: 2021-10-11 11:19+0000\n"
+"Last-Translator: tter <tter0@protonmail.com>\n"
+"Language-Team: Swedish <https://hosted.weblate.org/projects/sonic-pi/"
+"tutorial/sv/>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.2.1-dev\n"
+"X-Generator: Weblate 4.9-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -451,12 +451,13 @@ msgid ""
 "*Help* button toggles the help system (*G*) and the *Prefs* button toggles the"
 " preferences window which allows you to control some basic system parameters."
 msgstr ""
-"Dessa blå knappar ger dig tillgång till information, hjälp och inställningar. "
-"*Info*-knappen öppnar upp ett informationsfönster, som innehåller information "
-"om själva Sonic Pi -programmet - huvudteamet, historien, de som bidragit och g"
-"emenskapen runt Sonic Pi.  *Hjälp*-knappen visar eller plockar bort hjälpsyste"
-"met (*G*). Knappen *Inställningar*  visar eller plockar bort inställningarna, "
-"där du kan kontrollera vissa enkla systemfunktioner."
+"Dessa blå knappar ger dig tillgång till information, hjälp och "
+"inställningar. *Info*-knappen öppnar upp ett informationsfönster, som "
+"innehåller information om själva Sonic Pi -programmet - huvudteamet, "
+"historien, de som bidragit och gemenskapen runt Sonic Pi. *Hjälp*-knappen "
+"visar eller plockar bort hjälpsystemet (*G*). Knappen *Inställningar* visar "
+"eller plockar bort inställningarna, där du kan kontrollera vissa enkla "
+"systemfunktioner."
 
 #: 01.2-Exploring-the-Interface.md:44
 msgid "D. Code Editor"
@@ -666,7 +667,7 @@ msgstr "Syntar"
 
 #: 02-Synths.md:5
 msgid "OK, enough of the intros - let's get into some sound."
-msgstr "OK, nu räcker det med intro  - låt oss göra ljud."
+msgstr "OK, nu räcker det med intro - låt oss göra ljud."
 
 #: 02-Synths.md:7
 msgid ""
@@ -718,9 +719,9 @@ msgid ""
 "at the top of the app (the big white space under the Run button). Now, press R"
 "un..."
 msgstr ""
-"Det är nu det börjar. Varsågod, kopiera och klistra in koden i fönstret längst"
-" upp i applikationen (den stora vita ytan under Run-knappen). \n"
-"Nu kan du trycka på Run..."
+"Det är nu det börjar. Varsågod, kopiera och klistra in koden i fönstret "
+"längst upp i applikationen (den stora vita ytan under Run-knappen). Nu kan "
+"du trycka på Run..."
 
 #: 02.1-Your-First-Beeps.md:15
 msgid "Beep!"
@@ -1158,6 +1159,7 @@ msgstr ""
 #: 02.2-Synth-Params.md:104
 msgid "Of course, you can use different `amp:` values for each call to play:"
 msgstr ""
+"Självklart kan du använda olika `amp:`-värden för varje anrop till play:"
 
 #: 02.2-Synth-Params.md:106
 #, no-wrap
@@ -1184,6 +1186,13 @@ msgid ""
 "to represent fully right in the stereo field. Of course, we're free to use any"
 " value between -1 and 1 to control the exact positioning of our sound."
 msgstr ""
+"En annon rolig opt att använda är `pan:` som kontrollerar panoreringen av "
+"ett ljud i stereo. Att panorera ett ljud till vänster betyder att det kommer "
+"höras från den vänstra högtalaren, och att panorera det till höger betyder "
+"att du hör det ur din högra högtalare. Till våra värden använder vi -1 för "
+"att representera helt till vänster, 0 för att representera mitten och 1 för "
+"att representera helt höger i stereo. Såklart är du fri att använda vilket "
+"värde som melst mellan -1 och 1 för exakt kontroll över ljudet."
 
 #: 02.2-Synth-Params.md:126
 msgid "Let's play a beep out of the left speaker:"
@@ -13914,7 +13923,7 @@ msgstr ""
 
 #: B.04-Performing.md:11
 msgid "Show Your Screen"
-msgstr ""
+msgstr "Visa Din Skärm"
 
 #: B.04-Performing.md:13
 msgid ""
@@ -13924,10 +13933,16 @@ msgid ""
 "g room wall. You could use your TV or one of your school/work projectors to gi"
 "ve a show. Try it, it's a lot of fun."
 msgstr ""
+"När du kodar live rekommenderar jag dig att *visa din skärm* för din publik. "
+"Annars är det som att spela gitarr men inte visa dina fingrar eller "
+"strängarna. När jag tränar hemma använder jag en Raspberry Pi och en liten "
+"mini-projektor på min vardagsrumsvägg. Du kan använda din TV eller en "
+"projektor på skolan eller jobbet för att hålla en show. Testa, det är "
+"jättekul."
 
 #: B.04-Performing.md:20
 msgid "Form a Band"
-msgstr ""
+msgstr "Bilda ett Band"
 
 #: B.04-Performing.md:22
 msgid ""
@@ -13936,10 +13951,14 @@ msgid ""
 "e the `live_audio` functionality to combine code with traditional instruments "
 "such as a guitar or a microphone."
 msgstr ""
+"Spela inte bara själv - bilda ett kodningsband! Det är mycket roligt att "
+"jamma tillsammans med andra. En person kan göra beaten, någon annan "
+"bakgrunden, etc. Använd `live_audio` funktionaliteten för att kombinera kod "
+"med traditionella instrument som en gitarr eller en mikrofon."
 
 #: B.04-Performing.md:27
 msgid "See what interesting combinations of sounds you can create with code."
-msgstr ""
+msgstr "Se vilka intressanta kombinationer av olika ljud du kan skapa med kod."
 
 #: B.04-Performing.md:29
 msgid "TOPLAP"
@@ -13994,7 +14013,7 @@ msgstr ""
 
 #: C-Minecraft-Pi.md:17
 msgid "Automatic Connection"
-msgstr ""
+msgstr "Automatisk Anslutning"
 
 #: C-Minecraft-Pi.md:19
 msgid ""
@@ -14024,7 +14043,7 @@ msgstr ""
 
 #: C-Minecraft-Pi.md:39
 msgid "Requires a Raspberry Pi 2.0"
-msgstr ""
+msgstr "Kräver en Raspberry Pi 2.0"
 
 #: C-Minecraft-Pi.md:41
 msgid ""
@@ -14057,6 +14076,8 @@ msgid ""
 "Sonic Pi currently supports the following basic interactions with Minecraft Pi"
 ":"
 msgstr ""
+"Sonic Pi stöder för tillfället följande grundläggande interaktioner med "
+"Minecraft Pi:"
 
 #: C.01-Basic-API.md:7 C.01-Basic-API.md:16
 msgid "Displaying chat messages"
@@ -14091,12 +14112,12 @@ msgstr ""
 
 #: C.01-Basic-API.md:23
 msgid "In a fresh Sonic Pi buffer simply enter the following code:"
-msgstr ""
+msgstr "Skriv den följande koden i en tom Sonic Pi-buffer:"
 
 #: C.01-Basic-API.md:25
 #, no-wrap
 msgid "mc_message \"Hello from Sonic Pi\""
-msgstr ""
+msgstr "mc_message \"Hej från Sonic Pi\""
 
 #: C.01-Basic-API.md:29
 msgid ""
@@ -14128,7 +14149,7 @@ msgstr ""
 
 #: C.01-Basic-API.md:50
 msgid "Coordinates"
-msgstr ""
+msgstr "Koordinater"
 
 #: C.01-Basic-API.md:52
 msgid ""
@@ -14146,6 +14167,8 @@ msgid ""
 "Now, in Minecraft two numbers isn't quite enough. We also need to know how hig"
 "h we are. We therefore need three numbers:"
 msgstr ""
+"I Minecraft är två nummer inte tillräckligt. Vi behöver ju också veta hur "
+"högt upp vi är. Därför behöver vi tre nummer:"
 
 #: C.01-Basic-API.md:64
 msgid "How far from right to left in the world - `x`"
@@ -14157,13 +14180,15 @@ msgstr ""
 
 #: C.01-Basic-API.md:66
 msgid "How high up we are in the world - `y`"
-msgstr ""
+msgstr "Hur högt upp vi är i världen - `y"
 
 #: C.01-Basic-API.md:68
 msgid ""
 "One more thing - we typically describe these coordinates in this order `x`, `y"
 "`, `z`."
 msgstr ""
+"En sak till - oftast skriver vi dessa koordinater i den här ordningen, `x`, "
+"`y`, `z`."
 
 #: C.01-Basic-API.md:71
 msgid "Finding your current coordinates"
@@ -14213,6 +14238,8 @@ msgid ""
 "Haha, it really was that easy. To see your handywork just teleport nearby and "
 "take a look:"
 msgstr ""
+"Haha, det var verkligen så lätt. För att se din läxa teleportera dig bara i "
+"närheten och ta en titt:"
 
 #: C.01-Basic-API.md:103
 #, no-wrap
@@ -14246,6 +14273,9 @@ msgid ""
 ". Given a set of coordinates we can ask Minecraft what the type of a specific "
 "block is. Let's try it with the diamond block you just created:"
 msgstr ""
+"Låt oss titta på den sista saken innan vi går vidare till någonting mer "
+"avancerat. Med en uppsättning koordinater kan vi fråga Minecraft vilken sort "
+"ett specifikt block är. Testa det med diamantblocket du precis skapade:"
 
 #: C.01-Basic-API.md:124
 #, no-wrap
@@ -14260,7 +14290,7 @@ msgstr ""
 
 #: C.01-Basic-API.md:131
 msgid "Available block types"
-msgstr ""
+msgstr "Tillgängliga blocktyper"
 
 #: C.01-Basic-API.md:133
 msgid ""
