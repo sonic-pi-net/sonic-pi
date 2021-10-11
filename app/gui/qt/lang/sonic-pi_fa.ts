@@ -98,12 +98,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="3618"/>
         <source>Enabling MIDI input...</source>
-        <translation type="unfinished"></translation>
+        <translation>فعال کردن ورودی MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3624"/>
         <source>Disabling MIDI input...</source>
-        <translation type="unfinished"></translation>
+        <translation>غیر فعال کردن ورودی MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3640"/>
@@ -158,30 +158,30 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="1562"/>
         <location filename="../mainwindow.cpp" line="1565"/>
         <source>Buffer files</source>
-        <translation></translation>
+        <translation>فایل های بافر</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1548"/>
         <source>Load Sonic Pi Buffer</source>
-        <translation></translation>
+        <translation>بارگزاری بافر Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1548"/>
         <location filename="../mainwindow.cpp" line="1565"/>
         <source>Text files</source>
-        <translation></translation>
+        <translation>فایل های متنی</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1548"/>
         <location filename="../mainwindow.cpp" line="1565"/>
         <source>Ruby files</source>
-        <translation></translation>
+        <translation>فایل های Ruby</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1548"/>
         <location filename="../mainwindow.cpp" line="1565"/>
         <source>All files</source>
-        <translation></translation>
+        <translation>تمامی فایل ها</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2043"/>
@@ -201,17 +201,17 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2539"/>
         <source>Load</source>
-        <translation></translation>
+        <translation>بارگزاری</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2541"/>
         <source>Load an external file in the current buffer</source>
-        <translation></translation>
+        <translation>بارگذاری یک فایل خارجی در بافر فعلی</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2545"/>
         <source>Indent Code Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>بافر کد Indent</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2551"/>
@@ -226,12 +226,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2563"/>
         <source>Show Scopes</source>
-        <translation type="unfinished"></translation>
+        <translation>نمایش گستره ها</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2571"/>
         <source>Show Info</source>
-        <translation type="unfinished"></translation>
+        <translation>نمایش اطلاعات</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3108"/>
@@ -241,62 +241,62 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="3642"/>
         <source>Resetting MIDI...</source>
-        <translation></translation>
+        <translation>در حال بازنشانی MIDI ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3647"/>
         <source>MIDI is disabled...</source>
-        <translation></translation>
+        <translation>MIDI غیرفعال است ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3699"/>
         <source>Welcome back. Now get your live code on...</source>
-        <translation></translation>
+        <translation>خوش آمدید. حالا کد زنده خود را دریافت کنید ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1565"/>
         <source>Save Current Buffer</source>
-        <translation></translation>
+        <translation>ذخیره بافر فعلی</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="770"/>
         <source>Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>گستره</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="793"/>
         <source>Context</source>
-        <translation type="unfinished"></translation>
+        <translation>زمینه</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="897"/>
         <source>Playing Sample...</source>
-        <translation type="unfinished"></translation>
+        <translation>در حال پخش نمونه ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1686"/>
         <source>Zooming In...</source>
-        <translation></translation>
+        <translation>بزرگنمایی ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1693"/>
         <source>Zooming Out...</source>
-        <translation></translation>
+        <translation>کوچک نمایی ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1737"/>
         <source>Checking for updates...</source>
-        <translation></translation>
+        <translation>در حال بررسی بروزرسانی ها...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1745"/>
         <source>Enabling update checking...</source>
-        <translation></translation>
+        <translation>در حال فعال کردن بررسی بروزرسانی ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1753"/>
         <source>Disabling update checking...</source>
-        <translation></translation>
+        <translation>در حال غیرفعال کردن بررسی بروزرسانی ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1778"/>
@@ -314,180 +314,180 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="1795"/>
         <source>Enabling Inverted Stereo...</source>
         <oldsource>Enabling Inverted Stereo....</oldsource>
-        <translation></translation>
+        <translation>فعال کردن استریو معکوس ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1803"/>
         <source>Enabling Standard Stereo...</source>
         <oldsource>Enabling Standard Stereo....</oldsource>
-        <translation></translation>
+        <translation>فعال کردن استریو استاندارد ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1811"/>
         <source>Mono Mode...</source>
         <oldsource>Mono Mode....</oldsource>
-        <translation></translation>
+        <translation>حالت مونو ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1819"/>
         <source>Stereo Mode...</source>
         <oldsource>Stereo Mode....</oldsource>
-        <translation></translation>
+        <translation>حالت استریو ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1828"/>
         <source>Stopping...</source>
-        <translation></translation>
+        <translation>در حال توقف کردن...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1869"/>
         <source>Hiding about window...</source>
-        <translation type="unfinished"></translation>
+        <translation>در حال مخفی کردن پنجره About...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1874"/>
         <source>Showing about window...</source>
-        <translation type="unfinished"></translation>
+        <translation>در حال نمایش پنجره About...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1890"/>
         <source>Hiding help...</source>
-        <translation type="unfinished"></translation>
+        <translation>در حال پنهان کردن کمک ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1894"/>
         <source>Showing help...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">در حال نمایش کمک ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1950"/>
         <source>Updating System Volume...</source>
-        <translation></translation>
+        <translation>به روز رسانی حجم سیستم ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2097"/>
         <source>Colour Theme: </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">تم رنگ: </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2305"/>
         <source>Show autocompletion on</source>
-        <translation type="unfinished"></translation>
+        <translation>تکمیل خودکار روشن باشد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2307"/>
         <source>Show autocompletion off</source>
-        <translation type="unfinished"></translation>
+        <translation>تکمیل خودکار را خاموش نشان دهید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2322"/>
         <source>Show context on</source>
-        <translation type="unfinished"></translation>
+        <translation>Context را نشان دهید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2325"/>
         <source>Show context off</source>
-        <translation type="unfinished"></translation>
+        <translation>Context را خاموش کنید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2337"/>
         <source>Hiding preferences...</source>
-        <translation type="unfinished"></translation>
+        <translation>پنهان کردن ترجیحات ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2341"/>
         <source>Showing preferences...</source>
-        <translation type="unfinished"></translation>
+        <translation>نمایش تنظیمات برگزیده ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2510"/>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>خروج</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2529"/>
         <source>Start recording to a WAV audio file</source>
-        <translation type="unfinished"></translation>
+        <translation>شروع ضبط به یک فایل صوتی WAV</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2533"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>ذخیره</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2535"/>
         <source>Save current buffer as an external file</source>
-        <translation></translation>
+        <translation>ذخیره بافر فعلی به عنوان یک فایل خارجی</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2575"/>
         <source>Toggle information about Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>تغییر وضعیت اطلاعات Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2579"/>
         <source>Show Help</source>
-        <translation type="unfinished"></translation>
+        <translation>نمایش راهنما</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2583"/>
         <source>Toggle the visibility of the help pane</source>
-        <translation></translation>
+        <translation>تغییر دید قاب راهنما</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2587"/>
         <source>Show Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>نمایش تنظیمات برگزیده</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2591"/>
         <source>Toggle the visibility of the preferences pane</source>
-        <translation></translation>
+        <translation>تغییر وضعیت پنجره تنظیمات برگزیده</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2614"/>
         <source>Show Line Numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>نمایش شماره خطوط</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2619"/>
         <source>Show Code Completion</source>
-        <translation type="unfinished"></translation>
+        <translation>نمایش تکمیل کد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2624"/>
         <source>Show Code Context</source>
-        <translation type="unfinished"></translation>
+        <translation>نمایش Context کد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2629"/>
         <source>Safe Audio Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>حالت صوتی ایمن</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2634"/>
         <source>Enforce Timing Guarantees</source>
-        <translation type="unfinished"></translation>
+        <translation>اجرای تضمین های زمان بندی</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2639"/>
         <source>Enable External Synths</source>
-        <translation type="unfinished"></translation>
+        <translation>Synths خارجی را فعال کنید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2644"/>
         <source>Invert Stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>استریو وارونه</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2649"/>
         <source>Force Mono</source>
-        <translation type="unfinished"></translation>
+        <translation>مجبورکردن به مونو</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2654"/>
         <source>Enable Incoming MIDI Cues</source>
-        <translation type="unfinished"></translation>
+        <translation>نشانه های MIDI ورودی را فعال کنید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2659"/>
@@ -502,12 +502,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2669"/>
         <source>Log Cues</source>
-        <translation type="unfinished"></translation>
+        <translation>گزارش Cues</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2674"/>
         <source>Log Synths</source>
-        <translation type="unfinished"></translation>
+        <translation>لاگ Synths</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2679"/>
