@@ -68,7 +68,7 @@ Once you have Homebrew installed, pulling in the rest of the
 dependencies is a couple of lines to execute within a terminal:
 
 ```
-brew install qt cmake
+brew install qt@5 cmake
 
 ```
 
