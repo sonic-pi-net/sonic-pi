@@ -10,7 +10,7 @@ Sonic Pi doesn't have a database, so the tests are quite a lot
 simpler than your average web app.
 
 ```
-$ cd app/server/sonicpi/test
+$ cd app/server/ruby/test
 $ rake test
 ```
 
