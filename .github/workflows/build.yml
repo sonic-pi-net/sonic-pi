@@ -217,7 +217,7 @@ jobs:
     - name: API Tests - Linux
       working-directory: ${{github.workspace}}/app/build/api-tests
       run: |
-        jackd -d dummy &
+        jackd -rd dummy &
         ctest --verbose
       if: matrix.os == 'ubuntu-latest'
 
