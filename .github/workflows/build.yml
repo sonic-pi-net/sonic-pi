@@ -3,9 +3,11 @@ name: Build
 on:
   # Do it on every push or PR on these branches
   push:
-    branches: [ dev, main, workflow_dispatch, features/sp-api ]
+    branches: [ dev, stable ]
   pull_request:
-    branches: [ dev, main, workflow_dispatch, features/sp-api ]
+    branches: [ dev, stable ]
+  # Do build on demand
+  workflow_dispatch:
 
 jobs:
   # Build Sonic Pi
