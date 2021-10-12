@@ -2215,6 +2215,11 @@ load_sample dir, /[Bb]ar/ # loads first sample which matches regex /[Bb]ar/ in \
       def sample_duration(*args)
         filts_and_sources, args_a = sample_split_filts_and_opts(args)
         path = resolve_sample_path(filts_and_sources)
+
+        if path.nil?
+            raise ArgumentError.new("Error calling sample_duration: filters matched no samples")
+        end
+
         dur = load_sample_at_path(path).duration
         args_h = merge_synth_arg_maps_array(args_a)
 
