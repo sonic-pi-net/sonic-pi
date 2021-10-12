@@ -1,7 +1,7 @@
 # License
 
 ## Main Source
-(contents of [app/](https://github.com/sonic-pi-net/sonic-pi/tree/main/app) and [etc/synthdefs/](https://github.com/sonic-pi-net/sonic-pi/tree/main/etc/synthdefs) directories)
+(contents of [app/](https://github.com/sonic-pi-net/sonic-pi/tree/main/app) directory)
 
 The MIT License (MIT)
 
@@ -68,6 +68,16 @@ have been obtained from the
 [Adventure Kid](http://www.adventurekid.se/akrt/waveforms/adventure-kid-waveforms/)
 site.
 
+## Synthdefs
+(contents of [etc/synthdefs/](https://github.com/sonic-pi-net/sonic-pi/tree/main/etc/synthdefs) directory)
+
+The bundled synthdefs are licensed under the [MIT License](http://opensource.org/licenses/MIT) with the following exceptions, which are licensed under the [GNU General Public License v3](https://www.gnu.org/licenses/gpl-3.0.html):
+
+* [etc/synthdefs/designs/supercollider/bass_foundation.scd](https://github.com/sonic-pi-net/sonic-pi/tree/main/etc/synthdefs/designs/supercollider/bass_foundation.scd)
+* [etc/synthdefs/designs/supercollider/bass_highend.scd](https://github.com/sonic-pi-net/sonic-pi/tree/main/etc/synthdefs/designs/supercollider/bass_highend.scd)
+* [etc/synthdefs/designs/supercollider/winwood_lead.scd](https://github.com/sonic-pi-net/sonic-pi/tree/main/etc/synthdefs/designs/supercollider/winwood_lead.scd)
+
+See their source files for links to the original designs.
 
 ## Bundled Software
 The following is a list of the software included in Sonic Pi with their
