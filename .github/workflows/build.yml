@@ -244,7 +244,8 @@ jobs:
 
     - name: Archive Logs
       uses: actions/upload-artifact@v2
+      if: ${{ always() }}
       with:
-          name: Logs_${{matrix.title}}_${{matrix.build_type}}
+          name: Logs_${{matrix.title}}_${{matrix.cc}}_${{matrix.arch}}_${{matrix.build_type}}
           path: |
             ~/.sonic-pi/log/*.log
