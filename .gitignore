@@ -125,6 +125,7 @@ book/
 ## IntelliJ IDEA
 
 *.iml
+.idea
 
 ## i18n auto-generated files
 
