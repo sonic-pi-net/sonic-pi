@@ -196,7 +196,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2517"/>
         <source>Run the code in the current buffer</source>
-        <translation></translation>
+        <translation>اجرای کد در بافر فعلی</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2539"/>
@@ -512,7 +512,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2679"/>
         <source>Clear Logs on Run</source>
-        <translation type="unfinished"></translation>
+        <translation>پاک کردن لاگ در زمان اجرا</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2684"/>
@@ -527,57 +527,57 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2699"/>
         <source>Live</source>
-        <translation type="unfinished"></translation>
+        <translation>زنده</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2711"/>
         <source>Code</source>
-        <translation type="unfinished"></translation>
+        <translation>کد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2723"/>
         <source>Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>صوتی</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2732"/>
         <source>Visuals</source>
-        <translation type="unfinished"></translation>
+        <translation>تصویری</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2736"/>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation>روشن</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2741"/>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>تیره</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2746"/>
         <source>Pro Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro Light</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2751"/>
         <source>Pro Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro Dark</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2756"/>
         <source>High Contrast</source>
-        <translation type="unfinished"></translation>
+        <translation>کنتراست بالا</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2761"/>
         <source>Show Scope Labels</source>
-        <translation type="unfinished"></translation>
+        <translation>نمایش برچسب های دامنه</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2766"/>
         <source>Colour Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>تم رنگ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2775"/>
@@ -626,127 +626,127 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2801"/>
         <source>1</source>
-        <translation type="unfinished"></translation>
+        <translation>1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2806"/>
         <source>2</source>
-        <translation type="unfinished"></translation>
+        <translation>2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2811"/>
         <source>3</source>
-        <translation type="unfinished"></translation>
+        <translation>3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2816"/>
         <source>4</source>
-        <translation type="unfinished"></translation>
+        <translation>4</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2821"/>
         <source>5</source>
-        <translation type="unfinished"></translation>
+        <translation>5</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2826"/>
         <source>6</source>
-        <translation type="unfinished"></translation>
+        <translation>6</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2831"/>
         <source>7</source>
-        <translation type="unfinished"></translation>
+        <translation>7</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2836"/>
         <source>8</source>
-        <translation type="unfinished"></translation>
+        <translation>8</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2841"/>
         <source>9</source>
-        <translation type="unfinished"></translation>
+        <translation>9</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2846"/>
         <source>10</source>
-        <translation type="unfinished"></translation>
+        <translation>10</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2851"/>
         <source>11</source>
-        <translation type="unfinished"></translation>
+        <translation>11</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2856"/>
         <source>12</source>
-        <translation type="unfinished"></translation>
+        <translation>12</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2861"/>
         <source>13</source>
-        <translation type="unfinished"></translation>
+        <translation>13</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2866"/>
         <source>14</source>
-        <translation type="unfinished"></translation>
+        <translation>14</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2871"/>
         <source>15</source>
-        <translation type="unfinished"></translation>
+        <translation>15</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2876"/>
         <source>16</source>
-        <translation type="unfinished"></translation>
+        <translation>16</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2884"/>
         <source>Local IP Addresses</source>
-        <translation type="unfinished"></translation>
+        <translation>آدرس های IP محلی</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2896"/>
         <source>Incoming OSC Port</source>
-        <translation type="unfinished"></translation>
+        <translation>پورت ورودی OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2899"/>
         <source>View</source>
-        <translation type="unfinished"></translation>
+        <translation>مشاهده</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2906"/>
         <source>Focus Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>ویرایشگر فوکوس</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2908"/>
         <source>Place focus on the code editor</source>
-        <translation type="unfinished"></translation>
+        <translation>تمرکز را روی ویرایشگر کد قرار دهید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2912"/>
         <source>Focus Logs</source>
-        <translation type="unfinished"></translation>
+        <translation>فوکوس لاگ ها</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2914"/>
         <source>Place focus on the log pane</source>
-        <translation type="unfinished"></translation>
+        <translation>تمرکز را روی پنجره لاگ ها قرار دهید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2917"/>
         <source>Focus Context</source>
-        <translation type="unfinished"></translation>
+        <translation>تمرکز بر زمینه</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2919"/>
         <source>Place focus on the context pane</source>
-        <translation type="unfinished"></translation>
+        <translation>تمرکز را روی پنجره زمینه قرار دهید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2923"/>
@@ -826,115 +826,116 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="3130"/>
         <source>Ready...</source>
-        <translation></translation>
+        <translation>آماده...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3296"/>
         <source>File loaded...</source>
-        <translation></translation>
+        <translation>فایل بارگیری شد ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3322"/>
         <source>File saved...</source>
-        <translation></translation>
+        <translation>فایل ذخیره شد ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3568"/>
         <source>Last checked %1</source>
-        <translation></translation>
+        <translation>آخرین بررسی٪ 1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3570"/>
         <source>Sonic Pi checks for updates
 every two weeks.</source>
-        <translation></translation>
+        <translation>Sonic Pi به روزرسانی ها هر دو هفته را بررسی می کند.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3572"/>
         <source>This is Sonic Pi %1</source>
-        <translation></translation>
+        <translation>این Sonic Pi٪ 1 است</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3573"/>
         <source>Version %2 is now available!</source>
-        <translation></translation>
+        <translation>نسخه٪ 2 اکنون در دسترس است!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3577"/>
         <source>New version available!
 Get Sonic Pi %1</source>
-        <translation></translation>
+        <translation>نسخه جدید در دسترس است!
+Sonic Pi٪ 1 را دریافت کنید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3864"/>
         <source>Line: %1,  Position: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>خط:٪ 1 ، موقعیت:٪ 2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2515"/>
         <source>Run</source>
-        <translation></translation>
+        <translation>اجرا</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2521"/>
         <source>Stop</source>
-        <translation></translation>
+        <translation>توقف</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2523"/>
         <source>Stop all running code</source>
-        <translation></translation>
+        <translation>تمام کد های در حال اجرا را متوقف کنید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="847"/>
         <source>Help</source>
-        <translation></translation>
+        <translation>کمک</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1445"/>
         <source>Server boot error...</source>
-        <translation></translation>
+        <translation>خطای بوت سرور ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1445"/>
         <source>Please consider reporting a bug at</source>
-        <translation></translation>
+        <translation>لطفا گزارش یک باگ را در نظر بگیرید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2527"/>
         <location filename="../mainwindow.cpp" line="3100"/>
         <source>Start Recording</source>
-        <translation></translation>
+        <translation>شروع ضبط</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2553"/>
         <source>Increase Text Size</source>
-        <translation></translation>
+        <translation>افزایش اندازه متن</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2559"/>
         <source>Decrease Text Size</source>
-        <translation></translation>
+        <translation>کاهش اندازه متن</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2596"/>
         <source>Tools</source>
-        <translation></translation>
+        <translation>ابزارها</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3027"/>
         <source>About</source>
-        <translation></translation>
+        <translation>درباره</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3029"/>
         <source>Core Team</source>
-        <translation></translation>
+        <translation>تیم اصلی</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3030"/>
         <source>Contributors</source>
-        <translation></translation>
+        <translation>مشارکت کنندگان</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3028"/>
