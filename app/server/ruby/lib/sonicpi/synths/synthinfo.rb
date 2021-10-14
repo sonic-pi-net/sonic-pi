@@ -8330,7 +8330,7 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
             doc <<  Kramdown::Document.new(docstring).to_html
             doc << "  <p class=\"properties\">\n"
             doc << "   Default: #{av[:default]}\n"
-            doc << "   <br/>#{av[:constraints].collect(&:strip).join(", ").capitalize}\n" unless av[:constraints].empty?
+            doc << "   <br/>#{av[:constraints].join(", ").capitalize}\n" unless av[:constraints].empty?
             doc << "   <br/>#{av[:modulatable] ? "May be changed whilst playing" : "Can not be changed once set"}\n"
             doc << "   <br/><a href=\"#slide\">Has slide options to shape changes</a>\n" if av[:slidable]
             doc << "   <br/>Scaled with current BPM value\n" if av[:bpm_scale]
@@ -8377,7 +8377,7 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
             res << "  * #{ak}:\n"
             res << "    - doc: #{av[:doc] || 'write me'}\n"
             res << "    - default: #{av[:default]}\n"
-            res << "    - constraints: #{av[:constraints].empty? ? "none" : av[:constraints].collect(&:strip).join(", ").capitalize}\n"
+            res << "    - constraints: #{av[:constraints].empty? ? "none" : av[:constraints].join(", ").capitalize}\n"
             res << "    - #{av[:modulatable] ? "May be changed whilst playing" : "Can not be changed once set"}\n"
             res << "    - Scaled with current BPM value\n" if av[:bpm_scale]
             res << "    - Accepts note symbols such as :e3\n" if av[:midi]
@@ -8449,7 +8449,7 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
             doc << "  <p>#{av[:doc] || 'write me'}</p>\n"
             doc << "  <p class=\"properties\">\n"
             doc << "   Default: #{av[:default]}\n"
-            doc << "   <br/>#{av[:constraints].collect(&:strip).join(", ").capitalize}\n" unless av[:constraints].empty?
+            doc << "   <br/>#{av[:constraints].join(", ").capitalize}\n" unless av[:constraints].empty?
             if av[:slidable]
               doc << "   <br/>May be changed whilst playing\n"
               doc << "   <br/><a href=\"#slide\">Has slide options to shape changes</a>\n"
