@@ -10,7 +10,7 @@ version of Sonic Pi. If you're just looking to install it, we've already
 done all of this work for you and you can grab the latest signed
 pre-built version of the app here:
 
-https://github.com/samaaron/sonic-pi/releases
+https://github.com/sonic-pi-net/sonic-pi/releases
 
 If you're definitely sure you want to build your own release, then we
 really hope that these instructions help. Please let us know if you have
@@ -81,14 +81,14 @@ The easiest way of getting this is likely to be cloning from GitHub
 into a folder on your hard drive such as `~/Development/sonic-pi`:
 
 ```
-git clone https://github.com/samaaron/sonic-pi.git ~/Development/sonic-pi
+git clone https://github.com/sonic-pi-net/sonic-pi.git ~/Development/sonic-pi
 ``` 
 
 If you don't have Git installed you should be able to download a `.zip`
 file of the latest commit or specific release (v3.3+) you'd like to
 build:
 
-https://github.com/samaaron/sonic-pi/archive/main.zip
+https://github.com/sonic-pi-net/sonic-pi/archive/main.zip
 
 From now on these instructions will assume you downloaded the source 
 into `~/Development/sonic-pi`. If you used a different location be sure to
@@ -144,6 +144,19 @@ directly either by double clicking it in the Finder or via the terminal
 ./Sonic\ Pi.app/Contents/MacOS/Sonic\ Pi
 
 ```
+
+#### Anaconda users beware!
+
+Anaconda (a popular data science toolkit) installs a lot of extra programs, including one called `macdeployqt` which conflicts with the build process mentioned above.
+
+If you run:
+
+```
+conda deactivate
+```
+
+Before the build steps that should stop things breaking. Once Sonic Pi is built, you can use `conda` as normal after that.
+
 
 ## Good Luck!
 
