@@ -737,7 +737,7 @@ Typical MIDI values such as note or cc are represented with 7 bit numbers which 
         nil
       end
       doc name:           :midi_pc,
-          introduced:     Version.new(3,0,2),
+          introduced:     Version.new(3,1,0),
           summary:        "Send MIDI program change message",
           args:           [[:program_num, :midi]],
           returns:        :nil,
