@@ -756,7 +756,7 @@ Program number can be passed as a note such as `:e3` and decimal values will be 
         "midi_pc 100  #=> Sends MIDI pc message to all ports and channels",
         "midi_pc :e7  #=> Sends MIDI pc message to all ports and channels",
         "midi_pc 100, channel: 5  #=> Sends MIDI pc message on channel 5 to all ports",
-        "midi_pc 100, channel: 5  #=> Sends MIDI pc message on channel 5 to all ports",
+        "midi_pc 100, port: [\"foo\", \"bar\"], channel: 5  #=> Sends MIDI pc message on channel 5 to ports named \"foo\" and \"bar\"",
         "midi_pc 100, channel: [1, 5]  #=> Sends MIDI pc message on channel 1 and 5 to all ports"
 ]
 
