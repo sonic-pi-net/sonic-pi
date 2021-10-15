@@ -279,7 +279,7 @@ module SonicPi
               a[1].is_a?(Numeric)
               ))
         end
-        [l, "must be a buffer description. Such as a buffer, :foo, \"foo\", or [:foo, 4]"]
+        [l, "must be a buffer description, such as a buffer, :foo, \"foo\", or [:foo, 4]"]
       end
 
       def v_sum_less_than_oet(arg1, arg2, max)
