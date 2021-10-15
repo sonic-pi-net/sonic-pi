@@ -1465,7 +1465,7 @@ Have fun and happy live coding!
 * Add check to ensure BPM is a positive value.
 * `density` has now been taught to handle values between 0 and 1 which
   will now stretch time for the specified block.
-* Errors now no longer print out crazy print version of context object
+* Errors now no longer print out unusual print version of context object
   i.e. #<SonicPiSpiderUser1:0x007fc82e1f79a0>
 * Both `in_thread` and `live_loop` have now learned the `delay:` opt
   which will delay the initial execution by the specified number of
