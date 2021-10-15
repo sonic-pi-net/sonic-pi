@@ -407,7 +407,7 @@ end
           examples: ["
 live_loop :foo do
   with_swing 0.1 do
-    sample :elec_beep      # plays the :elec_beep sample late except for every 4th time
+    sample :elec_beep      # plays the :elec_beep sample late except on the 1st beat of every 4
   end
   sleep 0.25
 end
@@ -416,7 +416,7 @@ end
 live_loop :foo do
   with_swing -0.1 do
     sample :elec_beep      # plays the :elec_beep sample slightly early
-  end                      # except for every 4th time
+  end                      # on the 1st beat of every 4
   sleep 0.25
 end
 ",
@@ -424,7 +424,7 @@ end
 live_loop :foo do
   with_swing -0.1, pulse: 8 do
     sample :elec_beep      # plays the :elec_beep sample slightly early
-  end                      # except for every 8th time
+  end                      #  on the 1st beat of every 8
   sleep 0.25
 end
 ",
@@ -434,11 +434,11 @@ end
 live_loop :foo do
   with_swing 0.14, tick: :a do
     sample :elec_beep      # plays the :elec_beep sample slightly late
-  end                      # except for every 4th time
+  end                      #  on the 1st beat of every 4
 
   with_swing -0.1, tick: :b do
     sample :elec_beep, rate: 2  # plays the :elec_beep sample at double rate
-  end                           #  slightly early except for every 4th time
+  end                           #  slightly early except  on the 1st beat of every 4
   sleep 0.25
 end",
         "
@@ -455,7 +455,24 @@ live_loop :bar do
                           # another live loop (sync will match the timing and clock of
                           # the sending live loop)
 end
-"      ]
+",
+      "
+live_loop :foo do
+  with_swing 0.1, offset: 2 do
+    sample :elec_beep      # plays the :elec_beep sample slightly late
+  end                      # on the the 3rd beat of every 4
+  sleep 0.25
+end
+",
+      "
+live_loop :foo do
+  with_swing 0.1, pulse: 2, offset: 1 do
+    sample :elec_beep      # plays the :elec_beep sample slightly late
+  end                      # on the 2nd beat of every 2
+  sleep 0.25
+end
+"
+      ]
 
 
 
