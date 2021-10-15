@@ -134,6 +134,18 @@ directly either by double clicking it in your file manager or via the terminal
 ```
 ./sonic-pi
 
+
+#### Anaconda users beware!
+
+Anaconda (a popular data science toolkit) installs a lot of extra programs, which conflicts with the build process mentioned above.
+
+If you run:
+
+```
+conda deactivate
+```
+
+Before the build steps that should stop things breaking. Once Sonic Pi is built, you can use `conda` as normal after that.
 ```
 
 ## Good Luck!
