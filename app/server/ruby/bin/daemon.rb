@@ -847,7 +847,7 @@ module SonicPi
         # extract scsynth opts
         begin
           scsynth_opts_a = Shellwords.split(opts.fetch(:scsynth_opts, ""))
-          scsynth_opts = clobber_opts_a.each_slice(2).to_h
+          scsynth_opts = scsynth_opts_a.each_slice(2).to_h
         rescue
           scsynth_opts = {}
         end
