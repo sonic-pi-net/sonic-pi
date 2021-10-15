@@ -1055,7 +1055,7 @@ end",
         elsif(shift < 0)
           chord_invert((notes.to_a[0..-2] + [notes.to_a[-1]-12]).sort, shift+1)
         else
-          notes.ring
+          notes.ring.sort
         end
       end
       doc name:          :chord_invert,
