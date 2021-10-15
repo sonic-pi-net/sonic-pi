@@ -4371,11 +4371,11 @@ puts current_sched_ahead_time # Prints 0.5"]
           m = last_sync.bpm
         else
           t = current_time
-        p = __system_thread_locals.get(:sonic_pi_spider_thread_priority, -100)
-        i = __current_thread_id
-        d = __system_thread_locals.get(:sonic_pi_spider_thread_delta, 0)
-        b = current_beat
-        m = current_bpm_mode
+          p = __system_thread_locals.get(:sonic_pi_spider_thread_priority, -100)
+          i = __current_thread_id
+          d = __system_thread_locals.get(:sonic_pi_spider_thread_delta, 0)
+          b = current_beat
+          m = current_bpm_mode
         end
 
         se = @event_history.sync(t, p, i, d, b, m, cue_id, arg_matcher)
