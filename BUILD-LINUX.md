@@ -133,7 +133,7 @@ directly either by double clicking it in your file manager or via the terminal
 
 ```
 ./sonic-pi
-
+```
 
 #### Anaconda users beware!
 
@@ -146,7 +146,6 @@ conda deactivate
 ```
 
 Before the build steps that should stop things breaking. Once Sonic Pi is built, you can use `conda` as normal after that.
-```
 
 ## Good Luck!
 
