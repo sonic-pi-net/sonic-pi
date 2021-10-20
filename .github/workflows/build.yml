@@ -3,9 +3,11 @@ name: Build
 on:
   # Do it on every push or PR on these branches
   push:
-    branches: [ dev, main, workflow_dispatch, features/sp-api ]
+    branches: [ dev, stable ]
   pull_request:
-    branches: [ dev, main, workflow_dispatch, features/sp-api ]
+    branches: [ dev, stable ]
+  # Do build on demand
+  workflow_dispatch:
 
 jobs:
   # Build Sonic Pi
@@ -215,7 +217,7 @@ jobs:
     - name: API Tests - Linux
       working-directory: ${{github.workspace}}/app/build/api-tests
       run: |
-        jackd -d dummy &
+        jackd -rd dummy &
         ctest --verbose
       if: matrix.os == 'ubuntu-latest'
 
@@ -242,7 +244,8 @@ jobs:
 
     - name: Archive Logs
       uses: actions/upload-artifact@v2
+      if: ${{ always() }}
       with:
-          name: Logs_${{matrix.title}}_${{matrix.build_type}}
+          name: Logs_${{matrix.title}}_${{matrix.cc}}_${{matrix.arch}}_${{matrix.build_type}}
           path: |
             ~/.sonic-pi/log/*.log
