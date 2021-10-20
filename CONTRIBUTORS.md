@@ -164,6 +164,7 @@ Current members:
 * [Robin Newman](https://github.com/rbnpi)
 * [Ethan Crawford](https://github.com/ethancrawford)
 * [Chris Maughan](https://github.com/cmaughan)
+* [Lily Foster](https://github.com/lilyinstarlight)
 
 
 Previous members:
