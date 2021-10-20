@@ -24,10 +24,12 @@ There are several guidelines that we value when planning the format of new work.
 
 Also, regarding the Sonic Pi development process:
 - We don't set development deadlines
-- We merge code into `main` branch for stable releases only, and all work in progress we merge into `dev` branch
-- We want code intended to be merged into the `main` or `dev` branches to be passing all tests where possible
+- All work in progress we merge into the `dev` branch. We merge code into the `stable` branch for stable releases.
+- We want code intended to be merged into the `dev` or `stable` branches to be passing all tests where possible
 - We prefer an issue ticket to be raised as soon as possible when a new bug is discovered (ideally within 48 hours)
-- When someone intends to start work on an issue or new feature, they check the [Issues page](https://github.com/sonic-pi-net/sonic-pi/issues) or [the Sonic Pi features project board](https://github.com/orgs/sonic-pi-net/projects/1) first. If the issue or feature is not already being worked on, the person who intends to start it mentions this publicly somewhere, in order to minimise the possibility of duplicated work. (They can do this by updating the issue ticket, or mentioning it in any of the places we gather as a [community](COMMUNITY.md)).
+- When someone intends to start work on an issue or new feature:
+  - They check first that no-one else intends to (or has already done) work on it, via the [Issues page](https://github.com/sonic-pi-net/sonic-pi/issues) or [the Sonic Pi features project board](https://github.com/orgs/sonic-pi-net/projects/1)
+  - If the issue or feature is freely available for work, the person who intends to start work on it mentions this publically somewhere (for issues, leaving a message on the ticket requesting to be assigned to it, and for new features, mentioning it in any of the places we gather as a [community](COMMUNITY.md))
 
 ## Ideal process for contributing with code
 1. Familiarise yourself with the part(s) of the code that you wish to contribute towards if necessary. We're always happy to answer questions about the Sonic Pi code!
