@@ -49,7 +49,7 @@ projects:
 * _why (why the lucky stiff) - [Shoes](https://en.wikipedia.org/wiki/Shoes_(GUI_toolkit))
 * Andrew Sorensen  - [Extempore](http://extempore.moso.com.au)
 * James McCartney - [SuperCollider](https://supercollider.github.io)
-* Jeff Rose - [Overtone](https://overtone.github.com)
+* Jeff Rose - [Overtone](https://overtone.github.io/)
 * Joe Armstrong - [Erlang](https://www.erlang.org)
 * Linda Liukas - [Hello Ruby](http://www.helloruby.com/)
 * Matz (Yukihiro Matsumoto まつもとゆきひろ) - [Ruby](https://www.ruby-lang.org)
