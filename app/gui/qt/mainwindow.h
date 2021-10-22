@@ -128,10 +128,6 @@ class MainWindow : public QMainWindow
         void closeEvent(QCloseEvent *event);
         void wheelEvent(QWheelEvent *event);
 
-
-        public slots:
-            void invokeStartupError(QString msg);
-
 signals:
         void settingsChanged();
 
