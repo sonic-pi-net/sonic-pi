@@ -764,7 +764,7 @@ std::string SonicPiAPI::GetLogs()
             auto contents = string_trim(file_read(log));
             if (!contents.empty())
             {
-                str << log << ":" << std::endl
+                str << string_trim(log.filename(), "\"") << ":" << std::endl
                     << contents << std::endl
                     << std::endl;
             }
