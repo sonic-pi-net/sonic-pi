@@ -31,7 +31,6 @@ To be released...
 <!-- [(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v4.0.0): -->
 
 ### Known Issues (to be addressed in upcoming Betas)
-* Currently the GUI just disappears when there's a boot issue without displaying the error dialog.
 * On macOS, the booting procedure no longer attempts to tweak the audio-card's sample rates to match and instead crashes on a mismatch.
 * There are no GUI elements to view/manipulate the new Link metronome.
 * Link is enabled by default and cannot be disabled via the GUI.
