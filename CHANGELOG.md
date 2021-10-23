@@ -31,12 +31,12 @@ To be released...
 <!-- [(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v4.0.0): -->
 
 ### Known Issues (to be addressed in upcoming Betas)
-* Currently the GUI just disappears when there's a boot issue without displaying the error dialog.
 * On macOS, the booting procedure no longer attempts to tweak the audio-card's sample rates to match and instead crashes on a mismatch.
 * There are no GUI elements to view/manipulate the new Link metronome.
 * Link is enabled by default and cannot be disabled via the GUI.
 * MIDI port names are very long and change on disconnect/reconnect on Linux.
 * Timing safety system (that kills threads if they get too far behind) is currently disabled.  (This is being redesigned to work within the new constraints imposed by the Link system).
+* Using `sync` with an external OSC or MIDI message whilst in `:link` bpm mode is broken.
 
 
 ### Breaking Changes
@@ -70,7 +70,7 @@ To be released...
 * When running on Raspberry Pi, Sonic Pi connects to PulseAudio by default.
 * The scheduling accuracy of outgoing OSC and MIDI messages is improved on Windows.
 * Optimise `midi_clock_beat`.
-
+
 
 
 ### Bugfixes
@@ -1458,7 +1458,7 @@ Have fun and happy live coding!
 
 
 ### Improvements
-
+ 
 * Auto-align code on Run.
 * `live_loop` learned the `seed:` opt which will set the new thread with
   the specified seed prior to initial run.
