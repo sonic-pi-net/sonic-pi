@@ -11,7 +11,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="781"/>
         <source>Log</source>
-        <translation>سجل</translation>
+        <translation>السجل</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="177"/>
@@ -364,7 +364,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1950"/>
         <source>Updating System Volume...</source>
-        <translation type="unfinished"></translation>
+        <translation>تحديث صوت النظام..</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2097"/>
@@ -409,7 +409,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2529"/>
         <source>Start recording to a WAV audio file</source>
-        <translation type="unfinished"></translation>
+        <translation>ابدأ تسجيل ملف ويف</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2533"/>
@@ -419,12 +419,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2535"/>
         <source>Save current buffer as an external file</source>
-        <translation type="unfinished"></translation>
+        <translation>احفظ هذه الجلسة في ملف خارجي</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2575"/>
         <source>Toggle information about Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>اعرض معلومات عن سونيك باي</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2579"/>
@@ -434,7 +434,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2583"/>
         <source>Toggle the visibility of the help pane</source>
-        <translation type="unfinished"></translation>
+        <translation>عرض مربع المساعدة</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2587"/>
@@ -444,7 +444,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2591"/>
         <source>Toggle the visibility of the preferences pane</source>
-        <translation type="unfinished"></translation>
+        <translation>عرض التفضيلات</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2614"/>
@@ -474,7 +474,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2639"/>
         <source>Enable External Synths</source>
-        <translation type="unfinished"></translation>
+        <translation>السماح بسيثنات خارجية</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2644"/>
@@ -484,12 +484,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2649"/>
         <source>Force Mono</source>
-        <translation type="unfinished"></translation>
+        <translation>فرض مونو(قناة واحدة)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2654"/>
         <source>Enable Incoming MIDI Cues</source>
-        <translation type="unfinished"></translation>
+        <translation>سماح بمدخلات ميدي</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2659"/>
@@ -529,22 +529,22 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2699"/>
         <source>Live</source>
-        <translation type="unfinished"></translation>
+        <translation>مباشر</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2711"/>
         <source>Code</source>
-        <translation type="unfinished"></translation>
+        <translation>كود</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2723"/>
         <source>Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>اوديو</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2732"/>
         <source>Visuals</source>
-        <translation type="unfinished"></translation>
+        <translation>مرئيات</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2736"/>
@@ -559,12 +559,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2746"/>
         <source>Pro Light</source>
-        <translation type="unfinished"></translation>
+        <translation>فاتح محترف</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2751"/>
         <source>Pro Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>داكن محترف</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2756"/>
@@ -589,7 +589,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2786"/>
         <source>IO</source>
-        <translation type="unfinished"></translation>
+        <translation>مدخل/مخرج</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2788"/>
@@ -601,29 +601,29 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="3638"/>
         <location filename="../mainwindow.cpp" line="3750"/>
         <source>No Connected Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>اجهزة الادخال غير متصلة</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2790"/>
         <source>MIDI Outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>مخارج MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2791"/>
         <location filename="../mainwindow.cpp" line="3636"/>
         <location filename="../mainwindow.cpp" line="3767"/>
         <source>No Connected Outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>اجهزة الاخراج غير متصلة</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2793"/>
         <source>Default MIDI Out Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>قناة MIDI الرئيسية</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2796"/>
         <source>All Channels</source>
-        <translation type="unfinished"></translation>
+        <translation>كل القنوات</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2801"/>
@@ -723,7 +723,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2906"/>
         <source>Focus Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>انتقل الى المحرر</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2908"/>
@@ -763,12 +763,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2929"/>
         <source>Focus Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>انتقل الى التفضيلات</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2931"/>
         <source>Place focus on preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>ثبت التركيز على التفضيلات</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2935"/>
@@ -855,18 +855,18 @@ every two weeks.</source>
     <message>
         <location filename="../mainwindow.cpp" line="3572"/>
         <source>This is Sonic Pi %1</source>
-        <translation type="unfinished"></translation>
+        <translation>هذه نسخة %1 من سونيك باي</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3573"/>
         <source>Version %2 is now available!</source>
-        <translation type="unfinished"></translation>
+        <translation>النسخة 2% متاحة الآن !</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3577"/>
         <source>New version available!
 Get Sonic Pi %1</source>
-        <translation type="unfinished"></translation>
+        <translation>حمّل سونيك باي 1%</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3864"/>
@@ -876,7 +876,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2515"/>
         <source>Run</source>
-        <translation type="unfinished"></translation>
+        <translation>ابدأ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2521"/>
@@ -886,7 +886,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2523"/>
         <source>Stop all running code</source>
-        <translation>قف جميع الاكواد الشغالة</translation>
+        <translation>اوقف جميع الاكواد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="847"/>
@@ -896,33 +896,33 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="1445"/>
         <source>Server boot error...</source>
-        <translation>خطأ في تمهيد السرفر ...</translation>
+        <translation>خطأ في تمهيد السيرفر ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1445"/>
         <source>Please consider reporting a bug at</source>
-        <translation type="unfinished"></translation>
+        <translation>رجاء قم بارسال تقرير بالخطأ الى</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2527"/>
         <location filename="../mainwindow.cpp" line="3100"/>
         <source>Start Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>ابدأ التسجيل</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2553"/>
         <source>Increase Text Size</source>
-        <translation type="unfinished"></translation>
+        <translation>تكبير الخط</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2559"/>
         <source>Decrease Text Size</source>
-        <translation type="unfinished"></translation>
+        <translation>تصغير الخط</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2596"/>
         <source>Tools</source>
-        <translation>ادوات</translation>
+        <translation>الادوات</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3027"/>
@@ -932,22 +932,22 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="3029"/>
         <source>Core Team</source>
-        <translation type="unfinished"></translation>
+        <translation>الفريق</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3030"/>
         <source>Contributors</source>
-        <translation type="unfinished"></translation>
+        <translation>المساعدون</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3028"/>
         <source>Community</source>
-        <translation>مجتمع</translation>
+        <translation>المجتمع</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="427"/>
         <source>Studio Mode Enabled. Thank-you for supporting Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation>وضع الستوديو يعمل . شكرأ لدعم سونيك باي.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="431"/>
@@ -957,12 +957,12 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="696"/>
         <source>| %1 |</source>
-        <translation type="unfinished"></translation>
+        <translation>| %1 |</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2547"/>
         <source>Align code to improve readability</source>
-        <translation type="unfinished"></translation>
+        <translation>تعديل النص , لتحسين القراءة</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2567"/>
@@ -972,12 +972,12 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="3031"/>
         <source>License</source>
-        <translation>رخصة</translation>
+        <translation>الرخصة</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3032"/>
         <source>History</source>
-        <translation>تاريخ</translation>
+        <translation>التاريخ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3064"/>
@@ -998,13 +998,15 @@ Get Sonic Pi %1</source>
         <location filename="../mainwindow.cpp" line="3285"/>
         <source>Cannot read file %1:
 %2.</source>
-        <translation type="unfinished"></translation>
+        <translation>لا يمكن قراءة ملف | %1 |
+2%.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3304"/>
         <source>Cannot write file %1:
 %2.</source>
-        <translation type="unfinished"></translation>
+        <translation>لا يمكن حفظ ملف %1 :
+2%.</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="117"/>
@@ -1041,27 +1043,27 @@ Get Sonic Pi %1</source>
         <location filename="../utils/ruby_help.h" line="3120"/>
         <location filename="../utils/ruby_help.h" line="3217"/>
         <source>Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation>الدروس</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3252"/>
         <source>Examples</source>
-        <translation type="unfinished"></translation>
+        <translation>امثلة</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3303"/>
         <source>Synths</source>
-        <translation type="unfinished"></translation>
+        <translation>قائمة السينث</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3352"/>
         <source>Fx</source>
-        <translation type="unfinished"></translation>
+        <translation>مؤثرات صوتية</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3373"/>
         <source>Samples</source>
-        <translation type="unfinished"></translation>
+        <translation>عينات صوتية</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3628"/>
@@ -1074,7 +1076,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../main.cpp" line="59"/>
         <source>Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>سونيك باي</translation>
     </message>
 </context>
 <context>
@@ -1082,32 +1084,32 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../visualizer/scope.cpp" line="392"/>
         <source>Lissajous</source>
-        <translation type="unfinished"></translation>
+        <translation>ليساجو</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="393"/>
         <source>Left</source>
-        <translation type="unfinished"></translation>
+        <translation>يسار</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="394"/>
         <source>Right</source>
-        <translation type="unfinished"></translation>
+        <translation>يمين</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="395"/>
         <source>Mono</source>
-        <translation type="unfinished"></translation>
+        <translation>مونو ( قناة واحدة )</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="396"/>
         <source>Mirror Stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>عكس الستيريو</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="398"/>
         <source>Spectrum</source>
-        <translation type="unfinished"></translation>
+        <translation>طيف</translation>
     </message>
 </context>
 <context>
@@ -1115,38 +1117,38 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="32"/>
         <source>Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>صوت</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="35"/>
         <source>IO</source>
-        <translation type="unfinished"></translation>
+        <translation>مداخل/مخارج</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="38"/>
         <source>Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>المحرر</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="41"/>
         <source>Visuals</source>
-        <translation type="unfinished"></translation>
+        <translation>المرئيات</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="44"/>
         <location filename="../widgets/settingswidget.cpp" line="429"/>
         <source>Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>التحديثات</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="87"/>
         <source>Use this slider to change the system volume.</source>
-        <translation type="unfinished"></translation>
+        <translation>استخدم هذا لتغيير صوت النظام.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="93"/>
         <source>Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>مخارج الصوت</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="94"/>
