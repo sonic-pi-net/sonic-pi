@@ -30,14 +30,14 @@ of Sonic Pi with their time, advice, and wisdom:
 The following organisations have kindly contributed to Sonic Pi:
 
 * [The Raspberry Pi Foundation](https://www.raspberrypi.org)
-* [The Broadcom Foundation](https://www.broadcomfoundation.org)
+* [The Broadcom Foundation](http://broadcomfoundation.org/)
 * [The University of Cambridge Computer Laboratory](https://www.cl.cam.ac.uk)
 * [Arts Council England](http://www.artscouncil.org.uk)
 * [Nesta](https://www.nesta.org.uk)
 * [pi-top](https://pi-top.com)
 * [Norfolk & Norwich Festival Bridge](https://nnfestival.org.uk/festival-bridge/)
 * [Emute Lab at the University of Sussex](https://www.emutelab.org)
-* [Trading & Consulting 'H.P.C.' GmbH](hpc.at)
+* [Trading & Consulting 'H.P.C.' GmbH](https://www.hpc.at/)
 
 
 ## Inspiration
