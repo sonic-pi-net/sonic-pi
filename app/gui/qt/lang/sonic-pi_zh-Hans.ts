@@ -97,7 +97,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="3618"/>
         <source>Enabling MIDI input...</source>
-        <translation>开启MIDI输入</translation>
+        <translation>开启 MIDI 输入…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3624"/>
@@ -637,7 +637,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2861"/>
         <source>13</source>
-        <translation type="unfinished">13</translation>
+        <translation>13</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2866"/>
@@ -657,7 +657,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2884"/>
         <source>Local IP Addresses</source>
-        <translation type="unfinished">本地IP地址</translation>
+        <translation>本地 IP 地址</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2896"/>
@@ -929,7 +929,7 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="3285"/>
         <source>Cannot read file %1:
 %2.</source>
-        <translation type="unfinished">无法读取文件 %1:
+        <translation>无法读取文件 %1
 %2.</translation>
     </message>
     <message>
@@ -963,8 +963,8 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="3570"/>
         <source>Sonic Pi checks for updates
 every two weeks.</source>
-        <translation>Sonic Pi检查更新
-两周一次</translation>
+        <translation>Sonic Pi 每两周
+检查一次更新.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3572"/>
@@ -1144,7 +1144,8 @@ Get Sonic Pi %1</source>
         <location filename="../widgets/settingswidget.cpp" line="94"/>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
-        <translation>高级音频设置，适用于Sonic Pi通过外部扩声系统进行音频输出时。</translation>
+        <translation>高级音频设置
+适用于使用 Sonic Pi 执行时和外部 PA 系统一同工作。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="95"/>
@@ -1216,8 +1217,13 @@ it is too late to do so
 When disabled, Sonic Pi will always
 attempt to trigger synths and FX
 even when a little late.</source>
-        <translation>选中该选项时，如果延迟超出范围，Sonic Pi将拒绝触发合成器和效果器；
-取消该选项时，即使有一定延迟，Sonic Pi也将尝试触发合成器和效果器。</translation>
+        <translation>选中该选项时，
+如果延迟超出范围，
+Sonic Pi将拒绝触发合成器和效果器；
+
+取消该选项时，
+即使有一定延迟，
+Sonic Pi也将尝试触发合成器和效果器。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="117"/>
@@ -1243,7 +1249,9 @@ which isn&apos;t recognised.</source>
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation>Sonic Pi可以通过当前连接的网络向其他程序或计算机发送/接收Open Sound Control消息。</translation>
+        <translation>Sonic Pi 可以通过当前连接的网络
+向/从其他程序或计算机发送/接收
+Open Sound Control 消息。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="145"/>
