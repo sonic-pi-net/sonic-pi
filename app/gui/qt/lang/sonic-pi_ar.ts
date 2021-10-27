@@ -73,7 +73,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="787"/>
         <source>Cues</source>
-        <translation type="unfinished"></translation>
+        <translation>العمليات</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="937"/>
@@ -198,7 +198,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2517"/>
         <source>Run the code in the current buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>شغل الكود في الجلسة الحالية</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2539"/>
@@ -208,7 +208,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2541"/>
         <source>Load an external file in the current buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>تحميل ملف اضافي الى الجلسة الحالية</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2545"/>
@@ -218,12 +218,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2551"/>
         <source>Code Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation>تكبير خط الكود</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2557"/>
         <source>Code Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation>تصغير خط الكود</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2563"/>
@@ -866,7 +866,8 @@ every two weeks.</source>
         <location filename="../mainwindow.cpp" line="3577"/>
         <source>New version available!
 Get Sonic Pi %1</source>
-        <translation>حمّل سونيك باي 1%</translation>
+        <translation>نسخة جديدة متوفرة
+تحميل سونيك باي 1%</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3864"/>
@@ -1195,7 +1196,7 @@ can only handle mono.</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="110"/>
         <source>Safe mode</source>
-        <translation type="unfinished"></translation>
+        <translation>الوضع الآمن</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="111"/>
