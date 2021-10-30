@@ -20,7 +20,7 @@ xcopy /Y /I /R /E ..\..\app\build\gui\qt\Release app\gui\qt\build\Release
 xcopy /Y /I /R /E ..\..\app\gui\qt\theme app\gui\qt\theme
 xcopy /Y /I /R /E ..\..\etc etc\
 
-xcopy /Y /I /R /E ..\..\app\server\beam app\server\beam
+xcopy /Y /I /R /E ..\..\app\server\beam\tau\_build app\server\beam\tau_build
 
 xcopy /Y /I /R /E ..\..\app\server\native\osmid app\server\native\osmid
 xcopy /Y /I /R /E ..\..\app\server\native\plugins app\server\native\plugins
