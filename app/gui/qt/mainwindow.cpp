@@ -3317,8 +3317,10 @@ void MainWindow::loadFile(const QString& fileName, SonicPiScintilla*& text)
     }
 
     QTextStream in(&file);
+    in.setCodec("UTF-8");
     QApplication::setOverrideCursor(Qt::WaitCursor);
     text->setText(in.readAll());
+    file.close();
     QApplication::restoreOverrideCursor();
     statusBar()->showMessage(tr("File loaded..."), 2000);
 }
