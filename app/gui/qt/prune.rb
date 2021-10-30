@@ -27,8 +27,7 @@ require 'fileutils'
 
 dir = ARGV[0]
 
-rehearse = true
-
+rehearse = false
 
 subdirs = Dir["#{dir}/*/*"].select{|d| File.directory?(d) && (File.basename(d) != "lib")}
 
