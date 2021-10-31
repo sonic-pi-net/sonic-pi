@@ -3819,7 +3819,7 @@ Steal This Sound,  Mitchell Sigman"
 
           :pitch_dis =>
           {
-            :doc => "Pitch dispersion - how much random variation in pitch to add. Using a low value like 0.001 can help to \"soften up\" the metallic sounds, especially on drum loops. To be really technical, pitch_dispersion is the maximum random deviation of the pitch from the pitch ratio (which is set by the pitch param)",
+            :doc => "Pitch dispersion - how much random variation in pitch to add. Using a low value like 0.001 can help to 'soften up' the metallic sounds, especially on drum loops. To be really technical, pitch_dispersion is the maximum random deviation of the pitch from the pitch ratio (which is set by the pitch param)",
             :validations => [v_greater_than_oet(:pitch_dis, 0)],
             :modulatable => true
           },

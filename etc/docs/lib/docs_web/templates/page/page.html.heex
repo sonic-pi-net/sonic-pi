@@ -1,0 +1,11 @@
+<%= live_component(@socket, DocsWeb.PageLive.NavbarComponent, active_tab: @active_tab) %>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-2">
+      <%= live_component(@socket, DocsWeb.PageLive.SideNavComponent, active_tab: @active_tab, active_pages: @active_pages, active_page: @active_pages[@active_tab], page_keys: @page_keys) %>
+    </div>
+    <div class="col-10">
+      <%= live_component(@socket, DocsWeb.PageLive.ContentComponent, active_tab: @active_tab, active_page: @active_pages[@active_tab], content: @content) %>
+    </div>
+  </div>
+</div>

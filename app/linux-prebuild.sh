@@ -39,6 +39,8 @@ echo "Translating tutorial..."
 ruby "${SCRIPT_DIR}"/server/ruby/bin/i18n-tool.rb -t
 
 echo "Generating docs for the Qt GUI..."
+ruby "${SCRIPT_DIR}"/server/ruby/bin/qt-doc2.rb
+# TODO: remove the below lines once the new documentation system is integrated into the GUI
 cp "${SCRIPT_DIR}"/gui/qt/utils/ruby_help.tmpl "${SCRIPT_DIR}"/gui/qt/utils/ruby_help.h
 ruby "${SCRIPT_DIR}"/server/ruby/bin/qt-doc.rb -o "${SCRIPT_DIR}"/gui/qt/utils/ruby_help.h
 
@@ -52,4 +54,6 @@ MIX_ENV="${MIX_ENV:-prod}" mix deps.get
 MIX_ENV="${MIX_ENV:-prod}" mix release --overwrite
 
 cp src/tau.app.src ebin/tau.app
+cd "${SCRIPT_DIR}/../etc/docs"
+mix setup
 cd "${SCRIPT_DIR}"

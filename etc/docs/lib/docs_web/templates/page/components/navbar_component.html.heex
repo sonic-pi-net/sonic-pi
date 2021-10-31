@@ -1,0 +1,59 @@
+<ul class="nav nav-pills justify-content-center">
+  <li class="nav-item">
+    <button
+      class={["disabled", is_active(@active_tab, :tutorial)]}
+      phx-click="change_tab"
+	    phx-value-active_tab={:tutorial}
+      aria-current="page"
+      disabled
+      >
+      Tutorial
+    </button>
+  </li>
+  <li class="nav-item">
+    <button
+      class={["disabled", is_active(@active_tab, :examples)]}
+      phx-click="change_tab"
+	    phx-value-active_tab={:examples}
+      disabled
+      >
+      Examples
+    </button>
+  </li>
+  <li class="nav-item">
+    <button
+      class={is_active(@active_tab, :synths)}
+      phx-click="change_tab"
+	    phx-value-active_tab={:synths}
+      >
+      Synths
+    </button>
+  </li>
+  <li class="nav-item">
+    <button
+      class={is_active(@active_tab, :fx)}
+      phx-click="change_tab"
+	    phx-value-active_tab={:fx}
+      >
+      Fx
+    </button>
+  </li>
+  <li class="nav-item">
+    <button
+      class={is_active(@active_tab, :samples)}
+      phx-click="change_tab"
+	    phx-value-active_tab={:samples}
+      >
+      Samples
+    </button>
+  </li>
+  <li class="nav-item">
+    <button
+      class={is_active(@active_tab, :lang)}
+      phx-click="change_tab"
+	    phx-value-active_tab={:lang}
+      >
+      Lang
+    </button>
+  </li>
+</ul>

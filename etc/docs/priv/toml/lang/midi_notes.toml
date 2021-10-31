@@ -1,0 +1,48 @@
+# This is a data file that contains information describing the text that is
+# displayed on pages in the Lang section of Sonic Pi's help panel.
+
+# A unique identifier for this function.
+# (For example: chord).
+[midi_notes]
+
+# A short phrase describing this Sonic Pi function. (Eg the 'chord' function has
+# a summary phrase: 'Create chord').
+summary = "Create a ring buffer of midi note numbers"
+
+# Args are the required parameters for the function. Each arg has two documented
+# properties:
+# - the arg's name
+# - the arg's type (number, integer, symbol, ...).
+[[midi_notes.args]]
+name = "list"
+type = "array"
+
+# The detailed description of this function.
+doc = '''
+Create a new immutable ring buffer of notes from args. Indexes wrap around positively and negatively. Final ring consists only of MIDI numbers and nil.
+'''
+
+# The label describing the version of Sonic Pi in which this function first
+# appeared.
+[midi_notes.introduced]
+label = "Introduced in v2.7"
+
+# Each function may have one or more examples. If it has any, they are listed
+# under an overall 'Example' or 'Examples' label (heading), and each example has
+# a numbered sub-heading, such as 'Example 1'.
+[midi_notes.examples]
+label = "Example"
+label_plural = "Examples"
+
+[[midi_notes.examples.list]]
+label = "Example 1"
+example = '''
+(midi_notes :d3, :d4, :d5) #=> (ring 50, 62, 74)
+'''
+
+[[midi_notes.examples.list]]
+label = "Example 2"
+example = '''
+(midi_notes :d3, 62,  nil) #=> (ring 50, 62, nil)
+'''
+

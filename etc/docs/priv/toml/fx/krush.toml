@@ -1,0 +1,150 @@
+# This is a data file that contains information describing the text that is
+# displayed on pages in the Synths section of Sonic Pi's help panel.
+
+# A unique identifier for this synth or fx.
+# (For example: pretty_bell).
+[krush]
+
+# A word or short phrase that is used as a label for the synth or fx.
+# (For example: Pretty Bell).
+name = "krush"
+
+# A basic code example of how to use the synth or fx.
+usage = '''
+with_fx :krush do
+  play 50
+end
+'''
+
+# The detailed description of the synth or fx.
+doc = '''
+Krush that sound!
+'''
+
+# The label describing the version of Sonic Pi in which this synth or fx first
+# appeared.
+[krush.introduced]
+label = "Introduced in v2.6"
+
+# The options are the opts of this synth or fx.
+# In the documentation, we currently display two tables of opts:
+# - one listing the name of each opt and its default value for easy reference
+# - a second, more detailed table labelled 'Options', containing:
+#   - the name of each opt
+#   - a detailed description of it
+#   - its default value
+#   - (if the opt has constraints (limits or a specific range of permitted
+#     values, etc)): the constraints of the opt
+#   - a label describing whether this opt can be modulated (altered) while the
+#     synth or fx is running
+#   - (if the opt is slidable): a label indicating that the opt is slidable
+[krush.options]
+label = "Options"
+
+[[krush.options.list]]
+name = "amp:"
+doc = "The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)"
+default_value = "1"
+constraints = '''
+Must be zero or greater
+'''
+modulatable = '''
+May be changed whilst playing
+'''
+
+[[krush.options.list]]
+name = "mix:"
+doc = "The amount (percentage) of FX present in the resulting sound represented as a value between 0 and 1. For example, a mix of 0 means that only the original sound is heard, a mix of 1 means that only the FX is heard (typically the default) and a mix of 0.5 means that half the original and half of the FX is heard."
+default_value = "1"
+constraints = '''
+Must be a value between 0 and 1 inclusively
+'''
+modulatable = '''
+May be changed whilst playing
+'''
+
+[[krush.options.list]]
+name = "pre_mix:"
+doc = "The amount (percentage) of the original signal that is fed into the internal FX system as a value between 0 and 1. With a pre_mix: of 0 the FX is completely bypassed unlike a mix: of 0 where the internal FX is still being fed the original signal but the output of the FX is ignored. The difference between the two is subtle but important and is evident when the FX has a residual component such as echo or reverb. When switching mix: from 0 to 1, the residual component of the FX's output from previous audio is present in the output signal. With pre_mix: there is no residual component of the previous audio in the output signal."
+default_value = "1"
+constraints = '''
+Must be zero or greater
+'''
+modulatable = '''
+May be changed whilst playing
+'''
+
+[[krush.options.list]]
+name = "pre_amp:"
+doc = "Amplification applied to the input signal immediately before it is passed to the FX."
+default_value = "1"
+constraints = '''
+Must be zero or greater
+'''
+modulatable = '''
+May be changed whilst playing
+'''
+
+[[krush.options.list]]
+name = "gain:"
+doc = "Amount of crushing to serve"
+default_value = "5"
+constraints = '''
+Must be greater than zero
+'''
+modulatable = '''
+May be changed whilst playing
+'''
+
+[[krush.options.list]]
+name = "cutoff:"
+doc = "MIDI note representing the highest frequencies allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy."
+default_value = "100"
+constraints = '''
+Must be zero or greater, must be a value less than 131
+'''
+modulatable = '''
+May be changed whilst playing
+'''
+
+[[krush.options.list]]
+name = "res:"
+doc = "Filter resonance as a value between 0 and 1. Large amounts of resonance (a res: near 1) can create a whistling sound around the cutoff frequency. Smaller values produce less resonance."
+default_value = "0"
+constraints = '''
+Must be zero or greater, must be a value less than 1
+'''
+modulatable = '''
+May be changed whilst playing
+'''
+
+[krush.sliding]
+slide_label = "Slide Options"
+slide_description = '''
+Any parameter that is slidable has three additional options named _slide,
+slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also
+set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:
+'''
+
+[[krush.sliding.slide_opts]]
+name = "_slide"
+default = "0"
+doc = '''
+Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value.
+'''
+
+[[krush.sliding.slide_opts]]
+name = "_slide_shape"
+default = "5"
+doc = '''
+Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. 
+'''
+
+[[krush.sliding.slide_opts]]
+name = "_slide_curve"
+default = "0"
+doc = '''
+Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively.
+'''
+
+

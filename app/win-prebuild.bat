@@ -46,6 +46,8 @@ xcopy /Y /I /R /E external\build\sp_link-prefix\src\sp_link-build\Release\*.dll 
 server\native\ruby\bin\ruby server/ruby/bin/i18n-tool.rb -t
 
 @echo Generating docs for the Qt GUI...
+server\native\ruby\bin\ruby server/ruby/bin/qt-doc2.rb
+REM TODO: remove the below lines once the new documentation system is integrated into the GUI
 copy /Y gui\qt\utils\ruby_help.tmpl gui\qt\utils\ruby_help.h
 server\native\ruby\bin\ruby server/ruby/bin/qt-doc.rb -o gui\qt\utils/ruby_help.h
 
@@ -62,4 +64,6 @@ cmd /c mix release --overwrite
 
 cd %~dp0\server\beam\tau
 copy /Y src\tau.app.src .\ebin\tau.app
+cd %~dp0\..\etc\docs
+cmd /c mix setup
 cd %~dp0

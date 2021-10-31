@@ -1,0 +1,13 @@
+<ul class="nav nav-pills flex-column">
+  <%= for title <- @page_keys do %>
+    <li class="nav-item">
+      <button
+        class={is_active(@active_page, title)}
+        phx-click="change_page"
+        phx-value-active_page={title}
+        aria-current="page">
+        <%= title %>
+      </button>
+    </li>
+  <% end %>
+</ul>
