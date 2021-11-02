@@ -11,7 +11,8 @@
 ##-env ERL_FULLSWEEP_AFTER 10
 
 
-# +C multi_time_warp
-# +c true
++C multi_time_warp
++c true
+
 #-noinput
 # -version

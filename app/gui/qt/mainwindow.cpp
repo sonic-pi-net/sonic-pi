@@ -3317,8 +3317,10 @@ void MainWindow::loadFile(const QString& fileName, SonicPiScintilla*& text)
     }
 
     QTextStream in(&file);
+    in.setCodec("UTF-8");
     QApplication::setOverrideCursor(Qt::WaitCursor);
     text->setText(in.readAll());
+    file.close();
     QApplication::restoreOverrideCursor();
     statusBar()->showMessage(tr("File loaded..."), 2000);
 }
@@ -3337,7 +3339,7 @@ bool MainWindow::saveFile(const QString& fileName, SonicPiScintilla* text)
     }
 
     QTextStream out(&file);
-
+    out.setCodec("UTF-8");
     QApplication::setOverrideCursor(Qt::WaitCursor);
     QString code = text->text();
 #if defined(Q_OS_WIN)
@@ -3345,6 +3347,8 @@ bool MainWindow::saveFile(const QString& fileName, SonicPiScintilla* text)
     code.replace("\r\r\n", "\r\n"); // don't double-replace if already encoded
 #endif
     out << code;
+    out.flush();
+    file.close();
     QApplication::restoreOverrideCursor();
 
     statusBar()->showMessage(tr("File saved..."), 2000);
