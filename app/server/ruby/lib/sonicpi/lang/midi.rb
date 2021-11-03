@@ -453,7 +453,7 @@ You may also optionally pass the release velocity value as a floating point valu
         "midi_note_off :e3, 12, channel: 3  #=> Sends MIDI note off for note :e3 with velocity 12 to channel 3",
         "midi_note_off :e3, velocity: 100 #=> Sends MIDI note off for note :e3 with release velocity 100",
         "midi_note_off :e3, vel_f: 0.8 #=> Scales release velocity 0.8 to MIDI value 102 and sends MIDI note off for note :e3 with release velocity 102",
-        "midi_note_off 60.3, 50.5 #=>Rounds params up or down to the nearest whole number and sends MIDI note off for note 60 with release velocity 51",
+        "midi_note_off 60.3, 50.5 #=> Rounds params up or down to the nearest whole number and sends MIDI note off for note 60 with release velocity 51",
         "midi_note_off :e3, channel: [1, 3, 5] #=> Send MIDI note off for note :e3 to channels 1, 3, 5 on all connected ports",
         "midi_note_off :e3, port: [\"foo\", \"bar\"] #=> Send MIDI note off for note :e3 to all channels on ports named "foo" and "bar"",
         "midi_note_off :e3, channel: 1, port: \"foo\" #=> Send MIDI note off for note :e3 only on channel 1 on port "foo""
