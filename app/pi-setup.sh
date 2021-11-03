@@ -1,7 +1,5 @@
 #!/bin/bash
 
-sudo apt update
-sudo apt install snapd
-sudo snap install cmake --classic
-sudo apt remove cmake
-echo "Remember to reboot to get the new cmake!"
+echo "Fetching dependencies via apt..."
+
+sudo apt-get install -y build-essential git ruby-dev elixir erlang-dev qttools5-dev qttools5-dev-tools libqt5svg5-dev supercollider-server sc3-plugins-server alsa-utils jackd2 libjack-jackd2-0 pulseaudio-module-jack librtmidi-dev cmake ninja-build
