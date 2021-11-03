@@ -197,8 +197,9 @@
         <file>lang/sonic-pi_zh_TW.qm</file>
 
 
-
         <file>fonts/Hack-Regular.ttf</file>
         <file>fonts/Hack-Italic.ttf</file>
+        <file>fonts/Hack-Bold.ttf</file>
+        <file>fonts/Hack-BoldItalic.ttf</file>
     </qresource>
 </RCC>

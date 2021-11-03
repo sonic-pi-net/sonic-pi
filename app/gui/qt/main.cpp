@@ -47,6 +47,8 @@ int main(int argc, char *argv[])
 
   QFontDatabase::addApplicationFont(":/fonts/Hack-Regular.ttf");
   QFontDatabase::addApplicationFont(":/fonts/Hack-Italic.ttf");
+  QFontDatabase::addApplicationFont(":/fonts/Hack-Bold.ttf");
+  QFontDatabase::addApplicationFont(":/fonts/Hack-BoldItalic.ttf");
 
   qRegisterMetaType<SonicPiLog::MultiMessage>("SonicPiLog::MultiMessage");
 
