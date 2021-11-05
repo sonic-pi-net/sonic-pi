@@ -38,7 +38,7 @@ if [ $no_imgui=true ]
 then
     ./vcpkg install kissfft platform-folders reproc catch2 --triplet ${triplet[0]} --recurse
 else
-    ./vcpkg install kissfft platform-folders reproc catch2 fmt crossguid sdl2 gl3w gsl-lite concurrentqueue --triplet ${triplet[0]} --recurse
+    ./vcpkg install kissfft fmt sdl2 gl3w reproc gsl-lite concurrentqueue platform-folders catch2 --triplet ${triplet[0]} --recurse
 fi
 
 # Check to see if we have a bundled Ruby and if so, use that

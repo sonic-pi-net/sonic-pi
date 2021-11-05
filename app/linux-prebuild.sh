@@ -38,12 +38,10 @@ if [ $no_imgui=true ]
 then
     ./vcpkg install kissfft platform-folders reproc catch2 --recurse
 else
-    ./vcpkg install kissfft platform-folders reproc catch2 fmt crossguid sdl2 gl3w gsl-lite concurrentqueue --recurse
+    ./vcpkg install kissfft fmt crossguid sdl2 gl3w reproc gsl-lite concurrentqueue platform-folders catch2 --recurse
 fi
 
-
 cd "${SCRIPT_DIR}"
-
 
 # Build external dependencies and copy to build tree
 echo "Building external binary dependencies..."
