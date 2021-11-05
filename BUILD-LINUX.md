@@ -54,12 +54,7 @@ The following is a list of packages required for Raspberry Pi OS
 released in August 2021:
 
 ```  
-sudo apt-get install -y \
-     build-essential git libssl-dev \
-     ruby-dev erlang-base erlang-dev erlang-tools elixir \
-     qttools5-dev-tools qttools5-dev libqt5svg5-dev  \
-     supercollider-server sc3-plugins-server alsa-utils libaubio5  librtmidi-dev libasound2-dev  \
-     jackd2 libjack-jackd2-dev libjack-jackd2-0  pulseaudio-module-jack \
+    sudo apt-get install -y build-essential libssl-dev git ruby-dev elixir erlang-dev qttools5-dev qttools5-dev-tools libqt5svg5-dev supercollider-server sc3-plugins-server alsa-utils jackd2 libjack-jackd2-0 pulseaudio-module-jack librtmidi-dev cmake ninja-build
 ```     
 
 
