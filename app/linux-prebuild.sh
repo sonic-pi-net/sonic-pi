@@ -36,7 +36,7 @@ cd vcpkg
 
 if [ $no_imgui == true ]
 then
-    ./vcpkg install kissfft platform-folders reproc catch2 --recurse
+    ./vcpkg install kissfft crossguid platform-folders reproc catch2 --recurse
 else
     ./vcpkg install kissfft fmt crossguid sdl2 gl3w reproc gsl-lite concurrentqueue platform-folders catch2 --recurse
 fi
