@@ -78,7 +78,7 @@ it calls `apt-get` to install your packages)
 sudo ./app/pi-setup.sh
 ```
 
-## 2. Running the Build
+## 3. Running the Build
 
 Now we just need to build everything. This is achieved with the
 following command (which will likely take some time):
