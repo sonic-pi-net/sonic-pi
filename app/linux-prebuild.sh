@@ -34,7 +34,7 @@ fi
 
 cd vcpkg
 
-if [ $no_imgui=true ]
+if [ $no_imgui == true ]
 then
     ./vcpkg install kissfft platform-folders reproc catch2 --recurse
 else

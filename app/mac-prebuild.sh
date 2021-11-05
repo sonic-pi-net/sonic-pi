@@ -34,7 +34,7 @@ fi
 cd vcpkg
 triplet=(x64-osx)
 
-if [ $no_imgui=true ]
+if [ $no_imgui == true ]
 then
     ./vcpkg install kissfft platform-folders reproc catch2 --triplet ${triplet[0]} --recurse
 else
