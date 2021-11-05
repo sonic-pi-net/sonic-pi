@@ -71,7 +71,7 @@ cd ~/Development/sonic-pi
 ## 2. Fetch the Development Dependencies
 
 Now we're ready to fetch all the development dependencies. You can do
-this by running th e following script with `sudo` (this is necessary as
+this by running the following script with `sudo` (this is necessary as
 it calls `apt-get` to install your packages)
 
 ```
