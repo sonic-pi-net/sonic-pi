@@ -1,6 +1,21 @@
 #!/bin/bash
 set -e # Quit script on error
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+WORKING_DIR="$(pwd)"
+
+while getopts ":n" opt; do
+  case $opt in
+    n)
+      no_imgui=true
+      echo "Running config script without support for IMGUI-based GUI"
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      exit 1
+      ;;
+  esac
+done
+
 config=""
 
 if [ "$1" = "--config" ]; then
@@ -25,6 +40,16 @@ mkdir -p "${SCRIPT_DIR}/build"
 
 echo "Generating makefiles..."
 cd "${SCRIPT_DIR}/build"
-cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=\"$config\" ..
+
+if [ $no_imgui=true ]
+then
+    cmake -G "Unix Makefiles" -DBUILD_IMGUI_INTERFACE=OFF -DCMAKE_BUILD_TYPE=\"$config\" ..
+else
+    cmake -G "Unix Makefiles" -DBUILD_IMGUI_INTERFACE=ON -DCMAKE_BUILD_TYPE=\"$config\" ..
+fi
 
 cd "${SCRIPT_DIR}"
+
+
+# Restore working directory as it was prior to this script running...
+cd "${WORKING_DIR}"

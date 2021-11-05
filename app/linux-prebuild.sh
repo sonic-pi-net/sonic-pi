@@ -1,7 +1,23 @@
 #!/bin/bash
+
 set -e # Quit script on error
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+WORKING_DIR="$(pwd)"
 
+cd "${SCRIPT_DIR}"
+
+while getopts ":n" opt; do
+  case $opt in
+    n)
+      no_imgui=true
+      echo "Running prebuild script without support for IMGUI-based GUI"
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      exit 1
+      ;;
+  esac
+done
 
 # Build vcpkg
 if [ ! -d "vcpkg" ]; then
@@ -17,7 +33,14 @@ if [ ! -f "vcpkg/vcpkg" ]; then
 fi
 
 cd vcpkg
-./vcpkg install kissfft fmt crossguid sdl2 gl3w reproc gsl-lite concurrentqueue platform-folders catch2 --recurse
+
+if [ $no_imgui=true ]
+then
+    ./vcpkg install kissfft platform-folders reproc catch2 --recurse
+else
+    ./vcpkg install kissfft platform-folders reproc catch2 fmt crossguid sdl2 gl3w gsl-lite concurrentqueue --recurse
+fi
+
 
 cd "${SCRIPT_DIR}"
 
@@ -52,4 +75,6 @@ MIX_ENV="${MIX_ENV:-prod}" mix deps.get
 MIX_ENV="${MIX_ENV:-prod}" mix release --overwrite
 
 cp src/tau.app.src ebin/tau.app
-cd "${SCRIPT_DIR}"
+
+# Restore working directory as it was prior to this script running...
+cd "${WORKING_DIR}"

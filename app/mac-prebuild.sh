@@ -1,7 +1,22 @@
 #!/bin/bash
 set -e # Quit script on error
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+WORKING_DIR="$(pwd)"
 
+cd "${SCRIPT_DIR}"
+
+while getopts ":n" opt; do
+  case $opt in
+    n)
+      no_imgui=true
+      echo "Running prebuild script without support for IMGUI-based GUI"
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      exit 1
+      ;;
+  esac
+done
 
 # Build vcpkg
 if [ ! -d "vcpkg" ]; then
@@ -16,12 +31,15 @@ if [ ! -f "vcpkg/vcpkg" ]; then
     cd "${SCRIPT_DIR}"
 fi
 
+cd vcpkg
 triplet=(x64-osx)
 
-cd vcpkg
-./vcpkg install kissfft fmt sdl2 gl3w reproc gsl-lite concurrentqueue platform-folders catch2 --triplet ${triplet[0]} --recurse
-
-cd "${SCRIPT_DIR}"
+if [ $no_imgui=true ]
+then
+    ./vcpkg install kissfft platform-folders reproc catch2 --triplet ${triplet[0]} --recurse
+else
+    ./vcpkg install kissfft platform-folders reproc catch2 fmt crossguid sdl2 gl3w gsl-lite concurrentqueue --triplet ${triplet[0]} --recurse
+fi
 
 # Check to see if we have a bundled Ruby and if so, use that
 # Otherwise use system ruby
@@ -89,4 +107,6 @@ MIX_ENV="${MIX_ENV:-prod}" mix deps.get
 MIX_ENV="${MIX_ENV:-prod}" mix release --overwrite
 
 cp src/tau.app.src ebin/tau.app
-cd "${SCRIPT_DIR}"
+
+# Restore working directory as it was prior to this script running...
+cd "${WORKING_DIR}"

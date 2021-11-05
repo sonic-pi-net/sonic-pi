@@ -2,7 +2,7 @@
 set -eux # Quit script on error
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-CURRENT_DIR="$( pwd )"
+WORKING_DIR="$(pwd)"
 
 cd "${SCRIPT_DIR}/build/"
 mkdir -p macOS_Release
@@ -24,10 +24,12 @@ cp -R ../../../../../../app/gui/qt/theme app/gui/qt/
 
 ../../../../../../app/gui/qt/prune.rb app/server/ruby/vendor
 
-cd "${CURRENT_DIR}"
 
 echo "
 
 app/build/macOS_Release/Sonic Pi.app is now ready for signing, notarising and releasing...
 
 "
+
+# Restore working directory as it was prior to this script running...
+cd "${WORKING_DIR}"
