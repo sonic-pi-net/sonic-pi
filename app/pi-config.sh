@@ -2,38 +2,38 @@
 set -e # Quit script on error
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 WORKING_DIR="$(pwd)"
-
-while getopts ":n" opt; do
-  case $opt in
-    n)
-      no_imgui=true
-      echo "Running config script without support for IMGUI-based GUI"
-      ;;
-    \?)
-      echo "Invalid option: -$OPTARG" >&2
-      exit 1
-      ;;
-  esac
-done
-
 config=""
+no_imgui=false
 
-if [ "$1" = "--config" ]; then
-  case $2 in
-    Release|Debug|RelWithDebInfo|MinSizeRel)
-      config="$2"
-      ;;
-    *)
-      echo "`basename $0`: Error: invalid configuration: '${2}'" 1>&2
-      echo "Valid configurations: Release, Debug, RelWithDebInfo, MinSizeRel" 1>&2
-      exit 1
-      ;;
-  esac
-elif [ ! -z $1 ]; then
-  echo "`basename $0`: Error: invalid parameter: '${1}'" 1>&2
-  echo "Usage: `basename $0` [--config <Release|Debug|RelWithDebInfo|MinSizeRel>]" 1>&2
-  exit 1
-fi
+# read the options
+
+TEMP=`getopt -o c:n --long config:,no-imgui -- "$@"`
+eval set -- "$TEMP"
+
+# extract options and their arguments into variables.
+while true ; do
+    case "$1" in
+        -c|--config)
+            case $2 in
+                Release|Debug|RelWithDebInfo|MinSizeRel)
+                    config="$2"
+                    ;;
+                *)
+                    echo "`basename $0`: Error: invalid configuration: '${2}'" 1>&2
+                    echo "Valid configurations: Release, Debug, RelWithDebInfo, MinSizeRel" 1>&2
+                    exit 1
+                    ;;
+            esac
+            shift 2
+            ;;
+        -n|--no-imgui)
+            no_imgui=true
+            shift
+            ;;
+        --) shift ; break ;;
+        *) echo "Internal error!" ; exit 1 ;;
+    esac
+done
 
 echo "Creating build directory..."
 mkdir -p "${SCRIPT_DIR}/build"
