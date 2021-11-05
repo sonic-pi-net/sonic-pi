@@ -8303,7 +8303,10 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
             doc << "use_synth <span class=\"symbol\">:#{safe_k}</span>"
           else
             safe_k = k.to_s[3..-1]
-            doc << "with_fx <span class=\"symbol\">:#{safe_k}</span> <span class=\"keyword\">do</span>\n"
+            opts = if safe_k == 'record'
+                     ", <span class=\"symbol\">buffer: :foo</span>"
+                   end
+            doc << "with_fx <span class=\"symbol\">:#{safe_k}</span>#{opts} <span class=\"keyword\">do</span>\n"
             doc << "  play <span class=\"number\">50</span>\n"
             doc << "<span class=\"keyword\">end</span>"
           end
