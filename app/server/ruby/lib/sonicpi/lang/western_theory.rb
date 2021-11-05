@@ -587,10 +587,12 @@ puts note('C', octave: 2)
 
 
 
-      def note_range(low_note, high_note, *opts)
+      def note_range(start_note, end_note, *opts)
         opts_h = resolve_synth_opts_hash_or_array(opts)
-        low_note = note(low_note)
-        high_note = note(high_note)
+        start_note = note(start_note)
+        end_note = note(end_note)
+
+        low_note, high_note = [start_note, end_note].minmax
 
         potential_note_range = Range.new(low_note, high_note)
 
@@ -604,18 +606,19 @@ puts note('C', octave: 2)
           note_pool = potential_note_range
         end
 
-        note_pool.ring
+        return start_note == low_note ? note_pool.ring : note_pool.ring.reverse
       end
       doc name:           :note_range,
       introduced:     Version.new(2,6,0),
       summary:        "Get a range of notes",
-      args:           [[:low_note, :note], [:high_note, :note]],
+      args:           [[:start_note, :note], [:end_note, :note]],
       returns:        :ring,
       opts:           {:pitches => "An array of notes (symbols or ints) to filter on. Octave information is ignored."},
       accepts_block:  false,
-      doc:            "Produces a ring of all the notes between a low note and a high note. By default this is chromatic (all the notes) but can be filtered with a pitches: argument. This opens the door to arpeggiator style sequences and other useful patterns. If you try to specify only pitches which aren't in the range it will raise an error - you have been warned!",
+      doc:            "Produces a ring of all the notes between a start note and an end note. By default this is chromatic (all the notes) but can be filtered with a pitches: argument. This opens the door to arpeggiator style sequences and other useful patterns. If you try to specify only pitches which aren't in the range it will raise an error - you have been warned!",
       examples:       [
         "(note_range :c4, :c5) # => (ring 60,61,62,63,64,65,66,67,68,69,70,71,72)",
+        "(note_range :c5, :c4) # => (ring 72,71,70,69,68,67,66,65,64,63,62,61,60)",
         "(note_range :c4, :c5, pitches: (chord :c, :major)) # => (ring 60,64,67,72)",
         "(note_range :c4, :c6, pitches: (chord :c, :major)) # => (ring 60,64,67,72,76,79,84)",
         "(note_range :c4, :c5, pitches: (scale :c, :major)) # => (ring 60,62,64,65,67,69,71,72)",
