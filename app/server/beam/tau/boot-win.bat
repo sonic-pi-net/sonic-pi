@@ -5,7 +5,7 @@ rem   mix release
 
 @echo Booting Sonic Pi on Windows...
 
-set TAU_ENABLED=%1%
+set TAU_CUES_ON=%1%
 set TAU_INTERNAL=%2%
 set TAU_MIDI_ON=%3%
 set TAU_LINK_ON=%4%

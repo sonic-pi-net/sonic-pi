@@ -97,8 +97,8 @@ module SonicPi
       end
     end
 
-    def link_is_enabled?
-      res = api_rpc("/link-is-enabled")
+    def link_is_on?
+      res = api_rpc("/link-is-on")
       res[0] == 1
     end
 

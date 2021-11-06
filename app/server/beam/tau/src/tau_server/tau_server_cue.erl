@@ -39,7 +39,7 @@ start_link() ->
 init(Parent) ->
     register(?SERVER, self()),
     Internal = application:get_env(?APPLICATION, internal, true),
-    Enabled  = application:get_env(?APPLICATION, enabled, true),
+    CuesOn   = application:get_env(?APPLICATION, cues_on, true),
     MIDIOn   = application:get_env(?APPLICATION, midi_on, true),
     LinkOn   = application:get_env(?APPLICATION, link_on, true),
     InPort   = application:get_env(?APPLICATION, in_port, undefined),
@@ -71,7 +71,7 @@ init(Parent) ->
     logger:debug("listening for OSC cues on socket: ~p",
           [try erlang:port_info(InSocket) catch _:_ -> undefined end]),
     State = #{parent => Parent,
-              enabled => Enabled,
+              cues_on => CuesOn,
               midi_on => MIDIOn,
               link_on => LinkOn,
               cue_host => CueHost,
@@ -171,14 +171,14 @@ loop(State) ->
                 %% TODO: handle {bundle, Time, X}?
                 {cmd, Cmd} ->
                     case State of
-                        #{enabled := true,
+                        #{cues_on := true,
                           cue_host := CueHost,
                           cue_port := CuePort} ->
                             logger:debug("got incoming OSC: ~p", [Cmd]),
                             forward_cue(CueHost, CuePort,
                                         InSocket, Ip, Port, Cmd),
                             ?MODULE:loop(State);
-                        #{enabled := false} ->
+                        #{cues_on := false} ->
                             logger:debug("OSC forwarding disabled - ignored: ~p", [Cmd]),
                             ?MODULE:loop(State)
                     end
@@ -218,13 +218,13 @@ loop(State) ->
                     ?MODULE:loop(State#{internal := false})
             end;
 
-        {enabled, true} ->
+        {cues_on, true} ->
             logger:info("Enabling cue forwarding "),
-            ?MODULE:loop(State#{enabled := true});
+            ?MODULE:loop(State#{cues_on := true});
 
-        {enabled, false} ->
+        {cues_on, false} ->
             logger:info("Disabling cue forwarding "),
-            ?MODULE:loop(State#{enabled := false});
+            ?MODULE:loop(State#{cues_on := false});
 
         {midi_on, true} ->
             logger:info("Enabling midi cue forwarding "),

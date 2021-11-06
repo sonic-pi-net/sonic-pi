@@ -141,12 +141,12 @@ loop(State) ->
             maps:get(cue_server, State) ! {api_reply, UUID, [NumPeers]},
             ?MODULE:loop(State);
 
-        {link_rpc, UUID, is_enabled} ->
+        {link_rpc, UUID, is_on} ->
             Enabled = case sp_link:is_enabled() of
                           true -> 1;
                           false -> 0
                       end,
-            logger:debug("Link is enabled:  [~p]", [Enabled]),
+            logger:debug("Link is on:  [~p]", [Enabled]),
             maps:get(cue_server, State) ! {api_reply, UUID, [Enabled]},
             ?MODULE:loop(State);
 

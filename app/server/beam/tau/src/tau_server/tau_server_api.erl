@@ -157,7 +157,7 @@ loop(State) ->
 
         {cmd, ["/stop-start-cue-server", Flag]=Cmd} ->
             debug_cmd(Cmd),
-            send_to_cue({enabled, Flag =:= 1}, State),
+            send_to_cue({cues_on, Flag =:= 1}, State),
             ?MODULE:loop(State);
 
         {cmd, ["/stop-start-midi-cues", Flag]=Cmd} ->
@@ -190,9 +190,9 @@ loop(State) ->
             send_to_link({link_rpc, UUID, get_num_peers}, State),
             ?MODULE:loop(State);
 
-        {cmd, ["/api-rpc", UUID, "/link-is-enabled"]=Cmd} ->
+        {cmd, ["/api-rpc", UUID, "/link-is-on"]=Cmd} ->
             debug_cmd(Cmd),
-            send_to_link({link_rpc, UUID, is_enabled}, State),
+            send_to_link({link_rpc, UUID, is_on}, State),
             ?MODULE:loop(State);
 
         {cmd, ["/link-reset"]=Cmd} ->

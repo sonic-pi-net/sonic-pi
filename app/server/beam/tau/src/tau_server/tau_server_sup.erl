@@ -34,7 +34,7 @@ start_link() ->
 %% NOTE: it is important that this code cannot fail, because that
 %% would prevent the application from even being started.
 
-set_application_env(Enabled,
+set_application_env(CuesOn,
                     Internal,
                     MidiOn,
                     LinkOn,
@@ -43,7 +43,7 @@ set_application_env(Enabled,
                     SpiderPort,
                     DaemonPort) ->
 
-    application:set_env(?APPLICATION, enabled, Enabled),
+    application:set_env(?APPLICATION, cues_on, CuesOn),
     application:set_env(?APPLICATION, internal, Internal),
     application:set_env(?APPLICATION, midi_on, MidiOn),
     application:set_env(?APPLICATION, link_on, LinkOn),

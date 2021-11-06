@@ -32,7 +32,7 @@ module SonicPi
       120
     end
 
-    def link_is_enabled?
+    def link_is_on?
       true
     end
 
