@@ -162,7 +162,7 @@ loop(State) ->
 
         {cmd, ["/stop-start-midi-cues", Flag]=Cmd} ->
             debug_cmd(Cmd),
-            send_to_cue({midi_enabled, Flag =:= 1}, State),
+            send_to_cue({midi_on, Flag =:= 1}, State),
             ?MODULE:loop(State);
 
         {cmd, ["/api-rpc", UUID, "/link-get-current-time"]=Cmd} ->

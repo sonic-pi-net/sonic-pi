@@ -7,8 +7,8 @@ rem   mix release
 
 set TAU_ENABLED=%1%
 set TAU_INTERNAL=%2%
-set TAU_MIDI_ENABLED=%3%
-set TAU_LINK_ENABLED=%4%
+set TAU_MIDI_ON=%3%
+set TAU_LINK_ON=%4%
 set TAU_IN_PORT=%5%
 set TAU_API_PORT=%6%
 set TAU_SPIDER_PORT=%7%

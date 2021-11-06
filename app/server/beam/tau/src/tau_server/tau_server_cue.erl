@@ -39,12 +39,12 @@ start_link() ->
 init(Parent) ->
     register(?SERVER, self()),
     Internal = application:get_env(?APPLICATION, internal, true),
-    Enabled = application:get_env(?APPLICATION, enabled, true),
-    MIDIEnabled = application:get_env(?APPLICATION, midi_enabled, true),
-    LinkEnabled = application:get_env(?APPLICATION, link_enabled, true),
-    InPort = application:get_env(?APPLICATION, in_port, undefined),
-    CuePort = application:get_env(?APPLICATION, spider_port, undefined),
-    CueHost = {127,0,0,1},
+    Enabled  = application:get_env(?APPLICATION, enabled, true),
+    MIDIOn   = application:get_env(?APPLICATION, midi_on, true),
+    LinkOn   = application:get_env(?APPLICATION, link_on, true),
+    InPort   = application:get_env(?APPLICATION, in_port, undefined),
+    CuePort  = application:get_env(?APPLICATION, spider_port, undefined),
+    CueHost  = {127,0,0,1},
 
     logger:info("~n"
               "+--------------------------------------+~n"
@@ -72,8 +72,8 @@ init(Parent) ->
           [try erlang:port_info(InSocket) catch _:_ -> undefined end]),
     State = #{parent => Parent,
               enabled => Enabled,
-              midi_enabled => MIDIEnabled,
-              link_enabled => LinkEnabled,
+              midi_on => MIDIOn,
+              link_on => LinkOn,
               cue_host => CueHost,
               cue_port => CuePort,
               internal => Internal,
@@ -87,20 +87,20 @@ loop(State) ->
     receive
         {midi_in, Path, Args} ->
             case State of
-                #{midi_enabled := true} ->
+                #{midi_on := true} ->
                     CueHost = maps:get(cue_host, State),
                     CuePort = maps:get(cue_port, State),
                     InSocket = maps:get(in_socket, State),
                     forward_internal_cue(CueHost, CuePort, InSocket, Path, Args),
                     ?MODULE:loop(State);
-                #{midi_enabled := false} ->
+                #{midi_on := false} ->
                     logger:debug("MIDI cue forwarding disabled - ignored: ~p", [{Path, Args}]),
                     ?MODULE:loop(State)
             end;
 
         {link, num_peers, NumPeers} ->
             case State of
-                #{link_enabled := true,
+                #{link_on := true,
                   cue_host := CueHost,
                   cue_port := CuePort,
                   in_socket := InSocket} ->
@@ -114,7 +114,7 @@ loop(State) ->
 
         {link, tempo_change, Tempo} ->
             case State of
-                #{link_enabled := true,
+                #{link_on := true,
                   cue_host := CueHost,
                   cue_port := CuePort,
                   in_socket := InSocket} ->
@@ -128,7 +128,7 @@ loop(State) ->
 
         {link, start} ->
             case State of
-                #{link_enabled := true,
+                #{link_on := true,
                   cue_host := CueHost,
                   cue_port := CuePort,
                   in_socket := InSocket} ->
@@ -142,7 +142,7 @@ loop(State) ->
 
         {link, stop} ->
             case State of
-                #{link_enabled := true,
+                #{link_on := true,
                   cue_host := CueHost,
                   cue_port := CuePort,
                   in_socket := InSocket} ->
@@ -226,13 +226,13 @@ loop(State) ->
             logger:info("Disabling cue forwarding "),
             ?MODULE:loop(State#{enabled := false});
 
-        {midi_enabled, true} ->
+        {midi_on, true} ->
             logger:info("Enabling midi cue forwarding "),
-            ?MODULE:loop(State#{midi_enabled := true});
+            ?MODULE:loop(State#{midi_on := true});
 
-        {midi_enabled, false} ->
+        {midi_on, false} ->
             logger:info("Disabling midi cue forwarding "),
-            ?MODULE:loop(State#{midi_enabled := false});
+            ?MODULE:loop(State#{midi_on := false});
 
         {send_osc, Host, Port, OSC} ->
             send_udp(maps:get(in_socket, State), Host, Port, OSC),

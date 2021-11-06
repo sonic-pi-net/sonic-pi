@@ -7,8 +7,8 @@ defmodule Tau do
     Logger.info("All systems booting....")
     enabled      = extract_env("TAU_ENABLED",      :bool, true)
     internal     = extract_env("TAU_INTERNAL",     :bool, true)
-    midi_enabled = extract_env("TAU_MIDI_ENABLED", :bool, true)
-    link_enabled = extract_env("TAU_LINK_ENABLED", :bool, true)
+    midi_on      = extract_env("TAU_MIDI_ON",      :bool, false)
+    link_on      = extract_env("TAU_LINK_ON",      :bool, false)
     in_port      = extract_env("TAU_IN_PORT",      :int,  5000)
     api_port     = extract_env("TAU_API_PORT",     :int,  5001)
     spider_port  = extract_env("TAU_SPIDER_PORT",  :int,  5002)
@@ -16,8 +16,8 @@ defmodule Tau do
 
     :tau_server_sup.set_application_env(enabled,
       internal,
-      midi_enabled,
-      link_enabled,
+      midi_on,
+      link_on,
       in_port,
       api_port,
       spider_port,
