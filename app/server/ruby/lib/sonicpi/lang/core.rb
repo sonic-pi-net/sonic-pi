@@ -1750,6 +1750,9 @@ end"
         end
 
         return [].ring if start == finish
+
+        raise ArgumentError, "step size: opt for fn range should be a non-zero number" unless step_size != 0
+        
         step_size = step_size.abs
         res = []
         cur = start

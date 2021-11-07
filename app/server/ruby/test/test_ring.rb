@@ -60,6 +60,10 @@ module SonicPi
       assert_equal(range(1, 3).class, SonicPi::Core::RingVector)
       assert_equal(range(10, 10, step: -1), ring())
 
+      assert_raises ArgumentError, "step size" do
+        assert_equal(range(1, 5, step: 0), [1.0, 2.0, 3.0, 4.0].ring)
+      end
+
     end
 
     def test_line
