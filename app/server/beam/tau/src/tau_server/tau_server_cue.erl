@@ -39,12 +39,12 @@ start_link() ->
 init(Parent) ->
     register(?SERVER, self()),
     OSCInUDPLoopbackRestricted = application:get_env(?APPLICATION, osc_in_udp_loopback_restricted, true),
-    CuesOn       = application:get_env(?APPLICATION, cues_on,         true),
-    MIDIOn       = application:get_env(?APPLICATION, midi_on,         true),
-    LinkOn       = application:get_env(?APPLICATION, link_on,         true),
-    OSCInUDPPort = application:get_env(?APPLICATION, osc_in_udp_port, undefined),
-    CuePort      = application:get_env(?APPLICATION, spider_port,     undefined),
-    CueHost      = {127,0,0,1},
+    CuesOn                     = application:get_env(?APPLICATION, cues_on,                        true),
+    MIDIOn                     = application:get_env(?APPLICATION, midi_on,                        true),
+    LinkOn                     = application:get_env(?APPLICATION, link_on,                        true),
+    OSCInUDPPort               = application:get_env(?APPLICATION, osc_in_udp_port,                undefined),
+    CuePort                    = application:get_env(?APPLICATION, spider_port,                    undefined),
+    CueHost                    = {127,0,0,1},
 
     logger:info("~n"
               "+--------------------------------------+~n"
