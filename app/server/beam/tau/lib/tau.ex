@@ -5,14 +5,14 @@ defmodule Tau do
   @impl true
   def start(_type, _args) do
     Logger.info("All systems booting....")
-    cues_on      = extract_env("TAU_CUES_ON",      :bool, true)
-    internal     = extract_env("TAU_INTERNAL",     :bool, true)
-    midi_on      = extract_env("TAU_MIDI_ON",      :bool, false)
-    link_on      = extract_env("TAU_LINK_ON",      :bool, false)
+    cues_on         = extract_env("TAU_CUES_ON",         :bool, true)
+    internal        = extract_env("TAU_INTERNAL",        :bool, true)
+    midi_on         = extract_env("TAU_MIDI_ON",         :bool, false)
+    link_on         = extract_env("TAU_LINK_ON",         :bool, false)
     osc_in_udp_port = extract_env("TAU_OSC_IN_UDP_PORT", :int,  5000)
-    api_port     = extract_env("TAU_API_PORT",     :int,  5001)
-    spider_port  = extract_env("TAU_SPIDER_PORT",  :int,  5002)
-    daemon_port  = extract_env("TAU_DAEMON_PORT",  :int,  -1)
+    api_port        = extract_env("TAU_API_PORT",        :int,  5001)
+    spider_port     = extract_env("TAU_SPIDER_PORT",     :int,  5002)
+    daemon_port     = extract_env("TAU_DAEMON_PORT",     :int,  -1)
 
     :tau_server_sup.set_application_env(cues_on,
       internal,
