@@ -168,9 +168,9 @@ module SonicPi
 
     def cue_server_internal!(internal)
       if internal
-        @tau_comms.send("/internal-cue-port", 1)
+        @tau_comms.send("/osc-in-udp-loopback-restricted", 1)
       else
-        @tau_comms.send("/internal-cue-port", 0)
+        @tau_comms.send("/osc-in-udp-loopback-restricted", 0)
       end
     end
 

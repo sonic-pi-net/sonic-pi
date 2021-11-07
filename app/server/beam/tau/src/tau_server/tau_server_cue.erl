@@ -38,7 +38,7 @@ start_link() ->
 
 init(Parent) ->
     register(?SERVER, self()),
-    Internal     = application:get_env(?APPLICATION, internal,        true),
+    OSCInUDPLoopbackRestricted = application:get_env(?APPLICATION, osc_in_udp_loopback_restricted, true),
     CuesOn       = application:get_env(?APPLICATION, cues_on,         true),
     MIDIOn       = application:get_env(?APPLICATION, midi_on,         true),
     LinkOn       = application:get_env(?APPLICATION, link_on,         true),
@@ -58,7 +58,7 @@ init(Parent) ->
               "+--------------------------------------+~n~n~n",
               [erlang:system_info(otp_release), OSCInUDPPort, CueHost, CuePort]),
 
-    case Internal of
+    case OSCInUDPLoopbackRestricted of
         true ->
             {ok, InSocket} = gen_udp:open(OSCInUDPPort, [binary, {ip, loopback}]);
         _ ->
@@ -76,7 +76,7 @@ init(Parent) ->
               link_on => LinkOn,
               cue_host => CueHost,
               cue_port => CuePort,
-              internal => Internal,
+              osc_in_udp_loopback_restricted => OSCInUDPLoopbackRestricted,
               osc_in_udp_port => OSCInUDPPort,
               in_socket => InSocket
 
@@ -189,33 +189,33 @@ loop(State) ->
                     ?MODULE:loop(State)
             end;
 
-        {internal, true} ->
+        {osc_in_udp_loopback_restricted, true} ->
             case State of
-                #{internal := true} ->
+                #{osc_in_udp_loopback_restricted := true} ->
                     ?MODULE:loop(State);
-                #{internal := false,
+                #{osc_in_udp_loopback_restricted := false,
                   in_socket := InSocket,
                   osc_in_udp_port := OSCInUDPPort} ->
                     logger:info("Switching cue listener to loopback network"),
                     gen_udp:close(InSocket),
                     {ok, NewInSocket} = gen_udp:open(OSCInUDPPort,
                                                      [binary, {ip, loopback}]),
-                    ?MODULE:loop(State#{internal := true,
+                    ?MODULE:loop(State#{osc_in_udp_loopback_restricted := true,
                                         in_socket := NewInSocket})
             end;
 
-        {internal, false} ->
+        {osc_in_udp_loopback_restricted, false} ->
             case State of
-                #{internal := true,
+                #{osc_in_udp_loopback_restricted := true,
                   in_socket := InSocket,
                   osc_in_udp_port := OSCInUDPPort} ->
                     logger:info("Switching cue listener to open network"),
                     gen_udp:close(InSocket),
                     {ok, NewInSocket} = gen_udp:open(OSCInUDPPort, [binary]),
-                    ?MODULE:loop(State#{internal := false,
+                    ?MODULE:loop(State#{osc_in_udp_loopback_restricted := false,
                                         in_socket := NewInSocket});
-                #{internal := false} ->
-                    ?MODULE:loop(State#{internal := false})
+                #{osc_in_udp_loopback_restricted := false} ->
+                    ?MODULE:loop(State#{osc_in_udp_loopback_restricted := false})
             end;
 
         {cues_on, true} ->

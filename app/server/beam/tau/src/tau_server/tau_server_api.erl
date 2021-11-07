@@ -150,9 +150,9 @@ loop(State) ->
             tau_server_tracker:flush(all, Tracker),
             ?MODULE:loop(NewState);
 
-        {cmd, ["/internal-cue-port", Flag]=Cmd} ->
+        {cmd, ["/osc-in-udp-loopback-restricted", Flag]=Cmd} ->
             debug_cmd(Cmd),
-            send_to_cue({internal, Flag =:= 1}, State),
+            send_to_cue({osc_in_udp_loopback_restricted, Flag =:= 1}, State),
             ?MODULE:loop(State);
 
         {cmd, ["/stop-start-cue-server", Flag]=Cmd} ->

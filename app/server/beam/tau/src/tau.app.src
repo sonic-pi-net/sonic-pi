@@ -16,7 +16,7 @@
          {api_port, 51240},
          {cue_host, {127,0,0,1}},
          {spider_port, 51235},
-         {internal, true}
+         {osc_in_udp_loopback_restricted, true}
         ]},
   {applications, [kernel,stdlib,sasl]}
  ]

@@ -35,7 +35,7 @@ start_link() ->
 %% would prevent the application from even being started.
 
 set_application_env(CuesOn,
-                    Internal,
+                    OSCInUDPLoopbackRestricted,
                     MidiOn,
                     LinkOn,
                     OSCInUDPPort,
@@ -44,7 +44,7 @@ set_application_env(CuesOn,
                     DaemonPort) ->
 
     application:set_env(?APPLICATION, cues_on, CuesOn),
-    application:set_env(?APPLICATION, internal, Internal),
+    application:set_env(?APPLICATION, osc_in_udp_loopback_restricted, OSCInUDPLoopbackRestricted),
     application:set_env(?APPLICATION, midi_on, MidiOn),
     application:set_env(?APPLICATION, link_on, LinkOn),
     application:set_env(?APPLICATION, osc_in_udp_port, OSCInUDPPort),

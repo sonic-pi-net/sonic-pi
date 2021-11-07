@@ -6,7 +6,7 @@ defmodule Tau do
   def start(_type, _args) do
     Logger.info("All systems booting....")
     cues_on         = extract_env("TAU_CUES_ON",         :bool, true)
-    internal        = extract_env("TAU_INTERNAL",        :bool, true)
+    osc_in_udp_loopback_restricted = extract_env("TAU_OSC_IN_UDP_LOOPBACK_RESTRICTED", :bool, true)
     midi_on         = extract_env("TAU_MIDI_ON",         :bool, false)
     link_on         = extract_env("TAU_LINK_ON",         :bool, false)
     osc_in_udp_port = extract_env("TAU_OSC_IN_UDP_PORT", :int,  5000)
@@ -15,7 +15,7 @@ defmodule Tau do
     daemon_port     = extract_env("TAU_DAEMON_PORT",     :int,  -1)
 
     :tau_server_sup.set_application_env(cues_on,
-      internal,
+      osc_in_udp_loopback_restricted,
       midi_on,
       link_on,
       osc_in_udp_port,
