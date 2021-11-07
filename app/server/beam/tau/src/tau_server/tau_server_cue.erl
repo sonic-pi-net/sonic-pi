@@ -42,7 +42,7 @@ init(Parent) ->
     CuesOn   = application:get_env(?APPLICATION, cues_on, true),
     MIDIOn   = application:get_env(?APPLICATION, midi_on, true),
     LinkOn   = application:get_env(?APPLICATION, link_on, true),
-    InPort   = application:get_env(?APPLICATION, in_port, undefined),
+    OSCInUDPPort  = application:get_env(?APPLICATION, osc_in_udp_port, undefined),
     CuePort  = application:get_env(?APPLICATION, spider_port, undefined),
     CueHost  = {127,0,0,1},
 
@@ -56,13 +56,13 @@ init(Parent) ->
               "  OSC cue forwarding to ~p              ~n"
               "                     on port ~p         ~n"
               "+--------------------------------------+~n~n~n",
-              [erlang:system_info(otp_release), InPort, CueHost, CuePort]),
+              [erlang:system_info(otp_release), OSCInUDPPort, CueHost, CuePort]),
 
     case Internal of
         true ->
-            {ok, InSocket} = gen_udp:open(InPort, [binary, {ip, loopback}]);
+            {ok, InSocket} = gen_udp:open(OSCInUDPPort, [binary, {ip, loopback}]);
         _ ->
-            {ok, InSocket} = gen_udp:open(InPort, [binary])
+            {ok, InSocket} = gen_udp:open(OSCInUDPPort, [binary])
     end,
 
     %% tell parent we have allocated resources and are up and running
@@ -77,7 +77,7 @@ init(Parent) ->
               cue_host => CueHost,
               cue_port => CuePort,
               internal => Internal,
-              in_port => InPort,
+              osc_in_udp_port => OSCInUDPPort,
               in_socket => InSocket
 
              },
@@ -195,10 +195,10 @@ loop(State) ->
                     ?MODULE:loop(State);
                 #{internal := false,
                   in_socket := InSocket,
-                  in_port := InPort} ->
+                  osc_in_udp_port := OSCInUDPPort} ->
                     logger:info("Switching cue listener to loopback network"),
                     gen_udp:close(InSocket),
-                    {ok, NewInSocket} = gen_udp:open(InPort,
+                    {ok, NewInSocket} = gen_udp:open(OSCInUDPPort,
                                                      [binary, {ip, loopback}]),
                     ?MODULE:loop(State#{internal := true,
                                         in_socket := NewInSocket})
@@ -208,10 +208,10 @@ loop(State) ->
             case State of
                 #{internal := true,
                   in_socket := InSocket,
-                  in_port := InPort} ->
+                  osc_in_udp_port := OSCInUDPPort} ->
                     logger:info("Switching cue listener to open network"),
                     gen_udp:close(InSocket),
-                    {ok, NewInSocket} = gen_udp:open(InPort, [binary]),
+                    {ok, NewInSocket} = gen_udp:open(OSCInUDPPort, [binary]),
                     ?MODULE:loop(State#{internal := false,
                                         in_socket := NewInSocket});
                 #{internal := false} ->

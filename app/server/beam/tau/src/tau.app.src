@@ -12,7 +12,7 @@
   {env, [{cues_on, true},
          {midi_on, true},
          {link_on, true},
-         {in_port, 4560},    % sane defaults for the ports
+         {osc_in_udp_port, 4560},    % sane defaults for the ports
          {api_port, 51240},
          {cue_host, {127,0,0,1}},
          {spider_port, 51235},

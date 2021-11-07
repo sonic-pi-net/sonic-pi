@@ -9,7 +9,7 @@ defmodule Tau do
     internal     = extract_env("TAU_INTERNAL",     :bool, true)
     midi_on      = extract_env("TAU_MIDI_ON",      :bool, false)
     link_on      = extract_env("TAU_LINK_ON",      :bool, false)
-    in_port      = extract_env("TAU_IN_PORT",      :int,  5000)
+    osc_in_udp_port = extract_env("TAU_OSC_IN_UDP_PORT", :int,  5000)
     api_port     = extract_env("TAU_API_PORT",     :int,  5001)
     spider_port  = extract_env("TAU_SPIDER_PORT",  :int,  5002)
     daemon_port  = extract_env("TAU_DAEMON_PORT",  :int,  -1)
@@ -18,7 +18,7 @@ defmodule Tau do
       internal,
       midi_on,
       link_on,
-      in_port,
+      osc_in_udp_port,
       api_port,
       spider_port,
       daemon_port

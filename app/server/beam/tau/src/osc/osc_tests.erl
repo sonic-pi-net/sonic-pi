@@ -41,7 +41,7 @@ test3() ->
     %% use default ports from .app file
     application:load(?APPLICATION),
     APIPort = application:get_env(?APPLICATION, api_port, undefined),
-    OSCInPort = application:get_env(?APPLICATION, in_port, undefined),
+    OSCInUDPPort = application:get_env(?APPLICATION, osc_in_udp_port, undefined),
     FwPort = 6000,
     lists:member(tau_server_api, registered()) orelse
         tau_server:start(),
@@ -54,7 +54,7 @@ test3() ->
                              ["/send_after", "localhost", FwPort | SendLater])),
     Result =
         receive
-            {udp, Socket, {127,0,0,1}, OSCInPort, EncodedLater} ->
+            {udp, Socket, {127,0,0,1}, OSCInUDPPort, EncodedLater} ->
                 Time2 = osc:now(),
                 DT = Time2 - Time1,
                 io:format("Got back message ~p after ~f s~n",
