@@ -13,7 +13,7 @@ set TAU_OSC_IN_UDP_PORT=%5%
 set TAU_API_PORT=%6%
 set TAU_SPIDER_PORT=%7%
 set TAU_DAEMON_PORT=%8%
-set TAU_LOG_PATH=%9%
+set TAU_LOG_PATH="%9%"
 set TAU_MIDI_ENABLED=false
 set TAU_LINK_ENABLED=false
 
