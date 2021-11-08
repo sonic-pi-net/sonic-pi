@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2021-09-01 08:01+0000\n"
+"PO-Revision-Date: 2021-11-09 08:51+0000\n"
 "Last-Translator: neginex <kanta.negishi.2021b@mlab.info>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/ja/>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.8.1-dev\n"
+"X-Generator: Weblate 4.9-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -8862,6 +8862,8 @@ msgid ""
 "nguage) and work directly with Sonic Pi. What you can use this for is only lim"
 "ited by your imagination."
 msgstr ""
+"例えば, OSCを送受信するプログラムを別の言語で書いてSonicPiと直接つなげて動かすことができます(多くの言語にはOSCのライブラリがあります)。 "
+"これをどう使うかはみなさんの想像次第というわけです。"
 
 #: 12.1-Receiving-OSC.md:1
 msgid "12.1 Receiving OSC"
@@ -8948,7 +8950,7 @@ msgstr ""
 
 #: 12.1-Receiving-OSC.md:58
 msgid "Receiving from External Machines"
-msgstr ""
+msgstr "外部マシンから受信する"
 
 #: 12.1-Receiving-OSC.md:60
 msgid ""
