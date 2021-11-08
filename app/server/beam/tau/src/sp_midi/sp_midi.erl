@@ -1,7 +1,6 @@
 -module(sp_midi).
--export([midi_init/0, midi_deinit/0, midi_send/2, midi_flush/0, midi_ins/0, midi_outs/0, have_my_pid/0,
+-export([init/0, midi_init/0, midi_deinit/0, midi_send/2, midi_flush/0, midi_ins/0, midi_outs/0, have_my_pid/0,
         set_this_pid/1, set_log_level/1, get_current_time_microseconds/0]).
--on_load(init/0).
 
 -define(APPLICATION, tau).
 -define(LIBNAME, "libsp_midi").
@@ -21,22 +20,22 @@ init() ->
     erlang:load_nif(SoName, 0).
 
 midi_init() ->
-    exit(nif_library_not_loaded).
+    done.
 midi_deinit() ->
-    exit(nif_library_not_loaded).
+    done.
 midi_send(_, _) ->
-    exit(nif_library_not_loaded).
+    done.
 midi_flush() ->
-    exit(nif_library_not_loaded).
+    done.
 midi_ins() ->
-    exit(nif_library_not_loaded).
+    done.
 midi_outs() ->
-    exit(nif_library_not_loaded).
+    done.
 have_my_pid() ->
-    exit(nif_library_not_loaded).
+    done.
 get_current_time_microseconds() ->
-    exit(nif_library_not_loaded).
+    done.
 set_log_level(_) ->
-    exit(nif_library_not_loaded).
+    done.
 set_this_pid(_) ->
-    exit(nif_library_not_loaded).
+    done.

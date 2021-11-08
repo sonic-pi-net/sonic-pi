@@ -11,7 +11,7 @@
 
 %% Supervisor callbacks
 -export([init/1]).
--export([set_application_env/8]).
+-export([set_application_env/10]).
 
 -define(APPLICATION, tau).
 
@@ -34,7 +34,9 @@ start_link() ->
 %% NOTE: it is important that this code cannot fail, because that
 %% would prevent the application from even being started.
 
-set_application_env(CuesOn,
+set_application_env(MIDIEnabled,
+                    LinkEnabled,
+                    CuesOn,
                     OSCInUDPLoopbackRestricted,
                     MidiOn,
                     LinkOn,
@@ -43,6 +45,8 @@ set_application_env(CuesOn,
                     SpiderPort,
                     DaemonPort) ->
 
+    application:set_env(?APPLICATION, midi_enabled, MIDIEnabled),
+    application:set_env(?APPLICATION, link_enabled, LinkEnabled),
     application:set_env(?APPLICATION, cues_on, CuesOn),
     application:set_env(?APPLICATION, osc_in_udp_loopback_restricted, OSCInUDPLoopbackRestricted),
     application:set_env(?APPLICATION, midi_on, MidiOn),
@@ -68,26 +72,32 @@ init(_Args) ->
                   #{id => tau_server_cue,
                     start => {tau_server_cue, start_link, []}
                    },
-                  #{id => tau_server_link,
-                    start => {tau_server_link, start_link, [CueServer]}
-                   },
                   #{id => tau_server_api,
                     start => {tau_server_api, start_link, [CueServer, MIDIServer, LinkServer]}
                    }
 
                  ],
 
-    ENV = os:getenv("TAU_DISABLE_MIDI", "false"),
-    MIDIChildSpecs = if
-                         ENV == "true" ->
-                             ChildSpecs;
-
+    MIDIChildSpecs = case midi_enabled of
                          true ->
                              [#{id    => tau_server_midi,
                                 start => {tau_server_midi,
                                           start_link,
-                                          [CueServer]}} | ChildSpecs]
+                                          [CueServer]}} | ChildSpecs];
+                         _ ->
+                             ChildSpecs
 
                      end,
 
-    {ok, {SupFlags, MIDIChildSpecs}}.
+    LinkChildSpecs = case link_enabled of
+                         true ->
+                             [#{id    => tau_server_link,
+                                start => {tau_server_link,
+                                          start_link,
+                                          [CueServer]}} | MIDIChildSpecs];
+                         _ ->
+                             MIDIChildSpecs
+
+                     end,
+
+    {ok, {SupFlags, LinkChildSpecs}}.

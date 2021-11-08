@@ -5,6 +5,8 @@ defmodule Tau do
   @impl true
   def start(_type, _args) do
     Logger.info("All systems booting....")
+    midi_enabled                   = extract_env("TAU_MIDI_ENABLED",                   :bool, false)
+    link_enabled                   = extract_env("TAU_LINK_ENABLED",                   :bool, false)
     cues_on                        = extract_env("TAU_CUES_ON",                        :bool, true)
     osc_in_udp_loopback_restricted = extract_env("TAU_OSC_IN_UDP_LOOPBACK_RESTRICTED", :bool, true)
     midi_on                        = extract_env("TAU_MIDI_ON",                        :bool, false)
@@ -14,7 +16,24 @@ defmodule Tau do
     spider_port                    = extract_env("TAU_SPIDER_PORT",                    :int,  5002)
     daemon_port                    = extract_env("TAU_DAEMON_PORT",                    :int,  -1)
 
-    :tau_server_sup.set_application_env(cues_on,
+    if midi_enabled do
+      Logger.info("Initialising MIDI native interface")
+      :sp_midi.init()
+    else
+      Logger.info("Starting without MIDI native interface")
+    end
+
+    if link_enabled do
+      Logger.info("Initialising Link native interface")
+      :sp_link.init()
+    else
+      Logger.info("Starting without Link native interface")
+    end
+
+    :tau_server_sup.set_application_env(
+      midi_enabled,
+      link_enabled,
+      cues_on,
       osc_in_udp_loopback_restricted,
       midi_on,
       link_on,
