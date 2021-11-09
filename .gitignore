@@ -151,3 +151,4 @@ etc/synthdefs/designs/overtone/sonic-pi/native
 # Erlang priv dir (for dlls)
 app/server/beam/tau/priv/*
 app/server/beam/tau/ebin/*
+app/server/beam/tau/log/*

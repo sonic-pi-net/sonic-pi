@@ -1,10 +1,11 @@
 import Config
 
 log_path = case System.fetch_env("TAU_LOG_PATH") do
-          :error ->
-            "tau.log"
-          any -> any
-        end
+             {:ok, log_path} ->
+               log_path
+             _error ->
+               "log/tau.log"
+           end
 
 config :tau,
   handle_otp_reports: true,
