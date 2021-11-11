@@ -508,11 +508,7 @@ module SonicPi
         @log_file.close if @log_file
 
       end
-
     end
-
-
-
 
     class SpiderBooter < ProcessBooter
       def initialize(ports)
@@ -522,7 +518,6 @@ module SonicPi
         scsynth_send_port         = ports["scsynth-send"]
         osc_cues_port             = ports["osc-cues"]
         tau_port                  = ports["tau"]
-        websocket_port            = ports["websocket"]
         listen_to_tau_port        = ports["listen-to-tau"]
         cmd = Paths.ruby_path
         args = ["--enable-frozen-string-literal", "-E", "utf-8",
@@ -534,8 +529,7 @@ module SonicPi
           scsynth_send_port,
           osc_cues_port,
           tau_port,
-          listen_to_tau_port,
-          websocket_port]
+          listen_to_tau_port]
         super(cmd, args, Paths.spider_log_path)
       end
     end
@@ -905,9 +899,6 @@ module SonicPi
 
         "daemon-listen-to-tau" => :dynamic,
 
-        # Port which the server uses to communicate via websockets
-        # (This is currently unused.)
-        "websocket" => :dynamic
       }.freeze
 
       def initialize(safe_exit)
@@ -934,7 +925,6 @@ module SonicPi
           "tau",
           "listen-to-tau",
           "daemon-listen-to-tau",
-          "websocket"].inject({}) do |res, port_name|
 
           default = nil
           case port_name

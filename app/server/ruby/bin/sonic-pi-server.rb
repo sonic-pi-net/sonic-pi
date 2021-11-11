@@ -98,9 +98,6 @@ gui_protocol = case ARGV[0]
                when "-u"
                  # Qt GUI + udp
                  :udp
-               when "-w"
-                 # Web GUI + websockets
-                 :websockets
                else
                  :udp
                end
@@ -140,9 +137,6 @@ tau_port = ARGV[6] ? ARGV[6].to_i : 4561
 
 listen_to_tau_port = ARGV[7] ? ARGV[7].to_i : 4562
 
-# Port which the server uses to communicate via websockets
-# websocket
-websocket_port = ARGV[8] ? ARGV[8].to_i : 4563
 
 # Create a frozen map of the ports so that this can
 # essentially be treated as a global constant to the
@@ -154,8 +148,7 @@ sonic_pi_ports = {
   scsynth_send_port: scsynth_send_port,
   osc_cues_port: osc_cues_port,
   tau_port: tau_port,
-  listen_to_tau_port: listen_to_tau_port,
-  websocket_port: websocket_port}.freeze
+  listen_to_tau_port: listen_to_tau_port}.freeze
 
 
 STDOUT.puts "Ports: #{sonic_pi_ports.inspect}"
@@ -169,8 +162,6 @@ begin
     gui = SonicPi::OSC::TCPClient.new("127.0.0.1", gui_port, use_encoder_cache: true)
   when :udp
     gui = SonicPi::OSC::UDPClient.new("127.0.0.1", gui_port, use_encoder_cache: true)
-  when :websockets
-    gui = SonicPi::OSC::WebSocketServer.new(websocket_port)
   end
 
 rescue Exception => e
@@ -180,8 +171,6 @@ rescue Exception => e
     STDOUT.puts "Attempted to use TCP on port #{gui_port}"
   when :udp
     STDOUT.puts "Attempted to use UDP on port #{gui_port}"
-  when :websockets
-    STDOUT.puts "Attempted to use Websockets on port #{websocket_port}"
   end
   STDOUT.puts "Error message received:\n-----------------------"
   STDOUT.puts e.message
@@ -190,9 +179,7 @@ rescue Exception => e
 end
 
 
-# Now we need to set up a server to listen to messages from the GUI.  If
-# we're running with websockets, then this is the same entity as the gui
-# comms which is already a websocket server
+# Now we need to set up a server to listen to messages from the GUI.
 begin
   case gui_protocol
   when :tcp
@@ -200,10 +187,6 @@ begin
   when :udp
     STDOUT.puts "Opening UDP Server to listen to GUI on port: #{server_port}"
     osc_server = SonicPi::OSC::UDPServer.new(server_port, use_decoder_cache: true)
-
-  when :websockets
-    STDOUT.puts "Listening to GUI on websocket"
-    osc_server = gui
   end
 rescue Exception => e
   begin
@@ -222,28 +205,6 @@ end
 
 STDOUT.flush
 
-# # Next fire up a websockets server.
-# begin
-#   case gui_protocol
-#   when :tcp
-#     ws = SonicPi::OSC::WebSocketServer.new(websocket_port)
-#   when :udp
-#     ws = SonicPi::OSC::WebSocketServer.new(websocket_port)
-#   when :websockets
-#     ws = gui
-#   end
-# rescue Exception => e
-#   begin
-#     STDOUT.puts "Exception when opening a websocket on port: #{websocket_port}"
-#     STDOUT.puts e.message
-#     STDOUT.puts e.backtrace.inspect
-#     STDOUT.puts e.backtrace
-#     gui.send("/exited-with-boot-error", "Failed to open websocket port " + websocket_port.to_s)
-#   rescue Errno::EPIPE => e
-#     STDOUT.puts "GUI not listening, exit anyway."
-#   end
-#   exit
-# end
 
 STDOUT.puts "Spider - Pulling in modules..."
 
@@ -563,7 +524,6 @@ register_api = lambda do |server|
 end
 
 register_api.call(osc_server)
-# register_api.call(ws) unless gui_protocol == :websockets
 
 # Send stuff out from Sonic Pi back out to osc_server
 out_t = Thread.new do
@@ -650,11 +610,6 @@ out_t = Thread.new do
           id = message[:job_id]
           action = message[:action]
           # do nothing for now
-        when :websocket_osc
-          path = message[:path]
-          body = message[:body]
-          # ws.send(path, *body)
-          STDOUT.puts "Spider - Sending to websocket not supported. Attempted to send: #{path}, #{body}"
         else
           STDOUT.puts "Spider - Ignoring #{message}"
         end
