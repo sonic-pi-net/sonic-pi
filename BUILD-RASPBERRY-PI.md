@@ -5,7 +5,7 @@ Hello there lovely Raspberry Pi user - welcome to our build instructions.
 ### TLDR
 
 If you're already familiar with the terminal and running shell scripts,
-etc. You can fetch, build and start Sonic Pi with the following:
+etc., you can fetch, build and start Sonic Pi with the following:
 
 ```
 git clone https://github.com/sonic-pi-net/sonic-pi.git
