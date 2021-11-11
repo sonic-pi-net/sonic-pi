@@ -596,7 +596,7 @@ eval_file \"~/path/to/sonic-pi-code.rb\" #=> will run the contents of this file"
 
 OSC (Open Sound Control) is a simple way of passing messages between two separate programs on the same computer or even on different computers via a local network or even the internet. `use_osc` allows you to specify which computer (`hostname`) and program (`port`) to send messages to.
 
-It is possible to send messages to the same computer by using the host name `\"localhost\"`
+It is possible to send messages to the same computer by using the host name `\"localhost\"`.
 
 This is a thread-local setting - therefore each thread (or live loop) can have their own separate `use_osc` values.
 
@@ -611,23 +611,23 @@ osc \"/foo/bar\"             # Send an OSC message with path \"/foo/bar\"
                              # and no arguments
 ",
 
-" # Send an OSC messages with arguments to another program on the same machine
+" # Send an OSC message with arguments to another program on the same machine
 
 use_osc \"localhost\", 7000        # Specify port 7000 on this machine
 osc \"/foo/bar\" 1, 3.89, \"baz\"  # Send an OSC message with path \"/foo/bar\"
                                    # and three arguments:
                                    # 1) The whole number (integer) 1
-                                   # 2) The fractional number (float) 3,89
+                                   # 2) The fractional number (float) 3.89
                                    # 3) The string \"baz\"
 ",
 
-" # Send an OSC messages with arguments to another program on a different machine
+" # Send an OSC message with arguments to another program on a different machine
 
 use_osc \"10.0.1.5\", 7000         # Specify port 7000 on the machine with address 10.0.1.5
 osc \"/foo/bar\" 1, 3.89, \"baz\"  # Send an OSC message with path \"/foo/bar\"
                                    # and three arguments:
                                    # 1) The whole number (integer) 1
-                                   # 2) The fractional number (float) 3,89
+                                   # 2) The fractional number (float) 3.89
                                    # 3) The string \"baz\"
 ",
 
@@ -637,7 +637,7 @@ use_osc \"localhost\", 7000  # Specify port 7000 on this machine
 osc \"/foo/bar\"             # Send an OSC message to port 7000
 osc \"/foo/baz\"             # Send another OSC message to port 7000
 
-use_osc \"localhost\", 7005  # Specify port 7000 on this machine
+use_osc \"localhost\", 7005  # Specify port 7005 on this machine
 osc \"/foo/bar\"             # Send an OSC message to port 7005
 osc \"/foo/baz\"             # Send another OSC message to port 7005
 ",
@@ -689,7 +689,7 @@ osc \"/foo/baz\"             # Send another OSC message to port 7010
           doc:            "Sets the destination host and port that `osc` will send messages to for the given do/end block.",
           examples: [
 "
-use_osc \"localhost\", 7000  # Specify port 7010
+use_osc \"localhost\", 7000  # Specify port 7000
 osc \"/foo/baz\"             # Send an OSC message to port 7000
 
 with_osc \"localhost\", 7010 do # set hostname and port for the duration
@@ -754,7 +754,7 @@ osc_send \"localhost\", 7000, \"/foo/baz\"  # Send an OSC message to port 7000
 
 OSC (Open Sound Control) is a simple way of passing messages between two separate programs on the same computer or even on different computers via a local network or even the internet. `osc` enables you to send well-timed OSC messages from within Sonic Pi. `osc` will ensure that the OSC message is sent at the correct time using the same timing system shared with the synthesis functionality via `sample`, `synth` and friends. `osc` even works seamlessly within `time_warp` - see examples.
 
-A typical OSC message has two parts: a descriptive `path` which looks simalar to a URL (website address), and an optional list of `arguments` that are either numbers or strings.
+A typical OSC message has two parts: a descriptive `path` which looks similar to a URL (website address), and an optional list of `arguments` that are either numbers or strings.
 
 For example, a hypothetical synth program might accept this OSC message:
 
@@ -773,13 +773,13 @@ However, in order to send the OSC message you must first specify where to send i
 `osc \"/set/filter\", \"lowpass\", 80, 0.5`
 
 
-Note, by default, Sonic Pi listens for OSC messages on port `4560`, so you may send messages to an external machine running Sonic Pi if you know the IP address of that external machine. Any OSC messages received on port `4559` are automatically converted to standard cue events and displayed in the GUI's cue log. This also means that you can use `sync` to wait for the next incoming OSC message with a given path (see example).
+Note, by default, Sonic Pi listens for OSC messages on port `4560`, so you may send messages to an external machine running Sonic Pi if you know the IP address of that external machine. Any OSC messages received on port `4560` are automatically converted to standard cue events and displayed in the GUI's cue log. This also means that you can use `sync` to wait for the next incoming OSC message with a given path (see example).
 
-Finally, it is also very useful to send OSC messages to aother programs on the same computer. This can be achieved by specifying \"localhost\" as the hostname and the port as normal (depending on which port the other program is listening on).
+Finally, it is also very useful to send OSC messages to other programs on the same computer. This can be achieved by specifying \"localhost\" as the hostname and the port as normal (depending on which port the other program is listening on).
 
 See `osc_send` for a version which allows you to specify the hostname and port directly (ignoring any values set via `use_osc` or `with_osc`).
 
-For further information see the OSC spec: [http://opensoundcontrol.org/spec-1_0](http://opensoundcontrol.org/spec-1_0)
+For further information see the OSC spec: [http://opensoundcontrol.org/spec-1_0.html](http://opensoundcontrol.org/spec-1_0.html)
 ",
       examples: [
 " # Send a simple OSC message to another program on the same machine
@@ -789,7 +789,7 @@ osc \"/foo/bar\"             # Send an OSC message with path \"/foo/bar\"
                              # and no arguments
 ",
 
-" # Send an OSC messages with arguments to another program on the same machine
+" # Send an OSC message with arguments to another program on the same machine
 
 use_osc \"localhost\", 7000        # Specify port 7000 on this machine
 osc \"/foo/bar\", 1, 3.89, \"baz\" # Send an OSC message with path \"/foo/bar\"
@@ -799,7 +799,7 @@ osc \"/foo/bar\", 1, 3.89, \"baz\" # Send an OSC message with path \"/foo/bar\"
                                    # 3) The string \"baz\"
 ",
 
-" # Send an OSC messages with arguments to another program on a different machine
+" # Send an OSC message with arguments to another program on a different machine
 
 use_osc \"10.0.1.5\", 7000         # Specify port 7000 on the machine with address 10.0.1.5
 osc \"/foo/bar\", 1, 3.89, \"baz\" # Send an OSC message with path \"/foo/bar\"
