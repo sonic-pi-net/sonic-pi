@@ -62,7 +62,8 @@ enum class SonicPiPortId
     gui_listen_to_server,
     gui_send_to_server,
     scsynth,
-    server_osc_cues
+    server_osc_cues,
+    phx_http
 };
 
 // Log output of the API to the log files or the console?

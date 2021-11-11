@@ -3,7 +3,7 @@ cd %~dp0
 rem Ensure release has been created with:
 rem   mix release
 
-@echo Booting Sonic Pi on Windows...
+@echo Booting Tau on Windows...
 
 set TAU_CUES_ON=%1%
 set TAU_OSC_IN_UDP_LOOPBACK_RESTRICTED=%2%
@@ -14,9 +14,21 @@ set TAU_API_PORT=%6%
 set TAU_SPIDER_PORT=%7%
 set TAU_DAEMON_PORT=%8%
 set TAU_LOG_PATH=%9%
-set TAU_MIDI_ENABLED=true
-set TAU_LINK_ENABLED=true
+shift
+set TAU_MIDI_ENABLED=%9%
+shift
+set TAU_LINK_ENABLED=%9%
+shift
+set TAU_PHX_PORT=%9%
+shift
+set SECRET_KEY_BASE=%9%
+shift
+set TAU_ENV=%9%
 
-IF NOT DEFINED MIX_ENV SET "MIX_ENV=prod"
+set MIX_ENV=%TAU_ENV%
 
-_build\%MIX_ENV%\rel\tau\bin\tau start > log\tau_stdout.log 2>&1
+IF "%TAU_ENV%" == "dev" (
+  mix run --no-halt > log\tau_stdout.log 2>&1
+) ELSE (
+  _build\prod\rel\tau\bin\tau start > log\tau_stdout.log 2>&1
+)

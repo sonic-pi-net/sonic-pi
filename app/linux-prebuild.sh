@@ -68,9 +68,10 @@ PATH=`pkg-config --variable bindir Qt5`:$PATH lrelease "${SCRIPT_DIR}"/gui/qt/la
 
 echo "Compiling Erlang/Elixir files..."
 cd "${SCRIPT_DIR}"/server/beam/tau
-MIX_ENV="${MIX_ENV:-prod}" mix local.hex --force
-MIX_ENV="${MIX_ENV:-prod}" mix deps.get
-MIX_ENV="${MIX_ENV:-prod}" mix release --overwrite
+
+MIX_ENV=prod mix local.hex --force
+MIX_ENV=prod mix deps.get
+MIX_ENV=prod mix release --overwrite
 
 cp src/tau.app.src ebin/tau.app
 

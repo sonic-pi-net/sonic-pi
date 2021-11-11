@@ -263,8 +263,8 @@ bool SonicPiAPI::StartBootDaemon()
       LOG(INFO, "port: " + std::to_string(port));
     }
 
-    if(ports.size() != 5) {
-      LOG(ERR, "\nError. Was expecting 5 port numbers from the Daemon Booter. Got: " + std::to_string(ports.size()) + "\n");
+    if(ports.size() != 6) {
+      LOG(ERR, "\nError. Was expecting 6 port numbers from the Daemon Booter. Got: " + std::to_string(ports.size()) + "\n");
       return false;
     }
 
@@ -273,6 +273,7 @@ bool SonicPiAPI::StartBootDaemon()
     m_ports[SonicPiPortId::gui_send_to_server] = std::stoi(ports[2]);
     m_ports[SonicPiPortId::scsynth] = std::stoi(ports[3]);
     m_ports[SonicPiPortId::server_osc_cues] = std::stoi(ports[4]);
+    m_ports[SonicPiPortId::phx_http] = std::stoi(ports[5]);
 
     m_spOscSender = std::make_shared<OscSender>(std::stoi(ports[2]));
 

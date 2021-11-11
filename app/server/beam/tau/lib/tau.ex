@@ -53,6 +53,9 @@ defmodule Tau do
     end
 
     :tau_server_sup.start_link()
+
+    Logger.info("Starting Phoenix server")
+    Tau.Application.start(nil, nil)
   end
 
   def extract_env(name, kind, default) do

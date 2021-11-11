@@ -223,6 +223,10 @@ module SonicPi
       File.absolute_path("#{config_path}/audio-settings.toml")
     end
 
+    def self.user_tau_settings_path
+      File.absolute_path("#{config_path}/tau-settings.toml")
+    end
+
     def self.system_cache_store_path
       File.absolute_path("#{system_store_path}/cache.json")
     end
