@@ -59,6 +59,7 @@ SET MIX_ENV="prod"
 
 cmd /c mix local.hex --force
 cmd /c mix deps.get
+cmd /c mix phx.digest
 cmd /c mix release --overwrite
 
 cd %~dp0\server\beam\tau
