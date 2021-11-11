@@ -29,40 +29,40 @@ deinit_nif() ->
 enable(_) ->
     done.
 is_enabled() ->
-    done.
+    false.
 set_tempo(_, _) ->
     done.
 get_tempo() ->
-    done.
+    60.
 get_num_peers() ->
-    done.
+    0.
 start_stop_sync_enable(_) ->
     done.
 is_start_stop_sync_enabled() ->
-    done.
+    false.
 set_is_playing(_, _) ->
     done.
 is_playing() ->
-    done.
+    false.
 get_time_for_is_playing() ->
-    done.
+    0.
 get_beat_at_time(_, _) ->
-    done.
+    0.
 get_phase_at_time(_, _) ->
-    done.
+    0.
 get_time_at_beat(_, _) ->
-    done.
+    0.
 request_beat_at_time(_, _, _) ->
-    done.
+    0.
 force_beat_at_time(_, _, _) ->
-    done.
+    0.
 request_beat_at_start_playing_time(_, _) ->
-    done.
+    0.
 set_is_playing_and_request_beat_at_time(_, _, _, _) ->
     done.
 set_callback_pid(_) ->
     done.
 get_current_time_microseconds() ->
-    done.
+    0.
 set_log_level(_) ->
     done.

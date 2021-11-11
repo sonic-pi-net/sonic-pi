@@ -28,13 +28,13 @@ midi_send(_, _) ->
 midi_flush() ->
     done.
 midi_ins() ->
-    done.
+    [].
 midi_outs() ->
-    done.
+    [].
 have_my_pid() ->
     done.
 get_current_time_microseconds() ->
-    done.
+    0.
 set_log_level(_) ->
     done.
 set_this_pid(_) ->
