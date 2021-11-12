@@ -150,10 +150,6 @@ module SonicPi
         STDOUT.flush
 
         # Boot processes
-
-        Util.log "Booting Scsynth"
-        @scsynth_booter = ScsynthBooter.new(ports)
-
         Util.log "Booting Tau"
         begin
           @tau_booter = TauBooter.new(ports)
@@ -164,6 +160,8 @@ module SonicPi
           Util.log "Error Backtrace: #{e.backtrace.inspect}"
         end
 
+        Util.log "Booting Scsynth"
+        @scsynth_booter = ScsynthBooter.new(ports)
 
         Util.log "Booting Spider Server"
         @spider_booter  = SpiderBooter.new(ports)
