@@ -346,7 +346,7 @@ signals:
         static const int workspace_max = 10;
         SonicPiScintilla *workspaces[workspace_max];
         QWidget *prefsCentral;
-        QTabWidget *docsCentral;
+        QTabWidget *docsNavTabs;
         SonicPiLog *outputPane;
         SonicPiLog *incomingPane;
         SonicPiContext *contextPane;

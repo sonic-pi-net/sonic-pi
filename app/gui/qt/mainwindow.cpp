@@ -314,7 +314,7 @@ void MainWindow::showWelcomeScreen()
         source = source.replace("50dx", QString("%1px").arg(ScaleHeightForDPI(32)));
         startupPane->setHtml(source);
         docWidget->show();
-        docsCentral->setCurrentIndex(0);
+        docsNavTabs->setCurrentIndex(0);
         helpLists[0]->setCurrentRow(0);
         startupPane->show();
         startupPane->raise();
@@ -653,17 +653,18 @@ void MainWindow::setupWindowStructure()
     blankWidget = new QWidget();
     outputWidgetTitle = outputWidget->titleBarWidget();
 
-    docsCentral = new QTabWidget;
-    docsCentral->setFocusPolicy(Qt::NoFocus);
-    docsCentral->setTabsClosable(false);
-    docsCentral->setMovable(false);
-    docsCentral->setTabPosition(QTabWidget::South);
-    QShortcut* left = new QShortcut(Qt::Key_Left, docsCentral);
+    docsNavTabs = new QTabWidget;
+    docsNavTabs->setFocusPolicy(Qt::NoFocus);
+    docsNavTabs->setTabsClosable(false);
+    docsNavTabs->setMovable(false);
+    docsNavTabs->setTabPosition(QTabWidget::South);
+    QShortcut* left = new QShortcut(Qt::Key_Left, docsNavTabs);
     left->setContext(Qt::WidgetWithChildrenShortcut);
     connect(left, SIGNAL(activated()), this, SLOT(docPrevTab()));
-    QShortcut* right = new QShortcut(Qt::Key_Right, docsCentral);
+    QShortcut* right = new QShortcut(Qt::Key_Right, docsNavTabs);
     right->setContext(Qt::WidgetWithChildrenShortcut);
     connect(right, SIGNAL(activated()), this, SLOT(docNextTab()));
+
 
     docPane = new QTextBrowser;
     QSizePolicy policy = docPane->sizePolicy();
@@ -688,7 +689,7 @@ void MainWindow::setupWindowStructure()
 
     docsplit = new QSplitter;
 
-    docsplit->addWidget(docsCentral);
+    docsplit->addWidget(docsNavTabs);
     docsplit->addWidget(docPane);
 
     docWidget = new QDockWidget(tr("Help"), this);
@@ -1262,7 +1263,7 @@ void MainWindow::startupError(QString msg)
     connect(pButtons, &QDialogButtonBox::accepted, this, [=]() {
         finished();
     });
-   
+
     // When the dialog is done, quit
     connect(pDialog, &QDialog::finished, this, [=]() {
         finished();
@@ -1803,7 +1804,7 @@ void MainWindow::helpContext()
         {
             list->setCurrentRow(0);
         }
-        docsCentral->setCurrentIndex(entry.pageIndex);
+        docsNavTabs->setCurrentIndex(entry.pageIndex);
         list->setCurrentRow(entry.entryIndex);
     }
 }
@@ -2045,7 +2046,7 @@ void MainWindow::updateColourTheme()
     tabs->setStyleSheet("");
     //TODO inject to settings Widget
     //prefTabs->setStyleSheet("");
-    docsCentral->setStyleSheet("");
+    docsNavTabs->setStyleSheet("");
     docWidget->setStyleSheet("");
     toolBar->setStyleSheet("");
     scopeWidget->setStyleSheet("");
@@ -3442,7 +3443,7 @@ void MainWindow::addHelpPage(QListWidget* nameList,
 {
     int i;
     struct help_entry entry;
-    entry.pageIndex = docsCentral->count() - 1;
+    entry.pageIndex = docsNavTabs->count() - 1;
 
     for (i = 0; i < len; i++)
     {
@@ -3494,14 +3495,14 @@ QListWidget* MainWindow::createHelpTab(QString name)
     layout->setStretch(1, 1);
     QWidget* tabWidget = new QWidget;
     tabWidget->setLayout(layout);
-    docsCentral->addTab(tabWidget, name);
+    docsNavTabs->addTab(tabWidget, name);
     helpLists.append(nameList);
     return nameList;
 }
 
 void MainWindow::helpScrollUp()
 {
-    int section = docsCentral->currentIndex();
+    int section = docsNavTabs->currentIndex();
     int entry = helpLists[section]->currentRow();
 
     if (entry > 0)
@@ -3511,7 +3512,7 @@ void MainWindow::helpScrollUp()
 
 void MainWindow::helpScrollDown()
 {
-    int section = docsCentral->currentIndex();
+    int section = docsNavTabs->currentIndex();
     int entry = helpLists[section]->currentRow();
 
     if (entry < helpLists[section]->count() - 1)
@@ -3521,16 +3522,16 @@ void MainWindow::helpScrollDown()
 
 void MainWindow::docPrevTab()
 {
-    int section = docsCentral->currentIndex();
+    int section = docsNavTabs->currentIndex();
     if (section > 0)
-        docsCentral->setCurrentIndex(section - 1);
+        docsNavTabs->setCurrentIndex(section - 1);
 }
 
 void MainWindow::docNextTab()
 {
-    int section = docsCentral->currentIndex();
-    if (section < docsCentral->count() - 1)
-        docsCentral->setCurrentIndex(section + 1);
+    int section = docsNavTabs->currentIndex();
+    if (section < docsNavTabs->count() - 1)
+        docsNavTabs->setCurrentIndex(section + 1);
 }
 
 void MainWindow::docScrollUp()
@@ -3920,11 +3921,11 @@ void MainWindow::focusHelpListing()
 {
     docWidget->show();
     updatePrefsIcon();
-    docsCentral->showNormal();
-    docsCentral->currentWidget()->setFocus();
-    docsCentral->raise();
-    docsCentral->setVisible(true);
-    docsCentral->activateWindow();
+    docsNavTabs->showNormal();
+    docsNavTabs->currentWidget()->setFocus();
+    docsNavTabs->raise();
+    docsNavTabs->setVisible(true);
+    docsNavTabs->activateWindow();
 }
 
 void MainWindow::focusHelpDetails()
