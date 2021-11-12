@@ -14,7 +14,6 @@
 #include <iostream>
 
 #include <QApplication>
-#include <QSplashScreen>
 #include <QPixmap>
 #include <QBitmap>
 #include <QLabel>
@@ -55,22 +54,10 @@ int main(int argc, char *argv[])
   app.setApplicationName(QObject::tr("Sonic Pi"));
   app.setStyle("gtk");
 
-
 #ifdef __linux__
   //linux code goes here
-
   QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
   QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-  QPixmap pixmap(":/images/splash@2x.png");
-
-  QSplashScreen *splash = new QSplashScreen(pixmap);
-  splash->setMask(pixmap.mask());
-  splash->show();
-  splash->repaint();
-  app.processEvents();
-  MainWindow mainWin(app, splash);
-
-  return app.exec();
 #elif _WIN32
   // windows code goes here
 
@@ -83,38 +70,13 @@ int main(int argc, char *argv[])
       QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     }
-
-  QPixmap pixmap;
-  QSplashScreen *splash;
-
-  if (GetDisplayScale().width() > 1.8f)
-    {
-      QPixmap pixmap(":/images/splash2x.png");
-      splash = new QSplashScreen(pixmap);
-    } else
-    {
-      QPixmap pixmap(":/images/splash.png");
-      splash = new QSplashScreen(pixmap);
-    }
-
-
-  splash->setMask(pixmap.mask());
-  splash->show();
-  splash->repaint();
-  app.processEvents();
-  MainWindow mainWin(app, splash);
-
-  // Fix for full screen mode. See: https://doc.qt.io/qt-5/windows-issues.html#fullscreen-opengl-based-windows
-  QWindowsWindowFunctions::setHasBorderInFullScreen(mainWin.windowHandle(), true);
-
-  return app.exec();
-
 #elif __APPLE__
   // macOS code goes here
-
   SonicPi::removeMacosSpecificMenuItems();
-
   QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+  return app.exec();
+
+#endif
 
   QMainWindow* splashWindow = new QMainWindow(0, Qt::FramelessWindowHint);
   QLabel* imageLabel = new QLabel();
@@ -131,9 +93,17 @@ int main(int argc, char *argv[])
   splashWindow->raise();
   splashWindow->show();
   app.processEvents();
-
   MainWindow mainWin(app, splashWindow);
-  return app.exec();
+
+#ifdef __linux__
+
+#elif _WIN32
+    // Fix for full screen mode. See: https://doc.qt.io/qt-5/windows-issues.html#fullscreen-opengl-based-windows
+  QWindowsWindowFunctions::setHasBorderInFullScreen(mainWin.windowHandle(), true);
+
+#elif __APPLE__
 
 #endif
+  return app.exec();
+
 }

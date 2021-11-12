@@ -35,7 +35,6 @@
 #include <QPlainTextEdit>
 #include <QScrollBar>
 #include <QShortcut>
-#include <QSplashScreen>
 #include <QSplitter>
 #include <QStatusBar>
 #include <QStyle>
@@ -94,11 +93,7 @@ using namespace std::chrono;
 
 using namespace SonicPi;
 
-#ifdef Q_OS_MAC
 MainWindow::MainWindow(QApplication& app, QMainWindow* splash)
-#else
-MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
-#endif
 {
     app.installEventFilter(this);
     app.processEvents();
@@ -130,7 +125,6 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
     latest_version = "";
     version_num = 0;
     latest_version_num = 0;
-    this->splash = splash;
     QString settings_path = sonicPiConfigPath() + QDir::separator() + "gui-settings.ini";
 
     gui_settings = new QSettings(settings_path, QSettings::IniFormat);
@@ -1084,11 +1078,7 @@ QString MainWindow::rootPath()
 
 void MainWindow::splashClose()
 {
-#if defined(Q_OS_MAC)
-    splash->close();
-#else
-    splash->finish(this);
-#endif
+  splash->close();
 }
 
 void MainWindow::showWindow()

@@ -62,7 +62,6 @@ class QSignalMapper;
 class QTabWidget;
 class QCheckBox;
 class QVBoxLayout;
-class QSplashScreen;
 class QLabel;
 
 class InfoWidget;
@@ -93,11 +92,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
     public:
-#if defined(Q_OS_MAC)
-        MainWindow(QApplication &ref, QMainWindow* splash);
-#else
-        MainWindow(QApplication &ref, QSplashScreen* splash);
-#endif
+  MainWindow(QApplication &ref, QMainWindow* splash);
 
         SonicPiLog* GetOutputPane() const;
         SonicPiLog* GetIncomingPane() const;
@@ -345,11 +340,7 @@ signals:
         bool show_rec_icon_a;
         QTimer *rec_flash_timer;
 
-#ifdef Q_OS_MAC
         QMainWindow* splash;
-#else
-        QSplashScreen* splash;
-#endif
 
         bool i18n;
         static const int workspace_max = 10;
