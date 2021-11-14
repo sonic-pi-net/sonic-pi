@@ -3296,7 +3296,7 @@ Steal This Sound,  Mitchell Sigman"
       end
 
       def introduced
-        Version.new(3,3,0)
+        Version.new(4,0,0)
       end
 
       def synth_name
@@ -3369,7 +3369,7 @@ Steal This Sound,  Mitchell Sigman"
           },
           :lfo_rate =>
           {
-            :doc => "Width of the low-frequency oscillator (LFO) which determines how fast base tones oscillate around their base frequencies",
+            :doc => "Rate of the low-frequency oscillator (LFO) which determines how fast base tones oscillate around their base frequencies",
             :modulatable => true
           },
         }
@@ -3382,7 +3382,7 @@ Steal This Sound,  Mitchell Sigman"
       end
 
       def introduced
-        Version.new(3,3,0)
+        Version.new(4,0,0)
       end
 
       def synth_name
@@ -3435,7 +3435,7 @@ Steal This Sound,  Mitchell Sigman"
       end
 
       def introduced
-        Version.new(3,3,0)
+        Version.new(4,0,0)
       end
 
       def synth_name
