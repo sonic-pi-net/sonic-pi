@@ -143,11 +143,6 @@ module SonicPi
 
         @zombie_kill_switch = spawn_zombie_kill_switch(ports["daemon-keep-alive"])
 
-        # Let the calling process (likely the GUI) know which port to
-        # listen to and communicate on with the Ruby spider server via
-        # STDOUT.
-        puts "#{ports["daemon-keep-alive"]} #{ports["gui-listen-to-server"]} #{ports["gui-send-to-server"]} #{ports["scsynth"]} #{ports["osc-cues"]} #{ports["phx"]}"
-        STDOUT.flush
 
         # Boot processes
         Util.log "Booting Tau"
@@ -159,6 +154,13 @@ module SonicPi
           Util.log "Error Message: #{e.message}"
           Util.log "Error Backtrace: #{e.backtrace.inspect}"
         end
+
+        # Let the calling process (likely the GUI) know which port to
+        # listen to and communicate on with the Ruby spider server via
+        # STDOUT.
+        puts "#{ports["daemon-keep-alive"]} #{ports["gui-listen-to-server"]} #{ports["gui-send-to-server"]} #{ports["scsynth"]} #{ports["osc-cues"]} #{@tau_booter.phx_port}"
+        STDOUT.flush
+
 
         Util.log "Booting Scsynth"
         @scsynth_booter = ScsynthBooter.new(ports)
@@ -538,6 +540,8 @@ module SonicPi
 
 
     class TauBooter < ProcessBooter
+      attr_reader :phx_port
+
       def initialize(ports)
         begin
           Util.log "fetching toml opts"
@@ -560,7 +564,7 @@ module SonicPi
         daemon_port                    = ports["daemon-listen-to-tau"]
         midi_enabled                   = true
         link_enabled                   = true
-        phx_port                       = unified_opts[:phx_port] || ports["phx"]
+        @phx_port                      = unified_opts[:phx_port] || ports["phx"]
         phx_secret_key_base            = SecureRandom.base64(64)
         env                            = unified_opts[:env] || "prod"
 

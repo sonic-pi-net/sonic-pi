@@ -63,6 +63,7 @@ class QTabWidget;
 class QCheckBox;
 class QVBoxLayout;
 class QLabel;
+class QWebEngineView;
 
 class InfoWidget;
 class SettingsWidget;
@@ -347,6 +348,8 @@ signals:
         SonicPiScintilla *workspaces[workspace_max];
         QWidget *prefsCentral;
         QTabWidget *docsNavTabs;
+        QTabWidget *southTabs;
+
         SonicPiLog *outputPane;
         SonicPiLog *incomingPane;
         SonicPiContext *contextPane;
@@ -360,6 +363,7 @@ signals:
         QWidget *blankWidget;
         QWidget *outputWidgetTitle;
         QTextBrowser *docPane;
+        QWebEngineView *phxView;
         //  QTextBrowser *hudPane;
         QWidget *mainWidget;
         QDockWidget *scopeWidget;
@@ -374,7 +378,6 @@ signals:
         SonicPiTheme *theme;
 
         QToolBar *toolBar;
-
   QAction *exitAct, *runAct, *stopAct, *saveAsAct, *loadFileAct, *recAct, *textAlignAct, *textIncAct, *textDecAct, *scopeAct, *infoAct, *helpAct, *prefsAct, *focusEditorAct, *focusLogsAct, *focusContextAct, *focusCuesAct, *focusPreferencesAct, *focusHelpListingAct, *focusHelpDetailsAct, *focusErrorsAct, *showLineNumbersAct, *showAutoCompletionAct, *showContextAct, *audioSafeAct, *audioTimingGuaranteesAct, *enableExternalSynthsAct, *mixerInvertStereoAct, *mixerForceMonoAct, *midiEnabledAct, *enableOSCServerAct, *allowRemoteOSCAct, *showLogAct, *showCuesAct, *logAutoScrollAct, *logCuesAct, *logSynthsAct, *clearOutputOnRunAct, *autoIndentOnRunAct, *showButtonsAct, *showTabsAct, *fullScreenAct, *lightThemeAct, *darkThemeAct, *proLightThemeAct, *proDarkThemeAct, *highContrastThemeAct, *showScopeLabelsAct;
   QShortcut *runSc, *stopSc, *saveAsSc, *loadFileSc, *recSc, *textAlignSc, *textIncSc, *textDecSc, *scopeSc, *infoSc, *helpSc, *prefsSc, *focusEditorSc, *focusLogsSc, *focusContextSc, *focusCuesSc, *focusPreferencesSc, *focusHelpListingSc, *focusHelpDetailsSc, *focusErrorsSc;
         QActionGroup *langActionGroup;

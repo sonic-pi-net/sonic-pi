@@ -36,7 +36,7 @@ set(QT_TOOLS_DIR ${CMAKE_PREFIX_PATH}/bin)
 set_property(GLOBAL PROPERTY AUTOMOC_FOLDER Automoc)
 set_property(GLOBAL PROPERTY AUTOGEN_TARGETS_FOLDER Automoc)
 
-find_package(Qt5 COMPONENTS Core Widgets Gui Concurrent Network OpenGL PrintSupport Xml Svg REQUIRED)
+find_package(Qt5 COMPONENTS Core Widgets Gui Concurrent Network OpenGL PrintSupport Xml Svg WebEngineWidgets REQUIRED)
 find_package(Threads REQUIRED)
 
 # We build QScintilla as part of the main project to make it easy to debug/fix
@@ -197,6 +197,7 @@ target_link_libraries(${APP_NAME}
     Qt5::OpenGL
     Qt5::Concurrent
     Qt5::Network
+    Qt5::WebEngineWidgets
     Threads::Threads)
 
 # Compile options and OS specific libraries

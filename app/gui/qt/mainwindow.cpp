@@ -43,6 +43,7 @@
 #include <QToolBar>
 #include <QToolButton>
 #include <QVBoxLayout>
+#include <QWebEngineView>
 
 #include "mainwindow.h"
 
@@ -185,9 +186,16 @@ MainWindow::MainWindow(QApplication& app, QMainWindow* splash)
     QThreadPool::globalInstance()->setMaxThreadCount(3);
 
     startupOK = m_spAPI->WaitUntilReady();
+
     if (startupOK)
     {
         // We have a connection! Finish up loading app...
+        QUrl phxUrl;
+        phxUrl.setUrl("http://localhost");
+        phxUrl.setPort(m_spAPI->GetPort(SonicPiPortId::phx_http));
+        std::cout << "[GUI] - loading up web view with URL: " << phxUrl.toString().toStdString() << std::endl;
+        // load phoenix webview
+        phxView->load(phxUrl);
         scopeWindow->Booted();
         std::cout << "[GUI] - honour prefs" << std::endl;
         restoreWindows();
@@ -665,7 +673,7 @@ void MainWindow::setupWindowStructure()
     right->setContext(Qt::WidgetWithChildrenShortcut);
     connect(right, SIGNAL(activated()), this, SLOT(docNextTab()));
 
-
+    phxView = new QWebEngineView(this);
     docPane = new QTextBrowser;
     QSizePolicy policy = docPane->sizePolicy();
     policy.setHorizontalStretch(QSizePolicy::Maximum);
@@ -689,13 +697,22 @@ void MainWindow::setupWindowStructure()
 
     docsplit = new QSplitter;
 
+
+
     docsplit->addWidget(docsNavTabs);
     docsplit->addWidget(docPane);
+
+    southTabs = new QTabWidget;
+    southTabs->setTabPosition(QTabWidget::West);
+    southTabs->setTabsClosable(false);
+    southTabs->setMovable(false);
+    southTabs->addTab(docsplit, "Docs");
+    southTabs->addTab(phxView, "PhX");
 
     docWidget = new QDockWidget(tr("Help"), this);
     docWidget->setFocusPolicy(Qt::NoFocus);
     docWidget->setAllowedAreas(Qt::BottomDockWidgetArea);
-    docWidget->setWidget(docsplit);
+    docWidget->setWidget(southTabs);
     docWidget->setObjectName("help");
 
     addDockWidget(Qt::BottomDockWidgetArea, docWidget);
