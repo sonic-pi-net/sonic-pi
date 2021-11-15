@@ -56,6 +56,9 @@ To be released...
 
 
 ### Synths & FX
+* New synth `:winwood_lead` - a lead synth inspired by the Winwood songs from the early 80s.
+* New synth `:bass_foundation` - a soft bass synth inspired by the sounds of the 80s.
+* New synth `:bass_highend` - an addition to the :bass_foundation synth inspired by the sounds of the 80s.
 
 
 ### GUI
