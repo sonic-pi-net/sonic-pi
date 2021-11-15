@@ -146,9 +146,3 @@ etc/synthdefs/designs/overtone/sonic-pi/native
 
 # Visual Studio settings folder.
 .vs
-
-
-# Erlang priv dir (for dlls)
-app/server/beam/tau/priv/*
-app/server/beam/tau/ebin/*
-app/server/beam/tau/log/*

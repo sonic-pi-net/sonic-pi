@@ -34,3 +34,10 @@ tau-*.tar
 npm-debug.log
 /assets/node_modules/
 
+
+/priv/*.so
+/priv/*.dylib
+/priv/*.dll
+/priv/static/*.gz
+/ebin/*
+/log/*
