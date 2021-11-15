@@ -17,6 +17,7 @@ require 'shellwords'
 require 'open3'
 require 'fileutils'
 require 'time'
+require 'securerandom'
 
 require_relative "../lib/sonicpi/osc/osc"
 require_relative "../lib/sonicpi/promise"
@@ -106,6 +107,9 @@ Thread::abort_on_exception = true
 #
 # osc-cues:             UDP port used to receive OSC cue messages from external
 #                       processes.
+#
+# phx:                  HTTP port used by the Phoenix web server
+
 
 module SonicPi
   module Daemon
@@ -139,17 +143,8 @@ module SonicPi
 
         @zombie_kill_switch = spawn_zombie_kill_switch(ports["daemon-keep-alive"])
 
-        # Let the calling process (likely the GUI) know which port to
-        # listen to and communicate on with the Ruby spider server via
-        # STDOUT.
-        puts "#{ports["daemon-keep-alive"]} #{ports["gui-listen-to-server"]} #{ports["gui-send-to-server"]} #{ports["scsynth"]} #{ports["osc-cues"]}"
-        STDOUT.flush
 
         # Boot processes
-
-        Util.log "Booting Scsynth"
-        @scsynth_booter = ScsynthBooter.new(ports)
-
         Util.log "Booting Tau"
         begin
           @tau_booter = TauBooter.new(ports)
@@ -160,6 +155,15 @@ module SonicPi
           Util.log "Error Backtrace: #{e.backtrace.inspect}"
         end
 
+        # Let the calling process (likely the GUI) know which port to
+        # listen to and communicate on with the Ruby spider server via
+        # STDOUT.
+        puts "#{ports["daemon-keep-alive"]} #{ports["gui-listen-to-server"]} #{ports["gui-send-to-server"]} #{ports["scsynth"]} #{ports["osc-cues"]} #{@tau_booter.phx_port}"
+        STDOUT.flush
+
+
+        Util.log "Booting Scsynth"
+        @scsynth_booter = ScsynthBooter.new(ports)
 
         Util.log "Booting Spider Server"
         @spider_booter  = SpiderBooter.new(ports)
@@ -508,11 +512,7 @@ module SonicPi
         @log_file.close if @log_file
 
       end
-
     end
-
-
-
 
     class SpiderBooter < ProcessBooter
       def initialize(ports)
@@ -522,7 +522,6 @@ module SonicPi
         scsynth_send_port         = ports["scsynth-send"]
         osc_cues_port             = ports["osc-cues"]
         tau_port                  = ports["tau"]
-        websocket_port            = ports["websocket"]
         listen_to_tau_port        = ports["listen-to-tau"]
         cmd = Paths.ruby_path
         args = ["--enable-frozen-string-literal", "-E", "utf-8",
@@ -534,24 +533,40 @@ module SonicPi
           scsynth_send_port,
           osc_cues_port,
           tau_port,
-          listen_to_tau_port,
-          websocket_port]
+          listen_to_tau_port]
         super(cmd, args, Paths.spider_log_path)
       end
     end
 
 
     class TauBooter < ProcessBooter
+      attr_reader :phx_port
+
       def initialize(ports)
-        @tau_pid = Promise.new
-        enabled      = true
-        internal     = false
-        midi_enabled = true
-        link_enabled = true
-        in_port      = ports["osc-cues"]
-        api_port     = ports["tau"]
-        spider_port  = ports["listen-to-tau"]
-        daemon_port  = ports["daemon-listen-to-tau"]
+        begin
+          Util.log "fetching toml opts"
+          toml_opts_hash = Tomlrb.load_file(Paths.user_tau_settings_path, symbolize_keys: true).freeze
+          Util.log "got them: #{toml_opts_hash}"
+          unified_opts = unify_tau_toml_opts(toml_opts_hash)
+          Util.log "unified them: #{unified_opts}"
+        rescue StandardError
+          unified_opts = {}
+        end
+
+        @tau_pid                       = Promise.new
+        cues_on                        = true
+        osc_in_udp_loopback_restricted = false
+        midi_on                        = true
+        link_on                        = true
+        osc_in_udp_port                = ports["osc-cues"]
+        api_port                       = ports["tau"]
+        spider_port                    = ports["listen-to-tau"]
+        daemon_port                    = ports["daemon-listen-to-tau"]
+        midi_enabled                   = true
+        link_enabled                   = true
+        @phx_port                      = unified_opts[:phx_port] || ports["phx"]
+        phx_secret_key_base            = SecureRandom.base64(64)
+        env                            = unified_opts[:env] || "prod"
 
         @osc_out_queue = SizedQueue.new(20)
 
@@ -637,15 +652,20 @@ module SonicPi
         comms_thread_started.get
 
         args = [
-          enabled,
-          internal,
-          midi_enabled,
-          link_enabled,
-          in_port,
+          cues_on,
+          osc_in_udp_loopback_restricted,
+          midi_on,
+          link_on,
+          osc_in_udp_port,
           api_port,
           spider_port,
           daemon_port,
-          Paths.tau_log_path
+          Paths.tau_log_path,
+          midi_enabled,
+          link_enabled,
+          phx_port,
+          phx_secret_key_base,
+          env
         ]
 
         if Util.os == :windows
@@ -656,6 +676,28 @@ module SonicPi
         end
 
         super(cmd, args, nil)
+      end
+
+      def unify_tau_toml_opts(opts)
+        unified_opts = {}
+
+        # env should be either "dev" or "prod"
+        case opts[:env].to_s.downcase.strip
+        when "dev"
+          unified_opts[:env] = "dev"
+        when "prod"
+          unified_opts[:env] = "prod"
+        end
+
+        # phx_port should be a positive integer
+        begin
+          phx_port = opts[:phx_port].to_i
+          unified_opts[:phx_port] = phx_port if phx_port > 0
+        rescue
+          # do nothing
+        end
+
+        unified_opts.freeze
       end
 
       def process_running?
@@ -905,9 +947,8 @@ module SonicPi
 
         "daemon-listen-to-tau" => :dynamic,
 
-        # Port which the server uses to communicate via websockets
-        # (This is currently unused.)
-        "websocket" => :dynamic
+        # Port which the Phoenix webserver runs on
+        "phx" => :dynamic
       }.freeze
 
       def initialize(safe_exit)
@@ -934,7 +975,7 @@ module SonicPi
           "tau",
           "listen-to-tau",
           "daemon-listen-to-tau",
-          "websocket"].inject({}) do |res, port_name|
+          "phx"].inject({}) do |res, port_name|
 
           default = nil
           case port_name

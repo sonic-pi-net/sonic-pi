@@ -55,9 +55,11 @@ forfiles /p gui\qt\lang /s /m *.ts /c "cmd /c %QT_INSTALL_LOCATION%\bin\lrelease
 @echo Compiling Erlang/Elixir files...
 cd %~dp0\server\beam\tau
 
-IF NOT DEFINED MIX_ENV SET "MIX_ENV=prod"
+SET MIX_ENV="prod"
+
 cmd /c mix local.hex --force
 cmd /c mix deps.get
+cmd /c mix phx.digest
 cmd /c mix release --overwrite
 
 cd %~dp0\server\beam\tau
