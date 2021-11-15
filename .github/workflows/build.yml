@@ -78,6 +78,7 @@ jobs:
     - name: Install Qt
       uses: jurplel/install-qt-action@v2
       with:
+        modules: "qtwebengine"
         cached: ${{ steps.cache-qt2.outputs.cache-hit }}
 
       # Install Elixir on Ubuntu
