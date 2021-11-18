@@ -74,8 +74,6 @@ int main(int argc, char *argv[])
   // macOS code goes here
   SonicPi::removeMacosSpecificMenuItems();
   QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-  return app.exec();
-
 #endif
 
   QMainWindow* splashWindow = new QMainWindow(0, Qt::FramelessWindowHint);
