@@ -896,7 +896,15 @@ module SonicPi
 
 
         if scsynth_opts_override.empty?
-          return {"-u" => @port}.merge(DEFAULT_OPTS).merge(OS_SPECIFIC_OPTS).merge(opts).merge(scsynth_opts)
+          merged_opts = {"-u" => @port}.merge(DEFAULT_OPTS).merge(OS_SPECIFIC_OPTS).merge(opts).merge(scsynth_opts)
+
+          # reduce number of inputs to 0 if inputs are disabled
+          merged_opts["-i"] = 0 if merged_opts["-I"] == "0"
+
+          # reduce number of outputs to 0 if outputs are disabled
+          merged_opts["-o"] = 0 if merged_opts["-O"] == "0"
+
+          return merged_opts
         else
           return scsynth_opts_override
         end
