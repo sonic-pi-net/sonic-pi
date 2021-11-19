@@ -645,6 +645,8 @@ module SonicPi
           end
 
           @tau_comms_thread.join
+          @tau_keep_alive_thread.kill
+          @tau_send_thread.kill
           client.close if client
           tau_comms.close if tau_comms
         end
