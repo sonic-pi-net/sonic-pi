@@ -678,6 +678,7 @@ void MainWindow::setupWindowStructure()
     phxProfile = new QWebEngineProfile(this);
     phxPage = new QWebEnginePage(phxProfile);
     phxView->setPage(phxPage);
+    phxView->setContextMenuPolicy(Qt::NoContextMenu);
 
     docPane = new QTextBrowser;
     QSizePolicy policy = docPane->sizePolicy();
