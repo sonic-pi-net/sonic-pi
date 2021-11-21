@@ -851,7 +851,7 @@ end
       doc name:           :reset,
           introduced:     Version.new(2,11,0),
           summary:        "Reset all thread locals",
-          args:           [[]],
+          args:           [],
           returns:        nil,
           opts:           nil,
           accepts_block:  false,
@@ -915,7 +915,7 @@ end"]
       doc name:           :clear,
           introduced:     Version.new(2,11,0),
           summary:        "Clear all thread locals to defaults",
-          args:           [[]],
+          args:           [],
           returns:        nil,
           opts:           nil,
           accepts_block:  false,
@@ -2143,7 +2143,7 @@ end"
 The loop must either `sleep` or `sync` each time round otherwise it will stop and throw an error. This is to stop the loop from spinning out of control and locking the system.
 
 For a more powerful, flexible loop built for live coding see `live_loop`.",
-          args:           [[]],
+          args:           [],
           opts:           nil,
           accepts_block:  true,
           requires_block: true,
@@ -2362,7 +2362,7 @@ end                           # logical time of live loop :bar.
           introduced:     Version.new(2,9,0),
           summary:        "Return block duration",
           doc:            "Given a block, runs it and returns the amount of time that has passed. This time is in seconds and is not scaled to the current BPM. Any threads spawned in the block are not accounted for.",
-          args:           [[]],
+          args:           [],
           opts:           nil,
           accepts_block:  true,
           requires_block: true,
@@ -2398,7 +2398,7 @@ puts dur #=> Returns 1.5 as 1.5 seconds have passed within the block
           introduced:     Version.new(2,9,0),
           summary:        "Determine if block contains sleep time",
           doc:            "Given a block, runs it and returns whether or not the block contained sleeps or syncs",
-          args:           [[]],
+          args:           [],
           opts:           nil,
           accepts_block:  true,
           requires_block: true,
@@ -3266,7 +3266,7 @@ print rand_i_look(5) # will print either 0, 1, 2, 3, or 4 to the output pane"
       doc name:           :rand_reset,
           introduced:     Version.new(2,7,0),
           summary:        "Reset rand generator to last seed",
-          args:           [[]],
+          args:           [],
           opts:           nil,
           accepts_block:  false,
           doc:            "Resets the random stream to the last specified seed. See `use_random_seed` for changing the seed.",
@@ -3999,7 +3999,7 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
           introduced:    Version.new(2,10,0),
           summary:       "Get current beat",
           doc:           "Returns the beat value for the current thread/live_loop. Beats are advanced only by calls to `sleep` and `sync`. Beats are distinct from virtual time (the value obtained by calling `vt`) in that it has no notion of rate. It is just essentially a counter for sleeps. After a `sync`, the beat is overridden with the beat value from the thread which called `cue`. ",
-          args:          [[]],
+          args:          [],
           opts:          nil,
           accepts_block: false,
           examples:      ["
@@ -4120,7 +4120,7 @@ Set sched ahead time to 0 for the current thread. Shorthand for `use_sched_ahead
 See `use_sched_ahead_time` for a version of this function which allows you to set the schedule ahead time to any arbitrary value. Note, `use_real_time` will override any value set with `set_sched_ahead_time!` for the current thread.
 
 ",
-          args:          [[]],
+          args:          [],
           opts:          nil,
           modifies_env: true,
           accepts_block: false,
@@ -4149,7 +4149,7 @@ Sets sched ahead time to 0 within the block for the current thread. Shorthand fo
 See `with_sched_ahead_time` for a version of this function which allows you to set the schedule ahead time to any arbitrary value. Note, `with_real_time` will override any value set with `set_sched_ahead_time!` for the current thread.
 
 ",
-          args:          [[]],
+          args:          [],
           opts:          nil,
           modifies_env: true,
           accepts_block: false,
