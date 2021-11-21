@@ -64,6 +64,8 @@ class QCheckBox;
 class QVBoxLayout;
 class QLabel;
 class QWebEngineView;
+class QWebEngineProfile;
+class QWebEnginePage;
 
 class InfoWidget;
 class SettingsWidget;
@@ -364,6 +366,8 @@ signals:
         QWidget *outputWidgetTitle;
         QTextBrowser *docPane;
         QWebEngineView *phxView;
+        QWebEnginePage *phxPage;
+        QWebEngineProfile *phxProfile;
         //  QTextBrowser *hudPane;
         QWidget *mainWidget;
         QDockWidget *scopeWidget;

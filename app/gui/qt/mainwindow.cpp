@@ -39,6 +39,7 @@
 #include <QStatusBar>
 #include <QStyle>
 #include <QTextBrowser>
+#include <QWebEngineProfile>
 #include <QTextStream>
 #include <QToolBar>
 #include <QToolButton>
@@ -674,6 +675,10 @@ void MainWindow::setupWindowStructure()
     connect(right, SIGNAL(activated()), this, SLOT(docNextTab()));
 
     phxView = new QWebEngineView(this);
+    phxProfile = new QWebEngineProfile(this);
+    phxPage = new QWebEnginePage(phxProfile);
+    phxView->setPage(phxPage);
+
     docPane = new QTextBrowser;
     QSizePolicy policy = docPane->sizePolicy();
     policy.setHorizontalStretch(QSizePolicy::Maximum);
