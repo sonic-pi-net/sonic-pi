@@ -36,18 +36,10 @@ config :tau, TauWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: phx_port]
 
 if config_env() == :dev do
-  # secret_key_base =
-  #   System.get_env("SECRET_KEY_BASE") ||
-  #   "pDakDMi+9PfJKYIHcdf7MGIog4NRPiuws5eUT6M6Kcg3Wad69hT+tVwOccyjfYJ"
-  IO.puts "dev"
-
   secret_key_base =
     System.get_env("SECRET_KEY_BASE") ||
-      raise """
-      environment variable SECRET_KEY_BASE is missing.
-      You can generate one by calling: mix phx.gen.secret
-      """
-  IO.puts secret_key_base
+    "pDakDMi+9PfJKYIHcdf7MGIog4NRPiuws5eUT6M6Kcg3Wad69hT+tVwOccyjfYJ"
+
   config :tau, TauWeb.Endpoint,
     secret_key_base: secret_key_base
 end
