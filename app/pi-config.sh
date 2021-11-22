@@ -41,11 +41,11 @@ mkdir -p "${SCRIPT_DIR}/build"
 echo "Generating makefiles..."
 cd "${SCRIPT_DIR}/build"
 
-if [ $no_imgui == true ]
+if [ "$no_imgui" == true ]
 then
-    cmake -G "Unix Makefiles" -DBUILD_IMGUI_INTERFACE=OFF -DRASPBERRY_PI=1 -DCMAKE_BUILD_TYPE=\"$config\" ..
+    cmake -G "Unix Makefiles" -DBUILD_IMGUI_INTERFACE=OFF -DRASPBERRY_PI=1 -DCMAKE_BUILD_TYPE="$config" ..
 else
-    cmake -G "Unix Makefiles" -DBUILD_IMGUI_INTERFACE=ON -DRASPBERRY_PI=1 -DCMAKE_BUILD_TYPE=\"$config\" ..
+    cmake -G "Unix Makefiles" -DBUILD_IMGUI_INTERFACE=ON -DRASPBERRY_PI=1 -DCMAKE_BUILD_TYPE="$config" ..
 fi
 
 # Restore working directory as it was prior to this script running...

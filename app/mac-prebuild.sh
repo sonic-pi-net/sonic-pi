@@ -34,7 +34,7 @@ fi
 cd vcpkg
 triplet=(x64-osx)
 
-if [ $no_imgui == true ]
+if [ "$no_imgui" == true ]
 then
     ./vcpkg install kissfft crossguid platform-folders reproc catch2 --triplet ${triplet[0]} --recurse
 else
@@ -106,7 +106,7 @@ cd "${SCRIPT_DIR}"/server/beam/tau
 MIX_ENV=prod mix local.hex --force
 MIX_ENV=prod mix local.rebar --force
 MIX_ENV=prod mix deps.get
-MIX_ENV=prod mix phx.digest
+MIX_ENV=prod mix assets.deploy
 MIX_ENV=prod mix release --overwrite
 
 cp src/tau.app.src ebin/tau.app
