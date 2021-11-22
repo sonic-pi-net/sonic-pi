@@ -30,5 +30,5 @@ set MIX_ENV=%TAU_ENV%
 IF "%TAU_ENV%" == "dev" (
   mix run --no-halt > log\tau_stdout.log 2>&1
 ) ELSE (
-  _build\prod\rel\tau\bin\tau start > log\tau_stdout.log 2>&1
+  _build\prod\rel\tau\bin\tau start > NUL 2>&1
 )
