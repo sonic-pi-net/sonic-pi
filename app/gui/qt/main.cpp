@@ -14,6 +14,7 @@
 #include <iostream>
 
 #include <QApplication>
+#include <QSplashScreen>
 #include <QPixmap>
 #include <QBitmap>
 #include <QLabel>
@@ -76,22 +77,13 @@ int main(int argc, char *argv[])
   QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 #endif
 
-  QMainWindow* splashWindow = new QMainWindow(0, Qt::FramelessWindowHint);
-  QLabel* imageLabel = new QLabel();
-  splashWindow->setAttribute( Qt::WA_TranslucentBackground);
-  QPixmap image(":/images/splash@2x.png");
-  imageLabel->setPixmap(image);
+  QPixmap pixmap(":/images/splash@2x.png");
 
-  splashWindow->setCentralWidget(imageLabel);
-  splashWindow->setMinimumHeight(image.height()/2);
-  splashWindow->setMaximumHeight(image.height()/2);
-  splashWindow->setMinimumWidth(image.width()/2);
-  splashWindow->setMaximumWidth(image.width()/2);
-
-  splashWindow->raise();
-  splashWindow->show();
+  QSplashScreen *splash = new QSplashScreen(pixmap);
+  splash->show();
   app.processEvents();
-  MainWindow mainWin(app, splashWindow);
+
+  MainWindow mainWin(app, splash);
 
 #ifdef __linux__
 

@@ -62,6 +62,7 @@ class QSignalMapper;
 class QTabWidget;
 class QCheckBox;
 class QVBoxLayout;
+class QSplashScreen;
 class QLabel;
 class QWebEngineView;
 class QWebEngineProfile;
@@ -95,7 +96,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
     public:
-  MainWindow(QApplication &ref, QMainWindow* splash);
+        MainWindow(QApplication &ref, QSplashScreen* splash);
 
         SonicPiLog* GetOutputPane() const;
         SonicPiLog* GetIncomingPane() const;
@@ -343,7 +344,7 @@ signals:
         bool show_rec_icon_a;
         QTimer *rec_flash_timer;
 
-        QMainWindow* splash;
+        QSplashScreen* splash;
 
         bool i18n;
         static const int workspace_max = 10;
