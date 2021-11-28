@@ -26,40 +26,29 @@
 
 #include "dpi.h"
 
-#ifdef _WIN32
-#include <QtPlatformHeaders\QWindowsWindowFunctions>
+#ifdef Q_OS_WIN
+#include <QtPlatformHeaders/QWindowsWindowFunctions>
 #endif
 
-#ifdef Q_OS_MAC
-    #include "platform/macos.h"
+#ifdef Q_OS_DARWIN
+#include "platform/macos.h"
 #endif
 
 int main(int argc, char *argv[])
 {
   std::cout << "Starting Sonic Pi..." << std::endl;
-#ifndef Q_OS_MAC
+
+#ifndef Q_OS_DARWIN
   Q_INIT_RESOURCE(SonicPi);
 #endif
 
-  QApplication app(argc, argv);
-
   QApplication::setAttribute(Qt::AA_DontShowIconsInMenus, true);
 
-  QFontDatabase::addApplicationFont(":/fonts/Hack-Regular.ttf");
-  QFontDatabase::addApplicationFont(":/fonts/Hack-Italic.ttf");
-  QFontDatabase::addApplicationFont(":/fonts/Hack-Bold.ttf");
-  QFontDatabase::addApplicationFont(":/fonts/Hack-BoldItalic.ttf");
-
-  qRegisterMetaType<SonicPiLog::MultiMessage>("SonicPiLog::MultiMessage");
-
-  app.setApplicationName(QObject::tr("Sonic Pi"));
-  app.setStyle("gtk");
-
-#ifdef __linux__
+#if defined(Q_OS_LINUX)
   //linux code goes here
   QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
   QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-#elif _WIN32
+#elif defined(Q_OS_WIN)
   // windows code goes here
 
   // A temporary fix, until stylesheets are removed.
@@ -71,11 +60,23 @@ int main(int argc, char *argv[])
       QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     }
-#elif __APPLE__
+#elif defined(Q_OS_DARWIN)
   // macOS code goes here
   SonicPi::removeMacosSpecificMenuItems();
   QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 #endif
+
+  QApplication app(argc, argv);
+
+  QFontDatabase::addApplicationFont(":/fonts/Hack-Regular.ttf");
+  QFontDatabase::addApplicationFont(":/fonts/Hack-Italic.ttf");
+  QFontDatabase::addApplicationFont(":/fonts/Hack-Bold.ttf");
+  QFontDatabase::addApplicationFont(":/fonts/Hack-BoldItalic.ttf");
+
+  qRegisterMetaType<SonicPiLog::MultiMessage>("SonicPiLog::MultiMessage");
+
+  app.setApplicationName(QObject::tr("Sonic Pi"));
+  app.setStyle("gtk");
 
   QPixmap pixmap(":/images/splash@2x.png");
 
@@ -85,15 +86,15 @@ int main(int argc, char *argv[])
 
   MainWindow mainWin(app, splash);
 
-#ifdef __linux__
+#if defined(Q_OS_LINUX)
 
-#elif _WIN32
+#elif defined(Q_OS_WIN)
     // Fix for full screen mode. See: https://doc.qt.io/qt-5/windows-issues.html#fullscreen-opengl-based-windows
   QWindowsWindowFunctions::setHasBorderInFullScreen(mainWin.windowHandle(), true);
-
-#elif __APPLE__
+#elif defined(Q_OS_DARWIN)
 
 #endif
+
   return app.exec();
 
 }
