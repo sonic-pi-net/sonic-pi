@@ -1208,9 +1208,9 @@ possono gestire solo segnali mono.</translation>
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
-        <translation type="unfinished">Abilita verifica argomenti delle funzioni nei synth.
+        <translation>Abilita verifica argomenti delle funzioni nei synth.
 Se disabilitato, alcuni parametri nei synth potrebbero
-creare suoni spiacevoli e rumori forti e inaspettati.</translation>
+creare suoni spiacevoli o rumori forti e inaspettati.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="113"/>
@@ -1226,13 +1226,13 @@ it is too late to do so
 When disabled, Sonic Pi will always
 attempt to trigger synths and FX
 even when a little late.</source>
-        <translation type="unfinished">Quando abilitato, Sonic Pi si rifiuterà
-di avviare synth ed FX
-lanciati in ritardo
+        <translation>Quando abilitato, Sonic Pi si rifiuterà 
+di avviare synth ed FX se è troppo 
+tardi per farlo
 
 Quando disabilitato, Sonic Pi cercherà sempre
-di avviare synth e FX
-anche se lanciati in ritardo.</translation>
+di avviare synth e FX anche se 
+leggeremente in ritardo.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="117"/>
@@ -1261,7 +1261,9 @@ non riconosciuti.</translation>
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation type="unfinished">Sonic Pi può inviare e ricevere messaggi dall&apos;infrastruttura Open Sound Contro verso e da altri programmi o computer attraverso la rete in uso.</translation>
+        <translation>Sonic Pi può inviare e ricevere messaggi dall&apos;infrastruttura 
+Open Sound Contro verso e da altri programmi 
+attraverso la rete attualmente in uso.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="145"/>
