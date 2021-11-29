@@ -676,7 +676,7 @@ void MainWindow::setupWindowStructure()
 
     phxView = new QWebEngineView(this);
     phxProfile = new QWebEngineProfile(this);
-    phxPage = new QWebEnginePage(phxProfile);
+    phxPage = new QWebEnginePage(phxProfile, phxView);
     phxView->setPage(phxPage);
     phxView->setContextMenuPolicy(Qt::NoContextMenu);
 
@@ -3392,6 +3392,12 @@ void MainWindow::onExitCleanup()
     {
         std::cout << "[GUI] - shutting down scope..." << std::endl;
         scopeWindow->ShutDown();
+    }
+
+    if (phxView)
+    {
+        std::cout << "[GUI] - shutting down PhX view..." << std::endl;
+        phxView->deleteLater();
     }
 
     if (m_spClient)
