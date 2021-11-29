@@ -35,6 +35,7 @@
 #include <QPlainTextEdit>
 #include <QScrollBar>
 #include <QShortcut>
+#include <QSplashScreen>
 #include <QSplitter>
 #include <QStatusBar>
 #include <QStyle>
@@ -95,7 +96,7 @@ using namespace std::chrono;
 
 using namespace SonicPi;
 
-MainWindow::MainWindow(QApplication& app, QMainWindow* splash)
+MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
 {
     app.installEventFilter(this);
     app.processEvents();
@@ -1102,7 +1103,7 @@ QString MainWindow::rootPath()
 
 void MainWindow::splashClose()
 {
-  splash->close();
+  splash->finish(this);
 }
 
 void MainWindow::showWindow()
