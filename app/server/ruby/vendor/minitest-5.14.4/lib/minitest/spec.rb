@@ -8,12 +8,16 @@ class Module # :nodoc:
     # warn "%-22p -> %p %p" % [meth, new_name, dont_flip]
     self.class_eval <<-EOM, __FILE__, __LINE__ + 1
       def #{new_name} *args
+        where = Minitest.filter_backtrace(caller).first
+        where = where.split(/:in /, 2).first # clean up noise
+        warn "DEPRECATED: global use of #{new_name} from #\{where}. Use _(obj).#{new_name} instead. This will fail in Minitest 6."
         Minitest::Expectation.new(self, Minitest::Spec.current).#{new_name}(*args)
       end
     EOM
 
     Minitest::Expectation.class_eval <<-EOM, __FILE__, __LINE__ + 1
       def #{new_name} *args
+        raise "Calling ##{new_name} outside of test." unless ctx
         case
         when #{!!dont_flip} then
           ctx.#{meth}(target, *args)
@@ -132,7 +136,7 @@ class Minitest::Spec < Minitest::Test
     #       desc.superclass == ActiveRecord::Base
     #     end
 
-    def register_spec_type(*args, &block)
+    def register_spec_type *args, &block
       if block then
         matcher, klass = block, args.first
       else
@@ -285,21 +289,28 @@ class Minitest::Spec < Minitest::Test
 
     module InstanceMethods
       ##
-      # Returns a value monad that has all of Expectations methods
-      # available to it.
+      # Takes a value or a block and returns a value monad that has
+      # all of Expectations methods available to it.
       #
-      # Also aliased to #value and #expect for your aesthetic pleasure:
+      #   _(1 + 1).must_equal 2
       #
-      #         _(1 + 1).must_equal 2
-      #     value(1 + 1).must_equal 2
-      #    expect(1 + 1).must_equal 2
+      # And for blocks:
+      #
+      #   _ { 1 + "1" }.must_raise TypeError
       #
       # This method of expectation-based testing is preferable to
       # straight-expectation methods (on Object) because it stores its
       # test context, bypassing our hacky use of thread-local variables.
       #
-      # At some point, the methods on Object will be deprecated and then
-      # removed.
+      # NOTE: At some point, the methods on Object will be deprecated
+      # and then removed.
+      #
+      # It is also aliased to #value and #expect for your aesthetic
+      # pleasure:
+      #
+      #         _(1 + 1).must_equal 2
+      #     value(1 + 1).must_equal 2
+      #    expect(1 + 1).must_equal 2
 
       def _ value = nil, &block
         Minitest::Expectation.new block || value, self

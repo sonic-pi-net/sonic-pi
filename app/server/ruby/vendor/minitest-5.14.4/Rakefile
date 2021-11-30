@@ -11,17 +11,17 @@ Hoe.spec "minitest" do
 
   license "MIT"
 
-  self.testlib = :minitest
+  require_ruby_version [">= 2.2", "< 4.0"]
 end
 
 desc "Find missing expectations"
 task :specs do
   $:.unshift "lib"
-  require "minitest/unit"
+  require "minitest/test"
   require "minitest/spec"
 
   pos_prefix, neg_prefix = "must", "wont"
-  skip_re = /^(must|wont)$|wont_(throw)|must_(block|not?_|nothing|raise$)/x
+  skip_re = /^(must|wont)$|wont_(throw)|must_(block|not?_|nothing|send|raise$)/x
   dont_flip_re = /(must|wont)_(include|respond_to)/
 
   map = {
@@ -32,6 +32,8 @@ task :specs do
     /_includes/                            => "_include",
     /(must|wont)_(.*_of|nil|silent|empty)/ => '\1_be_\2',
     /must_raises/                          => "must_raise",
+    /(must|wont)_predicate/                => '\1_be',
+    /(must|wont)_path_exists/              => 'path_\1_exist',
   }
 
   expectations = Minitest::Expectations.public_instance_methods.map(&:to_s)

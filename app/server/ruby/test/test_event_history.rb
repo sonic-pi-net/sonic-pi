@@ -508,11 +508,11 @@ module SonicPi
       v = history.get(t, 0, i2, 0, 0, 60, "/{ce?,set}/bar")
       assert_equal [:there], v.val
       v = history.get(t, 0, i2, 0, 0, 60, "/cu/bar")
-      assert_equal nil, v
+      assert_nil v
       v = history.get(t, 0, i2, 0, 0, 60, "/cu?/bar")
       assert_equal [:hello], v.val
       v = history.get(t, 0, i2, 0, 0, 60, "/{cu?/bar")
-      assert_equal nil, v
+      assert_nil v
       v = history.get(t, 0, i2, 0, 0, 60, "/???/ba?")
       assert_equal [:hello], v.val
       v = history.get(t, 0, i2, 0, 0, 60, "/[cd]ue/ba?")
@@ -522,7 +522,7 @@ module SonicPi
       v = history.get(t, 0, i2, 0, 0, 60, "/[!d]ue/ba?")
       assert_equal [:hello], v.val
       v = history.get(t, 0, i2, 0, 0, 60, "/[!c]ue/ba?")
-      assert_equal nil, v
+      assert_nil v
 
       v = history.get(t4, 0, i2, 0, 0, 60, "/set/howdy30")
       assert_equal [:howdy], v.val
@@ -531,7 +531,7 @@ module SonicPi
       assert_equal [:howdy], v.val
 
       v = history.get(t4, 0, i2, 0, 0, 60, "/set/howdy[3]")
-      assert_equal nil, v
+      assert_nil v
 
       v = history.get(t, 0, i2, 0, 0, 60, "/set/yo?")
       assert_equal [:yo], v.val

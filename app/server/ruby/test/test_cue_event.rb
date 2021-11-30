@@ -101,7 +101,7 @@ module SonicPi
       assert_equal "foo", c.path_segment(0)
       assert_equal "bar", c.path_segment(1)
       assert_equal "baz", c.path_segment(2)
-      assert_equal nil, c.path_segment(3)
+      assert_nil c.path_segment(3)
     end
 
   end

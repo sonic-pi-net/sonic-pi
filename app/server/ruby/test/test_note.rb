@@ -18,7 +18,7 @@ module SonicPi
   class NoteTester < Minitest::Test
 
     def test_resolution_of_nil
-      assert_equal(nil, Note.resolve_midi_note(nil))
+      assert_nil(Note.resolve_midi_note(nil))
     end
 
     def test_resolution_of_numbers

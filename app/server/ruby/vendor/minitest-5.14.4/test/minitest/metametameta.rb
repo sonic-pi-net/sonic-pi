@@ -6,32 +6,75 @@ class Minitest::Test
   def clean s
     s.gsub(/^ {6}/, "")
   end
+
+  def with_empty_backtrace_filter
+    original = Minitest.backtrace_filter
+
+    obj = Minitest::BacktraceFilter.new
+    def obj.filter _bt
+      []
+    end
+
+    Minitest::Test.io_lock.synchronize do # try not to trounce in parallel
+      begin
+        Minitest.backtrace_filter = obj
+        yield
+      ensure
+        Minitest.backtrace_filter = original
+      end
+    end
+  end
 end
+
+
+class FakeNamedTest < Minitest::Test
+  @@count = 0
+
+  def self.name
+    @fake_name ||= begin
+                     @@count += 1
+                     "FakeNamedTest%02d" % @@count
+                   end
+  end
+end
+
+module MyModule; end
+class AnError < StandardError; include MyModule; end
 
 class MetaMetaMetaTestCase < Minitest::Test
   attr_accessor :reporter, :output, :tu
 
+  def with_stderr err
+    old = $stderr
+    $stderr = err
+    yield
+  ensure
+    $stderr = old
+  end
+
   def run_tu_with_fresh_reporter flags = %w[--seed 42]
     options = Minitest.process_args flags
 
-    @output = StringIO.new("")
+    @output = StringIO.new("".encode('UTF-8'))
 
     self.reporter = Minitest::CompositeReporter.new
     reporter << Minitest::SummaryReporter.new(@output, options)
     reporter << Minitest::ProgressReporter.new(@output, options)
 
-    reporter.start
+    with_stderr @output do
+      reporter.start
 
-    yield(reporter) if block_given?
+      yield(reporter) if block_given?
 
-    @tus ||= [@tu]
-    @tus.each do |tu|
-      Minitest::Runnable.runnables.delete tu
+      @tus ||= [@tu]
+      @tus.each do |tu|
+        Minitest::Runnable.runnables.delete tu
 
-      tu.run reporter, options
+        tu.run reporter, options
+      end
+
+      reporter.report
     end
-
-    reporter.report
   end
 
   def first_reporter
@@ -57,6 +100,7 @@ class MetaMetaMetaTestCase < Minitest::Test
     output.sub!(/Finished in .*/, "Finished in 0.00")
     output.sub!(/Loaded suite .*/, "Loaded suite blah")
 
+    output.gsub!(/FakeNamedTest\d+/, "FakeNamedTestXX")
     output.gsub!(/ = \d+.\d\d s = /, " = 0.00 s = ")
     output.gsub!(/0x[A-Fa-f0-9]+/, "0xXXX")
     output.gsub!(/ +$/, "")
@@ -68,6 +112,8 @@ class MetaMetaMetaTestCase < Minitest::Test
       output.gsub!(/\[[^\]:]+:\d+\]/, "[FILE:LINE]")
       output.gsub!(/^(\s+)[^:]+:\d+:in/, '\1FILE:LINE:in')
     end
+
+    output.gsub!(/( at )[^:]+:\d+/, '\1[FILE:LINE]')
 
     output
   end

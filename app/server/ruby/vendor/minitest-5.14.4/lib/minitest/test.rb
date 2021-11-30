@@ -10,12 +10,18 @@ module Minitest
   class Test < Runnable
     require "minitest/assertions"
     include Minitest::Assertions
+    include Minitest::Reportable
 
-    PASSTHROUGH_EXCEPTIONS = [NoMemoryError, SignalException, # :nodoc:
-                              Interrupt, SystemExit]
+    def class_name # :nodoc:
+      self.class.name # for Minitest::Reportable
+    end
 
-    class << self; attr_accessor :io_lock; end # :nodoc:
+    PASSTHROUGH_EXCEPTIONS = [NoMemoryError, SignalException, SystemExit] # :nodoc:
+
+    # :stopdoc:
+    class << self; attr_accessor :io_lock; end
     self.io_lock = Mutex.new
+    # :startdoc:
 
     ##
     # Call this at the top of your tests when you absolutely
@@ -38,9 +44,7 @@ module Minitest
     def self.make_my_diffs_pretty!
       require "pp"
 
-      define_method :mu_pp do |o|
-        o.pretty_inspect
-      end
+      define_method :mu_pp, &:pretty_inspect
     end
 
     ##
@@ -80,20 +84,6 @@ module Minitest
       :random
     end
 
-    ##
-    # The time it took to run this test.
-
-    attr_accessor :time
-
-    def marshal_dump # :nodoc:
-      super << self.time
-    end
-
-    def marshal_load ary # :nodoc:
-      self.time = ary.pop
-      super
-    end
-
     TEARDOWN_METHODS = %w[ before_teardown teardown after_teardown ] # :nodoc:
 
     ##
@@ -116,7 +106,7 @@ module Minitest
         end
       end
 
-      self # per contract
+      Result.from self # per contract
     end
 
     ##
@@ -211,61 +201,6 @@ module Minitest
       self.failures << UnexpectedError.new(e)
     end
 
-    ##
-    # Did this run error?
-
-    def error?
-      self.failures.any? { |f| UnexpectedError === f }
-    end
-
-    ##
-    # The location identifier of this test.
-
-    def location
-      loc = " [#{self.failure.location}]" unless passed? or error?
-      "#{self.class}##{self.name}#{loc}"
-    end
-
-    ##
-    # Did this run pass?
-    #
-    # Note: skipped runs are not considered passing, but they don't
-    # cause the process to exit non-zero.
-
-    def passed?
-      not self.failure
-    end
-
-    ##
-    # Returns ".", "F", or "E" based on the result of the run.
-
-    def result_code
-      self.failure and self.failure.result_code or "."
-    end
-
-    ##
-    # Was this run skipped?
-
-    def skipped?
-      self.failure and Skip === self.failure
-    end
-
-    def time_it # :nodoc:
-      t0 = Minitest.clock_time
-
-      yield
-    ensure
-      self.time = Minitest.clock_time - t0
-    end
-
-    def to_s # :nodoc:
-      return location if passed? and not skipped?
-
-      failures.map { |failure|
-        "#{failure.result_label}:\n#{self.location}:\n#{failure.message}\n"
-      }.join "\n"
-    end
-
     def with_info_handler &block # :nodoc:
       t0 = Minitest.clock_time
 
@@ -273,7 +208,7 @@ module Minitest
         warn "\nCurrent: %s#%s %.2fs" % [self.class, self.name, Minitest.clock_time - t0]
       end
 
-      self.class.on_signal "INFO", handler, &block
+      self.class.on_signal ::Minitest.info_signal, handler, &block
     end
 
     include LifecycleHooks
