@@ -37,7 +37,7 @@ module Minitest # :nodoc:
       end
     end
 
-    def initialize(delegator = nil) # :nodoc:
+    def initialize delegator = nil # :nodoc:
       @delegator = delegator
       @expected_calls = Hash.new { |calls, name| calls[name] = [] }
       @actual_calls   = Hash.new { |calls, name| calls[name] = [] }
@@ -65,10 +65,20 @@ module Minitest # :nodoc:
     #   @mock.verify  # => true
     #
     #   @mock.expect(:uses_one_string, true, ["foo"])
-    #   @mock.uses_one_string("bar") # => true
-    #   @mock.verify  # => raises MockExpectationError
+    #   @mock.uses_one_string("bar") # => raises MockExpectationError
+    #
+    # If a method will be called multiple times, specify a new expect for each one.
+    # They will be used in the order you define them.
+    #
+    #   @mock.expect(:ordinal_increment, 'first')
+    #   @mock.expect(:ordinal_increment, 'second')
+    #
+    #   @mock.ordinal_increment # => 'first'
+    #   @mock.ordinal_increment # => 'second'
+    #   @mock.ordinal_increment # => raises MockExpectationError "No more expects available for :ordinal_increment"
+    #
 
-    def expect(name, retval, args = [], &blk)
+    def expect name, retval, args = [], &blk
       name = name.to_sym
 
       if block_given?
@@ -96,21 +106,16 @@ module Minitest # :nodoc:
     # expected.
 
     def verify
-      @expected_calls.each do |name, calls|
-        calls.each do |expected|
-          raise MockExpectationError, "expected #{__call name, expected}, got [#{__call name, @actual_calls[name]}]" if
-            @actual_calls.key?(name) and
-            not @actual_calls[name].include?(expected)
-
-          raise MockExpectationError, "expected #{__call name, expected}" unless
-            @actual_calls.key?(name) and
-            @actual_calls[name].include?(expected)
-        end
+      @expected_calls.each do |name, expected|
+        actual = @actual_calls.fetch(name, nil)
+        raise MockExpectationError, "expected #{__call name, expected[0]}" unless actual
+        raise MockExpectationError, "expected #{__call name, expected[actual.size]}, got [#{__call name, actual}]" if
+          actual.size < expected.size
       end
       true
     end
 
-    def method_missing(sym, *args, &block) # :nodoc:
+    def method_missing sym, *args, &block # :nodoc:
       unless @expected_calls.key?(sym) then
         if @delegator && @delegator.respond_to?(sym)
           return @delegator.public_send(sym, *args, &block)
@@ -164,11 +169,20 @@ module Minitest # :nodoc:
       retval
     end
 
-    def respond_to?(sym, include_private = false) # :nodoc:
+    def respond_to? sym, include_private = false # :nodoc:
       return true if @expected_calls.key? sym.to_sym
       return true if @delegator && @delegator.respond_to?(sym, include_private)
       __respond_to?(sym, include_private)
     end
+  end
+end
+
+module Minitest::Assertions
+  ##
+  # Assert that the mock verifies correctly.
+
+  def assert_mock mock
+    assert mock.verify
   end
 end
 
@@ -193,7 +207,9 @@ class Object
   #         assert obj_under_test.stale?
   #       end
   #     end
-  #
+  #--
+  # NOTE: keyword args in callables are NOT checked for correctness
+  # against the existing method. Too many edge cases to be worth it.
 
   def stub name, val_or_callable, *block_args
     new_name = "__minitest_stub__#{name}"
@@ -209,16 +225,15 @@ class Object
     metaclass.send :alias_method, new_name, name
 
     metaclass.send :define_method, name do |*args, &blk|
-      ret = if val_or_callable.respond_to? :call then
-              val_or_callable.call(*args)
-            else
-              val_or_callable
-            end
-
-      blk.call(*block_args) if blk
-
-      ret
+      if val_or_callable.respond_to? :call then
+        val_or_callable.call(*args, &blk)
+      else
+        blk.call(*block_args) if blk
+        val_or_callable
+      end
     end
+
+    metaclass.send(:ruby2_keywords, name) if metaclass.respond_to?(:ruby2_keywords, true)
 
     yield self
   ensure

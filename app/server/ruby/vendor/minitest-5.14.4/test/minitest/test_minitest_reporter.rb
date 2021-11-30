@@ -1,6 +1,12 @@
 require "minitest/autorun"
 require "minitest/metametameta"
 
+class Runnable
+  def woot
+    assert true
+  end
+end
+
 class TestMinitestReporter < MetaMetaMetaTestCase
 
   attr_accessor :r, :io
@@ -42,6 +48,7 @@ class TestMinitestReporter < MetaMetaMetaTestCase
                                                     rescue => e
                                                       e
                                                     end)
+      @et = Minitest::Result.from @et
     end
     @et
   end
@@ -54,12 +61,13 @@ class TestMinitestReporter < MetaMetaMetaTestCase
                         rescue Minitest::Assertion => e
                           e
                         end
+      @ft = Minitest::Result.from @ft
     end
     @ft
   end
 
   def passing_test
-    @pt ||= Minitest::Test.new(:woot)
+    @pt ||= Minitest::Result.from Minitest::Test.new(:woot)
   end
 
   def skip_test
@@ -70,18 +78,25 @@ class TestMinitestReporter < MetaMetaMetaTestCase
                       rescue Minitest::Assertion => e
                         e
                       end
+      @st = Minitest::Result.from @st
     end
     @st
   end
 
+  def test_to_s
+    r.record passing_test
+    r.record fail_test
+    assert_match "woot", r.first.to_s
+  end
+
   def test_passed_eh_empty
-    assert r.passed?
+    assert_predicate r, :passed?
   end
 
   def test_passed_eh_failure
     r.results << fail_test
 
-    refute r.passed?
+    refute_predicate r, :passed?
   end
 
   SKIP_MSG = "\n\nYou have skipped tests. Run with --verbose for details."
@@ -91,7 +106,7 @@ class TestMinitestReporter < MetaMetaMetaTestCase
 
     r.results << error_test
 
-    refute r.passed?
+    refute_predicate r, :passed?
 
     r.report
 
@@ -139,6 +154,7 @@ class TestMinitestReporter < MetaMetaMetaTestCase
   end
 
   def test_record_fail
+    fail_test = self.fail_test
     r.record fail_test
 
     assert_equal "F", io.string
@@ -148,6 +164,7 @@ class TestMinitestReporter < MetaMetaMetaTestCase
   end
 
   def test_record_error
+    error_test = self.error_test
     r.record error_test
 
     assert_equal "E", io.string
@@ -157,6 +174,7 @@ class TestMinitestReporter < MetaMetaMetaTestCase
   end
 
   def test_record_skip
+    skip_test = self.skip_test
     r.record skip_test
 
     assert_equal "S", io.string

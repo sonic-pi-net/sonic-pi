@@ -1,3 +1,276 @@
+=== 5.14.4 / 2021-02-23
+
+* 1 bug fix:
+
+  * Fixed deprecation warning using stub with methods using keyword arguments. (Nakilon)
+
+=== 5.14.3 / 2021-01-05
+
+* 1 bug fix:
+
+  * Bumped require_ruby_version to < 4 (trunk = 3.1).
+
+=== 5.14.2 / 2020-08-31
+
+* 1 bug fix:
+
+  * Bumped ruby version to include 3.0 (trunk).
+
+=== 5.14.1 / 2020-05-15
+
+* 3 minor enhancements:
+
+  * Minitest.filter_backtrace returns original backtrace if filter comes back empty.
+  * Minitest::BacktraceFilter now returns entire backtrace if $MT_DEBUG set in env.
+  * Return true on a successful refute. (jusleg)
+
+* 1 bug fix:
+
+  * Fixed expectation doco to not use global expectations.
+
+=== 5.14.0 / 2020-01-11
+
+* 2 minor enhancements:
+
+  * Block-assertions (eg assert_output) now error if raised inside the block. (casperisfine)
+  * Changed assert_raises to only catch Assertion since that covers Skip and friends.
+
+* 3 bug fixes:
+
+  * Added example for value wrapper with block to Expectations module. (stomar)
+  * Fixed use of must/wont_be_within_delta on Expectation instance. (stomar)
+  * Renamed UnexpectedError#exception to #error to avoid problems with reraising. (casperisfine)
+
+=== 5.13.0 / 2019-10-29
+
+* 9 minor enhancements:
+
+  * Added Minitest::Guard#osx?
+  * Added examples to documentation for assert_raises. (lxxxvi)
+  * Added expectations #path_must_exist and #path_wont_exist. Not thrilled with the names.
+  * Added fail_after(year, month, day, msg) to allow time-bombing after a deadline.
+  * Added skip_until(year, month, day, msg) to allow deferring until a deadline.
+  * Deprecated Minitest::Guard#maglev?
+  * Deprecated Minitest::Guard#rubinius?
+  * Finally added assert_path_exists and refute_path_exists. (deivid-rodriguez)
+  * Refactored and pulled Assertions#things_to_diff out of #diff. (BurdetteLamar)
+
+* 3 bug fixes:
+
+  * Fix autorun bug that affects fork exit status in tests. (dylanahsmith/jhawthorn)
+  * Improved documentation for _/value/expect, especially for blocks. (svoop)
+  * Support new Proc#to_s format. (ko1)
+
+=== 5.12.2 / 2019-09-28
+
+* 1 bug fix:
+
+  * After chatting w/ @y-yagi and others, decided to lower support to include ruby 2.2.
+
+=== 5.12.1 / 2019-09-28
+
+* 1 minor enhancement:
+
+  * Added documentation for Reporter classes. (sshaw)
+
+* 3 bug fixes:
+
+  * Avoid using 'match?' to support older ruby versions. (y-yagi)
+  * Fixed broken link to reference on goodness-of-fit testing. (havenwood)
+  * Update requirements in readme and Rakefile/hoe spec.
+
+=== 5.12.0 / 2019-09-22
+
+* 8 minor enhancements:
+
+  * Added a descriptive error if assert_output or assert_raises called without a block. (okuramasafumi)
+  * Changed mu_pp_for_diff to make having both \n and \\n easier to debug.
+  * Deprecated $N for specifying number of parallel test runners. Use MT_CPU.
+  * Deprecated use of global expectations. To be removed from MT6.
+  * Extended Assertions#mu_pp to encoding validity output for strings to improve diffs.
+  * Extended Assertions#mu_pp to output encoding and validity if invalid to improve diffs.
+  * Extended Assertions#mu_pp_for_diff to make escaped newlines more obvious in diffs.
+  * Fail gracefully when expectation used outside of `it`.
+
+* 3 bug fixes:
+
+  * Check `option[:filter]` klass before match. Fixes 2.6 warning. (y-yagi)
+  * Fixed Assertions#diff from recalculating if set to nil
+  * Fixed spec section of readme to not use deprecated global expectations. (CheezItMan)
+
+=== 5.11.3 / 2018-01-26
+
+* 1 bug fix:
+
+  * Pushed #error? up to Reportable module. (composerinteralia)
+
+=== 5.11.2 / 2018-01-25
+
+* 1 minor enhancement:
+
+  * Reversed Test < Result. Back to < Runnable and using Reportable for shared code.
+
+* 2 bug fixes:
+
+  * Fixed Result#location for instances of Test. (alexisbernard)
+  * Fixed deprecation message for Runnable#marshal_dump. (y-yagi)
+
+=== 5.11.1 / 2018-01-02
+
+* 1 bug fix:
+
+  * Fixed Result (a superclass of Test) overriding Runnable's name accessors. (y-yagi, MSP-Greg)
+
+=== 5.11.0 / 2018-01-01
+
+* 2 major enhancements:
+
+  * Added Minitest::Result and Minitest::Result.from(runnable).
+  * Changed Minitest::Test to subclass Result and refactored methods up.
+
+* 7 minor enhancements:
+
+  * Added --no-plugins and MT_NO_PLUGINS to bypass MT plugin autoloading. Helps with bad actors installed globally.
+  * Added bench_performance_{logarithmic,power} for spec-style benchmarks. (rickhull)
+  * Added deprecation warning for Runnable#marshal_dump.
+  * Minitest.run_one_method now checks for instance of Result, not exact same class.
+  * Minitest::Test.run returns a Result version of self, not self.
+  * ProgressReporter#prerecord now explicitly prints klass.name. Allows for fakers.
+
+* 4 bug fixes:
+
+  * Object.stub no longer calls the passed block if stubbed with a callable.
+  * Object.stub now passes blocks down to the callable result.
+  * Pushed Minitest::Test#time & #time_it up to Runnable.
+  * Test nil equality directly in assert_equal. Fixes #679. (voxik)
+
+=== 5.11.0b1 / 2017-12-20
+
+* 2 major enhancements:
+
+  * Added Minitest::Result and Minitest::Result.from(runnable).
+  * Changed Minitest::Test to subclass Result and refactored methods up.
+
+* 6 minor enhancements:
+
+  * Added --no-plugins and MT_NO_PLUGINS to bypass MT plugin autoloading. Helps with bad actors installed globally.
+  * Added bench_performance_{logarithmic,power} for spec-style benchmarks. (rickhull)
+  * Minitest.run_one_method now checks for instance of Result, not exact same class.
+  * Minitest::Test.run returns a Result version of self, not self.
+  * ProgressReporter#prerecord now explicitly prints klass.name. Allows for fakers.
+  * Removed Runnable.marshal_dump/load.
+
+* 4 bug fixes:
+
+  * Object.stub no longer calls the passed block if stubbed with a callable.
+  * Object.stub now passes blocks down to the callable result.
+  * Pushed Minitest::Test#time & #time_it up to Runnable.
+  * Test nil equality directly in assert_equal. Fixes #679. (voxik)
+
+=== 5.10.3 / 2017-07-21
+
+* 1 minor enhancement:
+
+  * Extended documentation for Mock#expect for multiple calls to mock object. (insti)
+
+* 2 bug fixes:
+
+  * Finished off missing doco.
+  * Fixed verbose output on parallelize_me! classes. (chanks)
+
+=== 5.10.2 / 2017-05-09
+
+* 1 minor enhancement:
+
+  * Added suggestion in minitest/hell to install minitest/proveit.
+
+* 7 bug fixes:
+
+  * Expand MT6 to Minitest 6. (xaviershay)
+  * Fixed location of assert_send deprecation. (rab)
+  * Fixed location of nil assert_equal deprecation to work with expectations. (jeremyevans)
+  * Fixed minitest/hell to use parallelize_me! (azul)
+  * Made deprecation use warn so -W0 will silence it.
+  * Workaround for rdoc nodoc generation bug that totally f'd up minitest doco. (Paxa)
+  * Write aggregated_results directly to the IO object to avoid mixed encoding errors. (tenderlove)
+
+=== 5.10.1 / 2016-12-01
+
+* 1 bug fix:
+
+  * Added a hack/kludge to deal with missing #prerecord on reporters that aren't properly subclassing AbstractReporter (I'm looking at you minitest-reporters)
+
+=== 5.10.0 / 2016-11-30
+
+* 1 major enhancement:
+
+  * Deprecated ruby 1.8, 1.9, possibly 2.0, assert_send, & old MiniTest namespace.
+
+* 3 minor enhancements:
+
+  * Warn if assert_equal expects a nil. This will fail in minitest 6+. (tenderlove)
+  * Added AbstractReporter#prerecord and extended ProgressReporter and CompositeReporter to use it.
+  * Minor optimization: remove runnables with no runnable methods before run.
+
+* 3 bug fixes:
+
+  * Fix assert_throw rescuing any NameError and ArgumentError. (waldyr)
+  * Clean up (most of the) last remaining vestiges of minitest/unit.
+  * 2.4: removed deprecation warnings when referring to Fixnum.
+
+=== 5.9.1 / 2016-09-25
+
+* 2 bug fixes:
+
+  * Re-release to refresh gem certificate signing. ugh.
+  * Fixed hoe/minitest to not augment load path if we're actually testing minitest.
+
+=== 5.9.0 / 2016-05-16
+
+* 8 minor enhancements:
+
+  * Added Minitest.info_signal accessors to customize signal for test run info. (nate)
+  * Added assert_mock to make it more clear that you're testing w/ them.
+  * Added negative filter by test name. (utilum)
+  * Added warning to README that 1.8 and 1.9 support will be dropped in minitest 6.
+  * Automatically activate minitest/hell if $MT_HELL is defined.
+  * Improved default error messages for assert and refute. (bhenderson)
+  * minitest/hell now tries to require minitest/proveit
+  * mu_pp for strings prints out non-standard encodings to improve assert_equal diffs.
+
+* 1 bug fix:
+
+  * Removed Interrupt from PASSTHROUGH_EXCEPTIONS (already handled). (waldyr)
+
+=== 5.8.5 / 2016-09-25
+
+* 2 bug fixes:
+
+  * Re-release to refresh gem certificate signing. ugh.
+  * Fixed hoe/minitest to not augment load path if we're actually testing minitest.
+
+=== 5.8.4 / 2016-01-21
+
+* 1 bug fix:
+
+  * Allow Minitest::Assertion to pass through assert_raises so inner failures are dealt with first.
+
+=== 5.8.3 / 2015-11-17
+
+* 1 minor enhancement:
+
+  * Added extra note about mocks and threads to readme. (zamith)
+
+* 1 bug fix:
+
+  * Fixed bug in Mock#verify. (pithub/zamith)
+
+=== 5.8.2 / 2015-10-26
+
+* 1 bug fix:
+
+  * Fixed using parallelize_me! and capture_io (or any locking io). (arlt/tenderlove)
+
 === 5.8.1 / 2015-09-23
 
 * 1 minor enhancement:
@@ -1134,4 +1407,3 @@ back.
 * 1 major enhancement
 
   * Birthday!
-

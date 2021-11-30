@@ -1,5 +1,5 @@
 module Minitest
-  module Parallel
+  module Parallel #:nodoc:
 
     ##
     # The engine used to run multiple tests in parallel.
@@ -29,6 +29,7 @@ module Minitest
             Thread.current.abort_on_exception = true
             while (job = queue.pop)
               klass, method, reporter = job
+              reporter.synchronize { reporter.prerecord klass, method }
               result = Minitest.run_one_method klass, method
               reporter.synchronize { reporter.record result }
             end
@@ -52,8 +53,8 @@ module Minitest
       end
     end
 
-    module Test
-      def _synchronize; Test.io_lock.synchronize { yield }; end # :nodoc:
+    module Test # :nodoc:
+      def _synchronize; Minitest::Test.io_lock.synchronize { yield }; end # :nodoc:
 
       module ClassMethods # :nodoc:
         def run_one_method klass, method_name, reporter

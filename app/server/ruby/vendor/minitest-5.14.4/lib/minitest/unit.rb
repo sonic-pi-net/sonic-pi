@@ -34,7 +34,7 @@ module Minitest
       Minitest.autorun
     end
 
-    def self.after_tests(&b)
+    def self.after_tests &b # :nodoc:
       from = caller.first
       warn "MiniTest::Unit.after_tests is now Minitest.after_run. From #{from}"
       Minitest.after_run(&b)

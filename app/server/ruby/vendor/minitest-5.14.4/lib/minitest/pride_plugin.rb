@@ -70,7 +70,7 @@ module Minitest
       end
     end
 
-    def puts(*o) # :nodoc:
+    def puts *o # :nodoc:
       o.map! { |s|
         s.to_s.sub(/Finished/) {
           @index = 0

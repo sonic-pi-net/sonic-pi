@@ -9,10 +9,11 @@
 #
 #     it "should still work in threads" do
 #       my_threaded_thingy do
-#         (1+1).must_equal 2         # bad
-#         assert_equal 2, 1+1        # good
-#         _(1 + 1).must_equal 2      # good
-#         value(1 + 1).must_equal 2  # good, also #expect
+#         (1+1).must_equal 2                  # bad
+#         assert_equal 2, 1+1                 # good
+#         _(1 + 1).must_equal 2               # good
+#         value(1 + 1).must_equal 2           # good, also #expect
+#         _ { 1 + "1" }.must_raise TypeError  # good
 #       end
 #     end
 
@@ -21,7 +22,7 @@ module Minitest::Expectations
   ##
   # See Minitest::Assertions#assert_empty.
   #
-  #    collection.must_be_empty
+  #    _(collection).must_be_empty
   #
   # :method: must_be_empty
 
@@ -30,7 +31,7 @@ module Minitest::Expectations
   ##
   # See Minitest::Assertions#assert_equal
   #
-  #    a.must_equal b
+  #    _(a).must_equal b
   #
   # :method: must_equal
 
@@ -39,18 +40,18 @@ module Minitest::Expectations
   ##
   # See Minitest::Assertions#assert_in_delta
   #
-  #    n.must_be_close_to m [, delta]
+  #    _(n).must_be_close_to m [, delta]
   #
   # :method: must_be_close_to
 
   infect_an_assertion :assert_in_delta, :must_be_close_to
 
-  alias :must_be_within_delta :must_be_close_to # :nodoc:
+  infect_an_assertion :assert_in_delta, :must_be_within_delta # :nodoc:
 
   ##
   # See Minitest::Assertions#assert_in_epsilon
   #
-  #    n.must_be_within_epsilon m [, epsilon]
+  #    _(n).must_be_within_epsilon m [, epsilon]
   #
   # :method: must_be_within_epsilon
 
@@ -59,7 +60,7 @@ module Minitest::Expectations
   ##
   # See Minitest::Assertions#assert_includes
   #
-  #    collection.must_include obj
+  #    _(collection).must_include obj
   #
   # :method: must_include
 
@@ -68,7 +69,7 @@ module Minitest::Expectations
   ##
   # See Minitest::Assertions#assert_instance_of
   #
-  #    obj.must_be_instance_of klass
+  #    _(obj).must_be_instance_of klass
   #
   # :method: must_be_instance_of
 
@@ -77,7 +78,7 @@ module Minitest::Expectations
   ##
   # See Minitest::Assertions#assert_kind_of
   #
-  #    obj.must_be_kind_of mod
+  #    _(obj).must_be_kind_of mod
   #
   # :method: must_be_kind_of
 
@@ -86,7 +87,7 @@ module Minitest::Expectations
   ##
   # See Minitest::Assertions#assert_match
   #
-  #    a.must_match b
+  #    _(a).must_match b
   #
   # :method: must_match
 
@@ -95,7 +96,7 @@ module Minitest::Expectations
   ##
   # See Minitest::Assertions#assert_nil
   #
-  #    obj.must_be_nil
+  #    _(obj).must_be_nil
   #
   # :method: must_be_nil
 
@@ -104,11 +105,11 @@ module Minitest::Expectations
   ##
   # See Minitest::Assertions#assert_operator
   #
-  #    n.must_be :<=, 42
+  #    _(n).must_be :<=, 42
   #
   # This can also do predicates:
   #
-  #    str.must_be :empty?
+  #    _(str).must_be :empty?
   #
   # :method: must_be
 
@@ -117,7 +118,7 @@ module Minitest::Expectations
   ##
   # See Minitest::Assertions#assert_output
   #
-  #    proc { ... }.must_output out_or_nil [, err]
+  #    _ { ... }.must_output out_or_nil [, err]
   #
   # :method: must_output
 
@@ -126,7 +127,7 @@ module Minitest::Expectations
   ##
   # See Minitest::Assertions#assert_raises
   #
-  #    proc { ... }.must_raise exception
+  #    _ { ... }.must_raise exception
   #
   # :method: must_raise
 
@@ -135,7 +136,7 @@ module Minitest::Expectations
   ##
   # See Minitest::Assertions#assert_respond_to
   #
-  #    obj.must_respond_to msg
+  #    _(obj).must_respond_to msg
   #
   # :method: must_respond_to
 
@@ -144,7 +145,7 @@ module Minitest::Expectations
   ##
   # See Minitest::Assertions#assert_same
   #
-  #    a.must_be_same_as b
+  #    _(a).must_be_same_as b
   #
   # :method: must_be_same_as
 
@@ -153,7 +154,7 @@ module Minitest::Expectations
   ##
   # See Minitest::Assertions#assert_silent
   #
-  #    proc { ... }.must_be_silent
+  #    _ { ... }.must_be_silent
   #
   # :method: must_be_silent
 
@@ -162,16 +163,34 @@ module Minitest::Expectations
   ##
   # See Minitest::Assertions#assert_throws
   #
-  #    proc { ... }.must_throw sym
+  #    _ { ... }.must_throw sym
   #
   # :method: must_throw
 
   infect_an_assertion :assert_throws, :must_throw, :block
 
   ##
+  # See Minitest::Assertions#assert_path_exists
+  #
+  #   _(some_path).path_must_exist
+  #
+  # :method: path_must_exist
+
+  infect_an_assertion :assert_path_exists, :path_must_exist, :unary
+
+  ##
+  # See Minitest::Assertions#refute_path_exists
+  #
+  #   _(some_path).path_wont_exist
+  #
+  # :method: path_wont_exist
+
+  infect_an_assertion :refute_path_exists, :path_wont_exist, :unary
+
+  ##
   # See Minitest::Assertions#refute_empty
   #
-  #    collection.wont_be_empty
+  #    _(collection).wont_be_empty
   #
   # :method: wont_be_empty
 
@@ -180,7 +199,7 @@ module Minitest::Expectations
   ##
   # See Minitest::Assertions#refute_equal
   #
-  #    a.wont_equal b
+  #    _(a).wont_equal b
   #
   # :method: wont_equal
 
@@ -189,18 +208,18 @@ module Minitest::Expectations
   ##
   # See Minitest::Assertions#refute_in_delta
   #
-  #    n.wont_be_close_to m [, delta]
+  #    _(n).wont_be_close_to m [, delta]
   #
   # :method: wont_be_close_to
 
   infect_an_assertion :refute_in_delta, :wont_be_close_to
 
-  alias :wont_be_within_delta :wont_be_close_to # :nodoc:
+  infect_an_assertion :refute_in_delta, :wont_be_within_delta # :nodoc:
 
   ##
   # See Minitest::Assertions#refute_in_epsilon
   #
-  #    n.wont_be_within_epsilon m [, epsilon]
+  #    _(n).wont_be_within_epsilon m [, epsilon]
   #
   # :method: wont_be_within_epsilon
 
@@ -209,7 +228,7 @@ module Minitest::Expectations
   ##
   # See Minitest::Assertions#refute_includes
   #
-  #    collection.wont_include obj
+  #    _(collection).wont_include obj
   #
   # :method: wont_include
 
@@ -218,7 +237,7 @@ module Minitest::Expectations
   ##
   # See Minitest::Assertions#refute_instance_of
   #
-  #    obj.wont_be_instance_of klass
+  #    _(obj).wont_be_instance_of klass
   #
   # :method: wont_be_instance_of
 
@@ -227,7 +246,7 @@ module Minitest::Expectations
   ##
   # See Minitest::Assertions#refute_kind_of
   #
-  #    obj.wont_be_kind_of mod
+  #    _(obj).wont_be_kind_of mod
   #
   # :method: wont_be_kind_of
 
@@ -236,7 +255,7 @@ module Minitest::Expectations
   ##
   # See Minitest::Assertions#refute_match
   #
-  #    a.wont_match b
+  #    _(a).wont_match b
   #
   # :method: wont_match
 
@@ -245,7 +264,7 @@ module Minitest::Expectations
   ##
   # See Minitest::Assertions#refute_nil
   #
-  #    obj.wont_be_nil
+  #    _(obj).wont_be_nil
   #
   # :method: wont_be_nil
 
@@ -254,7 +273,7 @@ module Minitest::Expectations
   ##
   # See Minitest::Assertions#refute_operator
   #
-  #    n.wont_be :<=, 42
+  #    _(n).wont_be :<=, 42
   #
   # This can also do predicates:
   #
@@ -267,7 +286,7 @@ module Minitest::Expectations
   ##
   # See Minitest::Assertions#refute_respond_to
   #
-  #    obj.wont_respond_to msg
+  #    _(obj).wont_respond_to msg
   #
   # :method: wont_respond_to
 
@@ -276,7 +295,7 @@ module Minitest::Expectations
   ##
   # See Minitest::Assertions#refute_same
   #
-  #    a.wont_be_same_as b
+  #    _(a).wont_be_same_as b
   #
   # :method: wont_be_same_as
 
