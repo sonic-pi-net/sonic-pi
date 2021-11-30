@@ -15,7 +15,7 @@ while getopts ":n" opt; do
   esac
 done
 
-if [ $no_imgui == true ]
+if [ "$no_imgui" == true ]
 then
     VCPKG_FORCE_SYSTEM_BINARIES=1 "${SCRIPT_DIR}"/linux-prebuild.sh -n
 else

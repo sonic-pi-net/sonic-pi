@@ -41,11 +41,11 @@ mkdir -p "${SCRIPT_DIR}/build"
 echo "Generating makefiles..."
 cd "${SCRIPT_DIR}/build"
 
-if [ $no_imgui=true ]
+if [ "$no_imgui" == true ]
 then
-    cmake -G "Unix Makefiles" -DBUILD_IMGUI_INTERFACE=OFF -DCMAKE_BUILD_TYPE=\"$config\" ..
+    cmake -G "Unix Makefiles" -DBUILD_IMGUI_INTERFACE=OFF -DCMAKE_BUILD_TYPE="$config" ..
 else
-    cmake -G "Unix Makefiles" -DBUILD_IMGUI_INTERFACE=ON -DCMAKE_BUILD_TYPE=\"$config\" ..
+    cmake -G "Unix Makefiles" -DBUILD_IMGUI_INTERFACE=ON -DCMAKE_BUILD_TYPE="$config" ..
 fi
 
 cd "${SCRIPT_DIR}"
