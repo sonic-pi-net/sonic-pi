@@ -1,0 +1,220 @@
+<%= _("# This is a data file that contains information describing the text that is
+# displayed on pages in the Synths and FX sections of Sonic Pi's help panel.") %>
+
+## <%= _("Synth or FX name") %>
+## ====================
+# <%= _("A unique identifier for this synth or FX.") %>
+[autotuner]
+
+## <%= _("Synth or FX long name") %>
+## ====================
+# <%= _("A word or short phrase that is used as a label for the synth or FX.") %>
+name = "<%= _("Autotuner") %>"
+
+## <%= _("Synth or FX usage example") %>
+## ====================
+# <%= _("A basic code example of how to use the synth or FX.") %>
+usage = '''
+with_fx :autotuner do
+  play 50
+end
+'''
+
+## <%= _("Synth or FX description") %>
+## ====================
+# <%= _("The detailed description of the synth or FX.") %>
+doc = '''
+<%= _("Autotune/phase vocoder effect. Used without any arguments, it tries to detect the pitch and shift it to the nearest exact note. This can help with out of tune singing, but it's also an interesting effect in its own right. When used with the note: arg, it tries to shift the input to match that note instead. This gives that classic 'robot singing' sound that people associate with vocoders. This can then be changed using the control method to create new melodies.
+
+```
+with_fx :autotuner do |c|
+```
+
+```
+  sample '~/Downloads/acappella.wav' # any sample with a voice is good
+```
+
+```
+  sleep 4
+```
+
+```
+  # listen to standard auto-tune behaviour for 4 seconds
+```
+
+```
+  64.times do
+```
+
+```
+     # now start changing note: to get robot voice behaviour
+```
+
+```
+     control c, note: (scale :a2, :minor_pentatonic, num_octaves: 2).choose
+```
+
+```
+     sleep 0.5
+```
+
+```
+  end
+```
+
+```
+end
+```
+") %>
+'''
+
+## <%= _("Synth or FX introduction") %>
+## ====================
+# <%= _("The label describing the version of Sonic Pi in which this synth or FX first appeared.") %>
+[autotuner.introduced]
+label = "<%= _("Introduced in v3.2") %>"
+
+## <%= _("Synth or FX options") %>
+## ====================
+<%= _("# The options are the opts of this synth or FX.
+# In the documentation, we currently display two tables of opts:
+# - one listing the name of each opt and its default value for easy reference
+# - a second, more detailed table labelled 'Options', containing:
+#   - the name of each opt
+#   - a detailed description of it
+#   - its default value
+#   - (if the opt has constraints (limits or a specific range of permitted
+#     values, etc)): the constraints of the opt.
+#     Example:") %>
+#     contraints = '''
+#     Must be zero or greater
+#     '''
+<%= _("#   - a label describing whether this opt can be modulated (altered) while the
+#     synth or fx is running
+#   - (if the opt is slidable): a label indicating that the opt is slidable.") %>
+#     <%= _("Example:") %>
+#     slidable_label = "Has slide options to shape changes"
+<%= _("#   - (if the opt is affected by the current BPM): a label indicating that the opt is scaled with the current BPM.") %>
+#     <%= _("Example:") %>
+#     bpm_scaled_label = "Scaled with current BPM value"
+[autotuner.options]
+label = "<%= _("Options") %>"
+
+[[autotuner.options.list]]
+name = "amp:"
+doc = '''
+<%= _("The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)") %>
+'''
+default_value = "1"
+constraints = '''
+<%= _("Must be zero or greater") %>
+'''
+modulatable = '''
+<%= _("May be changed whilst playing") %>
+'''
+slidable_label = "<%= _("Has slide options to shape changes") %>"
+
+[[autotuner.options.list]]
+name = "mix:"
+doc = '''
+<%= _("The amount (percentage) of FX present in the resulting sound represented as a value between 0 and 1. For example, a mix of 0 means that only the original sound is heard, a mix of 1 means that only the FX is heard (typically the default) and a mix of 0.5 means that half the original and half of the FX is heard.") %>
+'''
+default_value = "1"
+constraints = '''
+<%= _("Must be a value between 0 and 1 inclusively") %>
+'''
+modulatable = '''
+<%= _("May be changed whilst playing") %>
+'''
+slidable_label = "<%= _("Has slide options to shape changes") %>"
+
+[[autotuner.options.list]]
+name = "pre_mix:"
+doc = '''
+<%= _("The amount (percentage) of the original signal that is fed into the internal FX system as a value between 0 and 1. With a pre_mix: of 0 the FX is completely bypassed unlike a mix: of 0 where the internal FX is still being fed the original signal but the output of the FX is ignored. The difference between the two is subtle but important and is evident when the FX has a residual component such as echo or reverb. When switching mix: from 0 to 1, the residual component of the FX's output from previous audio is present in the output signal. With pre_mix: there is no residual component of the previous audio in the output signal.") %>
+'''
+default_value = "1"
+constraints = '''
+<%= _("Must be zero or greater") %>
+'''
+modulatable = '''
+<%= _("May be changed whilst playing") %>
+'''
+slidable_label = "<%= _("Has slide options to shape changes") %>"
+
+[[autotuner.options.list]]
+name = "pre_amp:"
+doc = '''
+<%= _("Amplification applied to the input signal immediately before it is passed to the FX.") %>
+'''
+default_value = "1"
+constraints = '''
+<%= _("Must be zero or greater") %>
+'''
+modulatable = '''
+<%= _("May be changed whilst playing") %>
+'''
+slidable_label = "<%= _("Has slide options to shape changes") %>"
+
+[[autotuner.options.list]]
+name = "note:"
+doc = '''
+<%= _("Midi note to shift pitch to. The quality of the sound depends on how stable the pitch of the input is.") %>
+'''
+default_value = "0"
+constraints = '''
+<%= _("Must be a value between 0 and 127 inclusively") %>
+'''
+modulatable = '''
+<%= _("May be changed whilst playing") %>
+'''
+slidable_label = "<%= _("Has slide options to shape changes") %>"
+
+[[autotuner.options.list]]
+name = "formant_ratio:"
+doc = '''
+<%= _("This effect separates pitched content of an input from the formant sounds (percussive, non-pitched sounds like 'ssss' and 'ttttt'). Changing the formant ratio shifts the non-pitched sounds - lower pitched formants (0.5) sound like someone with a deep voice, higher values (e.g. 2.0 and above) sound like a high pitched voice.") %>
+'''
+default_value = "1.0"
+constraints = '''
+<%= _("Must be a value between 0 and 10 inclusively") %>
+'''
+modulatable = '''
+<%= _("May be changed whilst playing") %>
+'''
+slidable_label = "<%= _("Has slide options to shape changes") %>"
+
+## <%= _("Sample sliding") %>
+## ====================
+<%= _("# The values set below relate to the documentation section on sliding,
+# that describes what sliding options are, and what each of them do.") %>
+[autotuner.sliding]
+slide_label = "<%= _("Slide Options") %>"
+slide_description = '''
+<%= _("Any parameter that is slidable has three additional options named _slide,
+_slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also
+set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:") %>
+'''
+
+[[autotuner.sliding.slide_opts]]
+name = "_slide"
+default = "0"
+doc = '''
+<%= _("Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value.") %>
+'''
+
+[[autotuner.sliding.slide_opts]]
+name = "_slide_shape"
+default = "5"
+doc = '''
+<%= _("Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. ") %>
+'''
+
+[[autotuner.sliding.slide_opts]]
+name = "_slide_curve"
+default = "0"
+doc = '''
+<%= _("Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively.") %>
+'''
+
+

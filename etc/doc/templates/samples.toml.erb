@@ -1,0 +1,80 @@
+<%=
+t_(<<~TEXT.chomp
+    # This is a data file that contains information describing the text that is
+    # displayed on pages in the Samples section of Sonic Pi's help panel.
+    TEXT
+)
+%>
+
+## <%= t_('Sample group id') %>
+## ====================
+# <%= t_('A unique identifier for a group of samples, so that samples are grouped into categories.') %>
+[<%= key %>]
+
+## <%= t_('Sample group description') %>
+## ====================
+# <%= t_('A word or short phrase that is used as a label for the sample group.') %>
+description = "<%= t_(item[:desc]) %>"
+
+## <%= t_('Sample usage examples') %>
+## ====================
+# <%= t_('Basic code examples of how to use the samples in the group.') %>
+usage = '''
+<% item[:samples].each do |s| -%>
+sample :<%= s %>
+<% end -%>
+'''
+
+## <%= t_('Sample options') %>
+## ====================
+<%=
+t_(<<~TEXT.chomp
+# The options are the opts of the sample function.
+# In the documentation, we currently display two tables of opts:
+# - one listing the name of each opt and its default value for easy reference
+# - a second, more detailed table labelled 'Options', containing:
+#   - the name of each opt
+#   - a detailed description of it
+#   - its default value
+#   - (if the opt has constraints (limits or a specific range of permitted
+#     values, etc)): the constraints of the opt
+#   - a label describing whether this opt can be modulated (altered) while the
+#     sample is running
+#   - (if the opt is slidable): a label indicating that the opt is slidable
+TEXT
+)
+%>
+[<%= key %>.options]
+label = "<%= t_('Options') %>"
+<% data_object.arg_info.each do |name, attributes| %>
+[[<%= key %>.options.list]]
+name = "<%= name %>:"
+doc = '''
+<%= t_(attributes[:doc] || 'write me') %>
+'''
+default_value = "<%= attributes[:default] %>"
+<% unless attributes[:constraints].empty? -%>
+constraints = '''
+<%= t_(attributes[:constraints].join(', ').capitalize) %>
+'''
+<% end -%>
+modulatable = '''
+<%=
+t_(
+    if attributes[:modulatable]
+    'May be changed whilst playing'
+    else
+    'Can not be changed once set'
+    end
+)
+%>
+'''
+<% if attributes[:slidable] %>
+slidable_label = "<%= t_('Has slide options to shape changes') %>
+<% end -%>
+<% end -%>
+<%=
+if data_object.arg_info.any? { |name, arg| arg[:slidable] }
+    ERB.new(File.read(::SonicPi::Paths.slides_template_path), trim_mode: '-', eoutvar: '_slide01').result(binding)
+end
+%>

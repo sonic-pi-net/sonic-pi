@@ -61,12 +61,76 @@ module SonicPi
       File.absolute_path("#{etc_path}/doc")
     end
 
+    def self.generated_path
+      File.absolute_path("#{doc_path}/generated")
+    end
+
     def self.cheatsheets_path
       File.absolute_path("#{doc_path}/cheatsheets")
     end
 
     def self.tutorial_path
       File.absolute_path("#{doc_path}/tutorial")
+    end
+
+    def self.lang_path
+      File.absolute_path("#{doc_path}/lang")
+    end
+
+    def self.doc_templates_path
+      File.absolute_path("#{doc_path}/templates")
+    end
+
+    def self.lang_template_path
+      File.absolute_path("#{doc_templates_path}/lang.toml.erb")
+    end
+
+    def self.synth_and_fx_template_path
+      File.absolute_path("#{doc_templates_path}/synth_and_fx.toml.erb")
+    end
+
+    def self.slides_template_path
+      File.absolute_path("#{doc_templates_path}/slides.toml.erb")
+    end
+
+    def self.samples_template_path
+      File.absolute_path("#{doc_templates_path}/samples.toml.erb")
+    end
+
+    def self.interpolated_template_path
+      File.absolute_path("#{generated_path}/interpolated_templates")
+    end
+
+    def self.lang_interpolated_path
+      File.absolute_path("#{interpolated_template_path}/lang")
+    end
+
+    def self.synths_interpolated_path
+      File.absolute_path("#{interpolated_template_path}/synths")
+    end
+
+    def self.fx_interpolated_path
+      File.absolute_path("#{interpolated_template_path}/fx")
+    end
+
+    def self.samples_interpolated_path
+      File.absolute_path("#{interpolated_template_path}/samples")
+    end
+
+    def self.lang_toml_path(lang)
+      File.absolute_path("#{generated_path}/#{lang}/reference/lang")
+    end
+
+    def self.synths_toml_path(lang)
+      File.absolute_path("#{generated_path}/#{lang}/reference/synths")
+    end
+
+    def self.fx_toml_path(lang)
+      File.absolute_path("#{generated_path}/#{lang}/reference/fx")
+    end
+
+    def self.samples_toml_path(lang)
+      File.absolute_path("#{generated_path}/#{lang}/reference/samples")
     end
 
     def self.tmp_path

@@ -1,0 +1,75 @@
+<%= _("# This is a data file that contains information describing the text that is
+# displayed on pages in the Lang section of Sonic Pi's help panel.") %>
+
+## <%= _("Function name") %>
+## ====================
+# <%= _("A unique identifier for this function.") %>
+[all_sample_names]
+
+## <%= _("Function summary") %>
+## ====================
+# <%= _("A short phrase describing this Sonic Pi function.") %>
+summary = "<%= _("Get all sample names") %>"
+
+## <%= _("Function description") %>
+## ====================
+# <%= _("The detailed description of this function.") %>
+doc = '''
+<%= _("Return a list of all the sample names available") %>
+'''
+
+## <%= _("Function args") %>
+## ====================
+<%= _("# Args are the required parameters for the function. Each arg has two documented
+# properties:
+# - the arg's name
+# - the arg's type (number, integer, symbol, ...).") %>
+# <%= _("Example:") %>
+# <%= _("(Repeat the following for every arg):") %>
+# [[chord.args]]
+# name = "tonic"
+# type = "symbol"
+
+## <%= _("Function introduction") %>
+## ====================
+# <%= _("The label describing the version of Sonic Pi in which this function first appeared.") %>
+[all_sample_names.introduced]
+label = "<%= _("Introduced in v2.0") %>"
+
+## <%= _("Function options") %>
+## ====================
+<%= _("# The options are the optional parameters of this function.
+# Each option has two documented properties:
+# - the option's name
+# - the option's description doc.") %>
+# <%= _("Example:") %>
+# [chord.options]
+# label = "Options"
+
+# <%= _("Now repeat the following for every option:") %>
+# [[chord.options.list]]
+# name = "invert:"
+# doc = '''
+# Apply the specified num inversions to chord. See the fn `chord_invert`.
+# '''
+
+## <%= _("Function examples") %>
+## ====================
+<%= _("# Each function may have one or more examples. If it has any, they are listed
+# under an overall 'Example' or 'Examples' label (heading), and each example has
+# a numbered sub-heading.") %>
+# <%= _("Example:") %>
+# [chord.examples]
+# label = "Example"
+# label_plural = "Examples"
+
+# <%= _("Now repeat the following for every example:") %>
+# [[chord.examples.list]]
+# label = "Example 1"
+# example = '''
+# puts (chord :e, :minor) # returns a ring of midi notes - (ring 64, 67, 71)
+# '''
+[all_sample_names.examples]
+label = "<%= _("Example") %>"
+label_plural = "<%= _("Examples") %>"
+

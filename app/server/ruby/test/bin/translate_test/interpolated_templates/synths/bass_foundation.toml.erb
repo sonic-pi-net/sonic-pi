@@ -1,0 +1,258 @@
+<%= _("# This is a data file that contains information describing the text that is
+# displayed on pages in the Synths and FX sections of Sonic Pi's help panel.") %>
+
+## <%= _("Synth or FX name") %>
+## ====================
+# <%= _("A unique identifier for this synth or FX.") %>
+[bass_foundation]
+
+## <%= _("Synth or FX long name") %>
+## ====================
+# <%= _("A word or short phrase that is used as a label for the synth or FX.") %>
+name = "<%= _("Bass Foundation") %>"
+
+## <%= _("Synth or FX usage example") %>
+## ====================
+# <%= _("A basic code example of how to use the synth or FX.") %>
+usage = '''
+use_synth :bass_foundation
+'''
+
+## <%= _("Synth or FX description") %>
+## ====================
+# <%= _("The detailed description of the synth or FX.") %>
+doc = '''
+<%= _("A soft bass synth inspired by the sounds of the 80s. Use together with :bass_highend if you want to give it a gargling component. Adapted for Sonic Pi from [Steal This Sound](https://raw.githubusercontent.com/supercollider/supercollider/develop/examples/demonstrations/stealthissound.scd).") %>
+'''
+
+## <%= _("Synth or FX introduction") %>
+## ====================
+# <%= _("The label describing the version of Sonic Pi in which this synth or FX first appeared.") %>
+[bass_foundation.introduced]
+label = "<%= _("Introduced in v4.0") %>"
+
+## <%= _("Synth or FX options") %>
+## ====================
+<%= _("# The options are the opts of this synth or FX.
+# In the documentation, we currently display two tables of opts:
+# - one listing the name of each opt and its default value for easy reference
+# - a second, more detailed table labelled 'Options', containing:
+#   - the name of each opt
+#   - a detailed description of it
+#   - its default value
+#   - (if the opt has constraints (limits or a specific range of permitted
+#     values, etc)): the constraints of the opt.
+#     Example:") %>
+#     contraints = '''
+#     Must be zero or greater
+#     '''
+<%= _("#   - a label describing whether this opt can be modulated (altered) while the
+#     synth or fx is running
+#   - (if the opt is slidable): a label indicating that the opt is slidable.") %>
+#     <%= _("Example:") %>
+#     slidable_label = "Has slide options to shape changes"
+<%= _("#   - (if the opt is affected by the current BPM): a label indicating that the opt is scaled with the current BPM.") %>
+#     <%= _("Example:") %>
+#     bpm_scaled_label = "Scaled with current BPM value"
+[bass_foundation.options]
+label = "<%= _("Options") %>"
+
+[[bass_foundation.options.list]]
+name = "note:"
+doc = '''
+<%= _("Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, `:C`, `:C2`, `:Eb4`, or `:Ds3`") %>
+'''
+default_value = "40"
+constraints = '''
+<%= _("Must be zero or greater") %>
+'''
+modulatable = '''
+<%= _("May be changed whilst playing") %>
+'''
+slidable_label = "<%= _("Has slide options to shape changes") %>"
+
+[[bass_foundation.options.list]]
+name = "amp:"
+doc = '''
+<%= _("The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)") %>
+'''
+default_value = "1"
+constraints = '''
+<%= _("Must be zero or greater") %>
+'''
+modulatable = '''
+<%= _("May be changed whilst playing") %>
+'''
+slidable_label = "<%= _("Has slide options to shape changes") %>"
+
+[[bass_foundation.options.list]]
+name = "pan:"
+doc = '''
+<%= _("Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.") %>
+'''
+default_value = "0"
+constraints = '''
+<%= _("Must be a value between -1 and 1 inclusively") %>
+'''
+modulatable = '''
+<%= _("May be changed whilst playing") %>
+'''
+slidable_label = "<%= _("Has slide options to shape changes") %>"
+
+[[bass_foundation.options.list]]
+name = "attack:"
+doc = '''
+<%= _("Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.") %>
+'''
+default_value = "0"
+constraints = '''
+<%= _("Must be zero or greater") %>
+'''
+modulatable = '''
+<%= _("Can not be changed once set") %>
+'''
+bpm_scaled_label = "<%= _("Scaled with current BPM value") %>"
+
+[[bass_foundation.options.list]]
+name = "decay:"
+doc = '''
+<%= _("Amount of time (in beats) for the sound to move from full amplitude (attack_level) to the sustain amplitude (sustain_level).") %>
+'''
+default_value = "0"
+constraints = '''
+<%= _("Must be zero or greater") %>
+'''
+modulatable = '''
+<%= _("Can not be changed once set") %>
+'''
+bpm_scaled_label = "<%= _("Scaled with current BPM value") %>"
+
+[[bass_foundation.options.list]]
+name = "sustain:"
+doc = '''
+<%= _("Amount of time (in beats) for sound to remain at sustain level amplitude. Longer sustain values result in longer sounds. Full length of sound is attack + decay + sustain + release.") %>
+'''
+default_value = "0"
+constraints = '''
+<%= _("Must be zero or greater") %>
+'''
+modulatable = '''
+<%= _("Can not be changed once set") %>
+'''
+bpm_scaled_label = "<%= _("Scaled with current BPM value") %>"
+
+[[bass_foundation.options.list]]
+name = "release:"
+doc = '''
+<%= _("Amount of time (in beats) for sound to move from sustain level amplitude to silent. A short release (i.e. 0.01) makes the final part of the sound very percussive (potentially resulting in a click). A longer release (i.e 1) fades the sound out gently. Full length of sound is attack + decay + sustain + release.") %>
+'''
+default_value = "1"
+constraints = '''
+<%= _("Must be zero or greater") %>
+'''
+modulatable = '''
+<%= _("Can not be changed once set") %>
+'''
+bpm_scaled_label = "<%= _("Scaled with current BPM value") %>"
+
+[[bass_foundation.options.list]]
+name = "attack_level:"
+doc = '''
+<%= _("Amplitude level reached after attack phase and immediately before decay phase") %>
+'''
+default_value = "1"
+constraints = '''
+<%= _("Must be zero or greater") %>
+'''
+modulatable = '''
+<%= _("Can not be changed once set") %>
+'''
+
+[[bass_foundation.options.list]]
+name = "decay_level:"
+doc = '''
+<%= _("Amplitude level reached after decay phase and immediately before sustain phase. Defaults to sustain_level unless explicitly set") %>
+'''
+default_value = "sustain_level"
+constraints = '''
+<%= _("Must be zero or greater") %>
+'''
+modulatable = '''
+<%= _("Can not be changed once set") %>
+'''
+
+[[bass_foundation.options.list]]
+name = "sustain_level:"
+doc = '''
+<%= _("Amplitude level reached after decay phase and immediately before release phase.") %>
+'''
+default_value = "1"
+constraints = '''
+<%= _("Must be zero or greater") %>
+'''
+modulatable = '''
+<%= _("Can not be changed once set") %>
+'''
+
+[[bass_foundation.options.list]]
+name = "cutoff:"
+doc = '''
+<%= _("MIDI note representing the highest frequencies allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy.") %>
+'''
+default_value = "83"
+constraints = '''
+<%= _("Must be zero or greater, must be a value less than 131") %>
+'''
+modulatable = '''
+<%= _("May be changed whilst playing") %>
+'''
+slidable_label = "<%= _("Has slide options to shape changes") %>"
+
+[[bass_foundation.options.list]]
+name = "res:"
+doc = '''
+<%= _("Filter resonance as a value between 0 and 1. Large amounts of resonance (a res: near 1) can create a whistling sound around the cutoff frequency. Smaller values produce less resonance.") %>
+'''
+default_value = "0.5"
+constraints = '''
+<%= _("Must be zero or greater, must be a value less than 1") %>
+'''
+modulatable = '''
+<%= _("May be changed whilst playing") %>
+'''
+slidable_label = "<%= _("Has slide options to shape changes") %>"
+
+## <%= _("Sample sliding") %>
+## ====================
+<%= _("# The values set below relate to the documentation section on sliding,
+# that describes what sliding options are, and what each of them do.") %>
+[bass_foundation.sliding]
+slide_label = "<%= _("Slide Options") %>"
+slide_description = '''
+<%= _("Any parameter that is slidable has three additional options named _slide,
+_slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also
+set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:") %>
+'''
+
+[[bass_foundation.sliding.slide_opts]]
+name = "_slide"
+default = "0"
+doc = '''
+<%= _("Amount of time (in beats) for the parameter value to change. A long parameter_slide value means that the parameter takes a long time to slide from the previous value to the new value. A parameter_slide of 0 means that the parameter instantly changes to the new value.") %>
+'''
+
+[[bass_foundation.sliding.slide_opts]]
+name = "_slide_shape"
+default = "5"
+doc = '''
+<%= _("Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. ") %>
+'''
+
+[[bass_foundation.sliding.slide_opts]]
+name = "_slide_curve"
+default = "0"
+doc = '''
+<%= _("Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively.") %>
+'''
+
+
