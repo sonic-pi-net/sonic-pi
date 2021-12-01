@@ -23,7 +23,6 @@ require_relative "../lib/sonicpi/util"
 require_relative "../lib/sonicpi/runtime"
 require_relative "../lib/sonicpi/lang/core"
 require_relative "../lib/sonicpi/lang/sound"
-require_relative "../lib/sonicpi/lang/minecraftpi"
 require_relative "../lib/sonicpi/lang/midi"
 
 require 'active_support/inflector'
