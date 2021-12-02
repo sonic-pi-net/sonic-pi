@@ -64,11 +64,7 @@ class QCheckBox;
 class QVBoxLayout;
 class QSplashScreen;
 class QLabel;
-#ifdef WITH_WEBENGINE
 class QWebEngineView;
-class QWebEngineProfile;
-class QWebEnginePage;
-#endif
 
 class InfoWidget;
 class SettingsWidget;
@@ -81,6 +77,7 @@ class SonicPiTheme;
 class SonicPiLexer;
 class SonicPiSettings;
 class SonicPiContext;
+class PhxWidget;
 
 struct help_page {
     QString title = "";
@@ -371,11 +368,8 @@ signals:
         QWidget *blankWidget;
         QWidget *outputWidgetTitle;
         QTextBrowser *docPane;
-#ifdef WITH_WEBENGINE
-        QWebEngineView *phxView;
-        QWebEnginePage *phxPage;
-        QWebEngineProfile *phxProfile;
-#endif
+        PhxWidget *phxWidget;
+
         //  QTextBrowser *hudPane;
         QWidget *mainWidget;
         QDockWidget *scopeWidget;

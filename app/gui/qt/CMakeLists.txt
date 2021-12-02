@@ -90,6 +90,11 @@ set(SOURCES
     ${QTAPP_ROOT}/widgets/sonicpilog.h
     ${QTAPP_ROOT}/widgets/sonicpicontext.cpp
     ${QTAPP_ROOT}/widgets/sonicpicontext.h
+    ${QTAPP_ROOT}/widgets/phxwebview.h
+    ${QTAPP_ROOT}/widgets/phxwebview.cpp
+    ${QTAPP_ROOT}/widgets/phxwidget.h
+    ${QTAPP_ROOT}/widgets/phxwidget.cpp
+
     ${QTAPP_ROOT}/utils/scintilla_api.h
     ${QTAPP_ROOT}/utils/sonicpi_i18n.h
     ${QTAPP_ROOT}/utils/ruby_help.h
