@@ -372,6 +372,12 @@ QComboBox::drop-down
     border-style: none;
 }
 
+QLabel[accessibleName="incoming-osc-disabled-label"]
+{
+    font-size: small;
+    margin-left: 16dx;
+}
+
 QLabel[accessibleName="midi-in-ports-label"]
 {
     font-size: small;
