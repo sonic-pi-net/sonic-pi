@@ -254,31 +254,30 @@ bool SonicPiAPI::StartBootDaemon()
     std::string input_str(buffer, buffer + bytes_read);
 
     input_str = string_trim(input_str);
-    auto ports = string_split(input_str, " ");
-    std::transform(ports.begin(), ports.end(), ports.begin(), [](std::string& val) { return string_trim(val); });
+    auto daemon_stdout = string_split(input_str, " ");
+    std::transform(daemon_stdout.begin(), daemon_stdout.end(), daemon_stdout.begin(), [](std::string& val) { return string_trim(val); });
 
 
-    for(int i = 0 ; i < ports.size() ; i ++) {
-      int port = std::stoi(ports[i]);
-      LOG(INFO, "port: " + std::to_string(port));
+    for(int i = 0 ; i < daemon_stdout.size() ; i ++) {
+      LOG(INFO, "daemon_stdout: " + daemon_stdout[i]);
     }
 
-    if(ports.size() != 6) {
-      LOG(ERR, "\nError. Was expecting 6 port numbers from the Daemon Booter. Got: " + std::to_string(ports.size()) + "\n");
+    if(daemon_stdout.size() != 7) {
+      LOG(ERR, "\nError. Was expecting 6 port numbers and a kill_token from the Daemon Booter. Got: " + input_str + "\n");
       return false;
     }
 
-    m_ports[SonicPiPortId::daemon] = std::stoi(ports[0]);
-    m_ports[SonicPiPortId::gui_listen_to_server] = std::stoi(ports[1]);
-    m_ports[SonicPiPortId::gui_send_to_server] = std::stoi(ports[2]);
-    m_ports[SonicPiPortId::scsynth] = std::stoi(ports[3]);
-    m_ports[SonicPiPortId::server_osc_cues] = std::stoi(ports[4]);
-    m_ports[SonicPiPortId::phx_http] = std::stoi(ports[5]);
+    m_ports[SonicPiPortId::daemon_keep_alive] = std::stoi(daemon_stdout[0]);
+    m_ports[SonicPiPortId::gui_listen_to_spider] = std::stoi(daemon_stdout[1]);
+    m_ports[SonicPiPortId::gui_send_to_spider] = std::stoi(daemon_stdout[2]);
+    m_ports[SonicPiPortId::scsynth] = std::stoi(daemon_stdout[3]);
+    m_ports[SonicPiPortId::server_osc_cues] = std::stoi(daemon_stdout[4]);
+    m_ports[SonicPiPortId::phx_http] = std::stoi(daemon_stdout[5]);
+    m_kill_token = daemon_stdout[6];
 
-    m_spOscSender = std::make_shared<OscSender>(std::stoi(ports[2]));
+    m_spOscSpiderSender = std::make_shared<OscSender>(m_ports[SonicPiPortId::gui_send_to_spider]);
 
-    m_bootDaemonSock = std::make_shared<kissnet::tcp_socket>(kissnet::endpoint("127.0.0.1", m_ports[SonicPiPortId::daemon]));
-    m_bootDaemonSock->connect();
+    m_spOscKeepAliveSender = std::make_shared<OscSender>(m_ports[SonicPiPortId::daemon_keep_alive]);
 
     LOG(INFO, "Setting up Boot Daemon keep alive loop");
     m_bootDaemonSockPingLoopThread = std::thread([&]() {
@@ -286,9 +285,10 @@ bool SonicPiAPI::StartBootDaemon()
       while(m_keep_alive.load())
       {
         LOG(DBG, "SND keep_alive");
-        m_bootDaemonSock->send(reinterpret_cast<const std::byte*>(keep_alive_msg.c_str()), keep_alive_msg.size());
+        Message msg("/daemon/keep-alive");
+        m_spOscKeepAliveSender->sendOSC(msg);
         LOG(DBG, "SND keep_alive sent");
-        std::this_thread::sleep_for(1s);
+        std::this_thread::sleep_for(4s);
       }
     });
 
@@ -348,17 +348,16 @@ void SonicPiAPI::Shutdown()
         m_keep_alive.store(false);
     }
 
-    if (m_bootDaemonSock)
-    {
-        LOG(INFO, "Closing socket to Boot Daemon...");
-        m_bootDaemonSock->close();
-    } else {
-      LOG(INFO, "Boot Daemon socket not found so no need to close...");
-    }
 
     m_state = State::Reset;
     LOG(INFO, "API State set to: Reset...");
     LOG(INFO, "Waiting for Daemon keep alive loop to have stopped...");
+
+    LOG(INFO, "Sending /daemon/exit to daemon's kill switch with token " << m_kill_token) ;
+    Message msg("/daemon/exit");
+    msg.pushStr(m_kill_token);
+    m_spOscKeepAliveSender->sendOSC(msg);
+
     m_bootDaemonSockPingLoopThread.join();
     m_pingerThread.join();
 
@@ -376,11 +375,11 @@ bool SonicPiAPI::StartOscServer()
     if (m_protocol == APIProtocol::UDP)
 
       {
-        auto listenPort = GetPort(SonicPiPortId::gui_listen_to_server);
+        auto listenPort = GetPort(SonicPiPortId::gui_listen_to_spider);
 
-        m_spOscServer = std::make_shared<OscServerUDP>(m_pClient, std::make_shared<OscHandler>(m_pClient), listenPort);
+        m_spOscSpiderServer = std::make_shared<OscServerUDP>(m_pClient, std::make_shared<OscHandler>(m_pClient), listenPort);
         m_oscServerThread = std::thread([&]() {
-            m_spOscServer->start();
+            m_spOscSpiderServer->start();
             LOG(DBG, "Osc Server Thread Exiting");
         });
     }
@@ -398,7 +397,7 @@ bool SonicPiAPI::SendOSC(Message m)
 
     if (WaitUntilReady())
     {
-        bool res = m_spOscSender->sendOSC(m);
+        bool res = m_spOscSpiderSender->sendOSC(m);
         if (!res)
         {
             LOG(ERR, "Could Not Send OSC");
@@ -458,11 +457,11 @@ bool SonicPiAPI::PingUntilServerCreated()
 
     int timeout = 60;
     LOG(INFO, "Waiting for Sonic Pi Spider Server to respond...");
-    while (m_keep_alive.load() && m_spOscServer->waitForServer() && timeout-- > 0)
+    while (m_keep_alive.load() && m_spOscSpiderServer->waitForServer() && timeout-- > 0)
     {
         std::this_thread::sleep_for(1s);
         LOG(INFO, ".");
-        if (m_spOscServer->isIncomingPortOpen())
+        if (m_spOscSpiderServer->isIncomingPortOpen())
         {
             Message msg("/ping");
             msg.pushStr(m_guid);
@@ -471,11 +470,11 @@ bool SonicPiAPI::PingUntilServerCreated()
             //bypass ::SendOSC as that needs to wait until ready
             //which is precisely what this message is attempting
             //to figure out!
-            m_spOscSender->sendOSC(msg);
+            m_spOscSpiderSender->sendOSC(msg);
         }
     }
 
-    if (!m_spOscServer->isServerStarted())
+    if (!m_spOscSpiderServer->isServerStarted())
     {
         MessageInfo message;
         message.type = MessageType::StartupError;
@@ -718,10 +717,10 @@ void SonicPiAPI::StopOscServer()
     // */
 
     // Stop the osc server and hence the osc thread
-    if (m_spOscServer)
+    if (m_spOscSpiderServer)
     {
         LOG(DBG, "Stopping Osc Server...");
-        m_spOscServer->stop();
+        m_spOscSpiderServer->stop();
     }
 
     // The server should have closed the osc channel; therefore we can join the thread
@@ -735,7 +734,7 @@ void SonicPiAPI::StopOscServer()
     {
         LOG(DBG, "Osc Server thread has already stopped");
     }
-    m_spOscSender.reset();
+    m_spOscSpiderSender.reset();
 }
 
 
