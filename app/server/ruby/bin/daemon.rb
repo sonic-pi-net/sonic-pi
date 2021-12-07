@@ -210,7 +210,7 @@ module SonicPi
         kill_switch_thread = Thread.new do
           attempts = 0
           max_attempts = 4
-
+          Kernel.sleep 40
           loop do
             Kernel.sleep 5
             if queue.empty?
