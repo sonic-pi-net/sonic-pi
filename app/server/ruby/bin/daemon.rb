@@ -233,7 +233,7 @@ module SonicPi
 
         if exit_token
           server.add_method("/daemon/exit") do |args|
-            if args[0] && args[0] == exita_token
+            if args[0] && args[0] == exit_token
               Util.log "Kill switch for port #{port_num} remotely activated using token #{exit_token}"
               @safe_exit.exit
             else
