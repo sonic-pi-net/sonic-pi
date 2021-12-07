@@ -58,9 +58,9 @@ enum class SonicPiPath
 enum class SonicPiPortId
 {
     Invalid,
-    daemon,
-    gui_listen_to_server,
-    gui_send_to_server,
+    daemon_keep_alive,
+    gui_listen_to_spider,
+    gui_send_to_spider,
     scsynth,
     server_osc_cues,
     phx_http
@@ -336,7 +336,6 @@ private:
     std::ofstream m_stdlog;
 
     std::shared_ptr<reproc::process> m_bootDaemonProcess;
-    std::shared_ptr<kissnet::tcp_socket> m_bootDaemonSock;
 
     std::mutex m_osc_mtx;
     bool m_shutdown_engaged = false;
@@ -348,10 +347,12 @@ private:
     std::thread m_pingerThread;
     std::thread m_bootDaemonSockPingLoopThread;
 
-    std::shared_ptr<OscServer> m_spOscServer;
-    std::shared_ptr<OscSender> m_spOscSender;
+    std::shared_ptr<OscServer> m_spOscSpiderServer;
+    std::shared_ptr<OscSender> m_spOscSpiderSender;
+    std::shared_ptr<OscSender> m_spOscKeepAliveSender;
     std::shared_ptr<AudioProcessor> m_spAudioProcessor;
     std::string m_guid;
+    std::string m_kill_token;
 
     IAPIClient* m_pClient = nullptr;
     APIProtocol m_protocol = APIProtocol::UDP;
