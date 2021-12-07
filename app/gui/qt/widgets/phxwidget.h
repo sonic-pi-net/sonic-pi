@@ -31,8 +31,8 @@ public:
     void load(QUrl url);
 
 private:
-    QVBoxLayout *mainLayout;
-    QHBoxLayout *topRowSubLayout;
+    QHBoxLayout *mainLayout;
+    QVBoxLayout *topRowSubLayout;
     QPushButton *sizeDownButton;
     QPushButton *sizeUpButton;
     QPushButton *openExternalBrowserButton;
