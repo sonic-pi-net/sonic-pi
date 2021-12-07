@@ -11,7 +11,7 @@
 
 %% Supervisor callbacks
 -export([init/1]).
--export([set_application_env/10]).
+-export([set_application_env/11]).
 
 -define(APPLICATION, tau).
 
@@ -43,7 +43,8 @@ set_application_env(MIDIEnabled,
                     OSCInUDPPort,
                     ApiPort,
                     SpiderPort,
-                    DaemonPort) ->
+                    DaemonPort,
+                    KeepAlivePort) ->
 
     application:set_env(?APPLICATION, midi_enabled, MIDIEnabled),
     application:set_env(?APPLICATION, link_enabled, LinkEnabled),
@@ -54,7 +55,8 @@ set_application_env(MIDIEnabled,
     application:set_env(?APPLICATION, osc_in_udp_port, OSCInUDPPort),
     application:set_env(?APPLICATION, api_port, ApiPort),
     application:set_env(?APPLICATION, spider_port, SpiderPort),
-    application:set_env(?APPLICATION, daemon_port, DaemonPort).
+    application:set_env(?APPLICATION, daemon_port, DaemonPort),
+    application:set_env(?APPLICATION, keep_alive_port, KeepAlivePort).
 
 init(_Args) ->
     CueServer = tau_server_cue:server_name(),

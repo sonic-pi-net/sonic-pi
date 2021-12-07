@@ -14,49 +14,42 @@
 
 -module(tau_keepalive).
 
--export([start_link/1, init/1, loop/1]).
+-export([start_link/2, init/2, loop/0]).
 
-start_link(DaemonPortNum) ->
-    spawn_link(?MODULE, init, [DaemonPortNum]).
+start_link(KeepAlivePortNum, DaemonPortNum) ->
+    spawn_link(?MODULE, init, [KeepAlivePortNum, DaemonPortNum]).
 
-init(DaemonPortNum) ->
-    logger:info("connecting to Daemon via TCP...", []),
-    {ok, DaemonSocket} = gen_tcp:connect({127,0,0,1}, DaemonPortNum, [
-                                                                      binary,
-                                                                      {active, true},
-                                                                      {packet, 4},
-                                                                      {keepalive, false}
-                                                                     ]),
-    OSPid = os:getpid(),
-    PidMsg = osc:encode(["/tau_pid", OSPid]),
-    logger:info("Sending Pid ~p to Daemon...", [OSPid]),
-    gen_tcp:send(DaemonSocket, PidMsg),
-    KillSwitch = erlang:send_after(5000, self(), trigger_kill_switch),
+init(KeepAlivePortNum, DaemonPortNum) ->
+    logger:error("Connecting tooo Daemon keepalive port via UDP...~p ~p", [KeepAlivePortNum, DaemonPortNum]),
+
+    OSPid = list_to_integer(os:getpid()),
+    PidMsg = osc:encode(["/tau/pid", OSPid]),
+    {ok, DaemonSocket} = gen_udp:open(0, [binary, {ip, loopback}]),
+    erlang:send_after(1000, self(), {send_pid, DaemonSocket, DaemonPortNum, PidMsg, 30}),
+
+
+    {ok, KeepAliveSocket} = gen_udp:open(0, [binary, {ip, loopback}]),
+    KeepAliveMsg = osc:encode(["/daemon/keep-alive"]),
+    erlang:send_after(1000, self(), {send_keep_alive, KeepAliveSocket, KeepAlivePortNum, KeepAliveMsg}),
     logger:info("Waiting for keepalive messages..."),
-    loop(KillSwitch).
+    loop().
 
-loop(KillSwitch) ->
+loop() ->
     receive
-        {tcp, _Socket, Bin} ->
-            try osc:decode(Bin) of
-                {cmd, ["/system/keepalive"]} ->
-                    logger:debug("Received keepalive message from Daemon", []),
-                    ok = erlang:cancel_timer(KillSwitch, [{async, true}, {info, false}]),
-                    NewKillSwitch = erlang:send_after(5000, self(), trigger_kill_switch),
-                    ?MODULE:loop(NewKillSwitch);
-                Other ->
-                    logger:error("Unexpected message from Daemon:~p", [Other]),
-                    ?MODULE:loop(KillSwitch)
-            catch
-                Class:Term:Trace ->
-                    logger:error("keepalive process: Error decoding OSC: ~p~n~p:~p~n~p",
-                        [Bin, Class, Term, Trace]),
-                    ?MODULE:loop(KillSwitch)
-            end;
-        trigger_kill_switch ->
-            logger:info("Tau kill switch activated. Shutting down....", []),
-            halt();
+        {send_keep_alive, Sock, PortNum, Msg} ->
+            logger:info("Sending keep alive message....", []),
+            gen_udp:send(Sock, {127, 0, 0, 1}, PortNum, Msg),
+            erlang:send_after(4000, self(), {send_keep_alive, Sock, PortNum, Msg}),
+            loop();
+        {send_pid, Sock, PortNum, PidMsg, 0} ->
+            gen_udp:send(Sock, {127, 0, 0, 1}, PortNum, PidMsg),
+            gen_udp:close(Sock),
+            loop();
+        {send_pid, Sock, PortNum, PidMsg, Count} ->
+            gen_udp:send(Sock, {127, 0, 0, 1}, PortNum, PidMsg),
+            erlang:send_after(1000, self(), {send_pid, Sock, PortNum, PidMsg, Count - 1}),
+            loop();
         Any ->
             logger:error("Tau keepalive received unexpected message: ~p", [Any]),
-            init:stop()
+            loop()
     end.
