@@ -2,6 +2,7 @@ require_relative "../note"
 require_relative "../scale"
 require_relative "../chord"
 require_relative "../chordgroup"
+require_relative "../metre/metre"
 require_relative "support/docsystem"
 
 class SonicPi::Core::SPVector
@@ -1116,6 +1117,36 @@ play (chord_invert (chord :A3, \"M\"), 2) #Second inversion - (ring 64, 69, 73)
       accepts_block: false,
       memoize:       true,
       examples:      ["puts chord_names #=>  prints a list of all the chords"]
+
+      def use_metre(metre, &block)
+        raise ArgumentError, "use_metre does not work with a block. Perhaps you meant with_metre" if block
+        new_metre = SynchronisedMetre.new(metre)
+        __thread_locals.set(:sonic_pi_metre, new_metre)
+      end
+
+      def with_metre(metre, &block)
+        raise ArgumentError, "with_metre must be called with a do/end block. Perhaps you meant use_metre" unless block
+        original_metre = __thread_locals.get(:sonic_pi_metre)
+        new_metre = SynchronisedMetre.new(metre)
+        __thread_locals.set(:sonic_pi_metre, new_metre)
+        block.call
+        __thread_locals.set(:sonic_pi_metre, original_metre)
+      end
+
+      def bar(&block)
+        raise ArgumentError, "bar must be called with a do/end block" unless block
+        metre = __thread_locals.get(:sonic_pi_metre)
+        raise "Bar requires a metre to be defined" unless metre
+        raise "Bars cannot be nested" if __thread_locals.get(:sonic_pi_bar)
+        bar_object = Bar.new
+        __thread_locals.set(:sonic_pi_bar, bar_object)
+
+        puts metre.timings
+        block.call
+        sleep(metre.to_beats(bar_object.total_remaining_pulse_units))
+        
+        __thread_locals.set(:sonic_pi_bar, nil)
+      end
 
     end
   end
