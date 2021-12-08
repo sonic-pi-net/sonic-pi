@@ -20,7 +20,7 @@ start_link(KeepAlivePortNum, DaemonPortNum) ->
     spawn_link(?MODULE, init, [KeepAlivePortNum, DaemonPortNum]).
 
 init(KeepAlivePortNum, DaemonPortNum) ->
-    logger:error("Connecting tooo Daemon keepalive port via UDP...~p ~p", [KeepAlivePortNum, DaemonPortNum]),
+    logger:error("Connecting to Daemon keepalive port via UDP...~p ~p", [KeepAlivePortNum, DaemonPortNum]),
 
     OSPid = list_to_integer(os:getpid()),
     PidMsg = osc:encode(["/tau/pid", OSPid]),

@@ -68,7 +68,7 @@ Thread::abort_on_exception = true
 #
 # The port number of this kill switch UDP connection is printed to
 # STDOUT. A external process (such as the GUI) must connect promptly and
-# periodicaly send an OSC message with the path /daemon/keep-alive (more
+# periodically send an OSC message with the path /daemon/keep-alive (more
 # frequently than every 3s) otherwise a timeout will trigger the kill
 # switch and kill all the spawned processes.
 #
@@ -86,9 +86,8 @@ Thread::abort_on_exception = true
 # with each other. These ports are used to create the correct process
 # arguments for spawning and are also passed to STDOUT.
 #
-# Some of these port numbers need to be known by the the client process
-# so that it can send code to run and receives log updates both via UDP
-# to specific ports.
+# Some of these port numbers need to be known by the client process
+# so that it can both send code to run and receive log updates via UDP.
 #
 # The current allocations of these external port numbers are printed to
 # STDOUT in the following order:
@@ -119,7 +118,7 @@ Thread::abort_on_exception = true
 # exit-token:           String that can be sent as the single argument in an OSC
 #                       message with path /daemon/exit sent to daemon-keep-alive
 #                       to trigger the daemon kill switch and force it to exit
-#                       early yet cleanly (i.e. all children processes are closed)..
+#                       early yet cleanly (i.e. all child processes are closed).
 
 
 module SonicPi
@@ -237,7 +236,7 @@ module SonicPi
               Util.log "Kill switch for port #{port_num} remotely activated using token #{exit_token}"
               @safe_exit.exit
             else
-              Util.log "Kill switch for port #{port_num} receieved incorrect token. Ignoring #{args[0]}"
+              Util.log "Kill switch for port #{port_num} received incorrect token. Ignoring #{args[0]}"
             end
           end
         end
