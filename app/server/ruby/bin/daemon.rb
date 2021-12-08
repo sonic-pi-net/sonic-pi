@@ -223,7 +223,7 @@ module SonicPi
           end
         end
 
-        server = SonicPi::OSC::UDPServer.new(port_num) do |address, args, sender_addrinfo|
+        server = SonicPi::OSC::UDPServer.new(port_num, suppress_errors: false) do |address, args, sender_addrinfo|
           Util.log "Kill switch ##{port_num} Received UDP data #{[address, args, sender_addrinfo].inspect}"
         end
 
