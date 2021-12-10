@@ -948,7 +948,7 @@ Scarica subito Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="427"/>
         <source>Studio Mode Enabled. Thank-you for supporting Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation>Modalità studio abilitata. Grazie per supportare Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="431"/>
@@ -963,7 +963,7 @@ Scarica subito Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2547"/>
         <source>Align code to improve readability</source>
-        <translation type="unfinished"></translation>
+        <translation>Allinea il codice per migliorare la leggibilità</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2567"/>
