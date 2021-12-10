@@ -263,7 +263,7 @@ Siamo spiacenti, si è verificato un errore durante l&apos;avvio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="770"/>
         <source>Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Analizzatore</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="793"/>
