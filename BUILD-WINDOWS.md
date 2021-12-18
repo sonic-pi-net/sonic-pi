@@ -176,7 +176,7 @@ mklink /d ruby C:\Ruby27-x64
 
 ## 3. Running the Build
 
-Nowe we're ready to build everything. This is achieved with 3 commands
+Now we're ready to build everything. This is achieved with 3 commands
 which will:
 
 1. Run the prebuild script which builds and sets up a lot of the
