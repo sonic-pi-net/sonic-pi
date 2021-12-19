@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2021-08-24 12:34+0000\n"
-"Last-Translator: Francisco Jose Rey <fcojreyg@gmail.com>\n"
+"PO-Revision-Date: 2021-12-20 00:52+0000\n"
+"Last-Translator: pisanvs <maxmorel@pisanvs.cl>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/es/>\n"
 "Language: es\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.8.1-dev\n"
+"X-Generator: Weblate 4.10\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -2769,17 +2769,16 @@ msgid "Choosing a starting point"
 msgstr "Escogiendo un punto de inicio"
 
 #: 03.5-Partial-Samples.md:41
-#, fuzzy
 msgid ""
 "It is possible to choose an arbitrary starting point in the sample as a value "
 "between 0 and 1 where 0 is the start of the sample, 1 is the end and 0.5 is ha"
 "lf way through the sample. Let's try playing only the last half of the amen br"
 "eak:"
 msgstr ""
-"Es posible elegir un punto de inicio arbitrario en el sampleo con un valor ent"
-"re 0 y 1, donde 0 es el punto de comienzo, 1 es el punto de final y 0.5 es la "
-"mitad del sampleo. Intentemos ejecutar únicamente la última mitad del sampleo "
-"de amen break:"
+"Es posible elegir un punto de inicio arbitrario en el sampleo con un valor "
+"entre 0 y 1, donde 0 es el punto de comienzo, 1 es el punto de final y 0.5 "
+"es la mitad del sampleo. Intentemos ejecutar únicamente la última mitad del "
+"sampleo de amen break:"
 
 #: 03.5-Partial-Samples.md:46
 #, no-wrap
@@ -2787,7 +2786,6 @@ msgid "sample :loop_amen, start: 0.5"
 msgstr "sample :loop_amen, start: 0.5"
 
 #: 03.5-Partial-Samples.md:50
-#, fuzzy
 msgid "How about the last quarter of the sample:"
 msgstr "¿Qué tal escuchar el último cuarto del sample?:"
 
@@ -2797,7 +2795,6 @@ msgid "sample :loop_amen, start: 0.75"
 msgstr "sample :loop_amen, start: 0.75"
 
 #: 03.5-Partial-Samples.md:56
-#, fuzzy
 msgid "Choosing a finish point"
 msgstr "Escogiendo punto de termino"
 
@@ -5702,6 +5699,19 @@ msgid ""
 " racing to do something different to the same variable and every time round a "
 "different loop 'wins'."
 msgstr ""
+"En el ejemplo anterior asignamos un anillo de números a una variable `a` y "
+"luego lo usamos dentro de dos` live_loop`s separados. En el primer bucle en "
+"vivo cada `0.5`s ordenamos el anillo (a` (ring 1, 2, 3, 4, 5, 6) `) y luego "
+"lo imprimimos en el registro. Si ejecuta el código, verá que ¡la lista "
+"impresa * no está siempre ordenada! *. Esto puede sorprenderle, "
+"especialmente que a veces la lista se imprime como ordenada, y otras no. "
+"Esto se llama comportamiento no determinista y es el resultado de un "
+"problema bastante desagradable llamado condición de raza. El problema se "
+"debe al hecho de que el segundo bucle en vivo también está manipulando la "
+"lista (en este caso, mezclándola) y para el momento en que se imprime la "
+"lista, a veces simplemente se ha ordenado y, a veces, se ha barajado. Ambos "
+"bucles en vivo están compitiendo para hacer algo diferente a la misma "
+"variable y cada vez que un ciclo diferente 'gana'."
 
 #: 05.6-Variables.md:168
 #, fuzzy
