@@ -290,6 +290,7 @@ bool SonicPiAPI::StartBootDaemon()
         LOG(DBG, "SND keep_alive sent");
         std::this_thread::sleep_for(4s);
       }
+      LOG(INFO, "Keep Alive Thread Loop has completed.");
     });
 
     m_startServerTime = timer_start();
