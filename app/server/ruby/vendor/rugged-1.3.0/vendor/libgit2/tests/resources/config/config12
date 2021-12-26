@@ -1,0 +1,23 @@
+[some "section"]
+      test = hi ; comment
+      test2 = hello    ; comment
+      test3 = welcome  #comment
+      other = "hello! \" ; ; ; " ; more test
+      other2 = "cool! \" # # # "  # more test
+      multi = "hi, this is a ; \
+multiline comment # with ;\n special chars \
+and other stuff !@#"
+      multi2 = "good, this is a ; \
+multiline comment # with ;\n special chars \
+and other stuff !@#"  #^^^
+      back = "this is \ba phrase"
+      dollar = some $sign
+      multiquotes = !ls  "x" \
+                    ls  "# comment2" \
+                    $HOME
+      multiquotes2 = !ls  "x" \
+                     ls  "\"# comment2" \
+                     $HOME\"
+     multiquotes3 = hi "# ho" there "are #" more \
+quotes
+     quotecomment = hi "# ho" there "are #" more # and a real comment
