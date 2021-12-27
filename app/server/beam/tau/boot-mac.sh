@@ -22,7 +22,7 @@ export SECRET_KEY_BASE=${14}
 export TAU_ENV=${15}
 export MIX_ENV=$TAU_ENV
 
-if [ $TAU_ENV == "dev" ]
+if [ $TAU_ENV = "dev" ]
 then
   mix run --no-halt > log/tau_stdout.log 2>&1
 else
