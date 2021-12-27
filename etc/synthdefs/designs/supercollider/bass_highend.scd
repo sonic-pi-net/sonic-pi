@@ -12,7 +12,7 @@ SynthDef('sonic-pi-bass_highend',{|
 	attack = 0, decay = 0, sustain = 0, release = 1,
 	attack_level = 1, decay_level = -1, sustain_level = 1,
 	cutoff = 102, cutoff_slide = 0, cutoff_slide_shape = 1, cutoff_slide_curve = 0,
-	res = 0.1, res_slide = 0, res_slide_shape = 1, res_slide_curve = 0,
+	res = 0.9, res_slide = 0, res_slide_shape = 1, res_slide_curve = 0,
 	drive = 2.0, drive_slide = 0, drive_slide_shape = 1, drive_slide_curve = 0,
 	out_bus = 0|
 
@@ -27,6 +27,7 @@ SynthDef('sonic-pi-bass_highend',{|
 	cutoff = cutoff.midicps;
 	cutoff = cutoff.varlag(cutoff_slide, cutoff_slide_curve, cutoff_slide_shape);
 
+	res = res.linlin(0, 1, 1, 0);
 	res = res.varlag(res_slide, res_slide_curve, res_slide_shape);
 
 	drive = drive.varlag(drive_slide, drive_slide_curve, drive_slide_shape);

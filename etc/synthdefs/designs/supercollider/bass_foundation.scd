@@ -26,6 +26,7 @@ SynthDef('sonic-pi-bass_foundation', {|
 	cutoff = cutoff.midicps;
     cutoff = cutoff.varlag(cutoff_slide, cutoff_slide_curve, cutoff_slide_shape);
 
+	res = res.linlin(0, 1, 1, 0);
 	res = res.varlag(res_slide, res_slide_curve, res_slide_shape);
 
 	osc = Saw.ar(note);
