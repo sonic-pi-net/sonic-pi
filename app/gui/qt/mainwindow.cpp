@@ -3207,8 +3207,6 @@ void MainWindow::restoreWindows()
  */
 void MainWindow::readSettings()
 {
-    std::cout << "[GUI] - reading settings" << std::endl;
-
     // Read in preferences from previous session
     piSettings->language = gui_settings->value("prefs/language", "system_language").toString();
     piSettings->show_buttons = gui_settings->value("prefs/show-buttons", true).toBool();
