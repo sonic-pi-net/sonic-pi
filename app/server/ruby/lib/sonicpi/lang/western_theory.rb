@@ -1118,16 +1118,16 @@ play (chord_invert (chord :A3, \"M\"), 2) #Second inversion - (ring 64, 69, 73)
       memoize:       true,
       examples:      ["puts chord_names #=>  prints a list of all the chords"]
 
-      def use_metre(metre, &block)
+      def use_metre(metre, style=nil, &block)
         raise ArgumentError, "use_metre does not work with a block. Perhaps you meant with_metre" if block
-        new_metre = SynchronisedMetre.new(metre)
+        new_metre = SynchronisedMetre.new(metre, style)
         __thread_locals.set(:sonic_pi_metre, new_metre)
       end
 
-      def with_metre(metre, &block)
+      def with_metre(metre, style=nil, &block)
         raise ArgumentError, "with_metre must be called with a do/end block. Perhaps you meant use_metre" unless block
         original_metre = __thread_locals.get(:sonic_pi_metre)
-        new_metre = SynchronisedMetre.new(metre)
+        new_metre = SynchronisedMetre.new(metre, style)
         __thread_locals.set(:sonic_pi_metre, new_metre)
         block.call
         __thread_locals.set(:sonic_pi_metre, original_metre)
@@ -1141,9 +1141,9 @@ play (chord_invert (chord :A3, \"M\"), 2) #Second inversion - (ring 64, 69, 73)
         bar_object = Bar.new
         __thread_locals.set(:sonic_pi_bar, bar_object)
 
-        puts metre.timings
         block.call
-        sleep(metre.to_beats(bar_object.total_remaining_pulse_units))
+        # If the bar has any space remaining, sleep for that time
+        sleep(metre.sleep_time(bar_object.total_remaining_pulse_units))
         
         __thread_locals.set(:sonic_pi_bar, nil)
       end
