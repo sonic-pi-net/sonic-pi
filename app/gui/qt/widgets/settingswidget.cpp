@@ -153,12 +153,16 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
     QGroupBox *network_box = new QGroupBox(tr("Networked OSC"));
     network_box->setToolTip(tr("Sonic Pi can send and receive Open Sound Control messages\nto and from other programs or computers\n via the currently connected network."));
 
+    QLabel* osc_disabled_label = new QLabel();
+    osc_disabled_label->setAccessibleName("incoming-osc-disabled-label");
     QLabel *network_ip_label = new QLabel();
+    QString osc_disabled_trans = tr("(To enable 'Allow OSC from other computers',\nalso enable 'Allow incoming OSC')");
     QString ip_address_trans = tr("Local IP address");
     QString port_num_trans = tr("Incoming OSC port");
     QString ip_address = "";
     QString all_ip_addresses  = "";
 
+    osc_disabled_label->setText(osc_disabled_trans);
     QList<QHostAddress> list = QNetworkInterface::allAddresses();
 
     for(int nIter=0; nIter<list.count(); nIter++)
@@ -189,6 +193,7 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
     QVBoxLayout *network_box_layout = new QVBoxLayout;
     network_box_layout->addWidget(osc_server_enabled_check);
     network_box_layout->addWidget(osc_public_check);
+    network_box_layout->addWidget(osc_disabled_label);
     network_box_layout->addWidget(network_ip_label);
     network_box->setLayout(network_box_layout);
 
@@ -774,7 +779,11 @@ void SettingsWidget::updateSettings() {
     piSettings->main_volume = system_vol_slider->value();
 
     piSettings->osc_server_enabled = osc_server_enabled_check->isChecked();
-    piSettings->osc_public = osc_public_check->isChecked();
+    piSettings->osc_public = osc_server_enabled_check->isChecked() && osc_public_check->isChecked();
+    osc_public_check->setEnabled(piSettings->osc_server_enabled);
+    if(!osc_server_enabled_check->isChecked()) {
+      osc_public_check->setChecked(false);
+    }
     piSettings->midi_default_channel = midi_default_channel_combo->currentIndex();
     piSettings->midi_default_channel_str = midi_default_channel_combo->currentText(); // TODO find a more elegant solution
     piSettings->midi_enabled = midi_enable_check->isChecked();
@@ -827,7 +836,8 @@ void SettingsWidget::settingsChanged() {
     system_vol_slider->setValue(piSettings->main_volume);
 
     osc_server_enabled_check->setChecked(piSettings->osc_server_enabled);
-    osc_public_check->setChecked(piSettings->osc_public);
+    osc_public_check->setEnabled(piSettings->osc_server_enabled);
+    osc_public_check->setChecked(piSettings->osc_server_enabled && piSettings->osc_public);
     midi_default_channel_combo->setCurrentIndex(piSettings->midi_default_channel);
     piSettings->midi_default_channel_str = midi_default_channel_combo->currentText(); // TODO find a more elegant solution
     midi_enable_check->setChecked(piSettings->midi_enabled);

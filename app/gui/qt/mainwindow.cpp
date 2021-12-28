@@ -1136,6 +1136,11 @@ void MainWindow::midiEnabledMenuChanged()
 void MainWindow::oscServerEnabledMenuChanged()
 {
     piSettings->osc_server_enabled = enableOSCServerAct->isChecked();
+    piSettings->osc_public = enableOSCServerAct->isChecked() && allowRemoteOSCAct->isChecked();
+    if (!enableOSCServerAct->isChecked()) {
+        allowRemoteOSCAct->setChecked(false);
+        piSettings->osc_public = false;
+    }
     emit settingsChanged();
     toggleOSCServer();
 }
@@ -3741,6 +3746,7 @@ void MainWindow::resetMidi()
 void MainWindow::toggleOSCServer(int silent)
 {
     QSignalBlocker blocker(enableOSCServerAct);
+    allowRemoteOSCAct->setEnabled(piSettings->osc_server_enabled);
     if (piSettings->osc_server_enabled)
     {
         enableOSCServerAct->setChecked(true);
