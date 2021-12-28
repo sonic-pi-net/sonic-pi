@@ -3339,7 +3339,7 @@ Steal This Sound,  Mitchell Sigman"
           :cutoff_slide_shape => 1,
           :cutoff_slide_curve => 0,
 
-          :res => 0.8,
+          :res => 0.2,
           :res_slide => 0,
           :res_slide_shape => 1,
           :res_slide_curve => 0,
@@ -3474,7 +3474,7 @@ Steal This Sound,  Mitchell Sigman"
           :cutoff_slide_shape => 1,
           :cutoff_slide_curve => 0,
 
-          :res => 0.1,
+          :res => 0.9,
           :res_slide => 0,
           :res_slide_shape => 1,
           :res_slide_curve => 0,
