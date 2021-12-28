@@ -2,6 +2,11 @@
 set -e # Quit script on error
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 WORKING_DIR="$(pwd)"
+if command -v brew &> /dev/null && [ -x "$(brew --prefix)"/opt/qt@5/bin/lrelease ]; then
+    QT5_BIN_DIR="$(brew --prefix)"/opt/qt@5/bin
+else
+    QT5_BIN_DIR="${QT5_BIN_DIR:-}"
+fi
 
 cd "${SCRIPT_DIR}"
 
@@ -98,7 +103,7 @@ cp "${SCRIPT_DIR}"/gui/qt/utils/ruby_help.tmpl "${SCRIPT_DIR}"/gui/qt/utils/ruby
 
 echo "Updating GUI translation files..."
 # Use lrelease on PATH if available otherwise assume Qt was installed via homebrew
-PATH="$PATH":/usr/local/opt/qt@5/bin lrelease "${SCRIPT_DIR}"/gui/qt/lang/*.ts
+PATH="$PATH:$QT5_BIN_DIR" lrelease "${SCRIPT_DIR}"/gui/qt/lang/*.ts
 
 echo "Compiling Erlang/Elixir files..."
 cd "${SCRIPT_DIR}"/server/beam/tau
