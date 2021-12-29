@@ -12,9 +12,9 @@ config :tau,
   handle_sasl_reports: true
 
 config :logger,
-  backends: [{LoggerFileBackend, :error_log}]
+  backends: [{LoggerFileBackend, :tau_file_log}]
 
-config :logger, :error_log,
+config :logger, :tau_file_log,
   path: log_path,
   level: :info
 
