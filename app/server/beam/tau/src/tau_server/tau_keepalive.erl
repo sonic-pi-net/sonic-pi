@@ -37,7 +37,7 @@ init(KeepAlivePortNum, DaemonPortNum) ->
 loop() ->
     receive
         {send_keep_alive, Sock, PortNum, Msg} ->
-            logger:info("Sending keep alive message....", []),
+            logger:debug("Sending keep alive message....", []),
             gen_udp:send(Sock, {127, 0, 0, 1}, PortNum, Msg),
             erlang:send_after(4000, self(), {send_keep_alive, Sock, PortNum, Msg}),
             loop();
