@@ -31,7 +31,7 @@ defmodule Tau.MixProject do
     [
       {:rustler, "~> 0.22.0"},
       {:logger_file_backend, "~> 0.0.10"},
-      {:phoenix, "~> 1.6.0-rc.1", override: true},
+      {:phoenix, "~> 1.6.0", override: true},
       {:phoenix_html, "~> 3.0"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, "~> 0.16.0"},
