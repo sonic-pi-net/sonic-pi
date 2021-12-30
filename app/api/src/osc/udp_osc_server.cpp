@@ -66,7 +66,12 @@ void OscServerUDP::start()
         }
     }
 
+    if(!sock.isOk()) {
+      LOG(INFO, "UDP OSC Socket no longer OK");
+    }
+
     LOG(INFO, "UDP OSC Server no longer listening");
+
 }
 
 } // namespace SonicPi
