@@ -28,7 +28,7 @@ class PhxWidget : public QWidget
     Q_OBJECT
 public:
     PhxWidget(QWidget* parent = 0);
-    void load(QUrl url);
+    void connectToTauPhx(QUrl url);
 
 private:
     QHBoxLayout *mainLayout;
@@ -37,12 +37,14 @@ private:
     QPushButton *sizeUpButton;
     QPushButton *openExternalBrowserButton;
     PhxWebView *phxView;
+    bool phxAlive;
+    QUrl defaultUrl;
 
 private slots:
     void handleSizeDown();
     void handleOpenExternalBrowser();
     void handleSizeUp();
-
+    void handleLoadFinished(bool ok);
 };
 
 #endif // PHXWIDGET_H

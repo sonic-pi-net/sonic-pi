@@ -11,6 +11,7 @@
 // notice is included.
 //++
 
+#include <iostream>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QLabel>
@@ -24,7 +25,12 @@
 PhxWidget::PhxWidget(QWidget *parent)
   : QWidget(parent)
 {
+  phxAlive = false;
   phxView = new PhxWebView(this);
+  QSizePolicy sp_retain = phxView->sizePolicy();
+  sp_retain.setRetainSizeWhenHidden(true);
+  phxView->setSizePolicy(sp_retain);
+  phxView->hide();
   mainLayout = new QHBoxLayout(this);
   topRowSubLayout = new QVBoxLayout(this);
   sizeDownButton = new QPushButton("-");
@@ -47,6 +53,7 @@ PhxWidget::PhxWidget(QWidget *parent)
   connect(sizeDownButton, &QPushButton::released, this, &PhxWidget::handleSizeDown);
   connect(sizeUpButton, &QPushButton::released, this, &PhxWidget::handleSizeUp);
   connect(openExternalBrowserButton, &QPushButton::released, this, &PhxWidget::handleOpenExternalBrowser);
+  connect(phxView, &PhxWebView::loadFinished, this, &PhxWidget::handleLoadFinished);
 }
 
 void PhxWidget::handleSizeDown()
@@ -81,7 +88,23 @@ void PhxWidget::handleOpenExternalBrowser()
   QDesktopServices::openUrl(phxView->url());
 }
 
-void PhxWidget::load(QUrl url)
+void PhxWidget::connectToTauPhx(QUrl url)
 {
+  defaultUrl = url;
+  std::cout << "[PHX] - connecting to: " << url.toString().toStdString() << std::endl;
   phxView->load(url);
+}
+
+void PhxWidget::handleLoadFinished(bool ok)
+{
+  if(ok) {
+    if(!phxAlive) {
+      std::cout << "[PHX] - initial load finished" << std::endl;
+      phxAlive = true;
+      phxView->show();
+    }
+  } else {
+    std::cout << "[PHX] - load error" << std::endl;
+    phxView->load(defaultUrl);
+  }
 }

@@ -201,7 +201,7 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
         phxUrl.setPort(m_spAPI->GetPort(SonicPiPortId::phx_http));
         std::cout << "[GUI] - loading up web view with URL: " << phxUrl.toString().toStdString() << std::endl;
         // load phoenix webview
-        phxWidget->load(phxUrl);
+        phxWidget->connectToTauPhx(phxUrl);
         scopeWindow->Booted();
         std::cout << "[GUI] - honour prefs" << std::endl;
         restoreWindows();
