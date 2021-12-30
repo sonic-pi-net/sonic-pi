@@ -35,13 +35,15 @@ PhxWidget::PhxWidget(QWidget *parent)
   topRowSubLayout = new QVBoxLayout(this);
   sizeDownButton = new QPushButton("-");
   sizeUpButton = new QPushButton("+");
-  openExternalBrowserButton = new QPushButton("E");
+  openExternalBrowserButton = new QPushButton(" E ");
+  resetBrowserButton = new QPushButton(" R ");
 
   sizeDownButton->setFixedSize(ScaleForDPI(38, 38));
   sizeUpButton->setFixedSize(ScaleForDPI(38, 38));
   openExternalBrowserButton->setFixedHeight(ScaleHeightForDPI(38));
 
   topRowSubLayout->addStretch(1);
+  topRowSubLayout->addWidget(resetBrowserButton, 0, Qt::AlignRight);
   topRowSubLayout->addWidget(openExternalBrowserButton, 0, Qt::AlignRight);
   topRowSubLayout->addWidget(sizeDownButton, 0, Qt::AlignRight);
   topRowSubLayout->addWidget(sizeUpButton, 0, Qt::AlignRight);
@@ -53,6 +55,7 @@ PhxWidget::PhxWidget(QWidget *parent)
   connect(sizeDownButton, &QPushButton::released, this, &PhxWidget::handleSizeDown);
   connect(sizeUpButton, &QPushButton::released, this, &PhxWidget::handleSizeUp);
   connect(openExternalBrowserButton, &QPushButton::released, this, &PhxWidget::handleOpenExternalBrowser);
+  connect(resetBrowserButton, &QPushButton::released, this, &PhxWidget::handleResetBrowser);
   connect(phxView, &PhxWebView::loadFinished, this, &PhxWidget::handleLoadFinished);
 }
 
@@ -107,4 +110,9 @@ void PhxWidget::handleLoadFinished(bool ok)
     std::cout << "[PHX] - load error" << std::endl;
     phxView->load(defaultUrl);
   }
+}
+
+void PhxWidget::handleResetBrowser()
+{
+  phxView->load(defaultUrl);
 }

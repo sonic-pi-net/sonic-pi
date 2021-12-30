@@ -36,6 +36,7 @@ private:
     QPushButton *sizeDownButton;
     QPushButton *sizeUpButton;
     QPushButton *openExternalBrowserButton;
+    QPushButton *resetBrowserButton;
     PhxWebView *phxView;
     bool phxAlive;
     QUrl defaultUrl;
@@ -44,6 +45,7 @@ private slots:
     void handleSizeDown();
     void handleOpenExternalBrowser();
     void handleSizeUp();
+    void handleResetBrowser();
     void handleLoadFinished(bool ok);
 };
 
