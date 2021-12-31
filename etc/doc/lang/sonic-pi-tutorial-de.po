@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2021-12-31 05:19+0000\n"
+"PO-Revision-Date: 2022-01-01 21:53+0000\n"
 "Last-Translator: me <herbstigel@gmx.net>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "de/>\n"
@@ -13540,13 +13540,12 @@ msgid ""
 msgstr ""
 
 #: A.06-minecraft.md:158
-#, fuzzy
 msgid ""
 "![Screen 2](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-M"
 "inecraft-2-small.png)"
 msgstr ""
-"![Screen 0](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-M"
-"inecraft-0-small.png)"
+"![Bildschirm 2](../../../etc/doc/images/tutorial/articles/A.06-minecraft/"
+"Musical-Minecraft-2-small.png)"
 
 #: A.06-minecraft.md:160
 msgid ""
@@ -13628,7 +13627,7 @@ msgstr ""
 
 #: A.07-bizet.md:10
 msgid "Outrageous and Disruptive"
-msgstr ""
+msgstr "Skandalös und disruptiv"
 
 #: A.07-bizet.md:12
 msgid ""
