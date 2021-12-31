@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2021-12-29 17:53+0000\n"
+"PO-Revision-Date: 2021-12-31 05:19+0000\n"
 "Last-Translator: me <herbstigel@gmx.net>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "de/>\n"
@@ -1807,13 +1807,12 @@ msgid "play 60, attack: 0.3, sustain: 1, release: 1"
 msgstr "play 60, attack: 0.3, sustain: 1, release: 1"
 
 #: 02.4-Durations-with-Envelopes.md:145
-#, fuzzy
 msgid ""
 "![ASR envelope](../../../etc/doc/images/tutorial/env-attack-sustain-release.pn"
 "g)"
 msgstr ""
-"![ASR envelope](../../../etc/doc/images/tutorial/env-attack-sustain-release.pn"
-"g)"
+"![ASR Hüllkurve](../../../etc/doc/images/tutorial/env-attack-sustain-release."
+"png)"
 
 #: 02.4-Durations-with-Envelopes.md:147
 msgid ""
@@ -1865,13 +1864,12 @@ msgstr ""
 ": 1, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:168
-#, fuzzy
 msgid ""
 "![ADSR envelope](../../../etc/doc/images/tutorial/env-attack-decay-sustain-rel"
 "ease.png)"
 msgstr ""
-"![ADSR envelope](../../../etc/doc/images/tutorial/env-attack-decay-sustain-rel"
-"ease.png)"
+"![ADSR Hüllkurve](../../../etc/doc/images/tutorial/env-attack-decay-sustain-"
+"release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:170
 msgid "Decay Level"
@@ -1900,9 +1898,8 @@ msgstr ""
 "1, sustain_level: 0.4, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:181
-#, fuzzy
 msgid "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level.png)"
-msgstr "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level.png)"
+msgstr "![ASR Hüllkurve](../../../etc/doc/images/tutorial/env-decay-level.png)"
 
 #: 02.4-Durations-with-Envelopes.md:183
 msgid ""
@@ -1922,9 +1919,9 @@ msgstr ""
 "0.5, sustain_level: 0.8, release: 1.5"
 
 #: 02.4-Durations-with-Envelopes.md:189
-#, fuzzy
 msgid "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level-2.png)"
-msgstr "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level-2.png)"
+msgstr ""
+"![ASR Hüllkurve](../../../etc/doc/images/tutorial/env-decay-level-2.png)"
 
 #: 02.4-Durations-with-Envelopes.md:191
 msgid "ADSR Envelopes"
@@ -9115,7 +9112,8 @@ msgstr ""
 "## der selben Variable verändern).\n"
 "##  \n"
 "## Wenn du den Code startest, siehst du,\n"
-"## dass die Liste nicht immer sortiert ist.\n"
+"## dass die Liste, die ausgegeben wird,\n"
+"## nicht immer sortiert ist!\n"
 "a = (ring 6, 5, 4, 3, 2, 1)\n"
 "live_loop :shuffled do\n"
 "  a = a.shuffle\n"
@@ -11546,9 +11544,8 @@ msgstr ""
 "entation."
 
 #: A.01-tips.md:110
-#, fuzzy
 msgid "4. Live Code"
-msgstr "5. Live Code"
+msgstr "4. Live Code"
 
 #: A.01-tips.md:112
 msgid ""
@@ -12699,6 +12696,14 @@ msgid ""
 "ed we want to shuffle with. If we don't like the melody, just change one of th"
 "ose two things and try again. Repeat until you like what you hear!"
 msgstr ""
+"Jetzt fängt der Spaß erst so richtig an. Wenn wir den Seed für den "
+"Zufallsgenerator auf eine andere Zahl, z. B. 3000, ändern, erhalten wir eine "
+"völlig andere Reihenfolge der Noten. So ist es extrem einfach, neue Melodien "
+"zu entdecken. Wähle einfach die Liste der Noten aus, die Du mischen möchtest "
+"(Tonleitern sind ein guter Ausgangspunkt), und wähle dann den Seed, mit dem "
+"sie gemischt werden sollen. Wenn uns die Melodie nicht gefällt, ändern wir "
+"einfach einen dieser beiden Punkte und versuchen es erneut. Wiederhole den "
+"Vorgang, bis Dir das Ergebnis gefällt!"
 
 #: A.04-synth-riffs.md:121
 msgid "Pseudo Randomisation"
@@ -12713,6 +12718,13 @@ msgid ""
 "tual dice, it just picks the next value from the list. Setting the random seed"
 " is just jumping to a specific point in that list."
 msgstr ""
+"Die Zufallsgenerierung von Sonic Pi ist nicht wirklich zufällig, sondern "
+"wird als Pseudozufall bezeichnet. Stell Dir vor, Du würdest 100 Mal würfeln "
+"und das Ergebnis jedes Wurfs auf ein Blatt Papier schreiben. Sonic Pi "
+"verfügt über das Äquivalent dieser Ergebnisliste, die verwendet wird, wenn "
+"man nach einem Zufallswert fragt. Anstatt zu würfeln, wird einfach der "
+"nächste Wert auf der Liste ausgewählt. Wenn Du einen Seed setzt, dann "
+"springst Du einfach zu einem bestimmten Punkt in dieser Liste."
 
 #: A.04-synth-riffs.md:131
 msgid "Finding your Rhythm"
@@ -13093,13 +13105,12 @@ msgstr ""
 "enden Diagramm entnehmen kann, gibt es nur vier Hauptbestandteile."
 
 #: A.05-acid-bass.md:113
-#, fuzzy
 msgid ""
 "![TB-303 Design](../../../etc/doc/images/tutorial/articles/A.05-acid-bass/tb30"
 "3-design.png)"
 msgstr ""
-"![TB-303 Design](../../../etc/doc/images/tutorial/articles/A.05-acid-bass/tb30"
-"3-design.png)"
+"![TB-303 Design](../../../etc/doc/images/tutorial/articles/A.05-acid-bass/"
+"tb303-design.png)"
 
 #: A.05-acid-bass.md:115
 msgid ""
@@ -13305,13 +13316,12 @@ msgstr ""
 "inen eigenen Nachrichten herum. Viel Spaß!"
 
 #: A.06-minecraft.md:36
-#, fuzzy
 msgid ""
 "![Screen 0](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-M"
 "inecraft-0-small.png)"
 msgstr ""
-"![Screen 0](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-M"
-"inecraft-0-small.png)"
+"![Bildschirm 0](../../../etc/doc/images/tutorial/articles/A.06-minecraft/"
+"Musical-Minecraft-0-small.png)"
 
 #: A.06-minecraft.md:38
 msgid "Sonic Teleporter"
@@ -13412,13 +13422,12 @@ msgstr ""
 "mc_message \"Whoooosh!\""
 
 #: A.06-minecraft.md:86
-#, fuzzy
 msgid ""
 "![Screen 1](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-M"
 "inecraft-1-small.png)"
 msgstr ""
-"![Screen 0](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-M"
-"inecraft-0-small.png)"
+"![Bildschirm 1](../../../etc/doc/images/tutorial/articles/A.06-minecraft/"
+"Musical-Minecraft-1-small.png)"
 
 #: A.06-minecraft.md:88
 msgid "Magic Blocks"
@@ -17323,13 +17332,16 @@ msgid "Sonic Pi Performances"
 msgstr ""
 
 #: A.20-creative-coding-in-the-classroom.md:64
-#, fuzzy
 msgid ""
 "![Jylda Live Coding in the Sage Gateshead](../../../etc/doc/images/tutorial/ar"
 "ticles/A.20-creative-coding-in-the-classroom/jylda-small.png) Jylda and Sam Aa"
 "ron perform at the Thinking Digital Conference in the Sage Gateshead. Photo cr"
 "edit: TyneSight Photos."
-msgstr "Live-Coding"
+msgstr ""
+"![Jylda Live Coding in the Sage Gateshead](../../../etc/doc/images/tutorial/"
+"articles/A.20-creative-coding-in-the-classroom/jylda-small.png) Jylda und "
+"Sam Aaron treten auf der Thinking Digital Conference im Sage Gateshead auf. "
+"Foto: TyneSight Photos."
 
 #: A.20-creative-coding-in-the-classroom.md:68
 msgid ""
