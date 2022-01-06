@@ -3364,12 +3364,12 @@ Steal This Sound,  Mitchell Sigman"
           },
           :lfo_width =>
           {
-            :doc => "Width of the low-frequency oscillator (LFO) which determines how wide base tones oscillate around their base frequencies",
+            :doc => "Width of the low-frequency oscillator (LFO) which determines how wide base tones oscillate around their base frequencies; a dimensionless scaled ratio between base and peak oscillator frequencies",
             :modulatable => true
           },
           :lfo_rate =>
           {
-            :doc => "Rate of the low-frequency oscillator (LFO) which determines how fast base tones oscillate around their base frequencies",
+            :doc => "Rate of the low-frequency oscillator (LFO) in Hz which determines how fast base tones oscillate around their base frequencies",
             :modulatable => true
           },
         }
