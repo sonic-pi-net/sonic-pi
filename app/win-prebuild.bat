@@ -1,5 +1,7 @@
 set WORKING_DIR=%CD%
 
+cd %~dp0
+
 call win-pre-vcpkg.bat
 call external/win_x64_build_externals.bat
 call win-pre-translations.bat
