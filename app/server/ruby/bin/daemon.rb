@@ -211,7 +211,7 @@ module SonicPi
           max_attempts = 4
           Kernel.sleep 40
           loop do
-            Kernel.sleep 5
+            Kernel.sleep 10
             if queue.empty?
               attempts += 1
             else
