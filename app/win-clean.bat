@@ -1,3 +1,5 @@
+set WORKING_DIR=%CD%
+
 cd %~dp0
 
 @echo Cleaning out build dir....
@@ -10,3 +12,5 @@ rmdir external\build /s /q
 rmdir server\beam\tau\_build /s /q
 
 @echo Cleaning completed
+
+cd %WORKING_DIR%

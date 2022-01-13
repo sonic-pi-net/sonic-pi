@@ -1,4 +1,4 @@
-set CURRENT_DIR=%CD%
+set WORKING_DIR=%CD%
 
 @echo "Creating build directory..."
 mkdir build > nul
@@ -7,4 +7,4 @@ mkdir build > nul
 cd build
 cmake -G "Visual Studio 16 2019" -A x64 ..\
 
-cd "%CURRENT_DIR%"
+cd "%WORKING_DIR%"
