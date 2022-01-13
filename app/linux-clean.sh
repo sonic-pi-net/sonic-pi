@@ -12,6 +12,8 @@ rm -rf external/build
 
 echo "Cleaning out BEAM distribution..."
 rm -rf server/beam/tau/_build
+rm -rf server/beam/tau/priv
+mkdir -p server/beam/tau/priv
 
 echo "Cleaning completed"
 

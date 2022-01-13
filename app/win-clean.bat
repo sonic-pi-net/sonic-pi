@@ -10,6 +10,8 @@ rmdir external\build /s /q
 
 @echo Cleaning out BEAM distribution....
 rmdir server\beam\tau\_build /s /q
+rmdir server\beam\tau\priv /s /q
+mkdir server\beam\tau\priv
 
 @echo Cleaning completed
 
