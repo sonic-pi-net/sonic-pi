@@ -22,7 +22,7 @@ done
 # Build vcpkg
 if [ ! -d "vcpkg" ]; then
     echo "Cloning vcpkg"
-    git clone --depth 1 --branch 2021.05.12  https://github.com/microsoft/vcpkg.git vcpkg
+    git clone --depth 1 --branch master  https://github.com/microsoft/vcpkg.git vcpkg
 fi
 
 if [ ! -f "vcpkg/vcpkg" ]; then
@@ -38,7 +38,7 @@ if [ "$no_imgui" == true ]
 then
     ./vcpkg install kissfft crossguid platform-folders reproc catch2 --recurse
 else
-    ./vcpkg install kissfft fmt crossguid sdl2 gl3w reproc gsl-lite concurrentqueue platform-folders catch2 --recurse
+    ./vcpkg install kissfft fmt crossguid sdl2 sdl2[x11] gl3w reproc gsl-lite concurrentqueue platform-folders catch2 --recurse
 fi
 
 cd "${SCRIPT_DIR}"
