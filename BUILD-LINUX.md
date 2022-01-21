@@ -105,6 +105,7 @@ cd ~/Development/sonic-pi/app
 Next we run the prebuild and config scripts:
 
 ```
+./pi-install-elixir.sh    # this is for bash only
 ./linux-prebuild.sh
 ./linux-config.sh
 ```
