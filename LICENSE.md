@@ -76,6 +76,7 @@ The bundled synthdefs are licensed under the [MIT License](http://opensource.org
 * [etc/synthdefs/designs/supercollider/bass_foundation.scd](https://github.com/sonic-pi-net/sonic-pi/tree/main/etc/synthdefs/designs/supercollider/bass_foundation.scd)
 * [etc/synthdefs/designs/supercollider/bass_highend.scd](https://github.com/sonic-pi-net/sonic-pi/tree/main/etc/synthdefs/designs/supercollider/bass_highend.scd)
 * [etc/synthdefs/designs/supercollider/winwood_lead.scd](https://github.com/sonic-pi-net/sonic-pi/tree/main/etc/synthdefs/designs/supercollider/winwood_lead.scd)
+* [etc/synthdefs/designs/supercollider/organ_tonewheel.scd](https://github.com/sonic-pi-net/sonic-pi/tree/main/etc/synthdefs/designs/supercollider/organ_tonewheel.scd)
 
 See their source files for links to the original designs.
 
