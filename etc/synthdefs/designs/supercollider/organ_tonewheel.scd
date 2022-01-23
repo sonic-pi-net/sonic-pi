@@ -12,7 +12,7 @@ Date of modification: 02.01.2022
 An additive synth similar to a tonewheel organ, adding several sine signals with individual amplitudes, and
 an optional rotary speaker. The tonewheel organ's rotary speaker affects sound in (at least) 3 ways:
 
-- The frequency changes due to a Doppler effect, so that the pitch oscilates around the base frequency (note).
+- The frequency changes due to a Doppler effect, so that the pitch oscillates around the base frequency (note).
 - The amplitude changes. When the horns rotate, they sound louder when they point towards the listener.
 - The pan changes: When the horns point sideways, they sound louder on the side they point to.
 
