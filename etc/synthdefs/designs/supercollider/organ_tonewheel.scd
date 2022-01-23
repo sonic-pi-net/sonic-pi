@@ -26,7 +26,7 @@ due to limitations of the wheel geometry. See:
 - No detuning due to fixed tonewheels: http://www.goodeveca.net/RotorOrgan/ToneWheelSpec.html/
 
 Using these detuned frequencies might make this synth more natural -- maybe an option for the
-tonewhee de luxe :)
+tonewheel de luxe :)
 */
 
 (
