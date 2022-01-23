@@ -14,7 +14,7 @@ an optional rotary speaker. The tonewheel organ's rotary speaker affects sound i
 
 - The frequency changes due to a Doppler effect, so that the pitch oscilates around the base frequency (note).
 - The amplitude changes. When the horns rotate, they sound louder when they point towards the listener.
-- The pan changes: When the horns point sideways, they sound louder on the the side they point to.
+- The pan changes: When the horns point sideways, they sound louder on the side they point to.
 
 Further details can be found at:
 - https://www.soundonsound.com/techniques/synthesizing-tonewheel-organs-part-1
