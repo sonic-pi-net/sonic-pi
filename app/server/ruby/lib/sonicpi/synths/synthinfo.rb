@@ -3685,7 +3685,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
           },
           :rs_pan_depth =>
           {
-            :doc => "Size of the pan deviation from the center caused by the rotary speaker.",
+            :doc => "Size of the pan deviation from the centre caused by the rotary speaker.",
             :validations => [v_between_inclusive(:rs_pan_depth, 0, 1)],
             :modulatable => false
           },
