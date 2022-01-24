@@ -118,7 +118,7 @@ module SonicPi
         info = arg_info[arg_name.to_sym]
         info[:doc] if info
       end
-
+i. e.
       def arg_default(arg_name)
         arg_defaults[arg_name.to_sym]
       end
@@ -3609,7 +3609,7 @@ Based on work of [Chris Wigington](https://actlab.us/actlab/cwigington/projone.h
           },
           :bass =>
           {
-            :doc => "The drawbar for the tonewheel creating a sound component one octave below the base tone, i. e. half its frequency",
+            :doc => "The drawbar for the tonewheel creating a sound component one octave below the base tone, i.e. half its frequency",
             :validations => [v_between_inclusive(:bass, 0, 8)],
             :modulatable => true
           },
@@ -3627,7 +3627,7 @@ Based on work of [Chris Wigington](https://actlab.us/actlab/cwigington/projone.h
           },
           :oct =>
           {
-            :doc => "The drawbar for the tonewheel creating a sound component one octave above the base tone, i. e. twice its frequency",
+            :doc => "The drawbar for the tonewheel creating a sound component one octave above the base tone, i.e. twice its frequency",
             :validations => [v_between_inclusive(:oct, 0, 8)],
             :modulatable => true
           },
@@ -3639,7 +3639,7 @@ Based on work of [Chris Wigington](https://actlab.us/actlab/cwigington/projone.h
           },
           :blockflute =>
           {
-            :doc => "The drawbar for the tonewheel creating a sound component 2 octaves above the base tone, i. e. 4 times its frequency.",
+            :doc => "The drawbar for the tonewheel creating a sound component 2 octaves above the base tone, i.e. 4 times its frequency.",
             :validations => [v_between_inclusive(:blockflute, 0, 8)],
             :modulatable => true
           },
@@ -3657,7 +3657,7 @@ Based on work of [Chris Wigington](https://actlab.us/actlab/cwigington/projone.h
           },
           :sifflute =>
           {
-            :doc => "The drawbar for the tonewheel creating a sound component 3 octaves above the base tone, i. e. 8 times its frequency.",
+            :doc => "The drawbar for the tonewheel creating a sound component 3 octaves above the base tone, i.e. 8 times its frequency.",
             :validations => [v_between_inclusive(:sifflute, 0, 8)],
             :modulatable => true
           },
