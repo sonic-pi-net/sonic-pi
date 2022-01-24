@@ -79,7 +79,7 @@ jobs:
       uses: jurplel/install-qt-action@v2
       with:
         modules: "qtwebengine"
-        version: '6'
+        version: '6.2.2'
         cached: ${{ steps.cache-qt2.outputs.cache-hit }}
 
       # Install Elixir on Ubuntu
