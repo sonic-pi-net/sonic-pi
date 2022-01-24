@@ -107,7 +107,7 @@ libraries. We can do this from the command prompt with the following:
 gem install rugged
 ```
 
-This uses the Ruby library management tool `gem` rugged which is used to
+This uses the Ruby library management tool `gem` to install rugged which is used to
 store the code diffs in a local Git repository.
 
 Note that for Ruby to work correctly with systems that have their locale set
