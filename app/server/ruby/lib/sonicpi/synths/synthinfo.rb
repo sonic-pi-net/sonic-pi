@@ -3667,7 +3667,7 @@ Based on work of [Chris Wigington](https://actlab.us/actlab/cwigington/projone.h
 
 The 'chorale' speed of the speaker is 0.83 Hz, the 'tremolo' speed is 6.7 Hz, each referring to the horn. The woofer rotates at a slower speed, which is calculated from the horn's frequency. 
 
-Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq` can be slid, sliding up from plain 0 is not possible and sliding to and from frequencies close to 0 may have unexpected effects."
+Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq` can be slid, sliding up from plain 0 is not possible and sliding to and from frequencies close to 0 may have unexpected effects.",
             :validations => [v_between_inclusive(:rs_freq, 0, 10)],
             :modulatable => true
           },
