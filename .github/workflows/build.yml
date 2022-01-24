@@ -79,6 +79,7 @@ jobs:
       uses: jurplel/install-qt-action@v2
       with:
         modules: "qtwebengine"
+        version: '6'
         cached: ${{ steps.cache-qt2.outputs.cache-hit }}
 
       # Install Elixir on Ubuntu
@@ -111,7 +112,7 @@ jobs:
       working-directory: ${{github.workspace}}/app
       env:
         CC: ${{ matrix.cc }}
-        QT_INSTALL_LOCATION: ${{env.Qt5_DIR}}
+        QT_INSTALL_LOCATION: ${{env.Qt6_DIR}}
       run: |
         sudo apt install -y pulseaudio dbus-x11 libssl-dev ruby-dev supercollider-server sc3-plugins-server alsa-base alsa-utils jackd2 libjack-jackd2-dev libjack-jackd2-0 libasound2-dev librtmidi-dev pulseaudio-module-jack
         ./linux-prebuild.sh
@@ -122,7 +123,7 @@ jobs:
       working-directory: ${{github.workspace}}/app
       env:
         CC: ${{ matrix.cc }}
-        QT_INSTALL_LOCATION: ${{env.Qt5_DIR}}
+        QT_INSTALL_LOCATION: ${{env.Qt6_DIR}}
       run: |
         ./mac-prebuild.sh
       if: matrix.os == 'macos-latest'
@@ -135,7 +136,7 @@ jobs:
       shell: cmd
       env:
         CC: ${{ matrix.cc }}
-        QT_INSTALL_LOCATION: ${{env.Qt5_DIR}}
+        QT_INSTALL_LOCATION: ${{env.Qt6_DIR}}
       run: |
         mv c:/msys64 c:/__msys64
         win-prebuild.bat
@@ -149,7 +150,7 @@ jobs:
       working-directory: ${{github.workspace}}/app
       env:
         CC: ${{ matrix.cc }}
-        QT_INSTALL_LOCATION: ${{env.Qt5_DIR}}
+        QT_INSTALL_LOCATION: ${{env.Qt6_DIR}}
       run: |
         ./linux-config.sh
       if: matrix.os == 'ubuntu-latest'
@@ -159,7 +160,7 @@ jobs:
       working-directory: ${{github.workspace}}/app
       env:
         CC: ${{ matrix.cc }}
-        QT_INSTALL_LOCATION: ${{env.Qt5_DIR}}
+        QT_INSTALL_LOCATION: ${{env.Qt6_DIR}}
       run: |
         ./mac-config.sh
       if: matrix.os == 'macos-latest'
@@ -170,7 +171,7 @@ jobs:
       shell: cmd
       env:
         CC: ${{ matrix.cc }}
-        QT_INSTALL_LOCATION: ${{env.Qt5_DIR}}
+        QT_INSTALL_LOCATION: ${{env.Qt6_DIR}}
       run: |
         win-config.bat
       if: matrix.os == 'windows-latest'
