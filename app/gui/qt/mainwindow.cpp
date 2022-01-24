@@ -2998,7 +2998,7 @@ void MainWindow::createToolBar()
 
     QSignalMapper* signalMapper = new QSignalMapper(this);
 
-    for (size_t i = 0; i < available_languages.length(); i += 1)
+    for (int i = 0; i < available_languages.length(); i += 1)
     {
         bool is_current_lang = (available_languages[i] == piSettings->language);
 
