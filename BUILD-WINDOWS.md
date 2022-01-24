@@ -43,10 +43,10 @@ In order to build Sonic Pi's various components, we need to install a few
 dependencies:
 
 1. Visual Studio 2019
-2. Qt (5.15+)
+2. Qt (6.2+)
 3. CMake (3.18+)
-4. Ruby (2.7.1+)
-5. Elixir (1.12+)
+4. Ruby (3.1.0+)
+5. Elixir (1.13+)
 
 Let's look at each in turn.
 
@@ -60,10 +60,10 @@ https://visualstudio.microsoft.com/downloads/
 
 ### 1.2 Install - Qt
 
-Install the latest version of Qt (currently tested on 5.15.0) - ensure
+Install the latest version of Qt6 (note that Qt5 may work on Windows but isn't supported) - ensure
 you pick 64 bit options for msvc:
 
-http://download.qt.io/official_releases/qt/5.15/5.15.0/single/qt-everywhere-src-5.15.0.zip
+https://download.qt.io/official_releases/qt/6.2/6.2.2/single/qt-everywhere-src-6.2.2.zip
 
 You now need to setup the environment variable `QT_INSTALL_LOCATION` to
 point to Qt's new install location.
@@ -75,10 +75,10 @@ Alternatively, the `setx` command can make global variables. (Note that
 after using `setx` the command line needs to be restarted for it to take
 effect).
 
-For example, if you installed Qt to `C:\Qt\Qt5.15.0` then you could run:
+For example, if you installed Qt to `C:\Qt\Qt6.2.2` then you could run:
 
 ```
-setx QT_INSTALL_LOCATION C:\Qt\Qt5.15.0\5.15.0\msvc2017_64 
+setx QT_INSTALL_LOCATION C:\Qt\6.2.2\msvc2019_64 
 ```
 
 (followed by restarting your command prompt)
@@ -96,24 +96,19 @@ Ruby is needed both for a number of the build steps and as the main
 runtime for the language server. We need to install both it and some
 additional libraries.
 
-Firstly, install the latest version of Ruby (2.7.1 - 64 bit with devkit) from:
+Firstly, install the latest version of Ruby (3.1.0 - 64 bit with devkit) from:
 
-https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-2.7.1-1/rubyinstaller-devkit-2.7.1-1-x64.exe
+https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-3.1.0-1/rubyinstaller-devkit-3.1.0-1-x64.exe
 
 Once you have installed Ruby, you need to grab some additional
 libraries. We can do this from the command prompt with the following:
 
 ```
-gem install win32-process
-gem install rugged --version 0.27.1
-gem install ffi
+gem install rugged
 ```
 
-This uses the Ruby library management tool `gem` to install 3
-dependencies for us - `win32-process` used to help manage Windows OS
-processes, rugged which is used to store the code diffs in a local Git
-repo and ffi which is used to hook into external shared libs such as
-libaubio.
+This uses the Ruby library management tool `gem` rugged which is used to
+store the code diffs in a local Git repository.
 
 Note that for Ruby to work correctly with systems that have their locale set
 to Arabic, you need to modify the registry.rb in your Ruby install to
