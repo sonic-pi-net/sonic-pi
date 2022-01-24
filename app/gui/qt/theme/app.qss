@@ -47,6 +47,7 @@ Values 1->25 will be scaled in integer increments. Values 30 - 100 will be round
 *
 {
   background-color: none;
+  color:  windowForegroundColor;
 }
 
 *#scopes
