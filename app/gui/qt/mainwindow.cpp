@@ -317,7 +317,7 @@ void MainWindow::showWelcomeScreen()
         QFile file(":/html/startup.html");
         file.open(QFile::ReadOnly | QFile::Text);
         QTextStream st(&file);
-        st.setCodec("UTF-8");
+        st.setEncoding(QStringConverter::Utf8);
         QString source = st.readAll();
         source = source.replace("214dx", QString("%1").arg(ScaleHeightForDPI(214)));
         source = source.replace("262dx", QString("%1").arg(ScaleHeightForDPI(262)));
@@ -3033,7 +3033,7 @@ QString MainWindow::readFile(QString name)
     }
 
     QTextStream st(&file);
-    st.setCodec("UTF-8");
+    st.setEncoding(QStringConverter::Utf8);
     return st.readAll();
 }
 
@@ -3069,7 +3069,7 @@ void MainWindow::createInfoPane()
         file.open(QFile::ReadOnly | QFile::Text);
 
         QTextStream st(&file);
-        st.setCodec("UTF-8");
+        st.setEncoding(QStringConverter::Utf8);
         QString source = st.readAll();
         source = source.replace("100dx", QString("%1").arg(ScaleHeightForDPI(100)));
         source = source.replace("254dx", QString("%1").arg(ScaleHeightForDPI(254)));
@@ -3335,7 +3335,7 @@ void MainWindow::loadFile(const QString& fileName, SonicPiScintilla*& text)
     }
 
     QTextStream in(&file);
-    in.setCodec("UTF-8");
+    in.setEncoding(QStringConverter::Utf8);
     QApplication::setOverrideCursor(Qt::WaitCursor);
     text->setText(in.readAll());
     file.close();
@@ -3357,7 +3357,7 @@ bool MainWindow::saveFile(const QString& fileName, SonicPiScintilla* text)
     }
 
     QTextStream out(&file);
-    out.setCodec("UTF-8");
+    out.setEncoding(QStringConverter::Utf8);
     QApplication::setOverrideCursor(Qt::WaitCursor);
     QString code = text->text();
 #if defined(Q_OS_WIN)
