@@ -68,19 +68,19 @@ jobs:
 
       # Keep a cached copy of the Qt build so we can speed up subsequent builds
     - name: Cache Qt
-      id: cache-qt2
+      id: cache-qt6
       uses: actions/cache@v1
       with:
-        path: ../Qt2
-        key: ${{ runner.os }}-QtCache2
+        path: ../Qt6
+        key: ${{ runner.os }}-Qt6Cache
 
       # Get Qt
-    - name: Install Qt
+    - name: Install Qt 6
       uses: jurplel/install-qt-action@v2
       with:
         modules: "qtwebengine"
         version: '6.2.2'
-        cached: ${{ steps.cache-qt2.outputs.cache-hit }}
+        cached: ${{ steps.cache-qt6.outputs.cache-hit }}
 
       # Install Elixir on Ubuntu
     - name: Linux Elixir
