@@ -3485,7 +3485,7 @@ void MainWindow::addHelpPage(QListWidget* nameList,
         nameList->addItem(item);
         entry.entryIndex = nameList->count() - 1;
 
-        if (helpPages[i].keyword != NULL)
+        if (helpPages[i].keyword != "")
         {
             helpKeywords.insert(helpPages[i].keyword, entry);
             // magic numbers ahoy

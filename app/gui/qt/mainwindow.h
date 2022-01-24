@@ -81,9 +81,9 @@ class SonicPiSettings;
 class SonicPiContext;
 
 struct help_page {
-    QString title;
-    QString keyword;
-    QString url;
+    QString title = "";
+    QString keyword = "";
+    QString url = "";
 };
 
 struct help_entry {
