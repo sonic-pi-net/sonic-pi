@@ -453,9 +453,11 @@ void MainWindow::setupWindowStructure()
         workspace->setObjectName(QString("Buffer %1").arg(ws));
 
         //tab completion when in list
-        QShortcut* indentLine = new QShortcut(QKeySequence("Tab"), workspace);
-        connect(indentLine, SIGNAL(activated()), signalMapper, SLOT(map()));
-        signalMapper->setMapping(indentLine, (QObject*)workspace);
+        auto indentLine = new QShortcut(QKeySequence(Qt::Key_Tab), workspace);
+
+        connect(indentLine, &QShortcut::activated, this, [this, workspace]() {
+          completeSnippetListOrIndentLine(workspace);
+        });
 
         // save and load buffers
         QShortcut* saveBufferShortcut = new QShortcut(shiftMetaKey('s'), workspace);
@@ -563,7 +565,6 @@ void MainWindow::setupWindowStructure()
     }
 
     connect(signalMapper, SIGNAL(mapped(int)), this, SLOT(changeTab(int)));
-    connect(signalMapper, SIGNAL(mapped(QObject*)), this, SLOT(completeSnippetListOrIndentLine(QObject*)));
 
     QFont font("Monospace");
     font.setStyleHint(QFont::Monospace);
