@@ -1432,8 +1432,7 @@ bool MainWindow::loadFile()
     QString fileName = QFileDialog::getOpenFileName(this, tr("Load Sonic Pi Buffer"), lastDir, QString("%1 (*.rb *.txt);;%2 (*.txt);;%3 (*.rb);;%4 (*.*)").arg(tr("Buffer files")).arg(tr("Text files")).arg(tr("Ruby files")).arg(tr("All files")), &selfilter);
     if (!fileName.isEmpty())
     {
-        QFileInfo fi = fileName;
-        gui_settings->setValue("lastDir", fi.dir().absolutePath());
+        gui_settings->setValue("lastDir", QDir(fileName).absolutePath());
         SonicPiScintilla* p = (SonicPiScintilla*)tabs->currentWidget();
         loadFile(fileName, p);
         return true;
@@ -1452,8 +1451,7 @@ bool MainWindow::saveAs()
 
     if (!fileName.isEmpty())
     {
-        QFileInfo fi = fileName;
-        gui_settings->setValue("lastDir", fi.dir().absolutePath());
+        gui_settings->setValue("lastDir", QDir(fileName).absolutePath());
         if (!fileName.contains(QRegularExpression("\\.[a-z]+$")))
         {
             fileName = fileName + ".txt";
@@ -3145,8 +3143,7 @@ void MainWindow::toggleRecording()
         QString fileName = QFileDialog::getSaveFileName(this, tr("Save Recording"), lastDir, tr("Wavefile (*.wav)"));
         if (!fileName.isEmpty())
         {
-            QFileInfo fi = fileName;
-            gui_settings->setValue("lastDir", fi.dir().absolutePath());
+            gui_settings->setValue("lastDir", QDir(fileName).absolutePath());
             Message msg("/save-recording");
             msg.pushStr(guiID.toStdString());
             msg.pushStr(fileName.toStdString());
