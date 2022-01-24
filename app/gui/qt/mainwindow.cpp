@@ -452,9 +452,13 @@ void MainWindow::setupWindowStructure()
         //      fix the return issue on Japanese keyboards.
 
         SonicPiScintilla* workspace = new SonicPiScintilla(lexer, theme, fileName, auto_indent);
-        connect(workspace, &SonicPiScintilla::bufferNewlineAndIndent, this, [this](int point_line, int point_index, int first_line, const std::string& code, const std::string& fileName, const std::string& id) {
-            m_spAPI->BufferNewLineAndIndent(point_line, point_index, first_line, code, fileName, id);
-        });
+        connect(workspace,
+                &SonicPiScintilla::bufferNewlineAndIndent,
+                this,
+                [this](int point_line, int point_index, int first_line, const std::string& code, const std::string& fileName, const std::string& id)
+                {
+                  m_spAPI->BufferNewLineAndIndent(point_line, point_index, first_line, code, fileName, id);
+                });
 
         workspace->setObjectName(QString("Buffer %1").arg(ws));
 
