@@ -737,7 +737,6 @@ void MainWindow::setupWindowStructure()
     mainWidgetLayout = new QVBoxLayout;
     mainWidgetLayout->addWidget(tabs);
     mainWidgetLayout->addWidget(errorPane);
-    mainWidgetLayout->setMargin(0);
     mainWidget = new QWidget;
     mainWidget->setFocusPolicy(Qt::NoFocus);
     errorPane->hide();
