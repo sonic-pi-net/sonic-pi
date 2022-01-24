@@ -26,10 +26,6 @@
 
 #include "dpi.h"
 
-#ifdef Q_OS_WIN
-#include <QtPlatformHeaders/QWindowsWindowFunctions>
-#endif
-
 #ifdef Q_OS_DARWIN
 #include "platform/macos.h"
 #endif
@@ -85,15 +81,6 @@ int main(int argc, char *argv[])
   app.processEvents();
 
   MainWindow mainWin(app, splash);
-
-#if defined(Q_OS_LINUX)
-
-#elif defined(Q_OS_WIN)
-    // Fix for full screen mode. See: https://doc.qt.io/qt-5/windows-issues.html#fullscreen-opengl-based-windows
-  QWindowsWindowFunctions::setHasBorderInFullScreen(mainWin.windowHandle(), true);
-#elif defined(Q_OS_DARWIN)
-
-#endif
 
   return app.exec();
 

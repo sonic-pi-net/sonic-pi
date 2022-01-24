@@ -338,7 +338,10 @@ signals:
         SonicPiSettings *piSettings;
         SonicPii18n *sonicPii18n;
 
+
+        bool fullScreenMode = false;
         bool focusMode;
+
         QCheckBox *startup_error_reported;
         bool is_recording;
         bool show_rec_icon_a;
@@ -425,6 +428,7 @@ signals:
         SonicPi::ScopeWindow* scopeWindow;
         std::shared_ptr<SonicPi::QtAPIClient> m_spClient;
         std::shared_ptr<SonicPi::SonicPiAPI> m_spAPI;
+       std::shared_ptr<QRect> m_appWindowSizeRect;
 
         QSet<QString> cuePaths;
 
