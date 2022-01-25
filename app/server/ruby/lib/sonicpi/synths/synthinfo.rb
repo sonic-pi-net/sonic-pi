@@ -118,7 +118,7 @@ module SonicPi
         info = arg_info[arg_name.to_sym]
         info[:doc] if info
       end
-i. e.
+
       def arg_default(arg_name)
         arg_defaults[arg_name.to_sym]
       end
