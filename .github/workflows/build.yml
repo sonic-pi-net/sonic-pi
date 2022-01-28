@@ -76,7 +76,7 @@ jobs:
     - name: Install Qt 6
       uses: jurplel/install-qt-action@v2
       with:
-        modules: "qtwebengine"
+        modules: "qtwebenginewidgets"
         version: '6.2.2'
         cached: ${{ steps.cache-qt6.outputs.cache-hit }}
 
