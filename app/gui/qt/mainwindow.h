@@ -77,7 +77,10 @@ class SonicPiTheme;
 class SonicPiLexer;
 class SonicPiSettings;
 class SonicPiContext;
+
+#ifdef WITH_WEBENGINE
 class PhxWidget;
+#endif
 
 struct help_page {
     QString title = "";
@@ -368,7 +371,10 @@ signals:
         QWidget *blankWidget;
         QWidget *outputWidgetTitle;
         QTextBrowser *docPane;
+
+#ifdef WITH_WEBENGINE
         PhxWidget *phxWidget;
+#endif
 
         //  QTextBrowser *hudPane;
         QWidget *mainWidget;

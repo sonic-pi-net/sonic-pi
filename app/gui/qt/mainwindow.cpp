@@ -56,7 +56,10 @@
 #include "utils/scintilla_api.h"
 #include "widgets/sonicpilexer.h"
 #include "widgets/sonicpiscintilla.h"
+
+#ifdef WITH_WEBENGINE
 #include "widgets/phxwidget.h"
+#endif
 
 #include "utils/sonicpi_i18n.h"
 
@@ -196,12 +199,16 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
     if (startupOK)
     {
         // We have a connection! Finish up loading app...
+
+#ifdef WITH_WEBENGINE
         QUrl phxUrl;
         phxUrl.setUrl("http://localhost");
         phxUrl.setPort(m_spAPI->GetPort(SonicPiPortId::phx_http));
         std::cout << "[GUI] - loading up web view with URL: " << phxUrl.toString().toStdString() << std::endl;
         // load phoenix webview
         phxWidget->connectToTauPhx(phxUrl);
+#endif
+
         scopeWindow->Booted();
         std::cout << "[GUI] - honour prefs" << std::endl;
         restoreWindows();
@@ -689,8 +696,9 @@ void MainWindow::setupWindowStructure()
     QShortcut* right = new QShortcut(Qt::Key_Right, docsNavTabs);
     right->setContext(Qt::WidgetWithChildrenShortcut);
     connect(right, SIGNAL(activated()), this, SLOT(docNextTab()));
-
+#ifdef WITH_WEBENGINE
     phxWidget = new PhxWidget(this);
+#endif
     docPane = new QTextBrowser;
     QSizePolicy policy = docPane->sizePolicy();
     policy.setHorizontalStretch(QSizePolicy::Maximum);
@@ -3432,11 +3440,13 @@ void MainWindow::onExitCleanup()
         scopeWindow->ShutDown();
     }
 
+#ifdef WITH_WEBENGINE
     if (phxWidget)
     {
         std::cout << "[GUI] - shutting down PhX view..." << std::endl;
         phxWidget->deleteLater();
     }
+#endif
 
     if (m_spClient)
     {
