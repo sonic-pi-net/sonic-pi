@@ -37,11 +37,15 @@ set(QT_TOOLS_DIR ${CMAKE_PREFIX_PATH}/bin)
 set_property(GLOBAL PROPERTY AUTOMOC_FOLDER Automoc)
 set_property(GLOBAL PROPERTY AUTOGEN_TARGETS_FOLDER Automoc)
 
+find_package(Qt6)
 
-find_package(Qt6 COMPONENTS Core Widgets Gui Concurrent Network OpenGLWidgets PrintSupport Xml Svg WebEngineWidgets REQUIRED)
-
-if(NOT Qt6_FOUND)
-  find_package(Qt5 COMPONENTS Core Widgets Gui Concurrent Network OpenGL PrintSupport Xml Svg WebEngineWidgets REQUIRED)
+if(Qt6_FOUND AND WITH_QT_GUI_WEBENGINE)
+  find_package(Qt6 COMPONENTS Core Widgets Gui Concurrent Network OpenGLWidgets PrintSupport Xml Svg WebEngineWidgets REQUIRED)
+  add_compile_definitions(WITH_WEBENGINE)
+elseif(Qt6_FOUND)
+  find_package(Qt6 COMPONENTS Core Widgets Gui Concurrent Network OpenGLWidgets PrintSupport Xml Svg REQUIRED)
+else()
+  find_package(Qt5 COMPONENTS Core Widgets Gui Concurrent Network OpenGL PrintSupport Xml Svg REQUIRED)
 endif()
 
 find_package(Threads REQUIRED)
@@ -202,8 +206,15 @@ target_link_libraries(${APP_NAME}
     Qt::OpenGLWidgets
     Qt::Concurrent
     Qt::Network
-    Qt::WebEngineWidgets
     Threads::Threads)
+
+
+if(WITH_QT_GUI_WEBENGINE)
+  target_link_libraries(${APP_NAME}
+  PRIVATE
+  Qt::WebEngineWidgets)
+endif()
+
 
 # Compile options and OS specific libraries
 if(WIN32)

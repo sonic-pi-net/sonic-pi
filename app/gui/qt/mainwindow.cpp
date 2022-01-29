@@ -40,12 +40,18 @@
 #include <QStatusBar>
 #include <QStyle>
 #include <QTextBrowser>
-#include <QWebEngineProfile>
+
+
 #include <QTextStream>
 #include <QToolBar>
 #include <QToolButton>
 #include <QVBoxLayout>
+
+#ifdef WITH_WEBENGINE
+#include <QWebEngineProfile>
 #include <QWebEngineView>
+#endif
+
 
 #include "mainwindow.h"
 
@@ -196,12 +202,16 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
     if (startupOK)
     {
         // We have a connection! Finish up loading app...
+
+#ifdef WITH_WEBENGINE
         QUrl phxUrl;
         phxUrl.setUrl("http://localhost");
         phxUrl.setPort(m_spAPI->GetPort(SonicPiPortId::phx_http));
         std::cout << "[GUI] - loading up web view with URL: " << phxUrl.toString().toStdString() << std::endl;
         // load phoenix webview
         phxView->load(phxUrl);
+#endif
+
         scopeWindow->Booted();
         std::cout << "[GUI] - honour prefs" << std::endl;
         restoreWindows();
@@ -680,11 +690,13 @@ void MainWindow::setupWindowStructure()
     right->setContext(Qt::WidgetWithChildrenShortcut);
     connect(right, SIGNAL(activated()), this, SLOT(docNextTab()));
 
+#ifdef WITH_WEBENGINE
     phxView = new QWebEngineView(this);
     phxProfile = new QWebEngineProfile(this);
     phxPage = new QWebEnginePage(phxProfile, phxView);
     phxView->setPage(phxPage);
     phxView->setContextMenuPolicy(Qt::NoContextMenu);
+#endif
 
     docPane = new QTextBrowser;
     QSizePolicy policy = docPane->sizePolicy();
@@ -719,7 +731,10 @@ void MainWindow::setupWindowStructure()
     southTabs->setTabsClosable(false);
     southTabs->setMovable(false);
     southTabs->addTab(docsplit, "Docs");
+
+#ifdef WITH_WEBENGINE
     southTabs->addTab(phxView, "PhX");
+#endif
 
     docWidget = new QDockWidget(tr("Help"), this);
     docWidget->setFocusPolicy(Qt::NoFocus);
@@ -3401,11 +3416,13 @@ void MainWindow::onExitCleanup()
         scopeWindow->ShutDown();
     }
 
+#ifdef WITH_WEBENGINE
     if (phxView)
     {
         std::cout << "[GUI] - shutting down PhX view..." << std::endl;
         phxView->deleteLater();
     }
+#endif
 
     if (m_spClient)
     {
