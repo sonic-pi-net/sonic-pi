@@ -231,7 +231,7 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
     midi_default_channel_combo->addItem("16");
     midi_default_channel_combo->setMaxVisibleItems(17);
     midi_default_channel_combo->setMinimumContentsLength(2);
-    midi_default_channel_combo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLength) ;
+    midi_default_channel_combo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon) ;
 
     QLabel *midi_default_channel_label = new QLabel;
     midi_default_channel_label->setText(tr("Default MIDI channel"));
@@ -500,7 +500,7 @@ QGroupBox* SettingsWidget::createLanguagePrefsTab() {
     add_language_combo_box_entries(language_combo);
     language_combo->setToolTip(tr("Change the language of the UI & Tutorial"));
     language_combo->setMinimumContentsLength(2);
-    language_combo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLength);
+    language_combo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
 
     language_details_label = new QLabel;
 

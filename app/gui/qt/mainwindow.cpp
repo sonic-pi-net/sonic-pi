@@ -18,10 +18,10 @@
 
 // Qt stuff
 #include <QAction>
+#include <QActionGroup>
 #include <QApplication>
 #include <QBoxLayout>
 #include <QDesktopServices>
-#include <QDesktopWidget>
 #include <QDialogButtonBox>
 #include <QDockWidget>
 #include <QFileDialog>
@@ -40,12 +40,18 @@
 #include <QStatusBar>
 #include <QStyle>
 #include <QTextBrowser>
-#include <QWebEngineProfile>
+
+
 #include <QTextStream>
 #include <QToolBar>
 #include <QToolButton>
 #include <QVBoxLayout>
+
+#ifdef WITH_WEBENGINE
+#include <QWebEngineProfile>
 #include <QWebEngineView>
+#endif
+
 
 #include "mainwindow.h"
 
@@ -138,6 +144,10 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
     bool startupOK = false;
 
     m_spAPI->Init(rootPath().toStdString());
+
+    const QRect rect = this->geometry();
+    m_appWindowSizeRect = std::make_shared<QRect>(rect);
+
     guiID = QString::fromStdString(m_spAPI->GetGuid());
 
     this->sonicPii18n = new SonicPii18n(rootPath());
@@ -192,12 +202,16 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
     if (startupOK)
     {
         // We have a connection! Finish up loading app...
+
+#ifdef WITH_WEBENGINE
         QUrl phxUrl;
         phxUrl.setUrl("http://localhost");
         phxUrl.setPort(m_spAPI->GetPort(SonicPiPortId::phx_http));
         std::cout << "[GUI] - loading up web view with URL: " << phxUrl.toString().toStdString() << std::endl;
         // load phoenix webview
         phxView->load(phxUrl);
+#endif
+
         scopeWindow->Booted();
         std::cout << "[GUI] - honour prefs" << std::endl;
         restoreWindows();
@@ -317,7 +331,7 @@ void MainWindow::showWelcomeScreen()
         QFile file(":/html/startup.html");
         file.open(QFile::ReadOnly | QFile::Text);
         QTextStream st(&file);
-        st.setCodec("UTF-8");
+        st.setEncoding(QStringConverter::Utf8);
         QString source = st.readAll();
         source = source.replace("214dx", QString("%1").arg(ScaleHeightForDPI(214)));
         source = source.replace("262dx", QString("%1").arg(ScaleHeightForDPI(262)));
@@ -449,9 +463,11 @@ void MainWindow::setupWindowStructure()
         workspace->setObjectName(QString("Buffer %1").arg(ws));
 
         //tab completion when in list
-        QShortcut* indentLine = new QShortcut(QKeySequence("Tab"), workspace);
-        connect(indentLine, SIGNAL(activated()), signalMapper, SLOT(map()));
-        signalMapper->setMapping(indentLine, (QObject*)workspace);
+        auto indentLine = new QShortcut(QKeySequence(Qt::Key_Tab), workspace);
+
+        connect(indentLine, &QShortcut::activated, this, [this, workspace]() {
+          completeSnippetListOrIndentLine(workspace);
+        });
 
         // save and load buffers
         QShortcut* saveBufferShortcut = new QShortcut(shiftMetaKey('s'), workspace);
@@ -559,7 +575,6 @@ void MainWindow::setupWindowStructure()
     }
 
     connect(signalMapper, SIGNAL(mapped(int)), this, SLOT(changeTab(int)));
-    connect(signalMapper, SIGNAL(mapped(QObject*)), this, SLOT(completeSnippetListOrIndentLine(QObject*)));
 
     QFont font("Monospace");
     font.setStyleHint(QFont::Monospace);
@@ -675,11 +690,13 @@ void MainWindow::setupWindowStructure()
     right->setContext(Qt::WidgetWithChildrenShortcut);
     connect(right, SIGNAL(activated()), this, SLOT(docNextTab()));
 
+#ifdef WITH_WEBENGINE
     phxView = new QWebEngineView(this);
     phxProfile = new QWebEngineProfile(this);
     phxPage = new QWebEnginePage(phxProfile, phxView);
     phxView->setPage(phxPage);
     phxView->setContextMenuPolicy(Qt::NoContextMenu);
+#endif
 
     docPane = new QTextBrowser;
     QSizePolicy policy = docPane->sizePolicy();
@@ -714,7 +731,10 @@ void MainWindow::setupWindowStructure()
     southTabs->setTabsClosable(false);
     southTabs->setMovable(false);
     southTabs->addTab(docsplit, "Docs");
+
+#ifdef WITH_WEBENGINE
     southTabs->addTab(phxView, "PhX");
+#endif
 
     docWidget = new QDockWidget(tr("Help"), this);
     docWidget->setFocusPolicy(Qt::NoFocus);
@@ -732,7 +752,6 @@ void MainWindow::setupWindowStructure()
     mainWidgetLayout = new QVBoxLayout;
     mainWidgetLayout->addWidget(tabs);
     mainWidgetLayout->addWidget(errorPane);
-    mainWidgetLayout->setMargin(0);
     mainWidget = new QWidget;
     mainWidget->setFocusPolicy(Qt::NoFocus);
     errorPane->hide();
@@ -815,29 +834,31 @@ void MainWindow::updateFullScreenMode()
     QSignalBlocker blocker(fullScreenAct);
     fullScreenAct->setChecked(piSettings->full_screen);
 
-    if (piSettings->full_screen)
+    if (piSettings->full_screen && !fullScreenMode)
     {
+        //switch to full screen mode
+        std::cout << "[GUI] - switch into full screen mode." << std::endl;
+        QRect rect = this->geometry();
+        m_appWindowSizeRect.reset(new QRect(rect));
         outputWidget->setTitleBarWidget(blankWidget);
-#ifdef Q_OS_WIN
         this->setWindowFlags(Qt::FramelessWindowHint);
-#endif
-        int currentScreen = QApplication::desktop()->screenNumber(this);
+        QRect screenRect = this->screen()->availableGeometry();
+        this->setGeometry(screenRect.x()-1, screenRect.y()-1, screenRect.width()+2, screenRect.height()+2);
         statusBar()->showMessage(tr("Full screen mode on."), 2000);
-#if QT_VERSION >= 0x050400
-        //requires Qt5
-        this->windowHandle()->setScreen(qApp->screens()[currentScreen]);
-#endif
-        this->setWindowState(Qt::WindowFullScreen);
+        fullScreenMode = true;
         this->show();
     }
-    else
+    else if (!piSettings->full_screen && fullScreenMode)
     {
+        //switch out of full screen mode
+        std::cout << "[GUI] - switch out of full screen mode." << std::endl;
+        this->setWindowFlags(Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowMinimizeButtonHint | Qt::WindowMaximizeButtonHint | Qt::WindowCloseButtonHint);
+        this->setWindowFlags(windowFlags() & ~Qt::FramelessWindowHint);
         outputWidget->setTitleBarWidget(outputWidgetTitle);
         this->setWindowState(windowState() & ~(Qt::WindowFullScreen));
-#ifdef Q_OS_WIN
-        this->setWindowFlags(Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowMinimizeButtonHint | Qt::WindowMaximizeButtonHint | Qt::WindowCloseButtonHint);
-#endif
+        this->setGeometry(*m_appWindowSizeRect.get());
         statusBar()->showMessage(tr("Full screen mode off."), 2000);
+        fullScreenMode = false;
         this->show();
     }
 }
@@ -1426,8 +1447,7 @@ bool MainWindow::loadFile()
     QString fileName = QFileDialog::getOpenFileName(this, tr("Load Sonic Pi Buffer"), lastDir, QString("%1 (*.rb *.txt);;%2 (*.txt);;%3 (*.rb);;%4 (*.*)").arg(tr("Buffer files")).arg(tr("Text files")).arg(tr("Ruby files")).arg(tr("All files")), &selfilter);
     if (!fileName.isEmpty())
     {
-        QFileInfo fi = fileName;
-        gui_settings->setValue("lastDir", fi.dir().absolutePath());
+        gui_settings->setValue("lastDir", QDir(fileName).absolutePath());
         SonicPiScintilla* p = (SonicPiScintilla*)tabs->currentWidget();
         loadFile(fileName, p);
         return true;
@@ -1446,8 +1466,7 @@ bool MainWindow::saveAs()
 
     if (!fileName.isEmpty())
     {
-        QFileInfo fi = fileName;
-        gui_settings->setValue("lastDir", fi.dir().absolutePath());
+        gui_settings->setValue("lastDir", QDir(fileName).absolutePath());
         if (!fileName.contains(QRegularExpression("\\.[a-z]+$")))
         {
             fileName = fileName + ".txt";
@@ -2994,7 +3013,7 @@ void MainWindow::createToolBar()
 
     QSignalMapper* signalMapper = new QSignalMapper(this);
 
-    for (size_t i = 0; i < available_languages.length(); i += 1)
+    for (int i = 0; i < available_languages.length(); i += 1)
     {
         bool is_current_lang = (available_languages[i] == piSettings->language);
 
@@ -3033,7 +3052,7 @@ QString MainWindow::readFile(QString name)
     }
 
     QTextStream st(&file);
-    st.setCodec("UTF-8");
+    st.setEncoding(QStringConverter::Utf8);
     return st.readAll();
 }
 
@@ -3069,7 +3088,7 @@ void MainWindow::createInfoPane()
         file.open(QFile::ReadOnly | QFile::Text);
 
         QTextStream st(&file);
-        st.setCodec("UTF-8");
+        st.setEncoding(QStringConverter::Utf8);
         QString source = st.readAll();
         source = source.replace("100dx", QString("%1").arg(ScaleHeightForDPI(100)));
         source = source.replace("254dx", QString("%1").arg(ScaleHeightForDPI(254)));
@@ -3139,8 +3158,7 @@ void MainWindow::toggleRecording()
         QString fileName = QFileDialog::getSaveFileName(this, tr("Save Recording"), lastDir, tr("Wavefile (*.wav)"));
         if (!fileName.isEmpty())
         {
-            QFileInfo fi = fileName;
-            gui_settings->setValue("lastDir", fi.dir().absolutePath());
+            gui_settings->setValue("lastDir", QDir(fileName).absolutePath());
             Message msg("/save-recording");
             msg.pushStr(guiID.toStdString());
             msg.pushStr(fileName.toStdString());
@@ -3335,7 +3353,7 @@ void MainWindow::loadFile(const QString& fileName, SonicPiScintilla*& text)
     }
 
     QTextStream in(&file);
-    in.setCodec("UTF-8");
+    in.setEncoding(QStringConverter::Utf8);
     QApplication::setOverrideCursor(Qt::WaitCursor);
     text->setText(in.readAll());
     file.close();
@@ -3357,7 +3375,7 @@ bool MainWindow::saveFile(const QString& fileName, SonicPiScintilla* text)
     }
 
     QTextStream out(&file);
-    out.setCodec("UTF-8");
+    out.setEncoding(QStringConverter::Utf8);
     QApplication::setOverrideCursor(Qt::WaitCursor);
     QString code = text->text();
 #if defined(Q_OS_WIN)
@@ -3398,11 +3416,13 @@ void MainWindow::onExitCleanup()
         scopeWindow->ShutDown();
     }
 
+#ifdef WITH_WEBENGINE
     if (phxView)
     {
         std::cout << "[GUI] - shutting down PhX view..." << std::endl;
         phxView->deleteLater();
     }
+#endif
 
     if (m_spClient)
     {
@@ -3485,7 +3505,7 @@ void MainWindow::addHelpPage(QListWidget* nameList,
         nameList->addItem(item);
         entry.entryIndex = nameList->count() - 1;
 
-        if (helpPages[i].keyword != NULL)
+        if (helpPages[i].keyword != "")
         {
             helpKeywords.insert(helpPages[i].keyword, entry);
             // magic numbers ahoy

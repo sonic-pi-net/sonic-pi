@@ -22,16 +22,20 @@ OK, so just to get you prepared, we're going to do a few things:
 
 1. Install the various dependencies that Sonic Pi needs both to be built
 and to run
-2. Prepare the build by running some command scripts
-3. Build Sonic Pi using `cmake`
-4. Start your new Sonic Pi using your newly built app
+2. Build Sonic Pi using a command line script
+3. Start your new Sonic Pi using your newly built app
+
 
 ### Notes
 
-_These build instructions assume you're running under macOS 10.15+. If
-you're using an older version of macOS some steps may need
-modification._
+* If you have any issues building Sonic Pi on macOS please open up an
+  issue on GitHub and we'll try our best to assist you:
+  https://github.com/sonic-pi-net/sonic-pi/issues
+* These build instructions assume you're running under macOS 12+. If
+  you're using an older version of macOS some steps may need
+  modification.
 
+ 
 ## 1. Installing Dependencies
 
 In order to build Sonic Pi's various components, we need to install a
@@ -39,7 +43,8 @@ few dependencies:
 
 1. Xcode (12.1+) and command line tools
 2. Homebrew
-3. All other dependencies - Qt5 (5.15+), CMake (3.18+), Elixir(2.12+)
+3. All other dependencies - Qt6 (6.2+), CMake (3.18+), Elixir(1.13+)
+
 
 ### 1.1 Install Xcode
 
@@ -47,6 +52,7 @@ Firstly open the App Store and install the latest Xcode (12.1 at the
 time of writing). Also install the command line tools which will give
 you access to a compiler necessary to build the GUI and other
 components.
+
 
 ### 1.2 Install Homebrew
 
@@ -62,15 +68,17 @@ trusted system used by many developers globally you're always
 recommended to read any scripts before executing them to reassure
 yourself they aren't doing anything malicious._
 
+
 ### 1.3 Install all other dependencies
 
 Once you have Homebrew installed, pulling in the rest of the
 dependencies is a couple of lines to execute within a terminal:
 
 ```
-brew install qt@5 cmake elixir
+brew install qt cmake elixir
 
 ```
+
 
 ## 2. Preparing the Build
 
@@ -97,7 +105,7 @@ change any future references to `~/Development/sonic-pi` to your chosen location
 
 ## 3. Running the Build
 
-Now we're ready to build everything. This is achieved with 3 commands
+Now we're ready to build everything. This is achieved with one single command
 which will:
 
 1. Run the prebuild script which builds and sets up a lot of the
@@ -106,7 +114,7 @@ which will:
 3. Run cmake to build the final entry-point binary.
 
 
-### 3.1 Prebuild
+### 3.1 Move to the app directory
 
 Firstly, we need to change to the `app` directory at the root of the Sonic Pi repository:
 
@@ -114,36 +122,33 @@ Firstly, we need to change to the `app` directory at the root of the Sonic Pi re
 cd ~/Development/sonic-pi/app
 ```
 
-### 3.2 Config
 
-Next we run the prebuild and config scripts:
+### 3.2 Build All
 
-```
-./mac-prebuild.sh
-./mac-config.sh
-```
-
-### 3.3 Build
-
-Once these have completed (it might take a while the first time you run
-a build) you'll find that you now have a `build` directory that's
-waiting for you to run your first build:
+Next we run the build-all script for macOS:
 
 ```
-cd build
-cmake --build . --config Release
+./mac-build-all.sh
 ```
+
 
 ## 4. Start Sonic Pi
 
-Finally, you can run your newly compiled `Sonic Pi` app within the `build`
-directly either by double clicking it in the Finder or via the terminal
-(from within the `build` directory):
+Finally, you can run your newly compiled `Sonic Pi` app within the new `build`
+directly either by double clicking it in the Finder or via the terminal:
 
 ```
-./Sonic\ Pi.app/Contents/MacOS/Sonic\ Pi
+./build/Sonic\ Pi.app/Contents/MacOS/Sonic\ Pi
 
 ```
+
+
+## Good Luck!
+
+Good luck and please share your new live coding adventure with us over on:
+
+https://in-thread.sonic-pi.net
+
 
 #### Anaconda users beware!
 
@@ -156,12 +161,3 @@ conda deactivate
 ```
 
 Before the build steps that should stop things breaking. Once Sonic Pi is built, you can use `conda` as normal after that.
-
-
-## Good Luck!
-
-Good luck and please share your new live coding adventure with us over on:
-
-https://in-thread.sonic-pi.net
-
-

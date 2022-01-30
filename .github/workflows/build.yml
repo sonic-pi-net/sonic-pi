@@ -36,16 +36,14 @@ jobs:
     - uses: ruby/setup-ruby@v1
       id: ruby-inst
       with:
-        ruby-version: 2.7
+        ruby-version: 3.1
       if: matrix.os == 'windows-latest'
 
     # Install gems Windows
     - name: Setup Ruby Windows
       working-directory: ${{github.workspace}}/app
       run: |
-          gem install win32-process
-          gem install rugged --version 0.27.1
-          gem install ffi
+          gem install rugged
           gem install test-unit
       if: matrix.os == 'windows-latest'
 
@@ -68,18 +66,19 @@ jobs:
 
       # Keep a cached copy of the Qt build so we can speed up subsequent builds
     - name: Cache Qt
-      id: cache-qt2
+      id: cache-qt6
       uses: actions/cache@v1
       with:
-        path: ../Qt2
-        key: ${{ runner.os }}-QtCache2
+        path: ../Qt6
+        key: ${{ runner.os }}-Qt6Cache
 
       # Get Qt
-    - name: Install Qt
+    - name: Install Qt 6
       uses: jurplel/install-qt-action@v2
       with:
-        modules: "qtwebengine"
-        cached: ${{ steps.cache-qt2.outputs.cache-hit }}
+        modules: "qtwebenginewidgets"
+        version: '6.2.2'
+        cached: ${{ steps.cache-qt6.outputs.cache-hit }}
 
       # Install Elixir on Ubuntu
     - name: Linux Elixir
@@ -111,7 +110,7 @@ jobs:
       working-directory: ${{github.workspace}}/app
       env:
         CC: ${{ matrix.cc }}
-        QT_INSTALL_LOCATION: ${{env.Qt5_DIR}}
+        QT_INSTALL_LOCATION: ${{env.Qt6_DIR}}
       run: |
         sudo apt install -y pulseaudio dbus-x11 libssl-dev ruby-dev supercollider-server sc3-plugins-server alsa-base alsa-utils jackd2 libjack-jackd2-dev libjack-jackd2-0 libasound2-dev librtmidi-dev pulseaudio-module-jack
         ./linux-prebuild.sh
@@ -122,7 +121,7 @@ jobs:
       working-directory: ${{github.workspace}}/app
       env:
         CC: ${{ matrix.cc }}
-        QT_INSTALL_LOCATION: ${{env.Qt5_DIR}}
+        QT_INSTALL_LOCATION: ${{env.Qt6_DIR}}
       run: |
         ./mac-prebuild.sh
       if: matrix.os == 'macos-latest'
@@ -135,7 +134,7 @@ jobs:
       shell: cmd
       env:
         CC: ${{ matrix.cc }}
-        QT_INSTALL_LOCATION: ${{env.Qt5_DIR}}
+        QT_INSTALL_LOCATION: ${{env.Qt6_DIR}}
       run: |
         mv c:/msys64 c:/__msys64
         win-prebuild.bat
@@ -149,7 +148,7 @@ jobs:
       working-directory: ${{github.workspace}}/app
       env:
         CC: ${{ matrix.cc }}
-        QT_INSTALL_LOCATION: ${{env.Qt5_DIR}}
+        QT_INSTALL_LOCATION: ${{env.Qt6_DIR}}
       run: |
         ./linux-config.sh
       if: matrix.os == 'ubuntu-latest'
@@ -159,7 +158,7 @@ jobs:
       working-directory: ${{github.workspace}}/app
       env:
         CC: ${{ matrix.cc }}
-        QT_INSTALL_LOCATION: ${{env.Qt5_DIR}}
+        QT_INSTALL_LOCATION: ${{env.Qt6_DIR}}
       run: |
         ./mac-config.sh
       if: matrix.os == 'macos-latest'
@@ -170,7 +169,7 @@ jobs:
       shell: cmd
       env:
         CC: ${{ matrix.cc }}
-        QT_INSTALL_LOCATION: ${{env.Qt5_DIR}}
+        QT_INSTALL_LOCATION: ${{env.Qt6_DIR}}
       run: |
         win-config.bat
       if: matrix.os == 'windows-latest'

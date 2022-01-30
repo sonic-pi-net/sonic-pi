@@ -2,7 +2,7 @@
 
 Hello there lovely Linux user - welcome to our build instructions.
 
-**Note: Sonic Pi for Linux isn't currently officially supported and we
+**Important: Sonic Pi for Linux isn't currently officially supported and we
   can't guarantee that it will work on all variants of Linux on all
   hardware. However, we provide these instructions in the hope that they
   can help you get Sonic Pi running on your specific Linux
@@ -30,9 +30,20 @@ and to run
 3. Build Sonic Pi using `cmake`
 4. Start your new Sonic Pi using your newly built app
 
+
 ### Notes
 
-_These build instructions assume you're running under a Debian-based Linux. You may need to modify the package names and other aspects to match your specific Linux distribution._
+* If you have any issues building Sonic Pi on Linux please open up an
+  issue on GitHub and we'll try our best to assist you:
+  https://github.com/sonic-pi-net/sonic-pi/issues
+* If you're running Raspberry Pi OS, please see our other help file
+  `BUILD-RASPBERRY_PI.md` for more specific instructions.
+* These build instructions assume you're running under a Debian-based
+  Linux. You may need to modify the package names and other aspects to
+  match your specific Linux distribution. 
+* The following is a rough list of Debian packages that are needed that
+  can serve as a starting position: `build-essential libssl-dev git ruby-dev elixir erlang-dev qttools5-dev qttools5-dev-tools libqt5svg5-dev supercollider-server sc3-plugins-server alsa-utils jackd2 libjack-jackd2-0 pulseaudio-module-jack librtmidi-dev cmake ninja-build elixir`
+
 
 ## 1. Installing Dependencies
 
@@ -45,16 +56,11 @@ few dependencies:
 * Ruby + Dev tools (2.5+)
 * Elixir + Dev tools (21+)
 * SuperCollider + SC3 plugins
-* 
 
 
-### 1.1 Raspberry Pi OS
+### 1.1 Debian
 
-The following is a list of packages required for Raspberry Pi OS
-released in August 2021:
 
-```  
-    sudo apt-get install -y build-essential libssl-dev git ruby-dev elixir erlang-dev qttools5-dev qttools5-dev-tools libqt5svg5-dev supercollider-server sc3-plugins-server alsa-utils jackd2 libjack-jackd2-0 pulseaudio-module-jack librtmidi-dev cmake ninja-build
 ```     
 
 
@@ -67,14 +73,14 @@ The easiest way of getting this is likely to be cloning from GitHub
 into a folder on your hard drive such as `~/Development/sonic-pi`:
 
 ```
-git clone https://github.com/samaaron/sonic-pi.git ~/Development/sonic-pi
+git clone https://github.com/sonic-pi-net/sonic-pi.git ~/Development/sonic-pi
 ``` 
 
 If you don't have Git installed you should be able to download a `.zip`
 file of the latest commit or specific release (v3.3+) you'd like to
 build:
 
-https://github.com/samaaron/sonic-pi/archive/main.zip
+https://github.com/sonic-pi-net/sonic-pi/archive/main.zip
 
 From now on these instructions will assume you downloaded the source 
 into `~/Development/sonic-pi`. If you used a different location be sure to
@@ -83,7 +89,7 @@ change any future references to `~/Development/sonic-pi` to your chosen location
 
 ## 3. Running the Build
 
-Now we're ready to build everything. This is achieved with 3 commands
+Now we're ready to build everything. This is achieved with one single command
 which will:
 
 1. Run the prebuild script which builds and sets up a lot of the
@@ -92,7 +98,7 @@ which will:
 3. Run cmake to build the final entry-point binary.
 
 
-### 3.1 Prebuild
+### 3.1 Move to the app directory
 
 Firstly, we need to change to the `app` directory at the root of the Sonic Pi repository:
 
@@ -100,25 +106,15 @@ Firstly, we need to change to the `app` directory at the root of the Sonic Pi re
 cd ~/Development/sonic-pi/app
 ```
 
-### 3.2 Config
 
-Next we run the prebuild and config scripts:
+### 3.2 Build All
 
-```
-./linux-prebuild.sh
-./linux-config.sh
-```
-
-### 3.3 Build
-
-Once these have completed (it might take a while the first time you run
-a build) you'll find that you now have a `build` directory that's
-waiting for you to run your first build:
+Next we run the build-all script for Linux:
 
 ```
-cd build
-cmake --build . --config Release
+./linux-build-all.sh
 ```
+
 
 ## 4. Start Sonic Pi
 
@@ -129,6 +125,14 @@ directly either by double clicking it in your file manager or via the terminal
 ```
 ./sonic-pi
 ```
+
+
+## Good Luck!
+
+Good luck and please share your new live coding adventure with us over on:
+
+https://in-thread.sonic-pi.net
+
 
 #### Anaconda users beware!
 
@@ -142,9 +146,5 @@ conda deactivate
 
 Before the build steps that should stop things breaking. Once Sonic Pi is built, you can use `conda` as normal after that.
 
-## Good Luck!
 
-Good luck and please share your new live coding adventure with us over on:
-
-https://in-thread.sonic-pi.net
 

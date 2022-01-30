@@ -30,13 +30,24 @@ endif()
 # Qt Setup
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
 
 set(QT_TOOLS_DIR ${CMAKE_PREFIX_PATH}/bin)
 
 set_property(GLOBAL PROPERTY AUTOMOC_FOLDER Automoc)
 set_property(GLOBAL PROPERTY AUTOGEN_TARGETS_FOLDER Automoc)
 
-find_package(Qt5 COMPONENTS Core Widgets Gui Concurrent Network OpenGL PrintSupport Xml Svg WebEngineWidgets REQUIRED)
+find_package(Qt6)
+
+if(Qt6_FOUND AND WITH_QT_GUI_WEBENGINE)
+  find_package(Qt6 COMPONENTS Core Widgets Gui Concurrent Network OpenGLWidgets PrintSupport Xml Svg WebEngineWidgets REQUIRED)
+  add_compile_definitions(WITH_WEBENGINE)
+elseif(Qt6_FOUND)
+  find_package(Qt6 COMPONENTS Core Widgets Gui Concurrent Network OpenGLWidgets PrintSupport Xml Svg REQUIRED)
+else()
+  find_package(Qt5 COMPONENTS Core Widgets Gui Concurrent Network OpenGL PrintSupport Xml Svg REQUIRED)
+endif()
+
 find_package(Threads REQUIRED)
 
 # We build QScintilla as part of the main project to make it easy to debug/fix
@@ -181,9 +192,6 @@ target_include_directories(${APP_NAME}
     ${QTAPP_ROOT}/visualizer
     ${QTAPP_ROOT}/widgets
     ${QTAPP_ROOT}/Utils
-    ${Qt5Widgets_INCLUDE_DIRS}
-    ${Qt5Gui_INCLUDE_DIRS}
-    ${Qt5Core_INCLUDE_DIRS}
     ${CMAKE_BINARY_DIR}
     include)
 
@@ -191,14 +199,22 @@ target_link_libraries(${APP_NAME}
     PRIVATE
     SonicPi::API
     QScintilla
-    Qt5::Core
-    Qt5::Gui
-    Qt5::Widgets
-    Qt5::OpenGL
-    Qt5::Concurrent
-    Qt5::Network
-    Qt5::WebEngineWidgets
+    Qt::Core
+    Qt::Gui
+    Qt::Widgets
+    Qt::OpenGL
+    Qt::OpenGLWidgets
+    Qt::Concurrent
+    Qt::Network
     Threads::Threads)
+
+
+if(WITH_QT_GUI_WEBENGINE)
+  target_link_libraries(${APP_NAME}
+  PRIVATE
+  Qt::WebEngineWidgets)
+endif()
+
 
 # Compile options and OS specific libraries
 if(WIN32)

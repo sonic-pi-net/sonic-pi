@@ -1,4 +1,11 @@
-find_package(Qt5 COMPONENTS Core Widgets Gui Concurrent Network OpenGL PrintSupport Xml Svg REQUIRED)
+find_package(Qt6 COMPONENTS Core Widgets Gui Concurrent Network OpenGL PrintSupport Xml Svg REQUIRED)
+
+if(NOT Qt6_FOUND)
+  find_package(Qt5 COMPONENTS Core Widgets Gui Concurrent Network OpenGL PrintSupport Xml Svg REQUIRED)
+endif()
+
+
+
 
 set(SOURCES
 scintilla/lexers/LexA68k.cpp
@@ -283,10 +290,10 @@ target_include_directories(QScintilla
 
 target_link_libraries(QScintilla
 PUBLIC
-Qt5::PrintSupport
-Qt5::Widgets
-Qt5::OpenGL
-Qt5::Xml
+Qt::PrintSupport
+Qt::Widgets
+Qt::OpenGL
+Qt::Xml
 )
 
 target_compile_definitions(QScintilla PRIVATE -DSCINTILLA_QT)
@@ -310,12 +317,14 @@ PRIVATE
 -Wno-misleading-indentation
 )
 elseif(${CMAKE_SYSTEM_NAME} MATCHES Darwin) # macOS
-# Link to Qt Mac Extras
-find_package(Qt5 COMPONENTS MacExtras REQUIRED)
-target_link_libraries(QScintilla
-PUBLIC
-Qt5::MacExtras
-)
+  # Link to Qt Mac Extras
+  if(NOT Qt6_FOUND)
+    find_package(Qt5 COMPONENTS MacExtras REQUIRED)
+    target_link_libraries(QScintilla
+      PUBLIC
+      Qt::MacExtras
+      )
+  endif()
 
 target_compile_options(QScintilla
 PRIVATE

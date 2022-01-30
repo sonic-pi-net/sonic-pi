@@ -64,9 +64,11 @@ class QCheckBox;
 class QVBoxLayout;
 class QSplashScreen;
 class QLabel;
+#ifdef WITH_WEBENGINE
 class QWebEngineView;
 class QWebEngineProfile;
 class QWebEnginePage;
+#endif
 
 class InfoWidget;
 class SettingsWidget;
@@ -81,9 +83,9 @@ class SonicPiSettings;
 class SonicPiContext;
 
 struct help_page {
-    QString title;
-    QString keyword;
-    QString url;
+    QString title = "";
+    QString keyword = "";
+    QString url = "";
 };
 
 struct help_entry {
@@ -338,7 +340,10 @@ signals:
         SonicPiSettings *piSettings;
         SonicPii18n *sonicPii18n;
 
+
+        bool fullScreenMode = false;
         bool focusMode;
+
         QCheckBox *startup_error_reported;
         bool is_recording;
         bool show_rec_icon_a;
@@ -366,9 +371,11 @@ signals:
         QWidget *blankWidget;
         QWidget *outputWidgetTitle;
         QTextBrowser *docPane;
+#ifdef WITH_WEBENGINE
         QWebEngineView *phxView;
         QWebEnginePage *phxPage;
         QWebEngineProfile *phxProfile;
+#endif
         //  QTextBrowser *hudPane;
         QWidget *mainWidget;
         QDockWidget *scopeWidget;
@@ -425,6 +432,7 @@ signals:
         SonicPi::ScopeWindow* scopeWindow;
         std::shared_ptr<SonicPi::QtAPIClient> m_spClient;
         std::shared_ptr<SonicPi::SonicPiAPI> m_spAPI;
+       std::shared_ptr<QRect> m_appWindowSizeRect;
 
         QSet<QString> cuePaths;
 

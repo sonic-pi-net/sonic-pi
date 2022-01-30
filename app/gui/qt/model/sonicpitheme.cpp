@@ -969,7 +969,7 @@ QString SonicPiTheme::readFile(QString name) {
     }
 
     QTextStream st(&file);
-    st.setCodec("UTF-8");
+    st.setEncoding(QStringConverter::Utf8);
     return st.readAll();
 }
 

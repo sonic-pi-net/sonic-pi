@@ -15,6 +15,7 @@
 #include "model/sonicpitheme.h"
 #include "widgets/sonicpilog.h"
 #include <QCheckBox>
+#include <QRecursiveMutex>
 
 class SonicPiLexer;
 class QSettings;
@@ -84,6 +85,6 @@ signals:
     void dragMoveEvent(QDragMoveEvent *event);
     bool event(QEvent *evt);
     bool autoIndent;
-    QMutex *mutex;
+    QRecursiveMutex *mutex;
 
 };
