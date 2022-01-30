@@ -2,6 +2,7 @@
 
 Hello there lovely Raspberry Pi user - welcome to our build instructions.
 
+
 ### TLDR
 
 If you're already familiar with the terminal and running shell scripts,
@@ -15,6 +16,7 @@ sudo ./pi-setup.sh
 ./build/gui/qt/sonic-pi
 
 ```
+
 
 ### Installing vs Building
 
@@ -38,11 +40,16 @@ OK, so just to get you prepared, we're going to do a few things:
 All of these steps will require the terminal which can be found by
 clicking on the Raspberry Pi logo and then Accessories -> Terminal.
 
-### Note
 
-_These build instructions assume you're running the latest
-Bullseye-based Raspberry Pi OS released in November 2021. You may
-therefore need to update your distribution before continuing._
+### Notes
+
+* If you have any issues building Sonic Pi on Raspberry Pi OS please
+  open up an issue on GitHub and we'll try our best to assist you:
+  https://github.com/sonic-pi-net/sonic-pi/issues
+* These build instructions assume you're running the latest
+  Bullseye-based Raspberry Pi OS released in November 2021. You may
+  therefore need to update your distribution before continuing.
+
 
 ## 1. Get the Sonic Pi Source Code
 
@@ -68,6 +75,7 @@ can change into this directory with:
 cd ~/Development/sonic-pi
 ```
 
+
 ## 2. Fetch the Development Dependencies
 
 Now we're ready to fetch all the development dependencies. You can do
@@ -78,6 +86,7 @@ it calls `apt-get` to install your packages)
 sudo ./app/pi-setup.sh
 ```
 
+
 ## 3. Running the Build
 
 Now we just need to build everything. This is achieved with the
@@ -86,6 +95,7 @@ following command (which will likely take some time):
 ```
 ./app/pi-build-all.sh
 ```
+
 
 ## 4. Start Sonic Pi
 
