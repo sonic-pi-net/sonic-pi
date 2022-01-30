@@ -54,15 +54,17 @@ few dependencies:
 * Qt + Dev tools (5.15+)
 * Jack (and pulse-audio-module-jack if you are running Raspberry Pi OS)
 * Ruby + Dev tools (2.5+)
-* Elixir + Dev tools (21+)
+* Elixir + Dev tools (12.0+)
 * SuperCollider + SC3 plugins
 
 
 ### 1.1 Debian
 
+```bash
+sudo apt-get install -y build-essential git libssl-dev ruby-dev elixir erlang-dev qttools5-dev qttools5-dev-tools libqt5svg5-dev supercollider-server sc3-plugins-server alsa-utils jackd2 libjack-jackd2-dev libjack-jackd2-0 libasound2-dev librtmidi-dev pulseaudio-module-jack cmake ninja-build
+```
 
-```     
-
+Note: The main repositories may not have a recent enough version of Elixir. If you need to you can build it yourself, or you can get newer packaged versions from [Erlang Solutions' repository](https://www.erlang-solutions.com/downloads/). Installing packages from other repos is at your own risk.
 
 ## 2. Preparing the Build
 
