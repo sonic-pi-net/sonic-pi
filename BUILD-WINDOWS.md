@@ -234,7 +234,7 @@ https://in-thread.sonic-pi.net
   correctly
 - If you're already familiar with Visual Studio you should be able to
   take the existing solution file from within the `build` directory
-  andbuild things with that).
+  and build things with that).
 - For Ruby to work correctly with systems that have their locale set to
   Arabic, you need to modify the registry.rb in your Ruby install to
   force the locale to UTF-8. For more information see:
