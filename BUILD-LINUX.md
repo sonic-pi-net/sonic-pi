@@ -41,9 +41,6 @@ and to run
 * These build instructions assume you're running under a Debian-based
   Linux. You may need to modify the package names and other aspects to
   match your specific Linux distribution. 
-* The following is a rough list of Debian packages that are needed that
-  can serve as a starting position: `build-essential libssl-dev git ruby-dev elixir erlang-dev qttools5-dev qttools5-dev-tools libqt5svg5-dev supercollider-server sc3-plugins-server alsa-utils jackd2 libjack-jackd2-0 pulseaudio-module-jack librtmidi-dev cmake ninja-build elixir`
-
 
 ## 1. Installing Dependencies
 
@@ -54,15 +51,23 @@ few dependencies:
 * Qt + Dev tools (5.15+)
 * Jack (and pulse-audio-module-jack if you are running Raspberry Pi OS)
 * Ruby + Dev tools (2.5+)
-* Elixir + Dev tools (21+)
+* Elixir + Dev tools (12.0+)
 * SuperCollider + SC3 plugins
 
 
 ### 1.1 Debian
+The following is a rough list of Debian packages that are needed that can serve as a starting position:
+```bash
+sudo apt-get install -y build-essential git libssl-dev ruby-dev elixir erlang-dev qttools5-dev qttools5-dev-tools libqt5svg5-dev supercollider-server sc3-plugins-server alsa-utils jackd2 libjack-jackd2-dev libjack-jackd2-0 libasound2-dev librtmidi-dev pulseaudio-module-jack cmake ninja-build
+```
 
+*Note:* The main repositories may not have a recent enough version of 
+Elixir. If this is the case, you can install it via **one** of the 
+following methods:
 
-```     
-
+* Run `app/pi-install-elixir.sh` to install it using [ASDF](https://github.com/asdf-vm/asdf)
+* Get newer packaged versions of Elixir from [Erlang Solutions' repository](https://www.erlang-solutions.com/downloads/) (though installing packages from outside your distros main repository is at your own risk!)
+* Build and install it yourself
 
 ## 2. Preparing the Build
 
