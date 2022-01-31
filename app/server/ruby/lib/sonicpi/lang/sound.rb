@@ -92,6 +92,7 @@ module SonicPi
             buf_lookup = lambda do |name, duration=nil|
               # scale duration to the current BPM
               duration ||= 8
+              raise ArgumentError, "Buffer duration should be a numerical value greater than zero. You used #{duration}" unless duration.is_a?(Numeric) && duration.positive?
               duration = duration * (__get_spider_sleep_mul || 1)
               name = name.to_sym
 
