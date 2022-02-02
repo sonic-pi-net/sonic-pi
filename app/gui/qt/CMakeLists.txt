@@ -37,7 +37,7 @@ set(QT_TOOLS_DIR ${CMAKE_PREFIX_PATH}/bin)
 set_property(GLOBAL PROPERTY AUTOMOC_FOLDER Automoc)
 set_property(GLOBAL PROPERTY AUTOGEN_TARGETS_FOLDER Automoc)
 
-find_package(Qt6)
+find_package(Qt6 QUIET)
 
 if(Qt6_FOUND AND WITH_QT_GUI_WEBENGINE)
   find_package(Qt6 COMPONENTS Core Widgets Gui Concurrent Network OpenGLWidgets PrintSupport Xml Svg WebEngineWidgets REQUIRED)

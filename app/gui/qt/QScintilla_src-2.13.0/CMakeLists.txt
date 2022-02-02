@@ -1,6 +1,8 @@
-find_package(Qt6 COMPONENTS Core Widgets Gui Concurrent Network OpenGL PrintSupport Xml Svg REQUIRED)
+find_package(Qt6 QUIET)
 
-if(NOT Qt6_FOUND)
+if(Qt6_FOUND)
+  find_package(Qt6 COMPONENTS Core Widgets Gui Concurrent Network OpenGL PrintSupport Xml Svg REQUIRED)
+else()
   find_package(Qt5 COMPONENTS Core Widgets Gui Concurrent Network OpenGL PrintSupport Xml Svg REQUIRED)
 endif()
 
