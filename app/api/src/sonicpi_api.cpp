@@ -281,7 +281,6 @@ bool SonicPiAPI::StartBootDaemon()
 
     LOG(INFO, "Setting up Boot Daemon keep alive loop");
     m_bootDaemonSockPingLoopThread = std::thread([&]() {
-      auto keep_alive_msg = std::string{ "keep-alive\n" };
       while(m_keep_alive.load())
       {
         LOG(DBG, "SND keep_alive");
