@@ -22,7 +22,12 @@ done
 # Build vcpkg
 if [ ! -d "vcpkg" ]; then
     echo "Cloning vcpkg"
-    git clone --depth 1 --branch 2021.05.12  https://github.com/microsoft/vcpkg.git vcpkg
+    if [ -z "$VCPKG_BRANCH" ]
+    then
+        git clone --depth 1 --branch "$VCPKG_BRANCH" https://github.com/microsoft/vcpkg.git vcpkg
+    else
+        git clone --depth 1 --branch 2021.05.12  https://github.com/microsoft/vcpkg.git vcpk
+    fi
 fi
 
 if [ ! -f "vcpkg/vcpkg" ]; then
