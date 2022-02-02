@@ -203,11 +203,15 @@ target_link_libraries(${APP_NAME}
     Qt::Gui
     Qt::Widgets
     Qt::OpenGL
-    Qt::OpenGLWidgets
     Qt::Concurrent
     Qt::Network
     Threads::Threads)
 
+if(Qt6_FOUND)
+  target_link_libraries(${APP_NAME}
+  PRIVATE
+  Qt::OpenGLWidgets)
+endif()
 
 if(WITH_QT_GUI_WEBENGINE)
   target_link_libraries(${APP_NAME}
