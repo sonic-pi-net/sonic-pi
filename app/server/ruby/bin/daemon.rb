@@ -294,9 +294,9 @@ module SonicPi
         FileUtils.mkdir_p(history_dir)
 
         Dir["#{Paths.log_path}/*.log"].each do |p|
+          FileUtils.cp(p, "#{history_dir}/")
           # Copy log to history directory
           if expected_logs.include?(File.basename(p))
-            FileUtils.cp(p, "#{history_dir}/")
             # (don't remove the files, just empty them)
             File.open(p, 'w') {|file| file.truncate(0) }
           else
