@@ -273,6 +273,14 @@ module SonicPi
       #
       # TODO: Handle the case where the log path isn't writable.
       def clear_logs
+        # ensure this list matches set of expected log files should more services/aspects be similarly logged.
+        expected_logs = [
+          "daemon.log",
+          "debug.log",
+          "gui.log",
+          "scsynth.log",
+          "spider.log",
+          "tau.log"]
 
         # Windows doesn't allow certain chars in file paths
         # which are present in the default Time.now string format.
@@ -283,9 +291,16 @@ module SonicPi
 
         Dir["#{Paths.log_path}/*.log"].each do |p|
           # Copy log to history directory
-          FileUtils.cp(p, "#{history_dir}/")
-          # Clear out all logs (don't remove the files, just empty them)
-          File.open(p, 'w') {|file| file.truncate(0) }
+          if expected_logs.include?(File.basename(p))
+            FileUtils.cp(p, "#{history_dir}/")
+            # (don't remove the files, just empty them)
+            File.open(p, 'w') {|file| file.truncate(0) }
+          else
+            begin
+              FileUtils.rm p
+            rescue
+            end
+          end
         end
 
         # clean up old history logs
