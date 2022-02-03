@@ -144,7 +144,11 @@ module SonicPi
 
         exit_token       = SecureRandom.base64(64)
 
-        clear_logs
+        # don't worry if there's a problem clearing the logs.
+        begin
+          clear_logs
+        rescue
+        end
 
         Util.open_log
         Util.log "Welcome to the Daemon Booter"
@@ -338,6 +342,7 @@ module SonicPi
         rescue StandardError => e
           STDERR.puts "Unable to open log file #{Paths.daemon_log_path}"
           STDERR.puts e.inspect
+          STDERR.puts "----\n\n"
           @@log_file = nil
         end
       end
@@ -424,11 +429,18 @@ module SonicPi
       attr_reader :pid, :args, :cmd
       def initialize(cmd, args, log_path)
         @pid = nil
+        @log_file = nil
         @args = args.map {|el| el.to_s}
         @cmd = cmd
         if log_path
-          @log_file = File.open(log_path, 'a')
-          raise "Unable to create log file at path: #{log_path}" unless @log_file
+          begin
+            @log_file = File.open(log_path, 'a')
+          rescue StandardError => e
+            STDERR.puts "Unable to open log file #{log_path}"
+            STDERR.puts e.inspect
+            STDERR.puts "----\n\n"
+            @log_file = nil
+          end
         end
 
         begin
