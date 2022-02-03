@@ -732,7 +732,10 @@ void MainWindow::setupWindowStructure()
     southTabs->setTabsClosable(false);
     southTabs->setMovable(false);
     southTabs->addTab(docsplit, "Docs");
+
+#ifdef WITH_WEBENGINE
     southTabs->addTab(phxWidget, "Tau");
+#endif
 
     docWidget = new QDockWidget(tr("Help"), this);
     docWidget->setFocusPolicy(Qt::NoFocus);
