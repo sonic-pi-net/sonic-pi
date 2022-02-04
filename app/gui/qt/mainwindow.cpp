@@ -839,29 +839,39 @@ void MainWindow::updateFullScreenMode()
     {
         //switch to full screen mode
         std::cout << "[GUI] - switch into full screen mode." << std::endl;
+
+#if defined(Q_OS_WIN)
+        outputWidget->setTitleBarWidget(blankWidget);
         QRect rect = this->geometry();
         m_appWindowSizeRect.reset(new QRect(rect));
-        outputWidget->setTitleBarWidget(blankWidget);
-        this->setWindowFlags(Qt::FramelessWindowHint);
         QRect screenRect = this->screen()->availableGeometry();
         this->setGeometry(screenRect.x()-1, screenRect.y()-1, screenRect.width()+2, screenRect.height()+2);
-        statusBar()->showMessage(tr("Full screen mode on."), 2000);
+        this->setWindowFlags(Qt::FramelessWindowHint);
+#else
+        this->showFullScreen();
+#endif
         fullScreenMode = true;
-        this->show();
     }
     else if (!piSettings->full_screen && fullScreenMode)
     {
         //switch out of full screen mode
         std::cout << "[GUI] - switch out of full screen mode." << std::endl;
+
+#ifdef Q_OS_WIN
         this->setWindowFlags(Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowMinimizeButtonHint | Qt::WindowMaximizeButtonHint | Qt::WindowCloseButtonHint);
         this->setWindowFlags(windowFlags() & ~Qt::FramelessWindowHint);
-        outputWidget->setTitleBarWidget(outputWidgetTitle);
-        this->setWindowState(windowState() & ~(Qt::WindowFullScreen));
         this->setGeometry(*m_appWindowSizeRect.get());
-        statusBar()->showMessage(tr("Full screen mode off."), 2000);
+        this->setWindowState((this->windowState() & ~Qt::WindowMinimized) | Qt::WindowActive);
+        outputWidget->setTitleBarWidget(outputWidgetTitle);
+#else
+        this->showNormal();
+#endif
+
+        statusBar()->showMessage(tr("Full screen mode offf."), 2000);
         fullScreenMode = false;
-        this->show();
     }
+
+    this->show();
 }
 
 void MainWindow::toggleFocusMode()
