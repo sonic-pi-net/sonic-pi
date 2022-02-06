@@ -867,7 +867,7 @@ void MainWindow::updateFullScreenMode()
         this->showNormal();
 #endif
 
-        statusBar()->showMessage(tr("Full screen mode offf."), 2000);
+        statusBar()->showMessage(tr("Full screen mode off."), 2000);
         fullScreenMode = false;
     }
 
