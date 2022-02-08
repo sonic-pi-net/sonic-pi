@@ -222,8 +222,10 @@ module SonicPi
               attempts = 0
               queue.clear
             end
-            kill_switch.deliver!(true) if attempts > max_attempts
+
+            break if attempts > max_attempts
           end
+          kill_switch.deliver!(true)
         end
 
         server = SonicPi::OSC::UDPServer.new(port_num, suppress_errors: false) do |address, args, sender_addrinfo|
