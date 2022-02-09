@@ -101,10 +101,6 @@ echo "Generating docs for the Qt GUI..."
 cp "${SCRIPT_DIR}"/gui/qt/utils/ruby_help.tmpl "${SCRIPT_DIR}"/gui/qt/utils/ruby_help.h
 "$RUBY" "${SCRIPT_DIR}"/server/ruby/bin/qt-doc.rb -o "${SCRIPT_DIR}"/gui/qt/utils/ruby_help.h
 
-echo "Updating GUI translation files..."
-# Use lrelease on PATH if available otherwise assume Qt was installed via homebrew
-PATH="$PATH:$QT5_BIN_DIR" lrelease "${SCRIPT_DIR}"/gui/qt/lang/*.ts
-
 echo "Compiling Erlang/Elixir files..."
 cd "${SCRIPT_DIR}"/server/beam/tau
 

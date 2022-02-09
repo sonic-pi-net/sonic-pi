@@ -63,9 +63,6 @@ echo "Generating docs for the Qt GUI..."
 cp "${SCRIPT_DIR}"/gui/qt/utils/ruby_help.tmpl "${SCRIPT_DIR}"/gui/qt/utils/ruby_help.h
 ruby "${SCRIPT_DIR}"/server/ruby/bin/qt-doc.rb -o "${SCRIPT_DIR}"/gui/qt/utils/ruby_help.h
 
-echo "Updating GUI translation files..."
-PATH=`pkg-config --variable bindir Qt5`:$PATH lrelease "${SCRIPT_DIR}"/gui/qt/lang/*.ts
-
 echo "Compiling Erlang/Elixir files..."
 cd "${SCRIPT_DIR}"/server/beam/tau
 
