@@ -122,6 +122,7 @@ loop(State) ->
     end.
 
 update_midi_ports(State) ->
+    sp_midi:midi_refresh_devices(),
     NewIns = sp_midi:midi_ins(),
     NewOuts = sp_midi:midi_outs(),
     NewPorts = {NewIns, NewOuts},

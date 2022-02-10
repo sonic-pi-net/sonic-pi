@@ -1,6 +1,6 @@
 -module(sp_midi).
 -export([init/0, midi_init/0, midi_deinit/0, midi_send/2, midi_flush/0, midi_ins/0, midi_outs/0, have_my_pid/0,
-        set_this_pid/1, set_log_level/1, get_current_time_microseconds/0]).
+        set_this_pid/1, set_log_level/1, get_current_time_microseconds/0, midi_refresh_devices/0]).
 
 -define(APPLICATION, tau).
 -define(LIBNAME, "libsp_midi").
@@ -38,4 +38,6 @@ get_current_time_microseconds() ->
 set_log_level(_) ->
     done.
 set_this_pid(_) ->
+    done.
+midi_refresh_devices() ->
     done.
