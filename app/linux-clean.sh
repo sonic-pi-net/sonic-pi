@@ -1,8 +1,9 @@
 #!/bin/bash
+shopt -s globstar
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 WORKING_DIR="$(pwd)"
-cd ${SCRIPT_DIR}
+cd "${SCRIPT_DIR}"
 
 echo "Cleaning out build dir...."
 rm -rf build
@@ -12,8 +13,11 @@ rm -rf external/build
 
 echo "Cleaning out BEAM distribution..."
 rm -rf server/beam/tau/_build
-rm -rf server/beam/tau/priv
-mkdir -p server/beam/tau/priv
+rm -rf server/beam/tau/priv/static/assets
+rm -rf server/beam/tau/priv/*.{so,dylib,dll}
+rm -rf server/beam/tau/priv/static/cache_manifest.json
+rm -rf server/beam/tau/priv/static/**/*.gz
+rm -rf server/beam/tau/priv/static/**/*-????????????????????????????????.*
 
 echo "Cleaning completed"
 
