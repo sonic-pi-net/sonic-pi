@@ -125,6 +125,12 @@ extern "C" {
     DllExport ERL_NIF_TERM sp_midi_ins_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
 
     /**
+     * Trigger a refresh of the MIDI devices. This is triggered from erlang when it a change in the topology is detected
+     * 
+     */
+    DllExport ERL_NIF_TERM sp_midi_refresh_devices(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
+
+    /**
      * This must be called from the MIDI processing process in erlang, so that the C side can capture its PID.
      * Note it is not necessary that the erlang side passes its PID explicitly, the C side fetches it using enif_self().
      *
