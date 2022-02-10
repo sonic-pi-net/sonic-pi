@@ -79,6 +79,7 @@ especially the following individuals who have been remarkably generous:
 * [Brandon Weaver](https://twitter.com/keystonelemur)
 * [Chih-Chun Chen](http://abmcet.net/Chih-Chun_Chen/home.html)
 * [Christoffer Krakou](http://www.krakou.dk/)
+* Cobey Smith
 * Dallas Kidd
 * [Darin Wilson](https://twitter.com/darinwilson/)
 * [Dean Wampler](https://twitter.com/deanwampler)
@@ -86,8 +87,11 @@ especially the following individuals who have been remarkably generous:
 * [Evan Kroske](https://www.evankroske.com/)
 * [Florian Gilcher](https://twitter.com/Argorak)
 * [Gabe Jackson](https://github.com/gj)
+* [Godigital Media Group](godigitalmg.com)
+* Gert Sylvest
 * [James Abley](https://twitter.com/jabley)
 * Jaroslav Lichtblau
+* [Joshua Thomas](instagram.com/tig3rbabu)
 * [Justin Balthrop](http://ninjudd.com)
 * [Justin Worrall](https://twitter.com/juzbo)
 * [Lily Foster](https://lily.flowers/)
@@ -98,6 +102,7 @@ especially the following individuals who have been remarkably generous:
 * [Marmaduke Woodman](https://github.com/maedoc)
 * [Martin Butz](https://github.com/mbutz)
 * [Martin McDermott](https://twitter.com/marv_mcd)
+* Matt Koscica
 * [Matthew Gilliard](https://twitter.com/MaximumGilliard)
 * [Michael Hunger](https://twitter.com/mesirii)
 * [Nada Amin](http://namin.net)
