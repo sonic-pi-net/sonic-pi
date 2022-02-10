@@ -25,7 +25,6 @@
 #include <iostream>
 #include <atomic>
 #include "sp_midi.h"
-#include "hotplug_thread.h"
 #include "midiout.h"
 #include "midiin.h"
 #include "midisendprocessor.h"
@@ -48,7 +47,6 @@ vector<unique_ptr<MidiIn> > midiInputs;
 
 
 // Threading
-HotPlugThread *hotplug_thread = nullptr;
 std::atomic<bool> g_threadsShouldFinish { false };
 
 static ErlNifPid midi_process_pid;
@@ -125,6 +123,7 @@ int sp_midi_init()
         return 0;
     }
     g_already_initialized = true;
+    g_threadsShouldFinish = false;
     MonitorLogger::getInstance().setLogLevel(g_monitor_level);
 
     midiSendProcessor = make_unique<MidiSendProcessor>();
@@ -146,9 +145,6 @@ int sp_midi_init()
 
     midiSendProcessor->startThread();
 
-    hotplug_thread = new HotPlugThread;
-    hotplug_thread->startThread();
-
     return 0;
 }
 
@@ -169,7 +165,6 @@ void sp_midi_deinit()
     // And we stop them
     midiInputs.clear();
     midiSendProcessor.reset(nullptr);
-    delete hotplug_thread;
 }
 
 static char **vector_str_to_c(const vector<string>& vector_str)
@@ -289,6 +284,25 @@ ERL_NIF_TERM sp_midi_ins_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
     return c_str_list_to_erlang(env, n_midi_ins, midi_ins);
 }
 
+ERL_NIF_TERM sp_midi_refresh_devices(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    try {
+        prepareMidiInputs(midiInputs);
+    } catch (const std::out_of_range&) {
+        std::cout << "Error opening MIDI inputs" << std::endl;
+        return enif_make_atom(env, "error");
+    }
+
+    try {
+        prepareMidiSendProcessorOutputs(midiSendProcessor);
+    } catch (const std::out_of_range&) {
+        std::cout << "Error opening MIDI outputs" << std::endl;
+        return enif_make_atom(env, "error");
+    }
+    return enif_make_atom(env, "ok");
+}
+
+
 ERL_NIF_TERM sp_midi_have_my_pid_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     if (!enif_self(env, &midi_process_pid)){
@@ -349,6 +363,7 @@ static ErlNifFunc nif_funcs[] = {
     {"midi_flush", 0, sp_midi_flush_nif},
     {"midi_outs", 0, sp_midi_outs_nif},
     {"midi_ins", 0, sp_midi_ins_nif},
+    {"midi_refresh_devices", 0, sp_midi_refresh_devices},
     {"have_my_pid", 0, sp_midi_have_my_pid_nif},
     {"set_this_pid", 1, sp_midi_set_this_pid_nif},
     {"set_log_level", 1, sp_midi_set_log_level_nif},

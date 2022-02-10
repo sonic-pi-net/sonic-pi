@@ -21,24 +21,35 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    
+
     - name: Fetch packages (Linux)
       if: runner.os == 'Linux'
       run: |
-        sudo apt-get update
-        sudo apt-get install libasound2-dev librtmidi-dev erlang-dev
+        sudo apt update
+        sudo apt install -y libasound2-dev librtmidi-dev
 
-    - name: Fetch packages (Mac)
+    - name: Linux Elixir
+      uses: erlef/setup-beam@v1
+      with:
+        otp-version: '24'
+        elixir-version: '1.13'
+      if: matrix.os == 'ubuntu-latest'
+
+    - name: Win Elixir
+      uses: erlef/setup-beam@v1
+      with:
+        otp-version: '24'
+        elixir-version: '1.13'
+      if: runner.os == 'Windows'
+
+    - name: Mac Elixir
       continue-on-error: true
       if: runner.os == 'macOS'
       run: |
         export HOMEBREW_NO_INSTALL_CLEANUP=1
         brew update
-        brew install erlang     
+        brew install elixir
 
-    - name: Fetch packages (Windows)
-      if: runner.os == 'Windows'
-      run: choco install erlang 
 
 #    - name: Setup tmate session
 #      if: runner.os == 'Windows'
@@ -55,8 +66,8 @@ jobs:
       # access regardless of the host operating system
       shell: bash
       working-directory: ${{github.workspace}}/build
-      # Note the current convention is to use the -S and -B options here to specify source 
-      # and build directories, but this is only available with CMake 3.13 and higher.  
+      # Note the current convention is to use the -S and -B options here to specify source
+      # and build directories, but this is only available with CMake 3.13 and higher.
       # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
       run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE
 
