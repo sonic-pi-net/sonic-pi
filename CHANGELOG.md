@@ -46,6 +46,10 @@ To be released...
   won't affect any code using earlier indexes but will affect code which
   uses indexes larger than the number of onsets (and therefore relying
   on the index wrapping behaviour).
+* The Minecraft Pi Edition API has been removed (all `mc_`
+  fns). Minecraft Pi Edition appears to no longer ship on Raspberry Pi
+  OS and the Pi Edition API is not the same as the standard Minecraft
+  API.
 
 
 ### New 
@@ -64,7 +68,7 @@ To be released...
 ### GUI
 * Teach autocompletion about random source choices: `:white`, `:light_pink`, `:pink`, etc.
 * Improve syntax indentation.
-* Improvements for Arabic, Dutch, Estonian, German, Italian, Japanese, Korean, Polish, Portuguese (Brazil), Sinhala, Spanish
+* Improvements for Arabic, Dutch, Estonian, German, Italian, Japanese, Korean, Polish, Portuguese (Brazil), Russian, Sinhala, Spanish
 * Introduced new translations for Basque.
 
 
@@ -73,7 +77,7 @@ To be released...
 * When running on Raspberry Pi, Sonic Pi connects to PulseAudio by default.
 * The scheduling accuracy of outgoing OSC and MIDI messages is improved on Windows.
 * Optimise `midi_clock_beat`.
-
+* `note_range` can now handle both increasing and decreasing note ranges.
 
 
 ### Bugfixes
@@ -81,6 +85,8 @@ To be released...
 * Synths `:dull_bell` and `:pretty_bell` now properly free themselves when they finish playing, which now means the resources they consumed are also properly freed. 
 * Indexing into an empty ring no longer causes a divide by zero error.
 * No longer attempt to increase audio server priority on Windows which causes booting errors in some cases.
+* Fixed encoding issues when saving/loading files containing non-ascii characters on Windows.
+* `range` no longer loops infinitely with a step size of 0. Instead it now throws an error.
 
 
 <a name="v3.3.1"></a>
