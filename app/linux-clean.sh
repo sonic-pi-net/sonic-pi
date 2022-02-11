@@ -1,5 +1,4 @@
 #!/bin/bash
-shopt -s globstar
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 WORKING_DIR="$(pwd)"
@@ -16,8 +15,8 @@ rm -rf server/beam/tau/_build
 rm -rf server/beam/tau/priv/static/assets
 rm -rf server/beam/tau/priv/*.{so,dylib,dll}
 rm -rf server/beam/tau/priv/static/cache_manifest.json
-rm -rf server/beam/tau/priv/static/**/*.gz
-rm -rf server/beam/tau/priv/static/**/*-????????????????????????????????.*
+find . -path './server/beam/tau/priv/static/*' -name '*.gz' -delete
+find . -path './server/beam/tau/priv/static/*' -name '*-????????????????????????????????.*' -delete
 
 echo "Cleaning completed"
 
