@@ -17,8 +17,10 @@
 PhxWebView::PhxWebView(QWidget *parent)
     : QWebEngineView(parent)
 {
-    phxProfile = new QWebEngineProfile(this);
-    phxPage = new QWebEnginePage(phxProfile, this);
+    phxProfile = new QWebEngineProfile();
+    phxPage = new QWebEnginePage(phxProfile);
+    phxPage->setParent(this);
+    phxProfile->setParent(this);
     setPage(phxPage);
     setContextMenuPolicy(Qt::NoContextMenu);
     setZoomFactor(2.0);
