@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-12-12 21:29+0000\n"
-"Last-Translator: Nimplex <frekerhugug@gmail.com>\n"
+"PO-Revision-Date: 2022-02-19 00:57+0000\n"
+"Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "pl/>\n"
 "Language: pl\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.4-dev\n"
+"X-Generator: Weblate 4.11-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -418,12 +418,11 @@ msgstr "*G* - System Pomocy"
 
 #: 01.2-Exploring-the-Interface.md:18
 msgid "*H* - Scope Viewer"
-msgstr "*F* - Podgląd Logów"
+msgstr "*H* - Podgląd Logów"
 
 #: 01.2-Exploring-the-Interface.md:19
-#, fuzzy
 msgid "*I* - Cue Viewer"
-msgstr "*F* - Podgląd logów"
+msgstr "*F* - Podgląd znaczników"
 
 #: 01.2-Exploring-the-Interface.md:21
 msgid "A. Play Controls"
@@ -582,9 +581,8 @@ msgstr ""
 "źwięku (https://pl.wikipedia.org/wiki/Krzywa_Lissajous)."
 
 #: 01.2-Exploring-the-Interface.md:93
-#, fuzzy
 msgid "I. Cue Viewer"
-msgstr "F. Podgląd logów"
+msgstr "I. Podgląd logów"
 
 #: 01.2-Exploring-the-Interface.md:95
 msgid ""
