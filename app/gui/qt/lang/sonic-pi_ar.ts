@@ -304,7 +304,7 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="1778"/>
         <source>Enabling Mixer LPF...</source>
         <oldsource>Enabling Mixer LPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>تمكين Mixer LPF ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1787"/>
@@ -1247,12 +1247,12 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="145"/>
         <source>Local IP address</source>
-        <translation type="unfinished"></translation>
+        <translation>عنوان الاي بي المحلي</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="165"/>
         <source>Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>غير متاح</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="171"/>
