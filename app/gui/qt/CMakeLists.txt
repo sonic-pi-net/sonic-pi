@@ -44,6 +44,9 @@ if(Qt6_FOUND AND WITH_QT_GUI_WEBENGINE)
   add_compile_definitions(WITH_WEBENGINE)
 elseif(Qt6_FOUND)
   find_package(Qt6 COMPONENTS Core Widgets Gui Concurrent Network OpenGLWidgets PrintSupport Xml Svg REQUIRED)
+elseif(WITH_QT_GUI_WEBENGINE)
+  find_package(Qt5 COMPONENTS Core Widgets Gui Concurrent Network OpenGL PrintSupport Xml Svg WebEngineWidgets REQUIRED)
+  add_compile_definitions(WITH_WEBENGINE)
 else()
   find_package(Qt5 COMPONENTS Core Widgets Gui Concurrent Network OpenGL PrintSupport Xml Svg REQUIRED)
 endif()
@@ -97,7 +100,7 @@ set(SOURCES
     ${QTAPP_ROOT}/model/settings.h
     )
 
-  if(Qt6_FOUND AND WITH_QT_GUI_WEBENGINE)
+  if(WITH_QT_GUI_WEBENGINE)
     set(SOURCES
       ${SOURCES}
       ${QTAPP_ROOT}/widgets/phxwebview.h

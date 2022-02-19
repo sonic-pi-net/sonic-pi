@@ -32,7 +32,7 @@ PhxWidget::PhxWidget(QWidget *parent)
   phxView->setSizePolicy(sp_retain);
   phxView->hide();
   mainLayout = new QHBoxLayout(this);
-  topRowSubLayout = new QVBoxLayout(this);
+  topRowSubLayout = new QVBoxLayout();
   sizeDownButton = new QPushButton("-");
   sizeUpButton = new QPushButton("+");
   openExternalBrowserButton = new QPushButton(" E ");
@@ -50,7 +50,6 @@ PhxWidget::PhxWidget(QWidget *parent)
 
   mainLayout->addWidget(phxView, 1);
   mainLayout->addLayout(topRowSubLayout);
-
 
   connect(sizeDownButton, &QPushButton::released, this, &PhxWidget::handleSizeDown);
   connect(sizeUpButton, &QPushButton::released, this, &PhxWidget::handleSizeUp);
