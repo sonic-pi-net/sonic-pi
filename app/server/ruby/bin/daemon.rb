@@ -237,9 +237,12 @@ module SonicPi
           kill_switch.deliver!(true)
         end
 
-        server = SonicPi::OSC::UDPServer.new(port_num, suppress_errors: false) do |address, args, sender_addrinfo|
-          Util.log "Kill switch ##{port_num} Received UDP data #{[address, args, sender_addrinfo].inspect}"
-        end
+        # For debugging purposes:
+        # server = SonicPi::OSC::UDPServer.new(port_num, suppress_errors: false) do |address, args, sender_addrinfo|
+        #   Util.log "Kill switch ##{port_num} Received UDP data #{[address, args, sender_addrinfo].inspect}"
+        # end
+
+        server = SonicPi::OSC::UDPServer.new(port_num, suppress_errors: false)
 
         server.add_method("/daemon/keep-alive") do |args|
           if args[0] && args[0] == token
@@ -626,9 +629,13 @@ module SonicPi
         @tau_pid                       = Promise.new
 
         Util.log "Daemon listening to info from Tau on port #{daemon_port}"
-        @udp_osc_server = SonicPi::OSC::UDPServer.new(daemon_port) do |address, args, sender_addrinfo|
-          Util.log "Daemon received UDP data from Tau: #{[address, args, sender_addrinfo].inspect}"
-        end
+
+        # For debugging purposes:
+        # @udp_osc_server = SonicPi::OSC::UDPServer.new(daemon_port) do |address, args, sender_addrinfo|
+        #   Util.log "Daemon received UDP data from Tau: #{[address, args, sender_addrinfo].inspect}"
+        # end
+
+        @udp_osc_server = SonicPi::OSC::UDPServer.new(daemon_port)
 
         @udp_osc_server.add_method("/tau/pid") do |args|
           # Util.log "Daemon received Pid data from Tau: #{args.inspect}"
