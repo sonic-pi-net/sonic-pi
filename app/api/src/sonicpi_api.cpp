@@ -379,12 +379,12 @@ bool SonicPiAPI::StartOscServer()
     if (m_protocol == APIProtocol::UDP)
 
       {
-        auto listenPort = GetPort(SonicPiPortId::gui_listen_to_spider);
+          auto listenPort = GetPort(SonicPiPortId::gui_listen_to_spider);
 
-        m_spOscSpiderServer = std::make_shared<OscServerUDP>(m_pClient, std::make_shared<OscHandler>(m_pClient), listenPort);
-        m_oscServerThread = std::thread([&]() {
-            m_spOscSpiderServer->start();
-            LOG(DBG, "Osc Server Thread Exiting");
+          m_spOscSpiderServer = std::make_shared<OscServerUDP>(m_pClient, std::make_shared<OscHandler>(m_pClient), listenPort);
+          m_oscServerThread = std::thread([&]() {
+              m_spOscSpiderServer->start();
+              LOG(DBG, "Osc Server Thread Exiting");
         });
     }
     else
@@ -443,8 +443,8 @@ bool SonicPiAPI::WaitUntilReady()
         num_tries--;
         if (m_state == State::Error)
         {
-          LOG(ERR, "Oh no, Spider Server got to an Error State whilst starting...");
-          return false;
+            LOG(ERR, "Oh no, Spider Server got to an Error State whilst starting...");
+            return false;
         }
         LOG(ERR, "Waiting Until Ready... " + std::to_string(num_tries));
         std::this_thread::sleep_for(1s);
@@ -452,9 +452,9 @@ bool SonicPiAPI::WaitUntilReady()
 
     if (num_tries < 1)
     {
-      return false;
+        return false;
     } else {
-      return true;
+        return true;
     }
 }
 
@@ -466,8 +466,8 @@ bool SonicPiAPI::PingUntilServerCreated()
 
     if (m_state == State::Created)
     {
-      LOG(ERR, "Error! No need to ping server as it's already created!");
-      return true;
+        LOG(ERR, "Error! No need to ping server as it's already created!");
+        return true;
     }
 
     if (m_state != State::Initializing)
@@ -665,7 +665,7 @@ bool SonicPiAPI::InitializePaths(const fs::path& root)
     }
 
     // Set Ruby script paths
-    m_paths[SonicPiPath::BootDaemonPath]      = m_paths[SonicPiPath::RootPath] / "app/server/ruby/bin/daemon.rb";
+   m_paths[SonicPiPath::BootDaemonPath]      = m_paths[SonicPiPath::RootPath] / "app/server/ruby/bin/daemon.rb";
     m_paths[SonicPiPath::FetchUrlPath]        = m_paths[SonicPiPath::RootPath] / "app/server/ruby/bin/fetch-url.rb";
 
     // Set Log paths
