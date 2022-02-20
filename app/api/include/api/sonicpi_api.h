@@ -102,7 +102,7 @@ enum class MessageType
     Message,
     Info,
     InfoText,
-    Muti
+    Multi
 };
 
 struct MessageData
