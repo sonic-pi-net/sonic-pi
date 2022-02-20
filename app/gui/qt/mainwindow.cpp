@@ -394,7 +394,7 @@ void MainWindow::setupWindowStructure()
     prefsWidget->setAllowedAreas(Qt::RightDockWidgetArea);
     prefsWidget->setFeatures(QDockWidget::DockWidgetClosable);
 
-    settingsWidget = new SettingsWidget(m_spAPI->GetPort(SonicPiPortId::server_osc_cues), i18n, piSettings, sonicPii18n, this);
+    settingsWidget = new SettingsWidget(m_spAPI->GetPort(SonicPiPortId::tau_osc_cues), i18n, piSettings, sonicPii18n, this);
     connect(settingsWidget, SIGNAL(restartApp()), this, SLOT(restartApp()));
     connect(settingsWidget, SIGNAL(volumeChanged(int)), this, SLOT(changeSystemPreAmp(int)));
     connect(settingsWidget, SIGNAL(mixerSettingsChanged()), this, SLOT(mixerSettingsChanged()));
@@ -2912,7 +2912,7 @@ void MainWindow::createToolBar()
     }
 
     QMenu* incomingOSCPortMenu = ioMenu->addMenu(tr("Incoming OSC Port"));
-    incomingOSCPortMenu->addAction(QString::number(m_spAPI->GetPort(SonicPiPortId::server_osc_cues)));
+    incomingOSCPortMenu->addAction(QString::number(m_spAPI->GetPort(SonicPiPortId::tau_osc_cues)));
 
     viewMenu = menuBar()->addMenu(tr("View"));
 

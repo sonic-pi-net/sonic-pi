@@ -62,7 +62,7 @@ enum class SonicPiPortId
     gui_listen_to_spider,
     gui_send_to_spider,
     scsynth,
-    server_osc_cues,
+    tau_osc_cues,
     tau,
     phx_http
 };

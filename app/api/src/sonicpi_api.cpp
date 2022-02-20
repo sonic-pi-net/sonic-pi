@@ -271,7 +271,7 @@ bool SonicPiAPI::StartBootDaemon()
     m_ports[SonicPiPortId::gui_listen_to_spider] = std::stoi(daemon_stdout[1]);
     m_ports[SonicPiPortId::gui_send_to_spider] = std::stoi(daemon_stdout[2]);
     m_ports[SonicPiPortId::scsynth] = std::stoi(daemon_stdout[3]);
-    m_ports[SonicPiPortId::server_osc_cues] = std::stoi(daemon_stdout[4]);
+    m_ports[SonicPiPortId::tau_osc_cues] = std::stoi(daemon_stdout[4]);
     m_ports[SonicPiPortId::tau] = std::stoi(daemon_stdout[5]);
     m_ports[SonicPiPortId::phx_http] = std::stoi(daemon_stdout[6]);
     m_token = std::stoi(daemon_stdout[7]);
