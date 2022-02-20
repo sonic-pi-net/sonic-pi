@@ -779,7 +779,19 @@ module SonicPi
         @port = ports["scsynth"]
         begin
           toml_opts_hash = Tomlrb.load_file(Paths.user_audio_settings_path, symbolize_keys: true).freeze
-        rescue StandardError
+        rescue StandardError => e
+          Util.log "---- Audio Config Issue ----"
+
+          if !File.exist? Paths.user_audio_settings_path
+            Util.log "Could not find #{Paths.user_audio_settings_path} - reverting to default audio options."
+          else
+            Util.log "Issue reading #{Paths.user_audio_settings_path}:"
+            Util.log "Warning Class: #{e.class}"
+            Util.log "Warning Message: #{e.message}"
+            Util.log "Warning Backtrace: #{e.backtrace.inspect}"
+          end
+          Util.log "This is not critical - reverting to default audio options"
+          Util.log "----------------------------"
           toml_opts_hash = {}
         end
 
