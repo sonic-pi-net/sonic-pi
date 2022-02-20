@@ -826,7 +826,7 @@ const int SonicPiAPI::GetGuid() const
     return m_token;
 }
 
-void SonicPiAPI::BufferNewLineAndIndent(int point_line, int point_index, int first_line, const std::string& code, const std::string& fileName, const std::string& id)
+void SonicPiAPI::BufferNewLineAndIndent(int point_line, int point_index, int first_line, const std::string& code, const std::string& fileName)
 {
     Message msg("/buffer-newline-and-indent");
     msg.pushInt32(m_token);

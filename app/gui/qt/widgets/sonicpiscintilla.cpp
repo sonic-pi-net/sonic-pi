@@ -605,10 +605,7 @@ void SonicPiScintilla::newlineAndIndent() {
 
   std::string code = text().toStdString();
 
-  // TODO: fix this:
-  std::string id = "foobar";
-
-  emit bufferNewlineAndIndent(point_line, point_index, first_line, code, fileName.toStdString(), id);
+  emit bufferNewlineAndIndent(point_line, point_index, first_line, code, fileName.toStdString());
   mutex->unlock();
 }
 

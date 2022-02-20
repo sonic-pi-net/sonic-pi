@@ -270,7 +270,7 @@ public:
     // Stop all music
     virtual void Stop();
 
-    virtual void BufferNewLineAndIndent(int point_line, int point_index, int first_line, const std::string& code, const std::string& fileName, const std::string& id);
+    virtual void BufferNewLineAndIndent(int point_line, int point_index, int first_line, const std::string& code, const std::string& fileName);
 
     // ** Audio processor
 

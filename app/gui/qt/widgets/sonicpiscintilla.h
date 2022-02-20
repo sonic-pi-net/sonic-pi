@@ -36,7 +36,7 @@ class SonicPiScintilla : public QsciScintilla
   void redraw();
 
 signals:
-  void bufferNewlineAndIndent(int point_line, int point_index, int first_line, const std::string& code, const std::string& fileName, const std::string& id);
+  void bufferNewlineAndIndent(int point_line, int point_index, int first_line, const std::string& code, const std::string& fileName);
 
   public slots:
     void cutLineFromPoint();

@@ -462,9 +462,9 @@ void MainWindow::setupWindowStructure()
         connect(workspace,
                 &SonicPiScintilla::bufferNewlineAndIndent,
                 this,
-                [this](int point_line, int point_index, int first_line, const std::string& code, const std::string& fileName, const std::string& id)
+                [this](int point_line, int point_index, int first_line, const std::string& code, const std::string& fileName)
                 {
-                  m_spAPI->BufferNewLineAndIndent(point_line, point_index, first_line, code, fileName, id);
+                  m_spAPI->BufferNewLineAndIndent(point_line, point_index, first_line, code, fileName);
                 });
 
         workspace->setObjectName(QString("Buffer %1").arg(ws));
