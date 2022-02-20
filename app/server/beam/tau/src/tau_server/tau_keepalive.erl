@@ -14,22 +14,22 @@
 
 -module(tau_keepalive).
 
--export([start_link/2, init/2, loop/0]).
+-export([start_link/3, init/3, loop/0]).
 
-start_link(KeepAlivePortNum, DaemonPortNum) ->
-    spawn_link(?MODULE, init, [KeepAlivePortNum, DaemonPortNum]).
+start_link(KeepAlivePortNum, DaemonPortNum, DaemonToken) ->
+    spawn_link(?MODULE, init, [KeepAlivePortNum, DaemonPortNum, DaemonToken]).
 
-init(KeepAlivePortNum, DaemonPortNum) ->
-    logger:error("Connecting to Daemon keepalive port via UDP...~p ~p", [KeepAlivePortNum, DaemonPortNum]),
+init(KeepAlivePortNum, DaemonPortNum, DaemonToken) ->
+    logger:info("Connecting to Daemon keepalive port via UDP...~p ~p w\ token ~p", [KeepAlivePortNum, DaemonPortNum, DaemonToken]),
 
     OSPid = list_to_integer(os:getpid()),
-    PidMsg = osc:encode(["/tau/pid", OSPid]),
+    PidMsg = osc:encode(["/tau/pid", DaemonToken, OSPid]),
     {ok, DaemonSocket} = gen_udp:open(0, [binary, {ip, loopback}]),
     erlang:send_after(1000, self(), {send_pid, DaemonSocket, DaemonPortNum, PidMsg, 30}),
 
 
     {ok, KeepAliveSocket} = gen_udp:open(0, [binary, {ip, loopback}]),
-    KeepAliveMsg = osc:encode(["/daemon/keep-alive"]),
+    KeepAliveMsg = osc:encode(["/daemon/keep-alive", DaemonToken]),
     erlang:send_after(1000, self(), {send_keep_alive, KeepAliveSocket, KeepAlivePortNum, KeepAliveMsg}),
     logger:info("Waiting for keepalive messages..."),
     loop().

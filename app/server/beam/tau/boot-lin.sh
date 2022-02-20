@@ -19,7 +19,8 @@ export TAU_MIDI_ENABLED=${11}
 export TAU_LINK_ENABLED=${12}
 export TAU_PHX_PORT=${13}
 export SECRET_KEY_BASE=${14}
-export TAU_ENV=${15}
+export TAU_DAEMON_TOKEN=${15}
+export TAU_ENV=${16}
 export MIX_ENV=$TAU_ENV
 
 if [ $TAU_ENV = "dev" ]

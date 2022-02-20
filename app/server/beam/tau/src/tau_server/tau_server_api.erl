@@ -74,6 +74,8 @@ start_link(CueServer, MIDIServer, LinkServer) ->
 init(Parent, CueServer, MIDIServer, LinkServer) ->
     register(?SERVER, self()),
     APIPort = application:get_env(?APPLICATION, api_port, undefined),
+    DaemonToken = application:get_env(?APPLICATION, daemon_token, undefined),
+
     logger:info("~n"
               "+--------------------------------------+~n"
               "    This is the Sonic Pi API Server     ~n"
@@ -95,6 +97,7 @@ init(Parent, CueServer, MIDIServer, LinkServer) ->
     logger:debug("listening for API commands on socket: ~p",
           [try erlang:port_info(APISocket) catch _:_ -> undefined end]),
     State = #{parent => Parent,
+              daemon_token => DaemonToken,
               api_socket => APISocket,
               cue_server => CueServer,
               midi_server => MIDIServer,
@@ -105,6 +108,7 @@ init(Parent, CueServer, MIDIServer, LinkServer) ->
     loop(State).
 
 loop(State) ->
+    DaemonToken = maps:get(daemon_token, State),
     receive
         {tcp, Socket, Data} ->
             logger:debug("api server got TCP on ~p:~p", [Socket, Data]),
