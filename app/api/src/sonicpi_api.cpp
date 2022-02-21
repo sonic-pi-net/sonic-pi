@@ -356,8 +356,7 @@ void SonicPiAPI::Shutdown()
     m_state = State::Reset;
     LOG(INFO, "API State set to: Reset...");
     LOG(INFO, "Waiting for Daemon keep alive loop to have stopped...");
-
-    LOG(INFO, "Sending /daemon/exit to daemon's kill switch with token " << m_kill_token) ;
+    LOG(INFO, "Sending /daemon/exit to daemon's kill switch with token " << std::to_string(m_token)) ;
     Message msg("/daemon/exit");
     msg.pushInt32(m_token);
     m_spOscKeepAliveSender->sendOSC(msg);
