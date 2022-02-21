@@ -243,7 +243,7 @@ bool SonicPiAPI::StartBootDaemon()
 
     if(ec || bytes_read < 0) {
       if(ec) {
-        LOG(ERR, "Error reading ports via Boot Daemon STDOUT");
+        LOG(ERR, "Error reading ports via Boot Daemon STDOUT: " << ec);
       } else {
         LOG(ERR, "Failed to read ports via Boot Daemon STDOUT. Bytes read: " + std::to_string(bytes_read));
 
