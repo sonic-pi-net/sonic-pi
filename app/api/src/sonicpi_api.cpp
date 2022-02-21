@@ -276,8 +276,10 @@ bool SonicPiAPI::StartBootDaemon()
     m_ports[SonicPiPortId::phx_http] = std::stoi(daemon_stdout[6]);
     m_token = std::stoi(daemon_stdout[7]);
 
-    m_spOscSpiderSender = std::make_shared<OscSender>(m_ports[SonicPiPortId::gui_send_to_spider]);
+    LOG(INFO, "Setting up OSC sender to Spider on port " << m_ports[SonicPiPortId::gui_send_to_spider]);
+    m_spOscSpiderSender    = std::make_shared<OscSender>(m_ports[SonicPiPortId::gui_send_to_spider]);
 
+    LOG(INFO, "Setting up OSC sender to Daemon on port " << m_ports[SonicPiPortId::daemon_keep_alive]);
     m_spOscKeepAliveSender = std::make_shared<OscSender>(m_ports[SonicPiPortId::daemon_keep_alive]);
 
     LOG(INFO, "Setting up OSC sender to Tau on port " << m_ports[SonicPiPortId::tau]);
@@ -445,7 +447,7 @@ bool SonicPiAPI::WaitUntilReady()
             LOG(ERR, "Oh no, Spider Server got to an Error State whilst starting...");
             return false;
         }
-        LOG(ERR, "Waiting Until Ready... " + std::to_string(num_tries));
+        LOG(INFO, "Waiting Until Ready... " + std::to_string(num_tries));
         std::this_thread::sleep_for(1s);
     }
 
