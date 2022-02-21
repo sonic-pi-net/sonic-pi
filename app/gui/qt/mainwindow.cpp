@@ -3238,14 +3238,27 @@ void MainWindow::restoreWindows()
 
     docsplit->restoreState(gui_settings->value("docsplitState").toByteArray());
     //bool visualizer = piSettings->show_scopes;
-    restoreState(gui_settings->value("windowState").toByteArray());
     //    restoreGeometry(settings.value("windowGeom").toByteArray());
+
+    auto current_state = saveState();
+
+    // clear windowState - in some circumstances an invalid windowState
+    // can crash the GUI. Therefore clear it now in case we do have a
+    // crash after which a restart should start up fine with a fresh new
+    // state. If there is no crash, we still store the windowState
+    // immidiately prior to shutting down.
+    gui_settings->remove("windowState");
+    gui_settings->sync();
+
+    // Note: this line has crashed with bad state in the past. It wasn't
+    // possible to rescue any exceptions.
+    restoreState(gui_settings->value("windowState").toByteArray();
+
 
     //    if (visualizer != piSettings->show_scopes) {
     //        piSettings->show_scopes = visualizer;
     //        scope();
     //    }
-
     resize(size);
     move(pos);
 }
