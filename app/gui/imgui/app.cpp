@@ -24,7 +24,7 @@ void SPClient::Report(const MessageInfo& info)
     {
         log_window_add_log(info.style, info.text + "\n");
     }
-    else if (info.type == MessageType::Muti)
+    else if (info.type == MessageType::Multi)
     {
         std::ostringstream str;
         str << "{run: " << info.jobId << ", time: " << info.runtime;
