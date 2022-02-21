@@ -17,9 +17,9 @@ done
 
 if [ "$no_imgui" == true ]
 then
-    VCPKG_BRANCH="2022.01.01" VCPKG_FORCE_SYSTEM_BINARIES=1 "${SCRIPT_DIR}"/linux-prebuild.sh -n
+    VCPKG_BRANCH="2022.02.02" VCPKG_FORCE_SYSTEM_BINARIES=1 "${SCRIPT_DIR}"/linux-prebuild.sh -n
 else
-    VCPKG_BRANCH="2022.01.01" VCPKG_FORCE_SYSTEM_BINARIES=1 "${SCRIPT_DIR}"/linux-prebuild.sh
+    VCPKG_BRANCH="2022.02.02" VCPKG_FORCE_SYSTEM_BINARIES=1 "${SCRIPT_DIR}"/linux-prebuild.sh
 fi
 
 # Restore working directory as it was prior to this script running...
