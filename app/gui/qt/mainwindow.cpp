@@ -210,8 +210,9 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
 #endif
 
         scopeWindow->Booted();
-        std::cout << "[GUI] - honour prefs" << std::endl;
+        std::cout << "[GUI] - restore windows" << std::endl;
         restoreWindows();
+        std::cout << "[GUI] - honour prefs" << std::endl;
         honourPrefs();
         std::cout << "[GUI] - update prefs icon" << std::endl;
         updatePrefsIcon();
