@@ -3252,7 +3252,7 @@ void MainWindow::restoreWindows()
 
     // Note: this line has crashed with bad state in the past. It wasn't
     // possible to rescue any exceptions.
-    restoreState(gui_settings->value("windowState").toByteArray();
+    restoreState(gui_settings->value("windowState").toByteArray());
 
 
     //    if (visualizer != piSettings->show_scopes) {
