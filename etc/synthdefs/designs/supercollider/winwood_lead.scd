@@ -2,7 +2,7 @@
 //   https://raw.githubusercontent.com/supercollider/supercollider/develop/examples/demonstrations/stealthissound.scd
 // Published there under GPL v3, so re-published under the same terms, see:
 //   https://www.gnu.org/licenses/gpl-3.0.en.html
-// Date of modification: 27.12.2021
+// Date of modification: 27.12.2021, 21.02.2022
 
 (
 SynthDef('sonic-pi-winwood_lead', {|
@@ -15,10 +15,11 @@ SynthDef('sonic-pi-winwood_lead', {|
 	lfo_width = 0.01, lfo_width_slide = 0, lfo_width_slide_shape = 1, lfo_width_slide_curve = 0,
 	lfo_rate = 8, lfo_rate_slide = 0, lfo_rate_slide_shape = 1, lfo_rate_slide_curve = 0,
 	res = 0.2, res_slide = 0, res_slide_shape = 1, res_slide_curve = 0,
+	ramp_ratio = 0.5, ramp_length = 0.2,
 	seed = 0, rand_buf = 0,
 	out_bus = 0|
 
-	var snd, pulse, env, lfo;
+	var snd, pulse, env, lfo, ramp_env;
 	var rand_val;
 
 	note = note.midicps;
@@ -40,7 +41,12 @@ SynthDef('sonic-pi-winwood_lead', {|
 
 	lfo = LFTri.kr(lfo_rate,(rand_val*2.0)!2);
 
-	pulse = Mix(Pulse.ar(note*[1,1.001]*(1.0+(lfo_width*lfo)),[0.2,0.19]))*0.5;
+	ramp_env = ramp_ratio * EnvGen.kr(
+		Env.adsr(ramp_length,0,1.0,0),
+		doneAction: 2
+    ) + (1-ramp_ratio);
+
+	pulse = Mix(Pulse.ar(note*ramp_env*[1,1.001]*(1.0+(lfo_width*lfo)),[0.2,0.19]))*0.5;
 
 	snd =  RLPF.ar(pulse,cutoff,res);
 
