@@ -125,7 +125,7 @@ Thread::abort_on_exception = true
 #
 #
 # token:                Integer used as a token to authenticate OSC messages.
-#                       All OSCmessages sent from the GUI must include this token
+#                       All OSC messages sent from the GUI must include this token
 #                       as the first argument
 
 
