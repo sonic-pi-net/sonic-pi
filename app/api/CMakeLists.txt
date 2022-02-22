@@ -47,7 +47,12 @@ find_package(platform_folders CONFIG REQUIRED)
 find_package(reproc CONFIG REQUIRED)
 find_package(reproc++ CONFIG REQUIRED)
 
-find_package(unofficial-kissfft CONFIG REQUIRED)
+if (USE_SYSTEM_LIBS)
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(kissfft REQUIRED IMPORTED_TARGET kissfft-float)
+else()
+    find_package(unofficial-kissfft CONFIG REQUIRED)
+endif()
 
 target_include_directories(${PROJECT_NAME}
     PUBLIC
@@ -66,8 +71,19 @@ target_link_libraries(${PROJECT_NAME}
         sago::platform_folders
         reproc
         reproc++
-        unofficial::kissfft::kissfft
 )
+
+if (USE_SYSTEM_LIBS)
+    target_link_libraries(${PROJECT_NAME}
+        PRIVATE
+            PkgConfig::kissfft
+    )
+else()
+    target_link_libraries(${PROJECT_NAME}
+        PRIVATE
+            unofficial::kissfft::kissfft
+    )
+endif()
 
 # Windows
 if ("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
