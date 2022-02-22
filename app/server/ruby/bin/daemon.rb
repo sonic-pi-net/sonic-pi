@@ -642,8 +642,6 @@ module SonicPi
           # Util.log "token: #{token}"
           if args[0] && args[0] == token
             @tau_pid.deliver!(args[1], false) if args[1]
-            # Util.log "Daemon staying alive for longer..."
-            queue << true
           end
         end
 
