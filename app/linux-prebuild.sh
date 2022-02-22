@@ -32,7 +32,7 @@ fi
 
 # Build external dependencies and copy to build tree
 echo "Building external binary dependencies..."
-"${SCRIPT_DIR}"/external/linux_build_externals.sh
+USE_SYSTEM_LIBS="$([ "$system_libs" == true ] && echo ON || echo OFF)" "${SCRIPT_DIR}"/external/linux_build_externals.sh
 
 echo "Compiling native ruby extensions..."
 ruby "${SCRIPT_DIR}"/server/ruby/bin/compile-extensions.rb
