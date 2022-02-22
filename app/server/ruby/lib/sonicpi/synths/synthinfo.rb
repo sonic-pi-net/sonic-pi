@@ -3351,6 +3351,8 @@ Steal This Sound,  Mitchell Sigman"
           :lfo_rate_slide => 0,
           :lfo_rate_slide_shape => 1,
           :lfo_rate_slide_curve => 0,
+          :ramp_ratio => 0.5,
+          :ramp_length => 0.2,
           :seed => 0,
         }
       end
@@ -3360,17 +3362,33 @@ Steal This Sound,  Mitchell Sigman"
           :seed =>
           {
             :doc => "Seed value for rand num generator used for the phase offset of the triangle low-frequency oscillator (LFO)",
+            :validations => [v_positive(:seed)],
             :modulatable => false
           },
           :lfo_width =>
           {
             :doc => "Width of the low-frequency oscillator (LFO) which determines how wide base tones oscillate around their base frequencies; a dimensionless scaled ratio between base and peak oscillator frequencies",
+            :validations => [v_positive(:lfo_width)],
             :modulatable => true
           },
           :lfo_rate =>
           {
             :doc => "Rate of the low-frequency oscillator (LFO) in Hz which determines how fast base tones oscillate around their base frequencies",
+            :validations => [v_positive(:lfo_rate)],
             :modulatable => true
+          },
+          :ramp_ratio =>
+          {
+            :doc => "The pitch can be configured to ramp up at the beginning. `:ramp_ratio` determines at which frequency this ramp begins. A value of 1 will ramp the pitch up from 0 Hz, a value of 0.5 will start ramp at 50% of the target frequency indicated by the `:note` option, and a `:ramp_ratio` of 0 means no ramp at all.",
+            :validations => [v_between_inclusive(:ramp_ratio, 0, 1)],
+            :modulatable => false
+          },
+          :ramp_length =>
+          {
+            :doc => "The length of the pitch ramp, in beats.",
+            :validations => [v_positive(:ramp_length)],
+            :modulatable => false,
+            :bpm_scale => true
           },
         }
       end
