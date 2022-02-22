@@ -150,7 +150,7 @@ module SonicPi
         @tau_booter      = nil
         @spider_booter   = nil
 
-        # use an value within the valid range for a 32 bit signed complement integer
+        # use a value within the valid range for a 32 bit signed complement integer
         token =  rand(-2147483647..2147483647)
 
         # don't worry if there's a problem clearing the logs.
