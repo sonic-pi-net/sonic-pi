@@ -67,7 +67,11 @@ void OscServerUDP::start()
       LOG(INFO, "UDP OSC Socket no longer OK");
     }
 
-    LOG(INFO, "UDP OSC Server no longer listening");
+    if(stop_server) {
+      LOG(INFO, "UDP OSC Server has been asked to stop listening");
+    }
+
+    LOG(INFO, "UDP OSC Server is no longer listening");
 
 }
 
