@@ -3516,6 +3516,221 @@ Steal This Sound,  Mitchell Sigman"
       end
     end
 
+    class OrganTonewheel < SonicPiSynth
+      def name
+        "Organ Tonewheel"
+      end
+
+      def introduced
+        Version.new(4,0,0)
+      end
+
+      def synth_name
+        "organ_tonewheel"
+      end
+
+      def doc
+        "An emulation of a tonewheel organ with an optional rotary speaker. These instruments were the first electro-mechanical synthesisers, developed in the mid 1930s by Laurens Hammond. They generate sine-like signals with the tonewheels and mix them together. Up to 9 sine waves can be combined in order to control the organ's timbre, setting their individual levels with drawbar controls. Their sound is often output over a rotary speaker cabinet, producing a characteristic oscillating sound.
+        
+Based on work of [Chris Wigington](https://actlab.us/actlab/cwigington/projone.html) and [Zé Craum](http://sccode.org/1-5aD)."
+      end
+
+      def arg_defaults
+        {
+          :note => 60,
+          :note_slide => 0,
+          :note_slide_shape => 1,
+          :note_slide_curve => 0,
+          :amp => 1,
+          :amp_slide => 0,
+          :amp_slide_shape => 1,
+          :amp_slide_curve => 0,
+          :pan => 0,
+          :pan_slide => 0,
+          :pan_slide_shape => 1,
+          :pan_slide_curve => 0,
+
+          :attack => 0.01,
+          :decay => 0,
+          :sustain => 1,
+          :release => 0.01,
+          :attack_level => 1,
+          :decay_level => :sustain_level,
+          :sustain_level => 1,
+
+          :bass => 8,
+          :bass_slide => 0,
+          :bass_slide_shape => 1,
+          :bass_slide_curve => 0,
+
+          :quint => 8,
+          :quint_slide => 0,
+          :quint_slide_shape => 1,
+          :quint_slide_curve => 0,
+
+          :fundamental => 8,
+          :fundamental_slide => 0,
+          :fundamental_slide_shape => 1,
+          :fundamental_slide_curve => 0,
+
+          :oct => 8,
+          :oct_slide => 0,
+          :oct_slide_shape => 1,
+          :oct_slide_curve => 0,
+
+          :nazard => 0,
+          :nazard_slide => 0,
+          :nazard_slide_shape => 1,
+          :nazard_slide_curve => 0,
+
+          :blockflute => 0,
+          :blockflute_slide => 0,
+          :blockflute_slide_shape => 1,
+          :blockflute_slide_curve => 0,
+
+          :tierce => 0,
+          :tierce_slide => 0,
+          :tierce_slide_shape => 1,
+          :tierce_slide_curve => 0,
+
+          :larigot => 0,
+          :larigot_slide => 0,
+          :larigot_slide_shape => 1,
+          :larigot_slide_curve => 0,
+
+          :sifflute => 0,
+          :sifflute_slide => 0,
+          :sifflute_slide_shape => 1,
+          :sifflute_slide_curve => 0,
+
+          :rs_freq => 6.7,
+          :rs_freq_slide => 0,
+          :rs_freq_slide_shape => 1,
+          :rs_freq_slide_curve => 0,
+
+          :rs_freq_var => 0.1,
+          :rs_pitch_depth => 0.008,
+          :rs_delay => 0,
+          :rs_onset => 0,
+          :rs_pan_depth => 0.05,
+          :rs_amplitude_depth => 0.2,
+        }
+      end
+
+      def specific_arg_info
+        {
+          :note =>
+          {
+            :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, 56.5, `:C`, `:C2`, `:Eb4`, or `:Ds3`. This synth does allow changing or sliding the note while playing. In real tonewheel organs one would get this effect only when fiddling with the motor driving the tonewheel.",
+            :validations => [v_positive(:note), v_less_than(:note, 231)],
+            :modulatable => true
+          },
+          :bass =>
+          {
+            :doc => "The drawbar for the tonewheel creating a sound component one octave below the base tone, i.e. half its frequency",
+            :validations => [v_between_inclusive(:bass, 0, 8)],
+            :modulatable => true
+          },
+          :quint =>
+          {
+            :doc => "The drawbar for the tonewheel creating a sound component 3/2 of the frequency of the base tone",
+            :validations => [v_between_inclusive(:quint, 0, 8)],
+            :modulatable => true
+          },
+          :fundamental =>
+          {
+            :doc => "The drawbar for the tonewheel creating the base tone component. If you turn vibrato off and set just this drawbar to 8 and all the others to 0, you basically get a sine tone for the note to be played.",
+            :validations => [v_between_inclusive(:fundamental, 0, 8)],
+            :modulatable => true
+          },
+          :oct =>
+          {
+            :doc => "The drawbar for the tonewheel creating a sound component one octave above the base tone, i.e. twice its frequency",
+            :validations => [v_between_inclusive(:oct, 0, 8)],
+            :modulatable => true
+          },
+          :nazard =>
+          {
+            :doc => "The drawbar for the tonewheel creating a sound component 3 times the frequency of the base tone",
+            :validations => [v_between_inclusive(:nazard, 0, 8)],
+            :modulatable => true
+          },
+          :blockflute =>
+          {
+            :doc => "The drawbar for the tonewheel creating a sound component 2 octaves above the base tone, i.e. 4 times its frequency.",
+            :validations => [v_between_inclusive(:blockflute, 0, 8)],
+            :modulatable => true
+          },
+          :tierce =>
+          {
+            :doc => "The drawbar for the tonewheel creating a sound component 5 times the frequency of the base tone.",
+            :validations => [v_between_inclusive(:tierce, 0, 8)],
+            :modulatable => true
+          },
+          :larigot =>
+          {
+            :doc => "The drawbar for the tonewheel creating a sound component 6 times the frequency of the base tone.",
+            :validations => [v_between_inclusive(:larigot, 0, 8)],
+            :modulatable => true
+          },
+          :sifflute =>
+          {
+            :doc => "The drawbar for the tonewheel creating a sound component 3 octaves above the base tone, i.e. 8 times its frequency.",
+            :validations => [v_between_inclusive(:sifflute, 0, 8)],
+            :modulatable => true
+          },
+          :rs_freq =>
+          {
+            :doc => "Rotation frequency of the rotary speaker in Hertz. The tonewheel organ's rotary speaker affects sound in (at least) 3 ways: The frequency changes due to a Doppler effect, so that the pitch oscillates around the base frequency, the note the synth is playing. The amplitude and hence the perceived loudness change. When the horns rotate, they sound louder when they point towards the listener. The pan changes: When the horns point sideways, they sound louder on the side they point to.
+
+The 'chorale' speed of the speaker is 0.83 Hz, the 'tremolo' speed is 6.7 Hz, each referring to the horn. The woofer rotates at a slower speed, which is calculated from the horn's frequency. 
+
+Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq` can be slid, sliding up from plain 0 is not possible and sliding to and from frequencies close to 0 may have unexpected effects.",
+            :validations => [v_between_inclusive(:rs_freq, 0, 10)],
+            :modulatable => true
+          },
+          :rs_freq_var =>
+          {
+            :doc => "Irregularity of the rotation frequency, expressed as a proportion of the rotation frequency. This affects loudness, pan, and pitch.",
+            :validations => [v_between_inclusive(:rs_freq_var, 0, 1)],
+            :modulatable => false
+          },
+          :rs_pitch_depth =>
+          {
+            :doc => "Size of the pitch deviation around the fundamental, as a proportion of the fundamental. 0.02 = 2% of the fundamental.",
+            :validations => [v_between_inclusive(:rs_pitch_depth, 0, 1)],
+            :modulatable => false
+          },
+          :rs_pan_depth =>
+          {
+            :doc => "Size of the pan deviation from the centre caused by the rotary speaker.",
+            :validations => [v_between_inclusive(:rs_pan_depth, 0, 1)],
+            :modulatable => false
+          },
+          :rs_amplitude_depth =>
+          {
+            :doc => "Size of the amplitude variation around the base amplitude.",
+            :validations => [v_between_inclusive(:rs_amplitude_depth, 0, 1)],
+            :modulatable => false
+          },
+          :rs_delay =>
+          {
+            :doc => "Delay before rotary effect is established, in beats.",
+            :validations => [v_positive(:rs_delay)],
+            :modulatable => false,
+            :bpm_scale => true
+          },
+          :rs_onset =>
+          {
+            :doc => "Transition time in beats from no rotary effect to full rotary effect after the initial delay time.",
+            :validations => [v_positive(:rs_onset)],
+            :modulatable => false,
+            :bpm_scale => true
+          },
+        }
+      end
+    end
+
     class StudioInfo < SonicPiSynth
       def user_facing?
         false
@@ -8178,6 +8393,7 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
         :winwood_lead => WinwoodLead.new,
         :bass_foundation => BassFoundation.new,
         :bass_highend => BassHighend.new,
+        :organ_tonewheel => OrganTonewheel.new,
 
         :sound_in => SoundIn.new,
         :sound_in_stereo => SoundInStereo.new,
