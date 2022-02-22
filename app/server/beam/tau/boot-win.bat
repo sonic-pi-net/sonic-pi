@@ -25,6 +25,8 @@ set TAU_PHX_PORT=%9%
 shift
 set SECRET_KEY_BASE=%9%
 shift
+set TAU_DAEMON_TOKEN=%9%
+shift
 set TAU_ENV=%9%
 
 set MIX_ENV=%TAU_ENV%

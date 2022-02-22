@@ -74,11 +74,11 @@ Thread::abort_on_exception = true
 #
 # If the client wants to explicitly trigger the kill switch directly
 # rather than via a timeout it can send an OSC message with path
-# /daemon/exit along with a single argument which is the exit-token
-# (also printed to STDOUT - see below).
+# /daemon/exit along with a single integer argument which is the comms
+# token (also printed to STDOUT - see below).
 #
 #
-# Port Allocation and exit-token
+# Port Allocations & Comms Token
 # ------------------------------
 #
 # The Daemon figures out appropriate (and currently free) values for all
@@ -89,10 +89,15 @@ Thread::abort_on_exception = true
 # Some of these port numbers need to be known by the client process
 # so that it can both send code to run and receive log updates via UDP.
 #
+# The final value printed to stdout is the comms token which is a random
+# 32 bit signed integer. This must be used as the first argument to all
+# OSC messages sent from the GUI to Daemon such as: /daemon/keep-alive
+# and /daemon/exit.
+#
 # The current allocations of these external port numbers are printed to
 # STDOUT in the following order:
 #
-# daemon-keep-alive gui-listen-to-server gui-send-to-server scsynth osc-cues phx exit-token
+# daemon-keep-alive gui-listen-to-server gui-send-to-server scsynth osc-cues tau-api tau-phx token
 #
 #
 # Stdout Parameter Descriptions
@@ -113,12 +118,15 @@ Thread::abort_on_exception = true
 # osc-cues:             UDP port used to receive OSC cue messages from external
 #                       processes.
 #
-# phx:                  HTTP port used by the Phoenix web server
+# tau-api:              UDP port used to send OSC messages to trigger the
+#                       Tau API
 #
-# exit-token:           String that can be sent as the single argument in an OSC
-#                       message with path /daemon/exit sent to daemon-keep-alive
-#                       to trigger the daemon kill switch and force it to exit
-#                       early yet cleanly (i.e. all child processes are closed).
+# tau-phx:              HTTP port used by Tau's Phoenix web server
+#
+#
+# token:                Integer used as a token to authenticate OSC messages.
+#                       All OSC messages sent from the GUI must include this token
+#                       as the first argument
 
 
 module SonicPi
@@ -142,7 +150,8 @@ module SonicPi
         @tau_booter      = nil
         @spider_booter   = nil
 
-        exit_token       = SecureRandom.base64(64)
+        # use a value within the valid range for a 32 bit signed complement integer
+        token =  rand(-2147483647..2147483647)
 
         # don't worry if there's a problem clearing the logs.
         begin
@@ -163,16 +172,16 @@ module SonicPi
         Util.log ports.inspect
 
         Util.log "Setting up zombie kill switch for gui-keep-alive listening on port #{ports["gui-keep-alive"]}"
-        caller_kill_switch = udp_zombie_kill_switch(ports["gui-keep-alive"], exit_token)
+        caller_kill_switch = udp_zombie_kill_switch(ports["gui-keep-alive"], token)
 
         Util.log "Setting up zombie kill switch for tau-keep-alive listening on port #{ports["tau-keep-alive"]}"
-        tau_kill_switch = udp_zombie_kill_switch(ports["tau-keep-alive"], exit_token)
+        tau_kill_switch = udp_zombie_kill_switch(ports["tau-keep-alive"], token)
 
         # Initiate boot processes
 
         Util.log "Booting Tau"
         begin
-          @tau_booter = TauBooter.new(ports, tau_kill_switch)
+          @tau_booter = TauBooter.new(ports, tau_kill_switch, token)
         rescue StandardError => e
           Util.log "Oh no, something went wrong booting Tau"
           Util.log "Error Class: #{e.class}"
@@ -183,7 +192,7 @@ module SonicPi
         # Let the calling process (likely the GUI) know which port to
         # listen to and communicate on with the Ruby spider server via
         # STDOUT.
-        puts "#{ports["gui-keep-alive"]} #{ports["gui-listen-to-spider"]} #{ports["gui-send-to-spider"]} #{ports["scsynth"]} #{ports["osc-cues"]} #{@tau_booter.phx_port} #{exit_token}"
+        puts "#{ports["gui-keep-alive"]} #{ports["gui-listen-to-spider"]} #{ports["gui-send-to-spider"]} #{ports["scsynth"]} #{ports["osc-cues"]} #{ports["tau"]} #{@tau_booter.phx_port} #{token}"
         STDOUT.flush
 
 
@@ -206,7 +215,7 @@ module SonicPi
         Util.log "Spider Server process has completed"
       end
 
-      def udp_zombie_kill_switch(port_num, exit_token)
+      def udp_zombie_kill_switch(port_num, token)
         kill_switch = Promise.new
         queue = Queue.new
 
@@ -228,18 +237,23 @@ module SonicPi
           kill_switch.deliver!(true)
         end
 
-        server = SonicPi::OSC::UDPServer.new(port_num, suppress_errors: false) do |address, args, sender_addrinfo|
-          Util.log "Kill switch ##{port_num} Received UDP data #{[address, args, sender_addrinfo].inspect}"
-        end
+        # For debugging purposes:
+        # server = SonicPi::OSC::UDPServer.new(port_num, suppress_errors: false) do |address, args, sender_addrinfo|
+        #   Util.log "Kill switch ##{port_num} Received UDP data #{[address, args, sender_addrinfo].inspect}"
+        # end
+
+        server = SonicPi::OSC::UDPServer.new(port_num, suppress_errors: false)
 
         server.add_method("/daemon/keep-alive") do |args|
-          queue << true
+          if args[0] && args[0] == token
+            queue << true
+          end
         end
 
-        if exit_token
+        if token
           server.add_method("/daemon/exit") do |args|
-            if args[0] && args[0] == exit_token
-              Util.log "Kill switch for port #{port_num} remotely activated using token #{exit_token}"
+            if args[0] && args[0] == token
+              Util.log "Kill switch for port #{port_num} remotely activated using token #{token}"
               @safe_exit.exit
             else
               Util.log "Kill switch for port #{port_num} received incorrect token. Ignoring #{args[0]}"
@@ -578,7 +592,12 @@ module SonicPi
     class TauBooter < ProcessBooter
       attr_reader :phx_port
 
-      def initialize(ports, kill_switch)
+      def initialize(ports, kill_switch, token)
+
+        # This is used to determine whether the spawned process is still
+        # alive as we don't have access to the BEAM pid with this
+        # spawning method (it's hidden behind release script
+        # files). Instead, Tau sends us its pid which we then work with.
         @tau_alive_thread = Thread.new do
           kill_switch.get
         end
@@ -610,13 +629,22 @@ module SonicPi
         @tau_pid                       = Promise.new
 
         Util.log "Daemon listening to info from Tau on port #{daemon_port}"
-        @udp_osc_server = SonicPi::OSC::UDPServer.new(daemon_port) do |address, args, sender_addrinfo|
-          Util.log "Daemon received UDP data from Tau: #{[address, args, sender_addrinfo].inspect}"
-        end
+
+        # For debugging purposes:
+        # @udp_osc_server = SonicPi::OSC::UDPServer.new(daemon_port) do |address, args, sender_addrinfo|
+        #   Util.log "Daemon received UDP data from Tau: #{[address, args, sender_addrinfo].inspect}"
+        # end
+
+        @udp_osc_server = SonicPi::OSC::UDPServer.new(daemon_port)
 
         @udp_osc_server.add_method("/tau/pid") do |args|
-          Util.log "Daemon received Pid data from Tau: #{args.inspect}"
-          @tau_pid.deliver!(args[0], false) if args
+          # Util.log "Daemon received Pid data from Tau: #{args.inspect}"
+          # Util.log "token: #{token}"
+          if args[0] && args[0] == token
+            @tau_pid.deliver!(args[1], false) if args[1]
+            # Util.log "Daemon staying alive for longer..."
+            queue << true
+          end
         end
 
         args = [
@@ -634,6 +662,7 @@ module SonicPi
           link_enabled,
           phx_port,
           phx_secret_key_base,
+          token,
           env
         ]
 
@@ -757,7 +786,19 @@ module SonicPi
         @port = ports["scsynth"]
         begin
           toml_opts_hash = Tomlrb.load_file(Paths.user_audio_settings_path, symbolize_keys: true).freeze
-        rescue StandardError
+        rescue StandardError => e
+          Util.log "---- Audio Config Issue ----"
+
+          if !File.exist? Paths.user_audio_settings_path
+            Util.log "Could not find #{Paths.user_audio_settings_path} - reverting to default audio options."
+          else
+            Util.log "Issue reading #{Paths.user_audio_settings_path}:"
+            Util.log "Warning Class: #{e.class}"
+            Util.log "Warning Message: #{e.message}"
+            Util.log "Warning Backtrace: #{e.backtrace.inspect}"
+          end
+          Util.log "This is not critical - reverting to default audio options"
+          Util.log "----------------------------"
           toml_opts_hash = {}
         end
 

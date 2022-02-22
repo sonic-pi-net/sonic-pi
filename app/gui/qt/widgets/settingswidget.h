@@ -24,7 +24,7 @@ class SettingsWidget : public QWidget
     Q_OBJECT
 
 public:
-    SettingsWidget(int server_osc_cues_port, bool i18n, SonicPiSettings *piSettings, SonicPii18n *sonicPii18n, QWidget *parent = nullptr);
+    SettingsWidget(int tau_osc_cues_port, bool i18n, SonicPiSettings *piSettings, SonicPii18n *sonicPii18n, QWidget *parent = nullptr);
     ~SettingsWidget();
 
     void updateVersionInfo( QString info_string, QString visit, bool sonic_pi_net_visible, bool check_now_visible);
@@ -112,7 +112,7 @@ private:
     std::map<QString, QString> localeNames;
     QStringList available_languages;
     bool i18n;
-    int server_osc_cues_port;
+    int tau_osc_cues_port;
 
     QTabWidget *prefTabs;
 

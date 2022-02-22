@@ -427,12 +427,12 @@ signals:
         QLabel *versionLabel;
         bool tmpFileStoreAvailable;
         bool updated_dark_mode_for_help, updated_dark_mode_for_prefs;
-        QString guiID;
+        int guiID;
 
         SonicPi::ScopeWindow* scopeWindow;
         std::shared_ptr<SonicPi::QtAPIClient> m_spClient;
         std::shared_ptr<SonicPi::SonicPiAPI> m_spAPI;
-       std::shared_ptr<QRect> m_appWindowSizeRect;
+        std::shared_ptr<QRect> m_appWindowSizeRect;
 
         QSet<QString> cuePaths;
 

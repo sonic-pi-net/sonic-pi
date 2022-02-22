@@ -62,7 +62,8 @@ enum class SonicPiPortId
     gui_listen_to_spider,
     gui_send_to_spider,
     scsynth,
-    server_osc_cues,
+    tau_osc_cues,
+    tau,
     phx_http
 };
 
@@ -102,7 +103,7 @@ enum class MessageType
     Message,
     Info,
     InfoText,
-    Muti
+    Multi
 };
 
 struct MessageData
@@ -269,7 +270,7 @@ public:
     // Stop all music
     virtual void Stop();
 
-    virtual void BufferNewLineAndIndent(int point_line, int point_index, int first_line, const std::string& code, const std::string& fileName, const std::string& id);
+    virtual void BufferNewLineAndIndent(int point_line, int point_index, int first_line, const std::string& code, const std::string& fileName);
 
     // ** Audio processor
 
@@ -287,8 +288,7 @@ public:
 
     std::string GetLogs();
 
-    const std::string& GetGuid() const;
-
+    const int GetGuid() const;
 
     virtual bool TestAudio();
 
@@ -299,6 +299,7 @@ public:
     virtual const int& GetPort(SonicPiPortId port);
 
     virtual bool SendOSC(oscpkt::Message m);
+    virtual bool TauSendOSC(oscpkt::Message m);
 
     virtual void LoadWorkspaces();
 
@@ -350,9 +351,9 @@ private:
     std::shared_ptr<OscServer> m_spOscSpiderServer;
     std::shared_ptr<OscSender> m_spOscSpiderSender;
     std::shared_ptr<OscSender> m_spOscKeepAliveSender;
+    std::shared_ptr<OscSender> m_spOscTauSender;
     std::shared_ptr<AudioProcessor> m_spAudioProcessor;
-    std::string m_guid;
-    std::string m_kill_token;
+    int m_token;
 
     IAPIClient* m_pClient = nullptr;
     APIProtocol m_protocol = APIProtocol::UDP;

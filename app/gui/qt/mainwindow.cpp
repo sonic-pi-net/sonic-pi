@@ -145,7 +145,7 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
     const QRect rect = this->geometry();
     m_appWindowSizeRect = std::make_shared<QRect>(rect);
 
-    guiID = QString::fromStdString(m_spAPI->GetGuid());
+    guiID = m_spAPI->GetGuid();
 
     this->sonicPii18n = new SonicPii18n(rootPath());
     std::cout << "[GUI] - Language setting: " << piSettings->language.toUtf8().constData() << std::endl;
@@ -210,8 +210,9 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
 #endif
 
         scopeWindow->Booted();
-        std::cout << "[GUI] - honour prefs" << std::endl;
+        std::cout << "[GUI] - restore windows" << std::endl;
         restoreWindows();
+        std::cout << "[GUI] - honour prefs" << std::endl;
         honourPrefs();
         std::cout << "[GUI] - update prefs icon" << std::endl;
         updatePrefsIcon();
@@ -394,7 +395,7 @@ void MainWindow::setupWindowStructure()
     prefsWidget->setAllowedAreas(Qt::RightDockWidgetArea);
     prefsWidget->setFeatures(QDockWidget::DockWidgetClosable);
 
-    settingsWidget = new SettingsWidget(m_spAPI->GetPort(SonicPiPortId::server_osc_cues), i18n, piSettings, sonicPii18n, this);
+    settingsWidget = new SettingsWidget(m_spAPI->GetPort(SonicPiPortId::tau_osc_cues), i18n, piSettings, sonicPii18n, this);
     connect(settingsWidget, SIGNAL(restartApp()), this, SLOT(restartApp()));
     connect(settingsWidget, SIGNAL(volumeChanged(int)), this, SLOT(changeSystemPreAmp(int)));
     connect(settingsWidget, SIGNAL(mixerSettingsChanged()), this, SLOT(mixerSettingsChanged()));
@@ -462,9 +463,9 @@ void MainWindow::setupWindowStructure()
         connect(workspace,
                 &SonicPiScintilla::bufferNewlineAndIndent,
                 this,
-                [this](int point_line, int point_index, int first_line, const std::string& code, const std::string& fileName, const std::string& id)
+                [this](int point_line, int point_index, int first_line, const std::string& code, const std::string& fileName)
                 {
-                  m_spAPI->BufferNewLineAndIndent(point_line, point_index, first_line, code, fileName, id);
+                  m_spAPI->BufferNewLineAndIndent(point_line, point_index, first_line, code, fileName);
                 });
 
         workspace->setObjectName(QString("Buffer %1").arg(ws));
@@ -791,7 +792,7 @@ void MainWindow::handleCustomUrl(const QUrl& url)
                        "sample :"
             + sample;
         Message msg("/run-code");
-        msg.pushStr(guiID.toStdString());
+        msg.pushInt32(guiID);
         msg.pushStr(code.toStdString());
         if (sendOSC(msg))
         {
@@ -1070,7 +1071,7 @@ void MainWindow::completeSnippetOrIndentCurrentLineOrSelection(SonicPiScintilla*
     std::string code = ws->text().toStdString();
 
     Message msg("/buffer-section-complete-snippet-or-indent-selection");
-    msg.pushStr(guiID.toStdString());
+    msg.pushInt32(guiID);
     std::string filename = ws->fileName.toStdString();
     msg.pushStr(filename);
     msg.pushStr(code);
@@ -1107,7 +1108,7 @@ void MainWindow::toggleComment(SonicPiScintilla* ws)
     std::string code = ws->text().toStdString();
 
     Message msg("/buffer-section-toggle-comment");
-    msg.pushStr(guiID.toStdString());
+    msg.pushInt32(guiID);
     std::string filename = ws->fileName.toStdString();
     msg.pushStr(filename);
     msg.pushStr(code);
@@ -1417,7 +1418,7 @@ void MainWindow::loadWorkspaces()
     for (int i = 0; i < workspace_max; i++)
     {
         Message msg("/load-buffer");
-        msg.pushStr(guiID.toStdString());
+        msg.pushInt32(guiID);
         std::string s = "workspace_" + number_name(i);
         msg.pushStr(s);
         sendOSC(msg);
@@ -1432,7 +1433,7 @@ void MainWindow::saveWorkspaces()
     {
         std::string code = workspaces[i]->text().toStdString();
         Message msg("/save-buffer");
-        msg.pushStr(guiID.toStdString());
+        msg.pushInt32(guiID);
         std::string s = "workspace_" + number_name(i);
         msg.pushStr(s);
         msg.pushStr(code);
@@ -1582,7 +1583,7 @@ void MainWindow::runCode()
 
     //std::string code = ws->text().toStdString();
     Message msg("/save-and-run-buffer");
-    msg.pushStr(guiID.toStdString());
+    msg.pushInt32(guiID);
 
     std::string filename = ((SonicPiScintilla*)tabs->currentWidget())->fileName.toStdString();
     msg.pushStr(filename);
@@ -1629,7 +1630,7 @@ void MainWindow::beautifyCode()
     ws->getCursorPosition(&line, &index);
     int first_line = ws->firstVisibleLine();
     Message msg("/buffer-beautify");
-    msg.pushStr(guiID.toStdString());
+    msg.pushInt32(guiID);
     std::string filename = ((SonicPiScintilla*)tabs->currentWidget())->fileName.toStdString();
     msg.pushStr(filename);
     msg.pushStr(code);
@@ -1648,7 +1649,7 @@ void MainWindow::reloadServerCode()
 {
     statusBar()->showMessage(tr("Reloading..."), 2000);
     Message msg("/reload");
-    msg.pushStr(guiID.toStdString());
+    msg.pushInt32(guiID);
     sendOSC(msg);
 }
 
@@ -1656,7 +1657,7 @@ void MainWindow::check_for_updates_now()
 {
     statusBar()->showMessage(tr("Checking for updates..."), 2000);
     Message msg("/check-for-updates-now");
-    msg.pushStr(guiID.toStdString());
+    msg.pushInt32(guiID);
     sendOSC(msg);
 }
 
@@ -1664,7 +1665,7 @@ void MainWindow::enableCheckUpdates()
 {
     statusBar()->showMessage(tr("Enabling update checking..."), 2000);
     Message msg("/enable-update-checking");
-    msg.pushStr(guiID.toStdString());
+    msg.pushInt32(guiID);
     sendOSC(msg);
 }
 
@@ -1672,7 +1673,7 @@ void MainWindow::disableCheckUpdates()
 {
     statusBar()->showMessage(tr("Disabling update checking..."), 2000);
     Message msg("/disable-update-checking");
-    msg.pushStr(guiID.toStdString());
+    msg.pushInt32(guiID);
     sendOSC(msg);
 }
 
@@ -1680,7 +1681,7 @@ void MainWindow::mixerHpfEnable(float freq)
 {
     statusBar()->showMessage(tr("Enabling Mixer HPF..."), 2000);
     Message msg("/mixer-hpf-enable");
-    msg.pushStr(guiID.toStdString());
+    msg.pushInt32(guiID);
     msg.pushFloat(freq);
     sendOSC(msg);
 }
@@ -1689,7 +1690,7 @@ void MainWindow::mixerHpfDisable()
 {
     statusBar()->showMessage(tr("Disabling Mixer HPF..."), 2000);
     Message msg("/mixer-hpf-disable");
-    msg.pushStr(guiID.toStdString());
+    msg.pushInt32(guiID);
     sendOSC(msg);
 }
 
@@ -1697,7 +1698,7 @@ void MainWindow::mixerLpfEnable(float freq)
 {
     statusBar()->showMessage(tr("Enabling Mixer LPF..."), 2000);
     Message msg("/mixer-lpf-enable");
-    msg.pushStr(guiID.toStdString());
+    msg.pushInt32(guiID);
     msg.pushFloat(freq);
     sendOSC(msg);
 }
@@ -1706,7 +1707,7 @@ void MainWindow::mixerLpfDisable()
 {
     statusBar()->showMessage(tr("Disabling Mixer LPF..."), 2000);
     Message msg("/mixer-lpf-disable");
-    msg.pushStr(guiID.toStdString());
+    msg.pushInt32(guiID);
     sendOSC(msg);
 }
 
@@ -1714,7 +1715,7 @@ void MainWindow::mixerInvertStereo()
 {
     statusBar()->showMessage(tr("Enabling Inverted Stereo..."), 2000);
     Message msg("/mixer-invert-stereo");
-    msg.pushStr(guiID.toStdString());
+    msg.pushInt32(guiID);
     sendOSC(msg);
 }
 
@@ -1722,7 +1723,7 @@ void MainWindow::mixerStandardStereo()
 {
     statusBar()->showMessage(tr("Enabling Standard Stereo..."), 2000);
     Message msg("/mixer-standard-stereo");
-    msg.pushStr(guiID.toStdString());
+    msg.pushInt32(guiID);
     sendOSC(msg);
 }
 
@@ -1730,7 +1731,7 @@ void MainWindow::mixerMonoMode()
 {
     statusBar()->showMessage(tr("Mono Mode..."), 2000);
     Message msg("/mixer-mono-mode");
-    msg.pushStr(guiID.toStdString());
+    msg.pushInt32(guiID);
     sendOSC(msg);
 }
 
@@ -1738,7 +1739,7 @@ void MainWindow::mixerStereoMode()
 {
     statusBar()->showMessage(tr("Stereo Mode..."), 2000);
     Message msg("/mixer-stereo-mode");
-    msg.pushStr(guiID.toStdString());
+    msg.pushInt32(guiID);
     sendOSC(msg);
 }
 
@@ -1880,7 +1881,7 @@ void MainWindow::changeSystemPreAmp(int val, int silent)
     float v = (float)val;
     v = (v / 100.0) * 2.0;
     Message msg("/mixer-amp");
-    msg.pushStr(guiID.toStdString());
+    msg.pushInt32(guiID);
     msg.pushFloat(v);
     msg.pushInt32(silent);
     sendOSC(msg);
@@ -2387,7 +2388,7 @@ void MainWindow::wheelEvent(QWheelEvent* event)
 void MainWindow::stopRunningSynths()
 {
     Message msg("/stop-all-jobs");
-    msg.pushStr(guiID.toStdString());
+    msg.pushInt32(guiID);
     sendOSC(msg);
 }
 
@@ -2912,7 +2913,7 @@ void MainWindow::createToolBar()
     }
 
     QMenu* incomingOSCPortMenu = ioMenu->addMenu(tr("Incoming OSC Port"));
-    incomingOSCPortMenu->addAction(QString::number(m_spAPI->GetPort(SonicPiPortId::server_osc_cues)));
+    incomingOSCPortMenu->addAction(QString::number(m_spAPI->GetPort(SonicPiPortId::tau_osc_cues)));
 
     viewMenu = menuBar()->addMenu(tr("View"));
 
@@ -3167,7 +3168,7 @@ void MainWindow::toggleRecording()
         // recAct->setText(tr("Stop Recording"));
         rec_flash_timer->start(500);
         Message msg("/start-recording");
-        msg.pushStr(guiID.toStdString());
+        msg.pushInt32(guiID);
         sendOSC(msg);
     }
     else
@@ -3177,7 +3178,7 @@ void MainWindow::toggleRecording()
         recAct->setIcon(theme->getRecIcon(is_recording, false));
 
         Message msg("/stop-recording");
-        msg.pushStr(guiID.toStdString());
+        msg.pushInt32(guiID);
         sendOSC(msg);
         QString lastDir = gui_settings->value("lastDir", QDir::homePath() + "/Desktop").toString();
         QString fileName = QFileDialog::getSaveFileName(this, tr("Save Recording"), lastDir, tr("Wavefile (*.wav)"));
@@ -3185,14 +3186,14 @@ void MainWindow::toggleRecording()
         {
             gui_settings->setValue("lastDir", QDir(fileName).absolutePath());
             Message msg("/save-recording");
-            msg.pushStr(guiID.toStdString());
+            msg.pushInt32(guiID);
             msg.pushStr(fileName.toStdString());
             sendOSC(msg);
         }
         else
         {
             Message msg("/delete-recording");
-            msg.pushStr(guiID.toStdString());
+            msg.pushInt32(guiID);
             sendOSC(msg);
         }
     }
@@ -3237,14 +3238,27 @@ void MainWindow::restoreWindows()
 
     docsplit->restoreState(gui_settings->value("docsplitState").toByteArray());
     //bool visualizer = piSettings->show_scopes;
-    restoreState(gui_settings->value("windowState").toByteArray());
     //    restoreGeometry(settings.value("windowGeom").toByteArray());
+
+    auto current_state = saveState();
+
+    // clear windowState - in some circumstances an invalid windowState
+    // can crash the GUI. Therefore clear it now in case we do have a
+    // crash after which a restart should start up fine with a fresh new
+    // state. If there is no crash, we still store the windowState
+    // immidiately prior to shutting down.
+    gui_settings->remove("windowState");
+    gui_settings->sync();
+
+    // Note: this line has crashed with bad state in the past. It wasn't
+    // possible to rescue any exceptions.
+    restoreState(gui_settings->value("windowState").toByteArray());
+
 
     //    if (visualizer != piSettings->show_scopes) {
     //        piSettings->show_scopes = visualizer;
     //        scope();
     //    }
-
     resize(size);
     move(pos);
 }
@@ -3512,7 +3526,7 @@ void MainWindow::restartApp()
 void MainWindow::heartbeatOSC()
 {
     // Message msg("/gui-heartbeat");
-    // msg.pushStr(guiID.toStdString());
+    // msg.pushInt32(guiID);
     // sendOSC(msg);
 }
 
@@ -3702,7 +3716,7 @@ void MainWindow::printAsciiArtLogo()
 void MainWindow::requestVersion()
 {
     Message msg("/version");
-    msg.pushStr(guiID.toStdString());
+    msg.pushInt32(guiID);
     sendOSC(msg);
 }
 
@@ -3763,7 +3777,7 @@ void MainWindow::toggleMidi(int silent)
     {
         statusBar()->showMessage(tr("Enabling MIDI input..."), 2000);
         Message msg("/midi-start");
-        msg.pushStr(guiID.toStdString());
+        msg.pushInt32(guiID);
         msg.pushInt32(silent);
         sendOSC(msg);
     }
@@ -3771,7 +3785,7 @@ void MainWindow::toggleMidi(int silent)
     {
         statusBar()->showMessage(tr("Disabling MIDI input..."), 2000);
         Message msg("/midi-stop");
-        msg.pushStr(guiID.toStdString());
+        msg.pushInt32(guiID);
         msg.pushInt32(silent);
         sendOSC(msg);
     }
@@ -3791,7 +3805,7 @@ void MainWindow::resetMidi()
         settingsWidget->updateMidiOutPorts(tr("No connected output devices"));
         statusBar()->showMessage(tr("Resetting MIDI..."), 2000);
         Message msg("/midi-reset");
-        msg.pushStr(guiID.toStdString());
+        msg.pushInt32(guiID);
         sendOSC(msg);
     }
     else
@@ -3809,7 +3823,7 @@ void MainWindow::toggleOSCServer(int silent)
         enableOSCServerAct->setChecked(true);
         std::cout << "[GUI] - asking OSC server to start" << std::endl;
         Message msg("/cue-port-start");
-        msg.pushStr(guiID.toStdString());
+        msg.pushInt32(guiID);
         sendOSC(msg);
     }
     else
@@ -3819,7 +3833,7 @@ void MainWindow::toggleOSCServer(int silent)
         statusBar()->showMessage(tr("Disabling OSC cue port..."), 2000);
         std::cout << "[GUI] - asking OSC server to stop" << std::endl;
         Message msg("/cue-port-stop");
-        msg.pushStr(guiID.toStdString());
+        msg.pushInt32(guiID);
         sendOSC(msg);
     }
 
@@ -3835,7 +3849,7 @@ void MainWindow::toggleOSCServer(int silent)
 
         std::cout << "[GUI] - cue port in external mode" << std::endl;
         Message msg("/cue-port-external");
-        msg.pushStr(guiID.toStdString());
+        msg.pushInt32(guiID);
         sendOSC(msg);
     }
     else
@@ -3848,7 +3862,7 @@ void MainWindow::toggleOSCServer(int silent)
         }
         std::cout << "[GUI] - cue port in internal mode" << std::endl;
         Message msg("/cue-port-internal");
-        msg.pushStr(guiID.toStdString());
+        msg.pushInt32(guiID);
         sendOSC(msg);
     }
 }

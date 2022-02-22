@@ -38,7 +38,7 @@ bool OscSender::sendOSC(Message m) {
 }
 
 
-void OscSender::bufferNewlineAndIndent(int point_line, int point_index, int first_line, std::string code, std::string fileName, std::string id) {
+void OscSender::bufferNewlineAndIndent(int point_line, int point_index, int first_line, std::string code, std::string fileName) {
 
   Message msg("/buffer-newline-and-indent");
   msg.pushStr(id);

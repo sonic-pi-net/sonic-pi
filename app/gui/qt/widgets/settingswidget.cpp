@@ -22,12 +22,12 @@
 /**
  * Default Constructor
  */
-SettingsWidget::SettingsWidget(int port, bool i18n, SonicPiSettings *piSettings, SonicPii18n *sonicPii18n, QWidget *parent) {
+SettingsWidget::SettingsWidget(int tau_osc_cues_port, bool i18n, SonicPiSettings *piSettings, SonicPii18n *sonicPii18n, QWidget *parent) {
     this->piSettings = piSettings;
     this->i18n = i18n;
     this->sonicPii18n = sonicPii18n;
     this->available_languages = sonicPii18n->getAvailableLanguages();
-    server_osc_cues_port = port;
+    this->tau_osc_cues_port = tau_osc_cues_port;
 
     prefTabs = new QTabWidget();
 
@@ -181,7 +181,7 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
         ip_address = tr("Unavailable");
     }
 
-    network_ip_label->setText(ip_address_trans + ": " + ip_address + "\n" + port_num_trans + + ": " + QString::number(server_osc_cues_port));
+    network_ip_label->setText(ip_address_trans + ": " + ip_address + "\n" + port_num_trans + + ": " + QString::number(tau_osc_cues_port));
     network_ip_label->setToolTip(all_ip_addresses);
 
     osc_public_check = new QCheckBox(tr("Allow OSC from other computers"));

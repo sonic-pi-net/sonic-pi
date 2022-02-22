@@ -22,8 +22,8 @@ jobs:
            - { title: "Linux", os: "ubuntu-latest", cc: "clang", arch: "x64", build_type: "Debug" }
            - { title: "Linux", os: "ubuntu-latest", cc: "gcc", arch: "x64", build_type: "Release" }
            - { title: "Linux", os: "ubuntu-latest", cc: "gcc", arch: "x64", build_type: "Debug" }
-           - { title: "Windows", os: "windows-latest", cc: "vs2019", arch: "x64", build_type: "Release" }
-           - { title: "Windows", os: "windows-latest", cc: "vs2019", arch: "x64", build_type: "Debug" }
+           - { title: "Windows", os: "windows-latest", cc: "vs2022", arch: "x64", build_type: "Release" }
+           - { title: "Windows", os: "windows-latest", cc: "vs2022", arch: "x64", build_type: "Debug" }
            - { title: "Mac", os: "macos-latest", cc: "clang", arch: "x64", build_type: "Release" }
            - { title: "Mac", os: "macos-latest", cc: "clang", arch: "x64", build_type: "Debug" }
 

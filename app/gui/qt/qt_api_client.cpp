@@ -23,7 +23,7 @@ QtAPIClient::~QtAPIClient()
 
 void QtAPIClient::ReportGui(const MessageInfo& info)
 {
-    if (info.type == MessageType::Muti)
+    if (info.type == MessageType::Multi)
     {
         // TODO: No longer need to do this translation; just pass info to log
         SonicPiLog::MultiMessage mm;
