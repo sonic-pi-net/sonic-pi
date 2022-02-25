@@ -193,6 +193,8 @@ module SonicPi
         # listen to and communicate on with the Ruby spider server via
         # STDOUT.
         puts "#{ports["gui-keep-alive"]} #{ports["gui-listen-to-spider"]} #{ports["gui-send-to-spider"]} #{ports["scsynth"]} #{ports["osc-cues"]} #{ports["tau"]} #{@tau_booter.phx_port} #{token}"
+
+        Util.log "#{ports["gui-keep-alive"]} #{ports["gui-listen-to-spider"]} #{ports["gui-send-to-spider"]} #{ports["scsynth"]} #{ports["osc-cues"]} #{ports["tau"]} #{@tau_booter.phx_port} #{token}"
         STDOUT.flush
 
 
@@ -200,7 +202,7 @@ module SonicPi
         @scsynth_booter = ScsynthBooter.new(ports)
 
         Util.log "Booting Spider Server"
-        @spider_booter  = SpiderBooter.new(ports)
+        @spider_booter  = SpiderBooter.new(ports, token)
 
         Util.log "Waiting for processes to complete...."
 
@@ -570,7 +572,7 @@ module SonicPi
     end
 
     class SpiderBooter < ProcessBooter
-      def initialize(ports)
+      def initialize(ports, token)
         args = [
           "--enable-frozen-string-literal", "-E", "utf-8",
           Paths.spider_server_path,
@@ -581,7 +583,8 @@ module SonicPi
           ports["scsynth-send"],
           ports["osc-cues"],
           ports["tau"],
-          ports["spider-listen-to-tau"]
+          ports["spider-listen-to-tau"],
+          token
         ]
 
         super(Paths.ruby_path, args, Paths.spider_log_path)
