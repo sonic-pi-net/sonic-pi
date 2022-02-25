@@ -90,6 +90,8 @@ defmodule TauWeb do
       import TauWeb.ErrorHelpers
       import TauWeb.Gettext
       alias TauWeb.Router.Helpers, as: Routes
+
+      use PetalComponents
     end
   end
 

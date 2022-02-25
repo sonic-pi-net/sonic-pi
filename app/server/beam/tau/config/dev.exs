@@ -15,7 +15,8 @@ config :tau, TauWeb.Endpoint,
   server: true,
   watchers: [
     # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)
-    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]}
+    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]},
+    tailwind: {Tailwind, :install_and_run, [:default, ~w(--watch)]}
   ]
 
 # ## SSL Support
@@ -49,9 +50,14 @@ config :tau, TauWeb.Endpoint,
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
       ~r"lib/tau_web/(live|views)/.*(ex)$",
-      ~r"lib/tau_web/templates/.*(eex)$"
+      ~r"lib/tau_web/templates/.*(eex)$",
+      ~r"../petal_components/lib/.*(ex)$"
     ]
   ]
+
+
+config :exsync, extensions: [".erl"]
+
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
