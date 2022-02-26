@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-11-02 16:17+0000\n"
+"PO-Revision-Date: 2022-02-27 12:58+0000\n"
 "Last-Translator: Pau Monfort <paubarrina@gmail.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/ca/>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.3.2-dev\n"
+"X-Generator: Weblate 4.11.1-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -2166,6 +2166,9 @@ msgid ""
 "Finally, note that if you set some synth defaults with `use_synth_defaults` (w"
 "hich we will discuss later), these will be ignored by `sample`."
 msgstr ""
+"Finalment, tingueu en compte que si configureu alguns valors per defecte del "
+"sintetitzador amb `use_synth_defaults` (dels quals parlarem més endavant), "
+"aquests seran ignorats per `sample`."
 
 #: 03.3-Stretching-Samples.md:1
 msgid "3.3 Stretching Samples"
