@@ -2,11 +2,6 @@
 set -e # Quit script on error
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 WORKING_DIR="$(pwd)"
-if command -v brew &> /dev/null && [ -x "$(brew --prefix)"/opt/qt@5/bin/lrelease ]; then
-    QT5_BIN_DIR="$(brew --prefix)"/opt/qt@5/bin
-else
-    QT5_BIN_DIR="${QT5_BIN_DIR:-}"
-fi
 
 cd "${SCRIPT_DIR}"
 
