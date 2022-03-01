@@ -187,7 +187,7 @@ begin
     osc_server = SonicPi::OSC::TCPServer.new(server_port, use_decoder_cache: true)
   when :udp
     STDOUT.puts "Opening UDP Server to listen to GUI on port: #{server_port}"
-    osc_server = SonicPi::OSC::UDPServer.new(server_port, use_decoder_cache: true)
+    osc_server = SonicPi::OSC::UDPServer.new(server_port, use_decoder_cache: true, name: "Spider API Server")
   end
 rescue Exception => e
   begin

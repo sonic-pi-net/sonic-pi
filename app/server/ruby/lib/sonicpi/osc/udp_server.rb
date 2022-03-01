@@ -18,7 +18,6 @@ require_relative "oscdecode"
 module SonicPi
   module OSC
     class UDPServer
-
       attr_reader :encoder
 
       include Util
@@ -40,6 +39,7 @@ module SonicPi
         @decoder = OscDecode.new(true)
         @encoder = OscEncode.new(true)
         @listener_thread = Thread.new {start_listener(suppress_errors)}
+        @name = opts[:name] || "Unnamed"
       end
 
       def send(address, port, pattern, *args)
@@ -61,7 +61,7 @@ module SonicPi
       end
 
       def to_s
-        "#<SonicPi::OSC::UDPServer port: #{@port}, opts: #{@opts.inspect}>"
+        "#<SonicPi::OSC::UDPServer name: #{@name}, port: #{@port}, opts: #{@opts.inspect}>"
       end
 
       def stop
@@ -89,7 +89,7 @@ module SonicPi
             address, args = @decoder.decode_single_message(osc_data)
           rescue Exception => e
             STDERR.puts "\n==========="
-            STDERR.puts "Critical: UDP Server for port #{@socket.addr} had issues receiving from socket"
+            STDERR.puts "Critical: UDP Server #{@name} for port #{@socket.addr} had issues receiving from socket"
             STDERR.puts e.message
             STDERR.puts e.backtrace.inspect
             STDERR.puts "===========\n"

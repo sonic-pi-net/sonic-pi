@@ -24,7 +24,7 @@ module SonicPi
     def initialize(hostname, tau_port, listen_to_tau_port)
       @hostname = hostname.freeze
       @port = Integer(tau_port)
-      @udp_server = SonicPi::OSC::UDPServer.new(listen_to_tau_port)
+      @udp_server = SonicPi::OSC::UDPServer.new(listen_to_tau_port, name: "Tau Comms")
       @encoder = @udp_server.encoder
       @mut = Mutex.new
       @tau_ready = false
@@ -103,7 +103,7 @@ module SonicPi
 
       connected = false
 
-      boot_s = OSC::UDPServer.new(0) do |a, b, info|
+      boot_s = OSC::UDPServer.new(0, name: "Tau Comms ack server") do |a, b, info|
         STDOUT.puts "TauComms - Receiving ack from tau"
         p.deliver! true unless connected
         connected = true
