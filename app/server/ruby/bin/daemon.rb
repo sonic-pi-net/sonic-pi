@@ -1064,4 +1064,11 @@ module SonicPi
   end
 end
 
-SonicPi::Daemon::Init.new
+begin
+  SonicPi::Daemon::Init.new
+rescue StandardError => e
+  SonicPi::Daemon::Util.log "[BUG] - ** Daemon Internal Error. **"
+  SonicPi::Daemon::Util.log "[BUG] - Class: #{e.class}"
+  SonicPi::Daemon::Util.log "[BUG] - Message: #{e.message}"
+  SonicPi::Daemon::Util.log "[BUG] - Backtrace: #{e.backtrace.inspect}"
+end
