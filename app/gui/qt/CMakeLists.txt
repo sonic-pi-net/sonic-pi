@@ -40,15 +40,15 @@ set_property(GLOBAL PROPERTY AUTOGEN_TARGETS_FOLDER Automoc)
 find_package(Qt6 QUIET)
 
 if(Qt6_FOUND AND WITH_QT_GUI_WEBENGINE)
-  find_package(Qt6 COMPONENTS Core Widgets Gui Concurrent Network OpenGLWidgets PrintSupport Xml Svg WebEngineWidgets REQUIRED)
+  find_package(Qt6 COMPONENTS Core Widgets Gui Concurrent Network OpenGLWidgets PrintSupport Xml Svg LinguistTools WebEngineWidgets REQUIRED)
   add_compile_definitions(WITH_WEBENGINE)
 elseif(Qt6_FOUND)
-  find_package(Qt6 COMPONENTS Core Widgets Gui Concurrent Network OpenGLWidgets PrintSupport Xml Svg REQUIRED)
+  find_package(Qt6 COMPONENTS Core Widgets Gui Concurrent Network OpenGLWidgets PrintSupport Xml Svg LinguistTools REQUIRED)
 elseif(WITH_QT_GUI_WEBENGINE)
-  find_package(Qt5 COMPONENTS Core Widgets Gui Concurrent Network OpenGL PrintSupport Xml Svg WebEngineWidgets REQUIRED)
+  find_package(Qt5 COMPONENTS Core Widgets Gui Concurrent Network OpenGL PrintSupport Xml Svg LinguistTools WebEngineWidgets REQUIRED)
   add_compile_definitions(WITH_WEBENGINE)
 else()
-  find_package(Qt5 COMPONENTS Core Widgets Gui Concurrent Network OpenGL PrintSupport Xml Svg REQUIRED)
+  find_package(Qt5 COMPONENTS Core Widgets Gui Concurrent Network OpenGL PrintSupport Xml Svg LinguistTools REQUIRED)
 endif()
 
 find_package(Threads REQUIRED)
@@ -118,6 +118,61 @@ SET(RESOURCES
     ${QTAPP_ROOT}/images/app.icns
     )
 
+SET(TS_FILES
+    ${QTAPP_ROOT}/lang/sonic-pi_ar.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_bg.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_bn.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_bs.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_ca.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_ca@valencia.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_cs.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_da.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_de.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_el.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_en_AU.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_en_US.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_eo.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_es.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_et.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_eu.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_fa.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_fi.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_fr.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_ga.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_gl.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_he.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_hi.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_hu.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_hy.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_id.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_is.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_it.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_ja.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_ka.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_ko.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_nb.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_nl.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_pl.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_pt_BR.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_pt.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_ro.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_ru.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_si.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_sk.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_sl.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_sv.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_sw.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_th.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_tr.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_ug.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_uk.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_vi.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_zh_HK.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_zh_TW.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_zh-Hans.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_zh.ts
+)
+
 # Enable tracy profiler on debug and rel with debug builds
 if(WIN32)
     SET (SOURCES ${SOURCES} ${APP_ROOT}/external/tracy/TracyClient.cpp)
@@ -134,6 +189,15 @@ if (APPLE)
   _add_executable(${APP_NAME} MACOSX_BUNDLE ${ALL_SOURCES} ${RESOURCES} )
 else()
   add_executable(${APP_NAME} WIN32 ${ALL_SOURCES} ${RESOURCES}) # Win32 ignored on non-windows
+endif()
+
+# Translations: Convert the .ts files into .qm files
+set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION ${QTAPP_ROOT}/lang)
+if (Qt6_FOUND)
+  qt_add_lrelease(${APP_NAME} TS_FILES ${TS_FILES})
+else()
+  qt5_add_translation(QM_FILES ${TS_FILES})
+  set_property(SOURCE ${APP_NAME} APPEND PROPERTY OBJECT_DEPENDS ${QM_FILES})
 endif()
 
 if (APPLE)
