@@ -113,7 +113,7 @@ module SonicPi
         return false
       end
 
-      @osc_server = OSC::UDPServer.new(0, use_decoder_cache: true, use_encoder_cache: true)
+      @osc_server = OSC::UDPServer.new(0, use_decoder_cache: true, use_encoder_cache: true, name: "Scsynth Comms Server")
 
       @osc_server.add_global_method do |address, args, info|
         case address
@@ -157,7 +157,7 @@ module SonicPi
 
       connected = false
 
-      boot_s = OSC::UDPServer.new(0) do |a, b, info|
+      boot_s = OSC::UDPServer.new(0, name: "Scsynth ack server") do |a, b, info|
         puts "scsynth boot - Receiving ack from scsynth"
         p.deliver! true unless connected
         connected = true
