@@ -75,6 +75,8 @@ init(Parent, CueServer, MIDIServer, LinkServer) ->
     register(?SERVER, self()),
     APIPort = application:get_env(?APPLICATION, api_port, undefined),
     DaemonToken = application:get_env(?APPLICATION, daemon_token, undefined),
+    DaemonPort = application:get_env(?APPLICATION, daemon_port, undefined),
+    DaemonHost = application:get_env(?APPLICATION, daemon_host, undefined),
 
     logger:info("~n"
               "+--------------------------------------+~n"
@@ -98,6 +100,8 @@ init(Parent, CueServer, MIDIServer, LinkServer) ->
           [try erlang:port_info(APISocket) catch _:_ -> undefined end]),
     State = #{parent => Parent,
               daemon_token => DaemonToken,
+              daemon_port => DaemonPort,
+              daemon_host => DaemonHost,
               api_socket => APISocket,
               cue_server => CueServer,
               midi_server => MIDIServer,
@@ -135,6 +139,17 @@ loop(State) ->
             logger:debug("got bundle for time ~f", [Time]),
             NewState = do_bundle(Time, X, State),
             ?MODULE:loop(NewState);
+
+        {cmd, ["/send-pid-to-daemon", DaemonToken]=Cmd} ->
+            debug_cmd(Cmd),
+            DaemonPort = maps:get(daemon_port, State),
+            DaemonHost = maps:get(daemon_host, State),
+            APISocket = maps:get(api_socket, State),
+            OSPid = list_to_integer(os:getpid()),
+            PidBin = osc:encode(["/tau/pid", DaemonToken, OSPid]),
+            logger:info("API /send-pid-to-daemon -> sending pid to Daemon...", []),
+            ok = gen_udp:send(APISocket, DaemonHost, DaemonPort, PidBin),
+            ?MODULE:loop(State);
 
         {cmd, ["/midi", OSC]=Cmd} ->
             debug_cmd(Cmd),
