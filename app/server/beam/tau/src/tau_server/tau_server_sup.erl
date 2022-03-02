@@ -44,8 +44,8 @@ set_application_env(MIDIEnabled,
                     ApiPort,
                     SpiderPort,
                     DaemonPort,
-                    KeepAlivePort,
-                    DaemonToken) ->
+                    DaemonToken,
+                    DaemonHost) ->
 
     application:set_env(?APPLICATION, midi_enabled, MIDIEnabled),
     application:set_env(?APPLICATION, link_enabled, LinkEnabled),
@@ -57,8 +57,8 @@ set_application_env(MIDIEnabled,
     application:set_env(?APPLICATION, api_port, ApiPort),
     application:set_env(?APPLICATION, spider_port, SpiderPort),
     application:set_env(?APPLICATION, daemon_port, DaemonPort),
-    application:set_env(?APPLICATION, keep_alive_port, KeepAlivePort),
-    application:set_env(?APPLICATION, daemon_token, DaemonToken).
+    application:set_env(?APPLICATION, daemon_token, DaemonToken),
+    application:set_env(?APPLICATION, daemon_host, DaemonHost).
 
 init(_Args) ->
     CueServer = tau_server_cue:server_name(),
