@@ -308,6 +308,16 @@ SonicPiAPI::~SonicPiAPI()
     Shutdown();
 }
 
+void SonicPiAPI::RestartTau()
+{
+
+    LOG(INFO, "Asking Daemon to restart Tau ");
+    Message msg("/daemon/restart-tau");
+    msg.pushInt32(m_token);
+    m_spOscDaemonSender->sendOSC(msg);
+    return;
+}
+
 void SonicPiAPI::Shutdown()
 {
     std::lock_guard<std::mutex> lg(m_osc_mtx);

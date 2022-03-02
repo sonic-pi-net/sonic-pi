@@ -1647,6 +1647,7 @@ bool MainWindow::sendOSC(Message m)
 
 void MainWindow::reloadServerCode()
 {
+    m_spAPI->RestartTau();
     statusBar()->showMessage(tr("Reloading..."), 2000);
     Message msg("/reload");
     msg.pushInt32(guiID);

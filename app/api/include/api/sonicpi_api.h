@@ -257,6 +257,8 @@ public:
     // Start the ruby server, connect the ports, find the paths.
     virtual bool Init(const fs::path& rootPath);
 
+    virtual void RestartTau();
+
     // Wait for the server to be in a good state
     virtual bool PingUntilServerCreated();
     virtual bool WaitUntilReady();
