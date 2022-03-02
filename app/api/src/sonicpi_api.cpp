@@ -267,7 +267,7 @@ bool SonicPiAPI::StartBootDaemon()
       return false;
     }
 
-    m_ports[SonicPiPortId::daemon_keep_alive] = std::stoi(daemon_stdout[0]);
+    m_ports[SonicPiPortId::daemon] = std::stoi(daemon_stdout[0]);
     m_ports[SonicPiPortId::gui_listen_to_spider] = std::stoi(daemon_stdout[1]);
     m_ports[SonicPiPortId::gui_send_to_spider] = std::stoi(daemon_stdout[2]);
     m_ports[SonicPiPortId::scsynth] = std::stoi(daemon_stdout[3]);
@@ -279,8 +279,8 @@ bool SonicPiAPI::StartBootDaemon()
     LOG(INFO, "Setting up OSC sender to Spider on port " << m_ports[SonicPiPortId::gui_send_to_spider]);
     m_spOscSpiderSender    = std::make_shared<OscSender>(m_ports[SonicPiPortId::gui_send_to_spider]);
 
-    LOG(INFO, "Setting up OSC sender to Daemon on port " << m_ports[SonicPiPortId::daemon_keep_alive]);
-    m_spOscDaemonSender = std::make_shared<OscSender>(m_ports[SonicPiPortId::daemon_keep_alive]);
+    LOG(INFO, "Setting up OSC sender to Daemon on port " << m_ports[SonicPiPortId::daemon]);
+    m_spOscDaemonSender = std::make_shared<OscSender>(m_ports[SonicPiPortId::daemon]);
 
     LOG(INFO, "Setting up OSC sender to Tau on port " << m_ports[SonicPiPortId::tau]);
     m_spOscTauSender       = std::make_shared<OscSender>(m_ports[SonicPiPortId::tau]);
