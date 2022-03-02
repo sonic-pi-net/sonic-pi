@@ -243,7 +243,8 @@ bool SonicPiAPI::StartBootDaemon()
 
     if(ec || bytes_read < 0) {
       if(ec) {
-        LOG(ERR, "Error reading ports via Boot Daemon STDOUT: " << ec);
+        LOG(ERR, "Error reading ports via Boot Daemon STDOUT. Bytes read: "  + std::to_string(bytes_read) + " Error code: " << ec);
+
       } else {
         LOG(ERR, "Failed to read ports via Boot Daemon STDOUT. Bytes read: " + std::to_string(bytes_read));
 
@@ -525,6 +526,7 @@ bool SonicPiAPI::PingUntilServerCreated()
 // Initialize the API with the sonic pi root path (the folder containing the app folder)
 bool SonicPiAPI::Init(const fs::path& root)
 {
+  LOG(INFO, "Initialising Daemon");
   m_token = -1;
   m_osc_mtx.lock();
 
