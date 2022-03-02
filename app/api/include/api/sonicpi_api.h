@@ -58,7 +58,7 @@ enum class SonicPiPath
 enum class SonicPiPortId
 {
     Invalid,
-    daemon_keep_alive,
+    daemon,
     gui_listen_to_spider,
     gui_send_to_spider,
     scsynth,
