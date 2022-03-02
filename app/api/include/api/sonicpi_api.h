@@ -350,7 +350,7 @@ private:
 
     std::shared_ptr<OscServer> m_spOscSpiderServer;
     std::shared_ptr<OscSender> m_spOscSpiderSender;
-    std::shared_ptr<OscSender> m_spOscKeepAliveSender;
+    std::shared_ptr<OscSender> m_spOscDaemonSender;
     std::shared_ptr<OscSender> m_spOscTauSender;
     std::shared_ptr<AudioProcessor> m_spAudioProcessor;
     int m_token;

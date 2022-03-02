@@ -280,7 +280,7 @@ bool SonicPiAPI::StartBootDaemon()
     m_spOscSpiderSender    = std::make_shared<OscSender>(m_ports[SonicPiPortId::gui_send_to_spider]);
 
     LOG(INFO, "Setting up OSC sender to Daemon on port " << m_ports[SonicPiPortId::daemon_keep_alive]);
-    m_spOscKeepAliveSender = std::make_shared<OscSender>(m_ports[SonicPiPortId::daemon_keep_alive]);
+    m_spOscDaemonSender = std::make_shared<OscSender>(m_ports[SonicPiPortId::daemon_keep_alive]);
 
     LOG(INFO, "Setting up OSC sender to Tau on port " << m_ports[SonicPiPortId::tau]);
     m_spOscTauSender       = std::make_shared<OscSender>(m_ports[SonicPiPortId::tau]);
@@ -291,7 +291,7 @@ bool SonicPiAPI::StartBootDaemon()
         LOG(DBG, "SND keep_alive");
         Message msg("/daemon/keep-alive");
         msg.pushInt32(m_token);
-        m_spOscKeepAliveSender->sendOSC(msg);
+        m_spOscDaemonSender->sendOSC(msg);
         LOG(DBG, "SND keep_alive sent");
         std::this_thread::sleep_for(4s);
       }
@@ -361,7 +361,7 @@ void SonicPiAPI::Shutdown()
     LOG(INFO, "Sending /daemon/exit to daemon's kill switch with token " << std::to_string(m_token)) ;
     Message msg("/daemon/exit");
     msg.pushInt32(m_token);
-    m_spOscKeepAliveSender->sendOSC(msg);
+    m_spOscDaemonSender->sendOSC(msg);
 
     m_bootDaemonSockPingLoopThread.join();
     m_pingerThread.join();
