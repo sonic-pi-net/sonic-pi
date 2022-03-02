@@ -651,7 +651,11 @@ module SonicPi
         @pid_updater_thread = Thread.new do
           while !@tau_pid.delivered?
             Util.log "requesting tau send us its pid. Sending /send-pid-to-daemon, #{token} to localhost:#{ports['tau']}"
-            @pid_requester.send("/send-pid-to-daemon", token)
+            begin
+              @pid_requester.send("/send-pid-to-daemon", token)
+            rescue
+              Util.log "Issue talking to Tau (perhaps it is still booting?)..."
+            end
             Kernel.sleep 1
           end
         end
