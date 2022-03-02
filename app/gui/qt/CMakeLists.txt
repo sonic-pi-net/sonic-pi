@@ -7,7 +7,13 @@ project("Sonic Pi"
   DESCRIPTION "A code-based music creation and performance tool"
   VERSION 3.3.1
   HOMEPAGE_URL "https://sonic-pi.net"
-    )
+  )
+
+if(APPLE)
+  set(CMAKE_OSX_DEPLOYMENT_TARGET "10.15")
+endif()
+
+
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
