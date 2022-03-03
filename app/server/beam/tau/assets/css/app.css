@@ -1,8 +1,8 @@
-@import "./phoenix.css";
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import "./phoenix.css";
 
 /* Alerts and form errors used by phx.new */
 .alert {
