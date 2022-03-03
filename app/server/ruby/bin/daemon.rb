@@ -18,6 +18,7 @@ require 'open3'
 require 'fileutils'
 require 'time'
 require 'securerandom'
+require 'monitor'
 
 require_relative "../lib/sonicpi/osc/osc"
 require_relative "../lib/sonicpi/promise"
@@ -103,8 +104,9 @@ Thread::abort_on_exception = true
 # Stdout Parameter Descriptions
 # -----------------------------
 #
-# daemon-keep-alive:    UDP port Daemon is listening on for regular
-#                       /daemon/keep-alive OSC messages
+# daemon:               UDP port Daemon is listening on. This is used for
+#                       receiving /daemon/keep-alive OSC messages amongst
+#                       other things.
 #
 # gui-listen-to-server: UDP port which the GUI uses to listen to messages
 #                       from the Spider Server.
@@ -124,9 +126,9 @@ Thread::abort_on_exception = true
 # tau-phx:              HTTP port used by Tau's Phoenix web server
 #
 #
-# token:                Integer used as a token to authenticate OSC messages.
-#                       All OSC messages sent from the GUI must include this token
-#                       as the first argument
+# token:                32 bit signed integer used as a token to authenticate
+#                       OSC messages.  All OSC messages sent from the GUI
+#                       must include this token as the first argument
 
 
 module SonicPi
@@ -134,7 +136,11 @@ module SonicPi
     class Init
 
       def initialize
+        @exit_prom = Promise.new
+        @restart_mon = Monitor.new
+
         @safe_exit = SafeExit.new do
+          @exit_prom.deliver! true
           # Register exit routine
           # This will only be called once
           Util.log "Daemon Booter is now exiting."
@@ -151,7 +157,7 @@ module SonicPi
         @spider_booter   = nil
 
         # use a value within the valid range for a 32 bit signed complement integer
-        token =  rand(-2147483647..2147483647)
+        @daemon_token =  rand(-2147483647..2147483647)
 
         # don't worry if there's a problem clearing the logs.
         begin
@@ -166,111 +172,100 @@ module SonicPi
         #
         # Note that the program will safe_exit here
         # if there are problems detecting port numbers to use.
-        ports = PortDiscovery.new(@safe_exit).ports
+        @ports = PortDiscovery.new(@safe_exit).ports
 
         Util.log "Selected ports: "
-        Util.log ports.inspect
+        Util.log @ports.inspect
 
-        Util.log "Setting up zombie kill switch for gui-keep-alive listening on port #{ports["gui-keep-alive"]}"
-        caller_kill_switch = udp_zombie_kill_switch(ports["gui-keep-alive"], token)
+        @kill_switch = KillSwitch.new(@safe_exit)
 
-        Util.log "Setting up zombie kill switch for tau-keep-alive listening on port #{ports["tau-keep-alive"]}"
-        tau_kill_switch = udp_zombie_kill_switch(ports["tau-keep-alive"], token)
+        boot_tau!
 
-        # Initiate boot processes
+        @api_server = SonicPi::OSC::UDPServer.new(@ports["daemon"], suppress_errors: false, name: "Daemon API Server")
+        # For debugging purposes:
+        # @api_server = SonicPi::OSC::UDPServer.new(@ports["daemon"], suppress_errors: false, name: "Daemon API Server") do |address, args, sender_addrinfo|
+        #   Util.log "Kill switch ##{@ports["daemon"] Received UDP data #{[address, args, sender_addrinfo].inspect}"
+        # end
 
-        Util.log "Booting Tau"
-        begin
-          @tau_booter = TauBooter.new(ports, tau_kill_switch, token)
-        rescue StandardError => e
-          Util.log "Oh no, something went wrong booting Tau"
-          Util.log "Error Class: #{e.class}"
-          Util.log "Error Message: #{e.message}"
-          Util.log "Error Backtrace: #{e.backtrace.inspect}"
+        @api_server.add_method("/daemon/keep-alive") do |args|
+          if args[0] && args[0] == @daemon_token
+            @kill_switch.keep_alive!
+          end
+        end
+
+        @api_server.add_method("/daemon/exit") do |args|
+          if args[0] && args[0] == @daemon_token
+            Util.log "[EXIT] Kill switch for port #{@ports["daemon"]} remotely activated using token #{@daemon_token}"
+            @safe_exit.exit
+          else
+            Util.log "Kill switch for port #{@ports["daemon"]} received incorrect token. Ignoring #{args[0]}"
+          end
+        end
+
+        @api_server.add_method("/daemon/restart-tau") do |args|
+          if args[0] && args[0] == @daemon_token
+            Util.log "Restarting Tau"
+            restart_tau!
+          end
+        end
+
+        @api_server.add_method("/tau/pid") do |args|
+          # Util.log "Daemon received Pid data from Tau: #{args.inspect}"
+          # Util.log "token: #{@daemon_token}"
+          if args[0] && args[0] == @daemon_token
+            @tau_booter.update_pid!(args[1])
+          end
         end
 
         # Let the calling process (likely the GUI) know which port to
         # listen to and communicate on with the Ruby spider server via
         # STDOUT.
-        puts "#{ports["gui-keep-alive"]} #{ports["gui-listen-to-spider"]} #{ports["gui-send-to-spider"]} #{ports["scsynth"]} #{ports["osc-cues"]} #{ports["tau"]} #{@tau_booter.phx_port} #{token}"
+        puts "#{@ports["daemon"]} #{@ports["gui-listen-to-spider"]} #{@ports["gui-send-to-spider"]} #{@ports["scsynth"]} #{@ports["osc-cues"]} #{@ports["tau"]} #{@tau_booter.phx_port} #{@daemon_token}"
 
-        Util.log "#{ports["gui-keep-alive"]} #{ports["gui-listen-to-spider"]} #{ports["gui-send-to-spider"]} #{ports["scsynth"]} #{ports["osc-cues"]} #{ports["tau"]} #{@tau_booter.phx_port} #{token}"
+        Util.log "#{@ports["daemon"]} #{@ports["gui-listen-to-spider"]} #{@ports["gui-send-to-spider"]} #{@ports["scsynth"]} #{@ports["osc-cues"]} #{@ports["tau"]} #{@tau_booter.phx_port} #{@daemon_token}"
+
         STDOUT.flush
 
-
         Util.log "Booting Scsynth"
-        @scsynth_booter = ScsynthBooter.new(ports)
+        @scsynth_booter = ScsynthBooter.new(@ports)
 
         Util.log "Booting Spider Server"
-        @spider_booter  = SpiderBooter.new(ports, token)
+        @spider_booter  = SpiderBooter.new(@ports, @daemon_token)
 
-        Util.log "Waiting for processes to complete...."
-
-        # Wait for processes
-        @tau_booter.wait if @tau_booter
-        Util.log "Tau process has completed"
-
-        @scsynth_booter.wait if @scsynth_booter
-        Util.log "Scsynth process has completed"
-
-        @spider_booter.wait if @spider_booter
-        Util.log "Spider Server process has completed"
+        Util.log "Blocking main thread until exit signal received..."
+        @exit_prom.get
+        Util.log "Exit signal received..."
       end
 
-      def udp_zombie_kill_switch(port_num, token)
-        kill_switch = Promise.new
-        queue = Queue.new
+      def boot_tau!
+        @restart_mon.synchronize do
+          Util.log "Booting Tau..."
+          begin
+            @tau_booter = TauBooter.new(@ports, @kill_switch, @daemon_token)
+          rescue StandardError => e
+            Util.log "Oh no, something went wrong booting Tau"
+            Util.log "Error Class: #{e.class}"
+            Util.log "Error Message: #{e.message}"
+            Util.log "Error Backtrace: #{e.backtrace.inspect}"
 
-        kill_switch_thread = Thread.new do
-          attempts = 0
-          max_attempts = 4
-          Kernel.sleep 40
-          loop do
-            Kernel.sleep 10
-            if queue.empty?
-              attempts += 1
-            else
-              attempts = 0
-              queue.clear
-            end
-
-            break if attempts > max_attempts
-          end
-          kill_switch.deliver!(true)
-        end
-
-        # For debugging purposes:
-        # server = SonicPi::OSC::UDPServer.new(port_num, suppress_errors: false) do |address, args, sender_addrinfo|
-        #   Util.log "Kill switch ##{port_num} Received UDP data #{[address, args, sender_addrinfo].inspect}"
-        # end
-
-        server = SonicPi::OSC::UDPServer.new(port_num, suppress_errors: false)
-
-        server.add_method("/daemon/keep-alive") do |args|
-          if args[0] && args[0] == token
-            queue << true
+            puts "Oh no, something went wrong booting Tau"
+            puts "Error Class: #{e.class}"
+            puts "Error Message: #{e.message}"
+            puts "Error Backtrace: #{e.backtrace.inspect}"
+            puts 'hi'
+            STDOUT.flush
+            @safe_exit.exit
           end
         end
+      end
 
-        if token
-          server.add_method("/daemon/exit") do |args|
-            if args[0] && args[0] == token
-              Util.log "Kill switch for port #{port_num} remotely activated using token #{token}"
-              @safe_exit.exit
-            else
-              Util.log "Kill switch for port #{port_num} received incorrect token. Ignoring #{args[0]}"
-            end
-          end
-        end
+      def restart_tau!
+        @restart_mon.synchronize do
+          Util.log "Restarting Tau..."
 
-        Thread.new do
-          kill_switch.get
-          Util.log "Kill switch for port #{port_num} triggered. Exiting..."
-          server.stop
-          kill_switch_thread.kill
-          @safe_exit.exit
+          @tau_booter.kill
+          boot_tau!
         end
-        kill_switch
       end
 
       def cleanup_any_running_processes
@@ -399,6 +394,57 @@ module SonicPi
       end
     end
 
+    class KillSwitch
+      def initialize(safe_exit)
+        @safe_exit = safe_exit
+        @kill_switch_prom = Promise.new
+        @queue = Queue.new
+
+        activate
+
+        @timer_thread = Thread.new do
+          attempts = 0
+          max_attempts = 4
+          Kernel.sleep 40
+          loop do
+            Kernel.sleep 10
+            if @queue.empty?
+              attempts += 1
+            else
+              attempts = 0
+              @queue.clear
+            end
+
+            break if attempts > max_attempts
+          end
+          Util.log "Kill switch timed out..."
+          @kill_switch_prom.deliver!(true)
+        end
+      end
+
+      def keep_alive!
+        @queue << true
+      end
+
+      def wait
+        @kill_switch_prom.get
+      end
+
+      def activate
+        return if @armed_thread
+        @armed_thread = Thread.new do
+          wait
+          Util.log "[EXIT] Daemon kill switch triggered. Exiting..."
+          @timer_thread.kill
+          @safe_exit.exit
+        end
+      end
+
+      def deactivate
+        @armed_thread.kill
+      end
+    end
+
     class SafeExit
 
       def initialize(&cleanup_procedure)
@@ -410,6 +456,8 @@ module SonicPi
         @cleanup_procedure      = cleanup_procedure
 
         at_exit do
+          Util.log "[EXIT] Daemon Process has completed:"
+
           @exit_mut.synchronize do
             @exit_in_progress = true
             idempotent_exit_cleanup
@@ -596,14 +644,22 @@ module SonicPi
       attr_reader :phx_port
 
       def initialize(ports, kill_switch, token)
+        @tau_pid = Promise.new
 
-        # This is used to determine whether the spawned process is still
-        # alive as we don't have access to the BEAM pid with this
-        # spawning method (it's hidden behind release script
-        # files). Instead, Tau sends us its pid which we then work with.
-        @tau_alive_thread = Thread.new do
-          kill_switch.get
+        @pid_requester = SonicPi::OSC::UDPClient.new('localhost', ports["tau"])
+
+        @pid_updater_thread = Thread.new do
+          while !@tau_pid.delivered?
+            Util.log "requesting tau send us its pid. Sending /send-pid-to-daemon, #{token} to localhost:#{ports['tau']}"
+            begin
+              @pid_requester.send("/send-pid-to-daemon", token)
+            rescue
+              Util.log "Issue talking to Tau (perhaps it is still booting?)..."
+            end
+            Kernel.sleep 1
+          end
         end
+
 
         begin
           Util.log "fetching toml opts"
@@ -622,31 +678,16 @@ module SonicPi
         osc_in_udp_port                = ports["osc-cues"]
         api_port                       = ports["tau"]
         spider_port                    = ports["spider-listen-to-tau"]
-        daemon_port                    = ports["daemon-listen-to-tau"]
-        keep_alive_port                = ports["tau-keep-alive"]
+        daemon_port                    = ports["daemon"]
         midi_enabled                   = true
         link_enabled                   = true
         phx_secret_key_base            = SecureRandom.base64(64)
         env                            = unified_opts[:env] || "prod"
         @phx_port                      = unified_opts[:phx_port] || ports["phx"]
-        @tau_pid                       = Promise.new
 
         Util.log "Daemon listening to info from Tau on port #{daemon_port}"
 
-        # For debugging purposes:
-        # @udp_osc_server = SonicPi::OSC::UDPServer.new(daemon_port) do |address, args, sender_addrinfo|
-        #   Util.log "Daemon received UDP data from Tau: #{[address, args, sender_addrinfo].inspect}"
-        # end
 
-        @udp_osc_server = SonicPi::OSC::UDPServer.new(daemon_port)
-
-        @udp_osc_server.add_method("/tau/pid") do |args|
-          # Util.log "Daemon received Pid data from Tau: #{args.inspect}"
-          # Util.log "token: #{token}"
-          if args[0] && args[0] == token
-            @tau_pid.deliver!(args[1], false) if args[1]
-          end
-        end
 
         args = [
           cues_on,
@@ -657,7 +698,6 @@ module SonicPi
           api_port,
           spider_port,
           daemon_port,
-          keep_alive_port,
           Paths.tau_log_path,
           midi_enabled,
           link_enabled,
@@ -675,6 +715,14 @@ module SonicPi
         end
 
         super(cmd, args, nil)
+      end
+
+      def restart!
+        @tau_pid = Promise.new
+      end
+
+      def update_pid!(pid)
+        @tau_pid.deliver!(pid, false)
       end
 
       def unify_tau_toml_opts(opts)
@@ -699,10 +747,6 @@ module SonicPi
         unified_opts.freeze
       end
 
-      def process_running?
-        @tau_alive_thread.alive? || super
-      end
-
       def kill
         begin
           @pid = @tau_pid.get(30)
@@ -711,13 +755,7 @@ module SonicPi
           @pid = nil
           Util.log "Didn't receive Tau's Pid after waiting for 30s..."
         end
-        @tau_alive_thread.kill
-        @udp_osc_server.stop
         super
-      end
-
-      def wait
-        @tau_alive_thread.join
       end
     end
 
@@ -929,7 +967,7 @@ module SonicPi
       # Sonic Pi uses to send and receive messages at run time:
       PORT_CONFIG = {
         # Port daemon uses to communicate with GUI or other controlling process
-        "daemon-keep-alive" => :dynamic,
+        "daemon" => :dynamic,
 
         # Port which the server uses to listen to messages from the GUI:
         "spider-listen-to-gui" => :dynamic,
@@ -964,8 +1002,6 @@ module SonicPi
         # Port which the Ruby server listens to messages back from the Tau server
         "spider" => :dynamic,
 
-        "tau-keep-alive" => :dynamic,
-        "gui-keep-alive" => :dynamic,
         "daemon-listen-to-tau" => :dynamic,
         "spider-listen-to-tau" => :dynamic,
 
@@ -996,10 +1032,8 @@ module SonicPi
           "tau",
           "spider",
           "phx",
-          "gui-keep-alive",
-          "tau-keep-alive",
-          "spider-listen-to-tau",
-          "daemon-listen-to-tau"].inject({}) do |res, port_name|
+          "daemon",
+          "spider-listen-to-tau"].inject({}) do |res, port_name|
 
           default = nil
           case port_name
@@ -1022,7 +1056,7 @@ module SonicPi
             if default == :dynamic
               port = find_free_port
             elsif default == :paired
-              Util.log "Critical error: Invalid port default for port: #{port_name}. This port can not be paired."
+              Util.log "[EXIT] Invalid port default for port: #{port_name}. This port can not be paired."
               @safe_exit.exit
             else
               port = default
@@ -1054,7 +1088,7 @@ module SonicPi
       def find_free_port
         while !check_port(@last_free_port += 1)
           if @last_free_port > 65535
-            Util.log "Critical error: Unable to find a free port."
+            Util.log "[EXIT] Unable to find a free port."
             @safe_exit.exit
           end
         end
@@ -1064,4 +1098,11 @@ module SonicPi
   end
 end
 
-SonicPi::Daemon::Init.new
+begin
+  SonicPi::Daemon::Init.new
+rescue StandardError => e
+  SonicPi::Daemon::Util.log "[BUG] - ** Daemon Internal Error. **"
+  SonicPi::Daemon::Util.log "[BUG] - Class: #{e.class}"
+  SonicPi::Daemon::Util.log "[BUG] - Message: #{e.message}"
+  SonicPi::Daemon::Util.log "[BUG] - Backtrace: #{e.backtrace.inspect}"
+end

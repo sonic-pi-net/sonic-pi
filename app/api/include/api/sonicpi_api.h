@@ -58,7 +58,7 @@ enum class SonicPiPath
 enum class SonicPiPortId
 {
     Invalid,
-    daemon_keep_alive,
+    daemon,
     gui_listen_to_spider,
     gui_send_to_spider,
     scsynth,
@@ -257,6 +257,8 @@ public:
     // Start the ruby server, connect the ports, find the paths.
     virtual bool Init(const fs::path& rootPath);
 
+    virtual void RestartTau();
+
     // Wait for the server to be in a good state
     virtual bool PingUntilServerCreated();
     virtual bool WaitUntilReady();
@@ -350,7 +352,7 @@ private:
 
     std::shared_ptr<OscServer> m_spOscSpiderServer;
     std::shared_ptr<OscSender> m_spOscSpiderSender;
-    std::shared_ptr<OscSender> m_spOscKeepAliveSender;
+    std::shared_ptr<OscSender> m_spOscDaemonSender;
     std::shared_ptr<OscSender> m_spOscTauSender;
     std::shared_ptr<AudioProcessor> m_spAudioProcessor;
     int m_token;

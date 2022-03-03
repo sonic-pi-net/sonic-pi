@@ -17,8 +17,8 @@ defmodule Tau do
     api_port                       = extract_env("TAU_API_PORT",                       :int,  5001)
     spider_port                    = extract_env("TAU_SPIDER_PORT",                    :int,  5002)
     daemon_port                    = extract_env("TAU_DAEMON_PORT",                    :int,  -1)
-    keep_alive_port                = extract_env("TAU_KEEP_ALIVE_PORT",                :int,  -1)
     daemon_token                   = extract_env("TAU_DAEMON_TOKEN",                   :int,  -1)
+    daemon_host = {127,0,0,1}
 
     if midi_enabled do
       Logger.info("Initialising MIDI native interface")
@@ -45,18 +45,12 @@ defmodule Tau do
       api_port,
       spider_port,
       daemon_port,
-      keep_alive_port,
-      daemon_token
+      daemon_token,
+      daemon_host
     )
 
     # Although we don't use the supervisor name below directly,
     # it can be useful when debugging or introspecting the system.
-
-    if (keep_alive_port == -1) do
-      Logger.info("Not starting keepalive server as no daemon port value was given")
-    else
-      :tau_keepalive.start_link(keep_alive_port, daemon_port, daemon_token)
-    end
 
     :tau_server_sup.start_link()
 

@@ -243,7 +243,8 @@ bool SonicPiAPI::StartBootDaemon()
 
     if(ec || bytes_read < 0) {
       if(ec) {
-        LOG(ERR, "Error reading ports via Boot Daemon STDOUT: " << ec);
+        LOG(ERR, "Error reading ports via Boot Daemon STDOUT. Bytes read: "  + std::to_string(bytes_read) + " Error code: " << ec);
+
       } else {
         LOG(ERR, "Failed to read ports via Boot Daemon STDOUT. Bytes read: " + std::to_string(bytes_read));
 
@@ -267,7 +268,7 @@ bool SonicPiAPI::StartBootDaemon()
       return false;
     }
 
-    m_ports[SonicPiPortId::daemon_keep_alive] = std::stoi(daemon_stdout[0]);
+    m_ports[SonicPiPortId::daemon] = std::stoi(daemon_stdout[0]);
     m_ports[SonicPiPortId::gui_listen_to_spider] = std::stoi(daemon_stdout[1]);
     m_ports[SonicPiPortId::gui_send_to_spider] = std::stoi(daemon_stdout[2]);
     m_ports[SonicPiPortId::scsynth] = std::stoi(daemon_stdout[3]);
@@ -279,8 +280,8 @@ bool SonicPiAPI::StartBootDaemon()
     LOG(INFO, "Setting up OSC sender to Spider on port " << m_ports[SonicPiPortId::gui_send_to_spider]);
     m_spOscSpiderSender    = std::make_shared<OscSender>(m_ports[SonicPiPortId::gui_send_to_spider]);
 
-    LOG(INFO, "Setting up OSC sender to Daemon on port " << m_ports[SonicPiPortId::daemon_keep_alive]);
-    m_spOscKeepAliveSender = std::make_shared<OscSender>(m_ports[SonicPiPortId::daemon_keep_alive]);
+    LOG(INFO, "Setting up OSC sender to Daemon on port " << m_ports[SonicPiPortId::daemon]);
+    m_spOscDaemonSender = std::make_shared<OscSender>(m_ports[SonicPiPortId::daemon]);
 
     LOG(INFO, "Setting up OSC sender to Tau on port " << m_ports[SonicPiPortId::tau]);
     m_spOscTauSender       = std::make_shared<OscSender>(m_ports[SonicPiPortId::tau]);
@@ -291,7 +292,7 @@ bool SonicPiAPI::StartBootDaemon()
         LOG(DBG, "SND keep_alive");
         Message msg("/daemon/keep-alive");
         msg.pushInt32(m_token);
-        m_spOscKeepAliveSender->sendOSC(msg);
+        m_spOscDaemonSender->sendOSC(msg);
         LOG(DBG, "SND keep_alive sent");
         std::this_thread::sleep_for(4s);
       }
@@ -305,6 +306,16 @@ bool SonicPiAPI::StartBootDaemon()
 SonicPiAPI::~SonicPiAPI()
 {
     Shutdown();
+}
+
+void SonicPiAPI::RestartTau()
+{
+
+    LOG(INFO, "Asking Daemon to restart Tau ");
+    Message msg("/daemon/restart-tau");
+    msg.pushInt32(m_token);
+    m_spOscDaemonSender->sendOSC(msg);
+    return;
 }
 
 void SonicPiAPI::Shutdown()
@@ -361,7 +372,7 @@ void SonicPiAPI::Shutdown()
     LOG(INFO, "Sending /daemon/exit to daemon's kill switch with token " << std::to_string(m_token)) ;
     Message msg("/daemon/exit");
     msg.pushInt32(m_token);
-    m_spOscKeepAliveSender->sendOSC(msg);
+    m_spOscDaemonSender->sendOSC(msg);
 
     m_bootDaemonSockPingLoopThread.join();
     m_pingerThread.join();
@@ -525,6 +536,7 @@ bool SonicPiAPI::PingUntilServerCreated()
 // Initialize the API with the sonic pi root path (the folder containing the app folder)
 bool SonicPiAPI::Init(const fs::path& root)
 {
+  LOG(INFO, "Initialising Daemon");
   m_token = -1;
   m_osc_mtx.lock();
 
