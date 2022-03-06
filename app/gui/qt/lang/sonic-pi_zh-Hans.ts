@@ -428,7 +428,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2644"/>
         <source>Invert Stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>反转左/右声道</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2649"/>
@@ -508,12 +508,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2746"/>
         <source>Pro Light</source>
-        <translation type="unfinished">浅色专业版</translation>
+        <translation>专业浅色</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2751"/>
         <source>Pro Dark</source>
-        <translation type="unfinished">深色专业版</translation>
+        <translation>专业深色</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2756"/>
@@ -567,12 +567,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2793"/>
         <source>Default MIDI Out Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>默认MIDI输出</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2796"/>
         <source>All Channels</source>
-        <translation type="unfinished"></translation>
+        <translation>所有通道</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2801"/>
