@@ -660,8 +660,18 @@ module SonicPi
             Util.log "Requesting tau send us its pid. Sending /send-pid-to-daemon, #{token} to localhost:#{ports['tau']}"
             begin
               @pid_requester.send("/send-pid-to-daemon", token)
-            rescue
-              Util.log "Issue talking to Tau (perhaps it is still booting?)..."
+            rescue StandardError => e
+              Util.log "
+-------- Tau Comms issue ----------
+ (perhaps Tau is still booting?)
+
+  Warning Class:     #{e.class}
+
+  Warning Message:   #{e.message}
+
+  Warning Backtrace: #{e.backtrace.inspect}
+-----------------------------------
+"
             end
             Kernel.sleep 1
           end
