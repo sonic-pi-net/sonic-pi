@@ -18,7 +18,6 @@ require 'open3'
 require 'fileutils'
 require 'time'
 require 'securerandom'
-require 'monitor'
 
 require_relative "../lib/sonicpi/osc/osc"
 require_relative "../lib/sonicpi/promise"
@@ -137,7 +136,8 @@ module SonicPi
 
       def initialize
         @exit_prom = Promise.new
-        @restart_mon = Monitor.new
+        @restart_tau_mut = Mutex.new
+        @booting_tau = false
 
         @safe_exit = SafeExit.new do
           @exit_prom.deliver! true
@@ -179,7 +179,7 @@ module SonicPi
 
         @kill_switch = KillSwitch.new(@safe_exit)
 
-        boot_tau!
+        boot_tau!(false)
 
         @api_server = SonicPi::OSC::UDPServer.new(@ports["daemon"], suppress_errors: false, name: "Daemon API Server")
         # For debugging purposes:
@@ -217,6 +217,8 @@ module SonicPi
           end
         end
 
+        @tau_booter.wait_for_pid!
+
         # Let the calling process (likely the GUI) know which port to
         # listen to and communicate on with the Ruby spider server via
         # STDOUT.
@@ -237,34 +239,39 @@ module SonicPi
         Util.log "Exit signal received..."
       end
 
-      def boot_tau!
-        @restart_mon.synchronize do
-          Util.log "Booting Tau..."
-          begin
-            @tau_booter = TauBooter.new(@ports, @kill_switch, @daemon_token)
-          rescue StandardError => e
-            Util.log "Oh no, something went wrong booting Tau"
-            Util.log "Error Class: #{e.class}"
-            Util.log "Error Message: #{e.message}"
-            Util.log "Error Backtrace: #{e.backtrace.inspect}"
+      def boot_tau!(wait_for_pid = true)
+        @booting_tau = true
+        Util.log "Booting Tau..."
+        begin
+          @tau_booter = TauBooter.new(@ports, @kill_switch, @daemon_token)
+          @tau_booter.wait_for_pid! if wait_for_pid
+          @booting_tau = false
+        rescue StandardError => e
+          Util.log "Oh no, something went wrong booting Tau"
+          Util.log "Error Class: #{e.class}"
+          Util.log "Error Message: #{e.message}"
+          Util.log "Error Backtrace: #{e.backtrace.inspect}"
 
-            puts "Oh no, something went wrong booting Tau"
-            puts "Error Class: #{e.class}"
-            puts "Error Message: #{e.message}"
-            puts "Error Backtrace: #{e.backtrace.inspect}"
-            puts 'hi'
-            STDOUT.flush
-            @safe_exit.exit
-          end
+          puts "Oh no, something went wrong booting Tau"
+          puts "Error Class: #{e.class}"
+          puts "Error Message: #{e.message}"
+          puts "Error Backtrace: #{e.backtrace.inspect}"
+          puts 'hi'
+          STDOUT.flush
+          @safe_exit.exit
         end
       end
 
       def restart_tau!
-        @restart_mon.synchronize do
-          Util.log "Restarting Tau..."
-
-          @tau_booter.kill
-          boot_tau!
+        return if @booting_tau
+        Thread.new do
+          @restart_tau_mut.synchronize do
+            return if @booting_tau
+            @booting_tau = true
+            Util.log "Restarting Tau..."
+            @tau_booter.kill
+            boot_tau!
+          end
         end
       end
 
@@ -723,6 +730,10 @@ module SonicPi
 
       def update_pid!(pid)
         @tau_pid.deliver!(pid, false)
+      end
+
+      def wait_for_pid!()
+        @tau_pid.get(30)
       end
 
       def unify_tau_toml_opts(opts)
