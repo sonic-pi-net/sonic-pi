@@ -24,6 +24,7 @@ export MIX_ENV=$TAU_ENV
 
 if [ $TAU_ENV = "dev" ]
 then
+  mix assets.deploy.dev
   mix run --no-halt > log/tau_stdout.log 2>&1
 else
   _build/prod/rel/tau/bin/tau start > /dev/null 2>&1

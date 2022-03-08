@@ -30,6 +30,7 @@ set TAU_ENV=%9%
 set MIX_ENV=%TAU_ENV%
 
 IF "%TAU_ENV%" == "dev" (
+  mix assets.deploy.dev
   mix run --no-halt > log\tau_stdout.log 2>&1
 ) ELSE (
   _build\prod\rel\tau\bin\tau start > NUL 2>&1

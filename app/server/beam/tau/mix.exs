@@ -62,8 +62,14 @@ defmodule Tau.MixProject do
   defp aliases do
     [
       setup: ["deps.get"],
-      "assets.deploy": ["esbuild default --minify",
-                        "phx.digest"]
+      "assets.deploy.dev": ["phx.digest.clean --all",
+                            "tailwind default",
+                            "esbuild default --sourcemap=inline"],
+
+      "assets.deploy.prod": ["phx.digest.clean --all",
+                             "tailwind default --minify",
+                             "esbuild default --minify",
+                             "phx.digest"]
     ]
   end
 end
