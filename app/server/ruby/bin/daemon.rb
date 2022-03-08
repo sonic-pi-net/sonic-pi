@@ -248,14 +248,11 @@ module SonicPi
           @booting_tau = false
         rescue StandardError => e
           Util.log "Oh no, something went wrong booting Tau"
-          Util.log "Error Class: #{e.class}"
-          Util.log "Error Message: #{e.message}"
-          Util.log "Error Backtrace: #{e.backtrace.inspect}"
-
+          Util.log_error(e)
           puts "Oh no, something went wrong booting Tau"
           puts "Error Class: #{e.class}"
           puts "Error Message: #{e.message}"
-          puts "Error Backtrace: #{e.backtrace.inspect}"
+          puts "Error Backtrace: #{e.backtrace.join("\n")}"
           puts 'hi'
           STDOUT.flush
           @safe_exit.exit
@@ -282,9 +279,7 @@ module SonicPi
               p.kill if p
             rescue StandardError => e
               Util.log "Error attempting to kill process #{p.inspect}"
-              Util.log e.class
-              Util.log e.message
-              Util.log e.backtrace.inspect
+              Util.log_error(e)
             end
           end
         end.each { |t| t.join }
@@ -371,16 +366,27 @@ module SonicPi
         @@log_file.close if @@log_file
       end
 
+      def self.timestamp_for_log
+        "[#{Time.now.strftime("%Y-%m-%d %H:%M:%S")}]"
+      end
+
       def self.log(msg)
         begin
           if @@log_file
-            @@log_file.puts("[#{Time.now.strftime("%Y-%m-%d %H:%M:%S")}] #{msg}")
+            @@log_file.puts("#{timestamp_for_log} #{msg}")
             @@log_file.flush
           end
         rescue IOError => e
           STDERR.puts "Error. Unable to write to log file: #{e.message}"
           STDERR.puts e.inspect
         end
+      end
+
+      def self.log_error(e)
+        spacer = "\n " + (" " * timestamp_for_log.size)
+        log "#{e.class}"
+        log "#{e.message}"
+        log "##{e.backtrace.join(spacer)}"
       end
 
       def self.os
@@ -520,9 +526,7 @@ module SonicPi
           boot
         rescue StandardError => e
           Util.log "Error: something went wrong booting process: #{cmd}, #{args}, #{log_path}"
-          Util.log "Error Class: #{e.class}"
-          Util.log "Error Message: #{e.message}"
-          Util.log "Error Backtrace: #{e.backtrace.inspect}"
+          Util.log_error(e)
           @log_file.close if @log_file
         end
       end
@@ -660,18 +664,11 @@ module SonicPi
             Util.log "Requesting tau send us its pid. Sending /send-pid-to-daemon, #{token} to localhost:#{ports['tau']}"
             begin
               @pid_requester.send("/send-pid-to-daemon", token)
+            rescue Errno::ECONNREFUSED
+              Util.log "Error talking to Tau - connection refused (perhaps Tau is still booting?)"
             rescue StandardError => e
-              Util.log "
--------- Tau Comms issue ----------
- (perhaps Tau is still booting?)
-
-  Warning Class:     #{e.class}
-
-  Warning Message:   #{e.message}
-
-  Warning Backtrace: #{e.backtrace.inspect}
------------------------------------
-"
+              Util.log "Error talking to Tau"
+              Util.log_error(e)
             end
             Kernel.sleep 1
           end
@@ -853,9 +850,7 @@ module SonicPi
             Util.log "Could not find #{Paths.user_audio_settings_path} - reverting to default audio options."
           else
             Util.log "Issue reading #{Paths.user_audio_settings_path}:"
-            Util.log "Warning Class: #{e.class}"
-            Util.log "Warning Message: #{e.message}"
-            Util.log "Warning Backtrace: #{e.backtrace.inspect}"
+            Util.log_error(e)
           end
           Util.log "This is not critical - reverting to default audio options"
           Util.log "----------------------------"
@@ -1123,7 +1118,5 @@ begin
   SonicPi::Daemon::Init.new
 rescue StandardError => e
   SonicPi::Daemon::Util.log "[BUG] - ** Daemon Internal Error. **"
-  SonicPi::Daemon::Util.log "[BUG] - Class: #{e.class}"
-  SonicPi::Daemon::Util.log "[BUG] - Message: #{e.message}"
-  SonicPi::Daemon::Util.log "[BUG] - Backtrace: #{e.backtrace.inspect}"
+  SonicPi::Daemon::Util.log_error(e)
 end
