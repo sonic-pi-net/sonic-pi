@@ -35,6 +35,7 @@ defmodule Tau.MixProject do
       {:phoenix_html,           "~> 3.0"},
       {:phoenix_live_view,      "~> 0.17"},
       {:phoenix_live_dashboard, "~> 0.6.5"},
+      {:flame_on,               "~> 0.3.0"},
       {:swoosh,                 "~> 1.3"},
       {:telemetry_metrics,      "~> 0.6"},
       {:telemetry_poller,       "~> 1.0"},
