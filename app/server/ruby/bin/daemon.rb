@@ -217,8 +217,6 @@ module SonicPi
           end
         end
 
-        @tau_booter.wait_for_pid!
-
         # Let the calling process (likely the GUI) know which port to
         # listen to and communicate on with the Ruby spider server via
         # STDOUT.
