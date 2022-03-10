@@ -205,7 +205,14 @@ QMenuBar::item:selected {
 QMainWindow::separator
 {
    background-color: windowBorderColor;
-   height: 2dx;
+   height: 8dx;
+
+}
+
+QMainWindow::separator:hover
+{
+   background-color: tabSelectedColor;
+   height: 8dx;
 }
 
 QMainWindow
