@@ -260,6 +260,7 @@ QMap<QString, QString> SonicPiTheme::lightTheme(){
     themeSettings["ScrollBar"] = dt_grey;
     themeSettings["ScrollBarBackground"] = dt_white;
     themeSettings["ScrollBarBorder"] = dt_grey;
+    themeSettings["ScrollBarHover"] = dt_blue;
     themeSettings["SliderBackground"] = dt_grey;
     themeSettings["SliderBorder"] = dt_grey;
     themeSettings["Slider"] = dt_pink;
@@ -462,6 +463,7 @@ QMap<QString, QString> SonicPiTheme::darkTheme(){
     themeSettings["ScrollBar"] = dt_darkgrey;
     themeSettings["ScrollBarBackground"] = dt_black;
     themeSettings["ScrollBarBorder"] = dt_black;
+    themeSettings["ScrollBarHover"] = dt_blue;
     themeSettings["SliderBackground"] = dt_grey;
     themeSettings["SliderBorder"] = dt_grey;
     themeSettings["Slider"] = dt_pink;
@@ -667,9 +669,10 @@ QMap<QString, QString> SonicPiTheme::highContrastTheme(){
     themeSettings["ScrollBar"] = dt_grey;
     themeSettings["ScrollBarBackground"] = dt_white;
     themeSettings["ScrollBarBorder"] = dt_grey;
+    themeSettings["ScrollBarHover"] = dt_blue;
     themeSettings["SliderBackground"] = dt_white;
     themeSettings["SliderBorder"] = dt_grey;
-     themeSettings["Slider"] = dt_pink;
+    themeSettings["Slider"] = dt_pink;
 
 
     themeSettings["Tab"] = dt_darkgrey;
@@ -887,6 +890,8 @@ QString SonicPiTheme::getAppStylesheet() {
 
     QString scrollBarColor = this->color("ScrollBar").name();
     QString scrollBarBackgroundColor = this->color("ScrollBarBackground").name();
+    QString scrollBarHoverColor = this->color("ScrollBarHover").name();
+
 
     QString tabColor = this->color("Tab").name();
     QString tabTextColor = this->color("TabText").name();
@@ -934,6 +939,7 @@ QString SonicPiTheme::getAppStylesheet() {
         .replace("pressedButtonTextColor", pressedButtonTextColor)
         .replace("scrollBarColor", scrollBarColor)
         .replace("scrollBarBackgroundColor", scrollBarBackgroundColor)
+        .replace("scrollBarHoverColor", scrollBarHoverColor)
         .replace("tabColor", tabColor)
         .replace("tabTextColor", tabTextColor)
         .replace("tabSelectedColor", tabSelectedColor)

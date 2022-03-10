@@ -14,6 +14,7 @@
 - pressedButtonTextColor
 - scrollBarColor
 - scrollBarBackgroundColor
+- scrollBarHoverColor
 - tabColor
 - tabTextColor
 - tabSelectedColor
@@ -531,7 +532,9 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical
     background: none;
 }
 
-
+QScrollBar::handle:hover {
+    background: scrollBarHoverColor;
+}
 
 QPushButton
 {
