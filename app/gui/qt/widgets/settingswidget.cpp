@@ -541,7 +541,7 @@ void SettingsWidget::updateScopeNames( std::vector<QString> names ) {
         scope_box_kinds_layout->addWidget(cb);
         connect(cb, SIGNAL(clicked()), scopeSignalMap, SLOT(map()));
     }
-    connect( scopeSignalMap, SIGNAL(mapped(QWidget*)), this, SLOT(toggleScope(QWidget*)));
+    connect( scopeSignalMap, SIGNAL(mappedObject(QObject*)), this, SLOT(toggleScope(QObject*)));
 }
 
 void SettingsWidget::updateScopeKindVisibility() {
@@ -556,7 +556,8 @@ void SettingsWidget::updateSelectedUILanguage(QString lang) {
   language_combo->setCurrentIndex(index);
 }
 
-void SettingsWidget::toggleScope( QWidget* qw ) {
+void SettingsWidget::toggleScope( QObject* qo ) {
+  auto qw = (QWidget*) qo;
   QCheckBox* cb = static_cast<QCheckBox*>(qw);
   //QSettings settings(QSettings::IniFormat, QSettings::UserScope,    "sonic-pi.net", "gui-settings");
   //piSettings->setValue("prefs/scope/show-"+cb->text().toLower(), cb->isChecked() );

@@ -582,7 +582,7 @@ void MainWindow::setupWindowStructure()
         connect(workspace, SIGNAL(cursorPositionChanged(int, int)), this, SLOT(updateContext(int, int)));
     }
 
-    connect(signalMapper, SIGNAL(mapped(int)), this, SLOT(changeTab(int)));
+    connect(signalMapper, SIGNAL(mappedInt(int)), this, SLOT(changeTab(int)));
 
     QFont font("Monospace");
     font.setStyleHint(QFont::Monospace);

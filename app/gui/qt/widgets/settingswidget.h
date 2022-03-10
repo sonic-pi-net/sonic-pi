@@ -56,7 +56,7 @@ private slots:
     void updateColourTheme();
     void toggleScope();
     void toggleScopeLabels();
-    void toggleScope( QWidget* qw );
+    void toggleScope( QObject* qo );
     void openSonicPiNet();
     void toggleCheckUpdates();
     void checkForUpdatesNow();
