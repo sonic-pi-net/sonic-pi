@@ -233,8 +233,12 @@ module SonicPi
         @spider_booter  = SpiderBooter.new(@ports, @daemon_token)
 
         Util.log "Blocking main thread until exit signal received..."
-        @exit_prom.get
-        Util.log "Exit signal received..."
+        begin
+          @exit_prom.get
+          Util.log "Exit signal received..."
+        rescue
+          # Way Out
+        end
       end
 
       def boot_tau!(wait_for_pid = true)
