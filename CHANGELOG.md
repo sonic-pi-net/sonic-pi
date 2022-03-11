@@ -67,9 +67,11 @@ To be released...
 
 
 ### GUI
+* Increase width of panel dividers and highlight on mouse hover.
+* Highlight scrollbars on mouse hover.
 * Teach autocompletion about random source choices: `:white`, `:light_pink`, `:pink`, etc.
 * Improve syntax indentation.
-* Improvements for Arabic, Dutch, Estonian, German, Italian, Japanese, Korean, Polish, Portuguese (Brazil), Russian, Sinhala, Spanish
+* Improvements for Arabic, Catalan, Chinese (Simplified), Dutch, Estonian, German, Italian, Japanese, Korean, Persian, Polish, Portuguese (Brazil), Russian, Sinhala, Spanish, Swedish
 * Introduced new translations for Basque.
 
 
