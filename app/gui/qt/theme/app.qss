@@ -123,6 +123,13 @@ QTabBar::tab:selected
 
 }
 
+QTabBar::tab:hover:selected
+{
+    background: tabSelectedColor;
+    color: tabSelectedTextColor;
+
+}
+
 QTabWidget::tab-bar
 {
     alignment: center;
