@@ -112,6 +112,10 @@ QTabBar::tab
     padding-left: 10dx;
 }
 
+QTabBar::tab:hover {
+    background: scrollBarHoverColor;
+}
+
 QTabBar::tab:selected
 {
     background: tabSelectedColor;
