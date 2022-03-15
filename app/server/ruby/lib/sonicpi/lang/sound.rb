@@ -3288,6 +3288,7 @@ kill bar"]
       def load_synthdefs(path=Paths.synthdef_path)
         path = File.expand_path(path)
         raise "No directory exists called #{path.inspect}" unless File.exist? path
+        raise "Expects a path to a directory (not the synthdef file itself).\nGot: #{path} instead" if File.file?(path)
         @mod_sound_studio.load_synthdefs(path)
         __info "Loaded synthdefs in path #{path}"
       end
