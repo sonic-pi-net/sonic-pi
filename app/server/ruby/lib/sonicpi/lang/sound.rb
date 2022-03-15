@@ -3288,7 +3288,7 @@ kill bar"]
       def load_synthdefs(path=Paths.synthdef_path)
         path = File.expand_path(path)
         raise "No directory exists called #{path.inspect}" unless File.exist? path
-        raise "Expects a path to a directory (not the synthdef file itself).\nGot: #{path} instead" if File.file?(path)
+        raise "load_synthdefs expects a path to a directory containing synthdefs not a file (such as a synthdef itself).\nGot file: #{path}" if File.file?(path)
         @mod_sound_studio.load_synthdefs(path)
         __info "Loaded synthdefs in path #{path}"
       end
@@ -3298,6 +3298,8 @@ kill bar"]
           doc:           "Load all pre-compiled synth designs in the specified directory. The binary files containing synth designs need to have the extension `.scsyndef`. This is useful if you wish to use your own SuperCollider synthesiser designs within Sonic Pi.
 
 ## Important notes
+
+The argument must be a directory containing the synthdefs you wish to load rather than a path to a specific synthdef file itself.
 
 You may not trigger external synthdefs unless you enable the following GUI preference:
 
