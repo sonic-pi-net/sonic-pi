@@ -419,22 +419,33 @@ QToolBar
 {
     background-color: windowColor;
     border-bottom: 0dx;
+
 }
 
 QToolButton
 {
+    padding: 4dx;
+    padding-right: 5dx;
+    margin-top: 6dx;
+    margin-bottom: 6dx;
     background-color: none;
-    border: none;
-    border-radius: 3dx;
-    padding: 0dx;
+    border-radius: 0dx;
+    border-bottom: 2px solid transparent;
+    border-top: 2px solid transparent;
 }
 
 QToolButton::hover
 {
-    background-color: windowBorderColor;
-    border: none;
-    padding: 0dx;
+    border-bottom: 2px solid tabSelectedColor;
+    border-top: 2px solid tabSelectedColor;
 }
+
+QToolButton::hover::pressed
+{
+    border-bottom: 2px solid scrollBarHoverColor;
+    border-top: 2px solid scrollBarHoverColor;
+}
+
 
 QGroupBox:title
 {
