@@ -20,11 +20,7 @@ defmodule TauWeb.Router do
     get "/", PageController, :index
   end
 
-  scope "/dev", TauWeb do
-    pipe_through :browser
 
-    live "/log", LogLive, :index
-  end
 
   # Other scopes may use custom stacks.
   # scope "/api", TauWeb do
@@ -41,8 +37,10 @@ defmodule TauWeb.Router do
   if Mix.env() in [:dev, :test] do
     import Phoenix.LiveDashboard.Router
 
-    scope "/" do
+    scope "/dev", TauWeb do
       pipe_through :browser
+
+      live "/log", LogLive, :index
       live_dashboard "/dashboard",
         metrics: TauWeb.Telemetry,
         additional_pages: [
