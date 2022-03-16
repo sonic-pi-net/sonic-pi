@@ -3285,11 +3285,20 @@ kill bar"]
           examples:      []
 
       def load_synthdef(path=Paths.synthdef.path)
-        raise "load_synthdef argument must be a valid path to a synth design. Got an empty string." if path.empty?
+        raise "load_synthdef file path argument must be a valid path to a synth design. Got an empty string." if path.empty?
         path = File.expand_path(path)
-        raise "No file exists called #{path.inspect}" unless File.exist? path
-        @mod_sound_studio.load_synthdef(path)
-        __info "Loaded synthdef: #{path}"
+
+        if !File.exist?(path)
+          raise "load_synthdef requires a valid .scsyndef file. The following file could not be found: #{path.inspect}"
+        elsif !File.file?(path)
+          raise "load_synthdef requires a .scsyndef file. You passed the folder: #{path}
+ (Consider using load_synthdefs to load a whole folder of synths)"
+        elsif !File.extname(path) != 'scsyndef'
+          raise "load_synthdef file path argument must have the extension .scsyndef. Got: #{File.basename(path)}"
+        else
+          @mod_sound_studio.load_synthdef(path)
+          __info "Loaded synthdef: #{path}"
+        end
       end
       doc name:          :load_synthdef,
           introduced:    Version.new(4,0,0),
