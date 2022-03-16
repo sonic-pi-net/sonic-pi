@@ -176,6 +176,11 @@ module SonicPi
       internal_load_synthdefs(path, server)
     end
 
+    def load_synthdef(path, server=@server)
+      check_for_server_rebooting!(:load_synthdefs)
+      internal_load_synthdef(path, server)
+    end
+
     def sample_loaded?(path)
       return true if path.is_a?(Buffer)
       path = File.expand_path(path)
@@ -504,8 +509,16 @@ module SonicPi
     end
 
     def internal_load_synthdefs(path, server=@server)
+      return internal_load_synthdef if File.file?(path)
       @sample_sem.synchronize do
         server.load_synthdefs(path)
+        @loaded_synthdefs << path
+      end
+    end
+
+    def internal_load_synthdef(path, server=@server)
+      @sample_sem.synchronize do
+        server.load_synthdef(path)
         @loaded_synthdefs << path
       end
     end

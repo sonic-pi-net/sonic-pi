@@ -58,6 +58,8 @@ To be released...
 * New fn `current_random_source` which returns the current random number source kind (see `use_random_source`).
 * New `:link` option to fn `use_bpm`. This enables Link mode for the current thread which automatically syncs the BPM to the Link metronome (which also syncs it with all other Link-capable apps running on any computer connected to the local (wired or wifi) network.
 * New fn `set_link_bpm!` to change the BPM/tempo of the Link metronome (and simultaneously change the tempo of all connected Link-capable apps on the network).
+* New fn `load_synthdef` which lets you load a single synthdef file.
+* `load_synthdefs` now loads both directories and single files (by dispatching to `load_synthdef` where necessary).
 
 
 ### Synths & FX
