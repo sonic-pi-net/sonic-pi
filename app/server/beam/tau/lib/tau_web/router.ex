@@ -20,6 +20,12 @@ defmodule TauWeb.Router do
     get "/", PageController, :index
   end
 
+  scope "/dev", TauWeb do
+    pipe_through :browser
+
+    live "/log", LogLive, :index
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", TauWeb do
   #   pipe_through :api
