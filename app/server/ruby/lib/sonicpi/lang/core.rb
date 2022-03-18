@@ -1752,7 +1752,7 @@ end"
         return [].ring if start == finish
 
         raise ArgumentError, "step size: opt for fn range should be a non-zero number" unless step_size != 0
-        
+
         step_size = step_size.abs
         res = []
         cur = start
@@ -4214,7 +4214,7 @@ puts current_sched_ahead_time # Prints 0.5"]
         # Schedule messages
         __schedule_delayed_blocks_and_messages!
         return if beats == 0
-        __system_thread_locals.set(:sonic_pi_spider_slept, true)
+
         __change_spider_beat_and_time_by_beat_delta!(beats)
 
         sat = current_sched_ahead_time
@@ -4224,7 +4224,6 @@ puts current_sched_ahead_time # Prints 0.5"]
         in_time_warp = __system_thread_locals.get(:sonic_pi_spider_in_time_warp)
 
         if (now - (sat + 0.5)) > new_vt
-
           # raise TimingError, "Timing Exception: thread got too far behind time
           __delayed_serious_warning "Serious timing error. Too far behind time..."
         elsif (now - sat) > new_vt
@@ -4244,6 +4243,7 @@ puts current_sched_ahead_time # Prints 0.5"]
           else
             t = (new_vt - now).to_f
             Kernel.sleep t
+            __system_thread_locals.set(:sonic_pi_spider_slept, true)
           end
         end
 
