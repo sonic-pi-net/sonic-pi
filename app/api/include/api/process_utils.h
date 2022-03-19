@@ -10,7 +10,7 @@ namespace SonicPi
 inline void raise_process_priority(int pid)
 {
 
-#if WIN32
+#ifdef WIN32
     auto hProcess = OpenProcess(PROCESS_SET_INFORMATION, TRUE, pid);
     if (hProcess)
     {
