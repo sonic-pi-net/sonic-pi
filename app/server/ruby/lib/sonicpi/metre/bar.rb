@@ -3,12 +3,11 @@ module SonicPi
   # Class for tracking notes being added to a bar
   class Bar
     
-    attr_reader :current_beat, :current_pulse_unit, :metre
+    attr_reader :current_offset, :metre
     
     def initialize
       @metre = __thread_locals.get(:sonic_pi_metre)
-      @current_beat = 0
-      @current_pulse_unit = 0
+      @current_offset = 0
 
       # Calculate the next bar number and request it from the current metre
       # If an old number is requested, metre.request_bar will return the current one
@@ -25,47 +24,24 @@ module SonicPi
     def sp_thread_safe?
       true
     end
-    
-    # Calculate how many pulse units have elapsed so far in this bar
-    def total_elapsed_pulse_units
-      pulse_units = 0
-      (0...@current_beat).each do |i|
-        pulse_units += @metre.beat_divisions[i]
-      end
-      pulse_units += @current_pulse_unit
-      return pulse_units
-    end
-    
-    def total_remaining_pulse_units
-      @metre.total_pulse_units - total_elapsed_pulse_units
-    end
-    
-    # Calculate how many pulse units remain in the current bar
-    def beat_remaining_pulse_units
-      @metre.beat_divisions[@current_beat] - @current_pulse_unit
+
+    def remaining_quarter_lengths
+      return @metre.quarter_length - @current_offset
     end
 
-    # Calculate a note's duration in pulse units from its metrical level and its duration at that level
-    def note_to_pulse_units(level, duration)
-      @metre.note_to_pulse_units(@current_beat, level, duration)
-    end
-    
-    # Determines whether a note with the given metrical level and duration will fit in the remainder of the bar
-    def fit_note?(level, duration)
-      total_remaining_pulse_units >= note_to_pulse_units(level, duration)
-    end
-    
-    # Tries to add a note to the bar
-    # Increments the current_beat and current_pulse_unit (within the current beat) accordingly
+    # Tries to add a note to the bar. If successful, returns the length of the note in quarter lengths
+    # Increments the current_offset accordingly
     def add_note(level, duration)
-      raise "Cannot fit a note of this length into the bar" unless fit_note?(level, duration)
-      pulse_units_to_add = note_to_pulse_units(level, duration)
-      while pulse_units_to_add > 0 and pulse_units_to_add >= beat_remaining_pulse_units do
-        pulse_units_to_add -= beat_remaining_pulse_units
-        @current_beat += 1
-        @current_pulse_unit = 0
+      new_offset = @current_offset
+      metre_at_level = @metre.get_level(level)
+      duration.times do
+        raise "Cannot fit a note of this length into the bar" if new_offset >= @metre.quarter_length
+        new_offset += metre_at_level.offset_to_quarter_length(new_offset)
       end
-      @current_pulse_unit += pulse_units_to_add
+      quarter_length_duration = new_offset - @current_offset
+      @current_offset = new_offset
+      return quarter_length_duration
     end
+
   end
 end
