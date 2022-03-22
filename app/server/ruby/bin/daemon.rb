@@ -159,14 +159,16 @@ module SonicPi
         # use a value within the valid range for a 32 bit signed complement integer
         @daemon_token =  rand(-2147483647..2147483647)
 
+        Util.open_log
+        Util.log "Welcome to the Daemon Booter"
+
         # don't worry if there's a problem clearing the logs.
         begin
           clear_logs
-        rescue
+        rescue StandardError => e
+          Util.log "Non-critical error clearing logs"
+          Util.log_error(e)
         end
-
-        Util.open_log
-        Util.log "Welcome to the Daemon Booter"
 
         # Get a map of port numbers to use
         #
