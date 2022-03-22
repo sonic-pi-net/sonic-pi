@@ -212,7 +212,7 @@ module SonicPi
         end
 
         @api_server.add_method("/tau/pid") do |args|
-          # Util.log "Daemon received Pid data from Tau: #{args.inspect}"
+          Util.log "Daemon received Pid from Tau: #{args.inspect}"
           # Util.log "token: #{@daemon_token}"
           if args[0] && args[0] == @daemon_token
             @tau_booter.update_pid!(args[1])
@@ -296,6 +296,7 @@ module SonicPi
       #
       # TODO: Handle the case where the log path isn't writable.
       def clear_logs
+        Util.log "Clearing logs"
         # ensure this list matches set of expected log files should more services/aspects be similarly logged.
         expected_logs = [
           "daemon.log",
@@ -308,15 +309,16 @@ module SonicPi
         # Windows doesn't allow certain chars in file paths
         # which are present in the default Time.now string format.
         # therefore remove them.
-        sanitised_time_str = Time.now.to_s.gsub!(/[<>:|?*]/, '_')
+        sanitised_time_str = Time.now.to_s.gsub!(/[^0-9a-zA-Z-]/, '_')
         history_dir = File.absolute_path("#{Paths.log_history_path}/#{sanitised_time_str}")
+        Util.log "Storing previous log files into #{history_dir}"
         FileUtils.mkdir_p(history_dir)
 
         Dir["#{Paths.log_path}/*.log"].each do |p|
           FileUtils.cp(p, "#{history_dir}/")
           # Copy log to history directory
           if expected_logs.include?(File.basename(p))
-            # (don't remove the files, just empty them)
+            # (don't remove the expected log files, just empty them)
             File.open(p, 'w') {|file| file.truncate(0) }
           else
             begin
@@ -332,22 +334,19 @@ module SonicPi
 
         history_dirs = Dir.glob("#{Paths.log_history_path}/*")
 
-        timestamps = history_dirs.map do |d|
-          begin
-            Time.parse File.basename(d)
-          rescue
-            nil
-          end
+        begin
+          history_dirs = history_dirs.sort {|d| File.birthtime(d) }
+        rescue
+          nil
         end
 
-        timestamps.compact!
-        num_timestamps = timestamps.size
-        num_to_drop = num_timestamps - num_sessions_to_store
+        Util.log "history dirs timestamps: #{history_dirs.inspect}"
+        num_history_dirs = history_dirs.size
+        num_to_drop = num_history_dirs - num_sessions_to_store
 
         if num_to_drop.positive?
-          timestamps.sort.take(num_to_drop).each do |ts|
-            dir = ts.to_s
-            FileUtils.rm_rf("#{Paths.log_history_path}/#{dir}")
+          history_dirs.take(num_to_drop).each do |dir_path|
+            FileUtils.rm_rf(dir_path)
           end
         end
       end
