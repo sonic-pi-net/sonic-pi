@@ -35,7 +35,6 @@ To be released...
 * There are no GUI elements to view/manipulate the new Link metronome.
 * Link is enabled by default and cannot be disabled via the GUI.
 * MIDI port names are very long and change on disconnect/reconnect on Linux.
-* Timing safety system (that kills threads if they get too far behind) is currently disabled.  (This is being redesigned to work within the new constraints imposed by the Link system).
 * Using `sync` with an external OSC or MIDI message whilst in `:link` bpm mode is broken.
 * On macOS if there are no MIDI devices attached at boot, the updater doesn't work. However, it does appear to if devices are attached at boot.
 
