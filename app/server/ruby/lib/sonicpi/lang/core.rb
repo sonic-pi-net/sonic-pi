@@ -4224,8 +4224,8 @@ puts current_sched_ahead_time # Prints 0.5"]
         in_time_warp = __system_thread_locals.get(:sonic_pi_spider_in_time_warp)
 
         if (now - (sat + 0.5)) > new_vt
-          # raise TimingError, "Timing Exception: thread got too far behind time
           __delayed_serious_warning "Serious timing error. Too far behind time..."
+          raise TimingError, "Timing Exception: thread got too far behind time"
         elsif (now - sat) > new_vt
           __delayed_serious_warning "Timing error: can't keep up..."
         elsif now > new_vt
@@ -4234,19 +4234,15 @@ puts current_sched_ahead_time # Prints 0.5"]
           unless __thread_locals.get(:sonic_pi_mod_sound_synth_silent) || in_time_warp
             __delayed_warning "Timing warning: running slightly behind..."
           end
-        else
-          if in_time_warp
-            # Don't sleep if within a time warp
-            #
-            # However, do make sure the vt hasn't got too far ahead of the real time
-            # raise TimingError, "Timing Exception: thread got too far ahead of time" if  (new_vt - 17) > now
-          else
-            t = (new_vt - now).to_f
-            Kernel.sleep t
-            __system_thread_locals.set(:sonic_pi_spider_slept, true)
-          end
         end
 
+        if in_time_warp
+          # Don't physically sleep or register as slept within a time warp
+        else
+          t = (new_vt - now).to_f - 0.2
+          Kernel.sleep t if t > 0.2
+          __system_thread_locals.set(:sonic_pi_spider_slept, true)
+        end
 
         ## reset control deltas now that time has advanced
         __system_thread_locals.set_local :sonic_pi_local_control_deltas, {}
