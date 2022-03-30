@@ -62,6 +62,11 @@ Values 1->25 will be scaled in integer increments. Values 30 - 100 will be round
   background: paneColor;
 }
 
+QWidget
+{
+  background: paneColor;
+}
+
 QSplitter
 {
     background: paneColor;
