@@ -54,6 +54,7 @@ Values 1->25 will be scaled in integer increments. Values 30 - 100 will be round
 *#scopes
 {
     font-size: small;
+    background: paneColor;
 }
 
 #prefsCentral
@@ -62,7 +63,7 @@ Values 1->25 will be scaled in integer increments. Values 30 - 100 will be round
   background: paneColor;
 }
 
-QWidget
+QWidget#mainWidget
 {
   background: paneColor;
 }
@@ -475,6 +476,17 @@ QScrollBar:vertical
 {
     background: transparent;
     width: 10dx;
+
+
+
+}
+
+QScrollBar::handle:vertical
+{
+    background: scrollBarColor;
+    border-top: 4dx;
+    border-bottom: 4dx;
+    min-height: 39dx;
     padding-top: 0dx;
     padding-right: 0dx;
     padding-bottom: 20dx;
@@ -484,14 +496,6 @@ QScrollBar:vertical
     margin-right: 0dx;
     margin-bottom: 22dx;
     margin-left: 0dx;
-}
-
-QScrollBar::handle:vertical
-{
-    background: scrollBarColor;
-    border-top: 4dx;
-    border-bottom: 4dx;
-    min-height: 39dx;
 }
 
 QScrollBar::add-line:vertical
@@ -543,7 +547,7 @@ QScrollBar::add-line:horizontal
 QScrollBar::sub-line:horizontal
 {
     border: 2dx scrollBarBackgroundColor;
-    background: scrollBarBackgroundColor;
+    background: none;
     width: 20dx;
     subcontrol-position: left;
     subcontrol-origin: margin;
