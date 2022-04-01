@@ -230,7 +230,7 @@ module SonicPi
   class Metre < MetreSequence
 
     TIME_SIGNATURE_LOOKUP = {
-      '4/4' => [MetreTerminal.new(1/4r)] * 2,
+      '2/4' => [MetreTerminal.new(1/4r)] * 2,
       '3/4' => [MetreTerminal.new(1/4r)] * 3,
       '4/4' => [MetreTerminal.new(1/4r)] * 4,
       '6/8' => [MetreSequence.new([MetreTerminal.new(1/8r)] * 3)] * 2,
