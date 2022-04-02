@@ -15,7 +15,7 @@ module SonicPi
       if previous_bar_number
         current_bar_number = @metre.request_bar(previous_bar_number + 1)
       else
-        current_bar_number = 0
+        current_bar_number = @metre.request_bar(0)
       end
       # Let other and future Bar objects know what the current bar number is
       __thread_locals.set(:sonic_pi_bar_number, current_bar_number)

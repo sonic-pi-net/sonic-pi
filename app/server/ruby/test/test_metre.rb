@@ -53,6 +53,14 @@ module SonicPi
       assert_equal(four_four.get_level(1).to_s, "{1/8+1/8+1/8+1/8+1/8+1/8+1/8+1/8}")
       assert_equal(ten_eight.get_level(1).to_s, "{1/8+1/8+1/8+1/8+1/8+1/8+1/8+1/8+1/8+1/8}")
       assert_equal(eleven_eight.get_level(1).to_s, "{1/8+1/8+1/8+1/8+1/16+1/16+3/8+3/8}")
+
+      assert_equal(four_four.get_level(-1).to_s, "{1/2+1/2}")
+      assert_equal(ten_eight.get_level(-1).to_s, "{3/4+1/2}")
+      assert_equal(eleven_eight.get_level(-1).to_s, "{1/2+7/8}")
+
+      assert_equal(four_four.get_level(-2).to_s, "{1/1}")
+      assert_equal(ten_eight.get_level(-2).to_s, "{5/4}")
+      assert_equal(eleven_eight.get_level(-2).to_s, "{11/8}")
     end
 
     def test_offset_to_index
@@ -83,17 +91,17 @@ module SonicPi
       four_four = Metre.new([[1/8r, 1/8r], [1/8r, 1/8r], [1/8r, 1/8r], [1/8r, 1/8r]])
       ten_eight = Metre.new([[1/8r, 1/8r, 1/8r], [1/8r, 1/8r, 1/8r], [1/8r, 1/8r], [1/8r, 1/8r]])
       eleven_eight = Metre.new([[1/8r, 1/8r], [1/8r, 1/8r], 1/8r, 3/4r])
-      assert_equal(four_four.metrical_level_indices(0, 2), {0=>0, 1=>0, 2=>0})
-      assert_equal(ten_eight.metrical_level_indices(0, 2), {0=>0, 1=>0, 2=>0})
-      assert_equal(eleven_eight.metrical_level_indices(0, 2), {0=>0, 1=>0, 2=>0})
+      assert_equal(four_four.metrical_level_indices(0, 0, 2), {0=>0, 1=>0, 2=>0})
+      assert_equal(ten_eight.metrical_level_indices(0, 0, 2), {0=>0, 1=>0, 2=>0})
+      assert_equal(eleven_eight.metrical_level_indices(0, 0, 2), {0=>0, 1=>0, 2=>0})
 
-      assert_equal(four_four.metrical_level_indices(1, 2), {0=>1, 1=>2, 2=>4})
-      assert_equal(ten_eight.metrical_level_indices(1, 2), {1=>2, 2=>4})
-      assert_equal(eleven_eight.metrical_level_indices(1, 2), {0=>1, 1=>2, 2=>4})
+      assert_equal(four_four.metrical_level_indices(1, 0, 2), {0=>1, 1=>2, 2=>4})
+      assert_equal(ten_eight.metrical_level_indices(1, 0, 2), {1=>2, 2=>4})
+      assert_equal(eleven_eight.metrical_level_indices(1, 0, 2), {0=>1, 1=>2, 2=>4})
 
-      assert_equal(four_four.metrical_level_indices(3.5, 2), {1=>7, 2=>14})
-      assert_equal(ten_eight.metrical_level_indices(3.5, 2), {1=>7, 2=>14})
-      assert_equal(eleven_eight.metrical_level_indices(3.5, 2), {})
+      assert_equal(four_four.metrical_level_indices(3.5, 0, 2), {1=>7, 2=>14})
+      assert_equal(ten_eight.metrical_level_indices(3.5, 0, 2), {1=>7, 2=>14})
+      assert_equal(eleven_eight.metrical_level_indices(3.5, 0, 2), {})
     end
 
 

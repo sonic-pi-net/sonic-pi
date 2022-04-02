@@ -1,10 +1,11 @@
+require 'prime'
 require_relative "bar"
 require_relative "style"
 
 module SonicPi
 
   # The leaf of the metrical tree structure
-  class MetreTerminal
+  class MetreLeaf
 
     attr_reader :fraction, :quarter_length
 
@@ -26,16 +27,16 @@ module SonicPi
       @fraction == other.fraction
     end
 
-    # Divides the MetreTerminal by two <subdivisions> times
-    # Returns a MetreSequence with 2**subdivisions MetreTerminals
+    # Divides the MetreLeaf by two <subdivisions> times
+    # Returns a MetreTree with 2**subdivisions MetreLeafs
     def subdivide(subdivisions)
       new_sequence = []
       count = 2 ** subdivisions
       new_frac = @fraction / count
       count.times do
-        new_sequence.append(MetreTerminal.new(new_frac))
+        new_sequence.append(MetreLeaf.new(new_frac))
       end
-      return MetreSequence.new(new_sequence)
+      return MetreTree.new(new_sequence)
     end
 
     def sp_thread_safe?
@@ -44,11 +45,11 @@ module SonicPi
   end
 
   # A tree structure representing a metrical hierarchy
-  class MetreSequence
+  class MetreTree
     
     attr_reader :sequence, :length, :depth
 
-    # Sequence is a tree of metrical levels represented as a list of MetreSequences or MetreTerminals
+    # Sequence is a tree of metrical levels represented as a list of MetreTrees or MetreLeafs
     def initialize(sequence)
       @sequence = sequence.freeze
       @length = self._length
@@ -76,20 +77,20 @@ module SonicPi
       return '{' + @sequence.join('+') + '}'
     end
   
-    # Returns a new MetreSequence with a flat representation of the hierarchy
+    # Returns a new MetreTree with a flat representation of the hierarchy
     def flat
       new_sequence = []
       for m in @sequence
-        if m.is_a?(MetreTerminal)
+        if m.is_a?(MetreLeaf)
           new_sequence.append(m)
         else
           new_sequence += m.flat.sequence
         end
       end
-      return MetreSequence.new(new_sequence)
+      return MetreTree.new(new_sequence)
     end
 
-    # Returns a flat MetreSequence at a given metrical level
+    # Returns a flat MetreTree at a given metrical level
     # Uses a cached value if it exists to reduce expensive recomputations
     def get_level(level)
       @level_cache[level] = self._get_level(level) unless @level_cache[level]
@@ -97,29 +98,22 @@ module SonicPi
     end
 
     # Performs a very basic partition on the sequence
-    # Returns a new MetreSequence with the same duration/fraction but split into <count> equally-sized MetreTerminals
+    # Returns a new MetreTree with the same duration/fraction but split into <count> equally-sized MetreLeafs
     # Can only perform uniform partitioning
     def partition(count)
       fraction = self.fraction
       if count == 1
-        return MetreSequence.new([fraction])
+        return MetreTree.new([MetreLeaf.new(fraction)])
       end
-      new_denom = fraction.denominator * (count.to_f / fraction.numerator)
-      new_frac = Rational(1, new_denom)
-      if new_denom % 1 == 0
-        # Can partition into <count> elements
-        new_sequence = []
-        count.times do
-          new_sequence.append(MetreTerminal.new(new_frac))
-        end
-        return MetreSequence.new(new_sequence)
-      else
-        # Can't make partition
-        return nil
+      new_frac = fraction / count
+      new_sequence = []
+      count.times do
+        new_sequence.append(MetreLeaf.new(new_frac))
       end
+      return MetreTree.new(new_sequence)
     end
     
-    # Equality for MetreSequences is defined by its @sequence list
+    # Equality for MetreTrees is defined by its @sequence list
     def ==(other)
       return @sequence == other.sequence
     end
@@ -141,15 +135,15 @@ module SonicPi
     end
 
     # Returns a Hash of metrical levels to the index of any event at that position which lies exactly on <offset>
-    # Gets all metrical events at <offset> up to a depth of <deepest_level>
-    def metrical_level_indices(offset, deepest_level)
+    # Gets all metrical events at <offset> from a depth of <highest_level> up to <deepest_level>
+    def metrical_level_indices(offset, highest_level, deepest_level)
       raise "Offset #{offset} out of bounds for duration #{self.quarter_length}" if offset >= self.quarter_length or offset < 0
       indices = {}
       # For each metrical level used in the style
-      (0..deepest_level).each do |level|
+      (highest_level..deepest_level).each do |level|
         seq = self.get_level(level)
         position = 0
-        # Search through sequence for a MetreTerminal at exactly <offset>
+        # Search through sequence for a MetreLeaf at exactly <offset>
         seq.length.times do |i|
           if position == offset
             indices[level] = i
@@ -164,32 +158,62 @@ module SonicPi
 
     private
 
-    # Length of a MetreSequence is the number of elements in its list
+    # Length of a MetreTree is the number of elements in its list
     def _length
       return @sequence.length
     end
 
-    # Depth of a MetreSequence is the number of metrical levels defined in its hierarchy
-    # Recursively calls .depth on each MetreSequence or MetreTerminal in the list
+    # Depth of a MetreTree is the number of metrical levels defined in its hierarchy
+    # Recursively calls .depth on each MetreTree or MetreLeaf in the list
     def _depth
       return @sequence.map{ |m| m.depth}.max + 1
     end
 
     # Calculates the total duration of the metre as a single fraction
     def _fraction
-      return self.flat.sequence.map{ |terminal| terminal.fraction }.sum
+      return self.flat.sequence.map{ |leaf| leaf.fraction }.sum
     end
 
     # Calculates the total duration of the metre in quarter lengths
     def _quarter_length
-      return self.flat.sequence.map{ |terminal| terminal.quarter_length }.sum
+      return self.flat.sequence.map{ |leaf| leaf.quarter_length }.sum
     end
 
-    # Returns a flat MetreSequence at a given metrical level
     def _get_level(level)
+      if level < 0
+        return _get_multiple_level(level)
+      else
+        return _get_division_level(level)
+      end
+    end
+    
+    # Returns a flat MetreTree at a given metrical level above the beat level
+    def _get_multiple_level(level)
+      sequence_below = self.get_level(level + 1)
+      return sequence_below if sequence_below.length == 1
+      new_sequence = []
+
+      cluster_size = Prime.prime_division(sequence_below.length).min_by(&:first).first
+      current_cluster = sequence_below.sequence[0].fraction
+      (1...sequence_below.length).each do |i|
+        element = sequence_below.sequence[i].fraction
+        if i % cluster_size == 0
+          new_sequence.append(current_cluster)
+          current_cluster = element
+        else
+          current_cluster += element
+        end
+      end
+      new_sequence.append(current_cluster)
+
+      return MetreTree.new(new_sequence.map{ |fraction| MetreLeaf.new(fraction) })
+    end
+    
+    # Returns a flat MetreTree at a given metrical level below the beat level
+    def _get_division_level(level)
       new_sequence = []
       for m in @sequence
-        if m.is_a?(MetreTerminal)
+        if m.is_a?(MetreLeaf)
           if level > 0
             new_sequence += m.subdivide(level).sequence
           else
@@ -200,16 +224,16 @@ module SonicPi
             # Continue recursing
             new_sequence += m.get_level(level - 1).sequence
           else
-            # Base of recursion, combine all children of m into one MetreTerminal
-            new_sequence.append(MetreTerminal.new(m.fraction))
+            # Base of recursion, combine all children of m into one MetreLeaf
+            new_sequence.append(MetreLeaf.new(m.fraction))
           end
         end
       end
-      return MetreSequence.new(new_sequence)
+      return MetreTree.new(new_sequence)
     end
 
     # Returns the index of the active element in @sequence at an <offset> given in quarter lengths
-    # Raises exception if the offset is outside the range of the MetreSequence
+    # Raises exception if the offset is outside the range of the MetreTree
     def _offset_to_index(offset)
       raise "Offset #{offset} out of bounds for duration #{self.quarter_length}" if offset >= self.quarter_length or offset < 0
       position = 0
@@ -227,26 +251,26 @@ module SonicPi
 
 
   # Class for describing a particular metre
-  class Metre < MetreSequence
+  class Metre < MetreTree
 
     TIME_SIGNATURE_LOOKUP = {
-      '2/4' => [MetreTerminal.new(1/4r)] * 2,
-      '3/4' => [MetreTerminal.new(1/4r)] * 3,
-      '4/4' => [MetreTerminal.new(1/4r)] * 4,
-      '6/8' => [MetreSequence.new([MetreTerminal.new(1/8r)] * 3)] * 2,
-      '9/8' => [MetreSequence.new([MetreTerminal.new(1/8r)] * 3)] * 3,
-      '12/8' => [MetreSequence.new([MetreTerminal.new(1/8r)] * 3)] * 4
+      '2/4' => [MetreLeaf.new(1/4r)] * 2,
+      '3/4' => [MetreLeaf.new(1/4r)] * 3,
+      '4/4' => [MetreLeaf.new(1/4r)] * 4,
+      '6/8' => [MetreTree.new([MetreLeaf.new(1/8r)] * 3)] * 2,
+      '9/8' => [MetreTree.new([MetreLeaf.new(1/8r)] * 3)] * 3,
+      '12/8' => [MetreTree.new([MetreLeaf.new(1/8r)] * 3)] * 4
     }.freeze
 
     attr_reader :beat_duration
 
     # Sequence can either be a time signature string (e.g. '4/4'),
     # a multi-dimensional list of Rationals representing the metrical hierarchy (e.g. [[1/8r,1/8r,1/8r], [1/8r,1/8r,1/8r]] is 6/8),
-    # or a MetreSequence or MetreTerminal object
+    # or a MetreTree or MetreLeaf object
     def initialize(sequence)
-      if sequence.is_a?(MetreSequence)
+      if sequence.is_a?(MetreTree)
         super(sequence.sequence)
-      elsif sequence.is_a?(MetreTerminal)
+      elsif sequence.is_a?(MetreLeaf)
         super([sequence])
       elsif is_list_like?(sequence)
         super(Metre.parse_rational_list(sequence).sequence)
@@ -269,10 +293,10 @@ module SonicPi
         if is_list_like?(element)
           new_sequence.append(Metre.parse_rational_list(element))
         else
-          new_sequence.append(MetreTerminal.new(element))
+          new_sequence.append(MetreLeaf.new(element))
         end
       end
-      return MetreSequence.new(new_sequence)
+      return MetreTree.new(new_sequence)
     end
   end
 
@@ -281,7 +305,7 @@ module SonicPi
   class SynchronisedMetre < Metre
     attr_reader :style, :timings
     
-    # Metre can either be a time signature string (e.g. '4/4'), or a list of MetreSequences and MetreTerminals
+    # Metre can either be a time signature string (e.g. '4/4'), or a list of MetreTrees and MetreLeafs
     # Style can be the symbol of a style preset to be looked up (see Style.lookup()), or a Style object
     # The chosen/given style must be compatible with the metre (see Style.compatible_with?())
     def initialize(metre, style=nil)
@@ -305,13 +329,14 @@ module SonicPi
     end
 
     # Calculates the timing shift (in quarter lengths) to be applied to a note occurring <current_offset> into the cycle
-    # Includes contributions of all metrical levels down to the <deepest_level> specified by the Style
+    # Includes contributions of all metrical levels from the <highest_level> down to the <deepest_level> specified by the Style
     def get_timing(current_offset)
       return 0 unless @style
       deepest_level = @style.deepest_metrical_level
-      indices = self.metrical_level_indices(current_offset, deepest_level)
+      highest_level = @style.highest_metrical_level
+      indices = self.metrical_level_indices(current_offset, highest_level, deepest_level)
       timing_shift = 0
-      (0..deepest_level).each do |level|
+      (highest_level..deepest_level).each do |level|
         timing_shift += @timings[level][indices[level]] if @timings[level] and indices[level]
       end
       return timing_shift

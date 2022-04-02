@@ -23,7 +23,7 @@ module SonicPi
       }
     }
 
-    attr_reader :name, :deepest_metrical_level
+    attr_reader :name, :deepest_metrical_level, :highest_metrical_level
 
     # Distributions is a hash of metrical levels (e.g. 0, 1, etc.) to a list containing a distribution for each metrical location in that level
     # Any probability distribution can be used as long as its class has a sample() method
@@ -31,6 +31,7 @@ module SonicPi
       @name = name
       @distributions = distributions
       @deepest_metrical_level = @distributions.keys.max
+      @highest_metrical_level = @distributions.keys.min
     end
 
     # Generate samples from each distribution for each metrical level
@@ -46,7 +47,7 @@ module SonicPi
     # Tests to see if this style is compatible with a given metre object
     # Returns true if the style has the same number of distributions as the metre has events at each level
     def compatible_with?(metre)
-      (0..@deepest_metrical_level).each do |level|
+      (@highest_metrical_level..@deepest_metrical_level).each do |level|
         metre_at_level = metre.get_level(level)
         return false if @distributions[level] and @distributions[level].length != metre_at_level.length
       end
