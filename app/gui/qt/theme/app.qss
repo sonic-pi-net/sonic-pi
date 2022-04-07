@@ -51,6 +51,11 @@ Values 1->25 will be scaled in integer increments. Values 30 - 100 will be round
   color:  windowForegroundColor;
 }
 
+#prefs
+{
+   background: paneColor;
+}
+
 *#scopes
 {
     font-size: small;
@@ -134,6 +139,11 @@ QTabBar::tab:hover:selected
     background: tabSelectedColor;
     color: tabSelectedTextColor;
 
+}
+
+QTabWidget
+{
+    background: paneColor;
 }
 
 QTabWidget::tab-bar
