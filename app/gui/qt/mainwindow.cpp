@@ -394,6 +394,8 @@ void MainWindow::setupWindowStructure()
     prefsWidget->setFocusPolicy(Qt::NoFocus);
     prefsWidget->setAllowedAreas(Qt::RightDockWidgetArea);
     prefsWidget->setFeatures(QDockWidget::DockWidgetClosable);
+    prefsWidget->setAttribute(Qt::WA_StyledBackground, true);
+
 
     settingsWidget = new SettingsWidget(m_spAPI->GetPort(SonicPiPortId::tau_osc_cues), i18n, piSettings, sonicPii18n, this);
     connect(settingsWidget, SIGNAL(restartApp()), this, SLOT(restartApp()));
@@ -733,6 +735,7 @@ void MainWindow::setupWindowStructure()
     southTabs->setTabsClosable(false);
     southTabs->setMovable(false);
     southTabs->addTab(docsplit, "Docs");
+    southTabs->setAttribute(Qt::WA_StyledBackground, true);
 
 #ifdef WITH_WEBENGINE
     southTabs->addTab(phxWidget, "Tau");
