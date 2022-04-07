@@ -478,7 +478,7 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="2699"/>
         <source>Live</source>
-        <translation>Live</translation>
+        <translation>Direct</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2711"/>
@@ -1053,12 +1053,12 @@ Obtenez Sonic Pi %1</translation>
     <message>
         <location filename="../utils/ruby_help.h" line="3373"/>
         <source>Samples</source>
-        <translation>Samples</translation>
+        <translation>Échantillons</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3628"/>
         <source>Lang</source>
-        <translation>Langue</translation>
+        <translation>Langage</translation>
     </message>
 </context>
 <context>
