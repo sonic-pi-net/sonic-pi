@@ -182,7 +182,7 @@ QDockWidget
 
 QSlider
 {
-    width: 25dx;
+    width: 35dx;
 }
 
 
