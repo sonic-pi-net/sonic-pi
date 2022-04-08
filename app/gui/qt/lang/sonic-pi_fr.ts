@@ -1058,7 +1058,7 @@ Obtenez Sonic Pi %1</translation>
     <message>
         <location filename="../utils/ruby_help.h" line="3628"/>
         <source>Lang</source>
-        <translation>Langage</translation>
+        <translation>Langue</translation>
     </message>
 </context>
 <context>
