@@ -4223,7 +4223,7 @@ puts current_sched_ahead_time # Prints 0.5"]
 
         in_time_warp = __system_thread_locals.get(:sonic_pi_spider_in_time_warp)
 
-        if (now - (sat + 0.5)) > new_vt
+        if (now - (sat + 1)) > new_vt
           __delayed_serious_warning "Serious timing error. Too far behind time..."
           raise TimingError, "Timing Exception: thread got too far behind time"
         elsif (now - sat) > new_vt
