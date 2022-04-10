@@ -4218,7 +4218,7 @@ puts current_sched_ahead_time # Prints 0.5"]
         __change_spider_beat_and_time_by_beat_delta!(beats)
 
         sat = current_sched_ahead_time
-        new_vt = __get_spider_time.to_r
+        new_vt = __get_spider_time.to_f
         now = Time.now.to_f
 
         in_time_warp = __system_thread_locals.get(:sonic_pi_spider_in_time_warp)
