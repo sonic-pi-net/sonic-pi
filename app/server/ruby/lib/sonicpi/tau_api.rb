@@ -41,10 +41,21 @@ module SonicPi
       @tempo = nil
       @link_time_micros = nil
       @local_time_micros = nil
-      @link_time_delta_micros_prom = Promise.new
+      @link_time_delta_micros = 0
+
+      block_until_tau_ready!
 
       Thread.new do
-        initialize_link_info!
+        # Continually update link time delta every 5 seconds this is
+        # particularly necessary in the case where Sonic Pi is running
+        # on a machine that can be 'put to sleep' such as a laptop - in
+        # which case this delta always needs updating after being woken
+        # to account for the amount of time the laptop was closed for
+        # and the OS was in a hibernation state.
+        loop do
+          update_link_time_delta!
+          Kernel.sleep 5
+        end
       end
     end
 
@@ -80,7 +91,7 @@ module SonicPi
         link_time = link_get_time_at_beat(beat)
       end
 
-      clock_time = (link_time + @link_time_delta_micros_prom.get) / 1_000_000.0
+      clock_time = (link_time + @link_time_delta_micros) / 1_000_000.0
 
       [clock_time, beat]
     end
@@ -119,12 +130,12 @@ module SonicPi
 
     def link_get_clock_time_at_beat(beat, quantum = 4)
       link_time = link_get_time_at_beat(beat, quantum)
-      t_with_delta = (link_time + @link_time_delta_micros_prom.get) / 1_000_000.0
+      t_with_delta = (link_time + @link_time_delta_micros) / 1_000_000.0
       t_with_delta
     end
 
     def link_get_beat_at_clock_time(clock_time, quantum = 4)
-      link_time = (clock_time * 1_000_000) - @link_time_delta_micros_prom.get
+      link_time = (clock_time * 1_000_000) - @link_time_delta_micros
       link_get_beat_at_time(link_time)
     end
 
@@ -184,18 +195,11 @@ module SonicPi
 
     private
 
-    def initialize_link_info!
-      # this is necessary as we don't want to accidentally add the tau
-      # boot time (or part of it) to the difference between the local
-      # and link time (as TauComms automatically queues requests,
-      # blocking until tau is booted.
-      block_until_tau_ready!
-
-      # Now grab the link and local times
+    def update_link_time_delta!
       @link_time_micros = link_current_time
       @clock_time_micros = Time.now.to_r * 1_000_000
       delta_micros = @clock_time_micros - @link_time_micros
-      @link_time_delta_micros_prom.deliver! delta_micros
+      @link_time_delta_micros =  delta_micros
     end
 
     def add_incoming_api_handlers!
