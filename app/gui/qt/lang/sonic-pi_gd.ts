@@ -6,25 +6,25 @@
     <message>
         <location filename="../mainwindow.cpp" line="519"/>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Roghainnean</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="781"/>
         <source>Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Loga</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="177"/>
         <location filename="../mainwindow.cpp" line="3284"/>
         <location filename="../mainwindow.cpp" line="3303"/>
         <source>Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1680"/>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Còd a&apos; ruith...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1700"/>
@@ -36,7 +36,7 @@
         <location filename="../mainwindow.cpp" line="1730"/>
         <source>Reloading...</source>
         <oldsource>Reloading....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Ath-luchdaich...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1761"/>
@@ -53,7 +53,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="457"/>
         <source>Welcome to Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Failte gu Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1110"/>
@@ -532,7 +532,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2711"/>
         <source>Code</source>
-        <translation type="unfinished"></translation>
+        <translation>Còd</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2723"/>
@@ -552,7 +552,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2741"/>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Dorcha</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2746"/>
@@ -626,87 +626,87 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2801"/>
         <source>1</source>
-        <translation type="unfinished"></translation>
+        <translation>1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2806"/>
         <source>2</source>
-        <translation type="unfinished"></translation>
+        <translation>2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2811"/>
         <source>3</source>
-        <translation type="unfinished"></translation>
+        <translation>3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2816"/>
         <source>4</source>
-        <translation type="unfinished"></translation>
+        <translation>4</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2821"/>
         <source>5</source>
-        <translation type="unfinished"></translation>
+        <translation>5</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2826"/>
         <source>6</source>
-        <translation type="unfinished"></translation>
+        <translation>6</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2831"/>
         <source>7</source>
-        <translation type="unfinished"></translation>
+        <translation>7</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2836"/>
         <source>8</source>
-        <translation type="unfinished"></translation>
+        <translation>8</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2841"/>
         <source>9</source>
-        <translation type="unfinished"></translation>
+        <translation>9</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2846"/>
         <source>10</source>
-        <translation type="unfinished"></translation>
+        <translation>10</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2851"/>
         <source>11</source>
-        <translation type="unfinished"></translation>
+        <translation>11</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2856"/>
         <source>12</source>
-        <translation type="unfinished"></translation>
+        <translation>12</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2861"/>
         <source>13</source>
-        <translation type="unfinished"></translation>
+        <translation>13</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2866"/>
         <source>14</source>
-        <translation type="unfinished"></translation>
+        <translation>14</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2871"/>
         <source>15</source>
-        <translation type="unfinished"></translation>
+        <translation>15</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2876"/>
         <source>16</source>
-        <translation type="unfinished"></translation>
+        <translation>16</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2884"/>
         <source>Local IP Addresses</source>
-        <translation type="unfinished"></translation>
+        <translation>Seòlaidhean-IP Ionadail</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2896"/>
@@ -826,7 +826,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="3130"/>
         <source>Ready...</source>
-        <translation type="unfinished"></translation>
+        <translation>Deiseil...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3296"/>
@@ -852,12 +852,12 @@ every two weeks.</source>
     <message>
         <location filename="../mainwindow.cpp" line="3572"/>
         <source>This is Sonic Pi %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Seo Sonic Pi %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3573"/>
         <source>Version %2 is now available!</source>
-        <translation type="unfinished"></translation>
+        <translation>Tha tionndadh %2 ri làimh a-nis!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3577"/>
@@ -873,12 +873,12 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2515"/>
         <source>Run</source>
-        <translation type="unfinished"></translation>
+        <translation>Ruith</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2521"/>
         <source>Stop</source>
-        <translation type="unfinished"></translation>
+        <translation>Stad</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2523"/>
@@ -954,7 +954,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="696"/>
         <source>| %1 |</source>
-        <translation type="unfinished"></translation>
+        <translation>| %1 |</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2547"/>
@@ -1063,7 +1063,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../utils/ruby_help.h" line="3628"/>
         <source>Lang</source>
-        <translation type="unfinished"></translation>
+        <translation>Cànan</translation>
     </message>
 </context>
 <context>
@@ -1071,7 +1071,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../main.cpp" line="59"/>
         <source>Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi</translation>
     </message>
 </context>
 <context>
@@ -1079,7 +1079,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../visualizer/scope.cpp" line="392"/>
         <source>Lissajous</source>
-        <translation type="unfinished"></translation>
+        <translation>Lissajous</translation>
     </message>
     <message>
         <location filename="../visualizer/scope.cpp" line="393"/>
