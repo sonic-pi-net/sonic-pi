@@ -699,7 +699,7 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2957"/>
         <source>Show Cue Log</source>
-        <translation type="unfinished">Mostrar Registro de Señales cue</translation>
+        <translation>Mostrar Registro de Señales Cue</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2962"/>
