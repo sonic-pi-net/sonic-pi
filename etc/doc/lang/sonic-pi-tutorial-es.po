@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2021-12-20 00:52+0000\n"
-"Last-Translator: pisanvs <maxmorel@pisanvs.cl>\n"
+"PO-Revision-Date: 2022-04-13 22:12+0000\n"
+"Last-Translator: Edgar Delgado <edelve_2001@hotmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/es/>\n"
 "Language: es\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.10\n"
+"X-Generator: Weblate 4.12-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -2698,8 +2698,8 @@ msgid ""
 "Now go and have fun putting envelopes over the samples. Try changing the rate "
 "too for really interesting results."
 msgstr ""
-"Ahora ve y diviértete poniendo sobres en los sampleos. Intenta cambiar la velo"
-"cidad, también para unos resultados realmente interesantes."
+"Ahora ve y diviértete poniendo envolventes en los sampleos. Intenta cambiar "
+"la velocidad, también para unos resultados realmente interesantes."
 
 #: 03.5-Partial-Samples.md:1
 #, fuzzy
@@ -7027,14 +7027,12 @@ msgstr ""
 "end"
 
 #: 07.3-Sliding-Parameters.md:65
-#, fuzzy
 msgid ""
 "Now have fun sliding things around for smooth transitions and flowing control."
 ".."
 msgstr ""
-"Ve y diviértete deslizando todo para unas transiciones suaves y control fluído"
-"... Now have fun sliding things around for smooth transitions and flowing cont"
-"rol..."
+"Ve y diviértete deslizando todo para unas transiciones suaves y control "
+"fluído..."
 
 #: 08-Data-Structures.md:1
 #, fuzzy
@@ -7979,14 +7977,15 @@ msgstr ""
 "or 2 (asume que el anillo sólo contiene números)"
 
 #: 08.5-Ring-Chains.md:84
+#, fuzzy
 msgid ""
 "Of course, those chain methods that take numbers can take other numbers too! S"
 "o feel free to call `.drop(5)` instead of `.drop(3)` if you want to drop the f"
 "irst 5 elements."
 msgstr ""
-"Por supuesto, estos métodos para cadenas con números, ¡pueden utilizar otros n"
-"úmros cualquiera! Así que, siéntete libre de llamar `.drop(5)` en vez de `.dro"
-"p(3)` si quieres quitar los primeros 5 elementos."
+"Por supuesto, estos métodos para cadenas con números, ¡pueden utilizar otros "
+"números cualquiera! Así que, siéntete libre de llamar `.drop(5)` en vez de `."
+"drop(3)` si quieres quitar los primeros 5 elementos."
 
 #: 09-Live-Coding.md:1
 #, fuzzy
@@ -8608,15 +8607,14 @@ msgstr ""
 "end"
 
 #: 09.3-Multiple-Live-Loops.md:77
-#, fuzzy
 msgid ""
 "We're not quite finished yet though - you'll notice that the beats don't quite"
 " line up correctly. This is because the loops are *out of phase*. Let's fix th"
 "at by syncing one to the other:"
 msgstr ""
-"Todavía no terminamos, pues notarás que los pulsos no se alinean correctamente"
-". Esto se debe a que los bucles están desfasados *out of phase*. Arreglemos Es"
-"to sincronizándolos entre sí:"
+"Todavía no terminamos, pues notarás que los pulsos no se alinean "
+"correctamente. Esto se debe a que los bucles están desfasados *out of phase*"
+". Arreglemos esto sincronizándolos entre sí:"
 
 #: 09.3-Multiple-Live-Loops.md:81
 #, no-wrap
