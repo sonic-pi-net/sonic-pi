@@ -203,6 +203,11 @@ QSlider::handle:vertical
     background-color: sliderColor;
 }
 
+QSlider::handle:vertical:hover
+{
+    background-color: scrollBarHoverColor;
+}
+
 QMenu
 {
     background: menuColor;
@@ -239,7 +244,7 @@ QMainWindow::separator
 
 QMainWindow::separator:hover
 {
-   background-color: tabSelectedColor;
+   background-color: scrollBarHoverColor;
    height: 8dx;
 }
 
@@ -459,14 +464,14 @@ QToolButton
 
 QToolButton::hover
 {
-    border-bottom: 2px solid tabSelectedColor;
-    border-top: 2px solid tabSelectedColor;
+    border-bottom: 2px solid scrollBarHoverColor;
+    border-top: 2px solid scrollBarHoverColor;
 }
 
 QToolButton::hover::pressed
 {
-    border-bottom: 2px solid scrollBarHoverColor;
-    border-top: 2px solid scrollBarHoverColor;
+    border-bottom: 2px solid tabSelectedColor;
+    border-top: 2px solid tabSelectedColor;
 }
 
 
@@ -485,7 +490,7 @@ QGroupBox:title
 QScrollBar:vertical
 {
     background: transparent;
-    width: 10dx;
+    width: 7dx;
 
 
 
@@ -530,7 +535,7 @@ QScrollBar:horizontal
 {
     border: 2dx scrollBarBackgroundColor;
     background: scrollBarBackgroundColor;
-    height: 15dx;
+    height: 12dx;
     margin-top: 0dx;
     margin-right: 2dx;
     margin-bottom: 0dx;
