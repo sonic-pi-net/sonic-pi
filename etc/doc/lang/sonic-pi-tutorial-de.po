@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
 "PO-Revision-Date: 2022-04-17 23:10+0000\n"
-"Last-Translator: Timo Dankert <timo.dankert@posteo.net>\n"
+"Last-Translator: Michael Bölling <michael.boelling@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "de/>\n"
 "Language: de\n"
@@ -582,7 +582,7 @@ msgstr ""
 
 #: 01.2-Exploring-the-Interface.md:93
 msgid "I. Cue Viewer"
-msgstr "I. Cue-Fenster"
+msgstr "I. Protokoll-Fenster"
 
 #: 01.2-Exploring-the-Interface.md:95
 msgid ""
@@ -1657,7 +1657,6 @@ msgstr ""
 "einer gerade Linie). Das folgende Diagramm zeigt diesen Übergang:"
 
 #: 02.4-Durations-with-Envelopes.md:79
-#, fuzzy
 msgid "![release envelope](../../../etc/doc/images/tutorial/env-release.png)"
 msgstr "![release envelope](../../../etc/doc/images/tutorial/env-release.png)"
 
@@ -1734,13 +1733,12 @@ msgstr ""
 "so aus:"
 
 #: 02.4-Durations-with-Envelopes.md:114
-#, fuzzy
 msgid ""
 "![attack release envelope](../../../etc/doc/images/tutorial/env-attack-release"
 ".png)"
 msgstr ""
-"![attack release envelope](../../../etc/doc/images/tutorial/env-attack-release"
-".png)"
+"![Anklingen und Abklingen](../../../etc/doc/images/tutorial/env-attack-"
+"release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:116
 msgid ""
@@ -1756,13 +1754,12 @@ msgid "play 60, attack: 4, release: 0.7"
 msgstr "play 60, attack: 4, release: 0.7"
 
 #: 02.4-Durations-with-Envelopes.md:123
-#, fuzzy
 msgid ""
 "![long attack short release envelope](../../../etc/doc/images/tutorial/env-lon"
 "g-attack-short-release.png)"
 msgstr ""
-"![long attack short release envelope](../../../etc/doc/images/tutorial/env-lon"
-"g-attack-short-release.png)"
+"![Langsames Anklingen, kurzes Abklingen](../../../etc/doc/images/tutorial/"
+"env-long-attack-short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:125
 msgid ""
@@ -1778,13 +1775,12 @@ msgid "play 60, attack: 0.5, release: 0.5"
 msgstr "play 60, attack: 0.5, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:132
-#, fuzzy
 msgid ""
 "![short attack short release envelope](../../../etc/doc/images/tutorial/env-sh"
 "ort-attack-short-release.png)"
 msgstr ""
-"![short attack short release envelope](../../../etc/doc/images/tutorial/env-sh"
-"ort-attack-short-release.png)"
+"![Kurzes Anklingen, kurzes Abklingen](../../../etc/doc/images/tutorial/env-"
+"short-attack-short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:134
 msgid "Sustain Phase"
@@ -2448,9 +2444,9 @@ msgstr ""
 "zeichnen, die ungefähr so aussieht:"
 
 #: 03.3-Stretching-Samples.md:103
-#, fuzzy
 msgid "![sample graph](../../../etc/doc/images/tutorial/sample.png)"
-msgstr "![sample graph](../../../etc/doc/images/tutorial/sample.png)"
+msgstr ""
+"![Beispielhafter Kurvenverlauf](../../../etc/doc/images/tutorial/sample.png)"
 
 #: 03.3-Stretching-Samples.md:105
 msgid ""
@@ -12696,14 +12692,14 @@ msgid ""
 "ed we want to shuffle with. If we don't like the melody, just change one of th"
 "ose two things and try again. Repeat until you like what you hear!"
 msgstr ""
-"Jetzt fängt der Spaß erst so richtig an. Wenn wir den Seed für den "
-"Zufallsgenerator auf eine andere Zahl, z. B. 3000, ändern, erhalten wir eine "
-"völlig andere Reihenfolge der Noten. So ist es extrem einfach, neue Melodien "
-"zu entdecken. Wähle einfach die Liste der Noten aus, die Du mischen möchtest "
-"(Tonleitern sind ein guter Ausgangspunkt), und wähle dann den Seed, mit dem "
-"sie gemischt werden sollen. Wenn uns die Melodie nicht gefällt, ändern wir "
-"einfach einen dieser beiden Punkte und versuchen es erneut. Wiederhole den "
-"Vorgang, bis Dir das Ergebnis gefällt!"
+"Jetzt fängt der Spaß erst so richtig an. Wenn wir den Startwert(Seed) für "
+"den Zufallsgenerator auf eine andere Zahl, z. B. 3000, ändern, erhalten wir "
+"eine völlig andere Mischung der Noten. So ist es jetzt extrem einfach, neue "
+"Melodien zu erforschen. Wähle einfach die Liste der Noten aus, die du "
+"mischen möchten (Tonleitern sind ein guter Ausgangspunkt), und wählen Sie "
+"dann den Startwert(Seed), mit dem du mischen möchten. Wenn uns die Melodie "
+"nicht gefällt, ändern wir einfach einen dieser beiden Punkte und versuchen "
+"es erneut. Wiederhole den Vorgang, bis dir gefällt was du hörst!"
 
 #: A.04-synth-riffs.md:121
 msgid "Pseudo Randomisation"
@@ -12723,8 +12719,8 @@ msgstr ""
 "und das Ergebnis jedes Wurfs auf ein Blatt Papier schreiben. Sonic Pi "
 "verfügt über das Äquivalent dieser Ergebnisliste, die verwendet wird, wenn "
 "man nach einem Zufallswert fragt. Anstatt zu würfeln, wird einfach der "
-"nächste Wert auf der Liste ausgewählt. Wenn Du einen Seed setzt, dann "
-"springst Du einfach zu einem bestimmten Punkt in dieser Liste."
+"nächste Wert auf der Liste ausgewählt. Wenn Du einen Startwert(Seed) setzt, "
+"dann springst Du einfach zu einem bestimmten Punkt in dieser Liste."
 
 #: A.04-synth-riffs.md:131
 msgid "Finding your Rhythm"
@@ -13387,6 +13383,12 @@ msgid ""
 "nto a mountain. Just choose a higher y value to get back out above land. Keep "
 "on exploring until you find somewhere you like..."
 msgstr ""
+"Indem wir unterschiedliche Werte für x, y und z wählen, können wir uns an "
+"*jeden* Ort der Welt teleportieren. Probiere es aus! Wähle verschiedene "
+"Zahlen aus und schaue, wo du landest. Falls der Bildschirm schwarz wird, "
+"hast du dich in den Boden oder in einen Berg teleportiert. Wähle in diesem "
+"Fall einen höheren y-Wert um wieder über den Boden zu kommen. Erkunde "
+"weiter, bis du einen Platz findest, der dir gefällt..."
 
 #: A.06-minecraft.md:69
 msgid ""
@@ -13693,9 +13695,10 @@ msgid ""
 msgstr ""
 
 #: A.07-bizet.md:49
-#, fuzzy
 msgid "![Notes](../../../etc/doc/images/tutorial/articles/A.07-bizet/notes.png)"
-msgstr "Anmerkungen"
+msgstr ""
+"![Anmerkungen](../../../etc/doc/images/tutorial/articles/A.07-bizet/notes."
+"png)"
 
 #: A.07-bizet.md:51
 msgid "Rests"
@@ -15775,11 +15778,12 @@ msgid ""
 msgstr ""
 
 #: A.14-amplitude-modulation.md:56
-#, fuzzy
 msgid ""
 "![Phase Durations](../../../etc/doc/images/tutorial/articles/A.14-amplitude-mo"
 "dulation/slicer_phase_durations.png)"
-msgstr "Dauer"
+msgstr ""
+"![Dauer](../../../etc/doc/images/tutorial/articles/A.14-amplitude-modulation/"
+"slicer_phase_durations.png)"
 
 #: A.14-amplitude-modulation.md:58
 msgid ""
@@ -18334,13 +18338,13 @@ msgid ""
 "arry on as before. Sonic Pi's automatic connection functionality will take car"
 "e of things for you."
 msgstr ""
-"Die Minecraft-Pi-API ist dazu da, dass sie problemlos in in einem `live_loop` "
-"funktioniert. Du kannst damit also Veränderungen in Deiner Minecraft-Welt mit "
-"Veränderungen in Deinen Sonic-Pi-Sounds synchronisieren. Zack, Minecraft-basie"
-"rte Musik-Videos! Bedenke aber, dass Minecraft Pi eine Alpha-Version ist und d"
-"ie Software ein paar kleinere Bugs hat. Wenn ein solches Problem mit Minecraft"
-" Pi auftritt, starte es einfach neu. Sonic Pi nimmt dann automatisch eine neue"
-" Verbindung über seine API auf."
+"Die Minecraft-Pi-API ist dazu da, dass sie problemlos in einem `live_loop` "
+"funktioniert. Du kannst damit also Veränderungen in Deiner Minecraft-Welt "
+"mit Veränderungen in Deinen Sonic-Pi-Sounds synchronisieren. Zack, Minecraft-"
+"basierte Musik-Videos! Bedenke aber, dass Minecraft Pi eine Alpha-Version "
+"ist und die Software ein paar kleinere Bugs hat. Wenn ein solches Problem "
+"mit Minecraft Pi auftritt, starte es einfach neu. Sonic Pi nimmt dann "
+"automatisch eine neue Verbindung über seine API auf."
 
 #: C-Minecraft-Pi.md:39
 msgid "Requires a Raspberry Pi 2.0"
