@@ -89,6 +89,7 @@ especially the following individuals who have been remarkably generous:
 * [Gabe Jackson](https://github.com/gj)
 * [Godigital Media Group](godigitalmg.com)
 * Gert Sylvest
+* Isu Portu
 * [James Abley](https://twitter.com/jabley)
 * Jaroslav Lichtblau
 * [Joshua Thomas](instagram.com/tig3rbabu)
