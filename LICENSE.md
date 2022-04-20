@@ -1,7 +1,7 @@
 # License
 
 ## Main Source
-(contents of [app/](https://github.com/sonic-pi-net/sonic-pi/tree/main/app) directory)
+(contents of [app/](https://github.com/sonic-pi-net/sonic-pi/tree/stable/app) directory)
 
 The MIT License (MIT)
 
@@ -34,10 +34,10 @@ The font used in the GUI is [Hack](http://sourcefoundry.org/hack/) released unde
 
 
 ## Docs, Tutorial and Examples
-(contents of [etc/doc/](https://github.com/sonic-pi-net/sonic-pi/tree/main/etc/doc) and [etc/examples](https://github.com/sonic-pi-net/sonic-pi/tree/main/etc/examples) directories)
+(contents of [etc/doc/](https://github.com/sonic-pi-net/sonic-pi/tree/stable/etc/doc) and [etc/examples](https://github.com/sonic-pi-net/sonic-pi/tree/stable/etc/examples) directories)
 
 All the examples (in
-[etc/examples](https://github.com/sonic-pi-net/sonic-pi/tree/main/etc/examples))
+[etc/examples](https://github.com/sonic-pi-net/sonic-pi/tree/stable/etc/examples))
 and contents of the doc directory including the articles and the
 tutorial are copyright by Sam Aaron unless a specific author is stated
 with the comment `# coded by ...` in which case the copyright is
@@ -48,7 +48,7 @@ CC BY-SA 4.0 license:
 
 
 ## Samples
-(contents of [etc/samples/](https://github.com/sonic-pi-net/sonic-pi/tree/main/etc/samples))
+(contents of [etc/samples/](https://github.com/sonic-pi-net/sonic-pi/tree/stable/etc/samples))
 
 All the bundled samples are individually licensed under a
 [CC0 1.0 Universal Public Domain Dedication](http://creativecommons.org/publicdomain/zero/1.0/). They
@@ -60,7 +60,7 @@ links to their sources can be found in the file
 
 
 ## Wavetables
-(contents of [etc/wavetables/](https://github.com/sonic-pi-net/sonic-pi/tree/main/etc/wavetables)
+(contents of [etc/wavetables/](https://github.com/sonic-pi-net/sonic-pi/tree/stable/etc/wavetables)
 
 All the bundled wavetable samples are individually licensed under a
 [CC0 1.0 Universal Public Domain Dedication](http://creativecommons.org/publicdomain/zero/1.0/). They
@@ -69,14 +69,14 @@ have been obtained from the
 site.
 
 ## Synthdefs
-(contents of [etc/synthdefs/](https://github.com/sonic-pi-net/sonic-pi/tree/main/etc/synthdefs) directory)
+(contents of [etc/synthdefs/](https://github.com/sonic-pi-net/sonic-pi/tree/stable/etc/synthdefs) directory)
 
 The bundled synthdefs are licensed under the [MIT License](http://opensource.org/licenses/MIT) with the following exceptions, which are licensed under the [GNU General Public License v3](https://www.gnu.org/licenses/gpl-3.0.html):
 
-* [etc/synthdefs/designs/supercollider/bass_foundation.scd](https://github.com/sonic-pi-net/sonic-pi/tree/main/etc/synthdefs/designs/supercollider/bass_foundation.scd)
-* [etc/synthdefs/designs/supercollider/bass_highend.scd](https://github.com/sonic-pi-net/sonic-pi/tree/main/etc/synthdefs/designs/supercollider/bass_highend.scd)
-* [etc/synthdefs/designs/supercollider/winwood_lead.scd](https://github.com/sonic-pi-net/sonic-pi/tree/main/etc/synthdefs/designs/supercollider/winwood_lead.scd)
-* [etc/synthdefs/designs/supercollider/organ_tonewheel.scd](https://github.com/sonic-pi-net/sonic-pi/tree/main/etc/synthdefs/designs/supercollider/organ_tonewheel.scd)
+* [etc/synthdefs/designs/supercollider/bass_foundation.scd](https://github.com/sonic-pi-net/sonic-pi/tree/stable/etc/synthdefs/designs/supercollider/bass_foundation.scd)
+* [etc/synthdefs/designs/supercollider/bass_highend.scd](https://github.com/sonic-pi-net/sonic-pi/tree/stable/etc/synthdefs/designs/supercollider/bass_highend.scd)
+* [etc/synthdefs/designs/supercollider/winwood_lead.scd](https://github.com/sonic-pi-net/sonic-pi/tree/stable/etc/synthdefs/designs/supercollider/winwood_lead.scd)
+* [etc/synthdefs/designs/supercollider/organ_tonewheel.scd](https://github.com/sonic-pi-net/sonic-pi/tree/stable/etc/synthdefs/designs/supercollider/organ_tonewheel.scd)
 
 See their source files for links to the original designs.
 
