@@ -119,7 +119,7 @@ relevant licenses:
 (contents of [app/server/ruby/vendor/](https://github.com/sonic-pi-net/sonic-pi/tree/stable/main/app/server/vendor))
 
 
-* [ActiveSupport](https://github.com/rails/rails/tree/master/activesupport) - 
+* [ActiveSupport](https://github.com/rails/rails/tree/master/activesupport) - [MIT License](http://opensource.org/licenses/MIT)
 * [AST](https://github.com/whitequark/ast) - [MIT License](http://opensource.org/licenses/MIT)
 * [Atomic](http://github.com/headius/ruby-atomic) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
 * [Benchmark-IPS](https://github.com/evanphx/benchmark-ips) - [MIT License](http://opensource.org/licenses/MIT)
