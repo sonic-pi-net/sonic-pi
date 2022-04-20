@@ -51,14 +51,25 @@ Values 1->25 will be scaled in integer increments. Values 30 - 100 will be round
   color:  windowForegroundColor;
 }
 
+#prefs
+{
+   background: paneColor;
+}
+
 *#scopes
 {
     font-size: small;
+    background: paneColor;
 }
 
 #prefsCentral
 {
   font-size: medium;
+  background: paneColor;
+}
+
+QWidget#mainWidget
+{
   background: paneColor;
 }
 
@@ -112,11 +123,27 @@ QTabBar::tab
     padding-left: 10dx;
 }
 
+QTabBar::tab:hover {
+    background: scrollBarHoverColor;
+}
+
 QTabBar::tab:selected
 {
     background: tabSelectedColor;
     color: tabSelectedTextColor;
 
+}
+
+QTabBar::tab:hover:selected
+{
+    background: tabSelectedColor;
+    color: tabSelectedTextColor;
+
+}
+
+QTabWidget
+{
+    background: paneColor;
 }
 
 QTabWidget::tab-bar
@@ -155,7 +182,7 @@ QDockWidget
 
 QSlider
 {
-    width: 25dx;
+    width: 35dx;
 }
 
 
@@ -174,6 +201,11 @@ QSlider::handle:vertical
     border-radius: 3dx;
     height: 30dx;
     background-color: sliderColor;
+}
+
+QSlider::handle:vertical:hover
+{
+    background-color: scrollBarHoverColor;
 }
 
 QMenu
@@ -212,7 +244,7 @@ QMainWindow::separator
 
 QMainWindow::separator:hover
 {
-   background-color: tabSelectedColor;
+   background-color: scrollBarHoverColor;
    height: 8dx;
 }
 
@@ -415,22 +447,33 @@ QToolBar
 {
     background-color: windowColor;
     border-bottom: 0dx;
+
 }
 
 QToolButton
 {
+    padding: 4dx;
+    padding-right: 5dx;
+    margin-top: 6dx;
+    margin-bottom: 6dx;
     background-color: none;
-    border: none;
-    border-radius: 3dx;
-    padding: 0dx;
+    border-radius: 0dx;
+    border-bottom: 2px solid transparent;
+    border-top: 2px solid transparent;
 }
 
 QToolButton::hover
 {
-    background-color: windowBorderColor;
-    border: none;
-    padding: 0dx;
+    border-bottom: 2px solid scrollBarHoverColor;
+    border-top: 2px solid scrollBarHoverColor;
 }
+
+QToolButton::hover::pressed
+{
+    border-bottom: 2px solid tabSelectedColor;
+    border-top: 2px solid tabSelectedColor;
+}
+
 
 QGroupBox:title
 {
@@ -447,7 +490,18 @@ QGroupBox:title
 QScrollBar:vertical
 {
     background: transparent;
-    width: 10dx;
+    width: 7dx;
+
+
+
+}
+
+QScrollBar::handle:vertical
+{
+    background: scrollBarColor;
+    border-top: 4dx;
+    border-bottom: 4dx;
+    min-height: 39dx;
     padding-top: 0dx;
     padding-right: 0dx;
     padding-bottom: 20dx;
@@ -457,14 +511,6 @@ QScrollBar:vertical
     margin-right: 0dx;
     margin-bottom: 22dx;
     margin-left: 0dx;
-}
-
-QScrollBar::handle:vertical
-{
-    background: scrollBarColor;
-    border-top: 4dx;
-    border-bottom: 4dx;
-    min-height: 39dx;
 }
 
 QScrollBar::add-line:vertical
@@ -489,7 +535,7 @@ QScrollBar:horizontal
 {
     border: 2dx scrollBarBackgroundColor;
     background: scrollBarBackgroundColor;
-    height: 15dx;
+    height: 12dx;
     margin-top: 0dx;
     margin-right: 2dx;
     margin-bottom: 0dx;
@@ -516,7 +562,7 @@ QScrollBar::add-line:horizontal
 QScrollBar::sub-line:horizontal
 {
     border: 2dx scrollBarBackgroundColor;
-    background: scrollBarBackgroundColor;
+    background: none;
     width: 20dx;
     subcontrol-position: left;
     subcontrol-origin: margin;

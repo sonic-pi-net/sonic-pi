@@ -3284,19 +3284,30 @@ kill bar"]
           memoize:       true,
           examples:      []
 
-
-      def load_synthdefs(path=Paths.synthdef_path)
+      def load_synthdef(path=Paths.synthdef.path)
+        raise "load_synthdef file path argument must be a valid path to a synth design. Got an empty string." if path.empty?
         path = File.expand_path(path)
-        raise "No directory exists called #{path.inspect}" unless File.exist? path
-        @mod_sound_studio.load_synthdefs(path)
-        __info "Loaded synthdefs in path #{path}"
+
+        if !File.exist?(path)
+          raise "load_synthdef requires a valid .scsyndef file. The following file could not be found: #{path.inspect}"
+        elsif !File.file?(path)
+          raise "load_synthdef requires a .scsyndef file. You passed the folder: #{path}
+ (Consider using load_synthdefs to load a whole folder of synths)"
+        elsif !File.extname(path) != 'scsyndef'
+          raise "load_synthdef file path argument must have the extension .scsyndef. Got: #{File.basename(path)}"
+        else
+          @mod_sound_studio.load_synthdef(path)
+          __info "Loaded synthdef: #{path}"
+        end
       end
-      doc name:          :load_synthdefs,
-          introduced:    Version.new(2,0,0),
-          summary:       "Load external synthdefs",
-          doc:           "Load all pre-compiled synth designs in the specified directory. The binary files containing synth designs need to have the extension `.scsyndef`. This is useful if you wish to use your own SuperCollider synthesiser designs within Sonic Pi.
+      doc name:          :load_synthdef,
+          introduced:    Version.new(4,0,0),
+          summary:       "Load a single external synthdef",
+          doc:           "Load a pre-compiled synth design from the specified file. This is useful if you wish to use your own SuperCollider synthesiser designs within Sonic Pi.
 
 ## Important notes
+
+The binary file containing the synth design must have the extension `.scsyndef`.
 
 You may not trigger external synthdefs unless you enable the following GUI preference:
 
@@ -3304,7 +3315,55 @@ You may not trigger external synthdefs unless you enable the following GUI prefe
 Studio -> Synths and FX -> Enable external synths and FX
 ```
 
-Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infrastructure *you need to ensure your synth outputs a stereo signal* to an audio bus with an index specified by a synth arg named `out_bus`. For example, the following synth would work nicely:
+If you wish your synth to work with Sonic Pi's automatic stereo sound infrastructure *you need to ensure your synth outputs a stereo signal* to an audio bus with an index specified by a synth arg named `out_bus`. Also, Sonic Pi makes no automatic attempt to free a synth once triggered, so to behave like the built-in synths, your synth needs to automatically free itself. For example, the following synth would work nicely:
+
+
+    (
+    SynthDef(\\piTest,
+             {|freq = 200, amp = 1, out_bus = 0 |
+               Out.ar(out_bus,
+                      SinOsc.ar([freq,freq],0,0.5)* Line.kr(1, 0, 5, amp, doneAction: 2))}
+    ).writeDefFile(\"/Users/sam/Desktop/\")
+    )
+
+
+    ",
+      args:          [[:path, :string]],
+      opts:          nil,
+      accepts_block: false,
+      examples:      ["load_synthdef \"~/Desktop/my_noises/whoosh.scsyndef\" # Load whoosh synthdef design."]
+
+
+      def load_synthdefs(path=Paths.synthdef_path)
+        raise "load_synthdefs argument must be a valid path to a synth design. Got an empty string." if path.empty?
+        path = File.expand_path(path)
+        raise "No directory or file exists called #{path.inspect}" unless File.exist? path
+        if File.file?(path)
+          load_synthdef(path)
+        else
+          @mod_sound_studio.load_synthdefs(path)
+          sep = "   - "
+          synthdefs = Dir.glob(path + "/*.scsyndef").join("#{sep}\n")
+          __info "Loaded synthdefs in path: #{path}
+#{sep}#{synthdefs}"
+        end
+      end
+      doc name:          :load_synthdefs,
+          introduced:    Version.new(2,0,0),
+          summary:       "Load external synthdefs",
+          doc:           "Load all pre-compiled synth designs in the specified directory. This is useful if you wish to use your own SuperCollider synthesiser designs within Sonic Pi.
+
+## Important notes
+
+Only files with the extension `.scsyndef` within the specified directory will be loaded.
+
+You may not trigger external synthdefs unless you enable the following GUI preference:
+
+```
+Studio -> Synths and FX -> Enable external synths and FX
+```
+
+If you wish your synth to work with Sonic Pi's automatic stereo sound infrastructure *you need to ensure your synth outputs a stereo signal* to an audio bus with an index specified by a synth arg named `out_bus`. Also, Sonic Pi makes no automatic attempt to free a synth once triggered, so to behave like the built-in synths, your synth needs to automatically free itself. For example, the following synth would work nicely:
 
 
     (

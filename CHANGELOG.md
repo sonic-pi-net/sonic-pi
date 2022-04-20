@@ -26,7 +26,7 @@
 
 <a name="v4.0.0"></a>
 
-## Version 4.0.0 - 'Beta'
+## Version 4.0.0 - 'Beta-4'
 To be released...
 <!-- [(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v4.0.0): -->
 
@@ -35,7 +35,6 @@ To be released...
 * There are no GUI elements to view/manipulate the new Link metronome.
 * Link is enabled by default and cannot be disabled via the GUI.
 * MIDI port names are very long and change on disconnect/reconnect on Linux.
-* Timing safety system (that kills threads if they get too far behind) is currently disabled.  (This is being redesigned to work within the new constraints imposed by the Link system).
 * Using `sync` with an external OSC or MIDI message whilst in `:link` bpm mode is broken.
 * On macOS if there are no MIDI devices attached at boot, the updater doesn't work. However, it does appear to if devices are attached at boot.
 
@@ -58,6 +57,8 @@ To be released...
 * New fn `current_random_source` which returns the current random number source kind (see `use_random_source`).
 * New `:link` option to fn `use_bpm`. This enables Link mode for the current thread which automatically syncs the BPM to the Link metronome (which also syncs it with all other Link-capable apps running on any computer connected to the local (wired or wifi) network.
 * New fn `set_link_bpm!` to change the BPM/tempo of the Link metronome (and simultaneously change the tempo of all connected Link-capable apps on the network).
+* New fn `load_synthdef` which lets you load a single synthdef file.
+* `load_synthdefs` now loads both directories and single files (by dispatching to `load_synthdef` where necessary).
 
 
 ### Synths & FX

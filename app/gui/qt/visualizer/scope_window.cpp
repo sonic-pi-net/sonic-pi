@@ -244,11 +244,13 @@ void ScopeWindow::DrawLissajous(const ProcessedAudio& audio, QPainter& painter, 
     float scale = std::min(xScale, yScale);
 
     QPoint center = panel.rcGraph.center();
-    panel.wavePoints.resize(LissajousSamples);
-    for (int sample = 0; sample < LissajousSamples; sample++)
+
+    auto samples = std::min(LissajousSamples, int(m_audioFrameSamples));
+    panel.wavePoints.resize(samples);
+    for (int sample = 0; sample < samples; sample++)
     {
-        auto left = audio.m_samples[0][m_audioFrameSamples - LissajousSamples + sample];
-        auto right = audio.m_samples[1][m_audioFrameSamples - LissajousSamples + sample];
+        auto left = audio.m_samples[0][sample];
+        auto right = audio.m_samples[1][sample];
         panel.wavePoints[sample] = center + QPoint(left * xScale, right * yScale);
     }
     painter.setPen(panel.pen);

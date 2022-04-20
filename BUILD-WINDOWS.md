@@ -49,7 +49,7 @@ dependencies:
 Let's look at each in turn.
 
 
-### 1.1 Install - Visual Studio 2019 
+### 1.1 Install - Visual Studio 2022
 
 If you don't already have VS installed, head over to the downloads page
 and grab a copy of the *free* Community edition:
@@ -97,9 +97,9 @@ Ruby is needed both for a number of the build steps and as the main
 runtime for the language server. We need to install both it and some
 additional libraries.
 
-Firstly, install the latest version of Ruby (3.1.0 - 64 bit with devkit) from:
+Firstly, install the latest version of Ruby (3.1.1 - 64 bit with devkit) from:
 
-https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-3.1.0-1/rubyinstaller-devkit-3.1.0-1-x64.exe
+https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-3.1.1-1/rubyinstaller-devkit-3.1.1-1-x64.exe
 
 Once you have installed Ruby, you need to grab some additional
 libraries. We can do this from the command prompt with the following:

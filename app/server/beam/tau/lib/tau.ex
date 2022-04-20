@@ -56,6 +56,9 @@ defmodule Tau do
 
     Logger.info("Starting Phoenix server")
     Tau.Application.start(nil, nil)
+
+    Logger.info("starting pubsublogger  backend")
+    Logger.add_backend(Tau.PubSubLogger)
   end
 
   def extract_env(name, kind, default) do

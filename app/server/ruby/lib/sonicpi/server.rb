@@ -48,6 +48,7 @@ module SonicPi
       @osc_path_notify      = "/notify".freeze
       @osc_path_clearsched  = "/clearSched"
       @osc_path_d_loaddir   = "/d_loadDir".freeze
+      @osc_path_d_load      = "/d_load".freeze
       @osc_path_g_freeall   = "/g_freeAll".freeze
       @osc_path_g_deepfree  = "/g_deepFree".freeze
       @osc_path_g_new       = "/g_new".freeze
@@ -154,6 +155,13 @@ module SonicPi
       info "Loading synthdefs from path: #{path}" if @debug_mode
       with_done_sync [@osc_path_d_loaddir] do
         osc @osc_path_d_loaddir, path.to_s
+      end
+    end
+
+    def load_synthdef(path)
+      info "Loading synthdef from path: #{path}" if @debug_mode
+      with_done_sync [@osc_path_d_load] do
+        osc @osc_path_d_load, path.to_s
       end
     end
 
