@@ -190,24 +190,24 @@ jobs:
       working-directory: ${{github.workspace}}/app/server/beam/tau
       run: mix test
       env:
+        TAU_ENV: test
         TAU_LOG_PATH: ${{github.workspace}}/tau_log.txt
-        TAU_DISABLE_MIDI: true
       if: matrix.os == 'windows-latest'
 
     - name: BEAM Tests (Linux)
       working-directory: ${{github.workspace}}/app/server/beam/tau
       run: mix test
       env:
+        TAU_ENV: test
         TAU_LOG_PATH: ${{github.workspace}}/tau_log.txt
-        TAU_DISABLE_MIDI: true
       if: matrix.os == 'ubuntu-latest'
 
     - name: BEAM Tests (macOS)
       working-directory: ${{github.workspace}}/app/server/beam/tau
       run: mix test
       env:
+        TAU_ENV: test
         TAU_LOG_PATH: ${{github.workspace}}/tau_log.txt
-        TAU_DISABLE_MIDI: true
       if: matrix.os == 'macos-latest'
 
     - name: Ruby Tests (Mac/Linux)
@@ -217,13 +217,15 @@ jobs:
 
     - name: API Tests - Mac
       working-directory: ${{github.workspace}}/app/build/api-tests
+      env:
+        SONIC_PI_ENV: test
       run: ctest --verbose
       if: matrix.os == 'macos-latest'
 
     - name: API Tests - Linux
       working-directory: ${{github.workspace}}/app/build/api-tests
       env:
-        TAU_DISABLE_MIDI: true
+        SONIC_PI_ENV: test
       run: |
         jackd -rd dummy &
         ctest --verbose
@@ -247,6 +249,8 @@ jobs:
     - name: API Tests - Windows
       shell: cmd
       working-directory: ${{github.workspace}}/app/build/api-tests
+      env:
+        SONIC_PI_ENV: test
       run: ctest --verbose
       if: matrix.os == 'windows-latest'
 

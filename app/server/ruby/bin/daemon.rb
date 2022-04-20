@@ -699,7 +699,7 @@ module SonicPi
         midi_enabled                   = true
         link_enabled                   = true
         phx_secret_key_base            = SecureRandom.base64(64)
-        env                            = unified_opts[:env] || "prod"
+        env                            = ENV["SONIC_PI_ENV"] || unified_opts[:env] || "prod"
         @phx_port                      = unified_opts[:phx_port] || ports["phx"]
 
         Util.log "Daemon listening to info from Tau on port #{daemon_port}"
