@@ -103,7 +103,7 @@ relevant licenses:
 * [ghc_filesystem](https://github.com/gulrak/filesystem) - [MIT License](http://opensource.org/licenses/MIT)
 * [kissnet](https://github.com/Ybalrid/kissnet) - [MIT License](http://opensource.org/licenses/MIT)
 * [liblo](https://github.com/radarsat1/liblo) - [GNU Lesser General Public License v2.1](https://www.gnu.org/licenses/lgpl-2.1.html)
-* [boost](Boost (subset used by SuperCollider's scsynth) - [Boost Software License 1.0 (BSL-1.0)](https://opensource.org/licenses/BSL-1.0)
+* [boost (subset used by SuperCollider's scsynth)](https://www.boost.org) - [Boost Software License 1.0 (BSL-1.0)](https://opensource.org/licenses/BSL-1.0)
 * [TLSF](http://www.gii.upv.es/tlsf/) - [GNU Lesser General Public License v2.1](https://www.gnu.org/licenses/lgpl-2.1.html)
 
 
@@ -117,6 +117,7 @@ relevant licenses:
 
 ### Included Ruby Libraries for Spider Language Server
 (contents of [app/server/ruby/vendor/](https://github.com/sonic-pi-net/sonic-pi/tree/stable/app/server/vendor))
+
 * [ActiveSupport](https://github.com/rails/rails/tree/master/activesupport) - [MIT License](http://opensource.org/licenses/MIT)
 * [AST](https://github.com/whitequark/ast) - [MIT License](http://opensource.org/licenses/MIT)
 * [Atomic](http://github.com/headius/ruby-atomic) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
@@ -160,7 +161,8 @@ relevant licenses:
 
 
 ### Included Elixir Libraries for Tau IO Server
-(contents of [app/server/beam/tau/deps/](https://github.com/sonic-pi-net/sonic-pi/tree/stable/app/server/beam/tau/deps))
+(contents of [app/server/beam/tau/deps/](https://github.com/sonic-pi-net/sonic-pi/tree/stable/app/server/beam/tau/deps)):
+
 * [castore](https://github.com/elixir-mint/castore) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
 * [cowboy](https://github.com/ninenines/cowboy) - [ISC License](https://opensource.org/licenses/ISC)
 * [cowboy_telemetry](https://github.com/beam-telemetry/cowboy_telemetry) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
@@ -202,6 +204,7 @@ relevant licenses:
 
 
 ### Included Javascript Libraries for Tau IO Server 
-(contents of [app/server/beam/tau/assets/vendor/](https://github.com/sonic-pi-net/sonic-pi/tree/stable/app/server/beam/tau/assets/vendor))
+(contents of [app/server/beam/tau/assets/vendor/](https://github.com/sonic-pi-net/sonic-pi/tree/stable/app/server/beam/tau/assets/vendor)):
+
 * [Alpine.js](https://github.com/alpinejs/alpine) - [MIT License](http://opensource.org/licenses/MIT)
 * [topbar](http://buunguyen.github.io/topbar) - [MIT License](http://opensource.org/licenses/MIT)
