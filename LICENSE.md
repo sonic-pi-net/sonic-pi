@@ -199,3 +199,9 @@ relevant licenses:
 * [telemetry_metrics](https://github.com/beam-telemetry/telemetry_metrics) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
 * [telemetry_poller](https://github.com/beam-telemetry/telemetry_poller) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
 * [toml](https://github.com/bitwalker/toml-elixir) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
+
+
+### Included Javascript Libraries for Tau IO Server 
+(contents of [app/server/beam/tau/assets/vendor/](https://github.com/sonic-pi-net/sonic-pi/tree/stable/app/server/beam/tau/assets/vendor))
+* [Alpine.js](https://github.com/alpinejs/alpine) - [MIT License](http://opensource.org/licenses/MIT)
+* [topbar](http://buunguyen.github.io/topbar) - [MIT License](http://opensource.org/licenses/MIT)
