@@ -72,8 +72,8 @@ To be released...
 * Highlight scrollbars on mouse hover.
 * Teach autocompletion about random source choices: `:white`, `:light_pink`, `:pink`, etc.
 * Improve syntax indentation.
-* Improvements for Arabic, Catalan, Chinese (Simplified), Dutch, Estonian, German, Italian, Japanese, Korean, Persian, Polish, Portuguese (Brazil), Russian, Sinhala, Spanish, Swedish
-* Introduced new translations for Basque.
+* Improvements for Arabic, Catalan, Chinese (Simplified), Dutch, Estonian, French, German, Italian, Japanese, Korean, Persian, Polish, Portuguese (Brazil), Russian, Sinhala, Spanish, Swedish
+* Introduced new translations for Basque, Gaelic.
 
 
 ### Improvements
@@ -91,6 +91,7 @@ To be released...
 * No longer attempt to increase audio server priority on Windows which causes booting errors in some cases.
 * Fixed encoding issues when saving/loading files containing non-ascii characters on Windows.
 * `range` no longer loops infinitely with a step size of 0. Instead it now throws an error.
+* In some circumstances having the lissajous visualiser visible caused the GUI to crash on startup. This has now been addressed.
 
 
 <a name="v3.3.1"></a>
