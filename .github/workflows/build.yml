@@ -222,6 +222,8 @@ jobs:
 
     - name: API Tests - Linux
       working-directory: ${{github.workspace}}/app/build/api-tests
+      env:
+        TAU_DISABLE_MIDI: true
       run: |
         jackd -rd dummy &
         ctest --verbose
