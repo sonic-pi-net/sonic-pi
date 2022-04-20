@@ -77,6 +77,7 @@ especially the following individuals who have been remarkably generous:
 * brainTrain
 * [Boris Bokowski](https://twitter.com/bokowski)
 * [Brandon Weaver](https://twitter.com/keystonelemur)
+* Bryce Young
 * [Chih-Chun Chen](http://abmcet.net/Chih-Chun_Chen/home.html)
 * [Christoffer Krakou](http://www.krakou.dk/)
 * Cobey Smith
