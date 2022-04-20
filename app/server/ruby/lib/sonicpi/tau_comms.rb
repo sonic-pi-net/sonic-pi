@@ -89,7 +89,12 @@ module SonicPi
 
     def block_until_tau_ready!
       return true if @tau_ready
-      @wait_for_tau_prom.get
+      begin
+        @wait_for_tau_prom.get(30)
+      rescue Exception => e
+        STDOUT.puts "TauComms - Unable to connect to tau (#{e.message}). Exiting..."
+        exit
+      end
     end
 
     def tau_ready?
