@@ -26,7 +26,7 @@
 
 <a name="v4.0.0"></a>
 
-## Version 4.0.0 - 'Beta-4'
+## Version 4.0.0 - 'Beta-5'
 To be released...
 <!-- [(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v4.0.0): -->
 
