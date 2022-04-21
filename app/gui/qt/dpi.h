@@ -13,9 +13,13 @@ inline QSizeF GetDisplayScale()
 
 #if defined(Q_OS_WIN)
   float scale = 96.0f * 1.6f;
-#else
+#elif defined(Q_OS_MAC)
   float scale = 96.0f;
+#else
+  //assuming linux
+  float scale = 96.0f * 1.2f;
 #endif
+
 
   QSizeF scaleDpi = QSizeF(scale, scale);
     if (const QScreen* pScreen = QGuiApplication::primaryScreen())
