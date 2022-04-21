@@ -1,6 +1,6 @@
 # License
 
-## Main Source
+## Main Source Code
 (contents of [app/](https://github.com/sonic-pi-net/sonic-pi/tree/stable/app) directory)
 
 The MIT License (MIT)
@@ -25,26 +25,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
-## GUI
-As the Sonic Pi GUI links with GPLv3-licensed software distributors of
-Sonic Pi GUI binaries must comply with the terms of the GPL
 
-## Font
-The font used in the GUI is [Hack](http://sourcefoundry.org/hack/) released under the [Hack Open Font License v2.0](https://github.com/chrissimpkins/Hack/blob/master/LICENSE.md)
-
-
-## Docs, Tutorial and Examples
-(contents of [etc/doc/](https://github.com/sonic-pi-net/sonic-pi/tree/stable/etc/doc) and [etc/examples](https://github.com/sonic-pi-net/sonic-pi/tree/stable/etc/examples) directories)
-
-All the examples (in
-[etc/examples](https://github.com/sonic-pi-net/sonic-pi/tree/stable/etc/examples))
-and contents of the doc directory including the articles and the
-tutorial are copyright by Sam Aaron unless a specific author is stated
-with the comment `# coded by ...` in which case the copyright is
-associated with that author (2015) and the content is released under the
-CC BY-SA 4.0 license:
-
-[http://creativecommons.org/licenses/by-sa/4.0/](http://creativecommons.org/licenses/by-sa/4.0/)
+## GPL Compliance
+As Sonic Pi links with and contains GPLv3-licensed software, distributors of
+Sonic Pi GUI binaries must comply with the terms of the GPL.
 
 
 ## Samples
@@ -68,10 +52,29 @@ have been obtained from the
 [Adventure Kid](http://www.adventurekid.se/akrt/waveforms/adventure-kid-waveforms/)
 site.
 
-## Synthdefs
+
+## Font
+The font used in the GUI is [Hack](http://sourcefoundry.org/hack/) released under the [Hack Open Font License v2.0](https://github.com/chrissimpkins/Hack/blob/master/LICENSE.md)
+
+
+## Docs, Tutorial and Examples
+(contents of [etc/doc/](https://github.com/sonic-pi-net/sonic-pi/tree/stable/etc/doc) and [etc/examples](https://github.com/sonic-pi-net/sonic-pi/tree/stable/etc/examples) directories)
+
+All the examples (in
+[etc/examples](https://github.com/sonic-pi-net/sonic-pi/tree/stable/etc/examples))
+and contents of the doc directory including the articles and the
+tutorial are copyright by Sam Aaron unless a specific author is stated
+with the comment `# coded by ...` in which case the copyright is
+associated with that author (2015) and the content is released under the
+CC BY-SA 4.0 license:
+
+[http://creativecommons.org/licenses/by-sa/4.0/](http://creativecommons.org/licenses/by-sa/4.0/)
+
+
+## Synth Designs
 (contents of [etc/synthdefs/](https://github.com/sonic-pi-net/sonic-pi/tree/stable/etc/synthdefs) directory)
 
-The bundled synthdefs are licensed under the [MIT License](http://opensource.org/licenses/MIT) with the following exceptions, which are licensed under the [GNU General Public License v3](https://www.gnu.org/licenses/gpl-3.0.html):
+The bundled synth designs (synthdefs) are licensed under the [MIT License](http://opensource.org/licenses/MIT) with the following exceptions, which are licensed under the [GNU General Public License v3](https://www.gnu.org/licenses/gpl-3.0.html):
 
 * [etc/synthdefs/designs/supercollider/bass_foundation.scd](https://github.com/sonic-pi-net/sonic-pi/tree/stable/etc/synthdefs/designs/supercollider/bass_foundation.scd)
 * [etc/synthdefs/designs/supercollider/bass_highend.scd](https://github.com/sonic-pi-net/sonic-pi/tree/stable/etc/synthdefs/designs/supercollider/bass_highend.scd)
@@ -79,6 +82,7 @@ The bundled synthdefs are licensed under the [MIT License](http://opensource.org
 * [etc/synthdefs/designs/supercollider/organ_tonewheel.scd](https://github.com/sonic-pi-net/sonic-pi/tree/stable/etc/synthdefs/designs/supercollider/organ_tonewheel.scd)
 
 See their source files for links to the original designs.
+
 
 ## Bundled Software
 The following is a list of the software included in Sonic Pi with their
