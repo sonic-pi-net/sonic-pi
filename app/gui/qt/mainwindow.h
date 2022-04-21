@@ -1,7 +1,7 @@
 //--
 // This file is part of Sonic Pi: http://sonic-pi.net
 // Full project source: https://github.com/samaaron/sonic-pi
-// License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
+// License: https://github.com/samaaron/sonic-pi/blob/main/LICENSE.md
 //
 // Copyright 2013, 2014, 2015, 2016 by Sam Aaron (http://sam.aaron.name).
 // All rights reserved.
@@ -57,6 +57,7 @@ class SonicPiOSCServer;
 class SonicPiTheme;
 class SonicPiLexer;
 class SonicPiSettings;
+class SonicPiContext;
 
 struct help_page {
     QString title;
@@ -96,8 +97,11 @@ class MainWindow : public QMainWindow
 signals:
         void settingsChanged();
 
-        private slots:
-            void addCuePath(QString path, QString val);
+       private slots:
+
+        void updateContext(int line, int index);
+        void updateContextWithCurrentWs();
+        void addCuePath(QString path, QString val);
         void docLinkClicked(const QUrl &url);
         void handleCustomUrl(const QUrl &url);
         void zoomInLogs();
@@ -137,6 +141,7 @@ signals:
         void about();
         void scope();
         void toggleScope();
+        void showScopeLabelsMenuChanged();
         void toggleIcons();
         void help();
         void toggleHelpIcon();
@@ -146,13 +151,44 @@ signals:
         void changeSystemPreAmp(int val, int silent=0);
         void changeGUITransparency(int val);
         void changeShowLineNumbers();
-        void toggleScope(QString name);
+        void showLineNumbersMenuChanged();
+        void showAutoCompletionMenuChanged();
+        void audioSafeMenuChanged();
+        void changeAudioSafeMode();
+        void changeMidiDefaultChannel();
+        void midiDefaultChannelMenuChanged(int idx);
+        void audioTimingGuaranteesMenuChanged();
+        void changeAudioTimingGuarantees();
+        void enableExternalSynthsMenuChanged();
+        void changeEnableExternalSynths();
+        void mixerInvertStereoMenuChanged();
+        void mixerForceMonoMenuChanged();
+        void midiEnabledMenuChanged();
+        void changeShowAutoCompletion();
+        void changeShowContext();
+        void showContextMenuChanged();
+        void oscServerEnabledMenuChanged();
+        void allowRemoteOSCMenuChanged();
+        void showLogMenuChanged();
+        void showCuesMenuChanged();
+        void logAutoScrollMenuChanged();
+        void changeScopeKindVisibility(QString name);
+        void scopeKindVisibilityMenuChanged();
         void toggleLeftScope();
         void toggleRightScope();
-        void toggleScopeLabels();
+        void changeScopeLabels();
         void scopeVisibilityChanged();
+        void logCuesMenuChanged();
+        void changeLogCues();
+        void logSynthsMenuChanged();
+        void changeLogSynths();
+        void clearOutputOnRunMenuChanged();
+        void changeClearOutputOnRun();
+        void autoIndentOnRunMenuChanged();
+        void changeAutoIndentOnRun();
         void cycleThemes();
         void updateColourTheme();
+        void colourThemeMenuChanged(int themeID);
         void updatePrefsIcon();
         void togglePrefs();
         void updateDocPane(QListWidgetItem *cur);
@@ -177,6 +213,7 @@ signals:
         void docScrollDown();
         void updateFullScreenMode();
         void toggleFullScreenMode();
+        void fullScreenMenuChanged();
         void updateFocusMode();
         void toggleFocusMode();
         void toggleScopePaused();
@@ -186,7 +223,9 @@ signals:
         void toggleCuesVisibility();
         void updateTabsVisibility();
         void toggleTabsVisibility();
+        void showTabsMenuChanged();
         void updateButtonVisibility();
+        void showButtonsMenuChanged();
         void toggleButtonVisibility();
         void setLineMarkerinCurrentWorkspace(int num);
         void setUpdateInfoText(QString t);
@@ -214,11 +253,11 @@ signals:
         void focusLogs();
         void focusEditor();
         void focusCues();
+        void focusContext();
         void focusPreferences();
         void focusHelpListing();
         void focusHelpDetails();
         void focusErrors();
-
 
     private:
         bool initAndCheckPorts();
@@ -270,7 +309,7 @@ signals:
 
         void addUniversalCopyShortcuts(QTextEdit *te);
 
-        QMenu *fileMenu, *editMenu, *windowMenu;
+  QMenu *liveMenu, *codeMenu, *audioMenu, *displayMenu, *viewMenu, *ioMenu, *ioMidiInMenu, *ioMidiOutMenu, *ioMidiOutChannelMenu, *localIpAddressesMenu, *themeMenu, *scopeKindVisibilityMenu;
 
         SonicPiSettings *piSettings;
 
@@ -298,12 +337,14 @@ signals:
         QTabWidget *docsCentral;
         SonicPiLog *outputPane;
         SonicPiLog *incomingPane;
+        SonicPiContext *contextPane;
         QTextBrowser *errorPane;
         QDockWidget *outputWidget;
         QDockWidget *incomingWidget;
         QDockWidget *prefsWidget;
         QDockWidget *hudWidget;
         QDockWidget *docWidget;
+        QDockWidget *contextWidget;
         QWidget *blankWidget;
         QWidget *outputWidgetTitle;
         QTextBrowser *docPane;
@@ -322,8 +363,8 @@ signals:
 
         QToolBar *toolBar;
 
-        QAction *runAct, *stopAct, *saveAsAct, *loadFileAct, *recAct, *textAlignAct, *textIncAct, *textDecAct, *scopeAct, *infoAct, *helpAct, *prefsAct, *focusEditorAct, *focusLogsAct, *focusCuesAct, *focusPreferencesAct, *focusHelpListingAct, *focusHelpDetailsAct, *focusErrorsAct;
-        QShortcut *runSc, *stopSc, *saveAsSc, *loadFileSc, *recSc, *textAlignSc, *textIncSc, *textDecSc, *scopeSc, *infoSc, *helpSc, *prefsSc, *focusEditorSc, *focusLogsSc, *focusCuesSc, *focusPreferencesSc, *focusHelpListingSc, *focusHelpDetailsSc, *focusErrorsSc;
+  QAction *exitAct, *runAct, *stopAct, *saveAsAct, *loadFileAct, *recAct, *textAlignAct, *textIncAct, *textDecAct, *scopeAct, *infoAct, *helpAct, *prefsAct, *focusEditorAct, *focusLogsAct, *focusContextAct, *focusCuesAct, *focusPreferencesAct, *focusHelpListingAct, *focusHelpDetailsAct, *focusErrorsAct, *showLineNumbersAct, *showAutoCompletionAct, *showContextAct, *audioSafeAct, *audioTimingGuaranteesAct, *enableExternalSynthsAct, *mixerInvertStereoAct, *mixerForceMonoAct, *midiEnabledAct, *enableOSCServerAct, *allowRemoteOSCAct, *showLogAct, *showCuesAct, *logAutoScrollAct, *logCuesAct, *logSynthsAct, *clearOutputOnRunAct, *autoIndentOnRunAct, *showButtonsAct, *showTabsAct, *fullScreenAct, *lightThemeAct, *darkThemeAct, *proLightThemeAct, *proDarkThemeAct, *highContrastThemeAct, *showScopeLabelsAct;
+  QShortcut *runSc, *stopSc, *saveAsSc, *loadFileSc, *recSc, *textAlignSc, *textIncSc, *textDecSc, *scopeSc, *infoSc, *helpSc, *prefsSc, *focusEditorSc, *focusLogsSc, *focusContextSc, *focusCuesSc, *focusPreferencesSc, *focusHelpListingSc, *focusHelpDetailsSc, *focusErrorsSc;
 
         SettingsWidget *settingsWidget;
 

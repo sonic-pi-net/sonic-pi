@@ -1,7 +1,7 @@
 //--
 // This file is part of Sonic Pi: http://sonic-pi.net
 // Full project source: https://github.com/samaaron/sonic-pi
-// License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
+// License: https://github.com/samaaron/sonic-pi/blob/main/LICENSE.md
 //
 // Copyright 2013, 2014, 2015, 2016 by Sam Aaron (http://sam.aaron.name).
 // All rights reserved.
@@ -14,6 +14,7 @@
 #ifndef OSCHANDLER_H
 #define OSCHANDLER_H
 
+#include <array>
 #include "oscpkt.hh"
 #include "mainwindow.h"
 class SonicPiTheme;
@@ -32,7 +33,7 @@ private:
     MainWindow *window;
     SonicPiLog  *out;
     SonicPiLog  *incoming;
-    int last_incoming_path_lens [20];
+    std::array<int, 20> last_incoming_path_lens;
 
     oscpkt::PacketReader pr;
     oscpkt::PacketWriter pw;

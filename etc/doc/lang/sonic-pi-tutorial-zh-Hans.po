@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-05-24 18:42+0000\n"
-"Last-Translator: Zhe Wang <wangzhetju@gmail.com>\n"
+"PO-Revision-Date: 2021-01-06 12:29+0000\n"
+"Last-Translator: Bote Wang <retr0p@outlook.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "sonic-pi/tutorial/zh_Hans/>\n"
 "Language: zh-Hans\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.1-dev\n"
+"X-Generator: Weblate 4.4.1-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -69,8 +69,8 @@ msgid ""
 " stream live on [https://youtube.com/samaaron](http://youtube.com/samaaron) so"
 " please do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
-"最后，观看他人直播写代码也是一个很好的学习方式。我时常在[http://youtube.com/samaaron](http://youtube.com/"
-"samaaron)上直播，欢迎来观看并且询问问题 :-)"
+"最后，观看他人直播写代码也是一个很好的学习方式。我时常在[http://youtube.com/samaaron](http://youtube.com/s"
+"amaaron)上直播，欢迎来观看并且询问问题 :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
@@ -355,11 +355,15 @@ msgstr "*G* - 帮助系统"
 msgid "*H* - Scope Viewer"
 msgstr "*H* - 波形查看器"
 
-#: 01.2-Exploring-the-Interface.md:20
+#: 01.2-Exploring-the-Interface.md:19
+msgid "*I* - Cue Viewer"
+msgstr "*I* - 查看Cue"
+
+#: 01.2-Exploring-the-Interface.md:21
 msgid "A. Play Controls"
 msgstr "A. 播放控制"
 
-#: 01.2-Exploring-the-Interface.md:22
+#: 01.2-Exploring-the-Interface.md:23
 msgid ""
 "These pink buttons are the main controls for starting and stopping sounds. The"
 "re's the *Run* button for running the code in the editor, *Stop* for stopping "
@@ -369,21 +373,21 @@ msgstr ""
 "这些粉色的按钮是控制音乐播放和停止的主控制按钮。*Run*按钮是用来运行代码的，*Stop* 按钮是用来停止代码运行的，*Save*是用来把代码保存成一个文"
 "件，*Record*按钮是把音乐录制到文件中（后缀为wav的文件）。"
 
-#: 01.2-Exploring-the-Interface.md:28
+#: 01.2-Exploring-the-Interface.md:29
 msgid "B. Editor Controls"
 msgstr "B. 代码编辑窗口控制"
 
-#: 01.2-Exploring-the-Interface.md:30
+#: 01.2-Exploring-the-Interface.md:31
 msgid ""
 "These orange buttons allow you to manipulate the code editor. The *Size +* and"
 " *Size -* buttons allow you to make the text bigger and smaller."
 msgstr "你可以用这些橙色的按钮对代码编辑器进行操作。*Size +*和*Size -*能让你调大或调小文本字体。"
 
-#: 01.2-Exploring-the-Interface.md:34
+#: 01.2-Exploring-the-Interface.md:35
 msgid "C. Info and Help"
 msgstr "C. 详细信息和帮助"
 
-#: 01.2-Exploring-the-Interface.md:36
+#: 01.2-Exploring-the-Interface.md:37
 msgid ""
 "These blue buttons give you access to information, help and preferences. The *"
 "Info* button will open up the information window which contains information ab"
@@ -394,11 +398,11 @@ msgstr ""
 "这些蓝色按钮可以用来打开详细信息窗口，帮助窗口和偏好设置窗口。*Info*按钮会打开详细信息窗口，它包含了Sonic Pi团队，贡献者和社区的详细信息。*H"
 "elp*按钮打开帮助系统，*Prefs*按钮打开偏好设置按钮，它允许你控制一些基本的系统参数。"
 
-#: 01.2-Exploring-the-Interface.md:43
+#: 01.2-Exploring-the-Interface.md:44
 msgid "D. Code Editor"
 msgstr "D. 代码编辑窗口"
 
-#: 01.2-Exploring-the-Interface.md:45
+#: 01.2-Exploring-the-Interface.md:46
 msgid ""
 "This is the area where you'll write your code and compose/perform music. It's "
 "a simple text editor where you can write code, delete it, cut and paste, etc. "
@@ -410,11 +414,11 @@ msgstr ""
 "在这里可以写属于你自己的音乐代码。同时，在这里你也可以删除，复制以及粘贴代码。你可以把它想象类似于Google文档一样的简单编辑器。代码会根据具体意义进行变"
 "色。这种五颜六色的代码刚开始看起来有点奇怪，但之后你会发现它真的很有用！举个栗子，蓝色代表数字。"
 
-#: 01.2-Exploring-the-Interface.md:53
+#: 01.2-Exploring-the-Interface.md:54
 msgid "E. Prefs Panel"
 msgstr "E. 偏好设置面板"
 
-#: 01.2-Exploring-the-Interface.md:55
+#: 01.2-Exploring-the-Interface.md:56
 msgid ""
 "Sonic Pi supports a number of tweakable preferences which can be accessed by t"
 "oggling the *prefs* button in the Info and Help button set. This will toggle t"
@@ -425,11 +429,11 @@ msgstr ""
 "Sonic Pi支持许多可调的偏好设置，你可以在*prefs*按钮中找到这些设置。例如：强制单声道模式，反转立体声，详细日志开关，音量调整滑块，声道选择器等"
 "。"
 
-#: 01.2-Exploring-the-Interface.md:62
+#: 01.2-Exploring-the-Interface.md:63
 msgid "F. Log Viewer"
 msgstr "F. 日志查看器"
 
-#: 01.2-Exploring-the-Interface.md:64
+#: 01.2-Exploring-the-Interface.md:65
 msgid ""
 "When you run your code, information about what the program is doing will be di"
 "splayed in the log viewer. By default, you'll see a message for every sound yo"
@@ -439,11 +443,11 @@ msgstr ""
 "当你运行代码的时候，程序执行的详细信息将会显示在日志查看器中。默认情况下，你会看到每一种声音产生的具体时间。这对你调试代码以及理解代码具体做了什么非常有帮助"
 "。"
 
-#: 01.2-Exploring-the-Interface.md:70
+#: 01.2-Exploring-the-Interface.md:71
 msgid "G. Help System"
 msgstr "G. 帮助系统"
 
-#: 01.2-Exploring-the-Interface.md:72
+#: 01.2-Exploring-the-Interface.md:73
 msgid ""
 "One of the most important parts of the Sonic Pi interface is the help system w"
 "hich appears at the bottom of the window. This can be toggled on and off by cl"
@@ -455,11 +459,11 @@ msgstr ""
 "Sonic Pi最重要的模块之一就是窗口底部的帮助系统。你可以通过蓝色的*Help*按钮开启或关闭它。这个帮助系统包括Sonic Pi各方面的帮助信息，包括"
 "：本次教程，一系列可用的合成器，声音样本，例子，音效以及Sonic Pi提供的全部功能。"
 
-#: 01.2-Exploring-the-Interface.md:80
+#: 01.2-Exploring-the-Interface.md:81
 msgid "H. Scope Viewer"
 msgstr "H. 波形查看器"
 
-#: 01.2-Exploring-the-Interface.md:82
+#: 01.2-Exploring-the-Interface.md:83
 msgid ""
 "The scope viewer allows you to see the sound you're hearing. You can easily se"
 "e that the saw wave looks like a saw and that the basic beep is a curvey sine "
@@ -474,6 +478,28 @@ msgstr ""
 "波形查看器可以以图形的方式展现你听到的声音。你能轻易的看到锯齿波（就像一把锯子）以及基本的嘟嘟声（优美的正弦波）。你也可以通过波形的尺寸判断吵闹的或者安静的"
 "声音。这里有三种波形可供选择：默认波形是左右声道波形的共同绘制而成的，立体声波形：每个声道的波形单独绘制，最后是李萨如曲线波形：显示的是左右声道的相位关系，"
 "你可以通过李萨如图形画出漂亮的音乐图像。"
+
+#: 01.2-Exploring-the-Interface.md:93
+msgid "I. Cue Viewer"
+msgstr "I. 查看Cue"
+
+#: 01.2-Exploring-the-Interface.md:95
+msgid ""
+"All internal and external events (called cues in Sonic Pi) are automatically l"
+"ogged in the Cue Viewer. For example, if you have a MIDI controller connected "
+"and press one of its buttons, you'll see a new cue event in the Cue Viewer tel"
+"ling you the name of the controller and which button you pressed. Once you've "
+"mastered the basics of making and producing sounds, you'll start to want to cu"
+"e sounds or whole sections of sounds based on events such as these. A cue even"
+"t is just an indication that something happened. For example, every time a liv"
+"e loop spins round, it sends a cue event out which is logged in the Cue Viewer"
+". Also, external events such as MIDI messages from connected MIDI equipment an"
+"d OSC messages from other programs or computers are also displayed in the Cue "
+"Viewer. It is also possible to directly generate cue events using the `cue` fu"
+"nction. Anything that appears in the Cue Viewer can be used to trigger somethi"
+"ng happening. This is covered in more detail in Sections 10 to 12 of this tuto"
+"rial."
+msgstr ""
 
 #: 01.3-Learning-through-Play.md:1
 msgid "1.3 Learning through Play"
@@ -508,9 +534,9 @@ msgid ""
 "sound, manipulate it and morph it into something awesome. The crowd will go *w"
 "ild*."
 msgstr ""
-"既然我们正在讨论这个问题，以我这么多年来码音乐的经验，让我来给你一些建议吧：不要怕犯错，勇于尝试。这是我弹爵士乐的时候听到最多的一句话，当然它同样适用于编"
-"码。无论你在编码方面的经验如何，无论你是菜鸟还是大神，你都会写出一些出乎你意料之外的结果。你的音乐可能听起来酷炫炸了-那很棒。但也有可能听起来很不协调而且"
-"奇奇怪怪。不过没关系，重要的是你接下来怎么做。拿起你的代码，对它进行一顿骚操作，让它脱胎换骨。人群会噪起来的。"
+"既然我们正在讨论这个问题，以我这么多年来码音乐的经验，让我来给你一些建议吧：不要怕犯错，勇于尝试。这是我弹爵士乐的时候听到最多的一句话，当然它同样适用于编码"
+"。无论你在编码方面的经验如何，无论你是菜鸟还是大神，你都会写出一些出乎你意料之外的结果。你的音乐可能听起来酷炫炸了-那很棒。但也有可能听起来很不协调而且奇奇"
+"怪怪。不过没关系，重要的是你接下来怎么做。拿起你的代码，对它进行一顿骚操作，让它脱胎换骨。人群会噪起来的。"
 
 #: 01.3-Learning-through-Play.md:24
 msgid "Start Simple"
@@ -596,7 +622,7 @@ msgstr "蜂鸣声！"
 
 #: 02.1-Your-First-Beeps.md:17
 msgid "Intense. Press it again. And again. *And again...*"
-msgstr "刺激。再点一下，再点一下，*点一下。。。*"
+msgstr "真刺激。再点一下，再点一下，*再点一下...*"
 
 #: 02.1-Your-First-Beeps.md:19
 msgid ""
@@ -1053,8 +1079,8 @@ msgid ""
 " in this section we'll explore some of the exciting range of sounds that Sonic"
 " Pi has to offer."
 msgstr ""
-"到目前为止，我们已经做了很多有趣的蜂鸣声。然而，你可能开始对这基本的蜂鸣音感到厌烦。这就是Sonic "
-"Pi所能提供的一切吗？除了播放蜂鸣声之外，还有更多的东西吗？当然有啦，在这一节中，我们将探索Sonic Pi提供的超级厉害的的音色范围。"
+"到目前为止，我们已经做了很多有趣的蜂鸣声。然而，你可能开始对这基本的蜂鸣音感到厌烦。这就是Sonic Pi所能提供的一切吗？除了播放蜂鸣声之外，还有更多的东"
+"西吗？当然有啦，在这一节中，我们将探索Sonic Pi提供的超级厉害的的音色范围。"
 
 #: 02.3-Switching-Synths.md:13
 msgid ""
@@ -1065,9 +1091,9 @@ msgid ""
 "xpressive and you'll have a lot of fun exploring and playing with them. First,"
 " let's learn how to select the current synth to use."
 msgstr ""
-"Sonic Pi有一系列被称为synth的乐器，*这是合成器的英文简称*。比较之下，sample只是预先录制好的声音，但是synth能够根据你的控制，产生"
-"新的声音(我们将在本教程后面讨论)。Sonic "
-"Pi的合成器非常强大且富有表现力，你会有很多乐趣探索和发挥他们。首先，让我们学习如何选择当前要使用的synth。"
+"Sonic Pi有一系列被称为synth的乐器，*这是合成器的英文简称*。比较之下，sample只是预先录制好的声音，但是synth能够根据你的控制，产生新"
+"的声音(我们将在本教程后面讨论)。Sonic Pi的合成器非常强大且富有表现力，你会有很多乐趣探索和发挥他们。首先，让我们学习如何选择当前要使用的synth"
+"。"
 
 #: 02.3-Switching-Synths.md:21
 msgid "Buzzy saws and prophets"
@@ -1174,15 +1200,14 @@ msgstr ""
 
 #: 02.3-Switching-Synths.md:75
 msgid "Discovering Synths"
-msgstr " 探索合成器"
+msgstr "探索合成器"
 
 #: 02.3-Switching-Synths.md:77
 msgid ""
 "To see which synths Sonic Pi has for you to play with take a look at the Synth"
 "s option in the menu at the bottom of this help screen (between Examples & Fx)"
 ". There are over 20 to choose from. Here are a few of my favourites:"
-msgstr ""
-"要查看Sonic Pi有哪些合成器可以让你玩，可以看看最左边的下拉菜单（ FX 之前）中的Synths选项。有超过20种合成器可供选择。以下是我的最爱："
+msgstr "要查看Sonic Pi有哪些合成器可以让你玩，可以看看最左边的下拉菜单（ FX 之前）中的Synths选项。有超过20种合成器可供选择。以下是我的最爱："
 
 #: 02.3-Switching-Synths.md:81
 msgid "`:prophet`"
@@ -1353,8 +1378,8 @@ msgid ""
 "ht line down to zero taking the amount of time specified by `release:`. *Longe"
 "r release times produce longer synth fade outs.*"
 msgstr ""
-"图表最左边的直立线显示，声音从0波幅开始，立即升到满波幅（这是接下来介绍的起音阶段）。达到满波幅后，声音会以 `release: ` "
-"指定的时间（释放时间）内，沿着直线下降到0。*施放时间越长，合成器淡出的时间会越长*"
+"图表最左边的直立线显示，声音从0波幅开始，立即升到满波幅（这是接下来介绍的起音阶段）。达到满波幅后，声音会以 `release: ` 指定的时间（释放时间）"
+"内，沿着直线下降到0。*施放时间越长，合成器淡出的时间会越长*"
 
 #: 02.4-Durations-with-Envelopes.md:88
 msgid ""
@@ -1409,8 +1434,8 @@ msgid ""
 "![attack release envelope](../../../etc/doc/images/tutorial/env-attack-release"
 ".png)"
 msgstr ""
-"![attack release envelope](../../../etc/doc/images/tutorial/env-attack-"
-"release.png)"
+"![attack release envelope](../../../etc/doc/images/tutorial/env-attack-release"
+".png)"
 
 #: 02.4-Durations-with-Envelopes.md:116
 msgid ""
@@ -1428,8 +1453,8 @@ msgid ""
 "![long attack short release envelope](../../../etc/doc/images/tutorial/env-lon"
 "g-attack-short-release.png)"
 msgstr ""
-"![long attack short release envelope](../../../etc/doc/images/tutorial/env-"
-"long-attack-short-release.png)"
+"![long attack short release envelope](../../../etc/doc/images/tutorial/env-lon"
+"g-attack-short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:125
 msgid ""
@@ -1447,8 +1472,8 @@ msgid ""
 "![short attack short release envelope](../../../etc/doc/images/tutorial/env-sh"
 "ort-attack-short-release.png)"
 msgstr ""
-"![short attack short release envelope](../../../etc/doc/images/tutorial/env-"
-"short-attack-short-release.png)"
+"![short attack short release envelope](../../../etc/doc/images/tutorial/env-sh"
+"ort-attack-short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:134
 msgid "Sustain Phase"
@@ -1471,8 +1496,8 @@ msgid ""
 "![ASR envelope](../../../etc/doc/images/tutorial/env-attack-sustain-release.pn"
 "g)"
 msgstr ""
-"![ASR envelope](../../../etc/doc/images/tutorial/env-attack-sustain-"
-"release.png)"
+"![ASR envelope](../../../etc/doc/images/tutorial/env-attack-sustain-release.pn"
+"g)"
 
 #: 02.4-Durations-with-Envelopes.md:147
 msgid ""
@@ -1517,8 +1542,8 @@ msgid ""
 "![ADSR envelope](../../../etc/doc/images/tutorial/env-attack-decay-sustain-rel"
 "ease.png)"
 msgstr ""
-"![ADSR envelope](../../../etc/doc/images/tutorial/env-attack-decay-sustain-"
-"release.png)"
+"![ADSR envelope](../../../etc/doc/images/tutorial/env-attack-decay-sustain-rel"
+"ease.png)"
 
 #: 02.4-Durations-with-Envelopes.md:170
 msgid "Decay Level"
@@ -1706,8 +1731,8 @@ msgid ""
 " of the sounds. This allows you to easily layer sounds together creating inter"
 "esting overlap effects."
 msgstr ""
-"请注意，Sonic "
-"Pi如何在开始下一个声音之前不等待声音结束。睡眠命令`sleep`仅描述声音的*触发*分离。这使您可以轻松地将声音叠加在一起，创建有趣的重叠效果。"
+"请注意，Sonic Pi如何在开始下一个声音之前不等待声音结束。睡眠命令`sleep`仅描述声音的*触发*分离。这使您可以轻松地将声音叠加在一起，创建有趣的"
+"重叠效果。"
 
 #: 03.1-Triggering-Samples.md:42
 msgid "Discovering Samples"
@@ -1719,9 +1744,7 @@ msgid ""
 "t, you can use this help system. Click on Samples in the menu at the bottom of"
 " this help screen, choose your category and then you'll see a list of availabl"
 "e sounds."
-msgstr ""
-"有两种方法可以发现Sonic Pi中提供的样本范围。首先，您可以使用此帮助系统。单击窗口底部菜单，选择\"示例\""
-"，再选择一个分类，您会看到可用声音的列表。"
+msgstr "有两种方法可以发现Sonic Pi中提供的样本范围。首先，您可以使用此帮助系统。单击窗口底部菜单，选择\"示例\"，再选择一个分类，您会看到可用声音的列表。"
 
 #: 03.1-Triggering-Samples.md:49
 msgid ""
@@ -1805,8 +1828,7 @@ msgid ""
 "We're also able to use the `pan:` parameter on samples. For example, here's ho"
 "w we'd play the amen break in the left ear and then half way through play it a"
 "gain through the right ear:"
-msgstr ""
-"我们还可以在样本上使用` pan:`参数。例如，以下是我们先给左耳演奏the amen break，然后再演奏进行到一半时通过右耳再次演奏的方式："
+msgstr "我们还可以在样本上使用` pan:`参数。例如，以下是我们先给左耳演奏the amen break，然后再演奏进行到一半时通过右耳再次演奏的方式："
 
 #: 03.2-Sample-Params.md:24
 #, no-wrap
@@ -1821,7 +1843,7 @@ msgstr ""
 
 #: 03.2-Sample-Params.md:30
 msgid "Note that 0.877 is half the duration of the `:loop_amen` sample in seconds."
-msgstr "注意0.877（以秒为单位）是`：loop_amen`采样持续时间的一半"
+msgstr "注意0.877（以秒为单位）是`：loop_amen`采样持续时间的一半。"
 
 #: 03.2-Sample-Params.md:33
 msgid ""
@@ -2013,9 +2035,9 @@ msgid ""
 " could also play it back at half rate which would be 22050 points per second t"
 "aking 4 seconds to play back."
 msgstr ""
-"您可能以前看过这样的图。它叫做样本的*波形*。它实际上是由一堆数字组成的。通常，这样的波形每秒将有44100个数据点（这是由于Nyquist-Shanno"
-"n采样定理所致）。因此，如果采样持续2秒钟，则波形将由88200个数字表示，我们将以每秒44100点的速度将其馈送到扬声器。当然，我们可以以每秒88200"
-"点的双倍速率馈送。这样的话就只需要1秒钟即可播放完同样一段采样。我们也可以让播放的速率降低一半，即每秒22050点，需要4秒钟才能播放完毕。"
+"您可能以前看过这样的图。它叫做样本的*波形*。它实际上是由一堆数字组成的。通常，这样的波形每秒将有44100个数据点（这是由于Nyquist-Shannon"
+"采样定理所致）。因此，如果采样持续2秒钟，则波形将由88200个数字表示，我们将以每秒44100点的速度将其馈送到扬声器。当然，我们可以以每秒88200点的"
+"双倍速率馈送。这样的话就只需要1秒钟即可播放完同样一段采样。我们也可以让播放的速率降低一半，即每秒22050点，需要4秒钟才能播放完毕。"
 
 #: 03.3-Stretching-Samples.md:116
 msgid "The duration of the sample is affected by the playback rate:"
@@ -2210,7 +2232,7 @@ msgstr "采样整个有1.75秒长，我们的起音和释音阶段加起来有1.
 
 #: 03.4-Enveloped-Samples.md:86
 msgid "Explicit sustain"
-msgstr ""
+msgstr "明确的sustain"
 
 #: 03.4-Enveloped-Samples.md:88
 msgid ""
@@ -2230,8 +2252,8 @@ msgid ""
 "s there for 0s then releases back down to 0 amplitude over the release period "
 "- 0.75s."
 msgstr ""
-"现在我们的样本总共只有区区0.75秒长了。因为`attack:`和`decay:`的值都默认为0，这个样本会直接跳到最大响度，在那里毫不停留，然后在0.7"
-"5秒内迅速释音到0响度。"
+"现在我们的样本总共只有区区0.75秒长了。因为`attack:`和`decay:`的值都默认为0，这个样本会直接跳到最大响度，在那里毫不停留，然后在0.75"
+"秒内迅速释音到0响度。"
 
 #: 03.4-Enveloped-Samples.md:100
 msgid "Percussive cymbals"
@@ -2263,70 +2285,70 @@ msgstr "sample :drum_cymbal_open, attack: 0.01, sustain: 0, release: 0.1"
 msgid ""
 "You can then emulate hitting the cymbal and then dampening it by increasing th"
 "e sustain period:"
-msgstr ""
+msgstr "然后你可以模拟击打铙钹，并且通过增加sustain的时长来抑制它的效果："
 
 #: 03.4-Enveloped-Samples.md:120
 #, no-wrap
 msgid "sample :drum_cymbal_open, attack: 0.01, sustain: 0.3, release: 0.1"
-msgstr ""
+msgstr "样本 ：drum_cymbal_open，起音：0.01, 延音：0.3，释放：0.1"
 
 #: 03.4-Enveloped-Samples.md:124
 msgid ""
 "Now go and have fun putting envelopes over the samples. Try changing the rate "
 "too for really interesting results."
-msgstr ""
+msgstr "那就去享受把波封用在样本上的乐趣吧。为了得到更有趣的结果，你可以试着改变速率。"
 
 #: 03.5-Partial-Samples.md:1
 msgid "3.5 Partial Samples"
-msgstr ""
+msgstr "3.5 部分样本"
 
 #: 03.5-Partial-Samples.md:3
 msgid "Partial Samples"
-msgstr ""
+msgstr "部分样本"
 
 #: 03.5-Partial-Samples.md:5
 msgid ""
 "This section will conclude our exploration of Sonic Pi's sample player. Let's "
 "do a quick recap. So far we've looked at how we can trigger samples:"
-msgstr ""
+msgstr "这一节我们将结束对Sonic Pi'样本播放器的探索。让我们快速回顾一下。到目前为止，我们已经了解了如何触发样本："
 
 #: 03.5-Partial-Samples.md:13
 msgid ""
 "We then looked at how we can change the rate of samples such as playing them a"
 "t half speed:"
-msgstr ""
+msgstr "然后我们研究了如何改变样本的速率，比如以半速播放："
 
 #: 03.5-Partial-Samples.md:20
 msgid "Next, we looked at how we could fade a sample in (let's do it at half speed):"
-msgstr ""
+msgstr "接下来，我们看看如何淡入一个样本(我们以半速来做)："
 
 #: 03.5-Partial-Samples.md:23
 #, no-wrap
 msgid "sample :loop_amen, rate: 0.5, attack: 1"
-msgstr ""
+msgstr "样本：loop_amen，速率：0.5，起音：1"
 
 #: 03.5-Partial-Samples.md:27
 msgid ""
 "We also looked at how we could use the start of a sample percussively by givin"
 "g `sustain:` an explicit value and setting both the attack and release to be s"
 "hort values:"
-msgstr ""
+msgstr "我们还研究了如何通过给出一个显式的“延音”值并将起音和释音设置为短值，来打击振动地使用样本的开始："
 
 #: 03.5-Partial-Samples.md:31
 #, no-wrap
 msgid "sample :loop_amen, rate: 2, attack: 0.01, sustain: 0, release: 0.35"
-msgstr ""
+msgstr "样本：loop_amen，速率：2，起音：0.01，延音：0，释音：0.35"
 
 #: 03.5-Partial-Samples.md:35
 msgid ""
 "However, wouldn't it be nice if we didn't have to always start at the beginnin"
 "g of the sample? Wouldn't it also be nice if we didn't have to always finish a"
 "t the end of the sample?"
-msgstr ""
+msgstr "但是，如果我们能不用总是从样本的开始来作为开端，不会很好吗？如果我们能不必总是在样本的末尾结束，那岂不也很好？"
 
 #: 03.5-Partial-Samples.md:39
 msgid "Choosing a starting point"
-msgstr ""
+msgstr "选择起点"
 
 #: 03.5-Partial-Samples.md:41
 msgid ""
@@ -2334,90 +2356,90 @@ msgid ""
 "between 0 and 1 where 0 is the start of the sample, 1 is the end and 0.5 is ha"
 "lf way through the sample. Let's try playing only the last half of the amen br"
 "eak:"
-msgstr ""
+msgstr "可以在样本中选择0到1之间的任意起点，其中0是样本的起点，1是终点，0.5是样本的一半。我们来试着只打amen的后半段："
 
 #: 03.5-Partial-Samples.md:46
 #, no-wrap
 msgid "sample :loop_amen, start: 0.5"
-msgstr ""
+msgstr "样本：loop_amen，起始值：0.5"
 
 #: 03.5-Partial-Samples.md:50
 msgid "How about the last quarter of the sample:"
-msgstr ""
+msgstr "关于最后1 / 4的样本："
 
 #: 03.5-Partial-Samples.md:52
 #, no-wrap
 msgid "sample :loop_amen, start: 0.75"
-msgstr ""
+msgstr "样本：loop_amen，起始值：0.75"
 
 #: 03.5-Partial-Samples.md:56
 msgid "Choosing a finish point"
-msgstr ""
+msgstr "选择终点"
 
 #: 03.5-Partial-Samples.md:58
 msgid ""
 "Similarly, it is possible to choose an arbitrary finish point in the sample as"
 " a value between 0 and 1. Let's finish the amen break half way through:"
-msgstr ""
+msgstr "类似地，也可以在样本中选择0到1之间的任意结束点。让我们完成amen突破一半："
 
 #: 03.5-Partial-Samples.md:62 A.12-sample-slicing.md:62
 #, no-wrap
 msgid "sample :loop_amen, finish: 0.5"
-msgstr ""
+msgstr "样本：loop_amen，结束：0.5"
 
 #: 03.5-Partial-Samples.md:66
 msgid "Specifying start and finish"
-msgstr ""
+msgstr "指定开始和结束位置"
 
 #: 03.5-Partial-Samples.md:68
 msgid ""
 "Of course, we can combine these two to play arbitrary segments of the audio fi"
 "le. How about only a small section in the middle:"
-msgstr ""
+msgstr "当然，我们可以结合这两个去播放音频文件的任意片段。中间的一小部分如何："
 
 #: 03.5-Partial-Samples.md:71
 #, no-wrap
 msgid "sample :loop_amen, start: 0.4, finish: 0.6"
-msgstr ""
+msgstr "样本：loop_amen，起始：0.4，结束：0.6"
 
 #: 03.5-Partial-Samples.md:75
 msgid "What happens if we choose a start position after the finish position?"
-msgstr ""
+msgstr "如果我们把起始位置放在在结束位置之后，会发生什么呢？"
 
 #: 03.5-Partial-Samples.md:78
 #, no-wrap
 msgid "sample :loop_amen, start: 0.6, finish: 0.4"
-msgstr ""
+msgstr "样本：loop_amen，起始：0.6，结束：0.4"
 
 #: 03.5-Partial-Samples.md:82
 msgid "Cool! It plays it backwards!"
-msgstr ""
+msgstr "太棒了！它会回放！"
 
 #: 03.5-Partial-Samples.md:84
 msgid "Combining with rate"
-msgstr ""
+msgstr "与速率结合"
 
 #: 03.5-Partial-Samples.md:86
 msgid ""
 "We can combine this new ability to play arbitrary segments of audio with our f"
 "riend `rate:`. For example, we can play a very small section of the middle of "
 "the amen break very slowly:"
-msgstr ""
+msgstr "我们可以将这种播放任意音频片段的新能力与我们的朋友`rate:`相结合。比如说，我们可以很慢地播放amen中间暂停的一小段："
 
 #: 03.5-Partial-Samples.md:90
 #, no-wrap
 msgid "sample :loop_amen, start: 0.5, finish: 0.7, rate: 0.2"
-msgstr ""
+msgstr "sample :loop_amen, start: 0.5, finish: 0.7, rate: 0.2"
 
 #: 03.5-Partial-Samples.md:94
 msgid "Combining with envelopes"
-msgstr ""
+msgstr "与包络结合"
 
 #: 03.5-Partial-Samples.md:96
 msgid ""
 "Finally, we can combine all of this with our ADSR envelopes to produce interes"
 "ting results:"
-msgstr ""
+msgstr "最后，我们可以将所有这些与我们的ADSR包络相结合，制作有趣的效果："
 
 #: 03.5-Partial-Samples.md:99
 #, no-wrap
@@ -2425,18 +2447,20 @@ msgid ""
 "sample :loop_amen, start: 0.5, finish: 0.8, rate: -0.2, attack: 0.3, release: "
 "1"
 msgstr ""
+"sample :loop_amen, start: 0.5, finish: 0.8, rate: -0.2, attack: 0.3, release: "
+"1"
 
 #: 03.5-Partial-Samples.md:103
 msgid "Now go and have a play mashing up samples with all of this fun stuff..."
-msgstr ""
+msgstr "马上来试一试将这些有趣的东西混合在一起的采样......"
 
 #: 03.6-External-Samples.md:1
 msgid "3.6 External Samples"
-msgstr ""
+msgstr "3.6 外部采样"
 
 #: 03.6-External-Samples.md:3
 msgid "External Samples"
-msgstr ""
+msgstr "外部采样"
 
 #: 03.6-External-Samples.md:5
 msgid ""
@@ -2445,10 +2469,12 @@ msgid ""
 "orts this. First though, let's have a quick discussion on the portability of y"
 "our piece."
 msgstr ""
+"虽然内置的采样可以让你快速上手，但你可能希望在你的音乐中尝试使用其他录制的声音。Sonic Pi 完全支持这一点。不过首先，需要先来讨论一下你的作品的便携性"
+"。"
 
 #: 03.6-External-Samples.md:10
 msgid "Portability"
-msgstr ""
+msgstr "便携性"
 
 #: 03.6-External-Samples.md:12
 msgid ""
@@ -2459,6 +2485,8 @@ msgid ""
 "your sounds. That makes it *really easy to share* with your friends as they ju"
 "st need to get hold of the code."
 msgstr ""
+"当你纯粹只用内置的合成器和采样来创作作品的时候，代码包括了忠实再现你的音乐的全部。想一想--这太神奇了! 你通过电子邮件或粘贴在[Gist](https:/"
+"/gist.github.com)中的一段简单文字，就包括你需要重现你的作品的一切。这样一来，你与朋友们可以*很容易分享*，因为他们只需要获得代码就可以了。"
 
 #: 03.6-External-Samples.md:19
 msgid ""
@@ -2468,16 +2496,18 @@ msgid ""
 "pulate, mash-up and experiment with your work. Of course this shouldn't stop y"
 "ou from using your own samples, it's just something to consider."
 msgstr ""
+"但是，如果你开始使用自己预先录制的采样，你就会失去这种便携性。这是因为要再现你的音乐，其他人不仅需要你的代码，还需要你的采样。这就限制了别人对你的作品进行操"
+"作、混搭和实验的能力。当然这不应该阻止你使用自己的采样，这只是需要考虑的问题。"
 
 #: 03.6-External-Samples.md:26
 msgid "Local Samples"
-msgstr ""
+msgstr "本地采样"
 
 #: 03.6-External-Samples.md:28
 msgid ""
 "So how do you play any arbitrary WAV, AIFF, OGG, OGA or FLAC file on your comp"
 "uter? All you need to do is pass the path of that file to `sample`:"
-msgstr ""
+msgstr "那么如何在电脑上播放任意WAV、AIFF、OGG、OGA或FLAC文件呢？你需要做的就是将该文件的路径传递给`sample`："
 
 #: 03.6-External-Samples.md:31
 #, no-wrap
@@ -2487,12 +2517,16 @@ msgid ""
 "# Windows\n"
 "sample \"C:/Users/sam/Desktop/my-sound.wav\""
 msgstr ""
+"# 树莓派，苹果系统，Linux系统\n"
+"sample \"/Users/sam/Desktop/my-sound.wav\"\n"
+"# WIndows系统\n"
+"sample \"C:/Users/sam/Desktop/my-sound.wav\""
 
 #: 03.6-External-Samples.md:38
 msgid ""
 "Sonic Pi will automatically load and play the sample. You can also pass all th"
 "e standard params you're used to passing `sample`:"
-msgstr ""
+msgstr "Sonic Pi 将自动加载和播放样本。你还可以传递所有用于传递\"`sample`的标准参数："
 
 #: 03.6-External-Samples.md:41
 #, no-wrap
@@ -2502,14 +2536,18 @@ msgid ""
 "# Windows\n"
 "sample \"C:/Users/sam/Desktop/my-sound.wav\", rate: 0.5, amp: 0.3"
 msgstr ""
+"# 在Raspberry Pi, Mac, Linux中\n"
+"sample \"/Users/sam/Desktop/my-sound.wav\", rate: 0.5, amp: 0.3\n"
+"# 在Windows中\n"
+"sample \"C:/Users/sam/Desktop/my-sound.wav\", rate: 0.5, amp: 0.3"
 
 #: 03.7-Sample-Packs.md:1
 msgid "3.7 Sample Packs"
-msgstr ""
+msgstr "3.7 采样包"
 
 #: 03.7-Sample-Packs.md:3
 msgid "Sample Packs"
-msgstr ""
+msgstr "采样包"
 
 #: 03.7-Sample-Packs.md:5
 msgid ""
@@ -2517,29 +2555,31 @@ msgid ""
 " large directories of your own samples. This will be the case if you've downlo"
 "aded or bought your own sample packs and wish to use them within Sonic Pi.**"
 msgstr ""
+"**注意：这部分教程包含了关于处理大量自定义采样文件的操作，只有在你下载或购买了自己的采样包，并且想在Sonic Pi中使用的时候，才需要参考这部分内容。*"
+"*"
 
 #: 03.7-Sample-Packs.md:10
 msgid "**Feel free to skip this if you're happy working with the built-in samples.**"
-msgstr ""
+msgstr "**如果你用内置采样包就能玩得很开心，就跳过这部分教程吧。**"
 
 #: 03.7-Sample-Packs.md:13
 msgid ""
 "When working with large folders of external samples it can be cumbersome to ha"
 "ve to type the whole path every time to trigger an individual sample."
-msgstr ""
+msgstr "当你要大量使用外置采样文件的时候，每次都输入相应文件的完整路径会非常麻烦。"
 
 #: 03.7-Sample-Packs.md:17
 msgid "For example, say you have the following folder on your machine:"
-msgstr ""
+msgstr "例如你想在自己的机器上找到如下文件夹："
 
 #: 03.7-Sample-Packs.md:19
 #, no-wrap
 msgid "/path/to/my/samples/"
-msgstr ""
+msgstr "/path/to/my/samples/"
 
 #: 03.7-Sample-Packs.md:23
 msgid "When we look inside that folder we find the following samples:"
-msgstr ""
+msgstr "我们打开这个文件夹后可以找到下面这些采样："
 
 #: 03.7-Sample-Packs.md:25 03.7-Sample-Packs.md:86
 msgid "`100_A#_melody1.wav`"
@@ -2567,47 +2607,47 @@ msgstr "`120_Bb_piano1.wav`"
 
 #: 03.7-Sample-Packs.md:32
 msgid "Typically in order to play the piano sample we can use the full path:"
-msgstr ""
+msgstr "要播放钢琴采样时，我们可以用完整的路径："
 
 #: 03.7-Sample-Packs.md:34
 #, no-wrap
 msgid "sample \"/path/to/my/samples/120_Bb_piano1.wav\""
-msgstr ""
+msgstr "采样样本 \"/path/to/my/samples/120_Bb_piano1.wav\""
 
 #: 03.7-Sample-Packs.md:38
 msgid "If we want to then play the guitar sample we can use its full path too:"
-msgstr ""
+msgstr "又或者如果我们要播放吉他采样，也可以用完整的路径："
 
 #: 03.7-Sample-Packs.md:40
 #, no-wrap
 msgid "sample \"/path/to/my/samples/120_Bb_guit.wav\""
-msgstr ""
+msgstr "采样样本 \"/path/to/my/samples/120_Bb_guit.wav\""
 
 #: 03.7-Sample-Packs.md:44
 msgid ""
 "However, both of these calls to sample requires us to *know* the names of the "
 "samples within our directory. What if we just want to listen to each sample in"
 " turn quickly?"
-msgstr ""
+msgstr "但是，使用这些采样需要我们事先*知道*我们目录中采样的名字。如果我们只是想快速地从头到尾听一遍每个采样，该怎么做呢？"
 
 #: 03.7-Sample-Packs.md:48
 msgid "Indexing Sample Packs"
-msgstr ""
+msgstr "索引采样包"
 
 #: 03.7-Sample-Packs.md:50
 msgid ""
 "If we want to play the first sample in a directory we just need to pass the di"
 "rectory's name to `sample` and the index `0` as follows:"
-msgstr ""
+msgstr "如果我们想播放一个目录下的第一个采样，只需要像这样，在'sample'后加上目录名和索引号'0' ："
 
 #: 03.7-Sample-Packs.md:53
 #, no-wrap
 msgid "sample \"/path/to/my/samples/\", 0"
-msgstr ""
+msgstr "采样样本 \"/path/to/my/samples/\", 0"
 
 #: 03.7-Sample-Packs.md:57
 msgid "We can even make a shortcut to our directory path using a variable:"
-msgstr ""
+msgstr "我们还可以利用变量来快速调用某个文件路径："
 
 #: 03.7-Sample-Packs.md:59
 #, no-wrap
@@ -2615,12 +2655,14 @@ msgid ""
 "samps = \"/path/to/my/samples/\"\n"
 "sample samps, 0"
 msgstr ""
+"samps = \"/path/to/my/samples/\"\n"
+"sample samps, 0"
 
 #: 03.7-Sample-Packs.md:64
 msgid ""
 "Now, if we want to play the second sample in our directory, we just need to ad"
 "d 1 to our index:"
-msgstr ""
+msgstr "如果我们想播放目录中的第二个采样，只需要在索引号后加1："
 
 #: 03.7-Sample-Packs.md:67
 #, no-wrap
@@ -2628,6 +2670,8 @@ msgid ""
 "samps = \"/path/to/my/samples/\"\n"
 "sample samps, 1"
 msgstr ""
+"samps = \"/path/to/my/samples/\"\n"
+"sample samps, 1"
 
 #: 03.7-Sample-Packs.md:72
 msgid ""
@@ -2637,17 +2681,19 @@ msgid ""
 " round just like Rings. Therefore, whatever number we use we're guaranteed to "
 "get one of the samples in that directory."
 msgstr ""
+"注意我们已经不需要知道目录中采样的文件名，只需要知道文件夹的路径（或者有一个指向它的快捷方式）。如果我们输入了一个比文件数目更大的索引号，它会又从头开始算起"
+"，就像ring列表一样。因此不管我们输入什么样的索引号，总能得到目录中的某个采样。"
 
 #: 03.7-Sample-Packs.md:79
 msgid "Filtering Sample Packs"
-msgstr ""
+msgstr "过滤采样包"
 
 #: 03.7-Sample-Packs.md:81
 msgid ""
 "Usually indexing is enough, but sometimes we need more power to sort and organ"
 "ise our samples. Luckily many sample packs add useful information in the filen"
 "ames. Let's take another look at the sample file names in our directory:"
-msgstr ""
+msgstr "通常用索引就够了，但有时我们还需要更强大的方式来分类整理我们的采样文件。有很多采样包会在文件名中附带有用的信息，让我们再仔细看看目录中的采样文件名："
 
 #: 03.7-Sample-Packs.md:93
 msgid ""
@@ -2659,6 +2705,9 @@ msgid ""
 "r code. For example, we know we can only play the piano sample with code that'"
 "s in 120 BPM and in the key of Bb."
 msgstr ""
+"可以看到这些文件名包含了不少信息。首先在开始处可以看到采样的BPM（每分钟节拍数）。所以钢琴采样的BPM是120，而我们前面的三段旋律BPM是100。还可以"
+"看到文件名标明了采样的调性。比如吉他采样是Bb调，而我们旋律是A#调。我们在代码中编入这些采样时，这些信息是很有用的。比如说，我们可以知道只能在BPM为12"
+"0且调性为Bb的旋律中使用这个钢琴采样。"
 
 #: 03.7-Sample-Packs.md:102
 msgid ""
@@ -2667,6 +2716,8 @@ msgid ""
 "working at 120 BPM, we can filter down to all the samples that contain the str"
 "ing `\"120\"` with the following:"
 msgstr ""
+"实际上我们可以利用采样包的这个命名规则，在代码中过滤筛选出我们想要的采样。例如，如果我们当前的BPM是120，我们可以过滤出所有文件名中含有\"120\"的采样"
+"文件："
 
 #: 03.7-Sample-Packs.md:107
 #, no-wrap
@@ -2674,12 +2725,14 @@ msgid ""
 "samps = \"/path/to/my/samples/\"\n"
 "sample samps, \"120\""
 msgstr ""
+"samps = \"/path/to/my/samples/\"\n"
+"sample samps, \"120\""
 
 #: 03.7-Sample-Packs.md:112
 msgid ""
 "This will play us the first match. If we want the second match we just need to"
 " use the index:"
-msgstr ""
+msgstr "这样会播放第一个符合这个条件的采样。如果想用第二个符合条件的采样，只需要加入索引号："
 
 #: 03.7-Sample-Packs.md:115
 #, no-wrap
@@ -2687,13 +2740,15 @@ msgid ""
 "samps = \"/path/to/my/samples/\"\n"
 "sample samps, \"120\", 1"
 msgstr ""
+"samps = \"/path/to/my/samples/\"\n"
+"sample samps, \"120\", 1"
 
 #: 03.7-Sample-Packs.md:120
 msgid ""
 "We can even use multiple filters at the same time. For example, if we want a s"
 "ample whose filename contains both the substrings `\"120\"` and `\"A#\"` we can fi"
 "nd it easily with the following code:"
-msgstr ""
+msgstr "甚至还能同时使用多个过滤规则。例如，如果我们想要文件名同时包含了\"120\"和\"A#\"的采样，我们可以用下面的代码来过滤："
 
 #: 03.7-Sample-Packs.md:124
 #, no-wrap
@@ -2701,10 +2756,12 @@ msgid ""
 "samps = \"/path/to/my/samples/\"\n"
 "sample samps, \"120\", \"A#\""
 msgstr ""
+"samps = \"/path/to/my/samples/\"\n"
+"sample samps, \"120\", \"A#\""
 
 #: 03.7-Sample-Packs.md:129
 msgid "Finally, we're still free to add our usual opts to the call to `sample`:"
-msgstr ""
+msgstr "最后我们还是可以自由地加上sample常用的选项："
 
 #: 03.7-Sample-Packs.md:131
 #, no-wrap
@@ -2712,10 +2769,12 @@ msgid ""
 "samps = \"/path/to/my/samples/\"\n"
 "sample samps, \"120\", \"Bb\", 1, lpf: 70, amp: 2"
 msgstr ""
+"samps = \"/path/to/my/samples/\"\n"
+"sample samps, \"120\", \"Bb\", 1, lpf: 70, amp: 2"
 
 #: 03.7-Sample-Packs.md:136
 msgid "Sources"
-msgstr ""
+msgstr "采样来源"
 
 #: 03.7-Sample-Packs.md:138
 msgid ""
@@ -2723,14 +2782,16 @@ msgid ""
 "s* and *filters*. Sources are information used to create the list of potential"
 " candidates. A source can take two forms:"
 msgstr ""
+"采样过滤器的前置参数系统可以解析两种类型的信息：*采样来源（sources）*和*过滤选项（filters）*。采样来源信息可以用来产生一系列的备选采样，采"
+"样来源可以有两种形式："
 
 #: 03.7-Sample-Packs.md:142
 msgid "`\"/path/to/samples\"` - a string representing a valid path to a directory"
-msgstr ""
+msgstr "`\"/path/to/samples\"` - 代表采样文件路径的字符串"
 
 #: 03.7-Sample-Packs.md:143
 msgid "`\"/path/to/samples/foo.wav\"` - a string representing a valid path to a sample"
-msgstr ""
+msgstr "`\"/path/to/samples/foo.wav\"` - 代表某个路径下的采样文件的字符串"
 
 #: 03.7-Sample-Packs.md:145
 msgid ""
@@ -2739,10 +2800,12 @@ msgid ""
 "d then by adding all the valid `.flac`, `.aif`, `.aiff`, `.wav`, `.wave` files"
 " contained within the directories."
 msgstr ""
+"`sample`的这个功能首先会搜集所有的采样来源，形成一个备选采样的大列表。这个列表由所有可用的采样来源目录下的`.flac`, `.aif`, `.ai"
+"ff`, `.wav`, `.wave`这几类文件组成。"
 
 #: 03.7-Sample-Packs.md:150
 msgid "For example, take a look at the following code:"
-msgstr ""
+msgstr "观察一下下面的代码："
 
 #: 03.7-Sample-Packs.md:152
 #, no-wrap
@@ -2752,6 +2815,10 @@ msgid ""
 "path = \"/path/to/my/samples3/foo.wav\"\n"
 "sample samps, samps2, path, 0"
 msgstr ""
+"samps = \"/path/to/my/samples/\"\n"
+"samps2 = \"/path/to/my/samples2/\"\n"
+"path = \"/path/to/my/samples3/foo.wav\"\n"
+"sample samps, samps2, path, 0"
 
 #: 03.7-Sample-Packs.md:160
 msgid ""
@@ -2760,6 +2827,8 @@ msgid ""
 "\"/path/to/my/samples2/\"` contained 12, we'd have 16 potential samples to index"
 " and filter (3 + 12 + 1)."
 msgstr ""
+"我们可以用这种方式把两个目录中包含的采样和另一个特定的采样都加入到备选列表中，如果`\"/path/to/my/samples/\"`中有3个采样， `\"/pa"
+"th/to/my/samples2/\"` 中有12个采样，那么我们的备选列表中就有3+12+1个采样，可以用前面讲过的索引和过滤器的方式来处理它们。"
 
 #: 03.7-Sample-Packs.md:165
 msgid ""
@@ -2768,7 +2837,7 @@ msgid ""
 "u wish to search and filter within. You can therefore do a recursive search fo"
 "r all samples within all subfolders of a particular folder by adding `**` to t"
 "he end of the path:"
-msgstr ""
+msgstr "默认情况只有直接包含在目录下面的采样文件会包含到列表中，但有时候你可能会想要搜索和过滤子文件夹中包含的采样文件，你可以在某个文件路径后加`**`来实现："
 
 #: 03.7-Sample-Packs.md:171
 #, no-wrap
@@ -2776,48 +2845,50 @@ msgid ""
 "samps = \"/path/to/nested/samples/**\"\n"
 "sample samps, 0"
 msgstr ""
+"samps = \"/path/to/nested/samples/**\"\n"
+"sample samps, 0"
 
 #: 03.7-Sample-Packs.md:176
 msgid ""
 "Take care though as searching through a very large set of folders may take a l"
 "ong time. However, the contents of all folder sources are cached, so the delay"
 " will only happen the first time."
-msgstr ""
+msgstr "但是要注意，搜索大量的文件夹可能会耗费很长的时间。不过所有的采样来源会写入到缓存中，所有只有第一次搜索会耗时间。"
 
 #: 03.7-Sample-Packs.md:180
 msgid ""
 "Finally, note that the sources *must go first*. If no source is given, then th"
 "e set of built-in samples will be selected as the default list of candidates t"
 "o work with."
-msgstr ""
+msgstr "最后需要注意的是采样来源的参数*要放在最前面*。如果没有设定来源，就会使用内置的采样库作为备选列表。"
 
 #: 03.7-Sample-Packs.md:184 A.19-subtractive-synthesis.md:47
 msgid "Filters"
-msgstr ""
+msgstr "过滤器"
 
 #: 03.7-Sample-Packs.md:186
 msgid ""
 "Once you have a list of candidates you may use the following filtering types t"
 "o further reduce the selection:"
-msgstr ""
+msgstr "拥有一个备选列表后，你可以用下面的过滤类型进一步缩小选择范围："
 
 #: 03.7-Sample-Packs.md:189
 msgid ""
 "`\"foo\"` Strings will filter on substring occurrence within file name (minus di"
 "rectory path and extension)."
-msgstr ""
+msgstr "`\"foo\"`会过滤出文件名中含有对应字符串的采样（不包括文件路径和扩展名）。"
 
 #: 03.7-Sample-Packs.md:190
 msgid ""
 "`/fo[oO]/` Regular Expressions will filter on pattern matching of file name (m"
 "inus directory path and extension)."
-msgstr ""
+msgstr "`/fo[oO]/`正则表达式会过滤出匹配相应规则的文件名（不含文件路径和扩展名）。"
 
 #: 03.7-Sample-Packs.md:191
 msgid ""
 "`:foo` - Keywords will filter candidates on whether the keyword is a direct ma"
 "tch of the filename (minus directory path and extension)."
-msgstr ""
+msgstr "`:foo` 这个形式会过滤出完全匹配关键词的采样文件名（不含文件路径和扩展名）。"
 
 #: 03.7-Sample-Packs.md:192
 msgid ""
@@ -2831,28 +2902,28 @@ msgstr ""
 msgid ""
 "`1` - Numbers will select the candidate with that index (wrapping round like a"
 " ring if necessary)."
-msgstr ""
+msgstr "`1`会以索引号形式在备选列表中选出相应的采样（采用ring的方式循环选择）。"
 
 #: 03.7-Sample-Packs.md:195
 msgid ""
 "For example, we can filter over all the samples in a directory containing the "
 "string `\"foo\"` and play the first matching sample at half speed:"
-msgstr ""
+msgstr "例如，我们可以从一个目录中包含的所有采样中过滤出文件名含有`\"foo\"`的采样，并播放第一个匹配的采样，用原来的一半速度："
 
 #: 03.7-Sample-Packs.md:199
 #, no-wrap
 msgid "sample \"/path/to/samples\", \"foo\", rate: 0.5"
-msgstr ""
+msgstr "sample \"/path/to/samples\", \"foo\", rate: 0.5"
 
 #: 03.7-Sample-Packs.md:203
 msgid ""
 "See the help for `sample` for many detailed usage examples. Note that the orde"
 "ring of the filters is honoured."
-msgstr ""
+msgstr "具体的使用例子可以参考`sample`函数的文档，注意过滤器的顺序会影响结果。"
 
 #: 03.7-Sample-Packs.md:206
 msgid "Composites"
-msgstr ""
+msgstr "复合参数"
 
 #: 03.7-Sample-Packs.md:208
 msgid ""
@@ -2861,6 +2932,8 @@ msgid ""
 "ources and filters. Therefore the following calls to `sample` are semantically"
 " equivalent:"
 msgstr ""
+"采样来源和过滤器都可以用列表的形式来表示，列表会自动打散，里面的元素会像普通的采样来源和过滤器一样被读取，因此以下的几个`sample`例子表示的是同样的意"
+"思："
 
 #: 03.7-Sample-Packs.md:213
 #, no-wrap
@@ -2870,10 +2943,14 @@ msgid ""
 "sample \"/path/to/dir\", [\"100\", \"C#\"]\n"
 "sample [\"/path/to/dir\", [\"100\", [\"C#\"]]]"
 msgstr ""
+"sample \"/path/to/dir\", \"100\", \"C#\"\n"
+"sample [\"/path/to/dir\", \"100\", \"C#\"]\n"
+"sample \"/path/to/dir\", [\"100\", \"C#\"]\n"
+"sample [\"/path/to/dir\", [\"100\", [\"C#\"]]]"
 
 #: 03.7-Sample-Packs.md:220
 msgid "Wrapping Up"
-msgstr ""
+msgstr "小结"
 
 #: 03.7-Sample-Packs.md:222
 msgid ""
@@ -2883,14 +2960,16 @@ msgid ""
 "you'll know when you do need it and you can come back and re-read this when yo"
 "u start working with large directories of samples."
 msgstr ""
+"这部分内容是给那些想要更有效地使用采样包的人参考的，如果你啥都看不明白也没关系，很可能你目前根本用不着这些内容。未来你有可能有需要，你可以重新回来看看这部分"
+"关于如何使用大量采样包的内容。"
 
 #: 04-Randomisation.md:1
 msgid "4 Randomisation"
-msgstr ""
+msgstr "4 随机化"
 
 #: 04-Randomisation.md:3
 msgid "Randomisation"
-msgstr ""
+msgstr "随机化"
 
 #: 04-Randomisation.md:5
 msgid ""
@@ -2899,10 +2978,12 @@ msgid ""
 "t before we start we need to learn a shocking truth: in Sonic Pi *random is no"
 "t truly random*. What on earth does this mean? Well, let's see."
 msgstr ""
+"要让你的音乐变得更有趣，加入一些随机数是和好的办法。Sonic Pi有很多功能可以为你的音乐加入随机性，但开始之前我们要认清一个现实：Sonic Pi中*所"
+"有的随机并不是真的随机*！那到底是什么啊？让我们来看看。"
 
 #: 04-Randomisation.md:11
 msgid "Repeatability"
-msgstr ""
+msgstr "可再现性"
 
 #: 04-Randomisation.md:13
 msgid ""
@@ -2910,11 +2991,13 @@ msgid ""
 "between two numbers - a *min* and a *max*. (`rrand` is short for ranged random"
 "). Let's try playing a random note:"
 msgstr ""
+"`rrand`是一个很有用的随机函数，它会在两个数字之间随机生成一个数，即*上限*和*下限*，（`rrand`是\"ranged random\"的缩写）。试一"
+"下演奏一个随机音符："
 
 #: 04-Randomisation.md:17
 #, no-wrap
 msgid "play rrand(50, 95)"
-msgstr ""
+msgstr "play rrand(50, 95)"
 
 #: 04-Randomisation.md:21
 msgid ""
@@ -2923,6 +3006,8 @@ msgid ""
 "oo? Something fishy is going on here. Try running the code again. What? It cho"
 "se `83.7527` again? That can't be random!"
 msgstr ""
+"看，出来了一个随机的音，相应midi音符是`83.7527`，是介于50和95之间的随机数。但是等等，难道我能预测出你得到的随机数吗？这个事情很可疑。试试再"
+"运行一次这段代码。什么？又是`83.7527`？这不是随机数啊！"
 
 #: 04-Randomisation.md:26
 msgid ""
@@ -2931,13 +3016,15 @@ msgid ""
 "suring that the music you create on your machine sounds identical on everybody"
 " else's machine - even if you use some randomness in your composition."
 msgstr ""
+"这问题的答案就是这不是真的随机数，是\"伪随机\"（pseudo-random）。Sonic Pi用了一种可以再现的方式，给了你一个看起来像随机数的数。这个机制"
+"可以保证你在自己机器上创作的音乐在别人的机器上听起来也是一样的，即使你在创作中加入了随机性。"
 
 #: 04-Randomisation.md:32
 msgid ""
 "Of course, in a given piece of music, if it 'randomly' chose `83.7527` every t"
 "ime, then it wouldn't be very interesting. However, it doesn't. Try the follow"
 "ing:"
-msgstr ""
+msgstr "当然，在某段特定的音乐里，如果你的\"随机数\"每次都是`83.7527`，那肯定会很无聊。但实际上并不会。试试下面的代码："
 
 #: 04-Randomisation.md:36
 #, no-wrap
@@ -2947,6 +3034,10 @@ msgid ""
 "  sleep 0.5\n"
 "end "
 msgstr ""
+"loop do\n"
+"  play rrand(50, 95)\n"
+"  sleep 0.5\n"
+"end "
 
 #: 04-Randomisation.md:43
 msgid ""
@@ -2956,36 +3047,44 @@ msgid ""
 "ll Sonic Pi code went back in time to exactly the same point every time the Ru"
 "n button was pressed. It's the Groundhog Day of music synthesis!"
 msgstr ""
+"对！这听起来很随机。在某次特定的*运行*中，先后使用随机函数得可以得到一系列随机数，但是下一次运行这段代码的时候，还会得到同样的一系列随机数，所以每次运行听"
+"起来都是一样的。就好像Sonic Pi每次运行都会回到你第一次按下\"运行\"按钮的那个时间点。去看看《今天暂时停止》（Groundhog Day, 1993）"
+"这部电影吧，这样的事情就发生在音乐合成中！"
 
 #: 04-Randomisation.md:50
 msgid "Haunted Bells"
-msgstr ""
+msgstr "连绵不绝的钟声（示例代码：Haunted Bells）"
 
 #: 04-Randomisation.md:52
 msgid ""
 "A lovely illustration of randomisation in action is the haunted bells example "
 "which loops the `:perc_bell` sample with a random rate and sleep time between "
 "bell sounds:"
-msgstr ""
+msgstr "示例代码中的haunted bells用非常可爱的方式演示了随机化，它用随机的采样率和间隔时间反复播放 `:perc_bell`这个采样："
 
 #: 04-Randomisation.md:56
 #, no-wrap
+#, fuzzy
 msgid ""
+"loop do\n"
+"  sample :perc_bell, rate: rrand(0.125, 1.5)\n"
+"  sleep rrand(0.2, 2)\n"
+"end"
+msgstr ""
 "loop do\n"
 "  sample :perc_bell, rate: (rrand 0.125, 1.5)\n"
 "  sleep rrand(0.2, 2)\n"
 "end"
-msgstr ""
 
 #: 04-Randomisation.md:63
 msgid "Random cutoff"
-msgstr ""
+msgstr "随机截止频率"
 
 #: 04-Randomisation.md:65
 msgid ""
 "Another fun example of randomisation is to modify the cutoff of a synth random"
 "ly. A great synth to try this out on is the `:tb303` emulator:"
-msgstr ""
+msgstr "关于随机化另一个有趣的例子是随机设定一个合成器的截止频率，合成器`:tb303`模拟器是一个很好的实验对象："
 
 #: 04-Randomisation.md:69
 #, no-wrap
@@ -2996,10 +3095,15 @@ msgid ""
 "  sleep 0.125\n"
 "end"
 msgstr ""
+"use_synth :tb303\n"
+"loop do\n"
+"  play 50, release: 0.1, cutoff: rrand(60, 120)\n"
+"  sleep 0.125\n"
+"end"
 
 #: 04-Randomisation.md:78
 msgid "Random seeds"
-msgstr ""
+msgstr "随机种子"
 
 #: 04-Randomisation.md:80
 msgid ""
@@ -3008,10 +3112,12 @@ msgid ""
 " `use_random_seed`. The default seed happens to be 0, so choose a different se"
 "ed for a different random experience!"
 msgstr ""
+"如果你实在不喜欢Sonic Pi给你生成的这一组随机数怎么办？你完全可以通过`use_random_seed`选择另一个产生随机数的\"种子\"。默认的种子编号"
+"是0，选一个别的数字就可以体验到完全不一样的随机体验!"
 
 #: 04-Randomisation.md:85
 msgid "Consider the following:"
-msgstr ""
+msgstr "试试下面的例子："
 
 #: 04-Randomisation.md:87
 #, no-wrap
@@ -3021,12 +3127,16 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
+"5.times do\n"
+"  play rrand(50, 100)\n"
+"  sleep 0.5\n"
+"end"
 
 #: 04-Randomisation.md:94
 msgid ""
 "Every time you run this code, you'll hear the same sequence of 5 notes. To get"
 " a different sequence simply change the seed:"
-msgstr ""
+msgstr "你每次运行这段代码会听到同样的5个音符。如果你想要随机产生5个不一样的音符，换一个随机种子就可以："
 
 #: 04-Randomisation.md:97
 #, no-wrap
@@ -3037,21 +3147,26 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
+"use_random_seed 40\n"
+"5.times do\n"
+"  play rrand(50, 100)\n"
+"  sleep 0.5\n"
+"end"
 
 #: 04-Randomisation.md:105
 msgid ""
 "This will produce a different sequence of 5 notes. By changing the seed and li"
 "stening to the results you can find something that you like - and when you sha"
 "re it with others, they will hear exactly what you heard too."
-msgstr ""
+msgstr "这段代码会生成完全不同的5个音符。多试试几个不同的随机种子，你总能找到让你满意的结果，而当你与别人分享代码时，他们会听到同样的随机结果。"
 
 #: 04-Randomisation.md:110
 msgid "Let's have a look at some other useful random functions."
-msgstr ""
+msgstr "我们再来看看另一些有用的随机函数。"
 
 #: 04-Randomisation.md:113
 msgid "choose"
-msgstr ""
+msgstr "choose函数"
 
 #: 04-Randomisation.md:115
 msgid ""
@@ -3062,6 +3177,9 @@ msgid ""
 "uare brackets and separating them with commas: `[60, 65, 72]`. Next I just nee"
 "d to pass them to `choose`:"
 msgstr ""
+"我们经常要做的一件事就是从一些已知的元素中随机选择一个。比如说，我可能会想要在60,65和72这三个音中随机选一个来演奏。这个时候就可以通过`choose`"
+"来实现。首先我需要把这三个音放到一个列表中，用方括号把它们包起来，再用逗号做分隔即可（注意要用英文的方括号和逗号）：`[60, 65, 72]`，然后我只需"
+"要把这个列表交给`choose`:"
 
 #: 04-Randomisation.md:122
 #, no-wrap
@@ -4308,14 +4426,14 @@ msgstr ""
 #, no-wrap
 msgid ""
 "a = (ring 6, 5, 4, 3, 2, 1)\n"
-"live_loop :shuffled do\n"
-"  a = a.shuffle\n"
-"  sleep 0.5\n"
-"end\n"
 "live_loop :sorted do\n"
 "  a = a.sort\n"
 "  sleep 0.5\n"
 "  puts \"sorted: \", a\n"
+"end\n"
+"live_loop :shuffled do\n"
+"  a = a.shuffle\n"
+"  sleep 0.5\n"
 "end"
 msgstr ""
 
@@ -6082,14 +6200,18 @@ msgstr ""
 
 #: 09.1-Live-Coding-Fundamentals.md:87
 #, no-wrap
-#, fuzzy
 msgid ""
 "define :my_sound do\n"
 "  use_synth :tb303\n"
 "  play choose(chord(:e3, :minor)), release: 0.2, cutoff: rrand(60, 130)\n"
 "  sleep 0.25\n"
 "end"
-msgstr "rand"
+msgstr ""
+"define :my_sound do\n"
+"  use_synth :tb303\n"
+"  play choose(chord(:e3, :minor)), release: 0.2, cutoff: rrand(60, 130)\n"
+"  sleep 0.25\n"
+"end"
 
 #: 09.1-Live-Coding-Fundamentals.md:95
 msgid "Finally, add some drums:"
@@ -6097,7 +6219,6 @@ msgstr ""
 
 #: 09.1-Live-Coding-Fundamentals.md:97
 #, no-wrap
-#, fuzzy
 msgid ""
 "define :my_sound do\n"
 "  use_synth :tb303\n"
@@ -6105,7 +6226,13 @@ msgid ""
 "  play choose(chord(:e3, :minor)), release: 0.2, cutoff: rrand(60, 130)\n"
 "  sleep 0.25\n"
 "end"
-msgstr "rand"
+msgstr ""
+"define :my_sound do\n"
+"  use_synth :tb303\n"
+"  sample :drum_bass_hard, rate: rrand(0.5, 2)\n"
+"  play choose(chord(:e3, :minor)), release: 0.2, cutoff: rrand(60, 130)\n"
+"  sleep 0.25\n"
+"end"
 
 #: 09.1-Live-Coding-Fundamentals.md:106
 msgid "Now things are getting exciting!"
@@ -7721,9 +7848,9 @@ msgid ""
 "etter to yourself - the OSC packet is created, leaves Sonic Pi, gets to the ne"
 "twork stack of the operating system which then routes the packed back to Sonic"
 " Pi and then it's received as a standard OSC message and is visible in the cue"
-" logger as the incoming message `\"/osc:127.0.0.1:4560/hello/world`. (Notice ho"
-"w Sonic Pi automatically prefixes all incoming OSC messages with `/osc` and th"
-"en the hostname and port of the sender.)"
+" logger as the incoming message `/osc:127.0.0.1:4560/hello/world`. (Notice how"
+" Sonic Pi automatically prefixes all incoming OSC messages with `/osc` and the"
+"n the hostname and port of the sender.)"
 msgstr ""
 
 #: 12.2-Sending-OSC.md:25
@@ -8575,8 +8702,8 @@ msgid ""
 "![Sam Aaron Live Coding](../../../etc/doc/images/tutorial/articles/A.02-live-c"
 "oding/sam-aaron-live-coding.png)"
 msgstr ""
-"![即时代码](../../../etc/doc/images/tutorial/articles/A.02-live-coding/sam-aaron-"
-"live-coding.png)"
+"![即时代码](../../../etc/doc/images/tutorial/articles/A.02-live-coding/sam-aaron-l"
+"ive-coding.png)"
 
 #: A.02-live-coding.md:16
 msgid ""
@@ -8752,7 +8879,7 @@ msgstr ""
 #: A.11-beat-tracking.md:176 A.12-sample-slicing.md:137
 #: A.13-probabilistic-sequencer.md:137 A.14-amplitude-modulation.md:192
 #: A.15-performance.md:152 A.16-practice.md:166 A.17-sample-stretching.md:153
-#: A.18-additive-synthesis.md:115 A.19-subtractive-synthesis.md:137
+#: A.18-additive-synthesis.md:115 A.19-subtractive-synthesis.md:138
 msgid "Bringing it all together"
 msgstr ""
 
@@ -12041,17 +12168,17 @@ msgid ""
 msgstr ""
 
 #: A.15-performance.md:97
-msgid "4. Use the Master Mixer"
+msgid "4. Use the Main Mixer"
 msgstr ""
 
 #: A.15-performance.md:99
 msgid ""
-"One of Sonic Pi's best kept secrets is that it has a master mixer through whic"
-"h all sound flows. This mixer has both a low pass filter and a high pass filte"
-"r built-in, so you can easily perform global modifications to the sound. The m"
-"aster mixer's functionality can be accessed via the fn `set_mixer_control!`. F"
-"or example, whilst some code is running and making sound, enter this into a sp"
-"are buffer and hit `Run`:"
+"One of Sonic Pi's best kept secrets is that it has a main mixer through which "
+"all sound flows. This mixer has both a low pass filter and a high pass filter "
+"built-in, so you can easily perform global modifications to the sound. The mai"
+"n mixer's functionality can be accessed via the fn `set_mixer_control!`. For e"
+"xample, whilst some code is running and making sound, enter this into a spare "
+"buffer and hit `Run`:"
 msgstr ""
 
 #: A.15-performance.md:107
@@ -12124,9 +12251,9 @@ msgid ""
 " discussed, let's part by setting down a challenge. See if you can spend a wee"
 "k practicing one of these ideas every day. For example, one day practice manua"
 "l triggers, the next do some basic `live_loop` work and the following day play"
-" around with the master mixer. Then repeat. Don't worry if things feel slow an"
-"d clunky at first - just keep practicing and before you know it you'll be live"
-" coding for a real audience."
+" around with the main mixer. Then repeat. Don't worry if things feel slow and "
+"clunky at first - just keep practicing and before you know it you'll be live c"
+"oding for a real audience."
 msgstr ""
 
 #: A.16-practice.md:1
@@ -12278,7 +12405,6 @@ msgid "Hear the Code"
 msgstr ""
 
 #: A.16-practice.md:112
-#, fuzzy
 msgid ""
 "Many musicians can look at a musical score and hear the music in their head wi"
 "thout having to play it. This is a very useful skill and it's well worth incor"
@@ -12290,7 +12416,11 @@ msgid ""
 " to hear music in your head and know what code to write to make it. It may tak"
 "e you a long time to master this, but once you do, you'll be able to improvise"
 " on stage and express your ideas fluently."
-msgstr "rand"
+msgstr ""
+"很多音乐家可以在脑海中把看到的乐曲谱子想象着播放出来。这个技能非常有用，也非常值得你在即时用代码写音乐的时候融合进去。重点是你应该能够大体知道你写下的代码"
+"会产生出什么样的声音。你不需要像音乐家一样，在脑海中把它们完美的想象出来，但至少，知道你自己写下的代码会听起来是快，慢，响，有节奏感，有旋律感，很随机，等"
+"等。这一系列的最终目的是能够把这套东西反过来——在你的脑海中先产生音乐，然后用相应的代码来把它实现出来。想要完全掌握这项技能需要你下一定功夫，但是你一旦掌"
+"握了，就能在现场表演的时候很好的即兴创作，和表达你的音乐点子啦！"
 
 #: A.16-practice.md:124
 msgid ""
@@ -12727,12 +12857,13 @@ msgid ""
 msgstr ""
 
 #: A.18-additive-synthesis.md:87
-#, fuzzy
 msgid ""
 "Some of the built-in synths already include a detune option that does exactly "
 "this in one synth. Try playing with the `detune:` opt of `:dsaw`, `:dpulse` an"
 "d `:dtri`."
-msgstr "`:dsaw`"
+msgstr ""
+"有几个软件本身附带的合成器，已经包含了一个detune的模式，这模式和现在这一个合成器表达出来是一样的。试试看用`detune:`模式来播放`:dsaw`"
+"，`:dpulse`和`:dtri`。"
 
 #: A.18-additive-synthesis.md:92
 msgid "Amplitude shaping"
@@ -12933,6 +13064,12 @@ msgstr ""
 
 #: A.19-subtractive-synthesis.md:88
 msgid ""
+"![Varying amounts of low pass filtering](../../../etc/doc/images/tutorial/arti"
+"cles/A.19-subtractive-synthesis/subtractive-synthesis-waveforms.png)"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:90
+msgid ""
 "The low pass filter is such an important part of every subtractive synthesis t"
 "oolkit that it's worth taking a deeper look at how it works. This diagram show"
 "s the same sound wave (the `:prophet` synth) with varying amounts of filtering"
@@ -12950,11 +13087,11 @@ msgid ""
 "educed as the amount of filtering that is taking place increases."
 msgstr ""
 
-#: A.19-subtractive-synthesis.md:107
+#: A.19-subtractive-synthesis.md:109
 msgid "Filter Modulation"
 msgstr ""
 
-#: A.19-subtractive-synthesis.md:109
+#: A.19-subtractive-synthesis.md:111
 msgid ""
 "So far we've just produced fairly static sounds. In other words, the sound doe"
 "sn't change in any way for the entirety of its duration. Often you might want "
@@ -12966,7 +13103,7 @@ msgid ""
 "e:"
 msgstr ""
 
-#: A.19-subtractive-synthesis.md:118
+#: A.19-subtractive-synthesis.md:120
 #, no-wrap
 msgid ""
 "with_fx :lpf, cutoff: 50 do |fx|\n"
@@ -12975,20 +13112,20 @@ msgid ""
 "end"
 msgstr ""
 
-#: A.19-subtractive-synthesis.md:125
+#: A.19-subtractive-synthesis.md:127
 msgid ""
 "Let's take a quick look at what's going on here. Firstly we start an `:lpf` FX"
-" block as normal with an initial `cutoff:` of a very low `20`. However, the fi"
-"rst line also finishes with the strange `|fx|` at the end. This is an optional"
-" part of the `with_fx` syntax which allows you to directly name and control th"
-"e running FX synth. Line 2 does exactly this and controls the FX to set the `c"
-"utoff_slide:` opt to 4 and the new target `cutoff:` to be `130`. The FX will n"
-"ow start sliding the `cutoff:` opt's value from `50` to `130` over a period of"
-" 3 beats. Finally we also trigger a source signal synth so we can hear the eff"
-"ect of the modulated low pass filter."
+" block as normal with an initial `cutoff:` of a low `50`. However, the first l"
+"ine also finishes with the strange `|fx|` at the end. This is an optional part"
+" of the `with_fx` syntax which allows you to directly name and control the run"
+"ning FX synth. Line 2 does exactly this and controls the FX to set the `cutoff"
+"_slide:` opt to 3 and the new target `cutoff:` to be `130`. The FX will now st"
+"art sliding the `cutoff:` opt's value from `50` to `130` over a period of 3 be"
+"ats. Finally we also trigger a source signal synth so we can hear the effect o"
+"f the modulated low pass filter."
 msgstr ""
 
-#: A.19-subtractive-synthesis.md:139
+#: A.19-subtractive-synthesis.md:140
 msgid ""
 "This is just a very basic taster of what's possible when you use filters to mo"
 "dify and change a source sound. Try playing with Sonic Pi's many built-in FX t"
@@ -12996,7 +13133,7 @@ msgid ""
 "er you can start modulating the options to create some movement."
 msgstr ""
 
-#: A.19-subtractive-synthesis.md:145
+#: A.19-subtractive-synthesis.md:146
 msgid ""
 "Let's finish by designing a function which will play a new sound created with "
 "subtractive synthesis. See if you can figure out what's going on here - and fo"
@@ -13005,7 +13142,7 @@ msgid ""
 "ter)."
 msgstr ""
 
-#: A.19-subtractive-synthesis.md:151
+#: A.19-subtractive-synthesis.md:152
 #, no-wrap
 msgid ""
 "define :subt_synth do |note, sus|\n"
@@ -13117,13 +13254,16 @@ msgid "Sonic Pi Performances"
 msgstr ""
 
 #: A.20-creative-coding-in-the-classroom.md:64
-#, fuzzy
 msgid ""
 "![Jylda Live Coding in the Sage Gateshead](../../../etc/doc/images/tutorial/ar"
 "ticles/A.20-creative-coding-in-the-classroom/jylda-small.png) Jylda and Sam Aa"
 "ron perform at the Thinking Digital Conference in the Sage Gateshead. Photo cr"
 "edit: TyneSight Photos."
-msgstr "即时代码"
+msgstr ""
+"![Jylda Live Coding in the Sage Gateshead](../../../etc/doc/images/tutorial/"
+"articles/A.20-creative-coding-in-the-classroom/jylda-small.png) Jylda and "
+"Sam Aaron perform at the Thinking Digital Conference in the Sage Gateshead. "
+"Photo credit: TyneSight Photos."
 
 #: A.20-creative-coding-in-the-classroom.md:68
 msgid ""
@@ -13298,13 +13438,14 @@ msgid ""
 msgstr ""
 
 #: A.20-creative-coding-in-the-classroom.md:209
-#, fuzzy
 msgid ""
 "In this example we introduce a basic loop called :jungle which picks a random "
 "drum hit from our audio sample, waits for an eighth of a second and then picks"
 " another drum hit. This results in an endless stream of random drum beats to d"
 "ance to whilst you experience what a loop is."
-msgstr "rand"
+msgstr ""
+"在这个例子中，我们来看一看一个叫做:jungle的简单循环。这个循环会从我们的采样中随机播放一个击鼓的声音，接着等候八分之一秒，再随机播放一个击鼓声音。这"
+"个的效果就是一系列有节奏的、无穷无尽的随机鼓声，很适合你一边跳着舞，一边感受一下循环能干啥。"
 
 #: B-Essential-Knowledge.md:1
 msgid "B Essential Knowledge"
@@ -13426,7 +13567,7 @@ msgid ""
 "s `M-r`. Similarly, to stop running code you can press `M-s`."
 msgstr ""
 
-#: B.01-Using-Shortcuts.md:60 B.02-Shortcut-Cheatsheet.md:52
+#: B.01-Using-Shortcuts.md:60 B.02-Shortcut-Cheatsheet.md:56
 msgid "Navigation"
 msgstr ""
 
@@ -13467,7 +13608,7 @@ msgid ""
 msgstr ""
 
 #: B.01-Using-Shortcuts.md:84
-msgid "For a full list take a look at section 10.2 Shortcut Cheatsheet."
+msgid "For a full list take a look at section B.2 Shortcut Cheatsheet."
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:1
@@ -13481,7 +13622,7 @@ msgstr ""
 #: B.02-Shortcut-Cheatsheet.md:5
 msgid ""
 "The following is a summary of the main shortcuts available within Sonic Pi. Pl"
-"ease see Section 10.1 for motivation and background."
+"ease see Section B.1 for motivation and background."
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:8
@@ -13547,196 +13688,212 @@ msgid "`M-}` - Switch buffer to the right"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:26
-msgid "`M-+` - Increase text size of current buffer"
+msgid "`S-M-0` - Switch to buffer 0"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:27
-msgid "`M--` - Decrease text size of current buffer"
+msgid "`S-M-1` - Switch to buffer 1"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:28
+msgid "..."
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:29
+msgid "`S-M-9` - Switch to buffer 9"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:30
-msgid "Selection/Copy/Paste"
+msgid "`M-+` - Increase text size of current buffer"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:32
-msgid "`M-a` - Select all"
-msgstr ""
-
-#: B.02-Shortcut-Cheatsheet.md:33
-msgid "`M-c` - Copy selection to paste buffer"
+#: B.02-Shortcut-Cheatsheet.md:31
+msgid "`M--` - Decrease text size of current buffer"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:34
-msgid "`M-]` - Copy selection to paste buffer"
-msgstr ""
-
-#: B.02-Shortcut-Cheatsheet.md:35
-msgid "`M-x` - Cut selection to paste buffer"
+msgid "Selection/Copy/Paste"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:36
-msgid "`C-]` - Cut selection to paste buffer"
+msgid "`M-a` - Select all"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:37
-msgid "`C-k` - Cut to the end of the line"
+msgid "`M-c` - Copy selection to paste buffer"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:38
-msgid "`M-v` - Paste from paste buffer to editor"
+msgid "`M-]` - Copy selection to paste buffer"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:39
-msgid "`C-y` - Paste from paste buffer to editor"
+msgid "`M-x` - Cut selection to paste buffer"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:40
+msgid "`C-]` - Cut selection to paste buffer"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:41
+msgid "`C-k` - Cut to the end of the line"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:42
+msgid "`M-v` - Paste from paste buffer to editor"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:43
+msgid "`C-y` - Paste from paste buffer to editor"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:44
 msgid ""
 "`C-SPACE` - Set mark. Navigation will now manipulate highlighted region. Use `"
 "C-g` to escape."
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:42
+#: B.02-Shortcut-Cheatsheet.md:46
 msgid "Text Manipulation"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:44
+#: B.02-Shortcut-Cheatsheet.md:48
 msgid "`M-m` - Align all text"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:45
+#: B.02-Shortcut-Cheatsheet.md:49
 msgid "`Tab` - Align current line or selection (or select autocompletion)"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:46
+#: B.02-Shortcut-Cheatsheet.md:50
 msgid "`C-l` - Centre editor"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:47
+#: B.02-Shortcut-Cheatsheet.md:51
 msgid "`M-/` - Comment/Uncomment current line or selection"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:48
+#: B.02-Shortcut-Cheatsheet.md:52
 msgid "`C-t` - Transpose/swap characters"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:49
+#: B.02-Shortcut-Cheatsheet.md:53
 msgid "`M-u` - Convert next word (or selection) to upper case."
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:50
+#: B.02-Shortcut-Cheatsheet.md:54
 msgid "`M-l` - Convert next word (or selection) to lower case."
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:54
+#: B.02-Shortcut-Cheatsheet.md:58
 msgid "`C-a` - Move to beginning of line"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:55
+#: B.02-Shortcut-Cheatsheet.md:59
 msgid "`C-e` - Move to end of line"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:56
+#: B.02-Shortcut-Cheatsheet.md:60
 msgid "`C-p` - Move to previous line"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:57
+#: B.02-Shortcut-Cheatsheet.md:61
 msgid "`C-n` - Move to next line"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:58
+#: B.02-Shortcut-Cheatsheet.md:62
 msgid "`C-f` - Move forward one character"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:59
+#: B.02-Shortcut-Cheatsheet.md:63
 msgid "`C-b` - Move backward one character"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:60
+#: B.02-Shortcut-Cheatsheet.md:64
 msgid "`M-f` - Move forward one word"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:61
+#: B.02-Shortcut-Cheatsheet.md:65
 msgid "`M-b` - Move backward one word"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:62
+#: B.02-Shortcut-Cheatsheet.md:66
 msgid "`C-M-n` - Move line or selection down"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:63
+#: B.02-Shortcut-Cheatsheet.md:67
 msgid "`C-M-p` - Move line or selection up"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:64
+#: B.02-Shortcut-Cheatsheet.md:68
 msgid "`S-M-u` - Move up 10 lines"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:65
+#: B.02-Shortcut-Cheatsheet.md:69
 msgid "`S-M-d` - Move down 10 lines"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:66
+#: B.02-Shortcut-Cheatsheet.md:70
 msgid "`M-<` - Move to beginning of buffer"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:67
+#: B.02-Shortcut-Cheatsheet.md:71
 msgid "`M->` - Move to end of buffer"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:69
+#: B.02-Shortcut-Cheatsheet.md:73
 msgid "Deletion"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:71
+#: B.02-Shortcut-Cheatsheet.md:75
 msgid "`C-h` - Delete previous character"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:72
+#: B.02-Shortcut-Cheatsheet.md:76
 msgid "`C-d` - Delete next character"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:74
+#: B.02-Shortcut-Cheatsheet.md:78
 msgid "Advanced Editor Features"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:76
+#: B.02-Shortcut-Cheatsheet.md:80
 msgid "`C-i` - Show docs for word under cursor"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:77
+#: B.02-Shortcut-Cheatsheet.md:81
 msgid "`M-z` - Undo"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:78
+#: B.02-Shortcut-Cheatsheet.md:82
 msgid "`S-M-z` - Redo"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:79
+#: B.02-Shortcut-Cheatsheet.md:83
 msgid "`C-g` - Escape"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:80
+#: B.02-Shortcut-Cheatsheet.md:84
 msgid "`S-M-f` - Toggle fullscreen mode"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:81
+#: B.02-Shortcut-Cheatsheet.md:85
 msgid "`S-M-b` - Toggle visibility of buttons"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:82
+#: B.02-Shortcut-Cheatsheet.md:86
 msgid "`S-M-l` - Toggle visibility of log"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:83
+#: B.02-Shortcut-Cheatsheet.md:87
 msgid "`S-M-m` - Toggle between light/dark modes"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:84
+#: B.02-Shortcut-Cheatsheet.md:88
 msgid "`S-M-s` - Save contents of buffer to a file"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:85
+#: B.02-Shortcut-Cheatsheet.md:89
 msgid "`S-M-o` - Load contents of buffer from a file"
 msgstr ""
 
@@ -13961,8 +14118,8 @@ msgstr ""
 #: C-Minecraft-Pi.md:47
 msgid ""
 "At this stage, Sonic Pi supports basic block and player manipulations which ar"
-"e detailed in Section 11.1. Support for event callbacks triggered by player in"
-"teractions in the world is planned for a future release."
+"e detailed in Section C.1. Support for event callbacks triggered by player int"
+"eractions in the world is planned for a future release."
 msgstr ""
 
 #: C.01-Basic-API.md:1
@@ -14039,12 +14196,12 @@ msgstr ""
 
 #: C.01-Basic-API.md:42
 msgid ""
-"When you hit *Run* - boom! You're instantantly transported to a new place. Mos"
-"t likely it was somewhere in the sky and you fell down either to dry land or i"
-"nto water. Now, what are those numbers: `50, 50, 50`? They're the coordinates "
-"of the location you're trying to teleport to. Let's take a brief moment to exp"
-"lore what coordinates are and how they work because they're really, really imp"
-"ortant for programming Minecraft."
+"When you hit *Run* - boom! You're instantly transported to a new place. Most l"
+"ikely it was somewhere in the sky and you fell down either to dry land or into"
+" water. Now, what are those numbers: `50, 50, 50`? They're the coordinates of "
+"the location you're trying to teleport to. Let's take a brief moment to explor"
+"e what coordinates are and how they work because they're really, really import"
+"ant for programming Minecraft."
 msgstr ""
 
 #: C.01-Basic-API.md:50
@@ -14114,7 +14271,7 @@ msgstr ""
 
 #: C.01-Basic-API.md:89
 msgid "Let's Build!"
-msgstr ""
+msgstr "构建！"
 
 #: C.01-Basic-API.md:91
 msgid ""

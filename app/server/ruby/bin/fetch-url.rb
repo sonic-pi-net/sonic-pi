@@ -1,7 +1,7 @@
 #--
 # This file is part of Sonic Pi: http://sonic-pi.net
 # Full project source: https://github.com/samaaron/sonic-pi
-# License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
+# License: https://github.com/samaaron/sonic-pi/blob/main/LICENSE.md
 #
 # Copyright 2019 by Sam Aaron (http://sam.aaron.name).
 # All rights reserved.
@@ -21,7 +21,7 @@ include SonicPi::Util
 url = ARGV[0]
 check_window_size = ARGV[1].to_i
 
-settings = SonicPi::Config::Settings.new(user_settings_path)
+settings = SonicPi::Config::Settings.new(system_cache_store_path)
 body = settings.get("cached_url_#{url}")
 last_checked = settings.get("cached_url_last_checked_#{url}", Time.now).to_i
 

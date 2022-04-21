@@ -1,7 +1,7 @@
 #--
 # This file is part of Sonic Pi: http://sonic-pi.net
 # Full project source: https://github.com/samaaron/sonic-pi
-# License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
+# License: https://github.com/samaaron/sonic-pi/blob/main/LICENSE.md
 #
 # Copyright 2013, 2014, 2015, 2016 by Sam Aaron (http://sam.aaron.name).
 # All rights reserved.
@@ -36,10 +36,10 @@ module SonicPi
       @out_queue = SizedQueue.new(20)
       @scsynth_thread_id = ThreadId.new(-5)
       @version = request_version.freeze
-      @scsynth_clobber = opts[:scsynth_clobber] || []
+      @scsynth_clobber = opts[:scsynth_clobber] || {}
 
       # shell clobber is either nil for no clobber,
-      # or an argv array of user supplied opts
+      # or a map of user supplied opts
       # which will be used to completely replace (clobber)
       # any default options (including user specied non-clobber options)
 
@@ -208,9 +208,10 @@ module SonicPi
       end
     end
 
-    def boot_and_wait(*args, &on_complete_or_error)
+    def boot_and_wait(scsynth_path, opts, &on_complete_or_error)
       puts "Boot - Starting the SuperCollider server..."
-      args = @scsynth_clobber unless @scsynth_clobber.empty?
+      opts = @scsynth_clobber unless @scsynth_clobber.empty?
+      opts_a = opts.to_a.flatten.unshift(scsynth_path)
 
       p = Promise.new
       p2 = Promise.new
@@ -225,8 +226,14 @@ module SonicPi
       end
       @scsynth_log_file.puts "# Starting SuperCollider #{Time.now.strftime("%Y-%m-%d %H:%M:%S")}" if @scsynth_log_file
       at_exit { @scsynth_log_file.close if @scsynth_log_file}
-      scsynth_pipe = IO.popen(args)
+      scsynth_pipe = IO.popen(opts_a)
       @scsynth_pid = scsynth_pipe.pid
+
+      if os == :windows
+        # set priority of supercollider server on Windows to be high
+        `wmic process where processid='#{@scsynth_pid}' CALL setpriority \"high priority\"`
+      end
+
       register_process(@scsynth_pid)
       t1 = Thread.new do
         __system_thread_locals.set_local(:sonic_pi_local_thread_group, :scsynth_log_tracker)
@@ -361,9 +368,9 @@ module SonicPi
         "-U" => "#{native_path}/supercollider/plugins/"
       }
 
-      scsynth_opts = @default_scsynth_opts.merge(local_scsynth_opts).merge(@user_scsynth_opts).to_a.flatten
+      scsynth_opts = @default_scsynth_opts.merge(local_scsynth_opts).merge(@user_scsynth_opts)
 
-      boot_and_wait(scsynth_path, *scsynth_opts) do
+      boot_and_wait(scsynth_path, scsynth_opts) do
         if temp_switch
           puts "Boot - switching rate of temp input back to original: #{temp_input_rate}"
           CoreAudio.default_input_device(nominal_rate: temp_input_rate)
@@ -386,32 +393,30 @@ module SonicPi
 
       local_scsynth_opts = {"-U" => "#{native_path}/plugins/"}
 
-      scsynth_opts = @default_scsynth_opts.merge(local_scsynth_opts).merge(@user_scsynth_opts).to_a.flatten
-      boot_and_wait(scsynth_path, *scsynth_opts)
+      scsynth_opts = @default_scsynth_opts.merge(local_scsynth_opts).merge(@user_scsynth_opts)
+      boot_and_wait(scsynth_path, scsynth_opts)
   end
 
     def boot_server_raspberry_pi
       log_boot_msg
-      puts "Booting on Raspberry Pi"
-      begin
-        asoundrc = File.read(Dir.home + "/.asoundrc")
-        audio_card = (asoundrc.match(/pcm.output\s+{[^}]+\n\s+card\s+([0-9]+)/m))[1]
-      rescue
-        audio_card = "0"
+      if RUBY_PLATFORM.match(/aarch64.*linux.*/)
+         puts "Booting on Raspberry Pi (64bit OS)"
+      else
+         puts "Booting on Raspberry Pi (32bit OS)"
       end
 
       #Start Jack if not already running
       if `ps cax | grep jackd`.split(" ").first.nil?
         #Jack not running - start a new instance
         puts "Jackd not running on system. Starting..."
-       jackCmd="jackd -R -p 32 -d alsa -d hw:#{audio_card} -n 3 -p 2048 -o2 -r 44100 "
+        jackCmd="jackd -T -ddummy -r48000 -p1024"
         jack_pid = spawn "exec #{jackCmd}"
         register_process jack_pid
       else
         puts "Jackd already running. Not starting another server..."
       end
 
-      block_size = raspberry_pi_1? ? 512 : 128
+      block_size = 128
 
       local_scsynth_opts = {
         "-c" => "128",
@@ -420,19 +425,23 @@ module SonicPi
         "-o" => "2",
         "-U" => "/usr/lib/SuperCollider/plugins"}
 
-      scsynth_opts = @default_scsynth_opts.merge(local_scsynth_opts).merge(@user_scsynth_opts).to_a.flatten
+      scsynth_opts = @default_scsynth_opts.merge(local_scsynth_opts).merge(@user_scsynth_opts)
 
-      boot_and_wait(scsynth_path, *scsynth_opts)
+      boot_and_wait(scsynth_path, scsynth_opts)
 
-      `jack_connect SuperCollider:out_1 system:playback_1`
-      `jack_connect SuperCollider:out_2 system:playback_2`
-      `jack_connect SuperCollider:in_1 system_capture_1`
-      `jack_connect SuperCollider:in_2 system_capture_2`
-
+      `pactl load-module module-jack-source connect=0 client_name=JACK_to_PulseAudio`
+      `pactl load-module module-loopback source=jack_in`
+      `pactl load-module module-jack-sink channels=2 connect=0 client_name=PulseAudio_to_JACK`
+      `jack_connect PulseAudio_to_JACK:front-left SuperCollider:in_1`
+      `jack_connect PulseAudio_to_JACK:front-right SuperCollider:in_2`
+      `jack_connect SuperCollider:out_1 JACK_to_PulseAudio:front-left`
+      `jack_connect SuperCollider:out_2 JACK_to_PulseAudio:front-right`
+      
       sleep 3
     end
 
     def boot_server_linux
+      #to do -- needs further work
       log_boot_msg
       puts "Booting on Linux"
       #Start Jack if not already running
@@ -448,9 +457,9 @@ module SonicPi
 
       local_scsynth_opts = {}
 
-      scsynth_opts = @default_scsynth_opts.merge(local_scsynth_opts).merge(@user_scsynth_opts).to_a.flatten
+      scsynth_opts = @default_scsynth_opts.merge(local_scsynth_opts).merge(@user_scsynth_opts)
 
-      boot_and_wait(scsynth_path, *scsynth_opts)
+      boot_and_wait(scsynth_path, scsynth_opts)
 
       `jack_connect SuperCollider:out_1 system:playback_1`
       `jack_connect SuperCollider:out_2 system:playback_2`

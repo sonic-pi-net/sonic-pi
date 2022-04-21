@@ -1,7 +1,7 @@
 #--
 # This file is part of Sonic Pi: http://sonic-pi.net
 # Full project source: https://github.com/samaaron/sonic-pi
-# License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
+# License: https://github.com/samaaron/sonic-pi/blob/main/LICENSE.md
 #
 # Copyright 2013, 2014, 2015, 2016 by Sam Aaron (http://sam.aaron.name).
 # All rights reserved.
@@ -23,9 +23,6 @@ module SonicPi
         rb = String.new(rb)
         fn = fn[:name].to_s
         rb.gsub!(/\((\s*)#{fn}([,[:space:]]+)/) {|s| ' ' + $1 + fn + '(' + (' ' * ($2.size - 1))}
-
-        rb.gsub!(/:([a-zA-Z0-9\!\?=_]+(:[a-zA-Z0-9\!\?=_]+[a-zA-Z0-9\!\?=_])+)/){|s| "::SonicPi::SPSym.new('#{$1.split(':').join(' : ')}')"}
-
         if rb.match(/(?!\B)\W?#{fn}\s*=[\s\w]/)
           raise PreParseError, "You may not use the built-in fn names as variable names.\n You attempted to use: #{fn}"
         end

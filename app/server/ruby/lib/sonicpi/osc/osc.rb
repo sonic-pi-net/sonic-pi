@@ -1,7 +1,7 @@
 #--
 # This file is part of Sonic Pi: http://sonic-pi.net
 # Full project source: https://github.com/samaaron/sonic-pi
-# License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
+# License: https://github.com/samaaron/sonic-pi/blob/main/LICENSE.md
 #
 # Copyright 2013, 2014, 2015, 2016 by Sam Aaron (http://sam.aaron.name).
 # All rights reserved.
@@ -14,5 +14,6 @@
 require_relative 'udp_client'
 require_relative 'udp_server'
 require_relative 'websocket_server'
+require_relative 'blob'
 require_relative 'oscencode'
 require_relative 'oscdecode'

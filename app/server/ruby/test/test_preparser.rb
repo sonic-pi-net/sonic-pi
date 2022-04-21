@@ -1,7 +1,7 @@
 #--
 # This file is part of Sonic Pi: http://sonic-pi.net
 # Full project source: https://github.com/samaaron/sonic-pi
-# License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
+# License: https://github.com/samaaron/sonic-pi/blob/main/LICENSE.md
 #
 # Copyright 2013, 2014, 2015, 2016 by Sam Aaron (http://sam.aaron.name).
 # All rights reserved.
@@ -75,33 +75,6 @@ module SonicPi
       assert_raises PreParser::PreParseError do
         PreParser.preparse(a, SonicPi::Lang::Core.vec_fns)
       end
-    end
-
-    def test_sp_sym_basic_expansion
-      a = "foo :baz:quux eggs"
-      b = "foo ::SonicPi::SPSym.new('baz : quux') eggs"
-      assert_equal(b, PreParser.preparse(a, SonicPi::Lang::Core.vec_fns))
-    end
-
-    def test_sp_sym_multiterm_expansion
-      a = "foo :baz:quux:bar:beans eggs"
-      b = "foo ::SonicPi::SPSym.new('baz : quux : bar : beans') eggs"
-      assert_equal(b, PreParser.preparse(a, SonicPi::Lang::Core.vec_fns))
-    end
-
-    def test_sp_sym_complex_expansion
-      a = "foo :baz?:quux eggs"
-      b = "foo ::SonicPi::SPSym.new('baz? : quux') eggs"
-      assert_equal(b, PreParser.preparse(a, SonicPi::Lang::Core.vec_fns))
-
-
-      a = "foo :baz?:qu_ux eggs"
-      b = "foo ::SonicPi::SPSym.new('baz? : qu_ux') eggs"
-      assert_equal(b, PreParser.preparse(a, SonicPi::Lang::Core.vec_fns))
-
-      a = "foo :_b_az?:qu_ux eggs :beans"
-      b = "foo ::SonicPi::SPSym.new('_b_az? : qu_ux') eggs :beans"
-      assert_equal(b, PreParser.preparse(a, SonicPi::Lang::Core.vec_fns))
     end
   end
 end

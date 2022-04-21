@@ -50,13 +50,13 @@ domains is the objective.
 
 
 * Info & Latest Releases: https://sonic-pi.net
-* Source: https://github.com/samaaron/sonic-pi
+* Source: https://github.com/sonic-pi-net/sonic-pi
 * Computing Education Resources for Schools: https://www.raspberrypi.org/learning/sonic-pi-lessons/
 * Music Education Toolkit for Schools: https://sonic-pi.mehackit.org
 
 ## Contributors
 
-Sonic Pi has been developed with support from many individuals and organisations. Please see the [CONTRIBUTORS.md](https://github.com/samaaron/sonic-pi/blob/master/CONTRIBUTORS.md) file for a more complete list.
+Sonic Pi has been developed with support from many individuals and organisations. Please see the [CONTRIBUTORS.md](https://github.com/samaaron/sonic-pi/blob/main/CONTRIBUTORS.md) file for a more complete list.
 
 ## Translations
 
@@ -80,8 +80,10 @@ Status                                                                          
 [![Translation Status of Sonic Pi: ru](https://hosted.weblate.org/widgets/sonic-pi/ru/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)           | Russian             | :white_check_mark: | :white_check_mark:
 [![Translation Status of Sonic Pi: zh_Hans](https://hosted.weblate.org/widgets/sonic-pi/zh_Hans/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/) | Simplified Chinese  | :white_check_mark: | :red_circle:
 [![Translation Status of Sonic Pi: es](https://hosted.weblate.org/widgets/sonic-pi/es/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)           | Spanish             | :white_check_mark: | :white_check_mark:
+[![Translation Status of Sonic Pi: si](https://hosted.weblate.org/widgets/sonic-pi/si/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)           | sinhalese           | :white_check_mark: | :red_circle:
+[![Translation Status of Sonic Pi: tr_TR](https://hosted.weblate.org/widgets/sonic-pi/tr_TR/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/) | Turkish             | :white_check_mark: | :red_circle:
 
-Would you like to contribute a translation too? If so, please take a look at our [translation docs](https://github.com/samaaron/sonic-pi/blob/master/TRANSLATION.md) to get started.
+Would you like to contribute a translation too? If so, please take a look at our [translation docs](https://github.com/samaaron/sonic-pi/blob/main/TRANSLATION.md) to get started.
 
 ## Information for developers
 
@@ -91,13 +93,15 @@ Sonic Pi is under active development, and welcomes new contributors:
 * [Change log](CHANGELOG.md)
 * [Community](COMMUNITY.md)
 * [Contributors](CONTRIBUTORS.md)
-* [Installation](INSTALL.md)
+* Building
+  - [Linux](BUILD-LINUX.md)
+  - [Mac](BUILD-MAC.md)
+  - [Windows](BUILD-WINDOWS.md)
 * [License](LICENSE.md)
 * [Testing](TESTING.md)
 * [Translation](TRANSLATION.md)
 
 [![Weblate](https://hosted.weblate.org/widgets/sonic-pi/-/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)
 <br/>
-[![Travis CI](https://travis-ci.org/samaaron/sonic-pi.svg?branch=master)](https://travis-ci.org/samaaron/sonic-pi)
+[![Travis CI](https://travis-ci.org/samaaron/sonic-pi.svg?branch=main)](https://travis-ci.org/samaaron/sonic-pi)
 <br/>
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/samaaron/sonic-pi?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)

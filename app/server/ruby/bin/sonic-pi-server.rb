@@ -2,7 +2,7 @@
 #--
 # This file is part of Sonic Pi: http://sonic-pi.net
 # Full project source: https://github.com/samaaron/sonic-pi
-# License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
+# License: https://github.com/samaaron/sonic-pi/blob/main/LICENSE.md
 #
 # Copyright 2013 by Sam Aaron (http://sam.aaron.name).
 # All rights reserved.
@@ -32,12 +32,73 @@ require_relative "../lib/sonicpi/runtime"
 
 require 'multi_json'
 require 'memoist'
+require 'fileutils'
 
 include SonicPi::Util
 
 ## This is where the server starts....
 STDOUT.puts "Sonic Pi server booting..."
 STDOUT.puts "The time is #{Time.now}"
+
+# Start Compton if using Raspberry Pi: enables transparency to
+# work. This really should be done by the GUI as it is nothing to do
+# with the language runtime or server
+# TODO: If we enable a headless server, this needs to move.
+if os==:raspberry
+  compton_cmd="/usr/bin/compton"
+  if File.exist?(compton_cmd)
+    STDOUT.puts  "Starting Compton for Raspberry Pi transparency"
+    compton_pid = spawn("exec #{compton_cmd}",[:out,:err]=>"/dev/null")
+    register_process(compton_pid)
+  else
+    STDOUT.puts('Compton not installed on your Raspberry Pi so transparency is not available')
+    STDOUT.puts('If you wish to have transparency run the following in a terminal:')
+    STDOUT.puts('sudo apt install compton')
+  end
+end
+
+## Ensure ~/.sonic-pi/* user config, history and setting directories exist
+[home_dir_path, project_path, log_path, cached_samples_path, config_path, system_store_path].each do |d|
+  ensure_dir(d)
+end
+
+## Just check to see if the user still has an old settings.json and if
+## so, remove it. This is now stored in system_cache_store_path
+old_settings_file_path = File.absolute_path("#{home_dir_path}/settings.json")
+File.delete(old_settings_file_path) if File.exist?(old_settings_file_path)
+
+## Move across any config example files if they don't
+## exist so the user has a starting point for
+## modifying them.
+
+
+begin
+  if File.exists?(original_init_path)
+    if (File.exists?(init_path))
+      STDOUT.puts "Warning, you have an older init.rb file in #{original_init_path} which is now being ignored as your newer config/init.rb file is being used instead. Consider deleting your old init.rb (perhaps copying anything useful across first)."
+    else
+      STDOUT.puts "Found init.rb in old location #{original_init_path}. Moving it to the new config directory #{init_path}."
+      FileUtils.mv(original_init_path, init_path)
+    end
+  end
+rescue Exception => e
+  STDOUT.puts "Warning: exception when comparing new and original init.rb paths"
+  STDOUT.puts "Error message received:\n-----------------------"
+  STDOUT.puts e.message
+  STDOUT.puts e.backtrace.inspect
+  STDOUT.puts e.backtrace
+end
+
+
+
+
+Dir["#{user_config_examples_path}/*"].each do |f|
+  basename = File.basename(f)
+  full_config_path = File.absolute_path("#{config_path}/#{basename}")
+  unless File.exist?(full_config_path)
+    FileUtils.cp(f, full_config_path)
+  end
+end
 
 ## Select the primary GUI protocol
 gui_protocol = case ARGV[0]
@@ -86,18 +147,6 @@ osc_cues_port = ARGV[5] ? ARGV[5].to_i : 4560
 # erlang-router
 erlang_port = ARGV[6] ? ARGV[6].to_i : 4561
 
-# Port which the server uses to send OSC messages representing
-# output MIDI. This is used by osmid's o2m to listen to incoming
-# OSC messages and then forward them on as standard MIDI messages
-# osc-midi-out
-osc_midi_out_port = ARGV[7] ? ARGV[7].to_i : 4563
-
-# Port which the server uses to listen to OSC messages generated
-# by incoming MIDI. This is used by osmid's m2o as the outgoing
-# port.
-# osc-midi-in
-osc_midi_in_port = ARGV[8] ? ARGV[8].to_i : 4564
-
 # Port which the server uses to communicate via websockets
 # websocket
 websocket_port = ARGV[9] ? ARGV[9].to_i : 4562
@@ -111,8 +160,6 @@ sonic_pi_ports = {
   scsynth_send_port: scsynth_send_port,
   osc_cues_port: osc_cues_port,
   erlang_port: erlang_port,
-  osc_midi_out_port: osc_midi_out_port,
-  osc_midi_in_port: osc_midi_in_port,
   websocket_port: websocket_port}.freeze
 
 
@@ -201,10 +248,6 @@ STDOUT.puts "OSC cues port: #{osc_cues_port}"
 ensure_port_or_quit.call(osc_cues_port, gui)
 STDOUT.puts "Erlang port: #{erlang_port}"
 ensure_port_or_quit.call(erlang_port, gui)
-STDOUT.puts "OSC MIDI out port: #{osc_midi_out_port}"
-ensure_port_or_quit.call(osc_midi_out_port, gui)
-STDOUT.puts "OSC MIDI in port: #{osc_midi_in_port}"
-ensure_port_or_quit.call(osc_midi_in_port, gui)
 STDOUT.puts "Websocket port: #{websocket_port}"
 ensure_port_or_quit.call(websocket_port, gui)
 
@@ -299,20 +342,13 @@ ws_out = Queue.new
 begin
   STDOUT.puts "Starting Server Runtime"
   sp =  klass.new sonic_pi_ports, ws_out, user_methods
+  STDOUT.puts "Server Runtime Initialised"
 
   # read in init.rb if exists
   if File.exists?(init_path)
     sp.__spider_eval(File.read(init_path), silent: true)
   else
-    begin
-    File.open(init_path, "w") do |f|
-      f.puts "# Sonic Pi init file"
-      f.puts "# Code in here will be evaluated on launch."
-      f.puts ""
-      end
-    rescue
-      log "Warning: unable to create init file at #{init_path}"
-    end
+    STDOUT.puts "Could not find init.rb file: #{init_path} "
   end
 
   sp.__print_boot_messages
@@ -429,6 +465,7 @@ register_api = lambda do |server|
   server.add_method("/ping") do |args|
     gui_id = args[0]
     id = args[1]
+    STDOUT.puts "Received /ping, sending /ack to GUI"
     gui.send("/ack", id)
   end
 
@@ -540,6 +577,18 @@ register_api = lambda do |server|
     sp.__gui_heartbeat gui_id
   end
 
+  server.add_method("/midi-ins") do |args|
+    gui_id = args[0]
+    ins = args[1..-1]
+    sp.__update_midi_ins(ins)
+  end
+
+  server.add_method("/midi-outs") do |args|
+    gui_id = args[0]
+    outs = args[1..-1]
+    sp.__update_midi_outs(outs)
+  end
+
   server.add_method("/midi-start") do |args|
     gui_id = args[0]
     silent = args[1] == 1
@@ -556,6 +605,13 @@ register_api = lambda do |server|
     gui_id = args[0]
     silent = args[1] == 1
     sp.__midi_system_reset(silent)
+  end
+
+  server.add_method("/midi-cue") do |args|
+    gui_id = args[0]
+    path = args[1]
+    args = args[2..-1]
+    sp.__register_midi_cue_event(path, args)
   end
 
   server.add_method("/cue-port-external") do |args|

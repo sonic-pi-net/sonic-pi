@@ -10,7 +10,7 @@ If you have any idea on how to improve Sonic Pi, don't hesitate to
 GitHub and describe what you have in mind.
 
 You can also visit the
-[developers' chat](https://gitter.im/samaaron/sonic-pi) if you want
+[Sonic Pi community](https://in-thread.sonic-pi.net/) if you want
 to discuss your idea directly.
 
 ## You need an idea?
@@ -30,7 +30,7 @@ where help is appreciated.
   
   You're an educator and you have made your own teaching material?
   Then share it with the world! A good place to do so is the
-  [user group](https://groups.google.com/forum/#!forum/sonic-pi).
+  [Sonic Pi community](https://in-thread.sonic-pi.net/).
 
 - Correct us
   
@@ -38,7 +38,7 @@ where help is appreciated.
   let us know and [open a new issue](https://github.com/samaaron/sonic-pi/issues)
   or, even better, send a pull request on GitHub.
   
-- [Translate Sonic Pi to your language](https://github.com/samaaron/sonic-pi/blob/master/TRANSLATION.md)
+- [Translate Sonic Pi to your language](https://github.com/samaaron/sonic-pi/blob/main/TRANSLATION.md)
   
   It's a wonderful way to introduce school kids in your country to
   Sonic Pi and educators will appreciate it when we make it easier for

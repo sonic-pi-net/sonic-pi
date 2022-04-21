@@ -53,7 +53,7 @@ SettingsWidget::SettingsWidget( int port, SonicPiSettings *piSettings,  QWidget 
                 QLocale::languageToString(QLocale::system().language()) +
                 " yet.<br/>" +
                 "We rely on crowdsourcing to help create and maintain translations.<br/>" +
-                "<a href=\"https://github.com/samaaron/sonic-pi/blob/master/TRANSLATION.md\">" +
+                "<a href=\"https://github.com/samaaron/sonic-pi/blob/main/TRANSLATION.md\">" +
                 "Please consider helping to translate Sonic Pi to your language.</a> "
                 );
         go_translate->setTextFormat(Qt::RichText);
@@ -83,7 +83,7 @@ QSize SettingsWidget::sizeHint() const
  */
 QGroupBox* SettingsWidget::createAudioPrefsTab() {
 
-    QGroupBox *volBox = new QGroupBox(tr("Master Volume"));
+    QGroupBox *volBox = new QGroupBox(tr("Main Volume"));
     volBox->setToolTip(tr("Use this slider to change the system volume."));
     QHBoxLayout *vol_box = new QHBoxLayout;
     system_vol_slider = new QSlider(this);
@@ -168,10 +168,10 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
     network_ip_label->setText(ip_address_trans + ": " + ip_address + "\n" + port_num_trans + + ": " + QString::number(server_osc_cues_port));
     network_ip_label->setToolTip(all_ip_addresses);
 
-    osc_public_check = new QCheckBox(tr("Send/Receive remote OSC"));
+    osc_public_check = new QCheckBox(tr("Allow OSC from other computers"));
     osc_public_check->setToolTip(tr("When checked, Sonic Pi will let you send and receive OSC messages to and from remote machines.\n When unchecked, only sending and receiving from the local machine will be enabled."));
 
-    osc_server_enabled_check = new QCheckBox(tr("Enable OSC server"));
+    osc_server_enabled_check = new QCheckBox(tr("Allow incoming OSC"));
     osc_server_enabled_check->setToolTip(tr("When checked, Sonic Pi will listen for OSC messages.\n When unchecked no OSC messages will be received."));
 
     QVBoxLayout *network_box_layout = new QVBoxLayout;
@@ -186,10 +186,11 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
     QGroupBox *midi_ports_box = new QGroupBox(tr("MIDI Ports"));
     midi_ports_box->setToolTip(tr("List all connected MIDI Ports"));
 
-    midi_enable_check = new QCheckBox(tr("Enable MIDI subsystems"));
-    midi_enable_check->setToolTip(tr("Enable or disable incoming and outgoing MIDI communication"));
+    midi_enable_check = new QCheckBox(tr("Enable incoming MIDI cues"));
+    midi_enable_check->setToolTip(tr("Enable or disable automatic conversion of incoming MIDI messages to cue events"));
 
     QPushButton *midi_reset_button = new QPushButton(tr("Reset MIDI"));
+    midi_reset_button->setFlat(true);
     midi_reset_button->setToolTip(tr("Reset MIDI subsystems \n(Required to detect device changes on macOS)" ));
 
     midi_default_channel_combo = new QComboBox();
@@ -244,7 +245,10 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
 
     midi_ports_box_layout->addWidget(midi_in_ports_label);
     midi_ports_box_layout->addWidget(midi_out_ports_label);
-    midi_ports_box_layout->addWidget(midi_reset_button);
+
+
+    //midi_ports_box_layout->addWidget(midi_reset_button);
+
 
     connect(midi_reset_button, SIGNAL(clicked()), this, SLOT(forceMidiReset()));
 
@@ -277,6 +281,13 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
 
     show_line_numbers = new QCheckBox(tr("Show line numbers"));
     show_line_numbers->setToolTip(tr("Toggle line number visibility."));
+
+    show_autocompletion = new QCheckBox(tr("Show code completion"));
+    show_autocompletion->setToolTip(tr("When enabled, Sonic Pi's editor will attempt to autocomplete your code with suggestions. When disabled, these suggestions will not be visible."));
+
+    show_context = new QCheckBox(tr("Show code context"));
+    show_context->setToolTip(tr("When enabled, Sonic Pi's editor will show a pane which will display context-specific information for the code such as the current line and position of the cursor."));
+
     show_log = new QCheckBox(tr("Show log"));
     show_log->setToolTip(tooltipStrShiftMeta('L', tr("Toggle visibility of the log.")));
     show_log->setChecked(true);
@@ -293,8 +304,6 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     show_tabs->setToolTip(tr("Toggle visibility of the buffer selection tabs."));
     full_screen = new QCheckBox(tr("Full screen"));
     full_screen->setToolTip(tooltipStrShiftMeta('F', tr("Toggle full screen mode.")));
-    goto_buffer_shortcuts = new QCheckBox(tr("Go to buffer shortcuts"));
-    goto_buffer_shortcuts->setToolTip(tr("Use C-M-0 .. C-M-9 to go to buffer directly"));
 
     colourModeButtonGroup = new QButtonGroup(this);
     lightModeCheck = new QCheckBox(tr("Light"));
@@ -314,6 +323,8 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     QGridLayout *gridEditorPrefs = new QGridLayout;
 
     editor_display_box_layout->addWidget(show_line_numbers);
+    editor_display_box_layout->addWidget(show_autocompletion);
+    editor_display_box_layout->addWidget(show_context);
     editor_display_box_layout->addWidget(show_log);
     editor_display_box_layout->addWidget(show_cues);
     editor_display_box_layout->addWidget(show_buttons);
@@ -329,14 +340,14 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
 
     automation_box_layout->addWidget(auto_indent_on_run);
     automation_box_layout->addWidget(full_screen);
-    automation_box_layout->addWidget(goto_buffer_shortcuts);
+
     automation_box->setLayout(automation_box_layout);
 
     QGroupBox *debug_box = new QGroupBox(tr("Logging"));
     debug_box->setToolTip(tr("Configure debug behaviour"));
 
-    print_output = new QCheckBox(tr("Log synths"));
-    print_output->setToolTip(tr("Toggle log messages.\nIf disabled, activity such as synth and sample\ntriggering will not be printed to the log by default."));
+    log_synths = new QCheckBox(tr("Log synths"));
+    log_synths->setToolTip(tr("Toggle log messages.\nIf disabled, activity such as synth and sample\ntriggering will not be printed to the log by default."));
 
     clear_output_on_run = new QCheckBox(tr("Clear log on run"));
     clear_output_on_run->setToolTip(tr("Toggle log clearing on run.\nIf enabled, the log is cleared each\ntime the run button is pressed."));
@@ -348,7 +359,7 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     log_auto_scroll->setToolTip(tr("Toggle log auto scrolling.\nIf enabled the log is scrolled to the bottom after every new message is displayed."));
 
     QVBoxLayout *debug_box_layout = new QVBoxLayout;
-    debug_box_layout->addWidget(print_output);
+    debug_box_layout->addWidget(log_synths);
     debug_box_layout->addWidget(log_cues);
     debug_box_layout->addWidget(log_auto_scroll);
     debug_box_layout->addWidget(clear_output_on_run);
@@ -383,7 +394,7 @@ QGroupBox* SettingsWidget::createVisualizationPrefsTab() {
     scopeSignalMap = new QSignalMapper(this);
     show_scopes = new QCheckBox(tr("Show Scopes"));
     show_scopes->setToolTip(tr("Toggle the visibility of the audio oscilloscopes."));
-    show_scope_labels = new QCheckBox(tr("Show Labels"));
+    show_scope_labels = new QCheckBox(tr("Show Scope Labels"));
     show_scope_labels->setToolTip(tr("Toggle the visibility of the labels for the audio oscilloscopes"));
     show_scope_labels->setChecked(true);
     scope_box_kinds->setLayout(scope_box_kinds_layout);
@@ -421,6 +432,7 @@ QGroupBox* SettingsWidget::createUpdatePrefsTab() {
     update_box->setSizePolicy(updatesPrefSizePolicy);
     check_updates->setToolTip(tr("Toggle automatic update checking.\nThis check involves sending anonymous information about your platform and version."));
     check_updates_now = new QPushButton(tr("Check now"));
+    check_updates_now->setFlat(true);
     check_updates_now->setToolTip(tr("Force a check for updates now.\nThis check involves sending anonymous information about your platform and version."));
     visit_sonic_pi_net = new QPushButton(tr("Get update"));
     visit_sonic_pi_net->setToolTip(tr("Visit http://sonic-pi.net to download new version"));
@@ -473,6 +485,14 @@ void SettingsWidget::updateScopeNames( std::vector<QString> names ) {
     connect( scopeSignalMap, SIGNAL(mapped(QWidget*)), this, SLOT(toggleScope(QWidget*)));
 }
 
+void SettingsWidget::updateScopeKindVisibility() {
+  for (int i = 0; i < scope_box_kinds_layout->count(); ++i) {
+    QCheckBox *cb = qobject_cast<QCheckBox*>(scope_box_kinds_layout->itemAt(i)->widget());
+    cb->setChecked(piSettings->isScopeActive(cb->text()));
+  }
+
+}
+
 void SettingsWidget::toggleScope( QWidget* qw ) {
   QCheckBox* cb = static_cast<QCheckBox*>(qw);
   //QSettings settings(QSettings::IniFormat, QSettings::UserScope,    "sonic-pi.net", "gui-settings");
@@ -517,6 +537,14 @@ void SettingsWidget::changeMainVolume(int vol) {
 
 void SettingsWidget::toggleLineNumbers() {
     emit showLineNumbersChanged();
+}
+
+void SettingsWidget::showAutoCompletion() {
+  emit showAutoCompletionChanged();
+}
+
+void SettingsWidget::showContext() {
+  emit showContextChanged();
 }
 
 void SettingsWidget::toggleLog() {
@@ -567,6 +595,39 @@ void SettingsWidget::checkForUpdatesNow() {
     emit forceCheckUpdates();
 }
 
+void SettingsWidget::checkArgs() {
+  emit checkArgsChanged();
+}
+
+void SettingsWidget::synthTriggerTimingGuarantees() {
+  emit synthTriggerTimingGuaranteesChanged();
+}
+
+void SettingsWidget::enableExternalSynths() {
+  emit enableExternalSynthsChanged();
+}
+
+void SettingsWidget::midiDefaultChannel() {
+  emit midiDefaultChannelChanged();
+}
+
+void SettingsWidget::logCues() {
+  emit logCuesChanged();
+}
+
+void SettingsWidget::logSynths() {
+  emit logSynthsChanged();
+}
+
+void SettingsWidget::clearOutputOnRun() {
+  emit clearOutputOnRunChanged();
+}
+
+
+void SettingsWidget::autoIndentOnRun() {
+  emit autoIndentOnRunChanged();
+}
+
 void SettingsWidget::openSonicPiNet() {
   QDesktopServices::openUrl(QUrl("http://sonic-pi.net", QUrl::TolerantMode));
 }
@@ -595,13 +656,14 @@ void SettingsWidget::updateSettings() {
 
     piSettings->auto_indent_on_run = auto_indent_on_run->isChecked();
     piSettings->show_line_numbers = show_line_numbers->isChecked();
+    piSettings->show_autocompletion = show_autocompletion->isChecked();
+    piSettings->show_context = show_context->isChecked();
     piSettings->show_log = show_log->isChecked();
     piSettings->show_cues = show_cues->isChecked();
     piSettings->show_buttons = show_buttons->isChecked();
     piSettings->show_tabs = show_tabs->isChecked();
     piSettings->full_screen = full_screen->isChecked();
-    piSettings->goto_buffer_shortcuts = goto_buffer_shortcuts->isChecked();
-    piSettings->print_output = print_output->isChecked();
+    piSettings->log_synths = log_synths->isChecked();
     piSettings->clear_output_on_run = clear_output_on_run->isChecked();
     piSettings->log_cues = log_cues->isChecked();
     piSettings->log_auto_scroll = log_auto_scroll->isChecked();
@@ -619,6 +681,7 @@ void SettingsWidget::updateSettings() {
 }
 
 void SettingsWidget::settingsChanged() {
+
     mixer_invert_stereo->setChecked(piSettings->mixer_invert_stereo);
     mixer_force_mono->setChecked(piSettings->mixer_force_mono);
     check_args->setChecked(piSettings->check_args);
@@ -640,8 +703,7 @@ void SettingsWidget::settingsChanged() {
     show_buttons->setChecked(piSettings->show_buttons);
     show_tabs->setChecked(piSettings->show_tabs);
     full_screen->setChecked(piSettings->full_screen);
-    goto_buffer_shortcuts->setChecked(piSettings->goto_buffer_shortcuts);
-    print_output->setChecked(piSettings->print_output);
+    log_synths->setChecked(piSettings->log_synths);
     clear_output_on_run->setChecked(piSettings->clear_output_on_run);
     log_cues->setChecked(piSettings->log_cues);
     log_auto_scroll->setChecked(piSettings->log_auto_scroll);
@@ -656,6 +718,9 @@ void SettingsWidget::settingsChanged() {
     show_scope_labels->setChecked(piSettings->show_scope_labels);
 
     check_updates->setChecked(piSettings->check_updates);
+    show_autocompletion->setChecked(piSettings->show_autocompletion);
+    show_context->setChecked(piSettings->show_context);
+    updateScopeKindVisibility();
 }
 
 void SettingsWidget::connectAll() {
@@ -684,8 +749,7 @@ void SettingsWidget::connectAll() {
     connect(show_buttons, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(show_tabs, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(full_screen, SIGNAL(clicked()), this, SLOT(updateSettings()));
-    connect(goto_buffer_shortcuts, SIGNAL(clicked()), this, SLOT(updateSettings()));
-    connect(print_output, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(log_synths, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(clear_output_on_run, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(log_cues, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(log_auto_scroll, SIGNAL(clicked()), this, SLOT(updateSettings()));
@@ -695,6 +759,9 @@ void SettingsWidget::connectAll() {
     connect(darkProModeCheck, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(highContrastModeCheck, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(gui_transparency_slider, SIGNAL(valueChanged(int)), this, SLOT(updateSettings()));
+
+    connect(show_autocompletion, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(show_context, SIGNAL(clicked()), this, SLOT(updateSettings()));
 
     connect(show_line_numbers, SIGNAL(clicked()), this, SLOT(toggleLineNumbers()));
     connect(show_log, SIGNAL(clicked()), this, SLOT(toggleLog()));
@@ -719,4 +786,15 @@ void SettingsWidget::connectAll() {
     connect(check_updates, SIGNAL(clicked()), this, SLOT(toggleCheckUpdates()));
     connect(visit_sonic_pi_net, SIGNAL(clicked()), this, SLOT(openSonicPiNet()));
     connect(check_updates_now, SIGNAL(clicked()), this, SLOT(checkForUpdatesNow()));
+
+    connect(show_autocompletion, SIGNAL(clicked()), this, SLOT(showAutoCompletion()));
+    connect(show_context, SIGNAL(clicked()), this, SLOT(showContext()));
+    connect(check_args, SIGNAL(clicked()), this, SLOT(checkArgs()));
+    connect(synth_trigger_timing_guarantees_cb, SIGNAL(clicked()), this, SLOT(synthTriggerTimingGuarantees()));
+    connect(enable_external_synths_cb, SIGNAL(clicked()), this, SLOT(enableExternalSynths()));
+    connect(midi_default_channel_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(midiDefaultChannel()));
+    connect(log_cues, SIGNAL(clicked()), this, SLOT(logCues()));
+    connect(log_synths, SIGNAL(clicked()), this, SLOT(logSynths()));
+    connect(clear_output_on_run, SIGNAL(clicked()), this, SLOT(clearOutputOnRun()));
+    connect(auto_indent_on_run, SIGNAL(clicked()), this, SLOT(autoIndentOnRun()));
 }

@@ -1,7 +1,7 @@
 //--
 // This file is part of Sonic Pi: http://sonic-pi.net
 // Full project source: https://github.com/samaaron/sonic-pi
-// License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
+// License: https://github.com/samaaron/sonic-pi/blob/main/LICENSE.md
 //
 // Copyright 2013, 2014, 2015, 2016 by Sam Aaron (http://sam.aaron.name).
 // All rights reserved.
@@ -17,7 +17,7 @@
 class SonicPiAPIs : public QsciAbstractAPIs
 {
  public:
-  enum { Func, FX, Synth, Sample, Chord, Scale, MCBlock, PlayParam, SampleParam, Tuning, Examples, MidiParam, CuePath, NContext};
+  enum { Func, FX, Synth, Sample, Chord, Scale, MCBlock, PlayParam, SampleParam, Tuning, Examples, MidiParam, MidiOuts, CuePath, NContext};
 
   SonicPiAPIs(QsciLexer *lexer);
 
@@ -27,6 +27,7 @@ class SonicPiAPIs : public QsciAbstractAPIs
   void addSynthArgs(QString fx, QStringList args);
   void addCuePath(QString path);
   void loadSamples(QString sample_path);
+  void updateMidiOuts(QString port_info);
 
 
   //! \reimp

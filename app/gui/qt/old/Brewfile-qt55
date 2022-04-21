@@ -1,6 +1,0 @@
-brew "qt55"
-brew "boost"
-brew "cmake"
-brew "pkg-config"
-brew "aubio"
-brew "wget"

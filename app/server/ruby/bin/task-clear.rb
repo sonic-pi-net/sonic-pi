@@ -1,7 +1,7 @@
 #--
 # This file is part of Sonic Pi: http://sonic-pi.net
 # Full project source: https://github.com/samaaron/sonic-pi
-# License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
+# License: https://github.com/samaaron/sonic-pi/blob/main/LICENSE.md
 #
 # Copyright 2013, 2014, 2015, 2016 by Sam Aaron (http://sam.aaron.name).
 # All rights reserved.
@@ -48,7 +48,8 @@ else
   pids = ARGV
 end
 
-log_process_info "\n\nClearing pids: #{pids.inspect}\n"
+log_process_info "\n\task-clear.rb\n\n"
+log_process_info "\nClearing pids: #{pids.inspect}\n"
 
 if pids.empty?
   log_process_info "No pids to clear :-)\n"
@@ -76,9 +77,18 @@ pids.each do |pid|
     FileUtils.rm pid_path
   end
 
+    command_line = ""
+
   begin
-    info = Sys::ProcTable.ps(pid: pid)
-    raise unless info
+    if os == :osx
+      # We can't use ProcTable.ps or `ps` from within a hardened runtime
+      # on macOS So don't attempt to extract command line for pid
+    else
+      info = Sys::ProcTable.ps(pid: pid)
+      raise unless info
+      command_line = info.cmdline.strip
+    end
+
   rescue
     log_process_info "  -- unable to get ProcTable info for: #{pid}"
     log_process_info "  -- process: #{pid} not running"
@@ -86,7 +96,7 @@ pids.each do |pid|
   end
 
   # Don't kill process unless the command line arguments match
-  next unless info.cmdline.strip == orig_cmdline.strip
+  next unless command_line.strip == orig_cmdline.strip
 
   if os == :windows
     # We're on Windows, so go straight for the jugular

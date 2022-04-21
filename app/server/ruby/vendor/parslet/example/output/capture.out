@@ -1,3 +1,0 @@
-[{:line=>"Text1\n"@9},
- {:doc=>[{:line=>"Text3\n"@23}, {:line=>"Text4\n"@29}]},
- {:line=>"\nText2\n"@41}]

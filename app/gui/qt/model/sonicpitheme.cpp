@@ -1,7 +1,7 @@
 //--
 // This file is part of Sonic Pi: http://sonic-pi.net
 // Full project source: https://github.com/samaaron/sonic-pi
-// License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
+// License: https://github.com/samaaron/sonic-pi/blob/main/LICENSE.md
 //
 // Copyright 2013, 2014, 2015, 2016 by Sam Aaron (http://sam.aaron.name).
 // All rights reserved.
@@ -643,7 +643,7 @@ QMap<QString, QString> SonicPiTheme::highContrastTheme(){
     QString dt_gold = "#4F4303";
     QString dt_orange = "#4F4303";
 
-    QString dt_not_supported = "white";
+    QString dt_not_supported = "black";
     QString dt_warning = "red";
     QString dt_green = "#285516";
     QString theme_bg = dt_lightgrey;
@@ -914,6 +914,10 @@ QString SonicPiTheme::getAppStylesheet() {
 
     appStyling.replace("fixedWidthFont", "\"Hack\"");
 
+    #if defined(Q_OS_LINUX)
+    appStyling = "QWidget\n{\nbackground: paneColor;\n}\n" + appStyling;
+    #endif
+    
     appStyling
         .replace("windowColor", windowColor)
         .replace("windowForegroundColor", windowForegroundColor)

@@ -2,7 +2,7 @@
 #--
 # This file is part of Sonic Pi: http://sonic-pi.net
 # Full project source: https://github.com/samaaron/sonic-pi
-# License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
+# License: https://github.com/samaaron/sonic-pi/blob/main/LICENSE.md
 #
 # Copyright 2013, 2014, 2015, 2016 by Sam Aaron (http://sam.aaron.name).
 # All rights reserved.
@@ -685,19 +685,23 @@ osc \"/foo/baz\"             # Send an OSC message to port 7000
                              # do/end block
 "        ]
 
-      def __osc_send(host, port, path, *args)
+      def __osc_send_api(path, *args)
         t = __system_thread_locals.get(:sonic_pi_spider_time) + current_sched_ahead_time
         args.map! do |arg|
           case arg
-          when Numeric, String
+          when Numeric, String, SonicPi::OSC::Blob
             arg
           else
             arg.inspect
           end
         end
-        @osc_client.send_ts(t, "/send_after", host, port, path, *args)
+        @osc_client.send_ts(t, path, *args)
       end
 
+      def __osc_send(host, port, path, *args)
+        m = @osc_client.encoder.encode_single_message(path, args)
+        __osc_send_api("/send_after", host, port, SonicPi::OSC::Blob.new(m))
+      end
 
       def osc_send(host, port, path, *args)
         host = host.to_s.strip
@@ -1818,11 +1822,9 @@ end"
         raise ArgumentError, "steps: opt for fn line should be a positive non-zero whole number" unless num_slices > 0
 
         if inclusive
-          step_size = (start - finish).abs.to_f / (num_slices - 1)
-          range(start.to_f, finish.to_f, inclusive: true,  step: step_size)
+          range(0, num_slices).scale((finish - start) / (num_slices - 1)) + start
         else
-          step_size = (start - finish).abs.to_f / num_slices
-          range(start.to_f, finish.to_f, step: step_size)
+          range(0, num_slices).scale((finish - start) / num_slices) + start
         end
       end
       doc name:           :line,
@@ -3418,25 +3420,31 @@ print rand_i_look(5) #=> will print the same number as the previous statement"
 
 
 
-      def use_random_stream(noise_type, &block)
-        raise ArgumentError, "use_random_stream does not work with a block. Perhaps you meant with_random_stream" if block
+      def use_random_source(noise_type, &block)
+        raise ArgumentError, "use_random_source does not work with a block. Perhaps you meant with_random_source" if block
         raise ArgumentError, "invalid noise type '#{noise_type}' - please use one of :white, :pink, :light_pink, :dark_pink or :perlin instead" unless %w(white pink light_pink dark_pink perlin).include?(noise_type.to_s)
 
         SonicPi::Core::SPRand.set_random_number_distribution!(noise_type)
       end
-      doc name:           :use_random_stream,
-          introduced:     Version.new(3,2,3),
+      doc name:           :use_random_source,
+          introduced:     Version.new(3,3,0),
           summary:        "Change how random numbers are chosen",
           args:           [[:noise_type, :symbol]],
           opts:           nil,
           accepts_block:  false,
-          doc:            "Sets the random number source to be one of :white, :pink, :light_pink, :dark_pink or :perlin.
-      :white is totally random - between 0 and 1, you can expect an even spread of values around 0.1, 0.2, 0.3 etc. This means that jumping around within the range (including large jumps) is expected.
-      :pink is more likely to produce values in the middle of the range and less likely to produce values at the extremes. Between 0 and 1 you expect to see a concentration of values around 0.5. This can make random melodies a little bit more smooth.
-      :perlin is a special kind of noise which produces gradients, a bit like a mountain landscape. Large jumps are much less likely and you will tend to see lots of smooth motion going either up or down
-      :light_pink is halfway between white noise and pink noise - more random and jumpy
-      :dark_pink is halfway between pink noise and brown noise - less jumpy with smoother slopes
-      You can see the 'buckets' that the numbers between 0 and 1 fall into with the following code:
+          doc:            "Sets the random number source to be one of `:white`, `:pink`, `:light_pink`, `:dark_pink` or `:perlin`.
+
+`:white` is totally random - between 0 and 1, you can expect an even spread of values around 0.1, 0.2, 0.3 etc. This means that jumping around within the range (including large jumps) is expected.
+
+`:pink` is more likely to produce values in the middle of the range and less likely to produce values at the extremes. Between 0 and 1 you expect to see a concentration of values around 0.5. This can make random melodies a little bit more smooth.
+
+`:perlin` is a special kind of noise which produces gradients, a bit like a mountain landscape. Large jumps are much less likely and you will tend to see lots of smooth motion going either up or down
+
+`:light_pink` is halfway between white noise and pink noise - more random and jumpy
+
+`:dark_pink` is halfway between pink noise and brown noise - less jumpy with smoother slopes
+
+You can see the 'buckets' that the numbers between 0 and 1 fall into with the following code:
 
         rand_type :white
         puts 10000.times.collect { rand.round(1) }.tally.sort
@@ -3447,21 +3455,21 @@ print rand_i_look(5) #=> will print the same number as the previous statement"
 
       ",
           examples:       ["
-  use_random_stream :white # use white noise as the distribution (default)
+  use_random_source :white # use white noise as the distribution (default)
   rand_reset # reset random seed
   puts rand # => 0.75006103515625
   puts rand # => 0.733917236328125
   puts rand # => 0.464202880859375
   rand_reset # reset it again
-  use_random_stream :pink # use pink noise as the distribution
+  use_random_source :pink # use pink noise as the distribution
   puts rand # => 0.47808837890625
   puts rand # => 0.56011962890625
   rand_reset # reset it
-  use_random_stream :perlin # use perlin noise as the distribution
+  use_random_source :perlin # use perlin noise as the distribution
   puts rand # => 0.546478271484375
   puts rand # => 0.573150634765625
 
-  with_random_stream :white do # use white noise just for this block
+  with_random_source :white do # use white noise just for this block
     puts rand # => 0.464202880859375
   end
 
@@ -3473,8 +3481,8 @@ print rand_i_look(5) #=> will print the same number as the previous statement"
 
 
 
-      def with_random_stream(noise_type, &block)
-        raise ArgumentError, "with_random_stream requires a block. Perhaps you meant use_random_stream" unless block
+      def with_random_source(noise_type, &block)
+        raise ArgumentError, "with_random_source requires a block. Perhaps you meant use_random_source" unless block
         raise ArgumentError, "invalid noise type '#{noise_type}' - please use one of :white, :pink, :light_pink, :dark_pink or :perlin instead" unless %w(white pink light_pink dark_pink perlin).include?(noise_type.to_s)
         new_thread_gen_type = SonicPi::Core::SPRand.get_random_number_distribution
 
@@ -3483,8 +3491,8 @@ print rand_i_look(5) #=> will print the same number as the previous statement"
         SonicPi::Core::SPRand.set_random_number_distribution!(new_thread_gen_type)
         res
       end
-      doc name:           :with_random_stream,
-          introduced:     Version.new(3,2,3),
+      doc name:           :with_random_source,
+          introduced:     Version.new(3,3,0),
           summary:        "Specify random distribution for code block",
           doc:            "Resets the random number generator to the specified noise type for the specified code block. All generated random numbers and randomisation functions such as `shuffle` and `choose` within the code block will use this new generator. Once the code block has completed, the original generator is restored and the code block generator is discarded. Use this to change the sequence of random numbers in your piece in a way that can be reproduced. Especially useful if combined with iteration. See examples.",
           args:           [[:noise_type, :symbol]],
@@ -3492,21 +3500,21 @@ print rand_i_look(5) #=> will print the same number as the previous statement"
           accepts_block:  true,
           requires_block: true,
           examples:      ["
-  use_random_stream :white # use white noise as the distribution (default)
+  use_random_source :white # use white noise as the distribution (default)
   rand_reset # reset random seed
   puts rand # => 0.75006103515625
   puts rand # => 0.733917236328125
   puts rand # => 0.464202880859375
   rand_reset # reset it again
-  use_random_stream :pink # use pink noise as the distribution
+  use_random_source :pink # use pink noise as the distribution
   puts rand # => 0.47808837890625
   puts rand # => 0.56011962890625
   rand_reset # reset it
-  use_random_stream :perlin # use perlin noise as the distribution
+  use_random_source :perlin # use perlin noise as the distribution
   puts rand # => 0.546478271484375
   puts rand # => 0.573150634765625
 
-  with_random_stream :white do # use white noise just for this block
+  with_random_source :white do # use white noise just for this block
     puts rand # => 0.464202880859375
   end
 

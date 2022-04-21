@@ -1,0 +1,3 @@
+[submodule "toml-spec-tests"]
+	path = toml-spec-tests
+	url = https://github.com/KitaitiMakoto/toml-spec-tests.git

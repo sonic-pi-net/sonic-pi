@@ -1,7 +1,7 @@
 #--
 # This file is part of Sonic Pi: http://sonic-pi.net
 # Full project source: https://github.com/samaaron/sonic-pi
-# License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
+# License: https://github.com/samaaron/sonic-pi/blob/main/LICENSE.md
 #
 # Copyright 2013, 2014, 2015, 2016 by Sam Aaron (http://sam.aaron.name).
 # All rights reserved.
@@ -4076,7 +4076,8 @@ Steal This Sound,  Mitchell Sigman"
                       {
                         :doc => "Amount of time (in beats) for the mix value to change. A long slide value means that the mix takes a long time to slide from the previous value to the new value. A slide of 0 means that the mix instantly changes to the new value.",
                         :validations => [v_positive(:mix_slide)],
-                        :modulatable => true
+                        :modulatable => true,
+                        :bpm_scale => true
                       },
 
                       :pre_mix =>
@@ -4090,7 +4091,8 @@ Steal This Sound,  Mitchell Sigman"
                       {
                         :doc => "Amount of time (in beats) for the pre_mix value to change. A long slide value means that the pre_mix takes a long time to slide from the previous value to the new value. A slide of 0 means that the pre_mix instantly changes to the new value.",
                         :validations => [v_positive(:pre_mix_slide)],
-                        :modulatable => true
+                        :modulatable => true,
+                        :bpm_scale => true
                       },
 
                       :pre_amp =>
@@ -4104,7 +4106,8 @@ Steal This Sound,  Mitchell Sigman"
                       {
                         :doc => generic_slide_doc(:pre_amp),
                         :validations => [v_positive(:pre_amp_slide)],
-                        :modulatable => true
+                        :modulatable => true,
+                        :bpm_scale => true
                       },
 
                       :phase_offset =>
@@ -5125,7 +5128,7 @@ A decent range of Q factors for naturally sounding boosts/cuts is 0.6 to 1.
       end
 
       def doc
-        "Autotune/phase vocoder effect. Used without any arguments, it tries to detect the pitch and shift it to the nearest exact note. This can help with out of tune singing, but it's also an interesting effect in it's own right. When used with the note: arg, it tries to shift the input to match that note instead. This gives that classic \"robot singing\" sound that people associate with vocoders. This can then be changed using the control method to create new melodies.
+        "Autotune/phase vocoder effect. Used without any arguments, it tries to detect the pitch and shift it to the nearest exact note. This can help with out of tune singing, but it's also an interesting effect in its own right. When used with the note: arg, it tries to shift the input to match that note instead. This gives that classic \"robot singing\" sound that people associate with vocoders. This can then be changed using the control method to create new melodies.
 
 ```
 with_fx :autotuner do |c|
@@ -7777,7 +7780,8 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
             :bass_woodsy_c,
             :bass_voxy_c,
             :bass_voxy_hit_c,
-            :bass_dnb_f]},
+            :bass_dnb_f,
+            :bass_trance_c]},
 
         :sn => {
           :desc => "Snare Drums",
@@ -8200,13 +8204,16 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
           doc << "<body class=\"manual\">\n\n"
           doc << "<h1>" << v[:desc] << "</h1>\n"
 
-          doc << "<p class=\"usage\"><code><pre>"
+
+          doc << "<table>\n"
 
           v[:samples].each do |s|
-            doc << "<a href=\"sonicpi://play-sample/#{s}\"><img src=\":/images/play.png\" width=\"33\" height=\"35\"></a>"
-            doc << "sample <span class=\"symbol\">:#{s}</span>\n"
+            doc << "<tr style=\"vertical-align: middle;padding:5px\">\n"
+            doc << "<td><a href=\"sonicpi://play-sample/#{s}\"><img src=\":/images/play.png\" width=\"15\" height=\"16\"></a></td>\n"
+            doc << "<td><p class=\"usage\"><code><pre> sample <span class=\"symbol\">:#{s}</span> </pre></code></p></td>\n"
+            doc << "</tr>\n"
           end
-          doc << "</pre></code></p>\n"
+          doc << "</table>\n"
 
           doc << "<p><table class=\"arguments\"><tr>\n"
 

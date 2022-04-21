@@ -1,7 +1,7 @@
 #--
 # This file is part of Sonic Pi: http://sonic-pi.net
 # Full project source: https://github.com/samaaron/sonic-pi
-# License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
+# License: https://github.com/samaaron/sonic-pi/blob/main/LICENSE.md
 #
 # Copyright 2013, 2014, 2015, 2016 by Sam Aaron (http://sam.aaron.name).
 # All rights reserved.
@@ -25,8 +25,8 @@ require_relative "version"
 require_relative "sthread"
 require_relative "version"
 require_relative "config/settings"
+require_relative "config/scsynth_settings"
 require_relative "preparser"
-require_relative "spsym"
 require_relative "event_history"
 require_relative "thread_id"
 
@@ -41,7 +41,7 @@ require 'set'
 require 'ruby-beautify'
 require 'securerandom'
 require 'active_support/core_ext/integer/inflections'
-require 'shellwords'
+
 
 module SonicPi
   class Stop < StandardError ; end
@@ -87,6 +87,14 @@ module SonicPi
           __add_completion(key, completion, point_line, point_index)
         end
       end
+    end
+
+    def __register_midi_cue_event(address, args)
+      p = 0
+      d = 0
+      b = 0
+      m = 60
+      @register_cue_event_lambda.call(Time.now, p, @system_init_thread_id, d, b, m, address, args, 0)
     end
 
     def __register_external_osc_cue_event(time, host, port, address, args)
@@ -390,11 +398,52 @@ module SonicPi
       # Flush OSC messages on Erlang scheduler
       __osc_flush!
 
+      # Flush MIDI messages within sp_midi nif
+      __midi_flush!
+
       # Force a GC collection now everything has stopped
       GC.start
       GC.compact if RUBY_VERSION >= "2.7.0"
     end
 
+    def __midi_flush!
+      @osc_client.send("/midi_flush")
+    end
+
+    def __midi_system_reset(silent=false)
+      __info "Resetting MIDI subsystems..." unless silent
+      __schedule_delayed_blocks_and_messages!
+      begin
+        @mod_sound_studio.reset_erlang
+        __info "MIDI subsystems successfully reset" unless silent
+      rescue
+        __info "Error resetting MIDI subsystems..."
+      end
+    end
+
+    def __midi_system_start(silent=false)
+      __info "Enabling incoming MIDI cues..." unless silent
+      __schedule_delayed_blocks_and_messages!
+      @osc_client.send("/stop-start-midi-cues", 1)
+    end
+
+    def __midi_system_stop(silent=false)
+      __info "Stopping incoming MIDI cues..." unless silent
+      __schedule_delayed_blocks_and_messages!
+      @osc_client.send("/stop-start-midi-cues", 0)
+    end
+
+    def __update_midi_ins(ins)
+      # @midi_out_ports = args
+      desc = ins.join("\n")
+      __msg_queue.push({:type => :midi_in_ports, :val => desc})
+    end
+
+    def __update_midi_outs(outs)
+      # @midi_in_ports = args
+      desc = outs.join("\n")
+      __msg_queue.push({:type => :midi_out_ports, :val => desc})
+    end
     def __osc_flush!
       @osc_client.send("/flush", "default")
     end
@@ -777,7 +826,6 @@ module SonicPi
           __info "Starting run #{id}" unless silent
           code = PreParser.preparse(code, SonicPi::Lang::Core.vec_fns)
 
-          firstline -=1
           job_in_thread = in_thread seed: 0 do
             eval(code, nil, info[:workspace], firstline)
           end
@@ -955,7 +1003,9 @@ module SonicPi
             # has removed itself) then it's also safe to assume that the
             # main thread cannot spawn any further subthreads.
             if __system_thread_locals(main_in_thread).get(:sonic_pi_local_spider_subthreads).empty?
-              __system_thread_locals(main_in_thread).get(:sonic_pi_local_spider_subthread_empty).deliver!(true)
+              # Don't raise error as other existing GC threads may also get to this point.
+              __system_thread_locals(main_in_thread).get(:sonic_pi_local_spider_subthread_empty).deliver!(true, false)
+
             end
 
             # remove any un-matched event matchers created
@@ -1215,7 +1265,16 @@ module SonicPi
     end
     def beautify_ruby_source(source)
       source = source << "\n" unless source.end_with? "\n"
-      RBeautify.beautify_string :ruby, source
+
+      # Fix issue with the beautifier not being able to distinguish
+      # / as the start of a regex or as the division operator when
+      # positioned immediately after a ) or ]
+      # See https://github.com/samaaron/sonic-pi/issues/2435
+      source = source.gsub(/\)\//, ') ___SONIC_PI_RND_TMP_PLACEHOLDER___ /')
+      source = source.gsub(/]\//, '] ___SONIC_PI_SQR_TMP_PLACEHOLDER___ /')
+      res = RBeautify.beautify_string :ruby, source
+      res = res.gsub(') ___SONIC_PI_RND_TMP_PLACEHOLDER___ /', ')/')
+      res = res.gsub('] ___SONIC_PI_SQR_TMP_PLACEHOLDER___ /', ']/')
     end
 
     def normalise_buffer_name(name)
@@ -1263,11 +1322,17 @@ module SonicPi
       @ports = ports
       @git_hash = __extract_git_hash
       gh_short = @git_hash ? "-#{@git_hash[0, 5]}" : ""
-      @settings = Config::Settings.new(user_settings_path)
-      @scsynth_clobber_args = Shellwords.split(@settings.get(:scsynth!, ""))
-      scsynth_args = Shellwords.split(@settings.get_or_set(:scsynth, ""))
-      @scsynth_opts = scsynth_args.each_slice(2).to_h
-      @version = Version.new(3, 2, 2)
+      @settings = Config::Settings.new(system_cache_store_path)
+      begin
+        @audio_settings = SonicPi::Config::ScsynthSettings.new(user_audio_settings_path)
+      rescue
+        # log error
+        log "Unable to load user audio settings at #{user_audio_settings_path}... reverting to defaults"
+        @audio_settings = SonicPi::Config::ScsynthSettings.new("", dummy: true)
+      end
+      @scsynth_clobber_args = @audio_settings.scsynth_opts_override
+      @scsynth_opts = @audio_settings.scsynth_opts
+      @version = Version.new(3, 3, 1)
       @server_version = __server_version
       @life_hooks = LifeCycleHooks.new
       @msg_queue = msg_queue
@@ -1358,7 +1423,7 @@ module SonicPi
       __info "Initialised Erlang OSC Scheduler"
 
       if safe_mode?
-        __info "!!WARNING!! - file permissions issue:\n   Unable to write to folder #{home_dir} \n   Booting in SAFE MODE.\n   Buffer auto-saving is disabled, please save your work manually.", 1
+        __info "!!WARNING!! - file permissions issue:\n   Unable to write to folder #{home_dir_path} \n   Booting in SAFE MODE.\n   Buffer auto-saving is disabled, please save your work manually.", 1
       end
 
       log "Unable to initialise git repo at #{project_path}" unless @gitsave

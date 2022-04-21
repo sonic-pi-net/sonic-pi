@@ -32,11 +32,13 @@ public:
     bool show_tabs;
     bool full_screen;
     bool goto_buffer_shortcuts;
-    bool print_output;
+    bool log_synths;
     bool clear_output_on_run;
     bool log_cues;
     bool log_auto_scroll;
     int gui_transparency;
+    bool show_autocompletion;
+    bool show_context;
     SonicPiTheme::Style themeStyle;
 
     // UpdateSettings;

@@ -1,0 +1,142 @@
+#                                ╘
+#                         ─       ╛▒╛
+#                          ▐╫       ▄█├
+#                   ─╟╛      █▄      ╪▓▀
+#         ╓┤┤┤┤┤┤┤┤┤  ╩▌      ██      ▀▓▌
+#          ▐▒   ╬▒     ╟▓╘    ─▓█      ▓▓├
+#          ▒╫   ▒╪      ▓█     ▓▓─     ▓▓▄
+#         ╒▒─  │▒       ▓█     ▓▓     ─▓▓─
+#         ╬▒   ▄▒ ╒    ╪▓═    ╬▓╬     ▌▓▄
+#         ╥╒   ╦╥     ╕█╒    ╙▓▐     ▄▓╫
+#                    ▐╩     ▒▒      ▀▀
+#                         ╒╪      ▐▄
+#
+#       _____             __        ____  __
+#      / ___/____  ____  /_/____   / __ \/_/
+#      \__ \/ __ \/ __ \/ / ___/  / /_/ / /
+#     ___/ / /_/ / / / / / /__   / ____/ /
+#    /____/\____/_/ /_/_/\___/  /_/   /_/
+#
+#
+#          SuperCollider Audio Settings
+#
+#
+
+## Introduction
+## ============
+#
+# Sonic Pi uses the SuperCollider audio server to generate all the
+# lovely sounds you can hear.
+#
+# SuperCollider is a powerful and flexible open source sound system with
+# a lot of configuration options. Whilst we do a lot of work to
+# configure everything with sensible defaults, there are times you may
+# wish or need to change a few options to improve things on your
+# system. For example, you may wish to use a specific sound card,
+# audio rate, number of inputs, etc. All of this is possible by
+# modifying this file prior to launching Sonic Pi.
+#
+# Note that this file is a simple Toml config file. You can read more
+# about Toml here: https://github.com/toml-lang/toml.
+
+
+## How to use this file
+## ===================
+#
+# Firstly it's important to understand that this file is not necessary
+# to start Sonic Pi. Without this file, Sonic Pi will try its best to
+# figure out the most sensible options for your platform.
+#
+# Just to be clear - this config file is meant just to override specific
+# options. Options not specifically mentioned here will be given
+# platform-specific default values.
+
+# The exception to this is the scsynth_opts_override option which will
+# completely override and clobber any other settings in this file in
+# addition to overriding any defaults. If scsynth_opts_override exists,
+# then its value will be passed straight to SuperCollider's scsynth
+# unmodified as the only options. This typically should not be used, but
+# is provided as an emergency escape hatch in case it is necessary for
+# very unique situations.
+#
+# Each line that starts with a # is a comment and is therefore ignored
+# by the computer. This line that you're reading is actually a comment.
+#
+# In order to make one of the following configuration lines active, you
+# need to remove the # at the beginning of the line.
+#
+# Once the # is removed, you can then modify the value on the right hand
+# side of the = to pass a new option.
+#
+# For example, if your sound card is set to an audio rate of 48000, you can
+# tell Sonic Pi to use that rate too by finding the following line:
+# # sound_card_sample_rate = 44100
+# and then changing it to:
+# sound_card_sample_rate = 48000
+
+# Note, if there are any syntax issues with this file, then a warning will be
+# logged and Sonic Pi will continue to boot as if this file didn't
+# exist.
+
+# Good luck and happy live coding!
+
+
+
+## =================
+## Soundcard Options
+## =================
+
+# sound_card_name = ""
+# sound_card_sample_rate = 44100
+# sound_card_buffer_size = 64
+# num_inputs = 16
+# num_outputs = 16
+
+
+
+## ====================
+## Server Audio options
+## ====================
+
+# block_size = 64
+# enable_inputs = true
+# enable_outputs = true
+
+
+
+## ============
+## Fine tuning
+## ============
+
+# num_control_bus_channels = 16384
+# num_audio_bus_channels = 1024
+# num_sample_buffers = 1024
+# max_num_nodes = 1024
+# max_num_synthdefs = 1024
+# real_time_memory_size = 8192
+# num_wire_buffers = 64
+# num_random_seeds = 64
+
+
+
+## ============
+## Escape hatch
+## ============
+##
+## These options are provided for the rare times where it's impossible
+## to configure the audio settings with the options above and the
+## defaults.
+##
+## scsynth_opts is a string with standard command line opts in the
+## format that SuperCollider scsynth expects. This will be appended to
+## any other opts specified in this file and to any defaults
+
+# scsynth_opts = ""
+
+## scsynth_opts_override is a string with standard command line opts in
+## the format that SuperCollider scsynth expects. If used and non-empty,
+## this will override and replace any other settings in this file and
+## any defaults.
+##
+
+# scsynth_opts_override = ""

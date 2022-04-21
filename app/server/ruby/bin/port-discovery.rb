@@ -27,16 +27,6 @@ port_config = {
   # May be paired with scsynth
   "scsynth-send" => :paired,
 
-  # Port which the server uses to send OSC messages representing
-  # output MIDI. This is used by osmid's o2m to listen to incoming
-  # OSC messages and then forward them on as standard MIDI messages
-  "osc-midi-out" => :dynamic,
-
-  # Port which the server uses to listen to OSC messages generated
-  # by incoming MIDI. This is used by osmid's m2o as the outgoing
-  # port.
-  "osc-midi-in" => :dynamic,
-
   # Port which the server uses to listen to messages which
   # will automatically be converted to cue events:
   "server-osc-cues" => 4560,
@@ -86,9 +76,6 @@ port_map = [
 
   "scsynth",
   ["scsynth-send", "scsynth"],
-
-  "osc-midi-out",
-  "osc-midi-in",
 
   "server-osc-cues",
   "erlang-router",

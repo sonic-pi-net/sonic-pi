@@ -2,7 +2,7 @@
 #--
 # This file is part of Sonic Pi: http://sonic-pi.net
 # Full project source: https://github.com/samaaron/sonic-pi
-# License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
+# License: https://github.com/samaaron/sonic-pi/blob/main/LICENSE.md
 #
 # Copyright 2013, 2014, 2015, 2016 by Sam Aaron (http://sam.aaron.name).
 # All rights reserved.
@@ -216,7 +216,7 @@ languages =
   map { |p| File.basename(p).gsub(/sonic-pi-tutorial-(.*?).po/, '\1') }.
   sort_by {|n| -n.length}
 
-docs << "\n  QString systemLocale = QLocale::system().name();\n\n" unless languages.empty?
+docs << "\n  QString systemLocale = QLocale::system().uiLanguages()[0];\n\n" unless languages.empty?
 
 # first, try to match all non-default languages (those that aren't "en")
 languages.each do |lang|

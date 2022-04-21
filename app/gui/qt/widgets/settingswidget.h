@@ -40,6 +40,7 @@ private slots:
     void forceMidiReset();
     void changeMainVolume(int);
     void toggleLineNumbers();
+    void showAutoCompletion();
     void toggleLog();
     void toggleCuesLog();
     void toggleButtons();
@@ -56,6 +57,15 @@ private slots:
     void updateSettings();
     void updateTransparency(int t);
     void settingsChanged();
+    void showContext();
+    void checkArgs();
+    void synthTriggerTimingGuarantees();
+    void enableExternalSynths();
+    void midiDefaultChannel();
+    void logCues();
+    void logSynths();
+    void clearOutputOnRun();
+    void autoIndentOnRun();
 
 signals:
     void mixerSettingsChanged();
@@ -64,6 +74,7 @@ signals:
     void resetMidi();
     void volumeChanged(int vol);
     void showLineNumbersChanged();
+    void showAutoCompletionChanged();
     void showLogChanged();
     void showCuesChanged();
     void showButtonsChanged();
@@ -77,6 +88,15 @@ signals:
     void transparencyChanged(int t);
     void checkUpdatesChanged();
     void forceCheckUpdates();
+    void showContextChanged();
+    void checkArgsChanged();
+    void synthTriggerTimingGuaranteesChanged();
+    void enableExternalSynthsChanged();
+    void midiDefaultChannelChanged();
+    void logCuesChanged();
+    void logSynthsChanged();
+    void clearOutputOnRunChanged();
+    void autoIndentOnRunChanged();
 
 private:
     SonicPiSettings* piSettings;
@@ -86,7 +106,7 @@ private:
 
     QCheckBox *mixer_invert_stereo;
     QCheckBox *mixer_force_mono;
-    QCheckBox *print_output;
+    QCheckBox *log_synths;
     QCheckBox *check_args;
     QCheckBox *clear_output_on_run;
     QCheckBox *log_cues;
@@ -103,6 +123,8 @@ private:
     QCheckBox *show_tabs;
     QCheckBox *check_updates;
     QCheckBox *studio_mode;
+    QCheckBox *show_autocompletion;
+    QCheckBox *show_context;
 
     QComboBox *midi_default_channel_combo;
     QCheckBox *midi_enable_check;
@@ -143,6 +165,8 @@ private:
     QString tooltipStrShiftMeta(char key, QString str);
 
     void connectAll();
+    void updateScopeKindVisibility();
+
 };
 
 #endif

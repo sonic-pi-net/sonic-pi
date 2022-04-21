@@ -19,6 +19,6 @@ might sound complex and difficult (in fact, in the UK, programming with
 multiple threads and shared memory is typically a university level
 subject). However, as you'll see, just like playing your first note,
 *Sonic Pi makes it incredibly simple to share state across threads*
-whilst still keeping your programs *thread-safe and deterministic.*.
+whilst still keeping your programs *thread-safe and deterministic*.
 
 Meet `get` and `set`...

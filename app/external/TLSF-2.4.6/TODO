@@ -1,0 +1,9 @@
+To do list
+==========
+
+* Add mmap/sbrk support (DONE - V2.4).
+
+* TLSF rounds-up request size to the head of a free list.
+	It has been shown to be a good policy for small blocks (<2048).
+	But for larger blocks this policy may cause excesive fragmentation.
+	A deeper analisys should be done.

@@ -1,7 +1,7 @@
 //--
 // This file is part of Sonic Pi: http://sonic-pi.net
 // Full project source: https://github.com/samaaron/sonic-pi
-// License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
+// License: https://github.com/samaaron/sonic-pi/blob/main/LICENSE.md
 //
 // Copyright 2013, 2014, 2015, 2016 by Sam Aaron (http://sam.aaron.name).
 // All rights reserved.
@@ -27,7 +27,7 @@ public:
   QFont defaultFont(int style) const;
   QStringList autoCompletionWordSeparators() const;
 
-private:  
+private:
   SonicPiTheme *theme;
 
 public slots:

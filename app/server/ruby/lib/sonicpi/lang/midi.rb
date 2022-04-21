@@ -1,7 +1,7 @@
 #--
 # This file is part of Sonic Pi: http://sonic-pi.net
 # Full project source: https://github.com/samaaron/sonic-pi
-# License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
+# License: https://github.com/samaaron/sonic-pi/blob/main/LICENSE.md
 #
 # Copyright 2016, 2017 by Sam Aaron (http://sam.aaron.name).
 # All rights reserved.
@@ -81,7 +81,12 @@ module SonicPi
           summary:       "Use new MIDI defaults",
           doc:           "Specify new default values to be used by all subsequent calls to `midi_*` fns. Will remove and override any previous defaults.",
           args:          [],
-          opts:          {},
+          opts:          {
+                           channel: "MIDI channel(s) to send event on",
+                           port: "MIDI port(s) to send to",
+                           velocity: "Note velocity as a MIDI number.",
+                           vel_f: "Velocity as a value between 0 and 1 (will be converted to a MIDI velocity between 0 and 127)",
+                           on: "If specified and false/nil/0 will stop the midi note on message from being sent out. (Ensures all opts are evaluated in this call to `midi_note_on` regardless of value)."},
           accepts_block: false,
           examples:      ["
 midi_note_on :e1 # Sends MIDI :e1 note_on with default opts
@@ -114,7 +119,12 @@ midi_note_on :e2 # Sends MIDI :e2 note_on to channel 1. Note that the port is ba
           summary:        "Block-level use new MIDI defaults",
           doc:            "Specify new default values to be used by all calls to `midi_*` fns within the `do`/`end` block. After the `do`/`end` block has completed the previous MIDI defaults (if any) are restored.",
           args:           [],
-          opts:           {},
+          opts:          {
+                           channel: "MIDI channel(s) to send event on",
+                           port: "MIDI port(s) to send to",
+                           velocity: "Note velocity as a MIDI number.",
+                           vel_f: "Velocity as a value between 0 and 1 (will be converted to a MIDI velocity between 0 and 127)",
+                           on: "If specified and false/nil/0 will stop the midi note on message from being sent out. (Ensures all opts are evaluated in this call to `midi_note_on` regardless of value)."},
           accepts_block:  true,
           requires_block: true,
           examples:       ["
@@ -150,7 +160,12 @@ end
           summary:       "Merge MIDI defaults",
           doc:           "Specify new default values to be used by all subsequent calls to `midi_*` fns. Merges the specified values with any previous defaults, rather than replacing them",
           args:          [],
-          opts:          {},
+          opts:          {
+                           channel: "MIDI channel(s) to send event on",
+                           port: "MIDI port(s) to send to",
+                           velocity: "Note velocity as a MIDI number.",
+                           vel_f: "Velocity as a value between 0 and 1 (will be converted to a MIDI velocity between 0 and 127)",
+                           on: "If specified and false/nil/0 will stop the midi note on message from being sent out. (Ensures all opts are evaluated in this call to `midi_note_on` regardless of value)."},
           accepts_block: false,
           examples:      ["
 midi_note_on :e1 # Sends MIDI :e1 note_on with default opts
@@ -185,7 +200,12 @@ midi_note_on :e2 # Sends MIDI :e2 note_on to channel 1 on port \"foo\".
           summary:        "Block-level merge midi defaults",
           doc:            "Specify opt values to be used by any following call to the `midi_*` fns within the specified `do`/`end` block. Merges the specified values with any previous midi defaults, rather than replacing them. After the `do`/`end` block has completed, previous defaults (if any) are restored.",
           args:           [],
-          opts:           {},
+          opts:          {
+                           channel: "MIDI channel(s) to send event on",
+                           port: "MIDI port(s) to send to",
+                           velocity: "Note velocity as a MIDI number.",
+                           vel_f: "Velocity as a value between 0 and 1 (will be converted to a MIDI velocity between 0 and 127)",
+                           on: "If specified and false/nil/0 will stop the midi note on message from being sent out. (Ensures all opts are evaluated in this call to `midi_note_on` regardless of value)."},
           accepts_block:  true,
           requires_block: true,
           examples:       ["
@@ -464,7 +484,7 @@ You may also optionally pass the release velocity value as a floating point valu
 
           ports.each do |p|
             channels.each do |c|
-              __midi_send_timed_pc("/poly_pressure", p, c, control_num, val)
+              __midi_send_timed_pc("/aftertouch", p, c, control_num, val)
             end
           end
           __midi_message "midi_poly_pressure #{control_num}, #{val}, port: #{port}, channel: #{chan}"
@@ -693,14 +713,15 @@ Typical MIDI values such as note or cc are represented with 7 bit numbers which 
         ports           = __resolve_midi_ports(opts)
         on_val          = opts.fetch(:on, 1)
 
-        if program_num == nil #deal with missing midi_pc paramter
+        if program_num == nil #deal with missing midi_pc parameter
           return nil
         end
+
+        program_num = note(program_num).round.min(0).max(127)
 
         if truthy?(on_val)
           channels       = __resolve_midi_channels(opts)
           ports          = __resolve_midi_ports(opts)
-          program_num    = note(program_num).round.min(0).max(127)
           chan           = pp_el_or_list(channels)
           port           = pp_el_or_list(ports)
 
@@ -716,7 +737,7 @@ Typical MIDI values such as note or cc are represented with 7 bit numbers which 
         nil
       end
       doc name:           :midi_pc,
-          introduced:     Version.new(3,0,2),
+          introduced:     Version.new(3,1,0),
           summary:        "Send MIDI program change message",
           args:           [[:program_num, :midi]],
           returns:        :nil,
@@ -742,40 +763,33 @@ Program number can be passed as a note such as `:e3` and decimal values will be 
 
       def midi_raw(*args)
         params, opts = split_params_and_merge_opts_array(args)
+        params       = params.map { |p| p.to_f.round }
         opts         = current_midi_defaults.merge(opts)
-        a, b, c      = params
-        a            = a.to_f.round
-        b            = b.to_f.round
-        c            = c.to_f.round
         ports        = __resolve_midi_ports(opts)
         on_val       = opts.fetch(:on, 1)
 
         if truthy?(on_val)
           ports.each do |p|
-            __midi_send_timed_param_3("/#{p}/raw", a, b, c)
+            __midi_send_timed_param_n("/raw", p, *params)
           end
           port = pp_el_or_list(ports)
-          __midi_message "midi_raw #{a}, #{b}, #{c}, port: #{port}"
+          __midi_message "midi_raw #{params * ', '}, port: #{port}"
         else
-          __midi_message "midi_raw #{a}, #{b}, #{c}, on: 0"
+          __midi_message "midi_raw #{params * ', '}, on: 0"
         end
         nil
       end
       doc name:           :midi_raw,
           introduced:     Version.new(3,0,0),
           summary:        "Send raw MIDI message",
-          args:           [[:a, :byte], [:b, :byte], [:c, :byte]],
+          args:           [],
           returns:        :nil,
           opts:           {port: "Port(s) to send the raw MIDI message events to",
                            on: "If specified and false/nil/0 will stop the raw midi message from being sent out. (Ensures all opts are evaluated in this call to `midi_raw` regardless of value)."},
           accepts_block:  false,
-          doc:            "Sends the raw MIDI message to *all* connected MIDI devices. Gives you direct access to the individual bytes of a MIDI message. Typically this should be rarely used - prefer the other `midi_` fns where possible.
+          doc:"Sends the raw MIDI message to *all* connected MIDI devices. Gives you direct access to sending the individual bytes of a MIDI message. Typically this should be rarely used - prefer the other `midi_` fns where possible.
 
-A raw MIDI message consists of 3 separate bytes - the Status Byte and two Data Bytes. These may be passed as base 10 decimal integers between 0 and 255, in hex form by prefixing `0x` such as `0xb0` which in decimal is 176 or binary form by prefixing `0b` such as `0b01111001` which represents 121 in decimal.
-
-Floats will be rounded up or down to the nearest whole number e.g. 176.1 -> 176, 120.5 -> 121, 0.49 -> 0.
-
-Non-number values will be automatically turned into numbers prior to sending the event if possible (if this conversion does not work an Error will be thrown).
+A raw MIDI message consists of multiple bytes as numbers in decimal notation (i.e. 176), hex (0xb0) or binary (0b10110000).
 
 See https://www.midi.org/specifications/item/table-1-summary-of-midi-message for a summary of MIDI messages and their corresponding byte structures.
 ",
@@ -800,7 +814,7 @@ See https://www.midi.org/specifications/item/table-1-summary-of-midi-message for
 
         if truthy?(on_val)
           ports.each do |p|
-            __midi_send_timed_param_n("/#{p}/raw", *params)
+            __midi_send_timed_param_n("/raw", p, *params)
           end
           port = pp_el_or_list(ports)
           __midi_message "midi_sysex #{params * ', '}, port: #{port}"
@@ -835,11 +849,12 @@ Non-number values will be automatically turned into numbers prior to sending the
         opts         = current_midi_defaults.merge(opts)
         on_val       = opts.fetch(:on, 1)
 
+        ports    = __resolve_midi_ports(opts)
+        channels = __resolve_midi_channels(opts)
+        port     = pp_el_or_list(ports)
+        chan     = pp_el_or_list(channels)
+
         if truthy?(on_val)
-          ports    = __resolve_midi_ports(opts)
-          channels = __resolve_midi_channels(opts)
-          port     = pp_el_or_list(ports)
-          chan     = pp_el_or_list(channels)
           ports.each do |p|
             channels.each do |c|
               __midi_send_timed_pc("/control_change", p, c, 120, 0)
@@ -882,12 +897,12 @@ All oscillators will turn off, and their volume envelopes are set to zero as soo
         reset_val    = opts[:value] || opts[:val] || params[0] || 0
         on_val       = opts.fetch(:on, 1)
 
-        if truthy?(on_val)
-          ports    = __resolve_midi_ports(opts)
-          channels = __resolve_midi_channels(opts)
-          port     = pp_el_or_list(ports)
-          chan     = pp_el_or_list(channels)
+        ports    = __resolve_midi_ports(opts)
+        channels = __resolve_midi_channels(opts)
+        port     = pp_el_or_list(ports)
+        chan     = pp_el_or_list(channels)
 
+        if truthy?(on_val)
           ports.each do |p|
             channels.each do |c|
               __midi_send_timed_pc("/control_change", p, c, 121, reset_val)
@@ -930,12 +945,12 @@ All controller values are reset to their defaults.
         opts         = current_midi_defaults.merge(opts)
         on_val       = opts.fetch(:on, 1)
 
-        if truthy?(on_val)
-          ports    = __resolve_midi_ports(opts)
-          channels = __resolve_midi_channels(opts)
-          port     = pp_el_or_list(ports)
-          chan     = pp_el_or_list(channels)
+        ports    = __resolve_midi_ports(opts)
+        channels = __resolve_midi_channels(opts)
+        port     = pp_el_or_list(ports)
+        chan     = pp_el_or_list(channels)
 
+        if truthy?(on_val)
           ports.each do |p|
             channels.each do |c|
               __midi_send_timed_pc("/control_change", p, c, 122, 0)
@@ -977,12 +992,12 @@ All devices on a given channel will respond only to data received over MIDI. Pla
         opts         = current_midi_defaults.merge(opts)
         on_val       = opts.fetch(:on, 1)
 
-        if truthy?(on_val)
-          ports    = __resolve_midi_ports(opts)
-          channels = __resolve_midi_channels(opts)
-          port     = pp_el_or_list(ports)
-          chan     = pp_el_or_list(channels)
+        ports    = __resolve_midi_ports(opts)
+        channels = __resolve_midi_channels(opts)
+        port     = pp_el_or_list(ports)
+        chan     = pp_el_or_list(channels)
 
+        if truthy?(on_val)
           ports.each do |p|
             channels.each do |c|
               __midi_send_timed_pc("/control_change", p, c, 122, 127)
@@ -1121,12 +1136,12 @@ Note that this fn also includes the behaviour of `midi_all_notes_off`.
         opts         = current_midi_defaults.merge(opts)
         on_val       = opts.fetch(:on, 1)
 
-        if truthy?(on_val)
-          channels = __resolve_midi_channels(opts)
-          ports    = __resolve_midi_ports(opts)
-          port     = pp_el_or_list(ports)
-          chan     = pp_el_or_list(channels)
+        channels = __resolve_midi_channels(opts)
+        ports    = __resolve_midi_ports(opts)
+        port     = pp_el_or_list(ports)
+        chan     = pp_el_or_list(channels)
 
+        if truthy?(on_val)
           ports.each do |p|
             channels.each do |c|
               __midi_send_timed_pc("/control_change", p, c, 123, 0)
@@ -1166,13 +1181,12 @@ When an All Notes Off event is received, all oscillators will turn off.
         params, opts = split_params_and_merge_opts_array(args)
         opts         = current_midi_defaults.merge(opts)
         on_val       = opts.fetch(:on, 1)
+        ports        = __resolve_midi_ports(opts)
+        port         = pp_el_or_list(ports)
 
         if truthy?(on_val)
-          ports = __resolve_midi_ports(opts)
-          port  = pp_el_or_list(ports)
-
           ports.each do |p|
-            __midi_send_timed("/#{p}/clock")
+            __midi_send_timed("/clock", p)
           end
           __midi_message "midi_clock_tick port: #{port}"
         else
@@ -1206,13 +1220,12 @@ Typical MIDI devices expect the clock to send 24 ticks per quarter note (typical
         params, opts = split_params_and_merge_opts_array(args)
         opts         = current_midi_defaults.merge(opts)
         on_val       = opts.fetch(:on, 1)
+        ports        = __resolve_midi_ports(opts)
+        port         = pp_el_or_list(ports)
 
         if truthy?(on_val)
-          ports = __resolve_midi_ports(opts)
-          port  = pp_el_or_list(ports)
-
           ports.each do |p|
-            __midi_send_timed("/#{p}/start")
+            __midi_send_timed("/start", p)
           end
           __midi_message "midi_start port: #{port}"
         else
@@ -1244,13 +1257,12 @@ Start the current sequence playing. (This message should be followed with calls 
         params, opts = split_params_and_merge_opts_array(args)
         opts         = current_midi_defaults.merge(opts)
         on_val       = opts.fetch(:on, 1)
+        ports        = __resolve_midi_ports(opts)
+        port         = pp_el_or_list(ports)
 
         if truthy?(on_val)
-          ports = __resolve_midi_ports(opts)
-          port  = pp_el_or_list(ports)
-
           ports.each do |p|
-            __midi_send_timed("/#{p}/stop")
+            __midi_send_timed("/stop", p)
           end
           __midi_message "midi_stop port: #{port}"
         else
@@ -1282,13 +1294,12 @@ Stops the current sequence.
         params, opts = split_params_and_merge_opts_array(args)
         opts         = current_midi_defaults.merge(opts)
         on_val       = opts.fetch(:on, 1)
+        ports        = __resolve_midi_ports(opts)
+        port         = pp_el_or_list(ports)
 
         if truthy?(on_val)
-          ports = __resolve_midi_ports(opts)
-          port  = pp_el_or_list(ports)
-
           ports.each do |p|
-            __midi_send_timed("/#{p}/continue")
+            __midi_send_timed("/continue", p)
           end
           __midi_message "midi_continue port: #{port}"
         else
@@ -1319,11 +1330,11 @@ Upon receiving the MIDI continue event, the MIDI device(s) will continue at the 
         params, opts = split_params_and_merge_opts_array(args)
         opts         = current_midi_defaults.merge(opts)
         on_val       = opts.fetch(:on, 1)
+        dur   = opts[:duration] || params[0] || 1
+        ports = __resolve_midi_ports(opts)
+        port  = pp_el_or_list(ports)
 
         if truthy?(on_val)
-          dur   = opts[:duration] || params[0] || 1
-          ports = __resolve_midi_ports(opts)
-          port  = pp_el_or_list(ports)
 
           if dur == 1
             times =  [0,
@@ -1381,7 +1392,7 @@ Upon receiving the MIDI continue event, the MIDI device(s) will continue at the 
 
           ports.each do |p|
             time_warp times do |i, el|
-              __midi_send_timed("/#{p}/clock")
+              __midi_send_timed("/clock", p)
             end
           end
 
@@ -1435,20 +1446,19 @@ end"
 
         n = normalise_transpose_and_tune_note_from_args(n, opts)
 
-        on_val = opts.fetch(:on, 1)
+        on_val   = opts.fetch(:on, 1)
+        channels = __resolve_midi_channels(opts)
+        ports    = __resolve_midi_ports(opts)
+        vel      = __resolve_midi_velocity(vel, opts)
+        sus      = opts.fetch(:sustain, 1).to_f
+        rel_vel  = opts.fetch(:release_velocity, 127)
+        n        = n.round.min(0).max(127)
+        chan     = pp_el_or_list(channels)
+        port     = pp_el_or_list(ports)
+
 
         if truthy?(on_val)
           return midi_all_notes_off(opts) if n == :off
-
-          channels = __resolve_midi_channels(opts)
-          ports    = __resolve_midi_ports(opts)
-          vel      = __resolve_midi_velocity(vel, opts)
-          sus      = opts.fetch(:sustain, 1).to_f
-          rel_vel  = opts.fetch(:release_velocity, 127)
-          n        = n.round.min(0).max(127)
-          chan     = pp_el_or_list(channels)
-          port     = pp_el_or_list(ports)
-
           ports.each do |p|
             channels.each do |c|
               __midi_send_timed_pc("/note_on", p, c, n, vel)
@@ -1558,29 +1568,40 @@ end"
       @@midi_path_cache = Hash.new {|h, k| h[k] = Hash.new() }
 
       def __midi_send_timed_pc(path, p, c, args0, args1=nil)
+
         c = -1 if c == '*'
-        path = @@midi_path_cache[p][path] || @@midi_path_cache[p][path] = "/#{p}#{path}"
+
         if args1.nil?
-          __midi_send_timed_param_2 path, c, args0
+          __midi_send_timed_param_3 path, p, c, args0
         else
-          __midi_send_timed_param_3 path, c, args0, args1
+          __midi_send_timed_param_4 path, p, c, args0, args1
         end
       end
 
-      def __midi_send_timed(path)
-        __osc_send "localhost", @ports[:osc_midi_out_port], path
+
+      def __midi_send_timed(path, port)
+        b = OSC::Blob.new(@osc_client.encoder.encode_single_message(path, [port]))
+        __osc_send_api("/midi_at", b)
       end
 
       def __midi_send_timed_param_2(path, a, b)
-        __osc_send "localhost", @ports[:osc_midi_out_port], path, a, b
+        b = OSC::Blob.new(@osc_client.encoder.encode_single_message(path, [a, b]))
+        __osc_send_api("/midi_at", b)
       end
 
       def __midi_send_timed_param_3(path, a, b, c)
-        __osc_send "localhost", @ports[:osc_midi_out_port], path, a, b, c
+        b = OSC::Blob.new(@osc_client.encoder.encode_single_message(path, [a, b, c]))
+        __osc_send_api("/midi_at", b)
+      end
+
+      def __midi_send_timed_param_4(path, a, b, c, d)
+        b = OSC::Blob.new(@osc_client.encoder.encode_single_message(path, [a, b, c, d]))
+        __osc_send_api("/midi_at", b)
       end
 
       def __midi_send_timed_param_n(path, *args)
-        __osc_send "localhost", @ports[:osc_midi_out_port], path, *args
+        b = OSC::Blob.new(@osc_client.encoder.encode_single_message(path, args))
+        __osc_send_api("/midi_at", b)
       end
 
       def __midi_message(m)
@@ -1590,31 +1611,6 @@ end"
       def __midi_rest_message(m)
         __delayed_message m unless __thread_locals.get(:sonic_pi_suppress_midi_logging)
       end
-
-      def __midi_system_reset(silent=false)
-        __info "Resetting MIDI subsystems..." unless silent
-        __schedule_delayed_blocks_and_messages!
-        @mod_sound_studio.init_or_reset_midi(silent)
-      end
-
-      def __midi_system_start(silent=false)
-        __info "Starting MIDI subsystems..." unless silent
-        __schedule_delayed_blocks_and_messages!
-        @mod_sound_studio.start_midi(silent)
-      end
-
-      def __midi_system_stop(silent=false)
-        __info "Stopping MIDI subsystems..." unless silent
-        __schedule_delayed_blocks_and_messages!
-        @mod_sound_studio.stop_midi(silent)
-      end
-
-
-
-
-
-
-
     end
   end
 end

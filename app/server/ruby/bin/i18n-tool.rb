@@ -2,7 +2,7 @@
 #--
 # This file is part of Sonic Pi: http://sonic-pi.net
 # Full project source: https://github.com/samaaron/sonic-pi
-# License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
+# License: https://github.com/samaaron/sonic-pi/blob/main/LICENSE.md
 #
 # Copyright 2013, 2014, 2015, 2016 by Sam Aaron (http://sam.aaron.name).
 # All rights reserved.
@@ -80,19 +80,19 @@ def handle_entry(msgid, filename, line, flags = [])
 end
 
 
-def convert_element(filename, el, bullet = nil) case el.type
-
+def convert_element(filename, el, bullet = nil)
+  case el.type
   when :root, :li, :ul, :ol
     i = 0
-    while i < el.children.count do
-      case el.type
-      when :ul
-        b = '*'
-      when :ol
-        b = "#{i+1}."
-      else
-        b = nil
-      end
+    while i < el.children.count
+      b = case el.type
+          when :ul
+            '*'
+          when :ol
+            "#{i + 1}."
+          when :li
+            bullet
+          end
       convert_element(filename, el.children[i], b)
       i += 1
     end

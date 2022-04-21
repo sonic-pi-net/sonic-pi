@@ -1,0 +1,3 @@
+{"src/osc/*", [{outdir, "ebin/"}]}.
+{"src/pi_server/*", [{outdir, "ebin/"}]}.
+{"src/sp_midi/*", [{outdir, "ebin/"}]}.

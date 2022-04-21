@@ -85,6 +85,8 @@ quiet.
 
 ## Low Pass Filter
 
+![Varying amounts of low pass filtering](../../../etc/doc/images/tutorial/articles/A.19-subtractive-synthesis/subtractive-synthesis-waveforms.png)
+
 The low pass filter is such an important part of every subtractive
 synthesis toolkit that it's worth taking a deeper look at how it
 works. This diagram shows the same sound wave (the `:prophet` synth)
@@ -122,16 +124,15 @@ with_fx :lpf, cutoff: 50 do |fx|
 end
 ```
 
-Let's take a quick look at what's going on here. Firstly we start an
-`:lpf` FX block as normal with an initial `cutoff:` of a very low
-`20`. However, the first line also finishes with the strange `|fx|` at
-the end. This is an optional part of the `with_fx` syntax which allows
-you to directly name and control the running FX synth. Line 2 does
-exactly this and controls the FX to set the `cutoff_slide:` opt to 4 and
-the new target `cutoff:` to be `130`. The FX will now start sliding the
-`cutoff:` opt's value from `50` to `130` over a period of 3
-beats. Finally we also trigger a source signal synth so we can hear the
-effect of the modulated low pass filter.
+Let's take a quick look at what's going on here. Firstly we start an `:lpf` FX
+block as normal with an initial `cutoff:` of a low `50`. However, the first line
+also finishes with the strange `|fx|` at the end. This is an optional part of
+the `with_fx` syntax which allows you to directly name and control the running
+FX synth. Line 2 does exactly this and controls the FX to set the
+`cutoff_slide:` opt to 3 and the new target `cutoff:` to be `130`. The FX will
+now start sliding the `cutoff:` opt's value from `50` to `130` over a period of
+3 beats. Finally we also trigger a source signal synth so we can hear the effect
+of the modulated low pass filter.
 
 
 ## Bringing it all together

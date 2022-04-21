@@ -27,7 +27,7 @@ and quit it if there is.
 You probably didn't install the SC3 plugins
 package for SuperCollider on your system. If there
 is no binary package provided by your distribution, you can
-[install it from source](https://github.com/samaaron/sonic-pi/blob/master/INSTALL-LINUX.md#supercollider-sc3-plugins).
+[install it from source](https://github.com/samaaron/sonic-pi/blob/main/INSTALL-LINUX.md#supercollider-sc3-plugins).
 
 ## Linux: Trouble with JACK
 

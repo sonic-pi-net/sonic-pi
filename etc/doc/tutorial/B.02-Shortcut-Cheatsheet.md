@@ -3,7 +3,7 @@ B.2 Shortcut Cheatsheet
 # Shortcut Cheatsheet
 
 The following is a summary of the main shortcuts available within Sonic
-Pi. Please see Section 10.1 for motivation and background.
+Pi. Please see Section B.1 for motivation and background.
 
 ## Conventions
 

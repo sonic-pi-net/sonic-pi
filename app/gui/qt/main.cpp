@@ -1,7 +1,7 @@
 //--
 // This file is part of Sonic Pi: http://sonic-pi.net
 // Full project source: https://github.com/samaaron/sonic-pi
-// License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
+// License: https://github.com/samaaron/sonic-pi/blob/main/LICENSE.md
 //
 // Copyright 2013, 2014, 2015, 2016 by Sam Aaron (http://sam.aaron.name).
 // All rights reserved.
@@ -29,6 +29,10 @@
 #include <QtPlatformHeaders\QWindowsWindowFunctions>
 #endif
 
+#ifdef Q_OS_MAC
+    #include "platform/macos.h"
+#endif
+
 int main(int argc, char *argv[])
 {
 
@@ -45,14 +49,14 @@ int main(int argc, char *argv[])
 
   qRegisterMetaType<SonicPiLog::MultiMessage>("SonicPiLog::MultiMessage");
 
-  QString systemLocale = QLocale::system().name();
+  QString systemLocale = QLocale::system().uiLanguages()[0].replace("-", "_");
 
   QTranslator qtTranslator;
   qtTranslator.load("qt_" + systemLocale, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
   app.installTranslator(&qtTranslator);
 
   QTranslator translator;
-  bool i18n = translator.load("sonic-pi_" + systemLocale, ":/lang/") || systemLocale.startsWith("en") || systemLocale == "C";
+  bool i18n = translator.load(QLatin1String("sonic-pi_") + systemLocale, QLatin1String(":/lang")) ||  systemLocale.startsWith("en") || systemLocale == "C";
   app.installTranslator(&translator);
 
   app.setApplicationName(QObject::tr("Sonic Pi"));
@@ -114,6 +118,8 @@ int main(int argc, char *argv[])
 
 #elif __APPLE__
   // macOS code goes here
+
+  SonicPi::removeMacosSpecificMenuItems();
 
   QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 

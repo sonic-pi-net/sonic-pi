@@ -94,12 +94,12 @@ live loop running due to an error. If you already have the `sync:` opt
 pointing to another valid `live_loop`, then you can quickly fix the
 error and re-run the code to re-start things without missing a beat.
 
-## 4. Use the Master Mixer
+## 4. Use the Main Mixer
 
-One of Sonic Pi's best kept secrets is that it has a master mixer
+One of Sonic Pi's best kept secrets is that it has a main mixer
 through which all sound flows. This mixer has both a low pass filter and
 a high pass filter built-in, so you can easily perform global
-modifications to the sound. The master mixer's functionality can be
+modifications to the sound. The main mixer's functionality can be
 accessed via the fn `set_mixer_control!`. For example, whilst some code
 is running and making sound, enter this into a spare buffer and hit
 `Run`:
@@ -155,7 +155,7 @@ This month, instead of giving you a final example that combines all the
 things discussed, let's part by setting down a challenge. See if you can
 spend a week practicing one of these ideas every day. For example, one
 day practice manual triggers, the next do some basic `live_loop` work
-and the following day play around with the master mixer. Then
+and the following day play around with the main mixer. Then
 repeat. Don't worry if things feel slow and clunky at first - just keep
 practicing and before you know it you'll be live coding for a real
 audience.

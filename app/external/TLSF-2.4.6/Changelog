@@ -1,0 +1,132 @@
+  Version History
+  ---------------
+
+
+  -v2.4.6 (September 10 2009)
+	* Fixed a bug in the realloc func (discovered by the rockbox
+  	  project: www.rockbox.org).
+
+
+  -v2.4.5 (November 24 2008)
+	* Working on OSX/FreeBSD (may be for OpenBSD/NetBSD too).
+	  Reported by Younès HAFRI.
+          printf (and stdio.h include) is now optional.
+	  Reported by Masaki Muranaka
+
+  -v2.4.4 (October 13 2008)
+	* Corrected minor syntactic bug on statistic gathering code.
+ 	  Reported by Tim Cussins and P. Mantegazza.
+
+  -v2.4.3 (July 30 2008)
+	* Minor fixes to compile with the greenhills compiler.
+	  Reported by "Kaya, Sinan SEA" <sinan.kaya@siemens.com>
+	* Small change in the license in order to include TLSF in the RTEMS
+	  project.
+
+  -v2.4.2 (May 16 2008) (Herman ten Brugge)
+	* Memory usage statistics added again, with cleaner and more compacted
+	  code.
+
+  -v2.4.1 (April 30 2008)
+	* Fixed a bug in the tlsf_realloc function: init the pool automatically
+	  on the first call.
+	  Reported by: Alejandro Mery <amery@geeks.cl>
+
+  -v2.4  (Feb 19 2008)
+	* "rtl_*" functions renamed to "tlsf_*".
+	* Added the add_new_area function to insert new memory areas to an
+  	  existing memory pool.
+	* A single TLSF pool can manage non-contiguous memory areas.
+	* Support for mmap and sbrk added.
+	* The init_memory_pool is not longer needed when used on a system
+	  with mmap or sbrk.
+	* Removed the get_used_size counting.The same functionality can be
+	implemented outside the TLSF code.
+	
+  -v2.3.2 (Sep 27 2007) 
+  	* Minor cosmetic code improvements.
+
+  -v2.3.1 (Jul 30 2007)
+        * Fixed some minor bugs in the version 2.3. Herman ten Brugge
+	     <hermantenbrugge@home.nl>
+	
+  -v2.3 (Jul 28 2007) Released a new version with all the contributions 
+        received from Herman ten Brugge <hermantenbrugge@home.nl> 
+        (This is his summary of changes in the TLSF's code):
+        * Add 64 bit support. It now runs on x86_64 and solaris64.
+        * I also tested this on vxworks/32 and solaris/32 and i386/32 
+          processors.
+        * Remove assembly code. I could not measure any performance difference
+          on my core2 processor. This also makes the code more portable.
+        * Moved defines/typedefs from tlsf.h to tlsf.c
+        * Changed MIN_BLOCK_SIZE to sizeof (free_ptr_t) and BHDR_OVERHEAD to
+         (sizeof (bhdr_t) - MIN_BLOCK_SIZE). This does not change the fact
+         that the minumum size is still sizeof (bhdr_t).
+        * Changed all C++ comment style to C style. (// -> /* ... *./)
+        * Used ls_bit instead of ffs and ms_bit instead of fls. I did this to
+          avoid confusion with the standard ffs function which returns
+          different values.
+        * Created set_bit/clear_bit fuctions because they are not present
+          on x86_64.
+        * Added locking support + extra file target.h to show how to use it.
+        * Added get_used_size function
+        * Added rtl_realloc and rtl_calloc function
+        * Implemented realloc clever support.
+        * Added some test code in the example directory.
+
+	-- Thank you very much for your help Herman!
+
+  -v2.2.1 (Oct 23 2006)
+        * Support for ARMv5 implemented by Adam Scislowicz
+	  <proteuskor@gmail.com>. Thank you for your contribution.
+
+  - v2.2.0 (Jun 30 2006) Miguel Masmano & Ismael Ripoll.
+
+	* Blocks smaller than 128 bytes are stored on a single
+	  segregated list. The already existing bits maps and data
+	  structures are used.
+	* Minor code speed-up improvements.
+	* Worst case response time both on malloc and free improved.
+	* External fragmantation also improved!.
+	* Segragared lists are AGAIN sorted by LIFO order. Version
+	  2.1b was proven to be no better than 2.1.
+
+  - v2.1b: Allocation policy has been always a LIFO Good-Fit, that
+	   is, between several free blocks in the same range, TLSF will
+	   always allocate the most recently released. In this version of
+	   TLSF, we have implemented a FIFO Good-Fit. However,
+	   fragmentation doesn't seems to be altered so is it worth it?.
+	
+  - v2.1:  Realloc and calloc included again in TLSF 2.0.
+
+  - v2.0:  In this version,  TLSF has been programmed  from scratch.
+	   Now the allocator is provided as an unique file. Realloc and
+           calloc are not longer implemented.
+
+
+  - v1.4:  Created  the   section  "Version  History".   Studied  real
+           behaviour of actual applications (regular applications tend
+           to require small memory blocks (less than 16 bytes) whereas
+           TLSF is  optimised to  be used with  blocks larger  than 16
+           bytes: Added special lists to deal with blocks smaller than
+           16 bytes.
+
+
+  - v1.3: Change  of concept, now  the main TLSF structure  is created
+          inside of  the beginning  of the block  instead of  being an
+          static  structure, allowing  multiple TLSFs  working  at the
+          same time.  Now, TLSF uses specific processor instructions to
+          deal with bitmaps.  TLSF sanity functions added to find TLSF
+          overflows.  The  TLSF code will not  be RTLinux-oriented any
+          more.
+
+  - v1.1 ...  v1.2: Many little  bugs fixed, code cleaned and splitted
+                    in several files because of cosmetic requirements.
+                    Starting     from    TLSF    v1.1,     MaRTE    OS
+                    (http://marte.unican.es)  uses the  TLSF allocator
+		    as its default memory allocator.
+
+  - v0.1 ... v1.0: First  implementations were created for testing and
+		   research purposes.  Basically TLSF is implemented to
+                   be used by  RTLinux-GPL  (www.rtlinux-gpl.org),  so
+                   it  is RTLinux-oriented.

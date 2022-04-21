@@ -4,20 +4,20 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-02-14 03:17+0000\n"
-"Last-Translator: Salih Vatansever <salih.vtnsvr@gmail.com>\n"
-"Language-Team: Turkish <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
-"tr/>\n"
+"PO-Revision-Date: 2020-12-11 04:41+0000\n"
+"Last-Translator: VOLKAN BAKIR <volkan.bakir@bahcesehir.edu.tr>\n"
+"Language-Team: Turkish <https://hosted.weblate.org/projects/sonic-pi/"
+"tutorial/tr/>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.11-dev\n"
+"X-Generator: Weblate 4.4-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
-msgstr "Sonic Pi'ye hoş geldiniz."
+msgstr "1 Sonic Pi'ye hoş geldiniz"
 
 #: 01-Welcome-to-Sonic-Pi.md:3
 msgid "Welcome friend :-)"
@@ -30,6 +30,10 @@ msgid ""
 "earn all about music, synthesis, programming, composition, performance and mor"
 "e."
 msgstr ""
+"Sonic Pi'ye hoşgeldiniz. Umarım, sende, sana göstereceğim gibi çılgın sesler "
+"oluşturmaya başlamak için heyacanlısındır. Müzik, sentez, programlama, "
+"kompozisyon, performans ve daha fazlası hakkında her şeyi öğreneceğin "
+"gerçekten * eğlenceli * bir yolculuk olacak."
 
 #: 01-Welcome-to-Sonic-Pi.md:10
 msgid ""
@@ -40,6 +44,13 @@ msgid ""
 "ve Coding Performances](https://youtube.com/samaaron) where I code with Sonic "
 "Pi live in front of audiences."
 msgstr ""
+"Ama bekle, ne kadar kabayım! Önce kendimi tanıtmama izin ver - Ben [Sam "
+"Aaron](https://twitter.com/samaaron) - Sonic Pi'yi ortaya çıkaran adamım. "
+"Beni Twitter'da [@samaaron] (http://twitter.com/samaaron) adresinde "
+"bulabilirsiniz ve size merhaba demekten çok mutlu olurum. Benim hakkımda "
+"daha fazla bilgi edinmek de ilginizi çekebilir, izleyicilerin önünde canlı "
+"olarak Sonic Pi ile yazdığım kod[Canlı Kodlama Performanslarım] "
+"(https://youtube.com/samaaron)."
 
 #: 01-Welcome-to-Sonic-Pi.md:18
 msgid ""
@@ -47,6 +58,9 @@ msgid ""
 "n - feedback is so helpful. You never know, your idea might be the next big fe"
 "ature!"
 msgstr ""
+"Sonic Pi'yi iyileştirmek için herhangi bir düşünceniz veya fikriniz varsa - "
+"lütfen bunları iletin - geri bildirim çok faydalıdır. Asla bilemezsiniz, "
+"fikriniz bir sonraki önemli özellik olabilir!"
 
 #: 01-Welcome-to-Sonic-Pi.md:22
 msgid ""
@@ -55,6 +69,11 @@ msgid ""
 "ree just to dip in and out of sections as you see fit. If you feel that there'"
 "s something missing, do let me know and I'll consider it for a future version."
 msgstr ""
+"Bu eğitim, kategoriye göre gruplandırılmış bölümlere ayrılmıştır. Baştan "
+"sona kolay bir öğrenme serisi için yazmış olsam da, uygun gördüğünüz şekilde "
+"bölümlere girip çıkmak için çok rahat hissedin. Eksik bir şey olduğunu "
+"düşünüyorsanız, bana bildirin ve bunu gelecekteki bir versiyon için "
+"değerlendireceğim."
 
 #: 01-Welcome-to-Sonic-Pi.md:28
 msgid ""
@@ -62,6 +81,10 @@ msgid ""
 " stream live on [https://youtube.com/samaaron](http://youtube.com/samaaron) so"
 " please do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
+"Son olarak, başkalarının kodlarını canlı izlemek, öğrenmek için gerçekten "
+"harika bir yoldur. Düzenli olarak [https://youtube.com/"
+"samaaron](http://youtube.com/samaaron) üzerinden canlı yayın yapıyorum, bu "
+"yüzden lütfen uğrayın, merhaba deyin ve bana birçok soru sorun :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
@@ -83,6 +106,11 @@ msgid ""
 "uitar. This means that given some practice you can take Sonic Pi on stage and "
 "gig with it."
 msgstr ""
+"Sonic Pi'nin en heyecan verici yönlerinden biri, tıpkı bir gitarla canlı "
+"performans sergileyebileceğiniz gibi, müzik yapmak için kodu yazmanıza ve * "
+"canlı olarak değiştirmenize * olanak vermesidir. Bu, biraz pratik yaptıktan "
+"sonra Sonic Pi'yi sahneye alıp onunla birlikte çalışabileceğiniz anlamına "
+"gelir."
 
 #: 01.1-Live-Coding.md:10
 msgid "Free your mind"
@@ -95,6 +123,10 @@ msgid ""
 "on't worry if you don't understand much (or any) of this. Just try to hold ont"
 "o your seats and enjoy..."
 msgstr ""
+"Bu eğitimin geri kalanında Sonic Pi'nin nasıl çalıştığına dair gerçek "
+"ayrıntılara girmeden önce, size kodlamanın tadını çıkarmanın nasıl olduğunun "
+"bir pratiğini vermek isterim. Bunu (veya herhangi birini) pek anlamadıysanız "
+"endişelenmeyin. Sadece koltuklarınıza oturun ve ..."
 
 #: 01.1-Live-Coding.md:17
 msgid "A live loop"
@@ -123,28 +155,34 @@ msgid ""
 ". If at any time you wish to stop the sound just hit the `Stop` button. Althou"
 "gh don't hit it just yet... Instead, follow these steps:"
 msgstr ""
+"Şimdi, `Çalıştır` düğmesine basın ve güzel, hızlı bir bas davulunun "
+"çaldığını duyacaksınız. Herhangi bir anda sesi durdurmak isterseniz, sadece "
+"`Durdur` düğmesine basın. Henüz vurmasa da ... Bunun yerine şu adımları "
+"izleyin:"
 
 #: 01.1-Live-Coding.md:32
 msgid "Make sure the bass drum sound is still running"
-msgstr ""
+msgstr "Bas davul sesinin hala çalıştığından emin olun"
 
 #: 01.1-Live-Coding.md:33
 msgid "Change the `sleep` value from `0.5` to something higher like `1`."
-msgstr ""
+msgstr "`Uyku` değerini `0,5` ten `1` gibi daha yüksek bir değerle değiştirin."
 
 #: 01.1-Live-Coding.md:34
 msgid "Press the `Run` button again"
-msgstr ""
+msgstr "Tekrar `Çalıştır` düğmesine basın"
 
 #: 01.1-Live-Coding.md:35
 msgid "Notice how the drum speed has changed."
-msgstr ""
+msgstr "Davul sesinin hızının nasıl değiştiğine dikkat edin."
 
 #: 01.1-Live-Coding.md:36
 msgid ""
 "Finally, *remember this moment*, this is the first time you've live coded with"
 " Sonic Pi and it's unlikely to be your last..."
 msgstr ""
+"Son olarak, * bu anı hatırla *, bu, Sonic Pi ile canlı kodlanmış olarak "
+"yaşadığın ilk an ve muhtemelen sonuncusu olmayacak ..."
 
 #: 01.1-Live-Coding.md:39
 msgid ""
@@ -152,6 +190,9 @@ msgid ""
 "le :bd_haus` add the line `sample :ambi_choir, rate: 0.3`. Your code should lo"
 "ok like this:"
 msgstr ""
+"Evet, bu yeterince kolaydı. Şimdi de düzenlemeye yeni bir şeyler ekleyelim. "
+"`sample:bd_haus` satrının hemen üstüne `sample:ambi_choir,rate:0.3` satırını "
+"ekleyelim. Kodunuz şöyle görünmeli:"
 
 #: 01.1-Live-Coding.md:43
 #, no-wrap
@@ -162,6 +203,11 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
+"live_loop :flibble do\n"
+"  sample :ambi_choir, rate: 0.3\n"
+"  sample :bd_haus, rate: 1\n"
+"  sleep 1\n"
+"end"
 
 #: 01.1-Live-Coding.md:51
 msgid ""
@@ -172,13 +218,23 @@ msgid ""
 "t your computer will stop with an error because it can't keep up (if that happ"
 "ens, just choose a bigger `sleep` time and hit `Run` again)."
 msgstr ""
+"Şimdi oynatalım. Şimdi ayarları biraz değiştirelim - yüksek değeler "
+"kullandığınızda ne oluyor veya küçük değerler veya negatif değerler? "
+"`:ambi_choir` örneği için `rate:` değerini bir parça (örneğin `0.29`) "
+"değiştirdiğinizde ne olduğuna bakın. `sleep`değeri için çok küçük bir değer "
+"seçtiğinizde ne oluyor? Bunu çok hızlandırdığınızda bilgisayarınızın hata "
+"verip durduğunu göreceksiniz çünkü bu işlemi daha fazla yapamaz (eğer böyle "
+"olursa, `sleep` değeri için daha büyük bir değer seçip `Run`komutunu tekrar "
+"çalıştırın)."
 
 #: 01.1-Live-Coding.md:59
 msgid "Try commenting one of the `sample` lines out by adding a `#` to the beginning:"
 msgstr ""
+"`sample` satırlarından birisini satır başına `#` karakteri ekleyerek yorum "
+"yapmayı deneyin:"
 
 #: 01.1-Live-Coding.md:62
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :flibble do\n"
 "  sample :ambi_choir, rate: 0.3\n"
@@ -186,6 +242,11 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
+"live_loop :flibble do\n"
+"  sample :ambi_choir, rate: 0.3\n"
+"#  sample :bd_haus, rate: 1\n"
+"  sleep 1\n"
+"end"
 
 #: 01.1-Live-Coding.md:70
 msgid ""
@@ -193,6 +254,11 @@ msgid ""
 "lled a comment. In Sonic Pi we can use comments to remove and add things into "
 "the mix."
 msgstr ""
+"Bilgisayarın bu satırı görmezden gelmesini söylediğine ve bu satırı "
+"duymadığınızı göreceksiniz. Bu satır yorum satırı olarak adlandırılır. Sonic "
+"Pi'da düzenlemedeki bazı satırları kaldırmak için yorum satırına "
+"dönüştürebiliriz veya yorum satırı olan satırları düzenlemeye eklemek için "
+"yorum satırı olmaktan çıkarabiliriz."
 
 #: 01.1-Live-Coding.md:74
 msgid ""
@@ -202,28 +268,41 @@ msgid ""
 " Now, do what you do best - experiment and play around. Here are some suggesti"
 "ons:"
 msgstr ""
+"Son olarak, size eğlenmeniz için bir şeyler bırakmama izin verin. Aşağıdaki "
+"kodu kopyalarak boş bir buffer'a alın. Şimdilik kodu anlamaya çalışmayın "
+"ancak iki döngü olduğuna dikkat edin, yani iki döngü aynı anda çalışacak. "
+"Şimdi kendinize zaman ayırın ve deneyerek yapabileceğinizin en iyisini "
+"yapmaya çalışın. Sizin için bazı tavsiyeler:"
 
 #: 01.1-Live-Coding.md:80
 msgid "Try changing the blue `rate:` values to hear the sample sound change."
 msgstr ""
+"Örnek sesin değiştiğini görmek için mavi `rate:` değerini değiştirmeyi "
+"deneyin."
 
 #: 01.1-Live-Coding.md:81
 msgid ""
 "Try changing the `sleep` times and hear that both loops can spin round at diff"
 "erent rates."
 msgstr ""
+"`sleep` sürelerini değiştirmeyi deneyin ve döngülerin farklı oranlarda "
+"çalındığını duyun."
 
 #: 01.1-Live-Coding.md:83
 msgid ""
 "Try uncommenting the sample line (remove the `#`) and enjoy the sound of the g"
 "uitar played backwards."
 msgstr ""
+"Örnek satırı yorum satırı olmaktan çıkarmayı deneyin (`#` işaretini silin) "
+"ve geriye doğru çalan gitarın sesinin tadını çıkarın."
 
 #: 01.1-Live-Coding.md:85
 msgid ""
 "Try changing any of the blue `mix:` values to numbers between `0` (not in the "
 "mix) and `1` (fully in the mix)."
 msgstr ""
+"Herhangi bir mavi `mix:` değerini `0` (düzenleme içinde değil) ve `1` (tüm "
+"düzenleme içinde) değiştirmeyi deneyin."
 
 #: 01.1-Live-Coding.md:88
 msgid ""
@@ -232,9 +311,13 @@ msgid ""
 "e buffer and paste a fresh copy in and you're ready to jam again. Making mista"
 "kes is how you'll learn the quickest..."
 msgstr ""
+"Döngü bir daha döndüğünde değişiklikleri duymak için `Run`butonuna tıklamayı "
+"unutmayın. Eğer bir sorunla karşılaşırsanız endişelenmeyin ve `Stop`butonuna "
+"tıklayın, buffer'daki tüm kodu temizleyerek kodun temiz bir örneğini tekrar "
+"yapıştırın ve yeniden başlayın. En hızlı öğrenme yöntemi hata yapmaktır..."
 
 #: 01.1-Live-Coding.md:94
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :guit do\n"
 "  with_fx :echo, mix: 0.3, phase: 0.25 do\n"
@@ -250,6 +333,19 @@ msgid ""
 "  sleep 8\n"
 "end"
 msgstr ""
+"live_loop :guit do\n"
+"  with_fx :echo, mix: 0.3, phase: 0.25 do\n"
+"    sample :guit_em9, rate: 0.5\n"
+"  end\n"
+"#  sample :guit_em9, rate: -0.5\n"
+"  sleep 8\n"
+"end\n"
+"live_loop :boom do\n"
+"  with_fx :reverb, room: 1 do\n"
+"    sample :bd_boom, amp: 10, rate: 1\n"
+"  end\n"
+"  sleep 8\n"
+"end"
 
 #: 01.1-Live-Coding.md:111
 msgid ""
@@ -257,88 +353,104 @@ msgid ""
 "tually works kicks in and you start wondering what else you can do with this. "
 "You're now ready to read the rest of the tutorial."
 msgstr ""
+"Şimdi, bunun nasıl çalıştığı ile ilgili merakınızı giderene kadar ayarlarla "
+"oynamaya ve denemeler yapmaya devam edin ve başka neler yapabileceğinizi "
+"düşünmeye başlayın. Şimdi rehberin geri kalanını okumaya hazırsınız."
 
 #: 01.1-Live-Coding.md:115
 msgid "So what are you waiting for..."
-msgstr ""
+msgstr "Öyleyse ne bekliyorsunuz..."
 
 #: 01.2-Exploring-the-Interface.md:1
 msgid "1.2 Exploring the Interface"
-msgstr ""
+msgstr "1.2 Arayüzü Keşfetme"
 
 #: 01.2-Exploring-the-Interface.md:3
 msgid "The Sonic Pi Interface"
-msgstr ""
+msgstr "Sonic Pi Arayüzü"
 
 #: 01.2-Exploring-the-Interface.md:5
 msgid ""
 "Sonic Pi has a very simple interface for coding music. Let's spend a little ti"
 "me exploring it."
 msgstr ""
+"Sonic Pi müzik kodlamak için çok basit bir arayüze sahiptir. Haydi bu "
+"arayüzü keşfetmek için biraz vakit ayıralım."
 
 #: 01.2-Exploring-the-Interface.md:8
 msgid "![Sonic Pi Interface](../../../etc/doc/images/tutorial/GUI.png)"
-msgstr ""
+msgstr "![Sonic Pi Arayüzü](../../../etc/doc/images/tutorial/GUI.png)"
 
 #: 01.2-Exploring-the-Interface.md:11
 msgid "*A* - Play Controls"
-msgstr ""
+msgstr "*A* - Oynatma Kontrolleri"
 
 #: 01.2-Exploring-the-Interface.md:12
 msgid "*B* - Editor Controls"
-msgstr ""
+msgstr "*B* - Düzenleme Kontrolleri"
 
 #: 01.2-Exploring-the-Interface.md:13
 msgid "*C* - Info and Help"
-msgstr ""
+msgstr "*C* - Bilgi ve Yardım"
 
 #: 01.2-Exploring-the-Interface.md:14
 msgid "*D* - Code Editor"
-msgstr ""
+msgstr "*D* - Kod Düzenleyici"
 
 #: 01.2-Exploring-the-Interface.md:15
 msgid "*E* - Prefs Panel"
-msgstr ""
+msgstr "*E* - Tercihler Paneli"
 
 #: 01.2-Exploring-the-Interface.md:16
 msgid "*F* - Log Viewer"
-msgstr ""
+msgstr "*F* - Günlük Görüntüleyici"
 
 #: 01.2-Exploring-the-Interface.md:17
 msgid "*G* - Help System"
-msgstr ""
+msgstr "*G* - Yardım Sistemi"
 
 #: 01.2-Exploring-the-Interface.md:18
 msgid "*H* - Scope Viewer"
-msgstr ""
+msgstr "*H* - Kapsam Görüntüleyici"
 
-#: 01.2-Exploring-the-Interface.md:20
+#: 01.2-Exploring-the-Interface.md:19
+msgid "*I* - Cue Viewer"
+msgstr "*I* - İpucu Görüntüleyici"
+
+#: 01.2-Exploring-the-Interface.md:21
 msgid "A. Play Controls"
-msgstr ""
+msgstr "A. Oynatma Kontrolleri"
 
-#: 01.2-Exploring-the-Interface.md:22
+#: 01.2-Exploring-the-Interface.md:23
 msgid ""
 "These pink buttons are the main controls for starting and stopping sounds. The"
 "re's the *Run* button for running the code in the editor, *Stop* for stopping "
 "all running code, *Save* for saving the code to an external file and *Record* "
 "to create a recording (a WAV file) of the sound playing."
 msgstr ""
+"Bu pembe butonlar sesleri başlatmak ve durdurmak için ana kontrollerdir. "
+"Düzenleyicide sesleri çalmak için *Run* butonu, durdurmak için *Stop* "
+"butonu, kodu harici bir dosyaya kaydetmek için *Save* butonu ve çalan sesin "
+"bir kaydını oluşturmak için (bir WAV dosyası) *Record* butonu yer alıyor."
 
-#: 01.2-Exploring-the-Interface.md:28
+#: 01.2-Exploring-the-Interface.md:29
 msgid "B. Editor Controls"
-msgstr ""
+msgstr "B. Düzenleyici Kontrolleri"
 
-#: 01.2-Exploring-the-Interface.md:30
+#: 01.2-Exploring-the-Interface.md:31
 msgid ""
 "These orange buttons allow you to manipulate the code editor. The *Size +* and"
 " *Size -* buttons allow you to make the text bigger and smaller."
 msgstr ""
+"Bu turuncu butonlar kod düzenleyiciyi değiştirmenize olanak sağlar. *Size+* "
+"ve *Size-* butonları metni daha büyük veya daha küçük yapmanıza olanak "
+"sağlar."
 
-#: 01.2-Exploring-the-Interface.md:34
+#: 01.2-Exploring-the-Interface.md:35
 msgid "C. Info and Help"
-msgstr ""
+msgstr "C. Bilgi ve Yardım"
 
-#: 01.2-Exploring-the-Interface.md:36
+#: 01.2-Exploring-the-Interface.md:37
 msgid ""
 "These blue buttons give you access to information, help and preferences. The *"
 "Info* button will open up the information window which contains information ab"
@@ -346,12 +458,17 @@ msgid ""
 "*Help* button toggles the help system (*G*) and the *Prefs* button toggles the"
 " preferences window which allows you to control some basic system parameters."
 msgstr ""
+"Bu mavi butonlar bilgi, yardım ve tercihlere erişmenizi sağlar. *Info* "
+"butonu Sonic Pi ile ilgili bilgileri içeren - çekirdek ekip, tarihçe, katkı "
+"sağlayanlar ve topluluk - pencereyi açar. *Help* butonu yardım sistemine "
+"(*G*) geçmenizi ve *Prefs* butonu bazı sistem değişkenlerini kontrol "
+"etmenizi sağlayan tercihler penceresine geçmenizi sağlar."
 
-#: 01.2-Exploring-the-Interface.md:43
+#: 01.2-Exploring-the-Interface.md:44
 msgid "D. Code Editor"
-msgstr ""
+msgstr "D. Kod Düzenleyici"
 
-#: 01.2-Exploring-the-Interface.md:45
+#: 01.2-Exploring-the-Interface.md:46
 msgid ""
 "This is the area where you'll write your code and compose/perform music. It's "
 "a simple text editor where you can write code, delete it, cut and paste, etc. "
@@ -360,12 +477,19 @@ msgid ""
 "trange at first, but you'll soon find it very useful. For example, you'll know"
 " something is a number because it is blue."
 msgstr ""
+"Bu alan kodunuzu yazacağınız ve müzik düzenleme veya çalma alanıdır. Burası "
+"kodunuzu yazabileceğiniz, silebileceğiniz, kesme ve kopyalama işlemlerini "
+"yapabileceğiniz basit bir metin düzenleyicidir. Bunu Word veya Google Docs "
+"uygulamalarının basit bir versiyonu olarak düşünün. Düzenleyici sözcükleri "
+"kod içerisindeki anlamlarına göre otomatik olarak renklendirecektir. Bu, ilk "
+"bakışta garip görünse de kısa sürede çok faydalı olduğunu göreceksiniz. "
+"Örneğin, bir kelime eğer maviyse bunun sayı olduğunu anlayacaksınız."
 
-#: 01.2-Exploring-the-Interface.md:53
+#: 01.2-Exploring-the-Interface.md:54
 msgid "E. Prefs Panel"
-msgstr ""
+msgstr "E. Tercihler Paneli"
 
-#: 01.2-Exploring-the-Interface.md:55
+#: 01.2-Exploring-the-Interface.md:56
 msgid ""
 "Sonic Pi supports a number of tweakable preferences which can be accessed by t"
 "oggling the *prefs* button in the Info and Help button set. This will toggle t"
@@ -373,24 +497,34 @@ msgid ""
 "ged. Examples are forcing mono mode, inverting stereo, toggling log output ver"
 "bosity and also a volume slider and audio selector on the Raspberry Pi."
 msgstr ""
+"Sonic Pi Bilgi ve Yardım düğme grubunda yer alan *prefs* düğmesi ile geçiş "
+"yapabileceğiniz birtakım kişiselleştirme tercihleri sunar. Bu Tercihler "
+"Panelinin görünürlüğünü değiştirerek birtakım değiştirebilir seçenekleri "
+"gösterir. Örnek olarak, tekil biçimi zorlamak, stereoyu ters çevirmek, "
+"günlük çıktılarının ayrıntı seviyesini değiştirmek ve Raspberry Pi için bir "
+"ses kaydırıcı ve ses seçici."
 
-#: 01.2-Exploring-the-Interface.md:62
+#: 01.2-Exploring-the-Interface.md:63
 msgid "F. Log Viewer"
-msgstr ""
+msgstr "F. Günlük Görüntüleyici"
 
-#: 01.2-Exploring-the-Interface.md:64
+#: 01.2-Exploring-the-Interface.md:65
 msgid ""
 "When you run your code, information about what the program is doing will be di"
 "splayed in the log viewer. By default, you'll see a message for every sound yo"
 "u create with the exact time the sound was triggered. This is very useful for "
 "debugging your code and understanding what your code is doing."
 msgstr ""
+"Kodunuzu çalıştırdığınızda, programın ne yaptığı günlük görüntüleyicide "
+"görüntülenir. Varsayılan olarak, yarattığınız her ses için ses tetiklendiği "
+"anda bir mesaj göreceksiniz. Bu kodunuzdaki hataları ayıklamanız ve "
+"kodunuzun ne yaptığını anlamanız için çok faydalı olacaktır."
 
-#: 01.2-Exploring-the-Interface.md:70
+#: 01.2-Exploring-the-Interface.md:71
 msgid "G. Help System"
-msgstr ""
+msgstr "G. Yardım Sistemi"
 
-#: 01.2-Exploring-the-Interface.md:72
+#: 01.2-Exploring-the-Interface.md:73
 msgid ""
 "One of the most important parts of the Sonic Pi interface is the help system w"
 "hich appears at the bottom of the window. This can be toggled on and off by cl"
@@ -399,12 +533,18 @@ msgid ""
 "ynths, samples, examples, FX and a full list of all the functions Sonic Pi pro"
 "vides for coding music."
 msgstr ""
+"Sonic Pi arayüzünün en önemli parçalarından biri de pencerenin alt kısmında "
+"yer alan yardım sistemidir. Bu kısım mavi *Help* butonuna tıklayarak açılıp "
+"kapatılabilir. Yardım sistemi; bu rehberi, kullanılabilir synth listesini, "
+"örnekleri, FX ve Sonic Pi'ın müzik kodlamak için sağladığı tüm "
+"fonksiyonların listesini de içeren Sonic Pi için tüm yardım ve bilgi "
+"sistemini içerir."
 
-#: 01.2-Exploring-the-Interface.md:80
+#: 01.2-Exploring-the-Interface.md:81
 msgid "H. Scope Viewer"
-msgstr ""
+msgstr "H. Kapsam Görüntüleyici"
 
-#: 01.2-Exploring-the-Interface.md:82
+#: 01.2-Exploring-the-Interface.md:83
 msgid ""
 "The scope viewer allows you to see the sound you're hearing. You can easily se"
 "e that the saw wave looks like a saw and that the basic beep is a curvey sine "
@@ -415,6 +555,37 @@ msgid ""
 "ill show the phase relationship between the left and right channels and allows"
 " you to draw pretty pictures with sound (https://en.wikipedia.org/wiki/Lissajo"
 "us_curve)."
+msgstr ""
+"Kapsam görüntüleyici duyduğunuz sesi görmenizi sağlar. Testere dişlisi "
+"dalgasının tıpkı bir testere gibi ve temel bip sesinin ise kavisli bir sinüs "
+"dalgası şeklinde olduğunu kolayca görebilirsiniz. Bunun yanında yüksek ve "
+"düşük sesleri çizgilerin yüksekliğinden ayırt edebilirsiniz. 3 tip kapsam "
+"bulunmaktadır: varsayılan sol ve sağ kanallar için birleştirilmiş kapsam, "
+"bir diğeri ise her kanal için ayrı bir kapsam çizen stereo kapsamdır, son "
+"olarak ise sağ ve sol kanal arasındaki faz ilişkisini gösteren ve müzikle "
+"harika resimler elde etmenizi sağlayan Lissajous eğrisi kapsamıdır "
+"(https://en.wikipedia.org/wiki/Lissajous_curve)."
+
+#: 01.2-Exploring-the-Interface.md:93
+msgid "I. Cue Viewer"
+msgstr "I. İpucu Görüntüleyici"
+
+#: 01.2-Exploring-the-Interface.md:95
+msgid ""
+"All internal and external events (called cues in Sonic Pi) are automatically l"
+"ogged in the Cue Viewer. For example, if you have a MIDI controller connected "
+"and press one of its buttons, you'll see a new cue event in the Cue Viewer tel"
+"ling you the name of the controller and which button you pressed. Once you've "
+"mastered the basics of making and producing sounds, you'll start to want to cu"
+"e sounds or whole sections of sounds based on events such as these. A cue even"
+"t is just an indication that something happened. For example, every time a liv"
+"e loop spins round, it sends a cue event out which is logged in the Cue Viewer"
+". Also, external events such as MIDI messages from connected MIDI equipment an"
+"d OSC messages from other programs or computers are also displayed in the Cue "
+"Viewer. It is also possible to directly generate cue events using the `cue` fu"
+"nction. Anything that appears in the Cue Viewer can be used to trigger somethi"
+"ng happening. This is covered in more detail in Sections 10 to 12 of this tuto"
+"rial."
 msgstr ""
 
 #: 01.3-Learning-through-Play.md:1
@@ -2724,7 +2895,7 @@ msgstr ""
 #, no-wrap
 msgid ""
 "loop do\n"
-"  sample :perc_bell, rate: (rrand 0.125, 1.5)\n"
+"  sample :perc_bell, rate: rrand(0.125, 1.5)\n"
 "  sleep rrand(0.2, 2)\n"
 "end"
 msgstr ""
@@ -4060,14 +4231,14 @@ msgstr ""
 #, no-wrap
 msgid ""
 "a = (ring 6, 5, 4, 3, 2, 1)\n"
-"live_loop :shuffled do\n"
-"  a = a.shuffle\n"
-"  sleep 0.5\n"
-"end\n"
 "live_loop :sorted do\n"
 "  a = a.sort\n"
 "  sleep 0.5\n"
 "  puts \"sorted: \", a\n"
+"end\n"
+"live_loop :shuffled do\n"
+"  a = a.shuffle\n"
+"  sleep 0.5\n"
 "end"
 msgstr ""
 
@@ -7471,9 +7642,9 @@ msgid ""
 "etter to yourself - the OSC packet is created, leaves Sonic Pi, gets to the ne"
 "twork stack of the operating system which then routes the packed back to Sonic"
 " Pi and then it's received as a standard OSC message and is visible in the cue"
-" logger as the incoming message `\"/osc:127.0.0.1:4560/hello/world`. (Notice ho"
-"w Sonic Pi automatically prefixes all incoming OSC messages with `/osc` and th"
-"en the hostname and port of the sender.)"
+" logger as the incoming message `/osc:127.0.0.1:4560/hello/world`. (Notice how"
+" Sonic Pi automatically prefixes all incoming OSC messages with `/osc` and the"
+"n the hostname and port of the sender.)"
 msgstr ""
 
 #: 12.2-Sending-OSC.md:25
@@ -8499,7 +8670,7 @@ msgstr ""
 #: A.11-beat-tracking.md:176 A.12-sample-slicing.md:137
 #: A.13-probabilistic-sequencer.md:137 A.14-amplitude-modulation.md:192
 #: A.15-performance.md:152 A.16-practice.md:166 A.17-sample-stretching.md:153
-#: A.18-additive-synthesis.md:115 A.19-subtractive-synthesis.md:137
+#: A.18-additive-synthesis.md:115 A.19-subtractive-synthesis.md:138
 msgid "Bringing it all together"
 msgstr ""
 
@@ -11786,17 +11957,17 @@ msgid ""
 msgstr ""
 
 #: A.15-performance.md:97
-msgid "4. Use the Master Mixer"
+msgid "4. Use the Main Mixer"
 msgstr ""
 
 #: A.15-performance.md:99
 msgid ""
-"One of Sonic Pi's best kept secrets is that it has a master mixer through whic"
-"h all sound flows. This mixer has both a low pass filter and a high pass filte"
-"r built-in, so you can easily perform global modifications to the sound. The m"
-"aster mixer's functionality can be accessed via the fn `set_mixer_control!`. F"
-"or example, whilst some code is running and making sound, enter this into a sp"
-"are buffer and hit `Run`:"
+"One of Sonic Pi's best kept secrets is that it has a main mixer through which "
+"all sound flows. This mixer has both a low pass filter and a high pass filter "
+"built-in, so you can easily perform global modifications to the sound. The mai"
+"n mixer's functionality can be accessed via the fn `set_mixer_control!`. For e"
+"xample, whilst some code is running and making sound, enter this into a spare "
+"buffer and hit `Run`:"
 msgstr ""
 
 #: A.15-performance.md:107
@@ -11869,9 +12040,9 @@ msgid ""
 " discussed, let's part by setting down a challenge. See if you can spend a wee"
 "k practicing one of these ideas every day. For example, one day practice manua"
 "l triggers, the next do some basic `live_loop` work and the following day play"
-" around with the master mixer. Then repeat. Don't worry if things feel slow an"
-"d clunky at first - just keep practicing and before you know it you'll be live"
-" coding for a real audience."
+" around with the main mixer. Then repeat. Don't worry if things feel slow and "
+"clunky at first - just keep practicing and before you know it you'll be live c"
+"oding for a real audience."
 msgstr ""
 
 #: A.16-practice.md:1
@@ -12676,6 +12847,12 @@ msgstr ""
 
 #: A.19-subtractive-synthesis.md:88
 msgid ""
+"![Varying amounts of low pass filtering](../../../etc/doc/images/tutorial/arti"
+"cles/A.19-subtractive-synthesis/subtractive-synthesis-waveforms.png)"
+msgstr ""
+
+#: A.19-subtractive-synthesis.md:90
+msgid ""
 "The low pass filter is such an important part of every subtractive synthesis t"
 "oolkit that it's worth taking a deeper look at how it works. This diagram show"
 "s the same sound wave (the `:prophet` synth) with varying amounts of filtering"
@@ -12693,11 +12870,11 @@ msgid ""
 "educed as the amount of filtering that is taking place increases."
 msgstr ""
 
-#: A.19-subtractive-synthesis.md:107
+#: A.19-subtractive-synthesis.md:109
 msgid "Filter Modulation"
 msgstr ""
 
-#: A.19-subtractive-synthesis.md:109
+#: A.19-subtractive-synthesis.md:111
 msgid ""
 "So far we've just produced fairly static sounds. In other words, the sound doe"
 "sn't change in any way for the entirety of its duration. Often you might want "
@@ -12709,7 +12886,7 @@ msgid ""
 "e:"
 msgstr ""
 
-#: A.19-subtractive-synthesis.md:118
+#: A.19-subtractive-synthesis.md:120
 #, no-wrap
 msgid ""
 "with_fx :lpf, cutoff: 50 do |fx|\n"
@@ -12718,20 +12895,20 @@ msgid ""
 "end"
 msgstr ""
 
-#: A.19-subtractive-synthesis.md:125
+#: A.19-subtractive-synthesis.md:127
 msgid ""
 "Let's take a quick look at what's going on here. Firstly we start an `:lpf` FX"
-" block as normal with an initial `cutoff:` of a very low `20`. However, the fi"
-"rst line also finishes with the strange `|fx|` at the end. This is an optional"
-" part of the `with_fx` syntax which allows you to directly name and control th"
-"e running FX synth. Line 2 does exactly this and controls the FX to set the `c"
-"utoff_slide:` opt to 4 and the new target `cutoff:` to be `130`. The FX will n"
-"ow start sliding the `cutoff:` opt's value from `50` to `130` over a period of"
-" 3 beats. Finally we also trigger a source signal synth so we can hear the eff"
-"ect of the modulated low pass filter."
+" block as normal with an initial `cutoff:` of a low `50`. However, the first l"
+"ine also finishes with the strange `|fx|` at the end. This is an optional part"
+" of the `with_fx` syntax which allows you to directly name and control the run"
+"ning FX synth. Line 2 does exactly this and controls the FX to set the `cutoff"
+"_slide:` opt to 3 and the new target `cutoff:` to be `130`. The FX will now st"
+"art sliding the `cutoff:` opt's value from `50` to `130` over a period of 3 be"
+"ats. Finally we also trigger a source signal synth so we can hear the effect o"
+"f the modulated low pass filter."
 msgstr ""
 
-#: A.19-subtractive-synthesis.md:139
+#: A.19-subtractive-synthesis.md:140
 msgid ""
 "This is just a very basic taster of what's possible when you use filters to mo"
 "dify and change a source sound. Try playing with Sonic Pi's many built-in FX t"
@@ -12739,7 +12916,7 @@ msgid ""
 "er you can start modulating the options to create some movement."
 msgstr ""
 
-#: A.19-subtractive-synthesis.md:145
+#: A.19-subtractive-synthesis.md:146
 msgid ""
 "Let's finish by designing a function which will play a new sound created with "
 "subtractive synthesis. See if you can figure out what's going on here - and fo"
@@ -12748,7 +12925,7 @@ msgid ""
 "ter)."
 msgstr ""
 
-#: A.19-subtractive-synthesis.md:151
+#: A.19-subtractive-synthesis.md:152
 #, no-wrap
 msgid ""
 "define :subt_synth do |note, sus|\n"
@@ -13161,7 +13338,7 @@ msgid ""
 "s `M-r`. Similarly, to stop running code you can press `M-s`."
 msgstr ""
 
-#: B.01-Using-Shortcuts.md:60 B.02-Shortcut-Cheatsheet.md:52
+#: B.01-Using-Shortcuts.md:60 B.02-Shortcut-Cheatsheet.md:56
 msgid "Navigation"
 msgstr ""
 
@@ -13202,7 +13379,7 @@ msgid ""
 msgstr ""
 
 #: B.01-Using-Shortcuts.md:84
-msgid "For a full list take a look at section 10.2 Shortcut Cheatsheet."
+msgid "For a full list take a look at section B.2 Shortcut Cheatsheet."
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:1
@@ -13216,7 +13393,7 @@ msgstr ""
 #: B.02-Shortcut-Cheatsheet.md:5
 msgid ""
 "The following is a summary of the main shortcuts available within Sonic Pi. Pl"
-"ease see Section 10.1 for motivation and background."
+"ease see Section B.1 for motivation and background."
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:8
@@ -13282,196 +13459,212 @@ msgid "`M-}` - Switch buffer to the right"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:26
-msgid "`M-+` - Increase text size of current buffer"
+msgid "`S-M-0` - Switch to buffer 0"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:27
-msgid "`M--` - Decrease text size of current buffer"
+msgid "`S-M-1` - Switch to buffer 1"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:28
+msgid "..."
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:29
+msgid "`S-M-9` - Switch to buffer 9"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:30
-msgid "Selection/Copy/Paste"
+msgid "`M-+` - Increase text size of current buffer"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:32
-msgid "`M-a` - Select all"
-msgstr ""
-
-#: B.02-Shortcut-Cheatsheet.md:33
-msgid "`M-c` - Copy selection to paste buffer"
+#: B.02-Shortcut-Cheatsheet.md:31
+msgid "`M--` - Decrease text size of current buffer"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:34
-msgid "`M-]` - Copy selection to paste buffer"
-msgstr ""
-
-#: B.02-Shortcut-Cheatsheet.md:35
-msgid "`M-x` - Cut selection to paste buffer"
+msgid "Selection/Copy/Paste"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:36
-msgid "`C-]` - Cut selection to paste buffer"
+msgid "`M-a` - Select all"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:37
-msgid "`C-k` - Cut to the end of the line"
+msgid "`M-c` - Copy selection to paste buffer"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:38
-msgid "`M-v` - Paste from paste buffer to editor"
+msgid "`M-]` - Copy selection to paste buffer"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:39
-msgid "`C-y` - Paste from paste buffer to editor"
+msgid "`M-x` - Cut selection to paste buffer"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:40
+msgid "`C-]` - Cut selection to paste buffer"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:41
+msgid "`C-k` - Cut to the end of the line"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:42
+msgid "`M-v` - Paste from paste buffer to editor"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:43
+msgid "`C-y` - Paste from paste buffer to editor"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:44
 msgid ""
 "`C-SPACE` - Set mark. Navigation will now manipulate highlighted region. Use `"
 "C-g` to escape."
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:42
+#: B.02-Shortcut-Cheatsheet.md:46
 msgid "Text Manipulation"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:44
+#: B.02-Shortcut-Cheatsheet.md:48
 msgid "`M-m` - Align all text"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:45
+#: B.02-Shortcut-Cheatsheet.md:49
 msgid "`Tab` - Align current line or selection (or select autocompletion)"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:46
+#: B.02-Shortcut-Cheatsheet.md:50
 msgid "`C-l` - Centre editor"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:47
+#: B.02-Shortcut-Cheatsheet.md:51
 msgid "`M-/` - Comment/Uncomment current line or selection"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:48
+#: B.02-Shortcut-Cheatsheet.md:52
 msgid "`C-t` - Transpose/swap characters"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:49
+#: B.02-Shortcut-Cheatsheet.md:53
 msgid "`M-u` - Convert next word (or selection) to upper case."
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:50
+#: B.02-Shortcut-Cheatsheet.md:54
 msgid "`M-l` - Convert next word (or selection) to lower case."
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:54
+#: B.02-Shortcut-Cheatsheet.md:58
 msgid "`C-a` - Move to beginning of line"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:55
+#: B.02-Shortcut-Cheatsheet.md:59
 msgid "`C-e` - Move to end of line"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:56
+#: B.02-Shortcut-Cheatsheet.md:60
 msgid "`C-p` - Move to previous line"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:57
+#: B.02-Shortcut-Cheatsheet.md:61
 msgid "`C-n` - Move to next line"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:58
+#: B.02-Shortcut-Cheatsheet.md:62
 msgid "`C-f` - Move forward one character"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:59
+#: B.02-Shortcut-Cheatsheet.md:63
 msgid "`C-b` - Move backward one character"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:60
+#: B.02-Shortcut-Cheatsheet.md:64
 msgid "`M-f` - Move forward one word"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:61
+#: B.02-Shortcut-Cheatsheet.md:65
 msgid "`M-b` - Move backward one word"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:62
+#: B.02-Shortcut-Cheatsheet.md:66
 msgid "`C-M-n` - Move line or selection down"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:63
+#: B.02-Shortcut-Cheatsheet.md:67
 msgid "`C-M-p` - Move line or selection up"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:64
+#: B.02-Shortcut-Cheatsheet.md:68
 msgid "`S-M-u` - Move up 10 lines"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:65
+#: B.02-Shortcut-Cheatsheet.md:69
 msgid "`S-M-d` - Move down 10 lines"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:66
+#: B.02-Shortcut-Cheatsheet.md:70
 msgid "`M-<` - Move to beginning of buffer"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:67
+#: B.02-Shortcut-Cheatsheet.md:71
 msgid "`M->` - Move to end of buffer"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:69
+#: B.02-Shortcut-Cheatsheet.md:73
 msgid "Deletion"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:71
+#: B.02-Shortcut-Cheatsheet.md:75
 msgid "`C-h` - Delete previous character"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:72
+#: B.02-Shortcut-Cheatsheet.md:76
 msgid "`C-d` - Delete next character"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:74
+#: B.02-Shortcut-Cheatsheet.md:78
 msgid "Advanced Editor Features"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:76
+#: B.02-Shortcut-Cheatsheet.md:80
 msgid "`C-i` - Show docs for word under cursor"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:77
+#: B.02-Shortcut-Cheatsheet.md:81
 msgid "`M-z` - Undo"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:78
+#: B.02-Shortcut-Cheatsheet.md:82
 msgid "`S-M-z` - Redo"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:79
+#: B.02-Shortcut-Cheatsheet.md:83
 msgid "`C-g` - Escape"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:80
+#: B.02-Shortcut-Cheatsheet.md:84
 msgid "`S-M-f` - Toggle fullscreen mode"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:81
+#: B.02-Shortcut-Cheatsheet.md:85
 msgid "`S-M-b` - Toggle visibility of buttons"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:82
+#: B.02-Shortcut-Cheatsheet.md:86
 msgid "`S-M-l` - Toggle visibility of log"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:83
+#: B.02-Shortcut-Cheatsheet.md:87
 msgid "`S-M-m` - Toggle between light/dark modes"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:84
+#: B.02-Shortcut-Cheatsheet.md:88
 msgid "`S-M-s` - Save contents of buffer to a file"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:85
+#: B.02-Shortcut-Cheatsheet.md:89
 msgid "`S-M-o` - Load contents of buffer from a file"
 msgstr ""
 
@@ -13696,8 +13889,8 @@ msgstr ""
 #: C-Minecraft-Pi.md:47
 msgid ""
 "At this stage, Sonic Pi supports basic block and player manipulations which ar"
-"e detailed in Section 11.1. Support for event callbacks triggered by player in"
-"teractions in the world is planned for a future release."
+"e detailed in Section C.1. Support for event callbacks triggered by player int"
+"eractions in the world is planned for a future release."
 msgstr ""
 
 #: C.01-Basic-API.md:1
@@ -13774,12 +13967,12 @@ msgstr ""
 
 #: C.01-Basic-API.md:42
 msgid ""
-"When you hit *Run* - boom! You're instantantly transported to a new place. Mos"
-"t likely it was somewhere in the sky and you fell down either to dry land or i"
-"nto water. Now, what are those numbers: `50, 50, 50`? They're the coordinates "
-"of the location you're trying to teleport to. Let's take a brief moment to exp"
-"lore what coordinates are and how they work because they're really, really imp"
-"ortant for programming Minecraft."
+"When you hit *Run* - boom! You're instantly transported to a new place. Most l"
+"ikely it was somewhere in the sky and you fell down either to dry land or into"
+" water. Now, what are those numbers: `50, 50, 50`? They're the coordinates of "
+"the location you're trying to teleport to. Let's take a brief moment to explor"
+"e what coordinates are and how they work because they're really, really import"
+"ant for programming Minecraft."
 msgstr ""
 
 #: C.01-Basic-API.md:50

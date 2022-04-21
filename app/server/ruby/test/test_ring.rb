@@ -1,7 +1,7 @@
 #--
 # This file is part of Sonic Pi: http://sonic-pi.net
 # Full project source: https://github.com/samaaron/sonic-pi
-# License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
+# License: https://github.com/samaaron/sonic-pi/blob/main/LICENSE.md
 #
 # Copyright 2013, 2014, 2015, 2016 by Sam Aaron (http://sam.aaron.name).
 # All rights reserved.
@@ -96,7 +96,7 @@ module SonicPi
                     0.45833333333333315,
         0.47916666666666646].map{|x| x.round(14)}.ring
 
-      assert_equal midi_clocks_half, line(0, 0.5, steps: 24, inclusive: false)
+      assert_equal midi_clocks_half, line(0, 0.5, steps: 24, inclusive: false).map{ |x| x.round(14)}.ring
     end
 
     def test_ring

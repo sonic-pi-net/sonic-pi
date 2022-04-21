@@ -1,0 +1,163 @@
+
+TLSF Memory Storage allocator implementation.
+Version 2.4.6 Sept 2009
+
+Authors: Miguel Masmano, Ismael Ripoll & Alfons Crespo.
+Copyright UPVLC, OCERA Consortium.
+
+TLSF is released in the GPL/LGPL licence. The exact terms of the licence
+are described in the COPYING file.
+
+This component provides basic memory allocation functions:
+malloc and free, as defined in the standard "C" library.
+
+This allocator was designed to provide real-time performance, that is:
+1.- Bounded time malloc and free.
+2.- Fast response time.
+3.- Efficient memory management, that is low fragmentation.
+
+
+The worst response time for both malloc and free is O(1).
+
+
+
+How to use it:
+
+This code  is prepared to  be used as  a stand-alone code that  can be
+linked with a regular application or  it can be compiled to be a Linux
+module  (which  required the  BigPhysicalArea  patch).  Initially  the
+module was  designed to  work jointly with  RTLinux-GPL, but it  can be
+used as a stand alone Linux module.
+
+When compiled as a regular linux process the API is:
+
+Initialisation and destruction functions
+----------------------------------------
+
+init_memory_pool may be called before any request or release call:
+
+- size_t init_memory_pool(size_t, void *);
+- void destroy_memory_pool(void *);
+
+Request and release functions
+-----------------------------
+
+As can be seen, there are two functions for each traditional memory
+allocation function (malloc, free, realloc, and calloc). One with the
+prefix "tlsf_" and the other with the suffix "_ex". 
+
+The versions with the prefix "tlsf_" provides the expected behaviour,
+that is, allocating/releasing memory from the default memory pool. The
+default memory pool is the last pool initialised by the
+init_memory_pool function.
+
+On the other hand, the functions with the prefix "_ex" enable the use of several memory pools.
+
+- void *tlsf_malloc(size_t);
+- void *malloc_ex(size_t, void *);
+
+- void tlsf_free(void *ptr);
+- void free_ex(void *, void *);
+
+- void *tlsf_realloc(void *ptr, size_t size);
+- void *realloc_ex(void *, size_t, void *);
+
+- void *tlsf_calloc(size_t nelem, size_t elem_size);
+- void *calloc_ex(size_t, size_t, void *);
+
+EXAMPLE OF USE:
+
+char memory_pool[1024*1024];
+
+{
+	...
+
+	init_memory_pool(1024*1024, memory_pool);
+
+	...
+	
+	ptr1=malloc_ex(100, memory_pool);
+	ptr2=tlsf_malloc(100); // This function will use memory_pool
+	
+        ...
+
+        tlsf_free(ptr2);
+	free_ex(ptr1, memory_pool);
+}
+
+Growing the memory pool
+-----------------------
+
+Starting from the version 2.4, the function add_new_area adds an
+memory area to an existing memory pool.
+
+- size_t add_new_area(void *, size_t, void *);
+
+This feature is pretty useful when an existing memory pool is running
+low and we want to add more free memory to it.
+EXAMPLE OF USE:
+
+char memory_pool[1024*1024];
+char memory_pool2[1024*1024];
+
+{
+	...
+
+	init_memory_pool(1024*1024, memory_pool);
+
+	...
+	
+	ptr[0]=malloc_ex(1024*256 memory_pool); 
+	ptr[1]=malloc_ex(1024*512, memory_pool); 
+	add_new_area(memory_pool2, 1024*1024, memory_pool);
+	// Now we have an extra free memory area of 1Mb
+	// The next malloc may not fail
+	ptr[2]=malloc_ex(1024*512, memory_pool); 
+	
+        ...
+
+}
+
+
+SBRK and MMAP support
+---------------------
+
+The version 2.4 can use the functions SBRK and MMAP to _automatically_
+growing the memory pool, before running out of memory.
+
+So, when this feature is enabled, unless the operating system were out
+of memory, a malloc operation would not fail due to an "out-of-memory"
+error.
+
+To enable this support, compile tlsf.c with the FLAGS -DUSE_MMAP=1 or
+-DUSE_SBRK=1 depending on whether you want to use "mmap" or "sbrk" or both.
+
+** By default (default Makefile) this feature is enabled.
+
+EXAMPLE OF USE:
+
+gcc -o tlsf.o -O2 -Wall -DUSE_MMAP=1 -DUSE_SBRK=1
+
+---
+
+If the sbrk/mmap support is enabled and we are _only_ going to use one
+memory pool, it is not necessary to call init_memory_pool
+
+EXAMPLE OF USE (with MMAP/SBRK support enabled):
+
+{
+	...
+	
+	ptr2=tlsf_malloc(100); // This function will use memory_pool
+	
+        ...
+
+        tlsf_free(ptr2);
+}
+
+
+
+
+This work has been supported by the followin projects:
+EUROPEAN: IST-2001-35102(OCERA) http://www.ocera.org.
+SPANISH: TIN2005-08665-C3-03 

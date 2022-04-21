@@ -1,7 +1,7 @@
 #--
 # This file is part of Sonic Pi: http://sonic-pi.net
 # Full project source: https://github.com/samaaron/sonic-pi
-# License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
+# License: https://github.com/samaaron/sonic-pi/blob/main/LICENSE.md
 #
 # Copyright 2013, 2014, 2015, 2016 by Sam Aaron (http://sam.aaron.name).
 # All rights reserved.
@@ -20,6 +20,8 @@ module SonicPi
     case RUBY_PLATFORM
     when /.*arm.*-linux.*/
       @@os = :raspberry
+    when /aarch64.*linux.*/
+       @@os = :raspberry
     when /.*linux.*/
       @@os = :linux
     when /.*darwin.*/
@@ -54,34 +56,43 @@ module SonicPi
     @@current_uuid = nil
     @@home_dir = nil
     @@util_lock = Mutex.new
-    @@raspberry_pi_1 = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && File.exist?('/proc/cpuinfo') && !(`cat /proc/cpuinfo | grep BCM2708`).empty?
     @@raspberry_pi_2 = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['a01040','a01041','a22042'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
     @@raspberry_pi_3 = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['a02082','a22082','a32082'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
     @@raspberry_pi_3bplus = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['a020d3'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
+    @@raspberry_pi_3_64 = RUBY_PLATFORM.match(/aarch64.*-linux.*/) && ['a02082','a22082','a32082'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
+    @@raspberry_pi_3bplus_64 = RUBY_PLATFORM.match(/aarch64.*-linux.*/) && ['a020d3'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
     @@raspberry_pi_4_1gb =  RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['a03111'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
-    @@raspberry_pi_4_2gb =  RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['b03111'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
-    @@raspberry_pi_4_4gb =  RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['c03111'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
+    @@raspberry_pi_4_2gb =  RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['b03111','b03112'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
+    @@raspberry_pi_4_4gb =  RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['c03111','c03112'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
+    @@raspberry_pi_4_8gb =  RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['d03114'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
+    @@raspberry_pi_4_1gb_64 =  RUBY_PLATFORM.match(/aarch64.*-linux.*/) && ['a03111'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
+    @@raspberry_pi_4_2gb_64 =  RUBY_PLATFORM.match(/aarch64.*-linux.*/) && ['b03111','b03112'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
+    @@raspberry_pi_4_4gb_64 =  RUBY_PLATFORM.match(/aarch64.*-linux.*/) && ['c03111','c03112'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
+    @@raspberry_pi_4_8gb_64 =  RUBY_PLATFORM.match(/aarch64.*linux.*/) && ['d03114'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
     @@home_dir = File.expand_path((ENV['SONIC_PI_HOME'] || @@user_dir) + '/.sonic-pi/')
+    @@raspberry_pi_400 =  RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['c03130'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
+    @@raspberry_pi_400_64 =  RUBY_PLATFORM.match(/aarch64.*linux.*/) && ['c03130'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
     @@project_path = @@home_dir + '/store/default/'
-    @@log_path = @@home_dir + '/log/'
+    @@log_path = @@home_dir + '/log'
 
     @@cached_samples_path = File.absolute_path("#{@@project_path}/cached_samples")
 
-    [@@home_dir, @@project_path, @@log_path, @@cached_samples_path].each do |dir|
+    begin
+      debug_log = File.absolute_path("#{@@log_path}/debug.log")
 
+      # ensure_dir
       begin
-        FileUtils.mkdir_p(dir) unless File.exist?(dir)
+        FileUtils.mkdir_p(@@log_path) unless File.exist?(@@log_path)
       rescue
         @@safe_mode = true
-        STDERR.puts "Unable to create #{dir} due to permissions errors"
+        log "Unable to create log path dir#{@@log_path} due to permissions errors"
       end
-    end
 
-    begin
-      @@log_file = File.open("#{@@log_path}/debug.log", 'a')
-    rescue
+      @@log_file ||= File.open(debug_log, 'a')
+    rescue Exception => e
       @@safe_mode = true
       STDERR.puts "Unable to open log file #{@@log_path}/debug.log"
+      STDERR.puts e.inspect
       @@log_file = nil
     end
 
@@ -106,10 +117,6 @@ module SonicPi
       os == :raspberry
     end
 
-    def raspberry_pi_1?
-      os == :raspberry && @@raspberry_pi_1
-    end
-
     def raspberry_pi_2?
       os == :raspberry && @@raspberry_pi_2
     end
@@ -122,7 +129,15 @@ module SonicPi
       os == :raspberry && @@raspberry_pi_3bplus
     end
 
-    def raspberry_pi_4_1gb?
+    def raspberry_pi_3_64?
+      os == :raspberry && @@raspberry_pi_3_64
+    end
+
+    def raspberry_pi_3bplus_64?
+      os == :raspberry && @@raspberry_pi_3bplus_64
+    end
+
+   def raspberry_pi_4_1gb?
       os == :raspberry && @@raspberry_pi_4_1gb
     end
 
@@ -134,7 +149,35 @@ module SonicPi
       os == :raspberry && @@raspberry_pi_4_4gb
     end
 
-    def unify_tilde_dir(path)
+    def raspberry_pi_4_8gb?
+      os == :raspberry && @@raspberry_pi_4_8gb
+    end
+
+    def raspberry_pi_4_1gb_64?
+      os == :raspberry && @@raspberry_pi_4_1gb_64
+    end
+
+    def raspberry_pi_4_2gb_64?
+      os == :raspberry && @@raspberry_pi_4_2gb_64
+    end
+
+      def raspberry_pi_4_4gb_64?
+      os == :raspberry && @@raspberry_pi_4_4gb_64
+    end
+
+     def raspberry_pi_4_8gb_64?
+      os == :raspberry && @@raspberry_pi_4_8gb_64
+    end
+
+      def raspberry_pi_400?
+      os == :raspberry && @@raspberry_pi_400
+    end
+
+     def raspberry_pi_400_64?
+      os == :raspberry && @@raspberry_pi_400_64
+    end
+
+   def unify_tilde_dir(path)
       if os == :windows
         path
       else
@@ -147,17 +190,15 @@ module SonicPi
     end
 
     def num_audio_busses_for_current_os
-      if os == :raspberry && @@raspberry_pi_1
-        64
-      else
         1024
-      end
-
     end
 
     def default_sched_ahead_time
-      if raspberry_pi_1?
-        1
+      if raspberry_pi_2?
+        2
+      elsif  raspberry_pi_3? or raspberry_pi_3bplus? \
+         or raspberry_pi_3_64? or raspberry_pi_3bplus_64?
+        1.5
       else
         0.5
       end
@@ -166,21 +207,37 @@ module SonicPi
     def host_platform_desc
       case os
       when :raspberry
-        if raspberry_pi_1?
-          "Raspberry Pi 1"
-        elsif raspberry_pi_2?
+        if raspberry_pi_2?
           "Raspberry Pi 2B"
         elsif raspberry_pi_3?
           "Raspberry Pi 3B"
         elsif raspberry_pi_3bplus?
           "Raspberry Pi 3B+"
+        elsif raspberry_pi_3_64?
+          "Raspberry Pi 3B 64bit OS"
+        elsif raspberry_pi_3bplus_64?
+          "Raspberry Pi 3B+ 64bit OS"
         elsif raspberry_pi_4_1gb?
           "Raspberry Pi 4B:1Gb"
         elsif raspberry_pi_4_2gb?
           "Raspberry Pi 4B:2Gb"
         elsif raspberry_pi_4_4gb?
           "Raspberry Pi 4B:4Gb"
-        else
+        elsif raspberry_pi_4_8gb?
+          "Raspberry Pi 4B:8Gb"
+        elsif raspberry_pi_4_1gb_64?
+          "Raspberry Pi 4B:1Gb 64bit OS"
+        elsif raspberry_pi_4_2gb_64?
+          "Raspberry Pi 4B:2Gb 64bit OS"
+        elsif raspberry_pi_4_4gb_64?
+          "Raspberry Pi 4B:4Gb 64bit OS"
+        elsif raspberry_pi_4_8gb_64?
+          "Raspberry Pi 4B:8Gb 64bit OS"
+         elsif raspberry_pi_400?
+          "Raspberry Pi 400:4Gb"
+        elsif raspberry_pi_400_64?
+          "Raspberry Pi 400:4Gb 64bit OS"
+       else
           "Raspberry Pi"
         end
       when :linux
@@ -194,22 +251,22 @@ module SonicPi
 
     def default_control_delta
       if raspberry_pi?
-        if raspberry_pi_1?
-          0.02
-        else
           0.013
-        end
       else
         0.005
       end
     end
 
-    def home_dir
+    def home_dir_path
       @@home_dir
     end
 
     def init_path
-      home_dir + '/init.rb'
+      File.absolute_path("#{config_path}/init.rb")
+    end
+
+    def original_init_path
+      File.absolute_path("#{home_dir_path}/init.rb")
     end
 
     def project_path
@@ -229,7 +286,7 @@ module SonicPi
       return @@current_uuid if @@current_uuid
       @@util_lock.synchronize do
         return @@current_uuid if @@current_uuid
-        path = home_dir + '/.uuid'
+        path = File.absolute_path("#{home_dir_path}/.uuid")
 
         if (File.exist? path)
           old_id = File.readlines(path).first.strip
@@ -331,6 +388,14 @@ module SonicPi
       File.absolute_path("#{app_path}/server")
     end
 
+    def config_path
+      File.absolute_path("#{home_dir_path}/config")
+    end
+
+    def system_store_path
+      File.absolute_path("#{home_dir_path}/store/system")
+    end
+
     def server_bin_path
       File.absolute_path("#{server_path}/ruby/bin")
     end
@@ -339,16 +404,17 @@ module SonicPi
       File.absolute_path("#{server_path}/native/")
     end
 
+    def aubio_onset_path
+      case os
+      when :windows
+        File.absolute_path("#{native_path}/aubio_onset.exe")
+      else
+        File.absolute_path("#{native_path}/aubio_onset")
+      end
+    end
+
     def sox_path
       File.join(native_path, "sox", __exe_fix("sox"))
-    end
-
-    def osmid_o2m_path
-      File.join(native_path, "osmid", __exe_fix("o2m"))
-    end
-
-    def osmid_m2o_path
-      File.join(native_path, "osmid", __exe_fix("m2o"))
     end
 
     def scsynth_log_path
@@ -359,20 +425,14 @@ module SonicPi
       log_path + '/erlang.log'
     end
 
-    def osmid_m2o_log_path
-      log_path + '/osmid_m2o.log'
-    end
-
-    def osmid_o2m_log_path
-      log_path + '/osmid_o2m.log'
-    end
-
     def ruby_path
       case os
       when :windows
         File.join(native_path, "ruby", "bin", "ruby.exe")
       when :osx
-        File.join(native_path, "ruby", "bin", "ruby")
+        require 'rbconfig'
+        File.join(RbConfig::CONFIG['bindir'],
+                  RbConfig::CONFIG['RUBY_INSTALL_NAME'] + RbConfig::CONFIG['EXEEXT'])
       when  :raspberry, :linux
         "ruby"
       end
@@ -381,24 +441,30 @@ module SonicPi
     def erlang_boot_path
       case os
       when :windows
-        erlang_bin_path = "\"#{File.join(native_path, "erlang", "bin", "erl.exe")}\""
+        "\"#{File.join(native_path, "erlang", "bin", "erl.exe")}\""
       when :osx
-        erlang_bin_path = File.join(native_path, "erlang", "erl")
-        "\"#{ruby_path}\" \"#{erlang_bin_path}\""
-        # Uncomment this if you want to use the system Erlang:
-        #"erl"
-      when :raspberry, :linux
+        "\"#{File.join(native_path, "erlang", "erl")}\""
+      else
         "erl"
       end
     end
 
     def erlang_server_path
-      File.join(server_path, "erlang")
+      File.join(server_path, "erlang", "sonic_pi_server", "ebin")
     end
 
-    def user_settings_path
-      File.absolute_path("#{home_dir}/settings.json")
+    def user_audio_settings_path
+      File.absolute_path("#{config_path}/audio-settings.toml")
     end
+
+    def system_cache_store_path
+      File.absolute_path("#{system_store_path}/cache.json")
+    end
+
+    def user_config_examples_path
+      File.absolute_path("#{app_path}/config/user-examples")
+    end
+
 
     def fetch_url(url, anonymous_uuid=true)
       begin

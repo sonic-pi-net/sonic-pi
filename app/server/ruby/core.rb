@@ -2,7 +2,7 @@
 #--
 # This file is part of Sonic Pi: http://sonic-pi.net
 # Full project source: https://github.com/samaaron/sonic-pi
-# License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
+# License: https://github.com/samaaron/sonic-pi/blob/main/LICENSE.md
 #
 # Copyright 2013, 2014, 2015, 2016 by Sam Aaron (http://sam.aaron.name).
 # All rights reserved.
@@ -47,31 +47,8 @@ os = case RUBY_PLATFORM
        RUBY_PLATFORM
      end
 
-# special case for proctable lib
-sys_proctable_os = case os
-                   when :raspberry
-                     "linux"
-                   when :linux
-                     "linux"
-                   when :windows
-                     "windows"
-                   when :osx
-                     "darwin"
-                   end
-$:.unshift "#{File.expand_path("../vendor", __FILE__)}/sys-proctable-1.1.3/lib/#{sys_proctable_os}"
-
 
 $:.unshift "#{File.expand_path("../rb-native", __FILE__)}/#{ruby_api}/"
-
-
-## Add aubio native library to ENV if not present (the aubio library needs to be told the location)
-native_lib_path = File.expand_path("../../native/", __FILE__)
-ENV["AUBIO_LIB"] ||= Dir[native_lib_path + "/lib/libaubio*.{*dylib,so*,dll}"].first
-
-
-
-
-
 
 module SonicPi
   module Core
@@ -385,7 +362,8 @@ module SonicPi
       attr_reader :map
 
       def initialize(*args)
-        @map = Hash[*args]
+        # let SPMaps be initialised from existing SPMaps and also standard Hashes.
+        @map = args.length == 1 && args.first.is_a?(self.class) ? args.first.map : Hash[*args]
         @map.freeze
         res = @map.all? {|k, v| k.sp_thread_safe? && v.sp_thread_safe?}
         @sp_thread_safe = !!res
@@ -849,7 +827,7 @@ module SonicPi
 
       def take_last(n=1)
         self if n >= size
-        self[(size-n)..-1]
+        self[(size-n)..size-1]
       end
 
       def butlast

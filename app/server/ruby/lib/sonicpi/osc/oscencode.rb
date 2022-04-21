@@ -1,7 +1,7 @@
 #--
 # This file is part of Sonic Pi: http://sonic-pi.net
 # Full project source: https://github.com/samaaron/sonic-pi
-# License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
+# License: https://github.com/samaaron/sonic-pi/blob/main/LICENSE.md
 #
 # Copyright 2013, 2014, 2015, 2016 by Sam Aaron (http://sam.aaron.name).
 # All rights reserved.
@@ -26,6 +26,7 @@ module SonicPi
         @literal_low_i = 'i'.freeze
         @literal_low_g = 'g'.freeze
         @literal_low_s = 's'.freeze
+        @literal_low_b = 'b'.freeze
         @literal_empty_str = ''.freeze
         @literal_str_encode_regexp = /\000.*\z/
         @literal_str_pad = "\000".freeze
@@ -95,6 +96,9 @@ module SonicPi
             tags << @literal_low_s
 
             args_encoded << get_from_or_add_to_string_cache(arg)
+          when SonicPi::OSC::Blob
+            tags << @literal_low_b
+            args_encoded << arg.binary
           else
             raise "Unknown arg type to encode: #{arg.inspect}"
           end
