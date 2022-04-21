@@ -462,7 +462,7 @@ effort to help grow and improve the Sonic Pi code base:
 
 
 ## Translation
-The following volunteers have generously helped to translate Sonic Pi into additional languages:
+The following volunteers have generously helped to translate Sonic Pi into additional languages via [Weblate](https://hosted.weblate.org/engage/sonic-pi/):
 
 
 * Łukasz Siwiński (106)
