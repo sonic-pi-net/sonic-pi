@@ -153,10 +153,6 @@ relevant licenses:
 * [Websocket Ruby](https://github.com/imanel/websocket-ruby) - [MIT License](http://opensource.org/licenses/MIT)
 
 
-### Dynamically Linked Libraries for Spider Language Server
-* [rtosc](https://github.com/fundamental/rtosc) - [MIT License](http://opensource.org/licenses/MIT)
-
-
 ### Dynamically Linked Libraries for Tau IO Server NIFs
 * [sp_midi](https://github.com/sonic-pi-net/sp_midi) - [MIT License](http://opensource.org/licenses/MIT)
 * [sp_link](https://github.com/sonic-pi-net/sp_link) - [MIT License](http://opensource.org/licenses/MIT)
