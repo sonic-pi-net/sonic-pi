@@ -1379,8 +1379,8 @@ module SonicPi
       @settings = Config::Settings.new(Paths.system_cache_store_path)
 
       # Temporarily fix beta version:
-      # @version = Version.new(4, 0, 0, "beta#{gh_short}")
-      @version = Version.new(4, 0, 0, "beta-5")
+      @version = Version.new(4, 0, 0, "beta#{gh_short}")
+      # @version = Version.new(4, 0, 0, "beta-5")
 
       @server_version = __server_version
       @life_hooks = LifeCycleHooks.new
