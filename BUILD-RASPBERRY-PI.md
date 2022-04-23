@@ -12,11 +12,17 @@ etc., you can fetch, build and start Sonic Pi with the following:
 git clone https://github.com/sonic-pi-net/sonic-pi.git
 cd sonic-pi/app
 sudo ./pi-setup.sh
+./pi-install-elixir.sh
+```
+
+Then close the terminal and open a new one and follow with:
+
+```
+cd sonic-pi/app
 ./pi-build-all.sh
 ./build/gui/qt/sonic-pi
 
 ```
-
 
 ### Installing vs Building
 
@@ -84,6 +90,37 @@ it calls `apt-get` to install your packages)
 
 ```
 sudo ./app/pi-setup.sh
+```
+
+The versions of Erlang and Elixir installed by default are not currently
+recent enough (Elixir 1.12+) so we can install the latest using this
+handy script:
+
+```
+./app/pi-install-elixir.sh
+```
+
+Finally, we need ensure we have a recent enough version of `cmake`. First check which version you have by running: 
+
+```
+cmake --version
+```
+
+If it is 3.21 or higher, then you may proceed directly to the next step
+"Running the Build" - although close your current terminal and open a
+new one to ensure the PATH has been correctly updated to ensure the
+latest version of Elixir is available for the build process.
+
+
+If your version of `cmake` is 3.20 or lower, then you can upgrade to the
+latest using `snapd`:
+
+```
+sudo apt install snapd
+sudo apt remove cmake
+sudo reboot
+sudo snap install core
+sudo snap install cmake --classic
 ```
 
 
