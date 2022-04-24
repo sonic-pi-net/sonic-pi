@@ -11,7 +11,7 @@
  # notice is included.
  # ++
 
-  defmodule ErlangTauOSCTest do
+defmodule ErlangTauOSCTest do
   use ExUnit.Case
 
   test "basic osc encode/decode" do
