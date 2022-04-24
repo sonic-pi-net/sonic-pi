@@ -537,11 +537,12 @@ void SettingsWidget::updateScopeNames( std::vector<QString> names ) {
     for( auto name : names ) {
         QCheckBox* cb = new QCheckBox( name );
         cb->setChecked( piSettings->isScopeActive(name));
-        scopeSignalMap->setMapping( cb, cb );
         scope_box_kinds_layout->addWidget(cb);
-        connect(cb, SIGNAL(clicked()), scopeSignalMap, SLOT(map()));
+        connect(cb, &QCheckBox::clicked, this, [=]() {
+          toggleScope(cb);
+        });
+
     }
-    connect( scopeSignalMap, SIGNAL(mappedObject(QObject*)), this, SLOT(toggleScope(QObject*)));
 }
 
 void SettingsWidget::updateScopeKindVisibility() {
