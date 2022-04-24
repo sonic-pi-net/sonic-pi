@@ -3,7 +3,6 @@
 #include "qt_api_client.h"
 #include "config.h"
 #include "mainwindow.h"
-#include "visualizer/scope.h"
 #include "sonicpitheme.h"
 
 #include "sonicpilog.h"
