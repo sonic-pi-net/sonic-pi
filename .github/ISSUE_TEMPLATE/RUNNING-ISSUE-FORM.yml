@@ -59,7 +59,14 @@ body:
       description: |
         You can drag related images into the description if you like.
         If Sonic Pi gave you an error, please share it below along with the stacktrace so that we can use it to investigate the cause.
-      placeholder: "Example: Sonic Pi gave me an error. It said: Undefined variable or method `foobar` for Runtime:SonicPiLang, workspace_nine:1:in `block (2 levels) in __spider_eval'"
+      placeholder: |
+        Example: Sonic Pi gave me an error. It said:
+        ```
+        Runtime Error: [buffer 0, line 1] - NameError
+        Thread death!
+        undefined local variable or method `foobar' for Runtime:SonicPiLang
+        workspace_seven:1:in `block (2 levels) in __spider_eval'
+        ```
     validations:
       required: true
   - type: textarea
