@@ -184,10 +184,40 @@ loop(State) ->
             send_to_cue({midi_on, Flag =:= 1}, State),
             ?MODULE:loop(State);
 
-        {cmd, ["/api-rpc", UUID, "/link-get-current-time"]=Cmd} ->
+        %% Link API
+
+
+        {cmd, ["/api-rpc", UUID, "/link-is-on"]=Cmd} ->
             debug_cmd(Cmd),
-            send_to_link({link_rpc, UUID, get_current_time}, State),
+            send_to_link({link_rpc, UUID, is_on}, State),
             ?MODULE:loop(State);
+
+        {cmd, ["/link-disable"]=Cmd} ->
+            debug_cmd(Cmd),
+            send_to_link({link_disable}, State),
+            ?MODULE:loop(State);
+
+        {cmd, ["/link-enable"]=Cmd} ->
+            debug_cmd(Cmd),
+            send_to_link({link_enable}, State),
+            ?MODULE:loop(State);
+
+        {cmd, ["/link-reset"]=Cmd} ->
+            debug_cmd(Cmd),
+            send_to_link({link_reset}, State),
+            ?MODULE:loop(State);
+
+        {cmd, ["/api-rpc", UUID, "/link-get-num-peers"]=Cmd} ->
+            debug_cmd(Cmd),
+            send_to_link({link_rpc, UUID, get_num_peers}, State),
+            ?MODULE:loop(State);
+
+        {cmd, ["/api-rpc", UUID, "/link-get-tempo"]=Cmd} ->
+            debug_cmd(Cmd),
+            send_to_link({link_rpc, UUID, get_tempo}, State),
+            ?MODULE:loop(State);
+
+        %% set tempo needs to be within an a timestamped OSC bundle
 
         {cmd, ["/api-rpc", UUID, "/link-get-beat-at-time", Time, Quantum]=Cmd} ->
             debug_cmd(Cmd),
@@ -199,34 +229,9 @@ loop(State) ->
             send_to_link({link_rpc, UUID, get_time_at_beat, Beat, Quantum}, State),
             ?MODULE:loop(State);
 
-        {cmd, ["/api-rpc", UUID, "/link-get-tempo"]=Cmd} ->
+        {cmd, ["/api-rpc", UUID, "/link-get-current-time"]=Cmd} ->
             debug_cmd(Cmd),
-            send_to_link({link_rpc, UUID, get_tempo}, State),
-            ?MODULE:loop(State);
-
-        {cmd, ["/api-rpc", UUID, "/link-get-num-peers"]=Cmd} ->
-            debug_cmd(Cmd),
-            send_to_link({link_rpc, UUID, get_num_peers}, State),
-            ?MODULE:loop(State);
-
-        {cmd, ["/api-rpc", UUID, "/link-is-on"]=Cmd} ->
-            debug_cmd(Cmd),
-            send_to_link({link_rpc, UUID, is_on}, State),
-            ?MODULE:loop(State);
-
-        {cmd, ["/link-reset"]=Cmd} ->
-            debug_cmd(Cmd),
-            send_to_link({link_reset}, State),
-            ?MODULE:loop(State);
-
-        {cmd, ["/link-disable"]=Cmd} ->
-            debug_cmd(Cmd),
-            send_to_link({link_disable}, State),
-            ?MODULE:loop(State);
-
-        {cmd, ["/link-enable"]=Cmd} ->
-            debug_cmd(Cmd),
-            send_to_link({link_enable}, State),
+            send_to_link({link_rpc, UUID, get_current_time}, State),
             ?MODULE:loop(State);
 
         {cmd, Cmd} ->
