@@ -17,43 +17,12 @@ body:
       options:
         - label: I've read the [Sonic Pi troubleshooting guide](https://github.com/sonic-pi-net/sonic-pi/wiki/Troubleshooting-Issues) and followed its suggestions where relevant
           required: true
-  - type: dropdown
+  - type: input
     id: sonic-pi-version
     attributes:
       label: Sonic Pi Version
-      description: |
-        What version of Sonic Pi were you running?
-        (Was it a release version, Beta, or a version you compiled from source yourself?)
-      options:
-        - Self compiled
-        - v4.0-Beta5
-        - v4.0-Beta4
-        - v4.0-Beta3
-        - v4.0-Beta2
-        - v4.0-Beta1
-        - v3.3.1
-        - v3.3
-        - v3.2.2
-        - v3.2.1
-        - v3.2
-        - v3.1
-        - v3.0.1
-        - v3.0
-        - v2.11.1
-        - v2.11
-        - v2.10
-        - v2.9
-        - v2.8
-        - v2.7
-        - v2.6
-        - v2.5
-        - v2.4
-        - v2.3
-        - v2.2
-        - v2.1.1
-        - v2.1
-        - v2.0.1
-        - v2.0
+      description: "What version of Sonic Pi were you running? Was it a release version, Beta, or a version you compiled from source yourself?"
+      placeholder: "Examples: 'v4.0-Beta5', 'self compiled dev build', 'v3.3.1' ..."
     validations:
       required: true
   - type: input
