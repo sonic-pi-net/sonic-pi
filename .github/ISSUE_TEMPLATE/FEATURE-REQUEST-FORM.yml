@@ -26,7 +26,20 @@ body:
         - What problem would this feature solve, or benefit would it provide?
         - What drawbacks or undesirable aspects might it have?
         - If the feature has visible parts to it, (such as a new GUI widget or a new function for the language), what might they look like and how might they be used? Images and code examples encouraged! (Please use code formatting for code examples - if you're not sure how, please see GitHub's guide: [Quoting code](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#quoting-code)).
-      placeholder: "Example: I think a foo feature is useful for Sonic Pi because..."
+      placeholder: |
+        Example:
+        ## Motivations
+        I think a foo feature is useful for Sonic Pi because...
+
+        ## How it might look
+        We could have a function `bar` that could be used like this:
+        ```
+        play (bar 1, 2, 3)
+        ```
+        Where `1`, `2`, and `3` are the baz parameters and...
+
+        ## Drawbacks
+        There's a chance that ...
     validations:
       required: true
   - type: textarea
