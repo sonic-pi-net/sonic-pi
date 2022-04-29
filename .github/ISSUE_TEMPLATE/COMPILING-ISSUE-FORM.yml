@@ -43,7 +43,8 @@ body:
         Provide as much detail as possible - such as:
         - Software dependencies you set up for the build - versions, places they were downloaded from, etc
         - Any build steps you took that were different to those described in the build guides ([BUILD-LINUX.md](https://github.com/sonic-pi-net/sonic-pi/blob/dev/BUILD-LINUX.md), [BUILD-MAC.md](https://github.com/sonic-pi-net/sonic-pi/blob/dev/BUILD-MAC.md), [BUILD-RASPBERRY-PI.md](https://github.com/sonic-pi-net/sonic-pi/blob/dev/BUILD-RASPBERRY-PI.md) or [BUILD-WINDOWS.md](https://github.com/sonic-pi-net/sonic-pi/blob/dev/BUILD-WINDOWS.md)) - including the order you performed them 
-        For any steps you ran in the command line terminal, write or copy them here. Please use code formatting when you do so - if you're not sure how, please see the 'Code' examples at GitHub's [Mastering Markdown examples](https://guides.github.com/features/mastering-markdown/#examples).
+        For any steps you ran in the command line terminal, write or copy them here. Please use code formatting when you do so - if you're not sure how, please see GitHub's guide: [Quoting code](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#quoting-code).
+
       placeholder: "Example: I followed BUILD-LINUX.md, installing Qt 6.2.3 from https://www.qt.io/download-thank-you?os=linux&hsLang=en ..."
     validations:
       required: true

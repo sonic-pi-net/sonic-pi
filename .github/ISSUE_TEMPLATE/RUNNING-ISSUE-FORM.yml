@@ -48,7 +48,7 @@ body:
       description: |
         You can drag related images into the description if you like.
         If you were trying to run some code when Sonic Pi behaved unexpectedly, please share a _small_ code example here that demonstrates the unexpected behaviour. (The simpler it is the better).
-        Please use code formatting for the example - if you're not sure how, please see the 'Code' examples at GitHub's [Mastering Markdown examples](https://guides.github.com/features/mastering-markdown/#examples).
+        Please use code formatting for the example - if you're not sure how, please see GitHub's guide: [Quoting code](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#quoting-code).
       placeholder: "Example: I typed the following code into Sonic Pi, and then hit 'Run': `play foobar`"
     validations:
       required: true

@@ -25,7 +25,7 @@ body:
         Add as much detail as you can about your idea. Here's a few things to get you started:
         - What problem would this feature solve, or benefit would it provide?
         - What drawbacks or undesirable aspects might it have?
-        - If the feature has visible parts to it, (such as a new GUI widget or a new function for the language), what might they look like and how might they be used? Images and code examples encouraged! (For code examples, please use code formatting - if you're not sure how, please see the 'Code' examples at GitHub's [Mastering Markdown examples](https://guides.github.com/features/mastering-markdown/#examples)).
+        - If the feature has visible parts to it, (such as a new GUI widget or a new function for the language), what might they look like and how might they be used? Images and code examples encouraged! (Please use code formatting for code examples - if you're not sure how, please see GitHub's guide: [Quoting code](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#quoting-code)).
       placeholder: "Example: I think a foo feature is useful for Sonic Pi because..."
     validations:
       required: true
