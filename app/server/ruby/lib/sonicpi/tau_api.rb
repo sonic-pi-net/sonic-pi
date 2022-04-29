@@ -77,23 +77,28 @@ module SonicPi
       api_send_at(t, "/midi-at", b)
     end
 
-    def link_current_time
-      res = api_rpc("/link-get-current-time")
-      res[0].to_i
+    # Link API
+
+    def link_is_on?
+      res = api_rpc("/link-is-on")
+      res[0] == 1
     end
 
-    def link_current_time_and_beat(quantise_beat=true)
-      link_time = link_current_time
-      beat = link_get_beat_at_time(link_time)
+    def link_disable
+      @tau_comms.send("/link-disable")
+    end
 
-      if quantise_beat
-        beat = (beat + 1).to_i
-        link_time = link_get_time_at_beat(beat)
-      end
+    def link_enable
+      @tau_comms.send("/link-enable")
+    end
 
-      clock_time = (link_time + @link_time_delta_micros) / 1_000_000.0
+    def link_reset
+      @tau_comms.send("/link-reset")
+    end
 
-      [clock_time, beat]
+    def link_num_peers
+      res = api_rpc("/link-get-num-peers")
+      res[0].to_i
     end
 
     def link_tempo(force_api_call=false)
@@ -106,16 +111,6 @@ module SonicPi
       else
         @tempo = link_tempo(true)
       end
-    end
-
-    def link_is_on?
-      res = api_rpc("/link-is-on")
-      res[0] == 1
-    end
-
-    def link_num_peers
-      res = api_rpc("/link-get-num-peers")
-      res[0].to_i
     end
 
     def link_get_beat_at_time(time, quantum = 4)
@@ -149,17 +144,25 @@ module SonicPi
       res
     end
 
-    def link_disable
-      @tau_comms.send("/link-disable")
+    def link_current_time
+      res = api_rpc("/link-get-current-time")
+      res[0].to_i
     end
 
-    def link_enable
-      @tau_comms.send("/link-enable")
+    def link_current_time_and_beat(quantise_beat=true)
+      link_time = link_current_time
+      beat = link_get_beat_at_time(link_time)
+
+      if quantise_beat
+        beat = (beat + 1).to_i
+        link_time = link_get_time_at_beat(beat)
+      end
+
+      clock_time = (link_time + @link_time_delta_micros) / 1_000_000.0
+
+      [clock_time, beat]
     end
 
-    def link_reset
-      @tau_comms.send("/link-reset")
-    end
 
     def midi_system_start!
       @tau_comms.send("/stop-start-midi-cues", 1)
