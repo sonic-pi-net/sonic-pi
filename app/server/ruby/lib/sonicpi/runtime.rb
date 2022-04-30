@@ -223,10 +223,6 @@ module SonicPi
       __system_thread_locals.get :sonic_pi_spider_start_time
     end
 
-    def __current_run_time
-      (__get_spider_time - @global_start_time).round(6)
-    end
-
     def __current_local_run_time
       (__get_spider_time - __get_spider_start_time).to_f.round(6)
     end
@@ -873,7 +869,6 @@ module SonicPi
           ## fix this for link
           __reset_spider_time_and_beat!
           if num_running_jobs == 1
-            @global_start_time = now
             # Force a GC collection before we start making music!
             GC.start
           end
@@ -1392,7 +1387,6 @@ module SonicPi
       @job_subthread_mutex = Mutex.new
       @osc_cue_server_mutex = Mutex.new
       @user_jobs = Jobs.new
-      @global_start_time = Time.now
       @session_id = SecureRandom.uuid
       @snippets = {}
       @system_state = EventHistory.new

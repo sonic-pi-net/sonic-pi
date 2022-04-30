@@ -81,7 +81,6 @@ module SonicPi
       @job_subthread_mutex = Mutex.new
       @osc_cue_server_mutex = Mutex.new
       @user_jobs = Jobs.new
-      @global_start_time = Time.now
       @session_id = SecureRandom.uuid
       @snippets = {}
       @system_state = EventHistory.new
