@@ -96,6 +96,19 @@ module SonicPi
       @tau_comms.send("/link-reset")
     end
 
+    def link_get_start_stop_sync_enabled
+      res = api_rpc("/link-get-start-stop-sync-enabled")
+      res[0] == 1
+    end
+
+    def link_set_start_stop_sync_enabled!(enabled)
+      if enabled
+        @tau_comms.send("/link-set-start-stop-sync-enabled", 1)
+      else
+        @tau_comms.send("/link-set-start-stop-sync-enabled", 0 )
+      end
+    end
+
     def link_num_peers
       res = api_rpc("/link-get-num-peers")
       res[0].to_i
@@ -113,8 +126,23 @@ module SonicPi
       end
     end
 
+    def link_set_bpm_at_clock_time!(bpm, clock_time)
+      res = @tau_comms.send_ts(clock_time, "/link-set-tempo", bpm.to_f)
+
+      # Wait for a max of 100ms for the next tempo change to come in...
+      @incoming_tempo_change_mut.synchronize do
+        @incoming_tempo_change_cv.wait(@incoming_tempo_change_mut, 0.1)
+      end
+      res
+    end
+
     def link_get_beat_at_time(time, quantum = 4)
       res = api_rpc("/link-get-beat-at-time", SonicPi::OSC::Int64.new(time), quantum)
+      res[0]
+    end
+
+    def link_get_phase_at_time(time, quantum = 4)
+      res = api_rpc("/link-get-phase-at-time", SonicPi::OSC::Int64.new(time), quantum)
       res[0]
     end
 
@@ -134,14 +162,22 @@ module SonicPi
       link_get_beat_at_time(link_time)
     end
 
-    def link_set_bpm_at_clock_time!(bpm, clock_time)
-      res = @tau_comms.send_ts(clock_time, "/link-set-tempo", bpm.to_f)
-
-      # Wait for a max of 100ms for the next tempo change to come in...
-      @incoming_tempo_change_mut.synchronize do
-        @incoming_tempo_change_cv.wait(@incoming_tempo_change_mut, 0.1)
+    def link_set_is_playing!(enabled, clock_time)
+      if enabled
+        @tau_comms.send_ts(clock_time, "/link-set-is-playing", 1)
+      else
+        @tau_comms.send_ts(clock_time, "/link-set-is-playing", 0)
       end
-      res
+    end
+
+    def link_get_is_playing
+      res = api_rpc("/link-get-is-playing")
+      res[0] == 1
+    end
+
+    def link_get_time_for_is_playing
+      res = api_rpc("/link-get-time-for-is-playing")
+      res[0]
     end
 
     def link_current_time
@@ -162,7 +198,6 @@ module SonicPi
 
       [clock_time, beat]
     end
-
 
     def midi_system_start!
       @tau_comms.send("/stop-start-midi-cues", 1)

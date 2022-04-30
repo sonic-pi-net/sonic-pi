@@ -186,7 +186,6 @@ loop(State) ->
 
         %% Link API
 
-
         {cmd, ["/api-rpc", UUID, "/link-is-on"]=Cmd} ->
             debug_cmd(Cmd),
             send_to_link({link_rpc, UUID, is_on}, State),
@@ -207,6 +206,17 @@ loop(State) ->
             send_to_link({link_reset}, State),
             ?MODULE:loop(State);
 
+        {cmd, ["/api-rpc", UUID, "/link-get-start-stop-sync-enabled"]=Cmd} ->
+            debug_cmd(Cmd),
+            send_to_link({link_rpc, UUID, get_start_stop_sync_enabled}, State),
+            ?MODULE:loop(State);
+
+        {cmd, ["/link-set-start-stop-sync-enabled", Enabled]=Cmd} ->
+            debug_cmd(Cmd),
+            %% send_to_link({link_set_start_stop_sync_enabled, Enabled =:= 1}, State),
+            send_to_link({link_set_start_stop_sync_enabled, 1}, State),
+            ?MODULE:loop(State);
+
         {cmd, ["/api-rpc", UUID, "/link-get-num-peers"]=Cmd} ->
             debug_cmd(Cmd),
             send_to_link({link_rpc, UUID, get_num_peers}, State),
@@ -217,16 +227,33 @@ loop(State) ->
             send_to_link({link_rpc, UUID, get_tempo}, State),
             ?MODULE:loop(State);
 
-        %% set tempo needs to be within an a timestamped OSC bundle
+        %% link_set_tempo needs to be within an a timestamped OSC bundle
 
         {cmd, ["/api-rpc", UUID, "/link-get-beat-at-time", Time, Quantum]=Cmd} ->
             debug_cmd(Cmd),
             send_to_link({link_rpc, UUID, get_beat_at_time, Time, Quantum}, State),
             ?MODULE:loop(State);
 
+        {cmd, ["/api-rpc", UUID, "/link-get-phase-at-time", Time, Quantum]=Cmd} ->
+            debug_cmd(Cmd),
+            send_to_link({link_rpc, UUID, get_phase_at_time, Time, Quantum}, State),
+            ?MODULE:loop(State);
+
         {cmd, ["/api-rpc", UUID, "/link-get-time-at-beat", Beat, Quantum]=Cmd} ->
             debug_cmd(Cmd),
             send_to_link({link_rpc, UUID, get_time_at_beat, Beat, Quantum}, State),
+            ?MODULE:loop(State);
+
+        %% link_set_is_playing needs to be within an a timestamped OSC bundle
+
+        {cmd, ["/api-rpc", UUID, "/link-get-is-playing"]=Cmd} ->
+            debug_cmd(Cmd),
+            send_to_link({link_rpc, UUID, get_is_playing}, State),
+            ?MODULE:loop(State);
+
+        {cmd, ["/api-rpc", UUID, "/link-get-time-for-is-playing"]=Cmd} ->
+            debug_cmd(Cmd),
+            send_to_link({link_rpc, UUID, get_time_for_is_playing}, State),
             ?MODULE:loop(State);
 
         {cmd, ["/api-rpc", UUID, "/link-get-current-time"]=Cmd} ->
@@ -277,6 +304,10 @@ do_bundle(Time, [{_,Bin}|T], State) ->
                 schedule_link(Time, "default", State, {link_set_tempo, Tempo});
             {cmd, ["/link-set-tempo-tagged", Tag, Tempo]} ->
                 schedule_link(Time, Tag, State, {link_set_tempo, Tempo});
+            {cmd, ["/link-set-is-playing", Enabled]} ->
+                schedule_link(Time, "default", State, {link_set_is_playing, Enabled =:= 1});
+            {cmd, ["/link-set-is-playing-tagged", Tag, Enabled]} ->
+                schedule_link(Time, Tag, State, {link_set_is_playing, Enabled});
             Other ->
                 logger:error("Unexpected bundle content:~p", [Other]),
                 State
