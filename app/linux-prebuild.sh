@@ -19,62 +19,25 @@ while getopts ":n" opt; do
   esac
 done
 
-# Build vcpkg
-if [ ! -d "vcpkg" ]; then
-    echo "Cloning vcpkg"
-    git clone --depth 1 --branch "${VCPKG_BRANCH:-2022.02.02}" https://github.com/microsoft/vcpkg.git
-fi
-
-if [ ! -f "vcpkg/vcpkg" ]; then
-    echo "Building vcpkg"
-    cd vcpkg
-    ./bootstrap-vcpkg.sh -disableMetrics
-    cd "${SCRIPT_DIR}"
-fi
-
-cd vcpkg
+cd "${SCRIPT_DIR}"
 
 if [ "$no_imgui" == true ]
 then
-    ./vcpkg install kissfft crossguid platform-folders reproc catch2 --recurse
+  "${SCRIPT_DIR}/linux-pre-vcpkg.sh -n"
 else
-    ./vcpkg install kissfft fmt crossguid sdl2[x11] gl3w reproc gsl-lite concurrentqueue platform-folders catch2 --recurse
+  "${SCRIPT_DIR}/linux-pre-vcpkg.sh"
 fi
-
-cd "${SCRIPT_DIR}"
 
 # Build external dependencies and copy to build tree
 echo "Building external binary dependencies..."
 "${SCRIPT_DIR}"/external/linux_build_externals.sh
 
-cp "${SCRIPT_DIR}"/external/build/aubio-prefix/src/aubio-build/aubio_onset "${SCRIPT_DIR}"/server/native/
-
-mkdir -p "${SCRIPT_DIR}"/server/beam/tau/priv/
-cp "${SCRIPT_DIR}"/external/build/sp_midi-prefix/src/sp_midi-build/*.so "${SCRIPT_DIR}"/server/beam/tau/priv/
-cp "${SCRIPT_DIR}"/external/build/sp_link-prefix/src/sp_link-build/*.so "${SCRIPT_DIR}"/server/beam/tau/priv/
-
 echo "Compiling native ruby extensions..."
 ruby "${SCRIPT_DIR}"/server/ruby/bin/compile-extensions.rb
 
-echo "Translating tutorial..."
-ruby "${SCRIPT_DIR}"/server/ruby/bin/i18n-tool.rb -t
-
-echo "Generating docs for the Qt GUI..."
-cp "${SCRIPT_DIR}"/gui/qt/utils/ruby_help.tmpl "${SCRIPT_DIR}"/gui/qt/utils/ruby_help.h
-ruby "${SCRIPT_DIR}"/server/ruby/bin/qt-doc.rb -o "${SCRIPT_DIR}"/gui/qt/utils/ruby_help.h
-
-echo "Compiling Erlang/Elixir files..."
-cd "${SCRIPT_DIR}"/server/beam/tau
-
-MIX_ENV=prod mix local.hex --force
-MIX_ENV=prod mix local.rebar --force
-MIX_ENV=prod mix deps.get
-MIX_ENV=prod mix assets.deploy.prod
-MIX_ENV=prod mix tailwind.install
-MIX_ENV=prod mix esbuild.install
-MIX_ENV=prod mix release --overwrite
-
-cp src/tau.app.src ebin/tau.app
+"${SCRIPT_DIR}/linux-pre-translations.sh"
+"${SCRIPT_DIR}/linux-pre-copy-binaries.sh"
+"${SCRIPT_DIR}/linux-pre-tau-prod-release.sh"
 
 # Restore working directory as it was prior to this script running...
 cd "${WORKING_DIR}"
