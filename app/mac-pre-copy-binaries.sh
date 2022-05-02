@@ -5,12 +5,6 @@ WORKING_DIR="$(pwd)"
 
 cd "${SCRIPT_DIR}"
 
-echo "echo Cleaning out native dir...."
-rm -rf "${SCRIPT_DIR}/server/native/supercollider"
-rm -rf "${SCRIPT_DIR}/server/native/erlang"
-rm -rf "${SCRIPT_DIR}/server/native/scsynth"
-
-
 cp "${SCRIPT_DIR}"/external/build/aubio-prefix/src/aubio-build/aubio_onset "${SCRIPT_DIR}"/server/native/
 
 mkdir -p "${SCRIPT_DIR}"/server/beam/tau/priv/
@@ -33,7 +27,6 @@ cd "${SCRIPT_DIR}"/server/native/
 ln -s supercollider/scsynth scsynth
 mv supercollider/extra-plugins/* supercollider/plugins/
 rm -rf supercollider/extra-plugins
-
 
 # Restore working directory as it was prior to this script running...
 cd "${WORKING_DIR}"

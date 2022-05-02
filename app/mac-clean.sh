@@ -5,7 +5,12 @@ WORKING_DIR="$(pwd)"
 
 cd "${SCRIPT_DIR}"
 
-# Use generic linux clean script
+echo "echo Cleaning out native dir...."
+rm -rf "${SCRIPT_DIR}/server/native/supercollider"
+rm -rf "${SCRIPT_DIR}/server/native/erlang"
+rm -rf "${SCRIPT_DIR}/server/native/scsynth"
+
+# Use generic linux clean script for everything else
 "${SCRIPT_DIR}/linux-clean.sh"
 
 # Restore working directory as it was prior to this script running...

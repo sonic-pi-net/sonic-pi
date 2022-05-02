@@ -19,7 +19,7 @@ WORKING_DIR="$(pwd)"
 
 # Check to see if we have a bundled Ruby and if so, use that
 # Otherwise use system ruby
-BUNDLED_RUBY="${SCRIPT_DIR}/server/native/ruby/bin/ruby"
+BUNDLED_RUBY="${SCRIPT_DIR}"/server/native/ruby/bin/ruby
 if [ -f "$BUNDLED_RUBY" ]; then
     echo "Found bundled Ruby: ${BUNDLED_RUBY}"
     RUBY=$BUNDLED_RUBY
@@ -32,19 +32,19 @@ cd "${SCRIPT_DIR}"
 
 if [ "$no_imgui" == true ]
 then
-  "${SCRIPT_DIR}/mac-pre-vcpkg.sh -n"
+  "${SCRIPT_DIR}"/mac-pre-vcpkg.sh -n
 else
-  "${SCRIPT_DIR}/mac-pre-vcpkg.sh"
+  "${SCRIPT_DIR}"/mac-pre-vcpkg.sh
 fi
 
-"${SCRIPT_DIR}/external/mac_build_externals.sh"
+"${SCRIPT_DIR}"/external/mac_build_externals.sh
 
 echo "Compiling native ruby extensions..."
 "$RUBY" "${SCRIPT_DIR}"/server/ruby/bin/compile-extensions.rb
 
-"${SCRIPT_DIR}/mac-pre-translations.sh"
-"${SCRIPT_DIR}/mac-pre-copy-binaries.sh"
-"${SCRIPT_DIR}/mac-pre-tau-prod-release.sh"
+"${SCRIPT_DIR}"/mac-pre-translations.sh
+"${SCRIPT_DIR}"/mac-pre-copy-binaries.sh
+"${SCRIPT_DIR}"/mac-pre-tau-prod-release.sh
 
 # Restore working directory as it was prior to this script running...
 cd "${WORKING_DIR}"
