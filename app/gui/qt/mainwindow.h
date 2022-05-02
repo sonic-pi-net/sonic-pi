@@ -354,7 +354,6 @@ signals:
         bool i18n;
         static const int workspace_max = 10;
         SonicPiScintilla *workspaces[workspace_max];
-        QWidget *prefsCentral;
         QTabWidget *docsNavTabs;
         QTabWidget *southTabs;
 

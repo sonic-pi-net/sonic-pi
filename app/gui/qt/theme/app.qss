@@ -62,12 +62,6 @@ Values 1->25 will be scaled in integer increments. Values 30 - 100 will be round
     background: paneColor;
 }
 
-#prefsCentral
-{
-  font-size: medium;
-  background: paneColor;
-}
-
 QWidget#mainWidget
 {
   background: paneColor;
