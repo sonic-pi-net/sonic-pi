@@ -23,9 +23,9 @@ cd "${SCRIPT_DIR}"
 
 if [ "$no_imgui" == true ]
 then
-  "${SCRIPT_DIR}/linux-pre-vcpkg.sh -n"
+  "${SCRIPT_DIR}"/linux-pre-vcpkg.sh -n
 else
-  "${SCRIPT_DIR}/linux-pre-vcpkg.sh"
+  "${SCRIPT_DIR}"/linux-pre-vcpkg.sh
 fi
 
 # Build external dependencies and copy to build tree
@@ -35,9 +35,9 @@ echo "Building external binary dependencies..."
 echo "Compiling native ruby extensions..."
 ruby "${SCRIPT_DIR}"/server/ruby/bin/compile-extensions.rb
 
-"${SCRIPT_DIR}/linux-pre-translations.sh"
-"${SCRIPT_DIR}/linux-pre-copy-binaries.sh"
-"${SCRIPT_DIR}/linux-pre-tau-prod-release.sh"
+"${SCRIPT_DIR}"/linux-pre-translations.sh
+"${SCRIPT_DIR}"/linux-pre-copy-binaries.sh
+"${SCRIPT_DIR}"/linux-pre-tau-prod-release.sh
 
 # Restore working directory as it was prior to this script running...
 cd "${WORKING_DIR}"
