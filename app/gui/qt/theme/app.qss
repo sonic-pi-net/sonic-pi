@@ -12,6 +12,7 @@
 - buttonTextColor
 - pressedButtonColor
 - pressedButtonTextColor
+- hoverButtonColor
 - scrollBarColor
 - scrollBarBackgroundColor
 - scrollBarHoverColor
@@ -51,10 +52,19 @@ Values 1->25 will be scaled in integer increments. Values 30 - 100 will be round
   color:  windowForegroundColor;
 }
 
-#prefs
+*#prefs
 {
-   background: paneColor;
+   background: windowColor;
+   border: 8dx solid scrollBarHoverColor;
+
 }
+
+*#prefs:hover
+{
+   border: 8dx solid tabSelectedColor;
+
+}
+
 
 *#scopes
 {
@@ -104,6 +114,7 @@ QSplitter::handle:horizontal
 QTabBar
 {
   font-size: medium;
+
 }
 
 QTabBar::tab
@@ -278,7 +289,7 @@ QPlainTextEdit
 
 QCheckBox {
     font-size: medium;
-    spacing: 5dx;
+    spacing: 15dx;
 }
 
 QCheckBox::indicator {
@@ -315,6 +326,7 @@ QGroupBox
     padding-right: 10dx;
     padding-bottom: 5dx;
     padding-left: 10dx;
+
 
     subcontrol-origin: margin;
     margin-top: 15dx;
@@ -386,9 +398,9 @@ QComboBox::item
 
 QComboBox:hover
 {
-    border-radius: 3dx;
-    border-width:2dx;
-    border-color: #1e90ff
+    border-radius: 3dx;;
+    border-color: #1e90ff;
+    background: hoverButtonColor;
 }
 
 QComboBox::item::selected
@@ -399,7 +411,7 @@ QComboBox::item::selected
 
 QComboBox:on
 { /* shift the text when the popup opens */
-    color: tabSelectedColor;
+    color: buttonTextColor;
 }
 
 QComboBox::drop-down
@@ -421,8 +433,9 @@ QLabel[accessibleName="midi-in-ports-label"]
     padding-bottom: 1dx;
     padding-left: 3dx;
     border-radius: 3dx;
-    background-color: tabColor;
-    color: tabTextColor;
+    border: 1px solid tabSelectedColor;
+    background-color: paneColor;
+    color: windowForegroundColor;
 }
 
 QLabel[accessibleName="midi-out-ports-label"]
@@ -435,6 +448,10 @@ QLabel[accessibleName="midi-out-ports-label"]
     border-radius: 3dx;
     background-color: tabColor;
     color: tabTextColor;
+
+    border: 1px solid tabSelectedColor;
+    background-color: paneColor;
+    color: windowForegroundColor;
 }
 
 QToolBar
@@ -579,18 +596,23 @@ QScrollBar::handle:hover {
 QPushButton
 {
     font-size: medium;
-    background-color: buttonColor;
+    background-color: TabColor;
     color: buttonTextColor;
     padding: 5dx;
     border-radius: 3dx;
-    border-color: buttonBorderColor;
-    border-width: 2dx;
+    border: 1dx solid buttonBorderColor;
 }
 
 QPushButton::pressed
 {
     background-color: pressedButtonColor;
     color: pressedButtonTextColor;
+}
+
+QPushButton::hover:!pressed
+{
+    background-color: hoverButtonColor;
+    color: buttonTextColor;
 }
 
 QMessageBox

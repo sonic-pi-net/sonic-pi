@@ -288,6 +288,10 @@ signals:
         void focusErrors();
 
     private:
+        void resizeEvent( QResizeEvent *e );
+        void movePrefsWidget();
+        void slidePrefsWidgetIn();
+        void slidePrefsWidgetOut();
         void initPaths();
         QString osDescription();
         QSignalMapper *signalMapper;
@@ -363,7 +367,8 @@ signals:
         QTextBrowser *errorPane;
         QDockWidget *outputWidget;
         QDockWidget *incomingWidget;
-        QDockWidget *prefsWidget;
+        QWidget *prefsWidget;
+
         QDockWidget *hudWidget;
         QDockWidget *docWidget;
         QDockWidget *contextWidget;

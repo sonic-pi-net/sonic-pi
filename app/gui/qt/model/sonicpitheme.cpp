@@ -247,11 +247,12 @@ QMap<QString, QString> SonicPiTheme::lightTheme(){
     themeSettings["AlternateBase"] = dt_grey;
     themeSettings["ToolTipBase"] = dt_grey;
     themeSettings["ToolTipText"] = dt_black;
-    themeSettings["Button"] = dt_pink;
+    themeSettings["Button"] = dt_darkgrey;
     themeSettings["ButtonBorder"] = dt_white;
-    themeSettings["PressedButton"] = dt_grey;
+    themeSettings["PressedButton"] = dt_pink;
     themeSettings["ButtonText"] = dt_white;
-    themeSettings["PressedButtonText"] = dt_darkgrey;
+    themeSettings["PressedButtonText"] = dt_white;
+    themeSettings["HoverButton"] = dt_blue;
     themeSettings["Shadow"] = dt_darkgrey;
     themeSettings["Light"] = dt_lightgrey;
     themeSettings["Midlight"] = dt_grey;
@@ -450,11 +451,12 @@ QMap<QString, QString> SonicPiTheme::darkTheme(){
     themeSettings["AlternateBase"] = dt_grey;
     themeSettings["ToolTipBase"] = dt_grey;
     themeSettings["ToolTipText"] = dt_white;
-    themeSettings["Button"] = dt_pink;
+    themeSettings["Button"] = dt_grey;
     themeSettings["ButtonBorder"] = dt_white;
-    themeSettings["PressedButton"] = dt_grey;
+    themeSettings["PressedButton"] = dt_pink;
     themeSettings["ButtonText"] = dt_white;
     themeSettings["PressedButtonText"] = dt_white;
+    themeSettings["HoverButton"] = dt_blue;
     themeSettings["Shadow"] = dt_vdarkgrey;
     themeSettings["Light"] = dt_lightgrey;
     themeSettings["Midlight"] = dt_grey;
@@ -656,11 +658,12 @@ QMap<QString, QString> SonicPiTheme::highContrastTheme(){
     themeSettings["AlternateBase"] = dt_grey;
     themeSettings["ToolTipBase"] = dt_grey;
     themeSettings["ToolTipText"] = dt_white;
-    themeSettings["Button"] = dt_pink;
+    themeSettings["Button"] = dt_grey;
     themeSettings["ButtonBorder"] = dt_white;
-    themeSettings["PressedButton"] = dt_grey;
+    themeSettings["PressedButton"] = dt_pink;
     themeSettings["ButtonText"] = dt_white;
-    themeSettings["PressedButtonText"] = dt_darkgrey;
+    themeSettings["PressedButtonText"] = dt_white;
+    themeSettings["HoverButton"] = dt_blue;
     themeSettings["Shadow"] = dt_darkgrey;
     themeSettings["Light"] = dt_lightgrey;
     themeSettings["Midlight"] = dt_grey;
@@ -887,6 +890,7 @@ QString SonicPiTheme::getAppStylesheet() {
     QString buttonTextColor = this->color("ButtonText").name();
     QString pressedButtonColor = this->color("PressedButton").name();
     QString pressedButtonTextColor = this->color("PressedButtonText").name();
+    QString hoverButtonColor = this->color("HoverButton").name();
 
     QString scrollBarColor = this->color("ScrollBar").name();
     QString scrollBarBackgroundColor = this->color("ScrollBarBackground").name();
@@ -937,6 +941,7 @@ QString SonicPiTheme::getAppStylesheet() {
         .replace("buttonTextColor", buttonTextColor)
         .replace("pressedButtonColor", pressedButtonColor)
         .replace("pressedButtonTextColor", pressedButtonTextColor)
+        .replace("hoverButtonColor", hoverButtonColor)
         .replace("scrollBarColor", scrollBarColor)
         .replace("scrollBarBackgroundColor", scrollBarBackgroundColor)
         .replace("scrollBarHoverColor", scrollBarHoverColor)

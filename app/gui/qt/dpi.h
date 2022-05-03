@@ -101,6 +101,7 @@ inline QString ScalePxInStyleSheet(QString style)
   style = style.replace(QRegularExpression(":\\s*27dx"), QString(": %1px").arg(ScaleHeightForDPI(27)));
   style = style.replace(QRegularExpression(":\\s*28dx"), QString(": %1px").arg(ScaleHeightForDPI(28)));
   style = style.replace(QRegularExpression(":\\s*29dx"), QString(": %1px").arg(ScaleHeightForDPI(29)));
+  style = style.replace(QRegularExpression(":\\s*35dx"), QString(": %1px").arg(ScaleHeightForDPI(35)));
   style = style.replace(QRegularExpression(":\\s*3\\ddx"), QString(": %1px").arg(ScaleHeightForDPI(30)));
   style = style.replace(QRegularExpression(":\\s*4\\ddx"), QString(": %1px").arg(ScaleHeightForDPI(40)));
   style = style.replace(QRegularExpression(":\\s*5\\ddx"), QString(": %1px").arg(ScaleHeightForDPI(50)));

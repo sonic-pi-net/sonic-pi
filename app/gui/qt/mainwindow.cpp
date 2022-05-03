@@ -44,6 +44,7 @@
 #include <QTextStream>
 #include <QToolBar>
 #include <QToolButton>
+#include <QPushButton>
 #include <QVBoxLayout>
 
 #include "mainwindow.h"
@@ -389,15 +390,16 @@ void MainWindow::setupWindowStructure()
     // create workspaces and add them to the tabs
     // workspace shortcuts
     signalMapper = new QSignalMapper(this);
-
-    prefsWidget = new QDockWidget(tr("Preferences"), this);
-    prefsWidget->setFocusPolicy(Qt::NoFocus);
-    prefsWidget->setAllowedAreas(Qt::RightDockWidgetArea);
-    prefsWidget->setFeatures(QDockWidget::DockWidgetClosable);
-    prefsWidget->setAttribute(Qt::WA_StyledBackground, true);
-
+    QVBoxLayout* prefsLayout = new QVBoxLayout;
+    prefsWidget = new QWidget;
+    prefsWidget->setParent(this);
+    prefsWidget->hide();
+    QSizePolicy prefsSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+    prefsWidget->setSizePolicy(prefsSizePolicy) ;
 
     settingsWidget = new SettingsWidget(m_spAPI->GetPort(SonicPiPortId::tau_osc_cues), i18n, piSettings, sonicPii18n, this);
+    settingsWidget->setObjectName("settings");
+    settingsWidget->setAttribute(Qt::WA_StyledBackground, true);
     connect(settingsWidget, SIGNAL(restartApp()), this, SLOT(restartApp()));
     connect(settingsWidget, SIGNAL(volumeChanged(int)), this, SLOT(changeSystemPreAmp(int)));
     connect(settingsWidget, SIGNAL(mixerSettingsChanged()), this, SLOT(mixerSettingsChanged()));
@@ -439,13 +441,27 @@ void MainWindow::setupWindowStructure()
 
     restoreScopeState(scopeWindow->GetScopeCategories());
     settingsWidget->updateScopeNames(scopeWindow->GetScopeCategories());
-    QSizePolicy prefsSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
-    settingsWidget->setSizePolicy(prefsSizePolicy);
-    prefsWidget->setWidget(settingsWidget);
 
-    addDockWidget(Qt::RightDockWidgetArea, prefsWidget);
-    prefsWidget->hide();
+    QHBoxLayout* prefsLabelLayout = new QHBoxLayout;
+    prefsLabelLayout->addStretch(1);
+    prefsLabelLayout->addWidget(new QLabel(tr("Preferences")));
+    prefsLabelLayout->addStretch(1);
+    prefsLayout->addLayout(prefsLabelLayout);
+    prefsLayout->addWidget(settingsWidget) ;
+    prefsLayout->addStretch(1);
+    QHBoxLayout* prefsButtonLayout = new QHBoxLayout;
+    QPushButton* prefsHidePushButton = new QPushButton(tr("Close"));
+    prefsHidePushButton->setObjectName("prefsHideButton");
+    prefsButtonLayout->addStretch(1);
+    prefsButtonLayout->addWidget(prefsHidePushButton);
+    prefsLayout->addLayout(prefsButtonLayout);
     prefsWidget->setObjectName("prefs");
+    prefsWidget->setLayout(prefsLayout);
+
+    connect(prefsHidePushButton, &QPushButton::clicked, this, [=]() {
+      togglePrefs();
+    });
+
 
     connect(prefsWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updatePrefsIcon()));
     bool auto_indent = piSettings->auto_indent_on_run;
@@ -2122,6 +2138,7 @@ void MainWindow::updateColourTheme()
 
     this->setStyleSheet(appStyling);
     infoWidg->setStyleSheet(appStyling);
+    settingsWidget->setStyleSheet(appStyling);
 
     scopeWindow->Refresh();
     scopeWidget->update();
@@ -2356,13 +2373,15 @@ void MainWindow::togglePrefs()
     if (prefsWidget->isVisible())
     {
         statusBar()->showMessage(tr("Hiding preferences..."), 2000);
-        prefsWidget->hide();
+        slidePrefsWidgetOut();
         prefsAct->setChecked(false);
     }
     else
     {
         statusBar()->showMessage(tr("Showing preferences..."), 2000);
-        prefsWidget->show();
+
+
+        slidePrefsWidgetIn();
         prefsAct->setChecked(true);
     }
     updatePrefsIcon();
@@ -3131,7 +3150,7 @@ void MainWindow::createInfoPane()
 
     infoTabs->setTabPosition(QTabWidget::South);
 
-    QBoxLayout* infoLayout = new QBoxLayout(QBoxLayout::LeftToRight);
+    QHBoxLayout* infoLayout = new QHBoxLayout;
     infoLayout->addWidget(infoTabs);
 
     infoWidg = new InfoWidget;
@@ -4017,8 +4036,9 @@ void MainWindow::focusCues()
 void MainWindow::focusPreferences()
 {
     prefsWidget->show();
+    prefsWidget->raise();
     updatePrefsIcon();
-    settingsWidget->showNormal();
+    prefsWidget->showNormal();
     settingsWidget->setFocusPolicy(Qt::StrongFocus);
     settingsWidget->setFocus();
     settingsWidget->raise();
@@ -4085,4 +4105,58 @@ SonicPiLog* MainWindow::GetIncomingPane() const
 SonicPiTheme* MainWindow::GetTheme() const
 {
     return theme;
+}
+
+void MainWindow::movePrefsWidget()
+{
+  int h = toolBar->size().height() + 20;
+  int full_width = this->size().width();
+  int w = full_width - prefsWidget->size().width();
+  prefsWidget->move(w, h);
+}
+
+void MainWindow::slidePrefsWidgetIn()
+{
+  int h = toolBar->size().height() + 20;
+  int full_width = this->size().width();
+  int prefs_width = prefsWidget->size().width();
+  int w = full_width - prefs_width;
+  int delta = prefs_width / 10;
+
+  prefsWidget->move(full_width, h);
+  prefsWidget->show();
+  prefsWidget->raise();
+
+  for(int i = full_width; i > w; i = i - delta) {
+    QCoreApplication::processEvents();
+    prefsWidget->move(i, h);
+    QThread::msleep(2);
+  }
+
+  movePrefsWidget();
+}
+
+void MainWindow::slidePrefsWidgetOut()
+{
+  int h = toolBar->size().height() + 20;
+  int full_width = this->size().width();
+  int prefs_width = prefsWidget->size().width();
+  int w = full_width - prefs_width;
+  int delta = prefs_width / 10;
+
+  for(int i = w; i < full_width; i = i + delta) {
+    QCoreApplication::processEvents();
+    prefsWidget->move(i, h);
+    QThread::msleep(2);
+  }
+
+  prefsWidget->hide();
+}
+
+
+
+void MainWindow::resizeEvent( QResizeEvent *e )
+{
+  movePrefsWidget();
+  QMainWindow::resizeEvent(e);
 }
