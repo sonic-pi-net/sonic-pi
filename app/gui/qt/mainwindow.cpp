@@ -394,8 +394,8 @@ void MainWindow::setupWindowStructure()
     prefsWidget = new QWidget;
     prefsWidget->setParent(this);
     prefsWidget->hide();
-    QSizePolicy prefsSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
-    prefsWidget->setSizePolicy(prefsSizePolicy) ;
+
+
 
     settingsWidget = new SettingsWidget(m_spAPI->GetPort(SonicPiPortId::tau_osc_cues), i18n, piSettings, sonicPii18n, this);
     settingsWidget->setObjectName("settings");
@@ -443,12 +443,12 @@ void MainWindow::setupWindowStructure()
     settingsWidget->updateScopeNames(scopeWindow->GetScopeCategories());
 
     QHBoxLayout* prefsLabelLayout = new QHBoxLayout;
+    QLabel* prefsLabel = new QLabel(tr("Preferences"));
     prefsLabelLayout->addStretch(1);
-    prefsLabelLayout->addWidget(new QLabel(tr("Preferences")));
+    prefsLabelLayout->addWidget(prefsLabel);
     prefsLabelLayout->addStretch(1);
     prefsLayout->addLayout(prefsLabelLayout);
-    prefsLayout->addWidget(settingsWidget) ;
-    prefsLayout->addStretch(1);
+    prefsLayout->addWidget(settingsWidget, 2) ;
     QHBoxLayout* prefsButtonLayout = new QHBoxLayout;
     QPushButton* prefsHidePushButton = new QPushButton(tr("Close"));
     prefsHidePushButton->setObjectName("prefsHideButton");
@@ -457,6 +457,10 @@ void MainWindow::setupWindowStructure()
     prefsLayout->addLayout(prefsButtonLayout);
     prefsWidget->setObjectName("prefs");
     prefsWidget->setLayout(prefsLayout);
+    prefsWidget->setMinimumHeight(settingsWidget->height() + 60);
+
+    QSizePolicy prefsSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+    prefsWidget->setSizePolicy(prefsSizePolicy) ;
 
     connect(prefsHidePushButton, &QPushButton::clicked, this, [=]() {
       togglePrefs();

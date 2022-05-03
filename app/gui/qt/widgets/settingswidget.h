@@ -33,8 +33,6 @@ public:
     void updateScopeNames(std::vector<QString>);
     void updateSelectedUILanguage(QString lang);
 
-    QSize sizeHint() const;
-
 public slots:
     void updateUILanguage(int index);
 

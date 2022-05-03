@@ -28,7 +28,8 @@ SettingsWidget::SettingsWidget(int tau_osc_cues_port, bool i18n, SonicPiSettings
     this->sonicPii18n = sonicPii18n;
     this->available_languages = sonicPii18n->getAvailableLanguages();
     this->tau_osc_cues_port = tau_osc_cues_port;
-
+    QSizePolicy prefsSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
+    setSizePolicy(prefsSizePolicy) ;
     prefTabs = new QTabWidget();
 
     QGridLayout *grid = new QGridLayout;
@@ -83,11 +84,6 @@ SettingsWidget::SettingsWidget(int tau_osc_cues_port, bool i18n, SonicPiSettings
  * Destructor
  */
 SettingsWidget::~SettingsWidget() {
-}
-
-QSize SettingsWidget::sizeHint() const
-{
-  return QSize(100, 100);
 }
 
 /**
