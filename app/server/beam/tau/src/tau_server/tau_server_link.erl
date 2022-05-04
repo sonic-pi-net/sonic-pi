@@ -120,7 +120,10 @@ loop(State) ->
             ?MODULE:loop(State);
 
         {link_rpc, UUID, get_start_stop_sync_enabled} ->
-            Enabled = sp_link:is_start_stop_sync_enabled(),
+            Enabled = case sp_link:is_start_stop_sync_enabled() of
+                          true -> 1;
+                          false -> 0
+                      end,
             logger:debug("Received link rpc start_stop_sync_enabled [~p]", [Enabled]),
             maps:get(cue_server, State) ! {api_reply, UUID, [Enabled]},
             ?MODULE:loop(State);
@@ -172,7 +175,10 @@ loop(State) ->
             ?MODULE:loop(State);
 
         {link_rpc, UUID, get_is_playing} ->
-            Enabled = sp_link:is_playing(),
+            Enabled = case sp_link:is_playing() of
+                          true -> 1;
+                          false -> 0
+                      end,
             logger:debug("Received link rpc get_is_playing [~p]", [Enabled]),
             maps:get(cue_server, State) ! {api_reply, UUID, [Enabled]},
             ?MODULE:loop(State);
