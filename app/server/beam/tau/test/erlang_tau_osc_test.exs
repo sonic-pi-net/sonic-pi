@@ -15,8 +15,8 @@ defmodule ErlangTauOSCTest do
   use ExUnit.Case
 
   test "basic osc encode/decode" do
-    a = :osc.encode(['/test', 1, 3.5, 'bar'])
-    {:cmd, ['/test', 1, 3.5, 'bar']} = :osc.decode(a)
+    a = :osc.encode(['/test', 1, 3.5, 'bar', true, false])
+    {:cmd, ['/test', 1, 3.5, 'bar', true, false]} = :osc.decode(a)
   end
 
   test "osc encode/decode int64" do

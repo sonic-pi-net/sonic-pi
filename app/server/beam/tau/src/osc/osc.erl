@@ -61,7 +61,13 @@ encode([Verb|Args]) ->
     %% io:format("===="),
     Str   = encode_string(Verb),
     Flags = encode_flags(Args),
-    Data  = [encode_arg(I) || I <- Args],
+    Data = lists:reverse(lists:foldl(fun(X, Accum) ->
+                               case X of
+                                   false -> Accum;
+                                   true  -> Accum;
+                                   _     -> [encode_arg(X) | Accum]
+                               end
+                       end, [], Args)),
     list_to_binary([Str,Flags,Data]).
 
 encode_string(S) ->
@@ -87,6 +93,8 @@ encode_flags(L) when is_list(L) ->
     L1 = [encode_flag(I) || I <- L],
     encode_string([$,|L1]).
 
+encode_flag(true)                 -> $T;
+encode_flag(false)                -> $F;
 encode_flag({int64,_})            -> $h;
 encode_flag({time,_})             -> $t;
 encode_flag(I) when is_integer(I) -> $i;
@@ -176,6 +184,10 @@ get_args([$s|T1], B0, L) ->
 get_args([$b|T1], <<Size:32, Bin:Size/binary, RestBin/binary>>, L) ->
     PaddingSize = (4 - (Size rem 4)) rem 4,
     get_args(T1, skip(PaddingSize, RestBin), [Bin|L]);
+get_args([$T|T1], B1, L) ->
+    get_args(T1, B1, [true|L]);
+get_args([$F|T1], B1, L) ->
+    get_args(T1, B1, [false|L]);
 get_args([], _, L) ->
     lists:reverse(L).
 
