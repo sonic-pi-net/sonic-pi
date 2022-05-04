@@ -162,6 +162,11 @@ module SonicPi
       link_get_beat_at_time(link_time)
     end
 
+    def link_get_phase_at_clock_time(clock_time, quantum = 4)
+      link_time = (clock_time * 1_000_000) - @link_time_delta_micros
+      link_get_phase_at_time(link_time)
+    end
+
     def link_set_is_playing!(enabled, clock_time)
       if enabled
         @tau_comms.send_ts(clock_time, "/link-set-is-playing", 1)
