@@ -171,17 +171,17 @@ loop(State) ->
 
         {cmd, ["/osc-in-udp-loopback-restricted", Flag]=Cmd} ->
             debug_cmd(Cmd),
-            send_to_cue({osc_in_udp_loopback_restricted, Flag =:= 1}, State),
+            send_to_cue({osc_in_udp_loopback_restricted, Flag}, State),
             ?MODULE:loop(State);
 
         {cmd, ["/stop-start-cue-server", Flag]=Cmd} ->
             debug_cmd(Cmd),
-            send_to_cue({cues_on, Flag =:= 1}, State),
+            send_to_cue({cues_on, Flag}, State),
             ?MODULE:loop(State);
 
         {cmd, ["/stop-start-midi-cues", Flag]=Cmd} ->
             debug_cmd(Cmd),
-            send_to_cue({midi_on, Flag =:= 1}, State),
+            send_to_cue({midi_on, Flag}, State),
             ?MODULE:loop(State);
 
         %% Link API
@@ -213,8 +213,7 @@ loop(State) ->
 
         {cmd, ["/link-set-start-stop-sync-enabled", Enabled]=Cmd} ->
             debug_cmd(Cmd),
-            %% send_to_link({link_set_start_stop_sync_enabled, Enabled =:= 1}, State),
-            send_to_link({link_set_start_stop_sync_enabled, 1}, State),
+            send_to_link({link_set_start_stop_sync_enabled, Enabled}, State),
             ?MODULE:loop(State);
 
         {cmd, ["/api-rpc", UUID, "/link-get-num-peers"]=Cmd} ->
@@ -305,7 +304,7 @@ do_bundle(Time, [{_,Bin}|T], State) ->
             {cmd, ["/link-set-tempo-tagged", Tag, Tempo]} ->
                 schedule_link(Time, Tag, State, {link_set_tempo, Tempo});
             {cmd, ["/link-set-is-playing", Enabled]} ->
-                schedule_link(Time, "default", State, {link_set_is_playing, Enabled =:= 1});
+                schedule_link(Time, "default", State, {link_set_is_playing, Enabled});
             {cmd, ["/link-set-is-playing-tagged", Tag, Enabled]} ->
                 schedule_link(Time, Tag, State, {link_set_is_playing, Enabled});
             Other ->
