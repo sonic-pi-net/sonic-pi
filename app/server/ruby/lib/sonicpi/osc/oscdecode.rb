@@ -30,6 +30,8 @@ module SonicPi
         @d_tag = "d".freeze
         @h_tag = "h".freeze
         @b_tag = "b".freeze
+        @ut_tag = "T".freeze
+        @uf_tag = "F".freeze
 
         @cap_n = 'N'.freeze
         @cap_g = 'G'.freeze
@@ -110,6 +112,12 @@ module SonicPi
               idx += l
               #Skip Padding
               idx += ((4 - (idx % 4)) % 4)
+            when @ut_tag
+              # true
+              arg = true
+            when @uf_tag
+              # false
+              arg = false
             else
               raise "Unknown OSC type #{t}"
             end
