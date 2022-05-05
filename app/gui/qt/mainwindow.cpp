@@ -863,8 +863,7 @@ void MainWindow::fullScreenMenuChanged()
 
 void MainWindow::blankTitleBars()
 {
-  statusBar()->showMessage(tr("BBBlanking..."), 2000);
-
+  statusBar()->showMessage(tr("Hiding pane titles..."), 2000);
   outputWidget->setTitleBarWidget(blankWidgetOutput);
   incomingWidget->setTitleBarWidget(blankWidgetIncoming);
   contextWidget->setTitleBarWidget(blankWidgetContext);
@@ -874,7 +873,7 @@ void MainWindow::blankTitleBars()
 
 void MainWindow::namedTitleBars()
 {
-  // statusBar()->showMessage(tr("UUUUnblanking..."), 2000);
+  statusBar()->showMessage(tr("Showing pane titles..."), 2000);
   outputWidget->setTitleBarWidget(0);
   incomingWidget->setTitleBarWidget(0);
   contextWidget->setTitleBarWidget(0);
