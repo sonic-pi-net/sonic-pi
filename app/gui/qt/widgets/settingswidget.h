@@ -55,6 +55,7 @@ private slots:
     void toggleScope();
     void toggleScopeLabels();
     void toggleScope( QObject* qo );
+    void toggleTitles();
     void openSonicPiNet();
     void toggleCheckUpdates();
     void checkForUpdatesNow();
@@ -90,6 +91,7 @@ signals:
     void themeChanged();
     void scopeChanged();
     void scopeLabelsChanged();
+    void titlesChanged();
     void scopeChanged(QString name);
     void transparencyChanged(int t);
     void checkUpdatesChanged();
@@ -151,6 +153,7 @@ private:
     QSignalMapper *scopeSignalMap;
     QCheckBox *show_scope_labels;
     QCheckBox *show_scopes;
+    QCheckBox *show_titles;
     QVBoxLayout *scope_box_kinds_layout;
 
     QPushButton *check_updates_now;

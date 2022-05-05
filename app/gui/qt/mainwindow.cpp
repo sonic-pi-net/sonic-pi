@@ -358,6 +358,7 @@ void MainWindow::setupTheme()
 {
     // Syntax highlighting
     QString themeFilename = QDir::homePath() + QDir::separator() + ".sonic-pi" + QDir::separator() + "config" + QDir::separator() + "colour-theme.properties";
+
     this->theme = new SonicPiTheme(this, themeFilename, rootPath());
 }
 
@@ -377,6 +378,7 @@ void MainWindow::setupWindowStructure()
     incomingPane = new SonicPiLog;
     contextPane = new SonicPiContext;
     errorPane = new QTextBrowser;
+
     errorPane->setOpenExternalLinks(true);
 
     // Window layout
@@ -418,6 +420,7 @@ void MainWindow::setupWindowStructure()
     connect(settingsWidget, SIGNAL(scopeChanged()), this, SLOT(scope()));
     connect(settingsWidget, SIGNAL(scopeChanged(QString)), this, SLOT(changeScopeKindVisibility(QString)));
     connect(settingsWidget, SIGNAL(scopeLabelsChanged()), this, SLOT(changeScopeLabels()));
+    connect(settingsWidget, SIGNAL(titlesChanged()), this, SLOT(changeTitleVisibility()));
     connect(settingsWidget, SIGNAL(transparencyChanged(int)), this, SLOT(changeGUITransparency(int)));
 
     connect(settingsWidget, SIGNAL(checkUpdatesChanged()), this, SLOT(update_check_updates()));
@@ -680,6 +683,7 @@ void MainWindow::setupWindowStructure()
 
     connect(scopeWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(scopeVisibilityChanged()));
 
+
     outputWidget = new QDockWidget(tr("Log"), this);
     outputWidget->setFocusPolicy(Qt::NoFocus);
     outputWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
@@ -705,8 +709,11 @@ void MainWindow::setupWindowStructure()
     incomingWidget->setObjectName("input");
     contextWidget->setObjectName("context");
 
-    blankWidget = new QWidget();
-    outputWidgetTitle = outputWidget->titleBarWidget();
+    blankWidgetOutput = new QWidget();
+    blankWidgetIncoming = new QWidget();
+    blankWidgetContext = new QWidget();
+    blankWidgetScope = new QWidget();
+    blankWidgetDoc = new QWidget();
 
     docsNavTabs = new QTabWidget;
     docsNavTabs->setFocusPolicy(Qt::NoFocus);
@@ -854,6 +861,27 @@ void MainWindow::fullScreenMenuChanged()
     updateFullScreenMode();
 }
 
+void MainWindow::blankTitleBars()
+{
+  statusBar()->showMessage(tr("BBBlanking..."), 2000);
+
+  outputWidget->setTitleBarWidget(blankWidgetOutput);
+  incomingWidget->setTitleBarWidget(blankWidgetIncoming);
+  contextWidget->setTitleBarWidget(blankWidgetContext);
+  scopeWidget->setTitleBarWidget(blankWidgetScope);
+  docWidget->setTitleBarWidget(blankWidgetDoc);
+}
+
+void MainWindow::namedTitleBars()
+{
+  // statusBar()->showMessage(tr("UUUUnblanking..."), 2000);
+  outputWidget->setTitleBarWidget(0);
+  incomingWidget->setTitleBarWidget(0);
+  contextWidget->setTitleBarWidget(0);
+  scopeWidget->setTitleBarWidget(0);
+  docWidget->setTitleBarWidget(0);
+}
+
 void MainWindow::updateFullScreenMode()
 {
     QSignalBlocker blocker(fullScreenAct);
@@ -865,7 +893,7 @@ void MainWindow::updateFullScreenMode()
         std::cout << "[GUI] - switch into full screen mode." << std::endl;
 
 #if defined(Q_OS_WIN)
-        outputWidget->setTitleBarWidget(blankWidget);
+
         QRect rect = this->geometry();
         m_appWindowSizeRect.reset(new QRect(rect));
         QRect screenRect = this->screen()->availableGeometry();
@@ -886,7 +914,7 @@ void MainWindow::updateFullScreenMode()
         this->setWindowFlags(windowFlags() & ~Qt::FramelessWindowHint);
         this->setGeometry(*m_appWindowSizeRect.get());
         this->setWindowState((this->windowState() & ~Qt::WindowMinimized) | Qt::WindowActive);
-        outputWidget->setTitleBarWidget(outputWidgetTitle);
+
 #else
         this->showNormal();
 #endif
@@ -1271,6 +1299,7 @@ void MainWindow::honourPrefs()
     updateLogAutoScroll();
     changeGUITransparency(piSettings->gui_transparency);
     changeScopeLabels();
+    changeTitleVisibility();
     toggleMidi(1);
     toggleOSCServer(1);
     toggleIcons();
@@ -1954,11 +1983,31 @@ void MainWindow::showScopeLabelsMenuChanged()
     changeScopeLabels();
 }
 
+void MainWindow::titleVisibilityChanged()
+{
+
+    piSettings->show_titles = showTitlesAct->isChecked();
+    emit settingsChanged();
+    changeTitleVisibility();
+}
+
 void MainWindow::changeScopeLabels()
 {
     QSignalBlocker blocker(showScopeLabelsAct);
     showScopeLabelsAct->setChecked(piSettings->show_scope_labels);
     scopeWindow->SetScopeLabels(piSettings->show_scope_labels);
+}
+
+void MainWindow::changeTitleVisibility()
+{
+    QSignalBlocker blocker(showTitlesAct);
+    if(piSettings->show_titles) {
+      namedTitleBars();
+      showTitlesAct->setChecked(true);
+    } else {
+      blankTitleBars();
+      showTitlesAct->setChecked(false);
+    }
 }
 
 void MainWindow::cycleThemes()
@@ -2808,6 +2857,11 @@ void MainWindow::createToolBar()
     showScopeLabelsAct->setChecked(false);
     connect(showScopeLabelsAct, SIGNAL(triggered()), this, SLOT(showScopeLabelsMenuChanged()));
 
+    showTitlesAct = new QAction(tr("Show Titles"));
+    showTitlesAct->setCheckable(true);
+    showTitlesAct->setChecked(false);
+    connect(showTitlesAct, SIGNAL(triggered()), this, SLOT(titleVisibilityChanged()));
+
     themeMenu = displayMenu->addMenu(tr("Colour Theme"));
     themeMenu->addAction(lightThemeAct);
     themeMenu->addAction(darkThemeAct);
@@ -3026,6 +3080,7 @@ void MainWindow::createToolBar()
     viewMenu->addSeparator();
     viewMenu->addAction(showButtonsAct);
     viewMenu->addAction(showTabsAct);
+    viewMenu->addAction(showTitlesAct);
     viewMenu->addSeparator();
     viewMenu->addAction(infoAct);
     viewMenu->addAction(helpAct);
@@ -3323,6 +3378,7 @@ void MainWindow::readSettings()
     piSettings->show_scopes = gui_settings->value("prefs/scope/show-scopes", true).toBool();
     piSettings->show_scope_labels = gui_settings->value("prefs/scope/show-labels", false).toBool();
     piSettings->show_cues = gui_settings->value("prefs/show_cues", true).toBool();
+    piSettings->show_titles = gui_settings->value("prefs/show-titles", true).toBool();
     QString styleName = gui_settings->value("prefs/theme", "").toString();
 
     piSettings->themeStyle = theme->themeNameToStyle(styleName);
@@ -3374,6 +3430,7 @@ void MainWindow::writeSettings()
     gui_settings->setValue("prefs/gui_transparency", piSettings->gui_transparency);
     gui_settings->setValue("prefs/scope/show-labels", piSettings->show_scope_labels);
     gui_settings->setValue("prefs/scope/show-scopes", piSettings->show_scopes);
+    gui_settings->setValue("prefs/show-titles", piSettings->show_titles);
     gui_settings->setValue("prefs/show_cues", piSettings->show_cues);
     gui_settings->setValue("prefs/theme", theme->themeStyleToName(piSettings->themeStyle));
 

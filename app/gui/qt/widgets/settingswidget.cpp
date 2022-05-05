@@ -75,6 +75,9 @@ SettingsWidget::SettingsWidget(int tau_osc_cues_port, bool i18n, SonicPiSettings
       }
     }
 
+
+
+
     settingsChanged();
     connectAll();
     setLayout(grid);
@@ -282,9 +285,11 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
  */
 QGroupBox* SettingsWidget::createEditorPrefsTab() {
     QGroupBox *editor_box = new QGroupBox();
+    QGroupBox *editor_show_panels_box = new QGroupBox(tr("Show Panels"));
+    editor_show_panels_box->setToolTip(tr("Show and hide information panes such as the scope and log."));
     QGroupBox *editor_display_box = new QGroupBox(tr("Show and Hide"));
     editor_display_box->setToolTip(tr("Configure editor display options."));
-    QGroupBox *editor_look_feel_box = new QGroupBox(tr("Look and Feel"));
+    QGroupBox *editor_look_feel_box = new QGroupBox(tr("Theme"));
     editor_look_feel_box->setToolTip(tr("Configure editor look and feel."));
     QGroupBox *automation_box = new QGroupBox(tr("Automation / Misc"));
     automation_box->setToolTip(tr("Configure automation and other features."));
@@ -318,6 +323,14 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     full_screen = new QCheckBox(tr("Full screen"));
     full_screen->setToolTip(tooltipStrShiftMeta('F', tr("Toggle full screen mode.")));
 
+    show_titles = new QCheckBox(tr("Show titles"));
+    show_titles->setToolTip(tr("Toggle the title visibility for the scope, log, cue and other information panes"));
+    show_titles->setChecked(true);
+
+    show_scopes = new QCheckBox(tr("Show Scopes"));
+    show_scopes->setToolTip(tr("Toggle the visibility of the audio oscilloscopes."));
+
+
     colourModeButtonGroup = new QButtonGroup(this);
     lightModeCheck = new QCheckBox(tr("Light"));
     darkModeCheck = new QCheckBox(tr("Dark"));
@@ -331,25 +344,31 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     colourModeButtonGroup->addButton(highContrastModeCheck, 4);
 
     QVBoxLayout *editor_display_box_layout = new QVBoxLayout;
+    QVBoxLayout *editor_show_panels_box_layout = new QVBoxLayout;
     QVBoxLayout *editor_box_look_feel_layout = new QVBoxLayout;
     QVBoxLayout *automation_box_layout = new QVBoxLayout;
     QGridLayout *gridEditorPrefs = new QGridLayout;
 
+    editor_show_panels_box_layout->addWidget(show_log);
+    editor_show_panels_box_layout->addWidget(show_cues);
+    editor_show_panels_box_layout->addWidget(show_context);
+
     editor_display_box_layout->addWidget(show_line_numbers);
     editor_display_box_layout->addWidget(show_autocompletion);
-    editor_display_box_layout->addWidget(show_context);
-    editor_display_box_layout->addWidget(show_log);
-    editor_display_box_layout->addWidget(show_cues);
     editor_display_box_layout->addWidget(show_buttons);
     editor_display_box_layout->addWidget(show_tabs);
+    editor_display_box_layout->addWidget(show_titles);
+
     editor_box_look_feel_layout->addWidget(lightModeCheck);
     editor_box_look_feel_layout->addWidget(darkModeCheck);
     editor_box_look_feel_layout->addWidget(lightProModeCheck);
     editor_box_look_feel_layout->addWidget(darkProModeCheck);
     editor_box_look_feel_layout->addWidget(highContrastModeCheck);
 
+    editor_show_panels_box->setLayout(editor_show_panels_box_layout);
     editor_display_box->setLayout(editor_display_box_layout);
     editor_look_feel_box->setLayout(editor_box_look_feel_layout);
+
 
     automation_box_layout->addWidget(auto_indent_on_run);
     automation_box_layout->addWidget(full_screen);
@@ -378,12 +397,12 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     debug_box_layout->addWidget(clear_output_on_run);
     debug_box->setLayout(debug_box_layout);
 
+    gridEditorPrefs->addWidget(editor_look_feel_box, 0, 0);
+    gridEditorPrefs->addWidget(automation_box, 0, 1);
+    gridEditorPrefs->addWidget(editor_display_box, 1, 0);
+    gridEditorPrefs->addWidget(editor_show_panels_box, 1, 1);
 
-
-    gridEditorPrefs->addWidget(editor_display_box, 0, 0);
-    gridEditorPrefs->addWidget(editor_look_feel_box, 0, 1);
-    gridEditorPrefs->addWidget(automation_box, 1, 1);
-    gridEditorPrefs->addWidget(debug_box, 1, 0);
+    gridEditorPrefs->addWidget(debug_box, 2, 1);
 
 
     editor_box->setLayout(gridEditorPrefs);
@@ -413,6 +432,7 @@ QGroupBox* SettingsWidget::createVisualizationPrefsTab() {
     show_scope_labels = new QCheckBox(tr("Show Scope Labels"));
     show_scope_labels->setToolTip(tr("Toggle the visibility of the labels for the audio oscilloscopes"));
     show_scope_labels->setChecked(true);
+
     scope_box_kinds->setLayout(scope_box_kinds_layout);
     scope_box_kinds->setToolTip(tr("The audio oscilloscope comes in several flavours which may\nbe viewed independently or all together:\n\nLissajous - illustrates the phase relationship between the left and right channels\nMirror Stereo - simple left/right composite wave, with left on top, right on bottom\nMono - shows a combined view of the left and right channels (using RMS)\nSpectrum - shows the sound frequencies as a spectrum, from low to high frequencies\nStereo - shows two independent scopes for left and right channels"));
     scope_box_layout->addWidget(show_scopes);
@@ -563,6 +583,8 @@ void SettingsWidget::toggleScope( QObject* qo ) {
   emit scopeChanged(name);
 }
 
+
+
 // TODO: Implement real-time language switching
 void SettingsWidget::updateUILanguage(int index) {
     QString lang = available_languages[index];
@@ -709,6 +731,10 @@ void SettingsWidget::toggleScopeLabels() {
     emit scopeLabelsChanged();
 }
 
+void SettingsWidget::toggleTitles() {
+    emit titlesChanged();
+}
+
 void SettingsWidget::updateTransparency(int t) {
     emit transparencyChanged(t);
 }
@@ -808,6 +834,7 @@ void SettingsWidget::updateSettings() {
 
     piSettings->show_scopes = show_scopes->isChecked();
     piSettings->show_scope_labels = show_scope_labels->isChecked();
+    piSettings->show_titles = show_titles->isChecked();
 
     piSettings->check_updates = check_updates->isChecked();
 }
@@ -861,6 +888,7 @@ void SettingsWidget::settingsChanged() {
 
     show_scopes->setChecked(piSettings->show_scopes);
     show_scope_labels->setChecked(piSettings->show_scope_labels);
+    show_titles->setChecked(piSettings->show_titles);
 
     check_updates->setChecked(piSettings->check_updates);
     show_autocompletion->setChecked(piSettings->show_autocompletion);
@@ -927,6 +955,8 @@ void SettingsWidget::connectAll() {
     connect(show_scope_labels, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(show_scopes, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(show_scope_labels, SIGNAL(clicked()), this, SLOT(toggleScopeLabels()));
+    connect(show_titles, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(show_titles, SIGNAL(clicked()), this, SLOT(toggleTitles()));
     connect(show_scopes, SIGNAL(clicked()), this, SLOT(toggleScope()));
 
     connect(check_updates, SIGNAL(clicked()), this, SLOT(updateSettings()));

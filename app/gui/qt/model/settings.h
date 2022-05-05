@@ -48,6 +48,7 @@ public:
     // Visualizer
     bool show_scopes;
     bool show_scope_labels;
+    bool show_titles;
     std::vector<QString> scope_names;
     void setScopeState(QString name, bool s) { active_scopes[name] = s; }
     bool isScopeActive(QString name) { return active_scopes[name]; }

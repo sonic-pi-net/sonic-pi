@@ -213,6 +213,8 @@ signals:
         void toggleLeftScope();
         void toggleRightScope();
         void changeScopeLabels();
+        void changeTitleVisibility();
+        void titleVisibilityChanged();
         void scopeVisibilityChanged();
         void logCuesMenuChanged();
         void changeLogCues();
@@ -296,6 +298,9 @@ signals:
         QString osDescription();
         QSignalMapper *signalMapper;
 
+        void blankTitleBars();
+        void namedTitleBars();
+
         void clearOutputPanels();
         void createShortcuts();
         void createToolBar();
@@ -372,8 +377,11 @@ signals:
         QDockWidget *hudWidget;
         QDockWidget *docWidget;
         QDockWidget *contextWidget;
-        QWidget *blankWidget;
-        QWidget *outputWidgetTitle;
+        QWidget *blankWidgetOutput;
+        QWidget *blankWidgetIncoming;
+        QWidget *blankWidgetContext;
+        QWidget *blankWidgetScope;
+        QWidget *blankWidgetDoc;
         QTextBrowser *docPane;
 
 #ifdef WITH_WEBENGINE
@@ -394,7 +402,7 @@ signals:
         SonicPiTheme *theme;
 
         QToolBar *toolBar;
-  QAction *exitAct, *runAct, *stopAct, *saveAsAct, *loadFileAct, *recAct, *textAlignAct, *textIncAct, *textDecAct, *scopeAct, *infoAct, *helpAct, *prefsAct, *focusEditorAct, *focusLogsAct, *focusContextAct, *focusCuesAct, *focusPreferencesAct, *focusHelpListingAct, *focusHelpDetailsAct, *focusErrorsAct, *showLineNumbersAct, *showAutoCompletionAct, *showContextAct, *audioSafeAct, *audioTimingGuaranteesAct, *enableExternalSynthsAct, *mixerInvertStereoAct, *mixerForceMonoAct, *midiEnabledAct, *enableOSCServerAct, *allowRemoteOSCAct, *showLogAct, *showCuesAct, *logAutoScrollAct, *logCuesAct, *logSynthsAct, *clearOutputOnRunAct, *autoIndentOnRunAct, *showButtonsAct, *showTabsAct, *fullScreenAct, *lightThemeAct, *darkThemeAct, *proLightThemeAct, *proDarkThemeAct, *highContrastThemeAct, *showScopeLabelsAct;
+  QAction *exitAct, *runAct, *stopAct, *saveAsAct, *loadFileAct, *recAct, *textAlignAct, *textIncAct, *textDecAct, *scopeAct, *infoAct, *helpAct, *prefsAct, *focusEditorAct, *focusLogsAct, *focusContextAct, *focusCuesAct, *focusPreferencesAct, *focusHelpListingAct, *focusHelpDetailsAct, *focusErrorsAct, *showLineNumbersAct, *showAutoCompletionAct, *showContextAct, *audioSafeAct, *audioTimingGuaranteesAct, *enableExternalSynthsAct, *mixerInvertStereoAct, *mixerForceMonoAct, *midiEnabledAct, *enableOSCServerAct, *allowRemoteOSCAct, *showLogAct, *showCuesAct, *logAutoScrollAct, *logCuesAct, *logSynthsAct, *clearOutputOnRunAct, *autoIndentOnRunAct, *showButtonsAct, *showTabsAct, *fullScreenAct, *lightThemeAct, *darkThemeAct, *proLightThemeAct, *proDarkThemeAct, *highContrastThemeAct, *showScopeLabelsAct, *showTitlesAct;
   QShortcut *runSc, *stopSc, *saveAsSc, *loadFileSc, *recSc, *textAlignSc, *textIncSc, *textDecSc, *scopeSc, *infoSc, *helpSc, *prefsSc, *focusEditorSc, *focusLogsSc, *focusContextSc, *focusCuesSc, *focusPreferencesSc, *focusHelpListingSc, *focusHelpDetailsSc, *focusErrorsSc;
         QActionGroup *langActionGroup;
 
