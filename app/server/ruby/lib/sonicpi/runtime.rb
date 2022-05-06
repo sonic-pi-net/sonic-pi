@@ -119,17 +119,10 @@ module SonicPi
       __system_thread_locals.set :sonic_pi_spider_beat, new_beat.to_f
     end
 
-    def __reset_spider_time_and_beat!
-      if __in_link_bpm_mode
-        clock_time, new_beat = @tau_api.link_current_time_and_beat
-        __system_thread_locals.set :sonic_pi_spider_time, clock_time
-        __system_thread_locals.set :sonic_pi_spider_beat, new_beat
-        __system_thread_locals.set :sonic_pi_spider_start_time, clock_time
-      else
-        t = Time.now.to_r
-        __change_spider_time_and_beat!(t, 0)
-        __system_thread_locals.set :sonic_pi_spider_start_time, t
-      end
+    def __init_spider_time_and_beat!
+      t = Time.now.to_f
+      __change_spider_time_and_beat!(t, 0)
+      __system_thread_locals.set :sonic_pi_spider_start_time, t
     end
 
     def __change_spider_bpm_time_and_beat!(bpm, time, beat)
@@ -867,7 +860,7 @@ module SonicPi
           @life_hooks.init(id, {:thread => Thread.current})
 
           ## fix this for link
-          __reset_spider_time_and_beat!
+          __init_spider_time_and_beat!
           if num_running_jobs == 1
             # Force a GC collection before we start making music!
             GC.start
