@@ -221,7 +221,7 @@ module SonicPi
         __system_thread_locals.set :sonic_pi_spider_job_id, id
         __system_thread_locals.set :sonic_pi_spider_silent, silent
         __system_thread_locals.set :sonic_pi_spider_job_info, info
-        __reset_spider_time_and_beat!
+        __init_spider_time_and_beat!
         __system_thread_locals.set_local :sonic_pi_local_spider_delayed_messages, []
 
         __set_default_system_thread_locals!
