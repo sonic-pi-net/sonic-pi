@@ -156,6 +156,13 @@ loop(State) ->
             maps:get(cue_server, State) ! {api_reply, UUID, [Phase]},
             ?MODULE:loop(State);
 
+        {link_rpc, UUID, get_phase_and_beat_at_time, Time, Quantum} ->
+            Phase = sp_link:get_phase_at_time(Time, float(Quantum)),
+            Beat = sp_link:get_beat_at_time(Time, float(Quantum)),
+            logger:debug("Received link rpc get_phase_and_beat_at_time [~p, ~p]", [Phase, Beat]),
+            maps:get(cue_server, State) ! {api_reply, UUID, [Phase, Beat]},
+            ?MODULE:loop(State);
+
         {link_rpc, UUID, get_time_at_beat, Beat, Quantum} ->
             Time = sp_link:get_time_at_beat(float(Beat), float(Quantum)),
             logger:debug("Received link rpc get_time_at_beat [~p]", [Time]),

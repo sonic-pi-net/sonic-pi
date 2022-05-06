@@ -238,6 +238,11 @@ loop(State) ->
             send_to_link({link_rpc, UUID, get_phase_at_time, Time, Quantum}, State),
             ?MODULE:loop(State);
 
+        {cmd, ["/api-rpc", UUID, "/link-get-phase-and-beat-at-time", Time, Quantum]=Cmd} ->
+            debug_cmd(Cmd),
+            send_to_link({link_rpc, UUID, get_phase_and_beat_at_time, Time, Quantum}, State),
+            ?MODULE:loop(State);
+
         {cmd, ["/api-rpc", UUID, "/link-get-time-at-beat", Beat, Quantum]=Cmd} ->
             debug_cmd(Cmd),
             send_to_link({link_rpc, UUID, get_time_at_beat, Beat, Quantum}, State),
