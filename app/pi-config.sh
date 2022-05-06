@@ -2,16 +2,14 @@
 set -e # Quit script on error
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 WORKING_DIR="$(pwd)"
+
+args=("$@")
 config=""
 no_imgui=false
-
-# read the options
-
-TEMP=`getopt -o c:n --long config:,no-imgui -- "$@"`
-eval set -- "$TEMP"
+system_libs=false
 
 # extract options and their arguments into variables.
-while true ; do
+while [ -n "$1" ]; do
     case "$1" in
         -c|--config)
             case $2 in
@@ -30,8 +28,12 @@ while true ; do
             no_imgui=true
             shift
             ;;
+        -s|--system-libs|-o|--offline-build)
+            system_libs=true
+            shift
+            ;;
         --) shift ; break ;;
-        *) echo "Internal error!" ; exit 1 ;;
+        *) echo "Invalid argument: $1" ; exit 1 ;;
     esac
 done
 
@@ -41,12 +43,15 @@ mkdir -p "${SCRIPT_DIR}/build"
 echo "Generating makefiles..."
 cd "${SCRIPT_DIR}/build"
 
-if [ "$no_imgui" == true ]
-then
-    cmake -G "Unix Makefiles" -DBUILD_IMGUI_INTERFACE=OFF -DRASPBERRY_PI=1 -DCMAKE_BUILD_TYPE="$config" ..
-else
-    cmake -G "Unix Makefiles" -DBUILD_IMGUI_INTERFACE=ON -DRASPBERRY_PI=1 -DCMAKE_BUILD_TYPE="$config" ..
-fi
+option() {
+  if [ "$1" == "true" ] || [ "$1" == "!" ] || [ "$1" == "!false" ]; then
+    echo ON
+  else
+    echo OFF
+  fi
+}
+
+cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="$config" -DBUILD_IMGUI_INTERFACE="$(option "!$no_imgui")" -DUSE_SYSTEM_LIBS="$(option "$system_libs")" ..
 
 # Restore working directory as it was prior to this script running...
 cd "${WORKING_DIR}"
