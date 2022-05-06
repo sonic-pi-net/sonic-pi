@@ -501,7 +501,7 @@ QGroupBox:title
 QScrollBar:vertical
 {
     background: transparent;
-    width: 7dx;
+    width: 6dx;
 
 
 
@@ -522,6 +522,7 @@ QScrollBar::handle:vertical
     margin-right: 0dx;
     margin-bottom: 22dx;
     margin-left: 0dx;
+    border-radius: 3dx;
 }
 
 QScrollBar::add-line:vertical
@@ -559,6 +560,7 @@ QScrollBar::handle:horizontal
     background: scrollBarColor;
     min-width: 20dx;
     border: 2dx solid paneColor;
+    border-radius: 6dx;
 }
 
 QScrollBar::add-line:horizontal
