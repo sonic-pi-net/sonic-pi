@@ -3581,7 +3581,87 @@ You can see the 'buckets' that the numbers between 0 and 1 fall into with the fo
   cue :quux # cue is displayed in log
   "]
 
+      def link_sync(*args)
+        sync "/link/start" unless @tau_api.link_is_playing?
+        link(*args)
+      end
+      doc name:          :link_sync,
+          introduced:    Version.new(4,0,0),
+          summary:       "Use Ableton Link network metronome with automatic session and phase syncing.",
+          doc:           "Similar to link except it also waits for the link session to be playing. If it is, then it behaves identially to link. If the session is not playing, then link_sync will first wait until the session has started before then continuing as if just link had been called.
 
+See link for further details and usage.",
+         args:          [[:quantum, :number],
+                         [:phase, :number]],
+         opts:           nil,
+         accepts_block:  false,
+         requires_block: false,
+         examples: [""]
+
+      def link(*args)
+        params, opts = split_params_and_merge_opts_array(args)
+        quantum = params[0] || opts.fetch(:quantum, 4)
+        phase = params[1] || opts.fetch(:phase, 0)
+
+        # Schedule messages
+        __schedule_delayed_blocks_and_messages!
+
+        __system_thread_locals.set_local(:sonic_pi_spider_time_state_cache, [])
+        __system_thread_locals.set_local(:sonic_pi_local_last_sync, nil)
+        use_bpm :link
+
+        beat, time = @tau_api.link_get_beat_and_clock_time_at_phase(phase, quantum)
+
+        sat = current_sched_ahead_time
+
+        __system_thread_locals.set(:sonic_pi_spider_bpm, :link)
+        __change_spider_time_and_beat!(time - sat, beat)
+
+        new_vt = __get_spider_time.to_f
+        now = Time.now.to_f
+        t = (new_vt - now).to_f - 0.2
+        Kernel.sleep t if t > 0.2
+        __system_thread_locals.set(:sonic_pi_spider_slept, true)
+
+        ## reset control deltas now that time has advanced
+        __system_thread_locals.set_local :sonic_pi_local_control_deltas, {}
+      end
+      doc name:          :link,
+          introduced:    Version.new(4,0,0),
+          summary:       "Use Ableton Link network metronome with automatic phase syncing.",
+          doc:           "By default link waits for the start of the next bar of the shared network metronome link. You can choose how many beats there are in a bar by setting the quantum option and/or which beat to wait for by setting the phase option.
+
+By default, the phase to sync on is 0 and the quantum (max number of beats) is 4.
+
+Also switches BPM to :link mode so there is no explicit need to call use_bpm :link.  The time and beat set to match the network Link metronome.
+
+This function will block the current thread until the next matching phase as if `sleep` had been called with the exact sleep time
+
+If the quantum is 4 (the default) this suggests there are 4 beats in each bar. If the phase is set to 0 (also the default) this means that calling link will sleep until the very start of the next bar before continuing.
+
+This can be used to sync multiple instances of Sonic Pi running on different computers connected to the same network (via wifi or ethernet). It can also be used to share and coordinate time with other apps and devices. For a full list of link-compatible apps and devices see:  https://www.ableton.com/en/link/products/
+
+For other related link functions see link_sync, use_bpm :link, set_link_bpm!
+",
+          args:          [[:quantum, :number],
+                          [:phase, :number]],
+          opts:          nil,
+          accepts_block: false,
+          requires_block: false,
+          examples:      ["
+use_bpm 120      # bpm is at 120
+link             # wait for the start of the next bar before continuing
+                 # (where each bar has 4 beats)
+puts current_bpm #=> :link (not 120)
+  ",
+        "
+link 8 # wait for the start of the next bar
+       # (where each bar has 8 beats)
+",
+        "
+link 7, 2 # wait for the 2nd beat of the next bar
+          # (where each bar has 7 beats)
+"      ]
 
 
       def set_link_bpm!(bpm)

@@ -169,6 +169,18 @@ loop(State) ->
             maps:get(cue_server, State) ! {api_reply, UUID, [{int64, Time}]},
             ?MODULE:loop(State);
 
+        {link_rpc, UUID, get_beat_and_time_at_phase, Phase, Quantum} ->
+            FQ = float(Quantum),
+            TNow = sp_link:get_current_time_microseconds(),
+            TNowPhase = sp_link:get_phase_at_time(TNow, FQ),
+            TNowBeat = sp_link:get_beat_at_time(TNow, FQ),
+            NextWholeQuantum = (TNowBeat - TNowPhase) + Quantum,
+            NextBeat = NextWholeQuantum + Phase,
+            NextTime = sp_link:get_time_at_beat(NextBeat, FQ),
+            logger:debug("Received link rpc get_beat_and_time_at_phase [~p ~p]", [NextBeat, NextTime]),
+            maps:get(cue_server, State) ! {api_reply, UUID, [NextBeat, {int64, NextTime}]},
+            ?MODULE:loop(State);
+
         {link_set_is_playing, Enabled} ->
             TNow = sp_link:get_current_time_microseconds(),
             logger:debug("Received link set_is_playing [~p]", [Enabled]),

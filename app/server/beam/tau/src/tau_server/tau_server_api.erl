@@ -248,6 +248,11 @@ loop(State) ->
             send_to_link({link_rpc, UUID, get_time_at_beat, Beat, Quantum}, State),
             ?MODULE:loop(State);
 
+        {cmd, ["/api-rpc", UUID, "/link-get-beat-and-time-at-phase", Phase, Quantum]=Cmd} ->
+            debug_cmd(Cmd),
+            send_to_link({link_rpc, UUID, get_beat_and_time_at_phase, Phase, Quantum}, State),
+            ?MODULE:loop(State);
+
         %% link_set_is_playing needs to be within an a timestamped OSC bundle
 
         {cmd, ["/api-rpc", UUID, "/link-get-is-playing"]=Cmd} ->

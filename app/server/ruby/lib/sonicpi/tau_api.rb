@@ -147,6 +147,17 @@ module SonicPi
       res[0]
     end
 
+    def link_get_beat_and_time_at_phase(phase, quantum)
+      res = api_rpc("/link-get-beat-and-time-at-phase", phase, quantum)
+      res
+    end
+
+    def link_get_beat_and_clock_time_at_phase(phase, quantum)
+      beat, link_time = link_get_beat_and_time_at_phase(phase, quantum)
+      t_with_delta = (link_time + @link_time_delta_micros) / 1_000_000.0
+      [beat, t_with_delta]
+    end
+
     def link_get_clock_time_at_beat(beat, quantum = 4)
       link_time = link_get_time_at_beat(beat, quantum)
       t_with_delta = (link_time + @link_time_delta_micros) / 1_000_000.0
@@ -172,7 +183,7 @@ module SonicPi
       @tau_comms.send_ts(clock_time, "/link-set-is-playing", !!enabled)
     end
 
-    def link_get_is_playing
+    def link_is_playing?
       res = api_rpc("/link-get-is-playing")
       res[0]
     end

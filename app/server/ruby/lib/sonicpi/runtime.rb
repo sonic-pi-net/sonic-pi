@@ -162,6 +162,7 @@ module SonicPi
 
       if __in_link_bpm_mode
         new_time = @tau_api.link_get_clock_time_at_beat(new_beat)
+        new_time -=  __current_sched_ahead_time
         __change_spider_time_and_beat!(new_time, new_beat)
       else
         sleep_mul = __get_spider_sleep_mul
