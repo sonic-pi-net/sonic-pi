@@ -469,8 +469,6 @@ void MainWindow::setupWindowStructure()
       togglePrefs();
     });
 
-
-    connect(prefsWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updatePrefsIcon()));
     bool auto_indent = piSettings->auto_indent_on_run;
     for (int ws = 0; ws < workspace_max; ws++)
     {
