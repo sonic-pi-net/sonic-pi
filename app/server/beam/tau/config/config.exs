@@ -25,9 +25,9 @@ config :esbuild,
     args:
       ~w(js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),
     cd: Path.expand("../assets", __DIR__),
-    env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
-
-]
+    env: %{"NODE_PATH" => System.get_env("MIX_DEPS_PATH") || Path.expand("../deps", __DIR__)}
+  ],
+  path: System.get_env("MIX_ESBUILD_PATH")
 
 # Configures Elixir's Logger
 config :logger, :console,
@@ -48,7 +48,8 @@ config :tailwind,
       --output=../priv/static/assets/app.css
     ),
     cd: Path.expand("../assets", __DIR__)
-  ]
+  ],
+  path: System.get_env("MIX_TAILWINDCSS_PATH")
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

@@ -190,7 +190,7 @@ int main(int, char**)
     // - Remember that in C/C++ if you want to include a backslash \ in a string literal you need to write a double backslash \\ !
     //io.Fonts->AddFontDefault();
     ///io.Fonts->AddFontFromFileTTF("../../misc/fonts/Roboto-Medium.ttf", 16.0f);
-    io.Fonts->AddFontFromFileTTF(APP_ROOT "/gui/imgui/res/Cousine-Regular.ttf", 16.0f * vdpi);
+    io.Fonts->AddFontFromFileTTF(APP_INSTALL_ROOT "/gui/imgui/res/Cousine-Regular.ttf", 16.0f * vdpi);
     //io.Fonts->AddFontFromFileTTF("../../misc/fonts/DroidSans.ttf", 16.0f);
     //io.Fonts->AddFontFromFileTTF("../../misc/fonts/ProggyTiny.ttf", 10.0f);
     //ImFont* font = io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\ArialUni.ttf", 18.0f, NULL, io.Fonts->GetGlyphRangesJapanese());

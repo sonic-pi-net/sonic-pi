@@ -1,7 +1,6 @@
 #!/bin/bash
 
 if [ ! -d ~/.asdf ]; then
-
   echo "Installing asdf"
 
   git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.8.1
@@ -10,7 +9,7 @@ if [ ! -d ~/.asdf ]; then
   echo ". $HOME/.asdf/completions/asdf.bash" >> ~/.bashrc
 fi
 
-source ~/.asdf/asdf.sh 
+source ~/.asdf/asdf.sh
 asdf update
 asdf plugin-update --all
 

@@ -1,19 +1,6 @@
 #!/bin/bash
 set -e # Quit script on error
 
-while getopts ":n" opt; do
-  case $opt in
-    n)
-      no_imgui=true
-      echo "Running prebuild script without support for IMGUI-based GUI"
-      ;;
-    \?)
-      echo "Invalid option: -$OPTARG" >&2
-      exit 1
-      ;;
-  esac
-done
-
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 WORKING_DIR="$(pwd)"
 
@@ -30,12 +17,7 @@ fi
 
 cd "${SCRIPT_DIR}"
 
-if [ "$no_imgui" == true ]
-then
-  "${SCRIPT_DIR}"/mac-pre-vcpkg.sh -n
-else
-  "${SCRIPT_DIR}"/mac-pre-vcpkg.sh
-fi
+"${SCRIPT_DIR}"/mac-pre-vcpkg.sh "$@"
 
 "${SCRIPT_DIR}"/external/mac_build_externals.sh
 

@@ -91,7 +91,7 @@ void start_sonic_pi()
 {
     sonic.spClient = std::make_shared<SPClient>();
     sonic.spApi = std::make_shared<SonicPiAPI>(sonic.spClient.get(), APIProtocol::UDP, LogOption::File);
-    sonic.spApi->Init(fs::path(APP_ROOT) / "..");
+    sonic.spApi->Init(fs::path(APP_INSTALL_ROOT) / "..");
 }
 
 bool sync_sonic_pi()

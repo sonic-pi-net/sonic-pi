@@ -1,17 +1,25 @@
 #!/bin/bash
 set -e # Quit script on error
 
-while getopts ":n" opt; do
-  case $opt in
-    n)
-      no_imgui=true
-      echo "Running prebuild script without support for IMGUI-based GUI"
-      ;;
-    \?)
-      echo "Invalid option: -$OPTARG" >&2
-      exit 1
-      ;;
-  esac
+args=("$@")
+no_imgui=false
+
+# extract options and their arguments into variables.
+while [ -n "$1" ]; do
+    case "$1" in
+        -c|--config)
+            shift 2
+            ;;
+        -n|--no-imgui)
+            no_imgui=true
+            shift
+            ;;
+        -s|--system-libs|-o|--offline-build)
+            shift
+            ;;
+        --) shift ; break ;;
+        *) echo "Invalid argument: $1" ; exit 1 ;;
+    esac
 done
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -34,8 +42,7 @@ fi
 
 cd vcpkg
 
-if [ "$no_imgui" == true ]
-then
+if [ "$no_imgui" == true ]; then
     ./vcpkg install kissfft crossguid platform-folders reproc catch2 --recurse
 else
     ./vcpkg install kissfft fmt crossguid sdl2[x11] gl3w reproc gsl-lite concurrentqueue platform-folders catch2 --recurse
