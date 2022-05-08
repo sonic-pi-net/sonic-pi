@@ -26,7 +26,7 @@ jobs:
       if: runner.os == 'Linux'
       run: |
         sudo apt update
-        sudo apt install -y libasound2-dev librtmidi-dev
+        sudo apt install -y libasound2-dev
 
     - name: Linux Elixir
       uses: erlef/setup-beam@v1
