@@ -78,8 +78,8 @@ struct StartStopState
   {
     using namespace std;
     using namespace discovery;
-    auto result =
-      Deserialize<StartStopStateTuple>::fromNetworkByteStream(std::move(begin), std::move(end));
+    auto result = Deserialize<StartStopStateTuple>::fromNetworkByteStream(
+      std::move(begin), std::move(end));
     auto state =
       StartStopState{get<0>(result.first), get<1>(result.first), get<2>(result.first)};
     return make_pair(std::move(state), std::move(result.second));

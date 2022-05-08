@@ -58,21 +58,10 @@ public:
   PingResponder(const PingResponder&) = delete;
   PingResponder(PingResponder&&) = delete;
 
-  ~PingResponder()
-  {
-    // post the release of the impl object into the IoContext so that
-    // it happens in the same thread as its handlers
-    auto pImpl = mpImpl;
-    mIo->async([pImpl]() mutable { pImpl.reset(); });
-  }
-
   void updateNodeState(const SessionId& sessionId, const GhostXForm& xform)
   {
-    auto pImpl = mpImpl;
-    mIo->async([pImpl, sessionId, xform] {
-      pImpl->mSessionId = std::move(sessionId);
-      pImpl->mGhostXForm = std::move(xform);
-    });
+    mpImpl->mSessionId = std::move(sessionId);
+    mpImpl->mGhostXForm = std::move(xform);
   }
 
   asio::ip::udp::endpoint endpoint() const

@@ -20,9 +20,9 @@
 #pragma once
 
 #include <ableton/link/GhostXForm.hpp>
-#include <ableton/link/Kalman.hpp>
 #include <ableton/link/LinearRegression.hpp>
 #include <ableton/link/Measurement.hpp>
+#include <ableton/link/Median.hpp>
 #include <ableton/link/PeerState.hpp>
 #include <ableton/link/PingResponder.hpp>
 #include <ableton/link/SessionId.hpp>
@@ -40,7 +40,6 @@ class MeasurementService
 {
 public:
   using IoType = util::Injected<IoContext>;
-  using Point = std::pair<double, double>;
   using MeasurementInstance = Measurement<Clock, IoContext>;
 
   MeasurementService(asio::ip::address_v4 address,
@@ -61,14 +60,6 @@ public:
   MeasurementService(const MeasurementService&) = delete;
   MeasurementService(MeasurementService&&) = delete;
 
-  ~MeasurementService()
-  {
-    // Clear the measurement map in the IoContext so that whatever
-    // cleanup code executes in response to the destruction of the
-    // measurement objects still have access to the IoContext.
-    mIo->async([this] { mMeasurementMap.clear(); });
-  }
-
   void updateNodeState(const SessionId& sessionId, const GhostXForm& xform)
   {
     mPingResponder.updateNodeState(sessionId, xform);
@@ -85,47 +76,29 @@ public:
   {
     using namespace std;
 
-    mIo->async([this, state, handler] {
-      const auto nodeId = state.nodeState.nodeId;
-      auto addr = mPingResponder.endpoint().address().to_v4();
-      auto callback = CompletionCallback<Handler>{*this, nodeId, handler};
+    const auto nodeId = state.nodeState.nodeId;
+    auto addr = mPingResponder.endpoint().address().to_v4();
+    auto callback = CompletionCallback<Handler>{*this, nodeId, handler};
 
-      try
-      {
-
-        mMeasurementMap[nodeId] =
-          std::unique_ptr<MeasurementInstance>(new MeasurementInstance{
-            state, std::move(callback), std::move(addr), mClock, mIo->clone()});
-      }
-      catch (const runtime_error& err)
-      {
-        info(mIo->log()) << "gateway@" + addr.to_string()
-                         << " Failed to measure. Reason: " << err.what();
-        handler(GhostXForm{});
-      }
-    });
-  }
-
-  static GhostXForm filter(
-    std::vector<Point>::const_iterator begin, std::vector<Point>::const_iterator end)
-  {
-    using namespace std;
-    using std::chrono::microseconds;
-
-    Kalman<5> kalman;
-    for (auto it = begin; it != end; ++it)
+    try
     {
-      kalman.iterate(it->second - it->first);
+      mMeasurementMap[nodeId] =
+        std::unique_ptr<MeasurementInstance>(new MeasurementInstance{
+          state, std::move(callback), std::move(addr), mClock, mIo});
     }
-
-    return GhostXForm{1, microseconds(llround(kalman.getValue()))};
+    catch (const runtime_error& err)
+    {
+      info(mIo->log()) << "gateway@" + addr.to_string()
+                       << " Failed to measure. Reason: " << err.what();
+      handler(GhostXForm{});
+    }
   }
 
 private:
   template <typename Handler>
   struct CompletionCallback
   {
-    void operator()(const std::vector<Point> data)
+    void operator()(std::vector<double>& data)
     {
       using namespace std;
       using std::chrono::microseconds;
@@ -137,21 +110,19 @@ private:
       auto nodeId = mNodeId;
       auto handler = mHandler;
       auto& measurementMap = mMeasurementService.mMeasurementMap;
-      mMeasurementService.mIo->async([nodeId, handler, &measurementMap, data] {
-        const auto it = measurementMap.find(nodeId);
-        if (it != measurementMap.end())
+      const auto it = measurementMap.find(nodeId);
+      if (it != measurementMap.end())
+      {
+        if (data.empty())
         {
-          if (data.empty())
-          {
-            handler(GhostXForm{});
-          }
-          else
-          {
-            handler(MeasurementService::filter(begin(data), end(data)));
-          }
-          measurementMap.erase(it);
+          handler(GhostXForm{});
         }
-      });
+        else
+        {
+          handler(GhostXForm{1, microseconds(llround(median(data.begin(), data.end())))});
+        }
+        measurementMap.erase(it);
+      }
     }
 
     MeasurementService& mMeasurementService;

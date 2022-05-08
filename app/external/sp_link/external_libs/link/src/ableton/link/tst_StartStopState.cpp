@@ -25,7 +25,7 @@ namespace ableton
 namespace link
 {
 
-TEST_CASE("StartStopState | RoundtripByteStreamEncoding", "[StartStopState]")
+TEST_CASE("StartStopState | RoundtripByteStreamEncoding")
 {
   const auto originalState =
     StartStopState{true, Beats{1234.}, std::chrono::microseconds{5678}};

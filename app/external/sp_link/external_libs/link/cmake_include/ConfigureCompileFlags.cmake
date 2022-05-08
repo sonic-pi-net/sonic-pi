@@ -32,6 +32,7 @@ if(UNIX)
       "-Wno-disabled-macro-expansion"
       "-Wno-exit-time-destructors"
       "-Wno-padded"
+      "-Wno-poison-system-directories"
       "-Wno-reserved-id-macro"
       "-Wno-unknown-warning-option"
       "-Wno-unused-member-function"
@@ -70,6 +71,9 @@ elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
     add_definitions("/DLINK_BUILD_VLD=1")
   else()
     add_definitions("/DLINK_BUILD_VLD=0")
+  endif()
+  if(LINK_WINDOWS_SETTHREADDESCRIPTION)
+    add_definitions("/DLINK_WINDOWS_SETTHREADDESCRIPTION")
   endif()
 
   set(build_flags_DEBUG_LIST

@@ -73,6 +73,7 @@ void printTask(void* userParam)
 
 void tickTask(void* userParam)
 {
+  SemaphoreHandle_t handle = static_cast<SemaphoreHandle_t>(userParam);
   ableton::Link link(120.0f);
   link.enable(true);
 
@@ -85,7 +86,7 @@ void tickTask(void* userParam)
 
   while (true)
   {
-    xSemaphoreTake(userParam, portMAX_DELAY);
+    xSemaphoreTake(handle, portMAX_DELAY);
 
     const auto state = link.captureAudioSessionState();
     const auto phase = state.phaseAtTime(link.clock().micros(), 1.);
@@ -97,7 +98,7 @@ void tickTask(void* userParam)
 extern "C" void app_main()
 {
   ESP_ERROR_CHECK(nvs_flash_init());
-  tcpip_adapter_init();
+  esp_netif_init();
   ESP_ERROR_CHECK(esp_event_loop_create_default());
   ESP_ERROR_CHECK(example_connect());
 

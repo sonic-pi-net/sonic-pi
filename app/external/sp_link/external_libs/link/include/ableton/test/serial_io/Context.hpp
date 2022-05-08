@@ -77,11 +77,6 @@ public:
     mpScheduler->async(std::move(handler));
   }
 
-  Context clone()
-  {
-    return {mNow, mIfAddrs, mpScheduler->makeChild()};
-  }
-
   using Timer = serial_io::Timer;
 
   Timer makeTimer()

@@ -56,8 +56,9 @@ struct MeasurementEndpointV4
       discovery::Deserialize<std::uint32_t>::fromNetworkByteStream(std::move(begin), end);
     auto portRes = discovery::Deserialize<std::uint16_t>::fromNetworkByteStream(
       std::move(addrRes.second), end);
-    return make_pair(MeasurementEndpointV4{{asio::ip::address_v4{std::move(addrRes.first)},
-                       std::move(portRes.first)}},
+    return make_pair(
+      MeasurementEndpointV4{
+        {asio::ip::address_v4{std::move(addrRes.first)}, std::move(portRes.first)}},
       std::move(portRes.second));
   }
 

@@ -1,4 +1,4 @@
-/* Copyright 2016, Ableton AG, Berlin. All rights reserved.
+/* Copyright 2021, Ableton AG, Berlin. All rights reserved.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -17,52 +17,36 @@
  *  please contact <link-devs@ableton.com>.
  */
 
-#include <ableton/link/Kalman.hpp>
-#include <ableton/test/CatchWrapper.hpp>
-#include <array>
-#include <vector>
+#pragma once
+
+#include <processthreadsapi.h>
+#include <thread>
+#include <utility>
 
 namespace ableton
 {
-namespace link
+namespace platforms
+{
+namespace windows
 {
 
-TEST_CASE("Kalman | Check1", "[Kalman]")
+struct ThreadFactory
 {
-  int peerTimeDiff = 0;
-  Kalman<16> filter;
-
-  for (int i = 0; i < 5; ++i)
+  template <typename Callable, typename... Args>
+  static std::thread makeThread(std::string name, Callable&& f, Args&&... args)
   {
-    filter.iterate(peerTimeDiff);
+    return std::thread(
+      [](std::string name, Callable&& f, Args&&... args) {
+        assert(name.length() < 20);
+        wchar_t nativeName[20];
+        mbstowcs(nativeName, name.c_str(), name.length() + 1);
+        SetThreadDescription(GetCurrentThread(), nativeName);
+        f(args...);
+      },
+      std::move(name), std::forward<Callable>(f), std::forward<Args>(args)...);
   }
+};
 
-  CHECK(peerTimeDiff == Approx(filter.getValue()));
-
-  filter.iterate(100);
-
-  CHECK(peerTimeDiff != Approx(filter.getValue()));
-}
-
-TEST_CASE("Kalman | Check2", "[Kalman]")
-{
-  double peerTimeDiff = 3e11;
-  Kalman<5> filter;
-
-  for (int i = 0; i < 15; ++i)
-  {
-    filter.iterate(peerTimeDiff);
-  }
-
-  CHECK(peerTimeDiff == Approx(filter.getValue()));
-
-  for (int i = 0; i < 15; ++i)
-  {
-    filter.iterate(11);
-  }
-
-  CHECK(peerTimeDiff != Approx(filter.getValue()));
-}
-
-} // namespace link
+} // namespace windows
+} // namespace platforms
 } // namespace ableton

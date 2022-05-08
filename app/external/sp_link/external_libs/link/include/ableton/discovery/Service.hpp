@@ -46,9 +46,9 @@ public:
   // Asynchronously operate on the current set of peer gateways. The
   // handler will be invoked in the service's io context.
   template <typename Handler>
-  void withGatewaysAsync(Handler handler)
+  void withGateways(Handler handler)
   {
-    mGateways.withGatewaysAsync(std::move(handler));
+    mGateways.withGateways(std::move(handler));
   }
 
   void updateNodeState(const NodeState& state)
