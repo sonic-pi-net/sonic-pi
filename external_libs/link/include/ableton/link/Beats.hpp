@@ -118,7 +118,7 @@ struct Beats
   }
 
 private:
-    std::int64_t mValue = 0;
+  std::int64_t mValue = 0;
 };
 
 } // namespace link

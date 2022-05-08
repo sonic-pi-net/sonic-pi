@@ -21,6 +21,8 @@
 
 #include <ableton/link/LinearRegression.hpp>
 #include <chrono>
+#include <cmath>
+#include <utility>
 #include <vector>
 
 namespace ableton

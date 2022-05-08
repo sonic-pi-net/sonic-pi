@@ -372,8 +372,7 @@ public:
   };
 
 private:
-  using Controller = ableton::link::Controller<
-    link::PeerCountCallback,
+  using Controller = ableton::link::Controller<link::PeerCountCallback,
     link::TempoCallback,
     link::StartStopStateCallback,
     Clock,

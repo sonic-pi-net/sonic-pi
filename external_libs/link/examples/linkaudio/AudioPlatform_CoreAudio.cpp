@@ -50,7 +50,8 @@ OSStatus AudioPlatform::audioCallback(void* inRefCon,
   AudioEngine* engine = static_cast<AudioEngine*>(inRefCon);
 
   const auto bufferBeginAtOutput =
-    engine->mLink.clock().ticksToMicros(inTimeStamp->mHostTime) + engine->mOutputLatency.load();
+    engine->mLink.clock().ticksToMicros(inTimeStamp->mHostTime)
+    + engine->mOutputLatency.load();
 
   engine->audioCallback(bufferBeginAtOutput, inNumberFrames);
 

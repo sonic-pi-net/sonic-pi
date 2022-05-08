@@ -19,8 +19,8 @@
 
 #include <ableton/platforms/asio/AsioWrapper.hpp>
 #include <arpa/inet.h>
+#include <esp_netif.h>
 #include <net/if.h>
-#include <tcpip_adapter.h>
 #include <vector>
 
 namespace ableton
@@ -36,11 +36,19 @@ struct ScanIpIfAddrs
   std::vector<::asio::ip::address> operator()()
   {
     std::vector<::asio::ip::address> addrs;
-    tcpip_adapter_ip_info_t ip_info;
-    if (ESP_OK == tcpip_adapter_get_ip_info(TCPIP_ADAPTER_IF_STA, &ip_info)
-        && tcpip_adapter_is_netif_up(TCPIP_ADAPTER_IF_STA) && ip_info.ip.addr)
+    // Get first network interface
+    esp_netif_t* esp_netif = esp_netif_next(NULL);
+    while (esp_netif)
     {
-      addrs.emplace_back(::asio::ip::address_v4(ntohl(ip_info.ip.addr)));
+      // Check if interface is active
+      if (esp_netif_is_netif_up(esp_netif))
+      {
+        esp_netif_ip_info_t ip_info;
+        esp_netif_get_ip_info(esp_netif, &ip_info);
+        addrs.emplace_back(::asio::ip::address_v4(ntohl(ip_info.ip.addr)));
+      }
+      // Get next network interface
+      esp_netif = esp_netif_next(esp_netif);
     }
     return addrs;
   }

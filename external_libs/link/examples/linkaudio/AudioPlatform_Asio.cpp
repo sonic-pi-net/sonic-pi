@@ -220,10 +220,10 @@ void AudioPlatform::createAsioBuffers()
             << ", output latency: " << outputLatency << "usec" << std::endl;
 
   const double bufferSize = driverInfo.preferredSize / driverInfo.sampleRate;
-  auto outputLatencyMicros =  
+  auto outputLatencyMicros =
     std::chrono::microseconds(llround(outputLatency / driverInfo.sampleRate));
   outputLatencyMicros += std::chrono::microseconds(llround(1.0e6 * bufferSize));
-  
+
   mEngine.mOutputLatency.store(outputLatencyMicros);
 
   std::clog << "Total latency: " << outputLatencyMicros.count() << "usec" << std::endl;

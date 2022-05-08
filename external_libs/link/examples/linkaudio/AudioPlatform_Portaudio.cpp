@@ -57,7 +57,7 @@ int AudioPlatform::audioCallback(const void* /*inputBuffer*/,
   const auto hostTime =
     platform.mHostTimeFilter.sampleTimeToHostTime(platform.mSampleTime);
 
-  platform.mSampleTime += inNumFrames;
+  platform.mSampleTime += static_cast<double>(inNumFrames);
 
   const auto bufferBeginAtOutput = hostTime + engine.mOutputLatency.load();
 
@@ -79,7 +79,7 @@ void AudioPlatform::initialize()
   {
     std::cerr << "Could not initialize Audio Engine. " << result << std::endl;
     std::terminate();
-  };
+  }
 
   PaStreamParameters outputParameters;
   outputParameters.device = Pa_GetDefaultOutputDevice();

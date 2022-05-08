@@ -11,9 +11,9 @@ project(LinkExamples)
 if(WIN32)
   function(configure_asio asio_sdk_path_OUT)
     # ASIO-related path/file variables
-    set(asio_download_root "https://www.steinberg.net/sdk_downloads")
-    set(asio_file_name "asiosdk2.3.zip")
-    set(asio_dir_name "ASIOSDK2.3")
+    set(asio_download_root "https:/download.steinberg.net/sdk_downloads")
+    set(asio_file_name "asiosdk_2.3.3_2019-06-14.zip")
+    set(asio_dir_name "asiosdk_2.3.3_2019-06-14")
     set(asio_working_dir "${CMAKE_BINARY_DIR}/modules")
     set(asio_output_path "${asio_working_dir}/${asio_file_name}")
 
@@ -71,7 +71,7 @@ elseif(WIN32)
       linkaudio/AudioPlatform_Wasapi.cpp
     )
   endif()
-elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+elseif(CMAKE_SYSTEM_NAME MATCHES "Linux|kFreeBSD|GNU")
   if(LINK_BUILD_JACK)
     set(linkhut_audio_SOURCES
       linkaudio/AudioPlatform_Jack.hpp
@@ -96,7 +96,7 @@ source_group("Audio Sources" FILES ${linkhut_audio_SOURCES})
 #
 
 function(configure_linkhut_executable target)
-  if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+  if(CMAKE_SYSTEM_NAME MATCHES "Linux|kFreeBSD|GNU")
     target_link_libraries(${target} atomic pthread)
   endif()
 
@@ -109,7 +109,7 @@ function(configure_linkhut_audio_sources target)
     target_compile_definitions(${target} PRIVATE
       -DLINKHUT_AUDIO_PLATFORM_COREAUDIO=1
     )
-  elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+  elseif(CMAKE_SYSTEM_NAME MATCHES "Linux|kFreeBSD|GNU")
     if(LINK_BUILD_JACK)
       target_link_libraries(${target} jack)
       target_compile_definitions(${target} PRIVATE

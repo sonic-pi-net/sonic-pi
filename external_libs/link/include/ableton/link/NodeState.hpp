@@ -62,7 +62,8 @@ struct NodeState
       [&nodeState](SessionMembership membership) {
         nodeState.sessionId = std::move(membership.sessionId);
       },
-      [&nodeState](StartStopState ststst) { nodeState.startStopState = std::move(ststst); });
+      [&nodeState](
+        StartStopState ststst) { nodeState.startStopState = std::move(ststst); });
     return nodeState;
   }
 

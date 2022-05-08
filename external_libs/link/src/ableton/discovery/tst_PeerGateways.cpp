@@ -47,12 +47,9 @@ struct Factory
   }
 };
 
-const asio::ip::address addr1 = asio::ip::address::from_string("192.192.192.1");
-
-const asio::ip::address addr2 = asio::ip::address::from_string("192.192.192.2");
 
 template <typename Gateways>
-void expectGatewaysAsync(
+void expectGateways(
   Gateways& gateways, test::serial_io::Fixture& io, std::vector<asio::ip::address> addrs)
 
 {
@@ -60,7 +57,7 @@ void expectGatewaysAsync(
   using GatewayIt = typename Gateways::GatewayMap::iterator;
   bool bTested = false;
 
-  gateways.withGatewaysAsync([addrs, &bTested](GatewayIt begin, const GatewayIt end) {
+  gateways.withGateways([addrs, &bTested](GatewayIt begin, const GatewayIt end) {
     bTested = true;
     REQUIRE(static_cast<size_t>(distance(begin, end)) == addrs.size());
     std::size_t i = 0;
@@ -75,68 +72,60 @@ void expectGatewaysAsync(
 
 } // anonymous namespace
 
-TEST_CASE("PeerGateways | EmptyIfNoInterfaces", "[PeerGateways]")
+TEST_CASE("PeerGateways")
 {
+  const asio::ip::address addr1 = asio::ip::address::from_string("192.192.192.1");
+  const asio::ip::address addr2 = asio::ip::address::from_string("192.192.192.2");
+
   test::serial_io::Fixture io;
   auto pGateways = makePeerGateways(
     std::chrono::seconds(2), NodeState{}, Factory{}, util::injectVal(io.makeIoContext()));
-  pGateways->enable(true);
-  expectGatewaysAsync(*pGateways, io, {});
-}
 
+  SECTION("EmptyIfNoInterfaces")
+  {
+    pGateways->enable(true);
+    expectGateways(*pGateways, io, {});
+  }
 
-TEST_CASE("PeerGateways | MatchesAfterInitialScan", "[PeerGateways]")
-{
-  test::serial_io::Fixture io;
-  io.setNetworkInterfaces({addr1, addr2});
-  auto pGateways = makePeerGateways(
-    std::chrono::seconds(2), NodeState{}, Factory{}, util::injectVal(io.makeIoContext()));
-  pGateways->enable(true);
-  expectGatewaysAsync(*pGateways, io, {addr1, addr2});
-}
+  SECTION("MatchesAfterInitialScan")
+  {
+    io.setNetworkInterfaces({addr1, addr2});
+    pGateways->enable(true);
+    expectGateways(*pGateways, io, {addr1, addr2});
+  }
 
-TEST_CASE("PeerGateways | GatewayAppears", "[PeerGateways]")
-{
-  test::serial_io::Fixture io;
-  io.setNetworkInterfaces({addr1});
+  SECTION("GatewayAppears")
+  {
+    io.setNetworkInterfaces({addr1});
+    pGateways->enable(true);
+    expectGateways(*pGateways, io, {addr1});
 
-  auto pGateways = makePeerGateways(
-    std::chrono::seconds(2), NodeState{}, Factory{}, util::injectVal(io.makeIoContext()));
-  pGateways->enable(true);
-  expectGatewaysAsync(*pGateways, io, {addr1});
+    io.setNetworkInterfaces({addr1, addr2});
+    io.advanceTime(std::chrono::seconds(3));
+    expectGateways(*pGateways, io, {addr1, addr2});
+  }
 
-  io.setNetworkInterfaces({addr1, addr2});
-  io.advanceTime(std::chrono::seconds(3));
-  expectGatewaysAsync(*pGateways, io, {addr1, addr2});
-}
+  SECTION("GatewayDisappears")
+  {
+    io.setNetworkInterfaces({addr1, addr2});
+    pGateways->enable(true);
+    expectGateways(*pGateways, io, {addr1, addr2});
 
-TEST_CASE("PeerGateways | GatewayDisappears", "[PeerGateways]")
-{
-  test::serial_io::Fixture io;
-  io.setNetworkInterfaces({addr1, addr2});
+    io.setNetworkInterfaces({addr1});
+    io.advanceTime(std::chrono::seconds(3));
+    expectGateways(*pGateways, io, {addr1});
+  }
 
-  auto pGateways = makePeerGateways(
-    std::chrono::seconds(2), NodeState{}, Factory{}, util::injectVal(io.makeIoContext()));
-  pGateways->enable(true);
-  expectGatewaysAsync(*pGateways, io, {addr1, addr2});
+  SECTION("GatewayChangesAddress")
+  {
+    io.setNetworkInterfaces({addr1});
+    pGateways->enable(true);
+    expectGateways(*pGateways, io, {addr1});
 
-  io.setNetworkInterfaces({addr1});
-  io.advanceTime(std::chrono::seconds(3));
-  expectGatewaysAsync(*pGateways, io, {addr1});
-}
-
-TEST_CASE("PeerGateways | GatewayChangesAddress", "[PeerGateways]")
-{
-  test::serial_io::Fixture io;
-  io.setNetworkInterfaces({addr1});
-  auto pGateways = makePeerGateways(
-    std::chrono::seconds(2), NodeState{}, Factory{}, util::injectVal(io.makeIoContext()));
-  pGateways->enable(true);
-  expectGatewaysAsync(*pGateways, io, {addr1});
-
-  io.setNetworkInterfaces({addr2});
-  io.advanceTime(std::chrono::seconds(3));
-  expectGatewaysAsync(*pGateways, io, {addr2});
+    io.setNetworkInterfaces({addr2});
+    io.advanceTime(std::chrono::seconds(3));
+    expectGateways(*pGateways, io, {addr2});
+  }
 }
 
 } // namespace discovery

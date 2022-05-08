@@ -25,6 +25,7 @@
 #include <ableton/platforms/asio/LockFreeCallbackDispatcher.hpp>
 #include <ableton/platforms/asio/Socket.hpp>
 #include <thread>
+#include <utility>
 
 namespace ableton
 {
@@ -32,8 +33,21 @@ namespace platforms
 {
 namespace asio
 {
+namespace
+{
 
-template <typename ScanIpIfAddrs, typename LogT>
+struct ThreadFactory
+{
+  template <typename Callable, typename... Args>
+  static std::thread makeThread(std::string, Callable&& f, Args&&... args)
+  {
+    return std::thread(std::forward<Callable>(f), std::forward<Args>(args)...);
+  }
+};
+
+} // namespace
+
+template <typename ScanIpIfAddrs, typename LogT, typename ThreadFactoryT = ThreadFactory>
 class Context
 {
 public:
@@ -41,7 +55,8 @@ public:
   using Log = LogT;
 
   template <typename Handler, typename Duration>
-  using LockFreeCallbackDispatcher = LockFreeCallbackDispatcher<Handler, Duration>;
+  using LockFreeCallbackDispatcher =
+    LockFreeCallbackDispatcher<Handler, Duration, ThreadFactoryT>;
 
   template <std::size_t BufferSize>
   using Socket = asio::Socket<BufferSize>;
@@ -56,22 +71,22 @@ public:
     : mpService(new ::asio::io_service())
     , mpWork(new ::asio::io_service::work(*mpService))
   {
-    mThread =
-      std::thread{[](::asio::io_service& service, ExceptionHandler handler) {
-                    for (;;)
-                    {
-                      try
-                      {
-                        service.run();
-                        break;
-                      }
-                      catch (const typename ExceptionHandler::Exception& exception)
-                      {
-                        handler(exception);
-                      }
-                    }
-                  },
-        std::ref(*mpService), std::move(exceptHandler)};
+    mThread = ThreadFactoryT::makeThread("Link Main",
+      [](::asio::io_service& service, ExceptionHandler handler) {
+        for (;;)
+        {
+          try
+          {
+            service.run();
+            break;
+          }
+          catch (const typename ExceptionHandler::Exception& exception)
+          {
+            handler(exception);
+          }
+        }
+      },
+      std::ref(*mpService), std::move(exceptHandler));
   }
 
   Context(const Context&) = delete;
@@ -152,17 +167,6 @@ public:
   void async(Handler handler)
   {
     mpService->post(std::move(handler));
-  }
-
-  Context clone() const
-  {
-    return {};
-  }
-
-  template <typename ExceptionHandler>
-  Context clone(ExceptionHandler handler) const
-  {
-    return Context{std::move(handler)};
   }
 
 private:

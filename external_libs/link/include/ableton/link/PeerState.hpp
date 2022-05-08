@@ -75,8 +75,10 @@ struct PeerState
     using namespace std;
     auto peerState = PeerState{NodeState::fromPayload(std::move(id), begin, end), {}};
 
-    discovery::parsePayload<MeasurementEndpointV4>(std::move(begin), std::move(end),
-      [&peerState](MeasurementEndpointV4 me4) { peerState.endpoint = std::move(me4.ep); });
+    discovery::parsePayload<MeasurementEndpointV4>(
+      std::move(begin), std::move(end), [&peerState](MeasurementEndpointV4 me4) {
+        peerState.endpoint = std::move(me4.ep);
+      });
     return peerState;
   }
 

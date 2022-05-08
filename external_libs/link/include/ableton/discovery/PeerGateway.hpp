@@ -242,8 +242,8 @@ IpV4Gateway<PeerObserver, NodeState, IoContext> makeIpV4Gateway(
 
   auto iface = makeIpV4Interface<v1::kMaxMessageSize>(injectRef(*io), addr);
 
-  auto messenger =
-    makeUdpMessenger(injectVal(std::move(iface)), std::move(state), injectRef(*io), ttl, ttlRatio);
+  auto messenger = makeUdpMessenger(
+    injectVal(std::move(iface)), std::move(state), injectRef(*io), ttl, ttlRatio);
   return {injectVal(std::move(messenger)), std::move(observer), std::move(io)};
 }
 

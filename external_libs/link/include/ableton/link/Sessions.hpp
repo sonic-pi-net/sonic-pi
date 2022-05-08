@@ -248,15 +248,11 @@ private:
       const SessionId& sessionId = mSessionId;
       if (xform == GhostXForm{})
       {
-        mSessions.mIo->async([&sessions, sessionId] {
-          sessions.handleFailedMeasurement(std::move(sessionId));
-        });
+        sessions.handleFailedMeasurement(std::move(sessionId));
       }
       else
       {
-        mSessions.mIo->async([&sessions, sessionId, xform] {
-          sessions.handleSuccessfulMeasurement(std::move(sessionId), std::move(xform));
-        });
+        sessions.handleSuccessfulMeasurement(std::move(sessionId), std::move(xform));
       }
     }
 
@@ -297,7 +293,8 @@ Sessions<Peers, MeasurePeer, JoinSessionCallback, IoContext, Clock> makeSessions
   Clock clock)
 {
   using namespace std;
-  return {std::move(init), std::move(peers), std::move(measure), std::move(join), std::move(io), std::move(clock)};
+  return {std::move(init), std::move(peers), std::move(measure), std::move(join),
+    std::move(io), std::move(clock)};
 }
 
 } // namespace link

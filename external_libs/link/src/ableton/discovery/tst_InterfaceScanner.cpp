@@ -39,46 +39,51 @@ struct TestCallback
   std::vector<std::vector<asio::ip::address>> addrRanges;
 };
 
-// some test addresses
-const asio::ip::address addr1 = asio::ip::address::from_string("123.123.123.1");
-const asio::ip::address addr2 = asio::ip::address::from_string("123.123.123.2");
-
 } // anonymous namespace
 
-TEST_CASE("InterfaceScanner | NoInterfacesThenOne", "[InterfaceScanner]")
+TEST_CASE("InterfaceScanner")
 {
+  const asio::ip::address addr1 = asio::ip::address::from_string("123.123.123.1");
+  const asio::ip::address addr2 = asio::ip::address::from_string("123.123.123.2");
   test::serial_io::Fixture io;
   auto callback = TestCallback{};
-  {
-    auto scanner = discovery::makeInterfaceScanner(std::chrono::seconds(2),
-      util::injectRef(callback), util::injectVal(io.makeIoContext()));
-    scanner.enable(true);
-    CHECK(1 == callback.addrRanges.size());
-    io.setNetworkInterfaces({addr1});
-    io.advanceTime(std::chrono::seconds(3));
-  }
-  REQUIRE(2 == callback.addrRanges.size());
-  CHECK(0 == callback.addrRanges[0].size());
-  REQUIRE(1 == callback.addrRanges[1].size());
-  CHECK(addr1 == callback.addrRanges[1].front());
-}
 
-TEST_CASE("InterfaceScanner | InterfaceGoesAway", "[InterfaceScanner]")
-{
-  test::serial_io::Fixture io;
-  io.setNetworkInterfaces({addr1});
-  auto callback = TestCallback{};
+  SECTION("NoInterfacesThenOneThenTwo")
   {
-    auto scanner = discovery::makeInterfaceScanner(std::chrono::seconds(2),
-      util::injectRef(callback), util::injectVal(io.makeIoContext()));
-    scanner.enable(true);
-    io.setNetworkInterfaces({});
-    io.advanceTime(std::chrono::seconds(3));
+    {
+      auto scanner = discovery::makeInterfaceScanner(std::chrono::seconds(2),
+        util::injectRef(callback), util::injectVal(io.makeIoContext()));
+      scanner.enable(true);
+      CHECK(1 == callback.addrRanges.size());
+      io.setNetworkInterfaces({addr1});
+      io.advanceTime(std::chrono::seconds(3));
+      io.setNetworkInterfaces({addr1, addr2});
+      io.advanceTime(std::chrono::seconds(2));
+    }
+    REQUIRE(3 == callback.addrRanges.size());
+    CHECK(0 == callback.addrRanges[0].size());
+    REQUIRE(1 == callback.addrRanges[1].size());
+    CHECK(addr1 == callback.addrRanges[1].front());
+    REQUIRE(2 == callback.addrRanges[2].size());
+    CHECK(addr1 == callback.addrRanges[2].front());
+    CHECK(addr2 == callback.addrRanges[2].back());
   }
-  REQUIRE(2 == callback.addrRanges.size());
-  REQUIRE(1 == callback.addrRanges[0].size());
-  CHECK(addr1 == callback.addrRanges[0].front());
-  CHECK(0 == callback.addrRanges[1].size());
+
+  SECTION("InterfaceGoesAway", "[InterfaceScanner]")
+  {
+    io.setNetworkInterfaces({addr1});
+    {
+      auto scanner = discovery::makeInterfaceScanner(std::chrono::seconds(2),
+        util::injectRef(callback), util::injectVal(io.makeIoContext()));
+      scanner.enable(true);
+      io.setNetworkInterfaces({});
+      io.advanceTime(std::chrono::seconds(3));
+    }
+    REQUIRE(2 == callback.addrRanges.size());
+    REQUIRE(1 == callback.addrRanges[0].size());
+    CHECK(addr1 == callback.addrRanges[0].front());
+    CHECK(0 == callback.addrRanges[1].size());
+  }
 }
 
 } // namespace link

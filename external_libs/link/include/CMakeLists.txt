@@ -11,17 +11,16 @@ project(LinkCore)
 set(link_core_DIR ${CMAKE_CURRENT_SOURCE_DIR}/ableton/link)
 set(link_core_HEADERS
   ${link_core_DIR}/Beats.hpp
-  ${link_core_DIR}/CircularFifo.hpp
   ${link_core_DIR}/ClientSessionTimelines.hpp
   ${link_core_DIR}/Controller.hpp
   ${link_core_DIR}/Gateway.hpp
   ${link_core_DIR}/GhostXForm.hpp
   ${link_core_DIR}/HostTimeFilter.hpp
-  ${link_core_DIR}/Kalman.hpp
   ${link_core_DIR}/LinearRegression.hpp
   ${link_core_DIR}/Measurement.hpp
   ${link_core_DIR}/MeasurementEndpointV4.hpp
   ${link_core_DIR}/MeasurementService.hpp
+  ${link_core_DIR}/Median.hpp
   ${link_core_DIR}/NodeId.hpp
   ${link_core_DIR}/NodeState.hpp
   ${link_core_DIR}/PayloadEntries.hpp
@@ -36,6 +35,7 @@ set(link_core_HEADERS
   ${link_core_DIR}/StartStopState.hpp
   ${link_core_DIR}/Tempo.hpp
   ${link_core_DIR}/Timeline.hpp
+  ${link_core_DIR}/TripleBuffer.hpp
   ${link_core_DIR}/v1/Messages.hpp
   PARENT_SCOPE
 )
@@ -100,16 +100,23 @@ elseif(UNIX)
       ${link_platform_HEADERS}
       ${link_platform_DIR}/darwin/Clock.hpp
       ${link_platform_DIR}/darwin/Darwin.hpp
+      ${link_platform_DIR}/darwin/ThreadFactory.hpp
       ${link_platform_DIR}/stl/Random.hpp
     )
-  elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+  elseif(CMAKE_SYSTEM_NAME MATCHES "Linux|kFreeBSD|GNU")
     set(link_platform_HEADERS
       ${link_platform_HEADERS}
       ${link_platform_DIR}/linux/Clock.hpp
       ${link_platform_DIR}/linux/Linux.hpp
       ${link_platform_DIR}/stl/Clock.hpp
       ${link_platform_DIR}/stl/Random.hpp
-    )
+      )
+      if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+        set(link_platform_HEADERS
+          ${link_platform_HEADERS}
+          ${link_platform_DIR}/linux/ThreadFactory.hpp
+          )
+      endif()
   endif()
 elseif(WIN32)
   set(link_platform_HEADERS
@@ -117,6 +124,7 @@ elseif(WIN32)
     ${link_platform_DIR}/stl/Random.hpp
     ${link_platform_DIR}/windows/Clock.hpp
     ${link_platform_DIR}/windows/ScanIpIfAddrs.hpp
+    ${link_platform_DIR}/windows/ThreadFactory.hpp
     ${link_platform_DIR}/windows/Windows.hpp
   )
 endif()

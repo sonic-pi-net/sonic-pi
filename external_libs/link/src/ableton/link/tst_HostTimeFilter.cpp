@@ -43,40 +43,41 @@ struct MockClock
   std::chrono::microseconds time;
 };
 
-using Filter = ableton::link::HostTimeFilter<MockClock>;
-
-TEST_CASE("HostTimeFilter | OneValue", "[HostTimeFilter]")
+TEST_CASE("HostTimeFilter")
 {
+  using Filter = ableton::link::HostTimeFilter<MockClock>;
   Filter filter;
-  const auto ht = filter.sampleTimeToHostTime(5);
-  CHECK(0 == ht.count());
-}
 
-TEST_CASE("HostTimeFilter | MultipleValues", "[HostTimeFilter]")
-{
-  Filter filter;
-  const auto numValues = 600;
-  auto ht = std::chrono::microseconds(0);
-
-  for (int i = 0; i <= numValues; ++i)
+  SECTION("OneValue")
   {
-    ht = filter.sampleTimeToHostTime(i);
+    const auto ht = filter.sampleTimeToHostTime(5);
+    CHECK(0 == ht.count());
   }
 
-  CHECK(numValues == ht.count());
-}
+  SECTION("MultipleValues")
+  {
+    const auto numValues = 600;
+    auto ht = std::chrono::microseconds(0);
 
-TEST_CASE("HostTimeFilter | Reset", "[HostTimeFilter]")
-{
-  Filter filter;
-  auto ht = filter.sampleTimeToHostTime(0);
-  ht = filter.sampleTimeToHostTime(-230);
-  ht = filter.sampleTimeToHostTime(40);
-  REQUIRE(2 != ht.count());
+    for (int i = 0; i <= numValues; ++i)
+    {
+      ht = filter.sampleTimeToHostTime(i);
+    }
 
-  filter.reset();
-  ht = filter.sampleTimeToHostTime(0);
-  CHECK(3 == ht.count());
+    CHECK(numValues == ht.count());
+  }
+
+  SECTION("Reset")
+  {
+    auto ht = filter.sampleTimeToHostTime(0);
+    ht = filter.sampleTimeToHostTime(-230);
+    ht = filter.sampleTimeToHostTime(40);
+    REQUIRE(2 != ht.count());
+
+    filter.reset();
+    ht = filter.sampleTimeToHostTime(0);
+    CHECK(3 == ht.count());
+  }
 }
 
 } // namespace link

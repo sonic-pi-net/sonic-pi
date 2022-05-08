@@ -96,93 +96,76 @@ void expectPeersTimedOut(std::vector<std::string> expected, const TestObserver& 
   CHECK(expected == observer.mPeersTimedOut);
 }
 
-// Test peers
-const auto peerA = TestNodeState{"peerA", 120};
-const auto peerB = TestNodeState{"peerB", 150};
-
 } // anonymous namespace
 
-TEST_CASE("PeerGateway | NoActivity", "[PeerGateway]")
+TEST_CASE("PeerGateway")
 {
+  const auto peerA = TestNodeState{"peerA", 120};
+  const auto peerB = TestNodeState{"peerB", 150};
+
   test::serial_io::Fixture io;
   TestObserver observer;
-  auto listener = makePeerGateway(util::injectVal(TestMessenger{}),
-    util::injectRef(observer), util::injectVal(io.makeIoContext()));
-  io.advanceTime(std::chrono::seconds(10));
 
-  // Without any outside interaction but the passage of time, our
-  // listener should not have seen any peers.
-  CHECK(observer.mPeersSeen.empty());
-  CHECK(observer.mPeersLeft.empty());
-  CHECK(observer.mPeersTimedOut.empty());
-}
+  SECTION("NoActivity")
+  {
+    auto listener = makePeerGateway(util::injectVal(TestMessenger{}),
+      util::injectRef(observer), util::injectVal(io.makeIoContext()));
+    io.advanceTime(std::chrono::seconds(10));
 
-TEST_CASE("PeerGateway | ReceivedPeerState", "[PeerGateway]")
-{
-  test::serial_io::Fixture io;
-  TestObserver observer;
+    // Without any outside interaction but the passage of time, our
+    // listener should not have seen any peers.
+    CHECK(observer.mPeersSeen.empty());
+    CHECK(observer.mPeersLeft.empty());
+    CHECK(observer.mPeersTimedOut.empty());
+  }
+
   TestMessenger messenger;
   auto listener = makePeerGateway(util::injectRef(messenger), util::injectRef(observer),
     util::injectVal(io.makeIoContext()));
 
-  messenger.receivePeerState({peerA, 5});
-  io.flush();
+  SECTION("ReceivedPeerState")
+  {
+    messenger.receivePeerState({peerA, 5});
+    io.flush();
 
-  expectPeersSeen({peerA}, observer);
-}
+    expectPeersSeen({peerA}, observer);
+  }
 
-TEST_CASE("PeerGateway | TwoPeersOneLeaves", "[PeerGateway]")
-{
-  test::serial_io::Fixture io;
-  TestObserver observer;
-  TestMessenger messenger;
-  auto listener = makePeerGateway(util::injectRef(messenger), util::injectRef(observer),
-    util::injectVal(io.makeIoContext()));
+  SECTION("TwoPeersOneLeaves")
+  {
+    messenger.receivePeerState({peerA, 5});
+    messenger.receivePeerState({peerB, 5});
+    messenger.receiveByeBye({peerA.ident()});
+    io.flush();
 
-  messenger.receivePeerState({peerA, 5});
-  messenger.receivePeerState({peerB, 5});
-  messenger.receiveByeBye({peerA.ident()});
-  io.flush();
+    expectPeersSeen({peerA, peerB}, observer);
+    expectPeersLeft({peerA.ident()}, observer);
+  }
 
-  expectPeersSeen({peerA, peerB}, observer);
-  expectPeersLeft({peerA.ident()}, observer);
-}
+  SECTION("TwoPeersOneTimesOut")
+  {
+    messenger.receivePeerState({peerA, 5});
+    messenger.receivePeerState({peerB, 10});
 
-TEST_CASE("PeerGateway | TwoPeersOneTimesOut", "[PeerGateway]")
-{
-  test::serial_io::Fixture io;
-  TestObserver observer;
-  TestMessenger messenger;
-  auto listener = makePeerGateway(util::injectRef(messenger), util::injectRef(observer),
-    util::injectVal(io.makeIoContext()));
+    io.advanceTime(std::chrono::seconds(3));
+    expectPeersTimedOut({}, observer);
+    io.advanceTime(std::chrono::seconds(4));
+    expectPeersTimedOut({peerA.ident()}, observer);
+  }
 
-  messenger.receivePeerState({peerA, 5});
-  messenger.receivePeerState({peerB, 10});
+  SECTION("PeerTimesOutAndIsSeenAgain")
+  {
+    messenger.receivePeerState({peerA, 5});
+    io.advanceTime(std::chrono::seconds(7));
 
-  io.advanceTime(std::chrono::seconds(3));
-  expectPeersTimedOut({}, observer);
-  io.advanceTime(std::chrono::seconds(4));
-  expectPeersTimedOut({peerA.ident()}, observer);
-}
+    expectPeersTimedOut({peerA.ident()}, observer);
 
-TEST_CASE("PeerGateway | PeerTimesOutAndIsSeenAgain", "[PeerGateway]")
-{
-  test::serial_io::Fixture io;
-  TestObserver observer;
-  TestMessenger messenger;
-  auto listener = makePeerGateway(util::injectRef(messenger), util::injectRef(observer),
-    util::injectVal(io.makeIoContext()));
+    messenger.receivePeerState({peerA, 5});
+    io.advanceTime(std::chrono::seconds(3));
 
-  messenger.receivePeerState({peerA, 5});
-  io.advanceTime(std::chrono::seconds(7));
-
-  expectPeersTimedOut({peerA.ident()}, observer);
-
-  messenger.receivePeerState({peerA, 5});
-  io.advanceTime(std::chrono::seconds(3));
-
-  expectPeersSeen({peerA, peerA}, observer);
-  expectPeersTimedOut({peerA.ident()}, observer);
+    expectPeersSeen({peerA, peerA}, observer);
+    expectPeersTimedOut({peerA.ident()}, observer);
+  }
 }
 
 } // namespace discovery

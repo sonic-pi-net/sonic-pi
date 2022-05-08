@@ -64,12 +64,6 @@ struct MockIoContext
     return {};
   }
 
-  template <typename Handler>
-  void async(Handler handler) const
-  {
-    handler();
-  }
-
   ableton::util::test::IoService mIo;
 };
 
@@ -102,63 +96,62 @@ struct RpFixture
 
 } // anonymous namespace
 
-TEST_CASE("PingResponder | ReplyToPing", "[PingResponder]")
+
+TEST_CASE("PingResponder")
 {
   using std::chrono::microseconds;
-
   RpFixture fixture;
 
-  // Construct and send Ping Message. Check if Responder sent back a Message
-  const auto payload =
-    discovery::makePayload(HostTime{microseconds(2)}, PrevGHostTime{microseconds(1)});
+  SECTION("ReplyToPing")
+  {
+    // Construct and send Ping Message. Check if Responder sent back a Message
+    const auto payload =
+      discovery::makePayload(HostTime{microseconds(2)}, PrevGHostTime{microseconds(1)});
 
-  v1::MessageBuffer buffer;
-  const auto msgBegin = std::begin(buffer);
-  const auto msgEnd = v1::pingMessage(payload, msgBegin);
-  const auto endpoint = asio::ip::udp::endpoint(fixture.mAddress, 8888);
+    v1::MessageBuffer buffer;
+    const auto msgBegin = std::begin(buffer);
+    const auto msgEnd = v1::pingMessage(payload, msgBegin);
+    const auto endpoint = asio::ip::udp::endpoint(fixture.mAddress, 8888);
 
-  fixture.responderSocket().incomingMessage(endpoint, msgBegin, msgEnd);
+    fixture.responderSocket().incomingMessage(endpoint, msgBegin, msgEnd);
 
-  CHECK(1 == fixture.numSentMessages());
+    CHECK(1 == fixture.numSentMessages());
 
-  // Check Responder's message
-  const auto messageBuffer = fixture.responderSocket().sentMessages[0].first;
-  const auto result = v1::parseMessageHeader(begin(messageBuffer), end(messageBuffer));
-  const auto& hdr = result.first;
+    // Check Responder's message
+    const auto messageBuffer = fixture.responderSocket().sentMessages[0].first;
+    const auto result = v1::parseMessageHeader(begin(messageBuffer), end(messageBuffer));
+    const auto& hdr = result.first;
 
-  std::chrono::microseconds ghostTime{0};
-  std::chrono::microseconds prevGHostTime{0};
-  std::chrono::microseconds hostTime{0};
-  discovery::parsePayload<GHostTime, PrevGHostTime, HostTime>(result.second,
-    std::end(messageBuffer),
-    [&ghostTime](GHostTime gt) { ghostTime = std::move(gt.time); },
-    [&prevGHostTime](PrevGHostTime gt) { prevGHostTime = std::move(gt.time); },
-    [&hostTime](HostTime ht) { hostTime = std::move(ht.time); });
+    std::chrono::microseconds ghostTime{0};
+    std::chrono::microseconds prevGHostTime{0};
+    std::chrono::microseconds hostTime{0};
+    discovery::parsePayload<GHostTime, PrevGHostTime, HostTime>(result.second,
+      std::end(messageBuffer),
+      [&ghostTime](GHostTime gt) { ghostTime = std::move(gt.time); },
+      [&prevGHostTime](PrevGHostTime gt) { prevGHostTime = std::move(gt.time); },
+      [&hostTime](HostTime ht) { hostTime = std::move(ht.time); });
 
-  CHECK(v1::kPong == hdr.messageType);
-  CHECK(std::chrono::microseconds{2} == hostTime);
-  CHECK(std::chrono::microseconds{1} == prevGHostTime);
-  CHECK(std::chrono::microseconds{4} == ghostTime);
-}
+    CHECK(v1::kPong == hdr.messageType);
+    CHECK(std::chrono::microseconds{2} == hostTime);
+    CHECK(std::chrono::microseconds{1} == prevGHostTime);
+    CHECK(std::chrono::microseconds{4} == ghostTime);
+  }
 
-TEST_CASE("PingResponder | PingSizeExceeding", "[PingResponder]")
-{
-  using std::chrono::microseconds;
+  SECTION("PingSizeExceeding")
+  {
+    const auto ht = HostTime{microseconds(2)};
+    const auto payload = discovery::makePayload(ht, ht, ht);
 
-  RpFixture fixture;
+    v1::MessageBuffer buffer;
+    const auto msgBegin = std::begin(buffer);
+    const auto msgEnd = v1::pingMessage(payload, msgBegin);
 
-  const auto ht = HostTime{microseconds(2)};
-  const auto payload = discovery::makePayload(ht, ht, ht);
+    const auto endpoint = asio::ip::udp::endpoint(fixture.mAddress, 8888);
 
-  v1::MessageBuffer buffer;
-  const auto msgBegin = std::begin(buffer);
-  const auto msgEnd = v1::pingMessage(payload, msgBegin);
+    fixture.responderSocket().incomingMessage(endpoint, msgBegin, msgEnd);
 
-  const auto endpoint = asio::ip::udp::endpoint(fixture.mAddress, 8888);
-
-  fixture.responderSocket().incomingMessage(endpoint, msgBegin, msgEnd);
-
-  CHECK(0 == fixture.numSentMessages());
+    CHECK(0 == fixture.numSentMessages());
+  }
 }
 
 } // namespace link

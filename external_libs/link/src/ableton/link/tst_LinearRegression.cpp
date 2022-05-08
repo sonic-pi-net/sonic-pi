@@ -27,50 +27,46 @@ namespace ableton
 namespace link
 {
 
-using Vector = std::vector<std::pair<double, double>>;
-
-TEST_CASE("LinearRegression | EmptyVector", "[LinearRegression]")
+TEST_CASE("LinearRegression")
 {
-  Vector data;
-  const auto result = linearRegression(data.begin(), data.end());
-  CHECK(0 == Approx(result.first));
-}
-
-TEST_CASE("LinearRegression | OnePoint", "[LinearRegression]")
-{
+  using Vector = std::vector<std::pair<double, double>>;
   using Array = std::array<std::pair<double, double>, 1>;
-  Array data;
-  data[0] = {{}, {}};
-  const auto result = linearRegression(data.begin(), data.end());
-  CHECK(0 == Approx(result.first));
-  CHECK(0 == Approx(result.second));
-}
 
-TEST_CASE("LinearRegression | TwoPoints", "[LinearRegression]")
-{
-  Vector data;
-  data.emplace_back(0.0, 0.0);
-  data.emplace_back(666666.6, 66666.6);
-
-  const auto result = linearRegression(data.begin(), data.end());
-  CHECK(0.1 == Approx(result.first));
-  CHECK(0.0 == Approx(result.second));
-}
-
-TEST_CASE("LinearRegression | 10000Points", "[LinearRegression]")
-{
-  Vector data;
-  const double slope = -0.2;
-  const double intercept = -357.53456;
-
-  for (int i = 1; i < 10000; ++i)
+  SECTION("OnePoint")
   {
-    data.emplace_back(i, i * slope + intercept);
+    Array data;
+    data[0] = {0., 0.};
+    const auto result = linearRegression(data.begin(), data.end());
+    CHECK(0 == Approx(result.first));
+    CHECK(0 == Approx(result.second));
   }
 
-  const auto result = linearRegression(data.begin(), data.end());
-  CHECK(slope == Approx(result.first));
-  CHECK(intercept == Approx(result.second));
+  SECTION("TwoPoints")
+  {
+    Vector data;
+    data.emplace_back(0.0, 0.0);
+    data.emplace_back(666666.6, 66666.6);
+
+    const auto result = linearRegression(data.begin(), data.end());
+    CHECK(0.1 == Approx(result.first));
+    CHECK(0.0 == Approx(result.second));
+  }
+
+  SECTION("10000Points")
+  {
+    Vector data;
+    const double slope = -0.2;
+    const double intercept = -357.53456;
+
+    for (int i = 1; i < 10000; ++i)
+    {
+      data.emplace_back(i, i * slope + intercept);
+    }
+
+    const auto result = linearRegression(data.begin(), data.end());
+    CHECK(slope == Approx(result.first));
+    CHECK(intercept == Approx(result.second));
+  }
 }
 
 } // namespace link

@@ -44,7 +44,7 @@ inline link::IncomingClientState toIncomingClientState(const link::ApiState& sta
   const auto startStopState =
     originalState.startStopState != state.startStopState
       ? link::OptionalClientStartStopState{{state.startStopState.isPlaying,
-        state.startStopState.time, timestamp}}
+          state.startStopState.time, timestamp}}
       : link::OptionalClientStartStopState{};
   return {timeline, startStopState, timestamp};
 }
@@ -53,8 +53,7 @@ inline link::IncomingClientState toIncomingClientState(const link::ApiState& sta
 
 template <typename Clock>
 inline BasicLink<Clock>::BasicLink(const double bpm)
-  : mController(
-      link::Tempo(bpm),
+  : mController(link::Tempo(bpm),
       [this](const std::size_t peers) {
         std::lock_guard<std::mutex> lock(mCallbackMutex);
         mPeerCountCallback(peers);
@@ -67,8 +66,7 @@ inline BasicLink<Clock>::BasicLink(const double bpm)
         std::lock_guard<std::mutex> lock(mCallbackMutex);
         mStartStopCallback(isPlaying);
       },
-      mClock,
-      util::injectVal(link::platform::IoContext{}))
+      mClock)
 {
 }
 
@@ -133,26 +131,30 @@ inline Clock BasicLink<Clock>::clock() const
 }
 
 template <typename Clock>
-inline typename BasicLink<Clock>::SessionState BasicLink<Clock>::captureAudioSessionState() const
+inline typename BasicLink<Clock>::SessionState BasicLink<
+  Clock>::captureAudioSessionState() const
 {
   return detail::toSessionState<Clock>(mController.clientStateRtSafe(), numPeers() > 0);
 }
 
 template <typename Clock>
-inline void BasicLink<Clock>::commitAudioSessionState(const typename BasicLink<Clock>::SessionState state)
+inline void BasicLink<Clock>::commitAudioSessionState(
+  const typename BasicLink<Clock>::SessionState state)
 {
   mController.setClientStateRtSafe(
     detail::toIncomingClientState(state.mState, state.mOriginalState, mClock.micros()));
 }
 
 template <typename Clock>
-inline typename BasicLink<Clock>::SessionState BasicLink<Clock>::captureAppSessionState() const
+inline typename BasicLink<Clock>::SessionState BasicLink<Clock>::captureAppSessionState()
+  const
 {
   return detail::toSessionState<Clock>(mController.clientState(), numPeers() > 0);
 }
 
 template <typename Clock>
-inline void BasicLink<Clock>::commitAppSessionState(const typename BasicLink<Clock>::SessionState state)
+inline void BasicLink<Clock>::commitAppSessionState(
+  const typename BasicLink<Clock>::SessionState state)
 {
   mController.setClientState(
     detail::toIncomingClientState(state.mState, state.mOriginalState, mClock.micros()));

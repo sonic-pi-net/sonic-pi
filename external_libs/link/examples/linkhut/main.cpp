@@ -126,59 +126,60 @@ void input(State& state)
 {
   char in;
 
-#if defined(LINK_PLATFORM_WINDOWS)
-  HANDLE stdinHandle = GetStdHandle(STD_INPUT_HANDLE);
-  DWORD numCharsRead;
-  INPUT_RECORD inputRecord;
-  do
+  for (;;)
   {
-    ReadConsoleInput(stdinHandle, &inputRecord, 1, &numCharsRead);
-  } while ((inputRecord.EventType != KEY_EVENT) || inputRecord.Event.KeyEvent.bKeyDown);
-  in = inputRecord.Event.KeyEvent.uChar.AsciiChar;
+#if defined(LINK_PLATFORM_WINDOWS)
+    HANDLE stdinHandle = GetStdHandle(STD_INPUT_HANDLE);
+    DWORD numCharsRead;
+    INPUT_RECORD inputRecord;
+    do
+    {
+      ReadConsoleInput(stdinHandle, &inputRecord, 1, &numCharsRead);
+    } while ((inputRecord.EventType != KEY_EVENT) || inputRecord.Event.KeyEvent.bKeyDown);
+    in = inputRecord.Event.KeyEvent.uChar.AsciiChar;
 #elif defined(LINK_PLATFORM_UNIX)
-  in = static_cast<char>(std::cin.get());
+    in = static_cast<char>(std::cin.get());
 #endif
 
-  const auto tempo = state.link.captureAppSessionState().tempo();
-  auto& engine = state.audioPlatform.mEngine;
+    const auto tempo = state.link.captureAppSessionState().tempo();
+    auto& engine = state.audioPlatform.mEngine;
 
-  switch (in)
-  {
-  case 'q':
-    state.running = false;
-    clearLine();
-    return;
-  case 'a':
-    state.link.enable(!state.link.isEnabled());
-    break;
-  case 'w':
-    engine.setTempo(tempo - 1);
-    break;
-  case 'e':
-    engine.setTempo(tempo + 1);
-    break;
-  case 'r':
-    engine.setQuantum(engine.quantum() - 1);
-    break;
-  case 't':
-    engine.setQuantum(std::max(1., engine.quantum() + 1));
-    break;
-  case 's':
-    engine.setStartStopSyncEnabled(!engine.isStartStopSyncEnabled());
-    break;
-  case ' ':
-    if (engine.isPlaying())
+    switch (in)
     {
-      engine.stopPlaying();
+    case 'q':
+      state.running = false;
+      clearLine();
+      return;
+    case 'a':
+      state.link.enable(!state.link.isEnabled());
+      break;
+    case 'w':
+      engine.setTempo(tempo - 1);
+      break;
+    case 'e':
+      engine.setTempo(tempo + 1);
+      break;
+    case 'r':
+      engine.setQuantum(engine.quantum() - 1);
+      break;
+    case 't':
+      engine.setQuantum(std::max(1., engine.quantum() + 1));
+      break;
+    case 's':
+      engine.setStartStopSyncEnabled(!engine.isStartStopSyncEnabled());
+      break;
+    case ' ':
+      if (engine.isPlaying())
+      {
+        engine.stopPlaying();
+      }
+      else
+      {
+        engine.startPlaying();
+      }
+      break;
     }
-    else
-    {
-      engine.startPlaying();
-    }
-    break;
   }
-
-  input(state);
 }
 
 } // namespace

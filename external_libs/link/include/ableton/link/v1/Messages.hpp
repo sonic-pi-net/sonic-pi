@@ -87,8 +87,8 @@ It encodeMessage(const MessageType messageType, const Payload& payload, It out)
   if (messageSize < kMaxMessageSize)
   {
     return toNetworkByteStream(
-      payload, toNetworkByteStream(
-                 header, copy(begin(kProtocolHeader), end(kProtocolHeader), std::move(out))));
+      payload, toNetworkByteStream(header,
+                 copy(begin(kProtocolHeader), end(kProtocolHeader), std::move(out))));
   }
   else
   {

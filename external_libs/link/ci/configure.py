@@ -34,6 +34,10 @@ def parse_args():
         '-f', '--flags',
         help='Additional CMake flags')
 
+    arg_parser.add_argument(
+        '--thread-description',
+        help='Set thread description. (Windows only)')
+
     return arg_parser.parse_args(sys.argv[1:])
 
 
@@ -60,6 +64,8 @@ def build_cmake_args(args):
             cmake_args.append('-DLINK_BUILD_ASIO=ON')
         else:
             cmake_args.append('-DLINK_BUILD_ASIO=OFF')
+        if args.thread_description == 'ON':
+            cmake_args.append('-DLINK_WINDOWS_SETTHREADDESCRIPTION=ON')
     elif 'linux' in sys.platform:
        if args.audio_driver == 'Jack':
            cmake_args.append('-DLINK_BUILD_JACK=ON')
