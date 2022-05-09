@@ -92,3 +92,4 @@ elseif(UNIX)
     endif(USE_SYSTEM_RTMIDI)
 endif(MSVC)
 
+install(TARGETS libsp_midi LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX})
