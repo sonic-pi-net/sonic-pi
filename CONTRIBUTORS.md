@@ -235,7 +235,7 @@ In addition to the Sonic Pi Core Team, we would like to extend our
 thanks to the following developers who have donated their time and
 effort to help grow and improve the Sonic Pi code base:
 
-* [Sam Aaron](https://github.com/sonic-pi-net/sonic-pi/commits?author=samaaron) (5068)
+* [Sam Aaron](https://github.com/sonic-pi-net/sonic-pi/commits?author=samaaron) (5117)
 * [Ethan Crawford](https://github.com/sonic-pi-net/sonic-pi/commits?author=ethancrawford) (304)
 * [Hanno Zulla](https://github.com/sonic-pi-net/sonic-pi/commits?author=hzulla) (198)
 * [Joseph Wilk](https://github.com/sonic-pi-net/sonic-pi/commits?author=josephwilk) (160)
@@ -250,8 +250,8 @@ effort to help grow and improve the Sonic Pi code base:
 * [Luis Lloret](https://github.com/sonic-pi-net/sonic-pi/commits?author=llloret) (41)
 * [Martin Keegan](https://github.com/sonic-pi-net/sonic-pi/commits?author=mk270) (41)
 * [Nicolas Dermine](https://github.com/sonic-pi-net/sonic-pi/commits?author=nicoder) (40)
+* [Lily Foster](https://github.com/sonic-pi-net/sonic-pi/commits?author=lilyinstarlight) (34)
 * [Kenichi Kanai](https://github.com/sonic-pi-net/sonic-pi/commits?author=kn1kn1) (28)
-* [Lily Foster](https://github.com/sonic-pi-net/sonic-pi/commits?author=lilyinstarlight) (27)
 * [Nikolaus Gradwohl](https://github.com/sonic-pi-net/sonic-pi/commits?author=ngradwohl) (26)
 * [Ricardo Pozo](https://github.com/sonic-pi-net/sonic-pi/commits?author=thraex41) (23)
 * [Richard Carlsson](https://github.com/sonic-pi-net/sonic-pi/commits?author=richcarl) (21)
