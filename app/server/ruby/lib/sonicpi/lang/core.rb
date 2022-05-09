@@ -3639,7 +3639,7 @@ This function will block the current thread until the next matching phase as if 
 
 If the quantum is 4 (the default) this suggests there are 4 beats in each bar. If the phase is set to 0 (also the default) this means that calling link will sleep until the very start of the next bar before continuing.
 
-This can be used to sync multiple instances of Sonic Pi running on different computers connected to the same network (via wifi or ethernet). It can also be used to share and coordinate time with other apps and devices. For a full list of link-compatible apps and devices see:  https://www.ableton.com/en/link/products/
+This can be used to sync multiple instances of Sonic Pi running on different computers connected to the same network (via wifi or ethernet). It can also be used to share and coordinate time with other apps and devices. For a full list of link-compatible apps and devices see:  [https://www.ableton.com/en/link/products/](https://www.ableton.com/en/link/products/)
 
 For other related link functions see link_sync, use_bpm :link, set_link_bpm!
 ",
@@ -3676,7 +3676,7 @@ link 7, 2 # wait for the 2nd beat of the next bar
 
 Note that this will *also* change the tempo of *all link metronomes* connected to the local network. This includes other instances of Sonic Pi, Music Production tools like Ableton Live, VJ tools like Resolume, DJ hardware like the MPC and many iPad music apps.
 
-For a full list of link-compatible apps and devices see:  https://www.ableton.com/en/link/products/
+For a full list of link-compatible apps and devices see:  [https://www.ableton.com/en/link/products/](https://www.ableton.com/en/link/products/)
 
 Also note that the current thread does not have to be in Link BPM mode for this function to affect the Link clock's BPM.
 
