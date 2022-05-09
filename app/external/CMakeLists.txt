@@ -171,14 +171,21 @@ add_dependencies(AubioBuilder aubio)
 
 # Copy prebuilt files
 if(WIN32)
-  add_custom_command(
-    TARGET AubioBuilder PRE_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/../../prebuilt/windows/ ${CMAKE_CURRENT_SOURCE_DIR}/../server/native
-  )
+  if(CMAKE_SIZEOF_VOID_P EQUAL 8) # 64-bit
+      add_custom_command(
+        TARGET AubioBuilder PRE_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/../../prebuilt/windows/x64/ ${CMAKE_CURRENT_SOURCE_DIR}/../server/native/
+      )
+  elseif(CMAKE_SIZEOF_VOID_P EQUAL 4) # 32-bit
+      add_custom_command(
+        TARGET AubioBuilder PRE_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/../../prebuilt/windows/x86/ ${CMAKE_CURRENT_SOURCE_DIR}/../server/native/
+      )
+  endif()
 elseif(${CMAKE_SYSTEM_NAME} MATCHES Darwin) # macOS
   add_custom_command(
     TARGET AubioBuilder PRE_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/../../prebuilt/macos/ ${CMAKE_CURRENT_SOURCE_DIR}/../server/native/
+    COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/../../prebuilt/macos/x64/ ${CMAKE_CURRENT_SOURCE_DIR}/../server/native/
     COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_CURRENT_SOURCE_DIR}/../server/native/supercollider/scsynth ${CMAKE_CURRENT_SOURCE_DIR}/../server/native/scsynth
     COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/../server/native/supercollider/extra-plugins/ ${CMAKE_CURRENT_SOURCE_DIR}/../server/native/supercollider/plugins/
     COMMAND ${CMAKE_COMMAND} -E rm -rf ${CMAKE_CURRENT_SOURCE_DIR}/../server/native/supercollider/extra-plugins
