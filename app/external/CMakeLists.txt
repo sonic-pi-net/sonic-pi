@@ -166,7 +166,7 @@ ExternalProject_Add(aubio
 # Kick off a generation by making a dummy/empty project
 add_library(AubioBuilder STATIC externals.cpp)
 
-# Dependency ensures the externals are built${CMAKE_CURRENT_SOURCE_DIR}/../../prebuilt/macos/
+# Dependency ensures the externals are built
 add_dependencies(AubioBuilder aubio)
 
 # Copy prebuilt files
