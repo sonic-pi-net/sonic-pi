@@ -54,9 +54,11 @@ To be released...
 
 ### New 
 * Support for [Ableton Link](https://www.ableton.com/link/). This enables you to synchronise the tempo of Sonic Pi running on multiple computers connected on the same network. It will also enable automatic BPM synchronisation with music production tools such as Ableton Live, VJ tools such as Resolume, DJ hardware such as the MPC and many compatible iPad music apps. For a full list see: https://www.ableton.com/link/products/,,
-* New fn `current_random_source` which returns the current random number source kind (see `use_random_source`).
 * New `:link` option to fn `use_bpm`. This enables Link mode for the current thread which automatically syncs the BPM to the Link metronome (which also syncs it with all other Link-capable apps running on any computer connected to the local (wired or wifi) network.
+* New fn `link` which sets the BPM to a new `:link` mode and also waits until the start of the next bar (as determined by Link) before continuing. This lets you automatically sync tempo and beat phase in one command. 
+* New fn `link_sync` which sets the BPM to a new `:link` mode, waits for the Link session to be playing and also waits until the start of the next bar (as determined by Link) before continuing. This lets you automatically "arm" Sonic Pi to sync tempo and beat phase and wait for an external "play" command from another Link device - such as Ableton Live.
 * New fn `set_link_bpm!` to change the BPM/tempo of the Link metronome (and simultaneously change the tempo of all connected Link-capable apps on the network).
+* New fn `current_random_source` which returns the current random number source kind (see `use_random_source`).
 * New fn `load_synthdef` which lets you load a single synthdef file.
 * `load_synthdefs` now loads both directories and single files (by dispatching to `load_synthdef` where necessary).
 
@@ -68,8 +70,11 @@ To be released...
 
 
 ### GUI
+* Preference pane is now an overlay which hovers over the main window. This means that opening and closing it does not inadvertantly modify a carefully chosen layout e.g. for a performance.
+* New preference option to show and hide the pane titles such as Scope, Log, Cues, Context, Help, etc.
 * Increase width of panel dividers and highlight on mouse hover.
 * Highlight scrollbars on mouse hover.
+* Scrollbars now have rounded edges.
 * Teach autocompletion about random source choices: `:white`, `:light_pink`, `:pink`, etc.
 * Improve syntax indentation.
 * Improvements for Arabic, Catalan, Chinese (Simplified), Dutch, Estonian, French, German, Italian, Japanese, Korean, Persian, Polish, Portuguese (Brazil), Russian, Sinhala, Spanish, Swedish
