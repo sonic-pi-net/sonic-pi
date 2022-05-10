@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2022-05-08 23:14+0000\n"
+"PO-Revision-Date: 2022-05-11 03:18+0000\n"
 "Last-Translator: Kenryu Shibata <kenryushibata@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/ja/>\n"
@@ -334,9 +334,8 @@ msgid ""
 msgstr "Sonic Piは、音楽をコーディング（記述）するためのとてもシンプルなインタフェース（操作画面）を持っています。ちょっと見てみましょう。"
 
 #: 01.2-Exploring-the-Interface.md:8
-#, fuzzy
 msgid "![Sonic Pi Interface](../../../etc/doc/images/tutorial/GUI.png)"
-msgstr "![Sonic Pi Interface](../../../etc/doc/images/tutorial/GUI.png)"
+msgstr "![Sonic Piのインターフェイス](../../../etc/doc/images/tutorial/GUI.png)"
 
 #: 01.2-Exploring-the-Interface.md:11
 msgid "*A* - Play Controls"
@@ -560,7 +559,6 @@ msgid "There are no mistakes"
 msgstr "間違いはない"
 
 #: 01.3-Learning-through-Play.md:12
-#, fuzzy
 msgid ""
 "Whilst we're on this subject, let me just give you one piece of advice I've le"
 "arned over my years of live coding with music - *there are no mistakes, only o"
@@ -573,11 +571,15 @@ msgid ""
 "sound, manipulate it and morph it into something awesome. The crowd will go *w"
 "ild*."
 msgstr ""
-"このチュートリアルの内容に取り組むにあたって、私が何年もライブコーディングしてきて得られたアドバイスを紹介しましょう。「間違いはない、あるのはただ可能性だけ"
-"」これは、しばしばジャズについて言われることですが、ライブコーディングにも同様に言えることです。経験に関係なく、あなたが全くの初心者でも、熟練のライブコーダ"
-"ーでも、コードを実行してまったく予期せぬ結果になることがあります。めちゃくちゃクールに聞こえる場合は、そのコードを実行すればいいのですが、すごく耳障りで場違"
-"いに聞こえる場合もあります。そうなっても問題ではありません。重要なのは、あなたが次にすべきことです。音を取り除き、それを操作し、素晴らしいものに変化させるの"
-"です。観衆は*熱狂*するでしょう。"
+"このチュートリアルの内容に取り組むにあたって、私が何年もライブコーディングし"
+"てきて得られたアドバイスを紹介しましょう。「間違いはない、あるのはただ可能性"
+"だけ」これは、しばしばジャズについて言われることですが、ライブコーディングに"
+"も同様に言えることです。経験に関係なく、あなたが全くの初心者でも、熟練のライ"
+"ブコーダーでも、コードを実行してまったく予期せぬ結果になることがあります。め"
+"ちゃくちゃクールに聞こえる場合は、そのコードを実行すればいいのですが、すごく"
+"耳障りで場違いに聞こえる場合もあります。そうなっても問題ではありません。重要"
+"なのは、あなたが次にすべきことです。音を取り、操作し、素晴らしいものに変える"
+"のです。観衆は*熱狂*するでしょう。"
 
 #: 01.3-Learning-through-Play.md:24
 msgid "Start Simple"
@@ -701,14 +703,14 @@ msgstr ""
 "ピアノと同じように、ピアノの下部（左側）のキーは低い音を演奏し、ピアノの上部（右側）のキーは高い音を演奏します。"
 
 #: 02.1-Your-First-Beeps.md:38
-#, fuzzy
 msgid ""
 "It turns out that the C of the 4th octave (C in English notation) is identifie"
 "d by the number 60. `play 60` therefore plays the C of the 4th octave. To play"
 " the next piano key to the right, you have to add 1 to 60 and then type `play "
 "61`, which in this case is the black key of the C sharp. To play the D, the ne"
 "xt key to the right, `play 62`."
-msgstr "play 60"
+msgstr "ド(英語圏でのCの第4オクターブ)は数値60で表せます。よって、`play "
+"60`はドを再生します。ピアノにある"
 
 #: 02.1-Your-First-Beeps.md:40
 msgid ""
@@ -1150,7 +1152,6 @@ msgstr ""
 "この章ではSonic Piが作り出すエキサイティングな音の領域へと探検していきましょう。"
 
 #: 02.3-Switching-Synths.md:13
-#, fuzzy
 msgid ""
 "Sonic Pi has a number of different instruments it calls synths (which is *shor"
 "t for synthesisers*). Whereas samples represent pre-recorded sounds, synths ar"
@@ -1159,9 +1160,12 @@ msgid ""
 "xpressive and you'll have a lot of fun exploring and playing with them. First,"
 " let's learn how to select the current synth to use."
 msgstr ""
-"Sonic Piは、シンセサイザーの略であるシンセと呼ばれる楽器の機能を持っています。サンプルがすでに録音された音であるのに対して、シンセはあなたがそれをコ"
-"ントロールすることに応じて新しいサウンドを生み出すことができます（このチュートリアルの後半でみていきます）。Sonic Piのシンセは、パワフルで表現力に富"
-"んでいて、探索しながら演奏したり、楽しめるはずです。最初に、ひとまずここでシンセを使うために、選び方を学んでみましょう。"
+"Sonic Piは、シンセサイザーの略であるシンセと呼ばれる楽器の機能を持っています"
+"。サンプルがすでに録音された音であるのに対して、シンセはあなたがそれをコント"
+"ロールすることに応じて新しいサウンドを生み出すことができます（このチュートリ"
+"アルの後半でみていきます）。Sonic Piのシンセは、パワフルで表現力に富んでいて"
+"、試しながら演奏したり、楽しめるはずです。最初に、ひとまずここでシンセを使う"
+"ために、選び方を学んでみましょう。"
 
 #: 02.3-Switching-Synths.md:21
 msgid "Buzzy saws and prophets"
@@ -1448,7 +1452,6 @@ msgid "![release envelope](../../../etc/doc/images/tutorial/env-release.png)"
 msgstr "![release envelope](../../../etc/doc/images/tutorial/env-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:81
-#, fuzzy
 msgid ""
 "The vertical line at the far left of the diagram shows that the sound starts a"
 "t 0 amplitude, but goes up to full amplitude immediately (this is the attack p"
@@ -1456,9 +1459,11 @@ msgid ""
 "ht line down to zero taking the amount of time specified by `release:`. *Longe"
 "r release times produce longer synth fade outs.*"
 msgstr ""
-"図の左端の縦の線は、サウンドが`0`の音量（ゼロ・アンプ）からスタートしていることを示しています。しかし、すぐにフル・アンプに上がります（これは私たちが後で"
-"学ぶ、アタック・フェーズというものです）。いったんフル・アンプになり、それから`release:`で指定した値を取りながら、直線的にゼロに下がります。*長い"
-"リリース・タイムは長いシンセ・フェード・アウト（徐々に消えること）を生成します*。"
+"図の左端の縦の線は、サウンドが`0`の音量（ゼロ・アンプ）からスタートしているこ"
+"とを示しています。しかし、すぐに最大アンプに上がります（これは私たちが後で学"
+"ぶ、アタック・フェーズというものです）。いったん最大アンプになり、それから`re"
+"lease:`で指定した値を取りながら、直線的にゼロに下がります。*長いリリース・タ"
+"イムは長いシンセ・フェード・アウト（徐々に消えること）を生成します*。"
 
 #: 02.4-Durations-with-Envelopes.md:88
 msgid ""
