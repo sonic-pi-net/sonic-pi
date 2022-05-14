@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2022-05-14 16:13+0000\n"
+"PO-Revision-Date: 2022-05-15 22:13+0000\n"
 "Last-Translator: john john <joaonl@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/pt/>\n"
@@ -780,14 +780,18 @@ msgstr ""
 " mais altas"
 
 #: 02.1-Your-First-Beeps.md:38
-#, fuzzy
 msgid ""
 "It turns out that the C of the 4th octave (C in English notation) is identifie"
 "d by the number 60. `play 60` therefore plays the C of the 4th octave. To play"
 " the next piano key to the right, you have to add 1 to 60 and then type `play "
 "61`, which in this case is the black key of the C sharp. To play the D, the ne"
 "xt key to the right, `play 62`."
-msgstr "play 60"
+msgstr ""
+"Parece que o Dó na quarta oitava (C na notação anglo-saxónica) é "
+"identificada pelo numero 60. Por isso `play 60` toca o C (Dó) na quarta "
+"oitava. Para tocar a próxima tecla do piano á direita, tens que adicionar 1 "
+"a 60 e digitar `play 61`, que neste caso é a tecla preta do C sustenido. "
+"Para tocar o D, a próxima tecla é direita, `play 62`."
 
 #: 02.1-Your-First-Beeps.md:40
 msgid ""
@@ -5538,6 +5542,16 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
+"a = (ring 6, 5, 4, 3, 2, 1)\n"
+"live_loop :sorted do\n"
+"  a = a.sort\n"
+"  sleep 0.5\n"
+"  puts \"sorted: \", a\n"
+"end\n"
+"live_loop :shuffled do\n"
+"  a = a.shuffle\n"
+"  sleep 0.5\n"
+"end"
 
 #: 05.6-Variables.md:154
 msgid ""
@@ -5575,9 +5589,9 @@ msgid ""
 " a sorted list as each live loop has its own separate variable:"
 msgstr ""
 "Existem duas soluções para isto. Primeiro, *não usar as mesmas variáveis em "
-"múltiplos ciclos \"live_loop\" ou threads. Por exemplo, o seguinte código  "
-"deverá sempre imprimir uma lista ordenada à medida que cada ciclo \"ao vivo\""
-" tenha as suas variáveis separadas"
+"múltiplos ciclos \"live_loop\" ou threads*. Por exemplo, o seguinte código  "
+"deverá sempre imprimir uma lista ordenada à medida que cada ciclo \"live_loop"
+"\" tenha as suas variáveis separadas"
 
 #: 05.6-Variables.md:173
 #, no-wrap
@@ -5613,6 +5627,10 @@ msgid ""
 "s special thread-safe state system via the fns `get` and `set`. This is discus"
 "sed later on in section 10."
 msgstr ""
+"No entanto, ás vezes queremos partilhar coisas entre threads. Por exemplo, a "
+"tecla atual, as BPM, sintetizador, etc. Nestes casos, a solução é o utilizar "
+"as funções `get` e`set` que fazem parte do sistema seguro do Sonic PI para "
+"partilha entre threads."
 
 #: 05.7-Thread-Synchronisation.md:1
 msgid "5.7 Thread Synchronisation"
@@ -8436,7 +8454,7 @@ msgstr ""
 
 #: 09.4-Ticking.md:70
 msgid "Look"
-msgstr "Look"
+msgstr "Olha"
 
 #: 09.4-Ticking.md:72
 msgid ""
@@ -8523,11 +8541,11 @@ msgstr ""
 
 #: 10-State.md:1
 msgid "10 Time State"
-msgstr ""
+msgstr "10 Time State"
 
 #: 10-State.md:3
 msgid "Time State"
-msgstr ""
+msgstr "Time State"
 
 #: 10-State.md:5
 msgid ""
@@ -8542,6 +8560,16 @@ msgid ""
 "information across threads* due to a loss of determinism (in turn due to race "
 "conditions)."
 msgstr ""
+"Frequentemente é útil ter informação *partilhada entre varias threads ou "
+"live loops*. Por exemplo, podes querer partilhar a noção da tecla actual, "
+"BPM ou até conceitos abstractos como a 'complexidade' actual ( que pode ser "
+"interpretada de forma diferente em threads diferentes). Também não queremos "
+"a garantia de determinismo existente ao fazermos isto. Ou seja, queremos "
+"partilhar código com outros e saber exatamente o que eles vão ouvir ao "
+"executa-lo. No final da secção 5.6 deste tutorial nós discutimos brevemente "
+"porque é que *não devemos utilizar variáveis para partilhar informação entre "
+"threads* devido à possível perca de determinismo (por sua vez devido à "
+"condição de corrida)."
 
 #: 10-State.md:16
 msgid ""
@@ -8553,10 +8581,17 @@ msgid ""
 "mple to share state across threads* whilst still keeping your programs *thread"
 "-safe and deterministic.*."
 msgstr ""
+"A solução do Sonic Pi ao problema de lidar com variáveis globais de forma "
+"determinística é através de um sistema novo chamado de Time State. Isto pode "
+"parecer complexo e difícil (de facto, no Reino Unido, programar com várias "
+"threads e memoria partilhada é normalmente um assunto abordado na "
+"universidade) No entanto, como poderás ver, tal como tocar a primeira nota, "
+"o *Sonic Pi torna incrivelmente fácil a partilha de estado entre múltiplas "
+"threads* enquanto mantém os teus programas *thread safe e deterministicos*."
 
 #: 10-State.md:24
 msgid "Meet `get` and `set`..."
-msgstr ""
+msgstr "Conhece o `get` e o `set`..."
 
 #: 10.1-Set-and-Get.md:1
 msgid "10.1 Set and Get"
@@ -8572,39 +8607,47 @@ msgid ""
 "do with it are to `set` information and `get` information. Let's dive deeper.."
 "."
 msgstr ""
+"O Sonic Pi tem um armazenamento global chamado de Time State. As duas coisas "
+"principais que fazes com ele é armazenar (`set`) informação e ler ( `get` ) "
+"informação. Vamos aprofundar..."
 
 #: 10.1-Set-and-Get.md:9
 msgid "Set"
-msgstr ""
+msgstr "Set"
 
 #: 10.1-Set-and-Get.md:11
 msgid "To store information into the Time State we need two things:"
-msgstr ""
+msgstr "Para armazenar informação no Time State são necessárias duas coisas:"
 
 #: 10.1-Set-and-Get.md:13
 msgid "the information we want to store,"
-msgstr ""
+msgstr "a informação que queremos armazenar,"
 
 #: 10.1-Set-and-Get.md:14
 msgid "a unique name (key) for the information."
-msgstr ""
+msgstr "uma chave (nome único) para a informação."
 
 #: 10.1-Set-and-Get.md:16
 msgid ""
 "For example, we might want to store the number `3000` with the key `:intensity"
 "`. This is possible using the `set` function:"
 msgstr ""
+"Por exemplo, nós podemos querer armazenar o numero `3000` com a chave "
+"`:intensity`. Isto é possível utilizando a função `set` :"
 
 #: 10.1-Set-and-Get.md:19
 #, no-wrap
 msgid "set :intensity, 3000"
-msgstr ""
+msgstr "set :intensity, 3000"
 
 #: 10.1-Set-and-Get.md:23
 msgid ""
 "We can use any name for our key. If information has already been stored with t"
 "hat key, our new `set` will override it:"
 msgstr ""
+"Podemos usar qualquer nome para a nossa chave. Se alguma informação já foi "
+"armazenada anteriormente com a mesma chave, o nosso novo `set` vai substitui-"
+"la:"
 
 #: 10.1-Set-and-Get.md:26
 #, no-wrap
@@ -8612,6 +8655,8 @@ msgid ""
 "set :intensity, 1000\n"
 "set :intensity, 3000"
 msgstr ""
+"set :intensity, 1000\n"
+"set :intensity, 3000"
 
 #: 10.1-Set-and-Get.md:31
 msgid ""
@@ -8619,10 +8664,13 @@ msgid ""
 "all to `set` 'wins', so the number associated with `:intensity` will be `3000`"
 " as the first call to `set` is effectively overridden."
 msgstr ""
+"No exemplo em cima, nós guardamos ambos os números utilizando a mesma chave, "
+"a ultima chamada `set` ganha , por isso o numero associado a `:intensity` "
+"vai ser `3000` já que a primeira chamada ao `set` é efetivamente substituída."
 
 #: 10.1-Set-and-Get.md:35
 msgid "Get"
-msgstr ""
+msgstr "Get"
 
 #: 10.1-Set-and-Get.md:37
 msgid ""
@@ -8630,11 +8678,15 @@ msgid ""
 " it, which in our case is `:intensity`. We then just need to call `get[:intens"
 "ity]` which we can see by printing out the result to the log:"
 msgstr ""
+"Para tirar informação do Time State só precisamos de utilizar a chave que "
+"utilizamos para armazena-la (`set`) , que no nosso caso e `:intensity`. Só "
+"precisamos então de chamar `get[:intensity]`que podemos ver ao imprimirmos o "
+"resultado para o log:"
 
 #: 10.1-Set-and-Get.md:42
 #, no-wrap
 msgid "print get[:intensity] #=> prints 3000"
-msgstr ""
+msgstr "print get[:intensity] #=> prints 3000"
 
 #: 10.1-Set-and-Get.md:46
 msgid ""
@@ -8645,9 +8697,8 @@ msgid ""
 msgstr ""
 
 #: 10.1-Set-and-Get.md:52
-#, fuzzy
 msgid "Multiple Threads"
-msgstr "Threads"
+msgstr "Várias Threads"
 
 #: 10.1-Set-and-Get.md:54
 msgid ""
@@ -8735,12 +8786,14 @@ msgid "A Simple Deterministic State System"
 msgstr ""
 
 #: 10.1-Set-and-Get.md:109
-#, fuzzy
 msgid ""
 "Back in Section 5.6 we discussed why using variables across threads can lead t"
 "o random behaviour. This stops us from being able to reliably reproduce code s"
 "uch as this:"
-msgstr "rand"
+msgstr ""
+"Atrás na secção 5.6 discutimos a razão pela qual utilizar variáveis através "
+"de diferentes threads pode levar a comportamento aleatório. Isto faz-nos "
+"desconfiar de código como este:"
 
 #: 10.1-Set-and-Get.md:113
 #, no-wrap
@@ -9217,14 +9270,12 @@ msgstr ""
 ". Por exemplo`\"/foo/[a-e]ux/baz\"` que irá corresponder somente a:"
 
 #: 10.3-Pattern-Matching.md:109
-#, fuzzy
 msgid "`cue \"/foo/dux/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/dux/baz\"`"
 
 #: 10.3-Pattern-Matching.md:110
-#, fuzzy
 msgid "`cue \"/foo/eux/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/eux/baz\"`"
 
 #: 10.3-Pattern-Matching.md:112
 msgid "Combining Matchers"
@@ -9236,10 +9287,10 @@ msgid ""
 " see fit to powerfully match any Time State event created by `cue` or `set`. L"
 "et's look at a crazy example:"
 msgstr ""
-"Ao chamar `sync` ou `get` você está livre para combinar localizadores de corre"
-"spondência em qualquer ordem que você achar necessário para \n"
-"encontrar qualquer evento Time State criado por `cue` ou `set`. Vamos ver um e"
-"xemplo doido:"
+"Ao chamar `sync` ou `get` você está livre para combinar localizadores de "
+"correspondência em qualquer ordem que você achar necessário para encontrar "
+"qualquer evento Time State criado por `cue` ou `set`. Vamos ver um exemplo "
+"doido:"
 
 #: 10.3-Pattern-Matching.md:118
 #, no-wrap
@@ -9766,7 +9817,7 @@ msgstr ""
 #: 11.2-MIDI-Out.md:65
 #, no-wrap
 msgid "midi_note_on :e3, port: \"moog_minitaur\""
-msgstr ""
+msgstr "midi_note_on :e3, port: \"moog_minitaur\""
 
 #: 11.2-MIDI-Out.md:69
 msgid ""
@@ -9777,7 +9828,7 @@ msgstr ""
 #: 11.2-MIDI-Out.md:72
 #, no-wrap
 msgid "midi_note_on :e3, channel: 3"
-msgstr ""
+msgstr "midi_note_on :e3, channel: 3"
 
 #: 11.2-MIDI-Out.md:76
 msgid ""
@@ -9788,7 +9839,7 @@ msgstr ""
 #: 11.2-MIDI-Out.md:79
 #, no-wrap
 msgid "midi_note_on :e3, port: \"moog_minitaur\", channel: 5"
-msgstr ""
+msgstr "midi_note_on :e3, port: \"moog_minitaur\", channel: 5"
 
 #: 11.2-MIDI-Out.md:83
 msgid "MIDI Studio"
@@ -9823,8 +9874,9 @@ msgid ""
 msgstr ""
 
 #: 12-OSC.md:1
+#, fuzzy
 msgid "12 OSC"
-msgstr ""
+msgstr "12 OSC"
 
 #: 12-OSC.md:3
 msgid "OSC"
@@ -9849,11 +9901,11 @@ msgstr ""
 
 #: 12.1-Receiving-OSC.md:1
 msgid "12.1 Receiving OSC"
-msgstr ""
+msgstr "12.1 Receber OSC"
 
 #: 12.1-Receiving-OSC.md:3
 msgid "Receiving OSC"
-msgstr ""
+msgstr "Receber OSC"
 
 #: 12.1-Receiving-OSC.md:5
 #, fuzzy
@@ -9909,13 +9961,17 @@ msgid ""
 msgstr ""
 
 #: 12.1-Receiving-OSC.md:42
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "from pythonosc import osc_message_builder\n"
 "from pythonosc import udp_client\n"
 "sender = udp_client.SimpleUDPClient('127.0.0.1', 4560)\n"
 "sender.send_message('/trigger/prophet', [70, 100, 8])"
 msgstr ""
+"from pythonosc import osc_message_builder\n"
+"from pythonosc import udp_client\n"
+"sender = udp_client.SimpleUDPClient('127.0.0.1', 4560)\n"
+"sender.send_message('/trigger/prophet', [70, 100, 8])"
 
 #: 12.1-Receiving-OSC.md:50
 msgid ""
@@ -9924,12 +9980,15 @@ msgid ""
 msgstr ""
 
 #: 12.1-Receiving-OSC.md:52
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "(use 'overtone.core)\n"
 "(def c (osc-client \"127.0.0.1\" 4560))\n"
 "(osc-send c \"/trigger/prophet\" 70 100 8)"
 msgstr ""
+"(use 'overtone.core)\n"
+"(def c (osc-client \"127.0.0.1\" 4560))\n"
+"(osc-send c \"/trigger/prophet\" 70 100 8)"
 
 #: 12.1-Receiving-OSC.md:58
 msgid "Receiving from External Machines"
@@ -9975,11 +10034,13 @@ msgid ""
 msgstr ""
 
 #: 12.2-Sending-OSC.md:10
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "use_osc \"localhost\", 4560\n"
 "osc \"/hello/world\""
 msgstr ""
+"use_osc \"localhost\", 4560\n"
+"osc \"/hello/world\""
 
 #: 12.2-Sending-OSC.md:15
 msgid ""
@@ -10005,11 +10066,13 @@ msgid ""
 msgstr ""
 
 #: 12.2-Sending-OSC.md:32
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "use_osc \"localhost\", 123456\n"
 "osc \"/hello/world\""
 msgstr ""
+"use_osc \"localhost\", 123456\n"
+"osc \"/hello/world\""
 
 #: 12.2-Sending-OSC.md:37
 msgid ""
@@ -10025,11 +10088,13 @@ msgid ""
 msgstr ""
 
 #: 12.2-Sending-OSC.md:44
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "use_osc \"192.168.10.23\", 123456\n"
 "osc \"/hello/world\""
 msgstr ""
+"use_osc \"192.168.10.23\", 123456\n"
+"osc \"/hello/world\""
 
 #: 12.2-Sending-OSC.md:49
 msgid ""
@@ -10073,9 +10138,9 @@ msgid ""
 msgstr ""
 
 #: 13.1-Sound-In.md:7
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "synth :sound_in"
-msgstr ""
+msgstr "synth :sound_in"
 
 #: 13.1-Sound-In.md:11
 msgid ""
@@ -10101,9 +10166,9 @@ msgid ""
 msgstr ""
 
 #: 13.1-Sound-In.md:22
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "synth :sound_in, sustain: 8"
-msgstr ""
+msgstr "synth :sound_in, sustain: 8"
 
 #: 13.1-Sound-In.md:28
 msgid ""
@@ -10112,7 +10177,7 @@ msgid ""
 msgstr ""
 
 #: 13.1-Sound-In.md:30
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "with_fx :reverb do\n"
 "  with_fx :distortion do\n"
@@ -10120,6 +10185,11 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"with_fx :reverb do\n"
+"  with_fx :distortion do\n"
+"    synth :sound_in, sustain: 8\n"
+"  end\n"
+"end"
 
 #: 13.1-Sound-In.md:38
 msgid ""
@@ -10136,7 +10206,7 @@ msgid ""
 msgstr ""
 
 #: 13.1-Sound-In.md:42
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "with_fx :distortion do\n"
 "  synth :sound_in, sustain: 8\n"
@@ -10145,6 +10215,12 @@ msgid ""
 "  synth :sound_in, sustain: 8\n"
 "end"
 msgstr ""
+"with_fx :distortion do\n"
+"  synth :sound_in, sustain: 8\n"
+"end\n"
+"with_fx :reverb do  \n"
+"  synth :sound_in, sustain: 8\n"
+"end"
 
 #: 13.1-Sound-In.md:52
 #, fuzzy
@@ -10161,7 +10237,7 @@ msgid ""
 msgstr ""
 
 #: 13.1-Sound-In.md:61
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "with_fx :distortion do\n"
 "  synth :sound_in_stereo, sustain: 8, input: 1\n"
@@ -10170,6 +10246,12 @@ msgid ""
 "  synth :sound_in, sustain: 8, input: 3\n"
 "end"
 msgstr ""
+"with_fx :distortion do\n"
+"  synth :sound_in_stereo, sustain: 8, input: 1\n"
+"end\n"
+"with_fx :reverb do  \n"
+"  synth :sound_in, sustain: 8, input: 3\n"
+"end"
 
 #: 13.1-Sound-In.md:72
 msgid "Potential Issues"
@@ -10221,7 +10303,7 @@ msgstr ""
 #, no-wrap
 #, fuzzy
 msgid "live_audio :foo"
-msgstr "foo"
+msgstr "live_audio :foo"
 
 #: 13.2-Live-Audio.md:23
 msgid ""
@@ -10248,7 +10330,10 @@ msgid ""
 "with_fx :reverb do\n"
 "  live_audio :foo\n"
 "end"
-msgstr "foo"
+msgstr ""
+"with_fx :reverb do\n"
+"  live_audio :foo\n"
+"end"
 
 #: 13.2-Live-Audio.md:40
 msgid ""
@@ -10275,7 +10360,10 @@ msgid ""
 "with_fx :echo do\n"
 "  live_audio :foo\n"
 "end"
-msgstr "foo"
+msgstr ""
+"with_fx :echo do\n"
+"  live_audio :foo\n"
+"end"
 
 #: 13.2-Live-Audio.md:58
 msgid ""
@@ -10293,7 +10381,12 @@ msgid ""
 "    live_audio :foo\n"
 "  end\n"
 "end"
-msgstr "foo"
+msgstr ""
+"with_fx :reverb do\n"
+"  with_fx :echo do\n"
+"    live_audio :foo\n"
+"  end\n"
+"end"
 
 #: 13.2-Live-Audio.md:70
 #, fuzzy
@@ -10391,7 +10484,7 @@ msgid ""
 msgstr ""
 
 #: 13.3-Sound-Out.md:16
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "with_fx :reverb do    # C\n"
 "  with_fx :echo do    # B\n"
@@ -10399,6 +10492,11 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"with_fx :reverb do    # C\n"
+"  with_fx :echo do    # B\n"
+"    sample :bd_haus   # A\n"
+"  end\n"
+"end"
 
 #: 13.3-Sound-Out.md:24
 msgid ""
