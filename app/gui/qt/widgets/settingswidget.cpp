@@ -53,30 +53,6 @@ SettingsWidget::SettingsWidget(int tau_osc_cues_port, bool i18n, SonicPiSettings
     QGroupBox *language_prefs_box = createLanguagePrefsTab();
     prefTabs->addTab(language_prefs_box, tr("Language"));
 
-    if (piSettings->language == "system_language") {
-      if (!sonicPii18n->isSystemLanguageAvailable()) {
-          QGroupBox *translation_box = new QGroupBox("Translation");
-          QVBoxLayout *translation_box_layout = new QVBoxLayout;
-          QLabel *go_translate = new QLabel;
-          go_translate->setOpenExternalLinks(true);
-          go_translate->setText(
-                  "Sonic Pi hasn't been translated to " +
-                  QLocale::languageToString(QLocale::system().language()) +
-                  " yet.<br/>" +
-                  "We rely on crowdsourcing to help create and maintain translations.<br/>" +
-                  "<a href=\"https://github.com/sonic-pi-net/sonic-pi/blob/main/TRANSLATION.md\">" +
-                  "Please consider helping to translate Sonic Pi to your language.</a> "
-                  );
-          go_translate->setTextFormat(Qt::RichText);
-          translation_box_layout->addWidget(go_translate);
-          translation_box->setLayout(translation_box_layout);
-
-          grid->addWidget(translation_box, 3, 0, 1, 2);
-      }
-    }
-
-
-
 
     settingsChanged();
     connectAll();
@@ -529,6 +505,25 @@ QGroupBox* SettingsWidget::createLanguagePrefsTab() {
     language_box_layout->addWidget(language_combo);
     language_box_layout->addWidget(language_details_label);
     language_box_layout->addWidget(language_info_label);
+
+    if (piSettings->language == "system_language") {
+      if (!sonicPii18n->isSystemLanguageAvailable()) {
+          QGroupBox *translation_box = new QGroupBox("Translation");
+          QLabel *go_translate = new QLabel;
+          go_translate->setOpenExternalLinks(true);
+          go_translate->setText(
+                  "Sonic Pi hasn't been translated to " +
+                  QLocale::languageToString(QLocale::system().language()) +
+                  " yet.<br/>" +
+                  "We rely on crowdsourcing to help create and maintain translations.<br/>" +
+                  "<a href=\"https://github.com/sonic-pi-net/sonic-pi/blob/main/TRANSLATION.md\">" +
+                  "Please consider helping to translate Sonic Pi to your language.</a> "
+                  );
+          go_translate->setTextFormat(Qt::RichText);
+          language_box_layout->addWidget(go_translate);
+      }
+    }
+
 
     language_box->setLayout(language_box_layout);
 
