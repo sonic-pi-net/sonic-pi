@@ -468,7 +468,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2684"/>
         <source>Auto Indent Code Buffer on Run</source>
-        <translation>运行时自动缩进</translation>
+        <translation>运行时自动调整缩进</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2689"/>
