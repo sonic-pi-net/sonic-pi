@@ -97,12 +97,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="3618"/>
         <source>Enabling MIDI input...</source>
-        <translation>开启 MIDI 输入…</translation>
+        <translation>开启MIDI输入...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3624"/>
         <source>Disabling MIDI input...</source>
-        <translation>关闭MIDI输入...</translation>
+        <translation>禁用MIDI输入...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3640"/>
@@ -458,7 +458,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2674"/>
         <source>Log Synths</source>
-        <translation type="unfinished"></translation>
+        <translation>显示合成器日志</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2679"/>
@@ -488,22 +488,22 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2723"/>
         <source>Audio</source>
-        <translation type="unfinished">音频</translation>
+        <translation>音频</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2732"/>
         <source>Visuals</source>
-        <translation type="unfinished">视觉效果</translation>
+        <translation>视觉</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2736"/>
         <source>Light</source>
-        <translation type="unfinished">浅色</translation>
+        <translation>浅色</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2741"/>
         <source>Dark</source>
-        <translation type="unfinished">深色</translation>
+        <translation>深色</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2746"/>
@@ -518,12 +518,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2756"/>
         <source>High Contrast</source>
-        <translation type="unfinished">高对比度模式</translation>
+        <translation>高对比度</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2761"/>
         <source>Show Scope Labels</source>
-        <translation type="unfinished"></translation>
+        <translation>显示示波器名称</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2766"/>
@@ -533,12 +533,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2775"/>
         <source>Show Scope Kinds</source>
-        <translation type="unfinished"></translation>
+        <translation>显示示波器种类</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2786"/>
         <source>IO</source>
-        <translation type="unfinished">IO输入输出</translation>
+        <translation>输入、输出</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2788"/>
@@ -577,7 +577,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2801"/>
         <source>1</source>
-        <translation type="unfinished">1</translation>
+        <translation>1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2806"/>
@@ -952,7 +952,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2575"/>
         <source>Toggle information about Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>显示关于Sonic Pi的信息</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3568"/>
