@@ -140,7 +140,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1548"/>
         <source>Load Sonic Pi Buffer</source>
-        <translation>打开Sonic Pi 编辑器文件</translation>
+        <translation>打开 Sonic Pi Buffer 文件</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1548"/>
