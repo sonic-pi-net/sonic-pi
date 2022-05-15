@@ -383,7 +383,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2571"/>
         <source>Show Info</source>
-        <translation>显示信息</translation>
+        <translation>查看详情</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2579"/>
