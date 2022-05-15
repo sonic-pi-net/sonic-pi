@@ -102,7 +102,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="3624"/>
         <source>Disabling MIDI input...</source>
-        <translation>禁用MIDI输入...</translation>
+        <translation>禁用MIDI输入</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3640"/>
@@ -140,7 +140,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1548"/>
         <source>Load Sonic Pi Buffer</source>
-        <translation>打开 Sonic Pi Buffer 文件</translation>
+        <translation>加载 Sonic Pi Buffer 文件</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1548"/>
