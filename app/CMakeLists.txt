@@ -22,6 +22,9 @@ if(APPLE)
 endif()
 
 set(APP_ROOT ${CMAKE_CURRENT_LIST_DIR})
+if (NOT APP_INSTALL_ROOT)
+    set(APP_INSTALL_ROOT ${APP_ROOT})
+endif()
 
 # Different triplet for windows
 if (WIN32)
