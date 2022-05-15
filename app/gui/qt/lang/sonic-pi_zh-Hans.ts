@@ -707,7 +707,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="3662"/>
         <source>Disabling OSC cue port...</source>
-        <translation>禁用 OSC cue 端口...</translation>
+        <translation>禁用 OSC cue 端口…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3674"/>
