@@ -374,11 +374,11 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     debug_box->setLayout(debug_box_layout);
 
     gridEditorPrefs->addWidget(editor_look_feel_box, 0, 0);
-    gridEditorPrefs->addWidget(automation_box, 0, 1);
+    gridEditorPrefs->addWidget(automation_box, 2, 1);
     gridEditorPrefs->addWidget(editor_display_box, 1, 0);
     gridEditorPrefs->addWidget(editor_show_panels_box, 1, 1);
 
-    gridEditorPrefs->addWidget(debug_box, 2, 1);
+    gridEditorPrefs->addWidget(debug_box, 0, 1);
 
 
     editor_box->setLayout(gridEditorPrefs);
