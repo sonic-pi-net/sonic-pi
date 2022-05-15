@@ -58,6 +58,7 @@ private slots:
     void toggleTitles();
     void openSonicPiNet();
     void toggleCheckUpdates();
+    void toggleHideMenuBarInFullscreen();
     void checkForUpdatesNow();
     void updateSettings();
     void updateTransparency(int t);
@@ -92,6 +93,7 @@ signals:
     void scopeChanged();
     void scopeLabelsChanged();
     void titlesChanged();
+    void hideMenuBarInFullscreenChanged();
     void scopeChanged(QString name);
     void transparencyChanged(int t);
     void checkUpdatesChanged();
@@ -154,6 +156,7 @@ private:
     QCheckBox *show_scope_labels;
     QCheckBox *show_scopes;
     QCheckBox *show_titles;
+    QCheckBox *hide_menubar_in_fullscreen;
     QVBoxLayout *scope_box_kinds_layout;
 
     QPushButton *check_updates_now;

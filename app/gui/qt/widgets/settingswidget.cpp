@@ -303,6 +303,10 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     show_titles->setToolTip(tr("Toggle the title visibility for the scope, log, cue and other information panes"));
     show_titles->setChecked(true);
 
+    hide_menubar_in_fullscreen = new QCheckBox(tr("Hide Menubar in Fullscreen Mode"));
+    hide_menubar_in_fullscreen->setToolTip(tr("Automatically hide the menubar when the app is in full screen mode. Note that the menubar is always visible when not in full screen mode."));
+    hide_menubar_in_fullscreen->setChecked(false);
+
     show_scopes = new QCheckBox(tr("Show Scopes"));
     show_scopes->setToolTip(tr("Toggle the visibility of the audio oscilloscopes."));
 
@@ -334,6 +338,7 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     editor_display_box_layout->addWidget(show_buttons);
     editor_display_box_layout->addWidget(show_tabs);
     editor_display_box_layout->addWidget(show_titles);
+    editor_display_box_layout->addWidget(hide_menubar_in_fullscreen);
 
     editor_box_look_feel_layout->addWidget(lightModeCheck);
     editor_box_look_feel_layout->addWidget(darkModeCheck);
@@ -730,6 +735,10 @@ void SettingsWidget::toggleTitles() {
     emit titlesChanged();
 }
 
+void SettingsWidget::toggleHideMenuBarInFullscreen() {
+    emit hideMenuBarInFullscreenChanged();
+}
+
 void SettingsWidget::updateTransparency(int t) {
     emit transparencyChanged(t);
 }
@@ -830,6 +839,7 @@ void SettingsWidget::updateSettings() {
     piSettings->show_scopes = show_scopes->isChecked();
     piSettings->show_scope_labels = show_scope_labels->isChecked();
     piSettings->show_titles = show_titles->isChecked();
+    piSettings->hide_menubar_in_fullscreen = hide_menubar_in_fullscreen->isChecked();
 
     piSettings->check_updates = check_updates->isChecked();
 }
@@ -884,6 +894,7 @@ void SettingsWidget::settingsChanged() {
     show_scopes->setChecked(piSettings->show_scopes);
     show_scope_labels->setChecked(piSettings->show_scope_labels);
     show_titles->setChecked(piSettings->show_titles);
+    hide_menubar_in_fullscreen->setChecked(piSettings->hide_menubar_in_fullscreen);
 
     check_updates->setChecked(piSettings->check_updates);
     show_autocompletion->setChecked(piSettings->show_autocompletion);
@@ -952,6 +963,8 @@ void SettingsWidget::connectAll() {
     connect(show_scope_labels, SIGNAL(clicked()), this, SLOT(toggleScopeLabels()));
     connect(show_titles, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(show_titles, SIGNAL(clicked()), this, SLOT(toggleTitles()));
+    connect(hide_menubar_in_fullscreen, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(hide_menubar_in_fullscreen, SIGNAL(clicked()), this, SLOT(toggleHideMenuBarInFullscreen()));
     connect(show_scopes, SIGNAL(clicked()), this, SLOT(toggleScope()));
 
     connect(check_updates, SIGNAL(clicked()), this, SLOT(updateSettings()));

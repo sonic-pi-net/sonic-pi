@@ -421,6 +421,7 @@ void MainWindow::setupWindowStructure()
     connect(settingsWidget, SIGNAL(scopeChanged(QString)), this, SLOT(changeScopeKindVisibility(QString)));
     connect(settingsWidget, SIGNAL(scopeLabelsChanged()), this, SLOT(changeScopeLabels()));
     connect(settingsWidget, SIGNAL(titlesChanged()), this, SLOT(changeTitleVisibility()));
+    connect(settingsWidget, SIGNAL(hideMenuBarInFullscreenChanged()), this, SLOT(changeMenuBarInFullscreenVisibility()));
     connect(settingsWidget, SIGNAL(transparencyChanged(int)), this, SLOT(changeGUITransparency(int)));
 
     connect(settingsWidget, SIGNAL(checkUpdatesChanged()), this, SLOT(update_check_updates()));
@@ -889,6 +890,7 @@ void MainWindow::updateFullScreenMode()
         //switch to full screen mode
         std::cout << "[GUI] - switch into full screen mode." << std::endl;
 
+
 #if defined(Q_OS_WIN)
 
         QRect rect = this->geometry();
@@ -905,7 +907,7 @@ void MainWindow::updateFullScreenMode()
     {
         //switch out of full screen mode
         std::cout << "[GUI] - switch out of full screen mode." << std::endl;
-
+        menuBar()->show();
 #ifdef Q_OS_WIN
         this->setWindowFlags(Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowMinimizeButtonHint | Qt::WindowMaximizeButtonHint | Qt::WindowCloseButtonHint);
         this->setWindowFlags(windowFlags() & ~Qt::FramelessWindowHint);
@@ -919,7 +921,7 @@ void MainWindow::updateFullScreenMode()
         statusBar()->showMessage(tr("Full screen mode off."), 2000);
         fullScreenMode = false;
     }
-
+    changeMenuBarInFullscreenVisibility();
     this->show();
 }
 
@@ -1988,6 +1990,14 @@ void MainWindow::titleVisibilityChanged()
     changeTitleVisibility();
 }
 
+void MainWindow::menuBarInFullscreenVisibilityChanged()
+{
+
+    piSettings->hide_menubar_in_fullscreen = hideMenuBarInFullscreenAct->isChecked();
+    emit settingsChanged();
+    changeMenuBarInFullscreenVisibility();
+}
+
 void MainWindow::changeScopeLabels()
 {
     QSignalBlocker blocker(showScopeLabelsAct);
@@ -2004,6 +2014,22 @@ void MainWindow::changeTitleVisibility()
     } else {
       blankTitleBars();
       showTitlesAct->setChecked(false);
+    }
+}
+
+void MainWindow::changeMenuBarInFullscreenVisibility()
+{
+    QSignalBlocker blocker(hideMenuBarInFullscreenAct);
+    if(piSettings->hide_menubar_in_fullscreen) {
+      if (piSettings->full_screen) {
+        menuBar()->hide();
+      }
+      hideMenuBarInFullscreenAct->setChecked(true);
+    } else {
+      if (piSettings->full_screen) {
+        menuBar()->show();
+      }
+      hideMenuBarInFullscreenAct->setChecked(false);
     }
 }
 
@@ -2859,6 +2885,11 @@ void MainWindow::createToolBar()
     showTitlesAct->setChecked(false);
     connect(showTitlesAct, SIGNAL(triggered()), this, SLOT(titleVisibilityChanged()));
 
+    hideMenuBarInFullscreenAct = new QAction(tr("Hide Menu Bar in Fullscreen Mode"));
+    hideMenuBarInFullscreenAct->setCheckable(true);
+    hideMenuBarInFullscreenAct->setChecked(false);
+    connect(hideMenuBarInFullscreenAct, SIGNAL(triggered()), this, SLOT(menuBarInFullscreenVisibilityChanged()));
+
     themeMenu = displayMenu->addMenu(tr("Colour Theme"));
     themeMenu->addAction(lightThemeAct);
     themeMenu->addAction(darkThemeAct);
@@ -3078,6 +3109,7 @@ void MainWindow::createToolBar()
     viewMenu->addAction(showButtonsAct);
     viewMenu->addAction(showTabsAct);
     viewMenu->addAction(showTitlesAct);
+    viewMenu->addAction(hideMenuBarInFullscreenAct);
     viewMenu->addSeparator();
     viewMenu->addAction(infoAct);
     viewMenu->addAction(helpAct);
@@ -3359,6 +3391,7 @@ void MainWindow::readSettings()
     piSettings->show_scope_labels = gui_settings->value("prefs/scope/show-labels", false).toBool();
     piSettings->show_cues = gui_settings->value("prefs/show_cues", true).toBool();
     piSettings->show_titles = gui_settings->value("prefs/show-titles", true).toBool();
+    piSettings->hide_menubar_in_fullscreen = gui_settings->value("prefs/hide-menubar-in-fullscreen", false).toBool();
     QString styleName = gui_settings->value("prefs/theme", "").toString();
 
     piSettings->themeStyle = theme->themeNameToStyle(styleName);
@@ -3411,6 +3444,7 @@ void MainWindow::writeSettings()
     gui_settings->setValue("prefs/scope/show-labels", piSettings->show_scope_labels);
     gui_settings->setValue("prefs/scope/show-scopes", piSettings->show_scopes);
     gui_settings->setValue("prefs/show-titles", piSettings->show_titles);
+    gui_settings->setValue("prefs/hide-menubar-in-fullscreen", piSettings->hide_menubar_in_fullscreen);
     gui_settings->setValue("prefs/show_cues", piSettings->show_cues);
     gui_settings->setValue("prefs/theme", theme->themeStyleToName(piSettings->themeStyle));
 
