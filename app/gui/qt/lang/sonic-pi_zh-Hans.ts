@@ -298,7 +298,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2307"/>
         <source>Show autocompletion off</source>
-        <translation>不显示代码自动补全</translation>
+        <translation>关闭自动补完显示</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2322"/>
