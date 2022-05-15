@@ -102,7 +102,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="3624"/>
         <source>Disabling MIDI input...</source>
-        <translation>禁用MIDI输入</translation>
+        <translation>禁用MIDI输入...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3640"/>
@@ -298,7 +298,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2307"/>
         <source>Show autocompletion off</source>
-        <translation>关闭自动补完显示</translation>
+        <translation>关闭自动补全显示</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2322"/>
@@ -393,7 +393,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2587"/>
         <source>Show Preferences</source>
-        <translation>显示选项</translation>
+        <translation>显示设置</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2614"/>
