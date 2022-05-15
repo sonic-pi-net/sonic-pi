@@ -468,7 +468,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2684"/>
         <source>Auto Indent Code Buffer on Run</source>
-        <translation>运行时自动调整缩进</translation>
+        <translation>运行时自动调整代码缩进</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2689"/>
@@ -1326,8 +1326,8 @@ Open Sound Control 消息。</translation>
         <location filename="../widgets/settingswidget.cpp" line="194"/>
         <source>Reset MIDI subsystems 
 (Required to detect device changes on macOS)</source>
-        <translation>重置MIDI子系统
-(在MacOS系统上需通过此步骤来检测设备变更)</translation>
+        <translation>重置 MIDI 子系统
+（在 macOS 上需要通过该步骤来检测设备变更）</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="236"/>
@@ -1433,7 +1433,7 @@ Sonic Pi接收以midi_*fns形式发送的MIDI消息</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="280"/>
         <source>Automatically align code on Run</source>
-        <translation>运行时自动对齐代码</translation>
+        <translation>运行代码时将代码自动对齐</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="282"/>
@@ -1556,7 +1556,7 @@ Sonic Pi接收以midi_*fns形式发送的MIDI消息</translation>
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
         <translation>切换日志消息记录。
-取消该选项时，由合成器和采样等触发的事件
+取消该选项时，合成器和采样器活动等事件消息
 默认将不在日志窗口中显示。</translation>
     </message>
     <message>
@@ -1569,9 +1569,9 @@ triggering will not be printed to the log by default.</source>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation>切换运行时清空日志。
-选中该选项时，每次运行按钮被按下时，
-log日志窗口将自动清空所有消息。</translation>
+        <translation>选择是否在运行代码时清空日志窗口。
+若选中该选项，则每次运行代码时，
+日志窗口将自动清空。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="355"/>
@@ -1583,21 +1583,21 @@ log日志窗口将自动清空所有消息。</translation>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation>是否允许在日志中记录标记信息。
-取消该选项时，标记仍能够被触发，
-但将不在出现在日志中。</translation>
+        <translation>是否在日志中记录 cue 信息。
+取消该选项时，cue 仍会被触发，
+但 cue 消息将不会出现在日志中。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="358"/>
         <source>Auto-scroll log</source>
-        <translation>自动滚动显示日志</translation>
+        <translation>自动滚动日志显示</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="359"/>
         <source>Toggle log auto scrolling.
 If enabled the log is scrolled to the bottom after every new message is displayed.</source>
-        <translation>日志自动滚动开关。
-打开该选项时，新的信息显示时，控制台将自动滚动至底部。</translation>
+        <translation>是否在有新消息时自动滚动日志窗口。
+选中该选项时，将会在有新的消息出现时自动滚动日志窗口到底部，以使新的消息能够被看到。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="382"/>
