@@ -95,12 +95,6 @@ target_link_directories(${APP_NAME}
 	 )
 endif()
 
-if (APP_INSTALL_ROOT)
-    target_compile_definitions(${APP_NAME} PRIVATE APP_INSTALL_ROOT="${APP_INSTALL_ROOT}")
-else()
-    target_compile_definitions(${APP_NAME} PRIVATE APP_INSTALL_ROOT="${APP_ROOT}")
-endif()
-
 target_link_libraries (${APP_NAME}
     PRIVATE
     SonicPi::API
