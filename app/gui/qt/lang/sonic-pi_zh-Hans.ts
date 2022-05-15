@@ -293,7 +293,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2305"/>
         <source>Show autocompletion on</source>
-        <translation>显示代码自动补全</translation>
+        <translation>开启自动完成显示</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2307"/>
