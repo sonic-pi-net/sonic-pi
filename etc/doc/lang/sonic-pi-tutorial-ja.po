@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2022-05-11 03:18+0000\n"
+"PO-Revision-Date: 2022-05-17 15:18+0000\n"
 "Last-Translator: Kenryu Shibata <kenryushibata@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/ja/>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.12.1\n"
+"X-Generator: Weblate 4.13-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -10099,9 +10099,8 @@ msgstr ""
 "、とても小さい数や大きい数を試してみましょう。楽しんでみてください！"
 
 #: A.02-live-coding.md:77
-#, fuzzy
 msgid "Sleeping is important"
-msgstr "\"睡眠\"は大切"
+msgstr "休みは大切"
 
 #: A.02-live-coding.md:79
 msgid ""
