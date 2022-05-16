@@ -47,6 +47,7 @@ private slots:
     void showAutoCompletion();
     void toggleLog();
     void toggleCuesLog();
+    void toggleMetro();
     void toggleButtons();
     void toggleFullScreen();
     void toggleTabs();
@@ -85,6 +86,7 @@ signals:
     void showAutoCompletionChanged();
     void showLogChanged();
     void showCuesChanged();
+    void showMetroChanged();
     void showButtonsChanged();
     void showFullscreenChanged();
     void showTabsChanged();
@@ -133,6 +135,7 @@ private:
     QCheckBox* goto_buffer_shortcuts;
     QCheckBox *show_log;
     QCheckBox *show_cues;
+    QCheckBox *show_metro;
     QCheckBox *show_buttons;
     QCheckBox *show_tabs;
     QCheckBox *check_updates;

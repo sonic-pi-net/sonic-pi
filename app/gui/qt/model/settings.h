@@ -31,6 +31,7 @@ public:
     bool show_cues;
     bool show_buttons;
     bool show_tabs;
+    bool show_metro;
     bool full_screen;
     bool goto_buffer_shortcuts;
     bool log_synths;

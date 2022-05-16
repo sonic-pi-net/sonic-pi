@@ -290,6 +290,10 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     show_cues->setToolTip(tooltipStrShiftMeta('C', tr("Toggle visibility of cue log which displays internal cues & incoming OSC/MIDI messages.")));
     show_cues->setChecked(true);
 
+    show_metro = new QCheckBox(tr("Show metronome"));
+    show_metro->setToolTip(tr("Toggle visibility of the metronome."));
+    show_cues->setChecked(true);
+
     show_buttons = new QCheckBox(tr("Show buttons"));
     show_buttons->setToolTip(tooltipStrShiftMeta('B', tr("Toggle visibility of the control buttons.")));
     show_buttons->setChecked(true);
@@ -332,6 +336,7 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     editor_show_panels_box_layout->addWidget(show_log);
     editor_show_panels_box_layout->addWidget(show_cues);
     editor_show_panels_box_layout->addWidget(show_context);
+    editor_show_panels_box_layout->addWidget(show_metro);
 
     editor_display_box_layout->addWidget(show_line_numbers);
     editor_display_box_layout->addWidget(show_autocompletion);
@@ -707,6 +712,10 @@ void SettingsWidget::toggleCuesLog() {
     emit showCuesChanged();
 }
 
+void SettingsWidget::toggleMetro() {
+    emit showMetroChanged();
+}
+
 void SettingsWidget::toggleButtons() {
     emit showButtonsChanged();
 }
@@ -826,6 +835,7 @@ void SettingsWidget::updateSettings() {
     piSettings->show_context = show_context->isChecked();
     piSettings->show_log = show_log->isChecked();
     piSettings->show_cues = show_cues->isChecked();
+    piSettings->show_metro = show_metro->isChecked();
     piSettings->show_buttons = show_buttons->isChecked();
     piSettings->show_tabs = show_tabs->isChecked();
     piSettings->full_screen = full_screen->isChecked();
@@ -881,6 +891,7 @@ void SettingsWidget::settingsChanged() {
     show_line_numbers->setChecked(piSettings->show_line_numbers);
     show_log->setChecked(piSettings->show_log);
     show_cues->setChecked(piSettings->show_cues);
+    show_metro->setChecked(piSettings->show_metro);
     show_buttons->setChecked(piSettings->show_buttons);
     show_tabs->setChecked(piSettings->show_tabs);
     full_screen->setChecked(piSettings->full_screen);
@@ -931,6 +942,7 @@ void SettingsWidget::connectAll() {
     connect(show_line_numbers, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(show_log, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(show_cues, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(show_metro, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(show_buttons, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(show_tabs, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(full_screen, SIGNAL(clicked()), this, SLOT(updateSettings()));
@@ -951,6 +963,7 @@ void SettingsWidget::connectAll() {
     connect(show_line_numbers, SIGNAL(clicked()), this, SLOT(toggleLineNumbers()));
     connect(show_log, SIGNAL(clicked()), this, SLOT(toggleLog()));
     connect(show_cues, SIGNAL(clicked()), this, SLOT(toggleCuesLog()));
+    connect(show_metro, SIGNAL(clicked()), this, SLOT(toggleMetro()));
     connect(show_buttons, SIGNAL(clicked()), this, SLOT(toggleButtons()));
     connect(full_screen, SIGNAL(clicked()), this, SLOT(toggleFullScreen()));
     connect(show_tabs, SIGNAL(clicked()), this, SLOT(toggleTabs()));

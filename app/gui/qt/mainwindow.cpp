@@ -75,6 +75,7 @@ using namespace oscpkt; // OSC specific stuff
 #include "widgets/settingswidget.h"
 #include "widgets/sonicpicontext.h"
 #include "widgets/sonicpilog.h"
+#include "widgets/sonicpimetro.h"
 
 #include "utils/ruby_help.h"
 
@@ -378,6 +379,7 @@ void MainWindow::setupWindowStructure()
     incomingPane = new SonicPiLog;
     contextPane = new SonicPiContext;
     errorPane = new QTextBrowser;
+    metroPane = new SonicPiMetro;
 
     errorPane->setOpenExternalLinks(true);
 
@@ -412,6 +414,7 @@ void MainWindow::setupWindowStructure()
     connect(settingsWidget, SIGNAL(showAutoCompletionChanged()), this, SLOT(changeShowAutoCompletion()));
     connect(settingsWidget, SIGNAL(showLogChanged()), this, SLOT(updateLogVisibility()));
     connect(settingsWidget, SIGNAL(showCuesChanged()), this, SLOT(updateCuesVisibility()));
+    connect(settingsWidget, SIGNAL(showMetroChanged()), this, SLOT(updateMetroVisibility()));
     connect(settingsWidget, SIGNAL(showButtonsChanged()), this, SLOT(updateButtonVisibility()));
     connect(settingsWidget, SIGNAL(showFullscreenChanged()), this, SLOT(updateFullScreenMode()));
     connect(settingsWidget, SIGNAL(showTabsChanged()), this, SLOT(updateTabsVisibility()));
@@ -701,18 +704,27 @@ void MainWindow::setupWindowStructure()
     contextWidget->setAllowedAreas(Qt::RightDockWidgetArea);
     contextWidget->setWidget(contextPane);
 
+    metroWidget = new QDockWidget(tr("Metro"), this);
+    metroWidget->setFocusPolicy(Qt::NoFocus);
+    metroWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
+    metroWidget->setAllowedAreas(Qt::RightDockWidgetArea);
+    metroWidget->setWidget(metroPane);
+
     addDockWidget(Qt::RightDockWidgetArea, outputWidget);
     addDockWidget(Qt::RightDockWidgetArea, incomingWidget);
     addDockWidget(Qt::RightDockWidgetArea, contextWidget);
+    addDockWidget(Qt::RightDockWidgetArea, metroWidget);
     outputWidget->setObjectName("output");
     incomingWidget->setObjectName("input");
     contextWidget->setObjectName("context");
+    metroWidget->setObjectName("metro");
 
     blankWidgetOutput = new QWidget();
     blankWidgetIncoming = new QWidget();
     blankWidgetContext = new QWidget();
     blankWidgetScope = new QWidget();
     blankWidgetDoc = new QWidget();
+    blankWidgetMetro = new QWidget();
 
     docsNavTabs = new QTabWidget;
     docsNavTabs->setFocusPolicy(Qt::NoFocus);
@@ -868,6 +880,7 @@ void MainWindow::blankTitleBars()
   contextWidget->setTitleBarWidget(blankWidgetContext);
   scopeWidget->setTitleBarWidget(blankWidgetScope);
   docWidget->setTitleBarWidget(blankWidgetDoc);
+  metroWidget->setTitleBarWidget(blankWidgetMetro);
 }
 
 void MainWindow::namedTitleBars()
@@ -878,6 +891,7 @@ void MainWindow::namedTitleBars()
   contextWidget->setTitleBarWidget(0);
   scopeWidget->setTitleBarWidget(0);
   docWidget->setTitleBarWidget(0);
+  metroWidget->setTitleBarWidget(0);
 }
 
 void MainWindow::updateFullScreenMode()
@@ -1006,6 +1020,14 @@ void MainWindow::showCuesMenuChanged()
     updateCuesVisibility();
 }
 
+void MainWindow::showMetroChanged()
+{
+    piSettings->show_metro = showMetroAct->isChecked();
+    emit settingsChanged();
+    updateMetroVisibility();
+}
+
+
 void MainWindow::showLogMenuChanged()
 {
     piSettings->show_log = showLogAct->isChecked();
@@ -1025,6 +1047,21 @@ void MainWindow::updateCuesVisibility()
     else
     {
         incomingWidget->close();
+    }
+}
+
+void MainWindow::updateMetroVisibility()
+{
+    QSignalBlocker blocker(showMetroAct);
+    showMetroAct->setChecked(piSettings->show_metro);
+
+    if (piSettings->show_metro)
+    {
+        metroWidget->show();
+    }
+    else
+    {
+        metroWidget->close();
     }
 }
 
@@ -3085,6 +3122,11 @@ void MainWindow::createToolBar()
     showCuesAct->setChecked(piSettings->show_cues);
     connect(showCuesAct, SIGNAL(triggered()), this, SLOT(showCuesMenuChanged()));
 
+    showMetroAct = new QAction(tr("Show Metronome"), this);
+    showMetroAct->setCheckable(true);
+    showMetroAct->setChecked(piSettings->show_metro);
+    connect(showMetroAct, SIGNAL(triggered()), this, SLOT(showMetroChanged()));
+
     showButtonsAct = new QAction(tr("Show Buttons"), this);
     showButtonsAct->setCheckable(true);
     showButtonsAct->setChecked(piSettings->show_buttons);
@@ -3120,6 +3162,7 @@ void MainWindow::createToolBar()
     viewMenu->addAction(infoAct);
     viewMenu->addAction(helpAct);
     viewMenu->addAction(prefsAct);
+    viewMenu->addAction(showMetroAct);
     viewMenu->addSeparator();
     viewMenu->addAction(focusEditorAct);
     viewMenu->addAction(focusLogsAct);
@@ -3396,6 +3439,7 @@ void MainWindow::readSettings()
     piSettings->show_scopes = gui_settings->value("prefs/scope/show-scopes", true).toBool();
     piSettings->show_scope_labels = gui_settings->value("prefs/scope/show-labels", false).toBool();
     piSettings->show_cues = gui_settings->value("prefs/show_cues", true).toBool();
+    piSettings->show_metro = gui_settings->value("prefs/show_metro", true).toBool();
     piSettings->show_titles = gui_settings->value("prefs/show-titles", true).toBool();
     piSettings->hide_menubar_in_fullscreen = gui_settings->value("prefs/hide-menubar-in-fullscreen", false).toBool();
     QString styleName = gui_settings->value("prefs/theme", "").toString();
@@ -3452,6 +3496,7 @@ void MainWindow::writeSettings()
     gui_settings->setValue("prefs/show-titles", piSettings->show_titles);
     gui_settings->setValue("prefs/hide-menubar-in-fullscreen", piSettings->hide_menubar_in_fullscreen);
     gui_settings->setValue("prefs/show_cues", piSettings->show_cues);
+    gui_settings->setValue("prefs/show_metro", piSettings->show_metro);
     gui_settings->setValue("prefs/theme", theme->themeStyleToName(piSettings->themeStyle));
 
     gui_settings->setValue("prefs/show-autocompletion", piSettings->show_autocompletion);

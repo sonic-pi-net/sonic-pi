@@ -99,6 +99,8 @@ set(SOURCES
     ${QTAPP_ROOT}/widgets/sonicpilog.h
     ${QTAPP_ROOT}/widgets/sonicpicontext.cpp
     ${QTAPP_ROOT}/widgets/sonicpicontext.h
+    ${QTAPP_ROOT}/widgets/sonicpimetro.cpp
+    ${QTAPP_ROOT}/widgets/sonicpimetro.h
     ${QTAPP_ROOT}/utils/scintilla_api.h
     ${QTAPP_ROOT}/utils/sonicpi_i18n.h
     ${QTAPP_ROOT}/utils/ruby_help.h
