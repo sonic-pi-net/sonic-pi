@@ -338,7 +338,11 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     editor_display_box_layout->addWidget(show_buttons);
     editor_display_box_layout->addWidget(show_tabs);
     editor_display_box_layout->addWidget(show_titles);
+#ifndef Q_OS_MAC
+    // Don't enable this on Mac as macOS autohides the menubar on
+    // fullscreen anyway
     editor_display_box_layout->addWidget(hide_menubar_in_fullscreen);
+#endif
 
     editor_box_look_feel_layout->addWidget(lightModeCheck);
     editor_box_look_feel_layout->addWidget(darkModeCheck);

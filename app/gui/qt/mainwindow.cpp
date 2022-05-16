@@ -3109,7 +3109,13 @@ void MainWindow::createToolBar()
     viewMenu->addAction(showButtonsAct);
     viewMenu->addAction(showTabsAct);
     viewMenu->addAction(showTitlesAct);
+
+#ifndef Q_OS_MAC
+    // Don't enable this on Mac as macOS autohides the menubar on
+    // fullscreen anyway
     viewMenu->addAction(hideMenuBarInFullscreenAct);
+#endif
+
     viewMenu->addSeparator();
     viewMenu->addAction(infoAct);
     viewMenu->addAction(helpAct);
