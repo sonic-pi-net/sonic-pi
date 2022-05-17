@@ -403,7 +403,7 @@ signals:
         bool hidingDocPane;
         bool restoreDocPane;
 
-        QTabWidget *tabs;
+        QTabWidget *editorTabWidget;
         QProcess *serverProcess;
 
         SonicPiLexer *lexer;

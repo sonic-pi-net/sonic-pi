@@ -249,7 +249,7 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
 
     toggleOSCServer(1);
 
-    app.setActiveWindow(tabs->currentWidget());
+    app.setActiveWindow(editorTabWidget->currentWidget());
 
     if (!i18n)
     {
@@ -384,10 +384,10 @@ void MainWindow::setupWindowStructure()
     errorPane->setOpenExternalLinks(true);
 
     // Window layout
-    tabs = new QTabWidget();
-    tabs->setTabsClosable(false);
-    tabs->setMovable(false);
-    tabs->setTabPosition(QTabWidget::South);
+    editorTabWidget = new QTabWidget();
+    editorTabWidget->setTabsClosable(false);
+    editorTabWidget->setMovable(false);
+    editorTabWidget->setTabPosition(QTabWidget::South);
 
     lexer->setAutoIndentStyle(SonicPiScintilla::AiMaintain);
 
@@ -604,7 +604,7 @@ void MainWindow::setupWindowStructure()
 
         QString w = QString(tr("| %1 |")).arg(QString::number(ws));
         workspaces[ws] = workspace;
-        tabs->addTab(workspace, w);
+        editorTabWidget->addTab(workspace, w);
 
         connect(workspace, SIGNAL(cursorPositionChanged(int, int)), this, SLOT(updateContext(int, int)));
     }
@@ -702,13 +702,16 @@ void MainWindow::setupWindowStructure()
     contextWidget->setFocusPolicy(Qt::NoFocus);
     contextWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
     contextWidget->setAllowedAreas(Qt::RightDockWidgetArea);
+    contextWidget->setMaximumHeight(ScaleHeightForDPI(50));
     contextWidget->setWidget(contextPane);
 
     metroWidget = new QDockWidget(tr("Metro"), this);
     metroWidget->setFocusPolicy(Qt::NoFocus);
     metroWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
     metroWidget->setAllowedAreas(Qt::RightDockWidgetArea);
+    metroWidget->setMaximumHeight(ScaleHeightForDPI(100));
     metroWidget->setWidget(metroPane);
+
 
     addDockWidget(Qt::RightDockWidgetArea, outputWidget);
     addDockWidget(Qt::RightDockWidgetArea, incomingWidget);
@@ -793,7 +796,7 @@ void MainWindow::setupWindowStructure()
     connect(docWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(toggleHelpIcon()));
 
     mainWidgetLayout = new QVBoxLayout;
-    mainWidgetLayout->addWidget(tabs);
+    mainWidgetLayout->addWidget(editorTabWidget);
     mainWidgetLayout->addWidget(errorPane);
     mainWidget = new QWidget;
     mainWidget->setFocusPolicy(Qt::NoFocus);
@@ -855,7 +858,7 @@ void MainWindow::escapeWorkspaces()
 
 void MainWindow::changeTab(int id)
 {
-    tabs->setCurrentIndex(id);
+    editorTabWidget->setCurrentIndex(id);
 }
 
 void MainWindow::toggleFullScreenMode()
@@ -1084,7 +1087,7 @@ void MainWindow::updateTabsVisibility()
     QSignalBlocker blocker(showTabsAct);
     showTabsAct->setChecked(piSettings->show_tabs);
 
-    QTabBar* tabBar = tabs->findChild<QTabBar*>();
+    QTabBar* tabBar = editorTabWidget->findChild<QTabBar*>();
 
     if (piSettings->show_tabs)
     {
@@ -1171,7 +1174,7 @@ void MainWindow::completeSnippetOrIndentCurrentLineOrSelection(SonicPiScintilla*
 
 void MainWindow::toggleCommentInCurrentWorkspace()
 {
-    SonicPiScintilla* ws = (SonicPiScintilla*)tabs->currentWidget();
+    SonicPiScintilla* ws = (SonicPiScintilla*)editorTabWidget->currentWidget();
     toggleComment(ws);
 }
 
@@ -1537,7 +1540,7 @@ void MainWindow::closeEvent(QCloseEvent* event)
 
 QString MainWindow::currentTabLabel()
 {
-    return tabs->tabText(tabs->currentIndex());
+    return editorTabWidget->tabText(editorTabWidget->currentIndex());
 }
 
 bool MainWindow::loadFile()
@@ -1548,7 +1551,7 @@ bool MainWindow::loadFile()
     if (!fileName.isEmpty())
     {
         gui_settings->setValue("lastDir", QDir(fileName).absolutePath());
-        SonicPiScintilla* p = (SonicPiScintilla*)tabs->currentWidget();
+        SonicPiScintilla* p = (SonicPiScintilla*)editorTabWidget->currentWidget();
         loadFile(fileName, p);
         return true;
     }
@@ -1571,7 +1574,7 @@ bool MainWindow::saveAs()
         {
             fileName = fileName + ".txt";
         }
-        return saveFile(fileName, (SonicPiScintilla*)tabs->currentWidget());
+        return saveFile(fileName, (SonicPiScintilla*)editorTabWidget->currentWidget());
     }
     else
     {
@@ -1587,7 +1590,7 @@ void MainWindow::resetErrorPane()
 
 void MainWindow::runBufferIdx(int idx)
 {
-    QMetaObject::invokeMethod(tabs, "setCurrentIndex", Q_ARG(int, idx));
+    QMetaObject::invokeMethod(editorTabWidget, "setCurrentIndex", Q_ARG(int, idx));
     runCode();
 }
 
@@ -1626,7 +1629,7 @@ void MainWindow::runCode()
     outputPane->setTextCursor(newOutputCursor);
 
     update();
-    SonicPiScintilla* ws = (SonicPiScintilla*)tabs->currentWidget();
+    SonicPiScintilla* ws = (SonicPiScintilla*)editorTabWidget->currentWidget();
 
     QString code = ws->text();
 
@@ -1673,7 +1676,7 @@ void MainWindow::runCode()
     Message msg("/save-and-run-buffer");
     msg.pushInt32(guiID);
 
-    std::string filename = ((SonicPiScintilla*)tabs->currentWidget())->fileName.toStdString();
+    std::string filename = ((SonicPiScintilla*)editorTabWidget->currentWidget())->fileName.toStdString();
     msg.pushStr(filename);
 
     if (piSettings->clear_output_on_run)
@@ -1697,21 +1700,21 @@ void MainWindow::runCode()
 void MainWindow::zoomCurrentWorkspaceIn()
 {
     statusBar()->showMessage(tr("Zooming In..."), 2000);
-    SonicPiScintilla* ws = ((SonicPiScintilla*)tabs->currentWidget());
+    SonicPiScintilla* ws = ((SonicPiScintilla*)editorTabWidget->currentWidget());
     ws->zoomFontIn();
 }
 
 void MainWindow::zoomCurrentWorkspaceOut()
 {
     statusBar()->showMessage(tr("Zooming Out..."), 2000);
-    SonicPiScintilla* ws = ((SonicPiScintilla*)tabs->currentWidget());
+    SonicPiScintilla* ws = ((SonicPiScintilla*)editorTabWidget->currentWidget());
     ws->zoomFontOut();
 }
 
 void MainWindow::beautifyCode()
 {
     statusBar()->showMessage(tr("Beautifying..."), 2000);
-    SonicPiScintilla* ws = ((SonicPiScintilla*)tabs->currentWidget());
+    SonicPiScintilla* ws = ((SonicPiScintilla*)editorTabWidget->currentWidget());
     std::string code = ws->text().toStdString();
     int line = 0;
     int index = 0;
@@ -1719,7 +1722,7 @@ void MainWindow::beautifyCode()
     int first_line = ws->firstVisibleLine();
     Message msg("/buffer-beautify");
     msg.pushInt32(guiID);
-    std::string filename = ((SonicPiScintilla*)tabs->currentWidget())->fileName.toStdString();
+    std::string filename = ((SonicPiScintilla*)editorTabWidget->currentWidget())->fileName.toStdString();
     msg.pushStr(filename);
     msg.pushStr(code);
     msg.pushInt32(line);
@@ -1922,7 +1925,7 @@ void MainWindow::helpContext()
 {
     if (!docWidget->isVisible())
         docWidget->show();
-    SonicPiScintilla* ws = ((SonicPiScintilla*)tabs->currentWidget());
+    SonicPiScintilla* ws = ((SonicPiScintilla*)editorTabWidget->currentWidget());
     QString selection = ws->selectedText();
     if (selection == "")
     { // get current word instead
@@ -2236,7 +2239,7 @@ void MainWindow::updateColourTheme()
     outputPane->setStyleSheet("");
     outputWidget->setStyleSheet("");
     prefsWidget->setStyleSheet("");
-    tabs->setStyleSheet("");
+    editorTabWidget->setStyleSheet("");
     //TODO inject to settings Widget
     //prefTabs->setStyleSheet("");
     docsNavTabs->setStyleSheet("");
@@ -2256,9 +2259,9 @@ void MainWindow::updateColourTheme()
     scopeWindow->Refresh();
     scopeWidget->update();
 
-    for (int i = 0; i < tabs->count(); i++)
+    for (int i = 0; i < editorTabWidget->count(); i++)
     {
-        SonicPiScintilla* ws = (SonicPiScintilla*)tabs->widget(i);
+        SonicPiScintilla* ws = (SonicPiScintilla*)editorTabWidget->widget(i);
         ws->setFrameShape(QFrame::NoFrame);
         ws->setStyleSheet("");
         ws->setStyleSheet(appStyling);
@@ -2423,9 +2426,9 @@ void MainWindow::changeShowLineNumbers()
 
     bool show = piSettings->show_line_numbers;
 
-    for (int i = 0; i < tabs->count(); i++)
+    for (int i = 0; i < editorTabWidget->count(); i++)
     {
-        SonicPiScintilla* ws = (SonicPiScintilla*)tabs->widget(i);
+        SonicPiScintilla* ws = (SonicPiScintilla*)editorTabWidget->widget(i);
         if (show)
         {
             ws->showLineNumbers();
@@ -2452,9 +2455,9 @@ void MainWindow::changeShowAutoCompletion()
         statusBar()->showMessage(tr("Show autocompletion off"), 2000);
     }
 
-    for (int i = 0; i < tabs->count(); i++)
+    for (int i = 0; i < editorTabWidget->count(); i++)
     {
-        SonicPiScintilla* ws = (SonicPiScintilla*)tabs->widget(i);
+        SonicPiScintilla* ws = (SonicPiScintilla*)editorTabWidget->widget(i);
         ws->showAutoCompletion(show);
     }
 
@@ -2510,7 +2513,7 @@ void MainWindow::wheelEvent(QWheelEvent* event)
 #if defined(Q_OS_WIN)
     if (event->modifiers() & Qt::ControlModifier)
     {
-        SonicPiScintilla* ws = ((SonicPiScintilla*)tabs->currentWidget());
+        SonicPiScintilla* ws = ((SonicPiScintilla*)editorTabWidget->currentWidget());
         if (event->angleDelta().y() > 0)
             ws->zoomFontIn();
         else
@@ -3379,8 +3382,8 @@ void MainWindow::restoreWindows()
     QSize size = gui_settings->value("size", QSize(rec.width(), rec.height())).toSize();
 
     int index = gui_settings->value("workspace", 0).toInt();
-    if (index < tabs->count())
-        tabs->setCurrentIndex(index);
+    if (index < editorTabWidget->count())
+        editorTabWidget->setCurrentIndex(index);
 
     for (int w = 0; w < workspace_max; w++)
     {
@@ -3511,7 +3514,7 @@ void MainWindow::writeSettings()
         gui_settings->setValue("prefs/scope/show-" + name.toLower(), piSettings->isScopeActive(name));
     }
 
-    gui_settings->setValue("workspace", tabs->currentIndex());
+    gui_settings->setValue("workspace", editorTabWidget->currentIndex());
 
     for (int w = 0; w < workspace_max; w++)
     {
@@ -3799,35 +3802,35 @@ void MainWindow::docScrollDown()
 
 void MainWindow::tabNext()
 {
-    int index = tabs->currentIndex();
-    if (index == tabs->count() - 1)
+    int index = editorTabWidget->currentIndex();
+    if (index == editorTabWidget->count() - 1)
         index = 0;
     else
         index++;
-    QMetaObject::invokeMethod(tabs, "setCurrentIndex", Q_ARG(int, index));
+    QMetaObject::invokeMethod(editorTabWidget, "setCurrentIndex", Q_ARG(int, index));
 }
 
 void MainWindow::tabPrev()
 {
-    int index = tabs->currentIndex();
+    int index = editorTabWidget->currentIndex();
     if (index == 0)
-        index = tabs->count() - 1;
+        index = editorTabWidget->count() - 1;
     else
         index--;
-    QMetaObject::invokeMethod(tabs, "setCurrentIndex", Q_ARG(int, index));
+    QMetaObject::invokeMethod(editorTabWidget, "setCurrentIndex", Q_ARG(int, index));
 }
 
 void MainWindow::tabGoto(int index)
 {
-    if (index < tabs->count())
-        QMetaObject::invokeMethod(tabs, "setCurrentIndex", Q_ARG(int, index));
+    if (index < editorTabWidget->count())
+        QMetaObject::invokeMethod(editorTabWidget, "setCurrentIndex", Q_ARG(int, index));
 }
 
 void MainWindow::setLineMarkerinCurrentWorkspace(int num)
 {
     if (num > 0)
     {
-        SonicPiScintilla* ws = (SonicPiScintilla*)tabs->currentWidget();
+        SonicPiScintilla* ws = (SonicPiScintilla*)editorTabWidget->currentWidget();
         ws->setLineErrorMarker(num - 1);
     }
 }
@@ -4140,7 +4143,7 @@ void MainWindow::focusLogs()
 
 void MainWindow::focusEditor()
 {
-    SonicPiScintilla* ws = (SonicPiScintilla*)tabs->currentWidget();
+    SonicPiScintilla* ws = (SonicPiScintilla*)editorTabWidget->currentWidget();
     ws->showNormal();
     ws->setFocusPolicy(Qt::StrongFocus);
     ws->setFocus();
@@ -4207,7 +4210,7 @@ void MainWindow::focusErrors()
 
 void MainWindow::updateContextWithCurrentWs()
 {
-    SonicPiScintilla* ws = ((SonicPiScintilla*)tabs->currentWidget());
+    SonicPiScintilla* ws = ((SonicPiScintilla*)editorTabWidget->currentWidget());
     int line, index;
     ws->getCursorPosition(&line, &index);
     updateContext(line, index);
