@@ -76,6 +76,7 @@ using namespace oscpkt; // OSC specific stuff
 #include "widgets/sonicpicontext.h"
 #include "widgets/sonicpilog.h"
 #include "widgets/sonicpimetro.h"
+#include "widgets/sonicpieditor.h"
 
 #include "utils/ruby_help.h"
 
@@ -377,7 +378,6 @@ void MainWindow::setupWindowStructure()
 
     outputPane = new SonicPiLog;
     incomingPane = new SonicPiLog;
-    contextPane = new SonicPiContext;
     errorPane = new QTextBrowser;
     metroPane = new SonicPiMetro;
 
@@ -604,7 +604,8 @@ void MainWindow::setupWindowStructure()
 
         QString w = QString(tr("| %1 |")).arg(QString::number(ws));
         workspaces[ws] = workspace;
-        editorTabWidget->addTab(workspace, w);
+        SonicPiEditor *editor = new SonicPiEditor(workspace, this);
+        editorTabWidget->addTab(editor, w);
 
         connect(workspace, SIGNAL(cursorPositionChanged(int, int)), this, SLOT(updateContext(int, int)));
     }
@@ -636,9 +637,7 @@ void MainWindow::setupWindowStructure()
 
     errorPane->setReadOnly(true);
 
-    contextPane->setReadOnly(true);
-    contextPane->setLineWrapMode(QPlainTextEdit::NoWrap);
-    contextPane->setFontFamily("Hack");
+
 
     if (!theme->font("LogFace").isEmpty())
     {
@@ -649,7 +648,6 @@ void MainWindow::setupWindowStructure()
     outputPane->document()->setMaximumBlockCount(1000);
     incomingPane->document()->setMaximumBlockCount(1000);
     errorPane->document()->setMaximumBlockCount(1000);
-    contextPane->document()->setMaximumBlockCount(1000);
 
     outputPane->setTextColor(QColor(theme->color("LogForeground")));
     outputPane->appendPlainText("\n");
@@ -657,12 +655,9 @@ void MainWindow::setupWindowStructure()
     incomingPane->setTextColor(QColor(theme->color("LogForeground")));
     incomingPane->appendPlainText("\n");
 
-    contextPane->setTextColor(QColor(theme->color("LogForeground")));
-    contextPane->appendPlainText("\n");
 
     errorPane->zoomIn(1);
     errorPane->setFixedHeight(ScaleHeightForDPI(200));
-
     // hudPane = new QTextBrowser;
     // hudPane->setMinimumHeight(130);
     // hudPane->setHtml("<center><img src=\":/images/logo.png\" height=\"113\" width=\"138\"></center>");
@@ -698,13 +693,6 @@ void MainWindow::setupWindowStructure()
     incomingWidget->setAllowedAreas(Qt::RightDockWidgetArea);
     incomingWidget->setWidget(incomingPane);
 
-    contextWidget = new QDockWidget(tr("Context"), this);
-    contextWidget->setFocusPolicy(Qt::NoFocus);
-    contextWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
-    contextWidget->setAllowedAreas(Qt::RightDockWidgetArea);
-    contextWidget->setMaximumHeight(ScaleHeightForDPI(50));
-    contextWidget->setWidget(contextPane);
-
     metroWidget = new QDockWidget(tr("Metro"), this);
     metroWidget->setFocusPolicy(Qt::NoFocus);
     metroWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
@@ -712,19 +700,16 @@ void MainWindow::setupWindowStructure()
     metroWidget->setMaximumHeight(ScaleHeightForDPI(100));
     metroWidget->setWidget(metroPane);
 
-
+    addDockWidget(Qt::RightDockWidgetArea, metroWidget);
     addDockWidget(Qt::RightDockWidgetArea, outputWidget);
     addDockWidget(Qt::RightDockWidgetArea, incomingWidget);
-    addDockWidget(Qt::RightDockWidgetArea, contextWidget);
-    addDockWidget(Qt::RightDockWidgetArea, metroWidget);
+
     outputWidget->setObjectName("output");
     incomingWidget->setObjectName("input");
-    contextWidget->setObjectName("context");
     metroWidget->setObjectName("metro");
 
     blankWidgetOutput = new QWidget();
     blankWidgetIncoming = new QWidget();
-    blankWidgetContext = new QWidget();
     blankWidgetScope = new QWidget();
     blankWidgetDoc = new QWidget();
     blankWidgetMetro = new QWidget();
@@ -880,7 +865,6 @@ void MainWindow::blankTitleBars()
   statusBar()->showMessage(tr("Hiding pane titles..."), 2000);
   outputWidget->setTitleBarWidget(blankWidgetOutput);
   incomingWidget->setTitleBarWidget(blankWidgetIncoming);
-  contextWidget->setTitleBarWidget(blankWidgetContext);
   scopeWidget->setTitleBarWidget(blankWidgetScope);
   docWidget->setTitleBarWidget(blankWidgetDoc);
   metroWidget->setTitleBarWidget(blankWidgetMetro);
@@ -891,7 +875,6 @@ void MainWindow::namedTitleBars()
   statusBar()->showMessage(tr("Showing pane titles..."), 2000);
   outputWidget->setTitleBarWidget(0);
   incomingWidget->setTitleBarWidget(0);
-  contextWidget->setTitleBarWidget(0);
   scopeWidget->setTitleBarWidget(0);
   docWidget->setTitleBarWidget(0);
   metroWidget->setTitleBarWidget(0);
@@ -1174,7 +1157,7 @@ void MainWindow::completeSnippetOrIndentCurrentLineOrSelection(SonicPiScintilla*
 
 void MainWindow::toggleCommentInCurrentWorkspace()
 {
-    SonicPiScintilla* ws = (SonicPiScintilla*)editorTabWidget->currentWidget();
+    SonicPiScintilla* ws = getCurrentWorkspace();
     toggleComment(ws);
 }
 
@@ -1551,7 +1534,7 @@ bool MainWindow::loadFile()
     if (!fileName.isEmpty())
     {
         gui_settings->setValue("lastDir", QDir(fileName).absolutePath());
-        SonicPiScintilla* p = (SonicPiScintilla*)editorTabWidget->currentWidget();
+        SonicPiScintilla* p = getCurrentWorkspace();
         loadFile(fileName, p);
         return true;
     }
@@ -1574,7 +1557,7 @@ bool MainWindow::saveAs()
         {
             fileName = fileName + ".txt";
         }
-        return saveFile(fileName, (SonicPiScintilla*)editorTabWidget->currentWidget());
+        return saveFile(fileName, getCurrentWorkspace());
     }
     else
     {
@@ -1629,7 +1612,7 @@ void MainWindow::runCode()
     outputPane->setTextCursor(newOutputCursor);
 
     update();
-    SonicPiScintilla* ws = (SonicPiScintilla*)editorTabWidget->currentWidget();
+    SonicPiScintilla* ws = getCurrentWorkspace();
 
     QString code = ws->text();
 
@@ -1676,7 +1659,7 @@ void MainWindow::runCode()
     Message msg("/save-and-run-buffer");
     msg.pushInt32(guiID);
 
-    std::string filename = ((SonicPiScintilla*)editorTabWidget->currentWidget())->fileName.toStdString();
+    std::string filename = getCurrentWorkspace()->fileName.toStdString();
     msg.pushStr(filename);
 
     if (piSettings->clear_output_on_run)
@@ -1700,21 +1683,21 @@ void MainWindow::runCode()
 void MainWindow::zoomCurrentWorkspaceIn()
 {
     statusBar()->showMessage(tr("Zooming In..."), 2000);
-    SonicPiScintilla* ws = ((SonicPiScintilla*)editorTabWidget->currentWidget());
+    SonicPiScintilla* ws = getCurrentWorkspace();
     ws->zoomFontIn();
 }
 
 void MainWindow::zoomCurrentWorkspaceOut()
 {
     statusBar()->showMessage(tr("Zooming Out..."), 2000);
-    SonicPiScintilla* ws = ((SonicPiScintilla*)editorTabWidget->currentWidget());
+    SonicPiScintilla* ws = getCurrentWorkspace();
     ws->zoomFontOut();
 }
 
 void MainWindow::beautifyCode()
 {
     statusBar()->showMessage(tr("Beautifying..."), 2000);
-    SonicPiScintilla* ws = ((SonicPiScintilla*)editorTabWidget->currentWidget());
+    SonicPiScintilla* ws = getCurrentWorkspace();
     std::string code = ws->text().toStdString();
     int line = 0;
     int index = 0;
@@ -1722,7 +1705,7 @@ void MainWindow::beautifyCode()
     int first_line = ws->firstVisibleLine();
     Message msg("/buffer-beautify");
     msg.pushInt32(guiID);
-    std::string filename = ((SonicPiScintilla*)editorTabWidget->currentWidget())->fileName.toStdString();
+    std::string filename = getCurrentWorkspace()->fileName.toStdString();
     msg.pushStr(filename);
     msg.pushStr(code);
     msg.pushInt32(line);
@@ -1925,7 +1908,7 @@ void MainWindow::helpContext()
 {
     if (!docWidget->isVisible())
         docWidget->show();
-    SonicPiScintilla* ws = ((SonicPiScintilla*)editorTabWidget->currentWidget());
+    SonicPiScintilla* ws = getCurrentWorkspace();
     QString selection = ws->selectedText();
     if (selection == "")
     { // get current word instead
@@ -2228,7 +2211,7 @@ void MainWindow::updateColourTheme()
     errorPane->document()->setDefaultStyleSheet(css);
 
     // update context pane
-    contextPane->setTextColor(QColor(theme->color("LogForeground")));
+    // contextPane->setTextColor(QColor(theme->color("LogForeground")));
     updateContextWithCurrentWs();
 
     // clear stylesheets
@@ -2261,7 +2244,7 @@ void MainWindow::updateColourTheme()
 
     for (int i = 0; i < editorTabWidget->count(); i++)
     {
-        SonicPiScintilla* ws = (SonicPiScintilla*)editorTabWidget->widget(i);
+        SonicPiScintilla* ws = ((SonicPiEditor*)editorTabWidget->widget(i))->getWorkspace();
         ws->setFrameShape(QFrame::NoFrame);
         ws->setStyleSheet("");
         ws->setStyleSheet(appStyling);
@@ -2428,7 +2411,7 @@ void MainWindow::changeShowLineNumbers()
 
     for (int i = 0; i < editorTabWidget->count(); i++)
     {
-        SonicPiScintilla* ws = (SonicPiScintilla*)editorTabWidget->widget(i);
+        SonicPiScintilla* ws = ((SonicPiEditor*)editorTabWidget->widget(i))->getWorkspace();
         if (show)
         {
             ws->showLineNumbers();
@@ -2457,7 +2440,7 @@ void MainWindow::changeShowAutoCompletion()
 
     for (int i = 0; i < editorTabWidget->count(); i++)
     {
-        SonicPiScintilla* ws = (SonicPiScintilla*)editorTabWidget->widget(i);
+        SonicPiScintilla* ws = ((SonicPiEditor*)editorTabWidget->widget(i))->getWorkspace();
         ws->showAutoCompletion(show);
     }
 
@@ -2470,13 +2453,20 @@ void MainWindow::changeShowContext()
     bool show = piSettings->show_context;
     if (show)
     {
-        statusBar()->showMessage(tr("Show context on"), 2000);
-        contextWidget->show();
+      statusBar()->showMessage(tr("Show context on"), 2000);
+      for (int i = 0; i < editorTabWidget->count(); i++)
+      {
+        ((SonicPiEditor*)editorTabWidget->widget(i))->showContext();
+      }
+
     }
     else
     {
-        statusBar()->showMessage(tr("Show context off"), 2000);
-        contextWidget->hide();
+      statusBar()->showMessage(tr("Show context off"), 2000);
+      for (int i = 0; i < editorTabWidget->count(); i++)
+      {
+        ((SonicPiEditor*)editorTabWidget->widget(i))->hideContext();
+      }
     }
 
     QSignalBlocker blocker(showContextAct);
@@ -2513,7 +2503,7 @@ void MainWindow::wheelEvent(QWheelEvent* event)
 #if defined(Q_OS_WIN)
     if (event->modifiers() & Qt::ControlModifier)
     {
-        SonicPiScintilla* ws = ((SonicPiScintilla*)editorTabWidget->currentWidget());
+        SonicPiScintilla* ws = getCurrentWorkspace();
         if (event->angleDelta().y() > 0)
             ws->zoomFontIn();
         else
@@ -3830,7 +3820,7 @@ void MainWindow::setLineMarkerinCurrentWorkspace(int num)
 {
     if (num > 0)
     {
-        SonicPiScintilla* ws = (SonicPiScintilla*)editorTabWidget->currentWidget();
+        SonicPiScintilla* ws = getCurrentWorkspace();
         ws->setLineErrorMarker(num - 1);
     }
 }
@@ -4068,14 +4058,12 @@ void MainWindow::zoomInLogs()
 {
     outputPane->zoomIn();
     incomingPane->zoomIn();
-    contextPane->zoomIn();
 }
 
 void MainWindow::zoomOutLogs()
 {
     outputPane->zoomOut();
     incomingPane->zoomOut();
-    contextPane->zoomOut();
 }
 
 void MainWindow::updateMIDIInPorts(QString port_info)
@@ -4123,6 +4111,7 @@ void MainWindow::updateMIDIOutPorts(QString port_info)
 
 void MainWindow::focusContext()
 {
+    SonicPiContext *contextPane = getCurrentEditor()->getContext();
     contextPane->showNormal();
     contextPane->setFocusPolicy(Qt::StrongFocus);
     contextPane->setFocus();
@@ -4143,7 +4132,7 @@ void MainWindow::focusLogs()
 
 void MainWindow::focusEditor()
 {
-    SonicPiScintilla* ws = (SonicPiScintilla*)editorTabWidget->currentWidget();
+    SonicPiScintilla* ws = getCurrentWorkspace();
     ws->showNormal();
     ws->setFocusPolicy(Qt::StrongFocus);
     ws->setFocus();
@@ -4210,7 +4199,8 @@ void MainWindow::focusErrors()
 
 void MainWindow::updateContextWithCurrentWs()
 {
-    SonicPiScintilla* ws = ((SonicPiScintilla*)editorTabWidget->currentWidget());
+
+    SonicPiScintilla* ws = getCurrentWorkspace();
     int line, index;
     ws->getCursorPosition(&line, &index);
     updateContext(line, index);
@@ -4218,7 +4208,7 @@ void MainWindow::updateContextWithCurrentWs()
 
 void MainWindow::updateContext(int line, int index)
 {
-    contextPane->setContent(tr("Line: %1,  Position: %2").arg(line + 1).arg(index + 1));
+  getCurrentEditor()->setContextContent(tr("Line: %1,  Position: %2").arg(line + 1).arg(index + 1));
 }
 
 SonicPiLog* MainWindow::GetOutputPane() const
@@ -4288,4 +4278,14 @@ void MainWindow::resizeEvent( QResizeEvent *e )
 {
   movePrefsWidget();
   QMainWindow::resizeEvent(e);
+}
+
+SonicPiScintilla* MainWindow::getCurrentWorkspace()
+{
+  return getCurrentEditor()->getWorkspace();
+}
+
+SonicPiEditor* MainWindow::getCurrentEditor()
+{
+  return (SonicPiEditor*)editorTabWidget->currentWidget();
 }

@@ -11,6 +11,9 @@
 // notice is included.
 //++
 
+#ifndef SONICPISCINTILLA_H
+#define SONICPISCINTILLA_H
+
 #include <Qsci/qsciscintilla.h>
 #include "model/sonicpitheme.h"
 #include "widgets/sonicpilog.h"
@@ -88,3 +91,5 @@ signals:
     QRecursiveMutex *mutex;
 
 };
+
+#endif // SONICPISCINTILLA_H

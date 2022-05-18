@@ -73,6 +73,7 @@ class ScintillaAPI;
 class SonicPii18n;
 class SonicPiLog;
 class SonicPiScintilla;
+class SonicPiEditor;
 class SonicPiTheme;
 class SonicPiLexer;
 class SonicPiSettings;
@@ -295,6 +296,8 @@ signals:
         void focusErrors();
 
     private:
+        SonicPiScintilla* getCurrentWorkspace();
+        SonicPiEditor* getCurrentEditor();
         void resizeEvent( QResizeEvent *e );
         void movePrefsWidget();
         void slidePrefsWidgetIn();
@@ -373,7 +376,6 @@ signals:
 
         SonicPiLog *outputPane;
         SonicPiLog *incomingPane;
-        SonicPiContext *contextPane;
         SonicPiMetro *metroPane;
         QTextBrowser *errorPane;
         QDockWidget *outputWidget;
@@ -382,11 +384,10 @@ signals:
 
         QDockWidget *hudWidget;
         QDockWidget *docWidget;
-        QDockWidget *contextWidget;
         QDockWidget *metroWidget;
+
         QWidget *blankWidgetOutput;
         QWidget *blankWidgetIncoming;
-        QWidget *blankWidgetContext;
         QWidget *blankWidgetScope;
         QWidget *blankWidgetDoc;
         QWidget *blankWidgetMetro;
