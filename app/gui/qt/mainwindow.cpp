@@ -700,9 +700,10 @@ void MainWindow::setupWindowStructure()
     metroWidget->setMaximumHeight(ScaleHeightForDPI(100));
     metroWidget->setWidget(metroPane);
 
-    addDockWidget(Qt::RightDockWidgetArea, metroWidget);
+
     addDockWidget(Qt::RightDockWidgetArea, outputWidget);
     addDockWidget(Qt::RightDockWidgetArea, incomingWidget);
+    addDockWidget(Qt::RightDockWidgetArea, metroWidget);
 
     outputWidget->setObjectName("output");
     incomingWidget->setObjectName("input");
