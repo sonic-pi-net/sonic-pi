@@ -17,18 +17,20 @@
 #include <QWidget>
 #include "sonicpicontext.h"
 #include "widgets/sonicpiscintilla.h"
+#include "model/sonicpitheme.h"
 
 class SonicPiEditor : public QWidget
 {
     Q_OBJECT
 public:
-  SonicPiEditor(SonicPiScintilla *workspace, QWidget *parent = nullptr);
+  SonicPiEditor(SonicPiScintilla *workspace, SonicPiTheme *theme, QWidget *parent = nullptr);
 
   SonicPiScintilla* getWorkspace();
   SonicPiContext* getContext();
   void setContextContent(QString s);
   void hideContext();
   void showContext();
+  void updateColourTheme(QString appStyling,  SonicPiTheme::Style themeStyle);
 
 signals:
 
@@ -39,6 +41,7 @@ protected:
 private:
   SonicPiScintilla* m_workspace;
   SonicPiContext* m_context;
+  SonicPiTheme* m_theme;
 
 
 };

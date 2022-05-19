@@ -17,9 +17,10 @@
 #include <QVBoxLayout>
 #include "dpi.h"
 
-SonicPiEditor::SonicPiEditor(SonicPiScintilla *workspace, QWidget* parent)
+SonicPiEditor::SonicPiEditor(SonicPiScintilla *workspace, SonicPiTheme *theme, QWidget* parent)
   : QWidget(parent),
-    m_workspace(workspace)
+    m_workspace(workspace),
+    m_theme(theme)
 {
   QVBoxLayout* workspace_layout = new QVBoxLayout;
   QWidget* workspace_widget = new QWidget;
@@ -30,7 +31,7 @@ SonicPiEditor::SonicPiEditor(SonicPiScintilla *workspace, QWidget* parent)
   m_context->setReadOnly(true);
   m_context->setLineWrapMode(QPlainTextEdit::NoWrap);
   m_context->setFontFamily("Hack");
-
+  m_context->setTextColor(QColor(m_theme->color("LogForeground")));
   workspace_layout->addWidget(m_workspace);
   workspace_layout->addWidget(m_context);
 }
@@ -47,7 +48,7 @@ SonicPiContext* SonicPiEditor::getContext()
 
 void SonicPiEditor::setContextContent(QString s)
 {
-  m_context->setContent(s);
+  m_context->setContent(QString("    ") + s);
 }
 
 void SonicPiEditor::hideContext()
@@ -58,4 +59,23 @@ void SonicPiEditor::hideContext()
 void SonicPiEditor::showContext()
 {
   m_context->show();
+}
+
+void SonicPiEditor::updateColourTheme(QString appStyling,  SonicPiTheme::Style themeStyle)
+{
+
+  m_workspace->setFrameShape(QFrame::NoFrame);
+  m_workspace->setStyleSheet("");
+  m_workspace->setStyleSheet(appStyling);
+  m_context->setTextColor(QColor(m_theme->color("LogForeground")));
+  if (themeStyle == SonicPiTheme::HighContrastMode)
+    {
+      m_workspace->setCaretWidth(8);
+    }
+  else
+    {
+      m_workspace->setCaretWidth(5);
+    }
+  m_workspace->redraw();
+
 }

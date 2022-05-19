@@ -604,7 +604,7 @@ void MainWindow::setupWindowStructure()
 
         QString w = QString(tr("| %1 |")).arg(QString::number(ws));
         workspaces[ws] = workspace;
-        SonicPiEditor *editor = new SonicPiEditor(workspace, this);
+        SonicPiEditor *editor = new SonicPiEditor(workspace, theme, this);
         editorTabWidget->addTab(editor, w);
 
         connect(workspace, SIGNAL(cursorPositionChanged(int, int)), this, SLOT(updateContext(int, int)));
@@ -2210,10 +2210,6 @@ void MainWindow::updateColourTheme()
 
     errorPane->document()->setDefaultStyleSheet(css);
 
-    // update context pane
-    // contextPane->setTextColor(QColor(theme->color("LogForeground")));
-    updateContextWithCurrentWs();
-
     // clear stylesheets
     this->setStyleSheet("");
     infoWidg->setStyleSheet("");
@@ -2244,22 +2240,10 @@ void MainWindow::updateColourTheme()
 
     for (int i = 0; i < editorTabWidget->count(); i++)
     {
-        SonicPiScintilla* ws = ((SonicPiEditor*)editorTabWidget->widget(i))->getWorkspace();
-        ws->setFrameShape(QFrame::NoFrame);
-        ws->setStyleSheet("");
-        ws->setStyleSheet(appStyling);
-
-        if (piSettings->themeStyle == SonicPiTheme::HighContrastMode)
-        {
-            ws->setCaretWidth(8);
-        }
-        else
-        {
-            ws->setCaretWidth(5);
-        }
-        ws->redraw();
+      ((SonicPiEditor*)editorTabWidget->widget(i))->updateColourTheme(appStyling, piSettings->themeStyle);
     }
 
+    updateContextWithCurrentWs();
     scopeWindow->SetColor(theme->color("Scope"));
     scopeWindow->SetColor2(theme->color("Scope_2"));
     lexer->unhighlightAll();
