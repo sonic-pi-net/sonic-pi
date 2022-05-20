@@ -59,7 +59,14 @@ void MidiOut::send(const std::vector< unsigned char >* msg)
     for (int i = 0; i < msg->size(); i++) {
         m_logger.info("   [{:02x}]", (*msg)[i]);
     }
-    m_midiOut->sendMessage(msg);
+    try
+    {
+        m_midiOut->sendMessage(msg);
+    }
+    catch(const RtMidiError& err)
+    {
+        m_logger.warn(err.what());
+    }
 }
 
 vector<MidiPortInfo> MidiOut::getOutputPortInfo()

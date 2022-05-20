@@ -64,6 +64,7 @@ class QCheckBox;
 class QVBoxLayout;
 class QSplashScreen;
 class QLabel;
+class QWebEngineView;
 
 class InfoWidget;
 class SettingsWidget;
@@ -72,15 +73,21 @@ class ScintillaAPI;
 class SonicPii18n;
 class SonicPiLog;
 class SonicPiScintilla;
+class SonicPiEditor;
 class SonicPiTheme;
 class SonicPiLexer;
 class SonicPiSettings;
 class SonicPiContext;
+class SonicPiMetro;
+
+#ifdef WITH_WEBENGINE
+class PhxWidget;
+#endif
 
 struct help_page {
-    QString title;
-    QString keyword;
-    QString url;
+    QString title = "";
+    QString keyword = "";
+    QString url = "";
 };
 
 struct help_entry {
@@ -93,11 +100,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
     public:
-#if defined(Q_OS_MAC)
-        MainWindow(QApplication &ref, QMainWindow* splash);
-#else
         MainWindow(QApplication &ref, QSplashScreen* splash);
-#endif
 
         SonicPiLog* GetOutputPane() const;
         SonicPiLog* GetIncomingPane() const;
@@ -127,10 +130,6 @@ class MainWindow : public QMainWindow
     protected:
         void closeEvent(QCloseEvent *event);
         void wheelEvent(QWheelEvent *event);
-
-
-        public slots:
-            void invokeStartupError(QString msg);
 
 signals:
         void settingsChanged();
@@ -210,12 +209,18 @@ signals:
         void allowRemoteOSCMenuChanged();
         void showLogMenuChanged();
         void showCuesMenuChanged();
+        void showMetroChanged();
+        void updateMetroVisibility();
         void logAutoScrollMenuChanged();
         void changeScopeKindVisibility(QString name);
         void scopeKindVisibilityMenuChanged();
         void toggleLeftScope();
         void toggleRightScope();
         void changeScopeLabels();
+        void changeTitleVisibility();
+        void titleVisibilityChanged();
+        void changeMenuBarInFullscreenVisibility();
+        void menuBarInFullscreenVisibilityChanged();
         void scopeVisibilityChanged();
         void logCuesMenuChanged();
         void changeLogCues();
@@ -291,9 +296,18 @@ signals:
         void focusErrors();
 
     private:
+        SonicPiScintilla* getCurrentWorkspace();
+        SonicPiEditor* getCurrentEditor();
+        void resizeEvent( QResizeEvent *e );
+        void movePrefsWidget();
+        void slidePrefsWidgetIn();
+        void slidePrefsWidgetOut();
         void initPaths();
         QString osDescription();
         QSignalMapper *signalMapper;
+
+        void blankTitleBars();
+        void namedTitleBars();
 
         void clearOutputPanels();
         void createShortcuts();
@@ -343,36 +357,46 @@ signals:
         SonicPiSettings *piSettings;
         SonicPii18n *sonicPii18n;
 
+
+        bool fullScreenMode = false;
         bool focusMode;
+
         QCheckBox *startup_error_reported;
         bool is_recording;
         bool show_rec_icon_a;
         QTimer *rec_flash_timer;
 
-#ifdef Q_OS_MAC
-        QMainWindow* splash;
-#else
         QSplashScreen* splash;
-#endif
 
         bool i18n;
         static const int workspace_max = 10;
         SonicPiScintilla *workspaces[workspace_max];
-        QWidget *prefsCentral;
-        QTabWidget *docsCentral;
+        QTabWidget *docsNavTabs;
+        QTabWidget *southTabs;
+
         SonicPiLog *outputPane;
         SonicPiLog *incomingPane;
-        SonicPiContext *contextPane;
+        SonicPiMetro *metroPane;
         QTextBrowser *errorPane;
         QDockWidget *outputWidget;
         QDockWidget *incomingWidget;
-        QDockWidget *prefsWidget;
+        QWidget *prefsWidget;
+
         QDockWidget *hudWidget;
         QDockWidget *docWidget;
-        QDockWidget *contextWidget;
-        QWidget *blankWidget;
-        QWidget *outputWidgetTitle;
+        QDockWidget *metroWidget;
+
+        QWidget *blankWidgetOutput;
+        QWidget *blankWidgetIncoming;
+        QWidget *blankWidgetScope;
+        QWidget *blankWidgetDoc;
+        QWidget *blankWidgetMetro;
         QTextBrowser *docPane;
+
+#ifdef WITH_WEBENGINE
+        PhxWidget *phxWidget;
+#endif
+
         //  QTextBrowser *hudPane;
         QWidget *mainWidget;
         QDockWidget *scopeWidget;
@@ -380,15 +404,14 @@ signals:
         bool hidingDocPane;
         bool restoreDocPane;
 
-        QTabWidget *tabs;
+        QTabWidget *editorTabWidget;
         QProcess *serverProcess;
 
         SonicPiLexer *lexer;
         SonicPiTheme *theme;
 
         QToolBar *toolBar;
-
-  QAction *exitAct, *runAct, *stopAct, *saveAsAct, *loadFileAct, *recAct, *textAlignAct, *textIncAct, *textDecAct, *scopeAct, *infoAct, *helpAct, *prefsAct, *focusEditorAct, *focusLogsAct, *focusContextAct, *focusCuesAct, *focusPreferencesAct, *focusHelpListingAct, *focusHelpDetailsAct, *focusErrorsAct, *showLineNumbersAct, *showAutoCompletionAct, *showContextAct, *audioSafeAct, *audioTimingGuaranteesAct, *enableExternalSynthsAct, *mixerInvertStereoAct, *mixerForceMonoAct, *midiEnabledAct, *enableOSCServerAct, *allowRemoteOSCAct, *showLogAct, *showCuesAct, *logAutoScrollAct, *logCuesAct, *logSynthsAct, *clearOutputOnRunAct, *autoIndentOnRunAct, *showButtonsAct, *showTabsAct, *fullScreenAct, *lightThemeAct, *darkThemeAct, *proLightThemeAct, *proDarkThemeAct, *highContrastThemeAct, *showScopeLabelsAct;
+  QAction *exitAct, *runAct, *stopAct, *saveAsAct, *loadFileAct, *recAct, *textAlignAct, *textIncAct, *textDecAct, *scopeAct, *infoAct, *helpAct, *prefsAct, *focusEditorAct, *focusLogsAct, *focusContextAct, *focusCuesAct, *focusPreferencesAct, *focusHelpListingAct, *focusHelpDetailsAct, *focusErrorsAct, *showLineNumbersAct, *showAutoCompletionAct, *showContextAct, *audioSafeAct, *audioTimingGuaranteesAct, *enableExternalSynthsAct, *mixerInvertStereoAct, *mixerForceMonoAct, *midiEnabledAct, *enableOSCServerAct, *allowRemoteOSCAct, *showLogAct, *showCuesAct, *logAutoScrollAct, *logCuesAct, *logSynthsAct, *clearOutputOnRunAct, *autoIndentOnRunAct, *showButtonsAct, *showTabsAct, *fullScreenAct, *lightThemeAct, *darkThemeAct, *proLightThemeAct, *proDarkThemeAct, *highContrastThemeAct, *showScopeLabelsAct, *showTitlesAct, *hideMenuBarInFullscreenAct, *showMetroAct;
   QShortcut *runSc, *stopSc, *saveAsSc, *loadFileSc, *recSc, *textAlignSc, *textIncSc, *textDecSc, *scopeSc, *infoSc, *helpSc, *prefsSc, *focusEditorSc, *focusLogsSc, *focusContextSc, *focusCuesSc, *focusPreferencesSc, *focusHelpListingSc, *focusHelpDetailsSc, *focusErrorsSc;
         QActionGroup *langActionGroup;
 
@@ -425,11 +448,12 @@ signals:
         QLabel *versionLabel;
         bool tmpFileStoreAvailable;
         bool updated_dark_mode_for_help, updated_dark_mode_for_prefs;
-        QString guiID;
+        int guiID;
 
         SonicPi::ScopeWindow* scopeWindow;
         std::shared_ptr<SonicPi::QtAPIClient> m_spClient;
         std::shared_ptr<SonicPi::SonicPiAPI> m_spAPI;
+        std::shared_ptr<QRect> m_appWindowSizeRect;
 
         QSet<QString> cuePaths;
 

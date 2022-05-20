@@ -108,7 +108,7 @@ module SonicPi
         d = __system_thread_locals.get(:sonic_pi_spider_thread_delta)
         __system_thread_locals.set_local(:sonic_pi_spider_thread_delta, d + 1)
         p = __system_thread_locals.get(:sonic_pi_spider_thread_priority, 0)
-        m = current_bpm
+        m = current_bpm_mode
 
         ce = CueEvent.new(t, p, i, d, b, m, cue_path, val)
 
@@ -316,7 +316,7 @@ end
           i = __current_thread_id
           d = __system_thread_locals.get(:sonic_pi_spider_thread_delta)
           p = __system_thread_locals.get(:sonic_pi_spider_thread_priority, 1001)
-          m = current_bpm
+          m = current_bpm_mode
 
           @event_history.get(t, p, i, d, b, m, k)
         end
@@ -407,7 +407,7 @@ end
           examples: ["
 live_loop :foo do
   with_swing 0.1 do
-    sample :elec_beep      # plays the :elec_beep sample late except for every 4th time
+    sample :elec_beep      # plays the :elec_beep sample late except on the 1st beat of every 4
   end
   sleep 0.25
 end
@@ -416,7 +416,7 @@ end
 live_loop :foo do
   with_swing -0.1 do
     sample :elec_beep      # plays the :elec_beep sample slightly early
-  end                      # except for every 4th time
+  end                      # on the 1st beat of every 4
   sleep 0.25
 end
 ",
@@ -424,7 +424,7 @@ end
 live_loop :foo do
   with_swing -0.1, pulse: 8 do
     sample :elec_beep      # plays the :elec_beep sample slightly early
-  end                      # except for every 8th time
+  end                      #  on the 1st beat of every 8
   sleep 0.25
 end
 ",
@@ -434,11 +434,11 @@ end
 live_loop :foo do
   with_swing 0.14, tick: :a do
     sample :elec_beep      # plays the :elec_beep sample slightly late
-  end                      # except for every 4th time
+  end                      #  on the 1st beat of every 4
 
   with_swing -0.1, tick: :b do
     sample :elec_beep, rate: 2  # plays the :elec_beep sample at double rate
-  end                           #  slightly early except for every 4th time
+  end                           #  slightly early except  on the 1st beat of every 4
   sleep 0.25
 end",
         "
@@ -455,7 +455,24 @@ live_loop :bar do
                           # another live loop (sync will match the timing and clock of
                           # the sending live loop)
 end
-"      ]
+",
+      "
+live_loop :foo do
+  with_swing 0.1, offset: 2 do
+    sample :elec_beep      # plays the :elec_beep sample slightly late
+  end                      # on the the 3rd beat of every 4
+  sleep 0.25
+end
+",
+      "
+live_loop :foo do
+  with_swing 0.1, pulse: 2, offset: 1 do
+    sample :elec_beep      # plays the :elec_beep sample slightly late
+  end                      # on the 2nd beat of every 2
+  sleep 0.25
+end
+"
+      ]
 
 
 
@@ -579,7 +596,7 @@ eval_file \"~/path/to/sonic-pi-code.rb\" #=> will run the contents of this file"
 
 OSC (Open Sound Control) is a simple way of passing messages between two separate programs on the same computer or even on different computers via a local network or even the internet. `use_osc` allows you to specify which computer (`hostname`) and program (`port`) to send messages to.
 
-It is possible to send messages to the same computer by using the host name `\"localhost\"`
+It is possible to send messages to the same computer by using the host name `\"localhost\"`.
 
 This is a thread-local setting - therefore each thread (or live loop) can have their own separate `use_osc` values.
 
@@ -594,23 +611,23 @@ osc \"/foo/bar\"             # Send an OSC message with path \"/foo/bar\"
                              # and no arguments
 ",
 
-" # Send an OSC messages with arguments to another program on the same machine
+" # Send an OSC message with arguments to another program on the same machine
 
 use_osc \"localhost\", 7000        # Specify port 7000 on this machine
 osc \"/foo/bar\" 1, 3.89, \"baz\"  # Send an OSC message with path \"/foo/bar\"
                                    # and three arguments:
                                    # 1) The whole number (integer) 1
-                                   # 2) The fractional number (float) 3,89
+                                   # 2) The fractional number (float) 3.89
                                    # 3) The string \"baz\"
 ",
 
-" # Send an OSC messages with arguments to another program on a different machine
+" # Send an OSC message with arguments to another program on a different machine
 
 use_osc \"10.0.1.5\", 7000         # Specify port 7000 on the machine with address 10.0.1.5
 osc \"/foo/bar\" 1, 3.89, \"baz\"  # Send an OSC message with path \"/foo/bar\"
                                    # and three arguments:
                                    # 1) The whole number (integer) 1
-                                   # 2) The fractional number (float) 3,89
+                                   # 2) The fractional number (float) 3.89
                                    # 3) The string \"baz\"
 ",
 
@@ -620,7 +637,7 @@ use_osc \"localhost\", 7000  # Specify port 7000 on this machine
 osc \"/foo/bar\"             # Send an OSC message to port 7000
 osc \"/foo/baz\"             # Send another OSC message to port 7000
 
-use_osc \"localhost\", 7005  # Specify port 7000 on this machine
+use_osc \"localhost\", 7005  # Specify port 7005 on this machine
 osc \"/foo/bar\"             # Send an OSC message to port 7005
 osc \"/foo/baz\"             # Send another OSC message to port 7005
 ",
@@ -672,7 +689,7 @@ osc \"/foo/baz\"             # Send another OSC message to port 7010
           doc:            "Sets the destination host and port that `osc` will send messages to for the given do/end block.",
           examples: [
 "
-use_osc \"localhost\", 7000  # Specify port 7010
+use_osc \"localhost\", 7000  # Specify port 7000
 osc \"/foo/baz\"             # Send an OSC message to port 7000
 
 with_osc \"localhost\", 7010 do # set hostname and port for the duration
@@ -688,7 +705,8 @@ osc \"/foo/baz\"             # Send an OSC message to port 7000
 
       def osc_send(host, port, path, *args)
         host = host.to_s.strip
-        @tau_api.send_osc(host, port, path, *args)
+        t = __get_spider_schedule_time
+        @tau_api.send_osc_at(t, host, port, path, *args)
         __delayed_message "OSC -> #{host}, #{port}, #{path}, #{args}" unless __thread_locals.get(:sonic_pi_suppress_osc_logging)
       end
       doc name:           :osc_send,
@@ -736,7 +754,7 @@ osc_send \"localhost\", 7000, \"/foo/baz\"  # Send an OSC message to port 7000
 
 OSC (Open Sound Control) is a simple way of passing messages between two separate programs on the same computer or even on different computers via a local network or even the internet. `osc` enables you to send well-timed OSC messages from within Sonic Pi. `osc` will ensure that the OSC message is sent at the correct time using the same timing system shared with the synthesis functionality via `sample`, `synth` and friends. `osc` even works seamlessly within `time_warp` - see examples.
 
-A typical OSC message has two parts: a descriptive `path` which looks simalar to a URL (website address), and an optional list of `arguments` that are either numbers or strings.
+A typical OSC message has two parts: a descriptive `path` which looks similar to a URL (website address), and an optional list of `arguments` that are either numbers or strings.
 
 For example, a hypothetical synth program might accept this OSC message:
 
@@ -755,13 +773,13 @@ However, in order to send the OSC message you must first specify where to send i
 `osc \"/set/filter\", \"lowpass\", 80, 0.5`
 
 
-Note, by default, Sonic Pi listens for OSC messages on port `4560`, so you may send messages to an external machine running Sonic Pi if you know the IP address of that external machine. Any OSC messages received on port `4559` are automatically converted to standard cue events and displayed in the GUI's cue log. This also means that you can use `sync` to wait for the next incoming OSC message with a given path (see example).
+Note, by default, Sonic Pi listens for OSC messages on port `4560`, so you may send messages to an external machine running Sonic Pi if you know the IP address of that external machine. Any OSC messages received on port `4560` are automatically converted to standard cue events and displayed in the GUI's cue log. This also means that you can use `sync` to wait for the next incoming OSC message with a given path (see example).
 
-Finally, it is also very useful to send OSC messages to aother programs on the same computer. This can be achieved by specifying \"localhost\" as the hostname and the port as normal (depending on which port the other program is listening on).
+Finally, it is also very useful to send OSC messages to other programs on the same computer. This can be achieved by specifying \"localhost\" as the hostname and the port as normal (depending on which port the other program is listening on).
 
 See `osc_send` for a version which allows you to specify the hostname and port directly (ignoring any values set via `use_osc` or `with_osc`).
 
-For further information see the OSC spec: [http://opensoundcontrol.org/spec-1_0](http://opensoundcontrol.org/spec-1_0)
+For further information see the OSC spec: [http://opensoundcontrol.org/spec-1_0.html](http://opensoundcontrol.org/spec-1_0.html)
 ",
       examples: [
 " # Send a simple OSC message to another program on the same machine
@@ -771,7 +789,7 @@ osc \"/foo/bar\"             # Send an OSC message with path \"/foo/bar\"
                              # and no arguments
 ",
 
-" # Send an OSC messages with arguments to another program on the same machine
+" # Send an OSC message with arguments to another program on the same machine
 
 use_osc \"localhost\", 7000        # Specify port 7000 on this machine
 osc \"/foo/bar\", 1, 3.89, \"baz\" # Send an OSC message with path \"/foo/bar\"
@@ -781,7 +799,7 @@ osc \"/foo/bar\", 1, 3.89, \"baz\" # Send an OSC message with path \"/foo/bar\"
                                    # 3) The string \"baz\"
 ",
 
-" # Send an OSC messages with arguments to another program on a different machine
+" # Send an OSC message with arguments to another program on a different machine
 
 use_osc \"10.0.1.5\", 7000         # Specify port 7000 on the machine with address 10.0.1.5
 osc \"/foo/bar\", 1, 3.89, \"baz\" # Send an OSC message with path \"/foo/bar\"
@@ -833,7 +851,7 @@ end
       doc name:           :reset,
           introduced:     Version.new(2,11,0),
           summary:        "Reset all thread locals",
-          args:           [[]],
+          args:           [],
           returns:        nil,
           opts:           nil,
           accepts_block:  false,
@@ -897,7 +915,7 @@ end"]
       doc name:           :clear,
           introduced:     Version.new(2,11,0),
           summary:        "Clear all thread locals to defaults",
-          args:           [[]],
+          args:           [],
           returns:        nil,
           opts:           nil,
           accepts_block:  false,
@@ -957,10 +975,8 @@ end"
 
         __system_thread_locals.set(:sonic_pi_spider_time_warp_start, __get_spider_time) unless  already_in_time_warp
         __system_thread_locals.set_local :sonic_pi_spider_in_time_warp, true
-        __with_preserved_spider_time_and_beat do
-
-          times.each_with_index do |delta, idx|
-
+        times.each_with_index do |delta, idx|
+          __with_preserved_spider_time_and_beat do
             sleep delta
 
             case block.arity
@@ -1734,6 +1750,9 @@ end"
         end
 
         return [].ring if start == finish
+
+        raise ArgumentError, "step size: opt for fn range should be a non-zero number" unless step_size != 0
+
         step_size = step_size.abs
         res = []
         cur = start
@@ -2107,10 +2126,13 @@ end"
         raise ArgumentError, "loop needs a block" unless block
         Kernel.loop do
           __system_thread_locals.set(:sonic_pi_spider_synced, false)
-          slept = block_slept? do
-            block.call
-          end
-          raise ZeroTimeLoopError, "loop did not sleep or sync!" unless slept or __system_thread_locals.get(:sonic_pi_spider_synced)
+          __system_thread_locals.set(:sonic_pi_spider_slept, false)
+
+          block.call
+
+          slept =  __system_thread_locals.get(:sonic_pi_spider_slept)
+          synced = __system_thread_locals.get(:sonic_pi_spider_synced)
+          raise ZeroTimeLoopError, "loop did not sleep or sync!" unless slept or synced
         end
       end
       doc name:           :loop,
@@ -2121,7 +2143,7 @@ end"
 The loop must either `sleep` or `sync` each time round otherwise it will stop and throw an error. This is to stop the loop from spinning out of control and locking the system.
 
 For a more powerful, flexible loop built for live coding see `live_loop`.",
-          args:           [[]],
+          args:           [],
           opts:           nil,
           accepts_block:  true,
           requires_block: true,
@@ -2152,6 +2174,9 @@ play 80      # This is *never* played as the program is trapped in the loop abov
 
         sync_sym = args_h[:sync]
         sync_bpm_sym = args_h[:sync_bpm]
+
+        #handle case where user passes both :sync and :sync_bpm opts.
+        # --> sync_bpm overrides sync
         sync_sym = nil if sync_bpm_sym
 
         raise LiveLockError, "livelock detection - live_loop cannot sync with itself - please choose another sync name for live_loop #{name.inspect}" if name == sync_sym || name == sync_bpm_sym
@@ -2337,7 +2362,7 @@ end                           # logical time of live loop :bar.
           introduced:     Version.new(2,9,0),
           summary:        "Return block duration",
           doc:            "Given a block, runs it and returns the amount of time that has passed. This time is in seconds and is not scaled to the current BPM. Any threads spawned in the block are not accounted for.",
-          args:           [[]],
+          args:           [],
           opts:           nil,
           accepts_block:  true,
           requires_block: true,
@@ -2373,7 +2398,7 @@ puts dur #=> Returns 1.5 as 1.5 seconds have passed within the block
           introduced:     Version.new(2,9,0),
           summary:        "Determine if block contains sleep time",
           doc:            "Given a block, runs it and returns whether or not the block contained sleeps or syncs",
-          args:           [[]],
+          args:           [],
           opts:           nil,
           accepts_block:  true,
           requires_block: true,
@@ -3241,7 +3266,7 @@ print rand_i_look(5) # will print either 0, 1, 2, 3, or 4 to the output pane"
       doc name:           :rand_reset,
           introduced:     Version.new(2,7,0),
           summary:        "Reset rand generator to last seed",
-          args:           [[]],
+          args:           [],
           opts:           nil,
           accepts_block:  false,
           doc:            "Resets the random stream to the last specified seed. See `use_random_seed` for changing the seed.",
@@ -3556,15 +3581,126 @@ You can see the 'buckets' that the numbers between 0 and 1 fall into with the fo
   cue :quux # cue is displayed in log
   "]
 
+      def link_sync(*args)
+        sync "/link/start" unless @tau_api.link_is_playing?
+        link(*args)
+      end
+      doc name:          :link_sync,
+          introduced:    Version.new(4,0,0),
+          summary:       "Use Ableton Link network metronome with automatic session and phase syncing.",
+          doc:           "Similar to link except it also waits for the link session to be playing. If it is, then it behaves identially to link. If the session is not playing, then link_sync will first wait until the session has started before then continuing as if just link had been called.
+
+See link for further details and usage.",
+         args:          [[:quantum, :number],
+                         [:phase, :number]],
+         opts:           nil,
+         accepts_block:  false,
+         requires_block: false,
+         examples: [""]
+
+      def link(*args)
+        params, opts = split_params_and_merge_opts_array(args)
+        quantum = params[0] || opts.fetch(:quantum, 4)
+        phase = params[1] || opts.fetch(:phase, 0)
+
+        # Schedule messages
+        __schedule_delayed_blocks_and_messages!
+
+        __system_thread_locals.set_local(:sonic_pi_spider_time_state_cache, [])
+        __system_thread_locals.set_local(:sonic_pi_local_last_sync, nil)
+        use_bpm :link
+
+        beat, time = @tau_api.link_get_beat_and_clock_time_at_phase(phase, quantum)
+
+        sat = current_sched_ahead_time
+
+        __system_thread_locals.set(:sonic_pi_spider_bpm, :link)
+        __change_spider_time_and_beat!(time - sat, beat)
+
+        new_vt = __get_spider_time.to_f
+        now = Time.now.to_f
+        t = (new_vt - now).to_f - 0.2
+        Kernel.sleep t if t > 0.2
+        __system_thread_locals.set(:sonic_pi_spider_slept, true)
+
+        ## reset control deltas now that time has advanced
+        __system_thread_locals.set_local :sonic_pi_local_control_deltas, {}
+      end
+      doc name:          :link,
+          introduced:    Version.new(4,0,0),
+          summary:       "Use Ableton Link network metronome with automatic phase syncing.",
+          doc:           "By default link waits for the start of the next bar of the shared network metronome link. You can choose how many beats there are in a bar by setting the quantum option and/or which beat to wait for by setting the phase option.
+
+By default, the phase to sync on is 0 and the quantum (max number of beats) is 4.
+
+Also switches BPM to :link mode so there is no explicit need to call use_bpm :link.  The time and beat set to match the network Link metronome.
+
+This function will block the current thread until the next matching phase as if `sleep` had been called with the exact sleep time
+
+If the quantum is 4 (the default) this suggests there are 4 beats in each bar. If the phase is set to 0 (also the default) this means that calling link will sleep until the very start of the next bar before continuing.
+
+This can be used to sync multiple instances of Sonic Pi running on different computers connected to the same network (via wifi or ethernet). It can also be used to share and coordinate time with other apps and devices. For a full list of link-compatible apps and devices see:  https://www.ableton.com/en/link/products/
+
+For other related link functions see link_sync, use_bpm :link, set_link_bpm!
+",
+          args:          [[:quantum, :number],
+                          [:phase, :number]],
+          opts:          nil,
+          accepts_block: false,
+          requires_block: false,
+          examples:      ["
+use_bpm 120      # bpm is at 120
+link             # wait for the start of the next bar before continuing
+                 # (where each bar has 4 beats)
+puts current_bpm #=> :link (not 120)
+  ",
+        "
+link 8 # wait for the start of the next bar
+       # (where each bar has 8 beats)
+",
+        "
+link 7, 2 # wait for the 2nd beat of the next bar
+          # (where each bar has 7 beats)
+"      ]
 
 
+      def set_link_bpm!(bpm)
+        raise ArgumentError, "use_bpm's BPM should be a positive value or :link. You tried to use: #{bpm}" unless bpm == :link || (bpm.is_a?(Numeric) && bpm > 0)
+        raise ArgumentError, "set_link_bpm! requires a number for the bpm argument in the range 20 -> 999. You tried to use: #{bpm}" unless bpm.is_a?(Numeric) && bpm >= 20 && bpm <= 999
+        @tau_api.link_set_bpm_at_clock_time!(bpm.to_f, __get_spider_time)
+      end
+      doc name:      :set_link_bpm!,
+      introduced:    Version.new(4,0,0),
+      summary:       "Set the tempo for the link metronome.",
+      doc:           "Set the tempo for the link metronome in BPM. This is 'global' in that the BPM of all threads/live_loops in Link BPM mode will be affected.
 
+Note that this will *also* change the tempo of *all link metronomes* connected to the local network. This includes other instances of Sonic Pi, Music Production tools like Ableton Live, VJ tools like Resolume, DJ hardware like the MPC and many iPad music apps.
 
+For a full list of link-compatible apps and devices see:  https://www.ableton.com/en/link/products/
+
+Also note that the current thread does not have to be in Link BPM mode for this function to affect the Link clock's BPM.
+
+To change the current thread/live_loop to Link BPM mode see: `use_bpm :link`",
+      args:          [[:bpm, :number]],
+      opts:          nil,
+      accepts_block: false,
+      intro_fn:      false,
+      examples:       ["
+use_bpm :link                                 # Switch to Link BPM mode
+set_link_bpm! 30                              # Change Link BPM to 30
+
+8.times do
+  bpm += 10
+  set_link_bpm! bpm                           # Gradually increase the Link BPM
+  sample :loop_amen, beat_stretch: 2
+  sleep 2
+end
+"]
 
       def use_bpm(bpm, &block)
         raise ArgumentError, "use_bpm does not work with a block. Perhaps you meant with_bpm" if block
         raise ArgumentError, "use_bpm's BPM should be a positive value or :link. You tried to use: #{bpm}" unless bpm == :link || (bpm.is_a?(Numeric) && bpm > 0)
-        __change_spider_bpm!(bpm)
+        __change_spider_bpm_time_and_beat!(bpm, __get_spider_time, __get_spider_beat)
       end
       doc name:           :use_bpm,
           introduced:     Version.new(2,0,0),
@@ -3617,10 +3753,10 @@ You can see the 'buckets' that the numbers between 0 and 1 fall into with the fo
       def with_bpm(bpm, &block)
         raise ArgumentError, "with_bpm must be called with a do/end block. Perhaps you meant use_bpm" unless block
         raise ArgumentError, "with_bpm's BPM should be a positive value. You tried to use: #{bpm}" unless bpm > 0
-        current_bpm = __get_spider_bpm
-        __change_spider_bpm!(bpm)
+        current_bpm = __get_spider_bpm_mode
+        use_bpm bpm
         res = block.call
-        __change_spider_bpm!(curent_bpm)
+        use_bpm current_bpm
         res
       end
       doc name:           :with_bpm,
@@ -3708,7 +3844,6 @@ You can see the 'buckets' that the numbers between 0 and 1 fall into with the fo
       def use_bpm_mul(mul, &block)
         raise ArgumentError, "use_bpm_mul must not be called with a block. Perhaps you meant with_bpm_mul" if block
         raise ArgumentError, "use_bpm_mul's mul should be a positive value. You tried to use: #{mul}" unless mul > 0
-        new_bpm = __get_spider_bpm * mul.to_f
         __layer_spider_time_density!(mul)
       end
       doc name:           :use_bpm_mul,
@@ -3843,7 +3978,7 @@ puts rand               #=> 0.24249267578125
         SonicPi::Core::SPRand.get_random_number_distribution
       end
       doc name:          :current_random_source,
-          introduced:    Version.new(3,4,0),
+          introduced:    Version.new(4,0,0),
           summary:       "Get current random source",
           doc:           "Returns the source of the current random number generator (what kind of noise is generating the random numbers).
 
@@ -3866,6 +4001,28 @@ use_random_source a # Restore the previous random number source (:white)
 puts rand # => 0.10821533203125
 puts rand # => 0.54010009765625
 "]
+      def current_bpm_mode
+        __get_spider_bpm_mode
+      end
+      doc name:          :current_bpm_mode,
+          introduced:    Version.new(4,0,0),
+          summary:       "Get current tempo mode",
+          doc:           "Returns the current tempo mode - either a bpm value or :link.
+
+To know the current BPM value when this thread is in :link mode see `current_bpm`.
+
+This can be set via the fns `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bpm`.",
+          args:          [],
+          opts:          nil,
+          accepts_block: false,
+          examples:      ["
+  use_bpm 60
+  puts current_bpm_mode    # => 60
+  use_bpm 70
+  puts current_bpm_mode    # => 70
+  use_bpm :link
+  puts current_bpm_mode    # => :link"]
+
 
 
       def current_bpm
@@ -3874,14 +4031,21 @@ puts rand # => 0.54010009765625
       doc name:          :current_bpm,
           introduced:    Version.new(2,0,0),
           summary:       "Get current tempo",
-          doc:           "Returns the current tempo as a bpm value.
+          doc:           "Returns the current tempo as a bpm value. If the thread is in :link bpm mode, this will return the latest bpm value of the shared Link network metronome (note that this value may change after reading if the Link bpm isn't static).
+
+To know if this thread is in :link or standard bpm mode see `current_bpm_mode`.
 
 This can be set via the fns `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bpm`.",
           args:          [],
           opts:          nil,
           accepts_block: false,
           examples:      ["
-  puts current_bpm # Print out the current bpm"]
+  use_bpm 60
+  puts current_bpm_mode    # => 60
+  use_bpm 70
+  puts current_bpm_mode    # => 70
+  use_bpm :link
+  puts current_bpm_mode    # => 120 (or whatever the current Link BPM value is)"]
 
 
 
@@ -3915,7 +4079,7 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
           introduced:    Version.new(2,10,0),
           summary:       "Get current beat",
           doc:           "Returns the beat value for the current thread/live_loop. Beats are advanced only by calls to `sleep` and `sync`. Beats are distinct from virtual time (the value obtained by calling `vt`) in that it has no notion of rate. It is just essentially a counter for sleeps. After a `sync`, the beat is overridden with the beat value from the thread which called `cue`. ",
-          args:          [[]],
+          args:          [],
           opts:          nil,
           accepts_block: false,
           examples:      ["
@@ -3974,7 +4138,7 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
         t = __get_spider_time
         b = __get_spider_beat_
         i = __current_thread_id
-        m = current_bpm
+        m = current_bpm_mode
         @system_state.set(t, 0, i, 0, b, m, :sched_ahead_time, sat)
         __info "Schedule ahead time set to #{sat}"
       end
@@ -4036,7 +4200,7 @@ Set sched ahead time to 0 for the current thread. Shorthand for `use_sched_ahead
 See `use_sched_ahead_time` for a version of this function which allows you to set the schedule ahead time to any arbitrary value. Note, `use_real_time` will override any value set with `set_sched_ahead_time!` for the current thread.
 
 ",
-          args:          [[]],
+          args:          [],
           opts:          nil,
           modifies_env: true,
           accepts_block: false,
@@ -4065,7 +4229,7 @@ Sets sched ahead time to 0 within the block for the current thread. Shorthand fo
 See `with_sched_ahead_time` for a version of this function which allows you to set the schedule ahead time to any arbitrary value. Note, `with_real_time` will override any value set with `set_sched_ahead_time!` for the current thread.
 
 ",
-          args:          [[]],
+          args:          [],
           opts:          nil,
           modifies_env: true,
           accepts_block: false,
@@ -4134,15 +4298,14 @@ puts current_sched_ahead_time # Prints 0.5"]
         __change_spider_beat_and_time_by_beat_delta!(beats)
 
         sat = current_sched_ahead_time
-        new_vt = __get_spider_time.to_r
+        new_vt = __get_spider_time.to_f
         now = Time.now.to_f
 
         in_time_warp = __system_thread_locals.get(:sonic_pi_spider_in_time_warp)
 
-        if (now - (sat + 0.5)) > new_vt
-
-          # raise TimingError, "Timing Exception: thread got too far behind time
+        if (now - (sat + 1)) > new_vt
           __delayed_serious_warning "Serious timing error. Too far behind time..."
+          raise TimingError, "Timing Exception: thread got too far behind time"
         elsif (now - sat) > new_vt
           __delayed_serious_warning "Timing error: can't keep up..."
         elsif now > new_vt
@@ -4151,18 +4314,15 @@ puts current_sched_ahead_time # Prints 0.5"]
           unless __thread_locals.get(:sonic_pi_mod_sound_synth_silent) || in_time_warp
             __delayed_warning "Timing warning: running slightly behind..."
           end
-        else
-          if in_time_warp
-            # Don't sleep if within a time warp
-            #
-            # However, do make sure the vt hasn't got too far ahead of the real time
-            # raise TimingError, "Timing Exception: thread got too far ahead of time" if  (new_vt - 17) > now
-          else
-            t = (new_vt - now).to_f
-            Kernel.sleep t
-          end
         end
 
+        if in_time_warp
+          # Don't physically sleep or register as slept within a time warp
+        else
+          t = (new_vt - now).to_f - 0.2
+          Kernel.sleep t if t > 0.2
+          __system_thread_locals.set(:sonic_pi_spider_slept, true)
+        end
 
         ## reset control deltas now that time has advanced
         __system_thread_locals.set_local :sonic_pi_local_control_deltas, {}
@@ -4237,7 +4397,7 @@ puts current_sched_ahead_time # Prints 0.5"]
         d = __system_thread_locals.get(:sonic_pi_spider_thread_delta)
         __system_thread_locals.set_local(:sonic_pi_spider_thread_delta, d + 1)
         cue_path = "/live_loop/#{id}"
-        @register_cue_event_lambda.call(t, p, __current_thread_id, d, current_beat, current_bpm, cue_path, [], __current_sched_ahead_time)
+        @register_cue_event_lambda.call(t, p, __current_thread_id, d, current_beat, current_bpm_mode, cue_path, [], __current_sched_ahead_time)
       end
 
 
@@ -4265,12 +4425,11 @@ puts current_sched_ahead_time # Prints 0.5"]
         k = params[0]
 
         __system_thread_locals.set_local(:sonic_pi_spider_time_state_cache, [])
-        # TODO: need to add this
+
         bpm_sync = truthy?(opts[:bpm_sync])
         arg_matcher = opts[:arg_matcher]
 
         cue_id = __sync_path(k)
-        last_sync = __system_thread_locals.get(:sonic_pi_local_last_sync, nil)
 
         __system_thread_locals.set_local :sonic_pi_local_control_deltas, {}
 
@@ -4280,6 +4439,8 @@ puts current_sched_ahead_time # Prints 0.5"]
 
         __schedule_delayed_blocks_and_messages!
 
+        last_sync = __system_thread_locals.get(:sonic_pi_local_last_sync, nil)
+
         if last_sync
           t = last_sync.time
           i = last_sync.thread_id
@@ -4288,30 +4449,25 @@ puts current_sched_ahead_time # Prints 0.5"]
           b = last_sync.beat
           m = last_sync.bpm
         else
-          # TODO insert priority and delta values here:
           t = current_time
           p = __system_thread_locals.get(:sonic_pi_spider_thread_priority, -100)
           i = __current_thread_id
           d = __system_thread_locals.get(:sonic_pi_spider_thread_delta, 0)
           b = current_beat
-          m = current_bpm
+          m = current_bpm_mode
         end
 
         se = @event_history.sync(t, p, i, d, b, m, cue_id, arg_matcher)
 
-        __system_thread_locals.set(:sonic_pi_spider_synced, true)
-
-        __change_spider_time_and_beat!(se.time, se.beat)
         __system_thread_locals.set_local :sonic_pi_local_last_sync, se
 
+        __system_thread_locals.set(:sonic_pi_spider_synced, true)
+
         if bpm_sync
-          if se.bpm == :link
-            use_bpm :link
-          elsif se.bpm.is_a?(Numeric)
-            use_bpm se.bpm
-          else
-            raise StandardError, "Incorrect bpm value. Expecting either :link or a number such as 120"
-          end
+          raise StandardError, "Incorrect bpm value. Expecting either :link or a number such as 120" unless ((se.bpm == :link) || se.bpm.is_a?(Numeric))
+          __change_spider_bpm_time_and_beat!(se.bpm, se.time, se.beat)
+        else
+          __change_spider_bpm_time_and_beat!(current_bpm_mode, se.time, se.beat)
         end
 
         run_info = ""
@@ -4324,7 +4480,6 @@ puts current_sched_ahead_time # Prints 0.5"]
             __delayed_highlight2_message "synced #{cue_id.inspect} " + run_info
           end
         end
-        __system_thread_locals.set_local :sonic_pi_local_last_sync, se
         se
       end
 
@@ -4415,7 +4570,7 @@ It is possible to delay the initial trigger of the thread on creation with both 
           opts:           {:name  => "Make this thread a named thread with name. If a thread with this name already exists, a new thread will not be created.",
                            :delay => "Initial delay in beats before the thread starts. Default is 0.",
                            :sync => "Initial sync symbol. Will sync with this symbol before the thread starts.",
-                           :sync_bpm => "Initial sync symbol. Will sync with this symbol before the live_loop starts. Live loop will also inherit the BPM of the thread which cued the symbol.",},
+                           :sync_bpm => "Initial sync symbol. Will sync with this symbol before the thread starts. Thread will also inherit the BPM of the thread which cued the symbol.",},
           accepts_block:  true,
           requires_block: true,
           async_block:    true,
@@ -4692,7 +4847,7 @@ assert_equal 3, 5, \"something is seriously wrong!\"
       def assert_similar(a, b, msg=nil)
         case a
           when Numeric
-          assert_equal(a.to_f.round(8), b.to_f.round(8), msg)
+          assert_equal(a.to_f.round(5), b.to_f.round(5), msg)
         else
           assert_equal(a, b, msg)
         end
@@ -4737,7 +4892,7 @@ load_buffer \"~/sonic-pi-tracks/phat-beats.rb\" # will replace content of curren
 
 
       def load_example(example_name)
-        path = Dir[examples_path + '/**/' + example_name.to_s + '.rb'].first
+        path = Dir[Paths.examples_path + '/**/' + example_name.to_s + '.rb'].first
         raise IOError, "Error - no example found with name: #{example_name.inspect}" unless path
         buf = __current_job_info[:workspace]
         __info "loading #{buf} with #{path}"

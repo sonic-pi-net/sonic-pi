@@ -374,18 +374,18 @@ The `velocity` param may be omitted - in which case it will default to 127 unles
 
 You may also optionally pass the velocity value as a floating point value between 0 and 1 such as 0.2 or 0.785 (which will be linearly mapped to MIDI values between 0 and 127) using the vel_f: opt.
 
-[MIDI 1.0 Specification - Channel Voice Messages - Note on event](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
+[MIDI 1.0 Specification - Channel Voice Messages - Note on event](https://www.midi.org/specifications-old/item/table-1-summary-of-midi-message)
 ",
       examples:       [
-        "midi_note_on :e3  #=> Sends MIDI note on :e3 with the default velocity of 12 to all ports and channels",
-        "midi_note_on :e3, 12  #=> Sends MIDI note on :e3 with velocity 12 to all channels",
-        "midi_note_on :e3, 12, channel: 3  #=> Sends MIDI note on :e3 with velocity 12 on channel 3",
-        "midi_note_on :e3, velocity: 100 #=> Sends MIDI note on for :e3 with velocity 100",
-        "midi_note_on :e3, vel_f: 0.8 #=> Scales velocity 0.8 to MIDI value 102 and sends MIDI note on for :e3 with velocity 102",
+        "midi_note_on :e3  #=> Sends MIDI note on for note :e3 with the default velocity of 12 to all ports and channels",
+        "midi_note_on :e3, 12  #=> Sends MIDI note on for note :e3 with velocity 12 to all channels",
+        "midi_note_on :e3, 12, channel: 3  #=> Sends MIDI note on for note :e3 with velocity 12 on channel 3",
+        "midi_note_on :e3, velocity: 100 #=> Sends MIDI note on for note :e3 with velocity 100",
+        "midi_note_on :e3, vel_f: 0.8 #=> Scales velocity 0.8 to MIDI value 102 and sends MIDI note on for note :e3 with velocity 102",
         "midi_note_on 60.3, 50.5 #=> Rounds params up or down to the nearest whole number and sends MIDI note on for note 60 with velocity 51",
-        "midi_note_on :e3, channel: [1, 3, 5] #=> Send MIDI note :e3 on to channels 1, 3, 5 on all connected ports",
-        "midi_note_on :e3, port: [\"foo\", \"bar\"] #=> Send MIDI note :e3 on to on all channels on ports named \"foo\" and \"bar\"",
-        "midi_note_on :e3, channel: 1, port: \"foo\" #=> Send MIDI note :e3 on only on channel 1 on port \"foo\""
+        "midi_note_on :e3, channel: [1, 3, 5] #=> Send MIDI note on for note :e3 to channels 1, 3, 5 on all connected ports",
+        "midi_note_on :e3, port: [\"foo\", \"bar\"] #=> Send MIDI note on for note :e3 to all channels on ports named \"foo\" and \"bar\"",
+        "midi_note_on :e3, channel: 1, port: \"foo\" #=> Send MIDI note on for note :e3 only on channel 1 on port \"foo\""
       ]
 
 
@@ -445,18 +445,18 @@ The `release_velocity` param may be omitted - in which case it will default to 1
 
 You may also optionally pass the release velocity value as a floating point value between 0 and 1 such as 0.2 or 0.785 (which will be mapped to MIDI values between 0 and 127) using the `vel_f:` opt.
 
-[MIDI 1.0 Specification - Channel Voice Messages - Note off event](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
+[MIDI 1.0 Specification - Channel Voice Messages - Note off event](https://www.midi.org/specifications-old/item/table-1-summary-of-midi-message)
 ",
       examples:       [
-        "midi_note_off :e3 #=> Sends MIDI note off for :e3 with the default release velocity of 127 to all ports and channels",
-        "midi_note_off :e3, 12  #=> Sends MIDI note off on :e3 with velocity 12 on all channels",
-        "midi_note_off :e3, 12, channel: 3  #=> Sends MIDI note off on :e3 with velocity 12 to channel 3",
-        "midi_note_off :e3, velocity: 100 #=> Sends MIDI note on for :e3 with release velocity 100",
-        "midi_note_off :e3, vel_f: 0.8 #=> Scales release velocity 0.8 to MIDI value 102 and sends MIDI note off for :e3 with release velocity 102",
-        "midi_note_off 60.3, 50.5 #=> Rounds params up or down to the nearest whole number and sends MIDI note off for note 60 with velocity 51",
-        "midi_note_off :e3, channel: [1, 3, 5] #=> Send MIDI note off on :e3 to channels 1, 3, 5 on all connected ports",
-        "midi_note_off :e3, port: [\"foo\", \"bar\"] #=> Send MIDI note off on :e3 to on all channels on ports named \"foo\" and \"bar\"",
-        "midi_note_off :e3, channel: 1, port: \"foo\" #=> Send MIDI note off on :e3 only on channel 1 on port \"foo\""
+        "midi_note_off :e3 #=> Sends MIDI note off for note :e3 with the default release velocity of 127 to all ports and channels",
+        "midi_note_off :e3, 12  #=> Sends MIDI note off for note :e3 with velocity 12 on all channels",
+        "midi_note_off :e3, 12, channel: 3  #=> Sends MIDI note off for note :e3 with velocity 12 to channel 3",
+        "midi_note_off :e3, velocity: 100 #=> Sends MIDI note off for note :e3 with release velocity 100",
+        "midi_note_off :e3, vel_f: 0.8 #=> Scales release velocity 0.8 to MIDI value 102 and sends MIDI note off for note :e3 with release velocity 102",
+        "midi_note_off 60.3, 50.5 #=> Rounds params up or down to the nearest whole number and sends MIDI note off for note 60 with release velocity 51",
+        "midi_note_off :e3, channel: [1, 3, 5] #=> Send MIDI note off for note :e3 to channels 1, 3, 5 on all connected ports",
+        "midi_note_off :e3, port: [\"foo\", \"bar\"] #=> Send MIDI note off for note :e3 to all channels on ports named \"foo\" and \"bar\"",
+        "midi_note_off :e3, channel: 1, port: \"foo\" #=> Send MIDI note off for note :e3 only on channel 1 on port \"foo\""
       ]
 
 
@@ -511,7 +511,7 @@ Note number and pressure value can be passed as a note such as `:e3` and decimal
 
 You may also optionally pass the pressure value as a floating point value between 0 and 1 such as 0.2 or 0.785 (which will be mapped to MIDI values between 0 and 127) using the `val_f:` opt.
 
-[MIDI 1.0 Specification - Channel Voice Messages - Polyphonic Key Pressure (Aftertouch)](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
+[MIDI 1.0 Specification - Channel Voice Messages - Polyphonic Key Pressure (Aftertouch)](https://www.midi.org/specifications-old/item/table-1-summary-of-midi-message)
 ",
           examples:       [
         "midi_poly_pressure 100, 32  #=> Sends a MIDI poly key pressure message to control note 100 with value 32 to all ports and channels",
@@ -573,7 +573,7 @@ Control number and control value can be passed as a note such as `:e3` and decim
 
 You may also optionally pass the control value as a floating point value between 0 and 1 such as 0.2 or 0.785 (which will be mapped to MIDI values between 0 and 127) using the `val_f:` opt.
 
-[MIDI 1.0 Specification - Channel Voice Messages - Control change](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
+[MIDI 1.0 Specification - Channel Voice Messages - Control change](https://www.midi.org/specifications-old/item/table-1-summary-of-midi-message)
 ",
           examples:       [
         "midi_cc 100, 32  #=> Sends MIDI cc message to control 100 with value 32 to all ports and channels",
@@ -632,7 +632,7 @@ The pressure value can be passed as a note such as `:e3` and decimal values will
 
 You may also optionally pass the pressure value as a floating point value between 0 and 1 such as 0.2 or 0.785 (which will be mapped to MIDI values between 0 and 127) using the `val_f:` opt.
 
-[MIDI 1.0 Specification - Channel Voice Messages - Channel Pressure (Aftertouch)](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
+[MIDI 1.0 Specification - Channel Voice Messages - Channel Pressure (Aftertouch)](https://www.midi.org/specifications-old/item/table-1-summary-of-midi-message)
 ",
           examples:       [
         "midi_channel_pressure 50  #=> Sends MIDI channel pressure message with value 50 to all ports and channels",
@@ -696,7 +696,7 @@ Typical MIDI values such as note or cc are represented with 7 bit numbers which 
 * It is also possible to specify the delta value as a (14 bit) MIDI pitch bend value between 0 and 16383 using the `delta_midi:` opt.
 * When using the `delta_midi:` opt no pitch bend is the value 8192
 
-[MIDI 1.0 Specification - Channel Voice Messages - Pitch Bend Change](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
+[MIDI 1.0 Specification - Channel Voice Messages - Pitch Bend Change](https://www.midi.org/specifications-old/item/table-1-summary-of-midi-message)
 ",
           examples:       [
         "midi_pitch_bend 0  #=> Sends MIDI pitch bend message with value 0 to all ports and channels",
@@ -737,7 +737,7 @@ Typical MIDI values such as note or cc are represented with 7 bit numbers which 
         nil
       end
       doc name:           :midi_pc,
-          introduced:     Version.new(3,0,2),
+          introduced:     Version.new(3,1,0),
           summary:        "Send MIDI program change message",
           args:           [[:program_num, :midi]],
           returns:        :nil,
@@ -750,13 +750,13 @@ Typical MIDI values such as note or cc are represented with 7 bit numbers which 
 
 Program number can be passed as a note such as `:e3` and decimal values will be rounded down or up to the nearest whole number - so values between 3.5 and 4 will be rounded up to 4 and values between 3.49999... and 3 will be rounded down to 3.
 
-[MIDI 1.0 Specification - Channel Voice Messages - Program change](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
+[MIDI 1.0 Specification - Channel Voice Messages - Program change](https://www.midi.org/specifications-old/item/table-1-summary-of-midi-message)
 ",
           examples:       [
         "midi_pc 100  #=> Sends MIDI pc message to all ports and channels",
         "midi_pc :e7  #=> Sends MIDI pc message to all ports and channels",
         "midi_pc 100, channel: 5  #=> Sends MIDI pc message on channel 5 to all ports",
-        "midi_pc 100, channel: 5  #=> Sends MIDI pc message on channel 5 to all ports",
+        "midi_pc 100, port: [\"foo\", \"bar\"], channel: 5  #=> Sends MIDI pc message on channel 5 to ports named \"foo\" and \"bar\"",
         "midi_pc 100, channel: [1, 5]  #=> Sends MIDI pc message on channel 1 and 5 to all ports"
 ]
 
@@ -791,7 +791,7 @@ Program number can be passed as a note such as `:e3` and decimal values will be 
 
 A raw MIDI message consists of multiple bytes as numbers in decimal notation (i.e. 176), hex (0xb0) or binary (0b10110000).
 
-See https://www.midi.org/specifications/item/table-1-summary-of-midi-message for a summary of MIDI messages and their corresponding byte structures.
+See https://www.midi.org/specifications-old/item/table-1-summary-of-midi-message for a summary of MIDI messages and their corresponding byte structures.
 ",
           examples: [
         "midi_raw 176, 121, 0  #=> Sends the MIDI reset command",
@@ -880,7 +880,7 @@ Non-number values will be automatically turned into numbers prior to sending the
 
 All oscillators will turn off, and their volume envelopes are set to zero as soon as possible.
 
-[MIDI 1.0 Specification - Channel Mode Messages - All Sound Off](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
+[MIDI 1.0 Specification - Channel Mode Messages - All Sound Off](https://www.midi.org/specifications-old/item/table-1-summary-of-midi-message)
 ",
           examples:       [
         "midi_sound_off #=> Silence MIDI devices on all ports and channels",
@@ -930,7 +930,7 @@ All oscillators will turn off, and their volume envelopes are set to zero as soo
 
 All controller values are reset to their defaults.
 
-[MIDI 1.0 Specification - Channel Mode Messages - Reset All Controllers](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
+[MIDI 1.0 Specification - Channel Mode Messages - Reset All Controllers](https://www.midi.org/specifications-old/item/table-1-summary-of-midi-message)
 ",
       examples:       [
         "midi_reset #=> Reset MIDI devices on all channels (and ports)",
@@ -977,7 +977,7 @@ All controller values are reset to their defaults.
 
 All devices on a given channel will respond only to data received over MIDI. Played data, etc. will be ignored. See `midi_local_control_on` to enable local control.
 
-[MIDI 1.0 Specification - Channel Mode Messages - Local Control Off](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
+[MIDI 1.0 Specification - Channel Mode Messages - Local Control Off](https://www.midi.org/specifications-old/item/table-1-summary-of-midi-message)
 ",
           examples:       [
         "midi_local_control_off #=> Disable local control on MIDI devices on all channels (and ports)",
@@ -1024,7 +1024,7 @@ All devices on a given channel will respond only to data received over MIDI. Pla
 
 All devices on a given channel will respond both to data received over MIDI and played data, etc. See `midi_local_control_off` to disable local control.
 
-[MIDI 1.0 Specification - Channel Mode Messages - Local Control On](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
+[MIDI 1.0 Specification - Channel Mode Messages - Local Control On](https://www.midi.org/specifications-old/item/table-1-summary-of-midi-message)
 ",
           examples:       [
         "midi_local_control_on #=> Enable local control on MIDI devices on all channels (and ports)",
@@ -1119,7 +1119,7 @@ Valid modes are:
 
 Note that this fn also includes the behaviour of `midi_all_notes_off`.
 
-[MIDI 1.0 Specification - Channel Mode Messages - Omni Mode Off | Omni Mode On | Mono Mode On (Poly Off) | Poly Mode On](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
+[MIDI 1.0 Specification - Channel Mode Messages - Omni Mode Off | Omni Mode On | Mono Mode On (Poly Off) | Poly Mode On](https://www.midi.org/specifications-old/item/table-1-summary-of-midi-message)
 ",
           examples:       [
         "midi_mode :omni_on #=> Turn Omni Mode On on all ports and channels",
@@ -1167,7 +1167,7 @@ Note that this fn also includes the behaviour of `midi_all_notes_off`.
 
 When an All Notes Off event is received, all oscillators will turn off.
 
-[MIDI 1.0 Specification - Channel Mode Messages - All Notes Off](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
+[MIDI 1.0 Specification - Channel Mode Messages - All Notes Off](https://www.midi.org/specifications-old/item/table-1-summary-of-midi-message)
 ",
           examples:       [
         "midi_all_notes_off #=> Turn off all notes on MIDI devices on all channels (and ports)",
@@ -1197,7 +1197,7 @@ When an All Notes Off event is received, all oscillators will turn off.
       doc name:           :midi_clock_tick,
           introduced:     Version.new(3,0,0),
           summary:        "Send an individual MIDI clock tick",
-          args:           [[]],
+          args:           [],
           returns:        :nil,
           opts: {
                           port: "MIDI port to send to",
@@ -1207,7 +1207,7 @@ When an All Notes Off event is received, all oscillators will turn off.
 
 Typical MIDI devices expect the clock to send 24 ticks per quarter note (typically a beat). See `midi_clock_beat` for a simple way of sending all the ticks for a given beat.
 
-[MIDI 1.0 Specification - System Real-Time Messages - Timing Clock](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
+[MIDI 1.0 Specification - System Real-Time Messages - Timing Clock](https://www.midi.org/specifications-old/item/table-1-summary-of-midi-message)
 ",
           examples:       [
         "midi_clock_tick #=> Send an individual clock tick to all connected MIDI devices on all ports."
@@ -1236,7 +1236,7 @@ Typical MIDI devices expect the clock to send 24 ticks per quarter note (typical
       doc name:           :midi_start,
           introduced:     Version.new(3,0,0),
           summary:        "Send MIDI system message - start",
-          args:           [[]],
+          args:           [],
           returns:        :nil,
           opts:           nil,
           accepts_block:  false,
@@ -1244,7 +1244,7 @@ Typical MIDI devices expect the clock to send 24 ticks per quarter note (typical
 
 Start the current sequence playing. (This message should be followed with calls to `midi_clock_tick` or `midi_clock_beat`).
 
-[MIDI 1.0 Specification - System Real-Time Messages - Start](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
+[MIDI 1.0 Specification - System Real-Time Messages - Start](https://www.midi.org/specifications-old/item/table-1-summary-of-midi-message)
 ",
           examples:       [
         "midi_start #=> Send start message to all connected MIDI devices"
@@ -1273,7 +1273,7 @@ Start the current sequence playing. (This message should be followed with calls 
       doc name:           :midi_stop,
           introduced:     Version.new(3,0,0),
           summary:        "Send MIDI system message - stop",
-          args:           [[]],
+          args:           [],
           returns:        :nil,
           opts:           {port: "MIDI Port(s) to send the stop message to"},
           accepts_block:  false,
@@ -1281,7 +1281,7 @@ Start the current sequence playing. (This message should be followed with calls 
 
 Stops the current sequence.
 
-[MIDI 1.0 Specification - System Real-Time Messages - Start](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
+[MIDI 1.0 Specification - System Real-Time Messages - Start](https://www.midi.org/specifications-old/item/table-1-summary-of-midi-message)
 ",
           examples:       [
         "midi_stop #=> Send stop message to all connected MIDI devices"
@@ -1310,7 +1310,7 @@ Stops the current sequence.
       doc name:           :midi_continue,
           introduced:     Version.new(3,0,0),
           summary:        "Send MIDI system message - continue",
-          args:           [[]],
+          args:           [],
           returns:        :nil,
           opts:           {port: "MIDI Port(s) to send the continue message to"},
           accepts_block:  false,
@@ -1318,7 +1318,7 @@ Stops the current sequence.
 
 Upon receiving the MIDI continue event, the MIDI device(s) will continue at the point the sequence was stopped.
 
-[MIDI 1.0 Specification - System Real-Time Messages - Continue](https://www.midi.org/specifications/item/table-1-summary-of-midi-message)
+[MIDI 1.0 Specification - System Real-Time Messages - Continue](https://www.midi.org/specifications-old/item/table-1-summary-of-midi-message)
 ",
           examples:       [
         "midi_continue #=> Send continue message to all connected MIDI devices"

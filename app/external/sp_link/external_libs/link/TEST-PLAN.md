@@ -2,7 +2,9 @@
 
 Below are a set of user interactions that are expected to work consistently across all
 Link-enabled apps. In order to provide the best user experience, it's important that apps
-behave consistently with respect to these test cases. ## Tempo Changes
+behave consistently with respect to these test cases. 
+
+## Tempo Changes
 
 ### TEMPO-1: Tempo changes should be transmitted between connected apps.
 

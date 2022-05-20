@@ -24,6 +24,8 @@
 #include <ableton/platforms/asio/AsioWrapper.hpp>
 #include <ableton/platforms/asio/Socket.hpp>
 #include <ableton/platforms/esp32/LockFreeCallbackDispatcher.hpp>
+#include <driver/timer.h>
+#include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
 
 namespace ableton
@@ -46,12 +48,26 @@ class Context
       {
         try
         {
+          ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
           runner->mpService->poll_one();
         }
         catch (...)
         {
         }
-        portYIELD();
+      }
+    }
+
+    static void IRAM_ATTR timerIsr(void* userParam)
+    {
+      static BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+
+      timer_group_clr_intr_status_in_isr(TIMER_GROUP_0, TIMER_1);
+      timer_group_enable_alarm_in_isr(TIMER_GROUP_0, TIMER_1);
+
+      vTaskNotifyGiveFromISR(userParam, &xHigherPriorityTaskWoken);
+      if (xHigherPriorityTaskWoken)
+      {
+        portYIELD_FROM_ISR();
       }
     }
 
@@ -60,8 +76,23 @@ class Context
       : mpService(new ::asio::io_service())
       , mpWork(new ::asio::io_service::work(*mpService))
     {
-      xTaskCreatePinnedToCore(
-        run, "link", 8192, this, 2 | portPRIVILEGE_BIT, &mTaskHandle, LINK_ESP_TASK_CORE_ID);
+      xTaskCreatePinnedToCore(run, "link", 8192, this, 2 | portPRIVILEGE_BIT,
+        &mTaskHandle, LINK_ESP_TASK_CORE_ID);
+
+      timer_config_t config = {.alarm_en = TIMER_ALARM_EN,
+        .counter_en = TIMER_PAUSE,
+        .intr_type = TIMER_INTR_LEVEL,
+        .counter_dir = TIMER_COUNT_UP,
+        .auto_reload = TIMER_AUTORELOAD_EN,
+        .divider = 80};
+
+      timer_init(TIMER_GROUP_0, TIMER_1, &config);
+      timer_set_counter_value(TIMER_GROUP_0, TIMER_1, 0);
+      timer_set_alarm_value(TIMER_GROUP_0, TIMER_1, 100);
+      timer_enable_intr(TIMER_GROUP_0, TIMER_1);
+      timer_isr_register(TIMER_GROUP_0, TIMER_1, &timerIsr, mTaskHandle, 0, nullptr);
+
+      timer_start(TIMER_GROUP_0, TIMER_1);
     }
 
     ~ServiceRunner()
@@ -165,17 +196,6 @@ public:
   void async(Handler handler)
   {
     serviceRunner().service().post(std::move(handler));
-  }
-
-  Context clone() const
-  {
-    return {};
-  }
-
-  template <typename ExceptionHandler>
-  Context clone(ExceptionHandler handler) const
-  {
-    return Context{std::move(handler)};
   }
 
 private:

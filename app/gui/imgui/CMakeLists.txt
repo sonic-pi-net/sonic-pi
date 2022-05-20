@@ -16,6 +16,18 @@ find_package(gl3w CONFIG REQUIRED)
 find_package(SDL2 CONFIG REQUIRED)
 find_package(fmt CONFIG REQUIRED)
 
+if (USE_SYSTEM_LIBS)
+    set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
+    set(THREADS_PREFER_PTHREAD_FLAG TRUE)
+
+    if (${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
+	find_package(Threads REQUIRED)
+	set(PLATFORM_LINKLIBS
+	    Threads::Threads
+	    )
+    endif()
+endif()
+
 set(SPIMGUI_APP_SOURCE
     ${APP_ROOT}/main.cpp
     ${APP_ROOT}/app.cpp
@@ -83,13 +95,29 @@ target_link_directories(${APP_NAME}
 	 )
 endif()
 
-target_link_libraries (${APP_NAME} 
+target_link_libraries (${APP_NAME}
     PRIVATE
     SonicPi::API
-    unofficial::gl3w::gl3w
-    SDL2::SDL2main
-    SDL2::SDL2-static
     fmt::fmt
+    )
+
+if (USE_SYSTEM_LIBS)
+    target_link_libraries (${APP_NAME}
+	PRIVATE
+	gl3w
+	SDL2::SDL2
+	)
+else()
+    target_link_libraries (${APP_NAME}
+	PRIVATE
+	unofficial::gl3w::gl3w
+	SDL2::SDL2main
+	SDL2::SDL2-static
+	)
+endif()
+
+target_link_libraries (${APP_NAME} 
+    PRIVATE
     ${PLATFORM_LINKLIBS}
     )
 

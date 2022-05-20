@@ -17,6 +17,11 @@ require 'shellwords'
 require 'open3'
 require 'fileutils'
 require 'time'
+require 'securerandom'
+
+require_relative "../lib/sonicpi/osc/osc"
+require_relative "../lib/sonicpi/promise"
+
 
 # Make sure vendored tomlrb lib is on the Ruby path so it can be required
 Dir["#{File.expand_path("../../vendor", __FILE__)}/*/lib/"].each do |vendor_lib|
@@ -34,63 +39,73 @@ Thread::abort_on_exception = true
 # Process Spawning
 # ----------------
 #
-# The Daemon launches and watches over the following
-# long-living processes (necessary for Sonic Pi to work):
+# The Daemon launches and watches over the following long-living
+# processes (necessary for Sonic Pi to work):
 #
-#   +--> Spider  - the Ruby Runtime server
 #   +--> Tau     - the Erlang IO server
 #   +--> Scsynth - the SuperCollider audio engine
+#   +--> Spider  - the Ruby Runtime server
 #
 # The Daemon does all the work necessary to figure out the correct
 # process paths and flags - even considering config files such as
-# `audio-settings.toml`
+# `audio-settings.toml and tau-settings.toml`
 #
 #
 # Zombie Kill Switch
 # ------------------
 #
 # It is the Daemon's responsibility to ensure that the processes it
-# boots are always terminated and are not left to turn and stick around
-# as zombies (processes still accidentally running on your computer
-# consuming resources).
+# boots are always terminated and are not left to turn into zombies and
+# stick around continuing to accidentally run on your computer consuming
+# resources.
 #
-# This is achieved via a "Zombie Kill Switch" - a TCP connection with an
+# This is achieved via a "Zombie Kill Switch" - a UDP connection with an
 # external process (such as the GUI) to monitor its status by
 # continually receiving keep_alive messages. If these messages stop
 # being received (for example, if the GUI process exited normally or
 # even crashed) then the Daemon will ensure all the processes it spawned
 # (Spider, Tau and Scsynth) are terminated.
 #
-# The port number of this kill switch TCP connection is printed to
+# The port number of this kill switch UDP connection is printed to
 # STDOUT. A external process (such as the GUI) must connect promptly and
-# periodicaly send some bytes (more frequently than every 5s) otherwise
-# a timeout will trigger the kill switch and kill all the spawned
-# processes.
+# periodically send an OSC message with the path /daemon/keep-alive (more
+# frequently than every 3s) otherwise a timeout will trigger the kill
+# switch and kill all the spawned processes.
+#
+# If the client wants to explicitly trigger the kill switch directly
+# rather than via a timeout it can send an OSC message with path
+# /daemon/exit along with a single integer argument which is the comms
+# token (also printed to STDOUT - see below).
 #
 #
-# Port Allocation
-# ---------------
+# Port Allocations & Comms Token
+# ------------------------------
 #
-# Boot Daemon figures out appropriate (and currently free) values for
-# all the ports used by various processes within Sonic Pi to
-# communicate with each other. These ports are used to create the
-# correct process arguments for spawning and are also passed to STDOUT.
+# The Daemon figures out appropriate (and currently free) values for all
+# the ports used by various processes within Sonic Pi to communicate
+# with each other. These ports are used to create the correct process
+# arguments for spawning and are also passed to STDOUT.
 #
-# Some of these port numbers need to be known by external processes -
-# such as a GUI process that sends code to run and receives log updates both
-# via UDP to specific ports.
+# Some of these port numbers need to be known by the client process
+# so that it can both send code to run and receive log updates via UDP.
+#
+# The final value printed to stdout is the comms token which is a random
+# 32 bit signed integer. This must be used as the first argument to all
+# OSC messages sent from the GUI to Daemon such as: /daemon/keep-alive
+# and /daemon/exit.
 #
 # The current allocations of these external port numbers are printed to
 # STDOUT in the following order:
 #
-# daemon-keep-alive gui-listen-to-server gui-send-to-server scsynth osc-cues
+# daemon-keep-alive gui-listen-to-server gui-send-to-server scsynth osc-cues tau-api tau-phx token
 #
 #
-# External Port Descriptions
-# --------------------------
+# Stdout Parameter Descriptions
+# -----------------------------
 #
-# daemon-keep-alive:    TCP port Daemon uses to communicate with GUI (or
-#                       other controlling process)
+# daemon:               UDP port Daemon is listening on. This is used for
+#                       receiving /daemon/keep-alive OSC messages amongst
+#                       other things.
 #
 # gui-listen-to-server: UDP port which the GUI uses to listen to messages
 #                       from the Spider Server.
@@ -103,13 +118,29 @@ Thread::abort_on_exception = true
 #
 # osc-cues:             UDP port used to receive OSC cue messages from external
 #                       processes.
+#
+# tau-api:              UDP port used to send OSC messages to trigger the
+#                       Tau API
+#
+# tau-phx:              HTTP port used by Tau's Phoenix web server
+#
+#
+# token:                32 bit signed integer used as a token to authenticate
+#                       OSC messages.  All OSC messages sent from the GUI
+#                       must include this token as the first argument
+
 
 module SonicPi
   module Daemon
     class Init
 
       def initialize
+        @exit_prom = Promise.new
+        @restart_tau_mut = Mutex.new
+        @booting_tau = false
+
         @safe_exit = SafeExit.new do
+          @exit_prom.deliver! true
           # Register exit routine
           # This will only be called once
           Util.log "Daemon Booter is now exiting."
@@ -120,105 +151,128 @@ module SonicPi
         end
 
         # This is where the Daemon begins and ends.
+
         @scsynth_booter  = nil
         @tau_booter      = nil
         @spider_booter   = nil
 
-        clear_logs
+        # use a value within the valid range for a 32 bit signed complement integer
+        @daemon_token =  rand(-2147483647..2147483647)
 
         Util.open_log
         Util.log "Welcome to the Daemon Booter"
 
-        ports = PortDiscovery.new(@safe_exit).ports
+        # don't worry if there's a problem clearing the logs.
+        begin
+          clear_logs
+        rescue StandardError => e
+          Util.log "Non-critical error clearing logs"
+          Util.log_error(e)
+        end
+
+        # Get a map of port numbers to use
+        #
+        # Note that the program will safe_exit here
+        # if there are problems detecting port numbers to use.
+        @ports = PortDiscovery.new(@safe_exit).ports
 
         Util.log "Selected ports: "
-        Util.log ports.inspect
+        Util.log @ports.inspect
 
-        @zombie_kill_switch = spawn_zombie_kill_switch(ports["daemon-keep-alive"])
+        @kill_switch = KillSwitch.new(@safe_exit)
+
+        boot_tau!(false)
+
+        @api_server = SonicPi::OSC::UDPServer.new(@ports["daemon"], suppress_errors: false, name: "Daemon API Server")
+        # For debugging purposes:
+        # @api_server = SonicPi::OSC::UDPServer.new(@ports["daemon"], suppress_errors: false, name: "Daemon API Server") do |address, args, sender_addrinfo|
+        #   Util.log "Kill switch ##{@ports["daemon"] Received UDP data #{[address, args, sender_addrinfo].inspect}"
+        # end
+
+        @api_server.add_method("/daemon/keep-alive") do |args|
+          if args[0] && args[0] == @daemon_token
+            @kill_switch.keep_alive!
+          end
+        end
+
+        @api_server.add_method("/daemon/exit") do |args|
+          if args[0] && args[0] == @daemon_token
+            Util.log "[EXIT] Kill switch for port #{@ports["daemon"]} remotely activated using token #{@daemon_token}"
+            @safe_exit.exit
+          else
+            Util.log "Kill switch for port #{@ports["daemon"]} received incorrect token. Ignoring #{args[0]}"
+          end
+        end
+
+        @api_server.add_method("/daemon/restart-tau") do |args|
+          if args[0] && args[0] == @daemon_token
+            Util.log "Restarting Tau"
+            restart_tau!
+          end
+        end
+
+        @api_server.add_method("/tau/pid") do |args|
+          Util.log "Daemon received Pid from Tau: #{args.inspect}"
+          # Util.log "token: #{@daemon_token}"
+          if args[0] && args[0] == @daemon_token
+            @tau_booter.update_pid!(args[1])
+          end
+        end
 
         # Let the calling process (likely the GUI) know which port to
         # listen to and communicate on with the Ruby spider server via
         # STDOUT.
-        puts "#{ports["daemon-keep-alive"]} #{ports["gui-listen-to-server"]} #{ports["gui-send-to-server"]} #{ports["scsynth"]} #{ports["osc-cues"]}"
+        puts "#{@ports["daemon"]} #{@ports["gui-listen-to-spider"]} #{@ports["gui-send-to-spider"]} #{@ports["scsynth"]} #{@ports["osc-cues"]} #{@ports["tau"]} #{@tau_booter.phx_port} #{@daemon_token}"
+
+        Util.log "#{@ports["daemon"]} #{@ports["gui-listen-to-spider"]} #{@ports["gui-send-to-spider"]} #{@ports["scsynth"]} #{@ports["osc-cues"]} #{@ports["tau"]} #{@tau_booter.phx_port} #{@daemon_token}"
+
         STDOUT.flush
 
-        # Boot processes
-
         Util.log "Booting Scsynth"
-        @scsynth_booter = ScsynthBooter.new(ports)
-
-        Util.log "Booting Tau"
-        @tau_booter     = TauBooter.new(ports)
+        @scsynth_booter = ScsynthBooter.new(@ports)
 
         Util.log "Booting Spider Server"
-        @spider_booter  = SpiderBooter.new(ports)
+        @spider_booter  = SpiderBooter.new(@ports, @daemon_token)
 
-        # Wait for processes
-        @tau_booter.wait if @tau_booter
-        Util.log "Tau process has completed"
-
-        @scsynth_booter.wait if @scsynth_booter
-        Util.log "Scsynth process has completed"
-
-        @spider_booter.wait if @spider_booter
-        Util.log "Spider Server process has completed"
+        Util.log "Blocking main thread until exit signal received..."
+        begin
+          @exit_prom.get
+          Util.log "Exit signal received..."
+        rescue
+          # Way Out
+        end
       end
 
-
-      # This is the Zombie Kill Switch
-      #
-      # It is a separate thread which calls exit (therefore triggering
-      # the at_exit block which in turn calls
-      # cleanup_any_running_processes).
-      #
-      # There are the following exit conditions:
-      #
-      # Initial Connection Timeout - if nothing connects within 5 seconds,
-      #                              switch is activated
-      #
-      # Connection Lost            - if the connection is broken or there's
-      #                              a timeout - waiting for the next
-      #                              keep-alive message.
-      #
-      def spawn_zombie_kill_switch(port_num, &blk)
-        # Define how long to wait for an initial connection and between keep-alive messages.
-        connect_timeout = 5
-        recv_timeout = 30
-
-        # Spawn TCP server
-        keep_alive_server = TCPServer.new "127.0.0.1", port_num
-
-        Thread.new do
-          begin
-            Util.log "Waiting for GUI on port #{port_num}...."
-
-            unless IO.select([keep_alive_server], nil, nil, connect_timeout)
-              Util.log "Error. Unable to connect to GUI process on TCP port #{port_num}"
-              @safe_exit.exit
-            end
-
-            client = keep_alive_server.accept
-            Util.log "Connected to GUI!"
-
-            while IO.select([client], nil, nil, recv_timeout) && received_data = client.gets
-              # Don't do anything with incoming data.
-              # Its presence signifies things are still OK.
-              # For debug:
-              # Util.log "RCV #{received_data}"
-            end
-          rescue Errno::ECONNRESET
-            Util.log "GUI forcibly closed the connection."
-          rescue StandardError => e
-            Util.log "Oh no, something went wrong reading keep alive messages from the GUI"
-            Util.log "Error Class: #{e.class}"
-            Util.log "Error Message: #{e.message}"
-            Util.log "Error Backtrace: #{e.backtrace.inspect}"
-          end
-
-          Util.log "Shutting down..."
-          client.close if client
-          keep_alive_server.close if keep_alive_server
+      def boot_tau!(wait_for_pid = true)
+        @booting_tau = true
+        Util.log "Booting Tau..."
+        begin
+          @tau_booter = TauBooter.new(@ports, @kill_switch, @daemon_token)
+          @tau_booter.wait_for_pid! if wait_for_pid
+          @booting_tau = false
+        rescue StandardError => e
+          Util.log "Oh no, something went wrong booting Tau"
+          Util.log_error(e)
+          puts "Oh no, something went wrong booting Tau"
+          puts "Error Class: #{e.class}"
+          puts "Error Message: #{e.message}"
+          puts "Error Backtrace: #{e.backtrace.join("\n")}"
+          puts 'hi'
+          STDOUT.flush
           @safe_exit.exit
+        end
+      end
+
+      def restart_tau!
+        return if @booting_tau
+        Thread.new do
+          @restart_tau_mut.synchronize do
+            return if @booting_tau
+            @booting_tau = true
+            Util.log "Restarting Tau..."
+            @tau_booter.kill
+            boot_tau!
+          end
         end
       end
 
@@ -229,9 +283,7 @@ module SonicPi
               p.kill if p
             rescue StandardError => e
               Util.log "Error attempting to kill process #{p.inspect}"
-              Util.log e.class
-              Util.log e.message
-              Util.log e.backtrace.inspect
+              Util.log_error(e)
             end
           end
         end.each { |t| t.join }
@@ -244,19 +296,36 @@ module SonicPi
       #
       # TODO: Handle the case where the log path isn't writable.
       def clear_logs
+        Util.log "Clearing logs"
+        # ensure this list matches set of expected log files should more services/aspects be similarly logged.
+        expected_logs = [
+          "daemon.log",
+          "debug.log",
+          "gui.log",
+          "scsynth.log",
+          "spider.log",
+          "tau.log"]
 
         # Windows doesn't allow certain chars in file paths
         # which are present in the default Time.now string format.
         # therefore remove them.
-        sanitised_time_str = Time.now.to_s.gsub!(/[<>:|?*]/, '_')
+        sanitised_time_str = Time.now.to_s.gsub!(/[^0-9a-zA-Z-]/, '_')
         history_dir = File.absolute_path("#{Paths.log_history_path}/#{sanitised_time_str}")
+        Util.log "Storing previous log files into #{history_dir}"
         FileUtils.mkdir_p(history_dir)
 
         Dir["#{Paths.log_path}/*.log"].each do |p|
-          # Copy log to history directory
           FileUtils.cp(p, "#{history_dir}/")
-          # Clear out all logs (don't remove the files, just empty them)
-          File.open(p, 'w') {|file| file.truncate(0) }
+          # Copy log to history directory
+          if expected_logs.include?(File.basename(p))
+            # (don't remove the expected log files, just empty them)
+            File.open(p, 'w') {|file| file.truncate(0) }
+          else
+            begin
+              FileUtils.rm p
+            rescue
+            end
+          end
         end
 
         # clean up old history logs
@@ -265,22 +334,19 @@ module SonicPi
 
         history_dirs = Dir.glob("#{Paths.log_history_path}/*")
 
-        timestamps = history_dirs.map do |d|
-          begin
-            Time.parse File.basename(d)
-          rescue
-            nil
-          end
+        begin
+          history_dirs = history_dirs.sort {|d| File.birthtime(d) }
+        rescue
+          nil
         end
 
-        timestamps.compact!
-        num_timestamps = timestamps.size
-        num_to_drop = num_timestamps - num_sessions_to_store
+        Util.log "history dirs timestamps: #{history_dirs.inspect}"
+        num_history_dirs = history_dirs.size
+        num_to_drop = num_history_dirs - num_sessions_to_store
 
         if num_to_drop.positive?
-          timestamps.sort.take(num_to_drop).each do |ts|
-            dir = ts.to_s
-            FileUtils.rm_rf("#{Paths.log_history_path}/#{dir}")
+          history_dirs.take(num_to_drop).each do |dir_path|
+            FileUtils.rm_rf(dir_path)
           end
         end
       end
@@ -294,6 +360,7 @@ module SonicPi
         rescue StandardError => e
           STDERR.puts "Unable to open log file #{Paths.daemon_log_path}"
           STDERR.puts e.inspect
+          STDERR.puts "----\n\n"
           @@log_file = nil
         end
       end
@@ -302,11 +369,27 @@ module SonicPi
         @@log_file.close if @@log_file
       end
 
+      def self.timestamp_for_log
+        "[#{Time.now.strftime("%Y-%m-%d %H:%M:%S")}]"
+      end
+
       def self.log(msg)
-        if @@log_file
-          @@log_file.puts("[#{Time.now.strftime("%Y-%m-%d %H:%M:%S")}] #{msg}")
-          @@log_file.flush
+        begin
+          if @@log_file
+            @@log_file.puts("#{timestamp_for_log} #{msg}")
+            @@log_file.flush
+          end
+        rescue IOError => e
+          STDERR.puts "Error. Unable to write to log file: #{e.message}"
+          STDERR.puts e.inspect
         end
+      end
+
+      def self.log_error(e)
+        spacer = "\n " + (" " * timestamp_for_log.size)
+        log "#{e.class}"
+        log "#{e.message}"
+        log "##{e.backtrace.join(spacer)}"
       end
 
       def self.os
@@ -327,6 +410,57 @@ module SonicPi
       end
     end
 
+    class KillSwitch
+      def initialize(safe_exit)
+        @safe_exit = safe_exit
+        @kill_switch_prom = Promise.new
+        @queue = Queue.new
+
+        activate
+
+        @timer_thread = Thread.new do
+          attempts = 0
+          max_attempts = 4
+          Kernel.sleep 40
+          loop do
+            Kernel.sleep 10
+            if @queue.empty?
+              attempts += 1
+            else
+              attempts = 0
+              @queue.clear
+            end
+
+            break if attempts > max_attempts
+          end
+          Util.log "Kill switch timed out..."
+          @kill_switch_prom.deliver!(true)
+        end
+      end
+
+      def keep_alive!
+        @queue << true
+      end
+
+      def wait
+        @kill_switch_prom.get
+      end
+
+      def activate
+        return if @armed_thread
+        @armed_thread = Thread.new do
+          wait
+          Util.log "[EXIT] Daemon kill switch triggered. Exiting..."
+          @timer_thread.kill
+          @safe_exit.exit
+        end
+      end
+
+      def deactivate
+        @armed_thread.kill
+      end
+    end
+
     class SafeExit
 
       def initialize(&cleanup_procedure)
@@ -338,6 +472,8 @@ module SonicPi
         @cleanup_procedure      = cleanup_procedure
 
         at_exit do
+          Util.log "[EXIT] Daemon Process has completed:"
+
           @exit_mut.synchronize do
             @exit_in_progress = true
             idempotent_exit_cleanup
@@ -371,16 +507,31 @@ module SonicPi
       end
     end
 
-
-
     class ProcessBooter
       attr_reader :pid, :args, :cmd
       def initialize(cmd, args, log_path)
+        @pid = nil
+        @log_file = nil
         @args = args.map {|el| el.to_s}
         @cmd = cmd
-        @log_file = File.open(log_path, 'a')
-        raise "Unable to create log file at path: #{log_path}" unless @log_file
-        boot
+        if log_path
+          begin
+            @log_file = File.open(log_path, 'a')
+          rescue StandardError => e
+            STDERR.puts "Unable to open log file #{log_path}"
+            STDERR.puts e.inspect
+            STDERR.puts "----\n\n"
+            @log_file = nil
+          end
+        end
+
+        begin
+          boot
+        rescue StandardError => e
+          Util.log "Error: something went wrong booting process: #{cmd}, #{args}, #{log_path}"
+          Util.log_error(e)
+          @log_file.close if @log_file
+        end
       end
 
       def inspect
@@ -392,8 +543,17 @@ module SonicPi
         Util.log "#{@cmd} #{@args.join(' ')}"
         @stdin, @stdout_and_err, @wait_thr = Open3.popen2e @cmd, *@args
         @pid = @wait_thr.pid
-        @io_thr = Thread.new do
-          @stdout_and_err.each {|line| @log_file << line ; @log_file.flush}
+        if @log_file
+          @io_thr = Thread.new do
+            @stdout_and_err.each do |line|
+              begin
+                @log_file << line
+                @log_file.flush
+              rescue IOError
+                # don't attempt to write
+              end
+            end
+          end
         end
       end
 
@@ -411,7 +571,7 @@ module SonicPi
       end
 
       def kill
-        if process_running?
+        if process_running? && @pid
           Util.log "Process Booter - killing #{@cmd} with pid #{@pid} and args #{@args.inspect}, wait_thr status: #{@wait_thr}, #{@wait_thr.status}"
 
           unless Util.os == :windows
@@ -462,65 +622,161 @@ module SonicPi
           Util.log "Process Booter - no need to kill #{@cmd} with pid #{@pid} and args #{@args.inspect} - already terminated, wait_thr status: #{@wait_thr}, #{@wait_thr.status}"
         end
 
+
+        unless @pid
+          Util.log "Process Booter - Unfortunately we don't have a @pid for  #{@cmd} with args #{@args.inspect}. wait_thr: #{@wait_thr}"
+        end
+
+        @io_thr.kill if @io_thr
         @log_file.close if @log_file
-        @stdout_and_err_thr.kill if @stdout_and_err_thr
+
       end
     end
 
-
-
-
     class SpiderBooter < ProcessBooter
-      def initialize(ports)
-        server_listen_to_gui_port = ports["server-listen-to-gui"]
-        server_send_to_gui_port   = ports["server-send-to-gui"]
-        scsynth_port              = ports["scsynth"]
-        scsynth_send_port         = ports["scsynth-send"]
-        osc_cues_port             = ports["osc-cues"]
-        tau_port                  = ports["tau"]
-        websocket_port            = ports["websocket"]
-        listen_to_tau_port        = ports["listen-to-tau"]
-        cmd = Paths.ruby_path
-        args = ["--enable-frozen-string-literal", "-E", "utf-8",
+      def initialize(ports, token)
+        args = [
+          "--enable-frozen-string-literal", "-E", "utf-8",
           Paths.spider_server_path,
           "-u",
-          server_listen_to_gui_port,
-          server_send_to_gui_port,
-          scsynth_port,
-          scsynth_send_port,
-          osc_cues_port,
-          tau_port,
-          listen_to_tau_port,
-          websocket_port]
-        super(cmd, args, Paths.spider_log_path)
+          ports["spider-listen-to-gui"],
+          ports["spider-send-to-gui"],
+          ports["scsynth"],
+          ports["scsynth-send"],
+          ports["osc-cues"],
+          ports["tau"],
+          ports["spider-listen-to-tau"],
+          token
+        ]
+
+        super(Paths.ruby_path, args, Paths.spider_log_path)
       end
     end
 
 
     class TauBooter < ProcessBooter
-      def initialize(ports)
-        listen_port = ports["tau"]
-        cues_port   = ports["osc-cues"]
-        spider_port = ports["listen-to-tau"]
+      attr_reader :phx_port
 
-        args = ['+C', 'multi_time_warp', '-noshell', '-pz',
-          Paths.tau_app_path,
-          '-tau',
-          'api_port', listen_port,
-          'in_port', cues_port,
-          'spider_port', spider_port,
-          'enabled', 'false',
-          '-s', 'tau_server',
-          'start']
+      def initialize(ports, kill_switch, token)
+        @tau_pid = Promise.new
 
-        if Util.os == :windows
-          cmd = Paths.erlang_boot_path
-        else
-          cmd = "sh"
-          args = [Paths.erlang_boot_path] + args
+        @pid_requester = SonicPi::OSC::UDPClient.new('localhost', ports["tau"])
+
+        @pid_updater_thread = Thread.new do
+          while !@tau_pid.delivered?
+            Util.log "Requesting tau send us its pid. Sending /send-pid-to-daemon, #{token} to localhost:#{ports['tau']}"
+            begin
+              @pid_requester.send("/send-pid-to-daemon", token)
+            rescue Errno::ECONNREFUSED
+              Util.log "Error talking to Tau - connection refused (perhaps Tau is still booting?)"
+            rescue StandardError => e
+              Util.log "Error talking to Tau"
+              Util.log_error(e)
+            end
+            Kernel.sleep 1
+          end
         end
 
-        super(cmd, args, Paths.tau_log_path)
+
+        begin
+          Util.log "fetching toml opts"
+          toml_opts_hash = Tomlrb.load_file(Paths.user_tau_settings_path, symbolize_keys: true).freeze
+          Util.log "got them: #{toml_opts_hash}"
+          unified_opts = unify_tau_toml_opts(toml_opts_hash)
+          Util.log "unified them: #{unified_opts}"
+        rescue StandardError
+          unified_opts = {}
+        end
+
+        cues_on                        = true
+        osc_in_udp_loopback_restricted = false
+        midi_on                        = true
+        link_on                        = true
+        osc_in_udp_port                = ports["osc-cues"]
+        api_port                       = ports["tau"]
+        spider_port                    = ports["spider-listen-to-tau"]
+        daemon_port                    = ports["daemon"]
+        midi_enabled                   = true
+        link_enabled                   = true
+        phx_secret_key_base            = SecureRandom.base64(64)
+        env                            = ENV["SONIC_PI_ENV"] || unified_opts[:env] || "prod"
+        @phx_port                      = unified_opts[:phx_port] || ports["phx"]
+
+        Util.log "Daemon listening to info from Tau on port #{daemon_port}"
+
+
+
+        args = [
+          cues_on,
+          osc_in_udp_loopback_restricted,
+          midi_on,
+          link_on,
+          osc_in_udp_port,
+          api_port,
+          spider_port,
+          daemon_port,
+          Paths.tau_log_path,
+          midi_enabled,
+          link_enabled,
+          phx_port,
+          phx_secret_key_base,
+          token,
+          env
+        ]
+
+        if Util.os == :windows
+          cmd = Paths.mix_release_boot_path
+        else
+          cmd = "sh"
+          args = [Paths.mix_release_boot_path] + args
+        end
+
+        super(cmd, args, nil)
+      end
+
+      def restart!
+        @tau_pid = Promise.new
+      end
+
+      def update_pid!(pid)
+        @tau_pid.deliver!(pid, false)
+      end
+
+      def wait_for_pid!()
+        @tau_pid.get(30)
+      end
+
+      def unify_tau_toml_opts(opts)
+        unified_opts = {}
+
+        # env should be either "dev" or "prod"
+        case opts[:env].to_s.downcase.strip
+        when "dev"
+          unified_opts[:env] = "dev"
+        when "prod"
+          unified_opts[:env] = "prod"
+        end
+
+        # phx_port should be a positive integer
+        begin
+          phx_port = opts[:phx_port].to_i
+          unified_opts[:phx_port] = phx_port if phx_port > 0
+        rescue
+          # do nothing
+        end
+
+        unified_opts.freeze
+      end
+
+      def kill
+        begin
+          @pid = @tau_pid.get(30)
+          Util.log "Killing Tau with pid #{@pid.inspect}"
+        rescue SonicPi::PromiseTimeoutError
+          @pid = nil
+          Util.log "Didn't receive Tau's Pid after waiting for 30s..."
+        end
+        super
       end
     end
 
@@ -590,7 +846,17 @@ module SonicPi
         @port = ports["scsynth"]
         begin
           toml_opts_hash = Tomlrb.load_file(Paths.user_audio_settings_path, symbolize_keys: true).freeze
-        rescue StandardError
+        rescue StandardError => e
+          Util.log "---- Audio Config Issue ----"
+
+          if !File.exist? Paths.user_audio_settings_path
+            Util.log "Could not find #{Paths.user_audio_settings_path} - reverting to default audio options."
+          else
+            Util.log "Issue reading #{Paths.user_audio_settings_path}:"
+            Util.log_error(e)
+          end
+          Util.log "This is not critical - reverting to default audio options"
+          Util.log "----------------------------"
           toml_opts_hash = {}
         end
 
@@ -614,7 +880,7 @@ module SonicPi
         case Util.os
         when :linux, :raspberry
           #Start Jack if not already running
-          if `ps cax | grep jackd`.split(" ").first.nil?
+          if `jack_wait -c`.include? 'not running'
             #Jack not running - start a new instance
             Util.log "Jackd not running on system. Starting..."
             @jack_booter = JackBooter.new
@@ -691,14 +957,22 @@ module SonicPi
         # extract scsynth opts
         begin
           scsynth_opts_a = Shellwords.split(opts.fetch(:scsynth_opts, ""))
-          scsynth_opts = clobber_opts_a.each_slice(2).to_h
+          scsynth_opts = scsynth_opts_a.each_slice(2).to_h
         rescue
           scsynth_opts = {}
         end
 
 
         if scsynth_opts_override.empty?
-          return {"-u" => @port}.merge(DEFAULT_OPTS).merge(OS_SPECIFIC_OPTS).merge(opts).merge(scsynth_opts)
+          merged_opts = {"-u" => @port}.merge(DEFAULT_OPTS).merge(OS_SPECIFIC_OPTS).merge(opts).merge(scsynth_opts)
+
+          # reduce number of inputs to 0 if inputs are disabled
+          merged_opts["-i"] = 0 if merged_opts["-I"] == "0"
+
+          # reduce number of outputs to 0 if outputs are disabled
+          merged_opts["-o"] = 0 if merged_opts["-O"] == "0"
+
+          return merged_opts
         else
           return scsynth_opts_override
         end
@@ -712,21 +986,21 @@ module SonicPi
       # Sonic Pi uses to send and receive messages at run time:
       PORT_CONFIG = {
         # Port daemon uses to communicate with GUI or other controlling process
-        "daemon-keep-alive" => :dynamic,
+        "daemon" => :dynamic,
 
         # Port which the server uses to listen to messages from the GUI:
-        "server-listen-to-gui" => :dynamic,
+        "spider-listen-to-gui" => :dynamic,
 
         # Port which the GUI uses to send messages to the server:
         # May be paired with server_listen_to_gui
-        "gui-send-to-server" => :paired,
+        "gui-send-to-spider" => :paired,
 
         # Port which the GUI uses to listen to messages from the server:
-        "gui-listen-to-server" => :dynamic,
+        "gui-listen-to-spider" => :dynamic,
 
         # Port which the server uses to send messages to the GUI:
         # May be paired with :gui_listen_to_server
-        "server-send-to-gui" => :paired,
+        "spider-send-to-gui" => :paired,
 
         # Port which the SuperCollider server scsynth listens to:
         # (scsynth will automatically send replies back to the port
@@ -745,37 +1019,40 @@ module SonicPi
         "tau" => :dynamic,
 
         # Port which the Ruby server listens to messages back from the Tau server
-        "listen-to-tau" => :dynamic,
+        "spider" => :dynamic,
 
-        # Port which the server uses to communicate via websockets
-        # (This is currently unused.)
-        "websocket" => :dynamic
+        "daemon-listen-to-tau" => :dynamic,
+        "spider-listen-to-tau" => :dynamic,
+
+        # Port which the Phoenix webserver runs on
+        "phx" => :dynamic
       }.freeze
 
       def initialize(safe_exit)
         @safe_exit = safe_exit
         # choose random port to try first
-        @last_free_port = 49152 + rand(2000)
+        @last_free_port = 29152 + rand(10000).to_i
 
         @ports = [
           # each entry is the name of a port to determine.
           # pairs of entry-names represent pairings where
           # the first element will default to the second
           # when its value is set to :paired
-          "daemon-keep-alive",
-          "server-listen-to-gui",
-          ["gui-send-to-server","server-listen-to-gui"],
+          "spider-listen-to-gui",
+          ["gui-send-to-spider","spider-listen-to-gui"],
 
-          "gui-listen-to-server",
-          ["server-send-to-gui", "gui-listen-to-server"],
+          "gui-listen-to-spider",
+          ["spider-send-to-gui", "gui-listen-to-spider"],
 
           "scsynth",
           ["scsynth-send", "scsynth"],
 
           "osc-cues",
           "tau",
-          "listen-to-tau",
-          "websocket"].inject({}) do |res, port_name|
+          "spider",
+          "phx",
+          "daemon",
+          "spider-listen-to-tau"].inject({}) do |res, port_name|
 
           default = nil
           case port_name
@@ -786,7 +1063,11 @@ module SonicPi
             elsif default == :paired
               port = res[port_name[1]]
             else
-              port = default
+              if check_port(default)
+                port = default
+              else
+                port = find_free_port
+              end
             end
             res[port_name[0]] = port.to_i
           else
@@ -794,7 +1075,7 @@ module SonicPi
             if default == :dynamic
               port = find_free_port
             elsif default == :paired
-              raise "Invalid port default for port: #{port_name}. This port can not be paired."
+              Util.log "[EXIT] Invalid port default for port: #{port_name}. This port can not be paired."
               @safe_exit.exit
             else
               port = default
@@ -814,6 +1095,7 @@ module SonicPi
         begin
           socket = UDPSocket.new
           socket.bind('127.0.0.1', port)
+          Util.log "checked port #{port}, #{socket}"
           socket.close
           available = true
         rescue StandardError
@@ -825,14 +1107,19 @@ module SonicPi
       def find_free_port
         while !check_port(@last_free_port += 1)
           if @last_free_port > 65535
+            Util.log "[EXIT] Unable to find a free port."
             @safe_exit.exit
           end
         end
         @last_free_port
       end
     end
-
   end
 end
 
-SonicPi::Daemon::Init.new
+begin
+  SonicPi::Daemon::Init.new
+rescue StandardError => e
+  SonicPi::Daemon::Util.log "[BUG] - ** Daemon Internal Error. **"
+  SonicPi::Daemon::Util.log_error(e)
+end

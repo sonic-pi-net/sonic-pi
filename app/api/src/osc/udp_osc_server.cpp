@@ -60,13 +60,19 @@ void OscServerUDP::start()
         {
             handler->oscMessage(sock.buffer);
             std::vector<char>().swap(sock.buffer);
-
-            // TODO what's this for???
-            std::cout << std::flush;
         }
     }
 
-    LOG(INFO, "UDP OSC Server no longer listening");
+    if(!sock.isOk()) {
+      LOG(INFO, "UDP OSC Socket no longer OK");
+    }
+
+    if(stop_server) {
+      LOG(INFO, "UDP OSC Server has been asked to stop listening");
+    }
+
+    LOG(INFO, "UDP OSC Server is no longer listening");
+
 }
 
 } // namespace SonicPi

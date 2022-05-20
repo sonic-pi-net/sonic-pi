@@ -41,6 +41,10 @@ module SonicPi
       File.expand_path((ENV['SONIC_PI_HOME'] || user_dir) + '/.sonic-pi/')
     end
 
+    def self.project_path
+      File.expand_path("#{home_dir_path}/store/default/")
+    end
+
     def self.root_path
       File.absolute_path("#{File.dirname(__FILE__)}/../../../")
     end
@@ -77,6 +81,10 @@ module SonicPi
       File.absolute_path("#{etc_path}/samples")
     end
 
+    def self.cached_samples_path
+      File.absolute_path("#{project_path}/cached_samples")
+    end
+
     def self.buffers_path
       File.absolute_path("#{etc_path}/buffers")
     end
@@ -103,6 +111,14 @@ module SonicPi
 
     def self.config_path
       File.absolute_path("#{home_dir_path}/config")
+    end
+
+    def self.init_path
+      File.absolute_path("#{config_path}/init.rb")
+    end
+
+    def self.original_init_path
+      File.absolute_path("#{home_dir_path}/init.rb")
     end
 
     def self.log_path
@@ -187,37 +203,28 @@ module SonicPi
       end
     end
 
-    def self.erlang_boot_path
+
+    def self.mix_release_boot_path
       case os
       when :windows
-        File.absolute_path("#{native_path}/erlang/bin/erl.exe")
+        File.absolute_path("#{server_path}/beam/tau/boot-win.bat")
       when :macos
-        # "sh"
-        File.absolute_path("#{native_path}/erlang/erl")
+        File.absolute_path("#{server_path}/beam/tau/boot-mac.sh")
       else
-        nix_erl_path = "/usr/bin/erl"
-        if File.exist?(nix_erl_path)
-          nix_erl_path
-        else
-          "erl"
-        end
+        File.absolute_path("#{server_path}/beam/tau/boot-lin.sh")
       end
     end
 
-    def self.erlang_root_dir
-      File.absolute_path("#{native_path}/erlang/dist")
-    end
-
-    def self.erlang_bin_dir
-      File.absolute_path("#{erlang_root_dir}/bin")
-    end
-
     def self.tau_app_path
-      File.absolute_path("#{server_path}/erlang/tau/ebin")
+      File.absolute_path("#{server_path}/beam/tau/ebin")
     end
 
     def self.user_audio_settings_path
       File.absolute_path("#{config_path}/audio-settings.toml")
+    end
+
+    def self.user_tau_settings_path
+      File.absolute_path("#{config_path}/tau-settings.toml")
     end
 
     def self.system_cache_store_path

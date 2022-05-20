@@ -24,7 +24,7 @@ void SPClient::Report(const MessageInfo& info)
     {
         log_window_add_log(info.style, info.text + "\n");
     }
-    else if (info.type == MessageType::Muti)
+    else if (info.type == MessageType::Multi)
     {
         std::ostringstream str;
         str << "{run: " << info.jobId << ", time: " << info.runtime;
@@ -91,7 +91,7 @@ void start_sonic_pi()
 {
     sonic.spClient = std::make_shared<SPClient>();
     sonic.spApi = std::make_shared<SonicPiAPI>(sonic.spClient.get(), APIProtocol::UDP, LogOption::File);
-    sonic.spApi->Init(fs::path(APP_ROOT) / "..");
+    sonic.spApi->Init(fs::path(APP_INSTALL_ROOT) / "..");
 }
 
 bool sync_sonic_pi()

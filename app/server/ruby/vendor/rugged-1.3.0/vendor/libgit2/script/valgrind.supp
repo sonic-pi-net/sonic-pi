@@ -1,0 +1,244 @@
+{
+	ignore-zlib-errors-cond
+	Memcheck:Cond
+	obj:*libz.so*
+}
+
+{
+	ignore-giterror-set-leak
+	Memcheck:Leak
+	...
+	fun:giterror_set
+}
+
+{
+	ignore-git-global-state-leak
+	Memcheck:Leak
+	...
+	fun:git__global_state
+}
+
+{
+	ignore-openssl-ssl-leak
+	Memcheck:Leak
+	...
+	obj:*libssl.so*
+	...
+}
+
+{
+	ignore-openssl-crypto-leak
+	Memcheck:Leak
+	...
+	obj:*libcrypto.so*
+	...
+}
+
+{
+	ignore-openssl-crypto-cond
+	Memcheck:Cond
+	obj:*libcrypto.so*
+	...
+}
+
+{
+	ignore-openssl-init-leak
+	Memcheck:Leak
+	...
+	fun:git_openssl_stream_global_init
+	...
+}
+
+{
+	ignore-openssl-legacy-init-leak
+	Memcheck:Leak
+	...
+	fun:OPENSSL_init_ssl__legacy
+	...
+}
+
+{
+	ignore-openssl-malloc-leak
+	Memcheck:Leak
+	...
+	fun:git_openssl_malloc
+	...
+}
+
+{
+	ignore-openssl-realloc-leak
+	Memcheck:Leak
+	...
+	fun:git_openssl_realloc
+	...
+}
+
+{
+	ignore-glibc-getaddrinfo-cache
+	Memcheck:Leak
+	...
+	fun:__check_pf
+}
+
+{
+	ignore-curl-global-init
+	Memcheck:Leak
+	...
+	fun:curl_global_init
+}
+
+{
+	ignore-libssh2-init
+	Memcheck:Leak
+	...
+	fun:gcry_control
+	fun:libssh2_init
+	...
+}
+
+{
+	ignore-libssh2-session-create
+	Memcheck:Leak
+	...
+	fun:_git_ssh_session_create
+	...
+}
+
+{
+	ignore-libssh2-setup-conn
+	Memcheck:Leak
+	...
+	fun:_git_ssh_setup_conn
+	...
+}
+
+{
+	ignore-libssh2-gcrypt-control-leak
+	Memcheck:Leak
+	...
+	fun:gcry_control
+	obj:*libssh2.so*
+}
+
+{
+	ignore-libssh2-gcrypt-mpinew-leak
+	Memcheck:Leak
+	...
+	fun:gcry_mpi_new
+	obj:*libssh2.so*
+}
+
+{
+	ignore-libssh2-gcrypt-mpiscan-leak
+	Memcheck:Leak
+	...
+	fun:gcry_mpi_scan
+	obj:*libssh2.so*
+	...
+}
+
+{
+	ignore-libssh2-gcrypt-randomize-leak
+	Memcheck:Leak
+	...
+	fun:gcry_randomize
+	obj:*libssh2.so*
+}
+
+{
+	ignore-libssh2-gcrypt-sexpfindtoken-leak
+	Memcheck:Leak
+	...
+	fun:gcry_sexp_find_token
+	obj:*libssh2.so*
+}
+
+{
+	ignore-libssh2-gcrypt-pksign-leak
+	Memcheck:Leak
+	...
+	fun:gcry_pk_sign
+	obj:*libssh2.so*
+}
+
+{
+	ignore-libssh2-gcrypt-session-handshake
+	Memcheck:Leak
+	...
+	obj:*libssh2.so*
+	obj:*libssh2.so*
+	fun:libssh2_session_handshake
+	...
+}
+
+{
+	ignore-openssl-undefined-in-read
+	Memcheck:Cond
+	...
+	obj:*libssl.so*
+	...
+	fun:openssl_read
+	...
+}
+
+{
+	ignore-openssl-undefined-in-connect
+	Memcheck:Cond
+	...
+	obj:*libssl.so*
+	...
+	fun:openssl_connect
+	...
+}
+
+{
+	ignore-libssh2-rsa-sha1-sign
+	Memcheck:Leak
+	...
+	obj:*libgcrypt.so*
+	fun:_libssh2_rsa_sha1_sign
+	...
+}
+
+{
+	ignore-libssh2-kexinit
+	Memcheck:Leak
+	...
+	obj:*libssh2.so*
+	fun:kexinit
+	...
+}
+
+{
+	ignore-noai6ai_cached-double-free
+	Memcheck:Free
+	fun:free
+	fun:__libc_freeres
+	...
+	fun:exit
+	...
+}
+
+{
+	ignore-libcrypto-uninitialized-read-for-entropy
+	Memcheck:Value8
+	...
+	obj:*libcrypto.so*
+	...
+}
+
+{
+	ignore-dlopen-leak
+	Memcheck:Leak
+	...
+	fun:dlopen
+	...
+}
+
+{
+	ignore-dlopen-leak
+	Memcheck:Leak
+	...
+	fun:_dlerror_run
+	...
+}

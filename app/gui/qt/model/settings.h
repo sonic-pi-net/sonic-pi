@@ -31,6 +31,7 @@ public:
     bool show_cues;
     bool show_buttons;
     bool show_tabs;
+    bool show_metro;
     bool full_screen;
     bool goto_buffer_shortcuts;
     bool log_synths;
@@ -48,6 +49,8 @@ public:
     // Visualizer
     bool show_scopes;
     bool show_scope_labels;
+    bool show_titles;
+    bool hide_menubar_in_fullscreen;
     std::vector<QString> scope_names;
     void setScopeState(QString name, bool s) { active_scopes[name] = s; }
     bool isScopeActive(QString name) { return active_scopes[name]; }

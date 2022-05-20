@@ -102,7 +102,7 @@ module SonicPi
           # [:minioi_ms]       12.0 (ms)
 
           begin
-            aubio_onsets_command = "\"#{aubio_onset_path}\" \"#{@path}\""
+            aubio_onsets_command = "\"#{Paths.aubio_onset_path}\" \"#{@path}\""
             onsets_str = `#{aubio_onsets_command}`
             onsets = onsets_str.split.map(&:to_f)
           rescue Exception => e

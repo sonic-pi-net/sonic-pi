@@ -33,7 +33,8 @@ struct Random
   Random()
     : gen(rd())
     , dist(33, 126) // printable ascii chars
-  {}
+  {
+  }
 
   uint8_t operator()()
   {

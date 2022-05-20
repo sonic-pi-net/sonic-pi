@@ -1,6 +1,8 @@
 project (sp_midi)
 cmake_minimum_required (VERSION 3.0)
 
+option(USE_SYSTEM_RTMIDI "Use system RtMidi library instead of built-in library (Linux only)" OFF)
+
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
 if(NOT MSVC)
@@ -19,21 +21,20 @@ elseif(UNIX)
     set(ERLANG_INCLUDE_PATH "/usr/lib/erlang/usr/include" CACHE PATH "Path to erlang includes")
     find_package(ALSA REQUIRED)
 elseif(MSVC)
-    if(DEFINED ENV{GITHUB_ACTION})
-        set(ERLANG_INCLUDE_PATH "C:/Program Files/erl10.7/usr/include" CACHE PATH "Path to erlang includes")
-    else()
-        set(ERLANG_INCLUDE_PATH "C:/Program Files/erl-24.0/usr/include" CACHE PATH "Path to erlang includes")
-    endif()
+    set(ERLANG_INCLUDE_PATH ${PROJECT_SOURCE_DIR}/external_libs/rtmidi/windows/headers/erlang CACHE PATH "Path to erlang includes")
 endif(APPLE)
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 if(WIN32)
- include_directories( ${PROJECT_SOURCE_DIR}/external_libs/spdlog-1.8.2/include ${PROJECT_SOURCE_DIR}/external_libs/concurrentqueue ${PROJECT_SOURCE_DIR}/external_libs)
+    include_directories(${PROJECT_SOURCE_DIR}/external_libs/spdlog-1.8.2/include ${PROJECT_SOURCE_DIR}/external_libs/concurrentqueue ${PROJECT_SOURCE_DIR}/external_libs)
 elseif(APPLE)
- include_directories( ${PROJECT_SOURCE_DIR}/external_libs/spdlog-1.8.2/include ${PROJECT_SOURCE_DIR}/external_libs/concurrentqueue ${PROJECT_SOURCE_DIR}/external_libs)
+    include_directories(${PROJECT_SOURCE_DIR}/external_libs/spdlog-1.8.2/include ${PROJECT_SOURCE_DIR}/external_libs/concurrentqueue ${PROJECT_SOURCE_DIR}/external_libs)
 else()
- include_directories(${PROJECT_SOURCE_DIR}/external_libs/spdlog-1.8.2/include ${PROJECT_SOURCE_DIR}/external_libs/concurrentqueue)
+    include_directories(${PROJECT_SOURCE_DIR}/external_libs/spdlog-1.8.2/include ${PROJECT_SOURCE_DIR}/external_libs/concurrentqueue)
+    if(NOT USE_SYSTEM_RTMIDI)
+        include_directories(${PROJECT_SOURCE_DIR}/external_libs)
+    endif(NOT USE_SYSTEM_RTMIDI)
 endif()
 
 set(sp_midi_sources
@@ -48,12 +49,15 @@ set(sp_midi_sources
 if(MSVC)
     list(APPEND sp_midi_sources ${PROJECT_SOURCE_DIR}/external_libs/rtmidi/RtMidi.cpp)
     add_definitions(-D__WINDOWS_MM__)
-endif(MSVC)
-
-if(APPLE)
+elseif(APPLE)
     list(APPEND sp_midi_sources ${PROJECT_SOURCE_DIR}/external_libs/rtmidi/RtMidi.cpp)
     add_definitions(-D__MACOSX_CORE__)
-endif(APPLE)
+elseif(UNIX)
+    if(NOT USE_SYSTEM_RTMIDI)
+        list(APPEND sp_midi_sources ${PROJECT_SOURCE_DIR}/external_libs/rtmidi/RtMidi.cpp)
+        add_definitions(-D__LINUX_ALSA__)
+    endif(NOT USE_SYSTEM_RTMIDI)
+endif(MSVC)
 
 # sp_midi_sources
 add_library(libsp_midi SHARED ${sp_midi_sources})
@@ -82,5 +86,9 @@ elseif(APPLE)
 elseif(UNIX)
     add_definitions(-DLINUX=1 -DNDEBUG=1)
     include_directories(${ERLANG_INCLUDE_PATH})
-    target_link_libraries(libsp_midi pthread ${ALSA_LIBRARY} dl rtmidi)
+    target_link_libraries(libsp_midi pthread ${ALSA_LIBRARY} dl)
+    if(USE_SYSTEM_RTMIDI)
+        target_link_libraries(libsp_midi rtmidi)
+    endif(USE_SYSTEM_RTMIDI)
 endif(MSVC)
+

@@ -27,9 +27,13 @@
 #include <ableton/platforms/stl/Random.hpp>
 #include <ableton/platforms/windows/Clock.hpp>
 #include <ableton/platforms/windows/ScanIpIfAddrs.hpp>
+#if defined(LINK_WINDOWS_SETTHREADDESCRIPTION)
+#include <ableton/platforms/windows/ThreadFactory.hpp>
+#endif
 #elif defined(LINK_PLATFORM_MACOSX)
 #include <ableton/platforms/asio/Context.hpp>
 #include <ableton/platforms/darwin/Clock.hpp>
+#include <ableton/platforms/darwin/ThreadFactory.hpp>
 #include <ableton/platforms/posix/ScanIpIfAddrs.hpp>
 #include <ableton/platforms/stl/Random.hpp>
 #elif defined(LINK_PLATFORM_LINUX)
@@ -37,6 +41,9 @@
 #include <ableton/platforms/linux/Clock.hpp>
 #include <ableton/platforms/posix/ScanIpIfAddrs.hpp>
 #include <ableton/platforms/stl/Random.hpp>
+#ifdef __linux__
+#include <ableton/platforms/linux/ThreadFactory.hpp>
+#endif
 #elif defined(ESP_PLATFORM)
 #include <ableton/platforms/esp32/Clock.hpp>
 #include <ableton/platforms/esp32/Context.hpp>
@@ -53,21 +60,34 @@ namespace platform
 
 #if defined(LINK_PLATFORM_WINDOWS)
 using Clock = platforms::windows::Clock;
+using Random = platforms::stl::Random;
+#if defined(LINK_WINDOWS_SETTHREADDESCRIPTION)
+using IoContext = platforms::asio::Context<platforms::windows::ScanIpIfAddrs,
+  util::NullLog,
+  platforms::windows::ThreadFactory>;
+#else
 using IoContext =
   platforms::asio::Context<platforms::windows::ScanIpIfAddrs, util::NullLog>;
-using Random = platforms::stl::Random;
+#endif
 
 #elif defined(LINK_PLATFORM_MACOSX)
 using Clock = platforms::darwin::Clock;
-using IoContext =
-  platforms::asio::Context<platforms::posix::ScanIpIfAddrs, util::NullLog>;
+using IoContext = platforms::asio::Context<platforms::posix::ScanIpIfAddrs,
+  util::NullLog,
+  platforms::darwin::ThreadFactory>;
 using Random = platforms::stl::Random;
 
 #elif defined(LINK_PLATFORM_LINUX)
 using Clock = platforms::linux::ClockMonotonicRaw;
+using Random = platforms::stl::Random;
+#ifdef __linux__
+using IoContext = platforms::asio::Context<platforms::posix::ScanIpIfAddrs,
+  util::NullLog,
+  platforms::linux::ThreadFactory>;
+#else
 using IoContext =
   platforms::asio::Context<platforms::posix::ScanIpIfAddrs, util::NullLog>;
-using Random = platforms::stl::Random;
+#endif
 
 #elif defined(ESP_PLATFORM)
 using Clock = platforms::esp32::Clock;

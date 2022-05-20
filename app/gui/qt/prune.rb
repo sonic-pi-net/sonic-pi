@@ -27,8 +27,7 @@ require 'fileutils'
 
 dir = ARGV[0]
 
-rehearse = true
-
+rehearse = false
 
 subdirs = Dir["#{dir}/*/*"].select{|d| File.directory?(d) && (File.basename(d) != "lib")}
 
@@ -36,14 +35,14 @@ if !subdirs.empty?
   raise "Aborting prune. Doesn't look like you're using an app/server/ruby/vendor dir" unless subdirs.first.match(/app\/server\/ruby\/vendor/)
 
   if rehearse
-  puts "Would remove: "
-  puts subdirs
-  puts "Aborting prune operation. Turn rehearse off to remove files."
+    puts "Would remove: "
+    puts subdirs
+    puts "Aborting prune operation. Turn rehearse off to remove files."
   else
-  subdirs.each do |d|
-    puts "rm -rf #{d}"
-    FileUtils.rm_rf d
-  end
+    subdirs.each do |d|
+      puts "rm -rf #{d}"
+      FileUtils.rm_rf d
+    end
   end
 else
   puts "Nothing to prune in #{dir}"

@@ -1,0 +1,23 @@
+%% This is an -*- erlang -*- file.
+{application, tau,
+ [{description, "Sonic Pi Tau Server"},
+  {vsn, ""},
+  {modules, [tau_server,
+             tau_server_app,
+             tau_server_sup,
+             osc
+            ]},
+  {registered,[]},
+  {mod,{tau_server_app,[]}},
+  {env, [{cues_on, true},
+         {midi_on, true},
+         {link_on, true},
+         {osc_in_udp_port, 4560},    % sane defaults for the ports
+         {api_port, 51240},
+         {cue_host, {127,0,0,1}},
+         {spider_port, 51235},
+         {osc_in_udp_loopback_restricted, true}
+        ]},
+  {applications, [kernel,stdlib,sasl]}
+ ]
+}.

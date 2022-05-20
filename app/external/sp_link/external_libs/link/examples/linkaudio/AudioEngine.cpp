@@ -148,7 +148,8 @@ void AudioEngine::renderMetronomeIntoBuffer(const Link::SessionState sessionStat
   {
     double amplitude = 0.;
     // Compute the host time for this sample and the last.
-    const auto hostTime = beginHostTime + microseconds(llround(static_cast<double>(i) * microsPerSample));
+    const auto hostTime =
+      beginHostTime + microseconds(llround(static_cast<double>(i) * microsPerSample));
     const auto lastSampleHostTime = hostTime - microseconds(llround(microsPerSample));
 
     // Only make sound for positive beat magnitudes. Negative beat

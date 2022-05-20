@@ -24,7 +24,7 @@ module SonicPi
     def initialize(hostname, tau_port, listen_to_tau_port)
       @hostname = hostname.freeze
       @port = Integer(tau_port)
-      @udp_server = SonicPi::OSC::UDPServer.new(listen_to_tau_port)
+      @udp_server = SonicPi::OSC::UDPServer.new(listen_to_tau_port, name: "Tau Comms")
       @encoder = @udp_server.encoder
       @mut = Mutex.new
       @tau_ready = false
@@ -89,7 +89,12 @@ module SonicPi
 
     def block_until_tau_ready!
       return true if @tau_ready
-      @wait_for_tau_prom.get
+      begin
+        @wait_for_tau_prom.get(30)
+      rescue Exception => e
+        STDOUT.puts "TauComms - Unable to connect to tau (#{e.message}). Exiting..."
+        exit
+      end
     end
 
     def tau_ready?
@@ -101,10 +106,9 @@ module SonicPi
     def wait_for_tau!
       p = Promise.new
 
-      booted = false
       connected = false
 
-      boot_s = OSC::UDPServer.new(0) do |a, b, info|
+      boot_s = OSC::UDPServer.new(0, name: "Tau Comms ack server") do |a, b, info|
         STDOUT.puts "TauComms - Receiving ack from tau"
         p.deliver! true unless connected
         connected = true
@@ -125,7 +129,7 @@ module SonicPi
       begin
         p.get(30)
       rescue Exception => e
-        STDOUT.puts "TauComms - Unable to connect to tau. Exiting..."
+        STDOUT.puts "TauComms - Unable to connect to tau (#{e.message}). Exiting..."
         exit
       ensure
         t.kill

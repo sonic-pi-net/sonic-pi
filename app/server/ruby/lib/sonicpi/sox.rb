@@ -20,8 +20,8 @@ module SonicPi
 
     def self.info(path)
       # Some sox commands print out to std err?!
-      info_out, info_err = Open3.capture3("'#{sox_path}' --info '#{path}'")
-      stat_out, stat_err = Open3.capture3("'#{sox_path}' '#{path}' -n stat")
+      info_out, info_err = Open3.capture3("'#{Paths.sox_path}' --info '#{path}'")
+      stat_out, stat_err = Open3.capture3("'#{Paths.sox_path}' '#{path}' -n stat")
       res = {}
       (info_out.lines + info_err.lines + stat_out.lines + stat_err.lines).each do |l|
         m = l.match(/\A(.+?)\s*:\s+(.*)\Z/)

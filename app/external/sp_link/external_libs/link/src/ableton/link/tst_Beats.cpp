@@ -25,67 +25,70 @@ namespace ableton
 namespace link
 {
 
-TEST_CASE("Beats | ConstructFromFloating", "[Beats]")
+TEST_CASE("Beats")
 {
-  const auto beats = Beats{0.5};
-  CHECK(500000 == beats.microBeats());
-  CHECK(0.5 == Approx(beats.floating()));
-}
+  SECTION("ConstructFromFloating")
+  {
+    const auto beats = Beats{0.5};
+    CHECK(500000 == beats.microBeats());
+    CHECK(0.5 == Approx(beats.floating()));
+  }
 
-TEST_CASE("Beats | ConstructFromMicros", "[Beats]")
-{
-  const auto beats = Beats{INT64_C(100000)};
-  CHECK(100000 == beats.microBeats());
-  CHECK(0.1 == Approx(beats.floating()));
-}
+  SECTION("ConstructFromMicros")
+  {
+    const auto beats = Beats{INT64_C(100000)};
+    CHECK(100000 == beats.microBeats());
+    CHECK(0.1 == Approx(beats.floating()));
+  }
 
-TEST_CASE("Beats | Negation", "[Beats]")
-{
-  const auto beat = Beats{1.};
-  CHECK(beat > -beat);
-  CHECK(beat == -(-beat));
-  CHECK(-beat < Beats{0.});
-}
+  SECTION("Negation")
+  {
+    const auto beat = Beats{1.};
+    CHECK(beat > -beat);
+    CHECK(beat == -(-beat));
+    CHECK(-beat < Beats{0.});
+  }
 
-TEST_CASE("Beats | Addition", "[Beats]")
-{
-  const auto beat1 = Beats{0.5};
-  const auto beat2 = Beats{INT64_C(200000)};
-  const auto beat3 = Beats{0.1};
-  CHECK(beat1 == beat2 + beat2 + beat3);
-}
+  SECTION("Addition")
+  {
+    const auto beat1 = Beats{0.5};
+    const auto beat2 = Beats{INT64_C(200000)};
+    const auto beat3 = Beats{0.1};
+    CHECK(beat1 == beat2 + beat2 + beat3);
+  }
 
-TEST_CASE("Beats | Subtraction", "[Beats]")
-{
-  const auto beat1 = Beats{0.5};
-  const auto beat2 = Beats{INT64_C(200000)};
-  const auto beat3 = Beats{0.1};
-  CHECK(beat3 == beat1 - beat2 - beat2);
-}
+  SECTION("Subtraction")
+  {
+    const auto beat1 = Beats{0.5};
+    const auto beat2 = Beats{INT64_C(200000)};
+    const auto beat3 = Beats{0.1};
+    CHECK(beat3 == beat1 - beat2 - beat2);
+  }
 
-TEST_CASE("Beats | Modulo", "[Beats]")
-{
-  const auto beat1 = Beats{0.1};
-  const auto beat2 = Beats{0.5};
-  const auto beat3 = Beats{0.6};
-  const auto beat4 = Beats{0.};
-  CHECK(beat1 == beat3 % beat2);
-  CHECK(beat4 == beat3 % beat4);
-}
+  SECTION("Modulo")
+  {
+    const auto beat1 = Beats{0.1};
+    const auto beat2 = Beats{0.5};
+    const auto beat3 = Beats{0.6};
+    const auto beat4 = Beats{0.};
+    CHECK(beat1 == beat3 % beat2);
+    CHECK(beat4 == beat3 % beat4);
+  }
 
-TEST_CASE("Beats | SizeInByteStream", "[Beats]")
-{
-  Beats beats{0.5};
-  CHECK(8 == sizeInByteStream(beats));
-}
+  SECTION("SizeInByteStream")
+  {
+    Beats beats{0.5};
+    CHECK(8 == sizeInByteStream(beats));
+  }
 
-TEST_CASE("Beats | RoundtripByteStreamEncoding", "[Beats]")
-{
-  Beats beats{0.5};
-  std::vector<std::uint8_t> bytes(sizeInByteStream(beats));
-  const auto end = toNetworkByteStream(beats, begin(bytes));
-  const auto result = Beats::fromNetworkByteStream(begin(bytes), end);
-  CHECK(beats == result.first);
+  SECTION("RoundtripByteStreamEncoding")
+  {
+    Beats beats{0.5};
+    std::vector<std::uint8_t> bytes(sizeInByteStream(beats));
+    const auto end = toNetworkByteStream(beats, begin(bytes));
+    const auto result = Beats::fromNetworkByteStream(begin(bytes), end);
+    CHECK(beats == result.first);
+  }
 }
 
 } // namespace link

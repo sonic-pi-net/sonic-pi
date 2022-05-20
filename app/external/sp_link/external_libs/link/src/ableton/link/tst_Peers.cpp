@@ -61,25 +61,6 @@ struct SessionStartStopStateCallback
   std::vector<std::pair<SessionId, StartStopState>> sessionStartStopStates;
 };
 
-const auto fooPeer =
-  PeerState{{NodeId::random<Random>(), NodeId::random<Random>(),
-              Timeline{Tempo{60.}, Beats{1.}, std::chrono::microseconds{1234}},
-              StartStopState{false, Beats{0.}, std::chrono::microseconds{2345}}},
-    {}};
-
-const auto barPeer =
-  PeerState{{NodeId::random<Random>(), NodeId::random<Random>(),
-              Timeline{Tempo{120.}, Beats{10.}, std::chrono::microseconds{500}}, {}},
-    {}};
-
-const auto bazPeer =
-  PeerState{{NodeId::random<Random>(), NodeId::random<Random>(),
-              Timeline{Tempo{100.}, Beats{4.}, std::chrono::microseconds{100}}, {}},
-    {}};
-
-const auto gateway1 = asio::ip::address::from_string("123.123.123.123");
-const auto gateway2 = asio::ip::address::from_string("210.210.210.210");
-
 using PeerVector = std::vector<typename Peers<test::serial_io::Context,
   SessionMembershipCallback,
   SessionTimelineCallback,
@@ -105,114 +86,116 @@ void expectStartStopStates(
 
 } // anonymous namespace
 
-TEST_CASE("Peers | EmptySessionPeersAfterInit", "[Peers]")
+TEST_CASE("Peers")
 {
-  test::serial_io::Fixture io;
-  auto peers = makePeers(util::injectVal(io.makeIoContext()), SessionMembershipCallback{},
-    SessionTimelineCallback{}, SessionStartStopStateCallback{});
-  io.flush();
-  expectPeers({}, peers.sessionPeers(fooPeer.sessionId()));
-}
+  const auto fooPeer =
+    PeerState{{NodeId::random<Random>(), NodeId::random<Random>(),
+                Timeline{Tempo{60.}, Beats{1.}, std::chrono::microseconds{1234}},
+                StartStopState{false, Beats{0.}, std::chrono::microseconds{2345}}},
+      {}};
 
-TEST_CASE("Peers | AddAndFindPeer", "[Peers]")
-{
+  const auto barPeer =
+    PeerState{{NodeId::random<Random>(), NodeId::random<Random>(),
+                Timeline{Tempo{120.}, Beats{10.}, std::chrono::microseconds{500}}, {}},
+      {}};
+
+  const auto bazPeer =
+    PeerState{{NodeId::random<Random>(), NodeId::random<Random>(),
+                Timeline{Tempo{100.}, Beats{4.}, std::chrono::microseconds{100}}, {}},
+      {}};
+
+  const auto gateway1 = asio::ip::address::from_string("123.123.123.123");
+  const auto gateway2 = asio::ip::address::from_string("210.210.210.210");
+
   auto membership = SessionMembershipCallback{};
   auto sessions = SessionTimelineCallback{};
   auto startStops = SessionStartStopStateCallback{};
+
   test::serial_io::Fixture io;
+
   auto peers = makePeers(util::injectVal(io.makeIoContext()), std::ref(membership),
     std::ref(sessions), std::ref(startStops));
-  auto observer = makeGatewayObserver(peers, gateway1);
 
-  sawPeer(observer, fooPeer);
-  io.flush();
-
-  expectPeers({{fooPeer, gateway1}}, peers.sessionPeers(fooPeer.sessionId()));
-  CHECK(1u == membership.calls);
-  expectSessionTimelines({make_pair(fooPeer.sessionId(), fooPeer.timeline())}, sessions);
-  expectStartStopStates(
-    {make_pair(fooPeer.sessionId(), fooPeer.startStopState())}, startStops);
-}
-
-TEST_CASE("Peers | AddAndRemovePeer", "[Peers]")
-{
-  auto membership = SessionMembershipCallback{};
-  test::serial_io::Fixture io;
-  auto peers = makePeers(util::injectVal(io.makeIoContext()), std::ref(membership),
-    SessionTimelineCallback{}, SessionStartStopStateCallback{});
-  auto observer = makeGatewayObserver(peers, gateway1);
-
-  sawPeer(observer, fooPeer);
-  peerLeft(observer, fooPeer.ident());
-  io.flush();
-
-  expectPeers({}, peers.sessionPeers(fooPeer.sessionId()));
-  CHECK(2u == membership.calls);
-}
-
-TEST_CASE("Peers | AddTwoPeersRemoveOne", "[Peers]")
-{
-  auto membership = SessionMembershipCallback{};
-  auto sessions = SessionTimelineCallback{};
-  auto startStops = SessionStartStopStateCallback{};
-  test::serial_io::Fixture io;
-  auto peers = makePeers(util::injectVal(io.makeIoContext()), std::ref(membership),
-    std::ref(sessions), std::ref(startStops));
-  auto observer = makeGatewayObserver(peers, gateway1);
-
-  sawPeer(observer, fooPeer);
-  sawPeer(observer, barPeer);
-  peerLeft(observer, fooPeer.ident());
-  io.flush();
-
-  expectPeers({}, peers.sessionPeers(fooPeer.sessionId()));
-  expectPeers({{barPeer, gateway1}}, peers.sessionPeers(barPeer.sessionId()));
-  CHECK(3u == membership.calls);
-}
-
-TEST_CASE("Peers | AddThreePeersTwoOnSameGateway", "[Peers]")
-{
-  auto membership = SessionMembershipCallback{};
-  auto sessions = SessionTimelineCallback{};
-  auto startStops = SessionStartStopStateCallback{};
-  test::serial_io::Fixture io;
-  auto peers = makePeers(util::injectVal(io.makeIoContext()), std::ref(membership),
-    std::ref(sessions), std::ref(startStops));
-  auto observer1 = makeGatewayObserver(peers, gateway1);
-  auto observer2 = makeGatewayObserver(peers, gateway2);
-
-  sawPeer(observer1, fooPeer);
-  sawPeer(observer2, fooPeer);
-  sawPeer(observer1, barPeer);
-  sawPeer(observer1, bazPeer);
-  io.flush();
-
-  expectPeers(
-    {{fooPeer, gateway1}, {fooPeer, gateway2}}, peers.sessionPeers(fooPeer.sessionId()));
-  CHECK(3 == membership.calls);
-}
-
-TEST_CASE("Peers | CloseGateway", "[Peers]")
-{
-  auto membership = SessionMembershipCallback{};
-  auto sessions = SessionTimelineCallback{};
-  auto startStops = SessionStartStopStateCallback{};
-  test::serial_io::Fixture io;
-  auto peers = makePeers(util::injectVal(io.makeIoContext()), std::ref(membership),
-    std::ref(sessions), std::ref(startStops));
-  auto observer1 = makeGatewayObserver(peers, gateway1);
+  SECTION("EmptySessionPeersAfterInit")
   {
-    // The observer will close the gateway when it goes out of scope
-    auto observer2 = makeGatewayObserver(peers, gateway2);
-    sawPeer(observer2, fooPeer);
-    sawPeer(observer2, barPeer);
-    sawPeer(observer1, fooPeer);
-    sawPeer(observer2, bazPeer);
+    io.flush();
+    expectPeers({}, peers.sessionPeers(fooPeer.sessionId()));
   }
-  io.flush();
 
-  expectPeers({{fooPeer, gateway1}}, peers.sessionPeers(fooPeer.sessionId()));
-  CHECK(4 == membership.calls);
+  SECTION("AddAndFindPeer")
+  {
+    auto observer = makeGatewayObserver(peers, gateway1);
+
+    sawPeer(observer, fooPeer);
+    io.flush();
+
+    expectPeers({{fooPeer, gateway1}}, peers.sessionPeers(fooPeer.sessionId()));
+    CHECK(1u == membership.calls);
+    expectSessionTimelines(
+      {make_pair(fooPeer.sessionId(), fooPeer.timeline())}, sessions);
+    expectStartStopStates(
+      {make_pair(fooPeer.sessionId(), fooPeer.startStopState())}, startStops);
+  }
+
+  SECTION("AddAndRemovePeer")
+  {
+    auto observer = makeGatewayObserver(peers, gateway1);
+
+    sawPeer(observer, fooPeer);
+    peerLeft(observer, fooPeer.ident());
+    io.flush();
+
+    expectPeers({}, peers.sessionPeers(fooPeer.sessionId()));
+    CHECK(2u == membership.calls);
+  }
+
+  SECTION("AddTwoPeersRemoveOne")
+  {
+    auto observer = makeGatewayObserver(peers, gateway1);
+
+    sawPeer(observer, fooPeer);
+    sawPeer(observer, barPeer);
+    peerLeft(observer, fooPeer.ident());
+    io.flush();
+
+    expectPeers({}, peers.sessionPeers(fooPeer.sessionId()));
+    expectPeers({{barPeer, gateway1}}, peers.sessionPeers(barPeer.sessionId()));
+    CHECK(3u == membership.calls);
+  }
+
+  SECTION("AddThreePeersTwoOnSameGateway")
+  {
+
+    auto observer1 = makeGatewayObserver(peers, gateway1);
+    auto observer2 = makeGatewayObserver(peers, gateway2);
+
+    sawPeer(observer1, fooPeer);
+    sawPeer(observer2, fooPeer);
+    sawPeer(observer1, barPeer);
+    sawPeer(observer1, bazPeer);
+    io.flush();
+
+    expectPeers({{fooPeer, gateway1}, {fooPeer, gateway2}},
+      peers.sessionPeers(fooPeer.sessionId()));
+    CHECK(3 == membership.calls);
+  }
+
+  SECTION("CloseGateway")
+  {
+    auto observer1 = makeGatewayObserver(peers, gateway1);
+    {
+      // The observer will close the gateway when it goes out of scope
+      auto observer2 = makeGatewayObserver(peers, gateway2);
+      sawPeer(observer2, fooPeer);
+      sawPeer(observer2, barPeer);
+      sawPeer(observer1, fooPeer);
+      sawPeer(observer2, bazPeer);
+      io.flush();
+    }
+
+    expectPeers({{fooPeer, gateway1}}, peers.sessionPeers(fooPeer.sessionId()));
+    CHECK(4 == membership.calls);
+  }
 }
 
 } // namespace link

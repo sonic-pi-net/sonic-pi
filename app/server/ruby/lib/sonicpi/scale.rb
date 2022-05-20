@@ -46,25 +46,26 @@ module SonicPi
       # Basic "besli"
       cargah_beslisi         = cargah_dortlusu + [tanini]
       buselik_beslisi        = buselik_dortlusu + [tanini]
-      kurdi_beslisi          = kurdi_dortlusu + [tanini]
       rast_beslisi           = rast_dortlusu + [tanini]
       huseyni_beslisi        = [buyuk_mucenneb, kucuk_mucenneb, tanini, tanini]
       hicaz_beslisi          = hicaz_dortlusu + [tanini]
       # Other "dortlu" and "besli"
-      saba_dortlusu          = [buyuk_mucenneb, kucuk_mucenneb, kucuk_mucenneb]
       segah_dortlusu         = [kucuk_mucenneb, tanini, buyuk_mucenneb]
       tam_segah_beslisi      = segah_dortlusu + [tanini]
       eksik_segah_beslisi    = segah_dortlusu + [kucuk_mucenneb]
       mustear_dortlusu       = [tanini, kucuk_mucenneb, buyuk_mucenneb]
-      tam_mustear_beslisi    = mustear_dortlusu + [tanini]
-      eksik_mustear_beslisi  = mustear_dortlusu + [kucuk_mucenneb]
       huzzam_beslisi         = [kucuk_mucenneb, tanini, kucuk_mucenneb, artik_ikili]
       nikriz_beslisi         = [tanini, kucuk_mucenneb, artik_ikili, kucuk_mucenneb]
-      pencgah_beslisi        = [tanini, tanini, buyuk_mucenneb, kucuk_mucenneb]
       tam_ferahnak_beslisi   = [kucuk_mucenneb, tanini, tanini, buyuk_mucenneb]
       eksik_ferahnak_beslisi = [kucuk_mucenneb, tanini, tanini, bakiyye]
       nisabur_dortlusu       = [buyuk_mucenneb, kucuk_mucenneb, tanini]
-      nisabur_beslisi        = nisabur_dortlusu + [bakiyye]
+      # currently unused, but can be used to extend other scales 
+      # kurdi_beslisi          = kurdi_dortlusu + [tanini]
+      # saba_dortlusu          = [buyuk_mucenneb, kucuk_mucenneb, kucuk_mucenneb]
+      # tam_mustear_beslisi    = mustear_dortlusu + [tanini]
+      # eksik_mustear_beslisi  = mustear_dortlusu + [kucuk_mucenneb]
+      # pencgah_beslisi        = [tanini, tanini, buyuk_mucenneb, kucuk_mucenneb]
+      # nisabur_beslisi        = nisabur_dortlusu + [bakiyye]
       {
            diatonic:           ionian_sequence,
            ionian:             ionian_sequence,

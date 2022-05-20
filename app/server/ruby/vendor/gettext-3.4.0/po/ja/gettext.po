@@ -1,0 +1,270 @@
+# Japanese translations for gettext package.
+# Copyright (C) 2012 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the gettext package.
+# Haruka Yoshihara <yoshihara@clear-code.com>, 2012.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gettext 2.3.1\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2020-01-08 18:34+0900\n"
+"Last-Translator: Haruka Yoshihara <yoshihara@clear-code.com>\n"
+"Language-Team: Japanese\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "ngettext: 3rd parmeter is wrong: value = %{number}"
+msgstr "ngettext: 3番目のパラメータが不正です。: value = %{number}"
+
+msgid "ngettext: 3rd parameter should be a number, not nil."
+msgstr "ngettext: 3番目のパラメータがnilです。数値にしてください。"
+
+msgid "Usage: %s [OPTIONS] PO_FILE1 PO_FILE2 ..."
+msgstr "使い方: %s [オプション] POファイル1 POファイル2 ..."
+
+msgid "Concatenates and merges PO files."
+msgstr "複数のPOファイルの内容を連結し、重複したものはマージします。"
+
+msgid "Specific options:"
+msgstr "オプション："
+
+msgid "Write output to specified file"
+msgstr "出力ファイルを指定します"
+
+msgid "(default: the standard output)"
+msgstr "（デフォルト：標準出力）"
+
+msgid "Sort output by msgid"
+msgstr "出力をmsgidでソート"
+
+msgid "Sort output by location"
+msgstr "出力を位置情報でソート"
+
+msgid "It is same as --sort-by-location"
+msgstr "--sort-by-locationと同じ"
+
+msgid "Just for GNU gettext's msgcat compatibility"
+msgstr "GNU gettextのmsgcatとの互換性のためだけにあります"
+
+msgid "It is same as --sort-by-msgid"
+msgstr "--sort-by-msgidと同じ"
+
+msgid "Remove location information"
+msgstr "位置情報を削除"
+
+msgid "Remove translator comment"
+msgstr "翻訳者のコメントを削除"
+
+msgid "Remove extracted comment"
+msgstr "抽出したコメントを削除"
+
+msgid "Remove flag comment"
+msgstr "フラグコメントを削除"
+
+msgid "Remove previous comment"
+msgstr "以前のmsgidを示すコメントを削除"
+
+msgid "Remove all comments"
+msgstr "すべてのコメントを削除"
+
+msgid "Set output page width"
+msgstr "出力のページ幅を設定"
+
+msgid ""
+"Break long message lines, longer than the output page width, into several line"
+"s"
+msgstr "メッセージ中の出力ページ幅より長い行を複数行に分割"
+
+msgid "Ignore fuzzy entries"
+msgstr "fuzzyエントリーを無視"
+
+msgid "Don't report warning messages"
+msgstr "警告メッセージを出力しない"
+
+msgid "Don't output obsolete entries"
+msgstr "obsoleteエントリーを出力しない"
+
+msgid "Update PO-Revision-Date header field"
+msgstr "PO-Revision-Dateヘッダーの値を更新する"
+
+msgid "Remove FIELD from header"
+msgstr "ヘッダーからFIELDを削除"
+
+msgid "Specify this option multiple times to remove multiple header fields"
+msgstr "複数のヘッダーフィールドを削除する場合はこのオプションを複数回指定すること"
+
+msgid "no input files specified."
+msgstr "入力ファイルが指定されていません。"
+
+msgid "Usage: %s input.po [-o output.mo]"
+msgstr "使い方: %s input.po [-o output.mo]"
+
+msgid "Generate binary message catalog from textual translation description."
+msgstr "poファイルからバイナリのメッセージカタログファイル（moファイル）を生成します。"
+
+msgid "write output to specified file"
+msgstr "出力ファイルを指定します"
+
+msgid "display version information and exit"
+msgstr "バージョンを表示します"
+
+msgid ""
+"Create a new .po file from initializing .pot file with user's environment and "
+"input."
+msgstr "ユーザの環境や入力からpotファイルを初期化してpoファイルを作成します。"
+
+msgid ""
+"Use INPUT as a .pot file. If INPUT is not specified, INPUT is a .pot file exis"
+"ting the current directory."
+msgstr ""
+"INPUTとして指定された値をpotファイルとして使います。potファイルが指定されていない場合は、現在のカレントディレクトリにあるpotファイルを使用しま"
+"す。"
+
+msgid ""
+"Use OUTPUT as a created .po file. If OUTPUT is not specified, OUTPUT depend on"
+" LOCALE or the current locale on your environment."
+msgstr ""
+"OUTPUTとして指定されたファイルをpoファイルとして扱います。poファイルが指定されていない場合、LOCALEとして指定された値か、ユーザの現在のロケー"
+"ルをもとにpoファイルの名前を決めます。"
+
+msgid ""
+"Use LOCALE as target locale. If LOCALE is not specified, LOCALE is the current"
+" locale on your environment."
+msgstr "LOCALEとして指定された値をターゲットのロケールとして扱います。ロケールが指定されていない場合は、ユーザの現在のロケールを使用します。"
+
+msgid "Whether set translator information or not"
+msgstr "翻訳者情報を設定するかどうか。"
+
+msgid "(set)"
+msgstr ""
+
+msgid "Use NAME as translator name"
+msgstr "翻訳者名にNAMEを使用します。"
+
+msgid "Use EMAIL as translator email address"
+msgstr "翻訳者のメールアドレスにEMAILを使用します。"
+
+msgid "Display this help and exit"
+msgstr "このヘルプを表示します"
+
+msgid "Display version and exit"
+msgstr "バージョンを表示します"
+
+msgid ".pot file does not exist in the current directory."
+msgstr "現在のカレントディレクトリにpotファイルが存在しません。"
+
+msgid "file '%s' does not exist."
+msgstr "ファイル'%s'は存在しません。"
+
+msgid "Locale '%s' is invalid. Please check if your specified locale is usable."
+msgstr "'%s'というロケールは正しくありません。指定したロケールが使用可能かどうか確認してください。"
+
+msgid "file '%s' has already existed."
+msgstr "ファイル'%s'はすでに存在します。"
+
+msgid "Please enter your full name"
+msgstr "あなたのフルネームを入力してください"
+
+msgid "Please enter your email address"
+msgstr "あなたのメールアドレスを入力してください"
+
+msgid "Usage: %s [OPTIONS] definition.po reference.pot"
+msgstr "使い方: %s [オプション] definition.po reference.pot"
+
+msgid ""
+"Merges two Uniforum style .po files together. The definition.po file is an exi"
+"sting PO file with translations. The reference.pot file is the last created PO"
+" file with up-to-date source references. The reference.pot is generally create"
+"d by rxgettext."
+msgstr ""
+"2つの.poファイルをマージします。definition.poファイルはすでにある翻訳済みのPOファイルです。reference.potは最新のPOファイル"
+"です。reference.potは通常rxgettextから新たに生成されたものです。"
+
+msgid "Update definition.po"
+msgstr "definition.poを更新"
+
+msgid "Preserve '#: FILENAME:LINE' lines"
+msgstr "'#: FILENAME:LINE'行を残す"
+
+msgid "Disable fuzzy matching"
+msgstr "曖昧マッチを無効にする"
+
+msgid "(enable)"
+msgstr "（有効）"
+
+msgid "Display version information and exit"
+msgstr "バージョン情報を出力して終了します。"
+
+msgid "'%{klass}' is ignored."
+msgstr "'%{klass}'は無視されました。"
+
+msgid "Error parsing %{path}"
+msgstr "%{path}をパース中にエラーが発生しました。"
+
+msgid "no input files"
+msgstr "入力ファイルが指定されていません。"
+
+msgid "Usage: %s input.rb [-r parser.rb] [-o output.pot]"
+msgstr "使用法: %s input.rb [-r parser.rb] [-o output.pot]"
+
+msgid "Extract translatable strings from given input files."
+msgstr "与えられた入力ファイルから翻訳可能な文字列を抜き出します。"
+
+msgid "set package name in output"
+msgstr "出力に含めるパッケージ名を指定します"
+
+msgid "set package version in output"
+msgstr "出力に含めるパッケージのバージョンを指定します"
+
+msgid "set report e-mail address for msgid bugs"
+msgstr "msgidのバグを報告するメールアドレスを指定します"
+
+msgid "set copyright holder in output"
+msgstr "出力に含める著作権の保持者を指定します"
+
+msgid "set copyright year in output"
+msgstr "出力に含める著作権の保持者を指定します"
+
+msgid "set encoding for output"
+msgstr "出力ファイルのエンコーディングを設定します"
+
+msgid "Generate sorted output"
+msgstr "ソート結果を生成"
+
+msgid "Sort output by file location"
+msgstr "出力を位置情報でソート"
+
+msgid "require the library before executing xgettext"
+msgstr "xgettextを実行する前に読み込むライブラリを指定します"
+
+msgid ""
+"If TAG is specified, place comment blocks starting with TAG and precedding key"
+"word lines in output file"
+msgstr "TAGを指定すると、キーワード行の前にあるコメントブロックのうち、TAGから始まるコメントブロックをTAGも含めて出力する"
+
+msgid ""
+"If TAG is not specified, place all comment blocks preceing keyword lines in ou"
+"tput file"
+msgstr "TAGを指定しないと、キーワード行の前にあるすべてのコメントブロックを出力する"
+
+msgid "(default: %s)"
+msgstr "（デフォルト：%s）"
+
+msgid "no TAG"
+msgstr "TAGなし"
+
+msgid "run in debugging mode"
+msgstr "デバッグモードで実行します"
+
+msgid "display this help and exit"
+msgstr "このヘルプを表示します"
+
+msgid ""
+"Warning: The empty \"\" msgid is reserved by gettext. So gettext(\"\") doesn't ret"
+"urns empty string but the header entry in po file."
+msgstr ""
+"\"\"というmsgidはgettextによって予約されています。したがって、gettext(\"\")は作成されるpoファイルのヘッダエントリを返しますが、空の文"
+"字列は返しません。"

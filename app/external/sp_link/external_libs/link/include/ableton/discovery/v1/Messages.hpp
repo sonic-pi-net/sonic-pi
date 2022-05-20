@@ -110,8 +110,8 @@ It encodeMessage(NodeId from,
   if (messageSize < kMaxMessageSize)
   {
     return toNetworkByteStream(
-      payload, toNetworkByteStream(
-                 header, copy(begin(kProtocolHeader), end(kProtocolHeader), std::move(out))));
+      payload, toNetworkByteStream(header,
+                 copy(begin(kProtocolHeader), end(kProtocolHeader), std::move(out))));
   }
   else
   {

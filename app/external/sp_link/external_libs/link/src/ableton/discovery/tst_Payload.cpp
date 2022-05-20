@@ -28,157 +28,161 @@ namespace ableton
 namespace discovery
 {
 
-TEST_CASE("Payload | EmptyPayload", "[Payload]")
+TEST_CASE("Payload")
 {
-  CHECK(0 == sizeInByteStream(makePayload()));
-  CHECK(nullptr == toNetworkByteStream(makePayload(), nullptr));
-}
+  SECTION("EmptyPayload")
+  {
+    CHECK(0 == sizeInByteStream(makePayload()));
+    CHECK(nullptr == toNetworkByteStream(makePayload(), nullptr));
+  }
 
-TEST_CASE("Payload | FixedSizeEntryPayloadSize", "[Payload]")
-{
-  CHECK(12 == sizeInByteStream(makePayload(test::Foo{})));
-}
+  SECTION("FixedSizeEntryPayloadSize")
+  {
+    CHECK(12 == sizeInByteStream(makePayload(test::Foo{})));
+  }
 
-TEST_CASE("Payload | SingleEntryPayloadEncoding", "[Payload]")
-{
-  const auto payload = makePayload(test::Foo{-1});
-  std::vector<char> bytes(sizeInByteStream(payload));
-  const auto end = toNetworkByteStream(payload, begin(bytes));
+  SECTION("SingleEntryPayloadEncoding")
+  {
+    const auto payload = makePayload(test::Foo{-1});
+    std::vector<char> bytes(sizeInByteStream(payload));
+    const auto end = toNetworkByteStream(payload, begin(bytes));
 
-  // Should have filled the buffer with the payload
-  CHECK(bytes.size() == static_cast<size_t>(end - begin(bytes)));
-  // Should have encoded the value 1 after the payload entry header
-  // as an unsigned in network byte order
-  const auto uresult = ntohl(reinterpret_cast<const std::uint32_t&>(*(begin(bytes) + 8)));
-  CHECK(-1 == reinterpret_cast<const std::int32_t&>(uresult));
-}
+    // Should have filled the buffer with the payload
+    CHECK(bytes.size() == static_cast<size_t>(end - begin(bytes)));
+    // Should have encoded the value 1 after the payload entry header
+    // as an unsigned in network byte order
+    const auto uresult =
+      ntohl(reinterpret_cast<const std::uint32_t&>(*(begin(bytes) + 8)));
+    CHECK(-1 == reinterpret_cast<const std::int32_t&>(uresult));
+  }
 
-TEST_CASE("Payload | DoubleEntryPayloadSize", "[Payload]")
-{
-  CHECK(48 == sizeInByteStream(makePayload(test::Foo{}, test::Bar{{0, 1, 2}})));
-}
+  SECTION("DoubleEntryPayloadSize")
+  {
+    CHECK(48 == sizeInByteStream(makePayload(test::Foo{}, test::Bar{{0, 1, 2}})));
+  }
 
-TEST_CASE("Payload | DoubleEntryPayloadEncoding", "[Payload]")
-{
-  const auto payload = makePayload(test::Foo{1}, test::Bar{{0, 1, 2}});
-  std::vector<char> bytes(sizeInByteStream(payload));
-  const auto end = toNetworkByteStream(payload, begin(bytes));
+  SECTION("DoubleEntryPayloadEncoding")
+  {
+    const auto payload = makePayload(test::Foo{1}, test::Bar{{0, 1, 2}});
+    std::vector<char> bytes(sizeInByteStream(payload));
+    const auto end = toNetworkByteStream(payload, begin(bytes));
 
-  // Should have filled the buffer with the payload
-  CHECK(bytes.size() == static_cast<size_t>(end - begin(bytes)));
-  // Should have encoded the value 1 after the first payload entry header
-  // and the number of elements of the vector as well as 0,1,2 after the
-  // second payload entry header in network byte order
-  CHECK(1 == ntohl(reinterpret_cast<const std::uint32_t&>(*(begin(bytes) + 8))));
-  CHECK(3 == ntohl(reinterpret_cast<const std::uint32_t&>(*(begin(bytes) + 20))));
-  CHECK(0 == ntohll(reinterpret_cast<const std::uint64_t&>(*(begin(bytes) + 24))));
-  CHECK(1 == ntohll(reinterpret_cast<const std::uint64_t&>(*(begin(bytes) + 32))));
-  CHECK(2 == ntohll(reinterpret_cast<const std::uint64_t&>(*(begin(bytes) + 40))));
-}
+    // Should have filled the buffer with the payload
+    CHECK(bytes.size() == static_cast<size_t>(end - begin(bytes)));
+    // Should have encoded the value 1 after the first payload entry header
+    // and the number of elements of the vector as well as 0,1,2 after the
+    // second payload entry header in network byte order
+    CHECK(1 == ntohl(reinterpret_cast<const std::uint32_t&>(*(begin(bytes) + 8))));
+    CHECK(3 == ntohl(reinterpret_cast<const std::uint32_t&>(*(begin(bytes) + 20))));
+    CHECK(0 == ntohll(reinterpret_cast<const std::uint64_t&>(*(begin(bytes) + 24))));
+    CHECK(1 == ntohll(reinterpret_cast<const std::uint64_t&>(*(begin(bytes) + 32))));
+    CHECK(2 == ntohll(reinterpret_cast<const std::uint64_t&>(*(begin(bytes) + 40))));
+  }
 
-TEST_CASE("Payload | RoundtripSingleEntry", "[Payload]")
-{
-  const auto expected = test::Foo{1};
-  const auto payload = makePayload(expected);
-  std::vector<char> bytes(sizeInByteStream(payload));
-  const auto end = toNetworkByteStream(payload, begin(bytes));
+  SECTION("RoundtripSingleEntry")
+  {
+    const auto expected = test::Foo{1};
+    const auto payload = makePayload(expected);
+    std::vector<char> bytes(sizeInByteStream(payload));
+    const auto end = toNetworkByteStream(payload, begin(bytes));
 
-  test::Foo actual{};
-  parsePayload<test::Foo>(
-    begin(bytes), end, [&actual](const test::Foo& foo) { actual = foo; });
+    test::Foo actual{};
+    parsePayload<test::Foo>(
+      begin(bytes), end, [&actual](const test::Foo& foo) { actual = foo; });
 
-  CHECK(expected.fooVal == actual.fooVal);
-}
+    CHECK(expected.fooVal == actual.fooVal);
+  }
 
-TEST_CASE("Payload | RoundtripDoubleEntry", "[Payload]")
-{
-  const auto expectedFoo = test::Foo{1};
-  const auto expectedBar = test::Bar{{0, 1, 2}};
-  const auto payload = makePayload(expectedBar, expectedFoo);
-  std::vector<char> bytes(sizeInByteStream(payload));
-  const auto end = toNetworkByteStream(payload, begin(bytes));
+  SECTION("RoundtripDoubleEntry")
+  {
+    const auto expectedFoo = test::Foo{1};
+    const auto expectedBar = test::Bar{{0, 1, 2}};
+    const auto payload = makePayload(expectedBar, expectedFoo);
+    std::vector<char> bytes(sizeInByteStream(payload));
+    const auto end = toNetworkByteStream(payload, begin(bytes));
 
-  test::Foo actualFoo{};
-  test::Bar actualBar{};
-  parsePayload<test::Foo, test::Bar>(begin(bytes), end,
-    [&actualFoo](const test::Foo& foo) { actualFoo = foo; },
-    [&actualBar](const test::Bar& bar) { actualBar = bar; });
+    test::Foo actualFoo{};
+    test::Bar actualBar{};
+    parsePayload<test::Foo, test::Bar>(begin(bytes), end,
+      [&actualFoo](const test::Foo& foo) { actualFoo = foo; },
+      [&actualBar](const test::Bar& bar) { actualBar = bar; });
 
-  CHECK(expectedFoo.fooVal == actualFoo.fooVal);
-  CHECK(expectedBar.barVals == actualBar.barVals);
-}
+    CHECK(expectedFoo.fooVal == actualFoo.fooVal);
+    CHECK(expectedBar.barVals == actualBar.barVals);
+  }
 
-TEST_CASE("Payload | RoundtripSingleEntryWithMultipleVectors", "[Payload]")
-{
-  const auto expectedFoobar = test::Foobar{{0, 1, 2}, {3, 4, 5}};
-  const auto payload = makePayload(expectedFoobar);
-  std::vector<char> bytes(sizeInByteStream(payload));
-  const auto end = toNetworkByteStream(payload, begin(bytes));
+  SECTION("RoundtripSingleEntryWithMultipleVectors")
+  {
+    const auto expectedFoobar = test::Foobar{{0, 1, 2}, {3, 4, 5}};
+    const auto payload = makePayload(expectedFoobar);
+    std::vector<char> bytes(sizeInByteStream(payload));
+    const auto end = toNetworkByteStream(payload, begin(bytes));
 
-  test::Foobar actualFoobar{};
-  parsePayload<test::Foobar>(begin(bytes), end,
-    [&actualFoobar](const test::Foobar& foobar) { actualFoobar = foobar; });
+    test::Foobar actualFoobar{};
+    parsePayload<test::Foobar>(begin(bytes), end,
+      [&actualFoobar](const test::Foobar& foobar) { actualFoobar = foobar; });
 
-  CHECK(expectedFoobar.asTuple() == actualFoobar.asTuple());
-}
+    CHECK(expectedFoobar.asTuple() == actualFoobar.asTuple());
+  }
 
-TEST_CASE("Payload | ParseSubset", "[Payload]")
-{
-  // Encode two payload entries
-  const auto expectedFoo = test::Foo{1};
-  const auto expectedBar = test::Bar{{0, 1, 2}};
-  const auto payload = makePayload(expectedFoo, expectedBar);
-  std::vector<char> bytes(sizeInByteStream(payload));
-  const auto end = toNetworkByteStream(payload, begin(bytes));
+  SECTION("ParseSubset")
+  {
+    // Encode two payload entries
+    const auto expectedFoo = test::Foo{1};
+    const auto expectedBar = test::Bar{{0, 1, 2}};
+    const auto payload = makePayload(expectedFoo, expectedBar);
+    std::vector<char> bytes(sizeInByteStream(payload));
+    const auto end = toNetworkByteStream(payload, begin(bytes));
 
-  // Only decode one of them
-  test::Bar actualBar{};
-  parsePayload<test::Bar>(
-    begin(bytes), end, [&actualBar](const test::Bar& bar) { actualBar = bar; });
+    // Only decode one of them
+    test::Bar actualBar{};
+    parsePayload<test::Bar>(
+      begin(bytes), end, [&actualBar](const test::Bar& bar) { actualBar = bar; });
 
-  CHECK(expectedBar.barVals == actualBar.barVals);
-}
+    CHECK(expectedBar.barVals == actualBar.barVals);
+  }
 
-TEST_CASE("Payload | ParseTruncatedEntry", "[Payload]")
-{
-  const auto expectedFoo = test::Foo{1};
-  const auto expectedBar = test::Bar{{0, 1, 2}};
-  const auto payload = makePayload(expectedBar, expectedFoo);
-  std::vector<char> bytes(sizeInByteStream(payload));
-  const auto end = toNetworkByteStream(payload, begin(bytes));
+  SECTION("ParseTruncatedEntry")
+  {
+    const auto expectedFoo = test::Foo{1};
+    const auto expectedBar = test::Bar{{0, 1, 2}};
+    const auto payload = makePayload(expectedBar, expectedFoo);
+    std::vector<char> bytes(sizeInByteStream(payload));
+    const auto end = toNetworkByteStream(payload, begin(bytes));
 
-  test::Foo actualFoo{};
-  test::Bar actualBar{};
+    test::Foo actualFoo{};
+    test::Bar actualBar{};
 
-  REQUIRE_THROWS_AS(( // We truncate the buffer by one byte
-                      parsePayload<test::Foo, test::Bar>(begin(bytes), end - 1,
-                        [&actualFoo](const test::Foo& foo) { actualFoo = foo; },
-                        [&actualBar](const test::Bar& bar) { actualBar = bar; })),
-    std::runtime_error);
+    REQUIRE_THROWS_AS(( // We truncate the buffer by one byte
+                        parsePayload<test::Foo, test::Bar>(begin(bytes), end - 1,
+                          [&actualFoo](const test::Foo& foo) { actualFoo = foo; },
+                          [&actualBar](const test::Bar& bar) { actualBar = bar; })),
+      std::runtime_error);
 
-  // We expect that bar should be properly parsed but foo not
-  CHECK(0 == actualFoo.fooVal);
-  CHECK(expectedBar.barVals == actualBar.barVals);
-}
+    // We expect that bar should be properly parsed but foo not
+    CHECK(0 == actualFoo.fooVal);
+    CHECK(expectedBar.barVals == actualBar.barVals);
+  }
 
-TEST_CASE("Payload | AddPayloads", "[Payload]")
-{
-  // The sum of a foo payload and a bar payload should be equal in
-  // every way to a foobar payload
-  const auto foo = test::Foo{1};
-  const auto bar = test::Bar{{0, 1, 2}};
-  const auto fooBarPayload = makePayload(foo, bar);
-  const auto sumPayload = makePayload(foo) + makePayload(bar);
+  SECTION("AddPayloads")
+  {
+    // The sum of a foo payload and a bar payload should be equal in
+    // every way to a foobar payload
+    const auto foo = test::Foo{1};
+    const auto bar = test::Bar{{0, 1, 2}};
+    const auto fooBarPayload = makePayload(foo, bar);
+    const auto sumPayload = makePayload(foo) + makePayload(bar);
 
-  REQUIRE(sizeInByteStream(fooBarPayload) == sizeInByteStream(sumPayload));
+    REQUIRE(sizeInByteStream(fooBarPayload) == sizeInByteStream(sumPayload));
 
-  std::vector<char> fooBarBytes(sizeInByteStream(fooBarPayload));
-  std::vector<char> sumBytes(sizeInByteStream(sumPayload));
+    std::vector<char> fooBarBytes(sizeInByteStream(fooBarPayload));
+    std::vector<char> sumBytes(sizeInByteStream(sumPayload));
 
-  const auto fooBarEnd = toNetworkByteStream(fooBarPayload, begin(fooBarBytes));
-  toNetworkByteStream(sumPayload, begin(sumBytes));
+    const auto fooBarEnd = toNetworkByteStream(fooBarPayload, begin(fooBarBytes));
+    toNetworkByteStream(sumPayload, begin(sumBytes));
 
-  CHECK(std::equal(begin(fooBarBytes), fooBarEnd, begin(sumBytes)));
+    CHECK(std::equal(begin(fooBarBytes), fooBarEnd, begin(sumBytes)));
+  }
 }
 
 } // namespace discovery

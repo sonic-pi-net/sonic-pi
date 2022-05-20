@@ -17,11 +17,13 @@
 #include <sstream>
 
 // Qt stuff
+#include <QtGlobal>
 #include <QAction>
+#include <QActionGroup>
 #include <QApplication>
 #include <QBoxLayout>
 #include <QDesktopServices>
-#include <QDesktopWidget>
+#include <QDialogButtonBox>
 #include <QDockWidget>
 #include <QFileDialog>
 #include <QLabel>
@@ -31,6 +33,7 @@
 #include <QMenuBar>
 #include <QMessageBox>
 #include <QNetworkInterface>
+#include <QPlainTextEdit>
 #include <QScrollBar>
 #include <QShortcut>
 #include <QSplashScreen>
@@ -38,8 +41,11 @@
 #include <QStatusBar>
 #include <QStyle>
 #include <QTextBrowser>
+#include <QTextStream>
 #include <QToolBar>
 #include <QToolButton>
+#include <QPushButton>
+#include <QVBoxLayout>
 
 #include "mainwindow.h"
 
@@ -51,6 +57,10 @@
 #include "utils/scintilla_api.h"
 #include "widgets/sonicpilexer.h"
 #include "widgets/sonicpiscintilla.h"
+
+#ifdef WITH_WEBENGINE
+#include "widgets/phxwidget.h"
+#endif
 
 #include "utils/sonicpi_i18n.h"
 
@@ -65,6 +75,8 @@ using namespace oscpkt; // OSC specific stuff
 #include "widgets/settingswidget.h"
 #include "widgets/sonicpicontext.h"
 #include "widgets/sonicpilog.h"
+#include "widgets/sonicpimetro.h"
+#include "widgets/sonicpieditor.h"
 
 #include "utils/ruby_help.h"
 
@@ -90,11 +102,7 @@ using namespace std::chrono;
 
 using namespace SonicPi;
 
-#ifdef Q_OS_MAC
-MainWindow::MainWindow(QApplication& app, QMainWindow* splash)
-#else
 MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
-#endif
 {
     app.installEventFilter(this);
     app.processEvents();
@@ -122,11 +130,10 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
     show_rec_icon_a = false;
     restoreDocPane = false;
     focusMode = false;
-    version = "3.4-dev";
+    version = "4.0-beta";
     latest_version = "";
     version_num = 0;
     latest_version_num = 0;
-    this->splash = splash;
     QString settings_path = sonicPiConfigPath() + QDir::separator() + "gui-settings.ini";
 
     gui_settings = new QSettings(settings_path, QSettings::IniFormat);
@@ -137,7 +144,11 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
     bool startupOK = false;
 
     m_spAPI->Init(rootPath().toStdString());
-    guiID = QString::fromStdString(m_spAPI->GetGuid());
+
+    const QRect rect = this->geometry();
+    m_appWindowSizeRect = std::make_shared<QRect>(rect);
+
+    guiID = m_spAPI->GetGuid();
 
     this->sonicPii18n = new SonicPii18n(rootPath());
     std::cout << "[GUI] - Language setting: " << piSettings->language.toUtf8().constData() << std::endl;
@@ -146,10 +157,13 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
     std::cout << "[GUI] - Using language: " << ui_language.toUtf8().constData() << std::endl;
     this->i18n = sonicPii18n->loadTranslations(ui_language);
 
-    if(i18n) {
-      std::cout << "[GUI] - translations available " << std::endl;
-    } else {
-      std::cout << "[GUI] - translations unavailable (using EN)" << std::endl;
+    if (i18n)
+    {
+        std::cout << "[GUI] - translations available " << std::endl;
+    }
+    else
+    {
+        std::cout << "[GUI] - translations unavailable (using EN)" << std::endl;
     }
 
     std::cout << "[GUI] - hiding main window" << std::endl;
@@ -188,9 +202,20 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
     if (startupOK)
     {
         // We have a connection! Finish up loading app...
+
+#ifdef WITH_WEBENGINE
+        QUrl phxUrl;
+        phxUrl.setUrl("http://localhost");
+        phxUrl.setPort(m_spAPI->GetPort(SonicPiPortId::phx_http));
+        std::cout << "[GUI] - loading up web view with URL: " << phxUrl.toString().toStdString() << std::endl;
+        // load phoenix webview
+        phxWidget->connectToTauPhx(phxUrl);
+#endif
+
         scopeWindow->Booted();
-        std::cout << "[GUI] - honour prefs" << std::endl;
+        std::cout << "[GUI] - restore windows" << std::endl;
         restoreWindows();
+        std::cout << "[GUI] - honour prefs" << std::endl;
         honourPrefs();
         std::cout << "[GUI] - update prefs icon" << std::endl;
         updatePrefsIcon();
@@ -212,6 +237,7 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
         timer->start(1000);
         emit settingsChanged();
         splashClose();
+        focusEditor();
         showWindow();
         app.processEvents();
         std::cout << "[GUI] - boot sequence completed." << std::endl;
@@ -224,10 +250,11 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
 
     toggleOSCServer(1);
 
-    app.setActiveWindow(tabs->currentWidget());
+    app.setActiveWindow(editorTabWidget->currentWidget());
 
-    if (!i18n) {
-      showLanguageLoadingError();
+    if (!i18n)
+    {
+        showLanguageLoadingError();
     }
 
     showWelcomeScreen();
@@ -291,7 +318,6 @@ void MainWindow::checkForStudioMode()
     }
 }
 
-
 void MainWindow::showWelcomeScreen()
 {
     if (gui_settings->value("first_time", 1).toInt() == 1)
@@ -306,14 +332,20 @@ void MainWindow::showWelcomeScreen()
         QFile file(":/html/startup.html");
         file.open(QFile::ReadOnly | QFile::Text);
         QTextStream st(&file);
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        st.setEncoding(QStringConverter::Utf8);
+#else
         st.setCodec("UTF-8");
+#endif
+
         QString source = st.readAll();
         source = source.replace("214dx", QString("%1").arg(ScaleHeightForDPI(214)));
         source = source.replace("262dx", QString("%1").arg(ScaleHeightForDPI(262)));
         source = source.replace("50dx", QString("%1px").arg(ScaleHeightForDPI(32)));
         startupPane->setHtml(source);
         docWidget->show();
-        docsCentral->setCurrentIndex(0);
+        docsNavTabs->setCurrentIndex(0);
         helpLists[0]->setCurrentRow(0);
         startupPane->show();
         startupPane->raise();
@@ -328,6 +360,7 @@ void MainWindow::setupTheme()
 {
     // Syntax highlighting
     QString themeFilename = QDir::homePath() + QDir::separator() + ".sonic-pi" + QDir::separator() + "config" + QDir::separator() + "colour-theme.properties";
+
     this->theme = new SonicPiTheme(this, themeFilename, rootPath());
 }
 
@@ -345,28 +378,32 @@ void MainWindow::setupWindowStructure()
 
     outputPane = new SonicPiLog;
     incomingPane = new SonicPiLog;
-    contextPane = new SonicPiContext;
     errorPane = new QTextBrowser;
+    metroPane = new SonicPiMetro;
+
     errorPane->setOpenExternalLinks(true);
 
     // Window layout
-    tabs = new QTabWidget();
-    tabs->setTabsClosable(false);
-    tabs->setMovable(false);
-    tabs->setTabPosition(QTabWidget::South);
+    editorTabWidget = new QTabWidget();
+    editorTabWidget->setTabsClosable(false);
+    editorTabWidget->setMovable(false);
+    editorTabWidget->setTabPosition(QTabWidget::South);
 
     lexer->setAutoIndentStyle(SonicPiScintilla::AiMaintain);
 
     // create workspaces and add them to the tabs
     // workspace shortcuts
     signalMapper = new QSignalMapper(this);
+    QVBoxLayout* prefsLayout = new QVBoxLayout;
+    prefsWidget = new QWidget;
+    prefsWidget->setParent(this);
+    prefsWidget->hide();
 
-    prefsWidget = new QDockWidget(tr("Preferences"), this);
-    prefsWidget->setFocusPolicy(Qt::NoFocus);
-    prefsWidget->setAllowedAreas(Qt::RightDockWidgetArea);
-    prefsWidget->setFeatures(QDockWidget::DockWidgetClosable);
 
-    settingsWidget = new SettingsWidget(m_spAPI->GetPort(SonicPiPortId::server_osc_cues), i18n, piSettings, sonicPii18n, this);
+
+    settingsWidget = new SettingsWidget(m_spAPI->GetPort(SonicPiPortId::tau_osc_cues), i18n, piSettings, sonicPii18n, this);
+    settingsWidget->setObjectName("settings");
+    settingsWidget->setAttribute(Qt::WA_StyledBackground, true);
     connect(settingsWidget, SIGNAL(restartApp()), this, SLOT(restartApp()));
     connect(settingsWidget, SIGNAL(volumeChanged(int)), this, SLOT(changeSystemPreAmp(int)));
     connect(settingsWidget, SIGNAL(mixerSettingsChanged()), this, SLOT(mixerSettingsChanged()));
@@ -377,6 +414,7 @@ void MainWindow::setupWindowStructure()
     connect(settingsWidget, SIGNAL(showAutoCompletionChanged()), this, SLOT(changeShowAutoCompletion()));
     connect(settingsWidget, SIGNAL(showLogChanged()), this, SLOT(updateLogVisibility()));
     connect(settingsWidget, SIGNAL(showCuesChanged()), this, SLOT(updateCuesVisibility()));
+    connect(settingsWidget, SIGNAL(showMetroChanged()), this, SLOT(updateMetroVisibility()));
     connect(settingsWidget, SIGNAL(showButtonsChanged()), this, SLOT(updateButtonVisibility()));
     connect(settingsWidget, SIGNAL(showFullscreenChanged()), this, SLOT(updateFullScreenMode()));
     connect(settingsWidget, SIGNAL(showTabsChanged()), this, SLOT(updateTabsVisibility()));
@@ -385,6 +423,8 @@ void MainWindow::setupWindowStructure()
     connect(settingsWidget, SIGNAL(scopeChanged()), this, SLOT(scope()));
     connect(settingsWidget, SIGNAL(scopeChanged(QString)), this, SLOT(changeScopeKindVisibility(QString)));
     connect(settingsWidget, SIGNAL(scopeLabelsChanged()), this, SLOT(changeScopeLabels()));
+    connect(settingsWidget, SIGNAL(titlesChanged()), this, SLOT(changeTitleVisibility()));
+    connect(settingsWidget, SIGNAL(hideMenuBarInFullscreenChanged()), this, SLOT(changeMenuBarInFullscreenVisibility()));
     connect(settingsWidget, SIGNAL(transparencyChanged(int)), this, SLOT(changeGUITransparency(int)));
 
     connect(settingsWidget, SIGNAL(checkUpdatesChanged()), this, SLOT(update_check_updates()));
@@ -408,15 +448,31 @@ void MainWindow::setupWindowStructure()
 
     restoreScopeState(scopeWindow->GetScopeCategories());
     settingsWidget->updateScopeNames(scopeWindow->GetScopeCategories());
-    QSizePolicy prefsSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
-    settingsWidget->setSizePolicy(prefsSizePolicy);
-    prefsWidget->setWidget(settingsWidget);
 
-    addDockWidget(Qt::RightDockWidgetArea, prefsWidget);
-    prefsWidget->hide();
+    QHBoxLayout* prefsLabelLayout = new QHBoxLayout;
+    QLabel* prefsLabel = new QLabel(tr("Preferences"));
+    prefsLabelLayout->addStretch(1);
+    prefsLabelLayout->addWidget(prefsLabel);
+    prefsLabelLayout->addStretch(1);
+    prefsLayout->addLayout(prefsLabelLayout);
+    prefsLayout->addWidget(settingsWidget, 2) ;
+    QHBoxLayout* prefsButtonLayout = new QHBoxLayout;
+    QPushButton* prefsHidePushButton = new QPushButton(tr("Close"));
+    prefsHidePushButton->setObjectName("prefsHideButton");
+    prefsButtonLayout->addStretch(1);
+    prefsButtonLayout->addWidget(prefsHidePushButton);
+    prefsLayout->addLayout(prefsButtonLayout);
     prefsWidget->setObjectName("prefs");
+    prefsWidget->setLayout(prefsLayout);
+    prefsWidget->setMinimumHeight(settingsWidget->height() + ScaleHeightForDPI(240));
 
-    connect(prefsWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updatePrefsIcon()));
+    QSizePolicy prefsSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+    prefsWidget->setSizePolicy(prefsSizePolicy) ;
+
+    connect(prefsHidePushButton, &QPushButton::clicked, this, [=]() {
+      togglePrefs();
+    });
+
     bool auto_indent = piSettings->auto_indent_on_run;
     for (int ws = 0; ws < workspace_max; ws++)
     {
@@ -431,17 +487,22 @@ void MainWindow::setupWindowStructure()
         //      fix the return issue on Japanese keyboards.
 
         SonicPiScintilla* workspace = new SonicPiScintilla(lexer, theme, fileName, auto_indent);
-        connect(workspace, &SonicPiScintilla::bufferNewlineAndIndent, this, [this](int point_line, int point_index, int first_line, const std::string& code, const std::string& fileName, const std::string& id) {
-
-          m_spAPI->BufferNewLineAndIndent(point_line, point_index, first_line, code, fileName, id);
-        });
+        connect(workspace,
+                &SonicPiScintilla::bufferNewlineAndIndent,
+                this,
+                [this](int point_line, int point_index, int first_line, const std::string& code, const std::string& fileName)
+                {
+                  m_spAPI->BufferNewLineAndIndent(point_line, point_index, first_line, code, fileName);
+                });
 
         workspace->setObjectName(QString("Buffer %1").arg(ws));
 
         //tab completion when in list
-        QShortcut* indentLine = new QShortcut(QKeySequence("Tab"), workspace);
-        connect(indentLine, SIGNAL(activated()), signalMapper, SLOT(map()));
-        signalMapper->setMapping(indentLine, (QObject*)workspace);
+        auto indentLine = new QShortcut(QKeySequence(Qt::Key_Tab), workspace);
+
+        connect(indentLine, &QShortcut::activated, this, [this, workspace]() {
+          completeSnippetListOrIndentLine(workspace);
+        });
 
         // save and load buffers
         QShortcut* saveBufferShortcut = new QShortcut(shiftMetaKey('s'), workspace);
@@ -543,13 +604,13 @@ void MainWindow::setupWindowStructure()
 
         QString w = QString(tr("| %1 |")).arg(QString::number(ws));
         workspaces[ws] = workspace;
-        tabs->addTab(workspace, w);
+        SonicPiEditor *editor = new SonicPiEditor(workspace, theme, this);
+        editorTabWidget->addTab(editor, w);
 
         connect(workspace, SIGNAL(cursorPositionChanged(int, int)), this, SLOT(updateContext(int, int)));
     }
 
-    connect(signalMapper, SIGNAL(mapped(int)), this, SLOT(changeTab(int)));
-    connect(signalMapper, SIGNAL(mapped(QObject*)), this, SLOT(completeSnippetListOrIndentLine(QObject*)));
+    connect(signalMapper, SIGNAL(mappedInt(int)), this, SLOT(changeTab(int)));
 
     QFont font("Monospace");
     font.setStyleHint(QFont::Monospace);
@@ -576,9 +637,7 @@ void MainWindow::setupWindowStructure()
 
     errorPane->setReadOnly(true);
 
-    contextPane->setReadOnly(true);
-    contextPane->setLineWrapMode(QPlainTextEdit::NoWrap);
-    contextPane->setFontFamily("Hack");
+
 
     if (!theme->font("LogFace").isEmpty())
     {
@@ -589,7 +648,6 @@ void MainWindow::setupWindowStructure()
     outputPane->document()->setMaximumBlockCount(1000);
     incomingPane->document()->setMaximumBlockCount(1000);
     errorPane->document()->setMaximumBlockCount(1000);
-    contextPane->document()->setMaximumBlockCount(1000);
 
     outputPane->setTextColor(QColor(theme->color("LogForeground")));
     outputPane->appendPlainText("\n");
@@ -597,12 +655,9 @@ void MainWindow::setupWindowStructure()
     incomingPane->setTextColor(QColor(theme->color("LogForeground")));
     incomingPane->appendPlainText("\n");
 
-    contextPane->setTextColor(QColor(theme->color("LogForeground")));
-    contextPane->appendPlainText("\n");
 
     errorPane->zoomIn(1);
     errorPane->setFixedHeight(ScaleHeightForDPI(200));
-
     // hudPane = new QTextBrowser;
     // hudPane->setMinimumHeight(130);
     // hudPane->setHtml("<center><img src=\":/images/logo.png\" height=\"113\" width=\"138\"></center>");
@@ -625,6 +680,7 @@ void MainWindow::setupWindowStructure()
 
     connect(scopeWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(scopeVisibilityChanged()));
 
+
     outputWidget = new QDockWidget(tr("Log"), this);
     outputWidget->setFocusPolicy(Qt::NoFocus);
     outputWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
@@ -637,34 +693,42 @@ void MainWindow::setupWindowStructure()
     incomingWidget->setAllowedAreas(Qt::RightDockWidgetArea);
     incomingWidget->setWidget(incomingPane);
 
-    contextWidget = new QDockWidget(tr("Context"), this);
-    contextWidget->setFocusPolicy(Qt::NoFocus);
-    contextWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
-    contextWidget->setAllowedAreas(Qt::RightDockWidgetArea);
-    contextWidget->setWidget(contextPane);
+    metroWidget = new QDockWidget(tr("Metro"), this);
+    metroWidget->setFocusPolicy(Qt::NoFocus);
+    metroWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
+    metroWidget->setAllowedAreas(Qt::RightDockWidgetArea);
+    metroWidget->setMaximumHeight(ScaleHeightForDPI(100));
+    metroWidget->setWidget(metroPane);
+
 
     addDockWidget(Qt::RightDockWidgetArea, outputWidget);
     addDockWidget(Qt::RightDockWidgetArea, incomingWidget);
-    addDockWidget(Qt::RightDockWidgetArea, contextWidget);
+    addDockWidget(Qt::RightDockWidgetArea, metroWidget);
+
     outputWidget->setObjectName("output");
     incomingWidget->setObjectName("input");
-    contextWidget->setObjectName("context");
+    metroWidget->setObjectName("metro");
 
-    blankWidget = new QWidget();
-    outputWidgetTitle = outputWidget->titleBarWidget();
+    blankWidgetOutput = new QWidget();
+    blankWidgetIncoming = new QWidget();
+    blankWidgetScope = new QWidget();
+    blankWidgetDoc = new QWidget();
+    blankWidgetMetro = new QWidget();
 
-    docsCentral = new QTabWidget;
-    docsCentral->setFocusPolicy(Qt::NoFocus);
-    docsCentral->setTabsClosable(false);
-    docsCentral->setMovable(false);
-    docsCentral->setTabPosition(QTabWidget::South);
-    QShortcut* left = new QShortcut(Qt::Key_Left, docsCentral);
+    docsNavTabs = new QTabWidget;
+    docsNavTabs->setFocusPolicy(Qt::NoFocus);
+    docsNavTabs->setTabsClosable(false);
+    docsNavTabs->setMovable(false);
+    docsNavTabs->setTabPosition(QTabWidget::South);
+    QShortcut* left = new QShortcut(Qt::Key_Left, docsNavTabs);
     left->setContext(Qt::WidgetWithChildrenShortcut);
     connect(left, SIGNAL(activated()), this, SLOT(docPrevTab()));
-    QShortcut* right = new QShortcut(Qt::Key_Right, docsCentral);
+    QShortcut* right = new QShortcut(Qt::Key_Right, docsNavTabs);
     right->setContext(Qt::WidgetWithChildrenShortcut);
     connect(right, SIGNAL(activated()), this, SLOT(docNextTab()));
-
+#ifdef WITH_WEBENGINE
+    phxWidget = new PhxWidget(this);
+#endif
     docPane = new QTextBrowser;
     QSizePolicy policy = docPane->sizePolicy();
     policy.setHorizontalStretch(QSizePolicy::Maximum);
@@ -688,13 +752,26 @@ void MainWindow::setupWindowStructure()
 
     docsplit = new QSplitter;
 
-    docsplit->addWidget(docsCentral);
+
+
+    docsplit->addWidget(docsNavTabs);
     docsplit->addWidget(docPane);
+
+    southTabs = new QTabWidget;
+    southTabs->setTabPosition(QTabWidget::West);
+    southTabs->setTabsClosable(false);
+    southTabs->setMovable(false);
+    southTabs->addTab(docsplit, "Docs");
+    southTabs->setAttribute(Qt::WA_StyledBackground, true);
+
+#ifdef WITH_WEBENGINE
+    southTabs->addTab(phxWidget, "Tau");
+#endif
 
     docWidget = new QDockWidget(tr("Help"), this);
     docWidget->setFocusPolicy(Qt::NoFocus);
     docWidget->setAllowedAreas(Qt::BottomDockWidgetArea);
-    docWidget->setWidget(docsplit);
+    docWidget->setWidget(southTabs);
     docWidget->setObjectName("help");
 
     addDockWidget(Qt::BottomDockWidgetArea, docWidget);
@@ -705,9 +782,8 @@ void MainWindow::setupWindowStructure()
     connect(docWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(toggleHelpIcon()));
 
     mainWidgetLayout = new QVBoxLayout;
-    mainWidgetLayout->addWidget(tabs);
+    mainWidgetLayout->addWidget(editorTabWidget);
     mainWidgetLayout->addWidget(errorPane);
-    mainWidgetLayout->setMargin(0);
     mainWidget = new QWidget;
     mainWidget->setFocusPolicy(Qt::NoFocus);
     errorPane->hide();
@@ -746,7 +822,7 @@ void MainWindow::handleCustomUrl(const QUrl& url)
                        "sample :"
             + sample;
         Message msg("/run-code");
-        msg.pushStr(guiID.toStdString());
+        msg.pushInt32(guiID);
         msg.pushStr(code.toStdString());
         if (sendOSC(msg))
         {
@@ -768,7 +844,7 @@ void MainWindow::escapeWorkspaces()
 
 void MainWindow::changeTab(int id)
 {
-    tabs->setCurrentIndex(id);
+    editorTabWidget->setCurrentIndex(id);
 }
 
 void MainWindow::toggleFullScreenMode()
@@ -785,36 +861,69 @@ void MainWindow::fullScreenMenuChanged()
     updateFullScreenMode();
 }
 
+void MainWindow::blankTitleBars()
+{
+  statusBar()->showMessage(tr("Hiding pane titles..."), 2000);
+  outputWidget->setTitleBarWidget(blankWidgetOutput);
+  incomingWidget->setTitleBarWidget(blankWidgetIncoming);
+  scopeWidget->setTitleBarWidget(blankWidgetScope);
+  docWidget->setTitleBarWidget(blankWidgetDoc);
+  metroWidget->setTitleBarWidget(blankWidgetMetro);
+}
+
+void MainWindow::namedTitleBars()
+{
+  statusBar()->showMessage(tr("Showing pane titles..."), 2000);
+  outputWidget->setTitleBarWidget(0);
+  incomingWidget->setTitleBarWidget(0);
+  scopeWidget->setTitleBarWidget(0);
+  docWidget->setTitleBarWidget(0);
+  metroWidget->setTitleBarWidget(0);
+}
+
 void MainWindow::updateFullScreenMode()
 {
     QSignalBlocker blocker(fullScreenAct);
     fullScreenAct->setChecked(piSettings->full_screen);
 
-    if (piSettings->full_screen)
+    if (piSettings->full_screen && !fullScreenMode)
     {
-        outputWidget->setTitleBarWidget(blankWidget);
-#ifdef Q_OS_WIN
+        //switch to full screen mode
+        std::cout << "[GUI] - switch into full screen mode." << std::endl;
+
+
+#if defined(Q_OS_WIN)
+
+        QRect rect = this->geometry();
+        m_appWindowSizeRect.reset(new QRect(rect));
+        QRect screenRect = this->screen()->availableGeometry();
+        this->setGeometry(screenRect.x()-1, screenRect.y()-1, screenRect.width()+2, screenRect.height()+2);
         this->setWindowFlags(Qt::FramelessWindowHint);
+#else
+        this->showFullScreen();
 #endif
-        int currentScreen = QApplication::desktop()->screenNumber(this);
-        statusBar()->showMessage(tr("Full screen mode on."), 2000);
-#if QT_VERSION >= 0x050400
-        //requires Qt5
-        this->windowHandle()->setScreen(qApp->screens()[currentScreen]);
-#endif
-        this->setWindowState(Qt::WindowFullScreen);
-        this->show();
+        fullScreenMode = true;
     }
-    else
+    else if (!piSettings->full_screen && fullScreenMode)
     {
-        outputWidget->setTitleBarWidget(outputWidgetTitle);
-        this->setWindowState(windowState() & ~(Qt::WindowFullScreen));
+        //switch out of full screen mode
+        std::cout << "[GUI] - switch out of full screen mode." << std::endl;
+        menuBar()->show();
 #ifdef Q_OS_WIN
         this->setWindowFlags(Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowMinimizeButtonHint | Qt::WindowMaximizeButtonHint | Qt::WindowCloseButtonHint);
+        this->setWindowFlags(windowFlags() & ~Qt::FramelessWindowHint);
+        this->setGeometry(*m_appWindowSizeRect.get());
+        this->setWindowState((this->windowState() & ~Qt::WindowMinimized) | Qt::WindowActive);
+
+#else
+        this->showNormal();
 #endif
+
         statusBar()->showMessage(tr("Full screen mode off."), 2000);
-        this->show();
+        fullScreenMode = false;
     }
+    changeMenuBarInFullscreenVisibility();
+    this->show();
 }
 
 void MainWindow::toggleFocusMode()
@@ -898,6 +1007,14 @@ void MainWindow::showCuesMenuChanged()
     updateCuesVisibility();
 }
 
+void MainWindow::showMetroChanged()
+{
+    piSettings->show_metro = showMetroAct->isChecked();
+    emit settingsChanged();
+    updateMetroVisibility();
+}
+
+
 void MainWindow::showLogMenuChanged()
 {
     piSettings->show_log = showLogAct->isChecked();
@@ -920,6 +1037,21 @@ void MainWindow::updateCuesVisibility()
     }
 }
 
+void MainWindow::updateMetroVisibility()
+{
+    QSignalBlocker blocker(showMetroAct);
+    showMetroAct->setChecked(piSettings->show_metro);
+
+    if (piSettings->show_metro)
+    {
+        metroWidget->show();
+    }
+    else
+    {
+        metroWidget->close();
+    }
+}
+
 void MainWindow::toggleTabsVisibility()
 {
     piSettings->show_tabs = !piSettings->show_tabs;
@@ -939,7 +1071,7 @@ void MainWindow::updateTabsVisibility()
     QSignalBlocker blocker(showTabsAct);
     showTabsAct->setChecked(piSettings->show_tabs);
 
-    QTabBar* tabBar = tabs->findChild<QTabBar*>();
+    QTabBar* tabBar = editorTabWidget->findChild<QTabBar*>();
 
     if (piSettings->show_tabs)
     {
@@ -1013,7 +1145,7 @@ void MainWindow::completeSnippetOrIndentCurrentLineOrSelection(SonicPiScintilla*
     std::string code = ws->text().toStdString();
 
     Message msg("/buffer-section-complete-snippet-or-indent-selection");
-    msg.pushStr(guiID.toStdString());
+    msg.pushInt32(guiID);
     std::string filename = ws->fileName.toStdString();
     msg.pushStr(filename);
     msg.pushStr(code);
@@ -1026,7 +1158,7 @@ void MainWindow::completeSnippetOrIndentCurrentLineOrSelection(SonicPiScintilla*
 
 void MainWindow::toggleCommentInCurrentWorkspace()
 {
-    SonicPiScintilla* ws = (SonicPiScintilla*)tabs->currentWidget();
+    SonicPiScintilla* ws = getCurrentWorkspace();
     toggleComment(ws);
 }
 
@@ -1050,7 +1182,7 @@ void MainWindow::toggleComment(SonicPiScintilla* ws)
     std::string code = ws->text().toStdString();
 
     Message msg("/buffer-section-toggle-comment");
-    msg.pushStr(guiID.toStdString());
+    msg.pushInt32(guiID);
     std::string filename = ws->fileName.toStdString();
     msg.pushStr(filename);
     msg.pushStr(code);
@@ -1078,11 +1210,7 @@ QString MainWindow::rootPath()
 
 void MainWindow::splashClose()
 {
-#if defined(Q_OS_MAC)
-    splash->close();
-#else
-    splash->finish(this);
-#endif
+  splash->finish(this);
 }
 
 void MainWindow::showWindow()
@@ -1115,6 +1243,11 @@ void MainWindow::midiEnabledMenuChanged()
 void MainWindow::oscServerEnabledMenuChanged()
 {
     piSettings->osc_server_enabled = enableOSCServerAct->isChecked();
+    piSettings->osc_public = enableOSCServerAct->isChecked() && allowRemoteOSCAct->isChecked();
+    if (!enableOSCServerAct->isChecked()) {
+        allowRemoteOSCAct->setChecked(false);
+        piSettings->osc_public = false;
+    }
     emit settingsChanged();
     toggleOSCServer();
 }
@@ -1189,6 +1322,7 @@ void MainWindow::honourPrefs()
     updateLogAutoScroll();
     changeGUITransparency(piSettings->gui_transparency);
     changeScopeLabels();
+    changeTitleVisibility();
     toggleMidi(1);
     toggleOSCServer(1);
     toggleIcons();
@@ -1216,35 +1350,79 @@ void MainWindow::setMessageBoxStyle()
     QApplication::setPalette(p);
 }
 
-void MainWindow::invokeStartupError(QString msg)
-{
-    if (startup_error_reported->isChecked())
-    {
-        return;
-    }
-
-    startup_error_reported->setChecked(true);
-
-    QMetaObject::invokeMethod(this, "startupError",
-        Qt::QueuedConnection,
-        Q_ARG(QString, msg));
-}
-
 void MainWindow::startupError(QString msg)
 {
-// TODO: Add format error to API
+    splashClose();
+    setMessageBoxStyle();
+
+    QDialog* pDialog = new QDialog(this, Qt::Window | Qt::WindowTitleHint | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
+
+    QVBoxLayout* pLayout = new QVBoxLayout(this);
+    pDialog->setLayout(pLayout);
+
+    pDialog->setWindowTitle(tr("Sonic Pi Boot Error"));
+
+    QString text;
+    QTextStream str(&text);
+    str << tr("Apologies, a critical error occurred during startup:\n")
+        << msg << "\n\n"
+        << tr("Please consider reporting a bug at")
+        << "\nhttp://github.com/samaaron/sonic-pi/issues\n"
+        << "\n"
+        << "Sonic Pi Boot Error Report\n"
+        << "==========================\n"
+        << "\n"
+        << "System Information\n"
+        << "------------------\n"
+        << "\n"
+        << "Sonic Pi version: " << version << "\n"
+        << "OS: " << osDescription() << "\n"
+        << "\n"
+        << "Logs:\n\n"
+        << QString::fromStdString(m_spAPI->GetLogs());
+
+    // The text area for the message.  Allows the user to scroll/view it.
+    auto pTextArea = new QPlainTextEdit(text);
+    pTextArea->setReadOnly(true);
+    pLayout->addWidget(pTextArea);
+
+    // Add a dialog style OK button
+    QDialogButtonBox* pButtons = new QDialogButtonBox(QDialogButtonBox::Ok, this);
+    pLayout->addWidget(pButtons);
+
+    auto finished = [&]() {
+        std::cout << "[GUI] - Aborting. Sorry about this." << std::endl;
+        QApplication::exit(-1);
+        exit(EXIT_FAILURE);
+    };
+
+    // When the user hits OK, quit
+    connect(pButtons, &QDialogButtonBox::accepted, this, [=]() {
+        finished();
+    });
+
+    // When the dialog is done, quit
+    connect(pDialog, &QDialog::finished, this, [=]() {
+        finished();
+    });
+
+    // Make a sensible size, but then allow resizing
+    pDialog->setFixedSize(QSize(ScaleHeightForDPI(750), ScaleHeightForDPI(800)));
+    pDialog->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
+    pDialog->exec();
 }
 
-void MainWindow::showLanguageLoadingError() {
-  QMessageBox msgBox(this);
-  msgBox.setIcon(QMessageBox::Warning);
-  msgBox.setText(QString(tr("Failed to load translations for language: %1")).arg(sonicPii18n->getNativeLanguageName(this->ui_language)));
-  msgBox.setInformativeText(tr("Falling back to English. Sorry about this.") + "\n" + tr("Please consider reporting a bug at") + "\nhttp://github.com/sonic-pi-net/sonic-pi/issues");
+void MainWindow::showLanguageLoadingError()
+{
+    QMessageBox msgBox(this);
+    msgBox.setIcon(QMessageBox::Warning);
+    msgBox.setText(QString(tr("Failed to load translations for language: %1")).arg(sonicPii18n->getNativeLanguageName(this->ui_language)));
+    msgBox.setInformativeText(tr("Falling back to English. Sorry about this.") + "\n" + tr("Please consider reporting a bug at") + "\nhttp://github.com/sonic-pi-net/sonic-pi/issues");
 
-  QPushButton *okButton = msgBox.addButton(tr("OK"), QMessageBox::AcceptRole);
-  msgBox.setDefaultButton(okButton);
+    QPushButton* okButton = msgBox.addButton(tr("OK"), QMessageBox::AcceptRole);
+    msgBox.setDefaultButton(okButton);
 
-  msgBox.exec();
+    msgBox.exec();
 }
 
 void MainWindow::replaceBuffer(QString id, QString content, int line, int index, int first_line)
@@ -1315,7 +1493,7 @@ void MainWindow::loadWorkspaces()
     for (int i = 0; i < workspace_max; i++)
     {
         Message msg("/load-buffer");
-        msg.pushStr(guiID.toStdString());
+        msg.pushInt32(guiID);
         std::string s = "workspace_" + number_name(i);
         msg.pushStr(s);
         sendOSC(msg);
@@ -1330,7 +1508,7 @@ void MainWindow::saveWorkspaces()
     {
         std::string code = workspaces[i]->text().toStdString();
         Message msg("/save-buffer");
-        msg.pushStr(guiID.toStdString());
+        msg.pushInt32(guiID);
         std::string s = "workspace_" + number_name(i);
         msg.pushStr(s);
         msg.pushStr(code);
@@ -1346,7 +1524,7 @@ void MainWindow::closeEvent(QCloseEvent* event)
 
 QString MainWindow::currentTabLabel()
 {
-    return tabs->tabText(tabs->currentIndex());
+    return editorTabWidget->tabText(editorTabWidget->currentIndex());
 }
 
 bool MainWindow::loadFile()
@@ -1356,9 +1534,8 @@ bool MainWindow::loadFile()
     QString fileName = QFileDialog::getOpenFileName(this, tr("Load Sonic Pi Buffer"), lastDir, QString("%1 (*.rb *.txt);;%2 (*.txt);;%3 (*.rb);;%4 (*.*)").arg(tr("Buffer files")).arg(tr("Text files")).arg(tr("Ruby files")).arg(tr("All files")), &selfilter);
     if (!fileName.isEmpty())
     {
-        QFileInfo fi = fileName;
-        gui_settings->setValue("lastDir", fi.dir().absolutePath());
-        SonicPiScintilla* p = (SonicPiScintilla*)tabs->currentWidget();
+        gui_settings->setValue("lastDir", QDir(fileName).absolutePath());
+        SonicPiScintilla* p = getCurrentWorkspace();
         loadFile(fileName, p);
         return true;
     }
@@ -1376,13 +1553,12 @@ bool MainWindow::saveAs()
 
     if (!fileName.isEmpty())
     {
-        QFileInfo fi = fileName;
-        gui_settings->setValue("lastDir", fi.dir().absolutePath());
+        gui_settings->setValue("lastDir", QDir(fileName).absolutePath());
         if (!fileName.contains(QRegularExpression("\\.[a-z]+$")))
         {
             fileName = fileName + ".txt";
         }
-        return saveFile(fileName, (SonicPiScintilla*)tabs->currentWidget());
+        return saveFile(fileName, getCurrentWorkspace());
     }
     else
     {
@@ -1398,7 +1574,7 @@ void MainWindow::resetErrorPane()
 
 void MainWindow::runBufferIdx(int idx)
 {
-    QMetaObject::invokeMethod(tabs, "setCurrentIndex", Q_ARG(int, idx));
+    QMetaObject::invokeMethod(editorTabWidget, "setCurrentIndex", Q_ARG(int, idx));
     runCode();
 }
 
@@ -1437,7 +1613,7 @@ void MainWindow::runCode()
     outputPane->setTextCursor(newOutputCursor);
 
     update();
-    SonicPiScintilla* ws = (SonicPiScintilla*)tabs->currentWidget();
+    SonicPiScintilla* ws = getCurrentWorkspace();
 
     QString code = ws->text();
 
@@ -1482,9 +1658,9 @@ void MainWindow::runCode()
 
     //std::string code = ws->text().toStdString();
     Message msg("/save-and-run-buffer");
-    msg.pushStr(guiID.toStdString());
+    msg.pushInt32(guiID);
 
-    std::string filename = ((SonicPiScintilla*)tabs->currentWidget())->fileName.toStdString();
+    std::string filename = getCurrentWorkspace()->fileName.toStdString();
     msg.pushStr(filename);
 
     if (piSettings->clear_output_on_run)
@@ -1508,29 +1684,29 @@ void MainWindow::runCode()
 void MainWindow::zoomCurrentWorkspaceIn()
 {
     statusBar()->showMessage(tr("Zooming In..."), 2000);
-    SonicPiScintilla* ws = ((SonicPiScintilla*)tabs->currentWidget());
+    SonicPiScintilla* ws = getCurrentWorkspace();
     ws->zoomFontIn();
 }
 
 void MainWindow::zoomCurrentWorkspaceOut()
 {
     statusBar()->showMessage(tr("Zooming Out..."), 2000);
-    SonicPiScintilla* ws = ((SonicPiScintilla*)tabs->currentWidget());
+    SonicPiScintilla* ws = getCurrentWorkspace();
     ws->zoomFontOut();
 }
 
 void MainWindow::beautifyCode()
 {
     statusBar()->showMessage(tr("Beautifying..."), 2000);
-    SonicPiScintilla* ws = ((SonicPiScintilla*)tabs->currentWidget());
+    SonicPiScintilla* ws = getCurrentWorkspace();
     std::string code = ws->text().toStdString();
     int line = 0;
     int index = 0;
     ws->getCursorPosition(&line, &index);
     int first_line = ws->firstVisibleLine();
     Message msg("/buffer-beautify");
-    msg.pushStr(guiID.toStdString());
-    std::string filename = ((SonicPiScintilla*)tabs->currentWidget())->fileName.toStdString();
+    msg.pushInt32(guiID);
+    std::string filename = getCurrentWorkspace()->fileName.toStdString();
     msg.pushStr(filename);
     msg.pushStr(code);
     msg.pushInt32(line);
@@ -1541,14 +1717,15 @@ void MainWindow::beautifyCode()
 
 bool MainWindow::sendOSC(Message m)
 {
-  return m_spAPI->SendOSC(m);
+    return m_spAPI->SendOSC(m);
 }
 
 void MainWindow::reloadServerCode()
 {
+    m_spAPI->RestartTau();
     statusBar()->showMessage(tr("Reloading..."), 2000);
     Message msg("/reload");
-    msg.pushStr(guiID.toStdString());
+    msg.pushInt32(guiID);
     sendOSC(msg);
 }
 
@@ -1556,7 +1733,7 @@ void MainWindow::check_for_updates_now()
 {
     statusBar()->showMessage(tr("Checking for updates..."), 2000);
     Message msg("/check-for-updates-now");
-    msg.pushStr(guiID.toStdString());
+    msg.pushInt32(guiID);
     sendOSC(msg);
 }
 
@@ -1564,7 +1741,7 @@ void MainWindow::enableCheckUpdates()
 {
     statusBar()->showMessage(tr("Enabling update checking..."), 2000);
     Message msg("/enable-update-checking");
-    msg.pushStr(guiID.toStdString());
+    msg.pushInt32(guiID);
     sendOSC(msg);
 }
 
@@ -1572,7 +1749,7 @@ void MainWindow::disableCheckUpdates()
 {
     statusBar()->showMessage(tr("Disabling update checking..."), 2000);
     Message msg("/disable-update-checking");
-    msg.pushStr(guiID.toStdString());
+    msg.pushInt32(guiID);
     sendOSC(msg);
 }
 
@@ -1580,7 +1757,7 @@ void MainWindow::mixerHpfEnable(float freq)
 {
     statusBar()->showMessage(tr("Enabling Mixer HPF..."), 2000);
     Message msg("/mixer-hpf-enable");
-    msg.pushStr(guiID.toStdString());
+    msg.pushInt32(guiID);
     msg.pushFloat(freq);
     sendOSC(msg);
 }
@@ -1589,7 +1766,7 @@ void MainWindow::mixerHpfDisable()
 {
     statusBar()->showMessage(tr("Disabling Mixer HPF..."), 2000);
     Message msg("/mixer-hpf-disable");
-    msg.pushStr(guiID.toStdString());
+    msg.pushInt32(guiID);
     sendOSC(msg);
 }
 
@@ -1597,7 +1774,7 @@ void MainWindow::mixerLpfEnable(float freq)
 {
     statusBar()->showMessage(tr("Enabling Mixer LPF..."), 2000);
     Message msg("/mixer-lpf-enable");
-    msg.pushStr(guiID.toStdString());
+    msg.pushInt32(guiID);
     msg.pushFloat(freq);
     sendOSC(msg);
 }
@@ -1606,7 +1783,7 @@ void MainWindow::mixerLpfDisable()
 {
     statusBar()->showMessage(tr("Disabling Mixer LPF..."), 2000);
     Message msg("/mixer-lpf-disable");
-    msg.pushStr(guiID.toStdString());
+    msg.pushInt32(guiID);
     sendOSC(msg);
 }
 
@@ -1614,7 +1791,7 @@ void MainWindow::mixerInvertStereo()
 {
     statusBar()->showMessage(tr("Enabling Inverted Stereo..."), 2000);
     Message msg("/mixer-invert-stereo");
-    msg.pushStr(guiID.toStdString());
+    msg.pushInt32(guiID);
     sendOSC(msg);
 }
 
@@ -1622,7 +1799,7 @@ void MainWindow::mixerStandardStereo()
 {
     statusBar()->showMessage(tr("Enabling Standard Stereo..."), 2000);
     Message msg("/mixer-standard-stereo");
-    msg.pushStr(guiID.toStdString());
+    msg.pushInt32(guiID);
     sendOSC(msg);
 }
 
@@ -1630,7 +1807,7 @@ void MainWindow::mixerMonoMode()
 {
     statusBar()->showMessage(tr("Mono Mode..."), 2000);
     Message msg("/mixer-mono-mode");
-    msg.pushStr(guiID.toStdString());
+    msg.pushInt32(guiID);
     sendOSC(msg);
 }
 
@@ -1638,7 +1815,7 @@ void MainWindow::mixerStereoMode()
 {
     statusBar()->showMessage(tr("Stereo Mode..."), 2000);
     Message msg("/mixer-stereo-mode");
-    msg.pushStr(guiID.toStdString());
+    msg.pushInt32(guiID);
     sendOSC(msg);
 }
 
@@ -1732,7 +1909,7 @@ void MainWindow::helpContext()
 {
     if (!docWidget->isVisible())
         docWidget->show();
-    SonicPiScintilla* ws = ((SonicPiScintilla*)tabs->currentWidget());
+    SonicPiScintilla* ws = getCurrentWorkspace();
     QString selection = ws->selectedText();
     if (selection == "")
     { // get current word instead
@@ -1763,7 +1940,7 @@ void MainWindow::helpContext()
         {
             list->setCurrentRow(0);
         }
-        docsCentral->setCurrentIndex(entry.pageIndex);
+        docsNavTabs->setCurrentIndex(entry.pageIndex);
         list->setCurrentRow(entry.entryIndex);
     }
 }
@@ -1780,7 +1957,7 @@ void MainWindow::changeSystemPreAmp(int val, int silent)
     float v = (float)val;
     v = (v / 100.0) * 2.0;
     Message msg("/mixer-amp");
-    msg.pushStr(guiID.toStdString());
+    msg.pushInt32(guiID);
     msg.pushFloat(v);
     msg.pushInt32(silent);
     sendOSC(msg);
@@ -1829,11 +2006,55 @@ void MainWindow::showScopeLabelsMenuChanged()
     changeScopeLabels();
 }
 
+void MainWindow::titleVisibilityChanged()
+{
+
+    piSettings->show_titles = showTitlesAct->isChecked();
+    emit settingsChanged();
+    changeTitleVisibility();
+}
+
+void MainWindow::menuBarInFullscreenVisibilityChanged()
+{
+
+    piSettings->hide_menubar_in_fullscreen = hideMenuBarInFullscreenAct->isChecked();
+    emit settingsChanged();
+    changeMenuBarInFullscreenVisibility();
+}
+
 void MainWindow::changeScopeLabels()
 {
     QSignalBlocker blocker(showScopeLabelsAct);
     showScopeLabelsAct->setChecked(piSettings->show_scope_labels);
     scopeWindow->SetScopeLabels(piSettings->show_scope_labels);
+}
+
+void MainWindow::changeTitleVisibility()
+{
+    QSignalBlocker blocker(showTitlesAct);
+    if(piSettings->show_titles) {
+      namedTitleBars();
+      showTitlesAct->setChecked(true);
+    } else {
+      blankTitleBars();
+      showTitlesAct->setChecked(false);
+    }
+}
+
+void MainWindow::changeMenuBarInFullscreenVisibility()
+{
+    QSignalBlocker blocker(hideMenuBarInFullscreenAct);
+    if(piSettings->hide_menubar_in_fullscreen) {
+      if (piSettings->full_screen) {
+        menuBar()->hide();
+      }
+      hideMenuBarInFullscreenAct->setChecked(true);
+    } else {
+      if (piSettings->full_screen) {
+        menuBar()->show();
+      }
+      hideMenuBarInFullscreenAct->setChecked(false);
+    }
 }
 
 void MainWindow::cycleThemes()
@@ -1990,10 +2211,6 @@ void MainWindow::updateColourTheme()
 
     errorPane->document()->setDefaultStyleSheet(css);
 
-    // update context pane
-    contextPane->setTextColor(QColor(theme->color("LogForeground")));
-    updateContextWithCurrentWs();
-
     // clear stylesheets
     this->setStyleSheet("");
     infoWidg->setStyleSheet("");
@@ -2002,10 +2219,10 @@ void MainWindow::updateColourTheme()
     outputPane->setStyleSheet("");
     outputWidget->setStyleSheet("");
     prefsWidget->setStyleSheet("");
-    tabs->setStyleSheet("");
+    editorTabWidget->setStyleSheet("");
     //TODO inject to settings Widget
     //prefTabs->setStyleSheet("");
-    docsCentral->setStyleSheet("");
+    docsNavTabs->setStyleSheet("");
     docWidget->setStyleSheet("");
     toolBar->setStyleSheet("");
     scopeWidget->setStyleSheet("");
@@ -2017,28 +2234,17 @@ void MainWindow::updateColourTheme()
 
     this->setStyleSheet(appStyling);
     infoWidg->setStyleSheet(appStyling);
+    settingsWidget->setStyleSheet(appStyling);
 
     scopeWindow->Refresh();
     scopeWidget->update();
 
-    for (int i = 0; i < tabs->count(); i++)
+    for (int i = 0; i < editorTabWidget->count(); i++)
     {
-        SonicPiScintilla* ws = (SonicPiScintilla*)tabs->widget(i);
-        ws->setFrameShape(QFrame::NoFrame);
-        ws->setStyleSheet("");
-        ws->setStyleSheet(appStyling);
-
-        if (piSettings->themeStyle == SonicPiTheme::HighContrastMode)
-        {
-            ws->setCaretWidth(8);
-        }
-        else
-        {
-            ws->setCaretWidth(5);
-        }
-        ws->redraw();
+      ((SonicPiEditor*)editorTabWidget->widget(i))->updateColourTheme(appStyling, piSettings->themeStyle);
     }
 
+    updateContextWithCurrentWs();
     scopeWindow->SetColor(theme->color("Scope"));
     scopeWindow->SetColor2(theme->color("Scope_2"));
     lexer->unhighlightAll();
@@ -2188,9 +2394,9 @@ void MainWindow::changeShowLineNumbers()
 
     bool show = piSettings->show_line_numbers;
 
-    for (int i = 0; i < tabs->count(); i++)
+    for (int i = 0; i < editorTabWidget->count(); i++)
     {
-        SonicPiScintilla* ws = (SonicPiScintilla*)tabs->widget(i);
+        SonicPiScintilla* ws = ((SonicPiEditor*)editorTabWidget->widget(i))->getWorkspace();
         if (show)
         {
             ws->showLineNumbers();
@@ -2217,9 +2423,9 @@ void MainWindow::changeShowAutoCompletion()
         statusBar()->showMessage(tr("Show autocompletion off"), 2000);
     }
 
-    for (int i = 0; i < tabs->count(); i++)
+    for (int i = 0; i < editorTabWidget->count(); i++)
     {
-        SonicPiScintilla* ws = (SonicPiScintilla*)tabs->widget(i);
+        SonicPiScintilla* ws = ((SonicPiEditor*)editorTabWidget->widget(i))->getWorkspace();
         ws->showAutoCompletion(show);
     }
 
@@ -2232,13 +2438,20 @@ void MainWindow::changeShowContext()
     bool show = piSettings->show_context;
     if (show)
     {
-        statusBar()->showMessage(tr("Show context on"), 2000);
-        contextWidget->show();
+      statusBar()->showMessage(tr("Show context on"), 2000);
+      for (int i = 0; i < editorTabWidget->count(); i++)
+      {
+        ((SonicPiEditor*)editorTabWidget->widget(i))->showContext();
+      }
+
     }
     else
     {
-        statusBar()->showMessage(tr("Show context off"), 2000);
-        contextWidget->hide();
+      statusBar()->showMessage(tr("Show context off"), 2000);
+      for (int i = 0; i < editorTabWidget->count(); i++)
+      {
+        ((SonicPiEditor*)editorTabWidget->widget(i))->hideContext();
+      }
     }
 
     QSignalBlocker blocker(showContextAct);
@@ -2251,13 +2464,15 @@ void MainWindow::togglePrefs()
     if (prefsWidget->isVisible())
     {
         statusBar()->showMessage(tr("Hiding preferences..."), 2000);
-        prefsWidget->hide();
+        slidePrefsWidgetOut();
         prefsAct->setChecked(false);
     }
     else
     {
         statusBar()->showMessage(tr("Showing preferences..."), 2000);
-        prefsWidget->show();
+
+
+        slidePrefsWidgetIn();
         prefsAct->setChecked(true);
     }
     updatePrefsIcon();
@@ -2273,7 +2488,7 @@ void MainWindow::wheelEvent(QWheelEvent* event)
 #if defined(Q_OS_WIN)
     if (event->modifiers() & Qt::ControlModifier)
     {
-        SonicPiScintilla* ws = ((SonicPiScintilla*)tabs->currentWidget());
+        SonicPiScintilla* ws = getCurrentWorkspace();
         if (event->angleDelta().y() > 0)
             ws->zoomFontIn();
         else
@@ -2287,7 +2502,7 @@ void MainWindow::wheelEvent(QWheelEvent* event)
 void MainWindow::stopRunningSynths()
 {
     Message msg("/stop-all-jobs");
-    msg.pushStr(guiID.toStdString());
+    msg.pushInt32(guiID);
     sendOSC(msg);
 }
 
@@ -2680,6 +2895,16 @@ void MainWindow::createToolBar()
     showScopeLabelsAct->setChecked(false);
     connect(showScopeLabelsAct, SIGNAL(triggered()), this, SLOT(showScopeLabelsMenuChanged()));
 
+    showTitlesAct = new QAction(tr("Show Titles"));
+    showTitlesAct->setCheckable(true);
+    showTitlesAct->setChecked(false);
+    connect(showTitlesAct, SIGNAL(triggered()), this, SLOT(titleVisibilityChanged()));
+
+    hideMenuBarInFullscreenAct = new QAction(tr("Hide Menu Bar in Fullscreen Mode"));
+    hideMenuBarInFullscreenAct->setCheckable(true);
+    hideMenuBarInFullscreenAct->setChecked(false);
+    connect(hideMenuBarInFullscreenAct, SIGNAL(triggered()), this, SLOT(menuBarInFullscreenVisibilityChanged()));
+
     themeMenu = displayMenu->addMenu(tr("Colour Theme"));
     themeMenu->addAction(lightThemeAct);
     themeMenu->addAction(darkThemeAct);
@@ -2812,7 +3037,7 @@ void MainWindow::createToolBar()
     }
 
     QMenu* incomingOSCPortMenu = ioMenu->addMenu(tr("Incoming OSC Port"));
-    incomingOSCPortMenu->addAction(QString::number(m_spAPI->GetPort(SonicPiPortId::server_osc_cues)));
+    incomingOSCPortMenu->addAction(QString::number(m_spAPI->GetPort(SonicPiPortId::tau_osc_cues)));
 
     viewMenu = menuBar()->addMenu(tr("View"));
 
@@ -2875,6 +3100,11 @@ void MainWindow::createToolBar()
     showCuesAct->setChecked(piSettings->show_cues);
     connect(showCuesAct, SIGNAL(triggered()), this, SLOT(showCuesMenuChanged()));
 
+    showMetroAct = new QAction(tr("Show Metronome"), this);
+    showMetroAct->setCheckable(true);
+    showMetroAct->setChecked(piSettings->show_metro);
+    connect(showMetroAct, SIGNAL(triggered()), this, SLOT(showMetroChanged()));
+
     showButtonsAct = new QAction(tr("Show Buttons"), this);
     showButtonsAct->setCheckable(true);
     showButtonsAct->setChecked(piSettings->show_buttons);
@@ -2898,10 +3128,19 @@ void MainWindow::createToolBar()
     viewMenu->addSeparator();
     viewMenu->addAction(showButtonsAct);
     viewMenu->addAction(showTabsAct);
+    viewMenu->addAction(showTitlesAct);
+
+#ifndef Q_OS_MAC
+    // Don't enable this on Mac as macOS autohides the menubar on
+    // fullscreen anyway
+    viewMenu->addAction(hideMenuBarInFullscreenAct);
+#endif
+
     viewMenu->addSeparator();
     viewMenu->addAction(infoAct);
     viewMenu->addAction(helpAct);
     viewMenu->addAction(prefsAct);
+    viewMenu->addAction(showMetroAct);
     viewMenu->addSeparator();
     viewMenu->addAction(focusEditorAct);
     viewMenu->addAction(focusLogsAct);
@@ -2916,34 +3155,41 @@ void MainWindow::createToolBar()
     QStringList available_languages = sonicPii18n->getAvailableLanguages();
 
     langActionGroup = new QActionGroup(this);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
     langActionGroup->setExclusionPolicy(QActionGroup::ExclusionPolicy::Exclusive);
+#else
+    langActionGroup->setExclusive(true);
+#endif
 
-    QSignalMapper *signalMapper = new QSignalMapper(this);
+    QSignalMapper* signalMapper = new QSignalMapper(this);
 
-    for (size_t i = 0; i < available_languages.length(); i += 1) {
-      bool is_current_lang = (available_languages[i] == piSettings->language);
+    for (int i = 0; i < available_languages.length(); i += 1)
+    {
+        bool is_current_lang = (available_languages[i] == piSettings->language);
 
-      QAction *langAct = new QAction(sonicPii18n->getNativeLanguageName(available_languages[i]), this);
-      langAct->setCheckable(true);
-      langAct->setChecked(is_current_lang);
+        QAction* langAct = new QAction(sonicPii18n->getNativeLanguageName(available_languages[i]), this);
+        langAct->setCheckable(true);
+        langAct->setChecked(is_current_lang);
 
-      connect(langAct, SIGNAL(triggered()), signalMapper, SLOT(map()));
-      signalMapper->setMapping(langAct, i);
+        connect(langAct, SIGNAL(triggered()), signalMapper, SLOT(map()));
+        signalMapper->setMapping(langAct, i);
 
-      langActionGroup->addAction(langAct);
-      languageMenu->addAction(langAct);
+        langActionGroup->addAction(langAct);
+        languageMenu->addAction(langAct);
 
-      if (i == 0) { // add separator after System language
-        languageMenu->addSeparator();
-      }
+        if (i == 0)
+        { // add separator after System language
+            languageMenu->addSeparator();
+        }
     }
 
     connect(signalMapper, SIGNAL(mappedInt(int)), settingsWidget, SLOT(updateUILanguage(int)));
     connect(settingsWidget, SIGNAL(uiLanguageChanged(QString)), this, SLOT(updateSelectedUILanguageAction(QString)));
 }
 
-void MainWindow::updateSelectedUILanguageAction(QString lang) {
-  langActionGroup->actions()[sonicPii18n->getAvailableLanguages().indexOf(lang)]->setChecked(true);
+void MainWindow::updateSelectedUILanguageAction(QString lang)
+{
+    langActionGroup->actions()[sonicPii18n->getAvailableLanguages().indexOf(lang)]->setChecked(true);
 }
 
 QString MainWindow::readFile(QString name)
@@ -2956,7 +3202,14 @@ QString MainWindow::readFile(QString name)
     }
 
     QTextStream st(&file);
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    st.setEncoding(QStringConverter::Utf8);
+#else
     st.setCodec("UTF-8");
+#endif
+
+
     return st.readAll();
 }
 
@@ -2992,7 +3245,14 @@ void MainWindow::createInfoPane()
         file.open(QFile::ReadOnly | QFile::Text);
 
         QTextStream st(&file);
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        st.setEncoding(QStringConverter::Utf8);
+#else
         st.setCodec("UTF-8");
+#endif
+
+
         QString source = st.readAll();
         source = source.replace("100dx", QString("%1").arg(ScaleHeightForDPI(100)));
         source = source.replace("254dx", QString("%1").arg(ScaleHeightForDPI(254)));
@@ -3005,7 +3265,7 @@ void MainWindow::createInfoPane()
 
     infoTabs->setTabPosition(QTabWidget::South);
 
-    QBoxLayout* infoLayout = new QBoxLayout(QBoxLayout::LeftToRight);
+    QHBoxLayout* infoLayout = new QHBoxLayout;
     infoLayout->addWidget(infoTabs);
 
     infoWidg = new InfoWidget;
@@ -3046,7 +3306,7 @@ void MainWindow::toggleRecording()
         // recAct->setText(tr("Stop Recording"));
         rec_flash_timer->start(500);
         Message msg("/start-recording");
-        msg.pushStr(guiID.toStdString());
+        msg.pushInt32(guiID);
         sendOSC(msg);
     }
     else
@@ -3056,23 +3316,22 @@ void MainWindow::toggleRecording()
         recAct->setIcon(theme->getRecIcon(is_recording, false));
 
         Message msg("/stop-recording");
-        msg.pushStr(guiID.toStdString());
+        msg.pushInt32(guiID);
         sendOSC(msg);
         QString lastDir = gui_settings->value("lastDir", QDir::homePath() + "/Desktop").toString();
         QString fileName = QFileDialog::getSaveFileName(this, tr("Save Recording"), lastDir, tr("Wavefile (*.wav)"));
         if (!fileName.isEmpty())
         {
-            QFileInfo fi = fileName;
-            gui_settings->setValue("lastDir", fi.dir().absolutePath());
+            gui_settings->setValue("lastDir", QDir(fileName).absolutePath());
             Message msg("/save-recording");
-            msg.pushStr(guiID.toStdString());
+            msg.pushInt32(guiID);
             msg.pushStr(fileName.toStdString());
             sendOSC(msg);
         }
         else
         {
             Message msg("/delete-recording");
-            msg.pushStr(guiID.toStdString());
+            msg.pushInt32(guiID);
             sendOSC(msg);
         }
     }
@@ -3098,8 +3357,8 @@ void MainWindow::restoreWindows()
     QSize size = gui_settings->value("size", QSize(rec.width(), rec.height())).toSize();
 
     int index = gui_settings->value("workspace", 0).toInt();
-    if (index < tabs->count())
-        tabs->setCurrentIndex(index);
+    if (index < editorTabWidget->count())
+        editorTabWidget->setCurrentIndex(index);
 
     for (int w = 0; w < workspace_max; w++)
     {
@@ -3115,15 +3374,11 @@ void MainWindow::restoreWindows()
         workspaces[w]->zoomTo(zoom);
     }
 
-    docsplit->restoreState(gui_settings->value("docsplitState").toByteArray());
-    //bool visualizer = piSettings->show_scopes;
     restoreState(gui_settings->value("windowState").toByteArray());
-    //    restoreGeometry(settings.value("windowGeom").toByteArray());
+    docsplit->restoreState(gui_settings->value("docsplitState").toByteArray());
+    restoreGeometry(gui_settings->value("windowGeom").toByteArray());
 
-    //    if (visualizer != piSettings->show_scopes) {
-    //        piSettings->show_scopes = visualizer;
-    //        scope();
-    //    }
+    auto current_state = saveState();
 
     resize(size);
     move(pos);
@@ -3135,8 +3390,6 @@ void MainWindow::restoreWindows()
  */
 void MainWindow::readSettings()
 {
-    std::cout << "[GUI] - reading settings" << std::endl;
-
     // Read in preferences from previous session
     piSettings->language = gui_settings->value("prefs/language", "system_language").toString();
     piSettings->show_buttons = gui_settings->value("prefs/show-buttons", true).toBool();
@@ -3164,6 +3417,9 @@ void MainWindow::readSettings()
     piSettings->show_scopes = gui_settings->value("prefs/scope/show-scopes", true).toBool();
     piSettings->show_scope_labels = gui_settings->value("prefs/scope/show-labels", false).toBool();
     piSettings->show_cues = gui_settings->value("prefs/show_cues", true).toBool();
+    piSettings->show_metro = gui_settings->value("prefs/show_metro", true).toBool();
+    piSettings->show_titles = gui_settings->value("prefs/show-titles", true).toBool();
+    piSettings->hide_menubar_in_fullscreen = gui_settings->value("prefs/hide-menubar-in-fullscreen", false).toBool();
     QString styleName = gui_settings->value("prefs/theme", "").toString();
 
     piSettings->themeStyle = theme->themeNameToStyle(styleName);
@@ -3215,7 +3471,10 @@ void MainWindow::writeSettings()
     gui_settings->setValue("prefs/gui_transparency", piSettings->gui_transparency);
     gui_settings->setValue("prefs/scope/show-labels", piSettings->show_scope_labels);
     gui_settings->setValue("prefs/scope/show-scopes", piSettings->show_scopes);
+    gui_settings->setValue("prefs/show-titles", piSettings->show_titles);
+    gui_settings->setValue("prefs/hide-menubar-in-fullscreen", piSettings->hide_menubar_in_fullscreen);
     gui_settings->setValue("prefs/show_cues", piSettings->show_cues);
+    gui_settings->setValue("prefs/show_metro", piSettings->show_metro);
     gui_settings->setValue("prefs/theme", theme->themeStyleToName(piSettings->themeStyle));
 
     gui_settings->setValue("prefs/show-autocompletion", piSettings->show_autocompletion);
@@ -3230,7 +3489,7 @@ void MainWindow::writeSettings()
         gui_settings->setValue("prefs/scope/show-" + name.toLower(), piSettings->isScopeActive(name));
     }
 
-    gui_settings->setValue("workspace", tabs->currentIndex());
+    gui_settings->setValue("workspace", editorTabWidget->currentIndex());
 
     for (int w = 0; w < workspace_max; w++)
     {
@@ -3260,8 +3519,16 @@ void MainWindow::loadFile(const QString& fileName, SonicPiScintilla*& text)
     }
 
     QTextStream in(&file);
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    in.setEncoding(QStringConverter::Utf8);
+#else
+    in.setCodec("UTF-8");
+#endif
+
     QApplication::setOverrideCursor(Qt::WaitCursor);
     text->setText(in.readAll());
+    file.close();
     QApplication::restoreOverrideCursor();
     statusBar()->showMessage(tr("File loaded..."), 2000);
 }
@@ -3281,6 +3548,12 @@ bool MainWindow::saveFile(const QString& fileName, SonicPiScintilla* text)
 
     QTextStream out(&file);
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    out.setEncoding(QStringConverter::Utf8);
+#else
+    out.setCodec("UTF-8");
+#endif
+
     QApplication::setOverrideCursor(Qt::WaitCursor);
     QString code = text->text();
 #if defined(Q_OS_WIN)
@@ -3288,6 +3561,8 @@ bool MainWindow::saveFile(const QString& fileName, SonicPiScintilla* text)
     code.replace("\r\r\n", "\r\n"); // don't double-replace if already encoded
 #endif
     out << code;
+    out.flush();
+    file.close();
     QApplication::restoreOverrideCursor();
 
     statusBar()->showMessage(tr("File saved..."), 2000);
@@ -3315,16 +3590,24 @@ void MainWindow::onExitCleanup()
 
     if (scopeWindow)
     {
-      std::cout << "[GUI] - shutting down scope..." << std::endl;
-      scopeWindow->ShutDown();
+        std::cout << "[GUI] - shutting down scope..." << std::endl;
+        scopeWindow->ShutDown();
     }
+
+#ifdef WITH_WEBENGINE
+    if (phxWidget)
+    {
+        std::cout << "[GUI] - shutting down PhX view..." << std::endl;
+        phxWidget->deleteLater();
+    }
+#endif
 
     if (m_spClient)
     {
         if (loaded_workspaces)
         {
-          // this should be a synchorous call to avoid the following sleep
-          saveWorkspaces();
+            // this should be a synchorous call to avoid the following sleep
+            saveWorkspaces();
         }
 
         std::this_thread::sleep_for(1s);
@@ -3337,7 +3620,8 @@ void MainWindow::onExitCleanup()
     }
 }
 
-void MainWindow::restartApp() {
+void MainWindow::restartApp()
+{
     QApplication* app = dynamic_cast<QApplication*>(parent());
     statusBar()->showMessage(tr("Restarting Sonic Pi..."), 10000);
 
@@ -3352,10 +3636,13 @@ void MainWindow::restartApp() {
     args.removeFirst();
     QProcess process;
     bool restart_success = process.startDetached(qApp->arguments()[0], args);
-    if (restart_success) {
-      std::cout << "[GUI] - successfully restarted sonic-pi" << std::endl;
-    } else {
-      std::cout << "[GUI] - failed to restart sonic-pi" << std::endl;
+    if (restart_success)
+    {
+        std::cout << "[GUI] - successfully restarted sonic-pi" << std::endl;
+    }
+    else
+    {
+        std::cout << "[GUI] - failed to restart sonic-pi" << std::endl;
     }
 
     // Quit
@@ -3366,7 +3653,7 @@ void MainWindow::restartApp() {
 void MainWindow::heartbeatOSC()
 {
     // Message msg("/gui-heartbeat");
-    // msg.pushStr(guiID.toStdString());
+    // msg.pushInt32(guiID);
     // sendOSC(msg);
 }
 
@@ -3387,7 +3674,7 @@ void MainWindow::addHelpPage(QListWidget* nameList,
 {
     int i;
     struct help_entry entry;
-    entry.pageIndex = docsCentral->count() - 1;
+    entry.pageIndex = docsNavTabs->count() - 1;
 
     for (i = 0; i < len; i++)
     {
@@ -3396,7 +3683,7 @@ void MainWindow::addHelpPage(QListWidget* nameList,
         nameList->addItem(item);
         entry.entryIndex = nameList->count() - 1;
 
-        if (helpPages[i].keyword != NULL)
+        if (helpPages[i].keyword != "")
         {
             helpKeywords.insert(helpPages[i].keyword, entry);
             // magic numbers ahoy
@@ -3439,14 +3726,14 @@ QListWidget* MainWindow::createHelpTab(QString name)
     layout->setStretch(1, 1);
     QWidget* tabWidget = new QWidget;
     tabWidget->setLayout(layout);
-    docsCentral->addTab(tabWidget, name);
+    docsNavTabs->addTab(tabWidget, name);
     helpLists.append(nameList);
     return nameList;
 }
 
 void MainWindow::helpScrollUp()
 {
-    int section = docsCentral->currentIndex();
+    int section = docsNavTabs->currentIndex();
     int entry = helpLists[section]->currentRow();
 
     if (entry > 0)
@@ -3456,7 +3743,7 @@ void MainWindow::helpScrollUp()
 
 void MainWindow::helpScrollDown()
 {
-    int section = docsCentral->currentIndex();
+    int section = docsNavTabs->currentIndex();
     int entry = helpLists[section]->currentRow();
 
     if (entry < helpLists[section]->count() - 1)
@@ -3466,16 +3753,16 @@ void MainWindow::helpScrollDown()
 
 void MainWindow::docPrevTab()
 {
-    int section = docsCentral->currentIndex();
+    int section = docsNavTabs->currentIndex();
     if (section > 0)
-        docsCentral->setCurrentIndex(section - 1);
+        docsNavTabs->setCurrentIndex(section - 1);
 }
 
 void MainWindow::docNextTab()
 {
-    int section = docsCentral->currentIndex();
-    if (section < docsCentral->count() - 1)
-        docsCentral->setCurrentIndex(section + 1);
+    int section = docsNavTabs->currentIndex();
+    if (section < docsNavTabs->count() - 1)
+        docsNavTabs->setCurrentIndex(section + 1);
 }
 
 void MainWindow::docScrollUp()
@@ -3490,35 +3777,35 @@ void MainWindow::docScrollDown()
 
 void MainWindow::tabNext()
 {
-    int index = tabs->currentIndex();
-    if (index == tabs->count() - 1)
+    int index = editorTabWidget->currentIndex();
+    if (index == editorTabWidget->count() - 1)
         index = 0;
     else
         index++;
-    QMetaObject::invokeMethod(tabs, "setCurrentIndex", Q_ARG(int, index));
+    QMetaObject::invokeMethod(editorTabWidget, "setCurrentIndex", Q_ARG(int, index));
 }
 
 void MainWindow::tabPrev()
 {
-    int index = tabs->currentIndex();
+    int index = editorTabWidget->currentIndex();
     if (index == 0)
-        index = tabs->count() - 1;
+        index = editorTabWidget->count() - 1;
     else
         index--;
-    QMetaObject::invokeMethod(tabs, "setCurrentIndex", Q_ARG(int, index));
+    QMetaObject::invokeMethod(editorTabWidget, "setCurrentIndex", Q_ARG(int, index));
 }
 
 void MainWindow::tabGoto(int index)
 {
-    if (index < tabs->count())
-        QMetaObject::invokeMethod(tabs, "setCurrentIndex", Q_ARG(int, index));
+    if (index < editorTabWidget->count())
+        QMetaObject::invokeMethod(editorTabWidget, "setCurrentIndex", Q_ARG(int, index));
 }
 
 void MainWindow::setLineMarkerinCurrentWorkspace(int num)
 {
     if (num > 0)
     {
-        SonicPiScintilla* ws = (SonicPiScintilla*)tabs->currentWidget();
+        SonicPiScintilla* ws = getCurrentWorkspace();
         ws->setLineErrorMarker(num - 1);
     }
 }
@@ -3556,7 +3843,7 @@ void MainWindow::printAsciiArtLogo()
 void MainWindow::requestVersion()
 {
     Message msg("/version");
-    msg.pushStr(guiID.toStdString());
+    msg.pushInt32(guiID);
     sendOSC(msg);
 }
 
@@ -3617,7 +3904,7 @@ void MainWindow::toggleMidi(int silent)
     {
         statusBar()->showMessage(tr("Enabling MIDI input..."), 2000);
         Message msg("/midi-start");
-        msg.pushStr(guiID.toStdString());
+        msg.pushInt32(guiID);
         msg.pushInt32(silent);
         sendOSC(msg);
     }
@@ -3625,7 +3912,7 @@ void MainWindow::toggleMidi(int silent)
     {
         statusBar()->showMessage(tr("Disabling MIDI input..."), 2000);
         Message msg("/midi-stop");
-        msg.pushStr(guiID.toStdString());
+        msg.pushInt32(guiID);
         msg.pushInt32(silent);
         sendOSC(msg);
     }
@@ -3645,7 +3932,7 @@ void MainWindow::resetMidi()
         settingsWidget->updateMidiOutPorts(tr("No connected output devices"));
         statusBar()->showMessage(tr("Resetting MIDI..."), 2000);
         Message msg("/midi-reset");
-        msg.pushStr(guiID.toStdString());
+        msg.pushInt32(guiID);
         sendOSC(msg);
     }
     else
@@ -3657,12 +3944,13 @@ void MainWindow::resetMidi()
 void MainWindow::toggleOSCServer(int silent)
 {
     QSignalBlocker blocker(enableOSCServerAct);
+    allowRemoteOSCAct->setEnabled(piSettings->osc_server_enabled);
     if (piSettings->osc_server_enabled)
     {
         enableOSCServerAct->setChecked(true);
         std::cout << "[GUI] - asking OSC server to start" << std::endl;
         Message msg("/cue-port-start");
-        msg.pushStr(guiID.toStdString());
+        msg.pushInt32(guiID);
         sendOSC(msg);
     }
     else
@@ -3672,7 +3960,7 @@ void MainWindow::toggleOSCServer(int silent)
         statusBar()->showMessage(tr("Disabling OSC cue port..."), 2000);
         std::cout << "[GUI] - asking OSC server to stop" << std::endl;
         Message msg("/cue-port-stop");
-        msg.pushStr(guiID.toStdString());
+        msg.pushInt32(guiID);
         sendOSC(msg);
     }
 
@@ -3688,7 +3976,7 @@ void MainWindow::toggleOSCServer(int silent)
 
         std::cout << "[GUI] - cue port in external mode" << std::endl;
         Message msg("/cue-port-external");
-        msg.pushStr(guiID.toStdString());
+        msg.pushInt32(guiID);
         sendOSC(msg);
     }
     else
@@ -3701,7 +3989,7 @@ void MainWindow::toggleOSCServer(int silent)
         }
         std::cout << "[GUI] - cue port in internal mode" << std::endl;
         Message msg("/cue-port-internal");
-        msg.pushStr(guiID.toStdString());
+        msg.pushInt32(guiID);
         sendOSC(msg);
     }
 }
@@ -3738,31 +4026,29 @@ QString MainWindow::sonicPiHomePath()
     QString path = qgetenv("SONIC_PI_HOME").constData();
     if (path.isEmpty())
     {
-      return QDir::homePath() + QDir::separator() + ".sonic-pi";
+        return QDir::homePath() + QDir::separator() + ".sonic-pi";
     }
     else
     {
-      return path;
+        return path;
     }
 }
 
 QString MainWindow::sonicPiConfigPath()
 {
-  return sonicPiHomePath() + QDir::separator() + "config";
+    return sonicPiHomePath() + QDir::separator() + "config";
 }
 
 void MainWindow::zoomInLogs()
 {
     outputPane->zoomIn();
     incomingPane->zoomIn();
-    contextPane->zoomIn();
 }
 
 void MainWindow::zoomOutLogs()
 {
     outputPane->zoomOut();
     incomingPane->zoomOut();
-    contextPane->zoomOut();
 }
 
 void MainWindow::updateMIDIInPorts(QString port_info)
@@ -3810,6 +4096,7 @@ void MainWindow::updateMIDIOutPorts(QString port_info)
 
 void MainWindow::focusContext()
 {
+    SonicPiContext *contextPane = getCurrentEditor()->getContext();
     contextPane->showNormal();
     contextPane->setFocusPolicy(Qt::StrongFocus);
     contextPane->setFocus();
@@ -3830,7 +4117,7 @@ void MainWindow::focusLogs()
 
 void MainWindow::focusEditor()
 {
-    SonicPiScintilla* ws = (SonicPiScintilla*)tabs->currentWidget();
+    SonicPiScintilla* ws = getCurrentWorkspace();
     ws->showNormal();
     ws->setFocusPolicy(Qt::StrongFocus);
     ws->setFocus();
@@ -3852,8 +4139,9 @@ void MainWindow::focusCues()
 void MainWindow::focusPreferences()
 {
     prefsWidget->show();
+    prefsWidget->raise();
     updatePrefsIcon();
-    settingsWidget->showNormal();
+    prefsWidget->showNormal();
     settingsWidget->setFocusPolicy(Qt::StrongFocus);
     settingsWidget->setFocus();
     settingsWidget->raise();
@@ -3865,11 +4153,11 @@ void MainWindow::focusHelpListing()
 {
     docWidget->show();
     updatePrefsIcon();
-    docsCentral->showNormal();
-    docsCentral->currentWidget()->setFocus();
-    docsCentral->raise();
-    docsCentral->setVisible(true);
-    docsCentral->activateWindow();
+    docsNavTabs->showNormal();
+    docsNavTabs->currentWidget()->setFocus();
+    docsNavTabs->raise();
+    docsNavTabs->setVisible(true);
+    docsNavTabs->activateWindow();
 }
 
 void MainWindow::focusHelpDetails()
@@ -3896,7 +4184,8 @@ void MainWindow::focusErrors()
 
 void MainWindow::updateContextWithCurrentWs()
 {
-    SonicPiScintilla* ws = ((SonicPiScintilla*)tabs->currentWidget());
+
+    SonicPiScintilla* ws = getCurrentWorkspace();
     int line, index;
     ws->getCursorPosition(&line, &index);
     updateContext(line, index);
@@ -3904,7 +4193,7 @@ void MainWindow::updateContextWithCurrentWs()
 
 void MainWindow::updateContext(int line, int index)
 {
-    contextPane->setContent(tr("Line: %1,  Position: %2").arg(line + 1).arg(index + 1));
+  getCurrentEditor()->setContextContent(tr("Line: %1,  Position: %2").arg(line + 1).arg(index + 1));
 }
 
 SonicPiLog* MainWindow::GetOutputPane() const
@@ -3920,4 +4209,68 @@ SonicPiLog* MainWindow::GetIncomingPane() const
 SonicPiTheme* MainWindow::GetTheme() const
 {
     return theme;
+}
+
+void MainWindow::movePrefsWidget()
+{
+  int h = toolBar->size().height() + 20;
+  int full_width = this->size().width();
+  int w = full_width - prefsWidget->size().width();
+  prefsWidget->move(w, h);
+}
+
+void MainWindow::slidePrefsWidgetIn()
+{
+  int h = toolBar->size().height() + 20;
+  int full_width = this->size().width();
+  int prefs_width = prefsWidget->size().width();
+  int w = full_width - prefs_width;
+  int delta = prefs_width / 10;
+
+  prefsWidget->move(full_width, h);
+  prefsWidget->show();
+  prefsWidget->raise();
+
+  for(int i = full_width; i > w; i = i - delta) {
+    QCoreApplication::processEvents();
+    prefsWidget->move(i, h);
+    QThread::msleep(2);
+  }
+
+  movePrefsWidget();
+}
+
+void MainWindow::slidePrefsWidgetOut()
+{
+  int h = toolBar->size().height() + 20;
+  int full_width = this->size().width();
+  int prefs_width = prefsWidget->size().width();
+  int w = full_width - prefs_width;
+  int delta = prefs_width / 10;
+
+  for(int i = w; i < full_width; i = i + delta) {
+    QCoreApplication::processEvents();
+    prefsWidget->move(i, h);
+    QThread::msleep(2);
+  }
+
+  prefsWidget->hide();
+}
+
+
+
+void MainWindow::resizeEvent( QResizeEvent *e )
+{
+  movePrefsWidget();
+  QMainWindow::resizeEvent(e);
+}
+
+SonicPiScintilla* MainWindow::getCurrentWorkspace()
+{
+  return getCurrentEditor()->getWorkspace();
+}
+
+SonicPiEditor* MainWindow::getCurrentEditor()
+{
+  return (SonicPiEditor*)editorTabWidget->currentWidget();
 }

@@ -3,7 +3,6 @@
 #include "qt_api_client.h"
 #include "config.h"
 #include "mainwindow.h"
-#include "scope.h"
 #include "sonicpitheme.h"
 
 #include "sonicpilog.h"
@@ -23,7 +22,7 @@ QtAPIClient::~QtAPIClient()
 
 void QtAPIClient::ReportGui(const MessageInfo& info)
 {
-    if (info.type == MessageType::Muti)
+    if (info.type == MessageType::Multi)
     {
         // TODO: No longer need to do this translation; just pass info to log
         SonicPiLog::MultiMessage mm;

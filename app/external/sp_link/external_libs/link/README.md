@@ -80,8 +80,8 @@ insight as to the compiler flags needed to build Link.
 
 | Platform | Minimum Required     | Optional (only required for examples) |
 |----------|----------------------|---------------------------------------|
-| Windows  | MSVC 2013            | Steinberg ASIO SDK 2.3                |
-| Mac      | Xcode 7.0            |                                       |
+| Windows  | MSVC 2015            | Steinberg ASIO SDK 2.3                |
+| Mac      | Xcode 9.4.1          |                                       |
 | Linux    | Clang 3.6 or GCC 5.2 | libportaudio19-dev                    |
 
 

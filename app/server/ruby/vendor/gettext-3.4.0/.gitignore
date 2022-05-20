@@ -1,0 +1,13 @@
+*.edit.po
+*.po.time_stamp
+*.pot
+*~
+/.yardoc/
+/Gemfile.lock
+/data/
+/doc/reference/
+/locale/
+/pkg/
+/samples/cgi/locale/
+/samples/locale/
+/test/locale/

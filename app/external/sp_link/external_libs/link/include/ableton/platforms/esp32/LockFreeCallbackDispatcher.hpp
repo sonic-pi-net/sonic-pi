@@ -77,7 +77,7 @@ private:
         dispatcher->mCondition.wait_for(lock, dispatcher->mFallbackPeriod);
       }
       dispatcher->mCallback();
-      portYIELD();
+      vTaskDelay(1);
     }
   }
 

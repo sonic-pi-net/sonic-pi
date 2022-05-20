@@ -53,9 +53,8 @@ public:
 
   ~PeerGateways()
   {
-    // Release the callback in the io thread so that gateway cleanup
-    // doesn't happen in the client thread
-    mIo->async(Deleter{*this});
+    mpScanner.reset();
+    mpScannerCallback.reset();
   }
 
   PeerGateways(const PeerGateways&) = delete;
@@ -66,42 +65,22 @@ public:
 
   void enable(const bool bEnable)
   {
-    auto pCallback = mpScannerCallback;
-    auto pScanner = mpScanner;
-
-    if (pCallback && pScanner)
-    {
-      mIo->async([pCallback, pScanner, bEnable] {
-        pCallback->mGateways.clear();
-        pScanner->enable(bEnable);
-      });
-    }
+    mpScannerCallback->mGateways.clear();
+    mpScanner->enable(bEnable);
   }
 
   template <typename Handler>
-  void withGatewaysAsync(Handler handler)
+  void withGateways(Handler handler)
   {
-    auto pCallback = mpScannerCallback;
-    if (pCallback)
-    {
-      mIo->async([pCallback, handler] {
-        handler(pCallback->mGateways.begin(), pCallback->mGateways.end());
-      });
-    }
+    handler(mpScannerCallback->mGateways.begin(), mpScannerCallback->mGateways.end());
   }
 
   void updateNodeState(const NodeState& state)
   {
-    auto pCallback = mpScannerCallback;
-    if (pCallback)
+    mpScannerCallback->mState = state;
+    for (const auto& entry : mpScannerCallback->mGateways)
     {
-      mIo->async([pCallback, state] {
-        pCallback->mState = state;
-        for (const auto& entry : pCallback->mGateways)
-        {
-          entry.second->updateNodeState(state);
-        }
-      });
+      entry.second->updateNodeState(state);
     }
   }
 
@@ -109,18 +88,11 @@ public:
   // this method can be invoked to either fix it or discard it.
   void repairGateway(const asio::ip::address& gatewayAddr)
   {
-    auto pCallback = mpScannerCallback;
-    auto pScanner = mpScanner;
-    if (pCallback && pScanner)
+    if (mpScannerCallback->mGateways.erase(gatewayAddr))
     {
-      mIo->async([pCallback, pScanner, gatewayAddr] {
-        if (pCallback->mGateways.erase(gatewayAddr))
-        {
-          // If we erased a gateway, rescan again immediately so that
-          // we will re-initialize it if it's still present
-          pScanner->scan();
-        }
-      });
+      // If we erased a gateway, rescan again immediately so that
+      // we will re-initialize it if it's still present
+      mpScanner->scan();
     }
   }
 
@@ -187,25 +159,6 @@ private:
   };
 
   using Scanner = InterfaceScanner<std::shared_ptr<Callback>, IoType&>;
-
-  struct Deleter
-  {
-    Deleter(PeerGateways& gateways)
-      : mpScannerCallback(std::move(gateways.mpScannerCallback))
-      , mpScanner(std::move(gateways.mpScanner))
-    {
-    }
-
-    void operator()()
-    {
-      mpScanner.reset();
-      mpScannerCallback.reset();
-    }
-
-    std::shared_ptr<Callback> mpScannerCallback;
-    std::shared_ptr<Scanner> mpScanner;
-  };
-
   std::shared_ptr<Callback> mpScannerCallback;
   std::shared_ptr<Scanner> mpScanner;
   util::Injected<IoContext> mIo;

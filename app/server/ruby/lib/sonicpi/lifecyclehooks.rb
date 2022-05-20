@@ -73,45 +73,35 @@ module SonicPi
 
     def init(job_id, arg={})
       log "Lifecycle Hooks Init"
-      @mut.synchronize do
-        @started = true
-        @started_blocks.each do |b|
-          b.call(job_id, arg)
-        end
+      @started = true
+      @started_blocks.each do |b|
+        b.call(job_id, arg)
       end
     end
 
     def completed(job_id, arg={})
       log "Lifecycle Hooks Completed"
-      @mut.synchronize do
-        @completed_blocks.each do |b|
-          b.call(job_id, arg)
-        end
+      @completed_blocks.each do |b|
+        b.call(job_id, arg)
       end
     end
 
     def all_completed(silent=false)
       log "Lifecycle Hooks All Completed"
-      @mut.synchronize do
-        @all_completed_blocks.each do |b|
-          b.call(silent)
-        end
+      @all_completed_blocks.each do |b|
+        b.call(silent)
       end
     end
 
     def killed(job_id, arg={})
-      @mut.synchronize do
-        @killed_blocks.each do |b|
-          b.call(job_id, arg)
-        end
+      @killed_blocks.each do |b|
+        b.call(job_id, arg)
       end
     end
 
     def exit(job_id, arg={})
-      @mut.synchronize do
-        @exited_blocks.each do |b|
-          b.call(job_id, arg)
-        end
+      @exited_blocks.each do |b|
+        b.call(job_id, arg)
       end
     end
   end

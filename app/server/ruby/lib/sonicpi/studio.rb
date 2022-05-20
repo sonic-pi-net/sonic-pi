@@ -69,7 +69,7 @@ module SonicPi
     end
 
     def init_studio
-      @server.load_synthdefs(synthdef_path)
+      @server.load_synthdefs(Paths.synthdef_path)
       @amp = [0.0, 1.0]
       @server.add_event_handler("/sonic-pi/amp", "/sonic-pi/amp") do |payload|
         @amp = [payload[2], payload[3]]
@@ -84,7 +84,7 @@ module SonicPi
       end
 
       # load rand stream directly - ensuring it doesn't get considered as a 'sample'
-      rand_buf = @server.buffer_alloc_read(buffers_path + "/rand-stream.wav")
+      rand_buf = @server.buffer_alloc_read(Paths.buffers_path + "/rand-stream.wav")
 
       @sample_sem.synchronize do
         @buffers = {}
@@ -141,7 +141,7 @@ module SonicPi
 
         # our buffer has the same name but is of a different duration
         # therefore nuke it
-        path = cached_samples_path + "/#{name}.wav"
+        path = Paths.cached_samples_path + "/#{name}.wav"
         # now actually allocate a new buffer and cache it
         sample_rate = @server.scsynth_info[:sample_rate]
         buffer_info = @server.buffer_alloc(duration_in_seconds * sample_rate, 2)
@@ -174,6 +174,11 @@ module SonicPi
     def load_synthdefs(path, server=@server)
       check_for_server_rebooting!(:load_synthdefs)
       internal_load_synthdefs(path, server)
+    end
+
+    def load_synthdef(path, server=@server)
+      check_for_server_rebooting!(:load_synthdefs)
+      internal_load_synthdef(path, server)
     end
 
     def sample_loaded?(path)
@@ -504,8 +509,16 @@ module SonicPi
     end
 
     def internal_load_synthdefs(path, server=@server)
+      return internal_load_synthdef if File.file?(path)
       @sample_sem.synchronize do
         server.load_synthdefs(path)
+        @loaded_synthdefs << path
+      end
+    end
+
+    def internal_load_synthdef(path, server=@server)
+      @sample_sem.synchronize do
+        server.load_synthdef(path)
         @loaded_synthdefs << path
       end
     end

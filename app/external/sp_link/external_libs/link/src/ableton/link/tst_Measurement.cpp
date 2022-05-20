@@ -74,10 +74,10 @@ struct TFixture
 {
   TFixture()
     : mMeasurement(mStateQuery(),
-        [](std::vector<std::pair<double, double>>) {},
+        [](std::vector<double>) {},
         {},
         MockClock{},
-        MockIoContext{})
+        util::Injected<MockIoContext>(MockIoContext{}))
   {
   }
 
@@ -109,70 +109,67 @@ struct TFixture
 
 } // anonymous namespace
 
-TEST_CASE("PeerMeasurement | SendPingsOnConstruction", "[PeerMeasurement]")
-{
-  TFixture fixture;
-  CHECK(1 == fixture.socket().sentMessages.size());
-
-  const auto messageBuffer = fixture.socket().sentMessages[0].first;
-  const auto result =
-    v1::parseMessageHeader(std::begin(messageBuffer), std::end(messageBuffer));
-  const auto& header = result.first;
-
-  std::chrono::microseconds gt{0};
-  std::chrono::microseconds ht{0};
-  discovery::parsePayload<GHostTime, HostTime>(result.second, std::end(messageBuffer),
-    [&gt](GHostTime ghostTime) { gt = std::move(ghostTime.time); },
-    [&ht](HostTime hostTime) { ht = std::move(hostTime.time); });
-
-  CHECK(v1::kPing == header.messageType);
-  CHECK(std::chrono::microseconds{4} == ht);
-  CHECK(std::chrono::microseconds{0} == gt);
-}
-
-TEST_CASE("PeerMeasurement | ReceiveInitPong", "[PeerMeasurement]")
+TEST_CASE("PeerMeasurement")
 {
   using Micros = std::chrono::microseconds;
   TFixture fixture;
-
-  const auto id = SessionMembership{fixture.mStateQuery.mState.nodeState.sessionId};
-  const auto ht = HostTime{Micros(0)};
-  const auto gt = GHostTime{Micros(0)};
-  const auto payload = discovery::makePayload(id, gt, ht);
-
-  v1::MessageBuffer buffer;
-  const auto msgBegin = std::begin(buffer);
-  const auto msgEnd = v1::pongMessage(payload, msgBegin);
-
   const auto endpoint =
     asio::ip::udp::endpoint(asio::ip::address_v4::from_string("127.0.0.1"), 8888);
-  fixture.socket().incomingMessage(endpoint, msgBegin, msgEnd);
 
-  CHECK(2 == fixture.socket().sentMessages.size());
-  CHECK(0 == fixture.mMeasurement.mpImpl->mData.size());
-}
+  SECTION("SendPingsOnConstruction")
+  {
+    CHECK(1 == fixture.socket().sentMessages.size());
 
-TEST_CASE("PeerMeasurement | ReceivePong", "[PeerMeasurement]")
-{
-  using Micros = std::chrono::microseconds;
-  TFixture fixture;
+    const auto messageBuffer = fixture.socket().sentMessages[0].first;
+    const auto result =
+      v1::parseMessageHeader(std::begin(messageBuffer), std::end(messageBuffer));
+    const auto& header = result.first;
 
-  const auto id = SessionMembership{fixture.mStateQuery.mState.nodeState.sessionId};
-  const auto ht = HostTime{Micros(2)};
-  const auto gt = GHostTime{Micros(3)};
-  const auto pgt = PrevGHostTime{Micros(1)};
-  const auto payload = discovery::makePayload(id, gt, ht, pgt);
+    std::chrono::microseconds gt{0};
+    std::chrono::microseconds ht{0};
+    discovery::parsePayload<GHostTime, HostTime>(result.second, std::end(messageBuffer),
+      [&gt](GHostTime ghostTime) { gt = std::move(ghostTime.time); },
+      [&ht](HostTime hostTime) { ht = std::move(hostTime.time); });
 
-  v1::MessageBuffer buffer;
-  const auto msgBegin = std::begin(buffer);
-  const auto msgEnd = v1::pongMessage(payload, msgBegin);
+    CHECK(v1::kPing == header.messageType);
+    CHECK(std::chrono::microseconds{4} == ht);
+    CHECK(std::chrono::microseconds{0} == gt);
+  }
 
-  const auto endpoint =
-    asio::ip::udp::endpoint(asio::ip::address_v4::from_string("127.0.0.1"), 8888);
-  fixture.socket().incomingMessage(endpoint, msgBegin, msgEnd);
+  SECTION("ReceiveInitPong")
+  {
+    const auto id = SessionMembership{fixture.mStateQuery.mState.nodeState.sessionId};
+    const auto ht = HostTime{Micros(0)};
+    const auto gt = GHostTime{Micros(0)};
+    const auto payload = discovery::makePayload(id, gt, ht);
 
-  CHECK(2 == fixture.socket().sentMessages.size());
-  CHECK(2 == fixture.mMeasurement.mpImpl->mData.size());
+    v1::MessageBuffer buffer;
+    const auto msgBegin = std::begin(buffer);
+    const auto msgEnd = v1::pongMessage(payload, msgBegin);
+
+    fixture.socket().incomingMessage(endpoint, msgBegin, msgEnd);
+
+    CHECK(2 == fixture.socket().sentMessages.size());
+    CHECK(0 == fixture.mMeasurement.mpImpl->mData.size());
+  }
+
+  SECTION("ReceivePong")
+  {
+    const auto id = SessionMembership{fixture.mStateQuery.mState.nodeState.sessionId};
+    const auto ht = HostTime{Micros(2)};
+    const auto gt = GHostTime{Micros(3)};
+    const auto pgt = PrevGHostTime{Micros(1)};
+    const auto payload = discovery::makePayload(id, gt, ht, pgt);
+
+    v1::MessageBuffer buffer;
+    const auto msgBegin = std::begin(buffer);
+    const auto msgEnd = v1::pongMessage(payload, msgBegin);
+
+    fixture.socket().incomingMessage(endpoint, msgBegin, msgEnd);
+
+    CHECK(2 == fixture.socket().sentMessages.size());
+    CHECK(2 == fixture.mMeasurement.mpImpl->mData.size());
+  }
 }
 
 } // namespace link

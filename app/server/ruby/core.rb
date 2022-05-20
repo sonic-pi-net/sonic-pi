@@ -34,20 +34,6 @@ end
 
 require 'wavefile'
 
-os = case RUBY_PLATFORM
-     when /.*arm.*-linux.*/
-       :raspberry
-     when /.*linux.*/
-       :linux
-     when /.*darwin.*/
-       :osx
-     when /.*mingw.*/
-       :windows
-     else
-       RUBY_PLATFORM
-     end
-
-
 $:.unshift "#{File.expand_path("../rb-native", __FILE__)}/#{ruby_api}/"
 
 module SonicPi
@@ -483,10 +469,6 @@ module SonicPi
 
       def filter(&block)
         self.class.new(@map.filter(&block))
-      end
-
-      def select(&block)
-        self.class.new(@map.select(&block))
       end
 
       def flatten(*args)
@@ -1026,46 +1008,6 @@ class Float
     end
   end
 end
-
-
-require 'rubame'
-
-## Teach Rubame::Server#run to block on IO.select
-## and therefore not thrash round in a loop
-module Rubame
-
-  class Server
-    def run(time = 0, &blk)
-      readable, _ = IO.select(@reading, @writing)
-
-      if readable
-        readable.each do |socket|
-          client = @clients[socket]
-          if socket == @socket
-            client = accept
-          else
-            msg = read(client)
-            client.messaged = msg
-          end
-
-          blk.call(client) if client and blk
-        end
-      end
-
-      # Check for lazy send items
-      timer_start = Time.now
-      time_passed = 0
-      begin
-        @clients.each do |s, c|
-          c.send_some_lazy(5)
-        end
-        time_passed = Time.now - timer_start
-      end while time_passed < time
-    end
-  end
-end
-
-
 
 class Array
   include SonicPi::Core::TLMixin

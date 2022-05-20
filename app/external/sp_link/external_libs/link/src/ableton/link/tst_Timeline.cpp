@@ -25,25 +25,29 @@ namespace ableton
 namespace link
 {
 
-TEST_CASE("Timeline | TimeToBeats", "[Timeline]")
+TEST_CASE("Timeline")
 {
-  const auto tl = Timeline{Tempo{60.}, Beats{-1.}, std::chrono::microseconds{1000000}};
-  CHECK(Beats{2.5} == tl.toBeats(std::chrono::microseconds{4500000}));
-}
+  const auto tl60 = Timeline{Tempo{60.}, Beats{-1.}, std::chrono::microseconds{1000000}};
+  const auto tl120 =
+    Timeline{Tempo{120.}, Beats{5.5}, std::chrono::microseconds{12558940}};
 
-TEST_CASE("Timeline | BeatsToTime", "[Timeline]")
-{
-  const auto tl = Timeline{Tempo{60.}, Beats{-1.}, std::chrono::microseconds{1000000}};
-  CHECK(std::chrono::microseconds{5200000} == tl.fromBeats(Beats{3.2}));
-}
+  SECTION("TimeToBeats")
+  {
+    CHECK(Beats{2.5} == tl60.toBeats(std::chrono::microseconds{4500000}));
+  }
 
-TEST_CASE("Timeline | RoundtripByteStreamEncoding", "[Timeline]")
-{
-  const auto tl = Timeline{Tempo{120.}, Beats{5.5}, std::chrono::microseconds{12558940}};
-  std::vector<std::uint8_t> bytes(sizeInByteStream(tl));
-  const auto end = toNetworkByteStream(tl, begin(bytes));
-  const auto result = Timeline::fromNetworkByteStream(begin(bytes), end);
-  CHECK(tl == result.first);
+  SECTION("BeatsToTime")
+  {
+    CHECK(std::chrono::microseconds{5200000} == tl60.fromBeats(Beats{3.2}));
+  }
+
+  SECTION("RoundtripByteStreamEncoding")
+  {
+    std::vector<std::uint8_t> bytes(sizeInByteStream(tl120));
+    const auto end = toNetworkByteStream(tl120, begin(bytes));
+    const auto result = Timeline::fromNetworkByteStream(begin(bytes), end);
+    CHECK(tl120 == result.first);
+  }
 }
 
 } // namespace link

@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2020-10-16 14:26+0000\n"
-"Last-Translator: Lukas Spee <lukasspee@gmail.com>\n"
-"Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-pi/tutorial/nl"
-"/>\n"
+"PO-Revision-Date: 2022-02-14 21:57+0000\n"
+"Last-Translator: Philip Lafeber <philip@familielafeber.nl>\n"
+"Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
+"nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.3.1-dev\n"
+"X-Generator: Weblate 4.11-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -217,14 +217,14 @@ msgid ""
 "t your computer will stop with an error because it can't keep up (if that happ"
 "ens, just choose a bigger `sleep` time and hit `Run` again)."
 msgstr ""
-"Speel hiermee. Verander de `rate:` (snelheid) waardes - wat gebeurd er, als je"
-" hoge waarden gebruikt,of kleine waarden of negatieve waarden? Kijk wat er geb"
-"eurd wanneer je de `rate:` waarde van het `:ambi_choir` sample maar een tikkel"
-"tje veranderd (bv. 0.29). Wat gebeurd er als je een héél kleine `sleep` (rust)"
-" waarde kiest? Kijk nu of je het zo snel kan laten gaan dat je computer stopt "
-"en een foutmelding geeft omdat hij het niet meer kan verwerken (wanneer dit ge"
-"beurd, kun je gewoon een grotere `sleep` tijd instellen en op `afspelen` klikk"
-"en)."
+"Speel hiermee. Verander de `rate:` (snelheid) waardes - wat gebeurt er, als "
+"je hoge waarden gebruikt,of kleine waarden of negatieve waarden? Kijk wat er "
+"gebeurt wanneer je de `rate:` waarde van het `:ambi_choir` sample maar een "
+"tikkeltje verandert (bv. 0.29). Wat gebeurt er als je een héél kleine `sleep`"
+" (rust) waarde kiest? Kijk nu of je het zo snel kan laten gaan dat je "
+"computer stopt en een foutmelding geeft omdat hij het niet meer kan "
+"verwerken (wanneer dit gebeurt, kun je gewoon een grotere `sleep` tijd "
+"instellen en op `afspelen` klikken)."
 
 #: 01.1-Live-Coding.md:59
 msgid "Try commenting one of the `sample` lines out by adding a `#` to the beginning:"
@@ -412,9 +412,8 @@ msgid "*H* - Scope Viewer"
 msgstr "*H* - Scope Venster"
 
 #: 01.2-Exploring-the-Interface.md:19
-#, fuzzy
 msgid "*I* - Cue Viewer"
-msgstr "*F* - Log Venster"
+msgstr "*F* - Indicatie Venster"
 
 #: 01.2-Exploring-the-Interface.md:21
 msgid "A. Play Controls"
@@ -447,7 +446,7 @@ msgstr ""
 
 #: 01.2-Exploring-the-Interface.md:35
 msgid "C. Info and Help"
-msgstr "C. Info and Hulp"
+msgstr "C. Info en Hulp"
 
 #: 01.2-Exploring-the-Interface.md:37
 msgid ""
@@ -515,11 +514,11 @@ msgid ""
 "u create with the exact time the sound was triggered. This is very useful for "
 "debugging your code and understanding what your code is doing."
 msgstr ""
-"Wanneer je je code uitvoert,zal informatie over wat het programma doet, getoon"
-"d worden in een soort logboek. Standaard zal je een berichtje zien, voor elk g"
-"eluid dat je maakt, met de exacte tijd dat het geluid werd geactiveerd. Dit is"
-" zeer handig om fouten in je code op te kunnen sporen en om te kunnen begrijpe"
-"n wat je code doet."
+"Wanneer je je code uitvoert, zal informatie over wat het programma doet, "
+"getoond worden in een soort logboek. Standaard zal je een berichtje zien, "
+"voor elk geluid dat je maakt, met de exacte tijd dat het geluid werd "
+"geactiveerd. Dit is zeer handig om fouten in je code op te kunnen sporen en "
+"om te kunnen begrijpen wat je code doet."
 
 #: 01.2-Exploring-the-Interface.md:71
 msgid "G. Help System"
@@ -590,6 +589,20 @@ msgid ""
 "ng happening. This is covered in more detail in Sections 10 to 12 of this tuto"
 "rial."
 msgstr ""
+"Alle interne en externe events ('cues' in Sonic Pi) worden automatisch "
+"gelogd in de 'Cue'  Viewer. Indien bijvoorbeeld een MIDI controller is "
+"aangesloten en een knop is ingedrukt, zal een new event zichtbaar zijn met "
+"de naam van de controller en ingedrukte knop.  Wanneer de basis van het "
+"produceren van geluiden wordt beheerst, kun je secties van geluiden afspelen "
+"gebaseerd op events zoals deze. Een 'Cue'-event is een indicatie dat er iets "
+"gebeurd is. Wanneer er bijvoorbeeld een live loop rond gaat, zal een 'Cue'-"
+"event zichtbaar zijn in het 'Cue' venster. Externe events zoals MIDI "
+"berichten van verbonden apparatuur en OSC berichten van andere computers en "
+"programma's worden hier eveneens weergegeven. Het is ook mogelijk om direct "
+"'Cue' events te genereren middels de 'cue' functie. Alles wat zichtbaar is "
+"in het 'Cue' venster kan gebruikt worden om te signaleren tot een "
+"verandering. Dit staat extra toegelicht in sectie 10 en 12 van deze "
+"handleiding."
 
 #: 01.3-Learning-through-Play.md:1
 msgid "1.3 Learning through Play"
@@ -770,6 +783,10 @@ msgid ""
 "left hand side) play lower notes and the keys on the higher part of the piano "
 "(the right hand side) play higher notes."
 msgstr ""
+"Lagere en hogere getallen maken respectievelijk lagere en hogere tonen. Net "
+"zoals op een piano worden de lagere toetsen (linkerhand) gebruikt om lagere "
+"noten te spelen, terwijl de hogere toetsen ingezet worden om hogere noten "
+"(rechterhand) te spelen."
 
 #: 02.1-Your-First-Beeps.md:38
 #, fuzzy
@@ -9153,11 +9170,13 @@ msgstr ""
 
 #: 10.3-Pattern-Matching.md:13
 msgid "Match any path segment"
-msgstr ""
+msgstr "Komt overeen met ieder pad segment"
 
 #: 10.3-Pattern-Matching.md:15
 msgid "Let's assume we want to wait for the next event that has three path segments:"
 msgstr ""
+"Laten we aannemen dat wij willen wachten op een volgend event dat beschikt "
+"over drie pad segmenten:"
 
 #: 10.3-Pattern-Matching.md:17
 #, no-wrap
@@ -9169,6 +9188,8 @@ msgid ""
 "This will match any Time State event with exactly three path segments, regardl"
 "ess of their names. For example:"
 msgstr ""
+"Dit zal overeenkomen met ieder 'Time State' event met exact drie pad "
+"segmenten, ongeacht hun namen. Bijvoorbeeld:"
 
 #: 10.3-Pattern-Matching.md:24 10.3-Pattern-Matching.md:46
 #: 10.3-Pattern-Matching.md:68 10.3-Pattern-Matching.md:78
@@ -9192,6 +9213,8 @@ msgid ""
 "However, it will *not* match paths with fewer or more path segments. The follo"
 "wing will not match:"
 msgstr ""
+"Het zal echter niet matchen voor paden met minder of meer pad segmenten. Het "
+"volgende zal niet matchen:"
 
 #: 10.3-Pattern-Matching.md:32
 msgid "`cue \"/foo/bar\"`"
@@ -9210,10 +9233,12 @@ msgid ""
 "Each `*` means *any content*. So we could match paths with just one segment wi"
 "th `/*` or paths with five segments with `/*/*/*/*/*`"
 msgstr ""
+"Iedere `*` betekent *elke inhoud*. We kunnen paden matchen met slechts één "
+"segment met `/*` of paden met vijf segmenten middels `/*/*/*/*/*`"
 
 #: 10.3-Pattern-Matching.md:38
 msgid "Matching partial segments"
-msgstr ""
+msgstr "Matcht gedeeltelijke segmenten"
 
 #: 10.3-Pattern-Matching.md:40
 #, fuzzy
@@ -9235,7 +9260,7 @@ msgstr "`cue \"/bla/beans/baz\"`"
 
 #: 10.3-Pattern-Matching.md:50
 msgid "However, it wouldn't match the following:"
-msgstr ""
+msgstr "Het zou echter niet matchen met het volgende:"
 
 #: 10.3-Pattern-Matching.md:52
 msgid "`cue \"/foo/flibble/baz\"`"
@@ -9260,7 +9285,7 @@ msgstr "foo"
 
 #: 10.3-Pattern-Matching.md:62
 msgid "Matching Nested Path Segments"
-msgstr ""
+msgstr "Matcht Geneste Pad Segmenten"
 
 #: 10.3-Pattern-Matching.md:64
 #, fuzzy
@@ -9284,13 +9309,15 @@ msgstr "`cue \"/bla/a/b/c/d/e/f/baz\"`"
 
 #: 10.3-Pattern-Matching.md:73
 msgid "Matching Single Letters"
-msgstr ""
+msgstr "Matcht Alleenstaande Letters"
 
 #: 10.3-Pattern-Matching.md:75
 msgid ""
 "You can use the `?` character to match against a single char such as `\"/?oo/ba"
 "r/baz\"` which will match:"
 msgstr ""
+"Je kunt het `?` karakter gebruiken om te matchen met een single karakter "
+"zoals `\"/?oo/bar/baz\"` wat zal matchen met:"
 
 #: 10.3-Pattern-Matching.md:79
 msgid "`cue \"/goo/bar/baz\"`"
@@ -9306,7 +9333,7 @@ msgstr "`cue \"/woo/bar/baz\"`"
 
 #: 10.3-Pattern-Matching.md:83
 msgid "Matching Multiple Words"
-msgstr ""
+msgstr "Matcht Met Meerdere Woorden"
 
 #: 10.3-Pattern-Matching.md:85
 #, fuzzy
@@ -9330,7 +9357,7 @@ msgstr "`cue \"/bla/eggs/quux\"`"
 
 #: 10.3-Pattern-Matching.md:93
 msgid "Matching Multiple Letters"
-msgstr ""
+msgstr "Matcht Met Meedere Letters"
 
 #: 10.3-Pattern-Matching.md:95
 #, fuzzy
@@ -9369,7 +9396,7 @@ msgstr "`cue \"/bla/eux/baz\"`"
 
 #: 10.3-Pattern-Matching.md:112
 msgid "Combining Matchers"
-msgstr ""
+msgstr "Gecombineerde Matches"
 
 #: 10.3-Pattern-Matching.md:114
 msgid ""
@@ -9377,6 +9404,9 @@ msgid ""
 " see fit to powerfully match any Time State event created by `cue` or `set`. L"
 "et's look at a crazy example:"
 msgstr ""
+"Wanneer `sync` of `get` wordt aangeroepen kun je jezelf vrij voelen om "
+"`Matchers` in iedere orde te matchen met ieder `Time State` event aangemaakt "
+"door `cue` of `set`. Laten we het volgende voorbeeld bekijken:"
 
 #: 10.3-Pattern-Matching.md:118
 #, no-wrap
@@ -9392,7 +9422,7 @@ msgstr "sample :loop_amen"
 
 #: 10.3-Pattern-Matching.md:129
 msgid "OSC Pattern Matching"
-msgstr ""
+msgstr "OSC Patroon Matching"
 
 #: 10.3-Pattern-Matching.md:131
 msgid ""
@@ -9400,6 +9430,9 @@ msgid ""
 "ttern matching specification which is explained in detail here: http://opensou"
 "ndcontrol.org/spec-1_0"
 msgstr ""
+"Voor de nieuwsgierigen; deze matching regels zijn gebaseerd op de Open Sound "
+"Control Pattern Matching Specification welke uitgebreid uitgelegd staat op "
+"de volgende website: http://opensoundcontrol.org/spec-1_0"
 
 #: 11-MIDI.md:1
 msgid "11 MIDI"
@@ -9417,18 +9450,28 @@ msgid ""
 "metimes it is essential to break out of the code into the real world. We want "
 "two extra things:"
 msgstr ""
+"Wanneer je het converteren van code naar muziek volledig beheerst, zou je "
+"jezelf kunnen afvragen: \"Wat is het volgende?\". Soms kan het uitsluitend "
+"werken binnen de syntax van Sonic Pi en het geluidssysteem uitdagend genoeg "
+"zijn om je in een nieuwe creatieve positie te stoppen. Het is echter soms "
+"noodzakelijk om uit de code naar de echte wereld te stappen. We willen twee "
+"extra dingen:"
 
 #: 11-MIDI.md:11
 msgid ""
 "To be able to convert actions in the real world into Sonic Pi events to code w"
 "ith"
 msgstr ""
+"Om acties vanuit de echte wereld te converteren naar Sonic Pi events om mee "
+"te coderen"
 
 #: 11-MIDI.md:12
 msgid ""
 "To be able to use Sonic Pi's strong timing model and semantics to control and "
 "manipulate objects in the real world"
 msgstr ""
+"Om vanuit Sonic Pi's sterke timing model en semantiek objecten in de echte "
+"wereld te controleren en manipuleren"
 
 #: 11-MIDI.md:14
 msgid ""
@@ -9438,20 +9481,28 @@ msgid ""
 "at all support MIDI. We can use MIDI to receive data and also use it to send d"
 "ata."
 msgstr ""
+"Gelukkig bestaat er sinds de jaren 80 een protocol wat precies deze "
+"interactie levert - MIDI. Er is een groot aantal externe apparaten "
+"beschikbaar, waaronder keyboards, controllers en sequencers, naast diverse "
+"pro audio software die allemaal MIDI ondersteunen. We kunnen MIDI gebruiken "
+"om data op te halen en te versturen."
 
 #: 11-MIDI.md:20
 msgid ""
 "Sonic Pi provides full support for the MIDI protocol enabling you to connect y"
 "our live code to the real world. Let's explore it further..."
 msgstr ""
+"Sonic Pi levert volledige ondersteuning voor het MIDI protocol waarmee je "
+"jouw live code kunt verbinden aan de echte wereld. Laten we hier verder "
+"induiken."
 
 #: 11.1-MIDI-In.md:1
 msgid "11.1 MIDI In"
-msgstr ""
+msgstr "11.1 MIDI in"
 
 #: 11.1-MIDI-In.md:3
 msgid "MIDI In"
-msgstr ""
+msgstr "MIDI in"
 
 #: 11.1-MIDI-In.md:5
 msgid ""
@@ -9459,10 +9510,13 @@ msgid ""
 "into Sonic Pi to control our synths and sounds. Go and grab a MIDI controller "
 "such as a keyboard or control surface and let's get physical!"
 msgstr ""
+"In deze sectie zullen we leren hoe een MIDI controller events kan sturen "
+"naar Sonic Pi, om de synthesizer en geluiden te controleren. Gebruik een "
+"MIDI controller zoals een keyboard en steek de handen uit de mouwen!"
 
 #: 11.1-MIDI-In.md:11
 msgid "Connecting a MIDI Controller"
-msgstr ""
+msgstr "Verbinden van een MIDI Controller"
 
 #: 11.1-MIDI-In.md:13
 msgid ""
@@ -9478,10 +9532,22 @@ msgid ""
 "l that, feel free to ask questions in our friendly forums: https://in-thread.s"
 "onic-pi.net"
 msgstr ""
+"Om informatie van een extern MIDI apparaat in te lezen in Sonic Pi zullen we "
+"eerst moeten verbinden met onze computer. Dit zal meestal gebeuren via een "
+"USB verbinding, alhoewel oudere apparatuur over een 5-pin DIN connector "
+"beschikt waarvoor extra computer hardware is benodigd (bijvoorbeeld een "
+"geluidskaart). Zodra het apparaat verbonden is kan Sonic Pi worden gestart "
+"en het IO venster in het Voorkeuren ('Preferences' panel) worden bekeken. Je "
+"apparaat zou daar zichtbaar moeten zijn. Indien dit niet het geval is kan "
+"geprobeerd worden de 'Reset MIDI' knop in te drukken. Indien hierna nog "
+"steeds niets gezien kan worden is controleren van de besturingssysteem MIDI "
+"configuratie, om te bekijken of hier het apparaat wel tussen staat. Indien "
+"dit allemaal niet werkt, voel je vrij om hulp te vragen op onze forums: https"
+"://in-thread.sonic-pi.net"
 
 #: 11.1-MIDI-In.md:26
 msgid "Receiving MIDI Events"
-msgstr ""
+msgstr "Ontvangen Van MIDI Events"
 
 #: 11.1-MIDI-In.md:28
 msgid ""
@@ -9491,6 +9557,12 @@ msgid ""
 "n't visible go to Preferences->Editor->Show & Hide and enable the 'Show cue lo"
 "g' tickbox). You'll see a stream of events such as:"
 msgstr ""
+"Wanneer je apparaat verbonden is zal Sonic Pi automatisch events ontvangen. "
+"Je kunt dit zelf zien door het manipuleren van je MIDI apparaat en de 'Cue' "
+"logger rechts onderin het venster te bekijken (onder de log). Wanneer dit "
+"niet zichtbaar is kan naar Voorkeuren->Editor->Show & Hide genavigeerd "
+"worden, waar de 'Show Cue Log' checkbox ingeschakeld kan worden. Een "
+"opeenvolging van event zoals de volgende is zichtbaar:"
 
 #: 11.1-MIDI-In.md:35
 #, no-wrap
@@ -9504,16 +9576,27 @@ msgid ""
 "/midi:nanokey2_keyboard:0:1/note_on   [53, 96]\n"
 "/midi:nanokey2_keyboard:0:1/note_off  [55, 64]"
 msgstr ""
+"/midi:nanokey2_keyboard:0:1/note_off  [55, 64]\n"
+"/midi:nanokey2_keyboard:0:1/note_on   [53, 102]\n"
+"/midi:nanokey2_keyboard:0:1/note_off  [57, 64]\n"
+"/midi:nanokey2_keyboard:0:1/note_off  [53, 64]\n"
+"/midi:nanokey2_keyboard:0:1/note_on   [57, 87]\n"
+"/midi:nanokey2_keyboard:0:1/note_on   [55, 81]\n"
+"/midi:nanokey2_keyboard:0:1/note_on   [53, 96]\n"
+"/midi:nanokey2_keyboard:0:1/note_off  [55, 64]"
 
 #: 11.1-MIDI-In.md:46
 msgid ""
 "Once you can see a stream of messages like this, you've successfully connected"
 " your MIDI device. Congratulations, let's see what we can do with it!"
 msgstr ""
+"Als een opeenvolging van berichten zoals deze zichtbaar is, is het MIDI "
+"apparaat succesvol verbonden. Gefeliciteerd, laten wij is kijken wat we "
+"hiermee kunnen doen!"
 
 #: 11.1-MIDI-In.md:50
 msgid "MIDI Time State"
-msgstr ""
+msgstr "MIDI Time State"
 
 #: 11.1-MIDI-In.md:52
 msgid ""
@@ -9525,6 +9608,13 @@ msgid ""
 "lue and also `sync` waiting for the next MIDI value using everything we learne"
 "d in section 10 of this tutorial."
 msgstr ""
+"Deze events kunnen worden gescheiden in twee secties. Enerzijds zijn de "
+"namen van events zoals `/midi:nanokey2_keyboard:0:1/note_on` zichtbaar, "
+"anderzijds zijn waarden van events zoals `[18, 62]` te zien. Deze twee zaken "
+"zijn benodigd om informatie op te slaan binnen Time State. *Sonic Pi voert "
+"automatisch events afkomstig van MIDI in naar TIme State*. Dit betekent dat "
+"de laatste MIDI waarden en eveneens `sync` wacht op de volgende MIDI waarde, "
+"zoals omschreven in sectie 10 van deze handleiding."
 
 #: 11.1-MIDI-In.md:60
 msgid "Controlling Code"
@@ -9536,6 +9626,10 @@ msgid ""
 "ed that our knowledge of Time State is all we need to work with the events, we"
 " can now start having fun. Let's build a simple MIDI piano:"
 msgstr ""
+"Nu een MIDI apparaat is verbonden, zijn diverse events zichtbaar in de `cue "
+"log` en kan worden herkend dat onze kennis van Time State alles is wat we "
+"nodig hebben om met de events te werken. Nu kunnen we plezier hebben en een "
+"eenvoudige MIDI piano maken:"
 
 #: 11.1-MIDI-In.md:67
 #, no-wrap
@@ -9545,6 +9639,10 @@ msgid ""
 "  synth :piano, note: note\n"
 "end"
 msgstr ""
+"live_loop :midi_piano do\n"
+"  note, velocity = sync \"/midi:nanokey2_keyboard:0:1/note_on\"\n"
+"  synth :piano, note: note\n"
+"end"
 
 #: 11.1-MIDI-In.md:74
 msgid ""
@@ -9559,6 +9657,18 @@ msgid ""
 " we assign the result to two separate variables `note` and `velocity`. Finally"
 " we trigger the `:piano` synth passing our note."
 msgstr ""
+"Er gebeuren een aantal dingen in de bovenstaande code, waaronder een aantal "
+"problemen. Ten eerste beschikken we over een eenvoudige `live_loop` die "
+"voortdurend herhaald zal worden tussen de `do` en `end` blokken. Dit werd "
+"geïntroduceerd in sectie 9.2. Ten tweede roepen we `sync` aan om te wachten "
+"op het volgende matchende Time State event. We gebruiken een string waarde "
+"die het MIDI bericht representeerd waar wij op wachten (hetzelfde als in de `"
+"Cue Logger`). Merk op dat deze lange string geleverd wordt door Sonic Pi's "
+"automatisch aanvullingen (autocomplete) systeem, waardoor het niet allemaal "
+"met de hand getypt hoeft te worden. In de log zagen wij dat er twee waarden "
+"voor iedere MIDI noot per event zichtbaar waren, het resultaat kan daarom "
+"gedeclareerd worden aan twee variabelen `note` en `velocity`. Tot slot kan "
+"de `:piano` synthesizer worden aangeroepen door onze noot."
 
 #: 11.1-MIDI-In.md:86
 msgid ""
@@ -9570,6 +9680,14 @@ msgid ""
 "tude. Given that MIDI has a range of 0->127, to convert this number to a value"
 " between 0->1 we just need to divide it by 127:"
 msgstr ""
+"Nu kun jij het proberen. Type in de bovenstaande code een sync key met een "
+"matchende string specifiek voor jouw MIDI apparaat en klik op Run. Nu heb je "
+"een werkende piano! Er zullen je echter een aantal problemen opvallen. Ten "
+"eerste zijn alle tonen hetzelfde volume ongeacht hoe hard jij op je keyboard "
+"drukt. Dit kan eenvoudig worden opgelost door deze `velocity` midi waarde te "
+"converteren naar een amplitude. Er is gegeven dat MIDI een bereik heeft van "
+"0->127, om dit te converteren naar een waarde tussen 0 en 1 kan worden "
+"gedeeld door 127:"
 
 #: 11.1-MIDI-In.md:95
 #, no-wrap
@@ -9585,10 +9703,12 @@ msgid ""
 "Update the code and hit Run again. Now the velocity of the keyboard is honoure"
 "d. Next, let's get rid of that pesky pause."
 msgstr ""
+"Update de code en klik opnieuw op Run. Nu zal de velocity van het keyboard "
+"worden gehonoreerd. We kunnen nu die irritante pauze oplossen."
 
 #: 11.1-MIDI-In.md:105
 msgid "Removing Latency"
-msgstr ""
+msgstr "Verwijderen van Latency"
 
 #: 11.1-MIDI-In.md:107
 msgid ""
@@ -9607,6 +9727,22 @@ msgid ""
 " loops that have their timing controlled by `sync`ing with external devices, a"
 "nd keep the default latency for all other live loops. Let's see:"
 msgstr ""
+"Alvorens we de pauze kunnen verwijderen, moeten wij onderzoeken waarom deze "
+"hier is. Om alle synthesizers en effecten goed te timen tussen verschillende "
+"capabele processoren (CPU's) maakt Sonic Pi gebruik van een vertraging van "
+"standaard 0.5s. (Merk op dat deze latency geconfigureerd kan worden middels "
+"de fns `set_sched_ahead_time!` en `use_sched_ahead_time`). Deze latency van "
+"0.5s wordt toegevoegd aan onze `:piano` synthesizer triggers zoals bij alle "
+"synthesizers getriggerd via Sonic Pi. De motivatie voor deze latency is de "
+"garantie dat alle events goed worden getimed. Dit heeft alleen uitsluitend "
+"nut bij code die gebruik maakt van `play` en `sleep`. In dit geval triggeren "
+"wij de `:piano` synthesizer met een extern MIDI apparaat en willen we niet "
+"dat Sonic Pi deze timing bepaald voor ons. We kunnen deze latency "
+"uitschakelen middels het `use_real_time` commando, die de latency voor de "
+"huidige thread zal uitschakelen. Dit betekent dat een real-time mode voor "
+"live loops qua timing bestuurd zal worden via `sync`ing met externe "
+"apparaten en alle overige loops wel gewoon de standaard latency gebruiken. "
+"Laten we hier naar kijken:"
 
 #: 11.1-MIDI-In.md:124
 #, no-wrap
@@ -9623,10 +9759,13 @@ msgid ""
 "Update your code to match the code above and hit Run again. Now we have a low "
 "latency piano with variable velocity coded in just 5 lines. Wasn't that easy!"
 msgstr ""
+"Update je code om te matchen met de bovenstaande code en druk opnieuw op "
+"Run. We hebben nu een piano met lage latency en variabele velocity gecodeerd "
+"in slechts 5 regels. Was dat niet makkelijk!"
 
 #: 11.1-MIDI-In.md:136
 msgid "Getting Values"
-msgstr "Waarden ophalen"
+msgstr "Waarden Ophalen"
 
 #: 11.1-MIDI-In.md:138
 msgid ""
@@ -9638,18 +9777,28 @@ msgid ""
 "te value. You can even use `time_warp` to jump back in time and call `get` to "
 "see past events..."
 msgstr ""
+"Tot slot zullen onze MIDI events direct naar de Time State gaan, we kunnen "
+"eveneens gebruik maken van de `get` fn om de laatst gelezen waarde op te "
+"vragen. Dit zal niet de huidige thread blokkeren en geeft `nil` terug indien "
+"geen data gevonden kan worden (dit kan worden overschreven met een standaard "
+"waarde, zie de documentatie voor `get`). Herinner je dat de aanroep `get` in "
+"iedere thread iedere tijd mag plaatsvinden om de laatste matching Time State "
+"waarde op te vragen. Zelfs `time_warp` kan worden gebruikt om terug te gaan "
+"in de tijd en om via `get` events uit het verleden te bekijken..."
 
 #: 11.1-MIDI-In.md:147
 msgid "Now You are in Control"
-msgstr ""
+msgstr "Nu heb jij de Besturing"
 
 #: 11.1-MIDI-In.md:149
-#, fuzzy
 msgid ""
 "The exciting thing now is that you can now use the same code structures to `sy"
 "nc` and `get` MIDI information from any MIDI device and do whatever you want w"
 "ith the values. You can now choose what your MIDI device will do!"
-msgstr "choose"
+msgstr ""
+"Het leukste ding om nu te doen is het gebruik maken van code structuren om "
+"`sync` en `get` MIDI informatie van iedere MIDI apparaat op te halen. Je "
+"kunt nu kiezen wat je MIDI apparaat zal doen!"
 
 #: 11.2-MIDI-Out.md:1
 msgid "11.2 MIDI Out"
@@ -9665,6 +9814,10 @@ msgid ""
 "er and control external hardware synths, keyboards and other devices. Sonic Pi"
 " provides a full set of fns for sending various MIDI messages such as:"
 msgstr ""
+"Naast de ontvangst van MIDI events kunnen MIDI events ook verzonden worden "
+"om externe hardware synthesizers, keyboards en andere apparaten te "
+"manipuleren. Sonic Pi levert een volledige set van functies om diverse MIDI "
+"berichten te versturen, zoals:"
 
 #: 11.2-MIDI-Out.md:9
 msgid "Note on - `midi_note_on`"
@@ -9691,10 +9844,12 @@ msgid ""
 "There are many other supported MIDI messages too - check out the API documenta"
 "tion for all the other fns that start with `midi_`."
 msgstr ""
+"Er zijn vele andere ondersteunde MIDI berichten - bekijk de API documentatie "
+"voor alle functies die starten met `midi_`."
 
 #: 11.2-MIDI-Out.md:18
 msgid "Connecting to a MIDI Device"
-msgstr ""
+msgstr "Verbinden met een MIDI apparaat"
 
 #: 11.2-MIDI-Out.md:20
 msgid ""
@@ -9706,10 +9861,17 @@ msgid ""
 "he MIDI out port of your computer. You should see your MIDI device listed in t"
 "he preferences pane."
 msgstr ""
+"Om een MIDI bericht naar een extern apparaat te versturen, moet deze eerst "
+"zijn verbonden. Bekijk de subsectie 'Verbinden van een MIDI Controller' in "
+"sectie 11.1 voor meer details. Merk op dat wanneer USB wordt gebruikt, het "
+"verbinden naar een apparaat waar data toe wordt verzonden (anders dan "
+"ontvangen) dezelfde procedure is. Indien gebruik wordt gemaakt van DIN "
+"connectoren moet verbonden worden met de 'MIDI out' poort van de computer. "
+"Hiervoor moet je MIDI apparaat in het voorkeuren paneel zichtbaar zijn."
 
 #: 11.2-MIDI-Out.md:29
 msgid "Sending MIDI events"
-msgstr ""
+msgstr "Versturen van MIDI events"
 
 #: 11.2-MIDI-Out.md:31
 msgid ""
@@ -9718,6 +9880,10 @@ msgid ""
 "s to the `midi_*` fns you need to use `sleep` just like you did with `play`. L"
 "et's take a look:"
 msgstr ""
+"De vele `midi_*` functies werken zoals `play`, `sample` en `synth` op de "
+"manier dat ze een bericht sturen via de huidige (logische) tijd. Om "
+"bijvoorbeeld calls uit te delen naar `midi_*` functies kan `sleep` worden "
+"gebruikt, zoals gedaan via `play`. Laten we hiernaar kijken:"
 
 #: 11.2-MIDI-Out.md:36
 #, no-wrap
@@ -9730,12 +9896,18 @@ msgid ""
 " 50. (Note that Sonic Pi will automatically convert notes in the form `:e3` to"
 " their corresponding MIDI number such as 52 in this case.)"
 msgstr ""
+"Dit zal een MIDI noot versturen naar het verbonden MIDI apparaat met "
+"velocity 50. (Merk op dat Sonic Pi automatisch noten converteert in de vorm "
+"`:e3` naar de equivalente MIDI nummers zoals, in dit geval, 52.)"
 
 #: 11.2-MIDI-Out.md:44
 msgid ""
 "If your connected MIDI device is a synthesiser, you should be able to hear it "
 "playing a note. To disable it use `midi_note_off`:"
 msgstr ""
+"Indien je verbonden MIDI apparaat een synthesizer betreft, zou je een noot "
+"moeten kunnen horen. Om dit uit te schakelen kan `midi_note_off` worden "
+"gebruikt:"
 
 #: 11.2-MIDI-Out.md:47
 #, no-wrap
@@ -9744,7 +9916,7 @@ msgstr ""
 
 #: 11.2-MIDI-Out.md:51
 msgid "Selecting a MIDI device"
-msgstr ""
+msgstr "Selecteren van een MIDI apparaat"
 
 #: 11.2-MIDI-Out.md:53
 msgid ""
@@ -9952,6 +10124,16 @@ msgid ""
 ", hovering the mouse over the listed address will pop up with a list of all kn"
 "own addresses)."
 msgstr ""
+"Vanwege veiligheidsvoorzorgen laat Sonic Pi niet standaard machines op "
+"afstand OSC-berichten verzenden. Maar je kan dit toestaan in "
+"Voorkeuren->IO->Netwerk->Ontvang OSC-berichten op afstand. Wanneer je dit "
+"hebt aangezet, kan je OSC-berichten van elke computer op je netwerk "
+"ontvangen. Normaal zal de versturende machine moeten weten wat het IP-adres "
+"is (een unieke waarde die je computer identificeert op je netwerk - net als "
+"een telefoonnummer of een emailadres). Je kan je eigen IP-adres opzoeken "
+"door te kijken naar de IO-sectie in het voorkeursscherm. Als je computer "
+"meerdere IP-adressen heeft, ga dan met de muis over het adres om een lijst "
+"van alle bekende adressen te krijgen."
 
 #: 12.1-Receiving-OSC.md:72
 msgid ""
@@ -9961,14 +10143,21 @@ msgid ""
 "OSC which enable you to build your own custom touch controls with sliders, but"
 "tons, dials etc. This can provide you with an enormous range of input options."
 msgstr ""
+"Weet dat sommige programma's, zoals TouchOSC for iPhone en Android het "
+"versturen van OSC-berichten standaard ondersteunen. Dit betekent dat wanneer "
+"je luistert naar computers die van buitenaf berichten versturen en je weet "
+"je IP-adres, je meteen berichten kan gaan versturen van apps zoals TouchOSC "
+"waarmee je je eigen gebouwde drukknoppen en schuifregelaars, knoppen en "
+"draaiknoppen kan maken en zo meer. Hiermee kan je een ongelooflijke "
+"hoeveelheid inputmogelijkheden creëren."
 
 #: 12.2-Sending-OSC.md:1
 msgid "12.2 Sending OSC"
-msgstr ""
+msgstr "12.2 Versturen van OSC"
 
 #: 12.2-Sending-OSC.md:3
 msgid "Sending OSC"
-msgstr ""
+msgstr "Versturen van OSC"
 
 #: 12.2-Sending-OSC.md:5
 msgid ""

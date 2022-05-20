@@ -7,7 +7,13 @@ project("Sonic Pi"
   DESCRIPTION "A code-based music creation and performance tool"
   VERSION 3.3.1
   HOMEPAGE_URL "https://sonic-pi.net"
-    )
+  )
+
+if(APPLE)
+  set(CMAKE_OSX_DEPLOYMENT_TARGET "10.15")
+endif()
+
+
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
@@ -21,27 +27,41 @@ if((${BUILD_32BIT}) AND (DEFINED ENV{QT_INSTALL_LOCATION32}))
 elseif(DEFINED ENV{QT_INSTALL_LOCATION})
   message(STATUS "Setting prefix to user-defined Qt install location: $ENV{QT_INSTALL_LOCATION}")
   set(CMAKE_PREFIX_PATH $ENV{QT_INSTALL_LOCATION})
-elseif(APPLE AND EXISTS /usr/local/opt/qt5)
+elseif(APPLE AND EXISTS /usr/local/opt/qt@5)
   # Homebrew installs Qt into/usr/local/qt5
-  message(STATUS "Setting prefix to Homebrew's Qt install location: /usr/local/opt/qt5")
-  set(CMAKE_PREFIX_PATH /usr/local/opt/qt5)
+  message(STATUS "Setting prefix to Homebrew's Qt install location: /usr/local/opt/qt@5")
+  set(CMAKE_PREFIX_PATH /usr/local/opt/qt@5)
 endif()
 
 # Qt Setup
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
 
 set(QT_TOOLS_DIR ${CMAKE_PREFIX_PATH}/bin)
 
 set_property(GLOBAL PROPERTY AUTOMOC_FOLDER Automoc)
 set_property(GLOBAL PROPERTY AUTOGEN_TARGETS_FOLDER Automoc)
 
-find_package(Qt5 COMPONENTS Core Widgets Gui Concurrent Network OpenGL PrintSupport Xml Svg REQUIRED)
+find_package(Qt6 QUIET)
+
+if(Qt6_FOUND AND WITH_QT_GUI_WEBENGINE)
+  find_package(Qt6 COMPONENTS Core Widgets Gui Concurrent Network OpenGLWidgets PrintSupport Xml Svg LinguistTools WebEngineWidgets REQUIRED)
+  add_compile_definitions(WITH_WEBENGINE)
+elseif(Qt6_FOUND)
+  find_package(Qt6 COMPONENTS Core Widgets Gui Concurrent Network OpenGLWidgets PrintSupport Xml Svg LinguistTools REQUIRED)
+elseif(WITH_QT_GUI_WEBENGINE)
+  find_package(Qt5 COMPONENTS Core Widgets Gui Concurrent Network OpenGL PrintSupport Xml Svg LinguistTools WebEngineWidgets REQUIRED)
+  add_compile_definitions(WITH_WEBENGINE)
+else()
+  find_package(Qt5 COMPONENTS Core Widgets Gui Concurrent Network OpenGL PrintSupport Xml Svg LinguistTools REQUIRED)
+endif()
+
 find_package(Threads REQUIRED)
 
 # We build QScintilla as part of the main project to make it easy to debug/fix
 # It is not built as part of externals
-add_subdirectory(QScintilla-2.12.1)
+add_subdirectory(QScintilla_src-2.13.3)
 
 set(APP_NAME sonic-pi)
 set(MACOS_APP_NAME "Sonic Pi")
@@ -79,12 +99,26 @@ set(SOURCES
     ${QTAPP_ROOT}/widgets/sonicpilog.h
     ${QTAPP_ROOT}/widgets/sonicpicontext.cpp
     ${QTAPP_ROOT}/widgets/sonicpicontext.h
+    ${QTAPP_ROOT}/widgets/sonicpimetro.cpp
+    ${QTAPP_ROOT}/widgets/sonicpimetro.h
+    ${QTAPP_ROOT}/widgets/sonicpieditor.cpp
+    ${QTAPP_ROOT}/widgets/sonicpieditor.h
     ${QTAPP_ROOT}/utils/scintilla_api.h
     ${QTAPP_ROOT}/utils/sonicpi_i18n.h
     ${QTAPP_ROOT}/utils/ruby_help.h
     ${QTAPP_ROOT}/utils/lang_list.h
     ${QTAPP_ROOT}/model/settings.h
     )
+
+  if(WITH_QT_GUI_WEBENGINE)
+    set(SOURCES
+      ${SOURCES}
+      ${QTAPP_ROOT}/widgets/phxwebview.h
+      ${QTAPP_ROOT}/widgets/phxwebview.cpp
+      ${QTAPP_ROOT}/widgets/phxwidget.h
+      ${QTAPP_ROOT}/widgets/phxwidget.cpp
+      )
+  endif()
 
 SET(RESOURCES
     ${QTAPP_ROOT}/SonicPi.qrc
@@ -93,6 +127,61 @@ SET(RESOURCES
     ${QTAPP_ROOT}/SonicPi.rc
     ${QTAPP_ROOT}/images/app.icns
     )
+
+SET(TS_FILES
+    ${QTAPP_ROOT}/lang/sonic-pi_ar.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_bg.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_bn.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_bs.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_ca.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_ca@valencia.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_cs.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_da.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_de.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_el.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_en_AU.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_en_US.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_eo.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_es.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_et.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_eu.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_fa.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_fi.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_fr.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_ga.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_gl.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_he.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_hi.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_hu.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_hy.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_id.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_is.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_it.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_ja.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_ka.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_ko.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_nb.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_nl.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_pl.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_pt_BR.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_pt.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_ro.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_ru.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_si.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_sk.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_sl.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_sv.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_sw.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_th.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_tr.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_ug.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_uk.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_vi.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_zh_HK.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_zh_TW.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_zh-Hans.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_zh.ts
+)
 
 # Enable tracy profiler on debug and rel with debug builds
 if(WIN32)
@@ -110,6 +199,15 @@ if (APPLE)
   _add_executable(${APP_NAME} MACOSX_BUNDLE ${ALL_SOURCES} ${RESOURCES} )
 else()
   add_executable(${APP_NAME} WIN32 ${ALL_SOURCES} ${RESOURCES}) # Win32 ignored on non-windows
+endif()
+
+# Translations: Convert the .ts files into .qm files
+set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION ${QTAPP_ROOT}/lang)
+if (Qt6_FOUND)
+  qt_add_lrelease(${APP_NAME} TS_FILES ${TS_FILES})
+else()
+  qt5_add_translation(QM_FILES ${TS_FILES})
+  set_property(SOURCE ${APP_NAME} APPEND PROPERTY OBJECT_DEPENDS ${QM_FILES})
 endif()
 
 if (APPLE)
@@ -131,7 +229,7 @@ if (APPLE)
     )
   file(
     GENERATE OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/run-macdeployqt.sh"
-    CONTENT "PATH=$PATH:/usr/local/opt/qt5/bin macdeployqt \"$1\""
+    CONTENT "PATH=$PATH:/usr/local/opt/qt@5/bin macdeployqt \"$1\""
     )
 
   add_custom_command(
@@ -181,9 +279,6 @@ target_include_directories(${APP_NAME}
     ${QTAPP_ROOT}/visualizer
     ${QTAPP_ROOT}/widgets
     ${QTAPP_ROOT}/Utils
-    ${Qt5Widgets_INCLUDE_DIRS}
-    ${Qt5Gui_INCLUDE_DIRS}
-    ${Qt5Core_INCLUDE_DIRS}
     ${CMAKE_BINARY_DIR}
     include)
 
@@ -191,13 +286,26 @@ target_link_libraries(${APP_NAME}
     PRIVATE
     SonicPi::API
     QScintilla
-    Qt5::Core
-    Qt5::Gui
-    Qt5::Widgets
-    Qt5::OpenGL
-    Qt5::Concurrent
-    Qt5::Network
+    Qt::Core
+    Qt::Gui
+    Qt::Widgets
+    Qt::OpenGL
+    Qt::Concurrent
+    Qt::Network
     Threads::Threads)
+
+if(Qt6_FOUND)
+  target_link_libraries(${APP_NAME}
+  PRIVATE
+  Qt::OpenGLWidgets)
+endif()
+
+if(WITH_QT_GUI_WEBENGINE)
+  target_link_libraries(${APP_NAME}
+  PRIVATE
+  Qt::WebEngineWidgets)
+endif()
+
 
 # Compile options and OS specific libraries
 if(WIN32)

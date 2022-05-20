@@ -15,6 +15,7 @@
 #include "sonicpiscintilla.h"
 #include "osc/oscsender.h"
 #include "dpi.h"
+#include <QRecursiveMutex>
 #include <QSettings>
 #include <QShortcut>
 #include <QDrag>
@@ -37,7 +38,7 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme, QSt
   standardCommands()->clearAlternateKeys();
   QString skey;
   QSettings settings(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net", "gui-keys-bindings");
-  mutex = new QMutex(QMutex::Recursive);
+  mutex = new QRecursiveMutex();
 
 #if defined(Q_OS_MAC)
   int SPi_CTRL = Qt::META;
@@ -604,10 +605,7 @@ void SonicPiScintilla::newlineAndIndent() {
 
   std::string code = text().toStdString();
 
-  // TODO: fix this:
-  std::string id = "foobar";
-
-  emit bufferNewlineAndIndent(point_line, point_index, first_line, code, fileName.toStdString(), id);
+  emit bufferNewlineAndIndent(point_line, point_index, first_line, code, fileName.toStdString());
   mutex->unlock();
 }
 

@@ -1,0 +1,26 @@
+# In attr_file_free, the locks are acquired in the opposite order in which they
+# are normally acquired. This is probably something worth fixing to have a
+# consistent lock hierarchy that is easy to understand.
+deadlock:attr_cache_lock
+
+# git_mwindow_file_register has the possibility of evicting some files from the
+# global cache. In order to avoid races and closing files that are currently
+# being accessed, before evicting any file it will attempt to acquire that
+# file's lock. Finally, git_mwindow_file_register is typically called with a
+# file lock held, because the caller will use the fd in the mwf immediately
+# after registering it. This causes ThreadSanitizer to observe different orders
+# of acquisition of the mutex (which implies a possibility of a deadlock),
+# _but_ since the files are added to the cache after other files have been
+# evicted, there cannot be a case where mwf A is trying to be registered while
+# evicting mwf B concurrently and viceversa: at most one of them can be present
+# in the cache.
+deadlock:git_mwindow_file_register
+
+# When invoking the time/timezone functions from git_signature_now(), they
+# access libc methods that need to be instrumented to correctly analyze the
+# data races.
+called_from_lib:libc.so.6
+
+# TODO(#5592): Investigate and fix this. It can be triggered by the `thread`
+# test suite.
+race:git_filter_list__load_ext

@@ -17,13 +17,13 @@ require 'rbconfig'
 
 
 require_relative "../core.rb"
+require_relative "../paths"
 require_relative "../lib/sonicpi/studio"
 
 require_relative "../lib/sonicpi/server"
 require_relative "../lib/sonicpi/util"
 require_relative "../lib/sonicpi/osc/osc"
 require_relative "../lib/sonicpi/lang/core"
-require_relative "../lib/sonicpi/lang/minecraftpi"
 require_relative "../lib/sonicpi/lang/midi"
 require_relative "../lib/sonicpi/lang/ixi"
 require_relative "../lib/sonicpi/lang/sound"
@@ -41,13 +41,19 @@ STDOUT.puts "Sonic Pi Spider Server booting..."
 STDOUT.puts "The time is #{Time.now}"
 
 ## Ensure ~/.sonic-pi/* user config, history and setting directories exist
-[home_dir_path, project_path, log_path, cached_samples_path, config_path, system_store_path].each do |d|
+[ SonicPi::Paths.home_dir_path,
+  SonicPi::Paths.project_path,
+  SonicPi::Paths.log_path,
+  SonicPi::Paths.cached_samples_path,
+  SonicPi::Paths.config_path,
+  SonicPi::Paths.system_store_path
+].each do |d|
   ensure_dir(d)
 end
 
 ## Just check to see if the user still has an old settings.json and if
 ## so, remove it. This is now stored in system_cache_store_path
-old_settings_file_path = File.absolute_path("#{home_dir_path}/settings.json")
+old_settings_file_path = File.absolute_path("#{SonicPi::Paths.home_dir_path}/settings.json")
 File.delete(old_settings_file_path) if File.exist?(old_settings_file_path)
 
 ## Move across any config example files if they don't
@@ -56,12 +62,12 @@ File.delete(old_settings_file_path) if File.exist?(old_settings_file_path)
 
 
 begin
-  if File.exists?(original_init_path)
-    if (File.exists?(init_path))
-      STDOUT.puts "Warning, you have an older init.rb file in #{original_init_path} which is now being ignored as your newer config/init.rb file is being used instead. Consider deleting your old init.rb (perhaps copying anything useful across first)."
+  if File.exists?(SonicPi::Paths.original_init_path)
+    if (File.exists?(SonicPi::Paths.init_path))
+      STDOUT.puts "Warning, you have an older init.rb file in #{SonicPi::Paths.original_init_path} which is now being ignored as your newer config/init.rb file is being used instead. Consider deleting your old init.rb (perhaps copying anything useful across first)."
     else
-      STDOUT.puts "Found init.rb in old location #{original_init_path}. Moving it to the new config directory #{init_path}."
-      FileUtils.mv(original_init_path, init_path)
+      STDOUT.puts "Found init.rb in old location #{SonicPi::Paths.original_init_path}. Moving it to the new config directory #{SonicPi::Paths.init_path}."
+      FileUtils.mv(SonicPi::Paths.original_init_path, init_path)
     end
   end
 rescue Exception => e
@@ -75,9 +81,9 @@ end
 
 
 
-Dir["#{user_config_examples_path}/*"].each do |f|
+Dir["#{SonicPi::Paths.user_config_examples_path}/*"].each do |f|
   basename = File.basename(f)
-  full_config_path = File.absolute_path("#{config_path}/#{basename}")
+  full_config_path = File.absolute_path("#{SonicPi::Paths.config_path}/#{basename}")
   unless File.exist?(full_config_path)
     FileUtils.cp(f, full_config_path)
   end
@@ -91,9 +97,6 @@ gui_protocol = case ARGV[0]
                when "-u"
                  # Qt GUI + udp
                  :udp
-               when "-w"
-                 # Web GUI + websockets
-                 :websockets
                else
                  :udp
                end
@@ -133,9 +136,7 @@ tau_port = ARGV[6] ? ARGV[6].to_i : 4561
 
 listen_to_tau_port = ARGV[7] ? ARGV[7].to_i : 4562
 
-# Port which the server uses to communicate via websockets
-# websocket
-websocket_port = ARGV[8] ? ARGV[8].to_i : 4563
+token = ARGV[8] ? ARGV[8].to_i : 0
 
 # Create a frozen map of the ports so that this can
 # essentially be treated as a global constant to the
@@ -147,11 +148,11 @@ sonic_pi_ports = {
   scsynth_send_port: scsynth_send_port,
   osc_cues_port: osc_cues_port,
   tau_port: tau_port,
-  listen_to_tau_port: listen_to_tau_port,
-  websocket_port: websocket_port}.freeze
+  listen_to_tau_port: listen_to_tau_port}.freeze
 
 
 STDOUT.puts "Ports: #{sonic_pi_ports.inspect}"
+STDOUT.puts "Token: #{token}"
 STDOUT.flush
 
 # Open up comms to the GUI.
@@ -162,8 +163,6 @@ begin
     gui = SonicPi::OSC::TCPClient.new("127.0.0.1", gui_port, use_encoder_cache: true)
   when :udp
     gui = SonicPi::OSC::UDPClient.new("127.0.0.1", gui_port, use_encoder_cache: true)
-  when :websockets
-    gui = SonicPi::OSC::WebSocketServer.new(websocket_port)
   end
 
 rescue Exception => e
@@ -173,8 +172,6 @@ rescue Exception => e
     STDOUT.puts "Attempted to use TCP on port #{gui_port}"
   when :udp
     STDOUT.puts "Attempted to use UDP on port #{gui_port}"
-  when :websockets
-    STDOUT.puts "Attempted to use Websockets on port #{websocket_port}"
   end
   STDOUT.puts "Error message received:\n-----------------------"
   STDOUT.puts e.message
@@ -183,20 +180,14 @@ rescue Exception => e
 end
 
 
-# Now we need to set up a server to listen to messages from the GUI.  If
-# we're running with websockets, then this is the same entity as the gui
-# comms which is already a websocket server
+# Now we need to set up a server to listen to messages from the GUI.
 begin
   case gui_protocol
   when :tcp
     osc_server = SonicPi::OSC::TCPServer.new(server_port, use_decoder_cache: true)
   when :udp
     STDOUT.puts "Opening UDP Server to listen to GUI on port: #{server_port}"
-    osc_server = SonicPi::OSC::UDPServer.new(server_port, use_decoder_cache: true)
-
-  when :websockets
-    STDOUT.puts "Listening to GUI on websocket"
-    osc_server = gui
+    osc_server = SonicPi::OSC::UDPServer.new(server_port, use_decoder_cache: true, name: "Spider API Server")
   end
 rescue Exception => e
   begin
@@ -213,32 +204,8 @@ rescue Exception => e
   exit
 end
 
-STDOUT.flush
-
-# # Next fire up a websockets server.
-# begin
-#   case gui_protocol
-#   when :tcp
-#     ws = SonicPi::OSC::WebSocketServer.new(websocket_port)
-#   when :udp
-#     ws = SonicPi::OSC::WebSocketServer.new(websocket_port)
-#   when :websockets
-#     ws = gui
-#   end
-# rescue Exception => e
-#   begin
-#     STDOUT.puts "Exception when opening a websocket on port: #{websocket_port}"
-#     STDOUT.puts e.message
-#     STDOUT.puts e.backtrace.inspect
-#     STDOUT.puts e.backtrace
-#     gui.send("/exited-with-boot-error", "Failed to open websocket port " + websocket_port.to_s)
-#   rescue Errno::EPIPE => e
-#     STDOUT.puts "GUI not listening, exit anyway."
-#   end
-#   exit
-# end
-
 STDOUT.puts "Spider - Pulling in modules..."
+STDOUT.flush
 
 user_methods = Module.new
 name = "SonicPiLang" # this should be autogenerated
@@ -247,7 +214,6 @@ klass = Object.const_set name, Class.new(SonicPi::Runtime)
 klass.send(:include, user_methods)
 klass.send(:include, SonicPi::Lang::Core)
 klass.send(:include, SonicPi::Lang::Sound)
-klass.send(:include, SonicPi::Lang::Minecraft)
 klass.send(:include, SonicPi::Lang::Midi)
 klass.send(:include, SonicPi::Lang::Ixi)
 klass.send(:include, SonicPi::Lang::Support::DocSystem)
@@ -277,10 +243,10 @@ begin
   STDOUT.puts "Spider - Runtime Server Initialised"
   STDOUT.flush
   # read in init.rb if exists
-  if File.exists?(init_path)
-    sp.__spider_eval(File.read(init_path), silent: true)
+  if File.exists?(SonicPi::Paths.init_path)
+    sp.__spider_eval(File.read(SonicPi::Paths.init_path), silent: true)
   else
-    STDOUT.puts "Spider - Could not find init.rb file: #{init_path} "
+    STDOUT.puts "Spider - Could not find init.rb file: #{SonicPi::Paths.init_path} "
   end
 
   sp.__print_boot_messages
@@ -302,6 +268,7 @@ at_exit do
     STDOUT.puts "Spider - GUI not listening."
   end
   STDOUT.puts "Spider - Goodbye :-)"
+  STDOUT.flush
 end
 
 
@@ -312,251 +279,443 @@ register_api = lambda do |server|
   #   STDOUT.flush
   # end
 
+
+
   server.add_method("/run-code") do |args|
-    gui_id = args[0]
-    code = args[1].force_encoding("utf-8")
-    sp.__spider_eval code
+    incoming_token = args[0]
+    if incoming_token == token
+      code = args[1].force_encoding("utf-8")
+      sp.__spider_eval code
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /run-code API call"
+      STDOUT.flush
+    end
   end
 
   server.add_method("/save-and-run-buffer") do |args|
-    gui_id = args[0]
-    buffer_id = args[1]
-    code = args[2].force_encoding("utf-8")
-    workspace = args[3]
-    sp.__save_buffer(buffer_id, code)
-    sp.__spider_eval code, {workspace: workspace}
+    incoming_token = args[0]
+    if incoming_token == token
+      buffer_id = args[1]
+      code = args[2].force_encoding("utf-8")
+      workspace = args[3]
+      sp.__save_buffer(buffer_id, code)
+      sp.__spider_eval code, {workspace: workspace}
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /save-and-run-buffer API call"
+      STDOUT.flush
+    end
   end
 
   server.add_method("/save-buffer") do |args|
-    gui_id = args[0]
-    buffer_id = args[1]
-    code = args[2].force_encoding("utf-8")
-    sp.__save_buffer(buffer_id, code)
+    incoming_token = args[0]
+    if incoming_token == token
+      buffer_id = args[1]
+      code = args[2].force_encoding("utf-8")
+      sp.__save_buffer(buffer_id, code)
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /save-buffer API call"
+      STDOUT.flush
+    end
   end
 
   server.add_method("/exit") do |args|
-    gui_id = args[0]
-    sp.__exit
+    incoming_token = args[0]
+    if incoming_token == token
+      sp.__exit
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /exit API call"
+      STDOUT.flush
+    end
   end
 
   server.add_method("/stop-all-jobs") do |args|
-    gui_id = args[0]
-    sp.__stop_jobs
+    incoming_token = args[0]
+    if incoming_token == token
+      sp.__stop_jobs
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /stop-all-jobs API call"
+      STDOUT.flush
+    end
   end
 
   server.add_method("/load-buffer") do |args|
-    gui_id = args[0]
-    sp.__load_buffer args[1]
+    incoming_token = args[0]
+    if incoming_token == token
+      sp.__load_buffer args[1]
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /load-buffer API call"
+      STDOUT.flush
+    end
   end
 
   server.add_method("/buffer-newline-and-indent") do |args|
-    gui_id = args[0]
-    id = args[1]
-    buf = args[2].force_encoding("utf-8")
-    point_line = args[3]
-    point_index = args[4]
-    first_line = args[5]
-    sp.__buffer_newline_and_indent(id, buf, point_line, point_index, first_line)
+    incoming_token = args[0]
+    if incoming_token == token
+      id = args[1]
+      buf = args[2].force_encoding("utf-8")
+      point_line = args[3]
+      point_index = args[4]
+      first_line = args[5]
+      sp.__buffer_newline_and_indent(id, buf, point_line, point_index, first_line)
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /buffer-newline-and-indent API call"
+      STDOUT.flush
+    end
   end
 
   server.add_method("/buffer-section-complete-snippet-or-indent-selection") do |args|
-    gui_id = args[0]
-    id = args[1]
-    buf = args[2].force_encoding("utf-8")
-    start_line = args[3]
-    finish_line = args[4]
-    point_line = args[5]
-    point_index = args[6]
-    sp.__buffer_complete_snippet_or_indent_lines(id, buf, start_line, finish_line, point_line, point_index)
+    incoming_token = args[0]
+    if incoming_token == token
+      id = args[1]
+      buf = args[2].force_encoding("utf-8")
+      start_line = args[3]
+      finish_line = args[4]
+      point_line = args[5]
+      point_index = args[6]
+      sp.__buffer_complete_snippet_or_indent_lines(id, buf, start_line, finish_line, point_line, point_index)
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /buffer-section-complete-snippet-or-indent-selection API call"
+      STDOUT.flush
+    end
   end
 
   server.add_method("/buffer-indent-selection") do |args|
-    gui_id = args[0]
-    id = args[1]
-    buf = args[2].force_encoding("utf-8")
-    start_line = args[3]
-    finish_line = args[4]
-    point_line = args[5]
-    point_index = args[6]
-    sp.__buffer_indent_lines(id, buf, start_line, finish_line, point_line, point_index)
+    incoming_token = args[0]
+    if incoming_token == token
+      id = args[1]
+      buf = args[2].force_encoding("utf-8")
+      start_line = args[3]
+      finish_line = args[4]
+      point_line = args[5]
+      point_index = args[6]
+      sp.__buffer_indent_lines(id, buf, start_line, finish_line, point_line, point_index)
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /buffer-indent-selection API call"
+      STDOUT.flush
+    end
   end
 
   server.add_method("/buffer-section-toggle-comment") do |args|
-    gui_id = args[0]
-    id = args[1]
-    buf = args[2].force_encoding("utf-8")
-    start_line = args[3]
-    finish_line = args[4]
-    point_line = args[5]
-    point_index = args[6]
-    sp.__toggle_comment(id, buf, start_line, finish_line, point_line, point_index)
+    incoming_token = args[0]
+    if incoming_token == token
+      id = args[1]
+      buf = args[2].force_encoding("utf-8")
+      start_line = args[3]
+      finish_line = args[4]
+      point_line = args[5]
+      point_index = args[6]
+      sp.__toggle_comment(id, buf, start_line, finish_line, point_line, point_index)
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /buffer-section-toggle-comment call"
+      STDOUT.flush
+    end
   end
 
   server.add_method("/buffer-beautify") do |args|
-    gui_id = args[0]
-    id = args[1]
-    buf = args[2].force_encoding("utf-8")
-    line = args[3]
-    index = args[4]
-    first_line = args[5]
-    sp.__buffer_beautify(id, buf, line, index, first_line)
+    incoming_token = args[0]
+    if incoming_token == token
+      id = args[1]
+      buf = args[2].force_encoding("utf-8")
+      line = args[3]
+      index = args[4]
+      first_line = args[5]
+      sp.__buffer_beautify(id, buf, line, index, first_line)
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /buffer-beautify call"
+      STDOUT.flush
+    end
   end
 
   server.add_method("/ping") do |args|
-    gui_id = args[0]
-    id = args[1]
-    gui.send("/ack", id)
+    incoming_token = args[0]
+    if incoming_token == token
+      id = args[1]
+      gui.send("/ack", id) if id
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /ping call"
+      STDOUT.flush
+    end
   end
 
   server.add_method("/start-recording") do |args|
-    gui_id = args[0]
-    sp.recording_start
+    incoming_token = args[0]
+    if incoming_token == token
+      sp.recording_start
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /start-recording call"
+      STDOUT.flush
+    end
   end
 
   server.add_method("/stop-recording") do |args|
-    gui_id = args[0]
-    sp.recording_stop
+    incoming_token = args[0]
+    if incoming_token == token
+      sp.recording_stop
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /stop-recording call"
+      STDOUT.flush
+    end
   end
 
   server.add_method("/delete-recording") do |args|
-    gui_id = args[0]
-    sp.recording_delete
+    incoming_token = args[0]
+    if incoming_token == token
+      sp.recording_delete
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /delete-recording call"
+      STDOUT.flush
+    end
   end
 
   server.add_method("/save-recording") do |args|
-    gui_id = args[0]
-    filename = args[1]
-    sp.recording_save(filename)
+    incoming_token = args[0]
+    if incoming_token == token
+      filename = args[1]
+      sp.recording_save(filename)
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /save-recording call"
+      STDOUT.flush
+    end
   end
 
   server.add_method("/reload") do |args|
-    gui_id = args[0]
-    dir = File.dirname("#{File.absolute_path(__FILE__)}")
-    Dir["#{dir}/../lib/**/*.rb"].each do |d|
-      load d
+    incoming_token = args[0]
+    if incoming_token == token
+      dir = File.dirname("#{File.absolute_path(__FILE__)}")
+      Dir["#{dir}/../lib/**/*.rb"].each do |d|
+        load d
+      end
+      puts "Spider - reloaded"
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /reload call"
+      STDOUT.flush
     end
-    puts "Spider - reloaded"
   end
 
   server.add_method("/mixer-invert-stereo") do |args|
-    gui_id = args[0]
-    sp.set_mixer_invert_stereo!
+    incoming_token = args[0]
+    if incoming_token == token
+      sp.set_mixer_invert_stereo!
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /mixer-invert-stereo call"
+      STDOUT.flush
+    end
   end
 
   server.add_method("/mixer-standard-stereo") do |args|
-    gui_id = args[0]
-    sp.set_mixer_standard_stereo!
+    incoming_token = args[0]
+    if incoming_token == token
+      sp.set_mixer_standard_stereo!
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /mixer-standard-stereo call"
+      STDOUT.flush
+    end
   end
 
   server.add_method("/mixer-stereo-mode") do |args|
-    gui_id = args[0]
-    sp.set_mixer_stereo_mode!
+    incoming_token = args[0]
+    if incoming_token == token
+      sp.set_mixer_stereo_mode!
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /mixer-stereo-mode call"
+      STDOUT.flush
+    end
   end
 
   server.add_method("/mixer-mono-mode") do |args|
-    gui_id = args[0]
-    sp.set_mixer_mono_mode!
+    incoming_token = args[0]
+    if incoming_token == token
+      sp.set_mixer_mono_mode!
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /mixer-mono-mode call"
+      STDOUT.flush
+    end
   end
 
   server.add_method("/mixer-hpf-enable") do |args|
-    gui_id = args[0]
-    freq = args[1].to_f
-    sp.set_mixer_hpf!(freq)
+    incoming_token = args[0]
+    if incoming_token == token
+      freq = args[1].to_f
+      sp.set_mixer_hpf!(freq)
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /mixer-hpf-enable call"
+      STDOUT.flush
+    end
   end
 
   server.add_method("/mixer-hpf-disable") do |args|
-    gui_id = args[0]
-    sp.set_mixer_hpf_disable!
+    incoming_token = args[0]
+    if incoming_token == token
+      sp.set_mixer_hpf_disable!
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /mixer-hpf-disable call"
+      STDOUT.flush
+    end
   end
 
   server.add_method("/mixer-lpf-enable") do |args|
-    gui_id = args[0]
-    freq = args[1].to_f
-    sp.set_mixer_lpf!(freq)
+    incoming_token = args[0]
+    if incoming_token == token
+      freq = args[1].to_f
+      sp.set_mixer_lpf!(freq)
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /mixer-lpf-enable call"
+      STDOUT.flush
+    end
   end
 
   server.add_method("/mixer-lpf-disable") do |args|
-    gui_id = args[0]
-    sp.set_mixer_lpf_disable!
+    incoming_token = args[0]
+    if incoming_token == token
+      sp.set_mixer_lpf_disable!
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /mixer-lpf-disable call"
+      STDOUT.flush
+    end
   end
 
   server.add_method("/mixer-amp") do |args|
-    gui_id = args[0]
-    amp = args[1]
-    silent = args[2] == 1
-    sp.set_volume!(amp, true, silent)
+    incoming_token = args[0]
+    if incoming_token == token
+      amp = args[1]
+      silent = args[2] == 1
+      sp.set_volume!(amp, true, silent)
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /mixer-amp call"
+      STDOUT.flush
+    end
   end
 
   server.add_method("/enable-update-checking") do |args|
-    gui_id = args[0]
-    sp.__enable_update_checker
+    incoming_token = args[0]
+    if incoming_token == token
+      sp.__enable_update_checker
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /enable-update-checking call"
+      STDOUT.flush
+    end
   end
 
   server.add_method("/disable-update-checking") do |args|
-    gui_id = args[0]
-    sp.__disable_update_checker
+    incoming_token = args[0]
+    if incoming_token == token
+      sp.__disable_update_checker
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /disable-update-checking call"
+      STDOUT.flush
+    end
   end
 
   server.add_method("/check-for-updates-now") do |args|
-    gui_id = args[0]
-    sp.__update_gui_version_info_now
+    incoming_token = args[0]
+    if incoming_token == token
+      sp.__update_gui_version_info_now
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /check-for-updates-now call"
+      STDOUT.flush
+    end
   end
 
   server.add_method("/version") do |args|
-    gui_id = args[0]
-    v = sp.__current_version
-    lv = sp.__server_version
-    lc = sp.__last_update_check
-    plat = host_platform_desc
-    gui.send("/version", v.to_s, v.to_i, lv.to_s, lv.to_i, lc.day, lc.month, lc.year, plat.to_s)
+    incoming_token = args[0]
+    if incoming_token == token
+      v = sp.__current_version
+      lv = sp.__server_version
+      lc = sp.__last_update_check
+      plat = host_platform_desc
+      gui.send("/version", v.to_s, v.to_i, lv.to_s, lv.to_i, lc.day, lc.month, lc.year, plat.to_s)
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /version call"
+      STDOUT.flush
+    end
   end
 
   server.add_method("/gui-heartbeat") do |args|
-    gui_id = args[0]
-    sp.__gui_heartbeat gui_id
+    incoming_token = args[0]
+    if incoming_token == token
+      sp.__gui_heartbeat incoming_token
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /gui-heartbeat call"
+      STDOUT.flush
+    end
   end
 
   server.add_method("/midi-start") do |args|
-    gui_id = args[0]
-    silent = args[1] == 1
-    sp.__midi_system_start(silent)
+    incoming_token = args[0]
+    if incoming_token == token
+      silent = args[1] == 1
+      sp.__midi_system_start(silent)
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /midi-start call"
+      STDOUT.flush
+    end
   end
 
   server.add_method("/midi-stop") do |args|
-    gui_id = args[0]
-    silent = args[1] == 1
-    sp.__midi_system_stop(silent)
+    incoming_token = args[0]
+    if incoming_token == tokne
+      silent = args[1] == 1
+      sp.__midi_system_stop(silent)
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /midi-stop call"
+      STDOUT.flush
+    end
   end
 
+
   server.add_method("/midi-reset") do |args|
-    gui_id = args[0]
-    silent = args[1] == 1
-    sp.__midi_system_reset(silent)
+    incoming_token = args[0]
+    if incoming_token == token
+      silent = args[1] == 1
+      sp.__midi_system_reset(silent)
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /midi-reset call"
+      STDOUT.flush
+    end
   end
 
   server.add_method("/cue-port-external") do |args|
-    gui_id = args[0]
-    sp.__cue_server_internal!(false)
+    incoming_token = args[0]
+    if incoming_token == token
+      sp.__cue_server_internal!(false)
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /cue-port-external call"
+      STDOUT.flush
+    end
   end
 
   server.add_method("/cue-port-internal") do |args|
-    gui_id = args[0]
-    sp.__cue_server_internal!(true)
+    incoming_token = args[0]
+    if incoming_token == token
+      sp.__cue_server_internal!(true)
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /cue-port-internal call"
+      STDOUT.flush
+    end
   end
 
   server.add_method("/cue-port-stop") do |args|
-    gui_id = args[0]
-    sp.__stop_start_cue_server!(true)
+    incoming_token = args[0]
+    if incoming_token == token
+      sp.__stop_start_cue_server!(true)
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /cue-port-stop call"
+      STDOUT.flush
+    end
   end
 
   server.add_method("/cue-port-start") do |args|
-    gui_id = args[0]
-    sp.__stop_start_cue_server!(false)
+    incoming_token = args[0]
+    if incoming_token == token
+      sp.__stop_start_cue_server!(false)
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /cue-port-start call"
+      STDOUT.flush
+    end
   end
 end
 
 register_api.call(osc_server)
-# register_api.call(ws) unless gui_protocol == :websockets
 
 # Send stuff out from Sonic Pi back out to osc_server
 out_t = Thread.new do
@@ -643,13 +802,9 @@ out_t = Thread.new do
           id = message[:job_id]
           action = message[:action]
           # do nothing for now
-        when :websocket_osc
-          path = message[:path]
-          body = message[:body]
-          # ws.send(path, *body)
-          STDOUT.puts "Spider - Sending to websocket not supported. Attempted to send: #{path}, #{body}"
         else
           STDOUT.puts "Spider - Ignoring #{message}"
+          STDOUT.flush
         end
 
       end

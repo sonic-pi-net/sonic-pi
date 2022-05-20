@@ -494,37 +494,37 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2723"/>
         <source>Audio</source>
-        <translation type="unfinished">Ses</translation>
+        <translation>Ses</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2732"/>
         <source>Visuals</source>
-        <translation type="unfinished">Görseller</translation>
+        <translation>Görselleştirmeler</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2736"/>
         <source>Light</source>
-        <translation type="unfinished">Aydınlık</translation>
+        <translation>Aydınlık</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2741"/>
         <source>Dark</source>
-        <translation type="unfinished">Karanlık</translation>
+        <translation>Karanlık</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2746"/>
         <source>Pro Light</source>
-        <translation type="unfinished">Pro Aydınlık</translation>
+        <translation>Pro Aydınlık</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2751"/>
         <source>Pro Dark</source>
-        <translation type="unfinished">Pro Karanlık</translation>
+        <translation>Pro Karanlık</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2756"/>
         <source>High Contrast</source>
-        <translation type="unfinished">Yüksek Zıtlık</translation>
+        <translation>Yüksek Zıtlık</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2761"/>
@@ -544,7 +544,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2786"/>
         <source>IO</source>
-        <translation type="unfinished">Giriş/Çıkış</translation>
+        <translation>Girdi/Çıktı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2788"/>
@@ -963,7 +963,7 @@ Sonic Pi %1 i Al</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2563"/>
         <source>Show Scopes</source>
-        <translation type="unfinished">Kapsamları Göster</translation>
+        <translation>Osiloskopları Göster</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2571"/>
@@ -1280,7 +1280,7 @@ gönderip alabilir.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="171"/>
         <source>Allow OSC from other computers</source>
-        <translation type="unfinished"></translation>
+        <translation>Diğer bilgisayarlardan OSC&apos;ye izin ver</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="172"/>
@@ -1292,17 +1292,17 @@ gönderip alabilir.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="174"/>
         <source>Allow incoming OSC</source>
-        <translation type="unfinished"></translation>
+        <translation>Gelen OSC&apos;ye İzin Ver</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="285"/>
         <source>Show code completion</source>
-        <translation type="unfinished"></translation>
+        <translation>Kod tamamlamayı göster</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="397"/>
         <source>Show Scope Labels</source>
-        <translation type="unfinished"></translation>
+        <translation>Osiloskop Etiketlerini Göster</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="175"/>
@@ -1392,52 +1392,52 @@ doğrudan Sonic Pi&apos;den MIDI mesajları alır</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="86"/>
         <source>Main Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Ana Ses</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="116"/>
         <source>Enable external synths/FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Harici synth&apos;leri/FX&apos;i etkinleştir</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="146"/>
         <source>Incoming OSC port</source>
-        <translation type="unfinished"></translation>
+        <translation>Gelen OSC bağlantı noktası</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="189"/>
         <source>Enable incoming MIDI cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Gelen MIDI ipuçlarını etkinleştir</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="190"/>
         <source>Enable or disable automatic conversion of incoming MIDI messages to cue events</source>
-        <translation type="unfinished"></translation>
+        <translation>Gelen MIDI mesajlarının cue olaylarına otomatik olarak dönüştürülmesini etkinleştirin veya devre dışı bırakın</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="220"/>
         <source>Default MIDI channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Öntanımlı MIDI kanalı</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="221"/>
         <source>Default MIDI Channel to send messages to (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation>Mesaj göndermek için varsayılan MIDI Kanalı (* tümü anlamına gelir)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="225"/>
         <source>Default MIDI Channel to send messages to  (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation>Mesaj göndermek için varsayılan MIDI Kanalı  (* tümü anlamına gelir)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="276"/>
         <source>Automation / Misc</source>
-        <translation type="unfinished"></translation>
+        <translation>Otomasyon / Çeşitli</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="277"/>
         <source>Configure automation and other features.</source>
-        <translation type="unfinished"></translation>
+        <translation>Otomasyonu ve diğer özellikleri yapılandırın.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="279"/>
@@ -1462,17 +1462,17 @@ doğrudan Sonic Pi&apos;den MIDI mesajları alır</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="286"/>
         <source>When enabled, Sonic Pi&apos;s editor will attempt to autocomplete your code with suggestions. When disabled, these suggestions will not be visible.</source>
-        <translation type="unfinished"></translation>
+        <translation>Etkinleştirildiğinde, Sonic Pi&apos;nin düzenleyicisi, kodunuzu önerilerle otomatik olarak tamamlamaya çalışır. Devre dışı bırakıldığında, bu öneriler görünmez.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="288"/>
         <source>Show code context</source>
-        <translation type="unfinished"></translation>
+        <translation>Kod bağlamını göster</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="289"/>
         <source>When enabled, Sonic Pi&apos;s editor will show a pane which will display context-specific information for the code such as the current line and position of the cursor.</source>
-        <translation type="unfinished"></translation>
+        <translation>Etkinleştirildiğinde, Sonic Pi&apos;nin düzenleyicisi, geçerli satır ve imlecin konumu gibi kod için bağlama özel bilgileri görüntüleyen bir bölme gösterecektir.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="291"/>
@@ -1641,7 +1641,7 @@ Etkinleştirilirse, her yeni mesaj görüntülendikten sonra günlük en alta ka
     <message>
         <location filename="../widgets/settingswidget.cpp" line="398"/>
         <source>Toggle the visibility of the labels for the audio oscilloscopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses osiloskopları için etiketlerin görünürlüğünü değiştirin</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="401"/>
@@ -1653,7 +1653,14 @@ Mirror Stereo - simple left/right composite wave, with left on top, right on bot
 Mono - shows a combined view of the left and right channels (using RMS)
 Spectrum - shows the sound frequencies as a spectrum, from low to high frequencies
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses osiloskopu, aşağıdakileri
+bağımsız olarak veya hep birlikte görüntülenebilir:
+
+Lissajous - sol ve sağ kanallar arasındaki faz ilişkisini gösterir
+Mirror Stereo - basit sol/sağ bileşik dalga, sol üstte, sağ altta
+Mono - sol ve sağ kanalların birleşik görünümünü gösterir (RMS kullanarak)
+Spektrum - ses frekanslarını düşükten yüksek frekanslara kadar bir spektrum olarak gösterir
+Stereo - sol ve sağ kanallar için iki bağımsız kapsam gösterir</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="408"/>

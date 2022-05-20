@@ -1,0 +1,61 @@
+name: Rugged CI
+
+on:
+  pull_request:
+  push:
+    branches:
+    - master
+    - maint/*
+
+jobs:
+  macOS:
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby: [ '2.6', '2.7', '3.0' ]
+        os: [ macOS-latest ]
+    runs-on: ${{ matrix.os }}
+
+    name: Ruby ${{ matrix.ruby }} on ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@master
+    - name: update submodule
+      run: git submodule update --init
+    - name: Install macOS packages
+      run: ./vendor/libgit2/ci/setup-osx.sh
+    - name: Set up Ruby on macOS
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby }}
+        bundler-cache: true
+    - name: run build
+      run: |
+        ruby --version
+        ./script/travisbuild
+
+  ubuntu:
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby: [ '2.6', '2.7', '3.0' ]
+        os: [ ubuntu-18.04 ]
+    runs-on: ${{ matrix.os }}
+
+    name: Ruby ${{ matrix.ruby }} on ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@master
+    - name: update submodule
+      run: git submodule update --init
+    - name: Install Linux packages
+      run: |
+        sudo apt update
+        sudo apt install -y cmake libssh2-1-dev openssh-client openssh-server
+    - name: Set up Ruby on Linux
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby }}
+        bundler-cache: true
+    - name: run build
+      run: |
+        ruby --version
+        ./script/travisbuild

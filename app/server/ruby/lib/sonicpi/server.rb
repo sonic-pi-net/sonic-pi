@@ -48,6 +48,7 @@ module SonicPi
       @osc_path_notify      = "/notify".freeze
       @osc_path_clearsched  = "/clearSched"
       @osc_path_d_loaddir   = "/d_loadDir".freeze
+      @osc_path_d_load      = "/d_load".freeze
       @osc_path_g_freeall   = "/g_freeAll".freeze
       @osc_path_g_deepfree  = "/g_deepFree".freeze
       @osc_path_g_new       = "/g_new".freeze
@@ -72,7 +73,7 @@ module SonicPi
       @server_thread_id = ThreadId.new(-3)
       @live_synths = {}
       @live_synths_mut = Mutex.new
-      @latency = 0
+      @latency = 0.0
 
       #TODO: Might want to make this available more globally so it can
       #be dynamically turned on and off
@@ -109,7 +110,7 @@ module SonicPi
       add_event_oneshot_handler("/sonic-pi/server-info") do |payload|
         info_prom.deliver! payload
       end
-      load_synthdefs(synthdef_path)
+      load_synthdefs(Paths.synthdef_path)
       osc @osc_path_s_new, "sonic-pi-server-info", 1, 0, 0
       server_info = info_prom.get
       @scsynth_info = SonicPi::Core::SPMap.new({
@@ -154,6 +155,13 @@ module SonicPi
       info "Loading synthdefs from path: #{path}" if @debug_mode
       with_done_sync [@osc_path_d_loaddir] do
         osc @osc_path_d_loaddir, path.to_s
+      end
+    end
+
+    def load_synthdef(path)
+      info "Loading synthdef from path: #{path}" if @debug_mode
+      with_done_sync [@osc_path_d_load] do
+        osc @osc_path_d_load, path.to_s
       end
     end
 
@@ -375,8 +383,7 @@ module SonicPi
       if now
         osc @osc_path_s_new, s_name, node_id, pos_code, group_id, *normalised_args
       else
-        t = @current_spider_time_lambda.call || Time.now
-        ts =  t + sched_ahead_time
+        ts = sched_time
         ts = ts - @control_delta if t_minus_delta
         osc_bundle ts, @osc_path_s_new, s_name, node_id, pos_code, group_id, *normalised_args
       end
@@ -384,15 +391,14 @@ module SonicPi
     end
 
     def sched_ahead_time_for_node_mod(node_id)
-      thread_local_time = @current_spider_time_lambda.call
+      thread_local_deltas = __system_thread_locals.get(:sonic_pi_local_control_deltas)
 
-      if thread_local_time
-        thread_local_deltas = __system_thread_locals.get(:sonic_pi_local_control_deltas)
+      if thread_local_deltas
         d = thread_local_deltas[node_id] ||= @control_delta
         thread_local_deltas[node_id] += @control_delta
-        thread_local_time + d + sched_ahead_time
+        sched_time + d
       else
-        Time.now + sched_ahead_time
+        sched_time
       end
     end
 
@@ -708,15 +714,16 @@ module SonicPi
       @latency = latency.to_f / 1000.0
     end
 
-    def sched_ahead_time
-      sat = __system_thread_locals.get(:sonic_pi_spider_sched_ahead_time)
-      return sat + @latency if sat
-
+    def sched_time
       t = @current_spider_time_lambda.call || Time.now
+
+      sat = __system_thread_locals.get(:sonic_pi_spider_sched_ahead_time)
+      return t + sat + @latency if sat
+
       i = __system_thread_locals.get(:sonic_pi_spider_thread_id_path, @server_thread_id)
       res = @state.get(t, 0, i, 0, 0, 60, :sched_ahead_time)
       raise "sched_ahead_time, can't get time. Is this a Sonic Pi thread? " unless res
-      return res.val + @latency
+      return t + res.val + @latency
     end
 
   end

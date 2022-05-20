@@ -123,6 +123,7 @@
         <file>../../../etc/doc/images/tutorial/articles/A.14-amplitude-modulation/slicer_control_waves.png</file>
         <file>../../../etc/doc/images/tutorial/articles/A.14-amplitude-modulation/slicer_phase_durations.png</file>
 
+        <file>../../../etc/doc/images/tutorial/articles/A.19-subtractive-synthesis/subtractive-synthesis-waveforms.png</file>
         <file>../../../etc/doc/images/tutorial/articles/A.20-creative-coding-in-the-classroom/jylda-small.png</file>
         <file>../../../etc/doc/images/tutorial/articles/A.20-creative-coding-in-the-classroom/convo-small.png</file>
 
@@ -136,6 +137,7 @@
         <file>images/coreteam/robinnewman.png</file>
         <file>images/coreteam/ethancrawford.png</file>
         <file>images/coreteam/chrismaughan.png</file>
+        <file>images/coreteam/lilyfoster.png</file>
 
         <file>html/doc.html</file>
         <file>html/info.html</file>
@@ -196,8 +198,9 @@
         <file>lang/sonic-pi_zh_TW.qm</file>
 
 
-
         <file>fonts/Hack-Regular.ttf</file>
         <file>fonts/Hack-Italic.ttf</file>
+        <file>fonts/Hack-Bold.ttf</file>
+        <file>fonts/Hack-BoldItalic.ttf</file>
     </qresource>
 </RCC>

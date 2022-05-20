@@ -28,6 +28,8 @@ module SonicPi
         @literal_low_s = 's'.freeze
         @literal_low_b = 'b'.freeze
         @literal_low_h = 'h'.freeze
+        @literal_cap_f = 'F'.freeze
+        @literal_cap_t = 'T'.freeze
         @literal_empty_str = ''.freeze
         @literal_str_encode_regexp = /\000.*\z/
         @literal_str_pad = "\000".freeze
@@ -103,6 +105,10 @@ module SonicPi
           when SonicPi::OSC::Int64
             tags << @literal_low_h
             args_encoded << arg.binary
+          when true
+            tags << @literal_cap_t
+          when false
+            tags << @literal_cap_f
           else
             raise "Unknown arg type to encode: #{arg.inspect}"
           end

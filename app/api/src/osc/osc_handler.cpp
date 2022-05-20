@@ -50,7 +50,7 @@ void OscHandler::oscMessage(std::vector<char> buffer)
         if (msg->match("/log/multi_message"))
         {
             MessageInfo message;
-            message.type = MessageType::Muti;
+            message.type = MessageType::Multi;
 
             oscpkt::Message::ArgReader ar = msg->arg();
             ar.popInt32(message.jobId);

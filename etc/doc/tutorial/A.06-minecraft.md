@@ -3,6 +3,14 @@ A.6 Musical Minecraft
 # Musical Minecraft
 
 
+**Deprecation Warning**
+_Apologies but this article was written back when Minecraft Pi Edition
+was still part of Raspberry Pi OS and Sonic Pi had built-in support to
+control it with code. Unfortunately this is no longer the case and the
+minecraft specific code (`mc_*` functions) are no longer available in
+Sonic Pi. However, this article is left here as a memory of what was
+once possible._
+
 
 Hello and welcome back! In the previous tutorials we've focussed purely
 on the music possibilities of Sonic Pi - (turning your Raspberry Pi into

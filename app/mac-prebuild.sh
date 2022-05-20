@@ -1,30 +1,12 @@
 #!/bin/bash
 set -e # Quit script on error
+
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+WORKING_DIR="$(pwd)"
 
 # Check to see if we have a bundled Ruby and if so, use that
 # Otherwise use system ruby
-# Build vcpkg
-if [ ! -d "vcpkg" ]; then
-    echo "Cloning vcpkg"
-    git clone --single-branch --branch master https://github.com/microsoft/vcpkg.git vcpkg
-fi
-
-if [ ! -f "vcpkg/vcpkg" ]; then
-    echo "Building vcpkg"
-    cd vcpkg
-    ./bootstrap-vcpkg.sh -disableMetrics
-    cd ${SCRIPT_DIR}
-fi
-
-triplet=(x64-osx)
-
-cd vcpkg
-./vcpkg install kissfft fmt sdl2 gl3w reproc gsl-lite concurrentqueue platform-folders catch2 --triplet ${triplet[0]} --recurse
-
-cd ${SCRIPT_DIR}
-
-BUNDLED_RUBY="${SCRIPT_DIR}/server/native/ruby/bin/ruby"
+BUNDLED_RUBY="${SCRIPT_DIR}"/server/native/ruby/bin/ruby
 if [ -f "$BUNDLED_RUBY" ]; then
     echo "Found bundled Ruby: ${BUNDLED_RUBY}"
     RUBY=$BUNDLED_RUBY
@@ -33,54 +15,18 @@ else
     RUBY=ruby
 fi
 
+cd "${SCRIPT_DIR}"
 
-# Build external dependencies
-"${SCRIPT_DIR}/external/mac_build_externals.sh"
-# mkdir -p "${SCRIPT_DIR}/server/native/lib"
- cp "${SCRIPT_DIR}/external/build/aubio-prefix/src/aubio-build/aubio_onset" "${SCRIPT_DIR}/server/native/"
+"${SCRIPT_DIR}"/mac-pre-vcpkg.sh "$@"
 
-
-# Install dependencies to server
-echo "Copying external dependencies to the server..."
-mkdir -p "${SCRIPT_DIR}/server/erlang/tau/priv/"
-for f in ${SCRIPT_DIR}/external/build/sp_midi-prefix/src/sp_midi-build/*.dylib; do
-    cp $f ${SCRIPT_DIR}/server/erlang/tau/priv/$(basename $f .dylib).so
-done
-
-for f in ${SCRIPT_DIR}/external/build/sp_link-prefix/src/sp_link-build/*.dylib; do
-    cp $f ${SCRIPT_DIR}/server/erlang/tau/priv/$(basename $f .dylib).so
-done
-
-
-# Copy prebuilt native files to server
-echo "Copying prebuilt binaries to the server..."
-mkdir -p ${SCRIPT_DIR}/server/native/
-rm -rf ${SCRIPT_DIR}/server/native/supercollider
-rm -rf ${SCRIPT_DIR}/server/native/erlang
-rm -rf ${SCRIPT_DIR}/server/native/scsynth
-cp -R ${SCRIPT_DIR}/../prebuilt/macos/x64/* ${SCRIPT_DIR}/server/native/
-cd ${SCRIPT_DIR}/server/native/
-ln -s supercollider/scsynth scsynth
-mv supercollider/extra-plugins/* supercollider/plugins/
-rm -rf supercollider/extra-plugins
+"${SCRIPT_DIR}"/external/mac_build_externals.sh
 
 echo "Compiling native ruby extensions..."
-$RUBY "${SCRIPT_DIR}/server/ruby/bin/compile-extensions.rb"
+"$RUBY" "${SCRIPT_DIR}"/server/ruby/bin/compile-extensions.rb
 
-echo "Translating tutorial..."
+"${SCRIPT_DIR}"/mac-pre-translations.sh
+"${SCRIPT_DIR}"/mac-pre-copy-binaries.sh
+"${SCRIPT_DIR}"/mac-pre-tau-prod-release.sh
 
-$RUBY "${SCRIPT_DIR}/server/ruby/bin/i18n-tool.rb" -t
-
-echo "Generating docs for the Qt GUI..."
-cp "${SCRIPT_DIR}/gui/qt/utils/ruby_help.tmpl" "${SCRIPT_DIR}/gui/qt/utils/ruby_help.h"
-$RUBY "${SCRIPT_DIR}/server/ruby/bin/qt-doc.rb" -o "${SCRIPT_DIR}/gui/qt/utils/ruby_help.h"
-
-echo "Updating GUI translation files..."
-# Use lrelease on PATH if available otherwise assume Qt was installed via homebrew
-PATH=$PATH:/usr/local/opt/qt/bin lrelease "${SCRIPT_DIR}"/gui/qt/lang/*.ts
-
-echo "Compiling erlang files..."
-cd "${SCRIPT_DIR}/server/erlang/tau"
-../../native/erlang/erl -make
-cp src/tau.app.src ebin/tau.app
-cd "${SCRIPT_DIR}"
+# Restore working directory as it was prior to this script running...
+cd "${WORKING_DIR}"

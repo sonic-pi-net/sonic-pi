@@ -57,7 +57,8 @@ struct PayloadEntryHeader
     Size size;
     tie(key, begin) = Deserialize<Key>::fromNetworkByteStream(begin, end);
     tie(size, begin) = Deserialize<Size>::fromNetworkByteStream(begin, end);
-    return make_pair(PayloadEntryHeader{std::move(key), std::move(size)}, std::move(begin));
+    return make_pair(
+      PayloadEntryHeader{std::move(key), std::move(size)}, std::move(begin));
   }
 };
 
@@ -287,7 +288,8 @@ template <typename... Entries, typename It, typename... Handlers>
 void parsePayload(It begin, It end, Handlers... handlers)
 {
   using namespace std;
-  ParsePayload<Entries...>::parse(std::move(begin), std::move(end), std::move(handlers)...);
+  ParsePayload<Entries...>::parse(
+    std::move(begin), std::move(end), std::move(handlers)...);
 }
 
 } // namespace discovery

@@ -22,6 +22,7 @@
 #include <ableton/link/Optional.hpp>
 #include <ableton/link/StartStopState.hpp>
 #include <ableton/link/Timeline.hpp>
+#include <ableton/link/TripleBuffer.hpp>
 
 namespace ableton
 {
@@ -54,6 +55,39 @@ struct ClientState
 
   Timeline timeline;
   ClientStartStopState startStopState;
+};
+
+struct ControllerClientState
+{
+  ControllerClientState(ClientState state)
+    : mState(state)
+    , mRtState(state)
+  {
+  }
+
+  template <typename Fn>
+  void update(Fn fn)
+  {
+    std::unique_lock<std::mutex> lock(mMutex);
+    fn(mState);
+    mRtState.write(mState);
+  }
+
+  ClientState get() const
+  {
+    std::unique_lock<std::mutex> lock(mMutex);
+    return mState;
+  }
+
+  ClientState getRt() const
+  {
+    return mRtState.read();
+  }
+
+private:
+  mutable std::mutex mMutex;
+  ClientState mState;
+  mutable TripleBuffer<ClientState> mRtState;
 };
 
 struct RtClientState

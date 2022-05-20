@@ -18,7 +18,7 @@ module SonicPi
 
     def test_basic_setting_and_getting
       t = SonicPi::Core::ThreadLocal.new
-      assert_equal(t.get(:foo), nil)
+      assert_nil(t.get(:foo))
       t.set(:foo, 1)
       assert_equal(t.get(:foo), 1)
       t.set(:foo, 3)
@@ -27,7 +27,7 @@ module SonicPi
 
     def test_local_setting
       t = SonicPi::Core::ThreadLocal.new
-      assert_equal(t.get(:foo), nil)
+      assert_nil(t.get(:foo))
       t.set_local(:foo, 1)
       assert_equal(t.get(:foo), 1)
       t.set(:foo, 3)
@@ -52,7 +52,7 @@ module SonicPi
       t2 = SonicPi::Core::ThreadLocal.new(t)
       t2.set(:bar, 3)
       assert_equal(t2.get(:bar), 3)
-      assert_equal(t2.get(:foo), nil)
+      assert_nil(t2.get(:foo))
     end
   end
 end

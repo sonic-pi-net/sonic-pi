@@ -4,6 +4,16 @@ A.8 Become a Minecraft VJ
 
 ![Screen 0](../../../etc/doc/images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-0-small.png)
 
+
+**Deprecation Warning**
+_Apologies but this article was written back when Minecraft Pi Edition
+was still part of Raspberry Pi OS and Sonic Pi had built-in support to
+control it with code. Unfortunately this is no longer the case and the
+minecraft specific code (`mc_*` functions) are no longer available in
+Sonic Pi. However, this article is left here as a memory of what was
+once possible._
+
+
 Everyone has played Minecraft. You will all have built amazing
 structures, designed cunning traps and even created elaborate cart lines
 controlled by redstone switches. How many of you have performed with

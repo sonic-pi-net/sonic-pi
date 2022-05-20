@@ -43,7 +43,7 @@ public:
         nodeState.sessionId,
         std::move(ghostXForm),
         std::move(clock),
-        util::injectVal(mIo->clone()))
+        util::injectRef(*mIo))
     , mPeerGateway(discovery::makeIpV4Gateway(util::injectRef(*mIo),
         std::move(addr),
         std::move(observer),
@@ -83,7 +83,7 @@ public:
 
 private:
   util::Injected<IoContext> mIo;
-  MeasurementService<Clock, typename std::remove_reference<IoContext>::type> mMeasurement;
+  MeasurementService<Clock, typename util::Injected<IoContext>::type&> mMeasurement;
   discovery::
     IpV4Gateway<PeerObserver, PeerState, typename util::Injected<IoContext>::type&>
       mPeerGateway;

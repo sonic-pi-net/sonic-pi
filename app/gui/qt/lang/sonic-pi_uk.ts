@@ -158,12 +158,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2547"/>
         <source>Align code to improve readability</source>
-        <translation type="unfinished"></translation>
+        <translation>Вирівняти код для покращення прочитності</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2567"/>
         <source>Toggle visibility of audio oscilloscope</source>
-        <translation type="unfinished"></translation>
+        <translation>Перемикнути видимість аудіо осцилографа</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3108"/>
@@ -228,7 +228,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="793"/>
         <source>Context</source>
-        <translation type="unfinished"></translation>
+        <translation>Контекст</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="897"/>
@@ -324,7 +324,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2097"/>
         <source>Colour Theme: </source>
-        <translation type="unfinished"></translation>
+        <translation>Кольорова тема: </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2305"/>

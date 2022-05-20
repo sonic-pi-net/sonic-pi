@@ -32,6 +32,10 @@ namespace platforms
 #undef linux
 #endif
 
+#if defined(__FreeBSD_kernel__)
+#define CLOCK_MONOTONIC_RAW CLOCK_MONOTONIC
+#endif
+
 namespace linux
 {
 

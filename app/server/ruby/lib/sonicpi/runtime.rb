@@ -40,6 +40,7 @@ require 'fileutils'
 require 'set'
 require 'ruby-beautify'
 require 'securerandom'
+require 'monitor'
 require 'active_support/core_ext/integer/inflections'
 
 
@@ -52,7 +53,7 @@ module SonicPi
     ## Probably should be moved somewhere else
     @@stop_job_mutex = Mutex.new
 
-    def load_snippets(path=snippets_path, quiet=false)
+    def load_snippets(path=Paths.snippets_path, quiet=false)
       path = File.expand_path(path)
       Dir["#{path}/**/*.sps"].each do |p|
 
@@ -115,48 +116,54 @@ module SonicPi
 
     def __change_spider_time_and_beat!(new_time = nil, new_beat = nil)
       __system_thread_locals.set :sonic_pi_spider_time, new_time.to_r
-      __system_thread_locals.set(:sonic_pi_spider_beat, new_beat.to_f)
+      __system_thread_locals.set :sonic_pi_spider_beat, new_beat.to_f
     end
 
-    def __reset_spider_time_and_beat!
-      if __in_link_bpm_mode
-        new_time, new_beat = @tau_api.link_current_time_and_beat(0)
-        __system_thread_locals.set :sonic_pi_spider_time, new_time.to_r
-        __system_thread_locals.set(:sonic_pi_spider_beat, new_beat.to_f)
-        __system_thread_locals.set :sonic_pi_spider_start_time, new_time.to_r
-      else
-        t = Time.now.to_r
-        __change_spider_time_and_beat!(t, 0)
-        __system_thread_locals.set :sonic_pi_spider_start_time, t
-      end
+    def __init_spider_time_and_beat!
+      t = Time.now.to_f
+      __change_spider_time_and_beat!(t, 0)
+      __system_thread_locals.set :sonic_pi_spider_start_time, t
     end
 
-    def __change_spider_bpm!(new_bpm)
-      case new_bpm
-      when :link
+    def __change_spider_bpm_time_and_beat!(bpm, time, beat)
+
+      # Need to be careful here about how to switch bpm modes.
+      # We have 4 main cases:
+      # 1. link -> link
+      # 2. std  -> link
+      # 3. link -> std
+      # 4. std  -> std
+
+      if bpm == :link
         if __in_link_bpm_mode
-          # do nothing, we're already in link bpm mode
+          # 1. link -> link
+          __change_spider_time_and_beat!(time, beat)
         else
-          __system_thread_locals.set :sonic_pi_spider_bpm, :link
-          __reset_spider_time_and_beat!
+          # 2. std -> link
+          __system_thread_locals.set(:sonic_pi_spider_bpm, :link)
+          link_beat = __get_link_beat_at_clock_time(time)
+          __change_spider_time_and_beat!(time, link_beat)
         end
-
-      when Numeric
-        __system_thread_locals.set :sonic_pi_spider_bpm, new_bpm.to_f
       else
-        raise StandardError, "Unknown BPM value. Expecting either a number e.g. 120 or :link."
+        # 3. link -> std
+        # 4. std  -> std
+        __system_thread_locals.set(:sonic_pi_spider_bpm, bpm.to_f)
+        __change_spider_time_and_beat!(time, beat)
       end
     end
 
-    def __reset_spider_bpm!
-      __change_spider_bpm!(60.0)
+
+    def __get_link_beat_at_clock_time(clock_time)
+      @tau_api.link_get_beat_at_clock_time(clock_time)
     end
 
     def __change_spider_beat_and_time_by_beat_delta!(beat_delta)
       new_beat = __get_spider_beat + (beat_delta / __get_spider_time_density)
 
       if __in_link_bpm_mode
-        __system_thread_locals.set(:sonic_pi_spider_beat, new_beat.to_f)
+        new_time = @tau_api.link_get_clock_time_at_beat(new_beat)
+        new_time -=  __current_sched_ahead_time
+        __change_spider_time_and_beat!(new_time, new_beat)
       else
         sleep_mul = __get_spider_sleep_mul
         sleep_time = beat_delta * sleep_mul
@@ -170,11 +177,7 @@ module SonicPi
     end
 
     def __get_spider_time
-      if __in_link_bpm_mode
-        @tau_api.link_get_clock_time_at_beat(__get_spider_beat)
-      else
-        __system_thread_locals.get(:sonic_pi_spider_time)
-      end
+      __system_thread_locals.get(:sonic_pi_spider_time)
     end
 
     def __get_spider_time_density
@@ -198,16 +201,20 @@ module SonicPi
       end
     end
 
+    def __get_spider_bpm_mode
+      if __in_link_bpm_mode
+        :link
+      else
+        __get_spider_bpm
+      end
+    end
+
     def __get_spider_beat
       __system_thread_locals.get :sonic_pi_spider_beat
     end
 
     def __get_spider_start_time
       __system_thread_locals.get :sonic_pi_spider_start_time
-    end
-
-    def __current_run_time
-      (__get_spider_time - @global_start_time).round(6)
     end
 
     def __current_local_run_time
@@ -223,25 +230,6 @@ module SonicPi
     ### End - Spider Time Management functions
     ###
 
-
-    def __register_internal_cue_event(address, args)
-      p = 0
-      d = 0
-      b = 0
-      m = 60
-      @register_cue_event_lambda.call(Time.now, p, @system_init_thread_id, d, b, m, address, args, 0)
-    end
-
-    def __register_external_osc_cue_event(time, host, port, address, args)
-      address = "/#{address}" unless address.start_with?("/")
-      address = "/osc:#{host}:#{port}#{address}"
-      p = 0
-      d = 0
-      b = 0
-      m = 60
-      @register_cue_event_lambda.call(Time.now, p, @system_init_thread_id, d, b, m, address, args, 0)
-    end
-
     def __gui_heartbeat(id)
       t = Time.now.freeze
       @gui_heartbeats[id] = t
@@ -249,10 +237,10 @@ module SonicPi
     end
 
     def __extract_git_hash
-      head_path = root_path + "/.git/HEAD"
+      head_path = Paths.root_path + "/.git/HEAD"
       if File.exist? head_path
         ref = File.readlines(head_path).first
-        ref_path = root_path + "/.git/" + ref[5..-1]
+        ref_path = Paths.root_path + "/.git/" + ref[5..-1]
         ref_path = ref_path.strip
         if File.exist? ref_path
           return File.readlines(ref_path).first
@@ -384,7 +372,6 @@ module SonicPi
 
     def __schedule_delayed_blocks_and_messages!
       delayed_messages = __system_thread_locals.get(:sonic_pi_local_spider_delayed_messages, [])
-      delayed_blocks = __system_thread_locals.get(:sonic_pi_local_spider_delayed_blocks, [])
       __system_thread_locals.set_local(:sonic_pi_local_spider_delayed_messages, [])
       __system_thread_locals.set_local(:sonic_pi_local_spider_delayed_blocks, [])
       if (delayed_messages && (!delayed_messages.empty?) && (!__system_thread_locals.get(:sonic_pi_spider_silent)))
@@ -401,17 +388,7 @@ module SonicPi
         Thread.new do
             Kernel.sleep(sleep_time) if sleep_time > 0
           __msg_queue.push msg
-
-            #We're now in sync with the sched_ahead time
-
-          # delayed_blocks.each do |b|
-          #   begin
-          #     b.call
-          #   rescue => e
-          #     log e.backtrace
-          #   end
-          # end
-
+          #We're now in sync with the sched_ahead time
         end
       end
     end
@@ -529,13 +506,10 @@ module SonicPi
     end
 
     def __update_midi_ins(ins)
-      desc = ins.join("\n")
-      __msg_queue.push({:type => :midi_in_ports, :val => desc})
+
     end
 
     def __update_midi_outs(outs)
-      desc = outs.join("\n")
-      __msg_queue.push({:type => :midi_out_ports, :val => desc})
     end
 
     def __osc_flush!
@@ -552,7 +526,7 @@ module SonicPi
     def __load_buffer(id)
       id = id.to_s
       raise "Aborting load: file name is blank" if  id.empty?
-      path = project_path + id + '.spi'
+      path = File.expand_path("#{Paths.project_path}/#{id}.spi")
       s = "# Welcome to Sonic Pi\n\n"
       if File.exist? path
         s = IO.read(path)
@@ -572,11 +546,10 @@ module SonicPi
       __msg_queue.push({type: "replace-buffer-idx", buffer_idx: idx, val: content, line: 0, index: 0, first_line: 0})
     end
 
-    def __run_buffer_idx(idx)
-      idx = idx.to_i
-      content = content.to_s
-      __msg_queue.push({type: "run-buffer-idx", buffer_idx: idx})
-    end
+    # def __run_buffer_idx(idx)
+    #   idx = idx.to_i
+    #   __msg_queue.push({type: "run-buffer-idx", buffer_idx: idx})
+    # end
 
     def __add_completion(k, text, point_line_offset=0, point=0)
       @snippets[k] = [text, point_line_offset, point]
@@ -590,10 +563,6 @@ module SonicPi
         end
       end
       return nil
-    end
-
-    def __indent_lines(buf)
-
     end
 
 
@@ -840,7 +809,7 @@ module SonicPi
       # over the alternative of a global no_kill mutex.  Killing a Run
       # then essentially turns into waiting for each no_kill mutext for
       # every sub-in_thread before killing them.
-      __system_thread_locals.set_local :sonic_pi_local_spider_no_kill_mutex, Mutex.new
+      __system_thread_locals.set_local :sonic_pi_local_spider_no_kill_mutex, Monitor.new
 
       # Reset subthreads thread local to the empty set. This shouldn't
       # be inherited from the parent thread.
@@ -854,31 +823,31 @@ module SonicPi
     end
 
     def __set_default_user_thread_locals!
-      __reset_spider_bpm!
+      __change_spider_bpm_time_and_beat!(60.0, __get_spider_time, __get_spider_beat)
       __thread_locals.set :sonic_pi_spider_arg_bpm_scaling, true
       __thread_locals.set :sonic_pi_spider_new_thread_random_gen_idx, 0
       __system_thread_locals.set(:sonic_pi_spider_thread_priority, 0)
     end
 
     def __spider_eval(code, info={})
-      id = @job_counter.next
-
-      silent = info.fetch(:silent, false)
-
+      now = Time.now.freeze
       # skip __nosave lines for error reporting
       firstline = 1
       firstline -= code.lines.to_a.take_while{|l| l.include? "#__nosave__"}.count
       start_t_prom = Promise.new
       info[:workspace] = 'eval' unless info[:workspace]
-
       info[:workspace].freeze
       info.freeze
 
+      silent = info.fetch(:silent, false)
+
       job_in_thread = nil
+      id = @job_counter.next
+
       job = Thread.new do
         Thread.current.priority = 20
         begin
-          num_running_jobs = reg_job(id, Thread.current)
+          num_running_jobs = register_job!(id, Thread.current)
           __system_thread_locals.set_local :sonic_pi_local_thread_group, "job-#{id}"
           __system_thread_locals.set_local :sonic_pi_spider_thread_id_path, ThreadId.new(id)
           __system_thread_locals.set_local :sonic_pi_spider_num_threads_spawned, 0
@@ -890,12 +859,10 @@ module SonicPi
           __set_default_user_thread_locals!
           __msg_queue.push({type: :job, jobid: id, action: :start, jobinfo: info})
           @life_hooks.init(id, {:thread => Thread.current})
-          now = Time.now.freeze
-          start_t_prom.deliver! now
+
           ## fix this for link
-          __reset_spider_time_and_beat!
+          __init_spider_time_and_beat!
           if num_running_jobs == 1
-            @global_start_time = now
             # Force a GC collection before we start making music!
             GC.start
           end
@@ -905,6 +872,8 @@ module SonicPi
           job_in_thread = in_thread seed: 0 do
             eval(code, nil, info[:workspace], firstline)
           end
+
+          start_t_prom.deliver! now
           __schedule_delayed_blocks_and_messages!
         rescue Stop => e
           __no_kill_block do
@@ -942,13 +911,14 @@ module SonicPi
           end
         end
       end
+
       @user_jobs.add_job(id, job, info)
 
       Thread.new do
         Thread.current.priority = -10
         __system_thread_locals.set_local(:sonic_pi_local_thread_group, "job-#{id}-GC")
         job.join
-        __system_thread_locals(job_in_thread).get(:sonic_pi_local_spider_subthread_empty).get
+        __system_thread_locals(job_in_thread).get(:sonic_pi_local_spider_subthread_empty).get if job_in_thread
 
         # wait until all synths are dead
         @life_hooks.completed(id)
@@ -1011,6 +981,9 @@ module SonicPi
       delay = args_h[:delay]
       sync_sym = args_h[:sync]
       sync_bpm_sym = args_h[:sync_bpm]
+
+      #handle case where user passes both :sync and :sync_bpm opts.
+      # --> sync_bpm overrides sync
       sync_sym = nil if sync_bpm_sym
 
       raise ArgumentError, "in_thread's delay: opt must be a number, got #{delay.inspect}" if delay && !delay.is_a?(Numeric)
@@ -1226,7 +1199,7 @@ module SonicPi
 
     private
 
-    def reg_job(job_id, t)
+    def register_job!(job_id, t)
       num_current_jobs = 0
       @job_subthread_mutex.synchronize do
         @job_subthreads[job_id] = Set.new
@@ -1387,60 +1360,36 @@ module SonicPi
     def initialize(ports, msg_queue, user_methods)
 
       @ports = ports
+      @msg_queue = msg_queue
+      @user_methods = user_methods
+
       @git_hash = __extract_git_hash
-      gh_short = @git_hash ? "-#{@git_hash[0, 5]}" : ""
-      @settings = Config::Settings.new(system_cache_store_path)
-      # @scsynth_clobber_args = @audio_settings.scsynth_opts_override
-      # @scsynth_opts = @audio_settings.scsynth_opts
-      @version = Version.new(3, 4, 0, "dev#{gh_short}")
+      gh_short = @git_hash ? "-#{@git_hash[0, 7]}" : ""
+      @settings = Config::Settings.new(Paths.system_cache_store_path)
+
+      # Temporarily fix beta version:
+      @version = Version.new(4, 0, 0, "beta#{gh_short}")
+      # @version = Version.new(4, 0, 0, "beta-6")
+
       @server_version = __server_version
       @life_hooks = LifeCycleHooks.new
-      @msg_queue = msg_queue
       @cue_events = IncomingEvents.new
       @job_counter = Counter.new(-1) # Start counting jobs from 0
       @job_subthreads = {}
       @job_main_threads = {}
       @named_subthreads = {}
       @job_subthread_mutex = Mutex.new
+      @osc_cue_server_mutex = Mutex.new
       @user_jobs = Jobs.new
-      @user_methods = user_methods
-      @global_start_time = Time.now
       @session_id = SecureRandom.uuid
       @snippets = {}
-
-
-      external_osc_cue_handler = lambda do |time, ip, port, address, args|
-        __register_external_osc_cue_event(time, ip, port, address, args)
-      end
-
-      internal_cue_handler = lambda do |path, args|
-        __register_internal_cue_event(path, args)
-      end
-
-      updated_midi_ins_handler = lambda do |ins|
-        __update_midi_ins(ins)
-      end
-
-      updated_midi_outs_handler = lambda do |outs|
-        __update_midi_outs(outs)
-      end
-
-      @tau_api = TauAPI.new(ports,
-                            {
-                              external_osc_cue: external_osc_cue_handler,
-                              internal_cue: internal_cue_handler,
-                              updated_midi_ins: updated_midi_ins_handler,
-                              updated_midi_outs: updated_midi_outs_handler
-                            })
-
-      @system_state = EventHistory.new(@job_subthreads, @job_subthread_mutex)
-      @user_state = EventHistory.new(@job_subthreads, @job_subthread_mutex)
-      @event_history = EventHistory.new(@job_subthreads, @job_subthread_mutex)
+      @system_state = EventHistory.new
+      @user_state = EventHistory.new
+      @event_history = EventHistory.new
       @system_init_thread_id = ThreadId.new(-1)
-      osc_cue_server_thread_id = ThreadId.new(-2)
-      @system_state.set 0, 0, osc_cue_server_thread_id, 0, 0, 60, :sched_ahead_time, default_sched_ahead_time
       @gui_cue_log_idxs = Counter.new
-      @osc_cue_server_mutex = Mutex.new
+      @gui_heartbeats = {}
+      @gui_last_heartbeat = nil
 
       @register_cue_event_lambda = lambda do |t, p, i, d, b, m, address, args, sched_ahead_time=0|
         t = t.to_r
@@ -1471,15 +1420,48 @@ module SonicPi
         end
       end
 
-      # TODO Add support for TCP
+      external_osc_cue_handler = lambda do |time, ip, port, address, args|
+        address = "/#{address}" unless address.start_with?("/")
+        address = "/osc:#{ip}:#{port}#{address}"
+        p = 0
+        d = 0
+        b = 0
+        m = 60
+        @register_cue_event_lambda.call(Time.now, p, @system_init_thread_id, d, b, m, address, args, 0)
+      end
 
-      @gui_heartbeats = {}
-      @gui_last_heartbeat = nil
+      internal_cue_handler = lambda do |address, args|
+        p = 0
+        d = 0
+        b = 0
+        m = 60
+        @register_cue_event_lambda.call(Time.now, p, @system_init_thread_id, d, b, m, address, args, 0)
+      end
+
+      updated_midi_ins_handler = lambda do |ins|
+        desc = ins.join("\n")
+        __msg_queue.push({:type => :midi_in_ports, :val => desc})
+      end
+
+      updated_midi_outs_handler = lambda do |outs|
+        desc = outs.join("\n")
+        __msg_queue.push({:type => :midi_out_ports, :val => desc})
+      end
+
+      @tau_api = TauAPI.new(ports,
+                            {
+                              external_osc_cue: external_osc_cue_handler,
+                              internal_cue: internal_cue_handler,
+                              updated_midi_ins: updated_midi_ins_handler,
+                              updated_midi_outs: updated_midi_outs_handler
+                            })
+
       begin
-        @gitsave = GitSave.new(project_path)
+        @gitsave = GitSave.new(Paths.project_path)
       rescue
         @gitsave = nil
       end
+
       @save_queue = SizedQueue.new(20)
 
       @save_t = Thread.new do
@@ -1488,7 +1470,7 @@ module SonicPi
           event = @save_queue.pop
           id, content = *event
           filename = id + '.spi'
-          path = project_path + "/" + filename
+          path = File.expand_path("#{Paths.project_path}/#{filename}")
           content = filter_for_save(content)
           begin
             File.open(path, 'w') {|f| f.write(content) }
@@ -1501,6 +1483,8 @@ module SonicPi
         end
       end
 
+      @system_state.set 0, 0, ThreadId.new(-2), 0, 0, 60, :sched_ahead_time, default_sched_ahead_time
+
       __info "Welcome to Sonic Pi #{version}", 1
 
       __info "Running on Ruby v#{RUBY_VERSION}"
@@ -1508,11 +1492,11 @@ module SonicPi
       __info "Initialised Erlang OSC Scheduler"
 
       if safe_mode?
-        __info "!!WARNING!! - file permissions issue:\n   Unable to write to folder #{home_dir_path} \n   Booting in SAFE MODE.\n   Buffer auto-saving is disabled, please save your work manually.", 1
+        __info "!!WARNING!! - file permissions issue:\n   Unable to write to folder #{Paths.home_dir_path} \n   Booting in SAFE MODE.\n   Buffer auto-saving is disabled, please save your work manually.", 1
       end
 
-      log "Unable to initialise git repo at #{project_path}" unless @gitsave
-      load_snippets(snippets_path, true)
+      log "Unable to initialise git repo at #{Paths.project_path}" unless @gitsave
+      load_snippets(Paths.snippets_path, true)
     end
 
     def __print_boot_messages

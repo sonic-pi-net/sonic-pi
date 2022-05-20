@@ -1,5 +1,5 @@
 # History
-* [v3.4.0 'Beta'](#v3.4.0), To be released...
+* [v4.0.0 'Beta'](#v3.4.0), To be released...
 * [v3.3.1 'Beamer'](#v3.3.1), 1st Feb, 2021
 * [v3.3 'Beam'](#v3.3), 28th Jan, 2021
 * [v3.2.2 'Tau3'](#v3.2.2), 5th April, 2020
@@ -24,11 +24,19 @@
 * [v2.0.1](#v2.0.1), 9th Sept, 2014
 * [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
 
-<a name="v3.4.0"></a>
+<a name="v4.0.0"></a>
 
-## Version 3.4.0 - 'Beta'
+## Version 4.0.0 'BETA'
 To be released...
-<!-- [(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v3.4.0): -->
+<!-- [(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v4.0.0): -->
+
+### Known Issues (to be addressed in upcoming Betas)
+* On macOS, the booting procedure no longer attempts to tweak the audio-card's sample rates to match and instead crashes on a mismatch.
+* There are no GUI elements to view/manipulate the new Link metronome.
+* Link is enabled by default and cannot be disabled via the GUI.
+* MIDI port names are very long and change on disconnect/reconnect on Linux.
+* Using `sync` with an external OSC or MIDI message whilst in `:link` bpm mode is broken.
+* On macOS if there are no MIDI devices attached at boot, the updater doesn't work. However, it does appear to if devices are attached at boot.
 
 
 ### Breaking Changes
@@ -38,25 +46,47 @@ To be released...
   won't affect any code using earlier indexes but will affect code which
   uses indexes larger than the number of onsets (and therefore relying
   on the index wrapping behaviour).
+* The Minecraft Pi Edition API has been removed (all `mc_`
+  fns). Minecraft Pi Edition appears to no longer ship on Raspberry Pi
+  OS and the Pi Edition API is not the same as the standard Minecraft
+  API.
 
 
 ### New 
+* Support for [Ableton Link](https://www.ableton.com/link/). This enables you to synchronise the tempo of Sonic Pi running on multiple computers connected on the same network. It will also enable automatic BPM synchronisation with music production tools such as Ableton Live, VJ tools such as Resolume, DJ hardware such as the MPC and many compatible iPad music apps. For a full list see: https://www.ableton.com/link/products/,,
+* New `:link` option to fn `use_bpm`. This enables Link mode for the current thread which automatically syncs the BPM to the Link metronome (which also syncs it with all other Link-capable apps running on any computer connected to the local (wired or wifi) network.
+* New fn `link` which sets the BPM to a new `:link` mode and also waits until the start of the next bar (as determined by Link) before continuing. This lets you automatically sync tempo and beat phase in one command. 
+* New fn `link_sync` which sets the BPM to a new `:link` mode, waits for the Link session to be playing and also waits until the start of the next bar (as determined by Link) before continuing. This lets you automatically "arm" Sonic Pi to sync tempo and beat phase and wait for an external "play" command from another Link device - such as Ableton Live.
+* New fn `set_link_bpm!` to change the BPM/tempo of the Link metronome (and simultaneously change the tempo of all connected Link-capable apps on the network).
 * New fn `current_random_source` which returns the current random number source kind (see `use_random_source`).
+* New fn `load_synthdef` which lets you load a single synthdef file.
+* `load_synthdefs` now loads both directories and single files (by dispatching to `load_synthdef` where necessary).
 
 
 ### Synths & FX
+* New synth `:winwood_lead` - a lead synth inspired by the Winwood songs from the early 80s.
+* New synth `:bass_foundation` - a soft bass synth inspired by the sounds of the 80s.
+* New synth `:bass_highend` - an addition to the :bass_foundation synth inspired by the sounds of the 80s.
 
 
 ### GUI
+* Preference pane is now an overlay which hovers over the main window. This means that opening and closing it does not inadvertantly modify a carefully chosen layout e.g. for a performance.
+* New preference option to show and hide the pane titles such as Scope, Log, Cues, Context, Help, etc.
+* Increase width of panel dividers and highlight on mouse hover.
+* Highlight scrollbars on mouse hover.
+* Scrollbars now have rounded edges.
 * Teach autocompletion about random source choices: `:white`, `:light_pink`, `:pink`, etc.
 * Improve syntax indentation.
-* Improvements for Dutch, Estonian, German, Italian, Japanese, Korean, Polish, Portuguese (Brazil), Sinhala, Spanish
-* Introduced new translations for Basque.
+* Improvements for Arabic, Catalan, Chinese (Simplified), Dutch, Estonian, French, German, Italian, Japanese, Korean, Persian, Polish, Portuguese (Brazil), Russian, Sinhala, Spanish, Swedish
+* Introduced new translations for Basque, Gaelic.
 
 
 ### Improvements
 * Many minor documentation fixes and improvements.
 * When running on Raspberry Pi, Sonic Pi connects to PulseAudio by default.
+* The scheduling accuracy of outgoing OSC and MIDI messages is improved on Windows.
+* Optimise `midi_clock_beat`.
+* `note_range` can now handle both increasing and decreasing note ranges.
 
 
 ### Bugfixes
@@ -64,6 +94,9 @@ To be released...
 * Synths `:dull_bell` and `:pretty_bell` now properly free themselves when they finish playing, which now means the resources they consumed are also properly freed. 
 * Indexing into an empty ring no longer causes a divide by zero error.
 * No longer attempt to increase audio server priority on Windows which causes booting errors in some cases.
+* Fixed encoding issues when saving/loading files containing non-ascii characters on Windows.
+* `range` no longer loops infinitely with a step size of 0. Instead it now throws an error.
+* In some circumstances having the lissajous visualiser visible caused the GUI to crash on startup. This has now been addressed.
 
 
 <a name="v3.3.1"></a>
@@ -1444,14 +1477,14 @@ Have fun and happy live coding!
 
 
 ### Improvements
-
+ 
 * Auto-align code on Run.
 * `live_loop` learned the `seed:` opt which will set the new thread with
   the specified seed prior to initial run.
 * Add check to ensure BPM is a positive value.
 * `density` has now been taught to handle values between 0 and 1 which
   will now stretch time for the specified block.
-* Errors now no longer print out crazy print version of context object
+* Errors now no longer print out unusual print version of context object
   i.e. #<SonicPiSpiderUser1:0x007fc82e1f79a0>
 * Both `in_thread` and `live_loop` have now learned the `delay:` opt
   which will delay the initial execution by the specified number of

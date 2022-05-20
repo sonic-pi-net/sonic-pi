@@ -33,12 +33,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="1110"/>
         <source>Indenting selection...</source>
-        <translation>Indentation de la sélection...</translation>
+        <translation>Indentation de la sélection…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1114"/>
         <source>Indenting line...</source>
-        <translation>Indentation de la ligne...</translation>
+        <translation>Indentation de la ligne…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1143"/>
@@ -478,7 +478,7 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="2699"/>
         <source>Live</source>
-        <translation>Live</translation>
+        <translation>Direct</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2711"/>
@@ -1053,7 +1053,7 @@ Obtenez Sonic Pi %1</translation>
     <message>
         <location filename="../utils/ruby_help.h" line="3373"/>
         <source>Samples</source>
-        <translation>Samples</translation>
+        <translation>Échantillons</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3628"/>

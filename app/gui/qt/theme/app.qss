@@ -12,8 +12,10 @@
 - buttonTextColor
 - pressedButtonColor
 - pressedButtonTextColor
+- hoverButtonColor
 - scrollBarColor
 - scrollBarBackgroundColor
+- scrollBarHoverColor
 - tabColor
 - tabTextColor
 - tabSelectedColor
@@ -47,16 +49,31 @@ Values 1->25 will be scaled in integer increments. Values 30 - 100 will be round
 *
 {
   background-color: none;
+  color:  windowForegroundColor;
 }
+
+*#prefs
+{
+   background: windowColor;
+   border: 8dx solid scrollBarHoverColor;
+
+}
+
+*#prefs:hover
+{
+   border: 8dx solid tabSelectedColor;
+
+}
+
 
 *#scopes
 {
     font-size: small;
+    background: paneColor;
 }
 
-#prefsCentral
+QWidget#mainWidget
 {
-  font-size: medium;
   background: paneColor;
 }
 
@@ -97,6 +114,7 @@ QSplitter::handle:horizontal
 QTabBar
 {
   font-size: medium;
+
 }
 
 QTabBar::tab
@@ -110,11 +128,27 @@ QTabBar::tab
     padding-left: 10dx;
 }
 
+QTabBar::tab:hover {
+    background: scrollBarHoverColor;
+}
+
 QTabBar::tab:selected
 {
     background: tabSelectedColor;
     color: tabSelectedTextColor;
 
+}
+
+QTabBar::tab:hover:selected
+{
+    background: tabSelectedColor;
+    color: tabSelectedTextColor;
+
+}
+
+QTabWidget
+{
+    background: paneColor;
 }
 
 QTabWidget::tab-bar
@@ -153,7 +187,7 @@ QDockWidget
 
 QSlider
 {
-    width: 25dx;
+    width: 35dx;
 }
 
 
@@ -172,6 +206,11 @@ QSlider::handle:vertical
     border-radius: 3dx;
     height: 30dx;
     background-color: sliderColor;
+}
+
+QSlider::handle:vertical:hover
+{
+    background-color: scrollBarHoverColor;
 }
 
 QMenu
@@ -204,7 +243,14 @@ QMenuBar::item:selected {
 QMainWindow::separator
 {
    background-color: windowBorderColor;
-   height: 2dx;
+   height: 8dx;
+
+}
+
+QMainWindow::separator:hover
+{
+   background-color: scrollBarHoverColor;
+   height: 8dx;
 }
 
 QMainWindow
@@ -243,7 +289,7 @@ QPlainTextEdit
 
 QCheckBox {
     font-size: medium;
-    spacing: 5dx;
+    spacing: 15dx;
 }
 
 QCheckBox::indicator {
@@ -280,6 +326,7 @@ QGroupBox
     padding-right: 10dx;
     padding-bottom: 5dx;
     padding-left: 10dx;
+
 
     subcontrol-origin: margin;
     margin-top: 15dx;
@@ -351,9 +398,9 @@ QComboBox::item
 
 QComboBox:hover
 {
-    border-radius: 3dx;
-    border-width:2dx;
-    border-color: #1e90ff
+    border-radius: 3dx;;
+    border-color: #1e90ff;
+    background: hoverButtonColor;
 }
 
 QComboBox::item::selected
@@ -364,12 +411,18 @@ QComboBox::item::selected
 
 QComboBox:on
 { /* shift the text when the popup opens */
-    color: tabSelectedColor;
+    color: buttonTextColor;
 }
 
 QComboBox::drop-down
 {
     border-style: none;
+}
+
+QLabel[accessibleName="incoming-osc-disabled-label"]
+{
+    font-size: small;
+    margin-left: 16dx;
 }
 
 QLabel[accessibleName="midi-in-ports-label"]
@@ -380,8 +433,9 @@ QLabel[accessibleName="midi-in-ports-label"]
     padding-bottom: 1dx;
     padding-left: 3dx;
     border-radius: 3dx;
-    background-color: tabColor;
-    color: tabTextColor;
+    border: 1px solid tabSelectedColor;
+    background-color: paneColor;
+    color: windowForegroundColor;
 }
 
 QLabel[accessibleName="midi-out-ports-label"]
@@ -394,28 +448,43 @@ QLabel[accessibleName="midi-out-ports-label"]
     border-radius: 3dx;
     background-color: tabColor;
     color: tabTextColor;
+
+    border: 1px solid tabSelectedColor;
+    background-color: paneColor;
+    color: windowForegroundColor;
 }
 
 QToolBar
 {
     background-color: windowColor;
     border-bottom: 0dx;
+
 }
 
 QToolButton
 {
+    padding: 4dx;
+    padding-right: 5dx;
+    margin-top: 6dx;
+    margin-bottom: 6dx;
     background-color: none;
-    border: none;
-    border-radius: 3dx;
-    padding: 0dx;
+    border-radius: 0dx;
+    border-bottom: 2px solid transparent;
+    border-top: 2px solid transparent;
 }
 
 QToolButton::hover
 {
-    background-color: windowBorderColor;
-    border: none;
-    padding: 0dx;
+    border-bottom: 2px solid scrollBarHoverColor;
+    border-top: 2px solid scrollBarHoverColor;
 }
+
+QToolButton::hover::pressed
+{
+    border-bottom: 2px solid tabSelectedColor;
+    border-top: 2px solid tabSelectedColor;
+}
+
 
 QGroupBox:title
 {
@@ -432,7 +501,18 @@ QGroupBox:title
 QScrollBar:vertical
 {
     background: transparent;
-    width: 10dx;
+    width: 6dx;
+
+
+
+}
+
+QScrollBar::handle:vertical
+{
+    background: scrollBarColor;
+    border-top: 4dx;
+    border-bottom: 4dx;
+    min-height: 39dx;
     padding-top: 0dx;
     padding-right: 0dx;
     padding-bottom: 20dx;
@@ -442,14 +522,7 @@ QScrollBar:vertical
     margin-right: 0dx;
     margin-bottom: 22dx;
     margin-left: 0dx;
-}
-
-QScrollBar::handle:vertical
-{
-    background: scrollBarColor;
-    border-top: 4dx;
-    border-bottom: 4dx;
-    min-height: 39dx;
+    border-radius: 3dx;
 }
 
 QScrollBar::add-line:vertical
@@ -474,7 +547,7 @@ QScrollBar:horizontal
 {
     border: 2dx scrollBarBackgroundColor;
     background: scrollBarBackgroundColor;
-    height: 15dx;
+    height: 12dx;
     margin-top: 0dx;
     margin-right: 2dx;
     margin-bottom: 0dx;
@@ -487,6 +560,7 @@ QScrollBar::handle:horizontal
     background: scrollBarColor;
     min-width: 20dx;
     border: 2dx solid paneColor;
+    border-radius: 6dx;
 }
 
 QScrollBar::add-line:horizontal
@@ -501,7 +575,7 @@ QScrollBar::add-line:horizontal
 QScrollBar::sub-line:horizontal
 {
     border: 2dx scrollBarBackgroundColor;
-    background: scrollBarBackgroundColor;
+    background: none;
     width: 20dx;
     subcontrol-position: left;
     subcontrol-origin: margin;
@@ -517,23 +591,30 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical
     background: none;
 }
 
-
+QScrollBar::handle:hover {
+    background: scrollBarHoverColor;
+}
 
 QPushButton
 {
     font-size: medium;
-    background-color: buttonColor;
+    background-color: TabColor;
     color: buttonTextColor;
     padding: 5dx;
     border-radius: 3dx;
-    border-color: buttonBorderColor;
-    border-width: 2dx;
+    border: 1dx solid buttonBorderColor;
 }
 
 QPushButton::pressed
 {
     background-color: pressedButtonColor;
     color: pressedButtonTextColor;
+}
+
+QPushButton::hover:!pressed
+{
+    background-color: hoverButtonColor;
+    color: buttonTextColor;
 }
 
 QMessageBox
