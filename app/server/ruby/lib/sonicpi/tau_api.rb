@@ -35,6 +35,7 @@ module SonicPi
       @internal_cue_handler = handlers[:internal_cue]
       @updated_midi_ins_handler = handlers[:updated_midi_ins]
       @updated_midi_outs_handler = handlers[:updated_midi_outs]
+      @updated_link_num_peers_handler = handlers[:updated_link_num_peers]
 
       add_incoming_api_handlers!
 
@@ -251,6 +252,12 @@ module SonicPi
         _gui_id = args[0]
         tempo = args[1].to_f
         @tempo = tempo
+      end
+
+      @tau_comms.add_method("/link-num-peers") do |args|
+        _gui_id = args[0]
+        num_peers = args[1].to_i
+        @updated_link_num_peers_handler.call(num_peers)
       end
 
       @tau_comms.add_method("/midi-ins") do |args|

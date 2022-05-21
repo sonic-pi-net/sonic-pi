@@ -87,6 +87,11 @@ void SPClient::Buffer(const BufferInfo& info)
     edit_window_update(info);
 }
 
+void SPClient::ActiveLinks(const int numLinks)
+{
+  // please implement me
+}
+
 void start_sonic_pi()
 {
     sonic.spClient = std::make_shared<SPClient>();

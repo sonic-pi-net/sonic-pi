@@ -105,6 +105,7 @@ loop(State) ->
                   cue_port := CuePort,
                   in_socket := InSocket} ->
                     forward_internal_cue(CueHost, CuePort, InSocket, "/link/num-peers", [NumPeers]),
+                    update_num_links(CueHost, CuePort, InSocket, NumPeers),
                     ?MODULE:loop(State);
                 _ ->
                     logger:debug("Link cue forwarding disabled - ignored num_peers change ", []),
@@ -315,6 +316,12 @@ send_api_tempo_update(CueHost, CuePort, InSocket, Tempo) ->
     Bin = osc:encode(["/link-tempo-change", "erlang", Tempo]),
     send_udp(InSocket, CueHost, CuePort, Bin),
     logger:debug("sending link tempo update [~p] to ~p:~p", [Tempo, CueHost, CuePort]),
+    ok.
+
+update_num_links(CueHost, CuePort, InSocket, NumPeers) ->
+    Bin = osc:encode(["/link-num-peers", "erlang", NumPeers]),
+    send_udp(InSocket, CueHost, CuePort, Bin),
+    logger:debug("sending link num pers [~p] to ~p:~p", [NumPeers, CueHost, CuePort]),
     ok.
 
 forward_internal_cue(CueHost, CuePort, InSocket, Path, Args) ->

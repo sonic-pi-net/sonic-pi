@@ -15,18 +15,37 @@
 #define SONICPIMETRO_H
 
 #include <QWidget>
+#include <QPushButton>
+#include <QMutex>
+#include "qt_api_client.h"
 
 class SonicPiMetro : public QWidget
 {
     Q_OBJECT
 public:
-     SonicPiMetro(QWidget *parent = nullptr);
+  SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, QWidget *parent = nullptr);
+  void updateActiveLinkCount(int count);
 
 signals:
+  void enableLink();
+  void disableLink();
 
 public slots:
 
 protected:
+
+private:
+  QPushButton *enableLinkButton;
+  bool linkEnabled = false;
+  int numActiveLinks = 0;
+  QMutex *mutex;
+
+  void toggleLink();
+  void updateActiveLinkText();
+  void lockedUpdateActiveLinkText();
+
+  std::shared_ptr<SonicPi::QtAPIClient> m_spClient;
+
 };
 
 #endif // SONICPIMETRO_H

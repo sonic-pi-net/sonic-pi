@@ -379,7 +379,7 @@ void MainWindow::setupWindowStructure()
     outputPane = new SonicPiLog;
     incomingPane = new SonicPiLog;
     errorPane = new QTextBrowser;
-    metroPane = new SonicPiMetro;
+    metroPane = new SonicPiMetro(m_spClient, this);
 
     errorPane->setOpenExternalLinks(true);
 

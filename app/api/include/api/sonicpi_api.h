@@ -199,6 +199,7 @@ struct IAPIClient
     virtual void Version(const VersionInfo& info) = 0;
     virtual void AudioDataAvailable(const ProcessedAudio& audio) = 0;
     virtual void Buffer(const BufferInfo& info) = 0;
+    virtual void ActiveLinks(const int numLinks) = 0;
 };
 
 // Always UDP

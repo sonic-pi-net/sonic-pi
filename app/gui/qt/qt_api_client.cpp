@@ -223,4 +223,9 @@ void QtAPIClient::Buffer(const BufferInfo& info)
     QMetaObject::invokeMethod(this, "BufferGui", Qt::QueuedConnection, Q_ARG(SonicPi::BufferInfo, info));
 }
 
+void QtAPIClient::ActiveLinks(const int numLinks)
+{
+  emit UpdateNumActiveLinks(numLinks);
+}
+
 } // namespace SonicPi

@@ -17,6 +17,7 @@ public:
     virtual void Midi(const SonicPi::MidiInfo& info) override;
     virtual void Version(const SonicPi::VersionInfo& info) override;
     virtual void Buffer(const SonicPi::BufferInfo& info) override;
+    virtual void ActiveLinks(const int numLinks) override;
 
 private:
     void UpdateLog(const std::string& log);
