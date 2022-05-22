@@ -18,6 +18,7 @@ class QLineEdit;
 class QButtonGroup;
 class QSignalMapper;
 class QVBoxLayout;
+class QSizePolicy;
 
 class SettingsWidget : public QWidget
 {

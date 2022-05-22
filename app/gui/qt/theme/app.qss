@@ -621,3 +621,9 @@ QMessageBox
 {
     background: windowColor;
 }
+
+
+QPushButton#enableLinkButton
+{
+  min-width: 100dx;
+}

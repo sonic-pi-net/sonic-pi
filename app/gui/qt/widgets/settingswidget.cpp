@@ -29,6 +29,7 @@ SettingsWidget::SettingsWidget(int tau_osc_cues_port, bool i18n, SonicPiSettings
     this->available_languages = sonicPii18n->getAvailableLanguages();
     this->tau_osc_cues_port = tau_osc_cues_port;
     QSizePolicy prefsSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
+
     setSizePolicy(prefsSizePolicy) ;
     prefTabs = new QTabWidget();
 
@@ -184,6 +185,7 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
     QPushButton *midi_reset_button = new QPushButton(tr("Reset MIDI"));
     midi_reset_button->setFlat(true);
     midi_reset_button->setToolTip(tr("Reset MIDI subsystems \n(Required to detect device changes on macOS)" ));
+    midi_reset_button->setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed));
 
     midi_default_channel_combo = new QComboBox();
     midi_default_channel_combo->addItem("*");
@@ -455,14 +457,17 @@ QGroupBox* SettingsWidget::createUpdatePrefsTab() {
     QGroupBox *update_box = new QGroupBox(tr("Updates"));
     QSizePolicy updatesPrefSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
     check_updates = new QCheckBox(tr("Check for updates"));
-    update_box->setSizePolicy(updatesPrefSizePolicy);
     check_updates->setToolTip(tr("Toggle automatic update checking.\nThis check involves sending anonymous information about your platform and version."));
     check_updates_now = new QPushButton(tr("Check now"));
     check_updates_now->setFlat(true);
+    check_updates_now->setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed));
     check_updates_now->setToolTip(tr("Force a check for updates now.\nThis check involves sending anonymous information about your platform and version."));
     visit_sonic_pi_net = new QPushButton(tr("Get update"));
+    visit_sonic_pi_net->setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed));
     visit_sonic_pi_net->setToolTip(tr("Visit http://sonic-pi.net to download new version"));
     visit_sonic_pi_net->setVisible(false);
+
+
 
     QGroupBox *update_info_box = new QGroupBox(tr("Update Info"));
     update_info_box->setMaximumWidth(350);

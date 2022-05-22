@@ -21,13 +21,18 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, Sonic
 {
   this->theme = theme;
   mutex = new QMutex;
-  enableLinkButton = new QPushButton(tr("Enable Link"));
+  enableLinkButton = new QPushButton(tr("Link"));
   enableLinkButton->setAutoFillBackground(true);
   enableLinkButton->setObjectName("enableLinkButton");
   enableLinkButton->setFlat(true);
   QHBoxLayout* metro_layout  = new QHBoxLayout;
-  metro_layout->addWidget(enableLinkButton);
+
+  QWidget* spacer = new QWidget();
+  spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
   setLayout(metro_layout);
+
+  metro_layout->addWidget(enableLinkButton);
+  metro_layout->addWidget(spacer);
 
   connect(enableLinkButton, &QPushButton::clicked, [=]() {
     this->toggleLink();
@@ -67,7 +72,7 @@ void SonicPiMetro::updateLinkButtonDisplay()
     updateActiveLinkText();
     qss = QString("\nQPushButton {\nbackground-color: %1;}\nQPushButton::hover:!pressed {\nbackground-color: %2}\n").arg(theme->color("PressedButton").name()).arg(theme->color("PressedButton").name());
   } else {
-    enableLinkButton->setText("Enable Link");
+    enableLinkButton->setText("Link");
     qss = QString("\nQPushButton {\nbackground-color: %1;}\nQPushButton::hover:!pressed {\nbackground-color: %2}\n").arg(theme->color("Button").name()).arg(theme->color("HoverButton").name());
   }
 
