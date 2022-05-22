@@ -9623,7 +9623,7 @@ msgid ""
 msgstr ""
 "Für die Neugierigen, diese Abgleichregeln basieren auf der Open-Sound-"
 "Control-Spezifikation zum Musterabgleich, welche hier im Detail erklärt ist: "
-"http://opensoundcontrol.org/spec-1_0"
+"https://opensoundcontrol.stanford.edu/spec-1_0.html"
 
 #: 11-MIDI.md:1
 msgid "11 MIDI"

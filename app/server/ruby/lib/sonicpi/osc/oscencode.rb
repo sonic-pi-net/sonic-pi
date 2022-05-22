@@ -16,7 +16,7 @@ module SonicPi
     class OscEncode
       # Apologies for the density of this code - I've inlined a lot of the
       # code to reduce method dispatch overhead and to increase efficiency.
-      # See http://opensoundcontrol.org for spec.
+      # See https://opensoundcontrol.stanford.edu for spec.
 
       def initialize(use_cache = false, cache_size=1000)
         @literal_binary_str = "BINARY".freeze

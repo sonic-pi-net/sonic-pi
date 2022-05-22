@@ -1,7 +1,7 @@
-/** @mainpage OSCPKT : a minimalistic OSC ( http://opensoundcontrol.org ) c++ library 
+/** @mainpage OSCPKT : a minimalistic OSC ( https://opensoundcontrol.stanford.edu ) c++ library
 
   Before using this file please take the time to read the OSC spec, it
-  is short and not complicated: http://opensoundcontrol.org/spec-1_0
+  is short and not complicated: https://opensoundcontrol.stanford.edu/spec-1_0.html
 
   Features: 
     - handles basic OSC types: TFihfdsb

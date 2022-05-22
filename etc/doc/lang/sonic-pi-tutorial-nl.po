@@ -9432,7 +9432,7 @@ msgid ""
 msgstr ""
 "Voor de nieuwsgierigen; deze matching regels zijn gebaseerd op de Open Sound "
 "Control Pattern Matching Specification welke uitgebreid uitgelegd staat op "
-"de volgende website: http://opensoundcontrol.org/spec-1_0"
+"de volgende website: https://opensoundcontrol.stanford.edu/spec-1_0.html"
 
 #: 11-MIDI.md:1
 msgid "11 MIDI"

@@ -8411,7 +8411,7 @@ msgid ""
 "ndcontrol.org/spec-1_0"
 msgstr ""
 "気になる人のために説明すると、これらのマッチング規則はこのリンク先に詳しく書かれているOpen Sound Control "
-"パターンマッチング仕様に基づいています: http://opensoundcontrol.org/spec-1_0"
+"パターンマッチング仕様に基づいています: https://opensoundcontrol.stanford.edu/spec-1_0.html"
 
 #: 11-MIDI.md:1
 msgid "11 MIDI"
