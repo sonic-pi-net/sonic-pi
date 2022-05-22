@@ -379,7 +379,7 @@ void MainWindow::setupWindowStructure()
     outputPane = new SonicPiLog;
     incomingPane = new SonicPiLog;
     errorPane = new QTextBrowser;
-    metroPane = new SonicPiMetro(m_spClient, this);
+    metroPane = new SonicPiMetro(m_spClient, theme, this);
 
     errorPane->setOpenExternalLinks(true);
 
@@ -2248,6 +2248,7 @@ void MainWindow::updateColourTheme()
     scopeWindow->SetColor(theme->color("Scope"));
     scopeWindow->SetColor2(theme->color("Scope_2"));
     lexer->unhighlightAll();
+    metroPane->updateLinkButtonDisplay();
 }
 
 void MainWindow::showLineNumbersMenuChanged()

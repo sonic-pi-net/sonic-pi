@@ -17,14 +17,19 @@
 #include <QWidget>
 #include <QPushButton>
 #include <QMutex>
+#include "model/sonicpitheme.h"
 #include "qt_api_client.h"
 
 class SonicPiMetro : public QWidget
 {
     Q_OBJECT
 public:
-  SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, QWidget *parent = nullptr);
+  SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, SonicPiTheme *theme, QWidget *parent = nullptr);
+
+  SonicPiTheme *theme;
+
   void updateActiveLinkCount(int count);
+  void updateLinkButtonDisplay();
 
 signals:
   void enableLink();
@@ -42,7 +47,6 @@ private:
 
   void toggleLink();
   void updateActiveLinkText();
-  void lockedUpdateActiveLinkText();
 
   std::shared_ptr<SonicPi::QtAPIClient> m_spClient;
 

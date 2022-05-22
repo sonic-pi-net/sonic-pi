@@ -15,12 +15,16 @@
 #include <QVBoxLayout>
 #include "qt_api_client.h"
 
-SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, QWidget* parent)
+SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, SonicPiTheme *theme, QWidget* parent)
   : QWidget(parent)
   , m_spClient(spClient)
 {
+  this->theme = theme;
   mutex = new QMutex;
-  enableLinkButton = new QPushButton(tr("Enable Link"));;
+  enableLinkButton = new QPushButton(tr("Enable Link"));
+  enableLinkButton->setAutoFillBackground(true);
+  enableLinkButton->setObjectName("enableLinkButton");
+  enableLinkButton->setFlat(true);
   QHBoxLayout* metro_layout  = new QHBoxLayout;
   metro_layout->addWidget(enableLinkButton);
   setLayout(metro_layout);
@@ -30,42 +34,43 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, QWidg
   });
 
   connect(m_spClient.get(), &SonicPi::QtAPIClient::UpdateNumActiveLinks, this, &SonicPiMetro::updateActiveLinkCount);
+
+  updateLinkButtonDisplay();
 }
 
 void SonicPiMetro::toggleLink()
 {
-  mutex->lock();
-  if(linkEnabled) {
-    enableLinkButton->setText("Enable Link");
-    linkEnabled = false;
-  } else {
-    lockedUpdateActiveLinkText();
-    linkEnabled = true;
-  }
-  mutex->unlock();
-}
-
-void SonicPiMetro::updateActiveLinkText()
-{
-  mutex->lock();
-  lockedUpdateActiveLinkText();
-  mutex->unlock();
+  linkEnabled = !linkEnabled;
+  updateLinkButtonDisplay();
 }
 
 void SonicPiMetro::updateActiveLinkCount(int count)
 {
-  mutex->lock();
   numActiveLinks = count;
-  lockedUpdateActiveLinkText();
-  mutex->unlock();
+  updateLinkButtonDisplay();
 }
 
-void SonicPiMetro::lockedUpdateActiveLinkText()
+void SonicPiMetro::updateActiveLinkText()
 {
-  // assumes mutex is locked
   if(numActiveLinks == 1) {
     enableLinkButton->setText("1 Link");
   } else {
     enableLinkButton->setText(QString("%1 Links").arg(numActiveLinks));
   }
+}
+
+void SonicPiMetro::updateLinkButtonDisplay()
+{
+  QPalette palette = enableLinkButton->palette();
+  QString qss;
+  if(linkEnabled) {
+    updateActiveLinkText();
+    qss = QString("\nQPushButton {\nbackground-color: %1;}\nQPushButton::hover:!pressed {\nbackground-color: %2}\n").arg(theme->color("PressedButton").name()).arg(theme->color("PressedButton").name());
+  } else {
+    enableLinkButton->setText("Enable Link");
+    qss = QString("\nQPushButton {\nbackground-color: %1;}\nQPushButton::hover:!pressed {\nbackground-color: %2}\n").arg(theme->color("Button").name()).arg(theme->color("HoverButton").name());
+  }
+
+
+  enableLinkButton->setStyleSheet(theme->getAppStylesheet() + qss);
 }
