@@ -260,6 +260,9 @@ public:
 
     virtual void RestartTau();
 
+    virtual bool LinkEnable();
+    virtual bool LinkDisable();
+
     // Wait for the server to be in a good state
     virtual bool PingUntilServerCreated();
     virtual bool WaitUntilReady();

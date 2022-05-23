@@ -19,12 +19,13 @@
 #include <QMutex>
 #include "model/sonicpitheme.h"
 #include "qt_api_client.h"
+#include "api/sonicpi_api.h"
 
 class SonicPiMetro : public QWidget
 {
     Q_OBJECT
 public:
-  SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, SonicPiTheme *theme, QWidget *parent = nullptr);
+  SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::shared_ptr<SonicPi::SonicPiAPI> spAPI, SonicPiTheme *theme, QWidget *parent = nullptr);
 
   SonicPiTheme *theme;
 
@@ -49,7 +50,7 @@ private:
   void updateActiveLinkText();
 
   std::shared_ptr<SonicPi::QtAPIClient> m_spClient;
-
+  std::shared_ptr<SonicPi::SonicPiAPI> m_spAPI;
 };
 
 #endif // SONICPIMETRO_H

@@ -15,9 +15,11 @@
 #include <QVBoxLayout>
 #include "qt_api_client.h"
 
-SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, SonicPiTheme *theme, QWidget* parent)
+
+SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::shared_ptr<SonicPi::SonicPiAPI> spAPI, SonicPiTheme *theme, QWidget* parent)
   : QWidget(parent)
   , m_spClient(spClient)
+  , m_spAPI(spAPI)
 {
   this->theme = theme;
   mutex = new QMutex;
@@ -46,6 +48,13 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, Sonic
 void SonicPiMetro::toggleLink()
 {
   linkEnabled = !linkEnabled;
+
+  if(linkEnabled) {
+    m_spAPI.get()->LinkEnable();
+  }
+  else {
+    m_spAPI.get()->LinkDisable();
+  }
   updateLinkButtonDisplay();
 }
 

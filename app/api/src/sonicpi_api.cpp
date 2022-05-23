@@ -318,6 +318,29 @@ void SonicPiAPI::RestartTau()
     return;
 }
 
+
+bool SonicPiAPI::LinkEnable()
+{
+    Message msg("/link-enable");
+    bool res = TauSendOSC(msg);
+    if (!res)
+    {
+        return false;
+    }
+    return true;
+}
+
+bool SonicPiAPI::LinkDisable()
+{
+    Message msg("/link-disable");
+    bool res = TauSendOSC(msg);
+    if (!res)
+    {
+        return false;
+    }
+    return true;
+}
+
 void SonicPiAPI::Shutdown()
 {
     std::lock_guard<std::mutex> lg(m_osc_mtx);
