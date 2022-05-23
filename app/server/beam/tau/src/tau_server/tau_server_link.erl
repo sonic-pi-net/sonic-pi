@@ -97,11 +97,13 @@ loop(State) ->
 
         {link_disable} ->
             logger:debug("Disabling link", []),
+            maps:get(cue_server, State) ! {link, disable},
             sp_link:enable(false),
             ?MODULE:loop(State);
 
         {link_enable} ->
             logger:debug("Enabling link", []),
+            maps:get(cue_server, State) ! {link, enable},
             sp_link:enable(true),
             ?MODULE:loop(State);
 
