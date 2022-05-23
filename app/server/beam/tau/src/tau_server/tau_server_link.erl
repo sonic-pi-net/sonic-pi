@@ -38,7 +38,7 @@ init(Parent, CueServer) ->
     sp_link:init_nif(120.0),
     sp_link:set_callback_pid(self()),
     sp_link:start_stop_sync_enable(true),
-    sp_link:enable(true),
+    sp_link:enable(false),
 
     logger:info("~n"
               "+--------------------------------------+~n"
