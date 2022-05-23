@@ -107,8 +107,8 @@ loop(State) ->
                     forward_internal_cue(CueHost, CuePort, InSocket, "/link/num-peers", [NumPeers]),
                     update_num_links(CueHost, CuePort, InSocket, NumPeers),
                     ?MODULE:loop(State);
-                _ ->
-                    logger:debug("Link cue forwarding disabled - ignored num_peers change ", []),
+                #{link_on := false} ->
+                    logger:debug("Link is not on - not sending cue /link/num-peers", []),
                     ?MODULE:loop(State)
             end;
 
@@ -122,8 +122,8 @@ loop(State) ->
                     forward_internal_cue(CueHost, CuePort, InSocket, "/link/tempo-change", [Tempo]),
                     send_api_tempo_update(CueHost, CuePort, InSocket, Tempo),
                     ?MODULE:loop(State);
-                _ ->
-                    logger:debug("Link cue forwarding disabled - ignored tempo change ", []),
+                #{link_on := false} ->
+                    logger:debug("Link is not on - not sending cue /link/tempo-change", []),
                     ?MODULE:loop(State)
             end;
 
@@ -135,8 +135,8 @@ loop(State) ->
                   in_socket := InSocket} ->
                     forward_internal_cue(CueHost, CuePort, InSocket, "/link/start", []),
                     ?MODULE:loop(State);
-                _ ->
-                    logger:debug("Link cue forwarding disabled - ignored start message ", []),
+                #{link_on := false} ->
+                    logger:debug("Link is not on - not sending cue /link/start", []),
                     ?MODULE:loop(State)
             end;
 
@@ -149,8 +149,10 @@ loop(State) ->
                   in_socket := InSocket} ->
                     forward_internal_cue(CueHost, CuePort, InSocket, "/link/stop", []),
                     ?MODULE:loop(State);
-                _ ->
-                    logger:debug("Link cue forwarding disabled - ignored stop message ", []),
+                #{link_on := false} ->
+                    logger:debug("Link is not on - not sending cue /link/stop", []),
+                    ?MODULE:loop(State)
+            end;
                     ?MODULE:loop(State)
             end;
 
