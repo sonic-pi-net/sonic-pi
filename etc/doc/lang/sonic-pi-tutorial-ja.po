@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2022-05-24 03:03+0000\n"
-"Last-Translator: Kenryu Shibata <kenryushibata@gmail.com>\n"
+"PO-Revision-Date: 2022-05-25 21:14+0000\n"
+"Last-Translator: neginex <kanta.negishi.2021b@mlab.info>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/ja/>\n"
 "Language: ja\n"
@@ -8476,7 +8476,8 @@ msgstr ""
 msgid ""
 "To be able to convert actions in the real world into Sonic Pi events to code w"
 "ith"
-msgstr ""
+msgstr "現実世界での行動をSonic "
+"Piのイベントに変換し、コーディングできるようになること"
 
 #: 11-MIDI.md:12
 msgid ""
@@ -8501,11 +8502,11 @@ msgstr ""
 
 #: 11.1-MIDI-In.md:1
 msgid "11.1 MIDI In"
-msgstr ""
+msgstr "11.1 MIDI入力"
 
 #: 11.1-MIDI-In.md:3
 msgid "MIDI In"
-msgstr ""
+msgstr "MIDI 入力"
 
 #: 11.1-MIDI-In.md:5
 msgid ""
@@ -8518,7 +8519,7 @@ msgstr ""
 
 #: 11.1-MIDI-In.md:11
 msgid "Connecting a MIDI Controller"
-msgstr ""
+msgstr "MIDIコントローラーの接続"
 
 #: 11.1-MIDI-In.md:13
 msgid ""
@@ -16692,10 +16693,14 @@ msgid ""
 "e the `live_audio` functionality to combine code with traditional instruments "
 "such as a guitar or a microphone."
 msgstr ""
+"1人で演奏するのではなく、ライブコーディングバンドを結成しましょう！他の人とい"
+"っしょに演奏するのはとても楽しいですよ。1人がビートを担当して、もう1人はアン"
+"ビエントなBGMを奏でる、みたいにね。ギターやマイクのような普通の楽器とコードを"
+"組み合わせる時には`live_audio`機能を使ってください。"
 
 #: B.04-Performing.md:27
 msgid "See what interesting combinations of sounds you can create with code."
-msgstr ""
+msgstr "コードを使ってどんな面白い音の組み合わせが作れるか、試してみましょう。"
 
 #: B.04-Performing.md:29
 msgid "TOPLAP"
