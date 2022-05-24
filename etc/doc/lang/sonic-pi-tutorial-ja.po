@@ -8216,9 +8216,8 @@ msgstr "しかし、区分の数が少なかったり多かったりするpath�
 "例えば以下のものにはマッチしないでしょう:"
 
 #: 10.3-Pattern-Matching.md:32
-#, fuzzy
 msgid "`cue \"/foo/bar\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/bar\"`"
 
 #: 10.3-Pattern-Matching.md:33
 #, fuzzy
