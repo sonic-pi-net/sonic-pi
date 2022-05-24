@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2022-05-24 03:00+0000\n"
+"PO-Revision-Date: 2022-05-24 03:03+0000\n"
 "Last-Translator: neginex <kanta.negishi.2021b@mlab.info>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/ja/>\n"
@@ -8291,7 +8291,7 @@ msgstr "foo"
 
 #: 10.3-Pattern-Matching.md:62
 msgid "Matching Nested Path Segments"
-msgstr ""
+msgstr "ネストされたpath要素へのマッチ"
 
 #: 10.3-Pattern-Matching.md:64
 #, fuzzy
@@ -8318,13 +8318,14 @@ msgstr "foo"
 
 #: 10.3-Pattern-Matching.md:73
 msgid "Matching Single Letters"
-msgstr ""
+msgstr "一文字へのマッチング"
 
 #: 10.3-Pattern-Matching.md:75
 msgid ""
 "You can use the `?` character to match against a single char such as `\"/?oo/ba"
 "r/baz\"` which will match:"
-msgstr ""
+msgstr "1文字へのマッチングには `?` の文字を使うことができ、`\"/?oo/bar/baz\"` "
+"は次のようにマッチします:"
 
 #: 10.3-Pattern-Matching.md:79
 msgid "`cue \"/goo/bar/baz\"`"
@@ -8340,7 +8341,7 @@ msgstr ""
 
 #: 10.3-Pattern-Matching.md:83
 msgid "Matching Multiple Words"
-msgstr ""
+msgstr "複数の文字へのマッチング"
 
 #: 10.3-Pattern-Matching.md:85
 #, fuzzy
@@ -8367,7 +8368,7 @@ msgstr "foo"
 
 #: 10.3-Pattern-Matching.md:93
 msgid "Matching Multiple Letters"
-msgstr ""
+msgstr "複数の文字へのマッチング"
 
 #: 10.3-Pattern-Matching.md:95
 #, fuzzy
@@ -8419,6 +8420,10 @@ msgid ""
 " see fit to powerfully match any Time State event created by `cue` or `set`. L"
 "et's look at a crazy example:"
 msgstr ""
+"`sync`または`get`を呼び出している時には、マッチング規則を自由な順番に組み合わ"
+"せて`cue`や`set`で生まれるどんなTime "
+"Stateイベントにもパワフルにマッチさせることができます。 "
+"すごい例を見てみましょう。"
 
 #: 10.3-Pattern-Matching.md:118
 #, no-wrap
@@ -8434,7 +8439,7 @@ msgstr "sample :loop_amen"
 
 #: 10.3-Pattern-Matching.md:129
 msgid "OSC Pattern Matching"
-msgstr ""
+msgstr "OSC パターンマッチング"
 
 #: 10.3-Pattern-Matching.md:131
 msgid ""
@@ -8461,6 +8466,11 @@ msgid ""
 "metimes it is essential to break out of the code into the real world. We want "
 "two extra things:"
 msgstr ""
+"さて、コードを音楽に変換することをマスターしたあなたはこう思うかもしれません—"
+"次は何をすればいいんだろう？ Sonic Piの構文やサウンドシステムの中で作業すると"
+"いう制約は時に刺激的で、新しい創造性をもたらすこともあるでしょう。しかし、コ"
+"ードを現実世界に持ち出すことも時には必要なのです。私たちが欲しいのは次の2つの"
+"追加要素です。"
 
 #: 11-MIDI.md:11
 msgid ""
