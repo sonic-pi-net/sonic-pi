@@ -8220,9 +8220,8 @@ msgid "`cue \"/foo/bar\"`"
 msgstr "`cue \"/foo/bar\"`"
 
 #: 10.3-Pattern-Matching.md:33
-#, fuzzy
 msgid "`cue \"/foo/baz/quux/quaax\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/baz/quux/quaax\"`"
 
 #: 10.3-Pattern-Matching.md:34
 msgid "`cue \"/eggs\"`"
