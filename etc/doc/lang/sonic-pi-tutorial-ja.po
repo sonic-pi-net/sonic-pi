@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2022-05-24 02:54+0000\n"
+"PO-Revision-Date: 2022-05-24 02:58+0000\n"
 "Last-Translator: neginex <kanta.negishi.2021b@mlab.info>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/ja/>\n"
@@ -7859,22 +7859,23 @@ msgstr ""
 
 #: 10.1-Set-and-Get.md:11
 msgid "To store information into the Time State we need two things:"
-msgstr "Time Stateに情報を格納するためには2つのことが必要です。"
+msgstr "Time Stateに情報を保存するためには2つのことが必要です。"
 
 #: 10.1-Set-and-Get.md:13
 msgid "the information we want to store,"
-msgstr "格納したい情報と、"
+msgstr "保存したい情報と、"
 
 #: 10.1-Set-and-Get.md:14
 msgid "a unique name (key) for the information."
-msgstr ""
+msgstr "その情報のための独自の名前(キー)です。"
 
 #: 10.1-Set-and-Get.md:16
 msgid ""
 "For example, we might want to store the number `3000` with the key `:intensity"
 "`. This is possible using the `set` function:"
 msgstr ""
-"例えば、`3000`という数字を`:intensity`というキーで保存したいことがあるかもしれません。 このことは`set`関数によって可能になります。"
+"例えば、`3000`という数字を`:intensity`というキーで保存したいことがあるかもし"
+"れません。 これは`set`関数を使うことで可能になります。"
 
 #: 10.1-Set-and-Get.md:19
 #, no-wrap
