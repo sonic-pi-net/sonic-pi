@@ -953,7 +953,7 @@ Obter o Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2551"/>
         <source>Code Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Aumentar o tamanho do código</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2557"/>
