@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2022-05-24 02:58+0000\n"
-"Last-Translator: Kenryu Shibata <kenryushibata@gmail.com>\n"
+"PO-Revision-Date: 2022-05-24 02:59+0000\n"
+"Last-Translator: neginex <kanta.negishi.2021b@mlab.info>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/ja/>\n"
 "Language: ja\n"
@@ -7885,7 +7885,8 @@ msgstr ""
 msgid ""
 "We can use any name for our key. If information has already been stored with t"
 "hat key, our new `set` will override it:"
-msgstr ""
+msgstr "キーにはどんな名前でも使うことができます。そのキーですでに情報が保存されてい"
+"る場合は新しい`set`関数によって上書きすることができます。"
 
 #: 10.1-Set-and-Get.md:26
 #, no-wrap
@@ -8158,7 +8159,7 @@ msgstr ""
 
 #: 10.3-Pattern-Matching.md:3
 msgid "Pattern Matching"
-msgstr ""
+msgstr "パターン マッチング"
 
 #: 10.3-Pattern-Matching.md:5
 #, fuzzy
@@ -8173,11 +8174,11 @@ msgstr "foo"
 
 #: 10.3-Pattern-Matching.md:13
 msgid "Match any path segment"
-msgstr ""
+msgstr "あらゆるpath要素へのマッチ"
 
 #: 10.3-Pattern-Matching.md:15
 msgid "Let's assume we want to wait for the next event that has three path segments:"
-msgstr ""
+msgstr "pathが3つに区切られている次のイベントを待ちたいとしましょう。"
 
 #: 10.3-Pattern-Matching.md:17
 #, no-wrap
@@ -8192,14 +8193,12 @@ msgstr "このパターンはちょうど3つの区分を持つpathならば, �
 
 #: 10.3-Pattern-Matching.md:24 10.3-Pattern-Matching.md:46
 #: 10.3-Pattern-Matching.md:68 10.3-Pattern-Matching.md:78
-#, fuzzy
 msgid "`cue \"/foo/bar/baz\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/bar/baz\"`"
 
 #: 10.3-Pattern-Matching.md:25
-#, fuzzy
 msgid "`cue \"/foo/baz/quux\"`"
-msgstr "foo"
+msgstr "`cue \"/foo/baz/quux\"`"
 
 #: 10.3-Pattern-Matching.md:26
 msgid "`cue \"/eggs/beans/toast\"`"
