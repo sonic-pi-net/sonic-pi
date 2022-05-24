@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2022-05-24 02:59+0000\n"
+"PO-Revision-Date: 2022-05-24 03:00+0000\n"
 "Last-Translator: neginex <kanta.negishi.2021b@mlab.info>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/ja/>\n"
@@ -8239,7 +8239,7 @@ msgstr ""
 
 #: 10.3-Pattern-Matching.md:38
 msgid "Matching partial segments"
-msgstr ""
+msgstr "部分的なパス要素へのマッチング"
 
 #: 10.3-Pattern-Matching.md:40
 #, fuzzy
@@ -8263,7 +8263,7 @@ msgstr "foo"
 
 #: 10.3-Pattern-Matching.md:50
 msgid "However, it wouldn't match the following:"
-msgstr ""
+msgstr "しかし、以下のものにはマッチしないでしょう。"
 
 #: 10.3-Pattern-Matching.md:52
 #, fuzzy
