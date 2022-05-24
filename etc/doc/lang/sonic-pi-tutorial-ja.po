@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
 "PO-Revision-Date: 2022-05-25 21:14+0000\n"
-"Last-Translator: neginex <kanta.negishi.2021b@mlab.info>\n"
+"Last-Translator: Olympia Brikis <g.o.brikis@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/ja/>\n"
 "Language: ja\n"
@@ -15036,9 +15036,8 @@ msgstr ""
 "あったと言えるでしょう。覚えておいてください、練習は成功の鍵なのです！"
 
 #: A.17-sample-stretching.md:1
-#, fuzzy
 msgid "A.17 Sample Stretching"
-msgstr "A.12 サンプルをスライスする"
+msgstr "A.17 サンプル ストレッチ"
 
 #: A.17-sample-stretching.md:3
 #, fuzzy
