@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
 "PO-Revision-Date: 2022-05-24 03:03+0000\n"
-"Last-Translator: neginex <kanta.negishi.2021b@mlab.info>\n"
+"Last-Translator: Kenryu Shibata <kenryushibata@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/ja/>\n"
 "Language: ja\n"
@@ -8263,7 +8263,7 @@ msgstr "foo"
 
 #: 10.3-Pattern-Matching.md:50
 msgid "However, it wouldn't match the following:"
-msgstr "しかし、以下のものにはマッチしないでしょう。"
+msgstr "しかし、以下のものにはマッチしないでしょう："
 
 #: 10.3-Pattern-Matching.md:52
 #, fuzzy
