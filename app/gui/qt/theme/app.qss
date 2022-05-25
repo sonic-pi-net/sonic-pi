@@ -656,3 +656,9 @@ QLineEdit#bpmScrubber
     padding: 5dx;
     max-width: 100dx;
 }
+
+
+SonicPiMetro
+{
+    background-color: windowColor;
+}
