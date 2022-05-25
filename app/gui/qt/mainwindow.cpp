@@ -2248,7 +2248,7 @@ void MainWindow::updateColourTheme()
     scopeWindow->SetColor(theme->color("Scope"));
     scopeWindow->SetColor2(theme->color("Scope_2"));
     lexer->unhighlightAll();
-    metroPane->updateLinkButtonDisplay();
+    metroPane->updateColourTheme();
 }
 
 void MainWindow::showLineNumbersMenuChanged()

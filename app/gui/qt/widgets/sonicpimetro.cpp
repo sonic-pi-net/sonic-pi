@@ -14,8 +14,8 @@
 #include "sonicpimetro.h"
 #include <QVBoxLayout>
 #include "qt_api_client.h"
-
-
+#include <QStyleOption>
+#include <QPainter>
 
 SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::shared_ptr<SonicPi::SonicPiAPI> spAPI, SonicPiTheme *theme, QWidget* parent)
   : QWidget(parent)
@@ -108,3 +108,17 @@ void SonicPiMetro::updateBPM(double bpm)
 {
   bpmScrubWidget->setBPM(bpm);
 }
+
+void SonicPiMetro::updateColourTheme()
+{
+
+  updateLinkButtonDisplay();
+}
+
+ void SonicPiMetro::paintEvent(QPaintEvent *)
+ {
+     QStyleOption opt;
+     opt.initFrom(this);
+     QPainter p(this);
+     style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
+ }

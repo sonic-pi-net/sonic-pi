@@ -15,8 +15,10 @@
 #define SONICPIMETRO_H
 
 #include <QWidget>
+#include <QFrame>
 #include <QPushButton>
 #include <QMutex>
+#include <QPaintEvent>
 #include "model/sonicpitheme.h"
 #include "qt_api_client.h"
 #include "api/sonicpi_api.h"
@@ -33,7 +35,8 @@ public:
 
   void updateActiveLinkCount(int count);
   void updateBPM(double bpm);
-  void updateLinkButtonDisplay();
+  void updateColourTheme();
+
 
 signals:
   void enableLink();
@@ -42,6 +45,7 @@ signals:
 public slots:
 
 protected:
+  void paintEvent(QPaintEvent *event);
 
 private:
   QPushButton *enableLinkButton;
@@ -52,6 +56,7 @@ private:
 
   void toggleLink();
   void updateActiveLinkText();
+  void updateLinkButtonDisplay();
 
   std::shared_ptr<SonicPi::QtAPIClient> m_spClient;
   std::shared_ptr<SonicPi::SonicPiAPI> m_spAPI;
