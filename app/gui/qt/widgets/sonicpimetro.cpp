@@ -90,7 +90,7 @@ void SonicPiMetro::updateLinkButtonDisplay()
     qss = QString("\nQPushButton {\nbackground-color: %1;}\nQPushButton::hover:!pressed {\nbackground-color: %2}\n").arg(theme->color("PressedButton").name()).arg(theme->color("PressedButton").name());
     enableLinkButton->setStyleSheet(theme->getAppStylesheet() + qss);
 
-    qss = QString("\nQLineEdit#bpmScrubber {\nborder-color: %1;}\n \nQLineEdit#bpmScrubber::hover:!pressed {\nbackground-color: %1;}\n").arg(theme->color("PressedButton").name()).arg(theme->color("PressedButton").name());
+    qss = QString("\nQLineEdit#bpmScrubber {\nborder-color: %1;}\n \nQLineEdit#bpmScrubber::hover:!pressed {\nbackground-color: %2;}\n").arg(theme->color("PressedButton").name()).arg(theme->color("PressedButton").name());
     bpmScrubWidget->setStyleSheet(theme->getAppStylesheet() + qss);
 
   } else {
@@ -98,7 +98,7 @@ void SonicPiMetro::updateLinkButtonDisplay()
     qss = QString("\nQPushButton {\nbackground-color: %1;}\nQPushButton::hover:!pressed {\nbackground-color: %2}\n").arg(theme->color("Button").name()).arg(theme->color("HoverButton").name());
     enableLinkButton->setStyleSheet(theme->getAppStylesheet() + qss);
 
-    qss = QString("\nQLineEdit#bpmScrubber {\nborder-color: %1;}\n \nQLineEdit#bpmScrubber::hover:!pressed {\nbackground-color: %1;}\n").arg(theme->color("HoverButton").name()).arg(theme->color("HoverButton").name());
+    qss = QString("\nQLineEdit#bpmScrubber {\nborder-color: %1;}\n \nQLineEdit#bpmScrubber::hover:!pressed {\nbackground-color: %2;}\n").arg(theme->color("HoverButton").name()).arg(theme->color("HoverButton").name());
 
     bpmScrubWidget->setStyleSheet(theme->getAppStylesheet() + qss);
   }
