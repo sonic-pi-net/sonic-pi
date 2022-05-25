@@ -200,6 +200,7 @@ struct IAPIClient
     virtual void AudioDataAvailable(const ProcessedAudio& audio) = 0;
     virtual void Buffer(const BufferInfo& info) = 0;
     virtual void ActiveLinks(const int numLinks) = 0;
+    virtual void BPM(const double bpm) = 0;
 };
 
 // Always UDP
@@ -262,6 +263,8 @@ public:
 
     virtual bool LinkEnable();
     virtual bool LinkDisable();
+
+    virtual bool SetLinkBPM(double bpm);
 
     // Wait for the server to be in a good state
     virtual bool PingUntilServerCreated();

@@ -226,7 +226,12 @@ loop(State) ->
             send_to_link({link_rpc, UUID, get_tempo}, State),
             ?MODULE:loop(State);
 
-        %% link_set_tempo needs to be within an a timestamped OSC bundle
+        %% link_set_tempo can also be within an a timestamped OSC bundle
+
+        {cmd, ["/link-set-tempo", Tempo]=Cmd} ->
+            debug_cmd(Cmd),
+            send_to_link({link_set_tempo, Tempo}, State),
+            ?MODULE:loop(State);
 
         {cmd, ["/api-rpc", UUID, "/link-get-beat-at-time", Time, Quantum]=Cmd} ->
             debug_cmd(Cmd),

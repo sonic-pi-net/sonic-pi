@@ -92,6 +92,11 @@ void SPClient::ActiveLinks(const int numLinks)
   // please implement me
 }
 
+void SPClient::BPM(const double bpm)
+{
+  // please implement me
+}
+
 void start_sonic_pi()
 {
     sonic.spClient = std::make_shared<SPClient>();

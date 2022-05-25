@@ -341,7 +341,9 @@ send_api_reply(State, UUID, Args) ->
 send_api_tempo_update(CueHost, CuePort, InSocket, Tempo) ->
     Bin = osc:encode(["/link-tempo-change", "erlang", Tempo]),
     send_udp(InSocket, CueHost, CuePort, Bin),
-    logger:debug("sending link tempo update [~p] to ~p:~p", [Tempo, CueHost, CuePort]),
+
+    logger:info("sending link tempo update [~p] to ~p:~p", [Tempo, CueHost, CuePort]),
+
     ok.
 
 update_num_links(CueHost, CuePort, InSocket, NumPeers) ->

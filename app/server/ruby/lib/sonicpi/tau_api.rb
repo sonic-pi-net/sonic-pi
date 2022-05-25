@@ -36,6 +36,7 @@ module SonicPi
       @updated_midi_ins_handler = handlers[:updated_midi_ins]
       @updated_midi_outs_handler = handlers[:updated_midi_outs]
       @updated_link_num_peers_handler = handlers[:updated_link_num_peers]
+      @updated_link_bpm_handler = handlers[:updated_link_bpm]
 
       add_incoming_api_handlers!
 
@@ -248,9 +249,10 @@ module SonicPi
 
     def add_incoming_api_handlers!
       @tau_comms.add_method("/link-tempo-change") do |args|
-        @incoming_tempo_change_cv.broadcast
         _gui_id = args[0]
         tempo = args[1].to_f
+        @updated_link_bpm_handler.call(tempo)
+        @incoming_tempo_change_cv.broadcast
         @tempo = tempo
       end
 

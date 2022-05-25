@@ -50,7 +50,12 @@ class APIClient : public IAPIClient
 
     virtual void ActiveLinks(const int numLinks) override
     {
-        std::cout << numLinks;;
+        std::cout << numLinks;
+    }
+
+    virtual void BPM(const double bpm) override
+    {
+        std::cout << bpm;
     }
 };
 

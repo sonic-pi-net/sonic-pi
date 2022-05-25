@@ -10,51 +10,45 @@
 // distribution of modified versions of this work as long as this
 // notice is included.
 //++
-
-#ifndef SONICPIMETRO_H
-#define SONICPIMETRO_H
+#ifndef BPMSCRUBWIDGET_H
+#define BPMSCRUBWIDGET_H
 
 #include <QWidget>
-#include <QPushButton>
-#include <QMutex>
+#include <QLineEdit>
+#include <QMouseEvent>
+#include <QPoint>
 #include "model/sonicpitheme.h"
 #include "qt_api_client.h"
 #include "api/sonicpi_api.h"
-#include "bpmscrubwidget.h"
 
 
-class SonicPiMetro : public QWidget
+class BPMScrubWidget : public QLineEdit
 {
-    Q_OBJECT
-public:
-  SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::shared_ptr<SonicPi::SonicPiAPI> spAPI, SonicPiTheme *theme, QWidget *parent = nullptr);
+  Q_OBJECT
 
+public:
+  BPMScrubWidget(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::shared_ptr<SonicPi::SonicPiAPI> spAPI, SonicPiTheme *theme, QWidget *parent = nullptr);
+
+  void setBPM(double bpm);
   SonicPiTheme *theme;
 
-  void updateActiveLinkCount(int count);
-  void updateBPM(double bpm);
-  void updateLinkButtonDisplay();
-
 signals:
-  void enableLink();
-  void disableLink();
 
 public slots:
 
 protected:
+  void mousePressEvent(QMouseEvent * event);
+  void mouseReleaseEvent(QMouseEvent * event);
+  void mouseMoveEvent(QMouseEvent * event);
 
 private:
-  QPushButton *enableLinkButton;
-  bool linkEnabled = false;
-  int numActiveLinks = 0;
-  QMutex *mutex;
-  BPMScrubWidget *bpmScrubWidget;
-
-  void toggleLink();
-  void updateActiveLinkText();
-
   std::shared_ptr<SonicPi::QtAPIClient> m_spClient;
   std::shared_ptr<SonicPi::SonicPiAPI> m_spAPI;
+  QPoint m_lastMouseClickPos;
+  QPoint m_lastMouseClickGlobalPos;
+  bool m_isDragging;
+  double m_bpmValue, m_preDragBpmValue;
+  void readAndSetBPM();
 };
 
-#endif // SONICPIMETRO_H
+#endif // BPMSCRUBWIDGET_H

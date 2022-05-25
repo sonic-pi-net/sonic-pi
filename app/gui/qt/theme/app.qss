@@ -633,3 +633,26 @@ QPushButton#enableLinkButton
 {
   min-width: 100dx;
 }
+
+QLineEdit#bpmScrubber::hover:!pressed
+{
+    background-color: hoverButtonColor;
+    color: buttonTextColor;
+}
+
+QLineEdit#bpmScrubber::hover:pressed
+{
+    background-color: hoverButtonColor;
+    color: buttonTextColor;
+}
+
+QLineEdit#bpmScrubber
+{
+    font-size: medium;
+    selection-color: selectionForegroundColor;
+    selection-background-color: selectionBackgroundColor;
+    background-color: paneColor;
+    border: 2dx solid hoverButtonColor;
+    padding: 5dx;
+    max-width: 100dx;
+}

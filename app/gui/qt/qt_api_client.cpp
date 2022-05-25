@@ -228,4 +228,9 @@ void QtAPIClient::ActiveLinks(const int numLinks)
   emit UpdateNumActiveLinks(numLinks);
 }
 
+void QtAPIClient::BPM(const double bpm)
+{
+  emit UpdateBPM(bpm);
+}
+
 } // namespace SonicPi

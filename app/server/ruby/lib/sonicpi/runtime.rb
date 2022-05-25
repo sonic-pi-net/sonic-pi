@@ -1452,13 +1452,18 @@ module SonicPi
         __msg_queue.push({:type => :link_num_peers, :val => num})
       end
 
+      updated_link_bpm_handler = lambda do |num|
+        __msg_queue.push({:type => :link_bpm, :val => num})
+      end
+
       @tau_api = TauAPI.new(ports,
                             {
                               external_osc_cue: external_osc_cue_handler,
                               internal_cue: internal_cue_handler,
                               updated_midi_ins: updated_midi_ins_handler,
                               updated_midi_outs: updated_midi_outs_handler,
-                              updated_link_num_peers: updated_link_num_peers_handler
+                              updated_link_num_peers: updated_link_num_peers_handler,
+                              updated_link_bpm: updated_link_bpm_handler
                             })
 
       begin

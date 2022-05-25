@@ -83,6 +83,8 @@ set(EDITOR_SOURCES
 set(QT_SOURCES
     ${QTAPP_ROOT}/widgets/infowidget.cpp
     ${QTAPP_ROOT}/widgets/settingswidget.cpp
+    ${QTAPP_ROOT}/widgets/bpmscrubwidget.cpp
+    ${QTAPP_ROOT}/widgets/bpmscrubwidget.h
     ${QTAPP_ROOT}/mainwindow.cpp
     ${QTAPP_ROOT}/mainwindow.h
     ${QTAPP_ROOT}/model/sonicpitheme.cpp

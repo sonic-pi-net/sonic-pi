@@ -16,6 +16,7 @@
 #include "qt_api_client.h"
 
 
+
 SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::shared_ptr<SonicPi::SonicPiAPI> spAPI, SonicPiTheme *theme, QWidget* parent)
   : QWidget(parent)
   , m_spClient(spClient)
@@ -26,6 +27,7 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   enableLinkButton = new QPushButton(tr("Link"));
   enableLinkButton->setAutoFillBackground(true);
   enableLinkButton->setObjectName("enableLinkButton");
+  enableLinkButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
   enableLinkButton->setFlat(true);
   QHBoxLayout* metro_layout  = new QHBoxLayout;
 
@@ -33,7 +35,11 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
   setLayout(metro_layout);
 
+  bpmScrubWidget = new BPMScrubWidget(m_spClient, m_spAPI, theme);
+  bpmScrubWidget->setObjectName("bpmScrubber");
+  bpmScrubWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
   metro_layout->addWidget(enableLinkButton);
+  metro_layout->addWidget(bpmScrubWidget);
   metro_layout->addWidget(spacer);
 
   connect(enableLinkButton, &QPushButton::clicked, [=]() {
@@ -41,6 +47,8 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   });
 
   connect(m_spClient.get(), &SonicPi::QtAPIClient::UpdateNumActiveLinks, this, &SonicPiMetro::updateActiveLinkCount);
+
+  connect(m_spClient.get(), &SonicPi::QtAPIClient::UpdateBPM, this, &SonicPiMetro::updateBPM);
 
   updateLinkButtonDisplay();
 }
@@ -80,11 +88,23 @@ void SonicPiMetro::updateLinkButtonDisplay()
   if(linkEnabled) {
     updateActiveLinkText();
     qss = QString("\nQPushButton {\nbackground-color: %1;}\nQPushButton::hover:!pressed {\nbackground-color: %2}\n").arg(theme->color("PressedButton").name()).arg(theme->color("PressedButton").name());
+    enableLinkButton->setStyleSheet(theme->getAppStylesheet() + qss);
+
+    qss = QString("\nQLineEdit#bpmScrubber {\nborder-color: %1;}\n \nQLineEdit#bpmScrubber::hover:!pressed {\nbackground-color: %1;}\n").arg(theme->color("PressedButton").name()).arg(theme->color("PressedButton").name());
+    bpmScrubWidget->setStyleSheet(theme->getAppStylesheet() + qss);
+
   } else {
     enableLinkButton->setText("Link");
     qss = QString("\nQPushButton {\nbackground-color: %1;}\nQPushButton::hover:!pressed {\nbackground-color: %2}\n").arg(theme->color("Button").name()).arg(theme->color("HoverButton").name());
+    enableLinkButton->setStyleSheet(theme->getAppStylesheet() + qss);
+
+    qss = QString("\nQLineEdit#bpmScrubber {\nborder-color: %1;}\n \nQLineEdit#bpmScrubber::hover:!pressed {\nbackground-color: %1;}\n").arg(theme->color("HoverButton").name()).arg(theme->color("HoverButton").name());
+
+    bpmScrubWidget->setStyleSheet(theme->getAppStylesheet() + qss);
   }
+}
 
-
-  enableLinkButton->setStyleSheet(theme->getAppStylesheet() + qss);
+void SonicPiMetro::updateBPM(double bpm)
+{
+  bpmScrubWidget->setBPM(bpm);
 }

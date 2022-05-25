@@ -330,6 +330,18 @@ bool SonicPiAPI::LinkEnable()
     return true;
 }
 
+  bool SonicPiAPI::SetLinkBPM(double bpm)
+{
+    Message msg("/link-set-tempo");
+    msg.pushFloat((float) bpm);
+    bool res = TauSendOSC(msg);
+    if (!res)
+    {
+        return false;
+    }
+    return true;
+}
+
 bool SonicPiAPI::LinkDisable()
 {
     Message msg("/link-disable");
