@@ -188,7 +188,7 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
     midi_reset_button->setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed));
 
     midi_default_channel_combo = new QComboBox();
-    midi_default_channel_combo->addItem("*");
+    midi_default_channel_combo->addItem("* (" + tr("all") + ")");
     // TODO Loop
     midi_default_channel_combo->addItem("1");
     midi_default_channel_combo->addItem("2");
@@ -211,7 +211,7 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
     midi_default_channel_combo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon) ;
 
     QLabel *midi_default_channel_label = new QLabel;
-    midi_default_channel_label->setText(tr("Default MIDI channel"));
+    midi_default_channel_label->setText(tr("Default MIDI out channel"));
     midi_default_channel_label->setToolTip(tr("Default MIDI Channel to send messages to (* means all)"));
 
     QGridLayout *midi_default_channel_layout = new QGridLayout();
@@ -830,8 +830,14 @@ void SettingsWidget::updateSettings() {
     if(!osc_server_enabled_check->isChecked()) {
       osc_public_check->setChecked(false);
     }
+
+    QString channel_pat_str = midi_default_channel_combo->currentText();
+    if(channel_pat_str.startsWith("*")) {
+      channel_pat_str = QString("*");
+    }
+
     piSettings->midi_default_channel = midi_default_channel_combo->currentIndex();
-    piSettings->midi_default_channel_str = midi_default_channel_combo->currentText(); // TODO find a more elegant solution
+    piSettings->midi_default_channel_str = channel_pat_str;
     piSettings->midi_enabled = midi_enable_check->isChecked();
 
     piSettings->auto_indent_on_run = auto_indent_on_run->isChecked();
