@@ -29,6 +29,7 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   enableLinkButton->setObjectName("enableLinkButton");
   enableLinkButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
   enableLinkButton->setFlat(true);
+  enableLinkButton->setToolTip(tr("Enable/Disable network sync.\nThis controls whether the Link metronome will synchronise with other Link metronomes on the local network."));
   QHBoxLayout* metro_layout  = new QHBoxLayout;
 
   QWidget* spacer = new QWidget();
@@ -38,6 +39,7 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   bpmScrubWidget = new BPMScrubWidget(m_spClient, m_spAPI, theme);
   bpmScrubWidget->setObjectName("bpmScrubber");
   bpmScrubWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+  bpmScrubWidget->setToolTip(tr("Current Link BPM. Edit or drag to modify."));
   metro_layout->addWidget(enableLinkButton);
   metro_layout->addWidget(bpmScrubWidget);
   metro_layout->addWidget(spacer);
