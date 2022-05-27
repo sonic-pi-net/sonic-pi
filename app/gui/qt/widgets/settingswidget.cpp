@@ -292,8 +292,8 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     show_cues->setToolTip(tooltipStrShiftMeta('C', tr("Toggle visibility of cue log which displays internal cues & incoming OSC/MIDI messages.")));
     show_cues->setChecked(true);
 
-    show_metro = new QCheckBox(tr("Show metronome"));
-    show_metro->setToolTip(tr("Toggle visibility of the metronome."));
+    show_metro = new QCheckBox(tr("Show Link metronome controls"));
+    show_metro->setToolTip(tr("Toggle visibility of the Link metronome controls."));
     show_cues->setChecked(true);
 
     show_buttons = new QCheckBox(tr("Show buttons"));
