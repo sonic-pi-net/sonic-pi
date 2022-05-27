@@ -32,8 +32,6 @@ To be released...
 
 ### Known Issues (to be addressed in upcoming Betas)
 * On macOS, the booting procedure no longer attempts to tweak the audio-card's sample rates to match and instead crashes on a mismatch.
-* There are no GUI elements to view/manipulate the new Link metronome.
-* Link is enabled by default and cannot be disabled via the GUI.
 * MIDI port names are very long and change on disconnect/reconnect on Linux.
 * Using `sync` with an external OSC or MIDI message whilst in `:link` bpm mode is broken.
 * On macOS if there are no MIDI devices attached at boot, the updater doesn't work. However, it does appear to if devices are attached at boot.
@@ -72,8 +70,9 @@ To be released...
 ### GUI
 * Preference pane is now an overlay which hovers over the main window. This means that opening and closing it does not inadvertantly modify a carefully chosen layout e.g. for a performance.
 * New preference option to show and hide the pane titles such as Scope, Log, Cues, Context, Help, etc.
+* New GUI controls for interacting with the new Link Metronome. You can connect/disconnect to the network (to share tempo with others), change the tempo (in BPM) and tap out a new tempo.
 * Increase width of panel dividers and highlight on mouse hover.
-* Highlight scrollbars on mouse hover.
+* Highlight scrollbars and preference checkbox descriptions on mouse hover.
 * Scrollbars now have rounded edges.
 * Teach autocompletion about random source choices: `:white`, `:light_pink`, `:pink`, etc.
 * Improve syntax indentation.
