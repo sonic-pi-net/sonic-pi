@@ -4296,36 +4296,39 @@ puts current_sched_ahead_time # Prints 0.5"]
         __system_thread_locals.set(:sonic_pi_spider_slept, true) if beats != 0
         __change_spider_beat_and_time_by_beat_delta!(beats)
 
+        in_time_warp = __system_thread_locals.get(:sonic_pi_spider_in_time_warp)
+
+        return if in_time_warp
+
         sat = current_sched_ahead_time
         new_vt = __get_spider_time.to_f
         now = Time.now.to_f
+
+        if (now - (sat + 1)) > new_vt
+          __delayed_serious_warning "Serious timing error. Too far behind time..."
+          raise TimingError, "Timing Exception: thread got too far behind time"
+        elsif (now - sat) > new_vt
+          __delayed_serious_warning "Timing error: can't keep up..."
+        elsif now > new_vt
+          unless __thread_locals.get(:sonic_pi_mod_sound_synth_silent) || in_time_warp
+            __delayed_warning "Timing warning: running slightly behind..."
+          end
+        end
         sleep_t = (new_vt - now).to_f - 0.2
         return if sleep_t < 0.2
 
-        in_time_warp = __system_thread_locals.get(:sonic_pi_spider_in_time_warp)
-
-        if in_time_warp
-          # Don't physically sleep or register as slept within a time warp
+        if __in_link_bpm_mode
+          @tau_api.link_sleep(sleep_t) do
+            # this code runs if the sleep was short-circuited
+            __change_spider_beat_and_time_by_beat_delta!(0)
+          end
+          post_sleep_vt = __get_spider_time.to_f
+          sleep_t = (post_sleep_vt - Time.now.to_f).to_f - 0.2
+          return if sleep_t < 0.2
+          sleep 0
         else
-          if (now - (sat + 1)) > new_vt
-            __delayed_serious_warning "Serious timing error. Too far behind time..."
-            raise TimingError, "Timing Exception: thread got too far behind time"
-          elsif (now - sat) > new_vt
-            __delayed_serious_warning "Timing error: can't keep up..."
-          elsif now > new_vt
-            unless __thread_locals.get(:sonic_pi_mod_sound_synth_silent) || in_time_warp
-              __delayed_warning "Timing warning: running slightly behind..."
-            end
-          end
-
-          if __in_link_bpm_mode
-            @tau_api.link_sleep(sleep_t)
-            sleep 0
-          else
-            Kernel.sleep sleep_t
-          end
+          Kernel.sleep sleep_t
         end
-
 
         ## reset control deltas now that time has advanced
         __system_thread_locals.set_local :sonic_pi_local_control_deltas, {}

@@ -239,8 +239,13 @@ module SonicPi
     end
 
     def link_sleep(s)
+      t1 = Time.now
       @incoming_tempo_change_mut.synchronize do
         @incoming_tempo_change_cv.wait(@incoming_tempo_change_mut, s)
+      end
+      t2 = Time.now
+      if (t2 - t1) < (s + 0.05)
+        yield
       end
     end
 
