@@ -160,10 +160,10 @@ loop(State) ->
                   cue_host := CueHost,
                   cue_port := CuePort,
                   in_socket := InSocket} ->
-                    forward_internal_cue(CueHost, CuePort, InSocket, "/link/enabled", []),
+                    forward_internal_cue(CueHost, CuePort, InSocket, "/link/connected", []),
                     ?MODULE:loop(State);
                 #{link_on := false} ->
-                    logger:debug("Link is not on - not sending cue /link/enabled", []),
+                    logger:debug("Link is not on - not sending cue /link/connected", []),
                     ?MODULE:loop(State)
             end;
 
@@ -173,10 +173,10 @@ loop(State) ->
                   cue_host := CueHost,
                   cue_port := CuePort,
                   in_socket := InSocket} ->
-                    forward_internal_cue(CueHost, CuePort, InSocket, "/link/disabled", []),
+                    forward_internal_cue(CueHost, CuePort, InSocket, "/link/disconnected", []),
                     ?MODULE:loop(State);
                 #{link_on := false} ->
-                    logger:debug("Link is not on - not sending cue /link/disabled", []),
+                    logger:debug("Link is not on - not sending cue /link/disconnected", []),
                     ?MODULE:loop(State)
             end;
 
