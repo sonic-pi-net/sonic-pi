@@ -30,6 +30,7 @@ public:
   BPMScrubWidget(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::shared_ptr<SonicPi::SonicPiAPI> spAPI, SonicPiTheme *theme, QWidget *parent = nullptr);
 
   void setBPM(double bpm);
+  void setBPMLabel(double bpm);
   SonicPiTheme *theme;
 
 signals:
@@ -49,6 +50,7 @@ private:
   bool m_isDragging;
   double m_bpmValue, m_preDragBpmValue;
   void readAndSetBPM();
+
 };
 
 #endif // BPMSCRUBWIDGET_H

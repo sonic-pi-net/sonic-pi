@@ -34,7 +34,7 @@ public:
   SonicPiTheme *theme;
 
   void updateActiveLinkCount(int count);
-  void updateBPM(double bpm);
+  void updateBPMLabel(double bpm);
   void updateColourTheme();
 
 
@@ -49,12 +49,18 @@ protected:
 
 private:
   QPushButton *enableLinkButton;
+  QPushButton *tapButton;
   bool linkEnabled = false;
   int numActiveLinks = 0;
   QMutex *mutex;
   BPMScrubWidget *bpmScrubWidget;
 
+  int numTaps = 0;
+  qint64 firstTap = 0;
+  qint64 lastTap = 0;
+
   void toggleLink();
+  void tapTempo();
   void updateActiveLinkText();
   void updateLinkButtonDisplay();
 

@@ -33,7 +33,7 @@ void BPMScrubWidget::readAndSetBPM()
   bool ok(false);
   double d = text().toDouble(&ok);
   if (ok) {
-    setBPM(d);
+    setBPMLabel(d);
   }
   m_spAPI.get()->SetLinkBPM(m_bpmValue);
 }
@@ -47,7 +47,7 @@ void BPMScrubWidget::mousePressEvent(QMouseEvent* event)
   QGuiApplication::setOverrideCursor(QCursor(Qt::BlankCursor));
 }
 
-void BPMScrubWidget::setBPM(double bpm)
+void BPMScrubWidget::setBPMLabel(double bpm)
 {
   if(bpm < 20.0) {
     m_bpmValue = 20.0;
@@ -57,6 +57,12 @@ void BPMScrubWidget::setBPM(double bpm)
     m_bpmValue = bpm;
   }
   setText(QString("%1").arg(m_bpmValue, 6, 'f', 2));
+}
+
+void BPMScrubWidget::setBPM(double bpm)
+{
+  setBPMLabel(bpm);
+  readAndSetBPM();
 }
 
 void BPMScrubWidget::mouseReleaseEvent(QMouseEvent* event)
@@ -71,7 +77,6 @@ void BPMScrubWidget::mouseMoveEvent(QMouseEvent* event)
   {
     int diff = m_lastMouseClickPos.y() - event->pos().y();
     setBPM(m_bpmValue + diff);
-    m_spAPI.get()->SetLinkBPM(m_bpmValue);
     QCursor::setPos(m_lastMouseClickGlobalPos);
   }
 }

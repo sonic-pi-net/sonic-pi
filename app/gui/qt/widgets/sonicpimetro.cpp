@@ -30,8 +30,16 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   enableLinkButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
   enableLinkButton->setFlat(true);
   enableLinkButton->setToolTip(tr("Enable/Disable network sync.\nThis controls whether the Link metronome will synchronise with other Link metronomes on the local network."));
-  QHBoxLayout* metro_layout  = new QHBoxLayout;
 
+  tapButton = new QPushButton(tr("Tap"));
+  tapButton->setAutoFillBackground(true);
+  tapButton->setObjectName("tapButton");
+  tapButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+  tapButton->setFlat(true);
+  tapButton->setToolTip(tr("Tap tempo"));
+
+
+  QHBoxLayout* metro_layout  = new QHBoxLayout;
   QWidget* spacer = new QWidget();
   spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
   setLayout(metro_layout);
@@ -41,6 +49,7 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   bpmScrubWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
   bpmScrubWidget->setToolTip(tr("Current Link BPM. Edit or drag to modify."));
   metro_layout->addWidget(enableLinkButton);
+  metro_layout->addWidget(tapButton);
   metro_layout->addWidget(bpmScrubWidget);
   metro_layout->addWidget(spacer);
 
@@ -48,9 +57,15 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
     this->toggleLink();
   });
 
+  connect(tapButton, &QPushButton::clicked, [=]() {
+    this->tapTempo();
+  });
+
   connect(m_spClient.get(), &SonicPi::QtAPIClient::UpdateNumActiveLinks, this, &SonicPiMetro::updateActiveLinkCount);
 
-  connect(m_spClient.get(), &SonicPi::QtAPIClient::UpdateBPM, this, &SonicPiMetro::updateBPM);
+  connect(m_spClient.get(), &SonicPi::QtAPIClient::UpdateBPM, this, &SonicPiMetro::updateBPMLabel);
+
+
 
   updateLinkButtonDisplay();
 }
@@ -106,9 +121,9 @@ void SonicPiMetro::updateLinkButtonDisplay()
   }
 }
 
-void SonicPiMetro::updateBPM(double bpm)
+void SonicPiMetro::updateBPMLabel(double bpm)
 {
-  bpmScrubWidget->setBPM(bpm);
+  bpmScrubWidget->setBPMLabel(bpm);
 }
 
 void SonicPiMetro::updateColourTheme()
@@ -124,3 +139,43 @@ void SonicPiMetro::updateColourTheme()
      QPainter p(this);
      style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
  }
+
+void SonicPiMetro::tapTempo()
+{
+  qint64 timeStamp = QDateTime::currentMSecsSinceEpoch();
+  numTaps = numTaps + 1;
+  qint64 timeSinceLastTap = timeStamp - lastTap;
+  lastTap = timeStamp;
+
+  if(numTaps == 1) {
+    //first tap
+  } else {
+    // if we're not the first tap and it's been a sensible amount of
+    // time since the last tap...
+    if((timeSinceLastTap < 2500) && (timeSinceLastTap > 0)) {
+      if(numTaps < 3) {
+        // do nothing for the first 2 taps
+      } else if(numTaps == 3) {
+        firstTap = timeStamp;
+      } else {
+        qint64 totalTapDistance = timeStamp - firstTap;
+        qint64 avgDistance = totalTapDistance / (numTaps - 3);
+
+        //reset if we're not within 10% of average tap distance
+        if((timeSinceLastTap < (1.1 * avgDistance)) &&
+           (timeSinceLastTap > (0.9 * avgDistance))) {
+             double newBpm = 60.0 / (((double) avgDistance) / 1000.0);
+             bpmScrubWidget->setBPM(newBpm);
+        } else {
+          numTaps = 0;
+          firstTap = 0;
+          lastTap = 0;
+        }
+      }
+    } else {
+      numTaps = 0;
+      firstTap = 0;
+      lastTap = 0;
+    }
+  }
+}
