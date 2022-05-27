@@ -4293,36 +4293,39 @@ puts current_sched_ahead_time # Prints 0.5"]
 
         # Schedule messages
         __schedule_delayed_blocks_and_messages!
-        return if beats == 0
-
+        __system_thread_locals.set(:sonic_pi_spider_slept, true) if beats != 0
         __change_spider_beat_and_time_by_beat_delta!(beats)
 
         sat = current_sched_ahead_time
         new_vt = __get_spider_time.to_f
         now = Time.now.to_f
+        sleep_t = (new_vt - now).to_f - 0.2
+        return if sleep_t < 0.2
 
         in_time_warp = __system_thread_locals.get(:sonic_pi_spider_in_time_warp)
-
-        if (now - (sat + 1)) > new_vt
-          __delayed_serious_warning "Serious timing error. Too far behind time..."
-          raise TimingError, "Timing Exception: thread got too far behind time"
-        elsif (now - sat) > new_vt
-          __delayed_serious_warning "Timing error: can't keep up..."
-        elsif now > new_vt
-          ## TODO: Remove this and replace with a much better silencing system which
-          ## is implemented within the __delayed_* fns
-          unless __thread_locals.get(:sonic_pi_mod_sound_synth_silent) || in_time_warp
-            __delayed_warning "Timing warning: running slightly behind..."
-          end
-        end
 
         if in_time_warp
           # Don't physically sleep or register as slept within a time warp
         else
-          t = (new_vt - now).to_f - 0.2
-          Kernel.sleep t if t > 0.2
-          __system_thread_locals.set(:sonic_pi_spider_slept, true)
+          if (now - (sat + 1)) > new_vt
+            __delayed_serious_warning "Serious timing error. Too far behind time..."
+            raise TimingError, "Timing Exception: thread got too far behind time"
+          elsif (now - sat) > new_vt
+            __delayed_serious_warning "Timing error: can't keep up..."
+          elsif now > new_vt
+            unless __thread_locals.get(:sonic_pi_mod_sound_synth_silent) || in_time_warp
+              __delayed_warning "Timing warning: running slightly behind..."
+            end
+          end
+
+          if __in_link_bpm_mode
+            @tau_api.link_sleep(sleep_t)
+            sleep 0
+          else
+            Kernel.sleep sleep_t
+          end
         end
+
 
         ## reset control deltas now that time has advanced
         __system_thread_locals.set_local :sonic_pi_local_control_deltas, {}
@@ -4462,12 +4465,13 @@ puts current_sched_ahead_time # Prints 0.5"]
         __system_thread_locals.set_local :sonic_pi_local_last_sync, se
 
         __system_thread_locals.set(:sonic_pi_spider_synced, true)
-
+        bpm_mode = current_bpm_mode
+        __change_spider_bpm_time_and_beat!(60, se.time, se.beat) if __in_link_bpm_mode
         if bpm_sync
           raise StandardError, "Incorrect bpm value. Expecting either :link or a number such as 120" unless ((se.bpm == :link) || se.bpm.is_a?(Numeric))
           __change_spider_bpm_time_and_beat!(se.bpm, se.time, se.beat)
         else
-          __change_spider_bpm_time_and_beat!(current_bpm_mode, se.time, se.beat)
+          __change_spider_bpm_time_and_beat!(bpm_mode, se.time, se.beat)
         end
 
         run_info = ""

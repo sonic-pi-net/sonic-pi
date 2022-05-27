@@ -238,6 +238,12 @@ module SonicPi
       @tau_comms.send("/flush", "default")
     end
 
+    def link_sleep(s)
+      @incoming_tempo_change_mut.synchronize do
+        @incoming_tempo_change_cv.wait(@incoming_tempo_change_mut, s)
+      end
+    end
+
     private
 
     def update_link_time_delta!
