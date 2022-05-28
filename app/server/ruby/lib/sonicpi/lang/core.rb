@@ -4291,6 +4291,9 @@ puts current_sched_ahead_time # Prints 0.5"]
         __system_thread_locals.set_local(:sonic_pi_spider_time_state_cache, [])
         __system_thread_locals.set_local(:sonic_pi_local_last_sync, nil)
 
+        ## reset control deltas if time has advanced
+        __system_thread_locals.set_local :sonic_pi_local_control_deltas, {} if beats != 0
+
         # Schedule messages
         __schedule_delayed_blocks_and_messages!
         __system_thread_locals.set(:sonic_pi_spider_slept, true) if beats != 0
@@ -4329,9 +4332,6 @@ puts current_sched_ahead_time # Prints 0.5"]
         else
           Kernel.sleep sleep_t
         end
-
-        ## reset control deltas now that time has advanced
-        __system_thread_locals.set_local :sonic_pi_local_control_deltas, {}
       end
       doc name:           :sleep,
           introduced:     Version.new(2,0,0),
