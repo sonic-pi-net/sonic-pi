@@ -24,7 +24,7 @@ mkdir -p "${SCRIPT_DIR}"/server/native/
 cp -R "${SCRIPT_DIR}"/../prebuilt/macos/x64/* "${SCRIPT_DIR}"/server/native/
 
 cd "${SCRIPT_DIR}"/server/native/
-ln -s supercollider/scsynth scsynth
+ln -snf supercollider/scsynth scsynth
 mv supercollider/extra-plugins/* supercollider/plugins/
 rm -rf supercollider/extra-plugins
 
