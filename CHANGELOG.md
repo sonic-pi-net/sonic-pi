@@ -33,8 +33,6 @@ To be released...
 ### Known Issues (to be addressed in upcoming Betas)
 * On macOS, the booting procedure no longer attempts to tweak the audio-card's sample rates to match and instead crashes on a mismatch.
 * MIDI port names are very long and change on disconnect/reconnect on Linux.
-* Using `sync` with an external OSC or MIDI message whilst in `:link` bpm mode is broken.
-* On macOS if there are no MIDI devices attached at boot, the updater doesn't work. However, it does appear to if devices are attached at boot.
 
 
 ### Breaking Changes
