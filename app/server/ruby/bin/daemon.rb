@@ -704,8 +704,6 @@ module SonicPi
 
         Util.log "Daemon listening to info from Tau on port #{daemon_port}"
 
-
-
         args = [
           cues_on,
           osc_in_udp_loopback_restricted,
