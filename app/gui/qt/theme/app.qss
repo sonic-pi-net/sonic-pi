@@ -654,7 +654,7 @@ QLineEdit#bpmScrubber
     background-color: paneColor;
     border: 2dx solid hoverButtonColor;
     padding: 5dx;
-    max-width: 100dx;
+    max-width: 70dx;
 }
 
 
