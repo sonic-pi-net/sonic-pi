@@ -254,38 +254,39 @@
     <message>
         <location filename="../mainwindow.cpp" line="866"/>
         <source>Hiding pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation>Verberg paneeltitels...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="876"/>
         <source>Showing pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon paneeltitels...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1363"/>
         <source>Sonic Pi Boot Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi opstartfout</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1367"/>
         <source>Apologies, a critical error occurred during startup:
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Excuses, er heeft zich een ktirische fout voorgedaan tijdens het opstarten:
+</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1419"/>
         <source>Failed to load translations for language: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>De vertalingen voor de volgende taal kon niet worden geladen: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1420"/>
         <source>Falling back to English. Sorry about this.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er wordt teruggevallen op Engels. Excuses hiervoor.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1422"/>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1686"/>
@@ -551,7 +552,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2859"/>
         <source>Audio</source>
-        <translation type="unfinished">Audio</translation>
+        <translation>Audio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2867"/>
@@ -561,12 +562,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2869"/>
         <source>Light</source>
-        <translation type="unfinished">Licht</translation>
+        <translation>Licht</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2874"/>
         <source>Dark</source>
-        <translation type="unfinished">Donker</translation>
+        <translation>Donker</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2879"/>
@@ -586,22 +587,22 @@
     <message>
         <location filename="../mainwindow.cpp" line="2894"/>
         <source>Show Scope Labels</source>
-        <translation type="unfinished"></translation>
+        <translation>Oscilloscooplabels tonen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2899"/>
         <source>Show Titles</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon Titels</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2904"/>
         <source>Hide Menu Bar in Fullscreen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Verberg menubalk in schermvullende weergave</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2909"/>
         <source>Colour Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Kleurenschema</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2918"/>
