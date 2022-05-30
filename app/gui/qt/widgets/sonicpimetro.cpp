@@ -36,7 +36,7 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   tapButton->setObjectName("tapButton");
   tapButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
   tapButton->setFlat(true);
-  tapButton->setToolTip(tr("Tap tempo"));
+  tapButton->setToolTip(tr("Tap tempo.\nClick repeatedly (5+ times) to set the BPM manually.\nAccuracy increases with every additional click."));
 
 
   QHBoxLayout* metro_layout  = new QHBoxLayout;
