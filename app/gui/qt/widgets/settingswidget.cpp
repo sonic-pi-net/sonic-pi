@@ -308,10 +308,6 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     hide_menubar_in_fullscreen->setToolTip(tr("Automatically hide the menubar when the app is in full screen mode. Note that the menubar is always visible when not in full screen mode."));
     hide_menubar_in_fullscreen->setChecked(false);
 
-    show_scopes = new QCheckBox(tr("Show Scopes"));
-    show_scopes->setToolTip(tr("Toggle the visibility of the audio oscilloscopes."));
-
-
     colourModeButtonGroup = new QButtonGroup(this);
     lightModeCheck = new QCheckBox(tr("Light"));
     darkModeCheck = new QCheckBox(tr("Dark"));
