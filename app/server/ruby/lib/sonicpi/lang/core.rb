@@ -4136,7 +4136,7 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
 
       def set_sched_ahead_time!(sat)
         t = __get_spider_time
-        b = __get_spider_beat_
+        b = __get_spider_beat
         i = __current_thread_id
         m = current_bpm_mode
         @system_state.set(t, 0, i, 0, b, m, :sched_ahead_time, sat)
