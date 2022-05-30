@@ -165,15 +165,13 @@ void BPMScrubWidget::keyPressEvent(QKeyEvent* event)
   case Qt::Key_Up:
     if(!wasEditing) {
       m_isEditing = false;
-      m_bpmValue = m_bpmValue + 1;
-      displayBPM();
+      setDisplayAndSyncBPM(m_bpmValue + 1);
     }
     break;
   case Qt::Key_Down:
     if(!wasEditing) {
       m_isEditing = false;
-      m_bpmValue = m_bpmValue - 1;
-      displayBPM();
+      setDisplayAndSyncBPM(m_bpmValue - 1);
     }
     break;
   case Qt::Key_Left:
