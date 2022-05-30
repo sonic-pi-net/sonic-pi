@@ -1635,6 +1635,12 @@ end"
           res = [true] * size
           return res.ring
         end
+        # if someone requests 0 accents, return a ring with no accents
+        if num_accents.zero?
+          res = [false] * size
+          return res.ring
+        end
+
 
         # new part
         v1 = [[true]] * num_accents
