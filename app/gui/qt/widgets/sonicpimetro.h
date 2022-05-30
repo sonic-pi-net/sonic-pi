@@ -34,7 +34,7 @@ public:
   SonicPiTheme *theme;
 
   void updateActiveLinkCount(int count);
-  void updateBPMLabel(double bpm);
+  void setBPM(double bpm);
   void updateColourTheme();
 
 
