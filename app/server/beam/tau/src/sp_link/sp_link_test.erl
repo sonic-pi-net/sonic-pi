@@ -52,7 +52,7 @@ start() ->
     compile:file(sp_link),
 
     io:fwrite("Init and enabling Link~n"),
-    sp_link:init_nif(120.0),
+    sp_link:init_nif(60.0),
     sp_link:enable(true),
 
     io:fwrite("Enabling Link start / stop synchronization~n"),

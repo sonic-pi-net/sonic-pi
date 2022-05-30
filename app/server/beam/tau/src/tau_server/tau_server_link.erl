@@ -35,7 +35,7 @@ start_link(CueServer) ->
 
 init(Parent, CueServer) ->
     register(?SERVER, self()),
-    sp_link:init_nif(120.0),
+    sp_link:init_nif(60.0),
     sp_link:set_callback_pid(self()),
     sp_link:start_stop_sync_enable(true),
     sp_link:enable(false),
