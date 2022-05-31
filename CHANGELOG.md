@@ -98,6 +98,7 @@ To be released...
 * Fixed encoding issues when saving/loading files containing non-ascii characters on Windows.
 * `range` no longer loops infinitely with a step size of 0. Instead it now throws an error.
 * In some circumstances having the lissajous visualiser visible caused the GUI to crash on startup. This has now been addressed.
+* Stop thread hanging when passing `0` as the first argument to `spread`. Now just returns a ring of false values.
 
 
 <a name="v3.3.1"></a>
