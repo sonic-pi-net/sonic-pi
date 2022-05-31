@@ -254,17 +254,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="866"/>
         <source>Hiding pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation>כותרות החלוניות מוסתרות…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="876"/>
         <source>Showing pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation>כותרות החלוניות מוצגות…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1363"/>
         <source>Sonic Pi Boot Error</source>
-        <translation type="unfinished"></translation>
+        <translation>שגיאת טעינה של Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1367"/>
