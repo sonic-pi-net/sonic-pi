@@ -65,9 +65,13 @@ To be released...
 * New synth `:bass_highend` - an addition to the :bass_foundation synth inspired by the sounds of the 80s.
 
 
+### Examples
+* New Algomancer example - Blockgame coded by DJ Dave.
+
 ### GUI
 * Preference pane is now an overlay which hovers over the main window. This means that opening and closing it does not inadvertantly modify a carefully chosen layout e.g. for a performance.
 * New preference option to show and hide the pane titles such as Scope, Log, Cues, Context, Help, etc.
+* New preference option to hide the menubar when in fullscreen mode (Windows and Linux only as this behaviour is standard on macOS).
 * New GUI controls for interacting with the new Link Metronome. You can connect/disconnect to the network (to share tempo with others), change the tempo (in BPM) and tap out a new tempo.
 * Increase width of panel dividers and highlight on mouse hover.
 * Highlight scrollbars and preference checkbox descriptions on mouse hover.
