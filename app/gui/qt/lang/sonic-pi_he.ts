@@ -270,22 +270,23 @@
         <location filename="../mainwindow.cpp" line="1367"/>
         <source>Apologies, a critical error occurred during startup:
 </source>
-        <translation type="unfinished"></translation>
+        <translation>מחילה, אירעה שגיאה משמעותית במהלך הטעינה:
+</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1419"/>
         <source>Failed to load translations for language: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>נכשלה טעינת התרגומים לשפה: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1420"/>
         <source>Falling back to English. Sorry about this.</source>
-        <translation type="unfinished"></translation>
+        <translation>תתבצע נסיגה לאנגלית. מחילה.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1422"/>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>אישור</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1686"/>
@@ -591,12 +592,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2899"/>
         <source>Show Titles</source>
-        <translation type="unfinished"></translation>
+        <translation>הצגת כותרות</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2904"/>
         <source>Hide Menu Bar in Fullscreen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>הסתרת סרגל התפריטים במצב מסך מלא</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2909"/>
@@ -835,7 +836,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3104"/>
         <source>Show Metronome</source>
-        <translation type="unfinished"></translation>
+        <translation>הצגת מטרונום</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3109"/>
@@ -855,7 +856,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3155"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>שפה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3346"/>
@@ -875,7 +876,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3627"/>
         <source>Restarting Sonic Pi...</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi מופעל מחדש…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3862"/>
@@ -991,7 +992,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="460"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>סגירה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="605"/>
@@ -1001,7 +1002,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="696"/>
         <source>Link Metronome</source>
-        <translation type="unfinished"></translation>
+        <translation>קישור המטרונום</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2684"/>
@@ -1154,7 +1155,7 @@ Get Sonic Pi %1</source>
         <location filename="../widgets/settingswidget.cpp" line="55"/>
         <location filename="../widgets/settingswidget.cpp" line="492"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>שפה</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="75"/>
@@ -1312,12 +1313,12 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="186"/>
         <source>all</source>
-        <translation type="unfinished"></translation>
+        <translation>הכול</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="209"/>
         <source>Default MIDI out channel</source>
-        <translation type="unfinished"></translation>
+        <translation>ערוץ פלט ה־MIDI כברירת מחדל</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="276"/>
@@ -1442,17 +1443,17 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="261"/>
         <source>Show Panels</source>
-        <translation type="unfinished"></translation>
+        <translation>הצגת לוחות</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="262"/>
         <source>Show and hide information panes such as the scope and log.</source>
-        <translation type="unfinished"></translation>
+        <translation>להציג ולהסתיר חלוניות מידע כגון התרשים והיומן.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="265"/>
         <source>Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>ערכת עיצוב</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="267"/>
@@ -1522,12 +1523,12 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="290"/>
         <source>Show Link metronome controls</source>
-        <translation type="unfinished"></translation>
+        <translation>הצגת קישור לפקדי מטרונום</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="291"/>
         <source>Toggle visibility of the Link metronome controls.</source>
-        <translation type="unfinished"></translation>
+        <translation>החלפת מצב הצגה של קישור פקדי מטרונום.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="294"/>
@@ -1562,22 +1563,22 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="303"/>
         <source>Show titles</source>
-        <translation type="unfinished"></translation>
+        <translation>הצגת כותרות</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="304"/>
         <source>Toggle the title visibility for the scope, log, cue and other information panes</source>
-        <translation type="unfinished"></translation>
+        <translation>להחליף את מצב ההצגה של התרשים, יומן, אות ולוחות מידע אחרים</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="307"/>
         <source>Hide Menubar in Fullscreen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>הסתרת סרגל התפריטים במסך מלא</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="308"/>
         <source>Automatically hide the menubar when the app is in full screen mode. Note that the menubar is always visible when not in full screen mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>להסתיר אוטומטית את סרגל התפריטים כאשר היישום תופס את כל המסך. נא לשים לב שסרגל התפריטים תמיד גלוי מחוץ למסך מלא.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="312"/>
@@ -1686,111 +1687,114 @@ If enabled the log is scrolled to the bottom after every new message is displaye
     <message>
         <location filename="../widgets/settingswidget.cpp" line="413"/>
         <source>Show scopes</source>
-        <translation type="unfinished"></translation>
+        <translation>הצגת תרשימים</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="415"/>
         <source>Show scope labels</source>
-        <translation type="unfinished"></translation>
+        <translation>הצגת תווית תרשים</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="493"/>
         <source>Configure language settings</source>
-        <translation type="unfinished"></translation>
+        <translation>הגדרת השפה</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="498"/>
         <source>UI &amp; Tutorial Language (Requires a restart to take effect)</source>
-        <translation type="unfinished"></translation>
+        <translation>שפת מנשק המשתמש והמדריך (דורש הפעלה מחדש כדי לחול)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="499"/>
         <source>Change the language of the UI &amp; Tutorial (Requires a restart to take effect)</source>
-        <translation type="unfinished"></translation>
+        <translation>להחליף את שפת מנשק המשתמש והמדריך (דורש הפעלה מחדש כדי לחול)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="503"/>
         <source>Change the language of the UI &amp; Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation>החלפת שפת מנשק המשתמש והמדריך</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="510"/>
         <source>Translations have been generously provided by volunteers 
 on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
-        <translation type="unfinished"></translation>
+        <translation>התרגומים נתרמו באדיבות המתרגמים 
+דרך https://hosted.weblate.org/projects/sonic-pi/. תודה לכם! :)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="609"/>
         <source>You&apos;ve selected a new language: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>בחרת שפה חדשה: %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="611"/>
         <source>Do you want to apply this language?</source>
-        <translation type="unfinished"></translation>
+        <translation>להחיל את השפה הזאת?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="613"/>
         <source>The new language will be applied when you next start Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation>השפה החדשה תחול עם ההפעלה הבאה של Sonic Pi מחדש.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="617"/>
         <source>System languages found: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>שפות המערכת שנמצאו: %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="621"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation>החלה</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="622"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>ביטול</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="633"/>
         <source>&lt;b&gt;The new language will be applied when you next start Sonic Pi.&lt;/b&gt;&lt;br&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;השפה החדשה תחול עם ההפעלה הבאה של Sonic Pi מחדש.&lt;/b&gt;&lt;br&gt;</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="634"/>
         <location filename="../widgets/settingswidget.cpp" line="876"/>
         <source>Current UI language: %1
 </source>
-        <translation type="unfinished"></translation>
+        <translation>שפת מנשק המשתמש הנוכחית: %1
+</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="638"/>
         <source>Restart Sonic Pi?</source>
-        <translation type="unfinished"></translation>
+        <translation>להפעיל את Sonic Pi מחדש?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="639"/>
         <source>Do you want to restart Sonic Pi now? This will stop any current runs &amp; recordings.</source>
-        <translation type="unfinished"></translation>
+        <translation>להפעיל את Sonic Pi מחדש כעת? פעולה זאת תעצור את ההשמעות וההקלטות הפעילות.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="640"/>
         <source>Restart</source>
-        <translation type="unfinished"></translation>
+        <translation>הפעלה מחדש</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="641"/>
         <source>Dismiss</source>
-        <translation type="unfinished"></translation>
+        <translation>התעלמות</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="875"/>
         <source>System languages: %1
 </source>
-        <translation type="unfinished"></translation>
+        <translation>שפות המערכת: %1
+</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1025"/>
         <source>Use system language</source>
-        <translation type="unfinished"></translation>
+        <translation>להשתמש בשפת המערכת</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="414"/>
