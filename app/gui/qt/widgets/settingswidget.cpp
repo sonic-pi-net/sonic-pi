@@ -129,16 +129,12 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
     QGroupBox *network_box = new QGroupBox(tr("Networked OSC"));
     network_box->setToolTip(tr("Sonic Pi can send and receive Open Sound Control messages\nto and from other programs or computers\n via the currently connected network."));
 
-    QLabel* osc_disabled_label = new QLabel();
-    osc_disabled_label->setAccessibleName("incoming-osc-disabled-label");
     QLabel *network_ip_label = new QLabel();
-    QString osc_disabled_trans = tr("(To enable 'Allow OSC from other computers',\nalso enable 'Allow incoming OSC')");
     QString ip_address_trans = tr("Local IP address");
     QString port_num_trans = tr("Incoming OSC port");
     QString ip_address = "";
     QString all_ip_addresses  = "";
 
-    osc_disabled_label->setText(osc_disabled_trans);
     QList<QHostAddress> list = QNetworkInterface::allAddresses();
 
     for(int nIter=0; nIter<list.count(); nIter++)
@@ -169,7 +165,6 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
     QVBoxLayout *network_box_layout = new QVBoxLayout;
     network_box_layout->addWidget(osc_server_enabled_check);
     network_box_layout->addWidget(osc_public_check);
-    network_box_layout->addWidget(osc_disabled_label);
     network_box_layout->addWidget(network_ip_label);
     network_box->setLayout(network_box_layout);
 
@@ -313,10 +308,6 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     hide_menubar_in_fullscreen->setToolTip(tr("Automatically hide the menubar when the app is in full screen mode. Note that the menubar is always visible when not in full screen mode."));
     hide_menubar_in_fullscreen->setChecked(false);
 
-    show_scopes = new QCheckBox(tr("Show Scopes"));
-    show_scopes->setToolTip(tr("Toggle the visibility of the audio oscilloscopes."));
-
-
     colourModeButtonGroup = new QButtonGroup(this);
     lightModeCheck = new QCheckBox(tr("Light"));
     darkModeCheck = new QCheckBox(tr("Dark"));
@@ -419,9 +410,9 @@ QGroupBox* SettingsWidget::createVisualizationPrefsTab() {
     QVBoxLayout *scope_box_layout = new QVBoxLayout;
 
     scopeSignalMap = new QSignalMapper(this);
-    show_scopes = new QCheckBox(tr("Show Scopes"));
+    show_scopes = new QCheckBox(tr("Show scopes"));
     show_scopes->setToolTip(tr("Toggle the visibility of the audio oscilloscopes."));
-    show_scope_labels = new QCheckBox(tr("Show Scope Labels"));
+    show_scope_labels = new QCheckBox(tr("Show scope labels"));
     show_scope_labels->setToolTip(tr("Toggle the visibility of the labels for the audio oscilloscopes"));
     show_scope_labels->setChecked(true);
 
@@ -826,7 +817,11 @@ void SettingsWidget::updateSettings() {
 
     piSettings->osc_server_enabled = osc_server_enabled_check->isChecked();
     piSettings->osc_public = osc_server_enabled_check->isChecked() && osc_public_check->isChecked();
-    osc_public_check->setEnabled(piSettings->osc_server_enabled);
+    if(piSettings->osc_server_enabled){
+      osc_public_check->show();
+    } else {
+      osc_public_check->hide();
+    }
     if(!osc_server_enabled_check->isChecked()) {
       osc_public_check->setChecked(false);
     }
@@ -891,7 +886,11 @@ void SettingsWidget::settingsChanged() {
     system_vol_slider->setValue(piSettings->main_volume);
 
     osc_server_enabled_check->setChecked(piSettings->osc_server_enabled);
-    osc_public_check->setEnabled(piSettings->osc_server_enabled);
+    if(piSettings->osc_server_enabled){
+      osc_public_check->show();
+    } else {
+      osc_public_check->hide();
+    }
     osc_public_check->setChecked(piSettings->osc_server_enabled && piSettings->osc_public);
     midi_default_channel_combo->setCurrentIndex(piSettings->midi_default_channel);
     piSettings->midi_default_channel_str = midi_default_channel_combo->currentText(); // TODO find a more elegant solution

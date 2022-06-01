@@ -1,5 +1,4 @@
-##| BLOCKGAME
-##| Coded by DJ Dave
+# Coded by DJ Dave
 
 use_bpm 130
 

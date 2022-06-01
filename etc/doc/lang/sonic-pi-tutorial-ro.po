@@ -25,11 +25,12 @@ msgid "Welcome friend :-)"
 msgstr "Bine ai venit, prietene :)"
 
 #: 01-Welcome-to-Sonic-Pi.md:5
+#, fuzzy
 msgid ""
-"Welcome to Sonic Pi. Hopefully you're as excited to get started making crazy s"
-"ounds as I am to show you. It's going to be a really *fun* ride where you'll l"
-"earn all about music, synthesis, programming, composition, performance and mor"
-"e."
+"Welcome to Sonic Pi. Hopefully you're as excited to get started making your ow"
+"n sounds as I am to show you. It's going to be a really *fun* ride where you'l"
+"l learn all about music, synthesis, programming, composition, performance and "
+"more."
 msgstr ""
 "Bine ai venit. Sper ca esti la fel de nerabdator sa incepi sa creezi sunete in"
 "teresante pe cat sunt eu sa iti arat cum. Va fi o experienta cu adevarat amuza"
@@ -738,9 +739,10 @@ msgid "Intense. Press it again. And again. *And again...*"
 msgstr "Intens. Apasa din nou. Si din nou. *Si din nou...*"
 
 #: 02.1-Your-First-Beeps.md:19
+#, fuzzy
 msgid ""
-"Woah, crazy, I'm sure you could keep doing that all day. But wait, before you "
-"lose yourself in an infinite stream of beeps, try changing the number:"
+"Woah, fun! I'm sure you could keep doing that all day. But wait, before you lo"
+"se yourself in an infinite stream of beeps, try changing the number:"
 msgstr ""
 "Uau, nebunie! Sunt sigur ca ai putea face asta toata ziua. Dar stai, inainte s"
 "a te pierzi intr-un sir infinit de beep-uri, incearca sa schimbi numarul:"
@@ -962,7 +964,14 @@ msgstr ""
 "b3`."
 
 #: 02.1-Your-First-Beeps.md:125
-msgid "Now go *crazy* and have fun making your own tunes."
+msgid ""
+"There's also a handy shortcut for a rest (a musical way of saying not to play "
+"anything instead of a note) using `:r`, `:rest` or `nil`."
+msgstr ""
+
+#: 02.1-Your-First-Beeps.md:128
+#, fuzzy
+msgid "Now go *wild* and have fun making your own tunes."
 msgstr "Acum dezlantuie-te si distreaza-te cu propriile tale melodii."
 
 #: 02.2-Synth-Params.md:1
@@ -1010,10 +1019,11 @@ msgstr ""
 "n alta sectiune)."
 
 #: 02.2-Synth-Params.md:22
+#, fuzzy
 msgid ""
 "Opts have two major parts, their name (the name of the control) and their valu"
-"e (the value you want to set the control at). For example, you might have a op"
-"t called `cheese:` and want to set it with a value of `1`."
+"e (the value you want to set the control at). For example, you might have an o"
+"pt called `cheese:` and want to set it with a value of `1`."
 msgstr ""
 "Optiunile au doua componente majore, numele parametrului si valoarea acestuia."
 " De exemplu, ai putea avea o optiune numita 'cheese:' si ai dori sa ii atribui"
@@ -2302,10 +2312,11 @@ msgid "sample :loop_amen, rate: -1"
 msgstr "sample :loop_amen, rate: -1"
 
 #: 03.3-Stretching-Samples.md:72
+#, fuzzy
 msgid ""
 "Woah! It plays it *backwards*! Now try playing with lots of different samples "
-"at different rates. Try very fast rates. Try crazy slow rates. See what intere"
-"sting sounds you can produce."
+"at different rates. Try very fast rates. Try really slow rates. See what inter"
+"esting sounds you can produce."
 msgstr ""
 "Hei, sunetul este redat *de la coada la cap*! Acum incearca sa te joci cu dife"
 "rite esantioane la viteze diferite. Incearca viteze foarte mari. Incearca vite"
@@ -5914,14 +5925,15 @@ msgid "Guitar Pedals"
 msgstr "Pedala de chitara"
 
 #: 06-FX.md:20
+#, fuzzy
 msgid ""
 "If all of this sounds a bit complicated, don't worry. Once you play around wit"
 "h it a little, it will all become quite clear. Before you do though, a simple "
 "analogy is that of guitar FX pedals. There are many kinds of FX pedals you can"
-" buy. Some add reverb, others distort etc. A guitarist will plug his or her gu"
-"itar into one FX pedal - i.e. distortion -, then take another cable and connec"
-"t (chain) a reverb pedal. The output of the reverb pedal can then be plugged i"
-"nto the amplifier:"
+" buy. Some add reverb, others distort etc. A guitarist will plug their guitar "
+"into one FX pedal - i.e. distortion -, then take another cable and connect (ch"
+"ain) a reverb pedal. The output of the reverb pedal can then be plugged into t"
+"he amplifier:"
 msgstr ""
 "Daca suna putin complicat, nu te ingrijora. Dupa ce te vei juca putin cu ele v"
 "a deveni destul de clar. Inainte sa faci asta, putem sa facem o analogie cu pe"
@@ -5937,14 +5949,15 @@ msgid "Guitar -> Distortion -> Reverb -> Amplifier"
 msgstr "Chitara -> Distorsiune -> Reverberatie -> Amplificator"
 
 #: 06-FX.md:33
+#, fuzzy
 msgid ""
 "This is called FX chaining. Sonic Pi supports exactly this. Additionally, each"
 " pedal often has dials and sliders to allow you to control how much distortion"
 ", reverb, echo etc. to apply. Sonic Pi also supports this kind of control. Fin"
-"ally, you can imagine a guitarist playing whilst someone plays with the FX con"
-"trols whilst they're playing. Sonic Pi also supports this - but instead of nee"
-"ding someone else to control things for you, that's where the computer steps i"
-"n."
+"ally, imagine a guitarist jamming along whilst someone else changes and plays "
+"with the controls of their FX pedals. Sonic Pi also supports this - but instea"
+"d of needing someone else to control things for you, that's where the computer"
+" steps in."
 msgstr ""
 "Aceasta se numeste o inlanuire de efecte. Sonic Pi suporta acest mod de lucru."
 " In plus, fiecare pedala are adesea butoane si potentiometre pentru a-ti permi"
@@ -5954,7 +5967,7 @@ msgstr ""
 "orta si acest mod, dar in loc sa fie nevoie de altcineva care sa controleze lu"
 "crurile pentru tine, computerul este cel care preia acest rol."
 
-#: 06-FX.md:42
+#: 06-FX.md:41
 msgid "Let's explore FX!"
 msgstr "Sa exploram efectele (FX)!"
 
@@ -6250,11 +6263,12 @@ msgstr ""
 "e efectul reverb."
 
 #: 06.1-Adding-FX.md:146
+#, fuzzy
 msgid ""
-"We may use very deep nestings for crazy results. However, be warned, the FX ca"
-"n use a lot of resources and when you nest them you're effectively running mul"
-"tiple FX simultaneously. So be sparing with your use of FX especially on low p"
-"owered platforms such as the Raspberry Pi."
+"We may use very deep nestings for a huge range of results. However, be warned,"
+" the FX can use a lot of resources and when you nest them you're effectively r"
+"unning multiple FX simultaneously. So be sparing with your use of FX especiall"
+"y on low powered platforms such as the Raspberry Pi."
 msgstr ""
 "Putem folosi inlantuirea pe mai multe niveluri pentru rezultate cat mai surpri"
 "nzatoare. Dar, ai grija, efectele consuma multe resurse, iar atunci cand le in"
@@ -6298,7 +6312,8 @@ msgid "slicer"
 msgstr "slicer"
 
 #: 06.1-Adding-FX.md:164
-msgid "Now go crazy and add FX everywhere for some amazing new sounds!"
+#, fuzzy
+msgid "Now go wild and add FX everywhere for some amazing new sounds!"
 msgstr "Acum te poti dezlantui adaugand efecte peste tot, pentru sunete incredibile!"
 
 #: 06.2-FX-in-Practice.md:1
@@ -8553,7 +8568,7 @@ msgid ""
 "eads and shared memory is typically a university level subject). However, as y"
 "ou'll see, just like playing your first note, *Sonic Pi makes it incredibly si"
 "mple to share state across threads* whilst still keeping your programs *thread"
-"-safe and deterministic.*."
+"-safe and deterministic*."
 msgstr ""
 
 #: 10-State.md:24
@@ -9136,7 +9151,7 @@ msgstr ""
 msgid ""
 "When calling `sync` or `get` you are free to combine matchers in any order you"
 " see fit to powerfully match any Time State event created by `cue` or `set`. L"
-"et's look at a crazy example:"
+"et's look at a far-fetched example:"
 msgstr ""
 
 #: 10.3-Pattern-Matching.md:118
@@ -9701,14 +9716,14 @@ msgstr ""
 msgid ""
 "For security reasons, by default Sonic Pi does not let remote machines send it"
 " OSC messages. However, you can enable support for remote machines in Preferen"
-"ces->IO->Network->Receive Remote OSC Messages. Once you've enabled this, you c"
-"an receive OSC messages from any computer on your network. Typically the sendi"
-"ng machine will need to know your IP address (a unique identifier for your com"
-"puter on your network - kind of like a phone number or an email address). You "
-"can discover the IP address of your computer by looking at the IO section of t"
-"he preferences pane. (If your machine happens to have more than one IP address"
-", hovering the mouse over the listed address will pop up with a list of all kn"
-"own addresses)."
+"ces->IO->Networked OSC->Allow OSC from other computers. Once you've enabled th"
+"is, you can receive OSC messages from any computer on your network. Typically "
+"the sending machine will need to know your IP address (a unique identifier for"
+" your computer on your network - kind of like a phone number or an email addre"
+"ss). You can discover the IP address of your computer by looking at the IO sec"
+"tion of the preferences pane. (If your machine happens to have more than one I"
+"P address, hovering the mouse over the listed address will pop up with a list "
+"of all known addresses)."
 msgstr ""
 
 #: 12.1-Receiving-OSC.md:72
@@ -9749,7 +9764,7 @@ msgid ""
 "C message! This is because we set the IP address to the current machine and th"
 "e port to the default OSC in port. This is essentially the same as posting a l"
 "etter to yourself - the OSC packet is created, leaves Sonic Pi, gets to the ne"
-"twork stack of the operating system which then routes the packed back to Sonic"
+"twork stack of the operating system which then routes the packet back to Sonic"
 " Pi and then it's received as a standard OSC message and is visible in the cue"
 " logger as the incoming message `/osc:127.0.0.1:4560/hello/world`. (Notice how"
 " Sonic Pi automatically prefixes all incoming OSC messages with `/osc` and the"
@@ -10583,9 +10598,10 @@ msgstr ""
 "end"
 
 #: A.01-tips.md:106
+#, fuzzy
 msgid ""
-"Now, try increasing that feedback to 1 to hear some crazy sounds! Read the doc"
-"s for full details on all the many opts available to you."
+"Now, try increasing that feedback to 1 to hear some fun sounds! Read the docs "
+"for full details on all the many opts available to you."
 msgstr ""
 "Acum incearca sa modifici in 1 valoarea pentru feedback, ca sa auzi niste sune"
 "te traznite! Citeste documentatia pentru mai multe detalii despre multimea de "
@@ -10745,6 +10761,7 @@ msgid "A.2 Live Coding"
 msgstr "A.2 Programarea live"
 
 #: A.02-live-coding.md:5
+#, fuzzy
 msgid ""
 "The laser beams sliced through the wafts of smoke as the subwoofer pumped bass"
 " deep into the bodies of the crowd. The atmosphere was ripe with a heady mix o"
@@ -10752,7 +10769,7 @@ msgid ""
 "Projected in bright colours above the DJ booth was futuristic text, moving, da"
 "ncing, flashing. This wasn't fancy visuals, it was merely a projection of Soni"
 "c Pi running on a Raspberry Pi. The occupant of the DJ booth wasn't spinning d"
-"isks, he was writing, editing and evaluating code. Live. This is Live Coding."
+"isks, they wrote, edited and evaluated code. Live. This is Live Coding."
 msgstr ""
 "Fasciculele laser taiau norii grosi de fum in timp ce subwooferul pompa inject"
 "a un bas puternic in multime. Atmosfera era incalzita de un mix de sintetizato"
@@ -10818,18 +10835,19 @@ msgstr ""
 "end"
 
 #: A.02-live-coding.md:39
+#, fuzzy
 msgid ""
 "There are 4 core ingredients to a `live_loop`. The first is its name. Our `liv"
 "e_loop` above is called `:beats`. You're free to call your `live_loop` anythin"
-"g you want. Go crazy. Be creative. I often use names that communicate somethin"
-"g about the music they're making to the audience. The second ingredient is the"
-" `do` word which marks where the `live_loop` starts. The third is the `end` wo"
-"rd which marks where the `live_loop` finishes, and finally there is the body o"
-"f the `live_loop` which describes what the loop is going to repeat - that's th"
-"e bit between the `do` and `end`. In this case we're repeatedly playing a bass"
-" drum sample and waiting for half a beat. This produces a nice regular bass be"
-"at. Go ahead, copy it into an empty Sonic Pi buffer and hit run. Boom, Boom, B"
-"oom!."
+"g you want. Go wild. Be creative. I often use names that communicate something"
+" about the music they're making to the audience. The second ingredient is the "
+"`do` word which marks where the `live_loop` starts. The third is the `end` wor"
+"d which marks where the `live_loop` finishes, and finally there is the body of"
+" the `live_loop` which describes what the loop is going to repeat - that's the"
+" bit between the `do` and `end`. In this case we're repeatedly playing a bass "
+"drum sample and waiting for half a beat. This produces a nice regular bass bea"
+"t. Go ahead, copy it into an empty Sonic Pi buffer and hit run. Boom, Boom, Bo"
+"om!."
 msgstr ""
 "Exista 4 elemente de baza intr-un 'live_loop'. Primul este numele. Bucla noast"
 "ra de mai sus se numeste ':beats'. Poti sa denumesti bucla cum vrei. Lasa-te p"
@@ -10981,9 +10999,10 @@ msgstr ""
 "end"
 
 #: A.02-live-coding.md:121
+#, fuzzy
 msgid ""
 "Here, we have two `live_loop`s, one looping quickly making beats and another l"
-"ooping slowly making a crazy bass sound."
+"ooping slowly making a wild bass sound."
 msgstr ""
 "Aici avem doua bucle 'live_loop', una rapida care genereaza batai de taler si "
 "alta mai lenta cu un sunet dement de bas."
@@ -11028,7 +11047,7 @@ msgstr ""
 "end"
 
 #: A.02-live-coding.md:145 A.03-coded-beats.md:155 A.04-synth-riffs.md:166
-#: A.05-acid-bass.md:147 A.06-minecraft.md:156 A.07-bizet.md:138
+#: A.05-acid-bass.md:147 A.06-minecraft.md:164 A.07-bizet.md:138
 #: A.09-randomisation.md:145 A.10-controlling-your-sound.md:149
 #: A.11-beat-tracking.md:176 A.12-sample-slicing.md:137
 #: A.13-probabilistic-sequencer.md:137 A.14-amplitude-modulation.md:192
@@ -11311,10 +11330,11 @@ msgstr ""
 "h' tine cont de noul ritm pentru a se asigura ca totul functioneaza."
 
 #: A.03-coded-beats.md:97
+#, fuzzy
 msgid ""
 "Now, here's the fun part. Whilst the loop is still live, change the `30` in th"
 "e `use_bpm 30` line to `50`. Woah, everything just got faster yet *kept in tim"
-"e*! Try going faster - up to 80, to 120, now go crazy and punch in 200!"
+"e*! Try going faster - up to 80, to 120, now go wild and punch in 200!"
 msgstr ""
 "Acum urmeaza partea cu adevarat interesanta. In timp ce bucla este inca live, "
 "schimba '30' din linia 'use_bpm 30' in '50'. Uau, totul a devenit mai rapdi da"
@@ -11912,6 +11932,7 @@ msgstr ""
 "win."
 
 #: A.05-acid-bass.md:12
+#, fuzzy
 msgid ""
 "Interestingly, Roland never intended for the TB-303 to be used in dance music."
 " It was originally created as a practice aid for guitarists. They imagined tha"
@@ -11922,8 +11943,8 @@ msgid ""
 " units were sold and after a number of years sitting on guitarist's shelves, t"
 "hey soon could be found in the windows of second hand shops. These lonely disc"
 "arded TB-303s were waiting to be discovered by a new generation of experimente"
-"rs who started using them in ways that Roland didn't imagine to create new cra"
-"zy sounds. Acid House was born."
+"rs who started using them in ways that Roland didn't imagine to create wild ne"
+"w sounds. Acid House was born."
 msgstr ""
 "Este interesant de stiut ca Roland nu a a gandit TB-303 pentru a fi utilizat i"
 "n muzica dance. A fost creat initial ca un ajutor pentru chitaristii care exer"
@@ -12086,14 +12107,15 @@ msgstr ""
 " Nu te teme, voi fi tot aici..."
 
 #: A.05-acid-bass.md:91
+#, fuzzy
 msgid ""
 "Another opt worth playing with is `res:`. This controls the level of resonance"
 " of the filter. A high resonance is characteristic of acid bass sounds. We cur"
 "rently have our `res:` set to `0.8`. Try cranking it up to `0.85`, then `0.9`,"
 " and finally `0.95`. You might find that a cutoff such as `110` or higher will"
-" make the differences easier to hear. Finally go crazy and dial in `0.999` for"
-" some insane sounds. At a `res` this high, you're hearing the cutoff filter re"
-"sonate so much it starts to make sounds of its own!"
+" make the differences easier to hear. Finally go wild and dial in `0.999` for "
+"some insane sounds. At a `res` this high, you're hearing the cutoff filter res"
+"onate so much it starts to make sounds of its own!"
 msgstr ""
 "Un alt parametru cu care te poti juca este'res:'. Acesta controleaza nivelul d"
 "e rezonanta al filtrului. O rezonanta inalta este o caracteristica a sunetelor"
@@ -12193,12 +12215,13 @@ msgstr ""
 "end"
 
 #: A.05-acid-bass.md:138
+#, fuzzy
 msgid ""
 "For each standard envelope opt, there's a `cutoff_` equivalent opt in the `:tb"
 "303` synth. So, to change the cutoff attack time we can use the `cutoff_attack"
-":` opt. Copy the code above into an empty buffer and hit Run. You'll hear a cr"
-"azy sound warble in and out. Now start to play. Try changing the `cutoff_attac"
-"k:` time to `1` and then `0.5`. Now try `8`."
+":` opt. Copy the code above into an empty buffer and hit Run. You'll hear a st"
+"range sound warble in and out. Now start to play. Try changing the `cutoff_att"
+"ack:` time to `1` and then `0.5`. Now try `8`."
 msgstr ""
 "Pentru fiecare parametru al anvelopei standard exista un echivalent pentru 'cu"
 "toff_' in cazul sintetizatorului ':tb303'. Deci, pentru a shimba timpul de ata"
@@ -12216,10 +12239,11 @@ msgstr ""
 "a alte efecte pentru a vedea ce se intampla!"
 
 #: A.05-acid-bass.md:149
+#, fuzzy
 msgid ""
 "Finally, here's a piece I composed using the ideas in this tutorial. Copy it i"
 "nto an empty buffer, listen for a while and then start live coding your own ch"
-"anges. See what crazy sounds you can make with it! See you next time..."
+"anges. See what wild sounds you can make with it! See you next time..."
 msgstr ""
 "La final iata o piesa pe care am compus-o folosind ideile prezentate in acest "
 "tutorial. Copiaz-o intr-un buffer gol, asculta pentru un timp apoi incepe sa p"
@@ -12285,7 +12309,18 @@ msgstr "A.6 Minecraft muzical"
 msgid "Musical Minecraft"
 msgstr "Minecraft muzical"
 
-#: A.06-minecraft.md:7
+#: A.06-minecraft.md:6 A.08-minecraft-vj.md:8
+#, fuzzy
+msgid ""
+"**Deprecation Warning** *Apologies but this article was written back when Mine"
+"craft Pi Edition was still part of Raspberry Pi OS and Sonic Pi had built-in s"
+"upport to control it with code. Unfortunately this is no longer the case and t"
+"he minecraft specific code (`mc_*` functions) are no longer available in Sonic"
+" Pi. However, this article is left here as a memory of what was once possible."
+"*"
+msgstr "Minecraft Pi"
+
+#: A.06-minecraft.md:15
 msgid ""
 "Hello and welcome back! In the previous tutorials we've focussed purely on the"
 " music possibilities of Sonic Pi - (turning your Raspberry Pi into a performan"
@@ -12295,23 +12330,23 @@ msgstr ""
 "nctionalitatile muzicale ale Sonic Pi (transformarea Raspberry Pi intr-un inst"
 "rument muzical gata pentru interpretare). Pana acum am invatat cum sa:"
 
-#: A.06-minecraft.md:11
+#: A.06-minecraft.md:19
 msgid "Live Code - changing the sounds on-the-fly,"
 msgstr "Programam live - schimband sunetele din mers,"
 
-#: A.06-minecraft.md:12
+#: A.06-minecraft.md:20
 msgid "Code some huge beats,"
 msgstr "Programam niste beat-uri geniale,"
 
-#: A.06-minecraft.md:13
+#: A.06-minecraft.md:21
 msgid "Generate powerful synth leads,"
 msgstr "Generam melodii cool folosind sintetizatoarele,"
 
-#: A.06-minecraft.md:14
+#: A.06-minecraft.md:22
 msgid "Re-create the famous TB-303 acid-bass sound."
 msgstr "Re-cream vestitul sunet acid-bass al sintetizatorului TB-303."
 
-#: A.06-minecraft.md:16
+#: A.06-minecraft.md:24
 msgid ""
 "There's so much more to show you (which we will explore in future editions). H"
 "owever, this month, let's look at something Sonic Pi can do that you probably "
@@ -12321,11 +12356,11 @@ msgstr ""
 "toare). Luna asta, insa, am sa va arat ceva ce Sonic Pi stie sa faca dar proba"
 "bil nici nu va ganditi: sa controleze Minecraft."
 
-#: A.06-minecraft.md:20
+#: A.06-minecraft.md:28
 msgid "Hello Minecraft World"
 msgstr "Salut lume Minecraft!"
 
-#: A.06-minecraft.md:22
+#: A.06-minecraft.md:30
 msgid ""
 "OK, let's get started. Boot up your Raspberry Pi, fire up Minecraft Pi and cre"
 "ate a new world. Now start up Sonic Pi and re-size and move your windows so yo"
@@ -12335,16 +12370,16 @@ msgstr ""
 "noua. Acum porneste Sonic Pi si redimensioneaza si aseaza ferestrele astfel in"
 "cat sa vezi atat Sonic Pi cat si Minecraft Pi in acelasi timp."
 
-#: A.06-minecraft.md:26
+#: A.06-minecraft.md:34
 msgid "In a fresh buffer type the following:"
 msgstr "Intr-un buffer nou scrie asta:"
 
-#: A.06-minecraft.md:28
+#: A.06-minecraft.md:36
 #, no-wrap
 msgid "mc_message \"Hello Minecraft from Sonic Pi!\""
 msgstr "mc_message \"Hello Minecraft from Sonic Pi!\""
 
-#: A.06-minecraft.md:32
+#: A.06-minecraft.md:40
 msgid ""
 "Now, hit Run. Boom! Your message appeared in Minecraft! How easy was that? Now"
 ", stop reading this for a moment and play about with your own messages. Have f"
@@ -12354,7 +12389,7 @@ msgstr ""
 "Acum, opreste-te putin din citit acest tutorial si joaca-te putin cu propriile"
 " mesaje. Distreaza-te!"
 
-#: A.06-minecraft.md:36
+#: A.06-minecraft.md:44
 #, fuzzy
 msgid ""
 "![Screen 0](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-M"
@@ -12363,11 +12398,11 @@ msgstr ""
 "![Imaginea 0](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical"
 "-Minecraft-0-small.png)"
 
-#: A.06-minecraft.md:38
+#: A.06-minecraft.md:46
 msgid "Sonic Teleporter"
 msgstr "Teleportare sonica"
 
-#: A.06-minecraft.md:40
+#: A.06-minecraft.md:48
 msgid ""
 "Now let's do some exploring. The standard option is to reach for the mouse and"
 " keyboard and start walking around. That works, but it's pretty slow and borin"
@@ -12379,12 +12414,12 @@ msgstr ""
 "mult mai bine daca ai avea o masina care ar putea sa te teleporteze. Ei bine, "
 "Sonic Pi are una. Incearca asta:"
 
-#: A.06-minecraft.md:45
+#: A.06-minecraft.md:53
 #, no-wrap
 msgid "mc_teleport 80, 40, 100"
 msgstr "mc_teleport 80, 40, 100"
 
-#: A.06-minecraft.md:49
+#: A.06-minecraft.md:57
 msgid ""
 "Crikey! That was a long way up. If you weren't in flying-mode then you would h"
 "ave fallen back down all the way to the ground. If you double-tap space to ent"
@@ -12396,7 +12431,7 @@ msgstr ""
 "modul de zbor si te teleportezi din nou, vei incepe sa plutesti din pozitia in"
 " care ai aparut."
 
-#: A.06-minecraft.md:54
+#: A.06-minecraft.md:62
 msgid ""
 "Now, what do those numbers mean? We have three numbers which describe the coor"
 "dinates of where in the world we want to go. We give each number a name - x, y"
@@ -12405,19 +12440,19 @@ msgstr ""
 "Acum sa vedem ce inseamna acele numere. Avem trei numere care descriu coordona"
 "tele locului din lume in care ne aflam. Fiecare numar are un nume - x, y si z:"
 
-#: A.06-minecraft.md:58
+#: A.06-minecraft.md:66
 msgid "x - how far left and right (80 in our example)"
 msgstr "x - cat de departe la stanga sau la dreapta (80 in exemplul nostru)"
 
-#: A.06-minecraft.md:59
+#: A.06-minecraft.md:67
 msgid "y - how high we want to be (40 in our example)"
 msgstr "y - cat de sus vrem sa ajungem (40 in exemplul nostru)"
 
-#: A.06-minecraft.md:60
+#: A.06-minecraft.md:68
 msgid "z - how far forward and back (100 in our example)"
 msgstr "z - cat de departe inainte sau inapoi (100 in exemplul nostru)"
 
-#: A.06-minecraft.md:62
+#: A.06-minecraft.md:70
 msgid ""
 "By choosing different values for x, y and z we can teleport *anywhere* in our "
 "world. Try it! Choose different numbers and see where you can end up. If the s"
@@ -12431,7 +12466,7 @@ msgstr ""
 "ege o valoare mai mare pentru y si vei iesi din nou deasupra solului. Continua"
 " sa explorezi pana gasesti un loc care iti place..."
 
-#: A.06-minecraft.md:69
+#: A.06-minecraft.md:77
 msgid ""
 "Using the ideas so far, let's build a Sonic Teleporter which makes a fun telep"
 "ort sound whilst it whizzes us across the Minecraft world:"
@@ -12439,7 +12474,7 @@ msgstr ""
 "Folosind ideile de pana acum, sa construim o masina de teleportat care scoate "
 "un sunet haios cand te deplaseaza in lumea Minecraft:"
 
-#: A.06-minecraft.md:72
+#: A.06-minecraft.md:80
 #, no-wrap
 msgid ""
 "mc_message \"Preparing to teleport....\"\n"
@@ -12466,7 +12501,7 @@ msgstr ""
 "mc_teleport 90, 20, 10\n"
 "mc_message \"Whoooosh!\""
 
-#: A.06-minecraft.md:86
+#: A.06-minecraft.md:94
 #, fuzzy
 msgid ""
 "![Screen 1](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-M"
@@ -12475,11 +12510,11 @@ msgstr ""
 "![Imaginea 1](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical"
 "-Minecraft-1-small.png)"
 
-#: A.06-minecraft.md:88
+#: A.06-minecraft.md:96
 msgid "Magic Blocks"
 msgstr "Blocuri magice"
 
-#: A.06-minecraft.md:90
+#: A.06-minecraft.md:98
 msgid ""
 "Now you've found a nice spot, let's start building. You could do what you're u"
 "sed to and start clicking the mouse furiously to place blocks under the cursor"
@@ -12490,7 +12525,7 @@ msgstr ""
 " la pozitia cursorului. Sau ai putea sa folosesti puterile magice ale Sonic Pi"
 ". Incearca asta:"
 
-#: A.06-minecraft.md:94
+#: A.06-minecraft.md:102
 #, no-wrap
 msgid ""
 "x, y, z = mc_location\n"
@@ -12499,7 +12534,7 @@ msgstr ""
 "x, y, z = mc_location\n"
 "mc_set_block :melon, x, y + 5, z"
 
-#: A.06-minecraft.md:99
+#: A.06-minecraft.md:107
 msgid ""
 "Now look up! There's a melon in the sky! Take a moment to look at the code. Wh"
 "at did we do? On line one we grabbed the current location of Steve as the vari"
@@ -12516,7 +12551,7 @@ msgstr ""
 "ele specificate. Pentru a construi ceva mai sus in cer trebuie sa marim valoar"
 "ea pentru y, motiv pentru care am adaugat 5 la ea. Sa construim o poteca:"
 
-#: A.06-minecraft.md:107
+#: A.06-minecraft.md:115
 #, no-wrap
 msgid ""
 "live_loop :melon_trail do\n"
@@ -12531,7 +12566,7 @@ msgstr ""
 "  sleep 0.125\n"
 "end"
 
-#: A.06-minecraft.md:115
+#: A.06-minecraft.md:123
 msgid ""
 "Now, jump over to Minecraft, make sure you're in flying-mode (double tap space"
 " if not) and fly all around the world. Look behind you to see a pretty trail o"
@@ -12542,11 +12577,11 @@ msgstr ""
 "te in urma ta si vei vedea o poteca formata din pepeni. Incearca sa creezi mod"
 "ele cat mai introtocheate pe cer."
 
-#: A.06-minecraft.md:120
+#: A.06-minecraft.md:128
 msgid "Live Coding Minecraft"
 msgstr "Programare live in Minecraft"
 
-#: A.06-minecraft.md:122
+#: A.06-minecraft.md:130
 msgid ""
 "Those of you that have been following this tutorial over the last few months w"
 "ill probably have your minds blown at this point. The trail of melons is prett"
@@ -12568,7 +12603,7 @@ msgstr ""
 "discuri, eu folosesc bucle live :) Dar astazi vom programa live si muzica si M"
 "inecraft."
 
-#: A.06-minecraft.md:133
+#: A.06-minecraft.md:141
 msgid ""
 "Let's get started. Run the code above and start making your melon trail again."
 " Now, without stopping the code, just simply change `:melon` to `:brick` and h"
@@ -12580,7 +12615,7 @@ msgstr ""
 " pe Run. Acum lasi in urma ta o poteca din caramizi. Cat de simplu a fost! Ti-"
 "ar placea sa ai si niste muzica in timp ce faci asta? E usor. Incearca:"
 
-#: A.06-minecraft.md:138
+#: A.06-minecraft.md:146
 #, no-wrap
 msgid ""
 "live_loop :bass_trail do\n"
@@ -12605,7 +12640,7 @@ msgstr ""
 "  sleep 0.125\n"
 "end"
 
-#: A.06-minecraft.md:151
+#: A.06-minecraft.md:159
 msgid ""
 "Now, whilst that's playing start changing the code. Change the block types - t"
 "ry `:water`, `:grass` or your favourite block type. Also, try changing the cut"
@@ -12616,7 +12651,7 @@ msgstr ""
 "a schimbi valoarea pentru cutoff din '70' in '80 si apoi in '100' Nu-i asa ca "
 "este distractiv?"
 
-#: A.06-minecraft.md:158
+#: A.06-minecraft.md:166
 #, fuzzy
 msgid ""
 "![Screen 2](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-M"
@@ -12625,7 +12660,7 @@ msgstr ""
 "![Imaginea 2](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical"
 "-Minecraft-2-small.png)"
 
-#: A.06-minecraft.md:160
+#: A.06-minecraft.md:168
 msgid ""
 "Let's combine everything we've seen so far with a little extra magic. Let's co"
 "mbine our teleportation ability with block placing and music to make a Minecra"
@@ -12639,7 +12674,7 @@ msgstr ""
 "ar scrie codul asta si joaca-te cu el schimband niste valori in timp ce este r"
 "edat. Distreaza-te! Ne vedem data viitoare..."
 
-#: A.06-minecraft.md:166
+#: A.06-minecraft.md:174
 #, no-wrap
 msgid ""
 "live_loop :note_blocks do\n"
@@ -13086,7 +13121,7 @@ msgstr ""
 "![Imaginea 0](../../../etc/doc/images/tutorial/articles/A.08-minecraft-vj/mine"
 "craft-vj-0-small.png)"
 
-#: A.08-minecraft-vj.md:7
+#: A.08-minecraft-vj.md:17
 msgid ""
 "Everyone has played Minecraft. You will all have built amazing structures, des"
 "igned cunning traps and even created elaborate cart lines controlled by redsto"
@@ -13100,7 +13135,7 @@ msgstr ""
 "zica in Minecraft. Pariez ca nu stiati ca puteti folosi Minecraft ca sa creati"
 " efecte vizuale impresionante, la fel ca un VJ profesionist."
 
-#: A.08-minecraft-vj.md:13
+#: A.08-minecraft-vj.md:23
 msgid ""
 "If your only way of modifying Minecraft was with the mouse, you'd have a tough"
 " time changing things fast enough. Luckily for you your Raspberry Pi comes wit"
@@ -13115,7 +13150,7 @@ msgstr ""
 " asemenea cu o aplicatie numita Sonic Pi care face programarea in Minecraft nu"
 " doar foarte facila ci si incredibil de distractiva."
 
-#: A.08-minecraft-vj.md:19
+#: A.08-minecraft-vj.md:29
 msgid ""
 "In today's article we'll be showing you some of the tips and tricks that we've"
 " used to create performances in night clubs and music venues around the world."
@@ -13123,15 +13158,15 @@ msgstr ""
 "In articolul de azi iti voi arata cateva trucuri pe care le-am folosit pentru "
 "interpretarile din cluburile de noapte sau scene muzicale din toata lumea."
 
-#: A.08-minecraft-vj.md:23
+#: A.08-minecraft-vj.md:33
 msgid "Let's get started..."
 msgstr "Sa incepem..."
 
-#: A.08-minecraft-vj.md:25
+#: A.08-minecraft-vj.md:35
 msgid "Getting Started"
 msgstr "Inceputul"
 
-#: A.08-minecraft-vj.md:27
+#: A.08-minecraft-vj.md:37
 msgid ""
 "Let's start with a simple warm up exercise to refresh ourselves with the basic"
 "s. First up, crack open your Raspberry Pi and then fire up both Minecraft and "
@@ -13143,12 +13178,12 @@ msgstr ""
 "at si Sonic Pi. In Minecraft, creeaza o lume noua, iar in Sonic Pi alege un bu"
 "ffer gol si scrie codul de mai jos:"
 
-#: A.08-minecraft-vj.md:32
+#: A.08-minecraft-vj.md:42
 #, no-wrap
 msgid "mc_message \"Let's get started...\""
 msgstr "mc_message \"Sa incepem...\""
 
-#: A.08-minecraft-vj.md:36
+#: A.08-minecraft-vj.md:46
 msgid ""
 "Hit the Run button and you'll see the message over in the Minecraft window. OK"
 ", we're ready to start, let's have some fun......"
@@ -13156,11 +13191,11 @@ msgstr ""
 "Apasa butonul Run si vei vedea un mesaj in fereastra Minecraft. OK, suntem gat"
 "a sa incepem, hai sa ne distram..."
 
-#: A.08-minecraft-vj.md:39
+#: A.08-minecraft-vj.md:49
 msgid "Sand Storms"
 msgstr "Furtuna de nisip"
 
-#: A.08-minecraft-vj.md:41
+#: A.08-minecraft-vj.md:51
 msgid ""
 "When we're using Minecraft to create visuals we try and think about what will "
 "both look interesting and also be easy to generate from code. One nice trick i"
@@ -13172,27 +13207,27 @@ msgstr ""
 " creezi o furtuna de nisip lasand sa cada blocuri de nisip din cer. Pentru ast"
 "a avem nevoie doar de cateva functii de baza:"
 
-#: A.08-minecraft-vj.md:46
+#: A.08-minecraft-vj.md:56
 msgid "`sleep` - for inserting a delay between actions"
 msgstr "'sleep' - pentru a insera o pauza intre actiuni"
 
-#: A.08-minecraft-vj.md:47
+#: A.08-minecraft-vj.md:57
 msgid "`mc_location` - to find our current location"
 msgstr "'mc_location' - pentru a afla pozitia noastra curenta"
 
-#: A.08-minecraft-vj.md:48
+#: A.08-minecraft-vj.md:58
 msgid "`mc_set_block`- to place sand blocks at a specific location"
 msgstr "'mc_set_block' - pentru a plasa blocuri de nisip la o anumita pozitie"
 
-#: A.08-minecraft-vj.md:49
+#: A.08-minecraft-vj.md:59
 msgid "`rrand` - to allow us to generate random values within a range"
 msgstr "'rrand' - pentru a genera valori aleatoare intr-un anumit interval"
 
-#: A.08-minecraft-vj.md:50
+#: A.08-minecraft-vj.md:60
 msgid "`live_loop` - to allow us to continually make it rain sand"
 msgstr "'live_loop' - pentru a face ca ploaia de nisip sa cada in continuu"
 
-#: A.08-minecraft-vj.md:52
+#: A.08-minecraft-vj.md:62
 msgid ""
 "If you're unfamiliar with any of the built-in fns such as `rrand`, just type t"
 "he word into your buffer, click on it and then hit the keyboard combo `Control"
@@ -13207,7 +13242,7 @@ msgstr ""
 "utor si sa cauti direct functia alaturi de alte chestii incitante pe care le p"
 "oti face."
 
-#: A.08-minecraft-vj.md:58
+#: A.08-minecraft-vj.md:68
 msgid ""
 "Let's make it rain a little first before unleashing the full power of the stor"
 "m. Grab your current location and use it to create a few sand blocks up in the"
@@ -13217,7 +13252,7 @@ msgstr ""
 "care este pozitia curenta si folosteste-o ca sa creezi cateva blocuri de nisip"
 " sus pe cer, in apropiere:"
 
-#: A.08-minecraft-vj.md:62
+#: A.08-minecraft-vj.md:72
 #, no-wrap
 msgid ""
 "x, y, z = mc_location\n"
@@ -13238,7 +13273,7 @@ msgstr ""
 "sleep 2\n"
 "mc_set_block :sand, x, y + 20, z + 8"
 
-#: A.08-minecraft-vj.md:73
+#: A.08-minecraft-vj.md:83
 msgid ""
 "When you hit Run, you might have to look around a little as the blocks may sta"
 "rt falling down behind you depending on which direction you're currently facin"
@@ -13250,7 +13285,7 @@ msgstr ""
 ". Nu te ingrijora daca le-ai ratat, apasa Run din nou pentru inca un lot de pl"
 "oaie de nisip - doar asigura-te ca te uiti in directia potrivita!"
 
-#: A.08-minecraft-vj.md:79
+#: A.08-minecraft-vj.md:89
 msgid ""
 "Let's quickly review what's going on here. On the first line we grabbed Steve'"
 "s location as coordinates with the fn `mc_location` and placed them into the v"
@@ -13267,7 +13302,7 @@ msgstr ""
 " pentru y mai mare cu 20 (adica mai sus) si apoi valori care cresc succesiv pe"
 "ntru z astfel incat nisipul sa cada pe o linie care se indeparteaza de Steve."
 
-#: A.08-minecraft-vj.md:87
+#: A.08-minecraft-vj.md:97
 msgid ""
 "Why don't you take that code and start playing around with it yourself? Try ad"
 "ding more lines, changing the sleep times, try mixing `:sand` with `:gravel` a"
@@ -13277,11 +13312,11 @@ msgstr ""
 ", sa schimbi valoarea pentru 'sleep', sa amesteci ':sand' cu ':gravel' si sa a"
 "legi coordonate diferite. Experimenteaza si distreaza-te!"
 
-#: A.08-minecraft-vj.md:91
+#: A.08-minecraft-vj.md:101
 msgid "Live Loops Unleashed"
 msgstr "Puterea buclelor live"
 
-#: A.08-minecraft-vj.md:93
+#: A.08-minecraft-vj.md:103
 msgid ""
 "OK, it's time to get the storm raging by unleashing the full power of the `liv"
 "e_loop` - Sonic Pi's magical ability which unleashes the full power of live co"
@@ -13291,7 +13326,7 @@ msgstr ""
 "onic Pi care permite folosirea la maxim a puterii programarii live prin modifi"
 "carea codului in timp ce ruleaza!"
 
-#: A.08-minecraft-vj.md:97
+#: A.08-minecraft-vj.md:107
 #, no-wrap
 msgid ""
 "live_loop :sand_storm do\n"
@@ -13314,7 +13349,7 @@ msgstr ""
 "  sleep 0.125\n"
 "end"
 
-#: A.08-minecraft-vj.md:109
+#: A.08-minecraft-vj.md:119
 msgid ""
 "What fun! We're looping round pretty quickly (8 times a second) and during eac"
 "h loop we're finding Steve's location like before but then generating 3 random"
@@ -13324,19 +13359,19 @@ msgstr ""
 "re citim pozitia lui Steve la fel ca mai inainte, iar apoi generam 3 valori al"
 "eatoare:"
 
-#: A.08-minecraft-vj.md:113
+#: A.08-minecraft-vj.md:123
 msgid "`xd` - the difference for x which will be between -10 and 10"
 msgstr "'xd' - diferenta pe axa x care va fi intre -10 si 10"
 
-#: A.08-minecraft-vj.md:114
+#: A.08-minecraft-vj.md:124
 msgid "`zd` - the difference for z also between -10 and 10"
 msgstr "'zd' - diferenta pe axa z, de asemenea intre -10 si 10"
 
-#: A.08-minecraft-vj.md:115
+#: A.08-minecraft-vj.md:125
 msgid "`co` - a cutoff value for the low pass filter between 70 and 130"
 msgstr "'co' - valoarea de cutoff pentru filtrul trece jos, intre 70 si 130"
 
-#: A.08-minecraft-vj.md:117
+#: A.08-minecraft-vj.md:127
 msgid ""
 "We then use those random values in the fns `synth` and `mc_set_block` giving u"
 "s sand falling in random locations around Steve along with a percussive rain-l"
@@ -13346,7 +13381,7 @@ msgstr ""
 "ipul care cade in pozitii aleatoare in jurul lui Steve impreuna cu un sunet as"
 "emanator cu cel al ploii generat de sintetizatorul ':cnoise'."
 
-#: A.08-minecraft-vj.md:121
+#: A.08-minecraft-vj.md:131
 msgid ""
 "For those of you new to live loops - this is where the fun really starts with "
 "Sonic Pi. Whilst the code is running and the sand is pouring down, try changin"
@@ -13364,11 +13399,11 @@ msgstr ""
 "te manifesti ca un VJ adevarat. Continua sa exersezi si sa schimbi parametrii."
 " Cat de mult poti schimba efectele vizuale fara a opri executia?"
 
-#: A.08-minecraft-vj.md:129
+#: A.08-minecraft-vj.md:139
 msgid "Epic Block Patterns"
 msgstr "Modele de blocuri spectaculoase"
 
-#: A.08-minecraft-vj.md:131
+#: A.08-minecraft-vj.md:141
 #, fuzzy
 msgid ""
 "![Screensman 1](../../../etc/doc/images/tutorial/articles/A.08-minecraft-vj/mi"
@@ -13377,7 +13412,7 @@ msgstr ""
 "![Imaginea 1](../../../etc/doc/images/tutorial/articles/A.08-minecraft-vj/mine"
 "craft-vj-1-small.png)"
 
-#: A.08-minecraft-vj.md:133
+#: A.08-minecraft-vj.md:143
 msgid ""
 "Finally, another great way of generating interesting visuals is to generate hu"
 "ge patterned walls to fly towards and close by. For this effect we'll need to "
@@ -13401,7 +13436,7 @@ msgstr ""
 " patrat. Putem apoi alege aleator tipurile de blocuri dintr-o lista circulara "
 "pentru un efect interesant:"
 
-#: A.08-minecraft-vj.md:145
+#: A.08-minecraft-vj.md:155
 #, no-wrap
 msgid ""
 "x, y, z = mc_location\n"
@@ -13420,7 +13455,7 @@ msgstr ""
 "  end\n"
 "end"
 
-#: A.08-minecraft-vj.md:155
+#: A.08-minecraft-vj.md:165
 msgid ""
 "Pretty neat. Whilst we're having fun here, try changing `bs.choose` to `bs.tic"
 "k` to move from a random pattern to a more regular one. Try changing the block"
@@ -13432,7 +13467,7 @@ msgstr ""
 "a schimbi tipurile blocurilor si daca esti mai indraznet ai putea pune asta in"
 "tr-un 'live_loop' astfel incat modelul sa se schimbe automat."
 
-#: A.08-minecraft-vj.md:161
+#: A.08-minecraft-vj.md:171
 msgid ""
 "Now, for the VJ finale - change the two `10.times` to `100.times` and hit Run."
 " Kaboom! A Huge gigantic wall of randomly placed bricks. Imagine how long it w"
@@ -14644,13 +14679,14 @@ msgid "Sample Slicing"
 msgstr "Slicing cu esantioane"
 
 #: A.12-sample-slicing.md:5
+#, fuzzy
 msgid ""
 "Way back in episode 3 of this Sonic Pi series we looked at how to loop, stretc"
 "h and filter one of the most famous drum breaks of all time - the Amen Break. "
 "In this tutorial we're going to take this one step further and learn how to sl"
 "ice it up, shuffle the slices and glue it back together in a completely new or"
-"der. If that sounds a bit crazy to you, don't worry, it will all become clear "
-"and you'll soon master a powerful new tool for your live coded sets."
+"der. If that sounds a bit wild to you, don't worry, it will all become clear a"
+"nd you'll soon master a powerful new tool for your live coded sets."
 msgstr ""
 "In episodul 3 al acestei serii despre Sonic Pi am vazut cum putem reda in bucl"
 "a, intinde sau comprima si filtra unul dintre cele mai faimoase solo-uri de to"
@@ -15628,12 +15664,13 @@ msgstr ""
 "end"
 
 #: A.14-amplitude-modulation.md:169
+#, fuzzy
 msgid ""
-"This allows us to take any sample and create new rhythmical possibilites which"
-" is a lot of fun. However, one thing to be careful about is to make sure that "
-"the tempo of the sample matches the current BPM in Sonic Pi otherwise the slic"
-"ing will sound totally off. For example, try swapping `:loop_mika` with the `l"
-"oop_amen` sample to hear how bad this can sound when the tempos don't align."
+"This allows us to take any sample and create new rhythmical possibilities whic"
+"h is a lot of fun. However, one thing to be careful about is to make sure that"
+" the tempo of the sample matches the current BPM in Sonic Pi otherwise the sli"
+"cing will sound totally off. For example, try swapping `:loop_mika` with the `"
+"loop_amen` sample to hear how bad this can sound when the tempos don't align."
 msgstr ""
 "Acest lucru ne permite sa luam orice esantion si sa cream noi ritmuri, ceea ce"
 " este chiar distractiv. Totusi, un lucru de care trebuie sa tinem seama este c"
@@ -16698,12 +16735,13 @@ msgstr ""
 "sample :ambi_choir, rate: 0.25, rpitch: 1"
 
 #: A.17-sample-stretching.md:155
+#, fuzzy
 msgid ""
 "Let's take a look at a simple piece which combines these ideas. Copy it into a"
 "n empty Sonic Pi buffer, hit play, listen to it for a while and then use it as"
 " a starting point for your own piece. See how much fun it is to manipulate the"
 " playback rate of samples. As an added exercise try recording your own sounds "
-"and play around with the rate to see what crazy sounds you can make."
+"and play around with the rate to see what wild sounds you can make."
 msgstr ""
 "Sa aruncam o privire la o bucata simpla care combina aceste idei. Copiaza codu"
 "l intr-un buffer gol, apasa play si asculta putin apoi foloseste-l ca punct de"
@@ -16974,6 +17012,7 @@ msgstr ""
 "e cutoff mai joasa (care face zgomotul mai putin clar si mai huruitor)."
 
 #: A.18-additive-synthesis.md:117
+#, fuzzy
 msgid ""
 "Let's combine all these techniques to see if we can use additive synthesis to "
 "re-create a basic bell sound. I've broken this example into four sections. Fir"
@@ -16985,7 +17024,7 @@ msgid ""
 "low sine waves to give the sound some bass and depth. Finally, I used `define`"
 " to wrap my code in a function which I can then use to play a melody. Try play"
 "ing your own melody and also messing around with the contents of the `:bell` f"
-"unction until you create your own crazy sound to play with!"
+"unction until you create your own fun sound to play with!"
 msgstr ""
 "Sa combinam toate aceste tehnici pentru a vedea daca putem folosi sinteza adit"
 "iva pentru a re-crea un sunet de clopot simplu. Am impartit acest exemplu in 4"
@@ -17305,11 +17344,12 @@ msgstr ""
 "zator pentru a putea auzi efectul filtrului trece-jos modulat."
 
 #: A.19-subtractive-synthesis.md:140
+#, fuzzy
 msgid ""
 "This is just a very basic taster of what's possible when you use filters to mo"
 "dify and change a source sound. Try playing with Sonic Pi's many built-in FX t"
-"o see what crazy sounds you can design. If your sound feels too static, rememb"
-"er you can start modulating the options to create some movement."
+"o see what fun sounds you can design. If your sound feels too static, remember"
+" you can start modulating the options to create some movement."
 msgstr ""
 "Acesta este doar un exemplu simplu pentru ce se poate obtine folosind filtrele"
 " pentru modificarea unor sunete. Incearca sa te joci cu multitudinea de efecte"
@@ -18373,547 +18413,3 @@ msgstr ""
 "Un alt loc in care poti afla mai multe despre lumea programarii live este [Alg"
 "orave](http://algorave.com). Aici poti afla totul despre o ramura a programari"
 "i live specializata pe crearea de muzica in cluburi."
-
-#: C-Minecraft-Pi.md:1
-#, fuzzy
-msgid "C Minecraft Pi"
-msgstr "Minecraft Pi"
-
-#: C-Minecraft-Pi.md:3
-msgid "Minecraft Pi"
-msgstr "Minecraft Pi"
-
-#: C-Minecraft-Pi.md:5
-msgid ""
-"Sonic Pi now supports a simple API for interacting with Minecraft Pi - the spe"
-"cial edition of Minecraft which is installed by default on the Raspberry Pi's "
-"Raspbian Linux-based operating system."
-msgstr ""
-"Sonic Pi suporta acum un API simplu pentru a interactiona cu Minecraft Pi - ve"
-"rsiunea speciala a Minecraft care este instalata implicita pe sistemul de oper"
-"are Raspbian (bazat pe Linux) pentru Raspberry Pi."
-
-#: C-Minecraft-Pi.md:9
-msgid "No need to import libraries"
-msgstr "Nu este nevoie sa importi biblioteci"
-
-#: C-Minecraft-Pi.md:11
-msgid ""
-"The Minecraft Pi integration has been designed to be insanely easy to use. All"
-" you need to do is to launch Minecraft Pi and create a world. You're then free"
-" to use the `mc_*` fns just like you might use `play` and `synth`. There's no "
-"need to import anything or install any libraries - it's all ready to go and wo"
-"rks out of the box."
-msgstr ""
-"Integrarea cu Minecraft Pi a fost gandita sa fie extrem de simplu de utilizat."
-" Tot ce trebuie sa faci este sa pornesti Minecraft Pi si sa creezi o lume. Apo"
-"i poti folosi functiile 'mc_*' la fel cum folosesti 'play' sau 'synth'. Nu e n"
-"evoie sa importi nimic sau sa instalezi vreo bibilioteca de functii - totul es"
-"te inclus si poate fi pornit imediat."
-
-#: C-Minecraft-Pi.md:17
-msgid "Automatic Connection"
-msgstr "Conectarea automata"
-
-#: C-Minecraft-Pi.md:19
-msgid ""
-"The Minecraft Pi API takes care of managing your connection to the Minecraft P"
-"i application. This means you don't need to worry about a thing. If you try an"
-"d use the Minecraft Pi API when Minecraft Pi isn't open, Sonic Pi will politel"
-"y tell you. Similarly, if you close Minecraft Pi whilst you're still running a"
-" `live_loop` that uses the API, the live loop will stop and politely tell you "
-"that it can't connect. To reconnect, just launch Minecraft Pi again and Sonic "
-"Pi will automatically detect and re-create the connection for you."
-msgstr ""
-"Interfata de programare (API) pentru Minecraft Pi se ocupa de conectarea la ap"
-"licatia Minecraft Pi. Asta inseamna ca nu trebuie sa-ti mai bati tu capul cu a"
-"sta. Daca incerci sa folosesti API-ul cand Minecraft Pi nu este pornit, Sonic "
-"Pi te va informa politicos despre acest lucru. La fel, daca inchizi Minecraft "
-"Pi in timp ce inca ruleaza un 'live_loop' care foloseste API-ul, bucla se va o"
-"pri si iti va spune frumos ca nu poate sa se conecteze. Pentru a te reconecta,"
-" trebuie doar sa pornesti Minecraft Pi si Sonic Pi va detecta acest lucru auto"
-"mat si va reface conexiunea."
-
-#: C-Minecraft-Pi.md:28
-msgid "Designed to be Live Coded"
-msgstr "Facut pentru programarea live"
-
-#: C-Minecraft-Pi.md:30
-msgid ""
-"The Minecraft Pi API has been designed to work seamlessly within `live_loop`s."
-" This means it's possible to synchronise modifications in your Minecraft Pi wo"
-"rlds with modifications in your Sonic Pi sounds. Instant Minecraft-based music"
-" videos! Note however that Minecraft Pi is alpha software and is known to be s"
-"lightly buggy. If you encounter any problems simply restart Minecraft Pi and c"
-"arry on as before. Sonic Pi's automatic connection functionality will take car"
-"e of things for you."
-msgstr ""
-"API-ul pentru Minecraft Pi este facut sa mearga de la sine cu buclele live. As"
-"ta inseamna ca este posibil sa sincronizezi modificarile din lumea Minecraft P"
-"i cu modificarile sunetelor din Sonic Pi. Poti obtine instantaneu videoclipuri"
-" muzicale bazate pe Minecraft! Tine cont totusi ca Minecraft Pi este un progra"
-"m inca in versiune alfa si este cunoscut pentru faptul ca mai are buguri. Daca"
-" intampini probleme, reporneste Minecraft Pi si continua de unde ai ramas. Fun"
-"ctia de reconectare automata din Sonic Pi se va ocupa de restul."
-
-#: C-Minecraft-Pi.md:39
-msgid "Requires a Raspberry Pi 2.0"
-msgstr "Este nevoie de un Raspberry Pi cel putin versiunea 2.0"
-
-#: C-Minecraft-Pi.md:41
-msgid ""
-"It is highly recommended that you use a Raspberry Pi 2 if you wish to run both"
-" Sonic Pi and Minecraft at the same time - especially if you want to use Sonic"
-" Pi's sound capabilities."
-msgstr ""
-"Este recomandat sa folosesti macar un Raspberry Pi 2 daca vrei sa rulezi atat "
-"Sonic Pi cat si Minecraft in acelasi timp, mai ales daca vrei sa folosesti par"
-"tea de sunet din Sonic Pi."
-
-#: C-Minecraft-Pi.md:45
-msgid "API Support"
-msgstr "Suportul pentru API"
-
-#: C-Minecraft-Pi.md:47
-#, fuzzy
-msgid ""
-"At this stage, Sonic Pi supports basic block and player manipulations which ar"
-"e detailed in Section C.1. Support for event callbacks triggered by player int"
-"eractions in the world is planned for a future release."
-msgstr ""
-"In aceasta faza Sonic Pi ofera suport pentru modificari de baza legate de bloc"
-"uri sau de jucator, asa cum sunt descrise in sectiunea 11.1. Suportul pentru f"
-"unctii care se executa cand actiunile jucatorului genereaza anumite evenimente"
-" este planificat pentru o versiune urmatoare."
-
-#: C.01-Basic-API.md:1
-#, fuzzy
-msgid "C.1 Basic API"
-msgstr "11.1 Functii de baza din API"
-
-#: C.01-Basic-API.md:3
-msgid "Basic Minecraft Pi API"
-msgstr "Functii de baza din API-ul pentru Minecraft Pi"
-
-#: C.01-Basic-API.md:5
-msgid ""
-"Sonic Pi currently supports the following basic interactions with Minecraft Pi"
-":"
-msgstr ""
-"In acest moment Sonic Pi ofera suport pentru urmatoarele interactiuni cu Minec"
-"raft Pi:"
-
-#: C.01-Basic-API.md:7 C.01-Basic-API.md:16
-msgid "Displaying chat messages"
-msgstr "Afisarea de mesaje in fereastra de chat"
-
-#: C.01-Basic-API.md:8 C.01-Basic-API.md:33
-msgid "Setting the position of the user"
-msgstr "Modificarea pozitiei jucatorului"
-
-#: C.01-Basic-API.md:9
-msgid "Getting the position of the user"
-msgstr "Aflarea pozitiei jucatorului"
-
-#: C.01-Basic-API.md:10
-msgid "Setting the block type at a given coordinate"
-msgstr "Modificarea blocului aflat la anumite coordonate"
-
-#: C.01-Basic-API.md:11
-msgid "Getting the block type at a given coordinate"
-msgstr "Aflarea tipului blocului aflat la anumite coordonate"
-
-#: C.01-Basic-API.md:14
-msgid "Let's look at each of these in turn."
-msgstr "Sa le analizam pe rand."
-
-#: C.01-Basic-API.md:18
-msgid ""
-"Let's see just how easy it is to control Minecraft Pi from Sonic Pi. First, ma"
-"ke sure you have both Minecraft Pi and Sonic Pi open at the same time and also"
-" make sure you've entered a Minecraft world and can walk around."
-msgstr ""
-"Sa vedem cat de usor este sa controlezi Minecraft Pi folosind Sonic Pi. Mai in"
-"tai asigura-te ca atat Minecraft Pi cat si Sonic Pi sunt pornite si ca ai intr"
-"at intr-o lume Minecraft si poti sa te deplasezi in interiorul ei."
-
-#: C.01-Basic-API.md:23
-msgid "In a fresh Sonic Pi buffer simply enter the following code:"
-msgstr "Intr-un buffer gol din Sonic Pi introdu urmatorul cod:"
-
-#: C.01-Basic-API.md:25
-#, no-wrap
-msgid "mc_message \"Hello from Sonic Pi\""
-msgstr "mc_message \"Hello from Sonic Pi\""
-
-#: C.01-Basic-API.md:29
-msgid ""
-"When you hit the *Run* button, you'll see your message flash up on the Minecra"
-"ft window. Congratulations, you've written your first Minecraft code! That was"
-" easy wasn't it."
-msgstr ""
-"Cand apesi pe *Run* vei vedea mesajul tau aparand in fereastra Minecraft. Feli"
-"citari, ai scris prima linie de cod pentru Minecraft! A fost simplu, nu?"
-
-#: C.01-Basic-API.md:35
-msgid ""
-"Now, let's try a little magic. Let's teleport ourselves somewhere! Try the fol"
-"lowing:"
-msgstr "Acum sa incercam o mica magie. Sa ne teleportam undeva. Incearca asta:"
-
-#: C.01-Basic-API.md:38
-#, no-wrap
-msgid "mc_teleport 50, 50, 50"
-msgstr "mc_teleport 50, 50, 50"
-
-#: C.01-Basic-API.md:42
-#, fuzzy
-msgid ""
-"When you hit *Run* - boom! You're instantly transported to a new place. Most l"
-"ikely it was somewhere in the sky and you fell down either to dry land or into"
-" water. Now, what are those numbers: `50, 50, 50`? They're the coordinates of "
-"the location you're trying to teleport to. Let's take a brief moment to explor"
-"e what coordinates are and how they work because they're really, really import"
-"ant for programming Minecraft."
-msgstr ""
-"Apasa pe *Run* si ... minune! Ai fost teleportat instantaneu intr-un nou loc. "
-"Cel mai probabul era undeva in vazduh si ai cazut intre timp pe sol sau in apa"
-". Acum sa vedem ce reprezinta numerele astea: `50, 50, 50`. Sunt coordonatele "
-"locului in care incerci sa te teleportezi. Sa discutam putin despre ce inseamn"
-"a coordonatele si cum functioneaza, deoarece sunt foarte importante pentru pro"
-"gramarea in Minecraft."
-
-#: C.01-Basic-API.md:50
-msgid "Coordinates"
-msgstr "Coordonate"
-
-#: C.01-Basic-API.md:52
-msgid ""
-"Imagine a pirate's map with a big `X` marking the location of some treasure. T"
-"he exact location of the `X` can be described with two numbers - how far along"
-" the map from left to right and how far along the map from bottom to top. For "
-"example `10cm` across and `8cm` up. These two numbers `10` and `8` are coordin"
-"ates. You could easily imagine describing the locations of other stashes of tr"
-"easure with other pairs of numbers. Perhaps there's a big chest of gold at `2`"
-" across and `9` up..."
-msgstr ""
-"Sa ne imaginam o harta a piratilor cu un 'X' care marcheaza locul in care se a"
-"fla o comoara. Pozitia exacta a 'X'-ului poate fi descrisa cu doua numere - ca"
-"t de departe este de marginea din stanga si cat de departe de marginea de jos."
-" De exemplu: '10 cm' la dreapta si '8 cm' in sus. Aceste doua numere, '10' si "
-"'8' sunt coordonatele. Poti sa-ti imaginezi usor cum ai descrie pozitiile alto"
-"r cufere folosind alte perechi de numere. Poate un cufar cu mult aur se afla l"
-"a '2' la dreapta si '9' in sus..."
-
-#: C.01-Basic-API.md:61
-msgid ""
-"Now, in Minecraft two numbers isn't quite enough. We also need to know how hig"
-"h we are. We therefore need three numbers:"
-msgstr ""
-"In Minecraft doua numere nu sunt suficiente. Trebuie sa stim si inaltimea la c"
-"are ne aflam, deci avem nevoie de trei numere:"
-
-#: C.01-Basic-API.md:64
-msgid "How far from right to left in the world - `x`"
-msgstr "Cat de departe pe directia stanga-dreapta: 'x'"
-
-#: C.01-Basic-API.md:65
-msgid "How far from front to back in the world - `z`"
-msgstr "Cat de departe pe directia inainte-inapoi: 'z'"
-
-#: C.01-Basic-API.md:66
-msgid "How high up we are in the world - `y`"
-msgstr "Cat de sus ne aflam in lume: 'y'"
-
-#: C.01-Basic-API.md:68
-msgid ""
-"One more thing - we typically describe these coordinates in this order `x`, `y"
-"`, `z`."
-msgstr ""
-"Inca un lucru: de obicei trecem aceste coordonate in ordinea asta - 'x', 'y', "
-"'z'."
-
-#: C.01-Basic-API.md:71
-msgid "Finding your current coordinates"
-msgstr "Aflarea coordonatelor curente"
-
-#: C.01-Basic-API.md:73
-msgid ""
-"Let's have a play with coordinates. Navigate to a nice place in the Minecraft "
-"map and then switch over to Sonic Pi. Now enter the following:"
-msgstr ""
-"Sa ne jucam putin cu coordonatele. Mergi intr-un loc dragut in lumea Minecraft"
-" si apoi revino la fereastra Sonic Pi. Introdu textul asta:"
-
-#: C.01-Basic-API.md:76
-#, no-wrap
-msgid "puts mc_location"
-msgstr "puts mc_location"
-
-#: C.01-Basic-API.md:80
-msgid ""
-"When you hit the *Run* button you'll see the coordinates of your current posit"
-"ion displayed in the log window. Take a note of them, then move forward in the"
-" world and try again. Notice how the coordinates changed! Now, I recommend you"
-" spend some time repeating exactly this - move a bit in the world, take a look"
-" at the coordinates and repeat. Do this until you start to get a feel for how "
-"the coordinates change when you move. Once you've understood how coordinates w"
-"ork, programming with the Minecraft API will be a complete breeze."
-msgstr ""
-"Cand vei apasa pe butonul *Run* vei vedea coordonatele pozitiei curente afisat"
-"e in fereastra jurnal. Priveste-le, apoi deplaseaza-te in lumea Minecraft si i"
-"ncearca din nou. Vei observa cum coordonatele s-au schimbat. Iti recomand sa r"
-"epeti de cateva ori testul asta - te deplasezi putin in lumea Minecraft, vezi "
-"care sunt coordonatele, apoi reiei. Fa asta pana cand incepi sa simti in ce fe"
-"l se schimba coordonatele atunci cand te deplasezi. Odata ce ai inteles cum fu"
-"nctioneaza coordonatele, programarea cu API-ul Minecraft va fi floare la urech"
-"e."
-
-#: C.01-Basic-API.md:89
-msgid "Let's Build!"
-msgstr "Sa construim!"
-
-#: C.01-Basic-API.md:91
-msgid ""
-"Now that you know how to find the current position and to teleport using coord"
-"inates, you have all the tools you need to start building things in Minecraft "
-"with code. Let's say you want to make the block with coordinates `40`, `50`, `"
-"60` to be glass. That's super easy:"
-msgstr ""
-"Acum ca stii sa afli pozitia curenta si sa te teleportezi folosind coordonatel"
-"e, ai toate uneltele necesare pentru a incepe sa construiesti diferite lucruri"
-" in Minecraft prin programare. Sa spunem ca vrei ca blocul de la coordonatele "
-"`40`, `50`, `60` sa fie din sticla. E foarte usor:"
-
-#: C.01-Basic-API.md:96
-#, no-wrap
-msgid "mc_set_block :glass, 40, 50, 60"
-msgstr "mc_set_block :glass, 40, 50, 60"
-
-#: C.01-Basic-API.md:100
-msgid ""
-"Haha, it really was that easy. To see your handywork just teleport nearby and "
-"take a look:"
-msgstr ""
-"Ha, ha, a fost chiar usor. Ca sa vezi ce-ai mesterit teleporteaza-te in apropi"
-"ere si arunca o privire:"
-
-#: C.01-Basic-API.md:103
-#, no-wrap
-msgid "mc_teleport 35, 50, 60"
-msgstr "mc_teleport 35, 50, 60"
-
-#: C.01-Basic-API.md:107
-msgid ""
-"Now turn around and you should see your glass block! Try changing it to diamon"
-"d:"
-msgstr ""
-"Acum intoarce-te si ar trebui sa vezi blocul de sticla! Incearca sa-l transfor"
-"mi in diamant:"
-
-#: C.01-Basic-API.md:110
-#, no-wrap
-msgid "mc_set_block :diamond, 40, 50, 60"
-msgstr "mc_set_block :diamond, 40, 50, 60"
-
-#: C.01-Basic-API.md:114
-msgid ""
-"If you were looking in the right direction you might have even seen it change "
-"in front of your eyes! This is the start of something exciting..."
-msgstr ""
-"Daca te uitai in directia potrivita ai vazut chiar cum se schimba in fata ochi"
-"lor tai! Acesta este inceputul unei aventuri incitante..."
-
-#: C.01-Basic-API.md:117
-msgid "Looking at blocks"
-msgstr "Sa aruncam o privire asupra blocurilor"
-
-#: C.01-Basic-API.md:119
-msgid ""
-"Let's look at one last thing before we move onto something a bit more involved"
-". Given a set of coordinates we can ask Minecraft what the type of a specific "
-"block is. Let's try it with the diamond block you just created:"
-msgstr ""
-"Sa mai vedem un singur lucru inainte de a trece la ceva mai complicat. Avand u"
-"n set de coordonate putem cere Minecraft sa ne spuna ce tip de bloc se afla ac"
-"olo. Sa incercam cu blocul de diamant pe care tocmai l-ai creat:"
-
-#: C.01-Basic-API.md:124
-#, no-wrap
-msgid "puts mc_get_block 40, 50, 60"
-msgstr "puts mc_get_block 40, 50, 60"
-
-#: C.01-Basic-API.md:128
-msgid ""
-"Yey! It's `:diamond`. Try changing it back to glass and asking again - does it"
-" now say `:glass`? I'm sure it does :-)"
-msgstr ""
-"Da! Este ':diamond' (diamant). Incearca sa-l transformi iar in sticla si intre"
-"aba din nou. A raspuns ':glass' (sticla)? Sunt sigur ca da :)"
-
-#: C.01-Basic-API.md:131
-msgid "Available block types"
-msgstr "Tipurile de blocuri disponibile"
-
-#: C.01-Basic-API.md:133
-msgid ""
-"Before you go on a Minecraft Pi coding rampage, you might find this list of av"
-"ailable block types useful:"
-msgstr ""
-"Inainte sa te dezlantui programand in Minecraft Pi, ai putea considera utila l"
-"ista aceasta cu tipurile de blocuri disponibile:"
-
-#: C.01-Basic-API.md:136
-#, no-wrap
-msgid ""
-"    :air\n"
-"    :stone\n"
-"    :grass\n"
-"    :dirt\n"
-"    :cobblestone\n"
-"    :wood_plank\n"
-"    :sapling\n"
-"    :bedrock\n"
-"    :water_flowing\n"
-"    :water\n"
-"    :water_stationary\n"
-"    :lava_flowing\n"
-"    :lava\n"
-"    :lava_stationary\n"
-"    :sand\n"
-"    :gravel\n"
-"    :gold_ore\n"
-"    :iron_ore\n"
-"    :coal_ore\n"
-"    :wood\n"
-"    :leaves\n"
-"    :glass\n"
-"    :lapis\n"
-"    :lapis_lazuli_block\n"
-"    :sandstone\n"
-"    :bed\n"
-"    :cobweb\n"
-"    :grass_tall\n"
-"    :flower_yellow\n"
-"    :flower_cyan\n"
-"    :mushroom_brown\n"
-"    :mushroom_red\n"
-"    :gold_block\n"
-"    :gold\n"
-"    :iron_block\n"
-"    :iron\n"
-"    :stone_slab_double\n"
-"    :stone_slab\n"
-"    :brick\n"
-"    :brick_block\n"
-"    :tnt\n"
-"    :bookshelf\n"
-"    :moss_stone\n"
-"    :obsidian\n"
-"    :torch\n"
-"    :fire\n"
-"    :stairs_wood\n"
-"    :chest\n"
-"    :diamond_ore\n"
-"    :diamond_block\n"
-"    :diamond\n"
-"    :crafting_table\n"
-"    :farmland\n"
-"    :furnace_inactive\n"
-"    :furnace_active\n"
-"    :door_wood\n"
-"    :ladder\n"
-"    :stairs_cobblestone\n"
-"    :door_iron\n"
-"    :redstone_ore\n"
-"    :snow\n"
-"    :ice\n"
-"    :snow_block\n"
-"    :cactus\n"
-"    :clay\n"
-"    :sugar_cane\n"
-"    :fence\n"
-"    :glowstone_block\n"
-"    :bedrock_invisible\n"
-"    :stone_brick\n"
-"    :glass_pane\n"
-"    :melon\n"
-"    :fence_gate\n"
-"    :glowing_obsidian\n"
-"    :nether_reactor_core"
-msgstr ""
-"    :air\n"
-"    :stone\n"
-"    :grass\n"
-"    :dirt\n"
-"    :cobblestone\n"
-"    :wood_plank\n"
-"    :sapling\n"
-"    :bedrock\n"
-"    :water_flowing\n"
-"    :water\n"
-"    :water_stationary\n"
-"    :lava_flowing\n"
-"    :lava\n"
-"    :lava_stationary\n"
-"    :sand\n"
-"    :gravel\n"
-"    :gold_ore\n"
-"    :iron_ore\n"
-"    :coal_ore\n"
-"    :wood\n"
-"    :leaves\n"
-"    :glass\n"
-"    :lapis\n"
-"    :lapis_lazuli_block\n"
-"    :sandstone\n"
-"    :bed\n"
-"    :cobweb\n"
-"    :grass_tall\n"
-"    :flower_yellow\n"
-"    :flower_cyan\n"
-"    :mushroom_brown\n"
-"    :mushroom_red\n"
-"    :gold_block\n"
-"    :gold\n"
-"    :iron_block\n"
-"    :iron\n"
-"    :stone_slab_double\n"
-"    :stone_slab\n"
-"    :brick\n"
-"    :brick_block\n"
-"    :tnt\n"
-"    :bookshelf\n"
-"    :moss_stone\n"
-"    :obsidian\n"
-"    :torch\n"
-"    :fire\n"
-"    :stairs_wood\n"
-"    :chest\n"
-"    :diamond_ore\n"
-"    :diamond_block\n"
-"    :diamond\n"
-"    :crafting_table\n"
-"    :farmland\n"
-"    :furnace_inactive\n"
-"    :furnace_active\n"
-"    :door_wood\n"
-"    :ladder\n"
-"    :stairs_cobblestone\n"
-"    :door_iron\n"
-"    :redstone_ore\n"
-"    :snow\n"
-"    :ice\n"
-"    :snow_block\n"
-"    :cactus\n"
-"    :clay\n"
-"    :sugar_cane\n"
-"    :fence\n"
-"    :glowstone_block\n"
-"    :bedrock_invisible\n"
-"    :stone_brick\n"
-"    :glass_pane\n"
-"    :melon\n"
-"    :fence_gate\n"
-"    :glowing_obsidian\n"
-"    :nether_reactor_core"

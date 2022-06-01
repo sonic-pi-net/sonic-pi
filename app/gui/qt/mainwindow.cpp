@@ -833,7 +833,7 @@ void MainWindow::handleCustomUrl(const QUrl& url)
 
 void MainWindow::escapeWorkspaces()
 {
-    resetErrorPane();
+    errorPane->hide();
 
     for (int w = 0; w < workspace_max; w++)
     {
@@ -4013,11 +4013,13 @@ bool MainWindow::eventFilter(QObject* obj, QEvent* evt)
     //     qDebug() << "Key Release: " << keyEvent->text();
     // }
 
-    // if(evt->type() == QEvent::Shortcut){
-    //     QShortcutEvent *sc = static_cast<QShortcutEvent *>(evt);
-    //     const QKeySequence &ks = sc->key();
-    //     qDebug() << "Key Shortcut: " << ks.toString();
-    // }
+    if(evt->type() == QEvent::Shortcut){
+        QShortcutEvent *sc = static_cast<QShortcutEvent *>(evt);
+        const QKeySequence &ks = sc->key();
+        if(ks == QKeySequence("Escape")) {
+          escapeWorkspaces();
+        }
+    }
 
     return QMainWindow::eventFilter(obj, evt);
 }

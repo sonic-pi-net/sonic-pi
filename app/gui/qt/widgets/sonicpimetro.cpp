@@ -36,7 +36,7 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   tapButton->setObjectName("tapButton");
   tapButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
   tapButton->setFlat(true);
-  tapButton->setToolTip(tr("Tap tempo"));
+  tapButton->setToolTip(tr("Tap tempo.\nClick repeatedly (5+ times) to set the BPM manually.\nAccuracy increases with every additional click."));
 
 
   QHBoxLayout* metro_layout  = new QHBoxLayout;
@@ -63,7 +63,7 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
 
   connect(m_spClient.get(), &SonicPi::QtAPIClient::UpdateNumActiveLinks, this, &SonicPiMetro::updateActiveLinkCount);
 
-  connect(m_spClient.get(), &SonicPi::QtAPIClient::UpdateBPM, this, &SonicPiMetro::updateBPMLabel);
+  connect(m_spClient.get(), &SonicPi::QtAPIClient::UpdateBPM, this, &SonicPiMetro::setBPM);
 
 
 
@@ -121,9 +121,9 @@ void SonicPiMetro::updateLinkButtonDisplay()
   }
 }
 
-void SonicPiMetro::updateBPMLabel(double bpm)
+void SonicPiMetro::setBPM(double bpm)
 {
-  bpmScrubWidget->setBPMLabel(bpm);
+  bpmScrubWidget->setAndDisplayBPM(bpm);
 }
 
 void SonicPiMetro::updateColourTheme()
@@ -165,7 +165,7 @@ void SonicPiMetro::tapTempo()
         if((timeSinceLastTap < (1.1 * avgDistance)) &&
            (timeSinceLastTap > (0.9 * avgDistance))) {
              double newBpm = 60.0 / (((double) avgDistance) / 1000.0);
-             bpmScrubWidget->setBPM(newBpm);
+             bpmScrubWidget->setDisplayAndSyncBPM(newBpm);
         } else {
           numTaps = 0;
           firstTap = 0;
