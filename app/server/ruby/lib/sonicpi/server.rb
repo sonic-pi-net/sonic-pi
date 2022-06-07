@@ -339,8 +339,7 @@ module SonicPi
             end
 
           else
-            t = @current_spider_time_lambda.call || Time.now
-            ts =  t + sched_ahead_time
+            ts =  sched_time
             ts = ts - @control_delta if t_minus_delta
             osc_bundle ts, @osc_path_s_new, s_name, node_id, pos_code, group_id, *normalised_args
             osc_bundle ts + @control_delta, @osc_path_n_set, node_id, *normalised_args
