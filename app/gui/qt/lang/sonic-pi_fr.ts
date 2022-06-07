@@ -1302,7 +1302,7 @@ via le réseau actuellement connecté.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="186"/>
         <source>all</source>
-        <translation>touts</translation>
+        <translation>tous</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="209"/>
