@@ -46,9 +46,9 @@ defmodule Tau.MixProject do
 
       {:phoenix_live_reload, "~> 1.2", only: :dev},
 
-      {:esbuild,  "~> 0.3",   runtime: Mix.env() == :dev},
-      {:exsync,   "~> 0.2.4", runtime: Mix.env() == :dev},
-      {:tailwind, "~> 0.1",   runtime: Mix.env() == :dev},
+      {:esbuild,  "~> 0.3",   runtime: Mix.env() == :dev, only: :dev},
+      {:exsync,   "~> 0.2.4", runtime: Mix.env() == :dev, only: :dev},
+      {:tailwind, "~> 0.1",   runtime: Mix.env() == :dev, only: :dev},
 
       {:floki, ">= 0.30.0", only: :test}
     ]

@@ -38,8 +38,6 @@ else
     MIX_ENV=prod mix local.rebar --force
     MIX_ENV=prod mix deps.get
     MIX_ENV=prod mix assets.deploy.prod
-    MIX_ENV=prod mix tailwind.install
-    MIX_ENV=prod mix esbuild.install
     MIX_ENV=prod mix release --overwrite
 fi
 
