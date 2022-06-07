@@ -500,12 +500,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2899"/>
         <source>Show Titles</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher les titres</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2904"/>
         <source>Hide Menu Bar in Fullscreen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Masquer la barre de menu en mode plein écran</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2909"/>
@@ -674,7 +674,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3104"/>
         <source>Show Metronome</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher le métronome</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3109"/>
@@ -694,12 +694,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="3155"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Langue</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3627"/>
         <source>Restarting Sonic Pi...</source>
-        <translation type="unfinished"></translation>
+        <translation>Redémarrage de Sonic Pi...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3961"/>
@@ -795,7 +795,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="460"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Fermer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="605"/>
@@ -805,43 +805,44 @@
     <message>
         <location filename="../mainwindow.cpp" line="696"/>
         <source>Link Metronome</source>
-        <translation type="unfinished"></translation>
+        <translation>Métronome Link</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="866"/>
         <source>Hiding pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation>Masquer les titres des panneaux...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="876"/>
         <source>Showing pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher les titres des panneaux...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1363"/>
         <source>Sonic Pi Boot Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur de démarrage de Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1367"/>
         <source>Apologies, a critical error occurred during startup:
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Désolé, une erreur critique s&apos;est produite lors du démarrage :
+</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1419"/>
         <source>Failed to load translations for language: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur de chargement des traductions pour la langue : %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1420"/>
         <source>Falling back to English. Sorry about this.</source>
-        <translation type="unfinished"></translation>
+        <translation>Revenir à l&apos;anglais. Désolé.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1422"/>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2666"/>
@@ -1143,7 +1144,7 @@ Obtenez Sonic Pi %1</translation>
         <location filename="../widgets/settingswidget.cpp" line="55"/>
         <location filename="../widgets/settingswidget.cpp" line="492"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Langue</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="75"/>
@@ -1301,12 +1302,12 @@ via le réseau actuellement connecté.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="186"/>
         <source>all</source>
-        <translation type="unfinished"></translation>
+        <translation>touts</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="209"/>
         <source>Default MIDI out channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Canal de sortie MIDI par défaut</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="276"/>
@@ -1431,17 +1432,17 @@ Sonic Pi qui peut être envoyés via les fonctions midi_*</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="261"/>
         <source>Show Panels</source>
-        <translation type="unfinished"></translation>
+        <translation>Montrer les panneaux</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="262"/>
         <source>Show and hide information panes such as the scope and log.</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher et masquer les panneaux d&apos;information tels que l&apos;oscilloscope et le journal.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="265"/>
         <source>Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Thème</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="267"/>
@@ -1511,12 +1512,12 @@ Sonic Pi qui peut être envoyés via les fonctions midi_*</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="290"/>
         <source>Show Link metronome controls</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher les contrôles du métronome Link</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="291"/>
         <source>Toggle visibility of the Link metronome controls.</source>
-        <translation type="unfinished"></translation>
+        <translation>Basculer la visibilité des contrôles du métronome Link.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="294"/>
@@ -1551,17 +1552,17 @@ Sonic Pi qui peut être envoyés via les fonctions midi_*</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="303"/>
         <source>Show titles</source>
-        <translation type="unfinished"></translation>
+        <translation>Montrer les titres</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="304"/>
         <source>Toggle the title visibility for the scope, log, cue and other information panes</source>
-        <translation type="unfinished"></translation>
+        <translation>Basculer la visibilité des titres pour l&apos;oscillo, le journal, le repère et d&apos;autres panneaux d&apos;information</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="307"/>
         <source>Hide Menubar in Fullscreen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Masquer la barre de menu en mode plein écran</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="308"/>
