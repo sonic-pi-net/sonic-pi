@@ -37,7 +37,6 @@ else
     MIX_ENV=prod mix local.hex --force
     MIX_ENV=prod mix local.rebar --force
     MIX_ENV=prod mix deps.get
-    MIX_ENV=prod mix assets.deploy.prod
     MIX_ENV=prod mix release --overwrite
 fi
 

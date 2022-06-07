@@ -12,7 +12,6 @@ rem Changes here should be matched in app\server\beam\tau\boot-win.bat
 cmd /c mix local.hex --force
 cmd /c mix local.rebar --force
 cmd /c mix deps.get
-cmd /c mix assets.deploy.prod
 cmd /c mix release --overwrite
 
 cd %~dp0\server\beam\tau
