@@ -840,6 +840,8 @@ void MainWindow::escapeWorkspaces()
         workspaces[w]->escapeAndCancelSelection();
         workspaces[w]->clearLineMarkers();
     }
+
+    getCurrentWorkspace()->setFocus();
 }
 
 void MainWindow::changeTab(int id)
