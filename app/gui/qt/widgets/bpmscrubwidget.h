@@ -48,7 +48,6 @@ protected:
 private:
   std::shared_ptr<SonicPi::QtAPIClient> m_spClient;
   std::shared_ptr<SonicPi::SonicPiAPI> m_spAPI;
-  QPoint m_lastMouseClickPos;
   QPoint m_lastMouseClickGlobalPos;
   bool m_isDragging, m_isEditing;
   double m_bpmValue, m_preDragBpmValue;

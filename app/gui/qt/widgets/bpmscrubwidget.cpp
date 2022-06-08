@@ -16,6 +16,7 @@
 #include <QDoubleValidator>
 #include <QApplication>
 #include <QShortcut>
+#include "dpi.h"
 
 BPMScrubWidget::BPMScrubWidget(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::shared_ptr<SonicPi::SonicPiAPI> spAPI, SonicPiTheme *theme, QWidget* parent)
   : QLineEdit(parent)
@@ -99,7 +100,6 @@ void BPMScrubWidget::setDisplayAndSyncBPM(double bpm)
 
 void BPMScrubWidget::mousePressEvent(QMouseEvent* event)
 {
-  m_lastMouseClickPos = event->pos();
   m_lastMouseClickGlobalPos = event->globalPos();
   m_isDragging = true;
   m_preDragBpmValue = m_bpmValue;
@@ -108,6 +108,11 @@ void BPMScrubWidget::mousePressEvent(QMouseEvent* event)
 
 void BPMScrubWidget::mouseReleaseEvent(QMouseEvent* event)
 {
+  if(m_isDragging)
+  {
+    QCursor::setPos(m_lastMouseClickGlobalPos);
+  }
+
   m_isDragging = false;
   QGuiApplication::restoreOverrideCursor();
 }
@@ -116,8 +121,16 @@ void BPMScrubWidget::mouseMoveEvent(QMouseEvent* event)
 {
   if(m_isDragging)
   {
-    int diff = m_lastMouseClickPos.y() - event->pos().y();
-    setDisplayAndSyncBPM(m_bpmValue + diff);
+    int diff = m_lastMouseClickGlobalPos.y() - event->globalPos().y();
+    int scaled_diff = ScaleYDeltaForDPI(diff);
+    if((scaled_diff > -1) && (scaled_diff < 0)) {
+      scaled_diff = -1;
+    }
+
+    if((scaled_diff < 1) && (scaled_diff > 0)) {
+      scaled_diff = 1;
+    }
+    setDisplayAndSyncBPM(m_bpmValue + scaled_diff);
     m_isEditing = false;
     QCursor::setPos(m_lastMouseClickGlobalPos);
   }

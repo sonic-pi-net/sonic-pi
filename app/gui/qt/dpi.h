@@ -55,6 +55,12 @@ inline int ScaleHeightForDPI(int y)
   return (scale.height() * y) + 1;
 }
 
+inline int ScaleYDeltaForDPI(int y)
+{
+  auto scale = GetDisplayScale();
+  return (scale.height() * y);
+}
+
 inline int ScaleWidthForDPI(int x)
 {
   if (x <= 0)
