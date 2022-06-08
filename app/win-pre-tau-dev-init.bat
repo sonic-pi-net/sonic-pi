@@ -9,5 +9,6 @@ cmd /c mix local.rebar --force
 cmd /c mix deps.get
 cmd /c mix tailwind.install
 cmd /c mix esbuild.install
+cmd /c mix assets.deploy.prod
 
 cd %WORKING_DIR%

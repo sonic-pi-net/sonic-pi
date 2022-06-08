@@ -4,7 +4,7 @@ module.exports = {
   content: [
     "../lib/*_web/**/*.*ex",
     "./js/**/*.js",
-    "../deps/petal_components/**/*.*ex",
+    (process.env.MIX_DEPS_PATH || "../deps") + "/petal_components/**/*.*ex",
   ],
   theme: {
     extend: {

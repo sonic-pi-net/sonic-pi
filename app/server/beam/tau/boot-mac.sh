@@ -33,7 +33,6 @@ elif [ $TAU_ENV = "test" ]
 then
   export TAU_MIDI_ENABLED=false
   export TAU_LINK_ENABLED=false
-  mix assets.deploy.dev
   mix run --no-halt > log/tau_stdout.log 2>&1
 else
   echo "Unknown TAU_ENV ${TAU_ENV} - expecting one of prod, dev or test."

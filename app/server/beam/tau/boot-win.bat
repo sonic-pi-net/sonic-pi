@@ -41,6 +41,5 @@ IF "%TAU_ENV%" == "dev" (
 IF "%TAU_ENV%" == "test" (
   set TAU_MIDI_ENABLED=false
   set TAU_LINK_ENABLED=false
-  mix assets.deploy.dev
   mix run --no-halt > log\tau_stdout.log 2>&1
 )
