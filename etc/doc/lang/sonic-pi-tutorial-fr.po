@@ -9525,7 +9525,7 @@ msgid ""
 msgstr ""
 "Pour les curieux, ces règles de correspondance sont basées sur la spécificatio"
 "n de correspondance de motif Open Sound Control, qui est expliquée en détail i"
-"ci : https://opensoundcontrol.stanford.edu/spec-1_0.html"
+"ci : http://opensoundcontrol.org/spec-1_0"
 
 #: 11-MIDI.md:1
 msgid "11 MIDI"

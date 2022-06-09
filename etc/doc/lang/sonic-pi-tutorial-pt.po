@@ -9257,7 +9257,7 @@ msgid ""
 msgstr ""
 "Para os curiosos, estas regras de correspondência são baseados na especificaçã"
 "o de correspondência de padrões do Open Sound Control (controle de som aberto)"
-", que é explicado com detalhes em: https://opensoundcontrol.stanford.edu/spec-1_0.html"
+", que é explicado com detalhes em: http://opensoundcontrol.org/spec-1_0"
 
 #: 11-MIDI.md:1
 msgid "11 MIDI"
