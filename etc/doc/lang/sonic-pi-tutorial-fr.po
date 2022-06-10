@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2022-04-09 10:07+0000\n"
-"Last-Translator: Nicolas Dermine <nicolas.dermine@gmail.com>\n"
-"Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/f"
-"r/>\n"
+"PO-Revision-Date: 2022-06-11 20:21+0000\n"
+"Last-Translator: Emlyn Corrin <emlyn.corrin@gmail.com>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
+"fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.12-dev\n"
+"X-Generator: Weblate 4.13-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -1001,6 +1001,8 @@ msgid ""
 "There's also a handy shortcut for a rest (a musical way of saying not to play "
 "anything instead of a note) using `:r`, `:rest` or `nil`."
 msgstr ""
+"Il y a aussi un raccourci pratique pour un repos (une façon musicale de dire "
+"de ne rien jouer à la place d'une note) en utilisant `:r`, `:rest` ou `nil`."
 
 #: 02.1-Your-First-Beeps.md:128
 #, fuzzy
@@ -3064,10 +3066,10 @@ msgid ""
 " large directories of your own samples. This will be the case if you've downlo"
 "aded or bought your own sample packs and wish to use them within Sonic Pi.**"
 msgstr ""
-"**Note: cette section du tutoriel couvre le sujet avancé de travailler avec de"
-"s grands dossiers de vos propres samples. Ce sera le cas si vous avez téléchar"
-"gé ou acheté vos propre paquets de samples et souhaitez les utiliser dans Soni"
-"c Pi.**"
+"**Note : cette section du tutoriel couvre le sujet avancé de travailler avec "
+"des grands dossiers de vos propres samples. Ce sera le cas si vous avez "
+"téléchargé ou acheté vos propre paquets de samples et souhaitez les utiliser "
+"dans Sonic Pi.**"
 
 #: 03.7-Sample-Packs.md:10
 msgid "**Feel free to skip this if you're happy working with the built-in samples.**"
@@ -11761,8 +11763,8 @@ msgid ""
 "One of the most important lessons about `live_loop`s is that they need rest. C"
 "onsider the following `live_loop`:"
 msgstr ""
-"Une des leçons les plus importantes avec les `live_loop`, c'est qu'elles ont b"
-"esoin de se reposer. Prenons par exemple cette `live_loop`:"
+"Une des leçons les plus importantes avec les `live_loop`, c'est qu'elles ont "
+"besoin de se reposer. Prenons par exemple cette `live_loop` :"
 
 #: A.02-live-coding.md:82
 #, no-wrap
@@ -12572,16 +12574,17 @@ msgid ""
 "g the random seed to the same value right before the shuffle. Finally we're ju"
 "st ticking through our shuffled notes to play the riff."
 msgstr ""
-"Plusieurs choses se passent; regardons les une par une. Tout d'abord, nous spé"
-"cifions que nous utilisons la graine aléatoire 3. Qu'est-ce que cela signifie "
-"? Et bien, ce qui est utile, c'est que lorsque nous paramétrons la graine, nou"
-"s pouvons prédire quelle sera la prochaine valeur aléatoire; c'est la même que"
-" la dernière fois que nous avons paramétré la graine à 3 ! Une autre chose uti"
-"le à savoir est que le mélange d'un anneau de notes fonctionne de la même faço"
-"n. Dans l'exemple ci-dessus, c'est comme si on demandait le 'troisième mélange"
-"' dans la liste standard de mélanges; qui est aussi le même chaque fois que no"
-"us paramétrons toujours la même valeur de la graine aléatoire avant le mélange"
-". Enfin, nous ne faisons que passer les notes mélangées pour jouer le riff."
+"Plusieurs choses se passent ; regardons les une par une. Tout d'abord, nous "
+"spécifions que nous utilisons la graine aléatoire 3. Qu'est-ce que cela "
+"signifie ? Et bien, ce qui est utile, c'est que lorsque nous paramétrons la "
+"graine, nous pouvons prédire quelle sera la prochaine valeur aléatoire ; "
+"c'est la même que la dernière fois que nous avons paramétré la graine à 3 ! "
+"Une autre chose utile à savoir est que le mélange d'un anneau de notes "
+"fonctionne de la même façon. Dans l'exemple ci-dessus, c'est comme si on "
+"demandait le 'troisième mélange' dans la liste standard de mélanges ; qui "
+"est aussi le même chaque fois que nous paramétrons toujours la même valeur "
+"de la graine aléatoire avant le mélange. Enfin, nous ne faisons que passer "
+"les notes mélangées pour jouer le riff."
 
 #: A.04-synth-riffs.md:112
 msgid ""
@@ -12635,13 +12638,14 @@ msgid ""
 " every note we can use a conditional to play a note with a given probability. "
 "Let's take a look:"
 msgstr ""
-"Un autre aspect important de notre riff est le rythme; quand jouer une note et"
-" quand ne pas jouer. Comme nous l'avons vu plus haut, nous pouvons utiliser `:"
-"r` dans nos anneaux pour insérer des silences. Une autre manière très puissant"
-"e consiste à utiliser des 'spreads' que nous aborderons dans un prochain tutor"
-"iel. Aujourd'hui, nous allons utiliser l'aléation pour nous aider à trouver no"
-"tre rythme. Au lieu de jouer chaque note, nous pouvons utiliser un conditionne"
-"l pour jouer une note avec une probabilité donnée. Jetons un coup d’œil :"
+"Un autre aspect important de notre riff est le rythme ; quand jouer une note "
+"et quand ne pas jouer. Comme nous l'avons vu plus haut, nous pouvons "
+"utiliser `:r` dans nos anneaux pour insérer des silences. Une autre manière "
+"très puissante consiste à utiliser des 'spreads' que nous aborderons dans un "
+"prochain tutoriel. Aujourd'hui, nous allons utiliser l'aléation pour nous "
+"aider à trouver notre rythme. Au lieu de jouer chaque note, nous pouvons "
+"utiliser un conditionnel pour jouer une note avec une probabilité donnée. "
+"Jetons un coup d’œil :"
 
 #: A.04-synth-riffs.md:140
 #, no-wrap
@@ -14237,15 +14241,15 @@ msgstr ""
 
 #: A.08-minecraft-vj.md:123
 msgid "`xd` - the difference for x which will be between -10 and 10"
-msgstr "`xd`: la différence pour x, qui sera entre -10 et 10"
+msgstr "`xd` : la différence pour x, qui sera entre -10 et 10"
 
 #: A.08-minecraft-vj.md:124
 msgid "`zd` - the difference for z also between -10 and 10"
-msgstr "`zd`: la différence pour z, aussi entre -10 et 10"
+msgstr "`zd` : la différence pour z, aussi entre -10 et 10"
 
 #: A.08-minecraft-vj.md:125
 msgid "`co` - a cutoff value for the low pass filter between 70 and 130"
-msgstr "`co`: une valeur de coupure pour le filtre passe-bas, entre 70 et 130"
+msgstr "`co` : une valeur de coupure pour le filtre passe-bas, entre 70 et 130"
 
 #: A.08-minecraft-vj.md:127
 msgid ""
@@ -14516,27 +14520,27 @@ msgstr ""
 
 #: A.09-randomisation.md:72
 msgid "`rand` - Simply returns the next value in the random stream"
-msgstr "`rand`: retourne simplement la prochaine valeur dans le flux aléatoire"
+msgstr "`rand` : retourne simplement la prochaine valeur dans le flux aléatoire"
 
 #: A.09-randomisation.md:73
 msgid "`rrand` - Returns a random value within a range"
-msgstr "`rrand`: retourne une valeur aléatoire dans un intervalle"
+msgstr "`rrand` : retourne une valeur aléatoire dans un intervalle"
 
 #: A.09-randomisation.md:74
 msgid "`rrand_i` - Returns a random whole number within a range"
-msgstr "`rrand_i`: retourne une valeur entière aléatoire dans un intervalle"
+msgstr "`rrand_i` : retourne une valeur entière aléatoire dans un intervalle"
 
 #: A.09-randomisation.md:75
 msgid "`one_in` - Returns true or false with the given probability"
-msgstr "`one_in`: retourne vrai ou faux pour une probabilité donnée"
+msgstr "`one_in` : retourne vrai ou faux pour une probabilité donnée"
 
 #: A.09-randomisation.md:76
 msgid "`dice` - Imitates rolling a dice and returns a value between 1 and 6"
-msgstr "`dice`: imite un jet de dé et retourne une valeur entre 1 et 6"
+msgstr "`dice` : imite un jet de dé et retourne une valeur entre 1 et 6"
 
 #: A.09-randomisation.md:77
 msgid "`choose` - Chooses a random value from a list"
-msgstr "`choose`: choisit une valeur aléatoire dans une liste"
+msgstr "`choose` : choisit une valeur aléatoire dans une liste"
 
 #: A.09-randomisation.md:79
 msgid ""
@@ -17186,15 +17190,16 @@ msgid ""
 "long time. It is much more important to be making sounds you don't like than n"
 "ot making any sounds at all."
 msgstr ""
-"Une fois que tout est mis en place et que vous êtes prêt à faire de la musique"
-", il se peut que vous ayez de la difficulté à savoir par où commencer. Un prob"
-"lème que plusieurs personnes rencontrent est qu'elles ont une bonne idée du ty"
-"pe de sons qu'elles veulent produire, mais elles sont frustrées de ne pas être"
-" capable de les produire. Certaines personnes ne savent même pas quel type de "
-"sons elles veulent produire! La première chose à faire est de ne pas s'inquiét"
-"er - c'est très commun et ça arrive à tous les musiciens - même s'ils pratique"
-"nt depuis longtemps. C'est beaucoup plus important de faire des sons que vous "
-"n'aimez pas que de ne pas faire de sons du tout."
+"Une fois que tout est mis en place et que vous êtes prêt à faire de la "
+"musique, il se peut que vous ayez de la difficulté à savoir par où "
+"commencer. Un problème que plusieurs personnes rencontrent est qu'elles ont "
+"une bonne idée du type de sons qu'elles veulent produire, mais elles sont "
+"frustrées de ne pas être capable de les produire. Certaines personnes ne "
+"savent même pas quel type de sons elles veulent produire ! La première chose "
+"à faire est de ne pas s'inquiéter - c'est très commun et ça arrive à tous "
+"les musiciens - même s'ils pratiquent depuis longtemps. C'est beaucoup plus "
+"important de faire des sons que vous n'aimez pas que de ne pas faire de sons "
+"du tout."
 
 #: A.16-practice.md:99
 msgid ""
