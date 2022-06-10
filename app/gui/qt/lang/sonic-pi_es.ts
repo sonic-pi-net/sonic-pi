@@ -148,7 +148,7 @@ Obtén Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1420"/>
         <source>Falling back to English. Sorry about this.</source>
-        <translation type="unfinished"></translation>
+        <translation>Volviendo al inglés. Disculpas.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1422"/>
@@ -1681,7 +1681,7 @@ Si se activa el registro se desplaza al último mensaje mostrado.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="415"/>
         <source>Show scope labels</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar las etiquetas del osciloscopio</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="493"/>
