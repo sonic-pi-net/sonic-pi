@@ -856,7 +856,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3155"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Language</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3346"/>
@@ -876,7 +876,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3627"/>
         <source>Restarting Sonic Pi...</source>
-        <translation type="unfinished"></translation>
+        <translation>Restarting Sonic Pi...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3862"/>
@@ -992,7 +992,7 @@ Get Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="460"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Close</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="605"/>
@@ -1002,7 +1002,7 @@ Get Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="696"/>
         <source>Link Metronome</source>
-        <translation type="unfinished"></translation>
+        <translation>Link Metronome</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2684"/>
@@ -1155,7 +1155,7 @@ Get Sonic Pi %1</translation>
         <location filename="../widgets/settingswidget.cpp" line="55"/>
         <location filename="../widgets/settingswidget.cpp" line="492"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Language</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="75"/>
@@ -1313,12 +1313,12 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="186"/>
         <source>all</source>
-        <translation type="unfinished"></translation>
+        <translation>all</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="209"/>
         <source>Default MIDI out channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Default MIDI out channel</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="276"/>
@@ -1443,17 +1443,17 @@ Sonic Pi which can be sent via the midi_* fns</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="261"/>
         <source>Show Panels</source>
-        <translation type="unfinished"></translation>
+        <translation>Show Panels</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="262"/>
         <source>Show and hide information panes such as the scope and log.</source>
-        <translation type="unfinished"></translation>
+        <translation>Show and hide information panes such as the scope and log.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="265"/>
         <source>Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Theme</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="267"/>
@@ -1523,12 +1523,12 @@ Sonic Pi which can be sent via the midi_* fns</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="290"/>
         <source>Show Link metronome controls</source>
-        <translation type="unfinished"></translation>
+        <translation>Show Link metronome controls</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="291"/>
         <source>Toggle visibility of the Link metronome controls.</source>
-        <translation type="unfinished"></translation>
+        <translation>Toggle visibility of the Link metronome controls.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="294"/>
@@ -1563,22 +1563,22 @@ Sonic Pi which can be sent via the midi_* fns</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="303"/>
         <source>Show titles</source>
-        <translation type="unfinished"></translation>
+        <translation>Show titles</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="304"/>
         <source>Toggle the title visibility for the scope, log, cue and other information panes</source>
-        <translation type="unfinished"></translation>
+        <translation>Toggle the title visibility for the scope, log, cue and other information panes</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="307"/>
         <source>Hide Menubar in Fullscreen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Hide Menubar in Fullscreen Mode</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="308"/>
         <source>Automatically hide the menubar when the app is in full screen mode. Note that the menubar is always visible when not in full screen mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatically hide the menubar when the app is in full screen mode. Note that the menubar is always visible when not in full screen mode.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="312"/>
@@ -1687,111 +1687,114 @@ If enabled the log is scrolled to the bottom after every new message is displaye
     <message>
         <location filename="../widgets/settingswidget.cpp" line="413"/>
         <source>Show scopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Show scopes</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="415"/>
         <source>Show scope labels</source>
-        <translation type="unfinished"></translation>
+        <translation>Show scope labels</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="493"/>
         <source>Configure language settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Configure language settings</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="498"/>
         <source>UI &amp; Tutorial Language (Requires a restart to take effect)</source>
-        <translation type="unfinished"></translation>
+        <translation>UI &amp; Tutorial Language (Requires a restart to take effect)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="499"/>
         <source>Change the language of the UI &amp; Tutorial (Requires a restart to take effect)</source>
-        <translation type="unfinished"></translation>
+        <translation>Change the language of the UI &amp; Tutorial (Requires a restart to take effect)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="503"/>
         <source>Change the language of the UI &amp; Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation>Change the language of the UI &amp; Tutorial</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="510"/>
         <source>Translations have been generously provided by volunteers 
 on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
-        <translation type="unfinished"></translation>
+        <translation>Translations have been generously provided by volunteers 
+on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="609"/>
         <source>You&apos;ve selected a new language: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>You&apos;ve selected a new language: %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="611"/>
         <source>Do you want to apply this language?</source>
-        <translation type="unfinished"></translation>
+        <translation>Do you want to apply this language?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="613"/>
         <source>The new language will be applied when you next start Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation>The new language will be applied when you next start Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="617"/>
         <source>System languages found: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>System languages found: %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="621"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation>Apply</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="622"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Cancel</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="633"/>
         <source>&lt;b&gt;The new language will be applied when you next start Sonic Pi.&lt;/b&gt;&lt;br&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;The new language will be applied when you next start Sonic Pi.&lt;/b&gt;&lt;br&gt;</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="634"/>
         <location filename="../widgets/settingswidget.cpp" line="876"/>
         <source>Current UI language: %1
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Current UI language: %1
+</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="638"/>
         <source>Restart Sonic Pi?</source>
-        <translation type="unfinished"></translation>
+        <translation>Restart Sonic Pi?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="639"/>
         <source>Do you want to restart Sonic Pi now? This will stop any current runs &amp; recordings.</source>
-        <translation type="unfinished"></translation>
+        <translation>Do you want to restart Sonic Pi now? This will stop any current runs &amp; recordings.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="640"/>
         <source>Restart</source>
-        <translation type="unfinished"></translation>
+        <translation>Restart</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="641"/>
         <source>Dismiss</source>
-        <translation type="unfinished"></translation>
+        <translation>Dismiss</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="875"/>
         <source>System languages: %1
 </source>
-        <translation type="unfinished"></translation>
+        <translation>System languages: %1
+</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1025"/>
         <source>Use system language</source>
-        <translation type="unfinished"></translation>
+        <translation>Use system language</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="414"/>
