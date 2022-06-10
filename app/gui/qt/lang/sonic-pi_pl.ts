@@ -119,28 +119,29 @@
     <message>
         <location filename="../mainwindow.cpp" line="1363"/>
         <source>Sonic Pi Boot Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Błąd uruchomienia Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1367"/>
         <source>Apologies, a critical error occurred during startup:
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Krytyczny błąd podczas startu programu, przepraszamy.
+</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1419"/>
         <source>Failed to load translations for language: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Błąd ładowania tłumaczeń dla języka: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1420"/>
         <source>Falling back to English. Sorry about this.</source>
-        <translation type="unfinished"></translation>
+        <translation>Powrót do języka angielskiego. Przepraszamy.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1422"/>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1532"/>
