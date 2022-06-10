@@ -254,38 +254,39 @@
     <message>
         <location filename="../mainwindow.cpp" line="866"/>
         <source>Hiding pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation>Hiding pane titles...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="876"/>
         <source>Showing pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation>Showing pane titles...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1363"/>
         <source>Sonic Pi Boot Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi Boot Error</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1367"/>
         <source>Apologies, a critical error occurred during startup:
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Apologies, a critical error occurred during startup:
+</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1419"/>
         <source>Failed to load translations for language: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Failed to load translations for language: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1420"/>
         <source>Falling back to English. Sorry about this.</source>
-        <translation type="unfinished"></translation>
+        <translation>Falling back to English. Sorry about this.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1422"/>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1686"/>
@@ -591,12 +592,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2899"/>
         <source>Show Titles</source>
-        <translation type="unfinished"></translation>
+        <translation>Show Titles</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2904"/>
         <source>Hide Menu Bar in Fullscreen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Hide Menu Bar in Fullscreen Mode</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2909"/>
@@ -835,7 +836,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3104"/>
         <source>Show Metronome</source>
-        <translation type="unfinished"></translation>
+        <translation>Show Metronome</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3109"/>
