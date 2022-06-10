@@ -474,7 +474,7 @@ Obtén Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2805"/>
         <source>Log Cues</source>
-        <translation>Guardar colas</translation>
+        <translation>Guardar Registros</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2810"/>
