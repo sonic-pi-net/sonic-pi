@@ -1567,7 +1567,7 @@ Sonic Pi qui peut être envoyés via les fonctions midi_*</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="308"/>
         <source>Automatically hide the menubar when the app is in full screen mode. Note that the menubar is always visible when not in full screen mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Masquer automatiquement la barre de menu lorsque l&apos;application est en mode plein écran. Notez que la barre de menu est toujours visible lorsque l&apos;application n&apos;est pas en mode plein écran.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="312"/>
@@ -1676,111 +1676,114 @@ Si activé le journal défilera vers le bas à chaque nouveau message.</translat
     <message>
         <location filename="../widgets/settingswidget.cpp" line="413"/>
         <source>Show scopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher les oscillos</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="415"/>
         <source>Show scope labels</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher les étiquettes de l&apos;oscillo</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="493"/>
         <source>Configure language settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Configuration des langues</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="498"/>
         <source>UI &amp; Tutorial Language (Requires a restart to take effect)</source>
-        <translation type="unfinished"></translation>
+        <translation>Langue de l&apos;interface utilisateur et du didacticiel (Nécessite un redémarrage pour prendre effet)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="499"/>
         <source>Change the language of the UI &amp; Tutorial (Requires a restart to take effect)</source>
-        <translation type="unfinished"></translation>
+        <translation>Changer la langue de l&apos;interface utilisateur et du didacticiel (nécessite un redémarrage pour prendre effet)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="503"/>
         <source>Change the language of the UI &amp; Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation>Changer la langue de l&apos;interface utilisateur et du didacticiel</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="510"/>
         <source>Translations have been generously provided by volunteers 
 on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
-        <translation type="unfinished"></translation>
+        <translation>Les traductions ont été généreusement fournies par des volontaires 
+sur https://hosted.weblate.org/projects/sonic-pi/. Merci ! :)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="609"/>
         <source>You&apos;ve selected a new language: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Vous avez sélectionné une nouvelle langue : %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="611"/>
         <source>Do you want to apply this language?</source>
-        <translation type="unfinished"></translation>
+        <translation>Voulez-vous appliquer cette langue ?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="613"/>
         <source>The new language will be applied when you next start Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation>La nouvelle langue sera appliquée lors du prochain démarrage de Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="617"/>
         <source>System languages found: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Langues système trouvées : %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="621"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation>Appliquer</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="622"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Annuler</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="633"/>
         <source>&lt;b&gt;The new language will be applied when you next start Sonic Pi.&lt;/b&gt;&lt;br&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;La nouvelle langue sera appliquée lors du prochain démarrage de Sonic Pi.&lt;/b&gt;&lt;br&gt;</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="634"/>
         <location filename="../widgets/settingswidget.cpp" line="876"/>
         <source>Current UI language: %1
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Langue actuelle de l&apos;interface : %1
+</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="638"/>
         <source>Restart Sonic Pi?</source>
-        <translation type="unfinished"></translation>
+        <translation>Redémarrer Sonic Pi ?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="639"/>
         <source>Do you want to restart Sonic Pi now? This will stop any current runs &amp; recordings.</source>
-        <translation type="unfinished"></translation>
+        <translation>Voulez-vous redémarrer Sonic Pi maintenant ? Cela arrêtera toutes les exécutions et enregistrements en cours.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="640"/>
         <source>Restart</source>
-        <translation type="unfinished"></translation>
+        <translation>Redémarrer</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="641"/>
         <source>Dismiss</source>
-        <translation type="unfinished"></translation>
+        <translation>Rejeter</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="875"/>
         <source>System languages: %1
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Langues du système : %1
+</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1025"/>
         <source>Use system language</source>
-        <translation type="unfinished"></translation>
+        <translation>Utiliser la langue du système</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="414"/>
@@ -1802,14 +1805,14 @@ Mirror Stereo - simple left/right composite wave, with left on top, right on bot
 Mono - shows a combined view of the left and right channels (using RMS)
 Spectrum - shows the sound frequencies as a spectrum, from low to high frequencies
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation>L&apos;oscilloscope audio propose plusieurs saveurs pouvant être
-vues indépendamment ou toutes ensembles :
+        <translation>L&apos;oscilloscope audio propose plusieurs versions pouvant être
+visualisées indépendamment ou toutes ensembles :
 
-Lissajous - montre la relation de phase entre le canal gauche et la canal droit
-Mirror Stereo - montre une onde composite gauche / droite, en haut le canal gauche, en bas le droit.
-Mono - affiche une vue combinée des canaux gauche et droit (utilisation de RMS - Pression acoustique efficace)
-Spectrum - affiche un spectre des fréquences sons des basses fréquences vers les hautes
-Stereo - affiche deux oscilloscopes indépendants pour les canaux gauche et droit</translation>
+Lissajous - montre la relation de phase entre le canal gauche et le canal droit
+Stéréo miroir - montre une onde composite gauche / droite, en haut le canal gauche, en bas le droit.
+Mono - affiche une vue combinée des canaux gauche et droit (en utilisant RMS)
+Spectre - affiche un spectre des fréquences du son, des basses fréquences vers les hautes
+Stéréo - affiche deux oscilloscopes indépendants pour les canaux gauche et droit</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="427"/>
@@ -1819,7 +1822,7 @@ Stereo - affiche deux oscilloscopes indépendants pour les canaux gauche et droi
     <message>
         <location filename="../widgets/settingswidget.cpp" line="450"/>
         <source>Check for updates</source>
-        <translation>Vérification des mises à jour</translation>
+        <translation>Vérifier les mises à jour</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="451"/>
@@ -1837,18 +1840,18 @@ Cette vérification implique l&apos;envoi d&apos;informations anonymes sur votre
         <location filename="../widgets/settingswidget.cpp" line="455"/>
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation>Forcer la vérification d&apos;une mise à jour.
-Cette vérification implique l&apos;envoi d&apos;informations anonymes à propos de votre plateforme et de votre version.</translation>
+        <translation>Forcez une vérification des mises à jour maintenant.
+Cette vérification implique l&apos;envoi d&apos;informations anonymes sur votre plateforme et de votre version.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="456"/>
         <source>Get update</source>
-        <translation>Obtention d&apos;une mise à jour</translation>
+        <translation>Obtenir la mise à jour</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="458"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation>Visitez https://sonic-pi.net pour télécharger une nouvelle version</translation>
+        <translation>Visitez https://sonic-pi.net pour télécharger la nouvelle version</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="463"/>
