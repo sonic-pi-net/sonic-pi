@@ -1307,7 +1307,7 @@ Cuando no se elije, solo se habilita envío y recepción desde la máquina local
     <message>
         <location filename="../widgets/settingswidget.cpp" line="209"/>
         <source>Default MIDI out channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Canal de salida MIDI por defecto</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="276"/>
@@ -1437,7 +1437,7 @@ Sonic Pi, los cuales pueden ser enviados a través de los fns midi_*</translatio
     <message>
         <location filename="../widgets/settingswidget.cpp" line="262"/>
         <source>Show and hide information panes such as the scope and log.</source>
-        <translation>Mostrar y ocultar paneles de información como el osciloscopio y el registro.</translation>
+        <translation>Mostrar o ocultar paneles de información como el osciloscopio y el registro.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="265"/>
