@@ -224,13 +224,14 @@
     <message>
         <location filename="../mainwindow.cpp" line="1363"/>
         <source>Sonic Pi Boot Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi Boot Hatası</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1367"/>
         <source>Apologies, a critical error occurred during startup:
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Üzgünüz, uygulama açılırken bir hata meydana geldi.
+</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1419"/>
@@ -240,12 +241,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="1420"/>
         <source>Falling back to English. Sorry about this.</source>
-        <translation type="unfinished"></translation>
+        <translation>İngilizceye geri dönülüyor, üzgünüm.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1422"/>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>Tamam</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1693"/>
