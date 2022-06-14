@@ -30,7 +30,7 @@
 #include <winsock2.h>
 #endif
 
-#include "osc/oscpkt.hh"
+#include "api/osc/osc_pkt.hh"
 
 #include "config.h"
 

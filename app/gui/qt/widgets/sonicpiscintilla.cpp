@@ -13,7 +13,6 @@
 
 #include "profiler.h"
 #include "sonicpiscintilla.h"
-#include "osc/oscsender.h"
 #include "dpi.h"
 #include <QRecursiveMutex>
 #include <QSettings>
