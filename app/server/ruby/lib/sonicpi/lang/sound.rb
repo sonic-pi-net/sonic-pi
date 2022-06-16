@@ -3293,7 +3293,7 @@ kill bar"]
         elsif !File.file?(path)
           raise "load_synthdef requires a .scsyndef file. You passed the folder: #{path}
  (Consider using load_synthdefs to load a whole folder of synths)"
-        elsif !File.extname(path) != 'scsyndef'
+        elsif File.extname(path) != '.scsyndef'
           raise "load_synthdef file path argument must have the extension .scsyndef. Got: #{File.basename(path)}"
         else
           @mod_sound_studio.load_synthdef(path)
