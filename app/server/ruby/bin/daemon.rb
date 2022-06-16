@@ -453,8 +453,16 @@ module SonicPi
       end
 
       def send_scsynth_info_to_gui!(info_s)
+
         info_m = extract_scsynth_log_info(info_s)
         hw_info_s = scsynth_log_str(info_m)
+
+        Util.log "Sending scsynth info to GUI..."
+        Util.log "Raw:\n---\n #{info_s}"
+        Util.log "Extracted:\n---------\n #{info_m.to_s}"
+        Util.log "Pretty:\n------\n #{hw_info_s}"
+        Util.log "---\n"
+
         @api_server.send("localhost", @ports["gui-listen-to-spider"], "/scsynth/info", hw_info_s)
       end
 
@@ -1145,7 +1153,6 @@ module SonicPi
             success = @success.get(30)
             if success
               Util.log "SuperCollider Server connection established"
-              Util.log @log
               return true
             else
               Util.log "Unable to connect to SuperCollider"
