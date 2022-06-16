@@ -190,13 +190,13 @@ module SonicPi
         # end
 
         @api_server.add_method("/daemon/keep-alive") do |args|
-          if args[0] && args[0] == @daemon_token
+          if args[0] == @daemon_token
             @kill_switch.keep_alive!
           end
         end
 
         @api_server.add_method("/daemon/exit") do |args|
-          if args[0] && args[0] == @daemon_token
+          if args[0] == @daemon_token
             Util.log "[EXIT] Kill switch for port #{@ports["daemon"]} remotely activated using token #{@daemon_token}"
             @safe_exit.exit
           else
@@ -230,10 +230,18 @@ module SonicPi
 
         Util.log "Booting Scsynth"
         @scsynth_booter = ScsynthBooter.new(@ports)
+        success, info = @scsynth_booter.read_info
+        if success
+          Util.log "sending info to gui"
+          send_scsynth_info_to_gui!(info)
+        else
+          Util.log "sending ERROR to gui"
+          send_scsynth_error_to_gui!(info)
+          @safe_exit.exit
+        end
 
         Util.log "Booting Spider Server"
         @spider_booter  = SpiderBooter.new(@ports, @daemon_token)
-
         Util.log "Blocking main thread until exit signal received..."
         begin
           @exit_prom.get
@@ -241,6 +249,217 @@ module SonicPi
         rescue
           # Way Out
         end
+      end
+
+      def extract_scsynth_log_info_osx(info)
+        # Number of Devices: 8
+        #    0 : "NDI Audio"
+        #    1 : "MacBook Pro Microphone"
+        #    2 : "MacBook Pro Speakers"
+        #    3 : "NDI Audio"
+        #    4 : "Loopback Audio"
+        #    5 : "Loopback Audio 2"
+        #    6 : "ZoomAudioD"
+        #    7 : "Aggregate Device"
+
+        # "MacBook Pro Microphone" Input Device
+        #    Streams: 1
+        #       0  channels 1
+
+        # "MacBook Pro Speakers" Output Device
+        #    Streams: 1
+        #       0  channels 2
+
+        # SC_AudioDriver: sample rate = 48000.000000, driver's block size = 32
+        # SuperCollider 3 server ready.
+
+        res = info.match  /.*"(.*)" Input Device\s+Streams: [0-9]+\s+0  channels (.*)\s+"(.*)" Output Device\s+Streams: [0-9]+\s+0  channels (.*)\s/
+
+        ##<MatchData
+        # "\"MacBook Pro Microphone\" Input Device\n   Streams: 1\n      0  channels 1\n\n\"MacBook Pro Speakers\" Output Device\n   Streams: 1\n      0  channels 2\n"
+        # 1:"MacBook Pro Microphone"
+        # 2:"1"
+        # 3:"MacBook Pro Speakers"
+        # 4:"2">
+
+        if res
+          info_m = {
+            hw_in: res[1],
+            hw_out: res[3],
+            hw_in_chans: res[2].to_i,
+            hw_out_chans: res[4].to_i
+          }
+        elseq          info_m = {}
+        end
+
+        res2 = info.match /.*SC_AudioDriver: sample rate = (.*), driver's block size = (.*)\s/ #'
+
+        ##<MatchData "SC_AudioDriver: sample rate = 48000.000000, driver's block size = 32\n" 1:"48000.000000" 2:"32">
+
+        if res2
+          return info_m.merge({
+                                sc_sample_rate: res2[1].to_i,
+                                sc_block_size: res2[2].to_i
+                              })
+        else
+          return info_m
+        end
+
+      end
+
+      def extract_scsynth_log_info_windows(info)
+        # Device options:
+        #   - MME : Microsoft Sound Mapper - Input   (device #0 with 2 ins 0 outs)
+        #   - MME : In 1-2 (MOTU Pro Audio)   (device #1 with 2 ins 0 outs)
+        #   - MME : Line (NewTek NDI Audio)   (device #2 with 2 ins 0 outs)
+        #   - MME : In 1-24 (MOTU Pro Audio)   (device #3 with 24 ins 0 outs)
+        #   - MME : Microsoft Sound Mapper - Output   (device #4 with 0 ins 2 outs)
+        #   - MME : Realtek Digital Output (Realtek   (device #5 with 0 ins 2 outs)
+        #   - MME : Out 1-24 (MOTU Pro Audio)   (device #6 with 0 ins 24 outs)
+        #   - MME : LG HDR 4K (NVIDIA High Definiti   (device #7 with 0 ins 2 outs)
+        #   - MME : Speakers (MOTU Pro Audio)   (device #8 with 0 ins 2 outs)
+        #   - MME : VP3268-4K (NVIDIA High Definiti   (device #9 with 0 ins 2 outs)
+        #   - Windows DirectSound : Primary Sound Capture Driver   (device #10 with 2 ins 0 outs)
+        #   - Windows DirectSound : In 1-2 (MOTU Pro Audio)   (device #11 with 2 ins 0 outs)
+        #   - Windows DirectSound : Line (NewTek NDI Audio)   (device #12 with 2 ins 0 outs)
+        #   - Windows DirectSound : In 1-24 (MOTU Pro Audio)   (device #13 with 24 ins 0 outs)
+        #   - Windows DirectSound : Primary Sound Driver   (device #14 with 0 ins 2 outs)
+        #   - Windows DirectSound : Realtek Digital Output (Realtek High Definition Audio)   (device #15 with 0 ins 2 outs)
+        #   - Windows DirectSound : Out 1-24 (MOTU Pro Audio)   (device #16 with 0 ins 24 outs)
+        #   - Windows DirectSound : LG HDR 4K (NVIDIA High Definition Audio)   (device #17 with 0 ins 2 outs)
+        #   - Windows DirectSound : Speakers (MOTU Pro Audio)   (device #18 with 0 ins 2 outs)
+        #   - Windows DirectSound : VP3268-4K (NVIDIA High Definition Audio)   (device #19 with 0 ins 2 outs)
+        #   - ASIO : MOTU Pro Audio   (device #20 with 24 ins 6 outs)
+        #   - Windows WASAPI : Out 1-24 (MOTU Pro Audio)   (device #21 with 0 ins 24 outs)
+        #   - Windows WASAPI : Realtek Digital Output (Realtek High Definition Audio)   (device #22 with 0 ins 2 outs)
+        #   - Windows WASAPI : LG HDR 4K (NVIDIA High Definition Audio)   (device #23 with 0 ins 2 outs)
+        #   - Windows WASAPI : Speakers (MOTU Pro Audio)   (device #24 with 0 ins 2 outs)
+        #   - Windows WASAPI : VP3268-4K (NVIDIA High Definition Audio)   (device #25 with 0 ins 2 outs)
+        #   - Windows WASAPI : Line (NewTek NDI Audio)   (device #26 with 2 ins 0 outs)
+        #   - Windows WASAPI : In 1-2 (MOTU Pro Audio)   (device #27 with 2 ins 0 outs)
+        #   - Windows WASAPI : In 1-24 (MOTU Pro Audio)   (device #28 with 24 ins 0 outs)
+        #   - Windows WDM-KS : Microphone (Realtek HD Audio Mic input)   (device #29 with 2 ins 0 outs)
+        #   - Windows WDM-KS : SPDIF Out (Realtek HDA SPDIF Out)   (device #30 with 0 ins 2 outs)
+        #   - Windows WDM-KS : Speakers (Realtek HD Audio output)   (device #31 with 0 ins 8 outs)
+        #   - Windows WDM-KS : Line In (Realtek HD Audio Line input)   (device #32 with 2 ins 0 outs)
+        #   - Windows WDM-KS : Stereo Mix (Realtek HD Audio Stereo input)   (device #33 with 2 ins 0 outs)
+        #   - Windows WDM-KS : Output (NVIDIA High Definition Audio)   (device #34 with 0 ins 2 outs)
+        #   - Windows WDM-KS : Output (NVIDIA High Definition Audio)   (device #35 with 0 ins 2 outs)
+        #   - Windows WDM-KS : In 1-2 (In 1-2)   (device #36 with 2 ins 0 outs)
+        #   - Windows WDM-KS : In 1-24 (In 1-24)   (device #37 with 24 ins 0 outs)
+        #   - Windows WDM-KS : Out 1-2 (Out 1-2)   (device #38 with 0 ins 2 outs)
+        #   - Windows WDM-KS : Out 1-24 (Out 1-24)   (device #39 with 0 ins 24 outs)
+        #   - Windows WDM-KS : Line (Aud #1)   (device #40 with 2 ins 0 outs)
+
+        # Requested devices:
+        #   In (matching device found):
+        #   - ASIO : MOTU Pro Audio
+        #   Out (matching device found):
+        #   - ASIO : MOTU Pro Audio
+
+
+        # Booting with:
+        #   In: ASIO : MOTU Pro Audio
+        #   Out: ASIO : MOTU Pro Audio
+        #   Sample rate: 48000.000
+        #   Latency (in/out): 0.003 / 0.004 sec
+        # SC_AudioDriver: sample rate = 48000.000000, driver's block size = 64
+        # SuperCollider 3 server ready.
+
+        booting_with = info.split("Booting with")[1] || ""
+        res = booting_with.match /.* In: (.*?)\s+Out: (.*?)\s+Sample rate: (.*?)\s+Latency \(in\/out\): (.*) \/ (.*) sec/
+
+        #<MatchData
+        # "  In: ASIO : MOTU Pro Audio\n  Out: ASIO : MOTU Pro Audio\n  Sample rate: 48000.000\n  Latency (in/out): 0.003 / 0.004 sec"
+        # 1:"ASIO : MOTU Pro Audio"
+        # 2:"ASIO : MOTU Pro Audio"
+        # 3:"48000.000"
+        # 4:"0.003"
+        # 5:"0.004">
+
+        if res
+          info_m = {
+            hw_in: res[1],
+            hw_out: res[2],
+            hw_sample_rate: res[3].to_i,
+            hw_latency_in: res[4].to_f,
+            hw_latency_out: res[5].to_f
+          }
+        else
+          info_m = {}
+        end
+
+        res2 = booting_with.match /.*SC_AudioDriver: sample rate = (.*), driver's block size = (.*)\s/ #'
+
+        ##<MatchData "SC_AudioDriver: sample rate = 48000.000000, driver's block size = 64\n" 1:"48000.000000" 2:"64">
+
+        if res2
+          return info_m.merge({ sc_sample_rate: res2[1].to_i,
+                                sc_block_size:  res2[2].to_i })
+        else
+          return info_m
+        end
+      end
+
+      def extract_scsynth_log_info_linux(info)
+        # # Starting SuperCollider 2022-04-12 23:23:04
+        # Found 0 LADSPA plugins
+        # jackdmp 1.9.19
+        # Copyright 2001-2005 Paul Davis and others.
+        # Copyright 2004-2016 Grame.
+        # Copyright 2016-2021 Filipe Coelho.
+        # jackdmp comes with ABSOLUTELY NO WARRANTY
+        # This is free software, and you are welcome to redistribute it
+        # under certain conditions; see the file COPYING for details
+        # JackDriver: client name is 'SuperCollider'
+        # SC_AudioDriver: sample rate = 48000.000000, driver's block size = 2048
+        # SuperCollider 3 server ready."
+
+        res = info.match(/.*sample rate = (.*?), driver's block size = (.*?)\nSuperCollider 3/)
+
+        if res
+          return {sc_sample_rate: res[1].to_i, sc_block_size: res[2].to_i}
+        else
+          return {}
+        end
+      end
+
+      def extract_scsynth_log_info(info)
+        case Util.os
+        when :osx
+          return extract_scsynth_log_info_osx(info)
+        when :windows
+          return extract_scsynth_log_info_windows(info)
+        when :linux, :raspberry
+          return extract_scsynth_log_info_linux(info)
+        else
+          return {}
+        end
+      end
+
+      def scsynth_log_str(info_m)
+        i = info_m
+        res = String.new("")
+        res += "In: #{i[:hw_in]}"
+        res += "\n  - num in chans: #{i[:hw_in_chans]}" if i[:hw_in_chans]
+        res += "\nOut: #{i[:hw_out]}"
+        res += "\n  - num out chans: #{i[:hw_out_chans]}" if i[:hw_out_chans]
+        res += "\nSample Rate: #{i[:hw_sample_rate] || i[:sc_sample_rate]}"
+        res += "\nLatency In: #{i[:hw_latency_in]}" if i[:hw_latency_in]
+        res += "\nLatency Out: #{i[:hw_latency_in]}" if i[:hw_latency_out]
+        res += "\nBlock Size: #{i[:hw_block_size]}" if i[:hw_block_size]
+        res
+      end
+
+      def send_scsynth_info_to_gui!(info_s)
+        info_m = extract_scsynth_log_info(info_s)
+        hw_info_s = scsynth_log_str(info_m)
+        @api_server.send("localhost", @ports["gui-listen-to-spider"], "/scsynth/info", hw_info_s)
+      end
+
+      def send_scsynth_error_to_gui!(info)
+        # Implement me!
+        # @api_server.send("localhost", @ports["gui-listen-to-spider"], "/scsynth/error", info.to_s)
       end
 
       def boot_tau!(wait_for_pid = true)
@@ -508,12 +727,14 @@ module SonicPi
     end
 
     class ProcessBooter
-      attr_reader :pid, :args, :cmd
-      def initialize(cmd, args, log_path)
+      attr_reader :pid, :args, :cmd, :log
+      def initialize(cmd, args, log_path, record_log=false)
         @pid = nil
         @log_file = nil
         @args = args.map {|el| el.to_s}
         @cmd = cmd
+        @log = ""
+        @record_log = record_log
         if log_path
           begin
             @log_file = File.open(log_path, 'a')
@@ -538,6 +759,14 @@ module SonicPi
         "<ProcessBooter - cmd: #{@cmd}, pid: #{@pid.inspect}, args: #{@args.inspect}>"
       end
 
+      def enable_internal_log_recording!
+        @record_log = true
+      end
+
+      def disable_internal_log_recording!
+        @record_log = false
+      end
+
       def boot
         Util.log "Process Booter - booting #{@cmd} with args #{@args.inspect}"
         Util.log "#{@cmd} #{@args.join(' ')}"
@@ -549,6 +778,7 @@ module SonicPi
               begin
                 @log_file << line
                 @log_file.flush
+                @log << line if @record_log
               rescue IOError
                 # don't attempt to write
               end
@@ -841,7 +1071,10 @@ module SonicPi
 
 
       def initialize(ports)
+        enable_internal_log_recording!
         @port = ports["scsynth"]
+        @boot_wait_mutex = Mutex.new
+
         begin
           toml_opts_hash = Tomlrb.load_file(Paths.user_audio_settings_path, symbolize_keys: true).freeze
         rescue StandardError => e
@@ -864,14 +1097,81 @@ module SonicPi
         @num_outputs = opts["-o"].to_i
         args = opts.to_a.flatten
         cmd = Paths.scsynth_path
+        @success = Promise.new
         run_pre_start_commands
-        super(cmd, args, Paths.scsynth_log_path)
+        super(cmd, args, Paths.scsynth_log_path, true)
         run_post_start_commands
+        success = wait_for_boot
+        disable_internal_log_recording!
+
+        success
+      end
+
+      def wait_for_boot
+        return @success.get if @success.delivered?
+        @boot_wait_mutex.synchronize do
+          return @success.get if @success.delivered?
+
+          Util.log "Waiting for the SuperCollider Server to have booted..."
+          connected = false
+          continue_pinging = true
+
+          boot_s = OSC::UDPServer.new(0, name: "Scsynth ack server") do |a, b, info|
+            puts "Receiving ack from scsynth"
+            @success.deliver! true unless connected
+            continue_pinging = false
+            connected = true
+          end
+
+          t = Thread.new do
+            while continue_pinging
+              begin
+                if process_running?
+                  Util.log "Sending /status to server: localhost:#{@send_port}"
+                  boot_s.send("localhost", @port, "/status")
+                else
+                  @success.deliver! false
+                  continue_pinging = false
+                end
+              rescue Exception => e
+                Util.log "Error sending /status to server: #{e.message}"
+              end
+              sleep 1
+            end
+          end
+
+          begin
+            success = @success.get(30)
+            if success
+              Util.log "SuperCollider Server connection established"
+              Util.log @log
+              return true
+            else
+              Util.log "Unable to connect to SuperCollider"
+              Util.log @log
+              return false
+            end
+          rescue StandardError => e
+            Util.log "Unable to connect to SuperCollider Audio Server (#{e.message})."
+            @success.deliver! false, false
+            t.kill
+            return false
+          end
+        end
       end
 
       def kill
         @jack_booter.kill if @jack_booter
         super
+      end
+
+      def read_info
+        success = wait_for_boot
+        [success, @log]
+      end
+
+      def read_log
+        @log
       end
 
       def run_pre_start_commands

@@ -126,6 +126,11 @@ struct MessageInfo : MessageData
     std::vector<MessageData> multi;
 };
 
+ struct ScsynthInfo
+ {
+   std::string text;
+ };
+
 enum class MidiType
 {
     Out,
@@ -201,6 +206,7 @@ struct IAPIClient
     virtual void Buffer(const BufferInfo& info) = 0;
     virtual void ActiveLinks(const int numLinks) = 0;
     virtual void BPM(const double bpm) = 0;
+    virtual void Scsynth(const ScsynthInfo& scsynthInfo) = 0;
 };
 
 // Always UDP

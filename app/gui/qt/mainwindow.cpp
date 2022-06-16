@@ -258,6 +258,8 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
     }
 
     showWelcomeScreen();
+
+    std::cout << "[GUI] - MainWindow initialisation completed." << std::endl;
 }
 
 void MainWindow::initPaths()
@@ -4278,4 +4280,9 @@ SonicPiScintilla* MainWindow::getCurrentWorkspace()
 SonicPiEditor* MainWindow::getCurrentEditor()
 {
   return (SonicPiEditor*)editorTabWidget->currentWidget();
+}
+
+void MainWindow::updateScsynthInfo(QString description)
+{
+  settingsWidget->updateScsynthInfo(description);
 }

@@ -57,6 +57,13 @@ class APIClient : public IAPIClient
     {
         std::cout << bpm;
     }
+
+    virtual void Scsynth(const ScsynthInfo& scsynthInfo) override
+    {
+        std::cout << scsynthInfo.text;
+    }
+
+
 };
 
 TEST_CASE("Init", "API")

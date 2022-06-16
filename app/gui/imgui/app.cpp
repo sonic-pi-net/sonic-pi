@@ -97,6 +97,11 @@ void SPClient::BPM(const double bpm)
   // please implement me
 }
 
+void SPClient::Scsynth(const ScsynthInfo& scsynthInfo)
+{
+  // please implement me
+}
+
 void start_sonic_pi()
 {
     sonic.spClient = std::make_shared<SPClient>();

@@ -19,6 +19,7 @@ public:
     virtual void Buffer(const SonicPi::BufferInfo& info) override;
     virtual void ActiveLinks(const int numLinks) override;
     virtual void BPM(const double bpm) override;
+    virtual void Scsynth(const SonicPi::ScsynthInfo& scsynthInfo) override;
 
 private:
     void UpdateLog(const std::string& log);

@@ -72,6 +72,8 @@ SettingsWidget::~SettingsWidget() {
 QGroupBox* SettingsWidget::createAudioPrefsTab() {
 
     QGroupBox *volBox = new QGroupBox(tr("Main Volume"));
+
+
     volBox->setToolTip(tr("Use this slider to change the system volume."));
     QHBoxLayout *vol_box = new QHBoxLayout;
     system_vol_slider = new QSlider(this);
@@ -113,9 +115,18 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     QGroupBox *audio_prefs_box = new QGroupBox();
     QGridLayout *audio_prefs_box_layout = new QGridLayout;
 
-    audio_prefs_box_layout->addWidget(volBox, 0, 0, 0, 1);
+
+    QGroupBox *hwInfoBox = new QGroupBox(tr("Hardware Information"));
+    hwInfoBox->setToolTip(tr("Audio hardware configuration and information."));
+    scsynth_info_label = new QLabel(tr("Information unavailable."));
+    QHBoxLayout *hw_info_box = new QHBoxLayout;
+    hw_info_box->addWidget(scsynth_info_label);
+    hwInfoBox->setLayout(hw_info_box);
+
+    audio_prefs_box_layout->addWidget(volBox, 0, 0);
     audio_prefs_box_layout->addWidget(synths_box, 0, 1);
     audio_prefs_box_layout->addWidget(advancedAudioBox, 1, 1);
+    audio_prefs_box_layout->addWidget(hwInfoBox, 1, 0);
     audio_prefs_box->setLayout(audio_prefs_box_layout);
     return audio_prefs_box;
 }
@@ -682,6 +693,10 @@ void SettingsWidget::updateMidiInPorts( QString in ) {
 
 void SettingsWidget::updateMidiOutPorts( QString out ) {
     midi_out_ports_label->setText( out );
+}
+
+void SettingsWidget::updateScsynthInfo( QString scsynthInfo ) {
+  scsynth_info_label->setText( scsynthInfo );
 }
 
 void SettingsWidget::changeMainVolume(int vol) {

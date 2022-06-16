@@ -118,6 +118,7 @@ class MainWindow : public QMainWindow
         void updateVersionNumber(QString version, int version_num, QString latest_version, int latest_version_num, QDate last_checked_date, QString platform);
         void updateMIDIInPorts(QString port_info);
         void updateMIDIOutPorts(QString port_info);
+        void updateScsynthInfo(QString description);
         void replaceLines(QString id, QString content, int first_line, int finish_line, int point_line, int point_index);
         void runBufferIdx(int idx);
 

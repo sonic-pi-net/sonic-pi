@@ -237,6 +237,20 @@ void OscHandler::oscMessage(std::vector<char> buffer)
                 LOG(ERR, "Unhandled OSC msg /exited-with-boot-error");
             }
         }
+        else if (msg->match("/scsynth/info"))
+        {
+
+            ScsynthInfo message;
+            if (msg->arg().popStr(message.text).isOkNoMoreArgs())
+            {
+                LOG(DBG, "/scsynth/info: > " << message.text);
+                m_pClient->Scsynth(message);
+            }
+            else
+            {
+                LOG(ERR, "Unhandled OSC msg /scsynth/info");
+            }
+        }
         else if (msg->match("/ack"))
         {
             StatusInfo status;
