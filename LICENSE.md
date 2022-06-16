@@ -195,7 +195,6 @@ relevant licenses:
 * [plug_crypto](https://github.com/elixir-plug/plug_crypto) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
 * [ranch](https://github.com/ninenines/ranch) - [ISC License](https://opensource.org/licenses/ISC)
 * [rustler](https://github.com/rusterlium/rustler) - [MIT License](http://opensource.org/licenses/MIT)
-* [swoosh](https://github.com/swoosh/swoosh) - [MIT License](http://opensource.org/licenses/MIT)
 * [tailwind](https://github.com/phoenixframework/tailwind) - [MIT License](http://opensource.org/licenses/MIT)
 * [telemetry](https://github.com/beam-telemetry/telemetry) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
 * [telemetry_metrics](https://github.com/beam-telemetry/telemetry_metrics) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)

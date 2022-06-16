@@ -14,10 +14,6 @@ config :tau, TauWeb.Endpoint,
   pubsub_server: Tau.PubSub,
   live_view: [signing_salt: "Zr1UgcpP"]
 
-
-# Swoosh API client is needed for adapters other than SMTP.
-config :swoosh, :api_client, false
-
 # Configure esbuild (the version is required)
 config :esbuild,
   version: "0.14.25",

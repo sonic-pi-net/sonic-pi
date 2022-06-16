@@ -7,10 +7,6 @@ config :tau, TauWeb.Endpoint,
   secret_key_base: "l4CjKge04YtaFI7sPGn9/oJ8JcIB/+w++jNE196FHeomYoYScihkhh4syfpF0/bK",
   server: false
 
-# In test we don't send emails.
-config :tau, Tau.Mailer,
-  adapter: Swoosh.Adapters.Test
-
 # Print only warnings and errors during test
 config :logger, level: :warn
 
