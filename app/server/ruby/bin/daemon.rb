@@ -462,6 +462,7 @@ module SonicPi
         res += "\nLatency In: #{i[:hw_latency_in]}" if i[:hw_latency_in]
         res += "\nLatency Out: #{i[:hw_latency_in]}" if i[:hw_latency_out]
 
+        res.strip!
         res
       end
 
