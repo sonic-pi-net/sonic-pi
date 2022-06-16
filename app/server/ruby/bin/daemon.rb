@@ -273,7 +273,7 @@ module SonicPi
         # SC_AudioDriver: sample rate = 48000.000000, driver's block size = 32
         # SuperCollider 3 server ready.
 
-        res = info.match  /.*"(.*)" Input Device\s+Streams: [0-9]+\s+0  channels (.*)\s+"(.*)" Output Device\s+Streams: [0-9]+\s+0  channels (.*)\s/
+        res = info.match  /.*"(.*)" Input Device\s+Streams: [0-9]+\s+0\s+channels (.*)\s+"(.*)" Output Device\s+Streams: [0-9]+\s+0\s+channels (.*)\s/
 
         ##<MatchData
         # "\"MacBook Pro Microphone\" Input Device\n   Streams: 1\n      0  channels 1\n\n\"MacBook Pro Speakers\" Output Device\n   Streams: 1\n      0  channels 2\n"
