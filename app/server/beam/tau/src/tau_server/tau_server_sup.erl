@@ -19,7 +19,15 @@
 
 
 %% ------------------------------------------------------------------------
-%% API for use from the application module (tau_server_app.erl)
+%% The child_spec function is called from the Elixir supervision tree which
+%% then delegates to start_link.
+
+child_spec(_Opts) ->
+    #{
+        id => ?MODULE,
+        start => {?MODULE, start_link, []},
+        type => supervisor
+    }.
 
 start_link() ->
     Name = ?SERVER,
