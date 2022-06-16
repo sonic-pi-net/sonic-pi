@@ -1,6 +1,7 @@
 set WORKING_DIR=%CD%
 
-cd %~dp0
+cd %~dp0\server\beam\tau
+
 
 SET MIX_ENV=dev
 
