@@ -7,11 +7,11 @@
 -include_lib("kernel/include/logger.hrl").
 
 %% API
--export([start_link/0]).
+-export([start_link/0, child_spec/1]).
+-export([set_application_env/12]).
 
 %% Supervisor callbacks
 -export([init/1]).
--export([set_application_env/12]).
 
 -define(APPLICATION, tau).
 
