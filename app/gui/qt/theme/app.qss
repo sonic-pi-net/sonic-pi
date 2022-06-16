@@ -444,6 +444,19 @@ QLabel[accessibleName="midi-in-ports-label"]
     color: windowForegroundColor;
 }
 
+QLabel[accessibleName="scsynth-info"]
+{
+    font-size: small;
+    padding-top: 1dx;
+    padding-right: 18dx;
+    padding-bottom: 1dx;
+    padding-left: 3dx;
+    border-radius: 3dx;
+    border: 1px solid tabSelectedColor;
+    background-color: paneColor;
+    color: windowForegroundColor;
+}
+
 QLabel[accessibleName="midi-out-ports-label"]
 {
     font-size: small;

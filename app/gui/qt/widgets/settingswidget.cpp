@@ -119,6 +119,8 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     QGroupBox *hwInfoBox = new QGroupBox(tr("Hardware Information"));
     hwInfoBox->setToolTip(tr("Audio hardware configuration and information."));
     scsynth_info_label = new QLabel(tr("Information unavailable."));
+    scsynth_info_label->setFont(QFont("Hack"));
+    scsynth_info_label->setAccessibleName("scsynth-info");
     QHBoxLayout *hw_info_box = new QHBoxLayout;
     hw_info_box->addWidget(scsynth_info_label);
     hwInfoBox->setLayout(hw_info_box);
