@@ -7,11 +7,11 @@
 -include_lib("kernel/include/logger.hrl").
 
 %% API
--export([start_link/0]).
+-export([start_link/0, child_spec/1]).
+-export([set_application_env/12]).
 
 %% Supervisor callbacks
 -export([init/1]).
--export([set_application_env/12]).
 
 -define(APPLICATION, tau).
 
@@ -19,7 +19,15 @@
 
 
 %% ------------------------------------------------------------------------
-%% API for use from the application module (tau_server_app.erl)
+%% The child_spec function is called from the Elixir supervision tree which
+%% then delegates to start_link.
+
+child_spec(_Opts) ->
+    #{
+        id => ?MODULE,
+        start => {?MODULE, start_link, []},
+        type => supervisor
+    }.
 
 start_link() ->
     Name = ?SERVER,

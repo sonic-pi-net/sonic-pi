@@ -15,6 +15,5 @@ cmd /c mix deps.get
 cmd /c mix release --overwrite
 
 cd %~dp0\server\beam\tau
-copy /Y src\tau.app.src .\ebin\tau.app
 
 cd %WORKING_DIR%
