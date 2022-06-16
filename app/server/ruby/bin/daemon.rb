@@ -251,7 +251,7 @@ module SonicPi
         end
       end
 
-      def extract_scsynth_log_info_osx(info)
+      def extract_scsynth_log_info_macos(info)
         # Number of Devices: 8
         #    0 : "NDI Audio"
         #    1 : "MacBook Pro Microphone"
@@ -427,8 +427,8 @@ module SonicPi
 
       def extract_scsynth_log_info(info)
         case Util.os
-        when :osx
-          return extract_scsynth_log_info_osx(info)
+        when :macos
+          return extract_scsynth_log_info_macos(info)
         when :windows
           return extract_scsynth_log_info_windows(info)
         when :linux, :raspberry
