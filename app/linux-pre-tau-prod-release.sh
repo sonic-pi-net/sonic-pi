@@ -40,7 +40,5 @@ else
     MIX_ENV=prod mix release --overwrite
 fi
 
-cp src/tau.app.src ebin/tau.app
-
 # Restore working directory as it was prior to this script running...
 cd "${WORKING_DIR}"
