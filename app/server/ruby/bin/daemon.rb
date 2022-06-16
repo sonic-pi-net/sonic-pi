@@ -441,14 +441,27 @@ module SonicPi
       def scsynth_log_str(info_m)
         i = info_m
         res = String.new("")
-        res += "In: #{i[:hw_in]}"
-        res += "\n  - num in chans: #{i[:hw_in_chans]}" if i[:hw_in_chans]
-        res += "\nOut: #{i[:hw_out]}"
-        res += "\n  - num out chans: #{i[:hw_out_chans]}" if i[:hw_out_chans]
+
+        if i[:hw_in]
+          if i[:hw_in_chans]
+            res += "In [#{i[:hw_in_chans]} ch]: #{i[:hw_in]}"
+          else
+            res += "In: #{i[:hw_in]}"
+          end
+        end
+
+        if i[:hw_out]
+          if i[:hw_out_chans]
+            res += "\nOut [#{i[:hw_out_chans]} ch]: #{i[:hw_out]}"
+          else
+            res += "\nOut: #{i[:hw_out]}"
+          end
+        end
         res += "\nSample Rate: #{i[:hw_sample_rate] || i[:sc_sample_rate]}"
+        res += "\nBlock Size: #{i[:sc_block_size]}" if i[:sc_block_size]
         res += "\nLatency In: #{i[:hw_latency_in]}" if i[:hw_latency_in]
         res += "\nLatency Out: #{i[:hw_latency_in]}" if i[:hw_latency_out]
-        res += "\nBlock Size: #{i[:hw_block_size]}" if i[:hw_block_size]
+
         res
       end
 
