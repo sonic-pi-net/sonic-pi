@@ -436,7 +436,7 @@ QLabel[accessibleName="midi-in-ports-label"]
     font-size: small;
     padding-top: 1dx;
     padding-right: 18dx;
-    padding-bottom: 1dx;
+    padding-bottom: 2dx;
     padding-left: 3dx;
     border-radius: 3dx;
     border: 1px solid tabSelectedColor;
@@ -447,9 +447,9 @@ QLabel[accessibleName="midi-in-ports-label"]
 QLabel[accessibleName="scsynth-info"]
 {
     font-size: small;
-    padding-top: 1dx;
+    padding-top: 2dx;
     padding-right: 18dx;
-    padding-bottom: 1dx;
+    padding-bottom: 2dx;
     padding-left: 3dx;
     border-radius: 3dx;
     border: 1px solid tabSelectedColor;
@@ -460,9 +460,9 @@ QLabel[accessibleName="scsynth-info"]
 QLabel[accessibleName="midi-out-ports-label"]
 {
     font-size: small;
-    padding-top: 1dx;
+    padding-top: 2dx;
     padding-right: 18dx;
-    padding-bottom: 1dx;
+    padding-bottom: 2dx;
     padding-left: 3dx;
     border-radius: 3dx;
     background-color: tabColor;
