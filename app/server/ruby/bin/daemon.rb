@@ -289,7 +289,8 @@ module SonicPi
             hw_in_chans: res[2].to_i,
             hw_out_chans: res[4].to_i
           }
-        elseq          info_m = {}
+        else
+          info_m = {}
         end
 
         res2 = info.match /.*SC_AudioDriver: sample rate = (.*), driver's block size = (.*)\s/ #'
