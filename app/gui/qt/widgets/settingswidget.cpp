@@ -127,8 +127,8 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
 
     audio_prefs_box_layout->addWidget(volBox, 0, 0);
     audio_prefs_box_layout->addWidget(synths_box, 0, 1);
-    audio_prefs_box_layout->addWidget(advancedAudioBox, 1, 1);
-    audio_prefs_box_layout->addWidget(hwInfoBox, 1, 0);
+    audio_prefs_box_layout->addWidget(advancedAudioBox, 1, 0);
+    audio_prefs_box_layout->addWidget(hwInfoBox, 1, 1);
     audio_prefs_box->setLayout(audio_prefs_box_layout);
     return audio_prefs_box;
 }
