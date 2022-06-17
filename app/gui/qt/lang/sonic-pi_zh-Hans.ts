@@ -122,7 +122,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1363"/>
         <source>Sonic Pi Boot Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonc Pi 启动错误</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1367"/>
