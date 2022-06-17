@@ -112,12 +112,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="866"/>
         <source>Hiding pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation>隐藏窗格标题...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="876"/>
         <source>Showing pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation>显示窗格标题...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1363"/>
@@ -128,12 +128,13 @@
         <location filename="../mainwindow.cpp" line="1367"/>
         <source>Apologies, a critical error occurred during startup:
 </source>
-        <translation type="unfinished"></translation>
+        <translation>抱歉，启动过程中出现严重错误：
+</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1419"/>
         <source>Failed to load translations for language: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>未能加载语言的翻译: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1420"/>
