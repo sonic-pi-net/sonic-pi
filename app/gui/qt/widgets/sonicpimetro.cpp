@@ -36,7 +36,7 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   tapButton->setObjectName("tapButton");
   tapButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
   tapButton->setFlat(true);
-  tapButton->setToolTip(tr("Tap tempo.\nClick repeatedly (5+ times) to set the BPM manually.\nAccuracy increases with every additional click."));
+  tapButton->setToolTip(tr("Tap tempo.\nClick repeatedly to the beat to set the BPM manually.\nAccuracy increases with every additional click."));
 
 
   QHBoxLayout* metro_layout  = new QHBoxLayout;
@@ -148,31 +148,26 @@ void SonicPiMetro::tapTempo()
   lastTap = timeStamp;
 
   if(numTaps == 1) {
-    //first tap
+    firstTap = timeStamp;
   } else {
     // if we're not the first tap and it's been a sensible amount of
     // time since the last tap...
     if((timeSinceLastTap < 2500) && (timeSinceLastTap > 0)) {
-      if(numTaps < 3) {
-        // do nothing for the first 2 taps
-      } else if(numTaps == 3) {
-        firstTap = timeStamp;
-      } else {
-        qint64 totalTapDistance = timeStamp - firstTap;
-        qint64 avgDistance = totalTapDistance / (numTaps - 3);
+      qint64 totalTapDistance = timeStamp - firstTap;
+      qint64 avgDistance = totalTapDistance / (numTaps - 1);
 
+      if((timeSinceLastTap < (1.1 * avgDistance)) &&
+         (timeSinceLastTap > (0.9 * avgDistance))) {
+        double newBpm = 60.0 / (((double) avgDistance) / 1000.0);
+        bpmScrubWidget->setDisplayAndSyncBPM(newBpm);
+      } else {
         //reset if we're not within 10% of average tap distance
-        if((timeSinceLastTap < (1.1 * avgDistance)) &&
-           (timeSinceLastTap > (0.9 * avgDistance))) {
-             double newBpm = 60.0 / (((double) avgDistance) / 1000.0);
-             bpmScrubWidget->setDisplayAndSyncBPM(newBpm);
-        } else {
-          numTaps = 0;
-          firstTap = 0;
-          lastTap = 0;
-        }
+        numTaps = 0;
+        firstTap = 0;
+        lastTap = 0;
       }
     } else {
+      //reset as too much time has elapsed since the last tap
       numTaps = 0;
       firstTap = 0;
       lastTap = 0;
