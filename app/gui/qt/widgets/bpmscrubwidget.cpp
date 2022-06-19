@@ -130,9 +130,12 @@ void BPMScrubWidget::mouseMoveEvent(QMouseEvent* event)
     if((scaled_diff < 1) && (scaled_diff > 0)) {
       scaled_diff = 1;
     }
-    setDisplayAndSyncBPM(m_bpmValue + scaled_diff);
-    m_isEditing = false;
-    QCursor::setPos(m_lastMouseClickGlobalPos);
+
+    if(scaled_diff != 0) {
+      setDisplayAndSyncBPM(m_bpmValue + scaled_diff);
+      m_isEditing = false;
+      QCursor::setPos(m_lastMouseClickGlobalPos);
+    }
   }
 }
 
