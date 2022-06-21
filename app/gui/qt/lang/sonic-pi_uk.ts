@@ -1243,11 +1243,11 @@ it is too late to do so
 When disabled, Sonic Pi will always
 attempt to trigger synths and FX
 even when a little late.</source>
-        <translation type="unfinished">Коли включений, Sonic Pi відмовляється
+        <translation type="unfinished">Коли ввімкнуто, Sonic Pi відмовляється
 викликати синтезатори і FX,
  якщо це занадто пізно, 
 щоб зробити це.
-Коли вимкнуто, Sonic Pi завжди намагається
+Коли вимкнено, Sonic Pi завжди намагається
  викликати синтезаторів і FX, 
 навіть з невеликим запізненням.</translation>
     </message>
