@@ -181,13 +181,13 @@ module SonicPi
 
         @kill_switch = KillSwitch.new(@safe_exit)
 
-        boot_tau!(false)
-
         @api_server = SonicPi::OSC::UDPServer.new(@ports["daemon"], suppress_errors: false, name: "Daemon API Server")
         # For debugging purposes:
         # @api_server = SonicPi::OSC::UDPServer.new(@ports["daemon"], suppress_errors: false, name: "Daemon API Server") do |address, args, sender_addrinfo|
         #   Util.log "Kill switch ##{@ports["daemon"] Received UDP data #{[address, args, sender_addrinfo].inspect}"
         # end
+
+
 
         @api_server.add_method("/daemon/keep-alive") do |args|
           if args[0] == @daemon_token
@@ -219,6 +219,27 @@ module SonicPi
           end
         end
 
+        Util.log "Booting Scsynth"
+        @scsynth_booter = ScsynthBooter.new(@ports)
+        success, info = @scsynth_booter.read_info
+        if success
+          Util.log "sending info to gui"
+          send_scsynth_info_to_gui!(info)
+        else
+          Util.log "sending ERROR to gui"
+
+          # Note that this first line has to match sonicpi_api.cpp
+          # within SonicPiAPI::StartBootDaemon()
+          puts "SuperCollider Audio Server Boot Error\n#{info.to_s}"
+          STDOUT.flush
+          @safe_exit.exit
+        end
+
+        boot_tau!(false)
+
+        Util.log "Booting Spider Server"
+        @spider_booter  = SpiderBooter.new(@ports, @daemon_token)
+
         # Let the calling process (likely the GUI) know which port to
         # listen to and communicate on with the Ruby spider server via
         # STDOUT.
@@ -228,20 +249,6 @@ module SonicPi
 
         STDOUT.flush
 
-        Util.log "Booting Scsynth"
-        @scsynth_booter = ScsynthBooter.new(@ports)
-        success, info = @scsynth_booter.read_info
-        if success
-          Util.log "sending info to gui"
-          send_scsynth_info_to_gui!(info)
-        else
-          Util.log "sending ERROR to gui"
-          send_scsynth_error_to_gui!(info)
-          @safe_exit.exit
-        end
-
-        Util.log "Booting Spider Server"
-        @spider_booter  = SpiderBooter.new(@ports, @daemon_token)
         Util.log "Blocking main thread until exit signal received..."
         begin
           @exit_prom.get
@@ -472,17 +479,12 @@ module SonicPi
         hw_info_s = scsynth_log_str(info_m)
 
         Util.log "Sending scsynth info to GUI..."
-        Util.log "Raw:\n---\n #{info_s}"
-        Util.log "Extracted:\n---------\n #{info_m.to_s}"
-        Util.log "Pretty:\n------\n #{hw_info_s}"
-        Util.log "---\n"
+        Util.log "\nRaw:\n---\n #{info_s}"
+        Util.log "\nExtracted:\n---------\n #{info_m.to_s}"
+        Util.log "\nPretty:\n------\n #{hw_info_s}"
+        Util.log "\n---\n"
 
         @api_server.send("localhost", @ports["gui-listen-to-spider"], "/scsynth/info", hw_info_s)
-      end
-
-      def send_scsynth_error_to_gui!(info)
-        # Implement me!
-        # @api_server.send("localhost", @ports["gui-listen-to-spider"], "/scsynth/error", info.to_s)
       end
 
       def boot_tau!(wait_for_pid = true)
@@ -1140,7 +1142,7 @@ module SonicPi
           continue_pinging = true
 
           boot_s = OSC::UDPServer.new(0, name: "Scsynth ack server") do |a, b, info|
-            puts "Receiving ack from scsynth"
+            Util.log "Receiving ack from scsynth"
             @success.deliver! true unless connected
             continue_pinging = false
             connected = true
@@ -1150,7 +1152,7 @@ module SonicPi
             while continue_pinging
               begin
                 if process_running?
-                  Util.log "Sending /status to server: localhost:#{@send_port}"
+                  Util.log "Sending /status to server: localhost:#{@port}"
                   boot_s.send("localhost", @port, "/status")
                 else
                   @success.deliver! false
@@ -1170,7 +1172,6 @@ module SonicPi
               return true
             else
               Util.log "Unable to connect to SuperCollider"
-              Util.log @log
               return false
             end
           rescue StandardError => e

@@ -199,7 +199,7 @@ std::shared_ptr<reproc::process> SonicPiAPI::StartProcess(const std::vector<std:
     return spProcess;
 }
 
-bool SonicPiAPI::StartBootDaemon()
+BootDaemonInitResult SonicPiAPI::StartBootDaemon()
 {
     LOG(INFO, "Launching Sonic Pi Boot Daemon:");
 
@@ -227,10 +227,9 @@ bool SonicPiAPI::StartBootDaemon()
         m_pClient->Report(message);
 
         LOG(ERR, "Failed to start Boot Daemon!");
-        return false;
+        return BootDaemonInitResult::TerminalError;
     }
-
-    LOG(INFO, "Attempting to read Boot Daemon output");
+    LOG(INFO, "Reading Boot Daemon output...");
 
     // We need a mutex along with `output` to prevent the main thread and
     // background thread from modifying `output` at the same time (`std::string`
@@ -249,15 +248,18 @@ bool SonicPiAPI::StartBootDaemon()
         LOG(ERR, "Failed to read ports via Boot Daemon STDOUT. Bytes read: " + std::to_string(bytes_read));
 
     }
-            return false;
+      return BootDaemonInitResult::TerminalError;
     }
 
     std::string input_str(buffer, buffer + bytes_read);
+      input_str = string_trim(input_str);
 
-    input_str = string_trim(input_str);
-    auto daemon_stdout = string_split(input_str, " ");
-    std::transform(daemon_stdout.begin(), daemon_stdout.end(), daemon_stdout.begin(), [](std::string& val) { return string_trim(val); });
-
+    if(input_str.find("SuperCollider Audio Server Boot Error") == 0) {
+      LOG(ERR, "SuperCollider Audio Server boot error detected");
+      return BootDaemonInitResult::ScsynthBootError;
+    } else {
+      auto daemon_stdout = string_split(input_str, " ");
+      std::transform(daemon_stdout.begin(), daemon_stdout.end(), daemon_stdout.begin(), [](std::string& val) { return string_trim(val); });
 
     for(int i = 0 ; i < daemon_stdout.size() ; i ++) {
       LOG(INFO, "daemon_stdout: " + daemon_stdout[i]);
@@ -265,7 +267,7 @@ bool SonicPiAPI::StartBootDaemon()
 
     if(daemon_stdout.size() != 8) {
       LOG(ERR, "\nError. Was expecting 7 port numbers and a token from the Daemon Booter. Got: " + input_str + "\n");
-      return false;
+      return BootDaemonInitResult::TerminalError;
     }
 
     m_ports[SonicPiPortId::daemon] = std::stoi(daemon_stdout[0]);
@@ -300,11 +302,13 @@ bool SonicPiAPI::StartBootDaemon()
     });
 
     m_startServerTime = timer_start();
-    return true;
+      return BootDaemonInitResult::Successful;
+    }
 }
 
 SonicPiAPI::~SonicPiAPI()
 {
+    LOG(INFO, "API deconstructor initiating shutdown... ");
     Shutdown();
 }
 
@@ -355,6 +359,7 @@ bool SonicPiAPI::LinkDisable()
 
 void SonicPiAPI::Shutdown()
 {
+    LOG(INFO, "Initiating shutdown...");
     std::lock_guard<std::mutex> lg(m_osc_mtx);
 
     if(m_shutdown_engaged)
@@ -363,7 +368,7 @@ void SonicPiAPI::Shutdown()
       return;
     }
 
-    LOG(INFO, "Initiating Shutdown");
+    LOG(INFO, "Shutting down now...");
 
     m_shutdown_engaged = true;
 
@@ -569,9 +574,9 @@ bool SonicPiAPI::PingUntilServerCreated()
 }
 
 // Initialize the API with the sonic pi root path (the folder containing the app folder)
-bool SonicPiAPI::Init(const fs::path& root)
+APIInitResult SonicPiAPI::Init(const fs::path& root)
 {
-  LOG(INFO, "Initialising Daemon");
+
   m_token = -1;
   m_osc_mtx.lock();
 
@@ -585,7 +590,7 @@ bool SonicPiAPI::Init(const fs::path& root)
         LOG(ERR, "Call shutdown before init!");
         m_state = State::Error;
         m_osc_mtx.unlock();
-        return false;
+        return APIInitResult::TerminalError;
     }
 
     if (!fs::exists(root))
@@ -597,16 +602,15 @@ bool SonicPiAPI::Init(const fs::path& root)
         m_pClient->Report(message);
         m_state = State::Error;
         m_osc_mtx.unlock();
-        return false;
+        return APIInitResult::TerminalError;
     }
 
     if (!InitializePaths(root))
     {
       // oh no, something went wrong :-(
       m_osc_mtx.unlock();
-      return false;
+      return APIInitResult::TerminalError;
     }
-
 
     // Make the log folder and check we can write to it.
     // This is /usr/home/.sonic-pi/log
@@ -618,7 +622,6 @@ bool SonicPiAPI::Init(const fs::path& root)
         if (!fs::create_directories(logPath, err))
         {
             m_homeDirWriteable = false;
-            LOG(INFO, "Home dir not writable: " << err.message());
         }
         else
         {
@@ -626,7 +629,6 @@ bool SonicPiAPI::Init(const fs::path& root)
             if (!fstream.is_open())
             {
                 m_homeDirWriteable = false;
-                LOG(INFO, "Home dir not writable!");
             }
         }
     }
@@ -642,19 +644,17 @@ bool SonicPiAPI::Init(const fs::path& root)
         std::cout.rdbuf(m_stdlog.rdbuf());
     }
 
+    LOG(INFO, "Starting...");
 
     // Start again, shutdown if we fail init
     m_state = State::Invalid;
     auto exitScope = sg::make_scope_guard([&]() {
         if (m_state == State::Invalid)
         {
-            LOG(DBG, "Init failure, calling shutdown");
+            LOG(INFO, "Init failure, calling shutdown");
             Shutdown();
         }
     });
-
-    LOG(INFO, "Welcome to Sonic Pi");
-    LOG(INFO, "===================");
 
     if (m_homeDirWriteable) {
         LOG(INFO, "Home dir writable: ");
@@ -663,24 +663,32 @@ bool SonicPiAPI::Init(const fs::path& root)
     }
 
     LOG(INFO, "Log Path: " + GetPath(SonicPiPath::LogPath).string());
-
+    m_state = State::Initializing;
     // Start the Boot Daemon
-    if (!StartBootDaemon())
+    BootDaemonInitResult boot_daemon_res = StartBootDaemon();
+
+    if (boot_daemon_res != BootDaemonInitResult::Successful)
     {
+        LOG(INFO, "Attempting to start Boot Daemon failed....";)
         m_osc_mtx.unlock();
-        return false;
+        if (boot_daemon_res == BootDaemonInitResult::ScsynthBootError) {
+          return APIInitResult::ScsynthBootError;
+        } else {
+          return APIInitResult::TerminalError;
+        }
     }
 
     // Start the OSC Server
     if(!StartOscServer())
     {
+        LOG(INFO, "Attempting to start OSC Server failed....");
         m_osc_mtx.unlock();
-        return false;
+        return APIInitResult::TerminalError;
     }
 
     LOG(INFO, "API Init Started...");
 
-    m_state = State::Initializing;
+
     LOG(INFO, "API State set to: Initializing...");
 
     m_osc_mtx.unlock();
@@ -690,7 +698,7 @@ bool SonicPiAPI::Init(const fs::path& root)
         PingUntilServerCreated();
     });
 
-    return true;
+    return APIInitResult::Successful;
 }
 
 bool SonicPiAPI::InitializePaths(const fs::path& root)
@@ -727,6 +735,9 @@ bool SonicPiAPI::InitializePaths(const fs::path& root)
     // Set built-in samples path
     m_paths[SonicPiPath::SamplePath] = m_paths[SonicPiPath::RootPath] / "etc/samples/";
 
+    // Set Config paths
+    m_paths[SonicPiPath::ConfigPath]              = m_paths[SonicPiPath::UserPath] / "config";
+    m_paths[SonicPiPath::AudioSettingsConfigPath] = m_paths[SonicPiPath::ConfigPath] / "audio-settings.toml";
     // Sanity check for script existence
     const auto checkPaths = std::vector<SonicPiPath>{ SonicPiPath::FetchUrlPath, SonicPiPath::BootDaemonPath };
     for (const auto& check : checkPaths)
@@ -808,6 +819,25 @@ const fs::path& SonicPiAPI::GetPath(SonicPiPath piPath)
 const int& SonicPiAPI::GetPort(SonicPiPortId port)
 {
     return m_ports[port];
+}
+
+std::string SonicPiAPI::GetScsynthLog()
+{
+    auto logs = std::vector<fs::path>{GetPath(SonicPiPath::SCSynthLogPath)};
+
+    std::ostringstream str;
+    for (auto& log : logs)
+    {
+        if (fs::exists(log))
+        {
+            auto contents = string_trim(file_read(log));
+            if (!contents.empty())
+            {
+              str << contents;
+            }
+        }
+    }
+    return str.str();
 }
 
 std::string SonicPiAPI::GetLogs()

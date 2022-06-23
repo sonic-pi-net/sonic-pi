@@ -119,6 +119,7 @@ class MainWindow : public QMainWindow
         void updateMIDIInPorts(QString port_info);
         void updateMIDIOutPorts(QString port_info);
         void updateScsynthInfo(QString description);
+        void scsynthBootError();
         void replaceLines(QString id, QString content, int first_line, int finish_line, int point_line, int point_index);
         void runBufferIdx(int idx);
 

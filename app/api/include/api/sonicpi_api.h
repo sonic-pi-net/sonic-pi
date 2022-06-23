@@ -38,6 +38,20 @@ struct ProcessedAudio;
 class OscSender;
 class OscServer;
 
+enum class APIInitResult
+{
+  Successful,
+  TerminalError,
+  ScsynthBootError
+};
+
+enum class BootDaemonInitResult
+{
+  Successful,
+  TerminalError,
+  ScsynthBootError
+};
+
 enum class SonicPiPath
 {
     RootPath,            // Sonic Pi Application root
@@ -52,6 +66,8 @@ enum class SonicPiPath
     TauLogPath,          // Log file for Tau IO Server output
     SCSynthLogPath,      // Log file for SuperCollider scsynth's output
     GUILogPath,          // Log file for GUI
+    ConfigPath,          // Base config folder
+    AudioSettingsConfigPath  // Path to toml config file for audio settings
 };
 
 // NOTE: These port names returned by ruby; they match the symbols and cannot be changed.
@@ -263,7 +279,7 @@ public:
     virtual ~SonicPiAPI();
 
     // Start the ruby server, connect the ports, find the paths.
-    virtual bool Init(const fs::path& rootPath);
+    virtual APIInitResult Init(const fs::path& rootPath);
 
     virtual void RestartTau();
 
@@ -302,6 +318,7 @@ public:
     virtual void AudioProcessor_ConsumedAudio();
 
     std::string GetLogs();
+    std::string GetScsynthLog();
 
     const int GetGuid() const;
 
@@ -330,7 +347,7 @@ public:
 private:
     fs::path FindHomePath() const;
 
-    bool StartBootDaemon();
+    BootDaemonInitResult StartBootDaemon();
     bool StartOscServer();
     void StopOscServer();
 

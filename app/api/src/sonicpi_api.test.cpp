@@ -71,12 +71,12 @@ TEST_CASE("Init", "API")
     APIClient client;
     SonicPiAPI api(&client, APIProtocol::UDP, LogOption::File);
 
-    REQUIRE(api.Init("bad-path") == false);
-    REQUIRE(api.Init(".") == false);
+    REQUIRE(api.Init("bad-path") == APIInitResult::TerminalError);
+    REQUIRE(api.Init(".") == APIInitResult::TerminalError);
 
     // Pass the valid path to the root sonic pi folder
-    auto executeResult = api.Init(fs::path(APP_ROOT) / "..");
-    if (executeResult)
+    APIInitResult executeResult = api.Init(fs::path(APP_ROOT) / "..");
+    if (executeResult == APIInitResult::Successful)
     {
         if (api.WaitUntilReady())
         {

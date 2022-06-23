@@ -143,7 +143,15 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
 
     bool startupOK = false;
 
-    m_spAPI->Init(rootPath().toStdString());
+    APIInitResult init_success = m_spAPI->Init(rootPath().toStdString());
+    if(init_success == APIInitResult::Successful) {
+      std::cout << "[GUI] - API Init successful" << std::endl;
+    } else if (init_success == APIInitResult::ScsynthBootError) {
+      std::cout << "[GUI] - API Scsynth Boot Failed" << std::endl;
+      scsynthBootError();
+    } else {
+      std::cout << "[GUI] - API Init failed" << std::endl;
+    }
 
     const QRect rect = this->geometry();
     m_appWindowSizeRect = std::make_shared<QRect>(rect);
@@ -4285,4 +4293,68 @@ SonicPiEditor* MainWindow::getCurrentEditor()
 void MainWindow::updateScsynthInfo(QString description)
 {
   settingsWidget->updateScsynthInfo(description);
+}
+
+
+
+void MainWindow::scsynthBootError()
+{
+    splashClose();
+    setMessageBoxStyle();
+
+    QDialog* pDialog = new QDialog(this, Qt::Window | Qt::WindowTitleHint | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
+
+    QVBoxLayout* pLayout = new QVBoxLayout(this);
+    pDialog->setLayout(pLayout);
+
+    pDialog->setWindowTitle(tr("Sonic Pi - Audio Server Boot Error"));
+
+    QString text;
+    QTextStream str(&text);
+    str << "<html><body>"
+        << "<h1>" << tr("Sorry, the Audio Server failed to start...") << "</h1>\n\n"
+        << "<h2><i>" << tr("Please try changing your default OS audio input & outputs.") << "</i></h2>\n\n"
+        << "<h3>" << tr("Note, the audio rate of the inputs & outputs must be the same.") << "</h3>\n\n"
+        << "<small><i>"
+        << "<p>" << tr("For the curious among you, Sonic Pi uses the SuperCollider Audio Server to generate its sounds. By default it will connect to your default system audio input and outputs.") << "</p>"
+        << "<p>" << tr("Unfortunately SuperCollider is having problems starting correctly. You can read the full error log below which should explain why.") << "</p>"
+        << "<p>" << tr("To fix this you can try changing your default operating system audio inputs and outputs (ensuring they have the same audio rate) or you may manually override this and further configure how SuperCollider boots by editing this file:") << "</p>"
+        << "</i>\n"
+        << "<pre>" << QString::fromStdString(m_spAPI->GetPath(SonicPiPath::AudioSettingsConfigPath)) << "</pre></small>\n\n"
+        << "<h3>" << tr("Full SuperCollider Log") << "</h3>"
+        << "<small><pre>" << QString::fromStdString(m_spAPI->GetScsynthLog()) << "</pre></small>"
+        << "</body></html>";
+
+    // The text area for the message.  Allows the user to scroll/view it.
+    auto pTextArea = new QTextEdit();
+    QString styles = ScalePxInStyleSheet(readFile(":/theme/light/doc-styles.css"));
+    pTextArea->document()->setDefaultStyleSheet(styles);
+    pTextArea->setHtml(text);
+    pTextArea->setReadOnly(true);
+    pLayout->addWidget(pTextArea);
+
+    // Add a dialog style OK button
+    QDialogButtonBox* pButtons = new QDialogButtonBox(QDialogButtonBox::Ok, this);
+    pLayout->addWidget(pButtons);
+
+    auto finished = [&]() {
+        std::cout << "[GUI] - Aborting. Sorry about this." << std::endl;
+        QApplication::exit(-1);
+        exit(EXIT_FAILURE);
+    };
+
+    // When the user hits OK, quit
+    connect(pButtons, &QDialogButtonBox::accepted, this, [=]() {
+        finished();
+    });
+
+    // When the dialog is done, quit
+    connect(pDialog, &QDialog::finished, this, [=]() {
+        finished();
+    });
+
+    // Make a sensible size, but then allow resizing
+    pDialog->setFixedSize(QSize(ScaleHeightForDPI(750), ScaleHeightForDPI(800)));
+    pDialog->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
+    pDialog->exec();
 }
