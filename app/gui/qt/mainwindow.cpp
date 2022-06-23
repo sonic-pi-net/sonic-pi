@@ -4318,11 +4318,12 @@ void MainWindow::scsynthBootError()
         << "<small><i>"
         << "<p>" << tr("For the curious among you, Sonic Pi uses the SuperCollider Audio Server to generate its sounds. By default it will connect to your default system audio input and outputs.") << "</p>"
         << "<p>" << tr("Unfortunately SuperCollider is having problems starting correctly. You can read the full error log below which should explain why.") << "</p>"
-        << "<p>" << tr("To fix this you can try changing your default operating system audio inputs and outputs (ensuring they have the same audio rate) or you may manually override this and further configure how SuperCollider boots by editing this file:") << "</p>"
-        << "</i>\n"
-        << "<pre>" << QString::fromStdString(m_spAPI->GetPath(SonicPiPath::AudioSettingsConfigPath)) << "</pre></small>\n\n"
-        << "<h3>" << tr("Full SuperCollider Log") << "</h3>"
-        << "<small><pre>" << QString::fromStdString(m_spAPI->GetScsynthLog()) << "</pre></small>"
+        << "<p>" << tr("To fix this you can try changing your default operating system audio inputs and outputs (ensuring they have the same audio rate).") << "</p>"
+        << "<p style=\"color: deeppink;\"><b>" << tr("Advanced Users") << "</b> - "
+        << tr("you may manually override this and further configure how SuperCollider boots by editing the file:") << " " << QString::fromStdString(m_spAPI->GetPath(SonicPiPath::AudioSettingsConfigPath))
+        << "</i></small>\n\n"
+        << "<h3>" << tr("SuperCollider Log") << "</h3>"
+        << "<small style=\"color: dodgerblue;\"><pre>" << QString::fromStdString(m_spAPI->GetScsynthLog()) << "</pre></small>"
         << "</body></html>";
 
     // The text area for the message.  Allows the user to scroll/view it.
