@@ -223,8 +223,11 @@ module SonicPi
         @scsynth_booter = ScsynthBooter.new(@ports)
         success, info = @scsynth_booter.read_info
         if success
-          Util.log "sending info to gui"
-          send_scsynth_info_to_gui!(info)
+          Thread.new do
+            # Give GUI chance to start OSC handlers
+            Kernel.sleep 5
+            send_scsynth_info_to_gui!(info)
+          end
         else
           Util.log "sending ERROR to gui"
 
