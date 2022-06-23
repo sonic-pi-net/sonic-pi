@@ -1296,7 +1296,16 @@ module SonicPi
           # reduce number of outputs to 0 if outputs are disabled
           merged_opts["-o"] = 0 if merged_opts["-O"] == "0"
 
-          return merged_opts
+          case Util.os
+          when :macos
+            return merged_opts
+          else
+            # -I and -O to enable/disable input/output respectively is
+            # only available on macOS
+            merged_opts.delete("-I")
+            merged_opts.delete("-O")
+            return merged_opts
+          end
         else
           return scsynth_opts_override
         end
