@@ -371,8 +371,11 @@ module SonicPi
         # SuperCollider 3 server ready.
 
         booting_with = info.split("Booting with")[1] || ""
-        res = booting_with.match /.* In: (.*?)\s+Out: (.*?)\s+Sample rate: (.*?)\s+Latency \(in\/out\): (.*) \/ (.*) sec/
+        res = booting_with.match /^\s+In: (.*?)\s+Out: (.*?)\s+Sample rate: (.*?)\s+Latency \(in\/out\): (.*) \/ (.*) sec/
 
+        res_no_input = booting_with.match /^\s+Out: (.*?)\s+Sample rate: (.*?)\s+Latency \(in\/out\): (.*) \/ (.*) sec/
+
+        res_no_output = booting_with.match /^\s+In: (.*?)\s+Sample rate: (.*?)\s+Latency \(in\/out\): (.*) \/ (.*) sec/
         #<MatchData
         # "  In: ASIO : MOTU Pro Audio\n  Out: ASIO : MOTU Pro Audio\n  Sample rate: 48000.000\n  Latency (in/out): 0.003 / 0.004 sec"
         # 1:"ASIO : MOTU Pro Audio"
@@ -380,7 +383,7 @@ module SonicPi
         # 3:"48000.000"
         # 4:"0.003"
         # 5:"0.004">
-
+        Util.log "scsynth log match - res: #{res.inspect}, res_no_input: #{res_no_input.inspect}, res_no_output: #{res_no_output.inspect}"
         if res
           info_m = {
             hw_in: res[1],
@@ -389,6 +392,25 @@ module SonicPi
             hw_latency_in: res[4].to_f,
             hw_latency_out: res[5].to_f
           }
+          Util.log "Extracted Windows in/out audio hw: #{info_m}"
+        elsif res_no_input
+          info_m = {
+            hw_in: "Not connected",
+            hw_out: res_no_input[1],
+            hw_sample_rate: res_no_input[2].to_i,
+            hw_latency_in: res_no_input[3].to_f,
+            hw_latency_out: res_no_input[4].to_f
+          }
+          Util.log "Extracted Windows in audio hw only: #{info_m}"
+        elsif res_no_output
+          info_m = {
+            hw_in: res_no_output[1],
+            hw_out: "Not connected",
+            hw_sample_rate: res_no_output[2].to_i,
+            hw_latency_in: res_no_output[3].to_f,
+            hw_latency_out: res_no_output[4].to_f
+          }
+          Util.log "Extracted Windows out audio hw only: #{info_m}"
         else
           info_m = {}
         end
