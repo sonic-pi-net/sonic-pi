@@ -4327,7 +4327,18 @@ void MainWindow::scsynthBootError()
 
     // The text area for the message.  Allows the user to scroll/view it.
     auto pTextArea = new QTextEdit();
-    QString styles = ScalePxInStyleSheet(readFile(":/theme/light/doc-styles.css"));
+
+    auto text_hsv_value = palette().color(QPalette::WindowText).value();
+    auto bg_hsv_value = palette().color(QPalette::Window).value();
+    bool dark_theme_found = text_hsv_value > bg_hsv_value;
+    QString styles;
+
+    if(dark_theme_found) {
+      styles = ScalePxInStyleSheet(readFile(":/theme/dark/doc-styles.css"));
+    } else {
+      styles = ScalePxInStyleSheet(readFile(":/theme/light/doc-styles.css"));
+    }
+
     pTextArea->document()->setDefaultStyleSheet(styles);
     pTextArea->setHtml(text);
     pTextArea->setReadOnly(true);
