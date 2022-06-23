@@ -633,7 +633,9 @@ APIInitResult SonicPiAPI::Init(const fs::path& root)
         }
     }
 
+
     EnsurePathsAreCanonical();
+    StartClearLogsScript();
 
     // Setup redirection of log from this app to our log file
     // stdout into ~/.sonic-pi/log/gui.log
@@ -721,8 +723,11 @@ bool SonicPiAPI::InitializePaths(const fs::path& root)
     }
 
     // Set Ruby script paths
-   m_paths[SonicPiPath::BootDaemonPath]      = m_paths[SonicPiPath::RootPath] / "app/server/ruby/bin/daemon.rb";
+    m_paths[SonicPiPath::BootDaemonPath]      = m_paths[SonicPiPath::RootPath] / "app/server/ruby/bin/daemon.rb";
     m_paths[SonicPiPath::FetchUrlPath]        = m_paths[SonicPiPath::RootPath] / "app/server/ruby/bin/fetch-url.rb";
+    m_paths[SonicPiPath::ClearLogsPath]        = m_paths[SonicPiPath::RootPath] / "app/server/ruby/bin/clear-logs.rb";
+
+
 
     // Set Log paths
     m_paths[SonicPiPath::LogPath] = m_paths[SonicPiPath::UserPath] / "log";
@@ -738,8 +743,9 @@ bool SonicPiAPI::InitializePaths(const fs::path& root)
     // Set Config paths
     m_paths[SonicPiPath::ConfigPath]              = m_paths[SonicPiPath::UserPath] / "config";
     m_paths[SonicPiPath::AudioSettingsConfigPath] = m_paths[SonicPiPath::ConfigPath] / "audio-settings.toml";
+
     // Sanity check for script existence
-    const auto checkPaths = std::vector<SonicPiPath>{ SonicPiPath::FetchUrlPath, SonicPiPath::BootDaemonPath };
+    const auto checkPaths = std::vector<SonicPiPath>{ SonicPiPath::FetchUrlPath, SonicPiPath::BootDaemonPath, SonicPiPath::ClearLogsPath  };
     for (const auto& check : checkPaths)
     {
         if (!fs::exists(m_paths[check]))
@@ -996,6 +1002,25 @@ const APISettings& SonicPiAPI::GetSettings() const
 void SonicPiAPI::SetSettings(const APISettings& settings)
 {
     m_settings = settings;
+}
+
+
+bool SonicPiAPI::StartClearLogsScript()
+{
+    std::string output;
+    std::vector<std::string> args;
+
+    args.push_back(GetPath(SonicPiPath::RubyPath).string());
+    args.push_back(GetPath(SonicPiPath::ClearLogsPath).string());
+
+    std::ostringstream str;
+    for (auto& arg : args)
+    {
+        str << arg << " ";
+    }
+    LOG(INFO, "Args: " << str.str());
+
+    auto proc =  StartProcess(args);
 }
 
 } // namespace SonicPi

@@ -66,6 +66,7 @@ enum class SonicPiPath
     TauLogPath,          // Log file for Tau IO Server output
     SCSynthLogPath,      // Log file for SuperCollider scsynth's output
     GUILogPath,          // Log file for GUI
+    ClearLogsPath,       // Path to Ruby script for clearing log dir
     ConfigPath,          // Base config folder
     AudioSettingsConfigPath  // Path to toml config file for audio settings
 };
@@ -280,6 +281,8 @@ public:
 
     // Start the ruby server, connect the ports, find the paths.
     virtual APIInitResult Init(const fs::path& rootPath);
+
+    virtual bool StartClearLogsScript();
 
     virtual void RestartTau();
 
