@@ -142,8 +142,8 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
     initPaths();
 
     bool startupOK = false;
-
-    APIInitResult init_success = m_spAPI->Init(rootPath().toStdString(), false);
+    bool noScsynthInputs = !piSettings->enable_scsynth_inputs;
+    APIInitResult init_success = m_spAPI->Init(rootPath().toStdString(), noScsynthInputs);
     if(init_success == APIInitResult::Successful) {
       std::cout << "[GUI] - API Init successful" << std::endl;
     } else if (init_success == APIInitResult::ScsynthBootError) {
@@ -417,6 +417,7 @@ void MainWindow::setupWindowStructure()
     connect(settingsWidget, SIGNAL(restartApp()), this, SLOT(restartApp()));
     connect(settingsWidget, SIGNAL(volumeChanged(int)), this, SLOT(changeSystemPreAmp(int)));
     connect(settingsWidget, SIGNAL(mixerSettingsChanged()), this, SLOT(mixerSettingsChanged()));
+    connect(settingsWidget, SIGNAL(enableScsynthInputsChanged()), this, SLOT(changeEnableScsynthInputs()));
     connect(settingsWidget, SIGNAL(midiSettingsChanged()), this, SLOT(toggleMidi()));
     connect(settingsWidget, SIGNAL(resetMidi()), this, SLOT(resetMidi()));
     connect(settingsWidget, SIGNAL(oscSettingsChanged()), this, SLOT(toggleOSCServer()));
@@ -1238,6 +1239,13 @@ void MainWindow::showWindow()
     changeShowLineNumbers();
 }
 
+void MainWindow::enableScsynthInputsMenuChanged()
+{
+    piSettings->enable_scsynth_inputs = enableScsynthInputsAct->isChecked();
+    emit settingsChanged();
+    changeEnableScsynthInputs();
+}
+
 void MainWindow::mixerForceMonoMenuChanged()
 {
     piSettings->mixer_force_mono = mixerForceMonoAct->isChecked();
@@ -1276,6 +1284,18 @@ void MainWindow::mixerInvertStereoMenuChanged()
     piSettings->mixer_invert_stereo = mixerInvertStereoAct->isChecked();
     emit settingsChanged();
     mixerSettingsChanged();
+}
+
+void MainWindow::changeEnableScsynthInputs()
+{
+  QSignalBlocker blocker(enableScsynthInputsAct);
+  enableScsynthInputsAct->setChecked(piSettings->enable_scsynth_inputs);
+
+  if(piSettings->enable_scsynth_inputs) {
+    statusBar()->showMessage(tr("Audio Inputs Enabled. Restart Sonic Pi for this setting to take effect..."), 2000);
+  } else {
+    statusBar()->showMessage(tr("Audio Inputs Disabled. Restart Sonic Pi for this setting to take effect..."), 2000);
+  }
 }
 
 void MainWindow::mixerSettingsChanged()
@@ -2774,6 +2794,11 @@ void MainWindow::createToolBar()
     showContextAct->setChecked(piSettings->show_context);
     connect(showContextAct, SIGNAL(triggered()), this, SLOT(showContextMenuChanged()));
 
+    enableScsynthInputsAct = new QAction(tr("Enable Audio Inputs"), this);
+    enableScsynthInputsAct->setCheckable(true);
+    enableScsynthInputsAct->setChecked(piSettings->enable_scsynth_inputs);
+    connect(enableScsynthInputsAct, SIGNAL(triggered()), this, SLOT(enableScsynthInputsMenuChanged()));
+
     audioSafeAct = new QAction(tr("Safe Audio Mode"), this);
     audioSafeAct->setCheckable(true);
     audioSafeAct->setChecked(piSettings->check_args);
@@ -2793,7 +2818,6 @@ void MainWindow::createToolBar()
     mixerInvertStereoAct->setCheckable(true);
     mixerInvertStereoAct->setChecked(piSettings->mixer_invert_stereo);
     connect(mixerInvertStereoAct, SIGNAL(triggered()), this, SLOT(mixerInvertStereoMenuChanged()));
-
     mixerForceMonoAct = new QAction(tr("Force Mono"), this);
     mixerForceMonoAct->setCheckable(true);
     mixerForceMonoAct->setChecked(piSettings->mixer_force_mono);
@@ -2875,6 +2899,7 @@ void MainWindow::createToolBar()
     audioMenu->addSeparator();
     audioMenu->addAction(mixerInvertStereoAct);
     audioMenu->addAction(mixerForceMonoAct);
+    audioMenu->addAction(enableScsynthInputsAct);
 
     displayMenu = menuBar()->addMenu(tr("Visuals"));
 
@@ -3291,7 +3316,7 @@ void MainWindow::createInfoPane()
     connect(infoWidg, SIGNAL(closed()), this, SLOT(about()));
 
     QAction* closeInfoAct = new QAction(this);
-    closeInfoAct->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_W));
+    closeInfoAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_W));
     connect(closeInfoAct, SIGNAL(triggered()), this, SLOT(about()));
     infoWidg->addAction(closeInfoAct);
 }
@@ -3424,6 +3449,7 @@ void MainWindow::readSettings()
     piSettings->main_volume = gui_settings->value("prefs/system-vol", 80).toInt();
     piSettings->mixer_force_mono = gui_settings->value("prefs/mixer-force-mono", false).toBool();
     piSettings->mixer_invert_stereo = gui_settings->value("prefs/mixer-invert-stereo", false).toBool();
+    piSettings->enable_scsynth_inputs = gui_settings->value("/prefs/enable-scsynth-inputs", false).toBool();
     piSettings->check_updates = gui_settings->value("prefs/rp/check-updates", true).toBool();
     piSettings->auto_indent_on_run = gui_settings->value("prefs/auto-indent-on-run", true).toBool();
     piSettings->gui_transparency = gui_settings->value("prefs/gui_transparency", 0).toInt();
@@ -3478,6 +3504,7 @@ void MainWindow::writeSettings()
     gui_settings->setValue("prefs/synth-trigger-timing-guarantees", piSettings->synth_trigger_timing_guarantees);
     gui_settings->setValue("prefs/mixer-force-mono", piSettings->mixer_force_mono);
     gui_settings->setValue("prefs/mixer-invert-stereo", piSettings->mixer_invert_stereo);
+    gui_settings->setValue("prefs/enable-scsynth-inputs", piSettings->enable_scsynth_inputs);
     gui_settings->setValue("prefs/system-vol", piSettings->main_volume);
     gui_settings->setValue("prefs/rp/check-updates", piSettings->check_updates);
     gui_settings->setValue("prefs/auto-indent-on-run", piSettings->auto_indent_on_run);

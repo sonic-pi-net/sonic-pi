@@ -15,6 +15,7 @@ public:
     bool check_args;
     bool synth_trigger_timing_guarantees;
     bool enable_external_synths;
+    bool enable_scsynth_inputs;
 
     // IOSettings
     bool osc_server_enabled;

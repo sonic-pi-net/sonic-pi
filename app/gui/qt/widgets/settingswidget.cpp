@@ -80,6 +80,14 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     vol_box->addWidget(system_vol_slider);
     volBox->setLayout(vol_box);
 
+    QGroupBox *advancedAudioInputBox = new QGroupBox(tr("Audio Input"));
+    advancedAudioInputBox->setToolTip(tr("Audio settings for working with audio inputs."));
+    enable_scsynth_inputs = new QCheckBox(tr("Enable Audio Inputs"));
+    enable_scsynth_inputs->setToolTip(tr("Toggle to enable or disable audio inputs."));
+    QVBoxLayout *advanced_audio_input_box_layout = new QVBoxLayout;
+    advanced_audio_input_box_layout->addWidget(enable_scsynth_inputs);
+    advancedAudioInputBox->setLayout(advanced_audio_input_box_layout);
+
     QGroupBox *advancedAudioBox = new QGroupBox(tr("Audio Output"));
     advancedAudioBox->setToolTip(tr("Advanced audio settings for working with\nexternal PA systems when performing with Sonic Pi."));
     mixer_invert_stereo = new QCheckBox(tr("Invert stereo"));
@@ -128,7 +136,8 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     audio_prefs_box_layout->addWidget(volBox, 0, 0);
     audio_prefs_box_layout->addWidget(synths_box, 0, 1);
     audio_prefs_box_layout->addWidget(advancedAudioBox, 1, 0);
-    audio_prefs_box_layout->addWidget(hwInfoBox, 1, 1);
+    audio_prefs_box_layout->addWidget(advancedAudioInputBox, 2, 0);
+    audio_prefs_box_layout->addWidget(hwInfoBox, 1, 1, 2, 1);
     audio_prefs_box->setLayout(audio_prefs_box_layout);
     return audio_prefs_box;
 }
@@ -668,6 +677,9 @@ void SettingsWidget::updateUILanguage(int index) {
 
     }
 }
+void SettingsWidget::updateEnableScsynthInputs() {
+    emit enableScsynthInputsChanged();
+}
 
 void SettingsWidget::update_mixer_invert_stereo() {
     emit mixerSettingsChanged();
@@ -826,6 +838,7 @@ void SettingsWidget::updateSettings() {
     std::cout << "[GUI] - update settings" << std::endl;
     piSettings->language = available_languages[language_combo->currentIndex()];
     piSettings->mixer_invert_stereo = mixer_invert_stereo->isChecked();
+    piSettings->enable_scsynth_inputs = enable_scsynth_inputs->isChecked();
     piSettings->mixer_force_mono = mixer_force_mono->isChecked();
     piSettings->check_args = check_args->isChecked();
     piSettings->synth_trigger_timing_guarantees = synth_trigger_timing_guarantees_cb->isChecked();
@@ -897,6 +910,7 @@ void SettingsWidget::settingsChanged() {
 
     mixer_invert_stereo->setChecked(piSettings->mixer_invert_stereo);
     mixer_force_mono->setChecked(piSettings->mixer_force_mono);
+    enable_scsynth_inputs->setChecked(piSettings->enable_scsynth_inputs);
     check_args->setChecked(piSettings->check_args);
     synth_trigger_timing_guarantees_cb->setChecked( piSettings->synth_trigger_timing_guarantees);
     enable_external_synths_cb->setChecked(piSettings->enable_external_synths);
@@ -956,6 +970,8 @@ void SettingsWidget::connectAll() {
     connect(mixer_invert_stereo, SIGNAL(clicked()), this, SLOT(update_mixer_invert_stereo()));
     connect(mixer_force_mono, SIGNAL(clicked()), this, SLOT(update_mixer_force_mono()));
     connect(system_vol_slider, SIGNAL(valueChanged(int)), this, SLOT(changeMainVolume(int)));
+    connect(enable_scsynth_inputs, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(enable_scsynth_inputs, SIGNAL(clicked()), this, SLOT(updateEnableScsynthInputs()));
 
     connect(midi_default_channel_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateSettings()));
     connect(midi_enable_check, SIGNAL(clicked()), this, SLOT(updateSettings()));
