@@ -1009,7 +1009,7 @@ void SonicPiAPI::SetSettings(const APISettings& settings)
 }
 
 
-bool SonicPiAPI::StartClearLogsScript()
+void SonicPiAPI::StartClearLogsScript()
 {
     std::string output;
     std::vector<std::string> args;

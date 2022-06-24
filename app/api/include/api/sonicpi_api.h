@@ -282,7 +282,7 @@ public:
     // Start the ruby server, connect the ports, find the paths.
     virtual APIInitResult Init(const fs::path& rootPath, bool noScsynthInputs = false);
 
-    virtual bool StartClearLogsScript();
+    virtual void StartClearLogsScript();
 
     virtual void RestartTau();
 
