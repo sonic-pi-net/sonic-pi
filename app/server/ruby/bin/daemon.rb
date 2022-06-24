@@ -293,11 +293,27 @@ module SonicPi
         # 4:"2">
 
         if res
+          if @scsynth_booter.num_inputs == 0
+            hw_in = "Not connected"
+            hw_in_chans = 0
+          else
+            hw_in = res[1]
+            hw_in_chans = res[2].to_i
+          end
+
+          if @scsynth_booter.num_outputs == 0
+            hw_out = "Not connected"
+            hw_out_chans = 0
+          else
+            hw_out = res[3]
+            hw_out_chans = res[4].to_i
+          end
+
           info_m = {
-            hw_in: res[1],
-            hw_out: res[3],
-            hw_in_chans: res[2].to_i,
-            hw_out_chans: res[4].to_i
+            hw_in: hw_in,
+            hw_out: hw_out,
+            hw_in_chans: hw_in_chans,
+            hw_out_chans: hw_out_chans
           }
         else
           info_m = {}
@@ -1007,6 +1023,8 @@ module SonicPi
 
 
     class ScsynthBooter < ProcessBooter
+
+      attr_reader :num_inputs, :num_outputs
 
       DEFAULT_OPTS = {
         "-a" => "1024",
