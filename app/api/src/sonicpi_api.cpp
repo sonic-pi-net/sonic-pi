@@ -199,7 +199,7 @@ std::shared_ptr<reproc::process> SonicPiAPI::StartProcess(const std::vector<std:
     return spProcess;
 }
 
-BootDaemonInitResult SonicPiAPI::StartBootDaemon()
+BootDaemonInitResult SonicPiAPI::StartBootDaemon(bool noScsynthInputs)
 {
     LOG(INFO, "Launching Sonic Pi Boot Daemon:");
 
@@ -208,6 +208,10 @@ BootDaemonInitResult SonicPiAPI::StartBootDaemon()
 
     args.push_back(GetPath(SonicPiPath::RubyPath).string());
     args.push_back(GetPath(SonicPiPath::BootDaemonPath).string());
+
+    if(noScsynthInputs) {
+      args.push_back("--no-scsynth-inputs");
+    }
 
     std::ostringstream str;
     for (auto& arg : args)
@@ -574,7 +578,7 @@ bool SonicPiAPI::PingUntilServerCreated()
 }
 
 // Initialize the API with the sonic pi root path (the folder containing the app folder)
-APIInitResult SonicPiAPI::Init(const fs::path& root)
+APIInitResult SonicPiAPI::Init(const fs::path& root, bool noScsynthInputs)
 {
 
   m_token = -1;
@@ -667,7 +671,7 @@ APIInitResult SonicPiAPI::Init(const fs::path& root)
     LOG(INFO, "Log Path: " + GetPath(SonicPiPath::LogPath).string());
     m_state = State::Initializing;
     // Start the Boot Daemon
-    BootDaemonInitResult boot_daemon_res = StartBootDaemon();
+    BootDaemonInitResult boot_daemon_res = StartBootDaemon(noScsynthInputs);
 
     if (boot_daemon_res != BootDaemonInitResult::Successful)
     {

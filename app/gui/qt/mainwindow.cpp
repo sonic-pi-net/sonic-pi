@@ -143,7 +143,7 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
 
     bool startupOK = false;
 
-    APIInitResult init_success = m_spAPI->Init(rootPath().toStdString());
+    APIInitResult init_success = m_spAPI->Init(rootPath().toStdString(), false;
     if(init_success == APIInitResult::Successful) {
       std::cout << "[GUI] - API Init successful" << std::endl;
     } else if (init_success == APIInitResult::ScsynthBootError) {

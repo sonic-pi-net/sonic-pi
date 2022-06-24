@@ -280,7 +280,7 @@ public:
     virtual ~SonicPiAPI();
 
     // Start the ruby server, connect the ports, find the paths.
-    virtual APIInitResult Init(const fs::path& rootPath);
+    virtual APIInitResult Init(const fs::path& rootPath, bool noScsynthInputs = false);
 
     virtual bool StartClearLogsScript();
 
@@ -350,7 +350,7 @@ public:
 private:
     fs::path FindHomePath() const;
 
-    BootDaemonInitResult StartBootDaemon();
+    BootDaemonInitResult StartBootDaemon(bool noScsynthInputs);
     bool StartOscServer();
     void StopOscServer();
 

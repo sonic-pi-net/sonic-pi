@@ -134,7 +134,9 @@ module SonicPi
   module Daemon
     class Init
 
-      def initialize
+      def initialize(opts={})
+        @no_scsynth_inputs = opts[:no_scsynth_inputs]
+
         @exit_prom = Promise.new
         @restart_tau_mut = Mutex.new
         @booting_tau = false
@@ -161,6 +163,13 @@ module SonicPi
 
         Util.open_log
         Util.log "Welcome to the Daemon Booter"
+        Util.log "----------------------------\n"
+
+        if @no_scsynth_inputs
+          Util.log "SuperCollider inputs disabled by GUI"
+        else
+          Util.log "SuperCollider inputs enabled by GUI"
+        end
 
         # Get a map of port numbers to use
         #
@@ -178,8 +187,6 @@ module SonicPi
         # @api_server = SonicPi::OSC::UDPServer.new(@ports["daemon"], suppress_errors: false, name: "Daemon API Server") do |address, args, sender_addrinfo|
         #   Util.log "Kill switch ##{@ports["daemon"] Received UDP data #{[address, args, sender_addrinfo].inspect}"
         # end
-
-
 
         @api_server.add_method("/daemon/keep-alive") do |args|
           if args[0] == @daemon_token
@@ -212,7 +219,7 @@ module SonicPi
         end
 
         Util.log "Booting Scsynth"
-        @scsynth_booter = ScsynthBooter.new(@ports)
+        @scsynth_booter = ScsynthBooter.new(@ports, @no_scsynth_inputs)
         success, info = @scsynth_booter.read_info
         if success
           Thread.new do
@@ -890,11 +897,11 @@ module SonicPi
 
 
         begin
-          Util.log "fetching toml opts"
+          Util.log "Fetching Tau toml opts..."
           toml_opts_hash = Tomlrb.load_file(Paths.user_tau_settings_path, symbolize_keys: true).freeze
-          Util.log "got them: #{toml_opts_hash}"
+          Util.log "Got Tau toml opts: #{toml_opts_hash}"
           unified_opts = unify_tau_toml_opts(toml_opts_hash)
-          Util.log "unified them: #{unified_opts}"
+          Util.log "Unified Tau toml opts: #{unified_opts}"
         rescue StandardError
           unified_opts = {}
         end
@@ -1051,9 +1058,16 @@ module SonicPi
       }.freeze
 
 
-      def initialize(ports)
+      def initialize(ports, no_scsynth_inputs=false)
         enable_internal_log_recording!
         @port = ports["scsynth"]
+
+        if no_scsynth_inputs
+          scsynth_inputs_hash = {"-I" => "0"}
+        else
+          scsynth_inputs_hash = {"-I" => "1"}
+        end
+
         @boot_wait_mutex = Mutex.new
 
         begin
@@ -1072,8 +1086,13 @@ module SonicPi
           toml_opts_hash = {}
         end
 
+        Util.log "Got Audio Settings toml hash: #{toml_opts_hash.inspect}"
         opts = unify_toml_opts_hash(toml_opts_hash)
+        Util.log "Unified Audio Settings toml hash: #{opts.inspect}"
+        opts = scsynth_inputs_hash.merge(opts)
+        Util.log "Combined Audio Settings toml hash with GUI scsynth inputs hash: #{opts.inspect}"
         opts = merge_opts(opts)
+        Util.log "Merged Audio Settings toml hash: #{opts.inspect}"
         @num_inputs = opts["-i"].to_i
         @num_outputs = opts["-o"].to_i
         args = opts.to_a.flatten
@@ -1403,8 +1422,17 @@ module SonicPi
   end
 end
 
+
+
 begin
-  SonicPi::Daemon::Init.new
+  if ARGV[0] == "--no-scsynth-inputs"
+    SonicPi::Daemon::Init.new(no_scsynth_inputs: true)
+  else
+    SonicPi::Daemon::Init.new
+  end
+
+
+
 rescue StandardError => e
   SonicPi::Daemon::Util.log "[BUG] - ** Daemon Internal Error. **"
   SonicPi::Daemon::Util.log_error(e)
