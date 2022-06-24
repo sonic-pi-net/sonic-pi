@@ -490,19 +490,19 @@ module SonicPi
         i = info_m
         res = String.new("")
 
-        if i[:hw_in]
-          if i[:hw_in_chans]
-            res += "In [#{i[:hw_in_chans]} ch]: #{i[:hw_in]}"
+        if i[:hw_out]
+          if i[:hw_out_chans]
+            res += "Out [#{i[:hw_out_chans]} ch]: #{i[:hw_out]}"
           else
-            res += "In: #{i[:hw_in]}"
+            res += "Out: #{i[:hw_out]}"
           end
         end
 
-        if i[:hw_out]
-          if i[:hw_out_chans]
-            res += "\nOut [#{i[:hw_out_chans]} ch]: #{i[:hw_out]}"
+        if i[:hw_in]
+          if i[:hw_in_chans]
+            res += "\nIn [#{i[:hw_in_chans]} ch]: #{i[:hw_in]}"
           else
-            res += "\nOut: #{i[:hw_out]}"
+            res += "\nIn: #{i[:hw_in]}"
           end
         end
         res += "\nSample Rate: #{i[:hw_sample_rate] || i[:sc_sample_rate]}"
