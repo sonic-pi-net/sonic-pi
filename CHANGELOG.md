@@ -30,11 +30,6 @@
 To be released...
 <!-- [(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v4.0.0): -->
 
-### Known Issues (to be addressed in upcoming Betas)
-* On macOS, the booting procedure no longer attempts to tweak the audio-card's sample rates to match and instead crashes on a mismatch.
-* MIDI port names are very long and change on disconnect/reconnect on Linux.
-
-
 ### Breaking Changes
 * Previously it was possible that the `onset:` option for `sample`
   silently ignored the last onset of a given sample. This has now been
@@ -68,10 +63,13 @@ To be released...
 ### Examples
 * New Algomancer example - Blockgame coded by DJ Dave.
 
+
 ### GUI
 * Preference pane is now an overlay which hovers over the main window. This means that opening and closing it does not inadvertantly modify a carefully chosen layout e.g. for a performance.
 * New preference option to show and hide the pane titles such as Scope, Log, Cues, Context, Help, etc.
 * New preference option to hide the menubar when in fullscreen mode (Windows and Linux only as this behaviour is standard on macOS).
+* New preference option for enabling audio inputs (now disabled by deafult). Modifying this setting requires a reboot to take effect.
+* Preferences now show audio hardware information such as connected input/out devices, sample rate, block size etc. The amount of information displayed varies by platform.
 * New GUI controls for interacting with the new Link Metronome. You can connect/disconnect to the network (to share tempo with others), change the tempo (in BPM) and tap out a new tempo.
 * Increase width of panel dividers and highlight on mouse hover.
 * Highlight scrollbars and preference checkbox descriptions on mouse hover.
@@ -88,6 +86,8 @@ To be released...
 * The scheduling accuracy of outgoing OSC and MIDI messages is improved on Windows.
 * Optimise `midi_clock_beat`.
 * `note_range` can now handle both increasing and decreasing note ranges.
+* No longer connect to the input sound device on macOS by default - this also means audio input/output rate mismatches no longer cause boot issues on macOS by default.
+* SuperCollider audio server boot issues are now immediately detected and reported as a specific issue to the user alongside the full scsynth log file. 
 
 
 ### Bugfixes
