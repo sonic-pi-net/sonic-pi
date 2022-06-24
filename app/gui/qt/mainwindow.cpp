@@ -391,6 +391,9 @@ void MainWindow::setupWindowStructure()
     errorPane = new QTextBrowser;
     metroPane = new SonicPiMetro(m_spClient, m_spAPI, theme, this);
 
+    connect(metroPane, SIGNAL(linkEnabled()), this, SLOT(checkEnableLinkMenu()));
+    connect(metroPane, SIGNAL(linkDisabled()), this, SLOT(uncheckEnableLinkMenu()));
+
     errorPane->setOpenExternalLinks(true);
 
     // Window layout
@@ -1244,6 +1247,25 @@ void MainWindow::enableScsynthInputsMenuChanged()
     piSettings->enable_scsynth_inputs = enableScsynthInputsAct->isChecked();
     emit settingsChanged();
     changeEnableScsynthInputs();
+}
+
+void MainWindow::enableLinkMenuChanged()
+{
+  if(enableLinkAct->isChecked()) {
+    metroPane->linkEnable();
+  } else {
+    metroPane->linkDisable();
+  }
+}
+
+void MainWindow::uncheckEnableLinkMenu()
+{
+  enableLinkAct->setChecked(false);
+}
+
+void MainWindow::checkEnableLinkMenu()
+{
+  enableLinkAct->setChecked(true);
 }
 
 void MainWindow::mixerForceMonoMenuChanged()
@@ -2799,6 +2821,11 @@ void MainWindow::createToolBar()
     enableScsynthInputsAct->setChecked(piSettings->enable_scsynth_inputs);
     connect(enableScsynthInputsAct, SIGNAL(triggered()), this, SLOT(enableScsynthInputsMenuChanged()));
 
+    enableLinkAct = new QAction(tr("Link Connect"), this);
+    enableLinkAct->setCheckable(true);
+    enableLinkAct->setChecked(false);
+    connect(enableLinkAct, SIGNAL(triggered()), this, SLOT(enableLinkMenuChanged()));
+
     audioSafeAct = new QAction(tr("Safe Audio Mode"), this);
     audioSafeAct->setCheckable(true);
     audioSafeAct->setChecked(piSettings->check_args);
@@ -2900,6 +2927,8 @@ void MainWindow::createToolBar()
     audioMenu->addAction(mixerInvertStereoAct);
     audioMenu->addAction(mixerForceMonoAct);
     audioMenu->addAction(enableScsynthInputsAct);
+    audioMenu->addSeparator();
+    audioMenu->addAction(enableLinkAct);
 
     displayMenu = menuBar()->addMenu(tr("Visuals"));
 

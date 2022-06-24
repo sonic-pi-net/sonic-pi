@@ -70,17 +70,51 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   updateLinkButtonDisplay();
 }
 
+void SonicPiMetro::linkEnable()
+{
+  mutex->lock();
+
+  if(!m_linkEnabled) {
+    m_spAPI.get()->LinkEnable();
+    m_linkEnabled = true;
+  }
+
+  emit linkEnabled();
+  updateLinkButtonDisplay();
+  mutex->unlock();
+}
+
+void SonicPiMetro::linkDisable()
+{
+
+  mutex->lock();
+
+  if(m_linkEnabled) {
+    m_spAPI.get()->LinkDisable();
+    m_linkEnabled = false;
+  }
+
+  emit linkDisabled();
+  updateLinkButtonDisplay();
+  mutex->unlock();
+}
+
 void SonicPiMetro::toggleLink()
 {
-  linkEnabled = !linkEnabled;
+  mutex->lock();
+  m_linkEnabled = !m_linkEnabled;
 
-  if(linkEnabled) {
+  if(m_linkEnabled) {
     m_spAPI.get()->LinkEnable();
+    emit linkEnabled();
   }
   else {
     m_spAPI.get()->LinkDisable();
+    emit linkDisabled();
   }
+
   updateLinkButtonDisplay();
+  mutex->unlock();
 }
 
 void SonicPiMetro::updateActiveLinkCount(int count)
@@ -102,7 +136,7 @@ void SonicPiMetro::updateLinkButtonDisplay()
 {
   QPalette palette = enableLinkButton->palette();
   QString qss;
-  if(linkEnabled) {
+  if(m_linkEnabled) {
     updateActiveLinkText();
     qss = QString("\nQPushButton {\nbackground-color: %1;}\nQPushButton::hover:!pressed {\nbackground-color: %2}\n").arg(theme->color("PressedButton").name()).arg(theme->color("PressedButton").name());
     enableLinkButton->setStyleSheet(theme->getAppStylesheet() + qss);

@@ -36,11 +36,13 @@ public:
   void updateActiveLinkCount(int count);
   void setBPM(double bpm);
   void updateColourTheme();
+  void linkEnable();
+  void linkDisable();
 
 
 signals:
-  void enableLink();
-  void disableLink();
+  void linkEnabled();
+  void linkDisabled();
 
 public slots:
 
@@ -50,7 +52,7 @@ protected:
 private:
   QPushButton *enableLinkButton;
   QPushButton *tapButton;
-  bool linkEnabled = false;
+  bool m_linkEnabled = false;
   int numActiveLinks = 0;
   QMutex *mutex;
   BPMScrubWidget *bpmScrubWidget;
