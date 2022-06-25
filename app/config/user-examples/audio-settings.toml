@@ -97,6 +97,9 @@
 ## ====================
 ## Server Audio options
 ## ====================
+#
+#  Note that setting enable_inputs to true or false here will silently
+#  override the "Enable Audio Inputs" checkbox in the GUI prefrences.
 
 # block_size = 64
 # enable_inputs = true
