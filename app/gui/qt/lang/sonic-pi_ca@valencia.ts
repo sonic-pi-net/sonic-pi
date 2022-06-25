@@ -6,69 +6,69 @@
     <message>
         <location filename="../mainwindow.cpp" line="453"/>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Preferències</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="684"/>
         <source>Log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Registre</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="181"/>
         <location filename="../mainwindow.cpp" line="3514"/>
         <location filename="../mainwindow.cpp" line="3542"/>
         <source>Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1681"/>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Executant codi...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1700"/>
         <source>Beautifying...</source>
         <oldsource>Beautifying....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Embellint...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1726"/>
         <source>Reloading...</source>
         <oldsource>Reloading....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Recarregant...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1758"/>
         <source>Enabling Mixer HPF...</source>
         <oldsource>Enabling Mixer HPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Habilitant Mesclador HPF...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1767"/>
         <source>Disabling Mixer HPF...</source>
         <oldsource>Disabling Mixer HPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Deshabilitant Mesclador HPF...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="328"/>
         <source>Welcome to Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Us donem la benvinguda a Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1134"/>
         <source>Indenting selection...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Indentant la selecció...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1140"/>
         <source>Indenting line...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Indentant la línia...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1171"/>
         <source>Toggle selection comment...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Comenta / descomenta la selecció...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="690"/>
@@ -78,12 +78,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="922"/>
         <source>Full screen mode off.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mode de pantalla completa desactivat.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1177"/>
         <source>Toggle line comment...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Comenta / descomenta la línia...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3906"/>
