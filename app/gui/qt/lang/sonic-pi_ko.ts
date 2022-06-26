@@ -204,7 +204,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="672"/>
         <source>Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>파형</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="829"/>
@@ -214,23 +214,24 @@
     <message>
         <location filename="../mainwindow.cpp" line="866"/>
         <source>Hiding pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation>창 제목 숨기기...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="876"/>
         <source>Showing pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation>창 제목 보이기...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1363"/>
         <source>Sonic Pi Boot Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi 부팅 오류</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1367"/>
         <source>Apologies, a critical error occurred during startup:
 </source>
-        <translation type="unfinished"></translation>
+        <translation>죄송합니다, 시작하는 동안 심각한 오류가 발생했습니다.
+</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1419"/>
