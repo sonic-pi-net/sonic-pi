@@ -505,10 +505,15 @@ module SonicPi
             res += "\nIn: #{i[:hw_in]}"
           end
         end
+
+        latency_in  = i[:hw_latency_in]
+        latency_out = i[:hw_latency_out]
+        block_size  = i[:sc_block_size]
+
         res += "\nSample Rate: #{i[:hw_sample_rate] || i[:sc_sample_rate]}"
-        res += "\nBlock Size: #{i[:sc_block_size]}" if i[:sc_block_size]
-        res += "\nLatency In: #{i[:hw_latency_in]}" if i[:hw_latency_in]
-        res += "\nLatency Out: #{i[:hw_latency_out]}" if i[:hw_latency_out]
+        res += "\nBlock Size: #{block_size}"   if block_size  && block_size  > 0
+        res += "\nLatency In: #{latency_in}"   if latency_in  && latency_in  > 0
+        res += "\nLatency Out: #{latency_out}" if latency_out && latency_out > 0
 
         res.strip!
         res
