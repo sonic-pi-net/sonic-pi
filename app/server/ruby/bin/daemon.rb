@@ -508,7 +508,7 @@ module SonicPi
         res += "\nSample Rate: #{i[:hw_sample_rate] || i[:sc_sample_rate]}"
         res += "\nBlock Size: #{i[:sc_block_size]}" if i[:sc_block_size]
         res += "\nLatency In: #{i[:hw_latency_in]}" if i[:hw_latency_in]
-        res += "\nLatency Out: #{i[:hw_latency_in]}" if i[:hw_latency_out]
+        res += "\nLatency Out: #{i[:hw_latency_out]}" if i[:hw_latency_out]
 
         res.strip!
         res
