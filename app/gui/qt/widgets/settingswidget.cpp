@@ -677,8 +677,27 @@ void SettingsWidget::updateUILanguage(int index) {
 
     }
 }
+
 void SettingsWidget::updateEnableScsynthInputs() {
     emit enableScsynthInputsChanged();
+
+    QMessageBox msgBox(this);
+    msgBox.setText(tr("Audio input change detected."));
+    QString info_text = (tr("Your changes won't take affect until you restart Sonic Pi.") +
+                         "\n\n" + tr("Would you like to restart now?"));
+
+    msgBox.setInformativeText(info_text);
+    QPushButton *applyButton = msgBox.addButton(tr("Restart"), QMessageBox::ActionRole);
+    QPushButton *dismissButton = msgBox.addButton(tr("Cancel"), QMessageBox::RejectRole);
+    msgBox.setDefaultButton(applyButton);
+    msgBox.setIcon(QMessageBox::Question);
+    msgBox.exec();
+
+    if (msgBox.clickedButton() == (QAbstractButton*)applyButton) {
+      emit restartApp();
+    } else if (msgBox.clickedButton() == (QAbstractButton*)dismissButton) {
+      // do nothing
+    }
 }
 
 void SettingsWidget::update_mixer_invert_stereo() {
