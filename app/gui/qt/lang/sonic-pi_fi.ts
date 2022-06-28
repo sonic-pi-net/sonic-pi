@@ -30,25 +30,25 @@
         <location filename="../mainwindow.cpp" line="1754"/>
         <source>Beautifying...</source>
         <oldsource>Beautifying....</oldsource>
-        <translation>Kaunistaa...</translation>
+        <translation>Kaunistetaan...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1780"/>
         <source>Reloading...</source>
         <oldsource>Reloading....</oldsource>
-        <translation>Lataa uudelleen...</translation>
+        <translation>Ladataan uudelleen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1812"/>
         <source>Enabling Mixer HPF...</source>
         <oldsource>Enabling Mixer HPF....</oldsource>
-        <translation>Mikserin HPF käyttöön...</translation>
+        <translation>Otetaan mikserin ylipäästösuodatin (HPF) käyttöön...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1821"/>
         <source>Disabling Mixer HPF...</source>
         <oldsource>Disabling Mixer HPF....</oldsource>
-        <translation>Mikserin HPF:n poistaminen...</translation>
+        <translation>Disabloidaan mikserin ylipäästösuodatin (HPF)...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="338"/>
@@ -68,12 +68,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="1187"/>
         <source>Toggle selection comment...</source>
-        <translation>Vaihda valinnan kommentti...</translation>
+        <translation>Vaihda valitun alueen kommentointia...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="704"/>
         <source>Cues</source>
-        <translation>Merkit</translation>
+        <translation>Aloitusmerkit (Cues)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="938"/>
@@ -83,7 +83,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1193"/>
         <source>Toggle line comment...</source>
-        <translation>Vaihda rivin kommentointi...</translation>
+        <translation>Vaihda rivin kommentointia...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3974"/>
@@ -113,7 +113,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="4029"/>
         <source>Disabling OSC cue port...</source>
-        <translation>Disabloidaan OSC cue porttia...</translation>
+        <translation>Otetaan OSC cue portti pois käytöstä...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4043"/>
@@ -291,7 +291,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1474"/>
         <source>Falling back to English. Sorry about this.</source>
-        <translation type="unfinished"></translation>
+        <translation>Palautetaan kieli englanniksi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1476"/>
@@ -367,12 +367,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="1924"/>
         <source>Hiding about window...</source>
-        <translation type="unfinished"></translation>
+        <translation>Piilotetaan lisätietoja ikkuna...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1930"/>
         <source>Showing about window...</source>
-        <translation type="unfinished"></translation>
+        <translation>Näytä lisätietoja ikkuna...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1949"/>
@@ -387,7 +387,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2018"/>
         <source>Updating System Volume...</source>
-        <translation type="unfinished">Päivitetään järjestelmää...</translation>
+        <translation>Päivitetään järjestelmän tiedostoja...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2252"/>
@@ -397,22 +397,22 @@
     <message>
         <location filename="../mainwindow.cpp" line="2474"/>
         <source>Show autocompletion on</source>
-        <translation type="unfinished"></translation>
+        <translation>Automaattinen täyttö päällä</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2478"/>
         <source>Show autocompletion off</source>
-        <translation type="unfinished"></translation>
+        <translation>Automaattinen täyttö pois</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2496"/>
         <source>Show context on</source>
-        <translation type="unfinished"></translation>
+        <translation>Koodirivin lisätiedot päällä</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2505"/>
         <source>Show context off</source>
-        <translation type="unfinished"></translation>
+        <translation>Koodirivin lisätiedot pois päältä</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2521"/>
@@ -432,7 +432,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2720"/>
         <source>Start recording to a WAV audio file</source>
-        <translation type="unfinished"></translation>
+        <translation>Aloita WAV äänitiedoston nauhoitus</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2724"/>
@@ -447,7 +447,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2766"/>
         <source>Toggle information about Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Näytä lisätietoja Sonic Pi:sta</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2769"/>
@@ -477,12 +477,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2809"/>
         <source>Show Code Completion</source>
-        <translation type="unfinished"></translation>
+        <translation>Näytä koodiehdotukset</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2814"/>
         <source>Show Code Context</source>
-        <translation type="unfinished"></translation>
+        <translation>Näytä koodirivin lisätiedot</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2819"/>
@@ -492,112 +492,112 @@
     <message>
         <location filename="../mainwindow.cpp" line="2824"/>
         <source>Link Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>Link Connect</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2829"/>
         <source>Safe Audio Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Turvallinen äänitila</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2834"/>
         <source>Enforce Timing Guarantees</source>
-        <translation type="unfinished"></translation>
+        <translation>Pakota tapahtumien tiukka aikataulutus</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2839"/>
         <source>Enable External Synths</source>
-        <translation type="unfinished"></translation>
+        <translation>Ota käyttöön ulkoiset soitinmääritykset</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2844"/>
         <source>Invert Stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>Käänteinen Stereo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2848"/>
         <source>Force Mono</source>
-        <translation type="unfinished"></translation>
+        <translation>Pakota Mono</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2853"/>
         <source>Enable Incoming MIDI Cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Ota käyttöön saapuvien MIDI signaalien kuuntelu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2858"/>
         <source>Allow Incoming OSC</source>
-        <translation type="unfinished"></translation>
+        <translation>Salli saapuva OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2863"/>
         <source>Allow OSC From Other Computers</source>
-        <translation type="unfinished"></translation>
+        <translation>Salli OSC muilta tietokoneilta</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2868"/>
         <source>Log Cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Lokita aloitusmerkit</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2873"/>
         <source>Log Synths</source>
-        <translation type="unfinished"></translation>
+        <translation>Lokita syntetisaattorit</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2878"/>
         <source>Clear Logs on Run</source>
-        <translation type="unfinished"></translation>
+        <translation>Tyhjennä lokit suorittaessa</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2883"/>
         <source>Auto Indent Code Buffer on Run</source>
-        <translation type="unfinished"></translation>
+        <translation>Suorita automaattinen sisennys ajaessa</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2888"/>
         <source>Auto-Scroll Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Login automaattinen seuraus</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2898"/>
         <source>Live</source>
-        <translation type="unfinished"></translation>
+        <translation>Live</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2910"/>
         <source>Code</source>
-        <translation type="unfinished"></translation>
+        <translation>Koodi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2922"/>
         <source>Audio</source>
-        <translation type="unfinished">Audio</translation>
+        <translation>Ääni</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2933"/>
         <source>Visuals</source>
-        <translation type="unfinished">Ulkonäkö</translation>
+        <translation>Ulkoasu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2935"/>
         <source>Light</source>
-        <translation>Vaalea</translation>
+        <translation>Vaalea tila</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2940"/>
         <source>Dark</source>
-        <translation>Tumma</translation>
+        <translation>Tumma tila</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2945"/>
         <source>Pro Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Valoisa pro</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2950"/>
         <source>Pro Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Tumma pro</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2955"/>
@@ -607,17 +607,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="2960"/>
         <source>Show Scope Labels</source>
-        <translation type="unfinished"></translation>
+        <translation>Näytä skoopin otsikot</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2965"/>
         <source>Show Titles</source>
-        <translation type="unfinished"></translation>
+        <translation>Näytä otsikot</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2970"/>
         <source>Hide Menu Bar in Fullscreen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Piilota työkalupalkki koko näytön tilassa</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2975"/>
@@ -627,126 +627,126 @@
     <message>
         <location filename="../mainwindow.cpp" line="2984"/>
         <source>Show Scope Kinds</source>
-        <translation type="unfinished"></translation>
+        <translation>Näytä skooppien tyypit</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2995"/>
         <source>IO</source>
-        <translation type="unfinished">IO</translation>
+        <translation>IO</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2997"/>
         <source>MIDI Inputs</source>
-        <translation>MIDI-tulot</translation>
+        <translation>MIDI-sisääntulot</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2998"/>
         <location filename="../mainwindow.cpp" line="3998"/>
         <location filename="../mainwindow.cpp" line="4133"/>
         <source>No Connected Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Ei sisääntulevia yhteyksiä</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2999"/>
         <source>MIDI Outputs</source>
-        <translation>MIDI-lähdöt</translation>
+        <translation>MIDI-uloslähdöt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3000"/>
         <location filename="../mainwindow.cpp" line="3996"/>
         <location filename="../mainwindow.cpp" line="4155"/>
         <source>No Connected Outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Ei ulosmeneviä yhteyksiä</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3002"/>
         <source>Default MIDI Out Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Default MIDI Out kanava</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3004"/>
         <source>All Channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Kaikki kanavat</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3009"/>
         <source>1</source>
-        <translation type="unfinished"></translation>
+        <translation>1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3014"/>
         <source>2</source>
-        <translation type="unfinished"></translation>
+        <translation>2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3019"/>
         <source>3</source>
-        <translation type="unfinished"></translation>
+        <translation>3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3024"/>
         <source>4</source>
-        <translation type="unfinished"></translation>
+        <translation>4</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3029"/>
         <source>5</source>
-        <translation type="unfinished"></translation>
+        <translation>5</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3034"/>
         <source>6</source>
-        <translation type="unfinished"></translation>
+        <translation>6</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3039"/>
         <source>7</source>
-        <translation type="unfinished"></translation>
+        <translation>7</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3044"/>
         <source>8</source>
-        <translation type="unfinished"></translation>
+        <translation>8</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3049"/>
         <source>9</source>
-        <translation type="unfinished"></translation>
+        <translation>9</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3054"/>
         <source>10</source>
-        <translation type="unfinished"></translation>
+        <translation>10</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3059"/>
         <source>11</source>
-        <translation type="unfinished"></translation>
+        <translation>11</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3064"/>
         <source>12</source>
-        <translation type="unfinished"></translation>
+        <translation>12</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3069"/>
         <source>13</source>
-        <translation type="unfinished"></translation>
+        <translation>13</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3074"/>
         <source>14</source>
-        <translation type="unfinished"></translation>
+        <translation>14</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3079"/>
         <source>15</source>
-        <translation type="unfinished"></translation>
+        <translation>15</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3084"/>
         <source>16</source>
-        <translation type="unfinished"></translation>
+        <translation>16</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3092"/>
@@ -756,117 +756,117 @@
     <message>
         <location filename="../mainwindow.cpp" line="3106"/>
         <source>Incoming OSC Port</source>
-        <translation type="unfinished"></translation>
+        <translation>Sisääntuleva OSC portti</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3109"/>
         <source>View</source>
-        <translation type="unfinished"></translation>
+        <translation>Näytä</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3114"/>
         <source>Focus Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Fokusoi editori</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3116"/>
         <source>Place focus on the code editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Aseta fokus koodieditorille</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3120"/>
         <source>Focus Logs</source>
-        <translation type="unfinished"></translation>
+        <translation>Fokusoi logeja</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3122"/>
         <source>Place focus on the log pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Aseta fokus loginäkymään</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3125"/>
         <source>Focus Context</source>
-        <translation type="unfinished"></translation>
+        <translation>Fokusoi koodirivin lisätietoja</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3127"/>
         <source>Place focus on the context pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Aseta fokus koodirivien lisätietoihin</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3131"/>
         <source>Focus Cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Fokusoi aloitusmerkkejä (Cues)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3133"/>
         <source>Place focus on the cue event pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Aseta fokus aloitusmerkkien (Cues) paneeliin</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3137"/>
         <source>Focus Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Fokusoi asetuksia</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3139"/>
         <source>Place focus on preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Aseta fokus asetuspaneeliin</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3143"/>
         <source>Focus Help Listing</source>
-        <translation type="unfinished"></translation>
+        <translation>Fokusoi ohjeita</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3145"/>
         <source>Place focus on help listing</source>
-        <translation type="unfinished"></translation>
+        <translation>Aseta fokus ohjelistaan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3149"/>
         <source>Focus Help Details</source>
-        <translation type="unfinished"></translation>
+        <translation>Fokusoi ohjepaneelia</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3151"/>
         <source>Place focus on help details</source>
-        <translation type="unfinished"></translation>
+        <translation>Aseta fokus ohjepaneeliin</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3155"/>
         <source>Focus Errors</source>
-        <translation type="unfinished"></translation>
+        <translation>Fokusoi virheilmoituksia</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3157"/>
         <source>Place focus on errors</source>
-        <translation type="unfinished"></translation>
+        <translation>Aseta fokus virheilmoituksiin</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3160"/>
         <source>Show Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Näytä logit</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3165"/>
         <source>Show Cue Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Näytä aloitusmerkkien loki (Cue log)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3170"/>
         <source>Show Metronome</source>
-        <translation type="unfinished"></translation>
+        <translation>Näytä metronomi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3175"/>
         <source>Show Buttons</source>
-        <translation type="unfinished"></translation>
+        <translation>Näytä painikkeet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3180"/>
         <source>Show Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Näytä välilehdet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3185"/>
@@ -876,7 +876,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3221"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Kieli</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3412"/>
@@ -896,7 +896,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3695"/>
         <source>Restarting Sonic Pi...</source>
-        <translation type="unfinished"></translation>
+        <translation>Käynnistetään Sonic Pi uudelleen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3930"/>
@@ -930,57 +930,57 @@ Lataa Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="4267"/>
         <source>Line: %1,  Position: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Rivi: %1, Kohta: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4366"/>
         <source>Sonic Pi - Audio Server Boot Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi - Audio Server käynnistysvirhe</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4371"/>
         <source>Sorry, the Audio Server failed to start...</source>
-        <translation type="unfinished"></translation>
+        <translation>Pahoittelut, Audio Serverin käynnistys epäonnistui...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4372"/>
         <source>Please try changing your default OS audio input &amp; outputs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kokeile vaihtaa järjestelmän äänen sisään &amp; ulostuloja.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4373"/>
         <source>Note, the audio rate of the inputs &amp; outputs must be the same.</source>
-        <translation type="unfinished"></translation>
+        <translation>Huomioi, että sisään ja ulostulon äänitaajuus (audio rate) pitää olla sama.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4375"/>
         <source>For the curious among you, Sonic Pi uses the SuperCollider Audio Server to generate its sounds. By default it will connect to your default system audio input and outputs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tiedonhaluisille ja uteliaille tiedoksi, Sonic Pi käyttää SuperCollider Audio palvelinta äänien muodostamiseen. Oletuksena palvelin käyttää järjestelmän vakio ääni sisään- ja ulostuloporttteja.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4376"/>
         <source>Unfortunately SuperCollider is having problems starting correctly. You can read the full error log below which should explain why.</source>
-        <translation type="unfinished"></translation>
+        <translation>Valitettavasti SuperCollider ei käynnistynyt oikein. Tarkemman syyn löydät alapuolella olevasta virhelokista.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4377"/>
         <source>To fix this you can try changing your default operating system audio inputs and outputs (ensuring they have the same audio rate).</source>
-        <translation type="unfinished"></translation>
+        <translation>Korjataksesi ongelman, voit kokeilla vaihtaa järjestelmän äänen sisään ja ulostuloja ja varmistaa että niissä on sama äänitaajuus (audio rate).</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4378"/>
         <source>Advanced Users</source>
-        <translation type="unfinished"></translation>
+        <translation>Edistyneet käyttäjät</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4379"/>
         <source>you may manually override this and further configure how SuperCollider boots by editing the file:</source>
-        <translation type="unfinished"></translation>
+        <translation>voit kokeilla myös määrittää asetukset manuaalisesti konfiguroimalla erillisen SuperCollider asetustiedoston:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4381"/>
         <source>SuperCollider Log</source>
-        <translation type="unfinished"></translation>
+        <translation>SuperCollider logi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2706"/>
@@ -1057,22 +1057,22 @@ Lataa Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="326"/>
         <source>No Matching Studio Hash Found...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ei vastaavaa Studio Hash tietoa löydetty...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="474"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Sulje</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="619"/>
         <source>| %1 |</source>
-        <translation type="unfinished"></translation>
+        <translation>| %1 |</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="710"/>
         <source>Link Metronome</source>
-        <translation type="unfinished"></translation>
+        <translation>Linkitä metronomi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2738"/>
@@ -1082,7 +1082,7 @@ Lataa Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2758"/>
         <source>Toggle visibility of audio oscilloscope</source>
-        <translation type="unfinished"></translation>
+        <translation>Vaihda audio oskilloskoopin näkyvyyttä</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3301"/>
@@ -1157,7 +1157,7 @@ Lataa Sonic Pi %1</translation>
         <location filename="../utils/ruby_help.h" line="2960"/>
         <location filename="../utils/ruby_help.h" line="3055"/>
         <source>Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation>Opastus</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3091"/>
@@ -1167,22 +1167,22 @@ Lataa Sonic Pi %1</translation>
     <message>
         <location filename="../utils/ruby_help.h" line="3146"/>
         <source>Synths</source>
-        <translation type="unfinished"></translation>
+        <translation>Syntetisaattorit</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3195"/>
         <source>Fx</source>
-        <translation type="unfinished"></translation>
+        <translation>Efektit</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3216"/>
         <source>Samples</source>
-        <translation type="unfinished"></translation>
+        <translation>Samplet</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3453"/>
         <source>Lang</source>
-        <translation type="unfinished"></translation>
+        <translation>Kieli</translation>
     </message>
 </context>
 <context>
@@ -1198,50 +1198,50 @@ Lataa Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="40"/>
         <source>Audio</source>
-        <translation type="unfinished">Audio</translation>
+        <translation>Ääni</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="43"/>
         <source>IO</source>
-        <translation type="unfinished">IO</translation>
+        <translation>IO</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="46"/>
         <source>Editor</source>
-        <translation type="unfinished">Editori</translation>
+        <translation>Editori</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="49"/>
         <source>Visuals</source>
-        <translation type="unfinished">Ulkonäkö</translation>
+        <translation>Ulkoasu</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="52"/>
         <location filename="../widgets/settingswidget.cpp" line="470"/>
         <source>Updates</source>
-        <translation type="unfinished">Päivitykset</translation>
+        <translation>Päivitykset</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="55"/>
         <location filename="../widgets/settingswidget.cpp" line="514"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Kieli</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="77"/>
         <source>Use this slider to change the system volume.</source>
-        <translation type="unfinished">Muuta järjestelmän äänenvoimakkuutta tällä liukusäätimellä.</translation>
+        <translation>Muuta järjestelmän äänenvoimakkuutta tällä liukusäätimellä.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="91"/>
         <source>Audio Output</source>
-        <translation type="unfinished">Äänilähtö</translation>
+        <translation>Äänilähtö</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="92"/>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
-        <translation type="unfinished">Äänen lisäasetukset ulkoisen äänentoiston 
+        <translation>Äänen lisäasetukset ulkoisen äänentoiston 
 kanssa työskentelyyn kun esiinnytään Sonic Pi:llä.</translation>
     </message>
     <message>
@@ -1254,12 +1254,14 @@ kanssa työskentelyyn kun esiinnytään Sonic Pi:llä.</translation>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and vice versa.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vaihda stereoäänen käänteisyyttä.
+Jos tila on valittu, äänet lähetetään käänteisesti,
+eli vasen puoli oikeaan kanavaan ja toisinpäin.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="95"/>
         <source>Force mono</source>
-        <translation type="unfinished">Pakota mono</translation>
+        <translation>Pakota mono</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="96"/>
@@ -1268,7 +1270,7 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation type="unfinished">Vaihda monotila.
+        <translation>Vaihda monotila.
 Valittuna vasen ja oikea audio yhdistetään
 ja sama signaali lähetetään molempiin kaiuttimiin.
 Hyödyllinen kun käytetään ulkoisia järjestelmiä,
@@ -1277,31 +1279,31 @@ jotka toimivat ainoastaan monona.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="105"/>
         <source>Synths and FX</source>
-        <translation type="unfinished">Syntetisaattorit ja efektit</translation>
+        <translation>Syntetisaattorit ja efektit</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="106"/>
         <source>Modify behaviour of synths and FX</source>
-        <translation type="unfinished">Muokkaa syntetisaattoreiden ja efektien käytöstä</translation>
+        <translation>Muokkaa syntetisaattoreiden ja efektien käytöstä</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="108"/>
         <source>Safe mode</source>
-        <translation type="unfinished">Varmuustila</translation>
+        <translation>Varmuustila</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="109"/>
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
-        <translation type="unfinished">Vaihda syntetisaattorin argumentin tarkkailu.
+        <translation>Vaihda syntetisaattorin argumentin tarkkailu.
 Jos se on pois käytöstä, jotkin arvot saattavat
 tuottaa odottamattoman kovia tai epämiellyttäviä ääniä.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="111"/>
         <source>Enforce timing guarantees</source>
-        <translation type="unfinished">Pakota ajoituksen varmistus</translation>
+        <translation>Pakota ajoituksen varmistus</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="112"/>
@@ -1312,7 +1314,7 @@ it is too late to do so
 When disabled, Sonic Pi will always
 attempt to trigger synths and FX
 even when a little late.</source>
-        <translation type="unfinished">Kun valittuna, Sonic Pi ei aja
+        <translation>Kun valittuna, Sonic Pi ei aja
 syntetisaattoreita ja efektejä
 jos on liian myöhäistä
 
@@ -1329,7 +1331,7 @@ to be triggered.
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
 which isn&apos;t recognised.</source>
-        <translation type="unfinished">Kun valittu, Sonic Pi antaa käynnistää
+        <translation>Kun valittu, Sonic Pi antaa käynnistää
 load_synthdefs kautta ladattuja
 syntetisaattoreita ja efektejä.
 
@@ -1347,17 +1349,19 @@ jota ei tunnisteta.</translation>
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi voi vastaanottaa ja lähettää Open Sound Control viestejä
+järjestelmien ja tietokoneiden välillä 
+yhdistettyjen tietoverkkojen kautta.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="155"/>
         <source>Local IP address</source>
-        <translation type="unfinished">Paikallinen IP-osoite</translation>
+        <translation>Paikallinen IP-osoite</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="175"/>
         <source>Unavailable</source>
-        <translation type="unfinished">Ei saatavilla</translation>
+        <translation>Ei saatavilla</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="181"/>
@@ -1368,7 +1372,8 @@ to and from other programs or computers
         <location filename="../widgets/settingswidget.cpp" line="182"/>
         <source>When checked, Sonic Pi will let you send and receive OSC messages to and from remote machines.
  When unchecked, only sending and receiving from the local machine will be enabled.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kun valittuna, Sonic Pi voi lähettää ja vastaanottaa OSC viestejä ulkopuolisista laitteista.
+Jos valintaa ei ole tehty, vain lähiverkosta tulevat viestit otetaan vastaan.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="184"/>
@@ -1378,23 +1383,23 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="208"/>
         <source>all</source>
-        <translation type="unfinished"></translation>
+        <translation>kaikki</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="231"/>
         <source>Default MIDI out channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Vakio MIDI out kanava</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="298"/>
         <source>Show code completion</source>
-        <translation type="unfinished"></translation>
+        <translation>Näytä koodiehdotukset</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="185"/>
         <source>When checked, Sonic Pi will listen for OSC messages.
  When unchecked no OSC messages will be received.</source>
-        <translation type="unfinished">Kun asetus on päällä, Sonic Pi kuuntelee OSC-viestejä.
+        <translation>Kun asetus on päällä, Sonic Pi kuuntelee OSC-viestejä.
 Kun asetus on pois päältä, OSC-viestejä ei vastaanoteta.</translation>
     </message>
     <message>
@@ -1405,164 +1410,165 @@ Kun asetus on pois päältä, OSC-viestejä ei vastaanoteta.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="194"/>
         <source>Configure MIDI behaviour</source>
-        <translation type="unfinished">Määritä MIDI-asetukset</translation>
+        <translation>Määritä MIDI-asetukset</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="196"/>
         <source>MIDI Ports</source>
-        <translation type="unfinished">MIDI portit</translation>
+        <translation>MIDI portit</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="197"/>
         <source>List all connected MIDI Ports</source>
-        <translation type="unfinished">Listaa kaikki kytketyt MIDI-portit</translation>
+        <translation>Listaa kaikki kytketyt MIDI-portit</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="202"/>
         <source>Reset MIDI</source>
-        <translation type="unfinished">Resetoi MIDI</translation>
+        <translation>Resetoi MIDI</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="204"/>
         <source>Reset MIDI subsystems 
 (Required to detect device changes on macOS)</source>
-        <translation type="unfinished">Resetoi MIDI-osajärjestelmät
+        <translation>Resetoi MIDI-osajärjestelmät
 (Vaaditaan laitemuutoksien havaitsemiseen macOS:llä)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="247"/>
         <source>No connected input devices</source>
-        <translation type="unfinished">Ei kytkettyjä syöttölaitteita</translation>
+        <translation>Ei kytkettyjä syöttölaitteita</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="248"/>
         <source>No connected output devices</source>
-        <translation type="unfinished">Ei kytkettyjä ulostulolaitteita</translation>
+        <translation>Ei kytkettyjä ulostulolaitteita</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="249"/>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation type="unfinished">MIDI-sisääntulolaitteet lähettävät MIDI-viestit suoraan Sonic Pi:lle, 
-joka vastaanottaa ne merkkitapahtumina (cue events) samaan 
-tapaan kuin sisääntulevat OSC-viestit ja sisäiset merkit (internal cues)</translation>
+        <translation>MIDI-sisääntulolaitteet lähettävät MIDI-viestit suoraan Sonic Pi:lle, 
+joka vastaanottaa ne aloitusmerkkejä (cue events) samaan 
+tapaan kuin sisääntulevat OSC-viestit ja sisäiset aloitusmerkit (internal cues)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="250"/>
         <source>MIDI output devices receive MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI laitteet vastaanottavat viestejä suoraan
+Sonic Pi:sta, jotka lähetetään midi_* funktioilla</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="285"/>
         <source>Show and Hide</source>
-        <translation type="unfinished">Näytä ja Piilota</translation>
+        <translation>Näytä ja Piilota</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="286"/>
         <source>Configure editor display options.</source>
-        <translation type="unfinished">Määritä editorin näyttöasetukset.</translation>
+        <translation>Määritä editorin näyttöasetukset.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="288"/>
         <source>Configure editor look and feel.</source>
-        <translation type="unfinished">Määritä editorin ulkoasu.</translation>
+        <translation>Määritä editorin ulkoasu.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="74"/>
         <source>Main Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Äänenvoimakkuus</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="83"/>
         <source>Audio Input</source>
-        <translation type="unfinished"></translation>
+        <translation>Äänen sisääntulo</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="84"/>
         <source>Audio settings for working with audio inputs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sisääntulon ääniasetukset.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="85"/>
         <source>Enable Audio Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Ota käyttöön äänen sisääntulot</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="86"/>
         <source>Toggle to enable or disable audio inputs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Salli tai estä äänien sisääntulot.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="114"/>
         <source>Enable external synths/FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Salli ulkopuolisten syntetisaattorien ja efektien käyttö</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="127"/>
         <source>Audio Hardware Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Äänilaitteiden tiedot</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="128"/>
         <source>Audio hardware configuration and information.</source>
-        <translation type="unfinished"></translation>
+        <translation>Äänilaitteiden asetukset ja tiedot.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="129"/>
         <source>Information unavailable.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tietoa ei ole saatavilla.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="156"/>
         <source>Incoming OSC port</source>
-        <translation type="unfinished"></translation>
+        <translation>Sisääntuleva OSC portti</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="199"/>
         <source>Enable incoming MIDI cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Ota käyttöön tulevat MIDI aloitusmerkit (Cues)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="200"/>
         <source>Enable or disable automatic conversion of incoming MIDI messages to cue events</source>
-        <translation type="unfinished"></translation>
+        <translation>Salli tai kiellä vastaanotettavien MIDI viestien automaattiset muunnokset aloitusmerkeiksi (Cues)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="232"/>
         <source>Default MIDI Channel to send messages to (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation>Lähtevien viestien vakio MIDI kanava (* tarkoittaa kaikki)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="236"/>
         <source>Default MIDI Channel to send messages to  (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation>Lähtevien viestien vakio MIDI kanava (* tarkoittaa kaikki)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="283"/>
         <source>Show Panels</source>
-        <translation type="unfinished"></translation>
+        <translation>Näytä paneelit</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="284"/>
         <source>Show and hide information panes such as the scope and log.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vaihda lisätietopaneelien (kuten skooppi tai logi) näkyvyyksiä.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="287"/>
         <source>Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Teema</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="289"/>
         <source>Automation / Misc</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatisointi / Sekalainen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="290"/>
         <source>Configure automation and other features.</source>
-        <translation type="unfinished"></translation>
+        <translation>Määrittele asetuksia automaatiolle ja muille toiminnallisuuksille.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="292"/>
@@ -1577,127 +1583,127 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="295"/>
         <source>Show line numbers</source>
-        <translation type="unfinished">Näytä rivinumerot</translation>
+        <translation>Näytä rivinumerot</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="296"/>
         <source>Toggle line number visibility.</source>
-        <translation type="unfinished">Vaihda rivinumeron näkyvyys.</translation>
+        <translation>Vaihda rivinumeron näkyvyys.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="299"/>
         <source>When enabled, Sonic Pi&apos;s editor will attempt to autocomplete your code with suggestions. When disabled, these suggestions will not be visible.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kun valittuna, Sonic Pi editori yrittää täydentää koodia automaattisesti. Jos toiminta ei ole valittuna, koodiehdotukset eivät tule näkyville.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="301"/>
         <source>Show code context</source>
-        <translation type="unfinished"></translation>
+        <translation>Näytä koodirivin lisätiedot</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="302"/>
         <source>When enabled, Sonic Pi&apos;s editor will show a pane which will display context-specific information for the code such as the current line and position of the cursor.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kun valittuna, Sonic Pi näyttää lisätietoja valitulle koodiriville ja kursorin kohdalle.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="304"/>
         <source>Show log</source>
-        <translation type="unfinished">Näytä loki</translation>
+        <translation>Näytä loki</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="305"/>
         <source>Toggle visibility of the log.</source>
-        <translation type="unfinished">Vaihda lokin näkyvyys.</translation>
+        <translation>Vaihda lokin näkyvyys.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="308"/>
         <source>Show cue log</source>
-        <translation type="unfinished">Näytä cue-loki</translation>
+        <translation>Näytä aloitusmerkkien loki (cue log)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="309"/>
         <source>Toggle visibility of cue log which displays internal cues &amp; incoming OSC/MIDI messages.</source>
-        <translation type="unfinished">Näytä tai piilota cue-loki, jossa näkyy sisäiset cuet ja sisääntulevat OSC-/MIDI-viestit.</translation>
+        <translation>Näytä tai piilota aloitusmerkkien loki (cue log), jossa näkyy sisäiset aloitusmerkit (cues) ja sisääntulevat OSC-/MIDI-viestit.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="312"/>
         <source>Show Link metronome controls</source>
-        <translation type="unfinished"></translation>
+        <translation>Näytä Link metronomin asetukset</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="313"/>
         <source>Toggle visibility of the Link metronome controls.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vaihda Link metronomiasetusten nnäkyvyyttä.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="316"/>
         <source>Show buttons</source>
-        <translation type="unfinished">Näytä painikkeet</translation>
+        <translation>Näytä painikkeet</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="317"/>
         <source>Toggle visibility of the control buttons.</source>
-        <translation type="unfinished">Vaihda ohjauspainikkeiden näkyvyys.</translation>
+        <translation>Vaihda asetuspainikkeiden näkyvyyttä.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="319"/>
         <source>Show tabs</source>
-        <translation type="unfinished">Näytä välilehdet</translation>
+        <translation>Näytä välilehdet</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="321"/>
         <source>Toggle visibility of the buffer selection tabs.</source>
-        <translation type="unfinished">Vaihda puskurivalintojen välilehtien näkyvyys.</translation>
+        <translation>Vaihda puskurien välilehtien näkyvyyttä.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="322"/>
         <source>Full screen</source>
-        <translation type="unfinished">Koko näyttö</translation>
+        <translation>Koko näyttö</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="323"/>
         <source>Toggle full screen mode.</source>
-        <translation type="unfinished">Vaihda koko näyttöön.</translation>
+        <translation>Vaihda koko ruudun tilan välillä.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="325"/>
         <source>Show titles</source>
-        <translation type="unfinished"></translation>
+        <translation>Näytä otsikot</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="326"/>
         <source>Toggle the title visibility for the scope, log, cue and other information panes</source>
-        <translation type="unfinished"></translation>
+        <translation>Vaihda skoopin, lokin, aloitusmerkkien ja muiden lisätietonäkymien näkyvyyttä</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="329"/>
         <source>Hide Menubar in Fullscreen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Piilota valikko koko ruudun tilassa</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="330"/>
         <source>Automatically hide the menubar when the app is in full screen mode. Note that the menubar is always visible when not in full screen mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Piilota valikko automaattisesti koko ruudun tilassa. Valikko on edelleen näkyvissä kun poistut koko ruudun tilasta.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="334"/>
         <source>Light</source>
-        <translation>Vaalea</translation>
+        <translation>Vaalea tila</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="335"/>
         <source>Dark</source>
-        <translation>Tumma</translation>
+        <translation>Tumma tila</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="336"/>
         <source>Pro Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Vaalea Pro</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="337"/>
         <source>Pro Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Tumma Pro</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="338"/>
@@ -1707,217 +1713,220 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="383"/>
         <source>Logging</source>
-        <translation type="unfinished">Lokin kirjaaminen</translation>
+        <translation>Lokitus</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="384"/>
         <source>Configure debug behaviour</source>
-        <translation type="unfinished">Määritä debug -käyttäytyminen</translation>
+        <translation>Määritä virheenkorjaustilan (debug) käyttäytyminen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="386"/>
         <source>Log synths</source>
-        <translation type="unfinished">Kirjaa syntetisaattorit lokiin</translation>
+        <translation>Lokita syntetisaattorit</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="387"/>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation type="unfinished">Vaihda lokiviestit.
+        <translation>Vaihda lokimerkintöjen kirjauksia.
 Jos ei valittuna, toimintoja kuten syntetisaattorin tai samplen
 käynnistystä ei tulosteta oletusarvoisesti lokiin.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="389"/>
         <source>Clear log on run</source>
-        <translation type="unfinished">Tyhjennä loki käynnistettäessä</translation>
+        <translation>Tyhjennä loki käynnistettäessä</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="390"/>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation type="unfinished">Valitse lokin tyhjennys käynnistäessä.
+        <translation>Valitse lokin tyhjennys käynnistäessä.
 Jos valittuna, loki tyhjennetään joka
-kerta kun käynnistä-nappia painetaan.</translation>
+kerta kun suorita-nappia painetaan.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="392"/>
         <source>Log cues</source>
-        <translation type="unfinished">Kirjaa cuet lokiin</translation>
+        <translation>Kirjaa aloitusmerkit (cuet) lokiin</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="393"/>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation type="unfinished">Ota cue kirjaukset käyttöön tai pois käytöstä.
-Jos pois käytöstä, cuet käynnistyvät edelleen.
-Niitä ei kuitenkaan näy lokeista.</translation>
+        <translation>Ota aloitusmerkkien (cues) kirjaukset käyttöön tai pois käytöstä.
+Jos pois käytöstä, aloitusmerkit lähetetään tai vastaanotetaan edelleen,
+mutta niitä ei kuitenkaan näy lokeista.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="395"/>
         <source>Auto-scroll log</source>
-        <translation type="unfinished">Vieritä lokia automaattisesti</translation>
+        <translation>Vieritä lokia automaattisesti</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="396"/>
         <source>Toggle log auto scrolling.
 If enabled the log is scrolled to the bottom after every new message is displayed.</source>
-        <translation type="unfinished">Vaihda lokin automaattinen vieritys.
-Valittuna loki vierii alas aina kun uusi viesti tulee näyttöön.</translation>
+        <translation>Vaihda lokin automaattista vieritystapaa.
+Valittuna loki vierii alas aina kun uusi viesti tulee näytölle.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="422"/>
         <source>Settings useful for performing with Sonic Pi</source>
-        <translation type="unfinished">Hyödylliset asetukset Sonic Pi:n kanssa esiintymiseen</translation>
+        <translation>Hyödylliset asetukset Sonic Pi:n kanssa esiintymiseen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="426"/>
         <source>Show and Hide Scope</source>
-        <translation type="unfinished">Näytä/piilota skoopit</translation>
+        <translation>Näytä/piilota skoopit</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="427"/>
         <source>Scope Kinds</source>
-        <translation type="unfinished">Skooppityypit</translation>
+        <translation>Skooppityypit</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="435"/>
         <source>Show scopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Näytä skoopit</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="437"/>
         <source>Show scope labels</source>
-        <translation type="unfinished"></translation>
+        <translation>Näytä skooppien otsikot</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="515"/>
         <source>Configure language settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Määritä kieliasetukset</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="520"/>
         <source>UI &amp; Tutorial Language (Requires a restart to take effect)</source>
-        <translation type="unfinished"></translation>
+        <translation>Käyttöliittymän ja ohjeiden kieli (Vaatii uudelleenkäynnistyksen)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="521"/>
         <source>Change the language of the UI &amp; Tutorial (Requires a restart to take effect)</source>
-        <translation type="unfinished"></translation>
+        <translation>Vaihda käyttöliittymän ja ohjeiden kieltä (Vaatii uudelleenkäynnistyksen)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="525"/>
         <source>Change the language of the UI &amp; Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation>Muuta käyttöliittymän ja ohjeiden kieltä</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="532"/>
         <source>Translations have been generously provided by volunteers 
 on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
-        <translation type="unfinished"></translation>
+        <translation>Käännökset on muodostettu vapaaehtoisvoimin osoitteessa
+https://hosted.weblate.org/projects/sonic-pi/. Kiitos! :)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="631"/>
         <source>You&apos;ve selected a new language: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Olet valinnut uudeksi kieleksi: %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="633"/>
         <source>Do you want to apply this language?</source>
-        <translation type="unfinished"></translation>
+        <translation>Haluatko valita tämän kielen?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="635"/>
         <source>The new language will be applied when you next start Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation>Valittu kieli näytetään kun käynnistät Sonic Pi:n uudelleen.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="639"/>
         <source>System languages found: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Järjestelmän kielivalinnat: %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="643"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation>Vahvista</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="644"/>
         <location filename="../widgets/settingswidget.cpp" line="691"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Peru</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="655"/>
         <source>&lt;b&gt;The new language will be applied when you next start Sonic Pi.&lt;/b&gt;&lt;br&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Vaihdettu kieli näytetään kun käynnistät Sonic Pi:n uudelleen.&lt;/b&gt;&lt;br&gt;</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="656"/>
         <location filename="../widgets/settingswidget.cpp" line="925"/>
         <source>Current UI language: %1
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Nykyinen käyttöliittymän kieli: %1
+</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="660"/>
         <source>Restart Sonic Pi?</source>
-        <translation type="unfinished"></translation>
+        <translation>Uudelleenkäynnistä Sonic Pi?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="661"/>
         <source>Do you want to restart Sonic Pi now? This will stop any current runs &amp; recordings.</source>
-        <translation type="unfinished"></translation>
+        <translation>Haluatko käynnistää Sonic Pi:n uudelleen? Tämä lopettaa kaikki käynnissä olevat suoritukset ja nauhoitukset.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="662"/>
         <location filename="../widgets/settingswidget.cpp" line="690"/>
         <source>Restart</source>
-        <translation type="unfinished"></translation>
+        <translation>Uudelleenkäynnistä</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="663"/>
         <source>Dismiss</source>
-        <translation type="unfinished"></translation>
+        <translation>Hylkää</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="685"/>
         <source>Audio input change detected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Huomattiin muutos äänen sisääntulossa.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="686"/>
         <source>Your changes won&apos;t take affect until you restart Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation>Muutokset päivittyvät vasta Sonic Pi:n uudelleenkäynnistyksen jälkeen.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="687"/>
         <source>Would you like to restart now?</source>
-        <translation type="unfinished"></translation>
+        <translation>Haluatko uudelleenkäynnistää nyt?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="924"/>
         <source>System languages: %1
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Järjestelmän kielet: %1
+</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1077"/>
         <source>Use system language</source>
-        <translation type="unfinished"></translation>
+        <translation>Käytä järjestelmän kieltä</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="436"/>
         <source>Toggle the visibility of the audio oscilloscopes.</source>
-        <translation type="unfinished">Näytä tai piilota oskilloskoopit.</translation>
+        <translation>Vaihda ääni oskilloskooppien näkyvyyttä.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="438"/>
         <source>Toggle the visibility of the labels for the audio oscilloscopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Vaihda ääni oskilloskooppien otsikoiden näkymistä</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="442"/>
@@ -1929,12 +1938,19 @@ Mirror Stereo - simple left/right composite wave, with left on top, right on bot
 Mono - shows a combined view of the left and right channels (using RMS)
 Spectrum - shows the sound frequencies as a spectrum, from low to high frequencies
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Ääni oskilloskooppeja on erilaisia ja niitä voi
+katsoa erikseen tai samanaikaisesti:
+
+Lissajous - Kuvaa vasemman ja oikean kanavan äänisignaalien välistä suhdetta
+Mirror Stereo - Yksinkertainen yhdistelmä vasemman ja oikean kanavan signaalista, vasen ylhäällä ja oikea alhaalla
+Mono - Näyttää oikean ja asemman kanavan yhdistettynä (RMS)
+Spectrum - Näyttää äänen frekvenssin spektrinä matalasta korkeisiin taajuuksiin
+Stereo - näyttää kaksi erillistä skooppia vasemmalle ja oikealle kanavalle</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="449"/>
         <source>Transparency</source>
-        <translation type="unfinished">Läpinäkyvyys</translation>
+        <translation>Läpinäkyvyys</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="472"/>
@@ -1945,25 +1961,25 @@ Stereo - shows two independent scopes for left and right channels</source>
         <location filename="../widgets/settingswidget.cpp" line="473"/>
         <source>Toggle automatic update checking.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished">Valitse automaattinen päivitysten tarkistus.
+        <translation>Valitse automaattinen päivitysten tarkistus.
 Tämä tarkistus sisältää anonyymin tiedon lähettämisen ympäristöstäsi ja versiostasi.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="474"/>
         <source>Check now</source>
-        <translation type="unfinished">Tarkista nyt</translation>
+        <translation>Tarkista nyt</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="477"/>
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished">Pakota päivitysten tarkistus nyt.
+        <translation>Pakota päivitysten tarkistus nyt.
 Tämä tarkistus sisältää anonyymin tiedon lähettämisen ympäristöstäsi ja versiostasi.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="478"/>
         <source>Get update</source>
-        <translation type="unfinished">Hanki päivitys</translation>
+        <translation>Lataa päivitys</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="480"/>
@@ -1973,12 +1989,12 @@ Tämä tarkistus sisältää anonyymin tiedon lähettämisen ympäristöstäsi j
     <message>
         <location filename="../widgets/settingswidget.cpp" line="485"/>
         <source>Update Info</source>
-        <translation type="unfinished">Päivitä tiedot</translation>
+        <translation>Päivityksen tiedot</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="488"/>
         <source>Sonic Pi update info</source>
-        <translation type="unfinished">Sonic Pi -päivitystiedot</translation>
+        <translation>Sonic Pi -päivitystiedot</translation>
     </message>
 </context>
 </TS>
