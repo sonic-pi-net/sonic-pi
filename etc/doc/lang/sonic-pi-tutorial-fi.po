@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2022-06-28 12:19+0000\n"
+"PO-Revision-Date: 2022-06-29 20:16+0000\n"
 "Last-Translator: Miika Alonen <amiika@gmail.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/fi/>\n"
@@ -16,10 +16,12 @@ msgstr ""
 "X-Generator: Weblate 4.13.1-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
+#, fuzzy
 msgid "1 Welcome to Sonic Pi"
 msgstr "1 Tervetuloa Sonic Pi:n maailmaan"
 
 #: 01-Welcome-to-Sonic-Pi.md:3
+#, fuzzy
 msgid "Welcome friend :-)"
 msgstr "Tervetuloa, ystävä :)"
 
