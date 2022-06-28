@@ -78,7 +78,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="938"/>
         <source>Full screen mode off.</source>
-        <translation>Koko ruudun tila pois päältä.</translation>
+        <translation>Kokoruudun tila pois päältä.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1193"/>
