@@ -58,12 +58,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="1150"/>
         <source>Indenting selection...</source>
-        <translation>Sisentää valintaa...</translation>
+        <translation>Sisennetään valintaa...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1156"/>
         <source>Indenting line...</source>
-        <translation>Sisentää riviä...</translation>
+        <translation>Sisennetään riviä...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1187"/>
@@ -83,17 +83,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="1193"/>
         <source>Toggle line comment...</source>
-        <translation>Vaihda rivin kommentti...</translation>
+        <translation>Vaihda rivin kommentointi...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3974"/>
         <source>Enabling MIDI input...</source>
-        <translation>Otetaan MIDI-tulo käyttöön...</translation>
+        <translation>Otetaan MIDI-sisääntulo käyttöön...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3982"/>
         <source>Disabling MIDI input...</source>
-        <translation>Poistetaan MIDI-tulo käytöstä...</translation>
+        <translation>Poistetaan MIDI-sisääntulo käytöstä...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4000"/>
@@ -113,17 +113,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="4029"/>
         <source>Disabling OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>Disabloidaan OSC cue porttia...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4043"/>
         <source>Enabling external OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>Otetaan ulkoinen OSC cue portti käyttöön...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4057"/>
         <source>Enabling internal OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>Otetaan sisäinen OSC cue portti käyttöön...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4127"/>
@@ -194,17 +194,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="2736"/>
         <source>Indent Code Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>Sisennä koodipuskuri</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2742"/>
         <source>Code Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Suurenna koodin kokoa</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2748"/>
         <source>Code Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Pienennä koodin kokoa</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2754"/>
@@ -214,12 +214,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2762"/>
         <source>Show Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Näytä lisätietoja</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3389"/>
         <source>Wavefile (*.wav)</source>
-        <translation>Wave-tiedosto (*.wav)</translation>
+        <translation>Wav-tiedosto (*.wav)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4002"/>
@@ -244,48 +244,49 @@
     <message>
         <location filename="../mainwindow.cpp" line="686"/>
         <source>Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Skooppi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="843"/>
         <source>Playing Sample...</source>
-        <translation type="unfinished"></translation>
+        <translation>Soitetaan samplea...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="882"/>
         <source>Hiding pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation>Piilotetaan paneelien otsikot...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="892"/>
         <source>Showing pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation>Näytetään paneelien otsikot...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1317"/>
         <source>Audio Inputs Enabled. Restart Sonic Pi for this setting to take effect...</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio-sisääntulot otettu käyttöön. Asetukset päivittyvät kun käynnistät Sonic Pi:n uudelleen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1319"/>
         <source>Audio Inputs Disabled. Restart Sonic Pi for this setting to take effect...</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio-sisääntulot poistettu käytöstä. Asetukset päivittyvät kun käynnistä Sonic Pi:n uudelleen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1417"/>
         <source>Sonic Pi Boot Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi käynnistysongelma</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1421"/>
         <source>Apologies, a critical error occurred during startup:
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Pahoittelut, käynnistyksessä tapahtui kriittinen virhe:
+</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1473"/>
         <source>Failed to load translations for language: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Käännöstiedostojen lataus epäonnistui kielelle: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1474"/>
@@ -326,13 +327,13 @@
         <location filename="../mainwindow.cpp" line="1829"/>
         <source>Enabling Mixer LPF...</source>
         <oldsource>Enabling Mixer LPF....</oldsource>
-        <translation>Mikserin LPF käyttöön...</translation>
+        <translation>Otetaan mikserin LPF käyttöön...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1838"/>
         <source>Disabling Mixer LPF...</source>
         <oldsource>Disabling Mixer LPF....</oldsource>
-        <translation>Mikserin LPF pois käytöstä...</translation>
+        <translation>Poistetaan mikserin LPF käytöstä...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1846"/>
@@ -426,7 +427,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2701"/>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Sulje</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2720"/>
@@ -486,7 +487,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2819"/>
         <source>Enable Audio Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Ota Audio-sisääntulot käyttöön</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2824"/>
