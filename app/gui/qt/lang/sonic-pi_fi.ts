@@ -209,7 +209,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2754"/>
         <source>Show Scopes</source>
-        <translation type="unfinished">Näytä skoopit</translation>
+        <translation>Näytä skoopit</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2762"/>
@@ -296,7 +296,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1476"/>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1740"/>
