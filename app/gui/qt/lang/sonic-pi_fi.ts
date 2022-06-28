@@ -78,7 +78,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="938"/>
         <source>Full screen mode off.</source>
-        <translation>Kokoruudun tila pois päältä.</translation>
+        <translation>Koko näytön tila pois päältä.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1193"/>
@@ -522,7 +522,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2853"/>
         <source>Enable Incoming MIDI Cues</source>
-        <translation>Ota käyttöön saapuvien MIDI signaalien kuuntelu</translation>
+        <translation>Ota käyttöön saapuvien MIDI sanomien kuuntelu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2858"/>
@@ -582,7 +582,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2935"/>
         <source>Light</source>
-        <translation>Vaalea tila</translation>
+        <translation>Valoisa tila</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2940"/>
@@ -592,12 +592,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2945"/>
         <source>Pro Light</source>
-        <translation>Valoisa pro</translation>
+        <translation>Pro valoisa</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2950"/>
         <source>Pro Dark</source>
-        <translation>Tumma pro</translation>
+        <translation>Pro tumma</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2955"/>
@@ -776,12 +776,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="3120"/>
         <source>Focus Logs</source>
-        <translation>Fokusoi logeja</translation>
+        <translation>Fokusoi lokeja</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3122"/>
         <source>Place focus on the log pane</source>
-        <translation>Aseta fokus loginäkymään</translation>
+        <translation>Aseta fokus lokinäkymään</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3125"/>
@@ -796,7 +796,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3131"/>
         <source>Focus Cues</source>
-        <translation>Fokusoi aloitusmerkkejä (Cues)</translation>
+        <translation>Fokusoi aloitusmerkkeihin (Cues)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3133"/>
@@ -846,7 +846,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3160"/>
         <source>Show Log</source>
-        <translation>Näytä logit</translation>
+        <translation>Näytä lokit</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3165"/>
@@ -980,7 +980,7 @@ Lataa Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="4381"/>
         <source>SuperCollider Log</source>
-        <translation>SuperCollider logi</translation>
+        <translation>SuperCollider loki</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2706"/>
@@ -1113,14 +1113,14 @@ Lataa Sonic Pi %1</translation>
         <location filename="../mainwindow.cpp" line="3583"/>
         <source>Cannot read file %1:
 %2.</source>
-        <translation>Ei voi lukea tiedostoa %1
+        <translation>Ei voida lukea tiedostoa %1
 %2.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3611"/>
         <source>Cannot write file %1:
 %2.</source>
-        <translation>Ei voi kirjoittaa tiedostoa %1
+        <translation>Ei voida kirjoittaa tiedostoa %1
 %2.</translation>
     </message>
     <message>
@@ -1335,7 +1335,7 @@ which isn&apos;t recognised.</source>
 load_synthdefs kautta ladattuja
 syntetisaattoreita ja efektejä.
 
-Kun poissa, Sonic Pi herjaa
+Kun ei valittuna, Sonic Pi herjaa
 kun yrität käyttää syntetisaattoria tai efektiä
 jota ei tunnisteta.</translation>
     </message>
@@ -1744,7 +1744,7 @@ käynnistystä ei tulosteta oletusarvoisesti lokiin.</translation>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation>Valitse lokin tyhjennys käynnistäessä.
+        <translation>Valitse lokin tyhjennystapa suorittaessa.
 Jos valittuna, loki tyhjennetään joka
 kerta kun suorita-nappia painetaan.</translation>
     </message>
@@ -1944,7 +1944,7 @@ katsoa erikseen tai samanaikaisesti:
 Lissajous - Kuvaa vasemman ja oikean kanavan äänisignaalien välistä suhdetta
 Mirror Stereo - Yksinkertainen yhdistelmä vasemman ja oikean kanavan signaalista, vasen ylhäällä ja oikea alhaalla
 Mono - Näyttää oikean ja asemman kanavan yhdistettynä (RMS)
-Spectrum - Näyttää äänen frekvenssin spektrinä matalasta korkeisiin taajuuksiin
+Spectrum - Näyttää ääniaallot spektrinä matalista korkeisiin taajuuksiin
 Stereo - näyttää kaksi erillistä skooppia vasemmalle ja oikealle kanavalle</translation>
     </message>
     <message>
