@@ -264,12 +264,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="1317"/>
         <source>Audio Inputs Enabled. Restart Sonic Pi for this setting to take effect...</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrades d&apos;àudio habilitades. Reinicieu Sonic Pi perquè aquesta configuració tinga efecte...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1319"/>
         <source>Audio Inputs Disabled. Restart Sonic Pi for this setting to take effect...</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrades d&apos;àudio desactivades. Reinicieu Sonic Pi perquè aquesta configuració tinga efecte...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1417"/>
@@ -487,12 +487,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2819"/>
         <source>Enable Audio Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Activa les entrades d&apos;àudio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2824"/>
         <source>Link Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>Connexió Link</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2829"/>
@@ -935,52 +935,52 @@ Aconsegueix Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="4366"/>
         <source>Sonic Pi - Audio Server Boot Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi - Error d&apos;arrencada del servidor d&apos;àudio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4371"/>
         <source>Sorry, the Audio Server failed to start...</source>
-        <translation type="unfinished"></translation>
+        <translation>No s&apos;ha pogut iniciar el servidor d&apos;àudio...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4372"/>
         <source>Please try changing your default OS audio input &amp; outputs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Proveu de canviar les entrades i eixides d&apos;àudio del sistema operatiu per defecte.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4373"/>
         <source>Note, the audio rate of the inputs &amp; outputs must be the same.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tingueu en compte que la freqüència de mostreig d&apos;àudio de les entrades i eixides ha de ser la mateixa.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4375"/>
         <source>For the curious among you, Sonic Pi uses the SuperCollider Audio Server to generate its sounds. By default it will connect to your default system audio input and outputs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Per si teniu curiositat, Sonic Pi utilitza el servidor d&apos;àudio SuperCollider per generar els seus sons. Per defecte, es connectarà a les entrades i eixides d&apos;àudio del sistema predeterminades.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4376"/>
         <source>Unfortunately SuperCollider is having problems starting correctly. You can read the full error log below which should explain why.</source>
-        <translation type="unfinished"></translation>
+        <translation>Malauradament, SuperCollider té problemes per iniciar correctament. Podeu llegir el registre d&apos;errors complet a continuació, que hauria d&apos;explicar els motius.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4377"/>
         <source>To fix this you can try changing your default operating system audio inputs and outputs (ensuring they have the same audio rate).</source>
-        <translation type="unfinished"></translation>
+        <translation>Per solucionar-ho, podeu provar de canviar les entrades i sortides d&apos;àudio del vostre sistema operatiu predeterminat (assegurant-vos que tinguen la mateixa velocitat d&apos;àudio).</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4378"/>
         <source>Advanced Users</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuaris avançats</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4379"/>
         <source>you may manually override this and further configure how SuperCollider boots by editing the file:</source>
-        <translation type="unfinished"></translation>
+        <translation>podeu anul·lar-ho manualment i configurar de manera més precisa com arrenca SuperCollider editant el fitxer:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4381"/>
         <source>SuperCollider Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Registre de SuperCollider</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2706"/>
@@ -1483,22 +1483,22 @@ Sonic Pi. Poden enviar-se des de la funció midi_* fns</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="83"/>
         <source>Audio Input</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrada d&apos;àudio</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="84"/>
         <source>Audio settings for working with audio inputs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Configuració d&apos;àudio per treballar amb entrades d&apos;àudio.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="85"/>
         <source>Enable Audio Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Activa les entrades d&apos;àudio</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="86"/>
         <source>Toggle to enable or disable audio inputs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Commuta per activar o desactivar les entrades d&apos;àudio.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="114"/>
@@ -1508,17 +1508,17 @@ Sonic Pi. Poden enviar-se des de la funció midi_* fns</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="127"/>
         <source>Audio Hardware Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informació de maquinari d&apos;àudio</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="128"/>
         <source>Audio hardware configuration and information.</source>
-        <translation type="unfinished"></translation>
+        <translation>Informació i configuració del maquinari d&apos;àudio.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="129"/>
         <source>Information unavailable.</source>
-        <translation type="unfinished"></translation>
+        <translation>Informació no disponible.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="156"/>
@@ -1633,7 +1633,7 @@ Sonic Pi. Poden enviar-se des de la funció midi_* fns</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="313"/>
         <source>Toggle visibility of the Link metronome controls.</source>
-        <translation>Mostra o amaga els controls de metrònom Link</translation>
+        <translation>Mostra o amaga els controls de metrònom Link.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="316"/>
@@ -1894,17 +1894,17 @@ a https://hosted.weblate.org/projects/sonic-pi/. Gràcies! :)</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="685"/>
         <source>Audio input change detected.</source>
-        <translation type="unfinished"></translation>
+        <translation>S&apos;ha detectat un canvi d&apos;entrada d&apos;àudio.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="686"/>
         <source>Your changes won&apos;t take affect until you restart Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation>Els canvis no tindran efecte fins que reinicieu el Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="687"/>
         <source>Would you like to restart now?</source>
-        <translation type="unfinished"></translation>
+        <translation>Voleu reiniciar ara?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="924"/>
