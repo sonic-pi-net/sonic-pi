@@ -171,7 +171,7 @@ loop(State) ->
             maps:get(cue_server, State) ! {api_reply, UUID, [{int64, Time}]},
             ?MODULE:loop(State);
 
-        {link_rpc, UUID, get_beat_and_time_at_phase, Phase, Quantum} ->
+        {link_rpc, UUID, get_next_beat_and_time_at_phase, Phase, Quantum} ->
             FQ = float(Quantum),
             TNow = sp_link:get_current_time_microseconds(),
             TNowPhase = sp_link:get_phase_at_time(TNow, FQ),

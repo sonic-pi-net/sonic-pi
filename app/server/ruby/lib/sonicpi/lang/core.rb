@@ -3616,7 +3616,7 @@ See link for further details and usage.",
         __system_thread_locals.set_local(:sonic_pi_local_last_sync, nil)
         use_bpm :link
 
-        beat, time = @tau_api.link_get_beat_and_clock_time_at_phase(phase, quantum)
+        beat, time = @tau_api.link_get_next_beat_and_clock_time_at_phase(phase, quantum)
 
         sat = current_sched_ahead_time
 
