@@ -254,12 +254,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="882"/>
         <source>Hiding pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation>Verstecke Fenster-Überschriften …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="892"/>
         <source>Showing pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige Fenster-Überschriften …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1317"/>
@@ -280,12 +280,13 @@
         <location filename="../mainwindow.cpp" line="1421"/>
         <source>Apologies, a critical error occurred during startup:
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Entschuldigung, ein kritischer Fehler trat während des Startvorgangs auf.
+</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1473"/>
         <source>Failed to load translations for language: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Fehlgeschlagenes Laden der Übersetzungen für die Sprache: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1474"/>
@@ -295,7 +296,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1476"/>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1740"/>
@@ -406,12 +407,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2496"/>
         <source>Show context on</source>
-        <translation>Anzeige Kontext an</translation>
+        <translation>Anzeige-Kontext an</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2505"/>
         <source>Show context off</source>
-        <translation>Anzeige Kontext aus</translation>
+        <translation>Anzeige-Kontext aus</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2521"/>
@@ -1602,7 +1603,7 @@ midi_*-Funktionen gesendet werden können direkt von Sonic Pi</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="302"/>
         <source>When enabled, Sonic Pi&apos;s editor will show a pane which will display context-specific information for the code such as the current line and position of the cursor.</source>
-        <translation>Wenn aktiviert, wird Sonic Pis Programm-Code-Editor ein Feld anzeigen, das für den Code spezifische Informationen anzeigt - wie gegenwärtige Zeilennummer und Position des Cursors.</translation>
+        <translation>Wenn aktiviert, wird Sonic Pis Programm-Code-Editor ein Feld anzeigen, das für den Code spezifische Informationen anzeigt – wie gegenwärtige Zeilennummer und Position des Cursors.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="304"/>
