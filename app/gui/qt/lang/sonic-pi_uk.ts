@@ -1295,7 +1295,7 @@ can only handle mono.</source>
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
-        <translation type="unfinished">Включити / виключити функції перевірки аргументів синтезатора.
+        <translation type="unfinished">Перемкнути функції перевірки аргументів синтезатора.
 Якщо вимкнено, деякі значення опцій синтезаторів зможуть
 викликати несподівано гучний або неприємний звук.</translation>
     </message>
@@ -1609,7 +1609,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="305"/>
         <source>Toggle visibility of the log.</source>
-        <translation type="unfinished">Переключити видимість логу.</translation>
+        <translation>Перемкнути видимість журналу.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="308"/>
@@ -1755,9 +1755,9 @@ time the run button is pressed.</source>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation type="unfinished">Включити / виключити ведення журналу сигналів.
-Якщо відключити, сигнали і надалі будуть відтворюватися.
-Однак вони не будуть видні в журналі.</translation>
+        <translation>Увімкнути або вимкнути ведення журналу сигналів.
+Якщо вимкнути, сигнали і надалі будуть відтворюватися.
+Однак, вони не будуть видимі в журналі.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="395"/>
