@@ -125,6 +125,13 @@ module SonicPi
       __system_thread_locals.set :sonic_pi_spider_start_time, t
     end
 
+    def __change_spider_bpm_time_and_beat_to_next_link_phase(phase, quantum)
+      safety_t = 0.5
+      beat, time = @tau_api.link_get_next_beat_and_clock_time_at_phase(phase, quantum, safety_t)
+      __system_thread_locals.set(:sonic_pi_spider_bpm, :link)
+      __change_spider_time_and_beat!(time - __current_sched_ahead_time, beat)
+    end
+
     def __change_spider_bpm_time_and_beat!(bpm, time, beat)
 
       # Need to be careful here about how to switch bpm modes.
