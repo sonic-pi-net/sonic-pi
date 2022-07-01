@@ -683,7 +683,7 @@ void SettingsWidget::updateEnableScsynthInputs() {
 
     QMessageBox msgBox(this);
     msgBox.setText(tr("Audio input change detected."));
-    QString info_text = (tr("Your changes won't take affect until you restart Sonic Pi.") +
+    QString info_text = (tr("Your changes won't take effect until you restart Sonic Pi.") +
                          "\n\n" + tr("Would you like to restart now?"));
 
     msgBox.setInformativeText(info_text);
