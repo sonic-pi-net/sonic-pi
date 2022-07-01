@@ -2825,6 +2825,18 @@ void MainWindow::createToolBar()
     enableLinkAct->setCheckable(true);
     enableLinkAct->setChecked(false);
     connect(enableLinkAct, SIGNAL(triggered()), this, SLOT(enableLinkMenuChanged()));
+    enableLinkSc = new QShortcut(metaKey('T'), this, SLOT(enableLinkMenuChanged()));
+    updateAction(enableLinkAct, enableLinkSc, tr("Connect or disconnect the Link Metronome from the network"));
+
+    linkTapTempoAct = new QAction(tr("Tap Tempo"), this);
+    connect(enableLinkAct, SIGNAL(triggered()), metroPane, SLOT(tapTempo()));
+#ifdef Q_OS_MAC
+    linkTapTempoSc = new QShortcut(QKeySequence("Meta+Return"), metroPane, SLOT(tapTempo()));
+#else
+    linkTapTempoSc = new QShortcut(QKeySequence("Ctrl+Return"), metroPane, SLOT(tapTempo()));
+#endif
+    updateAction(linkTapTempoAct, linkTapTempoSc, tr("Click Link Tap Tempo"));
+
 
     audioSafeAct = new QAction(tr("Safe Audio Mode"), this);
     audioSafeAct->setCheckable(true);
@@ -2929,7 +2941,7 @@ void MainWindow::createToolBar()
     audioMenu->addAction(enableScsynthInputsAct);
     audioMenu->addSeparator();
     audioMenu->addAction(enableLinkAct);
-
+    audioMenu->addAction(linkTapTempoAct);
     displayMenu = menuBar()->addMenu(tr("Visuals"));
 
     lightThemeAct = new QAction(tr("Light"));

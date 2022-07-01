@@ -45,6 +45,7 @@ signals:
   void linkDisabled();
 
 public slots:
+  void tapTempo();
 
 protected:
   void paintEvent(QPaintEvent *event);
@@ -62,7 +63,7 @@ private:
   qint64 lastTap = 0;
 
   void toggleLink();
-  void tapTempo();
+
   void updateActiveLinkText();
   void updateLinkButtonDisplay();
 
