@@ -479,7 +479,7 @@ void MainWindow::setupWindowStructure()
     prefsWidget->setObjectName("prefs");
     prefsWidget->setLayout(prefsLayout);
     prefsWidget->setMinimumHeight(settingsWidget->height() + ScaleHeightForDPI(240));
-
+    prefsWidget->setMinimumWidth(settingsWidget->width() + ScaleWidthForDPI(200));
     QSizePolicy prefsSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     prefsWidget->setSizePolicy(prefsSizePolicy) ;
 
