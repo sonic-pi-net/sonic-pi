@@ -3667,6 +3667,7 @@ SonicPiScintilla* MainWindow::filenameToWorkspace(std::string filename)
 
 void MainWindow::onExitCleanup()
 {
+    hide();
     std::cout << "[GUI] - initiating Shutdown..." << std::endl;
 
     if (scopeWindow)
