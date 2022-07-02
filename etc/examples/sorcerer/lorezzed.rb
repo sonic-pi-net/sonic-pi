@@ -1,4 +1,3 @@
-# Lorezzed
 # Coded by Sam Aaron
 
 use_bpm 50
