@@ -264,12 +264,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="1317"/>
         <source>Audio Inputs Enabled. Restart Sonic Pi for this setting to take effect...</source>
-        <translation type="unfinished"></translation>
+        <translation>ערוצי קלט שמע הופעלו. יש להפעיל את Sonic Pi מחדש כדי שהשינוי הזה ייכנס לתוקף…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1319"/>
         <source>Audio Inputs Disabled. Restart Sonic Pi for this setting to take effect...</source>
-        <translation type="unfinished"></translation>
+        <translation>ערוצי קלט שמע הושבתו. יש להפעיל את Sonic Pi מחדש כדי שהשינוי הזה ייכנס לתוקף…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1417"/>
@@ -487,12 +487,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2819"/>
         <source>Enable Audio Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>הפעלת ערוצי קלט שמע</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2824"/>
         <source>Link Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>חיבור קישור</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2829"/>
@@ -935,52 +935,52 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="4366"/>
         <source>Sonic Pi - Audio Server Boot Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi - שגיאת טעינת שרת שמע</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4371"/>
         <source>Sorry, the Audio Server failed to start...</source>
-        <translation type="unfinished"></translation>
+        <translation>עליית שרת השמע נכשלה, סליחה…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4372"/>
         <source>Please try changing your default OS audio input &amp; outputs.</source>
-        <translation type="unfinished"></translation>
+        <translation>נא לנסות לשנות את ערוצי קלט ופלט השמע כברירת המחדל של מערכת ההפעלה שלך.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4373"/>
         <source>Note, the audio rate of the inputs &amp; outputs must be the same.</source>
-        <translation type="unfinished"></translation>
+        <translation>נא לשים לב שקצב השמע של הקלטים והפלטים חייב להיות זהה.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4375"/>
         <source>For the curious among you, Sonic Pi uses the SuperCollider Audio Server to generate its sounds. By default it will connect to your default system audio input and outputs.</source>
-        <translation type="unfinished"></translation>
+        <translation>לסקרנים מביניכם, Sonic Pi משתמש בשרת שמע SuperCollider כדי לייצר את השמע שלו. כברירת מחדל הוא יתחבר לערוצי קלט ופלט השמע כברירת המחדל של המערכת שלך.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4376"/>
         <source>Unfortunately SuperCollider is having problems starting correctly. You can read the full error log below which should explain why.</source>
-        <translation type="unfinished"></translation>
+        <translation>לרוע המזל SuperCollider לא מצליח לעלות כראוי. אפשר לקרוא את יומן השגיאה המלא להלן שאמור להסביר למה זה קורה.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4377"/>
         <source>To fix this you can try changing your default operating system audio inputs and outputs (ensuring they have the same audio rate).</source>
-        <translation type="unfinished"></translation>
+        <translation>כדי לתקן את זה אפשר לנסות להחליף את ערוצי הקלט והפלט כברירת מחדל של המערכת שלך (יש לוודא שקצב השמע שלהם זהה).</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4378"/>
         <source>Advanced Users</source>
-        <translation type="unfinished"></translation>
+        <translation>משתמשים מתקדמים</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4379"/>
         <source>you may manually override this and further configure how SuperCollider boots by editing the file:</source>
-        <translation type="unfinished"></translation>
+        <translation>אפשר לדרוס את זה ידנית ולהגדיר איך SuperCollider עולה על ידי עריכת הקובץ:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4381"/>
         <source>SuperCollider Log</source>
-        <translation type="unfinished"></translation>
+        <translation>היומן של SuperCollider</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2706"/>
@@ -1483,22 +1483,22 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="83"/>
         <source>Audio Input</source>
-        <translation type="unfinished"></translation>
+        <translation>קלט שמע</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="84"/>
         <source>Audio settings for working with audio inputs.</source>
-        <translation type="unfinished"></translation>
+        <translation>הגדרות שמע לעבודה עם ערוצי קלט שמע.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="85"/>
         <source>Enable Audio Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>הפעלת ערוצי קלט שמע</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="86"/>
         <source>Toggle to enable or disable audio inputs.</source>
-        <translation type="unfinished"></translation>
+        <translation>יש להחליף מצב כדי להפעיל או להשבית ערוצי קלט שמע.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="114"/>
@@ -1508,17 +1508,17 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="127"/>
         <source>Audio Hardware Information</source>
-        <translation type="unfinished"></translation>
+        <translation>פרטי חומרת שמע</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="128"/>
         <source>Audio hardware configuration and information.</source>
-        <translation type="unfinished"></translation>
+        <translation>הגדרות ופירוט של חומרת שמע.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="129"/>
         <source>Information unavailable.</source>
-        <translation type="unfinished"></translation>
+        <translation>המידע לא זמין.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="156"/>
@@ -1894,17 +1894,17 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="685"/>
         <source>Audio input change detected.</source>
-        <translation type="unfinished"></translation>
+        <translation>התגלה שינוי בקלט שמע.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="686"/>
         <source>Your changes won&apos;t take affect until you restart Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation>השינויים שלך לא יחולו עד להפעלת Sonic Pi מחדש.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="687"/>
         <source>Would you like to restart now?</source>
-        <translation type="unfinished"></translation>
+        <translation>להפעיל מחדש כעת?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="924"/>
