@@ -2830,13 +2830,8 @@ void MainWindow::createToolBar()
 
     linkTapTempoAct = new QAction(tr("Tap Tempo"), this);
     connect(enableLinkAct, SIGNAL(triggered()), metroPane, SLOT(tapTempo()));
-#ifdef Q_OS_MAC
-    linkTapTempoSc = new QShortcut(QKeySequence("Meta+Return"), metroPane, SLOT(tapTempo()));
-#else
-    linkTapTempoSc = new QShortcut(QKeySequence("Ctrl+Return"), metroPane, SLOT(tapTempo()));
-#endif
+    linkTapTempoSc = new QShortcut(QKeySequence("Shift+Return"), metroPane, SLOT(tapTempo()));
     updateAction(linkTapTempoAct, linkTapTempoSc, tr("Click Link Tap Tempo"));
-
 
     audioSafeAct = new QAction(tr("Safe Audio Mode"), this);
     audioSafeAct->setCheckable(true);
@@ -3130,7 +3125,7 @@ void MainWindow::createToolBar()
 
     //Focus Logs
     focusLogsAct = new QAction(theme->getHelpIcon(false), tr("Focus Logs"), this);
-    focusLogsSc = new QShortcut(ctrlShiftKey('L'), this, SLOT(focusLogs()));
+        focusLogsSc = new QShortcut(ctrlShiftKey('L'), this, SLOT(focusLogs()));
     updateAction(focusLogsAct, focusLogsSc, tr("Place focus on the log pane"));
     connect(focusLogsAct, SIGNAL(triggered()), this, SLOT(focusLogs()));
 
