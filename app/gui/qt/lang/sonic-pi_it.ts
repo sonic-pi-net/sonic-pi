@@ -254,53 +254,54 @@
     <message>
         <location filename="../mainwindow.cpp" line="882"/>
         <source>Hiding pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation>Titoli pannello nascosti...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="892"/>
         <source>Showing pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation>Titoli pannello visibili...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1317"/>
         <source>Audio Inputs Enabled. Restart Sonic Pi for this setting to take effect...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ingressi Audio Abilitati. Riavviare Sonic Pi per applicare modifiche...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1319"/>
         <source>Audio Inputs Disabled. Restart Sonic Pi for this setting to take effect...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ingressi Audio Disabilitati. Riavviare Sonic Pi per applicare modifiche...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1417"/>
         <source>Sonic Pi Boot Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore avvio Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1421"/>
         <source>Apologies, a critical error occurred during startup:
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Ci scusiamo per l&apos;inconveniente, un errore critico è avvenuto in fase di avvio:
+</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1473"/>
         <source>Failed to load translations for language: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Non è stato possibile caricare traduzioni per lingua: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1474"/>
         <source>Falling back to English. Sorry about this.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ritorno a lingua inglese. Ci scusiamo per l&apos;inconveniente.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1476"/>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1740"/>
         <source>Zooming In...</source>
-        <translation>Ingrandendo...</translation>
+        <translation>Ingrandimento...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1747"/>
@@ -486,12 +487,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2819"/>
         <source>Enable Audio Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Abilita Ingressi Audio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2824"/>
         <source>Link Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>Connetti Link</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2829"/>
@@ -611,12 +612,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2965"/>
         <source>Show Titles</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra Titoli</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2970"/>
         <source>Hide Menu Bar in Fullscreen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Nascondi barra Menu in modalità schermo intero</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2975"/>
@@ -855,7 +856,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3170"/>
         <source>Show Metronome</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra Metronomo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3175"/>
@@ -875,7 +876,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3221"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Lingua</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3412"/>
@@ -895,7 +896,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3695"/>
         <source>Restarting Sonic Pi...</source>
-        <translation type="unfinished"></translation>
+        <translation>Riavvio Sonic Pi...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3930"/>
@@ -934,52 +935,52 @@ Scarica subito Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="4366"/>
         <source>Sonic Pi - Audio Server Boot Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi - Errore avvio Audio Server</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4371"/>
         <source>Sorry, the Audio Server failed to start...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ci dispiace, l&apos;avvio dell&apos;audio server é fallito...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4372"/>
         <source>Please try changing your default OS audio input &amp; outputs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Prego provare a cambiare la periferica di ingresso &amp; uscita audio predefinita del sistema operativo.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4373"/>
         <source>Note, the audio rate of the inputs &amp; outputs must be the same.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nota, la frequenza audio di ingressi &amp; uscite deve essere la stessa.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4375"/>
         <source>For the curious among you, Sonic Pi uses the SuperCollider Audio Server to generate its sounds. By default it will connect to your default system audio input and outputs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Per i curiosi fra voi, Sonic Pi usa l&apos;audio server SuperCollider per generare i propri suoni. Per impostazione predefinita si connetterà alla vostre periferiche di ingresso e uscita predefinita.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4376"/>
         <source>Unfortunately SuperCollider is having problems starting correctly. You can read the full error log below which should explain why.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sfortunatamente SuperCollider sta riscontrando un problema di avvio. E&apos; possibile consultare il log errori riportato sotto per individuarne il motivo.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4377"/>
         <source>To fix this you can try changing your default operating system audio inputs and outputs (ensuring they have the same audio rate).</source>
-        <translation type="unfinished"></translation>
+        <translation>Per risolvere questo, provare a cambiare la periferica di ingresso e uscita audio di sistema predefinita (assicurandosi che abbiano la stessa frequenza).</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4378"/>
         <source>Advanced Users</source>
-        <translation type="unfinished"></translation>
+        <translation>Utenti Avanzati</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4379"/>
         <source>you may manually override this and further configure how SuperCollider boots by editing the file:</source>
-        <translation type="unfinished"></translation>
+        <translation>è possibile forzare manualmente questo e applicare ulteriore configurazione a sistema di avvio di SuperCollider modificando il file:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4381"/>
         <source>SuperCollider Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Registro eventi SuperCollider</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2706"/>
@@ -1061,7 +1062,7 @@ Scarica subito Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="474"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Chiudi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="619"/>
@@ -1071,7 +1072,7 @@ Scarica subito Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="710"/>
         <source>Link Metronome</source>
-        <translation type="unfinished"></translation>
+        <translation>Collega Metronomo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2738"/>
@@ -1224,7 +1225,7 @@ Scarica subito Sonic Pi %1</translation>
         <location filename="../widgets/settingswidget.cpp" line="55"/>
         <location filename="../widgets/settingswidget.cpp" line="514"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Lingua</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="77"/>
@@ -1382,12 +1383,12 @@ Quando disabilitato, sarà abilitato solo l&apos;invio e la ricezione dalla macc
     <message>
         <location filename="../widgets/settingswidget.cpp" line="208"/>
         <source>all</source>
-        <translation type="unfinished"></translation>
+        <translation>tutti</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="231"/>
         <source>Default MIDI out channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Canale MIDI in uscita predefinito</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="298"/>
@@ -1482,22 +1483,22 @@ Sonic Pi e che possono essere inviati attraverso il midi_*fns</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="83"/>
         <source>Audio Input</source>
-        <translation type="unfinished"></translation>
+        <translation>Ingresso Audio</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="84"/>
         <source>Audio settings for working with audio inputs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Impostazioni Audio per lavorare con audio inputs.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="85"/>
         <source>Enable Audio Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Abilita Ingressi Audio</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="86"/>
         <source>Toggle to enable or disable audio inputs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleziona per abilitare o disabilitare ingressi Audio.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="114"/>
@@ -1507,17 +1508,17 @@ Sonic Pi e che possono essere inviati attraverso il midi_*fns</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="127"/>
         <source>Audio Hardware Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informazioni su dispositivo Audio</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="128"/>
         <source>Audio hardware configuration and information.</source>
-        <translation type="unfinished"></translation>
+        <translation>Configurazione del dispositivo Audio e informazioni.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="129"/>
         <source>Information unavailable.</source>
-        <translation type="unfinished"></translation>
+        <translation>Informazione non disponibile.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="156"/>
@@ -1547,17 +1548,17 @@ Sonic Pi e che possono essere inviati attraverso il midi_*fns</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="283"/>
         <source>Show Panels</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra pannelli</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="284"/>
         <source>Show and hide information panes such as the scope and log.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra e nascondi pannelli informativi come lo scope o il registro eventi.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="287"/>
         <source>Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Tema</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="289"/>
@@ -1627,12 +1628,12 @@ Sonic Pi e che possono essere inviati attraverso il midi_*fns</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="312"/>
         <source>Show Link metronome controls</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra Link controlli metronomo</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="313"/>
         <source>Toggle visibility of the Link metronome controls.</source>
-        <translation type="unfinished"></translation>
+        <translation>Alterna visibilità del Link controlli metronomo.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="316"/>
@@ -1667,22 +1668,22 @@ Sonic Pi e che possono essere inviati attraverso il midi_*fns</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="325"/>
         <source>Show titles</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra titoli</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="326"/>
         <source>Toggle the title visibility for the scope, log, cue and other information panes</source>
-        <translation type="unfinished"></translation>
+        <translation>Alterna visibilità titolo per lo scope, registro eventi, cue e altri pannelli informativi</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="329"/>
         <source>Hide Menubar in Fullscreen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Nascondi barra menu in modalità schermo intero</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="330"/>
         <source>Automatically hide the menubar when the app is in full screen mode. Note that the menubar is always visible when not in full screen mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nascondi automaticamente barra menu quando l&apos;applicazione è in modalità schermo intero. Notare che la barra menu è sempre visibile quando non si è in modalità schermo intero.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="334"/>
@@ -1791,128 +1792,131 @@ Se abilitato il registro scorrerà verso il basso dopo aver mostrato ogni nuovo 
     <message>
         <location filename="../widgets/settingswidget.cpp" line="435"/>
         <source>Show scopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra scopes</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="437"/>
         <source>Show scope labels</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra etichette scopes</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="515"/>
         <source>Configure language settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Configura impostazioni lingua</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="520"/>
         <source>UI &amp; Tutorial Language (Requires a restart to take effect)</source>
-        <translation type="unfinished"></translation>
+        <translation>Lingua UI &amp; Tutorial (Richiede riavvio per avere effetto)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="521"/>
         <source>Change the language of the UI &amp; Tutorial (Requires a restart to take effect)</source>
-        <translation type="unfinished"></translation>
+        <translation>Cambia lingua dell&apos;UI &amp; Tutorial (Richiede riavvio per avere effetto)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="525"/>
         <source>Change the language of the UI &amp; Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation>Cambia lingua dell&apos;UI &amp; Tutorial</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="532"/>
         <source>Translations have been generously provided by volunteers 
 on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
-        <translation type="unfinished"></translation>
+        <translation>Le traduzioni sono state generosamente fornite dai volontari
+su https://hosted.weblate.org/projects/sonic-pi/. Grazie! :)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="631"/>
         <source>You&apos;ve selected a new language: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Hai selezionato una nuova lingua: %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="633"/>
         <source>Do you want to apply this language?</source>
-        <translation type="unfinished"></translation>
+        <translation>Vuoi applicare questa lingua?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="635"/>
         <source>The new language will be applied when you next start Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation>La nuova lingua verrà applicata al prossimo avvio di Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="639"/>
         <source>System languages found: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Lingue di sistema trovate: %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="643"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation>Applica</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="644"/>
         <location filename="../widgets/settingswidget.cpp" line="691"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Annulla</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="655"/>
         <source>&lt;b&gt;The new language will be applied when you next start Sonic Pi.&lt;/b&gt;&lt;br&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;La nuova lingua verrà applicata al prossimo avvio di Sonic Pi.&lt;/b&gt;&lt;br&gt;</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="656"/>
         <location filename="../widgets/settingswidget.cpp" line="925"/>
         <source>Current UI language: %1
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Lingua UI corrente: %1
+</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="660"/>
         <source>Restart Sonic Pi?</source>
-        <translation type="unfinished"></translation>
+        <translation>Riavviare Sonic Pi?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="661"/>
         <source>Do you want to restart Sonic Pi now? This will stop any current runs &amp; recordings.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vuoi riavviare Sonic Pi ora? Questo interromperà qualunque esecuzione &amp; registrazione in corso.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="662"/>
         <location filename="../widgets/settingswidget.cpp" line="690"/>
         <source>Restart</source>
-        <translation type="unfinished"></translation>
+        <translation>Riavvio</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="663"/>
         <source>Dismiss</source>
-        <translation type="unfinished"></translation>
+        <translation>Chiudi</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="685"/>
         <source>Audio input change detected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Rilevata modifica della periferica ingresso audio.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="686"/>
         <source>Your changes won&apos;t take affect until you restart Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation>Le modifiche non saranno applicate fino al riavvio di Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="687"/>
         <source>Would you like to restart now?</source>
-        <translation type="unfinished"></translation>
+        <translation>Riavviare ora?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="924"/>
         <source>System languages: %1
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Lingue di sistema: %1
+</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1077"/>
         <source>Use system language</source>
-        <translation type="unfinished"></translation>
+        <translation>Usa lingua di sistema</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="436"/>
