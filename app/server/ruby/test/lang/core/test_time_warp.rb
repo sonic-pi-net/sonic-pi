@@ -25,6 +25,7 @@ module SonicPi
 
     def test_no_warp
       @lang.run do
+        use_bpm 60
         assert_equal(vt, 0)
         sleep 0.1
         assert_equal(vt, 0.1)
@@ -38,6 +39,7 @@ module SonicPi
 
     def test_no_warp_again
       @lang.run do
+        use_bpm 60
         assert_equal(vt, 0)
         sleep(-0.1)
         assert_equal(vt, -0.1)
@@ -51,6 +53,7 @@ module SonicPi
 
     def test_warp
       @lang.run do
+        use_bpm 60
         assert_equal(vt, 0)
         sleep(-0.1)
         assert_equal(vt, -0.1)
@@ -64,6 +67,7 @@ module SonicPi
 
     def test_multi_warp
       @lang.run do
+        use_bpm 60
         assert_equal(vt, 0)
         sleep(-0.1)
         assert_equal(vt, -0.1)
@@ -88,6 +92,7 @@ module SonicPi
 
     def test_exception_handling
       @lang.run do
+        use_bpm 60
         assert_error TestError do
           time_warp 0.1 do
             raise TestError
