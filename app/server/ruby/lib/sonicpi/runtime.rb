@@ -121,8 +121,8 @@ module SonicPi
 
     def __init_spider_time_and_beat!
       t = Time.now.to_f
-      __change_spider_time_and_beat!(t, 0)
       __system_thread_locals.set :sonic_pi_spider_start_time, t
+      __change_spider_bpm_time_and_beat!(:link, t, 0)
     end
 
     def __change_spider_bpm_time_and_beat_to_next_link_phase(phase, quantum)
@@ -830,7 +830,7 @@ module SonicPi
     end
 
     def __set_default_user_thread_locals!
-      __change_spider_bpm_time_and_beat!(60.0, __get_spider_time, __get_spider_beat)
+
       __thread_locals.set :sonic_pi_spider_arg_bpm_scaling, true
       __thread_locals.set :sonic_pi_spider_new_thread_random_gen_idx, 0
       __system_thread_locals.set(:sonic_pi_spider_thread_priority, 0)
