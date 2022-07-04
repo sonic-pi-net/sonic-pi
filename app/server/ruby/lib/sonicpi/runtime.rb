@@ -148,7 +148,7 @@ module SonicPi
         else
           # 2. std -> link
           __system_thread_locals.set(:sonic_pi_spider_bpm, :link)
-          link_beat = __get_link_beat_at_clock_time(time)
+          link_beat = __get_link_beat_at_clock_time(time + __current_sched_ahead_time)
           __change_spider_time_and_beat!(time, link_beat)
         end
       else
