@@ -1258,6 +1258,13 @@ void MainWindow::enableLinkMenuChanged()
   }
 }
 
+void MainWindow::toggleLinkMenu()
+{
+  enableLinkAct->setChecked(!enableLinkAct->isChecked());
+  enableLinkMenuChanged();
+}
+
+
 void MainWindow::uncheckEnableLinkMenu()
 {
   enableLinkAct->setChecked(false);
@@ -2825,7 +2832,7 @@ void MainWindow::createToolBar()
     enableLinkAct->setCheckable(true);
     enableLinkAct->setChecked(false);
     connect(enableLinkAct, SIGNAL(triggered()), this, SLOT(enableLinkMenuChanged()));
-    enableLinkSc = new QShortcut(metaKey('T'), this, SLOT(enableLinkMenuChanged()));
+    enableLinkSc = new QShortcut(metaKey('t'), this, SLOT(toggleLinkMenu()));
     updateAction(enableLinkAct, enableLinkSc, tr("Connect or disconnect the Link Metronome from the network"));
 
     linkTapTempoAct = new QAction(tr("Tap Tempo"), this);

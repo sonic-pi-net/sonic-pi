@@ -207,6 +207,7 @@ signals:
         void enableLinkMenuChanged();
         void uncheckEnableLinkMenu();
         void checkEnableLinkMenu();
+        void toggleLinkMenu();
         void changeEnableScsynthInputs();
         void midiEnabledMenuChanged();
         void changeShowAutoCompletion();
