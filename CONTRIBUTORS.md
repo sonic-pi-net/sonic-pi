@@ -58,6 +58,15 @@ projects:
 * The Scratch Team - [Scratch](https://scratch.mit.edu)
 * Thor Magnusson - [ixi lang](http://www.ixi-audio.net/content/body_software_ixilang.html)
 
+## Sponsors
+
+The following organisations have kindly supported the continued
+developent and maintainence of Sonic Pi. We give our appreciation and
+respect back to them all for choosing to support open source software:
+
+ ** [Alembic](https://alembic.com.au)
+
+
 
 ## Patreon Supporters
 
