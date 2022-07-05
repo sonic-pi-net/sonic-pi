@@ -27,17 +27,18 @@ of Sonic Pi with their time, advice, and wisdom:
 
 ## Organisations
 
-The following organisations have kindly contributed to Sonic Pi:
+The following organisations kindly contributed to Sonic Pi and provided
+a fertile ground for its initial development and growth within
+[The University of Cambridge Computer Laboratory](https://www.cl.cam.ac.uk)
+through various collaborations, projects and other means:
 
 * [The Raspberry Pi Foundation](https://www.raspberrypi.org)
 * [The Broadcom Foundation](http://broadcomfoundation.org/)
-* [The University of Cambridge Computer Laboratory](https://www.cl.cam.ac.uk)
 * [Arts Council England](http://www.artscouncil.org.uk)
 * [Nesta](https://www.nesta.org.uk)
 * [pi-top](https://pi-top.com)
 * [Norfolk & Norwich Festival Bridge](https://nnfestival.org.uk/festival-bridge/)
 * [Emute Lab at the University of Sussex](https://www.emutelab.org)
-* [Trading & Consulting 'H.P.C.' GmbH](https://www.hpc.at/)
 
 
 ## Inspiration
@@ -58,16 +59,16 @@ projects:
 * The Scratch Team - [Scratch](https://scratch.mit.edu)
 * Thor Magnusson - [ixi lang](http://www.ixi-audio.net/content/body_software_ixilang.html)
 
+
 ## Sponsors
 
-The following organisations have kindly supported the continued
+The following organisations have financially supported the continued
 developent and maintainence of Sonic Pi. We give our appreciation and
 respect back to them all for choosing to support open source software:
 
+* [Trading & Consulting 'H.P.C.' GmbH](https://www.hpc.at/)
 * [Dashbit](https://dashbit.co)
 * [Alembic](https://alembic.com.au)
-
-
 
 
 ## Patreon Supporters
