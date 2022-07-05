@@ -31,6 +31,12 @@ To be released...
 <!-- [(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v4.0.0): -->
 
 ### Breaking Changes
+* The default BPM is now set to the new global Link metronome. This is
+  set to 60 by default, so on the surface the behaviour will appear
+  identical. However, if you change the Link metronome BPM using the GUI
+  or the new fn `set_link_bpm!` it will change the BPM for all threads
+  dynamically. Previous behaviour (a static BPM of 60 unlinked to the
+  global metronome) can be obtained by starting your code with `use_bpm 60`.
 * Previously it was possible that the `onset:` option for `sample`
   silently ignored the last onset of a given sample. This has now been
   fixed. Some samples may therefore have an additional onset index which
@@ -62,6 +68,7 @@ To be released...
 
 ### Examples
 * New Algomancer example - Blockgame coded by DJ Dave.
+* New Sorcerer example - Lorezzed.
 
 
 ### GUI
@@ -76,7 +83,7 @@ To be released...
 * Scrollbars now have rounded edges.
 * Teach autocompletion about random source choices: `:white`, `:light_pink`, `:pink`, etc.
 * Improve syntax indentation.
-* Improvements for Arabic, Catalan, Chinese (Simplified), Dutch, Estonian, French, German, Italian, Japanese, Korean, Persian, Polish, Portuguese (Brazil), Russian, Sinhala, Spanish, Swedish
+* Improvements for Arabic, Catalan, Chinese (Simplified), Dutch, Estonian, French, German, Italian, Japanese, Korean, Persian, Polish, Portuguese (Brazil), Russian, Sinhala, Spanish, Swedish, Ukranian.
 * Introduced new translations for Basque, Gaelic.
 
 
