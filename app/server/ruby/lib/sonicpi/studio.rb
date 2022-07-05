@@ -243,7 +243,7 @@ module SonicPi
       check_for_server_rebooting!(:invert)
       @volume = vol
       message "Setting main volume to #{vol}" unless silent
-      @server.node_ctl @mixer, {"pre_amp" => vol}, now
+      @server.node_ctl @mixer, {"pre_amp" => vol * 0.125}, now
     end
 
     def mixer_invert_stereo(invert)
@@ -482,7 +482,7 @@ module SonicPi
       # set_mixer! :default
       log_message "Starting mixer"
       mixer_synth = "sonic-pi-mixer"
-      @mixer = @server.trigger_synth(:head, @mixer_group, mixer_synth, {"in_bus" => @mixer_bus.to_i}, nil, true)
+      @mixer = @server.trigger_synth(:head, @mixer_group, mixer_synth, {"in_bus" => @mixer_bus.to_i, amp: 4}, nil, true)
     end
 
     def start_scope

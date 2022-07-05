@@ -58,6 +58,15 @@ projects:
 * The Scratch Team - [Scratch](https://scratch.mit.edu)
 * Thor Magnusson - [ixi lang](http://www.ixi-audio.net/content/body_software_ixilang.html)
 
+## Sponsors
+
+The following organisations have kindly supported the continued
+developent and maintainence of Sonic Pi. We give our appreciation and
+respect back to them all for choosing to support open source software:
+
+ ** [Alembic](https://alembic.com.au)
+
+
 
 ## Patreon Supporters
 
@@ -235,14 +244,14 @@ In addition to the Sonic Pi Core Team, we would like to extend our
 thanks to the following developers who have donated their time and
 effort to help grow and improve the Sonic Pi code base:
 
-* [Sam Aaron](https://github.com/sonic-pi-net/sonic-pi/commits?author=samaaron) (5214)
+* [Sam Aaron](https://github.com/sonic-pi-net/sonic-pi/commits?author=samaaron) (5238)
 * [Ethan Crawford](https://github.com/sonic-pi-net/sonic-pi/commits?author=ethancrawford) (304)
 * [Hanno Zulla](https://github.com/sonic-pi-net/sonic-pi/commits?author=hzulla) (198)
 * [Joseph Wilk](https://github.com/sonic-pi-net/sonic-pi/commits?author=josephwilk) (160)
 * [Jeremy Weatherford](https://github.com/sonic-pi-net/sonic-pi/commits?author=jweather) (123)
 * [Xavier Riley](https://github.com/sonic-pi-net/sonic-pi/commits?author=xavriley) (110)
 * [Łukasz Siwiński](https://github.com/sonic-pi-net/sonic-pi/commits?author=hopbit) (82)
-* [Robin Newman](https://github.com/sonic-pi-net/sonic-pi/commits?author=rbnpi) (80)
+* [Robin Newman](https://github.com/sonic-pi-net/sonic-pi/commits?author=rbnpi) (81)
 * [SunderB](https://github.com/sonic-pi-net/sonic-pi/commits?author=SunderB) (79)
 * [Adrian Cheater](https://github.com/sonic-pi-net/sonic-pi/commits?author=factoid) (70)
 * [Emlyn Corrin](https://github.com/sonic-pi-net/sonic-pi/commits?author=emlyn) (68)
@@ -805,6 +814,7 @@ The following volunteers have generously helped to translate Sonic Pi into addit
 * Michael Bölling (1)
 * Miguel García (1)
 * Mikkel Gravgaard (1)
+* Moon Sungjoon (1)
 * Mui Kai En (1)
 * Nadezhda Ratckevich (1)
 * Narek Torosyan (1)

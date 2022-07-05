@@ -31,6 +31,12 @@ To be released...
 <!-- [(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v4.0.0): -->
 
 ### Breaking Changes
+* The default BPM is now set to the new global Link metronome. This is
+  set to 60 by default, so on the surface the behaviour will appear
+  identical. However, if you change the Link metronome BPM using the GUI
+  or the new fn `set_link_bpm!` it will change the BPM for all threads
+  dynamically. Previous behaviour (a static BPM of 60 unlinked to the
+  global metronome) can be obtained by starting your code with `use_bpm 60`.
 * Previously it was possible that the `onset:` option for `sample`
   silently ignored the last onset of a given sample. This has now been
   fixed. Some samples may therefore have an additional onset index which
@@ -62,13 +68,14 @@ To be released...
 
 ### Examples
 * New Algomancer example - Blockgame coded by DJ Dave.
+* New Sorcerer example - Lorezzed.
 
 
 ### GUI
 * Preference pane is now an overlay which hovers over the main window. This means that opening and closing it does not inadvertantly modify a carefully chosen layout e.g. for a performance.
 * New preference option to show and hide the pane titles such as Scope, Log, Cues, Context, Help, etc.
 * New preference option to hide the menubar when in fullscreen mode (Windows and Linux only as this behaviour is standard on macOS).
-* New preference option for enabling audio inputs (now disabled by deafult). Modifying this setting requires a reboot to take effect.
+* New preference option for enabling audio inputs (now disabled by default). Modifying this setting requires a reboot to take effect.
 * Preferences now show audio hardware information such as connected input/out devices, sample rate, block size etc. The amount of information displayed varies by platform.
 * New GUI controls for interacting with the new Link Metronome. You can connect/disconnect to the network (to share tempo with others), change the tempo (in BPM) and tap out a new tempo.
 * Increase width of panel dividers and highlight on mouse hover.
@@ -76,7 +83,7 @@ To be released...
 * Scrollbars now have rounded edges.
 * Teach autocompletion about random source choices: `:white`, `:light_pink`, `:pink`, etc.
 * Improve syntax indentation.
-* Improvements for Arabic, Catalan, Chinese (Simplified), Dutch, Estonian, French, German, Italian, Japanese, Korean, Persian, Polish, Portuguese (Brazil), Russian, Sinhala, Spanish, Swedish
+* Improvements for Arabic, Catalan, Chinese (Simplified), Dutch, Estonian, French, German, Italian, Japanese, Korean, Persian, Polish, Portuguese (Brazil), Russian, Sinhala, Spanish, Swedish, Ukranian.
 * Introduced new translations for Basque, Gaelic.
 
 

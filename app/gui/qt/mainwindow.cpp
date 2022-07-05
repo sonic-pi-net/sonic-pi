@@ -479,7 +479,7 @@ void MainWindow::setupWindowStructure()
     prefsWidget->setObjectName("prefs");
     prefsWidget->setLayout(prefsLayout);
     prefsWidget->setMinimumHeight(settingsWidget->height() + ScaleHeightForDPI(240));
-
+    prefsWidget->setMinimumWidth(settingsWidget->width() + ScaleWidthForDPI(200));
     QSizePolicy prefsSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     prefsWidget->setSizePolicy(prefsSizePolicy) ;
 
@@ -1257,6 +1257,13 @@ void MainWindow::enableLinkMenuChanged()
     metroPane->linkDisable();
   }
 }
+
+void MainWindow::toggleLinkMenu()
+{
+  enableLinkAct->setChecked(!enableLinkAct->isChecked());
+  enableLinkMenuChanged();
+}
+
 
 void MainWindow::uncheckEnableLinkMenu()
 {
@@ -2825,6 +2832,13 @@ void MainWindow::createToolBar()
     enableLinkAct->setCheckable(true);
     enableLinkAct->setChecked(false);
     connect(enableLinkAct, SIGNAL(triggered()), this, SLOT(enableLinkMenuChanged()));
+    enableLinkSc = new QShortcut(metaKey('t'), this, SLOT(toggleLinkMenu()));
+    updateAction(enableLinkAct, enableLinkSc, tr("Connect or disconnect the Link Metronome from the network"));
+
+    linkTapTempoAct = new QAction(tr("Tap Tempo"), this);
+    connect(enableLinkAct, SIGNAL(triggered()), metroPane, SLOT(tapTempo()));
+    linkTapTempoSc = new QShortcut(QKeySequence("Shift+Return"), metroPane, SLOT(tapTempo()));
+    updateAction(linkTapTempoAct, linkTapTempoSc, tr("Click Link Tap Tempo"));
 
     audioSafeAct = new QAction(tr("Safe Audio Mode"), this);
     audioSafeAct->setCheckable(true);
@@ -2929,7 +2943,7 @@ void MainWindow::createToolBar()
     audioMenu->addAction(enableScsynthInputsAct);
     audioMenu->addSeparator();
     audioMenu->addAction(enableLinkAct);
-
+    audioMenu->addAction(linkTapTempoAct);
     displayMenu = menuBar()->addMenu(tr("Visuals"));
 
     lightThemeAct = new QAction(tr("Light"));
@@ -3118,7 +3132,7 @@ void MainWindow::createToolBar()
 
     //Focus Logs
     focusLogsAct = new QAction(theme->getHelpIcon(false), tr("Focus Logs"), this);
-    focusLogsSc = new QShortcut(ctrlShiftKey('L'), this, SLOT(focusLogs()));
+        focusLogsSc = new QShortcut(ctrlShiftKey('L'), this, SLOT(focusLogs()));
     updateAction(focusLogsAct, focusLogsSc, tr("Place focus on the log pane"));
     connect(focusLogsAct, SIGNAL(triggered()), this, SLOT(focusLogs()));
 
@@ -3655,6 +3669,7 @@ SonicPiScintilla* MainWindow::filenameToWorkspace(std::string filename)
 
 void MainWindow::onExitCleanup()
 {
+    hide();
     std::cout << "[GUI] - initiating Shutdown..." << std::endl;
 
     if (scopeWindow)

@@ -149,13 +149,13 @@ module SonicPi
       res[0]
     end
 
-    def link_get_beat_and_time_at_phase(phase, quantum)
-      res = api_rpc("/link-get-beat-and-time-at-phase", phase, quantum)
+    def link_get_next_beat_and_time_at_phase(phase, quantum, safety_t)
+      res = api_rpc("/link-get-next-beat-and-time-at-phase", phase, quantum, safety_t)
       res
     end
 
-    def link_get_beat_and_clock_time_at_phase(phase, quantum)
-      beat, link_time = link_get_beat_and_time_at_phase(phase, quantum)
+    def link_get_next_beat_and_clock_time_at_phase(phase, quantum, safety_t)
+      beat, link_time = link_get_next_beat_and_time_at_phase(phase, quantum, safety_t)
       t_with_delta = (link_time + @link_time_delta_micros) / 1_000_000.0
       [beat, t_with_delta]
     end

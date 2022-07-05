@@ -3614,14 +3614,8 @@ See link for further details and usage.",
 
         __system_thread_locals.set_local(:sonic_pi_spider_time_state_cache, [])
         __system_thread_locals.set_local(:sonic_pi_local_last_sync, nil)
-        use_bpm :link
 
-        beat, time = @tau_api.link_get_beat_and_clock_time_at_phase(phase, quantum)
-
-        sat = current_sched_ahead_time
-
-        __system_thread_locals.set(:sonic_pi_spider_bpm, :link)
-        __change_spider_time_and_beat!(time - sat, beat)
+        __change_spider_bpm_time_and_beat_to_next_link_phase(phase, quantum)
 
         new_vt = __get_spider_time.to_f
         now = Time.now.to_f

@@ -404,7 +404,7 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
 
     gridEditorPrefs->addWidget(editor_look_feel_box, 0, 0);
     gridEditorPrefs->addWidget(automation_box, 2, 1);
-    gridEditorPrefs->addWidget(editor_display_box, 1, 0);
+    gridEditorPrefs->addWidget(editor_display_box, 1, 0, 2, 1);
     gridEditorPrefs->addWidget(editor_show_panels_box, 1, 1);
 
     gridEditorPrefs->addWidget(debug_box, 0, 1);
