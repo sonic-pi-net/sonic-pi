@@ -64,7 +64,9 @@ The following organisations have kindly supported the continued
 developent and maintainence of Sonic Pi. We give our appreciation and
 respect back to them all for choosing to support open source software:
 
- ** [Alembic](https://alembic.com.au)
+* [Dashbit](https://dashbit.co)
+* [Alembic](https://alembic.com.au)
+
 
 
 
@@ -244,7 +246,7 @@ In addition to the Sonic Pi Core Team, we would like to extend our
 thanks to the following developers who have donated their time and
 effort to help grow and improve the Sonic Pi code base:
 
-* [Sam Aaron](https://github.com/sonic-pi-net/sonic-pi/commits?author=samaaron) (5238)
+* [Sam Aaron](https://github.com/sonic-pi-net/sonic-pi/commits?author=samaaron) (5241)
 * [Ethan Crawford](https://github.com/sonic-pi-net/sonic-pi/commits?author=ethancrawford) (304)
 * [Hanno Zulla](https://github.com/sonic-pi-net/sonic-pi/commits?author=hzulla) (198)
 * [Joseph Wilk](https://github.com/sonic-pi-net/sonic-pi/commits?author=josephwilk) (160)
@@ -484,9 +486,9 @@ The following volunteers have generously helped to translate Sonic Pi into addit
 * Olivier Humbert (54)
 * Cindy Dallaire (48)
 * Hanno Zulla (47)
-* Pau Monfort (40)
+* Pau Monfort (41)
 * Olympia Brikis (38)
-* Emlyn Corrin (34)
+* Emlyn Corrin (37)
 * Federico Pepe (34)
 * Sam Aaron (32)
 * Mircea Patrascu (31)
@@ -498,10 +500,10 @@ The following volunteers have generously helped to translate Sonic Pi into addit
 * Giovanni Mori (21)
 * Ruben Tobalina (18)
 * Kanta Negishi (15)
+* Yaron Shahrabani (14)
 * Allan Nordhøy (13)
 * Boris Vogeler (13)
 * Kristjan Räts (13)
-* Yaron Shahrabani (13)
 * Álvaro Cáceres Muñoz (12)
 * Hong Lees (11)
 * Ole Friis Østergaard (11)
@@ -527,6 +529,7 @@ The following volunteers have generously helped to translate Sonic Pi into addit
 * G. Martin Butz (6)
 * Mark Lei  (6)
 * Matthieu Ottaviani (6)
+* Miika Alonen (6)
 * RD WebDesign (6)
 * Rekc@h (6)
 * Stefan (6)
@@ -607,6 +610,7 @@ The following volunteers have generously helped to translate Sonic Pi into addit
 * fossdd (3)
 * psyk10p (3)
 * threewater2 (3)
+* Aaro Hillilä (2)
 * Airat (2)
 * Ajakko (2)
 * Alex Buznik (2)
@@ -614,12 +618,14 @@ The following volunteers have generously helped to translate Sonic Pi into addit
 * Anhquan Phanle (2)
 * Arnold Ewald (2)
 * Arnold Marko (2)
+* Artem (2)
 * Blez Tseng (2)
 * Breno Alberto (2)
 * Cattice (2)
 * ChiakiQ (2)
 * CurlingTongs (2)
 * Dan Hanley (2)
+* Davide Anzaldi (2)
 * Diego Ramos (2)
 * Dimitris Panokostas (2)
 * Duarte Botelho (2)
@@ -644,6 +650,7 @@ The following volunteers have generously helped to translate Sonic Pi into addit
 * Ivan Zarea (2)
 * Jacek Andrzejewski (2)
 * Jacque Fresco (2)
+* Jan Ole Hüser (2)
 * John John (2)
 * Jon Georgsson (2)
 * Joschka Heinrich (2)
@@ -704,7 +711,6 @@ The following volunteers have generously helped to translate Sonic Pi into addit
 * tter (2)
 * zmni (2)
 * Aaro Asikainen (1)
-* Aaro Hillilä (1)
 * Adam Süki (1)
 * AgentWu (1)
 * Ai Doan (1)
@@ -718,7 +724,6 @@ The following volunteers have generously helped to translate Sonic Pi into addit
 * Apokli (1)
 * Arnaud BOS (1)
 * Arno van Brunschot (1)
-* Artem (1)
 * Artem Blinov (1)
 * Arthur Augusto (1)
 * Axel Céard (1)
