@@ -1,4 +1,4 @@
-# Coded by DJ Dave
+# Coded by DJ_Dave
 
 use_bpm 130
 
