@@ -109,22 +109,22 @@
     <message>
         <location filename="../mainwindow.cpp" line="882"/>
         <source>Hiding pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukrycie tytułów okienek…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="892"/>
         <source>Showing pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokazanie tytułów okienek…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1317"/>
         <source>Audio Inputs Enabled. Restart Sonic Pi for this setting to take effect...</source>
-        <translation type="unfinished"></translation>
+        <translation>Wejścia audio włączone. Uruchom ponownie Sonic Pi, aby to ustawienie zaczęło obowiązywać...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1319"/>
         <source>Audio Inputs Disabled. Restart Sonic Pi for this setting to take effect...</source>
-        <translation type="unfinished"></translation>
+        <translation>Wejścia audio wyłączone. Uruchom ponownie Sonic Pi, aby to ustawienie zaczęło obowiązywać...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1417"/>
@@ -433,12 +433,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2819"/>
         <source>Enable Audio Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Włącz Wejścia Audio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2824"/>
         <source>Link Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>Podpięcie Złącza</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2829"/>
@@ -558,12 +558,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2965"/>
         <source>Show Titles</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż Tytuły</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2970"/>
         <source>Hide Menu Bar in Fullscreen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukryj Pasek Menu w Trybie Pełnoekranowym</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2975"/>
@@ -732,7 +732,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3170"/>
         <source>Show Metronome</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż Metronom</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3175"/>
@@ -752,12 +752,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="3221"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Język</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3695"/>
         <source>Restarting Sonic Pi...</source>
-        <translation type="unfinished"></translation>
+        <translation>Restartowanie Sonic Pi...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4029"/>
