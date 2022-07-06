@@ -37,7 +37,12 @@ module SonicPi
       @mut.synchronize do
         job = @jobs.delete(id)
         if job
-          __system_thread_locals(job[:job]).get(:sonic_pi_local_spider_no_kill_mutex).synchronize do
+          mut =__system_thread_locals(job[:job]).get(:sonic_pi_local_spider_no_kill_mutex)
+          if mut
+            mut.synchronize do
+              job[:job].kill
+            end
+          else
             job[:job].kill
           end
         end

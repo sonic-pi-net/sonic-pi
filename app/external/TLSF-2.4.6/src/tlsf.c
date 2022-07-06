@@ -52,6 +52,11 @@
 /*#define USE_SBRK        (0) */
 /*#define USE_MMAP        (0) */
 
+#ifdef WIN32
+#pragma warning(disable: 4267)
+#pragma warning(disable: 4311)
+#endif
+
 #ifndef USE_PRINTF
 #define USE_PRINTF      (1)
 #endif

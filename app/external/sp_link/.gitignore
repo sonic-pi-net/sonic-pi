@@ -1,0 +1,8 @@
+*.o
+*~
+build/
+.vscode/
+*.beam
+.vs/
+*.bak
+.#*

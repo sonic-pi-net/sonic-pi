@@ -36,7 +36,23 @@ module SonicPi
 
       address = "/feooblah"
 
-      args_to_test = [[1], [-1], [100], [-100], [1.0, 1.0], [0, 1], [0, 0, 0], [1, 0, 1, 1, 0, 1], [1, 0.0, 1.0, 0], [1.0, 1, 1], [-1, -1, -1], [1, 0, -1], ["eggs", "foo","bar", "beans", 0, -1, 2.0, -2000]]
+      args_to_test = [
+        [1],
+        [-1],
+        [100],
+        [-100],
+        [1.0, 1.0],
+        [0, 1],
+        [0, 0, 0],
+        [1, 0, 1, 1, 0, 1],
+        [1, 0.0, 1.0, 0],
+        [1.0, 1, 1],
+        [-1, -1, -1],
+        [1, 0, -1],
+        [true],
+        [false],
+        ["eggs", "foo","bar", "beans", 0, -1, 2.0, -2000, true, false]
+      ]
 
       args_to_test.each do |args|
         m = encoder.encode_single_message(address, args)

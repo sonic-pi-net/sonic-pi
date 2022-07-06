@@ -1,0 +1,146 @@
+clone_depth: 50
+
+branches:
+  only:
+    - master
+
+environment:
+  matrix:
+    - APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave
+      CONFIGURATION: Release
+      XCODE_VERSION: 9.4.1
+    - APPVEYOR_BUILD_WORKER_IMAGE: macos-catalina
+      CONFIGURATION: Release
+      XCODE_VERSION: 11.7
+    - APPVEYOR_BUILD_WORKER_IMAGE: macos-catalina
+      CONFIGURATION: Debug
+      XCODE_VERSION: 12.3
+    - APPVEYOR_BUILD_WORKER_IMAGE: macos-monterey
+      CONFIGURATION: Release
+      XCODE_VERSION: 12.5.1
+    - APPVEYOR_BUILD_WORKER_IMAGE: macos-monterey
+      CONFIGURATION: Release
+      XCODE_VERSION: 13.2.1
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2004
+      AUDIO_DRIVER: Jack
+      CONFIGURATION: Debug
+      GENERATOR: Ninja
+      CXX: clang++-11
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2004
+      AUDIO_DRIVER: Alsa
+      CONFIGURATION: Release
+      GENERATOR: Ninja
+      CXX: clang++-10
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2004
+      AUDIO_DRIVER: Jack
+      CONFIGURATION: Debug
+      GENERATOR: Ninja
+      CXX: clang++-9
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2004
+      AUDIO_DRIVER: Alsa
+      CONFIGURATION: Release
+      GENERATOR: Ninja
+      CXX: g++-9
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2004
+      AUDIO_DRIVER: Jack
+      CONFIGURATION: Debug
+      GENERATOR: Ninja
+      CXX: g++-8
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2004
+      AUDIO_DRIVER: Alsa
+      CONFIGURATION: Release
+      GENERATOR: Ninja
+      CXX: g++-7
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      AUDIO_DRIVER: Asio
+      THREAD_DESCRIPTION: OFF
+      CONFIGURATION: Release
+      GENERATOR: Visual Studio 14 2015
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      AUDIO_DRIVER: Asio
+      THREAD_DESCRIPTION: OFF
+      CONFIGURATION: Debug
+      GENERATOR: Visual Studio 14 2015 Win64
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      AUDIO_DRIVER: Asio
+      THREAD_DESCRIPTION: OFF
+      CONFIGURATION: Release
+      GENERATOR: Visual Studio 14 2015 Win64
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      AUDIO_DRIVER: Wasapi
+      THREAD_DESCRIPTION: OFF
+      CONFIGURATION: Release
+      GENERATOR: Visual Studio 14 2015 Win64
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      AUDIO_DRIVER: Asio
+      THREAD_DESCRIPTION: OFF
+      CONFIGURATION: Release
+      GENERATOR: Visual Studio 15 2017 Win64
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      AUDIO_DRIVER: Asio
+      THREAD_DESCRIPTION: ON
+      CONFIGURATION: Release
+      GENERATOR: Visual Studio 16 2019
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
+      AUDIO_DRIVER: Wasapi
+      THREAD_DESCRIPTION: ON
+      CONFIGURATION: Debug
+      GENERATOR: Visual Studio 17 2022
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2004
+      ESP_IDF: true
+      IDF_RELEASE: v4.3.1
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2004
+      FORMATTING: true
+
+install:
+  - git submodule update --init --recursive
+
+for:
+  - matrix:
+      only:
+        - APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave
+        - APPVEYOR_BUILD_WORKER_IMAGE: macos-catalina
+        - APPVEYOR_BUILD_WORKER_IMAGE: macos-monterey
+    build_script:
+      - sudo xcode-select -s /Applications/Xcode-$XCODE_VERSION.app
+      - python3 ci/configure.py --generator Xcode
+      - python3 ci/build.py --configuration $CONFIGURATION
+    test_script:
+      - python3 ci/run-tests.py --target LinkCoreTest
+      - python3 ci/run-tests.py --target LinkDiscoveryTest
+  - matrix:
+      only:
+        # Ubuntu2004 but not ESP_IDF or FORMATTING
+        - GENERATOR: Ninja
+    install:
+      - git submodule update --init --recursive
+      - sudo apt-get update
+      - sudo apt-get install -y libjack-dev portaudio19-dev valgrind
+    build_script:
+      - python3 ci/configure.py --audio-driver $AUDIO_DRIVER --generator "$GENERATOR" --configuration $CONFIGURATION
+      - python3 ci/build.py
+    test_script:
+      - python3 ci/run-tests.py --target LinkCoreTest --valgrind
+      - python3 ci/run-tests.py --target LinkDiscoveryTest --valgrind
+  - matrix:
+      only:
+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
+    build_script:
+      - py -3 ci/configure.py --audio-driver %AUDIO_DRIVER% --thread-description %THREAD_DESCRIPTION% --generator "%GENERATOR%" --flags="-DCMAKE_SYSTEM_VERSION=10.0.18362.0"
+      - py -3 ci/build.py --configuration %CONFIGURATION%
+    test_script:
+      - py -3 ci/run-tests.py --target LinkCoreTest
+      - py -3 ci/run-tests.py --target LinkDiscoveryTest
+  - matrix:
+      only:
+        - ESP_IDF: true
+    build_script:
+      - docker run --rm -v $APPVEYOR_BUILD_FOLDER:/link -w /link/examples/esp32 -e LC_ALL=C.UTF-8 espressif/idf:$IDF_RELEASE idf.py build
+  - matrix:
+      only:
+        - FORMATTING: true
+    build_script:
+      - docker run -v $APPVEYOR_BUILD_FOLDER:/link dalg24/clang-format:18.04.0 python /link/ci/check-formatting.py -c /usr/bin/clang-format-6.0

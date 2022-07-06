@@ -39,7 +39,7 @@ module SonicPi
       rand_reset
       assert_equal(rand, 0.546478271484375)
       assert_equal(rand, 0.573150634765625)
-      with_random_source :white do
+      with_random_source :white do
         # matches 3rd value from test_rand
         # index is not reset when changing type
         assert_equal(rand, 0.464202880859375)
@@ -48,6 +48,13 @@ module SonicPi
       # last stream type was perlin
       assert_equal(rand, 0.597015380859375)
 
+      # return to default
+      use_random_source :white
+    end
+
+    def test_current_random_source
+      use_random_source :perlin
+      assert_equal(:perlin, current_random_source)
       # return to default
       use_random_source :white
     end

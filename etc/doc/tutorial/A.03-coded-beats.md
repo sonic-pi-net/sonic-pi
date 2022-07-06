@@ -96,7 +96,7 @@ sleeping for 2 and our BPM is 30, yet everything is in time. The
 
 Now, here's the fun part. Whilst the loop is still live, change the `30`
 in the `use_bpm 30` line to `50`. Woah, everything just got faster yet *kept
-in time*! Try going faster - up to 80, to 120, now go crazy and punch in
+in time*! Try going faster - up to 80, to 120, now go wild and punch in
 200!
 
 

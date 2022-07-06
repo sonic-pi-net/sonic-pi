@@ -11,11 +11,14 @@
 // notice is included.
 //++
 
+#ifndef SONICPISCINTILLA_H
+#define SONICPISCINTILLA_H
+
 #include <Qsci/qsciscintilla.h>
 #include "model/sonicpitheme.h"
-#include "osc/oscsender.h"
 #include "widgets/sonicpilog.h"
 #include <QCheckBox>
+#include <QRecursiveMutex>
 
 class SonicPiLexer;
 class QSettings;
@@ -25,16 +28,18 @@ class SonicPiScintilla : public QsciScintilla
   Q_OBJECT
 
  public:
-  SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme, QString fileName, OscSender *oscSender, bool autoIndent);
+  SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme, QString fileName, bool autoIndent);
 
   virtual QStringList apiContext(int pos, int &context_start,
 				 int &last_word_start);
   SonicPiTheme *theme;
   QString fileName;
-  OscSender *oscSender;
   bool selectionMode;
 
   void redraw();
+
+signals:
+  void bufferNewlineAndIndent(int point_line, int point_index, int first_line, const std::string& code, const std::string& fileName);
 
   public slots:
     void cutLineFromPoint();
@@ -83,6 +88,8 @@ class SonicPiScintilla : public QsciScintilla
     void dragMoveEvent(QDragMoveEvent *event);
     bool event(QEvent *evt);
     bool autoIndent;
-    QMutex *mutex;
+    QRecursiveMutex *mutex;
 
 };
+
+#endif // SONICPISCINTILLA_H

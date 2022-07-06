@@ -279,7 +279,7 @@ module SonicPi
               a[1].is_a?(Numeric)
               ))
         end
-        [l, "must be a buffer description. Such as a buffer, :foo, \"foo\", or [:foo, 4]"]
+        [l, "must be a buffer description, such as a buffer, :foo, \"foo\", or [:foo, 4]"]
       end
 
       def v_sum_less_than_oet(arg1, arg2, max)
@@ -1169,7 +1169,7 @@ Also, note that audio in isn't yet supported on Raspberry Pi."
       end
 
       def doc
-        "A sine wave with a fundamental frequency which is modulated at audio rate by another sine wave with a specific modulation, division and depth. Useful for generating a wide range of sounds by playing with the divisor and depth params. Great for deep powerful bass and crazy 70s sci-fi sounds."
+        "A sine wave with a fundamental frequency which is modulated at audio rate by another sine wave with a specific modulation, division and depth. Useful for generating a wide range of sounds by playing with the divisor and depth params. Great for deep powerful bass and fun 70s sci-fi sounds."
       end
 
       def arg_defaults
@@ -1263,7 +1263,7 @@ Also, note that audio in isn't yet supported on Raspberry Pi."
       end
 
       def doc
-        "The FM synth modulating between two notes - the duration of the modulation can be modified using the mod_phase arg, the range (number of notes jumped between) by the mod_range arg and the width of the jumps by the mod_width param. The FM synth is a sine wave with a fundamental frequency which is modulated at audio rate by another sine wave with a specific modulation, division and depth. Useful for generating a wide range of sounds by playing with the `:divisor` and `:depth` params. Great for deep powerful bass and crazy 70s sci-fi sounds."
+        "The FM synth modulating between two notes - the duration of the modulation can be modified using the mod_phase arg, the range (number of notes jumped between) by the mod_range arg and the width of the jumps by the mod_width param. The FM synth is a sine wave with a fundamental frequency which is modulated at audio rate by another sine wave with a specific modulation, division and depth. Useful for generating a wide range of sounds by playing with the `:divisor` and `:depth` params. Great for deep powerful bass and fun 70s sci-fi sounds."
       end
 
       def arg_defaults
@@ -3290,6 +3290,447 @@ Steal This Sound,  Mitchell Sigman"
       end
     end
 
+    class WinwoodLead < SonicPiSynth
+      def name
+        "Winwood Lead"
+      end
+
+      def introduced
+        Version.new(4,0,0)
+      end
+
+      def synth_name
+        "winwood_lead"
+      end
+
+      def on_start(studio, args_h)
+        args_h[:rand_buf] = studio.rand_buf_id
+      end
+
+      def doc
+        "A lead synth inspired by the Winwood songs from the early 80s. Adapted for Sonic Pi from [Steal This Sound](https://raw.githubusercontent.com/supercollider/supercollider/develop/examples/demonstrations/stealthissound.scd)."
+      end
+
+      def arg_defaults
+        {
+          :note => 69,
+          :note_slide => 0,
+          :note_slide_shape => 1,
+          :note_slide_curve => 0,
+          :amp => 1,
+          :amp_slide => 0,
+          :amp_slide_shape => 1,
+          :amp_slide_curve => 0,
+          :pan => 0,
+          :pan_slide => 0,
+          :pan_slide_shape => 1,
+          :pan_slide_curve => 0,
+
+          :attack => 0,
+          :decay => 0,
+          :sustain => 0,
+          :release => 1,
+          :attack_level => 1,
+          :decay_level => :sustain_level,
+          :sustain_level => 1,
+
+          :cutoff => 119,
+          :cutoff_slide => 0,
+          :cutoff_slide_shape => 1,
+          :cutoff_slide_curve => 0,
+
+          :res => 0.2,
+          :res_slide => 0,
+          :res_slide_shape => 1,
+          :res_slide_curve => 0,
+          :lfo_width => 0.01,
+          :lfo_width_slide => 0,
+          :lfo_width_slide_shape => 1,
+          :lfo_width_slide_curve => 0,
+          :lfo_rate => 8,
+          :lfo_rate_slide => 0,
+          :lfo_rate_slide_shape => 1,
+          :lfo_rate_slide_curve => 0,
+          :ramp_ratio => 0.5,
+          :ramp_length => 0.2,
+          :seed => 0,
+        }
+      end
+
+      def specific_arg_info
+        {
+          :seed =>
+          {
+            :doc => "Seed value for rand num generator used for the phase offset of the triangle low-frequency oscillator (LFO)",
+            :validations => [v_positive(:seed)],
+            :modulatable => false
+          },
+          :lfo_width =>
+          {
+            :doc => "Width of the low-frequency oscillator (LFO) which determines how wide base tones oscillate around their base frequencies; a dimensionless scaled ratio between base and peak oscillator frequencies",
+            :validations => [v_positive(:lfo_width)],
+            :modulatable => true
+          },
+          :lfo_rate =>
+          {
+            :doc => "Rate of the low-frequency oscillator (LFO) in Hz which determines how fast base tones oscillate around their base frequencies",
+            :validations => [v_positive(:lfo_rate)],
+            :modulatable => true
+          },
+          :ramp_ratio =>
+          {
+            :doc => "The pitch can be configured to ramp up at the beginning. `:ramp_ratio` determines at which frequency this ramp begins. A value of 1 will ramp the pitch up from 0 Hz, a value of 0.5 will start ramp at 50% of the target frequency indicated by the `:note` option, and a `:ramp_ratio` of 0 means no ramp at all.",
+            :validations => [v_between_inclusive(:ramp_ratio, 0, 1)],
+            :modulatable => false
+          },
+          :ramp_length =>
+          {
+            :doc => "The length of the pitch ramp, in beats.",
+            :validations => [v_positive(:ramp_length)],
+            :modulatable => false,
+            :bpm_scale => true
+          },
+        }
+      end
+    end
+
+    class BassFoundation < SonicPiSynth
+      def name
+        "Bass Foundation"
+      end
+
+      def introduced
+        Version.new(4,0,0)
+      end
+
+      def synth_name
+        "bass_foundation"
+      end
+
+      def doc
+        "A soft bass synth inspired by the sounds of the 80s. Use together with :bass_highend if you want to give it a gargling component. Adapted for Sonic Pi from [Steal This Sound](https://raw.githubusercontent.com/supercollider/supercollider/develop/examples/demonstrations/stealthissound.scd)."
+      end
+
+      def arg_defaults
+        {
+          :note => 40,
+          :note_slide => 0,
+          :note_slide_shape => 1,
+          :note_slide_curve => 0,
+          :amp => 1,
+          :amp_slide => 0,
+          :amp_slide_shape => 1,
+          :amp_slide_curve => 0,
+          :pan => 0,
+          :pan_slide => 0,
+          :pan_slide_shape => 1,
+          :pan_slide_curve => 0,
+
+          :attack => 0,
+          :decay => 0,
+          :sustain => 0,
+          :release => 1,
+          :attack_level => 1,
+          :decay_level => :sustain_level,
+          :sustain_level => 1,
+
+          :cutoff => 83,
+          :cutoff_slide => 0,
+          :cutoff_slide_shape => 1,
+          :cutoff_slide_curve => 0,
+
+          :res => 0.5,
+          :res_slide => 0,
+          :res_slide_shape => 1,
+          :res_slide_curve => 0,
+        }
+      end
+    end
+
+    class BassHighend < SonicPiSynth
+      def name
+        "Bass Highend"
+      end
+
+      def introduced
+        Version.new(4,0,0)
+      end
+
+      def synth_name
+        "bass_highend"
+      end
+
+      def doc
+        "An addition to the :bass_foundation synth inspired by the sounds of the 80s. Use them together if you want to give it a rough, slurping, or gargling component. Adapted for Sonic Pi from [Steal This Sound](https://raw.githubusercontent.com/supercollider/supercollider/develop/examples/demonstrations/stealthissound.scd)."
+      end
+
+      def arg_defaults
+        {
+          :note => 40,
+          :note_slide => 0,
+          :note_slide_shape => 1,
+          :note_slide_curve => 0,
+          :amp => 1,
+          :amp_slide => 0,
+          :amp_slide_shape => 1,
+          :amp_slide_curve => 0,
+          :pan => 0,
+          :pan_slide => 0,
+          :pan_slide_shape => 1,
+          :pan_slide_curve => 0,
+
+          :attack => 0,
+          :decay => 0,
+          :sustain => 0,
+          :release => 1,
+          :attack_level => 1,
+          :decay_level => :sustain_level,
+          :sustain_level => 1,
+
+          :cutoff => 102,
+          :cutoff_slide => 0,
+          :cutoff_slide_shape => 1,
+          :cutoff_slide_curve => 0,
+
+          :res => 0.9,
+          :res_slide => 0,
+          :res_slide_shape => 1,
+          :res_slide_curve => 0,
+
+          :drive => 2.0,
+          :drive_slide => 0,
+          :drive_slide_shape => 1,
+          :drive_slide_curve => 0,
+        }
+      end
+
+      def specific_arg_info
+        {
+          :drive =>
+          {
+            :doc => "Higher drive values make the sound louder and rougher.",
+            :validations => [v_positive(:drive)],
+            :modulatable => true
+            },
+          }
+      end
+    end
+
+    class OrganTonewheel < SonicPiSynth
+      def name
+        "Organ Tonewheel"
+      end
+
+      def introduced
+        Version.new(4,0,0)
+      end
+
+      def synth_name
+        "organ_tonewheel"
+      end
+
+      def doc
+        "An emulation of a tonewheel organ with an optional rotary speaker. These instruments were the first electro-mechanical synthesisers, developed in the mid 1930s by Laurens Hammond. They generate sine-like signals with the tonewheels and mix them together. Up to 9 sine waves can be combined in order to control the organ's timbre, setting their individual levels with drawbar controls. Their sound is often output over a rotary speaker cabinet, producing a characteristic oscillating sound.
+
+Based on work of [Chris Wigington](https://actlab.us/actlab/cwigington/projone.html) and [Zé Craum](http://sccode.org/1-5aD)."
+      end
+
+      def arg_defaults
+        {
+          :note => 60,
+          :note_slide => 0,
+          :note_slide_shape => 1,
+          :note_slide_curve => 0,
+          :amp => 1,
+          :amp_slide => 0,
+          :amp_slide_shape => 1,
+          :amp_slide_curve => 0,
+          :pan => 0,
+          :pan_slide => 0,
+          :pan_slide_shape => 1,
+          :pan_slide_curve => 0,
+
+          :attack => 0.01,
+          :decay => 0,
+          :sustain => 1,
+          :release => 0.01,
+          :attack_level => 1,
+          :decay_level => :sustain_level,
+          :sustain_level => 1,
+
+          :bass => 8,
+          :bass_slide => 0,
+          :bass_slide_shape => 1,
+          :bass_slide_curve => 0,
+
+          :quint => 8,
+          :quint_slide => 0,
+          :quint_slide_shape => 1,
+          :quint_slide_curve => 0,
+
+          :fundamental => 8,
+          :fundamental_slide => 0,
+          :fundamental_slide_shape => 1,
+          :fundamental_slide_curve => 0,
+
+          :oct => 8,
+          :oct_slide => 0,
+          :oct_slide_shape => 1,
+          :oct_slide_curve => 0,
+
+          :nazard => 0,
+          :nazard_slide => 0,
+          :nazard_slide_shape => 1,
+          :nazard_slide_curve => 0,
+
+          :blockflute => 0,
+          :blockflute_slide => 0,
+          :blockflute_slide_shape => 1,
+          :blockflute_slide_curve => 0,
+
+          :tierce => 0,
+          :tierce_slide => 0,
+          :tierce_slide_shape => 1,
+          :tierce_slide_curve => 0,
+
+          :larigot => 0,
+          :larigot_slide => 0,
+          :larigot_slide_shape => 1,
+          :larigot_slide_curve => 0,
+
+          :sifflute => 0,
+          :sifflute_slide => 0,
+          :sifflute_slide_shape => 1,
+          :sifflute_slide_curve => 0,
+
+          :rs_freq => 6.7,
+          :rs_freq_slide => 0,
+          :rs_freq_slide_shape => 1,
+          :rs_freq_slide_curve => 0,
+
+          :rs_freq_var => 0.1,
+          :rs_pitch_depth => 0.008,
+          :rs_delay => 0,
+          :rs_onset => 0,
+          :rs_pan_depth => 0.05,
+          :rs_amplitude_depth => 0.2,
+        }
+      end
+
+      def specific_arg_info
+        {
+          :note =>
+          {
+            :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, 56.5, `:C`, `:C2`, `:Eb4`, or `:Ds3`. This synth does allow changing or sliding the note while playing. In real tonewheel organs one would get this effect only when fiddling with the motor driving the tonewheel.",
+            :validations => [v_positive(:note), v_less_than(:note, 231)],
+            :modulatable => true
+          },
+          :bass =>
+          {
+            :doc => "The drawbar for the tonewheel creating a sound component one octave below the base tone, i.e. half its frequency",
+            :validations => [v_between_inclusive(:bass, 0, 8)],
+            :modulatable => true
+          },
+          :quint =>
+          {
+            :doc => "The drawbar for the tonewheel creating a sound component 3/2 of the frequency of the base tone",
+            :validations => [v_between_inclusive(:quint, 0, 8)],
+            :modulatable => true
+          },
+          :fundamental =>
+          {
+            :doc => "The drawbar for the tonewheel creating the base tone component. If you turn vibrato off and set just this drawbar to 8 and all the others to 0, you basically get a sine tone for the note to be played.",
+            :validations => [v_between_inclusive(:fundamental, 0, 8)],
+            :modulatable => true
+          },
+          :oct =>
+          {
+            :doc => "The drawbar for the tonewheel creating a sound component one octave above the base tone, i.e. twice its frequency",
+            :validations => [v_between_inclusive(:oct, 0, 8)],
+            :modulatable => true
+          },
+          :nazard =>
+          {
+            :doc => "The drawbar for the tonewheel creating a sound component 3 times the frequency of the base tone",
+            :validations => [v_between_inclusive(:nazard, 0, 8)],
+            :modulatable => true
+          },
+          :blockflute =>
+          {
+            :doc => "The drawbar for the tonewheel creating a sound component 2 octaves above the base tone, i.e. 4 times its frequency.",
+            :validations => [v_between_inclusive(:blockflute, 0, 8)],
+            :modulatable => true
+          },
+          :tierce =>
+          {
+            :doc => "The drawbar for the tonewheel creating a sound component 5 times the frequency of the base tone.",
+            :validations => [v_between_inclusive(:tierce, 0, 8)],
+            :modulatable => true
+          },
+          :larigot =>
+          {
+            :doc => "The drawbar for the tonewheel creating a sound component 6 times the frequency of the base tone.",
+            :validations => [v_between_inclusive(:larigot, 0, 8)],
+            :modulatable => true
+          },
+          :sifflute =>
+          {
+            :doc => "The drawbar for the tonewheel creating a sound component 3 octaves above the base tone, i.e. 8 times its frequency.",
+            :validations => [v_between_inclusive(:sifflute, 0, 8)],
+            :modulatable => true
+          },
+          :rs_freq =>
+          {
+            :doc => "Rotation frequency of the rotary speaker in Hertz. The tonewheel organ's rotary speaker affects sound in (at least) 3 ways: The frequency changes due to a Doppler effect, so that the pitch oscillates around the base frequency, the note the synth is playing. The amplitude and hence the perceived loudness change. When the horns rotate, they sound louder when they point towards the listener. The pan changes: When the horns point sideways, they sound louder on the side they point to.
+
+The 'chorale' speed of the speaker is 0.83 Hz, the 'tremolo' speed is 6.7 Hz, each referring to the horn. The woofer rotates at a slower speed, which is calculated from the horn's frequency.
+
+Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq` can be slid, sliding up from plain 0 is not possible and sliding to and from frequencies close to 0 may have unexpected effects.",
+            :validations => [v_between_inclusive(:rs_freq, 0, 10)],
+            :modulatable => true
+          },
+          :rs_freq_var =>
+          {
+            :doc => "Irregularity of the rotation frequency, expressed as a proportion of the rotation frequency. This affects loudness, pan, and pitch.",
+            :validations => [v_between_inclusive(:rs_freq_var, 0, 1)],
+            :modulatable => false
+          },
+          :rs_pitch_depth =>
+          {
+            :doc => "Size of the pitch deviation around the fundamental, as a proportion of the fundamental. 0.02 = 2% of the fundamental.",
+            :validations => [v_between_inclusive(:rs_pitch_depth, 0, 1)],
+            :modulatable => false
+          },
+          :rs_pan_depth =>
+          {
+            :doc => "Size of the pan deviation from the centre caused by the rotary speaker.",
+            :validations => [v_between_inclusive(:rs_pan_depth, 0, 1)],
+            :modulatable => false
+          },
+          :rs_amplitude_depth =>
+          {
+            :doc => "Size of the amplitude variation around the base amplitude.",
+            :validations => [v_between_inclusive(:rs_amplitude_depth, 0, 1)],
+            :modulatable => false
+          },
+          :rs_delay =>
+          {
+            :doc => "Delay before rotary effect is established, in beats.",
+            :validations => [v_positive(:rs_delay)],
+            :modulatable => false,
+            :bpm_scale => true
+          },
+          :rs_onset =>
+          {
+            :doc => "Transition time in beats from no rotary effect to full rotary effect after the initial delay time.",
+            :validations => [v_positive(:rs_onset)],
+            :modulatable => false,
+            :bpm_scale => true
+          },
+        }
+      end
+    end
+
     class StudioInfo < SonicPiSynth
       def user_facing?
         false
@@ -4006,7 +4447,7 @@ Steal This Sound,  Mitchell Sigman"
           :pre_amp => 1,
           :pre_amp_slide_shape => 1,
           :pre_amp_slide_curve => 0,
-          :amp => 1,
+          :amp => 6,
           :amp_slide_shape => 1,
           :amp_slide_curve => 0,
           :hpf => 0,
@@ -5590,7 +6031,7 @@ end
       end
 
       def doc
-        "Versatile wobble FX. Will repeatedly modulate a range of filters (rlpf, rhpf) between two cutoff values using a range of control wave forms (saw, pulse, tri, sine). You may alter the phase duration of the wobble, and the resonance of the filter. Combines well with the dsaw synth for crazy dub wobbles. Cutoff value is at cutoff_min at the start of phase"
+        "Versatile wobble FX. Will repeatedly modulate a range of filters (rlpf, rhpf) between two cutoff values using a range of control wave forms (saw, pulse, tri, sine). You may alter the phase duration of the wobble, and the resonance of the filter. Combines well with the dsaw synth for fun dub wobbles. Cutoff value is at cutoff_min at the start of phase"
       end
 
       def arg_defaults
@@ -7949,6 +8390,10 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
         :kalimba => SynthKalimba.new,
         :pluck => SynthPluck.new,
         :tech_saws => TechSaws.new,
+        :winwood_lead => WinwoodLead.new,
+        :bass_foundation => BassFoundation.new,
+        :bass_highend => BassHighend.new,
+        :organ_tonewheel => OrganTonewheel.new,
 
         :sound_in => SoundIn.new,
         :sound_in_stereo => SoundInStereo.new,
@@ -8092,7 +8537,10 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
             doc << "use_synth <span class=\"symbol\">:#{safe_k}</span>"
           else
             safe_k = k.to_s[3..-1]
-            doc << "with_fx <span class=\"symbol\">:#{safe_k}</span> <span class=\"keyword\">do</span>\n"
+            opts = if safe_k == 'record'
+                     ", <span class=\"symbol\">buffer: :foo</span>"
+                   end
+            doc << "with_fx <span class=\"symbol\">:#{safe_k}</span>#{opts} <span class=\"keyword\">do</span>\n"
             doc << "  play <span class=\"number\">50</span>\n"
             doc << "<span class=\"keyword\">end</span>"
           end
@@ -8119,7 +8567,7 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
             doc <<  Kramdown::Document.new(docstring).to_html
             doc << "  <p class=\"properties\">\n"
             doc << "   Default: #{av[:default]}\n"
-            doc << "   <br/>#{av[:constraints].join(",").capitalize}\n" unless av[:constraints].empty?
+            doc << "   <br/>#{av[:constraints].join(", ").capitalize}\n" unless av[:constraints].empty?
             doc << "   <br/>#{av[:modulatable] ? "May be changed whilst playing" : "Can not be changed once set"}\n"
             doc << "   <br/><a href=\"#slide\">Has slide options to shape changes</a>\n" if av[:slidable]
             doc << "   <br/>Scaled with current BPM value\n" if av[:bpm_scale]
@@ -8166,7 +8614,7 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
             res << "  * #{ak}:\n"
             res << "    - doc: #{av[:doc] || 'write me'}\n"
             res << "    - default: #{av[:default]}\n"
-            res << "    - constraints: #{av[:constraints].empty? ? "none" : av[:constraints].join(",")}\n"
+            res << "    - constraints: #{av[:constraints].empty? ? "none" : av[:constraints].join(", ").capitalize}\n"
             res << "    - #{av[:modulatable] ? "May be changed whilst playing" : "Can not be changed once set"}\n"
             res << "    - Scaled with current BPM value\n" if av[:bpm_scale]
             res << "    - Accepts note symbols such as :e3\n" if av[:midi]
@@ -8238,7 +8686,7 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
             doc << "  <p>#{av[:doc] || 'write me'}</p>\n"
             doc << "  <p class=\"properties\">\n"
             doc << "   Default: #{av[:default]}\n"
-            doc << "   <br/>#{av[:constraints].join(",")}\n" unless av[:constraints].empty?
+            doc << "   <br/>#{av[:constraints].join(", ").capitalize}\n" unless av[:constraints].empty?
             if av[:slidable]
               doc << "   <br/>May be changed whilst playing\n"
               doc << "   <br/><a href=\"#slide\">Has slide options to shape changes</a>\n"

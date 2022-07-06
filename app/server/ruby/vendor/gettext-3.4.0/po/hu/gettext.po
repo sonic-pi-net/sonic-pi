@@ -1,0 +1,279 @@
+#
+# a po-file for gettext
+#
+# Copyright (C) 2004-2006 Masao Mutoh
+#
+# This file is distributed under the same license as the gettext.
+#
+# Tamás Tompa <tompata at gmail.com>, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ruby-gettext 2.1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2008-07-15 09:00+0900\n"
+"Last-Translator: Tamás Tompa <tompata at gmail.com>\n"
+"Language-Team: Hungarian\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#, fuzzy
+msgid "ngettext: 3rd parmeter is wrong: value = %{number}"
+msgstr "A harmadik paraméter hibás: value = %{number}"
+
+msgid "ngettext: 3rd parameter should be a number, not nil."
+msgstr ""
+
+msgid "Usage: %s [OPTIONS] PO_FILE1 PO_FILE2 ..."
+msgstr ""
+
+msgid "Concatenates and merges PO files."
+msgstr ""
+
+msgid "Specific options:"
+msgstr "Speciális opciók:"
+
+#, fuzzy
+msgid "Write output to specified file"
+msgstr "kimenet írása egy megadott fájlba"
+
+msgid "(default: the standard output)"
+msgstr ""
+
+msgid "Sort output by msgid"
+msgstr ""
+
+msgid "Sort output by location"
+msgstr ""
+
+msgid "It is same as --sort-by-location"
+msgstr ""
+
+msgid "Just for GNU gettext's msgcat compatibility"
+msgstr ""
+
+msgid "It is same as --sort-by-msgid"
+msgstr ""
+
+msgid "Remove location information"
+msgstr ""
+
+msgid "Remove translator comment"
+msgstr ""
+
+msgid "Remove extracted comment"
+msgstr ""
+
+msgid "Remove flag comment"
+msgstr ""
+
+msgid "Remove previous comment"
+msgstr ""
+
+msgid "Remove all comments"
+msgstr ""
+
+msgid "Set output page width"
+msgstr ""
+
+msgid ""
+"Break long message lines, longer than the output page width, into several line"
+"s"
+msgstr ""
+
+msgid "Ignore fuzzy entries"
+msgstr ""
+
+msgid "Don't report warning messages"
+msgstr ""
+
+msgid "Don't output obsolete entries"
+msgstr ""
+
+msgid "Update PO-Revision-Date header field"
+msgstr ""
+
+msgid "Remove FIELD from header"
+msgstr ""
+
+msgid "Specify this option multiple times to remove multiple header fields"
+msgstr ""
+
+#, fuzzy
+msgid "no input files specified."
+msgstr "Nincs feldolgozandó fájl"
+
+msgid "Usage: %s input.po [-o output.mo]"
+msgstr "Használat: %s input.po [-o output.mo]"
+
+msgid "Generate binary message catalog from textual translation description."
+msgstr "Bináris üzenetállományt generál a lefordított szöveges állományokból."
+
+msgid "write output to specified file"
+msgstr "kimenet írása egy megadott fájlba"
+
+msgid "display version information and exit"
+msgstr "verzió információ kiírása és kilépés"
+
+msgid ""
+"Create a new .po file from initializing .pot file with user's environment and "
+"input."
+msgstr ""
+
+msgid ""
+"Use INPUT as a .pot file. If INPUT is not specified, INPUT is a .pot file exis"
+"ting the current directory."
+msgstr ""
+
+msgid ""
+"Use OUTPUT as a created .po file. If OUTPUT is not specified, OUTPUT depend on"
+" LOCALE or the current locale on your environment."
+msgstr ""
+
+msgid ""
+"Use LOCALE as target locale. If LOCALE is not specified, LOCALE is the current"
+" locale on your environment."
+msgstr ""
+
+msgid "Whether set translator information or not"
+msgstr ""
+
+msgid "(set)"
+msgstr ""
+
+msgid "Use NAME as translator name"
+msgstr ""
+
+msgid "Use EMAIL as translator email address"
+msgstr ""
+
+msgid "Display this help and exit"
+msgstr ""
+
+#, fuzzy
+msgid "Display version and exit"
+msgstr "verzió információ kiírása és kilépés"
+
+msgid ".pot file does not exist in the current directory."
+msgstr ""
+
+#, fuzzy
+msgid "file '%s' does not exist."
+msgstr "A fájl '%s' már létezik."
+
+msgid "Locale '%s' is invalid. Please check if your specified locale is usable."
+msgstr ""
+
+#, fuzzy
+msgid "file '%s' has already existed."
+msgstr "A fájl '%s' már létezik."
+
+msgid "Please enter your full name"
+msgstr ""
+
+msgid "Please enter your email address"
+msgstr ""
+
+msgid "Usage: %s [OPTIONS] definition.po reference.pot"
+msgstr ""
+
+#, fuzzy
+msgid ""
+"Merges two Uniforum style .po files together. The definition.po file is an exi"
+"sting PO file with translations. The reference.pot file is the last created PO"
+" file with up-to-date source references. The reference.pot is generally create"
+"d by rxgettext."
+msgstr ""
+"Két Uniforum formátumú .po fájl összefésülése. A def.po fájl egy létező PO fáj"
+"l fordításokkal. A ref.pot fájl az utolsó PO fájl frissített hivatkozásokkal ("
+"rgettext által generált)."
+
+msgid "Update definition.po"
+msgstr ""
+
+msgid "Preserve '#: FILENAME:LINE' lines"
+msgstr ""
+
+msgid "Disable fuzzy matching"
+msgstr ""
+
+msgid "(enable)"
+msgstr ""
+
+#, fuzzy
+msgid "Display version information and exit"
+msgstr "verzió információ kiírása és kilépés"
+
+msgid "'%{klass}' is ignored."
+msgstr "'%{klass}' figyelmen kívül hagyva."
+
+msgid "Error parsing %{path}"
+msgstr ""
+
+msgid "no input files"
+msgstr "Nincs feldolgozandó fájl"
+
+msgid "Usage: %s input.rb [-r parser.rb] [-o output.pot]"
+msgstr "Használat: %s input.rb [-r parser.rb] [-o output.pot]"
+
+msgid "Extract translatable strings from given input files."
+msgstr "Összegyűjti a lefordítandó szövegeket a megadott fájlokból."
+
+msgid "set package name in output"
+msgstr ""
+
+msgid "set package version in output"
+msgstr ""
+
+msgid "set report e-mail address for msgid bugs"
+msgstr ""
+
+msgid "set copyright holder in output"
+msgstr ""
+
+msgid "set copyright year in output"
+msgstr ""
+
+msgid "set encoding for output"
+msgstr ""
+
+msgid "Generate sorted output"
+msgstr ""
+
+msgid "Sort output by file location"
+msgstr ""
+
+#, fuzzy
+msgid "require the library before executing xgettext"
+msgstr "szükséges library az rgettext futtatása előtt"
+
+msgid ""
+"If TAG is specified, place comment blocks starting with TAG and precedding key"
+"word lines in output file"
+msgstr ""
+
+msgid ""
+"If TAG is not specified, place all comment blocks preceing keyword lines in ou"
+"tput file"
+msgstr ""
+
+msgid "(default: %s)"
+msgstr ""
+
+msgid "no TAG"
+msgstr ""
+
+msgid "run in debugging mode"
+msgstr "debug módban futtatás"
+
+#, fuzzy
+msgid "display this help and exit"
+msgstr "verzió információ kiírása és kilépés"
+
+msgid ""
+"Warning: The empty \"\" msgid is reserved by gettext. So gettext(\"\") doesn't ret"
+"urns empty string but the header entry in po file."
+msgstr ""

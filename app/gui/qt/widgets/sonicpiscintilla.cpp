@@ -13,8 +13,8 @@
 
 #include "profiler.h"
 #include "sonicpiscintilla.h"
-#include "osc/oscsender.h"
 #include "dpi.h"
+#include <QRecursiveMutex>
 #include <QSettings>
 #include <QShortcut>
 #include <QDrag>
@@ -23,13 +23,13 @@
 #include <Qsci/qscicommandset.h>
 #include <Qsci/qscilexer.h>
 #include <QCheckBox>
+#include <QRegularExpression>
 
-SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme, QString fileName, OscSender *oscSender, bool autoIndent)
+SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme, QString fileName, bool autoIndent)
   : QsciScintilla()
 {
   setAcceptDrops(true);
   this->theme = theme;
-  this->oscSender = oscSender;
   this->fileName = fileName;
   this->autoIndent = autoIndent;
   this->selectionMode = false;
@@ -37,7 +37,7 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme, QSt
   standardCommands()->clearAlternateKeys();
   QString skey;
   QSettings settings(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net", "gui-keys-bindings");
-  mutex = new QMutex(QMutex::Recursive);
+  mutex = new QRecursiveMutex();
 
 #if defined(Q_OS_MAC)
   int SPi_CTRL = Qt::META;
@@ -227,7 +227,7 @@ void SonicPiScintilla::cutLineFromPoint()
   int linenum, index;
   getCursorPosition(&linenum, &index);
 
-  if (text(linenum).mid(index).contains(QRegExp("^\\s*\\n")))
+  if (text(linenum).mid(index).contains(QRegularExpression("^\\s*\\n")))
   {
     setSelection(linenum, index, linenum + 1, 0);
     SendScintilla(SCI_CUT);
@@ -453,7 +453,7 @@ QStringList SonicPiScintilla::apiContext(int pos, int &context_start,
   getCursorPosition(&linenum, &cursor);
   QString line = text(linenum);
   line.truncate(cursor);
-  context = line.split(QRegExp("[ ,(){}]+"));
+  context = line.split(QRegularExpression("[ ,(){}]+"));
 
   context_start = 0;
   last_word_start = pos;
@@ -604,10 +604,7 @@ void SonicPiScintilla::newlineAndIndent() {
 
   std::string code = text().toStdString();
 
-  // TODO: fix this:
-  std::string id = "foobar";
-
-  oscSender->bufferNewlineAndIndent(point_line, point_index, first_line, code, fileName.toStdString(), id);
+  emit bufferNewlineAndIndent(point_line, point_index, first_line, code, fileName.toStdString());
   mutex->unlock();
 }
 

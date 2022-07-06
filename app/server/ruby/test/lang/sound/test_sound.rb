@@ -50,5 +50,10 @@ module SonicPi
       assert_equal(true, @mock_sound.should_trigger?(h))
     end
 
+    def test_sample_duration
+        @mock_sound.stub :resolve_sample_path, nil do
+            assert_raises(ArgumentError) { @mock_sound.sample_duration(["a/directory", "bogus_file_name"]) }
+        end
+    end
   end
 end

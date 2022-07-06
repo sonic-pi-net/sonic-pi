@@ -5,6 +5,7 @@ unless RBeautify::Language.language(:ruby)
   ruby = RBeautify::Language.add_language(:ruby)
 
   pre_keyword_boundary = '(^|[^a-z0-9A-Z:._])' # like \b but with : , . _ all added to list of exceptions
+  post_keyword_boundary = '([^a-z0-9A-Z:_]|$)' # like \b but with : _ added to list of exceptions
   start_statement_boundary = '(^|(;|=)\s*)'
   continue_statement_boundary = '(^|;\s*)'
   ruby.indent_size = 2
@@ -51,7 +52,7 @@ unless RBeautify::Language.language(:ruby)
                    :nest_except => [:double_quote, :single_quote, :regex, :back_tick])
 
   ruby.add_matcher(:standard,
-                   /((#{start_statement_boundary}(module|class|def))|#{pre_keyword_boundary}do)\b/,
+                   /(#{start_statement_boundary}(module|class|def)\b)/,
                    /(((^|;|\s)end)|#{continue_statement_boundary}(rescue|ensure))\b/,
                    :nest_except => [:double_quote, :regex, :backtick])
 
@@ -59,6 +60,11 @@ unless RBeautify::Language.language(:ruby)
                    /#{start_statement_boundary}(until|for|while)\b/,
                    /(((^|;|\s)end)|#{continue_statement_boundary}(rescue|ensure))\b/,
                    :nest_except => [:double_quote, :regex, :backtick])
+
+  ruby.add_matcher(:do,
+                   /#{pre_keyword_boundary}do#{post_keyword_boundary}/,
+                   /(((^|;|\s)end)|#{continue_statement_boundary}(rescue|ensure))\b/,
+                   :nest_except => [:double_quote, :regex, :backtick, :more])
 
   ruby.add_matcher(:begin,
                    /((#{start_statement_boundary}begin)|(#{continue_statement_boundary}(ensure|rescue)))\b/,

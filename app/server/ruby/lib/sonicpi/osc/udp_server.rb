@@ -18,10 +18,13 @@ require_relative "oscdecode"
 module SonicPi
   module OSC
     class UDPServer
+      attr_reader :encoder
+
       include Util
 
       def initialize(port, opts={}, &global_method)
         open = opts[:open]
+        suppress_errors = opts.fetch(:suppress_errors, true)
         @port = port
         @opts = opts
         @socket = UDPSocket.new
@@ -30,11 +33,13 @@ module SonicPi
         else
           @socket.bind('127.0.0.1', port )
         end
+
         @matchers = {}
         @global_matcher = global_method
         @decoder = OscDecode.new(true)
         @encoder = OscEncode.new(true)
-        @listener_thread = Thread.new {start_listener}
+        @listener_thread = Thread.new {start_listener(suppress_errors)}
+        @name = opts[:name] || "Unnamed"
       end
 
       def send(address, port, pattern, *args)
@@ -56,7 +61,7 @@ module SonicPi
       end
 
       def to_s
-        "#<SonicPi::OSC::UDPServer port: #{@port}, opts: #{@opts.inspect}>"
+        "#<SonicPi::OSC::UDPServer name: #{@name}, port: #{@port}, opts: #{@opts.inspect}>"
       end
 
       def stop
@@ -70,32 +75,39 @@ module SonicPi
 
       private
 
-      def start_listener
+      def handle_data(address, args, sender_addrinfo)
+        log "OSC <-----        #{address} #{args.inspect}" if incoming_osc_debug_mode
+        p = @matchers[address]
+        p.call(args) if p
+        @global_matcher.call(address, args, sender_addrinfo) if @global_matcher
+      end
+
+      def start_listener(suppress_errors = true)
         Kernel.loop do
           begin
             osc_data, sender_addrinfo = @socket.recvfrom( 16384 )
+            address, args = @decoder.decode_single_message(osc_data)
           rescue Exception => e
             STDERR.puts "\n==========="
-            STDERR.puts "Critical: UDP Server for port #{@port} had issues receiving from socket"
+            STDERR.puts "Critical: UDP Server #{@name} for port #{@socket.addr} had issues receiving from socket"
             STDERR.puts e.message
             STDERR.puts e.backtrace.inspect
             STDERR.puts "===========\n"
+
+            # restart loop if something went wrong receiving this message
             redo
           end
 
-          begin
-            address, args = @decoder.decode_single_message(osc_data)
-            log "OSC <-----        #{address} #{args.inspect}" if incoming_osc_debug_mode
-            if @global_matcher
-              @global_matcher.call(address, args, sender_addrinfo)
-            else
-              p = @matchers[address]
-              p.call(args) if p
+          if suppress_errors
+            begin
+              handle_data(address, args, sender_addrinfo)
+            rescue Exception => e
+              STDERR.puts "OSC handler exception for address: #{address}"
+              STDERR.puts e.message
+              STDERR.puts e.backtrace.inspect
             end
-          rescue Exception => e
-            STDERR.puts "OSC handler exception for address: #{address}"
-            STDERR.puts e.message
-            STDERR.puts e.backtrace.inspect
+          else
+            handle_data(address, args, sender_addrinfo)
           end
         end
       end

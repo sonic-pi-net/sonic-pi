@@ -27,7 +27,9 @@ module SonicPi
 
     def test_note_range
       assert_equal(ring(*(60..72)), Lang::WesternTheory.note_range(:c4,:c5))
+      assert_equal(ring(*(60..72)).reverse, Lang::WesternTheory.note_range(:c5,:c4))
       assert_equal(ring(60, 64, 67, 72), Lang::WesternTheory.note_range(:c4,:c5, pitches: Chord.new(:c, :major)))
+      assert_equal(ring(72, 67, 64, 60), Lang::WesternTheory.note_range(:c5,:c4, pitches: Chord.new(:c, :major)))
       assert_equal(ring(60, 62, 64, 65, 67, 69, 71, 72), Lang::WesternTheory.note_range(:c4,:c5, pitches: Scale.new(:c, :major)))
       assert_equal(ring(67), Lang::WesternTheory.note_range(:c4,:c5, pitches: [:g3]))
 

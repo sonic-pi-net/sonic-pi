@@ -11,12 +11,13 @@
 // notice is included.
 //++
 
+#include <iostream>
+
 #include <QApplication>
 #include <QSplashScreen>
 #include <QPixmap>
 #include <QBitmap>
 #include <QLabel>
-#include <QTranslator>
 #include <QLibraryInfo>
 
 #include "mainwindow.h"
@@ -25,60 +26,25 @@
 
 #include "dpi.h"
 
-#ifdef _WIN32
-#include <QtPlatformHeaders\QWindowsWindowFunctions>
-#endif
-
-#ifdef Q_OS_MAC
-    #include "platform/macos.h"
+#ifdef Q_OS_DARWIN
+#include "platform/macos.h"
 #endif
 
 int main(int argc, char *argv[])
 {
+  std::cout << "Starting Sonic Pi..." << std::endl;
 
-#ifndef Q_OS_MAC
+#ifndef Q_OS_DARWIN
   Q_INIT_RESOURCE(SonicPi);
 #endif
 
-  QApplication app(argc, argv);
-
   QApplication::setAttribute(Qt::AA_DontShowIconsInMenus, true);
 
-  QFontDatabase::addApplicationFont(":/fonts/Hack-Regular.ttf");
-  QFontDatabase::addApplicationFont(":/fonts/Hack-Italic.ttf");
-
-  qRegisterMetaType<SonicPiLog::MultiMessage>("SonicPiLog::MultiMessage");
-
-  QString systemLocale = QLocale::system().uiLanguages()[0].replace("-", "_");
-
-  QTranslator qtTranslator;
-  qtTranslator.load("qt_" + systemLocale, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
-  app.installTranslator(&qtTranslator);
-
-  QTranslator translator;
-  bool i18n = translator.load(QLatin1String("sonic-pi_") + systemLocale, QLatin1String(":/lang")) ||  systemLocale.startsWith("en") || systemLocale == "C";
-  app.installTranslator(&translator);
-
-  app.setApplicationName(QObject::tr("Sonic Pi"));
-  app.setStyle("gtk");
-
-
-#ifdef __linux__
+#if defined(Q_OS_LINUX)
   //linux code goes here
-
   QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
   QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-  QPixmap pixmap(":/images/splash@2x.png");
-
-  QSplashScreen *splash = new QSplashScreen(pixmap);
-  splash->setMask(pixmap.mask());
-  splash->show();
-  splash->repaint();
-  app.processEvents();
-  MainWindow mainWin(app, i18n, splash);
-
-  return app.exec();
-#elif _WIN32
+#elif defined(Q_OS_WIN)
   // windows code goes here
 
   // A temporary fix, until stylesheets are removed.
@@ -90,58 +56,32 @@ int main(int argc, char *argv[])
       QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     }
-
-  QPixmap pixmap;
-  QSplashScreen *splash;
-
-  if (GetDisplayScale().width() > 1.8f)
-    {
-      QPixmap pixmap(":/images/splash2x.png");
-      splash = new QSplashScreen(pixmap);
-    } else
-    {
-      QPixmap pixmap(":/images/splash.png");
-      splash = new QSplashScreen(pixmap);
-    }
-
-
-  splash->setMask(pixmap.mask());
-  splash->show();
-  splash->repaint();
-  app.processEvents();
-  MainWindow mainWin(app, i18n, splash);
-
-  // Fix for full screen mode. See: https://doc.qt.io/qt-5/windows-issues.html#fullscreen-opengl-based-windows
-  QWindowsWindowFunctions::setHasBorderInFullScreen(mainWin.windowHandle(), true);
-
-  return app.exec();
-
-#elif __APPLE__
+#elif defined(Q_OS_DARWIN)
   // macOS code goes here
-
   SonicPi::removeMacosSpecificMenuItems();
-
   QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+#endif
 
-  QMainWindow* splashWindow = new QMainWindow(0, Qt::FramelessWindowHint);
-  QLabel* imageLabel = new QLabel();
-  splashWindow->setAttribute( Qt::WA_TranslucentBackground);
-  QPixmap image(":/images/splash@2x.png");
-  imageLabel->setPixmap(image);
+  QApplication app(argc, argv);
 
-  splashWindow->setCentralWidget(imageLabel);
-  splashWindow->setMinimumHeight(image.height()/2);
-  splashWindow->setMaximumHeight(image.height()/2);
-  splashWindow->setMinimumWidth(image.width()/2);
-  splashWindow->setMaximumWidth(image.width()/2);
+  QFontDatabase::addApplicationFont(":/fonts/Hack-Regular.ttf");
+  QFontDatabase::addApplicationFont(":/fonts/Hack-Italic.ttf");
+  QFontDatabase::addApplicationFont(":/fonts/Hack-Bold.ttf");
+  QFontDatabase::addApplicationFont(":/fonts/Hack-BoldItalic.ttf");
 
-  splashWindow->raise();
-  splashWindow->show();
+  qRegisterMetaType<SonicPiLog::MultiMessage>("SonicPiLog::MultiMessage");
+
+  app.setApplicationName(QObject::tr("Sonic Pi"));
+  app.setStyle("gtk");
+
+  QPixmap pixmap(":/images/splash@2x.png");
+
+  QSplashScreen *splash = new QSplashScreen(pixmap);
+  splash->show();
   app.processEvents();
 
-  MainWindow mainWin(app, i18n, splashWindow);
-  return app.exec();
+  MainWindow mainWin(app, splash);
 
-#endif
+  return app.exec();
 
 }

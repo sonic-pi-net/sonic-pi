@@ -1,40 +1,45 @@
 #!/bin/bash
 set -e # Quit script on error
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-echo "Warning: Unix build scripts are still a work in progress!"
+WORKING_DIR="$(pwd)"
 
+args=("$@")
+system_libs=false
 
+# extract options and their arguments into variables.
+while [ -n "$1" ]; do
+    case "$1" in
+        -c|--config)
+            shift 2
+            ;;
+        -n|--no-imgui)
+            shift
+            ;;
+        -s|--system-libs|-o|--offline-build)
+            system_libs=true
+            shift
+            ;;
+        --) shift ; break ;;
+        *) echo "Invalid argument: $1" ; exit 1 ;;
+    esac
+done
 
-"${SCRIPT_DIR}/external/linux_build_externals.sh"
+cd "${SCRIPT_DIR}"
 
+if [ ! "$system_libs" == true ]; then
+  "${SCRIPT_DIR}"/linux-pre-vcpkg.sh "${args[@]}"
+fi
 
-# Install dependencies to server
-echo "Copying external dependencies to the server..."
-mkdir -p "${SCRIPT_DIR}/server/erlang/sonic_pi_server/priv/"
-cp ${SCRIPT_DIR}/external/build/sp_midi-prefix/src/sp_midi-build/*.so ${SCRIPT_DIR}/server/erlang/sonic_pi_server/priv/
-
-cp "${SCRIPT_DIR}/external/build/aubio-prefix/src/aubio-build/aubio_onset" "${SCRIPT_DIR}/server/native/"
-
-#dont remove ruby-aubio-prerelease, as needed in linux build
-#it is removed in the windows-prebuild
+# Build external dependencies and copy to build tree
+echo "Building external binary dependencies..."
+USE_SYSTEM_LIBS="$([ "$system_libs" == true ] && echo ON || echo OFF)" "${SCRIPT_DIR}"/external/linux_build_externals.sh
 
 echo "Compiling native ruby extensions..."
-ruby "${SCRIPT_DIR}/server/ruby/bin/compile-extensions.rb"
+ruby "${SCRIPT_DIR}"/server/ruby/bin/compile-extensions.rb
 
-echo "Translating tutorial..."
-#assumes linux uses system ruby
-#so dont use prefix /server/native/ruby/bin/ruby, as unnecessary to set this up
-ruby "${SCRIPT_DIR}/server/ruby/bin/i18n-tool.rb" -t
+"${SCRIPT_DIR}"/linux-pre-translations.sh "${args[@]}"
+"${SCRIPT_DIR}"/linux-pre-copy-binaries.sh "${args[@]}"
+"${SCRIPT_DIR}"/linux-pre-tau-prod-release.sh "${args[@]}"
 
-echo "Generating docs for the Qt GUI..."
-cp "${SCRIPT_DIR}/gui/qt/utils/ruby_help.tmpl" "${SCRIPT_DIR}/gui/qt/utils/ruby_help.h"
-ruby "${SCRIPT_DIR}/server/ruby/bin/qt-doc.rb" -o "${SCRIPT_DIR}/gui/qt/utils/ruby_help.h"
-
-echo "Updating GUI translation files..."
-PATH=`pkg-config --variable bindir Qt5`:$PATH lrelease "${SCRIPT_DIR}"/gui/qt/lang/*.ts
-
-echo "Compiling erlang files..."
-cd "${SCRIPT_DIR}/server/erlang/sonic_pi_server"
-erl -make
-cp src/sonic_pi_server.app.src ebin/sonic_pi_server.app
-cd "${SCRIPT_DIR}"
+# Restore working directory as it was prior to this script running...
+cd "${WORKING_DIR}"

@@ -1,0 +1,20 @@
+#!/bin/sh
+set -e
+
+cd "$(dirname "$0")/../vendor/libgit2"
+
+git fetch origin
+
+if [ "$#" -gt 0 ]
+then
+    git checkout "$1"
+    LIBGIT2_SHA1="$1"
+else
+    git checkout origin/main
+    LIBGIT2_SHA1=$(git rev-parse --verify HEAD)
+fi
+
+cd "../../"
+
+git add vendor/libgit2
+git commit -m "vendor: bump libgit2 to $LIBGIT2_SHA1"

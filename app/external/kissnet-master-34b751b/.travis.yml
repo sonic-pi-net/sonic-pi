@@ -1,0 +1,17 @@
+dist: bionic
+language: python
+group: travis_latest
+
+before_script:
+- gcc -v && g++ -v && cmake --version
+
+install:
+- pip install cmake
+
+script:
+- cmake -B build -Dkissnet_BUILD_TESTING:BOOL=on
+- cmake --build build
+
+after_script:
+- cd build
+- ctest --output-on-failure

@@ -3,9 +3,9 @@
 # Welcome friend :-)
 
 Welcome to Sonic Pi. Hopefully you're as excited to get started making
-crazy sounds as I am to show you. It's going to be a really *fun* ride
-where you'll learn all about music, synthesis, programming, composition,
-performance and more.
+your own sounds as I am to show you. It's going to be a really *fun*
+ride where you'll learn all about music, synthesis, programming,
+composition, performance and more.
 
 But wait, how rude of me! Let me introduce myself - I'm
 [Sam Aaron](https://twitter.com/samaaron) - the chap that created Sonic

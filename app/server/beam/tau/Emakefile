@@ -1,0 +1,4 @@
+{"src/osc/*",        [{outdir, "ebin/"}]}.
+{"src/tau_server/*", [{outdir, "ebin/"}]}.
+{"src/sp_midi/*",    [{outdir, "ebin/"}]}.
+{"src/sp_link/*",    [{outdir, "ebin/"}]}.

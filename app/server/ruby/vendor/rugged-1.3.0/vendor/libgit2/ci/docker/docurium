@@ -1,0 +1,5 @@
+ARG BASE=ubuntu:bionic
+
+FROM ${BASE}
+RUN apt update && apt install -y cmake pkg-config ruby ruby-dev llvm libclang-dev libssl-dev python-pygments
+RUN gem install docurium

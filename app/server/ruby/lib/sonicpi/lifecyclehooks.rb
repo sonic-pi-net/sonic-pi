@@ -11,8 +11,12 @@
 # notice is included.
 #++
 
+require_relative "util"
+
 module SonicPi
   class LifeCycleHooks
+
+    include Util
 
     # Life cycle hooks for jobs
 
@@ -23,51 +27,67 @@ module SonicPi
       @exited_blocks = []
       @all_completed_blocks = []
       @mut = Mutex.new
+      @started = false
+    end
+
+    def ensure_not_started!
+      if @started
+        raise StandardError "Cannot modify life cycle hooks once started"
+      end
     end
 
     def on_init(&blck)
       @mut.synchronize do
+        ensure_not_started!
         @started_blocks << blck
       end
     end
 
     def on_completed(&blck)
       @mut.synchronize do
+        ensure_not_started!
         @completed_blocks << blck
       end
     end
 
     def on_killed(&blck)
       @mut.synchronize do
+        ensure_not_started!
         @killed_blocks << blck
       end
     end
 
     def on_exit(&blck)
       @mut.synchronize do
+        ensure_not_started!
         @exited_blocks << blck
       end
     end
 
     def on_all_completed(&blck)
       @mut.synchronize do
+        ensure_not_started!
         @all_completed_blocks << blck
       end
     end
 
     def init(job_id, arg={})
+      log "Lifecycle Hooks Init"
+      @started = true
       @started_blocks.each do |b|
         b.call(job_id, arg)
       end
     end
 
     def completed(job_id, arg={})
+      log "Lifecycle Hooks Completed"
       @completed_blocks.each do |b|
         b.call(job_id, arg)
       end
     end
 
     def all_completed(silent=false)
+      log "Lifecycle Hooks All Completed"
       @all_completed_blocks.each do |b|
         b.call(silent)
       end

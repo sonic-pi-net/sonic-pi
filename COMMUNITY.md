@@ -25,6 +25,7 @@ If Sonic Pi has made you smile and you'd like to help keep it free so it
 can continue to be shared with the world, please consider joining the
 other lovely supporters over on [Patreon](https://patreon.com/samaaron).
 
+Patreon supporters also gain access to an exclusive Sonic Pi Discord server.
 
 ## Twitter 
 *<https://twitter.com/sonic_pi>*
@@ -41,7 +42,7 @@ please drop by, say hello and ask lots of questions.
 
 
 ## GitHub
-*<https://github.com/samaaron/sonic-pi>*
+*<https://github.com/sonic-pi-net/sonic-pi>*
 
 For developers interested in the full source code. The issue tracker is
 also hosted here.

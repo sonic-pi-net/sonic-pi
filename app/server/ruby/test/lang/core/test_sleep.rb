@@ -24,6 +24,7 @@ module SonicPi
 
     def test_basic_sleep
       @lang.run  do
+        use_bpm 60
         sleep 2
         assert_equal(__current_local_run_time, 2.0)
         sleep 1
@@ -34,7 +35,6 @@ module SonicPi
     def test_bpm_scaled_sleep
       @lang.run do
         use_bpm 120
-
         sleep 2
         assert_equal(__current_local_run_time, 1.0)
         sleep 1

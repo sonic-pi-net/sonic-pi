@@ -89,7 +89,7 @@ Would you like to contribute a translation too? If so, please take a look at our
 
 Sonic Pi is under active development, and welcomes new contributors:
 
-* [How to contribute](HOW-TO-CONTRIBUTE.md)
+* [Contributing](CONTRIBUTING.md)
 * [Change log](CHANGELOG.md)
 * [Community](COMMUNITY.md)
 * [Contributors](CONTRIBUTORS.md)
@@ -104,4 +104,4 @@ Sonic Pi is under active development, and welcomes new contributors:
 [![Weblate](https://hosted.weblate.org/widgets/sonic-pi/-/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)
 <br/>
 [![Travis CI](https://travis-ci.org/samaaron/sonic-pi.svg?branch=main)](https://travis-ci.org/samaaron/sonic-pi)
-<br/>
+<br/> 

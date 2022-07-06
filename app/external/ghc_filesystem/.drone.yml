@@ -1,0 +1,43 @@
+kind: pipeline
+name: arm
+
+platform:
+  os: linux
+  arch: arm
+
+steps:
+- name: build
+  image: alpine
+  failure: ignore
+  commands:
+  - apk update
+  - apk add --no-cache build-base cmake sudo
+  - addgroup testgrp
+  - adduser --disabled-password testuser testgrp
+  - passwd testuser -u -d
+  - chown -R testuser:testgrp .
+  - sudo -u testuser .ci/unix-build.sh
+  - sudo -u testuser .ci/unix-test.sh
+
+---
+
+kind: pipeline
+name: arm64
+
+platform:
+  os: linux
+  arch: arm64
+
+steps:
+- name: build
+  image: alpine
+  failure: ignore
+  commands:
+  - apk update
+  - apk add --no-cache build-base cmake
+  - addgroup testgrp
+  - adduser --disabled-password testuser testgrp
+  - passwd testuser -u -d
+  - chown -R testuser:testgrp .
+  - su -c "./.ci/unix-build.sh" testuser
+  - su -c "./.ci/unix-test.sh" testuser

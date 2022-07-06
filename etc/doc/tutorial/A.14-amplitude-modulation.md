@@ -166,7 +166,7 @@ with_fx :slicer, phase: 0.125 do
 end
 ```
 
-This allows us to take any sample and create new rhythmical possibilites
+This allows us to take any sample and create new rhythmical possibilities
 which is a lot of fun. However, one thing to be careful about is to make
 sure that the tempo of the sample matches the current BPM in Sonic Pi
 otherwise the slicing will sound totally off. For example, try swapping

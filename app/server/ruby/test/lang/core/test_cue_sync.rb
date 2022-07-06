@@ -22,13 +22,12 @@ module SonicPi
       @lang = SonicPi::MockLang.new
     end
 
-
     def test_time_increment
       @lang.run do
-
-        assert_equal 0, vt
+        use_bpm 60
+        assert_similar 0, vt
         sleep 0.05
-        assert_equal 0.05, vt
+        assert_similar 0.05, vt
 
         in_thread do
           sleep 0.1
@@ -37,9 +36,9 @@ module SonicPi
 
         sync :foo
 
-        assert_equal 0.15,  vt
+        assert_similar 0.15,  vt
         sleep 0.1
-        assert_equal 0.25,  vt
+        assert_similar 0.25,  vt
 
         in_thread do
           sleep 0.1
@@ -48,7 +47,7 @@ module SonicPi
 
         sync :foo
 
-        assert_equal 0.35,  vt
+        assert_similar 0.35,  vt
 
         in_thread do
           sleep 0.02
@@ -57,7 +56,7 @@ module SonicPi
 
         sync :foo
 
-        assert_equal 0.37,  vt
+        assert_similar 0.37,  vt
       end
     end
 
@@ -67,9 +66,9 @@ module SonicPi
     def test_time_increment_w_faster_bpm
       @lang.run do
         use_bpm 120
-        assert_equal 0, vt
+        assert_similar 0, vt
         sleep 0.1
-        assert_equal 0.1 / 2, vt
+        assert_similar 0.1 / 2, vt
 
         in_thread do
           sleep 0.05
@@ -78,9 +77,9 @@ module SonicPi
 
         sync :foo
 
-        assert_equal 0.15 / 2,  vt
+        assert_similar 0.15 / 2,  vt
         sleep 0.02
-        assert_equal 0.17 / 2,  vt
+        assert_similar 0.17 / 2,  vt
         in_thread do
           sleep 0.04
           cue :foo
@@ -88,7 +87,7 @@ module SonicPi
 
         sync :foo
 
-        assert_equal 0.21 / 2,  vt
+        assert_similar 0.21 / 2,  vt
 
         in_thread do
           sleep 0.05
@@ -102,8 +101,8 @@ module SonicPi
 
         v = sync :foo
 
-        assert_equal 0.26 / 2, vt
-        assert_equal 2, v[0]
+        assert_similar 0.26 / 2, vt
+        assert_similar 2, v[0]
       end
     end
 

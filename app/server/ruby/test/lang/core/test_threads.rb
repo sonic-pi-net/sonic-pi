@@ -23,6 +23,7 @@ module SonicPi
 
     def test_in_thread
       @lang.run do
+        use_bpm 60
         assert_equal 0, vt
 
         t = in_thread do
@@ -38,6 +39,14 @@ module SonicPi
 
     end
 
+    def test_in_thread_random_source_initialised
+      @lang.run do
+        t = in_thread do
+          assert_equal :white, current_random_source
+        end
 
+        t.join
+      end
+    end
   end
 end

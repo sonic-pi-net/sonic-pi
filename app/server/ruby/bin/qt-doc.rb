@@ -17,12 +17,12 @@ require 'optparse'
 require 'fileutils'
 
 require_relative "../core.rb"
+require_relative "../paths"
 require_relative "../lib/sonicpi/synths/synthinfo"
 require_relative "../lib/sonicpi/util"
 require_relative "../lib/sonicpi/runtime"
 require_relative "../lib/sonicpi/lang/core"
 require_relative "../lib/sonicpi/lang/sound"
-require_relative "../lib/sonicpi/lang/minecraftpi"
 require_relative "../lib/sonicpi/lang/midi"
 
 require 'active_support/inflector'
@@ -30,14 +30,71 @@ require 'active_support/inflector'
 
 include SonicPi::Util
 
-FileUtils::rm_rf "#{qt_gui_path}/help/"
-FileUtils::mkdir "#{qt_gui_path}/help/"
+# List of all languages with GUI translation files
+@lang_names = Hash[
+  "bg" => "български", # Bulgarian
+  "bn" => "বাংলা", # Bengali/Bangla
+  "bs" => "Bosanski", # Bosnian
+  "ca" => "Català", # Catalan
+  "ca@valencia" => "Valencià", # Valencian
+  "cs" => "Čeština", # Czech
+  "da" => "Dansk", # Danish
+  "de" => "Deutsch", # German
+  "el" => "ελληνικά", # Greek
+  "en" => "English", # English
+  "en_AU" => "English (Australian)", # English (Australian)
+  "en_GB" => "English (UK)", # English (UK) - default language
+  "en_US" => "English (US)", # English (US)
+  "eo" => "Esperanto", # Esperanto
+  "es" => "Español", # Spanish
+  "et" => "Eesti keel", # Estonian
+  "eu" => "Euskara", # Basque
+  "fa" => "فارسی", # Persian
+  "fi" => "Suomi", # Finnish
+  "fr" => "Français", # French
+  "ga" => "Gaeilge", # Irish
+  "gl" => "Galego", # Galician
+  "he" => "עברית", # Hebrew
+  "hi" => "हिन्दी", # Hindi
+  "hu" => "Magyar", # Hungarian
+  "hy" => "Հայերեն", # Armenian
+  "id" => "Bahasa Indonesia", # Indonesian
+  "is" => "Íslenska", # Icelandic
+  "it" => "Italiano", # Italian
+  "ja" => "日本語", # Japanese
+  "ka" => "ქართული", # Georgian
+  "ko" => "한국어", # Korean
+  "nb" => "Norsk Bokmål", # Norwegian Bokmål
+  "nl" => "Nederlands", # Dutch (Netherlands)
+  "pl" => "Polski", # Polish
+  "pt" => "Português", # Portuguese
+  "pt_BR" => "Português do Brasil", # Brazilian Portuguese
+  "ro" => "Română", # Romanian
+  "ru" => "Pусский", # Russian
+  "si" => "සිංහල", # Sinhala/Sinhalese
+  "sk" => "Slovenčina",#/Slovenský Jazyk", # Slovak/Slovakian
+  "sl" => "Slovenščina",#/Slovenski Jezik", # Slovenian
+  "sv" => "Svenska", # Swedish
+  "sw" => "Kiswahili", # Swahili
+  "th" => "ไทย", # Thai
+  "tr" => "Türkçe", # Turkish
+  "ug" => "ئۇيغۇر تىلى", # Uyghur
+  "uk" => "Українська", # Ukranian
+  "vi" => "Tiếng Việt", # Vietnamese
+  "zh" => "中文", # Chinese
+  "zh-Hans" => "简体中文", # Chinese (Simplified)
+  "zh_HK" => "廣東話", # Chinese (Traditional, Hong Kong)
+  "zh_TW" => "臺灣華語" # Chinese (Traditional, Taiwan)
+]
 
-FileUtils::rm_rf "#{qt_gui_path}/info/"
-FileUtils::mkdir "#{qt_gui_path}/info/"
+FileUtils::rm_rf "#{SonicPi::Paths.qt_gui_path}/help/"
+FileUtils::mkdir "#{SonicPi::Paths.qt_gui_path}/help/"
 
-FileUtils::rm_rf "#{qt_gui_path}/book/"
-FileUtils::mkdir "#{qt_gui_path}/book/"
+FileUtils::rm_rf "#{SonicPi::Paths.qt_gui_path}/info/"
+FileUtils::mkdir "#{SonicPi::Paths.qt_gui_path}/info/"
+
+FileUtils::rm_rf "#{SonicPi::Paths.qt_gui_path}/book/"
+FileUtils::mkdir "#{SonicPi::Paths.qt_gui_path}/book/"
 
 docs = []
 filenames = []
@@ -115,7 +172,7 @@ make_tab = lambda do |name, doc_items, titleize=false, should_sort=true, with_ke
 
     filenames << filename
 
-    File.open("#{qt_gui_path}/#{filename}", 'w') do |f|
+    File.open("#{SonicPi::Paths.qt_gui_path}/#{filename}", 'w') do |f|
       f << "#{doc}"
     end
 
@@ -140,7 +197,7 @@ make_tab = lambda do |name, doc_items, titleize=false, should_sort=true, with_ke
   book_body = book[/<body.*?>/]
   book.gsub!(/<\/?body.*?>/, '')
   book.gsub!(/<meta http-equiv.*?>/, '')
-  File.open("#{qt_gui_path}/book/Sonic Pi - #{name.capitalize}" + (lang != "en" ? " (#{lang})" : "") + ".html", 'w') do |f|
+  File.open("#{SonicPi::Paths.qt_gui_path}/book/Sonic Pi - #{name.capitalize}" + (lang != "en" ? " (#{lang})" : "") + ".html", 'w') do |f|
     f << "<link rel=\"stylesheet\" href=\"../theme/light/doc-styles.css\" type=\"text/css\"/>\n"
     f << "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>\n\n"
     f << book_body << "\n"
@@ -161,9 +218,9 @@ make_tutorial = lambda do |lang|
   docs << "\n  // language #{lang}\n"
   tutorial_html_map = {}
   if lang == "en" then
-    markdown_path = tutorial_path
+    markdown_path = SonicPi::Paths.tutorial_path
   else
-    markdown_path = File.expand_path("../generated/#{lang}/tutorial", tutorial_path)
+    markdown_path = File.expand_path("../generated/#{lang}/tutorial", SonicPi::Paths.tutorial_path)
   end
   Dir["#{markdown_path}/*.md"].sort.each do |path|
     f = File.open(path, 'r:UTF-8')
@@ -184,7 +241,7 @@ end
 example_html_map = {}
 example_dirs = ["Apprentice", "Illusionist", "Magician", "Sorcerer", "Wizard", "Algomancer"]
 example_dirs.each do |ex_dir|
-  Dir["#{examples_path}/#{ex_dir.downcase}/*.rb"].each do |path|
+  Dir["#{SonicPi::Paths.examples_path}/#{ex_dir.downcase}/*.rb"].sort.each do |path|
     bname = File.basename(path, ".rb")
     bname = ActiveSupport::Inflector.titleize(bname)
     name = "[#{ex_dir}] #{bname}"
@@ -212,15 +269,15 @@ ruby_html_map = {
 # before the generic language code,
 # e.g., "de_CH" should be handled before "de"
 languages =
-  Dir[File.expand_path("../lang/sonic-pi-tutorial-*.po", tutorial_path)].
+  Dir[File.expand_path("../lang/sonic-pi-tutorial-*.po", SonicPi::Paths.tutorial_path)].
   map { |p| File.basename(p).gsub(/sonic-pi-tutorial-(.*?).po/, '\1') }.
-  sort_by {|n| -n.length}
+  sort_by {|n| [-n.length, n]}
 
-docs << "\n  QString systemLocale = QLocale::system().uiLanguages()[0];\n\n" unless languages.empty?
+docs << "\n"
 
 # first, try to match all non-default languages (those that aren't "en")
 languages.each do |lang|
-  docs << "if (systemLocale.startsWith(\"#{lang}\")) {\n"
+  docs << "if (this->ui_language.startsWith(\"#{lang}\")) {\n"
   make_tutorial.call(lang)
   docs << "} else "
 end
@@ -263,12 +320,47 @@ SonicPi::Synths::SynthInfo.get_all.each do |k, v|
   docs << "  autocomplete->addSynthArgs(\":#{k}\", fxtmp);\n\n"
 end
 
+def generate_ui_lang_names
+  # Define the language list map -----
+  ui_languages = @lang_names.keys
+  ui_languages = ui_languages.sort_by {|l| l.downcase}
+  locale_arrays = []
+  locale_arrays << "std::map<QString, QString> SonicPii18n::native_language_names = {\n"
+
+  # # Add each language
+  for i in 0..(ui_languages.length()-1) do
+    lang = ui_languages[i]
+    locale_arrays << ",\n" if i != 0
+    locale_arrays << "{\"#{lang}\", \"#{@lang_names[lang]}\"}"
+  end
+
+  # End the map
+  locale_arrays << "\n};\n"
+
+  # Write the map to lang_list.h
+  content = File.readlines("#{SonicPi::Paths.qt_gui_path}/utils/lang_list.tmpl")
+  lang_names_generated = content.take_while { |line| !line.start_with?("// AUTO-GENERATED")}
+  lang_names_generated << "// AUTO-GENERATED HEADER FILE\n"
+  lang_names_generated << "// Do not add any code to this file\n"
+  lang_names_generated << "// as it will be removed/overwritten\n"
+  lang_names_generated << "\n"
+  lang_names_generated << "#ifndef LANG_LIST_H\n"
+  lang_names_generated << "#define LANG_LIST_H\n"
+  lang_names_generated << "#include <map>\n"
+  lang_names_generated << locale_arrays.join()
+  lang_names_generated << "#endif\n"
+
+  File.open("#{SonicPi::Paths.qt_gui_path}/utils/lang_list.h", 'w') do |f|
+    f << lang_names_generated.join()
+  end
+end
+
 
 # update ruby_help.h
 if options[:output_name] then
    cpp = options[:output_name]
 else
-   cpp = "#{qt_gui_path}/ruby_help.h"
+   cpp = "#{SonicPi::Paths.qt_gui_path}/ruby_help.h"
 end
 
 content = File.readlines(cpp)
@@ -285,7 +377,7 @@ File.open(cpp, 'w') do |f|
   f << new_content.join
 end
 
-File.open("#{qt_gui_path}/help_files.qrc", 'w') do |f|
+File.open("#{SonicPi::Paths.qt_gui_path}/help_files.qrc", 'w') do |f|
   f << "<RCC>\n  <qresource prefix=\"/\">\n"
   f << filenames.map{|n| "    <file>#{n}</file>\n"}.join
   f << "  </qresource>\n</RCC>\n"
@@ -297,11 +389,11 @@ end
 ###
 
 info_sources = ["CHANGELOG.md", "CONTRIBUTORS.md", "COMMUNITY.md", "CORETEAM.html", "LICENSE.md"]
-outputdir = "#{qt_gui_path}/info"
+outputdir = File.absolute_path("#{SonicPi::Paths.qt_gui_path}/info")
 
 info_sources.each do |src|
 
-  input_path = "#{root_path}/#{src}"
+  input_path = File.absolute_path("#{SonicPi::Paths.root_path}/#{src}")
   base = File.basename(input_path)
   m = base.match /(.*)\.(.*)/
   bn = m[1]
@@ -321,3 +413,5 @@ info_sources.each do |src|
   end
 
 end
+
+generate_ui_lang_names()

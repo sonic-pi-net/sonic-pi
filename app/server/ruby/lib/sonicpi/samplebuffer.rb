@@ -102,7 +102,7 @@ module SonicPi
           # [:minioi_ms]       12.0 (ms)
 
           begin
-            aubio_onsets_command = "\"#{aubio_onset_path}\" \"#{@path}\""
+            aubio_onsets_command = "\"#{Paths.aubio_onset_path}\" \"#{@path}\""
             onsets_str = `#{aubio_onsets_command}`
             onsets = onsets_str.split.map(&:to_f)
           rescue Exception => e
@@ -131,12 +131,14 @@ module SonicPi
 
     def onset_slices
       return @aubio_slices if @aubio_slices
-      ons = onsets
+      ons_bounds = onsets
       @aubio_sem.synchronize do
         return @aubio_slices if @aubio_slices
         res = []
-        ons[0...-1].each_with_index do |onset, idx|
-          res << {:start => onset, :finish => ons[idx + 1], index: idx}
+        ons_bounds << 0 if ons_bounds.empty?
+        ons_bounds << 1 if ons_bounds[-1] != 1
+        ons_bounds.each_cons(2).each_with_index do |(start, finish), idx|
+          res << { start: start, finish: finish, index: idx }
         end
         @aubio_slices = res.ring
       end

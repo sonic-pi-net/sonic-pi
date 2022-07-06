@@ -38,6 +38,10 @@ module SonicPi
       # edge case
       assert_equal(Lang::WesternTheory.chord_invert(Lang::WesternTheory.chord(:C4, "1"), 1), [72].ring)
       assert_equal(Lang::WesternTheory.chord_invert(Lang::WesternTheory.chord(:C4, "1"), -1), [48].ring)
+
+       # reported ordering issue: https://github.com/sonic-pi-net/sonic-pi/issues/2779
+       assert_equal(Lang::WesternTheory.chord_invert(Chord.resolve_degree(:i, :C3, :major, 5), 1), [52, 55, 59, 60, 62].ring)
+       assert_equal(Lang::WesternTheory.chord_invert(Chord.resolve_degree(:i, :C3, :major, 5), 2), [55, 59, 60, 62, 64].ring)
     end
 
   end

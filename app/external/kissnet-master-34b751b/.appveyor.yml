@@ -1,0 +1,14 @@
+image:
+- Visual Studio 2017
+
+clone_depth: 25
+
+build: off
+
+install:
+- cmake -B build -Dkissnet_BUILD_TESTING:BOOL=on
+- cmake --build build
+
+test_script:
+- cd build
+- ctest --output-on-failure -C Debug

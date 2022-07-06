@@ -1,9 +1,3 @@
-#--
-# This file is part of Sonic Pi: http://sonic-pi.net
-# Full project source: https://github.com/samaaron/sonic-pi
-# License: https://github.com/samaaron/sonic-pi/blob/main/LICENSE.md
-#
-# Copyright 2013, 2014, 2015, 2016 by Sam Aaron (http://sam.aaron.name).
 # All rights reserved.
 #
 # Permission is granted for use, copying, modification, and
@@ -28,13 +22,14 @@ module SonicPi
 
     attr_accessor :cent_tuning
 
-    def initialize(ports, msg_queue, scsynth_opts, scsynth_clobber, state, register_cue_event_lambda)
+    def initialize(ports, msg_queue, state, register_cue_event_lambda, current_spider_time_lambda)
+
+      STDOUT.puts "studio - init"
+      STDOUT.flush
+
       @state = state
       @scsynth_port = ports[:scsynth_port]
       @scsynth_send_port = ports[:scsynth_send_port]
-      @osc_cues_port = ports[:osc_cues_port]
-      @erlang_port = ports[:erlang_port]
-      @server_port = ports[:server_port]
       @msg_queue = msg_queue
       @error_occured_mutex = Mutex.new
       @error_occurred_since_last_check = false
@@ -45,14 +40,10 @@ module SonicPi
       @sample_format = "int16"
       @paused = false
       @register_cue_event_lambda = register_cue_event_lambda
-      @erlang_pid = nil
-      @erlang_mut = Mutex.new
-      @scsynth_opts = scsynth_opts
-      @scsynth_clobber = scsynth_clobber
+      @current_spider_time_lambda = current_spider_time_lambda
       init_scsynth
       reset_server
       init_studio
-      start_erlang
     end
 
     def __exec_path(path)
@@ -61,47 +52,6 @@ module SonicPi
         path
       else
         "exec #{path}"
-      end
-    end
-
-    def __erl_mut_start_erlang
-      return @erlang_pid if @erlang_pid
-      # Start Erlang (initially with cue forwarding disabled)
-      begin
-        erlang_cmd = __exec_path("#{erlang_boot_path} +C multi_time_warp -noshell -pz \"#{erlang_server_path}\" -sonic_pi_server api_port #{@erlang_port} in_port #{@osc_cues_port} cue_port #{@server_port} enabled false -s pi_server start")
-        STDOUT.puts erlang_cmd
-        @erlang_pid = spawn erlang_cmd, out: erlang_log_path, err: erlang_log_path
-        register_process(@erlang_pid)
-      rescue Exception => e
-        STDOUT.puts "Exception when starting Erlang"
-        STDOUT.puts e.message
-        STDOUT.puts e.backtrace.inspect
-        STDOUT.puts e.backtrace
-      end
-    end
-
-    def __erl_mut_stop_erlang
-      return nil unless @erlang_pid
-      kill_and_deregister_process @erlang_pid
-      @erlang_pid = nil
-    end
-
-    def stop_erlang
-      @erlang_mut.synchronize do
-        __erl_mut_stop_erlang
-      end
-    end
-
-    def start_erlang
-      @erlang_mut.synchronize do
-        __erl_mut_start_erlang
-      end
-    end
-
-    def reset_erlang
-      @erlang_mut.synchronize do
-        __erl_mut_stop_erlang
-        __erl_mut_start_erlang
       end
     end
 
@@ -114,17 +64,16 @@ module SonicPi
     end
 
     def init_scsynth
-      @server = Server.new(@scsynth_port, @scsynth_send_port, @msg_queue, @state, @register_cue_event_lambda, @scsynth_opts, @scsynth_clobber)
+      @server = Server.new(@scsynth_port, @msg_queue, @state, @register_cue_event_lambda, @current_spider_time_lambda)
       message "Initialised SuperCollider Audio Server #{@server.version}"
     end
 
     def init_studio
-      @server.load_synthdefs(synthdef_path)
+      @server.load_synthdefs(Paths.synthdef_path)
       @amp = [0.0, 1.0]
       @server.add_event_handler("/sonic-pi/amp", "/sonic-pi/amp") do |payload|
         @amp = [payload[2], payload[3]]
       end
-
 
       old_synthdefs = @loaded_synthdefs
       @loaded_synthdefs = Set.new
@@ -135,7 +84,7 @@ module SonicPi
       end
 
       # load rand stream directly - ensuring it doesn't get considered as a 'sample'
-      rand_buf = @server.buffer_alloc_read(buffers_path + "/rand-stream.wav")
+      rand_buf = @server.buffer_alloc_read(Paths.buffers_path + "/rand-stream.wav")
 
       @sample_sem.synchronize do
         @buffers = {}
@@ -152,7 +101,6 @@ module SonicPi
           internal_load_sample(k, @server)
         end
       end
-
 
       @recorders = {}
       @recording_mutex = Mutex.new
@@ -193,7 +141,7 @@ module SonicPi
 
         # our buffer has the same name but is of a different duration
         # therefore nuke it
-        path = cached_samples_path + "/#{name}.wav"
+        path = Paths.cached_samples_path + "/#{name}.wav"
         # now actually allocate a new buffer and cache it
         sample_rate = @server.scsynth_info[:sample_rate]
         buffer_info = @server.buffer_alloc(duration_in_seconds * sample_rate, 2)
@@ -226,6 +174,11 @@ module SonicPi
     def load_synthdefs(path, server=@server)
       check_for_server_rebooting!(:load_synthdefs)
       internal_load_synthdefs(path, server)
+    end
+
+    def load_synthdef(path, server=@server)
+      check_for_server_rebooting!(:load_synthdefs)
+      internal_load_synthdef(path, server)
     end
 
     def sample_loaded?(path)
@@ -290,7 +243,7 @@ module SonicPi
       check_for_server_rebooting!(:invert)
       @volume = vol
       message "Setting main volume to #{vol}" unless silent
-      @server.node_ctl @mixer, {"pre_amp" => vol}, now
+      @server.node_ctl @mixer, {"pre_amp" => vol * 0.2}, now
     end
 
     def mixer_invert_stereo(invert)
@@ -360,8 +313,6 @@ module SonicPi
       check_for_server_rebooting!(:new_fx_bus)
       @server.allocate_audio_bus
     end
-
-
 
     def control_delta
       @server.control_delta
@@ -439,40 +390,6 @@ module SonicPi
       end
     end
 
-    def reboot
-      # Important:
-      # This method should only be called from the @server_rebooter
-      # thread.
-      return nil if @rebooting
-      @reboot_mutex.synchronize do
-        @rebooting = true
-        message "Rebooting SuperCollider Audio Server. Please wait..."
-#        @server.shutdown
-
-        begin
-          reset_server
-        rescue Exception => e
-          message "Error resetting server"
-          message e.message
-          message e.backtrace.inspect
-          message e.backtrace
-        end
-
-        begin
-          init_studio
-        rescue Exception => e
-          message "Error initialising Studio"
-          message e.message
-          message e.backtrace.inspect
-          message e.backtrace
-        end
-
-        message "SuperCollider Audio Server ready."
-        @rebooting = false
-        true
-      end
-    end
-
     def pause(silent=true)
       @recording_mutex.synchronize do
         unless recording? || @paused
@@ -520,7 +437,6 @@ module SonicPi
 
     def check_for_server_rebooting!(msg=nil)
       if @rebooting
-        message "Oops, already rebooting: #{msg}"
         log_message "Oops, already rebooting: #{msg}"
         raise StudioCurrentlyRebootingError if @rebooting
       end
@@ -540,13 +456,13 @@ module SonicPi
 
 
     def reset_and_setup_groups_and_busses
-      log_message "Studio - clearing scsynth"
+      log_message "Reset and setup groups and busses"
+      log_message "Clearing scsynth"
       @server.reset!
-
-      log_message "Studio - allocating audio bus"
+      log_message "Allocating audio bus"
       @mixer_bus = @server.allocate_audio_bus
 
-      log_message "Studio - Create Base Synth Groups"
+      log_message "Create Base Synth Groups"
       @mixer_group = @server.create_group(:head, 0, "STUDIO-MIXER")
       @fx_group = @server.create_group(:before, @mixer_group, "STUDIO-FX")
       @synth_group = @server.create_group(:before, @fx_group, "STUDIO-SYNTHS")
@@ -566,7 +482,7 @@ module SonicPi
       # set_mixer! :default
       log_message "Starting mixer"
       mixer_synth = "sonic-pi-mixer"
-      @mixer = @server.trigger_synth(:head, @mixer_group, mixer_synth, {"in_bus" => @mixer_bus.to_i}, nil, true)
+      @mixer = @server.trigger_synth(:head, @mixer_group, mixer_synth, {"in_bus" => @mixer_bus.to_i, amp: 6}, nil, true)
     end
 
     def start_scope
@@ -593,8 +509,16 @@ module SonicPi
     end
 
     def internal_load_synthdefs(path, server=@server)
+      return internal_load_synthdef if File.file?(path)
       @sample_sem.synchronize do
         server.load_synthdefs(path)
+        @loaded_synthdefs << path
+      end
+    end
+
+    def internal_load_synthdef(path, server=@server)
+      @sample_sem.synchronize do
+        server.load_synthdef(path)
         @loaded_synthdefs << path
       end
     end

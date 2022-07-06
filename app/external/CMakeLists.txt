@@ -1,5 +1,5 @@
 # This CMakeLists builds all the external libraries required for a Sonic Pi
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.13)
 
 message(STATUS " Aubio Builder")
 
@@ -8,15 +8,26 @@ project(AubioBuilder
     VERSION 1.0.0
     )
 
-
+  include(GNUInstallDirs)
   include(ExternalProject)
 
-  set(CMAKE_OSX_DEPLOYMENT_TARGET '10.13')
+  set(CMAKE_OSX_DEPLOYMENT_TARGET '10.14')
 
   # sp_midi
 ExternalProject_Add(sp_midi
     PREFIX sp_midi-prefix
     SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/sp_midi
+    INSTALL_COMMAND ""
+    CMAKE_ARGS
+        -DERLANG_INCLUDE_PATH=${ERLANG_INCLUDE_PATH}
+        -DCMAKE_OSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}
+        -DUSE_SYSTEM_RTMIDI=${USE_SYSTEM_LIBS}
+    BUILD_COMMAND ${CMAKE_COMMAND} --build . --config Release
+    )
+
+ExternalProject_Add(sp_link
+    PREFIX sp_link-prefix
+    SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/sp_link
     INSTALL_COMMAND ""
     CMAKE_ARGS
         -DERLANG_INCLUDE_PATH=${ERLANG_INCLUDE_PATH}
@@ -98,15 +109,15 @@ ExternalProject_Add(libsndfile
         -DCMAKE_POSITION_INDEPENDENT_CODE=ON
         -DFLAC_ROOT=${CMAKE_BINARY_DIR}/flac-package
         -DPC_OGG_INCLUDE_DIRS=${CMAKE_BINARY_DIR}/ogg-package/include
-        -DPC_OGG_LIBRARY_DIRS=${CMAKE_BINARY_DIR}/ogg-package/lib
+        -DPC_OGG_LIBRARY_DIRS=${CMAKE_BINARY_DIR}/ogg-package/${CMAKE_INSTALL_LIBDIR}
         -DPC_FLAC_INCLUDE_DIRS=${CMAKE_BINARY_DIR}/flac-package/include
-        -DPC_FLAC_LIBRARY_DIRS=${CMAKE_BINARY_DIR}/flac-package/lib
+        -DPC_FLAC_LIBRARY_DIRS=${CMAKE_BINARY_DIR}/flac-package/${CMAKE_INSTALL_LIBDIR}
         -DPC_VORBIS_INCLUDE_DIRS=${CMAKE_BINARY_DIR}/vorbis-package/include
-        -DPC_VORBIS_LIBRARY_DIRS=${CMAKE_BINARY_DIR}/vorbis-package/lib
+        -DPC_VORBIS_LIBRARY_DIRS=${CMAKE_BINARY_DIR}/vorbis-package/${CMAKE_INSTALL_LIBDIR}
         -DPC_VORBISENC_INCLUDE_DIRS=${CMAKE_BINARY_DIR}/vorbis-package/include
-        -DPC_VORBISENC_LIBRARY_DIRS=${CMAKE_BINARY_DIR}/vorbis-package/lib
+        -DPC_VORBISENC_LIBRARY_DIRS=${CMAKE_BINARY_DIR}/vorbis-package/${CMAKE_INSTALL_LIBDIR}
         -DPC_OPUS_INCLUDE_DIRS=${CMAKE_BINARY_DIR}/opus-package/include
-        -DPC_OPUS_LIBRARY_DIRS=${CMAKE_BINARY_DIR}/opus-package/lib
+        -DPC_OPUS_LIBRARY_DIRS=${CMAKE_BINARY_DIR}/opus-package/${CMAKE_INSTALL_LIBDIR}
         -DCMAKE_OSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}
 
         INSTALL_DIR ${CMAKE_BINARY_DIR}/libsndfile-package
@@ -120,11 +131,11 @@ ExternalProject_Add(aubio
 
     CMAKE_ARGS
         -DLIBSNDFILE_INCLUDE_DIR=${CMAKE_BINARY_DIR}/libsndfile-package/include
-        -DLIBSNDFILE_LIBRARY_DIR=${CMAKE_BINARY_DIR}/libsndfile-package/lib
-        -DLIBOGG_LIBRARY_DIR=${CMAKE_BINARY_DIR}/ogg-package/lib
-        -DLIBVORBIS_LIBRARY_DIR=${CMAKE_BINARY_DIR}/vorbis-package/lib
-        -DLIBOPUS_LIBRARY_DIR=${CMAKE_BINARY_DIR}/opus-package/lib
-        -DLIBFLAC_LIBRARY_DIR=${CMAKE_BINARY_DIR}/flac-package/lib
+        -DLIBSNDFILE_LIBRARY_DIR=${CMAKE_BINARY_DIR}/libsndfile-package/${CMAKE_INSTALL_LIBDIR}
+        -DLIBOGG_LIBRARY_DIR=${CMAKE_BINARY_DIR}/ogg-package/${CMAKE_INSTALL_LIBDIR}
+        -DLIBVORBIS_LIBRARY_DIR=${CMAKE_BINARY_DIR}/vorbis-package/${CMAKE_INSTALL_LIBDIR}
+        -DLIBOPUS_LIBRARY_DIR=${CMAKE_BINARY_DIR}/opus-package/${CMAKE_INSTALL_LIBDIR}
+        -DLIBFLAC_LIBRARY_DIR=${CMAKE_BINARY_DIR}/flac-package/${CMAKE_INSTALL_LIBDIR}
 
         -DPC_OGG_INCLUDE_DIRS=${CMAKE_BINARY_DIR}/ogg-package/include
         -DPC_VORBIS_INCLUDE_DIRS=${CMAKE_BINARY_DIR}/vorbis-package/include

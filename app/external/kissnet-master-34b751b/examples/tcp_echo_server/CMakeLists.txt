@@ -1,0 +1,8 @@
+find_package(Threads)
+add_executable(tcp_echo_server main.cpp)
+if(Threads_FOUND)
+	target_link_libraries(tcp_echo_server PRIVATE Threads::Threads)
+endif()
+if(HAIKU)
+	target_link_libraries(tcp_echo_server PRIVATE network)
+endif(HAIKU)

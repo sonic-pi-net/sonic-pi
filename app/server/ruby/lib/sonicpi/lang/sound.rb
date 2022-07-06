@@ -78,7 +78,7 @@ module SonicPi
 
             @sample_paths_cache = {}
 
-            @sample_loader = SampleLoader.new("#{samples_path}/**")
+            @sample_loader = SampleLoader.new("#{Paths.samples_path}/**")
 
             @job_groups = {}
             @job_group_mutex = Mutex.new
@@ -86,12 +86,14 @@ module SonicPi
             @job_mixers_mutex = Mutex.new
             @job_busses = {}
             @job_busses_mutex = Mutex.new
-            @mod_sound_studio = Studio.new(ports, msg_queue, @scsynth_opts, @scsynth_clobber_args, @system_state, @register_cue_event_lambda)
+            current_spider_time_lambda = lambda { __get_spider_time }
+            @mod_sound_studio = Studio.new(ports, msg_queue, @system_state, @register_cue_event_lambda, current_spider_time_lambda)
 
             buf_lookup = lambda do |name, duration=nil|
               # scale duration to the current BPM
               duration ||= 8
-              duration = duration * __system_thread_locals.get(:sonic_pi_spider_sleep_mul, 1)
+              raise ArgumentError, "Buffer duration should be a numerical value greater than zero. You used #{duration}" unless duration.is_a?(Numeric) && duration.positive?
+              duration = duration * (__get_spider_sleep_mul || 1)
               name = name.to_sym
 
               buf, cached = @mod_sound_studio.allocate_buffer(name, duration)
@@ -124,20 +126,19 @@ module SonicPi
               @mod_sound_studio.start
             end
 
-            @life_hooks.on_killed do |job_id, payload|
-              # Do nothing for now
-            end
+            # @life_hooks.on_killed do |job_id, payload|
+            #   # Do nothing for now
+            # end
 
-            @life_hooks.on_completed do |job_id, payload|
-              # Do nothing for now
-            end
+            # @life_hooks.on_completed do |job_id, payload|
+            #   # Do nothing for now
+            # end
 
             @life_hooks.on_all_completed do |silent=false|
               @mod_sound_studio.pause(silent)
             end
 
             @life_hooks.on_exit do |job_id, payload|
-              __system_thread_locals.set(:sonic_pi_spider_start_time, payload[:start_t])
               __system_thread_locals.set_local(:sonic_pi_local_thread_group, "job_remover-#{job_id}".freeze)
               Thread.current.priority = -10
               shutdown_job_mixer(job_id)
@@ -314,7 +315,7 @@ live_audio :foo, :stop     #=> stop playing audio from input 1
       doc name:           :scsynth_info,
           introduced:     Version.new(2,11,0),
           summary:        "Return information about the internal SuperCollider sound server",
-          args:           [[]],
+          args:           [],
           returns:        :SPMap,
           opts:           nil,
           accepts_block:  false,
@@ -437,7 +438,7 @@ buffer(:foo)     # return cached 8s buffer (has the same duration)"]
       doc name:           :sample_free_all,
           introduced:     Version.new(2,9,0),
           summary:        "Free all loaded samples on the synth server",
-          args:           [[]],
+          args:           [],
           returns:        nil,
           opts:           nil,
           accepts_block:  false,
@@ -1188,7 +1189,7 @@ synth :dsaw, note: :e3 # This is triggered after 0.5s from start"
 
 
       def play(n, *args, &blk)
-        raise "Play expects a note to play, if you did something like 'play sample ...' you should probably remove 'play'" if n.is_a?(SonicPi::Node)
+        raise "Play expects a note to play. If you want to make a sound with a sample or buffer, you can just use 'sample ...' or 'sample buffer(...)'" if n.is_a?(SonicPi::Node) || n.is_a?(Buffer)
         if n.is_a?(Hash) && args.empty?
           synth nil, n, &blk
         else
@@ -2215,6 +2216,11 @@ load_sample dir, /[Bb]ar/ # loads first sample which matches regex /[Bb]ar/ in \
       def sample_duration(*args)
         filts_and_sources, args_a = sample_split_filts_and_opts(args)
         path = resolve_sample_path(filts_and_sources)
+
+        if path.nil?
+            raise ArgumentError.new("Error calling sample_duration: filters matched no samples")
+        end
+
         dur = load_sample_at_path(path).duration
         args_h = merge_synth_arg_maps_array(args_a)
 
@@ -2243,7 +2249,7 @@ load_sample dir, /[Bb]ar/ # loads first sample which matches regex /[Bb]ar/ in \
         end
 
         if __thread_locals.get(:sonic_pi_spider_arg_bpm_scaling)
-          return real_dur.to_f / __system_thread_locals.get(:sonic_pi_spider_sleep_mul)
+          return real_dur.to_f / __get_spider_sleep_mul
         else
           return real_dur
         end
@@ -3278,19 +3284,30 @@ kill bar"]
           memoize:       true,
           examples:      []
 
-
-      def load_synthdefs(path=synthdef_path)
+      def load_synthdef(path=Paths.synthdef.path)
+        raise "load_synthdef file path argument must be a valid path to a synth design. Got an empty string." if path.empty?
         path = File.expand_path(path)
-        raise "No directory exists called #{path.inspect}" unless File.exist? path
-        @mod_sound_studio.load_synthdefs(path)
-        __info "Loaded synthdefs in path #{path}"
+
+        if !File.exist?(path)
+          raise "load_synthdef requires a valid .scsyndef file. The following file could not be found: #{path.inspect}"
+        elsif !File.file?(path)
+          raise "load_synthdef requires a .scsyndef file. You passed the folder: #{path}
+ (Consider using load_synthdefs to load a whole folder of synths)"
+        elsif File.extname(path) != '.scsyndef'
+          raise "load_synthdef file path argument must have the extension .scsyndef. Got: #{File.basename(path)}"
+        else
+          @mod_sound_studio.load_synthdef(path)
+          __info "Loaded synthdef: #{path}"
+        end
       end
-      doc name:          :load_synthdefs,
-          introduced:    Version.new(2,0,0),
-          summary:       "Load external synthdefs",
-          doc:           "Load all pre-compiled synth designs in the specified directory. The binary files containing synth designs need to have the extension `.scsyndef`. This is useful if you wish to use your own SuperCollider synthesiser designs within Sonic Pi.
+      doc name:          :load_synthdef,
+          introduced:    Version.new(4,0,0),
+          summary:       "Load a single external synthdef",
+          doc:           "Load a pre-compiled synth design from the specified file. This is useful if you wish to use your own SuperCollider synthesiser designs within Sonic Pi.
 
 ## Important notes
+
+The binary file containing the synth design must have the extension `.scsyndef`.
 
 You may not trigger external synthdefs unless you enable the following GUI preference:
 
@@ -3298,7 +3315,55 @@ You may not trigger external synthdefs unless you enable the following GUI prefe
 Studio -> Synths and FX -> Enable external synths and FX
 ```
 
-Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infrastructure *you need to ensure your synth outputs a stereo signal* to an audio bus with an index specified by a synth arg named `out_bus`. For example, the following synth would work nicely:
+If you wish your synth to work with Sonic Pi's automatic stereo sound infrastructure *you need to ensure your synth outputs a stereo signal* to an audio bus with an index specified by a synth arg named `out_bus`. Also, Sonic Pi makes no automatic attempt to free a synth once triggered, so to behave like the built-in synths, your synth needs to automatically free itself. For example, the following synth would work nicely:
+
+
+    (
+    SynthDef(\\piTest,
+             {|freq = 200, amp = 1, out_bus = 0 |
+               Out.ar(out_bus,
+                      SinOsc.ar([freq,freq],0,0.5)* Line.kr(1, 0, 5, amp, doneAction: 2))}
+    ).writeDefFile(\"/Users/sam/Desktop/\")
+    )
+
+
+    ",
+      args:          [[:path, :string]],
+      opts:          nil,
+      accepts_block: false,
+      examples:      ["load_synthdef \"~/Desktop/my_noises/whoosh.scsyndef\" # Load whoosh synthdef design."]
+
+
+      def load_synthdefs(path=Paths.synthdef_path)
+        raise "load_synthdefs argument must be a valid path to a synth design. Got an empty string." if path.empty?
+        path = File.expand_path(path)
+        raise "No directory or file exists called #{path.inspect}" unless File.exist? path
+        if File.file?(path)
+          load_synthdef(path)
+        else
+          @mod_sound_studio.load_synthdefs(path)
+          sep = "   - "
+          synthdefs = Dir.glob(path + "/*.scsyndef").join("#{sep}\n")
+          __info "Loaded synthdefs in path: #{path}
+#{sep}#{synthdefs}"
+        end
+      end
+      doc name:          :load_synthdefs,
+          introduced:    Version.new(2,0,0),
+          summary:       "Load external synthdefs",
+          doc:           "Load all pre-compiled synth designs in the specified directory. This is useful if you wish to use your own SuperCollider synthesiser designs within Sonic Pi.
+
+## Important notes
+
+Only files with the extension `.scsyndef` within the specified directory will be loaded.
+
+You may not trigger external synthdefs unless you enable the following GUI preference:
+
+```
+Studio -> Synths and FX -> Enable external synths and FX
+```
+
+If you wish your synth to work with Sonic Pi's automatic stereo sound infrastructure *you need to ensure your synth outputs a stereo signal* to an audio bus with an index specified by a synth arg named `out_bus`. Also, Sonic Pi makes no automatic attempt to free a synth once triggered, so to behave like the built-in synths, your synth needs to automatically free itself. For example, the following synth would work nicely:
 
 
     (
@@ -3685,7 +3750,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
           elsif onset_idx.is_a? Proc
             onset = onset_idx.call(onsets)
             onset = onset[0] if is_list_like?(onset)
-            raise "Result of onset: proc should be a Map such as {:start => 0, :finish => 0.125}. Got: #{res.inspect}" unless onset.respond_to?(:has_key?) && onset[:start].is_a?(Numeric) && onset[:finish].is_a?(Numeric)
+            raise "Result of onset: proc should be a Map such as {:start => 0, :finish => 0.125}. Got: #{onset.inspect}" unless onset.respond_to?(:has_key?) && onset[:start].is_a?(Numeric) && onset[:finish].is_a?(Numeric)
           else
             raise "Unknown sample onset: value. Expected a number or a proc. Got #{onset_idx.inspect}"
           end
@@ -3909,16 +3974,16 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
 
       def ensure_good_timing!
         return true if __thread_locals.get(:sonic_pi_mod_sound_disable_timing_warnings)
-        raise "Timing Exception: thread got too far behind time." if time_diff > 1.1
+#        raise "Timing Exception: thread got too far behind time." if time_diff > 1.1
       end
 
       def time_diff
         # negative values mean we're ahead of time
         # positive values mean we're behind time
-        vt  = __system_thread_locals.get :sonic_pi_spider_time
+        vt  = __get_spider_time
         sat = current_sched_ahead_time
         compensated = (Time.now - sat)
-        compensated - vt
+        (compensated - vt).to_f
       end
 
       def in_good_time?(error_window=0)
@@ -3964,7 +4029,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
             # allows defaults to be keys one level deep
             # see .normalise_args!
             val = (args_h[val] || defaults[val]) if val.is_a?(Symbol)
-            scaled_val = val * __system_thread_locals.get(:sonic_pi_spider_sleep_mul)
+            scaled_val = val * __get_spider_sleep_mul
 
             default = defaults[arg_name]
             if (args_h.has_key?(arg_name))
@@ -3982,7 +4047,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         else
           # only scale the args that have been passed.
           info.bpm_scale_args.each do |arg_name, default|
-            new_args[arg_name] = args_h[arg_name] * __system_thread_locals.get(:sonic_pi_spider_sleep_mul) if args_h.has_key?(arg_name)
+            new_args[arg_name] = args_h[arg_name] * __get_spider_sleep_mul if args_h.has_key?(arg_name)
 
           end
         end
