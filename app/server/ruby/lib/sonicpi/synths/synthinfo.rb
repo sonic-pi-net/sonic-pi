@@ -4447,7 +4447,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
           :pre_amp => 1,
           :pre_amp_slide_shape => 1,
           :pre_amp_slide_curve => 0,
-          :amp => 1,
+          :amp => 6,
           :amp_slide_shape => 1,
           :amp_slide_curve => 0,
           :hpf => 0,
