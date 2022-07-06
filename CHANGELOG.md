@@ -133,6 +133,7 @@ Now, go and get your Live Coded Jam On!
 * New preference option to show and hide the pane titles such as Scope, Log, Cues, Context, Help, etc.
 * New preference option to hide the menubar when in fullscreen mode (Windows and Linux only as this behaviour is standard on macOS).
 * New preference option for enabling audio inputs (now disabled by default). Modifying this setting requires a reboot to take effect.
+* New preference option for selecting the default language translation. Modifying this setting requires a reboot to take effect.
 * Preferences now show audio hardware information such as connected input/out devices, sample rate, block size etc. The amount of information displayed varies by platform.
 * New GUI controls for interacting with the new Link Metronome. You can connect/disconnect to the network (to share tempo with others), change the tempo (in BPM) and tap out a new tempo.
 * Increase width of panel dividers and highlight on mouse hover.
