@@ -29,14 +29,20 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   enableLinkButton->setObjectName("enableLinkButton");
   enableLinkButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
   enableLinkButton->setFlat(true);
-  enableLinkButton->setToolTip(tr("Enable/Disable network sync.\nThis controls whether the Link metronome will synchronise with other Link metronomes on the local network."));
+  #ifdef Q_OS_MAC
+  QString link_shortcut = QKeySequence("Ctrl+t").toString(QKeySequence::NativeText);
+#else
+  QString link_shortcut = QKeySequence("alt+t").toString(QKeySequence::NativeText);
+#endif
+  enableLinkButton->setToolTip(tr("Enable/Disable network sync.\nThis controls whether the Link metronome will synchronise with other Link metronomes on the local network.") + "\n(" + link_shortcut + ")");
 
   tapButton = new QPushButton(tr("Tap"));
   tapButton->setAutoFillBackground(true);
   tapButton->setObjectName("tapButton");
   tapButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
   tapButton->setFlat(true);
-  tapButton->setToolTip(tr("Tap tempo.\nClick repeatedly to the beat to set the BPM manually.\nAccuracy increases with every additional click."));
+
+  tapButton->setToolTip(tr("Tap tempo.\nClick repeatedly to the beat to set the BPM manually.\nAccuracy increases with every additional click.") + "\n(" + QKeySequence("Shift+Return").toString(QKeySequence::NativeText) + ")");
 
 
   QHBoxLayout* metro_layout  = new QHBoxLayout;
