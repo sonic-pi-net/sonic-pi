@@ -3356,7 +3356,7 @@ Steal This Sound,  Mitchell Sigman"
           :seed => 0,
         }
       end
-      
+
       def specific_arg_info
         {
           :seed =>
@@ -3531,7 +3531,7 @@ Steal This Sound,  Mitchell Sigman"
 
       def doc
         "An emulation of a tonewheel organ with an optional rotary speaker. These instruments were the first electro-mechanical synthesisers, developed in the mid 1930s by Laurens Hammond. They generate sine-like signals with the tonewheels and mix them together. Up to 9 sine waves can be combined in order to control the organ's timbre, setting their individual levels with drawbar controls. Their sound is often output over a rotary speaker cabinet, producing a characteristic oscillating sound.
-        
+
 Based on work of [Chris Wigington](https://actlab.us/actlab/cwigington/projone.html) and [Zé Craum](http://sccode.org/1-5aD)."
       end
 
@@ -3683,7 +3683,7 @@ Based on work of [Chris Wigington](https://actlab.us/actlab/cwigington/projone.h
           {
             :doc => "Rotation frequency of the rotary speaker in Hertz. The tonewheel organ's rotary speaker affects sound in (at least) 3 ways: The frequency changes due to a Doppler effect, so that the pitch oscillates around the base frequency, the note the synth is playing. The amplitude and hence the perceived loudness change. When the horns rotate, they sound louder when they point towards the listener. The pan changes: When the horns point sideways, they sound louder on the side they point to.
 
-The 'chorale' speed of the speaker is 0.83 Hz, the 'tremolo' speed is 6.7 Hz, each referring to the horn. The woofer rotates at a slower speed, which is calculated from the horn's frequency. 
+The 'chorale' speed of the speaker is 0.83 Hz, the 'tremolo' speed is 6.7 Hz, each referring to the horn. The woofer rotates at a slower speed, which is calculated from the horn's frequency.
 
 Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq` can be slid, sliding up from plain 0 is not possible and sliding to and from frequencies close to 0 may have unexpected effects.",
             :validations => [v_between_inclusive(:rs_freq, 0, 10)],
