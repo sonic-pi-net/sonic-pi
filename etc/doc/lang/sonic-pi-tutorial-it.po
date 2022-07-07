@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2022-07-05 12:22+0000\n"
+"PO-Revision-Date: 2022-07-07 17:21+0000\n"
 "Last-Translator: Davide Anzaldi <daveanzaldi@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/it/>\n"
@@ -9820,10 +9820,18 @@ msgid ""
 "te value. You can even use `time_warp` to jump back in time and call `get` to "
 "see past events..."
 msgstr ""
+"Finalmente, ora che i nostri eventi MIDI vanno dritti nel Time State, "
+"possiamo anche usare la funziona `get` per recuperare l'ultimo messaggio "
+"passato. Questo non blocca il thread corrente e restituisce `nil` se nessun "
+"valore viene trovato (cosa che può essere superata passando un valore di "
+"default - vedi la documentazione per `get`). Ricorda che puoi chiamare `get` "
+"in qualunque thread in qualunque momento per vedere l'ultimo evento "
+"corrispondente al valore nel Time State. Puoi anche usare `time_warp` per "
+"tornare indietro nel tempo e chiamare `get` per vedere gli eventi passati..."
 
 #: 11.1-MIDI-In.md:147
 msgid "Now You are in Control"
-msgstr ""
+msgstr "Ora hai tu il controllo"
 
 #: 11.1-MIDI-In.md:149
 #, fuzzy
@@ -9835,11 +9843,11 @@ msgstr "choose (scegli)"
 
 #: 11.2-MIDI-Out.md:1
 msgid "11.2 MIDI Out"
-msgstr ""
+msgstr "11.2 MIDI Out"
 
 #: 11.2-MIDI-Out.md:3
 msgid "MIDI Out"
-msgstr ""
+msgstr "MIDI Out"
 
 #: 11.2-MIDI-Out.md:5
 msgid ""
@@ -9847,36 +9855,42 @@ msgid ""
 "er and control external hardware synths, keyboards and other devices. Sonic Pi"
 " provides a full set of fns for sending various MIDI messages such as:"
 msgstr ""
+"In aggiunta alla ricezione degli eventi MIDI, possiamo anche inviare eventi "
+"MIDI per controllare synth esterni, tastiere e altri dispositivi. Sonic Pi "
+"fornisce un set completo di funzioni per mandare vari eventi MIDI come ad "
+"esempio:"
 
 #: 11.2-MIDI-Out.md:9
 msgid "Note on - `midi_note_on`"
-msgstr ""
+msgstr "Note on - `midi_note_on`"
 
 #: 11.2-MIDI-Out.md:10
 msgid "Note off - `midi_note_off`"
-msgstr ""
+msgstr "Note off - `midi_note_off`"
 
 #: 11.2-MIDI-Out.md:11
 msgid "Control change - `midi_cc`"
-msgstr ""
+msgstr "Control change - `midi_cc`"
 
 #: 11.2-MIDI-Out.md:12
 msgid "Pitch bend - `midi_pitch_bend`"
-msgstr ""
+msgstr "Pitch bend - `midi_pitch_bend`"
 
 #: 11.2-MIDI-Out.md:13
 msgid "Clock ticks - `midi_clock_tick`"
-msgstr ""
+msgstr "Clock ticks - `midi_clock_tick`"
 
 #: 11.2-MIDI-Out.md:15
 msgid ""
 "There are many other supported MIDI messages too - check out the API documenta"
 "tion for all the other fns that start with `midi_`."
 msgstr ""
+"Ci sono inoltre molti altri messaggi MIDI supportati - Controlla la "
+"documentazione API per tutte le altre funzioni che cominciano per `midi_`."
 
 #: 11.2-MIDI-Out.md:18
 msgid "Connecting to a MIDI Device"
-msgstr ""
+msgstr "Collegamento di un dispositivo MIDI"
 
 #: 11.2-MIDI-Out.md:20
 msgid ""
@@ -9888,10 +9902,18 @@ msgid ""
 "he MIDI out port of your computer. You should see your MIDI device listed in t"
 "he preferences pane."
 msgstr ""
+"Per poter inviare messaggi MIDI a un dispositivo esterno, dobbiamo prima "
+"averlo collegato. Controlla la sotto-sezione \"Collegamento di un Controller "
+"MIDI\" nella sezione 11.1 per ulteriori dettagli. Nota che se stai usando la "
+"porta USB, il collegamento di un dispositivo per l'invio (e la ricezione) "
+"segue la stessa procedura. Tuttavia, se stai usando il classico connettore "
+"DIN, assicurati di aver collegato il dispositivo alla porta MIDI Out del tuo "
+"computer. Dovresti vedere il tuo dispositivo MIDI elencato nel pannello "
+"preferenze."
 
 #: 11.2-MIDI-Out.md:29
 msgid "Sending MIDI events"
-msgstr ""
+msgstr "Invio degli eventi MIDI"
 
 #: 11.2-MIDI-Out.md:31
 msgid ""
@@ -9900,11 +9922,15 @@ msgid ""
 "s to the `midi_*` fns you need to use `sleep` just like you did with `play`. L"
 "et's take a look:"
 msgstr ""
+"Le molte funzioni `midi_*` funzionano esattamente come play`, `sample` e "
+"`synth`, mandando un messaggio al tempo (logico) corrente. Per esempio, per "
+"distribuire chiamate alla funzione `midi_*` dovrai usare `sleep` come hai "
+"fatto per `play`. Diamo un'occhiata:"
 
 #: 11.2-MIDI-Out.md:36
 #, no-wrap
 msgid "midi_note_on :e3, 50"
-msgstr ""
+msgstr "midi_note_on :e3, 50"
 
 #: 11.2-MIDI-Out.md:40
 msgid ""
@@ -9912,21 +9938,26 @@ msgid ""
 " 50. (Note that Sonic Pi will automatically convert notes in the form `:e3` to"
 " their corresponding MIDI number such as 52 in this case.)"
 msgstr ""
+"Questo invierà un evento MIDI note on al dispositivo MIDI connesso con "
+"velocity 50. (Nota che Sonic Pi convertirà le note dal formato `:e3` al loro "
+"numero MIDI corrispondente come ad esempio 52 in questo caso.)"
 
 #: 11.2-MIDI-Out.md:44
 msgid ""
 "If your connected MIDI device is a synthesiser, you should be able to hear it "
 "playing a note. To disable it use `midi_note_off`:"
 msgstr ""
+"Se il dispositivo collegato è un sintetizzatore, dovresti sentirlo suonare "
+"una nota. Per disabilitarla, usa `midi_note_off`:"
 
 #: 11.2-MIDI-Out.md:47
 #, no-wrap
 msgid "midi_note_off :e3"
-msgstr ""
+msgstr "midi_note_off :e3"
 
 #: 11.2-MIDI-Out.md:51
 msgid "Selecting a MIDI device"
-msgstr ""
+msgstr "Selezionare un dispositivo MIDI"
 
 #: 11.2-MIDI-Out.md:53
 msgid ""
@@ -9938,43 +9969,57 @@ msgid ""
 ". In more complicated setups, you may wish to be more selective about which MI"
 "DI device receives which message(s) and on which channel."
 msgstr ""
+"Come impostazione predefinita, Sonic Pi manda ogni messaggio MIDI a tutti i "
+"dispositivi connessi su tutti i canali MIDI. Questo è per rendere semplice "
+"lavorare con un singolo dispositivo connesso senza dover configurare nulla. "
+"Tuttavia, talvolta un dispositivo MIDI gestirà i canali MIDI in un modo "
+"particolare (magari ogni nota ha un canale separato) e magari avresti "
+"bisogno di collegare più di un dispositivo contemporaneamente. In "
+"allestimenti più complessi, potresti voler essere più selettivo riguardo a "
+"quale dispositivo MIDI riceve quale messaggio attraverso quale canale."
 
 #: 11.2-MIDI-Out.md:62
 msgid ""
 "We can specify which device to send to using the `port:` opt, using the device"
 " name as displayed in the preferences:"
 msgstr ""
+"Possiamo specificare a quale dispositivo inviare usando l'opzione `port:`, "
+"usando il nome dispositivo come è mostrato nelle preferenze:"
 
 #: 11.2-MIDI-Out.md:65
 #, no-wrap
 msgid "midi_note_on :e3, port: \"moog_minitaur\""
-msgstr ""
+msgstr "midi_note_on :e3, port: \"moog_minitaur\""
 
 #: 11.2-MIDI-Out.md:69
 msgid ""
 "We can also specify which channel to send to using the `channel:` opt (using a"
 " value in the range 1-16):"
 msgstr ""
+"Possiamo anche specificare in quale canale inviare usando l'opzione "
+"`channel:` (usando un valore compreso nell'intervallo 1-16):"
 
 #: 11.2-MIDI-Out.md:72
 #, no-wrap
 msgid "midi_note_on :e3, channel: 3"
-msgstr ""
+msgstr "midi_note_on :e3, channel: 3"
 
 #: 11.2-MIDI-Out.md:76
 msgid ""
 "Of course we can also specify both at the same time to send to a specific devi"
 "ce on a specific channel:"
 msgstr ""
+"Naturalmente possiamo specificare entrambe le cose contemporaneamente, per "
+"un dispositivo specifico su un canale specifico:"
 
 #: 11.2-MIDI-Out.md:79
 #, no-wrap
 msgid "midi_note_on :e3, port: \"moog_minitaur\", channel: 5"
-msgstr ""
+msgstr "midi_note_on :e3, port: \"moog_minitaur\", channel: 5"
 
 #: 11.2-MIDI-Out.md:83
 msgid "MIDI Studio"
-msgstr ""
+msgstr "MIDI Studio"
 
 #: 11.2-MIDI-Out.md:85
 msgid ""
@@ -9983,6 +10028,10 @@ msgid ""
 " your synth with code using the `midi_*` fns and also manipulate the audio usi"
 "ng `live_audio` and FX:"
 msgstr ""
+"Infine, una cosa veramente divertente da fare è collegare l'uscita audio del "
+"tuo sintetizzatore MIDI a uno degli ingressi della tua scheda audio. Puoi a "
+"quel punto controllare il tuo sintetizzatore usando le funzioni `midi_*` e "
+"allo stesso tempo manipolare l'audio usando `live_audio` ed effetti:"
 
 #: 11.2-MIDI-Out.md:90
 #, no-wrap
@@ -10011,14 +10060,17 @@ msgid ""
 "te off events with a single command. Check out its documentation for further i"
 "nformation)."
 msgstr ""
+"(La funzione `midi` è disponibile con una comoda scorciatoia per mandare sia "
+"eventi note on che note off con un comando singolo. (Controlla questa "
+"documentazione per ulteriori informazioni)."
 
 #: 12-OSC.md:1
 msgid "12 OSC"
-msgstr ""
+msgstr "12 OSC"
 
 #: 12-OSC.md:3
 msgid "OSC"
-msgstr ""
+msgstr "OSC"
 
 #: 12-OSC.md:5
 msgid ""
@@ -10028,6 +10080,12 @@ msgid ""
 " computer and on external computers) which opens up the potential for control "
 "way beyond MIDI which has limitations due to its 1980s design."
 msgstr ""
+"In aggiunta al MIDI, un altro modo per ottenere informazioni da e verso "
+"Sonic Pi è via rete usando un semplice protocollo chiamato OSC - Open Sound "
+"Control. Questo ti permetterà di inviare messaggi a e da programmi esterni ("
+"sia che siano in esecuzione sul tuo computer o computer esterni) il che apre "
+"a un potenziale molto più avanzato rispetto al MIDI che risente di "
+"limitazioni derivante dalla sua concezione risalente agli anni 80."
 
 #: 12-OSC.md:12
 msgid ""
@@ -10036,14 +10094,18 @@ msgid ""
 "nguage) and work directly with Sonic Pi. What you can use this for is only lim"
 "ited by your imagination."
 msgstr ""
+"Per esempio puoi scrivere un programma con un altro linguaggio di "
+"programmazione che invia e riceve OSC (ci sono librerie OSC per praticamente "
+"ogni linguaggio comune) e interagisce direttamente con Sonic Pi. Le "
+"possibili applicazioni di questo sono limitate solo dalla tua immaginazione."
 
 #: 12.1-Receiving-OSC.md:1
 msgid "12.1 Receiving OSC"
-msgstr ""
+msgstr "12.1 Ricevere OSC"
 
 #: 12.1-Receiving-OSC.md:3
 msgid "Receiving OSC"
-msgstr ""
+msgstr "Ricevere OSC"
 
 #: 12.1-Receiving-OSC.md:5
 #, fuzzy
@@ -10060,11 +10122,11 @@ msgstr "Time State"
 
 #: 12.1-Receiving-OSC.md:15
 msgid "A Basic OSC Listener"
-msgstr ""
+msgstr "Un listener OSC basico"
 
 #: 12.1-Receiving-OSC.md:17
 msgid "Let's build a basic OSC listener:"
-msgstr ""
+msgstr "Costruiamo un listener OSC basico:"
 
 #: 12.1-Receiving-OSC.md:19
 #, no-wrap
@@ -10091,10 +10153,18 @@ msgid ""
 "eed to send an OSC message with the path `/trigger/prophet` for our `sync` to "
 "stop blocking and the prophet synth to be triggered."
 msgstr ""
+"In questo esempio viene descritto un percorso OSC `\"/osc*/trigger/prophet\"`"
+" col quale ci stiamo sincronizzando. Questo può essere un qualunque percorso "
+"OSC valido (tutte le lettere e numeri sono supportati e la `/` è usata come "
+"in un URL per separare il percorso in parole multiple.) Il prefisso `/osc` "
+"viene aggiunto da Sonic Pi a tutti i messaggi OSC in ingresso, quindi "
+"dobbiamo mandare un messaggio OSC con un percorso `/trigger/prophet` per "
+"fare in modo che il nostro `sync` interrompa il blocco e il sintetizzatore "
+"prophet sia innescato."
 
 #: 12.1-Receiving-OSC.md:36
 msgid "Sending OSC to Sonic Pi"
-msgstr ""
+msgstr "Mandare OSC a Sonic Pi"
 
 #: 12.1-Receiving-OSC.md:38
 msgid ""
@@ -10102,6 +10172,9 @@ msgid ""
 "ary. For example, if we're sending OSC from Python we might do something like "
 "this:"
 msgstr ""
+"Possiamo inviare OSC a Sonic Pi da qualunque linguaggio di programmazione "
+"che abbia una libreria OSC. Ad esempio, se stiamo mandando OSC da Python "
+"potremmo fare qualcosa tipo questo:"
 
 #: 12.1-Receiving-OSC.md:42
 #, no-wrap
@@ -10111,12 +10184,18 @@ msgid ""
 "sender = udp_client.SimpleUDPClient('127.0.0.1', 4560)\n"
 "sender.send_message('/trigger/prophet', [70, 100, 8])"
 msgstr ""
+"from pythonosc import osc_message_builder\n"
+"from pythonosc import udp_client\n"
+"sender = udp_client.SimpleUDPClient('127.0.0.1', 4560)\n"
+"sender.send_message('/trigger/prophet', [70, 100, 8])"
 
 #: 12.1-Receiving-OSC.md:50
 msgid ""
 "Or, if we're sending OSC from Clojure we might do something like this from the"
 " REPL:"
 msgstr ""
+"Oppure, se stiamo inviando OSC da Clojure potremmo fare qualcosa di questo "
+"tipo dal REPL:"
 
 #: 12.1-Receiving-OSC.md:52
 #, no-wrap
@@ -10125,10 +10204,13 @@ msgid ""
 "(def c (osc-client \"127.0.0.1\" 4560))\n"
 "(osc-send c \"/trigger/prophet\" 70 100 8)"
 msgstr ""
+"(use 'overtone.core)\n"
+"(def c (osc-client \"127.0.0.1\" 4560))\n"
+"(osc-send c \"/trigger/prophet\" 70 100 8)"
 
 #: 12.1-Receiving-OSC.md:58
 msgid "Receiving from External Machines"
-msgstr ""
+msgstr "Ricevere da Macchine Esterne"
 
 #: 12.1-Receiving-OSC.md:60
 msgid ""
@@ -10143,6 +10225,17 @@ msgid ""
 "P address, hovering the mouse over the listed address will pop up with a list "
 "of all known addresses)."
 msgstr ""
+"Per ragioni di sicurezza, Sonic Pi non permette per default che macchine "
+"remote gli mandino messaggio OSC. Tuttavia, puoi abilitare il supporto per "
+"macchine esterne in Preferences->IO->Networked OSC->Allow OSC da altri "
+"computer. Una volta abilitato questo, puoi ricevere messaggi OSC da "
+"qualunque computer nel tuo network. Tipicamente la macchina che invia dovrà "
+"conoscere il tuo l'indirizzo IP (un identificatore univoco per il tuo "
+"computer nella tua rete - tipo un numero di telefono o un indirizzo email). "
+"Puoi scoprire l'indirizzo ip del tuo computer guardando nella sezione IO nel "
+"pannello preferenze. (Nel caso la tua macchina avesse più di un indirizzo "
+"ip, passando col mouse sopra l'indirizzo mostrato comparirà elenco con tutti "
+"gli indirizzi conosciuti)."
 
 #: 12.1-Receiving-OSC.md:72
 msgid ""
@@ -10152,14 +10245,20 @@ msgid ""
 "OSC which enable you to build your own custom touch controls with sliders, but"
 "tons, dials etc. This can provide you with an enormous range of input options."
 msgstr ""
+"Nota: alcuni programmi tipo TouchOSC per iPhone e Android supportano invio "
+"di OSC come caratteristica standard. Quindi, una volta che sei in ascolto di "
+"macchine remote e conosci il tuo indirizzo IP, puoi istantaneamente "
+"cominciare a mandare messaggi da app come TouchOSC che ti permette di "
+"costruire la tua superficie di controllo personalizzata con slider, bottoni, "
+"tasti ecc. Con questo puoi ottenere un'enorme gamma di opzioni."
 
 #: 12.2-Sending-OSC.md:1
 msgid "12.2 Sending OSC"
-msgstr ""
+msgstr "12.2 Mandare OSC"
 
 #: 12.2-Sending-OSC.md:3
 msgid "Sending OSC"
-msgstr ""
+msgstr "Mandare OSC"
 
 #: 12.2-Sending-OSC.md:5
 msgid ""
@@ -10168,6 +10267,10 @@ msgid ""
 "messages in time with our music). We just need to know which IP address and po"
 "rt we're sending to. Let's give it a try:"
 msgstr ""
+"In aggiunta al ricevere OSC e lavorarci usando Time State, possiamo anche "
+"inviare messaggi OSC a tempo con la nostra musica (esattamente come possiamo "
+"inviare messaggi MIDI a tempo con la nostra musica). Dobbiamo solo conoscere "
+"a quale indirizzo IP e porta stiamo inviando. Proviamolo:"
 
 #: 12.2-Sending-OSC.md:10
 #, no-wrap
@@ -10175,6 +10278,8 @@ msgid ""
 "use_osc \"localhost\", 4560\n"
 "osc \"/hello/world\""
 msgstr ""
+"use_osc \"localhost\", 4560\n"
+"osc \"/hello/world\""
 
 #: 12.2-Sending-OSC.md:15
 msgid ""
@@ -10188,16 +10293,28 @@ msgid ""
 " Sonic Pi automatically prefixes all incoming OSC messages with `/osc` and the"
 "n the hostname and port of the sender.)"
 msgstr ""
+"Se esegui il codice sopra, noterai che Sonic Pi sta mandando a sé stesso un "
+"messaggio OSC! Questo perché abbiamo impostato l'indirizzo IP alla macchina "
+"locale e la porta OSC predefinita. Questo è esattamente come mandare una "
+"lettera a sé stessi - il pacchetto OSC viene creato, lascia Sonic Pi, va "
+"alla struttura network del tuo sistema operativo la quale ruota indietro il "
+"pacchetto verso Sonic pi che poi lo riceve come messaggio OSC standard ed è "
+"visibile nel registro cue come messaggio in ingresso `/osc:127.0.0.1:4560/"
+"hello/world`. (Nota come Sonic Pi aggiunga automaticamente prefisso `/osc` a "
+"tutti i messaggi OSC in ingresso seguito da nome host e porta dell'inviante.)"
 
 #: 12.2-Sending-OSC.md:25
 msgid "Sending OSC to other programs"
-msgstr ""
+msgstr "Mandare OSC ad altri programmi"
 
 #: 12.2-Sending-OSC.md:27
 msgid ""
 "Of course, sending OSC messages to ourselves may be fun but it's not that usef"
 "ul. The real benefit starts when we send messages to other programs:"
 msgstr ""
+"Naturalmente, mandare messaggi OSC a noi stessi potrebbe essere divertente "
+"ma non è molto utile. I veri benefici cominciano quando mandiamo messaggi ad "
+"altri programmi:"
 
 #: 12.2-Sending-OSC.md:32
 #, no-wrap
@@ -10205,6 +10322,8 @@ msgid ""
 "use_osc \"localhost\", 123456\n"
 "osc \"/hello/world\""
 msgstr ""
+"use_osc \"localhost\", 123456\n"
+"osc \"/hello/world\""
 
 #: 12.2-Sending-OSC.md:37
 msgid ""
@@ -10212,12 +10331,17 @@ msgid ""
 "ing to port 123456. If there is, then it will receive a `\"/hello/world` OSC me"
 "ssage with which it can do what it wants."
 msgstr ""
+"In questo caso stiamo assumendo che ci sia un altro programma sulla stessa "
+"macchina in ascolto sulla porta 123456. Se c'è, allora riceverà un messaggio "
+"OSC `\"/hello/world` col quale può fare ciò che vuole."
 
 #: 12.2-Sending-OSC.md:41
 msgid ""
 "If our program is running on another machine, we need to know its IP address w"
 "hich we use instead of `\"localhost\"`:"
 msgstr ""
+"Se il nostro programma sta girando su un'altra macchina, dovremo conoscere "
+"il suo indirizzo IP che useremo al posto di `\"localhost\"`:"
 
 #: 12.2-Sending-OSC.md:44
 #, no-wrap
@@ -10225,20 +10349,24 @@ msgid ""
 "use_osc \"192.168.10.23\", 123456\n"
 "osc \"/hello/world\""
 msgstr ""
+"use_osc \"192.168.10.23\", 123456\n"
+"osc \"/hello/world\""
 
 #: 12.2-Sending-OSC.md:49
 msgid ""
 "Now we can send OSC messages to any device reachable to us via our local netwo"
 "rks and even the internet!"
 msgstr ""
+"Ora possiamo inviare messaggi OSC a qualunque dispositivo che possiamo "
+"raggiungere nella nostra rete locale e anche su internet!"
 
 #: 13-Multichannel-Audio.md:1
 msgid "13 Multichannel Audio"
-msgstr ""
+msgstr "13 Audio Multicanale"
 
 #: 13-Multichannel-Audio.md:3
 msgid "Multichannel Audio"
-msgstr ""
+msgstr "Audio Multicanale"
 
 #: 13-Multichannel-Audio.md:5
 msgid ""
@@ -10252,25 +10380,38 @@ msgid ""
 " a look at how we can take advantage of these external sound cards and effortl"
 "essly work with multiple channels of audio in and out of Sonic Pi."
 msgstr ""
+"Fino a ora, in termini di produzione audio, abbiamo esplorato l'innesco di "
+"sintetizzatori e riprodotto suoni attraverso le funzioni `play`, `synth` e "
+"`sample`. Queste hanno quindi generato audio che è stato riprodotto "
+"attraverso il nostro sistema di diffusori stereo. Tuttavia, molti computer "
+"hanno anche la possibilità di gestire audio in ingresso, magari attraverso "
+"un microfono, in aggiunta alla possibilità di mandare audio a più di due "
+"diffusori. Spesso, questa capacità è resa possibile grazie all'uso di schede "
+"audio esterne - queste sono disponibili per tutte le piattaforme. in questa "
+"sezione del tutorial daremo un'occhiata a come possiamo sfruttare queste "
+"schede audio esterne e lavorare facilmente con canali audio multipli in "
+"ingresso. e in uscita da Sonic Pi."
 
 #: 13.1-Sound-In.md:1
 msgid "13.1 Sound In"
-msgstr ""
+msgstr "13.1 Suono in ingresso"
 
 #: 13.1-Sound-In.md:3
 msgid "Sound In"
-msgstr ""
+msgstr "Suono in ingresso"
 
 #: 13.1-Sound-In.md:5
 msgid ""
 "One simple (and perhaps familiar) way of accessing sound inputs is using our f"
 "riend `synth` by specifying the `:sound_in` synth:"
 msgstr ""
+"Un modo semplice (e magari familiare) per accedere ai suoni in ingresso è "
+"usare il nostro amico `synth` specificando il synth `:sound_in`:"
 
 #: 13.1-Sound-In.md:7
 #, no-wrap
 msgid "synth :sound_in"
-msgstr ""
+msgstr "synth :sound_in"
 
 #: 13.1-Sound-In.md:11
 msgid ""
@@ -10280,6 +10421,11 @@ msgid ""
 " if you have an external sound card, you can plug any audio input to the first"
 " input."
 msgstr ""
+"Questo opererà proprio come qualunque altro synth tipo `synth :dsaw` con "
+"l'eccezione che l'audio generato sarà letto direttamente dal primo ingresso "
+"della tua scheda audio di sistema. Sui computer portatili, questo è "
+"tipicamente il microfono integrato, ma se hai una scheda audio esterna, puoi "
+"collegare qualunque sorgente audio al primo ingresso."
 
 #: 13.1-Sound-In.md:17
 #, fuzzy
@@ -10294,17 +10440,24 @@ msgid ""
 "e following will keep the synth open for 8 beats before closing the connection"
 ":"
 msgstr ""
+"Una cosa che potresti notare è che, proprio come `synth :dsaw` il synth "
+"`:sound_in` dura solo 1 beat in quanto ha un envelope standard. Se vuoi "
+"tenerlo aperto un po' più a lungo, cambia le impostazioni ADSR envelope. Ad "
+"esempio, quanto segue terrà il synth aperto per 8 beat prima di chiudere la "
+"connessione:"
 
 #: 13.1-Sound-In.md:22
 #, no-wrap
 msgid "synth :sound_in, sustain: 8"
-msgstr ""
+msgstr "synth :sound_in, sustain: 8"
 
 #: 13.1-Sound-In.md:28
 msgid ""
 "Of course, just like any normal synth, you can easily layer on effects with th"
 "e FX block:"
 msgstr ""
+"Naturalmente, come per qualunque altro synth normale, puoi aggiungere "
+"facilmente effetti tramite il blocco FX:"
 
 #: 13.1-Sound-In.md:30
 #, no-wrap
@@ -10315,12 +10468,19 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"with_fx :reverb do\n"
+"  with_fx :distortion do\n"
+"    synth :sound_in, sustain: 8\n"
+"  end\n"
+"end"
 
 #: 13.1-Sound-In.md:38
 msgid ""
 "If you have plugged in a guitar to your first input, you should be able to hea"
 "r it with distortion and reverb until the synth terminates as expected."
 msgstr ""
+"Se hai collegato una chitarra al tuo primo ingresso, dovresti riuscire a "
+"sentirla con distorsione e riverbero fino a che il synth termina come atteso."
 
 #: 13.1-Sound-In.md:40
 msgid ""
@@ -10329,6 +10489,10 @@ msgid ""
 "will play two `:sound_in` synths at the same time - one through distortion and"
 " one through reverb:"
 msgstr ""
+"Sei libero di usare il synth `:sound_in` quante volte vuoi "
+"contemporaneamente (proprio come faresti con qualunque altro synth). Ad "
+"esempio, quanto segue suonerà due synth `:sound_in` simultaneamente - uno "
+"con distorsione e uno con riverbero:"
 
 #: 13.1-Sound-In.md:42
 #, no-wrap
@@ -10340,6 +10504,12 @@ msgid ""
 "  synth :sound_in, sustain: 8\n"
 "end"
 msgstr ""
+"with_fx :distortion do\n"
+"  synth :sound_in, sustain: 8\n"
+"end\n"
+"with_fx :reverb do  \n"
+"  synth :sound_in, sustain: 8\n"
+"end"
 
 #: 13.1-Sound-In.md:52
 #, fuzzy
@@ -10354,6 +10524,12 @@ msgid ""
 ", you can treat the first two as a stereo stream and add distortion and the th"
 "ird as a mono stream and add reverb with the following code:"
 msgstr ""
+"Puoi selezionare quale ingresso audio far suonare attraverso l'opzione "
+"`input:`. Puoi anche specificare un ingresso stereo (2 ingressi paralleli) "
+"usando il synth `:sound_in_stereo`. Per esempio, se hai una scheda audio con "
+"almeno 3 ingressi, puoi trattare i primi 2 come un flusso stereo e "
+"aggiungere distorsione, e il terzo come un flusso mono con riverbero "
+"aggiunto con il seguente codice:"
 
 #: 13.1-Sound-In.md:61
 #, no-wrap
@@ -10365,10 +10541,16 @@ msgid ""
 "  synth :sound_in, sustain: 8, input: 3\n"
 "end"
 msgstr ""
+"with_fx :distortion do\n"
+"  synth :sound_in_stereo, sustain: 8, input: 1\n"
+"end\n"
+"with_fx :reverb do  \n"
+"  synth :sound_in, sustain: 8, input: 3\n"
+"end"
 
 #: 13.1-Sound-In.md:72
 msgid "Potential Issues"
-msgstr ""
+msgstr "Potenziali problemi"
 
 #: 13.1-Sound-In.md:74
 msgid ""
@@ -10381,10 +10563,18 @@ msgid ""
 "lem of manipulating a (potentially) infinite stream of live audio input: `live"
 "_audio`."
 msgstr ""
+"Anche se è una tecnica molto utile, ci sono un paio di limitazioni a questo "
+"approccio. Innanzitutto funziona solo per una specifica durata (in seguito "
+"al fatto che ha un envelopre ADSR) e secondariamente non c'è modo di "
+"cambiare l'effetto una volta che il synth è stato aperto. Entrambe queste "
+"cose sono tipicamente richieste quando si lavora con sorgenti audio esterne "
+"come microfoni, chitarre e sintetizzatori esterni. Daremo tuttavia "
+"un'occhiata alle soluzioni di Sonic Pi a questo problema di manipolazione di "
+"un (potenzialmente) infinito flusso di ingresso audio `live_audio`."
 
 #: 13.2-Live-Audio.md:1
 msgid "13.2 Live Audio"
-msgstr ""
+msgstr "13.2 Live Audio"
 
 #: 13.2-Live-Audio.md:3
 #, fuzzy
@@ -10399,10 +10589,16 @@ msgid ""
 " instrument (such as a voice or guitar). By far the best approach to working w"
 "ith a single continuous stream of audio is to use `live_audio`."
 msgstr ""
+"Il synth `:sound_in`, come descritto nella sezione precedente, fornisce un "
+"metodo molto semplice e flessibile per lavorare con audio in ingresso. "
+"Tuttavia, come già discusso, ha qualche problema quando si lavora con un "
+"singolo ingresso audio come singolo strumento (come una voce o una chitarra)"
+". Di gran lunga il miglior approccio per un singolo flusso di audio continuo "
+"è l'uso di `live_audio`."
 
 #: 13.2-Live-Audio.md:12
 msgid "A Named Audio Input"
-msgstr ""
+msgstr "Un Ingresso Audio Nominato"
 
 #: 13.2-Live-Audio.md:14
 msgid ""
@@ -10411,6 +10607,10 @@ msgid ""
 "`live_audio` stream with that name may exist at any one time. Let's take a loo"
 "k:"
 msgstr ""
+"`live_audio` condivide un paio di restrizioni di base con `live_loop` (da "
+"qui il nome simile). Innanzitutto deve avere un nome univoco e "
+"secondariamente solo un flusso `live_audio` per volta con quel nome può "
+"esistere nello stesso momento. Diamo un'occhiata:"
 
 #: 13.2-Live-Audio.md:19 13.2-Live-Audio.md:92
 #, no-wrap
@@ -10423,10 +10623,14 @@ msgid ""
 "ferences: it runs forever (until you explicitly stop it) and you can *move* it"
 " to new FX contexts dynamically."
 msgstr ""
+"Questo codice si comporterà in modo analogo a `synth :sound_in` con alcune "
+"differenze chiave: viene eseguito per sempre (fino a che non lo interrompi "
+"esplicitamente) e puoi \"spostarlo\" a un nuovo contesto di effetti "
+"dinamicamente."
 
 #: 13.2-Live-Audio.md:28
 msgid "Working with FX"
-msgstr ""
+msgstr "Lavorare con FX"
 
 #: 13.2-Live-Audio.md:30
 msgid ""
@@ -10434,6 +10638,9 @@ msgid ""
 "k with FX. For example, to start a live audio stream with added reverb simply "
 "use a `:reverb` FX block:"
 msgstr ""
+"All'innesco iniziale `live_audio` funziona esattamente come ti aspetteresti "
+"che funzioni con FX. Ad esempio, per avviare un flusso audio con aggiunta di "
+"riverbero semplicemente usa il blocco FX `:reverb`:"
 
 #: 13.2-Live-Audio.md:34
 #, no-wrap
@@ -10456,6 +10663,15 @@ msgid ""
 "sound card. Note, if you're using a laptop, this will typically be out of your"
 " built-in microphone, so it's recommended to use headphones to stop feedback."
 msgstr ""
+"Tuttavia, dato che `live_audio` gira per sempre (almeno fino a quando lo "
+"fermi) sarebbe piuttosto limitante se, come tipicamente i synth, fosse "
+"chiuso dentro un blocco FX `:reverb` per la sua intera esistenza. "
+"Fortunatamente non è questo il caso in quanto è stato progettato per essere "
+"semplice spostarsi su un FX diverso. Proviamo. Esegui il codice sopra per "
+"sentire l'audio dal vivo proveniente dal primo ingresso della tua scheda "
+"audio. Nota, se stai usando un portatile, questo sarà tipicamente il "
+"microfono integrato quindi è consigliabile usare le cuffie per prevenire il "
+"feedback."
 
 #: 13.2-Live-Audio.md:49
 #, fuzzy
@@ -10481,6 +10697,9 @@ msgid ""
 " and no longer through reverb. If you wanted them both, just edit the code aga"
 "in and hit Run:"
 msgstr ""
+"Ora, premi Run, e sentirai immediatamente l'audio riprodotto attraverso un "
+"FX echo e non più attraverso riverbero. Se li avessi voluti entrambi, "
+"semplicemente modifica il codice nuovamente e premi Run:"
 
 #: 13.2-Live-Audio.md:62
 #, no-wrap
@@ -10509,7 +10728,7 @@ msgstr "foo"
 
 #: 13.2-Live-Audio.md:78
 msgid "Stopping live audio"
-msgstr ""
+msgstr "Fermare live Audio"
 
 #: 13.2-Live-Audio.md:80
 msgid ""
@@ -10518,6 +10737,10 @@ msgid ""
 "d in memory if you delete the code in the editor). To stop it, you need to use"
 " the `:stop` arg:"
 msgstr ""
+"A differenza dei synth standard, dato che `live_audio` non ha un envelope, "
+"continuerà a girare all'infinito (anche se cancelli il codice, come una "
+"funzione rimane definita in memoria se cancelli il codice nell'editor). Per "
+"fermarlo devi usare l'arg `:stop`:"
 
 #: 13.2-Live-Audio.md:85
 #, no-wrap
@@ -10526,17 +10749,19 @@ msgstr "live_audio :foo, :stop"
 
 #: 13.2-Live-Audio.md:89
 msgid "It can easily be restarted by calling it without the `:stop` arg again:"
-msgstr ""
+msgstr "Può essere facilmente riavviato chiamandolo senza l'arg `:stop`:"
 
 #: 13.2-Live-Audio.md:96
 msgid ""
 "Additionally all running live audio synths are stopped when you hit the global"
 " Stop button (as with all other running synths and FX)."
 msgstr ""
+"Addizionalmente, tutti i synth live audio vengono arrestati quando premi il "
+"pulsante Stop globale (come per tutti gli altri synth e FX in esecuzione)."
 
 #: 13.2-Live-Audio.md:99
 msgid "Stereo input"
-msgstr ""
+msgstr "Ingressi Stereo"
 
 #: 13.2-Live-Audio.md:101
 msgid ""
@@ -10549,6 +10774,14 @@ msgid ""
 "gnal and input 3 as the right signal, you need to configure the `input:` opt t"
 "o 2 and enable stereo mode as follows:"
 msgstr ""
+"Rispetto ai canali audio, di default `live_audio` si comporta in modo simile "
+"al synth `:sound_in` in quanto prende un flusso audio mono e lo converte in "
+"un flusso stereo usando un panning specifico. Tuttavia, come "
+"`:sound_in_stereo` è possibile dire a `live_audio` di leggere 2 ingressi "
+"audio consecutivi e trattarli come canali destro e sinistro direttamente. "
+"Questo si ottiene attraverso l'opzione `:stereo`. Ad esempio, per trattare "
+"ingresso 2 come segnale sinistro e ingresso 3 come segnale destro, devi "
+"configurare l'opzione `input:` a 2 e abilitare modalità stereo come segue:"
 
 #: 13.2-Live-Audio.md:111
 #, no-wrap
@@ -10562,14 +10795,18 @@ msgid ""
 "n the default mono mode, you can't switch to stereo without starting and stopp"
 "ing the stream."
 msgstr ""
+"Notare che dopo aver avviato lo stream audio in modalità stereo, non puoi "
+"cambiarla a mono senza fermarla e riavviarla. Similmente, se avvi nella "
+"modalità mono di default, non puoi passare a stereo senza fermare e "
+"riavviare il flusso."
 
 #: 13.3-Sound-Out.md:1
 msgid "13.3 Sound Out"
-msgstr ""
+msgstr "13.3 Sound Out"
 
 #: 13.3-Sound-Out.md:3
 msgid "Sound Out"
-msgstr ""
+msgstr "Sound Out"
 
 #: 13.3-Sound-Out.md:5
 msgid ""
@@ -10579,16 +10816,24 @@ msgid ""
 " audio, Sonic Pi can also output multiple streams of audio. This is achieved v"
 "ia the `:sound_out` FX."
 msgstr ""
+"Fino a qui abbiamo visto come ottenere flussi audio multipli in Sonic pi - "
+"sia attraverso l'uso del synth `:sound_in` sia attraverso il potente sistema "
+"`live_audio`. In aggiunta all'uso di flussi audio multipli in ingresso, "
+"Sonic Pi può erogare flussi audio multipli in uscita. Questo si ottiene "
+"tramite l'FX `:sound_out`."
 
 #: 13.3-Sound-Out.md:11
 msgid "Output contexts"
-msgstr ""
+msgstr "Contesti di Uscita"
 
 #: 13.3-Sound-Out.md:13
 msgid ""
 "Let's quickly recap on how Sonic Pi's synths and FX output their audio to thei"
 "r current FX context. For example, consider the following:"
 msgstr ""
+"Facciamo un rapido riepilogo di come i synth ed FX di Sonic pi erogano il "
+"loro audio nel loro contesto FX corrente. Ad esempio, consideriamo quanto "
+"segue:"
 
 #: 13.3-Sound-Out.md:16
 #, no-wrap
@@ -10599,6 +10844,11 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"with_fx :reverb do    # C\n"
+"  with_fx :echo do    # B\n"
+"    sample :bd_haus   # A\n"
+"  end\n"
+"end"
 
 #: 13.3-Sound-Out.md:24
 msgid ""
@@ -10612,10 +10862,20 @@ msgid ""
 "tputs 1 and 2 in your audio card). The audio flows outwards with a stereo sign"
 "al all the way through."
 msgstr ""
+"Il modo più semplice per capire cosa succede al flusso audio è cominciare "
+"dal contesto audio più annidato e man mano valutarne i contorni. In questo "
+"caso l'oggetto più annidato è etichettato `A` ed è il sample `:bd_haus` che "
+"viene triggerato. L'audio di questo va direttamente nel suo contesto che è "
+"`B` - ovvero `:echo` FX. Questo aggiunge echo all'audio in arrivo e lo eroga "
+"nel suo contesto che è `C` - ovvero `:reverb` FX. Questo aggiunge quindi "
+"riverbero al flusso audio in ingresso e lo eroga nel suo contesto che è il "
+"livello più alto - ovvero diffusori sinistro e destro (uscita 1 e 2 della "
+"tua scheda audio). L'audio fluisce in uscita in un segnale stereo "
+"direttamente."
 
 #: 13.3-Sound-Out.md:35
 msgid "Sound Out FX"
-msgstr ""
+msgstr "Sound Out FX"
 
 #: 13.3-Sound-Out.md:37
 msgid ""
@@ -10625,6 +10885,11 @@ msgid ""
 "e. Secondly it *also* outputs its audio directly to an output on your sound ca"
 "rd. Let's take a look:"
 msgstr ""
+"Il comportamento sopra è vero per tutti i synth (incluso `live_audio`) e la "
+"maggioranza degli FX ad eccezione di `:sound_out`. L'FX `:sound_out` fa due "
+"cose. Innanzitutto eroga il proprio audio nel suo contesto esterno come "
+"descritto sopra. Secondariamente eroga *anche* il proprio audio direttamente "
+"verso un'uscita della tua scheda audio. Diamo un'occhiata:"
 
 #: 13.3-Sound-Out.md:43
 #, no-wrap
@@ -10635,6 +10900,11 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"with_fx :reverb do      # C\n"
+"  with_fx :sound_out, output: 3 do # B\n"
+"    sample :bd_haus     # A\n"
+"  end\n"
+"end"
 
 #: 13.3-Sound-Out.md:51
 msgid ""
@@ -10645,10 +10915,16 @@ msgid ""
 "und_out` therefore has two destinations - the `:reverb` FX and audio card outp"
 "ut 3."
 msgstr ""
+"In questo esempio, il nostro sample `:bd_haus`eroga il proprio audio nel suo "
+"contesto esterno che è l'FX `:sound_out`. Questo a sua volta eroga il "
+"proprio audio al suo contesto esterno `:reverb` FX (come atteso). Tuttavia "
+"eroga *anche* un mix mono alla terza uscita della scheda audio di sistema. "
+"L'audio generato all'interno di `:sound_out` tuttavia ha due destinazioni - "
+"l'FX `:reverb` e l'uscita 3."
 
 #: 13.3-Sound-Out.md:58
 msgid "Mono and Stereo out"
-msgstr ""
+msgstr "Mono e Stereo out"
 
 #: 13.3-Sound-Out.md:60
 #, fuzzy
@@ -10665,7 +10941,7 @@ msgstr "choose (scegli)"
 
 #: 13.3-Sound-Out.md:70
 msgid "Direct Out"
-msgstr ""
+msgstr "Direct Out"
 
 #: 13.3-Sound-Out.md:72
 msgid ""
@@ -10678,6 +10954,14 @@ msgid ""
 "tandard FX opt `amp:` which operates on the audio *after* the FX has been able"
 " to manipulate the audio:"
 msgstr ""
+"Come abbiamo visto, il comportamento di default per `:sound_out` e "
+"`:sound_out_stereo` è mandare audio sia nel loro contesto esterno (come "
+"tipicamente tutti gli FX) *e* a un'uscita specifica della scheda audio. "
+"Tuttavia, occasionalmente potresti voler mandare *solo* all'uscita della tua "
+"scheda audio e non al contesto esterno (e di conseguenza evitare che il "
+"suono sia mixato e mandato alle uscite standard 1 e 2). Questo è possibile "
+"usando l'opzione FX standard amp:` che interviene sull'audio *dopo* che l'FX "
+"ha potuto manipolare l'audio:"
 
 #: 13.3-Sound-Out.md:82
 #, no-wrap
