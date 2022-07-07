@@ -1,5 +1,5 @@
 # History
-* [v4.0.0 'Link'](#v3.4.0), 6th July, 2022
+* [v4.0.0 'Link'](#v4.0.0), 6th July, 2022
 * [v3.3.1 'Beamer'](#v3.3.1), 1st Feb, 2021
 * [v3.3 'Beam'](#v3.3), 28th Jan, 2021
 * [v3.2.2 'Tau3'](#v3.2.2), 5th April, 2020
@@ -129,7 +129,7 @@ Now, go and get your Live Coded Jam On!
 
 
 ### GUI
-* Preference pane is now an overlay which hovers over the main window. This means that opening and closing it does not inadvertantly modify a carefully chosen layout e.g. for a performance.
+* Preference pane is now an overlay which hovers over the main window. This means that opening and closing it does not inadvertently modify a carefully chosen layout e.g. for a performance.
 * New preference option to show and hide the pane titles such as Scope, Log, Cues, Context, Help, etc.
 * New preference option to hide the menubar when in fullscreen mode (Windows and Linux only as this behaviour is standard on macOS).
 * New preference option for enabling audio inputs (now disabled by default). Modifying this setting requires a reboot to take effect.
@@ -141,7 +141,7 @@ Now, go and get your Live Coded Jam On!
 * Scrollbars now have rounded edges.
 * Teach autocompletion about random source choices: `:white`, `:light_pink`, `:pink`, etc.
 * Improve syntax indentation.
-* Improvements for Arabic, Catalan, Chinese (Simplified), Dutch, Estonian, French, German, Italian, Japanese, Korean, Persian, Polish, Portuguese (Brazil), Russian, Sinhala, Spanish, Swedish, Ukranian.
+* Improvements for Arabic, Catalan, Chinese (Simplified), Dutch, Estonian, French, German, Italian, Japanese, Korean, Persian, Polish, Portuguese (Brazil), Russian, Sinhala, Spanish, Swedish, Ukrainian.
 * Introduced new translations for Basque, Gaelic.
 
 
