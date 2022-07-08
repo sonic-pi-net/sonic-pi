@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2022-07-07 17:21+0000\n"
+"PO-Revision-Date: 2022-07-09 15:16+0000\n"
 "Last-Translator: Davide Anzaldi <daveanzaldi@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/it/>\n"
@@ -24,17 +24,16 @@ msgid "Welcome friend :-)"
 msgstr "Benvenuto :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:5
-#, fuzzy
 msgid ""
 "Welcome to Sonic Pi. Hopefully you're as excited to get started making your ow"
 "n sounds as I am to show you. It's going to be a really *fun* ride where you'l"
 "l learn all about music, synthesis, programming, composition, performance and "
 "more."
 msgstr ""
-"Benvenuto in Sonic Pi. Probabilmente non vedi l'ora di cominciare a fare stran"
-"i suoni almeno quanto io sono impaziente di mostrarti come si fa. Sarà un viag"
-"gio veramente *divertente* nel quale imparerai tutto su musica, sintesi, progr"
-"ammazione, composizione, performance e altro."
+"Benvenuto in Sonic Pi. Spero tu non veda l'ora di cominciare a creare i tuoi "
+"suoni almeno quanto io sono impaziente di mostrarti come si fa. Sarà un "
+"viaggio veramente *divertente* nel quale imparerai tutto su musica, sintesi, "
+"programmazione, composizione, performance e altro."
 
 #: 01-Welcome-to-Sonic-Pi.md:10
 msgid ""
@@ -81,10 +80,10 @@ msgid ""
 " stream live on [https://youtube.com/samaaron](http://youtube.com/samaaron) so"
 " please do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
-"Infine, guardare gli altri che fanno live coding è un ottimo modo per imparare"
-". Faccio regolarmente dirette streaming on line su [http://youtube.com/samaaro"
-"n](http://youtube.com/samaaron) quindi lasciami un messaggio e fammi tante dom"
-"ande :-)"
+"Infine, guardare gli altri che fanno live coding è un ottimo modo per "
+"imparare. Faccio regolarmente dirette streaming on line su [http://youtube."
+"com/samaaron](http://youtube.com/samaaron) quindi passa per un saluto e "
+"fammi tante domande :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
@@ -408,9 +407,8 @@ msgid "*H* - Scope Viewer"
 msgstr "*H* - Visualizzatore di segnale"
 
 #: 01.2-Exploring-the-Interface.md:19
-#, fuzzy
 msgid "*I* - Cue Viewer"
-msgstr "*F* - Visualizzatore Messaggi"
+msgstr "*I* - Visualizzatore Messaggi"
 
 #: 01.2-Exploring-the-Interface.md:21
 msgid "A. Play Controls"
@@ -10984,6 +10982,13 @@ msgid ""
 "t receive any audio, and channel 3 will receive a mono mix of the amen drum br"
 "eak."
 msgstr ""
+"Nell'esempio sopra, il sample `:loop_amen` viene mandato al suo contesto "
+"esterno, l'FX `:sound_out`. Questo a sua volta manda un mix mono all'uscita "
+"3 della scheda audio dopo di che l'audio per 0, cosa che in pratica lo "
+"silenzia. E' proprio questo segnale silenziato che viene inviato al contesto "
+"esterno `:sound_out, che è a sua volta l'output standard. Quindi con questo "
+"codice, i canali di uscita audio predefiniti non riceveranno alcun audio, "
+"mentre il canale 3 riceverà un mix mono del break di batteria `amen` ."
 
 #: 14-Conclusions.md:1
 #, fuzzy
@@ -17242,6 +17247,11 @@ msgid ""
 "oop. For example, if you use a rate of `100`, the drum loop turns into a click"
 "!"
 msgstr ""
+"Ha! Ci siamo appena spostati di genere musicale dalla techno vecchia scuola "
+"alla jungle. Nota come l'intonazione di ogni colpo di batteria è più alta e "
+"come l'intera sezione ritmica accelera. Ora, prova rate ancora più alte e "
+"verifica quanto alto e corto puoi rendere il loop di batteria. Ad esempio, "
+"se usi un rate di `100`, il loop di batteria diventa un click!"
 
 #: A.17-sample-stretching.md:54
 msgid "Reverse Gear"
@@ -17266,7 +17276,7 @@ msgstr ""
 #: A.17-sample-stretching.md:63
 #, no-wrap
 msgid "sample :elec_filt_snare, rate: 1"
-msgstr ""
+msgstr "sample :elec_filt_snare, rate: 1"
 
 #: A.17-sample-stretching.md:65
 msgid "Now, play it backwards:"
@@ -17275,7 +17285,7 @@ msgstr "Adesso fallo andare all’incontrario:"
 #: A.17-sample-stretching.md:67
 #, no-wrap
 msgid "sample :elec_filt_snare, rate: -1"
-msgstr ""
+msgstr "sample :elec_filt_snare, rate: -1"
 
 #: A.17-sample-stretching.md:69
 msgid ""
@@ -17284,10 +17294,14 @@ msgid ""
 "ative rates and have fun. It's particularly amusing with the `:misc_burp` samp"
 "le!"
 msgstr ""
+"Naturalmente, puoi riprodurlo al contrario al doppio della velocità con il "
+"rate a `-2` oppure al contrario a mezza velocità con un rate a `-0.5`. Ora, "
+"prova a giocare con differenti rate negativi e divertiti. E' particolarmente "
+"divertente con il sample `:misc_burp`!"
 
 #: A.17-sample-stretching.md:75
 msgid "Sample, Rate and Pitch"
-msgstr ""
+msgstr "Campioni, Frequenza e Intonazione"
 
 #: A.17-sample-stretching.md:77
 msgid ""
@@ -17298,6 +17312,13 @@ msgid ""
 " - as you're heading towards the sound source the pitch is higher than when yo"
 "u're moving away from the sound - the so-called Doppler effect. Why is this?"
 msgstr ""
+"Uno degli effetti del cambio di frequenza sui campioni è che frequenze più "
+"veloci portano i campioni a suonare più acuti e frequenze più lente portano "
+"i campioni a suonare più gravi in intonazione. Un altro contesto in cui "
+"potresti aver sentito questo effetto nella vita di tutti i giorni è quando "
+"passi in bicicletta o in macchina vicino al cicalino di un attraversamento "
+"pedonale - quando ti stai avvicinando l'intonazione è più alta di quando ti "
+"stai allontanando - il così detto effetto Doppler. Perché accade?"
 
 #: A.17-sample-stretching.md:85
 msgid ""
@@ -17307,6 +17328,12 @@ msgid ""
 "igure C. Notice that the waves of higher notes are more compact and the waves "
 "of lower notes are more spread out."
 msgstr ""
+"Consideriamo un semplice beep che è rappresentato da un'onda sinusoidale. Se "
+"usiamo un oscilloscopio per tracciare un beep, vedremmo qualcosa tipo la "
+"Figura A. Se tracciamo un beep un ottava più in alto, vedremo la Figura B e "
+"un ottava più in basso sarà come nella Figura C. Nota che le forme d'onda di "
+"note più alte sono più compatte mentre le forme d'onda di note più basse "
+"sono più dilatate."
 
 #: A.17-sample-stretching.md:91
 msgid ""
@@ -17323,6 +17350,20 @@ msgid ""
 "beep. It will also make the beep shorter as we will work through all the circl"
 "es faster. This is shown in Figure E."
 msgstr ""
+"Il campione di un beep non è altro che un insieme di molti numeri ("
+"coordinate, x,y) le quali quando tracciate in un grafico ridisegneranno le "
+"curve originali. Vedi la figura D in cui ogni cerchio rappresenta una "
+"coordinata. Per riconvertire le coordinate in audio, il computer valuta ogni "
+"valore di x e lo manda manda il corrispondente valore di y ai diffusori. Il "
+"trucco qui sta nel fatto che la frequenza alla quale il computer lavora i "
+"numeri x non deve essere la stessa frequenza alla quale sono stati "
+"registrati. In altre parole, lo spazio (che rappresenta un intervallo di "
+"tempo) fra ogni cerchio può essere allungato o compresso. Così, se il "
+"computer processa i valori di x più velocemente della frequenza originale, "
+"avrà l'effetto di schiacciare i cerchi più vicini tra loro, il che risulterà "
+"in un segnale acustico più acuto. Causerà inoltre un beep più corto in "
+"quanto processeremo tutti i cerchi più velocemente. Questo è mostrato nella "
+"figura E."
 
 #: A.17-sample-stretching.md:105
 msgid ""
@@ -17332,10 +17373,15 @@ msgid ""
 "tching and compressing many sine waves all at the same time in exactly this ma"
 "nner."
 msgstr ""
+"Infine, un'ultima cosa da sapere è che un matematico chiamato Fourier ha "
+"provato che ogni suono è in effetti costituito da moltissime onde "
+"sinusoidali combinate insieme. Quindi, quando comprimiamo e allunghiamo "
+"qualunque suono registrato, stiamo in realtà comprimendo e allungando molte "
+"onde sinusoidali simultaneamente in questo modo."
 
 #: A.17-sample-stretching.md:111
 msgid "Pitch Bending"
-msgstr ""
+msgstr "Alterazione dell'Intonazione"
 
 #: A.17-sample-stretching.md:113
 msgid ""
@@ -17346,6 +17392,14 @@ msgid ""
 "ower. This means that for melodic samples, playing it alongside itself at doub"
 "le/half rates actually sounds rather nice:"
 msgstr ""
+"Come abbiamo visto, una frequenza più veloce porterà a un suono più alto in "
+"intonazione e una frequenza più lenta porterà a suono più basso in "
+"intonazione. Un trucchetto molto semplice e veloce consiste nel sapere che a "
+"un raddoppio della frequenza corrisponde un'intonazione più alta di "
+"un'ottava e, inversamente, il dimezzamento della frequenza corrisponde "
+"un'intonazione più bassa di un'ottava. Questo significa che per i sample "
+"melodici, riprodurli su sè stessi al doppio o alla metà della loro frequenza "
+"li fa suonare piuttosto bene:"
 
 #: A.17-sample-stretching.md:121
 #, no-wrap
@@ -17354,6 +17408,9 @@ msgid ""
 "sample :bass_trance_c, rate: 2\n"
 "sample :bass_trance_c, rate: 0.5"
 msgstr ""
+"sample :bass_trance_c, rate: 1\n"
+"sample :bass_trance_c, rate: 2\n"
+"sample :bass_trance_c, rate: 0.5"
 
 #: A.17-sample-stretching.md:127
 msgid ""
@@ -17361,6 +17418,9 @@ msgid ""
 "e semitone (one note up on a piano)? Sonic Pi makes this very easy via the `rp"
 "itch:` opt:"
 msgstr ""
+"Tuttavia, come dobbiamo procedere se vogliamo alterare la frequenza in modo "
+"che alzi di un semitono (una nota più avanti sul piano)? Sonic Pi rende "
+"questo molto semplice attraverso l'opzione `rpitch:`:"
 
 #: A.17-sample-stretching.md:131
 #, no-wrap
@@ -17369,6 +17429,9 @@ msgid ""
 "sample :bass_trance_c, rpitch: 3\n"
 "sample :bass_trance_c, rpitch: 7"
 msgstr ""
+"sample :bass_trance_c\n"
+"sample :bass_trance_c, rpitch: 3\n"
+"sample :bass_trance_c, rpitch: 7"
 
 #: A.17-sample-stretching.md:137
 msgid ""
@@ -17377,6 +17440,10 @@ msgid ""
 "onds to a rate of `1.4983`. Finally, we can even combine `rate:` and `rpitch:`"
 " opts:"
 msgstr ""
+"Se dai un'occhiata al registro eventi sulla destra, noterai che un `rpitch:` "
+"di `3` corrisponde in effetti a una frequenza di `1.1892` mentre `rpitch:` "
+"di `7` corrisponde a una frequenza di `1.4983`. Infine possiamo anche "
+"combinare le opzioni `rate:` e `rpitch:`:"
 
 #: A.17-sample-stretching.md:142
 #, no-wrap
@@ -17389,6 +17456,13 @@ msgid ""
 "sleep 1\n"
 "sample :ambi_choir, rate: 0.25, rpitch: 1"
 msgstr ""
+"sample :ambi_choir, rate: 0.25, rpitch: 3\n"
+"sleep 3\n"
+"sample :ambi_choir, rate: 0.25, rpitch: 5\n"
+"sleep 2\n"
+"sample :ambi_choir, rate: 0.25, rpitch: 6\n"
+"sleep 1\n"
+"sample :ambi_choir, rate: 0.25, rpitch: 1"
 
 #: A.17-sample-stretching.md:155
 msgid ""
@@ -17398,6 +17472,12 @@ msgid ""
 " playback rate of samples. As an added exercise try recording your own sounds "
 "and play around with the rate to see what wild sounds you can make."
 msgstr ""
+"Diamo un'occhiata a un semplice brano che combina queste idee. Copia in un "
+"buffer Sonic Pi vuoto, premi play, ascolta per un po' e poi usalo come punto "
+"di partenza per il tuo brano personale. Guarda quanto è divertente "
+"manipolare la frequenza di riproduzione dei sample. Come esercizio "
+"aggiuntivo prova a registrare dei tuoi suoni a giocare con le frequenze per "
+"vedere che razza di suoni selvaggi puoi creare."
 
 #: A.17-sample-stretching.md:162
 #, no-wrap
@@ -17438,11 +17518,11 @@ msgstr ""
 
 #: A.18-additive-synthesis.md:1
 msgid "A.18 Sound Design - Additive Synthesis"
-msgstr ""
+msgstr "A.18 Sound Design - Sintesi Additiva"
 
 #: A.18-additive-synthesis.md:3
 msgid "Additive Synthesis"
-msgstr ""
+msgstr "Sintesi Additiva"
 
 #: A.18-additive-synthesis.md:5
 msgid ""
@@ -17459,25 +17539,41 @@ msgid ""
 "p for a given pipe 'added it to the mix' making the sound richer and more comp"
 "lex. Now, let's see how we can pull out all the stops with Sonic Pi."
 msgstr ""
+"Questo è il primo di una breve serie di articoli su come usare Sonic Pi per "
+"il Sound Design. Faremo un rapido tour attraverso un certo numero di "
+"tecniche che sono disponibili per creare il tuo suono unico. La prima "
+"tecnica che vedremo è chiamata *sintesi additiva\". Potrebbe sembrare "
+"complicato - ma se riflettiamo brevemente sulle parole, il significato esce "
+"fuori subito. Innanzitutto additivo significa una combinazione di cose e "
+"secondariamente sintesi significa creare suono. Sintesi additiva significa "
+"quindi niente di più complesse che *combinare suoni esistenti per crearne di "
+"nuovi*. Questa tecnica di sintesi risale a molto tempo fa - ad esempio gli "
+"organi a canne nel medio evo avevano molte canne dai suoni diversi che "
+"potevi abilitare o disabilitare con degli appositi blocchi. Rimuovendo il "
+"blocco di una certa canna 'la aggiungeva al mix' creando un suono più ricco "
+"e complesso. Ora, vediamo come possiamo rimuovere questi blocchi con Sonic "
+"Pi."
 
 #: A.18-additive-synthesis.md:21
 msgid "Simple Combinations"
-msgstr ""
+msgstr "Combinazioni Semplici"
 
 #: A.18-additive-synthesis.md:23
 msgid ""
 "Let's start with the most basic sound there is - the humble pure-toned sine wa"
 "ve:"
 msgstr ""
+"Cominciamo con il suono più basico che ci sia - l'umile e pura onda "
+"sinusoidale:"
 
 #: A.18-additive-synthesis.md:26
 #, no-wrap
 msgid "synth :sine, note: :d3"
-msgstr ""
+msgstr "synth :sine, note: :d3"
 
 #: A.18-additive-synthesis.md:30
 msgid "Now, let's see how this sounds combined with a square wave:"
-msgstr ""
+msgstr "Ora, vediamo questo suono combinato con un'onda quadra:"
 
 #: A.18-additive-synthesis.md:32
 #, no-wrap
@@ -17485,6 +17581,8 @@ msgid ""
 "synth :sine, note: :d3\n"
 "synth :square, note: :d3"
 msgstr ""
+"synth :sine, note: :d3\n"
+"synth :square, note: :d3"
 
 #: A.18-additive-synthesis.md:37
 msgid ""
@@ -17494,6 +17592,12 @@ msgid ""
 "ints to create new colours, adding too many colours will result in a messy bro"
 "wn, similarly - adding too many sounds together will result in a muddy sound."
 msgstr ""
+"Nota come i due suoni combinati formano un nuovo e più ricco suono. "
+"Naturalmente, non dobbiamo fermarci qui, possiamo aggiungere tutti i suoni "
+"di qui abbiamo bisogno. Tuttavia, dobbiamo anche stare attenti a quanti "
+"suoni aggiungiamo insieme. Proprio come quando combiniamo pitture per creare "
+"nuovi colori, aggiungendone troppi otteniamo un paciugo marrone, similmente "
+"aggiungendo troppi suoni otterremo un suono impastato."
 
 #: A.18-additive-synthesis.md:45
 msgid "Blending"
@@ -17505,6 +17609,10 @@ msgid ""
 "e wave at an octave higher (for that high bright sound) yet only play it at am"
 "p `0.4` so it adds something extra to the sound rather than taking it over:"
 msgstr ""
+"Aggiungiamo qualcosa per ottenere un suono più chiaro. Possiamo usare "
+"un'onda triangolare in un'ottava più alta (per ottenere quel suono più "
+"chiaro) solo però riprodotta con amp `0.4` in modo che aggiunga un extra al "
+"suono senza però coprirlo:"
 
 #: A.18-additive-synthesis.md:52
 #, no-wrap
@@ -17513,6 +17621,9 @@ msgid ""
 "synth :square, note: :d3\n"
 "synth :tri, note: :d4, amp: 0.4"
 msgstr ""
+"synth :sine, note: :d3\n"
+"synth :square, note: :d3\n"
+"synth :tri, note: :d4, amp: 0.4"
 
 #: A.18-additive-synthesis.md:58
 msgid ""
@@ -17521,10 +17632,14 @@ msgid ""
 "pts to modify each source sound before it is mixed in for even more combinatio"
 "ns of sounds."
 msgstr ""
+"Ora, prova a creare i tuoi suoni combinando 2 o più synth in ottave e "
+"amplificazioni differenti. Nota anche come puoi giocare con le opzioni di "
+"ciascun synth per modificare ogni sorgente sonora prima del mix per ottenere "
+"ulteriori combinazioni di suoni."
 
 #: A.18-additive-synthesis.md:64
 msgid "Detuning"
-msgstr ""
+msgstr "Scordatura"
 
 #: A.18-additive-synthesis.md:66
 msgid ""
@@ -17532,6 +17647,10 @@ msgid ""
 "r switched octave. How might it sound if we didn't stick to octaves but instea"
 "d chose a slightly higher or lower note? Let's try it:"
 msgstr ""
+"Fino a ora, combinando i nostri diversi synth abbiamo usato la stessa "
+"intonazione o cambiato ottava. Come suonerebbe se non cambiassimo solo le "
+"ottave ma invece applicassimo una nota lievemente più alta o più bassa? "
+"Proviamo:"
 
 #: A.18-additive-synthesis.md:70
 #, no-wrap
@@ -17540,6 +17659,9 @@ msgid ""
 "synth :square, note: :e3\n"
 "synth :square, note: :e3 + detune"
 msgstr ""
+"detune = 0.7\n"
+"synth :square, note: :e3\n"
+"synth :square, note: :e3 + detune"
 
 #: A.18-additive-synthesis.md:76
 msgid ""
@@ -17553,6 +17675,16 @@ msgid ""
 "nice 'thick' sound, with both slightly different pitches interacting with each"
 " other in interesting, often surprising, ways."
 msgstr ""
+"Se applichiamo una scordatura alle nostre onde quadre di 0.7 note, sentiremo "
+"forse qualcosa che non suona corretto o intonato - una 'brutta' nota. "
+"Tuttavia, muovendoci più vicini allo 0 suonerà sempre meno stonata man mano "
+"che l'intonazione delle 2 onde si avvicina e diventa simile. Prova tu "
+"stesso! Modifica l'opzione `detune:` da `0.7` a `0.5` e ascolta il nuovo "
+"suono. Prova `0.2`, `0.1`, `0.05`, `0`. Ogni volta che cambi il valore, "
+"ascolta e nota come cambia il suono. Nota che una scordatura più bassa come "
+"`0.1` produce un suono 'denso' molto bello, con entrambi i suoni lievemente "
+"alterati che interagiscono fra loro vengono fuori combinazioni interessanti "
+"e spesso sorprendenti."
 
 #: A.18-additive-synthesis.md:87
 #, fuzzy
@@ -17573,6 +17705,10 @@ msgid ""
 "ptions for each synth trigger. For example this will allow you to make some as"
 "pects of the sound percussive and other aspects ring out for a period of time."
 msgstr ""
+"Un altro modo con cui possiamo finemente modellare il suono consiste "
+"nell'usare differenti envelope e opzioni per ogni innesco dei synth. Ad "
+"esempio questo vi permetterà di gestire alcuni aspetti percussivi del suono "
+"ed altri aspetti che riguardano la durata nel tempo."
 
 #: A.18-additive-synthesis.md:99
 #, no-wrap
@@ -17584,6 +17720,12 @@ msgid ""
 "synth :gnoise, release: 0.5, amp: 1, cutoff: 100\n"
 "synth :noise, release: 0.2, amp: 1, cutoff: 90"
 msgstr ""
+"detune = 0.1\n"
+"synth :square, note: :e1, release: 2\n"
+"synth :square, note: :e1 + detune, amp: 2, release: 2\n"
+"synth :gnoise, release: 2, amp: 1, cutoff: 60\n"
+"synth :gnoise, release: 0.5, amp: 1, cutoff: 100\n"
+"synth :noise, release: 0.2, amp: 1, cutoff: 90"
 
 #: A.18-additive-synthesis.md:108
 msgid ""
@@ -17593,6 +17735,11 @@ msgid ""
 "hort release times along with a noise with a longer release time but with a lo"
 "w cutoff value (which makes the noise less crisp and more rumbly.)"
 msgstr ""
+"Nell'esempio sopra, ho mixato un elemento di rumore percussivo con un "
+"brontolio persistente in sottofondo. Questo è stato ottenuto innanzitutto "
+"usando 2 synth rumore con valori cutoff intermedi (`90` e `100`) usando "
+"tempi di rilascio brevi insieme a rumori con un rilascio più lungo ma con un "
+"valore cutoff più basso (il che rende il rumore meno nitido e più rumoroso.)"
 
 #: A.18-additive-synthesis.md:117
 msgid ""
@@ -17608,6 +17755,18 @@ msgid ""
 "ing your own melody and also messing around with the contents of the `:bell` f"
 "unction until you create your own fun sound to play with!"
 msgstr ""
+"Combiniamo tutte queste tecniche per vedere se possiamo usare la sintesi "
+"additiva per creare un suono basico di campana. Ho diviso questo esempio in "
+"4 sezioni. Prima abbiamo la sezione 'hit' che è la parte iniziale del suono "
+"della campana - quindi usa un inviluppo corto (e.g. una `release:` di circa "
+"`0.1`). Poi abbiamo la lunga sezione di risonanza nella quale uso il suono "
+"puro dell'onda sinusoidale. Nota che spesso aumento la nota di circa `12` e "
+"`24` che sono il numero di note in una e due ottave. Ho anche inserito un "
+"paio di onde sinusoidali basse per dare al suono un po' di bassi e "
+"profondità. Infine, ho usato `define` per racchiudere il mio codice in una "
+"funzione che posso quindi utilizzare per suonare una melodia. Prova a "
+"suonare la tua melodia e anche a incasinare i contenuti della funzione "
+"`:bell` finché non crei il tuo suono divertente con cui suonare!"
 
 #: A.18-additive-synthesis.md:130
 #, no-wrap
@@ -17637,14 +17796,38 @@ msgid ""
 "sleep 1\n"
 "bell :g2"
 msgstr ""
+"define :bell do |n|\n"
+"  # Triangle waves for the 'hit'\n"
+"  synth :tri, note: n - 12, release: 0.1\n"
+"  synth :tri, note: n + 0.1, release: 0.1\n"
+"  synth :tri, note: n - 0.1, release: 0.1\n"
+"  synth :tri, note: n, release: 0.2\n"
+"  # Sine waves for the 'ringing'\n"
+"  synth :sine, note: n + 24, release: 2\n"
+"  synth :sine, note: n + 24.1, release: 2\n"
+"  synth :sine, note: n + 24.2, release: 0.5\n"
+"  synth :sine, note: n + 11.8, release: 2\n"
+"  synth :sine, note: n, release: 2\n"
+"  # Low sine waves for the bass\n"
+"  synth :sine, note: n - 11.8, release: 2\n"
+"  synth :sine, note: n - 12, release: 2\n"
+"end\n"
+"# Play a melody with our new bell!\n"
+"bell :e3\n"
+"sleep 1\n"
+"bell :c2\n"
+"sleep 1\n"
+"bell :d3\n"
+"sleep 1\n"
+"bell :g2"
 
 #: A.19-subtractive-synthesis.md:1
 msgid "A.19 Sound Design - Subtractive Synthesis"
-msgstr ""
+msgstr "A.19 Sound Design - Sintesi Sottrattiva"
 
 #: A.19-subtractive-synthesis.md:3
 msgid "Subtractive Synthesis"
-msgstr ""
+msgstr "Sintesi Sottrattiva"
 
 #: A.19-subtractive-synthesis.md:5
 msgid ""
@@ -17660,16 +17843,30 @@ msgid ""
 " with the recent renaissance of modular analog synths through popular standard"
 "s such as Eurorack."
 msgstr ""
+"Questo è il secondo di una serie di articoli su come utilizzare Sonic Pi per "
+"il sound design. Il mese scorso abbiamo esaminato la sintesi additiva che "
+"abbiamo scoperto fosse il semplice atto di suonare più suoni "
+"contemporaneamente per creare un nuovo suono combinato. Ad esempio, potremmo "
+"combinare sintetizzatori con diversi suoni o anche lo stesso sintetizzatore "
+"a diverse intonazioni per costruire un nuovo suono complesso da ingredienti "
+"semplici. Questo mese esamineremo una nuova tecnica comunemente chiamata *"
+"sintesi sottrattiva* che è semplicemente consiste nel prendere un suono "
+"complesso esistente e rimuoverne parti per creare qualcosa di nuovo. Questa "
+"è una tecnica comunemente associata al suono dei sintetizzatori analogici "
+"degli anni '60 e '70, ma anche alla recente rinascita dei sintetizzatori "
+"analogici modulari attraverso standard popolari come Eurorack."
 
 #: A.19-subtractive-synthesis.md:18
 msgid ""
 "Despite this sounding like a particularly complicated and advanced technique, "
 "Sonic Pi makes it surprisingly simple and easy - so let's dive right in."
 msgstr ""
+"Nonostante sembri una tecnica particolarmente complicata e avanzata, Sonic "
+"Pi la rende sorprendentemente semplice, quindi entriamoci subito."
 
 #: A.19-subtractive-synthesis.md:22
 msgid "Complex Source Signal"
-msgstr ""
+msgstr "Segnale Sorgente Complesso"
 
 #: A.19-subtractive-synthesis.md:24
 msgid ""
@@ -17677,11 +17874,15 @@ msgid ""
 "fairly rich and interesting. This doesn't mean we need something hugely comple"
 "x - in fact, just a standard `:square` or `:saw` wave will do:"
 msgstr ""
+"Affinché un suono funzioni bene con la sintesi sottrattiva, in genere deve "
+"essere sufficientemente ricco e interessante. Questo non significa che "
+"abbiamo bisogno di qualcosa di estremamente complesso - infatti, solo "
+"un'onda standard `:square` o `:saw` produrrà:"
 
 #: A.19-subtractive-synthesis.md:29
 #, no-wrap
 msgid "synth :saw, note: :e2, release: 4"
-msgstr ""
+msgstr "synth :saw, note: :e2, release: 4"
 
 #: A.19-subtractive-synthesis.md:33
 msgid ""
@@ -17690,11 +17891,15 @@ msgid ""
 "imbre. If that didn't make much sense to you, try comparing it with the `:beep"
 "`:"
 msgstr ""
+"Nota che questo suono è già piuttosto interessante e contiene molte "
+"frequenze diverse sopra `:e2` (il secondo MI su un pianoforte) che si "
+"aggiungono per creare il timbro. Se ti sembra che non abbia molto senso, "
+"prova a confrontarlo con `:beep`:"
 
 #: A.19-subtractive-synthesis.md:38
 #, no-wrap
 msgid "synth :beep, note: :e2, release: 4"
-msgstr ""
+msgstr "synth :beep, note: :e2, release: 4"
 
 #: A.19-subtractive-synthesis.md:42
 msgid ""
@@ -17703,6 +17908,11 @@ msgid ""
 "saw`. It's this buzziness and variation from a pure sine wave that we can play"
 " with when we use subtractive synthesis."
 msgstr ""
+"Poiché il synth `:beep` è solo un'onda sinusoidale, sentirai un tono molto "
+"più puro e solo a `:e2` e nessuno dei suoni acuti e nitidi che hai sentito "
+"con `:saw`. Questa vivacità e variazione da un'onda sinusoidale pura "
+"costituiscono il materiale con cui possiamo giocare quando utilizziamo la "
+"sintesi sottrattiva."
 
 #: A.19-subtractive-synthesis.md:49
 msgid ""
@@ -17714,6 +17924,14 @@ msgid ""
 "ple to use FX system that includes a low pass filter, called `:lpf`. Let's pla"
 "y with it:"
 msgstr ""
+"Una volta che abbiamo il nostro segnale sorgente grezzo, il passo successivo "
+"è farlo passare attraverso un filtro di qualche tipo che modificherà il "
+"suono rimuovendo o riducendone alcune parti. Uno dei filtri più comuni "
+"utilizzati per la sintesi sottrattiva è il cosiddetto filtro passa basso. "
+"Ciò consentirà il passaggio di tutte le parti basse del suono, ma ridurrà o "
+"rimuoverà le parti più alte. Sonic Pi ha un sistema FX potente ma comunque "
+"semplice da usare che include un filtro passa basso, chiamato `:lpf`. "
+"Giochiamoci un po':"
 
 #: A.19-subtractive-synthesis.md:57
 #, no-wrap
@@ -17722,6 +17940,9 @@ msgid ""
 "  synth :saw, note: :e2, release: 4\n"
 "end"
 msgstr ""
+"with_fx :lpf, cutoff: 100 do\n"
+"  synth :saw, note: :e2, release: 4\n"
+"end"
 
 #: A.19-subtractive-synthesis.md:63
 msgid ""
@@ -17731,6 +17952,11 @@ msgid ""
 "ound. Try changing that `cutoff:` point to lower notes, say `70` and then `50`"
 " and compare the sounds."
 msgstr ""
+"Se ascolti attentamente, sentirai come un po' di quel brusio e quella "
+"nitidezza sono state rimosse. Infatti, tutte le frequenze nel suono sopra la "
+"nota `100` sono state ridotte o rimosse e solo quelle sotto sono ancora "
+"presenti nel suono. Prova a cambiare quel \"cutoff:\" punta alle note più "
+"basse, diciamo dì \"70\" e poi \"50\" e confronta i suoni."
 
 #: A.19-subtractive-synthesis.md:69
 msgid ""
@@ -17739,6 +17965,10 @@ msgid ""
 "in Sonic Pi. This does the opposite to `:lpf` in that it lets the high parts o"
 "f the sound through and cuts off the low parts."
 msgstr ""
+"Naturalmente, `:lpf` non è l'unico filtro che puoi usare per manipolare il "
+"segnale sorgente. Un altro effetto importante è il filtro passa alto "
+"denominato `:hpf` in Sonic Pi. Questo fa l'opposto di `:lpf` in quanto "
+"lascia passare le parti alte del suono e taglia le parti basse."
 
 #: A.19-subtractive-synthesis.md:74
 #, no-wrap
@@ -17747,6 +17977,9 @@ msgid ""
 "  synth :saw, note: :e2, release: 4\n"
 "end"
 msgstr ""
+"with_fx :hpf, cutoff: 90 do\n"
+"  synth :saw, note: :e2, release: 4\n"
+"end"
 
 #: A.19-subtractive-synthesis.md:80
 msgid ""
@@ -17755,16 +17988,23 @@ msgid ""
 "er values let more of the original bass parts of the source signal through and"
 " higher values sound increasingly tinny and quiet."
 msgstr ""
+"Nota come questo suona con molto più ronzio e in modo roco ora che tutti i "
+"suoni a bassa frequenza sono stati rimossi. Prova a cambiare il valore di "
+"cutoff: nota come valori più bassi lasciano passare più parti dei bassi "
+"originali del segnale sorgente e valori più alti suonano sempre più "
+"metallici e silenziosi."
 
 #: A.19-subtractive-synthesis.md:86
 msgid "Low Pass Filter"
-msgstr ""
+msgstr "Filtro Passa Basso"
 
 #: A.19-subtractive-synthesis.md:88
 msgid ""
 "![Varying amounts of low pass filtering](../../../etc/doc/images/tutorial/arti"
 "cles/A.19-subtractive-synthesis/subtractive-synthesis-waveforms.png)"
 msgstr ""
+"![Varying amounts of low pass filtering](../../../etc/doc/images/tutorial/"
+"articles/A.19-subtractive-synthesis/subtractive-synthesis-waveforms.png)"
 
 #: A.19-subtractive-synthesis.md:90
 #, fuzzy
@@ -17788,7 +18028,7 @@ msgstr "`:prophet`"
 
 #: A.19-subtractive-synthesis.md:109
 msgid "Filter Modulation"
-msgstr ""
+msgstr "Modulazione Filtri"
 
 #: A.19-subtractive-synthesis.md:111
 msgid ""
@@ -17801,6 +18041,15 @@ msgid ""
 "long it should take for the current value to linearly slide to the target valu"
 "e:"
 msgstr ""
+"Finora abbiamo appena prodotto suoni abbastanza statici. In altre parole, il "
+"suono non cambia in alcun modo per tutta la sua durata. Spesso potresti "
+"volere un po' di movimento nel suono per dare vita al timbro. Un modo per "
+"ottenere ciò è tramite la modulazione del filtro - modificando le opzioni "
+"del filtro nel tempo. Fortunatamente Sonic Pi ti offre potenti strumenti per "
+"manipolare le opzioni di un FX nel tempo. Ad esempio, puoi impostare un "
+"tempo di transizione per ciascuna opzione modulabile per specificare quanto "
+"tempo dovrebbe impiegare il valore corrente per scorrere linearmente fino al "
+"valore di destinazione:"
 
 #: A.19-subtractive-synthesis.md:120
 #, no-wrap
@@ -17810,6 +18059,10 @@ msgid ""
 "  synth :prophet, note: :e2, sustain: 3.5\n"
 "end"
 msgstr ""
+"with_fx :lpf, cutoff: 50 do |fx|\n"
+"  control fx, cutoff_slide: 3, cutoff: 130\n"
+"  synth :prophet, note: :e2, sustain: 3.5\n"
+"end"
 
 #: A.19-subtractive-synthesis.md:127
 msgid ""
@@ -17823,6 +18076,16 @@ msgid ""
 "ats. Finally we also trigger a source signal synth so we can hear the effect o"
 "f the modulated low pass filter."
 msgstr ""
+"Diamo una rapida occhiata a cosa sta succedendo qui. Innanzitutto iniziamo "
+"un blocco FX `:lpf` normale con un `cutoff:` iniziale basso di un `50`. "
+"Tuttavia, la prima riga termina anche con uno strano `|fx|` alla fine. "
+"Questa è una parte opzionale della sintassi `with_fx` che ti permette di "
+"denominare e controllare direttamente il synth FX in esecuzione. La riga 2 "
+"fa esattamente questo e controlla l'FX per impostare opzione `cutoff_slide:` "
+"a 3 e il nuovo valore di destinazione `cutoff:` a `130`. L'FX ora inizierà a "
+"muovere il valore di `cutoff:` da `50` a `130` lungo un periodo di 3 "
+"battiti. Infine attiviamo anche un sintetizzatore del segnale sorgente in "
+"modo da poter ascoltare l'effetto del filtro passa basso modulato."
 
 #: A.19-subtractive-synthesis.md:140
 msgid ""
@@ -17831,6 +18094,12 @@ msgid ""
 "o see what fun sounds you can design. If your sound feels too static, remember"
 " you can start modulating the options to create some movement."
 msgstr ""
+"Questo è solo un assaggio molto semplice di ciò che è possibile ottenere "
+"quando si utilizzano i filtri per modificare e cambiare un suono sorgente. "
+"Prova a giocare con i numerosi effetti integrati di Sonic Pi per vedere "
+"quali suoni divertenti puoi progettare. Se il tuo suono sembra troppo "
+"statico, ricorda che puoi iniziare a modulare le opzioni per creare un po' "
+"di movimento."
 
 #: A.19-subtractive-synthesis.md:146
 msgid ""
@@ -17840,6 +18109,11 @@ msgid ""
 "ped everything inside a call to `at` (please send answers to @samaaron on Twit"
 "ter)."
 msgstr ""
+"Concludiamo progettando una funzione che riprodurrà un nuovo suono creato "
+"con sintesi sottrattiva. Guarda se riesci a capire cosa sta succedendo qui - "
+"e per gli utenti avanzati di Sonic Pi - guardate se riuscite a capire perché "
+"ho racchiuso tutto in una chiamata a `at` (per favore inviate le risposte a @"
+"samaaron su Twitter)."
 
 #: A.19-subtractive-synthesis.md:152
 #, no-wrap
@@ -17884,17 +18158,19 @@ msgstr ""
 
 #: A.20-creative-coding-in-the-classroom.md:1
 msgid "A.20 Creative coding in the classroom with Sonic Pi"
-msgstr ""
+msgstr "A.20 Programmazione creativa in classe con Sonic Pi"
 
 #: A.20-creative-coding-in-the-classroom.md:3
 msgid "Creative coding in the classroom with Sonic Pi"
-msgstr ""
+msgstr "Programmazione creativa in classe con Sonic Pi"
 
 #: A.20-creative-coding-in-the-classroom.md:5
 msgid ""
 "(This article was published in [issue 9 of the Hello World Magazine](https://h"
 "elloworld.raspberrypi.org/issues/9))"
 msgstr ""
+"(Questo articolo è stato pubblicato in [issue 9 di Hello World "
+"Magazine](https://helloworld.raspberrypi.org/issues/9))"
 
 #: A.20-creative-coding-in-the-classroom.md:7
 msgid ""
@@ -17906,6 +18182,14 @@ msgid ""
 "agic of code we are able to conjure up individually meaningful stories and lea"
 "rning experiences."
 msgstr ""
+"Il codice programmazione è uno dei media più creativi che gli esseri umani "
+"abbiano creato. I simboli inizialmente oscuri di parentesi e lambda non sono "
+"solo profondamente radicati nella scienza e nella matematica, sono i più "
+"vicini che siamo riusciti a ottenere per lanciare lo stesso tipo di "
+"incantesimi come Gandalf e Harry Potter. Credo che questo fornisca un "
+"potente mezzo di coinvolgimento nei nostri spazi di apprendimento. "
+"Attraverso la magia del codice siamo in grado di evocare storie ed "
+"esperienze individuali di apprendimento significative."
 
 #: A.20-creative-coding-in-the-classroom.md:15
 msgid ""
@@ -17917,10 +18201,18 @@ msgid ""
 "es of wonder that will motivate people to practice and learn the fundamentals "
 "of programming?"
 msgstr ""
+"Siamo circondati da esperienze magiche. Dal gioco di prestigio di un mago "
+"del palcoscenico che fa sparire la palla nel nulla, alla meraviglia di "
+"vedere la tua band preferita esibirsi su un grande palco. Sono questi "
+"momenti \"wow\" che ci ispirano a prendere in mano un libro magico e "
+"imparare il French Drop o ad iniziare a suonare power chords su una vecchia "
+"chitarra. Come potremmo creare sensi di meraviglia altrettanto profondi e "
+"duraturi che motiveranno le persone a esercitarsi e ad apprendere i "
+"fondamenti della programmazione?"
 
 #: A.20-creative-coding-in-the-classroom.md:23
 msgid "Musical Engines and Notation"
-msgstr ""
+msgstr "Motori Musicali e Notazione"
 
 #: A.20-creative-coding-in-the-classroom.md:25
 msgid ""
@@ -17931,12 +18223,21 @@ msgid ""
 "ines. Whilst these first engines had originally been designed to accurately so"
 "lve hard maths problems, Ada dreamt about making music with them:"
 msgstr ""
+"Storie di musica e di computer sono state intrecciate fin dall'inizio delle "
+"macchine computazionali, o \"motori\", come veniva chiamato il potente "
+"motore analitico di Charles Babbage. Già nel 1842 la matematica Ada "
+"Lovelace, che lavorò a stretto contatto con Babbage, vide il potenziale "
+"creativo di questi motori. Mentre questi primi motori erano stati "
+"originariamente progettati per risolvere accuratamente problemi di "
+"matematica complessi, Ada sognava di fare musica con loro:"
 
 #: A.20-creative-coding-in-the-classroom.md:33
 msgid ""
 "\"..the engine might compose elaborate and scientific pieces of music of any de"
 "gree of complexity or extent.\" Ada Lovelace, 1842."
 msgstr ""
+"\"...il motore potrebbe comporre brani musicali elaborati e scientifici di "
+"qualsiasi grado di complessità o estensione.\" Ada Lovelace, 1842."
 
 #: A.20-creative-coding-in-the-classroom.md:36
 msgid ""
@@ -17952,6 +18253,20 @@ msgid ""
 "s just one of a number of notation systems he worked on. Some of the others we"
 "re much closer to what we might now see as code."
 msgstr ""
+"Naturalmente, oggi nel 2019 gran parte della nostra musica, "
+"indipendentemente dal genere, è stata composta, prodotta o masterizzata con "
+"un computer digitale. Il sogno di Ada si è avverato. È anche possibile "
+"risalire ulteriormente alla storia. Se vedi la programmazione come l'arte di "
+"scrivere sequenze di simboli speciali che forniscono istruzioni a un "
+"computer per fare cose specifiche, allora la composizione musicale è una "
+"pratica molto simile. Nella musica occidentale, i simboli sono punti neri "
+"posizionati su un pentagramma di linee che indicano al musicista quali note "
+"suonare e quando. Curiosamente, se facciamo risalire le radici della "
+"notazione musicale occidentale al monaco benedettino italiano Guido "
+"d'Arezzo, scopriamo che il sistema di punti e linee utilizzato dalle "
+"orchestre moderne è solo uno dei numerosi sistemi di notazione su cui ha "
+"lavorato. Alcuni degli altri erano molto più vicini a quello che ora "
+"potremmo vedere come codice di programmazione."
 
 #: A.20-creative-coding-in-the-classroom.md:50
 #, fuzzy
@@ -17969,7 +18284,7 @@ msgstr "Get"
 
 #: A.20-creative-coding-in-the-classroom.md:62
 msgid "Sonic Pi Performances"
-msgstr ""
+msgstr "Sonic Pi - Prestazioni"
 
 #: A.20-creative-coding-in-the-classroom.md:64
 #, fuzzy
@@ -17991,6 +18306,15 @@ msgid ""
 "rmed with Sonic Pi in the Sage Gateshead for the Thinking Digital Conference, "
 "where she created a unique live-coded improvised remix of her song Reeled."
 msgstr ""
+"Sonic Pi è stato utilizzato per esibirsi in una vasta gamma di luoghi come "
+"aule scolastiche, discoteche, palchi all'aperto in festival musicali, "
+"cappelle universitarie e prestigiosi locali musicali. Ad esempio lo "
+"straordinario progetto Convo che ha riunito 1000 bambini nella Royal Albert "
+"Hall per eseguire una nuova ambiziosa composizione della compositrice "
+"Charlotte Harding. Il pezzo è stato scritto per strumenti tradizionali, "
+"cori, percussioni e codice Sonic Pi. L'artista pop Jylda si è anche esibita "
+"con Sonic Pi al Sage Gateshead per la Conferenza Thinking Digital, dove ha "
+"creato un remix unico e improvvisato dal vivo della sua canzone Reeled."
 
 #: A.20-creative-coding-in-the-classroom.md:78
 msgid ""
@@ -17999,10 +18323,14 @@ msgid ""
 "f the instruments as part of Convo at the Royal Albert Hall. Photo credit: Pet"
 "e Jones."
 msgstr ""
+"![Sonic Pi in the Royal Albert Hall](../../../etc/doc/images/tutorial/"
+"articles/A.20-creative-coding-in-the-classroom/convo-small.png) Sonic Pi "
+"usato come uno degli strumenti come parte del Convo presso la Royal Albert "
+"Hall. Foto: Pete Jones."
 
 #: A.20-creative-coding-in-the-classroom.md:83
 msgid "Live coding in the classroom"
-msgstr ""
+msgstr "Live coding in classe"
 
 #: A.20-creative-coding-in-the-classroom.md:85
 msgid ""
@@ -18017,6 +18345,18 @@ msgid ""
 "c, PC and Raspberry Pi and includes a friendly tutorial that assumes you know "
 "nothing about either code or music."
 msgstr ""
+"Sonic Pi è uno strumento di creazione e performance musicale basato su "
+"codice che si basa su tutte queste idee. A differenza della maggior parte "
+"dei software didattici, è sia abbastanza semplice da usare per l'istruzione "
+"che anche abbastanza potente per i professionisti. È stato utilizzato per "
+"esibirsi in festival musicali internazionali, per comporre in una vasta "
+"gamma di stili dalla classica, all'EDM e all'heavy metal ed è stato persino "
+"recensito sulla rivista Rolling Stone. Ha una comunità diversificata di "
+"oltre 1,5 milioni di programmatori live con una varietà di background che "
+"apprendono e condividono idee e pensieri attraverso il codice di "
+"programmazione. È scaricabile gratuitamente per Mac, PC e Raspberry Pi e "
+"include un tutorial amichevole che presuppone che tu non sappia nulla né di "
+"programmazione né di musica."
 
 #: A.20-creative-coding-in-the-classroom.md:97
 msgid ""
@@ -18034,6 +18374,22 @@ msgid ""
 "ugh. Making things simple whilst keeping them powerful continues to be the har"
 "dest part of the project."
 msgstr ""
+"Sonic Pi è stato inizialmente concepito come una risposta al curriculum di "
+"informatica pubblicato nel Regno Unito nel 2014. L'obiettivo era trovare un "
+"modo motivante e divertente per insegnare i fondamenti della programmazione. "
+"Si scopre che c'è molto in comune ed è molto divertente spiegare il "
+"sequenziamento come melodia, l'iterazione come ritmo, i condizionali come "
+"varietà musicale. Ho sviluppato i progetti iniziali e le prime iterazioni "
+"della piattaforma con Carrie Anne Philbin, che ha portato il punto di vista "
+"di un insegnante al progetto. Da allora, Sonic Pi ha subito miglioramenti "
+"iterativi grazie al feedback ottenuto osservando gli studenti e collaborando "
+"direttamente con gli educatori in classe. Una filosofia di base nella "
+"progettazione era quella di non aggiungere mai una caratteristica che non "
+"potesse essere insegnata facilmente a un bambino di 10 anni. Ciò significava "
+"che la maggior parte delle idee doveva essere pesantemente rifinita e "
+"rielaborata fino a renderla abbastanza semplice. Rendere le cose semplici "
+"pur mantenendole potenti continua a essere la parte più difficile del "
+"progetto."
 
 #: A.20-creative-coding-in-the-classroom.md:112
 msgid ""
@@ -18049,6 +18405,19 @@ msgid ""
 "of Sonic Pi’s development. This provided essential feedback which enabled Soni"
 "c Pi to grow and ultimately flourish as a tool for creative expression."
 msgstr ""
+"Al fine di fornire la motivazione magica, il design di Sonic Pi non si è mai "
+"limitato a un puro scopo di istruzione. Idealmente ci sarebbero musicisti e "
+"artisti famosi che usano Sonic Pi come strumento standard insieme a "
+"chitarre, batteria, voce, sintetizzatori, violini, ecc. Questi artisti "
+"agirebbero quindi come modelli motivazionali dimostrando il potenziale "
+"creativo del codice di programmazione. Affinché ciò fosse possibile, è stato "
+"quindi necessario dedicare sufficiente attenzione e sforzo per renderlo uno "
+"strumento potente pur mantenendolo abbastanza semplice da poter essere "
+"assimilato dai bambini di 10 anni. Oltre agli educatori, ho anche lavorato "
+"direttamente con una varietà di artisti diversi in classi, gallerie d'arte, "
+"studi e luoghi nelle prime fasi dello sviluppo di Sonic Pi. Ciò ha fornito "
+"un feedback essenziale che ha consentito a Sonic Pi di crescere e, infine, "
+"prosperare come strumento per l'espressione creativa."
 
 #: A.20-creative-coding-in-the-classroom.md:126
 msgid ""
@@ -18062,6 +18431,16 @@ msgid ""
 "audio from the microphone all turn out to make the learning experience more fu"
 "n, rewarding and ultimately meaningful."
 msgstr ""
+"Ci sono stati una serie di effetti collaterali eccitanti e inaspettati di "
+"questa doppia attenzione all'istruzione e ai musicisti professionisti. Molte "
+"delle caratteristiche sono vantaggiose per entrambi i gruppi. Ad esempio, è "
+"stato fatto un grande sforzo per rendere i messaggi di errore più amichevoli "
+"e utili (piuttosto che essere un enorme complicato pasticcio di gergo). "
+"Questo risulta essere molto utile quando scrivi un bug mentre ti esibisci di "
+"fronte a migliaia di persone. Inoltre, funzionalità come la riproduzione di "
+"campioni audio di qualità da studio, l'aggiunta di effetti audio, l'accesso "
+"all'audio dal vivo dal microfono, rendono l'esperienza di apprendimento più "
+"divertente, gratificante e, in definitiva, significativa."
 
 #: A.20-creative-coding-in-the-classroom.md:137
 msgid ""
@@ -18072,10 +18451,17 @@ msgid ""
 "d makers. It is a real joy to see people learn to use code to express themselv"
 "es in new ways and for that in turn to inspire others to do the same."
 msgstr ""
+"La community di Sonic Pi continua a crescere e a condividere incredibili "
+"composizioni di codici, piani formativi, algoritmi musicali e molto altro. "
+"Gran parte di questo accade nel nostro amichevole forum in_thread (in-thread."
+"sonic-pi.net) che ospita un gruppo molto diversificato di persone che "
+"include educatori, musicisti, programmatori, artisti e creatori. È una vera "
+"gioia vedere le persone imparare a usare il codice per esprimersi in modi "
+"nuovi e questo a sua volta ispira gli altri a fare lo stesso."
 
 #: A.20-creative-coding-in-the-classroom.md:145
 msgid "Some fun capabilities"
-msgstr ""
+msgstr "Alcune caratteristiche divertenti"
 
 #: A.20-creative-coding-in-the-classroom.md:147
 msgid ""
@@ -18087,6 +18473,14 @@ msgid ""
 "ching, distributed computing and determinism - all whilst keeping things simpl"
 "e enough to explain to a 10 year old child."
 msgstr ""
+"Dal punto di vista dell'informatica, Sonic Pi ti fornisce i fondamenti di "
+"conoscenza per insegnarti le nozioni di base che si trovano nel curriculum "
+"del Regno Unito come sequenziamento, iterazione, condizionali, funzioni, "
+"strutture dati, algoritmi, ecc. Tuttavia, si basa anche su un numero di "
+"concetti importanti e rilevanti che sono stati adottati nell'industria "
+"tradizionale come concorrenza, eventi, comparazione di pattern, calcolo "
+"distribuito e determinismo, il tutto mantenendo le cose abbastanza semplici "
+"da poter essere spiegate a un bambino di 10 anni."
 
 #: A.20-creative-coding-in-the-classroom.md:156
 #, fuzzy
@@ -18095,7 +18489,7 @@ msgstr "Get"
 
 #: A.20-creative-coding-in-the-classroom.md:162
 msgid "A melody can be constructed with one more command, sleep:"
-msgstr ""
+msgstr "Una melodia può essere costruita con un ulteriore comando, sleep:"
 
 #: A.20-creative-coding-in-the-classroom.md:164
 #, no-wrap
@@ -18122,6 +18516,14 @@ msgid ""
 "e any melody they've ever heard. This leads to huge variety in expressive outc"
 "omes whilst focussing on the same computing concept: sequencing in this case."
 msgstr ""
+"In questo esempio, suoniamo la nota 70 (all'incirca la settantesima nota su "
+"un pianoforte), attendiamo 1 secondo, suoniamo la nota 72, attendiamo mezzo "
+"secondo e quindi suoniamo la nota 75. La cosa interessante qui è che con "
+"solo due comandi abbiamo l'accesso a praticamente tutta la notazione "
+"occidentale (quali note suonare e quando) e gli studenti possono programmare "
+"qualsiasi melodia che abbiano mai sentito. Ciò porta a un'enorme varietà di "
+"risultati espressivi mentre ci si concentra sullo stesso concetto di calcolo:"
+" il sequenziamento in questo caso."
 
 #: A.20-creative-coding-in-the-classroom.md:180
 msgid ""
@@ -18129,6 +18531,10 @@ msgid ""
 "rded sound. Sonic Pi can play any audio file on your computer but also has a n"
 "umber of sounds built-in to make things easy to get started:"
 msgstr ""
+"Prendendo spunti dal mondo della musica professionale, possiamo anche "
+"riprodurre qualsiasi suono registrato. Sonic Pi può riprodurre qualsiasi "
+"file audio sul tuo computer, ma ha anche una serie di suoni integrati per "
+"rendere le cose facili subito dall'inizio:"
 
 #: A.20-creative-coding-in-the-classroom.md:189
 msgid ""
@@ -18136,6 +18542,10 @@ msgid ""
 "op, Drum and Bass and Jungle. For example, a number of early hip-hop artists p"
 "layed this drum break back at half speed to give it a more laid-back feeling:"
 msgstr ""
+"Questo codice riprodurrà un ritmo di batteria che è stato una pietra miliare "
+"del primo hip-hop, Drum and Bass e Jungle. Ad esempio, un certo numero di "
+"primi artisti hip-hop hanno suonato questo ritmo di batteria a velocità "
+"dimezzata per dargli un andamento più rilassato:"
 
 #: A.20-creative-coding-in-the-classroom.md:198
 msgid ""
@@ -18143,6 +18553,9 @@ msgid ""
 "artists to take drum breaks like this apart and reassemble in a different orde"
 "r. For example:"
 msgstr ""
+"Negli anni '90 una serie di scene musicali sono esplose grazie alla nuova "
+"tecnologia che ha consentito agli artisti di smontare le parti di batteria "
+"come questa e di riassemblarle in un ordine diverso. Per esempio:"
 
 #: A.20-creative-coding-in-the-classroom.md:202
 #, no-wrap
@@ -18466,19 +18879,19 @@ msgstr "`M-}` - Sposta il buffer a destra"
 
 #: B.02-Shortcut-Cheatsheet.md:26
 msgid "`S-M-0` - Switch to buffer 0"
-msgstr ""
+msgstr "`S-M-0` - Passa al buffer 0"
 
 #: B.02-Shortcut-Cheatsheet.md:27
 msgid "`S-M-1` - Switch to buffer 1"
-msgstr ""
+msgstr "`S-M-1` - Passa al buffer 1"
 
 #: B.02-Shortcut-Cheatsheet.md:28
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: B.02-Shortcut-Cheatsheet.md:29
 msgid "`S-M-9` - Switch to buffer 9"
-msgstr ""
+msgstr "`S-M-9` - Passa al buffer 9"
 
 #: B.02-Shortcut-Cheatsheet.md:30
 msgid "`M-+` - Increase text size of current buffer"
@@ -18835,10 +19248,17 @@ msgid ""
 "e the `live_audio` functionality to combine code with traditional instruments "
 "such as a guitar or a microphone."
 msgstr ""
+"Non limitarti a suonare da solo: forma una band di programmazione dal vivo! "
+"È molto divertente suonare con gli altri. Una persona potrebbe suonare "
+"ritmi, un'altra sottofondo ambientale, ecc. Usa la funzionalità `live_audio` "
+"per combinare il codice con strumenti tradizionali come una chitarra o un "
+"microfono."
 
 #: B.04-Performing.md:27
 msgid "See what interesting combinations of sounds you can create with code."
 msgstr ""
+"Guarda quali combinazioni di suoni interessanti puoi creare col codice di "
+"programmazione."
 
 #: B.04-Performing.md:29
 msgid "TOPLAP"
