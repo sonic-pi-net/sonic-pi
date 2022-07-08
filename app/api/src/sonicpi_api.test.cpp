@@ -1,6 +1,6 @@
 #include <cassert>
 #include <iostream>
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 #include <api/sonicpi_api.h>
 #include <api/logger.h>
