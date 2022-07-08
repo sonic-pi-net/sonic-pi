@@ -120,7 +120,7 @@ relevant licenses:
 
 
 ### Included Ruby Libraries for Spider Language Server
-(contents of [app/server/ruby/vendor/](https://github.com/sonic-pi-net/sonic-pi/tree/stable/app/server/vendor))
+(contents of [app/server/ruby/vendor/](https://github.com/sonic-pi-net/sonic-pi/tree/stable/app/server/ruby/vendor))
 
 * [ActiveSupport](https://github.com/rails/rails/tree/master/activesupport) - [MIT License](http://opensource.org/licenses/MIT)
 * [AST](https://github.com/whitequark/ast) - [MIT License](http://opensource.org/licenses/MIT)
@@ -161,7 +161,7 @@ relevant licenses:
 
 
 ### Included Elixir Libraries for Tau IO Server
-(contents of [app/server/beam/tau/deps/](https://github.com/sonic-pi-net/sonic-pi/tree/stable/app/server/beam/tau/deps)):
+(contents of app/server/beam/tau/deps/):
 
 * [castore](https://github.com/elixir-mint/castore) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
 * [cowboy](https://github.com/ninenines/cowboy) - [ISC License](https://opensource.org/licenses/ISC)
