@@ -653,7 +653,7 @@ register_api = lambda do |server|
 
   server.add_method("/midi-stop") do |args|
     incoming_token = args[0]
-    if incoming_token == tokne
+    if incoming_token == token
       silent = args[1] == 1
       sp.__midi_system_stop(silent)
     else
