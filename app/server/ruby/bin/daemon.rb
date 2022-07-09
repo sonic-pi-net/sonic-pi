@@ -157,6 +157,8 @@ module SonicPi
         @scsynth_booter  = nil
         @tau_booter      = nil
         @spider_booter   = nil
+        @compton_booter  = nil
+
 
         # use a value within the valid range for a 32 bit signed complement integer
         @daemon_token =  rand(-2147483647..2147483647)
@@ -170,6 +172,9 @@ module SonicPi
         else
           Util.log "SuperCollider inputs enabled by GUI"
         end
+        
+        #start compton to handle transparency (needs to be after Util.open_log)
+        @compton_booter = ComptonBooter.new if Util.os == :raspberry 
 
         # Get a map of port numbers to use
         #
@@ -567,7 +572,7 @@ module SonicPi
       end
 
       def cleanup_any_running_processes
-        [@spider_booter, @scsynth_booter, @tau_booter].map do |p|
+        [@spider_booter, @scsynth_booter, @tau_booter, @compton_booter].map do |p|
           Thread.new do
             begin
               p.kill if p
@@ -1026,6 +1031,14 @@ module SonicPi
       end
     end
 
+    class ComptonBooter < ProcessBooter
+      def initialize
+        cmd = "compton"
+        args = []
+        log_file = nil
+        super(cmd, args, log_file)
+      end
+    end
 
     class ScsynthBooter < ProcessBooter
 
@@ -1453,7 +1466,6 @@ begin
   else
     SonicPi::Daemon::Init.new
   end
-
 
 
 rescue StandardError => e
