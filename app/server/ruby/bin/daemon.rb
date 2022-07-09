@@ -161,10 +161,6 @@ module SonicPi
         # use a value within the valid range for a 32 bit signed complement integer
         @daemon_token =  rand(-2147483647..2147483647)
 
-        Util.open_log
-        Util.log "Welcome to the Daemon Booter"
-        Util.log "----------------------------\n"
-
         if @no_scsynth_inputs
           Util.log "SuperCollider inputs disabled by GUI"
         else
@@ -220,6 +216,7 @@ module SonicPi
 
         Util.log "Booting Scsynth"
         @scsynth_booter = ScsynthBooter.new(@ports, @no_scsynth_inputs)
+        Util.log "Extracting Scsynth info"
         success, info = @scsynth_booter.read_info
         if success
           Thread.new do
@@ -283,7 +280,7 @@ module SonicPi
         # SC_AudioDriver: sample rate = 48000.000000, driver's block size = 32
         # SuperCollider 3 server ready.
 
-        res = info.match  /.*"(.*)" Input Device\s+Streams: [0-9]+\s+0\s+channels (.*)\s+"(.*)" Output Device\s+Streams: [0-9]+\s+0\s+channels (.*)\s/
+        res = info.match  /.*^"(.*)" Input Device\s+Streams: [0-9]+\s+0\s+channels (.*)\s+^"(.*)" Output Device\s+Streams: [0-9]+\s+0\s+channels (.*)\s/u
 
         ##<MatchData
         # "\"MacBook Pro Microphone\" Input Device\n   Streams: 1\n      0  channels 1\n\n\"MacBook Pro Speakers\" Output Device\n   Streams: 1\n      0  channels 2\n"
@@ -319,7 +316,7 @@ module SonicPi
           info_m = {}
         end
 
-        res2 = info.match /.*SC_AudioDriver: sample rate = (.*), driver's block size = (.*)\s/ #'
+        res2 = info.match /.*SC_AudioDriver: sample rate = (.*), driver's block size = (.*)\s/u #'
 
         ##<MatchData "SC_AudioDriver: sample rate = 48000.000000, driver's block size = 32\n" 1:"48000.000000" 2:"32">
 
@@ -394,11 +391,11 @@ module SonicPi
         # SuperCollider 3 server ready.
 
         booting_with = info.split("Booting with")[1] || ""
-        res = booting_with.match /^\s+In: (.*?)\s+Out: (.*?)\s+Sample rate: (.*?)\s+Latency \(in\/out\): (.*) \/ (.*) sec/
+        res = booting_with.match /^\s+In: (.*?)^\s+Out: (.*?)^\s+Sample rate: (.*?)^\s+Latency \(in\/out\): (.*) \/ (.*) sec/u
 
-        res_no_input = booting_with.match /^\s+Out: (.*?)\s+Sample rate: (.*?)\s+Latency \(in\/out\): (.*) \/ (.*) sec/
+        res_no_input = booting_with.match /^\s+Out: (.*?)^\s+Sample rate: (.*?)^\s+Latency \(in\/out\): (.*) \/ (.*) sec/u
 
-        res_no_output = booting_with.match /^\s+In: (.*?)\s+Sample rate: (.*?)\s+Latency \(in\/out\): (.*) \/ (.*) sec/
+        res_no_output = booting_with.match /^\s+In: (.*?)^s+Sample rate: (.*?)^\s+Latency \(in\/out\): (.*) \/ (.*) sec/u
         #<MatchData
         # "  In: ASIO : MOTU Pro Audio\n  Out: ASIO : MOTU Pro Audio\n  Sample rate: 48000.000\n  Latency (in/out): 0.003 / 0.004 sec"
         # 1:"ASIO : MOTU Pro Audio"
@@ -438,7 +435,7 @@ module SonicPi
           info_m = {}
         end
 
-        res2 = booting_with.match /.*SC_AudioDriver: sample rate = (.*), driver's block size = (.*)\s/ #'
+        res2 = booting_with.match /.*SC_AudioDriver: sample rate = (.*), driver's block size = (.*)\s/u #'
 
         ##<MatchData "SC_AudioDriver: sample rate = 48000.000000, driver's block size = 64\n" 1:"48000.000000" 2:"64">
 
@@ -464,7 +461,7 @@ module SonicPi
         # SC_AudioDriver: sample rate = 48000.000000, driver's block size = 2048
         # SuperCollider 3 server ready."
 
-        res = info.match(/.*sample rate = (.*?), driver's block size = (.*?)\nSuperCollider 3/)
+        res = info.match(/.*sample rate = (.*?), driver's block size = (.*?)\nSuperCollider 3/u)
 
         if res
           return {sc_sample_rate: res[1].to_i, sc_block_size: res[2].to_i}
@@ -520,17 +517,21 @@ module SonicPi
       end
 
       def send_scsynth_info_to_gui!(info_s)
+        begin
+          info_m = extract_scsynth_log_info(info_s)
+          hw_info_s = scsynth_log_str(info_m)
 
-        info_m = extract_scsynth_log_info(info_s)
-        hw_info_s = scsynth_log_str(info_m)
+          Util.log "Sending scsynth info to GUI..."
+          Util.log "\nRaw:\n---\n #{info_s}"
+          Util.log "\nExtracted:\n---------\n #{info_m.to_s}"
+          Util.log "\nPretty:\n------\n #{hw_info_s}"
+          Util.log "\n---\n"
 
-        Util.log "Sending scsynth info to GUI..."
-        Util.log "\nRaw:\n---\n #{info_s}"
-        Util.log "\nExtracted:\n---------\n #{info_m.to_s}"
-        Util.log "\nPretty:\n------\n #{hw_info_s}"
-        Util.log "\n---\n"
-
-        @api_server.send("localhost", @ports["gui-listen-to-spider"], "/scsynth/info", hw_info_s)
+          @api_server.send("localhost", @ports["gui-listen-to-spider"], "/scsynth/info", hw_info_s)
+        rescue => e
+          Util.log "Exception sending scsynth info to gui:"
+          Util.log_error(e)
+        end
       end
 
       def boot_tau!(wait_for_pid = true)
@@ -785,9 +786,11 @@ module SonicPi
           @io_thr = Thread.new do
             @stdout_and_err.each do |line|
               begin
+                line = line.force_encoding("UTF-8")
                 @log_file << line
                 @log_file.flush
                 @log << line if @record_log
+                Util.log "log: #{@log.encoding}, #{line.encoding}, #{line}"
               rescue IOError
                 # don't attempt to write
               end
@@ -1448,15 +1451,18 @@ end
 
 
 begin
+  SonicPi::Daemon::Util.open_log
+  SonicPi::Daemon::Util.log "Welcome to the Daemon Booter"
+  SonicPi::Daemon::Util.log "----------------------------\n"
+
   if ARGV[0] == "--no-scsynth-inputs"
     SonicPi::Daemon::Init.new(no_scsynth_inputs: true)
   else
     SonicPi::Daemon::Init.new
   end
-
-
-
 rescue StandardError => e
   SonicPi::Daemon::Util.log "[BUG] - ** Daemon Internal Error. **"
   SonicPi::Daemon::Util.log_error(e)
+else
+  SonicPi::Daemon::Util.log "Daemon Finished. Cheerio."
 end
