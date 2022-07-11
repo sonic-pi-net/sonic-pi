@@ -9,7 +9,7 @@ rm -rf build
 
 echo "Cleaning out BEAM distribution..."
 rm -rf server/beam/tau/_build
-rm -rf server/beam/tau/priv/*.{so,dylib,dll}
+rm -f server/beam/tau/priv/*.{so,dylib,dll}
 if [ "$MIX_ENV" == dev ]; then
     rm -rf server/beam/tau/priv/static/assets
     rm -rf server/beam/tau/priv/static/cache_manifest.json
