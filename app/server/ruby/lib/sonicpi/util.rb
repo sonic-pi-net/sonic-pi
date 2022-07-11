@@ -19,12 +19,12 @@ module SonicPi
   module Util
     # Check which OS we're on
     case RUBY_PLATFORM
-    when /.*arm.*-linux.*/
-      @@os = :raspberry
-    when /aarch64.*linux.*/
-      @@os = :raspberry
     when /.*linux.*/
-      @@os = :linux
+      if File.exist?('/etc/rpi-issue')
+        @@os = :raspberry
+      else
+        @@os = :linux
+      end
     when /.*darwin.*/
       @@os = :osx
     when /.*mingw.*/
