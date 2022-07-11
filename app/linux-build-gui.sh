@@ -4,7 +4,7 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 WORKING_DIR="$(pwd)"
 
 cd "${SCRIPT_DIR}"/build
-cmake --build . --config Release
+cmake --build .
 
 "${SCRIPT_DIR}"/linux-post-tau-prod-release.sh "${args[@]}"
 
