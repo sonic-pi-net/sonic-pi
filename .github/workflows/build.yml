@@ -193,6 +193,7 @@ jobs:
 
     - name: Build Windows
       working-directory: ${{github.workspace}}/app
+      shell: cmd
       run: win-build-gui.bat ${{ matrix.build_type }}
       if: matrix.os == 'windows-latest'
 
