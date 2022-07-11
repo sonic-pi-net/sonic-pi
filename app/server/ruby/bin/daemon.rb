@@ -627,12 +627,12 @@ module SonicPi
 
       def self.os
         case RUBY_PLATFORM
-        when /.*arm.*-linux.*/
-          :raspberry
-        when /aarch64.*linux.*/
-          :raspberry
         when /.*linux.*/
-          :linux
+          if File.exist?('/etc/rpi-issue')
+            :raspberry
+          else
+            :linux
+          end
         when /.*darwin.*/
           :macos
         when /.*mingw.*/

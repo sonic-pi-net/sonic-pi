@@ -20,10 +20,12 @@ require 'fileutils'
 require 'rbconfig'
 ruby_api = RbConfig::CONFIG['ruby_version']
 os = case RUBY_PLATFORM
-     when /.*arm.*-linux.*/
-       :raspberry
      when /.*linux.*/
-       :linux
+       if File.exist?('/etc/rpi-issue')
+         :raspberry
+       else
+         :linux
+       end
      when /.*darwin.*/
        :osx
      when /.*mingw.*/
