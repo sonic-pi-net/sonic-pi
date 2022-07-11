@@ -23,7 +23,6 @@ echo "Compiling native ruby extensions..."
 "$RUBY" "${SCRIPT_DIR}"/server/ruby/bin/compile-extensions.rb
 
 "${SCRIPT_DIR}"/mac-pre-translations.sh
-"${SCRIPT_DIR}"/mac-pre-tau-prod-release.sh
 
 # Restore working directory as it was prior to this script running...
 cd "${WORKING_DIR}"
