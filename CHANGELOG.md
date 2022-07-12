@@ -1,4 +1,5 @@
 # History
+* [v4.0.1 'Verknüpfen'](#v4.0.1), 12th July 2022
 * [v4.0.0 'Link'](#v4.0.0), 6th July, 2022
 * [v3.3.1 'Beamer'](#v3.3.1), 1st Feb, 2021
 * [v3.3 'Beam'](#v3.3), 28th Jan, 2021
@@ -24,6 +25,18 @@
 * [v2.0.1](#v2.0.1), 9th Sept, 2014
 * [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
 
+<a name="v4.0.1"></a>
+
+## Version 4.0.1 'Verknüpfen'
+12th July 2022
+<!-- [(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v4.0.1): -->
+
+This is a bugfix release addressing a startup issue for a number of users with non-ASCII characters within audio harware information on macOS.
+
+We also sadly say goodbye to Core Team member Hanno Zulla who did amazing work with Linux packaging - especially getting Sonic Pi into Debian. Hanno also spearheaded the translation work setting up the crowdsourced translation system which has now enabled Sonic Pi to be translated into over 50 languages. Thank-you so much Hanno - we wish you success and happiness in all you do going forwards.
+
+This release also includes Italian and Polish translation updates.
+
 <a name="v4.0.0"></a>
 
 ## Version 4.0.0 'Link'
@@ -32,79 +45,24 @@
 
 Get ready to Jam with v4 of Sonic Pi. 
 
-In this release, the internal timing algorithms have been completely
-refactored to enable them to link to a new global metronome. The GUI now
-features a new metronome panel which will let you dynamically _change
-the BPM_ of your code _whilst it is running_. You can also use the new
-"Tap Tempo" button to click out a tempo and Sonic Pi will automatically
-shift to play in time with your taps. Additionally, you can link the
-metronome with other versions of Sonic Pi running on other computers
-connected to the same network (wifi or ethernet). This means it is now
-possible to gather some laptops together to form an ensemble or turn a
-whole classroom of computers into an orchestra of live coders - and for
-everyone to be in time with each other. You can even dynamically change
-the BPM for _everyone on the network_ whilst code is _running on
-everyone's computers independently_ and everything _maintains
-synchronised_ and _in time_. It's a real jam.
+In this release, the internal timing algorithms have been completely refactored to enable them to link to a new global metronome. The GUI now features a new metronome panel which will let you dynamically _change the BPM_ of your code _whilst it is running_. You can also use the new "Tap Tempo" button to click out a tempo and Sonic Pi will automatically shift to play in time with your taps. Additionally, you can link the metronome with other versions of Sonic Pi running on other computers connected to the same network (wifi or ethernet). This means it is now possible to gather some laptops together to form an ensemble or turn a whole classroom of computers into an orchestra of live coders - and for everyone to be in time with each other. You can even dynamically change the BPM for _everyone on the network_ whilst code is _running on everyone's computers independently_ and everything _maintains synchronised_ and _in time_. It's a real jam. 
 
-Finally, you're not limited to syncing tempo with other copies of Sonic
-Pi. The new global metronome is built on top of a wonderful piece of
-technology called [Link](https://www.ableton.com/en/link/) which was
-developed and open sourced by [Ableton](https://www.ableton.com) who
-also make [Live](https://www.ableton.com/en/live/) and
-[Push](https://www.ableton.com/en/push/), both widely used by
-professional musicians and also automatically sync using
-Link. Additionally there are also over
-[200 other apps or hardware products](https://www.ableton.com/en/link/products/)
-that also sync with Link. Sonic Pi can therefore now automatically jam
-with any of these with just a click of a button. It's so exciting to
-imagine the new kinds of bands and collaborations that are going to be
-possible with this new timing system.
+Finally, you're not limited to syncing tempo with other copies of Sonic Pi. The new global metronome is built on top of a wonderful piece of technology called [Link](https://www.ableton.com/en/link/) which was developed and open sourced by [Ableton](https://www.ableton.com) who also make [Live](https://www.ableton.com/en/live/) and [Push](https://www.ableton.com/en/push/), both widely used by professional musicians and also automatically sync using Link. Additionally there are also over [200 other apps or hardware products](https://www.ableton.com/en/link/products/) that also sync with Link. Sonic Pi can therefore now automatically jam with any of these with just a click of a button. It's so exciting to imagine the new kinds of bands and collaborations that are going to be possible with this new timing system. 
+ 
+There's also a large number of other improvements and fixes within this release that together combine to form the most powerful and exciting release of Sonic Pi yet. See below for a full breakdown of visible changes.
 
-There's also a large number of other improvements and fixes within this
-release that together combine to form the most powerful and exciting
-release of Sonic Pi yet. See below for a full breakdown of visible
-changes.
+This release would not have been possible without the huge number of fabulous contributors that have been involved. Key contributions have been a huge refactoring of our GUI by Chris Maughan, the wrapping of Link as an Erlang NIF by Luis Lloret and the tireless and constant attention to detail by Ethan Crawford. Thanks so much to you all. Thanks also to José Valim for financially supporting development during a tricky period. José is the creator of the programming language Elixir which is now integrated into the internals of Sonic Pi. Elixir opens up a rich world of exciting opportunities within Sonic Pi which we have already started exploring with earnest. Expect exciting things for the future and consider becoming a [Patreon supporter](https://patreon.com/samaaron) to automatically get access to all upcoming BETAs..... 
 
-This release would not have been possible without the huge number of
-fabulous contributors that have been involved. Key contributions have
-been a huge refactoring of our GUI by Chris Maughan, the wrapping of
-Link as an Erlang NIF by Luis Lloret and the tireless and constant
-attention to detail by Ethan Crawford. Thanks so much to you all. Thanks
-also to José Valim for financially supporting development during a
-tricky period. José is the creator of the programming language Elixir
-which is now integrated into the internals of Sonic Pi. Elixir opens up
-a rich world of exciting opportunities within Sonic Pi which we have
-already started exploring with earnest. Expect exciting things for the
-future and consider becoming a
-[Patreon supporter](https://patreon.com/samaaron) to automatically get
-access to all upcoming BETAs.....
-
-Finally, we would love for you all to extend a warm welcome to the latest
-member of the Sonic Pi Core Team: Lily Foster. She brings a huge depth of
-Linux knowledge to the team and we're terrifically excited to have her on board.
+Finally, we would love for you all to extend a warm welcome to the latest member of the Sonic Pi Core Team: Lily Foster. She brings a huge depth of Linux knowledge to the team and we're terrifically excited to have her on board.
 
 Now, go and get your Live Coded Jam On!
 
 
 ### Breaking Changes
-* The default BPM is now set to the new global Link metronome. This is
-  set to 60 by default, so on the surface the behaviour will appear
-  identical. However, if you change the Link metronome BPM using the GUI
-  or the new fn `set_link_bpm!` it will change the BPM for all threads
-  dynamically. Previous behaviour (a static BPM of 60 unlinked to the
-  global metronome) can be obtained by starting your code with `use_bpm 60`.
-* Previously it was possible that the `onset:` option for `sample`
-  silently ignored the last onset of a given sample. This has now been
-  fixed. Some samples may therefore have an additional onset index which
-  won't affect any code using earlier indexes but will affect code which
-  uses indexes larger than the number of onsets (and therefore relying
-  on the index wrapping behaviour).
-* The Minecraft Pi Edition API has been removed (all `mc_`
-  fns). Minecraft Pi Edition appears to no longer ship on Raspberry Pi
-  OS and the Pi Edition API is not the same as the standard Minecraft
-  API.
-
+* The default BPM is now set to the new global Link metronome. This is set to 60 by default, so on the surface the behaviour will appear identical. However, if you change the Link metronome BPM using the GUI or the new fn `set_link_bpm!` it will change the BPM for all threads dynamically. Previous behaviour (a static BPM of 60 unlinked to the global metronome) can be obtained by starting your code with `use_bpm 60`.
+* Previously it was possible that the `onset:` option for `sample` silently ignored the last onset of a given sample. This has now been fixed. Some samples may therefore have an additional onset index which won't affect any code using earlier indexes but will affect code which uses indexes larger than the number of onsets (and therefore relying on the index wrapping behaviour).
+* The Minecraft Pi Edition API has been removed (all `mc_` fns). Minecraft Pi Edition appears to no longer ship on Raspberry Pi OS and the Pi Edition API is not the same as the standard Minecraft API.
+* The main mixer settings have been modified to reduce load on the limiter in common scenaries with the GUI volume slider set to a high position. This caused distortion and other unwanted audio issues. This change should be an improvement for most users - however if you wish to return to the old behaviour, you can run the following at the start of your session: `set_mixer_control! pre_amp: 1, amp: 1`.
 
 ### New 
 * Support for [Ableton Link](https://www.ableton.com/link/). This enables you to synchronise the tempo of Sonic Pi running on multiple computers connected on the same network. It will also enable automatic BPM synchronisation with music production tools such as Ableton Live, VJ tools such as Resolume, DJ hardware such as the MPC and many compatible iPad music apps. For a full list see: https://www.ableton.com/link/products/,,
@@ -115,6 +73,7 @@ Now, go and get your Live Coded Jam On!
 * New fn `current_random_source` which returns the current random number source kind (see `use_random_source`).
 * New fn `load_synthdef` which lets you load a single synthdef file.
 * `load_synthdefs` now loads both directories and single files (by dispatching to `load_synthdef` where necessary).
+
 
 
 ### Synths & FX
