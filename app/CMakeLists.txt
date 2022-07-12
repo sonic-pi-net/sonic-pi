@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.13)
 
 option(USE_SYSTEM_LIBS "Build using system libraries instead of vcpkg libraries" OFF)
 
-message(STATUS " CMakeLists: Sonic Pi")
+message(STATUS "CMakeLists: Sonic Pi")
 
 # Sonic Pi Requires a C++ 17 Compiler to build it
 set(CMAKE_CXX_STANDARD 17)
