@@ -75,5 +75,3 @@ elseif(UNIX)
     include_directories(${ERLANG_INCLUDE_PATH})
     target_link_libraries(libsp_link Ableton::Link)
 endif(MSVC)
-
-install(TARGETS libsp_link LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX})

@@ -44,7 +44,6 @@ include(cmake/common.cmake)
 
 configure_file(${APP_ROOT}/cmake/config.h.cmake ${CMAKE_BINARY_DIR}/config.h)
 
-add_subdirectory(external)
 add_subdirectory(api)
 add_subdirectory(api-tests)
 add_subdirectory(gui)
