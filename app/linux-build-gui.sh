@@ -6,7 +6,5 @@ WORKING_DIR="$(pwd)"
 cd "${SCRIPT_DIR}"/build
 cmake --build .
 
-"${SCRIPT_DIR}"/linux-post-tau-prod-release.sh "${args[@]}"
-
 # Restore working directory as it was prior to this script running...
 cd "${WORKING_DIR}"

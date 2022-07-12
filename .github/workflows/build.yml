@@ -197,6 +197,23 @@ jobs:
       run: win-build-gui.bat ${{ matrix.build_type }}
       if: matrix.os == 'windows-latest'
 
+    # Build Tau server
+    - name: Build Tau Server (Linux)
+      working-directory: ${{github.workspace}}/app
+      run: ./linux-post-tau-prod-release.sh
+      if: matrix.os == 'ubuntu-latest'
+
+    - name: Build Tau Server (Mac)
+      working-directory: ${{github.workspace}}/app
+      run: ./mac-post-tau-prod-release.sh
+      if: matrix.os == 'macos-latest'
+
+    - name: Build Tau Server (Windows)
+      working-directory: ${{github.workspace}}/app
+      shell: cmd
+      run: win-post-tau-prod-release.bat
+      if: matrix.os == 'windows-latest'
+
     - name: BEAM Tests Windows
       shell: cmd
       working-directory: ${{github.workspace}}/app/server/beam/tau
