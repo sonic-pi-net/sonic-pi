@@ -18,7 +18,7 @@
 
 */
 
-#include <aubio.h>
+#include <aubio/aubio.h>
 
 #include "config.h"
 
