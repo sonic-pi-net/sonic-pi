@@ -250,3 +250,8 @@ elseif(${CMAKE_SYSTEM_NAME} MATCHES Darwin) # macOS
 else()
     message(FATAL_ERROR "Aubio is not supported on this platform.")
 endif()
+
+install(TARGETS ${PROJECT_NAME}
+LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
+install(TARGETS aubio_onset
+RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX})

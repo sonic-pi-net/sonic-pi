@@ -92,3 +92,8 @@ elseif(UNIX)
     endif(USE_SYSTEM_RTMIDI)
 endif(MSVC)
 
+if(APPLE)
+  install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/libsp_midi.dylib DESTINATION ${CMAKE_INSTALL_PREFIX} RENAME libsp_midi.so)
+else()
+  install(TARGETS libsp_midi LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX})
+endif()

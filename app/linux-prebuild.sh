@@ -30,16 +30,10 @@ if [ ! "$system_libs" == true ]; then
   "${SCRIPT_DIR}"/linux-pre-vcpkg.sh "${args[@]}"
 fi
 
-# Build external dependencies and copy to build tree
-echo "Building external binary dependencies..."
-USE_SYSTEM_LIBS="$([ "$system_libs" == true ] && echo ON || echo OFF)" "${SCRIPT_DIR}"/external/linux_build_externals.sh
-
 echo "Compiling native ruby extensions..."
 ruby "${SCRIPT_DIR}"/server/ruby/bin/compile-extensions.rb
 
 "${SCRIPT_DIR}"/linux-pre-translations.sh "${args[@]}"
-"${SCRIPT_DIR}"/linux-pre-copy-binaries.sh "${args[@]}"
-"${SCRIPT_DIR}"/linux-pre-tau-prod-release.sh "${args[@]}"
 
 # Restore working directory as it was prior to this script running...
 cd "${WORKING_DIR}"
