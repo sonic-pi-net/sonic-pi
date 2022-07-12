@@ -1,6 +1,0 @@
-if(BUILD_CXXLIBS)
-    add_subdirectory(flacdiff)
-    if(WIN32)
-        add_subdirectory(flactimer)
-    endif()
-endif()
