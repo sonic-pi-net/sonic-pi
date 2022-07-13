@@ -21,6 +21,7 @@ ln -s app/server .
 
 mkdir -p app/gui/qt
 cp -R ../../../../../../app/gui/qt/theme app/gui/qt/
+cp -R ../../../../../../app/gui/qt/lang app/gui/qt/lang
 
 ../../../../../../app/gui/qt/prune.rb app/server/ruby/vendor
 
