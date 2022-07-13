@@ -1,23 +1,23 @@
 cmake_minimum_required(VERSION 3.2)
 
-message(STATUS " CMakeLists: Sonic Pi")
+message(STATUS "CMakeLists: Sonic Pi Qt GUI")
 
 project("Sonic Pi"
-    LANGUAGES CXX C
+  LANGUAGES CXX C
   DESCRIPTION "A code-based music creation and performance tool"
-  VERSION 3.3.1
+  VERSION 4.0.1
   HOMEPAGE_URL "https://sonic-pi.net"
-  )
+)
 
 if(APPLE)
   set(CMAKE_OSX_DEPLOYMENT_TARGET "10.15")
 endif()
 
-
-
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 set(QTAPP_ROOT ${CMAKE_CURRENT_LIST_DIR})
+
+list(APPEND CMAKE_MODULE_PATH ${QTAPP_ROOT}/cmake)
 
 # Set cmake prefix path so it can find the Qt libraries
 if((${BUILD_32BIT}) AND (DEFINED ENV{QT_INSTALL_LOCATION32}))
@@ -59,9 +59,13 @@ endif()
 
 find_package(Threads REQUIRED)
 
-# We build QScintilla as part of the main project to make it easy to debug/fix
-# It is not built as part of externals
-add_subdirectory(QScintilla_src-2.13.3)
+if(USE_SYSTEM_LIBS)
+  find_package(QScintilla REQUIRED)
+else()
+  # We build QScintilla as part of the main project to make it easy to debug/fix
+  # It is not built as part of externals
+  add_subdirectory(QScintilla_src-2.13.3)
+endif()
 
 set(APP_NAME sonic-pi)
 set(MACOS_APP_NAME "Sonic Pi")
