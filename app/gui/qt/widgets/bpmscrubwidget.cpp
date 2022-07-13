@@ -125,7 +125,7 @@ void BPMScrubWidget::mouseMoveEvent(QMouseEvent* event)
     int scaled_diff = 0;
 
     if(diff > 0) {
-      scaled_diff = o1;
+      scaled_diff = 1;
     } else if(diff < 0) {
       scaled_diff = -1;
     } else {
