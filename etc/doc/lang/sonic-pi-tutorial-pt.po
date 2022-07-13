@@ -4,8 +4,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2022-07-12 23:51+0000\n"
-"Last-Translator: Lucas Cruz dos Reis <lcr.ergo@gmail.com>\n"
+"PO-Revision-Date: 2022-07-14 00:18+0000\n"
+"Last-Translator: Evandro Afonso Rodrigues <evandroafonsorodrigues@gmail.com>"
+"\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/pt/>\n"
 "Language: pt\n"
@@ -981,6 +982,8 @@ msgid ""
 "There's also a handy shortcut for a rest (a musical way of saying not to play "
 "anything instead of a note) using `:r`, `:rest` or `nil`."
 msgstr ""
+"Há também um atalho útil para uma pausa (uma maneira musical de dizer para "
+"não tocar nada em vez de uma nota) usando `:r`, `:rest` ou `nil`."
 
 #: 02.1-Your-First-Beeps.md:128
 #, fuzzy
@@ -1768,14 +1771,12 @@ msgid "play 60, attack: 0.3, sustain: 1, release: 1"
 msgstr "play 60, attack: 0.3, sustain: 1, release: 1"
 
 #: 02.4-Durations-with-Envelopes.md:145
-#, fuzzy
 msgid ""
 "![ASR envelope](../../../etc/doc/images/tutorial/env-attack-sustain-release.pn"
 "g)"
 msgstr ""
-"![envolvente  deASR](../../../etc/doc/images/tutorial/env-attack-sustain-relea"
-"se.png)\n"
-" Copiar →↵…«»“”-–—"
+"![envelope de ASR](../../../etc/doc/images/tutorial/env-attack-sustain-"
+"release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:147
 msgid ""
@@ -1869,8 +1870,8 @@ msgid ""
 "It's also possible to set the `decay_level:` to be higher than `sustain_level:"
 "`:"
 msgstr ""
-"Também é possível  contar um `decay_level:`, com um valor superior ao do `sust"
-"ain_level`"
+"Também é possível colocar um`decay_level:`, com um valor superior ao "
+"`sustain_level:`:"
 
 #: 02.4-Durations-with-Envelopes.md:185
 #, no-wrap
@@ -2128,9 +2129,9 @@ msgid ""
 "es support exactly the same parameterisation mechanism. Let's revisit our frie"
 "nds `amp:` and `pan:`."
 msgstr ""
-"Como vimos com sintetizadores, podemos, facilmente, controlar sons através do "
-"seu sistema de parametrização. Os samples suportam exactamente o mesmo mecanis"
-"mo de parametrização. Vamos reexaminar os parâmetros  `amp:` e `pan:`."
+"Como vimos com sintetizadores, podemos, facilmente, controlar sons através "
+"do seu sistema de parametrização. Os samples suportam exatamente o mesmo "
+"mecanismo de parametrização. Vamos reexaminar os parâmetros `amp:` e `pan:`."
 
 #: 03.2-Sample-Params.md:9
 msgid "Amping samples"
