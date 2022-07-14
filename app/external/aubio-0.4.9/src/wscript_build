@@ -1,0 +1,52 @@
+# vim:set syntax=python:
+
+uselib = []
+uselib += ['M']
+uselib += ['FFTW3', 'FFTW3F']
+uselib += ['INTEL_IPP']
+uselib += ['SAMPLERATE']
+uselib += ['SNDFILE']
+uselib += ['AVCODEC']
+uselib += ['AVFORMAT']
+uselib += ['SWRESAMPLE']
+uselib += ['AVRESAMPLE']
+uselib += ['AVUTIL']
+uselib += ['BLAS']
+
+source = ctx.path.ant_glob('*.c **/*.c')
+
+ctx(features = 'c',
+        source = source,
+        includes = ['.'],
+        use = uselib,
+        target = 'lib_objects')
+
+# build libaubio.so (cshlib) and/or libaubio.a (cstlib)
+if ctx.env['DEST_OS'] in ['ios', 'iosimulator']:
+    build_features = ['cstlib', 'cshlib']
+elif ctx.env['DEST_OS'] in ['win32', 'win64']:
+    build_features = ['cstlib', 'cshlib gensyms']
+elif ctx.env['DEST_OS'] in ['emscripten']:
+    build_features = ['cstlib','cshlib']
+elif '--static' in ctx.env['LDFLAGS'] or '--static' in ctx.env['LINKFLAGS']:
+    # static in cflags, ...
+    build_features = ['cstlib']
+else:
+    # linux, darwin, android, mingw, ...
+    build_features = ['cstlib', 'cshlib']
+
+# also install static lib
+from waflib.Tools.c import cstlib
+cstlib.inst_to = '${LIBDIR}'
+
+for target in build_features:
+    ctx(features = 'c ' + target,
+            use = uselib + ['lib_objects'],
+            target = 'aubio',
+            export_symbols_regex=r'(?:.*aubio|fvec|lvec|cvec|fmat|new|del)_.*',
+            vnum = ctx.env['LIB_VERSION'])
+
+# install headers, except _priv.h ones
+ctx.install_files('${INCLUDEDIR}/aubio/',
+        ctx.path.ant_glob('**/*.h', excl = ['**_priv.h', 'config.h']),
+        relative_trick=True)

@@ -1,0 +1,41 @@
+#! /bin/bash
+
+set -e
+set -x
+
+# location of android NDK
+NDK_PATH=$PWD/../contrib/android-ndk-r12
+
+WAFOPTS="--disable-avcodec --disable-samplerate --disable-jack --disable-sndfile"
+
+# set these variables to change the default values
+[ -z $PLATFORM ] && PLATFORM=android-19
+[ -z $ARCH ] && ARCH=arm
+
+# location nof the standalone toolchains, created with
+# $NDK_PATH/build/tools/make-standalone-toolchains.sh
+NDK_TOOLCHAINS=$PWD/contrib
+
+# location of the current toolchain
+CURRENT_TOOLCHAIN=$NDK_TOOLCHAINS/toolchain-$PLATFORM-$ARCH
+
+# if it does not exist, create the toolchain
+[ -d $CURRENT_TOOLCHAIN ] || \
+  $NDK_PATH/build/tools/make-standalone-toolchain.sh \
+    --platform=$PLATFORM --arch=$ARCH \
+    --install-dir=$CURRENT_TOOLCHAIN
+
+# aubio install destination directory
+DESTDIR=$PWD/dist-$PLATFORM-$ARCH
+
+# wipe it out if it exists
+[ -d $DESTDIR ] && rm -rf $DESTDIR
+
+# get the link to gcc
+CC=`ls $CURRENT_TOOLCHAIN/*-linux-android*/bin/gcc`
+
+CFLAGS="-Os" \
+  CC=$CC \
+  ./waf distclean configure build install --destdir=$DESTDIR \
+   --verbose \
+   --with-target-platform=android $WAFOPTS
