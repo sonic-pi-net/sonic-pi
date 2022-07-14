@@ -82,6 +82,7 @@ signals:
     void sp_cut();
 
     void showAutoCompletion(bool val);
+    void setText(const QString &text);
  private:
     void addKeyBinding(QSettings &qs, int cmd, int key);
     void addOtherKeyBinding(QSettings &qs, int cmd, int key);

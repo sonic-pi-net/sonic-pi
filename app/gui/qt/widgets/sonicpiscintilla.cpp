@@ -680,3 +680,7 @@ void SonicPiScintilla::showAutoCompletion(bool val) {
     setAutoCompletionThreshold(-1);
   }
 }
+
+void SonicPiScintilla::setText(const QString &text) {
+  SendScintilla(SCI_SETTEXT, ScintillaBytesConstData(textAsBytes(text)));
+}
