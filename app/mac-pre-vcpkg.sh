@@ -44,9 +44,9 @@ cd vcpkg
 triplet=(x64-osx)
 
 if [ "$no_imgui" == true ]; then
-    ./vcpkg install libsndfile kissfft crossguid platform-folders reproc catch2 --triplet ${triplet[0]} --recurse
+    ./vcpkg install libsndfile[core,external-libs] kissfft crossguid platform-folders reproc catch2 --triplet ${triplet[0]} --recurse
 else
-    ./vcpkg install libsndfile kissfft fmt sdl2 gl3w reproc gsl-lite concurrentqueue platform-folders catch2 --triplet ${triplet[0]} --recurse
+    ./vcpkg install libsndfile[core,external-libs] kissfft fmt sdl2 gl3w reproc gsl-lite concurrentqueue platform-folders catch2 --triplet ${triplet[0]} --recurse
 fi
 
 

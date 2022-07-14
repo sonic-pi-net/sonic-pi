@@ -11,7 +11,7 @@ etc., you can fetch, build and start Sonic Pi with the following:
 ```
 git clone https://github.com/sonic-pi-net/sonic-pi.git
 cd sonic-pi/app
-sudo ./pi-setup.sh
+./pi-setup.sh
 ./pi-install-elixir.sh
 ```
 
@@ -84,12 +84,10 @@ cd ~/Development/sonic-pi
 
 ## 2. Fetch the Development Dependencies
 
-Now we're ready to fetch all the development dependencies. You can do
-this by running the following script with `sudo` (this is necessary as
-it calls `apt-get` to install your packages)
+Now we're ready to fetch all the development dependencies.
 
 ```
-sudo ./app/pi-setup.sh
+./app/pi-setup.sh
 ```
 
 The versions of Erlang and Elixir installed by default are not currently
