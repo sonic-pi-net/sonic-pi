@@ -43,9 +43,9 @@ fi
 cd vcpkg
 
 if [ "$no_imgui" == true ]; then
-    ./vcpkg install libsndfile kissfft crossguid platform-folders reproc catch2 --recurse
+    ./vcpkg install libsndfile[core,external-libs] kissfft crossguid platform-folders reproc catch2 --recurse
 else
-    ./vcpkg install libsndfile kissfft fmt crossguid sdl2[x11] gl3w reproc gsl-lite concurrentqueue platform-folders catch2 --recurse
+    ./vcpkg install libsndfile[core,external-libs] kissfft fmt crossguid sdl2[x11] gl3w reproc gsl-lite concurrentqueue platform-folders catch2 --recurse
 fi
 
 
