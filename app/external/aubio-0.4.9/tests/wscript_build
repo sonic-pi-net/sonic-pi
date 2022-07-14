@@ -1,0 +1,36 @@
+# vim:set syntax=python:
+
+import os.path
+
+uselib = ['aubio']
+
+includes = ['../src', '.']
+programs_sources = ctx.path.ant_glob('src/**/*.c')
+
+test_sound_target = '44100Hz_44100f_sine441_stereo.wav'
+test_sound_abspath = bld.path.get_bld().make_node(test_sound_target)
+# workaround to double escape backslash characters on windows
+test_sound_abspath = str(test_sound_abspath).replace('\\', '\\\\')
+
+b = bld(name='create_tests_source',
+    rule='python ${SRC} ${TGT}',
+    source='create_tests_source.py',
+    target=test_sound_target)
+# use post() to create the task, keep a reference to it
+b.post()
+create_tests_source = b.tasks[0]
+
+for source_file in programs_sources:
+    target = os.path.basename(os.path.splitext(str(source_file))[0])
+    a = bld(features = 'c cprogram test',
+            source = source_file,
+            target = target,
+            includes = includes,
+            use = uselib,
+            install_path = None,
+            defines = ['AUBIO_UNSTABLE_API=1',
+                        'AUBIO_TESTS_SOURCE={}'.format(test_sound_abspath)]
+       )
+    a.post()
+    # make sure the unit_test task runs *after* the source is created
+    a.tasks[-1].set_run_after(create_tests_source)

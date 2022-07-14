@@ -1,0 +1,119 @@
+#! /bin/bash
+
+# This script cross compiles aubio for windows using mingw, four times:
+#
+#  - 32 and 64 bits with no external dependencies
+#  - 32 and 64 bits against ffmpeg
+#
+# On debian or ubuntu, you will want to 'apt-get install gcc-mingw-w64'
+
+set -e
+set -x
+
+python this_version.py -v
+VERSION=`python $PWD/this_version.py -v`
+
+FFMPEG_BUILDS_URL="https://ffmpeg.zeranoe.com/builds"
+FFMPEG_DEFAULT="3.3.3"
+
+# define some default CFLAGS
+DEF_CFLAGS="-Os -I/usr/share/mingw-w64"
+DEF_LDFLAGS=""
+
+WAFOPTS=""
+# disable external deps to make sure we don't try to use the host package
+WAFOPTS+=" --disable-samplerate --disable-jack --disable-sndfile"
+# enable ffmpeg build
+WAFOPTS+=" --disable-avcodec"
+# install without a prefix
+WAFOPTS+=" --prefix=/"
+# compile the tests, but fake running them
+# passing this option WAFOPTS fails (escaping?), added in actual waf call below
+#WAFOPTS+=" --testcmd='echo %s'"
+
+# debugging
+#WAFOPTS+=" -v"
+#WAFOPTS+=" -j1"
+#WAFOPTS+=" --notests"
+
+function fetch_ffpmeg() {
+  ## manually add ffmpeg (no pkg-config .pc files in bins)
+  [ -n "$FFMPEG_VERSION" ] || FFMPEG_VERSION=$FFMPEG_DEFAULT
+  FFMPEG_TARBALL="$PWD/ffmpeg-$FFMPEG_VERSION-$TARGET-dev.zip"
+  FFMPEG_BINARIES="${FFMPEG_TARBALL%%.zip}"
+  if [ ! -d "$FFMPEG_BINARIES" ]
+  then
+    if [ ! -f "$FFMPEG_TARBALL" ]
+    then
+      curl -O $FFMPEG_BUILDS_URL/$TARGET/dev/ffmpeg-$FFMPEG_VERSION-$TARGET-dev.zip
+    else
+      echo "using $FFMPEG_TARBALL"
+    fi
+    unzip -x $FFMPEG_TARBALL
+  else
+    echo "using $FFMPEG_BINARIES"
+  fi
+}
+
+function get_cflags() {
+  CFLAGS="$DEF_CFLAGS"
+  LDFLAGS="$DEF_LDFLAGS"
+  if [ -n "$WITH_FFMEG" ]
+  then
+    fetch_ffpmeg
+    CFLAGS+=" -DHAVE_LIBAV=1 -DHAVE_SWRESAMPLE=1"
+    CFLAGS+=" -I$FFMPEG_BINARIES/include"
+    LDFLAGS+=" -lavcodec -lavformat -lavutil -lswresample"
+    LDFLAGS+=" -L$FFMPEG_BINARIES/lib"
+  fi
+}
+
+function build_mingw() {
+  DESTDIR="$PWD/aubio-$VERSION-$TARGET"
+  [ -n "$WITH_FFMEG" ] && DESTDIR+="-ffmpeg"
+  [ -f $DESTDIR.zip ] && echo "Remove existing $DESTDIR.zip first" && exit 1
+  [ -d $DESTDIR ] && rm -rf $DESTDIR
+  WAFOPTS_TGT="$WAFOPTS --destdir=$DESTDIR"
+  WAFOPTS_TGT+=" --with-target-platform=$TARGET"
+  get_cflags
+  CFLAGS="$CFLAGS" LDFLAGS="$LDFLAGS" \
+    ./waf distclean configure build install $WAFOPTS_TGT --testcmd='echo %s'
+  # fix dll location (see https://github.com/waf-project/waf/issues/1860)
+  mv $DESTDIR/lib/libaubio-5.dll $DESTDIR/bin
+  mv $DESTDIR/lib/libaubio-5.def $DESTDIR/bin
+  zip -r $DESTDIR.zip `basename $DESTDIR`
+  rm -rf $DESTDIR
+  sha256sum $DESTDIR.zip > $DESTDIR.zip.sha256
+}
+
+function build_mingw32() {
+  TARGET=win32
+  export CC=i686-w64-mingw32-gcc
+  export NM=i686-w64-mingw32-nm
+  build_mingw
+}
+
+function build_mingw64() {
+  TARGET=win64
+  export CC=x86_64-w64-mingw32-gcc
+  export NM=x86_64-w64-mingw32-nm
+  build_mingw
+}
+
+# fetch waf if needed
+[ -f "waf" ] || make getwaf
+
+# first build without ffmpeg
+build_mingw32
+build_mingw64
+
+# then build against ffmpeg
+WITH_FFMEG=1
+build_mingw32
+build_mingw64
+
+set +x
+echo ""
+echo "All done! The following files were generated:"
+echo ""
+ls -lart aubio*.zip*

@@ -1,0 +1,85 @@
+NAME
+  aubiocut - a command line tool to slice sound files at onset or beat timestamps
+
+SYNOPSIS
+
+  aubiocut source
+  aubiocut [[-i] source]
+           [-r rate] [-B win] [-H hop]
+           [-O method] [-t thres]
+           [-b] [-c]
+           [-v] [-q] [-h]
+
+OPTIONS
+
+  This program follows the usual GNU command line syntax, with long options
+  starting with two dashes (--). A summary of options is included below.
+
+  -i, --input source  Run analysis on this audio file. Most uncompressed and
+  compressed are supported, depending on how aubio was built.
+
+  -r, --samplerate rate  Fetch the input source, resampled at the given
+  sampling rate. The rate should be specified in Hertz as an integer. If set
+  to 0, the sampling rate of the original source will be used. Defaults to 0.
+
+  -B, --bufsize win  The size of the buffer to analyze, that is the length
+  of the window used for spectral and temporal computations. Defaults to 512.
+
+  -H, --hopsize hop  The number of samples between two consecutive analysis.
+  Defaults to 256.
+
+  -O, --onset method  The onset detection method to use. See ONSET METHODS
+  below. Defaults to 'default'.
+
+  -b, --beat  Use beat locations instead of onset locations.
+
+  -t, --onset-threshold thres  Set the threshold value for the onset peak
+  picking. Values are typically in the range [0.001, 0.900]. Lower threshold
+  values imply more onsets detected. Increasing this threshold should reduce
+  the number of incorrect detections. Defaults to 0.3.
+
+  -c, --cut  Cut input sound file at detected labels. A new sound files for
+  each slice will be created in the current directory.
+
+  -o, --output directory  Specify the directory path where slices of the
+  original source should be created.
+
+  --cut-until-nsamples n  How many extra samples should be added at the end of
+  each slice (default 0).
+
+  --cut-until-nslices n  How many extra slices should be added at the end of
+  each slice (default 0).
+
+  --create-first  Alway create first slice.
+
+  -h, --help  Print a short help message and exit.
+
+  -v, --verbose  Be verbose.
+
+  -q, --quiet  Be quiet.
+
+
+ONSET METHODS
+
+  Available methods: default, energy, hfc, complex, phase, specdiff, kl, mkl,
+  specflux.
+
+  See aubioonset(1) for details about these methods.
+
+
+SEE ALSO
+
+  aubioonset(1),
+  aubiopitch(1),
+  aubiotrack(1),
+  aubionotes(1),
+  aubioquiet(1),
+  and
+  aubiomfcc(1).
+
+AUTHOR
+
+  This manual page was written by Paul Brossier <piem@aubio.org>. Permission is
+  granted to copy, distribute and/or modify this document under the terms of
+  the GNU General Public License as published by the Free Software Foundation,
+  either version 3 of the License, or (at your option) any later version.
