@@ -122,13 +122,14 @@ void BPMScrubWidget::mouseMoveEvent(QMouseEvent* event)
   if(m_isDragging)
   {
     int diff = m_lastMouseClickGlobalPos.y() - event->globalPos().y();
-    int scaled_diff = ScaleYDeltaForDPI(diff);
-    if((scaled_diff > -1) && (scaled_diff < 0)) {
-      scaled_diff = -1;
-    }
+    int scaled_diff = 0;
 
-    if((scaled_diff < 1) && (scaled_diff > 0)) {
+    if(diff > 0) {
       scaled_diff = 1;
+    } else if(diff < 0) {
+      scaled_diff = -1;
+    } else {
+      // diff is 0 - do nothing
     }
 
     if(scaled_diff != 0) {

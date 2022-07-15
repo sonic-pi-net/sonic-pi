@@ -2751,6 +2751,8 @@ end
           raise ArgumentError, "A function called #{name} is already part of Sonic Pi's core API. Please choose another name."
         end
 
+        raise ArgumentError, "Function names can't start with a capital letter." if name.to_s =~ /^[A-Z]/
+
         if already_defined
           __info "Redefining fn #{name.inspect}"
         else

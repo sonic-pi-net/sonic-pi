@@ -395,11 +395,11 @@ module SonicPi
         # SuperCollider 3 server ready.
 
         booting_with = info.split("Booting with")[1] || ""
-        res = booting_with.match /^\s+In: (.*?)^\s+Out: (.*?)^\s+Sample rate: (.*?)^\s+Latency \(in\/out\): (.*) \/ (.*) sec/u
+        res = booting_with.match /^\s+In: (.*)\s+^\s+Out: (.*)\s+^\s+Sample rate: (.*)\s+^\s+Latency \(in\/out\): (.*) \/ (.*) sec/u
 
-        res_no_input = booting_with.match /^\s+Out: (.*?)^\s+Sample rate: (.*?)^\s+Latency \(in\/out\): (.*) \/ (.*) sec/u
+        res_no_input = booting_with.match /^\s+Out: (.*)\s+^\s+Sample rate: (.*)\s+^\s+Latency \(in\/out\): (.*) \/ (.*) sec/u
 
-        res_no_output = booting_with.match /^\s+In: (.*?)^s+Sample rate: (.*?)^\s+Latency \(in\/out\): (.*) \/ (.*) sec/u
+        res_no_output = booting_with.match /^\s+In: (.*)\s+^\s+Sample rate: (.*)\s+^\s+Latency \(in\/out\): (.*) \/ (.*) sec/u
         #<MatchData
         # "  In: ASIO : MOTU Pro Audio\n  Out: ASIO : MOTU Pro Audio\n  Sample rate: 48000.000\n  Latency (in/out): 0.003 / 0.004 sec"
         # 1:"ASIO : MOTU Pro Audio"

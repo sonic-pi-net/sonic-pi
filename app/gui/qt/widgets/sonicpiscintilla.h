@@ -18,7 +18,9 @@
 #include "model/sonicpitheme.h"
 #include "widgets/sonicpilog.h"
 #include <QCheckBox>
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
 #include <QRecursiveMutex>
+#endif
 
 class SonicPiLexer;
 class QSettings;
@@ -80,6 +82,7 @@ signals:
     void sp_cut();
 
     void showAutoCompletion(bool val);
+    void setText(const QString &text);
  private:
     void addKeyBinding(QSettings &qs, int cmd, int key);
     void addOtherKeyBinding(QSettings &qs, int cmd, int key);
@@ -88,7 +91,11 @@ signals:
     void dragMoveEvent(QDragMoveEvent *event);
     bool event(QEvent *evt);
     bool autoIndent;
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
     QRecursiveMutex *mutex;
+#else
+    QMutex *mutex;
+#endif
 
 };
 
