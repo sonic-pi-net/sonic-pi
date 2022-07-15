@@ -28,7 +28,7 @@
 
 <a name="v4.0.1"></a>
 
-## Version 4.0.2 'Relink''
+## Version 4.0.2 'Relink'
 15th July 2022
 <!-- [(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v4.0.2): -->
 
