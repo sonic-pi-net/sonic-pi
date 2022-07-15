@@ -9,6 +9,7 @@
 # Compiled Dynamic libraries
 *.so
 *.dylib
+*.dll
 
 # Compiled Static libraries
 *.lai
@@ -17,6 +18,9 @@
 
 # Compiled Erlang files
 *.beam
+
+# Library files
+*.lib
 
 # MSVC stuff
 *.Debug
