@@ -1,4 +1,5 @@
 # History
+* [v4.0.2 'Relink''](#v4.0.2), 15th July 2022
 * [v4.0.1 'Verknüpfen'](#v4.0.1), 12th July 2022
 * [v4.0.0 'Link'](#v4.0.0), 6th July, 2022
 * [v3.3.1 'Beamer'](#v3.3.1), 1st Feb, 2021
@@ -26,6 +27,23 @@
 * [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
 
 <a name="v4.0.1"></a>
+
+## Version 4.0.2 'Relink''
+15th July 2022
+<!-- [(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v4.0.2): -->
+
+<a name="v4.0.2"></a>
+
+Hot on the heals of v4.0.1 here's another bugfix which fixes a critical build bug. Somehow during the major upheaval of the build process the translations never got added into the final builds, despite being part of the dev builds. This has been true since v4.0 BETA 1 back in August 2021 - yet it somehow went unnoticed until now. Apologies! This release fixes this and re-introduces the translations which are so important for lowering the barrier to entry across the world. 
+
+In addition, a couple of nice improvements also managed to sneak in for good measure:
+
+# GUI
+* All the translations are now available again - including the vast amount of new translation effort since v3.3.1 was released.
+* Loading a file no longer erases the undo history. This means that you can now "undo" a file load in the current buffer and return it to the state prior to the load.
+* The BPM-scrubbing behaviour (clicking your mouse and dragging to change the BPM) has been tweaked to make it easier to use.
+* Improvements for the Portuguese translation.
+
 
 ## Version 4.0.1 'Verknüpfen'
 12th July 2022
