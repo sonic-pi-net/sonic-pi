@@ -26,13 +26,11 @@
 * [v2.0.1](#v2.0.1), 9th Sept, 2014
 * [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
 
-<a name="v4.0.1"></a>
+<a name="v4.0.2"></a>
 
 ## Version 4.0.2 'Relink'
 15th July 2022
 <!-- [(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v4.0.2): -->
-
-<a name="v4.0.2"></a>
 
 Hot on the heals of v4.0.1 here's another bugfix release addressing an issue with the translations.
 
@@ -47,6 +45,8 @@ As a bonus, a couple of nice improvements also managed to sneak in for good meas
 * Improvements for the Portuguese translation.
 
 
+<a name="v4.0.1"></a>
+
 ## Version 4.0.1 'Verknüpfen'
 12th July 2022
 <!-- [(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v4.0.1): -->
@@ -56,6 +56,7 @@ This is a bugfix release addressing a startup issue for a number of users with n
 We also sadly say goodbye to Core Team member Hanno Zulla who did amazing work with Linux packaging - especially getting Sonic Pi into Debian. Hanno also spearheaded the translation work setting up the crowdsourced translation system which has now enabled Sonic Pi to be translated into over 50 languages. Thank-you so much Hanno - we wish you success and happiness in all you do going forwards.
 
 This release also includes Italian and Polish translation updates.
+
 
 <a name="v4.0.0"></a>
 
