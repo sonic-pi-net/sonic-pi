@@ -24,7 +24,7 @@ message(STATUS "USE_SYSTEM_LIBS: ${USE_SYSTEM_LIBS}")
 include(GNUInstallDirs)
 include(ExternalProject)
 
-set(CMAKE_OSX_DEPLOYMENT_TARGET '10.14')
+set(CMAKE_OSX_DEPLOYMENT_TARGET '10.15')
 
 # sp_midi
 ExternalProject_Add(sp_midi
