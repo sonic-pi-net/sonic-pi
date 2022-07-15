@@ -78,6 +78,8 @@ endif(MSVC)
 
 if(APPLE)
   install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/libsp_link.dylib DESTINATION ${CMAKE_INSTALL_PREFIX} RENAME libsp_link.so)
+elseif(MSVC)
+  install(TARGETS libsp_link RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX})
 else()
   install(TARGETS libsp_link LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX})
 endif()
