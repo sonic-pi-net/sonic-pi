@@ -88,7 +88,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3974"/>
         <source>Enabling MIDI input...</source>
-        <translation type="unfinished"></translation>
+        <translation>Đang bật đầu vào MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3982"/>
