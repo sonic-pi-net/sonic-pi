@@ -42,5 +42,14 @@ module SonicPi
       end
     end
 
+    def test_beat
+      @lang.run do
+        use_bpm 60
+        assert_equal beat, 0
+        sleep 2
+        assert_equal beat, 2
+      end
+    end
+
   end
 end

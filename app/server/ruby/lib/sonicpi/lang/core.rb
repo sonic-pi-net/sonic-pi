@@ -4085,13 +4085,13 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
           opts:          nil,
           accepts_block: false,
           examples:      ["
-  use_bpm 120  # The current BPM makes no difference
-  puts beat    #=> 0
-  sleep 1
-  puts beat    #=> 1
-  use_bpm 2000
-  sleep 2
-  puts beat    #=> 3"]
+use_bpm 120  #=> The initial beat does not start at 0
+puts beat    #=> 109252.703125
+sleep 1
+puts beat    #=> 109253.703125
+use_bpm 2000 # Changing the BPM makes no difference
+sleep 2
+puts beat    #=> 109255.703125"]
 
 
 
