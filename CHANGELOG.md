@@ -1,5 +1,6 @@
 # History
-* [v4.0.2 'Relink''](#v4.0.2), 15th July 2022
+* [v4.0.3 'Dovetail'](#v4.0.3), 18th July 2022
+* [v4.0.2 'Relink'](#v4.0.2), 15th July 2022
 * [v4.0.1 'Verknüpfen'](#v4.0.1), 12th July 2022
 * [v4.0.0 'Link'](#v4.0.0), 6th July, 2022
 * [v3.3.1 'Beamer'](#v3.3.1), 1st Feb, 2021
@@ -25,6 +26,25 @@
 * [v2.1 'Core'](#v2.1), 21st Nov, 2014
 * [v2.0.1](#v2.0.1), 9th Sept, 2014
 * [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
+
+
+<a name="v4.0.3"></a>
+
+## Version 4.0.3 'Dovetail'
+18th July 2022
+<!-- [(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v4.0.3): -->
+
+This is a minor bugfix and maintenance release.
+
+### Improvements
+* The docs for `beat` have been updated to reflect the beat value can no longer be assumed to start at `0`. This changed since Ableton Link integration in v4 which now defines the initial beat value based on its internal state.
+
+### Translations
+* Minor improvements to the Vietnamese translation.
+
+### Bugfixes
+* A regression in the function `midi_sysex` introduced in v4 has been resolved. `midi_sysex` can now be called as expected.
+
 
 <a name="v4.0.2"></a>
 
@@ -84,6 +104,7 @@ Now, go and get your Live Coded Jam On!
 * Previously it was possible that the `onset:` option for `sample` silently ignored the last onset of a given sample. This has now been fixed. Some samples may therefore have an additional onset index which won't affect any code using earlier indexes but will affect code which uses indexes larger than the number of onsets (and therefore relying on the index wrapping behaviour).
 * The Minecraft Pi Edition API has been removed (all `mc_` fns). Minecraft Pi Edition appears to no longer ship on Raspberry Pi OS and the Pi Edition API is not the same as the standard Minecraft API.
 * The main mixer settings have been modified to reduce load on the limiter in common scenaries with the GUI volume slider set to a high position. This caused distortion and other unwanted audio issues. This change should be an improvement for most users - however if you wish to return to the old behaviour, you can run the following at the start of your session: `set_mixer_control! pre_amp: 1, amp: 1`.
+* The value returned by `beat` no longer starts at `0`. Instead it is now initialised with Ableton Link's current beat value. Other than the initial value not being `0`, `beat`'s behaviour remains unchanged.
 
 ### New 
 * Support for [Ableton Link](https://www.ableton.com/link/). This enables you to synchronise the tempo of Sonic Pi running on multiple computers connected on the same network. It will also enable automatic BPM synchronisation with music production tools such as Ableton Live, VJ tools such as Resolume, DJ hardware such as the MPC and many compatible iPad music apps. For a full list see: https://www.ableton.com/link/products/,,
@@ -273,7 +294,7 @@ Happy Live Coding!
 *5th April, 2020*
 [(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v3.2.2):
 
-This is a minor bugfix and maintenance release. 
+This is a minor bugfix and maintenance release.
 
 ### GUI
 * Significant improvements to the Danish and Swedish translations.
