@@ -2751,7 +2751,9 @@ end
           raise ArgumentError, "A function called #{name} is already part of Sonic Pi's core API. Please choose another name."
         end
 
-        raise ArgumentError, "Function names can't start with a capital letter." if name.to_s =~ /^[A-Z]/
+        if block.arity == 0 && name.to_s =~ /^[A-Z]/
+          __delayed_warning "Functions with no required parameters shouldn't start with a capital letter."
+        end
 
         if already_defined
           __info "Redefining fn #{name.inspect}"
@@ -2768,7 +2770,9 @@ end
           accepts_block:  true,
           requires_block: true,
           intro_fn:       true,
-          doc:            "Allows you to group a bunch of code and give it your own name for future re-use. Functions are very useful for structuring your code. They are also the gateway into live coding as you may redefine a function whilst a thread is calling it, and the next time the thread calls your function, it will use the latest definition.",
+          doc:            "Allows you to group a bunch of code and give it your own name for future re-use. Functions are very useful for structuring your code. They are also the gateway into live coding as you may redefine a function whilst a thread is calling it, and the next time the thread calls your function, it will use the latest definition.
+
+Note, it is not recommended to start a function name with a capital letter if it takes no parameters.",
           examples:       ["
   # Define a new function called foo
   define :foo do
@@ -2783,7 +2787,16 @@ end
   # For example, in a block:
   3.times do
     foo
-  end",]
+  end",
+
+  "
+  # Define a new function called play2, taking one parameter
+  define :play2 do |x|
+    play x, release: 2
+  end
+
+  # Call play2, passing in a value for the parameter
+  play2 42"]
 
 
 
