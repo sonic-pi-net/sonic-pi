@@ -2751,8 +2751,8 @@ end
           raise ArgumentError, "A function called #{name} is already part of Sonic Pi's core API. Please choose another name."
         end
 
-        if block.arity == 0 && name.to_s =~ /^[A-Z]/
-          __delayed_warning "Functions with no required parameters shouldn't start with a capital letter."
+        if name.to_s =~ /^[A-Z]/
+          __delayed_warning "Warning - defined function '#{name}' starts with a capital letter and may not behave as expected. Please start functions with a lower-case letter."
         end
 
         if already_defined
