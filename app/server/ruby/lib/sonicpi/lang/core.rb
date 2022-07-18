@@ -2752,7 +2752,7 @@ end
         end
 
         if block.arity == 0 && name.to_s =~ /^[A-Z]/
-          raise ArgumentError, "Functions with no required parameters can't start with a capital letter."
+          __delayed_warning "Functions with no required parameters shouldn't start with a capital letter."
         end
 
         if already_defined
