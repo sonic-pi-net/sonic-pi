@@ -248,7 +248,7 @@ thanks to the following developers who have donated their time and
 effort to help grow and improve the Sonic Pi code base:
 
 
-* [Sam Aaron](https://github.com/sonic-pi-net/sonic-pi/commits?author=samaaron) (5264)
+* [Sam Aaron](https://github.com/sonic-pi-net/sonic-pi/commits?author=samaaron) (5278)
 * [Ethan Crawford](https://github.com/sonic-pi-net/sonic-pi/commits?author=ethancrawford) (304)
 * [Hanno Zulla](https://github.com/sonic-pi-net/sonic-pi/commits?author=hzulla) (198)
 * [Joseph Wilk](https://github.com/sonic-pi-net/sonic-pi/commits?author=josephwilk) (160)
@@ -257,8 +257,8 @@ effort to help grow and improve the Sonic Pi code base:
 * [SunderB](https://github.com/sonic-pi-net/sonic-pi/commits?author=SunderB) (96)
 * [Robin Newman](https://github.com/sonic-pi-net/sonic-pi/commits?author=rbnpi) (85)
 * [Łukasz Siwiński](https://github.com/sonic-pi-net/sonic-pi/commits?author=hopbit) (82)
+* [Emlyn Corrin](https://github.com/sonic-pi-net/sonic-pi/commits?author=emlyn) (73)
 * [Adrian Cheater](https://github.com/sonic-pi-net/sonic-pi/commits?author=factoid) (70)
-* [Emlyn Corrin](https://github.com/sonic-pi-net/sonic-pi/commits?author=emlyn) (70)
 * [Chris Maughan](https://github.com/sonic-pi-net/sonic-pi/commits?author=cmaughan) (66)
 * [Lily Foster](https://github.com/sonic-pi-net/sonic-pi/commits?author=lilyinstarlight) (48)
 * [Luis Lloret](https://github.com/sonic-pi-net/sonic-pi/commits?author=llloret) (41)
@@ -777,6 +777,7 @@ The following volunteers have generously helped to translate Sonic Pi into addit
 * Guillaume Gautier (1)
 * Guntitat Sawadwuthikul (1)
 * Gustavo Castro (1)
+* HSGamer (1)
 * Hamidreza Montaseri (1)
 * Haotong Chen (1)
 * Hyemin Shim (1)
