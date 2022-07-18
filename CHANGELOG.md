@@ -1,4 +1,5 @@
 # History
+* [v4.0.2 'Relink''](#v4.0.2), 15th July 2022
 * [v4.0.1 'Verknüpfen'](#v4.0.1), 12th July 2022
 * [v4.0.0 'Link'](#v4.0.0), 6th July, 2022
 * [v3.3.1 'Beamer'](#v3.3.1), 1st Feb, 2021
@@ -25,6 +26,25 @@
 * [v2.0.1](#v2.0.1), 9th Sept, 2014
 * [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
 
+<a name="v4.0.2"></a>
+
+## Version 4.0.2 'Relink'
+15th July 2022
+<!-- [(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v4.0.2): -->
+
+Hot on the heals of v4.0.1 here's another bugfix release addressing an issue with the translations.
+
+During the last year there has been significant upheaval of the process used to build Sonic Pi. Somehow, during this upheaval, the translations never got added into the final release builds, despite being part of the dev builds. This has been true since v4.0 BETA 1 back in August 2021 - yet it somehow went unnoticed until now. Apologies! This release fixes this and re-introduces the translations which are so important for lowering the barrier to entry across the world. 
+
+As a bonus, a couple of nice improvements also managed to sneak in for good measure. Have fun!
+
+### GUI
+* All the translations are now available again - including the vast amount of new translation effort since v3.3.1 was released.
+* Loading a file no longer erases the undo history. This means that you can now "undo" a file load in the current buffer and return it to the state prior to the load.
+* The BPM-scrubbing behaviour (clicking your mouse and dragging to change the BPM) has been tweaked to make it easier to use.
+* Improvements for the Portuguese translation.
+
+
 <a name="v4.0.1"></a>
 
 ## Version 4.0.1 'Verknüpfen'
@@ -36,6 +56,7 @@ This is a bugfix release addressing a startup issue for a number of users with n
 We also sadly say goodbye to Core Team member Hanno Zulla who did amazing work with Linux packaging - especially getting Sonic Pi into Debian. Hanno also spearheaded the translation work setting up the crowdsourced translation system which has now enabled Sonic Pi to be translated into over 50 languages. Thank-you so much Hanno - we wish you success and happiness in all you do going forwards.
 
 This release also includes Italian and Polish translation updates.
+
 
 <a name="v4.0.0"></a>
 

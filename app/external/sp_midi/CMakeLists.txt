@@ -94,6 +94,8 @@ endif(MSVC)
 
 if(APPLE)
   install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/libsp_midi.dylib DESTINATION ${CMAKE_INSTALL_PREFIX} RENAME libsp_midi.so)
+elseif(MSVC)
+  install(TARGETS libsp_midi RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX})
 else()
   install(TARGETS libsp_midi LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX})
 endif()

@@ -1599,7 +1599,7 @@ end"
 
       def __midi_send_timed_param_n(path, *args)
         t = __get_spider_schedule_time
-        @tau_api.send_midi_at(t, path *args)
+        @tau_api.send_midi_at(t, path, *args)
       end
 
       def __midi_message(m)
