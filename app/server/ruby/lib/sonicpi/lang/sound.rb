@@ -2890,7 +2890,7 @@ l = lambda {|c| puts c ; c[0]}                          # define a lambda which 
                                                         # the same as using onset: 0 with the side effect of also printing out
                                                         # the full ring of onsets:
 
-sample :loop_tabla, onset: l                            # (ring {:start=>0.0, :finish=>0.0076}, {:start=>0.0076, :finish 0.015}...)
+sample :loop_tabla, onset: l                            # (ring {:start=>0.0, :finish=>0.015110842894865981, :index=>0}, {:start=>0.015110842894865981, :finish=>0.030374580804422135, :index=>1}...)
 
                                                         # We are therefore free to define this lambda to do anything we want.
                                                         # This gives us very powerful control over the choice of onset. It is
