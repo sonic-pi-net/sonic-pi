@@ -1112,14 +1112,14 @@ All devices on a given channel will respond both to data received over MIDI and 
 
 Valid modes are:
 
-:omni_off - Omni Mode Off
-:omni_on  - Omni Mode On
-:mono     - Mono Mode On (Poly Off). Set num_chans: to be the number of channels to use (Omni Off) or 0 (Omni On). Default for num_chans: is 16.
-:poly     - Poly Mode On (Mono Off)
+- :omni_off - Omni Mode Off
+- :omni_on  - Omni Mode On
+- :mono     - Mono Mode On (Poly Off). Set num_chans: to be the number of channels to use (Omni Off) or 0 (Omni On). Default for num_chans: is 16.
+- :poly     - Poly Mode On (Mono Off)
 
 Note that this fn also includes the behaviour of `midi_all_notes_off`.
 
-[MIDI 1.0 Specification - Channel Mode Messages - Omni Mode Off | Omni Mode On | Mono Mode On (Poly Off) | Poly Mode On](https://www.midi.org/specifications-old/item/table-1-summary-of-midi-message)
+[MIDI 1.0 Specification - Channel Mode Messages - Omni Mode Off / Omni Mode On / Mono Mode On (Poly Off) / Poly Mode On](https://www.midi.org/specifications-old/item/table-1-summary-of-midi-message)
 ",
           examples:       [
         "midi_mode :omni_on #=> Turn Omni Mode On on all ports and channels",
