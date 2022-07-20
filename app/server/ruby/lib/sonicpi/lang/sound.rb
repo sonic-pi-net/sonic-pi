@@ -670,9 +670,11 @@ sleep rt(2)             # still sleeps for 2 seconds"]
           accepts_block:  true,
           requires_block: true,
           examples:       ["use_bpm 120
-play 50, release: 2 # release is actually 1 due to bpm scaling
+play 50, release: 2   # release is actually 1 due to bpm scaling
+sleep 2               # actually sleeps for 1 second 
 with_arg_bpm_scaling false do
   play 50, release: 2 # release is now 2
+  sleep 2             # still sleeps for 1 second
 end",
 
         "                         # Interaction with rt
