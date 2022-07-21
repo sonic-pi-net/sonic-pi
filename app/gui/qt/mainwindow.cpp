@@ -260,11 +260,6 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
 
     app.setActiveWindow(editorTabWidget->currentWidget());
 
-    if (!i18n)
-    {
-        showLanguageLoadingError();
-    }
-
     showWelcomeScreen();
 
     std::cout << "[GUI] - MainWindow initialisation completed." << std::endl;
@@ -1471,19 +1466,6 @@ void MainWindow::startupError(QString msg)
     pDialog->setFixedSize(QSize(ScaleHeightForDPI(750), ScaleHeightForDPI(800)));
     pDialog->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
     pDialog->exec();
-}
-
-void MainWindow::showLanguageLoadingError()
-{
-    QMessageBox msgBox(this);
-    msgBox.setIcon(QMessageBox::Warning);
-    msgBox.setText(QString(tr("Failed to load translations for language: %1")).arg(sonicPii18n->getNativeLanguageName(this->ui_language)));
-    msgBox.setInformativeText(tr("Falling back to English. Sorry about this.") + "\n" + tr("Please consider reporting a bug at") + "\nhttp://github.com/sonic-pi-net/sonic-pi/issues");
-
-    QPushButton* okButton = msgBox.addButton(tr("OK"), QMessageBox::AcceptRole);
-    msgBox.setDefaultButton(okButton);
-
-    msgBox.exec();
 }
 
 void MainWindow::replaceBuffer(QString id, QString content, int line, int index, int first_line)

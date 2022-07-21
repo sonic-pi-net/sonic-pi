@@ -249,7 +249,6 @@ signals:
         void splashClose();
         void setMessageBoxStyle();
         void startupError(QString msg);
-        void showLanguageLoadingError();
         void tabNext();
         void tabPrev();
         void tabGoto(int index);
