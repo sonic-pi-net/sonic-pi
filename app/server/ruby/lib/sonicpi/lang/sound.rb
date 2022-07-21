@@ -2020,7 +2020,7 @@ puts current_volume #=> 2"]
 
 
       def current_debug
-        __thread_locals.get(:sonic_pi_mod_sound_synth_silent)
+        !__thread_locals.get(:sonic_pi_mod_sound_synth_silent)
       end
       doc name:          :current_debug,
           introduced:    Version.new(2,0,0),
