@@ -3938,7 +3938,7 @@ end
 
 
       def current_time
-        __get_spider_time
+        Time.at(__get_spider_time)
       end
       doc name:          :current_time,
           introduced:    Version.new(3,0,0),
