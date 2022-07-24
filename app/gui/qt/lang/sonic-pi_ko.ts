@@ -18,13 +18,13 @@
         <location filename="../mainwindow.cpp" line="3582"/>
         <location filename="../mainwindow.cpp" line="3610"/>
         <source>Sonic Pi</source>
-        <translation>Sonic Pi(소닉 파이)</translation>
+        <translation>Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1735"/>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
-        <translation>코드 실행중...</translation>
+        <translation>코드 실행 중...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1754"/>
