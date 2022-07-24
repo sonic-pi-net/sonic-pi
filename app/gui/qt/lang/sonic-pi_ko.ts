@@ -224,12 +224,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="1317"/>
         <source>Audio Inputs Enabled. Restart Sonic Pi for this setting to take effect...</source>
-        <translation type="unfinished"></translation>
+        <translation>오디오 입력이 활성화되었습니다. 이 설정을 적용하려면 Sonic Pi를 다시 시작하세요...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1319"/>
         <source>Audio Inputs Disabled. Restart Sonic Pi for this setting to take effect...</source>
-        <translation type="unfinished"></translation>
+        <translation>오디오 입력이 비활성화되었습니다. 이 설정을 적용하려면 Sonic Pi를 다시 시작하세요...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1417"/>
