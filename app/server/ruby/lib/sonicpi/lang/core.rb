@@ -21,6 +21,12 @@ require 'active_support/inflector'
 
 ## TODO: create _* equivalents of all fns - for silent (i.e computation) versions
 
+class Time
+  def inspect()
+    strftime "%Y-%m-%d %H:%M:%S.%L %z"
+  end
+end
+
 module SonicPi
   module Lang
 
