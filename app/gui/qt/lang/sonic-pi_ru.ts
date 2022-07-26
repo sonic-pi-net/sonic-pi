@@ -103,12 +103,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="1317"/>
         <source>Audio Inputs Enabled. Restart Sonic Pi for this setting to take effect...</source>
-        <translation type="unfinished"></translation>
+        <translation>Аудиовходы включены. Перезапустите Sonic Pi, чтобы эта настройка вступила в силу...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1319"/>
         <source>Audio Inputs Disabled. Restart Sonic Pi for this setting to take effect...</source>
-        <translation type="unfinished"></translation>
+        <translation>Аудиовходы отключены. Перезапустите Sonic Pi, чтобы эта настройка вступила в силу...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1423"/>
@@ -119,17 +119,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="1473"/>
         <source>Failed to load translations for language: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Не удалось загрузить переводы для языка: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1474"/>
         <source>Falling back to English. Sorry about this.</source>
-        <translation type="unfinished"></translation>
+        <translation>Возвращаюсь на английский. Извините.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1476"/>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>Ок</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1586"/>
