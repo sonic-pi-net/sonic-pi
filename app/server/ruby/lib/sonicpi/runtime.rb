@@ -179,8 +179,8 @@ module SonicPi
       end
     end
 
-    def __get_beat_dur_in_ms
-      __get_spider_sleep_mul * 1000.0
+    def __get_beat_dur_in_ms(beats = 1)
+      __get_spider_sleep_mul * 1000.0 * beats
     end
 
     def __get_spider_time
