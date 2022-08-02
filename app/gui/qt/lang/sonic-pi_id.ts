@@ -88,12 +88,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="3974"/>
         <source>Enabling MIDI input...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mengaktifkan masukan MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3982"/>
         <source>Disabling MIDI input...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Menonaktifkan masukan MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4000"/>
@@ -199,12 +199,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2742"/>
         <source>Code Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Perbesar Ukuran Kode</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2748"/>
         <source>Code Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Kurangi Ukuran Kode</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2754"/>
@@ -214,7 +214,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2762"/>
         <source>Show Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Tampilkan Info</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3389"/>
@@ -249,17 +249,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="843"/>
         <source>Playing Sample...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Putar Sample...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="882"/>
         <source>Hiding pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Menyembunyikan judul panel...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="892"/>
         <source>Showing pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation>Menampilkan judul panel...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1317"/>
@@ -274,18 +274,19 @@
     <message>
         <location filename="../mainwindow.cpp" line="1417"/>
         <source>Sonic Pi Boot Error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kesalahan booting Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1421"/>
         <source>Apologies, a critical error occurred during startup:
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Maaf, kesalahan fatal terjadi saat memulai:
+</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1473"/>
         <source>Failed to load translations for language: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Gagal memuat terjemahan untuk bahasa: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1474"/>
@@ -295,7 +296,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1476"/>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1740"/>
