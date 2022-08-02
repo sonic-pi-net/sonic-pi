@@ -145,15 +145,19 @@ midi_send(<<Data/binary>>) ->
         {ok, clock_beat, PortName, BeatDurationMs, MIDIBinary} ->
             %% Send a full MIDI beat's worth of clock tick messages.
             %% This means 24 message each separated by TickIntervalMs.
-
+            Time = osc:now(),
             TickIntervalMs = BeatDurationMs / 24.0,
-            lists:foreach(
-              fun(I) ->
-                      spawn(fun () ->
-                                    timer:sleep(round(I * TickIntervalMs)),
-                                    sp_midi:midi_send(PortName, MIDIBinary)
-                            end)
-              end, lists:seq(0, 23));
+            spawn(fun () ->
+                          lists:foreach(
+                            fun(I) ->
+                                    sp_midi:midi_send(PortName, MIDIBinary),
+                                    NextTime = Time + (I * TickIntervalMs),
+                                    CurIntervalMs = NextTime - osc:now(),
+                                    timer:sleep(round(CurIntervalMs))
+                            end,
+                            lists:seq(0, 23))
+                  end);
+
         {ok,  _, PortName, MIDIBinary} ->
             sp_midi:midi_send(PortName, MIDIBinary);
         {error, ErrStr} ->
