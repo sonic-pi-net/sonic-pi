@@ -188,24 +188,28 @@ void SonicPiMetro::tapTempo()
   if(numTaps == 1) {
     firstTap = timeStamp;
   } else {
-    qint64 timeSinceLastTap = timeStamp - lastTap;
-    // if we're not the first tap and it's been a sensible amount of
-    // time since the last tap...
+    double timeSinceLastTap = (double)(timeStamp - lastTap);
+    double totalTapDistance = (double)(timeStamp - firstTap);
+    double avgDistance = totalTapDistance / (numTaps - 1);
 
-      double totalTapDistance = (double)(timeStamp - firstTap);
-      double avgDistance = totalTapDistance / (numTaps - 1);
-      if (((numTaps < 5) &&
-           ((timeSinceLastTap > (1.05 * avgDistance)) ||
-            (timeSinceLastTap < (0.95 * avgDistance)))) ||
-          (((timeSinceLastTap > (1.1 * avgDistance)) ||
-            (timeSinceLastTap < (0.9 * avgDistance))))) {
-          numTaps = 0;
-          firstTap = 0;
-          lastTap = 0;
-      } else if (numTaps > 3) {
-        double newBpm = round(60.0 / (avgDistance / 1000.0));
-        bpmScrubWidget->setDisplayAndSyncBPM(newBpm);
-      }
+    //make sure the first three taps are similarly spaced
+    if (((numTaps < 3) &&
+         ((timeSinceLastTap > (avgDistance + 30)) ||
+          (timeSinceLastTap < (avgDistance - 30)))) ||
+
+        //drop the accuracy requirement for later taps as the error
+        //introduced by input timing jitter of the last tap reduces as
+        //the tap count increases.
+        ((timeSinceLastTap > (avgDistance + 50)) ||
+         (timeSinceLastTap < (avgDistance - 50))))
+      {
+        numTaps = 1;
+        firstTap = timeStamp;
+
+      } else if (numTaps > 2) {
+      double newBpm = round(60.0 / (avgDistance / 1000.0));
+      bpmScrubWidget->setDisplayAndSyncBPM(newBpm);
+    }
   }
   lastTap = timeStamp;
 }
