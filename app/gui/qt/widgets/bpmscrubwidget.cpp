@@ -22,6 +22,7 @@ BPMScrubWidget::BPMScrubWidget(std::shared_ptr<SonicPi::QtAPIClient> spClient, s
   : QLineEdit(parent)
   , m_spClient(spClient)
   , m_spAPI(spAPI)
+  , theme(theme)
 {
   m_isDragging = false;
   m_bpmValue = 60.0;
