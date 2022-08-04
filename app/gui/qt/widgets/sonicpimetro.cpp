@@ -184,33 +184,28 @@ void SonicPiMetro::tapTempo()
 {
   qint64 timeStamp = QDateTime::currentMSecsSinceEpoch();
   numTaps = numTaps + 1;
-  qint64 timeSinceLastTap = timeStamp - lastTap;
-  lastTap = timeStamp;
 
   if(numTaps == 1) {
     firstTap = timeStamp;
   } else {
+    qint64 timeSinceLastTap = timeStamp - lastTap;
     // if we're not the first tap and it's been a sensible amount of
     // time since the last tap...
-    if((timeSinceLastTap < 2500) && (timeSinceLastTap > 0)) {
-      qint64 totalTapDistance = timeStamp - firstTap;
-      qint64 avgDistance = totalTapDistance / (numTaps - 1);
 
-      if((timeSinceLastTap < (1.1 * avgDistance)) &&
-         (timeSinceLastTap > (0.9 * avgDistance))) {
-        double newBpm = 60.0 / (((double) avgDistance) / 1000.0);
+      double totalTapDistance = (double)(timeStamp - firstTap);
+      double avgDistance = totalTapDistance / (numTaps - 1);
+      if (((numTaps < 5) &&
+           ((timeSinceLastTap > (1.05 * avgDistance)) ||
+            (timeSinceLastTap < (0.95 * avgDistance)))) ||
+          (((timeSinceLastTap > (1.1 * avgDistance)) ||
+            (timeSinceLastTap < (0.9 * avgDistance))))) {
+          numTaps = 0;
+          firstTap = 0;
+          lastTap = 0;
+      } else if (numTaps > 3) {
+        double newBpm = round(60.0 / (avgDistance / 1000.0));
         bpmScrubWidget->setDisplayAndSyncBPM(newBpm);
-      } else {
-        //reset if we're not within 10% of average tap distance
-        numTaps = 0;
-        firstTap = 0;
-        lastTap = 0;
       }
-    } else {
-      //reset as too much time has elapsed since the last tap
-      numTaps = 0;
-      firstTap = 0;
-      lastTap = 0;
-    }
   }
+  lastTap = timeStamp;
 }
