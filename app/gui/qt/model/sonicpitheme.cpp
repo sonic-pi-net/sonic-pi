@@ -37,6 +37,7 @@ SonicPiTheme::SonicPiTheme(QObject *parent, QString customSettingsFilename, QStr
     QMap<QString, QString> themeSettings;
     this->theme = lightTheme();
     switchStyle( SonicPiTheme::LightMode );
+    this->stylesheet = "";
 
     // if(settings!=0){
     //   QStringList customSettingKeys = settings->allKeys();
@@ -871,7 +872,7 @@ QString SonicPiTheme::font(QString key){
     return theme[key];
 }
 
-QString SonicPiTheme::getAppStylesheet() {
+void SonicPiTheme::reloadStylesheet() {
     QString appStyling = readFile(qt_app_theme_path);
 
     // A hack to fix up for dpi
@@ -965,7 +966,14 @@ QString SonicPiTheme::getAppStylesheet() {
         .replace("selectionBackgroundColor", selectionBackgroundColor)
         .replace("errorBackgroundColor", errorBackgroundColor);
 
-    return appStyling;
+    this->stylesheet = appStyling;
+}
+
+QString SonicPiTheme::getAppStylesheet() {
+  if(this->stylesheet == "") {
+    reloadStylesheet();
+  }
+  return this->stylesheet;
 }
 
 QString SonicPiTheme::getCss() {

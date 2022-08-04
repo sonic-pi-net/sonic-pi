@@ -2272,7 +2272,7 @@ void MainWindow::updateColourTheme()
 
     QPalette p = theme->createPalette();
     QApplication::setPalette(p);
-
+    theme->reloadStylesheet();
     QString appStyling = theme->getAppStylesheet();
 
     this->setStyleSheet(appStyling);
