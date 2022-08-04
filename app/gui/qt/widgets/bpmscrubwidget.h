@@ -31,6 +31,10 @@ public:
 
   void setAndDisplayBPM(double bpm);
   void setDisplayAndSyncBPM(double bpm);
+  void displayResetVisualCue();
+  void displayNoVisualCue();
+  void displayBPMChangeVisualCue();
+  double getBPM();
   SonicPiTheme *theme;
 
 signals:

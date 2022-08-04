@@ -48,6 +48,11 @@ void BPMScrubWidget::setBPM(double bpm)
   }
 }
 
+double BPMScrubWidget::getBPM()
+{
+  return m_bpmValue;
+}
+
 QString BPMScrubWidget::formatBPM()
 {
   return QString("%1").arg(m_bpmValue, 6, 'f', 2);
@@ -240,4 +245,29 @@ void BPMScrubWidget::keyPressEvent(QKeyEvent* event)
   default:
     break;
   }
+}
+
+
+
+void BPMScrubWidget::displayBPMChangeVisualCue()
+{
+
+  QString qss = QString("\nQLineEdit#bpmScrubber\n {\nbackground-color: %1;\ncolor: %2;\n}\n").arg(theme->color("PressedButton").name()).arg(theme->color("ButtonText").name());
+  setStyleSheet(theme->getAppStylesheet() + qss);
+
+  QTimer::singleShot(250, this, &BPMScrubWidget::displayNoVisualCue);
+}
+
+
+void BPMScrubWidget::displayNoVisualCue()
+{
+  setStyleSheet(theme->getAppStylesheet());
+}
+
+void BPMScrubWidget::displayResetVisualCue()
+{
+  QString qss = QString("\nQLineEdit#bpmScrubber\n {\nbackground-color: %1;\ncolor: %2;\n}\n").arg(theme->color("Button").name()).arg(theme->color("ButtonText").name());
+  setStyleSheet(theme->getAppStylesheet() + qss);
+
+  QTimer::singleShot(250, this, &BPMScrubWidget::displayNoVisualCue);
 }

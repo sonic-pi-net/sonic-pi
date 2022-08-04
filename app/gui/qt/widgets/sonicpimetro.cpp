@@ -140,7 +140,6 @@ void SonicPiMetro::updateActiveLinkText()
 
 void SonicPiMetro::updateLinkButtonDisplay()
 {
-  QPalette palette = enableLinkButton->palette();
   QString qss;
   if(m_linkEnabled) {
     updateActiveLinkText();
@@ -182,12 +181,21 @@ void SonicPiMetro::updateColourTheme()
 
 void SonicPiMetro::tapTempo()
 {
+    QString qss = QString("\nQPushButton#tapButton\n {\nbackground-color: %1;\ncolor: %2;\n}\n").arg(theme->color("PressedButton").name()).arg(theme->color("ButtonText").name());
+    tapButton->setStyleSheet(theme->getAppStylesheet() + qss);
+
+  QTimer::singleShot(250, this, [=]() {
+    tapButton->setStyleSheet(theme->getAppStylesheet());
+  });
+
+
   qint64 timeStamp = QDateTime::currentMSecsSinceEpoch();
   numTaps = numTaps + 1;
 
   if(numTaps == 1) {
     firstTap = timeStamp;
   } else {
+
     double timeSinceLastTap = (double)(timeStamp - lastTap);
     double totalTapDistance = (double)(timeStamp - firstTap);
     double avgDistance = totalTapDistance / (numTaps - 1);
@@ -203,12 +211,16 @@ void SonicPiMetro::tapTempo()
         ((timeSinceLastTap > (avgDistance + 50)) ||
          (timeSinceLastTap < (avgDistance - 50))))
       {
+        bpmScrubWidget->displayResetVisualCue();
         numTaps = 1;
         firstTap = timeStamp;
 
       } else if (numTaps > 2) {
       double newBpm = round(60.0 / (avgDistance / 1000.0));
-      bpmScrubWidget->setDisplayAndSyncBPM(newBpm);
+      if(newBpm != bpmScrubWidget->getBPM()) {
+        bpmScrubWidget->setDisplayAndSyncBPM(newBpm);
+        bpmScrubWidget->displayBPMChangeVisualCue();
+      }
     }
   }
   lastTap = timeStamp;
