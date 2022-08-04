@@ -2818,7 +2818,7 @@ void MainWindow::createToolBar()
     updateAction(enableLinkAct, enableLinkSc, tr("Connect or disconnect the Link Metronome from the network"));
 
     linkTapTempoAct = new QAction(tr("Tap Tempo"), this);
-    connect(enableLinkAct, SIGNAL(triggered()), metroPane, SLOT(tapTempo()));
+    connect(linkTapTempoAct, SIGNAL(triggered()), metroPane, SLOT(tapTempo()));
     linkTapTempoSc = new QShortcut(QKeySequence("Shift+Return"), metroPane, SLOT(tapTempo()));
     updateAction(linkTapTempoAct, linkTapTempoSc, tr("Click Link Tap Tempo"));
 
