@@ -249,7 +249,7 @@ QMap<QString, QString> SonicPiTheme::lightTheme(){
     themeSettings["ToolTipBase"] = dt_grey;
     themeSettings["ToolTipText"] = dt_black;
     themeSettings["Button"] = dt_darkgrey;
-    themeSettings["ButtonBorder"] = dt_white;
+    themeSettings["ButtonBorder"] = dt_grey;
     themeSettings["PressedButton"] = dt_pink;
     themeSettings["ButtonText"] = dt_white;
     themeSettings["PressedButtonText"] = dt_white;
@@ -660,7 +660,7 @@ QMap<QString, QString> SonicPiTheme::highContrastTheme(){
     themeSettings["ToolTipBase"] = dt_grey;
     themeSettings["ToolTipText"] = dt_white;
     themeSettings["Button"] = dt_grey;
-    themeSettings["ButtonBorder"] = dt_white;
+    themeSettings["ButtonBorder"] = dt_darkgrey;
     themeSettings["PressedButton"] = dt_pink;
     themeSettings["ButtonText"] = dt_white;
     themeSettings["PressedButtonText"] = dt_white;
