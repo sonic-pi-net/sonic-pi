@@ -4159,6 +4159,21 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
         # Sleep for the duration of the note
         sleep(metre.quarter_length_to_sonic_pi_beat(note_quarter_lengths))
       end
+      doc name:          :add_note,
+          introduced:    Version.new(4,0,3),
+          summary:       "Adds a note to the current bar",
+          doc:           "Plays a given note for a specified duration as part of the current bar on the current synthesizer. `level` specifies the metrical level the note should exist at, as defined by the current metre. Level `0` is the beat level. Levels `1`, `2`, etc. are division levels (e.g. quarter notes, eighth notes, etc.). Levels `-1`, `-2`, etc. are multiple levels (e.g. half notes, whole notes, etc.). `duration` specifies how many of these notes it should last for. This method must be called from within a bar block. The timing of the note will be shifted according to any micro-timing set in the current metre.",
+          args:          [[:note, :symbol_or_number], [:level, :number], [:duration, :number]],
+          opts:          DEFAULT_PLAY_OPTS,
+          accepts_block: true,
+          memoize:       true,
+          examples:      ["
+use_metre '4/4'
+bar do
+  add_note :C4, 1, 1 # Plays the C4 note for one quaver/eighth note
+  add_note :D4, 0, 3 # Plays the D4 note for three crotchet/quarter notes
+end"]
+          
 
       # Shorthand functions assume simple metre for beat level and above
       # Assumes simple or compound for division levels
