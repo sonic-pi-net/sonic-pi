@@ -63,7 +63,7 @@ projects:
 ## Sponsors
 
 The following organisations have financially supported the continued
-developent and maintainence of Sonic Pi. We give our appreciation and
+developent and maintenance of Sonic Pi. We give our appreciation and
 respect back to them all for choosing to support open source software:
 
 * [Trading & Consulting 'H.P.C.' GmbH](https://www.hpc.at/)
