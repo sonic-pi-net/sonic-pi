@@ -64,7 +64,7 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   });
 
   connect(tapButton, &QPushButton::clicked, [=]() {
-    this->tapTempo();
+    this->tapTempo(100);
   });
 
   connect(m_spClient.get(), &SonicPi::QtAPIClient::UpdateNumActiveLinks, this, &SonicPiMetro::updateActiveLinkCount);
@@ -145,18 +145,14 @@ void SonicPiMetro::updateLinkButtonDisplay()
     updateActiveLinkText();
     qss = QString("\nQPushButton {\nbackground-color: %1;}\nQPushButton::hover:!pressed {\nbackground-color: %2}\n").arg(theme->color("PressedButton").name()).arg(theme->color("PressedButton").name());
     enableLinkButton->setStyleSheet(theme->getAppStylesheet() + qss);
-
-    qss = QString("\nQLineEdit#bpmScrubber {\nborder-color: %1;}\n \nQLineEdit#bpmScrubber::hover:!pressed {\nbackground-color: %2;}\n").arg(theme->color("PressedButton").name()).arg(theme->color("PressedButton").name());
-    bpmScrubWidget->setStyleSheet(theme->getAppStylesheet() + qss);
+    tapButton->setStyleSheet(theme->getAppStylesheet());
+    bpmScrubWidget->setLinkEnabled();
 
   } else {
     enableLinkButton->setText("Link");
-    qss = QString("\nQPushButton {\nbackground-color: %1;}\nQPushButton::hover:!pressed {\nbackground-color: %2}\n").arg(theme->color("Button").name()).arg(theme->color("HoverButton").name());
-    enableLinkButton->setStyleSheet(theme->getAppStylesheet() + qss);
-
-    qss = QString("\nQLineEdit#bpmScrubber {\nborder-color: %1;}\n \nQLineEdit#bpmScrubber::hover:!pressed {\nbackground-color: %2;}\n").arg(theme->color("HoverButton").name()).arg(theme->color("HoverButton").name());
-
-    bpmScrubWidget->setStyleSheet(theme->getAppStylesheet() + qss);
+    enableLinkButton->setStyleSheet(theme->getAppStylesheet());
+    tapButton->setStyleSheet(theme->getAppStylesheet());
+    bpmScrubWidget->setLinkDisabled();
   }
 }
 
@@ -167,7 +163,6 @@ void SonicPiMetro::setBPM(double bpm)
 
 void SonicPiMetro::updateColourTheme()
 {
-
   updateLinkButtonDisplay();
 }
 
@@ -179,14 +174,14 @@ void SonicPiMetro::updateColourTheme()
      style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
  }
 
-void SonicPiMetro::tapTempo()
+void SonicPiMetro::tapTempo(int flashDelay)
 {
   qint64 timeStamp = QDateTime::currentMSecsSinceEpoch();
 
-  QString qss = QString("\nQPushButton#tapButton\n {\nbackground-color: %1;\ncolor: %2;\n}\n").arg(theme->color("PressedButton").name()).arg(theme->color("ButtonText").name());
+  QString qss = QString("\nQPushButton#tapButton\n {\nborder-color: %1;\nbackground-color: %2;\ncolor: %3;\n}\n").arg(theme->color("Pane").name()).arg(theme->color("PressedButton").name()).arg(theme->color("ButtonText").name());
   tapButton->setStyleSheet(theme->getAppStylesheet() + qss);
 
-  QTimer::singleShot(250, this, [=]() {
+  QTimer::singleShot(flashDelay, this, [=]() {
     tapButton->setStyleSheet(theme->getAppStylesheet());
   });
 

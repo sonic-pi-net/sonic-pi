@@ -622,6 +622,7 @@ QPushButton
     padding: 5dx;
     border-radius: 3dx;
     border: 1dx solid buttonBorderColor;
+    height: 22dx;
 }
 
 QPushButton::pressed
@@ -647,6 +648,11 @@ QPushButton#enableLinkButton
   min-width: 100dx;
 }
 
+QLineEdit
+{
+    border-radius: 3dx;
+}
+
 QLineEdit#bpmScrubber::hover:!pressed
 {
     background-color: hoverButtonColor;
@@ -668,6 +674,8 @@ QLineEdit#bpmScrubber
     border: 2dx solid hoverButtonColor;
     padding: 5dx;
     max-width: 70dx;
+    height: 20dx;
+
 }
 
 

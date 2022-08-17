@@ -31,6 +31,8 @@ public:
 
   void setAndDisplayBPM(double bpm);
   void setDisplayAndSyncBPM(double bpm);
+  void setLinkEnabled();
+  void setLinkDisabled();
   void displayResetVisualCue();
   void displayNoVisualCue();
   void displayBPMChangeVisualCue();
@@ -53,7 +55,7 @@ private:
   std::shared_ptr<SonicPi::QtAPIClient> m_spClient;
   std::shared_ptr<SonicPi::SonicPiAPI> m_spAPI;
   QPoint m_lastMouseClickGlobalPos;
-  bool m_isDragging, m_isEditing;
+  bool m_isDragging, m_isEditing, m_linkEnabled;
   double m_bpmValue, m_preDragBpmValue;
   void readAndSetBPM();
 
@@ -63,6 +65,10 @@ private:
   QString formatBPM();
   void editingCancelled();
   void setBPM(double bpm);
+  QString generateStylesheet(QString text, QString border, QString background, QString pressedBackground );
+
+
+
 
 };
 

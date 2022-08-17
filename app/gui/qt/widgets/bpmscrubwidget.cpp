@@ -26,6 +26,7 @@ BPMScrubWidget::BPMScrubWidget(std::shared_ptr<SonicPi::QtAPIClient> spClient, s
 {
   m_isDragging = false;
   m_bpmValue = 60.0;
+  m_linkEnabled = false;
   setText(QString("%1").arg(m_bpmValue));
   connect(this, &QLineEdit::editingFinished, this, &BPMScrubWidget::readSetDisplayAndSyncBPM);
 
@@ -247,27 +248,80 @@ void BPMScrubWidget::keyPressEvent(QKeyEvent* event)
   }
 }
 
-
+QString BPMScrubWidget::generateStylesheet(QString text, QString border, QString background, QString pressedBackground)
+{
+  return QString("\nQLineEdit#bpmScrubber {\ncolor: %1;\nborder-color: %2;\nbackground-color: %3;}\n\nQLineEdit#bpmScrubber::hover:!pressed {\nbackground-color: %4;}\n").arg(theme->color(text).name()).arg(theme->color(border).name()).arg(theme->color(background).name()).arg(theme->color(pressedBackground).name());
+}
 
 void BPMScrubWidget::displayBPMChangeVisualCue()
 {
+  QString qss;
 
-  QString qss = QString("\nQLineEdit#bpmScrubber\n {\nbackground-color: %1;\ncolor: %2;\n}\n").arg(theme->color("PressedButton").name()).arg(theme->color("ButtonText").name());
+  if(m_linkEnabled){
+    qss = generateStylesheet("ButtonText",
+                             "PressedButton",
+                             "PressedButton",
+                             "PressedButton");
+  } else {
+    qss = generateStylesheet("ButtonText",
+                             "PressedButton",
+                             "PressedButton",
+                             "PressedButton");
+  }
+
   setStyleSheet(theme->getAppStylesheet() + qss);
-
   QTimer::singleShot(250, this, &BPMScrubWidget::displayNoVisualCue);
 }
 
 
 void BPMScrubWidget::displayNoVisualCue()
 {
-  setStyleSheet(theme->getAppStylesheet());
+  QString qss;
+  if(m_linkEnabled){
+    qss = generateStylesheet("WindowForeground",
+                             "PressedButton",
+                             "PaneBackground",
+                             "PressedButton");
+
+  } else {
+    qss = generateStylesheet("WindowForeground",
+                             "HoverButton",
+                             "PaneBackground",
+                             "HoverButton");
+
+  }
+  setStyleSheet(theme->getAppStylesheet() + qss);
 }
 
 void BPMScrubWidget::displayResetVisualCue()
 {
-  QString qss = QString("\nQLineEdit#bpmScrubber\n {\nbackground-color: %1;\ncolor: %2;\n}\n").arg(theme->color("Button").name()).arg(theme->color("ButtonText").name());
-  setStyleSheet(theme->getAppStylesheet() + qss);
+  QString qss;
+  if(m_linkEnabled){
+    qss = generateStylesheet("PaneBackground",
+                             "ButtonText",
+                             "WindowForeground",
+                             "PressedButton");
 
+  } else {
+    qss = generateStylesheet("PaneBackground",
+                             "ButtonText",
+                             "WindowForeground",
+                             "HoverButton");
+  }
+
+  setStyleSheet(theme->getAppStylesheet() + qss);
   QTimer::singleShot(250, this, &BPMScrubWidget::displayNoVisualCue);
+
+}
+
+void BPMScrubWidget::setLinkEnabled()
+{
+  m_linkEnabled = true;
+  displayNoVisualCue();
+}
+
+void BPMScrubWidget::setLinkDisabled()
+{
+  m_linkEnabled = false;
+  displayNoVisualCue();
 }

@@ -45,7 +45,7 @@ signals:
   void linkDisabled();
 
 public slots:
-  void tapTempo();
+  void tapTempo(int flashDelay=250);
 
 protected:
   void paintEvent(QPaintEvent *event);
