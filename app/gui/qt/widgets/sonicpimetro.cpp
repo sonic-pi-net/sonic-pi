@@ -181,15 +181,15 @@ void SonicPiMetro::updateColourTheme()
 
 void SonicPiMetro::tapTempo()
 {
-    QString qss = QString("\nQPushButton#tapButton\n {\nbackground-color: %1;\ncolor: %2;\n}\n").arg(theme->color("PressedButton").name()).arg(theme->color("ButtonText").name());
-    tapButton->setStyleSheet(theme->getAppStylesheet() + qss);
+  qint64 timeStamp = QDateTime::currentMSecsSinceEpoch();
+
+  QString qss = QString("\nQPushButton#tapButton\n {\nbackground-color: %1;\ncolor: %2;\n}\n").arg(theme->color("PressedButton").name()).arg(theme->color("ButtonText").name());
+  tapButton->setStyleSheet(theme->getAppStylesheet() + qss);
 
   QTimer::singleShot(250, this, [=]() {
     tapButton->setStyleSheet(theme->getAppStylesheet());
   });
 
-
-  qint64 timeStamp = QDateTime::currentMSecsSinceEpoch();
   numTaps = numTaps + 1;
 
   if(numTaps == 1) {
