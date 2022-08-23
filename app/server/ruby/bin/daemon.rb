@@ -1129,7 +1129,7 @@ module SonicPi
         Util.log "Unified Audio Settings toml hash: #{opts.inspect}"
         opts = scsynth_inputs_hash.merge(opts)
         Util.log "Combined Audio Settings toml hash with GUI scsynth inputs hash: #{opts.inspect}"
-        opts = merge_opts(opts)
+        opts = merge_opts(toml_opts_hash, opts)
         Util.log "Merged Audio Settings toml hash: #{opts.inspect}"
         @num_inputs = opts["-i"].to_i
         @num_outputs = opts["-o"].to_i
@@ -1279,10 +1279,10 @@ module SonicPi
         opts
       end
 
-      def merge_opts(opts)
+      def merge_opts(toml_opts_hash, opts)
         # extract scsynth opts override
         begin
-          clobber_opts_a = Shellwords.split(opts.fetch(:scsynth_opts_override, ""))
+          clobber_opts_a = Shellwords.split(toml_opts_hash.fetch(:scsynth_opts_override, ""))
           scsynth_opts_override = clobber_opts_a.each_slice(2).to_h
         rescue
           scsynth_opts_override = {}
@@ -1290,7 +1290,7 @@ module SonicPi
 
         # extract scsynth opts
         begin
-          scsynth_opts_a = Shellwords.split(opts.fetch(:scsynth_opts, ""))
+          scsynth_opts_a = Shellwords.split(toml_opts_hash.fetch(:scsynth_opts, ""))
           scsynth_opts = scsynth_opts_a.each_slice(2).to_h
         rescue
           scsynth_opts = {}
