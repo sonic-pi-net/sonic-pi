@@ -29,6 +29,7 @@ module SonicPi
       @tau_port = ports[:tau_port]
       @tau_host = "127.0.0.1"
       @listen_to_tau_port = ports[:listen_to_tau_port]
+      @global_timewarp = 0
 
       @tau_comms = SonicPi::TauComms.new("127.0.0.1", @tau_port, @listen_to_tau_port)
       @external_osc_cue_handler = handlers[:external_osc_cue]
@@ -71,12 +72,12 @@ module SonicPi
 
     def send_osc_at(t, host, port, path, *args)
       m = @tau_comms.encoder.encode_single_message(path, args)
-      api_send_at(t, "/send-after", host, port, SonicPi::OSC::Blob.new(m))
+      api_send_at(t + @global_timewarp, "/send-after", host, port, SonicPi::OSC::Blob.new(m))
     end
 
     def send_midi_at(t, path, *args)
       b = OSC::Blob.new(@tau_comms.encoder.encode_single_message(path, args))
-      api_send_at(t, "/midi-at", b)
+      api_send_at(t + @global_timewarp, "/midi-at", b)
     end
 
     # Link API
@@ -333,6 +334,10 @@ module SonicPi
         end
       end
       @tau_comms.send_ts(t, path, *args)
+    end
+
+    def set_global_timewarp!(time)
+      @global_timewarp = time.to_f / 1000.0
     end
   end
 end

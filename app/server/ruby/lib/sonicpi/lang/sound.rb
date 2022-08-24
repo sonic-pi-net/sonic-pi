@@ -1063,6 +1063,10 @@ set_mixer_control! lpf: 30, lpf_slide: 16 # slide the global lpf to 30 over 16 b
         @mod_sound_studio.mixer_mono_mode
       end
 
+      def set_mixer_global_timewarp!(time)
+        @mod_sound_studio.set_global_timewarp!(time)
+      end
+
 
       def synth(synth_name, *args, &blk)
         synth_name = current_synth unless synth_name

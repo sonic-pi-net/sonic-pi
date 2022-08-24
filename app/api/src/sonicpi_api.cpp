@@ -338,7 +338,7 @@ bool SonicPiAPI::LinkEnable()
     return true;
 }
 
-  bool SonicPiAPI::SetLinkBPM(double bpm)
+bool SonicPiAPI::SetLinkBPM(double bpm)
 {
     Message msg("/link-set-tempo");
     msg.pushFloat((float) bpm);
@@ -450,6 +450,15 @@ bool SonicPiAPI::StartOscServer()
         //sonicPiOSCServer->start();
     }
     return true;
+}
+
+void SonicPiAPI::SetGlobalTimeWarp(double time)
+{
+    Message msg("/set-global-timewarp");
+    msg.pushInt32(m_token);
+    msg.pushFloat((float) time);
+    SendOSC(msg);
+    return;
 }
 
 bool SonicPiAPI::SendOSC(Message m)

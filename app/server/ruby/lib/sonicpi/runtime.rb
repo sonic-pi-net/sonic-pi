@@ -512,6 +512,13 @@ module SonicPi
       @tau_api.midi_system_stop!
     end
 
+    def __set_global_timewarp!(time)
+      __info "Setting global timewarp to #{time}"
+      __schedule_delayed_blocks_and_messages!
+      set_mixer_global_timewarp!(time)
+      @tau_api.set_global_timewarp!(time)
+    end
+
     def __update_midi_ins(ins)
 
     end

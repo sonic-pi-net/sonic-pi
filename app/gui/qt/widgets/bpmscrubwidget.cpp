@@ -27,7 +27,7 @@ BPMScrubWidget::BPMScrubWidget(std::shared_ptr<SonicPi::QtAPIClient> spClient, s
   m_isDragging = false;
   m_bpmValue = 60.0;
   m_linkEnabled = false;
-  setText(QString("%1").arg(m_bpmValue));
+  displayBPM();
   connect(this, &QLineEdit::editingFinished, this, &BPMScrubWidget::readSetDisplayAndSyncBPM);
 
   QShortcut* escape = new QShortcut(QKeySequence("Escape"), this);
@@ -56,7 +56,7 @@ double BPMScrubWidget::getBPM()
 
 QString BPMScrubWidget::formatBPM()
 {
-  return QString("%1").arg(m_bpmValue, 6, 'f', 2);
+  return QString("%1 bpm").arg(m_bpmValue, 6, 'f', 2);
 }
 
 void BPMScrubWidget::displayBPM()
@@ -79,7 +79,7 @@ void BPMScrubWidget::editingCancelled()
 void BPMScrubWidget::readAndSetBPM()
 {
   bool ok(false);
-  double d = text().toDouble(&ok);
+  double d = text().split(QRegularExpression("[^.0-9]"))[0].trimmed().toDouble(&ok);
   if (ok) {
     setBPM(d);
   }

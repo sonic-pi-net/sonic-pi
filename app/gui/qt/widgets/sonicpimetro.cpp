@@ -16,6 +16,8 @@
 #include "qt_api_client.h"
 #include <QStyleOption>
 #include <QPainter>
+#include <QSpacerItem>
+#include "dpi.h"
 
 SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::shared_ptr<SonicPi::SonicPiAPI> spAPI, SonicPiTheme *theme, QWidget* parent)
   : QWidget(parent)
@@ -34,7 +36,7 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
 #else
   QString link_shortcut = QKeySequence("alt+t").toString(QKeySequence::NativeText);
 #endif
-  enableLinkButton->setToolTip(tr("Enable/Disable network sync.\nThis controls whether the Link metronome will synchronise with other Link metronomes on the local network.") + "\n(" + link_shortcut + ")");
+  enableLinkButton->setToolTip(tr("Enable/Disable network sync.\nThis controls whether the Link metronome will synchronise with other Link metronomes on the local WiFi/ethernet network.\nWhen enabled, BPM changes to this metronome will also change all other Link metronomes on the network\nand changes to any other Link metronome will affect this metronome.") + "\n(" + link_shortcut + ")");
 
   tapButton = new QPushButton(tr("Tap"));
   tapButton->setAutoFillBackground(true);
@@ -45,19 +47,50 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   tapButton->setToolTip(tr("Tap tempo.\nClick repeatedly to the beat to set the BPM manually.\nAccuracy increases with every additional click.") + "\n(" + QKeySequence("Shift+Return").toString(QKeySequence::NativeText) + ")");
 
 
-  QHBoxLayout* metro_layout  = new QHBoxLayout;
-  QWidget* spacer = new QWidget();
-  spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-  setLayout(metro_layout);
+  timeWarpSlider = new QSlider(Qt::Horizontal, this);
+  timeWarpSlider->setAutoFillBackground(true);
+  timeWarpSlider->setObjectName("timeWarpSlider");
+  timeWarpSlider->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+  timeWarpSlider->setTickPosition(QSlider::TicksBelow);
+  timeWarpSlider->setToolTip(tr("Global Time Warp.\nSlide to shift the phase of all triggered synths / FX and sent MIDI/OSC events.\nNegative values trigger everything earlier, positive values trigger things later.\nThe unit is milliseconds."));
+  timeWarpSlider->setMinimum(-250);
+  timeWarpSlider->setMaximum(250);
+  timeWarpSlider->setValue(0);
+
+
+  timeWarpLineEdit = new TimeWarpEdit(m_spClient, m_spAPI, theme);
+  timeWarpLineEdit->setAutoFillBackground(true);
+  timeWarpLineEdit->setObjectName("timeWarpEdit");
+  timeWarpLineEdit->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+
+  timeWarpLineEdit->setToolTip(tr("Global Time Warp.\nAdjust to shift the phase of all triggered synths / FX and sent MIDI/OSC events.\nNegative values trigger everything earlier, positive values trigger things later.\nThe unit is milliseconds."));
+
+  connect(timeWarpSlider, &QSlider::valueChanged, [=](int value) {
+    QSignalBlocker blocker(timeWarpLineEdit);
+    timeWarpLineEdit->setDisplayAndWarpToTime(value);
+  });
+
+  connect(timeWarpLineEdit, &QLineEdit::textChanged, [=](QString text) {
+    QSignalBlocker blocker(timeWarpSlider);
+    timeWarpSlider->setValue(timeWarpLineEdit->getTimeWarpValue());
+  });
 
   bpmScrubWidget = new BPMScrubWidget(m_spClient, m_spAPI, theme);
   bpmScrubWidget->setObjectName("bpmScrubber");
   bpmScrubWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
   bpmScrubWidget->setToolTip(tr("Current Link BPM. Edit or drag to modify."));
+
+  QHBoxLayout* metro_layout  = new QHBoxLayout;
   metro_layout->addWidget(enableLinkButton);
+  metro_layout->addSpacerItem(new QSpacerItem(ScaleWidthForDPI(30), 0, QSizePolicy::Maximum, QSizePolicy::Fixed));
   metro_layout->addWidget(tapButton);
   metro_layout->addWidget(bpmScrubWidget);
-  metro_layout->addWidget(spacer);
+  metro_layout->addSpacerItem(new QSpacerItem(ScaleWidthForDPI(30), 0, QSizePolicy::Maximum, QSizePolicy::Fixed));
+  metro_layout->addWidget(timeWarpSlider);
+  metro_layout->addWidget(timeWarpLineEdit);
+  metro_layout->addSpacerItem(new QSpacerItem(ScaleWidthForDPI(30), 0, QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
+
+  setLayout(metro_layout);
 
   connect(enableLinkButton, &QPushButton::clicked, [=]() {
     this->toggleLink();
@@ -68,12 +101,9 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   });
 
   connect(m_spClient.get(), &SonicPi::QtAPIClient::UpdateNumActiveLinks, this, &SonicPiMetro::updateActiveLinkCount);
-
   connect(m_spClient.get(), &SonicPi::QtAPIClient::UpdateBPM, this, &SonicPiMetro::setBPM);
 
-
-
-  updateLinkButtonDisplay();
+  updateColourTheme();
 }
 
 void SonicPiMetro::linkEnable()
@@ -164,6 +194,8 @@ void SonicPiMetro::setBPM(double bpm)
 void SonicPiMetro::updateColourTheme()
 {
   updateLinkButtonDisplay();
+  timeWarpSlider->setStyleSheet(theme->getAppStylesheet());
+  timeWarpLineEdit->setStyleSheet(theme->getAppStylesheet());
 }
 
  void SonicPiMetro::paintEvent(QPaintEvent *)
@@ -219,4 +251,21 @@ void SonicPiMetro::tapTempo(int flashDelay)
     }
   }
   lastTap = timeStamp;
+}
+
+void SonicPiMetro::setFocusTimeWarpScrubber()
+{
+  bpmScrubWidget->setFocusPolicy(Qt::StrongFocus);
+  bpmScrubWidget->setFocus();
+  bpmScrubWidget->raise();
+  bpmScrubWidget->setVisible(true);
+
+}
+
+void SonicPiMetro::setFocusBPMScrubber()
+{
+  timeWarpLineEdit->setFocusPolicy(Qt::StrongFocus);
+  timeWarpLineEdit->setFocus();
+  timeWarpLineEdit->raise();
+  timeWarpLineEdit->setVisible(true);
 }
