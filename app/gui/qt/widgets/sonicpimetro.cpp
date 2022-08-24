@@ -253,7 +253,7 @@ void SonicPiMetro::tapTempo(int flashDelay)
   lastTap = timeStamp;
 }
 
-void SonicPiMetro::setFocusTimeWarpScrubber()
+void SonicPiMetro::setFocusBPMScrubber()
 {
   bpmScrubWidget->setFocusPolicy(Qt::StrongFocus);
   bpmScrubWidget->setFocus();
@@ -262,7 +262,7 @@ void SonicPiMetro::setFocusTimeWarpScrubber()
 
 }
 
-void SonicPiMetro::setFocusBPMScrubber()
+void SonicPiMetro::setFocusTimeWarpScrubber()
 {
   timeWarpLineEdit->setFocusPolicy(Qt::StrongFocus);
   timeWarpLineEdit->setFocus();
