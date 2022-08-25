@@ -44,6 +44,8 @@ Yet to be released...
 
 ### Bugfixes
 * The `duration:` opt for `midi_clock_beat` has been fixed.
+* Fix `scsynth_opts` and `scsynth_opts_override` options in the `~/.sonic-pi/config/audio-settings.toml` config file.
+* Audio output via external soundcards on macOS should now work without requiring audio inputs to be enabled in the GUI.
 * Minor improvements to documentation layout.
 
 
