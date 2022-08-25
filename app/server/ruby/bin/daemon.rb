@@ -1101,9 +1101,9 @@ module SonicPi
         @port = ports["scsynth"]
 
         if no_scsynth_inputs
-          scsynth_inputs_hash = {"-I" => "0"}
+          scsynth_inputs_hash = {"-i" => "0"}
         else
-          scsynth_inputs_hash = {"-I" => "1"}
+          scsynth_inputs_hash = {}
         end
 
         @boot_wait_mutex = Mutex.new
