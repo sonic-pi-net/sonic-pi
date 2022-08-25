@@ -1,4 +1,5 @@
 # History
+* [v4.1.0 'Beta'](#v4.1.0), Yet to be released...
 * [v4.0.3 'Dovetail'](#v4.0.3), 18th July 2022
 * [v4.0.2 'Relink'](#v4.0.2), 15th July 2022
 * [v4.0.1 'Verknüpfen'](#v4.0.1), 12th July 2022
@@ -27,6 +28,24 @@
 * [v2.0.1](#v2.0.1), 9th Sept, 2014
 * [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
 
+<a name="v4.1.0"></a>
+## Version 4.1.0 'Beta'
+Yet to be released...
+<!-- [(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v4.1.0): -->
+
+
+### GUI
+* New Global Time Warp controls. This lets you adjust the timing of all scheduled events (synths, samples, MIDI and OSC) forwards or backwards up to 250 milliseconds. This is important for matching the phase of an external rhythm.
+* Improved Tap Tempo logic aimed towards increased BPM detection accuracy and speed.
+
+
+### Translations
+* Minor improvements to the Indonesian, Korean Portuguese (Brazil) and Russian translations.
+
+### Bugfixes
+* The `duration:` opt for `midi_clock_beat` has been fixed.
+* Minor improvements to documentation layout.
+
 
 <a name="v4.0.3"></a>
 
@@ -44,8 +63,6 @@ This is a minor bugfix and maintenance release.
 
 ### Bugfixes
 * A regression in the function `midi_sysex` introduced in v4 has been resolved. `midi_sysex` can now be called as expected.
-
-
 <a name="v4.0.2"></a>
 
 ## Version 4.0.2 'Relink'
