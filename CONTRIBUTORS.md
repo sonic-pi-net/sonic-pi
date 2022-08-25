@@ -248,7 +248,7 @@ thanks to the following developers who have donated their time and
 effort to help grow and improve the Sonic Pi code base:
 
 
-* [Sam Aaron](https://github.com/sonic-pi-net/sonic-pi/commits?author=samaaron) (5299)
+* [Sam Aaron](https://github.com/sonic-pi-net/sonic-pi/commits?author=samaaron) (5304)
 * [Ethan Crawford](https://github.com/sonic-pi-net/sonic-pi/commits?author=ethancrawford) (304)
 * [Hanno Zulla](https://github.com/sonic-pi-net/sonic-pi/commits?author=hzulla) (198)
 * [Joseph Wilk](https://github.com/sonic-pi-net/sonic-pi/commits?author=josephwilk) (160)
@@ -360,6 +360,7 @@ effort to help grow and improve the Sonic Pi code base:
 * [Dionysis Zindros](https://github.com/sonic-pi-net/sonic-pi/commits?author=dionyziz) (1)
 * [Dominic Calkosz](https://github.com/sonic-pi-net/sonic-pi/commits?author=Dmcdominic) (1)
 * [Drew A. Moore](https://github.com/sonic-pi-net/sonic-pi/commits?author=moore-drew) (1)
+* [Eduardo Fonseca](https://github.com/sonic-pi-net/sonic-pi/commits?author=edrd-f) (1)
 * [Eric M](https://github.com/sonic-pi-net/sonic-pi/commits?author=em13914) (1)
 * [Ezequiel Ramos](https://github.com/sonic-pi-net/sonic-pi/commits?author=ezequielramos) (1)
 * [Fabian Aussems](https://github.com/sonic-pi-net/sonic-pi/commits?author=mozinator) (1)
@@ -450,8 +451,8 @@ effort to help grow and improve the Sonic Pi code base:
 * [Serge Stinckwich](https://github.com/sonic-pi-net/sonic-pi/commits?author=SergeStinckwich) (1)
 * [Siim Põder](https://github.com/sonic-pi-net/sonic-pi/commits?author=windo) (1)
 * [Stanislav Senveter](https://github.com/sonic-pi-net/sonic-pi/commits?author=) (1)
-* [Suleyman Poyraz](https://github.com/sonic-pi-net/sonic-pi/commits?author=Zaryob) (1)
 * [Suleyman Poyraz](https://github.com/sonic-pi-net/sonic-pi/commits?author=) (1)
+* [Suleyman Poyraz](https://github.com/sonic-pi-net/sonic-pi/commits?author=Zaryob) (1)
 * [Surajnath Sidh](https://github.com/sonic-pi-net/sonic-pi/commits?author=electron0zero) (1)
 * [Takashi Udagawa](https://github.com/sonic-pi-net/sonic-pi/commits?author=udayan28) (1)
 * [Tasos Protopapas](https://github.com/sonic-pi-net/sonic-pi/commits?author=) (1)
