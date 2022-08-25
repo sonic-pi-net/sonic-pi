@@ -158,7 +158,7 @@ module SonicPi
         @tau_booter      = nil
         @spider_booter   = nil
         @compton_booter  = nil
-        
+
         # use a value within the valid range for a 32 bit signed complement integer
         @daemon_token =  rand(-2147483647..2147483647)
 
@@ -169,7 +169,7 @@ module SonicPi
         end
 
          #start compton to handle transparency (needs to be after Util.open_log)
-        @compton_booter = ComptonBooter.new if Util.os == :raspberry 
+        @compton_booter = ComptonBooter.new if Util.os == :raspberry
 
         # Get a map of port numbers to use
         #
