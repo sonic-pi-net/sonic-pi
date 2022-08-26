@@ -276,7 +276,7 @@ module SonicPi
     end
 
     def __check_for_server_version_now
-
+      t, t2 = nil
       begin
         params = {:uuid => global_uuid,
                   :ruby_platform => RUBY_PLATFORM,
@@ -287,16 +287,34 @@ module SonicPi
         msg_uri = URI.parse(url="http://sonic-pi.net/static/info/message.txt")
         ver_uri.query = URI.encode_www_form( params )
         msg_uri.query = URI.encode_www_form( params )
-        ver_response = Net::HTTP.get_response ver_uri
-        msg_response = Net::HTTP.get_response msg_uri
-        ver = ver_response.body
+        ver_prom = Promise.new
+        msg_prom = Promise.new
+
+        t = Thread.new do
+          begin
+            msg_prom.deliver!(Net::HTTP.get_response(msg_uri).body)
+          rescue
+            msg_prom.deliver! ""
+          end
+        end
+        t2 = Thread.new do
+          begin
+            ver_prom.deliver!(Net::HTTP.get_response(ver_uri).body)
+          rescue
+            ver_prom.deliver! ""
+          end
+        end
+
+        ver = ver_prom.get(5)
         v = Version.init_from_string(ver)
-        msg = msg_response.body
+        msg = msg_prom.get(5)
         @settings.set(:last_update_check_time, Time.now.to_i)
         @settings.set(:last_seen_server_version, v.to_s)
         @settings.set(:message, msg)
         v
       rescue
+        t.kill if t
+        t2.kill if t2
         __local_cached_server_version
       end
     end
