@@ -108,6 +108,7 @@ void BPMScrubWidget::setDisplayAndSyncBPM(double bpm)
 void BPMScrubWidget::mousePressEvent(QMouseEvent* event)
 {
   m_lastMouseClickGlobalPos = event->globalPos();
+  m_lastMouseDragGlobalPos = m_lastMouseClickGlobalPos;
   m_isDragging = true;
   m_preDragBpmValue = m_bpmValue;
   QGuiApplication::setOverrideCursor(QCursor(Qt::BlankCursor));
@@ -128,7 +129,7 @@ void BPMScrubWidget::mouseMoveEvent(QMouseEvent* event)
 {
   if(m_isDragging)
   {
-    int diff = m_lastMouseClickGlobalPos.y() - event->globalPos().y();
+    int diff = m_lastMouseDragGlobalPos.y() - event->globalPos().y();
     int scaled_diff = 0;
 
     if(diff > 0) {
@@ -143,6 +144,7 @@ void BPMScrubWidget::mouseMoveEvent(QMouseEvent* event)
       setDisplayAndSyncBPM(std::round(m_bpmValue + scaled_diff));
       m_isEditing = false;
       QCursor::setPos(m_lastMouseClickGlobalPos);
+      m_lastMouseDragGlobalPos = QCursor::pos();
     }
   }
 }

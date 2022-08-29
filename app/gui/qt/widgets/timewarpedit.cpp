@@ -64,6 +64,7 @@ void TimeWarpEdit::editingCancelled()
 void TimeWarpEdit::mousePressEvent(QMouseEvent* event)
 {
   m_lastMouseClickGlobalPos = event->globalPos();
+  m_lastMouseDragGlobalPos = m_lastMouseClickGlobalPos;
   m_isDragging = true;
   m_preDragTimeWarpValue = m_timeWarpValue;
   QGuiApplication::setOverrideCursor(QCursor(Qt::BlankCursor));
@@ -85,7 +86,7 @@ void TimeWarpEdit::mouseMoveEvent(QMouseEvent* event)
 {
   if(m_isDragging)
   {
-    int diff = m_lastMouseClickGlobalPos.y() - event->globalPos().y();
+    int diff = m_lastMouseDragGlobalPos.y() - event->globalPos().y();
     int delta = 0;
 
     if(diff > 0) {
@@ -100,6 +101,7 @@ void TimeWarpEdit::mouseMoveEvent(QMouseEvent* event)
       setDisplayAndWarpToTime(std::round(m_timeWarpValue + delta));
       m_isEditing = false;
       QCursor::setPos(m_lastMouseClickGlobalPos);
+      m_lastMouseDragGlobalPos = QCursor::pos();
     }
   }
 }
