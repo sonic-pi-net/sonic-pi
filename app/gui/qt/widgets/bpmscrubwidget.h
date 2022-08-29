@@ -56,6 +56,7 @@ private:
   std::shared_ptr<SonicPi::SonicPiAPI> m_spAPI;
   QPoint m_lastMouseClickGlobalPos, m_lastMouseDragGlobalPos;
   bool m_isDragging, m_isEditing, m_linkEnabled;
+  double m_dragDelta;
   double m_bpmValue, m_preDragBpmValue;
   void readAndSetBPM();
 
