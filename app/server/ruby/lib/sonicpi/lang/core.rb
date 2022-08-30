@@ -21,12 +21,6 @@ require 'active_support/inflector'
 
 ## TODO: create _* equivalents of all fns - for silent (i.e computation) versions
 
-class Time
-  def inspect()
-    strftime "%Y-%m-%d %H:%M:%S.%L %z"
-  end
-end
-
 module SonicPi
   module Lang
 
@@ -55,6 +49,17 @@ module SonicPi
 
         def [](*args)
           @blk.call(*args)
+        end
+      end
+
+      # Wrap Time so that it always displays to millisecond precision
+      class MilliTime < Time
+        def at(*args)
+          MilliTime.new Time.at(*args)
+        end
+
+        def inspect()
+          strftime "%Y-%m-%d %H:%M:%S.%L %z"
         end
       end
 
@@ -3944,7 +3949,7 @@ end
 
 
       def current_time
-        Time.at(__get_spider_time)
+        MilliTime.at(__get_spider_time)
       end
       doc name:          :current_time,
           introduced:    Version.new(3,0,0),
