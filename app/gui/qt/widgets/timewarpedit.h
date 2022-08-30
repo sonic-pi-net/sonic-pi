@@ -10,33 +10,28 @@
 // distribution of modified versions of this work as long as this
 // notice is included.
 //++
-#ifndef BPMSCRUBWIDGET_H
-#define BPMSCRUBWIDGET_H
+#ifndef TIMEWARPEDIT_H
+#define TIMEWARPEDIT_H
 
 #include <QWidget>
 #include <QLineEdit>
 #include <QMouseEvent>
 #include <QPoint>
+#include <QTimer>
 #include "model/sonicpitheme.h"
 #include "qt_api_client.h"
 #include "api/sonicpi_api.h"
 
 
-class BPMScrubWidget : public QLineEdit
+class TimeWarpEdit : public QLineEdit
 {
   Q_OBJECT
-
 public:
-  BPMScrubWidget(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::shared_ptr<SonicPi::SonicPiAPI> spAPI, SonicPiTheme *theme, bool setPosAvailable, QWidget *parent = nullptr);
+  TimeWarpEdit(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::shared_ptr<SonicPi::SonicPiAPI> spAPI, SonicPiTheme *theme, bool setPosAvailable, QWidget *parent = nullptr);
 
-  void setAndDisplayBPM(double bpm);
-  void setDisplayAndSyncBPM(double bpm);
-  void setLinkEnabled();
-  void setLinkDisabled();
-  void displayResetVisualCue();
-  void displayNoVisualCue();
-  void displayBPMChangeVisualCue();
-  double getBPM();
+  void setDisplayAndWarpToTime(int val);
+  void warpToTime();
+  int getTimeWarpValue();
   SonicPiTheme *theme;
 
 signals:
@@ -57,21 +52,18 @@ private:
   std::shared_ptr<SonicPi::SonicPiAPI> m_spAPI;
   QPoint m_lastMouseClickGlobalPos, m_lastMouseDragGlobalPos;
   bool m_isDragging, m_isEditing, m_linkEnabled, m_setPosAvailable;
-  double m_dragDelta;
-  double m_bpmValue, m_preDragBpmValue;
-  void readAndSetBPM();
+  int m_timeWarpValue, m_preDragTimeWarpValue;
+  QTimer *m_timer;
+  QRegularExpression *m_valueMatcher;
 
-  void readSetDisplayAndSyncBPM();
-  void syncBPM();
-  void displayBPM();
-  QString formatBPM();
   void editingCancelled();
-  void setBPM(double bpm);
-  QString generateStylesheet(QString text, QString border, QString background, QString pressedBackground );
-
-
-
+  void setTimeWarpValue(int val);
+  void displayTimeWarpValue();
+  void readSetDisplayAndWarpToTime();
+  void readAndSetTimeWarpValue();
+  int textToInt(QString text);
+  void flash();
 
 };
 
-#endif // BPMSCRUBWIDGET_H
+#endif // TIMEWARPEDIT_H

@@ -290,6 +290,7 @@ public:
     virtual bool LinkDisable();
 
     virtual bool SetLinkBPM(double bpm);
+    virtual void SetGlobalTimeWarp(double time);
 
     // Wait for the server to be in a good state
     virtual bool PingUntilServerCreated();

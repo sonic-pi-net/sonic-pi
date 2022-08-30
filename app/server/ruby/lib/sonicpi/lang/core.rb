@@ -396,7 +396,7 @@ end
       doc name:           :with_swing,
           introduced:     Version.new(3,0,0),
           summary:        "Add swing to successive calls to do/end block",
-          args:           [[:shift, :beats], [:pulse, :number], [:tick, :symbol]],
+          args:           [[:shift, :beats], [:pulse, :number], [:tick, :symbol], [:offset, :number]],
           returns:        nil,
           opts:           {shift: "How much time to delay/forward the block. Greater values produce more emphasised swing. Defaults to 0.1 beats.",
                            pulse: "How often to apply the swing. Defaults to 4.",

@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2021-05-07 11:31+0000\n"
-"Last-Translator: meTur4ik <tur4ikkk@mail.ru>\n"
+"PO-Revision-Date: 2022-07-27 07:22+0000\n"
+"Last-Translator: キツネさん <sigseg5@protonmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "ru/>\n"
 "Language: ru\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4"
 " && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.7-dev\n"
+"X-Generator: Weblate 4.14-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -449,6 +449,8 @@ msgid ""
 "These orange buttons allow you to manipulate the code editor. The *Size +* and"
 " *Size -* buttons allow you to make the text bigger and smaller."
 msgstr ""
+"Эти оранжевые кнопки позволяют управлять редактором кода. Кнопки *Size +* и *S"
+"ize -* позволяют сделать текст больше и меньше."
 
 #: 01.2-Exploring-the-Interface.md:35
 msgid "C. Info and Help"
@@ -566,9 +568,9 @@ msgstr ""
 "бласти видимости, с которыми можно повозиться - стандартная (комбинация левого"
 " и правого каналов), стерео (каждый канал обособлен) и, наконец, область видим"
 "ости фигур Лиссажу, которая показывает отношения фаз левого и правого каналов,"
-" а также позволяет создавать красивые изображения при помощи звука. (https://r"
-"u.wikipedia.org/wiki/%D0%A4%D0%B8%D0%B3%D1%83%D1%80%D1%8B_%D0%9B%D0%B8%D1%81%D"
-"1%81%D0%B0%D0%B6%D1%83)."
+" а также позволяет создавать красивые изображения при помощи звука. [Фигуры Ли"
+"ссажу](https://ru.wikipedia.org/wiki/%D0%A4%D0%B8%D0%B3%D1%83%D1%80%D1%8B_%D0%"
+"9B%D0%B8%D1%81%D1%81%D0%B0%D0%B6%D1%83)."
 
 #: 01.2-Exploring-the-Interface.md:93
 #, fuzzy
@@ -576,7 +578,6 @@ msgid "I. Cue Viewer"
 msgstr "F. Просмотр Сообщений"
 
 #: 01.2-Exploring-the-Interface.md:95
-#, fuzzy
 msgid ""
 "All internal and external events (called cues in Sonic Pi) are automatically l"
 "ogged in the Cue Viewer. For example, if you have a MIDI controller connected "
@@ -592,7 +593,21 @@ msgid ""
 "nction. Anything that appears in the Cue Viewer can be used to trigger somethi"
 "ng happening. This is covered in more detail in Sections 10 to 12 of this tuto"
 "rial."
-msgstr "MIDI"
+msgstr ""
+"Все внутренние и внешние события (в Sonic Pi они называются cues) автоматическ"
+"и регистрируются в Cue Viewer. Например, если вы подключили MIDI-контроллер и "
+"нажали одну из его кнопок, в Cue Viewer появится новое событие cue, сообщающее"
+" вам название контроллера и то, какую кнопку вы нажали. Когда вы освоите основ"
+"ы создания и воспроизведения звуков, вам захочется создавать звуки или целые с"
+"екции звуков на основе таких событий, как эти. Событие подсказки – это просто "
+"указание на то, что что-то произошло. Например, каждый раз, когда live_loop со"
+"вершает цикл, оно посылает событие cue, которое регистрируется в Cue Viewer. К"
+"роме того, внешние события, такие как MIDI-сообщения от подключенного MIDI-обо"
+"рудования и OSC-сообщения от других программ или компьютеров, также отображают"
+"ся в Cue Viewer. Также можно напрямую генерировать события cue с помощью функц"
+"ии `cue`. Всё, что появляется в Cue Viewer, может быть использовано для запуск"
+"а какого-либо события. Более подробно об этом рассказывается в разделах 10-12 "
+"данного руководства."
 
 #: 01.3-Learning-through-Play.md:1
 msgid "1.3 Learning through Play"
@@ -982,6 +997,8 @@ msgid ""
 "There's also a handy shortcut for a rest (a musical way of saying not to play "
 "anything instead of a note) using `:r`, `:rest` or `nil`."
 msgstr ""
+"Также есть удобное сокращение для перерыва (музыкальный способ сказать програм"
+"ме не играть ничего вместо ноты), используя `:r`, `:rest` или `nil`."
 
 #: 02.1-Your-First-Beeps.md:128
 #, fuzzy
@@ -5107,22 +5124,23 @@ msgstr ""
 #, fuzzy
 msgid ""
 "Remember to prepend a colon `:` to the name of your function when you define i"
-"t."
+"t. Function names should also start with a lower case letter, so use `:foo` ra"
+"ther than `:Foo`."
 msgstr ""
 "Не забывайте ставить двоеточие `:` перед именем функции, когда вы определяете "
 "её."
 
-#: 05.5-Functions.md:30
+#: 05.5-Functions.md:31
 #, fuzzy
 msgid "Calling functions"
 msgstr "Вызов Функций"
 
-#: 05.5-Functions.md:32
+#: 05.5-Functions.md:33
 #, fuzzy
 msgid "Once we have defined our function we can call it by just writing its name:"
 msgstr "Когда наша функция определена, мы можем вызвать её, просто написав её имя:"
 
-#: 05.5-Functions.md:35
+#: 05.5-Functions.md:36
 #, no-wrap
 msgid ""
 "define :foo do\n"
@@ -5149,7 +5167,7 @@ msgstr ""
 "  foo\n"
 "end"
 
-#: 05.5-Functions.md:52
+#: 05.5-Functions.md:53
 #, fuzzy
 msgid ""
 "We can even use `foo` inside iteration blocks or anywhere we may have written "
@@ -5160,12 +5178,12 @@ msgstr ""
 "гли бы использовать `play` или `sample`. Это даёт нам отличный способ самовыра"
 "жения и создания новых обозначений в наших композициях."
 
-#: 05.5-Functions.md:56
+#: 05.5-Functions.md:57
 #, fuzzy
 msgid "Functions are remembered across runs"
 msgstr "Функции Сохраняются Между Запусками"
 
-#: 05.5-Functions.md:58
+#: 05.5-Functions.md:59
 #, fuzzy
 msgid ""
 "So far, every time you've pressed the Run button, Sonic Pi has started from a "
@@ -5180,12 +5198,12 @@ msgstr ""
 "няют это. Когда вы определяете функцию, Sonic Pi *запоминает* ее. Попробуем. У"
 "далите весь код в буфере и замените его вот на что:"
 
-#: 05.5-Functions.md:65
+#: 05.5-Functions.md:66
 #, no-wrap
 msgid "foo"
 msgstr "foo"
 
-#: 05.5-Functions.md:69
+#: 05.5-Functions.md:70
 #, fuzzy
 msgid ""
 "Press the Run button - and hear your function play. Where did the code go? How"
@@ -5198,11 +5216,11 @@ msgstr ""
 " после её удаления из буфера. Он запомнил что вы напечатали. Это работает толь"
 "ко с функциями, которые создаются при помощи `define` (и `defonce`)"
 
-#: 05.5-Functions.md:75
+#: 05.5-Functions.md:76
 msgid "Parameterised functions"
 msgstr "Параметризованные функции"
 
-#: 05.5-Functions.md:77
+#: 05.5-Functions.md:78
 #, fuzzy
 msgid ""
 "You might be interested in knowing that just like you can pass min and max val"
@@ -5213,7 +5231,7 @@ msgstr ""
 "ь аргументы, прямо как `rrand` принимает значения минимума и максимума. Посмот"
 "рим как это выглядит:"
 
-#: 05.5-Functions.md:81
+#: 05.5-Functions.md:82
 #, no-wrap
 msgid ""
 "define :my_player do |n|\n"
@@ -5230,7 +5248,7 @@ msgstr ""
 "sleep 0.5\n"
 "my_player 90"
 
-#: 05.5-Functions.md:91
+#: 05.5-Functions.md:92
 #, fuzzy
 msgid ""
 "This isn't very exciting, but it illustrates the point. We've created our own "
@@ -5239,7 +5257,7 @@ msgstr ""
 "Пример не очень интересный, но он показывает, что имеется в виду. Мы создали н"
 "ашу собственную версию `play` с параметрами и назвали её `my_player`."
 
-#: 05.5-Functions.md:94
+#: 05.5-Functions.md:95
 #, fuzzy
 msgid ""
 "The parameters need to go after the `do` of the `define` do/end block, surroun"
@@ -5250,7 +5268,7 @@ msgstr ""
 "лжны быть окружены вертикальными стойками `|` и разделены запятыми `,`. Любые "
 "слова могут служить именами параметров."
 
-#: 05.5-Functions.md:98
+#: 05.5-Functions.md:99
 #, fuzzy
 msgid ""
 "The magic happens inside the `define` do/end block. You may use the parameter "
@@ -5271,12 +5289,12 @@ msgstr ""
 " в `play 80`. В следующий раз, когда я вызываю `my_player 90`, вместо `n` появ"
 "ляется 90, поэтому `play n` становится `play 90`."
 
-#: 05.5-Functions.md:108
+#: 05.5-Functions.md:109
 #, fuzzy
 msgid "Let's see a more interesting example:"
 msgstr "Рассмотрим что-нибудь поинтереснее:"
 
-#: 05.5-Functions.md:110
+#: 05.5-Functions.md:111
 #, no-wrap
 #, fuzzy
 msgid ""
@@ -5306,7 +5324,7 @@ msgstr ""
 "sleep 0.5\n"
 "chord_player :e3, 3"
 
-#: 05.5-Functions.md:126
+#: 05.5-Functions.md:127
 #, fuzzy
 msgid ""
 "Here I used `repeats` as if it was a number in the line `repeats.times do`. I "
@@ -5315,7 +5333,7 @@ msgstr ""
 "Я использовал переменную `repeats`, как если бы она была числом в строке `repe"
 "ats.times do`. Ещё я использовал `root` в качестве названия ноты для `play`."
 
-#: 05.5-Functions.md:129
+#: 05.5-Functions.md:130
 #, fuzzy
 msgid ""
 "See how we're able to write something very expressive and easy to read by movi"
@@ -11170,17 +11188,17 @@ msgstr ""
 "налы по умолчанию не будут принимать никакого звука, а 3-й канал получит моноф"
 "онический микс из amen drum break."
 
-#: 14-Conclusions.md:1
+#: 99-Conclusions.md:1
 #, fuzzy
-msgid "14 Conclusions"
+msgid "99 Conclusions"
 msgstr "Заключение"
 
-#: 14-Conclusions.md:3
+#: 99-Conclusions.md:3
 #, fuzzy
 msgid "Conclusions"
 msgstr "Заключение"
 
-#: 14-Conclusions.md:5
+#: 99-Conclusions.md:5
 msgid ""
 "This concludes the Sonic Pi introductory tutorial. Hopefully you've learned so"
 "mething along the way. Don't worry if you feel you didn't understand everythin"
@@ -11194,7 +11212,7 @@ msgstr ""
 "ь возвращаться к этому руководству, когда у вас возникает вопрос, который мог "
 "быть рассмотрен в одном из разделов."
 
-#: 14-Conclusions.md:11
+#: 99-Conclusions.md:11
 #, fuzzy
 msgid ""
 "If you have any questions that haven't been covered in the tutorial, then plea"
@@ -11207,7 +11225,7 @@ msgstr ""
 "/) и задавайте свои вопросы там. Вы обязательно найдете там кого-нибудь, кто д"
 "ружелюбно протянет вам руку помощи."
 
-#: 14-Conclusions.md:16
+#: 99-Conclusions.md:16
 msgid ""
 "Finally, I also invite you to take a deeper look at the rest of the documentat"
 "ion in this help system. There are a number of features that haven't been cove"
@@ -11217,7 +11235,7 @@ msgstr ""
 "тацией в справочной системе. Существует ряд функций, которые не были рассмотре"
 "ны в этом руководстве, и которые еще ожидают быть открытыми вами."
 
-#: 14-Conclusions.md:21
+#: 99-Conclusions.md:21
 msgid ""
 "So play, have fun, share your code, perform for your friends, show your screen"
 "s and remember:"
@@ -11225,11 +11243,11 @@ msgstr ""
 "Так что играйте, веселитесь, делитесь своим кодом, выступайте для друзей, пока"
 "зывайте свои экраны и помните:"
 
-#: 14-Conclusions.md:24
+#: 99-Conclusions.md:24
 msgid "*There are no mistakes, only opportunities.*"
 msgstr "*Здесь нет ошибок, только возможности.*"
 
-#: 14-Conclusions.md:26
+#: 99-Conclusions.md:26
 #, fuzzy
 msgid "[Sam Aaron](https://twitter.com/samaaron)"
 msgstr "[Sam Aaron](http://twitter.com/samaaron)"
@@ -14738,13 +14756,13 @@ msgid ""
 " seeds you like, put on a live coded performance for your friends by simply sw"
 "itching between your favourite seeds to create a full piece."
 msgstr ""
-"Введите следующее в свободный буфер, нажмите Выполнить. Затем начинайте менять"
-" значения семени рандомизации и перезапускайте код снова, пока он еще играет. "
-" Изучите таким образом различные звуки, ритмы и мелодии, которые вы можете сде"
-"лать. Когда вы найдете что-то интересное, запомните номер семени, чтобы вы мог"
-"ли вернуться к нему. Наконец, когда вы нашли несколько понравившихся вам значе"
-"ний семени, устройте лайвкодинг преформанс для своих друзей, просто переключая"
-"сь между этими значениями, чтобы создать полноценный пьесу."
+"Введите следующие слова в свободный буфер, нажмите Run, а затем начните менять"
+" семплы местами, снова нажмите Run (пока воспроизведение продолжается) и иссле"
+"дуйте различные звуки, ритмы и мелодии, которые вы можете создать. Когда вы на"
+"йдете хороший вариант, запомните номер семпла, чтобы иметь возможность вернуть"
+"ся к нему. Наконец, когда вы найдете несколько понравившихся вам сидами, устро"
+"йте live code представление для своих друзей, просто переключаясь между своими"
+" любимыми сидами, чтобы создать полноценное произведение."
 
 #: A.09-randomisation.md:165
 #, no-wrap
@@ -18182,6 +18200,8 @@ msgid ""
 "![Varying amounts of low pass filtering](../../../etc/doc/images/tutorial/arti"
 "cles/A.19-subtractive-synthesis/subtractive-synthesis-waveforms.png)"
 msgstr ""
+"![Различная степень фильтрации низких частот](../../../etc/doc/images/tutorial"
+"/articles/A.19-subtractive-synthesis/subtractive-synthesis-waveforms.png)"
 
 #: A.19-subtractive-synthesis.md:90
 msgid ""
@@ -18390,6 +18410,13 @@ msgid ""
 "es of wonder that will motivate people to practice and learn the fundamentals "
 "of programming?"
 msgstr ""
+"Мы окружены чудесными событиями. От ловкости рук фокусника, заставляющего шар "
+"исчезнуть в воздухе, до удивительного зрелища выступления любимой группы на бо"
+"льшой сцене. Именно эти моменты \"вау\" вдохновляют нас взять в руки книгу по ма"
+"гии и выучить \"Французский Сброс\" или начать играть пауэр-аккорды на старой ги"
+"таре. Как мы можем создать такое же глубокое и продолжительное чувство удивлен"
+"ия, которое будет мотивировать людей заниматься и изучать основы программирова"
+"ния?"
 
 #: A.20-creative-coding-in-the-classroom.md:23
 msgid "Musical Engines and Notation"
@@ -18404,12 +18431,20 @@ msgid ""
 "ines. Whilst these first engines had originally been designed to accurately so"
 "lve hard maths problems, Ada dreamt about making music with them:"
 msgstr ""
+"Истории музыки и компьютеров причудливо переплелись с момента появления вычисл"
+"ительных машин, или просто \"машин\", как называли мощный аналитический вычислит"
+"ель Чарльза Бэббиджа. Ещё в 1842 году математик Ада Лавлейс, тесно сотрудничав"
+"шая с Бэббиджем, увидела творческий потенциал этих машин. Хотя эти первые маши"
+"ны изначально были разработаны для точного решения сложных математических зада"
+"ч, Ада мечтала создавать с их помощью музыку:"
 
 #: A.20-creative-coding-in-the-classroom.md:33
 msgid ""
 "\"..the engine might compose elaborate and scientific pieces of music of any de"
 "gree of complexity or extent.\" Ada Lovelace, 1842."
 msgstr ""
+"\"... машина могла бы сочинять сложные и глубокие научные произведения любой ст"
+"епени сложности и протяженности\". Ада Лавлейс, 1842 год."
 
 #: A.20-creative-coding-in-the-classroom.md:36
 msgid ""
@@ -18425,6 +18460,19 @@ msgid ""
 "s just one of a number of notation systems he worked on. Some of the others we"
 "re much closer to what we might now see as code."
 msgstr ""
+"Конечно, сегодня, в 2019 году, большая часть нашей музыки, независимо от жанра"
+", либо сочинена, либо спродюсирована, либо сведена с помощью цифрового компьют"
+"ера. Мечта Ады сбылась. Можно даже проследить историю еще дальше. Если рассмат"
+"ривать программирование как искусство написания последовательностей специальны"
+"х символов, которые дают компьютеру инструкции для выполнения определенных дей"
+"ствий, то музыкальная композиция - это очень похожая практика. В западной музы"
+"ке символы - это черные точки, расположенные на нотной линейке, которые указыв"
+"ают музыканту, какие ноты и когда играть. Интересно, что если мы проследим кор"
+"ни западной музыкальной нотации до итальянского монаха-бенедиктинца Гвидо д'Ар"
+"еццо, то обнаружим, что система точек и линий, которую используют современные "
+"оркестры, является лишь одной из нескольких систем нотации, над которыми он ра"
+"ботал. Некоторые из них были гораздо ближе к тому, что мы сейчас считаем кодом"
+"."
 
 #: A.20-creative-coding-in-the-classroom.md:50
 #, fuzzy
@@ -18464,6 +18512,15 @@ msgid ""
 "rmed with Sonic Pi in the Sage Gateshead for the Thinking Digital Conference, "
 "where she created a unique live-coded improvised remix of her song Reeled."
 msgstr ""
+"Sonic Pi использовался для выступлений в самых разных местах, таких как школьн"
+"ые залы, ночные клубы, открытые сцены на музыкальных фестивалях, часовни колле"
+"джей и престижные музыкальные заведения. Например, удивительный проект Convo, "
+"в рамках которого 1000 детей собрались в Королевском Альберт-холле, чтобы испо"
+"лнить амбициозную новую композицию композитора Шарлотты Хардинг. Произведение "
+"было написано для традиционных инструментов, хора, перкуссии и кода Sonic Pi. "
+"Поп-артистка Jylda также выступила с Sonic Pi в Sage Gateshead на конференции "
+"Thinking Digital Conference, где она создала уникальный импровизированный live"
+"-coded ремикс на свою песню Reeled."
 
 #: A.20-creative-coding-in-the-classroom.md:78
 msgid ""
@@ -18472,10 +18529,14 @@ msgid ""
 "f the instruments as part of Convo at the Royal Albert Hall. Photo credit: Pet"
 "e Jones."
 msgstr ""
+"![Sonic Pi в Королевском Альберт-холле](../../../etc/doc/images/tutorial/artic"
+"les/A.20-creative-coding-in-the-classroom/convo-small.png) Sonic Pi использует"
+"ся как один из инструментов в рамках Convo в Королевском Альберт-холле. Фотогр"
+"афия предоставлена Питом Джонсом."
 
 #: A.20-creative-coding-in-the-classroom.md:83
 msgid "Live coding in the classroom"
-msgstr ""
+msgstr "Live coding в классе"
 
 #: A.20-creative-coding-in-the-classroom.md:85
 msgid ""
@@ -18490,6 +18551,17 @@ msgid ""
 "c, PC and Raspberry Pi and includes a friendly tutorial that assumes you know "
 "nothing about either code or music."
 msgstr ""
+"Sonic Pi – это инструмент для создания и исполнения музыки на основе кода, кот"
+"орый опирается на все эти идеи. В отличие от большинства компьютерных образова"
+"тельных программ, он одновременно достаточно прост для использования в учебных"
+" заведениях и достаточно мощный для профессионалов. Он использовалась для выст"
+"уплений на международных музыкальных фестивалях, для создания композиций в раз"
+"личных стилях – от классики до EDM и хэви-метала, и даже получил рецензию в жу"
+"рнале Rolling Stone. Sonic Pi поддерживает разнообразное сообщество, насчитыва"
+"ющее более 1,5 миллионов лайвкодеров с различным опытом, которые учатся и деля"
+"тся своими идеями и мыслями с помощью кода. Его можно бесплатно скачать для Ma"
+"c, PC и Raspberry Pi, и он включает в себя удобный учебник, который подразумев"
+"ает, что вы ничего не знаете ни о коде, ни о музыке."
 
 #: A.20-creative-coding-in-the-classroom.md:97
 msgid ""
@@ -18507,6 +18579,20 @@ msgid ""
 "ugh. Making things simple whilst keeping them powerful continues to be the har"
 "dest part of the project."
 msgstr ""
+"Sonic Pi был изначально задуман как ответ на новую учебную программу по информ"
+"атике, выпущенную в Великобритании в 2014 году. Цель состояла в том, чтобы най"
+"ти мотивирующий и веселый способ обучения основам программирования. Оказалось,"
+" что между ними много общего, и это очень весело – объяснять последовательност"
+"ь как мелодию, итерацию как ритм, условия как музыкальное разнообразие. Я разр"
+"аботал первоначальный дизайн и первые итерации платформы вместе с Кэрри Энн Фи"
+"лбин, которая привнесла в проект взгляд преподавателя. С тех пор Sonic Pi подв"
+"ергалась итерационным улучшениям благодаря обратной связи, полученной от наблю"
+"дения за учащимися и непосредственного сотрудничества с педагогами в классе. О"
+"сновная философия дизайна заключалась в том, чтобы никогда не добавлять функци"
+"и, которым нельзя было бы легко обучить 10-летнего ребенка. Это означало, что "
+"большинство идей пришлось сильно дорабатывать и переделывать, пока они не стал"
+"и достаточно простыми. Сделать вещи простыми, сохранив при этом их мощь, по-пр"
+"ежнему остается самой трудной частью проекта."
 
 #: A.20-creative-coding-in-the-classroom.md:112
 msgid ""
@@ -18522,6 +18608,18 @@ msgid ""
 "of Sonic Pi’s development. This provided essential feedback which enabled Soni"
 "c Pi to grow and ultimately flourish as a tool for creative expression."
 msgstr ""
+"Чтобы обеспечить необходимую мотивацию, дизайн Sonic Pi никогда не ограничивал"
+"ся исключительно сферой образования. В идеале должны быть известные музыканты "
+"и исполнители, использующие Sonic Pi в качестве стандартного инструмента наряд"
+"у с гитарами, барабанами, вокалом, синтезаторами, скрипками и т. д. Эти исполн"
+"ители выступали бы в качестве мотивирующих ролевых моделей, демонстрирующих тв"
+"орческий потенциал кода. Для того чтобы это стало возможным, необходимо было у"
+"делить достаточное внимание и приложить усилия, чтобы сделать Sonic Pi мощным "
+"инструментом, но при этом достаточно простым для восприятия 10-летними детьми."
+" Помимо педагогов, на ранних стадиях разработки я также работал непосредственн"
+"о с различными художниками в классах, художественных галереях, студиях и места"
+"х. Это обеспечило важную обратную связь, которая позволила Sonic Pi развиватьс"
+"я и в конечном итоге расцвести как инструменту для творческого самовыражения."
 
 #: A.20-creative-coding-in-the-classroom.md:126
 msgid ""
@@ -18535,6 +18633,15 @@ msgid ""
 "audio from the microphone all turn out to make the learning experience more fu"
 "n, rewarding and ultimately meaningful."
 msgstr ""
+"Этот двойной фокус на образовании и профессиональных музыкантах имел ряд интер"
+"есных и неожиданных побочных эффектов. Многие функции полезны для обеих сторон"
+". Например, много усилий было приложено к тому, чтобы сделать сообщения об оши"
+"бках более дружелюбными и полезными (а не огромными сложными сообщениями на жа"
+"ргоне). Это оказывается очень полезным, когда вы пишете ошибку во время выступ"
+"ления перед тысячами людей. Кроме того, такие функциональные возможности, как "
+"воспроизведение аудиообразцов студийного качества, добавление аудиоэффектов, д"
+"оступ к живому звуку с микрофона - все это делает процесс обучения более увлек"
+"ательным, полезным и, в конечном счете, значимым."
 
 #: A.20-creative-coding-in-the-classroom.md:137
 msgid ""
@@ -18545,10 +18652,17 @@ msgid ""
 "d makers. It is a real joy to see people learn to use code to express themselv"
 "es in new ways and for that in turn to inspire others to do the same."
 msgstr ""
+"Сообщество Sonic Pi продолжает расти и делиться удивительными программными ком"
+"позициями, планами уроков, музыкальными алгоритмами и многим другим. Многое из"
+" этого происходит на нашем форуме in_thread (in-thread.sonic-pi.net), который "
+"является домом для очень разнообразной группы людей, включающей педагогов, муз"
+"ыкантов, программистов, художников и создателей. Это настоящая радость – видет"
+"ь, как люди учатся использовать код, чтобы выразить себя по-новому, и как это,"
+" в свою очередь, вдохновляет других делать то же самое."
 
 #: A.20-creative-coding-in-the-classroom.md:145
 msgid "Some fun capabilities"
-msgstr ""
+msgstr "Некоторые интересные возможности"
 
 #: A.20-creative-coding-in-the-classroom.md:147
 msgid ""
@@ -18560,6 +18674,13 @@ msgid ""
 "ching, distributed computing and determinism - all whilst keeping things simpl"
 "e enough to explain to a 10 year old child."
 msgstr ""
+"С точки зрения информатики, Sonic Pi предоставляет вам строительные блоки для "
+"обучения основам, предусмотренным учебной программой Великобритании, таким как"
+" последовательность, итерации, условия, функции, структуры данных, алгоритмы и"
+" др. Однако он также опирается на ряд важных и актуальных концепций, которые с"
+"тали общепринятыми в промышленности, таких как параллелизм, события, сопоставл"
+"ение шаблонов, распределенные вычисления и детерминизм – и при этом все достат"
+"очно просто, чтобы объяснить 10-летнему ребенку."
 
 #: A.20-creative-coding-in-the-classroom.md:156
 #, fuzzy
@@ -18568,7 +18689,7 @@ msgstr "Get"
 
 #: A.20-creative-coding-in-the-classroom.md:162
 msgid "A melody can be constructed with one more command, sleep:"
-msgstr ""
+msgstr "Мелодия может быть построена с помощью ещё одной команды – sleep:"
 
 #: A.20-creative-coding-in-the-classroom.md:164
 #, no-wrap
@@ -18595,6 +18716,13 @@ msgid ""
 "e any melody they've ever heard. This leads to huge variety in expressive outc"
 "omes whilst focussing on the same computing concept: sequencing in this case."
 msgstr ""
+"В этом примере мы играем ноту 70 (примерно 70-я нота на фортепиано), ждем 1 се"
+"кунду, играем ноту 72, ждем полсекунды и затем играем ноту 75. Интересно то, ч"
+"то с помощью всего двух команд мы имеем доступ практически ко всей западной но"
+"тации (какие ноты играть и когда), и учащиеся могут запрограммировать любую ме"
+"лодию, которую они когда-либо слышали. Это приводит к огромному разнообразию в"
+"ыразительных результатов, в то же время концентрируясь на одной и той же вычис"
+"лительной концепции: последовательности в данном случае."
 
 #: A.20-creative-coding-in-the-classroom.md:180
 msgid ""
@@ -18602,6 +18730,10 @@ msgid ""
 "rded sound. Sonic Pi can play any audio file on your computer but also has a n"
 "umber of sounds built-in to make things easy to get started:"
 msgstr ""
+"Взяв идеи из мира профессиональной музыки, мы также можем воспроизводить любой"
+" записанный звук. Sonic Pi может воспроизводить любые аудиофайлы на вашем комп"
+"ьютере, а также имеет несколько встроенных звуков для облегчения начала работы"
+":"
 
 #: A.20-creative-coding-in-the-classroom.md:189
 msgid ""
@@ -18609,6 +18741,10 @@ msgid ""
 "op, Drum and Bass and Jungle. For example, a number of early hip-hop artists p"
 "layed this drum break back at half speed to give it a more laid-back feeling:"
 msgstr ""
+"Этот код воспроизведет барабанную дробь, которая была основой раннего хип-хопа"
+", драм-н-баса и джангла. Например, многие ранние исполнители хип-хопа воспроиз"
+"водили эту барабанную дробь на половинной скорости, чтобы придать ей более спо"
+"койный характер:"
 
 #: A.20-creative-coding-in-the-classroom.md:198
 msgid ""
@@ -18616,6 +18752,9 @@ msgid ""
 "artists to take drum breaks like this apart and reassemble in a different orde"
 "r. For example:"
 msgstr ""
+"В 90-е годы ряд музыкальных площадок взорвался новой технологией, которая позв"
+"олила артистам разрезать подобные барабанные брейки на части и собирать их в д"
+"ругом порядке. Например:"
 
 #: A.20-creative-coding-in-the-classroom.md:202
 #, no-wrap
@@ -18952,11 +19091,11 @@ msgstr "`M-}` - Переключить буфер вправо"
 
 #: B.02-Shortcut-Cheatsheet.md:26
 msgid "`S-M-0` - Switch to buffer 0"
-msgstr ""
+msgstr "`S-M-0` – Переключится на буфер 0"
 
 #: B.02-Shortcut-Cheatsheet.md:27
 msgid "`S-M-1` - Switch to buffer 1"
-msgstr ""
+msgstr "`S-M-1` – Переключится на буфер 1"
 
 #: B.02-Shortcut-Cheatsheet.md:28
 msgid "..."
@@ -18964,7 +19103,7 @@ msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:29
 msgid "`S-M-9` - Switch to buffer 9"
-msgstr ""
+msgstr "`S-M-9` – Переключится на буфер 9"
 
 #: B.02-Shortcut-Cheatsheet.md:30
 msgid "`M-+` - Increase text size of current buffer"
@@ -19316,10 +19455,14 @@ msgid ""
 "e the `live_audio` functionality to combine code with traditional instruments "
 "such as a guitar or a microphone."
 msgstr ""
+"Играйте не только в одиночку – создайте live-code группу! Очень весело играть "
+"вместе с другими. Один человек может делать ритмы, другой – эмбиентн фон и т.д"
+". Используйте функцию `live_audio`, чтобы объединить код с традиционными инстр"
+"ументами, такими как гитара или микрофон."
 
 #: B.04-Performing.md:27
 msgid "See what interesting combinations of sounds you can create with code."
-msgstr ""
+msgstr "Посмотрите, какие интересные комбинации звуков можно создать с помощью кода."
 
 #: B.04-Performing.md:29
 msgid "TOPLAP"

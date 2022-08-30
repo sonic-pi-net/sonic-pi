@@ -158,7 +158,7 @@ module SonicPi
         @tau_booter      = nil
         @spider_booter   = nil
         @compton_booter  = nil
-        
+
         # use a value within the valid range for a 32 bit signed complement integer
         @daemon_token =  rand(-2147483647..2147483647)
 
@@ -169,7 +169,7 @@ module SonicPi
         end
 
          #start compton to handle transparency (needs to be after Util.open_log)
-        @compton_booter = ComptonBooter.new if Util.os == :raspberry 
+        @compton_booter = ComptonBooter.new if Util.os == :raspberry
 
         # Get a map of port numbers to use
         #
@@ -1101,9 +1101,9 @@ module SonicPi
         @port = ports["scsynth"]
 
         if no_scsynth_inputs
-          scsynth_inputs_hash = {"-I" => "0"}
+          scsynth_inputs_hash = {"-i" => "0"}
         else
-          scsynth_inputs_hash = {"-I" => "1"}
+          scsynth_inputs_hash = {}
         end
 
         @boot_wait_mutex = Mutex.new
@@ -1129,7 +1129,7 @@ module SonicPi
         Util.log "Unified Audio Settings toml hash: #{opts.inspect}"
         opts = scsynth_inputs_hash.merge(opts)
         Util.log "Combined Audio Settings toml hash with GUI scsynth inputs hash: #{opts.inspect}"
-        opts = merge_opts(opts)
+        opts = merge_opts(toml_opts_hash, opts)
         Util.log "Merged Audio Settings toml hash: #{opts.inspect}"
         @num_inputs = opts["-i"].to_i
         @num_outputs = opts["-o"].to_i
@@ -1279,10 +1279,10 @@ module SonicPi
         opts
       end
 
-      def merge_opts(opts)
+      def merge_opts(toml_opts_hash, opts)
         # extract scsynth opts override
         begin
-          clobber_opts_a = Shellwords.split(opts.fetch(:scsynth_opts_override, ""))
+          clobber_opts_a = Shellwords.split(toml_opts_hash.fetch(:scsynth_opts_override, ""))
           scsynth_opts_override = clobber_opts_a.each_slice(2).to_h
         rescue
           scsynth_opts_override = {}
@@ -1290,7 +1290,7 @@ module SonicPi
 
         # extract scsynth opts
         begin
-          scsynth_opts_a = Shellwords.split(opts.fetch(:scsynth_opts, ""))
+          scsynth_opts_a = Shellwords.split(toml_opts_hash.fetch(:scsynth_opts, ""))
           scsynth_opts = scsynth_opts_a.each_slice(2).to_h
         rescue
           scsynth_opts = {}

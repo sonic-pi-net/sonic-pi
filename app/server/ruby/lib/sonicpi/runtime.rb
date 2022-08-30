@@ -179,8 +179,8 @@ module SonicPi
       end
     end
 
-    def __get_beat_dur_in_ms
-      __get_spider_sleep_mul * 1000.0
+    def __get_beat_dur_in_ms(beats = 1)
+      __get_spider_sleep_mul * 1000.0 * beats
     end
 
     def __get_spider_time
@@ -276,7 +276,7 @@ module SonicPi
     end
 
     def __check_for_server_version_now
-
+      t, t2 = nil
       begin
         params = {:uuid => global_uuid,
                   :ruby_platform => RUBY_PLATFORM,
@@ -287,16 +287,34 @@ module SonicPi
         msg_uri = URI.parse(url="http://sonic-pi.net/static/info/message.txt")
         ver_uri.query = URI.encode_www_form( params )
         msg_uri.query = URI.encode_www_form( params )
-        ver_response = Net::HTTP.get_response ver_uri
-        msg_response = Net::HTTP.get_response msg_uri
-        ver = ver_response.body
+        ver_prom = Promise.new
+        msg_prom = Promise.new
+
+        t = Thread.new do
+          begin
+            msg_prom.deliver!(Net::HTTP.get_response(msg_uri).body)
+          rescue
+            msg_prom.deliver! ""
+          end
+        end
+        t2 = Thread.new do
+          begin
+            ver_prom.deliver!(Net::HTTP.get_response(ver_uri).body)
+          rescue
+            ver_prom.deliver! ""
+          end
+        end
+
+        ver = ver_prom.get(5)
         v = Version.init_from_string(ver)
-        msg = msg_response.body
+        msg = msg_prom.get(5)
         @settings.set(:last_update_check_time, Time.now.to_i)
         @settings.set(:last_seen_server_version, v.to_s)
         @settings.set(:message, msg)
         v
       rescue
+        t.kill if t
+        t2.kill if t2
         __local_cached_server_version
       end
     end
@@ -510,6 +528,13 @@ module SonicPi
       __info "Stopping incoming MIDI cues..." unless silent
       __schedule_delayed_blocks_and_messages!
       @tau_api.midi_system_stop!
+    end
+
+    def __set_global_timewarp!(time)
+      __info "Setting global timewarp to #{time}"
+      __schedule_delayed_blocks_and_messages!
+      set_mixer_global_timewarp!(time)
+      @tau_api.set_global_timewarp!(time)
     end
 
     def __update_midi_ins(ins)
@@ -1375,8 +1400,8 @@ module SonicPi
       @settings = Config::Settings.new(Paths.system_cache_store_path)
 
       # Temporarily fix beta version:
-      @version = Version.new(4, 0, 3)
-#      @version = Version.new(4, 0, 0, "beta-6")
+      @version = Version.new(4, 1, 0)
+      # @version = Version.new(4, 1, 0, "beta1")
 
       @server_version = __server_version
       @life_hooks = LifeCycleHooks.new

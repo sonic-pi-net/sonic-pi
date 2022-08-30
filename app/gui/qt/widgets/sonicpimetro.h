@@ -19,11 +19,13 @@
 #include <QPushButton>
 #include <QMutex>
 #include <QPaintEvent>
+#include <QSlider>
+#include <QLineEdit>
 #include "model/sonicpitheme.h"
 #include "qt_api_client.h"
 #include "api/sonicpi_api.h"
 #include "bpmscrubwidget.h"
-
+#include "timewarpedit.h"
 
 class SonicPiMetro : public QWidget
 {
@@ -39,13 +41,15 @@ public:
   void linkEnable();
   void linkDisable();
 
+  void setFocusBPMScrubber();
+  void setFocusTimeWarpScrubber();
 
 signals:
   void linkEnabled();
   void linkDisabled();
 
 public slots:
-  void tapTempo();
+  void tapTempo(int flashDelay=250);
 
 protected:
   void paintEvent(QPaintEvent *event);
@@ -53,6 +57,8 @@ protected:
 private:
   QPushButton *enableLinkButton;
   QPushButton *tapButton;
+  QSlider *timeWarpSlider;
+  TimeWarpEdit *timeWarpLineEdit;
   bool m_linkEnabled = false;
   int numActiveLinks = 0;
   QMutex *mutex;
@@ -63,7 +69,7 @@ private:
   qint64 lastTap = 0;
 
   void toggleLink();
-
+  bool isSetPosAvailable();
   void updateActiveLinkText();
   void updateLinkButtonDisplay();
 

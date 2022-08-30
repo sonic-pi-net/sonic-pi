@@ -5,7 +5,7 @@ message(STATUS "CMakeLists: Sonic Pi Qt GUI")
 project("Sonic Pi"
   LANGUAGES CXX C
   DESCRIPTION "A code-based music creation and performance tool"
-  VERSION 4.0.3
+  VERSION 4.1.0
   HOMEPAGE_URL "https://sonic-pi.net"
 )
 
@@ -107,6 +107,8 @@ set(SOURCES
     ${QTAPP_ROOT}/widgets/sonicpicontext.h
     ${QTAPP_ROOT}/widgets/sonicpimetro.cpp
     ${QTAPP_ROOT}/widgets/sonicpimetro.h
+    ${QTAPP_ROOT}/widgets/timewarpedit.h
+    ${QTAPP_ROOT}/widgets/timewarpedit.cpp
     ${QTAPP_ROOT}/widgets/sonicpieditor.cpp
     ${QTAPP_ROOT}/widgets/sonicpieditor.h
     ${QTAPP_ROOT}/utils/scintilla_api.h

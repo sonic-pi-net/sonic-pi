@@ -670,9 +670,11 @@ sleep rt(2)             # still sleeps for 2 seconds"]
           accepts_block:  true,
           requires_block: true,
           examples:       ["use_bpm 120
-play 50, release: 2 # release is actually 1 due to bpm scaling
+play 50, release: 2   # release is actually 1 due to bpm scaling
+sleep 2               # actually sleeps for 1 second 
 with_arg_bpm_scaling false do
   play 50, release: 2 # release is now 2
+  sleep 2             # still sleeps for 1 second
 end",
 
         "                         # Interaction with rt
@@ -1059,6 +1061,10 @@ set_mixer_control! lpf: 30, lpf_slide: 16 # slide the global lpf to 30 over 16 b
 
       def set_mixer_mono_mode!
         @mod_sound_studio.mixer_mono_mode
+      end
+
+      def set_mixer_global_timewarp!(time)
+        @mod_sound_studio.set_global_timewarp!(time)
       end
 
 
@@ -2018,7 +2024,7 @@ puts current_volume #=> 2"]
 
 
       def current_debug
-        __thread_locals.get(:sonic_pi_mod_sound_synth_silent)
+        !__thread_locals.get(:sonic_pi_mod_sound_synth_silent)
       end
       doc name:          :current_debug,
           introduced:    Version.new(2,0,0),
@@ -2890,7 +2896,7 @@ l = lambda {|c| puts c ; c[0]}                          # define a lambda which 
                                                         # the same as using onset: 0 with the side effect of also printing out
                                                         # the full ring of onsets:
 
-sample :loop_tabla, onset: l                            # (ring {:start=>0.0, :finish=>0.0076}, {:start=>0.0076, :finish 0.015}...)
+sample :loop_tabla, onset: l                            # (ring {:start=>0.0, :finish=>0.015110842894865981, :index=>0}, {:start=>0.015110842894865981, :finish=>0.030374580804422135, :index=>1}...)
 
                                                         # We are therefore free to define this lambda to do anything we want.
                                                         # This gives us very powerful control over the choice of onset. It is

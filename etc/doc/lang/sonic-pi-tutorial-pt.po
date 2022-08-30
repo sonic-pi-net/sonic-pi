@@ -5,10 +5,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
 "PO-Revision-Date: 2022-07-14 00:18+0000\n"
-"Last-Translator: Evandro Afonso Rodrigues <evandroafonsorodrigues@gmail.com>"
-"\n"
-"Language-Team: Portuguese <https://hosted.weblate.org/projects/sonic-pi/"
-"tutorial/pt/>\n"
+"Last-Translator: Evandro Afonso Rodrigues <evandroafonsorodrigues@gmail.com>\n"
+"Language-Team: Portuguese <https://hosted.weblate.org/projects/sonic-pi/tutori"
+"al/pt/>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -46,12 +45,12 @@ msgid ""
 "ve Coding Performances](https://youtube.com/samaaron) where I code with Sonic "
 "Pi live in front of audiences."
 msgstr ""
-"Mas antes de tudo, melhor me apresentar -- chamo-me [Sam "
-"Aaron](http://twitter.com/samaaron) -- o criador do Sonic Pi. Você pode me "
-"encontrar em [@samaaron](http://twitter.com/samaaron) no Twitter e terei "
-"todo o gosto em te dizer olá. Você também pode estar interessado em saber "
-"mais sobre as minhas [*Performances de Live Coding*](https://youtube.com/"
-"samaaron) onde programo com o Sonic Pi, ao vivo, para audiências."
+"Mas antes de tudo, melhor me apresentar -- chamo-me [Sam Aaron](http://twitter"
+".com/samaaron) -- o criador do Sonic Pi. Você pode me encontrar em [@samaaron]"
+"(http://twitter.com/samaaron) no Twitter e terei todo o gosto em te dizer olá."
+" Você também pode estar interessado em saber mais sobre as minhas [*Performanc"
+"es de Live Coding*](https://youtube.com/samaaron) onde programo com o Sonic Pi"
+", ao vivo, para audiências."
 
 #: 01-Welcome-to-Sonic-Pi.md:18
 msgid ""
@@ -59,9 +58,9 @@ msgid ""
 "n - feedback is so helpful. You never know, your idea might be the next big fe"
 "ature!"
 msgstr ""
-"Se você tiver algum pensamento, ou ideia de formas de melhorar o Sonic Pi - "
-"por favor não hesite em nos mostrar - o feedback nos ajuda e muito. Nunca se "
-"sabe, a sua ideia pode se tornar o recurso de amanhã."
+"Se você tiver algum pensamento, ou ideia de formas de melhorar o Sonic Pi - po"
+"r favor não hesite em nos mostrar - o feedback nos ajuda e muito. Nunca se sab"
+"e, a sua ideia pode se tornar o recurso de amanhã."
 
 #: 01-Welcome-to-Sonic-Pi.md:22
 msgid ""
@@ -982,8 +981,8 @@ msgid ""
 "There's also a handy shortcut for a rest (a musical way of saying not to play "
 "anything instead of a note) using `:r`, `:rest` or `nil`."
 msgstr ""
-"Há também um atalho útil para uma pausa (uma maneira musical de dizer para "
-"não tocar nada em vez de uma nota) usando `:r`, `:rest` ou `nil`."
+"Há também um atalho útil para uma pausa (uma maneira musical de dizer para não"
+" tocar nada em vez de uma nota) usando `:r`, `:rest` ou `nil`."
 
 #: 02.1-Your-First-Beeps.md:128
 #, fuzzy
@@ -1775,8 +1774,8 @@ msgid ""
 "![ASR envelope](../../../etc/doc/images/tutorial/env-attack-sustain-release.pn"
 "g)"
 msgstr ""
-"![envelope de ASR](../../../etc/doc/images/tutorial/env-attack-sustain-"
-"release.png)"
+"![envelope de ASR](../../../etc/doc/images/tutorial/env-attack-sustain-release"
+".png)"
 
 #: 02.4-Durations-with-Envelopes.md:147
 msgid ""
@@ -1870,8 +1869,8 @@ msgid ""
 "It's also possible to set the `decay_level:` to be higher than `sustain_level:"
 "`:"
 msgstr ""
-"Também é possível colocar um`decay_level:`, com um valor superior ao "
-"`sustain_level:`:"
+"Também é possível colocar um`decay_level:`, com um valor superior ao `sustain_"
+"level:`:"
 
 #: 02.4-Durations-with-Envelopes.md:185
 #, no-wrap
@@ -2129,9 +2128,9 @@ msgid ""
 "es support exactly the same parameterisation mechanism. Let's revisit our frie"
 "nds `amp:` and `pan:`."
 msgstr ""
-"Como vimos com sintetizadores, podemos, facilmente, controlar sons através "
-"do seu sistema de parametrização. Os samples suportam exatamente o mesmo "
-"mecanismo de parametrização. Vamos reexaminar os parâmetros `amp:` e `pan:`."
+"Como vimos com sintetizadores, podemos, facilmente, controlar sons através do "
+"seu sistema de parametrização. Os samples suportam exatamente o mesmo mecanism"
+"o de parametrização. Vamos reexaminar os parâmetros `amp:` e `pan:`."
 
 #: 03.2-Sample-Params.md:9
 msgid "Amping samples"
@@ -5064,22 +5063,24 @@ msgstr ""
 "l`ou `lead_riff`."
 
 #: 05.5-Functions.md:27
+#, fuzzy
 msgid ""
 "Remember to prepend a colon `:` to the name of your function when you define i"
-"t."
+"t. Function names should also start with a lower case letter, so use `:foo` ra"
+"ther than `:Foo`."
 msgstr ""
 "Lembra-te de acrescentar dois pontos `:` ao nome da tua função quando a defini"
 "res."
 
-#: 05.5-Functions.md:30
+#: 05.5-Functions.md:31
 msgid "Calling functions"
 msgstr "Chamando funções"
 
-#: 05.5-Functions.md:32
+#: 05.5-Functions.md:33
 msgid "Once we have defined our function we can call it by just writing its name:"
 msgstr "Depois de definirmos a nossa função podemos a chamar escrevendo o seu nome:"
 
-#: 05.5-Functions.md:35
+#: 05.5-Functions.md:36
 #, no-wrap
 msgid ""
 "define :foo do\n"
@@ -5106,7 +5107,7 @@ msgstr ""
 "  foo\n"
 "end"
 
-#: 05.5-Functions.md:52
+#: 05.5-Functions.md:53
 msgid ""
 "We can even use `foo` inside iteration blocks or anywhere we may have written "
 "`play` or `sample`. This gives us a great way to express ourselves and to crea"
@@ -5116,11 +5117,11 @@ msgstr ""
 "tenhamos escrito `play` ou `sample`. Isto dá-nos uma excelente maneira de nos "
 "expressar e cria palavras significativas para usar nas nossas composições."
 
-#: 05.5-Functions.md:56
+#: 05.5-Functions.md:57
 msgid "Functions are remembered across runs"
 msgstr "As funções são recordadas ao longo das execuções"
 
-#: 05.5-Functions.md:58
+#: 05.5-Functions.md:59
 msgid ""
 "So far, every time you've pressed the Run button, Sonic Pi has started from a "
 "completely blank slate. It knows nothing except for what is in the buffer. You"
@@ -5134,12 +5135,12 @@ msgstr ""
 "defines a função, o Sonic Pi *lembra-se* dela. Vamos experimentar. Apaga todo "
 "o código na teu buffer e substitui por:"
 
-#: 05.5-Functions.md:65
+#: 05.5-Functions.md:66
 #, no-wrap
 msgid "foo"
 msgstr "foo"
 
-#: 05.5-Functions.md:69
+#: 05.5-Functions.md:70
 msgid ""
 "Press the Run button - and hear your function play. Where did the code go? How"
 " did Sonic Pi know what to play? Sonic Pi just remembered your function - so e"
@@ -5151,11 +5152,11 @@ msgstr ""
 "o que apagues do buffer, ele lembra-se do que escreveste. Este comportamento a"
 "penas funciona com funções criadas usando o `define` (e `defonce`)."
 
-#: 05.5-Functions.md:75
+#: 05.5-Functions.md:76
 msgid "Parameterised functions"
 msgstr "Funções parametrizadas"
 
-#: 05.5-Functions.md:77
+#: 05.5-Functions.md:78
 msgid ""
 "You might be interested in knowing that just like you can pass min and max val"
 "ues to `rrand`, you can teach your functions to accept arguments. Let's take a"
@@ -5165,7 +5166,7 @@ msgstr ""
 "e máximos a `rrand`, tu também podes ensinar as tuas funções a aceitar argumen"
 "tos. Vamos dar uma olhada:"
 
-#: 05.5-Functions.md:81
+#: 05.5-Functions.md:82
 #, no-wrap
 msgid ""
 "define :my_player do |n|\n"
@@ -5182,7 +5183,7 @@ msgstr ""
 "sleep 0.5\n"
 "my_player 90"
 
-#: 05.5-Functions.md:91
+#: 05.5-Functions.md:92
 msgid ""
 "This isn't very exciting, but it illustrates the point. We've created our own "
 "version of `play` called `my_player` which is parameterised."
@@ -5190,7 +5191,7 @@ msgstr ""
 "Isto não é muito excitante, mas ilustra o ponto. Criamos a nossa versão de `pl"
 "ay`chamada `my_player`que é parametrizada."
 
-#: 05.5-Functions.md:94
+#: 05.5-Functions.md:95
 msgid ""
 "The parameters need to go after the `do` of the `define` do/end block, surroun"
 "ded by vertical goalposts `|` and separated by commas `,`. You may use any wor"
@@ -5200,7 +5201,7 @@ msgstr ""
 "a vertical `|` e separados por virgulas `,`. Podes usar qualquer palavra para "
 "o nome dos parâmetros."
 
-#: 05.5-Functions.md:98
+#: 05.5-Functions.md:99
 msgid ""
 "The magic happens inside the `define` do/end block. You may use the parameter "
 "names as if they were real values. In this example I'm playing note `n`. You c"
@@ -5220,11 +5221,11 @@ msgstr ""
 "n`fica `play 80`. Quando a chamas novamente com `my_play 90`, o `n`é substituí"
 "do por 90 e `play n`fica `play 90`."
 
-#: 05.5-Functions.md:108
+#: 05.5-Functions.md:109
 msgid "Let's see a more interesting example:"
 msgstr "Vamos ver um exemplo mais interessante:"
 
-#: 05.5-Functions.md:110
+#: 05.5-Functions.md:111
 #, no-wrap
 msgid ""
 "define :chord_player do |root, repeats| \n"
@@ -5253,7 +5254,7 @@ msgstr ""
 "sleep 0.5\n"
 "chord_player :e3, 3"
 
-#: 05.5-Functions.md:126
+#: 05.5-Functions.md:127
 msgid ""
 "Here I used `repeats` as if it was a number in the line `repeats.times do`. I "
 "also used `root` as if it was a note name in my call to `play`."
@@ -5261,7 +5262,7 @@ msgstr ""
 "Onde usei `repeat` como se fosse um número na linha `repeat.times do`. Também "
 "usei `root` como se fosse o nome de uma nota na minha chamada a `play`."
 
-#: 05.5-Functions.md:129
+#: 05.5-Functions.md:130
 msgid ""
 "See how we're able to write something very expressive and easy to read by movi"
 "ng a lot of our logic into a function!"
@@ -10607,16 +10608,16 @@ msgid ""
 "eak."
 msgstr ""
 
-#: 14-Conclusions.md:1
+#: 99-Conclusions.md:1
 #, fuzzy
-msgid "14 Conclusions"
-msgstr "12 Conclusões"
+msgid "99 Conclusions"
+msgstr "Conclusões"
 
-#: 14-Conclusions.md:3
+#: 99-Conclusions.md:3
 msgid "Conclusions"
 msgstr "Conclusões"
 
-#: 14-Conclusions.md:5
+#: 99-Conclusions.md:5
 msgid ""
 "This concludes the Sonic Pi introductory tutorial. Hopefully you've learned so"
 "mething along the way. Don't worry if you feel you didn't understand everythin"
@@ -10629,7 +10630,7 @@ msgstr ""
 " apenas brinca e diverte-te e aprenderás ao teu tempo. Está a vontade de regre"
 "ssares se tiveres duvidas que poderão ser explicadas numa das secções."
 
-#: 14-Conclusions.md:11
+#: 99-Conclusions.md:11
 #, fuzzy
 msgid ""
 "If you have any questions that haven't been covered in the tutorial, then plea"
@@ -10641,7 +10642,7 @@ msgstr ""
 "oruns](http://groups.google.com/group/sonic-pi/) e coloca a tua questão lá. En"
 "contrarás alguém amigável pronto a ajudar."
 
-#: 14-Conclusions.md:16
+#: 99-Conclusions.md:16
 msgid ""
 "Finally, I also invite you to take a deeper look at the rest of the documentat"
 "ion in this help system. There are a number of features that haven't been cove"
@@ -10651,7 +10652,7 @@ msgstr ""
 "ntação no sistema de ajuda. Existem uma serie de coisas que não foram apresent"
 "adas neste tutorial e estão a espera que as descubras."
 
-#: 14-Conclusions.md:21
+#: 99-Conclusions.md:21
 msgid ""
 "So play, have fun, share your code, perform for your friends, show your screen"
 "s and remember:"
@@ -10659,11 +10660,11 @@ msgstr ""
 "Brinca, diverte-te, partilha o teu código, actua para os teus amigos, mostra o"
 " ecrã e lembra-te:"
 
-#: 14-Conclusions.md:24
+#: 99-Conclusions.md:24
 msgid "*There are no mistakes, only opportunities.*"
 msgstr "*Não existem erros, apenas oportunidades.*"
 
-#: 14-Conclusions.md:26
+#: 99-Conclusions.md:26
 #, fuzzy
 msgid "[Sam Aaron](https://twitter.com/samaaron)"
 msgstr "[Sam Aaron](http://twitter.com/samaaron)"

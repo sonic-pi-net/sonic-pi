@@ -18,14 +18,17 @@
 #include <QShortcut>
 #include "dpi.h"
 
-BPMScrubWidget::BPMScrubWidget(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::shared_ptr<SonicPi::SonicPiAPI> spAPI, SonicPiTheme *theme, QWidget* parent)
+BPMScrubWidget::BPMScrubWidget(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::shared_ptr<SonicPi::SonicPiAPI> spAPI, SonicPiTheme *theme, bool setPosAvailable, QWidget* parent)
   : QLineEdit(parent)
   , m_spClient(spClient)
   , m_spAPI(spAPI)
+  , theme(theme)
+  , m_setPosAvailable(setPosAvailable)
 {
   m_isDragging = false;
   m_bpmValue = 60.0;
-  setText(QString("%1").arg(m_bpmValue));
+  m_linkEnabled = false;
+  displayBPM();
   connect(this, &QLineEdit::editingFinished, this, &BPMScrubWidget::readSetDisplayAndSyncBPM);
 
   QShortcut* escape = new QShortcut(QKeySequence("Escape"), this);
@@ -47,9 +50,14 @@ void BPMScrubWidget::setBPM(double bpm)
   }
 }
 
+double BPMScrubWidget::getBPM()
+{
+  return m_bpmValue;
+}
+
 QString BPMScrubWidget::formatBPM()
 {
-  return QString("%1").arg(m_bpmValue, 6, 'f', 2);
+  return QString("%1 bpm").arg(m_bpmValue, 6, 'f', 2);
 }
 
 void BPMScrubWidget::displayBPM()
@@ -72,7 +80,7 @@ void BPMScrubWidget::editingCancelled()
 void BPMScrubWidget::readAndSetBPM()
 {
   bool ok(false);
-  double d = text().toDouble(&ok);
+  double d = text().split(QRegularExpression("[^.0-9]"))[0].trimmed().toDouble(&ok);
   if (ok) {
     setBPM(d);
   }
@@ -101,7 +109,9 @@ void BPMScrubWidget::setDisplayAndSyncBPM(double bpm)
 void BPMScrubWidget::mousePressEvent(QMouseEvent* event)
 {
   m_lastMouseClickGlobalPos = event->globalPos();
+  m_lastMouseDragGlobalPos = m_lastMouseClickGlobalPos;
   m_isDragging = true;
+  m_dragDelta = 0;
   m_preDragBpmValue = m_bpmValue;
   QGuiApplication::setOverrideCursor(QCursor(Qt::BlankCursor));
 }
@@ -121,23 +131,55 @@ void BPMScrubWidget::mouseMoveEvent(QMouseEvent* event)
 {
   if(m_isDragging)
   {
-    int diff = m_lastMouseClickGlobalPos.y() - event->globalPos().y();
-    int scaled_diff = 0;
+    int diff = m_lastMouseDragGlobalPos.y() - event->globalPos().y();
 
     if(diff > 0) {
-      scaled_diff = 1;
+      m_dragDelta = m_dragDelta + 0.5;
     } else if(diff < 0) {
-      scaled_diff = -1;
+      m_dragDelta = m_dragDelta - 0.5;
     } else {
       // diff is 0 - do nothing
     }
 
-    if(scaled_diff != 0) {
-      setDisplayAndSyncBPM(std::round(m_bpmValue + scaled_diff));
+    if(m_dragDelta > 1) {
+      setDisplayAndSyncBPM(std::round(m_bpmValue + 1));
+      m_dragDelta = 0;
       m_isEditing = false;
       QCursor::setPos(m_lastMouseClickGlobalPos);
+      if(m_setPosAvailable) {
+        m_lastMouseDragGlobalPos = m_lastMouseClickGlobalPos;
+      } else {
+        m_lastMouseDragGlobalPos = QCursor::pos();
+      }
+    } else if(m_dragDelta < -1) {
+      setDisplayAndSyncBPM(std::round(m_bpmValue - 1));
+      m_dragDelta = 0;
+      m_isEditing = false;
+      QCursor::setPos(m_lastMouseClickGlobalPos);
+      if(m_setPosAvailable) {
+        m_lastMouseDragGlobalPos = m_lastMouseClickGlobalPos;
+      } else {
+        m_lastMouseDragGlobalPos = QCursor::pos();
+      }
+
     }
   }
+}
+
+void BPMScrubWidget::wheelEvent(QWheelEvent* event)
+{
+
+  QPoint numPixels = event->pixelDelta() / 4;
+  QPoint numDegrees = event->angleDelta() / 8;
+
+  if (!numPixels.isNull()) {
+    setDisplayAndSyncBPM(m_bpmValue - numPixels.y());
+  } else if (!numDegrees.isNull()) {
+    QPoint numSteps = numDegrees / 15;
+    setDisplayAndSyncBPM(m_bpmValue + numSteps.y());
+  }
+
+  event->accept();
 }
 
 void BPMScrubWidget::mouseDoubleClickEvent(QMouseEvent* event)
@@ -239,4 +281,82 @@ void BPMScrubWidget::keyPressEvent(QKeyEvent* event)
   default:
     break;
   }
+}
+
+QString BPMScrubWidget::generateStylesheet(QString text, QString border, QString background, QString pressedBackground)
+{
+  return QString("\nQLineEdit#bpmScrubber {\ncolor: %1;\nborder-color: %2;\nbackground-color: %3;}\n\nQLineEdit#bpmScrubber::hover:!pressed {\nbackground-color: %4;}\n").arg(theme->color(text).name()).arg(theme->color(border).name()).arg(theme->color(background).name()).arg(theme->color(pressedBackground).name());
+}
+
+void BPMScrubWidget::displayBPMChangeVisualCue()
+{
+  QString qss;
+
+  if(m_linkEnabled){
+    qss = generateStylesheet("ButtonText",
+                             "PressedButton",
+                             "PressedButton",
+                             "PressedButton");
+  } else {
+    qss = generateStylesheet("ButtonText",
+                             "PressedButton",
+                             "PressedButton",
+                             "PressedButton");
+  }
+
+  setStyleSheet(theme->getAppStylesheet() + qss);
+  QTimer::singleShot(250, this, &BPMScrubWidget::displayNoVisualCue);
+}
+
+
+void BPMScrubWidget::displayNoVisualCue()
+{
+  QString qss;
+  if(m_linkEnabled){
+    qss = generateStylesheet("WindowForeground",
+                             "PressedButton",
+                             "PaneBackground",
+                             "PressedButton");
+
+  } else {
+    qss = generateStylesheet("WindowForeground",
+                             "HoverButton",
+                             "PaneBackground",
+                             "HoverButton");
+
+  }
+  setStyleSheet(theme->getAppStylesheet() + qss);
+}
+
+void BPMScrubWidget::displayResetVisualCue()
+{
+  QString qss;
+  if(m_linkEnabled){
+    qss = generateStylesheet("PaneBackground",
+                             "ButtonText",
+                             "WindowForeground",
+                             "PressedButton");
+
+  } else {
+    qss = generateStylesheet("PaneBackground",
+                             "ButtonText",
+                             "WindowForeground",
+                             "HoverButton");
+  }
+
+  setStyleSheet(theme->getAppStylesheet() + qss);
+  QTimer::singleShot(250, this, &BPMScrubWidget::displayNoVisualCue);
+
+}
+
+void BPMScrubWidget::setLinkEnabled()
+{
+  m_linkEnabled = true;
+  displayNoVisualCue();
+}
+
+void BPMScrubWidget::setLinkDisabled()
+{
+  m_linkEnabled = false;
+  displayNoVisualCue();
 }

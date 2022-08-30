@@ -41,6 +41,7 @@ module SonicPi
       @paused = false
       @register_cue_event_lambda = register_cue_event_lambda
       @current_spider_time_lambda = current_spider_time_lambda
+      @global_timewarp = 0
       init_scsynth
       reset_server
       init_studio
@@ -433,6 +434,10 @@ module SonicPi
       @server.set_latency!(latency)
     end
 
+    def set_global_timewarp!(time)
+      @server.set_global_timewarp!(time)
+    end
+
     private
 
     def check_for_server_rebooting!(msg=nil)
@@ -522,5 +527,7 @@ module SonicPi
         @loaded_synthdefs << path
       end
     end
+
+
   end
 end

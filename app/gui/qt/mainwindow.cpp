@@ -130,7 +130,7 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
     show_rec_icon_a = false;
     restoreDocPane = false;
     focusMode = false;
-    version = "4.0.3";
+    version = "4.1.0";
     latest_version = "";
     version_num = 0;
     latest_version_num = 0;
@@ -259,11 +259,6 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
     toggleOSCServer(1);
 
     app.setActiveWindow(editorTabWidget->currentWidget());
-
-    if (!i18n)
-    {
-        showLanguageLoadingError();
-    }
 
     showWelcomeScreen();
 
@@ -707,11 +702,11 @@ void MainWindow::setupWindowStructure()
     incomingWidget->setAllowedAreas(Qt::RightDockWidgetArea);
     incomingWidget->setWidget(incomingPane);
 
-    metroWidget = new QDockWidget(tr("Link Metronome"), this);
+    metroWidget = new QDockWidget(tr("Link Metronome & Global Time Warp"), this);
     metroWidget->setFocusPolicy(Qt::NoFocus);
     metroWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
     metroWidget->setAllowedAreas(Qt::RightDockWidgetArea);
-    metroWidget->setMaximumHeight(ScaleHeightForDPI(100));
+    metroWidget->setMaximumHeight(ScaleHeightForDPI(110));
     metroWidget->setWidget(metroPane);
 
 
@@ -1471,19 +1466,6 @@ void MainWindow::startupError(QString msg)
     pDialog->setFixedSize(QSize(ScaleHeightForDPI(750), ScaleHeightForDPI(800)));
     pDialog->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
     pDialog->exec();
-}
-
-void MainWindow::showLanguageLoadingError()
-{
-    QMessageBox msgBox(this);
-    msgBox.setIcon(QMessageBox::Warning);
-    msgBox.setText(QString(tr("Failed to load translations for language: %1")).arg(sonicPii18n->getNativeLanguageName(this->ui_language)));
-    msgBox.setInformativeText(tr("Falling back to English. Sorry about this.") + "\n" + tr("Please consider reporting a bug at") + "\nhttp://github.com/sonic-pi-net/sonic-pi/issues");
-
-    QPushButton* okButton = msgBox.addButton(tr("OK"), QMessageBox::AcceptRole);
-    msgBox.setDefaultButton(okButton);
-
-    msgBox.exec();
 }
 
 void MainWindow::replaceBuffer(QString id, QString content, int line, int index, int first_line)
@@ -2290,7 +2272,7 @@ void MainWindow::updateColourTheme()
 
     QPalette p = theme->createPalette();
     QApplication::setPalette(p);
-
+    theme->reloadStylesheet();
     QString appStyling = theme->getAppStylesheet();
 
     this->setStyleSheet(appStyling);
@@ -2836,7 +2818,7 @@ void MainWindow::createToolBar()
     updateAction(enableLinkAct, enableLinkSc, tr("Connect or disconnect the Link Metronome from the network"));
 
     linkTapTempoAct = new QAction(tr("Tap Tempo"), this);
-    connect(enableLinkAct, SIGNAL(triggered()), metroPane, SLOT(tapTempo()));
+    connect(linkTapTempoAct, SIGNAL(triggered()), metroPane, SLOT(tapTempo()));
     linkTapTempoSc = new QShortcut(QKeySequence("Shift+Return"), metroPane, SLOT(tapTempo()));
     updateAction(linkTapTempoAct, linkTapTempoSc, tr("Click Link Tap Tempo"));
 
@@ -3167,9 +3149,21 @@ void MainWindow::createToolBar()
 
     //Focus Errors
     focusErrorsAct = new QAction(theme->getHelpIcon(false), tr("Focus Errors"), this);
-    focusErrorsSc = new QShortcut(ctrlShiftKey('W'), this, SLOT(focusErrors()));
+    focusErrorsSc = new QShortcut(ctrlShiftKey('R'), this, SLOT(focusErrors()));
     updateAction(focusErrorsAct, focusErrorsSc, tr("Place focus on errors"));
     connect(focusErrorsAct, SIGNAL(triggered()), this, SLOT(focusErrors()));
+
+    //Focus BPM SCrubber
+    focusBPMScrubberAct = new QAction(theme->getHelpIcon(false), tr("Focus BPM Scrubber"), this);
+    focusBPMScrubberSc = new QShortcut(ctrlShiftKey('B'), this, SLOT(focusBPMScrubber()));
+    updateAction(focusBPMScrubberAct, focusBPMScrubberSc, tr("Place focus on BPM Scrubber"));
+    connect(focusBPMScrubberAct, SIGNAL(triggered()), this, SLOT(focusBPMScrubber()));
+
+    //Focus Time Warp Scrubber
+    focusTimeWarpScrubberAct = new QAction(theme->getHelpIcon(false), tr("Focus TimeWarp Scrubber"), this);
+    focusTimeWarpScrubberSc = new QShortcut(ctrlShiftKey('W'), this, SLOT(focusTimeWarpScrubber()));
+    updateAction(focusTimeWarpScrubberAct, focusTimeWarpScrubberSc, tr("Place focus on TimeWarp Scrubber"));
+    connect(focusTimeWarpScrubberAct, SIGNAL(triggered()), this, SLOT(focusTimeWarpScrubber()));
 
     showLogAct = new QAction(tr("Show Log"), this);
     showLogAct->setCheckable(true);
@@ -3231,6 +3225,9 @@ void MainWindow::createToolBar()
     viewMenu->addAction(focusHelpListingAct);
     viewMenu->addAction(focusHelpDetailsAct);
     viewMenu->addAction(focusErrorsAct);
+    viewMenu->addAction(focusTimeWarpScrubberAct);
+    viewMenu->addAction(focusBPMScrubberAct);
+
 
     languageMenu = menuBar()->addMenu(tr("Language"));
     QStringList available_languages = sonicPii18n->getAvailableLanguages();
@@ -4266,6 +4263,28 @@ void MainWindow::focusErrors()
     errorPane->raise();
     errorPane->setVisible(true);
     errorPane->activateWindow();
+}
+
+void MainWindow::focusBPMScrubber()
+{
+    docWidget->show();
+    updatePrefsIcon();
+    metroPane->showNormal();
+    metroPane->raise();
+    metroPane->setVisible(true);
+    metroPane->activateWindow();
+    metroPane->setFocusBPMScrubber();
+}
+
+void MainWindow::focusTimeWarpScrubber()
+{
+    docWidget->show();
+    updatePrefsIcon();
+    metroPane->showNormal();
+    metroPane->raise();
+    metroPane->setVisible(true);
+    metroPane->activateWindow();
+    metroPane->setFocusTimeWarpScrubber();
 }
 
 void MainWindow::updateContextWithCurrentWs()

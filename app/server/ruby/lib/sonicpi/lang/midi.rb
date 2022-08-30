@@ -1112,14 +1112,14 @@ All devices on a given channel will respond both to data received over MIDI and 
 
 Valid modes are:
 
-:omni_off - Omni Mode Off
-:omni_on  - Omni Mode On
-:mono     - Mono Mode On (Poly Off). Set num_chans: to be the number of channels to use (Omni Off) or 0 (Omni On). Default for num_chans: is 16.
-:poly     - Poly Mode On (Mono Off)
+- :omni_off - Omni Mode Off
+- :omni_on  - Omni Mode On
+- :mono     - Mono Mode On (Poly Off). Set num_chans: to be the number of channels to use (Omni Off) or 0 (Omni On). Default for num_chans: is 16.
+- :poly     - Poly Mode On (Mono Off)
 
 Note that this fn also includes the behaviour of `midi_all_notes_off`.
 
-[MIDI 1.0 Specification - Channel Mode Messages - Omni Mode Off | Omni Mode On | Mono Mode On (Poly Off) | Poly Mode On](https://www.midi.org/specifications-old/item/table-1-summary-of-midi-message)
+[MIDI 1.0 Specification - Channel Mode Messages - Omni Mode Off / Omni Mode On / Mono Mode On (Poly Off) / Poly Mode On](https://www.midi.org/specifications-old/item/table-1-summary-of-midi-message)
 ",
           examples:       [
         "midi_mode :omni_on #=> Turn Omni Mode On on all ports and channels",
@@ -1330,68 +1330,13 @@ Upon receiving the MIDI continue event, the MIDI device(s) will continue at the 
         params, opts = split_params_and_merge_opts_array(args)
         opts         = current_midi_defaults.merge(opts)
         on_val       = opts.fetch(:on, 1)
-        dur   = opts[:duration] || params[0] || 1
+        num_beats    = opts[:duration] || params[0] || 1
         ports = __resolve_midi_ports(opts)
         port  = pp_el_or_list(ports)
 
         if truthy?(on_val)
-
-          if dur == 1
-            times =  [0,
-              0.041666666666666664,
-              0.08333333333333333,
-              0.125,
-              0.16666666666666666,
-              0.20833333333333331,
-              0.24999999999999997,
-              0.29166666666666663,
-              0.3333333333333333,
-              0.375,
-              0.4166666666666667,
-              0.45833333333333337,
-              0.5,
-              0.5416666666666666,
-              0.5833333333333333,
-              0.6249999999999999,
-              0.6666666666666665,
-              0.7083333333333331,
-              0.7499999999999998,
-              0.7916666666666664,
-              0.833333333333333,
-              0.8749999999999997,
-              0.9166666666666663,
-              0.9583333333333329]
-          elsif dur == 0.5
-            times =  [0,
-              0.020833333333333332,
-              0.041666666666666664,
-              0.0625,
-              0.08333333333333333,
-              0.10416666666666666,
-              0.12499999999999999,
-              0.14583333333333331,
-              0.16666666666666666,
-              0.1875,
-              0.20833333333333334,
-              0.22916666666666669,
-              0.25,
-              0.2708333333333333,
-              0.29166666666666663,
-              0.31249999999999994,
-              0.33333333333333326,
-              0.3541666666666666,
-              0.3749999999999999,
-              0.3958333333333332,
-              0.4166666666666665,
-              0.43749999999999983,
-              0.45833333333333315,
-              0.47916666666666646]
-          else
-            times = (line 0, dur, steps: 24, inclusive: false)
-          end
-
           ports.each do |p|
-            __midi_send_timed_param_2("/clock_beat", p, __get_beat_dur_in_ms)
+            __midi_send_timed_param_2("/clock_beat", p, __get_beat_dur_in_ms(num_beats))
             __midi_message "midi_clock_beat port: #{port}"
           end
         else

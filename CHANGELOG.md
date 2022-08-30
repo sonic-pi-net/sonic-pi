@@ -1,4 +1,5 @@
 # History
+* [v4.1.0 'Phase'](#v4.1.0), 30th August 2022
 * [v4.0.3 'Dovetail'](#v4.0.3), 18th July 2022
 * [v4.0.2 'Relink'](#v4.0.2), 15th July 2022
 * [v4.0.1 'Verknüpfen'](#v4.0.1), 12th July 2022
@@ -27,6 +28,43 @@
 * [v2.0.1](#v2.0.1), 9th Sept, 2014
 * [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
 
+<a name="v4.1.0"></a>
+
+## Version 4.1.0 'Phase'
+30th August 2022
+<!-- [(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v4.1.0): -->
+
+The release of v4 of Sonic Pi introduced the ability to change the tempo of live running code to an external beat. This is possible either by setting the tempo manually to a specific BPM (Beats Per Minute) or by using the Tap Tempo button to tap along to an external rhythm. However, even when you do this, it's quite likely that things still don't sound quite right as there's a good chance that the two rhythms are out of phase despite being at the same tempo. This release introduces a new feature - Global Time Warp which lets you shift the phase of Sonic Pi's timing back or forward up to 250 milliseconds to let you align it with an external rhythm.
+
+Taking a quick step back, what does it mean for two rhythms to be out of phase and why is it a problem? Imagine you had two metronomes ticking away. If one has a higher tempo than the other, then one will be ticking faster than the other. This can be fixed by setting the tempos to be the same. However, unless they were both started at exactly the same time, they both wont be ticking at the same time. Instead, one will tick, then the other, then the first, then the second, etc. The second will always be a little later than the first and as they are at the same tempo, they will never catch up with each other, they will always tick at different times. This is called being out of phase. When two rhythms are out of phase it can sound very messy. Therefore, being able to get rhythms to start at exactly the same time is really important to being able to jam together and for it to sound good.
+
+The new Global Time Warp control lets you shift the timing of all triggered synths, MIDI and OSC messages forwards or backwards by a specified time in milliseconds. You can either slide a slider or type in a specific time to adjust the phase of Sonic Pi's timing to match the phase of an external rhythm.
+
+This means you can now easily jam to an external track - first by tapping out the tempo and then by shifting the phase using the new Global Time Warp controls until it sounds right. This is essentially what DJs do when they mix tracks together in a live set - only now you can layer coded rhythms, basslines and riffs on top of external music with code. This is not only a great way to perform live, but it's also a wonderful way to practice - by jamming along to music you love.
+
+In addition to this, the accuracy of the Tap Tempo functionality has been improved in addition to UI tweaks to all the metronome controls.
+
+Have fun jamming in phase to external music and take your live coding collaborations to the next level!
+
+
+### GUI
+* New Global Time Warp controls. This lets you adjust the timing of all scheduled events (synths, samples, MIDI and OSC) forwards or backwards up to 250 milliseconds. This is important for matching the phase of an external rhythm.
+* Improved Tap Tempo logic aimed towards increased BPM detection accuracy and speed.
+* BPM scrubber and new Global Time Warp scrubber now respond to mouse wheel changes.
+
+### Improvements
+* Clearly specify in the tutorial that user-defined function names should start with a lower case letter. Therefore use `define :foo` rather than `define :Foo`.
+
+### Translations
+* Minor improvements to the Indonesian, Korean Portuguese (Brazil) and Russian translations.
+
+### Bugfixes
+* The `duration:` opt for `midi_clock_beat` has been fixed.
+* Fix `scsynth_opts` and `scsynth_opts_override` options in the `~/.sonic-pi/config/audio-settings.toml` config file.
+* Audio output via external soundcards on macOS should now work without requiring audio inputs to be enabled in the GUI.
+* `current_debug` now correctly returns `true` if logging/debug is enabled (the default). Previously it reported the inverse.
+* Minor improvements to documentation layout.
+
 
 <a name="v4.0.3"></a>
 
@@ -44,8 +82,6 @@ This is a minor bugfix and maintenance release.
 
 ### Bugfixes
 * A regression in the function `midi_sysex` introduced in v4 has been resolved. `midi_sysex` can now be called as expected.
-
-
 <a name="v4.0.2"></a>
 
 ## Version 4.0.2 'Relink'

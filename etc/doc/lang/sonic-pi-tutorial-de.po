@@ -6,8 +6,8 @@ msgstr ""
 "Project-Id-Version: Sonic Pi\n"
 "PO-Revision-Date: 2022-06-30 21:17+0000\n"
 "Last-Translator: Jan Ole Hüser <ols3@hotmail.de>\n"
-"Language-Team: German <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
-"de/>\n"
+"Language-Team: German <https://hosted.weblate.org/projects/sonic-pi/tutorial/d"
+"e/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -5129,24 +5129,26 @@ msgstr ""
 " wie `haupt_sektion` oder `hintergrund_akkorde`."
 
 #: 05.5-Functions.md:27
+#, fuzzy
 msgid ""
 "Remember to prepend a colon `:` to the name of your function when you define i"
-"t."
+"t. Function names should also start with a lower case letter, so use `:foo` ra"
+"ther than `:Foo`."
 msgstr ""
 "Denke daran, bei der Definition einer Funktion ihrem Namen einen Doppelpunkt `"
 ":` voranzustellen."
 
-#: 05.5-Functions.md:30
+#: 05.5-Functions.md:31
 msgid "Calling functions"
 msgstr "Funktionen aufrufen"
 
-#: 05.5-Functions.md:32
+#: 05.5-Functions.md:33
 msgid "Once we have defined our function we can call it by just writing its name:"
 msgstr ""
 "Wenn wir unsere Funktion definiert haben, können wir sie über die Eingabe ihre"
 "s Namens aufrufen:"
 
-#: 05.5-Functions.md:35
+#: 05.5-Functions.md:36
 #, no-wrap
 msgid ""
 "define :foo do\n"
@@ -5173,7 +5175,7 @@ msgstr ""
 "  foo\n"
 "end"
 
-#: 05.5-Functions.md:52
+#: 05.5-Functions.md:53
 msgid ""
 "We can even use `foo` inside iteration blocks or anywhere we may have written "
 "`play` or `sample`. This gives us a great way to express ourselves and to crea"
@@ -5184,11 +5186,11 @@ msgstr ""
 "r weit gehende Möglichkeit uns auszudrücken, und können sinnvolle Worte einset"
 "zen, um sie in unseren Kompositionen zu verwenden."
 
-#: 05.5-Functions.md:56
+#: 05.5-Functions.md:57
 msgid "Functions are remembered across runs"
 msgstr "Funktionen bleiben in Erinnerung"
 
-#: 05.5-Functions.md:58
+#: 05.5-Functions.md:59
 msgid ""
 "So far, every time you've pressed the Run button, Sonic Pi has started from a "
 "completely blank slate. It knows nothing except for what is in the buffer. You"
@@ -5204,12 +5206,12 @@ msgstr ""
 "rinnert* sich Sonic Pi daran. Probieren wir das aus. Lösche den gesamten Code "
 "in deinem Puffer und ersetze ihn durch:"
 
-#: 05.5-Functions.md:65
+#: 05.5-Functions.md:66
 #, no-wrap
 msgid "foo"
 msgstr "foo"
 
-#: 05.5-Functions.md:69
+#: 05.5-Functions.md:70
 msgid ""
 "Press the Run button - and hear your function play. Where did the code go? How"
 " did Sonic Pi know what to play? Sonic Pi just remembered your function - so e"
@@ -5223,11 +5225,11 @@ msgstr ""
 "nktioniert nur mit Funktionen, die du mit `define` (und `defonce`) erzeugt has"
 "t."
 
-#: 05.5-Functions.md:75
+#: 05.5-Functions.md:76
 msgid "Parameterised functions"
 msgstr "Funktionen parametrisieren"
 
-#: 05.5-Functions.md:77
+#: 05.5-Functions.md:78
 msgid ""
 "You might be interested in knowing that just like you can pass min and max val"
 "ues to `rrand`, you can teach your functions to accept arguments. Let's take a"
@@ -5237,7 +5239,7 @@ msgstr ""
 "nd Maximalwert übergeben kannst, du auch deinen Funktionen beibringen kannst A"
 "rgumente zu akzeptieren. Sehen wir uns das an:"
 
-#: 05.5-Functions.md:81
+#: 05.5-Functions.md:82
 #, no-wrap
 msgid ""
 "define :my_player do |n|\n"
@@ -5254,7 +5256,7 @@ msgstr ""
 "sleep 0.5\n"
 "my_player 90"
 
-#: 05.5-Functions.md:91
+#: 05.5-Functions.md:92
 msgid ""
 "This isn't very exciting, but it illustrates the point. We've created our own "
 "version of `play` called `my_player` which is parameterised."
@@ -5263,7 +5265,7 @@ msgstr ""
 "nsere eigene Version von `play` mit dem Namen `my_player` erschaffen. Diese is"
 "t parametrisiert - sie akzeptiert also Argumente."
 
-#: 05.5-Functions.md:94
+#: 05.5-Functions.md:95
 msgid ""
 "The parameters need to go after the `do` of the `define` do/end block, surroun"
 "ded by vertical goalposts `|` and separated by commas `,`. You may use any wor"
@@ -5273,7 +5275,7 @@ msgstr ""
 "n von senkrechten Strichen (pipes) `|`und durch Kommas `,` getrennt. Du kannst"
 " beliebige Wörter als Parameternamen verwenden."
 
-#: 05.5-Functions.md:98
+#: 05.5-Functions.md:99
 msgid ""
 "The magic happens inside the `define` do/end block. You may use the parameter "
 "names as if they were real values. In this example I'm playing note `n`. You c"
@@ -5294,11 +5296,11 @@ msgstr ""
 "verwandelt. Wenn ich die Funktion erneut mit `my_player 90` aufrufe, wird `n` "
 "durch 90 ersetzt, sodass sich jetzt `play n` in `play 90` verwandelt."
 
-#: 05.5-Functions.md:108
+#: 05.5-Functions.md:109
 msgid "Let's see a more interesting example:"
 msgstr "Sehen wir uns ein interessanteres Beispiel an:"
 
-#: 05.5-Functions.md:110
+#: 05.5-Functions.md:111
 #, no-wrap
 msgid ""
 "define :chord_player do |root, repeats| \n"
@@ -5327,7 +5329,7 @@ msgstr ""
 "sleep 0.5\n"
 "chord_player :e3, 3"
 
-#: 05.5-Functions.md:126
+#: 05.5-Functions.md:127
 msgid ""
 "Here I used `repeats` as if it was a number in the line `repeats.times do`. I "
 "also used `root` as if it was a note name in my call to `play`."
@@ -5336,7 +5338,7 @@ msgstr ""
 "times do` wäre. Zusätzlich habe ich `roots` so verwendet, als ob es ein Notenn"
 "ame in meinem Aufruf von `play` wäre."
 
-#: 05.5-Functions.md:129
+#: 05.5-Functions.md:130
 msgid ""
 "See how we're able to write something very expressive and easy to read by movi"
 "ng a lot of our logic into a function!"
@@ -11115,15 +11117,16 @@ msgstr ""
 "res Signal erhalten, und an Ausgang 3 wird ein Mono-Mix des Amen-Drum-Break ge"
 "schickt."
 
-#: 14-Conclusions.md:1
-msgid "14 Conclusions"
-msgstr "12 Abschließendes"
+#: 99-Conclusions.md:1
+#, fuzzy
+msgid "99 Conclusions"
+msgstr "Abschließendes"
 
-#: 14-Conclusions.md:3
+#: 99-Conclusions.md:3
 msgid "Conclusions"
 msgstr "Abschließendes"
 
-#: 14-Conclusions.md:5
+#: 99-Conclusions.md:5
 msgid ""
 "This concludes the Sonic Pi introductory tutorial. Hopefully you've learned so"
 "mething along the way. Don't worry if you feel you didn't understand everythin"
@@ -11138,7 +11141,7 @@ msgstr ""
 " entdecken. Tauche einfach wieder ein, wenn du das Gefühl hast , dass eine Fra"
 "ge in einem der Abschnitte des Tutorials beantwortet werden könnte."
 
-#: 14-Conclusions.md:11
+#: 99-Conclusions.md:11
 msgid ""
 "If you have any questions that haven't been covered in the tutorial, then plea"
 "se jump onto the [Sonic Pi community forums](https://in-thread.sonic-pi.net/) "
@@ -11150,7 +11153,7 @@ msgstr ""
 "bei und stelle deine Frage dort. Du wirst dort Leute treffen, die freundlich s"
 "ind und dir gerne weiterhelfen."
 
-#: 14-Conclusions.md:16
+#: 99-Conclusions.md:16
 msgid ""
 "Finally, I also invite you to take a deeper look at the rest of the documentat"
 "ion in this help system. There are a number of features that haven't been cove"
@@ -11161,7 +11164,7 @@ msgstr ""
 "kmalen von Sonic Pi, die in diesem Tutorial nicht behandelt wurden und darauf "
 "warten, von dir entdeckt zu werden."
 
-#: 14-Conclusions.md:21
+#: 99-Conclusions.md:21
 msgid ""
 "So play, have fun, share your code, perform for your friends, show your screen"
 "s and remember:"
@@ -11169,11 +11172,11 @@ msgstr ""
 "Also, spiele, hab Spaß, teile deinen Programm-Code, tritt vor deinen Freunden "
 "auf, zeige was du auf dem Monitor hast - und vergiss nicht:"
 
-#: 14-Conclusions.md:24
+#: 99-Conclusions.md:24
 msgid "*There are no mistakes, only opportunities.*"
 msgstr "*Es gibt keine Fehler, nur Möglichkeiten.*"
 
-#: 14-Conclusions.md:26
+#: 99-Conclusions.md:26
 msgid "[Sam Aaron](https://twitter.com/samaaron)"
 msgstr "[Sam Aaron](https://twitter.com/samaaron)"
 
@@ -12967,13 +12970,13 @@ msgid ""
 "ou feel like a rest. Then repeat as many times as you want. Don't worry, I'll "
 "still be here..."
 msgstr ""
-"Während der Loop noch aktiv ist, ändere den `cutoff:`-Wert auf `110`. Drücke "
-"nun erneut den „Ausführen“-Knopf. Der Ton sollte sich nun etwas härter und "
-"quäkiger anhören. Ändere ihn jetzt auf `120` und drücke „Ausführen“. Jetzt "
-"`130`. Hörst du, wie höhere Cutoff-Werte den Klang durchdringender und "
-"intensiver machen? Ändere den Wert schließlich auf `80`, wenn du dich nach "
-"einer Pause sehnst. Wiederhole das Ganze dann so oft wie du willst. Keine "
-"Sorge, ich werde immer noch hier sein..."
+"Während der Loop noch aktiv ist, ändere den `cutoff:`-Wert auf `110`. Drücke n"
+"un erneut den „Ausführen“-Knopf. Der Ton sollte sich nun etwas härter und quäk"
+"iger anhören. Ändere ihn jetzt auf `120` und drücke „Ausführen“. Jetzt `130`. "
+"Hörst du, wie höhere Cutoff-Werte den Klang durchdringender und intensiver mac"
+"hen? Ändere den Wert schließlich auf `80`, wenn du dich nach einer Pause sehns"
+"t. Wiederhole das Ganze dann so oft wie du willst. Keine Sorge, ich werde imme"
+"r noch hier sein..."
 
 #: A.05-acid-bass.md:91
 msgid ""
@@ -12985,15 +12988,14 @@ msgid ""
 "some insane sounds. At a `res` this high, you're hearing the cutoff filter res"
 "onate so much it starts to make sounds of its own!"
 msgstr ""
-"Eine weitere Option, mit der es sich zu spielen lohnt, ist `res:`. Damit "
-"wird der Resonanzgrad des Filters eingestellt. Eine hohe Resonanz ist "
-"charakteristisch für Acid-Bass-Sounds. Im Moment haben wir `res:` auf `0.8` "
-"eingestellt. Versuche, ihn auf `0.85`, dann `0.9` und schließlich `0.95` zu "
-"erhöhen. Möglicherweise wirst du feststellen, dass ein Cutoff-Wert wie `110` "
-"oder höher die Unterschiede besser hörbar macht. Jetzt mach mal etwas wildes "
-"und gib `0.999` ein: hörst du den verrückten Sound? Bei einer so hohen "
-"Auflösung hört man den Cutoff-Filter so stark mitschwingen, dass er anfängt, "
-"eigene Töne zu erzeugen!"
+"Eine weitere Option, mit der es sich zu spielen lohnt, ist `res:`. Damit wird "
+"der Resonanzgrad des Filters eingestellt. Eine hohe Resonanz ist charakteristi"
+"sch für Acid-Bass-Sounds. Im Moment haben wir `res:` auf `0.8` eingestellt. Ve"
+"rsuche, ihn auf `0.85`, dann `0.9` und schließlich `0.95` zu erhöhen. Mögliche"
+"rweise wirst du feststellen, dass ein Cutoff-Wert wie `110` oder höher die Unt"
+"erschiede besser hörbar macht. Jetzt mach mal etwas wildes und gib `0.999` ein"
+": hörst du den verrückten Sound? Bei einer so hohen Auflösung hört man den Cut"
+"off-Filter so stark mitschwingen, dass er anfängt, eigene Töne zu erzeugen!"
 
 #: A.05-acid-bass.md:100
 msgid ""

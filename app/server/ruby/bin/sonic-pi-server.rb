@@ -713,6 +713,17 @@ register_api = lambda do |server|
       STDOUT.flush
     end
   end
+
+  server.add_method("/set-global-timewarp") do |args|
+    incoming_token = args[0]
+    if incoming_token == token
+      time = args[1].to_f
+      sp.__set_global_timewarp!(time)
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /set-global-timewarp call"
+      STDOUT.flush
+    end
+  end
 end
 
 register_api.call(osc_server)

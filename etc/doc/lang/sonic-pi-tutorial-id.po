@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2021-05-20 04:32+0000\n"
-"Last-Translator: Jacque Fresco <aidter@use.startmail.com>\n"
+"PO-Revision-Date: 2022-08-02 11:22+0000\n"
+"Last-Translator: Umair Raihan <umair.umer26@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/sonic-pi/tutori"
 "al/id/>\n"
 "Language: id\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.7-dev\n"
+"X-Generator: Weblate 4.14-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -21,7 +21,7 @@ msgstr "1 Selamat datang di Sonic Pi"
 
 #: 01-Welcome-to-Sonic-Pi.md:3
 msgid "Welcome friend :-)"
-msgstr "Selamat datang teman :-)"
+msgstr "Selamat datang, kawan :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:5
 #, fuzzy
@@ -52,6 +52,9 @@ msgid ""
 "n - feedback is so helpful. You never know, your idea might be the next big fe"
 "ature!"
 msgstr ""
+"Apabila kamu punya gagasan atau ide untuk memperbaiki Sonic Pi - tolong beri t"
+"ahu kami - masukan akan sangat membantu. Kamu tidak pernah tahu, idemu mungkin"
+" akan menjadi fitur besar selanjutnya!"
 
 #: 01-Welcome-to-Sonic-Pi.md:22
 msgid ""
@@ -70,7 +73,7 @@ msgstr ""
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
-msgstr ""
+msgstr "OK, mari kita mulai..."
 
 #: 01.1-Live-Coding.md:1
 msgid "1.1 Live Coding"
@@ -3742,18 +3745,19 @@ msgstr ""
 #: 05.5-Functions.md:27
 msgid ""
 "Remember to prepend a colon `:` to the name of your function when you define i"
-"t."
+"t. Function names should also start with a lower case letter, so use `:foo` ra"
+"ther than `:Foo`."
 msgstr ""
 
-#: 05.5-Functions.md:30
+#: 05.5-Functions.md:31
 msgid "Calling functions"
 msgstr ""
 
-#: 05.5-Functions.md:32
+#: 05.5-Functions.md:33
 msgid "Once we have defined our function we can call it by just writing its name:"
 msgstr ""
 
-#: 05.5-Functions.md:35
+#: 05.5-Functions.md:36
 #, no-wrap
 msgid ""
 "define :foo do\n"
@@ -3769,18 +3773,18 @@ msgid ""
 "end"
 msgstr ""
 
-#: 05.5-Functions.md:52
+#: 05.5-Functions.md:53
 msgid ""
 "We can even use `foo` inside iteration blocks or anywhere we may have written "
 "`play` or `sample`. This gives us a great way to express ourselves and to crea"
 "te new meaningful words for use in our compositions."
 msgstr ""
 
-#: 05.5-Functions.md:56
+#: 05.5-Functions.md:57
 msgid "Functions are remembered across runs"
 msgstr ""
 
-#: 05.5-Functions.md:58
+#: 05.5-Functions.md:59
 msgid ""
 "So far, every time you've pressed the Run button, Sonic Pi has started from a "
 "completely blank slate. It knows nothing except for what is in the buffer. You"
@@ -3789,12 +3793,12 @@ msgid ""
 ". Delete all the code in your buffer and replace it with:"
 msgstr ""
 
-#: 05.5-Functions.md:65
+#: 05.5-Functions.md:66
 #, no-wrap
 msgid "foo"
 msgstr ""
 
-#: 05.5-Functions.md:69
+#: 05.5-Functions.md:70
 msgid ""
 "Press the Run button - and hear your function play. Where did the code go? How"
 " did Sonic Pi know what to play? Sonic Pi just remembered your function - so e"
@@ -3802,18 +3806,18 @@ msgid ""
 "is behaviour only works with functions created using `define` (and `defonce`)."
 msgstr ""
 
-#: 05.5-Functions.md:75
+#: 05.5-Functions.md:76
 msgid "Parameterised functions"
 msgstr ""
 
-#: 05.5-Functions.md:77
+#: 05.5-Functions.md:78
 msgid ""
 "You might be interested in knowing that just like you can pass min and max val"
 "ues to `rrand`, you can teach your functions to accept arguments. Let's take a"
 " look:"
 msgstr ""
 
-#: 05.5-Functions.md:81
+#: 05.5-Functions.md:82
 #, no-wrap
 msgid ""
 "define :my_player do |n|\n"
@@ -3824,20 +3828,20 @@ msgid ""
 "my_player 90"
 msgstr ""
 
-#: 05.5-Functions.md:91
+#: 05.5-Functions.md:92
 msgid ""
 "This isn't very exciting, but it illustrates the point. We've created our own "
 "version of `play` called `my_player` which is parameterised."
 msgstr ""
 
-#: 05.5-Functions.md:94
+#: 05.5-Functions.md:95
 msgid ""
 "The parameters need to go after the `do` of the `define` do/end block, surroun"
 "ded by vertical goalposts `|` and separated by commas `,`. You may use any wor"
 "ds you want for the parameter names."
 msgstr ""
 
-#: 05.5-Functions.md:98
+#: 05.5-Functions.md:99
 msgid ""
 "The magic happens inside the `define` do/end block. You may use the parameter "
 "names as if they were real values. In this example I'm playing note `n`. You c"
@@ -3849,11 +3853,11 @@ msgid ""
 "th 90, so `play n` turns into `play 90`."
 msgstr ""
 
-#: 05.5-Functions.md:108
+#: 05.5-Functions.md:109
 msgid "Let's see a more interesting example:"
 msgstr ""
 
-#: 05.5-Functions.md:110
+#: 05.5-Functions.md:111
 #, no-wrap
 msgid ""
 "define :chord_player do |root, repeats| \n"
@@ -3870,13 +3874,13 @@ msgid ""
 "chord_player :e3, 3"
 msgstr ""
 
-#: 05.5-Functions.md:126
+#: 05.5-Functions.md:127
 msgid ""
 "Here I used `repeats` as if it was a number in the line `repeats.times do`. I "
 "also used `root` as if it was a note name in my call to `play`."
 msgstr ""
 
-#: 05.5-Functions.md:129
+#: 05.5-Functions.md:130
 msgid ""
 "See how we're able to write something very expressive and easy to read by movi"
 "ng a lot of our logic into a function!"
@@ -8001,15 +8005,15 @@ msgid ""
 "eak."
 msgstr ""
 
-#: 14-Conclusions.md:1
-msgid "14 Conclusions"
+#: 99-Conclusions.md:1
+msgid "99 Conclusions"
 msgstr ""
 
-#: 14-Conclusions.md:3
+#: 99-Conclusions.md:3
 msgid "Conclusions"
 msgstr ""
 
-#: 14-Conclusions.md:5
+#: 99-Conclusions.md:5
 msgid ""
 "This concludes the Sonic Pi introductory tutorial. Hopefully you've learned so"
 "mething along the way. Don't worry if you feel you didn't understand everythin"
@@ -8018,7 +8022,7 @@ msgid ""
 "e sections."
 msgstr ""
 
-#: 14-Conclusions.md:11
+#: 99-Conclusions.md:11
 msgid ""
 "If you have any questions that haven't been covered in the tutorial, then plea"
 "se jump onto the [Sonic Pi community forums](https://in-thread.sonic-pi.net/) "
@@ -8026,24 +8030,24 @@ msgid ""
 "a hand."
 msgstr ""
 
-#: 14-Conclusions.md:16
+#: 99-Conclusions.md:16
 msgid ""
 "Finally, I also invite you to take a deeper look at the rest of the documentat"
 "ion in this help system. There are a number of features that haven't been cove"
 "red in this tutorial that are waiting for your discovery."
 msgstr ""
 
-#: 14-Conclusions.md:21
+#: 99-Conclusions.md:21
 msgid ""
 "So play, have fun, share your code, perform for your friends, show your screen"
 "s and remember:"
 msgstr ""
 
-#: 14-Conclusions.md:24
+#: 99-Conclusions.md:24
 msgid "*There are no mistakes, only opportunities.*"
 msgstr ""
 
-#: 14-Conclusions.md:26
+#: 99-Conclusions.md:26
 msgid "[Sam Aaron](https://twitter.com/samaaron)"
 msgstr ""
 
