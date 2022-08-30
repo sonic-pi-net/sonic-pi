@@ -3961,7 +3961,7 @@ Unlike `Time.now`, Multiple calls to `current_time` with no interleaved calls to
           opts:          nil,
           accepts_block: false,
           examples:      ["
-  puts current_time # 2017-03-19 23:37:57 +0000",
+  puts current_time # 2017-03-19 23:37:57.324 +0000",
 "
 # The difference between current_time and Time.now
 # See that Time.now is continuous and current_time is discrete
