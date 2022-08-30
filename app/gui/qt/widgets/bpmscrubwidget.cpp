@@ -176,7 +176,7 @@ void BPMScrubWidget::wheelEvent(QWheelEvent* event)
     setDisplayAndSyncBPM(m_bpmValue - numPixels.y());
   } else if (!numDegrees.isNull()) {
     QPoint numSteps = numDegrees / 15;
-    setDisplayAndSyncBPM(m_bpmValue - numSteps.y());
+    setDisplayAndSyncBPM(m_bpmValue + numSteps.y());
   }
 
   event->accept();

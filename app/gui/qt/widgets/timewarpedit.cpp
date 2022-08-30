@@ -121,7 +121,7 @@ void TimeWarpEdit::wheelEvent(QWheelEvent* event)
     setDisplayAndWarpToTime(m_timeWarpValue - numPixels.y());
   } else if (!numDegrees.isNull()) {
     QPoint numSteps = numDegrees / 15;
-    setDisplayAndWarpToTime(m_timeWarpValue - numSteps.y());
+    setDisplayAndWarpToTime(m_timeWarpValue + numSteps.y());
   }
 
   event->accept();
