@@ -45,6 +45,7 @@ protected:
   void mouseDoubleClickEvent(QMouseEvent * event);
   void keyPressEvent(QKeyEvent* event);
   void keyReleaseEvent(QKeyEvent* event);
+  void wheelEvent(QWheelEvent * event);
 
 private:
   std::shared_ptr<SonicPi::QtAPIClient> m_spClient;

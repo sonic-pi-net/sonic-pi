@@ -111,6 +111,22 @@ void TimeWarpEdit::mouseMoveEvent(QMouseEvent* event)
   }
 }
 
+void TimeWarpEdit::wheelEvent(QWheelEvent* event)
+{
+
+  QPoint numPixels = event->pixelDelta() / 4;
+  QPoint numDegrees = event->angleDelta() / 8;
+
+  if (!numPixels.isNull()) {
+    setDisplayAndWarpToTime(m_timeWarpValue - numPixels.y());
+  } else if (!numDegrees.isNull()) {
+    QPoint numSteps = numDegrees / 15;
+    setDisplayAndWarpToTime(m_timeWarpValue - numSteps.y());
+  }
+
+  event->accept();
+}
+
 void TimeWarpEdit::mouseDoubleClickEvent(QMouseEvent* event)
 {
   m_isDragging = false;

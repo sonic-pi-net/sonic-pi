@@ -166,6 +166,22 @@ void BPMScrubWidget::mouseMoveEvent(QMouseEvent* event)
   }
 }
 
+void BPMScrubWidget::wheelEvent(QWheelEvent* event)
+{
+
+  QPoint numPixels = event->pixelDelta() / 4;
+  QPoint numDegrees = event->angleDelta() / 8;
+
+  if (!numPixels.isNull()) {
+    setDisplayAndSyncBPM(m_bpmValue - numPixels.y());
+  } else if (!numDegrees.isNull()) {
+    QPoint numSteps = numDegrees / 15;
+    setDisplayAndSyncBPM(m_bpmValue - numSteps.y());
+  }
+
+  event->accept();
+}
+
 void BPMScrubWidget::mouseDoubleClickEvent(QMouseEvent* event)
 {
   m_isDragging = false;
