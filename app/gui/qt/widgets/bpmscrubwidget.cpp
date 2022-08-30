@@ -134,9 +134,9 @@ void BPMScrubWidget::mouseMoveEvent(QMouseEvent* event)
     int diff = m_lastMouseDragGlobalPos.y() - event->globalPos().y();
 
     if(diff > 0) {
-      m_dragDelta = m_dragDelta + 0.25;
+      m_dragDelta = m_dragDelta + 0.5;
     } else if(diff < 0) {
-      m_dragDelta = m_dragDelta - 0.25;
+      m_dragDelta = m_dragDelta - 0.5;
     } else {
       // diff is 0 - do nothing
     }
