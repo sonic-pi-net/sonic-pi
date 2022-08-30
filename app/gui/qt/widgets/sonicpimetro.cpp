@@ -37,7 +37,7 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
 #else
   QString link_shortcut = QKeySequence("alt+t").toString(QKeySequence::NativeText);
 #endif
-  enableLinkButton->setToolTip(tr("Enable/Disable network sync.\nThis controls whether the Link metronome will synchronise with other Link metronomes on the local WiFi/ethernet network.\nWhen enabled, BPM changes to this metronome will also change all other Link metronomes on the network\nand changes to any other Link metronome will affect this metronome.") + "\n(" + link_shortcut + ")");
+  enableLinkButton->setToolTip(tr("Enable/Disable network sync.\n\nThis controls whether the Link metronome will synchronise with other Link metronomes on the local WiFi/ethernet network.\nWhen enabled, BPM changes to this metronome will also change all other Link metronomes on the network\nand changes to any other Link metronome will affect this metronome.") + "\n(" + link_shortcut + ")");
 
   tapButton = new QPushButton(tr("Tap"));
   tapButton->setAutoFillBackground(true);
@@ -45,7 +45,7 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   tapButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
   tapButton->setFlat(true);
 
-  tapButton->setToolTip(tr("Tap tempo.\nClick repeatedly to the beat to set the BPM manually.\nAccuracy increases with every additional click.") + "\n(" + QKeySequence("Shift+Return").toString(QKeySequence::NativeText) + ")");
+  tapButton->setToolTip(tr("Tap tempo.\n\nClick repeatedly to the beat to set the BPM manually.\nAccuracy increases with every additional click.") + "\n(" + QKeySequence("Shift+Return").toString(QKeySequence::NativeText) + ")");
 
 
   timeWarpSlider = new QSlider(Qt::Horizontal, this);
@@ -53,7 +53,7 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   timeWarpSlider->setObjectName("timeWarpSlider");
   timeWarpSlider->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
   timeWarpSlider->setTickPosition(QSlider::TicksBelow);
-  timeWarpSlider->setToolTip(tr("Global Time Warp.\nSlide to shift the phase of all triggered synths / FX and sent MIDI/OSC events.\nNegative values trigger everything earlier, positive values trigger things later.\nThe unit is milliseconds."));
+  timeWarpSlider->setToolTip(tr("Global Time Warp.\n\nSlide to shift the phase of all triggered synths / FX and sent MIDI/OSC events.\nNegative values trigger everything earlier, positive values trigger things later.\nThe unit is milliseconds."));
   timeWarpSlider->setMinimum(-250);
   timeWarpSlider->setMaximum(250);
   timeWarpSlider->setValue(0);
@@ -64,7 +64,7 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   timeWarpLineEdit->setObjectName("timeWarpEdit");
   timeWarpLineEdit->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-  timeWarpLineEdit->setToolTip(tr("Global Time Warp.\nAdjust to shift the phase of all triggered synths / FX and sent MIDI/OSC events.\nNegative values trigger everything earlier, positive values trigger things later.\nThe unit is milliseconds."));
+  timeWarpLineEdit->setToolTip(tr("Global Time Warp.\n\nAdjust to shift the phase of all triggered synths / FX and sent MIDI/OSC events.\nNegative values trigger everything earlier, positive values trigger things later.\nEdit, drag or scroll to modify. Double click to reset to 0. The unit is milliseconds."));
 
   connect(timeWarpSlider, &QSlider::valueChanged, [=](int value) {
     QSignalBlocker blocker(timeWarpLineEdit);
@@ -79,7 +79,7 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   bpmScrubWidget = new BPMScrubWidget(m_spClient, m_spAPI, theme, setPosAvailable);
   bpmScrubWidget->setObjectName("bpmScrubber");
   bpmScrubWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-  bpmScrubWidget->setToolTip(tr("Current Link BPM. Edit or drag to modify."));
+  bpmScrubWidget->setToolTip(tr("Current Link Tempo in BPM (Beats Per Minute).\n\nEdit, drag or scroll to modify. Double click to reset to 60."));
 
   QHBoxLayout* metro_layout  = new QHBoxLayout;
   metro_layout->addWidget(enableLinkButton);
