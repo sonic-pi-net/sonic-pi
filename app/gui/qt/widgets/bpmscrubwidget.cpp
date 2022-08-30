@@ -57,11 +57,7 @@ double BPMScrubWidget::getBPM()
 
 QString BPMScrubWidget::formatBPM()
 {
-  if(m_setPosAvailable) {
-    return QString("%1 set").arg(m_bpmValue, 6, 'f', 2);
-  } else {
-    return QString("%1 bpm").arg(m_bpmValue, 6, 'f', 2);
-  }
+  return QString("%1 bpm").arg(m_bpmValue, 6, 'f', 2);
 }
 
 void BPMScrubWidget::displayBPM()
