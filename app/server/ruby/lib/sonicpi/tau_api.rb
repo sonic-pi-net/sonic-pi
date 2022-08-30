@@ -250,6 +250,10 @@ module SonicPi
       end
     end
 
+    def set_global_timewarp!(time)
+      @global_timewarp = time.to_f / 1000.0
+    end
+
     private
 
     def update_link_time_delta!
@@ -336,8 +340,6 @@ module SonicPi
       @tau_comms.send_ts(t, path, *args)
     end
 
-    def set_global_timewarp!(time)
-      @global_timewarp = time.to_f / 1000.0
-    end
+
   end
 end
