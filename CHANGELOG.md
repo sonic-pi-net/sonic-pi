@@ -61,6 +61,7 @@ Have fun jamming in phase to external music and take your live coding collaborat
 * The `duration:` opt for `midi_clock_beat` has been fixed.
 * Fix `scsynth_opts` and `scsynth_opts_override` options in the `~/.sonic-pi/config/audio-settings.toml` config file.
 * Audio output via external soundcards on macOS should now work without requiring audio inputs to be enabled in the GUI.
+* `current_debug` now correctly returns `true` if logging/debug is enabled (the default). Previously it reported the inverse.
 * Minor improvements to documentation layout.
 
 
