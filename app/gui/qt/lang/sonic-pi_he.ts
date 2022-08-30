@@ -4,1120 +4,1139 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../mainwindow.cpp" line="467"/>
+        <location filename="../mainwindow.cpp" line="462"/>
         <source>Preferences</source>
         <translation>העדפות</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="698"/>
+        <location filename="../mainwindow.cpp" line="693"/>
         <source>Log</source>
         <translation>יומן רישום</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="189"/>
-        <location filename="../mainwindow.cpp" line="3582"/>
-        <location filename="../mainwindow.cpp" line="3610"/>
+        <location filename="../mainwindow.cpp" line="3593"/>
+        <location filename="../mainwindow.cpp" line="3621"/>
         <source>Sonic Pi</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1735"/>
+        <location filename="../mainwindow.cpp" line="1724"/>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
         <translation>קוד מופעל…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1754"/>
+        <location filename="../mainwindow.cpp" line="1743"/>
         <source>Beautifying...</source>
         <oldsource>Beautifying....</oldsource>
         <translation>מתבצע ייפוי…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1780"/>
+        <location filename="../mainwindow.cpp" line="1769"/>
         <source>Reloading...</source>
         <oldsource>Reloading....</oldsource>
         <translation>מתבצע רענון…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1812"/>
+        <location filename="../mainwindow.cpp" line="1801"/>
         <source>Enabling Mixer HPF...</source>
         <oldsource>Enabling Mixer HPF....</oldsource>
         <translation>HPF של מערבל מופעל…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1821"/>
+        <location filename="../mainwindow.cpp" line="1810"/>
         <source>Disabling Mixer HPF...</source>
         <oldsource>Disabling Mixer HPF....</oldsource>
         <translation>HPF של מערבל מושבת…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="338"/>
+        <location filename="../mainwindow.cpp" line="333"/>
         <source>Welcome to Sonic Pi</source>
         <translation>ברוך בואך ל־Sonic Pi</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1150"/>
+        <location filename="../mainwindow.cpp" line="1145"/>
         <source>Indenting selection...</source>
         <translation>הבחירה מוזחת…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1156"/>
+        <location filename="../mainwindow.cpp" line="1151"/>
         <source>Indenting line...</source>
         <translation>השורה מוזחת…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1187"/>
+        <location filename="../mainwindow.cpp" line="1182"/>
         <source>Toggle selection comment...</source>
         <translation>החלפת מצב בחירת הערה…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="704"/>
+        <location filename="../mainwindow.cpp" line="699"/>
         <source>Cues</source>
         <translation>אותות</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="938"/>
+        <location filename="../mainwindow.cpp" line="933"/>
         <source>Full screen mode off.</source>
         <translation>תצוגת מסך מלאה מושבתת.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1193"/>
+        <location filename="../mainwindow.cpp" line="1188"/>
         <source>Toggle line comment...</source>
         <translation>החלפת מצב שורת הערה…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3974"/>
+        <location filename="../mainwindow.cpp" line="3986"/>
         <source>Enabling MIDI input...</source>
         <translation>קלט ה־MIDI מופעל…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3982"/>
+        <location filename="../mainwindow.cpp" line="3994"/>
         <source>Disabling MIDI input...</source>
         <translation>קלט ה־MIDI מושבת…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4000"/>
+        <location filename="../mainwindow.cpp" line="4012"/>
         <source>No connected input devices</source>
         <translation>לא מחוברים התקני קלט</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4001"/>
+        <location filename="../mainwindow.cpp" line="4013"/>
         <source>No connected output devices</source>
         <translation>לא מחוברים התקני פלט</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3946"/>
+        <location filename="../mainwindow.cpp" line="3958"/>
         <source>Visit http://sonic-pi.net to download new version</source>
         <translation>יש לבקר ב־http://sonic-pi.net כדי להוריד גרסה חדשה</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4029"/>
+        <location filename="../mainwindow.cpp" line="4041"/>
         <source>Disabling OSC cue port...</source>
         <translation>פתחת האות של OSC מושבתת…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4043"/>
+        <location filename="../mainwindow.cpp" line="4055"/>
         <source>Enabling external OSC cue port...</source>
         <translation>פתחת האות החיצונית של OSC מופעלת…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4057"/>
+        <location filename="../mainwindow.cpp" line="4069"/>
         <source>Enabling internal OSC cue port...</source>
         <translation>פתחת האות הפנימית של OSC מופעלת…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4127"/>
+        <location filename="../mainwindow.cpp" line="4139"/>
         <source>Connected MIDI inputs</source>
         <translation>מחוברים ערוצי קלט MIDI</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4148"/>
+        <location filename="../mainwindow.cpp" line="4160"/>
         <source>Connected MIDI outputs</source>
         <translation>מחוברים ערוצי פלט MIDI</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1586"/>
-        <location filename="../mainwindow.cpp" line="1588"/>
-        <location filename="../mainwindow.cpp" line="1604"/>
-        <location filename="../mainwindow.cpp" line="1606"/>
+        <location filename="../mainwindow.cpp" line="1575"/>
+        <location filename="../mainwindow.cpp" line="1577"/>
+        <location filename="../mainwindow.cpp" line="1593"/>
+        <location filename="../mainwindow.cpp" line="1595"/>
         <source>Buffer files</source>
         <translation>קובצי מכלא</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1588"/>
+        <location filename="../mainwindow.cpp" line="705"/>
+        <source>Link Metronome &amp; Global Time Warp</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1577"/>
         <source>Load Sonic Pi Buffer</source>
         <translation>טעינת מכלא של Sonic Pi</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1588"/>
-        <location filename="../mainwindow.cpp" line="1606"/>
+        <location filename="../mainwindow.cpp" line="1577"/>
+        <location filename="../mainwindow.cpp" line="1595"/>
         <source>Text files</source>
         <translation>קובצי טקסט</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1588"/>
-        <location filename="../mainwindow.cpp" line="1606"/>
+        <location filename="../mainwindow.cpp" line="1577"/>
+        <location filename="../mainwindow.cpp" line="1595"/>
         <source>Ruby files</source>
         <translation>קובצי Ruby</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1588"/>
-        <location filename="../mainwindow.cpp" line="1606"/>
+        <location filename="../mainwindow.cpp" line="1577"/>
+        <location filename="../mainwindow.cpp" line="1595"/>
         <source>All files</source>
         <translation>כל הקבצים</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2183"/>
+        <location filename="../mainwindow.cpp" line="2172"/>
         <source>Log Auto Scroll on...</source>
         <translation>גלילה אוטומטית של יומן הרישום…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2187"/>
+        <location filename="../mainwindow.cpp" line="2176"/>
         <source>Log Auto Scroll off...</source>
         <translation>ביטול גלילה אוטומטית של יומן הרישום…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2708"/>
+        <location filename="../mainwindow.cpp" line="2697"/>
         <source>Run the code in the current buffer</source>
         <translation>הרצת הקוד במכלא הנוכחי</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2730"/>
+        <location filename="../mainwindow.cpp" line="2719"/>
         <source>Load</source>
         <translation>טעינה</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2732"/>
+        <location filename="../mainwindow.cpp" line="2721"/>
         <source>Load an external file in the current buffer</source>
         <translation>טעינת קובץ חיצוני במכלא הנוכחי</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2736"/>
+        <location filename="../mainwindow.cpp" line="2725"/>
         <source>Indent Code Buffer</source>
         <translation>הזחת מכלא קוד</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2742"/>
+        <location filename="../mainwindow.cpp" line="2731"/>
         <source>Code Size Up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2748"/>
+        <location filename="../mainwindow.cpp" line="2737"/>
         <source>Code Size Down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2754"/>
+        <location filename="../mainwindow.cpp" line="2743"/>
         <source>Show Scopes</source>
         <translation>הצגת טווחים</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2762"/>
+        <location filename="../mainwindow.cpp" line="2751"/>
         <source>Show Info</source>
         <translation>הצגת פרטים</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3389"/>
+        <location filename="../mainwindow.cpp" line="3400"/>
         <source>Wavefile (*.wav)</source>
         <translation>קובץ Wave‏ (‎*.wav)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4002"/>
+        <location filename="../mainwindow.cpp" line="4014"/>
         <source>Resetting MIDI...</source>
         <translation>ה־MIDI מתאפס…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4009"/>
+        <location filename="../mainwindow.cpp" line="4021"/>
         <source>MIDI is disabled...</source>
         <translation>ה־MIDI מושבת…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4070"/>
+        <location filename="../mainwindow.cpp" line="4082"/>
         <source>Welcome back. Now get your live code on...</source>
         <translation>ברוך שובך. עכשיו נחזור לקודד…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1606"/>
+        <location filename="../mainwindow.cpp" line="1595"/>
         <source>Save Current Buffer</source>
         <translation>שמירת המכלא הנוכחי</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="686"/>
+        <location filename="../mainwindow.cpp" line="681"/>
         <source>Scope</source>
         <translation>תרשים</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="843"/>
+        <location filename="../mainwindow.cpp" line="838"/>
         <source>Playing Sample...</source>
         <translation>הדגימה מתנגנת…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="882"/>
+        <location filename="../mainwindow.cpp" line="877"/>
         <source>Hiding pane titles...</source>
         <translation>כותרות החלוניות מוסתרות…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="892"/>
+        <location filename="../mainwindow.cpp" line="887"/>
         <source>Showing pane titles...</source>
         <translation>כותרות החלוניות מוצגות…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1317"/>
+        <location filename="../mainwindow.cpp" line="1319"/>
         <source>Audio Inputs Enabled. Restart Sonic Pi for this setting to take effect...</source>
         <translation>ערוצי קלט שמע הופעלו. יש להפעיל את Sonic Pi מחדש כדי שהשינוי הזה ייכנס לתוקף…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1319"/>
+        <location filename="../mainwindow.cpp" line="1321"/>
         <source>Audio Inputs Disabled. Restart Sonic Pi for this setting to take effect...</source>
         <translation>ערוצי קלט שמע הושבתו. יש להפעיל את Sonic Pi מחדש כדי שהשינוי הזה ייכנס לתוקף…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1417"/>
+        <location filename="../mainwindow.cpp" line="1419"/>
         <source>Sonic Pi Boot Error</source>
         <translation>שגיאת טעינה של Sonic Pi</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1421"/>
+        <location filename="../mainwindow.cpp" line="1423"/>
         <source>Apologies, a critical error occurred during startup:
 </source>
         <translation>מחילה, אירעה שגיאה משמעותית במהלך הטעינה:
 </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1473"/>
-        <source>Failed to load translations for language: %1</source>
-        <translation>נכשלה טעינת התרגומים לשפה: %1</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1474"/>
-        <source>Falling back to English. Sorry about this.</source>
-        <translation>תתבצע נסיגה לאנגלית. מחילה.</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1476"/>
-        <source>OK</source>
-        <translation>אישור</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1740"/>
+        <location filename="../mainwindow.cpp" line="1729"/>
         <source>Zooming In...</source>
         <translation>התקרבות…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1747"/>
+        <location filename="../mainwindow.cpp" line="1736"/>
         <source>Zooming Out...</source>
         <translation>התרחקות…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1788"/>
+        <location filename="../mainwindow.cpp" line="1777"/>
         <source>Checking for updates...</source>
         <translation>מתבצע איתור עדכונים…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1796"/>
+        <location filename="../mainwindow.cpp" line="1785"/>
         <source>Enabling update checking...</source>
         <translation>איתור העדכונים מופעל…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1804"/>
+        <location filename="../mainwindow.cpp" line="1793"/>
         <source>Disabling update checking...</source>
         <translation>איתור העדכונים מושבת…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1829"/>
+        <location filename="../mainwindow.cpp" line="1818"/>
         <source>Enabling Mixer LPF...</source>
         <oldsource>Enabling Mixer LPF....</oldsource>
         <translation>LPF של המערבל מופעל…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1838"/>
+        <location filename="../mainwindow.cpp" line="1827"/>
         <source>Disabling Mixer LPF...</source>
         <oldsource>Disabling Mixer LPF....</oldsource>
         <translation>LPF של המערבל מושבת…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1846"/>
+        <location filename="../mainwindow.cpp" line="1835"/>
         <source>Enabling Inverted Stereo...</source>
         <oldsource>Enabling Inverted Stereo....</oldsource>
         <translation>סטריאו הפוך מופעל…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1854"/>
+        <location filename="../mainwindow.cpp" line="1843"/>
         <source>Enabling Standard Stereo...</source>
         <oldsource>Enabling Standard Stereo....</oldsource>
         <translation>סטריאו רגיל מופעל…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1862"/>
+        <location filename="../mainwindow.cpp" line="1851"/>
         <source>Mono Mode...</source>
         <oldsource>Mono Mode....</oldsource>
         <translation>מצב ערוץ אחיד (מונו)…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1870"/>
+        <location filename="../mainwindow.cpp" line="1859"/>
         <source>Stereo Mode...</source>
         <oldsource>Stereo Mode....</oldsource>
         <translation>מצב סטריאו…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1879"/>
+        <location filename="../mainwindow.cpp" line="1868"/>
         <source>Stopping...</source>
         <translation>מתבצעת עצירה…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1924"/>
+        <location filename="../mainwindow.cpp" line="1913"/>
         <source>Hiding about window...</source>
         <translation>חלון על אודות מוסתר…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1930"/>
+        <location filename="../mainwindow.cpp" line="1919"/>
         <source>Showing about window...</source>
         <translation>חלון על אודות מוצג…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1949"/>
+        <location filename="../mainwindow.cpp" line="1938"/>
         <source>Hiding help...</source>
         <translation>העזרה מוסתרת…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1955"/>
+        <location filename="../mainwindow.cpp" line="1944"/>
         <source>Showing help...</source>
         <translation>העזרה מוצגת…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2018"/>
+        <location filename="../mainwindow.cpp" line="2007"/>
         <source>Updating System Volume...</source>
         <translation>עצמת שמע המערכת מתעדכנת…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2252"/>
+        <location filename="../mainwindow.cpp" line="2241"/>
         <source>Colour Theme: </source>
         <translation>ערכת צבעים: </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2474"/>
+        <location filename="../mainwindow.cpp" line="2463"/>
         <source>Show autocompletion on</source>
         <translation>הצגת מילוי אוטומטי פעילה</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2478"/>
+        <location filename="../mainwindow.cpp" line="2467"/>
         <source>Show autocompletion off</source>
         <translation>הצגת מילוי אוטומטי כבויה</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2496"/>
+        <location filename="../mainwindow.cpp" line="2485"/>
         <source>Show context on</source>
         <translation>הצגת הקשר פעילה</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2505"/>
+        <location filename="../mainwindow.cpp" line="2494"/>
         <source>Show context off</source>
         <translation>הצגת הקשר כבויה</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2521"/>
+        <location filename="../mainwindow.cpp" line="2510"/>
         <source>Hiding preferences...</source>
         <translation>ההעדפות מוסתרות…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2527"/>
+        <location filename="../mainwindow.cpp" line="2516"/>
         <source>Showing preferences...</source>
         <translation>ההעדפות מוצגות…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2701"/>
+        <location filename="../mainwindow.cpp" line="2690"/>
         <source>Exit</source>
         <translation>יציאה</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2720"/>
+        <location filename="../mainwindow.cpp" line="2709"/>
         <source>Start recording to a WAV audio file</source>
         <translation>להתחיל הקליט לקובץ שמע מסוג WAV</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2724"/>
+        <location filename="../mainwindow.cpp" line="2713"/>
         <source>Save</source>
         <translation>שמירה</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2726"/>
+        <location filename="../mainwindow.cpp" line="2715"/>
         <source>Save current buffer as an external file</source>
         <translation>שמירת המכלא הנוכחי כקובץ חיצוני</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2766"/>
+        <location filename="../mainwindow.cpp" line="2755"/>
         <source>Toggle information about Sonic Pi</source>
         <translation>הצגה או הסתרה של מידע על Sonic Pi</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2769"/>
+        <location filename="../mainwindow.cpp" line="2758"/>
         <source>Show Help</source>
         <translation>הצגת עזרה</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2773"/>
+        <location filename="../mainwindow.cpp" line="2762"/>
         <source>Toggle the visibility of the help pane</source>
         <translation>החלפת מצב הצגת חלונית העזרה</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2777"/>
+        <location filename="../mainwindow.cpp" line="2766"/>
         <source>Show Preferences</source>
         <translation>הצגת העדפות</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2781"/>
+        <location filename="../mainwindow.cpp" line="2770"/>
         <source>Toggle the visibility of the preferences pane</source>
         <translation>החלפת מצב תצוגת חלונית ההעדפות</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2804"/>
+        <location filename="../mainwindow.cpp" line="2793"/>
         <source>Show Line Numbers</source>
         <translation>הצגת מספרי שורות</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2809"/>
+        <location filename="../mainwindow.cpp" line="2798"/>
         <source>Show Code Completion</source>
         <translation>הצגת השלמת קוד</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2814"/>
+        <location filename="../mainwindow.cpp" line="2803"/>
         <source>Show Code Context</source>
         <translation>הצגת הקשר קוד</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2819"/>
+        <location filename="../mainwindow.cpp" line="2808"/>
         <source>Enable Audio Inputs</source>
         <translation>הפעלת ערוצי קלט שמע</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2824"/>
+        <location filename="../mainwindow.cpp" line="2813"/>
         <source>Link Connect</source>
         <translation>חיבור קישור</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2829"/>
+        <location filename="../mainwindow.cpp" line="2818"/>
+        <source>Connect or disconnect the Link Metronome from the network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2820"/>
+        <source>Tap Tempo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2823"/>
+        <source>Click Link Tap Tempo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2825"/>
         <source>Safe Audio Mode</source>
         <translation>מצב שמע בטוח</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2834"/>
+        <location filename="../mainwindow.cpp" line="2830"/>
         <source>Enforce Timing Guarantees</source>
         <translation>אכיפת ערובות תזמון</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2839"/>
+        <location filename="../mainwindow.cpp" line="2835"/>
         <source>Enable External Synths</source>
         <translation>הפעלת צלילים חיצוניים</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2844"/>
+        <location filename="../mainwindow.cpp" line="2840"/>
         <source>Invert Stereo</source>
         <translation>היפוך סטריאו</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2848"/>
+        <location filename="../mainwindow.cpp" line="2844"/>
         <source>Force Mono</source>
         <translation>אילוץ מונו</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2853"/>
+        <location filename="../mainwindow.cpp" line="2849"/>
         <source>Enable Incoming MIDI Cues</source>
         <translation>הפעלת אותות MIDI נכנסים</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2858"/>
+        <location filename="../mainwindow.cpp" line="2854"/>
         <source>Allow Incoming OSC</source>
         <translation>לאפשר OSC נכנס</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2863"/>
+        <location filename="../mainwindow.cpp" line="2859"/>
         <source>Allow OSC From Other Computers</source>
         <translation>לאפשר OSC ממחשבים אחרים</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2868"/>
+        <location filename="../mainwindow.cpp" line="2864"/>
         <source>Log Cues</source>
         <translation>תיעוד אותות</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2873"/>
+        <location filename="../mainwindow.cpp" line="2869"/>
         <source>Log Synths</source>
         <translation>תיעוד צלילים</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2878"/>
+        <location filename="../mainwindow.cpp" line="2874"/>
         <source>Clear Logs on Run</source>
         <translation>לפנות יומנים עם הרצה</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2883"/>
+        <location filename="../mainwindow.cpp" line="2879"/>
         <source>Auto Indent Code Buffer on Run</source>
         <translation>הזחה אוטומטית של מכלא קוד עם ההרצה</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2888"/>
+        <location filename="../mainwindow.cpp" line="2884"/>
         <source>Auto-Scroll Log</source>
         <translation>לגלול יומן אוטומטית</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2898"/>
+        <location filename="../mainwindow.cpp" line="2894"/>
         <source>Live</source>
         <translation>חי</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2910"/>
+        <location filename="../mainwindow.cpp" line="2906"/>
         <source>Code</source>
         <translation>קוד</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2922"/>
+        <location filename="../mainwindow.cpp" line="2918"/>
         <source>Audio</source>
         <translation>שמע</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2933"/>
+        <location filename="../mainwindow.cpp" line="2929"/>
         <source>Visuals</source>
         <translation>מיצגים חזותיים</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2935"/>
+        <location filename="../mainwindow.cpp" line="2931"/>
         <source>Light</source>
         <translation>בהירים</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2940"/>
+        <location filename="../mainwindow.cpp" line="2936"/>
         <source>Dark</source>
         <translation>כהים</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2945"/>
+        <location filename="../mainwindow.cpp" line="2941"/>
         <source>Pro Light</source>
         <translation>בהירים מקצועיים</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2950"/>
+        <location filename="../mainwindow.cpp" line="2946"/>
         <source>Pro Dark</source>
         <translation>כהים מקצועיים</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2955"/>
+        <location filename="../mainwindow.cpp" line="2951"/>
         <source>High Contrast</source>
         <translation>ניגודיות גבוהה</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2960"/>
+        <location filename="../mainwindow.cpp" line="2956"/>
         <source>Show Scope Labels</source>
         <translation>הצגת תוויות תרשים</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2965"/>
+        <location filename="../mainwindow.cpp" line="2961"/>
         <source>Show Titles</source>
         <translation>הצגת כותרות</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2970"/>
+        <location filename="../mainwindow.cpp" line="2966"/>
         <source>Hide Menu Bar in Fullscreen Mode</source>
         <translation>הסתרת סרגל התפריטים במצב מסך מלא</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2975"/>
+        <location filename="../mainwindow.cpp" line="2971"/>
         <source>Colour Theme</source>
         <translation>ערכת עיצוב צבעונית</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2984"/>
+        <location filename="../mainwindow.cpp" line="2980"/>
         <source>Show Scope Kinds</source>
         <translation>הצגת סוגי תרשימים</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2995"/>
+        <location filename="../mainwindow.cpp" line="2991"/>
         <source>IO</source>
         <translation>קלט/פלט</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2997"/>
+        <location filename="../mainwindow.cpp" line="2993"/>
         <source>MIDI Inputs</source>
         <translation>אמצעי קלט MIDI</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2998"/>
-        <location filename="../mainwindow.cpp" line="3998"/>
-        <location filename="../mainwindow.cpp" line="4133"/>
+        <location filename="../mainwindow.cpp" line="2994"/>
+        <location filename="../mainwindow.cpp" line="4010"/>
+        <location filename="../mainwindow.cpp" line="4145"/>
         <source>No Connected Inputs</source>
         <translation>אין אמצעי קלט מחוברים</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2999"/>
+        <location filename="../mainwindow.cpp" line="2995"/>
         <source>MIDI Outputs</source>
         <translation>אמצעי פלט MIDI</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3000"/>
-        <location filename="../mainwindow.cpp" line="3996"/>
-        <location filename="../mainwindow.cpp" line="4155"/>
+        <location filename="../mainwindow.cpp" line="2996"/>
+        <location filename="../mainwindow.cpp" line="4008"/>
+        <location filename="../mainwindow.cpp" line="4167"/>
         <source>No Connected Outputs</source>
         <translation>אין אמצעי פלט מחוברים</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3002"/>
+        <location filename="../mainwindow.cpp" line="2998"/>
         <source>Default MIDI Out Channel</source>
         <translation>ערוץ פלט MIDI כבררת מחדל</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3004"/>
+        <location filename="../mainwindow.cpp" line="3000"/>
         <source>All Channels</source>
         <translation>כל הערוצים</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3009"/>
+        <location filename="../mainwindow.cpp" line="3005"/>
         <source>1</source>
         <translation>1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3014"/>
+        <location filename="../mainwindow.cpp" line="3010"/>
         <source>2</source>
         <translation>2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3019"/>
+        <location filename="../mainwindow.cpp" line="3015"/>
         <source>3</source>
         <translation>3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3024"/>
+        <location filename="../mainwindow.cpp" line="3020"/>
         <source>4</source>
         <translation>4</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3029"/>
+        <location filename="../mainwindow.cpp" line="3025"/>
         <source>5</source>
         <translation>5</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3034"/>
+        <location filename="../mainwindow.cpp" line="3030"/>
         <source>6</source>
         <translation>6</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3039"/>
+        <location filename="../mainwindow.cpp" line="3035"/>
         <source>7</source>
         <translation>7</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3044"/>
+        <location filename="../mainwindow.cpp" line="3040"/>
         <source>8</source>
         <translation>8</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3049"/>
+        <location filename="../mainwindow.cpp" line="3045"/>
         <source>9</source>
         <translation>9</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3054"/>
+        <location filename="../mainwindow.cpp" line="3050"/>
         <source>10</source>
         <translation>10</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3059"/>
+        <location filename="../mainwindow.cpp" line="3055"/>
         <source>11</source>
         <translation>11</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3064"/>
+        <location filename="../mainwindow.cpp" line="3060"/>
         <source>12</source>
         <translation>12</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3069"/>
+        <location filename="../mainwindow.cpp" line="3065"/>
         <source>13</source>
         <translation>13</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3074"/>
+        <location filename="../mainwindow.cpp" line="3070"/>
         <source>14</source>
         <translation>14</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3079"/>
+        <location filename="../mainwindow.cpp" line="3075"/>
         <source>15</source>
         <translation>15</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3084"/>
+        <location filename="../mainwindow.cpp" line="3080"/>
         <source>16</source>
         <translation>16</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3092"/>
+        <location filename="../mainwindow.cpp" line="3088"/>
         <source>Local IP Addresses</source>
         <translation>כתובות IP מקומיות</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3106"/>
+        <location filename="../mainwindow.cpp" line="3102"/>
         <source>Incoming OSC Port</source>
         <translation>פתחת OSC נכנסת</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3109"/>
+        <location filename="../mainwindow.cpp" line="3105"/>
         <source>View</source>
         <translation>הצגה</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3114"/>
+        <location filename="../mainwindow.cpp" line="3110"/>
         <source>Focus Editor</source>
         <translation>התמקדות על העורך</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3116"/>
+        <location filename="../mainwindow.cpp" line="3112"/>
         <source>Place focus on the code editor</source>
         <translation>הצבת המיקוד על עורך הקוד</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3120"/>
+        <location filename="../mainwindow.cpp" line="3116"/>
         <source>Focus Logs</source>
         <translation>התמקדות על היומנים</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3122"/>
+        <location filename="../mainwindow.cpp" line="3118"/>
         <source>Place focus on the log pane</source>
         <translation>הצבת המיקוד על חלונית היומנים</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3125"/>
+        <location filename="../mainwindow.cpp" line="3121"/>
         <source>Focus Context</source>
         <translation>התמקדות על ההקשר</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3127"/>
+        <location filename="../mainwindow.cpp" line="3123"/>
         <source>Place focus on the context pane</source>
         <translation>הצבת המיקוד על חלונית ההקשר</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3131"/>
+        <location filename="../mainwindow.cpp" line="3127"/>
         <source>Focus Cues</source>
         <translation>התמקדות על האותות</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3133"/>
+        <location filename="../mainwindow.cpp" line="3129"/>
         <source>Place focus on the cue event pane</source>
         <translation>הצמכת המיקוד על חלונית אירועי האותות</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3137"/>
+        <location filename="../mainwindow.cpp" line="3133"/>
         <source>Focus Preferences</source>
         <translation>התמקדות על ההעדפות</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3139"/>
+        <location filename="../mainwindow.cpp" line="3135"/>
         <source>Place focus on preferences</source>
         <translation>הצבת המיקוד על ההעדפות</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3143"/>
+        <location filename="../mainwindow.cpp" line="3139"/>
         <source>Focus Help Listing</source>
         <translation>התמקדות על רישומי עזרה</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3145"/>
+        <location filename="../mainwindow.cpp" line="3141"/>
         <source>Place focus on help listing</source>
         <translation>הצבת המיקוד על רישומי העזרה</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3149"/>
+        <location filename="../mainwindow.cpp" line="3145"/>
         <source>Focus Help Details</source>
         <translation>התמקדות על פרטי העזרה</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3151"/>
+        <location filename="../mainwindow.cpp" line="3147"/>
         <source>Place focus on help details</source>
         <translation>הצגת המיקוד על פרטי העזרה</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3155"/>
+        <location filename="../mainwindow.cpp" line="3151"/>
         <source>Focus Errors</source>
         <translation>התמקדות על שגיאות</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3157"/>
+        <location filename="../mainwindow.cpp" line="3153"/>
         <source>Place focus on errors</source>
         <translation>הצגת המיקוד על השגיאות</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3160"/>
+        <location filename="../mainwindow.cpp" line="3157"/>
+        <source>Focus BPM Scrubber</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="3159"/>
+        <source>Place focus on BPM Scrubber</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="3163"/>
+        <source>Focus TimeWarp Scrubber</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="3165"/>
+        <source>Place focus on TimeWarp Scrubber</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="3168"/>
         <source>Show Log</source>
         <translation>הצגת יומן</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3165"/>
+        <location filename="../mainwindow.cpp" line="3173"/>
         <source>Show Cue Log</source>
         <translation>הצגת יומן אותות</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3170"/>
+        <location filename="../mainwindow.cpp" line="3178"/>
         <source>Show Metronome</source>
         <translation>הצגת מטרונום</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3175"/>
+        <location filename="../mainwindow.cpp" line="3183"/>
         <source>Show Buttons</source>
         <translation>הצגת כפתורים</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3180"/>
+        <location filename="../mainwindow.cpp" line="3188"/>
         <source>Show Tabs</source>
         <translation>הצגת לשוניות</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3185"/>
+        <location filename="../mainwindow.cpp" line="3193"/>
         <source>Full Screen Mode</source>
         <translation>מצב מסך מלא</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3221"/>
+        <location filename="../mainwindow.cpp" line="3232"/>
         <source>Language</source>
         <translation>שפה</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3412"/>
+        <location filename="../mainwindow.cpp" line="3423"/>
         <source>Ready...</source>
         <translation>בהכנות…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3602"/>
+        <location filename="../mainwindow.cpp" line="3613"/>
         <source>File loaded...</source>
         <translation>הקובץ נטען…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3637"/>
+        <location filename="../mainwindow.cpp" line="3648"/>
         <source>File saved...</source>
         <translation>הקובץ נשמר…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3695"/>
+        <location filename="../mainwindow.cpp" line="3707"/>
         <source>Restarting Sonic Pi...</source>
         <translation>Sonic Pi מופעל מחדש…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3930"/>
+        <location filename="../mainwindow.cpp" line="3942"/>
         <source>Last checked %1</source>
         <translation>בדיקה אחרונה %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3932"/>
+        <location filename="../mainwindow.cpp" line="3944"/>
         <source>Sonic Pi checks for updates
 every two weeks.</source>
         <translation>Sonic Pi מנסה לאתר עדכונים
 כל שבועיים.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3934"/>
+        <location filename="../mainwindow.cpp" line="3946"/>
         <source>This is Sonic Pi %1</source>
         <translation>זה Sonic Pi %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3935"/>
+        <location filename="../mainwindow.cpp" line="3947"/>
         <source>Version %2 is now available!</source>
         <translation>גרסה %2 זמינה כעת!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3940"/>
+        <location filename="../mainwindow.cpp" line="3952"/>
         <source>New version available!
 Get Sonic Pi %1</source>
         <translation>גרסה חדשה זמינה!
 ניתן להוריד את Sonic Pi %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4267"/>
+        <location filename="../mainwindow.cpp" line="4301"/>
         <source>Line: %1,  Position: %2</source>
         <translation>שורה: %1,  מיקום: %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4366"/>
+        <location filename="../mainwindow.cpp" line="4400"/>
         <source>Sonic Pi - Audio Server Boot Error</source>
         <translation>Sonic Pi - שגיאת טעינת שרת שמע</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4371"/>
+        <location filename="../mainwindow.cpp" line="4405"/>
         <source>Sorry, the Audio Server failed to start...</source>
         <translation>עליית שרת השמע נכשלה, סליחה…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4372"/>
+        <location filename="../mainwindow.cpp" line="4406"/>
         <source>Please try changing your default OS audio input &amp; outputs.</source>
         <translation>נא לנסות לשנות את ערוצי קלט ופלט השמע כברירת המחדל של מערכת ההפעלה שלך.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4373"/>
+        <location filename="../mainwindow.cpp" line="4407"/>
         <source>Note, the audio rate of the inputs &amp; outputs must be the same.</source>
         <translation>נא לשים לב שקצב השמע של הקלטים והפלטים חייב להיות זהה.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4375"/>
+        <location filename="../mainwindow.cpp" line="4409"/>
         <source>For the curious among you, Sonic Pi uses the SuperCollider Audio Server to generate its sounds. By default it will connect to your default system audio input and outputs.</source>
         <translation>לסקרנים מביניכם, Sonic Pi משתמש בשרת שמע SuperCollider כדי לייצר את השמע שלו. כברירת מחדל הוא יתחבר לערוצי קלט ופלט השמע כברירת המחדל של המערכת שלך.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4376"/>
+        <location filename="../mainwindow.cpp" line="4410"/>
         <source>Unfortunately SuperCollider is having problems starting correctly. You can read the full error log below which should explain why.</source>
         <translation>לרוע המזל SuperCollider לא מצליח לעלות כראוי. אפשר לקרוא את יומן השגיאה המלא להלן שאמור להסביר למה זה קורה.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4377"/>
+        <location filename="../mainwindow.cpp" line="4411"/>
         <source>To fix this you can try changing your default operating system audio inputs and outputs (ensuring they have the same audio rate).</source>
         <translation>כדי לתקן את זה אפשר לנסות להחליף את ערוצי הקלט והפלט כברירת מחדל של המערכת שלך (יש לוודא שקצב השמע שלהם זהה).</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4378"/>
+        <location filename="../mainwindow.cpp" line="4412"/>
         <source>Advanced Users</source>
         <translation>משתמשים מתקדמים</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4379"/>
+        <location filename="../mainwindow.cpp" line="4413"/>
         <source>you may manually override this and further configure how SuperCollider boots by editing the file:</source>
         <translation>אפשר לדרוס את זה ידנית ולהגדיר איך SuperCollider עולה על ידי עריכת הקובץ:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4381"/>
+        <location filename="../mainwindow.cpp" line="4415"/>
         <source>SuperCollider Log</source>
         <translation>היומן של SuperCollider</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2706"/>
+        <location filename="../mainwindow.cpp" line="2695"/>
         <source>Run</source>
         <translation>הרצה</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2712"/>
+        <location filename="../mainwindow.cpp" line="2701"/>
         <source>Stop</source>
         <translation>עצירה</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2714"/>
+        <location filename="../mainwindow.cpp" line="2703"/>
         <source>Stop all running code</source>
         <translation>עצירת כל הקוד שרץ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="785"/>
+        <location filename="../mainwindow.cpp" line="780"/>
         <source>Help</source>
         <translation>עזרה</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1423"/>
-        <location filename="../mainwindow.cpp" line="1474"/>
+        <location filename="../mainwindow.cpp" line="1425"/>
         <source>Please consider reporting a bug at</source>
         <translation>נא לשקול לדווח על התקלה הזאת דרך</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2718"/>
-        <location filename="../mainwindow.cpp" line="3382"/>
+        <location filename="../mainwindow.cpp" line="2707"/>
+        <location filename="../mainwindow.cpp" line="3393"/>
         <source>Start Recording</source>
         <translation>התחלת הקלטה</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2744"/>
+        <location filename="../mainwindow.cpp" line="2733"/>
         <source>Increase Text Size</source>
         <translation>הגדלת הטקסט</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2750"/>
+        <location filename="../mainwindow.cpp" line="2739"/>
         <source>Decrease Text Size</source>
         <translation>הקטנת הטקסט</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2786"/>
+        <location filename="../mainwindow.cpp" line="2775"/>
         <source>Tools</source>
         <translation>כלים</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3297"/>
+        <location filename="../mainwindow.cpp" line="3308"/>
         <source>About</source>
         <translation>על אודות</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3299"/>
+        <location filename="../mainwindow.cpp" line="3310"/>
         <source>Core Team</source>
         <translation>צוות הליבה</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3300"/>
+        <location filename="../mainwindow.cpp" line="3311"/>
         <source>Contributors</source>
         <translation>מתנדבים ומתנדבות</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3298"/>
+        <location filename="../mainwindow.cpp" line="3309"/>
         <source>Community</source>
         <translation>קהילה</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="320"/>
+        <location filename="../mainwindow.cpp" line="315"/>
         <source>Studio Mode Enabled. Thank-you for supporting Sonic Pi.</source>
         <translation>הופעל מצב סטודיו. תודה לך על תמיכתך ב־Sonic Pi.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="326"/>
+        <location filename="../mainwindow.cpp" line="321"/>
         <source>No Matching Studio Hash Found...</source>
         <translation>לא נמצא גיבוב סטודיו תואם…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="474"/>
+        <location filename="../mainwindow.cpp" line="469"/>
         <source>Close</source>
         <translation>סגירה</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="619"/>
+        <location filename="../mainwindow.cpp" line="614"/>
         <source>| %1 |</source>
         <translation>| %1 |</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="710"/>
-        <source>Link Metronome</source>
-        <translation>קישור המטרונום</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2738"/>
+        <location filename="../mainwindow.cpp" line="2727"/>
         <source>Align code to improve readability</source>
         <translation>ליישר את הקוד לשיפור נוחות הקריאה</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2758"/>
+        <location filename="../mainwindow.cpp" line="2747"/>
         <source>Toggle visibility of audio oscilloscope</source>
         <translation>החלפת מצב הצגת מתנד שמע</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3301"/>
+        <location filename="../mainwindow.cpp" line="3312"/>
         <source>License</source>
         <translation>רישיון</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3302"/>
+        <location filename="../mainwindow.cpp" line="3313"/>
         <source>History</source>
         <translation>היסטוריה</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3342"/>
+        <location filename="../mainwindow.cpp" line="3353"/>
         <source>Sonic Pi - Info</source>
         <translation>Sonic Pi - מידע</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3370"/>
+        <location filename="../mainwindow.cpp" line="3381"/>
         <source>Stop Recording</source>
         <translation>עצירת ההקלטה</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3389"/>
+        <location filename="../mainwindow.cpp" line="3400"/>
         <source>Save Recording</source>
         <translation>שמירת ההקלטה</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3583"/>
+        <location filename="../mainwindow.cpp" line="3594"/>
         <source>Cannot read file %1:
 %2.</source>
         <translation>לא ניתן לקרוא את הקובץ %1:
 %2.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3611"/>
+        <location filename="../mainwindow.cpp" line="3622"/>
         <source>Cannot write file %1:
 %2.</source>
         <translation>לא ניתן לכתוב לקובץ %1:
@@ -1160,27 +1179,27 @@ Get Sonic Pi %1</source>
         <translation>הדרכה</translation>
     </message>
     <message>
-        <location filename="../utils/ruby_help.h" line="3091"/>
+        <location filename="../utils/ruby_help.h" line="3092"/>
         <source>Examples</source>
         <translation>דוגמאות</translation>
     </message>
     <message>
-        <location filename="../utils/ruby_help.h" line="3146"/>
+        <location filename="../utils/ruby_help.h" line="3147"/>
         <source>Synths</source>
         <translation>צלילים</translation>
     </message>
     <message>
-        <location filename="../utils/ruby_help.h" line="3195"/>
+        <location filename="../utils/ruby_help.h" line="3196"/>
         <source>Fx</source>
         <translation>אפקטים</translation>
     </message>
     <message>
-        <location filename="../utils/ruby_help.h" line="3216"/>
+        <location filename="../utils/ruby_help.h" line="3217"/>
         <source>Samples</source>
         <translation>דגימות</translation>
     </message>
     <message>
-        <location filename="../utils/ruby_help.h" line="3453"/>
+        <location filename="../utils/ruby_help.h" line="3454"/>
         <source>Lang</source>
         <translation>שפה</translation>
     </message>
@@ -1898,8 +1917,8 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="686"/>
-        <source>Your changes won&apos;t take affect until you restart Sonic Pi.</source>
-        <translation>השינויים שלך לא יחולו עד להפעלת Sonic Pi מחדש.</translation>
+        <source>Your changes won&apos;t take effect until you restart Sonic Pi.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="687"/>

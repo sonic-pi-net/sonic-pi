@@ -5144,22 +5144,23 @@ msgstr ""
 #, fuzzy
 msgid ""
 "Remember to prepend a colon `:` to the name of your function when you define i"
-"t."
+"t. Function names should also start with a lower case letter, so use `:foo` ra"
+"ther than `:Foo`."
 msgstr "Recuerda anteponer dos puntos `:` al nombre de la función que defines."
 
-#: 05.5-Functions.md:30
+#: 05.5-Functions.md:31
 #, fuzzy
 msgid "Calling functions"
 msgstr "Llamando las Funciones"
 
-#: 05.5-Functions.md:32
+#: 05.5-Functions.md:33
 #, fuzzy
 msgid "Once we have defined our function we can call it by just writing its name:"
 msgstr ""
 "Una vez hemos definido nuestra función, podemos llamarla simplemente escribien"
 "do su nombre:"
 
-#: 05.5-Functions.md:35
+#: 05.5-Functions.md:36
 #, no-wrap
 msgid ""
 "define :foo do\n"
@@ -5186,7 +5187,7 @@ msgstr ""
 "  foo\n"
 "end"
 
-#: 05.5-Functions.md:52
+#: 05.5-Functions.md:53
 #, fuzzy
 msgid ""
 "We can even use `foo` inside iteration blocks or anywhere we may have written "
@@ -5198,12 +5199,12 @@ msgstr ""
 "presar y crear nuevas palabras significativas a usar en nuestras composiciones"
 "."
 
-#: 05.5-Functions.md:56
+#: 05.5-Functions.md:57
 #, fuzzy
 msgid "Functions are remembered across runs"
 msgstr "Las funciones permanecen en memoria"
 
-#: 05.5-Functions.md:58
+#: 05.5-Functions.md:59
 #, fuzzy
 msgid ""
 "So far, every time you've pressed the Run button, Sonic Pi has started from a "
@@ -5218,12 +5219,12 @@ msgstr ""
 " defines una función, Sonic Pi *recuerda*. Probemos borrando todo el código en"
 " tu buffer y reemplazandolo por:"
 
-#: 05.5-Functions.md:65
+#: 05.5-Functions.md:66
 #, no-wrap
 msgid "foo"
 msgstr "foo"
 
-#: 05.5-Functions.md:69
+#: 05.5-Functions.md:70
 #, fuzzy
 msgid ""
 "Press the Run button - and hear your function play. Where did the code go? How"
@@ -5236,12 +5237,12 @@ msgstr ""
 "l buffer. Esta conducta sólo funciona con las funciones creadas con `define` ("
 "y `defonce`)."
 
-#: 05.5-Functions.md:75
+#: 05.5-Functions.md:76
 #, fuzzy
 msgid "Parameterised functions"
 msgstr "Funciones parametrizadas"
 
-#: 05.5-Functions.md:77
+#: 05.5-Functions.md:78
 #, fuzzy
 msgid ""
 "You might be interested in knowing that just like you can pass min and max val"
@@ -5252,7 +5253,7 @@ msgstr ""
 "os con `rrand`, también puedes enseñar a tus funciones a aceptar argumentos. M"
 "iremos:"
 
-#: 05.5-Functions.md:81
+#: 05.5-Functions.md:82
 #, no-wrap
 msgid ""
 "define :my_player do |n|\n"
@@ -5269,7 +5270,7 @@ msgstr ""
 "sleep 0.5\n"
 "my_player 90"
 
-#: 05.5-Functions.md:91
+#: 05.5-Functions.md:92
 #, fuzzy
 msgid ""
 "This isn't very exciting, but it illustrates the point. We've created our own "
@@ -5278,7 +5279,7 @@ msgstr ""
 "Esto no es tan excitante, pero ilustra el punto. Creamos nuestra propia versió"
 "n de `play` llamada `my_player` y la cual está parametrizada."
 
-#: 05.5-Functions.md:94
+#: 05.5-Functions.md:95
 #, fuzzy
 msgid ""
 "The parameters need to go after the `do` of the `define` do/end block, surroun"
@@ -5289,7 +5290,7 @@ msgstr ""
 "eado de postes verticales `|` y separados por comas `,`. Puedes usar cualquier"
 " palabra para los nombres de los parámetros."
 
-#: 05.5-Functions.md:98
+#: 05.5-Functions.md:99
 #, fuzzy
 msgid ""
 "The magic happens inside the `define` do/end block. You may use the parameter "
@@ -5311,12 +5312,12 @@ msgstr ""
 "ra vez con `my_player 90`, `n` es reemplazada por 90, así que `play n` se conv"
 "ierte en `play 90`."
 
-#: 05.5-Functions.md:108
+#: 05.5-Functions.md:109
 #, fuzzy
 msgid "Let's see a more interesting example:"
 msgstr "Veamos un ejemplo más interesante:"
 
-#: 05.5-Functions.md:110
+#: 05.5-Functions.md:111
 #, no-wrap
 msgid ""
 "define :chord_player do |root, repeats| \n"
@@ -5345,7 +5346,7 @@ msgstr ""
 "sleep 0.5\n"
 "chord_player :e3, 3"
 
-#: 05.5-Functions.md:126
+#: 05.5-Functions.md:127
 #, fuzzy
 msgid ""
 "Here I used `repeats` as if it was a number in the line `repeats.times do`. I "
@@ -5354,7 +5355,7 @@ msgstr ""
 "Aquí usé `repeats` como si fuera un número para la línea de `repeats.times do`"
 ". También usé `root` como si fuera un nombre de nota en mi llamada a `play`."
 
-#: 05.5-Functions.md:129
+#: 05.5-Functions.md:130
 #, fuzzy
 msgid ""
 "See how we're able to write something very expressive and easy to read by movi"
@@ -10896,17 +10897,17 @@ msgid ""
 "eak."
 msgstr ""
 
-#: 14-Conclusions.md:1
+#: 99-Conclusions.md:1
 #, fuzzy
-msgid "14 Conclusions"
-msgstr "12 Conclusiones"
+msgid "99 Conclusions"
+msgstr "Conclusiones"
 
-#: 14-Conclusions.md:3
+#: 99-Conclusions.md:3
 #, fuzzy
 msgid "Conclusions"
 msgstr "Conclusiones"
 
-#: 14-Conclusions.md:5
+#: 99-Conclusions.md:5
 #, fuzzy
 msgid ""
 "This concludes the Sonic Pi introductory tutorial. Hopefully you've learned so"
@@ -10920,7 +10921,7 @@ msgstr ""
 "ga y diviértete y verás que entiendes a tu propio ritmo - Vuelve cuando tengas"
 " alguna duda que pueda haber sido cubierta en una de las secciones."
 
-#: 14-Conclusions.md:11
+#: 99-Conclusions.md:11
 #, fuzzy
 msgid ""
 "If you have any questions that haven't been covered in the tutorial, then plea"
@@ -10932,7 +10933,7 @@ msgstr ""
 "a [Sonic Pi forums](http://groups.google.com/group/sonic-pi/) y haz tu pregunt"
 "a. Seguro encuentras alguien amistoso que te eche una mano."
 
-#: 14-Conclusions.md:16
+#: 99-Conclusions.md:16
 #, fuzzy
 msgid ""
 "Finally, I also invite you to take a deeper look at the rest of the documentat"
@@ -10943,7 +10944,7 @@ msgstr ""
 "a de ayuda. Hay un número de características no cubiertas en el tutorial que e"
 "speran a ser descubiertas."
 
-#: 14-Conclusions.md:21
+#: 99-Conclusions.md:21
 #, fuzzy
 msgid ""
 "So play, have fun, share your code, perform for your friends, show your screen"
@@ -10952,12 +10953,12 @@ msgstr ""
 "Así que juega, diviértete, comparte código con amigos, muestra tu pantalla y r"
 "ecuerda:"
 
-#: 14-Conclusions.md:24
+#: 99-Conclusions.md:24
 #, fuzzy
 msgid "*There are no mistakes, only opportunities.*"
 msgstr "*No hay errores, sólo oportunidades.*"
 
-#: 14-Conclusions.md:26
+#: 99-Conclusions.md:26
 #, fuzzy
 msgid "[Sam Aaron](https://twitter.com/samaaron)"
 msgstr "[Sam Aaron](http://twitter.com/samaaron)"
