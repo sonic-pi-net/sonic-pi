@@ -25,6 +25,7 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   , m_spAPI(spAPI)
 {
   this->theme = theme;
+  bool setPosAvailable = isSetPosAvailable();
   mutex = new QMutex;
   enableLinkButton = new QPushButton(tr("Link"));
   enableLinkButton->setAutoFillBackground(true);
@@ -58,7 +59,7 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   timeWarpSlider->setValue(0);
 
 
-  timeWarpLineEdit = new TimeWarpEdit(m_spClient, m_spAPI, theme);
+  timeWarpLineEdit = new TimeWarpEdit(m_spClient, m_spAPI, theme, setPosAvailable);
   timeWarpLineEdit->setAutoFillBackground(true);
   timeWarpLineEdit->setObjectName("timeWarpEdit");
   timeWarpLineEdit->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -75,7 +76,7 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
     timeWarpSlider->setValue(timeWarpLineEdit->getTimeWarpValue());
   });
 
-  bpmScrubWidget = new BPMScrubWidget(m_spClient, m_spAPI, theme);
+  bpmScrubWidget = new BPMScrubWidget(m_spClient, m_spAPI, theme, setPosAvailable);
   bpmScrubWidget->setObjectName("bpmScrubber");
   bpmScrubWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
   bpmScrubWidget->setToolTip(tr("Current Link BPM. Edit or drag to modify."));
@@ -104,6 +105,20 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   connect(m_spClient.get(), &SonicPi::QtAPIClient::UpdateBPM, this, &SonicPiMetro::setBPM);
 
   updateColourTheme();
+}
+
+bool SonicPiMetro::isSetPosAvailable()
+{
+  QPoint pos, new_pos;
+  pos = QCursor::pos();
+  QGuiApplication::setOverrideCursor(QCursor(Qt::BlankCursor));
+  QCursor::setPos(QPoint(0, 0));
+  QThread::msleep(250);
+  new_pos = QCursor::pos();
+  bool available = pos != new_pos;
+  QGuiApplication::restoreOverrideCursor();
+  QCursor::setPos(pos);
+  return available;
 }
 
 void SonicPiMetro::linkEnable()

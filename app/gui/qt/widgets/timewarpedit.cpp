@@ -18,11 +18,12 @@
 #include <QShortcut>
 #include "dpi.h"
 
-TimeWarpEdit::TimeWarpEdit(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::shared_ptr<SonicPi::SonicPiAPI> spAPI, SonicPiTheme *theme, QWidget* parent)
+TimeWarpEdit::TimeWarpEdit(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::shared_ptr<SonicPi::SonicPiAPI> spAPI, SonicPiTheme *theme, bool setPosAvailable, QWidget* parent)
   : QLineEdit(parent)
   , m_spClient(spClient)
   , m_spAPI(spAPI)
   , theme(theme)
+  , m_setPosAvailable(setPosAvailable)
 {
   m_isDragging = false;
   m_timeWarpValue = 0;
@@ -101,7 +102,11 @@ void TimeWarpEdit::mouseMoveEvent(QMouseEvent* event)
       setDisplayAndWarpToTime(std::round(m_timeWarpValue + delta));
       m_isEditing = false;
       QCursor::setPos(m_lastMouseClickGlobalPos);
-      m_lastMouseDragGlobalPos = QCursor::pos();
+      if(m_setPosAvailable) {
+        m_lastMouseDragGlobalPos = m_lastMouseClickGlobalPos;
+      } else {
+        m_lastMouseDragGlobalPos = QCursor::pos();
+      }
     }
   }
 }

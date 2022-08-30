@@ -27,7 +27,7 @@ class TimeWarpEdit : public QLineEdit
 {
   Q_OBJECT
 public:
-  TimeWarpEdit(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::shared_ptr<SonicPi::SonicPiAPI> spAPI, SonicPiTheme *theme, QWidget *parent = nullptr);
+  TimeWarpEdit(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::shared_ptr<SonicPi::SonicPiAPI> spAPI, SonicPiTheme *theme, bool setPosAvailable, QWidget *parent = nullptr);
 
   void setDisplayAndWarpToTime(int val);
   void warpToTime();
@@ -50,7 +50,7 @@ private:
   std::shared_ptr<SonicPi::QtAPIClient> m_spClient;
   std::shared_ptr<SonicPi::SonicPiAPI> m_spAPI;
   QPoint m_lastMouseClickGlobalPos, m_lastMouseDragGlobalPos;
-  bool m_isDragging, m_isEditing, m_linkEnabled;
+  bool m_isDragging, m_isEditing, m_linkEnabled, m_setPosAvailable;
   int m_timeWarpValue, m_preDragTimeWarpValue;
   QTimer *m_timer;
   QRegularExpression *m_valueMatcher;

@@ -69,7 +69,7 @@ private:
   qint64 lastTap = 0;
 
   void toggleLink();
-
+  bool isSetPosAvailable();
   void updateActiveLinkText();
   void updateLinkButtonDisplay();
 

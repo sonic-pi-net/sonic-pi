@@ -18,11 +18,12 @@
 #include <QShortcut>
 #include "dpi.h"
 
-BPMScrubWidget::BPMScrubWidget(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::shared_ptr<SonicPi::SonicPiAPI> spAPI, SonicPiTheme *theme, QWidget* parent)
+BPMScrubWidget::BPMScrubWidget(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::shared_ptr<SonicPi::SonicPiAPI> spAPI, SonicPiTheme *theme, bool setPosAvailable, QWidget* parent)
   : QLineEdit(parent)
   , m_spClient(spClient)
   , m_spAPI(spAPI)
   , theme(theme)
+  , m_setPosAvailable(setPosAvailable)
 {
   m_isDragging = false;
   m_bpmValue = 60.0;
@@ -56,7 +57,11 @@ double BPMScrubWidget::getBPM()
 
 QString BPMScrubWidget::formatBPM()
 {
-  return QString("%1 bpm").arg(m_bpmValue, 6, 'f', 2);
+  if(m_setPosAvailable) {
+    return QString("%1 set").arg(m_bpmValue, 6, 'f', 2);
+  } else {
+    return QString("%1 bpm").arg(m_bpmValue, 6, 'f', 2);
+  }
 }
 
 void BPMScrubWidget::displayBPM()
@@ -145,13 +150,22 @@ void BPMScrubWidget::mouseMoveEvent(QMouseEvent* event)
       m_dragDelta = 0;
       m_isEditing = false;
       QCursor::setPos(m_lastMouseClickGlobalPos);
-      m_lastMouseDragGlobalPos = QCursor::pos();
+      if(m_setPosAvailable) {
+        m_lastMouseDragGlobalPos = m_lastMouseClickGlobalPos;
+      } else {
+        m_lastMouseDragGlobalPos = QCursor::pos();
+      }
     } else if(m_dragDelta < -1) {
       setDisplayAndSyncBPM(std::round(m_bpmValue - 1));
       m_dragDelta = 0;
       m_isEditing = false;
       QCursor::setPos(m_lastMouseClickGlobalPos);
-      m_lastMouseDragGlobalPos = QCursor::pos();
+      if(m_setPosAvailable) {
+        m_lastMouseDragGlobalPos = m_lastMouseClickGlobalPos;
+      } else {
+        m_lastMouseDragGlobalPos = QCursor::pos();
+      }
+
     }
   }
 }

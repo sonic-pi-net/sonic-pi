@@ -27,7 +27,7 @@ class BPMScrubWidget : public QLineEdit
   Q_OBJECT
 
 public:
-  BPMScrubWidget(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::shared_ptr<SonicPi::SonicPiAPI> spAPI, SonicPiTheme *theme, QWidget *parent = nullptr);
+  BPMScrubWidget(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::shared_ptr<SonicPi::SonicPiAPI> spAPI, SonicPiTheme *theme, bool setPosAvailable, QWidget *parent = nullptr);
 
   void setAndDisplayBPM(double bpm);
   void setDisplayAndSyncBPM(double bpm);
@@ -55,7 +55,7 @@ private:
   std::shared_ptr<SonicPi::QtAPIClient> m_spClient;
   std::shared_ptr<SonicPi::SonicPiAPI> m_spAPI;
   QPoint m_lastMouseClickGlobalPos, m_lastMouseDragGlobalPos;
-  bool m_isDragging, m_isEditing, m_linkEnabled;
+  bool m_isDragging, m_isEditing, m_linkEnabled, m_setPosAvailable;
   double m_dragDelta;
   double m_bpmValue, m_preDragBpmValue;
   void readAndSetBPM();
