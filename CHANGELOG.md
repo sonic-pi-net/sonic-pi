@@ -29,6 +29,7 @@
 * [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
 
 <a name="v4.1.0"></a>
+
 ## Version 4.1.0 'Phase'
 30th August 2022
 <!-- [(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v4.1.0): -->
