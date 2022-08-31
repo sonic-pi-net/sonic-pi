@@ -285,8 +285,8 @@ void TimeWarpEdit::setTimeWarpValue(int val)
 {
   if (val < -250) {
       val = -250;
-    } else if (val > 250) {
-      val = 250;
+    } else if (val > 999) {
+      val = 999;
     }
   m_timeWarpValue = val;
 }

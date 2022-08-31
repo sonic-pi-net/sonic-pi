@@ -55,7 +55,7 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   timeWarpSlider->setTickPosition(QSlider::TicksBelow);
   timeWarpSlider->setToolTip(tr("Global Time Warp.\n\nSlide to shift the phase of all triggered synths / FX and sent MIDI/OSC events.\nNegative values trigger everything earlier, positive values trigger things later.\nThe unit is milliseconds."));
   timeWarpSlider->setMinimum(-250);
-  timeWarpSlider->setMaximum(250);
+  timeWarpSlider->setMaximum(999);
   timeWarpSlider->setValue(0);
 
 
