@@ -5,7 +5,7 @@ message(STATUS "CMakeLists: Sonic Pi Qt GUI")
 project("Sonic Pi"
   LANGUAGES CXX C
   DESCRIPTION "A code-based music creation and performance tool"
-  VERSION 4.1.0
+  VERSION 4.2.0
   HOMEPAGE_URL "https://sonic-pi.net"
 )
 
