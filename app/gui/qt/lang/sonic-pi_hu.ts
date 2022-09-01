@@ -147,7 +147,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1577"/>
         <source>Load Sonic Pi Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi puffer betöltése</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1577"/>
@@ -270,12 +270,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="1938"/>
         <source>Hiding help...</source>
-        <translation type="unfinished"></translation>
+        <translation>Segítség elrejtése...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1944"/>
         <source>Showing help...</source>
-        <translation type="unfinished"></translation>
+        <translation>Segítség mutatása...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2007"/>
@@ -285,27 +285,27 @@
     <message>
         <location filename="../mainwindow.cpp" line="2172"/>
         <source>Log Auto Scroll on...</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatikus görgetés naplózása bekapcsolva...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2176"/>
         <source>Log Auto Scroll off...</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatikus görgetés naplózása kikapcsolva...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2241"/>
         <source>Colour Theme: </source>
-        <translation type="unfinished"></translation>
+        <translation>Színvilág: </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2463"/>
         <source>Show autocompletion on</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatikus kiegészítés mutatása bekapcsolva</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2467"/>
         <source>Show autocompletion off</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatikus kiegészítés mutatása kikapcsolva</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2485"/>
@@ -320,17 +320,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="2510"/>
         <source>Hiding preferences...</source>
-        <translation type="unfinished"></translation>
+        <translation>Beállítások elrejtése...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2516"/>
         <source>Showing preferences...</source>
-        <translation type="unfinished"></translation>
+        <translation>Beállítások mutatása...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2690"/>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Kilépés</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2695"/>
