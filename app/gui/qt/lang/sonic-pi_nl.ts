@@ -146,7 +146,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="705"/>
         <source>Link Metronome &amp; Global Time Warp</source>
-        <translation type="unfinished"></translation>
+        <translation>Link Metronoom &amp; Globale Tijd Warp</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1577"/>
@@ -269,12 +269,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="1319"/>
         <source>Audio Inputs Enabled. Restart Sonic Pi for this setting to take effect...</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio Ingangen Actief. Herstart Sonic Pi om door te voeren...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1321"/>
         <source>Audio Inputs Disabled. Restart Sonic Pi for this setting to take effect...</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio Ingangen Inactief. Herstart Sonic Pi om door te voeren...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1419"/>
@@ -477,27 +477,27 @@
     <message>
         <location filename="../mainwindow.cpp" line="2808"/>
         <source>Enable Audio Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Activeer Audio Ingangen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2813"/>
         <source>Link Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbind Link</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2818"/>
         <source>Connect or disconnect the Link Metronome from the network</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbind of verbreek de Link Metronoom met het netwerk</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2820"/>
         <source>Tap Tempo</source>
-        <translation type="unfinished"></translation>
+        <translation>Tik Tempo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2823"/>
         <source>Click Link Tap Tempo</source>
-        <translation type="unfinished"></translation>
+        <translation>Klik Link Tik Tempo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2825"/>
@@ -597,12 +597,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2941"/>
         <source>Pro Light</source>
-        <translation type="unfinished">Pro Licht</translation>
+        <translation>Pro Licht</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2946"/>
         <source>Pro Dark</source>
-        <translation type="unfinished">Pro Donker</translation>
+        <translation>Pro Donker</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2951"/>
@@ -632,296 +632,296 @@
     <message>
         <location filename="../mainwindow.cpp" line="2980"/>
         <source>Show Scope Kinds</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon Scope Soorten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2991"/>
         <source>IO</source>
-        <translation type="unfinished">IO</translation>
+        <translation>IO</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2993"/>
         <source>MIDI Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI Ingangen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2994"/>
         <location filename="../mainwindow.cpp" line="4010"/>
         <location filename="../mainwindow.cpp" line="4145"/>
         <source>No Connected Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen Verbonden Ingangen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2995"/>
         <source>MIDI Outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI Uitgangen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2996"/>
         <location filename="../mainwindow.cpp" line="4008"/>
         <location filename="../mainwindow.cpp" line="4167"/>
         <source>No Connected Outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen Verbonden Uitgangen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2998"/>
         <source>Default MIDI Out Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Standaard MIDI Uit Kanaal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3000"/>
         <source>All Channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle Kanalen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3005"/>
         <source>1</source>
-        <translation type="unfinished"></translation>
+        <translation>1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3010"/>
         <source>2</source>
-        <translation type="unfinished"></translation>
+        <translation>2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3015"/>
         <source>3</source>
-        <translation type="unfinished"></translation>
+        <translation>3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3020"/>
         <source>4</source>
-        <translation type="unfinished"></translation>
+        <translation>4</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3025"/>
         <source>5</source>
-        <translation type="unfinished"></translation>
+        <translation>5</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3030"/>
         <source>6</source>
-        <translation type="unfinished"></translation>
+        <translation>6</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3035"/>
         <source>7</source>
-        <translation type="unfinished"></translation>
+        <translation>7</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3040"/>
         <source>8</source>
-        <translation type="unfinished"></translation>
+        <translation>8</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3045"/>
         <source>9</source>
-        <translation type="unfinished"></translation>
+        <translation>9</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3050"/>
         <source>10</source>
-        <translation type="unfinished"></translation>
+        <translation>10</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3055"/>
         <source>11</source>
-        <translation type="unfinished"></translation>
+        <translation>11</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3060"/>
         <source>12</source>
-        <translation type="unfinished"></translation>
+        <translation>12</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3065"/>
         <source>13</source>
-        <translation type="unfinished"></translation>
+        <translation>13</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3070"/>
         <source>14</source>
-        <translation type="unfinished"></translation>
+        <translation>14</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3075"/>
         <source>15</source>
-        <translation type="unfinished"></translation>
+        <translation>15</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3080"/>
         <source>16</source>
-        <translation type="unfinished"></translation>
+        <translation>16</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3088"/>
         <source>Local IP Addresses</source>
-        <translation type="unfinished"></translation>
+        <translation>Lokale IP Adressen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3102"/>
         <source>Incoming OSC Port</source>
-        <translation type="unfinished"></translation>
+        <translation>Inkomende OSC Poort</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3105"/>
         <source>View</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3110"/>
         <source>Focus Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Focus Editor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3112"/>
         <source>Place focus on the code editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Breng de focus naar de code editor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3116"/>
         <source>Focus Logs</source>
-        <translation type="unfinished"></translation>
+        <translation>Focus Logs</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3118"/>
         <source>Place focus on the log pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Breng de focus naar het log venster</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3121"/>
         <source>Focus Context</source>
-        <translation type="unfinished"></translation>
+        <translation>Focus Schermlezer info</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3123"/>
         <source>Place focus on the context pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Breng de focus naar de schermlezer informatie</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3127"/>
         <source>Focus Cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Focus Cues</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3129"/>
         <source>Place focus on the cue event pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Breng de focus naar het cue indicatie venster</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3133"/>
         <source>Focus Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Focus Voorkeursinstellingen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3135"/>
         <source>Place focus on preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Breng de focus naar het voorkeursinstellingen venster</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3139"/>
         <source>Focus Help Listing</source>
-        <translation type="unfinished"></translation>
+        <translation>Focus Hulp lijst</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3141"/>
         <source>Place focus on help listing</source>
-        <translation type="unfinished"></translation>
+        <translation>Breng de focus naar de hulp lijst</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3145"/>
         <source>Focus Help Details</source>
-        <translation type="unfinished"></translation>
+        <translation>Focus Hulp Details</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3147"/>
         <source>Place focus on help details</source>
-        <translation type="unfinished"></translation>
+        <translation>Breng focus naar de hulp details</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3151"/>
         <source>Focus Errors</source>
-        <translation type="unfinished"></translation>
+        <translation>Focus Fouten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3153"/>
         <source>Place focus on errors</source>
-        <translation type="unfinished"></translation>
+        <translation>Breng de focus naar de fouten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3157"/>
         <source>Focus BPM Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation>Focus BPM Regelaar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3159"/>
         <source>Place focus on BPM Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation>Breng de focus naar de BPM regelaar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3163"/>
         <source>Focus TimeWarp Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation>Focus TijdWarp Regelaar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3165"/>
         <source>Place focus on TimeWarp Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation>Breng de focus naar de TijdWarp Regelaar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3168"/>
         <source>Show Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon Log</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3173"/>
         <source>Show Cue Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon Cue Log</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3178"/>
         <source>Show Metronome</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon Metronoom</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3183"/>
         <source>Show Buttons</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon Knoppen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3188"/>
         <source>Show Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon Buffer Tabs</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3193"/>
         <source>Full Screen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Volledig Scherm Modus</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3232"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Taal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3423"/>
         <source>Ready...</source>
-        <translation>Klaar...</translation>
+        <translation>Gereed...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3613"/>
         <source>File loaded...</source>
-        <translation>Het bestand werd geladen...</translation>
+        <translation>Het bestand is geladen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3648"/>
         <source>File saved...</source>
-        <translation>Bestand opgeslagen...</translation>
+        <translation>Bestand is opgeslagen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3707"/>
         <source>Restarting Sonic Pi...</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi Herstart...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3942"/>
@@ -949,63 +949,63 @@ om de twee weken.</translation>
         <location filename="../mainwindow.cpp" line="3952"/>
         <source>New version available!
 Get Sonic Pi %1</source>
-        <translation>Er is een nieuwe versie beschikbaar! 
-Sonic Pi krijgen %1</translation>
+        <translation>Er is een nieuwe versie beschikbaar!
+Sonic Pi %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4301"/>
         <source>Line: %1,  Position: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Regel: %1,  Positie: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4400"/>
         <source>Sonic Pi - Audio Server Boot Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi - Audio Server Opstart Fout</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4405"/>
         <source>Sorry, the Audio Server failed to start...</source>
-        <translation type="unfinished"></translation>
+        <translation>Sorry, de Audio Server kon niet starten...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4406"/>
         <source>Please try changing your default OS audio input &amp; outputs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Probeer je standaard OS audio in- en uitgangen te veranderen.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4407"/>
         <source>Note, the audio rate of the inputs &amp; outputs must be the same.</source>
-        <translation type="unfinished"></translation>
+        <translation>Let op, de &apos;audio rate&apos; van de in- en uitgangen moet gelijk zijn.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4409"/>
         <source>For the curious among you, Sonic Pi uses the SuperCollider Audio Server to generate its sounds. By default it will connect to your default system audio input and outputs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Voor de nieuwsgierigen onder ons, Sonic Pi gebruikt de SuperCollider Audio Server om zijn geluiden te genereren. Standaard zal het verbinding maken met de standaard audio in- en uigangen van je computer.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4410"/>
         <source>Unfortunately SuperCollider is having problems starting correctly. You can read the full error log below which should explain why.</source>
-        <translation type="unfinished"></translation>
+        <translation>Helaas, Het lukt SuperCollider niet om te starten. Het volledige fouten log hieronder kan je helpen om te achterhalen waarom dit is gebeurd.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4411"/>
         <source>To fix this you can try changing your default operating system audio inputs and outputs (ensuring they have the same audio rate).</source>
-        <translation type="unfinished"></translation>
+        <translation>Om dit op te lossen kun je proberen om de standaard in- en uitgangen van je OS aan te passen (zorg ervoor dat ze dezelfde audio rate gebruiken).</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4412"/>
         <source>Advanced Users</source>
-        <translation type="unfinished"></translation>
+        <translation>Gevorderde Gebruikers</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4413"/>
         <source>you may manually override this and further configure how SuperCollider boots by editing the file:</source>
-        <translation type="unfinished"></translation>
+        <translation>je kunt dit handmatig overschrijven en verder aanpassen hoe SuperCollider opstart in het volgende bestand:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4415"/>
         <source>SuperCollider Log</source>
-        <translation type="unfinished"></translation>
+        <translation>SuperCollider Log</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2695"/>
@@ -1076,17 +1076,17 @@ Sonic Pi krijgen %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="315"/>
         <source>Studio Mode Enabled. Thank-you for supporting Sonic Pi.</source>
-        <translation>Studio mode ingeschakeld. Bedankt om Sonic Pi te steunen.</translation>
+        <translation>Studio mode ingeschakeld. Dank voor je steun aan Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="321"/>
         <source>No Matching Studio Hash Found...</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen bijbehorende Studio Hash gevonden...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="469"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Sluiten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="614"/>
@@ -1176,32 +1176,32 @@ Sonic Pi krijgen %1</translation>
         <location filename="../utils/ruby_help.h" line="2960"/>
         <location filename="../utils/ruby_help.h" line="3055"/>
         <source>Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation>Handleiding</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3092"/>
         <source>Examples</source>
-        <translation type="unfinished"></translation>
+        <translation>Voorbeelden</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3147"/>
         <source>Synths</source>
-        <translation type="unfinished"></translation>
+        <translation>Synths</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3196"/>
         <source>Fx</source>
-        <translation type="unfinished"></translation>
+        <translation>Effecten</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3217"/>
         <source>Samples</source>
-        <translation type="unfinished"></translation>
+        <translation>Samples</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3454"/>
         <source>Lang</source>
-        <translation type="unfinished"></translation>
+        <translation>Taal</translation>
     </message>
 </context>
 <context>
@@ -1232,36 +1232,37 @@ Sonic Pi krijgen %1</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="49"/>
         <source>Visuals</source>
-        <translation type="unfinished">Beelden (Visuals)</translation>
+        <translation>Visualisaties</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="52"/>
         <location filename="../widgets/settingswidget.cpp" line="470"/>
         <source>Updates</source>
-        <translation type="unfinished">Updates</translation>
+        <translation>Updates</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="55"/>
         <location filename="../widgets/settingswidget.cpp" line="514"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Taal</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="77"/>
         <source>Use this slider to change the system volume.</source>
-        <translation type="unfinished">Gebruik deze schuifregelaar om het volume te wijzigen.</translation>
+        <translation>Gebruik deze schuifregelaar om het volume te wijzigen.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="91"/>
         <source>Audio Output</source>
-        <translation type="unfinished">Audio-uitgang</translation>
+        <translation>Audio-uitgang</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="92"/>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
-        <translation type="unfinished">Geavanceerde geluidsinstellingen om met 
-externe PA systemen te werken wanneer je optreedt met Sonic Pi.</translation>
+        <translation>Geavanceerde geluidsinstellingen om met 
+externe omroep systemen te werken wanneer
+ je optreedt met Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="93"/>
@@ -1273,12 +1274,14 @@ externe PA systemen te werken wanneer je optreedt met Sonic Pi.</translation>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and vice versa.</source>
-        <translation type="unfinished"></translation>
+        <translation>Schakel stereobeeld omkeren in/uit.
+Indien ingeschakeld, word het geluid van de linker
+naar de rechter luidspreker gestuurd en omgekeerd.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="95"/>
         <source>Force mono</source>
-        <translation type="unfinished">Herleiden naar mono</translation>
+        <translation>Forceer mono</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="96"/>
@@ -1287,8 +1290,8 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation type="unfinished">Schakel mono in/uit.
-Indien ingeschakeld,worden het rechtse en het linkse kanaal samengevoegd en
+        <translation>Schakel mono in/uit.
+Indien ingeschakeld, worden het rechter en linker kanaal samengevoegd en
 wordt hetzelfde signaal naar beide luidsprekers gestuurd.
 Dit kan nuttig zijn wanneer men werkt met externe systemen
 die enkel met een mono signaal overweg kunnen.</translation>
@@ -1296,31 +1299,31 @@ die enkel met een mono signaal overweg kunnen.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="105"/>
         <source>Synths and FX</source>
-        <translation type="unfinished">Synths en FX (effecten)</translation>
+        <translation>Synths en FX (effecten)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="106"/>
         <source>Modify behaviour of synths and FX</source>
-        <translation type="unfinished">Wijzig gedrag van synths en effecten</translation>
+        <translation>Wijzig gedrag van synths en effecten</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="108"/>
         <source>Safe mode</source>
-        <translation type="unfinished">Veilige modus</translation>
+        <translation>Veilige modus</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="109"/>
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
-        <translation type="unfinished">De controle-functies van argumenten voor synths , in/uitschakelen.
+        <translation>De controle-functies van argumenten voor synths, in/uitschakelen.
 Indien uitgeschakeld, kunnen bepaalde synth opties
 voor onverwachts luide of onaangename geluiden zorgen.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="111"/>
         <source>Enforce timing guarantees</source>
-        <translation type="unfinished">Het &quot;In de maat blijven&quot; garanderen</translation>
+        <translation>Garandeer het &quot;In de maat blijven&quot;</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="112"/>
@@ -1331,12 +1334,12 @@ it is too late to do so
 When disabled, Sonic Pi will always
 attempt to trigger synths and FX
 even when a little late.</source>
-        <translation type="unfinished">Wanneer ingeschakeld,zal Sonic Pi weigeren
+        <translation>Wanneer ingeschakeld, zal Sonic Pi weigeren
 om Synths en Effecten te triggeren als
 deze te laat zijn ingegeven.
 
-Wanneer dit is uitgeschakeld,zal Sonic Pi altijd
-proberen Synths en Effecten te triggeren,
+Wanneer dit is uitgeschakeld, zal Sonic Pi altijd
+proberen om Synths en Effecten te triggeren,
 ook wanneer die een beetje te laat zijn ingegeven.</translation>
     </message>
     <message>
@@ -1348,42 +1351,42 @@ to be triggered.
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
 which isn&apos;t recognised.</source>
-        <translation type="unfinished">Indien ingeschakeld zal Sonic Pi toestaan om
-synths en effecten die geladen zijn via load_synthdefs 
-te triggeren.
+        <translation>Indien ingeschakeld zal Sonic Pi het toestaan
+om synths en effecten die geladen zijn via
+load_synthdefs te triggeren.
 
-Indien uitgeschakeld zal Sonic Pi een waarschuwing geven wanneer 
-je probeert een synth of effect te gebruiken 
-dat niet wordt herkend.</translation>
+Indien uitgeschakeld zal Sonic Pi een waarschuwing
+geven wanneer je probeert een synth of effect te
+gebruiken dat niet wordt herkend.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="151"/>
         <source>Networked OSC</source>
-        <translation type="unfinished">OSC via netwerk</translation>
+        <translation>OSC berichten via netwerk</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="152"/>
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation type="unfinished">Sonic Pi kan Open Sound Control berichten verzenden en ontvangen
-naar en van andere programma&apos;s of computers
- via het huidige verbonden netwerk.</translation>
+        <translation>Sonic Pi kan Open Sound Control (OSC )berichten verzenden
+en ontvangen, naar en van andere programma&apos;s of
+computers in het huidige verbonden netwerk.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="155"/>
         <source>Local IP address</source>
-        <translation type="unfinished">Lokaal IP adres</translation>
+        <translation>Lokaal IP adres</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="175"/>
         <source>Unavailable</source>
-        <translation type="unfinished">Onbeschikbaar</translation>
+        <translation>Onbeschikbaar</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="181"/>
         <source>Allow OSC from other computers</source>
-        <translation type="unfinished"></translation>
+        <translation>Sta OSC berichten toe vanuit andere computers</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="182"/>
@@ -1395,49 +1398,49 @@ Indien niet aangevinkt worden enkel berichten van het lokaal toestel verzonden o
     <message>
         <location filename="../widgets/settingswidget.cpp" line="184"/>
         <source>Allow incoming OSC</source>
-        <translation type="unfinished"></translation>
+        <translation>Sta inkomende OSC berichten toe</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="208"/>
         <source>all</source>
-        <translation type="unfinished"></translation>
+        <translation>alle</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="231"/>
         <source>Default MIDI out channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Standaard MIDI uit kanaal</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="298"/>
         <source>Show code completion</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon code aanvullingen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="185"/>
         <source>When checked, Sonic Pi will listen for OSC messages.
  When unchecked no OSC messages will be received.</source>
-        <translation type="unfinished">Indien aangevinkt, zal Sonic Pi controleren of er OSC berichten ontvangen worden.
+        <translation>Indien aangevinkt, zal Sonic Pi luisteren naar OSC berichten.
 Indien niet aangevinkt, zullen er geen OSC berichten ontvangen kunnen worden.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="193"/>
         <source>MIDI Configuration</source>
-        <translation type="unfinished">MIDI configuratie</translation>
+        <translation>MIDI configuratie</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="194"/>
         <source>Configure MIDI behaviour</source>
-        <translation type="unfinished">Configureer MIDI functionaliteit</translation>
+        <translation>Configureer MIDI functionaliteit</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="196"/>
         <source>MIDI Ports</source>
-        <translation type="unfinished">MIDI poorten</translation>
+        <translation>MIDI poorten</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="197"/>
         <source>List all connected MIDI Ports</source>
-        <translation type="unfinished">Toon alle verbonden MIDI poorten</translation>
+        <translation>Toon alle verbonden MIDI poorten</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="202"/>
@@ -1495,97 +1498,97 @@ Sonic Pi die verstuurd kunnen worden via de midi_* functies</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="74"/>
         <source>Main Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Volume</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="83"/>
         <source>Audio Input</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio Ingang</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="84"/>
         <source>Audio settings for working with audio inputs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio instellingen van de audio ingangen.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="85"/>
         <source>Enable Audio Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Activeer Audio Ingangen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="86"/>
         <source>Toggle to enable or disable audio inputs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Schakelaar om de audio ingangen aan of uit te zetten.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="114"/>
         <source>Enable external synths/FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Activeer externe synths/FX (synths/effecten)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="127"/>
         <source>Audio Hardware Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio Apparaat (hardware) informatie</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="128"/>
         <source>Audio hardware configuration and information.</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio apparaat (hardware) instellingen en informatie.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="129"/>
         <source>Information unavailable.</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen informatie beschikbaar.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="156"/>
         <source>Incoming OSC port</source>
-        <translation type="unfinished"></translation>
+        <translation>Inkomende OSC berichten poort</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="199"/>
         <source>Enable incoming MIDI cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Activeer inkomende MIDI cues</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="200"/>
         <source>Enable or disable automatic conversion of incoming MIDI messages to cue events</source>
-        <translation type="unfinished"></translation>
+        <translation>Activeer of deactiveer de automatische conversie van inkomende MIDI berichten naar cue berichten</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="232"/>
         <source>Default MIDI Channel to send messages to (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation>Standaard MIDI kanaal om berichten naar te zenden (* voor alle)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="236"/>
         <source>Default MIDI Channel to send messages to  (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation>Standaard MIDI kanaal om berichten naar te zenden (* voor alle)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="283"/>
         <source>Show Panels</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon Panelen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="284"/>
         <source>Show and hide information panes such as the scope and log.</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon en verberg informatie panelen als de scope en log.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="287"/>
         <source>Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Kleuren schema</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="289"/>
         <source>Automation / Misc</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatisering / Overige</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="290"/>
         <source>Configure automation and other features.</source>
-        <translation type="unfinished"></translation>
+        <translation>Instellen van automatisering en andere opties.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="292"/>
@@ -1610,17 +1613,17 @@ Sonic Pi die verstuurd kunnen worden via de midi_* functies</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="299"/>
         <source>When enabled, Sonic Pi&apos;s editor will attempt to autocomplete your code with suggestions. When disabled, these suggestions will not be visible.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wanneer actief zal Sonic Pi pogen je code automatisch van afmaak suggesties voorzien. Wanneer inactief zullen geen suggesties getoond worden.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="301"/>
         <source>Show code context</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon code informatie</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="302"/>
         <source>When enabled, Sonic Pi&apos;s editor will show a pane which will display context-specific information for the code such as the current line and position of the cursor.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wanneer actief zal Sonic Pi&apos;s editor een paneel tonen met daarin context specifieke informatie voor de code, zoals de huidige regel en positie van de cursor.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="304"/>
@@ -1645,12 +1648,12 @@ Sonic Pi die verstuurd kunnen worden via de midi_* functies</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="312"/>
         <source>Show Link metronome controls</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon Link metronoom besturing</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="313"/>
         <source>Toggle visibility of the Link metronome controls.</source>
-        <translation type="unfinished"></translation>
+        <translation>Schakel het tonen van de Link metronoom besturing.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="316"/>
@@ -1685,22 +1688,22 @@ Sonic Pi die verstuurd kunnen worden via de midi_* functies</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="325"/>
         <source>Show titles</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon titels</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="326"/>
         <source>Toggle the title visibility for the scope, log, cue and other information panes</source>
-        <translation type="unfinished"></translation>
+        <translation>Schakel de zichtbaarheid van de titels voor de scope, het log, cue en andere informatie panelen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="329"/>
         <source>Hide Menubar in Fullscreen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Verberg de Menubalk bij Volledige Scherm Weergave</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="330"/>
         <source>Automatically hide the menubar when the app is in full screen mode. Note that the menubar is always visible when not in full screen mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Verberg de menubalk automatisch wanneer de applicatie in Volledige Scherm Weergave is. De menubalk is altijd zichtbaar wanneer niet in Volledige Scherm Weergave.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="334"/>
@@ -1809,128 +1812,131 @@ Indien ingeschakeld scrolt het logvenster automatisch tot beneden na elk nieuw w
     <message>
         <location filename="../widgets/settingswidget.cpp" line="435"/>
         <source>Show scopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon scopes</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="437"/>
         <source>Show scope labels</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon scope bijschriften</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="515"/>
         <source>Configure language settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Verstel de taal instellingen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="520"/>
         <source>UI &amp; Tutorial Language (Requires a restart to take effect)</source>
-        <translation type="unfinished"></translation>
+        <translation>Interface &amp; Handleiding taal (Herstart is nodig om actief te maken)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="521"/>
         <source>Change the language of the UI &amp; Tutorial (Requires a restart to take effect)</source>
-        <translation type="unfinished"></translation>
+        <translation>Pas de taal van de interface en het handboek aan (Herstart is nodig om actief te maken)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="525"/>
         <source>Change the language of the UI &amp; Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation>Pas de taal van de interface en handleiding aan</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="532"/>
         <source>Translations have been generously provided by volunteers 
 on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
-        <translation type="unfinished"></translation>
+        <translation>Vertalingen zijn gedaan door vrijgevende vrijwilligers
+op https://hosted.weblate.org/projects/sonic-pi/. Dank je wel! :)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="631"/>
         <source>You&apos;ve selected a new language: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Je hebt een nieuwe taal geselecteerd: %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="633"/>
         <source>Do you want to apply this language?</source>
-        <translation type="unfinished"></translation>
+        <translation>Wil je deze taal instellen?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="635"/>
         <source>The new language will be applied when you next start Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation>De nieuwe taal word de volgende keer dat je Sonic Pi start actief.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="639"/>
         <source>System languages found: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Systeem talen gevonden: %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="643"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation>Toepassen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="644"/>
         <location filename="../widgets/settingswidget.cpp" line="691"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Afbreken</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="655"/>
         <source>&lt;b&gt;The new language will be applied when you next start Sonic Pi.&lt;/b&gt;&lt;br&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;De nieuwe taal word de volgende keer dat je Sonic Pi start actief.&lt;/b&gt;&lt;br&gt;</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="656"/>
         <location filename="../widgets/settingswidget.cpp" line="925"/>
         <source>Current UI language: %1
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Huidige interface taal: %1
+</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="660"/>
         <source>Restart Sonic Pi?</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi herstarten?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="661"/>
         <source>Do you want to restart Sonic Pi now? This will stop any current runs &amp; recordings.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wil je Sonic Pi nu herstarten? Dit zal je huidige spelende code en opnames stoppen.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="662"/>
         <location filename="../widgets/settingswidget.cpp" line="690"/>
         <source>Restart</source>
-        <translation type="unfinished"></translation>
+        <translation>Herstart</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="663"/>
         <source>Dismiss</source>
-        <translation type="unfinished"></translation>
+        <translation>Sluiten</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="685"/>
         <source>Audio input change detected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio ingang verandering gedetecteerd.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="686"/>
         <source>Your changes won&apos;t take effect until you restart Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation>Je aanpassingen worden pas actief na een herstart van Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="687"/>
         <source>Would you like to restart now?</source>
-        <translation type="unfinished"></translation>
+        <translation>Wil je nu herstarten?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="924"/>
         <source>System languages: %1
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Systeem talen: %1
+</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1077"/>
         <source>Use system language</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruik de systeem taal</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="436"/>
@@ -1940,7 +1946,7 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="438"/>
         <source>Toggle the visibility of the labels for the audio oscilloscopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Schakel het tonen van de bijschriften van de audio oscilloscopes</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="442"/>
@@ -1952,7 +1958,14 @@ Mirror Stereo - simple left/right composite wave, with left on top, right on bot
 Mono - shows a combined view of the left and right channels (using RMS)
 Spectrum - shows the sound frequencies as a spectrum, from low to high frequencies
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished"></translation>
+        <translation>De audio oscilloscope heeft een paar verschillende vormen die 
+los of allemaal tegelijk getoond kunnen worden:
+
+Lissajous - tekent de fase relatie tussen het linker en rechter kanaal.
+Mirror Stereo - eenvoudige links/rechts samengestelde golf, met links boven en rechts onder
+Mono - eenvoudige gecombineerde golf van het linker en rechter kanaal (met kwadratisch gemiddelde (RMS))
+Spectrum - splitst het geluid op in frequentie van laag naar hoog
+Stereo - twee eenvoudige golven, een voor links en een voor rechts</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="449"/>
