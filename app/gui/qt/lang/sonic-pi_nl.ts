@@ -1217,17 +1217,17 @@ Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="40"/>
         <source>Audio</source>
-        <translation type="unfinished">Audio</translation>
+        <translation>Audio</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="43"/>
         <source>IO</source>
-        <translation type="unfinished">IO</translation>
+        <translation>IO</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="46"/>
         <source>Editor</source>
-        <translation type="unfinished">Editor</translation>
+        <translation>Editor</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="49"/>
@@ -1260,14 +1260,14 @@ Sonic Pi %1</translation>
         <location filename="../widgets/settingswidget.cpp" line="92"/>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
-        <translation>Geavanceerde geluidsinstellingen om met 
-externe omroep systemen te werken wanneer
- je optreedt met Sonic Pi.</translation>
+        <translation>Geavanceerde geluidsinstellingen om met
+externe omroep (PA) systemen te werken
+wanneer je optreedt met Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="93"/>
         <source>Invert stereo</source>
-        <translation type="unfinished">Stereobeeld omkeren</translation>
+        <translation>Stereobeeld omkeren</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="94"/>
@@ -1445,24 +1445,24 @@ Indien niet aangevinkt, zullen er geen OSC berichten ontvangen kunnen worden.</t
     <message>
         <location filename="../widgets/settingswidget.cpp" line="202"/>
         <source>Reset MIDI</source>
-        <translation>Initialiseer MIDI</translation>
+        <translation>Herstel MIDI</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="204"/>
         <source>Reset MIDI subsystems 
 (Required to detect device changes on macOS)</source>
-        <translation type="unfinished">MIDI-subsysteem herstellen
-(nodig om apparaatwijzigingen te detecteren in macOS)</translation>
+        <translation>MIDI-subsysteem herstellen
+(nodig om apparaat-wijzigingen te detecteren in macOS)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="247"/>
         <source>No connected input devices</source>
-        <translation type="unfinished">Geen aangesloten ingave apparaten</translation>
+        <translation>Geen aangesloten invoer apparaten</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="248"/>
         <source>No connected output devices</source>
-        <translation type="unfinished">Geen uitgangs apparaten aangesloten</translation>
+        <translation>Geen aangesloten uitvoer apparaten</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="249"/>
@@ -1477,23 +1477,23 @@ Sonic Pi en worden ontvangen als aanwijzingssignalen
         <location filename="../widgets/settingswidget.cpp" line="250"/>
         <source>MIDI output devices receive MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished">MIDI output apparaten ontvangen MIDI berichten direct van
-Sonic Pi die verstuurd kunnen worden via de midi_* functies</translation>
+        <translation>MIDI uitvoer apparaten ontvangen MIDI berichten direct van
+Sonic Pi, welke verstuurd kunnen worden via de midi_* functies</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="285"/>
         <source>Show and Hide</source>
-        <translation type="unfinished">Tonen en Verbergen</translation>
+        <translation>Tonen en Verbergen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="286"/>
         <source>Configure editor display options.</source>
-        <translation type="unfinished">Configureer de weergave-opties van de editor.</translation>
+        <translation>Configureer de weergave-opties van de editor.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="288"/>
         <source>Configure editor look and feel.</source>
-        <translation type="unfinished">Configureer het uitzicht en het gedrag van de editor .</translation>
+        <translation>Configureer het uiterlijk en gedrag van de editor .</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="74"/>
@@ -1593,22 +1593,22 @@ Sonic Pi die verstuurd kunnen worden via de midi_* functies</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="292"/>
         <source>Auto-align</source>
-        <translation type="unfinished">Automatisch uitlijnen</translation>
+        <translation>Automatisch uitlijnen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="293"/>
         <source>Automatically align code on Run</source>
-        <translation type="unfinished">Automatisch uitlijnen van de code bij het afspelen</translation>
+        <translation>Automatisch uitlijnen van de code bij het afspelen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="295"/>
         <source>Show line numbers</source>
-        <translation type="unfinished">Regelnummers tonen</translation>
+        <translation>Toon Regelnummers</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="296"/>
         <source>Toggle line number visibility.</source>
-        <translation type="unfinished">Schakel lijnnummers in/uit.</translation>
+        <translation>Schakel regelnummers aan/uit.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="299"/>
@@ -1628,22 +1628,22 @@ Sonic Pi die verstuurd kunnen worden via de midi_* functies</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="304"/>
         <source>Show log</source>
-        <translation type="unfinished">Log tonen</translation>
+        <translation>Toon Log</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="305"/>
         <source>Toggle visibility of the log.</source>
-        <translation type="unfinished">In-/ uitschakelen van het logvenster.</translation>
+        <translation>Schakel het log venster in/uit.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="308"/>
         <source>Show cue log</source>
-        <translation type="unfinished">Toon cue-log</translation>
+        <translation>Toon cue-log</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="309"/>
         <source>Toggle visibility of cue log which displays internal cues &amp; incoming OSC/MIDI messages.</source>
-        <translation type="unfinished">De zichtbaarheid van de cue-log, die interne cues &amp; binnenkomende OSC/MIDI-berichten toont, in-/ uitschakelen.</translation>
+        <translation>Schakel de zichtbaarheid van de cue-log, dat interne cues &amp; binnenkomende OSC/MIDI-berichten toont, in/uit.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="312"/>
@@ -1658,32 +1658,32 @@ Sonic Pi die verstuurd kunnen worden via de midi_* functies</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="316"/>
         <source>Show buttons</source>
-        <translation type="unfinished">Knoppen weergeven</translation>
+        <translation>Toon Knoppen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="317"/>
         <source>Toggle visibility of the control buttons.</source>
-        <translation type="unfinished">Het tonen van de bedieningsknoppen in-/ uitschakelen.</translation>
+        <translation>Schakel het tonen van de bedieningsknoppen in/uit.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="319"/>
         <source>Show tabs</source>
-        <translation type="unfinished">Tabbladen weergeven</translation>
+        <translation>Toon Tabbladen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="321"/>
         <source>Toggle visibility of the buffer selection tabs.</source>
-        <translation type="unfinished">Het tonen van de buffer tabbladen in-/uitschakelen.</translation>
+        <translation>Schakel het tonen van de buffer tabbladen in/uit.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="322"/>
         <source>Full screen</source>
-        <translation type="unfinished">Volledig scherm</translation>
+        <translation>Volledig scherm weergave</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="323"/>
         <source>Toggle full screen mode.</source>
-        <translation type="unfinished">Volledig scherm,in-/uitschakelen.</translation>
+        <translation>Schakel Volledig scherm weergave, in/uit.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="325"/>
@@ -1733,12 +1733,12 @@ Sonic Pi die verstuurd kunnen worden via de midi_* functies</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="383"/>
         <source>Logging</source>
-        <translation type="unfinished">Logregistratie</translation>
+        <translation>Log registratie</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="384"/>
         <source>Configure debug behaviour</source>
-        <translation type="unfinished">Foutopsporing configureren</translation>
+        <translation>Foutopsporing configureren</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="386"/>
@@ -1750,64 +1750,64 @@ Sonic Pi die verstuurd kunnen worden via de midi_* functies</translation>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation type="unfinished">Schakel log-berichten in/uit.
-Indien uitgeschakeld, zullen synths en samples triggers,
+        <translation>Schakel log-berichten in/uit.
+Indien uitgeschakeld, zullen synth en sample triggers,
 niet meer standaard naar het logbestand geschreven worden.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="389"/>
         <source>Clear log on run</source>
-        <translation type="unfinished">Logbestand wissen voor afspelen</translation>
+        <translation>Log wissen voor afspelen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="390"/>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation type="unfinished">Logvenster leegmaken in/uitschakelen.
-Wanneer ingeschakeld wordt het logvenster
-leeggemaakt telkens op afspelen wordt gedrukt.</translation>
+        <translation>Schakel het leegmaken van het Log venster in/uit.
+Wanneer ingeschakeld wordt het log venster
+leeggemaakt telkens als op afspelen wordt gedrukt.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="392"/>
         <source>Log cues</source>
-        <translation type="unfinished">Log cues</translation>
+        <translation>Log cues</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="393"/>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation type="unfinished">Schakel het loggen van cues (uitvoersignalen) in/uit.
+        <translation>Schakel het loggen van cues (uitvoersignalen) in/uit.
 Indien uitgeschakeld zullen cues nog wel triggeren,
-maar zullen niet zichtbaar zijn in het logvenster.</translation>
+maar zullen niet zichtbaar zijn in het log venster.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="395"/>
         <source>Auto-scroll log</source>
-        <translation type="unfinished">Auto-scroll log</translation>
+        <translation>Auto-scroll log</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="396"/>
         <source>Toggle log auto scrolling.
 If enabled the log is scrolled to the bottom after every new message is displayed.</source>
-        <translation type="unfinished">Schakel auto-scrollen in/uit.
-Indien ingeschakeld scrolt het logvenster automatisch tot beneden na elk nieuw weergegeven bericht.</translation>
+        <translation>Schakel auto-scrollen in/uit.
+Indien ingeschakeld scrolt het log venster automatisch, na elk nieuw weergegeven bericht, naar beneden.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="422"/>
         <source>Settings useful for performing with Sonic Pi</source>
-        <translation type="unfinished">Nuttige instellingen om met Sonic Pi op te treden</translation>
+        <translation>Nuttige instellingen bij het optreden met Sonic Pi</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="426"/>
         <source>Show and Hide Scope</source>
-        <translation type="unfinished">Scope weergeven of verbergen</translation>
+        <translation>Scope weergeven of verbergen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="427"/>
         <source>Scope Kinds</source>
-        <translation type="unfinished">Soorten Scope</translation>
+        <translation>Soorten Scope</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="435"/>
@@ -1941,7 +1941,7 @@ op https://hosted.weblate.org/projects/sonic-pi/. Dank je wel! :)</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="436"/>
         <source>Toggle the visibility of the audio oscilloscopes.</source>
-        <translation type="unfinished">Zichtbaarheid van de audio-oscilloscopen in-/uitschakelen.</translation>
+        <translation>Schakel de zichtbaarheid van de audio-oscilloscopen in/uit.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="438"/>
@@ -1970,51 +1970,51 @@ Stereo - twee eenvoudige golven, een voor links en een voor rechts</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="449"/>
         <source>Transparency</source>
-        <translation type="unfinished">Transparantie</translation>
+        <translation>Transparantie</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="472"/>
         <source>Check for updates</source>
-        <translation type="unfinished">Controleren op updates</translation>
+        <translation>Controleren op updates</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="473"/>
         <source>Toggle automatic update checking.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished">Automatische controle van Updates opvragen.
-Deze controle omvat het verzenden van anonieme gegevens over het platform en de versie van uw computer.</translation>
+        <translation>Schakel automatische controle van Updates in/uit.
+Deze controle omvat het verzenden van anonieme gegevens over het platform en de versie van uw computer om vast stellen of er een geschikte update beschikbaar is.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="474"/>
         <source>Check now</source>
-        <translation type="unfinished">Nu opzoeken</translation>
+        <translation>Nu Kijken</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="477"/>
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished">Geforceerd naar updates zoeken.
-Deze opdracht omvat het verzenden van anonieme gegevens over het platform en de versie van uw computer.</translation>
+        <translation>Forceer het zoeken naar een update.
+Dit omvat het verzenden van anonieme gegevens over het platform en de versie van uw computer om te bepalen of er een geschikte update beschikbaar is.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="478"/>
         <source>Get update</source>
-        <translation type="unfinished">Update krijgen</translation>
+        <translation>Update Ophalen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="480"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation type="unfinished">Bezoek http://sonic-pi.net om een nieuwe versie te downloaden</translation>
+        <translation>Bezoek http://sonic-pi.net om een nieuwe versie te downloaden</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="485"/>
         <source>Update Info</source>
-        <translation type="unfinished">Info Updaten</translation>
+        <translation>Info Updaten</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="488"/>
         <source>Sonic Pi update info</source>
-        <translation type="unfinished">Sonic Pi update info</translation>
+        <translation>Sonic Pi update info</translation>
     </message>
 </context>
 </TS>
