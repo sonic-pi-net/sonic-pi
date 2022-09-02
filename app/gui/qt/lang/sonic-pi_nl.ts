@@ -1445,7 +1445,7 @@ Indien niet aangevinkt, zullen er geen OSC berichten ontvangen kunnen worden.</t
     <message>
         <location filename="../widgets/settingswidget.cpp" line="202"/>
         <source>Reset MIDI</source>
-        <translation type="unfinished">Reset MIDI</translation>
+        <translation>Initialiseer MIDI</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="204"/>
