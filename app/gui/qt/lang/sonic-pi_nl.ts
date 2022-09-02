@@ -582,7 +582,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2929"/>
         <source>Visuals</source>
-        <translation type="unfinished">Beelden (Visuals)</translation>
+        <translation>Visualisaties</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2931"/>
