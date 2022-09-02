@@ -4446,6 +4446,7 @@ puts current_sched_ahead_time # Prints 0.5"]
 
 
       def sync_event(*args)
+        raise TimeTravelError, "Calling sync within a time_warp is not supported. " if __system_thread_locals.get(:sonic_pi_spider_in_time_warp)
         params, opts = split_params_and_merge_opts_array(args)
         k = params[0]
 
