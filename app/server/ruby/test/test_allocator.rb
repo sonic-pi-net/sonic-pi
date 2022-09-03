@@ -54,8 +54,7 @@ module SonicPi
 
     def test_reset
       a = Allocator.new(5)
-      last = nil
-      3.times { last = a.allocate }
+      3.times { a.allocate }
       assert_equal(3, a.num_allocations)
       a.reset!
       assert_equal(0, a.num_allocations)

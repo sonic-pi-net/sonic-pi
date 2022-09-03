@@ -93,8 +93,6 @@ module RBeautify
       end
 
       def parse_explicit_block_end(string, offset)
-        block_end = nil
-
         if ends?
 
           if match = block_matcher.ends.match(string)
