@@ -1401,7 +1401,7 @@ module SonicPi
 
       # Temporarily fix beta version:
       # @version = Version.new(4, 1, 0)
-      @version = Version.new(4, 2, 0, "dev")
+      @version = Version.new(4, 2, 0, gh_short)
 
       @server_version = __server_version
       @life_hooks = LifeCycleHooks.new
