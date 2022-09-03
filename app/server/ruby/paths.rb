@@ -236,7 +236,7 @@ module SonicPi
     end
 
     def self.spider_server_path
-      File.absolute_path("#{server_bin_path}/sonic-pi-server.rb")
+      File.absolute_path("#{server_bin_path}/spider-server.rb")
     end
 
     def self.scsynth_path
