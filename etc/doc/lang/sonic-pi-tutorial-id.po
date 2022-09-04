@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2022-08-02 11:22+0000\n"
-"Last-Translator: Umair Raihan <umair.umer26@gmail.com>\n"
-"Language-Team: Indonesian <https://hosted.weblate.org/projects/sonic-pi/tutori"
-"al/id/>\n"
+"PO-Revision-Date: 2022-09-05 14:24+0000\n"
+"Last-Translator: Neko Nekowazarashi <kodra@nekoweb.my.id>\n"
+"Language-Team: Indonesian <https://hosted.weblate.org/projects/sonic-pi/"
+"tutorial/id/>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.14-dev\n"
+"X-Generator: Weblate 4.14.1-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -77,12 +77,12 @@ msgstr "OK, mari kita mulai..."
 
 #: 01.1-Live-Coding.md:1
 msgid "1.1 Live Coding"
-msgstr ""
+msgstr "1.1 Pengodean Langsung"
 
 #: 01.1-Live-Coding.md:3 09-Live-Coding.md:3 09.1-Live-Coding-Fundamentals.md:3
 #: A.02-live-coding.md:3
 msgid "Live Coding"
-msgstr ""
+msgstr "Pengodean Langsung"
 
 #: 01.1-Live-Coding.md:5
 msgid ""
@@ -13681,7 +13681,7 @@ msgstr ""
 
 #: B.04-Performing.md:29
 msgid "TOPLAP"
-msgstr ""
+msgstr "TOPLAP"
 
 #: B.04-Performing.md:31
 msgid ""
@@ -13690,10 +13690,14 @@ msgid ""
 "lves. A great place to go and find out more about other live coders and system"
 "s is [TOPLAP](http://toplap.org)."
 msgstr ""
+"Pengodean langsung bukanlah hal yang baru - beberapa orang sudah "
+"melakukannya selama bertahun-tahun, biasanya menggunakan alat rakitan "
+"khusus. Salah satu tempat untuk mencari lebih banyak tengan pengode langsung "
+"dan alat tersebut adalah [TOPLAP](http://toplap.org)."
 
 #: B.04-Performing.md:36
 msgid "Algorave"
-msgstr ""
+msgstr "Algorave"
 
 #: B.04-Performing.md:38
 msgid ""
@@ -13701,3 +13705,6 @@ msgid ""
 "//algorave.com). Here you can find all about a specific strand of live coding "
 "for making music in nightclubs."
 msgstr ""
+"Sumber lain yang bagus untuk menjelajahi dunia pengodean langsung adalah "
+"[Algorave](http://algorave.com). Di sini kamu bisa menemukan berbagai ragam "
+"cara pengodean langsung untuk membuat musik di bar."
