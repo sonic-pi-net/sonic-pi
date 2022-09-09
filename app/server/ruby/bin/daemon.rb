@@ -934,48 +934,51 @@ module SonicPi
           unified_opts = {}
         end
 
-        cues_on                        = true
-        osc_in_udp_loopback_restricted = false
-        midi_on                        = true
-        link_on                        = true
-        osc_in_udp_port                = ports["osc-cues"]
-        api_port                       = ports["tau"]
-        spider_port                    = ports["spider-listen-to-tau"]
-        daemon_port                    = ports["daemon"]
-        midi_enabled                   = true
-        link_enabled                   = true
-        phx_secret_key_base            = SecureRandom.base64(64)
-        env                            = ENV["SONIC_PI_ENV"] || unified_opts[:env] || "prod"
-        @phx_port                      = unified_opts[:phx_port] || ports["phx"]
+        @phx_port = unified_opts[:phx_port] || ports["phx"]
 
-        Util.log "Daemon listening to info from Tau on port #{daemon_port}"
+        Util.log "Daemon listening to info from Tau on port #{ports["daemon"]}"
 
-        args = [
-          cues_on,
-          osc_in_udp_loopback_restricted,
-          midi_on,
-          link_on,
-          osc_in_udp_port,
-          api_port,
-          spider_port,
-          daemon_port,
-          Paths.tau_log_path,
-          midi_enabled,
-          link_enabled,
-          phx_port,
-          phx_secret_key_base,
-          token,
-          env
-        ]
+        ENV["TAU_CUES_ON"]                        = "true"
+        ENV["TAU_OSC_IN_UDP_LOOPBACK_RESTRICTED"] = "false"
+        ENV["TAU_MIDI_ON"]                        = "true"
+        ENV["TAU_LINK_ON"]                        = "true"
+        ENV["TAU_OSC_IN_UDP_PORT"]                = "#{ports["osc-cues"]}"
+        ENV["TAU_API_PORT"]                       = "#{ports["tau"]}"
+        ENV["TAU_SPIDER_PORT"]                    = "#{ports["spider-listen-to-tau"]}"
+        ENV["TAU_DAEMON_PORT"]                    = "#{ports["daemon"]}"
+        ENV["TAU_MIDI_ENABLED"]                   = "true"
+        ENV["TAU_LINK_ENABLED"]                   = "true"
+        ENV["SECRET_KEY_BASE"]                    = "#{SecureRandom.base64(64)}"
+        ENV["TAU_DAEMON_TOKEN"]                   = "#{token}"
+        ENV["TAU_ENV"]                            = "#{ENV["SONIC_PI_ENV"] || unified_opts[:env] || "prod"}"
+        ENV["MIX_ENV"]                            = ENV["TAU_ENV"]
+        ENV["TAU_PHX_PORT"]                       = "#{@phx_port}"
+        ENV["TAU_LOG_PATH"]                       = "#{Paths.tau_log_path}"
 
         if Util.os == :windows
-          cmd = Paths.mix_release_boot_path
+          if ENV["TAU_ENV"] == "prod"
+            ENV["RELEASE_SYS_CONFIG"] = "#{Paths.tau_release_sys_config_path}"
+            ENV["RELEASE_ROOT"]       = "#{Paths.tau_release_root}"
+
+            cmd = "#{Paths.tau_release_erl_bin_path}".gsub('/', '\\')
+            args = ["-config",                  "#{Paths.tau_release_sys_path}".gsub('/', "\\"),
+                    "-boot",                    "#{Paths.tau_release_start_path}".gsub('/', "\\"),
+                    "-boot_var", "RELEASE_LIB", "#{Paths.tau_release_lib_path}".gsub('/', "\\"),
+                    "-args_file",               "#{Paths.tau_release_vm_args_path}".gsub('/', "\\"),
+                    "-noshell",
+                    "-s", "elixir", "start_cli",
+                    "-mode",    "embedded",
+              "-extra",   "--no-halt"]
+          else
+            cmd = Paths.mix_release_boot_path
+            args = []
+          end
         else
           cmd = "sh"
-          args = [Paths.mix_release_boot_path] + args
+          args = [Paths.mix_release_boot_path]
         end
 
-        super(cmd, args, nil)
+        super(cmd, args, Paths.tau_boot_log_path)
       end
 
       def restart!

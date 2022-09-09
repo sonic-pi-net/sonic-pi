@@ -167,6 +167,10 @@ module SonicPi
       File.absolute_path("#{log_path}/tau.log")
     end
 
+    def self.tau_boot_log_path
+      File.absolute_path("#{log_path}/tau_boot.log")
+    end
+
     def self.jackd_log_path
       File.absolute_path("#{log_path}/jackd.log")
     end
@@ -215,8 +219,56 @@ module SonicPi
       end
     end
 
+    def self.tau_base_path
+      File.absolute_path("#{server_path}/beam/tau")
+    end
+
+    def self.tau_release_path
+      File.absolute_path("#{tau_base_path}/_build/prod/rel/tau/releases/0.1.0")
+    end
+
+    def self.tau_release_root
+      File.absolute_path("#{tau_base_path}/_build/prod/rel/tau")
+    end
+
+    def self.tau_release_erl_bin_path
+      case os
+      when :windows
+        base = File.absolute_path("#{tau_base_path}/_build/prod/rel/tau")
+        erts_dir = Dir["#{base}/erts-*"][0]
+        path = File.absolute_path("#{erts_dir}/bin/erl.exe")
+
+        raise "Unable to find erl.exe. Did the Elixir build release work correctly? I looked here: #{path.inspect}" unless File.exist?(path)
+        path
+      when :macos
+
+      else
+
+      end
+    end
+
+    def self.tau_release_sys_config_path
+      File.absolute_path("#{tau_release_path}/sys")
+    end
+
+    def self.tau_release_sys_path
+      File.absolute_path("#{tau_release_path}/sys")
+    end
+
+    def self.tau_release_start_path
+      File.absolute_path("#{tau_release_path}/start")
+    end
+
+    def self.tau_release_vm_args_path
+      File.absolute_path("#{tau_release_path}/vm.args")
+    end
+
+    def self.tau_release_lib_path
+      File.absolute_path("#{tau_base_path}/_build/prod/rel/tau/lib")
+    end
+
     def self.tau_app_path
-      File.absolute_path("#{server_path}/beam/tau/ebin")
+      File.absolute_path("#{tau_base_path}/ebin")
     end
 
     def self.user_audio_settings_path
