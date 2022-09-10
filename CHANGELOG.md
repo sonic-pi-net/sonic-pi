@@ -1,4 +1,5 @@
 # History
+* [v4.2.0 'Batch'](#v4.2.0), To be released
 * [v4.1.0 'Phase'](#v4.1.0), 30th August 2022
 * [v4.0.3 'Dovetail'](#v4.0.3), 18th July 2022
 * [v4.0.2 'Relink'](#v4.0.2), 15th July 2022
@@ -27,6 +28,26 @@
 * [v2.1 'Core'](#v2.1), 21st Nov, 2014
 * [v2.0.1](#v2.0.1), 9th Sept, 2014
 * [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
+
+<a name="v4.2.0"></a>
+
+## Version 4.2.0 'Batch'
+To be released
+<!-- [(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v4.2.0): -->
+
+
+### GUI
+* Change Global Time Warp range from +-250 to -250 -> 999. This lets users access the full phase down to a BPM of 48.
+
+### Improvements
+* Booting process on Windows has been modified to enable it to run when executing in an environment which restricts access to CMD (which prevents terminal usage and running .bat files). This is typical in schools.
+
+### Translations
+* Improvements to the Dutch, Hungarian and Indonesian translations.
+
+### Bugfixes
+* Teach timing safety system that `time_warp` doesn't sleep (even if it contains calls to `sleep` internally). This now means that wrapping all code within a `live_loop` with `time_warp` no longer causes the thread to spin out of control. It instead reports that the live loop did not sleep as expected.
+* Throw error when attempting to call `sync` within a `time_warp`. This is because time warps are effectively timeless and `sync` asks the running thread to wait for an unknown period (until a matching event appears). Attepting to wait within a timeless context is clearly nonsensical!
 
 <a name="v4.1.0"></a>
 
