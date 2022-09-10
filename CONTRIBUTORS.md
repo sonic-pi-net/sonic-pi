@@ -247,8 +247,7 @@ In addition to the Sonic Pi Core Team, we would like to extend our
 thanks to the following developers who have donated their time and
 effort to help grow and improve the Sonic Pi code base:
 
-
-* [Sam Aaron](https://github.com/sonic-pi-net/sonic-pi/commits?author=samaaron) (5333)
+* [Sam Aaron](https://github.com/sonic-pi-net/sonic-pi/commits?author=samaaron) (5337)
 * [Ethan Crawford](https://github.com/sonic-pi-net/sonic-pi/commits?author=ethancrawford) (304)
 * [Hanno Zulla](https://github.com/sonic-pi-net/sonic-pi/commits?author=hzulla) (198)
 * [Joseph Wilk](https://github.com/sonic-pi-net/sonic-pi/commits?author=josephwilk) (160)
@@ -441,7 +440,6 @@ effort to help grow and improve the Sonic Pi code base:
 ## Translation
 The following volunteers have generously helped to translate Sonic Pi into additional languages:
 
-
 * Łukasz Siwiński (109)
 * Kenichi Kanai (101)
 * Nico Staelens (83)
@@ -521,6 +519,7 @@ The following volunteers have generously helped to translate Sonic Pi into addit
 * Theodore Tsirpanis (5)
 * Timo Dankert (5)
 * Adeilson Silva (4)
+* Aiko (4)
 * André Klöpfel (4)
 * ArtyomIsFlash (4)
 * Basel Akasha (4)
@@ -534,6 +533,7 @@ The following volunteers have generously helped to translate Sonic Pi into addit
 * Kaz Yamazaki (4)
 * Salih Vatansever (4)
 * Servaas Tilkin (4)
+* Stefan Boeykens (4)
 * Thomas G. Kristensen (4)
 * Abdeselam El-Haman (3)
 * Adrian Nöthlich (3)
@@ -563,6 +563,7 @@ The following volunteers have generously helped to translate Sonic Pi into addit
 * Luis Lloret (3)
 * Lupa Lupin (3)
 * László van den Hoek (3)
+* Maarten Brouwers (3)
 * Madis Liias (3)
 * Moisés Cachay Tello (3)
 * Moon Sungjoon (3)
@@ -574,7 +575,6 @@ The following volunteers have generously helped to translate Sonic Pi into addit
 * Sander Kesting (3)
 * Sebastian Stahn (3)
 * Sebastien van der Kwast (3)
-* Stefan Boeykens (3)
 * Sune Sylvest Nilausen (3)
 * Tasos Protopapas (3)
 * Tuomas Pyylampi (3)
@@ -612,6 +612,7 @@ The following volunteers have generously helped to translate Sonic Pi into addit
 * Gabriel Barba Gonzalez (2)
 * Gao Yuyang (2)
 * Genek Tomashko (2)
+* Gergő Fazekas (2)
 * Giovanni Domeneghini (2)
 * Goncalo Vieira (2)
 * Guntitat Sawadwuthikul (2)
@@ -640,7 +641,6 @@ The following volunteers have generously helped to translate Sonic Pi into addit
 * Luis Jimenez (2)
 * Lukas Spee (2)
 * Lázaro Henrique (2)
-* Maarten Brouwers (2)
 * Martin Lange (2)
 * Martin Solheim (2)
 * Martin-Zack Mekkaoui (2)
@@ -650,6 +650,7 @@ The following volunteers have generously helped to translate Sonic Pi into addit
 * Michal Slaski (2)
 * Moru (2)
 * Narek Torosyan (2)
+* Neko Nekowazarashi (2)
 * Nicholas Pellizer (2)
 * Nicolas Cosson (2)
 * Nimplex (2)
