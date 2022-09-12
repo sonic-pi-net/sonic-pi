@@ -41,6 +41,7 @@ To be released
 
 ### Improvements
 * Booting process on Windows has been modified to enable it to run when executing in an environment which restricts access to CMD (which prevents terminal usage and running .bat files). This is typical in schools.
+* Sonic Pi stores all its history, config and logs in a folder called .sonic-pi which is typically placed in the user's home directory. If the user happens to not have permission to write to their home directory, Sonic Pi now raises a descriptive error on boot and explains that the fix is to set an environment variable called `SONIC_PI_HOME` to point to a directory the user does have permission to write to.
 
 ### Translations
 * Improvements to the Dutch, Hungarian and Indonesian translations.
