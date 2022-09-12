@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2022-09-05 14:23+0000\n"
+"PO-Revision-Date: 2022-09-14 21:22+0000\n"
 "Last-Translator: Aiko <hosted.weblate.org@aiko.sh>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "nl/>\n"
@@ -143,10 +143,6 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 0.5\n"
-"end"
 
 #: 01.1-Live-Coding.md:28
 msgid ""
@@ -204,11 +200,6 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
-"live_loop :typmaarlustig do\n"
-"  sample :ambi_choir, rate: 0.3\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 1\n"
-"end"
 
 #: 01.1-Live-Coding.md:51
 msgid ""
@@ -241,11 +232,6 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
-"live_loop :typmaarlustig do\n"
-"  sample :ambi_choir, rate: 0.3\n"
-"#  sample :bd_haus, rate: 1\n"
-"  sleep 1\n"
-"end"
 
 #: 01.1-Live-Coding.md:70
 msgid ""
@@ -332,19 +318,6 @@ msgid ""
 "  sleep 8\n"
 "end"
 msgstr ""
-"live_loop :guit do\n"
-"  with_fx :echo, mix: 0.3, phase: 0.25 do\n"
-"    sample :guit_em9, rate: 0.5\n"
-"  end\n"
-"#  sample :guit_em9, rate: -0.5\n"
-"  sleep 8\n"
-"end\n"
-"live_loop :boom do\n"
-"  with_fx :reverb, room: 1 do\n"
-"    sample :bd_boom, amp: 10, rate: 1\n"
-"  end\n"
-"  sleep 8\n"
-"end"
 
 #: 01.1-Live-Coding.md:111
 msgid ""
@@ -734,7 +707,7 @@ msgstr "Bestudeer de volgende code:"
 #: A.20-creative-coding-in-the-classroom.md:158
 #, no-wrap
 msgid "play 70"
-msgstr "play 70"
+msgstr ""
 
 #: 02.1-Your-First-Beeps.md:11
 msgid ""
@@ -766,7 +739,7 @@ msgstr ""
 #: 02.1-Your-First-Beeps.md:23
 #, no-wrap
 msgid "play 75"
-msgstr "play 75"
+msgstr ""
 
 #: 02.1-Your-First-Beeps.md:27
 msgid "Can you hear the difference? Try a lower number:"
@@ -1338,7 +1311,6 @@ msgstr "Een leuk geluid is de *zaagtand-golf*, laten we deze eens uitproberen:"
 
 #: 02.3-Switching-Synths.md:25
 #, no-wrap
-#, fuzzy
 msgid ""
 "use_synth :saw\n"
 "play 38\n"
@@ -1361,7 +1333,6 @@ msgstr "Laten we nog een ander geluid proberen, de *prophet*:"
 
 #: 02.3-Switching-Synths.md:36
 #, no-wrap
-#, fuzzy
 msgid ""
 "use_synth :prophet\n"
 "play 38\n"
@@ -1386,7 +1357,6 @@ msgstr ""
 
 #: 02.3-Switching-Synths.md:47
 #, no-wrap
-#, fuzzy
 msgid ""
 "use_synth :saw\n"
 "play 38\n"
@@ -1650,7 +1620,6 @@ msgid "![release envelope](../../../etc/doc/images/tutorial/env-release.png)"
 msgstr "![release envelope](../../../etc/doc/images/tutorial/env-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:81
-#, fuzzy
 msgid ""
 "The vertical line at the far left of the diagram shows that the sound starts a"
 "t 0 amplitude, but goes up to full amplitude immediately (this is the attack p"
@@ -1658,12 +1627,12 @@ msgid ""
 "ht line down to zero taking the amount of time specified by `release:`. *Longe"
 "r release times produce longer synth fade outs.*"
 msgstr ""
-"De verticale lijn aan de linkerkant van het diagram toont ons dat het geluid b"
-"ij amplitude 0 begint, onmiddellijk klimt naar volledige amplitude (dit is de "
-" aanslag fase, die zullen we vervolgens bespreken). Eens bij volledige amplitu"
-"de gaat het in een rechte lijn naar nul zakken in de tijd die is opgegeven met"
-" `release:`. *Langere release tijden leveren een langer verloop, waarmee het g"
-"eluid van de synth uitvaagt, op*"
+"De verticale lijn aan de linkerkant van het diagram toont ons dat het geluid "
+"bij geluidssterkte 0 begint, onmiddellijk naar volledige sterkte klimt (dit "
+"is de aanslag fase, die gaan we hierna bespreken). Zodra op volle sterkte "
+"zal de sterkte met een rechte lijn naar nul zakken in de tijd dit is "
+"aangegeven met `release:`. *Langere release tijden leveren een langer "
+"verloop, waarmee het geluid van de synth uitvaagt, op*"
 
 #: 02.4-Durations-with-Envelopes.md:88
 msgid ""
@@ -2054,19 +2023,18 @@ msgstr ""
 "play 36"
 
 #: 03.1-Triggering-Samples.md:36
-#, fuzzy
 msgid ""
 "Notice how Sonic Pi doesn't wait for a sound to finish before starting the nex"
 "t sound. The `sleep` command only describes the separation of the *triggering*"
 " of the sounds. This allows you to easily layer sounds together creating inter"
 "esting overlap effects."
 msgstr ""
-"Merk op hoe Sonic Pi niet zal wachten om een geluid te voltooien voordat het v"
-"olgende geluid begint. De opdracht `sleep` beschrijft alleen de scheiding tuss"
-"en het *activeren* van de geluiden. Hierdoor kan je makkelijk verschillende la"
-"gen van klanken creëren die een interessant effect kunnen hebben door overlapp"
-"ing. Verderop in deze handleiding zullen we een kijkje  nemen om de *duur* van"
-" geluiden met enveloppen in te stellen."
+"Merk op hoe Sonic Pi niet zal wachten om een geluid te voltooien voordat het "
+"volgende geluid begint. De opdracht `sleep` beschrijft alleen de scheiding "
+"tussen het *activeren* van de geluiden. Hierdoor kan je makkelijk "
+"verschillende lagen van klanken creëren die een interessant effect kunnen "
+"hebben door overlapping. Verderop in deze handleiding zullen we een kijkje "
+"nemen hoe je de *duur* van geluiden met enveloppen in te stellen."
 
 #: 03.1-Triggering-Samples.md:42
 msgid "Discovering Samples"
@@ -10163,6 +10131,9 @@ msgid ""
 "ary. For example, if we're sending OSC from Python we might do something like "
 "this:"
 msgstr ""
+"We kunnen vanuit elke programmeertaal met een OSC module berichten naar "
+"Sonic Pi sturen. Als je bijvoorbeeld een OSC bericht wilt sturen vanuit "
+"Python kun je iets als dit doen:"
 
 #: 12.1-Receiving-OSC.md:42
 #, no-wrap
@@ -10182,6 +10153,8 @@ msgid ""
 "Or, if we're sending OSC from Clojure we might do something like this from the"
 " REPL:"
 msgstr ""
+"Of, als je een OSC bericht vanuit Closure wilt sturen kunt het volgende doen "
+"vanuit de interactieve input omgeving (REPL):"
 
 #: 12.1-Receiving-OSC.md:52
 #, no-wrap
@@ -10196,7 +10169,7 @@ msgstr ""
 
 #: 12.1-Receiving-OSC.md:58
 msgid "Receiving from External Machines"
-msgstr ""
+msgstr "Ontvang van andere computers"
 
 #: 12.1-Receiving-OSC.md:60
 #, fuzzy
@@ -10253,6 +10226,10 @@ msgid ""
 "messages in time with our music). We just need to know which IP address and po"
 "rt we're sending to. Let's give it a try:"
 msgstr ""
+"Naast het ontvangen van OSC berichten in combinatie met \"Time State\", "
+"kunnen we ook OSC berichten op de maat van de muziek versturen (net als dat "
+"we MIDI berichten in de maat van de muziek kunne sturen). We hoeven alleen "
+"te weten naar welk IP-adres en port we moeten sturen. Probeer maar eens:"
 
 #: 12.2-Sending-OSC.md:10
 #, no-wrap
@@ -10260,6 +10237,8 @@ msgid ""
 "use_osc \"localhost\", 4560\n"
 "osc \"/hello/world\""
 msgstr ""
+"use_osc \"localhost\", 4560\n"
+"osc \"/hello/world\""
 
 #: 12.2-Sending-OSC.md:15
 msgid ""
@@ -10273,16 +10252,28 @@ msgid ""
 " Sonic Pi automatically prefixes all incoming OSC messages with `/osc` and the"
 "n the hostname and port of the sender.)"
 msgstr ""
+"Als je bovenstaande code afspeelt zul je merken dat Sonic Pi zichzelf een "
+"OSC bericht stuurt! Omdat we het IP-adres van de huidige computer en de "
+"standaard OSC poort hebben aangegeven. Dit komt eigenlijk neer op jezelf een "
+"brief sturen - het OSC berichtje word aangemaakt, verlaat Sonic Pi, en komt "
+"via het netwerk en je besturings-systeem weer terug bij Sonic Pi. Die het "
+"ontvangt en afhandelt als elk ander OSC berichtje. Vervolgens word het "
+"berichtje zichtbaar in het cue log als een ingekomen bericht: `/osc:127.0.0."
+"1:4560/hello/world`. (Zie je dat Sonic Pi automatisch alle inkomende OSC "
+"berichten aanvult met `/osc` de hostnaam en de poort aan het begin.)"
 
 #: 12.2-Sending-OSC.md:25
 msgid "Sending OSC to other programs"
-msgstr ""
+msgstr "Stuur OSC berichten naar andere programma's"
 
 #: 12.2-Sending-OSC.md:27
 msgid ""
 "Of course, sending OSC messages to ourselves may be fun but it's not that usef"
 "ul. The real benefit starts when we send messages to other programs:"
 msgstr ""
+"Naar jezelf een OSC berichtje sturen is natuurlijk reuze leuk, maar handig "
+"is anders. Het echte voordeel hiervan krijg je wanneer je berichten naar "
+"andere programma's stuurt:"
 
 #: 12.2-Sending-OSC.md:32
 #, no-wrap
@@ -10297,12 +10288,17 @@ msgid ""
 "ing to port 123456. If there is, then it will receive a `\"/hello/world` OSC me"
 "ssage with which it can do what it wants."
 msgstr ""
+"In dit geval nemen we aan dat er een ander programma op dezelfde computer "
+"luistert naar poort 123456. Als die er is zal het een `\"/hello/world\"` OSC "
+"bericht ontvangen, waarmee het kan doen wat het wil."
 
 #: 12.2-Sending-OSC.md:41
 msgid ""
 "If our program is running on another machine, we need to know its IP address w"
 "hich we use instead of `\"localhost\"`:"
 msgstr ""
+"Als dat programma op een andere machine draait, hebben we het IP-adres nodig "
+"van die machine en dat gebruiken in plaats van `\"localhost\"`:"
 
 #: 12.2-Sending-OSC.md:44
 #, no-wrap
@@ -10316,14 +10312,16 @@ msgid ""
 "Now we can send OSC messages to any device reachable to us via our local netwo"
 "rks and even the internet!"
 msgstr ""
+"Nu kunnen we OSC berichten sturen naar elk apparaat dat via ons lokale "
+"netwerk en zelf het internet bereikbaar is!"
 
 #: 13-Multichannel-Audio.md:1
 msgid "13 Multichannel Audio"
-msgstr ""
+msgstr "13 Multi-kanaal Audio"
 
 #: 13-Multichannel-Audio.md:3
 msgid "Multichannel Audio"
-msgstr ""
+msgstr "Multi-kanaal Audio"
 
 #: 13-Multichannel-Audio.md:5
 msgid ""
@@ -10337,20 +10335,32 @@ msgid ""
 " a look at how we can take advantage of these external sound cards and effortl"
 "essly work with multiple channels of audio in and out of Sonic Pi."
 msgstr ""
+"Tot nu toe hebben we het als we het hebben over muziek maken gehad over het "
+"triggeren van opgenomen geluiden via de `play`, `synth` en `sample` "
+"functies. Deze hebben vervolgens geluiden gegenereerd en ten gehore gebracht "
+"op onze stereo speakers. Maar, veel computers bieden ook de mogelijk om "
+"geluid te ontvangen, mogelijk met een microfoon en om geluid naar meer dan "
+"twee speakers te sturen. Vaak word dit mogelijk gemaakt door gebruik te "
+"maken van een externe geluidskaart - deze zijn beschikbaar voor alle "
+"systemen. In dit deel van de handleiding gaan we kijken naar hoe we het "
+"meeste kunnen halen uit deze extra mogelijkheden en met Sonic Pi moeiteloos "
+"kunnen omgaan met meerdere in- en uitgangs kanalen."
 
 #: 13.1-Sound-In.md:1
 msgid "13.1 Sound In"
-msgstr ""
+msgstr "13.1 Geluid ingang"
 
 #: 13.1-Sound-In.md:3
 msgid "Sound In"
-msgstr ""
+msgstr "Geluid ingang"
 
 #: 13.1-Sound-In.md:5
 msgid ""
 "One simple (and perhaps familiar) way of accessing sound inputs is using our f"
 "riend `synth` by specifying the `:sound_in` synth:"
 msgstr ""
+"Een eenvoudige (en mogelijk bekende) manier om geluids-ingangen te benaderen "
+"is het bekende `synth` met de `:sound_in` synth:"
 
 #: 13.1-Sound-In.md:7
 #, no-wrap
@@ -10365,6 +10375,11 @@ msgid ""
 " if you have an external sound card, you can plug any audio input to the first"
 " input."
 msgstr ""
+"Dit werkt eigenlijk gelijk elke andere synth zoals `synth :dsaw` met als "
+"bijzonderheid dat het gegenereerde geluid direct uit de eerste geluids-"
+"ingang van je computers geluids-kaart word gelezen. Op een laptop is dit "
+"meestal de ingebouwde microfoon, maar het je externe geluidskaart dan kun je "
+"zelf bepalen wat je in de eerste ingang plugt."
 
 #: 13.1-Sound-In.md:17
 msgid "Increasing the Duration"
@@ -10378,6 +10393,11 @@ msgid ""
 "e following will keep the synth open for 8 beats before closing the connection"
 ":"
 msgstr ""
+"Zoals je merkt duurt het geluid van `:sound_in`, net als bij `synth :dsaw`, "
+"maar 1 tel. Ook op `:sound_in` is namelijk de standaard envelope van "
+"toepassing. Door de envelope instellingen aan te passen kun je het kanaal "
+"langer houden. Het volgende houd de synth bijvoorbeeld 8 tellen open voordat "
+"het kanaal weer gesloten word:"
 
 #: 13.1-Sound-In.md:22
 #, no-wrap
@@ -10389,6 +10409,8 @@ msgid ""
 "Of course, just like any normal synth, you can easily layer on effects with th"
 "e FX block:"
 msgstr ""
+"Natuurlijk kun je net als bij andere synth een effect toepassen met een FX "
+"block (`with_fx`):"
 
 #: 13.1-Sound-In.md:30
 #, no-wrap
@@ -10405,6 +10427,9 @@ msgid ""
 "If you have plugged in a guitar to your first input, you should be able to hea"
 "r it with distortion and reverb until the synth terminates as expected."
 msgstr ""
+"Als als een gitaar hebt aangesloten op de eerste ingang dan kun je deze nu "
+"horen met de toegevoegde vervorming en echo totdat de synth zoals verwacht "
+"weer stopt."
 
 #: 13.1-Sound-In.md:40
 msgid ""
@@ -10413,6 +10438,10 @@ msgid ""
 "will play two `:sound_in` synths at the same time - one through distortion and"
 " one through reverb:"
 msgstr ""
+"Je bent helemaal vrij om de `:sound_in` synth zo vaar je maar wilt "
+"gelijktijdig te gebruiken (net zoals dat kan met alle andere synth). Het "
+"volgende speelt bijvoorbeeld twee `:sound_in` synths tegelijk, waarbij er "
+"één met vervorming en één met een echo te horen is:"
 
 #: 13.1-Sound-In.md:42
 #, no-wrap
@@ -10437,6 +10466,12 @@ msgid ""
 ", you can treat the first two as a stereo stream and add distortion and the th"
 "ird as a mono stream and add reverb with the following code:"
 msgstr ""
+"Je kunt aangeven welke audio ingang je wilt gebruiken met de `input:` optie. "
+"Om een stereo ingang aan te geven (dit zijn eigenlijk twee opvolgende mono "
+"kanalen) gebruik je de `:sound_in_stereo` optie van de synth. Heb je "
+"bijvoorbeeld een geluidskaart met tenminste drie ingangen, dan kunt je de "
+"eerste twee bundelen tot een vervormd stereo geluid en de derde als een mono "
+"geluid met echo, met de volgende code:"
 
 #: 13.1-Sound-In.md:61
 #, no-wrap
@@ -10451,7 +10486,7 @@ msgstr ""
 
 #: 13.1-Sound-In.md:72
 msgid "Potential Issues"
-msgstr ""
+msgstr "Mogelijke problemen"
 
 #: 13.1-Sound-In.md:74
 msgid ""
@@ -10464,10 +10499,18 @@ msgid ""
 "lem of manipulating a (potentially) infinite stream of live audio input: `live"
 "_audio`."
 msgstr ""
+"Alhoewel dit een handige feature is, heeft het ook zo zijn beperkingen. "
+"Allereerst werkt het maar voor een vastgestelde tijd (vanwege de "
+"aanwezigheid van de ADSR envelop op alle synth). Ten tweede is er geen "
+"manier om de effecten te veranderen zodra de synth is gestart. Beide van "
+"deze beperkingen zijn veel gevraagd wanneer er gewerkt word met externe "
+"audio, denk hierbij aan microfoons, gitaren en externe synthesizers. Sonic "
+"Pi heeft een oplossing voor het probleem van het manipuleren van een "
+"(potentieel) oneindig live geluid: `live_audio`."
 
 #: 13.2-Live-Audio.md:1
 msgid "13.2 Live Audio"
-msgstr ""
+msgstr "13.2 Live geluid"
 
 #: 13.2-Live-Audio.md:3
 msgid "Live Audio"
@@ -10481,10 +10524,16 @@ msgid ""
 " instrument (such as a voice or guitar). By far the best approach to working w"
 "ith a single continuous stream of audio is to use `live_audio`."
 msgstr ""
+"De `:sound_in` synth zoals beschreven in de vorige sectie bied een flexibele "
+"en bekende manier om met ingang audio te werken. Maar, zoals ook beschreven "
+"heeft het een paar onhandigheden wanneer het gaat om werken met een "
+"enkelvoudig ingangs geluid als een enkel instrument (zoals een stem of een "
+"gitaar). De allerbeste manier om met een oneindig geluid te werken is "
+"`live_audio` gebruiken."
 
 #: 13.2-Live-Audio.md:12
 msgid "A Named Audio Input"
-msgstr ""
+msgstr "Audio ingang met een naam"
 
 #: 13.2-Live-Audio.md:14
 msgid ""
@@ -10493,6 +10542,10 @@ msgid ""
 "`live_audio` stream with that name may exist at any one time. Let's take a loo"
 "k:"
 msgstr ""
+"Er zijn een paar ontwerp beperkingen die `live_audio` deelt met `live_loop` ("
+"vandaar dat hun naam gelijk-ig is). Allereerst moet het een unieke naam "
+"hebben. Ten tweede mag er ook maar één `live_audio` met dezelfde naam "
+"tegelijk bestaan. Zie hier:"
 
 #: 13.2-Live-Audio.md:19 13.2-Live-Audio.md:92
 #, no-wrap
@@ -10508,7 +10561,7 @@ msgstr ""
 
 #: 13.2-Live-Audio.md:28
 msgid "Working with FX"
-msgstr ""
+msgstr "Werken met Effecten"
 
 #: 13.2-Live-Audio.md:30
 msgid ""
