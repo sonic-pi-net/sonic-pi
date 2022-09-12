@@ -134,24 +134,28 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
     latest_version = "";
     version_num = 0;
     latest_version_num = 0;
-    QString settings_path = sonicPiConfigPath() + QDir::separator() + "gui-settings.ini";
-
-    gui_settings = new QSettings(settings_path, QSettings::IniFormat);
-
-    readSettings();
-    initPaths();
 
     bool startupOK = false;
     bool noScsynthInputs = !piSettings->enable_scsynth_inputs;
     APIInitResult init_success = m_spAPI->Init(rootPath().toStdString(), noScsynthInputs);
+
     if(init_success == APIInitResult::Successful) {
       std::cout << "[GUI] - API Init successful" << std::endl;
     } else if (init_success == APIInitResult::ScsynthBootError) {
       std::cout << "[GUI] - API Scsynth Boot Failed" << std::endl;
       scsynthBootError();
+    } else if (init_success == APIInitResult::HomePathNotWritableError) {
+      std::cout << "[GUI] - API HomePath Not Writable" << std::endl;
+      homeDirWriteError();
     } else {
       std::cout << "[GUI] - API Init failed" << std::endl;
     }
+
+    QString settings_path = sonicPiConfigPath() + QDir::separator() + "gui-settings.ini";
+
+    gui_settings = new QSettings(settings_path, QSettings::IniFormat);
+    readSettings();
+    initPaths();
 
     const QRect rect = this->geometry();
     m_appWindowSizeRect = std::make_shared<QRect>(rect);
@@ -364,7 +368,8 @@ void MainWindow::showWelcomeScreen()
 void MainWindow::setupTheme()
 {
     // Syntax highlighting
-    QString themeFilename = QDir::homePath() + QDir::separator() + ".sonic-pi" + QDir::separator() + "config" + QDir::separator() + "colour-theme.properties";
+
+    QString themeFilename = sonicPiConfigPath() + QDir::separator() + "colour-theme.properties";
 
     this->theme = new SonicPiTheme(this, themeFilename, rootPath());
 }
@@ -4106,20 +4111,12 @@ bool MainWindow::eventFilter(QObject* obj, QEvent* evt)
 
 QString MainWindow::sonicPiHomePath()
 {
-    QString path = qgetenv("SONIC_PI_HOME").constData();
-    if (path.isEmpty())
-    {
-        return QDir::homePath() + QDir::separator() + ".sonic-pi";
-    }
-    else
-    {
-        return path;
-    }
+    return QString::fromStdString(m_spAPI->GetPath(SonicPiPath::HomePath));
 }
 
 QString MainWindow::sonicPiConfigPath()
 {
-    return sonicPiHomePath() + QDir::separator() + "config";
+    return QString::fromStdString(m_spAPI->GetPath(SonicPiPath::ConfigPath));
 }
 
 void MainWindow::zoomInLogs()
@@ -4415,6 +4412,92 @@ void MainWindow::scsynthBootError()
         << "<h3>" << tr("SuperCollider Log") << "</h3>"
         << "<small style=\"color: dodgerblue;\"><pre>" << QString::fromStdString(m_spAPI->GetScsynthLog()) << "</pre></small>"
         << "</body></html>";
+
+    // The text area for the message.  Allows the user to scroll/view it.
+    auto pTextArea = new QTextEdit();
+
+    auto text_hsv_value = palette().color(QPalette::WindowText).value();
+    auto bg_hsv_value = palette().color(QPalette::Window).value();
+    bool dark_theme_found = text_hsv_value > bg_hsv_value;
+    QString styles;
+
+    if(dark_theme_found) {
+      styles = ScalePxInStyleSheet(readFile(":/theme/dark/doc-styles.css"));
+    } else {
+      styles = ScalePxInStyleSheet(readFile(":/theme/light/doc-styles.css"));
+    }
+
+    pTextArea->document()->setDefaultStyleSheet(styles);
+    pTextArea->setHtml(text);
+    pTextArea->setReadOnly(true);
+    pLayout->addWidget(pTextArea);
+
+    // Add a dialog style OK button
+    QDialogButtonBox* pButtons = new QDialogButtonBox(QDialogButtonBox::Ok, this);
+    pLayout->addWidget(pButtons);
+
+    auto finished = [&]() {
+        std::cout << "[GUI] - Aborting. Sorry about this." << std::endl;
+        QApplication::exit(-1);
+        exit(EXIT_FAILURE);
+    };
+
+    // When the user hits OK, quit
+    connect(pButtons, &QDialogButtonBox::accepted, this, [=]() {
+        finished();
+    });
+
+    // When the dialog is done, quit
+    connect(pDialog, &QDialog::finished, this, [=]() {
+        finished();
+    });
+
+    // Make a sensible size, but then allow resizing
+    pDialog->setFixedSize(QSize(ScaleHeightForDPI(750), ScaleHeightForDPI(800)));
+    pDialog->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
+    pDialog->exec();
+}
+
+void MainWindow::homeDirWriteError()
+{
+    splashClose();
+    setMessageBoxStyle();
+
+    QDialog* pDialog = new QDialog(this, Qt::Window | Qt::WindowTitleHint | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
+
+    QVBoxLayout* pLayout = new QVBoxLayout(this);
+    pDialog->setLayout(pLayout);
+
+    pDialog->setWindowTitle(tr("Sonic Pi - Unable to Write to Home Directory"));
+
+    QString text;
+    QTextStream str(&text);
+    if(QProcessEnvironment::systemEnvironment().value("SONIC_PI_HOME") == "") {
+      str << "<html><body>"
+          << "<h1>" << tr("Boot Error - Home Dir not writable:") << "</h1>\n\n"
+          << "<h2>" << sonicPiHomePath() << "</h2>\n\n"
+          << "<h3><i>" << tr("Quick Fix: set the environment variable SONIC_PI_HOME to a directory you have permission to write to.") << "</i></h3>\n\n"
+        << "<small><i>"
+        << "<br/>"
+        << "<br/>"
+        << "<p>" << tr("For the curious among you, Sonic Pi automatically stores the contents of the code buffers, configuration files and logs in a folder called .sonic-pi which typically resides in your home directory.") << "</p>"
+        << "<p>" << tr("Unfortunately you don't appear to have permission to write to your home directory:") << "</p><p style=\"color: dodgerblue;\">" << sonicPiHomePath() << "</p>"
+        << "<p style=\"color: deeppink;\">" << tr("To fix this you can set the environment variable SONIC_PI_HOME to any directory you have write access to and Sonic Pi will place its .sonic-pi directory within that.") << "</p>"
+        << "</body></html>";
+    } else {
+      str << "<html><body>"
+          << "<h1>" << tr("Boot Error - SONIC_PI_HOME not writable:") << "</h1>\n\n"
+          << "<h2>" << sonicPiHomePath() << "</h2>\n\n"
+          << "<h3><i>" << tr("Quick Fix: set the environment variable SONIC_PI_HOME to a directory you have permission to write to.") << "</i></h3>\n\n"
+        << "<small><i>"
+        << "<br/>"
+        << "<br/>"
+        << "<p>" << tr("For the curious among you, Sonic Pi automatically stores the contents of the code buffers, configuration files and logs in a folder called .sonic-pi which typically resides in your home directory.") << "</p>"
+        << "<p>" << tr("Unfortunately it appears you have set the SONIC_PI_HOME environment variable to a directory you don't have permission to write to:") << "</p><p style=\"color: dodgerblue;\">" << sonicPiHomePath() << "</p>"
+        << "<p style=\"color: deeppink;\">" << tr("To fix this you can set the environment variable SONIC_PI_HOME to any directory you have write access to and Sonic Pi will place its .sonic-pi directory within that.") << "</p>"
+        << "</body></html>";
+
+    }
 
     // The text area for the message.  Allows the user to scroll/view it.
     auto pTextArea = new QTextEdit();
