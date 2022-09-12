@@ -130,7 +130,7 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
     show_rec_icon_a = false;
     restoreDocPane = false;
     focusMode = false;
-    version = "4.2.0-beta-1";
+    version = "4.2.0-beta-2";
     latest_version = "";
     version_num = 0;
     latest_version_num = 0;
