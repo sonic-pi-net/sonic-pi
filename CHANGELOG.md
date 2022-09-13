@@ -35,7 +35,7 @@
 To be released
 <!-- [(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v4.2.0): -->
 
-The main purpose of this release is to address a booting issue discovered on a school Windows clusters with common security restrictions. This issue was reported by Adam Cooper from Moor Park High School & Sixth Form in the UK. Adam was wonderfully helpful in finding the specific issue and testing potential solutions. Thanks Adam!
+The main purpose of this release is to address a booting issue discovered on a school Windows cluster with common security restrictions. This issue was reported by Adam Cooper from Moor Park High School & Sixth Form in the UK. Adam was wonderfully helpful in finding the specific issue and testing potential solutions. Thanks Adam!
 
 If you happen to have had any trouble running v4 of Sonic Pi on your school clusters, please give this release a go! (Note, this issue didn't affect v3 of Sonic Pi).
 
