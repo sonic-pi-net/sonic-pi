@@ -2,16 +2,17 @@ cmake_minimum_required(VERSION 3.2)
 
 message(STATUS "CMakeLists: Sonic Pi Qt GUI")
 
-project("Sonic Pi"
-  LANGUAGES CXX C
-  DESCRIPTION "A code-based music creation and performance tool"
-  VERSION 4.1.0
-  HOMEPAGE_URL "https://sonic-pi.net"
-)
-
 if(APPLE)
   set(CMAKE_OSX_DEPLOYMENT_TARGET "10.15")
 endif()
+
+project("Sonic Pi"
+  LANGUAGES CXX C
+  DESCRIPTION "A code-based music creation and performance tool"
+  VERSION 4.2.0
+  HOMEPAGE_URL "https://sonic-pi.net"
+)
+
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 

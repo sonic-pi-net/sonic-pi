@@ -1,4 +1,5 @@
 # History
+* [v4.2.0 'Batch'](#v4.2.0), 14th Sept, 2022
 * [v4.1.0 'Phase'](#v4.1.0), 30th August 2022
 * [v4.0.3 'Dovetail'](#v4.0.3), 18th July 2022
 * [v4.0.2 'Relink'](#v4.0.2), 15th July 2022
@@ -27,6 +28,32 @@
 * [v2.1 'Core'](#v2.1), 21st Nov, 2014
 * [v2.0.1](#v2.0.1), 9th Sept, 2014
 * [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
+
+<a name="v4.2.0"></a>
+
+## Version 4.2.0 'Batch'
+14th September 2022
+<!-- [(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v4.2.0): -->
+
+The main purpose of this release is to address a booting issue discovered on a school Windows cluster with common security restrictions. This issue was reported by Adam Cooper from Moor Park High School & Sixth Form in the UK. Adam was wonderfully helpful in finding the specific issue and testing potential solutions. Thanks Adam!
+
+If you happen to have had any trouble running v4 of Sonic Pi on your school clusters, please give this release a go! (Note, this issue didn't affect v3 of Sonic Pi).
+
+In addition, there have been some translation improvements, Global Time Warp now has a greater range and a couple of `time_warp` related bugs were found and dealt with. Have fun!
+
+### GUI
+* Change Global Time Warp range from +-250 to -250 -> 999. This lets users access the full phase down to a BPM of 48.
+
+### Improvements
+* Booting process on Windows has been modified to enable it to run when executing in an environment which restricts access to CMD (which prevents terminal usage and running .bat files). This is typical in schools.
+* Sonic Pi stores all its history, configuration and logs in a folder called `.sonic-pi` which is typically placed in the user's home directory. If the user happens to not have permission to write to their home directory, Sonic Pi now raises a descriptive error on boot and explains that the fix is to set an environment variable called `SONIC_PI_HOME` to point to a directory the user does have permission to write to.
+
+### Translations
+* Improvements to the Dutch, Hungarian and Indonesian translations.
+
+### Bugfixes
+* Teach timing safety system that `time_warp` doesn't sleep (even if it contains calls to `sleep` internally). This now means that wrapping all code within a `live_loop` with `time_warp` no longer causes the thread to spin out of control. It instead reports that the live loop did not sleep as expected.
+* Throw error when attempting to call `sync` within a `time_warp`. This is because time warps are effectively timeless and `sync` asks the running thread to wait for an unknown period (until a matching event appears). Attempting to wait within a timeless context is clearly nonsensical!
 
 <a name="v4.1.0"></a>
 

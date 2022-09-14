@@ -147,7 +147,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1577"/>
         <source>Load Sonic Pi Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi puffer betöltése</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1577"/>
@@ -270,12 +270,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="1938"/>
         <source>Hiding help...</source>
-        <translation type="unfinished"></translation>
+        <translation>Segítség elrejtése...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1944"/>
         <source>Showing help...</source>
-        <translation type="unfinished"></translation>
+        <translation>Segítség mutatása...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2007"/>
@@ -285,27 +285,27 @@
     <message>
         <location filename="../mainwindow.cpp" line="2172"/>
         <source>Log Auto Scroll on...</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatikus görgetés naplózása bekapcsolva...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2176"/>
         <source>Log Auto Scroll off...</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatikus görgetés naplózása kikapcsolva...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2241"/>
         <source>Colour Theme: </source>
-        <translation type="unfinished"></translation>
+        <translation>Színvilág: </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2463"/>
         <source>Show autocompletion on</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatikus kiegészítés mutatása bekapcsolva</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2467"/>
         <source>Show autocompletion off</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatikus kiegészítés mutatása kikapcsolva</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2485"/>
@@ -320,17 +320,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="2510"/>
         <source>Hiding preferences...</source>
-        <translation type="unfinished"></translation>
+        <translation>Beállítások elrejtése...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2516"/>
         <source>Showing preferences...</source>
-        <translation type="unfinished"></translation>
+        <translation>Beállítások mutatása...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2690"/>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Kilépés</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2695"/>
@@ -370,12 +370,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2731"/>
         <source>Code Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Kód nagyítása</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2737"/>
         <source>Code Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Kód kicsinyítése</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2743"/>
@@ -385,27 +385,27 @@
     <message>
         <location filename="../mainwindow.cpp" line="2751"/>
         <source>Show Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Info mutatása</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2758"/>
         <source>Show Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Segítség mutatása</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2766"/>
         <source>Show Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Beállítások mutatása</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2793"/>
         <source>Show Line Numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>Sorszámok mutatása</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2798"/>
         <source>Show Code Completion</source>
-        <translation type="unfinished"></translation>
+        <translation>Kód kiegészítés mutatása</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2803"/>
@@ -415,7 +415,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2808"/>
         <source>Enable Audio Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Hang bemenet engedélyezése</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2813"/>
@@ -450,12 +450,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2835"/>
         <source>Enable External Synths</source>
-        <translation type="unfinished"></translation>
+        <translation>Külső szintetizátorok engedélyezése</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2840"/>
         <source>Invert Stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>Sztereó megfordítása</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2844"/>
@@ -485,12 +485,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2869"/>
         <source>Log Synths</source>
-        <translation type="unfinished"></translation>
+        <translation>Szintetizátorok naplózása</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2874"/>
         <source>Clear Logs on Run</source>
-        <translation type="unfinished"></translation>
+        <translation>Napló törlése futtatáskor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2879"/>
@@ -500,17 +500,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="2884"/>
         <source>Auto-Scroll Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Napló automatikus görgetése</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2894"/>
         <source>Live</source>
-        <translation type="unfinished"></translation>
+        <translation>Élő</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2906"/>
         <source>Code</source>
-        <translation type="unfinished"></translation>
+        <translation>Kód</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2918"/>
@@ -525,27 +525,27 @@
     <message>
         <location filename="../mainwindow.cpp" line="2931"/>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Világos</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2936"/>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Sötét</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2941"/>
         <source>Pro Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro Világos</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2946"/>
         <source>Pro Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro Sötét</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2951"/>
         <source>High Contrast</source>
-        <translation type="unfinished"></translation>
+        <translation>Nagy kontraszt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2956"/>
@@ -555,7 +555,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2961"/>
         <source>Show Titles</source>
-        <translation type="unfinished"></translation>
+        <translation>Címek mutatása</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2966"/>
@@ -565,7 +565,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2971"/>
         <source>Colour Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Színvilág</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2980"/>
@@ -580,121 +580,121 @@
     <message>
         <location filename="../mainwindow.cpp" line="2993"/>
         <source>MIDI Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI Bemenetek</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2994"/>
         <location filename="../mainwindow.cpp" line="4010"/>
         <location filename="../mainwindow.cpp" line="4145"/>
         <source>No Connected Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Nincs csatlakoztatott bemenet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2995"/>
         <source>MIDI Outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI Kimenetek</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2996"/>
         <location filename="../mainwindow.cpp" line="4008"/>
         <location filename="../mainwindow.cpp" line="4167"/>
         <source>No Connected Outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Nincs csatlakoztatott kimenet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2998"/>
         <source>Default MIDI Out Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Alapértelmezett MIDI Ki Csatorna</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3000"/>
         <source>All Channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Minden csatorna</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3005"/>
         <source>1</source>
-        <translation type="unfinished"></translation>
+        <translation>1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3010"/>
         <source>2</source>
-        <translation type="unfinished"></translation>
+        <translation>2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3015"/>
         <source>3</source>
-        <translation type="unfinished"></translation>
+        <translation>3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3020"/>
         <source>4</source>
-        <translation type="unfinished"></translation>
+        <translation>4</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3025"/>
         <source>5</source>
-        <translation type="unfinished"></translation>
+        <translation>5</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3030"/>
         <source>6</source>
-        <translation type="unfinished"></translation>
+        <translation>6</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3035"/>
         <source>7</source>
-        <translation type="unfinished"></translation>
+        <translation>7</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3040"/>
         <source>8</source>
-        <translation type="unfinished"></translation>
+        <translation>8</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3045"/>
         <source>9</source>
-        <translation type="unfinished"></translation>
+        <translation>9</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3050"/>
         <source>10</source>
-        <translation type="unfinished"></translation>
+        <translation>10</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3055"/>
         <source>11</source>
-        <translation type="unfinished"></translation>
+        <translation>11</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3060"/>
         <source>12</source>
-        <translation type="unfinished"></translation>
+        <translation>12</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3065"/>
         <source>13</source>
-        <translation type="unfinished"></translation>
+        <translation>13</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3070"/>
         <source>14</source>
-        <translation type="unfinished"></translation>
+        <translation>14</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3075"/>
         <source>15</source>
-        <translation type="unfinished"></translation>
+        <translation>15</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3080"/>
         <source>16</source>
-        <translation type="unfinished"></translation>
+        <translation>16</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3088"/>
         <source>Local IP Addresses</source>
-        <translation type="unfinished"></translation>
+        <translation>Helyi IP címek</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3102"/>
@@ -739,7 +739,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3168"/>
         <source>Show Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Napló mutatása</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3173"/>
@@ -749,12 +749,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="3178"/>
         <source>Show Metronome</source>
-        <translation type="unfinished"></translation>
+        <translation>Metronóm mutatása</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3183"/>
         <source>Show Buttons</source>
-        <translation type="unfinished"></translation>
+        <translation>Gombok mutatása</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3188"/>
@@ -764,17 +764,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="3193"/>
         <source>Full Screen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Teljes képernyős mód</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3232"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Nyelv</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3707"/>
         <source>Restarting Sonic Pi...</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi újraindítása...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4041"/>
@@ -844,7 +844,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="4412"/>
         <source>Advanced Users</source>
-        <translation type="unfinished"></translation>
+        <translation>Haladó felhasználók</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4413"/>
@@ -854,7 +854,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="4415"/>
         <source>SuperCollider Log</source>
-        <translation type="unfinished"></translation>
+        <translation>SuperCollider napló</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2707"/>
@@ -870,7 +870,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2762"/>
         <source>Toggle the visibility of the help pane</source>
-        <translation type="unfinished"></translation>
+        <translation>A segítség panel láthatóságának kapcsolása</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2770"/>
@@ -910,7 +910,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="315"/>
         <source>Studio Mode Enabled. Thank-you for supporting Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation>Stúdió mód engedélyezve. Köszönjük, hogy támogatod a Sonic Pi-t.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="321"/>
@@ -930,12 +930,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2709"/>
         <source>Start recording to a WAV audio file</source>
-        <translation type="unfinished"></translation>
+        <translation>Felvétel elindítása egy WAV hang fájlba</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2713"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Mentés</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2727"/>
@@ -1169,17 +1169,17 @@ Szerezd be: Sonic Pi %1</translation>
     <message>
         <location filename="../utils/ruby_help.h" line="3092"/>
         <source>Examples</source>
-        <translation type="unfinished"></translation>
+        <translation>Példák</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3147"/>
         <source>Synths</source>
-        <translation type="unfinished"></translation>
+        <translation>Szintetizátorok</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3196"/>
         <source>Fx</source>
-        <translation type="unfinished"></translation>
+        <translation>Effektek</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3217"/>
@@ -1232,7 +1232,7 @@ Szerezd be: Sonic Pi %1</translation>
         <location filename="../widgets/settingswidget.cpp" line="55"/>
         <location filename="../widgets/settingswidget.cpp" line="514"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Nyelv</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="77"/>
@@ -1375,17 +1375,17 @@ a jelenleg aktív hálózaton keresztül.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="208"/>
         <source>all</source>
-        <translation type="unfinished"></translation>
+        <translation>minden</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="231"/>
         <source>Default MIDI out channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Alapértelmezett MIDI ki csatorna</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="298"/>
         <source>Show code completion</source>
-        <translation type="unfinished"></translation>
+        <translation>Kód kiegészítés mutatása</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="185"/>
@@ -1465,22 +1465,22 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="74"/>
         <source>Main Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Fő hangerő</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="83"/>
         <source>Audio Input</source>
-        <translation type="unfinished"></translation>
+        <translation>Hangbemenet</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="84"/>
         <source>Audio settings for working with audio inputs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Hang beállítások a hangbemenetekkel való dolgozáshoz.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="85"/>
         <source>Enable Audio Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Hangbemenetek engedélyezése</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="86"/>
@@ -1490,7 +1490,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="114"/>
         <source>Enable external synths/FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Külső szintetizátorok/effektek engedélyezése</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="127"/>
@@ -1505,7 +1505,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="129"/>
         <source>Information unavailable.</source>
-        <translation type="unfinished"></translation>
+        <translation>Elérhetetlen információ.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="156"/>
@@ -1535,7 +1535,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="283"/>
         <source>Show Panels</source>
-        <translation type="unfinished"></translation>
+        <translation>Panelek mutatása</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="284"/>
@@ -1545,7 +1545,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="287"/>
         <source>Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Téma</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="289"/>
@@ -1655,7 +1655,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="325"/>
         <source>Show titles</source>
-        <translation type="unfinished"></translation>
+        <translation>Címek mutatása</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="326"/>
@@ -1675,27 +1675,27 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="334"/>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Világos</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="335"/>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Sötét</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="336"/>
         <source>Pro Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro Világos</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="337"/>
         <source>Pro Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro Sötét</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="338"/>
         <source>High Contrast</source>
-        <translation type="unfinished"></translation>
+        <translation>Nagy kontraszt</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="383"/>
@@ -1778,7 +1778,7 @@ If enabled the log is scrolled to the bottom after every new message is displaye
     <message>
         <location filename="../widgets/settingswidget.cpp" line="435"/>
         <source>Show scopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Oszcilloszkópok mutatása</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="437"/>
@@ -1788,7 +1788,7 @@ If enabled the log is scrolled to the bottom after every new message is displaye
     <message>
         <location filename="../widgets/settingswidget.cpp" line="515"/>
         <source>Configure language settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Nyelv beállítások módosítása</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="520"/>
@@ -1814,17 +1814,17 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="631"/>
         <source>You&apos;ve selected a new language: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Egy új nyelvet választottál: %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="633"/>
         <source>Do you want to apply this language?</source>
-        <translation type="unfinished"></translation>
+        <translation>Alkalmazni szeretnéd ezt a nyelvet?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="635"/>
         <source>The new language will be applied when you next start Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation>Az új nyelv alkalmazva lesz amikor következőre elindítod a Sonic Pi-t.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="639"/>
@@ -1834,7 +1834,7 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="643"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation>Alkalmaz</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="644"/>
@@ -1857,18 +1857,18 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="660"/>
         <source>Restart Sonic Pi?</source>
-        <translation type="unfinished"></translation>
+        <translation>Újraindítod a Sonic Pi-t?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="661"/>
         <source>Do you want to restart Sonic Pi now? This will stop any current runs &amp; recordings.</source>
-        <translation type="unfinished"></translation>
+        <translation>Újra akarod indítani a Sonic Pi-t most? Ez minden futást és felvételt meg fog állítani.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="662"/>
         <location filename="../widgets/settingswidget.cpp" line="690"/>
         <source>Restart</source>
-        <translation type="unfinished"></translation>
+        <translation>Újraindít</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="663"/>
@@ -1888,13 +1888,14 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="687"/>
         <source>Would you like to restart now?</source>
-        <translation type="unfinished"></translation>
+        <translation>Szeretnéd most újraindítani?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="924"/>
         <source>System languages: %1
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Rendszer nyelvek: %1
+</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1077"/>
@@ -1904,7 +1905,7 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="436"/>
         <source>Toggle the visibility of the audio oscilloscopes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Oszcilloszkóp láthatóságának kapcsolása.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="438"/>

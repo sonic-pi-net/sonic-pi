@@ -58,8 +58,9 @@ module SonicPi
       nikriz_beslisi         = [tanini, kucuk_mucenneb, artik_ikili, kucuk_mucenneb]
       tam_ferahnak_beslisi   = [kucuk_mucenneb, tanini, tanini, buyuk_mucenneb]
       eksik_ferahnak_beslisi = [kucuk_mucenneb, tanini, tanini, bakiyye]
-      nisabur_dortlusu       = [buyuk_mucenneb, kucuk_mucenneb, tanini]
-      # currently unused, but can be used to extend other scales 
+
+      # currently unused, but can be used to extend other scales
+      # nisabur_dortlusu       = [buyuk_mucenneb, kucuk_mucenneb, tanini]
       # kurdi_beslisi          = kurdi_dortlusu + [tanini]
       # saba_dortlusu          = [buyuk_mucenneb, kucuk_mucenneb, kucuk_mucenneb]
       # tam_mustear_beslisi    = mustear_dortlusu + [tanini]

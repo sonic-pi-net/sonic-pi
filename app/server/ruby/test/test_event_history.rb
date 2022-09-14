@@ -29,7 +29,7 @@ module SonicPi
       m = 60
       v = [:a, :b, :c]
       n = path
-      c = CueEvent.new(t, p, i, d, b, m, n, v)
+      CueEvent.new(t, p, i, d, b, m, n, v)
     end
 
     def test_get_and_set_w_diff_thread_ids
@@ -377,17 +377,7 @@ module SonicPi
     end
 
 
-    def test_event_matcher_star
-      m = EventMatcher.new(make_cue_event("/foo*/*/*baz"), nil, ThreadId.new(5), Promise.new)
-      assert  m.path_match("/foo/bar/baz", nil)
-      assert  m.path_match("/foo/bar/baz/", nil)
-      assert  m.path_match("foo/bar/baz", nil)
-      assert  m.path_match("foo/bar/eggsbaz", nil)
-      assert  m.path_match("foo333/bar/eggsbaz", nil)
-      assert_nil  m.path_match("foo333//bar/eggsbaz", nil)
-      assert_nil  m.path_match("foo333/beans/bar/eggsbaz", nil)
-      assert_nil m.path_match("/foo/bar/bazz", nil)
-    end
+
 
     def test_event_matcher_glob_star
       m = EventMatcher.new(make_cue_event("/foo/**/baz"), nil, ThreadId.new(5), Promise.new)
@@ -538,14 +528,15 @@ module SonicPi
     end
 
     def test_event_matcher_star
-
-      m = EventMatcher.new(make_cue_event("/{cue,set}/[a-c]az"), nil, ThreadId.new(5), Promise.new)
-      assert  m.path_match("/cue/baz", nil)
-      assert  m.path_match("/set/aaz/", nil)
-      assert  m.path_match("/set/baz/", nil)
-      assert  m.path_match("/set/caz/", nil)
-      assert  m.path_match("/cue/caz/", nil)
-      assert_nil  m.path_match("/cue/daz/", nil)
+      m = EventMatcher.new(make_cue_event("/foo*/*/*baz"), nil, ThreadId.new(5), Promise.new)
+      assert  m.path_match("/foo/bar/baz", nil)
+      assert  m.path_match("/foo/bar/baz/", nil)
+      assert  m.path_match("foo/bar/baz", nil)
+      assert  m.path_match("foo/bar/eggsbaz", nil)
+      assert  m.path_match("foo333/bar/eggsbaz", nil)
+      assert_nil  m.path_match("foo333//bar/eggsbaz", nil)
+      assert_nil  m.path_match("foo333/beans/bar/eggsbaz", nil)
+      assert_nil m.path_match("/foo/bar/bazz", nil)
     end
 
     def test_event_matcher_multi_squares
@@ -564,6 +555,16 @@ module SonicPi
     def test_event_matcher_broken_squares
       m = EventMatcher.new(make_cue_event("/[cue/caz]"), nil, ThreadId.new(5), Promise.new)
       assert  m.path_match("/[cue/caz]/", nil)
+    end
+
+    def test_event_matcher_squiggles
+      m = EventMatcher.new(make_cue_event("/{cue,set}/[a-c]az"), nil, ThreadId.new(5), Promise.new)
+      assert  m.path_match("/cue/baz", nil)
+      assert  m.path_match("/set/aaz/", nil)
+      assert  m.path_match("/set/baz/", nil)
+      assert  m.path_match("/set/caz/", nil)
+      assert  m.path_match("/cue/caz/", nil)
+      assert_nil  m.path_match("/cue/daz/", nil)
     end
 
     def test_event_matcher_broken_squiggles

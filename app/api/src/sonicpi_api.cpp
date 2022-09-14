@@ -646,6 +646,12 @@ APIInitResult SonicPiAPI::Init(const fs::path& root, bool noScsynthInputs)
         }
     }
 
+    if (m_homeDirWriteable) {
+      LOG(INFO, "Home dir writable: ");
+    } else {
+      return APIInitResult::HomePathNotWritableError;
+    }
+
 
     EnsurePathsAreCanonical();
     StartClearLogsScript();
@@ -671,11 +677,7 @@ APIInitResult SonicPiAPI::Init(const fs::path& root, bool noScsynthInputs)
         }
     });
 
-    if (m_homeDirWriteable) {
-        LOG(INFO, "Home dir writable: ");
-      } else {
-        LOG(INFO, "Home dir NOT writable: ");
-    }
+
 
     LOG(INFO, "Log Path: " + GetPath(SonicPiPath::LogPath).string());
     m_state = State::Initializing;
@@ -722,6 +724,7 @@ bool SonicPiAPI::InitializePaths(const fs::path& root)
     m_paths[SonicPiPath::RootPath] = fs::canonical(fs::absolute(root));
 
     // Sonic pi home directory
+    m_paths[SonicPiPath::HomePath] = FindHomePath();
     m_paths[SonicPiPath::UserPath] = FindHomePath() / ".sonic-pi";
 
     // Set path to Ruby executable (system dependent)

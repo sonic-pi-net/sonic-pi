@@ -12,6 +12,8 @@
 # notice is included.
 #++
 
+## This is the Spider Server - the Sonic Pi language runtime.
+
 require 'cgi'
 require 'rbconfig'
 

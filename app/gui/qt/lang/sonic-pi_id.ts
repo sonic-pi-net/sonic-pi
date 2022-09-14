@@ -78,7 +78,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="933"/>
         <source>Full screen mode off.</source>
-        <translation>Matikan mode Layar penuh.</translation>
+        <translation>Mode layar penuh nonaktif.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1188"/>
@@ -88,22 +88,22 @@
     <message>
         <location filename="../mainwindow.cpp" line="3986"/>
         <source>Enabling MIDI input...</source>
-        <translation type="unfinished">Mengaktifkan masukan MIDI...</translation>
+        <translation>Mengaktifkan masukan MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3994"/>
         <source>Disabling MIDI input...</source>
-        <translation type="unfinished">Menonaktifkan masukan MIDI...</translation>
+        <translation>Menonaktifkan masukan MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4012"/>
         <source>No connected input devices</source>
-        <translation>Perangkat input tidak tersambung</translation>
+        <translation>Tidak ada perangkat masukan yang terhubung</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4013"/>
         <source>No connected output devices</source>
-        <translation>Tidak ada perangkat output terhubung</translation>
+        <translation>Tidak ada perangkat keluaran yang terhubung</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3958"/>
@@ -113,27 +113,27 @@
     <message>
         <location filename="../mainwindow.cpp" line="4041"/>
         <source>Disabling OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>Menonaktifkan porta isyarat OSC...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4055"/>
         <source>Enabling external OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>Mengaktifkan porta eksternal isyarat OSC...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4069"/>
         <source>Enabling internal OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>Mengaktifkan porta internal isyarat OSC...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4139"/>
         <source>Connected MIDI inputs</source>
-        <translation>Terhubung MIDI input</translation>
+        <translation>Masukan MIDI yang terhubung</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4160"/>
         <source>Connected MIDI outputs</source>
-        <translation>Terhubung MIDI output</translation>
+        <translation>Keluaran MIDI yang terhubung</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1575"/>
@@ -157,19 +157,19 @@
         <location filename="../mainwindow.cpp" line="1577"/>
         <location filename="../mainwindow.cpp" line="1595"/>
         <source>Text files</source>
-        <translation>file Teks</translation>
+        <translation>Berkas teks</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1577"/>
         <location filename="../mainwindow.cpp" line="1595"/>
         <source>Ruby files</source>
-        <translation>file Ruby</translation>
+        <translation>Berkas Ruby</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1577"/>
         <location filename="../mainwindow.cpp" line="1595"/>
         <source>All files</source>
-        <translation>Semua File</translation>
+        <translation>Semua Berkas</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2172"/>
@@ -239,7 +239,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="4082"/>
         <source>Welcome back. Now get your live code on...</source>
-        <translation>Selamat Datang kembali. Sekarang dapatkan kode ”live” Anda di ...</translation>
+        <translation>Selamat Datang. Sekarang dapatkan kode langsung kamu di ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1595"/>
@@ -279,7 +279,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1419"/>
         <source>Sonic Pi Boot Error</source>
-        <translation type="unfinished">Kesalahan booting Sonic Pi</translation>
+        <translation>Kesalahan pemulaian Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1423"/>
@@ -301,7 +301,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1777"/>
         <source>Checking for updates...</source>
-        <translation>Periksa pembaruan...</translation>
+        <translation>Memeriksa pembaruan...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1785"/>
@@ -352,37 +352,37 @@
     <message>
         <location filename="../mainwindow.cpp" line="1868"/>
         <source>Stopping...</source>
-        <translation>Hentikan...</translation>
+        <translation>Memberhentikan...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1913"/>
         <source>Hiding about window...</source>
-        <translation type="unfinished"></translation>
+        <translation>Menyembunyikan jendela tentang...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1919"/>
         <source>Showing about window...</source>
-        <translation type="unfinished"></translation>
+        <translation>Menampilkan jendela tentang...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1938"/>
         <source>Hiding help...</source>
-        <translation type="unfinished"></translation>
+        <translation>Menyembunyikan bantuan...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1944"/>
         <source>Showing help...</source>
-        <translation type="unfinished"></translation>
+        <translation>Menampilkan bantuan...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2007"/>
         <source>Updating System Volume...</source>
-        <translation>Memperbarui Sistem Volume ...</translation>
+        <translation>Memperbarui Volume Sistem...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2241"/>
         <source>Colour Theme: </source>
-        <translation type="unfinished"></translation>
+        <translation>Tema Warna: </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2463"/>
@@ -417,17 +417,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="2690"/>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Keluar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2709"/>
         <source>Start recording to a WAV audio file</source>
-        <translation type="unfinished"></translation>
+        <translation>Mulai merekam ke berkas audio WAV</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2713"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Simpan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2715"/>
@@ -442,7 +442,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2758"/>
         <source>Show Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Tampilkan Bantuan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2762"/>
@@ -452,7 +452,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2766"/>
         <source>Show Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Tampilkan Preferensi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2770"/>
@@ -462,7 +462,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2793"/>
         <source>Show Line Numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>Tampilkan nomor baris</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2798"/>
@@ -472,7 +472,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2803"/>
         <source>Show Code Context</source>
-        <translation type="unfinished"></translation>
+        <translation>Tampilkan konteks kode</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2808"/>
@@ -502,7 +502,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2825"/>
         <source>Safe Audio Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mode Audio Aman</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2830"/>
@@ -522,7 +522,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2844"/>
         <source>Force Mono</source>
-        <translation type="unfinished"></translation>
+        <translation>Paksa Mono</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2849"/>
@@ -532,7 +532,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2854"/>
         <source>Allow Incoming OSC</source>
-        <translation type="unfinished"></translation>
+        <translation>Perbolehkan OSC datang</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2859"/>
@@ -567,32 +567,32 @@
     <message>
         <location filename="../mainwindow.cpp" line="2894"/>
         <source>Live</source>
-        <translation type="unfinished"></translation>
+        <translation>Langsung</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2906"/>
         <source>Code</source>
-        <translation type="unfinished"></translation>
+        <translation>Kode</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2918"/>
         <source>Audio</source>
-        <translation type="unfinished">Audio</translation>
+        <translation>Audio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2929"/>
         <source>Visuals</source>
-        <translation type="unfinished">Visual</translation>
+        <translation>Visual</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2931"/>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Terang</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2936"/>
         <source>Dark</source>
-        <translation>Thema Malam</translation>
+        <translation>Gelap</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2941"/>
@@ -607,7 +607,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2951"/>
         <source>High Contrast</source>
-        <translation type="unfinished"></translation>
+        <translation>Kontras Tinggi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2956"/>
@@ -617,7 +617,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2961"/>
         <source>Show Titles</source>
-        <translation type="unfinished"></translation>
+        <translation>Tampilkan Judul</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2966"/>
@@ -627,7 +627,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2971"/>
         <source>Colour Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Tema Warna</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2980"/>
@@ -666,12 +666,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2998"/>
         <source>Default MIDI Out Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanal Baku Keluaran MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3000"/>
         <source>All Channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Semua Kanal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3005"/>
@@ -756,17 +756,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="3088"/>
         <source>Local IP Addresses</source>
-        <translation type="unfinished"></translation>
+        <translation>Alamat IP Lokal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3102"/>
         <source>Incoming OSC Port</source>
-        <translation type="unfinished"></translation>
+        <translation>Porta Datang OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3105"/>
         <source>View</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tampilan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3110"/>
@@ -871,7 +871,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3168"/>
         <source>Show Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Tampilkan Log</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3173"/>
@@ -881,12 +881,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="3178"/>
         <source>Show Metronome</source>
-        <translation type="unfinished"></translation>
+        <translation>Tampilkan Metronom</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3183"/>
         <source>Show Buttons</source>
-        <translation type="unfinished"></translation>
+        <translation>Tampilkan Tombol</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3188"/>
@@ -896,12 +896,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="3193"/>
         <source>Full Screen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Mode Layar Penuh</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3232"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Bahasa</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3423"/>
@@ -911,17 +911,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="3613"/>
         <source>File loaded...</source>
-        <translation>File dimuat ...</translation>
+        <translation>Berkas dimuat ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3648"/>
         <source>File saved...</source>
-        <translation>File disimpan ...</translation>
+        <translation>Berkas disimpan ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3707"/>
         <source>Restarting Sonic Pi...</source>
-        <translation type="unfinished"></translation>
+        <translation>Memulai ulang Sonic Pi...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3942"/>
@@ -960,12 +960,12 @@ Dapatkan Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="4400"/>
         <source>Sonic Pi - Audio Server Boot Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi - Kesalahan Pemulaian Peladen Audio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4405"/>
         <source>Sorry, the Audio Server failed to start...</source>
-        <translation type="unfinished"></translation>
+        <translation>Maaf, Peladen Audio gagal untuk memulai...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4406"/>
@@ -980,7 +980,7 @@ Dapatkan Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="4409"/>
         <source>For the curious among you, Sonic Pi uses the SuperCollider Audio Server to generate its sounds. By default it will connect to your default system audio input and outputs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Untuk yang ingin tahu, Sonic Pi menggunakan Peladen Audio SuperCollider untuk membuat suaranya. Secara baku itu akan terkoneksi dengan keluaran dan masukan sistem audio baku kamu.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4410"/>
@@ -995,12 +995,12 @@ Dapatkan Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="4412"/>
         <source>Advanced Users</source>
-        <translation type="unfinished"></translation>
+        <translation>Pengguna Tingkat Lanjut</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4413"/>
         <source>you may manually override this and further configure how SuperCollider boots by editing the file:</source>
-        <translation type="unfinished"></translation>
+        <translation>kamu bisa secara manual menimpa ini dan lebih mengonfigurasi bagaimana pemulaian SuperCollider dengan menyunting berkas:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4415"/>
@@ -1015,7 +1015,7 @@ Dapatkan Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2701"/>
         <source>Stop</source>
-        <translation>Stop</translation>
+        <translation>Berhenti</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2703"/>
@@ -1030,7 +1030,7 @@ Dapatkan Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1425"/>
         <source>Please consider reporting a bug at</source>
-        <translation>Silakan pertimbangan pelaporan bug di</translation>
+        <translation>Pertimbangkan untuk melaporkan bug di</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2707"/>
@@ -1076,7 +1076,7 @@ Dapatkan Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="315"/>
         <source>Studio Mode Enabled. Thank-you for supporting Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mode Studio Diaktifkan. Terima kasih telah mendukung Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="321"/>
@@ -1086,7 +1086,7 @@ Dapatkan Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="469"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Tutup</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="614"/>
@@ -1116,12 +1116,12 @@ Dapatkan Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3353"/>
         <source>Sonic Pi - Info</source>
-        <translation>Informasi Sonic Pi</translation>
+        <translation>Sonic Pi -Informasi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3381"/>
         <source>Stop Recording</source>
-        <translation>Stop Merekam</translation>
+        <translation>Berhenti Merekam</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3400"/>
@@ -1132,14 +1132,14 @@ Dapatkan Sonic Pi %1</translation>
         <location filename="../mainwindow.cpp" line="3594"/>
         <source>Cannot read file %1:
 %2.</source>
-        <translation>Tidak dapat baca File %1:
+        <translation>Tidak bisa membaca berkas %1:
 %2.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3622"/>
         <source>Cannot write file %1:
 %2.</source>
-        <translation>Tidak dapat Tulis File %1:
+        <translation>Tidak bisa menulis berkas %1:
 %2.</translation>
     </message>
     <message>
@@ -1176,12 +1176,12 @@ Dapatkan Sonic Pi %1</translation>
         <location filename="../utils/ruby_help.h" line="2960"/>
         <location filename="../utils/ruby_help.h" line="3055"/>
         <source>Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation>Tutorial</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3092"/>
         <source>Examples</source>
-        <translation type="unfinished"></translation>
+        <translation>Contoh</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3147"/>
@@ -1201,7 +1201,7 @@ Dapatkan Sonic Pi %1</translation>
     <message>
         <location filename="../utils/ruby_help.h" line="3454"/>
         <source>Lang</source>
-        <translation type="unfinished"></translation>
+        <translation>Bhs</translation>
     </message>
 </context>
 <context>
@@ -1365,17 +1365,17 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="155"/>
         <source>Local IP address</source>
-        <translation type="unfinished">Alamat IP lokal</translation>
+        <translation>Alamat IP lokal</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="175"/>
         <source>Unavailable</source>
-        <translation type="unfinished">Tidak tersedia</translation>
+        <translation>Tidak tersedia</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="181"/>
         <source>Allow OSC from other computers</source>
-        <translation type="unfinished"></translation>
+        <translation>Perbolehkan OSC dari komputer lain</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="182"/>
@@ -1386,12 +1386,12 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="184"/>
         <source>Allow incoming OSC</source>
-        <translation type="unfinished"></translation>
+        <translation>Perbolehkan OSC datang</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="208"/>
         <source>all</source>
-        <translation type="unfinished"></translation>
+        <translation>semua</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="231"/>
@@ -1418,12 +1418,12 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="194"/>
         <source>Configure MIDI behaviour</source>
-        <translation type="unfinished">Mengkonfigurasi MIDI</translation>
+        <translation>Mengonfigurasi perilaku MIDI</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="196"/>
         <source>MIDI Ports</source>
-        <translation type="unfinished">Port MIDI</translation>
+        <translation>Porta MIDI</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="197"/>
@@ -1433,7 +1433,7 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="202"/>
         <source>Reset MIDI</source>
-        <translation type="unfinished">Setel ulang MIDI</translation>
+        <translation>Setel ulang MIDI</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="204"/>
@@ -1468,7 +1468,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="285"/>
         <source>Show and Hide</source>
-        <translation type="unfinished">Tampilkan dan Sembunyikan</translation>
+        <translation>Tampilkan dan Sembunyikan</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="286"/>
@@ -1483,7 +1483,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="74"/>
         <source>Main Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Volume Utama</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="83"/>
@@ -1513,22 +1513,22 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="127"/>
         <source>Audio Hardware Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informasi perangkat keras audio</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="128"/>
         <source>Audio hardware configuration and information.</source>
-        <translation type="unfinished"></translation>
+        <translation>Informasi dan konfigurasi perangkat keras audio.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="129"/>
         <source>Information unavailable.</source>
-        <translation type="unfinished"></translation>
+        <translation>Informasi tidak tersedia</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="156"/>
         <source>Incoming OSC port</source>
-        <translation type="unfinished"></translation>
+        <translation>Porta datang OSC</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="199"/>
@@ -1563,12 +1563,12 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="287"/>
         <source>Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Tema</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="289"/>
         <source>Automation / Misc</source>
-        <translation type="unfinished"></translation>
+        <translation>Otomatisasi/Lain-lain</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="290"/>
@@ -1588,7 +1588,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="295"/>
         <source>Show line numbers</source>
-        <translation type="unfinished">Tampilkan nomor baris</translation>
+        <translation>Tampilkan nomor baris</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="296"/>
@@ -1603,7 +1603,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="301"/>
         <source>Show code context</source>
-        <translation type="unfinished"></translation>
+        <translation>Tampilkan konteks kode</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="302"/>
@@ -1643,7 +1643,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="316"/>
         <source>Show buttons</source>
-        <translation type="unfinished">Tampilkan tombol</translation>
+        <translation>Tampilkan tombol</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="317"/>
@@ -1663,7 +1663,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="322"/>
         <source>Full screen</source>
-        <translation type="unfinished">Layar Penuh</translation>
+        <translation>Layar Penuh</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="323"/>
@@ -1673,7 +1673,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="325"/>
         <source>Show titles</source>
-        <translation type="unfinished"></translation>
+        <translation>Tampilkan judul</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="326"/>
@@ -1693,12 +1693,12 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="334"/>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Terang</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="335"/>
         <source>Dark</source>
-        <translation>Thema Malam</translation>
+        <translation>Gelap</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="336"/>
@@ -1803,22 +1803,22 @@ Jika diaktifkan log menggulir ke bawah setelah setiap pesan baru ditampilkan.</t
     <message>
         <location filename="../widgets/settingswidget.cpp" line="515"/>
         <source>Configure language settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Atur pengaturan bahasa</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="520"/>
         <source>UI &amp; Tutorial Language (Requires a restart to take effect)</source>
-        <translation type="unfinished"></translation>
+        <translation>Bahasa UI &amp; Tutorial (Memerlukan pemulaian ulang untuk bisa diterapkan)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="521"/>
         <source>Change the language of the UI &amp; Tutorial (Requires a restart to take effect)</source>
-        <translation type="unfinished"></translation>
+        <translation>Mengganti bahasa UI &amp; Tutorial (Memerlukan pemulaian ulang untuk bisa diterapkan)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="525"/>
         <source>Change the language of the UI &amp; Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation>Mengganti bahasa UI &amp; Tutorial</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="532"/>
@@ -1829,61 +1829,62 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="631"/>
         <source>You&apos;ve selected a new language: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Kamu memilih bahasa baru: %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="633"/>
         <source>Do you want to apply this language?</source>
-        <translation type="unfinished"></translation>
+        <translation>Apakah kamu ingin menerapkan bahasa ini?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="635"/>
         <source>The new language will be applied when you next start Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bahasa baru akan diterapkan ketika kamu memulai kembali Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="639"/>
         <source>System languages found: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Bahasa sistem ditemukan: %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="643"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation>Terapkan</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="644"/>
         <location filename="../widgets/settingswidget.cpp" line="691"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Batal</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="655"/>
         <source>&lt;b&gt;The new language will be applied when you next start Sonic Pi.&lt;/b&gt;&lt;br&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Bahasa baru akan diterapkan ketika kamu memulai kembali Sonic Pi.&lt;/b&gt;&lt;br&gt;</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="656"/>
         <location filename="../widgets/settingswidget.cpp" line="925"/>
         <source>Current UI language: %1
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Bahasa UI sekarang: %1
+</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="660"/>
         <source>Restart Sonic Pi?</source>
-        <translation type="unfinished"></translation>
+        <translation>Mulai Ulang Sonic Pi?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="661"/>
         <source>Do you want to restart Sonic Pi now? This will stop any current runs &amp; recordings.</source>
-        <translation type="unfinished"></translation>
+        <translation>Apakah kamu ingin memulai ulang Sonic Pi sekarang? Ini akan menghentikan pemutaran &amp; perekaman yang sedang berjalan.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="662"/>
         <location filename="../widgets/settingswidget.cpp" line="690"/>
         <source>Restart</source>
-        <translation type="unfinished"></translation>
+        <translation>Mulai Ulang</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="663"/>
@@ -1898,23 +1899,24 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="686"/>
         <source>Your changes won&apos;t take effect until you restart Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation>Perubahan kamu tidak akan berefek sampai kamu memulai ulang Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="687"/>
         <source>Would you like to restart now?</source>
-        <translation type="unfinished"></translation>
+        <translation>Apakah kamu ingin memulai ulang sekarang?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="924"/>
         <source>System languages: %1
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Bahasa sistem: %1
+</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1077"/>
         <source>Use system language</source>
-        <translation type="unfinished"></translation>
+        <translation>Gunakan bahasa sistem</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="436"/>
@@ -1941,51 +1943,51 @@ Stereo - shows two independent scopes for left and right channels</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="449"/>
         <source>Transparency</source>
-        <translation type="unfinished">Transparansi</translation>
+        <translation>Transparansi</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="472"/>
         <source>Check for updates</source>
-        <translation type="unfinished">Periksa pembaruan</translation>
+        <translation>Periksa pembaruan</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="473"/>
         <source>Toggle automatic update checking.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished">Beralih pemeriksaan pembaruan otomatis.
-Pemeriksaan ini melibatkan pengiriman informasi anonim tentang platform Anda dan versinya.</translation>
+        <translation>Alih pemeriksaan pembaruan otomatis.
+Pemeriksaan ini melibatkan pengiriman informasi anonim tentang platform kamu dan versinya.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="474"/>
         <source>Check now</source>
-        <translation type="unfinished">Periksa sekarang</translation>
+        <translation>Periksa sekarang</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="477"/>
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished">Memaksa cek untuk update sekarang.
-Pemeriksaan ini melibatkan pengiriman informasi anonim tentang platform Anda dan versinya.</translation>
+        <translation>Memaksa pemeriksaan pembaruan sekarang.
+Pemeriksaan ini melibatkan pengiriman informasi anonim tentang platform kamu dan versinya.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="478"/>
         <source>Get update</source>
-        <translation type="unfinished">Dapatkan pembaruan</translation>
+        <translation>Dapatkan pembaruan</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="480"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation>Kunjungi https://sonic-pi.net untuk mengunduh versi baru</translation>
+        <translation>Kunjungi https://sonic-pi.net untuk mengunduh versi yang baru</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="485"/>
         <source>Update Info</source>
-        <translation type="unfinished">Informasi terbaru</translation>
+        <translation>Informasi pembaruan</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="488"/>
         <source>Sonic Pi update info</source>
-        <translation type="unfinished">Info Pembaruan Sonic Pi</translation>
+        <translation>Informasi pembaruan Sonic Pi</translation>
     </message>
 </context>
 </TS>

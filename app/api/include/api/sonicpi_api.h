@@ -42,7 +42,8 @@ enum class APIInitResult
 {
   Successful,
   TerminalError,
-  ScsynthBootError
+  ScsynthBootError,
+  HomePathNotWritableError
 };
 
 enum class BootDaemonInitResult
@@ -55,6 +56,7 @@ enum class BootDaemonInitResult
 enum class SonicPiPath
 {
     RootPath,            // Sonic Pi Application root
+    HomePath,            // User-writable home directory root (parent of UserPath).
     UserPath,            // User-writable folder for config/saves etc.
     RubyPath,            // Path to ruby executable
     BootDaemonPath,      // Path to the Boot Daemon script

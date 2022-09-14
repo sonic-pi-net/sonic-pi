@@ -960,6 +960,8 @@ end"
         raise ArgumentError, "time_warp requires a do/end block" unless block
         prev_ctl_deltas = __system_thread_locals.get(:sonic_pi_local_control_deltas)
         prev_cache = __system_thread_locals.get(:sonic_pi_spider_time_state_cache, [])
+        prev_slept =  __system_thread_locals.get(:sonic_pi_spider_slept)
+        prev_synced = __system_thread_locals.get(:sonic_pi_spider_synced)
         had_params = params
         times = [times] if times.is_a? Numeric
 
@@ -1002,6 +1004,8 @@ end"
         __system_thread_locals.set_local :sonic_pi_spider_in_time_warp, already_in_time_warp
         __system_thread_locals.set_local :sonic_pi_local_control_deltas, prev_ctl_deltas
         __system_thread_locals.set_local(:sonic_pi_spider_time_state_cache, prev_cache)
+        __system_thread_locals.set(:sonic_pi_spider_synced, prev_synced)
+        __system_thread_locals.set(:sonic_pi_spider_slept, prev_slept)
       end
       doc name:           :time_warp,
           introduced:     Version.new(2,11,0),
@@ -4442,6 +4446,7 @@ puts current_sched_ahead_time # Prints 0.5"]
 
 
       def sync_event(*args)
+        raise TimeTravelError, "Calling sync within a time_warp is not supported. " if __system_thread_locals.get(:sonic_pi_spider_in_time_warp)
         params, opts = split_params_and_merge_opts_array(args)
         k = params[0]
 
