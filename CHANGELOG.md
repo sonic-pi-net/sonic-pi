@@ -1,5 +1,5 @@
 # History
-* [v4.2.0 'Batch'](#v4.2.0), To be released
+* [v4.2.0 'Batch'](#v4.2.0), 14th Sept, 2022
 * [v4.1.0 'Phase'](#v4.1.0), 30th August 2022
 * [v4.0.3 'Dovetail'](#v4.0.3), 18th July 2022
 * [v4.0.2 'Relink'](#v4.0.2), 15th July 2022
@@ -32,7 +32,7 @@
 <a name="v4.2.0"></a>
 
 ## Version 4.2.0 'Batch'
-To be released
+14th September 2022
 <!-- [(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v4.2.0): -->
 
 The main purpose of this release is to address a booting issue discovered on a school Windows cluster with common security restrictions. This issue was reported by Adam Cooper from Moor Park High School & Sixth Form in the UK. Adam was wonderfully helpful in finding the specific issue and testing potential solutions. Thanks Adam!
