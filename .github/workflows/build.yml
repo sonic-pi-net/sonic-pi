@@ -32,12 +32,6 @@ jobs:
     # Get the code
     - uses: actions/checkout@v2
 
-    # hardcode cmake version
-    - name: Setup cmake
-      uses: jwlawson/actions-setup-cmake@v1.12
-      with:
-        cmake-version: '3.22.3'
-
     # Install Ruby for the windows build
     - uses: ruby/setup-ruby@v1
       id: ruby-inst

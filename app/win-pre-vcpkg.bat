@@ -8,6 +8,8 @@ if not exist "vcpkg\" (
     git clone --depth 1 --branch 2022.08.15 https://github.com/microsoft/vcpkg.git vcpkg
 )
 
+set VCPKG_ROOT=%~dp0/vcpkg
+
 if not exist "vcpkg\vcpkg.exe" (
     cd vcpkg
     echo Building vcpkg
