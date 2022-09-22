@@ -372,12 +372,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2731"/>
         <source>Code Size Up</source>
-        <translation>Zwiększ rozmiar czcionki kodu</translation>
+        <translation>Powiększ kod</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2737"/>
         <source>Code Size Down</source>
-        <translation>Zmniejsz rozmiar czcionki kodu</translation>
+        <translation>Zmniejsz kod</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2743"/>
@@ -447,7 +447,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2830"/>
         <source>Enforce Timing Guarantees</source>
-        <translation type="unfinished">Wymuszenie Gwarancji Czasu Wykonania</translation>
+        <translation>Wymuszenie Gwarancji Czasu Wykonania</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2835"/>
