@@ -1250,8 +1250,7 @@ Pobierz Sonic Pi %1</translation>
         <location filename="../widgets/settingswidget.cpp" line="92"/>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
-        <translation>Zaawansowane ustawienia audio pozwalające na pracę 
-z zewnętrznymi profesjonalnymi systemami audio, 
+        <translation>Zaawansowane ustawienia audio do pracy z zewnętrznymi systemami
 używanymi podczas występów na scenie z Sonic Pi.</translation>
     </message>
     <message>
@@ -1280,12 +1279,11 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation>Włącza i wyłącza tryb mono.
-Włączenie spowoduje, że oba kanały (lewy i prawy) 
-zostaną połączone i na oba głośniki zostanie wysłany 
-taki sam sygnał. Bardzo przydatne podczas pracy 
-z zewnętrznymi systemami audio, które potrafią 
-obsługiwać tylko dźwięk mono.</translation>
+        <translation>Przełącz tryb mono.
+Włączenie sprawi, że kanały lewy i prawy
+zostaną połączone i na oba głośniki zostanie wysłany
+taki sam sygnał. Przydatne podczas pracy
+z systemami audio, które obsługują tylko dźwięk mono.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="105"/>
