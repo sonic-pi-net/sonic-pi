@@ -427,17 +427,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="2818"/>
         <source>Connect or disconnect the Link Metronome from the network</source>
-        <translation type="unfinished"></translation>
+        <translation>Podłącz lub odłącz Link Metronom dostępny w sieci</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2820"/>
         <source>Tap Tempo</source>
-        <translation type="unfinished"></translation>
+        <translation>Wystukaj Tempo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2823"/>
         <source>Click Link Tap Tempo</source>
-        <translation type="unfinished"></translation>
+        <translation>Naciśnij Link Tap Tempo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2825"/>
