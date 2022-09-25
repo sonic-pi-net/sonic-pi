@@ -16,6 +16,7 @@ cd "macOS_Release/Sonic Pi.app/Contents/Resources"
 rm app etc server
 mkdir app
 cp -R ../../../../../../app/server app/server
+cp -R ../../../../../../app/config app/config
 cp -R ../../../../../../etc .
 ln -s app/server .
 
