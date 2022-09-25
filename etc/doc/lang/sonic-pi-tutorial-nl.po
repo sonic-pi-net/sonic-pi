@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2022-09-17 19:18+0000\n"
+"PO-Revision-Date: 2022-09-26 14:15+0000\n"
 "Last-Translator: Aiko Mastboom <hosted.weblate.org@aiko.sh>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "nl/>\n"
@@ -2176,7 +2176,7 @@ msgstr ""
 
 #: 03.3-Stretching-Samples.md:1
 msgid "3.3 Stretching Samples"
-msgstr "3.3  Samples Stretchen"
+msgstr "3.3 Samples Stretchen"
 
 #: 03.3-Stretching-Samples.md:3
 msgid "Stretching Samples"
@@ -2726,11 +2726,11 @@ msgstr ""
 
 #: 03.5-Partial-Samples.md:1
 msgid "3.5 Partial Samples"
-msgstr "3.5 gedeeltelijke Samples"
+msgstr "3.5 Gedeeltelijke Samples"
 
 #: 03.5-Partial-Samples.md:3
 msgid "Partial Samples"
-msgstr "gedeeltelijke Samples"
+msgstr "Gedeeltelijke Samples"
 
 #: 03.5-Partial-Samples.md:5
 msgid ""
@@ -5003,7 +5003,7 @@ msgstr ""
 
 #: 05.5-Functions.md:1
 msgid "5.5 Functions"
-msgstr "5.5 functies"
+msgstr "5.5 Functies"
 
 #: 05.5-Functions.md:3
 msgid "Functions"
@@ -5929,7 +5929,7 @@ msgstr ""
 
 #: 06-FX.md:1
 msgid "6 FX"
-msgstr "6 FX"
+msgstr "6 Effecten (FX)"
 
 #: 06-FX.md:3
 msgid "Studio FX"
@@ -6018,7 +6018,7 @@ msgstr "Laten we FX verkennen!"
 
 #: 06.1-Adding-FX.md:1
 msgid "6.1 Adding FX"
-msgstr "6.1 FX  Toevoegen"
+msgstr "6.1 Effecten (FX) Toevoegen"
 
 #: 06.1-Adding-FX.md:3 13.1-Sound-In.md:26
 msgid "Adding FX"
@@ -6364,7 +6364,7 @@ msgstr ""
 
 #: 06.2-FX-in-Practice.md:1
 msgid "6.2 FX in Practice"
-msgstr "6.2 FX in de praktijk"
+msgstr "6.2 Effecten (FX) in de praktijk"
 
 #: 06.2-FX-in-Practice.md:3
 msgid "FX in Practice"
