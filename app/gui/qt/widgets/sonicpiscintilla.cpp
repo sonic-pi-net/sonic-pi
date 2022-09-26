@@ -684,3 +684,7 @@ void SonicPiScintilla::showAutoCompletion(bool val) {
 void SonicPiScintilla::setText(const QString &text) {
   SendScintilla(SCI_SETTEXT, ScintillaBytesConstData(textAsBytes(text)));
 }
+
+void SonicPiScintilla::setAutoIndentEnabled(bool enabled) {
+  this->autoIndent = enabled;
+}

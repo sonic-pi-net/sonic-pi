@@ -290,7 +290,7 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     automation_box->setToolTip(tr("Configure automation and other features."));
 
     auto_indent_on_run = new QCheckBox(tr("Auto-align"));
-    auto_indent_on_run->setToolTip(tr("Automatically align code on Run"));
+    auto_indent_on_run->setToolTip(tr("Automatically align code on Enter or Run "));
 
     show_line_numbers = new QCheckBox(tr("Show line numbers"));
     show_line_numbers->setToolTip(tr("Toggle line number visibility."));

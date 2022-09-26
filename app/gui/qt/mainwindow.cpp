@@ -2411,6 +2411,17 @@ void MainWindow::autoIndentOnRunMenuChanged()
 void MainWindow::changeAutoIndentOnRun()
 {
     QSignalBlocker blocker(autoIndentOnRunAct);
+    if(piSettings->auto_indent_on_run) {
+      statusBar()->showMessage(tr("Auto Indent mode enabled"), 2000);
+    } else {
+      statusBar()->showMessage(tr("Auto Indent mode disabled"), 2000);
+    }
+
+    for (int i = 0; i < editorTabWidget->count(); i++) {
+      SonicPiScintilla* ws = ((SonicPiEditor*)editorTabWidget->widget(i))->getWorkspace();
+      ws->setAutoIndentEnabled(piSettings->auto_indent_on_run);
+    }
+
     autoIndentOnRunAct->setChecked(piSettings->auto_indent_on_run);
 }
 
@@ -2881,7 +2892,7 @@ void MainWindow::createToolBar()
     clearOutputOnRunAct->setChecked(piSettings->log_cues);
     connect(clearOutputOnRunAct, SIGNAL(triggered()), this, SLOT(clearOutputOnRunMenuChanged()));
 
-    autoIndentOnRunAct = new QAction(tr("Auto Indent Code Buffer on Run"), this);
+    autoIndentOnRunAct = new QAction(tr("Auto Indent Code Buffer"), this);
     autoIndentOnRunAct->setCheckable(true);
     autoIndentOnRunAct->setChecked(piSettings->auto_indent_on_run);
     connect(autoIndentOnRunAct, SIGNAL(triggered()), this, SLOT(autoIndentOnRunMenuChanged()));

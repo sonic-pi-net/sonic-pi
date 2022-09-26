@@ -77,6 +77,7 @@ signals:
     void replaceBuffer(QString content, int line, int index, int first_line);
     void newlineAndIndent();
     void completeListOrNewlineAndIndent();
+    void setAutoIndentEnabled(bool enabled);
 
     void sp_paste();
     void sp_cut();
