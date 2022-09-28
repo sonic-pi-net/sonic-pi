@@ -20,6 +20,7 @@
 #include <QLabel>
 #include <QLibraryInfo>
 
+#include <singleapplication.h>
 #include "mainwindow.h"
 
 #include "widgets/sonicpilog.h"
@@ -62,7 +63,7 @@ int main(int argc, char *argv[])
   QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 #endif
 
-  QApplication app(argc, argv);
+  SingleApplication app(argc, argv);
 
   QFontDatabase::addApplicationFont(":/fonts/Hack-Regular.ttf");
   QFontDatabase::addApplicationFont(":/fonts/Hack-Italic.ttf");

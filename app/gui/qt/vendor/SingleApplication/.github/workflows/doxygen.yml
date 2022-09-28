@@ -1,0 +1,34 @@
+name: "Documentation"
+
+on:
+  push:
+    branches:
+      - 'master'
+
+jobs:
+  doxygen:
+    name: Doxygen
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v3
+
+      - name: Install doxygen and pre-requsites packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install doxygen qtbase5-dev
+
+      - name: Generate documentation
+        run: |
+          cmake -B build -D SINGLEAPPLICATION_DOCUMENTATION=ON -D DOXYGEN_WARN_AS_ERROR=YES
+          cmake --build build --target SingleApplicationDocumentation
+          find build/html/ -name *.html -type f -exec sed -i 's+https://github.com/jothepro/doxygen-awesome-css+https://github.com/itay-grudev/SingleApplication+g' {} \;
+
+      - name: Deploy to GitHub pages
+        uses: crazy-max/ghaction-github-pages@v3
+        with:
+          target_branch: gh-pages
+          build_dir: build/html
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
