@@ -3732,6 +3732,7 @@ void MainWindow::restartApp()
     QApplication* app = dynamic_cast<QApplication*>(parent());
     statusBar()->showMessage(tr("Restarting Sonic Pi..."), 10000);
 
+    qputenv("SONIC_PI_RESTART", "1");
     // Save settings and perform some cleanup
     writeSettings();
     onExitCleanup();

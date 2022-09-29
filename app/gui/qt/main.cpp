@@ -33,7 +33,18 @@
 
 int main(int argc, char *argv[])
 {
-  std::cout << "Starting Sonic Pi..." << std::endl;
+  if(qgetenv("SONIC_PI_RESTART") != "")
+  {
+      std::cout << "Restarting Sonic Pi..." << std::endl;
+      // Pause for a couple of seconds to enable the previous instance
+      // of Sonic Pi to complete before starting this new replacement
+      // instance. This is to ensure that the two processes don't
+      // conflict with the SingleApplication constraint.
+      QThread::msleep(2000);
+  } else
+  {
+      std::cout << "Starting Sonic Pi..." << std::endl;
+  }
 
 #ifndef Q_OS_DARWIN
   Q_INIT_RESOURCE(SonicPi);
