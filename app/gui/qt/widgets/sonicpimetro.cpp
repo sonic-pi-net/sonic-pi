@@ -17,6 +17,7 @@
 #include <QStyleOption>
 #include <QPainter>
 #include <QSpacerItem>
+#include <QThread>
 #include "dpi.h"
 
 SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::shared_ptr<SonicPi::SonicPiAPI> spAPI, SonicPiTheme *theme, QWidget* parent)

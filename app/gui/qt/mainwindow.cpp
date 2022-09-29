@@ -42,6 +42,7 @@
 #include <QStyle>
 #include <QTextBrowser>
 #include <QTextStream>
+#include <QThread>
 #include <QToolBar>
 #include <QToolButton>
 #include <QPushButton>

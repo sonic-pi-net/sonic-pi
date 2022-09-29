@@ -19,6 +19,7 @@
 #include <QBitmap>
 #include <QLabel>
 #include <QLibraryInfo>
+#include <QThread>
 
 #include <singleapplication.h>
 #include "mainwindow.h"
