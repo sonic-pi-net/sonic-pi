@@ -79,7 +79,6 @@ SonicPiAPI::SonicPiAPI(IAPIClient* pClient, APIProtocol protocol, LogOption logO
 
 fs::path SonicPiAPI::FindHomePath() const
 {
-    fs::path homePath;
     auto pszHome = std::getenv("SONIC_PI_HOME");
     if (pszHome != nullptr)
     {
