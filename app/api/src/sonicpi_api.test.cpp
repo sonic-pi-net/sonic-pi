@@ -78,10 +78,13 @@ TEST_CASE("Init", "API")
     APIInitResult executeResult = api.Init(fs::path(APP_ROOT) / "..");
     if (executeResult == APIInitResult::Successful)
     {
-        if (api.WaitUntilReady())
+        if (api.Boot() == APIBootResult::Successful)
         {
-            api.TestAudio();
-            std::this_thread::sleep_for(3s);
+            if (api.WaitUntilReady())
+            {
+                api.TestAudio();
+                std::this_thread::sleep_for(3s);
+            }
         }
     }
 
