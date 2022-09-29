@@ -1,4 +1,5 @@
 # History
+* [v4.3.0 'Pathfinder'](#v4.3.0), 30th Sept, 2022
 * [v4.2.0 'Batch'](#v4.2.0), 14th Sept, 2022
 * [v4.1.0 'Phase'](#v4.1.0), 30th August 2022
 * [v4.0.3 'Dovetail'](#v4.0.3), 18th July 2022
@@ -28,6 +29,24 @@
 * [v2.1 'Core'](#v2.1), 21st Nov, 2014
 * [v2.0.1](#v2.0.1), 9th Sept, 2014
 * [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
+
+<a name="v4.3.0"></a>
+## Version 4.3.0 'Pathfinder'
+<!-- [(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v4.3.0): -->
+
+This is another maintenance and bugfix release - primarily addressing a critical issue with configuring external sound cards for audio input. This was accidentally introduced in v4.2. An issue with the auto-indentation preference in the GUI has also been addressed.
+
+The GUI is now restricted to having one instance open at any one time. Having multiple instances of Sonic Pi running simultaneously can cause conflicts. This is now no longer possible, which should reduce any issues users may have observed when accidentally opening the app multiple times in quick succession. Now, only the first instance will open and all the subsequent others will exit before starting if they detect another instance already running.
+
+### GUI
+* Restrict running instances to only allow one instance of Sonic Pi to be running at any one time on a given machine.
+
+### Translations
+* Improvements to the Dutch, Estonian, Japanese and Polish translations.
+
+### Bugfixes
+* The behaviour of external audio card configuration should now be as it was in v4.1.
+* The auto-indent preference in the GUI now works as expected. Unchecking will stop the GUI from automatically reformatting the code.
 
 <a name="v4.2.0"></a>
 
