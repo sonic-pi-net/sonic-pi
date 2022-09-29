@@ -83,26 +83,31 @@ fs::path SonicPiAPI::FindHomePath() const
     auto pszHome = std::getenv("SONIC_PI_HOME");
     if (pszHome != nullptr)
     {
-        homePath = fs::path(pszHome);
+        return pszHome;
     }
 
-    // Check for home path existence and if not, use user documents path
-    if (!fs::exists(homePath))
+#if defined(WIN32)
+    auto usrprofHome = std::getenv("USERPROFILE");
+    if (usrprofHome != nullptr)
     {
-        homePath = fs::path(sago::getDocumentsFolder()).parent_path();
+        return fs::path(usrprofHome);
     }
 
-    // Final attempt at getting the folder; try to create it if possible
-    if (!fs::exists(homePath))
+    auto homeDrive = std::getenv("HOMEDRIVE");
+    auto homePath = std::getenv("HOMEPATH");
+    if ((homeDrive  != nullptr) && (homePath != nullptr))
     {
-        std::error_code err;
-        if (!fs::create_directories(homePath, err))
-        {
-            // Didn't exist, and failed to create it
-            return fs::path();
-        }
+        return fs::path(homeDrive) / homePath;
     }
-    return homePath;
+#endif
+
+    auto home = std::getenv("HOME");
+    if (home != nullptr)
+    {
+        return fs::path(home);
+    }
+
+    return fs::path(sago::getDocumentsFolder()).parent_path();
 }
 
 std::error_code SonicPiAPI::RunProcess(const std::vector<std::string>& args, std::string* pOutput)

@@ -16,10 +16,12 @@
 module SonicPi
   module Paths
     def self.user_dir
+      return File.expand_path(ENV["SONIC_PI_HOME"]) if ENV["SONIC_PI_HOME"]
 
       # Figure out the user's home directory
       case os
       when :windows
+        return File.expand_path(ENV["USERPROFILE"]) if ENV["USERPROFILE"]
         # On Windows, Ruby lets HOME take precedence if it exists, which
         # is not what Sonic Pi should do to behave like a native Windows
         # app.  To get the same path as QDir::homePath() used by the
@@ -27,18 +29,17 @@ module SonicPi
         # set.
         home_drive = ENV["HOMEDRIVE"]
         home_path = ENV["HOMEPATH"]
-        if home_drive and home_path
-          File.expand_path(home_drive + home_path)
-        else
-          File.expand_path(Dir.home)
-        end
+        return File.absolute_path("#{home_drive}/#{home_path}") if home_drive and home_path
+        return File.expand_path(ENV["HOME"]) if ENV["HOME"]
+        return File.expand_path(Dir.home)
       else
-        File.expand_path(Dir.home)
+        return File.expand_path(ENV["HOME"]) if ENV["HOME"]
+        return File.expand_path(Dir.home)
       end
     end
 
     def self.home_dir_path
-      File.expand_path((ENV['SONIC_PI_HOME'] || user_dir) + '/.sonic-pi/')
+      File.absolute_path("#{user_dir}/.sonic-pi/")
     end
 
     def self.project_path
