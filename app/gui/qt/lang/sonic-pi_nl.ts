@@ -259,12 +259,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="877"/>
         <source>Hiding pane titles...</source>
-        <translation>Verberg paneeltitels...</translation>
+        <translation>Paneeltitels verbergen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="887"/>
         <source>Showing pane titles...</source>
-        <translation>Toon paneeltitels...</translation>
+        <translation>Paneeltitels tonen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1319"/>
@@ -285,7 +285,7 @@
         <location filename="../mainwindow.cpp" line="1423"/>
         <source>Apologies, a critical error occurred during startup:
 </source>
-        <translation>Excuses, er heeft zich een ktirische fout voorgedaan tijdens het opstarten:
+        <translation>Excuses, er heeft zich een kritische fout voorgedaan tijdens het opstarten:
 </translation>
     </message>
     <message>
@@ -472,7 +472,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2803"/>
         <source>Show Code Context</source>
-        <translation>Laat code context zien</translation>
+        <translation>Toon code context</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2808"/>
@@ -627,7 +627,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2971"/>
         <source>Colour Theme</source>
-        <translation>Kleurenschema</translation>
+        <translation>Kleuren Thema</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2980"/>
@@ -649,7 +649,7 @@
         <location filename="../mainwindow.cpp" line="4010"/>
         <location filename="../mainwindow.cpp" line="4145"/>
         <source>No Connected Inputs</source>
-        <translation>Geen Verbonden Ingangen</translation>
+        <translation>Geen verbonden ingangen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2995"/>
@@ -661,7 +661,7 @@
         <location filename="../mainwindow.cpp" line="4008"/>
         <location filename="../mainwindow.cpp" line="4167"/>
         <source>No Connected Outputs</source>
-        <translation>Geen Verbonden Uitgangen</translation>
+        <translation>Geen verbonden uitgangen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2998"/>
@@ -756,12 +756,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="3088"/>
         <source>Local IP Addresses</source>
-        <translation>Lokale IP Adressen</translation>
+        <translation>Lokale IP-adressen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3102"/>
         <source>Incoming OSC Port</source>
-        <translation>Inkomende OSC Poort</translation>
+        <translation>Binnenkomende OSC Poort</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3105"/>
@@ -891,12 +891,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="3188"/>
         <source>Show Tabs</source>
-        <translation>Toon Buffer Tabs</translation>
+        <translation>Toon Tabbladen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3193"/>
         <source>Full Screen Mode</source>
-        <translation>Volledig Scherm Modus</translation>
+        <translation>Volledige Scherm Modus</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3232"/>
@@ -932,8 +932,8 @@
         <location filename="../mainwindow.cpp" line="3944"/>
         <source>Sonic Pi checks for updates
 every two weeks.</source>
-        <translation>Sonic Pi controleert naar updates
-om de twee weken.</translation>
+        <translation>Sonic Pi zoekt om de twee
+weken naar updates.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3946"/>
@@ -1274,9 +1274,9 @@ wanneer je optreedt met Sonic Pi.</translation>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and vice versa.</source>
-        <translation>Schakel stereobeeld omkeren in/uit.
-Indien ingeschakeld, word het geluid van de linker
-naar de rechter luidspreker gestuurd en omgekeerd.</translation>
+        <translation>Schakel &quot;stereobeeld omkeren&quot; in/uit.
+Indien ingeschakeld, wordt de audio tussen de linker
+en rechter speaker omgewisseld.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="95"/>
@@ -1386,7 +1386,7 @@ computers in het huidige verbonden netwerk.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="181"/>
         <source>Allow OSC from other computers</source>
-        <translation>Sta OSC berichten toe vanuit andere computers</translation>
+        <translation>Sta OSC vanaf andere computers toe</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="182"/>
@@ -1398,7 +1398,7 @@ Indien niet aangevinkt worden enkel berichten van het lokaal toestel verzonden o
     <message>
         <location filename="../widgets/settingswidget.cpp" line="184"/>
         <source>Allow incoming OSC</source>
-        <translation>Sta inkomende OSC berichten toe</translation>
+        <translation>Sta binnenkomende OSC berichten toe</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="208"/>
@@ -1413,7 +1413,7 @@ Indien niet aangevinkt worden enkel berichten van het lokaal toestel verzonden o
     <message>
         <location filename="../widgets/settingswidget.cpp" line="298"/>
         <source>Show code completion</source>
-        <translation>Toon code aanvullingen</translation>
+        <translation>Toon code-voltooiingen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="185"/>
@@ -1498,7 +1498,7 @@ Sonic Pi, welke verstuurd kunnen worden via de midi_* functies</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="74"/>
         <source>Main Volume</source>
-        <translation>Volume</translation>
+        <translation>Hoofdvolume</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="83"/>

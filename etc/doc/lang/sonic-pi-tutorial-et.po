@@ -4,17 +4,24 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
+"PO-Revision-Date: 2022-09-14 21:22+0000\n"
+"Last-Translator: lorempipsum <maxwell.edison69@gmail.com>\n"
+"Language-Team: Estonian <https://hosted.weblate.org/projects/sonic-pi/"
+"tutorial/et/>\n"
+"Language: et\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.14.1-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
-msgstr ""
+msgstr "1 Tere tulemast Sonic Pi programmi"
 
 #: 01-Welcome-to-Sonic-Pi.md:3
 msgid "Welcome friend :-)"
-msgstr ""
+msgstr "Tere sõber :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:5
 msgid ""
@@ -23,6 +30,10 @@ msgid ""
 "l learn all about music, synthesis, programming, composition, performance and "
 "more."
 msgstr ""
+"Tere tulemast Sonic Pi programmi. Loodan, et oled sama elevil muusika "
+"tegemisest kui mina. Sellest saab olema väga lõbus teekond mis aitab sul "
+"õppida muusikat, sünteesi, programmeerimist, kompositsiooni, etendust ja "
+"muud."
 
 #: 01-Welcome-to-Sonic-Pi.md:10
 msgid ""

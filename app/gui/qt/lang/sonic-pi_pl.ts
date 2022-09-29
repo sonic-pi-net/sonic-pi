@@ -372,12 +372,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2731"/>
         <source>Code Size Up</source>
-        <translation>Zwiększ rozmiar czcionki kodu</translation>
+        <translation>Powiększ kod</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2737"/>
         <source>Code Size Down</source>
-        <translation>Zmniejsz rozmiar czcionki kodu</translation>
+        <translation>Zmniejsz kod</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2743"/>
@@ -427,17 +427,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="2818"/>
         <source>Connect or disconnect the Link Metronome from the network</source>
-        <translation type="unfinished"></translation>
+        <translation>Podłącz lub odłącz Link Metronom dostępny w sieci</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2820"/>
         <source>Tap Tempo</source>
-        <translation type="unfinished"></translation>
+        <translation>Wystukaj Tempo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2823"/>
         <source>Click Link Tap Tempo</source>
-        <translation type="unfinished"></translation>
+        <translation>Naciśnij Link Tap Tempo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2825"/>
@@ -447,7 +447,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2830"/>
         <source>Enforce Timing Guarantees</source>
-        <translation type="unfinished">Wymuszenie Gwarancji Czasu Wykonania</translation>
+        <translation>Wymuszenie Gwarancji Czasu Wykonania</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2835"/>
@@ -1250,8 +1250,7 @@ Pobierz Sonic Pi %1</translation>
         <location filename="../widgets/settingswidget.cpp" line="92"/>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
-        <translation>Zaawansowane ustawienia audio pozwalające na pracę 
-z zewnętrznymi profesjonalnymi systemami audio, 
+        <translation>Zaawansowane ustawienia audio do pracy z zewnętrznymi systemami
 używanymi podczas występów na scenie z Sonic Pi.</translation>
     </message>
     <message>
@@ -1280,12 +1279,11 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation>Włącza i wyłącza tryb mono.
-Włączenie spowoduje, że oba kanały (lewy i prawy) 
-zostaną połączone i na oba głośniki zostanie wysłany 
-taki sam sygnał. Bardzo przydatne podczas pracy 
-z zewnętrznymi systemami audio, które potrafią 
-obsługiwać tylko dźwięk mono.</translation>
+        <translation>Przełącz tryb mono.
+Włączenie sprawi, że kanały lewy i prawy
+zostaną połączone i na oba głośniki zostanie wysłany
+taki sam sygnał. Przydatne podczas pracy
+z systemami audio, które obsługują tylko dźwięk mono.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="105"/>

@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2022-09-05 14:23+0000\n"
-"Last-Translator: Aiko <hosted.weblate.org@aiko.sh>\n"
+"PO-Revision-Date: 2022-09-29 17:23+0000\n"
+"Last-Translator: Aiko Mastboom <hosted.weblate.org@aiko.sh>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "nl/>\n"
 "Language: nl\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.14.1-dev\n"
+"X-Generator: Weblate 4.14.1\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -44,12 +44,12 @@ msgid ""
 "ve Coding Performances](https://youtube.com/samaaron) where I code with Sonic "
 "Pi live in front of audiences."
 msgstr ""
-"Maar wacht, dat was onbeleefd van mij! Ik moet mij nog voorstellen.\n"
+"Maar wacht, dat was onbeleefd van me! Ik moet mij nog voorstellen.\n"
 "Ik ben [Sam Aaron]( http://twitter.com/samaaron ) de kerel die Sonic Pi "
-"creëerde.\n"
+"heeft gemaakt.\n"
 "Je vind mij als [@samaaron](http://twitter.com/samaaron) op Twitter en ik "
-"zal heel blij zijn om je daar te kunnen begroeten. Misschien ben je ook "
-"geïnteresseerd om meer te weten te komen over mijn [Live Coding "
+"zal heel blij zijn je daar te begroeten. Misschien ben je ook geïnteresseerd "
+"om meer te weten te komen over mijn [Live Coding "
 "Performances](https://youtube.com/samaaron) waar ik, voor publiek, live "
 "codeer met Sonic Pi."
 
@@ -143,10 +143,6 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 0.5\n"
-"end"
 
 #: 01.1-Live-Coding.md:28
 msgid ""
@@ -204,11 +200,6 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
-"live_loop :typmaarlustig do\n"
-"  sample :ambi_choir, rate: 0.3\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 1\n"
-"end"
 
 #: 01.1-Live-Coding.md:51
 msgid ""
@@ -241,11 +232,6 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
-"live_loop :typmaarlustig do\n"
-"  sample :ambi_choir, rate: 0.3\n"
-"#  sample :bd_haus, rate: 1\n"
-"  sleep 1\n"
-"end"
 
 #: 01.1-Live-Coding.md:70
 msgid ""
@@ -332,19 +318,6 @@ msgid ""
 "  sleep 8\n"
 "end"
 msgstr ""
-"live_loop :guit do\n"
-"  with_fx :echo, mix: 0.3, phase: 0.25 do\n"
-"    sample :guit_em9, rate: 0.5\n"
-"  end\n"
-"#  sample :guit_em9, rate: -0.5\n"
-"  sleep 8\n"
-"end\n"
-"live_loop :boom do\n"
-"  with_fx :reverb, room: 1 do\n"
-"    sample :bd_boom, amp: 10, rate: 1\n"
-"  end\n"
-"  sleep 8\n"
-"end"
 
 #: 01.1-Live-Coding.md:111
 msgid ""
@@ -477,13 +450,13 @@ msgid ""
 "trange at first, but you'll soon find it very useful. For example, you'll know"
 " something is a number because it is blue."
 msgstr ""
-"Dit is het gebied waarin je jouw code schrijft en muziek componeert/uitvoert. "
-"Het is een eenvoudige tekst-editor, waarin je code kan schrijven, verwijderen,"
-" knippen en plakken, enz. Denk aan een zeer eenvoudige versie van Word of Goog"
-"le Docs. De editor zal de kleur van woorden automatisch aanpassen op basis van"
-" hun betekenis in de code. Dit lijkt misschien eerst wat vreemd, maar je zal d"
-"it snel heel nuttig vinden. Bijvoorbeeld als het het blauw ziet, dan weet je d"
-"at het om een getal gaat."
+"Dit is het gebied waarin je jouw code schrijft en muziek componeert/"
+"uitvoert. Het is een eenvoudige tekst-editor, waarin je code kan schrijven, "
+"verwijderen, knippen en plakken, enz. Denk aan een zeer eenvoudige versie "
+"van Word of Google Docs. De editor zal de kleur van woorden automatisch "
+"aanpassen op basis van hun betekenis in de code. Dit lijkt misschien eerst "
+"wat vreemd, maar je zal dit snel heel nuttig vinden. Bijvoorbeeld als het "
+"woord blauw is, dan weet je dat het om een getal gaat."
 
 #: 01.2-Exploring-the-Interface.md:54
 msgid "E. Prefs Panel"
@@ -734,7 +707,7 @@ msgstr "Bestudeer de volgende code:"
 #: A.20-creative-coding-in-the-classroom.md:158
 #, no-wrap
 msgid "play 70"
-msgstr "play 70"
+msgstr ""
 
 #: 02.1-Your-First-Beeps.md:11
 msgid ""
@@ -766,7 +739,7 @@ msgstr ""
 #: 02.1-Your-First-Beeps.md:23
 #, no-wrap
 msgid "play 75"
-msgstr "play 75"
+msgstr ""
 
 #: 02.1-Your-First-Beeps.md:27
 msgid "Can you hear the difference? Try a lower number:"
@@ -775,7 +748,7 @@ msgstr "Hoor je het verschil? Probeer een lager getal:"
 #: 02.1-Your-First-Beeps.md:29
 #, no-wrap
 msgid "play 60"
-msgstr "play 60"
+msgstr ""
 
 #: 02.1-Your-First-Beeps.md:33
 msgid ""
@@ -833,9 +806,6 @@ msgid ""
 "play 75\n"
 "play 79"
 msgstr ""
-"play 72\n"
-"play 75\n"
-"play 79"
 
 #: 02.1-Your-First-Beeps.md:55
 msgid ""
@@ -871,11 +841,6 @@ msgid ""
 "sleep 1\n"
 "play 79"
 msgstr ""
-"play 72\n"
-"sleep 1\n"
-"play 75\n"
-"sleep 1\n"
-"play 79"
 
 #: 02.1-Your-First-Beeps.md:73
 msgid ""
@@ -900,11 +865,6 @@ msgid ""
 "sleep 0.5\n"
 "play 79"
 msgstr ""
-"lay 72\n"
-"sleep 0.5\n"
-"play 75\n"
-"sleep 0.5\n"
-"play 79"
 
 #: 02.1-Your-First-Beeps.md:87
 msgid ""
@@ -950,11 +910,6 @@ msgid ""
 "sleep 0.5\n"
 "play :E"
 msgstr ""
-"play :C\n"
-"sleep 0.5\n"
-"play :D\n"
-"sleep 0.5\n"
-"play :E"
 
 #: 02.1-Your-First-Beeps.md:110
 msgid ""
@@ -974,11 +929,6 @@ msgid ""
 "sleep 0.5\n"
 "play :E4"
 msgstr ""
-"play :C3\n"
-"sleep 0.5\n"
-"play :D3\n"
-"sleep 0.5\n"
-"play :E4"
 
 #: 02.1-Your-First-Beeps.md:122
 msgid ""
@@ -1179,7 +1129,7 @@ msgstr ""
 #: 02.2-Synth-Params.md:84
 #, no-wrap
 msgid "play 60, amp: 0.5"
-msgstr "play 60, amp: 0.5"
+msgstr ""
 
 #: 02.2-Synth-Params.md:88
 msgid "To play at double amplitude pass 2:"
@@ -1188,7 +1138,7 @@ msgstr "Afspelen op een dubbel zo hoge amplitude gebruik dan 2:"
 #: 02.2-Synth-Params.md:90
 #, no-wrap
 msgid "play 60, amp: 2"
-msgstr "play 60, amp: 2"
+msgstr ""
 
 #: 02.2-Synth-Params.md:94
 msgid ""
@@ -1207,9 +1157,6 @@ msgid ""
 "sleep 0.5\n"
 "play 65"
 msgstr ""
-"play 60, amp: 0.5\n"
-"sleep 0.5\n"
-"play 65"
 
 #: 02.2-Synth-Params.md:104
 msgid "Of course, you can use different `amp:` values for each call to play:"
@@ -1227,13 +1174,6 @@ msgid ""
 "sleep 0.25\n"
 "play 62, amp: 1"
 msgstr ""
-"play 50, amp: 0.1\n"
-"sleep 0.25\n"
-"play 55, amp: 0.2\n"
-"sleep 0.25\n"
-"play 57, amp: 0.4\n"
-"sleep 0.25\n"
-"play 62, amp: 1"
 
 #: 02.2-Synth-Params.md:116
 msgid "Panning"
@@ -1263,7 +1203,7 @@ msgstr "Laten we eens een bliepje uit de linker-luidspreker laten horen:"
 #: 02.2-Synth-Params.md:128
 #, no-wrap
 msgid "play 60, pan: -1"
-msgstr "play 60, pan: -1"
+msgstr ""
 
 #: 02.2-Synth-Params.md:132
 msgid "Now, let's play it out of the right speaker:"
@@ -1272,7 +1212,7 @@ msgstr "En nu uit de rechter-luidspreker:"
 #: 02.2-Synth-Params.md:134
 #, no-wrap
 msgid "play 60, pan: 1"
-msgstr "play 60, pan: 1"
+msgstr ""
 
 #: 02.2-Synth-Params.md:138
 msgid "Finally let's play it back out of the center of both (the default position):"
@@ -1281,7 +1221,7 @@ msgstr "En nu terug vanuit het midden (standaard positie):"
 #: 02.2-Synth-Params.md:141
 #, no-wrap
 msgid "play 60, pan: 0"
-msgstr "play 60, pan: 0"
+msgstr ""
 
 #: 02.2-Synth-Params.md:145
 msgid "Now, go and have fun changing the amplitude and panning of your sounds!"
@@ -1320,12 +1260,12 @@ msgid ""
 "xpressive and you'll have a lot of fun exploring and playing with them. First,"
 " let's learn how to select the current synth to use."
 msgstr ""
-"Sonic Pi heeft een scala aan instrumenten, synths genaamd (dat is kort voor "
-"synthesizers. Waar samples reeds opgenomen klanken vertegenwoordigen, zijn "
+"Sonic Pi heeft een scala aan instrumenten, synths genaamd (dat is *kort voor "
+"synthesizers*). Waar samples reeds opgenomen klanken vertegenwoordigen, zijn "
 "synths in staat om nieuwe klanken te genereren, afhankelijk van hoe je deze "
 "instelt (dat gaan we later in deze handleiding ontdekken). Sonic Pi's synths "
 "zijn heel krachtig en expressief en je zal er veel plezier aan beleven om "
-"deze te leren kenen en te gebruiken. Maar eerst gaan we leren hoe we er een "
+"deze te leren kennen en te gebruiken. Maar eerst gaan we leren hoe we er een "
 "kunnen selecteren."
 
 #: 02.3-Switching-Synths.md:21
@@ -1338,7 +1278,6 @@ msgstr "Een leuk geluid is de *zaagtand-golf*, laten we deze eens uitproberen:"
 
 #: 02.3-Switching-Synths.md:25
 #, no-wrap
-#, fuzzy
 msgid ""
 "use_synth :saw\n"
 "play 38\n"
@@ -1347,13 +1286,6 @@ msgid ""
 "sleep 0.25\n"
 "play 62"
 msgstr ""
-"use_synth :saw\n"
-"play 38\n"
-"sleep 0.25\n"
-"play 50\n"
-"sleep 0.25\n"
-"play 62\n"
-"sleep 0.25"
 
 #: 02.3-Switching-Synths.md:34
 msgid "Let's try another sound - the *prophet*:"
@@ -1361,7 +1293,6 @@ msgstr "Laten we nog een ander geluid proberen, de *prophet*:"
 
 #: 02.3-Switching-Synths.md:36
 #, no-wrap
-#, fuzzy
 msgid ""
 "use_synth :prophet\n"
 "play 38\n"
@@ -1370,13 +1301,6 @@ msgid ""
 "sleep 0.25\n"
 "play 62"
 msgstr ""
-"use_synth :prophet\n"
-"play 38\n"
-"sleep 0.25\n"
-"play 50\n"
-"sleep 0.25\n"
-"play 62\n"
-"sleep 0.25"
 
 #: 02.3-Switching-Synths.md:45
 msgid "How about combining two sounds. First one after another:"
@@ -1386,7 +1310,6 @@ msgstr ""
 
 #: 02.3-Switching-Synths.md:47
 #, no-wrap
-#, fuzzy
 msgid ""
 "use_synth :saw\n"
 "play 38\n"
@@ -1396,14 +1319,6 @@ msgid ""
 "use_synth :prophet\n"
 "play 57"
 msgstr ""
-"use_synth :saw\n"
-"play 38\n"
-"sleep 0.25\n"
-"play 50\n"
-"sleep 0.25\n"
-"use_synth :prophet\n"
-"play 57\n"
-"sleep 0.25"
 
 #: 02.3-Switching-Synths.md:57
 msgid ""
@@ -1423,12 +1338,6 @@ msgid ""
 "use_synth :prophet\n"
 "play 57"
 msgstr ""
-"use_synth :tb303\n"
-"play 38\n"
-"use_synth :dsaw\n"
-"play 50\n"
-"use_synth :prophet\n"
-"play 57"
 
 #: 02.3-Switching-Synths.md:69
 msgid ""
@@ -1503,9 +1412,9 @@ msgid ""
 "rol when to trigger our sounds. However, we haven't yet been able to control t"
 "he duration of our sounds."
 msgstr ""
-"In een eerdere sectie, hebben we gezien hoe we de opdracht `sleep` gebruiken "
-"om te bepalen wanneer we onze geluiden activeren. We zijn echter nog niet in "
-"staat geweest om te bepalen hoe lang ons geluid duurt."
+"In een eerdere sectie, hebben we gezien hoe we de opdracht `sleep` konden "
+"gebruiken om te bepalen wanneer we onze geluiden activeren. We zijn echter "
+"nog niet in staat geweest om te bepalen hoe lang ons geluid duurt."
 
 #: 02.4-Durations-with-Envelopes.md:9
 msgid ""
@@ -1571,12 +1480,12 @@ msgid ""
 "Just to recap, as we have seen before, an amplitude of 0 is silence and an amp"
 "litude of 1 is normal volume."
 msgstr ""
-"Even recapituleren, zoals we eerder hebben gezien, is een amplitude van 0 is s"
-"tilte en een amplitude van 1 is het normale volume."
+"Even herhalen, zoals we eerder hebben gezien, staat een amplitude van 0 voor "
+"stilte en een amplitude van 1 voor het normale volume."
 
 #: 02.4-Durations-with-Envelopes.md:40
 msgid "Now, let us look at each of the parts of the envelopes in turn."
-msgstr "Laten we nu kijken naar elk onderdeel van de envelop."
+msgstr "Laten we nu eens kijken naar elk afzonderlijk onderdeel van de envelop."
 
 #: 02.4-Durations-with-Envelopes.md:42
 msgid "Release Phase"
@@ -1589,23 +1498,24 @@ msgid ""
 "ease time of 1 which means that by default they have a duration of 1 beat (whi"
 "ch at the default BPM of 60 is 1 second):"
 msgstr ""
-"Het enige deel van de envelop die standaard wordt gebruikt is de release tijd."
-" Dit is de tijd die nodig is om het geluid van een synth uit te vervagen. Alle"
-" synthesizers hebben een release tijd van 1, wat betekent dat ze standaard een"
-" duur van 1 beat hebben (en dus op onze standaard 60 BPM, 1 seconde lang is):"
+"Het enige deel van de envelop dat standaard wordt gebruikt is de release "
+"tijd. Dit is de tijd die nodig is om het geluid van een synth te reduceren "
+"tot stilte. Alle synths hebben een release tijd van 1, wat betekent dat ze "
+"standaard een duur van 1 beat hebben (en dus op onze standaard 60 BPM, 1 "
+"seconde lang is):"
 
 #: 02.4-Durations-with-Envelopes.md:53
 msgid ""
 "The note will be audible for 1 second. Go ahead and time it :-) This is short "
 "hand for the longer more explicit version:"
 msgstr ""
-"De noot zal 1 seconde lang hoorbaar zijn. Chronometreer maar :-) Dit is de ver"
-"korting van de langere, meer uitgesproken versie:"
+"De noot zal 1 seconde lang hoorbaar zijn. Controleer het maar met je "
+"stopwatch :-) Dit is de verkorting voor het langere, meer expliciete:"
 
 #: 02.4-Durations-with-Envelopes.md:56
 #, no-wrap
 msgid "play 70, release: 1"
-msgstr "play 70, release: 1"
+msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:60
 msgid ""
@@ -1613,27 +1523,27 @@ msgid ""
 "ver, it's now very easy to change the duration by modifying the value of the `"
 "release:` opt:"
 msgstr ""
-"Merk op dat deze exact hetzelfde klinkt (de klank duurt één seconde). Het is d"
-"us heel makkelijk om de duurtijd in te stellen door de waarde te veranderen va"
-"n de  `release:` optie:"
+"Merk op dat deze exact hetzelfde klinkt (de klank duurt één seconde). Het is "
+"dus heel makkelijk om de duurtijd in te stellen door de waarde van de "
+"`release:` optie te veranderen:"
 
 #: 02.4-Durations-with-Envelopes.md:64
 #, no-wrap
 msgid "play 60, release: 2"
-msgstr "play 60, release: 2"
+msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:68
 msgid ""
 "We can make the synth sound for a very short amount of time by using a very sm"
 "all release time:"
 msgstr ""
-"We kunnen de synth voor een heel korte tijd laten klinken door een heel korte "
-"release tijd te gebruiken:"
+"We kunnen de synth een heel kort laten klinken door een heel kleine release "
+"tijd te gebruiken:"
 
 #: 02.4-Durations-with-Envelopes.md:71
 #, no-wrap
 msgid "play 60, release: 0.2"
-msgstr "play 60, release: 0.2"
+msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:75
 msgid ""
@@ -1641,16 +1551,15 @@ msgid ""
 "default is a linear transition (i.e. a straight line). The following diagram i"
 "llustrates this transition:"
 msgstr ""
-"De duur van het “vrijlaten\" van het geluid noemen we de *release fase* en staa"
-"t standaard op een lineaire overgang ingesteld (dwz rechtlijnig).Het volgende "
-"diagram illustreert deze overgang:"
+"De duur van het \"vrijlaten\" van het geluid noemen we de *release fase* en "
+"staat standaard ingesteld op een \"lineair\" verloop ingesteld (d.w.z. in "
+"een rechte lijn). Het volgende diagram illustreert deze overgang:"
 
 #: 02.4-Durations-with-Envelopes.md:79
 msgid "![release envelope](../../../etc/doc/images/tutorial/env-release.png)"
 msgstr "![release envelope](../../../etc/doc/images/tutorial/env-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:81
-#, fuzzy
 msgid ""
 "The vertical line at the far left of the diagram shows that the sound starts a"
 "t 0 amplitude, but goes up to full amplitude immediately (this is the attack p"
@@ -1658,20 +1567,21 @@ msgid ""
 "ht line down to zero taking the amount of time specified by `release:`. *Longe"
 "r release times produce longer synth fade outs.*"
 msgstr ""
-"De verticale lijn aan de linkerkant van het diagram toont ons dat het geluid b"
-"ij amplitude 0 begint, onmiddellijk klimt naar volledige amplitude (dit is de "
-" aanslag fase, die zullen we vervolgens bespreken). Eens bij volledige amplitu"
-"de gaat het in een rechte lijn naar nul zakken in de tijd die is opgegeven met"
-" `release:`. *Langere release tijden leveren een langer verloop, waarmee het g"
-"eluid van de synth uitvaagt, op*"
+"De verticale lijn aan de linkerkant van het diagram toont ons dat het geluid "
+"bij geluidssterkte 0 begint en onmiddellijk naar volledige sterkte klimt ("
+"dit is de aanslag fase, die gaan we hierna bespreken). Zodra het geluid op "
+"volle sterkte is zal de sterkte in een rechte lijn naar nul zakken. In de "
+"tijdsduur die is aangegeven met `release:`. *Langere release tijden leveren "
+"een langer verloop, waarmee het geluid van de synth uitvaagt, op.*"
 
 #: 02.4-Durations-with-Envelopes.md:88
 msgid ""
 "You can therefore change the duration of your sound by changing the release ti"
 "me. Have a play adding release times to your music."
 msgstr ""
-"Je kan dus de duurtijd van je klank veranderen aan de hand van de release tijd"
-". Speel hier even mee, door deze release tijden toe te voegen aan je klanken."
+"Je kan dus de duurtijd van je klank veranderen aan de hand van de `release:` "
+"tijd. Speel hier even mee, door `release:` tijden toe te voegen aan je "
+"geluiden."
 
 #: 02.4-Durations-with-Envelopes.md:91
 msgid "Attack Phase"
@@ -1684,11 +1594,11 @@ msgid ""
 ". However, you may wish to fade your sound in. This can be achieved with the `"
 "attack:` opt. Try fading in some sounds:"
 msgstr ""
-"De aanslag fase is voor alle synths standaard ingesteld op 0, wat betekend dat"
-" deze onmiddellijk van 0 naar 1 gaat. Dit geeft aan de synth een korte hevige "
-"klank zoals bij een percussie-instrument. Maar misschien wil je je geluid zach"
-"tjes luider laten worden. Dit kunnen we met de `attack:` optie. Probeer nu een"
-"s van klanken te laten aanzwellen:"
+"De *aanslag fase* is voor alle synths standaard ingesteld op 0, wat betekend "
+"dat deze qua sterkte onmiddellijk van 0 naar 1 gaat. Dit geeft aan de synth "
+"een korte hevige klank zoals bij een percussie-instrument. Maar misschien "
+"wil je je geluid zachtjes luider laten worden. Dit kunnen we bereiken met de "
+"`attack:` optie. Probeer nu eens je geluiden te laten aanzwellen:"
 
 #: 02.4-Durations-with-Envelopes.md:98
 #, no-wrap
@@ -1697,30 +1607,27 @@ msgid ""
 "sleep 3\n"
 "play 65, attack: 0.5"
 msgstr ""
-"play 60, attack: 2\n"
-"sleep 3\n"
-"play 65, attack: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:104
 msgid ""
 "You may use multiple opts at the same time. For example for a short attack and"
 " a long release try:"
 msgstr ""
-"Je kan meerdere opties tegelijk kiezen. Probeer deze bijvoorbeeld voor een kor"
-"tere aanslag en een langere uitloop:"
+"Je kan meerdere opties tegelijk gebruiken. Probeer deze bijvoorbeeld eens "
+"voor een kortere aanslag met een langere uitloop:"
 
 #: 02.4-Durations-with-Envelopes.md:107
 #, no-wrap
 msgid "play 60, attack: 0.7, release: 4"
-msgstr "play 60, attack: 0.7, release: 4"
+msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:111
 msgid ""
 "This short attack and long release envelope is illustrated in the following di"
 "agram:"
 msgstr ""
-"Deze korte attack en lange release envelop wordt geïllustreerd in het volgende"
-" diagram:"
+"Deze korte `attack:` en lange `release:` envelop zie je in het volgende "
+"diagram afgebeeld:"
 
 #: 02.4-Durations-with-Envelopes.md:114
 msgid ""
@@ -1735,13 +1642,13 @@ msgid ""
 "Of course, you may switch things around. Try a long attack and a short release"
 ":"
 msgstr ""
-"Natuurlijk, kan je de dingen omdraaien. Probeer een lange attack en een korte "
-"release:"
+"Natuurlijk, kan je de dingen omdraaien. Probeer eens een lange attack en een "
+"korte release:"
 
 #: 02.4-Durations-with-Envelopes.md:119
 #, no-wrap
 msgid "play 60, attack: 4, release: 0.7"
-msgstr "play 60, attack: 4, release: 0.7"
+msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:123
 msgid ""
@@ -1755,12 +1662,14 @@ msgstr ""
 msgid ""
 "Finally, you can also have both short attack and release times for shorter sou"
 "nds."
-msgstr "Voorts kan je ook korte Attack en release tijden hebben voor korte klanken."
+msgstr ""
+"Als laastste, kan je natuurlijk ook korte attack en release tijden instellen "
+"voor korte geluiden."
 
 #: 02.4-Durations-with-Envelopes.md:128
 #, no-wrap
 msgid "play 60, attack: 0.5, release: 0.5"
-msgstr "play 60, attack: 0.5, release: 0.5"
+msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:132
 msgid ""
@@ -1772,7 +1681,7 @@ msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:134
 msgid "Sustain Phase"
-msgstr "SustainFase"
+msgstr "Sustain fase"
 
 #: 02.4-Durations-with-Envelopes.md:136
 msgid ""
@@ -1780,14 +1689,15 @@ msgid ""
 "tain time to control the *sustain phase*. This is the time for which the sound"
 " is maintained at full amplitude between the attack and release phases."
 msgstr ""
-"Naast het opgeven van attack en release tijden, u kunt ook een sustain-tijd op"
-"geven om de *sustain fase* in te stellen. Dit is de tijd dat het geluid bij ee"
-"n volledige amplitude tussen de attack en de release fase wordt gehandhaafd."
+"Naast het opgeven van attack en release tijden, u kunt ook een sustain-tijd "
+"opgeven om de *sustain fase* in te stellen. Dit is de tijd dat het geluid "
+"bij een volledige amplitude tussen de attack en de release fase wordt "
+"aangehouden."
 
 #: 02.4-Durations-with-Envelopes.md:141
 #, no-wrap
 msgid "play 60, attack: 0.3, sustain: 1, release: 1"
-msgstr "play 60, attack: 0.3, sustain: 1, release: 1"
+msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:145
 msgid ""
@@ -1806,12 +1716,13 @@ msgid ""
 "d, a release of 0 can produce clicks in the audio and it's often better to use"
 " a very small value such as 0.2."
 msgstr ""
-"De sustain-tijd is nuttig voor de klanken die je een volledige tegenwoordighei"
-"d in de mix wil geven voordat deze een release fase doorlopen. Natuurlijk, is "
-"het volkomen geldig om zowel de `attack:` als de  `release:` optie in te stell"
-"en op 0, om gewoon geen fade in- of fade out aan het geluid toe te voegen. Maa"
-"r hier moet je mee opletten, een release van 0 kan klikjes in de audio produce"
-"ren en het is vaak beter om een zeer kleine waarde te gebruiken zoals 0,2."
+"De sustain-tijd is nuttig voor de geluiden die je een volledige aanwezigheid "
+"in de mix wil geven voordat deze een optionele release fase ingaan. "
+"Natuurlijk, is het volkomen correct om zowel de `attack:` als de `release:` "
+"optie in te stellen op 0, om gewoon geen fade in- of fade out aan het geluid "
+"toe te voegen. Maar hier moet je mee opletten, een release van 0 kan klikjes "
+"in de audio produceren en het is vaak dan ook beter om dan een zeer kleine "
+"waarde te gebruiken zoals 0,2."
 
 #: 02.4-Durations-with-Envelopes.md:154
 msgid "Decay Phase"
@@ -1826,13 +1737,13 @@ msgid ""
 "l:`). By default, the `decay:` opt is 0 and both the attack and sustain levels"
 " are 1 so you'll need to specify them for the decay time to have any effect:"
 msgstr ""
-"Voor een extra controle niveau kunt u ook de verval tijd instellen. Dit is de "
-"fase van de envelop die past tussen de attack en sustain fasen en geeft u een "
-"tijdwaarde waarbij de amplitude zal dalen het  `attack_niveau:` naar het `deca"
-"y_niveau:` (die, tenzij u die expliciet instelt, op het ' sustain_niveau:' geb"
-"racht zal worden). Standaard, is de `decay:` optie 0 en hebben zowel attack en"
-" sustain niveaus zijn 1, deze zal je dus moeten opgeven voor de verval  tijd e"
-"ffect heeft:"
+"Voor een nog beetje extra controle kun je ook de verval tijd instellen. Dit "
+"is de fase van de envelop die past tussen de attack en sustain fasen en de "
+"tijd aangeeft waarin de amplitude zal dalen van het `attack_level:` naar het "
+"`decay_level:` (die, tenzij u die expliciet instelt, op het `sustain_level:` "
+"gebracht zal worden). Standaard, is de `decay:` optie 0 en hebben zowel "
+"attack en sustain niveaus een waarde van 1, deze zal je dus moeten opgeven "
+"wil je dat de verval tijd effect heeft:"
 
 #: 02.4-Durations-with-Envelopes.md:164
 #, no-wrap
@@ -1840,8 +1751,6 @@ msgid ""
 "play 60, attack: 0.1, attack_level: 1, decay: 0.2, sustain_level: 0.4, sustain"
 ": 1, release: 0.5"
 msgstr ""
-"play 60, attack: 0.1, attack_level: 1, decay: 0.2, sustain_level: 0.4, sustain"
-": 1, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:168
 msgid ""
@@ -1853,7 +1762,7 @@ msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:170
 msgid "Decay Level"
-msgstr "Verval niveau"
+msgstr "Verval niveau (Decay level)"
 
 #: 02.4-Durations-with-Envelopes.md:172
 msgid ""
@@ -1862,10 +1771,10 @@ msgid ""
 " full control over the envelope. This allows you to to create envelopes such a"
 "s the following:"
 msgstr ""
-"Eén laatste truc is dat, hoewel de `decay_level:` optie standaard dezelfde waa"
-"rde heeft ingesteld als `sustain_level:`, je deze wel expliciet kan instellen "
-"op verschillende waarden voor de volledige controle over de envelop. Hierdoor "
-"kan je een envelop maken zoals deze:"
+"Eén laatste truc is dat, hoewel de `decay_level:` optie standaard dezelfde "
+"waarde heeft ingesteld als `sustain_level:`, je deze wel expliciet kan "
+"instellen op verschillende waarden voor een volledige controle over de "
+"envelop. Hierdoor kan je een envelop als deze maken:"
 
 #: 02.4-Durations-with-Envelopes.md:177
 #, no-wrap
@@ -1873,8 +1782,6 @@ msgid ""
 "play 60, attack: 0.1, attack_level: 1, decay: 0.2, decay_level: 0.3, sustain: "
 "1, sustain_level: 0.4, release: 0.5"
 msgstr ""
-"play 60, attack: 0.1, attack_level: 1, decay: 0.2, decay_level: 0.3, sustain: "
-"1, sustain_level: 0.4, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:181
 msgid "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level.png)"
@@ -1885,8 +1792,8 @@ msgid ""
 "It's also possible to set the `decay_level:` to be higher than `sustain_level:"
 "`:"
 msgstr ""
-"Het is ook mogelijk om het  `decay_niveau:` hoger te zetten dan het `sustain_n"
-"iveau:`:"
+"Het is ook mogelijk om het `decay_level:` hoger in te stellen dan het "
+"`sustain_level:`:"
 
 #: 02.4-Durations-with-Envelopes.md:185
 #, no-wrap
@@ -1894,12 +1801,10 @@ msgid ""
 "play 60, attack: 0.1, attack_level: 0.1, decay: 0.2, decay_level: 1, sustain: "
 "0.5, sustain_level: 0.8, release: 1.5"
 msgstr ""
-"play 60, attack: 0.1, attack_level: 0.1, decay: 0.2, decay_level: 1, sustain: "
-"0.5, sustain_level: 0.8, release: 1.5"
 
 #: 02.4-Durations-with-Envelopes.md:189
 msgid "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level-2.png)"
-msgstr "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level-2.png"
+msgstr "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level-2.png)"
 
 #: 02.4-Durations-with-Envelopes.md:191
 msgid "ADSR Envelopes"
@@ -1911,23 +1816,23 @@ msgstr "Dus samengevat , hebben Sonic Pi's ADSR enveloppen de volgende fasen:"
 
 #: 02.4-Durations-with-Envelopes.md:195
 msgid "*attack* - time from 0 amplitude to the `attack_level`,"
-msgstr "*attack* - tijd vanaf 0 amplitude naar `attack_niveau`,"
+msgstr "*attack* - tijd vanaf 0 amplitude naar `attack_level`,"
 
 #: 02.4-Durations-with-Envelopes.md:196
 msgid "*decay* - time to move amplitude from `attack_level` to `decay_level`,"
 msgstr ""
-"*decay* - tijd om de amplitude van `attack_niveau` naar `decay_niveau` te bren"
-"gen,"
+"*decay* - tijd om de amplitude van `attack_level` naar `decay_level` te "
+"brengen,"
 
 #: 02.4-Durations-with-Envelopes.md:197
 msgid "*sustain* - time to move the amplitude from `decay_level` to `sustain_level`,"
 msgstr ""
-"*sustain* - tijd om de amplitude van `decay_niveau` naar `sustain_niveau` te b"
-"rengen,"
+"*sustain* - tijd om de amplitude van `decay_level` naar `sustain_level` te "
+"brengen,"
 
 #: 02.4-Durations-with-Envelopes.md:198
 msgid "*release* - time to move amplitude from `sustain_level` to 0"
-msgstr "*release* - tijd om de amplitude van `sustain_niveau` naar 0 te brengen"
+msgstr "*release* - tijd om de amplitude van `sustain_level` naar 0 te brengen"
 
 #: 02.4-Durations-with-Envelopes.md:200
 msgid ""
@@ -1935,9 +1840,9 @@ msgid ""
 "mes of each of these phases. Therefore the following sound will have a duratio"
 "n of 0.5 + 1 + 2 + 0.5 = 4 beats:"
 msgstr ""
-"Het is belangrijk op te merken dat de duur van een geluid de som is van van de"
-" tijd van elk van deze fasen. Daarom zal het volgende geluid een duur van 0,5 "
-"+ 1 + 2 + 0,5 = 4 hebben:"
+"Het is belangrijk op te merken dat de duur van een geluid de som is van van "
+"de tijd van elk van deze fasen. Daarom zal het volgende geluid een duur van "
+"0,5 + 1 + 2 + 0,5 = 4 beats hebben:"
 
 #: 02.4-Durations-with-Envelopes.md:204
 #, no-wrap
@@ -1945,12 +1850,11 @@ msgid ""
 "play 60, attack: 0.5, attack_level: 1, decay: 1, sustain_level: 0.4, sustain: "
 "2, release: 0.5"
 msgstr ""
-"play 60, attack: 0.5, attack_level: 1, decay: 1, sustain_level: 0.4, sustain: "
-"2, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:208
 msgid "Now go and have a play adding envelopes to your sounds..."
-msgstr "Nu gaan we hiermee spelen, door deze envelop aan jouw klanken toe te voegen…"
+msgstr ""
+"Ga hier nu maar mee spelen en voeg je eigen envelop aan jouw geluiden toe…"
 
 #: 03-Samples.md:1
 msgid "3 Samples"
@@ -2054,35 +1958,34 @@ msgstr ""
 "play 36"
 
 #: 03.1-Triggering-Samples.md:36
-#, fuzzy
 msgid ""
 "Notice how Sonic Pi doesn't wait for a sound to finish before starting the nex"
 "t sound. The `sleep` command only describes the separation of the *triggering*"
 " of the sounds. This allows you to easily layer sounds together creating inter"
 "esting overlap effects."
 msgstr ""
-"Merk op hoe Sonic Pi niet zal wachten om een geluid te voltooien voordat het v"
-"olgende geluid begint. De opdracht `sleep` beschrijft alleen de scheiding tuss"
-"en het *activeren* van de geluiden. Hierdoor kan je makkelijk verschillende la"
-"gen van klanken creëren die een interessant effect kunnen hebben door overlapp"
-"ing. Verderop in deze handleiding zullen we een kijkje  nemen om de *duur* van"
-" geluiden met enveloppen in te stellen."
+"Merk op hoe Sonic Pi niet zal wachten om een geluid te voltooien voordat het "
+"volgende geluid begint. De opdracht `sleep` beschrijft alleen de scheiding "
+"tussen het *activeren* van de geluiden. Hierdoor kan je makkelijk "
+"verschillende lagen van klanken creëren die een interessant effect kunnen "
+"hebben door overlapping. Verderop in deze handleiding zullen we een kijkje "
+"nemen hoe je de *duur* van geluiden met enveloppen in te stellen."
 
 #: 03.1-Triggering-Samples.md:42
 msgid "Discovering Samples"
 msgstr "Samples Ontdekken"
 
 #: 03.1-Triggering-Samples.md:44
-#, fuzzy
 msgid ""
 "There are two ways to discover the range of samples provided in Sonic Pi. Firs"
 "t, you can use this help system. Click on Samples in the menu at the bottom of"
 " this help screen, choose your category and then you'll see a list of availabl"
 "e sounds."
 msgstr ""
-"Er zijn twee manieren om samples in Sonic Pi te verkennen. Eerst, kunt u dit h"
-"ulp-systeem gebruiken. Klik op Samples in het meest linkse verticale menu, kie"
-"s uw categorie en vervolgens ziet u een lijst met beschikbare geluiden."
+"Er zijn twee manieren om de samples in Sonic Pi te verkennen. Allereerst, "
+"kun je dit hulp-systeem gebruiken. Klik op Samples in het menu onderaan het "
+"dit hulp venster, kies een categorie en vervolgens zie je een lijst met "
+"beschikbare geluiden."
 
 #: 03.1-Triggering-Samples.md:49
 msgid ""
@@ -2208,7 +2111,7 @@ msgstr ""
 
 #: 03.3-Stretching-Samples.md:1
 msgid "3.3 Stretching Samples"
-msgstr "3.3  Samples Stretchen"
+msgstr "3.3 Samples Stretchen"
 
 #: 03.3-Stretching-Samples.md:3
 msgid "Stretching Samples"
@@ -2352,15 +2255,15 @@ msgid "sample :loop_amen, rate: -1"
 msgstr "sample :loop_amen, rate: -1"
 
 #: 03.3-Stretching-Samples.md:72
-#, fuzzy
 msgid ""
 "Woah! It plays it *backwards*! Now try playing with lots of different samples "
 "at different rates. Try very fast rates. Try really slow rates. See what inter"
 "esting sounds you can produce."
 msgstr ""
-"Woah! Nu speelt het *achteruit*! Proberen nu met een heleboel verschillende sa"
-"mples aan verschillende koerssnelheden te spelen. Probeer zeer snelle rates. P"
-"robeer gek trage rates. Zie welke interessante geluiden je zo kan produceren."
+"Woah! Nu speelt het *achteruit*! Proberen nu eens met een heleboel "
+"verschillende samples op verschillende snelheden te spelen. Probeer maar "
+"eens zeer hoge snelheden. Probeer hele lage snelheden. Kijk maar welke "
+"interessante geluiden je zo kan produceren."
 
 #: 03.3-Stretching-Samples.md:76
 msgid "A Simple Explanation of Sample Rate"
@@ -2758,11 +2661,11 @@ msgstr ""
 
 #: 03.5-Partial-Samples.md:1
 msgid "3.5 Partial Samples"
-msgstr "3.5 gedeeltelijke Samples"
+msgstr "3.5 Gedeeltelijke Samples"
 
 #: 03.5-Partial-Samples.md:3
 msgid "Partial Samples"
-msgstr "gedeeltelijke Samples"
+msgstr "Gedeeltelijke Samples"
 
 #: 03.5-Partial-Samples.md:5
 msgid ""
@@ -3002,14 +2905,13 @@ msgid "Local Samples"
 msgstr "Lokale Samples"
 
 #: 03.6-External-Samples.md:28
-#, fuzzy
 msgid ""
 "So how do you play any arbitrary WAV, AIFF, OGG, OGA or FLAC file on your comp"
 "uter? All you need to do is pass the path of that file to `sample`:"
 msgstr ""
-"Dus hoe speel je elke willekeurige WAV-, AIFF- of FLAC-bestand op uw computer?"
-" Het enige wat je hoeft te doen is het pad opgeven van het bestand naar `sampl"
-"e`:"
+"Maar hoe speel je nou een willekeurig WAV-, AIFF-, OGG-, OGA- of FLAC-"
+"bestand van je computer? Het enige wat je hoeft te doen is het pad naar het "
+"bestand mee te geven aan `sample`:"
 
 #: 03.6-External-Samples.md:31
 #, no-wrap
@@ -3281,15 +3183,14 @@ msgstr ""
 "sample samps, \"120\", 1"
 
 #: 03.7-Sample-Packs.md:120
-#, fuzzy
 msgid ""
 "We can even use multiple filters at the same time. For example, if we want a s"
 "ample whose filename contains both the substrings `\"120\"` and `\"A#\"` we can fi"
 "nd it easily with the following code:"
 msgstr ""
-"We kunnen zelfs meerdere filters tegelijk gebruiken. Bijvoorbeeld, als we will"
-"en dat een sample waarvan de bestandsnaam zowel de subtekenreeksen \"120\" en \"A"
-"#\" bevat, kunnen we die met de volgende code gemakkelijk terugvinden:"
+"We kunnen zelfs meerdere filters tegelijk gebruiken. Bijvoorbeeld, als we "
+"willen dat een sample waarvan de bestandsnaam zowel `\"120\"` en `\"A#\"` "
+"bevat, kunnen we die met de volgende code gemakkelijk terugvinden:"
 
 #: 03.7-Sample-Packs.md:124
 #, no-wrap
@@ -3320,27 +3221,26 @@ msgid "Sources"
 msgstr "Bronnen"
 
 #: 03.7-Sample-Packs.md:138
-#, fuzzy
 msgid ""
 "The sample filter pre-arg system understands two types of information: *source"
 "s* and *filters*. Sources are information used to create the list of potential"
 " candidates. A source can take two forms:"
 msgstr ""
-"Het prearg(-umenten) van het sample filtersysteem herkent twee informatie type"
-"s: bronnen en filters. Bronnen worden gebruikt om een lijst van potentiële te "
-"maken. Een bron kan twee vormen aannemen: Een bron kan twee vormen aannemen:"
+"De pre-arg(umenten) van het sample filtersysteem herkennen twee soorten "
+"informatie: *bronnen* en *filters*. Bronnen worden gebruikt om een lijst van "
+"potentiële kandidaten te maken. Een bron kan twee vormen aannemen:"
 
 #: 03.7-Sample-Packs.md:142
-#, fuzzy
 msgid "`\"/path/to/samples\"` - a string representing a valid path to a directory"
-msgstr "\"/pad/naar/samples\" - een tekenreeks dat een geldig pad naar een map weergeeft"
+msgstr ""
+"`\"/pad/naar/samples\"` - een tekenreeks dat een geldig pad naar een map "
+"weergeeft"
 
 #: 03.7-Sample-Packs.md:143
-#, fuzzy
 msgid "`\"/path/to/samples/foo.wav\"` - a string representing a valid path to a sample"
 msgstr ""
-"\"/pad/naar/samples/blabla.wav\" - en tekenreeks die een geldig pad naar een sam"
-"ple weergeeft"
+"`\"/pad/naar/samples/blabla.wav\"` - een tekenreeks dat een geldig pad naar "
+"een sample bestand weergeeft"
 
 #: 03.7-Sample-Packs.md:145
 msgid ""
@@ -3672,17 +3572,12 @@ msgstr ""
 
 #: 04-Randomisation.md:56
 #, no-wrap
-#, fuzzy
 msgid ""
 "loop do\n"
 "  sample :perc_bell, rate: rrand(0.125, 1.5)\n"
 "  sleep rrand(0.2, 2)\n"
 "end"
 msgstr ""
-"loop do\n"
-"  sample :perc_bell, rate: (rrand 0.125, 1.5)\n"
-"  sleep rrand(0.2, 2)\n"
-"end"
 
 #: 04-Randomisation.md:63
 msgid "Random cutoff"
@@ -5043,7 +4938,7 @@ msgstr ""
 
 #: 05.5-Functions.md:1
 msgid "5.5 Functions"
-msgstr "5.5 functies"
+msgstr "5.5 Functies"
 
 #: 05.5-Functions.md:3
 msgid "Functions"
@@ -5098,14 +4993,14 @@ msgstr ""
 "e beschrijving  zoals `refrein_stuk` of `lead_riff`."
 
 #: 05.5-Functions.md:27
-#, fuzzy
 msgid ""
 "Remember to prepend a colon `:` to the name of your function when you define i"
 "t. Function names should also start with a lower case letter, so use `:foo` ra"
 "ther than `:Foo`."
 msgstr ""
-"Vergeet niet van een dubbele punt `:` bij de naam van je functie te voegen wan"
-"neer je deze definieert."
+"Vergeet niet van een dubbele punt `:` voor de naam van je functie te zetten "
+"wanneer je deze definieert. Functie namen moeten beginnen met een kleine "
+"letter, gebruik dus `:bla` in plaats van `:Bla`."
 
 #: 05.5-Functions.md:31
 msgid "Calling functions"
@@ -5969,7 +5864,7 @@ msgstr ""
 
 #: 06-FX.md:1
 msgid "6 FX"
-msgstr "6 FX"
+msgstr "6 Effecten (FX)"
 
 #: 06-FX.md:3
 msgid "Studio FX"
@@ -6009,7 +5904,6 @@ msgid "Guitar Pedals"
 msgstr "Gitaar Pedalen"
 
 #: 06-FX.md:20
-#, fuzzy
 msgid ""
 "If all of this sounds a bit complicated, don't worry. Once you play around wit"
 "h it a little, it will all become quite clear. Before you do though, a simple "
@@ -6019,15 +5913,15 @@ msgid ""
 "ain) a reverb pedal. The output of the reverb pedal can then be plugged into t"
 "he amplifier:"
 msgstr ""
-"Als dit allemaal een beetje ingewikkeld klinkt, maak je geen zorgen. Eens je h"
-"iermee een beetje speelt, zal het allemaal duidelijk worden. Maar voor je eraa"
-"n begint, moet je weten dat het een werkt zoals bij gitaar effecten pedalen. E"
-"r zijn verschillende effect-pedalen te koop. Sommigen voegen een reverb-klank "
-"toe, andere distortion enz. Een gitarist zal zij of haar gitaar in één van de "
-"effect-pedalen pluggen, bv. distortion, en zal dan bvb een reverb effect in de"
-" uitgang van de eerste pedaal pluggen om het geluid door te schakelen (chain=k"
-"etting). De uitgang van de reverb-pedaal kan dan in de versterker geplugt word"
-"en:"
+"Als dit je allemaal een beetje ingewikkeld klinkt, maak je dan geen zorgen. "
+"Zodra je hier een beetje mee speelt word het allemaal duidelijk. Maar voor "
+"je zover bent, het is vergelijkbaar met hoe gitaar effect-pedalen werken. Er "
+"zijn verschillende effect-pedalen te koop. Sommigen voegen een nagalm toe, "
+"andere verstoring enz. Een gitarist zal zijn of haar gitaar in één van de "
+"effect-pedalen pluggen, bv. verstoring, en zal de uitgang hiervan deze met "
+"een kabel verbinden met de ingang van een nagalm-pedaal om het geluid door "
+"te schakelen (chain). De uitgang van de nagalm-pedaal kan dan in de "
+"versterker geplugd worden:"
 
 #: 06-FX.md:29
 #, no-wrap
@@ -6035,7 +5929,6 @@ msgid "Guitar -> Distortion -> Reverb -> Amplifier"
 msgstr "Gitaar -> Distortion -> Reverb -> Amplifier (Versterker)"
 
 #: 06-FX.md:33
-#, fuzzy
 msgid ""
 "This is called FX chaining. Sonic Pi supports exactly this. Additionally, each"
 " pedal often has dials and sliders to allow you to control how much distortion"
@@ -6045,13 +5938,14 @@ msgid ""
 "d of needing someone else to control things for you, that's where the computer"
 " steps in."
 msgstr ""
-"Dit heet FX chaining. Sonic Pi ondersteunt precies dit. Bovendien heeft elke p"
-"edaal vaak wijzerplaten en schuifregelaars zodat je kan bepalen hoeveel distor"
-"tion, reverb, echo enz je kan toepassen. Sonic Pi ondersteunt ook dit soort co"
-"ntrole. Tot slot kan je je bvb gitaristen voorstellen en dat iemand anders  me"
-"t de FX-besturingselementen speelt, terwijl zij aan het spelen zijn. Sonic Pi "
-"ondersteunt dit ook- maar in plaats van dat iemand anders  dingen voor jou con"
-"troleert, doet de computer dit."
+"Het aan elkaar knopen van effecten heet effecten ketten (\"FX chaining\"). "
+"Sonic Pi ondersteunt precies dit. Bovendien heeft elke pedaal vaak "
+"draaiknoppen en schuifregelaars zodat je kan bepalen hoeveel verstoring, "
+"nagalm, echo enz je wilt toepassen. Sonic Pi ondersteunt ook dit soort "
+"controle. Tot slot kan je je een gitarist voorstellen die lekker aan het "
+"spelen en dat iemand anders, terwijl hij aan het spelen is, met de effect-"
+"knoppen van de pedalen speelt. Sonic Pi ondersteunt dit ook - maar in plaats "
+"van dat iemand anders dingen voor jou regelt, doet de computer dit."
 
 #: 06-FX.md:41
 msgid "Let's explore FX!"
@@ -6059,7 +5953,7 @@ msgstr "Laten we FX verkennen!"
 
 #: 06.1-Adding-FX.md:1
 msgid "6.1 Adding FX"
-msgstr "6.1 FX  Toevoegen"
+msgstr "6.1 Effecten (FX) Toevoegen"
 
 #: 06.1-Adding-FX.md:3 13.1-Sound-In.md:26
 msgid "Adding FX"
@@ -6344,24 +6238,23 @@ msgid ""
 "ithin the inner do/end block such as `play 50` is first sent to the echo FX an"
 "d the sound of the echo FX is in turn sent out to the reverb FX."
 msgstr ""
-"Denk aan de audio als zou deze van binnenuit stromen. Het geluid van alle code"
-" binnen het binnenste do/end blok zoals 'play 50' wordt eerst verzonden naar d"
-"e echo FX en het geluid van de echo FX wordt op zijn beurt verstuurd naar de r"
-"everb FX."
+"Stel je voor dat het geluid binnen naar buiten stroomt. Het geluid van alle "
+"code binnen het binnenste do/end blok zoals `play 50` wordt eerst verzonden "
+"naar het echo effect en het geluid van het echo effect wordt op zijn beurt "
+"doorgestuurd naar het nagalm (reverb) effect."
 
 #: 06.1-Adding-FX.md:146
-#, fuzzy
 msgid ""
 "We may use very deep nestings for a huge range of results. However, be warned,"
 " the FX can use a lot of resources and when you nest them you're effectively r"
 "unning multiple FX simultaneously. So be sparing with your use of FX especiall"
 "y on low powered platforms such as the Raspberry Pi."
 msgstr ""
-"We kunnen heel diep nesten en deze gebruiken voor maffe resultaten. Maar wees "
-"hierbij gewaarschuwd, want de FX kunnen veel cpu gebruiken wanneer u effectief"
-" meerdere effecten nest die gelijktijdig worden uitgevoerd. Wees dus spaarzaam"
-" op uw gebruik van effecten zeker op laag aangedreven platforms zoals  Raspber"
-"ry Pi."
+"We kunnen heel diep nesten en zo voor maffe resultaten zorgen. Maar wees "
+"gewaarschuwd, want de effecten kunnen veel vragen van je computers "
+"rekenkracht, zeker wanneer je meerdere effecten nest die gelijktijdig worden "
+"uitgevoerd. Wees dus spaarzaam met uw gebruik van effecten zeker op minder "
+"krachtige computers zoals een Raspberry Pi."
 
 #: 06.1-Adding-FX.md:151
 msgid "Discovering FX"
@@ -6399,15 +6292,14 @@ msgid "slicer"
 msgstr "slicer"
 
 #: 06.1-Adding-FX.md:164
-#, fuzzy
 msgid "Now go wild and add FX everywhere for some amazing new sounds!"
 msgstr ""
-"Doe nu maar eens goed gek en zet overal effecten op voor wat verbazingwekkende"
-" nieuwe geluiden!"
+"Doe nu maar eens gek en zet overal effecten op voor verbazingwekkende nieuwe "
+"geluiden!"
 
 #: 06.2-FX-in-Practice.md:1
 msgid "6.2 FX in Practice"
-msgstr "6.2 FX in de praktijk"
+msgstr "6.2 Effecten (FX) in de praktijk"
 
 #: 06.2-FX-in-Practice.md:3
 msgid "FX in Practice"
@@ -7735,9 +7627,9 @@ msgid "`.shuffle` - creates a shuffled version of the ring"
 msgstr "'.shuffle' - creëert een geshuffelde versie van de ring"
 
 #: 08.5-Ring-Chains.md:71
-#, fuzzy
 msgid "`.pick` - returns a ring with the results of calling `.choose` once"
-msgstr "'.pick(3)' - geeft een ring met de resultaten van de aanroep `.choose` 3 keer"
+msgstr ""
+"`.pick` - geeft een ring met de resultaten van de aanroep `.choose` 1 keer"
 
 #: 08.5-Ring-Chains.md:72
 msgid "`.pick(3)` - returns a ring with the results of calling `.choose` 3 times"
@@ -7881,7 +7773,6 @@ msgstr ""
 
 #: 09.1-Live-Coding-Fundamentals.md:18
 #, no-wrap
-#, fuzzy
 msgid ""
 "define :my_sound do\n"
 "  play 50\n"
@@ -7893,15 +7784,6 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
-"define :my_loop do\n"
-"  play 50\n"
-"  sleep 1\n"
-"end\n"
-"in_thread(name: :looper) do\n"
-"  loop do\n"
-"    my_loop\n"
-"  end\n"
-"end"
 
 #: 09.1-Live-Coding-Fundamentals.md:31
 msgid ""
@@ -7914,14 +7796,13 @@ msgstr ""
 "l in deze zaken verdiept hebt."
 
 #: 09.1-Live-Coding-Fundamentals.md:35
-#, fuzzy
 msgid ""
 "What we have here is a function definition which just plays note 50 and sleeps"
 " for a beat. We then define a named thread called `:looper` which just loops a"
 "round calling `my_sound` repeatedly."
 msgstr ""
-"Wat we hier hebben is een functiedefinitie dat gewoon noot 50 speelt en een be"
-"at slaapt. Vervolgens definiëren we een benoemde thread genaamd `:looper` die "
+"Wat we hier hebben is een functie-definitie die noot 50 speelt en één beat "
+"slaapt. Vervolgens definiëren we een thread genaamd `:looper` die "
 "herhaaldelijk rond `my_loop` loopt."
 
 #: 09.1-Live-Coding-Fundamentals.md:39
@@ -7940,22 +7821,22 @@ msgid ""
 "0 to another number, say 55, then press the Run button again. Woah! It changed"
 "! Live!"
 msgstr ""
-"Nu, hier is waar de pret begint. Terwijl de code *nog loopt* wijzigen 50 naar "
-"een ander nummer, zeg 55, druk nogmaals op de knop afspelen. Woah! Het verande"
-"rd! Live!"
+"Nu, Dit is waar de pret begint. Terwijl de code *nog loopt* verander de 50 "
+"in een ander nummer, bijvoorbeeld 55, en druk nogmaals op de Afspelen-knop. "
+"Woah! Het veranderd! Live!"
 
 #: 09.1-Live-Coding-Fundamentals.md:47
-#, fuzzy
 msgid ""
 "It didn't add a new layer because we're using named threads which only allow o"
 "ne thread for each name. Also, the sound changed because we *redefined* the fu"
 "nction. We gave `:my_sound` a new definition. When the `:looper` thread looped"
 " around it simply called the new definition."
 msgstr ""
-"Het heeft geen nieuwe laag toegevoegd omdat we benoemde threads gebruiken, die"
-" voor elke naam één thread toestaat. De klank veranderde ook omdat we de funct"
-"ie hebben *geherdefinieerd*. We gaven `:my_loop` een nieuwe definitie. Wanneer"
-" de `:looper` thread rond Loopt riep deze de nieuwe definitie op."
+"Het heeft geen nieuwe laag toegevoegd omdat we threads met een naam "
+"gebruiken, voor elke naam is maar één thread toegestaan. Het geluid "
+"veranderde omdat we de functie hebben *geherdefinieerd*. We gaven `:my_loop` "
+"een nieuwe definitie. Toen de `:looper` thread opnieuw wilde beginnen riep "
+"deze de nieuwe definitie op."
 
 #: 09.1-Live-Coding-Fundamentals.md:52
 msgid ""
@@ -7967,7 +7848,6 @@ msgstr ""
 
 #: 09.1-Live-Coding-Fundamentals.md:55
 #, no-wrap
-#, fuzzy
 msgid ""
 "define :my_sound do\n"
 "  use_synth :tb303\n"
@@ -7991,7 +7871,6 @@ msgstr ""
 
 #: 09.1-Live-Coding-Fundamentals.md:67
 #, no-wrap
-#, fuzzy
 msgid ""
 "define :my_sound do\n"
 "  use_synth :tb303\n"
@@ -8011,7 +7890,6 @@ msgstr "Wat denk je van random noten van het akkoord te spelen:"
 
 #: 09.1-Live-Coding-Fundamentals.md:77
 #, no-wrap
-#, fuzzy
 msgid ""
 "define :my_sound do\n"
 "  use_synth :tb303\n"
@@ -8031,7 +7909,6 @@ msgstr "Of met behulp van een willekeurige cutoff waarde:"
 
 #: 09.1-Live-Coding-Fundamentals.md:87
 #, no-wrap
-#, fuzzy
 msgid ""
 "define :my_sound do\n"
 "  use_synth :tb303\n"
@@ -8051,7 +7928,6 @@ msgstr "Ten slotte, voeg enkele drums toe:"
 
 #: 09.1-Live-Coding-Fundamentals.md:97
 #, no-wrap
-#, fuzzy
 msgid ""
 "define :my_sound do\n"
 "  use_synth :tb303\n"
@@ -8692,7 +8568,6 @@ msgstr ""
 "n beurt veroorzaakt door race condities)."
 
 #: 10-State.md:16
-#, fuzzy
 msgid ""
 "Sonic Pi's solution to the problem of easily working with global variables in "
 "a deterministic way is through a novel system it calls Time State. This might "
@@ -8702,14 +8577,14 @@ msgid ""
 "mple to share state across threads* whilst still keeping your programs *thread"
 "-safe and deterministic*."
 msgstr ""
-"De oplossing in Sonic Pi voor het probleem van een makkelijk model met globale"
-" variabelen op een deterministische wijze is door een vernieuwend systeem dat "
-"tijd toestand wordt genoemd. Dit kan complex en moeilijk klinken (in feite is "
-"programmeren met meerdere threads en een gedeeld geheugenmodel tipisch een ond"
-"erwerp op universitair niveau). Echter, zoals je zult zien, net als het spelen"
-" van de eerste noot, * Sonic Pi maakt het onzetten eenvoudig om toestand te de"
-"len tussen threads* terwijl je programma's nog steeds *thread safe en determin"
-"istisch blijven*."
+"Sonic Pi's oplossing voor het probleem van \"makkelijk werken met globale "
+"variabelen op een deterministische wijze\" is door een vernieuwend systeem "
+"dat \"Time State\" heet. Dit kan ingewikkeld en moeilijk klinken (in feite "
+"is programmeren met meerdere threads en een gedeeld geheugenmodel typisch "
+"een onderwerp op universitair niveau). Echter, zoals je zult zien, is het "
+"net als het spelen van de eerste noot. *Sonic Pi maakt het ontzettend "
+"eenvoudig om toestand te delen tussen threads* terwijl je programma's nog "
+"steeds *thread safe en deterministisch blijven*."
 
 #: 10-State.md:24
 msgid "Meet `get` and `set`..."
@@ -9263,14 +9138,18 @@ msgid "Matching partial segments"
 msgstr "Matcht gedeeltelijke segmenten"
 
 #: 10.3-Pattern-Matching.md:40
-#, fuzzy
 msgid ""
 "If we know what the segment is going to start or finish with, we can use a `*`"
 " in addition to a partial segment name. For example: `\"/foo/b*/baz\"` will matc"
 "h any path that has three segments, the first of which is `foo`, the last `baz"
 "` and the middle segment can be anything that starts with `b`. So, it would ma"
 "tch:"
-msgstr "foo"
+msgstr ""
+"Als we weten waar een segment mee zal beginnen of eindigen kunnen dat deel "
+"segment samen met `*` gebruiken. Bijvoorbeeld: `\"/bla/b*/baz\"` zal elk pad "
+"matchen dat drie segmenten heeft waarbij het eerste `bla` en het laatste "
+"`baz` is, het middelste segment kan alles zijn dat begint met een `b`. Dus "
+"het volgende zal matchen:"
 
 #: 10.3-Pattern-Matching.md:47
 msgid "`cue \"/foo/baz/baz\"`"
@@ -9297,25 +9176,30 @@ msgid "`cue \"/foo/beans/baz/eggs\"`"
 msgstr "`cue \"/bla/beans/baz/eggs\"`"
 
 #: 10.3-Pattern-Matching.md:56
-#, fuzzy
 msgid ""
 "You can also place the `*` at the start of the segment to specify the last cha"
 "racters of a segment: `\"/foo/*zz/baz\"` which will match any 3 segment `cue` or"
 " `set` where the first segment is `foo`, the last is `baz` and the middle segm"
 "ent ends with `zz` such as `\"cue \"/foo/whizz/baz\"`."
-msgstr "foo"
+msgstr ""
+"Je kunt ook een `*` aan het begin van een segment zetten om te matchen met "
+"laatste tekens van het segment: `\"/bla/*ux/baz\"` welke matcht met een `cue`"
+" of `set` van 3 segmenten, waarbij het eerste `bla` en het laatste `baz` is, "
+"het middelste segment eindigd met `ux`. Zoals bijvoorbeeld:"
 
 #: 10.3-Pattern-Matching.md:62
 msgid "Matching Nested Path Segments"
 msgstr "Matcht Geneste Pad Segmenten"
 
 #: 10.3-Pattern-Matching.md:64
-#, fuzzy
 msgid ""
 "Sometimes you don't know how many path segments you want to match. In these ca"
 "ses you can use the powerful double star: `**` such as `\"/foo/**/baz\"` which w"
 "ill match:"
-msgstr "foo"
+msgstr ""
+"Soms weet je niet uit hoeveel segmenten een pad dat je wilt matchen bestaat. "
+"In dat geval kun je gebruik maken van de krachtige dubbele asterix: `**`. Zo "
+"zal `\"/bla/**/baz\"` met het volgende matchen:"
 
 #: 10.3-Pattern-Matching.md:69
 msgid "`cue \"/foo/bar/beans/baz\"`"
@@ -9358,12 +9242,14 @@ msgid "Matching Multiple Words"
 msgstr "Matcht Met Meerdere Woorden"
 
 #: 10.3-Pattern-Matching.md:85
-#, fuzzy
 msgid ""
 "If you know that a segment may be one of a select number of words, you can use"
 " the `{` and `}` matchers to specify a list of choices such as `\"/foo/{bar,bea"
 "ns,eggs}/quux\"` which will only match the following:"
-msgstr "foo"
+msgstr ""
+"Als je weet dat een segment een van een select aantal woorden moet matchen "
+"kun je `{` en `}` haken gebruiken om een lijst van keuzes te geven. Zo zal `"
+"\"/bla/{bar,beans,eggs}/quux\"` alleen met het volgende matchen:"
 
 #: 10.3-Pattern-Matching.md:89
 msgid "`cue \"/foo/bar/quux\"`"
@@ -9382,12 +9268,14 @@ msgid "Matching Multiple Letters"
 msgstr "Matcht Met Meedere Letters"
 
 #: 10.3-Pattern-Matching.md:95
-#, fuzzy
 msgid ""
 "Finally, you can match against a selection of letters if you use the `[` and `"
 "]` matchers to specify a list of choices such as `\"/foo/[abc]ux/baz\"` which wi"
 "ll match only:"
-msgstr "foo"
+msgstr ""
+"Als laatste kun je ook matchen op een selectie van letters door de `[` en `]`"
+" haken te gebruiken om een lijst van keuzes aan te geven. Zo al `\"/bla/[abc]"
+"ux/baz\"` alleen met het volgende matchen:"
 
 #: 10.3-Pattern-Matching.md:99 10.3-Pattern-Matching.md:106
 msgid "`cue \"/foo/aux/baz\"`"
@@ -9402,11 +9290,12 @@ msgid "`cue \"/foo/cux/baz\"`"
 msgstr "`cue \"/bla/cux/baz\"`"
 
 #: 10.3-Pattern-Matching.md:104
-#, fuzzy
 msgid ""
 "You can also use the `-` character to specify ranges of letters. For example `"
 "\"/foo/[a-e]ux/baz\"` which will match only:"
-msgstr "foo"
+msgstr ""
+"Je kunt ook een `-` gebruiken om aan te geven dat het om een rij van letters "
+"gaat. Zo zal `\"/bla/[a-e]ux/baz\"` alleen matchen met:"
 
 #: 10.3-Pattern-Matching.md:109
 msgid "`cue \"/foo/dux/baz\"`"
@@ -9421,19 +9310,17 @@ msgid "Combining Matchers"
 msgstr "Gecombineerde Matches"
 
 #: 10.3-Pattern-Matching.md:114
-#, fuzzy
 msgid ""
 "When calling `sync` or `get` you are free to combine matchers in any order you"
 " see fit to powerfully match any Time State event created by `cue` or `set`. L"
 "et's look at a far-fetched example:"
 msgstr ""
-"Wanneer `sync` of `get` wordt aangeroepen kun je jezelf vrij voelen om `Matche"
-"rs` in iedere orde te matchen met ieder `Time State` event aangemaakt door `cu"
-"e` of `set`. Laten we het volgende voorbeeld bekijken:"
+"Wanneer `sync` of `get` wordt aangeroepen ben je geheel vrij de `Matchers` "
+"in iedere volgorde te gebruiken met elk `Time State` event aangemaakt door "
+"`cue` of `set`. Laten we het volgende (ver gezochte) voorbeeld bekijken:"
 
 #: 10.3-Pattern-Matching.md:118
 #, no-wrap
-#, fuzzy
 msgid ""
 "in_thread do\n"
 "  sync \"/?oo/[a-z]*/**/ba*/{quux,quaax}/\"\n"
@@ -9441,7 +9328,13 @@ msgid ""
 "end\n"
 "sleep 1\n"
 "cue \"/foo/beans/a/b/c/d/e/bark/quux/\""
-msgstr "sample :loop_amen"
+msgstr ""
+"in_thread do\n"
+"  sync \"/?la/[a-z]*/**/ba*/{quux,quaax}/\"\n"
+"  sample :loop_amen\n"
+"end\n"
+"sleep 1\n"
+"cue \"/bla/beans/a/b/c/d/e/bark/quux/\""
 
 #: 10.3-Pattern-Matching.md:129
 msgid "OSC Pattern Matching"
@@ -10163,6 +10056,9 @@ msgid ""
 "ary. For example, if we're sending OSC from Python we might do something like "
 "this:"
 msgstr ""
+"We kunnen vanuit elke programmeertaal met een OSC module berichten naar "
+"Sonic Pi sturen. Als je bijvoorbeeld een OSC bericht wilt sturen vanuit "
+"Python kun je iets als dit doen:"
 
 #: 12.1-Receiving-OSC.md:42
 #, no-wrap
@@ -10182,6 +10078,8 @@ msgid ""
 "Or, if we're sending OSC from Clojure we might do something like this from the"
 " REPL:"
 msgstr ""
+"Of, als je een OSC bericht vanuit Closure wilt sturen kunt het volgende doen "
+"vanuit de interactieve input omgeving (REPL):"
 
 #: 12.1-Receiving-OSC.md:52
 #, no-wrap
@@ -10196,7 +10094,7 @@ msgstr ""
 
 #: 12.1-Receiving-OSC.md:58
 msgid "Receiving from External Machines"
-msgstr ""
+msgstr "Ontvang van andere computers"
 
 #: 12.1-Receiving-OSC.md:60
 #, fuzzy
@@ -10253,6 +10151,10 @@ msgid ""
 "messages in time with our music). We just need to know which IP address and po"
 "rt we're sending to. Let's give it a try:"
 msgstr ""
+"Naast het ontvangen van OSC berichten in combinatie met \"Time State\", "
+"kunnen we ook OSC berichten op de maat van de muziek versturen (net als dat "
+"we MIDI berichten in de maat van de muziek kunne sturen). We hoeven alleen "
+"te weten naar welk IP-adres en port we moeten sturen. Probeer maar eens:"
 
 #: 12.2-Sending-OSC.md:10
 #, no-wrap
@@ -10260,6 +10162,8 @@ msgid ""
 "use_osc \"localhost\", 4560\n"
 "osc \"/hello/world\""
 msgstr ""
+"use_osc \"localhost\", 4560\n"
+"osc \"/hello/world\""
 
 #: 12.2-Sending-OSC.md:15
 msgid ""
@@ -10273,16 +10177,28 @@ msgid ""
 " Sonic Pi automatically prefixes all incoming OSC messages with `/osc` and the"
 "n the hostname and port of the sender.)"
 msgstr ""
+"Als je bovenstaande code afspeelt zul je merken dat Sonic Pi zichzelf een "
+"OSC bericht stuurt! Omdat we het IP-adres van de huidige computer en de "
+"standaard OSC poort hebben aangegeven. Dit komt eigenlijk neer op jezelf een "
+"brief sturen - het OSC berichtje word aangemaakt, verlaat Sonic Pi, en komt "
+"via het netwerk en je besturings-systeem weer terug bij Sonic Pi. Die het "
+"ontvangt en afhandelt als elk ander OSC berichtje. Vervolgens word het "
+"berichtje zichtbaar in het cue log als een ingekomen bericht: `/osc:127.0.0."
+"1:4560/hello/world`. (Zie je dat Sonic Pi automatisch alle inkomende OSC "
+"berichten aanvult met `/osc` de hostnaam en de poort aan het begin.)"
 
 #: 12.2-Sending-OSC.md:25
 msgid "Sending OSC to other programs"
-msgstr ""
+msgstr "Stuur OSC berichten naar andere programma's"
 
 #: 12.2-Sending-OSC.md:27
 msgid ""
 "Of course, sending OSC messages to ourselves may be fun but it's not that usef"
 "ul. The real benefit starts when we send messages to other programs:"
 msgstr ""
+"Naar jezelf een OSC berichtje sturen is natuurlijk reuze leuk, maar handig "
+"is anders. Het echte voordeel hiervan krijg je wanneer je berichten naar "
+"andere programma's stuurt:"
 
 #: 12.2-Sending-OSC.md:32
 #, no-wrap
@@ -10297,12 +10213,17 @@ msgid ""
 "ing to port 123456. If there is, then it will receive a `\"/hello/world` OSC me"
 "ssage with which it can do what it wants."
 msgstr ""
+"In dit geval nemen we aan dat er een ander programma op dezelfde computer "
+"luistert naar poort 123456. Als die er is zal het een `\"/hello/world\"` OSC "
+"bericht ontvangen, waarmee het kan doen wat het wil."
 
 #: 12.2-Sending-OSC.md:41
 msgid ""
 "If our program is running on another machine, we need to know its IP address w"
 "hich we use instead of `\"localhost\"`:"
 msgstr ""
+"Als dat programma op een andere machine draait, hebben we het IP-adres nodig "
+"van die machine en dat gebruiken in plaats van `\"localhost\"`:"
 
 #: 12.2-Sending-OSC.md:44
 #, no-wrap
@@ -10316,14 +10237,16 @@ msgid ""
 "Now we can send OSC messages to any device reachable to us via our local netwo"
 "rks and even the internet!"
 msgstr ""
+"Nu kunnen we OSC berichten sturen naar elk apparaat dat via ons lokale "
+"netwerk en zelf het internet bereikbaar is!"
 
 #: 13-Multichannel-Audio.md:1
 msgid "13 Multichannel Audio"
-msgstr ""
+msgstr "13 Multi-kanaal Audio"
 
 #: 13-Multichannel-Audio.md:3
 msgid "Multichannel Audio"
-msgstr ""
+msgstr "Multi-kanaal Audio"
 
 #: 13-Multichannel-Audio.md:5
 msgid ""
@@ -10337,20 +10260,32 @@ msgid ""
 " a look at how we can take advantage of these external sound cards and effortl"
 "essly work with multiple channels of audio in and out of Sonic Pi."
 msgstr ""
+"Tot nu toe hebben we het als we het hebben over muziek maken gehad over het "
+"triggeren van opgenomen geluiden via de `play`, `synth` en `sample` "
+"functies. Deze hebben vervolgens geluiden gegenereerd en ten gehore gebracht "
+"op onze stereo speakers. Maar, veel computers bieden ook de mogelijk om "
+"geluid te ontvangen, mogelijk met een microfoon en om geluid naar meer dan "
+"twee speakers te sturen. Vaak word dit mogelijk gemaakt door gebruik te "
+"maken van een externe geluidskaart - deze zijn beschikbaar voor alle "
+"systemen. In dit deel van de handleiding gaan we kijken naar hoe we het "
+"meeste kunnen halen uit deze extra mogelijkheden en met Sonic Pi moeiteloos "
+"kunnen omgaan met meerdere in- en uitgangs kanalen."
 
 #: 13.1-Sound-In.md:1
 msgid "13.1 Sound In"
-msgstr ""
+msgstr "13.1 Inkomend Geluid"
 
 #: 13.1-Sound-In.md:3
 msgid "Sound In"
-msgstr ""
+msgstr "Uitgaand Geluid"
 
 #: 13.1-Sound-In.md:5
 msgid ""
 "One simple (and perhaps familiar) way of accessing sound inputs is using our f"
 "riend `synth` by specifying the `:sound_in` synth:"
 msgstr ""
+"Een eenvoudige (en mogelijk bekende) manier om geluids-ingangen te benaderen "
+"is het bekende `synth` met de `:sound_in` synth:"
 
 #: 13.1-Sound-In.md:7
 #, no-wrap
@@ -10365,6 +10300,11 @@ msgid ""
 " if you have an external sound card, you can plug any audio input to the first"
 " input."
 msgstr ""
+"Dit werkt eigenlijk gelijk elke andere synth zoals `synth :dsaw` met als "
+"bijzonderheid dat het gegenereerde geluid direct uit de eerste geluids-"
+"ingang van je computers geluids-kaart word gelezen. Op een laptop is dit "
+"meestal de ingebouwde microfoon, maar het je externe geluidskaart dan kun je "
+"zelf bepalen wat je in de eerste ingang plugt."
 
 #: 13.1-Sound-In.md:17
 msgid "Increasing the Duration"
@@ -10378,6 +10318,11 @@ msgid ""
 "e following will keep the synth open for 8 beats before closing the connection"
 ":"
 msgstr ""
+"Zoals je merkt duurt het geluid van `:sound_in`, net als bij `synth :dsaw`, "
+"maar 1 tel. Ook op `:sound_in` is namelijk de standaard envelope van "
+"toepassing. Door de envelope instellingen aan te passen kun je het kanaal "
+"langer houden. Het volgende houd de synth bijvoorbeeld 8 tellen open voordat "
+"het kanaal weer gesloten word:"
 
 #: 13.1-Sound-In.md:22
 #, no-wrap
@@ -10389,6 +10334,8 @@ msgid ""
 "Of course, just like any normal synth, you can easily layer on effects with th"
 "e FX block:"
 msgstr ""
+"Natuurlijk kun je net als bij andere synth een effect toepassen met een FX "
+"block (`with_fx`):"
 
 #: 13.1-Sound-In.md:30
 #, no-wrap
@@ -10405,6 +10352,9 @@ msgid ""
 "If you have plugged in a guitar to your first input, you should be able to hea"
 "r it with distortion and reverb until the synth terminates as expected."
 msgstr ""
+"Als als een gitaar hebt aangesloten op de eerste ingang dan kun je deze nu "
+"horen met de toegevoegde vervorming en echo totdat de synth zoals verwacht "
+"weer stopt."
 
 #: 13.1-Sound-In.md:40
 msgid ""
@@ -10413,6 +10363,10 @@ msgid ""
 "will play two `:sound_in` synths at the same time - one through distortion and"
 " one through reverb:"
 msgstr ""
+"Je bent helemaal vrij om de `:sound_in` synth zo vaak je maar wilt "
+"gelijktijdig te gebruiken (net zoals dat kan met alle andere synth). Het "
+"volgende speelt bijvoorbeeld twee `:sound_in` synths tegelijk, waarbij er "
+"één met vervorming en één met een echo te horen is:"
 
 #: 13.1-Sound-In.md:42
 #, no-wrap
@@ -10437,6 +10391,12 @@ msgid ""
 ", you can treat the first two as a stereo stream and add distortion and the th"
 "ird as a mono stream and add reverb with the following code:"
 msgstr ""
+"Je kunt aangeven welke audio ingang je wilt gebruiken met de `input:` optie. "
+"Om een stereo ingang aan te geven (dit zijn eigenlijk twee opvolgende mono "
+"kanalen) gebruik je de `:sound_in_stereo` optie van de synth. Heb je "
+"bijvoorbeeld een geluidskaart met tenminste drie ingangen, dan kunt je de "
+"eerste twee bundelen tot een vervormd stereo geluid en de derde als een mono "
+"geluid met echo, met de volgende code:"
 
 #: 13.1-Sound-In.md:61
 #, no-wrap
@@ -10451,7 +10411,7 @@ msgstr ""
 
 #: 13.1-Sound-In.md:72
 msgid "Potential Issues"
-msgstr ""
+msgstr "Mogelijke problemen"
 
 #: 13.1-Sound-In.md:74
 msgid ""
@@ -10464,10 +10424,18 @@ msgid ""
 "lem of manipulating a (potentially) infinite stream of live audio input: `live"
 "_audio`."
 msgstr ""
+"Alhoewel dit een handige feature is, heeft het ook zo zijn beperkingen. "
+"Allereerst werkt het maar voor een vastgestelde tijd (vanwege de "
+"aanwezigheid van de ADSR envelop op alle synth). Ten tweede is er geen "
+"manier om de effecten te veranderen zodra de synth is gestart. Beide van "
+"deze beperkingen zijn veel gevraagd wanneer er gewerkt word met externe "
+"audio, denk hierbij aan microfoons, gitaren en externe synthesizers. Sonic "
+"Pi heeft een oplossing voor het probleem van het manipuleren van een "
+"(potentieel) oneindig live geluid: `live_audio`."
 
 #: 13.2-Live-Audio.md:1
 msgid "13.2 Live Audio"
-msgstr ""
+msgstr "13.2 Live geluid"
 
 #: 13.2-Live-Audio.md:3
 msgid "Live Audio"
@@ -10481,10 +10449,16 @@ msgid ""
 " instrument (such as a voice or guitar). By far the best approach to working w"
 "ith a single continuous stream of audio is to use `live_audio`."
 msgstr ""
+"De `:sound_in` synth zoals beschreven in de vorige sectie bied een flexibele "
+"en bekende manier om met ingang audio te werken. Maar, zoals ook beschreven "
+"heeft het een paar onhandigheden wanneer het gaat om werken met een "
+"enkelvoudig ingangs geluid als een enkel instrument (zoals een stem of een "
+"gitaar). De allerbeste manier om met een oneindig geluid te werken is "
+"`live_audio` gebruiken."
 
 #: 13.2-Live-Audio.md:12
 msgid "A Named Audio Input"
-msgstr ""
+msgstr "Audio ingang met een naam"
 
 #: 13.2-Live-Audio.md:14
 msgid ""
@@ -10493,6 +10467,10 @@ msgid ""
 "`live_audio` stream with that name may exist at any one time. Let's take a loo"
 "k:"
 msgstr ""
+"Er zijn een paar ontwerp beperkingen die `live_audio` deelt met `live_loop` ("
+"vandaar dat hun naam gelijk-ig is). Allereerst moet het een unieke naam "
+"hebben. Ten tweede mag er ook maar één `live_audio` met dezelfde naam "
+"tegelijk bestaan. Zie hier:"
 
 #: 13.2-Live-Audio.md:19 13.2-Live-Audio.md:92
 #, no-wrap
@@ -10505,10 +10483,13 @@ msgid ""
 "ferences: it runs forever (until you explicitly stop it) and you can *move* it"
 " to new FX contexts dynamically."
 msgstr ""
+"Deze code gedraagt zich gelijk aan `synth :sound_in` met een paar "
+"belangrijke verschillen: de code blijft altijd actief (tot je het expliciet "
+"stopt) en je het dynamisch naar een nieuwe effect context *verplaatsen*."
 
 #: 13.2-Live-Audio.md:28
 msgid "Working with FX"
-msgstr ""
+msgstr "Werken met Effecten"
 
 #: 13.2-Live-Audio.md:30
 msgid ""
@@ -10516,6 +10497,9 @@ msgid ""
 "k with FX. For example, to start a live audio stream with added reverb simply "
 "use a `:reverb` FX block:"
 msgstr ""
+"Als een `live_audio` blok als eerste gespeeld word, gedraagt het zich zoals "
+"je zou verwachten bij effecten. Om een live geluid van nagalm te voorzien "
+"gebruik je gewoon een `:reverb` effect blok:"
 
 #: 13.2-Live-Audio.md:34
 #, no-wrap
@@ -10538,14 +10522,22 @@ msgid ""
 "sound card. Note, if you're using a laptop, this will typically be out of your"
 " built-in microphone, so it's recommended to use headphones to stop feedback."
 msgstr ""
+"Maar aangezien een `live_audio` geluid maar door blijft gaan (in ieder geval "
+"tot je het stopt) zou het best een beperking zijn als, dat zoals bij synths, "
+"het gekoppelde effect `:reverb` er voor altijd aan vast zou zitten. Gelukkig "
+"is dit niet het geval en was het ontworpen om eenvoudig van effect te "
+"wisselen. Laten het eens proberen. Start de code hierboven om het geluid "
+"horen dat uit eerst ingang van je geluidskaart komt. Let op, als je een "
+"laptop gebruikt zal dit doorgaans de ingebouwde microfoon zijn, het is dus "
+"aan te raden om een koptelefoon te gebruiken om rondzingen te voorkomen."
 
 #: 13.2-Live-Audio.md:49
 msgid ""
 "Now, whilst you're still hearing the audio live from the sound card with rever"
 "b, change the code to the following:"
 msgstr ""
-"Wijzig, terwijl je de live audio van de geluidskaart nog met reverb hoort, nu "
-"de code naar het volgende:"
+"Wijzig, terwijl je de live audio uit de geluidskaart nog met nagalm (reverb) "
+"hoort, de code naar het volgende:"
 
 #: 13.2-Live-Audio.md:52
 #, no-wrap
@@ -10564,6 +10556,9 @@ msgid ""
 " and no longer through reverb. If you wanted them both, just edit the code aga"
 "in and hit Run:"
 msgstr ""
+"Druk op Afspelen en je zult meteen horen dat het geluid een echo effect "
+"heeft gekregen en geen nagalm meer. Als je ze beide wil, pas de code aan en "
+"druk op Afspelen:"
 
 #: 13.2-Live-Audio.md:62
 #, no-wrap
@@ -10581,18 +10576,23 @@ msgstr ""
 "end"
 
 #: 13.2-Live-Audio.md:70
-#, fuzzy
 msgid ""
 "It's important to point out that you can call `live_audio :foo` from any threa"
 "d or live loop and it will move the live audio synth to *that* thread's curren"
 "t FX context. You could therefore easily have multiple live loops calling `liv"
 "e_audio :foo` at different times resulting in the FX context being automatical"
 "ly swapped around for some interesting results."
-msgstr "foo"
+msgstr ""
+"Het is belangrijk om je er op te wijzen dat je `live_audio :bla` vanuit elke "
+"thread or live loop kunt aanroepen zodat het geluid ervan in *die* threads "
+"effect context terecht komt. Je kunt dus eenvoudig vanuit meerdere live "
+"loops `live_audio :bla` aanroepen op verschillende momenten, met als "
+"resultaat dat de effecten context automatisch word vervangen. Dit zal zeker "
+"wat interessante resultaten opleveren."
 
 #: 13.2-Live-Audio.md:78
 msgid "Stopping live audio"
-msgstr ""
+msgstr "Live audio stoppen"
 
 #: 13.2-Live-Audio.md:80
 msgid ""
@@ -10601,6 +10601,9 @@ msgid ""
 "d in memory if you delete the code in the editor). To stop it, you need to use"
 " the `:stop` arg:"
 msgstr ""
+"Een `live_audio` heeft in tegenstelling tot andere synths geen envelop en "
+"zal oneindig doorgaan (zelfs als je de code verwijderd, blijft het code blok "
+"actief in het geheugen). Om het stoppen gebruik je het `:stop` argument:"
 
 #: 13.2-Live-Audio.md:85
 #, no-wrap
@@ -10610,16 +10613,21 @@ msgstr "live_audio :bla, :stop"
 #: 13.2-Live-Audio.md:89
 msgid "It can easily be restarted by calling it without the `:stop` arg again:"
 msgstr ""
+"Hij kan eenvoudig weer gestart worden door de code opnieuw af te spelen "
+"zonder het `:stop` argument:"
 
 #: 13.2-Live-Audio.md:96
 msgid ""
 "Additionally all running live audio synths are stopped when you hit the global"
 " Stop button (as with all other running synths and FX)."
 msgstr ""
+"Daar komt nog bij dat alle `:sound_in` synth worden gestopped zodra je op de "
+"\"Stop\" knop hebt gedrukt (net zoals dat met alle andere synths en effecten "
+"het geval is)."
 
 #: 13.2-Live-Audio.md:99
 msgid "Stereo input"
-msgstr ""
+msgstr "Stereo ingang"
 
 #: 13.2-Live-Audio.md:101
 msgid ""
@@ -10632,6 +10640,14 @@ msgid ""
 "gnal and input 3 as the right signal, you need to configure the `input:` opt t"
 "o 2 and enable stereo mode as follows:"
 msgstr ""
+"Als het gaat om audio kanalen werkt `live_audio` gelijk aan de `:sound_in` "
+"synth. Het neemt de mono input van de audio en zet dit om in een stereo "
+"geluid met de aangegeven balans. Net als bij `:sound_in_stereo`is het ook "
+"mogelijk om aan`live_audio` te vertellen om twee opeenvolgende audio "
+"ingangen samen te voegen tot een linker en rechter kanaal. Dit doe je door "
+"de `:stereo` optie te gebruiken. Om bijvoorbeeld ingang kanaal 2 als links "
+"en kanaal 3 als rechts te gebruiken, zet je de `input:` optie op 2 en "
+"activeer je de stereo modus op de volgende manier:"
 
 #: 13.2-Live-Audio.md:111
 #, no-wrap
@@ -10645,14 +10661,20 @@ msgid ""
 "n the default mono mode, you can't switch to stereo without starting and stopp"
 "ing the stream."
 msgstr ""
+"Zodra je een live audio geluid in stereo modus hebt gestart kun je deze niet "
+"weer veranderen naar mono modus zonder te stoppen en te starten. Omgekeerd "
+"kun je ook de mono modus niet omzetten naar stereo zonder te stoppen en weer "
+"te starten."
 
 #: 13.3-Sound-Out.md:1
+#, fuzzy
 msgid "13.3 Sound Out"
-msgstr ""
+msgstr "13.3 Geluid Uit"
 
 #: 13.3-Sound-Out.md:3
+#, fuzzy
 msgid "Sound Out"
-msgstr ""
+msgstr "Geluid Uit"
 
 #: 13.3-Sound-Out.md:5
 msgid ""
@@ -10662,16 +10684,24 @@ msgid ""
 " audio, Sonic Pi can also output multiple streams of audio. This is achieved v"
 "ia the `:sound_out` FX."
 msgstr ""
+"Tot nu toe hebben we gekeken naar hoe we meerdere geluiden Sonic Pi binnen "
+"krijgen - hetzij door gebruik te maken van `:sound_in` dan wel via het "
+"krachtige `live_audio` mechanisme. Naast omgaan met meerdere binnenkomende "
+"kanalen kan Sonic Pi ook meerdere uitgaande kanalen afhandelen. Dit word "
+"bereikt met het `:sound_out` effect."
 
 #: 13.3-Sound-Out.md:11
 msgid "Output contexts"
-msgstr ""
+msgstr "Uitgangs contexten"
 
 #: 13.3-Sound-Out.md:13
 msgid ""
 "Let's quickly recap on how Sonic Pi's synths and FX output their audio to thei"
 "r current FX context. For example, consider the following:"
 msgstr ""
+"Laten we snel even herhalen hoe Sonic Pi's synths en effecten hun geluid in "
+"de huidige effecten context krijgen. Kijk bijvoorbeeld eens naar het "
+"volgende:"
 
 #: 13.3-Sound-Out.md:16
 #, no-wrap
@@ -10695,10 +10725,19 @@ msgid ""
 "tputs 1 and 2 in your audio card). The audio flows outwards with a stereo sign"
 "al all the way through."
 msgstr ""
+"De eenvoudigste manier om te begrijpen wat er gebeurd met een geluid is te "
+"beginnen bij diepst geneste (binnenste) context en naar buiten te werken. In "
+"dit geval is de binnenste context aangegeven met `A` waar de `:bd_haus` "
+"sample word gespeeld. Het geluid hiervan word direct aan de volgende context "
+"`B` (het `:echo` effect) gegeven. Deze voegt de echo toe aan het geluid en "
+"geeft dat weer door aan de context `C` (het `:reverb` (nagalm) effect). Deze "
+"voegt de nagalm to aan het inkomende geluid en geeft het op zijn beurt weer "
+"door aan de buitenste context - de linker en rechter speaker (uitgang 1 en 2 "
+"van je geluidskaart)."
 
 #: 13.3-Sound-Out.md:35
 msgid "Sound Out FX"
-msgstr ""
+msgstr "Sound Uit effecten"
 
 #: 13.3-Sound-Out.md:37
 msgid ""
@@ -10708,6 +10747,12 @@ msgid ""
 "e. Secondly it *also* outputs its audio directly to an output on your sound ca"
 "rd. Let's take a look:"
 msgstr ""
+"Bovenstaand gedrag geld voor alle synths (inclusief `live_audio`) en het "
+"gros van de effecten met uitzondering van `:sound_out`. Het `:sound_out` "
+"effect doet twee dingen. Allereerst geeft het zijn geluid door aan de "
+"omliggende context zoals hierboven uitgelegd. Ten tweede zal geluid *ook* "
+"direct naar een uitgang van geluidskaart worden gestuurd. Dat ziet er dan zo "
+"uit:"
 
 #: 13.3-Sound-Out.md:43
 #, no-wrap
@@ -10718,6 +10763,11 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"with_fx :reverb do                 # C\n"
+"  with_fx :sound_out, output: 3 do # B\n"
+"    sample :bd_haus                # A\n"
+"  end\n"
+"end"
 
 #: 13.3-Sound-Out.md:51
 msgid ""
@@ -10728,13 +10778,18 @@ msgid ""
 "und_out` therefore has two destinations - the `:reverb` FX and audio card outp"
 "ut 3."
 msgstr ""
+"In dit voorbeeld gaat het sample geluid `:bd_haus` naar zijn omvattende "
+"context, het `:sound_out` effect in dit geval. Welke het, zoals verwacht, op "
+"haar beurt doorgeeft aan zijn omvattende context, het `:reverb` effect. Maar "
+"het zal *ook* een mono mix van het geluid naar de 3de uitgang van de "
+"computers geluidskaart sturen. Het geluid door `:sound_out` heeft dan dus "
+"twee bestemmingen, het `:reverb` effect en geluidskaart uitgang nummer 3."
 
 #: 13.3-Sound-Out.md:58
 msgid "Mono and Stereo out"
-msgstr ""
+msgstr "Mono en Stereo uit"
 
 #: 13.3-Sound-Out.md:60
-#, fuzzy
 msgid ""
 "As we've seen, by default, the `:sound_out` FX outputs a mono mix of the stere"
 "o input to a specific channel in addition to passing the stereo feed to the ou"
@@ -10744,11 +10799,19 @@ msgid ""
 "l to the audio card. Or you can use the `:sound_out_stereo` FX to output to tw"
 "o consecutive sound card outputs. See the function documentation for more info"
 "rmation and examples."
-msgstr "choose"
+msgstr ""
+"Zoals we hebben gezien zal het `:sound_out` effect een mono mix maken van "
+"het inkomende stereo geluid. Dit levert wel een stereo geluid op dat (zoals "
+"verwacht) aan de buitenste context word gegeven. Als je nou liever geen mono "
+"mix wilt doorgeven dan zijn er een aantal alternatieve opties. Allereerst "
+"kun je met de `mode:` optie kiezen of je alleen het linker of het rechter "
+"inkomende geluid wilt gebruiken. Of je kunt het `:sound_out_stereo` effect "
+"gebruiken om twee opeenvolgende uitgangen op je geluidskaart te gebruiken. "
+"Meer informatie en voorbeelden kun je in de functie documentatie vinden."
 
 #: 13.3-Sound-Out.md:70
 msgid "Direct Out"
-msgstr ""
+msgstr "Direct uit"
 
 #: 13.3-Sound-Out.md:72
 msgid ""
@@ -10761,15 +10824,22 @@ msgid ""
 "tandard FX opt `amp:` which operates on the audio *after* the FX has been able"
 " to manipulate the audio:"
 msgstr ""
+"Zoals we hebben gezien is het standaard gedrag van `:sound_out` en "
+"`:sound_out_stereo` om het geluid zowel naar volgende context (dit doen alle "
+"effecten) *en* naar de aangegeven uitgang op geluidskaart te sturen. Soms "
+"zul echter wensen dat het geluid *alleen* maar naar de uitgang op je "
+"geluidskaart word gestuurd en niet naar de volgende context (en zodoende dus "
+"niet in de mix terecht komt naar uitgang 1 en 2). Dit kun je bereiken door "
+"gebruik te maken van de standaard effecten optie `amp:`, welke pas word "
+"toegepast *nadat* het effect is toegepast op het geluid:"
 
 #: 13.3-Sound-Out.md:82
 #, no-wrap
-#, fuzzy
 msgid ""
 "with_fx :sound_out, output: 3, amp: 0 do # B\n"
 "  sample :loop_amen                      # A\n"
 "end"
-msgstr "sample :loop_amen"
+msgstr ""
 
 #: 13.3-Sound-Out.md:88
 msgid ""
@@ -10790,7 +10860,6 @@ msgstr ""
 " amen drum rust ontvangen."
 
 #: 99-Conclusions.md:1
-#, fuzzy
 msgid "99 Conclusions"
 msgstr "Conclusies"
 
@@ -10813,16 +10882,16 @@ msgstr ""
 "n hebt."
 
 #: 99-Conclusions.md:11
-#, fuzzy
 msgid ""
 "If you have any questions that haven't been covered in the tutorial, then plea"
 "se jump onto the [Sonic Pi community forums](https://in-thread.sonic-pi.net/) "
 "and ask your question there. You'll find someone friendly and willing to lend "
 "a hand."
 msgstr ""
-"Hebt je vragen die nog niet behandeld zijn in de tutorial, ga even naar [Sonic"
-" Pi forums] (http://groups.google.com/group/sonic-pi/) en stel je vraag daar. "
-"Dan vind je wel iemand die vriendelijk en bereid is om een handje te helpen."
+"Heb je vragen die nog niet behandeld zijn in de tutorial, ga even naar ["
+"Sonic Pi forums] (http://groups.google.com/group/sonic-pi/) en stel je vraag "
+"daar. Dan vind je vast wel iemand die vriendelijk en bereid is om je een "
+"handje te helpen."
 
 #: 99-Conclusions.md:16
 msgid ""
@@ -10847,9 +10916,8 @@ msgid "*There are no mistakes, only opportunities.*"
 msgstr "*Er zijn geen fouten, alleen maar kansen*"
 
 #: 99-Conclusions.md:26
-#, fuzzy
 msgid "[Sam Aaron](https://twitter.com/samaaron)"
-msgstr "[Sam Aaron](http://twitter.com/samaaron)"
+msgstr ""
 
 #: A-Articles.md:1
 msgid "A Appendix A - MagPi Articles"
@@ -11420,14 +11488,14 @@ msgid ""
 " - choose your own values. Try negative numbers, really small numbers and larg"
 "e numbers. Have fun!"
 msgstr ""
-"Klik nu op de afspeelknop of gebruik `alt-r`. Je luistert nu naar de prachtige"
-" klank van een koor. Verander de koers, terwijl de code speelt van `0.4` naar "
-"`0.38`. Klik terug op afspelen. Woeha! Hoorde je het koor van toon veranderen?"
-" Verander deze terug naar  `0.4` om terug te keren hoe het was. Verlaag deze n"
-"u naar `0.2`, verlaag naar `0.19` en terug naar omhoog naar `0.4`. Hierbij zie"
-" je dat het improviseren op één parameter, jou de controle over jouw muziek ge"
-"eft? Speel zelf met de waarden die je kiest. Probeer negatieve getallen, hele "
-"kleine en hele grote getallen. Veel plezier!"
+"Klik nu op de afspeelknop of gebruik `alt-r`. Je luistert nu naar de "
+"prachtige klank van een koor. Verander de koers, terwijl de code speelt van "
+"`0.4` naar `0.38`. Klik terug op afspelen. Woeha! Hoorde je het koor van "
+"toon veranderen? Verander deze terug naar `0.4` om terug te keren hoe het "
+"was. Verlaag deze nu naar `0.2`, verlaag naar `0.19` en terug naar omhoog "
+"naar `0.4`. Hierbij zie je dat het improviseren op één parameter, jou de "
+"controle over jouw muziek geeft? Speel zelf met de waarden die je kiest. "
+"Probeer negatieve getallen, hele kleine en hele grote getallen. Veel plezier!"
 
 #: A.02-live-coding.md:77
 msgid "Sleeping is important"
@@ -16608,7 +16676,7 @@ msgstr ""
 
 #: A.16-practice.md:1
 msgid "A.16 How to Practice Live Coding"
-msgstr "A. 16 Hoe Live Coding te oefenen"
+msgstr "A.16 Hoe oefen je met Live-Coding"
 
 #: A.16-practice.md:3
 msgid "8 Tips for Live Coding Practice"
@@ -17604,7 +17672,7 @@ msgstr "Speel een melodie met onze nieuwe klok!"
 
 #: A.19-subtractive-synthesis.md:1
 msgid "A.19 Sound Design - Subtractive Synthesis"
-msgstr "A. 19 Sound Design - Subtractieve Synthese"
+msgstr "A.19 Sound Design - Subtractieve Synthese"
 
 #: A.19-subtractive-synthesis.md:3
 msgid "Subtractive Synthesis"
@@ -18540,11 +18608,11 @@ msgstr "`M-}` - Buffer naar links omwisselen"
 
 #: B.02-Shortcut-Cheatsheet.md:26
 msgid "`S-M-0` - Switch to buffer 0"
-msgstr ""
+msgstr "`S-M-0` - Wissel naar buffer 0"
 
 #: B.02-Shortcut-Cheatsheet.md:27
 msgid "`S-M-1` - Switch to buffer 1"
-msgstr ""
+msgstr "`S-M-1` - Wissel naar buffer 1"
 
 #: B.02-Shortcut-Cheatsheet.md:28
 msgid "..."
@@ -18552,7 +18620,7 @@ msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:29
 msgid "`S-M-9` - Switch to buffer 9"
-msgstr ""
+msgstr "`S-M-9` - Wissel naar buffer 9"
 
 #: B.02-Shortcut-Cheatsheet.md:30
 msgid "`M-+` - Increase text size of current buffer"
@@ -18906,10 +18974,17 @@ msgid ""
 "e the `live_audio` functionality to combine code with traditional instruments "
 "such as a guitar or a microphone."
 msgstr ""
+"Maak muziek met elkaar en vorm een echte live-coding band! Het is superleuk "
+"om samen muziek te maken ofwel *jammen*. De een kan het ritme doen terwijl "
+"een ander wat achtergrond geluid toevoegd, enzovoorts. Gebruik de "
+"`live_audio` functionaliteit om je geluiden te combineren met andere "
+"instrumenten als een gitaar of een microfoon."
 
 #: B.04-Performing.md:27
 msgid "See what interesting combinations of sounds you can create with code."
 msgstr ""
+"Sta verbaast over de interessante combinaties van geluid jij kunt creëren "
+"met code."
 
 #: B.04-Performing.md:29
 msgid "TOPLAP"

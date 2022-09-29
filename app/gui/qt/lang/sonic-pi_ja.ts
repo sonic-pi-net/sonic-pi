@@ -259,27 +259,27 @@
     <message>
         <location filename="../mainwindow.cpp" line="877"/>
         <source>Hiding pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation>パネルの名前を隠す…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="887"/>
         <source>Showing pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation>パネルの名前を表示する…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1319"/>
         <source>Audio Inputs Enabled. Restart Sonic Pi for this setting to take effect...</source>
-        <translation type="unfinished"></translation>
+        <translation>音声入力が有効になりました。設定を反映させるには、Sonic Piを再起動してください…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1321"/>
         <source>Audio Inputs Disabled. Restart Sonic Pi for this setting to take effect...</source>
-        <translation type="unfinished"></translation>
+        <translation>音声入力が無効になりました。設定を反映させるには、Sonic Piを再起動してください…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1419"/>
         <source>Sonic Pi Boot Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Piブートエラー</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1423"/>
