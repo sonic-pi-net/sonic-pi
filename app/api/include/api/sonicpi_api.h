@@ -40,17 +40,23 @@ class OscServer;
 
 enum class APIInitResult
 {
-  Successful,
-  TerminalError,
-  ScsynthBootError,
-  HomePathNotWritableError
+    Successful,
+    TerminalError,
+    HomePathNotWritableError
+};
+
+enum class APIBootResult
+{
+    Successful,
+    TerminalError,
+    ScsynthBootError,
 };
 
 enum class BootDaemonInitResult
 {
-  Successful,
-  TerminalError,
-  ScsynthBootError
+    Successful,
+    TerminalError,
+    ScsynthBootError
 };
 
 enum class SonicPiPath
@@ -282,7 +288,8 @@ public:
     virtual ~SonicPiAPI();
 
     // Start the ruby server, connect the ports, find the paths.
-    virtual APIInitResult Init(const fs::path& rootPath, bool noScsynthInputs = false);
+    virtual APIInitResult Init(const fs::path& rootPath);
+    virtual APIBootResult Boot(bool noScsynthInputs = false);
 
     virtual void StartClearLogsScript();
 

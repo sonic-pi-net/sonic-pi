@@ -136,14 +136,11 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
     latest_version_num = 0;
 
     bool startupOK = false;
-    bool noScsynthInputs = !piSettings->enable_scsynth_inputs;
-    APIInitResult init_success = m_spAPI->Init(rootPath().toStdString(), noScsynthInputs);
+
+    APIInitResult init_success = m_spAPI->Init(rootPath().toStdString());
+
 
     if(init_success == APIInitResult::Successful) {
-      std::cout << "[GUI] - API Init successful" << std::endl;
-    } else if (init_success == APIInitResult::ScsynthBootError) {
-      std::cout << "[GUI] - API Scsynth Boot Failed" << std::endl;
-      scsynthBootError();
     } else if (init_success == APIInitResult::HomePathNotWritableError) {
       std::cout << "[GUI] - API HomePath Not Writable" << std::endl;
       homeDirWriteError();
@@ -151,11 +148,20 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
       std::cout << "[GUI] - API Init failed" << std::endl;
     }
 
-    QString settings_path = sonicPiConfigPath() + QDir::separator() + "gui-settings.ini";
-
-    gui_settings = new QSettings(settings_path, QSettings::IniFormat);
-    readSettings();
     initPaths();
+    readSettings();
+    bool noScsynthInputs = !piSettings->enable_scsynth_inputs;
+    APIBootResult boot_success = m_spAPI->Boot(noScsynthInputs);
+
+    if(boot_success == APIBootResult::Successful) {
+      std::cout << "[GUI] - API Boot successful" << std::endl;
+    } else if (boot_success == APIBootResult::ScsynthBootError) {
+      std::cout << "[GUI] - API Scsynth Boot Failed" << std::endl;
+      scsynthBootError();
+    } else {
+      std::cout << "[GUI] - API Boot failed" << std::endl;
+    }
+
 
     const QRect rect = this->geometry();
     m_appWindowSizeRect = std::make_shared<QRect>(rect);
@@ -271,6 +277,10 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
 
 void MainWindow::initPaths()
 {
+
+    QString settings_path = sonicPiConfigPath() + QDir::separator() + "gui-settings.ini";
+    gui_settings = new QSettings(settings_path, QSettings::IniFormat);
+
     QString root_path = rootPath();
 
     qt_app_theme_path = QDir::toNativeSeparators(root_path + "/app/gui/qt/theme/app.qss");
