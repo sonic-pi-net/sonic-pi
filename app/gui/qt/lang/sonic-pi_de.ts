@@ -269,17 +269,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="1319"/>
         <source>Audio Inputs Enabled. Restart Sonic Pi for this setting to take effect...</source>
-        <translation type="unfinished"></translation>
+        <translation>Audioeingänge aktiviert. Starte Sonic Pi neu, damit diese Einstellung wirksam wird...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1321"/>
         <source>Audio Inputs Disabled. Restart Sonic Pi for this setting to take effect...</source>
-        <translation type="unfinished"></translation>
+        <translation>Audioeingänge deaktiviert. Starte Sonic Pi neu, damit diese Einstellung wirksam wird...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1419"/>
         <source>Sonic Pi Boot Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi Start-Fehler</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1423"/>
