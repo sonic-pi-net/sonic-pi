@@ -30,7 +30,7 @@ cd "${SCRIPT_DIR}"
 # Build vcpkg
 if [ ! -d "vcpkg" ]; then
     echo "Cloning vcpkg"
-    git clone --depth 1 --branch 2022.08.15 https://github.com/microsoft/vcpkg.git vcpkg
+    git clone --depth 1 --branch 2022.09.27 https://github.com/microsoft/vcpkg.git vcpkg
 fi
 
 export VCPKG_ROOT="$SCRIPT_DIR/vcpkg"
