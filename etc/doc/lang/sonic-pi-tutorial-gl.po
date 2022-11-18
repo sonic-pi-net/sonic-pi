@@ -5240,23 +5240,36 @@ msgstr ""
 #: 08.2-Chords.md:48
 #, no-wrap
 msgid ""
-"play 52\n"
+"play 52, sustain: 0.25\n"
 "sleep 0.25\n"
-"play 55\n"
+"play 55, sustain: 0.5\n"
 "sleep 0.5\n"
-"play 59\n"
+"play 59, sustain: 0.25\n"
 "sleep 0.25\n"
-"play 62\n"
+"play 62, sustain: 0.5\n"
 "sleep 0.5\n"
-"play 66\n"
+"play 66, sustain: 0.25\n"
 "sleep 0.25\n"
-"play 69\n"
+"play 69, sustain: 0.5\n"
 "sleep 0.5\n"
-"play 73"
+"play 73, sustain: 0.25\n"
+"sleep 0.25"
 msgstr ""
 
-#: 08.2-Chords.md:64
+#: 08.2-Chords.md:65
 msgid "Which would you prefer to write?"
+msgstr ""
+
+#: 08.2-Chords.md:67
+msgid ""
+"Note that `play_pattern_timed` changes the sustain of the notes to "
+"fill the times. You can remove this behavior by setting the "
+"`sustain:` opt to `0`:"
+msgstr ""
+
+#: 08.2-Chords.md:71
+#, no-wrap
+msgid "play_pattern_timed chord(:E3, :m13), [0.25, 0.5], sustain: 0"
 msgstr ""
 
 #: 08.3-Scales.md:1
