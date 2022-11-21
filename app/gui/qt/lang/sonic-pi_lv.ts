@@ -6,7 +6,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="462"/>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Priekšrocības</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="693"/>
