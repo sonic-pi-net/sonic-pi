@@ -126,12 +126,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="1319"/>
         <source>Audio Inputs Enabled. Restart Sonic Pi for this setting to take effect...</source>
-        <translation type="unfinished"></translation>
+        <translation>音频输入已启用。重新启动Sonic Pi，这个设置才会生效...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1321"/>
         <source>Audio Inputs Disabled. Restart Sonic Pi for this setting to take effect...</source>
-        <translation type="unfinished"></translation>
+        <translation>音频输入已禁用。重新启动Sonic Pi，这个设置才会生效...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1419"/>
@@ -421,7 +421,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2808"/>
         <source>Enable Audio Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>启用音频输入</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2813"/>
