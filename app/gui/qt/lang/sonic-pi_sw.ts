@@ -53,17 +53,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="333"/>
         <source>Welcome to Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Karibu kwenye Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1145"/>
         <source>Indenting selection...</source>
-        <translation type="unfinished"></translation>
+        <translation>Tunajongeza uteuzi ndani...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1151"/>
         <source>Indenting line...</source>
-        <translation type="unfinished"></translation>
+        <translation>Tunajongeza mstari ndani...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="681"/>
