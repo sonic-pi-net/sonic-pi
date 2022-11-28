@@ -72,7 +72,7 @@ following methods:
 ### 1.2 Fedora
 ```bash
 sudo dnf group install "Development Tools"
-sudo dnf install alsa-utils cmake elixir erlang erlang-xmerl glew-devel jack-audio-connection-kit-devel jack-audio-connection-kit-example-clients    ninja-build openssl-devel qt5-qtconfiguration-devel qt5-qttools-devel qt5-qtsvg-devel ruby-devel supercollider-devel
+sudo dnf install alsa-utils aubio-devel catch-devel cmake crossguid-devel elixir erlang erlang-xmerl fmt-devel glew-devel gsl-lite-devel jack-audio-connection-kit-devel jack-audio-connection-kit-example-clients libsndfile-devel ninja-build openssl-devel qt5-qtconfiguration-devel qt5-qttools-devel qt5-qtsvg-devel reproc-devel ruby-devel SDL2-devel supercollider-devel vcpkg      
 ```
 
 There is an Audinux Copr [repository]()https://copr.fedorainfracloud.org/coprs/ycollet/audinux/package/sonic-pi/) with Sonic-Pi.  
