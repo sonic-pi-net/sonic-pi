@@ -95,6 +95,14 @@ target_link_directories(${APP_NAME}
 	 )
 endif()
 
+# libglew needs to be explicitly set on Linux
+if (${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
+    target_link_libraries (${APP_NAME}
+        PRIVATE
+        GLEW
+        )
+endif()
+
 target_link_libraries (${APP_NAME}
     PRIVATE
     SonicPi::API
