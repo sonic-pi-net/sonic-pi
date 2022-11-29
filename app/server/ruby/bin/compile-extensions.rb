@@ -44,19 +44,9 @@ FileUtils.mkdir_p native_dir
 # FFI is used for MIDI lib support
 native_ext_dirs = [
   File.expand_path(File.dirname(__FILE__) + '/../vendor/rugged-1.3.0/ext/rugged'),
-  File.expand_path(File.dirname(__FILE__) + '/../vendor/ffi-1.11.3/ext/ffi_c/'),
   File.expand_path(File.dirname(__FILE__) + '/../vendor/atomic/ext'),
-  File.expand_path(File.dirname(__FILE__) + '/../vendor/ruby-prof-0.15.8/ext/ruby_prof/'),
-  File.expand_path(File.dirname(__FILE__) + '/../vendor/interception/ext/')
-]
-
-
-if os == :osx
-  native_ext_dirs += [
-    File.expand_path(File.dirname(__FILE__) + '/../vendor/narray-0.6.1.1/'),
-    File.expand_path(File.dirname(__FILE__) + '/../vendor/ruby-coreaudio-0.0.12-patched/ext/coreaudio/')
-  ]
-end
+ ]
+  
 
 native_ext_dirs.each do |ext_dir|
   if ext_dir.is_a? Array
