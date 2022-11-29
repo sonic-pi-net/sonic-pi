@@ -51,9 +51,7 @@ jobs:
     - name: Setup Ruby Gems
       working-directory: ${{github.workspace}}/app
       run: |
-          sudo gem install win32-process
           sudo gem install rugged --version 0.27.1
-          sudo gem install ffi
           sudo gem install test-unit
       if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
 
@@ -77,23 +75,23 @@ jobs:
       uses: jurplel/install-qt-action@v2
       with:
         modules: "qtwebenginewidgets"
-        version: '6.2.2'
+        version: '6.4.1'
         cached: ${{ steps.cache-qt6.outputs.cache-hit }}
 
       # Install Elixir on Ubuntu
     - name: Linux Elixir
       uses: erlef/setup-beam@v1
       with:
-        otp-version: '24'
-        elixir-version: '1.12'
+        otp-version: '25'
+        elixir-version: '1.14'
       if: matrix.os == 'ubuntu-latest'
 
       # Install Elixir on Windows
     - name: Win Elixir
       uses: erlef/setup-beam@v1
       with:
-        otp-version: '24'
-        elixir-version: '1.12'
+        otp-version: '25'
+        elixir-version: '1.14'
       if: matrix.os == 'windows-latest'
 
       # Install Elixir on MacOS
