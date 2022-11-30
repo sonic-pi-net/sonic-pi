@@ -69,7 +69,16 @@ defmodule Tau.MixProject do
       "assets.deploy.prod": ["phx.digest.clean --all",
                              "tailwind default --minify",
                              "esbuild default --minify",
-                             "phx.digest"]
+                             "phx.digest"],
+
+      "setup.dev": [
+        "local.hex --force",
+        "local.rebar --force",
+        "deps.get",
+        "tailwind.install",
+        "esbuild.install",
+        "assets.deploy.prod"
+      ]
     ]
   end
 end
