@@ -93,14 +93,9 @@ target_link_directories(${APP_NAME}
 	PRIVATE
 	 /opt/vc/lib
 	 )
-endif()
-
-# libglew needs to be explicitly set on Linux
-if (${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
-    target_link_libraries (${APP_NAME}
-        PRIVATE
-        GLEW
-        )
+else()
+    target_compile_definitions(${APP_NAME} PRIVATE
+        IMGUI_IMPL_OPENGL_LOADER_GL3W)	 
 endif()
 
 target_link_libraries (${APP_NAME}
