@@ -169,7 +169,7 @@ jobs:
         CC: ${{ matrix.cc }}
         QT_INSTALL_LOCATION: ${{env.Qt6_DIR}}
       run: |
-        win-config.bat ${{ matrix.build_type }}
+        win-config.bat
       if: matrix.os == 'windows-latest'
 
     # Finally: Build
@@ -186,7 +186,7 @@ jobs:
     - name: Build Windows
       working-directory: ${{github.workspace}}/app
       shell: cmd
-      run: win-build-gui.bat
+      run: win-build-gui.bat  ${{ matrix.build_type }}
       if: matrix.os == 'windows-latest'
 
     # Build Tau server

@@ -36,7 +36,7 @@ ExternalProject_Add(sp_midi
         -DERLANG_INCLUDE_PATH=${ERLANG_INCLUDE_PATH}
         -DCMAKE_OSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}
         -DUSE_SYSTEM_RTMIDI=${USE_SYSTEM_LIBS}
-    BUILD_COMMAND ${CMAKE_COMMAND} --build . --config Release
+    BUILD_COMMAND ${CMAKE_COMMAND} --build . --config ${CMAKE_BUILD_TYPE}
     )
 
 ExternalProject_Add(sp_link
@@ -47,8 +47,7 @@ ExternalProject_Add(sp_link
         -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_SOURCE_DIR}/../server/beam/tau/priv
         -DERLANG_INCLUDE_PATH=${ERLANG_INCLUDE_PATH}
         -DCMAKE_OSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}
-
-    BUILD_COMMAND ${CMAKE_COMMAND} --build . --config Release
+    BUILD_COMMAND ${CMAKE_COMMAND} --build . --config ${CMAKE_BUILD_TYPE}
     )
 
 if(NOT USE_SYSTEM_LIBS)
