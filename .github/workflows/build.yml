@@ -169,7 +169,7 @@ jobs:
         CC: ${{ matrix.cc }}
         QT_INSTALL_LOCATION: ${{env.Qt6_DIR}}
       run: |
-        win-config.bat
+        win-config.bat ${{ matrix.build_type }}
       if: matrix.os == 'windows-latest'
 
     # Finally: Build
