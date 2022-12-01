@@ -17,8 +17,13 @@ config :tau,
   handle_otp_reports: true,
   handle_sasl_reports: true
 
-config :logger,
+if config_env() == :dev do
+  config :logger,
+  backends: [{LoggerFileBackend, :tau_file_log}, :console]
+else
+  config :logger,
   backends: [{LoggerFileBackend, :tau_file_log}]
+end
 
 config :logger, :tau_file_log,
   path: log_path,
