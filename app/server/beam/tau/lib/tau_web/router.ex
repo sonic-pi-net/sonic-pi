@@ -44,7 +44,7 @@ defmodule TauWeb.Router do
       live_dashboard "/dashboard",
         metrics: TauWeb.Telemetry,
         additional_pages: [
-          flame_on: FlameOn.DashboardPage
+          # flame_on: FlameOn.DashboardPage
           ]
     end
   end
