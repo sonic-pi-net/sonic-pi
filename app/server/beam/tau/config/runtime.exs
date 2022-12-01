@@ -59,7 +59,7 @@ config :tau, TauWeb.Endpoint,
 if config_env() == :dev do
   secret_key_base =
     System.get_env("SECRET_KEY_BASE") ||
-    "pDakDMi+9PfJKYIHcdf7MGIog4NRPiuws5eUT6M6Kcg3Wad69hT+tVwOccyjfYJ"
+    "pDakDMi+9PfJKYIHcdf7MGIog4NRPiuws5eUT6M6Kcg3Wad69hT+tVwOccyjfYJpDakDMi+9PfJKYIHcdf7MGIog4NRPiuws5eUT6M6Kcg3Wad69hT+tVwOccyjfYJ"
 
   config :tau, TauWeb.Endpoint,
     secret_key_base: secret_key_base
