@@ -69,3 +69,26 @@ config :phoenix, :stacktrace_depth, 20
 
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
+
+# Configure esbuild (the version is required)
+config :esbuild,
+  version: "0.15.10",
+  default: [
+    args:
+      ~w(js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),
+    cd: Path.expand("../assets", __DIR__),
+    env: %{"NODE_PATH" => System.get_env("MIX_DEPS_PATH") || Path.expand("../deps", __DIR__)}
+  ],
+  path: System.get_env("MIX_ESBUILD_PATH")
+
+config :tailwind,
+  version: "3.1.8",
+  default: [
+    args: ~w(
+      --config=tailwind.config.js
+      --input=css/app.css
+      --output=../priv/static/assets/app.css
+    ),
+    cd: Path.expand("../assets", __DIR__)
+  ],
+  path: System.get_env("MIX_TAILWINDCSS_PATH")
