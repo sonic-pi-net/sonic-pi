@@ -109,13 +109,8 @@ loop(State) ->
 
         {link_reset} ->
             logger:debug("Resetting link", []),
-            case sp_link:is_enabled() of
-                true ->
-                    logger:debug("Link is currently enabled, now disabling then re-enabling it...", []),
-                    sp_link:enable(false),
-                    sp_link:enable(true);
-                _ -> ok
-            end,
+            sp_link:enable(false),
+            sp_link:enable(sp_link:is_enabled()),
             ?MODULE:loop(State);
 
         {link_rpc, UUID, get_start_stop_sync_enabled} ->
