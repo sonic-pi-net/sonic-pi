@@ -209,7 +209,7 @@ module SonicPi
     end
 
 
-    def self.mix_release_boot_path
+    def self.tau_boot_path
       case os
       when :windows
         File.absolute_path("#{server_path}/beam/tau/boot-win.bat")

@@ -970,12 +970,12 @@ module SonicPi
                     "-mode",    "embedded",
               "-extra",   "--no-halt"]
           else
-            cmd = Paths.mix_release_boot_path
+            cmd = Paths.tau_boot_path
             args = []
           end
         else
           cmd = "sh"
-          args = [Paths.mix_release_boot_path]
+          args = [Paths.tau_boot_path]
         end
 
         super(cmd, args, Paths.tau_boot_log_path)
