@@ -16,7 +16,11 @@ defmodule Tau.MixProject do
 
   # Run "mix help compile.app" to learn about applications.
   def application do
-    [mod: {Tau.Application, []}, extra_applications: [:logger, :runtime_tools]]
+    if Mix.env() == :dev do
+      [mod: {Tau.Application, []}, extra_applications: [:logger, :runtime_tools, :file_system, :os_mon]]
+    else
+      [mod: {Tau.Application, []}, extra_applications: [:logger, :runtime_tools]]
+    end
   end
 
   # Specifies which paths to compile per environment.
