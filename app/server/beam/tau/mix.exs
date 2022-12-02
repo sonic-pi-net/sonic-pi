@@ -58,14 +58,17 @@ defmodule Tau.MixProject do
   defp aliases do
     [
       setup: ["deps.get"],
-      "assets.deploy.dev": ["phx.digest.clean --all",
-                            "tailwind default",
-                            "esbuild default --sourcemap=inline"],
 
-      "assets.deploy.prod": ["phx.digest.clean --all",
-                             "tailwind default --minify",
-                             "esbuild default --minify",
-                             "phx.digest"],
+      "assets.deploy.dev": [
+        "phx.digest.clean --all",
+        "tailwind default",
+        "esbuild default --sourcemap=inline"],
+
+      "assets.deploy.prod": [
+        "phx.digest.clean --all",
+        "tailwind default --minify",
+        "esbuild default --minify",
+        "phx.digest"],
 
       "setup.dev": [
         "local.hex --force",
@@ -73,8 +76,7 @@ defmodule Tau.MixProject do
         "deps.get",
         "tailwind.install",
         "esbuild.install",
-        "assets.deploy.prod"
-      ]
+        "assets.deploy.prod"],
 
       "tau.release": [
         "local.hex --force",
