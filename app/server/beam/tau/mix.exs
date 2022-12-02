@@ -80,7 +80,7 @@ defmodule Tau.MixProject do
         "deps.get",
         "tailwind.install",
         "esbuild.install",
-        "assets.deploy.prod"],
+        "assets.deploy.dev"],
 
       "tau.release": [
         "local.hex --force",
