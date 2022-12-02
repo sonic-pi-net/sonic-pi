@@ -34,10 +34,7 @@ if [ "$offline_build" == true ]; then
     MIX_ENV=prod mix deps.compile
     MIX_ENV=prod mix release --overwrite --no-deps-check
 else
-    MIX_ENV=prod mix local.hex --force
-    MIX_ENV=prod mix local.rebar --force
-    MIX_ENV=prod mix deps.get
-    MIX_ENV=prod mix release --overwrite
+    MIX_ENV=prod mix tau.release
 fi
 
 # Restore working directory as it was prior to this script running...
