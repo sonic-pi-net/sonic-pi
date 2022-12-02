@@ -75,6 +75,12 @@ defmodule Tau.MixProject do
         "esbuild.install",
         "assets.deploy.prod"
       ]
+
+      "tau.release": [
+        "local.hex --force",
+        "local.rebar --force",
+        "deps.get",
+        "release --overwrite"]
     ]
   end
 end
