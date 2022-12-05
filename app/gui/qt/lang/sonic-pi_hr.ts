@@ -209,7 +209,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2700"/>
         <source>Show Scopes</source>
-        <translation></translation>
+        <translation>Prikaži zvukove</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2708"/>
