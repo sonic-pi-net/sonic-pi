@@ -4,7 +4,7 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 WORKING_DIR="$(pwd)"
 
 args=("$@")
-config=""
+config="Release"
 no_imgui=false
 system_libs=false
 
