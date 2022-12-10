@@ -38,6 +38,8 @@ jobs:
           echo 'RUN dnf -y install qt5-qtsvg-devel rubygem-rexml ruby-devel supercollider vcpkg' >> podmanfile
           echo 'RUN dnf clean all' >> podmanfile
           echo 'COPY sonic-pi sonic-pi' >> podmanfile
+          echo 'WORKDIR /sonic-pi' >> podmanfile
+          echo 'RUN tree .' >> podmanfile
           echo 'WORKDIR /sonic-pi/Development/sonic-pi/app' >> podmanfile
           echo 'RUN tree' >> podmanfile
           echo 'RUN ./linux-build-all.sh' >> podmanfile
