@@ -39,6 +39,6 @@ jobs:
           echo 'RUN dnf clean all' >> podmanfile
           echo 'COPY sonic-pi sonic-pi' >> podmanfile
           echo 'WORKDIR /sonic-pi/Development/sonic-pi/app' >> podmanfile
-          echo 'tree' >> podmanfile
+          echo 'RUN tree' >> podmanfile
           echo 'RUN ./linux-build-all.sh' >> podmanfile
           podman build --tag fedora-latest-testbuild -f ./podmanfile
