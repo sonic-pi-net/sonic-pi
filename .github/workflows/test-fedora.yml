@@ -31,10 +31,10 @@ jobs:
           echo 'RUN dnf -y update' >> podmanfile
           echo 'RUN dnf -y group install "Development Tools"' >> podmanfile
           echo 'RUN dnf -y install alsa-utils cmake elixir erlang erlang-xmerl mesa-libGLU-devel' >> podmanfile
-          echo 'RUN dnf -y install jack-audio-connection-kit-devel jack-audio-connection-kit-example-clients' >> podmanfile
-          echo 'RUN dnf -y install ninja-build openssl-devel alsa-lib-devel qt5-qtconfiguration-devel' >> podmanfile
-          echo 'RUN dnf -y install qt5-qttools-devel qt5-qtsvg-devel rubygem-rexml ruby-devel' >> podmanfile
-          echo 'RUN dnf -y install supercollider vcpkg' >> podmanfile
+          echo 'RUN dnf -y install pipewire-jack-audio-connection-kit' >> podmanfile
+          echo 'RUN dnf -y install jack-audio-connection-kit-example-clients ninja-build openssl-devel' >> podmanfile
+          echo 'RUN dnf -y install alsa-lib-devel qt5-qtconfiguration-devel qt5-qttools-devel' >> podmanfile
+          echo 'RUN dnf -y install qt5-qtsvg-devel rubygem-rexml ruby-devel supercollider vcpkg' >> podmanfile
           echo 'RUN dnf clean all' >> podmanfile
           echo 'COPY sonic-pi sonic-pi' >> podmanfile
           echo 'WORKDIR /sonic-pi/Development/sonic-pi/app' >> podmanfile
