@@ -30,13 +30,15 @@ jobs:
           echo 'FROM fedora:latest' >> podmanfile
           echo 'RUN dnf -y update' >> podmanfile
           echo 'RUN dnf -y group install "Development Tools"' >> podmanfile
-          echo 'RUN dnf -y install alsa-utils cmake elixir erlang erlang-xmerl mesa-libGLU-devel' >> podmanfile
-          echo 'RUN dnf -y install pipewire-jack-audio-connection-kit' >> podmanfile
-          echo 'RUN dnf -y install jack-audio-connection-kit-example-clients ninja-build openssl-devel' >> podmanfile
-          echo 'RUN dnf -y install alsa-lib-devel qt5-qtconfiguration-devel qt5-qttools-devel' >> podmanfile
+          echo 'RUN dnf -y install alsa-lib-devel alsa-utils cmake elixir erlang erlang-xmerl' >> podmanfile
+          echo 'RUN dnf -y install mesa-libGLU-devel jack-audio-connection-kit-example-clients' >> podmanfile
+          echo 'RUN dnf -y install ninja-build openssl-devel' >> podmanfile
+          echo 'RUN dnf -y install pipewire-jack-audio-connection-kit tree' >> podmanfile
+          echo 'RUN dnf -y install qt5-qtconfiguration-devel qt5-qttools-devel' >> podmanfile
           echo 'RUN dnf -y install qt5-qtsvg-devel rubygem-rexml ruby-devel supercollider vcpkg' >> podmanfile
           echo 'RUN dnf clean all' >> podmanfile
           echo 'COPY sonic-pi sonic-pi' >> podmanfile
           echo 'WORKDIR /sonic-pi/Development/sonic-pi/app' >> podmanfile
+          echo 'tree' >> podmanfile
           echo 'RUN ./linux-build-all.sh' >> podmanfile
           podman build --tag fedora-latest-testbuild -f ./podmanfile
