@@ -72,7 +72,7 @@ config :phoenix, :plug_init_mode, :runtime
 
 # Configure esbuild (the version is required)
 config :esbuild,
-  version: "0.15.10",
+  version: "0.16.6",
   default: [
     args:
       ~w(js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),
@@ -82,7 +82,7 @@ config :esbuild,
   path: System.get_env("MIX_ESBUILD_PATH")
 
 config :tailwind,
-  version: "3.1.8",
+  version: "3.2.4",
   default: [
     args: ~w(
       --config=tailwind.config.js
