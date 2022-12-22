@@ -5,7 +5,7 @@ defmodule Tau.MixProject do
     [
       app: :tau,
       version: "0.1.0",
-      elixir: "~> 1.13",
+      elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
       elixirc_options: [debug_info: Mix.env() == :dev],
       start_permanent: Mix.env() == :prod,
@@ -29,26 +29,28 @@ defmodule Tau.MixProject do
 
   # Specifies your project dependencies.
   #
+
   # Type `mix help deps` for examples and options.
   defp deps do
     [
       {:rustler, "~> 0.26.0"},
       {:logger_file_backend, "~> 0.0.13"},
-      {:phoenix, "~> 1.6"},
-      {:phoenix_html, "~> 3.0"},
-      {:phoenix_live_view, "~> 0.18"},
-      {:phoenix_live_dashboard, "~> 0.7"},
+      {:phoenix, "~> 1.7.0-rc.0", override: true},
+      {:phoenix_html, "~> 3.2"},
+      {:phoenix_live_view, "~> 0.18.3"},
+      {:phoenix_live_dashboard, "~> 0.7.2"},
+      {:phoenix_view, "~> 2.0"},
       # {:flame_on,               "~> 0.5.2"},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
       {:gettext, "~> 0.20"},
       {:jason, "~> 1.4"},
       {:plug_cowboy, "~> 2.6"},
-      {:petal_components, "~> 0.18.0"},
-      {:phoenix_live_reload, "~> 1.4", only: :dev},
-      {:esbuild, "~> 0.5", runtime: Mix.env() == :dev, only: :dev},
+      {:petal_components, "~> 0.19.1"},
+      {:phoenix_live_reload, "~> 1.4.1", only: :dev},
+      {:esbuild, "~> 0.6", runtime: Mix.env() == :dev, only: :dev},
       {:exsync, "~> 0.2.4", runtime: Mix.env() == :dev, only: :dev},
-      {:tailwind, "~> 0.1", runtime: Mix.env() == :dev, only: :dev},
+      {:tailwind, "~> 0.1.9", runtime: Mix.env() == :dev, only: :dev},
       {:floki, ">= 0.30.0", only: :test}
     ]
   end
