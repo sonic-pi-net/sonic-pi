@@ -3,7 +3,7 @@
 Erlang/Elixir IO Server with C++ NIFs for MIDI and Link plus support for
 future Rust NIFs.
 
-# Development mode
+## Development mode
 
 To manually start the Tau server in development mode:
 
@@ -29,11 +29,9 @@ Note, you will need to connect the browser to localhost on the port which is pri
 
 Also, note, that unless you compile and provide the shared libraries for the MIDI and Link NIFs, this functionality will not be available.
 
-
-# Production mode
+## Production mode
 
 When Tau is packaged into a Sonic Pi release, it is first turned into a mix release which is then started with `MIX_ENV=prod`. You can manually achieve this with the following:
-
 
 ```batchfile
 rem Windows Command Prompt
@@ -48,8 +46,3 @@ MIX_ENV=dev
 mix tau.release
 _build/prod/rel/tau/bin/tau start > /dev/null 2>&1
 ```
-
-
-
-
-

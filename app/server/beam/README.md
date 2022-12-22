@@ -1,6 +1,6 @@
-## Use of Erlang in Sonic Pi.
+# Use of Erlang in Sonic Pi
 
-*Copied from Sam Aarons post in in-thread.sonic-pi.net about the usage of
+*Copied from Sam Aarons post in <https://in-thread.sonic-pi.net> about the usage of
 Erlang in Sonic Pi.*
 
 Sonic Pi works by scheduling all events ahead of time.
@@ -10,7 +10,7 @@ This was made possible because SuperCollider, the synth engine that Sonic Pi
 uses, is able to receive timestamped messages ahead of time, and schedule them
 internally to execute at exactly the right time. This is made possible via OSC
 bundles. For a (probably way too detailed) treaty of this take a look at this
-paper: https://www.cs.kent.ac.uk/people/staff/dao7/publ/farm14-aaron.pdf
+paper: <https://www.cs.kent.ac.uk/people/staff/dao7/publ/farm14-aaron.pdf>
 
 With the release of v3, Sonic Pi gained the ability to talk OSC and MIDI. It’s
 clearly important that these OSC and MIDI events do not happen with the code
@@ -49,36 +49,38 @@ in time with SuperCollider then we have tools to convert OSC to MIDI.
 
 I can totally imagine other similar tools converting OSC to other useful formats
 which will also allow us to take advantage of the Erlang scheduler in the future.
-
 *End of post copy*
 
-### Bundle commands
-```
+## Bundle commands
+
+```text
 ["/send_after", Host, Port | Cmd]
 ["/send_after_tagged", Tag, Host, Port | Cmd]
 ```
-Both commands send the OSC message <Cmd> to <Host,Port> at the time in the
+
+Both commands send the OSC message `Cmd` to `Host,Port` at the time in the
 bundle header
 
-### Immediate Commands
-```
+## Immediate Commands
+
+```text
 ["/flush", <Tag>]
 ```
 
-### Tagged send_after's
+## Tagged send_after's
 
 A Tag can be associated with a send-after command.
-If no tag is explicitly named the tag called "default" is assumed.<br/>
+If no tag is explicitly named the tag called "default" is assumed.
 `["/flush", Tag]` cancels all send-after commands which have not yet been
 issued.
 
-#### Examples:
+### Examples
 
-`["/flush", "default"]`<br/>
+`["/flush", "default"]`
 cancels all send-after requests that were scheduled with a
 `["/send_after", Host, Port, ...]` bundle.
 
-`["/flush", "drums"]`<br/>
+`["/flush", "drums"]`
 cancels all send-after request that were scheduled with a
 `["/send_after_tagged,"drums", Host, Port, ...]` bundle
 
@@ -97,6 +99,6 @@ proceed.
 
 ## Information for developers
 
-*  [Erlang](http://www.erlang.org/)
-*  [Time and Time Correction in Erlang](http://erlang.org/doc/apps/erts/time_correction.html)
-*  [Learn You Some Erlang for great good!](https://learnyousomeerlang.com/)
+* [Erlang](http://www.erlang.org/)
+* [Time and Time Correction in Erlang](http://erlang.org/doc/apps/erts/time_correction.html)
+* [Learn You Some Erlang for great good!](https://learnyousomeerlang.com/)
