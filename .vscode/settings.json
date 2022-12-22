@@ -1,0 +1,4 @@
+{
+  "cmake.sourceDirectory": "${workspaceFolder}/app/",
+  "elixirLS.projectDir": "app/server/beam/tau"
+}
