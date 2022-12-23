@@ -17,7 +17,6 @@ config :tau, TauWeb.Endpoint,
     # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)
     tailwind: {Tailwind, :install_and_run, [:default, ~w(--watch)]},
     esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]}
-
   ]
 
 # ## SSL Support
@@ -56,9 +55,10 @@ config :tau, TauWeb.Endpoint,
     ]
   ]
 
-
 config :exsync, extensions: [".erl"]
 
+# Enable dev routes for dashboard and mailbox
+config :tau, dev_routes: true
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
@@ -69,26 +69,3 @@ config :phoenix, :stacktrace_depth, 20
 
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
-
-# Configure esbuild (the version is required)
-config :esbuild,
-  version: "0.16.6",
-  default: [
-    args:
-      ~w(js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),
-    cd: Path.expand("../assets", __DIR__),
-    env: %{"NODE_PATH" => System.get_env("MIX_DEPS_PATH") || Path.expand("../deps", __DIR__)}
-  ],
-  path: System.get_env("MIX_ESBUILD_PATH")
-
-config :tailwind,
-  version: "3.2.4",
-  default: [
-    args: ~w(
-      --config=tailwind.config.js
-      --input=css/app.css
-      --output=../priv/static/assets/app.css
-    ),
-    cd: Path.expand("../assets", __DIR__)
-  ],
-  path: System.get_env("MIX_TAILWINDCSS_PATH")

@@ -11,6 +11,7 @@ import Config
 # before starting your production server.
 config :tau, TauWeb.Endpoint,
   cache_static_manifest: "priv/static/cache_manifest.json",
+  # TODO what is this used for - not in phx 1.7 generator
   server: true
 
 # Do not print debug messages in production

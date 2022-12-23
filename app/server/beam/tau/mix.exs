@@ -7,7 +7,6 @@ defmodule Tau.MixProject do
       version: "0.1.0",
       elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
-      elixirc_options: [debug_info: Mix.env() == :dev],
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps()
@@ -17,7 +16,10 @@ defmodule Tau.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     if Mix.env() == :dev do
-      [mod: {Tau.Application, []}, extra_applications: [:logger, :runtime_tools, :file_system, :os_mon]]
+      [
+        mod: {Tau.Application, []},
+        extra_applications: [:logger, :runtime_tools, :file_system, :os_mon]
+      ]
     else
       [mod: {Tau.Application, []}, extra_applications: [:logger, :runtime_tools]]
     end
@@ -33,25 +35,24 @@ defmodule Tau.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:rustler, "~> 0.26.0"},
-      {:logger_file_backend, "~> 0.0.13"},
       {:phoenix, "~> 1.7.0-rc.0", override: true},
-      {:phoenix_html, "~> 3.2"},
+      {:phoenix_html, "~> 3.0"},
+      {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, "~> 0.18.3"},
+      {:heroicons, "~> 0.5"},
+      {:floki, ">= 0.30.0", only: :test},
       {:phoenix_live_dashboard, "~> 0.7.2"},
-      {:phoenix_view, "~> 2.0"},
-      # {:flame_on,               "~> 0.5.2"},
+      {:esbuild, "~> 0.6", runtime: Mix.env() == :dev, only: :dev},
+      {:tailwind, "~> 0.1.9", runtime: Mix.env() == :dev, only: :dev},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
       {:gettext, "~> 0.20"},
       {:jason, "~> 1.4"},
       {:plug_cowboy, "~> 2.6"},
-      {:petal_components, "~> 0.19.1"},
-      {:phoenix_live_reload, "~> 1.4.1", only: :dev},
-      {:esbuild, "~> 0.6", runtime: Mix.env() == :dev, only: :dev},
-      {:exsync, "~> 0.2.4", runtime: Mix.env() == :dev, only: :dev},
-      {:tailwind, "~> 0.1.9", runtime: Mix.env() == :dev, only: :dev},
-      {:floki, ">= 0.30.0", only: :test}
+      {:petal_components, "~> 0.19"},
+      {:exsync, "~> 0.2", runtime: Mix.env() == :dev, only: :dev},
+      {:rustler, "~> 0.26"},
+      {:logger_file_backend, "~> 0.0.13"}
     ]
   end
 
@@ -64,31 +65,31 @@ defmodule Tau.MixProject do
   defp aliases do
     [
       setup: ["deps.get"],
-
       "assets.deploy.dev": [
         "phx.digest.clean --all",
         "tailwind default",
-        "esbuild default --sourcemap=inline"],
-
+        "esbuild default --sourcemap=inline"
+      ],
       "assets.deploy.prod": [
         "phx.digest.clean --all",
         "tailwind default --minify",
         "esbuild default --minify",
-        "phx.digest"],
-
+        "phx.digest"
+      ],
       "setup.dev": [
         "local.hex --force",
         "local.rebar --force",
         "deps.get",
         "tailwind.install",
         "esbuild.install",
-        "assets.deploy.dev"],
-
+        "assets.deploy.dev"
+      ],
       "tau.release": [
         "local.hex --force",
         "local.rebar --force",
         "deps.get",
-        "release --overwrite"]
+        "release --overwrite"
+      ]
     ]
   end
 end
