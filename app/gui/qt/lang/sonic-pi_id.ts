@@ -146,7 +146,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="705"/>
         <source>Link Metronome &amp; Global Time Warp</source>
-        <translation type="unfinished"></translation>
+        <translation>Tautkan Metronom &amp; Lorong Waktu Global</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1577"/>
@@ -199,7 +199,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2725"/>
         <source>Indent Code Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Indentasi Code Buffer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2731"/>
@@ -254,12 +254,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="838"/>
         <source>Playing Sample...</source>
-        <translation type="unfinished">Putar Sample...</translation>
+        <translation>Memutar Sampel...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="877"/>
         <source>Hiding pane titles...</source>
-        <translation type="unfinished">Menyembunyikan judul panel...</translation>
+        <translation>Sembunyikan panel judul...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="887"/>
@@ -269,12 +269,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="1319"/>
         <source>Audio Inputs Enabled. Restart Sonic Pi for this setting to take effect...</source>
-        <translation type="unfinished"></translation>
+        <translation>Input audio tidak diaktifkan, mulai ulang Sonic Pi agar pengaturan ini dapat diterapkan...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1321"/>
         <source>Audio Inputs Disabled. Restart Sonic Pi for this setting to take effect...</source>
-        <translation type="unfinished"></translation>
+        <translation>Input audio tidak dinonaktifkan, mulai ulang Sonic Pi agar pengaturan ini dapat diterapkan...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1419"/>
@@ -1287,7 +1287,11 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation type="unfinished">Modus mono beralih.Jika diaktifkan baik audio kanan dan kiri dicampur dan sinyal yang sama dikirim ke kedua speaker. Berguna ketika bekerja dengan sistem eksternal yang hanya dapat menangani mono.</translation>
+        <translation>Beralih ke mode mono.
+Jika diaktifkan, audio kanan dan kiri dicampur dan
+sinyal yang sama dikirim ke kedua speaker.
+Berguna ketika bekerja dengan sistem eksternal yang
+hanya bisa menangani mono.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="105"/>
