@@ -10,19 +10,8 @@ defmodule Tau.Application do
   def start(_type, _args) do
     Logger.info("All systems booting....")
 
-    _tau_env                       = extract_env("TAU_ENV",                            :string, "prod")
-    midi_enabled                   = extract_env("TAU_MIDI_ENABLED",                   :bool, false)
-    link_enabled                   = extract_env("TAU_LINK_ENABLED",                   :bool, false)
-    cues_on                        = extract_env("TAU_CUES_ON",                        :bool, true)
-    osc_in_udp_loopback_restricted = extract_env("TAU_OSC_IN_UDP_LOOPBACK_RESTRICTED", :bool, true)
-    midi_on                        = extract_env("TAU_MIDI_ON",                        :bool, false)
-    link_on                        = extract_env("TAU_LINK_ON",                        :bool, false)
-    osc_in_udp_port                = extract_env("TAU_OSC_IN_UDP_PORT",                :int,  5000)
-    api_port                       = extract_env("TAU_API_PORT",                       :int,  5001)
-    spider_port                    = extract_env("TAU_SPIDER_PORT",                    :int,  5002)
-    daemon_port                    = extract_env("TAU_DAEMON_PORT",                    :int,  -1)
-    daemon_token                   = extract_env("TAU_DAEMON_TOKEN",                   :int,  -1)
-    daemon_host = {127,0,0,1}
+    midi_enabled = Application.get_env(:tau, :midi_enabled, false)
+    link_enabled = Application.get_env(:tau, :link_enabled, false)
 
     if midi_enabled do
       Logger.info("Initialising MIDI native interface")
@@ -37,21 +26,6 @@ defmodule Tau.Application do
     else
       Logger.info("Starting without Link native interface")
     end
-
-    :tau_server_sup.set_application_env(
-      midi_enabled,
-      link_enabled,
-      cues_on,
-      osc_in_udp_loopback_restricted,
-      midi_on,
-      link_on,
-      osc_in_udp_port,
-      api_port,
-      spider_port,
-      daemon_port,
-      daemon_token,
-      daemon_host
-    )
 
     Logger.info("Starting Phoenix server")
 
@@ -82,32 +56,5 @@ defmodule Tau.Application do
   def config_change(changed, _new, removed) do
     TauWeb.Endpoint.config_change(changed, removed)
     :ok
-  end
-
-  defp extract_env(name, kind, default) do
-    env_val = System.get_env(name)
-
-    if !env_val do
-      Logger.info("No env variable supplied for #{name} using default: #{default}")
-      default
-    else
-      extracted = extract_env(env_val, kind)
-      Logger.info("Extracting env #{name} #{kind}: #{extracted}")
-      extracted
-    end
-  end
-
-  defp extract_env(env_val, :int) do
-    {val, ""} = Integer.parse(env_val)
-    val
-  end
-
-  defp extract_env(env_val, :bool) do
-    dc_val = env_val |> String.downcase() |> String.trim()
-    (dc_val != "false") and (dc_val != "0")
-  end
-
-  defp extract_env(env_val, :string) do
-    env_val
   end
 end

@@ -8,7 +8,6 @@
 
 %% API
 -export([start_link/0, child_spec/1]).
--export([set_application_env/12]).
 
 %% Supervisor callbacks
 -export([init/1]).
@@ -41,32 +40,6 @@ start_link() ->
 %%
 %% NOTE: it is important that this code cannot fail, because that
 %% would prevent the application from even being started.
-
-set_application_env(MIDIEnabled,
-                    LinkEnabled,
-                    CuesOn,
-                    OSCInUDPLoopbackRestricted,
-                    MidiOn,
-                    LinkOn,
-                    OSCInUDPPort,
-                    ApiPort,
-                    SpiderPort,
-                    DaemonPort,
-                    DaemonToken,
-                    DaemonHost) ->
-
-    application:set_env(?APPLICATION, midi_enabled, MIDIEnabled),
-    application:set_env(?APPLICATION, link_enabled, LinkEnabled),
-    application:set_env(?APPLICATION, cues_on, CuesOn),
-    application:set_env(?APPLICATION, osc_in_udp_loopback_restricted, OSCInUDPLoopbackRestricted),
-    application:set_env(?APPLICATION, midi_on, MidiOn),
-    application:set_env(?APPLICATION, link_on, LinkOn),
-    application:set_env(?APPLICATION, osc_in_udp_port, OSCInUDPPort),
-    application:set_env(?APPLICATION, api_port, ApiPort),
-    application:set_env(?APPLICATION, spider_port, SpiderPort),
-    application:set_env(?APPLICATION, daemon_port, DaemonPort),
-    application:set_env(?APPLICATION, daemon_token, DaemonToken),
-    application:set_env(?APPLICATION, daemon_host, DaemonHost).
 
 init(_Args) ->
     CueServer = tau_server_cue:server_name(),
