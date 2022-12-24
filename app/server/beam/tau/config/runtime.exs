@@ -36,10 +36,10 @@ config :tau,
 
 if config_env() == :dev do
   config :logger,
-  backends: [{LoggerFileBackend, :tau_file_log}, :console]
+    backends: [{LoggerFileBackend, :tau_file_log}, :console]
 else
   config :logger,
-  backends: [{LoggerFileBackend, :tau_file_log}]
+    backends: [{LoggerFileBackend, :tau_file_log}]
 end
 
 config :logger, :tau_file_log,
@@ -80,15 +80,14 @@ config :tau, TauWeb.Endpoint,
 if config_env() == :dev do
   secret_key_base =
     System.get_env("SECRET_KEY_BASE") ||
-    "pDakDMi+9PfJKYIHcdf7MGIog4NRPiuws5eUT6M6Kcg3Wad69hT+tVwOccyjfYJpDakDMi+9PfJKYIHcdf7MGIog4NRPiuws5eUT6M6Kcg3Wad69hT+tVwOccyjfYJ"
+      "pDakDMi+9PfJKYIHcdf7MGIog4NRPiuws5eUT6M6Kcg3Wad69hT+tVwOccyjfYJpDakDMi+9PfJKYIHcdf7MGIog4NRPiuws5eUT6M6Kcg3Wad69hT+tVwOccyjfYJ"
 
-  config :tau, TauWeb.Endpoint,
-    secret_key_base: secret_key_base
+  config :tau, TauWeb.Endpoint, secret_key_base: secret_key_base
 end
 
 # The block below contains prod specific runtime configuration.
 if config_env() == :prod do
-  IO.puts "prod"
+  IO.puts("prod")
   # The secret key base is used to sign/encrypt cookies and other secrets.
   # A default value is used in config/dev.exs and config/test.exs but you
   # want to use a different value for prod and you most likely don't want
@@ -100,6 +99,6 @@ if config_env() == :prod do
       environment variable SECRET_KEY_BASE is missing.
       You can generate one by calling: mix phx.gen.secret
       """
-  config :tau, TauWeb.Endpoint,
-    secret_key_base: secret_key_base
+
+  config :tau, TauWeb.Endpoint, secret_key_base: secret_key_base
 end
