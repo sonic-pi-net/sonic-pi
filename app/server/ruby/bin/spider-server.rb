@@ -64,8 +64,8 @@ File.delete(old_settings_file_path) if File.exist?(old_settings_file_path)
 
 
 begin
-  if File.exists?(SonicPi::Paths.original_init_path)
-    if (File.exists?(SonicPi::Paths.init_path))
+  if File.exist?(SonicPi::Paths.original_init_path)
+    if (File.exist?(SonicPi::Paths.init_path))
       STDOUT.puts "Warning, you have an older init.rb file in #{SonicPi::Paths.original_init_path} which is now being ignored as your newer config/init.rb file is being used instead. Consider deleting your old init.rb (perhaps copying anything useful across first)."
     else
       STDOUT.puts "Found init.rb in old location #{SonicPi::Paths.original_init_path}. Moving it to the new config directory #{SonicPi::Paths.init_path}."
@@ -245,7 +245,7 @@ begin
   STDOUT.puts "Spider - Runtime Server Initialised"
   STDOUT.flush
   # read in init.rb if exists
-  if File.exists?(SonicPi::Paths.init_path)
+  if File.exist?(SonicPi::Paths.init_path)
     sp.__spider_eval(File.read(SonicPi::Paths.init_path), silent: true)
   else
     STDOUT.puts "Spider - Could not find init.rb file: #{SonicPi::Paths.init_path} "
