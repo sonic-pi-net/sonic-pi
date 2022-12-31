@@ -655,6 +655,8 @@ QMap<QString, QString> SonicPiTheme::mildDarkTheme()
 
     QString dt_grey = "#5e5e5e"; // same as button background
     QString dt_darkgrey = "#1e1e1e";
+    QString dt_ldarkgrey = "#2e2e2e";
+    QString dt_vldarkgrey = "#4d4d4d";
     QString dt_vdarkgrey = "#0d0d0d";
     QString dt_black = "#000";
 
@@ -680,9 +682,9 @@ QMap<QString, QString> SonicPiTheme::mildDarkTheme()
     themeSettings["Midlight"] = dt_grey;
     themeSettings["Mid"] = dt_darkgrey;
     themeSettings["Dark"] = dt_vdarkgrey;
-    themeSettings["ScrollBar"] = dt_darkgrey;
-    themeSettings["ScrollBarBackground"] = dt_black;
-    themeSettings["ScrollBarBorder"] = dt_black;
+    themeSettings["ScrollBar"] = dt_vldarkgrey;
+    themeSettings["ScrollBarBackground"] = dt_ldarkgrey;
+    themeSettings["ScrollBarBorder"] = dt_darkgrey;
     themeSettings["ScrollBarHover"] = dt_blue;
     themeSettings["SliderBackground"] = dt_grey;
     themeSettings["SliderBorder"] = dt_grey;
@@ -693,7 +695,7 @@ QMap<QString, QString> SonicPiTheme::mildDarkTheme()
     themeSettings["TabSelected"] = dt_pink;
     themeSettings["TabSelectedText"] = dt_white;
 
-    themeSettings["StatusBar"] = dt_black;
+    themeSettings["StatusBar"] = dt_darkgrey;
     themeSettings["StatusBarText"] = dt_blue;
 
     themeSettings["Menu"] = dt_darkgrey;
@@ -703,51 +705,51 @@ QMap<QString, QString> SonicPiTheme::mildDarkTheme()
     themeSettings["MenuBar"] = dt_darkgrey;
 
     themeSettings["Foreground"] = dt_lightgrey;
-    themeSettings["Background"] = dt_black;
+    themeSettings["Background"] = dt_darkgrey;
 
     themeSettings["HighlightedForeground"] = dt_white;
     themeSettings["HighlightedBackground"] = dt_pink;
 
     themeSettings["WindowForeground"] = dt_lightgrey;
-    themeSettings["WindowBackground"] = dt_black;
+    themeSettings["WindowBackground"] = dt_darkgrey;
 
-    themeSettings["PaneBackground"] = dt_black;
+    themeSettings["PaneBackground"] = dt_darkgrey;
     themeSettings["WindowInternalBorder"] = dt_vdarkgrey;
     themeSettings["WindowBorder"] = dt_darkgrey;
 
-    themeSettings["ErrorBackground"] = dt_black;
+    themeSettings["ErrorBackground"] = dt_darkgrey;
 
     themeSettings["DefaultForeground"] = dt_white;
-    themeSettings["DefaultBackground"] = dt_black;
+    themeSettings["DefaultBackground"] = dt_darkgrey;
 
     themeSettings["CommentForeground"] = dt_grey;
-    themeSettings["CommentBackground"] = dt_black;
+    themeSettings["CommentBackground"] = dt_darkgrey;
 
     themeSettings["PODForeground"] = dt_white;
     themeSettings["PODBackground"] = dt_warning;
 
     themeSettings["NumberForeground"] = dt_blue;
-    themeSettings["NumberBackground"] = dt_black;
+    themeSettings["NumberBackground"] = dt_darkgrey;
 
     themeSettings["FunctionMethodNameForeground"] = dt_pink;
-    themeSettings["FunctionMethodNameBackground"] = dt_black;
+    themeSettings["FunctionMethodNameBackground"] = dt_darkgrey;
 
     themeSettings["KeywordForeground"] = dt_gold;
-    themeSettings["KeywordBackground"] = dt_black;
+    themeSettings["KeywordBackground"] = dt_darkgrey;
 
     themeSettings["DemotedKeywordForeground"] = dt_gold;
-    themeSettings["DemotedKeywordBackground"] = dt_black;
+    themeSettings["DemotedKeywordBackground"] = dt_darkgrey;
 
     themeSettings["ClassNameForeground"] = dt_not_supported;
     themeSettings["GlobalForeground"] = dt_not_supported;
 
     themeSettings["SymbolForeground"] = dt_pink;
-    themeSettings["SymbolBackground"] = dt_black;
+    themeSettings["SymbolBackground"] = dt_darkgrey;
 
     themeSettings["ModuleNameForeground"] = dt_not_supported;
 
     themeSettings["InstanceVariableForeground"] = dt_not_supported;
-    themeSettings["InstanceVariableBackground"] = dt_black;
+    themeSettings["InstanceVariableBackground"] = dt_darkgrey;
 
     themeSettings["ClassVariableForeground"] = dt_not_supported;
 
@@ -756,34 +758,34 @@ QMap<QString, QString> SonicPiTheme::mildDarkTheme()
 
     themeSettings["PercentStringxForeground"] = dt_not_supported;
     themeSettings["DataSectionForeground"] = dt_not_supported;
-    themeSettings["DataSectionBackground"] = dt_black;
+    themeSettings["DataSectionBackground"] = dt_darkgrey;
 
     themeSettings["DoubleQuotedStringForeground"] = dt_green;
-    themeSettings["DoubleQuotedStringBackground"] = dt_black;
+    themeSettings["DoubleQuotedStringBackground"] = dt_darkgrey;
 
     themeSettings["SingleQuotedStringForeground"] = dt_green;
-    themeSettings["SingleQuotedStringBackground"] = dt_black;
+    themeSettings["SingleQuotedStringBackground"] = dt_darkgrey;
 
     themeSettings["HereDocumentForeground"] = dt_green;
-    themeSettings["HereDocumentBackground"] = dt_black;
+    themeSettings["HereDocumentBackground"] = dt_darkgrey;
 
     themeSettings["PercentStringForeground"] = dt_green;
     themeSettings["PercentStringQForeground"] = dt_green;
 
     themeSettings["RegexForeground"] = dt_green;
-    themeSettings["RegexBackground"] = dt_black;
+    themeSettings["RegexBackground"] = dt_darkgrey;
 
     themeSettings["HereDocumentDelimiterForeground"] = dt_white;
-    themeSettings["HereDocumentDelimiterBackground"] = dt_black;
+    themeSettings["HereDocumentDelimiterBackground"] = dt_darkgrey;
 
     themeSettings["PercentStringrForeground"] = dt_green;
-    themeSettings["PercentStringrBackground"] = dt_black;
+    themeSettings["PercentStringrBackground"] = dt_darkgrey;
 
     themeSettings["PercentStringwForeground"] = dt_white;
-    themeSettings["PercentStringwBackground"] = dt_black;
+    themeSettings["PercentStringwBackground"] = dt_darkgrey;
 
     themeSettings["MarginForeground"] = dt_grey;
-    themeSettings["MarginBackground"] = dt_black;
+    themeSettings["MarginBackground"] = dt_darkgrey;
 
     themeSettings["MarkerBackground"] = dt_pink;
 
@@ -801,9 +803,9 @@ QMap<QString, QString> SonicPiTheme::mildDarkTheme()
     themeSettings["IndentationGuidesForeground"] = dt_blue;
     themeSettings["FoldMarginForeground"] = dt_black;
 
-    themeSettings["StdinBackground"] = dt_black;
-    themeSettings["StdoutBackground"] = dt_black;
-    themeSettings["StderrBackground"] = dt_black;
+    themeSettings["StdinBackground"] = dt_darkgrey;
+    themeSettings["StdoutBackground"] = dt_darkgrey;
+    themeSettings["StderrBackground"] = dt_darkgrey;
 
     themeSettings["Link"] = dt_pink;
     themeSettings["LinkVisited"] = dt_pink;
@@ -812,7 +814,7 @@ QMap<QString, QString> SonicPiTheme::mildDarkTheme()
     themeSettings["Scope_2"] = dt_blue;
 
     themeSettings["LogForeground"] = dt_white;
-    themeSettings["LogBackground"] = dt_black;
+    themeSettings["LogBackground"] = dt_darkgrey;
 
     themeSettings["LogInfoForeground"] = dt_white;
     themeSettings["LogInfoBackground"] = dt_grey;
@@ -821,7 +823,7 @@ QMap<QString, QString> SonicPiTheme::mildDarkTheme()
     themeSettings["LogInfoBackground_1"] = dt_pink;
 
     themeSettings["LogForeground_1"] = dt_blue;
-    themeSettings["LogBackground_1"] = dt_black;
+    themeSettings["LogBackground_1"] = dt_darkgrey;
 
     themeSettings["LogForeground_2"] = dt_white;
     themeSettings["LogBackground_2"] = dt_orange;
