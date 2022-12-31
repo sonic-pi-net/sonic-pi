@@ -813,31 +813,31 @@ QMap<QString, QString> SonicPiTheme::mildDarkTheme()
     themeSettings["Scope"] = dt_pink;
     themeSettings["Scope_2"] = dt_blue;
 
-    themeSettings["LogForeground"] = dt_white;
+    themeSettings["LogForeground"] = dt_lightgrey;
     themeSettings["LogBackground"] = dt_darkgrey;
 
-    themeSettings["LogInfoForeground"] = dt_white;
+    themeSettings["LogInfoForeground"] = dt_lightgrey;
     themeSettings["LogInfoBackground"] = dt_grey;
 
-    themeSettings["LogInfoForeground_1"] = dt_white;
+    themeSettings["LogInfoForeground_1"] = dt_darkgrey;
     themeSettings["LogInfoBackground_1"] = dt_pink;
 
     themeSettings["LogForeground_1"] = dt_blue;
     themeSettings["LogBackground_1"] = dt_darkgrey;
 
-    themeSettings["LogForeground_2"] = dt_white;
+    themeSettings["LogForeground_2"] = dt_lightgrey;
     themeSettings["LogBackground_2"] = dt_orange;
 
     themeSettings["LogForeground_3"] = "red";
-    themeSettings["LogBackground_3"] = dt_white;
+    themeSettings["LogBackground_3"] = dt_lightgrey;
 
-    themeSettings["LogForeground_4"] = dt_white;
+    themeSettings["LogForeground_4"] = dt_lightgrey;
     themeSettings["LogBackground_4"] = dt_pink;
 
-    themeSettings["LogForeground_5"] = dt_white;
+    themeSettings["LogForeground_5"] = dt_lightgrey;
     themeSettings["LogBackground_5"] = dt_blue;
 
-    themeSettings["LogForeground_6"] = dt_white;
+    themeSettings["LogForeground_6"] = dt_lightgrey;
     themeSettings["LogBackground_6"] = dt_orange;
 
     themeSettings["CuePathForeground"] = dt_white;
