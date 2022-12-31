@@ -1512,6 +1512,8 @@ QString SonicPiTheme::themeStyleToName(SonicPiTheme::Style style) {
     return "Dark Pro";
   } else if (style == HighContrastMode) {
     return "High Contrast";
+  } else if (style == MildDarkMode) {
+    return "Mild Dark";
   } else {
     return "Light";
   }
@@ -1528,6 +1530,8 @@ SonicPiTheme::Style SonicPiTheme::themeNameToStyle(QString name) {
     return DarkProMode;
   } else if (name == "High Contrast") {
     return HighContrastMode;
+  } else if (name == "Mild Dark") {
+    return MildDarkMode;
   } else {
     return LightMode;
   }

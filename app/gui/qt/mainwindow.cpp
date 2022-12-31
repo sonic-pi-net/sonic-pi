@@ -2136,6 +2136,10 @@ void MainWindow::cycleThemes()
     }
     else if (piSettings->themeStyle == SonicPiTheme::HighContrastMode)
     {
+        piSettings->themeStyle = SonicPiTheme::MildDarkMode;
+    }
+    else if (piSettings->themeStyle == SonicPiTheme::MildDarkMode)
+    {
         piSettings->themeStyle = SonicPiTheme::LightMode;
     }
     emit settingsChanged();
@@ -2256,7 +2260,10 @@ void MainWindow::updateColourTheme()
     {
         highContrastThemeAct->setChecked(true);
     }
-
+    else if (piSettings->themeStyle == SonicPiTheme::MildDarkMode)
+    {
+        mildDarkThemeAct->setChecked(true);
+    }
     theme->switchStyle(piSettings->themeStyle);
     statusBar()->showMessage(tr("Colour Theme: ") + theme->getName(), 2000);
 
