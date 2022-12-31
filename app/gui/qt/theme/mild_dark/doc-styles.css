@@ -1,0 +1,220 @@
+body {
+  font-family: Helvetica Neue Light, HelveticaNeue-Light, Helvetica Neue, Liberation Sans;
+  font-size: large;
+  color: white;
+  background-color: black;
+  line-height: 110%;
+}
+
+ul {
+    list-style-position: inside;
+}
+
+ul.toc {
+  list-style-type: none;
+
+}
+
+a {
+    color: #FBDE2D;
+    text-decoration: none;
+}
+
+em {
+    color: darkorange;
+    font-size: large;
+}
+
+.asciilogo {
+    font-size: large;
+    color: #808080;
+}
+
+.highlight {
+    color: deeppink;
+}
+
+.error_description {
+    font-size: large;
+    background-color: deeppink;
+    color: white;
+}
+
+.syntax_error_description {
+    font-size: large;
+    background-color: dodgerblue;
+    color: white;
+}
+
+
+.backtrace {
+    font-size: small;
+    color: #5e5e5e;
+}
+
+.error_msg {
+    font-size: x-large;
+    color: deeppink;
+}
+
+.error_line {
+    font-size: x-large;
+    color: #5e5e5e;
+}
+
+.error_msg {
+    font-size: x-large;
+    color: deeppink;
+}
+
+
+pre {
+    font-family: "Hack", "Menlo", "Bitstream Vera Sans Mono", "DejaVu Sans Mono",  "Liberation Mono", "DroidSansMono", "Lucida Console", Consolas, Terminal, Monaco, "Courier New", monospace;
+}
+
+code {
+    font-family: "Hack", "Courier New","Menlo", "Bitstream Vera Sans Mono", "DejaVu Sans Mono",  "Liberation Mono", "DroidSansMono", "Lucida Console", Consolas, Terminal, Monaco, "Courier New", monospace;
+
+    color: deeppink;
+}
+
+code .symbol {
+  color: deeppink;
+}
+
+code .number {
+  color: dodgerblue;
+}
+
+code .keyword {
+  color: darkorange;
+}
+
+code .info {
+  color: #5e5e5e;
+}
+
+.version {
+  font-size: small;
+}
+
+.strapline {
+  font-size: x-large;
+}
+
+.usage {
+    color: white;
+}
+
+.usage code {
+  font-size: x-large;
+  color: white;
+  background-color: black;
+}
+
+h1 {
+  font-size: xx-large;
+  font-weight: bold;
+  padding: 2px;
+  color: white;
+  background-color: deeppink;
+}
+
+h2 {
+  font-size: x-large;
+  font-weight: bold;
+  padding: 2px;
+  color: white;
+  background-color: #5d99f3;
+}
+
+body.info {
+    font-family: "Hack", "Menlo", "Bitstream Vera Sans Mono", "DejaVu Sans Mono",  "Liberation Mono", "DroidSansMono", "Lucida Console", Consolas, Terminal, Monaco, "Courier New", monospace;
+}
+
+body.info a {
+  color: deeppink;
+}
+
+body.example code {
+  font-size: x-large;
+  color: deeppink;
+}
+
+body.manual .introduced {
+  color: darkorange;
+  font-size: large;
+}
+
+body.manual table.arguments td {
+    font-size: large;
+    padding: 2px;
+    font-family: "Hack", "Menlo", "Bitstream Vera Sans Mono", "DejaVu Sans Mono",  "Liberation Mono", "DroidSansMono", "Lucida Console", Consolas, Terminal, Monaco, "Courier New", monospace;
+}
+
+body.manual table.arguments td.odd,
+body.manual table.arguments td.odd a {
+    background-color: #e8e8e8;
+    color: #5e5e5e;
+}
+
+body.manual table.arguments td.even,
+body.manual table.arguments td.even a {
+  background-color: #5e5e5e;
+  color: white;
+}
+
+body.manual table.details td {
+  padding: 8px;
+}
+
+body.manual table.details td.key {
+    font-family: "Hack", "Menlo", "Bitstream Vera Sans Mono", "DejaVu Sans Mono",  "Liberation Mono", "DroidSansMono", "Lucida Console", Consolas, Terminal, Monaco, "Courier New", monospace;
+  font-size: x-large;
+}
+
+body.manual table.details td.odd {
+  background-color: #444;
+}
+
+body.manual table.details td.even {
+  background-color: #333;
+}
+
+body.manual table.details td.odd.key {
+  background-color: #032c7f;
+}
+
+body.manual table.details td.even.key {
+  background-color: #32517f;
+}
+
+body.manual table.details .properties {
+  font-size: large;
+  font-style: italic;
+}
+
+body.manual table.examples td {
+  padding: 8px;
+}
+
+body.manual table.examples code {
+  color: #fff;
+  font-size: large;
+}
+
+body.manual table.examples td.odd {
+  background-color: #444;
+}
+
+body.manual table.examples td.even {
+  background-color: #333;
+}
+
+body.manual table.examples td.odd.head {
+  background-color: #032c7f;
+}
+
+body.manual table.examples td.even.head {
+  background-color: #32517f;
+}
