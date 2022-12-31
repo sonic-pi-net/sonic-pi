@@ -649,9 +649,9 @@ QMap<QString, QString> SonicPiTheme::mildDarkTheme()
 
     // Dark Theme Colour Palette
 
-    QString dt_pink = "deeppink";
+    QString dt_pink = "#ce9178";
     QString dt_white = "white";
-    QString dt_lightgrey = "#ededed";
+    QString dt_lightgrey = "#d4d4d4";
 
     QString dt_grey = "#5e5e5e"; // same as button background
     QString dt_darkgrey = "#1e1e1e";
@@ -660,12 +660,12 @@ QMap<QString, QString> SonicPiTheme::mildDarkTheme()
     QString dt_vdarkgrey = "#0d0d0d";
     QString dt_black = "#000";
 
-    QString dt_blue = "#4c83ff";
+    QString dt_blue = "#9cdcfe";
     QString dt_gold = "#FBDE2D";
-    QString dt_orange = "darkorange";
+    QString dt_orange = "#f1d700";
     QString dt_not_supported = "white";
-    QString dt_warning = "red";
-    QString dt_green = "#61CE3C";
+    QString dt_warning = "#f44747";
+    QString dt_green = "#6A9955";
 
     themeSettings["Base"] = dt_darkgrey;
     themeSettings["AlternateBase"] = dt_grey;
