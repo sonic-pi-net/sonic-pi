@@ -661,6 +661,7 @@ QMap<QString, QString> SonicPiTheme::mildDarkTheme()
     QString dt_black = "#000";
 
     QString dt_blue = "#9cdcfe";
+    QString dt_dark_blue = "#7db0cb";
     QString dt_gold = "#FBDE2D";
     QString dt_orange = "#f1d700";
     QString dt_not_supported = "white";
@@ -671,12 +672,12 @@ QMap<QString, QString> SonicPiTheme::mildDarkTheme()
     themeSettings["AlternateBase"] = dt_grey;
     themeSettings["ToolTipBase"] = dt_grey;
     themeSettings["ToolTipText"] = dt_white;
-    themeSettings["Button"] = dt_grey;
-    themeSettings["ButtonBorder"] = dt_white;
+    themeSettings["Button"] = dt_darkgrey;
+    themeSettings["ButtonBorder"] = dt_ldarkgrey;
     themeSettings["PressedButton"] = dt_pink;
-    themeSettings["ButtonText"] = dt_white;
-    themeSettings["PressedButtonText"] = dt_white;
-    themeSettings["HoverButton"] = dt_blue;
+    themeSettings["ButtonText"] = dt_lightgrey;
+    themeSettings["PressedButtonText"] = dt_vdarkgrey;
+    themeSettings["HoverButton"] = dt_dark_blue;
     themeSettings["Shadow"] = dt_vdarkgrey;
     themeSettings["Light"] = dt_lightgrey;
     themeSettings["Midlight"] = dt_grey;
@@ -685,15 +686,15 @@ QMap<QString, QString> SonicPiTheme::mildDarkTheme()
     themeSettings["ScrollBar"] = dt_vldarkgrey;
     themeSettings["ScrollBarBackground"] = dt_ldarkgrey;
     themeSettings["ScrollBarBorder"] = dt_darkgrey;
-    themeSettings["ScrollBarHover"] = dt_blue;
+    themeSettings["ScrollBarHover"] = dt_dark_blue;
     themeSettings["SliderBackground"] = dt_grey;
     themeSettings["SliderBorder"] = dt_grey;
     themeSettings["Slider"] = dt_pink;
 
     themeSettings["Tab"] = dt_grey;
-    themeSettings["TabText"] = dt_white;
-    themeSettings["TabSelected"] = dt_pink;
-    themeSettings["TabSelectedText"] = dt_white;
+    themeSettings["TabText"] = dt_lightgrey;
+    themeSettings["TabSelected"] = dt_darkgrey;
+    themeSettings["TabSelectedText"] = dt_lightgrey;
 
     themeSettings["StatusBar"] = dt_darkgrey;
     themeSettings["StatusBarText"] = dt_blue;
@@ -715,7 +716,7 @@ QMap<QString, QString> SonicPiTheme::mildDarkTheme()
 
     themeSettings["PaneBackground"] = dt_darkgrey;
     themeSettings["WindowInternalBorder"] = dt_vdarkgrey;
-    themeSettings["WindowBorder"] = dt_darkgrey;
+    themeSettings["WindowBorder"] = dt_vldarkgrey;
 
     themeSettings["ErrorBackground"] = dt_darkgrey;
 
@@ -728,7 +729,7 @@ QMap<QString, QString> SonicPiTheme::mildDarkTheme()
     themeSettings["PODForeground"] = dt_white;
     themeSettings["PODBackground"] = dt_warning;
 
-    themeSettings["NumberForeground"] = dt_blue;
+    themeSettings["NumberForeground"] = dt_dark_blue;
     themeSettings["NumberBackground"] = dt_darkgrey;
 
     themeSettings["FunctionMethodNameForeground"] = dt_pink;
@@ -775,13 +776,13 @@ QMap<QString, QString> SonicPiTheme::mildDarkTheme()
     themeSettings["RegexForeground"] = dt_green;
     themeSettings["RegexBackground"] = dt_darkgrey;
 
-    themeSettings["HereDocumentDelimiterForeground"] = dt_white;
+    themeSettings["HereDocumentDelimiterForeground"] = dt_lightgrey;
     themeSettings["HereDocumentDelimiterBackground"] = dt_darkgrey;
 
     themeSettings["PercentStringrForeground"] = dt_green;
     themeSettings["PercentStringrBackground"] = dt_darkgrey;
 
-    themeSettings["PercentStringwForeground"] = dt_white;
+    themeSettings["PercentStringwForeground"] = dt_lightgrey;
     themeSettings["PercentStringwBackground"] = dt_darkgrey;
 
     themeSettings["MarginForeground"] = dt_grey;
@@ -789,13 +790,13 @@ QMap<QString, QString> SonicPiTheme::mildDarkTheme()
 
     themeSettings["MarkerBackground"] = dt_pink;
 
-    themeSettings["SelectionForeground"] = dt_white;
+    themeSettings["SelectionForeground"] = dt_lightgrey;
     themeSettings["SelectionBackground"] = dt_pink;
 
     themeSettings["MatchedBraceForeground"] = dt_pink;
     themeSettings["MatchedBraceBackground"] = dt_lightgrey;
 
-    themeSettings["BraceForeground"] = dt_white;
+    themeSettings["BraceForeground"] = dt_lightgrey;
 
     themeSettings["CaretForeground"] = dt_pink;
     themeSettings["CaretLineBackground"] = dt_vdarkgrey;
@@ -843,7 +844,7 @@ QMap<QString, QString> SonicPiTheme::mildDarkTheme()
     themeSettings["CuePathForeground"] = dt_white;
     themeSettings["CuePathBackground"] = dt_pink;
     themeSettings["CueDataForeground"] = dt_white;
-    themeSettings["CueDataBackground"] = dt_orange;
+    themeSettings["CueDataBackground"] = "#808080";
 
     return themeSettings;
 }
