@@ -2239,6 +2239,8 @@ void MainWindow::updateColourTheme()
     proDarkThemeAct->setChecked(false);
     QSignalBlocker highContrastBlocker(highContrastThemeAct);
     highContrastThemeAct->setChecked(false);
+    QSignalBlocker mildDarkBlocker(mildDarkThemeAct);
+    mildDarkThemeAct->setChecked(false);
 
     if (piSettings->themeStyle == SonicPiTheme::LightMode)
     {
