@@ -1,5 +1,5 @@
 -module(sp_link).
--export([init_nif/1, deinit_nif/0, enable/1, is_enabled/0, set_tempo/2, get_tempo/0, get_num_peers/0,
+-export([is_nif_loaded/0, is_nif_initialized/0, init_nif/1, deinit_nif/0, enable/1, is_enabled/0, set_tempo/2, get_tempo/0, get_num_peers/0,
     start_stop_sync_enable/1, is_start_stop_sync_enabled/0, set_is_playing/2, is_playing/0, get_time_for_is_playing/0,
     get_beat_at_time/2, get_phase_at_time/2, get_time_at_beat/2, request_beat_at_time/3, force_beat_at_time/3,
     request_beat_at_start_playing_time/2, set_is_playing_and_request_beat_at_time/4, set_callback_pid/1,
@@ -14,6 +14,10 @@ init() ->
         ok = erlang:load_nif("/home/luis/projects/sp_link/build/libsp_link", 0)
     end.
 
+is_nif_loaded() ->
+    exit(nif_library_not_loaded).
+is_nif_initialized() ->
+    exit(nif_library_not_loaded).
 init_nif(_) ->
     exit(nif_library_not_loaded).
 deinit_nif() ->

@@ -29,6 +29,27 @@
 
 extern int g_monitor_level;
 
+ERL_NIF_TERM sp_link_is_nif_loaded_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    bool loaded;
+    int rc = sp_link_is_nif_loaded(&loaded);
+    if (rc < 0){
+        return enif_make_atom(env, "error");
+    }
+    return enif_make_atom(env, loaded ? "true" : "false");
+}
+
+ERL_NIF_TERM sp_link_is_nif_initialized_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    bool initialized;
+    int rc = sp_link_is_nif_initialized(&initialized);
+    if (rc < 0){
+        return enif_make_atom(env, "error");
+    }
+    return enif_make_atom(env, initialized ? "true" : "false");
+}
+
+
 
 ERL_NIF_TERM sp_link_init_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
@@ -375,7 +396,7 @@ ERL_NIF_TERM sp_link_set_link_callback_pid_nif(ErlNifEnv* env, int argc, const E
     if (!enif_is_pid(env, argv[0])){
         return enif_make_badarg(env);
     }
-    
+
     ErlNifPid link_erlang_callback_pid;
     int rc = enif_get_local_pid(env, argv[0], &link_erlang_callback_pid);
     if (rc){
@@ -411,6 +432,8 @@ ERL_NIF_TERM sp_link_get_current_time_microseconds_nif(ErlNifEnv* env, int argc,
 
 
 static ErlNifFunc nif_funcs[] = {
+    {"is_nif_loaded", 0, sp_link_is_nif_loaded_nif},
+    {"is_nif_initialized", 0, sp_link_is_nif_initialized_nif},
     {"init_nif", 1, sp_link_init_nif},
     {"deinit_nif", 0, sp_link_deinit_nif},
     {"enable", 1, sp_link_enable_nif},

@@ -32,6 +32,7 @@ extern "C" {
 #endif
 
     // TODO: These are exported for C tests. Once we are happy that it's working they should not be exported
+
     /**
      * Initialize the sp_link library. Must be called before anything else.
      *
@@ -44,7 +45,20 @@ extern "C" {
      */
     DllExport void sp_link_deinit();
 
+    DllExport int sp_link_is_nif_loaded(bool* is_nif_loaded);
 
+    /**
+     * Returns true if init has been called
+     */
+    DllExport int sp_link_is_nif_initialized(bool* is_nif_initialized);
+
+    /**
+     * Enable/disable the sp_link library. This should be called after init to
+     * enable/disable network connectivity with other link peers on the local
+     * network.
+     *
+     * @return 0 if ok, < 0 if error
+     */
     DllExport int sp_link_enable(bool enable);
 
     DllExport int sp_link_is_enabled(bool* enabled);

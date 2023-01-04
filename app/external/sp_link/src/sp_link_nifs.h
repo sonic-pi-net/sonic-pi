@@ -43,6 +43,10 @@ extern "C" {
     /**
      * Deinitialize the sp_link library.
      */
+    DllExport ERL_NIF_TERM sp_link_is_nif_loaded_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
+
+    DllExport ERL_NIF_TERM sp_link_is_nif_initialized_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
+
     DllExport ERL_NIF_TERM sp_link_deinit_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
 
     DllExport ERL_NIF_TERM sp_link_enable_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
