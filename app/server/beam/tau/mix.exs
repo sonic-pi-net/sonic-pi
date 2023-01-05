@@ -52,7 +52,8 @@ defmodule Tau.MixProject do
       {:petal_components, "~> 0.19"},
       {:exsync, "~> 0.2", runtime: Mix.env() == :dev, only: :dev},
       {:rustler, "~> 0.26"},
-      {:logger_file_backend, "~> 0.0.13"}
+      {:logger_file_backend, "~> 0.0.13"},
+      {:credo, "~> 1.6", only: [:dev, :test], runtime: false}
     ]
   end
 
