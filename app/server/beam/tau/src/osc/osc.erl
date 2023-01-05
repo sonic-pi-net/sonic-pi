@@ -39,7 +39,7 @@
 %% The units of the timestamp are seconds past epoch
 
 now() ->
-    %% nanoseconds past epoc
+    %% nanoseconds past epoch
     os:system_time(nanosecond)/1000000000.
 
 osc_time_to_local(Tsec) ->
