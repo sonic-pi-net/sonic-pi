@@ -1,5 +1,5 @@
 -module(sp_midi).
--export([init/0, midi_init/0, midi_deinit/0, midi_send/2, midi_flush/0, midi_ins/0, midi_outs/0, have_my_pid/0,
+-export([is_nif_loaded/0, is_nif_initialized/0, init/0, midi_init/0, midi_deinit/0, midi_send/2, midi_flush/0, midi_ins/0, midi_outs/0, have_my_pid/0,
         set_this_pid/1, set_log_level/1, get_current_time_microseconds/0, midi_refresh_devices/0]).
 
 -define(APPLICATION, tau).
@@ -19,6 +19,10 @@ init() ->
     end,
     erlang:load_nif(SoName, 0).
 
+is_nif_loaded() ->
+    false.
+is_nif_initialized() ->
+    false.
 midi_init() ->
     done.
 midi_deinit() ->
