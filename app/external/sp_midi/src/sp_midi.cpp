@@ -33,9 +33,11 @@
 #include "monitorlogger.h"
 #include "midi_port_info.h"
 
-static int g_monitor_level = 6;
-
 using namespace std;
+
+static int g_monitor_level = 6;
+static mutex g_init_mutex;
+
 
 // FIXME: need to test what happens when MIDI devices are already in use by another application
 // and sp_midi cannot open them
@@ -119,6 +121,7 @@ int sp_midi_send(const char* device_name, const unsigned char* c_message, unsign
 
 int sp_midi_init()
 {
+    lock_guard<std::mutex> lock (g_init_mutex);
     if (g_already_initialized){
         return 0;
     }
@@ -150,6 +153,7 @@ int sp_midi_init()
 
 void sp_midi_deinit()
 {
+    lock_guard<std::mutex> lock (g_init_mutex);
     if (!g_already_initialized){
         return;
     }
@@ -165,6 +169,18 @@ void sp_midi_deinit()
     // And we stop them
     midiInputs.clear();
     midiSendProcessor.reset(nullptr);
+}
+
+int sp_midi_is_nif_initialized(bool* is_nif_initialized)
+{
+    *is_nif_initialized = g_already_initialized ? 1 : 0;
+    return 0;
+}
+
+int sp_midi_is_nif_loaded(bool* is_nif_loaded)
+{
+    *is_nif_loaded = true;
+    return 0;
 }
 
 static char **vector_str_to_c(const vector<string>& vector_str)
@@ -226,6 +242,27 @@ ERL_NIF_TERM c_str_list_to_erlang(ErlNifEnv *env, int n, char **c_str_list)
 
 
 // NIF functions
+
+ERL_NIF_TERM sp_midi_is_nif_loaded_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    bool loaded;
+    int rc = sp_midi_is_nif_loaded(&loaded);
+    if (rc < 0){
+        return enif_make_atom(env, "error");
+    }
+    return enif_make_atom(env, loaded ? "true" : "false");
+}
+
+ERL_NIF_TERM sp_midi_is_nif_initialized_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    bool initialized;
+    int rc = sp_midi_is_nif_initialized(&initialized);
+    if (rc < 0){
+        return enif_make_atom(env, "error");
+    }
+    return enif_make_atom(env, initialized ? "true" : "false");
+}
+
 ERL_NIF_TERM sp_midi_init_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     int ret = sp_midi_init();
@@ -357,6 +394,8 @@ int send_midi_data_to_erlang(const char *device_name, const unsigned char *data,
 
 
 static ErlNifFunc nif_funcs[] = {
+    {"is_nif_loaded", 0, sp_midi_is_nif_loaded_nif},
+    {"is_nif_initialized", 0, sp_midi_is_nif_initialized_nif},
     {"midi_init", 0, sp_midi_init_nif},
     {"midi_deinit", 0, sp_midi_deinit_nif},
     {"midi_send", 2, sp_midi_send_nif},
