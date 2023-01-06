@@ -50,7 +50,7 @@ config :tau, TauWeb.Endpoint,
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
       ~r"lib/tau_web/(live|views)/.*(ex)$",
-      ~r"lib/tau_web/templates/.*(eex)$",
+      ~r"lib/tau_web/(controllers|live|components)/.*(ex|heex)$",
       ~r"../petal_components/lib/.*(ex)$"
     ]
   ]
