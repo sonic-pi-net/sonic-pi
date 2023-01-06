@@ -93,6 +93,9 @@ target_link_directories(${APP_NAME}
 	PRIVATE
 	 /opt/vc/lib
 	 )
+else()
+    target_compile_definitions(${APP_NAME} PRIVATE
+        IMGUI_IMPL_OPENGL_LOADER_GL3W)	 
 endif()
 
 target_link_libraries (${APP_NAME}

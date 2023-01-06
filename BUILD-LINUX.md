@@ -69,6 +69,14 @@ following methods:
 * Get newer packaged versions of Elixir from [Erlang Solutions' repository](https://www.erlang-solutions.com/downloads/) (though installing packages from outside your distros main repository is at your own risk!)
 * Build and install it yourself
 
+### 1.2 Fedora
+```bash
+sudo dnf group install "Development Tools"
+sudo dnf install alsa-utils aubio-devel catch-devel cmake crossguid-devel elixir erlang erlang-xmerl fmt-devel glew-devel gsl-lite-devel jack-audio-connection-kit-devel jack-audio-connection-kit-example-clients libsndfile-devel ninja-build openssl-devel qt5-qtconfiguration-devel qt5-qttools-devel qt5-qtsvg-devel reproc-devel ruby-devel SDL2-devel supercollider-devel vcpkg      
+```
+
+There is an Audinux Copr [repository]()https://copr.fedorainfracloud.org/coprs/ycollet/audinux/package/sonic-pi/) with Sonic-Pi.  
+
 ## 2. Preparing the Build
 
 Once we have installed all the dependencies, we're almost ready to build
