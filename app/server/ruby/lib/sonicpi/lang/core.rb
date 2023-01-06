@@ -52,6 +52,17 @@ module SonicPi
         end
       end
 
+      # Wrap Time so that it always displays to millisecond precision
+      class MilliTime < Time
+        def at(*args)
+          MilliTime.new Time.at(*args)
+        end
+
+        def inspect()
+          strftime "%Y-%m-%d %H:%M:%S.%L %z"
+        end
+      end
+
       def __cue_path_segment(s)
         s = String.new(s.to_s)
         s.gsub!(/[\s#*,?\/\[\]{}]/, '_')
@@ -3938,7 +3949,7 @@ end
 
 
       def current_time
-        __get_spider_time
+        MilliTime.at(__get_spider_time)
       end
       doc name:          :current_time,
           introduced:    Version.new(3,0,0),
@@ -3950,7 +3961,7 @@ Unlike `Time.now`, Multiple calls to `current_time` with no interleaved calls to
           opts:          nil,
           accepts_block: false,
           examples:      ["
-  puts current_time # 2017-03-19 23:37:57 +0000",
+  puts current_time # 2017-03-19 23:37:57.324 +0000",
 "
 # The difference between current_time and Time.now
 # See that Time.now is continuous and current_time is discrete
