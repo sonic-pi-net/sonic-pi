@@ -790,7 +790,7 @@ Finally, it is also very useful to send OSC messages to other programs on the sa
 
 See `osc_send` for a version which allows you to specify the hostname and port directly (ignoring any values set via `use_osc` or `with_osc`).
 
-For further information see the OSC spec: [http://opensoundcontrol.org/spec-1_0.html](http://opensoundcontrol.org/spec-1_0.html)
+For further information see the OSC spec: [https://opensoundcontrol.stanford.edu/spec-1_0.html](https://opensoundcontrol.stanford.edu/spec-1_0.html)
 ",
       examples: [
 " # Send a simple OSC message to another program on the same machine

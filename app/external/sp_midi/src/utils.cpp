@@ -41,7 +41,7 @@ void downcase(string& str)
 void safeOscString(string& str)
 {
   /*ASCII characters not allowed in names of OSC paths
-    See: http://opensoundcontrol.org/spec-1_0
+    See: https://opensoundcontrol.stanford.edu/spec-1_0.html
     ' ' space             32
     #   number sign       35
     *   asterisk          42
