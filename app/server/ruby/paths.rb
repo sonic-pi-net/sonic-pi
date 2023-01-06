@@ -65,15 +65,15 @@ module SonicPi
       File.absolute_path("#{doc_path}/generated")
     end
 
-    def self.docs_cheatsheets_path
+    def self.cheatsheets_path
       File.absolute_path("#{doc_path}/cheatsheets")
     end
 
-    def self.docs_tutorial_path
+    def self.tutorial_path
       File.absolute_path("#{doc_path}/tutorial")
     end
 
-    def self.docs_lang_path
+    def self.lang_path
       File.absolute_path("#{doc_path}/lang")
     end
 
