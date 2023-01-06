@@ -40,7 +40,7 @@ class I18nTool
   include SonicPi::Util
   include GetText
 
-  POT_FILE_PATH = "#{SonicPi::Paths.docs_lang_path}/sonic-pi-reference.pot"
+  POT_FILE_PATH = "#{SonicPi::Paths.lang_path}/sonic-pi-reference.pot"
 
   def initialize
     @pot_file_path = POT_FILE_PATH
@@ -127,7 +127,7 @@ class I18nTool
     puts 'Updating the translation files with new source strings...'
     raise "no .pot file, run 'i18n-tool-reference.rb --extract' first" unless File.exist?(@pot_file_path)
     (locales - ['en']).each do |l|
-      po_file_path = "#{SonicPi::Paths.docs_lang_path}/sonic-pi-reference-#{l}.po"
+      po_file_path = "#{SonicPi::Paths.lang_path}/sonic-pi-reference-#{l}.po"
       puts po_file_path
       FileUtils.touch(po_file_path)
       cmdline = ['--update', '--no-obsolete-entries', po_file_path, @pot_file_path]
@@ -148,7 +148,7 @@ class I18nTool
   end
 
   def create_and_bind_binary_translations(locale)
-    po_file_path = "#{SonicPi::Paths.docs_lang_path}/sonic-pi-reference-#{locale}.po"
+    po_file_path = "#{SonicPi::Paths.lang_path}/sonic-pi-reference-#{locale}.po"
     mo_file_base_path = "#{SonicPi::Paths.docs_generated_path}/#{locale}/LC_MESSAGES"
     mo_file_path = "#{mo_file_base_path}/reference-#{locale}.mo"
     FileUtils.mkdir_p(mo_file_base_path) unless File.exist?(mo_file_base_path)
@@ -219,7 +219,7 @@ class I18nTool
 
   def locales
     @locales ||= begin
-      (Dir["#{SonicPi::Paths.docs_lang_path}/sonic-pi-tutorial-*.po"]
+      (Dir["#{SonicPi::Paths.lang_path}/sonic-pi-tutorial-*.po"]
       .map { |p| File.basename(p).gsub(/sonic-pi-tutorial-(.*?).po/, '\1') }
       .sort << 'en')
     end
