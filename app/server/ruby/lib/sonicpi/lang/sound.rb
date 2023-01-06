@@ -1261,11 +1261,12 @@ Accepts optional args for modification of the synth being played. See each synth
           accepts_block: false,
           examples:      ["
 play_pattern [40, 41, 42] # Same as:
-                          #   play 40
+                          #   play 40, sustain: 1
                           #   sleep 1
-                          #   play 41
+                          #   play 41, sustain: 1
                           #   sleep 1
-                          #   play 42
+                          #   play 42, sustain: 1
+                          #   sleep 1
 ",
         "play_pattern [:d3, :c1, :Eb5] # You can use keyword notes",
 
@@ -1291,62 +1292,75 @@ play_pattern [40, 41, 42] # Same as:
       doc name:          :play_pattern_timed,
           introduced:    Version.new(2,0,0),
           summary:       "Play pattern of notes with specific times",
-          doc:           "Play each note in a list of notes one after another with specified times between them. The notes should be a list of MIDI numbers, symbols such as :E4 or chords such as chord(:A3, :major) - identical to the first parameter of the play function. The times should be a list of times between the notes in beats.
+          doc:           "Play each note in a list of notes one after another with specified durations. The notes should be a list of MIDI numbers, symbols such as :E4 or chords such as chord(:A3, :major) - identical to the first parameter of the play function. The times should be a list of durations for each note in beats.
 
-If the list of times is smaller than the number of gaps between notes, the list is repeated again. If the list of times is longer than the number of gaps between notes, then some of the times are ignored. See examples for more detail.
+If the list of times is smaller than the number of notes, the list is repeated again. If the list of times is longer than the number of notes, then some of the times are ignored. See examples for more detail.
 
 Accepts optional args for modification of the synth being played. See each synth's documentation for synth-specific opts. See `use_synth` and `with_synth` for changing the current synth.",
           args:          [[:notes, :list], [:times, :list_or_number]],
           opts:          DEFAULT_PLAY_OPTS,
           accepts_block: false,
           examples:      ["
-play_pattern_timed [40, 42, 44, 46], [1, 2, 3]
+play_pattern_timed [40, 42, 44], [1, 2, 3]
 
 # same as:
 
-play 40
+play 40, sustain: 1
 sleep 1
-play 42
+play 42, sustain: 2
 sleep 2
-play 44
-sleep 3
-play 46",
+play 44, sustain: 3
+sleep 3",
 
         "play_pattern_timed [40, 42, 44, 46, 49], [1, 0.5]
 
 # same as:
 
-play 40
+play 40, sustain: 1
 sleep 1
-play 42
+play 42, sustain: 0.5
 sleep 0.5
-play 44
+play 44, sustain: 1
 sleep 1
-play 46
+play 46, sustain: 0.5
 sleep 0.5
-play 49",
+play 49, sustain: 1
+sleep 1",
 
         "play_pattern_timed [40, 42, 44, 46], [0.5]
 
 # same as:
 
-play 40
+play 40, sustain: 0.5
 sleep 0.5
-play 42
+play 42, sustain: 0.5
 sleep 0.5
-play 44
+play 44, sustain: 0.5
 sleep 0.5
-play 46",
+play 46, sustain: 0.5
+sleep 0.5",
 
         "play_pattern_timed [40, 42, 44], [1, 2, 3, 4, 5]
 
-#same as:
+# same as:
+
+play 40, sustain: 1
+sleep 1
+play 42, sustain: 2
+sleep 2
+play 44, sustain: 3
+sleep 3",
+
+        "play_pattern_timed [40, 42, 44], [1, 2, 3], sustain: 0
+
+# effectively same as:
 
 play 40
 sleep 1
 play 42
 sleep 2
-play 44"]
+play 44
+sleep 3"]
 
 
 
