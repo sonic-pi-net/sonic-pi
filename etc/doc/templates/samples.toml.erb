@@ -75,6 +75,6 @@ slidable_label = "<%= t_('Has slide options to shape changes') %>"
 <% end -%>
 <%=
 if data_object.arg_info.any? { |name, arg| arg[:slidable] }
-    ERB.new(File.read(::SonicPi::Paths.slides_template_path), trim_mode: '-', eoutvar: '_slide01').result(binding)
+    ERB.new(File.read(::SonicPi::Paths.docs_slides_template_path), trim_mode: '-', eoutvar: '_slide01').result(binding)
 end
 %>
