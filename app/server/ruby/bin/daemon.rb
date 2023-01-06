@@ -939,7 +939,7 @@ module SonicPi
         Util.log "Daemon listening to info from Tau on port #{ports["daemon"]}"
 
         ENV["TAU_CUES_ON"]                        = "true"
-        ENV["TAU_OSC_IN_UDP_LOOPBACK_RESTRICTED"] = "false"
+        ENV["TAU_OSC_IN_UDP_LOOPBACK_RESTRICTED"] = "true"
         ENV["TAU_MIDI_ON"]                        = "true"
         ENV["TAU_LINK_ON"]                        = "true"
         ENV["TAU_OSC_IN_UDP_PORT"]                = "#{ports["osc-cues"]}"
