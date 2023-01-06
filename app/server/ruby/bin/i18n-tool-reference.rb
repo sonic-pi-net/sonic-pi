@@ -83,6 +83,10 @@ class I18nTool
     "<%= _(\"#{arg}\") %>" unless arg.nil? || arg == ''
   end
 
+  # Replace any invalid filename characters with underscores
+  def make_valid_filename(name)
+    name.to_s.gsub(/[\/\\?%:*<>]/, '_')
+  end
 
   # Reads the files containing the initial erb templates for each documentation category,
   # and copies their contents into new erb files, with any variables replaced (interpolated) by their actual values.
@@ -97,7 +101,7 @@ class I18nTool
         # all types (synths/fx/samples)
         data_object = collection[:data_object] || item
         key = key.to_s[3..-1] if collection[:klass] == SonicPi::Synths::FXInfo
-        interpolated_file_path = "#{collection[:interpolated_path]}/#{key}.toml.erb"
+        interpolated_file_path = "#{collection[:interpolated_path]}/#{make_valid_filename(key)}.toml.erb"
         template = ERB.new(original_template, trim_mode: '-').result(binding)
         FileUtils.mkdir_p(collection[:interpolated_path]) unless File.exist?(collection[:interpolated_path])
         File.open(interpolated_file_path, 'w') do |f|
@@ -156,11 +160,12 @@ class I18nTool
     [synths, fx, samples, lang].each do |collection|
       collection[:items].to_a.each do |key, item|
         key = key.to_s[3..-1] if collection[:klass] == SonicPi::Synths::FXInfo
-        interpolated_file = File.read("#{collection[:interpolated_path]}/#{key}.toml.erb")
+        filename = make_valid_filename(key)
+        interpolated_file = File.read("#{collection[:interpolated_path]}/#{filename}.toml.erb")
         output = ERB.new(interpolated_file, trim_mode: '-').result(binding)
         output_path = collection[:output_path].call(locale)
         FileUtils.mkdir_p(output_path) unless File.exist?(output_path)
-        File.open("#{output_path}/#{key}.toml", 'w') do |f|
+        File.open("#{output_path}/#{filename}.toml", 'w') do |f|
           f.write output
         end
       end
