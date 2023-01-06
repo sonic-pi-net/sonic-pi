@@ -18,7 +18,7 @@ class ReferenceI18nTester < Minitest::Test
     @synthinfo_filtered = SonicPi::Synths::SynthInfo.get_all.select { |k, _v| %i[fx_autotuner bass_foundation].include?(k) }
     @samples_filtered = SonicPi::Synths::SynthInfo.grouped_samples.select { |k, _v| k == :ambi }
     @lang_filtered = SonicPi::Lang::Sound.docs.select { |k, _v| k == :all_sample_names }
-    SonicPi::Paths.stubs(:generated_path).returns(@generated_path)
+    SonicPi::Paths.stubs(:docs_generated_path).returns(@generated_path)
     SonicPi::Paths.stubs(:lang_path).returns(@lang_path)
 
     @i18n_tool = ::I18nTool.new
@@ -56,7 +56,7 @@ class ReferenceI18nTester < Minitest::Test
     SonicPi::Synths::SynthInfo.expects(:get_all).twice.returns(@synthinfo_filtered)
     SonicPi::Synths::SynthInfo.expects(:grouped_samples).returns(@samples_filtered)
     ::I18nTool.expects(:docs).returns(@lang_filtered)
-    SonicPi::Paths.stubs(:interpolated_template_path).returns(interpolated_template_path)
+    SonicPi::Paths.stubs(:docs_interpolated_template_path).returns(interpolated_template_path)
     @toml_file_path = "#{@generated_path}/fr/reference"
 
     refute_path_exists(@toml_file_path)
