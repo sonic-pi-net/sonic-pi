@@ -95,7 +95,7 @@ void PhxWidget::setTheme(SonicPiTheme* theme)
   m_theme = theme;
   phxView->setScrollbarColours(theme->color("ScrollBar"),
                                theme->color("ScrollBarBackground"),
-                               theme->color("ScrollBarBorder"));
+                               theme->color("ScrollBarHover"));
 }
 
 void  PhxWidget::connectToTauPhx(QUrl url)
