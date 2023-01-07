@@ -13,15 +13,22 @@
 
 #include <QWebEngineView>
 #include "phxwebview.h"
+#include "phxurlinterceptor.h"
+
 
 PhxWebView::PhxWebView(QWidget *parent)
     : QWebEngineView(parent)
 {
+
+    PhxUrlInterceptor *interceptor = new PhxUrlInterceptor;
     phxProfile = new QWebEngineProfile();
+    phxProfile->setUrlRequestInterceptor(interceptor);
     phxPage = new QWebEnginePage(phxProfile);
     phxPage->setParent(this);
     phxProfile->setParent(this);
     setPage(phxPage);
     setContextMenuPolicy(Qt::NoContextMenu);
     setZoomFactor(2.0);
+
 }
+

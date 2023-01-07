@@ -128,6 +128,9 @@ set(SOURCES
       ${QTAPP_ROOT}/widgets/phxwebview.cpp
       ${QTAPP_ROOT}/widgets/phxwidget.h
       ${QTAPP_ROOT}/widgets/phxwidget.cpp
+      ${QTAPP_ROOT}/widgets/phxurlinterceptor.h
+      ${QTAPP_ROOT}/widgets/phxurlinterceptor.cpp
+
       )
   endif()
 
