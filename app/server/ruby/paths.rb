@@ -165,6 +165,10 @@ module SonicPi
       File.absolute_path("#{app_path}/gui/qt")
     end
 
+    def self.qt_gui_utils_path
+      File.absolute_path("#{app_path}/gui/qt/utils")
+    end
+
     def self.examples_path
       File.absolute_path("#{etc_path}/examples")
     end
