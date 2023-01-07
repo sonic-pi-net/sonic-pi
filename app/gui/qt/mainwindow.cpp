@@ -2308,6 +2308,9 @@ void MainWindow::updateColourTheme()
     scopeWindow->SetColor2(theme->color("Scope_2"));
     lexer->unhighlightAll();
     metroPane->updateColourTheme();
+#ifdef WITH_WEBENGINE
+    phxWidget->setTheme(theme);
+#endif
 }
 
 void MainWindow::showLineNumbersMenuChanged()

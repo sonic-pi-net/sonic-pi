@@ -16,6 +16,7 @@
 #define PHXWIDGET_H
 #include <QWidget>
 #include "phxwebview.h"
+#include "../model/sonicpitheme.h"
 
 class QVBoxLayout;
 class QHBoxLayout;
@@ -29,6 +30,7 @@ class PhxWidget : public QWidget
 public:
     PhxWidget(QWidget* parent = 0);
     void connectToTauPhx(QUrl url);
+    void setTheme(SonicPiTheme* theme);
 
 private:
     QHBoxLayout *mainLayout;
@@ -40,6 +42,7 @@ private:
     PhxWebView *phxView;
     bool phxAlive;
     QUrl defaultUrl;
+    SonicPiTheme* m_theme;
 
 private slots:
     void handleSizeDown();
@@ -47,6 +50,7 @@ private slots:
     void handleSizeUp();
     void handleResetBrowser();
     void handleLoadFinished(bool ok);
+
 };
 
 #endif // PHXWIDGET_H
