@@ -275,7 +275,7 @@ if (APPLE)
   add_custom_command(
     TARGET ${APP_NAME}
     POST_BUILD
-    COMMAND plutil -replace NSHighResolutionCapable -bool true ${MACOS_APP_NAME}.app/Contents/Info.plist
+    COMMAND chmod +w ${MACOS_APP_NAME}.app/Contents/Info.plist && plutil -replace NSHighResolutionCapable -bool true ${MACOS_APP_NAME}.app/Contents/Info.plist
   )
 endif()
 
