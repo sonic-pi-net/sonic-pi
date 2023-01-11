@@ -28,7 +28,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="705"/>
         <source>Link Metronome &amp; Global Time Warp</source>
-        <translation type="unfinished"></translation>
+        <translation>同步节拍器&amp;全局时间调整</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="780"/>
@@ -426,17 +426,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="2813"/>
         <source>Link Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>连接Link硬件</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2818"/>
         <source>Connect or disconnect the Link Metronome from the network</source>
-        <translation type="unfinished"></translation>
+        <translation>在网络上连接/断开Link节拍器</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2820"/>
         <source>Tap Tempo</source>
-        <translation type="unfinished"></translation>
+        <translation>手动敲击确定节拍</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2823"/>
@@ -451,7 +451,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2830"/>
         <source>Enforce Timing Guarantees</source>
-        <translation type="unfinished"></translation>
+        <translation>强制确保节奏合拍</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2835"/>
@@ -1180,7 +1180,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../utils/ruby_help.h" line="3196"/>
         <source>Fx</source>
-        <translation type="unfinished"></translation>
+        <translation>效果器</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3217"/>
@@ -1342,7 +1342,10 @@ which isn&apos;t recognised.</source>
         <translation>选中该选项时，Sonic Pi将允许
 通过load_synthdefs模块来加载的合成器和效果器
 被触发。
-取消该选项时，Sonic Pi将在尝试加载未被识别的合成器或效果器时发出警告。</translation>
+
+取消该选项时，Sonic Pi将会在以下情况发出警告：
+尝试使用不被识别的
+合成器或者效果器。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="151"/>
