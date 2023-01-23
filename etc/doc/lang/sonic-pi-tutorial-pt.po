@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2022-07-14 00:18+0000\n"
-"Last-Translator: Evandro Afonso Rodrigues <evandroafonsorodrigues@gmail.com>\n"
-"Language-Team: Portuguese <https://hosted.weblate.org/projects/sonic-pi/tutori"
-"al/pt/>\n"
+"PO-Revision-Date: 2023-01-23 19:50+0000\n"
+"Last-Translator: Ivan Eiji Yamauchi Simurra <ieysimurra@gmail.com>\n"
+"Language-Team: Portuguese <https://hosted.weblate.org/projects/sonic-pi/"
+"tutorial/pt/>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.14-dev\n"
+"X-Generator: Weblate 4.16-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -24,17 +24,16 @@ msgid "Welcome friend :-)"
 msgstr "Bem-vindo amigo :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:5
-#, fuzzy
 msgid ""
 "Welcome to Sonic Pi. Hopefully you're as excited to get started making your ow"
 "n sounds as I am to show you. It's going to be a really *fun* ride where you'l"
 "l learn all about music, synthesis, programming, composition, performance and "
 "more."
 msgstr ""
-"Bem-vindo ao Sonic Pi. Espero que estejas tão ansioso para começar a criar son"
-"s malucos como eu para te mostrar. Vai ser uma viagem *muito* divertida onde v"
-"ais aprender tudo sobre musica, síntese, programação, composição, desempenho e"
-" mais."
+"Bem-vindo ao Sonic Pi. Espero que estejas tão ansioso para começar a criar "
+"seus próprios sons como eu estou para te mostrar. Vai ser uma viagem muito "
+"*divertida* onde vais aprender tudo sobre música, síntese, programação, "
+"composição, desempenho e mais."
 
 #: 01-Welcome-to-Sonic-Pi.md:10
 msgid ""
