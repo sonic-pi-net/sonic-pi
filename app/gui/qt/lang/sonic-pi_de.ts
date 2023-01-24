@@ -1000,12 +1000,12 @@ Lade Sonic Pi %1 herunter</translation>
     <message>
         <location filename="../mainwindow.cpp" line="4413"/>
         <source>you may manually override this and further configure how SuperCollider boots by editing the file:</source>
-        <translation>du darfst dies manuel überschreiben und zusätzliche Einstellungen am Startverhalten von SuperCollider vornehmen, indem du diese Datei bearbeitest:</translation>
+        <translation>du kannst dies manuell überschreiben und zusätzliche Einstellungen am Startverhalten von SuperCollider vornehmen, indem du diese Datei bearbeitest:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4415"/>
         <source>SuperCollider Log</source>
-        <translation type="unfinished"></translation>
+        <translation>SuperCollider-Ereignisprotokoll</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2695"/>
@@ -1086,7 +1086,7 @@ Lade Sonic Pi %1 herunter</translation>
     <message>
         <location filename="../mainwindow.cpp" line="469"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Schließen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="614"/>
@@ -1244,7 +1244,7 @@ Lade Sonic Pi %1 herunter</translation>
         <location filename="../widgets/settingswidget.cpp" line="55"/>
         <location filename="../widgets/settingswidget.cpp" line="514"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprache</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="77"/>
@@ -1407,7 +1407,7 @@ Wenn deaktiviert, können OSC-Signale innerhalb des Computers gesendet und empfa
     <message>
         <location filename="../widgets/settingswidget.cpp" line="231"/>
         <source>Default MIDI out channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Standard MIDI-Ausgangs-Kanal</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="298"/>
@@ -1502,22 +1502,22 @@ midi_*-Funktionen gesendet werden können direkt von Sonic Pi</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="83"/>
         <source>Audio Input</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio-Eingang</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="84"/>
         <source>Audio settings for working with audio inputs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio-Einstellungen zum Arbeiten mit Audio-Eingängen.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="85"/>
         <source>Enable Audio Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktiviere Audio-Eingänge</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="86"/>
         <source>Toggle to enable or disable audio inputs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Schalte um, um Audio-Eingänge zu aktivieren oder zu deaktivieren.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="114"/>
@@ -1527,7 +1527,7 @@ midi_*-Funktionen gesendet werden können direkt von Sonic Pi</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="127"/>
         <source>Audio Hardware Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio-Hardware-Informationen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="128"/>
