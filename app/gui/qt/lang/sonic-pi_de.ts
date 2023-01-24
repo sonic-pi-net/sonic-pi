@@ -1000,7 +1000,7 @@ Lade Sonic Pi %1 herunter</translation>
     <message>
         <location filename="../mainwindow.cpp" line="4413"/>
         <source>you may manually override this and further configure how SuperCollider boots by editing the file:</source>
-        <translation type="unfinished"></translation>
+        <translation>du darfst dies manuel überschreiben und zusätzliche Einstellungen am Startverhalten von SuperCollider vornehmen, indem du diese Datei bearbeitest:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4415"/>
