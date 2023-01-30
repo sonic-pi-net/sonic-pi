@@ -140,6 +140,12 @@ loop(State) ->
             NewState = do_bundle(Time, X, State),
             ?MODULE:loop(NewState);
 
+        {cmd, ["/hydra_eval", Code]=Cmd} ->
+            debug_cmd(Cmd),
+            hydra_eval(Code),
+
+           ?MODULE:loop(State);
+
         {cmd, ["/send-pid-to-daemon", DaemonToken]=Cmd} ->
             debug_cmd(Cmd),
             DaemonPort = maps:get(daemon_port, State),
@@ -289,6 +295,11 @@ loop(State) ->
             ?MODULE:loop(State)
     end.
 
+hydra_eval(Code) ->
+    ElixirCode = 'Elixir.List':'to_string'(Code),
+    'Elixir.Tau.HydraSynthLang':'eval_hydra'(ElixirCode),
+    ok.
+
 send_to_link(Message, State) ->
     LinkServer = maps:get(link_server, State),
     LinkServer ! Message,
@@ -322,6 +333,8 @@ do_bundle(Time, [{_,Bin}|T], State) ->
                 schedule_link(Time, "default", State, {link_set_is_playing, Enabled});
             {cmd, ["/link-set-is-playing-tagged", Tag, Enabled]} ->
                 schedule_link(Time, Tag, State, {link_set_is_playing, Enabled});
+            {cmd, ["/hydra_eval", Code]} ->
+                schedule_internal_call(Time, "default", State, self(), {cmd, ["/hydra_eval", Code]});
             Other ->
                 logger:error("Unexpected bundle content:~p", [Other]),
                 State
@@ -346,11 +359,10 @@ schedule_internal_call(Time, Tag, State, Server, Msg) ->
             %% at that time, the message will be quietly dropped
             SchedMsg = {call, Server, Msg, Tracker},
             Timer = erlang:start_timer(MsDelay, self(), SchedMsg),
-            logger:debug("start (MIDI) timer of ~w ms for time ~f", [MsDelay, Time]),
             tau_server_tracker:track(Timer, Time, Tracker);
        true ->
             Server ! Msg,
-            logger:debug("Directly sent scheduled call", [])
+            logger:debug("Out of Time! Directly sent scheduled call.", [])
     end,
     NewState.
 

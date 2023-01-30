@@ -65,7 +65,6 @@ module SonicPi
     def tau_ready?
       @tau_comms.tau_ready?
     end
-
     def block_until_tau_ready!
       @tau_comms.block_until_tau_ready!
     end
@@ -80,7 +79,13 @@ module SonicPi
       api_send_at(t + @global_timewarp, "/midi-at", b)
     end
 
+    def hydra_eval_at(t, code)
+      api_send_at(t + @global_timewarp, "/hydra_eval", code)
+    end
+
+
     # Link API
+
 
     def link_is_on?
       res = api_rpc("/link-is-on")
