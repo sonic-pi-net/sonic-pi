@@ -1,6 +1,5 @@
 defmodule TauWeb.MainLive do
   use TauWeb, :live_view
-  use PrimerLive
 
   @impl true
   def mount(_params, _session, socket) do
