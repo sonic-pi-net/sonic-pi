@@ -42,8 +42,8 @@ defmodule Tau.MixProject do
       {:heroicons, "~> 0.5"},
       {:floki, ">= 0.30.0", only: :test},
       {:phoenix_live_dashboard, "~> 0.7.2"},
-      {:esbuild, "~> 0.6", runtime: Mix.env() == :dev, only: :dev},
-      {:tailwind, "~> 0.1.9", runtime: Mix.env() == :dev, only: :dev},
+      {:esbuild, "~> 0.6", runtime: Mix.env() == :dev},
+      {:tailwind, "~> 0.1.9", runtime: Mix.env() == :dev},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
       {:gettext, "~> 0.20"},
@@ -85,10 +85,17 @@ defmodule Tau.MixProject do
         "esbuild.install",
         "assets.deploy.dev"
       ],
-      "tau.release": [
+      "setup.prod": [
         "local.hex --force",
         "local.rebar --force",
         "deps.get",
+        "tailwind.install",
+        "esbuild.install",
+        "assets.deploy.prod"
+      ],
+
+      "tau.release": [
+        "setup.prod",
         "release --overwrite"
       ]
     ]
