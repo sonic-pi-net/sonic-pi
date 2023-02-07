@@ -1,15 +1,15 @@
- # --
- # This file is part of Sonic Pi: http://sonic-pi.net
- # Full project source: https://github.com/sonic-pi-net/sonic-pi
- # License: https://github.com/sonic-pi-net/sonic-pi/blob/main/LICENSE.md
+# --
+# This file is part of Sonic Pi: http://sonic-pi.net
+# Full project source: https://github.com/sonic-pi-net/sonic-pi
+# License: https://github.com/sonic-pi-net/sonic-pi/blob/main/LICENSE.md
 
- # Copyright 2021 by Sam Aaron (http://sam.aaron.name/)
- # All rights reserved.
+# Copyright 2021 by Sam Aaron (http://sam.aaron.name/)
+# All rights reserved.
 
- # Permission is granted for use, copying, modification, and
- # distribution of modified versions of this work as long as this
- # notice is included.
- # ++
+# Permission is granted for use, copying, modification, and
+# distribution of modified versions of this work as long as this
+# notice is included.
+# ++
 
 defmodule ErlangTauOSCTest do
   use ExUnit.Case
@@ -20,18 +20,17 @@ defmodule ErlangTauOSCTest do
   end
 
   test "osc encode/decode int64" do
-    a = :osc.encode(['/testi64', {:int64, 347873045749854}])
-    {:cmd, ['/testi64', 347873045749854]} = :osc.decode(a)
+    a = :osc.encode(['/testi64', {:int64, 347_873_045_749_854}])
+    {:cmd, ['/testi64', 347_873_045_749_854]} = :osc.decode(a)
   end
 
   test "decode osc binary" do
-    bin = (<<35,98,117,110,100,108,101,0,
-      218,114,254,188,137,88,216,0,0,0,0,16,
-      47,102,111,111,0,0,0,0,44,115,0,0,98,97,114,0>>)
+    bin =
+      <<35, 98, 117, 110, 100, 108, 101, 0, 218, 114, 254, 188, 137, 88, 216, 0, 0, 0, 0, 16, 47,
+        102, 111, 111, 0, 0, 0, 0, 44, 115, 0, 0, 98, 97, 114, 0>>
 
     {:bundle, _, [{_n, internal_osc}]} = :osc.decode(bin)
     {:cmd, ['/foo', 'bar']} = :osc.decode(internal_osc)
-
   end
 
   test "making a bundle with a timestamp" do

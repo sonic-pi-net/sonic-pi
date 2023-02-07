@@ -35,15 +35,15 @@ defmodule Tau.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.7.0-rc.1", override: true},
+      {:phoenix, "~> 1.7.0-rc.2", override: true},
       {:phoenix_html, "~> 3.0"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, "~> 0.18.4"},
       {:heroicons, "~> 0.5"},
       {:floki, ">= 0.30.0", only: :test},
       {:phoenix_live_dashboard, "~> 0.7.2"},
-      {:esbuild, "~> 0.6", runtime: Mix.env() == :dev, only: :dev},
-      {:tailwind, "~> 0.1.9", runtime: Mix.env() == :dev, only: :dev},
+      {:esbuild, "~> 0.6", runtime: Mix.env() == :dev},
+      {:tailwind, "~> 0.1.9", runtime: Mix.env() == :dev},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
       {:gettext, "~> 0.20"},
@@ -85,10 +85,17 @@ defmodule Tau.MixProject do
         "esbuild.install",
         "assets.deploy.dev"
       ],
-      "tau.release": [
+      "setup.prod": [
         "local.hex --force",
         "local.rebar --force",
         "deps.get",
+        "tailwind.install",
+        "esbuild.install",
+        "assets.deploy.prod"
+      ],
+
+      "tau.release": [
+        "setup.prod",
         "release --overwrite"
       ]
     ]

@@ -713,6 +713,10 @@ osc \"/foo/baz\"             # Send an OSC message to port 7000
                              # do/end block
 "        ]
 
+def hydra(code)
+  t = __get_spider_schedule_time
+  @tau_api.hydra_eval_at(t, code)
+end
 
       def osc_send(host, port, path, *args)
         host = host.to_s.strip

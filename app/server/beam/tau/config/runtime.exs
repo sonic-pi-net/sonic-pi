@@ -56,33 +56,59 @@ config :logger, :tau_file_log,
 # Then you can assemble a release by calling `mix release`.
 # See `mix help release` for more information.
 
-phx_port = extract_env.("TAU_PHX_PORT", :int, 8002)
-
-config :tau,
-  midi_on: extract_env.("TAU_MIDI_ON", :bool, false),
-  midi_enabled: extract_env.("TAU_MIDI_ENABLED", :bool, false),
-  link_enabled: extract_env.("TAU_LINK_ENABLED", :bool, false),
-  cues_on: extract_env.("TAU_CUES_ON", :bool, true),
-  osc_in_udp_loopback_restricted: extract_env.("TAU_OSC_IN_UDP_LOOPBACK_RESTRICTED", :bool, true),
-  link_on: extract_env.("TAU_LINK_ON", :bool, false),
-  osc_in_udp_port: extract_env.("TAU_OSC_IN_UDP_PORT", :int, 5000),
-  api_port: extract_env.("TAU_API_PORT", :int, 5001),
-  spider_port: extract_env.("TAU_SPIDER_PORT", :int, 5002),
-  daemon_port: extract_env.("TAU_DAEMON_PORT", :int, -1),
-  daemon_token: extract_env.("TAU_DAEMON_TOKEN", :int, -1),
-  daemon_host: {127, 0, 0, 1},
-  phx_port: phx_port
-
-config :tau, TauWeb.Endpoint,
-  server: true,
-  http: [ip: {127, 0, 0, 1}, port: phx_port]
-
 if config_env() == :dev do
   secret_key_base =
     System.get_env("SECRET_KEY_BASE") ||
       "pDakDMi+9PfJKYIHcdf7MGIog4NRPiuws5eUT6M6Kcg3Wad69hT+tVwOccyjfYJpDakDMi+9PfJKYIHcdf7MGIog4NRPiuws5eUT6M6Kcg3Wad69hT+tVwOccyjfYJ"
 
   config :tau, TauWeb.Endpoint, secret_key_base: secret_key_base
+end
+
+if config_env() != :test do
+  phx_port = extract_env.("TAU_PHX_PORT", :int, 8002)
+
+  config :tau, TauWeb.Endpoint,
+    server: true,
+    # http: [ip: {127, 0, 0, 1}, port: phx_port]
+    http: [ip: {0, 0, 0, 0}, port: phx_port]
+
+  config :tau,
+    midi_on: extract_env.("TAU_MIDI_ON", :bool, false),
+    midi_enabled: extract_env.("TAU_MIDI_ENABLED", :bool, false),
+    link_enabled: extract_env.("TAU_LINK_ENABLED", :bool, false),
+    cues_on: extract_env.("TAU_CUES_ON", :bool, false),
+    osc_in_udp_loopback_restricted:
+      extract_env.("TAU_OSC_IN_UDP_LOOPBACK_RESTRICTED", :bool, true),
+    link_on: extract_env.("TAU_LINK_ON", :bool, false),
+    osc_in_udp_port: extract_env.("TAU_OSC_IN_UDP_PORT", :int, 5000),
+    api_port: extract_env.("TAU_API_PORT", :int, 5001),
+    spider_port: extract_env.("TAU_SPIDER_PORT", :int, 5002),
+    daemon_port: extract_env.("TAU_DAEMON_PORT", :int, -1),
+    daemon_token: extract_env.("TAU_DAEMON_TOKEN", :int, -1),
+    daemon_host: {127, 0, 0, 1},
+    phx_port: phx_port
+else
+  phx_port = extract_env.("TAU_PHX_PORT", :int, Enum.random(30000..65535))
+
+  config :tau, TauWeb.Endpoint,
+    server: true,
+    http: [ip: {127, 0, 0, 1}, port: phx_port]
+
+  config :tau,
+    midi_on: extract_env.("TAU_MIDI_ON", :bool, false),
+    midi_enabled: extract_env.("TAU_MIDI_ENABLED", :bool, false),
+    link_enabled: extract_env.("TAU_LINK_ENABLED", :bool, false),
+    cues_on: extract_env.("TAU_CUES_ON", :bool, true),
+    osc_in_udp_loopback_restricted:
+      extract_env.("TAU_OSC_IN_UDP_LOOPBACK_RESTRICTED", :bool, true),
+    link_on: extract_env.("TAU_LINK_ON", :bool, false),
+    osc_in_udp_port: extract_env.("TAU_OSC_IN_UDP_PORT", :int, Enum.random(30000..65535)),
+    api_port: extract_env.("TAU_API_PORT", :int, Enum.random(30000..65535)),
+    spider_port: extract_env.("TAU_SPIDER_PORT", :int, Enum.random(30000..65535)),
+    daemon_port: extract_env.("TAU_DAEMON_PORT", :int, -1),
+    daemon_token: extract_env.("TAU_DAEMON_TOKEN", :int, -1),
+    daemon_host: {127, 0, 0, 1},
+    phx_port: phx_port
 end
 
 # The block below contains prod specific runtime configuration.

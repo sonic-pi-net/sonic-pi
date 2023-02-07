@@ -22,27 +22,29 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
-# Configure esbuild (the version is required)
-config :esbuild,
-  version: "0.16.15",
-  default: [
-    args:
-      ~w(js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),
-    cd: Path.expand("../assets", __DIR__),
-    env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
-  ]
+if config_env() != :test do
+  # Configure esbuild (the version is required)
+  config :esbuild,
+    version: "0.17.4",
+    default: [
+      args:
+        ~w(js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/* --loader:.js=jsx),
+      cd: Path.expand("../assets", __DIR__),
+      env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
+    ]
 
-# Configure tailwind (the version is required)
-config :tailwind,
-  version: "3.2.4",
-  default: [
-    args: ~w(
+  # Configure tailwind (the version is required)
+  config :tailwind,
+    version: "3.2.4",
+    default: [
+      args: ~w(
       --config=tailwind.config.js
       --input=css/app.css
       --output=../priv/static/assets/app.css
     ),
-    cd: Path.expand("../assets", __DIR__)
-  ]
+      cd: Path.expand("../assets", __DIR__)
+    ]
+end
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
