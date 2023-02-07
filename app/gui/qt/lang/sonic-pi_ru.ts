@@ -294,12 +294,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2485"/>
         <source>Show context on</source>
-        <translation type="unfinished"></translation>
+        <translation>Включить показ контекста</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2494"/>
         <source>Show context off</source>
-        <translation type="unfinished"></translation>
+        <translation>Выключить показ контекста</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2510"/>
@@ -364,7 +364,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2737"/>
         <source>Code Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Уменьшить размер кода</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2743"/>
@@ -374,37 +374,37 @@
     <message>
         <location filename="../mainwindow.cpp" line="2751"/>
         <source>Show Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать информацию</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2758"/>
         <source>Show Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать окно помощи</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2766"/>
         <source>Show Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать настройки</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2793"/>
         <source>Show Line Numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать номера строк</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2798"/>
         <source>Show Code Completion</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать автодополнение кода</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2803"/>
         <source>Show Code Context</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать контекст кода</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2808"/>
         <source>Enable Audio Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Включить Аудио Входы</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2813"/>
@@ -414,7 +414,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2818"/>
         <source>Connect or disconnect the Link Metronome from the network</source>
-        <translation type="unfinished"></translation>
+        <translation>Присоединить или отсоединить Метроном от сети</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2820"/>
@@ -429,7 +429,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2825"/>
         <source>Safe Audio Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Режим Безопасного Звука</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2830"/>
@@ -439,12 +439,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2835"/>
         <source>Enable External Synths</source>
-        <translation type="unfinished"></translation>
+        <translation>Включить Внешние Синтезаторы</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2840"/>
         <source>Invert Stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>Инвертировать Стерео</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2844"/>
@@ -499,12 +499,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2906"/>
         <source>Code</source>
-        <translation type="unfinished"></translation>
+        <translation>Код</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2918"/>
         <source>Audio</source>
-        <translation type="unfinished">Аудио</translation>
+        <translation>Аудио</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2929"/>
@@ -544,17 +544,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="2961"/>
         <source>Show Titles</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Показать Заголовки</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2966"/>
         <source>Hide Menu Bar in Fullscreen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Спрятать Окно Меню в Полноэкранном Режиме</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2971"/>
         <source>Colour Theme</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Цветная тема</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2980"/>
@@ -569,121 +569,121 @@
     <message>
         <location filename="../mainwindow.cpp" line="2993"/>
         <source>MIDI Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Входы MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2994"/>
         <location filename="../mainwindow.cpp" line="4010"/>
         <location filename="../mainwindow.cpp" line="4145"/>
         <source>No Connected Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Нет подсоединенных входов</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2995"/>
         <source>MIDI Outputs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Выходы MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2996"/>
         <location filename="../mainwindow.cpp" line="4008"/>
         <location filename="../mainwindow.cpp" line="4167"/>
         <source>No Connected Outputs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Нет Присоединенных Выходов</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2998"/>
         <source>Default MIDI Out Channel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">MIDI Выходной Канал по Умолчанию</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3000"/>
         <source>All Channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Все Каналы</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3005"/>
         <source>1</source>
-        <translation type="unfinished"></translation>
+        <translation>1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3010"/>
         <source>2</source>
-        <translation type="unfinished"></translation>
+        <translation>2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3015"/>
         <source>3</source>
-        <translation type="unfinished"></translation>
+        <translation>3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3020"/>
         <source>4</source>
-        <translation type="unfinished"></translation>
+        <translation>4</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3025"/>
         <source>5</source>
-        <translation type="unfinished"></translation>
+        <translation>5</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3030"/>
         <source>6</source>
-        <translation type="unfinished"></translation>
+        <translation>6</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3035"/>
         <source>7</source>
-        <translation type="unfinished"></translation>
+        <translation>7</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3040"/>
         <source>8</source>
-        <translation type="unfinished"></translation>
+        <translation>8</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3045"/>
         <source>9</source>
-        <translation type="unfinished"></translation>
+        <translation>9</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3050"/>
         <source>10</source>
-        <translation type="unfinished"></translation>
+        <translation>10</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3055"/>
         <source>11</source>
-        <translation type="unfinished"></translation>
+        <translation>11</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3060"/>
         <source>12</source>
-        <translation type="unfinished"></translation>
+        <translation>12</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3065"/>
         <source>13</source>
-        <translation type="unfinished"></translation>
+        <translation>13</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3070"/>
         <source>14</source>
-        <translation type="unfinished"></translation>
+        <translation>14</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3075"/>
         <source>15</source>
-        <translation type="unfinished"></translation>
+        <translation>15</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3080"/>
         <source>16</source>
-        <translation type="unfinished"></translation>
+        <translation>16</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3088"/>
         <source>Local IP Addresses</source>
-        <translation type="unfinished"></translation>
+        <translation>Локальные IP адреса</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3102"/>
@@ -693,7 +693,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3105"/>
         <source>View</source>
-        <translation type="unfinished"></translation>
+        <translation>Вид</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3121"/>
@@ -728,7 +728,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3168"/>
         <source>Show Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать Логи</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3173"/>
@@ -738,32 +738,32 @@
     <message>
         <location filename="../mainwindow.cpp" line="3178"/>
         <source>Show Metronome</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать Метроном</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3183"/>
         <source>Show Buttons</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать Кнопки</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3188"/>
         <source>Show Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Показать Табы</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3193"/>
         <source>Full Screen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Полноэкранный Режим</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3232"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Язык</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3707"/>
         <source>Restarting Sonic Pi...</source>
-        <translation type="unfinished"></translation>
+        <translation>Перезагрузка Sonic Pi...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4041"/>
@@ -793,57 +793,57 @@
     <message>
         <location filename="../mainwindow.cpp" line="4301"/>
         <source>Line: %1,  Position: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Строка: %1,  Позиция: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4400"/>
         <source>Sonic Pi - Audio Server Boot Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi - Ошибка Загрузки Аудио Сервера</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4405"/>
         <source>Sorry, the Audio Server failed to start...</source>
-        <translation type="unfinished"></translation>
+        <translation>Извините, Аудио Сервер не смог запуститься...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4406"/>
         <source>Please try changing your default OS audio input &amp; outputs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Попробуйте сменить аудио входы и выходы вашей OS по умолчанию.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4407"/>
         <source>Note, the audio rate of the inputs &amp; outputs must be the same.</source>
-        <translation type="unfinished"></translation>
+        <translation>Заметьте, звуковые частоты входов и выходов должны совпадать.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4409"/>
         <source>For the curious among you, Sonic Pi uses the SuperCollider Audio Server to generate its sounds. By default it will connect to your default system audio input and outputs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Для самых любознательных: для генерации всех звуков под капотом Sonic Pi использует звуковой сервер SuperCollider. По умолчанию, он подключится к вашему обычному системному входу и выходам.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4410"/>
         <source>Unfortunately SuperCollider is having problems starting correctly. You can read the full error log below which should explain why.</source>
-        <translation type="unfinished"></translation>
+        <translation>К сожалению, у SuperCollider  возникли проблемы, и он не смог запуститься. Вы можете почитать логи ниже, чтобы разобраться детальнее.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4411"/>
         <source>To fix this you can try changing your default operating system audio inputs and outputs (ensuring they have the same audio rate).</source>
-        <translation type="unfinished"></translation>
+        <translation>Чтобы это починить вы может попробовать поменять звуковые входы и выходы вашей оперативной системы, используемые по умолчанию (удостоверившись, что у них одинаковая звуковая частота).</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4412"/>
         <source>Advanced Users</source>
-        <translation type="unfinished"></translation>
+        <translation>Продвинутые Пользователи</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4413"/>
         <source>you may manually override this and further configure how SuperCollider boots by editing the file:</source>
-        <translation type="unfinished"></translation>
+        <translation>вы можете вручную изменить это и сконфигурировать, как именно SuperCollider запускается, отредактировав файл:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4415"/>
         <source>SuperCollider Log</source>
-        <translation type="unfinished"></translation>
+        <translation>SuperCollider Лог</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2707"/>
@@ -904,38 +904,39 @@
     <message>
         <location filename="../mainwindow.cpp" line="321"/>
         <source>No Matching Studio Hash Found...</source>
-        <translation type="unfinished"></translation>
+        <translation>Соответствующий Хэш Студии Не Найден...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="469"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Закрыть</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="614"/>
         <source>| %1 |</source>
-        <translation type="unfinished"></translation>
+        <translation>| %1 |</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="877"/>
         <source>Hiding pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation>Прячем Заголовки Панели...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="887"/>
         <source>Showing pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation>Показываем заголовки панели...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1419"/>
         <source>Sonic Pi Boot Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Ошибка Загрузки Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1423"/>
         <source>Apologies, a critical error occurred during startup:
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Извините, во время загрузки возникла критическая ошибка.
+</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2709"/>
@@ -1164,12 +1165,12 @@ Get Sonic Pi %1</source>
         <location filename="../utils/ruby_help.h" line="2960"/>
         <location filename="../utils/ruby_help.h" line="3055"/>
         <source>Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Руководство Использования</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3092"/>
         <source>Examples</source>
-        <translation type="unfinished"></translation>
+        <translation>Примеры</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3147"/>

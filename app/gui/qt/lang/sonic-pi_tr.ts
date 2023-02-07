@@ -229,12 +229,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="1319"/>
         <source>Audio Inputs Enabled. Restart Sonic Pi for this setting to take effect...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses Girişleri Aktifleştirildi. Bu ayarın etkiye girmesi için Sonic Pi&apos;yi tekrar başlatın...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1321"/>
         <source>Audio Inputs Disabled. Restart Sonic Pi for this setting to take effect...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses Girişleri Devreden Çıkartıldı. Bu ayarın etkiye girmesi için Sonic Pi&apos;yi baştan başlatın...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1419"/>
@@ -432,7 +432,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2808"/>
         <source>Enable Audio Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses Girişlerini Aktifleştir</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2813"/>
@@ -442,12 +442,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2818"/>
         <source>Connect or disconnect the Link Metronome from the network</source>
-        <translation type="unfinished"></translation>
+        <translation>Link Metronomunu ağa bağla ya da bağlantıyı kes</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2820"/>
         <source>Tap Tempo</source>
-        <translation type="unfinished"></translation>
+        <translation>Tempoyu tıklat</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2823"/>

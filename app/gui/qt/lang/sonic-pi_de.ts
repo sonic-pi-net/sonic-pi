@@ -269,17 +269,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="1319"/>
         <source>Audio Inputs Enabled. Restart Sonic Pi for this setting to take effect...</source>
-        <translation type="unfinished"></translation>
+        <translation>Audioeingänge aktiviert. Starte Sonic Pi neu, damit diese Einstellung wirksam wird...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1321"/>
         <source>Audio Inputs Disabled. Restart Sonic Pi for this setting to take effect...</source>
-        <translation type="unfinished"></translation>
+        <translation>Audioeingänge deaktiviert. Starte Sonic Pi neu, damit diese Einstellung wirksam wird...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1419"/>
         <source>Sonic Pi Boot Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi Start-Fehler</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1423"/>
@@ -477,7 +477,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2808"/>
         <source>Enable Audio Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktiviere Audio-Eingänge</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2813"/>
@@ -617,12 +617,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2961"/>
         <source>Show Titles</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige Überschriften</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2966"/>
         <source>Hide Menu Bar in Fullscreen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Verstecke Menü-Leiste im Vollbild-Modus</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2971"/>
@@ -881,7 +881,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3178"/>
         <source>Show Metronome</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige Metronom</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3183"/>
@@ -901,7 +901,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3232"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprache</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3423"/>
@@ -921,7 +921,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3707"/>
         <source>Restarting Sonic Pi...</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi wird neugestartet …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3942"/>
@@ -960,52 +960,52 @@ Lade Sonic Pi %1 herunter</translation>
     <message>
         <location filename="../mainwindow.cpp" line="4400"/>
         <source>Sonic Pi - Audio Server Boot Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi – Audio-Server-Start-Fehler</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4405"/>
         <source>Sorry, the Audio Server failed to start...</source>
-        <translation type="unfinished"></translation>
+        <translation>Entschuldigung, das Starten des Audio-Servers schlug fehl...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4406"/>
         <source>Please try changing your default OS audio input &amp; outputs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitte versuche die standard Audio-Ein- &amp; -Ausgänge des Betriebssystems zu ändern.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4407"/>
         <source>Note, the audio rate of the inputs &amp; outputs must be the same.</source>
-        <translation type="unfinished"></translation>
+        <translation>Beachte, die Audio-Abtastrate muss für Ein- &amp; Ausgänge gleich sein.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4409"/>
         <source>For the curious among you, Sonic Pi uses the SuperCollider Audio Server to generate its sounds. By default it will connect to your default system audio input and outputs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Für die Neugierigen unter euch: Sonic Pi benutzt den SuperCollider-Audio-Server zur Tonerzeugung. Standardmäßig wird der Server sich mit den System-Standard-Audio-Ein- und Ausgängen verbinden.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4410"/>
         <source>Unfortunately SuperCollider is having problems starting correctly. You can read the full error log below which should explain why.</source>
-        <translation type="unfinished"></translation>
+        <translation>Leider hat SuperCollider Probleme vernünftig zu starten. Du kannst unten das vollständige Fehlerprotokoll lesen, was die Probleme erklären sollte.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4411"/>
         <source>To fix this you can try changing your default operating system audio inputs and outputs (ensuring they have the same audio rate).</source>
-        <translation type="unfinished"></translation>
+        <translation>Um dies zu beheben, kannst du versuchen die Audio-Ein- &amp; Ausgänge zu ändern, die im Betriebssystem als Standard eingestellt sind, (dabei beachtend, dass sie die selbe Audio-Abtastrate haben).</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4412"/>
         <source>Advanced Users</source>
-        <translation type="unfinished"></translation>
+        <translation>Fortgeschrittene Benutzer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4413"/>
         <source>you may manually override this and further configure how SuperCollider boots by editing the file:</source>
-        <translation type="unfinished"></translation>
+        <translation>du kannst dies manuell überschreiben und zusätzliche Einstellungen am Startverhalten von SuperCollider vornehmen, indem du diese Datei bearbeitest:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4415"/>
         <source>SuperCollider Log</source>
-        <translation type="unfinished"></translation>
+        <translation>SuperCollider-Ereignisprotokoll</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2695"/>
@@ -1086,7 +1086,7 @@ Lade Sonic Pi %1 herunter</translation>
     <message>
         <location filename="../mainwindow.cpp" line="469"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Schließen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="614"/>
@@ -1244,7 +1244,7 @@ Lade Sonic Pi %1 herunter</translation>
         <location filename="../widgets/settingswidget.cpp" line="55"/>
         <location filename="../widgets/settingswidget.cpp" line="514"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprache</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="77"/>
@@ -1407,7 +1407,7 @@ Wenn deaktiviert, können OSC-Signale innerhalb des Computers gesendet und empfa
     <message>
         <location filename="../widgets/settingswidget.cpp" line="231"/>
         <source>Default MIDI out channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Standard MIDI-Ausgangs-Kanal</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="298"/>
@@ -1502,22 +1502,22 @@ midi_*-Funktionen gesendet werden können direkt von Sonic Pi</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="83"/>
         <source>Audio Input</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio-Eingang</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="84"/>
         <source>Audio settings for working with audio inputs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio-Einstellungen zum Arbeiten mit Audio-Eingängen.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="85"/>
         <source>Enable Audio Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktiviere Audio-Eingänge</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="86"/>
         <source>Toggle to enable or disable audio inputs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Schalte um, um Audio-Eingänge zu aktivieren oder zu deaktivieren.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="114"/>
@@ -1527,7 +1527,7 @@ midi_*-Funktionen gesendet werden können direkt von Sonic Pi</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="127"/>
         <source>Audio Hardware Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio-Hardware-Informationen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="128"/>

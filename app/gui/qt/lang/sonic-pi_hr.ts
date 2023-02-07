@@ -199,17 +199,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="2688"/>
         <source>Code Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Povećaj veličinu koda</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2694"/>
         <source>Code Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Smanji veličinu koda</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2700"/>
         <source>Show Scopes</source>
-        <translation></translation>
+        <translation>Prikaži zvukove</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2708"/>
