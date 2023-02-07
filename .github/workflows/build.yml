@@ -109,21 +109,12 @@ jobs:
           ln -s ${{steps.ruby-inst.outputs.ruby-prefix}} ruby
         if: matrix.os == 'windows-latest'
 
-        # Keep a cached copy of the Qt build so we can speed up subsequent builds
-      - name: Cache Qt
-        id: cache-qt6
-        uses: actions/cache@v1
-        with:
-          path: ../Qt6
-          key: ${{ runner.os }}-Qt6Cache
-
         # Get Qt
       - name: Install Qt 6
         uses: jurplel/install-qt-action@v3
         with:
           modules: "qtwebengine"
           version: "6.4.2"
-          cached: ${{ steps.cache-qt6.outputs.cache-hit }}
 
         # Install Elixir on Ubuntu
       - name: Linux Elixir
