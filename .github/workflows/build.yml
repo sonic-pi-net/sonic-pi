@@ -113,7 +113,7 @@ jobs:
       - name: Install Qt 6
         uses: jurplel/install-qt-action@v3
         with:
-          modules: "qtwebengine"
+          modules: "qtwebenginewidgets"
           version: "6.4.2"
 
         # Install Elixir on Ubuntu
