@@ -4,8 +4,13 @@ defmodule TauWeb.MainLive do
   @impl true
   def mount(_params, _session, socket) do
     TauWeb.Endpoint.subscribe("room:hydra")
-    {:ok, push_event(socket, "hydra-code", %{hydra_code: "hydra.speed = 0.01;
-    hydra.osc(5.9, 1, 1).colorama(1.2).add(hydra.noise(1.0)).out(hydra.o0);"})}
+
+    initial_code =
+      "hydra.osc(12, 0.01, 12).hue(() => hydra.mouse.x / hydra.width).colorama(0.2).add(hydra.noise(0.9)).out(hydra.o0);"
+
+    {:ok,
+     socket
+     |> push_event("hydra-code", %{hydra_code: initial_code})}
   end
 
   @impl true
@@ -27,5 +32,4 @@ defmodule TauWeb.MainLive do
     send(:tau_server_cue, {:cue_debug, "phx-button-pressed"})
     {:noreply, socket}
   end
-
 end
