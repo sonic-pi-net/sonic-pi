@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2022-06-11 20:21+0000\n"
-"Last-Translator: Emlyn Corrin <emlyn.corrin@gmail.com>\n"
-"Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/f"
-"r/>\n"
+"PO-Revision-Date: 2023-02-07 20:35+0000\n"
+"Last-Translator: Olivier Humbert <trebmuh@tuxfamily.org>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
+"fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.13-dev\n"
+"X-Generator: Weblate 4.16-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -24,17 +24,17 @@ msgid "Welcome friend :-)"
 msgstr "Cher ami, bienvenue :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:5
-#, fuzzy
 msgid ""
 "Welcome to Sonic Pi. Hopefully you're as excited to get started making your ow"
 "n sounds as I am to show you. It's going to be a really *fun* ride where you'l"
 "l learn all about music, synthesis, programming, composition, performance and "
 "more."
 msgstr ""
-"Bienvenue dans Sonic Pi. J'espère que vous êtes aussi enthousiasmé à l'idée de"
-" commencer à faire des sons délirants que je le suis. Ça va être réellement un"
-" parcours amusant où vous allez tout apprendre de la musique, de la synthèse, "
-"de la programmation, de l'interprétation et plus encore."
+"Bienvenue dans Sonic Pi. J'espère que vous êtes aussi enthousiasmé à l'idée "
+"de commencer à créer vos propres sons délirants que je le suis. Cela sera un "
+"parcours vraiment amusant où vous allez tout apprendre de la musique, de la "
+"synthèse, de la programmation, de la composition, de l'interprétation et "
+"plus encore."
 
 #: 01-Welcome-to-Sonic-Pi.md:10
 msgid ""
@@ -758,14 +758,13 @@ msgid "Intense. Press it again. And again. *And again...*"
 msgstr "Intense. Appuyez encore une fois. Et encore. *Et encore...*"
 
 #: 02.1-Your-First-Beeps.md:19
-#, fuzzy
 msgid ""
 "Woah, fun! I'm sure you could keep doing that all day. But wait, before you lo"
 "se yourself in an infinite stream of beeps, try changing the number:"
 msgstr ""
-"Woah, c'est fou, je suis sûr que vous pourriez continuer à faire cela toute la"
-" journée. Mais attendez, avant que vous ne vous perdiez dans un flot infini de"
-" beeps, essayez de changer le nombre :"
+"Waouh, c'est fou ! Je suis sûr que vous pourriez continuer à faire cela "
+"toute la journée. Mais attendez, avant que vous ne vous perdiez dans un flot "
+"infini de bips, essayez de changer le nombre :"
 
 #: 02.1-Your-First-Beeps.md:23
 #, no-wrap
@@ -1005,9 +1004,10 @@ msgstr ""
 "e ne rien jouer à la place d'une note) en utilisant `:r`, `:rest` ou `nil`."
 
 #: 02.1-Your-First-Beeps.md:128
-#, fuzzy
 msgid "Now go *wild* and have fun making your own tunes."
-msgstr "Maintenant *défoulez-vous* et faites-vous plaisir en faisant vos morceaux."
+msgstr ""
+"Maintenant *défoulez-vous* et faites-vous plaisir en faisant vos propres "
+"morceaux."
 
 #: 02.2-Synth-Params.md:1
 msgid "2.2 Synth Options"
@@ -1053,16 +1053,15 @@ msgstr ""
 "uvertes dans une autre section)."
 
 #: 02.2-Synth-Params.md:22
-#, fuzzy
 msgid ""
 "Opts have two major parts, their name (the name of the control) and their valu"
 "e (the value you want to set the control at). For example, you might have an o"
 "pt called `cheese:` and want to set it with a value of `1`."
 msgstr ""
-"Les options ont deux parties principales, leur nom (le nom du contrôle) et leu"
-"r valeur (la valeur que vous voulez affecter au contrôle). Par exemple, vous p"
-"ourriez avoir une option appelée `cheese:` et vouloir lui affecter la valeur `"
-"1`."
+"Les options ont deux parties principales, leur nom (le nom du contrôle) et "
+"leur valeur (la valeur que vous voulez affecter au contrôle). Par exemple, "
+"vous pourriez avoir une option appelée `cheese:` et vouloir lui affecter la "
+"valeur `1`."
 
 #: 02.2-Synth-Params.md:27
 msgid ""
@@ -2349,16 +2348,15 @@ msgid "sample :loop_amen, rate: -1"
 msgstr "sample :loop_amen, rate: -1"
 
 #: 03.3-Stretching-Samples.md:72
-#, fuzzy
 msgid ""
 "Woah! It plays it *backwards*! Now try playing with lots of different samples "
 "at different rates. Try very fast rates. Try really slow rates. See what inter"
 "esting sounds you can produce."
 msgstr ""
-"Wow ! Il le joue à *l'envers* ! Maintenant, essayez de jouer avec des tas d'éc"
-"hantillons différents avec des vitesses différentes. Essayez des vitesses très"
-" rapides et des vitesses insensément lentes. Voyez quels sons intéressants vou"
-"s pouvez produire."
+"Ouhaou ! Il le joue à *l'envers* ! Maintenant, essayez de jouer avec des tas "
+"d'échantillons différents avec des vitesses différentes. Essayez des "
+"vitesses très rapides et des vitesses vraiment lentes. Voyez quels sons "
+"intéressants vous pouvez produire."
 
 #: 03.3-Stretching-Samples.md:76
 msgid "A Simple Explanation of Sample Rate"
@@ -5118,14 +5116,14 @@ msgstr ""
 "mme `section_principale` ou `lead_riff`."
 
 #: 05.5-Functions.md:27
-#, fuzzy
 msgid ""
 "Remember to prepend a colon `:` to the name of your function when you define i"
 "t. Function names should also start with a lower case letter, so use `:foo` ra"
 "ther than `:Foo`."
 msgstr ""
-"Rappelez-vous d'ajouter un deux-points `:` devant le nom de votre fonction qua"
-"nd vous la définissez."
+"Rappelez-vous d'ajouter un deux-points `:` devant le nom de votre fonction "
+"quand vous la définissez. Les noms de fonctions devraient également "
+"commencer par une lettre minuscule, donc utilisez `:foo` plutôt que `:Foo`"
 
 #: 05.5-Functions.md:31
 msgid "Calling functions"
@@ -6069,7 +6067,6 @@ msgid "Guitar -> Distortion -> Reverb -> Amplifier"
 msgstr "Guitare -> Distorsion -> Réverbération -> Amplificateur"
 
 #: 06-FX.md:33
-#, fuzzy
 msgid ""
 "This is called FX chaining. Sonic Pi supports exactly this. Additionally, each"
 " pedal often has dials and sliders to allow you to control how much distortion"
@@ -6079,14 +6076,14 @@ msgid ""
 "d of needing someone else to control things for you, that's where the computer"
 " steps in."
 msgstr ""
-"Cela s'appelle le chaînage des effets. Sonic Pi supporte exactement cela. De p"
-"lus, chaque pédale a souvent des molettes et des curseurs pour vous permettre "
-"de contrôler le montant de la distorsion, de la réverbération, de l'écho, etc."
-" à appliquer. Sonic Pi supporte aussi ce type de contrôle. Finalement, vous po"
-"uvez imaginer un guitariste jouant pendant que quelqu'un joue avec les contrôl"
-"es d'effets pendant qu'ils sont en train d'agir. Sonic Pi supporte aussi ceci "
-"- mais au lieu d'avoir besoin de quelqu'un d'autre pour contrôler les choses p"
-"our vous, c'est l'ordinateur qui intervient."
+"Cela s'appelle le chaînage des effets. Sonic Pi supporte exactement cela. De "
+"plus, chaque pédale a souvent des molettes et des curseurs pour vous "
+"permettre de contrôler le niveau de la distorsion, de la réverbération, de "
+"l'écho, etc. à appliquer. Sonic Pi supporte aussi ce type de contrôle. "
+"Finalement, vous pouvez imaginer un guitariste qui joue pendant que "
+"quelqu'un d'autre modifie les contrôles d'effets de la pédale. Sonic Pi "
+"supporte aussi cela - mais au lieu d'avoir besoin de quelqu'un d'autre pour "
+"contrôler les choses pour vous, c'est l'ordinateur qui s'en charge."
 
 #: 06-FX.md:41
 msgid "Let's explore FX!"
@@ -6391,18 +6388,18 @@ msgstr ""
 "envoyé vers l'effet de réverbération."
 
 #: 06.1-Adding-FX.md:146
-#, fuzzy
 msgid ""
 "We may use very deep nestings for a huge range of results. However, be warned,"
 " the FX can use a lot of resources and when you nest them you're effectively r"
 "unning multiple FX simultaneously. So be sparing with your use of FX especiall"
 "y on low powered platforms such as the Raspberry Pi."
 msgstr ""
-"Nous pouvons utiliser des imbrications très profondes pour des résultats délir"
-"ants. Toutefois, soyez averti, les effets peuvent utiliser beaucoup de ressour"
-"ces et quand vous les imbriquez, vous allez effectivement faire agir de multip"
-"les effets simultanément. Donc soyez économe avec l'utilisation des FX, en par"
-"ticulier sur des plateformes peu puissantes telles que le Raspberry Pi."
+"Nous pouvons utiliser des imbrications très profondes pour une large gamme "
+"de résultats délirants. Toutefois, soyez averti, les effets peuvent utiliser "
+"beaucoup de ressources et quand vous les imbriquez, vous allez effectivement "
+"faire agir de multiples effets simultanément. Donc soyez économe avec "
+"l'utilisation des FX, en particulier sur des plateformes peu puissantes "
+"telles que le Raspberry Pi."
 
 #: 06.1-Adding-FX.md:151
 msgid "Discovering FX"
@@ -6440,11 +6437,10 @@ msgid "slicer"
 msgstr "slicer"
 
 #: 06.1-Adding-FX.md:164
-#, fuzzy
 msgid "Now go wild and add FX everywhere for some amazing new sounds!"
 msgstr ""
-"Maintenant, défoulez-vous et ajoutez des effets partout pour obtenir d'étonnan"
-"ts sons nouveaux !"
+"Maintenant, défoulez-vous et ajoutez des effets partout pour obtenir "
+"d'étonnants sons nouveaux !"
 
 #: 06.2-FX-in-Practice.md:1
 msgid "6.2 FX in Practice"
@@ -8759,7 +8755,6 @@ msgstr ""
 "t dû à la concurrence)."
 
 #: 10-State.md:16
-#, fuzzy
 msgid ""
 "Sonic Pi's solution to the problem of easily working with global variables in "
 "a deterministic way is through a novel system it calls Time State. This might "
@@ -8769,14 +8764,15 @@ msgid ""
 "mple to share state across threads* whilst still keeping your programs *thread"
 "-safe and deterministic*."
 msgstr ""
-"La solution de Sonic Pi au problème de travailler facilement avec les variable"
-"s globales d'une manière déterministe est un système novateur appelé l'État du"
-" Temps. Cela peut sembler complexe et difficile (en fait, au Royaume-Uni, la p"
-"rogrammation avec plusieurs fils d'exécution et de la mémoire partagée est hab"
-"ituellement un sujet de niveau universitaire). Toutefois, comme vous allez le "
-"voir, tout comme jouer votre première note, *Sonic Pi fait du partage d'état p"
-"armi des fils d'exécution une chose incroyablement facile* tout en conservant "
-"vos programmes *avec des fils d'exécution sûrs et déterministes.*."
+"La solution de Sonic Pi au problème de travailler facilement avec les "
+"variables globales d'une manière déterministe est un système novateur appelé "
+"l'État du Temps. Cela peut sembler complexe et difficile (en fait, au "
+"Royaume-Uni, la programmation avec plusieurs fils d'exécution et de la "
+"mémoire partagée est habituellement un sujet de niveau universitaire). "
+"Toutefois, comme vous allez le voir, tout comme jouer votre première note, *"
+"Sonic Pi rend incroyablement simple le partage d'état entre les fils "
+"d'exécution* tout en conservant vos programmes *avec des fils d'exécution "
+"sûrs et déterministes.*."
 
 #: 10-State.md:24
 msgid "Meet `get` and `set`..."
@@ -9505,15 +9501,15 @@ msgid "Combining Matchers"
 msgstr "Combiner des correspondances"
 
 #: 10.3-Pattern-Matching.md:114
-#, fuzzy
 msgid ""
 "When calling `sync` or `get` you are free to combine matchers in any order you"
 " see fit to powerfully match any Time State event created by `cue` or `set`. L"
 "et's look at a far-fetched example:"
 msgstr ""
-"En appelant `sync` ou `get`, vous êtes libre de combiner des correspondances d"
-"ans n'importe quel ordre qui vous convient pour faire correspondre des événeme"
-"nts d'État du Temps créés par `cue` ou `set`. Regardons un exemple fou :"
+"En appelant `sync` ou `get`, vous êtes libre de combiner des correspondances "
+"dans n'importe quel ordre qui vous convient pour faire correspondre des "
+"événements d'état du Temps créés par `cue` ou `set`. Regardons un exemple "
+"fou :"
 
 #: 10.3-Pattern-Matching.md:118
 #, no-wrap
@@ -10310,7 +10306,6 @@ msgid "Receiving from External Machines"
 msgstr "Recevoir des machines externes"
 
 #: 12.1-Receiving-OSC.md:60
-#, fuzzy
 msgid ""
 "For security reasons, by default Sonic Pi does not let remote machines send it"
 " OSC messages. However, you can enable support for remote machines in Preferen"
@@ -10323,17 +10318,18 @@ msgid ""
 "P address, hovering the mouse over the listed address will pop up with a list "
 "of all known addresses)."
 msgstr ""
-"Pour des raisons de sécurité, par défaut Sonic Pi ne laisse pas les machines d"
-"istantes lui envoyer des messages OSC. Cependant, vous pouvez activer le suppo"
-"rt des machines distantes dans Préférences->IO->Réseau->Recevoir des messages "
-"OSC distants. Une fois que vous l'avez activé, vous pouvez recevoir les messag"
-"es OSC de n'importe quel ordinateur sur votre réseau. Habituellement, la machi"
-"ne expéditrice va devoir connaître votre adresse IP (un identificateur unique "
-"de ton ordinateur sur ton réseau – comme un numéro de téléphone ou une adresse"
-" courriel). Vous pouvez découvrir l'adresse IP de votre ordinateur en regardan"
-"t la section IO de votre panneau de préférences. (Si votre machine a plus d'un"
-"e adresse IP, placer votre souris sur l'adresse listée fera apparaître une lis"
-"te de toutes les adresses connues)."
+"Pour des raisons de sécurité, par défaut Sonic Pi ne laisse pas les machines "
+"distantes lui envoyer des messages OSC. Cependant, vous pouvez activer le "
+"support des machines distantes dans Préférences->IO->Réseau->Recevoir des "
+"messages OSC distants. Une fois que vous l'avez activé, vous pouvez recevoir "
+"les messages OSC de n'importe quel ordinateur sur votre réseau. "
+"Habituellement, la machine expéditrice a besoin de  connaître votre adresse "
+"IP (un identificateur unique de ton ordinateur sur ton réseau – comme un "
+"numéro de téléphone ou une adresse courriel). Vous pouvez découvrir "
+"l'adresse IP de votre ordinateur en regardant la section IO de votre panneau "
+"de préférences. (Si votre machine a plus d'une adresse IP, placer votre "
+"souris sur l'adresse listée fera apparaître une liste de toutes les adresses "
+"connues)."
 
 #: 12.1-Receiving-OSC.md:72
 msgid ""
@@ -11111,9 +11107,8 @@ msgstr ""
 " mélange mono de tambours d'Amen Break."
 
 #: 99-Conclusions.md:1
-#, fuzzy
 msgid "99 Conclusions"
-msgstr "Conclusions"
+msgstr "99 Conclusions"
 
 #: 99-Conclusions.md:3
 msgid "Conclusions"
@@ -11437,14 +11432,13 @@ msgstr ""
 "end"
 
 #: A.01-tips.md:106
-#, fuzzy
 msgid ""
 "Now, try increasing that feedback to 1 to hear some fun sounds! Read the docs "
 "for full details on all the many opts available to you."
 msgstr ""
-"Maintenant, essayez d'augmenter ce feedback à 1 pour entendre des sons de ding"
-"ue ! Lisez la documentation pour des détails complets sur les nombreuses opts "
-"disponibles."
+"Maintenant, essayez d'augmenter ce feedback à 1 pour entendre des sons de "
+"dingue ! Lisez la documentation pour des détails complets sur les nombreuses "
+"options à votre disposition."
 
 #: A.01-tips.md:110
 msgid "4. Live Code"
@@ -11680,7 +11674,6 @@ msgstr ""
 "end"
 
 #: A.02-live-coding.md:39
-#, fuzzy
 msgid ""
 "There are 4 core ingredients to a `live_loop`. The first is its name. Our `liv"
 "e_loop` above is called `:beats`. You're free to call your `live_loop` anythin"
@@ -11694,17 +11687,17 @@ msgid ""
 "t. Go ahead, copy it into an empty Sonic Pi buffer and hit run. Boom, Boom, Bo"
 "om!."
 msgstr ""
-"Il y a quatre ingrédients principaux dans une `live_loop`. Le premier est son "
-"nom. Notre `live_loop` s'appelle ici `:beats`. Vous pouvez donner le nom que v"
-"ous voulez à votre `live_loop`. Défoulez-vous. Soyez créatifs. J'utilise souve"
-"nt des noms qui communiquent à l'audience qu'est-ce que la musique va faire. L"
-"e deuxième ingrédient est le mot `do` qui marque où la `live_loop` commence. L"
-"e troisième est le mot `end` qui marque où la `live_loop` finit, et enfin il y"
-" a le corps de la `live_loop` qui décrit ce que la boucle va répéter : c'est l"
-"a partie entre `do` et `end`. Dans ce cas on joue en boucle un sample de tambo"
-"ur basse et on attend un demi temps. Cela produit un beau rythme régulier de b"
-"asse. Allez, copiez-le dans un buffer vide de Sonic Pi et cliquez sur 'Run'. B"
-"oum, boum, boum !."
+"Il y a quatre ingrédients principaux dans une `live_loop`. Le premier est "
+"son nom. Notre `live_loop` s'appelle ici `:beats`. Vous pouvez donner le nom "
+"que vous voulez à votre `live_loop`. Défoulez-vous. Soyez créatifs. "
+"J'utilise souvent des noms qui communiquent sur ce que la musique va donner "
+"à l'audience. Le deuxième ingrédient est le mot `do` qui marque l'endroit où "
+"la `live_loop` commence. Le troisième est le mot `end` qui marque celui où "
+"la `live_loop` s'arrête, et enfin il y a le corps de la `live_loop` qui "
+"décrit ce que la boucle va répéter : c'est la partie entre `do` et `end`. "
+"Dans ce cas on joue en boucle un sample de tambour basse et on attend un "
+"demi temps. Cela produit un beau rythme régulier de basse. Allez-y, copiez-"
+"le dans un buffer vide de Sonic Pi et cliquez sur 'Run'. Boum, boum, boum !."
 
 #: A.02-live-coding.md:52
 msgid "Redefining On-the-fly"
@@ -11845,13 +11838,12 @@ msgstr ""
 "end"
 
 #: A.02-live-coding.md:121
-#, fuzzy
 msgid ""
 "Here, we have two `live_loop`s, one looping quickly making beats and another l"
 "ooping slowly making a wild bass sound."
 msgstr ""
-"Ici nous avons deux `live_loop`s, une qui tourne rapidement pour faire un ryth"
-"me, et une autre qui boucle lentement pour faire un son de basse de fou."
+"Ici nous avons deux `live_loop`s, une qui tourne rapidement pour faire un "
+"rythme, et une autre qui boucle lentement pour faire un son de basse de fou."
 
 #: A.02-live-coding.md:124
 msgid ""
@@ -12181,16 +12173,15 @@ msgstr ""
 "nctionne bien."
 
 #: A.03-coded-beats.md:97
-#, fuzzy
 msgid ""
 "Now, here's the fun part. Whilst the loop is still live, change the `30` in th"
 "e `use_bpm 30` line to `50`. Woah, everything just got faster yet *kept in tim"
 "e*! Try going faster - up to 80, to 120, now go wild and punch in 200!"
 msgstr ""
-"Maintenant, voici la partie amusante. Pendant que la boucle est en train de to"
-"urner, changez le `30` dans la ligne `use_bpm 30` en `50`. Waouh, tout est dev"
-"enu plus rapide, mais est toujours en *synchro* - jusque 80, jusque 120, ou mê"
-"me, soyons fous, 200 !"
+"Maintenant, voici la partie amusante. Pendant que la boucle est en train de "
+"tourner, changez le `30` dans la ligne `use_bpm 30` en `50`. Waouh, tout est "
+"devenu plus rapide, mais *reste synchronisé* - Essayer encore d'accélérer "
+"jusqu'à 80, jusqu'à 120, ou même, soyons fous, 200 !"
 
 #: A.03-coded-beats.md:103
 msgid "Filtering"
@@ -12789,7 +12780,6 @@ msgstr ""
 ", Squarepusher et Aphex Twin."
 
 #: A.05-acid-bass.md:12
-#, fuzzy
 msgid ""
 "Interestingly, Roland never intended for the TB-303 to be used in dance music."
 " It was originally created as a practice aid for guitarists. They imagined tha"
@@ -12803,19 +12793,20 @@ msgid ""
 "rs who started using them in ways that Roland didn't imagine to create wild ne"
 "w sounds. Acid House was born."
 msgstr ""
-"Il est intéressant de noter que Roland n'a jamais eu l'intention d'utiliser le"
-" TB-303 dans la musique de danse. Il a été créé à l'origine pour aider les gui"
-"taristes à s'exercer. Ils imaginaient que les gens les programmeraient pour qu"
-"'ils jouent des lignes de basse d'accompagnement pour jammer. Malheureusement,"
-" il y avait un certain nombre de problèmes : ils étaient un peu compliqués à p"
-"rogrammer, ne sonnaient pas particulièrement bien pour remplacer une guitare b"
-"asse et étaient assez chers à l'achat. Décidant d'arrêter les frais, Roland a "
-"cessé de les fabriquer après la vente de 10000 unités et, après quelques année"
-"s passées sur les étagères des guitaristes, ils se rapidement retrouvés dans l"
-"es vitrines des magasins d'occasion. Ces TB-303 solitaires et abandonnés atten"
-"daient d'être découverts par une nouvelle génération d'expérimentateurs qui on"
-"t commencé à les utiliser d'une manière que Roland n'avait pas imaginée pour c"
-"réer de nouveaux sons fous. La Acid House était née."
+"Il est intéressant de noter que Roland n'a jamais eu l'intention d'utiliser "
+"le TB-303 dans la musique de danse. Il a été créé à l'origine pour aider les "
+"guitaristes à s'exercer. Ils imaginaient que les gens les programmeraient "
+"pour qu'ils jouent des lignes de basse d'accompagnement pour jammer. "
+"Malheureusement, il y avait un certain nombre de problèmes : ils étaient un "
+"peu compliqués à programmer, ne sonnaient pas particulièrement bien pour "
+"remplacer une guitare basse et étaient assez chers à l'achat. Décidant "
+"d'arrêter les frais, Roland a cessé de les fabriquer après la vente de 10000 "
+"unités et, après quelques années passées sur les étagères des guitaristes, "
+"ils se sont rapidement retrouvés dans les vitrines des magasins d'occasion. "
+"Ces TB-303 solitaires et abandonnés attendaient d'être découverts par une "
+"nouvelle génération d'expérimentateurs qui ont commencé à les utiliser d'une "
+"manière que Roland n'avait pas imaginée pour créer de nouveaux sons fous. La "
+"Acid House était née."
 
 #: A.05-acid-bass.md:25
 msgid ""
@@ -13101,16 +13092,15 @@ msgstr ""
 "mosphère - essayez d'autres effets pour voir ce qui fonctionne !"
 
 #: A.05-acid-bass.md:149
-#, fuzzy
 msgid ""
 "Finally, here's a piece I composed using the ideas in this tutorial. Copy it i"
 "nto an empty buffer, listen for a while and then start live coding your own ch"
 "anges. See what wild sounds you can make with it! See you next time..."
 msgstr ""
-"enfin, voici un morceau que j'ai composé en utilisant les idées de ce tutoriel"
-". Copiez-le dans un tampon vide, écoutez-le pendant un moment, puis commencez "
-"à coder interactivement vos propres modifications. Voyez quels sons fous vous "
-"pouvez en faire ! À la prochaine...."
+"Enfin, voici un morceau que j'ai composé en utilisant les idées de ce "
+"tutoriel. Copiez-le dans un tampon vide, écoutez-le pendant un moment, puis "
+"commencez à coder interactivement vos propres modifications. Voyez quels "
+"sons fous vous pouvez en faire ! À la prochaine...."
 
 #: A.05-acid-bass.md:154
 #, no-wrap
@@ -13172,7 +13162,6 @@ msgid "Musical Minecraft"
 msgstr "Minecraft musical"
 
 #: A.06-minecraft.md:6 A.08-minecraft-vj.md:8
-#, fuzzy
 msgid ""
 "**Deprecation Warning** *Apologies but this article was written back when Mine"
 "craft Pi Edition was still part of Raspberry Pi OS and Sonic Pi had built-in s"
@@ -13180,7 +13169,14 @@ msgid ""
 "he minecraft specific code (`mc_*` functions) are no longer available in Sonic"
 " Pi. However, this article is left here as a memory of what was once possible."
 "*"
-msgstr "Minecraft Pi"
+msgstr ""
+"**Avertissement d'obsolescence** *Désolé mais cet article avait été réécrit "
+"quand l’Édition Minecraft Pi faisait encore partie du Système d'Exploitation "
+"Raspberry Pi et que Sonic Pi avait construit un support pour le contrôler "
+"avec du code. Malheureusement ce n'est plus le cas et le code spécifique à "
+"minecraft (les fonctions `mc_*`) n'est plus disponible dans Sonic Pi. "
+"Cependant, cet article est laissé ici comme un souvenir de ce qui était "
+"autrefois possible.*"
 
 #: A.06-minecraft.md:15
 msgid ""
@@ -17680,7 +17676,6 @@ msgstr ""
 "sample :ambi_choir, rate: 0.25, rpitch: 1"
 
 #: A.17-sample-stretching.md:155
-#, fuzzy
 msgid ""
 "Let's take a look at a simple piece which combines these ideas. Copy it into a"
 "n empty Sonic Pi buffer, hit play, listen to it for a while and then use it as"
@@ -17688,12 +17683,12 @@ msgid ""
 " playback rate of samples. As an added exercise try recording your own sounds "
 "and play around with the rate to see what wild sounds you can make."
 msgstr ""
-"Jetons un coup d'oeil à une pièce simple qui combine ces idées. Copiez-le dans"
-" un tampon Sonic Pi vide, pressez jouer, écoutez-le un moment et ensuite utili"
-"sez-le comme point de départ pour votre propre pièce. Voyez comment c'est plai"
-"sant de manipuler la vitesse de lecture des échantillons. En tant qu'exercice "
-"supplémentaire, essayez d'enregistrer vos propres sons et de jouer avec la vit"
-"esse pour voir quels sons fous vous pouvez faire."
+"Jetons un coup d’œil à un morceau simple qui combine ces idées. Copiez-le "
+"dans un tampon Sonic Pi vide, pressez jouer, écoutez-le un moment et ensuite "
+"utilisez-le comme point de départ pour votre propre morceau. Voyez comment "
+"c'est plaisant de manipuler la vitesse de lecture des échantillons. En tant "
+"qu'exercice supplémentaire, essayez d'enregistrer vos propres sons et de "
+"jouer avec la vitesse pour voir quels sons fous vous pouvez faire."
 
 #: A.17-sample-stretching.md:162
 #, no-wrap
@@ -17961,7 +17956,6 @@ msgstr ""
 "ondant.)"
 
 #: A.18-additive-synthesis.md:117
-#, fuzzy
 msgid ""
 "Let's combine all these techniques to see if we can use additive synthesis to "
 "re-create a basic bell sound. I've broken this example into four sections. Fir"
@@ -17975,19 +17969,20 @@ msgid ""
 "ing your own melody and also messing around with the contents of the `:bell` f"
 "unction until you create your own fun sound to play with!"
 msgstr ""
-"Combinons toutes ces techniques pour voir si nous pouvons utiliser la synthèse"
-" additive pour recréer un son de cloche basique. J'ai découpé cet exemple en q"
-"uatre sections. Premièrement, nous avons la section `hit` qui est la partie d'"
-"initialisation du son de cloche - alors utiliser une enveloppe courte (c.a.d u"
-"ne `release:` autour de `0.1`). Ensuite, nous avons la longue section de tinte"
-"ment dans laquelle j'utilise le son pur de l'onde sinusoïdale. Remarquez que j"
-"'augmente souvent la note par environ `12` et `24` qui sont les nombres des no"
-"tes dans une et deux octaves. J'ai également mis quelques ondes sinusoïdales g"
-"raves pour donner plus de basses et de profondeur au son. Finalement, j'ai uti"
-"lisé `define` pour regrouper mon code dans une fonction que je peux utiliser p"
-"our jouer une mélodie. Essayer de jouer votre propre mélodie et également de s"
-"'amuser avec le contenu de la fonction `:bell` jusqu'à ce que vous créez votre"
-" propre son fou avec lequel jouer !"
+"Combinons toutes ces techniques pour voir si nous pouvons utiliser la "
+"synthèse additive pour recréer un son de cloche basique. J'ai découpé cet "
+"exemple en quatre sections. Premièrement, nous avons la section `hit` qui "
+"est la partie d'initialisation du son de cloche - alors utiliser une "
+"enveloppe courte (c.a.d une `release:` autour de `0.1`). Ensuite, nous avons "
+"la longue section de tintement dans laquelle j'utilise le son pur de l'onde "
+"sinusoïdale. Remarquez que j'augmente souvent la note par environ `12` et "
+"`24` qui sont les nombres des notes dans une et deux octaves. J'ai également "
+"mis quelques ondes sinusoïdales graves pour donner plus de basses et de "
+"profondeur au son. Finalement, j'ai utilisé `define` pour regrouper mon code "
+"dans une fonction que je peux utiliser pour jouer une mélodie. Essayer de "
+"jouer votre propre mélodie et également de vous amuser avec le contenu de la "
+"fonction `:bell` jusqu'à ce que vous ayez créé votre propre son de délire "
+"avec lequel jouer !"
 
 #: A.18-additive-synthesis.md:130
 #, no-wrap

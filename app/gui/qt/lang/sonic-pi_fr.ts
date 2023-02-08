@@ -98,7 +98,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="705"/>
         <source>Link Metronome &amp; Global Time Warp</source>
-        <translation type="unfinished"></translation>
+        <translation>Métronome Link &amp; distorsion temporelle mondiale</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="838"/>
@@ -409,17 +409,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="2818"/>
         <source>Connect or disconnect the Link Metronome from the network</source>
-        <translation type="unfinished"></translation>
+        <translation>Connecter ou déconnecter le métronome Link du réseau</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2820"/>
         <source>Tap Tempo</source>
-        <translation type="unfinished"></translation>
+        <translation>Taper le tempo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2823"/>
         <source>Click Link Tap Tempo</source>
-        <translation type="unfinished"></translation>
+        <translation>Cliquez sur Link Tap Tempo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2825"/>
@@ -1907,7 +1907,7 @@ sur https://hosted.weblate.org/projects/sonic-pi/. Merci ! :)</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="686"/>
         <source>Your changes won&apos;t take effect until you restart Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vos modifications ne seront pas prises en compte tant que vous n&apos;aurez pas redémarré Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="687"/>
