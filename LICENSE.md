@@ -6,7 +6,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2012 - 2022 Samuel Aaron and contributors (sam@sonic-pi.net)
+Copyright (c) 2012 - 2023 Samuel Aaron and contributors (sam@sonic-pi.net)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -199,6 +199,8 @@ relevant licenses:
 - [telemetry_metrics](https://github.com/beam-telemetry/telemetry_metrics) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
 - [telemetry_poller](https://github.com/beam-telemetry/telemetry_poller) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
 - [toml](https://github.com/bitwalker/toml-elixir) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
+- [websock](https://github.com/phoenixframework/websock) - [MIT License](http://opensource.org/licenses/MIT)
+- [websock_adapter](https://github.com/phoenixframework/websock_adapter) - [MIT License](http://opensource.org/licenses/MIT)
 
 ### Included Javascript Libraries for Tau IO Server
 
