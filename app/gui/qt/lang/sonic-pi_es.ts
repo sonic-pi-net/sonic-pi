@@ -115,7 +115,7 @@ Obtén Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="705"/>
         <source>Link Metronome &amp; Global Time Warp</source>
-        <translation type="unfinished"></translation>
+        <translation>Metrónomo Link y Time Warp Global</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="838"/>
@@ -443,12 +443,12 @@ Obtén Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2818"/>
         <source>Connect or disconnect the Link Metronome from the network</source>
-        <translation type="unfinished"></translation>
+        <translation>Conectar o desconectar el metrónomo Link de la red</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2820"/>
         <source>Tap Tempo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Toque Tempo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2823"/>
@@ -737,22 +737,22 @@ Obtén Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3157"/>
         <source>Focus BPM Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation>Enfocar deslizador BPM</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3159"/>
         <source>Place focus on BPM Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation>Colocar foco en el deslizador de BPM</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3163"/>
         <source>Focus TimeWarp Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation>Enfocar deslizador TimeWarp</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3165"/>
         <source>Place focus on TimeWarp Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation>Colocar foco en el deslizador de TimeWarp</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3168"/>
@@ -1907,7 +1907,7 @@ en https://hosted.weblate.org/projects/sonic-pi/. ¡Gracias! :)</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="686"/>
         <source>Your changes won&apos;t take effect until you restart Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation>Los cambios no surtirán efecto hasta que reinicie Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="687"/>
