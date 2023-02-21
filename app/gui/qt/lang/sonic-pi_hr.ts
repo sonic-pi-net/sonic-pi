@@ -24,51 +24,51 @@
         <location filename="../mainwindow.cpp" line="1681"/>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
-        <translation>Kôd se izvršava...</translation>
+        <translation>Izvršavanje koda …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1700"/>
         <source>Beautifying...</source>
         <oldsource>Beautifying....</oldsource>
-        <translation>Uljepšavanje...</translation>
+        <translation>Formatiranje koda …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1726"/>
         <source>Reloading...</source>
         <oldsource>Reloading....</oldsource>
-        <translation>Ponovno učitavanje...</translation>
+        <translation>Ponovno učitavanje …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1758"/>
         <source>Enabling Mixer HPF...</source>
         <oldsource>Enabling Mixer HPF....</oldsource>
-        <translation>Pokrećem HPF Mixer...</translation>
+        <translation>Aktiviranje HPF Mixera …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1767"/>
         <source>Disabling Mixer HPF...</source>
         <oldsource>Disabling Mixer HPF....</oldsource>
-        <translation>Zaustavljam HPF Mixer...</translation>
+        <translation>Deaktiviranje HPF Mixera …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="328"/>
         <source>Welcome to Sonic Pi</source>
-        <translation>Dobrodošli u Sonic Pi</translation>
+        <translation>Dobro došao, dobro došla u Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1134"/>
         <source>Indenting selection...</source>
-        <translation>Uvlačim odabrano...</translation>
+        <translation>Uvlačenje odabira …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1140"/>
         <source>Indenting line...</source>
-        <translation>Uvlačenje reda...</translation>
+        <translation>Uvlačenje retka …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1171"/>
         <source>Toggle selection comment...</source>
-        <translation>Uključi komentar odabira...</translation>
+        <translation>Uključi/Isključi komentar odabira …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="690"/>
@@ -83,17 +83,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="1177"/>
         <source>Toggle line comment...</source>
-        <translation>Uključi komentar reda...</translation>
+        <translation>Uključi/Isključi komentar retka …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3906"/>
         <source>Enabling MIDI input...</source>
-        <translation>Uključujem MIDI ulaz...</translation>
+        <translation>Aktiviranje MIDI ulaza …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3914"/>
         <source>Disabling MIDI input...</source>
-        <translation>Isključujem MIDI ulaz...</translation>
+        <translation>Deaktiviranje MIDI ulaza …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3932"/>
@@ -113,17 +113,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="3961"/>
         <source>Disabling OSC cue port...</source>
-        <translation>Isključujem OSC portove...</translation>
+        <translation>Deaktiviranje priključka OSC reda …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3975"/>
         <source>Enabling external OSC cue port...</source>
-        <translation>Uključujem vanjske OSC portove...</translation>
+        <translation>Aktiviranje priključka OSC reda …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3989"/>
         <source>Enabling internal OSC cue port...</source>
-        <translation>Uključujem unutarnji OSC port...</translation>
+        <translation>Aktiviranje internog priključka OSC reda …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4059"/>
@@ -224,17 +224,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="3934"/>
         <source>Resetting MIDI...</source>
-        <translation>Resetiram MIDI...</translation>
+        <translation>Resetiranje MIDI-a …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3941"/>
         <source>MIDI is disabled...</source>
-        <translation>MIDI je isključen...</translation>
+        <translation>MIDI je deaktiviran …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4002"/>
         <source>Welcome back. Now get your live code on...</source>
-        <translation>Dobrodošli natrag! Sada možete početi pisati kôd...</translation>
+        <translation>Dobro došao, dobro došla natrag! Počni pisati tvoj kôd uživo na …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1552"/>
@@ -249,17 +249,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="829"/>
         <source>Playing Sample...</source>
-        <translation>Pokrenuti uzorak...</translation>
+        <translation>Reproduciranje uzorka …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="866"/>
         <source>Hiding pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation>Skrivanje naslova ploča …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="876"/>
         <source>Showing pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation>Prikazivanje naslova ploča …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1363"/>
@@ -291,68 +291,68 @@
     <message>
         <location filename="../mainwindow.cpp" line="1686"/>
         <source>Zooming In...</source>
-        <translation>Uvećavanje...</translation>
+        <translation>Uvećavanje prikaza …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1693"/>
         <source>Zooming Out...</source>
-        <translation>Smanjivanje...</translation>
+        <translation>Smanjivanje prikaza …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1734"/>
         <source>Checking for updates...</source>
-        <translation>Pretraga nadogradnji...</translation>
+        <translation>Traženje novih verzija …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1742"/>
         <source>Enabling update checking...</source>
-        <translation>Uključujem pretragu nadogradnji...</translation>
+        <translation>Aktiviranje traženja novih verzija …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1750"/>
         <source>Disabling update checking...</source>
-        <translation>Isključujem pretragu nadogradnji...</translation>
+        <translation>Deaktiviranje traženja novih verzija …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1775"/>
         <source>Enabling Mixer LPF...</source>
         <oldsource>Enabling Mixer LPF....</oldsource>
-        <translation>Uključujem LPF Mixer...</translation>
+        <translation>Aktiviranje LPF Mixera …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1784"/>
         <source>Disabling Mixer LPF...</source>
         <oldsource>Disabling Mixer LPF....</oldsource>
-        <translation>Isključujem LPF Mixer...</translation>
+        <translation>Deaktiviranje LPF Mixera …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1792"/>
         <source>Enabling Inverted Stereo...</source>
         <oldsource>Enabling Inverted Stereo....</oldsource>
-        <translation>Uključujem invertirani stereo...</translation>
+        <translation>Aktiviranje invertiranog sterea …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1800"/>
         <source>Enabling Standard Stereo...</source>
         <oldsource>Enabling Standard Stereo....</oldsource>
-        <translation>Uključujem standardni stereo...</translation>
+        <translation>Aktiviranje standardnog sterea …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1808"/>
         <source>Mono Mode...</source>
         <oldsource>Mono Mode....</oldsource>
-        <translation>Mono način...</translation>
+        <translation>Mono …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1816"/>
         <source>Stereo Mode...</source>
         <oldsource>Stereo Mode....</oldsource>
-        <translation>Stereo način...</translation>
+        <translation>Stereo …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1825"/>
         <source>Stopping...</source>
-        <translation>Zaustavljam...</translation>
+        <translation>Prekidanje …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1870"/>
