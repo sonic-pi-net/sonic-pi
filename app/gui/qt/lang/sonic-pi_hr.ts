@@ -108,7 +108,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3878"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation>Posjeti http://sonic-pi.net za skidanje nove verzije</translation>
+        <translation>Posjeti http://sonic-pi.net za preuzimanje nove verzije</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3961"/>
@@ -141,7 +141,7 @@
         <location filename="../mainwindow.cpp" line="1550"/>
         <location filename="../mainwindow.cpp" line="1552"/>
         <source>Buffer files</source>
-        <translation>Podaci međuspremnika</translation>
+        <translation>Datoteke međuspremnika</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1534"/>
@@ -362,7 +362,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1876"/>
         <source>Showing about window...</source>
-        <translation type="unfinished"></translation>
+        <translation>Prikazivanje prozora informacija …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1895"/>
@@ -372,7 +372,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1901"/>
         <source>Showing help...</source>
-        <translation type="unfinished"></translation>
+        <translation>Prikazivanje pomoći …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1964"/>
@@ -387,22 +387,22 @@
     <message>
         <location filename="../mainwindow.cpp" line="2420"/>
         <source>Show autocompletion on</source>
-        <translation type="unfinished"></translation>
+        <translation>Prikaži automatsko dovršavanje uključeno</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2424"/>
         <source>Show autocompletion off</source>
-        <translation type="unfinished"></translation>
+        <translation>Prikaži automatsko dovršavanje isključeno</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2442"/>
         <source>Show context on</source>
-        <translation type="unfinished"></translation>
+        <translation>Prikaži kontekst uključeno</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2451"/>
         <source>Show context off</source>
-        <translation type="unfinished"></translation>
+        <translation>Prikaži kontekst isključeno</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2467"/>
@@ -412,7 +412,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2473"/>
         <source>Showing preferences...</source>
-        <translation type="unfinished"></translation>
+        <translation>Prikazivanje postavki …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2647"/>
@@ -442,7 +442,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2715"/>
         <source>Show Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Prikaži pomoć</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2719"/>
@@ -452,7 +452,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2723"/>
         <source>Show Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Prikaži postavke</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2727"/>
@@ -462,17 +462,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="2750"/>
         <source>Show Line Numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>Prikaži brojeve redaka</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2755"/>
         <source>Show Code Completion</source>
-        <translation type="unfinished"></translation>
+        <translation>Prikaži dovršavanje koda</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2760"/>
         <source>Show Code Context</source>
-        <translation type="unfinished"></translation>
+        <translation>Prikaži kontekst koda</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2765"/>
@@ -592,7 +592,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2899"/>
         <source>Show Titles</source>
-        <translation type="unfinished"></translation>
+        <translation>Prikaži naslove</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2904"/>
@@ -826,7 +826,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3094"/>
         <source>Show Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Prikaži zapisnik</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3099"/>
@@ -836,17 +836,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="3104"/>
         <source>Show Metronome</source>
-        <translation type="unfinished"></translation>
+        <translation>Prikaži metronom</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3109"/>
         <source>Show Buttons</source>
-        <translation type="unfinished"></translation>
+        <translation>Prikaži gumbove</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3114"/>
         <source>Show Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Prikaži kartice</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3119"/>
@@ -1295,7 +1295,7 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="276"/>
         <source>Show code completion</source>
-        <translation type="unfinished"></translation>
+        <translation>Prikaži dovršavanje koda</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="163"/>
@@ -1360,7 +1360,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="263"/>
         <source>Show and Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>Prikaži i sakrij</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="264"/>
@@ -1410,7 +1410,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="261"/>
         <source>Show Panels</source>
-        <translation type="unfinished"></translation>
+        <translation>Prikaži ploče</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="262"/>
@@ -1445,7 +1445,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="273"/>
         <source>Show line numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>Prikaži brojeve redaka</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="274"/>
@@ -1460,17 +1460,17 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="279"/>
         <source>Show code context</source>
-        <translation type="unfinished"></translation>
+        <translation>Prikaži kontekst koda</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="280"/>
         <source>When enabled, Sonic Pi&apos;s editor will show a pane which will display context-specific information for the code such as the current line and position of the cursor.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kad je aktivirano, Sonic Pi uređivač će prikazati ploču s kontekstnim informacijama koda, kao što su trenutačni redak i položaj kursora.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="282"/>
         <source>Show log</source>
-        <translation type="unfinished"></translation>
+        <translation>Prikaži zapisnik</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="283"/>
@@ -1500,7 +1500,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="294"/>
         <source>Show buttons</source>
-        <translation type="unfinished"></translation>
+        <translation>Prikaži gumbove</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="295"/>
@@ -1510,7 +1510,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="297"/>
         <source>Show tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Prikaži kartice</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="299"/>
@@ -1530,7 +1530,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="303"/>
         <source>Show titles</source>
-        <translation type="unfinished"></translation>
+        <translation>Prikaži naslove</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="304"/>
