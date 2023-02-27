@@ -35,7 +35,7 @@ defmodule Tau.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.7.0-rc.2", override: true},
+      {:phoenix, "~> 1.7.0"},
       {:phoenix_html, "~> 3.0"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, "~> 0.18.4"},
@@ -49,7 +49,7 @@ defmodule Tau.MixProject do
       {:gettext, "~> 0.20"},
       {:jason, "~> 1.4"},
       {:plug_cowboy, "~> 2.6"},
-      {:petal_components, "~> 0.19"},
+      {:petal_components, "~> 1.0"},
       {:exsync, "~> 0.2", runtime: Mix.env() == :dev, only: :dev},
       {:rustler, "~> 0.26"},
       {:logger_file_backend, "~> 0.0.13"},
@@ -93,7 +93,6 @@ defmodule Tau.MixProject do
         "esbuild.install",
         "assets.deploy.prod"
       ],
-
       "tau.release": [
         "setup.prod",
         "release --overwrite"
