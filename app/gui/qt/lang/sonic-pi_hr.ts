@@ -264,7 +264,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1363"/>
         <source>Sonic Pi Boot Error</source>
-        <translation>Sonic Pi greška učitavanja</translation>
+        <translation>Greška pokretanja aplikacije Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1367"/>
@@ -281,12 +281,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="1420"/>
         <source>Falling back to English. Sorry about this.</source>
-        <translation type="unfinished"></translation>
+        <translation>Koristit će se engleski. Žao nam je.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1422"/>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>U redu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1686"/>
@@ -357,7 +357,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1870"/>
         <source>Hiding about window...</source>
-        <translation type="unfinished"></translation>
+        <translation>Prikazivanje prozora informacija …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1876"/>
@@ -367,7 +367,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1895"/>
         <source>Hiding help...</source>
-        <translation type="unfinished"></translation>
+        <translation>Skrivanje pomoći …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1901"/>
@@ -377,12 +377,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="1964"/>
         <source>Updating System Volume...</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktualiziranje glasnoće sustava …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2198"/>
         <source>Colour Theme: </source>
-        <translation type="unfinished"></translation>
+        <translation>Tema boja: </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2420"/>
@@ -407,7 +407,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2467"/>
         <source>Hiding preferences...</source>
-        <translation type="unfinished"></translation>
+        <translation>Skrivanje postavki …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2473"/>
@@ -417,27 +417,27 @@
     <message>
         <location filename="../mainwindow.cpp" line="2647"/>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Zatvori program</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2666"/>
         <source>Start recording to a WAV audio file</source>
-        <translation type="unfinished"></translation>
+        <translation>Počni snimati u WAV audio datoteku</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2670"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Spremi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2672"/>
         <source>Save current buffer as an external file</source>
-        <translation type="unfinished"></translation>
+        <translation>Spremi aktualnu međumemoriju kao eksternu datoteku</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2712"/>
         <source>Toggle information about Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Uključi/Isključi informacije o Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2715"/>
@@ -447,7 +447,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2719"/>
         <source>Toggle the visibility of the help pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Uključi/Isključi vidljivost ploče pomoći</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2723"/>
@@ -457,7 +457,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2727"/>
         <source>Toggle the visibility of the preferences pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Uključi/Isključi vidljivost ploče postavki</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2750"/>
@@ -477,7 +477,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2765"/>
         <source>Safe Audio Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Sigurni audio modus</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2770"/>
@@ -487,17 +487,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="2775"/>
         <source>Enable External Synths</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktiviraj eksterne sintetizatore</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2780"/>
         <source>Invert Stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>Invertiraj stereo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2785"/>
         <source>Force Mono</source>
-        <translation type="unfinished"></translation>
+        <translation>Prisili mono</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2790"/>
@@ -522,7 +522,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2810"/>
         <source>Log Synths</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapiši sintetizatore</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2815"/>
@@ -542,17 +542,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="2835"/>
         <source>Live</source>
-        <translation type="unfinished"></translation>
+        <translation>Uživo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2847"/>
         <source>Code</source>
-        <translation type="unfinished"></translation>
+        <translation>Kôd</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2859"/>
         <source>Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2867"/>
@@ -562,27 +562,27 @@
     <message>
         <location filename="../mainwindow.cpp" line="2869"/>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Svijetla</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2874"/>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Tamna</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2879"/>
         <source>Pro Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Svijetla pro</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2884"/>
         <source>Pro Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Tamna pro</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2889"/>
         <source>High Contrast</source>
-        <translation type="unfinished"></translation>
+        <translation>Visoki kontrast</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2894"/>
@@ -597,12 +597,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2904"/>
         <source>Hide Menu Bar in Fullscreen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Sakrij traku izbornika u cjeloekranskom prikazu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2909"/>
         <source>Colour Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Tema boja</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2918"/>
@@ -612,126 +612,126 @@
     <message>
         <location filename="../mainwindow.cpp" line="2929"/>
         <source>IO</source>
-        <translation type="unfinished"></translation>
+        <translation>Ulaz/Izlaz</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2931"/>
         <source>MIDI Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI ulazi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2932"/>
         <location filename="../mainwindow.cpp" line="3930"/>
         <location filename="../mainwindow.cpp" line="4065"/>
         <source>No Connected Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Nema spojenih ulaza</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2933"/>
         <source>MIDI Outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI izlazi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2934"/>
         <location filename="../mainwindow.cpp" line="3928"/>
         <location filename="../mainwindow.cpp" line="4087"/>
         <source>No Connected Outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Nema spojenih izlaza</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2936"/>
         <source>Default MIDI Out Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Standardni izlazni MIDI kanal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2938"/>
         <source>All Channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Svi kanali</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2943"/>
         <source>1</source>
-        <translation type="unfinished"></translation>
+        <translation>1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2948"/>
         <source>2</source>
-        <translation type="unfinished"></translation>
+        <translation>2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2953"/>
         <source>3</source>
-        <translation type="unfinished"></translation>
+        <translation>3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2958"/>
         <source>4</source>
-        <translation type="unfinished"></translation>
+        <translation>4</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2963"/>
         <source>5</source>
-        <translation type="unfinished"></translation>
+        <translation>5</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2968"/>
         <source>6</source>
-        <translation type="unfinished"></translation>
+        <translation>6</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2973"/>
         <source>7</source>
-        <translation type="unfinished"></translation>
+        <translation>7</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2978"/>
         <source>8</source>
-        <translation type="unfinished"></translation>
+        <translation>8</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2983"/>
         <source>9</source>
-        <translation type="unfinished"></translation>
+        <translation>9</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2988"/>
         <source>10</source>
-        <translation type="unfinished"></translation>
+        <translation>10</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2993"/>
         <source>11</source>
-        <translation type="unfinished"></translation>
+        <translation>11</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2998"/>
         <source>12</source>
-        <translation type="unfinished"></translation>
+        <translation>12</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3003"/>
         <source>13</source>
-        <translation type="unfinished"></translation>
+        <translation>13</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3008"/>
         <source>14</source>
-        <translation type="unfinished"></translation>
+        <translation>14</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3013"/>
         <source>15</source>
-        <translation type="unfinished"></translation>
+        <translation>15</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3018"/>
         <source>16</source>
-        <translation type="unfinished"></translation>
+        <translation>16</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3026"/>
         <source>Local IP Addresses</source>
-        <translation type="unfinished"></translation>
+        <translation>Lokalne IP adrese</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3040"/>
@@ -741,7 +741,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3043"/>
         <source>View</source>
-        <translation type="unfinished"></translation>
+        <translation>Prikaz</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3048"/>
@@ -851,111 +851,113 @@
     <message>
         <location filename="../mainwindow.cpp" line="3119"/>
         <source>Full Screen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Cjeloekranski prikaz</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3155"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Jezik</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3346"/>
         <source>Ready...</source>
-        <translation type="unfinished"></translation>
+        <translation>Spremno …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3534"/>
         <source>File loaded...</source>
-        <translation type="unfinished"></translation>
+        <translation>Datoteka učitana …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3569"/>
         <source>File saved...</source>
-        <translation type="unfinished"></translation>
+        <translation>Datoteka spremljena …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3627"/>
         <source>Restarting Sonic Pi...</source>
-        <translation type="unfinished"></translation>
+        <translation>Greška pokretanja aplikacije Sonic Pi …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3862"/>
         <source>Last checked %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Zadnja provjera %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3864"/>
         <source>Sonic Pi checks for updates
 every two weeks.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi traži nove verzije
+svaka dva tjedna.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3866"/>
         <source>This is Sonic Pi %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Ovo je Sonic Pi %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3867"/>
         <source>Version %2 is now available!</source>
-        <translation type="unfinished"></translation>
+        <translation>Verzija %2 je sada dostupna!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3872"/>
         <source>New version available!
 Get Sonic Pi %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Dostupna je nova verzija!
+Preuzmi Sonic Pi %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4199"/>
         <source>Line: %1,  Position: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Redak: %1, Pozicija: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2652"/>
         <source>Run</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokreni</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2658"/>
         <source>Stop</source>
-        <translation type="unfinished"></translation>
+        <translation>Prekini</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2660"/>
         <source>Stop all running code</source>
-        <translation type="unfinished"></translation>
+        <translation>Prekini sav pokrenuti kod</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="771"/>
         <source>Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Pomoć</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1369"/>
         <location filename="../mainwindow.cpp" line="1420"/>
         <source>Please consider reporting a bug at</source>
-        <translation type="unfinished"></translation>
+        <translation>Prijavi grešku na</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2664"/>
         <location filename="../mainwindow.cpp" line="3316"/>
         <source>Start Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>Počni snimati</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2690"/>
         <source>Increase Text Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Povećaj veličinu teksta</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2696"/>
         <source>Decrease Text Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Smanji veličinu teksta</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2732"/>
         <source>Tools</source>
-        <translation type="unfinished"></translation>
+        <translation>Alati</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3231"/>
@@ -965,17 +967,17 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="3233"/>
         <source>Core Team</source>
-        <translation type="unfinished"></translation>
+        <translation>Osnovni tim</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3234"/>
         <source>Contributors</source>
-        <translation type="unfinished"></translation>
+        <translation>Doprinositelji</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3232"/>
         <source>Community</source>
-        <translation type="unfinished"></translation>
+        <translation>Zajednica</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="310"/>
@@ -990,12 +992,12 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="460"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Zatvori</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="605"/>
         <source>| %1 |</source>
-        <translation type="unfinished"></translation>
+        <translation>| %1 |</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="696"/>
@@ -1005,49 +1007,51 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2684"/>
         <source>Align code to improve readability</source>
-        <translation type="unfinished"></translation>
+        <translation>Poravnaj kôd za bolju čitljivost</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2704"/>
         <source>Toggle visibility of audio oscilloscope</source>
-        <translation type="unfinished"></translation>
+        <translation>Uključi/Isključi vidljivost oscilograma zvuka</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3235"/>
         <source>License</source>
-        <translation type="unfinished"></translation>
+        <translation>Licenca</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3236"/>
         <source>History</source>
-        <translation type="unfinished"></translation>
+        <translation>Povijest</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3276"/>
         <source>Sonic Pi - Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi – Informacije</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3304"/>
         <source>Stop Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>Prekini snimanje</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3323"/>
         <source>Save Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>Spremi snimanje</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3515"/>
         <source>Cannot read file %1:
 %2.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nije moguće čitati datoteku %1:
+%2.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3543"/>
         <source>Cannot write file %1:
 %2.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nije moguće zapisati datoteku %1:
+%2.</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="113"/>
@@ -1083,32 +1087,32 @@ Get Sonic Pi %1</source>
         <location filename="../utils/ruby_help.h" line="2959"/>
         <location filename="../utils/ruby_help.h" line="3054"/>
         <source>Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation>Vježba</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3089"/>
         <source>Examples</source>
-        <translation type="unfinished"></translation>
+        <translation>Primjeri</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3144"/>
         <source>Synths</source>
-        <translation type="unfinished"></translation>
+        <translation>Sintetizatori</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3193"/>
         <source>Fx</source>
-        <translation type="unfinished"></translation>
+        <translation>Fx</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3214"/>
         <source>Samples</source>
-        <translation type="unfinished"></translation>
+        <translation>Uzorci</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3451"/>
         <source>Lang</source>
-        <translation type="unfinished"></translation>
+        <translation>Jezik</translation>
     </message>
 </context>
 <context>
@@ -1116,7 +1120,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../main.cpp" line="74"/>
         <source>Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi</translation>
     </message>
 </context>
 <context>
@@ -1124,17 +1128,17 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="40"/>
         <source>Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="43"/>
         <source>IO</source>
-        <translation type="unfinished"></translation>
+        <translation>Ulaz/Izlaz</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="46"/>
         <source>Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Uređivač</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="49"/>
@@ -1145,18 +1149,18 @@ Get Sonic Pi %1</source>
         <location filename="../widgets/settingswidget.cpp" line="52"/>
         <location filename="../widgets/settingswidget.cpp" line="448"/>
         <source>Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktualiziranja</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="55"/>
         <location filename="../widgets/settingswidget.cpp" line="492"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Jezik</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="75"/>
         <source>Use this slider to change the system volume.</source>
-        <translation type="unfinished"></translation>
+        <translation>Koristi ovaj klizač za mijenjanje glasnoće sustava.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="81"/>
@@ -1172,7 +1176,7 @@ external PA systems when performing with Sonic Pi.</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="83"/>
         <source>Invert stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>Invertiraj stereo</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="84"/>
@@ -1184,7 +1188,7 @@ be routed to the right speaker and vice versa.</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="85"/>
         <source>Force mono</source>
-        <translation type="unfinished"></translation>
+        <translation>Prisili mono</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="86"/>
@@ -1198,17 +1202,17 @@ can only handle mono.</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="95"/>
         <source>Synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Sintetizatori i FX</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="96"/>
         <source>Modify behaviour of synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Promijeni ponašanje sintetizatora i FX-a</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="98"/>
         <source>Safe mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Sigurni modus</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="99"/>
@@ -1231,7 +1235,13 @@ it is too late to do so
 When disabled, Sonic Pi will always
 attempt to trigger synths and FX
 even when a little late.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kad je aktivirano, Sonic Pi će odbiti
+pokretanje sintetizatora i FX-a, ako
+je za to prekasno.
+
+Kad je deaktivirano, Sonic Pi će uvijek
+pokušati pokrenuti sintetizatore i FX
+čak i kad malo kasne.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="105"/>
@@ -1242,7 +1252,13 @@ to be triggered.
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
 which isn&apos;t recognised.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kad je aktivirano, Sonic Pi će dozvoliti
+pokretanje sintetizatora i FX-a koji se učitaju
+putem load_synthdefs.
+
+Kad je deaktivirano, Sonic Pi će se žaliti
+kad pokušaš koristiti sintetizator ili FX
+koji nije prepoznat.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="129"/>
@@ -1259,12 +1275,12 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="133"/>
         <source>Local IP address</source>
-        <translation type="unfinished"></translation>
+        <translation>Lokalna IP adresa</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="153"/>
         <source>Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Nedostupno</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="159"/>
@@ -1290,7 +1306,7 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="209"/>
         <source>Default MIDI out channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Standardni izlazni MIDI kanal</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="276"/>
@@ -1306,7 +1322,7 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="171"/>
         <source>MIDI Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI konfiguracija</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="172"/>
@@ -1316,7 +1332,7 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="174"/>
         <source>MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI priključci</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="175"/>
@@ -1326,7 +1342,7 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="180"/>
         <source>Reset MIDI</source>
-        <translation type="unfinished"></translation>
+        <translation>Resetiraj MIDI</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="182"/>
@@ -1337,12 +1353,12 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="225"/>
         <source>No connected input devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Nema spojenih ulaznih uređaja</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="226"/>
         <source>No connected output devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Nema spojenih izlaznih uređaja</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="227"/>
@@ -1380,7 +1396,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="104"/>
         <source>Enable external synths/FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktiviraj eksterne sintetizatore/FX</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="134"/>
@@ -1420,27 +1436,27 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="265"/>
         <source>Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Tema</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="267"/>
         <source>Automation / Misc</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatizacija/Razno</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="268"/>
         <source>Configure automation and other features.</source>
-        <translation type="unfinished"></translation>
+        <translation>Konfiguriraj automatizaciju i druge funkcije.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="270"/>
         <source>Auto-align</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatsko poravnanje</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="271"/>
         <source>Automatically align code on Run</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatski poravnaj kôd pri pokretanju</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="273"/>
@@ -1450,7 +1466,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="274"/>
         <source>Toggle line number visibility.</source>
-        <translation type="unfinished"></translation>
+        <translation>Uključi/Isključi vidljivost brojeva redaka.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="277"/>
@@ -1475,7 +1491,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="283"/>
         <source>Toggle visibility of the log.</source>
-        <translation type="unfinished"></translation>
+        <translation>Uključi/Isključi vidljivost zapisnika.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="286"/>
@@ -1520,12 +1536,12 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="300"/>
         <source>Full screen</source>
-        <translation type="unfinished"></translation>
+        <translation>Cjeloekranski prikaz</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="301"/>
         <source>Toggle full screen mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Uključi/Isključi cjeloekranski prikaz.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="303"/>
@@ -1540,7 +1556,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="307"/>
         <source>Hide Menubar in Fullscreen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Sakrij traku izbornika u cjeloekranskom prikazu</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="308"/>
@@ -1550,27 +1566,27 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="312"/>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Svijetla</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="313"/>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Tamna</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="314"/>
         <source>Pro Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Svijetla pro</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="315"/>
         <source>Pro Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Tamna pro</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="316"/>
         <source>High Contrast</source>
-        <translation type="unfinished"></translation>
+        <translation>Visoki kontrast</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="361"/>
@@ -1585,7 +1601,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="364"/>
         <source>Log synths</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapiši sintetizatore</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="365"/>
@@ -1662,17 +1678,17 @@ If enabled the log is scrolled to the bottom after every new message is displaye
     <message>
         <location filename="../widgets/settingswidget.cpp" line="498"/>
         <source>UI &amp; Tutorial Language (Requires a restart to take effect)</source>
-        <translation type="unfinished"></translation>
+        <translation>Jezik korisničkog sučelja i vježbi (zahtijeva ponovno pokretanje aplikacije)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="499"/>
         <source>Change the language of the UI &amp; Tutorial (Requires a restart to take effect)</source>
-        <translation type="unfinished"></translation>
+        <translation>Promijeni jezik korisničkog sučelja i vježbi (zahtijeva ponovno pokretanje aplikacije)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="503"/>
         <source>Change the language of the UI &amp; Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation>Promijeni jezik korisničkog sučelja i vježbi</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="510"/>
@@ -1683,75 +1699,77 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="609"/>
         <source>You&apos;ve selected a new language: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Odabrao/la si novi jezik: %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="611"/>
         <source>Do you want to apply this language?</source>
-        <translation type="unfinished"></translation>
+        <translation>Želiš li primijeniti ovaj jezik?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="613"/>
         <source>The new language will be applied when you next start Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation>Novi jezik će se primijeniti pri sljedećem pokretanju programa Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="617"/>
         <source>System languages found: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Pronađeni jezici sustava: %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="621"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation>Primijeni</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="622"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Odustani</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="633"/>
         <source>&lt;b&gt;The new language will be applied when you next start Sonic Pi.&lt;/b&gt;&lt;br&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Novi jezik će se primijeniti pri sljedećem pokretanju programa Sonic Pi.&lt;/b&gt;&lt;br&gt;</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="634"/>
         <location filename="../widgets/settingswidget.cpp" line="876"/>
         <source>Current UI language: %1
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Trenutačni jezik korisničkog sučelja: %1
+</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="638"/>
         <source>Restart Sonic Pi?</source>
-        <translation type="unfinished"></translation>
+        <translation>Ponovo pokrenuti Sonic Pi?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="639"/>
         <source>Do you want to restart Sonic Pi now? This will stop any current runs &amp; recordings.</source>
-        <translation type="unfinished"></translation>
+        <translation>Želiš li ponovo pokrenuti Sonic Pi? To će prekinuti sva trenutačna izvođenja i snimanja.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="640"/>
         <source>Restart</source>
-        <translation type="unfinished"></translation>
+        <translation>Ponovo pokreni</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="641"/>
         <source>Dismiss</source>
-        <translation type="unfinished"></translation>
+        <translation>Odbaci</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="875"/>
         <source>System languages: %1
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Jezici sustava: %1
+</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1025"/>
         <source>Use system language</source>
-        <translation type="unfinished"></translation>
+        <translation>Koristi jezik sustava</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="414"/>
@@ -1778,49 +1796,51 @@ Stereo - shows two independent scopes for left and right channels</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="427"/>
         <source>Transparency</source>
-        <translation type="unfinished"></translation>
+        <translation>Prozirnost</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="450"/>
         <source>Check for updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Traži nove verzije</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="451"/>
         <source>Toggle automatic update checking.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished"></translation>
+        <translation>Uključi/Isključi automatsko traženje novih verzija.
+Ova pretraga uključuje slanje anonimnih podataka o tvojoj platformi i verziji.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="452"/>
         <source>Check now</source>
-        <translation type="unfinished"></translation>
+        <translation>Traži sada</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="455"/>
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished"></translation>
+        <translation>Prisili traženje novih verzija sada.
+Ova pretraga uključuje slanje anonimnih podataka o tvojoj platformi i verziji.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="456"/>
         <source>Get update</source>
-        <translation type="unfinished"></translation>
+        <translation>Preuzmi novu verziju</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="458"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation type="unfinished"></translation>
+        <translation>Posjeti http://sonic-pi.net za preuzimanje nove verzije</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="463"/>
         <source>Update Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Informacije nove verzije</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="466"/>
         <source>Sonic Pi update info</source>
-        <translation type="unfinished"></translation>
+        <translation>Informacije nove Sonic Pi verzije</translation>
     </message>
 </context>
 <context>
@@ -1828,7 +1848,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../osc/sonic_pi_udp_osc_server.cpp" line="38"/>
         <source>Is Sonic Pi already running?  Can&apos;t open UDP port.</source>
-        <translation type="unfinished"></translation>
+        <translation>Je li se Sonic Pi već pokreće? Nije moguće otvoriti UDP priključak.</translation>
     </message>
 </context>
 </TS>
