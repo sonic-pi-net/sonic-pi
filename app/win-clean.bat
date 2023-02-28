@@ -12,9 +12,8 @@ if "%MIX_ENV%"=="dev" (
 	rmdir server\beam\tau\priv\static\assets /s /q
 	del server\beam\tau\priv\static\cache_manifest.json /s /q
 	del server\beam\tau\priv\static\*.gz /s /q
-    cd server\beam\tau\priv\static
-	del server\beam\tau\priv\static\robots-*.txt
-	del server\beam\tau\priv\static\favicon-*.ico
+	del server\beam\tau\priv\static\robots-*.txt /s /q
+	del server\beam\tau\priv\static\favicon-*.ico /s /q
 )
 @echo Cleaning completed
 
