@@ -78,7 +78,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="922"/>
         <source>Full screen mode off.</source>
-        <translation>Prikaz preko cijelog zaslona isključen.</translation>
+        <translation>Cjeloekranski prikaz isključen.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1177"/>
@@ -239,7 +239,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1552"/>
         <source>Save Current Buffer</source>
-        <translation>Spremi trenutni međuspremnik</translation>
+        <translation>Spremi aktualnu međumemoriju</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="672"/>
@@ -357,7 +357,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1870"/>
         <source>Hiding about window...</source>
-        <translation>Prikazivanje prozora informacija …</translation>
+        <translation>Skrivanje prozora informacija …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1876"/>
@@ -482,7 +482,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2770"/>
         <source>Enforce Timing Guarantees</source>
-        <translation type="unfinished"></translation>
+        <translation>Forsiraj zajamčeno vrijeme</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2775"/>
@@ -507,12 +507,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2795"/>
         <source>Allow Incoming OSC</source>
-        <translation type="unfinished"></translation>
+        <translation>Dozvoli dolazni OSC protokol</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2800"/>
         <source>Allow OSC From Other Computers</source>
-        <translation type="unfinished"></translation>
+        <translation>Dozvoli OSC protokol od drugih račanala</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2805"/>
@@ -527,7 +527,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2815"/>
         <source>Clear Logs on Run</source>
-        <translation type="unfinished"></translation>
+        <translation>Isprazni zapisnike prilikom pokretanja</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2820"/>
@@ -736,7 +736,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3040"/>
         <source>Incoming OSC Port</source>
-        <translation type="unfinished"></translation>
+        <translation>Priključak dolaznog OSC protokola</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3043"/>
@@ -746,32 +746,32 @@
     <message>
         <location filename="../mainwindow.cpp" line="3048"/>
         <source>Focus Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Fokusiraj uređivač</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3050"/>
         <source>Place focus on the code editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Fokusiraj uređivač koda</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3054"/>
         <source>Focus Logs</source>
-        <translation type="unfinished"></translation>
+        <translation>Fokusiraj zapisnike</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3056"/>
         <source>Place focus on the log pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Fokusiraj ploču zapisnika</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3059"/>
         <source>Focus Context</source>
-        <translation type="unfinished"></translation>
+        <translation>Fokusiraj kontekst</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3061"/>
         <source>Place focus on the context pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Fokusiraj ploču konteksta</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3065"/>
@@ -781,47 +781,47 @@
     <message>
         <location filename="../mainwindow.cpp" line="3067"/>
         <source>Place focus on the cue event pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Fokusiraj ploču reda događaja</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3071"/>
         <source>Focus Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Fokusiraj postavke</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3073"/>
         <source>Place focus on preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Fokusiraj postavke</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3077"/>
         <source>Focus Help Listing</source>
-        <translation type="unfinished"></translation>
+        <translation>Fokusiraj popis pomoći</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3079"/>
         <source>Place focus on help listing</source>
-        <translation type="unfinished"></translation>
+        <translation>Fokusiraj popis pomoći</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3083"/>
         <source>Focus Help Details</source>
-        <translation type="unfinished"></translation>
+        <translation>Fokusiraj datalje pomoći</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3085"/>
         <source>Place focus on help details</source>
-        <translation type="unfinished"></translation>
+        <translation>Fokusiraj datalje pomoći</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3089"/>
         <source>Focus Errors</source>
-        <translation type="unfinished"></translation>
+        <translation>Fokusiraj greške</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3091"/>
         <source>Place focus on errors</source>
-        <translation type="unfinished"></translation>
+        <translation>Fokusiraj greške</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3094"/>
@@ -962,7 +962,7 @@ Preuzmi Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3231"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>Informacije</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3233"/>
@@ -982,7 +982,7 @@ Preuzmi Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="310"/>
         <source>Studio Mode Enabled. Thank-you for supporting Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation>Studio modus je aktiviran. Hvala ti da podržavš Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="316"/>
@@ -1012,7 +1012,7 @@ Preuzmi Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2704"/>
         <source>Toggle visibility of audio oscilloscope</source>
-        <translation>Uključi/Isključi vidljivost oscilograma zvuka</translation>
+        <translation>Uključi/Isključi vidljivost osciloskopa zvuka</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3235"/>
@@ -1219,12 +1219,14 @@ can only handle mono.</source>
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Uključi/isključi funkcije provjere argumenata sintetizatora.
+Ako je aktivirano, određene vrijednosti opcija sintetizatora mogu
+prouzročiti neočekivano glasne ili neugodne zvukove.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="101"/>
         <source>Enforce timing guarantees</source>
-        <translation type="unfinished"></translation>
+        <translation>Forsiraj zajamčeno vrijeme</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="102"/>
@@ -1285,7 +1287,7 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="159"/>
         <source>Allow OSC from other computers</source>
-        <translation type="unfinished"></translation>
+        <translation>Dozvoli OSC protokol od drugih račanala</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="160"/>
@@ -1296,12 +1298,12 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="162"/>
         <source>Allow incoming OSC</source>
-        <translation type="unfinished"></translation>
+        <translation>Dozvoli dolazni OSC protokol</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="186"/>
         <source>all</source>
-        <translation type="unfinished"></translation>
+        <translation>svi</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="209"/>
@@ -1317,7 +1319,8 @@ to and from other programs or computers
         <location filename="../widgets/settingswidget.cpp" line="163"/>
         <source>When checked, Sonic Pi will listen for OSC messages.
  When unchecked no OSC messages will be received.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kada je aktivirano, Sonic Pi će slušati OSC poruke.
+Kada nije aktivirano, OSC poruke se neće primati.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="171"/>
@@ -1327,7 +1330,7 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="172"/>
         <source>Configure MIDI behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation>Kofiguriraj ponašanje MIDI-ja</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="174"/>
@@ -1337,7 +1340,7 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="175"/>
         <source>List all connected MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>Prikaži popis svih povezanih MIDI priključaka</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="180"/>
@@ -1381,17 +1384,17 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="264"/>
         <source>Configure editor display options.</source>
-        <translation type="unfinished"></translation>
+        <translation>Prilagodi opcije prikaza uređivača.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="266"/>
         <source>Configure editor look and feel.</source>
-        <translation type="unfinished"></translation>
+        <translation>Konfiguriraj izgled i ugođaj uređivača.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="74"/>
         <source>Main Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Glavna glasnoća</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="104"/>
@@ -1401,7 +1404,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="134"/>
         <source>Incoming OSC port</source>
-        <translation type="unfinished"></translation>
+        <translation>Priključak dolaznog OSC protokola</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="177"/>
@@ -1471,7 +1474,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="277"/>
         <source>When enabled, Sonic Pi&apos;s editor will attempt to autocomplete your code with suggestions. When disabled, these suggestions will not be visible.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kada je aktivirano, Sonic Pi uređivač će pokušati automatski dovršiti tvoj kod s prijedlozima. Kada je deaktivirano, ovi prijedlozi neće biti vidljivi.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="279"/>
@@ -1521,7 +1524,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="295"/>
         <source>Toggle visibility of the control buttons.</source>
-        <translation type="unfinished"></translation>
+        <translation>Uključi/Isključi vidljivost gumbova konrola.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="297"/>
@@ -1561,7 +1564,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="308"/>
         <source>Automatically hide the menubar when the app is in full screen mode. Note that the menubar is always visible when not in full screen mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatski sakrij traku izbornika u cjeloekranskom prikazu. Traka izbornika je uvijek vidljiva kada se ne koristi cjeloekranski prikaz.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="312"/>
@@ -1596,7 +1599,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="362"/>
         <source>Configure debug behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation>Konfiguriraj ponašanje otklanjanja grešaka</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="364"/>
@@ -1774,12 +1777,12 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="414"/>
         <source>Toggle the visibility of the audio oscilloscopes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Uključi/Isključi vidljivost oscilografa zvuka.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="416"/>
         <source>Toggle the visibility of the labels for the audio oscilloscopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Uključi/Isključi vidljivost oznaka za osciloskope zvuka</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="420"/>
