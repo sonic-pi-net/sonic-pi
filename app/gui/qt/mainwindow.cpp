@@ -34,6 +34,7 @@
 #include <QMessageBox>
 #include <QNetworkInterface>
 #include <QPlainTextEdit>
+#include <QTextEdit>
 #include <QScrollBar>
 #include <QShortcut>
 #include <QSplashScreen>
@@ -1454,7 +1455,8 @@ void MainWindow::startupError(QString msg)
         << QString::fromStdString(m_spAPI->GetLogs());
 
     // The text area for the message.  Allows the user to scroll/view it.
-    auto pTextArea = new QPlainTextEdit(text);
+    auto pTextArea = new QTextEdit();
+    pTextArea->setMarkdown(text);
     pTextArea->setReadOnly(true);
     pLayout->addWidget(pTextArea);
 
