@@ -401,7 +401,7 @@ void SonicPiAPI::Shutdown()
       LOG(INFO, "Shutting down with unknown state!! Warning!");
     }
 
-    if (m_state == State::Created || m_state == State::Invalid || m_state == State::Initializing)
+    if (m_state != State::Reset)
     {
         LOG(INFO, "Resetting audio processor...");
         m_spAudioProcessor.reset();
