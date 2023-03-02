@@ -4470,11 +4470,13 @@ void MainWindow::scsynthBootError()
 
     // When the user hits OK, quit
     connect(pButtons, &QDialogButtonBox::accepted, this, [=]() {
+        std::cout << "[GUI] - Error dialog OK button clicked" << std::endl;
         finished();
     });
 
     // When the dialog is done, quit
     connect(pDialog, &QDialog::finished, this, [=]() {
+        std::cout << "[GUI] - Error dialog finished" << std::endl;
         finished();
     });
 
