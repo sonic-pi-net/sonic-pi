@@ -11,6 +11,10 @@
 *.dylib
 *.dll
 
+!prebuilt/**/*.dll
+!prebuilt/**/*.so
+!prebuilt/**/*.dylib
+
 # Compiled Static libraries
 *.lai
 *.la
