@@ -526,11 +526,8 @@ module SonicPi
           hw_info_s = scsynth_log_str(info_m)
 
           Util.log "Sending scsynth info to GUI..."
-          Util.log "\nRaw:\n---\n #{info_s}"
-          Util.log "\nExtracted:\n---------\n #{info_m.to_s}"
-          Util.log "\nPretty:\n------\n #{hw_info_s}"
-          Util.log "\n---\n"
-
+          Util.log info_m
+          Util.log hw_info_s
           @api_server.send("localhost", @ports["gui-listen-to-spider"], "/scsynth/info", hw_info_s)
         rescue => e
           Util.log "Exception sending scsynth info to gui:"
@@ -794,7 +791,7 @@ module SonicPi
                 @log_file << line
                 @log_file.flush
                 @log << line if @record_log
-                Util.log "log: #{@log.encoding}, #{line.encoding}, #{line}"
+                Util.log "[#{File.basename(@cmd, ".*")}] #{line}"
               rescue IOError
                 # don't attempt to write
               end
