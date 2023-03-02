@@ -1437,21 +1437,19 @@ void MainWindow::startupError(QString msg)
 
     QString text;
     QTextStream str(&text);
-    str << tr("Apologies, a critical error occurred during startup:\n")
-        << msg << "\n\n"
-        << tr("Please consider reporting a bug at")
-        << "\nhttp://github.com/samaaron/sonic-pi/issues\n"
-        << "\n"
-        << "Sonic Pi Boot Error Report\n"
+    str << tr("Apologies, unable to start...\n")
         << "==========================\n"
-        << "\n"
-        << "System Information\n"
-        << "------------------\n"
-        << "\n"
-        << "Sonic Pi version: " << version << "\n"
-        << "OS: " << osDescription() << "\n"
-        << "\n"
-        << "Logs:\n\n"
+        << tr("Sorry, Sonic Pi is having issues booting:") << "\n\n"
+        << "```\n"
+        << msg
+        << "\n```\n\n"
+        << tr("Please consider reporting a bug at")
+        << "\n\n[http://github.com/samaaron/sonic-pi/issues](http://github.com/samaaron/sonic-pi/issues)\n\n"
+
+        << "**System Information**"
+        << "\n\n"
+        << "Sonic Pi version: `" << version << "`\n\n"
+        << "OS: `" << osDescription() << "`\n\n"
         << QString::fromStdString(m_spAPI->GetLogs());
 
     // The text area for the message.  Allows the user to scroll/view it.

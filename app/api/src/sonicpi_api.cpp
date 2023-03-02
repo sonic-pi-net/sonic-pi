@@ -886,12 +886,12 @@ std::string SonicPiAPI::GetLogs()
     {
         if (fs::exists(log))
         {
-            auto contents = string_trim(file_read(log));
+            auto contents = file_read(log);
             if (!contents.empty())
             {
-                str << string_trim(log.filename(), "\"") << ":" << std::endl
-                    << contents << std::endl
-                    << std::endl;
+                str << "**" << string_trim(log.filename(), "\"") << "**\n\n```\n"
+                    << contents
+                    << "\n```\n\n";
             }
         }
     }
