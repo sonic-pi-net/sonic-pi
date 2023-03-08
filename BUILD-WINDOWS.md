@@ -219,13 +219,13 @@ win-build-all.bat
 Finally, you can run your newly compiled Sonic Pi from the `build` directory:
 
 ```
-Release\sonic-pi.exe
+gui\qt\Release\sonic-pi.exe
 ```
 
 Or from anywhere using the full path:
 
 ```
-C:\dev\sonic-pi\app\build\Release\sonic-pi.exe
+C:\dev\sonic-pi\app\build\gui\qt\Release\sonic-pi.exe
 ```
 
 
@@ -251,7 +251,7 @@ https://in-thread.sonic-pi.net
   correctly
 - If you're already familiar with Visual Studio you should be able to
   take the existing solution file from within the `build` directory
-  and build things with that).
+  and build things with that.
 - For Ruby to work correctly with systems that have their locale set to
   Arabic, you need to modify the registry.rb in your Ruby install to
   force the locale to UTF-8. For more information see:
