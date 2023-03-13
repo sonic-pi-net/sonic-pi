@@ -9,6 +9,7 @@ echo "Cleaning out native dir...."
 rm -rf "${SCRIPT_DIR}"/server/native/supercollider
 rm -rf "${SCRIPT_DIR}"/server/native/erlang
 rm -rf "${SCRIPT_DIR}"/server/native/scsynth
+rm -rf "${SCRIPT_DIR}"/server/native/aubio_onset
 
 # Use generic linux clean script for everything else
 "${SCRIPT_DIR}"/linux-clean.sh "$@"
