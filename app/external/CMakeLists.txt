@@ -105,9 +105,9 @@ if(WIN32)
 elseif(${CMAKE_SYSTEM_NAME} MATCHES Darwin) # macOS
   add_custom_command(
     TARGET ExternalsBuilder PRE_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/../../prebuilt/macos/x64/ ${CMAKE_CURRENT_SOURCE_DIR}/../server/native/
-    COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_CURRENT_SOURCE_DIR}/../server/native/supercollider/scsynth ${CMAKE_CURRENT_SOURCE_DIR}/../server/native/scsynth
-    COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/../server/native/supercollider/extra-plugins/ ${CMAKE_CURRENT_SOURCE_DIR}/../server/native/supercollider/plugins/
-    COMMAND ${CMAKE_COMMAND} -E rm -rf ${CMAKE_CURRENT_SOURCE_DIR}/../server/native/supercollider/extra-plugins
+    COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/../../prebuilt/macos/universal/ ${CMAKE_CURRENT_SOURCE_DIR}/../server/native/
+    COMMAND ${CMAKE_COMMAND} -E create_symlink supercollider/Resources/scsynth ${CMAKE_CURRENT_SOURCE_DIR}/../server/native/scsynth
+    COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/../server/native/supercollider/Resources/extra-plugins/ ${CMAKE_CURRENT_SOURCE_DIR}/../server/native/supercollider/Resources/plugins/
+    COMMAND ${CMAKE_COMMAND} -E rm -rf ${CMAKE_CURRENT_SOURCE_DIR}/../server/native/supercollider/Resources/extra-plugins
   )
 endif()

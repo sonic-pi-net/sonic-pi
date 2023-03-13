@@ -1069,8 +1069,12 @@ module SonicPi
         }.freeze
         when :windows
           {
-          "-U" => Paths.scsynth_windows_plugin_path
-        }.freeze
+            "-U" => Paths.scsynth_windows_plugin_path
+          }.freeze
+        when :macos
+          {
+            "-U" => Paths.scsynth_macos_plugin_path
+          }.freeze
         else
           {
         }.freeze

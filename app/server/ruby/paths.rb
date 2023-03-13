@@ -378,6 +378,10 @@ module SonicPi
       File.absolute_path("#{native_path}/plugins")
     end
 
+    def self.scsynth_macos_plugin_path
+      File.absolute_path("#{native_path}/supercollider/Resources/plugins")
+    end
+
     def self.scsynth_raspberry_plugin_path
       "/usr/lib/SuperCollider/plugins"
     end
