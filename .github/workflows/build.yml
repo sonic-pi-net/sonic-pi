@@ -100,11 +100,6 @@ jobs:
           ruby-version: 3.2
         if: matrix.os == 'windows-latest'
 
-      - name: Set ARM64 for macOS
-        run: |
-          echo "SONIC_PI_BUILD_TARGET=arm64" >> $GITHUB_ENV
-        if: matrix.arch == 'arm64' && matrix.os == 'macos-latest'
-
       # Install gems Windows
       - name: Setup Ruby Windows
         working-directory: ${{github.workspace}}/app
