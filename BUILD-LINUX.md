@@ -23,7 +23,7 @@ you'll need to build things yourself and hopefully this document will
 help you do just that.
 
 OK, so just to get you prepared, we're going to do a few things:
- 
+
 1. Install the various dependencies that Sonic Pi needs both to be built
 and to run
 2. Prepare the build by running some command scripts
@@ -40,7 +40,7 @@ and to run
   `BUILD-RASPBERRY_PI.md` for more specific instructions.
 * These build instructions assume you're running under a Debian-based
   Linux. You may need to modify the package names and other aspects to
-  match your specific Linux distribution. 
+  match your specific Linux distribution.
 
 ## 1. Installing Dependencies
 
@@ -61,8 +61,8 @@ The following is a rough list of Debian packages that are needed that can serve 
 sudo apt-get install -y build-essential git libssl-dev ruby-dev elixir erlang-dev erlang-xmerl qttools5-dev qttools5-dev-tools libqt5svg5-dev libqt5opengl5-dev supercollider-server sc3-plugins-server alsa-utils jackd2 libjack-jackd2-dev libjack-jackd2-0 libasound2-dev pulseaudio-module-jack cmake ninja-build
 ```
 
-*Note:* The main repositories may not have a recent enough version of 
-Elixir. If this is the case, you can install it via **one** of the 
+*Note:* The main repositories may not have a recent enough version of
+Elixir. If this is the case, you can install it via **one** of the
 following methods:
 
 * Run `app/pi-install-elixir.sh` to install it using [ASDF](https://github.com/asdf-vm/asdf)
@@ -72,10 +72,10 @@ following methods:
 ### 1.2 Fedora
 ```bash
 sudo dnf group install "Development Tools"
-sudo dnf install alsa-utils aubio-devel catch-devel cmake crossguid-devel elixir erlang erlang-xmerl fmt-devel glew-devel gsl-lite-devel jack-audio-connection-kit-devel jack-audio-connection-kit-example-clients libsndfile-devel ninja-build openssl-devel qt5-qtconfiguration-devel qt5-qttools-devel qt5-qtsvg-devel reproc-devel ruby-devel SDL2-devel supercollider-devel vcpkg      
+sudo dnf install alsa-utils aubio-devel catch-devel cmake crossguid-devel elixir erlang erlang-xmerl fmt-devel glew-devel gsl-lite-devel jack-audio-connection-kit-devel jack-audio-connection-kit-example-clients libsndfile-devel ninja-build openssl-devel qt5-qtconfiguration-devel qt5-qttools-devel qt5-qtsvg-devel reproc-devel ruby-devel SDL2-devel supercollider-devel vcpkg
 ```
 
-There is an Audinux Copr [repository]()https://copr.fedorainfracloud.org/coprs/ycollet/audinux/package/sonic-pi/) with Sonic-Pi.  
+There is an Audinux Copr [repository]()https://copr.fedorainfracloud.org/coprs/ycollet/audinux/package/sonic-pi/) with Sonic-Pi.
 
 ## 2. Preparing the Build
 
@@ -87,7 +87,7 @@ into a folder on your hard drive such as `~/Development/sonic-pi`:
 
 ```
 git clone https://github.com/sonic-pi-net/sonic-pi.git ~/Development/sonic-pi
-``` 
+```
 
 If you don't have Git installed you should be able to download a `.zip`
 file of the latest commit or specific release (v3.3+) you'd like to
@@ -95,7 +95,7 @@ build:
 
 https://github.com/sonic-pi-net/sonic-pi/archive/main.zip
 
-From now on these instructions will assume you downloaded the source 
+From now on these instructions will assume you downloaded the source
 into `~/Development/sonic-pi`. If you used a different location be sure to
 change any future references to `~/Development/sonic-pi` to your chosen location.
 
@@ -117,8 +117,6 @@ Firstly, we need to change to the `app` directory at the root of the Sonic Pi re
 
 ```
 cd ~/Development/sonic-pi/app
-```
-
 
 ### 3.2 Build All
 
@@ -133,7 +131,6 @@ Next we run the build-all script for Linux:
 
 Finally, you can run your newly compiled `Sonic Pi` app within the `build`
 directly either by double clicking it in your file manager or via the terminal
-(from within the `build/gui/qt/sonic-pi` directory):
 
 ```
 ./sonic-pi
@@ -158,6 +155,3 @@ conda deactivate
 ```
 
 Before the build steps that should stop things breaking. Once Sonic Pi is built, you can use `conda` as normal after that.
-
-
-
