@@ -45,7 +45,7 @@ fi
 cd vcpkg
 
 
-if [[ $(uname -m) == 'arm64' ]]
+if [[ $(uname -m) == 'arm64' ]] || [ "$SONIC_PI_BUILD_TARGET" == 'arm64' ]
 then
   triplet=(arm64-osx)
 else
