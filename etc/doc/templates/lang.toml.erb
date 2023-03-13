@@ -9,7 +9,7 @@ t_(<<~TEXT.chomp
 ## <%= t_('Function name') %>
 ## ====================
 # <%= t_('A unique identifier for this function.') %>
-[<%= item[:name] %>]
+["<%= item[:name] %>"]
 
 ## <%= t_('Function summary') %>
 ## ====================
@@ -44,7 +44,7 @@ TEXT
 # name = "tonic"
 # type = "symbol"
 <% item[:args].each do |name, type| %>
-[[<%= item[:name] %>.args]]
+[["<%= item[:name] %>".args]]
 name = "<%= name %>"
 type = "<%= t_(type) %>"
 <% end -%>
@@ -52,7 +52,7 @@ type = "<%= t_(type) %>"
 ## <%= t_('Function introduction') %>
 ## ====================
 # <%= t_('The label describing the version of Sonic Pi in which this function first appeared.') %>
-[<%= item[:name] %>.introduced]
+["<%= item[:name] %>".introduced]
 label = "<%= t_("Introduced in #{item[:introduced].to_s}") %>"
 
 ## <%= t_('Function options') %>
@@ -77,10 +77,10 @@ TEXT
 # Apply the specified num inversions to chord. See the fn `chord_invert`.
 # '''
 <% if item[:opts] && !item[:opts].empty? %>
-[<%= item[:name] %>.options]
+["<%= item[:name] %>".options]
 label = "<%= t_('Options') %>"
 <% item[:opts].each do |name, doc| %>
-[[<%= item[:name] %>.options.list]]
+[["<%= item[:name] %>".options.list]]
 name = "<%= name.to_s %>:"
 doc = '''
 <%= t_(doc) %>
@@ -109,11 +109,11 @@ TEXT
 # example = '''
 # puts (chord :e, :minor) # returns a ring of midi notes - (ring 64, 67, 71)
 # '''
-[<%= item[:name] %>.examples]
+["<%= item[:name] %>".examples]
 label = "<%= t_('Example') %>"
 label_plural = "<%= t_('Examples') %>"
 <% item[:examples].each_with_index do |e, index| %>
-[[<%= item[:name] %>.examples.list]]
+[["<%= item[:name] %>".examples.list]]
 label = "<%= t_("Example #{index + 1}") %>"
 example = '''
 <%= e %>
