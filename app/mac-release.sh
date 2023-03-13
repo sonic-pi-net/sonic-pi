@@ -26,6 +26,12 @@ cp -R ../../../../../../app/gui/qt/lang app/gui/qt/lang
 
 ../../../../../../app/gui/qt/prune.rb app/server/ruby/vendor
 
+#correct link to scsynth from absolute to relative Issue#3223 
+cd server/native
+#remove old absolute link
+rm scsynth
+#create new relative one
+ln -s supercollider/scsynth scsynth
 
 echo "
 
