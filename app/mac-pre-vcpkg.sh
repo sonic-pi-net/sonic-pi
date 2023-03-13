@@ -43,7 +43,16 @@ if [ ! -f "vcpkg/vcpkg" ]; then
 fi
 
 cd vcpkg
-triplet=(x64-osx)
+
+
+if [[ $(uname -m) == 'arm64' ]]
+then
+  triplet=(arm64-osx)
+else
+  triplet=(x64-osx)
+fi
+
+
 
 if [ "$no_imgui" == true ]; then
     ./vcpkg install libsndfile[core,external-libs] kissfft crossguid platform-folders reproc catch2 --triplet ${triplet[0]} --recurse
