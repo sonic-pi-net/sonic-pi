@@ -74,6 +74,20 @@ jobs:
               arch: "x64",
               build_type: "Debug",
             }
+          - {
+              title: "Mac (Apple Silicon)",
+              os: "macos-latest",
+              cc: "clang",
+              arch: "arm64",
+              build_type: "Release",
+            }
+          - {
+              title: "Mac (Apple Silicon)",
+              os: "macos-latest",
+              cc: "clang",
+              arch: "arm64",
+              build_type: "Debug",
+            }
 
     steps:
       # Get the code
