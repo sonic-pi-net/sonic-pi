@@ -5,7 +5,7 @@ cd "${SCRIPT_DIR}"
 
 echo "Booting Tau on macOS..."
 
-if [ $TAU_ENV = "prod" ]
+if [ "$TAU_ENV" = "prod" ]
 then
   # Ensure prod env has been setup with:
   # export MIX_ENV=dev
@@ -13,7 +13,7 @@ then
 
   export MIX_ENV=prod
   _build/prod/rel/tau/bin/tau start > /dev/null 2>&1
-elif [ $TAU_ENV = "dev" ]
+elif [ "$TAU_ENV" = "dev" ]
 then
   # Ensure prod env has been setup with:
   # export MIX_ENV=dev
@@ -22,7 +22,7 @@ then
   export MIX_ENV=dev
   mix assets.deploy.dev
   mix run --no-halt > log/tau_stdout.log 2>&1
-elif [ $TAU_ENV = "test" ]
+elif [ "$TAU_ENV" = "test" ]
 then
   export MIX_ENV=test
   export TAU_MIDI_ENABLED=false
