@@ -703,22 +703,22 @@
     <message>
         <location filename="../mainwindow.cpp" line="3157"/>
         <source>Focus BPM Scrubber</source>
-        <translation>Atteindre Curseur BPM</translation>
+        <translation>Focus sur l&apos;épurateur de BPM</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3159"/>
         <source>Place focus on BPM Scrubber</source>
-        <translation>Focus sur le curseur de BPM</translation>
+        <translation>Mettre le focus sur l&apos;épurateur de BPM</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3163"/>
         <source>Focus TimeWarp Scrubber</source>
-        <translation>Atteindre curseur TimeWarp</translation>
+        <translation>Focus sur l&apos;épurateur de distorsion temporelle</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3165"/>
         <source>Place focus on TimeWarp Scrubber</source>
-        <translation>Focus sur le curseur de TimeWarp</translation>
+        <translation>Mettre le focus sur l&apos;épurateur de distorsion temporelle</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3168"/>
