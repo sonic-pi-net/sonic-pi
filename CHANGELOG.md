@@ -201,7 +201,7 @@ As a bonus, a couple of nice improvements also managed to sneak in for good meas
 
 [(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v4.0.1):
 
-This is a bugfix release addressing a startup issue for a number of users with non-ASCII characters within audio harware information on macOS.
+This is a bugfix release addressing a startup issue for a number of users with non-ASCII characters within audio hardware information on macOS.
 
 We also sadly say goodbye to Core Team member Hanno Zulla who did amazing work with Linux packaging - especially getting Sonic Pi into Debian. Hanno also spearheaded the translation work setting up the crowdsourced translation system which has now enabled Sonic Pi to be translated into over 50 languages. Thank-you so much Hanno - we wish you success and happiness in all you do going forwards.
 
@@ -234,12 +234,12 @@ Now, go and get your Live Coded Jam On!
 - The default BPM is now set to the new global Link metronome. This is set to 60 by default, so on the surface the behaviour will appear identical. However, if you change the Link metronome BPM using the GUI or the new fn `set_link_bpm!` it will change the BPM for all threads dynamically. Previous behaviour (a static BPM of 60 unlinked to the global metronome) can be obtained by starting your code with `use_bpm 60`.
 - Previously it was possible that the `onset:` option for `sample` silently ignored the last onset of a given sample. This has now been fixed. Some samples may therefore have an additional onset index which won't affect any code using earlier indexes but will affect code which uses indexes larger than the number of onsets (and therefore relying on the index wrapping behaviour).
 - The Minecraft Pi Edition API has been removed (all `mc_` fns). Minecraft Pi Edition appears to no longer ship on Raspberry Pi OS and the Pi Edition API is not the same as the standard Minecraft API.
-- The main mixer settings have been modified to reduce load on the limiter in common scenaries with the GUI volume slider set to a high position. This caused distortion and other unwanted audio issues. This change should be an improvement for most users - however if you wish to return to the old behaviour, you can run the following at the start of your session: `set_mixer_control! pre_amp: 1, amp: 1`.
+- The main mixer settings have been modified to reduce load on the limiter in common scenarios with the GUI volume slider set to a high position. This caused distortion and other unwanted audio issues. This change should be an improvement for most users - however if you wish to return to the old behaviour, you can run the following at the start of your session: `set_mixer_control! pre_amp: 1, amp: 1`.
 - The value returned by `beat` no longer starts at `0`. Instead it is now initialised with Ableton Link's current beat value. Other than the initial value not being `0`, `beat`'s behaviour remains unchanged.
 
 ### New
 
-- Support for [Ableton Link](https://www.ableton.com/link/). This enables you to synchronise the tempo of Sonic Pi running on multiple computers connected on the same network. It will also enable automatic BPM synchronisation with music production tools such as Ableton Live, VJ tools such as Resolume, DJ hardware such as the MPC and many compatible iPad music apps. For a full list see: https://www.ableton.com/link/products/,,
+- Support for [Ableton Link](https://www.ableton.com/link/). This enables you to synchronise the tempo of Sonic Pi running on multiple computers connected on the same network. It will also enable automatic BPM synchronisation with music production tools such as Ableton Live, VJ tools such as Resolume, DJ hardware such as the MPC and many compatible iPad music apps. For a full list see: <https://www.ableton.com/link/products/>,,
 - New `:link` option to fn `use_bpm`. This enables Link mode for the current thread which automatically syncs the BPM to the Link metronome (which also syncs it with all other Link-capable apps running on any computer connected to the local (wired or wifi) network.
 - New fn `link` which sets the BPM to a new `:link` mode and also waits until the start of the next bar (as determined by Link) before continuing. This lets you automatically sync tempo and beat phase in one command.
 - New fn `link_sync` which sets the BPM to a new `:link` mode, waits for the Link session to be playing and also waits until the start of the next bar (as determined by Link) before continuing. This lets you automatically "arm" Sonic Pi to sync tempo and beat phase and wait for an external "play" command from another Link device - such as Ableton Live.
@@ -263,7 +263,7 @@ Now, go and get your Live Coded Jam On!
 
 - Preference pane is now an overlay which hovers over the main window. This means that opening and closing it does not inadvertently modify a carefully chosen layout e.g. for a performance.
 - New preference option to show and hide the pane titles such as Scope, Log, Cues, Context, Help, etc.
-- New preference option to hide the menubar when in fullscreen mode (Windows and Linux only as this behaviour is standard on macOS).
+- New preference option to hide the menubar when in full-screen mode (Windows and Linux only as this behaviour is standard on macOS).
 - New preference option for enabling audio inputs (now disabled by default). Modifying this setting requires a reboot to take effect.
 - New preference option for selecting the default language translation. Modifying this setting requires a reboot to take effect.
 - Preferences now show audio hardware information such as connected input/out devices, sample rate, block size etc. The amount of information displayed varies by platform.
@@ -567,7 +567,7 @@ any previous release.
 Tau features two beautiful new audio visualiser scopes - a spectrum
 scope showing the frequency content of the audio and a beautiful mirror
 stereo scope. These scopes have been contributed by Chris Maughan who
-has also been pivotal in improving and simplying the Windows build
+has also been pivotal in improving and simplifying the Windows build
 process. We are hugely grateful for his contributions - thanks Chris!
 
 We have two fabulous new FX - a ping pong delay contributed by Ethan
@@ -635,7 +635,7 @@ Now, go and make some noise with code!
   that was used to create the buffer not the current version used to
   display it.
 - Many, many translation improvements. Thanks to all the wonderful
-  volunteers contributing to the translation effort: https://hosted.weblate.org/projects/sonic-pi/
+  volunteers contributing to the translation effort: <https://hosted.weblate.org/projects/sonic-pi/>
 - Error pane height is now higher by default on all platforms and its
   height is correctly scaled on high DPI monitors.
 - Preference checkboxes are now similarly styled on all platforms.
@@ -704,7 +704,7 @@ _23rd Jan, 2018_
 The major feature of this release is that it brings v3 functionality to
 Windows. Windows now supports all the good stuff listed alongside
 `v3.0.x` including `live_audio`, `midi`, `osc` and much more. See
-`v3.0.1` and `v3.0.0` release notes below for more infomation.
+`v3.0.1` and `v3.0.0` release notes below for more information.
 
 Of course, no new release comes without new features, and there are a
 number of additions and improvements on all levels. Firstly, we are
@@ -718,12 +718,12 @@ students with creative code. Our favourite of these samples is the new
 
 We have added support for Ogg Vorbis encoded audio files `.ogg` and
 `.oga`. These are lossy encoders similar to `.MP3` but free from license
-restrictions. See: https://en.wikipedia.org/wiki/Vorbis
+restrictions. See: <https://en.wikipedia.org/wiki/Vorbis>
 
 Another notable addition is the increase in translation coverage across
 a number of languages. If you still feel the translation for your
 language could be improved, please do consider joining in the
-crowd-sourced effort here: https://hosted.weblate.org/projects/sonic-pi/
+crowd-sourced effort here: <https://hosted.weblate.org/projects/sonic-pi/>
 
 We have also included some styling tweaks to the GUI - to make
 it look even cleaner and also work better when projecting code with
@@ -868,7 +868,7 @@ fully programmable music studio. Have fun live coding!
 
 ### Synths & FX
 
-- New synth `live_audio` - directly stream audio from your soundcard as a synth.
+- New synth `live_audio` - directly stream audio from your sound-card as a synth.
 
 - New FX `record` - enables you to internally record any audio into named buffers. Perfect for building looper systems.
 
@@ -895,7 +895,7 @@ fully programmable music studio. Have fun live coding!
 
 - Teach `time_warp` about input ranges. It now works similar to `at` in that it can now take two lists of args - times and values - which represent a list of time destinations to be visited in turn.
 - Ensure any unprinted messages are displayed if an exception occurs.
-- Teach `range` to work as expected with both floats and ints.
+- Teach `range` to work as expected with both floats and integers.
 - Teach rings a new chain method - `.scale` which will return a new ring with all elements multiplied by the scale value.
 - The fn `control` now returns the node you're controlling.
 - Add many new chords
@@ -913,7 +913,7 @@ fully programmable music studio. Have fun live coding!
 _16th Dec, 2016_
 [(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v2.11.1)
 
-This is primarily a maintainance release containing a number of bug
+This is primarily a maintenance release containing a number of bug
 fixes and minor tweaks. The feature set remains unchanged from `v2.11`.
 
 One of the core bugs fixed in this release is an issue with the return
@@ -1115,7 +1115,7 @@ effort. Thanks to Hanno Zulla for making this possible.
 - Enable app transparency slider for Windows.
 - Dark and light theme colours have been slightly polished and unified
   to use the same logic.
-- On multi-screen systems, fullscreen mode now defaults to the app's
+- On multi-screen systems, full-screen mode now defaults to the app's
   current screen.
 
 ### Documentation
@@ -1320,7 +1320,7 @@ Now go and get your live code on!
 - `C-i` now always displays docs where available (previously it was
   possible for docs not to be displayed).
 - Sliding between chords now works correctly
-- Windows version will now boot on mutiple networked machines logged in
+- Windows version will now boot on multiple networked machines logged in
   with the same account.
 
 <a name="v2.9"></a>
@@ -1384,7 +1384,7 @@ Happy Live Coding!
   and friends.
 - Opts are logged in the order they were defined with local opts first
   followed by inherited opts.
-- BPM scaling is now accounted for in logging vals.
+- BPM scaling is now accounted for in logging values.
 - Log metadata such as run number and time is now printed in a more
   code-like way: as a hash of key value pairs.
 - `C-k` will now kill multiple lines if lines end with `,`.
@@ -1393,7 +1393,7 @@ Happy Live Coding!
 - Add Hungarian and Norwegian translations of GUI.
 - Add Spanish translation of tutorial.
 - Add title to main window - enables Sonic Pi to be selected in
-  screensharing app lists such as Google Hangouts and OBS.
+  screen-sharing app lists such as Google Hangouts and OBS.
 - Add autocompletion for tuning systems.
 
 ### Documentation
@@ -1510,7 +1510,7 @@ cutoff envelopes on the sampler.
 - Bitcrusher FX now has an internal low pass filter modifiable via a new `cutoff` opt.
 - Panslicer now correctly honours min and max pan values.
 - New default opt `on:` for both `sample` and `synth`. This acts like
-  `if` but ensures all the opt vals are evaluated (useful if wanting to
+  `if` but ensures all the opt values are evaluated (useful if wanting to
   keep the consumption of random streams or ticks consistent even when
   not triggering a synth.
 - MIDI opts such as `cutoff:` can now accept note names such as `:c4`.
@@ -1829,7 +1829,7 @@ most powerful text editor in use by wizard programmers today.
 - The `flanger` FX now defaults the optional arg `stereo_invert_wave` to
   1.
 - Renamed FX `ring` to `ring_mod` to reduce the potential for confusion
-  with the `ring` datastructure.
+  with the `ring` data-structure.
 - `Tab` now indents current line or selection rather than inserting a
   useless tab character.
 
@@ -1871,7 +1871,7 @@ most powerful text editor in use by wizard programmers today.
 
 ### Bug Fixes
 
-- Fix OSC lib to properly encode multibyte chars such as UTF8
+- Fix OSC lib to properly encode multi-byte chars such as UTF8
 - Fix sporadic issue on some platforms when trigging percussive sounds
   within a `reverb` FX caused a serious audio overload.
 - Add missing fn metadata for `*_sample_bpm`
@@ -1934,7 +1934,7 @@ fun!
 - Fix insanely obscure bug which caused the GUI to freeze on certain
   platforms (32 bit Windows and RP2 with 2G/2G kernel).
 - Remove DC Bias offset from Prophet synth (see
-  http://en.wikipedia.org/wiki/DC_bias)
+  <http://en.wikipedia.org/wiki/DC_bias>)
 
 <a name="v2.3"></a>
 
@@ -1953,7 +1953,7 @@ _Wednesday 28th January, 2015_
   are similar across all notes in the chord. Previous behaviour can be
   obtained by calling play multiple times with no interleaved sleeps.
 - Ensure each new thread's random number generator is unique yet seeded
-  in a deterministic manner. This stops random vals across `at` from
+  in a deterministic manner. This stops random values across `at` from
   being identical.
 - `range` is now exclusive: `(range 1, 5) #=> (ring 1, 2, 3, 4)`
 
@@ -2039,7 +2039,7 @@ and echoes.
 - Don't round Floats when user specifically prints them to log with puts
 - `with_fx` FX synths are now triggered using virtual time rather than
   real time. This means that FX can now be used for rhythmical purposes.
-- Work on new `RingArray` datastructure. This is essentially an array
+- Work on new `RingArray` data-structure. This is essentially an array
   that wraps its indexes so you can use indexes larger than the array size.
 - New fn `ring` - `(ring 1, 2, 3)` creates a new ring array.
 - New fn `knit` - `(knit :a1, 2, :c1, 1)` returns `(ring :a1, :a1, :c1)`
@@ -2054,7 +2054,7 @@ and echoes.
 
 ### GUI
 
-- Help system now autodocks on close
+- Help system now auto-docks on close
 - Preferences are now remembered across sessions
 - On Raspberry Pi, previous volume and audio output options are forced
   on boot.
@@ -2196,7 +2196,7 @@ _Tuesday 2nd September, 2014_
 - Many new synths
 - New chainable studio FX system
 - Support for sample playback
-- Inclusion of over 70 CC0 licensed samples from http://freesound.org
+- Inclusion of over 70 CC0 licensed samples from <http://freesound.org>
 - Support for controlling and modifying synth, fx and sample playback
   arguments after they have been triggered
 - Completely re-designed GUI
