@@ -73,7 +73,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="690"/>
         <source>Cues</source>
-        <translation>Redovi</translation>
+        <translation>Signali</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="922"/>
@@ -113,17 +113,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="3961"/>
         <source>Disabling OSC cue port...</source>
-        <translation>Deaktiviranje priključka OSC reda …</translation>
+        <translation>Deaktiviranje priključka OSC signala …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3975"/>
         <source>Enabling external OSC cue port...</source>
-        <translation>Aktiviranje priključka OSC reda …</translation>
+        <translation>Aktiviranje eksternog priključka OSC signala …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3989"/>
         <source>Enabling internal OSC cue port...</source>
-        <translation>Aktiviranje internog priključka OSC reda …</translation>
+        <translation>Aktiviranje internog priključka OSC signala …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4059"/>
@@ -169,12 +169,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2129"/>
         <source>Log Auto Scroll on...</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatsko listanje zapisa uključeno …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2133"/>
         <source>Log Auto Scroll off...</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatsko listanje zapisa isključeno …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2654"/>
@@ -209,7 +209,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2700"/>
         <source>Show Scopes</source>
-        <translation>Prikaži zvukove</translation>
+        <translation>Prikaži oscilograme</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2708"/>
@@ -244,7 +244,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="672"/>
         <source>Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Oscilogram</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="829"/>
@@ -502,7 +502,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2790"/>
         <source>Enable Incoming MIDI Cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktiviraj dolazne MIDI signale</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2795"/>
@@ -517,27 +517,27 @@
     <message>
         <location filename="../mainwindow.cpp" line="2805"/>
         <source>Log Cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapis signala</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2810"/>
         <source>Log Synths</source>
-        <translation>Zapiši sintetizatore</translation>
+        <translation>Zapis sintetizatora</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2815"/>
         <source>Clear Logs on Run</source>
-        <translation>Isprazni zapisnike prilikom pokretanja</translation>
+        <translation>Izbriši zapise prilikom pokretanja</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2820"/>
         <source>Auto Indent Code Buffer on Run</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatsko uvlačenje koda predmemorije prilikom pokretanja</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2825"/>
         <source>Auto-Scroll Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatsko listanje zapisa</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2835"/>
@@ -557,7 +557,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2867"/>
         <source>Visuals</source>
-        <translation type="unfinished"></translation>
+        <translation>Grafike</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2869"/>
@@ -587,7 +587,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2894"/>
         <source>Show Scope Labels</source>
-        <translation type="unfinished"></translation>
+        <translation>Prikaži oznake oscilograma</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2899"/>
@@ -607,7 +607,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2918"/>
         <source>Show Scope Kinds</source>
-        <translation type="unfinished"></translation>
+        <translation>Prikaži vrste oscilograma</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2929"/>
@@ -776,12 +776,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="3065"/>
         <source>Focus Cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Fokusiraj signale</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3067"/>
         <source>Place focus on the cue event pane</source>
-        <translation>Fokusiraj ploču reda događaja</translation>
+        <translation>Fokusiraj ploču događaja signala</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3071"/>
@@ -831,7 +831,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3099"/>
         <source>Show Cue Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Prikaži zapisnik signala</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3104"/>
@@ -982,12 +982,12 @@ Preuzmi Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="310"/>
         <source>Studio Mode Enabled. Thank-you for supporting Sonic Pi.</source>
-        <translation>Studio modus je aktiviran. Hvala ti da podržavš Sonic Pi.</translation>
+        <translation>Studio modus je aktiviran. Hvala ti da podržavaš Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="316"/>
         <source>No Matching Studio Hash Found...</source>
-        <translation type="unfinished"></translation>
+        <translation>Nije pronađen odgovarajući hash studija …</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="460"/>
@@ -1002,7 +1002,7 @@ Preuzmi Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="696"/>
         <source>Link Metronome</source>
-        <translation type="unfinished"></translation>
+        <translation>Poveži metronom</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2684"/>
@@ -1012,7 +1012,7 @@ Preuzmi Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2704"/>
         <source>Toggle visibility of audio oscilloscope</source>
-        <translation>Uključi/Isključi vidljivost osciloskopa zvuka</translation>
+        <translation>Uključi/Isključi vidljivost oscilograma zvuka</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3235"/>
@@ -1143,7 +1143,7 @@ Preuzmi Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="49"/>
         <source>Visuals</source>
-        <translation type="unfinished"></translation>
+        <translation>Grafike</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="52"/>
@@ -1165,13 +1165,14 @@ Preuzmi Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="81"/>
         <source>Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio rezultat</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="82"/>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation>Napredne audio postavke za rad s eksternim
+sustavima pojačala tijekom izvođenja pomoću sa Sonic Pi-a.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="83"/>
@@ -1183,7 +1184,9 @@ external PA systems when performing with Sonic Pi.</source>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and vice versa.</source>
-        <translation type="unfinished"></translation>
+        <translation>Uključi/isključi inverziju sterea.
+Ako je aktivirano, zvuk za lijevi zvučnik će se
+preusmjeriti na desni zvučnik i obrnuto.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="85"/>
@@ -1197,7 +1200,11 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation type="unfinished"></translation>
+        <translation>Uključi/isključi mono način.
+Ako je aktivirano, desni i lijevi zvuk se miješaju i
+isti signal se šalje na oba zvučnika.
+Korisno pri radu s eksternim sustavima koji mogu
+raditi samo s mono zvukom.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="95"/>
@@ -1226,7 +1233,7 @@ prouzročiti neočekivano glasne ili neugodne zvukove.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="101"/>
         <source>Enforce timing guarantees</source>
-        <translation>Forsiraj zajamčeno vrijeme</translation>
+        <translation>Primijeni zajamčen timing</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="102"/>
@@ -1265,14 +1272,16 @@ koji nije prepoznat.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="129"/>
         <source>Networked OSC</source>
-        <translation type="unfinished"></translation>
+        <translation>Umreženi OSC</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="130"/>
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi može slati i primati Open Sound Control poruke
+u i iz drugih programa ili računala
+putem trenutačno povezane mreže.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="133"/>
@@ -1293,7 +1302,8 @@ to and from other programs or computers
         <location filename="../widgets/settingswidget.cpp" line="160"/>
         <source>When checked, Sonic Pi will let you send and receive OSC messages to and from remote machines.
  When unchecked, only sending and receiving from the local machine will be enabled.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kada je označeno, Sonic Pi će omogućiti slanje i primanje OSC poruka na i s udaljenih uređaja.
+Kada nije označeno, aktivirat će se samo slanje i primanje s lokalnog računala.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="162"/>
@@ -1351,7 +1361,8 @@ Kada nije aktivirano, OSC poruke se neće primati.</translation>
         <location filename="../widgets/settingswidget.cpp" line="182"/>
         <source>Reset MIDI subsystems 
 (Required to detect device changes on macOS)</source>
-        <translation type="unfinished"></translation>
+        <translation>Resetiraj MIDI podsustave 
+(Potrebno je za otkrivanje promjena uređaja na macOS-u)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="225"/>
@@ -1368,13 +1379,16 @@ Kada nije aktivirano, OSC poruke se neće primati.</translation>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI uređaji za unos šalju MIDI poruke izravno
+Sonic Pi-ju i primaju se kao događaji signala
+(slično dolaznim OSC porukama i internim signalima)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="228"/>
         <source>MIDI output devices receive MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI uređaji rezultata primaju MIDI poruke izravno od
+Sonic Pi-a koje se mogu slati putem „midi_*” funkcija</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="263"/>
@@ -1409,22 +1423,22 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="177"/>
         <source>Enable incoming MIDI cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktiviraj dolazne MIDI signale</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="178"/>
         <source>Enable or disable automatic conversion of incoming MIDI messages to cue events</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktiviraj ili deaktiviraj automatsku konverziju dolaznih MIDI poruka u događaje signala</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="210"/>
         <source>Default MIDI Channel to send messages to (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation>Standardni MIDI kanal na koji se šalju poruke (* znači svi)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="214"/>
         <source>Default MIDI Channel to send messages to  (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation>Standardni MIDI kanal na koji se šalju poruke  (* znači svi)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="261"/>
@@ -1434,7 +1448,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="262"/>
         <source>Show and hide information panes such as the scope and log.</source>
-        <translation type="unfinished"></translation>
+        <translation>Prikaži i sakrij ploče s informacijama kao što su oscilogram i dnevnik.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="265"/>
@@ -1499,22 +1513,22 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="286"/>
         <source>Show cue log</source>
-        <translation type="unfinished"></translation>
+        <translation>Prikaži zapisnik signala</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="287"/>
         <source>Toggle visibility of cue log which displays internal cues &amp; incoming OSC/MIDI messages.</source>
-        <translation type="unfinished"></translation>
+        <translation>Uključi/isključi vidljivost zapisnika signala koji prikazuje interne signale i dolazne OSC/MIDI poruke.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="290"/>
         <source>Show Link metronome controls</source>
-        <translation type="unfinished"></translation>
+        <translation>Prikaži poveznicu kontrola metronoma</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="291"/>
         <source>Toggle visibility of the Link metronome controls.</source>
-        <translation type="unfinished"></translation>
+        <translation>Uključi/isključi vidljivost poveznice kontrola metronoma.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="294"/>
@@ -1534,7 +1548,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="299"/>
         <source>Toggle visibility of the buffer selection tabs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Uključi/isključi vidljivost kartica predmemorije.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="300"/>
@@ -1554,7 +1568,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="304"/>
         <source>Toggle the title visibility for the scope, log, cue and other information panes</source>
-        <translation type="unfinished"></translation>
+        <translation>Uključi/Isključi vidljivost za ploče oscilograma, dnevnika, signala i drugih informacija</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="307"/>
@@ -1594,7 +1608,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="361"/>
         <source>Logging</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisivanje</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="362"/>
@@ -1611,72 +1625,79 @@ Sonic Pi which can be sent via the midi_* fns</source>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation type="unfinished"></translation>
+        <translation>Uključi/isključi poruke dnevnika.
+Ako je deaktivirano, pokretanje aktivnosti kao što su
+„synth” i „sample” se standardno neće zapisati u dnevnik.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="367"/>
         <source>Clear log on run</source>
-        <translation type="unfinished"></translation>
+        <translation>Izbriši zapise prilikom pokretanja</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="368"/>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Uključi/isključi brisanje dnevnika prilikom pokretanja.
+Ako je deaktivirano, dnevnik se briše
+kada se pritisne gumb za pokretanje.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="370"/>
         <source>Log cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapiši signale</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="371"/>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktiviraj ili deaktiviraj zapisivanje signala.
+Ako je deaktivirano, signali će se svejedno aktivirati.
+Međutim, oni neće biti vidljivi u zapisima.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="373"/>
         <source>Auto-scroll log</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatsko listanje zapisa</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="374"/>
         <source>Toggle log auto scrolling.
 If enabled the log is scrolled to the bottom after every new message is displayed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Uključi/isključi utomatsko listanje zapisa.
+Ako je akivirano, zapis se pomiče na kraj nakon što se prikaže svaka nova poruka.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="400"/>
         <source>Settings useful for performing with Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Korisne postavke za izvođenje sa Sonic Pi</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="404"/>
         <source>Show and Hide Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Prikaži i sakrij oscilogram</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="405"/>
         <source>Scope Kinds</source>
-        <translation type="unfinished"></translation>
+        <translation>Vrste oscilograma</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="413"/>
         <source>Show scopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Prikaži oscilograme</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="415"/>
         <source>Show scope labels</source>
-        <translation type="unfinished"></translation>
+        <translation>Prikaži oznake oscilograma</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="493"/>
         <source>Configure language settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Konfiguriraj postavke jezika</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="498"/>
@@ -1697,7 +1718,8 @@ If enabled the log is scrolled to the bottom after every new message is displaye
         <location filename="../widgets/settingswidget.cpp" line="510"/>
         <source>Translations have been generously provided by volunteers 
 on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
-        <translation type="unfinished"></translation>
+        <translation>Prijevode su velikodušno doprinijeli volonteri 
+na https://hosted.weblate.org/projects/sonic-pi/. Hvala vam! :)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="609"/>
@@ -1794,7 +1816,14 @@ Mirror Stereo - simple left/right composite wave, with left on top, right on bot
 Mono - shows a combined view of the left and right channels (using RMS)
 Spectrum - shows the sound frequencies as a spectrum, from low to high frequencies
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Oscilogram zvuka se prikazuje u nekoliko verzija koje se mogu
+prikazati zasebno ili zajedno:
+
+Lissajous – ilustrira fazni odnos između lijevog i desnog kanala
+Mirror Stereo – jednostavan lijevi/desni kompozitni val, lijevi gore, desni dolje
+Mono – prikazuje kombinirani prikaz lijevog i desnog kanala (koristeći RMS)
+Spectrum – prikazuje frekvencije zvuka kao spektar, od niskih do visokih frekvencija
+Stereo – prikazuje dva neovisna oscilograma za lijevi i desni kanal</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="427"/>
