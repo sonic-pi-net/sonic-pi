@@ -121,3 +121,12 @@
 * :loop_breakbeat
 
 
+## Arovane Beats
+* :arovane_beat_a
+* :arovane_beat_b
+* :arovane_beat_c
+* :arovane_beat_d
+* :arovane_beat_e
+
+
+

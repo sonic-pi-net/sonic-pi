@@ -73,6 +73,15 @@ respect back to them all for choosing to support open source software:
 * [Alembic](https://alembic.com.au)
 
 
+## Artistic Sample Contributions
+
+The following artists have contributed towards Sonic Pi by kindly donating audio samples
+into the public domain under a CC0 license for free use. Thank-you.
+
+* [Arovane](https://arovane.bandcamp.com)
+* [Tommi Toivonen](https://totosoundlab.com)
+
+
 ## Patreon Supporters
 
 Sonic Pi development is increasingly funded by a growing number of very

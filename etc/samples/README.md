@@ -1,12 +1,15 @@
 # Samples
 
-All samples in this directory are from http://freesound.org and have
-been placed in the public domain via the Creative Commons 0 License:
+The samples prefixed with `arovane_` have been kindly donated by Uwe Zahn
+(Arovane) under a Creative Commons 0 license. Thanks Uwe!
+
+All other samples in this directory are from http://freesound.org and have
+also been placed in the public domain via the Creative Commons 0 License:
 
 http://creativecommons.org/publicdomain/zero/1.0/
 
 Many of the samples have been slightly modified and trimmed for use with
-Sonic Pi. 
+Sonic Pi.
 
 Links to original samples:
 
@@ -68,7 +71,7 @@ Links to original samples:
 * `:guit_harmonics` - http://freesound.org/people/BStateham/sounds/141524/
 * `:guit_e_fifths` - http://freesound.org/people/Sub-d/sounds/46990/
 * `:guit_e_slide` - http://freesound.org/people/Suva/sounds/2410/
-* `:guit_em9` - http://www.freesound.org/people/Sub-d/sounds/46992/ 
+* `:guit_em9` - http://www.freesound.org/people/Sub-d/sounds/46992/
 
 
 ## Misc
@@ -113,7 +116,7 @@ Links to original samples:
 * `:bass_hard_c` - http://freesound.org/people/ani_music/sounds/165309/
 * `:bass_thick_c` - http://freesound.org/people/ani_music/sounds/165314/
 * `:bass_trance_c` - http://freesound.org/people/ani_music/sounds/165329/
-* `:bass_drop_c` - http://freesound.org/people/ani_music/sounds/165320/ 
+* `:bass_drop_c` - http://freesound.org/people/ani_music/sounds/165320/
 * `:bass_woodsy_c` - http://freesound.org/people/ani_music/sounds/165322/
 * `:bass_voxy_c` - http://freesound.org/people/ani_music/sounds/165325/
 * `:bass_voxy_hit_c` - http://freesound.org/people/ani_music/sounds/165327/
@@ -230,3 +233,11 @@ Links to original samples:
 * `:mehackit_robot_6` - https://freesound.org/people/hullum/sounds/415565/
 * `:mehackit_robot_7` - https://freesound.org/people/hullum/sounds/415558/
 
+
+# Arovane sounds
+
+* `arovane_beat_a` - Donated by Uwe Zahn (Arovane) under a CC0 license
+* `arovane_beat_b` - Donated by Uwe Zahn (Arovane) under a CC0 license
+* `arovane_beat_c` - Donated by Uwe Zahn (Arovane) under a CC0 license
+* `arovane_beat_d` - Donated by Uwe Zahn (Arovane) under a CC0 license
+* `arovane_beat_e` - Donated by Uwe Zahn (Arovane) under a CC0 license

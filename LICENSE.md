@@ -37,9 +37,12 @@ Sonic Pi GUI binaries must comply with the terms of the GPL.
 
 All the bundled samples are individually licensed under a
 [CC0 1.0 Universal Public Domain Dedication](http://creativecommons.org/publicdomain/zero/1.0/). They
-have all been obtained from [freesound.org](http://freesound.org) and
+have been obtained from [freesound.org](http://freesound.org) and
 links to their sources can be found in the file
 [etc/samples/README.md](https://github.com/sonic-pi-net/sonic-pi/blob/main/etc/samples/README.md)
+
+One exception is the samples prefixed with `arovane_`. These have been kindly donated by Uwe Zahn
+([Arovane](https://arovane.bandcamp.com)) also under a CC0 license. Thanks Uwe!
 
 [http://creativecommons.org/publicdomain/zero/1.0/](http://creativecommons.org/publicdomain/zero/1.0/)
 
