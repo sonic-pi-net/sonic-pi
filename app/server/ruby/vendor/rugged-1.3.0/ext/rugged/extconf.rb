@@ -98,7 +98,7 @@ else
   end
 
   Dir.chdir(LIBGIT2_DIR) do
-    Dir.mkdir("build") if !Dir.exists?("build")
+    Dir.mkdir("build") if !Dir.exist?("build")
 
     Dir.chdir("build") do
       # On Windows, Ruby-DevKit is MSYS-based, so ensure to use MSYS Makefiles.
