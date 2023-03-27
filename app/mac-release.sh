@@ -27,6 +27,8 @@ cp -R ../../../../../../app/gui/qt/lang app/gui/qt/lang
 ../../../../../../app/gui/qt/prune.rb app/server/ruby/vendor
 
 
+rm -rf app/server/beam/tau/.elixir_ls
+
 echo "
 
 app/build/macOS_Release/Sonic Pi.app is now ready for signing, notarising and releasing...
