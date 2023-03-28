@@ -98,7 +98,7 @@
         for (var key in opts)
           if (options.hasOwnProperty(key)) options[key] = opts[key];
       },
-      delayedShow: function(time) {
+      delayedShow: function (time) {
         if (showing) return;
         if (delayTimerId) return;
         delayTimerId = setTimeout(() => topbar.show(), time);

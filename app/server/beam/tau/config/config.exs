@@ -25,7 +25,7 @@ config :logger, :console,
 if config_env() != :test do
   # Configure esbuild (the version is required)
   config :esbuild,
-    version: "0.17.10",
+    version: "0.17.14",
     default: [
       args:
         ~w(js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/* --loader:.js=jsx),
@@ -35,7 +35,7 @@ if config_env() != :test do
 
   # Configure tailwind (the version is required)
   config :tailwind,
-    version: "3.2.7",
+    version: "3.3.0",
     default: [
       args: ~w(
       --config=tailwind.config.js
