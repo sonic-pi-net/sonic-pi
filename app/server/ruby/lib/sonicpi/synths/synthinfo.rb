@@ -8341,7 +8341,17 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
             :mehackit_robot4,
             :mehackit_robot5,
             :mehackit_robot6,
-            :mehackit_robot7
+            :mehackit_robot7]},
+
+        :arovane => {
+          :desc => "Arovane 130bpm beat samples",
+          :prefix => "arovane_",
+          :samples => [
+            :arovane_beat_a,
+            :arovane_beat_b,
+            :arovane_beat_c,
+            :arovane_beat_d,
+            :arovane_beat_e
           ]},
         }
 
