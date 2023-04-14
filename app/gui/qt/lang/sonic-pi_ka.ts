@@ -6,7 +6,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="462"/>
         <source>Preferences</source>
-        <translation></translation>
+        <translation>პარამეტრები</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="693"/>
@@ -24,66 +24,66 @@
         <location filename="../mainwindow.cpp" line="1724"/>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
-        <translation></translation>
+        <translation>კოდის გაშვება...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1743"/>
         <source>Beautifying...</source>
         <oldsource>Beautifying....</oldsource>
-        <translation></translation>
+        <translation>გალამაზება...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1769"/>
         <source>Reloading...</source>
         <oldsource>Reloading....</oldsource>
-        <translation></translation>
+        <translation>თავიდან ჩატვირთვა...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1801"/>
         <source>Enabling Mixer HPF...</source>
         <oldsource>Enabling Mixer HPF....</oldsource>
-        <translation></translation>
+        <translation>მიქსერის HPF-ის ჩართვა...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1810"/>
         <source>Disabling Mixer HPF...</source>
         <oldsource>Disabling Mixer HPF....</oldsource>
-        <translation></translation>
+        <translation>მიქსერის HPF-ის გამორთვა...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="333"/>
         <source>Welcome to Sonic Pi</source>
-        <translation></translation>
+        <translation>მოგესალმებათ Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1145"/>
         <source>Indenting selection...</source>
-        <translation></translation>
+        <translation>მონიშნულის შეწევა...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1151"/>
         <source>Indenting line...</source>
-        <translation></translation>
+        <translation>ხაზის შეწევა...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1182"/>
         <source>Toggle selection comment...</source>
-        <translation></translation>
+        <translation>მონიშნულის კომენტარის გადართვა...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="699"/>
         <source>Cues</source>
-        <translation></translation>
+        <translation>სიგნალები</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="933"/>
         <source>Full screen mode off.</source>
-        <translation></translation>
+        <translation>მთელეკრანიანი რეჟიმი გამორთულია.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1188"/>
         <source>Toggle line comment...</source>
-        <translation></translation>
+        <translation>ხაზის კომენტარის გადართვა...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3986"/>
@@ -98,17 +98,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="4012"/>
         <source>No connected input devices</source>
-        <translation></translation>
+        <translation>მიერთებული შეყვანის მოწყობილობების გარეშე</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4013"/>
         <source>No connected output devices</source>
-        <translation></translation>
+        <translation>მიერთებული გამოტანის მოწყობილობების გარეშე</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3958"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation></translation>
+        <translation>ახალი ვერსის გადმოსაწერად ეწვიეთ http://sonic-pi.net</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4041"/>
@@ -128,12 +128,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="4139"/>
         <source>Connected MIDI inputs</source>
-        <translation></translation>
+        <translation>მიერთებული MIDI შეყვანები</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4160"/>
         <source>Connected MIDI outputs</source>
-        <translation></translation>
+        <translation>მიერთებული MIDI გამოტანები</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1575"/>
@@ -151,7 +151,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1577"/>
         <source>Load Sonic Pi Buffer</source>
-        <translation></translation>
+        <translation>Sonic Pi-ის ბაფერის ჩატვირთვა</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1577"/>
@@ -169,7 +169,7 @@
         <location filename="../mainwindow.cpp" line="1577"/>
         <location filename="../mainwindow.cpp" line="1595"/>
         <source>All files</source>
-        <translation></translation>
+        <translation>ყველა ფაილი</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2172"/>
@@ -179,22 +179,22 @@
     <message>
         <location filename="../mainwindow.cpp" line="2176"/>
         <source>Log Auto Scroll off...</source>
-        <translation></translation>
+        <translation>ჟურნალის ავტომატური გადახვევა გამორთ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2697"/>
         <source>Run the code in the current buffer</source>
-        <translation></translation>
+        <translation>კოდის მიმდინარე ბაფერში გაშვება</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2719"/>
         <source>Load</source>
-        <translation></translation>
+        <translation>ჩატვირთვა</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2721"/>
         <source>Load an external file in the current buffer</source>
-        <translation></translation>
+        <translation>მიმდინარე ბუფერში გარე ფაილის ჩატვირთვა</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2725"/>
@@ -224,27 +224,27 @@
     <message>
         <location filename="../mainwindow.cpp" line="3400"/>
         <source>Wavefile (*.wav)</source>
-        <translation></translation>
+        <translation>ხმის ფაილი (*.wav)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4014"/>
         <source>Resetting MIDI...</source>
-        <translation></translation>
+        <translation>MIDI-ის საწყის მნ-ებზე დაბრუნება...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4021"/>
         <source>MIDI is disabled...</source>
-        <translation></translation>
+        <translation>MIDI გამორთულია...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4082"/>
         <source>Welcome back. Now get your live code on...</source>
-        <translation></translation>
+        <translation>კარგია, რომ დაბრუნდით. ახლა მიიღეთ თქვენი კოდი...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1595"/>
         <source>Save Current Buffer</source>
-        <translation></translation>
+        <translation>მიმდინარე ბუფერის შენახვა</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="681"/>
@@ -290,51 +290,51 @@
     <message>
         <location filename="../mainwindow.cpp" line="1729"/>
         <source>Zooming In...</source>
-        <translation></translation>
+        <translation>გადიდება...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1736"/>
         <source>Zooming Out...</source>
-        <translation></translation>
+        <translation>დაპატარავება...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1777"/>
         <source>Checking for updates...</source>
-        <translation></translation>
+        <translation>განახლებების შემოწმება...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1785"/>
         <source>Enabling update checking...</source>
-        <translation></translation>
+        <translation>განახლებების შემოწმების ჩართვა...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1793"/>
         <source>Disabling update checking...</source>
-        <translation></translation>
+        <translation>განახლებების შემოწმების გამორთვა...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1818"/>
         <source>Enabling Mixer LPF...</source>
         <oldsource>Enabling Mixer LPF....</oldsource>
-        <translation></translation>
+        <translation>მიქსერის LPF-ის ჩართვა...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1827"/>
         <source>Disabling Mixer LPF...</source>
         <oldsource>Disabling Mixer LPF....</oldsource>
-        <translation></translation>
+        <translation>მიქსერის LPF-ის გამორთვა...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1835"/>
         <source>Enabling Inverted Stereo...</source>
         <oldsource>Enabling Inverted Stereo....</oldsource>
-        <translation></translation>
+        <translation>ინვერტირებული სტერეოს ჩართვა...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1843"/>
         <source>Enabling Standard Stereo...</source>
         <oldsource>Enabling Standard Stereo....</oldsource>
-        <translation></translation>
+        <translation>სტანდარტული სტერეოს ჩართვა...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1851"/>
@@ -351,7 +351,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1868"/>
         <source>Stopping...</source>
-        <translation></translation>
+        <translation>გაჩერება...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1913"/>
@@ -376,7 +376,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2007"/>
         <source>Updating System Volume...</source>
-        <translation></translation>
+        <translation>სისტემური ტომის განახლება...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2241"/>
@@ -431,7 +431,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2715"/>
         <source>Save current buffer as an external file</source>
-        <translation></translation>
+        <translation>მიმდინარე ბუფერის გარე ფაილშ ჩაწერა</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2755"/>
@@ -446,7 +446,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2762"/>
         <source>Toggle the visibility of the help pane</source>
-        <translation></translation>
+        <translation>დახმარების პანელის ხილვადობის გადართვა</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2766"/>
@@ -456,7 +456,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2770"/>
         <source>Toggle the visibility of the preferences pane</source>
-        <translation></translation>
+        <translation>პარამეტრების პანელის ხილვადობის გადართვა</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2793"/>
@@ -905,17 +905,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="3423"/>
         <source>Ready...</source>
-        <translation></translation>
+        <translation>მზადაა...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3613"/>
         <source>File loaded...</source>
-        <translation></translation>
+        <translation>ფაილი ჩატვირთულია...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3648"/>
         <source>File saved...</source>
-        <translation></translation>
+        <translation>ფაილი შენახულია...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3707"/>
@@ -925,29 +925,31 @@
     <message>
         <location filename="../mainwindow.cpp" line="3942"/>
         <source>Last checked %1</source>
-        <translation></translation>
+        <translation>ბოლოს შემოწმდა %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3944"/>
         <source>Sonic Pi checks for updates
 every two weeks.</source>
-        <translation></translation>
+        <translation>Sonic Pi განახლებებს ყოველ
+ორ კვირაში ამოწმებს.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3946"/>
         <source>This is Sonic Pi %1</source>
-        <translation></translation>
+        <translation>ეს არის Sonic Pi %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3947"/>
         <source>Version %2 is now available!</source>
-        <translation></translation>
+        <translation>ხელმისაწვდომია ვერსია %2!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3952"/>
         <source>New version available!
 Get Sonic Pi %1</source>
-        <translation></translation>
+        <translation>ხელმისაწვდომია ახალი ვერსია!
+მიიღეთ Sonic Pi %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4301"/>
@@ -1007,7 +1009,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2695"/>
         <source>Run</source>
-        <translation></translation>
+        <translation>გაშვება</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2701"/>
@@ -1017,7 +1019,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2703"/>
         <source>Stop all running code</source>
-        <translation></translation>
+        <translation>კოდის გაშვების სრულად შეწყვეტა</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="780"/>
@@ -1027,33 +1029,33 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="1425"/>
         <source>Please consider reporting a bug at</source>
-        <translation></translation>
+        <translation>დაფიქრდით, რომ გამოგვიგზავნოთ შეცდომის ანგარიში მისამართზე</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2707"/>
         <location filename="../mainwindow.cpp" line="3393"/>
         <source>Start Recording</source>
-        <translation></translation>
+        <translation>ჩაწერის დაწყება</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2733"/>
         <source>Increase Text Size</source>
-        <translation></translation>
+        <translation>ტექსტის ზომის გაზრდა</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2739"/>
         <source>Decrease Text Size</source>
-        <translation></translation>
+        <translation>ტექსტის ზომის შემცირება</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2775"/>
         <source>Tools</source>
-        <translation></translation>
+        <translation>ხელსაწყოები</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3308"/>
         <source>About</source>
-        <translation></translation>
+        <translation>შესახებ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3310"/>
@@ -1063,12 +1065,12 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="3311"/>
         <source>Contributors</source>
-        <translation></translation>
+        <translation>მოხალისეები</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3309"/>
         <source>Community</source>
-        <translation></translation>
+        <translation>საზოგადოება</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="315"/>
@@ -1103,12 +1105,12 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="3312"/>
         <source>License</source>
-        <translation></translation>
+        <translation>ლიცენზია</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3313"/>
         <source>History</source>
-        <translation></translation>
+        <translation>ისტორია</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3353"/>
@@ -1118,24 +1120,26 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="3381"/>
         <source>Stop Recording</source>
-        <translation></translation>
+        <translation>ჩაწერის შეწყვეტა</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3400"/>
         <source>Save Recording</source>
-        <translation></translation>
+        <translation>ჩანაწერის შენახვა</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3594"/>
         <source>Cannot read file %1:
 %2.</source>
-        <translation></translation>
+        <translation>ფაილის%1 წაკითხვის შეცდომა:
+%2.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3622"/>
         <source>Cannot write file %1:
 %2.</source>
-        <translation></translation>
+        <translation>ფაილის %1 ჩაწერის შეცდომა:
+%2.</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="113"/>
