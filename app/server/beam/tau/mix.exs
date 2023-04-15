@@ -37,7 +37,7 @@ defmodule Tau.MixProject do
     [
       {:phoenix, "~> 1.7.2"},
       {:phoenix_html, "~> 3.0"},
-      {:phoenix_live_reload, "~> 1.2", only: :dev},
+      {:phoenix_live_reload, "~> 1.4", only: :dev},
       {:phoenix_live_view, "~> 0.18"},
       {:heroicons, "~> 0.5"},
       {:floki, ">= 0.30.0", only: :test},
@@ -53,7 +53,7 @@ defmodule Tau.MixProject do
       {:exsync, "~> 0.2", runtime: Mix.env() == :dev, only: :dev},
       {:rustler, "~> 0.26"},
       {:logger_file_backend, "~> 0.0.13"},
-      {:credo, "~> 1.6", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false}
     ]
   end
 
