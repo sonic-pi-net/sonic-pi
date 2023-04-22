@@ -58,7 +58,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3958"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation>Visitez https://sonic-pi.net pour télécharger la nouvelle version</translation>
+        <translation>Visitez http://sonic-pi.net pour télécharger une nouvelle version</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2697"/>
@@ -244,17 +244,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="1913"/>
         <source>Hiding about window...</source>
-        <translation>Cache de la fenêtre à propos...</translation>
+        <translation>Cacher la fenêtre à propos...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1919"/>
         <source>Showing about window...</source>
-        <translation>Affichege de la fenêtre à propos...</translation>
+        <translation>Afficher la fenêtre à propos...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1938"/>
         <source>Hiding help...</source>
-        <translation>Cache de l&apos;aide...</translation>
+        <translation>Cache l&apos;aide...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1944"/>
@@ -571,7 +571,7 @@
         <location filename="../mainwindow.cpp" line="4010"/>
         <location filename="../mainwindow.cpp" line="4145"/>
         <source>No Connected Inputs</source>
-        <translation>Aucunes entrées connectées</translation>
+        <translation>Aucune entrée connectée</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2995"/>
@@ -583,7 +583,7 @@
         <location filename="../mainwindow.cpp" line="4008"/>
         <location filename="../mainwindow.cpp" line="4167"/>
         <source>No Connected Outputs</source>
-        <translation>Aucunes sorties connectées</translation>
+        <translation>Aucune sortie connectée</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2998"/>
@@ -708,7 +708,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3159"/>
         <source>Place focus on BPM Scrubber</source>
-        <translation>Focus sur l&apos;épurateur de BPM</translation>
+        <translation>Mettre le focus sur l&apos;épurateur de BPM</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3163"/>
@@ -976,12 +976,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="3127"/>
         <source>Focus Cues</source>
-        <translation>Focus sur les signaux (Cues)</translation>
+        <translation>Focus sur les Cues</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3129"/>
         <source>Place focus on the cue event pane</source>
-        <translation>Placer le focus sur panneau d&apos;évènements des signaux (Cues)</translation>
+        <translation>Placer le focus sur panneau d&apos;évènements des Cues</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3133"/>
@@ -1016,7 +1016,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3151"/>
         <source>Focus Errors</source>
-        <translation>Focus sur les Erreurs</translation>
+        <translation>Focus sur les erreurs</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3153"/>
