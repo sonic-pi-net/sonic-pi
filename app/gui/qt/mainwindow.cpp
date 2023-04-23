@@ -2731,6 +2731,9 @@ void MainWindow::createToolBar()
     // Stop
     stopAct = new QAction(theme->getStopIcon(), tr("Stop"), this);
     stopSc = new QShortcut(metaKey('S'), this, SLOT(stopCode()));
+#ifdef Q_OS_MAC
+    new QShortcut(metaKey('.'), this, SLOT(stopCode()));
+#endif
     updateAction(stopAct, stopSc, tr("Stop all running code"));
     connect(stopAct, SIGNAL(triggered()), this, SLOT(stopCode()));
 

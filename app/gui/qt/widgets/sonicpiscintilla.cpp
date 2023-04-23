@@ -67,16 +67,26 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme, QSt
   addKeyBinding(settings, QsciCommand::CharRightExtend, Qt::Key_Right | Qt::SHIFT);
 
   addKeyBinding(settings, QsciCommand::WordRight, Qt::Key_F | SPi_META);
+#if defined(Q_OS_MAC)
+  addOtherKeyBinding(settings, QsciCommand::WordRight, Qt::Key_Right | Qt::ALT);
+  addKeyBinding(settings, QsciCommand::WordRightExtend, Qt::Key_Right | Qt::ALT | Qt::SHIFT);
+#else
   addOtherKeyBinding(settings, QsciCommand::WordRight, Qt::Key_Right | SPi_CTRL);
   addKeyBinding(settings, QsciCommand::WordRightExtend, Qt::Key_Right | SPi_CTRL | Qt::SHIFT);
+#endif
 
   addKeyBinding(settings, QsciCommand::CharLeft, Qt::Key_B | SPi_CTRL);
   addOtherKeyBinding(settings, QsciCommand::CharLeft, Qt::Key_Left);
   addKeyBinding(settings, QsciCommand::CharLeftExtend, Qt::Key_Left | Qt::SHIFT);
 
   addKeyBinding(settings, QsciCommand::WordLeft, Qt::Key_B | SPi_META);
+#if defined(Q_OS_MAC)
+  addOtherKeyBinding(settings, QsciCommand::WordLeft, Qt::Key_Left | Qt::ALT);
+  addKeyBinding(settings, QsciCommand::WordLeftExtend, Qt::Key_Left | Qt::ALT | Qt::SHIFT);
+#else
   addOtherKeyBinding(settings, QsciCommand::WordLeft, Qt::Key_Left | SPi_CTRL);
   addKeyBinding(settings, QsciCommand::WordLeftExtend, Qt::Key_Left | SPi_CTRL | Qt::SHIFT);
+#endif
 
   addKeyBinding(settings, QsciCommand::Delete, Qt::Key_D | SPi_CTRL);
   addOtherKeyBinding(settings, QsciCommand::Delete, Qt::Key_Delete);
@@ -87,22 +97,42 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme, QSt
   addKeyBinding(settings, QsciCommand::Home, Qt::Key_A | SPi_CTRL);
   addKeyBinding(settings, QsciCommand::VCHome, Qt::Key_Home);
   addKeyBinding(settings, QsciCommand::VCHomeExtend, Qt::Key_Home | Qt::SHIFT);
+#if defined(Q_OS_MAC)
+  addOtherKeyBinding(settings, QsciCommand::VCHome, Qt::Key_Left | SPi_META);
+  addOtherKeyBinding(settings, QsciCommand::VCHomeExtend, Qt::Key_Left | SPi_META | Qt::SHIFT);
+#endif
 
   addKeyBinding(settings, QsciCommand::DocumentStart, Qt::Key_Comma | Qt::SHIFT | SPi_META);
   addKeyBinding(settings, QsciCommand::DocumentStartExtend, Qt::Key_Home | SPi_CTRL | Qt::SHIFT);
+#if defined(Q_OS_MAC)
+  addOtherKeyBinding(settings, QsciCommand::DocumentStart, Qt::Key_Up | SPi_META);
+  addOtherKeyBinding(settings, QsciCommand::DocumentStartExtend, Qt::Key_Up | SPi_META | Qt::SHIFT);
+#endif
 
   addKeyBinding(settings, QsciCommand::LineEnd, Qt::Key_E | SPi_CTRL);
   addOtherKeyBinding(settings, QsciCommand::LineEnd, Qt::Key_End);
   addKeyBinding(settings, QsciCommand::LineEndExtend, Qt::Key_End | Qt::SHIFT);
+#if defined(Q_OS_MAC)
+  addOtherKeyBinding(settings, QsciCommand::LineEnd, Qt::Key_Right | SPi_META);
+  addOtherKeyBinding(settings, QsciCommand::LineEndExtend, Qt::Key_Right | SPi_META | Qt::SHIFT);
+#endif
 
   addKeyBinding(settings, QsciCommand::DocumentEnd, Qt::Key_Greater | SPi_META);
   addOtherKeyBinding(settings, QsciCommand::DocumentEnd, Qt::Key_Period | Qt::SHIFT | SPi_META);
   addKeyBinding(settings, QsciCommand::DocumentEndExtend, Qt::Key_End | SPi_CTRL | Qt::SHIFT);
+#if defined(Q_OS_MAC)
+  addOtherKeyBinding(settings, QsciCommand::DocumentEnd, Qt::Key_Down | SPi_META);
+  addOtherKeyBinding(settings, QsciCommand::DocumentEndExtend, Qt::Key_Down | SPi_META | Qt::SHIFT);
+#endif
 
   addKeyBinding(settings, QsciCommand::Delete, Qt::Key_D | SPi_CTRL);
   addKeyBinding(settings, QsciCommand::VerticalCentreCaret, Qt::Key_L | SPi_CTRL);
 
   addKeyBinding(settings, QsciCommand::Backtab, Qt::Key_Tab | Qt::SHIFT);
+#if defined(Q_OS_MAC)
+  addOtherKeyBinding(settings, QsciCommand::Backtab, Qt::Key_BracketLeft | SPi_META);
+  addKeyBinding(settings, QsciCommand::Tab, Qt::Key_BracketRight | SPi_META);
+#endif
 
   // copy paste
   addKeyBinding(settings, QsciCommand::SelectionCopy, Qt::Key_C | SPi_META);
@@ -118,8 +148,24 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme, QSt
 
   // delete word left and right
   addKeyBinding(settings, QsciCommand::DeleteWordLeft, Qt::Key_Backslash | SPi_META);
-  addKeyBinding(settings, QsciCommand::DeleteWordLeft, Qt::Key_Backspace | SPi_META);
   addKeyBinding(settings, QsciCommand::DeleteWordRight, Qt::Key_D | SPi_META);
+#if defined(Q_OS_MAC)
+  addOtherKeyBinding(settings, QsciCommand::DeleteWordLeft, Qt::Key_Backspace | Qt::ALT);
+  addOtherKeyBinding(settings, QsciCommand::DeleteWordRight, Qt::Key_Delete | Qt::ALT);
+#else
+  addOtherKeyBinding(settings, QsciCommand::DeleteWordLeft, Qt::Key_Backspace | SPi_META);
+#endif
+
+#if defined(Q_OS_MAC)
+  addKeyBinding(settings, QsciCommand::DeleteLineLeft, Qt::Key_Backspace | SPi_META);
+  addKeyBinding(settings, QsciCommand::DeleteLineRight, Qt::Key_Delete | SPi_META);
+
+  addKeyBinding(settings, QsciCommand::MoveSelectedLinesUp, Qt::Key_Up | Qt::ALT);
+  addKeyBinding(settings, QsciCommand::MoveSelectedLinesDown, Qt::Key_Down | Qt::ALT);
+
+  addKeyBinding(settings, QsciCommand::SelectionDuplicate, Qt::Key_Up | Qt::ALT | Qt::SHIFT);
+  addOtherKeyBinding(settings, QsciCommand::SelectionDuplicate, Qt::Key_Down | Qt::ALT | Qt::SHIFT);
+#endif
 
   standardCommands()->readSettings(settings);
 
