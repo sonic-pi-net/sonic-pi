@@ -8233,6 +8233,29 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
             :sn_zome,
             :sn_generic]},
 
+        :hat => {
+          :desc => "Hi-hats",
+          :prefix => "hat_",
+          :samples => [
+            :hat_snap,
+            :hat_zap,
+            :hat_tap,
+            :hat_cats,
+            :hat_bdu,
+            :hat_psych,
+            :hat_zild,
+            :hat_gump,
+            :hat_noiz,
+            :hat_sci,
+            :hat_star,
+            :hat_gem,
+            :hat_yosh,
+            :hat_mess,
+            :hat_cab,
+            :hat_gnu,
+            :hat_hier,
+            :hat_metal]},
+
         :bd => {
           :desc => "Bass Drums",
           :prefix => "bd_",
@@ -8249,7 +8272,8 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
             :bd_klub,
             :bd_fat,
             :bd_tek,
-            :bd_mehackit]},
+            :bd_mehackit,
+            :bd_chip]},
 
         :loop => {
           :desc => "Sounds for Looping",
