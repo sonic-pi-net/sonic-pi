@@ -157,7 +157,7 @@ Links to original samples:
 * `:hat_psych` - https://freesound.org/people/PSYCHO%20BOOMER/sounds/42548/
 * `:hat_zild` - https://freesound.org/people/pjcohen/sounds/45668/
 * `:hat_zan` - https://freesound.org/people/zinzan_101/sounds/91683/
-* `:hat_zgump` - https://freesound.org/people/zgump/sounds/96144/
+* `:hat_gump` - https://freesound.org/people/zgump/sounds/96144/
 * `:hat_noiz` - https://freesound.org/people/medetix/sounds/177909/
 * `:hat_sci` - https://freesound.org/people/waveplaySFX/sounds/250530/
 * `:hat_star` - https://freesound.org/people/IanStarGem/sounds/269720/
