@@ -117,6 +117,7 @@ Firstly, we need to change to the `app` directory at the root of the Sonic Pi re
 
 ```
 cd ~/Development/sonic-pi/app
+```
 
 ### 3.2 Build All
 
