@@ -8238,11 +8238,13 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
           :prefix => "hat_",
           :samples => [
             :hat_snap,
+            :hat_zan,
             :hat_zap,
             :hat_tap,
             :hat_cats,
             :hat_bdu,
             :hat_psych,
+            :hat_raw,
             :hat_zild,
             :hat_gump,
             :hat_noiz,
