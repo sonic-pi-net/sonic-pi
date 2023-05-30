@@ -763,19 +763,19 @@ out_t = Thread.new do
           gui.send("/log/info", message[:style] || 0, message[:val] || "")
         when :syntax_error
           desc = message[:val] || ""
-          line = message[:line] || -1
+          linenum = message[:linenum] || -1
           error_line = message[:error_line] || ""
           desc = CGI.escapeHTML(desc)
-          gui.send("/syntax_error", message[:jobid], desc, error_line, line, line.to_s)
+          gui.send("/syntax_error", message[:jobid], desc, error_line, linenum, linenum.to_s)
         when :error
           desc = message[:val] || ""
+          linenum = message[:linenum] || -1
           trace = message[:backtrace].join("\n")
-          line = message[:line] || -1
           # TODO: Move this escaping to the Qt Client
           desc = CGI.escapeHTML(desc)
           trace = CGI.escapeHTML(trace)
           # puts "sending: /error #{desc}, #{trace}"
-          gui.send("/error", message[:jobid], desc, trace, line)
+          gui.send("/error", message[:jobid], desc, trace, linenum)
         when "replace-buffer"
           buf_id = message[:buffer_id]
           content = message[:val] || "Internal error within a fn calling replace-buffer without a :val payload"

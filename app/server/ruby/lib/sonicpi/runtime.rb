@@ -424,7 +424,7 @@ module SonicPi
       delayed_messages << [m_type, m]
     end
 
-    def __extract_line_of_error(e)
+    def __extract_linenum_of_error(e)
       trace = e.backtrace
       return -1 unless trace
 
@@ -442,27 +442,73 @@ module SonicPi
     end
 
     def __error(e, m=nil)
-      line = __extract_line_of_error(e)
+      linenum = __extract_linenum_of_error(e)
       err_msg = e.message
       info = __current_job_info
       err_msg.gsub(/for #<SonicPiSpiderUser[a-z0-9:]+>/, '')
       res = ""
       w = info[:workspace]
-      if line != -1
+      if linenum != -1
 
         # TODO: Remove this hack when we have projects
         w = normalise_buffer_name(w)
         w = "buffer " + w
         # TODO: end of hack
 
-        res = res + "[#{w}, line #{line}]"
+        res = res + "[#{w}, line #{linenum}]"
       else
         res = res + "[#{w}]"
       end
       res += " - #{e.class}"
       res = res + "\n" + m if m
       res = res + "\n #{err_msg}"
-      __msg_queue.push({type: :error, val: res, backtrace: e.backtrace, jobid: __current_job_id, jobinfo: __current_job_info, line: line})
+      __msg_queue.push({type: :error, val: res, backtrace: e.backtrace, jobid: __current_job_id, jobinfo: __current_job_info, linenum: linenum})
+    end
+
+
+    def __syntax_error(e, m=nil)
+      info = __current_job_info
+      _, linenum, err_msg = *e.message.match(/\A.*:([0-9]+): (.*)/)
+      linenum = linenum.to_i
+      error_line = info[:code].lines.to_a[linenum - info[:first_line_num]] ||  ""
+      res = ""
+      w = info[:workspace]
+      if linenum != -1
+
+        # TODO: Remove this hack when we have projects
+        w = normalise_buffer_name(w)
+        w = "buffer " + w
+        # TODO: end of hack
+
+        res = res + "[#{w}, line #{linenum}]"
+      else
+        res = res + "[#{w}]"
+      end
+      res = res + "\n" + m if m
+      res = res + "\n #{err_msg}"
+       __msg_queue.push({type: :syntax_error, val: res, backtrace: e.backtrace, jobid: __current_job_id, jobinfo: __current_job_info, error_line: error_line, linenum: linenum})
+
+      # _, line, message = *e.message.match(/\A.*:([0-9]+): (.*)/)
+      # error_line = ""
+      # if line
+      #   line = line.to_i
+
+      #   # TODO: Remove this hack when we have projects
+      #   w = info[:workspace]
+      #   w = normalise_buffer_name(w)
+      #   w = "buffer #{w}"
+      #   # TODO: end of hack
+
+      #   err_msg = "[#{w}, line #{line}] \n #{message}"
+      #   error_line = code.lines.to_a[line - firstline] ||  ""
+      # else
+      #   line = -1
+      #   err_msg = "\n #{e.message}"
+      # end
+      # __msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})
+      # __msg_queue.push({type: :syntax_error, val: err_msg, error_line: error_line , jobid: id  , jobinfo: info, line: line})
+      # __msg_queue.push({type: :syntax_error, val: "yo no!", error_line: error_line , jobid: id  , jobinfo: info, line: line})
+      # __info("Syntax error in run #{id}. Code ignored.")
     end
 
     def __current_thread_name
@@ -853,7 +899,6 @@ module SonicPi
       __system_thread_locals.set_local(:sonic_pi_spider_thread_delta, 0)
 
     end
-
     def __set_default_user_thread_locals!
 
       __thread_locals.set :sonic_pi_spider_arg_bpm_scaling, true
@@ -869,6 +914,9 @@ module SonicPi
       start_t_prom = Promise.new
       info[:workspace] = 'eval' unless info[:workspace]
       info[:workspace].freeze
+      info[:code] = code.clone
+      info[:code].freeze
+      info[:first_line_num] = firstline
       info.freeze
 
       silent = info.fetch(:silent, false)
@@ -901,7 +949,7 @@ module SonicPi
           __info "Starting run #{id}" unless silent
           code = PreParser.preparse(code, SonicPi::Lang::Core.vec_fns)
 
-          job_in_thread = in_thread seed: 0 do
+          job_in_thread = __in_thread seed: 0 do
             eval(code, nil, info[:workspace], firstline)
           end
 
@@ -913,26 +961,7 @@ module SonicPi
           end
         rescue SyntaxError => e
           __no_kill_block do
-            _, line, message = *e.message.match(/\A.*:([0-9]+): (.*)/)
-            error_line = ""
-            if line
-              line = line.to_i
-
-              # TODO: Remove this hack when we have projects
-              w = info[:workspace]
-              w = normalise_buffer_name(w)
-              w = "buffer #{w}"
-              # TODO: end of hack
-
-              err_msg = "[#{w}, line #{line}] \n #{message}"
-              error_line = code.lines.to_a[line - firstline] ||  ""
-            else
-              line = -1
-              err_msg = "\n #{e.message}"
-            end
-            __msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})
-            __msg_queue.push({type: :syntax_error, val: err_msg, error_line: error_line , jobid: id  , jobinfo: info, line: line})
-            __info("Syntax error in run #{id}. Code ignored.")
+            __syntax_error(e)
           end
         rescue Exception => e
           __schedule_delayed_blocks_and_messages!
@@ -1179,6 +1208,8 @@ module SonicPi
             __schedule_delayed_blocks_and_messages!
             __current_tracker.get
             job_subthread_rm(job_id, Thread.current)
+          rescue SyntaxError => e
+            __syntax_error e
             #raise e
           rescue Exception => e
             if name
