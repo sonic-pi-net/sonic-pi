@@ -213,3 +213,4 @@ relevant licenses:
 - [topbar](http://buunguyen.github.io/topbar) - [MIT License](http://opensource.org/licenses/MIT)
 - [Hydra Synth](https://github.com/hydra-synth/hydra-synth) - [GNU General Public License v3](https://www.gnu.org/licenses/gpl-3.0.html)
 - [P5.js](https://github.com/processing/p5.js) - [GNU Lesser General Public License v2.1](https://www.gnu.org/licenses/lgpl-2.1.html)
+- [tone.js](https://tonejs.github.io) - [MIT License](http://opensource.org/licenses/MIT)

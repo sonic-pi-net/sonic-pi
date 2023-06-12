@@ -25,6 +25,7 @@ import Alpine from "../vendor/alpine";
 
 import p5 from "../vendor/p5";
 import Hydra from "../vendor/hydra-synth.js";
+import * as Tone from "../vendor/tone.js";
 
 window.Alpine = Alpine;
 Alpine.start();
