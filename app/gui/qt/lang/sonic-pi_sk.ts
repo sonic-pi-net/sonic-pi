@@ -6,7 +6,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="462"/>
         <source>Preferences</source>
-        <translation></translation>
+        <translation>Preferencie</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="693"/>
@@ -24,7 +24,7 @@
         <location filename="../mainwindow.cpp" line="1724"/>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
-        <translation></translation>
+        <translation>Spúšťam kód...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1743"/>
@@ -36,7 +36,7 @@
         <location filename="../mainwindow.cpp" line="1769"/>
         <source>Reloading...</source>
         <oldsource>Reloading....</oldsource>
-        <translation></translation>
+        <translation>Obnovujem...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1801"/>
@@ -78,7 +78,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="933"/>
         <source>Full screen mode off.</source>
-        <translation></translation>
+        <translation>Celá obrazovka vypnutá.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1188"/>
@@ -88,12 +88,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="3986"/>
         <source>Enabling MIDI input...</source>
-        <translation type="unfinished"></translation>
+        <translation>Povoľujem MIDI vstup...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3994"/>
         <source>Disabling MIDI input...</source>
-        <translation type="unfinished"></translation>
+        <translation>Zakazujem MIDI vstup...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4012"/>
@@ -219,7 +219,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2751"/>
         <source>Show Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukázať informácie</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3400"/>
@@ -244,7 +244,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1595"/>
         <source>Save Current Buffer</source>
-        <translation></translation>
+        <translation>Uložiť tento buffer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="681"/>
@@ -254,7 +254,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="838"/>
         <source>Playing Sample...</source>
-        <translation type="unfinished"></translation>
+        <translation>Hrám vzorku...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="877"/>
@@ -290,7 +290,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1729"/>
         <source>Zooming In...</source>
-        <translation></translation>
+        <translation>Približujem...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1736"/>
@@ -300,12 +300,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="1777"/>
         <source>Checking for updates...</source>
-        <translation></translation>
+        <translation>Kontrolujem aktualizácie...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1785"/>
         <source>Enabling update checking...</source>
-        <translation></translation>
+        <translation>Povoľujem kontrolu aktualizácií...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1793"/>
@@ -334,24 +334,24 @@
         <location filename="../mainwindow.cpp" line="1843"/>
         <source>Enabling Standard Stereo...</source>
         <oldsource>Enabling Standard Stereo....</oldsource>
-        <translation></translation>
+        <translation>Povoľujem štandardné stereo...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1851"/>
         <source>Mono Mode...</source>
         <oldsource>Mono Mode....</oldsource>
-        <translation></translation>
+        <translation>Mono mód...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1859"/>
         <source>Stereo Mode...</source>
         <oldsource>Stereo Mode....</oldsource>
-        <translation></translation>
+        <translation>Stereo mód...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1868"/>
         <source>Stopping...</source>
-        <translation></translation>
+        <translation>Zastavujem...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1913"/>
@@ -376,12 +376,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2007"/>
         <source>Updating System Volume...</source>
-        <translation></translation>
+        <translation>Mením systémovú hlasitosť...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2241"/>
         <source>Colour Theme: </source>
-        <translation type="unfinished"></translation>
+        <translation>Farebná téma: </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2463"/>
@@ -416,22 +416,22 @@
     <message>
         <location filename="../mainwindow.cpp" line="2690"/>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukončiť</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2709"/>
         <source>Start recording to a WAV audio file</source>
-        <translation type="unfinished"></translation>
+        <translation>Začať nahrávanie do zvukového súboru WAV</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2713"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Uložiť</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2715"/>
         <source>Save current buffer as an external file</source>
-        <translation></translation>
+        <translation>Uložiť tento buffer ako externý súbor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2755"/>
@@ -441,7 +441,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2758"/>
         <source>Show Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobraziť pomoc</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2762"/>
@@ -451,7 +451,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2766"/>
         <source>Show Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobraziť preferencie</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2770"/>
@@ -461,7 +461,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2793"/>
         <source>Show Line Numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobraziť čísla riadkov</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2798"/>
@@ -653,7 +653,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2995"/>
         <source>MIDI Outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI výstupy</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2996"/>
@@ -755,7 +755,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3088"/>
         <source>Local IP Addresses</source>
-        <translation type="unfinished"></translation>
+        <translation>Miestne IP adresy</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3102"/>
@@ -905,7 +905,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3423"/>
         <source>Ready...</source>
-        <translation></translation>
+        <translation>Pripravujem sa...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3613"/>
@@ -941,13 +941,14 @@ every two weeks.</source>
     <message>
         <location filename="../mainwindow.cpp" line="3947"/>
         <source>Version %2 is now available!</source>
-        <translation></translation>
+        <translation>Verzia %2 je teraz dostupná!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3952"/>
         <source>New version available!
 Get Sonic Pi %1</source>
-        <translation></translation>
+        <translation>Nová verzia dostupná!
+Získaj Sonic Pi %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4301"/>
@@ -992,7 +993,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="4412"/>
         <source>Advanced Users</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokročilí používatelia</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4413"/>
@@ -1007,22 +1008,22 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2695"/>
         <source>Run</source>
-        <translation></translation>
+        <translation>Spustiť</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2701"/>
         <source>Stop</source>
-        <translation></translation>
+        <translation>Zastaviť</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2703"/>
         <source>Stop all running code</source>
-        <translation></translation>
+        <translation>Zastaviť všetok spustený kód</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="780"/>
         <source>Help</source>
-        <translation></translation>
+        <translation>Pomoc</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1425"/>
@@ -1033,27 +1034,27 @@ Get Sonic Pi %1</source>
         <location filename="../mainwindow.cpp" line="2707"/>
         <location filename="../mainwindow.cpp" line="3393"/>
         <source>Start Recording</source>
-        <translation></translation>
+        <translation>Začať nahrávanie</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2733"/>
         <source>Increase Text Size</source>
-        <translation></translation>
+        <translation>Zväčšiť veľkosť textu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2739"/>
         <source>Decrease Text Size</source>
-        <translation></translation>
+        <translation>Zmenšiť veľkosť textu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2775"/>
         <source>Tools</source>
-        <translation></translation>
+        <translation>Nástroje</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3308"/>
         <source>About</source>
-        <translation></translation>
+        <translation>O aplikácii</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3310"/>
@@ -1063,12 +1064,12 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="3311"/>
         <source>Contributors</source>
-        <translation></translation>
+        <translation>Prispievatelia</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3309"/>
         <source>Community</source>
-        <translation></translation>
+        <translation>Komunita</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="315"/>
@@ -1083,7 +1084,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="469"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Zavrieť</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="614"/>
@@ -1103,33 +1104,34 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="3312"/>
         <source>License</source>
-        <translation></translation>
+        <translation>Licencia</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3313"/>
         <source>History</source>
-        <translation></translation>
+        <translation>História</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3353"/>
         <source>Sonic Pi - Info</source>
-        <translation></translation>
+        <translation>Sonic Pi - Informácie</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3381"/>
         <source>Stop Recording</source>
-        <translation></translation>
+        <translation>Zastaviť nahrávanie</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3400"/>
         <source>Save Recording</source>
-        <translation></translation>
+        <translation>Uložiť nahrávku</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3594"/>
         <source>Cannot read file %1:
 %2.</source>
-        <translation></translation>
+        <translation>Neviem prečítať súbor %1:
+%2.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3622"/>
@@ -1171,32 +1173,32 @@ Get Sonic Pi %1</source>
         <location filename="../utils/ruby_help.h" line="2960"/>
         <location filename="../utils/ruby_help.h" line="3055"/>
         <source>Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation>Tutoriál</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3092"/>
         <source>Examples</source>
-        <translation type="unfinished"></translation>
+        <translation>Príklady</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3147"/>
         <source>Synths</source>
-        <translation type="unfinished"></translation>
+        <translation>Syntetizátory</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3196"/>
         <source>Fx</source>
-        <translation type="unfinished"></translation>
+        <translation>Efekty</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3217"/>
         <source>Samples</source>
-        <translation type="unfinished"></translation>
+        <translation>Vzorky</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3454"/>
         <source>Lang</source>
-        <translation type="unfinished"></translation>
+        <translation>Jazyk</translation>
     </message>
 </context>
 <context>
@@ -1222,34 +1224,34 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="46"/>
         <source>Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Editor</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="49"/>
         <source>Visuals</source>
-        <translation type="unfinished"></translation>
+        <translation>Vizuály</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="52"/>
         <location filename="../widgets/settingswidget.cpp" line="470"/>
         <source>Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktualizácie</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="55"/>
         <location filename="../widgets/settingswidget.cpp" line="514"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Jazyk</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="77"/>
         <source>Use this slider to change the system volume.</source>
-        <translation type="unfinished"></translation>
+        <translation>Použi tento slider na zmenu systémovej hlasitosti.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="91"/>
         <source>Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Zvukový výstup</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="92"/>
@@ -1260,7 +1262,7 @@ external PA systems when performing with Sonic Pi.</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="93"/>
         <source>Invert stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>Obrátiť stereo</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="94"/>
@@ -1286,7 +1288,7 @@ can only handle mono.</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="105"/>
         <source>Synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Syntetizátory a efekty</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="106"/>
@@ -1342,22 +1344,24 @@ which isn&apos;t recognised.</source>
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi vie posielať a dostávať Open Sound Control správy 
+do a z ďalších programov alebo počítačov 
+cez práve pripojenú sieť.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="155"/>
         <source>Local IP address</source>
-        <translation type="unfinished"></translation>
+        <translation>Miestna IP adresa</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="175"/>
         <source>Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Nedostupné</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="181"/>
         <source>Allow OSC from other computers</source>
-        <translation type="unfinished"></translation>
+        <translation>Povoliť OSC z ďalších počítačov</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="182"/>
@@ -1368,12 +1372,12 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="184"/>
         <source>Allow incoming OSC</source>
-        <translation type="unfinished"></translation>
+        <translation>Povoliť prichádzajúce OSC</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="208"/>
         <source>all</source>
-        <translation type="unfinished"></translation>
+        <translation>všetko</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="231"/>
@@ -1394,7 +1398,7 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="193"/>
         <source>MIDI Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI konfigurácia</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="194"/>
@@ -1425,12 +1429,12 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="247"/>
         <source>No connected input devices</source>
-        <translation type="unfinished">Žiadne pripojené vstupné zariadenia</translation>
+        <translation>Žiadne pripojené vstupné zariadenia</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="248"/>
         <source>No connected output devices</source>
-        <translation type="unfinished">Žiadne pripojené výstupné zariadenia</translation>
+        <translation>Žiadne pripojené výstupné zariadenia</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="249"/>
@@ -1458,27 +1462,27 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="288"/>
         <source>Configure editor look and feel.</source>
-        <translation type="unfinished"></translation>
+        <translation>Konfigurovať vzhľad editora.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="74"/>
         <source>Main Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Hlavná hlasitosť</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="83"/>
         <source>Audio Input</source>
-        <translation type="unfinished"></translation>
+        <translation>Zvukový vstup</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="84"/>
         <source>Audio settings for working with audio inputs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zvukové nastavenia pre prácu so zvukovými vstupmi.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="85"/>
         <source>Enable Audio Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Povoliť zvukové vstupy</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="86"/>
@@ -1488,7 +1492,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="114"/>
         <source>Enable external synths/FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Povoliť externé syntetizátory/efekty</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="127"/>
@@ -1503,7 +1507,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="129"/>
         <source>Information unavailable.</source>
-        <translation type="unfinished"></translation>
+        <translation>Informácie nedostupné.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="156"/>
@@ -1533,7 +1537,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="283"/>
         <source>Show Panels</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukázať panely</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="284"/>
@@ -1568,7 +1572,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="295"/>
         <source>Show line numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobraziť čísla riadkov</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="296"/>
@@ -1593,7 +1597,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="304"/>
         <source>Show log</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobraziť log</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="305"/>
@@ -1623,7 +1627,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="316"/>
         <source>Show buttons</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobraziť tlačidlá</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="317"/>
@@ -1643,7 +1647,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="322"/>
         <source>Full screen</source>
-        <translation type="unfinished"></translation>
+        <translation>Celá obrazovka</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="323"/>
@@ -1673,12 +1677,12 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="334"/>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Svetlé</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="335"/>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Tmavé</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="336"/>
@@ -1693,7 +1697,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="338"/>
         <source>High Contrast</source>
-        <translation type="unfinished"></translation>
+        <translation>Vysoký kontrast</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="383"/>
@@ -1755,7 +1759,7 @@ If enabled the log is scrolled to the bottom after every new message is displaye
     <message>
         <location filename="../widgets/settingswidget.cpp" line="422"/>
         <source>Settings useful for performing with Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Nastavenia použiteľné pre vystúpenie so Sonic Pi</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="426"/>
@@ -1780,7 +1784,7 @@ If enabled the log is scrolled to the bottom after every new message is displaye
     <message>
         <location filename="../widgets/settingswidget.cpp" line="515"/>
         <source>Configure language settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Konfigurovať jazykové nastavenia</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="520"/>
@@ -1795,7 +1799,7 @@ If enabled the log is scrolled to the bottom after every new message is displaye
     <message>
         <location filename="../widgets/settingswidget.cpp" line="525"/>
         <source>Change the language of the UI &amp; Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation>Zmeniť jazyk UI a tutoriálu</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="532"/>
@@ -1849,7 +1853,7 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="660"/>
         <source>Restart Sonic Pi?</source>
-        <translation type="unfinished"></translation>
+        <translation>Reštartovať Sonic Pi?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="661"/>
@@ -1860,7 +1864,7 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
         <location filename="../widgets/settingswidget.cpp" line="662"/>
         <location filename="../widgets/settingswidget.cpp" line="690"/>
         <source>Restart</source>
-        <translation type="unfinished"></translation>
+        <translation>Reštartovať</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="663"/>
@@ -1870,7 +1874,7 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="685"/>
         <source>Audio input change detected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Detekovaná zmena zvukového vstupu.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="686"/>
@@ -1891,7 +1895,7 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1077"/>
         <source>Use system language</source>
-        <translation type="unfinished"></translation>
+        <translation>Použiť systémový jazyk</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="436"/>
@@ -1918,12 +1922,12 @@ Stereo - shows two independent scopes for left and right channels</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="449"/>
         <source>Transparency</source>
-        <translation type="unfinished"></translation>
+        <translation>Priesvitnosť</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="472"/>
         <source>Check for updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Skontrolovať aktualizácie</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="473"/>
@@ -1934,7 +1938,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../widgets/settingswidget.cpp" line="474"/>
         <source>Check now</source>
-        <translation type="unfinished"></translation>
+        <translation>Skontrolovať teraz</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="477"/>
@@ -1945,7 +1949,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../widgets/settingswidget.cpp" line="478"/>
         <source>Get update</source>
-        <translation type="unfinished"></translation>
+        <translation>Získaj aktualizáciu</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="480"/>
@@ -1955,7 +1959,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../widgets/settingswidget.cpp" line="485"/>
         <source>Update Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktualizovať informácie</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="488"/>

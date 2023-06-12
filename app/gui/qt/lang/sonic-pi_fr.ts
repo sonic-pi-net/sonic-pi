@@ -58,7 +58,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3958"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation>Visitez https://sonic-pi.net pour télécharger une nouvelle version</translation>
+        <translation>Visitez http://sonic-pi.net pour télécharger une nouvelle version</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2697"/>
@@ -98,7 +98,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="705"/>
         <source>Link Metronome &amp; Global Time Warp</source>
-        <translation>Métronome Link &amp; distorsion temporelle mondiale</translation>
+        <translation>Métronome Link &amp; distorsion temporelle globale</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="838"/>
@@ -164,12 +164,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="1729"/>
         <source>Zooming In...</source>
-        <translation>Zoom arrière...</translation>
+        <translation>Zoom avant...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1736"/>
         <source>Zooming Out...</source>
-        <translation>Zoom avant...</translation>
+        <translation>Zoom arrière...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1743"/>
@@ -244,12 +244,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="1913"/>
         <source>Hiding about window...</source>
-        <translation>Cache À propos...</translation>
+        <translation>Cacher la fenêtre à propos...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1919"/>
         <source>Showing about window...</source>
-        <translation>Affiche À propos...</translation>
+        <translation>Afficher la fenêtre à propos...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1938"/>
@@ -379,22 +379,22 @@
     <message>
         <location filename="../mainwindow.cpp" line="2766"/>
         <source>Show Preferences</source>
-        <translation>Préférences</translation>
+        <translation>Afficher les préférences</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2793"/>
         <source>Show Line Numbers</source>
-        <translation>Numéros de ligne</translation>
+        <translation>Afficher les numéros de ligne</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2798"/>
         <source>Show Code Completion</source>
-        <translation>Complétion du code</translation>
+        <translation>Afficher la complétion du code</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2803"/>
         <source>Show Code Context</source>
-        <translation>Montrer Contexte du code</translation>
+        <translation>Afficher le contexte du code</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2808"/>
@@ -449,7 +449,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2849"/>
         <source>Enable Incoming MIDI Cues</source>
-        <translation>Autoriser les signaux midi entrants</translation>
+        <translation>Autoriser les signaux MIDI entrants</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2854"/>
@@ -529,12 +529,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2951"/>
         <source>High Contrast</source>
-        <translation>Haut contraste</translation>
+        <translation>Contraste élevé</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2956"/>
         <source>Show Scope Labels</source>
-        <translation>Libellés des oscilloscopes</translation>
+        <translation>Afficher les libellés des oscilloscopes</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2961"/>
@@ -571,7 +571,7 @@
         <location filename="../mainwindow.cpp" line="4010"/>
         <location filename="../mainwindow.cpp" line="4145"/>
         <source>No Connected Inputs</source>
-        <translation>Entrées non connectées</translation>
+        <translation>Aucune entrée connectée</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2995"/>
@@ -583,7 +583,7 @@
         <location filename="../mainwindow.cpp" line="4008"/>
         <location filename="../mainwindow.cpp" line="4167"/>
         <source>No Connected Outputs</source>
-        <translation>Sorties non connectées</translation>
+        <translation>Aucune sortie connectée</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2998"/>
@@ -593,7 +593,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3000"/>
         <source>All Channels</source>
-        <translation>Tous les canaux MIDI</translation>
+        <translation>Tous les canaux</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3005"/>
@@ -698,27 +698,27 @@
     <message>
         <location filename="../mainwindow.cpp" line="3123"/>
         <source>Place focus on the context pane</source>
-        <translation>Focus sur le panneau contexte</translation>
+        <translation>Mettre le focus sur le panneau contexte</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3157"/>
         <source>Focus BPM Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation>Focus sur l&apos;épurateur de BPM</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3159"/>
         <source>Place focus on BPM Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation>Mettre le focus sur l&apos;épurateur de BPM</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3163"/>
         <source>Focus TimeWarp Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation>Focus sur l&apos;épurateur de distorsion temporelle</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3165"/>
         <source>Place focus on TimeWarp Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation>Mettre le focus sur l&apos;épurateur de distorsion temporelle</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3168"/>
@@ -743,7 +743,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3188"/>
         <source>Show Tabs</source>
-        <translation>Affiche les onglets de buffer</translation>
+        <translation>Affiche les onglets</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3193"/>
@@ -874,7 +874,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3308"/>
         <source>About</source>
-        <translation>A propos</translation>
+        <translation>À propos</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3310"/>
@@ -966,32 +966,32 @@
     <message>
         <location filename="../mainwindow.cpp" line="3116"/>
         <source>Focus Logs</source>
-        <translation>Focus sur Journaux</translation>
+        <translation>Focus sur les journaux</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3118"/>
         <source>Place focus on the log pane</source>
-        <translation>Placer le focus sur Journaux</translation>
+        <translation>Placer le focus sur le panneau des journaux</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3127"/>
         <source>Focus Cues</source>
-        <translation>Focus sur Signaux (Cues)</translation>
+        <translation>Focus sur les Cues</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3129"/>
         <source>Place focus on the cue event pane</source>
-        <translation>Placer le focus sur Signaux (Cues)</translation>
+        <translation>Placer le focus sur panneau d&apos;évènements des Cues</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3133"/>
         <source>Focus Preferences</source>
-        <translation>Focus sur Préférences</translation>
+        <translation>Focus sur les préférences</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3135"/>
         <source>Place focus on preferences</source>
-        <translation>Placer le focus sur Préférences</translation>
+        <translation>Placer le focus sur les préférences</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3139"/>
@@ -1016,12 +1016,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="3151"/>
         <source>Focus Errors</source>
-        <translation>Focus sur Erreurs</translation>
+        <translation>Focus sur les erreurs</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3153"/>
         <source>Place focus on errors</source>
-        <translation>Place le focus sur Erreurs</translation>
+        <translation>Placer le focus sur les erreurs</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3312"/>
@@ -1046,12 +1046,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="3400"/>
         <source>Save Recording</source>
-        <translation>Sauvegarde de l&apos;enregistrement</translation>
+        <translation>Sauvegarder l&apos;enregistrement</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3400"/>
         <source>Wavefile (*.wav)</source>
-        <translation>Fichier Wave (*.wav)</translation>
+        <translation>Fichier wave (*.wav)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3423"/>
@@ -1805,7 +1805,7 @@ Si activé le journal défilera vers le bas à chaque nouveau message.</translat
     <message>
         <location filename="../widgets/settingswidget.cpp" line="437"/>
         <source>Show scope labels</source>
-        <translation>Afficher les étiquettes de l&apos;oscillo</translation>
+        <translation>Afficher les étiquettes de l&apos;oscilloscope</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="515"/>

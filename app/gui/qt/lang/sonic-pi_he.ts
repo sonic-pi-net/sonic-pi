@@ -146,7 +146,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="705"/>
         <source>Link Metronome &amp; Global Time Warp</source>
-        <translation type="unfinished"></translation>
+        <translation>קישור מטרונום ומשרעת זמן כללית</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1577"/>
@@ -487,17 +487,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="2818"/>
         <source>Connect or disconnect the Link Metronome from the network</source>
-        <translation type="unfinished"></translation>
+        <translation>חיבור או ניתוק קישור המטרונום לרשת</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2820"/>
         <source>Tap Tempo</source>
-        <translation type="unfinished"></translation>
+        <translation>קצב טפיחה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2823"/>
         <source>Click Link Tap Tempo</source>
-        <translation type="unfinished"></translation>
+        <translation>לחיצה על קישור קצב טפיחה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2825"/>

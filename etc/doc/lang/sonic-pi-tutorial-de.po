@@ -4,16 +4,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2022-06-30 21:17+0000\n"
-"Last-Translator: Jan Ole Hüser <ols3@hotmail.de>\n"
-"Language-Team: German <https://hosted.weblate.org/projects/sonic-pi/tutorial/d"
-"e/>\n"
+"PO-Revision-Date: 2023-04-11 12:41+0000\n"
+"Last-Translator: Timo Dankert <timo.dankert@posteo.net>\n"
+"Language-Team: German <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
+"de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.13.1-dev\n"
+"X-Generator: Weblate 4.17-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -1009,6 +1009,9 @@ msgid ""
 "There's also a handy shortcut for a rest (a musical way of saying not to play "
 "anything instead of a note) using `:r`, `:rest` or `nil`."
 msgstr ""
+"Es gibt auch eine praktische Abkürzung für eine Pause (eine musikalische Art "
+"zu sagen, dass anstelle einer Note nichts gespielt werden soll) mit `:r`, "
+"`:rest` oder `nil`."
 
 #: 02.1-Your-First-Beeps.md:128
 #, fuzzy
