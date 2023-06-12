@@ -1,0 +1,176 @@
+{
+   libgit2-git-error-set-buffer
+   Memcheck:Leak
+   ...
+   fun:git__realloc
+   fun:git_str_try_grow
+   fun:git_str_grow
+   fun:git_str_vprintf
+   fun:git_error_set
+}
+{
+   mac-setenv-leak-1
+   Memcheck:Leak
+   fun:malloc_zone_malloc
+   fun:__setenv
+   fun:setenv
+}
+{
+   mac-setenv-leak-2
+   Memcheck:Leak
+   fun:malloc_zone_malloc
+   fun:malloc_set_zone_name
+   ...
+   fun:init__zone0
+   fun:setenv
+}
+{
+   mac-dyld-initializer-leak
+   Memcheck:Leak
+   fun:malloc
+   ...
+   fun:dyld_register_image_state_change_handler
+   fun:_dyld_initializer
+}
+{
+   mac-tz-leak-1
+   Memcheck:Leak
+   ...
+   fun:token_table_add
+   fun:notify_register_check
+   fun:notify_register_tz
+}
+{
+   mac-tz-leak-2
+   Memcheck:Leak
+   fun:malloc
+   fun:tzload
+}
+{
+   mac-tz-leak-3
+   Memcheck:Leak
+   fun:malloc
+   fun:tzsetwall_basic
+}
+{
+   mac-tz-leak-4
+   Memcheck:Leak
+   fun:malloc
+   fun:gmtsub
+}
+{
+   mac-system-init-leak-1
+   Memcheck:Leak
+   ...
+   fun:_libxpc_initializer
+   fun:libSystem_initializer
+}
+{
+   mac-system-init-leak-2
+   Memcheck:Leak
+   ...
+   fun:__keymgr_initializer
+   fun:libSystem_initializer
+}
+{
+   mac-puts-leak
+   Memcheck:Leak
+   fun:malloc
+   fun:__smakebuf
+   ...
+   fun:puts
+}
+{
+	mac-ssl-uninitialized-1
+	Memcheck:Cond
+	obj:/usr/lib/libcrypto.0.9.8.dylib
+	...
+	fun:ssl23_connect
+}
+{
+	mac-ssl-uninitialized-2
+	Memcheck:Cond
+	...
+	obj:/usr/lib/libssl.0.9.8.dylib
+	...
+	fun:ssl23_connect
+}
+{
+	mac-ssl-uninitialized-3
+	Memcheck:Value8
+	obj:/usr/lib/libcrypto.0.9.8.dylib
+	...
+	fun:ssl23_connect
+}
+{
+	mac-ssl-leak-1
+	Memcheck:Leak
+	...
+	fun:ERR_load_strings
+}
+{
+	mac-ssl-leak-2
+	Memcheck:Leak
+	...
+	fun:SSL_library_init
+}
+{
+	mac-ssl-leak-3
+	Memcheck:Leak
+	...
+	fun:si_module_with_name
+	fun:getaddrinfo
+}
+{
+	mac-ssl-leak-4
+	Memcheck:Leak
+	fun:malloc
+	fun:CRYPTO_malloc
+	...
+	fun:ssl3_get_server_certificate
+}
+{
+	mac-ssl-leak-5
+	Memcheck:Leak
+	fun:malloc
+	fun:CRYPTO_malloc
+	...
+	fun:ERR_put_error
+}
+{
+	clar-printf-buf
+	Memcheck:Leak
+	fun:malloc
+	fun:__smakebuf
+	...
+	fun:printf
+	fun:clar_print_init
+}
+{
+	molo-1
+	Memcheck:Leak
+	fun:malloc_zone_malloc
+	...
+	fun:_objc_init
+}
+{
+	molo-2
+	Memcheck:Leak
+	fun:malloc_zone_calloc
+	...
+	fun:_objc_init
+}
+{
+	molo-3
+	Memcheck:Leak
+	fun:malloc
+	...
+	fun:_objc_init
+}
+{
+	molo-4
+	Memcheck:Leak
+	fun:malloc
+	...
+	fun:dyld_register_image_state_change_handler
+}

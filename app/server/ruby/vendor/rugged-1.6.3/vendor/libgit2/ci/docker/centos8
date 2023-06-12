@@ -1,0 +1,58 @@
+ARG BASE=centos:8
+
+FROM ${BASE} AS stream
+RUN dnf -y --disablerepo '*' --enablerepo=extras swap centos-linux-repos centos-stream-repos && \
+    dnf -y distro-sync
+
+FROM stream AS yum
+RUN yum install -y \
+	which \
+	bzip2 \
+	git \
+	libarchive \
+	cmake \
+	gcc \
+	make \
+	openssl-devel \
+	openssh-server \
+	git-daemon \
+	java-1.8.0-openjdk-headless \
+	sudo \
+	python39 \
+	krb5-workstation \
+	krb5-libs
+
+FROM yum AS libssh2
+RUN cd /tmp && \
+    curl --location --silent --show-error https://www.libssh2.org/download/libssh2-1.8.0.tar.gz | tar -xz && \
+    cd libssh2-1.8.0 && \
+    ./configure && \
+    make && \
+    make install && \
+    cd .. && \
+    rm -rf libssh2-1.8.0
+
+FROM libssh2 AS valgrind
+RUN cd /tmp && \
+    curl --insecure --location --silent --show-error https://sourceware.org/pub/valgrind/valgrind-3.15.0.tar.bz2 | \
+        tar -xj && \
+    cd valgrind-3.15.0 && \
+    ./configure && \
+    make MAKEFLAGS="-j -l$(grep -c ^processor /proc/cpuinfo)" && \
+    make install && \
+    cd .. && \
+    rm -rf valgrind-3.15.0
+
+FROM valgrind AS adduser
+ARG UID=""
+ARG GID=""
+RUN if [ "${UID}" != "" ]; then USER_ARG="--uid ${UID}"; fi && \
+    if [ "${GID}" != "" ]; then GROUP_ARG="--gid ${GID}"; fi && \
+    groupadd ${GROUP_ARG} libgit2 && \
+    useradd ${USER_ARG} --gid libgit2 --shell /bin/bash --create-home libgit2
+
+FROM adduser AS configure
+ENV PKG_CONFIG_PATH /usr/local/lib/pkgconfig
+RUN mkdir /var/run/sshd
+RUN echo "/usr/local/lib" > /etc/ld.so.conf.d/local && \
+    ldconfig

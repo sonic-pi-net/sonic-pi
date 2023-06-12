@@ -1,0 +1,3 @@
+# pack-refs with: peeled sorted 
+66fe8385c6378bfa5ca5573bd0fdd773e4eadb0e86416b483f2c50c839859ecb refs/heads/packed
+cb282e7c15fd8aeb2265cd621f5a228cb33dc84192980ca426cf9ab2a48cb9f0 refs/heads/packed-test

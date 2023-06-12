@@ -1,0 +1,8 @@
+[core]
+	repositoryFormatVersion = 1
+	filemode = true
+	bare = true
+	ignorecase = true
+	precomposeunicode = true
+[extensions]
+	objectFormat = sha256

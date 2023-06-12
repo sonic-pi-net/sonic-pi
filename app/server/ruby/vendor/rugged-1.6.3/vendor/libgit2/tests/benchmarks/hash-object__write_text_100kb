@@ -1,0 +1,9 @@
+#!/bin/bash -e
+
+. "$(dirname "$0")/benchmark_helpers.sh"
+
+gitbench --prepare "sandbox_repo empty_standard_repo &&
+                    create_text_file text_100kb 102400 &&
+                    flush_disk_cache" \
+         --chdir "empty_standard_repo" \
+         hash-object -w "../text_100kb"

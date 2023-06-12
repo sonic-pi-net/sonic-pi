@@ -1,0 +1,49 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+	precomposeunicode = false
+[remote "origin"]
+	url = https://github.com/libgit2/false.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[remote "insteadof-url-fetch"]
+	url = http://example.com/url/fetch/libgit2
+	fetch = +refs/heads/*:refs/remotes/test/*
+[remote "insteadof-url-push"]
+	url = http://example.com/url/push/libgit2
+	fetch = +refs/heads/*:refs/remotes/test/*
+[remote "insteadof-url-both"]
+	url = http://example.com/url/both/libgit2
+	fetch = +refs/heads/*:refs/remotes/test/*
+[remote "insteadof-pushurl-fetch"]
+	url = http://example.com/url/fetch/libgit2
+	pushurl = http://example.com/url/fetch/libgit2-push
+	fetch = +refs/heads/*:refs/remotes/test/*
+[remote "insteadof-pushurl-push"]
+	url = http://example.com/url/push/libgit2
+	pushurl = http://example.com/url/push/libgit2-push
+	fetch = +refs/heads/*:refs/remotes/test/*
+[remote "insteadof-pushurl-both"]
+	url = http://example.com/url/both/libgit2
+	pushurl = http://example.com/url/both/libgit2-push
+	fetch = +refs/heads/*:refs/remotes/test/*
+[branch "master"]
+	remote = origin
+	merge = refs/heads/master
+	rebase = true
+[url "longer-non-prefix-match"]
+	# not applicable because it's not a prefix match
+	insteadOf = ttp://example.com/url/fetch/li
+[url "shorter-prefix"]
+	# not applicable because the matched prefix is shorter
+	insteadOf = http://example.com/url/fe
+[url "http://github.com/url/fetch"]
+	insteadOf = http://example.com/url/fetch
+[url "http://github.com/url/both"]
+	insteadOf = http://example.com/url/both
+[url "git@github.com:url/push"]
+	pushInsteadOf = http://example.com/url/push
+[url "git@github.com:url/both"]
+	pushInsteadOf = http://example.com/url/both

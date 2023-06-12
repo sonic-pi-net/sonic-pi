@@ -1,0 +1,82 @@
+# Benchmark libgit2 against the git reference implementation.
+name: Benchmark
+
+on:
+  workflow_dispatch:
+  schedule:
+  - cron: '15 4 * * *'
+
+jobs:
+  # Run our nightly builds.  We build a matrix with the various build
+  # targets and their details.  Then we build either in a docker container
+  # (Linux) or on the actual hosts (macOS, Windows).
+  build:
+    # Only run scheduled workflows on the main repository; prevents people
+    # from using build minutes on their forks.
+    if: github.repository == 'libgit2/libgit2'
+
+    strategy:
+      matrix:
+        platform:
+        - name: "Linux (clang, OpenSSL)"
+          env:
+            CC: clang
+            CMAKE_OPTIONS: -DUSE_HTTPS=OpenSSL -DREGEX_BACKEND=builtin -DDEPRECATE_HARD=ON -DUSE_GSSAPI=ON -DBUILD_TESTS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_CLI=ON -DCMAKE_BUILD_TYPE=Release
+            CMAKE_BUILD_OPTIONS: --config Release
+          id: linux
+          os: ubuntu-latest
+          setup-script: ubuntu
+        - name: "macOS"
+          os: macos-11
+          env:
+            CC: clang
+            CMAKE_OPTIONS: -DREGEX_BACKEND=regcomp_l -DDEPRECATE_HARD=ON -DUSE_GSSAPI=ON -DBUILD_TESTS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_CLI=ON -DCMAKE_BUILD_TYPE=Release
+            CMAKE_BUILD_OPTIONS: --config Release
+            PKG_CONFIG_PATH: /usr/local/opt/openssl/lib/pkgconfig
+          id: macos
+          setup-script: osx
+        - name: "Windows (amd64, Visual Studio)"
+          os: windows-2019
+          env:
+            ARCH: amd64
+            CMAKE_GENERATOR: Visual Studio 16 2019
+            CMAKE_OPTIONS: -A x64 -DDEPRECATE_HARD=ON -DBUILD_TESTS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_CLI=ON -DCMAKE_BUILD_TYPE=Release
+            CMAKE_BUILD_OPTIONS: --config Release
+          id: windows
+          setup-script: win32
+      fail-fast: false
+    name: "Build ${{ matrix.platform.name }}"
+    env: ${{ matrix.platform.env }}
+    runs-on: ${{ matrix.platform.os }}
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v3
+      with:
+        path: source
+        fetch-depth: 0
+    - name: Set up benchmark environment
+      run: source/ci/setup-${{ matrix.platform.setup-script }}-benchmark.sh
+      shell: bash
+      if: matrix.platform.setup-script != ''
+    - name: Build
+      run: |
+        mkdir build && cd build
+        ../source/ci/build.sh
+      shell: bash
+    - name: Benchmark
+      run: |
+        if [[ "$(uname -s)" == MINGW* ]]; then
+          GIT2_CLI="$(cygpath -w $(pwd))\\build\\Release\\git2"
+        else
+          GIT2_CLI="$(pwd)/build/git2"
+        fi
+
+        mkdir benchmark && cd benchmark
+        ../source/tests/benchmarks/benchmark.sh --baseline-cli "git" --cli "${GIT2_CLI}" --json benchmarks.json --zip benchmarks.zip
+      shell: bash
+    - name: Upload results
+      uses: actions/upload-artifact@v2
+      with:
+        name: benchmark-${{ matrix.platform.id }}
+        path: benchmark
+      if: always()

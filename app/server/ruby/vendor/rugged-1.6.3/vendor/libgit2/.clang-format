@@ -1,0 +1,92 @@
+# This file is an example configuration for clang-format 5.0.
+#
+# Note that this style definition should only be understood as a hint
+# for writing new code. The rules are still work-in-progress and does
+# not yet exactly match the style we have in the existing code.
+
+# C Language specifics
+Language: Cpp
+
+# Use tabs whenever we need to fill whitespace that spans at least from one tab
+# stop to the next one.
+#
+# These settings are mirrored in .editorconfig.  Keep them in sync.
+UseTab: ForIndentation
+TabWidth: 8
+IndentWidth: 8
+ContinuationIndentWidth: 8
+ColumnLimit: 80
+
+AlignAfterOpenBracket: AlwaysBreak
+AlignEscapedNewlines: Left
+AlignTrailingComments: false
+
+# Allow putting parameters onto the next line
+AllowAllArgumentsOnNextLine: false
+AllowAllParametersOfDeclarationOnNextLine: false
+
+# Don't allow short braced statements to be on a single line
+# if (a)           not       if (a) return;
+#   return;
+AllowShortBlocksOnASingleLine: false
+AllowShortFunctionsOnASingleLine: None
+AllowShortLoopsOnASingleLine: false
+AllowShortLambdasOnASingleLine: None
+
+# Pack as many parameters or arguments onto the same line as possible
+# int myFunction(int aaaaaaaaaaaa, int bbbbbbbb,
+#                int cccc);
+BinPackArguments: true
+BinPackParameters: false
+
+BreakBeforeBraces: Linux
+BreakBeforeBinaryOperators: None
+BreakBeforeTernaryOperators: false
+BreakStringLiterals: false
+
+# The number of spaces before trailing line comments (// - comments).
+# This does not affect trailing block comments (/* - comments).
+SpacesBeforeTrailingComments: 1
+
+# Don't insert spaces in casts
+# x = (int32) y;    not    x = ( int32 ) y;
+SpacesInCStyleCastParentheses: false
+
+# Don't insert spaces inside container literals
+# var arr = [1, 2, 3];    not    var arr = [ 1, 2, 3 ];
+SpacesInContainerLiterals: false
+
+# Don't insert spaces after '(' or before ')'
+# f(arg);    not    f( arg );
+SpacesInParentheses: false
+
+# Don't insert spaces after '[' or before ']'
+# int a[5];    not    int a[ 5 ];
+SpacesInSquareBrackets: false
+
+# Insert a space after '{' and before '}' in struct initializers
+Cpp11BracedListStyle: false
+
+# A list of macros that should be interpreted as foreach loops instead of as
+# function calls.
+ForEachMacros:
+  - 'git_array_foreach'
+  - 'git_vector_foreach'
+
+# The maximum number of consecutive empty lines to keep.
+MaxEmptyLinesToKeep: 1
+
+# No empty line at the start of a block.
+KeepEmptyLinesAtTheStartOfBlocks: false
+
+# Penalties
+# This decides what order things should be done if a line is too long
+PenaltyBreakAssignment: 10
+PenaltyBreakBeforeFirstCallParameter: 30
+PenaltyBreakComment: 10
+PenaltyBreakFirstLessLess: 0
+PenaltyBreakString: 10
+PenaltyExcessCharacter: 100
+PenaltyReturnTypeOnItsOwnLine: 60
+
+SortIncludes: false
