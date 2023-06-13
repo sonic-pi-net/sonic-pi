@@ -411,19 +411,25 @@ void SonicPiAPI::Shutdown()
 
         LOG(INFO, "Stopping daemon keep alive loop");
         m_keep_alive.store(false);
+
+
     }
 
+    if (m_state != State::Initializing)
+    {
+        LOG(INFO, "Sending /daemon/exit to daemon's kill switch with token " << std::to_string(m_token)) ;
+        Message msg("/daemon/exit");
+        msg.pushInt32(m_token);
+        m_spOscDaemonSender->sendOSC(msg);
+
+        LOG(INFO, "API State set to: Reset...");
+        LOG(INFO, "Waiting for Daemon keep alive loop to have stopped...");
+
+        m_bootDaemonSockPingLoopThread.join();
+        m_pingerThread.join();
+    }
 
     m_state = State::Reset;
-    LOG(INFO, "API State set to: Reset...");
-    LOG(INFO, "Waiting for Daemon keep alive loop to have stopped...");
-    LOG(INFO, "Sending /daemon/exit to daemon's kill switch with token " << std::to_string(m_token)) ;
-    Message msg("/daemon/exit");
-    msg.pushInt32(m_token);
-    m_spOscDaemonSender->sendOSC(msg);
-
-    m_bootDaemonSockPingLoopThread.join();
-    m_pingerThread.join();
 
     LOG(INFO, "API Shutdown complete...");
 
