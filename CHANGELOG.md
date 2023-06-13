@@ -1,6 +1,6 @@
 # History
 
-- [v5.0.0 'Tech Preview 1'](#v5.0.0), To be released...
+- [v4.4.0 'Sawtooth'](#v4.4.0), 14th June, 2023
 - [v4.3.0 'Pathfinder'](#v4.3.0), 30th Sept, 2022
 - [v4.2.0 'Batch'](#v4.2.0), 14th Sept, 2022
 - [v4.1.0 'Phase'](#v4.1.0), 30th August 2022
@@ -32,18 +32,24 @@
 - [v2.0.1](#v2.0.1), 9th Sept, 2014
 - [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
 
-<a name="v5.0.0"></a>
+<a name="v4.4.0"></a>
 
-## Version 5.0.0 'Tech Preview 1'
+## Version 4.4.0 'Sawtooth'
 
-### New
+This release comes chock-full of new samples to play with. Firstly we have 5 new samples donated to Sonic Pi by the wonderful electric artist [Arovane](https://arovane.bandcamp.com). These are a selection of glitchy beats recorded at 130 BPM. To best use these either `use_bpm 130` or use the `beat_stretch` opt to make them fit seamlessly into your current BPM. They're also wonderful to use with the `onset:` option for extracting individual sounds to use on their own. Thank-you so much to Arovane for letting us play with these amazing new sounds.
 
-- New web-based interface - Tau.
-- New fn `hydra` to update the running hydra visual within Tau. Any additional connected Tau browser windows will be updated simultaneously.
+Continuing on the sample theme, there is also 20 new hi-hat samples. These all have a `:hat_` prefix and there's a wide variety of sounds to play with ranging from acoustic to electro to metal. They're perfect for adding a sense of drive or groove to your tracks.
+
+This version of Sonic Pi is also the first to support a fully native build for Apple Macs running Apple Silicon CPUs such as the M1 and M2. This means that Sonic Pi can now run on modern Mac computers without needing Rosetta to run things under emulation.
+
+### Samples
+
+- New looping samples contributed by the wonderful electronic artist [Arovane](https://arovane.bandcamp.com). The new samples are: `:arovane_beat_a`, `:arovane_beat_b`, `:arovane_beat_c`, `:arovane_beat_d`, `:arovane_beat_e`.
+- 20 new hi-hat samples: `:hat_snap`, `:hat_zap`, `:hat_cats`, `:hat_tap`, `:hat_bdu`, `:hat_psych`, `:hat_zild`, `:hat_zan`, `:hat_zgump`, `:hat_noiz`, `:hat_sci`, `:hat_star`, `:hat_gem`, `:hat_raw`, `:hat_yosh`, `:hat_mess`, `:hat_cab`, `:hat_gnu`, `:hat_hier`, `:hat_metal`.
 
 ### GUI
 
-- Introducing Tau - a new web-based interface. Tau is built on-top of Elixir's Phoenix LiveView technology and currently incorporates the Hydra and Processing (P5.js) visualisation systems (support for modifying the p5.js sketch will come in a future Tech Preview). Tau is integrated directly within the GUI but can also be opened via an external web browser (currently accessed via pressing the E button). There is much more planned for Tau - but for now it's a capable visualisation renderer.
+- Improve text formatting of the information window that pops up with a boot error.
 
 ### Documentation
 
@@ -52,7 +58,11 @@
 
 ### Translations
 
-- Improvements to the Catalan, Chinese, Croatian, Indonesian, Latvian, German, Portuguese, Russian, Swahili and Turkish translations.
+- Improvements to the Catalan, Chinese, Croatian, French, Georgian, Hebrew, Indonesian, Latvian, German, Portuguese, Russian, Slovak, Spanish, Swahili and Turkish translations.
+
+### Bugfixes
+
+- Syntax and runtime errors are now correctly coloured once again - pink for runtime and blue for syntax.
 
 <a name="v4.3.0"></a>
 
