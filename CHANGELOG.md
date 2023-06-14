@@ -38,7 +38,7 @@
 
 This release comes chock-full of new samples to play with. Firstly we have 5 new samples donated to Sonic Pi by the wonderful electric artist [Arovane](https://arovane.bandcamp.com). These are a selection of glitchy beats recorded at 130 BPM. To best use these either `use_bpm 130` or use the `beat_stretch` opt to make them fit seamlessly into your current BPM. They're also wonderful to use with the `onset:` option for extracting individual sounds to use on their own. Thank-you so much to Arovane for letting us play with these amazing new sounds.
 
-Continuing on the sample theme, there is also 20 new hi-hat samples. These all have a `:hat_` prefix and there's a wide variety of sounds to play with ranging from acoustic to electro to metal. They're perfect for adding a sense of drive or groove to your tracks.
+Continuing on the sample theme, there are also 20 new hi-hat samples. These all have a `:hat_` prefix and there's a wide variety of sounds to play with ranging from acoustic to electro to metal. They're perfect for adding a sense of drive or groove to your tracks.
 
 This version of Sonic Pi is also the first to support a fully native build for Apple Macs running Apple Silicon CPUs such as the M1 and M2. This means that Sonic Pi can now run on modern Mac computers without needing Rosetta to run things under emulation.
 
