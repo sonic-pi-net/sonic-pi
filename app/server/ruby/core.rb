@@ -408,7 +408,7 @@ module SonicPi
 
 
       def ==(other)
-        other.map == @map
+        other.respond_to?(:map) && other.map == @map
       end
 
       def >(other)
