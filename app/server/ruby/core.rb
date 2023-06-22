@@ -408,7 +408,7 @@ module SonicPi
 
 
       def ==(other)
-        other.map == @map
+        other.class == self.class && other.map == @map
       end
 
       def >(other)
