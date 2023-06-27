@@ -1,6 +1,6 @@
 # History
 
-- [v4.4.0 'Sawtooth'](#v4.4.0), 14th June, 2023
+- [v4.4.0 'Sawtooth'](#v4.4.0), 28th June, 2023
 - [v4.3.0 'Pathfinder'](#v4.3.0), 30th Sept, 2022
 - [v4.2.0 'Batch'](#v4.2.0), 14th Sept, 2022
 - [v4.1.0 'Phase'](#v4.1.0), 30th August 2022
@@ -36,6 +36,8 @@
 
 ## Version 4.4.0 'Sawtooth'
 
+[(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v4.4.0):
+
 This release comes chock-full of new samples to play with. Firstly we have 5 new samples donated to Sonic Pi by the wonderful electric artist [Arovane](https://arovane.bandcamp.com). These are a selection of glitchy beats recorded at 130 BPM. To best use these either `use_bpm 130` or use the `beat_stretch` opt to make them fit seamlessly into your current BPM. They're also wonderful to use with the `onset:` option for extracting individual sounds to use on their own. Thank-you so much to Arovane for letting us play with these amazing new sounds.
 
 Continuing on the sample theme, there are also 20 new hi-hat samples. These all have a `:hat_` prefix and there's a wide variety of sounds to play with ranging from acoustic to electro to metal. They're perfect for adding a sense of drive or groove to your tracks.
@@ -63,6 +65,7 @@ This version of Sonic Pi is also the first to support a fully native build for A
 ### Bugfixes
 
 - Syntax and runtime errors are now correctly coloured once again - pink for runtime and blue for syntax.
+- Fix `==` operator when comparing maps with `nil`. Now returns `false` as expected.
 
 <a name="v4.3.0"></a>
 
