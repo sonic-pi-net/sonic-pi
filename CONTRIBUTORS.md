@@ -109,6 +109,7 @@ especially the following individuals who have been remarkably generous:
 * [Dean Wampler](https://twitter.com/deanwampler)
 * [Emlyn Corrin](https://github.com/emlyn)
 * [Evan Kroske](https://www.evankroske.com/)
+* Fergal Byrne
 * [Florian Gilcher](https://twitter.com/Argorak)
 * [Gabe Jackson](https://github.com/gj)
 * [Godigital Media Group](godigitalmg.com)
