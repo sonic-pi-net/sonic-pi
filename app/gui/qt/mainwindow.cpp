@@ -132,7 +132,7 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
     show_rec_icon_a = false;
     restoreDocPane = false;
     focusMode = false;
-    version = "5.0-tech-preview-2";
+    version = "5.0-tech-preview-3";
     latest_version = "";
     version_num = 0;
     latest_version_num = 0;
