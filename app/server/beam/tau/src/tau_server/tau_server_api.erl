@@ -140,11 +140,11 @@ loop(State) ->
             NewState = do_bundle(Time, X, State),
             ?MODULE:loop(NewState);
 
-        % {cmd, ["/hydra_eval", Code]=Cmd} ->
-        %     debug_cmd(Cmd),
-        %     hydra_eval(Code),
+        {cmd, ["/hydra_eval", Code]=Cmd} ->
+            debug_cmd(Cmd),
+            hydra_eval(Code),
 
-        %    ?MODULE:loop(State);
+           ?MODULE:loop(State);
 
         {cmd, ["/send-pid-to-daemon", DaemonToken]=Cmd} ->
             debug_cmd(Cmd),

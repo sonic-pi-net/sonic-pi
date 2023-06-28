@@ -713,24 +713,23 @@ osc \"/foo/baz\"             # Send an OSC message to port 7000
                              # do/end block
 "        ]
 
-#     def hydra(code)
-#       t = __get_spider_schedule_time
-#       @tau_api.hydra_eval_at(t, code)
-#     end
-#     doc name:           :hydra,
-#         introduced:     Version.new(5,0,0),
-#         summary:        "Update Hydra sketch within Tau",
-#         args:           [[:code, :string]],
-#         returns:        nil,
-#         opts:           nil,
-#         accepts_block:  false,
-#         doc:            "Update Hydra sketch running within Tau's main window and all connected browsers. See https://hydra.ojack.xyz/api for a list of available functions and examples.",
-#         examples: [
-# "
-# hydra \"osc(10,0,1).scrollY(0.5,0).out(o0)\"
-# "
-#     ]
-
+    def hydra(code)
+      t = __get_spider_schedule_time
+      @tau_api.hydra_eval_at(t, code)
+    end
+    doc name:           :hydra,
+        introduced:     Version.new(5,0,0),
+        summary:        "Update Hydra sketch within Tau",
+        args:           [[:code, :string]],
+        returns:        nil,
+        opts:           nil,
+        accepts_block:  false,
+        doc:            "Update Hydra sketch running within Tau's main window and all connected browsers. See https://hydra.ojack.xyz/api for a list of available functions and examples.",
+        examples: [
+"
+hydra \"osc(10,0,1).scrollY(0.5,0).out(o0)\"
+"
+    ]
       def osc_send(host, port, path, *args)
         host = host.to_s.strip
         t = __get_spider_schedule_time
