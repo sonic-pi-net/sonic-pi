@@ -82,6 +82,9 @@ There is an Audinux Copr [repository]()https://copr.fedorainfracloud.org/coprs/y
 Once we have installed all the dependencies, we're almost ready to build
 Sonic Pi. However, we must first grab a copy of Sonic Pi's source code.
 
+_Note: if you would like to either try the unsupported development version, likely because you want to help with development
+then pull the latest from the `dev` branch. Otherwise stick to the `stable` branch or one of the tags._
+
 The easiest way of getting this is likely to be cloning from GitHub
 into a folder on your hard drive such as `~/Development/sonic-pi`:
 
