@@ -25,7 +25,7 @@ config :logger, :console,
 if config_env() != :test do
   # Configure esbuild (the version is required)
   config :esbuild,
-    version: "0.17.19",
+    version: "0.18.11",
     default: [
       args:
         ~w(js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/* --loader:.js=jsx),
