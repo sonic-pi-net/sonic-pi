@@ -23,8 +23,9 @@ static void ir_mark(void *value) {
     rb_gc_mark_maybe((VALUE) value);
 }
 
-static VALUE ir_alloc(VALUE klass) {
-    return rb_data_object_alloc(klass, (void *) Qnil, ir_mark, NULL);
+static VALUE ir_alloc(VALUE klass)
+{
+    return rb_data_object_wrap(klass, (void*)Qnil, ir_mark, NULL);
 }
 
 static VALUE ir_initialize(int argc, VALUE* argv, VALUE self) {
