@@ -47,12 +47,14 @@ and to run
 In order to build Sonic Pi's various components, we need to install a
 few dependencies:
 
-* Build Tools (c++ compiler, cmake, git.)
+* Build Tools (c++ compiler , cmake, git.)
 * Qt + Dev tools (5.15+)
 * Jack (and pulse-audio-module-jack if you are running Raspberry Pi OS)
 * Ruby + Dev tools (2.5+)
 * Elixir + Dev tools (12.0+)
 * SuperCollider + SC3 plugins
+
+Note: please make sure that you have gcc12 installed. Compiling vcpkg dependencies does not work with gcc13 currently
 
 
 ### 1.1 Debian
