@@ -443,9 +443,14 @@ module SonicPi
 
     def __error(e, m=nil)
       linenum = __extract_linenum_of_error(e)
-      err_msg = e.message
+      if e.respond_to?(:detailed_message)
+        err_msg = e.detailed_message(highlight: false)
+      else
+        err_msg = e.message
+      end
+
       info = __current_job_info
-      err_msg.gsub(/for #<SonicPiSpiderUser[a-z0-9:]+>/, '')
+      err_msg.gsub!(/for Runtime:[A-Za-z0-9:]+ /, '')
       res = ""
       w = info[:workspace]
       if linenum != -1
@@ -459,8 +464,7 @@ module SonicPi
       else
         res = res + "[#{w}]"
       end
-      res += " - #{e.class}"
-      res = res + "\n" + m if m
+      res = res + " - " + m if m
       res = res + "\n #{err_msg}"
       __msg_queue.push({type: :error, val: res, backtrace: e.backtrace, jobid: __current_job_id, jobinfo: __current_job_info, linenum: linenum})
     end
