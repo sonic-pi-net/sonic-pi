@@ -1,0 +1,70 @@
+name: Tests
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    name: ${{ matrix.ruby }} on ${{ matrix.os }}${{ matrix.name_suffix }}
+    strategy:
+      matrix:
+        os: [ubuntu-20.04, windows-2019]
+        ruby: ['1.9.3', '2.0', '2.1', '2.2', '2.3', '2.4', '2.5', '2.6', '2.7', '3.0', '3.1', '3.2', jruby-1.7, jruby-9.0, jruby-9.1, jruby-9.2, jruby-9.3, jruby-9.4]
+        architecture: [default]
+        name_suffix: ['']
+        experimental: [false]
+        exclude:
+          - os: windows-2019
+            ruby: jruby-1.7
+        include:
+          - os: windows-2019
+            ruby: '2.0'
+            architecture: x86
+            name_suffix: ' (x86)'
+            experimental: false
+          - os: ubuntu-20.04
+            ruby: head
+            architecture: default
+            name_suffix: ' (experimental)'
+            experimental: true
+          - os: ubuntu-20.04
+            ruby: jruby-head
+            architecture: default
+            name_suffix: ' (experimental)'
+            experimental: true
+          - os: windows-2019
+            ruby: head
+            architecture: default
+            name_suffix: ' (experimental)'
+            experimental: true
+          - os: windows-2019
+            ruby: jruby-head
+            architecture: default
+            name_suffix: ' (experimental)'
+            experimental: true
+          - os: ubuntu-20.04
+            ruby: truffleruby-21
+            architecture: default
+            name_suffix: ' (experimental)'
+            experimental: true
+      fail-fast: false
+    runs-on: ${{ matrix.os }}
+    continue-on-error: ${{ matrix.experimental }}
+    steps:
+      - uses: actions/checkout@v3
+      - if: (startsWith(matrix.ruby, '1.') && startsWith(matrix.os, 'windows')) || (startsWith(matrix.ruby, '2.0') && startsWith(matrix.os, 'windows') && matrix.architecture == 'x86') || startsWith(matrix.ruby, 'jruby-1.7') || startsWith(matrix.ruby, 'jruby-9.0')
+        uses: philr/setup-ruby@legacy-v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          architecture: ${{ matrix.architecture }}
+          bundler-cache: true
+      - if: ${{ !((startsWith(matrix.ruby, '1.') && startsWith(matrix.os, 'windows')) || (startsWith(matrix.ruby, '2.0') && startsWith(matrix.os, 'windows') && matrix.architecture == 'x86') || startsWith(matrix.ruby, 'jruby-1.7') || startsWith(matrix.ruby, 'jruby-9.0')) }}
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+      - run: ruby --version
+      - run: gem --version
+      - run: bundle --version
+      - run: bundle exec rake test
+        env:
+          TESTOPTS: --verbose
