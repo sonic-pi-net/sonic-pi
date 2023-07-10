@@ -107,5 +107,3 @@ TRANSLATIONS = lang/sonic-pi_bg.ts \
 RESOURCES += SonicPi.qrc \
              help_files.qrc \
              info_files.qrc
-
-QT += quick
