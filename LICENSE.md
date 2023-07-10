@@ -128,8 +128,8 @@ relevant licenses:
 (contents of [app/server/ruby/vendor/](https://github.com/sonic-pi-net/sonic-pi/tree/stable/app/server/ruby/vendor))
 
 - [ActiveSupport](https://github.com/rails/rails/tree/master/activesupport) - [MIT License](http://opensource.org/licenses/MIT)
-- [Atomic](http://github.com/headius/ruby-atomic) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
 - [Blankslate](https://github.com/masover/blankslate) - [MIT License](http://opensource.org/licensesMIT)
+- [Concurrent Ruby](https://github.com/ruby-concurrency/concurrent-ruby) - [MIT License](http://opensource.org/licensesMIT)
 - [gettext](https://github.com/ruby-gettext/gettext) - [Ruby License](https://www.ruby-lang.org/en/about/license.txt)
 - [i81n](https://github.com/svenfuchs/i18n) - [MIT License](http://opensource.org/licenses/MIT)
 - [Kramdown](http://kramdown.gettalong.org) - [MIT License](http://opensource.org/licenses/MIT)
@@ -141,12 +141,10 @@ relevant licenses:
 - [Multi JSON](https://github.com/intridea/multi_json) - [MIT License](http://opensource.org/licenses/MIT)
 - [Rouge](https://github.com/jneen/rouge) - [MIT License](http://opensource.org/licenses/MIT)
 - [Ruby Beautify](https://github.com/erniebrodeur/ruby-beautify) - [MIT License](http://opensource.org/licenses/MIT)
-- [Ruby CoreAudio](https://github.com/nagachika/ruby-coreaudio) - [MIT License](http://opensource.org/licenses/MIT)
-- [Ruby Prof](https://github.com/ruby-prof/ruby-prof) - [BSD 2-Clause License](http://opensource.org/licenses/BSD-2-Clause) - [MIT License](http://opensource.org/licenses/MIT)
 - [Rugged](https://github.com/libgit2/rugged) - [MIT License](http://opensource.org/licenses/MIT)
 - [Text](https://github.com/threedaymonk/text) - [MIT License](http://opensource.org/licenses/MIT)
-- [Thread Safe](https://github.com/ruby-concurrency/thread_safe) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
 - [Tomlrb](https://github.com/fbernier/tomlrb) - [MIT License](http://opensource.org/licenses/MIT)
+- [TZ Info](https://github.com/tzinfo/tzinfo) - [MIT License](http://opensource.org/licenses/MIT)
 - [WaveFile](https://github.com/jstrait/wavefile/) - [MIT License](http://opensource.org/licenses/MIT)
 
 ### Dynamically Linked Libraries for Tau IO Server NIFs

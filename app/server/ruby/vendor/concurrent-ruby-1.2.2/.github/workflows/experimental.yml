@@ -1,0 +1,32 @@
+name: Experimental Rubies CI Run
+on:
+  schedule:
+    - cron:  '0 0 * * *' # Runs every day at midnight
+  workflow_dispatch:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+
+    strategy:
+      matrix:
+        ruby: [head, jruby-head, truffleruby-head]
+
+    env:
+      JAVA_OPTS: '-Xmx1024m'
+      RUBYOPT: '-w'
+      JRUBY_OPTS: '--dev'
+
+    name: "Tests: Experimental Ruby ${{ matrix.ruby }}"
+    steps:
+    - name: Clone Repo
+      uses: actions/checkout@v3
+    - name: Setup Ruby ${{ matrix.ruby }}
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby }}
+        bundler-cache: true
+    - name: Run tests
+      run: bundle exec rake ci

@@ -1,0 +1,5 @@
+--error:" use `bundle exec rake yard` instead"
+--output-dir tmp
+--
+no-lib
+-
