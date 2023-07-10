@@ -270,7 +270,8 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
 
     toggleOSCServer(1);
 
-    app.setActiveWindow(editorTabWidget->currentWidget());
+    editorTabWidget->currentWidget()->activateWindow();
+
 
     showWelcomeScreen();
 

@@ -154,3 +154,5 @@ etc/synthdefs/designs/overtone/sonic-pi/native
 
 # Visual Studio settings folder.
 .vs
+app/.cache/clangd/index
+sonic-pi.desktop
