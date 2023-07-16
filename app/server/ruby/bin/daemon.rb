@@ -1105,7 +1105,7 @@ module SonicPi
         @port = ports["scsynth"]
 
         if no_scsynth_inputs
-          scsynth_inputs_hash = {"-i" => "0"}
+          scsynth_inputs_hash = {"-i" => "0", "-I" => "0"}
         else
           scsynth_inputs_hash = {}
         end
