@@ -951,6 +951,7 @@ module SonicPi
         ENV["MIX_ENV"]                            = ENV["TAU_ENV"]
         ENV["TAU_PHX_PORT"]                       = "#{@phx_port}"
         ENV["TAU_LOG_PATH"]                       = "#{Paths.tau_log_path}"
+        ENV["TAU_BOOT_LOG_PATH"]                  = "#{Paths.tau_boot_log_path}"
 
         if Util.os == :windows
           if ENV["TAU_ENV"] == "prod"

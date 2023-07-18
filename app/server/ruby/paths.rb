@@ -236,7 +236,7 @@ module SonicPi
     end
 
     def self.tau_boot_log_path
-      File.absolute_path("#{log_path}/tau_boot.log")
+      File.absolute_path("#{log_path}/tau_stdouterr.log")
     end
 
     def self.jackd_log_path
