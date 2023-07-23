@@ -67,7 +67,7 @@ sudo apt-get install -y build-essential git libssl-dev ruby-dev elixir erlang-de
 
 1. Check the version of `Qt` after package installation.
 
-* Check your current Qt version with qmake --version.
+* Check your current Qt version with `qmake --version`.
 *  If it is too old (see dependency list above) you should find a way to update `Qt` before going to the build step.
 
 3. The main repositories may not have a recent enough version of
