@@ -115,7 +115,7 @@ relevant licenses:
 - [boost (subset used by SuperCollider's scsynth)](https://www.boost.org) - [Boost Software License 1.0 (BSL-1.0)](https://opensource.org/licenses/BSL-1.0)
 - [TLSF](http://www.gii.upv.es/tlsf/) - [GNU Lesser General Public License v2.1](https://www.gnu.org/licenses/lgpl-2.1.html)
 
-### Dynamically Linked Libraries for Aubio
+### Dynamically Linked Libraries for Audio
 
 - [ogg](https://github.com/xiph/ogg) - [BSD 3-Clause License](http://opensource.org/licenses/BSD-3-Clause)
 - [opus](https://github.com/xiph/opus) - [BSD 3-Clause License](http://opensource.org/licenses/BSD-3-Clause)
