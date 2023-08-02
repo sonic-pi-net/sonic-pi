@@ -24,6 +24,8 @@ else()
   set(ERLANG_INCLUDE_PATH ${FOUND_ERLANG_INCLUDE_PATH} CACHE STRING "Path to the Erlang header files")
 endif()
 
+message(STATUS "ERLANG_INCLUDE_PATH: ${ERLANG_INCLUDE_PATH}")
+
 # For Link
 include(${PROJECT_SOURCE_DIR}/external_libs/link/AbletonLinkConfig.cmake)
 #target_link_libraries(libsp_link Ableton::Link)
