@@ -109,17 +109,18 @@ bool SonicPii18n::loadTranslations(QString lang) {
   app->removeTranslator(&qtTranslator);
 
   std::cout << "[GUI] [i18n] - Loading translations for " << language.toUtf8().constData() << std::endl;
-
   i18n = translator.load("sonic-pi_" + language, ":/lang/") || language == "en_GB" || language == "en" || language == "C";
-    i18n = translator.load("sonic-pi_" + language, ":/lang/") || language == "en_GB" || language == "en" || language == "C";
-    bool translator_succes_qt = qtTranslator.load("qt_" + language, QLibraryInfo::path(QLibraryInfo::TranslationsPath));
-    if (!i18n || !translator_succes_qt)
-    {
-        std::cout << "[GUI] [i18n] - Error: Failed to load language translation for " << language.toUtf8().constData() << std::endl;
-        language = "en_GB";
-    }
-    app->installTranslator(&translator);
-
+#if QT_VERSION >= 0x060000
+  bool translator_success_qt = qtTranslator.load("qt_" + language, QLibraryInfo::path(QLibraryInfo::TranslationsPath));
+#else
+  bool translator_success_qt = qtTranslator.load("qt_" + language, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+#endif
+  if (!i18n || !translator_success_qt)
+  {
+      std::cout << "[GUI] [i18n] - Error: Failed to load language translation for " << language.toUtf8().constData() << std::endl;
+      language = "en_GB";
+  }
+  app->installTranslator(&translator);
   app->installTranslator(&qtTranslator);
 
   this->currently_loaded_language = language;
