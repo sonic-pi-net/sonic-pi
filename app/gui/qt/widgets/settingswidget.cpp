@@ -918,10 +918,7 @@ void SettingsWidget::settingsChanged() {
       language_detail_text += "<b>Failed to load language translation. Using English (UK).</b>";
     }
     if (piSettings->language == "system_language") {
-      language_detail_text += (
-        tr("System languages: %1\n").arg(sonicPii18n->getNativeLanguageNames(sonicPii18n->getSystemLanguages()).join(", "))
-        + tr("Current UI language: %1\n").arg(sonicPii18n->getNativeLanguageName(sonicPii18n->currentlyLoadedLanguage()))
-      );
+      language_detail_text += tr("System language: %1\n").arg(sonicPii18n->getNativeLanguageName(sonicPii18n->currentlyLoadedLanguage()));
     }
     language_details_label->setText(language_detail_text);
 
