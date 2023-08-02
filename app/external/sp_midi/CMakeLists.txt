@@ -27,6 +27,8 @@ else()
   find_package(ALSA REQUIRED)
 endif()
 
+message(STATUS "ERLANG_INCLUDE_PATH: ${ERLANG_INCLUDE_PATH}")
+
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 if(WIN32)
