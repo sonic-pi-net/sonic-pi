@@ -31,6 +31,7 @@ include SonicPi::Util
 
 # List of all languages with GUI translation files
 @lang_names = Hash[
+  "ar" => "اَلْعَرَبِيَّةُ", # Arabic
   "bg" => "български", # Bulgarian
   "bn" => "বাংলা", # Bengali/Bangla
   "bs" => "Bosanski", # Bosnian
