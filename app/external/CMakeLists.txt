@@ -9,6 +9,12 @@ option(USE_SYSTEM_LIBS "Use system libraries instead of bundled libraries when b
 
 message(STATUS "USE_SYSTEM_LIBS: ${USE_SYSTEM_LIBS}")
 
+# Set default build type for sp_midi and sp_link
+if (NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE "Release")
+endif()
+message(STATUS "CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
+
 include(GNUInstallDirs)
 include(ExternalProject)
 
