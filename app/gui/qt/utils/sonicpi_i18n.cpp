@@ -26,7 +26,6 @@ SonicPii18n::~SonicPii18n() {
 
 QString SonicPii18n::determineUILanguage(QString lang_pref) {
   QStringList available_languages = getAvailableLanguages();
-  //std::cout << available_languages.join("\n").toUtf8().constData() << std::endl;
   QLocale locale;
 
   if (lang_pref != "system_language") {
@@ -45,7 +44,7 @@ QString SonicPii18n::determineUILanguage(QString lang_pref) {
   } else {
     QStringList preferred_languages = locale.uiLanguages();
     // If the setting is set to system_language...
-      // ...run through the list of preferred languages
+    // ...run through the list of preferred languages
     std::cout << "[GUI] [i18n] - Looping through preferred ui languages" << std::endl;
 
     QString l;
@@ -53,9 +52,10 @@ QString SonicPii18n::determineUILanguage(QString lang_pref) {
       l = preferred_languages[i];
       l.replace("-", "_");
 
-      //std::cout << preferred_languages[i].toUtf8().constData() << std::endl;
       if (available_languages.contains(l)) {
-          return l;
+        return l;
+      } else if (l == "en" || l == "C") { // Catch generic English lang codes
+        return "en";
       }
     }
   }
