@@ -622,11 +622,7 @@ void SettingsWidget::updateUILanguage(int index) {
         QString old_lang = sonicPii18n->getNativeLanguageName(piSettings->language);
         QString new_lang = sonicPii18n->getNativeLanguageName(lang);
 
-        // Load new language
-        //QString language = sonicPii18n->determineUILanguage(lang);
-        //sonicPii18n->loadTranslations(language);
-        //QString title_new = tr("Updated the UI language from %s to %s").arg();
-
+        // Show confirmation box
         QMessageBox msgBox(this);
         msgBox.setText(QString(tr("You've selected a new language: %1")).arg(new_lang));
         QString info_text = (
@@ -636,7 +632,9 @@ void SettingsWidget::updateUILanguage(int index) {
         );
 
         if (lang == "system_language") {
-          info_text = tr("System languages found: %1").arg(sonicPii18n->getNativeLanguageNames(sonicPii18n->getSystemLanguages()).join(", ")) + "\n" + info_text;
+            // Determine the actual language to load
+            QString actual_lang = sonicPii18n->determineUILanguage(lang);
+            info_text = tr("System language found: %1").arg(sonicPii18n->getNativeLanguageName(actual_lang)) + "\n" + info_text;
         }
 
         msgBox.setInformativeText(info_text);
