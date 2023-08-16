@@ -223,3 +223,40 @@ Lastly, as with built-in synths, you would call the synth by name with a symbol.
 Eg: `synth :piTest`.
 
 We look forward to hearing about your synth and FX creations - have fun!
+
+## Gated synths
+
+As described above, standard Sonic Pi synths always self-terminate. That is, they have an ADSR envelope with a finite duration, so they finish, and then they are automatically cleaned up from memory. This is a design decicision which aims at preventing users from starting synths that never terminate and finally fill up processor and memory.
+
+Gated synths are non-standard in Sonic Pi. They use an envelope that is kept open at sustain level at a defined *release node* until a special parameter, the *gate* is set to 0. Only then they start the release phase after which they finally terminate. At this point they are cleaned up, just like the standard synths. The problem with gated synths is that you have to have a handle on a synth, so that later you can ``control`` the gate to 0. You obtain this handle by assigning the result from ``play`` or ``synth`` to a variable, like so:
+
+```
+a = play 60
+```
+
+On the contrary, if you miss this assignment, there will be no way to control the synth and set the gate to 0, so it will run forever, and the only way to stop it is to stop the entire run.
+
+However, gated synths can be fun, especially with external MIDI keyboards. The expected behaviour for playing music over a keyboard would be as described above: When the key is hit, the envelope progresses  through the attack and decay phases, but it is kept at sustain level until the key is released.
+
+Sonic Pi comes with gated synths, but they are not directly accessible as standard synths, nor are they listed in the built-in help system. If you want to use them, you can find the sources in these directories
+
+```
+etc/synthdefs/designs/overtone/sonic-pi/src/sonic_pi/gated
+etc/synthdefs/designs/supercollider/gated
+```
+and the compiled ones in
+
+```
+etc/synthdefs/compiled/gated
+```
+
+Using them requires loading them. A simple usage example would be:
+
+```
+load_synthdef "<<path-to-your-sonic-pi-repo-fork>>/etc/synthdefs/compiled/gated/sonic-pi-fm_gated.scsyndef"
+use_synth 'sonic-pi-fm_gated'
+sth = play 43
+sleep 4
+control sth, gate: 0
+```
+

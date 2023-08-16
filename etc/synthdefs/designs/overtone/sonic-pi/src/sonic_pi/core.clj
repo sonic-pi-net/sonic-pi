@@ -16,13 +16,13 @@
 ;; brother. See: http://overtone.github.io
 
 (ns sonic-pi.core
-  (:use [overtone.live])
+  (:use [overtone.core])
 
   (:require [clojure.string :as str]))
 
 ;; Utility functions (for creating and storing synthdefs)
 
-(def path-to-synthdefs "/Users/sam/Development/sonic-pi/etc/synthdefs")
+(def path-to-synthdefs "/home/bmarx/tmp/overtone/overtone/synthdefs")
 (+ 1 2)
 (defn save-synthdef [sdef]
   (let [compiled (str path-to-synthdefs "/compiled/" (last (str/split (-> sdef :sdef :name) #"/")) ".scsyndef")
@@ -123,6 +123,50 @@
    sustain_level sustain env_curve 0
    release_level release env_curve 0] ))
 
+(defn gated-shaped-adsr
+  "Gated adsr envelope with shape"
+  ([attack
+    decay
+    sustain
+    release
+    attack_level
+    decay_level
+    sustain_level
+    env_curve
+    release_node]
+   (gated-shaped-adsr attack decay sustain release attack_level decay_level sustain_level env_curve release_node 0))
+  ([attack
+    decay
+    sustain
+    release
+    attack_level
+    decay_level
+    sustain_level
+    env_curve
+    release_node
+    min]
+  [min 4 release_node -99
+   attack_level  attack  env_curve 0
+   decay_level   decay   env_curve 0
+   sustain_level sustain env_curve 0
+   min           release env_curve 0] )
+
+  ([attack
+    decay
+    sustain
+    release
+    init_level
+    attack_level
+    decay_level
+    sustain_level
+    release_level
+    env_curve
+    release_node]
+  [init_level 4 release_node -99
+   attack_level  attack  env_curve 0
+   decay_level   decay   env_curve 0
+   sustain_level sustain env_curve 0
+   release_level release env_curve 0] ))
 
 (defmacro def-fx
   "Shorthand mechanism for defining FX synths. Allows just the specification of the FX logic that will be inserted within default logic for handling amp, mix, pre_mix, and bus reading and writing.
