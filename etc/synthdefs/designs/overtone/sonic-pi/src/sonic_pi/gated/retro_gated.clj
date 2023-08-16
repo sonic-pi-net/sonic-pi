@@ -39,7 +39,7 @@
     attack_level 1
     decay_level -1
     sustain_level 1
-    env_curve 2
+    env_curve 1                        ; Org. file used curve 2, which would only produce a clicking sound
     cutoff   120
     cutoff_slide 0
     cutoff_slide_shape 1
