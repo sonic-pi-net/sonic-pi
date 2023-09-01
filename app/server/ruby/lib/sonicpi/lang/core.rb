@@ -52,6 +52,17 @@ module SonicPi
         end
       end
 
+      # Wrap Time so that it always displays to millisecond precision
+      class MilliTime < Time
+        def at(*args)
+          MilliTime.new Time.at(*args)
+        end
+
+        def inspect()
+          strftime "%Y-%m-%d %H:%M:%S.%L %z"
+        end
+      end
+
       def __cue_path_segment(s)
         s = String.new(s.to_s)
         s.gsub!(/[\s#*,?\/\[\]{}]/, '_')
@@ -396,7 +407,7 @@ end
       doc name:           :with_swing,
           introduced:     Version.new(3,0,0),
           summary:        "Add swing to successive calls to do/end block",
-          args:           [[:shift, :beats], [:pulse, :number], [:tick, :symbol]],
+          args:           [[:shift, :beats], [:pulse, :number], [:tick, :symbol], [:offset, :number]],
           returns:        nil,
           opts:           {shift: "How much time to delay/forward the block. Greater values produce more emphasised swing. Defaults to 0.1 beats.",
                            pulse: "How often to apply the swing. Defaults to 4.",
@@ -702,7 +713,23 @@ osc \"/foo/baz\"             # Send an OSC message to port 7000
                              # do/end block
 "        ]
 
-
+    def hydra(code)
+      t = __get_spider_schedule_time
+      @tau_api.hydra_eval_at(t, code)
+    end
+    doc name:           :hydra,
+        introduced:     Version.new(5,0,0),
+        summary:        "Update Hydra sketch within Tau",
+        args:           [[:code, :string]],
+        returns:        nil,
+        opts:           nil,
+        accepts_block:  false,
+        doc:            "Update Hydra sketch running within Tau's main window and all connected browsers. See https://hydra.ojack.xyz/api for a list of available functions and examples.",
+        examples: [
+"
+hydra \"osc(10,0,1).scrollY(0.5,0).out(o0)\"
+"
+    ]
       def osc_send(host, port, path, *args)
         host = host.to_s.strip
         t = __get_spider_schedule_time
@@ -779,7 +806,7 @@ Finally, it is also very useful to send OSC messages to other programs on the sa
 
 See `osc_send` for a version which allows you to specify the hostname and port directly (ignoring any values set via `use_osc` or `with_osc`).
 
-For further information see the OSC spec: [http://opensoundcontrol.org/spec-1_0.html](http://opensoundcontrol.org/spec-1_0.html)
+For further information see the OSC spec: [https://opensoundcontrol.stanford.edu/spec-1_0.html](https://opensoundcontrol.stanford.edu/spec-1_0.html)
 ",
       examples: [
 " # Send a simple OSC message to another program on the same machine
@@ -960,6 +987,8 @@ end"
         raise ArgumentError, "time_warp requires a do/end block" unless block
         prev_ctl_deltas = __system_thread_locals.get(:sonic_pi_local_control_deltas)
         prev_cache = __system_thread_locals.get(:sonic_pi_spider_time_state_cache, [])
+        prev_slept =  __system_thread_locals.get(:sonic_pi_spider_slept)
+        prev_synced = __system_thread_locals.get(:sonic_pi_spider_synced)
         had_params = params
         times = [times] if times.is_a? Numeric
 
@@ -1002,6 +1031,8 @@ end"
         __system_thread_locals.set_local :sonic_pi_spider_in_time_warp, already_in_time_warp
         __system_thread_locals.set_local :sonic_pi_local_control_deltas, prev_ctl_deltas
         __system_thread_locals.set_local(:sonic_pi_spider_time_state_cache, prev_cache)
+        __system_thread_locals.set(:sonic_pi_spider_synced, prev_synced)
+        __system_thread_locals.set(:sonic_pi_spider_slept, prev_slept)
       end
       doc name:           :time_warp,
           introduced:     Version.new(2,11,0),
@@ -1635,6 +1666,12 @@ end"
           res = [true] * size
           return res.ring
         end
+        # if someone requests 0 accents, return a ring with no accents
+        if num_accents.zero?
+          res = [false] * size
+          return res.ring
+        end
+
 
         # new part
         v1 = [[true]] * num_accents
@@ -2745,6 +2782,10 @@ end
           raise ArgumentError, "A function called #{name} is already part of Sonic Pi's core API. Please choose another name."
         end
 
+        if name.to_s =~ /^[A-Z]/
+          __delayed_warning "Warning - defined function '#{name}' starts with a capital letter and may not behave as expected. Please start functions with a lower-case letter."
+        end
+
         if already_defined
           __info "Redefining fn #{name.inspect}"
         else
@@ -2760,7 +2801,9 @@ end
           accepts_block:  true,
           requires_block: true,
           intro_fn:       true,
-          doc:            "Allows you to group a bunch of code and give it your own name for future re-use. Functions are very useful for structuring your code. They are also the gateway into live coding as you may redefine a function whilst a thread is calling it, and the next time the thread calls your function, it will use the latest definition.",
+          doc:            "Allows you to group a bunch of code and give it your own name for future re-use. Functions are very useful for structuring your code. They are also the gateway into live coding as you may redefine a function whilst a thread is calling it, and the next time the thread calls your function, it will use the latest definition.
+
+Note, it is not recommended to start a function name with a capital letter if it takes no parameters.",
           examples:       ["
   # Define a new function called foo
   define :foo do
@@ -2775,7 +2818,16 @@ end
   # For example, in a block:
   3.times do
     foo
-  end",]
+  end",
+
+  "
+  # Define a new function called play2, taking one parameter
+  define :play2 do |x|
+    play x, release: 2
+  end
+
+  # Call play2, passing in a value for the parameter
+  play2 42"]
 
 
 
@@ -3608,14 +3660,8 @@ See link for further details and usage.",
 
         __system_thread_locals.set_local(:sonic_pi_spider_time_state_cache, [])
         __system_thread_locals.set_local(:sonic_pi_local_last_sync, nil)
-        use_bpm :link
 
-        beat, time = @tau_api.link_get_beat_and_clock_time_at_phase(phase, quantum)
-
-        sat = current_sched_ahead_time
-
-        __system_thread_locals.set(:sonic_pi_spider_bpm, :link)
-        __change_spider_time_and_beat!(time - sat, beat)
+        __change_spider_bpm_time_and_beat_to_next_link_phase(phase, quantum)
 
         new_vt = __get_spider_time.to_f
         now = Time.now.to_f
@@ -3639,7 +3685,7 @@ This function will block the current thread until the next matching phase as if 
 
 If the quantum is 4 (the default) this suggests there are 4 beats in each bar. If the phase is set to 0 (also the default) this means that calling link will sleep until the very start of the next bar before continuing.
 
-This can be used to sync multiple instances of Sonic Pi running on different computers connected to the same network (via wifi or ethernet). It can also be used to share and coordinate time with other apps and devices. For a full list of link-compatible apps and devices see:  https://www.ableton.com/en/link/products/
+This can be used to sync multiple instances of Sonic Pi running on different computers connected to the same network (via wifi or ethernet). It can also be used to share and coordinate time with other apps and devices. For a full list of link-compatible apps and devices see:  [https://www.ableton.com/en/link/products/](https://www.ableton.com/en/link/products/)
 
 For other related link functions see link_sync, use_bpm :link, set_link_bpm!
 ",
@@ -3676,7 +3722,7 @@ link 7, 2 # wait for the 2nd beat of the next bar
 
 Note that this will *also* change the tempo of *all link metronomes* connected to the local network. This includes other instances of Sonic Pi, Music Production tools like Ableton Live, VJ tools like Resolume, DJ hardware like the MPC and many iPad music apps.
 
-For a full list of link-compatible apps and devices see:  https://www.ableton.com/en/link/products/
+For a full list of link-compatible apps and devices see:  [https://www.ableton.com/en/link/products/](https://www.ableton.com/en/link/products/)
 
 Also note that the current thread does not have to be in Link BPM mode for this function to affect the Link clock's BPM.
 
@@ -3919,7 +3965,7 @@ end
 
 
       def current_time
-        __get_spider_time
+        MilliTime.at(__get_spider_time)
       end
       doc name:          :current_time,
           introduced:    Version.new(3,0,0),
@@ -3931,7 +3977,7 @@ Unlike `Time.now`, Multiple calls to `current_time` with no interleaved calls to
           opts:          nil,
           accepts_block: false,
           examples:      ["
-  puts current_time # 2017-03-19 23:37:57 +0000",
+  puts current_time # 2017-03-19 23:37:57.324 +0000",
 "
 # The difference between current_time and Time.now
 # See that Time.now is continuous and current_time is discrete
@@ -4083,13 +4129,13 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
           opts:          nil,
           accepts_block: false,
           examples:      ["
-  use_bpm 120  # The current BPM makes no difference
-  puts beat    #=> 0
-  sleep 1
-  puts beat    #=> 1
-  use_bpm 2000
-  sleep 2
-  puts beat    #=> 3"]
+use_bpm 120  #=> The initial beat does not start at 0
+puts beat    #=> 109252.703125
+sleep 1
+puts beat    #=> 109253.703125
+use_bpm 2000 # Changing the BPM makes no difference
+sleep 2
+puts beat    #=> 109255.703125"]
 
 
 
@@ -4136,7 +4182,7 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
 
       def set_sched_ahead_time!(sat)
         t = __get_spider_time
-        b = __get_spider_beat_
+        b = __get_spider_beat
         i = __current_thread_id
         m = current_bpm_mode
         @system_state.set(t, 0, i, 0, b, m, :sched_ahead_time, sat)
@@ -4291,17 +4337,21 @@ puts current_sched_ahead_time # Prints 0.5"]
         __system_thread_locals.set_local(:sonic_pi_spider_time_state_cache, [])
         __system_thread_locals.set_local(:sonic_pi_local_last_sync, nil)
 
+        ## reset control deltas if time has advanced
+        __system_thread_locals.set_local :sonic_pi_local_control_deltas, {} if beats != 0
+
         # Schedule messages
         __schedule_delayed_blocks_and_messages!
-        return if beats == 0
-
+        __system_thread_locals.set(:sonic_pi_spider_slept, true) if beats != 0
         __change_spider_beat_and_time_by_beat_delta!(beats)
+
+        in_time_warp = __system_thread_locals.get(:sonic_pi_spider_in_time_warp)
+
+        return if in_time_warp
 
         sat = current_sched_ahead_time
         new_vt = __get_spider_time.to_f
         now = Time.now.to_f
-
-        in_time_warp = __system_thread_locals.get(:sonic_pi_spider_in_time_warp)
 
         if (now - (sat + 1)) > new_vt
           __delayed_serious_warning "Serious timing error. Too far behind time..."
@@ -4309,23 +4359,25 @@ puts current_sched_ahead_time # Prints 0.5"]
         elsif (now - sat) > new_vt
           __delayed_serious_warning "Timing error: can't keep up..."
         elsif now > new_vt
-          ## TODO: Remove this and replace with a much better silencing system which
-          ## is implemented within the __delayed_* fns
           unless __thread_locals.get(:sonic_pi_mod_sound_synth_silent) || in_time_warp
             __delayed_warning "Timing warning: running slightly behind..."
           end
         end
+        sleep_t = (new_vt - now).to_f - 0.2
+        return if sleep_t < 0.2
 
-        if in_time_warp
-          # Don't physically sleep or register as slept within a time warp
+        if __in_link_bpm_mode
+          @tau_api.link_sleep(sleep_t) do
+            # this code runs if the sleep was short-circuited
+            __change_spider_beat_and_time_by_beat_delta!(0)
+          end
+          post_sleep_vt = __get_spider_time.to_f
+          sleep_t = (post_sleep_vt - Time.now.to_f).to_f - 0.2
+          return if sleep_t < 0.2
+          sleep 0
         else
-          t = (new_vt - now).to_f - 0.2
-          Kernel.sleep t if t > 0.2
-          __system_thread_locals.set(:sonic_pi_spider_slept, true)
+          Kernel.sleep sleep_t
         end
-
-        ## reset control deltas now that time has advanced
-        __system_thread_locals.set_local :sonic_pi_local_control_deltas, {}
       end
       doc name:           :sleep,
           introduced:     Version.new(2,0,0),
@@ -4421,6 +4473,7 @@ puts current_sched_ahead_time # Prints 0.5"]
 
 
       def sync_event(*args)
+        raise TimeTravelError, "Calling sync within a time_warp is not supported. " if __system_thread_locals.get(:sonic_pi_spider_in_time_warp)
         params, opts = split_params_and_merge_opts_array(args)
         k = params[0]
 
@@ -4462,12 +4515,13 @@ puts current_sched_ahead_time # Prints 0.5"]
         __system_thread_locals.set_local :sonic_pi_local_last_sync, se
 
         __system_thread_locals.set(:sonic_pi_spider_synced, true)
-
+        bpm_mode = current_bpm_mode
+        __change_spider_bpm_time_and_beat!(60, se.time, se.beat) if __in_link_bpm_mode
         if bpm_sync
           raise StandardError, "Incorrect bpm value. Expecting either :link or a number such as 120" unless ((se.bpm == :link) || se.bpm.is_a?(Numeric))
           __change_spider_bpm_time_and_beat!(se.bpm, se.time, se.beat)
         else
-          __change_spider_bpm_time_and_beat!(current_bpm_mode, se.time, se.beat)
+          __change_spider_bpm_time_and_beat!(bpm_mode, se.time, se.beat)
         end
 
         run_info = ""

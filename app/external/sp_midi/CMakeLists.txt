@@ -15,14 +15,19 @@ endif(NOT MSVC)
 
 
 # If we need to change something based on this running on CI, we can use if(DEFINED ENV{GITHUB_ACTION})
-if(APPLE)
-    set(ERLANG_INCLUDE_PATH "/usr/local/lib/erlang/usr/include" CACHE PATH "Path to erlang includes")
-elseif(UNIX)
-    set(ERLANG_INCLUDE_PATH "/usr/lib/erlang/usr/include" CACHE PATH "Path to erlang includes")
-    find_package(ALSA REQUIRED)
-elseif(MSVC)
-    set(ERLANG_INCLUDE_PATH ${PROJECT_SOURCE_DIR}/external_libs/rtmidi/windows/headers/erlang CACHE PATH "Path to erlang includes")
-endif(APPLE)
+if(WIN32)
+  set(ERLANG_INCLUDE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/external_libs/erlang_headers/win_x86_64 CACHE STRING "Path to the Erlang header files for 64 bit Windows")
+elseif(${CMAKE_SYSTEM_NAME} MATCHES Darwin) # macOS
+  set(ERLANG_INCLUDE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/external_libs/erlang_headers/mac_x86_64 CACHE STRING "Path to the Erlang header files for 64 bit Intel Macs")
+else()
+  execute_process(
+    COMMAND erl -noshell -eval "io:format(\"~s~n\", [filename:join([lists:concat([code:root_dir(), \"/erts-\", erlang:system_info(version)]), \"include\"])]), init:stop(0)."
+    OUTPUT_VARIABLE FOUND_ERLANG_INCLUDE_PATH OUTPUT_STRIP_TRAILING_WHITESPACE)
+  set(ERLANG_INCLUDE_PATH ${FOUND_ERLANG_INCLUDE_PATH} CACHE STRING "Path to the Erlang header files")
+  find_package(ALSA REQUIRED)
+endif()
+
+message(STATUS "ERLANG_INCLUDE_PATH: ${ERLANG_INCLUDE_PATH}")
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
@@ -92,3 +97,10 @@ elseif(UNIX)
     endif(USE_SYSTEM_RTMIDI)
 endif(MSVC)
 
+if(APPLE)
+  install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/libsp_midi.dylib DESTINATION ${CMAKE_INSTALL_PREFIX} RENAME libsp_midi.so)
+elseif(MSVC)
+  install(TARGETS libsp_midi RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX})
+else()
+  install(TARGETS libsp_midi LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX})
+endif()

@@ -35,10 +35,10 @@ start_link(CueServer) ->
 
 init(Parent, CueServer) ->
     register(?SERVER, self()),
-    sp_link:init_nif(120.0),
+    sp_link:init_nif(60.0),
     sp_link:set_callback_pid(self()),
     sp_link:start_stop_sync_enable(true),
-    sp_link:enable(true),
+    sp_link:enable(false),
 
     logger:info("~n"
               "+--------------------------------------+~n"
@@ -97,23 +97,20 @@ loop(State) ->
 
         {link_disable} ->
             logger:debug("Disabling link", []),
+            maps:get(cue_server, State) ! {link, disable},
             sp_link:enable(false),
             ?MODULE:loop(State);
 
         {link_enable} ->
             logger:debug("Enabling link", []),
+            maps:get(cue_server, State) ! {link, enable},
             sp_link:enable(true),
             ?MODULE:loop(State);
 
         {link_reset} ->
             logger:debug("Resetting link", []),
-            case sp_link:is_enabled() of
-                true ->
-                    logger:debug("Link is currently enabled, now disabling then re-enabling it...", []),
-                    sp_link:enable(false),
-                    sp_link:enable(true);
-                _ -> ok
-            end,
+            sp_link:enable(false),
+            sp_link:enable(sp_link:is_enabled()),
             ?MODULE:loop(State);
 
         {link_rpc, UUID, get_start_stop_sync_enabled} ->
@@ -169,16 +166,29 @@ loop(State) ->
             maps:get(cue_server, State) ! {api_reply, UUID, [{int64, Time}]},
             ?MODULE:loop(State);
 
-        {link_rpc, UUID, get_beat_and_time_at_phase, Phase, Quantum} ->
+        {link_rpc, UUID, get_next_beat_and_time_at_phase, Phase, Quantum, SafetyT} ->
+            SafetyTMicros = SafetyT * 1000000,
             FQ = float(Quantum),
             TNow = sp_link:get_current_time_microseconds(),
             TNowPhase = sp_link:get_phase_at_time(TNow, FQ),
             TNowBeat = sp_link:get_beat_at_time(TNow, FQ),
+
             NextWholeQuantum = (TNowBeat - TNowPhase) + Quantum,
             NextBeat = NextWholeQuantum + Phase,
+
             NextTime = sp_link:get_time_at_beat(NextBeat, FQ),
+            BeatTimeDiff = NextTime - TNow,
+
+            if BeatTimeDiff < SafetyTMicros ->
+                    NextBeat2 = NextBeat + Quantum,
+                    NextTime2 = sp_link:get_time_at_beat(NextBeat2, FQ),
+                    maps:get(cue_server, State) ! {api_reply, UUID, [NextBeat2, {int64, NextTime2}]};
+               true ->
+                    maps:get(cue_server, State) ! {api_reply, UUID, [NextBeat, {int64, NextTime}]}
+            end,
+
             logger:debug("Received link rpc get_beat_and_time_at_phase [~p ~p]", [NextBeat, NextTime]),
-            maps:get(cue_server, State) ! {api_reply, UUID, [NextBeat, {int64, NextTime}]},
+
             ?MODULE:loop(State);
 
         {link_set_is_playing, Enabled} ->

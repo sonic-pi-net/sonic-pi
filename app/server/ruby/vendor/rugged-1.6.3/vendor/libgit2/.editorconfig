@@ -1,0 +1,21 @@
+; Check http://editorconfig.org/ for more informations
+root = true
+
+[*]
+indent_style = tab
+tab_width = 8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[*.yml]
+indent_style = space
+indent_size = 2
+
+[*.md]
+indent_style = space
+indent_size = 4
+trim_trailing_whitespace = false
+
+[*.py]
+indent_style = space
+indent_size = 4

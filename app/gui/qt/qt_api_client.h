@@ -17,6 +17,7 @@ Q_DECLARE_METATYPE(SonicPi::StatusInfo);
 Q_DECLARE_METATYPE(SonicPi::MidiInfo);
 Q_DECLARE_METATYPE(SonicPi::VersionInfo);
 Q_DECLARE_METATYPE(SonicPi::BufferInfo);
+Q_DECLARE_METATYPE(SonicPi::ScsynthInfo);
 
 namespace SonicPi
 {
@@ -38,9 +39,14 @@ public:
     virtual void Midi(const SonicPi::MidiInfo& info) override;
     virtual void Version(const SonicPi::VersionInfo& info) override;
     virtual void Buffer(const BufferInfo& info) override;
+    virtual void ActiveLinks(const int numLinks) override;
+    virtual void BPM(const double bpm) override;
+    virtual void Scsynth(const SonicPi::ScsynthInfo& scsynthInfo) override;
 
 signals:
     void ConsumeAudioData(const SonicPi::ProcessedAudio& audio);
+    void UpdateNumActiveLinks(const int numLinks);
+    void UpdateBPM(const double bpm);
 
 public slots:
     virtual void ReportGui(const SonicPi::MessageInfo& message);
@@ -49,6 +55,7 @@ public slots:
     virtual void MidiGui(const SonicPi::MidiInfo& info);
     virtual void VersionGui(const SonicPi::VersionInfo& info);
     virtual void BufferGui(const SonicPi::BufferInfo& info);
+    virtual void ScsynthGui(const SonicPi::ScsynthInfo& scsynthInfo);
 
 
 private:

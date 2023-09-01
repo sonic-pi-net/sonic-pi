@@ -36,14 +36,14 @@ def jackd_pidfile()
 end
 
 def jackd_pid()
-  if File.exists?(scsynth_pidfile)
+  if File.exist?(scsynth_pidfile)
     pid = File.readlines(jackd_pidfile).first.to_i
     pid == 0 ? nil : pid
   end
 end
 
 def scsynth_pid()
-  if File.exists?(scsynth_pidfile)
+  if File.exist?(scsynth_pidfile)
     pid = File.readlines(scsynth_pidfile).first.to_i
     pid == 0 ? nil : pid
   end

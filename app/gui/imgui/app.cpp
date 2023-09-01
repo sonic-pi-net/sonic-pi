@@ -87,11 +87,27 @@ void SPClient::Buffer(const BufferInfo& info)
     edit_window_update(info);
 }
 
+void SPClient::ActiveLinks(const int numLinks)
+{
+  // please implement me
+}
+
+void SPClient::BPM(const double bpm)
+{
+  // please implement me
+}
+
+void SPClient::Scsynth(const ScsynthInfo& scsynthInfo)
+{
+  // please implement me
+}
+
 void start_sonic_pi()
 {
     sonic.spClient = std::make_shared<SPClient>();
     sonic.spApi = std::make_shared<SonicPiAPI>(sonic.spClient.get(), APIProtocol::UDP, LogOption::File);
     sonic.spApi->Init(fs::path(APP_INSTALL_ROOT) / "..");
+    sonic.spApi->Boot();
 }
 
 bool sync_sonic_pi()

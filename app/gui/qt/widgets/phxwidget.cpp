@@ -90,7 +90,15 @@ void PhxWidget::handleOpenExternalBrowser()
   QDesktopServices::openUrl(phxView->url());
 }
 
-void PhxWidget::connectToTauPhx(QUrl url)
+void PhxWidget::setTheme(SonicPiTheme* theme)
+{
+  m_theme = theme;
+  phxView->setScrollbarColours(theme->color("ScrollBar"),
+                               theme->color("ScrollBarBackground"),
+                               theme->color("ScrollBarHover"));
+}
+
+void  PhxWidget::connectToTauPhx(QUrl url)
 {
   defaultUrl = url;
   std::cout << "[PHX] - connecting to: " << url.toString().toStdString() << std::endl;

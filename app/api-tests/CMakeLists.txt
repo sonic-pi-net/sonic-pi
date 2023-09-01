@@ -8,8 +8,7 @@ set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
 set(THREADS_PREFER_PTHREAD_FLAG TRUE)
 
 list(APPEND TEST_SOURCES
-    ${TESTS_ROOT}/CMakeLists.txt
-    ${TESTS_ROOT}/main.cpp)
+    ${TESTS_ROOT}/CMakeLists.txt)
 
 file(GLOB_RECURSE FOUND_TEST_SOURCES "${APP_ROOT}/*.test.cpp")
 
@@ -38,7 +37,7 @@ endif()
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
         SonicPi::API
-        Catch2::Catch2
+        Catch2::Catch2WithMain
         ${PLATFORM_LINKLIBS}
         ${CMAKE_THREAD_LIBS_INIT})
 

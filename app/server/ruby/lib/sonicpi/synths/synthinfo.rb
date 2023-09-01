@@ -3356,7 +3356,7 @@ Steal This Sound,  Mitchell Sigman"
           :seed => 0,
         }
       end
-      
+
       def specific_arg_info
         {
           :seed =>
@@ -3531,7 +3531,7 @@ Steal This Sound,  Mitchell Sigman"
 
       def doc
         "An emulation of a tonewheel organ with an optional rotary speaker. These instruments were the first electro-mechanical synthesisers, developed in the mid 1930s by Laurens Hammond. They generate sine-like signals with the tonewheels and mix them together. Up to 9 sine waves can be combined in order to control the organ's timbre, setting their individual levels with drawbar controls. Their sound is often output over a rotary speaker cabinet, producing a characteristic oscillating sound.
-        
+
 Based on work of [Chris Wigington](https://actlab.us/actlab/cwigington/projone.html) and [Zé Craum](http://sccode.org/1-5aD)."
       end
 
@@ -3683,7 +3683,7 @@ Based on work of [Chris Wigington](https://actlab.us/actlab/cwigington/projone.h
           {
             :doc => "Rotation frequency of the rotary speaker in Hertz. The tonewheel organ's rotary speaker affects sound in (at least) 3 ways: The frequency changes due to a Doppler effect, so that the pitch oscillates around the base frequency, the note the synth is playing. The amplitude and hence the perceived loudness change. When the horns rotate, they sound louder when they point towards the listener. The pan changes: When the horns point sideways, they sound louder on the side they point to.
 
-The 'chorale' speed of the speaker is 0.83 Hz, the 'tremolo' speed is 6.7 Hz, each referring to the horn. The woofer rotates at a slower speed, which is calculated from the horn's frequency. 
+The 'chorale' speed of the speaker is 0.83 Hz, the 'tremolo' speed is 6.7 Hz, each referring to the horn. The woofer rotates at a slower speed, which is calculated from the horn's frequency.
 
 Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq` can be slid, sliding up from plain 0 is not possible and sliding to and from frequencies close to 0 may have unexpected effects.",
             :validations => [v_between_inclusive(:rs_freq, 0, 10)],
@@ -4447,7 +4447,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
           :pre_amp => 1,
           :pre_amp_slide_shape => 1,
           :pre_amp_slide_curve => 0,
-          :amp => 1,
+          :amp => 6,
           :amp_slide_shape => 1,
           :amp_slide_curve => 0,
           :hpf => 0,
@@ -8376,6 +8376,31 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
             :sn_zome,
             :sn_generic]},
 
+        :hat => {
+          :desc => "Hi-hats",
+          :prefix => "hat_",
+          :samples => [
+            :hat_snap,
+            :hat_zan,
+            :hat_zap,
+            :hat_tap,
+            :hat_cats,
+            :hat_bdu,
+            :hat_psych,
+            :hat_raw,
+            :hat_zild,
+            :hat_gump,
+            :hat_noiz,
+            :hat_sci,
+            :hat_star,
+            :hat_gem,
+            :hat_yosh,
+            :hat_mess,
+            :hat_cab,
+            :hat_gnu,
+            :hat_hier,
+            :hat_metal]},
+
         :bd => {
           :desc => "Bass Drums",
           :prefix => "bd_",
@@ -8392,7 +8417,8 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
             :bd_klub,
             :bd_fat,
             :bd_tek,
-            :bd_mehackit]},
+            :bd_mehackit,
+            :bd_chip]},
 
         :loop => {
           :desc => "Sounds for Looping",
@@ -8484,7 +8510,17 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
             :mehackit_robot4,
             :mehackit_robot5,
             :mehackit_robot6,
-            :mehackit_robot7
+            :mehackit_robot7]},
+
+        :arovane => {
+          :desc => "Arovane 130bpm beat samples",
+          :prefix => "arovane_",
+          :samples => [
+            :arovane_beat_a,
+            :arovane_beat_b,
+            :arovane_beat_c,
+            :arovane_beat_d,
+            :arovane_beat_e
           ]},
         }
 

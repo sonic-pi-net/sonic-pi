@@ -22,6 +22,7 @@
 
 #pragma once
 
+#include <stdbool.h>
 #include <erl_nif.h>
 
 #ifdef WIN32
@@ -33,6 +34,11 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+
+
+    DllExport int sp_midi_is_nif_loaded(bool* is_nif_loaded);
+    DllExport int sp_midi_is_nif_initialized(bool* is_nif_initialized);
 
     // TODO: These are exported for C tests. Once we are happy that it's working they should not be exported
     /**
@@ -91,6 +97,9 @@ extern "C" {
     // Erlang NIFs. The NIF parameters are always the same, I will only explain the parameters as unpacked from erlang.
     // Note that the only NIF that passes data is sp_midi_send_nif(), the rest do not pass anything, and are simple
     // wrappers for the C functions that do the real work.
+    DllExport ERL_NIF_TERM sp_midi_is_nif_loaded_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
+    DllExport ERL_NIF_TERM sp_midi_is_nif_initialized_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
+
     /**
      * Initialize the spmidi library. Must be called before anything else.
      *
@@ -126,7 +135,7 @@ extern "C" {
 
     /**
      * Trigger a refresh of the MIDI devices. This is triggered from erlang when it a change in the topology is detected
-     * 
+     *
      */
     DllExport ERL_NIF_TERM sp_midi_refresh_devices(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
 

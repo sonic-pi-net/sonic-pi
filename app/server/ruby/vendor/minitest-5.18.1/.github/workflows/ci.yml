@@ -1,0 +1,76 @@
+---
+name: CI
+
+# https://github.com/actions/virtual-environments#available-environments
+# https://github.com/ruby/setup-ruby/blob/master/README.md#supported-platforms
+
+'on': [push, pull_request, workflow_dispatch]
+
+jobs:
+  test:
+    name: >-
+      test ${{ matrix.os }} ${{ matrix.ruby }}
+
+    runs-on: ${{ matrix.os }}
+    if: |
+      !(   contains(github.event.pull_request.title,  '[ci skip]')
+        || contains(github.event.pull_request.title,  '[skip ci]'))
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+        ruby:
+          - '2.7'
+          - '3.0'
+          - '3.1'
+          - '3.2'
+          - head
+        include:
+          - os: windows-latest
+            ruby: ruby
+
+    steps:
+      - name: repo checkout
+        uses: actions/checkout@v3
+
+      - name: load ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler: none
+
+      - name: install hoe
+        run: gem install hoe -N
+
+      - name: rake test
+        run: |
+          rake test
+        timeout-minutes: 3
+
+  isolated:
+    name: >-
+      test:isolated ${{ matrix.os }} ${{ matrix.ruby }}
+
+    runs-on: ubuntu-latest
+    if: |
+      !(   contains(github.event.pull_request.title,  '[ci skip]')
+        || contains(github.event.pull_request.title,  '[skip ci]'))
+    steps:
+      - name: repo checkout
+        uses: actions/checkout@v3
+
+      - name: load ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ruby
+          bundler: none
+
+      - name: install hoe
+        run: gem install hoe -N
+
+      - name: rake test:isolated
+        run: |
+          rake test:isolated
+        timeout-minutes: 3

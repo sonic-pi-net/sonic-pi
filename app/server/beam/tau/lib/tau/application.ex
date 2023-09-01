@@ -4,10 +4,34 @@ defmodule Tau.Application do
   @moduledoc false
 
   use Application
+  require Logger
 
   @impl true
   def start(_type, _args) do
+    Logger.info("All systems booting....")
+
+    midi_enabled = Application.get_env(:tau, :midi_enabled, false)
+    link_enabled = Application.get_env(:tau, :link_enabled, false)
+
+    if midi_enabled do
+      Logger.info("Initialising MIDI native interface")
+      :sp_midi.init()
+    else
+      Logger.info("Starting without MIDI native interface")
+    end
+
+    if link_enabled do
+      Logger.info("Initialising Link native interface")
+      :sp_link.init()
+    else
+      Logger.info("Starting without Link native interface")
+    end
+
+    Logger.info("Starting Phoenix server")
+
     children = [
+      # Start the supervision tree from Erlang modules
+      :tau_server_sup,
       # Start the Telemetry supervisor
       TauWeb.Telemetry,
       # Start the PubSub system
@@ -18,10 +42,12 @@ defmodule Tau.Application do
       # {Tau.Worker, arg}
     ]
 
-    # See https://hexdocs.pm/elixir/Supervisor.html
-    # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Tau.Supervisor]
-    Supervisor.start_link(children, opts)
+
+    with {:ok, pid} <- Supervisor.start_link(children, opts) do
+      Logger.add_backend(Tau.PubSubLogger)
+      {:ok, pid}
+    end
   end
 
   # Tell Phoenix to update the endpoint configuration

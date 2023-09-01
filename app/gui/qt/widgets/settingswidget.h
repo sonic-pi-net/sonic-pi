@@ -18,6 +18,7 @@ class QLineEdit;
 class QButtonGroup;
 class QSignalMapper;
 class QVBoxLayout;
+class QSizePolicy;
 
 class SettingsWidget : public QWidget
 {
@@ -30,6 +31,7 @@ public:
     void updateVersionInfo( QString info_string, QString visit, bool sonic_pi_net_visible, bool check_now_visible);
     void updateMidiInPorts( QString in );
     void updateMidiOutPorts( QString out );
+    void updateScsynthInfo(QString scsynthInfo);
     void updateScopeNames(std::vector<QString>);
     void updateSelectedUILanguage(QString lang);
 
@@ -39,6 +41,7 @@ public slots:
 private slots:
     void update_mixer_invert_stereo();
     void update_mixer_force_mono();
+    void updateEnableScsynthInputs();
     void toggleOscServer();
     void toggleMidi();
     void forceMidiReset();
@@ -78,6 +81,7 @@ signals:
     void restartApp();
     void uiLanguageChanged(QString lang); // TODO: Implement real-time language switching
     void mixerSettingsChanged();
+    void enableScsynthInputsChanged();
     void oscSettingsChanged();
     void midiSettingsChanged();
     void resetMidi();
@@ -122,6 +126,7 @@ private:
 
     QCheckBox *mixer_invert_stereo;
     QCheckBox *mixer_force_mono;
+    QCheckBox *enable_scsynth_inputs;
     QCheckBox *log_synths;
     QCheckBox *check_args;
     QCheckBox *clear_output_on_run;
@@ -169,6 +174,7 @@ private:
     QLabel *update_info;
     QLabel *midi_in_ports_label;
     QLabel *midi_out_ports_label;
+    QLabel *scsynth_info_label;
 
     QSlider *system_vol_slider;
     QSlider *gui_transparency_slider;

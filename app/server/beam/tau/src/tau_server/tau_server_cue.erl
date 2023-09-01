@@ -105,9 +105,10 @@ loop(State) ->
                   cue_port := CuePort,
                   in_socket := InSocket} ->
                     forward_internal_cue(CueHost, CuePort, InSocket, "/link/num-peers", [NumPeers]),
+                    update_num_links(CueHost, CuePort, InSocket, NumPeers),
                     ?MODULE:loop(State);
-                _ ->
-                    logger:debug("Link cue forwarding disabled - ignored num_peers change ", []),
+                #{link_on := false} ->
+                    logger:debug("Link is not on - not sending cue /link/num-peers", []),
                     ?MODULE:loop(State)
             end;
 
@@ -121,8 +122,8 @@ loop(State) ->
                     forward_internal_cue(CueHost, CuePort, InSocket, "/link/tempo-change", [Tempo]),
                     send_api_tempo_update(CueHost, CuePort, InSocket, Tempo),
                     ?MODULE:loop(State);
-                _ ->
-                    logger:debug("Link cue forwarding disabled - ignored tempo change ", []),
+                #{link_on := false} ->
+                    logger:debug("Link is not on - not sending cue /link/tempo-change", []),
                     ?MODULE:loop(State)
             end;
 
@@ -134,8 +135,8 @@ loop(State) ->
                   in_socket := InSocket} ->
                     forward_internal_cue(CueHost, CuePort, InSocket, "/link/start", []),
                     ?MODULE:loop(State);
-                _ ->
-                    logger:debug("Link cue forwarding disabled - ignored start message ", []),
+                #{link_on := false} ->
+                    logger:debug("Link is not on - not sending cue /link/start", []),
                     ?MODULE:loop(State)
             end;
 
@@ -148,8 +149,34 @@ loop(State) ->
                   in_socket := InSocket} ->
                     forward_internal_cue(CueHost, CuePort, InSocket, "/link/stop", []),
                     ?MODULE:loop(State);
-                _ ->
-                    logger:debug("Link cue forwarding disabled - ignored stop message ", []),
+                #{link_on := false} ->
+                    logger:debug("Link is not on - not sending cue /link/stop", []),
+                    ?MODULE:loop(State)
+            end;
+
+        {link, enable} ->
+            case State of
+                #{link_on := true,
+                  cue_host := CueHost,
+                  cue_port := CuePort,
+                  in_socket := InSocket} ->
+                    forward_internal_cue(CueHost, CuePort, InSocket, "/link/connected", []),
+                    ?MODULE:loop(State);
+                #{link_on := false} ->
+                    logger:debug("Link is not on - not sending cue /link/connected", []),
+                    ?MODULE:loop(State)
+            end;
+
+        {link, disable} ->
+            case State of
+                #{link_on := true,
+                  cue_host := CueHost,
+                  cue_port := CuePort,
+                  in_socket := InSocket} ->
+                    forward_internal_cue(CueHost, CuePort, InSocket, "/link/disconnected", []),
+                    ?MODULE:loop(State);
+                #{link_on := false} ->
+                    logger:debug("Link is not on - not sending cue /link/disconnected", []),
                     ?MODULE:loop(State)
             end;
 
@@ -314,7 +341,15 @@ send_api_reply(State, UUID, Args) ->
 send_api_tempo_update(CueHost, CuePort, InSocket, Tempo) ->
     Bin = osc:encode(["/link-tempo-change", "erlang", Tempo]),
     send_udp(InSocket, CueHost, CuePort, Bin),
-    logger:debug("sending link tempo update [~p] to ~p:~p", [Tempo, CueHost, CuePort]),
+
+    logger:info("sending link tempo update [~p] to ~p:~p", [Tempo, CueHost, CuePort]),
+
+    ok.
+
+update_num_links(CueHost, CuePort, InSocket, NumPeers) ->
+    Bin = osc:encode(["/link-num-peers", "erlang", NumPeers]),
+    send_udp(InSocket, CueHost, CuePort, Bin),
+    logger:debug("sending link num pers [~p] to ~p:~p", [NumPeers, CueHost, CuePort]),
     ok.
 
 forward_internal_cue(CueHost, CuePort, InSocket, Path, Args) ->

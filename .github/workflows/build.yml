@@ -3,9 +3,9 @@ name: Build
 on:
   # Do it on every push or PR on these branches
   push:
-    branches: [ dev, stable ]
+    branches: [dev, stable]
   pull_request:
-    branches: [ dev, stable ]
+    branches: [dev, stable]
   # Do build on demand
   workflow_dispatch:
 
@@ -18,246 +18,319 @@ jobs:
       fail-fast: false
       matrix:
         include:
-           - { title: "Linux", os: "ubuntu-latest", cc: "clang", arch: "x64", build_type: "Release" }
-           - { title: "Linux", os: "ubuntu-latest", cc: "clang", arch: "x64", build_type: "Debug" }
-           - { title: "Linux", os: "ubuntu-latest", cc: "gcc", arch: "x64", build_type: "Release" }
-           - { title: "Linux", os: "ubuntu-latest", cc: "gcc", arch: "x64", build_type: "Debug" }
-           - { title: "Windows", os: "windows-latest", cc: "vs2022", arch: "x64", build_type: "Release" }
-           - { title: "Windows", os: "windows-latest", cc: "vs2022", arch: "x64", build_type: "Debug" }
-           - { title: "Mac", os: "macos-latest", cc: "clang", arch: "x64", build_type: "Release" }
-           - { title: "Mac", os: "macos-latest", cc: "clang", arch: "x64", build_type: "Debug" }
+          - {
+              title: "Linux",
+              os: "ubuntu-latest",
+              cc: "clang",
+              arch: "x64",
+              build_type: "Release",
+            }
+          - {
+              title: "Linux",
+              os: "ubuntu-latest",
+              cc: "clang",
+              arch: "x64",
+              build_type: "Debug",
+            }
+          - {
+              title: "Linux",
+              os: "ubuntu-latest",
+              cc: "gcc",
+              arch: "x64",
+              build_type: "Release",
+            }
+          - {
+              title: "Linux",
+              os: "ubuntu-latest",
+              cc: "gcc",
+              arch: "x64",
+              build_type: "Debug",
+            }
+          - {
+              title: "Windows",
+              os: "windows-latest",
+              cc: "vs2022",
+              arch: "x64",
+              build_type: "Release",
+            }
+          - {
+              title: "Windows",
+              os: "windows-latest",
+              cc: "vs2022",
+              arch: "x64",
+              build_type: "Debug",
+            }
+          - {
+              title: "Mac",
+              os: "macos-latest",
+              cc: "clang",
+              arch: "x64",
+              build_type: "Release",
+            }
+          - {
+              title: "Mac",
+              os: "macos-latest",
+              cc: "clang",
+              arch: "x64",
+              build_type: "Debug",
+            }
+          - {
+              title: "Mac",
+              os: "macos-latest",
+              cc: "clang",
+              arch: "arm64",
+              build_type: "Release",
+            }
+          - {
+              title: "Mac",
+              os: "macos-latest",
+              cc: "clang",
+              arch: "arm64",
+              build_type: "Debug",
+            }
 
     steps:
+      # Get the code
+      - uses: actions/checkout@v2
 
-    # Get the code
-    - uses: actions/checkout@v2
+      # Install Ruby for the windows build
+      - uses: ruby/setup-ruby@v1
+        id: ruby-inst
+        with:
+          ruby-version: 3.2
+        if: matrix.os == 'windows-latest'
 
-    # hardcode cmake version
-    - name: Setup cmake
-      uses: jwlawson/actions-setup-cmake@v1.12
-      with:
-        cmake-version: '3.22.3'
-
-    # Install Ruby for the windows build
-    - uses: ruby/setup-ruby@v1
-      id: ruby-inst
-      with:
-        ruby-version: 3.1
-      if: matrix.os == 'windows-latest'
-
-    # Install gems Windows
-    - name: Setup Ruby Windows
-      working-directory: ${{github.workspace}}/app
-      run: |
+      # Install gems Windows
+      - name: Setup Ruby Windows
+        working-directory: ${{github.workspace}}/app
+        run: |
           gem install rugged
           gem install test-unit
-      if: matrix.os == 'windows-latest'
+        if: matrix.os == 'windows-latest'
 
-    # Install gems Linux/Max - needs sudo
-    - name: Setup Ruby Gems
-      working-directory: ${{github.workspace}}/app
-      run: |
-          sudo gem install win32-process
+      # Install gems Linux/Max - needs sudo
+      - name: Setup Ruby Gems
+        working-directory: ${{github.workspace}}/app
+        run: |
           sudo gem install rugged --version 0.27.1
-          sudo gem install ffi
           sudo gem install test-unit
-      if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
+        if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
 
-    # For windows we build a symlink in the bash shell because the windows method does not seem to work.
-    - name: Add SymLink for Windows
-      working-directory: ${{github.workspace}}/app/server/native
-      run: |
-        ln -s ${{steps.ruby-inst.outputs.ruby-prefix}} ruby
-      if: matrix.os == 'windows-latest'
+      # For windows we build a symlink in the bash shell because the windows method does not seem to work.
+      - name: Add SymLink for Windows
+        working-directory: ${{github.workspace}}/app/server/native
+        run: |
+          ln -s ${{steps.ruby-inst.outputs.ruby-prefix}} ruby
+        if: matrix.os == 'windows-latest'
 
-      # Keep a cached copy of the Qt build so we can speed up subsequent builds
-    - name: Cache Qt
-      id: cache-qt6
-      uses: actions/cache@v1
-      with:
-        path: ../Qt6
-        key: ${{ runner.os }}-Qt6Cache
+        # Get Qt
+      - name: Install Qt 6
+        uses: jurplel/install-qt-action@v3
+        with:
+          modules: "qtpositioning qtwebchannel qtwebengine qtwebsockets"
+          version: "6.5.1"
 
-      # Get Qt
-    - name: Install Qt 6
-      uses: jurplel/install-qt-action@v2
-      with:
-        modules: "qtwebenginewidgets"
-        version: '6.2.2'
-        cached: ${{ steps.cache-qt6.outputs.cache-hit }}
+        # Install Elixir on Ubuntu
+      - name: Linux Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          otp-version: "25.2"
+          elixir-version: "1.14"
+        if: matrix.os == 'ubuntu-latest'
 
-      # Install Elixir on Ubuntu
-    - name: Linux Elixir
-      uses: erlef/setup-beam@v1
-      with:
-        otp-version: '24'
-        elixir-version: '1.12'
-      if: matrix.os == 'ubuntu-latest'
+        # Install Elixir on Windows
+      - name: Win Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          otp-version: "25.2"
+          elixir-version: "1.14"
+        if: matrix.os == 'windows-latest'
 
-      # Install Elixir on Windows
-    - name: Win Elixir
-      uses: erlef/setup-beam@v1
-      with:
-        otp-version: '24'
-        elixir-version: '1.12'
-      if: matrix.os == 'windows-latest'
+        # Install Elixir on MacOS
+      - name: Mac Elixir
+        continue-on-error: true
+        run: |
+          export HOMEBREW_NO_INSTALL_CLEANUP=1
+          brew update
+          brew install elixir
+        if: matrix.os == 'macos-latest'
 
-      # Install Elixir on MacOS
-    - name: Mac Elixir
-      continue-on-error: true
-      run: |
-        export HOMEBREW_NO_INSTALL_CLEANUP=1
-        brew update
-        brew install elixir
-      if: matrix.os == 'macos-latest'
+        # Prebuild on Ubuntu
+      - name: Prebuild Linux
+        working-directory: ${{github.workspace}}/app
+        env:
+          CC: ${{ matrix.cc }}
+          QT_INSTALL_LOCATION: ${{env.Qt6_DIR}}
+        run: |
+          sudo apt install -y pulseaudio dbus-x11 libssl-dev ruby-dev supercollider-server sc3-plugins-server alsa-base alsa-utils jackd2 libjack-jackd2-dev libjack-jackd2-0 libasound2-dev librtmidi-dev pulseaudio-module-jack
+          ./linux-prebuild.sh
+        if: matrix.os == 'ubuntu-latest'
 
-      # Prebuild on Ubuntu
-    - name: Prebuild Linux
-      working-directory: ${{github.workspace}}/app
-      env:
-        CC: ${{ matrix.cc }}
-        QT_INSTALL_LOCATION: ${{env.Qt6_DIR}}
-      run: |
-        sudo apt install -y pulseaudio dbus-x11 libssl-dev ruby-dev supercollider-server sc3-plugins-server alsa-base alsa-utils jackd2 libjack-jackd2-dev libjack-jackd2-0 libasound2-dev librtmidi-dev pulseaudio-module-jack
-        ./linux-prebuild.sh
-      if: matrix.os == 'ubuntu-latest'
+        # Prebuild on Mac
+      - name: Prebuild Mac
+        working-directory: ${{github.workspace}}/app
+        env:
+          CC: ${{ matrix.cc }}
+          QT_INSTALL_LOCATION: ${{env.Qt6_DIR}}
+        run: |
+          ./mac-prebuild.sh
+        if: matrix.os == 'macos-latest'
 
-      # Prebuild on Mac
-    - name: Prebuild Mac
-      working-directory: ${{github.workspace}}/app
-      env:
-        CC: ${{ matrix.cc }}
-        QT_INSTALL_LOCATION: ${{env.Qt6_DIR}}
-      run: |
-        ./mac-prebuild.sh
-      if: matrix.os == 'macos-latest'
+      # Prebuild on Windows
+      # Note that we 'hide' the msys folders on windows to stop conflicts when building
+      # Flac
+      - name: Prebuild Windows
+        working-directory: ${{github.workspace}}/app
+        shell: cmd
+        env:
+          CC: ${{ matrix.cc }}
+          QT_INSTALL_LOCATION: ${{env.Qt6_DIR}}
+        run: |
+          mv c:/msys64 c:/__msys64
+          win-prebuild.bat
+        if: matrix.os == 'windows-latest'
 
-    # Prebuild on Windows
-    # Note that we 'hide' the msys folders on windows to stop conflicts when building
-    # Flac
-    - name: Prebuild Windows
-      working-directory: ${{github.workspace}}/app
-      shell: cmd
-      env:
-        CC: ${{ matrix.cc }}
-        QT_INSTALL_LOCATION: ${{env.Qt6_DIR}}
-      run: |
-        mv c:/msys64 c:/__msys64
-        win-prebuild.bat
-      if: matrix.os == 'windows-latest'
+        #- name: Setup tmate session
+        # uses: mxschmitt/action-tmate@v3
 
-      #- name: Setup tmate session
-      # uses: mxschmitt/action-tmate@v3
+        # Run Configuration Config on Ubuntu
+      - name: Config Linux
+        working-directory: ${{github.workspace}}/app
+        env:
+          CC: ${{ matrix.cc }}
+          QT_INSTALL_LOCATION: ${{env.Qt6_DIR}}
+        run: |
+          ./linux-config.sh --config ${{ matrix.build_type }}
+        if: matrix.os == 'ubuntu-latest'
 
-      # Run Configuration Config on Ubuntu
-    - name: Config Linux
-      working-directory: ${{github.workspace}}/app
-      env:
-        CC: ${{ matrix.cc }}
-        QT_INSTALL_LOCATION: ${{env.Qt6_DIR}}
-      run: |
-        ./linux-config.sh
-      if: matrix.os == 'ubuntu-latest'
+        # Run Configuration Config on Mac
+      - name: Config Mac
+        working-directory: ${{github.workspace}}/app
+        env:
+          CC: ${{ matrix.cc }}
+          QT_INSTALL_LOCATION: ${{env.Qt6_DIR}}
+        run: |
+          ./mac-config.sh --config ${{ matrix.build_type }}
+        if: matrix.os == 'macos-latest'
 
-      # Run Configuration Config on Mac
-    - name: Config Mac
-      working-directory: ${{github.workspace}}/app
-      env:
-        CC: ${{ matrix.cc }}
-        QT_INSTALL_LOCATION: ${{env.Qt6_DIR}}
-      run: |
-        ./mac-config.sh
-      if: matrix.os == 'macos-latest'
+        # Run Configuration Config on Windows
+      - name: Config Windows
+        working-directory: ${{github.workspace}}/app
+        shell: cmd
+        env:
+          CC: ${{ matrix.cc }}
+          QT_INSTALL_LOCATION: ${{env.Qt6_DIR}}
+        run: |
+          win-config.bat ${{ matrix.build_type }}
+        if: matrix.os == 'windows-latest'
 
-      # Run Configuration Config on Windows
-    - name: Config Windows
-      working-directory: ${{github.workspace}}/app
-      shell: cmd
-      env:
-        CC: ${{ matrix.cc }}
-        QT_INSTALL_LOCATION: ${{env.Qt6_DIR}}
-      run: |
-        win-config.bat
-      if: matrix.os == 'windows-latest'
+      # Finally: Build
+      - name: Build Linux
+        working-directory: ${{github.workspace}}/app
+        run: ./linux-build-gui.sh
+        if: matrix.os == 'ubuntu-latest'
 
-    # Finally: Build
-    - name: Do build
-      working-directory: ${{github.workspace}}/app/build
-      run: cmake --build . --config ${{ matrix.build_type }}
+      - name: Build Mac
+        working-directory: ${{github.workspace}}/app
+        run: ./mac-build-gui.sh
+        if: matrix.os == 'macos-latest'
 
-    - name: BEAM Tests Windows
-      shell: cmd
-      working-directory: ${{github.workspace}}/app/server/beam/tau
-      run: mix test
-      env:
-        TAU_ENV: test
-        TAU_LOG_PATH: ${{github.workspace}}/tau_log.txt
-      if: matrix.os == 'windows-latest'
+      - name: Build Windows
+        working-directory: ${{github.workspace}}/app
+        shell: cmd
+        run: win-build-gui.bat  ${{ matrix.build_type }}
+        if: matrix.os == 'windows-latest'
 
-    - name: BEAM Tests (Linux)
-      working-directory: ${{github.workspace}}/app/server/beam/tau
-      run: mix test
-      env:
-        TAU_ENV: test
-        TAU_LOG_PATH: ${{github.workspace}}/tau_log.txt
-      if: matrix.os == 'ubuntu-latest'
+      # Build Tau server
+      - name: Build Tau Server (Linux)
+        working-directory: ${{github.workspace}}/app
+        run: ./linux-post-tau-prod-release.sh
+        if: matrix.os == 'ubuntu-latest'
 
-    - name: BEAM Tests (macOS)
-      working-directory: ${{github.workspace}}/app/server/beam/tau
-      run: mix test
-      env:
-        TAU_ENV: test
-        TAU_LOG_PATH: ${{github.workspace}}/tau_log.txt
-      if: matrix.os == 'macos-latest'
+      - name: Build Tau Server (Mac)
+        working-directory: ${{github.workspace}}/app
+        run: ./mac-post-tau-prod-release.sh
+        if: matrix.os == 'macos-latest'
 
-    - name: Ruby Tests (Mac/Linux)
-      working-directory: ${{github.workspace}}/app/server/ruby
-      run: rake test
-      if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
+      - name: Build Tau Server (Windows)
+        working-directory: ${{github.workspace}}/app
+        shell: cmd
+        run: win-post-tau-prod-release.bat
+        if: matrix.os == 'windows-latest'
 
-    - name: API Tests - Mac
-      working-directory: ${{github.workspace}}/app/build/api-tests
-      env:
-        SONIC_PI_ENV: test
-      run: ctest --verbose
-      if: matrix.os == 'macos-latest'
+      - name: BEAM Tests Windows
+        shell: cmd
+        working-directory: ${{github.workspace}}/app/server/beam/tau
+        run: mix test
+        env:
+          TAU_ENV: test
+          TAU_LOG_PATH: ${{github.workspace}}/tau_log.txt
+        if: matrix.os == 'windows-latest'
 
-    - name: API Tests - Linux
-      working-directory: ${{github.workspace}}/app/build/api-tests
-      env:
-        SONIC_PI_ENV: test
-      run: |
-        jackd -rd dummy &
-        ctest --verbose
-      if: matrix.os == 'ubuntu-latest'
+      - name: BEAM Tests (Linux)
+        working-directory: ${{github.workspace}}/app/server/beam/tau
+        run: mix test
+        env:
+          TAU_ENV: test
+          TAU_LOG_PATH: ${{github.workspace}}/tau_log.txt
+        if: matrix.os == 'ubuntu-latest'
 
-    - name: API Tests Windows - Install Scream Audio Device
-      shell: powershell
-      run: |
-        Start-Service audio*
-        Invoke-WebRequest https://github.com/duncanthrax/scream/releases/download/3.6/Scream3.6.zip -OutFile C:\Scream3.6.zip
-        Extract-7Zip -Path C:\Scream3.6.zip -DestinationPath C:\Scream
-        $cert = (Get-AuthenticodeSignature C:\Scream\Install\driver\Scream.sys).SignerCertificate
-        $store = [System.Security.Cryptography.X509Certificates.X509Store]::new("TrustedPublisher", "LocalMachine")
-        $store.Open("ReadWrite")
-        $store.Add($cert)
-        $store.Close()
-        cd C:\Scream\Install\driver
-        C:\Scream\Install\helpers\devcon install Scream.inf *Scream
-      if: matrix.os == 'windows-latest'
+      - name: BEAM Tests (macOS)
+        working-directory: ${{github.workspace}}/app/server/beam/tau
+        run: mix test
+        env:
+          TAU_ENV: test
+          TAU_LOG_PATH: ${{github.workspace}}/tau_log.txt
+        if: matrix.os == 'macos-latest'
 
-    - name: API Tests - Windows
-      shell: cmd
-      working-directory: ${{github.workspace}}/app/build/api-tests
-      env:
-        SONIC_PI_ENV: test
-      run: ctest --verbose
-      if: matrix.os == 'windows-latest'
+      - name: Ruby Tests (Mac/Linux)
+        working-directory: ${{github.workspace}}/app/server/ruby
+        run: rake test
+        if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
 
-    - name: Archive Logs
-      uses: actions/upload-artifact@v2
-      if: ${{ always() }}
-      with:
+      - name: API Tests - Mac
+        working-directory: ${{github.workspace}}/app/build/api-tests
+        env:
+          SONIC_PI_ENV: test
+        run: ctest --verbose
+        if: matrix.os == 'macos-latest'
+
+      - name: API Tests - Linux
+        working-directory: ${{github.workspace}}/app/build/api-tests
+        env:
+          SONIC_PI_ENV: test
+        run: |
+          jackd -rd dummy &
+          ctest --verbose
+        if: matrix.os == 'ubuntu-latest'
+
+      - name: API Tests Windows - Install Scream Audio Device
+        shell: powershell
+        run: |
+          Start-Service audio*
+          Invoke-WebRequest https://github.com/duncanthrax/scream/releases/download/3.6/Scream3.6.zip -OutFile C:\Scream3.6.zip
+          Extract-7Zip -Path C:\Scream3.6.zip -DestinationPath C:\Scream
+          $cert = (Get-AuthenticodeSignature C:\Scream\Install\driver\Scream.sys).SignerCertificate
+          $store = [System.Security.Cryptography.X509Certificates.X509Store]::new("TrustedPublisher", "LocalMachine")
+          $store.Open("ReadWrite")
+          $store.Add($cert)
+          $store.Close()
+          cd C:\Scream\Install\driver
+          C:\Scream\Install\helpers\devcon install Scream.inf *Scream
+        if: matrix.os == 'windows-latest'
+
+      - name: API Tests - Windows
+        shell: cmd
+        working-directory: ${{github.workspace}}/app/build/api-tests
+        env:
+          SONIC_PI_ENV: test
+        run: ctest --verbose
+        if: matrix.os == 'windows-latest'
+
+      - name: Archive Logs
+        uses: actions/upload-artifact@v2
+        if: ${{ always() }}
+        with:
           name: Logs_${{matrix.title}}_${{matrix.cc}}_${{matrix.arch}}_${{matrix.build_type}}
           path: |
             ~/.sonic-pi/log/*.log

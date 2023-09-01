@@ -28,8 +28,8 @@ module SonicPi
       [Time.now.to_i, 0]
     end
 
-    def link_temp
-      120
+    def link_tempo
+      60.0
     end
 
     def link_is_on?
@@ -41,16 +41,17 @@ module SonicPi
     end
 
     def link_get_beat_at_time(time, quantum = 4)
-      0
+      0.0
     end
 
     def link_get_clock_time_at_beat(beat, quantum = 4)
-      Time.now.to_i
+      Time.now.to_f
     end
 
     def link_get_beat_at_clock_time(clock_time, quantum = 4)
-      0
+      0.0
     end
+
   end
 
   class MockLang

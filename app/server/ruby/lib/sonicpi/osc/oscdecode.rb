@@ -43,7 +43,7 @@ module SonicPi
       def decode_single_message(m)
         ## Note everything is inlined here for effienciency to remove the
         ## cost of method dispatch. Apologies if this makes it harder to
-        ## read & understand. See http://opensoundcontrol.org for spec.
+        ## read & understand. See https://opensoundcontrol.stanford.edu/ for spec.
 
         m.force_encoding(@binary_encoding)
 

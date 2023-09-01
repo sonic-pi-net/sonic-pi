@@ -297,6 +297,12 @@ QCheckBox::indicator {
     height: 18dx;
 }
 
+QCheckBox::hover:!pressed
+{
+
+    color: hoverButtonColor;
+}
+
 QCheckBox::indicator:unchecked {
     image: url(:/images/checkbox-unchecked.png);
 }
@@ -430,7 +436,20 @@ QLabel[accessibleName="midi-in-ports-label"]
     font-size: small;
     padding-top: 1dx;
     padding-right: 18dx;
-    padding-bottom: 1dx;
+    padding-bottom: 2dx;
+    padding-left: 3dx;
+    border-radius: 3dx;
+    border: 1px solid tabSelectedColor;
+    background-color: paneColor;
+    color: windowForegroundColor;
+}
+
+QLabel[accessibleName="scsynth-info"]
+{
+    font-size: small;
+    padding-top: 2dx;
+    padding-right: 18dx;
+    padding-bottom: 2dx;
     padding-left: 3dx;
     border-radius: 3dx;
     border: 1px solid tabSelectedColor;
@@ -441,9 +460,9 @@ QLabel[accessibleName="midi-in-ports-label"]
 QLabel[accessibleName="midi-out-ports-label"]
 {
     font-size: small;
-    padding-top: 1dx;
+    padding-top: 2dx;
     padding-right: 18dx;
-    padding-bottom: 1dx;
+    padding-bottom: 2dx;
     padding-left: 3dx;
     border-radius: 3dx;
     background-color: tabColor;
@@ -603,6 +622,7 @@ QPushButton
     padding: 5dx;
     border-radius: 3dx;
     border: 1dx solid buttonBorderColor;
+    height: 25dx;
 }
 
 QPushButton::pressed
@@ -620,4 +640,116 @@ QPushButton::hover:!pressed
 QMessageBox
 {
     background: windowColor;
+}
+
+
+QPushButton#enableLinkButton
+{
+  min-width: 100dx;
+}
+
+QPushButton#tapTempo
+{
+  min-width: 100dx;
+}
+QLineEdit
+{
+    border-radius: 3dx;
+}
+
+QLineEdit#bpmScrubber::hover:!pressed
+{
+    background-color: hoverButtonColor;
+    color: buttonTextColor;
+}
+
+QLineEdit#bpmScrubber::hover:pressed
+{
+    background-color: hoverButtonColor;
+    color: buttonTextColor;
+}
+
+QLineEdit#bpmScrubber
+{
+    font-size: medium;
+    selection-color: selectionForegroundColor;
+    selection-background-color: selectionBackgroundColor;
+    background-color: paneColor;
+    border: 2dx solid hoverButtonColor;
+    padding: 5dx;
+    max-width: 110dx;
+    height: 25dx;
+
+}
+
+
+QLineEdit#timeWarpEdit
+{
+    font-size: medium;
+    selection-color: selectionForegroundColor;
+    selection-background-color: selectionBackgroundColor;
+    background-color: paneColor;
+    border: 2dx solid buttonColor;
+    padding: 5dx;
+    max-width: 80dx;
+    height: 25dx;
+
+}
+
+QLineEdit#timeWarpEdit::hover:!pressed
+{
+    background-color: hoverButtonColor;
+    color: buttonTextColor;
+}
+
+QLineEdit#timeWarpEdit::hover:pressed
+{
+    background-color: hoverButtonColor;
+    color: buttonTextColor;
+}
+
+SonicPiMetro
+{
+    background-color: windowColor;
+}
+
+QSlider#timeWarpSlider
+{
+min-height: 20dx;
+min-width: 150dx;
+}
+
+QSlider#timeWarpSlider::groove:horizontal {
+    height: 4dx; /* the groove expands to the size of the slider by default. by giving it a height, it has a fixed size */
+    background: windowBorderColor;
+    margin: 2dx 0;
+
+}
+
+QSlider#timeWarpSlider::handle:horizontal {
+    background: buttonColor;
+    width: 18dx;
+    height: 25dx;
+    margin: -5px 0; /* handle is placed by default on the contents rect of the groove. Expand outside the groove */
+
+    border-radius: 1dx;
+}
+
+QSlider#timeWarpSlider::handle:horizontal:hover {
+    background: hoverButtonColor;
+}
+
+QSlider#timeWarpSlider::handle:vertical {
+    min-height: 8dx;
+    background: green;
+    /* margin: 0 -4dx; /\* expand outside the groove *\/ */
+}
+
+QSlider#timeWarpSlider::add-page:vertical {
+    background: white;
+}
+
+QSlider#timeWarpSlider::sub-page:vertical {
+    background: pink;
+
 }

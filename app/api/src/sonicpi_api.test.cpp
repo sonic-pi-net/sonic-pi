@@ -1,6 +1,6 @@
 #include <cassert>
 #include <iostream>
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 #include <api/sonicpi_api.h>
 #include <api/logger.h>
@@ -47,6 +47,23 @@ class APIClient : public IAPIClient
     {
         std::cout << info.content;
     }
+
+    virtual void ActiveLinks(const int numLinks) override
+    {
+        std::cout << numLinks;
+    }
+
+    virtual void BPM(const double bpm) override
+    {
+        std::cout << bpm;
+    }
+
+    virtual void Scsynth(const ScsynthInfo& scsynthInfo) override
+    {
+        std::cout << scsynthInfo.text;
+    }
+
+
 };
 
 TEST_CASE("Init", "API")
@@ -54,17 +71,20 @@ TEST_CASE("Init", "API")
     APIClient client;
     SonicPiAPI api(&client, APIProtocol::UDP, LogOption::File);
 
-    REQUIRE(api.Init("bad-path") == false);
-    REQUIRE(api.Init(".") == false);
+    REQUIRE(api.Init("bad-path") == APIInitResult::TerminalError);
+    REQUIRE(api.Init(".") == APIInitResult::TerminalError);
 
     // Pass the valid path to the root sonic pi folder
-    auto executeResult = api.Init(fs::path(APP_ROOT) / "..");
-    if (executeResult)
+    APIInitResult executeResult = api.Init(fs::path(APP_ROOT) / "..");
+    if (executeResult == APIInitResult::Successful)
     {
-        if (api.WaitUntilReady())
+        if (api.Boot() == APIBootResult::Successful)
         {
-            api.TestAudio();
-            std::this_thread::sleep_for(3s);
+            if (api.WaitUntilReady())
+            {
+                api.TestAudio();
+                std::this_thread::sleep_for(3s);
+            }
         }
     }
 

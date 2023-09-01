@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.13)
 
 option(USE_SYSTEM_LIBS "Build using system libraries instead of vcpkg libraries" OFF)
 
-message(STATUS " CMakeLists: Sonic Pi")
+message(STATUS "CMakeLists: Sonic Pi")
 
 # Sonic Pi Requires a C++ 17 Compiler to build it
 set(CMAKE_CXX_STANDARD 17)
@@ -13,7 +13,7 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-option(WITH_QT_GUI_WEBENGINE "Include experimental webengine functionality" OFF)
+option(WITH_QT_GUI_WEBENGINE "Include experimental webengine functionality" ON)
 
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME})
 
@@ -44,6 +44,7 @@ include(cmake/common.cmake)
 
 configure_file(${APP_ROOT}/cmake/config.h.cmake ${CMAKE_BINARY_DIR}/config.h)
 
+add_subdirectory(external)
 add_subdirectory(api)
 add_subdirectory(api-tests)
 add_subdirectory(gui)

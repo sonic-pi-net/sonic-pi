@@ -7,7 +7,8 @@ defmodule TauWeb.Endpoint do
   @session_options [
     store: :cookie,
     key: "_tau_key",
-    signing_salt: "25TrbG+0"
+    signing_salt: "lh84Hjvc",
+    same_site: "Lax"
   ]
 
   socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
@@ -20,7 +21,7 @@ defmodule TauWeb.Endpoint do
     at: "/",
     from: :tau,
     gzip: false,
-    only: ~w(assets fonts images favicon.ico robots.txt)
+    only: TauWeb.static_paths()
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.

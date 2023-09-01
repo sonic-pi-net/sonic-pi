@@ -23,6 +23,7 @@ module SonicPi
 
     def test_get_with_no_set
       @lang.instance_eval do
+        use_bpm 60
         assert_equal nil, get(:foodbarbaz)
       end
     end
@@ -46,6 +47,7 @@ module SonicPi
 
     def test_time_warp_future_setting
       @lang.run do
+        use_bpm 60
         assert_equal nil, get(:intensity)
         10.times do
           # TODO - remove these promises
@@ -80,6 +82,8 @@ module SonicPi
 
     def test_time_warp_future_setting_further
       @lang.run do
+
+        use_bpm 60
         assert_equal nil, get(:intensity)
 
         1.times do
@@ -105,6 +109,8 @@ module SonicPi
 
     def test_get_inside_future_time_warp_throws_an_error
       @lang.run do
+        use_bpm 60
+
         time_warp 0.1 do
           set(:amp, 0.7)
           assert_error SonicPi::Lang::Core::TimingError do
@@ -149,6 +155,7 @@ module SonicPi
 
     def test_sync
       @lang.run do
+        use_bpm 60
         p1 = Promise.new
         p2 = Promise.new
 

@@ -16,14 +16,18 @@ cd "macOS_Release/Sonic Pi.app/Contents/Resources"
 rm app etc server
 mkdir app
 cp -R ../../../../../../app/server app/server
+cp -R ../../../../../../app/config app/config
 cp -R ../../../../../../etc .
 ln -s app/server .
 
 mkdir -p app/gui/qt
 cp -R ../../../../../../app/gui/qt/theme app/gui/qt/
+cp -R ../../../../../../app/gui/qt/lang app/gui/qt/lang
 
 ../../../../../../app/gui/qt/prune.rb app/server/ruby/vendor
 
+
+rm -rf app/server/beam/tau/.elixir_ls
 
 echo "
 

@@ -74,6 +74,7 @@ module SonicPi
       @live_synths = {}
       @live_synths_mut = Mutex.new
       @latency = 0.0
+      @global_timewarp = 0
 
       #TODO: Might want to make this available more globally so it can
       #be dynamically turned on and off
@@ -339,8 +340,7 @@ module SonicPi
             end
 
           else
-            t = @current_spider_time_lambda.call || Time.now
-            ts =  t + sched_ahead_time
+            ts =  sched_time
             ts = ts - @control_delta if t_minus_delta
             osc_bundle ts, @osc_path_s_new, s_name, node_id, pos_code, group_id, *normalised_args
             osc_bundle ts + @control_delta, @osc_path_n_set, node_id, *normalised_args
@@ -710,20 +710,26 @@ module SonicPi
       @osc_events.shutdown
     end
 
+    # this is used just for setting audio latency and is independent of outgoing OSC and MIDI
     def set_latency!(latency)
       @latency = latency.to_f / 1000.0
+    end
+
+    # this is for global timewarp and is matched with outgoing OSC and MIDI
+    def set_global_timewarp!(time)
+      @global_timewarp = time.to_f / 1000.0
     end
 
     def sched_time
       t = @current_spider_time_lambda.call || Time.now
 
       sat = __system_thread_locals.get(:sonic_pi_spider_sched_ahead_time)
-      return t + sat + @latency if sat
+      return t + sat + @latency + @global_timewarp if sat
 
       i = __system_thread_locals.get(:sonic_pi_spider_thread_id_path, @server_thread_id)
       res = @state.get(t, 0, i, 0, 0, 60, :sched_ahead_time)
       raise "sched_ahead_time, can't get time. Is this a Sonic Pi thread? " unless res
-      return t + res.val + @latency
+      return t + res.val + @latency + @global_timewarp
     end
 
   end

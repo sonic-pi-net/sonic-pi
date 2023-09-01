@@ -1,12 +1,15 @@
 # Samples
 
-All samples in this directory are from http://freesound.org and have
-been placed in the public domain via the Creative Commons 0 License:
+The samples prefixed with `arovane_` have been kindly donated by Uwe Zahn
+(Arovane) under a Creative Commons 0 license. Thanks Uwe!
+
+All other samples in this directory are from http://freesound.org and have
+also been placed in the public domain via the Creative Commons 0 License:
 
 http://creativecommons.org/publicdomain/zero/1.0/
 
 Many of the samples have been slightly modified and trimmed for use with
-Sonic Pi. 
+Sonic Pi.
 
 Links to original samples:
 
@@ -68,7 +71,7 @@ Links to original samples:
 * `:guit_harmonics` - http://freesound.org/people/BStateham/sounds/141524/
 * `:guit_e_fifths` - http://freesound.org/people/Sub-d/sounds/46990/
 * `:guit_e_slide` - http://freesound.org/people/Suva/sounds/2410/
-* `:guit_em9` - http://www.freesound.org/people/Sub-d/sounds/46992/ 
+* `:guit_em9` - http://www.freesound.org/people/Sub-d/sounds/46992/
 
 
 ## Misc
@@ -113,7 +116,7 @@ Links to original samples:
 * `:bass_hard_c` - http://freesound.org/people/ani_music/sounds/165309/
 * `:bass_thick_c` - http://freesound.org/people/ani_music/sounds/165314/
 * `:bass_trance_c` - http://freesound.org/people/ani_music/sounds/165329/
-* `:bass_drop_c` - http://freesound.org/people/ani_music/sounds/165320/ 
+* `:bass_drop_c` - http://freesound.org/people/ani_music/sounds/165320/
 * `:bass_woodsy_c` - http://freesound.org/people/ani_music/sounds/165322/
 * `:bass_voxy_c` - http://freesound.org/people/ani_music/sounds/165325/
 * `:bass_voxy_hit_c` - http://freesound.org/people/ani_music/sounds/165327/
@@ -135,7 +138,7 @@ Links to original samples:
 * `:bd_tek` - http://freesound.org/people/DWSD/sounds/171104/
 * `:bd_ada` - http://www.freesound.org/people/adammusic18/sounds/208871/
 * `:bd_mehackit` - https://freesound.org/people/hullum/sounds/415550/
-
+* `:bd_chip` - https://freesound.org/people/IanStarGem/sounds/341814/
 
 ## Snares
 
@@ -143,6 +146,29 @@ Links to original samples:
 * `:sn_dolf` - http://freesound.org/people/Dolfeus/sounds/57534/
 * `:sn_zome` - http://freesound.org/people/Dolfeus/sounds/55232/
 * `:sn_generic` - https://freesound.org/people/hullum/sounds/415582/
+
+## Hi-hats
+
+* `:hat_snap` - https://freesound.org/people/TheEndOfACycle/sounds/674294/
+* `:hat_zap` - https://freesound.org/people/TheEndOfACycle/sounds/674295/
+* `:hat_cats` - https://freesound.org/people/TheEndOfACycle/sounds/674293/
+* `:hat_tap` - https://freesound.org/people/TheEndOfACycle/sounds/674296/
+* `:hat_bdu` - https://freesound.org/people/bdu/sounds/802/
+* `:hat_psych` - https://freesound.org/people/PSYCHO%20BOOMER/sounds/42548/
+* `:hat_zild` - https://freesound.org/people/pjcohen/sounds/45668/
+* `:hat_zan` - https://freesound.org/people/zinzan_101/sounds/91683/
+* `:hat_gump` - https://freesound.org/people/zgump/sounds/96144/
+* `:hat_noiz` - https://freesound.org/people/medetix/sounds/177909/
+* `:hat_sci` - https://freesound.org/people/waveplaySFX/sounds/250530/
+* `:hat_star` - https://freesound.org/people/IanStarGem/sounds/269720/
+* `:hat_gem` - https://freesound.org/people/IanStarGem/sounds/273186/
+* `:hat_raw` - https://freesound.org/people/cabled_mess/sounds/339278/
+* `:hat_yosh` - https://freesound.org/people/JapanYoshiTheGamer/sounds/361267/
+* `:hat_mess` - https://freesound.org/people/cabled_mess/sounds/363130/
+* `:hat_cab` - https://freesound.org/people/cabled_mess/sounds/363203/
+* `:hat_gnu` - https://freesound.org/people/gnuoctathorpe/sounds/404889/
+* `:hat_hier` - https://freesound.org/people/Hieronimo/sounds/647937/
+* `:hat_metal` - https://Freesound.Org/People/Stereo%20surgeon/Sounds/262516/
 
 
 ## Loops
@@ -230,3 +256,11 @@ Links to original samples:
 * `:mehackit_robot_6` - https://freesound.org/people/hullum/sounds/415565/
 * `:mehackit_robot_7` - https://freesound.org/people/hullum/sounds/415558/
 
+
+# Arovane sounds
+
+* `arovane_beat_a` - Donated by Uwe Zahn (Arovane) under a CC0 license
+* `arovane_beat_b` - Donated by Uwe Zahn (Arovane) under a CC0 license
+* `arovane_beat_c` - Donated by Uwe Zahn (Arovane) under a CC0 license
+* `arovane_beat_d` - Donated by Uwe Zahn (Arovane) under a CC0 license
+* `arovane_beat_e` - Donated by Uwe Zahn (Arovane) under a CC0 license

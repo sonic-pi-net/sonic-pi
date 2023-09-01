@@ -121,8 +121,15 @@ module SonicPi
 
     def __init_spider_time_and_beat!
       t = Time.now.to_f
-      __change_spider_time_and_beat!(t, 0)
       __system_thread_locals.set :sonic_pi_spider_start_time, t
+      __change_spider_bpm_time_and_beat!(:link, t, 0)
+    end
+
+    def __change_spider_bpm_time_and_beat_to_next_link_phase(phase, quantum)
+      safety_t = 0.5
+      beat, time = @tau_api.link_get_next_beat_and_clock_time_at_phase(phase, quantum, safety_t)
+      __system_thread_locals.set(:sonic_pi_spider_bpm, :link)
+      __change_spider_time_and_beat!(time - __current_sched_ahead_time, beat)
     end
 
     def __change_spider_bpm_time_and_beat!(bpm, time, beat)
@@ -141,7 +148,7 @@ module SonicPi
         else
           # 2. std -> link
           __system_thread_locals.set(:sonic_pi_spider_bpm, :link)
-          link_beat = __get_link_beat_at_clock_time(time)
+          link_beat = __get_link_beat_at_clock_time(time + __current_sched_ahead_time)
           __change_spider_time_and_beat!(time, link_beat)
         end
       else
@@ -172,8 +179,8 @@ module SonicPi
       end
     end
 
-    def __get_beat_dur_in_ms
-      __get_spider_sleep_mul * 1000.0
+    def __get_beat_dur_in_ms(beats = 1)
+      __get_spider_sleep_mul * 1000.0 * beats
     end
 
     def __get_spider_time
@@ -269,7 +276,7 @@ module SonicPi
     end
 
     def __check_for_server_version_now
-
+      t, t2 = nil
       begin
         params = {:uuid => global_uuid,
                   :ruby_platform => RUBY_PLATFORM,
@@ -280,16 +287,34 @@ module SonicPi
         msg_uri = URI.parse(url="http://sonic-pi.net/static/info/message.txt")
         ver_uri.query = URI.encode_www_form( params )
         msg_uri.query = URI.encode_www_form( params )
-        ver_response = Net::HTTP.get_response ver_uri
-        msg_response = Net::HTTP.get_response msg_uri
-        ver = ver_response.body
+        ver_prom = Promise.new
+        msg_prom = Promise.new
+
+        t = Thread.new do
+          begin
+            msg_prom.deliver!(Net::HTTP.get_response(msg_uri).body)
+          rescue
+            msg_prom.deliver! ""
+          end
+        end
+        t2 = Thread.new do
+          begin
+            ver_prom.deliver!(Net::HTTP.get_response(ver_uri).body)
+          rescue
+            ver_prom.deliver! ""
+          end
+        end
+
+        ver = ver_prom.get(5)
         v = Version.init_from_string(ver)
-        msg = msg_response.body
+        msg = msg_prom.get(5)
         @settings.set(:last_update_check_time, Time.now.to_i)
         @settings.set(:last_seen_server_version, v.to_s)
         @settings.set(:message, msg)
         v
       rescue
+        t.kill if t
+        t2.kill if t2
         __local_cached_server_version
       end
     end
@@ -399,7 +424,7 @@ module SonicPi
       delayed_messages << [m_type, m]
     end
 
-    def __extract_line_of_error(e)
+    def __extract_linenum_of_error(e)
       trace = e.backtrace
       return -1 unless trace
 
@@ -417,27 +442,77 @@ module SonicPi
     end
 
     def __error(e, m=nil)
-      line = __extract_line_of_error(e)
-      err_msg = e.message
+      linenum = __extract_linenum_of_error(e)
+      if e.respond_to?(:detailed_message)
+        err_msg = e.detailed_message(highlight: false)
+      else
+        err_msg = e.message
+      end
+
       info = __current_job_info
-      err_msg.gsub(/for #<SonicPiSpiderUser[a-z0-9:]+>/, '')
+      err_msg.gsub!(/for Runtime:[A-Za-z0-9:]+ /, '')
       res = ""
       w = info[:workspace]
-      if line != -1
+      if linenum != -1
 
         # TODO: Remove this hack when we have projects
         w = normalise_buffer_name(w)
         w = "buffer " + w
         # TODO: end of hack
 
-        res = res + "[#{w}, line #{line}]"
+        res = res + "[#{w}, line #{linenum}]"
       else
         res = res + "[#{w}]"
       end
-      res += " - #{e.class}"
+      res = res + " - " + m if m
+      res = res + "\n #{err_msg}"
+      __msg_queue.push({type: :error, val: res, backtrace: e.backtrace, jobid: __current_job_id, jobinfo: __current_job_info, linenum: linenum})
+    end
+
+
+    def __syntax_error(e, m=nil)
+      info = __current_job_info
+      _, linenum, err_msg = *e.message.match(/\A.*:([0-9]+): (.*)/)
+      linenum = linenum.to_i
+      error_line = info[:code].lines.to_a[linenum - info[:first_line_num]] ||  ""
+      res = ""
+      w = info[:workspace]
+      if linenum != -1
+
+        # TODO: Remove this hack when we have projects
+        w = normalise_buffer_name(w)
+        w = "buffer " + w
+        # TODO: end of hack
+
+        res = res + "[#{w}, line #{linenum}]"
+      else
+        res = res + "[#{w}]"
+      end
       res = res + "\n" + m if m
       res = res + "\n #{err_msg}"
-      __msg_queue.push({type: :error, val: res, backtrace: e.backtrace, jobid: __current_job_id, jobinfo: __current_job_info, line: line})
+       __msg_queue.push({type: :syntax_error, val: res, backtrace: e.backtrace, jobid: __current_job_id, jobinfo: __current_job_info, error_line: error_line, linenum: linenum})
+
+      # _, line, message = *e.message.match(/\A.*:([0-9]+): (.*)/)
+      # error_line = ""
+      # if line
+      #   line = line.to_i
+
+      #   # TODO: Remove this hack when we have projects
+      #   w = info[:workspace]
+      #   w = normalise_buffer_name(w)
+      #   w = "buffer #{w}"
+      #   # TODO: end of hack
+
+      #   err_msg = "[#{w}, line #{line}] \n #{message}"
+      #   error_line = code.lines.to_a[line - firstline] ||  ""
+      # else
+      #   line = -1
+      #   err_msg = "\n #{e.message}"
+      # end
+      # __msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})
+      # __msg_queue.push({type: :syntax_error, val: err_msg, error_line: error_line , jobid: id  , jobinfo: info, line: line})
+      # __msg_queue.push({type: :syntax_error, val: "yo no!", error_line: error_line , jobid: id  , jobinfo: info, line: line})
+      # __info("Syntax error in run #{id}. Code ignored.")
     end
 
     def __current_thread_name
@@ -503,6 +578,13 @@ module SonicPi
       __info "Stopping incoming MIDI cues..." unless silent
       __schedule_delayed_blocks_and_messages!
       @tau_api.midi_system_stop!
+    end
+
+    def __set_global_timewarp!(time)
+      __info "Setting global timewarp to #{time}"
+      __schedule_delayed_blocks_and_messages!
+      set_mixer_global_timewarp!(time)
+      @tau_api.set_global_timewarp!(time)
     end
 
     def __update_midi_ins(ins)
@@ -821,9 +903,8 @@ module SonicPi
       __system_thread_locals.set_local(:sonic_pi_spider_thread_delta, 0)
 
     end
-
     def __set_default_user_thread_locals!
-      __change_spider_bpm_time_and_beat!(60.0, __get_spider_time, __get_spider_beat)
+
       __thread_locals.set :sonic_pi_spider_arg_bpm_scaling, true
       __thread_locals.set :sonic_pi_spider_new_thread_random_gen_idx, 0
       __system_thread_locals.set(:sonic_pi_spider_thread_priority, 0)
@@ -837,6 +918,9 @@ module SonicPi
       start_t_prom = Promise.new
       info[:workspace] = 'eval' unless info[:workspace]
       info[:workspace].freeze
+      info[:code] = code.clone
+      info[:code].freeze
+      info[:first_line_num] = firstline
       info.freeze
 
       silent = info.fetch(:silent, false)
@@ -869,7 +953,7 @@ module SonicPi
           __info "Starting run #{id}" unless silent
           code = PreParser.preparse(code, SonicPi::Lang::Core.vec_fns)
 
-          job_in_thread = in_thread seed: 0 do
+          job_in_thread = __in_thread seed: 0 do
             eval(code, nil, info[:workspace], firstline)
           end
 
@@ -881,26 +965,7 @@ module SonicPi
           end
         rescue SyntaxError => e
           __no_kill_block do
-            _, line, message = *e.message.match(/\A.*:([0-9]+): (.*)/)
-            error_line = ""
-            if line
-              line = line.to_i
-
-              # TODO: Remove this hack when we have projects
-              w = info[:workspace]
-              w = normalise_buffer_name(w)
-              w = "buffer #{w}"
-              # TODO: end of hack
-
-              err_msg = "[#{w}, line #{line}] \n #{message}"
-              error_line = code.lines.to_a[line - firstline] ||  ""
-            else
-              line = -1
-              err_msg = "\n #{e.message}"
-            end
-            __msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})
-            __msg_queue.push({type: :syntax_error, val: err_msg, error_line: error_line , jobid: id  , jobinfo: info, line: line})
-            __info("Syntax error in run #{id}. Code ignored.")
+            __syntax_error(e)
           end
         rescue Exception => e
           __schedule_delayed_blocks_and_messages!
@@ -1147,6 +1212,8 @@ module SonicPi
             __schedule_delayed_blocks_and_messages!
             __current_tracker.get
             job_subthread_rm(job_id, Thread.current)
+          rescue SyntaxError => e
+            __syntax_error e
             #raise e
           rescue Exception => e
             if name
@@ -1364,12 +1431,12 @@ module SonicPi
       @user_methods = user_methods
 
       @git_hash = __extract_git_hash
-      gh_short = @git_hash ? "-#{@git_hash[0, 7]}" : ""
+      gh_short = @git_hash ? "- #{@git_hash[0, 7]}" : ""
       @settings = Config::Settings.new(Paths.system_cache_store_path)
 
       # Temporarily fix beta version:
-      @version = Version.new(4, 0, 0, "beta#{gh_short}")
-      # @version = Version.new(4, 0, 0, "beta-6")
+      @version = Version.new(5, 0, 0, "Tech Preview #{gh_short}")
+      #@version = Version.new(4, 4, 0)
 
       @server_version = __server_version
       @life_hooks = LifeCycleHooks.new
@@ -1448,12 +1515,22 @@ module SonicPi
         __msg_queue.push({:type => :midi_out_ports, :val => desc})
       end
 
+      updated_link_num_peers_handler = lambda do |num|
+        __msg_queue.push({:type => :link_num_peers, :val => num})
+      end
+
+      updated_link_bpm_handler = lambda do |num|
+        __msg_queue.push({:type => :link_bpm, :val => num})
+      end
+
       @tau_api = TauAPI.new(ports,
                             {
                               external_osc_cue: external_osc_cue_handler,
                               internal_cue: internal_cue_handler,
                               updated_midi_ins: updated_midi_ins_handler,
-                              updated_midi_outs: updated_midi_outs_handler
+                              updated_midi_outs: updated_midi_outs_handler,
+                              updated_link_num_peers: updated_link_num_peers_handler,
+                              updated_link_bpm: updated_link_bpm_handler
                             })
 
       begin

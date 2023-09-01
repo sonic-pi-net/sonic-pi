@@ -13,7 +13,6 @@
 #++
 
 require 'cgi'
-require 'optparse'
 require 'fileutils'
 
 require_relative "../core.rb"
@@ -32,6 +31,7 @@ include SonicPi::Util
 
 # List of all languages with GUI translation files
 @lang_names = Hash[
+  "ar" => "اَلْعَرَبِيَّةُ", # Arabic
   "bg" => "български", # Bulgarian
   "bn" => "বাংলা", # Bengali/Bangla
   "bs" => "Bosanski", # Bosnian
@@ -99,14 +99,6 @@ FileUtils::mkdir "#{SonicPi::Paths.qt_gui_path}/book/"
 docs = []
 filenames = []
 count = 0
-
-options = {}
-OptionParser.new do |opts|
-  opts.banner = "Usage: qt-doc.rb [options]"
-
-  opts.on('-o', '--output NAME', 'Output filename') { |v| options[:output_name] = v }
-
-end.parse!
 
 # valid names: lang, synths, fx, samples, examples
 make_tab = lambda do |name, doc_items, titleize=false, should_sort=true, with_keyword=false, page_break=false, chapters=false, lang="en"|
@@ -356,13 +348,7 @@ def generate_ui_lang_names
 end
 
 
-# update ruby_help.h
-if options[:output_name] then
-   cpp = options[:output_name]
-else
-   cpp = "#{SonicPi::Paths.qt_gui_path}/ruby_help.h"
-end
-
+cpp = "#{SonicPi::Paths.qt_gui_utils_path}/ruby_help.h"
 content = File.readlines(cpp)
 new_content = content.take_while { |line| !line.start_with?("// AUTO-GENERATED-DOCS")}
 new_content << "// AUTO-GENERATED-DOCS\n"

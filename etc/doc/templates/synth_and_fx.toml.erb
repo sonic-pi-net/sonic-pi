@@ -1,0 +1,124 @@
+<%=
+t_(<<~TEXT.chomp
+    # This is a data file that contains information describing the text that is
+    # displayed on pages in the Synths and FX sections of Sonic Pi's help panel.
+    TEXT
+)
+%>
+
+## <%= t_('Synth or FX name') %>
+## ====================
+# <%= t_('A unique identifier for this synth or FX.') %>
+[<%= key %>]
+
+## <%= t_('Synth or FX long name') %>
+## ====================
+# <%= t_('A word or short phrase that is used as a label for the synth or FX.') %>
+name = "<%= t_(item.name) %>"
+
+## <%= t_('Synth or FX usage example') %>
+## ====================
+# <%= t_('A basic code example of how to use the synth or FX.') %>
+usage = '''
+<%=
+if collection[:klass] == SonicPi::Synths::SynthInfo
+  "use_synth :#{key}"
+elsif collection[:klass] == SonicPi::Synths::FXInfo
+  fx_string = <<~TEXT.chomp
+with_fx :#{key} do
+  play 50
+end
+TEXT
+end
+%>
+'''
+
+## <%= t_('Synth or FX description') %>
+## ====================
+# <%= t_('The detailed description of the synth or FX.') %>
+doc = '''
+<%= t_(item.doc) %>
+'''
+
+## <%= t_('Synth or FX introduction') %>
+## ====================
+# <%= t_('The label describing the version of Sonic Pi in which this synth or FX first appeared.') %>
+[<%= key %>.introduced]
+label = "<%= t_("Introduced in #{item.introduced.to_s}") %>"
+
+## <%= t_('Synth or FX options') %>
+## ====================
+<%=
+t_(<<~TEXT.chomp
+# The options are the opts of this synth or FX.
+# In the documentation, we currently display two tables of opts:
+# - one listing the name of each opt and its default value for easy reference
+# - a second, more detailed table labelled 'Options', containing:
+#   - the name of each opt
+#   - a detailed description of it
+#   - its default value
+#   - (if the opt has constraints (limits or a specific range of permitted
+#     values, etc)): the constraints of the opt.
+#     Example:
+TEXT
+)
+%>
+#     contraints = '''
+#     Must be zero or greater
+#     '''
+<%=
+t_(<<~TEXT.chomp
+#   - a label describing whether this opt can be modulated (altered) while the
+#     synth or fx is running
+#   - (if the opt is slidable): a label indicating that the opt is slidable.
+TEXT
+)
+%>
+#     <%= t_('Example:') %>
+#     slidable_label = "Has slide options to shape changes"
+<%=
+t_(<<~TEXT.chomp
+   #   - (if the opt is affected by the current BPM): a label indicating that the opt is scaled with the current BPM.
+   TEXT
+)
+%>
+#     <%= t_('Example:') %>
+#     bpm_scaled_label = "Scaled with current BPM value"
+[<%= key %>.options]
+label = "<%= t_('Options') %>"
+<% item.arg_info.each do |name, attributes| %>
+[[<%= key %>.options.list]]
+name = "<%= name %>:"
+doc = '''
+<%= t_(attributes[:doc] || 'write me') %>
+'''
+default_value = "<%= attributes[:default] %>"
+<% unless attributes[:constraints].empty? -%>
+constraints = '''
+<%= t_(attributes[:constraints].join(', ').capitalize) %>
+'''
+<% end -%>
+modulatable = '''
+<%=
+t_(
+  if attributes[:modulatable]
+    'May be changed whilst playing'
+  else
+    'Can not be changed once set'
+  end
+)
+%>
+'''
+<% if attributes[:slidable] -%>
+slidable_label = "<%= t_('Has slide options to shape changes') %>"
+<% end -%>
+<% if attributes[:bpm_scale] -%>
+bpm_scaled_label = "<%= t_('Scaled with current BPM value') %>"
+<% end -%>
+<% end -%>
+
+<%=
+if item.arg_info.any? { |name, arg| arg[:slidable] }
+  ERB.new(File.read(::SonicPi::Paths.docs_slides_template_path), trim_mode: '-', eoutvar: '_slide01').result(binding)
+end
+%>

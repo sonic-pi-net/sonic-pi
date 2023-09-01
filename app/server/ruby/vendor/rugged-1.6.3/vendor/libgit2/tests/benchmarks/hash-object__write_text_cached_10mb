@@ -1,0 +1,9 @@
+#!/bin/bash -e
+
+. "$(dirname "$0")/benchmark_helpers.sh"
+
+gitbench --prepare "sandbox_repo empty_standard_repo &&
+                    create_text_file text_10mb 10485760" \
+         --warmup 5 \
+         --chdir "empty_standard_repo" \
+         hash-object "../text_10mb"

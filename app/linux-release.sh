@@ -31,7 +31,7 @@ cp server/beam/tau/boot-lin.sh build/linux_dist/app/server/beam/tau/
 
 # Copy only necessary files for the Qt GUI
 mkdir -p build/linux_dist/app/gui/qt
-cp -r gui/qt/theme build/linux_dist/app/gui/qt/
+cp -r gui/qt/{lang,theme} build/linux_dist/app/gui/qt/
 
 # Copy Qt GUI binary
 mkdir -p build/linux_dist/app/build/gui/qt

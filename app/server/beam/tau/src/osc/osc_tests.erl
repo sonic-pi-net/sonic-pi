@@ -13,7 +13,7 @@
 
 -module(osc_tests).
 
--compile(export_all).
+-export([test0/0, test1/0, test2/0, prepp/1, test3/0]).
 
 -define(APPLICATION, tau).
 

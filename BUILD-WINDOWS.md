@@ -40,11 +40,11 @@ and to run
 In order to build Sonic Pi's various components, we need to install a few
 dependencies:
 
-1. Visual Studio 2019
+1. Visual Studio 2022
 2. Qt (6.2+)
 3. CMake (3.18+)
 4. Ruby (3.1.0+)
-5. Elixir (1.13+)
+5. Elixir (1.14+)
 
 Let's look at each in turn.
 
@@ -56,13 +56,29 @@ and grab a copy of the *free* Community edition:
 
 https://visualstudio.microsoft.com/downloads/
 
+Note that you need to enable the "Desktop development with C++" workload. See: https://learn.microsoft.com/en-us/cpp/build/vscpp-step-0-installation?view=msvc-170#step-4---choose-workloads
+
 
 ### 1.2 Install - Qt
 
 Install the latest version of Qt6 (note that Qt5 may work on Windows but isn't supported) - ensure
 you pick 64 bit options for msvc:
 
-https://download.qt.io/official_releases/qt/6.2/6.2.2/single/qt-everywhere-src-6.2.2.zip
+https://download.qt.io/official_releases/qt/6.4/6.4.1/single/qt-everywhere-src-6.4.1.zip
+
+When selecting Qt components you need: 
+
+* MSVC 2019 64-bit
+* Additional Libraries
+    - Qt Positioning
+    - Qt WebChannel
+    - Qt WebEngine
+    - Qt WebSockets
+
+If you didn't select these components when you first installed Qt, you can
+always open MaintenanceTool.exe (found within the Qt directory) which will
+enable you to update and select/deselect specific components to modify the
+existing installation.
 
 You now need to setup the environment variable `QT_INSTALL_LOCATION` to
 point to Qt's new install location.
@@ -74,10 +90,10 @@ Alternatively, the `setx` command can make global variables. (Note that
 after using `setx` the command line needs to be restarted for it to take
 effect).
 
-For example, if you installed Qt to `C:\Qt\Qt6.2.2` then you could run:
+For example, if you installed Qt to `C:\Qt\Qt6.4.1` then you could run:
 
 ```
-setx QT_INSTALL_LOCATION C:\Qt\6.2.2\msvc2019_64 
+setx QT_INSTALL_LOCATION C:\Qt\6.4.1\msvc2019_64 
 ```
 
 (followed by restarting your command prompt)
@@ -97,9 +113,10 @@ Ruby is needed both for a number of the build steps and as the main
 runtime for the language server. We need to install both it and some
 additional libraries.
 
-Firstly, install the latest version of Ruby (3.1.1 - 64 bit with devkit) from:
+Firstly, install the latest version of Ruby (3.1.3 - 64 bit with devkit) from:
 
-https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-3.1.1-1/rubyinstaller-devkit-3.1.1-1-x64.exe
+https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-3.1.3-1/rubyinstaller-devkit-3.1.3-1-x64.exe
+
 
 Once you have installed Ruby, you need to grab some additional
 libraries. We can do this from the command prompt with the following:
@@ -202,13 +219,13 @@ win-build-all.bat
 Finally, you can run your newly compiled Sonic Pi from the `build` directory:
 
 ```
-Release\sonic-pi.exe
+gui\qt\Release\sonic-pi.exe
 ```
 
 Or from anywhere using the full path:
 
 ```
-C:\dev\sonic-pi\app\build\Release\sonic-pi.exe
+C:\dev\sonic-pi\app\build\gui\qt\Release\sonic-pi.exe
 ```
 
 
@@ -234,7 +251,7 @@ https://in-thread.sonic-pi.net
   correctly
 - If you're already familiar with Visual Studio you should be able to
   take the existing solution file from within the `build` directory
-  and build things with that).
+  and build things with that.
 - For Ruby to work correctly with systems that have their locale set to
   Arabic, you need to modify the registry.rb in your Ruby install to
   force the locale to UTF-8. For more information see:

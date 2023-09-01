@@ -19,7 +19,10 @@
 #include <QBitmap>
 #include <QLabel>
 #include <QLibraryInfo>
+#include <QThread>
+#include <QQuickWindow>
 
+#include <singleapplication.h>
 #include "mainwindow.h"
 
 #include "widgets/sonicpilog.h"
@@ -32,18 +35,30 @@
 
 int main(int argc, char *argv[])
 {
-  std::cout << "Starting Sonic Pi..." << std::endl;
+  if(qgetenv("SONIC_PI_RESTART") != "")
+  {
+      std::cout << "Restarting Sonic Pi..." << std::endl;
+      // Pause for a couple of seconds to enable the previous instance
+      // of Sonic Pi to complete before starting this new replacement
+      // instance. This is to ensure that the two processes don't
+      // conflict with the SingleApplication constraint.
+      QThread::msleep(2000);
+  } else
+  {
+      std::cout << "Starting Sonic Pi..." << std::endl;
+  }
 
 #ifndef Q_OS_DARWIN
   Q_INIT_RESOURCE(SonicPi);
 #endif
 
   QApplication::setAttribute(Qt::AA_DontShowIconsInMenus, true);
+#if QT_VERSION >= 0x060000
+  QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGL);
+#endif
 
 #if defined(Q_OS_LINUX)
   //linux code goes here
-  QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-  QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #elif defined(Q_OS_WIN)
   // windows code goes here
 
@@ -62,7 +77,7 @@ int main(int argc, char *argv[])
   QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 #endif
 
-  QApplication app(argc, argv);
+  SingleApplication app(argc, argv);
 
   QFontDatabase::addApplicationFont(":/fonts/Hack-Regular.ttf");
   QFontDatabase::addApplicationFont(":/fonts/Hack-Italic.ttf");

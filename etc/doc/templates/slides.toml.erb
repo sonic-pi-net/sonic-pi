@@ -1,0 +1,35 @@
+## <%= t_('Sample sliding') %>
+## ====================
+<%=
+t_(<<~TEXT.chomp
+   # The values set below relate to the documentation section on sliding,
+   # that describes what sliding options are, and what each of them do.
+  TEXT
+)
+%>
+[<%= key %>.sliding]
+slide_label = "<%= t_('Slide Options') %>"
+slide_description = '''
+<%=
+t_(<<~TEXT.chomp
+Any parameter that is slidable has three additional options named _slide,
+_slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also
+set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:
+TEXT
+)%>
+'''
+<%
+slide_opts = {
+  :_slide => {:default => 0, :doc=>data_object.generic_slide_doc('parameter')},
+  :_slide_shape => {:default=>5, :doc=>data_object.generic_slide_shape_doc('parameter')},
+  :_slide_curve => {:default=>0, :doc=>data_object.generic_slide_curve_doc('parameter')}
+}
+-%>
+<% slide_opts.each do |name, attributes| %>
+[[<%= key %>.sliding.slide_opts]]
+name = "<%= name %>"
+default = "<%= attributes[:default] %>"
+doc = '''
+<%= t_(attributes[:doc]) %>
+'''
+<% end %>

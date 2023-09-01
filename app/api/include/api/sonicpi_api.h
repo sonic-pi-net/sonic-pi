@@ -38,9 +38,31 @@ struct ProcessedAudio;
 class OscSender;
 class OscServer;
 
+enum class APIInitResult
+{
+    Successful,
+    TerminalError,
+    HomePathNotWritableError
+};
+
+enum class APIBootResult
+{
+    Successful,
+    TerminalError,
+    ScsynthBootError,
+};
+
+enum class BootDaemonInitResult
+{
+    Successful,
+    TerminalError,
+    ScsynthBootError
+};
+
 enum class SonicPiPath
 {
     RootPath,            // Sonic Pi Application root
+    HomePath,            // User-writable home directory root (parent of UserPath).
     UserPath,            // User-writable folder for config/saves etc.
     RubyPath,            // Path to ruby executable
     BootDaemonPath,      // Path to the Boot Daemon script
@@ -52,6 +74,9 @@ enum class SonicPiPath
     TauLogPath,          // Log file for Tau IO Server output
     SCSynthLogPath,      // Log file for SuperCollider scsynth's output
     GUILogPath,          // Log file for GUI
+    ClearLogsPath,       // Path to Ruby script for clearing log dir
+    ConfigPath,          // Base config folder
+    AudioSettingsConfigPath  // Path to toml config file for audio settings
 };
 
 // NOTE: These port names returned by ruby; they match the symbols and cannot be changed.
@@ -126,6 +151,11 @@ struct MessageInfo : MessageData
     std::vector<MessageData> multi;
 };
 
+ struct ScsynthInfo
+ {
+   std::string text;
+ };
+
 enum class MidiType
 {
     Out,
@@ -199,6 +229,9 @@ struct IAPIClient
     virtual void Version(const VersionInfo& info) = 0;
     virtual void AudioDataAvailable(const ProcessedAudio& audio) = 0;
     virtual void Buffer(const BufferInfo& info) = 0;
+    virtual void ActiveLinks(const int numLinks) = 0;
+    virtual void BPM(const double bpm) = 0;
+    virtual void Scsynth(const ScsynthInfo& scsynthInfo) = 0;
 };
 
 // Always UDP
@@ -255,9 +288,18 @@ public:
     virtual ~SonicPiAPI();
 
     // Start the ruby server, connect the ports, find the paths.
-    virtual bool Init(const fs::path& rootPath);
+    virtual APIInitResult Init(const fs::path& rootPath);
+    virtual APIBootResult Boot(bool noScsynthInputs = false);
+
+    virtual void StartClearLogsScript();
 
     virtual void RestartTau();
+
+    virtual bool LinkEnable();
+    virtual bool LinkDisable();
+
+    virtual bool SetLinkBPM(double bpm);
+    virtual void SetGlobalTimeWarp(double time);
 
     // Wait for the server to be in a good state
     virtual bool PingUntilServerCreated();
@@ -289,6 +331,7 @@ public:
     virtual void AudioProcessor_ConsumedAudio();
 
     std::string GetLogs();
+    std::string GetScsynthLog();
 
     const int GetGuid() const;
 
@@ -317,7 +360,7 @@ public:
 private:
     fs::path FindHomePath() const;
 
-    bool StartBootDaemon();
+    BootDaemonInitResult StartBootDaemon(bool noScsynthInputs);
     bool StartOscServer();
     void StopOscServer();
 

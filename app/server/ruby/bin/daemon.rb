@@ -134,7 +134,9 @@ module SonicPi
   module Daemon
     class Init
 
-      def initialize
+      def initialize(opts={})
+        @no_scsynth_inputs = opts[:no_scsynth_inputs]
+
         @exit_prom = Promise.new
         @restart_tau_mut = Mutex.new
         @booting_tau = false
@@ -155,20 +157,19 @@ module SonicPi
         @scsynth_booter  = nil
         @tau_booter      = nil
         @spider_booter   = nil
+        @compton_booter  = nil
 
         # use a value within the valid range for a 32 bit signed complement integer
         @daemon_token =  rand(-2147483647..2147483647)
 
-        Util.open_log
-        Util.log "Welcome to the Daemon Booter"
-
-        # don't worry if there's a problem clearing the logs.
-        begin
-          clear_logs
-        rescue StandardError => e
-          Util.log "Non-critical error clearing logs"
-          Util.log_error(e)
+        if @no_scsynth_inputs
+          Util.log "SuperCollider inputs disabled by GUI"
+        else
+          Util.log "SuperCollider inputs enabled by GUI"
         end
+
+         #start compton to handle transparency (needs to be after Util.open_log)
+        @compton_booter = ComptonBooter.new if Util.os == :raspberry
 
         # Get a map of port numbers to use
         #
@@ -181,8 +182,6 @@ module SonicPi
 
         @kill_switch = KillSwitch.new(@safe_exit)
 
-        boot_tau!(false)
-
         @api_server = SonicPi::OSC::UDPServer.new(@ports["daemon"], suppress_errors: false, name: "Daemon API Server")
         # For debugging purposes:
         # @api_server = SonicPi::OSC::UDPServer.new(@ports["daemon"], suppress_errors: false, name: "Daemon API Server") do |address, args, sender_addrinfo|
@@ -190,13 +189,13 @@ module SonicPi
         # end
 
         @api_server.add_method("/daemon/keep-alive") do |args|
-          if args[0] && args[0] == @daemon_token
+          if args[0] == @daemon_token
             @kill_switch.keep_alive!
           end
         end
 
         @api_server.add_method("/daemon/exit") do |args|
-          if args[0] && args[0] == @daemon_token
+          if args[0] == @daemon_token
             Util.log "[EXIT] Kill switch for port #{@ports["daemon"]} remotely activated using token #{@daemon_token}"
             @safe_exit.exit
           else
@@ -219,6 +218,31 @@ module SonicPi
           end
         end
 
+        Util.log "Booting Scsynth"
+        @scsynth_booter = ScsynthBooter.new(@ports, @no_scsynth_inputs)
+        Util.log "Extracting Scsynth info"
+        success, info = @scsynth_booter.read_info
+        if success
+          Thread.new do
+            # Give GUI chance to start OSC handlers
+            Kernel.sleep 5
+            send_scsynth_info_to_gui!(info)
+          end
+        else
+          Util.log "sending ERROR to gui"
+
+          # Note that this first line has to match sonicpi_api.cpp
+          # within SonicPiAPI::StartBootDaemon()
+          puts "SuperCollider Audio Server Boot Error\n#{info.to_s}"
+          STDOUT.flush
+          @safe_exit.exit
+        end
+
+        boot_tau!(false)
+
+        Util.log "Booting Spider Server"
+        @spider_booter  = SpiderBooter.new(@ports, @daemon_token)
+
         # Let the calling process (likely the GUI) know which port to
         # listen to and communicate on with the Ruby spider server via
         # STDOUT.
@@ -228,18 +252,286 @@ module SonicPi
 
         STDOUT.flush
 
-        Util.log "Booting Scsynth"
-        @scsynth_booter = ScsynthBooter.new(@ports)
-
-        Util.log "Booting Spider Server"
-        @spider_booter  = SpiderBooter.new(@ports, @daemon_token)
-
         Util.log "Blocking main thread until exit signal received..."
         begin
           @exit_prom.get
           Util.log "Exit signal received..."
         rescue
           # Way Out
+        end
+
+      end
+
+      def extract_scsynth_log_info_macos(info)
+        # Number of Devices: 8
+        #    0 : "NDI Audio"
+        #    1 : "MacBook Pro Microphone"
+        #    2 : "MacBook Pro Speakers"
+        #    3 : "NDI Audio"
+        #    4 : "Loopback Audio"
+        #    5 : "Loopback Audio 2"
+        #    6 : "ZoomAudioD"
+        #    7 : "Aggregate Device"
+
+        # "MacBook Pro Microphone" Input Device
+        #    Streams: 1
+        #       0  channels 1
+
+        # "MacBook Pro Speakers" Output Device
+        #    Streams: 1
+        #       0  channels 2
+
+        # SC_AudioDriver: sample rate = 48000.000000, driver's block size = 32
+        # SuperCollider 3 server ready.
+
+        res = info.match  /.*^"(.*)" Input Device\s+Streams: [0-9]+\s+0\s+channels (.*)\s+^"(.*)" Output Device\s+Streams: [0-9]+\s+0\s+channels (.*)\s/u
+
+        ##<MatchData
+        # "\"MacBook Pro Microphone\" Input Device\n   Streams: 1\n      0  channels 1\n\n\"MacBook Pro Speakers\" Output Device\n   Streams: 1\n      0  channels 2\n"
+        # 1:"MacBook Pro Microphone"
+        # 2:"1"
+        # 3:"MacBook Pro Speakers"
+        # 4:"2">
+
+        if res
+          if @scsynth_booter.num_inputs == 0
+            hw_in = "Not connected"
+            hw_in_chans = 0
+          else
+            hw_in = res[1]
+            hw_in_chans = res[2].to_i
+          end
+
+          if @scsynth_booter.num_outputs == 0
+            hw_out = "Not connected"
+            hw_out_chans = 0
+          else
+            hw_out = res[3]
+            hw_out_chans = res[4].to_i
+          end
+
+          info_m = {
+            hw_in: hw_in,
+            hw_out: hw_out,
+            hw_in_chans: hw_in_chans,
+            hw_out_chans: hw_out_chans
+          }
+        else
+          info_m = {}
+        end
+
+        res2 = info.match /.*SC_AudioDriver: sample rate = (.*), driver's block size = (.*)\s/u #'
+
+        ##<MatchData "SC_AudioDriver: sample rate = 48000.000000, driver's block size = 32\n" 1:"48000.000000" 2:"32">
+
+        if res2
+          return info_m.merge({
+                                sc_sample_rate: res2[1].to_i,
+                                sc_block_size: res2[2].to_i
+                              })
+        else
+          return info_m
+        end
+
+      end
+
+      def extract_scsynth_log_info_windows(info)
+        # Device options:
+        #   - MME : Microsoft Sound Mapper - Input   (device #0 with 2 ins 0 outs)
+        #   - MME : In 1-2 (MOTU Pro Audio)   (device #1 with 2 ins 0 outs)
+        #   - MME : Line (NewTek NDI Audio)   (device #2 with 2 ins 0 outs)
+        #   - MME : In 1-24 (MOTU Pro Audio)   (device #3 with 24 ins 0 outs)
+        #   - MME : Microsoft Sound Mapper - Output   (device #4 with 0 ins 2 outs)
+        #   - MME : Realtek Digital Output (Realtek   (device #5 with 0 ins 2 outs)
+        #   - MME : Out 1-24 (MOTU Pro Audio)   (device #6 with 0 ins 24 outs)
+        #   - MME : LG HDR 4K (NVIDIA High Definiti   (device #7 with 0 ins 2 outs)
+        #   - MME : Speakers (MOTU Pro Audio)   (device #8 with 0 ins 2 outs)
+        #   - MME : VP3268-4K (NVIDIA High Definiti   (device #9 with 0 ins 2 outs)
+        #   - Windows DirectSound : Primary Sound Capture Driver   (device #10 with 2 ins 0 outs)
+        #   - Windows DirectSound : In 1-2 (MOTU Pro Audio)   (device #11 with 2 ins 0 outs)
+        #   - Windows DirectSound : Line (NewTek NDI Audio)   (device #12 with 2 ins 0 outs)
+        #   - Windows DirectSound : In 1-24 (MOTU Pro Audio)   (device #13 with 24 ins 0 outs)
+        #   - Windows DirectSound : Primary Sound Driver   (device #14 with 0 ins 2 outs)
+        #   - Windows DirectSound : Realtek Digital Output (Realtek High Definition Audio)   (device #15 with 0 ins 2 outs)
+        #   - Windows DirectSound : Out 1-24 (MOTU Pro Audio)   (device #16 with 0 ins 24 outs)
+        #   - Windows DirectSound : LG HDR 4K (NVIDIA High Definition Audio)   (device #17 with 0 ins 2 outs)
+        #   - Windows DirectSound : Speakers (MOTU Pro Audio)   (device #18 with 0 ins 2 outs)
+        #   - Windows DirectSound : VP3268-4K (NVIDIA High Definition Audio)   (device #19 with 0 ins 2 outs)
+        #   - ASIO : MOTU Pro Audio   (device #20 with 24 ins 6 outs)
+        #   - Windows WASAPI : Out 1-24 (MOTU Pro Audio)   (device #21 with 0 ins 24 outs)
+        #   - Windows WASAPI : Realtek Digital Output (Realtek High Definition Audio)   (device #22 with 0 ins 2 outs)
+        #   - Windows WASAPI : LG HDR 4K (NVIDIA High Definition Audio)   (device #23 with 0 ins 2 outs)
+        #   - Windows WASAPI : Speakers (MOTU Pro Audio)   (device #24 with 0 ins 2 outs)
+        #   - Windows WASAPI : VP3268-4K (NVIDIA High Definition Audio)   (device #25 with 0 ins 2 outs)
+        #   - Windows WASAPI : Line (NewTek NDI Audio)   (device #26 with 2 ins 0 outs)
+        #   - Windows WASAPI : In 1-2 (MOTU Pro Audio)   (device #27 with 2 ins 0 outs)
+        #   - Windows WASAPI : In 1-24 (MOTU Pro Audio)   (device #28 with 24 ins 0 outs)
+        #   - Windows WDM-KS : Microphone (Realtek HD Audio Mic input)   (device #29 with 2 ins 0 outs)
+        #   - Windows WDM-KS : SPDIF Out (Realtek HDA SPDIF Out)   (device #30 with 0 ins 2 outs)
+        #   - Windows WDM-KS : Speakers (Realtek HD Audio output)   (device #31 with 0 ins 8 outs)
+        #   - Windows WDM-KS : Line In (Realtek HD Audio Line input)   (device #32 with 2 ins 0 outs)
+        #   - Windows WDM-KS : Stereo Mix (Realtek HD Audio Stereo input)   (device #33 with 2 ins 0 outs)
+        #   - Windows WDM-KS : Output (NVIDIA High Definition Audio)   (device #34 with 0 ins 2 outs)
+        #   - Windows WDM-KS : Output (NVIDIA High Definition Audio)   (device #35 with 0 ins 2 outs)
+        #   - Windows WDM-KS : In 1-2 (In 1-2)   (device #36 with 2 ins 0 outs)
+        #   - Windows WDM-KS : In 1-24 (In 1-24)   (device #37 with 24 ins 0 outs)
+        #   - Windows WDM-KS : Out 1-2 (Out 1-2)   (device #38 with 0 ins 2 outs)
+        #   - Windows WDM-KS : Out 1-24 (Out 1-24)   (device #39 with 0 ins 24 outs)
+        #   - Windows WDM-KS : Line (Aud #1)   (device #40 with 2 ins 0 outs)
+
+        # Requested devices:
+        #   In (matching device found):
+        #   - ASIO : MOTU Pro Audio
+        #   Out (matching device found):
+        #   - ASIO : MOTU Pro Audio
+
+
+        # Booting with:
+        #   In: ASIO : MOTU Pro Audio
+        #   Out: ASIO : MOTU Pro Audio
+        #   Sample rate: 48000.000
+        #   Latency (in/out): 0.003 / 0.004 sec
+        # SC_AudioDriver: sample rate = 48000.000000, driver's block size = 64
+        # SuperCollider 3 server ready.
+
+        booting_with = info.split("Booting with")[1] || ""
+        res = booting_with.match /^\s+In: (.*)\s+^\s+Out: (.*)\s+^\s+Sample rate: (.*)\s+^\s+Latency \(in\/out\): (.*) \/ (.*) sec/u
+
+        res_no_input = booting_with.match /^\s+Out: (.*)\s+^\s+Sample rate: (.*)\s+^\s+Latency \(in\/out\): (.*) \/ (.*) sec/u
+
+        res_no_output = booting_with.match /^\s+In: (.*)\s+^\s+Sample rate: (.*)\s+^\s+Latency \(in\/out\): (.*) \/ (.*) sec/u
+        #<MatchData
+        # "  In: ASIO : MOTU Pro Audio\n  Out: ASIO : MOTU Pro Audio\n  Sample rate: 48000.000\n  Latency (in/out): 0.003 / 0.004 sec"
+        # 1:"ASIO : MOTU Pro Audio"
+        # 2:"ASIO : MOTU Pro Audio"
+        # 3:"48000.000"
+        # 4:"0.003"
+        # 5:"0.004">
+        Util.log "scsynth log match - res: #{res.inspect}, res_no_input: #{res_no_input.inspect}, res_no_output: #{res_no_output.inspect}"
+        if res
+          info_m = {
+            hw_in: res[1],
+            hw_out: res[2],
+            hw_sample_rate: res[3].to_i,
+            hw_latency_in: res[4].to_f,
+            hw_latency_out: res[5].to_f
+          }
+          Util.log "Extracted Windows in/out audio hw: #{info_m}"
+        elsif res_no_input
+          info_m = {
+            hw_in: "Not connected",
+            hw_out: res_no_input[1],
+            hw_sample_rate: res_no_input[2].to_i,
+            hw_latency_in: res_no_input[3].to_f,
+            hw_latency_out: res_no_input[4].to_f
+          }
+          Util.log "Extracted Windows in audio hw only: #{info_m}"
+        elsif res_no_output
+          info_m = {
+            hw_in: res_no_output[1],
+            hw_out: "Not connected",
+            hw_sample_rate: res_no_output[2].to_i,
+            hw_latency_in: res_no_output[3].to_f,
+            hw_latency_out: res_no_output[4].to_f
+          }
+          Util.log "Extracted Windows out audio hw only: #{info_m}"
+        else
+          info_m = {}
+        end
+
+        res2 = booting_with.match /.*SC_AudioDriver: sample rate = (.*), driver's block size = (.*)\s/u #'
+
+        ##<MatchData "SC_AudioDriver: sample rate = 48000.000000, driver's block size = 64\n" 1:"48000.000000" 2:"64">
+
+        if res2
+          return info_m.merge({ sc_sample_rate: res2[1].to_i,
+                                sc_block_size:  res2[2].to_i })
+        else
+          return info_m
+        end
+      end
+
+      def extract_scsynth_log_info_linux(info)
+        # # Starting SuperCollider 2022-04-12 23:23:04
+        # Found 0 LADSPA plugins
+        # jackdmp 1.9.19
+        # Copyright 2001-2005 Paul Davis and others.
+        # Copyright 2004-2016 Grame.
+        # Copyright 2016-2021 Filipe Coelho.
+        # jackdmp comes with ABSOLUTELY NO WARRANTY
+        # This is free software, and you are welcome to redistribute it
+        # under certain conditions; see the file COPYING for details
+        # JackDriver: client name is 'SuperCollider'
+        # SC_AudioDriver: sample rate = 48000.000000, driver's block size = 2048
+        # SuperCollider 3 server ready."
+
+        res = info.match(/.*sample rate = (.*?), driver's block size = (.*?)\nSuperCollider 3/u)
+
+        if res
+          return {sc_sample_rate: res[1].to_i, sc_block_size: res[2].to_i}
+        else
+          return {}
+        end
+      end
+
+      def extract_scsynth_log_info(info)
+        case Util.os
+        when :macos
+          return extract_scsynth_log_info_macos(info)
+        when :windows
+          return extract_scsynth_log_info_windows(info)
+        when :linux, :raspberry
+          return extract_scsynth_log_info_linux(info)
+        else
+          return {}
+        end
+      end
+
+      def scsynth_log_str(info_m)
+        i = info_m
+        res = String.new("")
+
+        if i[:hw_out]
+          if i[:hw_out_chans]
+            res += "Out [#{i[:hw_out_chans]} ch]: #{i[:hw_out]}"
+          else
+            res += "Out: #{i[:hw_out]}"
+          end
+        end
+
+        if i[:hw_in]
+          if i[:hw_in_chans]
+            res += "\nIn [#{i[:hw_in_chans]} ch]: #{i[:hw_in]}"
+          else
+            res += "\nIn: #{i[:hw_in]}"
+          end
+        end
+
+        latency_in  = i[:hw_latency_in]
+        latency_out = i[:hw_latency_out]
+        block_size  = i[:sc_block_size]
+
+        res += "\nSample Rate: #{i[:hw_sample_rate] || i[:sc_sample_rate]}"
+        res += "\nBlock Size: #{block_size}"   if block_size  && block_size  > 0
+        res += "\nLatency In: #{latency_in}"   if latency_in  && latency_in  > 0
+        res += "\nLatency Out: #{latency_out}" if latency_out && latency_out > 0
+
+        res.strip!
+        res
+      end
+
+      def send_scsynth_info_to_gui!(info_s)
+        begin
+          info_m = extract_scsynth_log_info(info_s)
+          hw_info_s = scsynth_log_str(info_m)
+
+          Util.log "Sending scsynth info to GUI..."
+          Util.log info_m
+          Util.log hw_info_s
+          @api_server.send("localhost", @ports["gui-listen-to-spider"], "/scsynth/info", hw_info_s)
+        rescue => e
+          Util.log "Exception sending scsynth info to gui:"
+          Util.log_error(e)
         end
       end
 
@@ -277,7 +569,7 @@ module SonicPi
       end
 
       def cleanup_any_running_processes
-        [@spider_booter, @scsynth_booter, @tau_booter].map do |p|
+        [@spider_booter, @scsynth_booter, @tau_booter,  @compton_booter].map do |p|
           Thread.new do
             begin
               p.kill if p
@@ -287,68 +579,6 @@ module SonicPi
             end
           end
         end.each { |t| t.join }
-      end
-
-
-      # Copy contents of current logs to a rotating
-      # backup directory and clear ready for a new
-      # run.
-      #
-      # TODO: Handle the case where the log path isn't writable.
-      def clear_logs
-        Util.log "Clearing logs"
-        # ensure this list matches set of expected log files should more services/aspects be similarly logged.
-        expected_logs = [
-          "daemon.log",
-          "debug.log",
-          "gui.log",
-          "scsynth.log",
-          "spider.log",
-          "tau.log"]
-
-        # Windows doesn't allow certain chars in file paths
-        # which are present in the default Time.now string format.
-        # therefore remove them.
-        sanitised_time_str = Time.now.to_s.gsub!(/[^0-9a-zA-Z-]/, '_')
-        history_dir = File.absolute_path("#{Paths.log_history_path}/#{sanitised_time_str}")
-        Util.log "Storing previous log files into #{history_dir}"
-        FileUtils.mkdir_p(history_dir)
-
-        Dir["#{Paths.log_path}/*.log"].each do |p|
-          FileUtils.cp(p, "#{history_dir}/")
-          # Copy log to history directory
-          if expected_logs.include?(File.basename(p))
-            # (don't remove the expected log files, just empty them)
-            File.open(p, 'w') {|file| file.truncate(0) }
-          else
-            begin
-              FileUtils.rm p
-            rescue
-            end
-          end
-        end
-
-        # clean up old history logs
-        # only store the last 10 sessions
-        num_sessions_to_store = 10
-
-        history_dirs = Dir.glob("#{Paths.log_history_path}/*")
-
-        begin
-          history_dirs = history_dirs.sort {|d| File.birthtime(d) }
-        rescue
-          nil
-        end
-
-        Util.log "history dirs timestamps: #{history_dirs.inspect}"
-        num_history_dirs = history_dirs.size
-        num_to_drop = num_history_dirs - num_sessions_to_store
-
-        if num_to_drop.positive?
-          history_dirs.take(num_to_drop).each do |dir_path|
-            FileUtils.rm_rf(dir_path)
-          end
-        end
       end
     end
 
@@ -394,12 +624,12 @@ module SonicPi
 
       def self.os
         case RUBY_PLATFORM
-        when /.*arm.*-linux.*/
-          :raspberry
-        when /aarch64.*linux.*/
-          :raspberry
         when /.*linux.*/
-          :linux
+          if File.exist?('/etc/rpi-issue')
+            :raspberry
+          else
+            :linux
+          end
         when /.*darwin.*/
           :macos
         when /.*mingw.*/
@@ -508,12 +738,14 @@ module SonicPi
     end
 
     class ProcessBooter
-      attr_reader :pid, :args, :cmd
-      def initialize(cmd, args, log_path)
+      attr_reader :pid, :args, :cmd, :log
+      def initialize(cmd, args, log_path, record_log=false)
         @pid = nil
         @log_file = nil
         @args = args.map {|el| el.to_s}
         @cmd = cmd
+        @log = ""
+        @record_log = record_log
         if log_path
           begin
             @log_file = File.open(log_path, 'a')
@@ -538,6 +770,14 @@ module SonicPi
         "<ProcessBooter - cmd: #{@cmd}, pid: #{@pid.inspect}, args: #{@args.inspect}>"
       end
 
+      def enable_internal_log_recording!
+        @record_log = true
+      end
+
+      def disable_internal_log_recording!
+        @record_log = false
+      end
+
       def boot
         Util.log "Process Booter - booting #{@cmd} with args #{@args.inspect}"
         Util.log "#{@cmd} #{@args.join(' ')}"
@@ -547,8 +787,11 @@ module SonicPi
           @io_thr = Thread.new do
             @stdout_and_err.each do |line|
               begin
+                line = line.force_encoding("UTF-8")
                 @log_file << line
                 @log_file.flush
+                @log << line if @record_log
+                Util.log "[#{File.basename(@cmd, ".*")}] #{line}"
               rescue IOError
                 # don't attempt to write
               end
@@ -679,59 +922,61 @@ module SonicPi
 
 
         begin
-          Util.log "fetching toml opts"
+          Util.log "Fetching Tau toml opts..."
           toml_opts_hash = Tomlrb.load_file(Paths.user_tau_settings_path, symbolize_keys: true).freeze
-          Util.log "got them: #{toml_opts_hash}"
+          Util.log "Got Tau toml opts: #{toml_opts_hash}"
           unified_opts = unify_tau_toml_opts(toml_opts_hash)
-          Util.log "unified them: #{unified_opts}"
+          Util.log "Unified Tau toml opts: #{unified_opts}"
         rescue StandardError
           unified_opts = {}
         end
 
-        cues_on                        = true
-        osc_in_udp_loopback_restricted = false
-        midi_on                        = true
-        link_on                        = true
-        osc_in_udp_port                = ports["osc-cues"]
-        api_port                       = ports["tau"]
-        spider_port                    = ports["spider-listen-to-tau"]
-        daemon_port                    = ports["daemon"]
-        midi_enabled                   = true
-        link_enabled                   = true
-        phx_secret_key_base            = SecureRandom.base64(64)
-        env                            = ENV["SONIC_PI_ENV"] || unified_opts[:env] || "prod"
-        @phx_port                      = unified_opts[:phx_port] || ports["phx"]
+        @phx_port = unified_opts[:phx_port] || ports["phx"]
 
-        Util.log "Daemon listening to info from Tau on port #{daemon_port}"
+        Util.log "Daemon listening to info from Tau on port #{ports["daemon"]}"
 
-
-
-        args = [
-          cues_on,
-          osc_in_udp_loopback_restricted,
-          midi_on,
-          link_on,
-          osc_in_udp_port,
-          api_port,
-          spider_port,
-          daemon_port,
-          Paths.tau_log_path,
-          midi_enabled,
-          link_enabled,
-          phx_port,
-          phx_secret_key_base,
-          token,
-          env
-        ]
+        ENV["TAU_CUES_ON"]                        = "true"
+        ENV["TAU_OSC_IN_UDP_LOOPBACK_RESTRICTED"] = "true"
+        ENV["TAU_MIDI_ON"]                        = "true"
+        ENV["TAU_LINK_ON"]                        = "true"
+        ENV["TAU_OSC_IN_UDP_PORT"]                = "#{ports["osc-cues"]}"
+        ENV["TAU_API_PORT"]                       = "#{ports["tau"]}"
+        ENV["TAU_SPIDER_PORT"]                    = "#{ports["spider-listen-to-tau"]}"
+        ENV["TAU_DAEMON_PORT"]                    = "#{ports["daemon"]}"
+        ENV["TAU_MIDI_ENABLED"]                   = "true"
+        ENV["TAU_LINK_ENABLED"]                   = "true"
+        ENV["SECRET_KEY_BASE"]                    = "#{SecureRandom.base64(64)}"
+        ENV["TAU_DAEMON_TOKEN"]                   = "#{token}"
+        ENV["TAU_ENV"]                            = "#{ENV["SONIC_PI_ENV"] || unified_opts[:env] || "prod"}"
+        ENV["MIX_ENV"]                            = ENV["TAU_ENV"]
+        ENV["TAU_PHX_PORT"]                       = "#{@phx_port}"
+        ENV["TAU_LOG_PATH"]                       = "#{Paths.tau_log_path}"
+        ENV["TAU_BOOT_LOG_PATH"]                  = "#{Paths.tau_boot_log_path}"
 
         if Util.os == :windows
-          cmd = Paths.mix_release_boot_path
+          if ENV["TAU_ENV"] == "prod"
+            ENV["RELEASE_SYS_CONFIG"] = "#{Paths.tau_release_sys_config_path}"
+            ENV["RELEASE_ROOT"]       = "#{Paths.tau_release_root}"
+
+            cmd = "#{Paths.tau_release_erl_bin_path}".gsub('/', '\\')
+            args = ["-config",                  "#{Paths.tau_release_sys_path}".gsub('/', "\\"),
+                    "-boot",                    "#{Paths.tau_release_start_path}".gsub('/', "\\"),
+                    "-boot_var", "RELEASE_LIB", "#{Paths.tau_release_lib_path}".gsub('/', "\\"),
+                    "-args_file",               "#{Paths.tau_release_vm_args_path}".gsub('/', "\\"),
+                    "-noshell",
+                    "-s", "elixir", "start_cli",
+                    "-mode",    "embedded",
+              "-extra",   "--no-halt"]
+          else
+            cmd = Paths.tau_boot_path
+            args = []
+          end
         else
           cmd = "sh"
-          args = [Paths.mix_release_boot_path] + args
+          args = [Paths.tau_boot_path]
         end
 
-        super(cmd, args, nil)
+        super(cmd, args, Paths.tau_boot_log_path)
       end
 
       def restart!
@@ -789,8 +1034,18 @@ module SonicPi
       end
     end
 
+    class ComptonBooter < ProcessBooter
+      def initialize
+        cmd = "compton"
+        args = []
+        log_file = nil
+        super(cmd, args, log_file)
+      end
+    end
 
     class ScsynthBooter < ProcessBooter
+
+      attr_reader :num_inputs, :num_outputs
 
       DEFAULT_OPTS = {
         "-a" => "1024",
@@ -815,8 +1070,12 @@ module SonicPi
         }.freeze
         when :windows
           {
-          "-U" => Paths.scsynth_windows_plugin_path
-        }.freeze
+            "-U" => Paths.scsynth_windows_plugin_path
+          }.freeze
+        when :macos
+          {
+            "-U" => Paths.scsynth_macos_plugin_path
+          }.freeze
         else
           {
         }.freeze
@@ -842,8 +1101,18 @@ module SonicPi
       }.freeze
 
 
-      def initialize(ports)
+      def initialize(ports, no_scsynth_inputs=false)
+        enable_internal_log_recording!
         @port = ports["scsynth"]
+
+        if no_scsynth_inputs
+          scsynth_inputs_hash = {"-i" => "0"}
+        else
+          scsynth_inputs_hash = {}
+        end
+
+        @boot_wait_mutex = Mutex.new
+
         begin
           toml_opts_hash = Tomlrb.load_file(Paths.user_audio_settings_path, symbolize_keys: true).freeze
         rescue StandardError => e
@@ -860,20 +1129,90 @@ module SonicPi
           toml_opts_hash = {}
         end
 
+        Util.log "Got Audio Settings toml hash: #{toml_opts_hash.inspect}"
         opts = unify_toml_opts_hash(toml_opts_hash)
-        opts = merge_opts(opts)
+        Util.log "Unified Audio Settings toml hash: #{opts.inspect}"
+        opts = scsynth_inputs_hash.merge(opts)
+        Util.log "Combined Audio Settings toml hash with GUI scsynth inputs hash: #{opts.inspect}"
+        opts = merge_opts(toml_opts_hash, opts)
+        Util.log "Merged Audio Settings toml hash: #{opts.inspect}"
         @num_inputs = opts["-i"].to_i
         @num_outputs = opts["-o"].to_i
         args = opts.to_a.flatten
         cmd = Paths.scsynth_path
+        @success = Promise.new
         run_pre_start_commands
-        super(cmd, args, Paths.scsynth_log_path)
+        super(cmd, args, Paths.scsynth_log_path, true)
         run_post_start_commands
+        success = wait_for_boot
+        disable_internal_log_recording!
+
+        success
+      end
+
+      def wait_for_boot
+        return @success.get if @success.delivered?
+        @boot_wait_mutex.synchronize do
+          return @success.get if @success.delivered?
+
+          Util.log "Waiting for the SuperCollider Server to have booted..."
+          connected = false
+          continue_pinging = true
+
+          boot_s = OSC::UDPServer.new(0, name: "Scsynth ack server") do |a, b, info|
+            Util.log "Receiving ack from scsynth"
+            @success.deliver! true unless connected
+            continue_pinging = false
+            connected = true
+          end
+
+          t = Thread.new do
+            while continue_pinging
+              begin
+                if process_running?
+                  Util.log "Sending /status to server: localhost:#{@port}"
+                  boot_s.send("localhost", @port, "/status")
+                else
+                  @success.deliver! false
+                  continue_pinging = false
+                end
+              rescue Exception => e
+                Util.log "Error sending /status to server: #{e.message}"
+              end
+              sleep 1
+            end
+          end
+
+          begin
+            success = @success.get(30)
+            if success
+              Util.log "SuperCollider Server connection established"
+              return true
+            else
+              Util.log "Unable to connect to SuperCollider"
+              return false
+            end
+          rescue StandardError => e
+            Util.log "Unable to connect to SuperCollider Audio Server (#{e.message})."
+            @success.deliver! false, false
+            t.kill
+            return false
+          end
+        end
       end
 
       def kill
         @jack_booter.kill if @jack_booter
         super
+      end
+
+      def read_info
+        success = wait_for_boot
+        [success, @log]
+      end
+
+      def read_log
+        @log
       end
 
       def run_pre_start_commands
@@ -945,10 +1284,10 @@ module SonicPi
         opts
       end
 
-      def merge_opts(opts)
+      def merge_opts(toml_opts_hash, opts)
         # extract scsynth opts override
         begin
-          clobber_opts_a = Shellwords.split(opts.fetch(:scsynth_opts_override, ""))
+          clobber_opts_a = Shellwords.split(toml_opts_hash.fetch(:scsynth_opts_override, ""))
           scsynth_opts_override = clobber_opts_a.each_slice(2).to_h
         rescue
           scsynth_opts_override = {}
@@ -956,7 +1295,7 @@ module SonicPi
 
         # extract scsynth opts
         begin
-          scsynth_opts_a = Shellwords.split(opts.fetch(:scsynth_opts, ""))
+          scsynth_opts_a = Shellwords.split(toml_opts_hash.fetch(:scsynth_opts, ""))
           scsynth_opts = scsynth_opts_a.each_slice(2).to_h
         rescue
           scsynth_opts = {}
@@ -972,7 +1311,16 @@ module SonicPi
           # reduce number of outputs to 0 if outputs are disabled
           merged_opts["-o"] = 0 if merged_opts["-O"] == "0"
 
-          return merged_opts
+          case Util.os
+          when :macos
+            return merged_opts
+          else
+            # -I and -O to enable/disable input/output respectively is
+            # only available on macOS
+            merged_opts.delete("-I")
+            merged_opts.delete("-O")
+            return merged_opts
+          end
         else
           return scsynth_opts_override
         end
@@ -1117,9 +1465,21 @@ module SonicPi
   end
 end
 
+
+
 begin
-  SonicPi::Daemon::Init.new
+  SonicPi::Daemon::Util.open_log
+  SonicPi::Daemon::Util.log "Welcome to the Daemon Booter"
+  SonicPi::Daemon::Util.log "----------------------------\n"
+
+  if ARGV[0] == "--no-scsynth-inputs"
+    SonicPi::Daemon::Init.new(no_scsynth_inputs: true)
+  else
+    SonicPi::Daemon::Init.new
+  end
 rescue StandardError => e
   SonicPi::Daemon::Util.log "[BUG] - ** Daemon Internal Error. **"
   SonicPi::Daemon::Util.log_error(e)
+else
+  SonicPi::Daemon::Util.log "Daemon Finished. Cheerio."
 end

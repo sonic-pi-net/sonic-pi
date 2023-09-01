@@ -26,10 +26,15 @@ class PhxWebView : public QWebEngineView
 
  public:
     PhxWebView(QWidget *parent = nullptr);
+    void setScrollbarColours(QColor foreground, QColor background, QColor hover);
 
  private:
+    void insertStyleSheet(const QString& name, const QString& source);
+
     QWebEngineProfile *phxProfile;
     QWebEnginePage *phxPage;
+
+
 };
 
 #endif // PHXWEBVIEW_H

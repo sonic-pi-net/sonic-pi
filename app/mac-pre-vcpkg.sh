@@ -30,8 +30,10 @@ cd "${SCRIPT_DIR}"
 # Build vcpkg
 if [ ! -d "vcpkg" ]; then
     echo "Cloning vcpkg"
-    git clone --depth 1 --branch 2022.02.02  https://github.com/microsoft/vcpkg.git vcpkg
+    git clone --depth 1 --branch 2023.06.20 https://github.com/microsoft/vcpkg.git vcpkg
 fi
+
+export VCPKG_ROOT="$SCRIPT_DIR/vcpkg"
 
 if [ ! -f "vcpkg/vcpkg" ]; then
     echo "Building vcpkg"
@@ -41,12 +43,21 @@ if [ ! -f "vcpkg/vcpkg" ]; then
 fi
 
 cd vcpkg
-triplet=(x64-osx)
+
+
+if [[ $(uname -m) == 'arm64' ]] || [ "$SONIC_PI_BUILD_TARGET" == 'arm64' ]
+then
+  triplet=(arm64-osx)
+else
+  triplet=(x64-osx)
+fi
+
+
 
 if [ "$no_imgui" == true ]; then
-    ./vcpkg install kissfft crossguid platform-folders reproc catch2 --triplet ${triplet[0]} --recurse
+    ./vcpkg install libsndfile[core,external-libs] kissfft crossguid platform-folders reproc catch2 --triplet ${triplet[0]} --recurse
 else
-    ./vcpkg install kissfft fmt sdl2 gl3w reproc gsl-lite concurrentqueue platform-folders catch2 --triplet ${triplet[0]} --recurse
+    ./vcpkg install libsndfile[core,external-libs] kissfft fmt sdl2 gl3w reproc gsl-lite concurrentqueue platform-folders catch2 --triplet ${triplet[0]} --recurse
 fi
 
 

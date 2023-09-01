@@ -670,9 +670,11 @@ sleep rt(2)             # still sleeps for 2 seconds"]
           accepts_block:  true,
           requires_block: true,
           examples:       ["use_bpm 120
-play 50, release: 2 # release is actually 1 due to bpm scaling
+play 50, release: 2   # release is actually 1 due to bpm scaling
+sleep 2               # actually sleeps for 1 second 
 with_arg_bpm_scaling false do
   play 50, release: 2 # release is now 2
+  sleep 2             # still sleeps for 1 second
 end",
 
         "                         # Interaction with rt
@@ -1061,6 +1063,10 @@ set_mixer_control! lpf: 30, lpf_slide: 16 # slide the global lpf to 30 over 16 b
         @mod_sound_studio.mixer_mono_mode
       end
 
+      def set_mixer_global_timewarp!(time)
+        @mod_sound_studio.set_global_timewarp!(time)
+      end
+
 
       def synth(synth_name, *args, &blk)
         synth_name = current_synth unless synth_name
@@ -1255,11 +1261,12 @@ Accepts optional args for modification of the synth being played. See each synth
           accepts_block: false,
           examples:      ["
 play_pattern [40, 41, 42] # Same as:
-                          #   play 40
+                          #   play 40, sustain: 1
                           #   sleep 1
-                          #   play 41
+                          #   play 41, sustain: 1
                           #   sleep 1
-                          #   play 42
+                          #   play 42, sustain: 1
+                          #   sleep 1
 ",
         "play_pattern [:d3, :c1, :Eb5] # You can use keyword notes",
 
@@ -1285,62 +1292,75 @@ play_pattern [40, 41, 42] # Same as:
       doc name:          :play_pattern_timed,
           introduced:    Version.new(2,0,0),
           summary:       "Play pattern of notes with specific times",
-          doc:           "Play each note in a list of notes one after another with specified times between them. The notes should be a list of MIDI numbers, symbols such as :E4 or chords such as chord(:A3, :major) - identical to the first parameter of the play function. The times should be a list of times between the notes in beats.
+          doc:           "Play each note in a list of notes one after another with specified durations. The notes should be a list of MIDI numbers, symbols such as :E4 or chords such as chord(:A3, :major) - identical to the first parameter of the play function. The times should be a list of durations for each note in beats.
 
-If the list of times is smaller than the number of gaps between notes, the list is repeated again. If the list of times is longer than the number of gaps between notes, then some of the times are ignored. See examples for more detail.
+If the list of times is smaller than the number of notes, the list is repeated again. If the list of times is longer than the number of notes, then some of the times are ignored. See examples for more detail.
 
 Accepts optional args for modification of the synth being played. See each synth's documentation for synth-specific opts. See `use_synth` and `with_synth` for changing the current synth.",
           args:          [[:notes, :list], [:times, :list_or_number]],
           opts:          DEFAULT_PLAY_OPTS,
           accepts_block: false,
           examples:      ["
-play_pattern_timed [40, 42, 44, 46], [1, 2, 3]
+play_pattern_timed [40, 42, 44], [1, 2, 3]
 
 # same as:
 
-play 40
+play 40, sustain: 1
 sleep 1
-play 42
+play 42, sustain: 2
 sleep 2
-play 44
-sleep 3
-play 46",
+play 44, sustain: 3
+sleep 3",
 
         "play_pattern_timed [40, 42, 44, 46, 49], [1, 0.5]
 
 # same as:
 
-play 40
+play 40, sustain: 1
 sleep 1
-play 42
+play 42, sustain: 0.5
 sleep 0.5
-play 44
+play 44, sustain: 1
 sleep 1
-play 46
+play 46, sustain: 0.5
 sleep 0.5
-play 49",
+play 49, sustain: 1
+sleep 1",
 
         "play_pattern_timed [40, 42, 44, 46], [0.5]
 
 # same as:
 
-play 40
+play 40, sustain: 0.5
 sleep 0.5
-play 42
+play 42, sustain: 0.5
 sleep 0.5
-play 44
+play 44, sustain: 0.5
 sleep 0.5
-play 46",
+play 46, sustain: 0.5
+sleep 0.5",
 
         "play_pattern_timed [40, 42, 44], [1, 2, 3, 4, 5]
 
-#same as:
+# same as:
+
+play 40, sustain: 1
+sleep 1
+play 42, sustain: 2
+sleep 2
+play 44, sustain: 3
+sleep 3",
+
+        "play_pattern_timed [40, 42, 44], [1, 2, 3], sustain: 0
+
+# effectively same as:
 
 play 40
 sleep 1
 play 42
 sleep 2
-play 44"]
+play 44
+sleep 3"]
 
 
 
@@ -2018,7 +2038,7 @@ puts current_volume #=> 2"]
 
 
       def current_debug
-        __thread_locals.get(:sonic_pi_mod_sound_synth_silent)
+        !__thread_locals.get(:sonic_pi_mod_sound_synth_silent)
       end
       doc name:          :current_debug,
           introduced:    Version.new(2,0,0),
@@ -2890,7 +2910,7 @@ l = lambda {|c| puts c ; c[0]}                          # define a lambda which 
                                                         # the same as using onset: 0 with the side effect of also printing out
                                                         # the full ring of onsets:
 
-sample :loop_tabla, onset: l                            # (ring {:start=>0.0, :finish=>0.0076}, {:start=>0.0076, :finish 0.015}...)
+sample :loop_tabla, onset: l                            # (ring {:start=>0.0, :finish=>0.015110842894865981, :index=>0}, {:start=>0.015110842894865981, :finish=>0.030374580804422135, :index=>1}...)
 
                                                         # We are therefore free to define this lambda to do anything we want.
                                                         # This gives us very powerful control over the choice of onset. It is
@@ -3293,7 +3313,7 @@ kill bar"]
         elsif !File.file?(path)
           raise "load_synthdef requires a .scsyndef file. You passed the folder: #{path}
  (Consider using load_synthdefs to load a whole folder of synths)"
-        elsif !File.extname(path) != 'scsyndef'
+        elsif File.extname(path) != '.scsyndef'
           raise "load_synthdef file path argument must have the extension .scsyndef. Got: #{File.basename(path)}"
         else
           @mod_sound_studio.load_synthdef(path)

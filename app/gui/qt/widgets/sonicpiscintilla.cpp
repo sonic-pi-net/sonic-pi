@@ -13,9 +13,7 @@
 
 #include "profiler.h"
 #include "sonicpiscintilla.h"
-#include "osc/oscsender.h"
 #include "dpi.h"
-#include <QRecursiveMutex>
 #include <QSettings>
 #include <QShortcut>
 #include <QDrag>
@@ -25,6 +23,9 @@
 #include <Qsci/qscilexer.h>
 #include <QCheckBox>
 #include <QRegularExpression>
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
+#include <QRecursiveMutex>
+#endif
 
 SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme, QString fileName, bool autoIndent)
   : QsciScintilla()
@@ -38,7 +39,11 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme, QSt
   standardCommands()->clearAlternateKeys();
   QString skey;
   QSettings settings(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net", "gui-keys-bindings");
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
   mutex = new QRecursiveMutex();
+#else
+  mutex = new QMutex(QMutex::Recursive);
+#endif
 
 #if defined(Q_OS_MAC)
   int SPi_CTRL = Qt::META;
@@ -674,4 +679,12 @@ void SonicPiScintilla::showAutoCompletion(bool val) {
     } else {
     setAutoCompletionThreshold(-1);
   }
+}
+
+void SonicPiScintilla::setText(const QString &text) {
+  SendScintilla(SCI_SETTEXT, ScintillaBytesConstData(textAsBytes(text)));
+}
+
+void SonicPiScintilla::setAutoIndentEnabled(bool enabled) {
+  this->autoIndent = enabled;
 }

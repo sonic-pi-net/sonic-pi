@@ -1,0 +1,84 @@
+ARG BASE=ubuntu:xenial
+
+FROM ${BASE} AS apt
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+        bzip2 \
+        clang \
+        cmake \
+        curl \
+	gettext \
+        gcc \
+        krb5-user \
+        libcurl4-gnutls-dev \
+	libexpat1-dev \
+        libgcrypt20-dev \
+	libintl-perl \
+        libkrb5-dev \
+        libpcre3-dev \
+        libssl-dev \
+        libz-dev \
+        make \
+        ninja-build \
+        openjdk-8-jre-headless \
+        openssh-server \
+        openssl \
+        pkgconf \
+        python \
+        sudo \
+        valgrind \
+        && \
+    rm -rf /var/lib/apt/lists/*
+
+FROM apt AS git
+RUN cd /tmp && \
+    curl --location --silent --show-error https://github.com/git/git/archive/refs/tags/v2.39.1.tar.gz | \
+        tar -xz && \
+    cd git-2.39.1 && \
+    make && \
+    make prefix=/usr install && \
+    cd .. && \
+    rm -rf git-2.39.1
+
+FROM git AS mbedtls
+RUN cd /tmp && \
+    curl --location --silent --show-error https://github.com/Mbed-TLS/mbedtls/archive/refs/tags/mbedtls-2.16.2.tar.gz | \
+        tar -xz && \
+    cd mbedtls-mbedtls-2.16.2 && \
+    scripts/config.pl set MBEDTLS_MD4_C 1 && \
+    CFLAGS=-fPIC cmake -G Ninja -DENABLE_PROGRAMS=OFF -DENABLE_TESTING=OFF -DUSE_SHARED_MBEDTLS_LIBRARY=OFF -DUSE_STATIC_MBEDTLS_LIBRARY=ON . && \
+    ninja install && \
+    cd .. && \
+    rm -rf mbedtls-mbedtls-2.16.2
+
+FROM mbedtls AS libssh2
+RUN cd /tmp && \
+    curl --location --silent --show-error https://www.libssh2.org/download/libssh2-1.8.2.tar.gz | tar -xz && \
+    cd libssh2-1.8.2 && \
+    CFLAGS=-fPIC cmake -G Ninja -DBUILD_SHARED_LIBS=ON -DCRYPTO_BACKEND=Libgcrypt . && \
+    ninja install && \
+    cd .. && \
+    rm -rf libssh2-1.8.2
+
+FROM libssh2 AS valgrind
+RUN cd /tmp && \
+    curl --insecure --location --silent --show-error https://sourceware.org/pub/valgrind/valgrind-3.15.0.tar.bz2 | \
+    tar -xj && \
+    cd valgrind-3.15.0 && \
+    ./configure && \
+    make && \
+    make install && \
+    cd .. && \
+    rm -rf valgrind-3.15.0
+
+FROM valgrind AS adduser
+ARG UID=""
+ARG GID=""
+RUN if [ "${UID}" != "" ]; then USER_ARG="--uid ${UID}"; fi && \
+    if [ "${GID}" != "" ]; then GROUP_ARG="--gid ${GID}"; fi && \
+    groupadd ${GROUP_ARG} libgit2 && \
+    useradd ${USER_ARG} --gid libgit2 --shell /bin/bash --create-home libgit2
+
+
+FROM adduser AS configure
+RUN mkdir /var/run/sshd

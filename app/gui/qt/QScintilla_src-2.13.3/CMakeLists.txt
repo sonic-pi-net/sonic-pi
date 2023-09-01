@@ -290,13 +290,23 @@ target_include_directories(QScintilla
   src
 )
 
-target_link_libraries(QScintilla
-PUBLIC
-Qt::PrintSupport
-Qt::Widgets
-Qt::OpenGL
-Qt::Xml
-)
+if(Qt5_FOUND)
+  target_link_libraries(QScintilla
+  PUBLIC
+  Qt5::PrintSupport
+  Qt5::Widgets
+  Qt5::OpenGL
+  Qt5::Xml
+  )
+else()
+  target_link_libraries(QScintilla
+  PUBLIC
+  Qt::PrintSupport
+  Qt::Widgets
+  Qt::OpenGL
+  Qt::Xml
+  )
+endif()
 
 target_compile_definitions(QScintilla PRIVATE -DSCINTILLA_QT)
 target_compile_definitions(QScintilla PRIVATE -DSCI_LEXER)
@@ -324,7 +334,7 @@ elseif(${CMAKE_SYSTEM_NAME} MATCHES Darwin) # macOS
     find_package(Qt5 COMPONENTS MacExtras REQUIRED)
     target_link_libraries(QScintilla
       PUBLIC
-      Qt::MacExtras
+      Qt5::MacExtras
       )
   endif()
 

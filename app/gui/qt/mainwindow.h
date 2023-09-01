@@ -30,7 +30,7 @@
 #include <winsock2.h>
 #endif
 
-#include "osc/oscpkt.hh"
+#include "api/osc/osc_pkt.hh"
 
 #include "config.h"
 
@@ -118,6 +118,9 @@ class MainWindow : public QMainWindow
         void updateVersionNumber(QString version, int version_num, QString latest_version, int latest_version_num, QDate last_checked_date, QString platform);
         void updateMIDIInPorts(QString port_info);
         void updateMIDIOutPorts(QString port_info);
+        void updateScsynthInfo(QString description);
+        void scsynthBootError();
+        void homeDirWriteError();
         void replaceLines(QString id, QString content, int first_line, int finish_line, int point_line, int point_index);
         void runBufferIdx(int idx);
 
@@ -201,6 +204,12 @@ signals:
         void changeEnableExternalSynths();
         void mixerInvertStereoMenuChanged();
         void mixerForceMonoMenuChanged();
+        void enableScsynthInputsMenuChanged();
+        void enableLinkMenuChanged();
+        void uncheckEnableLinkMenu();
+        void checkEnableLinkMenu();
+        void toggleLinkMenu();
+        void changeEnableScsynthInputs();
         void midiEnabledMenuChanged();
         void changeShowAutoCompletion();
         void changeShowContext();
@@ -241,7 +250,6 @@ signals:
         void splashClose();
         void setMessageBoxStyle();
         void startupError(QString msg);
-        void showLanguageLoadingError();
         void tabNext();
         void tabPrev();
         void tabGoto(int index);
@@ -294,8 +302,10 @@ signals:
         void focusHelpListing();
         void focusHelpDetails();
         void focusErrors();
+        void focusBPMScrubber();
+        void focusTimeWarpScrubber();
 
-    private:
+private:
         SonicPiScintilla* getCurrentWorkspace();
         SonicPiEditor* getCurrentEditor();
         void resizeEvent( QResizeEvent *e );
@@ -411,8 +421,8 @@ signals:
         SonicPiTheme *theme;
 
         QToolBar *toolBar;
-  QAction *exitAct, *runAct, *stopAct, *saveAsAct, *loadFileAct, *recAct, *textAlignAct, *textIncAct, *textDecAct, *scopeAct, *infoAct, *helpAct, *prefsAct, *focusEditorAct, *focusLogsAct, *focusContextAct, *focusCuesAct, *focusPreferencesAct, *focusHelpListingAct, *focusHelpDetailsAct, *focusErrorsAct, *showLineNumbersAct, *showAutoCompletionAct, *showContextAct, *audioSafeAct, *audioTimingGuaranteesAct, *enableExternalSynthsAct, *mixerInvertStereoAct, *mixerForceMonoAct, *midiEnabledAct, *enableOSCServerAct, *allowRemoteOSCAct, *showLogAct, *showCuesAct, *logAutoScrollAct, *logCuesAct, *logSynthsAct, *clearOutputOnRunAct, *autoIndentOnRunAct, *showButtonsAct, *showTabsAct, *fullScreenAct, *lightThemeAct, *darkThemeAct, *proLightThemeAct, *proDarkThemeAct, *highContrastThemeAct, *showScopeLabelsAct, *showTitlesAct, *hideMenuBarInFullscreenAct, *showMetroAct;
-  QShortcut *runSc, *stopSc, *saveAsSc, *loadFileSc, *recSc, *textAlignSc, *textIncSc, *textDecSc, *scopeSc, *infoSc, *helpSc, *prefsSc, *focusEditorSc, *focusLogsSc, *focusContextSc, *focusCuesSc, *focusPreferencesSc, *focusHelpListingSc, *focusHelpDetailsSc, *focusErrorsSc;
+  QAction *exitAct, *runAct, *stopAct, *saveAsAct, *loadFileAct, *recAct, *textAlignAct, *textIncAct, *textDecAct, *scopeAct, *infoAct, *helpAct, *prefsAct, *focusEditorAct, *focusLogsAct, *focusContextAct, *focusCuesAct, *focusPreferencesAct, *focusHelpListingAct, *focusHelpDetailsAct, *focusErrorsAct, *focusBPMScrubberAct, *focusTimeWarpScrubberAct, *showLineNumbersAct, *showAutoCompletionAct, *showContextAct, *audioSafeAct, *audioTimingGuaranteesAct, *enableExternalSynthsAct, *mixerInvertStereoAct, *mixerForceMonoAct, *enableScsynthInputsAct, *midiEnabledAct, *enableOSCServerAct, *allowRemoteOSCAct, *showLogAct, *showCuesAct, *logAutoScrollAct, *logCuesAct, *logSynthsAct, *clearOutputOnRunAct, *autoIndentOnRunAct, *showButtonsAct, *showTabsAct, *fullScreenAct, *lightThemeAct, *darkThemeAct, *proLightThemeAct, *proDarkThemeAct, *highContrastThemeAct, *showScopeLabelsAct, *showTitlesAct, *hideMenuBarInFullscreenAct, *showMetroAct, *enableLinkAct, *linkTapTempoAct;
+  QShortcut *runSc, *stopSc, *saveAsSc, *loadFileSc, *recSc, *textAlignSc, *textIncSc, *textDecSc, *scopeSc, *infoSc, *helpSc, *prefsSc, *focusEditorSc, *focusLogsSc, *focusContextSc, *focusCuesSc, *focusPreferencesSc, *focusHelpListingSc, *focusHelpDetailsSc, *focusErrorsSc, *focusBPMScrubberSc, *focusTimeWarpScrubberSc, *linkTapTempoSc, *enableLinkSc;
         QActionGroup *langActionGroup;
 
         SettingsWidget *settingsWidget;

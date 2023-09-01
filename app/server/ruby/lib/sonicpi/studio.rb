@@ -41,6 +41,7 @@ module SonicPi
       @paused = false
       @register_cue_event_lambda = register_cue_event_lambda
       @current_spider_time_lambda = current_spider_time_lambda
+      @global_timewarp = 0
       init_scsynth
       reset_server
       init_studio
@@ -243,7 +244,7 @@ module SonicPi
       check_for_server_rebooting!(:invert)
       @volume = vol
       message "Setting main volume to #{vol}" unless silent
-      @server.node_ctl @mixer, {"pre_amp" => vol}, now
+      @server.node_ctl @mixer, {"pre_amp" => vol * 0.2}, now
     end
 
     def mixer_invert_stereo(invert)
@@ -433,6 +434,10 @@ module SonicPi
       @server.set_latency!(latency)
     end
 
+    def set_global_timewarp!(time)
+      @server.set_global_timewarp!(time)
+    end
+
     private
 
     def check_for_server_rebooting!(msg=nil)
@@ -482,7 +487,7 @@ module SonicPi
       # set_mixer! :default
       log_message "Starting mixer"
       mixer_synth = "sonic-pi-mixer"
-      @mixer = @server.trigger_synth(:head, @mixer_group, mixer_synth, {"in_bus" => @mixer_bus.to_i}, nil, true)
+      @mixer = @server.trigger_synth(:head, @mixer_group, mixer_synth, {"in_bus" => @mixer_bus.to_i, amp: 6}, nil, true)
     end
 
     def start_scope
@@ -522,5 +527,7 @@ module SonicPi
         @loaded_synthdefs << path
       end
     end
+
+
   end
 end

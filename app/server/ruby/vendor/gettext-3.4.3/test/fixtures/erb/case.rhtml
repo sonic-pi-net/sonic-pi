@@ -1,0 +1,16 @@
+<%
+  require 'gettext'
+  include GetText
+  bindtextdomain("helloerb", :path => "locale")
+%>
+<html>
+<head>
+<title></title>
+</head>
+<body>
+  <%= _('Hello') %>
+  <% case 1 %>
+  <% end %>
+  <%= _('World') %>
+</body>
+</html>

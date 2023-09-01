@@ -23,6 +23,7 @@ module SonicPi
 
     def test_in_thread
       @lang.run do
+        use_bpm 60
         assert_equal 0, vt
 
         t = in_thread do

@@ -35,7 +35,7 @@ and to run
   you're using an older version of macOS some steps may need
   modification.
 
- 
+
 ## 1. Installing Dependencies
 
 In order to build Sonic Pi's various components, we need to install a
@@ -43,7 +43,7 @@ few dependencies:
 
 1. Xcode (12.1+) and command line tools
 2. Homebrew
-3. All other dependencies - Qt6 (6.2+), CMake (3.18+), Elixir(1.13+)
+3. All other dependencies - Qt6 (6.2+), CMake (3.18+), Elixir(1.13+), pkg-config
 
 
 ### 1.1 Install Xcode
@@ -75,7 +75,7 @@ Once you have Homebrew installed, pulling in the rest of the
 dependencies is a couple of lines to execute within a terminal:
 
 ```
-brew install qt cmake elixir
+brew install qt cmake elixir pkg-config
 
 ```
 
@@ -90,7 +90,7 @@ into a folder on your hard drive such as `~/Development/sonic-pi`:
 
 ```
 git clone https://github.com/sonic-pi-net/sonic-pi.git ~/Development/sonic-pi
-``` 
+```
 
 If you don't have Git installed you should be able to download a `.zip`
 file of the latest commit or specific release (v3.3+) you'd like to
@@ -98,7 +98,7 @@ build:
 
 https://github.com/sonic-pi-net/sonic-pi/archive/main.zip
 
-From now on these instructions will assume you downloaded the source 
+From now on these instructions will assume you downloaded the source
 into `~/Development/sonic-pi`. If you used a different location be sure to
 change any future references to `~/Development/sonic-pi` to your chosen location.
 

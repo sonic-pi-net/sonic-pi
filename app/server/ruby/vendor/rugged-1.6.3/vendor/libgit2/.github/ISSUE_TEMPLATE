@@ -1,0 +1,19 @@
+You are opening a _bug report_ against the libgit2 project: we use
+GitHub Issues for tracking bug reports and feature requests.  If you
+have a question about an API or usage, please ask on StackOverflow:
+http://stackoverflow.com/questions/tagged/libgit2.  If you want to
+have high-level discussions about the libgit2 project itself, visit
+https://github.com/libgit2/discussions.
+
+Otherwise, to report a bug, please fill out the reproduction steps
+(below) and delete these introductory paragraphs.  Thanks!
+
+### Reproduction steps
+
+### Expected behavior
+
+### Actual behavior
+
+### Version of libgit2 (release number or SHA1)
+
+### Operating system(s) tested

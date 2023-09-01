@@ -35,6 +35,7 @@ public:
     void updateCustomSettings();
     QPalette createPalette();
 
+    void reloadStylesheet();
     QString getAppStylesheet();
 
     QString getCss();
@@ -61,6 +62,7 @@ public:
 private:
     QString name;
     Style style;
+    QString stylesheet;
 
     QString customSettingsFilename;
     QString rootPath;

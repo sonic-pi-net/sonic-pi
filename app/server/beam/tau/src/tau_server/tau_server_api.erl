@@ -140,6 +140,12 @@ loop(State) ->
             NewState = do_bundle(Time, X, State),
             ?MODULE:loop(NewState);
 
+        {cmd, ["/hydra_eval", Code]=Cmd} ->
+            debug_cmd(Cmd),
+            hydra_eval(Code),
+
+           ?MODULE:loop(State);
+
         {cmd, ["/send-pid-to-daemon", DaemonToken]=Cmd} ->
             debug_cmd(Cmd),
             DaemonPort = maps:get(daemon_port, State),
@@ -226,7 +232,12 @@ loop(State) ->
             send_to_link({link_rpc, UUID, get_tempo}, State),
             ?MODULE:loop(State);
 
-        %% link_set_tempo needs to be within an a timestamped OSC bundle
+        %% link_set_tempo can also be within an a timestamped OSC bundle
+
+        {cmd, ["/link-set-tempo", Tempo]=Cmd} ->
+            debug_cmd(Cmd),
+            send_to_link({link_set_tempo, Tempo}, State),
+            ?MODULE:loop(State);
 
         {cmd, ["/api-rpc", UUID, "/link-get-beat-at-time", Time, Quantum]=Cmd} ->
             debug_cmd(Cmd),
@@ -248,9 +259,9 @@ loop(State) ->
             send_to_link({link_rpc, UUID, get_time_at_beat, Beat, Quantum}, State),
             ?MODULE:loop(State);
 
-        {cmd, ["/api-rpc", UUID, "/link-get-beat-and-time-at-phase", Phase, Quantum]=Cmd} ->
+        {cmd, ["/api-rpc", UUID, "/link-get-next-beat-and-time-at-phase", Phase, Quantum, SafetyT]=Cmd} ->
             debug_cmd(Cmd),
-            send_to_link({link_rpc, UUID, get_beat_and_time_at_phase, Phase, Quantum}, State),
+            send_to_link({link_rpc, UUID, get_next_beat_and_time_at_phase, Phase, Quantum, SafetyT}, State),
             ?MODULE:loop(State);
 
         %% link_set_is_playing needs to be within an a timestamped OSC bundle
@@ -283,6 +294,11 @@ loop(State) ->
             logger:error("API Server got unexpected message: ~p", [Any]),
             ?MODULE:loop(State)
     end.
+
+hydra_eval(Code) ->
+    ElixirCode = 'Elixir.List':'to_string'(Code),
+    'Elixir.Tau.HydraSynthLang':'eval_hydra'(ElixirCode),
+    ok.
 
 send_to_link(Message, State) ->
     LinkServer = maps:get(link_server, State),
@@ -317,6 +333,8 @@ do_bundle(Time, [{_,Bin}|T], State) ->
                 schedule_link(Time, "default", State, {link_set_is_playing, Enabled});
             {cmd, ["/link-set-is-playing-tagged", Tag, Enabled]} ->
                 schedule_link(Time, Tag, State, {link_set_is_playing, Enabled});
+            {cmd, ["/hydra_eval", Code]} ->
+                schedule_internal_call(Time, "default", State, self(), {cmd, ["/hydra_eval", Code]});
             Other ->
                 logger:error("Unexpected bundle content:~p", [Other]),
                 State
@@ -341,11 +359,10 @@ schedule_internal_call(Time, Tag, State, Server, Msg) ->
             %% at that time, the message will be quietly dropped
             SchedMsg = {call, Server, Msg, Tracker},
             Timer = erlang:start_timer(MsDelay, self(), SchedMsg),
-            logger:debug("start (MIDI) timer of ~w ms for time ~f", [MsDelay, Time]),
             tau_server_tracker:track(Timer, Time, Tracker);
        true ->
             Server ! Msg,
-            logger:debug("Directly sent scheduled call", [])
+            logger:debug("Out of Time! Directly sent scheduled call.", [])
     end,
     NewState.
 

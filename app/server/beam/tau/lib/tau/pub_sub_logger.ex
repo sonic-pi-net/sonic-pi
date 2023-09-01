@@ -16,7 +16,7 @@ defmodule Tau.PubSubLogger do
     {:erl_level, level} = List.keyfind(md, :erl_level, 0, {:erl_level, level})
     ts = IO.chardata_to_string(Logger.Formatter.format_time(time))
     msg = IO.chardata_to_string(msg)
-    TauWeb.Endpoint.broadcast "room:logs", "msg", {level, ts, msg, md}
+    TauWeb.Endpoint.broadcast("room:logs", "msg", {level, ts, msg, md})
     {:ok, state}
   end
 

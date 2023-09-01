@@ -29,12 +29,15 @@ module SonicPi
       @tau_port = ports[:tau_port]
       @tau_host = "127.0.0.1"
       @listen_to_tau_port = ports[:listen_to_tau_port]
+      @global_timewarp = 0
 
       @tau_comms = SonicPi::TauComms.new("127.0.0.1", @tau_port, @listen_to_tau_port)
       @external_osc_cue_handler = handlers[:external_osc_cue]
       @internal_cue_handler = handlers[:internal_cue]
       @updated_midi_ins_handler = handlers[:updated_midi_ins]
       @updated_midi_outs_handler = handlers[:updated_midi_outs]
+      @updated_link_num_peers_handler = handlers[:updated_link_num_peers]
+      @updated_link_bpm_handler = handlers[:updated_link_bpm]
 
       add_incoming_api_handlers!
 
@@ -62,22 +65,27 @@ module SonicPi
     def tau_ready?
       @tau_comms.tau_ready?
     end
-
     def block_until_tau_ready!
       @tau_comms.block_until_tau_ready!
     end
 
     def send_osc_at(t, host, port, path, *args)
       m = @tau_comms.encoder.encode_single_message(path, args)
-      api_send_at(t, "/send-after", host, port, SonicPi::OSC::Blob.new(m))
+      api_send_at(t + @global_timewarp, "/send-after", host, port, SonicPi::OSC::Blob.new(m))
     end
 
     def send_midi_at(t, path, *args)
       b = OSC::Blob.new(@tau_comms.encoder.encode_single_message(path, args))
-      api_send_at(t, "/midi-at", b)
+      api_send_at(t + @global_timewarp, "/midi-at", b)
     end
 
+    def hydra_eval_at(t, code)
+      api_send_at(t + @global_timewarp, "/hydra_eval", code)
+    end
+
+
     # Link API
+
 
     def link_is_on?
       res = api_rpc("/link-is-on")
@@ -147,13 +155,13 @@ module SonicPi
       res[0]
     end
 
-    def link_get_beat_and_time_at_phase(phase, quantum)
-      res = api_rpc("/link-get-beat-and-time-at-phase", phase, quantum)
+    def link_get_next_beat_and_time_at_phase(phase, quantum, safety_t)
+      res = api_rpc("/link-get-next-beat-and-time-at-phase", phase, quantum, safety_t)
       res
     end
 
-    def link_get_beat_and_clock_time_at_phase(phase, quantum)
-      beat, link_time = link_get_beat_and_time_at_phase(phase, quantum)
+    def link_get_next_beat_and_clock_time_at_phase(phase, quantum, safety_t)
+      beat, link_time = link_get_next_beat_and_time_at_phase(phase, quantum, safety_t)
       t_with_delta = (link_time + @link_time_delta_micros) / 1_000_000.0
       [beat, t_with_delta]
     end
@@ -236,6 +244,21 @@ module SonicPi
       @tau_comms.send("/flush", "default")
     end
 
+    def link_sleep(s)
+      t1 = Time.now
+      @incoming_tempo_change_mut.synchronize do
+        @incoming_tempo_change_cv.wait(@incoming_tempo_change_mut, s)
+      end
+      t2 = Time.now
+      if (t2 - t1) < (s + 0.05)
+        yield
+      end
+    end
+
+    def set_global_timewarp!(time)
+      @global_timewarp = time.to_f / 1000.0
+    end
+
     private
 
     def update_link_time_delta!
@@ -247,10 +270,17 @@ module SonicPi
 
     def add_incoming_api_handlers!
       @tau_comms.add_method("/link-tempo-change") do |args|
-        @incoming_tempo_change_cv.broadcast
         _gui_id = args[0]
         tempo = args[1].to_f
+        @updated_link_bpm_handler.call(tempo)
+        @incoming_tempo_change_cv.broadcast
         @tempo = tempo
+      end
+
+      @tau_comms.add_method("/link-num-peers") do |args|
+        _gui_id = args[0]
+        num_peers = args[1].to_i
+        @updated_link_num_peers_handler.call(num_peers)
       end
 
       @tau_comms.add_method("/midi-ins") do |args|
@@ -314,5 +344,7 @@ module SonicPi
       end
       @tau_comms.send_ts(t, path, *args)
     end
+
+
   end
 end

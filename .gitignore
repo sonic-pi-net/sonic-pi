@@ -9,6 +9,11 @@
 # Compiled Dynamic libraries
 *.so
 *.dylib
+*.dll
+
+!prebuilt/**/*.dll
+!prebuilt/**/*.so
+!prebuilt/**/*.dylib
 
 # Compiled Static libraries
 *.lai
@@ -17,6 +22,9 @@
 
 # Compiled Erlang files
 *.beam
+
+# Library files
+*.lib
 
 # MSVC stuff
 *.Debug
@@ -146,3 +154,5 @@ etc/synthdefs/designs/overtone/sonic-pi/native
 
 # Visual Studio settings folder.
 .vs
+app/.cache/clangd/index
+sonic-pi.desktop

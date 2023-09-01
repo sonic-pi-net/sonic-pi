@@ -1,0 +1,71 @@
+name: Ruby
+
+on:
+  # Trigger the workflow on push or pull request,
+  # but only for the master branch
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    env:
+      BUNDLE_GEMFILE: ${{ matrix.gemfile }}
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby_version: [3.2, 3.1, "3.0", 2.7, 2.6, jruby]
+        gemfile:
+          - Gemfile
+          - gemfiles/Gemfile.rails-5.2.x
+          - gemfiles/Gemfile.rails-6.0.x
+          - gemfiles/Gemfile.rails-6.1.x
+          - gemfiles/Gemfile.rails-7.0.x
+          - gemfiles/Gemfile.rails-main
+        exclude:
+          # Ruby 3.2 is not supported by Rails 5.2.x
+          - ruby_version: 3.2
+            gemfile: gemfiles/Gemfile.rails-5.2.x
+
+          # Ruby 3.1 is not supported by Rails 5.2.x
+          - ruby_version: 3.1
+            gemfile: gemfiles/Gemfile.rails-5.2.x
+
+          # Ruby 3.x is not supported by Rails 5.2.x
+          - ruby_version: "3.0"
+            gemfile: gemfiles/Gemfile.rails-5.2.x
+
+          # Ruby 2.6.x is not supported by Rails main
+          - ruby_version: 2.6
+            gemfile: gemfiles/Gemfile.rails-main
+
+          # Ruby 2.6.x is not supported by Rails 7.0.x
+          - ruby_version: 2.6
+            gemfile: gemfiles/Gemfile.rails-7.0.x
+
+          # JRuby 9.4.2.0 (3.1.0) is not supported by Rails 5.2.x
+          - ruby_version: jruby
+            gemfile: gemfiles/Gemfile.rails-5.2.x
+
+          # JRuby is not supported by Rails 7.0.x
+          - ruby_version: jruby
+            gemfile: gemfiles/Gemfile.rails-7.0.x
+
+          # JRuby is not supported by Rails main
+          - ruby_version: jruby
+            gemfile: gemfiles/Gemfile.rails-main
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby_version }}
+          bundler-cache: true # 'bundle install' and cache
+      - name: Build and test with Rake
+        run: bundle exec rake

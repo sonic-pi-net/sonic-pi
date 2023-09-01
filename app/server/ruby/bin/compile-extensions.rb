@@ -20,10 +20,12 @@ require 'fileutils'
 require 'rbconfig'
 ruby_api = RbConfig::CONFIG['ruby_version']
 os = case RUBY_PLATFORM
-     when /.*arm.*-linux.*/
-       :raspberry
      when /.*linux.*/
-       :linux
+       if File.exist?('/etc/rpi-issue')
+         :raspberry
+       else
+         :linux
+       end
      when /.*darwin.*/
        :osx
      when /.*mingw.*/
@@ -41,20 +43,16 @@ FileUtils.mkdir_p native_dir
 # Rugged is used for storing the user's ruby music scripts in Git
 # FFI is used for MIDI lib support
 native_ext_dirs = [
-  File.expand_path(File.dirname(__FILE__) + '/../vendor/rugged-1.3.0/ext/rugged'),
-  File.expand_path(File.dirname(__FILE__) + '/../vendor/ffi-1.11.3/ext/ffi_c/'),
-  File.expand_path(File.dirname(__FILE__) + '/../vendor/atomic/ext'),
-  File.expand_path(File.dirname(__FILE__) + '/../vendor/ruby-prof-0.15.8/ext/ruby_prof/'),
-  File.expand_path(File.dirname(__FILE__) + '/../vendor/interception/ext/')
-]
-
-
-if os == :osx
-  native_ext_dirs += [
-    File.expand_path(File.dirname(__FILE__) + '/../vendor/narray-0.6.1.1/'),
-    File.expand_path(File.dirname(__FILE__) + '/../vendor/ruby-coreaudio-0.0.12-patched/ext/coreaudio/')
+  [
+    File.expand_path(File.dirname(__FILE__) + '/../vendor/rugged-1.6.3/ext/rugged'),
+    "rugged"
+  ],
+  [
+    File.expand_path(File.dirname(__FILE__) + '/../vendor/concurrent-ruby-1.2.2/ext/concurrent-ruby-ext'),
+    "concurrent"
   ]
-end
+ ]
+
 
 native_ext_dirs.each do |ext_dir|
   if ext_dir.is_a? Array

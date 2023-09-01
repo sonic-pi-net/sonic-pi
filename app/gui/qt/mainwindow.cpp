@@ -34,6 +34,7 @@
 #include <QMessageBox>
 #include <QNetworkInterface>
 #include <QPlainTextEdit>
+#include <QTextEdit>
 #include <QScrollBar>
 #include <QShortcut>
 #include <QSplashScreen>
@@ -42,6 +43,7 @@
 #include <QStyle>
 #include <QTextBrowser>
 #include <QTextStream>
+#include <QThread>
 #include <QToolBar>
 #include <QToolButton>
 #include <QPushButton>
@@ -130,20 +132,38 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
     show_rec_icon_a = false;
     restoreDocPane = false;
     focusMode = false;
-    version = "4.0-beta";
+    version = "5.0-tech-preview-3";
     latest_version = "";
     version_num = 0;
     latest_version_num = 0;
-    QString settings_path = sonicPiConfigPath() + QDir::separator() + "gui-settings.ini";
-
-    gui_settings = new QSettings(settings_path, QSettings::IniFormat);
-
-    readSettings();
-    initPaths();
 
     bool startupOK = false;
 
-    m_spAPI->Init(rootPath().toStdString());
+    APIInitResult init_success = m_spAPI->Init(rootPath().toStdString());
+
+
+    if(init_success == APIInitResult::Successful) {
+    } else if (init_success == APIInitResult::HomePathNotWritableError) {
+      std::cout << "[GUI] - API HomePath Not Writable" << std::endl;
+      homeDirWriteError();
+    } else {
+      std::cout << "[GUI] - API Init failed" << std::endl;
+    }
+
+    initPaths();
+    readSettings();
+    bool noScsynthInputs = !piSettings->enable_scsynth_inputs;
+    APIBootResult boot_success = m_spAPI->Boot(noScsynthInputs);
+
+    if(boot_success == APIBootResult::Successful) {
+      std::cout << "[GUI] - API Boot successful" << std::endl;
+    } else if (boot_success == APIBootResult::ScsynthBootError) {
+      std::cout << "[GUI] - API Scsynth Boot Failed" << std::endl;
+      scsynthBootError();
+    } else {
+      std::cout << "[GUI] - API Boot failed" << std::endl;
+    }
+
 
     const QRect rect = this->geometry();
     m_appWindowSizeRect = std::make_shared<QRect>(rect);
@@ -250,18 +270,20 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
 
     toggleOSCServer(1);
 
-    app.setActiveWindow(editorTabWidget->currentWidget());
+    editorTabWidget->currentWidget()->activateWindow();
 
-    if (!i18n)
-    {
-        showLanguageLoadingError();
-    }
 
     showWelcomeScreen();
+
+    std::cout << "[GUI] - MainWindow initialisation completed." << std::endl;
 }
 
 void MainWindow::initPaths()
 {
+
+    QString settings_path = sonicPiConfigPath() + QDir::separator() + "gui-settings.ini";
+    gui_settings = new QSettings(settings_path, QSettings::IniFormat);
+
     QString root_path = rootPath();
 
     qt_app_theme_path = QDir::toNativeSeparators(root_path + "/app/gui/qt/theme/app.qss");
@@ -359,7 +381,8 @@ void MainWindow::showWelcomeScreen()
 void MainWindow::setupTheme()
 {
     // Syntax highlighting
-    QString themeFilename = QDir::homePath() + QDir::separator() + ".sonic-pi" + QDir::separator() + "config" + QDir::separator() + "colour-theme.properties";
+
+    QString themeFilename = sonicPiConfigPath() + QDir::separator() + "colour-theme.properties";
 
     this->theme = new SonicPiTheme(this, themeFilename, rootPath());
 }
@@ -379,7 +402,10 @@ void MainWindow::setupWindowStructure()
     outputPane = new SonicPiLog;
     incomingPane = new SonicPiLog;
     errorPane = new QTextBrowser;
-    metroPane = new SonicPiMetro;
+    metroPane = new SonicPiMetro(m_spClient, m_spAPI, theme, this);
+
+    connect(metroPane, SIGNAL(linkEnabled()), this, SLOT(checkEnableLinkMenu()));
+    connect(metroPane, SIGNAL(linkDisabled()), this, SLOT(uncheckEnableLinkMenu()));
 
     errorPane->setOpenExternalLinks(true);
 
@@ -407,6 +433,7 @@ void MainWindow::setupWindowStructure()
     connect(settingsWidget, SIGNAL(restartApp()), this, SLOT(restartApp()));
     connect(settingsWidget, SIGNAL(volumeChanged(int)), this, SLOT(changeSystemPreAmp(int)));
     connect(settingsWidget, SIGNAL(mixerSettingsChanged()), this, SLOT(mixerSettingsChanged()));
+    connect(settingsWidget, SIGNAL(enableScsynthInputsChanged()), this, SLOT(changeEnableScsynthInputs()));
     connect(settingsWidget, SIGNAL(midiSettingsChanged()), this, SLOT(toggleMidi()));
     connect(settingsWidget, SIGNAL(resetMidi()), this, SLOT(resetMidi()));
     connect(settingsWidget, SIGNAL(oscSettingsChanged()), this, SLOT(toggleOSCServer()));
@@ -465,7 +492,7 @@ void MainWindow::setupWindowStructure()
     prefsWidget->setObjectName("prefs");
     prefsWidget->setLayout(prefsLayout);
     prefsWidget->setMinimumHeight(settingsWidget->height() + ScaleHeightForDPI(240));
-
+    prefsWidget->setMinimumWidth(settingsWidget->width() + ScaleWidthForDPI(200));
     QSizePolicy prefsSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     prefsWidget->setSizePolicy(prefsSizePolicy) ;
 
@@ -693,11 +720,11 @@ void MainWindow::setupWindowStructure()
     incomingWidget->setAllowedAreas(Qt::RightDockWidgetArea);
     incomingWidget->setWidget(incomingPane);
 
-    metroWidget = new QDockWidget(tr("Metro"), this);
+    metroWidget = new QDockWidget(tr("Link Metronome & Global Time Warp"), this);
     metroWidget->setFocusPolicy(Qt::NoFocus);
     metroWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
     metroWidget->setAllowedAreas(Qt::RightDockWidgetArea);
-    metroWidget->setMaximumHeight(ScaleHeightForDPI(100));
+    metroWidget->setMaximumHeight(ScaleHeightForDPI(110));
     metroWidget->setWidget(metroPane);
 
 
@@ -833,13 +860,15 @@ void MainWindow::handleCustomUrl(const QUrl& url)
 
 void MainWindow::escapeWorkspaces()
 {
-    resetErrorPane();
+    errorPane->hide();
 
     for (int w = 0; w < workspace_max; w++)
     {
         workspaces[w]->escapeAndCancelSelection();
         workspaces[w]->clearLineMarkers();
     }
+
+    getCurrentWorkspace()->setFocus();
 }
 
 void MainWindow::changeTab(int id)
@@ -1226,6 +1255,39 @@ void MainWindow::showWindow()
     changeShowLineNumbers();
 }
 
+void MainWindow::enableScsynthInputsMenuChanged()
+{
+    piSettings->enable_scsynth_inputs = enableScsynthInputsAct->isChecked();
+    emit settingsChanged();
+    changeEnableScsynthInputs();
+}
+
+void MainWindow::enableLinkMenuChanged()
+{
+  if(enableLinkAct->isChecked()) {
+    metroPane->linkEnable();
+  } else {
+    metroPane->linkDisable();
+  }
+}
+
+void MainWindow::toggleLinkMenu()
+{
+  enableLinkAct->setChecked(!enableLinkAct->isChecked());
+  enableLinkMenuChanged();
+}
+
+
+void MainWindow::uncheckEnableLinkMenu()
+{
+  enableLinkAct->setChecked(false);
+}
+
+void MainWindow::checkEnableLinkMenu()
+{
+  enableLinkAct->setChecked(true);
+}
+
 void MainWindow::mixerForceMonoMenuChanged()
 {
     piSettings->mixer_force_mono = mixerForceMonoAct->isChecked();
@@ -1264,6 +1326,18 @@ void MainWindow::mixerInvertStereoMenuChanged()
     piSettings->mixer_invert_stereo = mixerInvertStereoAct->isChecked();
     emit settingsChanged();
     mixerSettingsChanged();
+}
+
+void MainWindow::changeEnableScsynthInputs()
+{
+  QSignalBlocker blocker(enableScsynthInputsAct);
+  enableScsynthInputsAct->setChecked(piSettings->enable_scsynth_inputs);
+
+  if(piSettings->enable_scsynth_inputs) {
+    statusBar()->showMessage(tr("Audio Inputs Enabled. Restart Sonic Pi for this setting to take effect..."), 2000);
+  } else {
+    statusBar()->showMessage(tr("Audio Inputs Disabled. Restart Sonic Pi for this setting to take effect..."), 2000);
+  }
 }
 
 void MainWindow::mixerSettingsChanged()
@@ -1364,25 +1438,24 @@ void MainWindow::startupError(QString msg)
 
     QString text;
     QTextStream str(&text);
-    str << tr("Apologies, a critical error occurred during startup:\n")
-        << msg << "\n\n"
-        << tr("Please consider reporting a bug at")
-        << "\nhttp://github.com/samaaron/sonic-pi/issues\n"
-        << "\n"
-        << "Sonic Pi Boot Error Report\n"
+    str << tr("Apologies, unable to start...\n")
         << "==========================\n"
-        << "\n"
-        << "System Information\n"
-        << "------------------\n"
-        << "\n"
-        << "Sonic Pi version: " << version << "\n"
-        << "OS: " << osDescription() << "\n"
-        << "\n"
-        << "Logs:\n\n"
+        << tr("Sorry, Sonic Pi is having issues booting:") << "\n\n"
+        << "```\n"
+        << msg
+        << "\n```\n\n"
+        << tr("Please consider reporting a bug at")
+        << "\n\n[http://github.com/samaaron/sonic-pi/issues](http://github.com/samaaron/sonic-pi/issues)\n\n"
+
+        << "**System Information**"
+        << "\n\n"
+        << "Sonic Pi version: `" << version << "`\n\n"
+        << "OS: `" << osDescription() << "`\n\n"
         << QString::fromStdString(m_spAPI->GetLogs());
 
     // The text area for the message.  Allows the user to scroll/view it.
-    auto pTextArea = new QPlainTextEdit(text);
+    auto pTextArea = new QTextEdit();
+    pTextArea->setMarkdown(text);
     pTextArea->setReadOnly(true);
     pLayout->addWidget(pTextArea);
 
@@ -1410,19 +1483,6 @@ void MainWindow::startupError(QString msg)
     pDialog->setFixedSize(QSize(ScaleHeightForDPI(750), ScaleHeightForDPI(800)));
     pDialog->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
     pDialog->exec();
-}
-
-void MainWindow::showLanguageLoadingError()
-{
-    QMessageBox msgBox(this);
-    msgBox.setIcon(QMessageBox::Warning);
-    msgBox.setText(QString(tr("Failed to load translations for language: %1")).arg(sonicPii18n->getNativeLanguageName(this->ui_language)));
-    msgBox.setInformativeText(tr("Falling back to English. Sorry about this.") + "\n" + tr("Please consider reporting a bug at") + "\nhttp://github.com/sonic-pi-net/sonic-pi/issues");
-
-    QPushButton* okButton = msgBox.addButton(tr("OK"), QMessageBox::AcceptRole);
-    msgBox.setDefaultButton(okButton);
-
-    msgBox.exec();
 }
 
 void MainWindow::replaceBuffer(QString id, QString content, int line, int index, int first_line)
@@ -2229,7 +2289,7 @@ void MainWindow::updateColourTheme()
 
     QPalette p = theme->createPalette();
     QApplication::setPalette(p);
-
+    theme->reloadStylesheet();
     QString appStyling = theme->getAppStylesheet();
 
     this->setStyleSheet(appStyling);
@@ -2248,6 +2308,10 @@ void MainWindow::updateColourTheme()
     scopeWindow->SetColor(theme->color("Scope"));
     scopeWindow->SetColor2(theme->color("Scope_2"));
     lexer->unhighlightAll();
+    metroPane->updateColourTheme();
+#ifdef WITH_WEBENGINE
+    phxWidget->setTheme(theme);
+#endif
 }
 
 void MainWindow::showLineNumbersMenuChanged()
@@ -2362,6 +2426,17 @@ void MainWindow::autoIndentOnRunMenuChanged()
 void MainWindow::changeAutoIndentOnRun()
 {
     QSignalBlocker blocker(autoIndentOnRunAct);
+    if(piSettings->auto_indent_on_run) {
+      statusBar()->showMessage(tr("Auto Indent mode enabled"), 2000);
+    } else {
+      statusBar()->showMessage(tr("Auto Indent mode disabled"), 2000);
+    }
+
+    for (int i = 0; i < editorTabWidget->count(); i++) {
+      SonicPiScintilla* ws = ((SonicPiEditor*)editorTabWidget->widget(i))->getWorkspace();
+      ws->setAutoIndentEnabled(piSettings->auto_indent_on_run);
+    }
+
     autoIndentOnRunAct->setChecked(piSettings->auto_indent_on_run);
 }
 
@@ -2761,6 +2836,23 @@ void MainWindow::createToolBar()
     showContextAct->setChecked(piSettings->show_context);
     connect(showContextAct, SIGNAL(triggered()), this, SLOT(showContextMenuChanged()));
 
+    enableScsynthInputsAct = new QAction(tr("Enable Audio Inputs"), this);
+    enableScsynthInputsAct->setCheckable(true);
+    enableScsynthInputsAct->setChecked(piSettings->enable_scsynth_inputs);
+    connect(enableScsynthInputsAct, SIGNAL(triggered()), this, SLOT(enableScsynthInputsMenuChanged()));
+
+    enableLinkAct = new QAction(tr("Link Connect"), this);
+    enableLinkAct->setCheckable(true);
+    enableLinkAct->setChecked(false);
+    connect(enableLinkAct, SIGNAL(triggered()), this, SLOT(enableLinkMenuChanged()));
+    enableLinkSc = new QShortcut(metaKey('t'), this, SLOT(toggleLinkMenu()));
+    updateAction(enableLinkAct, enableLinkSc, tr("Connect or disconnect the Link Metronome from the network"));
+
+    linkTapTempoAct = new QAction(tr("Tap Tempo"), this);
+    connect(linkTapTempoAct, SIGNAL(triggered()), metroPane, SLOT(tapTempo()));
+    linkTapTempoSc = new QShortcut(QKeySequence("Shift+Return"), metroPane, SLOT(tapTempo()));
+    updateAction(linkTapTempoAct, linkTapTempoSc, tr("Click Link Tap Tempo"));
+
     audioSafeAct = new QAction(tr("Safe Audio Mode"), this);
     audioSafeAct->setCheckable(true);
     audioSafeAct->setChecked(piSettings->check_args);
@@ -2780,7 +2872,6 @@ void MainWindow::createToolBar()
     mixerInvertStereoAct->setCheckable(true);
     mixerInvertStereoAct->setChecked(piSettings->mixer_invert_stereo);
     connect(mixerInvertStereoAct, SIGNAL(triggered()), this, SLOT(mixerInvertStereoMenuChanged()));
-
     mixerForceMonoAct = new QAction(tr("Force Mono"), this);
     mixerForceMonoAct->setCheckable(true);
     mixerForceMonoAct->setChecked(piSettings->mixer_force_mono);
@@ -2816,7 +2907,7 @@ void MainWindow::createToolBar()
     clearOutputOnRunAct->setChecked(piSettings->log_cues);
     connect(clearOutputOnRunAct, SIGNAL(triggered()), this, SLOT(clearOutputOnRunMenuChanged()));
 
-    autoIndentOnRunAct = new QAction(tr("Auto Indent Code Buffer on Run"), this);
+    autoIndentOnRunAct = new QAction(tr("Auto Indent Code Buffer"), this);
     autoIndentOnRunAct->setCheckable(true);
     autoIndentOnRunAct->setChecked(piSettings->auto_indent_on_run);
     connect(autoIndentOnRunAct, SIGNAL(triggered()), this, SLOT(autoIndentOnRunMenuChanged()));
@@ -2862,7 +2953,10 @@ void MainWindow::createToolBar()
     audioMenu->addSeparator();
     audioMenu->addAction(mixerInvertStereoAct);
     audioMenu->addAction(mixerForceMonoAct);
-
+    audioMenu->addAction(enableScsynthInputsAct);
+    audioMenu->addSeparator();
+    audioMenu->addAction(enableLinkAct);
+    audioMenu->addAction(linkTapTempoAct);
     displayMenu = menuBar()->addMenu(tr("Visuals"));
 
     lightThemeAct = new QAction(tr("Light"));
@@ -3051,7 +3145,7 @@ void MainWindow::createToolBar()
 
     //Focus Logs
     focusLogsAct = new QAction(theme->getHelpIcon(false), tr("Focus Logs"), this);
-    focusLogsSc = new QShortcut(ctrlShiftKey('L'), this, SLOT(focusLogs()));
+        focusLogsSc = new QShortcut(ctrlShiftKey('L'), this, SLOT(focusLogs()));
     updateAction(focusLogsAct, focusLogsSc, tr("Place focus on the log pane"));
     connect(focusLogsAct, SIGNAL(triggered()), this, SLOT(focusLogs()));
 
@@ -3086,9 +3180,21 @@ void MainWindow::createToolBar()
 
     //Focus Errors
     focusErrorsAct = new QAction(theme->getHelpIcon(false), tr("Focus Errors"), this);
-    focusErrorsSc = new QShortcut(ctrlShiftKey('W'), this, SLOT(focusErrors()));
+    focusErrorsSc = new QShortcut(ctrlShiftKey('R'), this, SLOT(focusErrors()));
     updateAction(focusErrorsAct, focusErrorsSc, tr("Place focus on errors"));
     connect(focusErrorsAct, SIGNAL(triggered()), this, SLOT(focusErrors()));
+
+    //Focus BPM SCrubber
+    focusBPMScrubberAct = new QAction(theme->getHelpIcon(false), tr("Focus BPM Scrubber"), this);
+    focusBPMScrubberSc = new QShortcut(ctrlShiftKey('B'), this, SLOT(focusBPMScrubber()));
+    updateAction(focusBPMScrubberAct, focusBPMScrubberSc, tr("Place focus on BPM Scrubber"));
+    connect(focusBPMScrubberAct, SIGNAL(triggered()), this, SLOT(focusBPMScrubber()));
+
+    //Focus Time Warp Scrubber
+    focusTimeWarpScrubberAct = new QAction(theme->getHelpIcon(false), tr("Focus TimeWarp Scrubber"), this);
+    focusTimeWarpScrubberSc = new QShortcut(ctrlShiftKey('W'), this, SLOT(focusTimeWarpScrubber()));
+    updateAction(focusTimeWarpScrubberAct, focusTimeWarpScrubberSc, tr("Place focus on TimeWarp Scrubber"));
+    connect(focusTimeWarpScrubberAct, SIGNAL(triggered()), this, SLOT(focusTimeWarpScrubber()));
 
     showLogAct = new QAction(tr("Show Log"), this);
     showLogAct->setCheckable(true);
@@ -3150,6 +3256,9 @@ void MainWindow::createToolBar()
     viewMenu->addAction(focusHelpListingAct);
     viewMenu->addAction(focusHelpDetailsAct);
     viewMenu->addAction(focusErrorsAct);
+    viewMenu->addAction(focusTimeWarpScrubberAct);
+    viewMenu->addAction(focusBPMScrubberAct);
+
 
     languageMenu = menuBar()->addMenu(tr("Language"));
     QStringList available_languages = sonicPii18n->getAvailableLanguages();
@@ -3278,7 +3387,7 @@ void MainWindow::createInfoPane()
     connect(infoWidg, SIGNAL(closed()), this, SLOT(about()));
 
     QAction* closeInfoAct = new QAction(this);
-    closeInfoAct->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_W));
+    closeInfoAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_W));
     connect(closeInfoAct, SIGNAL(triggered()), this, SLOT(about()));
     infoWidg->addAction(closeInfoAct);
 }
@@ -3411,6 +3520,7 @@ void MainWindow::readSettings()
     piSettings->main_volume = gui_settings->value("prefs/system-vol", 80).toInt();
     piSettings->mixer_force_mono = gui_settings->value("prefs/mixer-force-mono", false).toBool();
     piSettings->mixer_invert_stereo = gui_settings->value("prefs/mixer-invert-stereo", false).toBool();
+    piSettings->enable_scsynth_inputs = gui_settings->value("/prefs/enable-scsynth-inputs", false).toBool();
     piSettings->check_updates = gui_settings->value("prefs/rp/check-updates", true).toBool();
     piSettings->auto_indent_on_run = gui_settings->value("prefs/auto-indent-on-run", true).toBool();
     piSettings->gui_transparency = gui_settings->value("prefs/gui_transparency", 0).toInt();
@@ -3465,6 +3575,7 @@ void MainWindow::writeSettings()
     gui_settings->setValue("prefs/synth-trigger-timing-guarantees", piSettings->synth_trigger_timing_guarantees);
     gui_settings->setValue("prefs/mixer-force-mono", piSettings->mixer_force_mono);
     gui_settings->setValue("prefs/mixer-invert-stereo", piSettings->mixer_invert_stereo);
+    gui_settings->setValue("prefs/enable-scsynth-inputs", piSettings->enable_scsynth_inputs);
     gui_settings->setValue("prefs/system-vol", piSettings->main_volume);
     gui_settings->setValue("prefs/rp/check-updates", piSettings->check_updates);
     gui_settings->setValue("prefs/auto-indent-on-run", piSettings->auto_indent_on_run);
@@ -3586,6 +3697,7 @@ SonicPiScintilla* MainWindow::filenameToWorkspace(std::string filename)
 
 void MainWindow::onExitCleanup()
 {
+    hide();
     std::cout << "[GUI] - initiating Shutdown..." << std::endl;
 
     if (scopeWindow)
@@ -3625,6 +3737,7 @@ void MainWindow::restartApp()
     QApplication* app = dynamic_cast<QApplication*>(parent());
     statusBar()->showMessage(tr("Restarting Sonic Pi..."), 10000);
 
+    qputenv("SONIC_PI_RESTART", "1");
     // Save settings and perform some cleanup
     writeSettings();
     onExitCleanup();
@@ -4012,31 +4125,25 @@ bool MainWindow::eventFilter(QObject* obj, QEvent* evt)
     //     qDebug() << "Key Release: " << keyEvent->text();
     // }
 
-    // if(evt->type() == QEvent::Shortcut){
-    //     QShortcutEvent *sc = static_cast<QShortcutEvent *>(evt);
-    //     const QKeySequence &ks = sc->key();
-    //     qDebug() << "Key Shortcut: " << ks.toString();
-    // }
+    if(evt->type() == QEvent::Shortcut){
+        QShortcutEvent *sc = static_cast<QShortcutEvent *>(evt);
+        const QKeySequence &ks = sc->key();
+        if(ks == QKeySequence("Escape")) {
+          escapeWorkspaces();
+        }
+    }
 
     return QMainWindow::eventFilter(obj, evt);
 }
 
 QString MainWindow::sonicPiHomePath()
 {
-    QString path = qgetenv("SONIC_PI_HOME").constData();
-    if (path.isEmpty())
-    {
-        return QDir::homePath() + QDir::separator() + ".sonic-pi";
-    }
-    else
-    {
-        return path;
-    }
+    return QString::fromStdString(m_spAPI->GetPath(SonicPiPath::HomePath));
 }
 
 QString MainWindow::sonicPiConfigPath()
 {
-    return sonicPiHomePath() + QDir::separator() + "config";
+    return QString::fromStdString(m_spAPI->GetPath(SonicPiPath::ConfigPath));
 }
 
 void MainWindow::zoomInLogs()
@@ -4182,6 +4289,28 @@ void MainWindow::focusErrors()
     errorPane->activateWindow();
 }
 
+void MainWindow::focusBPMScrubber()
+{
+    docWidget->show();
+    updatePrefsIcon();
+    metroPane->showNormal();
+    metroPane->raise();
+    metroPane->setVisible(true);
+    metroPane->activateWindow();
+    metroPane->setFocusBPMScrubber();
+}
+
+void MainWindow::focusTimeWarpScrubber()
+{
+    docWidget->show();
+    updatePrefsIcon();
+    metroPane->showNormal();
+    metroPane->raise();
+    metroPane->setVisible(true);
+    metroPane->activateWindow();
+    metroPane->setFocusTimeWarpScrubber();
+}
+
 void MainWindow::updateContextWithCurrentWs()
 {
 
@@ -4273,4 +4402,173 @@ SonicPiScintilla* MainWindow::getCurrentWorkspace()
 SonicPiEditor* MainWindow::getCurrentEditor()
 {
   return (SonicPiEditor*)editorTabWidget->currentWidget();
+}
+
+void MainWindow::updateScsynthInfo(QString description)
+{
+  settingsWidget->updateScsynthInfo(description);
+}
+
+
+
+void MainWindow::scsynthBootError()
+{
+    splashClose();
+    setMessageBoxStyle();
+
+    QDialog* pDialog = new QDialog(this, Qt::Window | Qt::WindowTitleHint | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
+
+    QVBoxLayout* pLayout = new QVBoxLayout(this);
+    pDialog->setLayout(pLayout);
+
+    pDialog->setWindowTitle(tr("Sonic Pi - Audio Server Boot Error"));
+
+    QString text;
+    QTextStream str(&text);
+    str << "<html><body>"
+        << "<h1>" << tr("Sorry, the Audio Server failed to start...") << "</h1>\n\n"
+        << "<h2><i>" << tr("Please try changing your default OS audio input & outputs.") << "</i></h2>\n\n"
+        << "<h3>" << tr("Note, the audio rate of the inputs & outputs must be the same.") << "</h3>\n\n"
+        << "<small><i>"
+        << "<p>" << tr("For the curious among you, Sonic Pi uses the SuperCollider Audio Server to generate its sounds. By default it will connect to your default system audio input and outputs.") << "</p>"
+        << "<p>" << tr("Unfortunately SuperCollider is having problems starting correctly. You can read the full error log below which should explain why.") << "</p>"
+        << "<p>" << tr("To fix this you can try changing your default operating system audio inputs and outputs (ensuring they have the same audio rate).") << "</p>"
+        << "<p style=\"color: deeppink;\"><b>" << tr("Advanced Users") << "</b> - "
+        << tr("you may manually override this and further configure how SuperCollider boots by editing the file:") << " " << QString::fromStdString(m_spAPI->GetPath(SonicPiPath::AudioSettingsConfigPath))
+        << "</i></small>\n\n"
+        << "<h3>" << tr("SuperCollider Log") << "</h3>"
+        << "<small style=\"color: dodgerblue;\"><pre>" << QString::fromStdString(m_spAPI->GetScsynthLog()) << "</pre></small>"
+        << "</body></html>";
+
+    // The text area for the message.  Allows the user to scroll/view it.
+    auto pTextArea = new QTextEdit();
+
+    auto text_hsv_value = palette().color(QPalette::WindowText).value();
+    auto bg_hsv_value = palette().color(QPalette::Window).value();
+    bool dark_theme_found = text_hsv_value > bg_hsv_value;
+    QString styles;
+
+    if(dark_theme_found) {
+      styles = ScalePxInStyleSheet(readFile(":/theme/dark/doc-styles.css"));
+    } else {
+      styles = ScalePxInStyleSheet(readFile(":/theme/light/doc-styles.css"));
+    }
+
+    pTextArea->document()->setDefaultStyleSheet(styles);
+    pTextArea->setHtml(text);
+    pTextArea->setReadOnly(true);
+    pLayout->addWidget(pTextArea);
+
+    // Add a dialog style OK button
+    QDialogButtonBox* pButtons = new QDialogButtonBox(QDialogButtonBox::Ok, this);
+    pLayout->addWidget(pButtons);
+
+    auto finished = [&]() {
+        std::cout << "[GUI] - Aborting. Sorry about this." << std::endl;
+        QApplication::exit(-1);
+        exit(EXIT_FAILURE);
+    };
+
+    // When the user hits OK, quit
+    connect(pButtons, &QDialogButtonBox::accepted, this, [=]() {
+        std::cout << "[GUI] - Error dialog OK button clicked" << std::endl;
+        finished();
+    });
+
+    // When the dialog is done, quit
+    connect(pDialog, &QDialog::finished, this, [=]() {
+        std::cout << "[GUI] - Error dialog finished" << std::endl;
+        finished();
+    });
+
+    // Make a sensible size, but then allow resizing
+    pDialog->setFixedSize(QSize(ScaleHeightForDPI(750), ScaleHeightForDPI(800)));
+    pDialog->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
+    pDialog->exec();
+}
+
+void MainWindow::homeDirWriteError()
+{
+    splashClose();
+    setMessageBoxStyle();
+
+    QDialog* pDialog = new QDialog(this, Qt::Window | Qt::WindowTitleHint | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
+
+    QVBoxLayout* pLayout = new QVBoxLayout(this);
+    pDialog->setLayout(pLayout);
+
+    pDialog->setWindowTitle(tr("Sonic Pi - Unable to Write to Home Directory"));
+
+    QString text;
+    QTextStream str(&text);
+    if(QProcessEnvironment::systemEnvironment().value("SONIC_PI_HOME") == "") {
+      str << "<html><body>"
+          << "<h1>" << tr("Boot Error - Home Dir not writable:") << "</h1>\n\n"
+          << "<h2>" << sonicPiHomePath() << "</h2>\n\n"
+          << "<h3><i>" << tr("Quick Fix: set the environment variable SONIC_PI_HOME to a directory you have permission to write to.") << "</i></h3>\n\n"
+        << "<small><i>"
+        << "<br/>"
+        << "<br/>"
+        << "<p>" << tr("For the curious among you, Sonic Pi automatically stores the contents of the code buffers, configuration files and logs in a folder called .sonic-pi which typically resides in your home directory.") << "</p>"
+        << "<p>" << tr("Unfortunately you don't appear to have permission to write to your home directory:") << "</p><p style=\"color: dodgerblue;\">" << sonicPiHomePath() << "</p>"
+        << "<p style=\"color: deeppink;\">" << tr("To fix this you can set the environment variable SONIC_PI_HOME to any directory you have write access to and Sonic Pi will place its .sonic-pi directory within that.") << "</p>"
+        << "</body></html>";
+    } else {
+      str << "<html><body>"
+          << "<h1>" << tr("Boot Error - SONIC_PI_HOME not writable:") << "</h1>\n\n"
+          << "<h2>" << sonicPiHomePath() << "</h2>\n\n"
+          << "<h3><i>" << tr("Quick Fix: set the environment variable SONIC_PI_HOME to a directory you have permission to write to.") << "</i></h3>\n\n"
+        << "<small><i>"
+        << "<br/>"
+        << "<br/>"
+        << "<p>" << tr("For the curious among you, Sonic Pi automatically stores the contents of the code buffers, configuration files and logs in a folder called .sonic-pi which typically resides in your home directory.") << "</p>"
+        << "<p>" << tr("Unfortunately it appears you have set the SONIC_PI_HOME environment variable to a directory you don't have permission to write to:") << "</p><p style=\"color: dodgerblue;\">" << sonicPiHomePath() << "</p>"
+        << "<p style=\"color: deeppink;\">" << tr("To fix this you can set the environment variable SONIC_PI_HOME to any directory you have write access to and Sonic Pi will place its .sonic-pi directory within that.") << "</p>"
+        << "</body></html>";
+
+    }
+
+    // The text area for the message.  Allows the user to scroll/view it.
+    auto pTextArea = new QTextEdit();
+
+    auto text_hsv_value = palette().color(QPalette::WindowText).value();
+    auto bg_hsv_value = palette().color(QPalette::Window).value();
+    bool dark_theme_found = text_hsv_value > bg_hsv_value;
+    QString styles;
+
+    if(dark_theme_found) {
+      styles = ScalePxInStyleSheet(readFile(":/theme/dark/doc-styles.css"));
+    } else {
+      styles = ScalePxInStyleSheet(readFile(":/theme/light/doc-styles.css"));
+    }
+
+    pTextArea->document()->setDefaultStyleSheet(styles);
+    pTextArea->setHtml(text);
+    pTextArea->setReadOnly(true);
+    pLayout->addWidget(pTextArea);
+
+    // Add a dialog style OK button
+    QDialogButtonBox* pButtons = new QDialogButtonBox(QDialogButtonBox::Ok, this);
+    pLayout->addWidget(pButtons);
+
+    auto finished = [&]() {
+        std::cout << "[GUI] - Aborting. Sorry about this." << std::endl;
+        QApplication::exit(-1);
+        exit(EXIT_FAILURE);
+    };
+
+    // When the user hits OK, quit
+    connect(pButtons, &QDialogButtonBox::accepted, this, [=]() {
+        finished();
+    });
+
+    // When the dialog is done, quit
+    connect(pDialog, &QDialog::finished, this, [=]() {
+        finished();
+    });
+
+    // Make a sensible size, but then allow resizing
+    pDialog->setFixedSize(QSize(ScaleHeightForDPI(750), ScaleHeightForDPI(800)));
+    pDialog->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
+    pDialog->exec();
 }

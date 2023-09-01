@@ -1,23 +1,24 @@
 cmake_minimum_required(VERSION 3.2)
 
-message(STATUS " CMakeLists: Sonic Pi")
-
-project("Sonic Pi"
-    LANGUAGES CXX C
-  DESCRIPTION "A code-based music creation and performance tool"
-  VERSION 3.3.1
-  HOMEPAGE_URL "https://sonic-pi.net"
-  )
+message(STATUS "CMakeLists: Sonic Pi Qt GUI")
 
 if(APPLE)
   set(CMAKE_OSX_DEPLOYMENT_TARGET "10.15")
 endif()
 
+project("Sonic Pi"
+  LANGUAGES CXX C
+  DESCRIPTION "A code-based music creation and performance tool"
+  VERSION 5.0.0
+  HOMEPAGE_URL "https://sonic-pi.net"
+)
 
-
+set(QAPPLICATION_CLASS QApplication CACHE STRING "Inheritance class for SingleApplication")
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 set(QTAPP_ROOT ${CMAKE_CURRENT_LIST_DIR})
+
+list(APPEND CMAKE_MODULE_PATH ${QTAPP_ROOT}/cmake)
 
 # Set cmake prefix path so it can find the Qt libraries
 if((${BUILD_32BIT}) AND (DEFINED ENV{QT_INSTALL_LOCATION32}))
@@ -59,9 +60,15 @@ endif()
 
 find_package(Threads REQUIRED)
 
-# We build QScintilla as part of the main project to make it easy to debug/fix
-# It is not built as part of externals
-add_subdirectory(QScintilla_src-2.13.3)
+if(USE_SYSTEM_LIBS)
+  find_package(QScintilla REQUIRED)
+else()
+  # We build QScintilla as part of the main project to make it easy to debug/fix
+  # It is not built as part of externals
+  add_subdirectory(QScintilla_src-2.13.3)
+endif()
+
+add_subdirectory(vendor/SingleApplication)
 
 set(APP_NAME sonic-pi)
 set(MACOS_APP_NAME "Sonic Pi")
@@ -83,6 +90,8 @@ set(EDITOR_SOURCES
 set(QT_SOURCES
     ${QTAPP_ROOT}/widgets/infowidget.cpp
     ${QTAPP_ROOT}/widgets/settingswidget.cpp
+    ${QTAPP_ROOT}/widgets/bpmscrubwidget.cpp
+    ${QTAPP_ROOT}/widgets/bpmscrubwidget.h
     ${QTAPP_ROOT}/mainwindow.cpp
     ${QTAPP_ROOT}/mainwindow.h
     ${QTAPP_ROOT}/model/sonicpitheme.cpp
@@ -101,6 +110,8 @@ set(SOURCES
     ${QTAPP_ROOT}/widgets/sonicpicontext.h
     ${QTAPP_ROOT}/widgets/sonicpimetro.cpp
     ${QTAPP_ROOT}/widgets/sonicpimetro.h
+    ${QTAPP_ROOT}/widgets/timewarpedit.h
+    ${QTAPP_ROOT}/widgets/timewarpedit.cpp
     ${QTAPP_ROOT}/widgets/sonicpieditor.cpp
     ${QTAPP_ROOT}/widgets/sonicpieditor.h
     ${QTAPP_ROOT}/utils/scintilla_api.h
@@ -117,6 +128,9 @@ set(SOURCES
       ${QTAPP_ROOT}/widgets/phxwebview.cpp
       ${QTAPP_ROOT}/widgets/phxwidget.h
       ${QTAPP_ROOT}/widgets/phxwidget.cpp
+      ${QTAPP_ROOT}/widgets/phxurlinterceptor.h
+      ${QTAPP_ROOT}/widgets/phxurlinterceptor.cpp
+
       )
   endif()
 
@@ -286,24 +300,40 @@ target_link_libraries(${APP_NAME}
     PRIVATE
     SonicPi::API
     QScintilla
-    Qt::Core
-    Qt::Gui
-    Qt::Widgets
-    Qt::OpenGL
-    Qt::Concurrent
-    Qt::Network
-    Threads::Threads)
+    Threads::Threads
+    SingleApplication::SingleApplication)
 
-if(Qt6_FOUND)
+if(Qt5_FOUND)
   target_link_libraries(${APP_NAME}
   PRIVATE
+  Qt5::Core
+  Qt5::Gui
+  Qt5::Widgets
+  Qt5::OpenGL
+  Qt5::Concurrent
+  Qt5::Network)
+else()
+  target_link_libraries(${APP_NAME}
+  PRIVATE
+  Qt::Core
+  Qt::Gui
+  Qt::Widgets
+  Qt::OpenGL
+  Qt::Concurrent
+  Qt::Network
   Qt::OpenGLWidgets)
 endif()
 
 if(WITH_QT_GUI_WEBENGINE)
-  target_link_libraries(${APP_NAME}
-  PRIVATE
-  Qt::WebEngineWidgets)
+  if(Qt5_FOUND)
+    target_link_libraries(${APP_NAME}
+    PRIVATE
+    Qt5::WebEngineWidgets)
+  else()
+    target_link_libraries(${APP_NAME}
+    PRIVATE
+    Qt::WebEngineWidgets)
+  endif()
 endif()
 
 

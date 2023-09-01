@@ -1,0 +1,33 @@
+# Project
+/Gemfile.lock
+/.bundle
+/tmp/*
+/coverage
+/pkg
+
+# Yard documentation
+/.yardoc
+
+# IDEs' files
+*.iml
+*.tmproj
+.idea
+
+# Local Ruby settings
+/.rspec-local
+/.rvmrc
+/.ruby-version
+/.ruby-gemset
+/vendor
+
+# junk
+.DS_Store
+.githubtoken
+
+# Rspec created files
+/spec/examples.txt
+
+# Compiled files
+/lib/concurrent-ruby/concurrent/concurrent_ruby.jar
+/lib/concurrent-ruby/concurrent/**/concurrent_ruby_ext.*
+/lib/concurrent-ruby/concurrent/concurrent_ruby_ext.*

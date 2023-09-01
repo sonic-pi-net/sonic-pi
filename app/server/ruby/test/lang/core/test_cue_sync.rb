@@ -24,7 +24,7 @@ module SonicPi
 
     def test_time_increment
       @lang.run do
-
+        use_bpm 60
         assert_similar 0, vt
         sleep 0.05
         assert_similar 0.05, vt

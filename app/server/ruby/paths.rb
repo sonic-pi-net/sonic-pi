@@ -16,10 +16,12 @@
 module SonicPi
   module Paths
     def self.user_dir
+      return File.expand_path(ENV["SONIC_PI_HOME"]) if ENV["SONIC_PI_HOME"]
 
       # Figure out the user's home directory
       case os
       when :windows
+        return File.expand_path(ENV["USERPROFILE"]) if ENV["USERPROFILE"]
         # On Windows, Ruby lets HOME take precedence if it exists, which
         # is not what Sonic Pi should do to behave like a native Windows
         # app.  To get the same path as QDir::homePath() used by the
@@ -27,18 +29,17 @@ module SonicPi
         # set.
         home_drive = ENV["HOMEDRIVE"]
         home_path = ENV["HOMEPATH"]
-        if home_drive and home_path
-          File.expand_path(home_drive + home_path)
-        else
-          File.expand_path(Dir.home)
-        end
+        return File.absolute_path("#{home_drive}/#{home_path}") if home_drive and home_path
+        return File.expand_path(ENV["HOME"]) if ENV["HOME"]
+        return File.expand_path(Dir.home)
       else
-        File.expand_path(Dir.home)
+        return File.expand_path(ENV["HOME"]) if ENV["HOME"]
+        return File.expand_path(Dir.home)
       end
     end
 
     def self.home_dir_path
-      File.expand_path((ENV['SONIC_PI_HOME'] || user_dir) + '/.sonic-pi/')
+      File.absolute_path("#{user_dir}/.sonic-pi/")
     end
 
     def self.project_path
@@ -52,7 +53,6 @@ module SonicPi
     def self.etc_path
       File.absolute_path("#{root_path}/etc")
     end
-
     def self.snippets_path
       File.absolute_path("#{etc_path}/snippets")
     end
@@ -61,12 +61,76 @@ module SonicPi
       File.absolute_path("#{etc_path}/doc")
     end
 
+    def self.docs_generated_path
+      File.absolute_path("#{doc_path}/generated")
+    end
+
     def self.cheatsheets_path
       File.absolute_path("#{doc_path}/cheatsheets")
     end
 
     def self.tutorial_path
       File.absolute_path("#{doc_path}/tutorial")
+    end
+
+    def self.lang_path
+      File.absolute_path("#{doc_path}/lang")
+    end
+
+    def self.docs_templates_path
+      File.absolute_path("#{doc_path}/templates")
+    end
+
+    def self.docs_lang_template_path
+      File.absolute_path("#{docs_templates_path}/lang.toml.erb")
+    end
+
+    def self.docs_synth_and_fx_template_path
+      File.absolute_path("#{docs_templates_path}/synth_and_fx.toml.erb")
+    end
+
+    def self.docs_slides_template_path
+      File.absolute_path("#{docs_templates_path}/slides.toml.erb")
+    end
+
+    def self.docs_samples_template_path
+      File.absolute_path("#{docs_templates_path}/samples.toml.erb")
+    end
+
+    def self.docs_interpolated_template_path
+      File.absolute_path("#{docs_generated_path}/interpolated_templates")
+    end
+
+    def self.docs_lang_interpolated_path
+      File.absolute_path("#{docs_interpolated_template_path}/lang")
+    end
+
+    def self.docs_synths_interpolated_path
+      File.absolute_path("#{docs_interpolated_template_path}/synths")
+    end
+
+    def self.docs_fx_interpolated_path
+      File.absolute_path("#{docs_interpolated_template_path}/fx")
+    end
+
+    def self.docs_samples_interpolated_path
+      File.absolute_path("#{docs_interpolated_template_path}/samples")
+    end
+
+    def self.docs_lang_toml_path(lang)
+      File.absolute_path("#{docs_generated_path}/#{lang}/reference/lang")
+    end
+
+    def self.docs_synths_toml_path(lang)
+      File.absolute_path("#{docs_generated_path}/#{lang}/reference/synths")
+    end
+
+    def self.docs_fx_toml_path(lang)
+      File.absolute_path("#{docs_generated_path}/#{lang}/reference/fx")
+    end
+
+    def self.docs_samples_toml_path(lang)
+      File.absolute_path("#{docs_generated_path}/#{lang}/reference/samples")
     end
 
     def self.tmp_path
@@ -99,6 +163,10 @@ module SonicPi
 
     def self.qt_gui_path
       File.absolute_path("#{app_path}/gui/qt")
+    end
+
+    def self.qt_gui_utils_path
+      File.absolute_path("#{app_path}/gui/qt/utils")
     end
 
     def self.examples_path
@@ -167,6 +235,10 @@ module SonicPi
       File.absolute_path("#{log_path}/tau.log")
     end
 
+    def self.tau_boot_log_path
+      File.absolute_path("#{log_path}/tau_stdouterr.log")
+    end
+
     def self.jackd_log_path
       File.absolute_path("#{log_path}/jackd.log")
     end
@@ -204,7 +276,7 @@ module SonicPi
     end
 
 
-    def self.mix_release_boot_path
+    def self.tau_boot_path
       case os
       when :windows
         File.absolute_path("#{server_path}/beam/tau/boot-win.bat")
@@ -215,8 +287,56 @@ module SonicPi
       end
     end
 
+    def self.tau_base_path
+      File.absolute_path("#{server_path}/beam/tau")
+    end
+
+    def self.tau_release_path
+      File.absolute_path("#{tau_base_path}/_build/prod/rel/tau/releases/0.1.0")
+    end
+
+    def self.tau_release_root
+      File.absolute_path("#{tau_base_path}/_build/prod/rel/tau")
+    end
+
+    def self.tau_release_erl_bin_path
+      case os
+      when :windows
+        base = File.absolute_path("#{tau_base_path}/_build/prod/rel/tau")
+        erts_dir = Dir["#{base}/erts-*"][0]
+        path = File.absolute_path("#{erts_dir}/bin/erl.exe")
+
+        raise "Unable to find erl.exe. Did the Elixir build release work correctly? I looked here: #{path.inspect}" unless File.exist?(path)
+        path
+      when :macos
+
+      else
+
+      end
+    end
+
+    def self.tau_release_sys_config_path
+      File.absolute_path("#{tau_release_path}/sys")
+    end
+
+    def self.tau_release_sys_path
+      File.absolute_path("#{tau_release_path}/sys")
+    end
+
+    def self.tau_release_start_path
+      File.absolute_path("#{tau_release_path}/start")
+    end
+
+    def self.tau_release_vm_args_path
+      File.absolute_path("#{tau_release_path}/vm.args")
+    end
+
+    def self.tau_release_lib_path
+      File.absolute_path("#{tau_base_path}/_build/prod/rel/tau/lib")
+    end
+
     def self.tau_app_path
-      File.absolute_path("#{server_path}/beam/tau/ebin")
+      File.absolute_path("#{tau_base_path}/ebin")
     end
 
     def self.user_audio_settings_path
@@ -236,7 +356,7 @@ module SonicPi
     end
 
     def self.spider_server_path
-      File.absolute_path("#{server_bin_path}/sonic-pi-server.rb")
+      File.absolute_path("#{server_bin_path}/spider-server.rb")
     end
 
     def self.scsynth_path
@@ -256,6 +376,10 @@ module SonicPi
 
     def self.scsynth_windows_plugin_path
       File.absolute_path("#{native_path}/plugins")
+    end
+
+    def self.scsynth_macos_plugin_path
+      File.absolute_path("#{native_path}/supercollider/Resources/plugins")
     end
 
     def self.scsynth_raspberry_plugin_path

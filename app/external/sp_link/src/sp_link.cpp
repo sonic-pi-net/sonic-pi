@@ -85,11 +85,24 @@ int sp_link_init(double bpm)
 
 void sp_link_deinit()
 {
+    lock_guard<std::mutex> lock (g_init_mutex);
     if (!g_initialized){
         return;
     }
     delete g_link;
     g_initialized = false;
+}
+
+int sp_link_is_nif_initialized(bool* is_nif_initialized)
+{
+    *is_nif_initialized = g_initialized ? 1 : 0;
+    return 0;
+}
+
+int sp_link_is_nif_loaded(bool* is_nif_loaded)
+{
+    *is_nif_loaded = true;
+    return 0;
 }
 
 

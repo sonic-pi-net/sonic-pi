@@ -188,6 +188,11 @@ void QtAPIClient::BufferGui(const BufferInfo& info)
     }
 }
 
+void QtAPIClient::ScsynthGui(const ScsynthInfo& scsynthInfo)
+{
+  m_pMainWindow->updateScsynthInfo(QString::fromStdString(scsynthInfo.text));
+}
+
 void QtAPIClient::Report(const MessageInfo& info)
 {
     QMetaObject::invokeMethod(this, "ReportGui", Qt::QueuedConnection, Q_ARG(SonicPi::MessageInfo, info));
@@ -221,6 +226,21 @@ void QtAPIClient::Version(const VersionInfo& info)
 void QtAPIClient::Buffer(const BufferInfo& info)
 {
     QMetaObject::invokeMethod(this, "BufferGui", Qt::QueuedConnection, Q_ARG(SonicPi::BufferInfo, info));
+}
+
+void QtAPIClient::ActiveLinks(const int numLinks)
+{
+  emit UpdateNumActiveLinks(numLinks);
+}
+
+void QtAPIClient::BPM(const double bpm)
+{
+  emit UpdateBPM(bpm);
+}
+
+void QtAPIClient::Scsynth(const ScsynthInfo& scsynthInfo)
+{
+  QMetaObject::invokeMethod(this, "ScsynthGui", Qt::QueuedConnection, Q_ARG(SonicPi::ScsynthInfo, scsynthInfo));
 }
 
 } // namespace SonicPi

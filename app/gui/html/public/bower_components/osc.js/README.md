@@ -1,7 +1,7 @@
 osc.js
 ======
 
-osc.js is a library for reading and writing [Open Sound Control](http://opensoundcontrol.org) messages in JavaScript. It works in both Node.js and in a web browser.
+osc.js is a library for reading and writing [Open Sound Control](https://opensoundcontrol.stanford.edu/) messages in JavaScript. It works in both Node.js and in a web browser.
 
 Why osc.js?
 -----------
