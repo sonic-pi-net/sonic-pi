@@ -14,8 +14,6 @@ Native SuperCollider port of STK's Rhodey. This should be preferred over the Stk
 - It doesn't require sc3-plugins or a correct setting of StkGlobals.
 - It's beginner-friendly because it uses only basic UGens: SinOsc, EnvGen, Mix, Pan2, Out.
 
-
-TODO: Gated and non-gated versions
 */
 
 (
@@ -46,7 +44,7 @@ SynthDef('sonic-pi-rhodey', {
 	amp = amp.varlag(amp_slide, amp_slide_curve, amp_slide_shape);
 	pan = pan.varlag(pan_slide, pan_slide_curve, pan_slide_shape);
 
-	modIndex = modIndex.varlag(modIndex_slide, modIndex_slide_curve, modIndex_slide_shape);
+	mod_index = mod_index.varlag(mod_index_slide, mod_index_slide_curve, mod_index_slide_shape);
 	mix = mix.varlag(mix_slide, mix_slide_curve, mix_slide_shape);
 	lfo_width = lfo_width.varlag(lfo_width_slide, lfo_width_slide_curve, lfo_width_slide_shape);
 	lfo_rate = lfo_rate.varlag(lfo_rate_slide, lfo_rate_slide_curve, lfo_rate_slide_shape);
@@ -77,7 +75,7 @@ SynthDef('sonic-pi-rhodey', {
 		\lin
 	), doneAction: 2);
 
-    osc4 = SinOsc.ar(note * 0.5) * 2pi * 2 * 0.535887 * modIndex * env4 * vel;
+    osc4 = SinOsc.ar(note * 0.5) * 2pi * 2 * 0.535887 * mod_index * env4 * vel;
     osc3 = SinOsc.ar(note, osc4) * env3 * vel;
     osc2 = SinOsc.ar(note * 15) * 2pi * 0.108819 * env2 * vel;
     osc1 = SinOsc.ar(note, osc2) * env1 * vel;
