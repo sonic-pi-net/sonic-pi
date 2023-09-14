@@ -253,10 +253,15 @@ etc/synthdefs/compiled/gated
 Using them requires loading them. A simple usage example would be:
 
 ```
-load_synthdef "<<path-to-your-sonic-pi-repo-fork>>/etc/synthdefs/compiled/gated/sonic-pi-fm_gated.scsyndef"
+load_synthdefs "<<path-to-your-sonic-pi-repo-fork>>/etc/synthdefs/compiled/gated"
 use_synth 'sonic-pi-fm_gated'
 sth = play 43
 sleep 4
 control sth, gate: 0
 ```
 
+Some final notes:
+
+- It is perfectly possible to play the standards synths with a MIDI keyboard. Using gated synths is a bit more straightforward, e. g. when trying to get the synth to use the release phase as selected with the `release:` parameter. Look for "MIDI keyboard" on [in-thread](https://in-thread.sonic-pi.net/) for examples of how a MIDI keyboard handler can be made, with or without gated synths.
+
+- Some synths have been left out on purpose. The `:dull_bell` and `:pretty_bell` synths depend on the interrelations of the envelopes of their partials and no reasonable way of adding a gate parameter was found. Also, merely percussive synths like the SC808 group of synths were not enabled to be used with a gate.
