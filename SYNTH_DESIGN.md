@@ -265,3 +265,5 @@ Some final notes:
 - It is perfectly possible to play the standards synths with a MIDI keyboard. Using gated synths is a bit more straightforward, e. g. when trying to get the synth to use the release phase as selected with the `release:` parameter. Look for "MIDI keyboard" on [in-thread](https://in-thread.sonic-pi.net/) for examples of how a MIDI keyboard handler can be made, with or without gated synths.
 
 - Some synths have been left out on purpose. The `:dull_bell` and `:pretty_bell` synths depend on the interrelations of the envelopes of their partials and no reasonable way of adding a gate parameter was found. Also, merely percussive synths like the SC808 group of synths were not enabled to be used with a gate.
+
+- On some synths, e. g. `:kalimba` it is necessary to reduce the default `:release` in order for the gate to take effect.
