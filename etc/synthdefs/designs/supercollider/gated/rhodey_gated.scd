@@ -80,6 +80,5 @@ SynthDef('sonic-pi-rhodey_gated', {
     snd = Pan2.ar(snd, pan, amp);
 
     Out.ar(out_bus, snd);
-// }).play;
-	}).writeDefFile("/home/bmarx/music/sonic_pi/synthdefs/compiled/");
+}).writeDefFile("/Users/sam/Development/RPi/sonic-pi/etc/synthdefs/compiled/");
 )
