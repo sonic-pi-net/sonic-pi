@@ -16,13 +16,13 @@
 ;; brother. See: http://overtone.github.io
 
 (ns sonic-pi.core
-  (:use [overtone.core])
+  (:use [overtone.live])
 
   (:require [clojure.string :as str]))
 
 ;; Utility functions (for creating and storing synthdefs)
 
-(def path-to-synthdefs "/home/bmarx/tmp/overtone/overtone/synthdefs")
+(def path-to-synthdefs "/Users/sam/Development/sonic-pi/etc/synthdefs")
 (+ 1 2)
 (defn save-synthdef [sdef]
   (let [compiled (str path-to-synthdefs "/compiled/" (last (str/split (-> sdef :sdef :name) #"/")) ".scsyndef")
