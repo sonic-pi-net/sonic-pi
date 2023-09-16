@@ -266,4 +266,4 @@ Some final notes:
 
 - Some synths have been left out on purpose. The `:dull_bell` and `:pretty_bell` synths depend on the interrelations of the envelopes of their partials and no reasonable way of adding a gate parameter was found. Also, merely percussive synths like the SC808 group of synths were not enabled to be used with a gate.
 
-- On some synths, e. g. `:kalimba` it is necessary to reduce the default `:release` in order for the gate to take effect.
+- On some synths, e. g. `:kalimba`, it is necessary to reduce the default `:release` in order for the gate to take effect.
