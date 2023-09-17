@@ -1926,7 +1926,7 @@ msgstr "*Attack* - die Zeit in der die Amplitude von 0 zu `attack_level` überge
 #: 02.4-Durations-with-Envelopes.md:196
 msgid "*decay* - time to move amplitude from `attack_level` to `decay_level`,"
 msgstr ""
-"*Decay* - die Zeit in der die Amplitude von `attack_level` zu `sustain_level` "
+"*Decay* - die Zeit in der die Amplitude von `attack_level` zu `decay_level` "
 "übergeht,"
 
 #: 02.4-Durations-with-Envelopes.md:197
@@ -2074,9 +2074,9 @@ msgid ""
 "esting overlap effects."
 msgstr ""
 "Achte darauf, dass Sonic Pi nicht wartet, bis ein Klang beendet ist, bevor es "
-"den nächsten startet? Der `sleep`-Befehl beschreibt nur, in welchem Abstand ei"
+"den nächsten startet. Der `sleep`-Befehl beschreibt nur, in welchem Abstand ei"
 "n Klang erneut *getriggert* (ausgelöst) wird. Dies erlaubt dir Klänge in Schic"
-"hten übereinander legen und interessante Überlappungseffekte herzustellen."
+"hten übereinander zu legen und interessante Überlappungseffekte herzustellen."
 
 #: 03.1-Triggering-Samples.md:42
 msgid "Discovering Samples"
