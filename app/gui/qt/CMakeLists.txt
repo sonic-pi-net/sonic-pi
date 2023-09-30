@@ -65,7 +65,7 @@ if(USE_SYSTEM_LIBS)
 else()
   # We build QScintilla as part of the main project to make it easy to debug/fix
   # It is not built as part of externals
-  add_subdirectory(QScintilla_src-2.13.3)
+  add_subdirectory(QScintilla_src-2.14.1)
 endif()
 
 add_subdirectory(vendor/SingleApplication)
