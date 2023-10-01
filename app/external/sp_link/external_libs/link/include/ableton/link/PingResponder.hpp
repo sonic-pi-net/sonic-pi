@@ -40,7 +40,7 @@ class PingResponder
   using Socket = typename IoType::type::template Socket<v1::kMaxMessageSize>;
 
 public:
-  PingResponder(asio::ip::address_v4 address,
+  PingResponder(discovery::IpAddress address,
     SessionId sessionId,
     GhostXForm ghostXForm,
     Clock clock,
@@ -64,12 +64,12 @@ public:
     mpImpl->mGhostXForm = std::move(xform);
   }
 
-  asio::ip::udp::endpoint endpoint() const
+  discovery::UdpEndpoint endpoint() const
   {
     return mpImpl->mSocket.endpoint();
   }
 
-  asio::ip::address address() const
+  discovery::IpAddress address() const
   {
     return endpoint().address();
   }
@@ -82,7 +82,7 @@ public:
 private:
   struct Impl : std::enable_shared_from_this<Impl>
   {
-    Impl(asio::ip::address_v4 address,
+    Impl(discovery::IpAddress address,
       SessionId sessionId,
       GhostXForm ghostXForm,
       Clock clock,
@@ -102,7 +102,7 @@ private:
 
     // Operator to handle incoming messages on the interface
     template <typename It>
-    void operator()(const asio::ip::udp::endpoint& from, const It begin, const It end)
+    void operator()(const discovery::UdpEndpoint& from, const It begin, const It end)
     {
       using namespace discovery;
 
@@ -136,7 +136,7 @@ private:
     }
 
     template <typename It>
-    void reply(It begin, It end, const asio::ip::udp::endpoint& to)
+    void reply(It begin, It end, const discovery::UdpEndpoint& to)
     {
       using namespace discovery;
 

@@ -2,7 +2,7 @@
 // io_context.cpp
 // ~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -409,8 +409,7 @@ void io_context_executor_execute_test()
   io_context ioc;
   int count = 0;
 
-  asio::execution::execute(ioc.get_executor(),
-      bindns::bind(increment, &count));
+  ioc.get_executor().execute(bindns::bind(increment, &count));
 
   // No handlers can be called until run() is called.
   ASIO_CHECK(!ioc.stopped());
@@ -424,10 +423,9 @@ void io_context_executor_execute_test()
 
   count = 0;
   ioc.restart();
-  asio::execution::execute(
-      asio::require(ioc.get_executor(),
-        asio::execution::blocking.possibly),
-      bindns::bind(increment, &count));
+  asio::require(ioc.get_executor(),
+      asio::execution::blocking.possibly
+    ).execute(bindns::bind(increment, &count));
 
   // No handlers can be called until run() is called.
   ASIO_CHECK(!ioc.stopped());
@@ -441,10 +439,9 @@ void io_context_executor_execute_test()
 
   count = 0;
   ioc.restart();
-  asio::execution::execute(
-      asio::require(ioc.get_executor(),
-        asio::execution::blocking.never),
-      bindns::bind(increment, &count));
+  asio::require(ioc.get_executor(),
+      asio::execution::blocking.never
+    ).execute(bindns::bind(increment, &count));
 
   // No handlers can be called until run() is called.
   ASIO_CHECK(!ioc.stopped());
@@ -460,11 +457,10 @@ void io_context_executor_execute_test()
   ioc.restart();
   ASIO_CHECK(!ioc.stopped());
 
-  asio::execution::execute(
-      asio::require(ioc.get_executor(),
-        asio::execution::blocking.never,
-        asio::execution::outstanding_work.tracked),
-      bindns::bind(increment, &count));
+  asio::require(ioc.get_executor(),
+      asio::execution::blocking.never,
+      asio::execution::outstanding_work.tracked
+    ).execute(bindns::bind(increment, &count));
 
   // No handlers can be called until run() is called.
   ASIO_CHECK(!ioc.stopped());
@@ -478,11 +474,10 @@ void io_context_executor_execute_test()
 
   count = 0;
   ioc.restart();
-  asio::execution::execute(
-      asio::require(ioc.get_executor(),
-        asio::execution::blocking.never,
-        asio::execution::outstanding_work.untracked),
-      bindns::bind(increment, &count));
+  asio::require(ioc.get_executor(),
+      asio::execution::blocking.never,
+      asio::execution::outstanding_work.untracked
+    ).execute(bindns::bind(increment, &count));
 
   // No handlers can be called until run() is called.
   ASIO_CHECK(!ioc.stopped());
@@ -496,12 +491,11 @@ void io_context_executor_execute_test()
 
   count = 0;
   ioc.restart();
-  asio::execution::execute(
-      asio::require(ioc.get_executor(),
-        asio::execution::blocking.never,
-        asio::execution::outstanding_work.untracked,
-        asio::execution::relationship.fork),
-      bindns::bind(increment, &count));
+  asio::require(ioc.get_executor(),
+      asio::execution::blocking.never,
+      asio::execution::outstanding_work.untracked,
+      asio::execution::relationship.fork
+    ).execute(bindns::bind(increment, &count));
 
   // No handlers can be called until run() is called.
   ASIO_CHECK(!ioc.stopped());
@@ -515,12 +509,31 @@ void io_context_executor_execute_test()
 
   count = 0;
   ioc.restart();
-  asio::execution::execute(
+  asio::require(ioc.get_executor(),
+      asio::execution::blocking.never,
+      asio::execution::outstanding_work.untracked,
+      asio::execution::relationship.continuation
+    ).execute(bindns::bind(increment, &count));
+
+  // No handlers can be called until run() is called.
+  ASIO_CHECK(!ioc.stopped());
+  ASIO_CHECK(count == 0);
+
+  ioc.run();
+
+  // The run() call will not return until all work has finished.
+  ASIO_CHECK(ioc.stopped());
+  ASIO_CHECK(count == 1);
+
+  count = 0;
+  ioc.restart();
+  asio::prefer(
       asio::require(ioc.get_executor(),
         asio::execution::blocking.never,
         asio::execution::outstanding_work.untracked,
         asio::execution::relationship.continuation),
-      bindns::bind(increment, &count));
+      asio::execution::allocator(std::allocator<void>())
+    ).execute(bindns::bind(increment, &count));
 
   // No handlers can be called until run() is called.
   ASIO_CHECK(!ioc.stopped());
@@ -534,35 +547,13 @@ void io_context_executor_execute_test()
 
   count = 0;
   ioc.restart();
-  asio::execution::execute(
-      asio::prefer(
-        asio::require(ioc.get_executor(),
-          asio::execution::blocking.never,
-          asio::execution::outstanding_work.untracked,
-          asio::execution::relationship.continuation),
-        asio::execution::allocator(std::allocator<void>())),
-      bindns::bind(increment, &count));
-
-  // No handlers can be called until run() is called.
-  ASIO_CHECK(!ioc.stopped());
-  ASIO_CHECK(count == 0);
-
-  ioc.run();
-
-  // The run() call will not return until all work has finished.
-  ASIO_CHECK(ioc.stopped());
-  ASIO_CHECK(count == 1);
-
-  count = 0;
-  ioc.restart();
-  asio::execution::execute(
-      asio::prefer(
-        asio::require(ioc.get_executor(),
-          asio::execution::blocking.never,
-          asio::execution::outstanding_work.untracked,
-          asio::execution::relationship.continuation),
-        asio::execution::allocator),
-      bindns::bind(increment, &count));
+  asio::prefer(
+      asio::require(ioc.get_executor(),
+        asio::execution::blocking.never,
+        asio::execution::outstanding_work.untracked,
+        asio::execution::relationship.continuation),
+      asio::execution::allocator
+    ).execute(bindns::bind(increment, &count));
 
   // No handlers can be called until run() is called.
   ASIO_CHECK(!ioc.stopped());

@@ -2,13 +2,14 @@
 // composed_8.cpp
 // ~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
 #include <asio/compose.hpp>
+#include <asio/deferred.hpp>
 #include <asio/io_context.hpp>
 #include <asio/ip/tcp.hpp>
 #include <asio/steady_timer.hpp>
@@ -114,15 +115,26 @@ auto async_write_messages(tcp::socket& socket,
     const T& message, std::size_t repeat_count,
     CompletionToken&& token)
   // The return type of the initiating function is deduced from the combination
-  // of CompletionToken type and the completion handler's signature. When the
-  // completion token is a simple callback, the return type is always void.
-  // In this example, when the completion token is asio::yield_context
-  // (used for stackful coroutines) the return type would be also be void, as
+  // of:
+  //
+  // - the CompletionToken type,
+  // - the completion handler signature, and
+  // - the asynchronous operation's initiation function object.
+  //
+  // When the completion token is a simple callback, the return type is always
+  // void. In this example, when the completion token is asio::yield_context
+  // (used for stackful coroutines) the return type would also be void, as
   // there is no non-error argument to the completion handler. When the
-  // completion token is asio::use_future it would be std::future<void>.
-  -> typename asio::async_result<
-    typename std::decay<CompletionToken>::type,
-    void(std::error_code)>::return_type
+  // completion token is asio::use_future it would be std::future<void>. When
+  // the completion token is asio::deferred, the return type differs for each
+  // asynchronous operation.
+  //
+  // In C++11 we deduce the type from the call to asio::async_compose.
+  -> decltype(
+      asio::async_compose<
+        CompletionToken, void(std::error_code)>(
+          std::declval<async_write_messages_implementation>(),
+          token, socket))
 {
   // Encode the message and copy it into an allocated buffer. The buffer will
   // be maintained for the lifetime of the composed asynchronous operation.
@@ -181,6 +193,39 @@ void test_callback()
 
 //------------------------------------------------------------------------------
 
+void test_deferred()
+{
+  asio::io_context io_context;
+
+  tcp::acceptor acceptor(io_context, {tcp::v4(), 55555});
+  tcp::socket socket = acceptor.accept();
+
+  // Test our asynchronous operation using the deferred completion token. This
+  // token causes the operation's initiating function to package up the
+  // operation and its arguments to return a function object, which may then be
+  // used to launch the asynchronous operation.
+  auto op = async_write_messages(socket,
+      "Testing deferred\r\n", 5, asio::deferred);
+
+  // Launch the operation using a lambda as a callback.
+  std::move(op)(
+      [](const std::error_code& error)
+      {
+        if (!error)
+        {
+          std::cout << "Messages sent\n";
+        }
+        else
+        {
+          std::cout << "Error: " << error.message() << "\n";
+        }
+      });
+
+  io_context.run();
+}
+
+//------------------------------------------------------------------------------
+
 void test_future()
 {
   asio::io_context io_context;
@@ -213,5 +258,6 @@ void test_future()
 int main()
 {
   test_callback();
+  test_deferred();
   test_future();
 }

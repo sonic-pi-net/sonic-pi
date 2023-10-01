@@ -2,7 +2,7 @@
 // bulk_execute.cpp
 // ~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -18,6 +18,8 @@
 
 #include "asio/execution.hpp"
 #include "../unit_test.hpp"
+
+#if !defined(ASIO_NO_DEPRECATED)
 
 namespace exec = asio::execution;
 
@@ -291,6 +293,7 @@ void test_bulk_execute()
   exec::bulk_execute(free_bulk_execute(), handler, 2);
   ASIO_CHECK(call_count == 1);
 
+#if !defined(ASIO_NO_DEPRECATED)
   call_count = 0;
   executor ex5;
   exec::execute(
@@ -310,6 +313,7 @@ void test_bulk_execute()
       exec::bulk_execute(executor(), counting_handler, 10u),
       completion_handler);
   ASIO_CHECK(call_count == 11);
+#endif // !defined(ASIO_NO_DEPRECATED)
 }
 
 ASIO_TEST_SUITE
@@ -318,3 +322,13 @@ ASIO_TEST_SUITE
   ASIO_TEST_CASE(test_can_bulk_execute)
   ASIO_TEST_CASE(test_bulk_execute)
 )
+
+#else // !defined(ASIO_NO_DEPRECATED)
+
+ASIO_TEST_SUITE
+(
+  "bulk_execute",
+  ASIO_TEST_CASE(null_test)
+)
+
+#endif // !defined(ASIO_NO_DEPRECATED)

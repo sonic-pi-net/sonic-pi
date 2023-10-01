@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+# Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 #
 # Distributed under the Boost Software License, Version 1.0. (See accompanying
 # file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -25,6 +25,7 @@ boostbook standalone
     <xsl:param>nav.layout=none
     <xsl:param>navig.graphics.path=""
     <xsl:param>admon.graphics.path=""
+    <xsl:param>callout.graphics.path=""
     <xsl:param>chapter.autolabel=0
     <xsl:param>chunk.section.depth=8
     <xsl:param>chunk.first.sections=1
@@ -51,10 +52,28 @@ install html
     $(boost)/doc/src/images/up_disabled.png
     $(boost)/doc/src/images/up.png
     $(boost)/doc/src/images/warning.png
+    $(boost)/doc/src/images/callouts/1.png
+    $(boost)/doc/src/images/callouts/2.png
+    $(boost)/doc/src/images/callouts/3.png
+    $(boost)/doc/src/images/callouts/4.png
+    $(boost)/doc/src/images/callouts/5.png
+    $(boost)/doc/src/images/callouts/6.png
+    $(boost)/doc/src/images/callouts/7.png
+    $(boost)/doc/src/images/callouts/8.png
     overview/proactor.png
     overview/sync_op.png
     overview/async_op1.png
     overview/async_op2.png
+    overview/model/async_agent_chain.png
+    overview/model/async_agent_model.png
+    overview/model/async_child_agent_chain.png
+    overview/model/async_op_init_complete.png
+    overview/model/async_op_model.png
+    overview/model/async_op_phases.png
+    overview/model/async_op_trivial_chain.png
+    overview/model/completion_token_model.png
+    overview/model/completion_token_transform.png
+    overview/model/higher_level_model.png
     asio.png
   ;
 

@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include <ableton/platforms/asio/AsioWrapper.hpp>
+#include <ableton/discovery/AsioTypes.hpp>
 #include <ableton/util/Injected.hpp>
 #include <chrono>
 #include <vector>
@@ -29,7 +29,7 @@ namespace ableton
 namespace discovery
 {
 
-// Callback takes a range of asio::ip:address which is
+// Callback takes a range of IpAddress which is
 // guaranteed to be sorted and unique
 template <typename Callback, typename IoContext>
 class InterfaceScanner
@@ -64,7 +64,7 @@ public:
     using namespace std;
     debug(mIo->log()) << "Scanning network interfaces";
     // Rescan the hardware for available network interface addresses
-    vector<asio::ip::address> addrs = mIo->scanNetworkInterfaces();
+    vector<IpAddress> addrs = mIo->scanNetworkInterfaces();
     // Sort and unique them to guarantee consistent comparison
     sort(begin(addrs), end(addrs));
     addrs.erase(unique(begin(addrs), end(addrs)), end(addrs));

@@ -1,0 +1,49 @@
+[/
+ / Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+ /
+ / Distributed under the Boost Software License, Version 1.0. (See accompanying
+ / file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+ /]
+
+[section:files Files]
+
+[note This feature requires I/O completion ports on Windows, and io_uring on
+Linux (define `ASIO_HAS_IO_URING` to enable).]
+
+Asio provides support for manipulating stream-oriented and random-access files.
+For example, to write to a newly created stream-oriented file:
+
+  asio::stream_file file(
+      my_io_context, "/path/to/file",
+      asio::stream_file::write_only
+        | asio::stream_file::create
+        | asio::stream_file::truncate);
+
+  file.async_write_some(my_buffer,
+      [](error_code e, size_t n)
+      {
+        // ...
+      });
+
+or to read from a random-access file:
+
+  asio::random_access_file file(
+      my_io_context, "/path/to/file",
+      asio::random_access_file::read_only);
+
+  file.async_read_some_at(1234, my_buffer,
+      [](error_code e, size_t n)
+      {
+        // ...
+      });
+
+[heading See Also]
+
+[link asio.reference.basic_file basic_file],
+[link asio.reference.basic_random_access_file basic_random_access_file],
+[link asio.reference.basic_stream_file basic_stream_file],
+[link asio.reference.file_base file_base],
+[link asio.reference.random_access_file random_access_file],
+[link asio.reference.stream_file stream_file].
+
+[endsect]

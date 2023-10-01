@@ -1,0 +1,96 @@
+[/
+ / Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+ /
+ / Distributed under the Boost Software License, Version 1.0. (See accompanying
+ / file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+ /]
+
+[section:promises Promises]
+
+[note This is an experimental feature.]
+
+The [link asio.reference.experimental__promise `experimental::promise`] type
+and [link asio.reference.experimental__use_promise `experimental::use_promise`]
+completion token allow eager execution and synchronisation of asynchronous
+operations. For example:
+
+  auto promise = async_read(
+      stream, asio::buffer(my_buffer),
+      asio::experimental::use_promise);
+
+  ... do other stuff while the read is going on ...
+
+  promise.async_wait( // completion the operation
+      [](error_code ec, std::size_t bytes_read)
+      {
+        ...
+      });
+
+Promises can be safely disregarded if the result is no longer required.
+Different operations can be combined to either wait for all to complete or for
+one to complete (and cancel the rest). For example, to wait for one to
+complete:
+
+  auto timeout_promise =
+    timer.async_wait(
+      asio::experimental::use_promise);
+
+  auto read_promise = async_read(
+      stream, asio::buffer(my_buffer),
+      asio::experimental::use_promise);
+
+  auto promise =
+    asio::experimental::make_parallel_group(
+      timeout_promise.async_wait(asio::deferred),
+      read_promise.async_wait(asio::deferred)
+    ).async_wait(
+      asio::experimental::wait_for_one(),
+      asio::experimental::use_promise);
+
+  promise.async_wait(
+      [](std::array<std::size_t, 2> order,
+         error_code timer_ec,
+         error_code read_ec, std::size_t read_size)
+      {
+        if (order[0] == 0)
+        {
+          // timed out
+        }
+        else
+        {
+          // completed in time
+        }
+      });
+
+or to wait for all to complete:
+
+  auto write_promise = async_write(
+      stream, asio::buffer(my_write_buffer),
+      asio::experimental::use_promise);
+
+  auto read_promise = async_read(
+      stream, asio::buffer(my_buffer),
+      asio::experimental::use_promise);
+
+  auto promise =
+    asio::experimental::make_parallel_group(
+      timeout_promise.async_wait(asio::deferred),
+      read_promise.async_wait(asio::deferred)
+    ).async_wait(
+      asio::experimental::wait_for_all(),
+      asio::experimental::use_promise);
+
+  promise.async_wait(
+      [](std::array<std::size_t, 2> order,
+         error_code timer_ec,
+         error_code read_ec, std::size_t read_size)
+      {
+        // ...
+      });
+
+[heading See Also]
+
+[link asio.reference.experimental__promise promise],
+[link asio.reference.experimental__use_promise use_promise].
+
+[endsect]

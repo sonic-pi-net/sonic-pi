@@ -2,7 +2,7 @@
 // server.cpp
 // ~~~~~~~~~~
 //
-// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -112,46 +112,6 @@ private:
   handler_memory& memory_;
 };
 
-// Wrapper class template for handler objects to allow handler memory
-// allocation to be customised. The allocator_type type and get_allocator()
-// member function are used by the asynchronous operations to obtain the
-// allocator. Calls to operator() are forwarded to the encapsulated handler.
-template <typename Handler>
-class custom_alloc_handler
-{
-public:
-  using allocator_type = handler_allocator<Handler>;
-
-  custom_alloc_handler(handler_memory& m, Handler h)
-    : memory_(m),
-      handler_(h)
-  {
-  }
-
-  allocator_type get_allocator() const noexcept
-  {
-    return allocator_type(memory_);
-  }
-
-  template <typename ...Args>
-  void operator()(Args&&... args)
-  {
-    handler_(std::forward<Args>(args)...);
-  }
-
-private:
-  handler_memory& memory_;
-  Handler handler_;
-};
-
-// Helper function to wrap a handler object to add custom allocation.
-template <typename Handler>
-inline custom_alloc_handler<Handler> make_custom_alloc_handler(
-    handler_memory& m, Handler h)
-{
-  return custom_alloc_handler<Handler>(m, h);
-}
-
 class session
   : public std::enable_shared_from_this<session>
 {
@@ -171,7 +131,8 @@ private:
   {
     auto self(shared_from_this());
     socket_.async_read_some(asio::buffer(data_),
-        make_custom_alloc_handler(handler_memory_,
+        asio::bind_allocator(
+          handler_allocator<int>(handler_memory_),
           [this, self](std::error_code ec, std::size_t length)
           {
             if (!ec)
@@ -185,7 +146,8 @@ private:
   {
     auto self(shared_from_this());
     asio::async_write(socket_, asio::buffer(data_, length),
-        make_custom_alloc_handler(handler_memory_,
+        asio::bind_allocator(
+          handler_allocator<int>(handler_memory_),
           [this, self](std::error_code ec, std::size_t /*length*/)
           {
             if (!ec)

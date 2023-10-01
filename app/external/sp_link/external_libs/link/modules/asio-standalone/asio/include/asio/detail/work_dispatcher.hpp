@@ -2,7 +2,7 @@
 // detail/work_dispatcher.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -16,6 +16,7 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
+#include "asio/detail/bind_handler.hpp"
 #include "asio/detail/type_traits.hpp"
 #include "asio/associated_executor.hpp"
 #include "asio/associated_allocator.hpp"
@@ -77,11 +78,18 @@ public:
 
   void operator()()
   {
+    typename associated_allocator<Handler>::type alloc(
+        (get_associated_allocator)(handler_));
+#if defined(ASIO_NO_DEPRECATED)
+    asio::prefer(executor_, execution::allocator(alloc)).execute(
+        asio::detail::bind_handler(
+          ASIO_MOVE_CAST(Handler)(handler_)));
+#else // defined(ASIO_NO_DEPRECATED)
     execution::execute(
-        asio::prefer(executor_,
-          execution::blocking.possibly,
-          execution::allocator((get_associated_allocator)(handler_))),
-        ASIO_MOVE_CAST(Handler)(handler_));
+        asio::prefer(executor_, execution::allocator(alloc)),
+        asio::detail::bind_handler(
+          ASIO_MOVE_CAST(Handler)(handler_)));
+#endif // defined(ASIO_NO_DEPRECATED)
   }
 
 private:
@@ -129,7 +137,8 @@ public:
     typename associated_allocator<Handler>::type alloc(
         (get_associated_allocator)(handler_));
     work_.get_executor().dispatch(
-        ASIO_MOVE_CAST(Handler)(handler_), alloc);
+        asio::detail::bind_handler(
+          ASIO_MOVE_CAST(Handler)(handler_)), alloc);
     work_.reset();
   }
 

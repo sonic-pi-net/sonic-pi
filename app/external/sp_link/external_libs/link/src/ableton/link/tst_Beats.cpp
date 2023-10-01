@@ -31,14 +31,14 @@ TEST_CASE("Beats")
   {
     const auto beats = Beats{0.5};
     CHECK(500000 == beats.microBeats());
-    CHECK(0.5 == Approx(beats.floating()));
+    CHECK_THAT(0.5, Catch::Matchers::WithinAbs(beats.floating(), 1e-10));
   }
 
   SECTION("ConstructFromMicros")
   {
     const auto beats = Beats{INT64_C(100000)};
     CHECK(100000 == beats.microBeats());
-    CHECK(0.1 == Approx(beats.floating()));
+    CHECK_THAT(0.1, Catch::Matchers::WithinAbs(beats.floating(), 1e-10));
   }
 
   SECTION("Negation")

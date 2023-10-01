@@ -34,19 +34,19 @@ TEST_CASE("Median")
   SECTION("ArrayWithThreePoints")
   {
     auto data = std::array<double, 3>{{5., 0., 6.}};
-    CHECK(5 == Approx(median(data.begin(), data.end())));
+    CHECK_THAT(5, Catch::Matchers::WithinAbs(median(data.begin(), data.end()), 1e-10));
   }
 
   SECTION("VectorWithFourPoints")
   {
     auto data = Vector{{0., 2., 1., 3., 2.}};
-    CHECK(2.0 == Approx(median(data.begin(), data.end())));
+    CHECK_THAT(2.0, Catch::Matchers::WithinAbs(median(data.begin(), data.end()), 1e-10));
   }
 
   SECTION("VectorWithFivePoints")
   {
     auto data = Vector{{0., 1., 3., 2.}};
-    CHECK(1.5 == Approx(median(data.begin(), data.end())));
+    CHECK_THAT(1.5, Catch::Matchers::WithinAbs(median(data.begin(), data.end()), 1e-10));
   }
 
   SECTION("VectorWith9999Points")
@@ -58,7 +58,8 @@ TEST_CASE("Median")
     {
       data.emplace_back(i * slope + intercept);
     }
-    CHECK(slope * 5000 + intercept == Approx(median(data.begin(), data.end())));
+    CHECK_THAT(slope * 5000 + intercept,
+      Catch::Matchers::WithinAbs(median(data.begin(), data.end()), 1e-10));
   }
 }
 

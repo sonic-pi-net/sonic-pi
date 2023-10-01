@@ -1,0 +1,40 @@
+[/
+ / Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+ /
+ / Distributed under the Boost Software License, Version 1.0. (See accompanying
+ / file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+ /]
+
+[section:model Asynchronous Model]
+
+This section presents a high-level overview of the asynchronous model at the
+core of the Asio library. This model enshrines asynchronous operations as the
+fundamental building block of asynchronous composition, but in a way that
+decouples them from the composition mechanism. The asynchronous operations in
+Asio support callbacks, futures (both eager and lazy), fibers, coroutines, and
+approaches yet to be imagined. This allows the application programmer to select
+an approach based on appropriate trade-offs.
+
+* [link asio.overview.model.async_ops Asynchronous Operations]
+* [link asio.overview.model.async_agents Asynchronous Agents]
+* [link asio.overview.model.associators Associated Characteristics and Associators]
+* [link asio.overview.model.child_agents Child Agents]
+* [link asio.overview.model.executors Executors]
+* [link asio.overview.model.allocators Allocators]
+* [link asio.overview.model.cancellation Cancellation]
+* [link asio.overview.model.completion_tokens Completion Tokens]
+* [link asio.overview.model.library_elements Supporting Library Elements]
+* [link asio.overview.model.higher_levels Higher Level Abstractions]
+
+[include model/async_ops.qbk]
+[include model/async_agents.qbk]
+[include model/associators.qbk]
+[include model/child_agents.qbk]
+[include model/executors.qbk]
+[include model/allocators.qbk]
+[include model/cancellation.qbk]
+[include model/completion_tokens.qbk]
+[include model/library_elements.qbk]
+[include model/higher_levels.qbk]
+
+[endsect]

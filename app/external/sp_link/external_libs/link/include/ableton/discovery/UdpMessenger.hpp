@@ -19,10 +19,10 @@
 
 #pragma once
 
-#include <ableton/discovery/IpV4Interface.hpp>
+#include <ableton/discovery/AsioTypes.hpp>
+#include <ableton/discovery/IpInterface.hpp>
 #include <ableton/discovery/MessageTypes.hpp>
 #include <ableton/discovery/v1/Messages.hpp>
-#include <ableton/platforms/asio/AsioWrapper.hpp>
 #include <ableton/util/Injected.hpp>
 #include <ableton/util/SafeAsyncHandler.hpp>
 #include <algorithm>
@@ -37,14 +37,22 @@ namespace discovery
 // interface through which the sending failed.
 struct UdpSendException : std::runtime_error
 {
-  UdpSendException(const std::runtime_error& e, asio::ip::address ifAddr)
+  UdpSendException(const std::runtime_error& e, IpAddress ifAddr)
     : std::runtime_error(e.what())
     , interfaceAddr(std::move(ifAddr))
   {
   }
 
-  asio::ip::address interfaceAddr;
+  IpAddress interfaceAddr;
 };
+
+template <typename Interface>
+UdpEndpoint ipV6Endpoint(Interface& iface, const UdpEndpoint& endpoint)
+{
+  auto v6Address = endpoint.address().to_v6();
+  v6Address.scope_id(iface.endpoint().address().to_v6().scope_id());
+  return {v6Address, endpoint.port()};
+}
 
 // Throws UdpSendException
 template <typename Interface, typename NodeId, typename Payload>
@@ -53,7 +61,7 @@ void sendUdpMessage(Interface& iface,
   const uint8_t ttl,
   const v1::MessageType messageType,
   const Payload& payload,
-  const asio::ip::udp::endpoint& to)
+  const UdpEndpoint& to)
 {
   using namespace std;
   v1::MessageBuffer buffer;
@@ -176,8 +184,16 @@ private:
 
     void sendByeBye()
     {
-      sendUdpMessage(
-        *mInterface, mState.ident(), 0, v1::kByeBye, makePayload(), multicastEndpoint());
+      if (mInterface->endpoint().address().is_v4())
+      {
+        sendUdpMessage(*mInterface, mState.ident(), 0, v1::kByeBye, makePayload(),
+          multicastEndpointV4());
+      }
+      if (mInterface->endpoint().address().is_v6())
+      {
+        sendUdpMessage(*mInterface, mState.ident(), 0, v1::kByeBye, makePayload(),
+          multicastEndpointV6(mInterface->endpoint().address().to_v6().scope_id()));
+      }
     }
 
     void updateState(NodeState state)
@@ -213,21 +229,29 @@ private:
       if (delay < milliseconds{1})
       {
         debug(mIo->log()) << "Broadcasting state";
-        sendPeerState(v1::kAlive, multicastEndpoint());
+        if (mInterface->endpoint().address().is_v4())
+        {
+          sendPeerState(v1::kAlive, multicastEndpointV4());
+        }
+        if (mInterface->endpoint().address().is_v6())
+        {
+          sendPeerState(v1::kAlive,
+            multicastEndpointV6(mInterface->endpoint().address().to_v6().scope_id()));
+        }
       }
     }
 
-    void sendPeerState(
-      const v1::MessageType messageType, const asio::ip::udp::endpoint& to)
+    void sendPeerState(const v1::MessageType messageType, const UdpEndpoint& to)
     {
       sendUdpMessage(
         *mInterface, mState.ident(), mTtl, messageType, toPayload(mState), to);
       mLastBroadcastTime = mTimer.now();
     }
 
-    void sendResponse(const asio::ip::udp::endpoint& to)
+    void sendResponse(const UdpEndpoint& to)
     {
-      sendPeerState(v1::kResponse, to);
+      const auto endpoint = to.address().is_v4() ? to : ipV6Endpoint(*mInterface, to);
+      sendPeerState(v1::kResponse, endpoint);
     }
 
     template <typename Tag>
@@ -237,10 +261,8 @@ private:
     }
 
     template <typename Tag, typename It>
-    void operator()(Tag tag,
-      const asio::ip::udp::endpoint& from,
-      const It messageBegin,
-      const It messageEnd)
+    void operator()(
+      Tag tag, const UdpEndpoint& from, const It messageBegin, const It messageEnd)
     {
       auto result = v1::parseMessageHeader<NodeId>(messageBegin, messageEnd);
 

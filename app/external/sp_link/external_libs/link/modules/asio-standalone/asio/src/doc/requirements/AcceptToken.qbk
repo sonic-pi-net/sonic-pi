@@ -1,0 +1,99 @@
+[/
+ / Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+ /
+ / Distributed under the Boost Software License, Version 1.0. (See accompanying
+ / file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+ /]
+
+[section:AcceptToken Accept token requirements]
+
+A accept token is a [link asio.overview.model.completion_tokens completion
+token] for completion signature `void(error_code)`.
+
+[heading Examples]
+
+A free function as a accept token:
+
+  void accept_handler(
+      const asio::error_code& ec)
+  {
+    ...
+  }
+
+A accept token function object:
+
+  struct accept_handler
+  {
+    ...
+    void operator()(
+        const asio::error_code& ec)
+    {
+      ...
+    }
+    ...
+  };
+
+A lambda as a accept token:
+
+  acceptor.async_accept(...,
+      [](const asio::error_code& ec)
+      {
+        ...
+      });
+
+A non-static class member function adapted to a accept token using
+`std::bind()`:
+
+  void my_class::accept_handler(
+      const asio::error_code& ec)
+  {
+    ...
+  }
+  ...
+  acceptor.async_accept(...,
+      std::bind(&my_class::accept_handler,
+        this, std::placeholders::_1));
+
+A non-static class member function adapted to a accept token using
+`boost::bind()`:
+
+  void my_class::accept_handler(
+      const asio::error_code& ec)
+  {
+    ...
+  }
+  ...
+  acceptor.async_accept(...,
+      boost::bind(&my_class::accept_handler,
+        this, asio::placeholders::error));
+
+Using [link asio.reference.use_future use_future] as a accept token:
+
+  std::future<void> f = acceptor.async_accept(..., asio::use_future);
+  ...
+  try
+  {
+    f.get();
+  }
+  catch (const system_error& e)
+  {
+    ...
+  }
+
+Using [link asio.reference.use_awaitable use_awaitable] as a accept token:
+
+  asio::awaitable<void> my_coroutine()
+  {
+    try
+    {
+      ...
+      co_await acceptor.async_accept(..., asio::use_awaitable);
+      ...
+    }
+    catch (const system_error& e)
+    {
+      ...
+    }
+  }
+
+[endsect]

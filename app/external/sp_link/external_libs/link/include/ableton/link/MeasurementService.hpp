@@ -42,7 +42,7 @@ public:
   using IoType = util::Injected<IoContext>;
   using MeasurementInstance = Measurement<Clock, IoContext>;
 
-  MeasurementService(asio::ip::address_v4 address,
+  MeasurementService(discovery::IpAddress address,
     SessionId sessionId,
     GhostXForm ghostXForm,
     Clock clock,
@@ -65,7 +65,7 @@ public:
     mPingResponder.updateNodeState(sessionId, xform);
   }
 
-  asio::ip::udp::endpoint endpoint() const
+  discovery::UdpEndpoint endpoint() const
   {
     return mPingResponder.endpoint();
   }
@@ -77,7 +77,7 @@ public:
     using namespace std;
 
     const auto nodeId = state.nodeState.nodeId;
-    auto addr = mPingResponder.endpoint().address().to_v4();
+    auto addr = mPingResponder.endpoint().address();
     auto callback = CompletionCallback<Handler>{*this, nodeId, handler};
 
     try

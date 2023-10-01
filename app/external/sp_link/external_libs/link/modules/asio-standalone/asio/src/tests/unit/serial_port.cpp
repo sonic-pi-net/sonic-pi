@@ -2,7 +2,7 @@
 // serial_port.cpp
 // ~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 // Copyright (c) 2008 Rep Invariant Systems, Inc. (info@repinvariant.com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
@@ -85,6 +85,9 @@ void test()
 
 #if defined(ASIO_HAS_MOVE)
     serial_port port7(std::move(port6));
+
+    basic_serial_port<io_context::executor_type> port8(ioc);
+    serial_port port9(std::move(port8));
 #endif // defined(ASIO_HAS_MOVE)
 
     // basic_serial_port operators.
@@ -92,6 +95,7 @@ void test()
 #if defined(ASIO_HAS_MOVE)
     port1 = serial_port(ioc);
     port1 = std::move(port2);
+    port1 = std::move(port8);
 #endif // defined(ASIO_HAS_MOVE)
 
     // basic_io_object functions.
@@ -104,8 +108,8 @@ void test()
     serial_port::lowest_layer_type& lowest_layer = port1.lowest_layer();
     (void)lowest_layer;
 
-    const serial_port& port8 = port1;
-    const serial_port::lowest_layer_type& lowest_layer2 = port8.lowest_layer();
+    const serial_port& port10 = port1;
+    const serial_port::lowest_layer_type& lowest_layer2 = port10.lowest_layer();
     (void)lowest_layer2;
 
     port1.open("null");
@@ -169,5 +173,5 @@ void test()
 ASIO_TEST_SUITE
 (
   "serial_port",
-  ASIO_TEST_CASE(serial_port_compile::test)
+  ASIO_COMPILE_TEST_CASE(serial_port_compile::test)
 )

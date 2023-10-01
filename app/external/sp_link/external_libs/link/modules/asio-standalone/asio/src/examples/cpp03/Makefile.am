@@ -245,7 +245,7 @@ EXTRA_DIST = \
 	ssl/README \
 	ssl/ca.pem \
 	ssl/server.pem \
-	ssl/dh2048.pem
+	ssl/dh4096.pem
 
 MAINTAINERCLEANFILES = \
 	$(srcdir)/Makefile.in

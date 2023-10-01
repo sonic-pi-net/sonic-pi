@@ -2,7 +2,7 @@
 // execution/executor.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -17,9 +17,13 @@
 
 #include "asio/detail/config.hpp"
 #include "asio/detail/type_traits.hpp"
-#include "asio/execution/execute.hpp"
 #include "asio/execution/invocable_archetype.hpp"
 #include "asio/traits/equality_comparable.hpp"
+#include "asio/traits/execute_member.hpp"
+
+#if !defined(ASIO_NO_DEPRECATED)
+# include "asio/execution/execute.hpp"
+#endif // !defined(ASIO_NO_DEPRECATED)
 
 #if defined(ASIO_HAS_DEDUCED_EXECUTE_FREE_TRAIT) \
   && defined(ASIO_HAS_DEDUCED_EXECUTE_MEMBER_TRAIT) \
@@ -35,34 +39,54 @@ namespace asio {
 namespace execution {
 namespace detail {
 
-template <typename T, typename F>
-struct is_executor_of_impl_base :
-  integral_constant<bool,
-    conditional<true, true_type,
-        typename result_of<typename decay<F>::type&()>::type
-      >::type::value
-      && is_constructible<typename decay<F>::type, F>::value
-      && is_move_constructible<typename decay<F>::type>::value
-#if defined(ASIO_HAS_NOEXCEPT)
-      && is_nothrow_copy_constructible<T>::value
-      && is_nothrow_destructible<T>::value
-#else // defined(ASIO_HAS_NOEXCEPT)
-      && is_copy_constructible<T>::value
-      && is_destructible<T>::value
-#endif // defined(ASIO_HAS_NOEXCEPT)
-      && traits::equality_comparable<T>::is_valid
-      && traits::equality_comparable<T>::is_noexcept
-  >
+template <typename T, typename F,
+    typename = void, typename = void, typename = void, typename = void,
+    typename = void, typename = void, typename = void, typename = void>
+struct is_executor_of_impl : false_type
 {
 };
 
 template <typename T, typename F>
-struct is_executor_of_impl :
-  conditional<
-    can_execute<T, F>::value,
-    is_executor_of_impl_base<T, F>,
-    false_type
-  >::type
+struct is_executor_of_impl<T, F,
+#if defined(ASIO_NO_DEPRECATED)
+  typename enable_if<
+    traits::execute_member<typename add_const<T>::type, F>::is_valid
+  >::type,
+#else // defined(ASIO_NO_DEPRECATED)
+  typename enable_if<
+    can_execute<typename add_const<T>::type, F>::value
+  >::type,
+#endif // defined(ASIO_NO_DEPRECATED)
+  typename void_type<
+    typename result_of<typename decay<F>::type&()>::type
+  >::type,
+  typename enable_if<
+    is_constructible<typename decay<F>::type, F>::value
+  >::type,
+  typename enable_if<
+    is_move_constructible<typename decay<F>::type>::value
+  >::type,
+#if defined(ASIO_HAS_NOEXCEPT)
+  typename enable_if<
+    is_nothrow_copy_constructible<T>::value
+  >::type,
+  typename enable_if<
+    is_nothrow_destructible<T>::value
+  >::type,
+#else // defined(ASIO_HAS_NOEXCEPT)
+  typename enable_if<
+    is_copy_constructible<T>::value
+  >::type,
+  typename enable_if<
+    is_destructible<T>::value
+  >::type,
+#endif // defined(ASIO_HAS_NOEXCEPT)
+  typename enable_if<
+    traits::equality_comparable<T>::is_valid
+  >::type,
+  typename enable_if<
+    traits::equality_comparable<T>::is_noexcept
+  >::type> : true_type
 {
 };
 

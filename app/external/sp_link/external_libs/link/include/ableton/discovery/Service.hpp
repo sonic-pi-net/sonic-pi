@@ -59,7 +59,7 @@ public:
   // Repair the gateway with the given address if possible. Its
   // sockets may have been closed, for example, and the gateway needs
   // to be regenerated.
-  void repairGateway(const asio::ip::address& gatewayAddr)
+  void repairGateway(const IpAddress& gatewayAddr)
   {
     mGateways.repairGateway(gatewayAddr);
   }

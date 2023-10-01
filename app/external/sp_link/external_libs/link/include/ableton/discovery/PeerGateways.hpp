@@ -19,8 +19,8 @@
 
 #pragma once
 
+#include <ableton/discovery/AsioTypes.hpp>
 #include <ableton/discovery/InterfaceScanner.hpp>
-#include <ableton/platforms/asio/AsioWrapper.hpp>
 #include <map>
 
 namespace ableton
@@ -28,16 +28,17 @@ namespace ableton
 namespace discovery
 {
 
-// GatewayFactory must have an operator()(NodeState, IoRef, asio::ip::address)
+// GatewayFactory must have an operator()(NodeState, IoRef, IpAddress)
 // that constructs a new PeerGateway on a given interface address.
 template <typename NodeState, typename GatewayFactory, typename IoContext>
 class PeerGateways
 {
 public:
   using IoType = typename util::Injected<IoContext>::type;
-  using Gateway = typename std::result_of<GatewayFactory(
-    NodeState, util::Injected<IoType&>, asio::ip::address)>::type;
-  using GatewayMap = std::map<asio::ip::address, Gateway>;
+  using Gateway = decltype(std::declval<GatewayFactory>()(std::declval<NodeState>(),
+    std::declval<util::Injected<IoType&>>(),
+    std::declval<IpAddress>()));
+  using GatewayMap = std::map<IpAddress, Gateway>;
 
   PeerGateways(const std::chrono::seconds rescanPeriod,
     NodeState state,
@@ -86,7 +87,7 @@ public:
 
   // If a gateway has become non-responsive or is throwing exceptions,
   // this method can be invoked to either fix it or discard it.
-  void repairGateway(const asio::ip::address& gatewayAddr)
+  void repairGateway(const IpAddress& gatewayAddr)
   {
     if (mpScannerCallback->mGateways.erase(gatewayAddr))
     {
@@ -111,18 +112,18 @@ private:
     {
       using namespace std;
       // Get the set of current addresses.
-      vector<asio::ip::address> curAddrs;
+      vector<IpAddress> curAddrs;
       curAddrs.reserve(mGateways.size());
       transform(std::begin(mGateways), std::end(mGateways), back_inserter(curAddrs),
         [](const typename GatewayMap::value_type& vt) { return vt.first; });
 
       // Now use set_difference to determine the set of addresses that
       // are new and the set of cur addresses that are no longer there
-      vector<asio::ip::address> newAddrs;
+      vector<IpAddress> newAddrs;
       set_difference(std::begin(range), std::end(range), std::begin(curAddrs),
         std::end(curAddrs), back_inserter(newAddrs));
 
-      vector<asio::ip::address> staleAddrs;
+      vector<IpAddress> staleAddrs;
       set_difference(std::begin(curAddrs), std::end(curAddrs), std::begin(range),
         std::end(range), back_inserter(staleAddrs));
 
@@ -137,12 +138,8 @@ private:
       {
         try
         {
-          // Only handle v4 for now
-          if (addr.is_v4())
-          {
-            info(mIo.log()) << "initializing peer gateway on interface " << addr;
-            mGateways.emplace(addr, mFactory(mState, util::injectRef(mIo), addr.to_v4()));
-          }
+          info(mIo.log()) << "initializing peer gateway on interface " << addr;
+          mGateways.emplace(addr, mFactory(mState, util::injectRef(mIo), addr));
         }
         catch (const runtime_error& e)
         {

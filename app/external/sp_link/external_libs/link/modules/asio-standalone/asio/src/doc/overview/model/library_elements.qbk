@@ -1,0 +1,102 @@
+[/
+ / Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+ /
+ / Distributed under the Boost Software License, Version 1.0. (See accompanying
+ / file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+ /]
+
+[section:library_elements Supporting Library Elements]
+
+The Asio asynchronous model is enabled by the library elements listed in the
+table below.
+
+[table
+  [
+    [Library Element]
+    [Description]
+  ]
+  [
+    [
+      `completion_signature` concept
+    ]
+    [
+      Defines valid completion signature forms.
+    ]
+  ]
+  [
+    [
+      `completion_handler_for` concept
+    ]
+    [
+      Determines whether a completion handler is callable with a given set of
+      completion signatures.
+    ]
+  ]
+  [
+    [
+      [link asio.reference.async_result async_result] trait
+    ]
+    [
+      Converts a completion signature and completion token into a concrete
+      completion handler, and launches the operation.
+    ]
+  ]
+  [
+    [
+      [link asio.reference.async_initiate async_initiate] function
+    ]
+    [
+      Helper function to simplify use of the `async_result` trait.
+    ]
+  ]
+  [
+    [
+      `completion_token_for` concept
+    ]
+    [
+      Determines whether a completion token produces a completion handler for a
+      given set of completion signatures.
+    ]
+  ]
+  [
+    [
+      [link asio.reference.associator associator] trait
+    ]
+    [
+      Automatically propagates all associators through layers of abstraction.
+    ]
+  ]
+  [
+    [
+      [link asio.reference.associated_executor associated_executor] trait,
+      `associated_executor_t` type alias, and [link
+      asio.reference.get_associated_executor get_associated_executor] function
+    ]
+    [
+      Defines an asynchronous agent’s associated executor.
+    ]
+  ]
+  [
+    [
+      [link asio.reference.associated_allocator associated_allocator] trait,
+      `associated_allocator_t` type alias, and [link
+      asio.reference.get_associated_allocator get_associated_allocator] function
+    ]
+    [
+      Defines an asynchronous agent’s associated allocator.
+    ]
+  ]
+  [
+    [
+      [link asio.reference.associated_cancellation_slot
+      associated_cancellation_slot] trait, `associated_cancellation_slot_t`
+      type alias, and [link asio.reference.get_associated_cancellation_slot
+      get_associated_cancellation_slot] function
+    ]
+    [
+      Defines an asynchronous agent’s associated cancellation slot.
+    ]
+  ]
+]
+
+[endsect]

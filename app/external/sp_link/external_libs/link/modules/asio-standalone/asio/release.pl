@@ -394,8 +394,8 @@ sub create_boost_asio_content
 sub make_boost_asio_packages
 {
   our $boost_asio_name;
-  system("tar --format=ustar -chf - $boost_asio_name | gzip -c >$boost_asio_name.tar.gz");
-  system("tar --format=ustar -chf - $boost_asio_name | bzip2 -9 -c >$boost_asio_name.tar.bz2");
+  system("tar --format=pax -chf - $boost_asio_name | gzip -c >$boost_asio_name.tar.gz");
+  system("tar --format=pax -chf - $boost_asio_name | bzip2 -9 -c >$boost_asio_name.tar.bz2");
   system("rm -f $boost_asio_name.zip");
   system("zip -rq $boost_asio_name.zip $boost_asio_name");
   system("rm -rf $boost_asio_name");

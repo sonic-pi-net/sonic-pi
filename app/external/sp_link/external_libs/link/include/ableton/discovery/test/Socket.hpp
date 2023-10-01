@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include <ableton/platforms/asio/AsioWrapper.hpp>
+#include <ableton/discovery/AsioTypes.hpp>
 #include <ableton/util/Log.hpp>
 #include <ableton/util/test/IoService.hpp>
 
@@ -37,12 +37,12 @@ public:
   {
   }
 
-  friend void configureUnicastSocket(Socket&, const asio::ip::address_v4&)
+  friend void configureUnicastSocket(Socket&, const IpAddressV4&)
   {
   }
 
   std::size_t send(
-    const uint8_t* const pData, const size_t numBytes, const asio::ip::udp::endpoint& to)
+    const uint8_t* const pData, const size_t numBytes, const discovery::UdpEndpoint& to)
   {
     sentMessages.push_back(
       std::make_pair(std::vector<uint8_t>{pData, pData + numBytes}, to));
@@ -52,31 +52,29 @@ public:
   template <typename Handler>
   void receive(Handler handler)
   {
-    mCallback = [handler](const asio::ip::udp::endpoint& from,
-                  const std::vector<uint8_t>& buffer) {
+    mCallback = [handler](const UdpEndpoint& from, const std::vector<uint8_t>& buffer) {
       handler(from, begin(buffer), end(buffer));
     };
   }
 
   template <typename It>
-  void incomingMessage(
-    const asio::ip::udp::endpoint& from, It messageBegin, It messageEnd)
+  void incomingMessage(const UdpEndpoint& from, It messageBegin, It messageEnd)
   {
     std::vector<uint8_t> buffer{messageBegin, messageEnd};
     mCallback(from, buffer);
   }
 
-  asio::ip::udp::endpoint endpoint() const
+  UdpEndpoint endpoint() const
   {
-    return asio::ip::udp::endpoint({}, 0);
+    return UdpEndpoint({}, 0);
   }
 
-  using SentMessage = std::pair<std::vector<uint8_t>, asio::ip::udp::endpoint>;
+  using SentMessage = std::pair<std::vector<uint8_t>, UdpEndpoint>;
   std::vector<SentMessage> sentMessages;
 
 private:
   using ReceiveCallback =
-    std::function<void(const asio::ip::udp::endpoint&, const std::vector<uint8_t>&)>;
+    std::function<void(const UdpEndpoint&, const std::vector<uint8_t>&)>;
   ReceiveCallback mCallback;
 };
 

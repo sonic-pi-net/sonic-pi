@@ -3,7 +3,7 @@
 // ~~~~~~~~~~~~~~~~~~~~
 //
 // Copyright (c) 2005 Voipster / Indrek dot Juhani at voipster dot com
-// Copyright (c) 2005-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2005-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -47,6 +47,7 @@ struct context::evp_pkey_cleanup
   ~evp_pkey_cleanup() { if (p) ::EVP_PKEY_free(p); }
 };
 
+#if (OPENSSL_VERSION_NUMBER < 0x30000000L)
 struct context::rsa_cleanup
 {
   RSA* p;
@@ -58,6 +59,7 @@ struct context::dh_cleanup
   DH* p;
   ~dh_cleanup() { if (p) ::DH_free(p); }
 };
+#endif // (OPENSSL_VERSION_NUMBER < 0x30000000L)
 
 context::context(context::method m)
   : handle_(0)
@@ -357,9 +359,7 @@ context::context(context::method m)
 
   if (handle_ == 0)
   {
-    asio::error_code ec(
-        static_cast<int>(::ERR_get_error()),
-        asio::error::get_ssl_category());
+    asio::error_code ec = translate_error(::ERR_get_error());
     asio::detail::throw_error(ec, "context");
   }
 
@@ -397,7 +397,8 @@ context::~context()
   if (handle_)
   {
 #if ((OPENSSL_VERSION_NUMBER >= 0x10100000L) \
-      && !defined(LIBRESSL_VERSION_NUMBER)) \
+      && (!defined(LIBRESSL_VERSION_NUMBER) \
+        || LIBRESSL_VERSION_NUMBER >= 0x2070000fL)) \
     || defined(ASIO_USE_WOLFSSL)
     void* cb_userdata = ::SSL_CTX_get_default_passwd_cb_userdata(handle_);
 #else // (OPENSSL_VERSION_NUMBER >= 0x10100000L)
@@ -410,7 +411,8 @@ context::~context()
             cb_userdata);
       delete callback;
 #if ((OPENSSL_VERSION_NUMBER >= 0x10100000L) \
-      && !defined(LIBRESSL_VERSION_NUMBER)) \
+      && (!defined(LIBRESSL_VERSION_NUMBER) \
+        || LIBRESSL_VERSION_NUMBER >= 0x2070000fL)) \
     || defined(ASIO_USE_WOLFSSL)
       ::SSL_CTX_set_default_passwd_cb_userdata(handle_, 0);
 #else // (OPENSSL_VERSION_NUMBER >= 0x10100000L)
@@ -543,9 +545,7 @@ ASIO_SYNC_OP_VOID context::load_verify_file(
 
   if (::SSL_CTX_load_verify_locations(handle_, filename.c_str(), 0) != 1)
   {
-    ec = asio::error_code(
-        static_cast<int>(::ERR_get_error()),
-        asio::error::get_ssl_category());
+    ec = translate_error(::ERR_get_error());
     ASIO_SYNC_OP_VOID_RETURN(ec);
   }
 
@@ -580,17 +580,13 @@ ASIO_SYNC_OP_VOID context::add_certificate_authority(
               && ERR_GET_REASON(err) == PEM_R_NO_START_LINE)
             break;
 
-          ec = asio::error_code(
-              static_cast<int>(err),
-              asio::error::get_ssl_category());
+          ec = translate_error(err);
           ASIO_SYNC_OP_VOID_RETURN(ec);
         }
 
         if (::X509_STORE_add_cert(store, cert.p) != 1)
         {
-          ec = asio::error_code(
-              static_cast<int>(::ERR_get_error()),
-              asio::error::get_ssl_category());
+          ec = translate_error(::ERR_get_error());
           ASIO_SYNC_OP_VOID_RETURN(ec);
         }
       }
@@ -615,9 +611,7 @@ ASIO_SYNC_OP_VOID context::set_default_verify_paths(
 
   if (::SSL_CTX_set_default_verify_paths(handle_) != 1)
   {
-    ec = asio::error_code(
-        static_cast<int>(::ERR_get_error()),
-        asio::error::get_ssl_category());
+    ec = translate_error(::ERR_get_error());
     ASIO_SYNC_OP_VOID_RETURN(ec);
   }
 
@@ -639,9 +633,7 @@ ASIO_SYNC_OP_VOID context::add_verify_path(
 
   if (::SSL_CTX_load_verify_locations(handle_, 0, path.c_str()) != 1)
   {
-    ec = asio::error_code(
-        static_cast<int>(::ERR_get_error()),
-        asio::error::get_ssl_category());
+    ec = translate_error(::ERR_get_error());
     ASIO_SYNC_OP_VOID_RETURN(ec);
   }
 
@@ -695,9 +687,7 @@ ASIO_SYNC_OP_VOID context::use_certificate(
     ASIO_SYNC_OP_VOID_RETURN(ec);
   }
 
-  ec = asio::error_code(
-      static_cast<int>(::ERR_get_error()),
-      asio::error::get_ssl_category());
+  ec = translate_error(::ERR_get_error());
   ASIO_SYNC_OP_VOID_RETURN(ec);
 }
 
@@ -733,9 +723,7 @@ ASIO_SYNC_OP_VOID context::use_certificate_file(
 
   if (::SSL_CTX_use_certificate_file(handle_, filename.c_str(), file_type) != 1)
   {
-    ec = asio::error_code(
-        static_cast<int>(::ERR_get_error()),
-        asio::error::get_ssl_category());
+    ec = translate_error(::ERR_get_error());
     ASIO_SYNC_OP_VOID_RETURN(ec);
   }
 
@@ -759,7 +747,8 @@ ASIO_SYNC_OP_VOID context::use_certificate_chain(
   if (bio.p)
   {
 #if ((OPENSSL_VERSION_NUMBER >= 0x10100000L) \
-      && !defined(LIBRESSL_VERSION_NUMBER)) \
+      && (!defined(LIBRESSL_VERSION_NUMBER) \
+        || LIBRESSL_VERSION_NUMBER >= 0x2070000fL)) \
     || defined(ASIO_USE_WOLFSSL)
     pem_password_cb* callback = ::SSL_CTX_get_default_passwd_cb(handle_);
     void* cb_userdata = ::SSL_CTX_get_default_passwd_cb_userdata(handle_);
@@ -773,22 +762,20 @@ ASIO_SYNC_OP_VOID context::use_certificate_chain(
           cb_userdata) };
     if (!cert.p)
     {
-      ec = asio::error_code(ERR_R_PEM_LIB,
-          asio::error::get_ssl_category());
+      ec = translate_error(ERR_R_PEM_LIB);
       ASIO_SYNC_OP_VOID_RETURN(ec);
     }
 
     int result = ::SSL_CTX_use_certificate(handle_, cert.p);
     if (result == 0 || ::ERR_peek_error() != 0)
     {
-      ec = asio::error_code(
-          static_cast<int>(::ERR_get_error()),
-          asio::error::get_ssl_category());
+      ec = translate_error(::ERR_get_error());
       ASIO_SYNC_OP_VOID_RETURN(ec);
     }
 
 #if ((OPENSSL_VERSION_NUMBER >= 0x10002000L) \
-      && !defined(LIBRESSL_VERSION_NUMBER)) \
+      && (!defined(LIBRESSL_VERSION_NUMBER) \
+        || LIBRESSL_VERSION_NUMBER >= 0x2090100fL)) \
     || defined(ASIO_USE_WOLFSSL)
     ::SSL_CTX_clear_chain_certs(handle_);
 #else
@@ -805,9 +792,7 @@ ASIO_SYNC_OP_VOID context::use_certificate_chain(
     {
       if (!::SSL_CTX_add_extra_chain_cert(handle_, cacert))
       {
-        ec = asio::error_code(
-            static_cast<int>(::ERR_get_error()),
-            asio::error::get_ssl_category());
+        ec = translate_error(::ERR_get_error());
         ASIO_SYNC_OP_VOID_RETURN(ec);
       }
     }
@@ -822,9 +807,7 @@ ASIO_SYNC_OP_VOID context::use_certificate_chain(
     }
   }
 
-  ec = asio::error_code(
-      static_cast<int>(::ERR_get_error()),
-      asio::error::get_ssl_category());
+  ec = translate_error(::ERR_get_error());
   ASIO_SYNC_OP_VOID_RETURN(ec);
 }
 
@@ -842,9 +825,7 @@ ASIO_SYNC_OP_VOID context::use_certificate_chain_file(
 
   if (::SSL_CTX_use_certificate_chain_file(handle_, filename.c_str()) != 1)
   {
-    ec = asio::error_code(
-        static_cast<int>(::ERR_get_error()),
-        asio::error::get_ssl_category());
+    ec = translate_error(::ERR_get_error());
     ASIO_SYNC_OP_VOID_RETURN(ec);
   }
 
@@ -867,7 +848,8 @@ ASIO_SYNC_OP_VOID context::use_private_key(
   ::ERR_clear_error();
 
 #if ((OPENSSL_VERSION_NUMBER >= 0x10100000L) \
-      && !defined(LIBRESSL_VERSION_NUMBER)) \
+      && (!defined(LIBRESSL_VERSION_NUMBER) \
+        || LIBRESSL_VERSION_NUMBER >= 0x2070000fL)) \
     || defined(ASIO_USE_WOLFSSL)
     pem_password_cb* callback = ::SSL_CTX_get_default_passwd_cb(handle_);
     void* cb_userdata = ::SSL_CTX_get_default_passwd_cb_userdata(handle_);
@@ -907,9 +889,7 @@ ASIO_SYNC_OP_VOID context::use_private_key(
     }
   }
 
-  ec = asio::error_code(
-      static_cast<int>(::ERR_get_error()),
-      asio::error::get_ssl_category());
+  ec = translate_error(::ERR_get_error());
   ASIO_SYNC_OP_VOID_RETURN(ec);
 }
 
@@ -936,18 +916,54 @@ ASIO_SYNC_OP_VOID context::use_rsa_private_key(
   ::ERR_clear_error();
 
 #if ((OPENSSL_VERSION_NUMBER >= 0x10100000L) \
-      && !defined(LIBRESSL_VERSION_NUMBER)) \
+      && (!defined(LIBRESSL_VERSION_NUMBER) \
+        || LIBRESSL_VERSION_NUMBER >= 0x2070000fL)) \
     || defined(ASIO_USE_WOLFSSL)
-    pem_password_cb* callback = ::SSL_CTX_get_default_passwd_cb(handle_);
-    void* cb_userdata = ::SSL_CTX_get_default_passwd_cb_userdata(handle_);
+  pem_password_cb* callback = ::SSL_CTX_get_default_passwd_cb(handle_);
+  void* cb_userdata = ::SSL_CTX_get_default_passwd_cb_userdata(handle_);
 #else // (OPENSSL_VERSION_NUMBER >= 0x10100000L)
-    pem_password_cb* callback = handle_->default_passwd_callback;
-    void* cb_userdata = handle_->default_passwd_callback_userdata;
+  pem_password_cb* callback = handle_->default_passwd_callback;
+  void* cb_userdata = handle_->default_passwd_callback_userdata;
 #endif // (OPENSSL_VERSION_NUMBER >= 0x10100000L)
 
   bio_cleanup bio = { make_buffer_bio(private_key) };
   if (bio.p)
   {
+#if (OPENSSL_VERSION_NUMBER >= 0x30000000L)
+    evp_pkey_cleanup evp_private_key = { 0 };
+    switch (format)
+    {
+    case context_base::asn1:
+      evp_private_key.p = ::d2i_PrivateKey_bio(bio.p, 0);
+      break;
+    case context_base::pem:
+      evp_private_key.p = ::PEM_read_bio_PrivateKey(
+          bio.p, 0, callback,
+          cb_userdata);
+      break;
+    default:
+      {
+        ec = asio::error::invalid_argument;
+        ASIO_SYNC_OP_VOID_RETURN(ec);
+      }
+    }
+
+    if (evp_private_key.p)
+    {
+      if (::EVP_PKEY_is_a(evp_private_key.p, "RSA") == 0)
+      {
+        ec = translate_error(
+            ERR_PACK(ERR_LIB_EVP, 0, EVP_R_EXPECTING_AN_RSA_KEY));
+        ASIO_SYNC_OP_VOID_RETURN(ec);
+      }
+
+      if (::SSL_CTX_use_PrivateKey(handle_, evp_private_key.p) == 1)
+      {
+        ec = asio::error_code();
+        ASIO_SYNC_OP_VOID_RETURN(ec);
+      }
+    }
+#else // (OPENSSL_VERSION_NUMBER >= 0x30000000L)
     rsa_cleanup rsa_private_key = { 0 };
     switch (format)
     {
@@ -974,11 +990,10 @@ ASIO_SYNC_OP_VOID context::use_rsa_private_key(
         ASIO_SYNC_OP_VOID_RETURN(ec);
       }
     }
+#endif // (OPENSSL_VERSION_NUMBER >= 0x30000000L)
   }
 
-  ec = asio::error_code(
-      static_cast<int>(::ERR_get_error()),
-      asio::error::get_ssl_category());
+  ec = translate_error(::ERR_get_error());
   ASIO_SYNC_OP_VOID_RETURN(ec);
 }
 
@@ -1006,9 +1021,7 @@ ASIO_SYNC_OP_VOID context::use_private_key_file(
 
   if (::SSL_CTX_use_PrivateKey_file(handle_, filename.c_str(), file_type) != 1)
   {
-    ec = asio::error_code(
-        static_cast<int>(::ERR_get_error()),
-        asio::error::get_ssl_category());
+    ec = translate_error(::ERR_get_error());
     ASIO_SYNC_OP_VOID_RETURN(ec);
   }
 
@@ -1028,6 +1041,53 @@ ASIO_SYNC_OP_VOID context::use_rsa_private_key_file(
     const std::string& filename, context::file_format format,
     asio::error_code& ec)
 {
+#if (OPENSSL_VERSION_NUMBER >= 0x30000000L)
+  ::ERR_clear_error();
+
+  pem_password_cb* callback = ::SSL_CTX_get_default_passwd_cb(handle_);
+  void* cb_userdata = ::SSL_CTX_get_default_passwd_cb_userdata(handle_);
+
+  bio_cleanup bio = { ::BIO_new_file(filename.c_str(), "r") };
+  if (bio.p)
+  {
+    evp_pkey_cleanup evp_private_key = { 0 };
+    switch (format)
+    {
+    case context_base::asn1:
+      evp_private_key.p = ::d2i_PrivateKey_bio(bio.p, 0);
+      break;
+    case context_base::pem:
+      evp_private_key.p = ::PEM_read_bio_PrivateKey(
+          bio.p, 0, callback,
+          cb_userdata);
+      break;
+    default:
+      {
+        ec = asio::error::invalid_argument;
+        ASIO_SYNC_OP_VOID_RETURN(ec);
+      }
+    }
+
+    if (evp_private_key.p)
+    {
+      if (::EVP_PKEY_is_a(evp_private_key.p, "RSA") == 0)
+      {
+        ec = translate_error(
+            ERR_PACK(ERR_LIB_EVP, 0, EVP_R_EXPECTING_AN_RSA_KEY));
+        ASIO_SYNC_OP_VOID_RETURN(ec);
+      }
+
+      if (::SSL_CTX_use_PrivateKey(handle_, evp_private_key.p) == 1)
+      {
+        ec = asio::error_code();
+        ASIO_SYNC_OP_VOID_RETURN(ec);
+      }
+    }
+  }
+
+  ec = translate_error(::ERR_get_error());
+  ASIO_SYNC_OP_VOID_RETURN(ec);
+#else // (OPENSSL_VERSION_NUMBER >= 0x30000000L)
   int file_type;
   switch (format)
   {
@@ -1049,14 +1109,13 @@ ASIO_SYNC_OP_VOID context::use_rsa_private_key_file(
   if (::SSL_CTX_use_RSAPrivateKey_file(
         handle_, filename.c_str(), file_type) != 1)
   {
-    ec = asio::error_code(
-        static_cast<int>(::ERR_get_error()),
-        asio::error::get_ssl_category());
+    ec = translate_error(::ERR_get_error());
     ASIO_SYNC_OP_VOID_RETURN(ec);
   }
 
   ec = asio::error_code();
   ASIO_SYNC_OP_VOID_RETURN(ec);
+#endif // (OPENSSL_VERSION_NUMBER >= 0x30000000L)
 }
 
 void context::use_tmp_dh(const const_buffer& dh)
@@ -1077,9 +1136,7 @@ ASIO_SYNC_OP_VOID context::use_tmp_dh(
     return do_use_tmp_dh(bio.p, ec);
   }
 
-  ec = asio::error_code(
-      static_cast<int>(::ERR_get_error()),
-      asio::error::get_ssl_category());
+  ec = translate_error(::ERR_get_error());
   ASIO_SYNC_OP_VOID_RETURN(ec);
 }
 
@@ -1101,9 +1158,7 @@ ASIO_SYNC_OP_VOID context::use_tmp_dh_file(
     return do_use_tmp_dh(bio.p, ec);
   }
 
-  ec = asio::error_code(
-      static_cast<int>(::ERR_get_error()),
-      asio::error::get_ssl_category());
+  ec = translate_error(::ERR_get_error());
   ASIO_SYNC_OP_VOID_RETURN(ec);
 }
 
@@ -1112,6 +1167,19 @@ ASIO_SYNC_OP_VOID context::do_use_tmp_dh(
 {
   ::ERR_clear_error();
 
+#if (OPENSSL_VERSION_NUMBER >= 0x30000000L)
+  EVP_PKEY* p = ::PEM_read_bio_Parameters(bio, 0);
+  if (p)
+  {
+    if (::SSL_CTX_set0_tmp_dh_pkey(handle_, p) == 1)
+    {
+      ec = asio::error_code();
+      ASIO_SYNC_OP_VOID_RETURN(ec);
+    }
+    else
+      ::EVP_PKEY_free(p);
+  }
+#else // (OPENSSL_VERSION_NUMBER >= 0x30000000L)
   dh_cleanup dh = { ::PEM_read_bio_DHparams(bio, 0, 0, 0) };
   if (dh.p)
   {
@@ -1121,10 +1189,9 @@ ASIO_SYNC_OP_VOID context::do_use_tmp_dh(
       ASIO_SYNC_OP_VOID_RETURN(ec);
     }
   }
+#endif // (OPENSSL_VERSION_NUMBER >= 0x30000000L)
 
-  ec = asio::error_code(
-      static_cast<int>(::ERR_get_error()),
-      asio::error::get_ssl_category());
+  ec = translate_error(::ERR_get_error());
   ASIO_SYNC_OP_VOID_RETURN(ec);
 }
 
@@ -1177,7 +1244,8 @@ ASIO_SYNC_OP_VOID context::do_set_password_callback(
     detail::password_callback_base* callback, asio::error_code& ec)
 {
 #if ((OPENSSL_VERSION_NUMBER >= 0x10100000L) \
-      && !defined(LIBRESSL_VERSION_NUMBER)) \
+      && (!defined(LIBRESSL_VERSION_NUMBER) \
+        || LIBRESSL_VERSION_NUMBER >= 0x2070000fL)) \
     || defined(ASIO_USE_WOLFSSL)
   void* old_callback = ::SSL_CTX_get_default_passwd_cb_userdata(handle_);
   ::SSL_CTX_set_default_passwd_cb_userdata(handle_, callback);
@@ -1228,6 +1296,21 @@ BIO* context::make_buffer_bio(const const_buffer& b)
   return ::BIO_new_mem_buf(
       const_cast<void*>(b.data()),
       static_cast<int>(b.size()));
+}
+
+asio::error_code context::translate_error(long error)
+{
+#if (OPENSSL_VERSION_NUMBER >= 0x30000000L)
+  if (ERR_SYSTEM_ERROR(error))
+  {
+    return asio::error_code(
+        static_cast<int>(ERR_GET_REASON(error)),
+        asio::error::get_system_category());
+  }
+#endif // (OPENSSL_VERSION_NUMBER >= 0x30000000L)
+
+  return asio::error_code(static_cast<int>(error),
+      asio::error::get_ssl_category());
 }
 
 } // namespace ssl

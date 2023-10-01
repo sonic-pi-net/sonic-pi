@@ -2,7 +2,7 @@
 // detail/select_reactor.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -30,6 +30,7 @@
 #include "asio/detail/op_queue.hpp"
 #include "asio/detail/reactor_op.hpp"
 #include "asio/detail/reactor_op_queue.hpp"
+#include "asio/detail/scheduler_task.hpp"
 #include "asio/detail/select_interrupter.hpp"
 #include "asio/detail/socket_types.hpp"
 #include "asio/detail/timer_queue_base.hpp"
@@ -48,6 +49,9 @@ namespace detail {
 
 class select_reactor
   : public execution_context_service_base<select_reactor>
+#if !defined(ASIO_HAS_IOCP)
+    , public scheduler_task
+#endif // !defined(ASIO_HAS_IOCP)
 {
 public:
 #if defined(ASIO_WINDOWS) || defined(__CYGWIN__)
@@ -90,20 +94,41 @@ public:
       per_descriptor_data& descriptor_data, reactor_op* op);
 
   // Post a reactor operation for immediate completion.
-  void post_immediate_completion(reactor_op* op, bool is_continuation)
-  {
-    scheduler_.post_immediate_completion(op, is_continuation);
-  }
+  void post_immediate_completion(operation* op, bool is_continuation) const;
+
+  // Post a reactor operation for immediate completion.
+  ASIO_DECL static void call_post_immediate_completion(
+      operation* op, bool is_continuation, const void* self);
 
   // Start a new operation. The reactor operation will be performed when the
   // given descriptor is flagged as ready, or an error has occurred.
   ASIO_DECL void start_op(int op_type, socket_type descriptor,
-      per_descriptor_data&, reactor_op* op, bool is_continuation, bool);
+      per_descriptor_data&, reactor_op* op, bool is_continuation, bool,
+      void (*on_immediate)(operation*, bool, const void*),
+      const void* immediate_arg);
+
+  // Start a new operation. The reactor operation will be performed when the
+  // given descriptor is flagged as ready, or an error has occurred.
+  void start_op(int op_type, socket_type descriptor,
+      per_descriptor_data& descriptor_data, reactor_op* op,
+      bool is_continuation, bool allow_speculative)
+  {
+    start_op(op_type, descriptor, descriptor_data,
+        op, is_continuation, allow_speculative,
+        &select_reactor::call_post_immediate_completion, this);
+  }
 
   // Cancel all operations associated with the given descriptor. The
   // handlers associated with the descriptor will be invoked with the
   // operation_aborted error.
   ASIO_DECL void cancel_ops(socket_type descriptor, per_descriptor_data&);
+
+  // Cancel all operations associated with the given descriptor and key. The
+  // handlers associated with the descriptor will be invoked with the
+  // operation_aborted error.
+  ASIO_DECL void cancel_ops_by_key(socket_type descriptor,
+      per_descriptor_data& descriptor_data,
+      int op_type, void* cancellation_key);
 
   // Cancel any operations that are running against the descriptor and remove
   // its registration from the reactor. The reactor resources associated with
@@ -147,6 +172,12 @@ public:
   std::size_t cancel_timer(timer_queue<Time_Traits>& queue,
       typename timer_queue<Time_Traits>::per_timer_data& timer,
       std::size_t max_cancelled = (std::numeric_limits<std::size_t>::max)());
+
+  // Cancel the timer operations associated with the given key.
+  template <typename Time_Traits>
+  void cancel_timer_by_key(timer_queue<Time_Traits>& queue,
+      typename timer_queue<Time_Traits>::per_timer_data* timer,
+      void* cancellation_key);
 
   // Move the timer operations associated with the given timer.
   template <typename Time_Traits>
@@ -213,6 +244,28 @@ private:
 
   // The thread that is running the reactor loop.
   asio::detail::thread* thread_;
+
+  // Helper class to join and restart the reactor thread.
+  class restart_reactor : public operation
+  {
+  public:
+    restart_reactor(select_reactor* r)
+      : operation(&restart_reactor::do_complete),
+        reactor_(r)
+    {
+    }
+
+    ASIO_DECL static void do_complete(void* owner, operation* base,
+        const asio::error_code& ec, std::size_t bytes_transferred);
+
+  private:
+    select_reactor* reactor_;
+  };
+
+  friend class restart_reactor;
+
+  // Operation used to join and restart the reactor thread.
+  restart_reactor restart_reactor_;
 #endif // defined(ASIO_HAS_IOCP)
 
   // Whether the service has been shut down.

@@ -1,7 +1,5 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.5)
 project(Link)
-
-set(ERLANG_INCLUDE_PATH "/usr/local/lib/erlang/usr/include" CACHE PATH "Path to erlang includes")
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
@@ -24,6 +22,8 @@ if(WIN32)
   option(LINK_BUILD_VLD "Build with VLD support (VLD must be installed separately)" OFF)
 endif()
 
+option(LINK_BUILD_TESTS "Build unit test binaries" ON)
+
 #  ____       _   _
 # |  _ \ __ _| |_| |__  ___
 # | |_) / _` | __| '_ \/ __|
@@ -38,7 +38,9 @@ include(AbletonLinkConfig.cmake)
 include(extensions/abl_link/abl_link.cmake)
 
 add_subdirectory(include)
+if(LINK_BUILD_TESTS)
 add_subdirectory(src)
+endif()
 add_subdirectory(examples)
 add_subdirectory(extensions/abl_link)
 
@@ -64,3 +66,4 @@ if(CMAKE_BUILD_TYPE)
 else()
   message("   Build type: Set by IDE")
 endif()
+

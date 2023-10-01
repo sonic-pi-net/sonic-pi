@@ -1,0 +1,91 @@
+[/
+ / Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+ /
+ / Distributed under the Boost Software License, Version 1.0. (See accompanying
+ / file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+ /]
+
+[section:type_erasure Type Erasure, Separate Compilation and Virtual Functions]
+
+The `any_completion_handler<>` class template can be used to type-erase
+completion handlers. This template stores a completion handler in a
+runtime-polymorphic wrapper, and forwards the function call operator,
+associated executor, associated allocator, and associated cancellation slot to
+the target handler.
+
+One use case is to enable separate compilation of asynchronous operation
+implementations. For example, we can declare our implementation function in a
+header file, and provide a thin asynchronous operation wrapper:
+
+  void async_sleep_impl(
+      asio::any_completion_handler<void(asio::error_code)> handler,
+      asio::any_io_executor ex, std::chrono::nanoseconds duration);
+
+  template <typename CompletionToken>
+  inline auto async_sleep(asio::any_io_executor ex,
+      std::chrono::nanoseconds duration, CompletionToken&& token)
+  {
+    return asio::async_initiate<
+      CompletionToken, void(asio::error_code)>(
+        async_sleep_impl, token, std::move(ex), duration);
+  }
+
+By wrapping a call to `async_initiate`, the `async_sleep` template function
+adds full support for completion tokens. The definition of `async_sleep_impl`
+is then put into a separately compiled source file:
+
+  void async_sleep_impl(
+      asio::any_completion_handler<void(asio::error_code)> handler,
+      asio::any_io_executor ex, std::chrono::nanoseconds duration)
+  {
+    auto timer = std::make_shared<asio::steady_timer>(ex, duration);
+    timer->async_wait(asio::consign(std::move(handler), timer));
+  }
+
+Another use for `any_completion_handler<>` is to vary the implementation behind
+an asynchronous operation at runtime, by using virtual functions:
+
+  class line_reader
+  {
+  public:
+    // ...
+
+    template <typename CompletionToken>
+    auto async_read_line(std::string prompt, CompletionToken&& token)
+    {
+      return asio::async_initiate<
+        CompletionToken, void(asio::error_code, std::string)>(
+          [](auto handler, line_reader* self, std::string prompt)
+          {
+            self->async_read_line_impl(std::move(prompt), std::move(handler));
+          }, token, this, prompt);
+    }
+
+  private:
+    virtual void async_read_line_impl(std::string prompt,
+        asio::any_completion_handler<
+          void(asio::error_code, std::string)> handler) = 0;
+  };
+
+A derived class provides the implementation of the operation:
+
+  class stdin_line_reader : public line_reader
+  {
+  private:
+    // ...
+
+    void async_read_line_impl(std::string prompt,
+        asio::any_completion_handler<
+          void(asio::error_code, std::string)> handler) override
+    {
+      // ...
+    }
+  };
+
+[heading See Also]
+
+[link asio.reference.any_completion_handler any_completion_handler],
+[link asio.examples.cpp11_examples.type_erasure type erasure examples (C++11)],
+[link asio.examples.cpp20_examples.type_erasure type erasure examples (C++20)].
+
+[endsect]

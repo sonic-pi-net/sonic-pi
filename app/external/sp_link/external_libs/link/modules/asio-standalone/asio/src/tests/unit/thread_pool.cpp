@@ -2,7 +2,7 @@
 // thread_pool.cpp
 // ~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -90,6 +90,10 @@ void thread_pool_test()
 class test_service : public asio::execution_context::service
 {
 public:
+#if defined(ASIO_NO_TYPEID)
+  static asio::execution_context::id id;
+#endif // defined(ASIO_NO_TYPEID)
+
   typedef test_service key_type;
 
   test_service(asio::execution_context& ctx)
@@ -100,6 +104,10 @@ public:
 private:
   virtual void shutdown() {}
 };
+
+#if defined(ASIO_NO_TYPEID)
+asio::execution_context::id test_service::id;
+#endif // defined(ASIO_NO_TYPEID)
 
 void thread_pool_service_test()
 {
@@ -197,10 +205,12 @@ void thread_pool_executor_query_test()
         asio::execution::relationship.fork)
       == asio::execution::relationship.fork);
 
+#if !defined(ASIO_NO_DEPRECATED)
   ASIO_CHECK(
       asio::query(pool.executor(),
         asio::execution::bulk_guarantee)
       == asio::execution::bulk_guarantee.parallel);
+#endif // !defined(ASIO_NO_DEPRECATED)
 
   ASIO_CHECK(
       asio::query(pool.executor(),
@@ -223,72 +233,64 @@ void thread_pool_executor_execute_test()
   int count = 0;
   thread_pool pool(1);
 
-  asio::execution::execute(pool.executor(),
-      bindns::bind(increment, &count));
+  pool.executor().execute(bindns::bind(increment, &count));
 
-  asio::execution::execute(
-      asio::require(pool.executor(),
-        asio::execution::blocking.possibly),
-      bindns::bind(increment, &count));
+  asio::require(pool.executor(),
+      asio::execution::blocking.possibly
+    ).execute(bindns::bind(increment, &count));
 
-  asio::execution::execute(
-      asio::require(pool.executor(),
-        asio::execution::blocking.always),
-      bindns::bind(increment, &count));
+  asio::require(pool.executor(),
+      asio::execution::blocking.always
+    ).execute(bindns::bind(increment, &count));
 
-  asio::execution::execute(
-      asio::require(pool.executor(),
-        asio::execution::blocking.never),
-      bindns::bind(increment, &count));
+  asio::require(pool.executor(),
+      asio::execution::blocking.never
+    ).execute(bindns::bind(increment, &count));
 
-  asio::execution::execute(
-      asio::require(pool.executor(),
-        asio::execution::blocking.never,
-        asio::execution::outstanding_work.tracked),
-      bindns::bind(increment, &count));
+  asio::require(pool.executor(),
+      asio::execution::blocking.never,
+      asio::execution::outstanding_work.tracked
+    ).execute(bindns::bind(increment, &count));
 
-  asio::execution::execute(
-      asio::require(pool.executor(),
-        asio::execution::blocking.never,
-        asio::execution::outstanding_work.untracked),
-      bindns::bind(increment, &count));
+  asio::require(pool.executor(),
+      asio::execution::blocking.never,
+      asio::execution::outstanding_work.untracked
+    ).execute(bindns::bind(increment, &count));
 
-  asio::execution::execute(
-      asio::require(pool.executor(),
-        asio::execution::blocking.never,
-        asio::execution::outstanding_work.untracked,
-        asio::execution::relationship.fork),
-      bindns::bind(increment, &count));
+  asio::require(pool.executor(),
+      asio::execution::blocking.never,
+      asio::execution::outstanding_work.untracked,
+      asio::execution::relationship.fork
+    ).execute(bindns::bind(increment, &count));
 
-  asio::execution::execute(
+  asio::require(pool.executor(),
+      asio::execution::blocking.never,
+      asio::execution::outstanding_work.untracked,
+      asio::execution::relationship.continuation
+    ).execute(bindns::bind(increment, &count));
+
+  asio::prefer(
       asio::require(pool.executor(),
         asio::execution::blocking.never,
         asio::execution::outstanding_work.untracked,
         asio::execution::relationship.continuation),
-      bindns::bind(increment, &count));
+      asio::execution::allocator(std::allocator<void>())
+    ).execute(bindns::bind(increment, &count));
 
-  asio::execution::execute(
-      asio::prefer(
-        asio::require(pool.executor(),
-          asio::execution::blocking.never,
-          asio::execution::outstanding_work.untracked,
-          asio::execution::relationship.continuation),
-        asio::execution::allocator(std::allocator<void>())),
-      bindns::bind(increment, &count));
-
-  asio::execution::execute(
-      asio::prefer(
-        asio::require(pool.executor(),
-          asio::execution::blocking.never,
-          asio::execution::outstanding_work.untracked,
-          asio::execution::relationship.continuation),
-        asio::execution::allocator),
-      bindns::bind(increment, &count));
+  asio::prefer(
+      asio::require(pool.executor(),
+        asio::execution::blocking.never,
+        asio::execution::outstanding_work.untracked,
+        asio::execution::relationship.continuation),
+      asio::execution::allocator
+    ).execute(bindns::bind(increment, &count));
 
   pool.wait();
 
   ASIO_CHECK(count == 10);
 }
+
+#if !defined(ASIO_NO_DEPRECATED)
 
 struct receiver
 {
@@ -506,6 +508,13 @@ void thread_pool_executor_bulk_execute_test()
   ASIO_CHECK(count == 20);
 }
 
+#else // !defined(ASIO_NO_DEPRECATED)
+
+void thread_pool_scheduler_test() {}
+void thread_pool_executor_bulk_execute_test() {}
+
+#endif // !defined(ASIO_NO_DEPRECATED)
+
 ASIO_TEST_SUITE
 (
   "thread_pool",
@@ -513,6 +522,6 @@ ASIO_TEST_SUITE
   ASIO_TEST_CASE(thread_pool_service_test)
   ASIO_TEST_CASE(thread_pool_executor_query_test)
   ASIO_TEST_CASE(thread_pool_executor_execute_test)
-  ASIO_TEST_CASE(thread_pool_executor_bulk_execute_test)
   ASIO_TEST_CASE(thread_pool_scheduler_test)
+  ASIO_TEST_CASE(thread_pool_executor_bulk_execute_test)
 )

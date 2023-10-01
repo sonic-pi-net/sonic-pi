@@ -21,6 +21,7 @@
 
 #include <ableton/discovery/Payload.hpp>
 #include <ableton/link/MeasurementEndpointV4.hpp>
+#include <ableton/link/MeasurementEndpointV6.hpp>
 #include <ableton/link/NodeState.hpp>
 
 namespace ableton
@@ -61,12 +62,16 @@ struct PeerState
     return lhs.nodeState == rhs.nodeState && lhs.endpoint == rhs.endpoint;
   }
 
-  friend auto toPayload(const PeerState& state)
-    -> decltype(std::declval<NodeState::Payload>()
-                + discovery::makePayload(MeasurementEndpointV4{{}}))
+  friend auto toPayload(const PeerState& state) -> decltype(
+    std::declval<NodeState::Payload>() + discovery::makePayload(MeasurementEndpointV4{{}})
+    + discovery::makePayload(MeasurementEndpointV6{{}}))
   {
+    // This implements a switch if either an IPv4 or IPv6 endpoint is serialized.
+    // MeasurementEndpoints that contain an endpoint that does not match the IP protocol
+    // version return a sizeInByteStream() of zero and won't be serialized.
     return toPayload(state.nodeState)
-           + discovery::makePayload(MeasurementEndpointV4{state.endpoint});
+           + discovery::makePayload(MeasurementEndpointV4{state.endpoint})
+           + discovery::makePayload(MeasurementEndpointV6{state.endpoint});
   }
 
   template <typename It>
@@ -75,15 +80,16 @@ struct PeerState
     using namespace std;
     auto peerState = PeerState{NodeState::fromPayload(std::move(id), begin, end), {}};
 
-    discovery::parsePayload<MeasurementEndpointV4>(
-      std::move(begin), std::move(end), [&peerState](MeasurementEndpointV4 me4) {
-        peerState.endpoint = std::move(me4.ep);
-      });
+    discovery::parsePayload<MeasurementEndpointV4, MeasurementEndpointV6>(
+      std::move(begin), std::move(end),
+      [&peerState](MeasurementEndpointV4 me4) { peerState.endpoint = std::move(me4.ep); },
+      [&peerState](
+        MeasurementEndpointV6 me6) { peerState.endpoint = std::move(me6.ep); });
     return peerState;
   }
 
   NodeState nodeState;
-  asio::ip::udp::endpoint endpoint;
+  discovery::UdpEndpoint endpoint;
 };
 
 } // namespace link

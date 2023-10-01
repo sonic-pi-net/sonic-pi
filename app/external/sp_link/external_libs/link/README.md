@@ -15,7 +15,7 @@ would like to incorporate Link into a proprietary software application, please c
 
 # Building and Running Link Examples
 
-Link relies on `asio-standalone` and `catch` as submodules. After checking out the
+Link relies on `asio-standalone` as a submodule. After checking out the
 main repositories, those submodules have to be loaded using
 
 ```
@@ -108,7 +108,7 @@ implementations. Please see:
 [platforms/darwin/Clock.hpp](include/ableton/platforms/darwin/Clock.hpp)
 - Windows clock implementation in
 [platforms/windows/Clock.hpp](include/ableton/platforms/windows/Clock.hpp)
-- C++ standard library `std::chrono::high_resolution_clock`-based implementation in
+- C++ standard library `std::chrono::steady_clock`-based implementation in
 [platforms/stl/Clock.hpp](include/ableton/platforms/stl/Clock.hpp)
 
 Using the system time correctly in the context of an audio callback gets a little
