@@ -20,7 +20,6 @@
 #include <QLabel>
 #include <QLibraryInfo>
 #include <QThread>
-#include <QQuickWindow>
 
 #include <singleapplication.h>
 #include "mainwindow.h"
@@ -53,9 +52,6 @@ int main(int argc, char *argv[])
 #endif
 
   QApplication::setAttribute(Qt::AA_DontShowIconsInMenus, true);
-#if QT_VERSION >= 0x060000
-  QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGL);
-#endif
 
 #if defined(Q_OS_LINUX)
   //linux code goes here
