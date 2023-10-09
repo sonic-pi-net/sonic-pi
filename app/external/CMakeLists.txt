@@ -18,7 +18,7 @@ message(STATUS "CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
 include(GNUInstallDirs)
 include(ExternalProject)
 
-set(CMAKE_OSX_DEPLOYMENT_TARGET '10.15')
+set(CMAKE_OSX_DEPLOYMENT_TARGET "13")
 
 # sp_midi
 ExternalProject_Add(sp_midi
