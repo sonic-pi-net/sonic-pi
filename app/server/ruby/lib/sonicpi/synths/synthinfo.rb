@@ -3737,7 +3737,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       end
 
       def introduced
-        Version.new(5,0,0)
+        Version.new(4,5,0)
       end
 
       def synth_name
@@ -3809,7 +3809,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       end
 
       def introduced
-        Version.new(5,0,0)
+        Version.new(4,5,0)
       end
 
       def synth_name
@@ -3902,7 +3902,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       end
 
       def introduced
-        Version.new(5,0,0)
+        Version.new(4,5,0)
       end
 
       def synth_name
@@ -3974,7 +3974,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       end
 
       def introduced
-        Version.new(5,0,0)
+        Version.new(4,5,0)
       end
 
       def synth_name
@@ -4027,7 +4027,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       end
 
       def introduced
-        Version.new(5,0,0)
+        Version.new(4,5,0)
       end
 
       def synth_name
@@ -4080,7 +4080,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       end
 
       def introduced
-        Version.new(5,0,0)
+        Version.new(4,5,0)
       end
 
       def synth_name
@@ -4133,7 +4133,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       end
 
       def introduced
-        Version.new(5,0,0)
+        Version.new(4,5,0)
       end
 
       def synth_name
@@ -4186,7 +4186,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       end
 
       def introduced
-        Version.new(5,0,0)
+        Version.new(4,5,0)
       end
 
       def synth_name
@@ -4239,7 +4239,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       end
 
       def introduced
-        Version.new(5,0,0)
+        Version.new(4,5,0)
       end
 
       def synth_name
@@ -4292,7 +4292,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       end
 
       def introduced
-        Version.new(5,0,0)
+        Version.new(4,5,0)
       end
 
       def synth_name
@@ -4371,7 +4371,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       end
 
       def introduced
-        Version.new(5,0,0)
+        Version.new(4,5,0)
       end
 
       def synth_name
@@ -4424,7 +4424,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       end
 
       def introduced
-        Version.new(5,0,0)
+        Version.new(4,5,0)
       end
 
       def synth_name
@@ -4478,7 +4478,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       end
 
       def introduced
-        Version.new(5,0,0)
+        Version.new(4,5,0)
       end
 
       def synth_name
@@ -4557,7 +4557,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       end
 
       def introduced
-        Version.new(5,0,0)
+        Version.new(4,5,0)
       end
 
       def synth_name
@@ -4629,13 +4629,13 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       end
 
       def introduced
-        Version.new(5,0,0)
+        Version.new(4,5,0)
       end
 
       def synth_name
         "sc808_open_hihat"
       end
-     
+
 
       def on_start(studio, args_h)
         args_h[:rand_buf] = studio.rand_buf_id
@@ -4688,7 +4688,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       end
 
       def introduced
-        Version.new(5,0,0)
+        Version.new(4,5,0)
       end
 
       def synth_name
@@ -4746,7 +4746,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       end
 
       def introduced
-        Version.new(5,0,0)
+        Version.new(4,5,0)
       end
 
       def synth_name
@@ -4858,14 +4858,14 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
         }
       end
     end
-      
+
     class Gabberkick < SonicPiSynth
       def name
         "Gabberkick"
       end
 
       def introduced
-        Version.new(5,0,0)
+        Version.new(4,5,0)
       end
 
       def synth_name
@@ -4956,7 +4956,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
           },
         }
       end
-    end      
+    end
 
     class StudioInfo < SonicPiSynth
       def user_facing?
