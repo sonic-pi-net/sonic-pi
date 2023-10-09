@@ -1,0 +1,65 @@
+[/
+ / Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+ /
+ / Distributed under the Boost Software License, Version 1.0. (See accompanying
+ / file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+ /]
+
+[section:allocators Allocators]
+
+Every asynchronous agent has an associated ['allocator]. An agent's allocator
+is an interface used by the agent's asynchronous operations to obtain
+['per-operation stable memory] resources (POSMs). This name reflects the fact
+that the memory is per-operation because the memory is only retained for the
+lifetime of that operation, and stable, because the memory is guaranteed to be
+available at that location throughout the operation.
+
+Asynchronous operations may utilise POSMs in a number of different ways:
+
+* The operation doesn't require any POSMs. For example, the operation wraps an
+  existing API that performs its own memory management, or is copying the long
+  lived state into existing memory like a circular buffer.
+
+* The operation uses a single, fixed-size POSM for as long as the operation is
+  outstanding. For example, the operation stores some state in a linked list.
+
+* The operation uses a single, runtime-sized POSM. For example, the operation
+  stores a copy of a user-supplied buffer, or a runtime-sized array of iovec
+  structures.
+
+* The operation uses multiple POSMs concurrently. For example, a fixed size
+  POSM for a linked list plus a runtime-sized POSM for a buffer.
+
+* The operation uses multiple POSMs serially, which may vary in size.
+
+Associated allocators allow users to treat POSM optimisation as a cross-cutting
+concern to the composition of asynchronous operations. Furthermore, using
+allocators as the interface to obtain POSMs grant substantial flexibility to
+both the implementers and users of asynchronous operations:
+
+* Users can ignore the allocator and accept whatever default strategy is
+  employed by the application.
+
+* Implementers can ignore the allocator, especially if the operation is not
+  considered performance-sensitive.
+
+* Users can co-locate POSMs for related asynchronous operations, for better
+  locality of reference. 
+
+* For compositions that involve serial POSMs of different sizes, memory usage
+  need only be as great as the currently extant POSM. For example, consider a
+  composition that contains a short-lived operation that uses large POSMs
+  (connection establishment and handshake) followed by a long-lived operation
+  that uses small POSMs (transferring data to and from the peer).
+
+As noted previously, all resources must be released prior to calling the
+completion handler. This enables memory to be recycled for subsequent
+asynchronous operations within an agent. This allows applications with
+long-lived asynchronous agents to have no hot-path memory allocations, even
+though the user code is unaware of associated allocators.
+
+[heading See Also]
+
+[link asio.overview.core.allocation Custom Memory Allocation].
+
+[endsect]

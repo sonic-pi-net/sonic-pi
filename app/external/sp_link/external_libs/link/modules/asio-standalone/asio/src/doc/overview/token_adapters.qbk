@@ -1,0 +1,243 @@
+[/
+ / Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+ /
+ / Distributed under the Boost Software License, Version 1.0. (See accompanying
+ / file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+ /]
+
+[section:token_adapters Completion Token Adapters]
+
+A ['completion token adapter] is a utility that can be generically applied to a
+[link asio.overview.model.completion_tokens completion token], to produce a new
+completion token with modified behaviour. Common uses of completion token
+adapters include:
+
+* Automatically wrapping the completion handler to add [link
+  asio.overview.model.associators associated characteristics].
+
+* Transforming the completion signature and arguments passed to the completion
+  handler.
+
+Asio includes a number of completion token adapters as described below.
+
+[heading bind_executor, bind_allocator, and bind_cancellation_slot]
+
+The [link asio.reference.bind_executor `bind_executor`] function adapts a
+completion token to imbue the completion handler with an [link
+asio.overview.model.executors associated executor].
+
+This example shows the `bind_executor` adapter applied to a lambda, to specify
+that the handler should execute in the specified strand. The arguments to the
+completion handler are passed through as-is.
+
+  my_socket.async_read_some(my_buffer,
+      asio::bind_executor(my_strand,
+        [](asio::error_code error, std::size_t bytes_transferred)
+        {
+          // ...
+        }));
+
+When applied to completion tokens that cause the initiating function to produce
+a result, such as [link asio.reference.use_awaitable `use_awaitable`], the
+result is returned unmodified.
+
+  asio::awaitable<void> my_coroutine()
+  {
+    // ...
+    std::size_t bytes_transferred =
+      co_await my_socket.async_read_some(my_buffer,
+        asio::bind_executor(my_strand, asio::use_awaitable));
+    // ...
+  }
+
+The [link asio.reference.bind_allocator `bind_allocator`] and [link
+asio.reference.bind_cancellation_slot `bind_cancellation_slot`] adapters work
+similarly, to imbue the completion handler with an [link
+asio.overview.model.allocators associated allocator] or [link
+asio.overview.model.cancellation associated cancellation slot] respectively.
+
+[heading redirect_error]
+
+The [link asio.reference.redirect_error `redirect_error`] function adapts a
+completion token to capture the `error_code` produced by an operation into a
+specified variable. In doing so, it modifies the completion signature to remove
+the initial `error_code` parameter.
+
+This example shows the `redirect_error` adapter applied to a lambda, to specify
+that the error should be captured into `my_error`. The `error_code` is no
+longer passed to the completion handler, but the remaining arguments are passed
+through as-is.
+
+  asio::error_code my_error; // N.B. must be valid until operation completes
+  // ...
+  my_socket.async_read_some(my_buffer,
+      asio::redirect_error(
+        [](std::size_t bytes_transferred)
+        {
+          // ...
+        }, my_error));
+
+When applied to completion tokens that cause the initiating function to produce
+a result, such as [link asio.reference.use_awaitable `use_awaitable`], the
+result is returned unmodified. However, if the operation fails, the `co_await`
+expression will no longer throw an exception on resumption.
+
+  asio::awaitable<void> my_coroutine()
+  {
+    // ...
+    asio::error_code my_error;
+    std::size_t bytes_transferred =
+      co_await my_socket.async_read_some(my_buffer,
+        asio::redirect_error(asio::use_awaitable, my_error));
+    // ...
+  }
+
+[heading as_tuple]
+
+The [link asio.reference.as_tuple `as_tuple`] adapter can be used to specify
+that the completion handler arguments should be combined into a single tuple
+argument.
+
+For example, the `as_tuple` adapter may be used in conjunction with [link
+asio.reference.use_awaitable `use_awaitable`] and structured bindings as
+follows:
+
+  auto [e, n] =
+    co_await my_socket.async_read_some(my_buffer,
+      asio::as_tuple(asio::use_awaitable));
+
+This adapter may also be used as a default completion token:
+
+  using default_token = asio::as_tuple_t<asio::use_awaitable_t<>>;
+  using tcp_socket = default_token::as_default_on_t<tcp::socket>;
+  // ...
+  asio::awaitable<void> do_read(tcp_socket my_socket)
+  {
+    // ...
+    auto [e, n] = co_await my_socket.async_read_some(my_buffer);
+    // ...
+  }
+
+[heading as_single]
+
+[note This is an experimental feature.]
+
+The [link asio.reference.experimental__as_single `experimental::as_single`]
+adapter can be used to specify that the completion handler
+arguments should be combined into a single argument. For completion signatures
+with a single parameter, the argument is passed through as-is. For signatures
+with two or more parameters, the arguments are combined into a tuple.
+
+For example, when applied to a timer wait operation, the single `error_code`
+argument is passed directly to the completion handler:
+
+  my_timer.async_wait(
+      asio::experimental::as_single(
+        [](asio::error_code error)
+        {
+          // ...
+        }));
+
+When applied to a socket read operation, where the completion signature
+specifies two parameters, the handler is passed the result as a tuple:
+
+  my_socket.async_read_some(my_buffer,
+      asio::experimental::as_single,
+        [](std::tuple<asio::error_code, std::size_t> result)
+        {
+          // ...
+        }));
+
+[heading append]
+
+The [link asio.reference.append `append`] completion token adapter can be
+used to pass additional completion handler arguments at the end of the
+completion signature.
+
+For example:
+
+  timer.async_wait(
+      asio::append(
+        [](std::error_code ec, int i)
+        {
+          // ...
+        },
+        42
+      )
+    );
+
+  std::future<int> f = timer.async_wait(
+      asio::append(
+        asio::use_future,
+        42
+      )
+    );
+
+[heading prepend]
+
+The [link asio.reference.prepend `prepend`] completion token adapter can be
+used to pass additional completion handler arguments before the existing
+completion handler arguments.
+
+For example:
+
+  timer.async_wait(
+      asio::prepend(
+        [](int i, std::error_code ec)
+        {
+          // ...
+        },
+        42
+      )
+    );
+
+  std::future<std::tuple<int, std::error_code>> f = timer.async_wait(
+      asio::prepend(
+        asio::use_future,
+        42
+      )
+    );
+
+[heading consign]
+
+The [link asio.reference.consign `consign`] completion token adapter can be
+used to attach additional values to a completion handler. This is typically used
+to keep at least one copy of an object, such as a smart pointer, alive until the
+completion handler is called.
+
+For example:
+
+  auto timer1 = std::make_shared<asio::steady_timer>(my_io_context);
+  timer1->expires_after(std::chrono::seconds(1));
+  timer1->async_wait(
+      asio::consign(
+        [](std::error_code ec)
+        {
+          // ...
+        },
+        timer1
+      )
+    );
+
+  auto timer2 = std::make_shared<asio::steady_timer>(my_io_context);
+  timer2->expires_after(std::chrono::seconds(30));
+  std::future<void> f =
+    timer2->async_wait(
+      asio::consign(
+        asio::use_future,
+        timer2
+      )
+    );
+
+[heading See Also]
+
+[link asio.reference.bind_executor bind_executor],
+[link asio.reference.bind_allocator bind_allocator],
+[link asio.reference.bind_cancellation_slot bind_cancellation_slot],
+[link asio.reference.redirect_error redirect_error],
+[link asio.reference.as_tuple as_tuple],
+[link asio.reference.experimental__as_single experimental::as_single],
+[link asio.reference.append append],
+[link asio.reference.prepend prepend].
+
+[endsect]

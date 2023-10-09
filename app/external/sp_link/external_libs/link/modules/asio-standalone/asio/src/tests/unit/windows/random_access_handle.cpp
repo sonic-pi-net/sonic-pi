@@ -2,7 +2,7 @@
 // random_access_handle.cpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -70,6 +70,9 @@ void test()
 
 #if defined(ASIO_HAS_MOVE)
     win::random_access_handle handle5(std::move(handle4));
+
+    win::basic_random_access_handle<io_context::executor_type> handle6(ioc);
+    win::random_access_handle handle7(std::move(handle6));
 #endif // defined(ASIO_HAS_MOVE)
 
     // basic_random_access_handle operators.
@@ -77,6 +80,7 @@ void test()
 #if defined(ASIO_HAS_MOVE)
     handle1 = win::random_access_handle(ioc);
     handle1 = std::move(handle4);
+    handle1 = std::move(handle6);
 #endif // defined(ASIO_HAS_MOVE)
 
     // basic_io_object functions.
@@ -90,9 +94,9 @@ void test()
       = handle1.lowest_layer();
     (void)lowest_layer;
 
-    const win::random_access_handle& handle6 = handle1;
+    const win::random_access_handle& handle8 = handle1;
     const win::random_access_handle::lowest_layer_type& lowest_layer2
-      = handle6.lowest_layer();
+      = handle8.lowest_layer();
     (void)lowest_layer2;
 
     HANDLE native_handle3 = INVALID_HANDLE_VALUE;
@@ -105,8 +109,15 @@ void test()
     handle1.close(ec);
 
     win::random_access_handle::native_handle_type native_handle4
-      = handle1.native_handle();
+      = handle1.release();
     (void)native_handle4;
+    win::random_access_handle::native_handle_type native_handle5
+      = handle1.release(ec);
+    (void)native_handle5;
+
+    win::random_access_handle::native_handle_type native_handle6
+      = handle1.native_handle();
+    (void)native_handle6;
 
     handle1.cancel();
     handle1.cancel(ec);
@@ -151,5 +162,5 @@ void test()
 ASIO_TEST_SUITE
 (
   "windows/random_access_handle",
-  ASIO_TEST_CASE(windows_random_access_handle_compile::test)
+  ASIO_COMPILE_TEST_CASE(windows_random_access_handle_compile::test)
 )

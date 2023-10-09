@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.5)
 project(LinkExamples)
 
 #     _    ____ ___ ___
@@ -11,7 +11,7 @@ project(LinkExamples)
 if(WIN32)
   function(configure_asio asio_sdk_path_OUT)
     # ASIO-related path/file variables
-    set(asio_download_root "https:/download.steinberg.net/sdk_downloads")
+    set(asio_download_root "https://download.steinberg.net/sdk_downloads")
     set(asio_file_name "asiosdk_2.3.3_2019-06-14.zip")
     set(asio_dir_name "asiosdk_2.3.3_2019-06-14")
     set(asio_working_dir "${CMAKE_BINARY_DIR}/modules")
@@ -96,10 +96,6 @@ source_group("Audio Sources" FILES ${linkhut_audio_SOURCES})
 #
 
 function(configure_linkhut_executable target)
-  if(CMAKE_SYSTEM_NAME MATCHES "Linux|kFreeBSD|GNU")
-    target_link_libraries(${target} atomic pthread)
-  endif()
-
   target_link_libraries(${target} Ableton::Link)
 endfunction()
 

@@ -1,13 +1,14 @@
 [/
- / Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+ / Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
  /
  / Distributed under the Boost Software License, Version 1.0. (See accompanying
  / file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
  /]
 
 [library Asio
-    [quickbook 1.4]
-    [copyright 2003 - 2020 Christopher M. Kohlhoff]
+    [quickbook 1.7]
+    [compatibility-mode 1.4]
+    [copyright 2003 - 2023 Christopher M. Kohlhoff]
     [purpose Networking library]
     [license
         Distributed under the Boost Software License, Version 1.0.
@@ -21,6 +22,7 @@
 [template mdash[] '''&mdash; ''']
 [template hr[] [br]'''<phrase role="silver">'''[mdash]'''</phrase>'''[br]]
 [template half_open_range[text] '''&#91;'''[text])]
+[template sub[x]'''<subscript>'''[x]'''</subscript>''']
 [template indexterm1[id term1] '''<indexterm id="'''[id]'''"><primary>'''[term1]'''</primary></indexterm>''']
 [template indexterm2[id term1 term2] '''<indexterm id="'''[id]'''"><primary>'''[term1]'''</primary><secondary>'''[term2]'''</secondary></indexterm>''']
 [template inline_note[text] \[['Note:] [text] '''&mdash;'''['end note]\] ]
@@ -60,7 +62,7 @@ C++ approach.
   ]
   [
     [
-      [link asio.using Using Asio]
+      [link asio.using Using, Building, and Configuring Asio]
     ]
     [
       How to use Asio in your applications. Includes information on

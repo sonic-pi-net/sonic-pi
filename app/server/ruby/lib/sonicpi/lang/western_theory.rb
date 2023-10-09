@@ -199,8 +199,9 @@ end"
 
 
       def midi_to_hz(n)
-        n = note(n) unless n.is_a? Numeric
-        440.0 * (2 ** ((n - 69) / 12.0))
+        midi_num = note(n)
+        raise "Invalid argument to midi_to_hz. Expected a note or a number, got: #{n.inspect}" unless midi_num.is_a? Numeric
+        440.0 * (2 ** ((midi_num - 69) / 12.0))
       end
       doc name:          :midi_to_hz,
       introduced:    Version.new(2,0,0),

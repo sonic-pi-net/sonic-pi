@@ -82,6 +82,11 @@ struct PayloadEntry
   template <typename It>
   friend It toNetworkByteStream(const PayloadEntry& entry, It out)
   {
+    // Don't serialize Entry if its value is of size zero
+    if (sizeInByteStream(entry.value) == 0)
+    {
+      return out;
+    }
     return toNetworkByteStream(
       entry.value, toNetworkByteStream(entry.header, std::move(out)));
   }

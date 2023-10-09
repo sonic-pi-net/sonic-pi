@@ -1,0 +1,110 @@
+[/
+ / Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+ /
+ / Distributed under the Boost Software License, Version 1.0. (See accompanying
+ / file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+ /]
+
+[section:WriteToken Write token requirements]
+
+A write token is a [link asio.overview.model.completion_tokens completion token]
+for completion signature `void(error_code, size_t)`.
+
+[heading Examples]
+
+A free function as a write token:
+
+  void write_handler(
+      const asio::error_code& ec,
+      std::size_t bytes_transferred)
+  {
+    ...
+  }
+
+A write token function object:
+
+  struct write_handler
+  {
+    ...
+    void operator()(
+        const asio::error_code& ec,
+        std::size_t bytes_transferred)
+    {
+      ...
+    }
+    ...
+  };
+
+A lambda as a write token:
+
+  socket.async_write_some(...,
+      [](const asio::error_code& ec,
+        std::size_t bytes_transferred)
+      {
+        ...
+      });
+
+A non-static class member function adapted to a write token using
+`std::bind()`:
+
+  void my_class::write_handler(
+      const asio::error_code& ec,
+      std::size_t bytes_transferred)
+  {
+    ...
+  }
+  ...
+  socket.async_write_some(...,
+      std::bind(&my_class::write_handler,
+        this, std::placeholders::_1,
+        std::placeholders::_2));
+
+A non-static class member function adapted to a write token using
+`boost::bind()`:
+
+  void my_class::write_handler(
+      const asio::error_code& ec,
+      std::size_t bytes_transferred)
+  {
+    ...
+  }
+  ...
+  socket.async_write_some(...,
+      boost::bind(&my_class::write_handler,
+        this, asio::placeholders::error,
+        asio::placeholders::bytes_transferred));
+
+Using [link asio.reference.use_future use_future] as a write token:
+
+  std::future<std::size_t> f =
+    socket.async_write_some(..., asio::use_future);
+  ...
+  try
+  {
+    std::size_t n = f.get();
+    ...
+  }
+  catch (const system_error& e)
+  {
+    ...
+  }
+
+Using [link asio.reference.use_awaitable use_awaitable] as a write token:
+
+  asio::awaitable<void> my_coroutine()
+  {
+    try
+    {
+      ...
+      std::size_t n =
+        co_await socket.async_write_some(
+            ..., asio::use_awaitable);
+      ...
+    }
+    catch (const system_error& e)
+    {
+      ...
+    }
+  }
+
+[endsect]

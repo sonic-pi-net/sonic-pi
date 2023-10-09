@@ -2,7 +2,7 @@
 // ip/network_v4.hpp
 // ~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 // Copyright (c) 2014 Oliver Kowalke (oliver dot kowalke at gmail dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
@@ -122,7 +122,7 @@ public:
   /// Obtain the true network address, omitting any host bits.
   network_v4 canonical() const ASIO_NOEXCEPT
   {
-    return network_v4(network(), netmask());
+    return network_v4(network(), prefix_length());
   }
 
   /// Test if network is a valid host address.

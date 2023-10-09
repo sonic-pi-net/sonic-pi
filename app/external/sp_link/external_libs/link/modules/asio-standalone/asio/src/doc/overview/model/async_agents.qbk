@@ -1,0 +1,35 @@
+[/
+ / Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+ /
+ / Distributed under the Boost Software License, Version 1.0. (See accompanying
+ / file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+ /]
+
+[section:async_agents Asynchronous Agents]
+
+[$async_agent_model.png [width 931px]]
+
+An ['asynchronous agent] is a sequential composition of asynchronous
+operations. Every asynchronous operation is considered to run as a part of an
+asynchronous agent, even if that agent contains only that single operation. An
+asynchronous agent is an entity that may perform work concurrently with other
+agents. Asynchronous agents are to asynchronous operations as threads are to
+synchronous operations.
+
+However, an asynchronous agent is a purely notional construct that allows us to
+reason about the context for, and composition of, asynchronous operations in a
+program. The name “asynchronous agent” does not appear in the library, nor is
+it important which concrete mechanism[footnote Such as chains of lambdas,
+coroutines, fibers, state machines, etc.] is used to compose the asynchronous
+operations in an agent.
+
+We can visualise an asynchronous agent as follows:
+ 
+[$async_agent_chain.png [width 738px]]
+
+Asynchronous agents alternately wait for an asynchronous operation to complete,
+and then run a completion handler for that operation. Within the context of an
+agent, these completion handlers represent indivisible units of schedulable
+work.
+
+[endsect]

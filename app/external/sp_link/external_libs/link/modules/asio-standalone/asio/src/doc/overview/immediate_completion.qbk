@@ -1,0 +1,51 @@
+[/
+ / Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+ /
+ / Distributed under the Boost Software License, Version 1.0. (See accompanying
+ / file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+ /]
+
+[section:immediate_completion Customising Immediate Completion]
+
+The `associated_immediate_executor` associator trait, along with the
+`bind_immediate_executor` function, provide the ability to customise the
+execution of a completion handler when an asynchronous operation completes
+immediately.
+
+When a supported operation completes immediately (that is, within the
+initiating function) the associated immmediate executor is obtained, and the
+completion handler is delivered through that executor as if by using
+`asio::dispatch` on that executor. By default, the immediate executor delivers
+the completion handler as if using `asio::post` via the operation's I/O
+executor.
+
+For example, to allow a recursive call to the completion handler of an
+`async_read_some` operation, we may specify that immediate completion is
+delivered via a `system_executor`:
+
+  my_socket.async_read_some(my_buffer,
+      bind_immediate_executor(
+        system_executor(),
+        [](error_code e, size_t n)
+        {
+          // ...
+        }
+      )
+    );
+
+Immediate execution is currently supported for asynchronous operations on
+reactor-based sockets and descriptors, and for asynchronous operations on
+channels.
+
+[*Note:] When enabling the immediate execution of completion handlers, care
+must be taken to ensure that unbounded recursion and stack overflow do not
+occur. Furthermore, use of immediate completion may impact the fairness of
+completion handler scheduling, with a potential for starvation for other
+pending work.
+
+[heading See Also]
+
+[link asio.reference.associated_immediate_executor associated_immediate_executor],
+[link asio.reference.bind_immediate_executor bind_immediate_executor].
+
+[endsect]

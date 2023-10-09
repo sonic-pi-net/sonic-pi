@@ -19,11 +19,12 @@
 
 #pragma once
 
-#include <ableton/platforms/asio/AsioWrapper.hpp>
-#include <ableton/platforms/asio/Util.hpp>
+#include <ableton/discovery/AsioTypes.hpp>
 #include <arpa/inet.h>
 #include <ifaddrs.h>
+#include <map>
 #include <net/if.h>
+#include <string>
 #include <vector>
 
 namespace ableton
@@ -75,34 +76,49 @@ struct ScanIpIfAddrs
 {
   // Scan active network interfaces and return corresponding addresses
   // for all ip-based interfaces.
-  std::vector<::asio::ip::address> operator()()
+  std::vector<discovery::IpAddress> operator()()
   {
-    std::vector<::asio::ip::address> addrs;
+    std::vector<discovery::IpAddress> addrs;
+    std::map<std::string, discovery::IpAddress> IpInterfaceNames;
 
     detail::GetIfAddrs getIfAddrs;
-    getIfAddrs.withIfAddrs([&addrs](const struct ifaddrs& interfaces) {
+    getIfAddrs.withIfAddrs([&addrs, &IpInterfaceNames](const struct ifaddrs& interfaces) {
       const struct ifaddrs* interface;
       for (interface = &interfaces; interface; interface = interface->ifa_next)
       {
         auto addr = reinterpret_cast<const struct sockaddr_in*>(interface->ifa_addr);
-        if (addr && interface->ifa_flags & IFF_UP)
+        if (addr && interface->ifa_flags & IFF_RUNNING && addr->sin_family == AF_INET)
         {
-          if (addr->sin_family == AF_INET)
+          auto bytes = reinterpret_cast<const char*>(&addr->sin_addr);
+          auto address = discovery::makeAddress<discovery::IpAddressV4>(bytes);
+          addrs.emplace_back(std::move(address));
+          IpInterfaceNames.insert(std::make_pair(interface->ifa_name, address));
+        }
+      }
+    });
+
+    getIfAddrs.withIfAddrs([&addrs, &IpInterfaceNames](const struct ifaddrs& interfaces) {
+      const struct ifaddrs* interface;
+      for (interface = &interfaces; interface; interface = interface->ifa_next)
+      {
+        auto addr = reinterpret_cast<const struct sockaddr_in*>(interface->ifa_addr);
+        if (addr && interface->ifa_flags & IFF_RUNNING && addr->sin_family == AF_INET6)
+        {
+          auto addr6 = reinterpret_cast<const struct sockaddr_in6*>(addr);
+          auto bytes = reinterpret_cast<const char*>(&addr6->sin6_addr);
+          auto scopeId = addr6->sin6_scope_id;
+          auto address = discovery::makeAddress<discovery::IpAddressV6>(bytes, scopeId);
+          if (IpInterfaceNames.find(interface->ifa_name) != IpInterfaceNames.end()
+              && !address.is_loopback() && address.is_link_local())
           {
-            auto bytes = reinterpret_cast<const char*>(&addr->sin_addr);
-            addrs.emplace_back(asio::makeAddress<::asio::ip::address_v4>(bytes));
-          }
-          else if (addr->sin_family == AF_INET6)
-          {
-            auto addr6 = reinterpret_cast<const struct sockaddr_in6*>(addr);
-            auto bytes = reinterpret_cast<const char*>(&addr6->sin6_addr);
-            addrs.emplace_back(asio::makeAddress<::asio::ip::address_v6>(bytes));
+            addrs.emplace_back(std::move(address));
           }
         }
       }
     });
+
     return addrs;
-  }
+  };
 };
 
 } // namespace posix

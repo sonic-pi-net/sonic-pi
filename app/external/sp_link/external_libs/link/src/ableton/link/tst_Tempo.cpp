@@ -30,14 +30,14 @@ TEST_CASE("Tempo")
   SECTION("ConstructFromBpm")
   {
     const auto tempo = Tempo{120.};
-    CHECK(120. == Approx(tempo.bpm()));
+    CHECK_THAT(120., Catch::Matchers::WithinAbs(tempo.bpm(), 1e-10));
     CHECK(std::chrono::microseconds{500000} == tempo.microsPerBeat());
   }
 
   SECTION("ConstructFromMicros")
   {
     const auto tempo = Tempo{std::chrono::microseconds{500000}};
-    CHECK(120. == Approx(tempo.bpm()));
+    CHECK_THAT(120., Catch::Matchers::WithinAbs(tempo.bpm(), 1e-10));
     CHECK(std::chrono::microseconds{500000} == tempo.microsPerBeat());
   }
 

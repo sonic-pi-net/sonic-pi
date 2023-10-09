@@ -2,7 +2,7 @@
 // server.cpp
 // ~~~~~~~~~~
 //
-// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -117,52 +117,6 @@ public:
   handler_memory& memory_;
 };
 
-// Wrapper class template for handler objects to allow handler memory
-// allocation to be customised. The allocator_type typedef and get_allocator()
-// member function are used by the asynchronous operations to obtain the
-// allocator. Calls to operator() are forwarded to the encapsulated handler.
-template <typename Handler>
-class custom_alloc_handler
-{
-public:
-  typedef handler_allocator<Handler> allocator_type;
-
-  custom_alloc_handler(handler_memory& m, Handler h)
-    : memory_(m),
-      handler_(h)
-  {
-  }
-
-  allocator_type get_allocator() const
-  {
-    return allocator_type(memory_);
-  }
-
-  template <typename Arg1>
-  void operator()(Arg1 arg1)
-  {
-    handler_(arg1);
-  }
-
-  template <typename Arg1, typename Arg2>
-  void operator()(Arg1 arg1, Arg2 arg2)
-  {
-    handler_(arg1, arg2);
-  }
-
-private:
-  handler_memory& memory_;
-  Handler handler_;
-};
-
-// Helper function to wrap a handler object to add custom allocation.
-template <typename Handler>
-inline custom_alloc_handler<Handler> make_custom_alloc_handler(
-    handler_memory& m, Handler h)
-{
-  return custom_alloc_handler<Handler>(m, h);
-}
-
 class session
   : public boost::enable_shared_from_this<session>
 {
@@ -180,7 +134,8 @@ public:
   void start()
   {
     socket_.async_read_some(asio::buffer(data_),
-        make_custom_alloc_handler(handler_memory_,
+        asio::bind_allocator(
+          handler_allocator<int>(handler_memory_),
           boost::bind(&session::handle_read,
             shared_from_this(),
             asio::placeholders::error,
@@ -194,7 +149,8 @@ public:
     {
       asio::async_write(socket_,
           asio::buffer(data_, bytes_transferred),
-          make_custom_alloc_handler(handler_memory_,
+          asio::bind_allocator(
+            handler_allocator<int>(handler_memory_),
             boost::bind(&session::handle_write,
               shared_from_this(),
               asio::placeholders::error)));
@@ -206,7 +162,8 @@ public:
     if (!error)
     {
       socket_.async_read_some(asio::buffer(data_),
-          make_custom_alloc_handler(handler_memory_,
+          asio::bind_allocator(
+            handler_allocator<int>(handler_memory_),
             boost::bind(&session::handle_read,
               shared_from_this(),
               asio::placeholders::error,

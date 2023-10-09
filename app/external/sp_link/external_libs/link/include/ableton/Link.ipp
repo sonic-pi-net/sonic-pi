@@ -225,19 +225,33 @@ inline void BasicLink<Clock>::SessionState::requestBeatAtTime(
   forceBeatAtTime(beat, time, quantum);
 }
 
-template <typename Clock>
-inline void BasicLink<Clock>::SessionState::forceBeatAtTime(
-  const double beat, const std::chrono::microseconds time, const double quantum)
+inline void forceBeatAtTimeImpl(link::Timeline& timeline,
+  const link::Beats beat,
+  const std::chrono::microseconds time,
+  const link::Beats quantum)
 {
   // There are two components to the beat adjustment: a phase shift
   // and a beat magnitude adjustment.
-  const auto curBeatAtTime = link::Beats{beatAtTime(time, quantum)};
-  const auto closestInPhase =
-    link::closestPhaseMatch(curBeatAtTime, link::Beats{beat}, link::Beats{quantum});
-  mState.timeline = shiftClientTimeline(mState.timeline, closestInPhase - curBeatAtTime);
+  const auto curBeatAtTime = link::toPhaseEncodedBeats(timeline, time, quantum);
+  const auto closestInPhase = link::closestPhaseMatch(curBeatAtTime, beat, quantum);
+  timeline = shiftClientTimeline(timeline, closestInPhase - curBeatAtTime);
   // Now adjust the magnitude
-  mState.timeline.beatOrigin =
-    mState.timeline.beatOrigin + (link::Beats{beat} - closestInPhase);
+  timeline.beatOrigin = timeline.beatOrigin + beat - closestInPhase;
+}
+
+template <typename Clock>
+inline void BasicLink<Clock>::SessionState::forceBeatAtTime(
+  const double beat, std::chrono::microseconds time, const double quantum)
+{
+  forceBeatAtTimeImpl(mState.timeline, link::Beats{beat}, time, link::Beats{quantum});
+
+  // Due to quantization errors the resulting BeatTime at 'time' after forcing can be
+  // bigger than 'beat' which then violates intended behavior of the API and can lead
+  // i.e. to missing a downbeat. Thus we have to shift the timeline forwards.
+  if (beatAtTime(time, quantum) > beat)
+  {
+    forceBeatAtTimeImpl(mState.timeline, link::Beats{beat}, ++time, link::Beats{quantum});
+  }
 }
 
 template <typename Clock>

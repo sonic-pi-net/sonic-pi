@@ -1,5 +1,5 @@
 See doc/index.html for information on:
   - External dependencies
-  - Using asio
+  - Using, building, and configuring Asio
   - Supported platforms
   - How to build the tests and examples

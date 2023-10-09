@@ -48,7 +48,7 @@ struct MockIoContext
   using Socket = discovery::test::Socket;
 
   template <std::size_t BufferSize>
-  Socket<BufferSize> openUnicastSocket(const asio::ip::address_v4&)
+  Socket<BufferSize> openUnicastSocket(const discovery::IpAddress&)
   {
     return Socket<BufferSize>(mIo);
   }
@@ -93,7 +93,7 @@ struct TFixture
       using Random = ableton::platforms::stl::Random;
       mState.nodeState.sessionId = NodeId::random<Random>();
       mState.endpoint =
-        asio::ip::udp::endpoint(asio::ip::address_v4::from_string("127.0.0.1"), 9999);
+        discovery::UdpEndpoint(discovery::IpAddressV4::from_string("127.0.0.1"), 9999);
     }
 
     PeerState operator()()
@@ -114,7 +114,7 @@ TEST_CASE("PeerMeasurement")
   using Micros = std::chrono::microseconds;
   TFixture fixture;
   const auto endpoint =
-    asio::ip::udp::endpoint(asio::ip::address_v4::from_string("127.0.0.1"), 8888);
+    discovery::UdpEndpoint(discovery::IpAddressV4::from_string("127.0.0.1"), 8888);
 
   SECTION("SendPingsOnConstruction")
   {

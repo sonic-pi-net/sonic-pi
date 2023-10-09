@@ -2,7 +2,7 @@
 // detached.hpp
 // ~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -23,15 +23,15 @@
 
 namespace asio {
 
-/// Class used to specify that an asynchronous operation is detached.
+/// A @ref completion_token type used to specify that an asynchronous operation
+/// is detached.
 /**
-
  * The detached_t class is used to indicate that an asynchronous operation is
  * detached. That is, there is no completion handler waiting for the
  * operation's result. A detached_t object may be passed as a handler to an
  * asynchronous operation, typically using the special value
  * @c asio::detached. For example:
-
+ *
  * @code my_socket.async_send(my_buffer, asio::detached);
  * @endcode
  */
@@ -61,9 +61,9 @@ public:
     /// that to construct the adapted executor.
     template <typename OtherExecutor>
     executor_with_default(const OtherExecutor& ex,
-        typename enable_if<
+        typename constraint<
           is_convertible<OtherExecutor, InnerExecutor>::value
-        >::type* = 0) ASIO_NOEXCEPT
+        >::type = 0) ASIO_NOEXCEPT
       : InnerExecutor(ex)
     {
     }
@@ -93,7 +93,8 @@ public:
   }
 };
 
-/// A special value, similar to std::nothrow.
+/// A @ref completion_token object used to specify that an asynchronous
+/// operation is detached.
 /**
  * See the documentation for asio::detached_t for a usage example.
  */

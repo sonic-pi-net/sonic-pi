@@ -2,7 +2,7 @@
 // detail/win_iocp_socket_accept_op.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -53,6 +53,8 @@ public:
       protocol_(protocol),
       peer_endpoint_(peer_endpoint),
       enable_connection_aborted_(enable_connection_aborted),
+      proxy_op_(0),
+      cancel_requested_(0),
       handler_(ASIO_MOVE_CAST(Handler)(handler)),
       work_(handler_, io_ex)
   {
@@ -73,6 +75,12 @@ public:
     return sizeof(sockaddr_storage_type) + 16;
   }
 
+  void enable_cancellation(long* cancel_requested, operation* proxy_op)
+  {
+    cancel_requested_ = cancel_requested;
+    proxy_op_ = proxy_op;
+  }
+
   static void do_complete(void* owner, operation* base,
       const asio::error_code& result_ec,
       std::size_t /*bytes_transferred*/)
@@ -80,6 +88,7 @@ public:
     asio::error_code ec(result_ec);
 
     // Take ownership of the operation object.
+    ASIO_ASSUME(base != 0);
     win_iocp_socket_accept_op* o(static_cast<win_iocp_socket_accept_op*>(base));
     ptr p = { asio::detail::addressof(o->handler_), o, o };
 
@@ -98,10 +107,13 @@ public:
           && !o->enable_connection_aborted_)
       {
         o->reset();
+        if (o->proxy_op_)
+          o->proxy_op_->reset();
         o->socket_service_.restart_accept_op(o->socket_,
             o->new_socket_, o->protocol_.family(),
             o->protocol_.type(), o->protocol_.protocol(),
-            o->output_buffer(), o->address_length(), o);
+            o->output_buffer(), o->address_length(),
+            o->cancel_requested_, o->proxy_op_ ? o->proxy_op_ : o);
         p.v = p.p = 0;
         return;
       }
@@ -128,6 +140,8 @@ public:
     handler_work<Handler, IoExecutor> w(
         ASIO_MOVE_CAST2(handler_work<Handler, IoExecutor>)(
           o->work_));
+
+    ASIO_ERROR_LOCATION(ec);
 
     // Make a copy of the handler so that the memory can be deallocated before
     // the upcall is made. Even if we're not about to make an upcall, a
@@ -159,6 +173,8 @@ private:
   typename Protocol::endpoint* peer_endpoint_;
   unsigned char output_buffer_[(sizeof(sockaddr_storage_type) + 16) * 2];
   bool enable_connection_aborted_;
+  operation* proxy_op_;
+  long* cancel_requested_;
   Handler handler_;
   handler_work<Handler, IoExecutor> work_;
 };
@@ -184,6 +200,8 @@ public:
       protocol_(protocol),
       peer_endpoint_(peer_endpoint),
       enable_connection_aborted_(enable_connection_aborted),
+      cancel_requested_(0),
+      proxy_op_(0),
       handler_(ASIO_MOVE_CAST(Handler)(handler)),
       work_(handler_, io_ex)
   {
@@ -204,6 +222,12 @@ public:
     return sizeof(sockaddr_storage_type) + 16;
   }
 
+  void enable_cancellation(long* cancel_requested, operation* proxy_op)
+  {
+    cancel_requested_ = cancel_requested;
+    proxy_op_ = proxy_op;
+  }
+
   static void do_complete(void* owner, operation* base,
       const asio::error_code& result_ec,
       std::size_t /*bytes_transferred*/)
@@ -211,6 +235,7 @@ public:
     asio::error_code ec(result_ec);
 
     // Take ownership of the operation object.
+    ASIO_ASSUME(base != 0);
     win_iocp_socket_move_accept_op* o(
         static_cast<win_iocp_socket_move_accept_op*>(base));
     ptr p = { asio::detail::addressof(o->handler_), o, o };
@@ -230,10 +255,13 @@ public:
           && !o->enable_connection_aborted_)
       {
         o->reset();
+        if (o->proxy_op_)
+          o->proxy_op_->reset();
         o->socket_service_.restart_accept_op(o->socket_,
             o->new_socket_, o->protocol_.family(),
             o->protocol_.type(), o->protocol_.protocol(),
-            o->output_buffer(), o->address_length(), o);
+            o->output_buffer(), o->address_length(),
+            o->cancel_requested_, o->proxy_op_ ? o->proxy_op_ : o);
         p.v = p.p = 0;
         return;
       }
@@ -260,6 +288,8 @@ public:
     handler_work<Handler, IoExecutor> w(
         ASIO_MOVE_CAST2(handler_work<Handler, IoExecutor>)(
           o->work_));
+
+    ASIO_ERROR_LOCATION(ec);
 
     // Make a copy of the handler so that the memory can be deallocated before
     // the upcall is made. Even if we're not about to make an upcall, a
@@ -296,6 +326,8 @@ private:
   typename Protocol::endpoint* peer_endpoint_;
   unsigned char output_buffer_[(sizeof(sockaddr_storage_type) + 16) * 2];
   bool enable_connection_aborted_;
+  long* cancel_requested_;
+  operation* proxy_op_;
   Handler handler_;
   handler_work<Handler, IoExecutor> work_;
 };

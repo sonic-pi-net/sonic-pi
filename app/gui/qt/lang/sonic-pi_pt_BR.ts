@@ -219,12 +219,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="877"/>
         <source>Hiding pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation>Esconder títulos do painel...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="887"/>
         <source>Showing pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar títulos dos painéis...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1319"/>

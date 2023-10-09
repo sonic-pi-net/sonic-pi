@@ -2,7 +2,7 @@
 // detail/resolver_service.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -71,29 +71,30 @@ public:
   }
 
   // Resolve a query to a list of entries.
-  results_type resolve(implementation_type&, const query_type& query,
+  results_type resolve(implementation_type&, const query_type& qry,
       asio::error_code& ec)
   {
     asio::detail::addrinfo_type* address_info = 0;
 
-    socket_ops::getaddrinfo(query.host_name().c_str(),
-        query.service_name().c_str(), query.hints(), &address_info, ec);
+    socket_ops::getaddrinfo(qry.host_name().c_str(),
+        qry.service_name().c_str(), qry.hints(), &address_info, ec);
     auto_addrinfo auto_address_info(address_info);
 
+    ASIO_ERROR_LOCATION(ec);
     return ec ? results_type() : results_type::create(
-        address_info, query.host_name(), query.service_name());
+        address_info, qry.host_name(), qry.service_name());
   }
 
   // Asynchronously resolve a query to a list of entries.
   template <typename Handler, typename IoExecutor>
-  void async_resolve(implementation_type& impl, const query_type& query,
+  void async_resolve(implementation_type& impl, const query_type& qry,
       Handler& handler, const IoExecutor& io_ex)
   {
     // Allocate and construct an operation to wrap the handler.
     typedef resolve_query_op<Protocol, Handler, IoExecutor> op;
     typename op::ptr p = { asio::detail::addressof(handler),
       op::ptr::allocate(handler), 0 };
-    p.p = new (p.v) op(impl, query, scheduler_, handler, io_ex);
+    p.p = new (p.v) op(impl, qry, scheduler_, handler, io_ex);
 
     ASIO_HANDLER_CREATION((scheduler_.context(),
           *p.p, "resolver", &impl, 0, "async_resolve"));
@@ -112,6 +113,7 @@ public:
         host_name, NI_MAXHOST, service_name, NI_MAXSERV,
         endpoint.protocol().type(), ec);
 
+    ASIO_ERROR_LOCATION(ec);
     return ec ? results_type() : results_type::create(
         endpoint, host_name, service_name);
   }

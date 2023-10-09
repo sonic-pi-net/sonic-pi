@@ -2,7 +2,7 @@
 // execution/set_value.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -16,6 +16,9 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
+
+#if !defined(ASIO_NO_DEPRECATED)
+
 #include "asio/detail/type_traits.hpp"
 #include "asio/detail/variadic_templates.hpp"
 #include "asio/traits/set_value_member.hpp"
@@ -86,7 +89,7 @@ enum overload_type
   ill_formed
 };
 
-template <typename R, typename Vs, typename = void>
+template <typename R, typename Vs, typename = void, typename = void>
 struct call_traits
 {
   ASIO_STATIC_CONSTEXPR(overload_type, overload = ill_formed);
@@ -97,9 +100,7 @@ struct call_traits
 template <typename R, typename Vs>
 struct call_traits<R, Vs,
   typename enable_if<
-    (
-      set_value_member<R, Vs>::is_valid
-    )
+    set_value_member<R, Vs>::is_valid
   >::type> :
   set_value_member<R, Vs>
 {
@@ -109,11 +110,10 @@ struct call_traits<R, Vs,
 template <typename R, typename Vs>
 struct call_traits<R, Vs,
   typename enable_if<
-    (
-      !set_value_member<R, Vs>::is_valid
-      &&
-      set_value_free<R, Vs>::is_valid
-    )
+    !set_value_member<R, Vs>::is_valid
+  >::type,
+  typename enable_if<
+    set_value_free<R, Vs>::is_valid
   >::type> :
   set_value_free<R, Vs>
 {
@@ -482,5 +482,7 @@ ASIO_VARIADIC_GENERATE(ASIO_PRIVATE_SET_VALUE_TRAITS_DEF)
 #endif // defined(GENERATING_DOCUMENTATION)
 
 #include "asio/detail/pop_options.hpp"
+
+#endif // !defined(ASIO_NO_DEPRECATED)
 
 #endif // ASIO_EXECUTION_SET_VALUE_HPP

@@ -2,7 +2,7 @@
 // detail/impl/win_object_handle_service.ipp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 // Copyright (c) 2011 Boris Schaeling (boris@highscore.de)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
@@ -213,6 +213,7 @@ asio::error_code win_object_handle_service::assign(
   if (is_open(impl))
   {
     ec = asio::error::already_open;
+    ASIO_ERROR_LOCATION(ec);
     return ec;
   }
 
@@ -270,6 +271,7 @@ asio::error_code win_object_handle_service::close(
     ec = asio::error_code();
   }
 
+  ASIO_ERROR_LOCATION(ec);
   return ec;
 }
 
@@ -312,6 +314,7 @@ asio::error_code win_object_handle_service::cancel(
     ec = asio::error::bad_descriptor;
   }
 
+  ASIO_ERROR_LOCATION(ec);
   return ec;
 }
 
@@ -326,6 +329,7 @@ void win_object_handle_service::wait(
       DWORD last_error = ::GetLastError();
       ec = asio::error_code(last_error,
           asio::error::get_system_category());
+      ASIO_ERROR_LOCATION(ec);
       break;
     }
   case WAIT_OBJECT_0:

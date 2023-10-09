@@ -47,7 +47,7 @@ class Peers
   struct Impl;
 
 public:
-  using Peer = std::pair<PeerState, asio::ip::address>;
+  using Peer = std::pair<PeerState, discovery::IpAddress>;
 
   Peers(util::Injected<IoContext> io,
     SessionMembershipCallback membership,
@@ -119,7 +119,7 @@ public:
     using GatewayObserverNodeState = PeerState;
     using GatewayObserverNodeId = NodeId;
 
-    GatewayObserver(std::shared_ptr<Impl> pImpl, asio::ip::address addr)
+    GatewayObserver(std::shared_ptr<Impl> pImpl, discovery::IpAddress addr)
       : mpImpl(std::move(pImpl))
       , mAddr(std::move(addr))
     {
@@ -165,11 +165,11 @@ public:
     }
 
     std::shared_ptr<Impl> mpImpl;
-    asio::ip::address mAddr;
+    discovery::IpAddress mAddr;
   };
 
   // Factory function for the gateway observer
-  friend GatewayObserver makeGatewayObserver(Peers& peers, asio::ip::address addr)
+  friend GatewayObserver makeGatewayObserver(Peers& peers, discovery::IpAddress addr)
   {
     return GatewayObserver{peers.mpImpl, std::move(addr)};
   }
@@ -188,7 +188,7 @@ private:
     {
     }
 
-    void sawPeerOnGateway(PeerState peerState, asio::ip::address gatewayAddr)
+    void sawPeerOnGateway(PeerState peerState, discovery::IpAddress gatewayAddr)
     {
       using namespace std;
 
@@ -255,7 +255,7 @@ private:
       }
     }
 
-    void peerLeftGateway(const NodeId& nodeId, const asio::ip::address& gatewayAddr)
+    void peerLeftGateway(const NodeId& nodeId, const discovery::IpAddress& gatewayAddr)
     {
       using namespace std;
 
@@ -276,7 +276,7 @@ private:
       }
     }
 
-    void gatewayClosed(const asio::ip::address& gatewayAddr)
+    void gatewayClosed(const discovery::IpAddress& gatewayAddr)
     {
       using namespace std;
 

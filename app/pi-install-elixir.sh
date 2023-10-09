@@ -3,7 +3,7 @@
 if [ ! -d ~/.asdf ]; then
   echo "Installing asdf"
 
-  git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.8.1
+  git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.13.1
 
   echo ". $HOME/.asdf/asdf.sh" >> ~/.bashrc
   echo ". $HOME/.asdf/completions/asdf.bash" >> ~/.bashrc

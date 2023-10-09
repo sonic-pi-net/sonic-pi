@@ -51,6 +51,7 @@ UNIT_TEST_EXES = \
 	tests/unit/basic_stream_socket.exe \
 	tests/unit/basic_streambuf.exe \
 	tests/unit/basic_waitable_timer.exe \
+	tests/unit/bind_cancellation_slot.exe \
 	tests/unit/bind_executor.exe \
 	tests/unit/buffered_read_stream.exe \
 	tests/unit/buffered_stream.exe \

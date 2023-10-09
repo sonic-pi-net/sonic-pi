@@ -2,7 +2,7 @@
 // detail/executor_function.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -17,6 +17,7 @@
 
 #include "asio/detail/config.hpp"
 #include "asio/detail/handler_alloc_helpers.hpp"
+#include "asio/detail/handler_invoke_helpers.hpp"
 #include "asio/detail/memory.hpp"
 
 #include "asio/detail/push_options.hpp"
@@ -111,7 +112,7 @@ private:
     // Make the upcall if required.
     if (call)
     {
-      function();
+      asio_handler_invoke_helpers::invoke(function, function);
     }
   }
 

@@ -1,0 +1,54 @@
+[/
+ / Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+ /
+ / Distributed under the Boost Software License, Version 1.0. (See accompanying
+ / file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+ /]
+
+[section:deferred Deferred Operations]
+
+The [link asio.reference.deferred `deferred`], completion token takes a call to
+an asynchronous operation's initiating function and turns it into a function
+object that accepts a completion token. For example:
+
+  auto deferred_op =
+    timer.async_wait(
+      asio::deferred);
+  ...
+  std::move(deferred_op)(
+      [](asio::error_code ec){ ... });
+
+or:
+
+  auto deferred_op =
+    timer.async_wait(
+      asio::deferred);
+  ...
+  std::future<void> =
+    std::move(deferred_op)(
+      asio::use_future);
+
+The deferred token also supports chaining, to create simple compositions:
+
+  auto deferred_op =
+    timer.async_wait(
+      asio::deferred(
+        [&](asio::error_code ec)
+        {
+          timer.expires_after(
+              std::chrono::seconds(1));
+
+          return timer.async_wait(
+              asio::deferred);
+        });
+  ...
+  std::future<void> = std::move(deferred_op)(asio::use_future);
+
+[heading See Also]
+
+[link asio.reference.deferred deferred],
+[link asio.reference.deferred_t deferred_t],
+[link asio.examples.cpp14_examples.deferred Deferred examples (C++11)],
+[link asio.examples.cpp14_examples.deferred Deferred examples (C++14)].
+
+[endsect]

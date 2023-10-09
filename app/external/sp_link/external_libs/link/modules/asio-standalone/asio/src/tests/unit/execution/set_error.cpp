@@ -2,7 +2,7 @@
 // set_error.cpp
 // ~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -18,6 +18,8 @@
 
 #include "asio/error_code.hpp"
 #include "../unit_test.hpp"
+
+#if !defined(ASIO_NO_DEPRECATED)
 
 namespace exec = asio::execution;
 
@@ -242,3 +244,13 @@ ASIO_TEST_SUITE
   ASIO_TEST_CASE(test_can_set_error)
   ASIO_TEST_CASE(test_set_error)
 )
+
+#else // !defined(ASIO_NO_DEPRECATED)
+
+ASIO_TEST_SUITE
+(
+  "set_error",
+  ASIO_TEST_CASE(null_test)
+)
+
+#endif // !defined(ASIO_NO_DEPRECATED)

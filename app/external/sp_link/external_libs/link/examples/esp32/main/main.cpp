@@ -1,6 +1,6 @@
 #include <ableton/Link.hpp>
 #include <driver/gpio.h>
-#include <driver/timer.h>
+#include <driver/gptimer.h>
 #include <esp_event.h>
 #include <freertos/FreeRTOS.h>
 #include <freertos/semphr.h>
@@ -19,38 +19,6 @@ unsigned int if_nametoindex(const char* ifName)
 char* if_indextoname(unsigned int ifIndex, char* ifName)
 {
   return nullptr;
-}
-
-void IRAM_ATTR timer_group0_isr(void* userParam)
-{
-  static BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-
-  TIMERG0.int_clr_timers.t0 = 1;
-  TIMERG0.hw_timer[0].config.alarm_en = 1;
-
-  xSemaphoreGiveFromISR(userParam, &xHigherPriorityTaskWoken);
-  if (xHigherPriorityTaskWoken)
-  {
-    portYIELD_FROM_ISR();
-  }
-}
-
-void timerGroup0Init(int timerPeriodUS, void* userParam)
-{
-  timer_config_t config = {.alarm_en = TIMER_ALARM_EN,
-    .counter_en = TIMER_PAUSE,
-    .intr_type = TIMER_INTR_LEVEL,
-    .counter_dir = TIMER_COUNT_UP,
-    .auto_reload = TIMER_AUTORELOAD_EN,
-    .divider = 80};
-
-  timer_init(TIMER_GROUP_0, TIMER_0, &config);
-  timer_set_counter_value(TIMER_GROUP_0, TIMER_0, 0);
-  timer_set_alarm_value(TIMER_GROUP_0, TIMER_0, timerPeriodUS);
-  timer_enable_intr(TIMER_GROUP_0, TIMER_0);
-  timer_isr_register(TIMER_GROUP_0, TIMER_0, &timer_group0_isr, userParam, 0, nullptr);
-
-  timer_start(TIMER_GROUP_0, TIMER_0);
 }
 
 void printTask(void* userParam)
@@ -73,7 +41,6 @@ void printTask(void* userParam)
 
 void tickTask(void* userParam)
 {
-  SemaphoreHandle_t handle = static_cast<SemaphoreHandle_t>(userParam);
   ableton::Link link(120.0f);
   link.enable(true);
 
@@ -86,12 +53,10 @@ void tickTask(void* userParam)
 
   while (true)
   {
-    xSemaphoreTake(handle, portMAX_DELAY);
-
     const auto state = link.captureAudioSessionState();
     const auto phase = state.phaseAtTime(link.clock().micros(), 1.);
     gpio_set_level(LED, fmodf(phase, 1.) < 0.1);
-    portYIELD();
+    vTaskDelay(1);
   }
 }
 
@@ -102,8 +67,5 @@ extern "C" void app_main()
   ESP_ERROR_CHECK(esp_event_loop_create_default());
   ESP_ERROR_CHECK(example_connect());
 
-  SemaphoreHandle_t tickSemphr = xSemaphoreCreateBinary();
-  timerGroup0Init(100, tickSemphr);
-
-  xTaskCreate(tickTask, "tick", 8192, tickSemphr, configMAX_PRIORITIES - 1, nullptr);
+  xTaskCreate(tickTask, "tick", 8192, nullptr, configMAX_PRIORITIES - 1, nullptr);
 }

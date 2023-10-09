@@ -1,0 +1,101 @@
+[/
+ / Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+ /
+ / Distributed under the Boost Software License, Version 1.0. (See accompanying
+ / file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+ /]
+
+[section:compose Compositions as Asynchronous Operations]
+
+Application developers may wish to package their own compositions as conforming
+[link asio.overview.model.async_ops asynchronous operations] within the [link
+asio.overview.model asynchronous model]. Doing so facilitates seamless
+composition of these operations together with the operations already provided
+by Asio.
+
+While these operations may be written from scratch to conform with the [link
+asio.reference.asynchronous_operations requirements on asynchronous
+operations], Asio includes the [link asio.reference.async_compose
+`async_compose`] function to simplify this process. The `async_compose`
+implementation automatically provides an intermediate completion handler that
+correctly propagates the [link asio.overview.model.associators associated
+characteristics] and tracks outstanding work against the I/O executor and
+completion executor.
+
+The following example illustrates an asynchronous echo loop (i.e. read,
+followed by write, and so on), expressed as a simple state machine.
+
+  struct async_echo_implementation
+  {
+    tcp::socket& socket_;
+    asio::mutable_buffer buffer_;
+    enum { starting, reading, writing } state_;
+
+    template <typename Self>
+    void operator()(Self& self,
+        asio::error_code error = {},
+        std::size_t n = 0)
+    {
+      switch (state_)
+      {
+      case starting:
+        state_ = reading;
+        socket_.async_read_some(
+            buffer_, std::move(self));
+        break;
+      case reading:
+        if (error)
+        {
+          self.complete(error, 0);
+        }
+        else
+        {
+          state_ = writing;
+          asio::async_write(socket_, buffer_,
+              asio::transfer_exactly(n),
+              std::move(self));
+        }
+        break;
+      case writing:
+        self.complete(error, n);
+        break;
+      }
+    }
+  };
+
+This implementation is then used in an initiating function, which trivially
+wraps `async_compose`:
+
+  template <typename CompletionToken>
+  auto async_echo(tcp::socket& socket,
+      asio::mutable_buffer buffer,
+      CompletionToken&& token) ->
+    typename asio::async_result<
+      typename std::decay<CompletionToken>::type,
+        void(asio::error_code, std::size_t)>::return_type
+  {
+    return asio::async_compose<CompletionToken,
+      void(asio::error_code, std::size_t)>(
+        async_echo_implementation{socket, buffer,
+          async_echo_implementation::starting},
+        token, socket);
+  }
+
+Here, `async_compose` is first passed the function object that contains the
+implementation of the composed asynchronous operation. The first argument to
+the function object is a non-const reference to the enclosing intermediate
+completion handler. The remaining arguments are any arguments that originate
+from the completion handlers of any asynchronous operations performed by the
+implementation.
+
+The `async_compose` function is also passed the completion token, and zero or
+more I/O objects or I/O executors for which outstanding work must be
+maintained.
+
+[heading See Also]
+
+[link asio.reference.async_compose async_compose],
+[link asio.examples.cpp11_examples.operations Operations examples (C++11)],
+[link asio.examples.cpp14_examples.operations Operations examples (C++14)].
+
+[endsect]

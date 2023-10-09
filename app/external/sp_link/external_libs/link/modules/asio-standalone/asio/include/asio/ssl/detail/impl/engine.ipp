@@ -2,7 +2,7 @@
 // ssl/detail/impl/engine.ipp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -55,6 +55,24 @@ engine::engine(SSL_CTX* context)
   ::SSL_set_bio(ssl_, int_bio, int_bio);
 }
 
+engine::engine(SSL* ssl_impl)
+  : ssl_(ssl_impl)
+{
+#if (OPENSSL_VERSION_NUMBER < 0x10000000L)
+  accept_mutex().init();
+#endif // (OPENSSL_VERSION_NUMBER < 0x10000000L)
+
+  ::SSL_set_mode(ssl_, SSL_MODE_ENABLE_PARTIAL_WRITE);
+  ::SSL_set_mode(ssl_, SSL_MODE_ACCEPT_MOVING_WRITE_BUFFER);
+#if defined(SSL_MODE_RELEASE_BUFFERS)
+  ::SSL_set_mode(ssl_, SSL_MODE_RELEASE_BUFFERS);
+#endif // defined(SSL_MODE_RELEASE_BUFFERS)
+
+  ::BIO* int_bio = 0;
+  ::BIO_new_bio_pair(&int_bio, 0, &ext_bio_, 0);
+  ::SSL_set_bio(ssl_, int_bio, int_bio);
+}
+
 #if defined(ASIO_HAS_MOVE)
 engine::engine(engine&& other) ASIO_NOEXCEPT
   : ssl_(other.ssl_),
@@ -79,6 +97,20 @@ engine::~engine()
   if (ssl_)
     ::SSL_free(ssl_);
 }
+
+#if defined(ASIO_HAS_MOVE)
+engine& engine::operator=(engine&& other) ASIO_NOEXCEPT
+{
+  if (this != &other)
+  {
+    ssl_ = other.ssl_;
+    ext_bio_ = other.ext_bio_;
+    other.ssl_ = 0;
+    other.ext_bio_ = 0;
+  }
+  return *this;
+}
+#endif // defined(ASIO_HAS_MOVE)
 
 SSL* engine::native_handle()
 {

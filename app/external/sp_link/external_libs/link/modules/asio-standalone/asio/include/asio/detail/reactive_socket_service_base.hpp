@@ -2,7 +2,7 @@
 // detail/reactive_socket_service_base.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -18,9 +18,12 @@
 #include "asio/detail/config.hpp"
 
 #if !defined(ASIO_HAS_IOCP) \
-  && !defined(ASIO_WINDOWS_RUNTIME)
+  && !defined(ASIO_WINDOWS_RUNTIME) \
+  && !defined(ASIO_HAS_IO_URING_AS_DEFAULT)
 
+#include "asio/associated_cancellation_slot.hpp"
 #include "asio/buffer.hpp"
+#include "asio/cancellation_type.hpp"
 #include "asio/error.hpp"
 #include "asio/execution_context.hpp"
 #include "asio/socket_base.hpp"
@@ -199,6 +202,9 @@ public:
     bool is_continuation =
       asio_handler_cont_helpers::is_continuation(handler);
 
+    typename associated_cancellation_slot<Handler>::type slot
+      = asio::get_associated_cancellation_slot(handler);
+
     // Allocate and construct an operation to wrap the handler.
     typedef reactive_wait_op<Handler, IoExecutor> op;
     typename op::ptr p = { asio::detail::addressof(handler),
@@ -211,23 +217,32 @@ public:
     int op_type;
     switch (w)
     {
-      case socket_base::wait_read:
-        op_type = reactor::read_op;
-        break;
-      case socket_base::wait_write:
-        op_type = reactor::write_op;
-        break;
-      case socket_base::wait_error:
-        op_type = reactor::except_op;
-        break;
-      default:
-        p.p->ec_ = asio::error::invalid_argument;
-        reactor_.post_immediate_completion(p.p, is_continuation);
-        p.v = p.p = 0;
-        return;
+    case socket_base::wait_read:
+      op_type = reactor::read_op;
+      break;
+    case socket_base::wait_write:
+      op_type = reactor::write_op;
+      break;
+    case socket_base::wait_error:
+      op_type = reactor::except_op;
+      break;
+    default:
+      p.p->ec_ = asio::error::invalid_argument;
+      start_op(impl, reactor::read_op, p.p,
+          is_continuation, false, true, &io_ex, 0);
+      p.v = p.p = 0;
+      return;
     }
 
-    start_op(impl, op_type, p.p, is_continuation, false, false);
+    // Optionally register for per-operation cancellation.
+    if (slot.is_connected())
+    {
+      p.p->cancellation_key_ =
+        &slot.template emplace<reactor_op_cancellation>(
+            &reactor_, &impl.reactor_data_, impl.socket_, op_type);
+    }
+
+    start_op(impl, op_type, p.p, is_continuation, false, false, &io_ex, 0);
     p.v = p.p = 0;
   }
 
@@ -274,6 +289,9 @@ public:
     bool is_continuation =
       asio_handler_cont_helpers::is_continuation(handler);
 
+    typename associated_cancellation_slot<Handler>::type slot
+      = asio::get_associated_cancellation_slot(handler);
+
     // Allocate and construct an operation to wrap the handler.
     typedef reactive_socket_send_op<
         ConstBufferSequence, Handler, IoExecutor> op;
@@ -282,13 +300,21 @@ public:
     p.p = new (p.v) op(success_ec_, impl.socket_,
         impl.state_, buffers, flags, handler, io_ex);
 
+    // Optionally register for per-operation cancellation.
+    if (slot.is_connected())
+    {
+      p.p->cancellation_key_ =
+        &slot.template emplace<reactor_op_cancellation>(
+            &reactor_, &impl.reactor_data_, impl.socket_, reactor::write_op);
+    }
+
     ASIO_HANDLER_CREATION((reactor_.context(), *p.p, "socket",
           &impl, impl.socket_, "async_send"));
 
     start_op(impl, reactor::write_op, p.p, is_continuation, true,
         ((impl.state_ & socket_ops::stream_oriented)
           && buffer_sequence_adapter<asio::const_buffer,
-            ConstBufferSequence>::all_empty(buffers)));
+            ConstBufferSequence>::all_empty(buffers)), &io_ex, 0);
     p.v = p.p = 0;
   }
 
@@ -300,16 +326,28 @@ public:
     bool is_continuation =
       asio_handler_cont_helpers::is_continuation(handler);
 
+    typename associated_cancellation_slot<Handler>::type slot
+      = asio::get_associated_cancellation_slot(handler);
+
     // Allocate and construct an operation to wrap the handler.
     typedef reactive_null_buffers_op<Handler, IoExecutor> op;
     typename op::ptr p = { asio::detail::addressof(handler),
       op::ptr::allocate(handler), 0 };
     p.p = new (p.v) op(success_ec_, handler, io_ex);
 
+    // Optionally register for per-operation cancellation.
+    if (slot.is_connected())
+    {
+      p.p->cancellation_key_ =
+        &slot.template emplace<reactor_op_cancellation>(
+            &reactor_, &impl.reactor_data_, impl.socket_, reactor::write_op);
+    }
+
     ASIO_HANDLER_CREATION((reactor_.context(), *p.p, "socket",
           &impl, impl.socket_, "async_send(null_buffers)"));
 
-    start_op(impl, reactor::write_op, p.p, is_continuation, false, false);
+    start_op(impl, reactor::write_op, p.p,
+        is_continuation, false, false, &io_ex, 0);
     p.v = p.p = 0;
   }
 
@@ -357,6 +395,9 @@ public:
     bool is_continuation =
       asio_handler_cont_helpers::is_continuation(handler);
 
+    typename associated_cancellation_slot<Handler>::type slot
+      = asio::get_associated_cancellation_slot(handler);
+
     // Allocate and construct an operation to wrap the handler.
     typedef reactive_socket_recv_op<
         MutableBufferSequence, Handler, IoExecutor> op;
@@ -364,6 +405,14 @@ public:
       op::ptr::allocate(handler), 0 };
     p.p = new (p.v) op(success_ec_, impl.socket_,
         impl.state_, buffers, flags, handler, io_ex);
+
+    // Optionally register for per-operation cancellation.
+    if (slot.is_connected())
+    {
+      p.p->cancellation_key_ =
+        &slot.template emplace<reactor_op_cancellation>(
+            &reactor_, &impl.reactor_data_, impl.socket_, reactor::read_op);
+    }
 
     ASIO_HANDLER_CREATION((reactor_.context(), *p.p, "socket",
           &impl, impl.socket_, "async_receive"));
@@ -375,7 +424,7 @@ public:
         (flags & socket_base::message_out_of_band) == 0,
         ((impl.state_ & socket_ops::stream_oriented)
           && buffer_sequence_adapter<asio::mutable_buffer,
-            MutableBufferSequence>::all_empty(buffers)));
+            MutableBufferSequence>::all_empty(buffers)), &io_ex, 0);
     p.v = p.p = 0;
   }
 
@@ -388,11 +437,22 @@ public:
     bool is_continuation =
       asio_handler_cont_helpers::is_continuation(handler);
 
+    typename associated_cancellation_slot<Handler>::type slot
+      = asio::get_associated_cancellation_slot(handler);
+
     // Allocate and construct an operation to wrap the handler.
     typedef reactive_null_buffers_op<Handler, IoExecutor> op;
     typename op::ptr p = { asio::detail::addressof(handler),
       op::ptr::allocate(handler), 0 };
     p.p = new (p.v) op(success_ec_, handler, io_ex);
+
+    // Optionally register for per-operation cancellation.
+    if (slot.is_connected())
+    {
+      p.p->cancellation_key_ =
+        &slot.template emplace<reactor_op_cancellation>(
+            &reactor_, &impl.reactor_data_, impl.socket_, reactor::read_op);
+    }
 
     ASIO_HANDLER_CREATION((reactor_.context(), *p.p, "socket",
           &impl, impl.socket_, "async_receive(null_buffers)"));
@@ -400,7 +460,7 @@ public:
     start_op(impl,
         (flags & socket_base::message_out_of_band)
           ? reactor::except_op : reactor::read_op,
-        p.p, is_continuation, false, false);
+        p.p, is_continuation, false, false, &io_ex, 0);
     p.v = p.p = 0;
   }
 
@@ -446,6 +506,9 @@ public:
     bool is_continuation =
       asio_handler_cont_helpers::is_continuation(handler);
 
+    typename associated_cancellation_slot<Handler>::type slot
+      = asio::get_associated_cancellation_slot(handler);
+
     // Allocate and construct an operation to wrap the handler.
     typedef reactive_socket_recvmsg_op<
         MutableBufferSequence, Handler, IoExecutor> op;
@@ -454,6 +517,14 @@ public:
     p.p = new (p.v) op(success_ec_, impl.socket_,
         buffers, in_flags, out_flags, handler, io_ex);
 
+    // Optionally register for per-operation cancellation.
+    if (slot.is_connected())
+    {
+      p.p->cancellation_key_ =
+        &slot.template emplace<reactor_op_cancellation>(
+            &reactor_, &impl.reactor_data_, impl.socket_, reactor::read_op);
+    }
+
     ASIO_HANDLER_CREATION((reactor_.context(), *p.p, "socket",
           &impl, impl.socket_, "async_receive_with_flags"));
 
@@ -461,7 +532,7 @@ public:
         (in_flags & socket_base::message_out_of_band)
           ? reactor::except_op : reactor::read_op,
         p.p, is_continuation,
-        (in_flags & socket_base::message_out_of_band) == 0, false);
+        (in_flags & socket_base::message_out_of_band) == 0, false, &io_ex, 0);
     p.v = p.p = 0;
   }
 
@@ -475,11 +546,22 @@ public:
     bool is_continuation =
       asio_handler_cont_helpers::is_continuation(handler);
 
+    typename associated_cancellation_slot<Handler>::type slot
+      = asio::get_associated_cancellation_slot(handler);
+
     // Allocate and construct an operation to wrap the handler.
     typedef reactive_null_buffers_op<Handler, IoExecutor> op;
     typename op::ptr p = { asio::detail::addressof(handler),
       op::ptr::allocate(handler), 0 };
     p.p = new (p.v) op(success_ec_, handler, io_ex);
+
+    // Optionally register for per-operation cancellation.
+    if (slot.is_connected())
+    {
+      p.p->cancellation_key_ =
+        &slot.template emplace<reactor_op_cancellation>(
+            &reactor_, &impl.reactor_data_, impl.socket_, reactor::read_op);
+    }
 
     ASIO_HANDLER_CREATION((reactor_.context(), *p.p, "socket",
           &impl, impl.socket_, "async_receive_with_flags(null_buffers)"));
@@ -491,7 +573,7 @@ public:
     start_op(impl,
         (in_flags & socket_base::message_out_of_band)
           ? reactor::except_op : reactor::read_op,
-        p.p, is_continuation, false, false);
+        p.p, is_continuation, false, false, &io_ex, 0);
     p.v = p.p = 0;
   }
 
@@ -507,17 +589,143 @@ protected:
       const native_handle_type& native_socket, asio::error_code& ec);
 
   // Start the asynchronous read or write operation.
-  ASIO_DECL void start_op(base_implementation_type& impl, int op_type,
-      reactor_op* op, bool is_continuation, bool is_non_blocking, bool noop);
+  ASIO_DECL void do_start_op(base_implementation_type& impl, int op_type,
+      reactor_op* op, bool is_continuation, bool is_non_blocking, bool noop,
+      void (*on_immediate)(operation* op, bool, const void*),
+      const void* immediate_arg);
+
+  // Start the asynchronous operation for handlers that are specialised for
+  // immediate completion.
+  template <typename Op>
+  void start_op(base_implementation_type& impl, int op_type, Op* op,
+      bool is_continuation, bool is_non_blocking, bool noop,
+      const void* io_ex, ...)
+  {
+    return do_start_op(impl, op_type, op, is_continuation,
+        is_non_blocking, noop, &Op::do_immediate, io_ex);
+  }
+
+  // Start the asynchronous operation for handlers that are not specialised for
+  // immediate completion.
+  template <typename Op>
+  void start_op(base_implementation_type& impl, int op_type, Op* op,
+      bool is_continuation, bool is_non_blocking, bool noop, const void*,
+      typename enable_if<
+        is_same<
+          typename associated_immediate_executor<
+            typename Op::handler_type,
+            typename Op::io_executor_type
+          >::asio_associated_immediate_executor_is_unspecialised,
+          void
+        >::value
+      >::type*)
+  {
+    return do_start_op(impl, op_type, op, is_continuation, is_non_blocking,
+        noop, &reactor::call_post_immediate_completion, &reactor_);
+  }
 
   // Start the asynchronous accept operation.
-  ASIO_DECL void start_accept_op(base_implementation_type& impl,
-      reactor_op* op, bool is_continuation, bool peer_is_open);
+  ASIO_DECL void do_start_accept_op(base_implementation_type& impl,
+      reactor_op* op, bool is_continuation, bool peer_is_open,
+      void (*on_immediate)(operation* op, bool, const void*),
+      const void* immediate_arg);
+
+  // Start the asynchronous accept operation for handlers that are specialised
+  // for immediate completion.
+  template <typename Op>
+  void start_accept_op(base_implementation_type& impl, Op* op,
+      bool is_continuation, bool peer_is_open, const void* io_ex, ...)
+  {
+    return do_start_accept_op(impl, op, is_continuation,
+        peer_is_open, &Op::do_immediate, io_ex);
+  }
+
+  // Start the asynchronous operation for handlers that are not specialised for
+  // immediate completion.
+  template <typename Op>
+  void start_accept_op(base_implementation_type& impl, Op* op,
+      bool is_continuation, bool peer_is_open, const void*,
+      typename enable_if<
+        is_same<
+          typename associated_immediate_executor<
+            typename Op::handler_type,
+            typename Op::io_executor_type
+          >::asio_associated_immediate_executor_is_unspecialised,
+          void
+        >::value
+      >::type*)
+  {
+    return do_start_accept_op(impl, op, is_continuation, peer_is_open,
+        &reactor::call_post_immediate_completion, &reactor_);
+  }
 
   // Start the asynchronous connect operation.
-  ASIO_DECL void start_connect_op(base_implementation_type& impl,
-      reactor_op* op, bool is_continuation,
-      const socket_addr_type* addr, size_t addrlen);
+  ASIO_DECL void do_start_connect_op(base_implementation_type& impl,
+      reactor_op* op, bool is_continuation, const void* addr, size_t addrlen,
+      void (*on_immediate)(operation* op, bool, const void*),
+      const void* immediate_arg);
+
+  // Start the asynchronous operation for handlers that are specialised for
+  // immediate completion.
+  template <typename Op>
+  void start_connect_op(base_implementation_type& impl,
+      Op* op, bool is_continuation, const void* addr,
+      size_t addrlen, const void* io_ex, ...)
+  {
+    return do_start_connect_op(impl, op, is_continuation,
+        addr, addrlen, &Op::do_immediate, io_ex);
+  }
+
+  // Start the asynchronous operation for handlers that are not specialised for
+  // immediate completion.
+  template <typename Op>
+  void start_connect_op(base_implementation_type& impl, Op* op,
+      bool is_continuation, const void* addr, size_t addrlen, const void*,
+      typename enable_if<
+        is_same<
+          typename associated_immediate_executor<
+            typename Op::handler_type,
+            typename Op::io_executor_type
+          >::asio_associated_immediate_executor_is_unspecialised,
+          void
+        >::value
+      >::type*)
+  {
+    return do_start_connect_op(impl, op, is_continuation, addr,
+        addrlen, &reactor::call_post_immediate_completion, &reactor_);
+  }
+
+  // Helper class used to implement per-operation cancellation
+  class reactor_op_cancellation
+  {
+  public:
+    reactor_op_cancellation(reactor* r,
+        reactor::per_descriptor_data* p, int d, int o)
+      : reactor_(r),
+        reactor_data_(p),
+        descriptor_(d),
+        op_type_(o)
+    {
+    }
+
+    void operator()(cancellation_type_t type)
+    {
+      if (!!(type &
+            (cancellation_type::terminal
+              | cancellation_type::partial
+              | cancellation_type::total)))
+      {
+        reactor_->cancel_ops_by_key(descriptor_,
+            *reactor_data_, op_type_, this);
+      }
+    }
+
+  private:
+    reactor* reactor_;
+    reactor::per_descriptor_data* reactor_data_;
+    int descriptor_;
+    int op_type_;
+  };
 
   // The selector that performs event demultiplexing for the service.
   reactor& reactor_;
@@ -537,5 +745,6 @@ protected:
 
 #endif // !defined(ASIO_HAS_IOCP)
        //   && !defined(ASIO_WINDOWS_RUNTIME)
+       //   && !defined(ASIO_HAS_IO_URING_AS_DEFAULT)
 
 #endif // ASIO_DETAIL_REACTIVE_SOCKET_SERVICE_BASE_HPP

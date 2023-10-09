@@ -2,7 +2,7 @@
 // server.cpp
 // ~~~~~~~~~~
 //
-// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -105,7 +105,7 @@ public:
     context_.set_password_callback(boost::bind(&server::get_password, this));
     context_.use_certificate_chain_file("server.pem");
     context_.use_private_key_file("server.pem", asio::ssl::context::pem);
-    context_.use_tmp_dh_file("dh2048.pem");
+    context_.use_tmp_dh_file("dh4096.pem");
 
     start_accept();
   }

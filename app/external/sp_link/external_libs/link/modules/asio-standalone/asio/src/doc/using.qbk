@@ -1,23 +1,22 @@
 [/
- / Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+ / Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
  /
  / Distributed under the Boost Software License, Version 1.0. (See accompanying
  / file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
  /]
 
-[section:using Using Asio]
+[section:using Using, Building, and Configuring Asio]
 
 [heading Supported Platforms]
 
 The following platform and compiler combinations are regularly tested:
 
-* Linux using g++ 4.1 or later
-* Linux using clang 3.2 or later
-* FreeBSD using g++ 4.1 or later
-* macOS using Xcode 8 or later
-* Win32 using Visual C++ 9.0 or later
-* Win32 using g++ 4.1 or later (MinGW)
-* Win64 using Visual C++ 9.0 or later
+* Linux using g++ 4.6 or later
+* Linux using clang 3.4 or later
+* FreeBSD using g++ 9 or later
+* macOS using Xcode 10 or later
+* Win32 using Visual C++ 11.0 (Visual Studio 2012) or later
+* Win64 using Visual C++ 11.0 (Visual Studio 2012) or later
 
 The following platforms may also work:
 
@@ -30,6 +29,7 @@ The following platforms may also work:
 * QNX Neutrino
 * Solaris
 * Tru64
+* Win32 using MinGW.
 * Win32 using Cygwin. (`__USE_W32_SOCKETS` must be defined.)
 
 [heading Dependencies]
@@ -67,6 +67,11 @@ separately-compiled Asio as part of a shared library.
 
 If using Asio's SSL support, you will also need to add `#include
 <asio/ssl/impl/src.hpp>`.
+
+[heading Debugger support]
+
+Some debugger extensions for use with Asio may be found at
+[@https://github.com/chriskohlhoff/asio-debugger-extensions].
 
 [heading Building the tests and examples on Linux or UNIX]
 
@@ -135,11 +140,75 @@ location of boost.]
 
 [heading Macros]
 
-The macros listed in the table below may be used to control the behaviour of
-Asio.
+The macros listed in the table below may be used to control the interface,
+functionality, and behaviour of Asio.
 
 [table
   [[Macro][Description]]
+  [
+    [`ASIO_NO_DEPRECATED`]
+    [
+      Disables Asio's deprecated interfaces and functionality.
+
+      See [link asio.net_ts Networking TS Compatibility] for a list of older
+      interfaces that have been deprecated, and their replacements.
+    ]
+  ]
+  [
+    [`ASIO_NO_TS_EXECUTORS`]
+    [
+      Disables Asio's support for the Networking TS executor model.
+
+      By default, Asio simultaneously supports both Networking TS-style
+      executors, and executors that adhere to the proposed standard executor
+      model. This macro may be used to limit support to the proposed standard
+      executors only. See [link asio.std_executors Proposed Standard
+      Executors] for more information.
+    ]
+  ]
+  [
+    [`ASIO_USE_TS_EXECUTOR_AS_DEFAULT`]
+    [
+      Specifies that [link asio.reference.any_io_executor `any_io_executor`]
+      refer to the Networking TS-style polymorphic wrapper.
+
+      The `any_io_executor` type alias is the default runtime-polymorphic
+      executor for all I/O objects. This type alias points to the [link
+      asio.reference.execution__any_executor `execution::any_executor<>`]
+      template with a set of supportable properties specified for use with I/O.
+
+      This new name may break existing code that directly uses the old
+      Networking TS-style polymorphic wrapper, [link asio.reference.executor
+      `executor`]. If required for backward compatibility,
+      `ASIO_USE_TS_EXECUTOR_AS_DEFAULT` changes the `any_io_executor` type
+      alias to instead point to the `executor` polymorphic wrapper.
+
+      See [link asio.std_executors Proposed Standard Executors] for more
+      information.
+    ]
+  ]
+  [
+    [`ASIO_NO_DYNAMIC_BUFFER_V1`]
+    [
+      Disables support for the [link asio.reference.DynamicBuffer_v1
+      `DynamicBuffer_v1`] type requirements.
+
+      By default, dynamic buffer operations such as [link asio.reference.read
+      `read`], [link asio.reference.async_read `async_read`], [link
+      asio.reference.read_until `read_until`], [link
+      asio.reference.async_read_until `async_read_until`], [link
+      asio.reference.write `write`], and [link asio.reference.async_write
+      `async_write`] support both the `DynamicBuffer_v1` and the [link
+      asio.reference.DynamicBuffer_v2 `DynamicBuffer_v2`] type requirements
+      for dynamic buffers.
+
+      When `ASIO_NO_DYNAMIC_BUFFER_V1` is defined, all support for
+      `DynamicBuffer_v1` types and functions is #ifdef-ed out. Support for
+      using [link asio.reference.basic_streambuf `basic_streambuf`] with the
+      `read`, `async_read`, `read_until`, `async_read_until`, `write`, and
+      `async_write` functions is also disabled as a consequence.
+    ]
+  ]
   [
     [`ASIO_ENABLE_BUFFER_DEBUGGING`]
     [
@@ -161,6 +230,13 @@ Asio.
     [`ASIO_DISABLE_BUFFER_DEBUGGING`]
     [
       Explictly disables Asio's buffer debugging support.
+    ]
+  ]
+  [
+    [`ASIO_ENABLE_HANDLER_TRACKING`]
+    [
+      Enables Asio's [link asio.overview.core.handler_tracking Handler
+      Tracking] debugging facility.
     ]
   ]
   [
@@ -292,7 +368,46 @@ Asio.
         the map.
     ]
   ]
+  [
+    [`ASIO_USE_BOOST_DATE_TIME_FOR_SOCKET_IOSTREAM`]
+    [
+      Changes [link asio.reference.basic_socket_streambuf
+      `basic_socket_streambuf`] and [link asio.reference.basic_socket_iostream
+      `basic_socket_iostream`] to use the old Boost.Date_Time interface, rather
+      than chrono.
+    ]
+  ]
+  [
+    [`ASIO_SEPARATE_COMPILATION`]
+    [
+      Uses separately compiled source code for Asio's implementation.
+
+      See [link asio.using.optional_separate_compilation above] for further
+      information.
+    ]
+  ]
+  [
+    [`ASIO_DYN_LINK`]
+    [
+      Uses separately compiled source code for Asio's implementation,
+      with symbols exported for inclusion as part of a shared library.
+
+      See [link asio.using.optional_separate_compilation above] for further
+      information.
+    ]
+  ]
+  [
+    [`ASIO_DISABLE_VISIBILITY`]
+    [
+      Disables all symbol visibility pragmas.
+
+      Note: If symbols are hidden, extra care must be taken to ensure that Asio
+      types are not passed across shared library API boundaries.
+    ]
+  ]
 ]
+
+[include platform_macros.qbk]
 
 [heading Mailing List]
 
@@ -300,10 +415,5 @@ A mailing list specifically for Asio may be found on
 [@http://sourceforge.net/mail/?group_id=122478 SourceForge.net]. Newsgroup
 access is provided via [@http://dir.gmane.org/gmane.comp.lib.boost.asio.user
 Gmane].
-
-[heading Wiki]
-
-Users are encouraged to share examples, tips and FAQs on the Asio wiki,
-which is located at [@http://think-async.com/Asio/].
 
 [endsect]

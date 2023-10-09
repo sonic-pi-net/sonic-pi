@@ -169,9 +169,7 @@ std::future<void> pipeline(queue_back<T> in, F f)
         f(in);
       });
   std::future<void> fut = task.get_future();
-  execution::execute(
-      asio::require(ex, execution::blocking.never),
-      std::move(task));
+  asio::require(ex, execution::blocking.never).execute(std::move(task));
   return fut;
 }
 
@@ -191,8 +189,7 @@ std::future<void> pipeline(queue_back<T> in, F f, Tail... t)
   auto ex = get_associated_executor(f, thread_executor());
 
   // Run the function.
-  execution::execute(
-      asio::require(ex, execution::blocking.never),
+  asio::require(ex, execution::blocking.never).execute(
       [in, out, f = std::move(f)]() mutable
       {
         f(in, out);
@@ -219,8 +216,7 @@ std::future<void> pipeline(F f, Tail... t)
   auto ex = get_associated_executor(f, thread_executor());
 
   // Run the function.
-  execution::execute(
-      asio::require(ex, execution::blocking.never),
+  asio::require(ex, execution::blocking.never).execute(
       [out, f = std::move(f)]() mutable
       {
         f(out);

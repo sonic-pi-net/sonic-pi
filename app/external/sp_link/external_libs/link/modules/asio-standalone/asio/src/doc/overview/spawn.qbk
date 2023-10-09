@@ -1,5 +1,5 @@
 [/
- / Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+ / Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
  /
  / Distributed under the Boost Software License, Version 1.0. (See accompanying
  / file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -12,7 +12,7 @@ running stackful coroutines. It is based on the Boost.Coroutine library. The
 `spawn()` function enables programs to implement asynchronous logic in a
 synchronous manner, as shown in the following example:
 
-  asio::spawn(my_strand, do_echo);
+  asio::spawn(my_strand, do_echo, asio::detached);
 
   // ...
 
@@ -37,10 +37,7 @@ synchronous manner, as shown in the following example:
     }
   }
 
-The first argument to `spawn()` may be a
-[link asio.reference.io_context__strand `strand`],
-[link asio.reference.io_context `io_context`], or
-[link asio.reference.CompletionHandler completion handler].
+The first argument to `spawn()` may be an executor or execution context.
 This argument determines the context in which the coroutine is permitted to
 execute. For example, a server's per-client object may consist of multiple
 coroutines; they should all run on the same `strand` so that no explicit
@@ -85,10 +82,10 @@ exception, associate the output variable with the `yield_context` as follows:
     my_socket.async_read_some(
       asio::buffer(data), yield[ec]);
   
-[*Note:] if `spawn()` is used with a custom completion handler of type
-`Handler`, the function object signature is actually:
+[*Note:] if `spawn()` is used with a specified executor of type `Executor`, the
+function object signature is actually:
   
-  void coroutine(asio::basic_yield_context<Handler> yield);
+  void coroutine(asio::basic_yield_context<Executor> yield);
 
 [heading See Also]
 
@@ -97,6 +94,6 @@ exception, associate the output variable with the `yield_context` as follows:
 [link asio.reference.basic_yield_context basic_yield_context],
 [link asio.examples.cpp03_examples.spawn Spawn example (C++03)],
 [link asio.examples.cpp11_examples.spawn Spawn example (C++11)],
-[link asio.overview.core.coroutine Stackless Coroutines].
+[link asio.overview.composition.coroutine Stackless Coroutines].
 
 [endsect]

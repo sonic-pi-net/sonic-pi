@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.5)
 project(LinkCore)
 
 #   ____
@@ -19,6 +19,7 @@ set(link_core_HEADERS
   ${link_core_DIR}/LinearRegression.hpp
   ${link_core_DIR}/Measurement.hpp
   ${link_core_DIR}/MeasurementEndpointV4.hpp
+  ${link_core_DIR}/MeasurementEndpointV6.hpp
   ${link_core_DIR}/MeasurementService.hpp
   ${link_core_DIR}/Median.hpp
   ${link_core_DIR}/NodeId.hpp
@@ -49,8 +50,9 @@ set(link_core_HEADERS
 
 set(link_discovery_DIR ${CMAKE_CURRENT_SOURCE_DIR}/ableton/discovery)
 set(link_discovery_HEADERS
+  ${link_discovery_DIR}/AsioTypes.hpp
   ${link_discovery_DIR}/InterfaceScanner.hpp
-  ${link_discovery_DIR}/IpV4Interface.hpp
+  ${link_discovery_DIR}/IpInterface.hpp
   ${link_discovery_DIR}/MessageTypes.hpp
   ${link_discovery_DIR}/NetworkByteStreamSerializable.hpp
   ${link_discovery_DIR}/Payload.hpp
@@ -77,7 +79,6 @@ set(link_platform_HEADERS
   ${link_platform_DIR}/asio/Context.hpp
   ${link_platform_DIR}/asio/LockFreeCallbackDispatcher.hpp
   ${link_platform_DIR}/asio/Socket.hpp
-  ${link_platform_DIR}/asio/Util.hpp
 )
 
 if(ESP_PLATFORM)

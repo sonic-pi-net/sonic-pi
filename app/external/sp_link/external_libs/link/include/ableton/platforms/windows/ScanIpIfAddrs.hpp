@@ -19,10 +19,11 @@
 
 #pragma once
 
-#include <ableton/platforms/asio/AsioWrapper.hpp>
-#include <ableton/platforms/asio/Util.hpp>
+#include <ableton/discovery/AsioTypes.hpp>
 #include <iphlpapi.h>
+#include <map>
 #include <stdio.h>
+#include <string>
 #include <vector>
 #include <winsock2.h>
 #include <ws2tcpip.h>
@@ -99,12 +100,13 @@ struct ScanIpIfAddrs
 {
   // Scan active network interfaces and return corresponding addresses
   // for all ip-based interfaces.
-  std::vector<::asio::ip::address> operator()()
+  std::vector<discovery::IpAddress> operator()()
   {
-    std::vector<::asio::ip::address> addrs;
+    std::vector<discovery::IpAddress> addrs;
+    std::map<std::string, discovery::IpAddress> IpInterfaceNames;
 
     detail::GetIfAddrs getIfAddrs;
-    getIfAddrs.withIfAddrs([&addrs](const IP_ADAPTER_ADDRESSES& interfaces) {
+    getIfAddrs.withIfAddrs([&](const IP_ADAPTER_ADDRESSES& interfaces) {
       const IP_ADAPTER_ADDRESSES* networkInterface;
       for (networkInterface = &interfaces; networkInterface;
            networkInterface = networkInterface->Next)
@@ -119,18 +121,41 @@ struct ScanIpIfAddrs
             SOCKADDR_IN* addr4 =
               reinterpret_cast<SOCKADDR_IN*>(address->Address.lpSockaddr);
             auto bytes = reinterpret_cast<const char*>(&addr4->sin_addr);
-            addrs.emplace_back(asio::makeAddress<::asio::ip::address_v4>(bytes));
-          }
-          else if (AF_INET6 == family)
-          {
-            SOCKADDR_IN6* addr6 =
-              reinterpret_cast<SOCKADDR_IN6*>(address->Address.lpSockaddr);
-            auto bytes = reinterpret_cast<const char*>(&addr6->sin6_addr);
-            addrs.emplace_back(asio::makeAddress<::asio::ip::address_v6>(bytes));
+            auto ipv4address = discovery::makeAddress<discovery::IpAddressV4>(bytes);
+            addrs.emplace_back(ipv4address);
+            IpInterfaceNames.insert(
+              std::make_pair(networkInterface->AdapterName, ipv4address));
           }
         }
       }
     });
+
+    getIfAddrs.withIfAddrs([&](const IP_ADAPTER_ADDRESSES& interfaces) {
+      const IP_ADAPTER_ADDRESSES* networkInterface;
+      for (networkInterface = &interfaces; networkInterface;
+           networkInterface = networkInterface->Next)
+      {
+        for (IP_ADAPTER_UNICAST_ADDRESS* address = networkInterface->FirstUnicastAddress;
+             NULL != address; address = address->Next)
+        {
+          auto family = address->Address.lpSockaddr->sa_family;
+          if (AF_INET6 == family
+              && IpInterfaceNames.find(networkInterface->AdapterName)
+                   != IpInterfaceNames.end())
+          {
+            SOCKADDR_IN6* sockAddr =
+              reinterpret_cast<SOCKADDR_IN6*>(address->Address.lpSockaddr);
+            auto bytes = reinterpret_cast<const char*>(&sockAddr->sin6_addr);
+            auto addr6 = discovery::makeAddress<discovery::IpAddressV6>(bytes);
+            if (!addr6.is_loopback() && addr6.is_link_local())
+            {
+              addrs.emplace_back(addr6);
+            }
+          }
+        }
+      }
+    });
+
     return addrs;
   }
 };

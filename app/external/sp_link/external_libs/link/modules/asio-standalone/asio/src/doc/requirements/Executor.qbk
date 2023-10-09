@@ -1,5 +1,5 @@
 [/
- / Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+ / Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
  /
  / Distributed under the Boost Software License, Version 1.0. (See accompanying
  / file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -20,7 +20,7 @@ Let `executor-of-impl` be the exposition-only concept
         is_nothrow_copy_constructible_v<E> &&
         equality_comparable<E> /* nothrow */ &&
         requires(const E& e, F&& f) {
-          execution::execute(e, (F&&)f);
+          e.execute((F&&)f);
         };
 
 Then the `executor` and `executor_of` concepts are defined as follows:
@@ -71,7 +71,7 @@ Let:
 * `f` denotes a function of type `F&&` invocable as `cf()` and where
   `decay_t<F>` models `move_constructible`.
 
-The expression `execution::execute(e, f)`:
+The expression `e.execute(f)`:
 
 * Evaluates `DECAY_COPY(std::forward<F>(f))` on the calling thread to create
   `cf` that will be invoked at most once by an execution agent.

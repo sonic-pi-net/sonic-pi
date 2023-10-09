@@ -3731,6 +3731,1134 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       end
     end
 
+    class SC808Bassdrum < SonicPiSynth
+      def name
+        "SC-808 Bassdrum"
+      end
+
+      def introduced
+        Version.new(5,0,0)
+      end
+
+      def synth_name
+        "sc808_bassdrum"
+      end
+
+      def on_start(studio, args_h)
+        args_h[:rand_buf] = studio.rand_buf_id
+      end
+
+      def doc
+        "Bassdrum of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80's. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters."
+      end
+
+      def arg_defaults
+        {
+          :note => 34,
+          :amp => 1,
+          :pan => 0,
+          :decay => 30,
+          :attenuation => 1,
+        }
+      end
+
+      def default_arg_info
+        super.merge({
+          :note =>
+          {
+            :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, `:C`, `:C2`, `:Eb4`, or `:Ds3`",
+            :validations => [v_positive(:note)],
+            :modulatable => false
+          },
+          :amp =>
+          {
+            :doc => "The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)",
+            :validations => [v_positive(:amp)],
+            :modulatable => false
+          },
+          :pan =>
+          {
+            :doc => "Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.",
+            :validations => [v_between_inclusive(:pan, -1, 1)],
+            :modulatable => false
+          },
+        })
+      end
+
+      def specific_arg_info
+        {
+          :decay =>
+          {
+            :doc => "Decay of the bass drum in seconds. Drive it up to 5 or so, in order to get that bass carpet, often featured in hip-hop.",
+            :validations => [v_positive(:decay)],
+            :modulatable => false
+          },
+          :attenuation =>
+          {
+            :doc => "Base frequency attenuation. Use values around 0.2 or lower for giving the bassdrum a more artificial sound.",
+            :validations => [v_positive(:attenuation)],
+            :modulatable => false
+          },
+        }
+      end
+    end
+
+    class SC808Snare < SonicPiSynth
+      def name
+        "SC-808 Snare"
+      end
+
+      def introduced
+        Version.new(5,0,0)
+      end
+
+      def synth_name
+        "sc808_snare"
+      end
+
+      def on_start(studio, args_h)
+        args_h[:rand_buf] = studio.rand_buf_id
+      end
+
+      def doc
+        "Snare drum of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80's. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters."
+      end
+
+      def arg_defaults
+        {
+          :note => 65,
+          :note2 => 54,
+          :amp => 1,
+          :amp2 => 1,
+          :pan => 0,
+          :snappy => 0.3,
+          :cutoff_lo => 93,
+          :cutoff_hi => 121,
+        }
+      end
+
+      def default_arg_info
+        super.merge({
+          :note =>
+          {
+            :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, `:C`, `:C2`, `:Eb4`, or `:Ds3`",
+            :validations => [v_positive(:note)],
+            :modulatable => false
+          },
+          :amp =>
+          {
+            :doc => "The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)",
+            :validations => [v_positive(:amp)],
+            :modulatable => false
+          },
+          :pan =>
+          {
+            :doc => "Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.",
+            :validations => [v_between_inclusive(:pan, -1, 1)],
+            :modulatable => false
+          },
+        })
+      end
+
+      def specific_arg_info
+        {
+          :note2 =>
+          {
+            :doc => "Second base frequency of the sound. Play with both both `:note` and `:note2` for slight changes of timbre and, of course, pitch.",
+            :validations => [v_positive(:note2)],
+            :modulatable => false
+          },
+          :amp2 =>
+          {
+            :doc => "Amplification of the second base frequency of the sound. Use it to set the relation between the two base frequencies of the sound.",
+            :validations => [v_positive(:amp2)],
+            :modulatable => false
+          },
+          :snappy =>
+          {
+            :doc => "Defines the portion of snare wires which create a crisp and snappy sound.",
+            :validations => [v_positive(:snappy)],
+            :modulatable => false
+          },
+          :cutoff_lo =>
+          {
+            :doc => "MIDI note representing the lowest frequencies allowed to be present in the sound.",
+            :validations => [v_positive(:cutoff_lo)],
+            :modulatable => false
+          },
+          :cutoff_hi =>
+          {
+            :doc => "MIDI note representing the highest frequencies allowed to be present in the sound.",
+            :validations => [v_positive(:cutoff_hi)],
+            :modulatable => false
+          },
+        }
+      end
+    end
+
+    class SC808Clap < SonicPiSynth
+      def name
+        "SC-808 Clap"
+      end
+
+      def introduced
+        Version.new(5,0,0)
+      end
+
+      def synth_name
+        "sc808_clap"
+      end
+
+      def on_start(studio, args_h)
+        args_h[:rand_buf] = studio.rand_buf_id
+      end
+
+      def doc
+        "Clap of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80's. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters."
+      end
+
+      def arg_defaults
+        {
+          :amp => 1,
+          :pan => 0,
+          :cutoff_lo => 71,
+          :cutoff_hi => 84,
+          :reverb => 1,
+        }
+      end
+
+      def default_arg_info
+        super.merge({
+          :amp =>
+          {
+            :doc => "The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)",
+            :validations => [v_positive(:amp)],
+            :modulatable => false
+          },
+          :pan =>
+          {
+            :doc => "Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.",
+            :validations => [v_between_inclusive(:pan, -1, 1)],
+            :modulatable => false
+          },
+        })
+      end
+
+      def specific_arg_info
+        {
+          :reverb =>
+          {
+            :doc => "The clap's reverb, making sound more spacious or distant as if it were played in a large room or cave.",
+            :validations => [v_positive(:reverb)],
+            :modulatable => false
+          },
+          :cutoff_lo =>
+          {
+            :doc => "MIDI note representing the lowest frequencies allowed to be present in the sound.",
+            :validations => [v_positive(:cutoff_lo)],
+            :modulatable => false
+          },
+          :cutoff_hi =>
+          {
+            :doc => "MIDI note representing the highest frequencies allowed to be present in the sound.",
+            :validations => [v_positive(:cutoff_hi)],
+            :modulatable => false
+          },
+        }
+      end
+    end
+
+    class SC808TomLo < SonicPiSynth
+      def name
+        "SC-808 Tom Low"
+      end
+
+      def introduced
+        Version.new(5,0,0)
+      end
+
+      def synth_name
+        "sc808_tomlo"
+      end
+
+      def on_start(studio, args_h)
+        args_h[:rand_buf] = studio.rand_buf_id
+      end
+
+      def doc
+        "Low tom drum of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80's. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters."
+      end
+
+      def arg_defaults
+        {
+          :note => 40,
+          :amp => 1,
+          :pan => 0,
+        }
+      end
+
+      def default_arg_info
+        super.merge({
+          :note =>
+          {
+            :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, `:C`, `:C2`, `:Eb4`, or `:Ds3`",
+            :validations => [v_positive(:note)],
+            :modulatable => false
+          },
+          :amp =>
+          {
+            :doc => "The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)",
+            :validations => [v_positive(:amp)],
+            :modulatable => false
+          },
+          :pan =>
+          {
+            :doc => "Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.",
+            :validations => [v_between_inclusive(:pan, -1, 1)],
+            :modulatable => false
+          },
+        })
+      end
+    end
+
+    class SC808TomMid < SonicPiSynth
+      def name
+        "SC-808 Tom Mid"
+      end
+
+      def introduced
+        Version.new(5,0,0)
+      end
+
+      def synth_name
+        "sc808_tommid"
+      end
+
+      def on_start(studio, args_h)
+        args_h[:rand_buf] = studio.rand_buf_id
+      end
+
+      def doc
+        "Mid tom drum of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80's. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters."
+      end
+
+      def arg_defaults
+        {
+          :note => 44,
+          :amp => 1,
+          :pan => 0,
+        }
+      end
+
+      def default_arg_info
+        super.merge({
+          :note =>
+          {
+            :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, `:C`, `:C2`, `:Eb4`, or `:Ds3`",
+            :validations => [v_positive(:note)],
+            :modulatable => false
+          },
+          :amp =>
+          {
+            :doc => "The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)",
+            :validations => [v_positive(:amp)],
+            :modulatable => false
+          },
+          :pan =>
+          {
+            :doc => "Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.",
+            :validations => [v_between_inclusive(:pan, -1, 1)],
+            :modulatable => false
+          },
+        })
+      end
+    end
+
+    class SC808TomHi < SonicPiSynth
+      def name
+        "SC-808 Tom High"
+      end
+
+      def introduced
+        Version.new(5,0,0)
+      end
+
+      def synth_name
+        "sc808_tomhi"
+      end
+
+      def on_start(studio, args_h)
+        args_h[:rand_buf] = studio.rand_buf_id
+      end
+
+      def doc
+        "High tom drum of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80's. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters."
+      end
+
+      def arg_defaults
+        {
+          :note => 51,
+          :amp => 1,
+          :pan => 0,
+        }
+      end
+
+      def default_arg_info
+        super.merge({
+          :note =>
+          {
+            :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, `:C`, `:C2`, `:Eb4`, or `:Ds3`",
+            :validations => [v_positive(:note)],
+            :modulatable => false
+          },
+          :amp =>
+          {
+            :doc => "The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)",
+            :validations => [v_positive(:amp)],
+            :modulatable => false
+          },
+          :pan =>
+          {
+            :doc => "Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.",
+            :validations => [v_between_inclusive(:pan, -1, 1)],
+            :modulatable => false
+          },
+        })
+      end
+    end
+
+    class SC808CongaLo < SonicPiSynth
+      def name
+        "SC-808 Conga Low"
+      end
+
+      def introduced
+        Version.new(5,0,0)
+      end
+
+      def synth_name
+        "sc808_congalo"
+      end
+
+      def on_start(studio, args_h)
+        args_h[:rand_buf] = studio.rand_buf_id
+      end
+
+      def doc
+        "Low conga of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80's. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters."
+      end
+
+      def arg_defaults
+        {
+          :note => 50,
+          :amp => 1,
+          :pan => 0,
+        }
+      end
+
+      def default_arg_info
+        super.merge({
+          :note =>
+          {
+            :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, `:C`, `:C2`, `:Eb4`, or `:Ds3`",
+            :validations => [v_positive(:note)],
+            :modulatable => false
+          },
+          :amp =>
+          {
+            :doc => "The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)",
+            :validations => [v_positive(:amp)],
+            :modulatable => false
+          },
+          :pan =>
+          {
+            :doc => "Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.",
+            :validations => [v_between_inclusive(:pan, -1, 1)],
+            :modulatable => false
+          },
+        })
+      end
+    end
+
+    class SC808CongaMid < SonicPiSynth
+      def name
+        "SC-808 Conga Mid"
+      end
+
+      def introduced
+        Version.new(5,0,0)
+      end
+
+      def synth_name
+        "sc808_congamid"
+      end
+
+      def on_start(studio, args_h)
+        args_h[:rand_buf] = studio.rand_buf_id
+      end
+
+      def doc
+        "Mid conga of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80's. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters."
+      end
+
+      def arg_defaults
+        {
+          :note => 57,
+          :amp => 1,
+          :pan => 0,
+        }
+      end
+
+      def default_arg_info
+        super.merge({
+          :note =>
+          {
+            :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, `:C`, `:C2`, `:Eb4`, or `:Ds3`",
+            :validations => [v_positive(:note)],
+            :modulatable => false
+          },
+          :amp =>
+          {
+            :doc => "The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)",
+            :validations => [v_positive(:amp)],
+            :modulatable => false
+          },
+          :pan =>
+          {
+            :doc => "Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.",
+            :validations => [v_between_inclusive(:pan, -1, 1)],
+            :modulatable => false
+          },
+        })
+      end
+    end
+
+    class SC808CongaHi < SonicPiSynth
+      def name
+        "SC-808 Conga High"
+      end
+
+      def introduced
+        Version.new(5,0,0)
+      end
+
+      def synth_name
+        "sc808_congahi"
+      end
+
+      def on_start(studio, args_h)
+        args_h[:rand_buf] = studio.rand_buf_id
+      end
+
+      def doc
+        "High conga of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80's. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters."
+      end
+
+      def arg_defaults
+        {
+          :note => 65,
+          :amp => 1,
+          :pan => 0,
+        }
+      end
+
+      def default_arg_info
+        super.merge({
+          :note =>
+          {
+            :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, `:C`, `:C2`, `:Eb4`, or `:Ds3`",
+            :validations => [v_positive(:note)],
+            :modulatable => false
+          },
+          :amp =>
+          {
+            :doc => "The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)",
+            :validations => [v_positive(:amp)],
+            :modulatable => false
+          },
+          :pan =>
+          {
+            :doc => "Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.",
+            :validations => [v_between_inclusive(:pan, -1, 1)],
+            :modulatable => false
+          },
+        })
+      end
+    end
+
+    class SC808Rimshot < SonicPiSynth
+      def name
+        "SC-808 Rimshot"
+      end
+
+      def introduced
+        Version.new(5,0,0)
+      end
+
+      def synth_name
+        "sc808_rimshot"
+      end
+
+      def on_start(studio, args_h)
+        args_h[:rand_buf] = studio.rand_buf_id
+      end
+
+      def doc
+        "Rimshot of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80's. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters."
+      end
+
+      def arg_defaults
+        {
+          :note => 92,
+          :amp => 1,
+          :pan => 0,
+          :note2 => 70,
+          :cutoff_lo => 63,
+          :cutoff_hi => 118,
+        }
+      end
+
+      def default_arg_info
+        super.merge({
+          :note =>
+          {
+            :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, `:C`, `:C2`, `:Eb4`, or `:Ds3`",
+            :validations => [v_positive(:note)],
+            :modulatable => false
+          },
+          :amp =>
+          {
+            :doc => "The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)",
+            :validations => [v_positive(:amp)],
+            :modulatable => false
+          },
+          :pan =>
+          {
+            :doc => "Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.",
+            :validations => [v_between_inclusive(:pan, -1, 1)],
+            :modulatable => false
+          },
+        })
+      end
+
+      def specific_arg_info
+        {
+          :note2 =>
+          {
+            :doc => "Second base frequency of the sound. Play with both both `:note` and `:note2` for slight changes of timbre and, of course, pitch.",
+            :validations => [v_positive(:note2)],
+            :modulatable => false
+          },
+          :cutoff_lo =>
+          {
+            :doc => "MIDI note representing the lowest frequencies allowed to be present in the sound.",
+            :validations => [v_positive(:cutoff_lo)],
+            :modulatable => false
+          },
+          :cutoff_hi =>
+          {
+            :doc => "MIDI note representing the highest frequencies allowed to be present in the sound.",
+            :validations => [v_positive(:cutoff_hi)],
+            :modulatable => false
+          },
+        }
+      end
+    end
+
+    class SC808Claves < SonicPiSynth
+      def name
+        "SC-808 Claves"
+      end
+
+      def introduced
+        Version.new(5,0,0)
+      end
+
+      def synth_name
+        "sc808_claves"
+      end
+
+      def on_start(studio, args_h)
+        args_h[:rand_buf] = studio.rand_buf_id
+      end
+
+      def doc
+        "Claves of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80's. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters."
+      end
+
+      def arg_defaults
+        {
+          :note => 99,
+          :amp => 1,
+          :pan => 0,
+        }
+      end
+
+      def default_arg_info
+        super.merge({
+          :note =>
+          {
+            :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, `:C`, `:C2`, `:Eb4`, or `:Ds3`",
+            :validations => [v_positive(:note)],
+            :modulatable => false
+          },
+          :amp =>
+          {
+            :doc => "The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)",
+            :validations => [v_positive(:amp)],
+            :modulatable => false
+          },
+          :pan =>
+          {
+            :doc => "Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.",
+            :validations => [v_between_inclusive(:pan, -1, 1)],
+            :modulatable => false
+          },
+        })
+      end
+    end
+
+    class SC808Maracas < SonicPiSynth
+      def name
+        "SC-808 Maracas"
+      end
+
+      def introduced
+        Version.new(5,0,0)
+      end
+
+      def synth_name
+        "sc808_maracas"
+      end
+
+      def on_start(studio, args_h)
+        args_h[:rand_buf] = studio.rand_buf_id
+      end
+
+      def doc
+        "Maracas of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80's. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters."
+      end
+
+      def arg_defaults
+        {
+          :cutoff => 113,
+          :amp => 1,
+          :pan => 0,
+        }
+      end
+
+      def default_arg_info
+        super.merge({
+          :amp =>
+          {
+            :doc => "The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)",
+            :validations => [v_positive(:amp)],
+            :modulatable => false
+          },
+          :pan =>
+          {
+            :doc => "Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.",
+            :validations => [v_between_inclusive(:pan, -1, 1)],
+            :modulatable => false
+          },
+          :cutoff =>
+          {
+            :doc => "MIDI note representing the highest frequencies allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy.",
+            :validations => [v_positive(:cutoff), v_less_than(:cutoff, 131)],
+            :modulatable => false,
+            :midi => true
+          },
+        })
+      end
+    end
+
+    class SC808Cowbell < SonicPiSynth
+      def name
+        "SC-808 Cowbell"
+      end
+
+      def introduced
+        Version.new(5,0,0)
+      end
+
+      def synth_name
+        "sc808_cowbell"
+      end
+
+      def on_start(studio, args_h)
+        args_h[:rand_buf] = studio.rand_buf_id
+      end
+
+      def doc
+        "Cowbell of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80's. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters."
+      end
+
+      def arg_defaults
+        {
+          :note => 79.58979585613574,
+          :amp => 1,
+          :pan => 0,
+          :note2 => 72.50534928521387,
+          :cutoff_lo => 59,
+          :cutoff_hi => 109,
+        }
+      end
+
+      def default_arg_info
+        super.merge({
+          :note =>
+          {
+            :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, `:C`, `:C2`, `:Eb4`, or `:Ds3`",
+            :validations => [v_positive(:note)],
+            :modulatable => false
+          },
+          :amp =>
+          {
+            :doc => "The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)",
+            :validations => [v_positive(:amp)],
+            :modulatable => false
+          },
+          :pan =>
+          {
+            :doc => "Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.",
+            :validations => [v_between_inclusive(:pan, -1, 1)],
+            :modulatable => false
+          },
+        })
+      end
+
+      def specific_arg_info
+        {
+          :note2 =>
+          {
+            :doc => "Second base frequency of the sound. Play with both both `:note` and `:note2` for slight changes of timbre and, of course, pitch.",
+            :validations => [v_positive(:note2)],
+            :modulatable => false
+          },
+          :cutoff_lo =>
+          {
+            :doc => "MIDI note representing the lowest frequencies allowed to be present in the sound.",
+            :validations => [v_positive(:cutoff_lo)],
+            :modulatable => false
+          },
+          :cutoff_hi =>
+          {
+            :doc => "MIDI note representing the highest frequencies allowed to be present in the sound.",
+            :validations => [v_positive(:cutoff_hi)],
+            :modulatable => false
+          },
+        }
+      end
+    end
+
+    class SC808ClosedHihat < SonicPiSynth
+      def name
+        "SC-808 Closed Hi-Hat"
+      end
+
+      def introduced
+        Version.new(5,0,0)
+      end
+
+      def synth_name
+        "sc808_closed_hihat"
+      end
+
+      def on_start(studio, args_h)
+        args_h[:rand_buf] = studio.rand_buf_id
+      end
+
+      def doc
+        "Closed hi-hat of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80's. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters."
+      end
+
+      def arg_defaults
+        {
+          :amp => 1,
+          :pan => 0,
+          :decay => 0.42,
+          :cutoff_lo => 121.05875888638981,
+          :cutoff_hi => 121.25219487074914,
+        }
+      end
+
+      def default_arg_info
+        super.merge({
+          :amp =>
+          {
+            :doc => "The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)",
+            :validations => [v_positive(:amp)],
+            :modulatable => false
+          },
+          :pan =>
+          {
+            :doc => "Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.",
+            :validations => [v_between_inclusive(:pan, -1, 1)],
+            :modulatable => false
+          },
+        })
+      end
+
+      def specific_arg_info
+        {
+          :decay =>
+          {
+            :doc => "Decay of the hi-hat in seconds, for shorter and longer sounds. Values beyond 1 may not really sound like a hi-hat, but interesting anyway.",
+            :validations => [v_positive(:decay)],
+            :modulatable => false
+          },
+          :cutoff_lo =>
+          {
+            :doc => "MIDI note representing the lowest frequencies allowed during sound generation. The effect may be unexpected: fiddling with the cutoffs produces a variety of tin sounds.",
+            :validations => [v_positive(:cutoff_lo)],
+            :modulatable => false
+          },
+          :cutoff_hi =>
+          {
+            :doc => "MIDI note representing the highest frequencies allowed during sound generation. The effect may be unexpected: fiddling with the cutoffs produces a variety of tin sounds.",
+            :validations => [v_positive(:cutoff_hi)],
+            :modulatable => false
+          },
+        }
+      end
+    end
+
+    class SC808OpenHihat < SonicPiSynth
+      def name
+        "SC-808 Open Hi-Hat"
+      end
+
+      def introduced
+        Version.new(5,0,0)
+      end
+
+      def synth_name
+        "sc808_open_hihat"
+      end
+     
+
+      def on_start(studio, args_h)
+        args_h[:rand_buf] = studio.rand_buf_id
+      end
+
+      def doc
+        "Open hi-hat of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80's. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters. Note that this synth is rather faint and may require an amp of 2 or more to be heard."
+      end
+
+      def arg_defaults
+        {
+          :amp => 1,
+          :pan => 0,
+          :decay => 0.5,
+        }
+      end
+
+      def default_arg_info
+        super.merge({
+          :amp =>
+          {
+            :doc => "The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)",
+            :validations => [v_positive(:amp)],
+            :modulatable => false
+          },
+          :pan =>
+          {
+            :doc => "Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.",
+            :validations => [v_between_inclusive(:pan, -1, 1)],
+            :modulatable => false
+          },
+        })
+      end
+
+      def specific_arg_info
+        {
+          :decay =>
+          {
+            :doc => "Decay of the hi-hat in seconds, for shorter and longer sounds. Values beyond 1 may not really sound like a hi-hat, but interesting anyway.",
+            :validations => [v_positive(:decay)],
+            :modulatable => false
+          },
+        }
+      end
+    end
+
+    class SC808OpenCymbal < SonicPiSynth
+      def name
+        "SC-808 Cymbal"
+      end
+
+      def introduced
+        Version.new(5,0,0)
+      end
+
+      def synth_name
+        "sc808_cymbal"
+      end
+
+      def on_start(studio, args_h)
+        args_h[:rand_buf] = studio.rand_buf_id
+      end
+
+      def doc
+        "Cymbal of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80's. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters."
+      end
+
+      def arg_defaults
+        {
+          :amp => 1,
+          :pan => 0,
+          :decay => 0.5,
+        }
+      end
+
+      def default_arg_info
+        super.merge({
+          :amp =>
+          {
+            :doc => "The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)",
+            :validations => [v_positive(:amp)],
+            :modulatable => false
+          },
+          :pan =>
+          {
+            :doc => "Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.",
+            :validations => [v_between_inclusive(:pan, -1, 1)],
+            :modulatable => false
+          },
+        })
+      end
+
+      def specific_arg_info
+        {
+          :decay =>
+          {
+            :doc => "Decay of the cymbal in seconds, for shorter and longer sounds.",
+            :validations => [v_positive(:decay)],
+            :modulatable => false
+          },
+        }
+      end
+    end
+
+    class Rhodey < SonicPiSynth
+      def name
+        "Rhodey"
+      end
+
+      def introduced
+        Version.new(5,0,0)
+      end
+
+      def synth_name
+        "rhodey"
+      end
+
+      def on_start(studio, args_h)
+        args_h[:rand_buf] = studio.rand_buf_id
+      end
+
+      def doc
+        "The sound of an electric piano from the 60's and 70's, producing a characteristic metallic sound for notes below `:g2`. Adapted for Sonic Pi from [SuperCollider Code](https://sccode.org/1-522). Note the remarks on `:sustain_level`, if you are looking for a sustained sound, rather than a plucked one."
+      end
+
+      def arg_defaults
+        {
+          :note => 69,
+          :note_slide => 0,
+          :note_slide_shape => 1,
+          :note_slide_curve => 0,
+          :amp => 1,
+          :amp_slide => 0,
+          :amp_slide_shape => 1,
+          :amp_slide_curve => 0,
+          :pan => 0,
+          :pan_slide => 0,
+          :pan_slide_shape => 1,
+          :pan_slide_curve => 0,
+
+          :attack => 0.001,
+          :decay => 1,
+          :sustain => 0,
+          :release => 1,
+          :attack_level => 1,
+          :decay_level => :sustain_level,
+          :sustain_level => 0,
+
+          :lfo_width => 0.3,
+          :lfo_width_slide => 0,
+          :lfo_width_slide_shape => 1,
+          :lfo_width_slide_curve => 0,
+          :lfo_rate => 0.4,
+          :lfo_rate_slide => 0,
+          :lfo_rate_slide_shape => 1,
+          :lfo_rate_slide_curve => 0,
+
+          :vel => 0.8,
+          :mod_index => 0.2,
+          :mod_index_slide => 0,
+          :mod_index_slide_shape => 1,
+          :mod_index_slide_curve => 0,
+          :mix => 0.2,
+          :mix_slide => 0,
+          :mix_slide_shape => 1,
+          :mix_slide_curve => 0,
+        }
+      end
+
+      def default_arg_info
+        super.merge({
+          :sustain =>
+          {
+            :doc => "Amount of time (in beats) for sound to remain at sustain level amplitude. Longer sustain values result in longer sounds. Full length of sound is attack + decay + sustain + release. Note that for this value to take effect, the `:sustain_level` must be greater than zero.",
+            :validations => [v_positive(:sustain)],
+            :modulatable => false,
+            :bpm_scale => true
+          },
+          :sustain_level =>
+          {
+            :doc => "Amplitude level reached after decay phase and immediately before release phase. Note that the default is zero, so that the envelope rises to the `:attack_level` taking the `:attack` time and then goes directly to zero in the `:decay` time, emulating a plucked instrument. For a sustained sound, set the `:sustain_level` to a value greater than zero.",
+            :validations => [v_positive(:sustain_level)],
+            :modulatable => false
+          },
+        })
+      end
+
+      def specific_arg_info
+        {
+          :lfo_width =>
+          {
+            :doc => "Width of the low-frequency oscillator (LFO) which determines how wide base tones oscillate around their base frequencies; a dimensionless scaled ratio between base and peak oscillator frequencies",
+            :validations => [v_positive(:lfo_width)],
+            :modulatable => true
+          },
+          :lfo_rate =>
+          {
+            :doc => "Rate of the low-frequency oscillator (LFO) in Hz which determines how fast base tones oscillate around their base frequencies",
+            :validations => [v_positive(:lfo_rate)],
+            :modulatable => true
+          },
+          :vel =>
+          {
+            :doc => "The velocity of the attack, makes the sound louder and changes the timbre",
+            :validations => [v_positive(:vel)],
+            :modulatable => false
+          },
+          :mod_index =>
+          {
+            :doc => "Controls the basic oscillator's amplitude in the sound generation. For typical electric piano sounds use values between 0 and 1. Values beyond 1 also produce interesting sounds, albeit untypical for an electric piano.",
+            :validations => [v_positive(:mod_index)],
+            :modulatable => true
+          },
+          :mix =>
+          {
+            :doc => "Controls the composition of the oscilators. Use values near 1 for a softer, xylophone-like timbre.",
+            :validations => [v_between_inclusive(:mix, 0, 1)],
+            :modulatable => true,
+          },
+        }
+      end
+    end
+      
     class Gabberkick < SonicPiSynth
       def name
         "Gabberkick"
@@ -3828,8 +4956,8 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
           },
         }
       end
-    end
-    
+    end      
+
     class StudioInfo < SonicPiSynth
       def user_facing?
         false
@@ -8529,7 +9657,23 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
         :bass_foundation => BassFoundation.new,
         :bass_highend => BassHighend.new,
         :organ_tonewheel => OrganTonewheel.new,
-        :gabberkick => Gabberkick.new,
+        :rhodey => Rhodey.new,
+        :sc808_bassdrum => SC808Bassdrum.new,
+        :sc808_snare => SC808Snare.new,
+        :sc808_clap => SC808Clap.new,
+        :sc808_tomlo => SC808TomLo.new,
+        :sc808_tommid => SC808TomMid.new,
+        :sc808_tomhi => SC808TomHi.new,
+        :sc808_congalo => SC808CongaLo.new,
+        :sc808_congamid => SC808CongaMid.new,
+        :sc808_congahi => SC808CongaHi.new,
+        :sc808_rimshot => SC808Rimshot.new,
+        :sc808_claves => SC808Claves.new,
+        :sc808_maracas => SC808Maracas.new,
+        :sc808_cowbell => SC808Cowbell.new,
+        :sc808_closed_hihat => SC808ClosedHihat.new,
+        :sc808_open_hihat => SC808OpenHihat.new,
+        :sc808_cymbal => SC808OpenCymbal.new,
 
         :sound_in => SoundIn.new,
         :sound_in_stereo => SoundInStereo.new,

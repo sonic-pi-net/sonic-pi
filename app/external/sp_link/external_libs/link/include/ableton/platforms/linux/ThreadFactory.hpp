@@ -26,7 +26,7 @@ namespace ableton
 {
 namespace platforms
 {
-namespace linux
+namespace linux_
 {
 
 struct ThreadFactory
@@ -40,6 +40,6 @@ struct ThreadFactory
   }
 };
 
-} // namespace linux
+} // namespace linux_
 } // namespace platforms
 } // namespace ableton

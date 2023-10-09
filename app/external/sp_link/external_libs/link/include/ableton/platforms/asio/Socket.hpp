@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include <ableton/platforms/asio/AsioWrapper.hpp>
+#include <ableton/discovery/AsioTypes.hpp>
 #include <ableton/util/SafeAsyncHandler.hpp>
 #include <array>
 #include <cassert>
@@ -28,14 +28,14 @@ namespace ableton
 {
 namespace platforms
 {
-namespace asio
+namespace LINK_ASIO_NAMESPACE
 {
 
 template <std::size_t MaxPacketSize>
 struct Socket
 {
-  Socket(::asio::io_service& io)
-    : mpImpl(std::make_shared<Impl>(io))
+  Socket(::LINK_ASIO_NAMESPACE::io_service& io, ::LINK_ASIO_NAMESPACE::ip::udp protocol)
+    : mpImpl(std::make_shared<Impl>(io, protocol))
   {
   }
 
@@ -47,12 +47,11 @@ struct Socket
   {
   }
 
-  std::size_t send(const uint8_t* const pData,
-    const size_t numBytes,
-    const ::asio::ip::udp::endpoint& to)
+  std::size_t send(
+    const uint8_t* const pData, const size_t numBytes, const discovery::UdpEndpoint& to)
   {
     assert(numBytes < MaxPacketSize);
-    return mpImpl->mSocket.send_to(::asio::buffer(pData, numBytes), to);
+    return mpImpl->mSocket.send_to(::LINK_ASIO_NAMESPACE::buffer(pData, numBytes), to);
   }
 
   template <typename Handler>
@@ -60,19 +59,19 @@ struct Socket
   {
     mpImpl->mHandler = std::move(handler);
     mpImpl->mSocket.async_receive_from(
-      ::asio::buffer(mpImpl->mReceiveBuffer, MaxPacketSize), mpImpl->mSenderEndpoint,
-      util::makeAsyncSafe(mpImpl));
+      ::LINK_ASIO_NAMESPACE::buffer(mpImpl->mReceiveBuffer, MaxPacketSize),
+      mpImpl->mSenderEndpoint, util::makeAsyncSafe(mpImpl));
   }
 
-  ::asio::ip::udp::endpoint endpoint() const
+  discovery::UdpEndpoint endpoint() const
   {
     return mpImpl->mSocket.local_endpoint();
   }
 
   struct Impl
   {
-    Impl(::asio::io_service& io)
-      : mSocket(io, ::asio::ip::udp::v4())
+    Impl(::LINK_ASIO_NAMESPACE::io_service& io, ::LINK_ASIO_NAMESPACE::ip::udp protocol)
+      : mSocket(io, protocol)
     {
     }
 
@@ -80,12 +79,13 @@ struct Socket
     {
       // Ignore error codes in shutdown and close as the socket may
       // have already been forcibly closed
-      ::asio::error_code ec;
-      mSocket.shutdown(::asio::ip::udp::socket::shutdown_both, ec);
+      ::LINK_ASIO_NAMESPACE::error_code ec;
+      mSocket.shutdown(::LINK_ASIO_NAMESPACE::ip::udp::socket::shutdown_both, ec);
       mSocket.close(ec);
     }
 
-    void operator()(const ::asio::error_code& error, const std::size_t numBytes)
+    void operator()(
+      const ::LINK_ASIO_NAMESPACE::error_code& error, const std::size_t numBytes)
     {
       if (!error && numBytes > 0 && numBytes <= MaxPacketSize)
       {
@@ -94,17 +94,17 @@ struct Socket
       }
     }
 
-    ::asio::ip::udp::socket mSocket;
-    ::asio::ip::udp::endpoint mSenderEndpoint;
+    discovery::UdpSocket mSocket;
+    discovery::UdpEndpoint mSenderEndpoint;
     using Buffer = std::array<uint8_t, MaxPacketSize>;
     Buffer mReceiveBuffer;
     using ByteIt = typename Buffer::const_iterator;
-    std::function<void(const ::asio::ip::udp::endpoint&, ByteIt, ByteIt)> mHandler;
+    std::function<void(const discovery::UdpEndpoint&, ByteIt, ByteIt)> mHandler;
   };
 
   std::shared_ptr<Impl> mpImpl;
 };
 
-} // namespace asio
+} // namespace LINK_ASIO_NAMESPACE
 } // namespace platforms
 } // namespace ableton

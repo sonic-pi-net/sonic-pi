@@ -1,0 +1,41 @@
+[/
+ / Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+ /
+ / Distributed under the Boost Software License, Version 1.0. (See accompanying
+ / file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+ /]
+
+[section:futures Futures]
+
+The `asio::use_future` completion token provides first-class support for
+returning a `std::future` from an asynchronous operation's initiating function.
+
+To use `asio::use_future`, pass it to an asynchronous operation instead of
+a completion handler. For example:
+
+  std::future<std::size_t> length =
+    my_socket.async_read_some(my_buffer, asio::use_future);
+
+Where a completion signature has the form:
+
+  void handler(asio::error_code ec, result_type result);
+
+the initiating function returns a `std::future` templated on `result_type`.
+In the above example, this is `std::size_t`. If the asynchronous operation
+fails, the `error_code` is converted into a `system_error` exception and
+passed back to the caller through the future.
+
+Where a completion signature has the form:
+
+  void handler(asio::error_code ec);
+
+the initiating function returns `std::future<void>`. As above, an error
+is passed back in the future as a `system_error` exception.
+
+[heading See Also]
+
+[link asio.reference.use_future use_future],
+[link asio.reference.use_future_t use_future_t],
+[link asio.examples.cpp11_examples.futures Futures example (C++11)].
+
+[endsect]

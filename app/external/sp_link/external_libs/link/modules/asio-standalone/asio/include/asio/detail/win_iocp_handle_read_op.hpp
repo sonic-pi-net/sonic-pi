@@ -2,7 +2,7 @@
 // detail/win_iocp_handle_read_op.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 // Copyright (c) 2008 Rep Invariant Systems, Inc. (info@repinvariant.com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
@@ -57,6 +57,7 @@ public:
     asio::error_code ec(result_ec);
 
     // Take ownership of the operation object.
+    ASIO_ASSUME(base != 0);
     win_iocp_handle_read_op* o(static_cast<win_iocp_handle_read_op*>(base));
     ptr p = { asio::detail::addressof(o->handler_), o, o };
 
@@ -79,6 +80,8 @@ public:
     // Map non-portable errors to their portable counterparts.
     if (ec.value() == ERROR_HANDLE_EOF)
       ec = asio::error::eof;
+
+    ASIO_ERROR_LOCATION(ec);
 
     // Make a copy of the handler so that the memory can be deallocated before
     // the upcall is made. Even if we're not about to make an upcall, a

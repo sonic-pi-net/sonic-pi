@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include <ableton/platforms/asio/AsioWrapper.hpp>
+#include <ableton/discovery/AsioTypes.hpp>
 #if defined(LINK_PLATFORM_MACOSX)
 #include <ableton/platforms/darwin/Darwin.hpp>
 #elif defined(LINK_PLATFORM_LINUX)

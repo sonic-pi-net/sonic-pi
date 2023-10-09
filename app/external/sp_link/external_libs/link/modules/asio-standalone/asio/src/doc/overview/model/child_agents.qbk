@@ -1,0 +1,56 @@
+[/
+ / Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+ /
+ / Distributed under the Boost Software License, Version 1.0. (See accompanying
+ / file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+ /]
+
+[section:child_agents Child Agents]
+
+The asynchronous operations within an agent may themselves be implemented in
+terms of child agents.[footnote In Asio these asynchronous operations are
+referred to as ['composed operations].] As far as the parent agent is
+concerned, it is waiting for the completion of a single asynchronous operation.
+The asynchronous operations that constitute the child agent run in sequence,
+and when the final completion handler runs the parent agent is resumed.
+
+[$async_child_agent_chain.png [width 802px]]
+
+As with individual asynchronous operations, the asynchronous operations built
+on child agents must release their temporary resources prior to calling the
+completion handler. We may also think of these child agents as resources that
+end their lifetimes before the completion handler is invoked.
+
+When an asynchronous operation creates a child agent, it may propagate[footnote
+Typically, by specialising the associator trait and forwarding to the outer
+completion handler.] the associated characteristics of the parent agent to the
+child agent. These associated characteristics may then be recursively
+propagated through further layers of asynchronous operations and child agents.
+This stacking of asynchronous operations replicates another property of
+synchronous operations.
+
+[table
+  [
+    [Property of synchronous operations]
+    [Equivalent property of asynchronous operations]
+  ]
+  [
+    [
+      Compositions of synchronous operations may be refactored to use child
+      functions that run on the same thread (i.e. are simply called) without
+      altering functionality.
+    ]
+    [
+      Asynchronous agents may be refactored to use asynchronous operations and
+      child agents that share the associated characteristics of the parent
+      agent, without altering functionality.
+    ]
+  ]
+]
+
+Finally, some asynchronous operations may be implemented in terms of multiple
+child agents that run concurrently. In this case, the asynchronous operation
+may choose to selectively propagate the associated characteristics of the
+parent agent.
+
+[endsect]
