@@ -1,0 +1,7 @@
+#!/bin/bash -e
+
+. "$(dirname "$0")/benchmark_helpers.sh"
+
+gitbench --prepare "create_text_file text_100kb 102400" \
+         --warmup 5 \
+         hash-object "text_100kb"

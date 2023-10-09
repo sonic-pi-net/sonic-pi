@@ -92,10 +92,7 @@ ScopeWindow::~ScopeWindow()
 
 void ScopeWindow::ShutDown()
 {
-    if (m_spAPI)
-    {
-        m_spAPI->AudioProcessor_Enable(false);
-    }
+
 }
 
 void ScopeWindow::resizeEvent(QResizeEvent* pSize)

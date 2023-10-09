@@ -2,7 +2,7 @@
 // execution/bulk_execute.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -16,6 +16,9 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
+
+#if !defined(ASIO_NO_DEPRECATED)
+
 #include "asio/detail/type_traits.hpp"
 #include "asio/execution/bulk_guarantee.hpp"
 #include "asio/execution/detail/bulk_sender.hpp"
@@ -124,7 +127,8 @@ enum overload_type
   ill_formed
 };
 
-template <typename S, typename Args, typename = void>
+template <typename S, typename Args, typename = void, typename = void,
+    typename = void, typename = void, typename = void, typename = void>
 struct call_traits
 {
   ASIO_STATIC_CONSTEXPR(overload_type, overload = ill_formed);
@@ -135,15 +139,15 @@ struct call_traits
 template <typename S, typename F, typename N>
 struct call_traits<S, void(F, N),
   typename enable_if<
-    (
-      is_convertible<N, std::size_t>::value
-      &&
-      bulk_execute_member<S, F, N>::is_valid
-      &&
-      is_sender<
-        typename bulk_execute_member<S, F, N>::result_type
-      >::value
-    )
+    is_convertible<N, std::size_t>::value
+  >::type,
+  typename enable_if<
+    bulk_execute_member<S, F, N>::is_valid
+  >::type,
+  typename enable_if<
+    is_sender<
+      typename bulk_execute_member<S, F, N>::result_type
+    >::value
   >::type> :
   bulk_execute_member<S, F, N>
 {
@@ -153,17 +157,18 @@ struct call_traits<S, void(F, N),
 template <typename S, typename F, typename N>
 struct call_traits<S, void(F, N),
   typename enable_if<
-    (
-      is_convertible<N, std::size_t>::value
-      &&
-      !bulk_execute_member<S, F, N>::is_valid
-      &&
-      bulk_execute_free<S, F, N>::is_valid
-      &&
-      is_sender<
-        typename bulk_execute_free<S, F, N>::result_type
-      >::value
-    )
+    is_convertible<N, std::size_t>::value
+  >::type,
+  typename enable_if<
+    !bulk_execute_member<S, F, N>::is_valid
+  >::type,
+  typename enable_if<
+    bulk_execute_free<S, F, N>::is_valid
+  >::type,
+  typename enable_if<
+    is_sender<
+      typename bulk_execute_free<S, F, N>::result_type
+    >::value
   >::type> :
   bulk_execute_free<S, F, N>
 {
@@ -173,26 +178,29 @@ struct call_traits<S, void(F, N),
 template <typename S, typename F, typename N>
 struct call_traits<S, void(F, N),
   typename enable_if<
-    (
-      is_convertible<N, std::size_t>::value
-      &&
-      !bulk_execute_member<S, F, N>::is_valid
-      &&
-      !bulk_execute_free<S, F, N>::is_valid
-      &&
-      is_sender<S>::value
-      &&
-      is_same<
-        typename result_of<
-          F(typename executor_index<typename remove_cvref<S>::type>::type)
-        >::type,
-        typename result_of<
-          F(typename executor_index<typename remove_cvref<S>::type>::type)
-        >::type
-      >::value
-      &&
-      static_require<S, bulk_guarantee_t::unsequenced_t>::is_valid
-    )
+    is_convertible<N, std::size_t>::value
+  >::type,
+  typename enable_if<
+    !bulk_execute_member<S, F, N>::is_valid
+  >::type,
+  typename enable_if<
+    !bulk_execute_free<S, F, N>::is_valid
+  >::type,
+  typename enable_if<
+    is_sender<S>::value
+  >::type,
+  typename enable_if<
+    is_same<
+      typename result_of<
+        F(typename executor_index<typename remove_cvref<S>::type>::type)
+      >::type,
+      typename result_of<
+        F(typename executor_index<typename remove_cvref<S>::type>::type)
+      >::type
+    >::value
+  >::type,
+  typename enable_if<
+    static_require<S, bulk_guarantee_t::unsequenced_t>::is_valid
   >::type>
 {
   ASIO_STATIC_CONSTEXPR(overload_type, overload = adapter);
@@ -346,8 +354,9 @@ static ASIO_CONSTEXPR
 template <typename S, typename F, typename N>
 struct can_bulk_execute :
   integral_constant<bool,
-    asio_execution_bulk_execute_fn::call_traits<S, void(F, N)>::overload !=
-      asio_execution_bulk_execute_fn::ill_formed>
+    asio_execution_bulk_execute_fn::call_traits<
+      S, void(F, N)>::overload !=
+        asio_execution_bulk_execute_fn::ill_formed>
 {
 };
 
@@ -361,7 +370,8 @@ constexpr bool can_bulk_execute_v = can_bulk_execute<S, F, N>::value;
 template <typename S, typename F, typename N>
 struct is_nothrow_bulk_execute :
   integral_constant<bool,
-    asio_execution_bulk_execute_fn::call_traits<S, void(F, N)>::is_noexcept>
+    asio_execution_bulk_execute_fn::call_traits<
+      S, void(F, N)>::is_noexcept>
 {
 };
 
@@ -386,5 +396,7 @@ struct bulk_execute_result
 #endif // defined(GENERATING_DOCUMENTATION)
 
 #include "asio/detail/pop_options.hpp"
+
+#endif // !defined(ASIO_NO_DEPRECATED)
 
 #endif // ASIO_EXECUTION_BULK_EXECUTE_HPP

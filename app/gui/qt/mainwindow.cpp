@@ -132,7 +132,7 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
     show_rec_icon_a = false;
     restoreDocPane = false;
     focusMode = false;
-    version = "5.0-tech-preview-2";
+    version = "4.5.0";
     latest_version = "";
     version_num = 0;
     latest_version_num = 0;
@@ -270,7 +270,8 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
 
     toggleOSCServer(1);
 
-    app.setActiveWindow(editorTabWidget->currentWidget());
+    editorTabWidget->currentWidget()->activateWindow();
+
 
     showWelcomeScreen();
 

@@ -1,0 +1,56 @@
+[/
+ / Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+ /
+ / Distributed under the Boost Software License, Version 1.0. (See accompanying
+ / file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+ /]
+
+[section:channels Channels]
+
+[note This is an experimental feature.]
+
+The templates
+[link asio.reference.experimental__basic_channel experimental::basic_channel]
+and [link asio.reference.experimental__basic_concurrent_channel
+experimental::basic_concurrent_channel], with aliases `experimental::channel`
+and `experimental::concurrent_channel`, may be used to send messages between
+different parts of the same application. A ['message] is defined as a
+collection of arguments to be passed to a completion handler, and the set of
+messages supported by a channel is specified by its template parameters.
+Messages may be sent and received using asynchronous or non-blocking
+synchronous operations.
+
+For example:
+
+  // Create a channel with no buffer space.
+  channel<void(error_code, size_t)> ch(ctx);
+
+  // The call to try_send fails as there is no buffer
+  // space and no waiting receive operations.
+  bool ok = ch.try_send(asio::error::eof, 123);
+  assert(!ok);
+
+  // The async_send operation is outstanding until
+  // a receive operation consumes the message.
+  ch.async_send(asio::error::eof, 123,
+      [](error_code ec)
+      {
+        // ...
+      });
+
+  // The async_receive consumes the message. Both the
+  // async_send and async_receive operations complete
+  // immediately.
+  ch.async_receive(
+      [](error_code ec, size_t n)
+      {
+        // ...
+      });
+
+[heading See Also]
+
+[link asio.reference.experimental__basic_channel experimental::basic_channel],
+[link asio.reference.experimental__basic_concurrent_channel experimental::basic_concurrent_channel],
+[link asio.examples.cpp20_examples.channels Channels examples (C++20)].
+
+[endsect]

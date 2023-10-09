@@ -2,7 +2,7 @@
 // detail/gcc_x86_fenced_block.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -55,7 +55,7 @@ private:
   {
     int r = 0, m = 1;
     __asm__ __volatile__ (
-        "xchgl %0, %1" :
+        "xchg{l} %0, %1" :
         "=r"(r), "=m"(m) :
         "0"(1), "m"(m) :
         "memory", "cc");

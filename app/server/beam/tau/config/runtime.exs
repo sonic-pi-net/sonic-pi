@@ -34,13 +34,8 @@ config :tau,
   handle_otp_reports: true,
   handle_sasl_reports: true
 
-if config_env() == :dev do
-  config :logger,
-    backends: [{LoggerFileBackend, :tau_file_log}, :console]
-else
-  config :logger,
-    backends: [{LoggerFileBackend, :tau_file_log}]
-end
+config :logger,
+  backends: [{LoggerFileBackend, :tau_file_log}]
 
 config :logger, :tau_file_log,
   path: extract_env.("TAU_LOG_PATH", :string, "log/tau.log"),

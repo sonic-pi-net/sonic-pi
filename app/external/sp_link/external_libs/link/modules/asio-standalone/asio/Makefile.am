@@ -1,5 +1,7 @@
 AUTOMAKE_OPTIONS = foreign dist-bzip2 dist-zip
 
+pkgconfig_DATA = asio.pc
+
 SUBDIRS = include src
 
 MAINTAINERCLEANFILES = \

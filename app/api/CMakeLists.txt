@@ -51,7 +51,7 @@ if (USE_SYSTEM_LIBS)
     find_package(PkgConfig REQUIRED)
     pkg_check_modules(kissfft REQUIRED IMPORTED_TARGET kissfft-float)
 else()
-    find_package(unofficial-kissfft CONFIG REQUIRED)
+    find_package(kissfft CONFIG REQUIRED COMPONENTS float)
 endif()
 
 target_include_directories(${PROJECT_NAME}
@@ -81,7 +81,7 @@ if (USE_SYSTEM_LIBS)
 else()
     target_link_libraries(${PROJECT_NAME}
         PRIVATE
-            unofficial::kissfft::kissfft
+            kissfft::kissfft
     )
 endif()
 

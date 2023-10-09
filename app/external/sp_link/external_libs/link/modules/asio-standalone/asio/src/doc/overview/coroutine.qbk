@@ -1,5 +1,5 @@
 [/
- / Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+ / Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
  /
  / Distributed under the Boost Software License, Version 1.0. (See accompanying
  / file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -46,6 +46,6 @@ documentation provides a complete description of these pseudo-keywords.
 
 [link asio.reference.coroutine coroutine],
 [link asio.examples.cpp03_examples.http_server_4 HTTP Server 4 example],
-[link asio.overview.core.spawn Stackful Coroutines].
+[link asio.overview.composition.spawn Stackful Coroutines].
 
 [endsect]

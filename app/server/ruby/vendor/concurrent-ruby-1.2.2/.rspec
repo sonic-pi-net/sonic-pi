@@ -1,0 +1,5 @@
+-I lib-edge
+--require spec_helper
+--color
+--warnings
+--format documentation

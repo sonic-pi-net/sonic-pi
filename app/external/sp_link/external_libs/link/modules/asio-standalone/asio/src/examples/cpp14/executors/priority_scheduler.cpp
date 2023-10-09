@@ -166,16 +166,16 @@ int main()
   auto med = asio::require(ex, custom_props::normal_priority);
   auto high = asio::require(ex, custom_props::high_priority);
   execution::any_executor<custom_props::priority> poly_high(high);
-  execution::execute(prefer_low, []{ std::cout << "1\n"; });
-  execution::execute(low, []{ std::cout << "11\n"; });
-  execution::execute(low, []{ std::cout << "111\n"; });
-  execution::execute(med, []{ std::cout << "2\n"; });
-  execution::execute(med, []{ std::cout << "22\n"; });
-  execution::execute(high, []{ std::cout << "3\n"; });
-  execution::execute(high, []{ std::cout << "33\n"; });
-  execution::execute(high, []{ std::cout << "333\n"; });
-  execution::execute(poly_high, []{ std::cout << "3333\n"; });
-  execution::execute(asio::require(ex, custom_props::priority{-1}), [&]{ sched.stop(); });
+  prefer_low.execute([]{ std::cout << "1\n"; });
+  low.execute([]{ std::cout << "11\n"; });
+  low.execute([]{ std::cout << "111\n"; });
+  med.execute([]{ std::cout << "2\n"; });
+  med.execute([]{ std::cout << "22\n"; });
+  high.execute([]{ std::cout << "3\n"; });
+  high.execute([]{ std::cout << "33\n"; });
+  high.execute([]{ std::cout << "333\n"; });
+  poly_high.execute([]{ std::cout << "3333\n"; });
+  asio::require(ex, custom_props::priority{-1}).execute([&]{ sched.stop(); });
   sched.run();
   std::cout << "polymorphic query result = " << asio::query(poly_high, custom_props::priority{}) << "\n";
 }

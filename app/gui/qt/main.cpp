@@ -55,8 +55,6 @@ int main(int argc, char *argv[])
 
 #if defined(Q_OS_LINUX)
   //linux code goes here
-  QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-  QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #elif defined(Q_OS_WIN)
   // windows code goes here
 

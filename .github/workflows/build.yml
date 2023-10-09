@@ -128,7 +128,7 @@ jobs:
         uses: jurplel/install-qt-action@v3
         with:
           modules: "qtpositioning qtwebchannel qtwebengine qtwebsockets"
-          version: "6.4.2"
+          version: "6.5.1"
 
         # Install Elixir on Ubuntu
       - name: Linux Elixir

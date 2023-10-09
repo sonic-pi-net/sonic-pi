@@ -31,7 +31,7 @@ namespace
 
 struct Gateway
 {
-  asio::ip::address addr;
+  IpAddress addr;
 };
 
 struct NodeState
@@ -41,7 +41,7 @@ struct NodeState
 struct Factory
 {
   template <typename IoContext>
-  Gateway operator()(NodeState, util::Injected<IoContext>, const asio::ip::address& addr)
+  Gateway operator()(NodeState, util::Injected<IoContext>, const IpAddress& addr)
   {
     return {addr};
   }
@@ -50,7 +50,7 @@ struct Factory
 
 template <typename Gateways>
 void expectGateways(
-  Gateways& gateways, test::serial_io::Fixture& io, std::vector<asio::ip::address> addrs)
+  Gateways& gateways, test::serial_io::Fixture& io, std::vector<IpAddress> addrs)
 
 {
   using namespace std;
@@ -74,8 +74,8 @@ void expectGateways(
 
 TEST_CASE("PeerGateways")
 {
-  const asio::ip::address addr1 = asio::ip::address::from_string("192.192.192.1");
-  const asio::ip::address addr2 = asio::ip::address::from_string("192.192.192.2");
+  const IpAddress addr1 = IpAddress::from_string("192.192.192.1");
+  const IpAddress addr2 = IpAddress::from_string("192.192.192.2");
 
   test::serial_io::Fixture io;
   auto pGateways = makePeerGateways(

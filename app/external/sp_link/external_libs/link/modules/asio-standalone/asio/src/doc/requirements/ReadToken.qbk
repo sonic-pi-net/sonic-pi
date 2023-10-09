@@ -1,0 +1,110 @@
+[/
+ / Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+ /
+ / Distributed under the Boost Software License, Version 1.0. (See accompanying
+ / file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+ /]
+
+[section:ReadToken Read token requirements]
+
+A read token is a [link asio.overview.model.completion_tokens completion token]
+for completion signature `void(error_code, size_t)`.
+
+[heading Examples]
+
+A free function as a read token:
+
+  void read_handler(
+      const asio::error_code& ec,
+      std::size_t bytes_transferred)
+  {
+    ...
+  }
+
+A read token function object:
+
+  struct read_handler
+  {
+    ...
+    void operator()(
+        const asio::error_code& ec,
+        std::size_t bytes_transferred)
+    {
+      ...
+    }
+    ...
+  };
+
+A lambda as a read token:
+
+  socket.async_read_some(...,
+      [](const asio::error_code& ec,
+        std::size_t bytes_transferred)
+      {
+        ...
+      });
+
+A non-static class member function adapted to a read token using
+`std::bind()`:
+
+  void my_class::read_handler(
+      const asio::error_code& ec,
+      std::size_t bytes_transferred)
+  {
+    ...
+  }
+  ...
+  socket.async_read_some(...,
+      std::bind(&my_class::read_handler,
+        this, std::placeholders::_1,
+        std::placeholders::_2));
+
+A non-static class member function adapted to a read token using
+`boost::bind()`:
+
+  void my_class::read_handler(
+      const asio::error_code& ec,
+      std::size_t bytes_transferred)
+  {
+    ...
+  }
+  ...
+  socket.async_read_some(...,
+      boost::bind(&my_class::read_handler,
+        this, asio::placeholders::error,
+        asio::placeholders::bytes_transferred));
+
+Using [link asio.reference.use_future use_future] as a read token:
+
+  std::future<std::size_t> f =
+    socket.async_read_some(..., asio::use_future);
+  ...
+  try
+  {
+    std::size_t n = f.get();
+    ...
+  }
+  catch (const system_error& e)
+  {
+    ...
+  }
+
+Using [link asio.reference.use_awaitable use_awaitable] as a read token:
+
+  asio::awaitable<void> my_coroutine()
+  {
+    try
+    {
+      ...
+      std::size_t n =
+        co_await socket.async_read_some(
+            ..., asio::use_awaitable);
+      ...
+    }
+    catch (const system_error& e)
+    {
+      ...
+    }
+  }
+
+[endsect]

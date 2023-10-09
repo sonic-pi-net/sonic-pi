@@ -2,7 +2,7 @@
 // system_timer.cpp
 // ~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -25,6 +25,8 @@
 
 #if defined(ASIO_HAS_STD_CHRONO)
 
+#include "asio/bind_cancellation_slot.hpp"
+#include "asio/cancellation_signal.hpp"
 #include "asio/executor_work_guard.hpp"
 #include "asio/io_context.hpp"
 #include "asio/thread.hpp"
@@ -466,6 +468,44 @@ void system_timer_move_test()
 #endif // defined(ASIO_HAS_MOVE)
 }
 
+void system_timer_op_cancel_test()
+{
+  asio::cancellation_signal cancel_signal;
+  asio::io_context ioc;
+  int count = 0;
+
+  asio::system_timer timer(ioc, asio::chrono::seconds(10));
+
+  timer.async_wait(bindns::bind(increment, &count));
+
+  timer.async_wait(
+      asio::bind_cancellation_slot(
+        cancel_signal.slot(),
+        bindns::bind(increment, &count)));
+
+  timer.async_wait(bindns::bind(increment, &count));
+
+  ioc.poll();
+
+  ASIO_CHECK(count == 0);
+  ASIO_CHECK(!ioc.stopped());
+
+  cancel_signal.emit(asio::cancellation_type::all);
+
+  ioc.run_one();
+  ioc.poll();
+
+  ASIO_CHECK(count == 1);
+  ASIO_CHECK(!ioc.stopped());
+
+  timer.cancel();
+
+  ioc.run();
+
+  ASIO_CHECK(count == 3);
+  ASIO_CHECK(ioc.stopped());
+}
+
 ASIO_TEST_SUITE
 (
   "system_timer",
@@ -474,6 +514,7 @@ ASIO_TEST_SUITE
   ASIO_TEST_CASE(system_timer_custom_allocation_test)
   ASIO_TEST_CASE(system_timer_thread_test)
   ASIO_TEST_CASE(system_timer_move_test)
+  ASIO_TEST_CASE(system_timer_op_cancel_test)
 )
 #else // defined(ASIO_HAS_STD_CHRONO)
 ASIO_TEST_SUITE

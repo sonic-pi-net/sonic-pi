@@ -1,0 +1,113 @@
+[/
+ / Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+ /
+ / Distributed under the Boost Software License, Version 1.0. (See accompanying
+ / file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+ /]
+
+[section:IteratorConnectToken Iterator connect token requirements]
+
+An iterator connect token is a [link asio.overview.model.completion_tokens
+completion token] for completion signature `void(error_code, Iterator)`, where
+the type `Iterator` is used in the corresponding `async_connect()` function.
+
+[heading Examples]
+
+A free function as an iterator connect token:
+
+  void connect_handler(
+      const asio::error_code& ec,
+      asio::ip::tcp::resolver::iterator iterator)
+  {
+    ...
+  }
+
+An iterator connect token function object:
+
+  struct connect_handler
+  {
+    ...
+    template <typename Iterator>
+    void operator()(
+        const asio::error_code& ec,
+        Iterator iterator)
+    {
+      ...
+    }
+    ...
+  };
+
+A lambda as an iterator connect token:
+
+  asio::async_connect(...,
+      [](const asio::error_code& ec,
+        asio::ip::tcp::resolver::iterator iterator)
+      {
+        ...
+      });
+
+A non-static class member function adapted to an iterator connect token using
+`std::bind()`:
+
+  void my_class::connect_handler(
+      const asio::error_code& ec,
+      asio::ip::tcp::resolver::iterator iterator)
+  {
+    ...
+  }
+  ...
+  asio::async_connect(...,
+      std::bind(&my_class::connect_handler,
+        this, std::placeholders::_1,
+        std::placeholders::_2));
+
+A non-static class member function adapted to an iterator connect token using
+`boost::bind()`:
+
+  void my_class::connect_handler(
+      const asio::error_code& ec,
+      asio::ip::tcp::resolver::iterator iterator)
+  {
+    ...
+  }
+  ...
+  asio::async_connect(...,
+      boost::bind(&my_class::connect_handler,
+        this, asio::placeholders::error,
+        asio::placeholders::iterator));
+
+Using [link asio.reference.use_future use_future] as an iterator connect token:
+
+  std::future<asio::ip::tcp::resolver::iterator> f =
+    asio::async_connect(..., asio::use_future);
+  ...
+  try
+  {
+    asio::ip::tcp::resolver::iterator i = f.get();
+    ...
+  }
+  catch (const system_error& e)
+  {
+    ...
+  }
+
+Using [link asio.reference.use_awaitable use_awaitable] as an iterator connect
+token:
+
+  asio::awaitable<void> my_coroutine()
+  {
+    try
+    {
+      ...
+      asio::ip::tcp::resolver::iterator i =
+        co_await asio::async_connect(
+            ..., asio::use_awaitable);
+      ...
+    }
+    catch (const system_error& e)
+    {
+      ...
+    }
+  }
+
+[endsect]

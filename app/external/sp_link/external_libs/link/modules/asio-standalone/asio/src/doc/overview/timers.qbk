@@ -1,5 +1,5 @@
 [/
- / Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+ / Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
  /
  / Distributed under the Boost Software License, Version 1.0. (See accompanying
  / file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -16,8 +16,8 @@ relative time one may write:
 
   io_context i;
   ...
-  deadline_timer t(i);
-  t.expires_from_now(boost::posix_time::seconds(5));
+  steady_timer t(i);
+  t.expires_after(chrono::seconds(5));
   t.wait();
 
 More commonly, a program will perform an asynchronous wait operation on a
@@ -27,26 +27,27 @@ timer:
   ...
   io_context i;
   ...
-  deadline_timer t(i);
-  t.expires_from_now(boost::posix_time::milliseconds(400));
+  steady_timer t(i);
+  t.expires_after(chrono::milliseconds(400));
   t.async_wait(handler);
   ...
   i.run();
 
-The deadline associated with a timer may also be obtained as a relative time:
+The deadline associated with a timer may also be obtained as an absolute time:
 
-  boost::posix_time::time_duration time_until_expiry
-    = t.expires_from_now();
+  steady_timer::time_point time_of_expiry = t.expiry();
 
-or as an absolute time to allow composition of timers:
+which allows composition of timers:
 
-  deadline_timer t2(i);
-  t2.expires_at(t.expires_at() + boost::posix_time::seconds(30));
+  steady_timer t2(i);
+  t2.expires_at(t.expiry() + chrono::seconds(30));
 
 [heading See Also]
 
-[link asio.reference.basic_deadline_timer basic_deadline_timer],
-[link asio.reference.deadline_timer deadline_timer],
+[link asio.reference.basic_waitable_timer basic_waitable_timer],
+[link asio.reference.steady_timer steady_timer],
+[link asio.reference.system_timer system_timer],
+[link asio.reference.high_resolution_timer high_resolution_timer],
 [link asio.tutorial.tuttimer1 timer tutorials].
 
 [endsect]

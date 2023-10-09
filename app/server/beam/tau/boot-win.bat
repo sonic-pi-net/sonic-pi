@@ -3,6 +3,10 @@ cd %~dp0
 
 echo Booting Tau on Windows...
 
+IF "%TAU_BOOT_LOG_PATH_WIN%" == "" (
+  set TAU_BOOT_LOG_PATH_WIN=log\tau_stdouterr.log
+)
+
 IF /I "%TAU_ENV%" == "prod" (
   echo Tau mode: prod
   set MIX_ENV=prod

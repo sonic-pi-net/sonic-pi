@@ -47,12 +47,14 @@ and to run
 In order to build Sonic Pi's various components, we need to install a
 few dependencies:
 
-* Build Tools (c++ compiler, cmake, git.)
+* Build Tools (c++ compiler , cmake, git.)
 * Qt + Dev tools (5.15+)
 * Jack (and pulse-audio-module-jack if you are running Raspberry Pi OS)
 * Ruby + Dev tools (2.5+)
 * Elixir + Dev tools (12.0+)
 * SuperCollider + SC3 plugins
+
+Note: please make sure that you have gcc12 installed. Compiling vcpkg dependencies does not work with gcc13 currently
 
 
 ### 1.1 Debian
@@ -61,7 +63,14 @@ The following is a rough list of Debian packages that are needed that can serve 
 sudo apt-get install -y build-essential git libssl-dev ruby-dev elixir erlang-dev erlang-xmerl qttools5-dev qttools5-dev-tools libqt5svg5-dev libqt5opengl5-dev supercollider-server sc3-plugins-server alsa-utils jackd2 libjack-jackd2-dev libjack-jackd2-0 libasound2-dev pulseaudio-module-jack cmake ninja-build
 ```
 
-*Note:* The main repositories may not have a recent enough version of
+*Notes:* 
+
+1. Check the version of `Qt` after package installation.
+
+* Check your current Qt version with `qmake --version`.
+*  If it is too old (see dependency list above) you should find a way to update `Qt` before going to the build step.
+
+3. The main repositories may not have a recent enough version of
 Elixir. If this is the case, you can install it via **one** of the
 following methods:
 
@@ -81,6 +90,9 @@ There is an Audinux Copr [repository]()https://copr.fedorainfracloud.org/coprs/y
 
 Once we have installed all the dependencies, we're almost ready to build
 Sonic Pi. However, we must first grab a copy of Sonic Pi's source code.
+
+_Note: if you would like to either try the unsupported development version, likely because you want to help with development
+then pull the latest from the `dev` branch. Otherwise stick to the `stable` branch or one of the tags._
 
 The easiest way of getting this is likely to be cloning from GitHub
 into a folder on your hard drive such as `~/Development/sonic-pi`:

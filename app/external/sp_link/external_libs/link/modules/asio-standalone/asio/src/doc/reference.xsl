@@ -2,7 +2,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 
 <!--
-  Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+  Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 
   Distributed under the Boost Software License, Version 1.0. (See accompanying
   file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -30,7 +30,7 @@
 -->
 <xsl:template match="/doxygen">
 <xsl:text>[/
- / Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+ / Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
  /
  / Distributed under the Boost Software License, Version 1.0. (See accompanying
  / file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -46,15 +46,19 @@
 [include requirements/asynchronous_socket_operations.qbk]
 [include requirements/AcceptableProtocol.qbk]
 [include requirements/AcceptHandler.qbk]
+[include requirements/AcceptToken.qbk]
 [include requirements/AsyncRandomAccessReadDevice.qbk]
 [include requirements/AsyncRandomAccessWriteDevice.qbk]
 [include requirements/AsyncReadStream.qbk]
 [include requirements/AsyncWriteStream.qbk]
 [include requirements/BufferedHandshakeHandler.qbk]
+[include requirements/BufferedHandshakeToken.qbk]
+[include requirements/CancellationHandler.qbk]
+[include requirements/CancellationSlot.qbk]
 [include requirements/CompletionCondition.qbk]
-[include requirements/CompletionHandler.qbk]
 [include requirements/ConnectCondition.qbk]
 [include requirements/ConnectHandler.qbk]
+[include requirements/ConnectToken.qbk]
 [include requirements/ConstBufferSequence.qbk]
 [include requirements/DynamicBuffer.qbk]
 [include requirements/DynamicBuffer_v1.qbk]
@@ -67,35 +71,46 @@
 [include requirements/GettableSocketOption.qbk]
 [include requirements/Handler.qbk]
 [include requirements/HandshakeHandler.qbk]
+[include requirements/HandshakeToken.qbk]
 [include requirements/InternetProtocol.qbk]
 [include requirements/IoControlCommand.qbk]
 [include requirements/IoObjectService.qbk]
 [include requirements/IteratorConnectHandler.qbk]
+[include requirements/IteratorConnectToken.qbk]
 [include requirements/LegacyCompletionHandler.qbk]
 [include requirements/MoveAcceptHandler.qbk]
+[include requirements/MoveAcceptToken.qbk]
 [include requirements/MutableBufferSequence.qbk]
+[include requirements/NullaryToken.qbk]
 [include requirements/OperationState.qbk]
 [include requirements/ProtoAllocator.qbk]
 [include requirements/Protocol.qbk]
 [include requirements/RangeConnectHandler.qbk]
+[include requirements/RangeConnectToken.qbk]
 [include requirements/ReadHandler.qbk]
+[include requirements/ReadToken.qbk]
 [include requirements/Receiver.qbk]
 [include requirements/ResolveHandler.qbk]
+[include requirements/ResolveToken.qbk]
 [include requirements/Scheduler.qbk]
 [include requirements/Sender.qbk]
 [include requirements/Service.qbk]
 [include requirements/SettableSerialPortOption.qbk]
 [include requirements/SettableSocketOption.qbk]
 [include requirements/ShutdownHandler.qbk]
+[include requirements/ShutdownToken.qbk]
 [include requirements/SignalHandler.qbk]
+[include requirements/SignalToken.qbk]
 [include requirements/SyncRandomAccessReadDevice.qbk]
 [include requirements/SyncRandomAccessWriteDevice.qbk]
 [include requirements/SyncReadStream.qbk]
 [include requirements/SyncWriteStream.qbk]
 [include requirements/TimeTraits.qbk]
 [include requirements/WaitHandler.qbk]
+[include requirements/WaitToken.qbk]
 [include requirements/WaitTraits.qbk]
 [include requirements/WriteHandler.qbk]
+[include requirements/WriteToken.qbk]
 
 </xsl:text>
 
@@ -110,13 +125,16 @@
             contains(compoundname, 'asio::') and
             not(contains(compoundname, '::detail')) and
             not(contains(compoundname, '::service::key')) and
+            not(contains(compoundname, '::cancellation_state::impl')) and
             not(contains(compoundname, '_handler')) and
+            not(contains(compoundname, '_helper')) and
             not(contains(compoundname, 'std_allocator_void')) and
             not(contains(compoundname, 'thread_function')) and
             not(contains(compoundname, 'context_impl')) and
             not(contains(compoundname, 'initiate_')) and
             not(contains(compoundname, '_adapter')) and
-            not(contains(compoundname, '_is_deprecated'))">
+            not(contains(compoundname, '_is_deprecated')) or
+            contains(compoundname, 'asio::any_completion_handler')">
           <xsl:call-template name="class"/>
         </xsl:if>
       </xsl:when>
@@ -124,6 +142,7 @@
         <xsl:if test="
             not(contains(ancestor::*/compoundname, '::detail')) and
             not(contains(ancestor::*/compoundname, '::service::key')) and
+            not(contains(ancestor::*/compoundname, '::cancellation_state::impl')) and
             not(contains(ancestor::*/compoundname, '_helper')) and
             not(contains(ancestor::*/compoundname, 'initiate_')) and
             not(contains(name, '_helper')) and
@@ -330,10 +349,28 @@
          select="concat(substring-before($name, '~'), '_', substring-after($name, '~'))"/>
       </xsl:call-template>
     </xsl:when>
+    <xsl:when test="contains($name, '^')">
+      <xsl:call-template name="make-id">
+        <xsl:with-param name="name"
+         select="concat(substring-before($name, '^'), '_hat_', substring-after($name, '^'))"/>
+      </xsl:call-template>
+    </xsl:when>
+    <xsl:when test="contains($name, '|')">
+      <xsl:call-template name="make-id">
+        <xsl:with-param name="name"
+         select="concat(substring-before($name, '|'), '_pipe_', substring-after($name, '|'))"/>
+      </xsl:call-template>
+    </xsl:when>
     <xsl:when test="contains($name, ',')">
       <xsl:call-template name="make-id">
         <xsl:with-param name="name"
          select="concat(substring-before($name, ','), '_comma_', substring-after($name, ','))"/>
+      </xsl:call-template>
+    </xsl:when>
+    <xsl:when test="contains($name, '&quot;')">
+      <xsl:call-template name="make-id">
+        <xsl:with-param name="name"
+         select="concat(substring-before($name, '&quot;'), '_quot_', substring-after($name, '&quot;'))"/>
       </xsl:call-template>
     </xsl:when>
     <xsl:when test="contains($name, '...')">
@@ -501,6 +538,10 @@
     </xsl:when>
     <xsl:when test="@kind='note'">
 [heading Remarks]
+      <xsl:apply-templates mode="markup"/>
+    </xsl:when>
+    <xsl:when test="@kind='attention'">
+[heading Attention]
       <xsl:apply-templates mode="markup"/>
     </xsl:when>
     <xsl:when test="@kind='par'">
@@ -673,6 +714,16 @@
       <xsl:value-of name="text" select="$ref-name"/>
       <xsl:text>`]</xsl:text>
     </xsl:when>
+    <xsl:when test="@refid = 'asynchronous_operation'">
+      <xsl:text>[link asio.overview.model.async_ops </xsl:text>
+      <xsl:value-of select="."/>
+      <xsl:text>]</xsl:text>
+    </xsl:when>
+    <xsl:when test="@refid = 'completion_token'">
+      <xsl:text>[link asio.overview.model.completion_tokens </xsl:text>
+      <xsl:value-of select="."/>
+      <xsl:text>]</xsl:text>
+    </xsl:when>
     <xsl:otherwise>
       <xsl:text>`</xsl:text>
       <xsl:value-of select="."/>
@@ -705,6 +756,16 @@
       <xsl:text> `</xsl:text>
       <xsl:value-of name="text" select="$ref-name"/>
       <xsl:text>`]</xsl:text>
+    </xsl:when>
+    <xsl:when test="@refid = 'asynchronous_operation'">
+      <xsl:text>[link asio.overview.model.async_ops </xsl:text>
+      <xsl:value-of select="."/>
+      <xsl:text>]</xsl:text>
+    </xsl:when>
+    <xsl:when test="@refid = 'completion_token'">
+      <xsl:text>[link asio.overview.model.completion_tokens </xsl:text>
+      <xsl:value-of select="."/>
+      <xsl:text>]</xsl:text>
     </xsl:when>
     <xsl:otherwise>
       <xsl:text>`</xsl:text>
@@ -802,6 +863,9 @@
     <xsl:when test="contains($file, 'include/asio/spawn')">
       <xsl:text>None</xsl:text>
     </xsl:when>
+    <xsl:when test="contains($file, 'include/asio/experimental')">
+      <xsl:text>None</xsl:text>
+    </xsl:when>
     <xsl:otherwise>
       <xsl:text>[^asio.hpp]</xsl:text>
     </xsl:otherwise>
@@ -818,6 +882,11 @@
       <xsl:with-param name="name" select="compoundname"/>
     </xsl:call-template>
   </xsl:variable>
+  <xsl:variable name="escaped-class-name">
+    <xsl:call-template name="escape-name">
+      <xsl:with-param name="text" select="$class-name"/>
+    </xsl:call-template>
+  </xsl:variable>
   <xsl:variable name="unqualified-class-name">
     <xsl:call-template name="strip-ns">
       <xsl:with-param name="name" select="compoundname"/>
@@ -830,6 +899,8 @@
   </xsl:variable>
   <xsl:variable name="class-file" select="location/@file"/>
 [section:<xsl:value-of select="$class-id"/><xsl:text> </xsl:text><xsl:value-of select="$class-name"/>]
+
+[indexterm1 asio.indexterm.<xsl:value-of select="$class-id"/>..<xsl:value-of select="$escaped-class-name"/>]
 
 <xsl:apply-templates select="briefdescription" mode="markup"/><xsl:text>
 
@@ -1473,7 +1544,15 @@
 <xsl:template name="enum">
 <xsl:param name="enum-name"/>
 <xsl:param name="id"/>
-  enum <xsl:value-of select="name"/><xsl:text>
+<xsl:text>  enum </xsl:text>
+<xsl:if test="name='cancellation_type'">
+  <xsl:text>class </xsl:text>
+</xsl:if>
+<xsl:value-of select="name"/>
+<xsl:if test="name='cancellation_type'">
+  <xsl:text> : unsigned int</xsl:text>
+</xsl:if>
+<xsl:text>
 </xsl:text><xsl:if test="count(enumvalue) &gt; 0">
 <xsl:value-of select="$newline"/>
 <xsl:for-each select="enumvalue">
@@ -1538,6 +1617,9 @@
 <xsl:text>
       </xsl:text><xsl:value-of select="type"/><xsl:text> </xsl:text>
       <xsl:choose>
+        <xsl:when test="declname = 'A'">
+          <xsl:value-of select="declname"/>
+        </xsl:when>
         <xsl:when test="declname = 'Allocator'">
           <xsl:value-of select="declname"/>
         </xsl:when>
@@ -1545,6 +1627,9 @@
           <xsl:value-of select="declname"/>
         </xsl:when>
         <xsl:when test="declname = 'Args'">
+          <xsl:value-of select="declname"/>
+        </xsl:when>
+        <xsl:when test="declname = 'Associator'">
           <xsl:value-of select="declname"/>
         </xsl:when>
         <xsl:when test="declname = 'AwaitableExecutor'">
@@ -1565,7 +1650,16 @@
         <xsl:when test="declname = 'C'">
           <xsl:value-of select="declname"/>
         </xsl:when>
+        <xsl:when test="declname = 'CancellationCondition'">
+          <xsl:value-of select="declname"/>
+        </xsl:when>
+        <xsl:when test="declname = 'Chars'">
+          <xsl:value-of select="declname"/>
+        </xsl:when>
         <xsl:when test="declname = 'Clock'">
+          <xsl:value-of select="declname"/>
+        </xsl:when>
+        <xsl:when test="declname = 'CompletionHandler'">
           <xsl:value-of select="declname"/>
         </xsl:when>
         <xsl:when test="declname = 'CompletionToken'">
@@ -1577,6 +1671,9 @@
         <xsl:when test="declname = 'Context_Service'">
           <xsl:value-of select="declname"/>
         </xsl:when>
+        <xsl:when test="declname = 'DefaultCandidate'">
+          <xsl:value-of select="declname"/>
+        </xsl:when>
         <xsl:when test="declname = 'Duration'">
           <xsl:value-of select="declname"/>
         </xsl:when>
@@ -1584,6 +1681,9 @@
           <xsl:value-of select="concat('``[link asio.reference.DatagramSocketService ', declname, ']``')"/>
         </xsl:when>
         <xsl:when test="declname = 'E'">
+          <xsl:value-of select="declname"/>
+        </xsl:when>
+        <xsl:when test="declname = 'Element'">
           <xsl:value-of select="declname"/>
         </xsl:when>
         <xsl:when test="declname = 'EndpointIterator'">
@@ -1607,13 +1707,40 @@
         <xsl:when test="declname = 'F'">
           <xsl:value-of select="declname"/>
         </xsl:when>
+        <xsl:when test="declname = 'F1'">
+          <xsl:value-of select="declname"/>
+        </xsl:when>
+        <xsl:when test="declname = 'F2'">
+          <xsl:value-of select="declname"/>
+        </xsl:when>
+        <xsl:when test="declname = 'Filter'">
+          <xsl:value-of select="declname"/>
+        </xsl:when>
         <xsl:when test="declname = 'Function'">
+          <xsl:value-of select="declname"/>
+        </xsl:when>
+        <xsl:when test="declname = 'H'">
+          <xsl:value-of select="declname"/>
+        </xsl:when>
+        <xsl:when test="declname = 'Head'">
+          <xsl:value-of select="declname"/>
+        </xsl:when>
+        <xsl:when test="declname = 'I'">
           <xsl:value-of select="declname"/>
         </xsl:when>
         <xsl:when test="declname = 'IoObjectService1'">
           <xsl:value-of select="concat('``[link asio.reference.IoObjectService ', declname, ']``')"/>
         </xsl:when>
+        <xsl:when test="declname = 'Impl'">
+          <xsl:value-of select="declname"/>
+        </xsl:when>
         <xsl:when test="declname = 'Implementation'">
+          <xsl:value-of select="declname"/>
+        </xsl:when>
+        <xsl:when test="declname = 'InFilter'">
+          <xsl:value-of select="declname"/>
+        </xsl:when>
+        <xsl:when test="declname = 'InitArgs'">
           <xsl:value-of select="declname"/>
         </xsl:when>
         <xsl:when test="declname = 'Initiation'">
@@ -1622,10 +1749,16 @@
         <xsl:when test="declname = 'InnerExecutor'">
           <xsl:value-of select="concat('``[link asio.reference.Executor1 ', declname, ']``')"/>
         </xsl:when>
+        <xsl:when test="declname = 'InnerExecutor1'">
+          <xsl:value-of select="concat('``[link asio.reference.Executor1 ', declname, ']``')"/>
+        </xsl:when>
         <xsl:when test="declname = 'IoObjectsOrExecutors'">
           <xsl:value-of select="declname"/>
         </xsl:when>
         <xsl:when test="declname = 'Iterator'">
+          <xsl:value-of select="declname"/>
+        </xsl:when>
+        <xsl:when test="declname = 'Mask'">
           <xsl:value-of select="declname"/>
         </xsl:when>
         <xsl:when test="declname = 'MatchCondition'">
@@ -1637,8 +1770,23 @@
         <xsl:when test="declname = 'N'">
           <xsl:value-of select="declname"/>
         </xsl:when>
+        <xsl:when test="declname = 'NewSignatures'">
+          <xsl:value-of select="declname"/>
+        </xsl:when>
+        <xsl:when test="declname = 'OnFalse'">
+          <xsl:value-of select="declname"/>
+        </xsl:when>
+        <xsl:when test="declname = 'OnTrue'">
+          <xsl:value-of select="declname"/>
+        </xsl:when>
+        <xsl:when test="declname = 'Ops'">
+          <xsl:value-of select="declname"/>
+        </xsl:when>
         <xsl:when test="declname = 'OtherAllocator'">
           <xsl:value-of select="declname"/>
+        </xsl:when>
+        <xsl:when test="declname = 'OtherCancellationSlot'">
+          <xsl:value-of select="concat('``[link asio.reference.CancellationSlot ', declname, ']``')"/>
         </xsl:when>
         <xsl:when test="declname = 'OtherExecutor'">
           <xsl:value-of select="concat('``[link asio.reference.Executor1 ', declname, ']``')"/>
@@ -1647,6 +1795,9 @@
           <xsl:value-of select="declname"/>
         </xsl:when>
         <xsl:when test="declname = 'OtherSupportableProperties'">
+          <xsl:value-of select="declname"/>
+        </xsl:when>
+        <xsl:when test="declname = 'OutFilter'">
           <xsl:value-of select="declname"/>
         </xsl:when>
         <xsl:when test="declname = 'OutstandingWork'">
@@ -1673,6 +1824,15 @@
         <xsl:when test="declname = 'Protocol1'">
           <xsl:value-of select="concat('``[link asio.reference.Protocol ', declname, ']``')"/>
         </xsl:when>
+        <xsl:when test="declname = 'Ps'">
+          <xsl:value-of select="declname"/>
+        </xsl:when>
+        <xsl:when test="declname = 'R'">
+          <xsl:value-of select="declname"/>
+        </xsl:when>
+        <xsl:when test="declname = 'Range'">
+          <xsl:value-of select="declname"/>
+        </xsl:when>
         <xsl:when test="declname = 'RawCompletionToken'">
           <xsl:value-of select="declname"/>
         </xsl:when>
@@ -1688,10 +1848,19 @@
         <xsl:when test="declname = 'Result'">
           <xsl:value-of select="declname"/>
         </xsl:when>
+        <xsl:when test="declname = 'Return'">
+          <xsl:value-of select="declname"/>
+        </xsl:when>
+        <xsl:when test="declname = 'S'">
+          <xsl:value-of select="declname"/>
+        </xsl:when>
         <xsl:when test="declname = 'SeqPacketSocketService1'">
           <xsl:value-of select="concat('``[link asio.reference.SeqPacketSocketService ', declname, ']``')"/>
         </xsl:when>
         <xsl:when test="declname = 'Signature'">
+          <xsl:value-of select="declname"/>
+        </xsl:when>
+        <xsl:when test="declname = 'Signatures'">
           <xsl:value-of select="declname"/>
         </xsl:when>
         <xsl:when test="declname = 'SocketAcceptorService1' or declname = 'SocketAcceptorService2'">
@@ -1699,6 +1868,9 @@
         </xsl:when>
         <xsl:when test="declname = 'SocketService1' or declname = 'SocketService2'">
           <xsl:value-of select="concat('``[link asio.reference.SocketService ', declname, ']``')"/>
+        </xsl:when>
+        <xsl:when test="declname = 'StackAllocator'">
+          <xsl:value-of select="declname"/>
         </xsl:when>
         <xsl:when test="declname = 'Stream'">
           <xsl:value-of select="declname"/>
@@ -1709,13 +1881,13 @@
         <xsl:when test="declname = 'SupportableProperties'">
           <xsl:value-of select="declname"/>
         </xsl:when>
-        <xsl:when test="declname = 'R'">
-          <xsl:value-of select="declname"/>
-        </xsl:when>
-        <xsl:when test="declname = 'S'">
-          <xsl:value-of select="declname"/>
-        </xsl:when>
         <xsl:when test="declname = 'T'">
+          <xsl:value-of select="declname"/>
+        </xsl:when>
+        <xsl:when test="declname = 'Tail'">
+          <xsl:value-of select="declname"/>
+        </xsl:when>
+        <xsl:when test="declname = 'Ts'">
           <xsl:value-of select="declname"/>
         </xsl:when>
         <xsl:when test="declname = 'T1'">
@@ -1736,10 +1908,22 @@
         <xsl:when test="declname = 'U'">
           <xsl:value-of select="declname"/>
         </xsl:when>
+        <xsl:when test="declname = 'V'">
+          <xsl:value-of select="declname"/>
+        </xsl:when>
+        <xsl:when test="declname = 'Values'">
+          <xsl:value-of select="declname"/>
+        </xsl:when>
         <xsl:when test="declname = 'Vs'">
           <xsl:value-of select="declname"/>
         </xsl:when>
         <xsl:when test="declname = 'VerifyCallback'">
+          <xsl:value-of select="declname"/>
+        </xsl:when>
+        <xsl:when test="declname = 'Y'">
+          <xsl:value-of select="declname"/>
+        </xsl:when>
+        <xsl:when test="declname = 'Yield'">
           <xsl:value-of select="declname"/>
         </xsl:when>
         <xsl:when test="count(declname) = 0">
@@ -1828,7 +2012,8 @@
 <xsl:value-of select="$id"/>
 <xsl:text>..</xsl:text>
 <xsl:value-of select="$name"/>
-<xsl:text>] </xsl:text>
+<xsl:text>]</xsl:text>
+<xsl:value-of select="$newline"/>
 
 <xsl:for-each select="($all-compounddefs)[@kind='group' and compoundname=$name]">
   <xsl:apply-templates select="briefdescription" mode="markup"/>
@@ -1879,7 +2064,8 @@
   <xsl:value-of select="$id"/>
   <xsl:text>..</xsl:text>
   <xsl:value-of select="$name"/>
-  <xsl:text>] </xsl:text>
+  <xsl:text>]</xsl:text>
+  <xsl:value-of select="$newline"/>
 </xsl:if>
 
 <xsl:apply-templates select="briefdescription" mode="markup"/><xsl:text>

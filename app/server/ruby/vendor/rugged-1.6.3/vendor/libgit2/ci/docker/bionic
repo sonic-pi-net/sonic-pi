@@ -1,0 +1,49 @@
+ARG BASE=ubuntu:bionic
+
+FROM ${BASE} AS apt
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+        clang \
+        cmake \
+        curl \
+        gcc \
+        git \
+        krb5-user \
+        libcurl4-openssl-dev \
+        libkrb5-dev \
+        libpcre3-dev \
+        libssh2-1-dev \
+        libssl-dev \
+        libz-dev \
+        ninja-build \
+        openjdk-8-jre-headless \
+        openssh-server \
+        openssl \
+        pkgconf \
+        python \
+        sudo \
+        valgrind \
+        && \
+    rm -rf /var/lib/apt/lists/*
+
+FROM apt AS mbedtls
+RUN cd /tmp && \
+    curl --location --silent --show-error https://github.com/Mbed-TLS/mbedtls/archive/refs/tags/mbedtls-2.16.2.tar.gz | \
+        tar -xz && \
+    cd mbedtls-mbedtls-2.16.2 && \
+    scripts/config.pl set MBEDTLS_MD4_C 1 && \
+    CFLAGS=-fPIC cmake -G Ninja -DENABLE_PROGRAMS=OFF -DENABLE_TESTING=OFF -DUSE_SHARED_MBEDTLS_LIBRARY=OFF -DUSE_STATIC_MBEDTLS_LIBRARY=ON . && \
+    ninja install && \
+    cd .. && \
+    rm -rf mbedtls-mbedtls-2.16.2
+
+FROM mbedtls AS adduser
+ARG UID=""
+ARG GID=""
+RUN if [ "${UID}" != "" ]; then USER_ARG="--uid ${UID}"; fi && \
+    if [ "${GID}" != "" ]; then GROUP_ARG="--gid ${GID}"; fi && \
+    groupadd ${GROUP_ARG} libgit2 && \
+    useradd ${USER_ARG} --gid libgit2 --shell /bin/bash --create-home libgit2
+
+FROM adduser AS configure
+RUN mkdir /var/run/sshd

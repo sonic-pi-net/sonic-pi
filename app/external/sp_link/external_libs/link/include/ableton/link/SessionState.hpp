@@ -23,6 +23,7 @@
 #include <ableton/link/StartStopState.hpp>
 #include <ableton/link/Timeline.hpp>
 #include <ableton/link/TripleBuffer.hpp>
+#include <mutex>
 
 namespace ableton
 {

@@ -1,5 +1,5 @@
 [/
- / Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+ / Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
  /
  / Distributed under the Boost Software License, Version 1.0. (See accompanying
  / file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -17,13 +17,13 @@ The tutorial programs in this first section introduce the fundamental concepts r
 * [link asio.tutorial.tuttimer2 Timer.2 - Using a timer asynchronously]
 
 
-* [link asio.tutorial.tuttimer3 Timer.3 - Binding arguments to a handler]
+* [link asio.tutorial.tuttimer3 Timer.3 - Binding arguments to a completion handler]
 
 
-* [link asio.tutorial.tuttimer4 Timer.4 - Using a member function as a handler]
+* [link asio.tutorial.tuttimer4 Timer.4 - Using a member function as a completion handler]
 
 
-* [link asio.tutorial.tuttimer5 Timer.5 - Synchronising handlers in multithreaded programs]
+* [link asio.tutorial.tuttimer5 Timer.5 - Synchronising completion handlers in multithreaded programs]
 
 
 
@@ -94,7 +94,8 @@ All programs that use asio need to have at least one I/O execution context, such
 
 
 
-Next we declare an object of type asio::steady\_timer. The core asio classes that provide I/O functionality (or as in this case timer functionality) always take a reference to an io\_context as their first constructor argument. The second argument to the constructor sets the timer to expire 5 seconds from now.
+Next we declare an object of type asio::steady\_timer. The core asio classes that provide I/O functionality (or as in this case timer functionality) always take an executor, or a reference to an execution context (such as 
+[link asio.reference.io_context io_context]), as their first constructor argument. The second argument to the constructor sets the timer to expire 5 seconds from now.
 
 
 
@@ -137,7 +138,7 @@ Next: [link asio.tutorial.tuttimer2 Timer.2 - Using a timer asynchronously]
   ``''''''``// timer.cpp
   ``''''''``// ~~~~~~~~~
   ``''''''``//
-  ``''''''``// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+  ``''''''``// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
   ``''''''``//
   ``''''''``// Distributed under the Boost Software License, Version 1.0. (See accompanying
   ``''''''``// file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -166,7 +167,7 @@ Return to [link asio.tutorial.tuttimer1 Timer.1 - Using a timer synchronously]
 
 [section:tuttimer2 Timer.2 - Using a timer asynchronously]
 
-This tutorial program demonstrates how to use asio's asynchronous callback functionality by modifying the program from tutorial Timer.1 to perform an asynchronous wait on the timer.
+This tutorial program demonstrates how to use asio's asynchronous functionality by modifying the program from tutorial Timer.1 to perform an asynchronous wait on the timer.
 
 
 
@@ -178,7 +179,7 @@ This tutorial program demonstrates how to use asio's asynchronous callback funct
 
 
 
-Using asio's asynchronous functionality means having a callback function that will be called when an asynchronous operation completes. In this program we define a function called `print` to be called when the asynchronous wait finishes.
+Using asio's asynchronous functionality means supplying a [link asio.overview.model.completion_tokens completion token], which determines how the result will be delivered to a [*completion handler] when an [link asio.overview.model.async_ops asynchronous operation] completes. In this program we define a function called `print` to be called when the asynchronous wait finishes.
 
 
 
@@ -195,7 +196,7 @@ Using asio's asynchronous functionality means having a callback function that wi
 
 
 
-Next, instead of doing a blocking wait as in tutorial Timer.1, we call the [link asio.reference.basic_waitable_timer.async_wait steady_timer::async_wait()] function to perform an asynchronous wait. When calling this function we pass the `print` callback handler that was defined above.
+Next, instead of doing a blocking wait as in tutorial Timer.1, we call the [link asio.reference.basic_waitable_timer.async_wait steady_timer::async_wait()] function to perform an asynchronous wait. When calling this function we pass the `print` function that was defined above.
 
 
   ``''''''``  t.async_wait(&print);
@@ -204,9 +205,9 @@ Next, instead of doing a blocking wait as in tutorial Timer.1, we call the [link
 
 Finally, we must call the [link asio.reference.io_context.run io_context::run()] member function on the io\_context object.
 
-The asio library provides a guarantee that callback handlers will only be called from threads that are currently calling [link asio.reference.io_context.run io_context::run()]. Therefore unless the [link asio.reference.io_context.run io_context::run()] function is called the callback for the asynchronous wait completion will never be invoked.
+The asio library provides a guarantee that completion handlers will only be called from threads that are currently calling [link asio.reference.io_context.run io_context::run()]. Therefore unless the [link asio.reference.io_context.run io_context::run()] function is called the completion handler for the asynchronous wait completion will never be invoked.
 
-The [link asio.reference.io_context.run io_context::run()] function will also continue to run while there is still "work" to do. In this example, the work is the asynchronous wait on the timer, so the call will not return until the timer has expired and the callback has completed.
+The [link asio.reference.io_context.run io_context::run()] function will also continue to run while there is still "work" to do. In this example, the work is the asynchronous wait on the timer, so the call will not return until the timer has expired and the completion handler has returned.
 
 It is important to remember to give the io\_context some work to do before calling [link asio.reference.io_context.run io_context::run()]. For example, if we had omitted the above call to [link asio.reference.basic_waitable_timer.async_wait steady_timer::async_wait()], the io\_context would not have had any work to do, and consequently [link asio.reference.io_context.run io_context::run()] would have returned immediately.
 
@@ -224,7 +225,7 @@ Return to the [link asio.tutorial tutorial index]
 
 Previous: [link asio.tutorial.tuttimer1 Timer.1 - Using a timer synchronously]
 
-Next: [link asio.tutorial.tuttimer3 Timer.3 - Binding arguments to a handler]
+Next: [link asio.tutorial.tuttimer3 Timer.3 - Binding arguments to a completion handler]
 
 
 
@@ -235,7 +236,7 @@ Next: [link asio.tutorial.tuttimer3 Timer.3 - Binding arguments to a handler]
   ``''''''``// timer.cpp
   ``''''''``// ~~~~~~~~~
   ``''''''``//
-  ``''''''``// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+  ``''''''``// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
   ``''''''``//
   ``''''''``// Distributed under the Boost Software License, Version 1.0. (See accompanying
   ``''''''``// file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -267,7 +268,7 @@ Return to [link asio.tutorial.tuttimer2 Timer.2 - Using a timer asynchronously]
 
 [endsect]
 
-[section:tuttimer3 Timer.3 - Binding arguments to a handler]
+[section:tuttimer3 Timer.3 - Binding arguments to a completion handler]
 
 In this tutorial we will modify the program from tutorial Timer.2 so that the timer fires once a second. This will show how to pass additional parameters to your handler function.
 
@@ -282,13 +283,16 @@ In this tutorial we will modify the program from tutorial Timer.2 so that the ti
 
 
 
-To implement a repeating timer using asio you need to change the timer's expiry time in your callback function, and to then start a new asynchronous wait. Obviously this means that the callback function will need to be able to access the timer object. To this end we add two new parameters to the `print` function:
+To implement a repeating timer using asio you need to change the timer's expiry time in your completion handler, and to then start a new asynchronous wait. Obviously this means that the completion handler will need to be able to access the timer object. To this end we add two new parameters to the `print` function:
 
-* A pointer to a timer object.
+* a pointer to a timer object; and
 
 
-* A counter so that we can stop the program when the timer fires for the sixth time.
+* a counter so that we can stop the program when the timer fires for the sixth time
 
+
+
+at the end of the parameter list.
 
 
 
@@ -316,11 +320,11 @@ Next we move the expiry time for the timer along by one second from the previous
 
 
 
-Then we start a new asynchronous wait on the timer. As you can see, the [link asio.tutorial.boost_bind boost::bind]  function is used to associate the extra parameters with your callback handler. The [link asio.reference.basic_waitable_timer.async_wait steady_timer::async_wait()] function expects a handler function (or function object) with the signature `void(const asio::error_code&)`. Binding the additional parameters converts your `print` function into a function object that matches the signature correctly.
+Then we start a new asynchronous wait on the timer. As you can see, the [link asio.tutorial.boost_bind boost::bind] function is used to associate the extra parameters with your completion handler. The [link asio.reference.basic_waitable_timer.async_wait steady_timer::async_wait()] function expects a handler function (or function object) with the signature `void(const asio::error_code&)`. Binding the additional parameters converts your `print` function into a function object that matches the signature correctly.
 
-See the [@http://www.boost.org/libs/bind/bind.html Boost.Bind documentation] for more information on how to use [link asio.tutorial.boost_bind boost::bind] .
+See the [@http://www.boost.org/libs/bind/bind.html Boost.Bind documentation] for more information on how to use [link asio.tutorial.boost_bind boost::bind].
 
-In this example, the asio::placeholders::error argument to [link asio.tutorial.boost_bind boost::bind]  is a named placeholder for the error object passed to the handler. When initiating the asynchronous operation, and if using [link asio.tutorial.boost_bind boost::bind] , you must specify only the arguments that match the handler's parameter list. In tutorial Timer.4 you will see that this placeholder may be elided if the parameter is not needed by the callback handler.
+In this example, the asio::placeholders::error argument to [link asio.tutorial.boost_bind boost::bind] is a named placeholder for the error object passed to the handler. When initiating the asynchronous operation, and if using [link asio.tutorial.boost_bind boost::bind], you must specify only the arguments that match the handler's parameter list. In tutorial Timer.4 you will see that this placeholder may be elided if the parameter is not needed by the completion handler.
 
 
   ``''''''``    t->async_wait(boost::bind(print,
@@ -370,7 +374,7 @@ Return to the [link asio.tutorial tutorial index]
 
 Previous: [link asio.tutorial.tuttimer2 Timer.2 - Using a timer asynchronously]
 
-Next: [link asio.tutorial.tuttimer4 Timer.4 - Using a member function as a handler]
+Next: [link asio.tutorial.tuttimer4 Timer.4 - Using a member function as a completion handler]
 
 
 
@@ -381,7 +385,7 @@ Next: [link asio.tutorial.tuttimer4 Timer.4 - Using a member function as a handl
   ``''''''``// timer.cpp
   ``''''''``// ~~~~~~~~~
   ``''''''``//
-  ``''''''``// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+  ``''''''``// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
   ``''''''``//
   ``''''''``// Distributed under the Boost Software License, Version 1.0. (See accompanying
   ``''''''``// file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -421,15 +425,15 @@ Next: [link asio.tutorial.tuttimer4 Timer.4 - Using a member function as a handl
   ``''''''``  return 0;
   ``''''''``}
 
-Return to [link asio.tutorial.tuttimer3 Timer.3 - Binding arguments to a handler]
+Return to [link asio.tutorial.tuttimer3 Timer.3 - Binding arguments to a completion handler]
 
 [endsect]
 
 [endsect]
 
-[section:tuttimer4 Timer.4 - Using a member function as a handler]
+[section:tuttimer4 Timer.4 - Using a member function as a completion handler]
 
-In this tutorial we will see how to use a class member function as a callback handler. The program should execute identically to the tutorial program from tutorial Timer.3.
+In this tutorial we will see how to use a class member function as a completion handler. The program should execute identically to the tutorial program from tutorial Timer.3.
 
 
 
@@ -442,7 +446,7 @@ In this tutorial we will see how to use a class member function as a callback ha
 
 
 
-Instead of defining a free function `print` as the callback handler, as we did in the earlier tutorial programs, we now define a class called `printer`.
+Instead of defining a free function `print` as the completion handler, as we did in the earlier tutorial programs, we now define a class called `printer`.
 
 
 
@@ -462,7 +466,7 @@ The constructor of this class will take a reference to the io\_context object an
 
 
 
-The [link asio.tutorial.boost_bind boost::bind]  function works just as well with class member functions as with free functions. Since all non-static class member functions have an implicit `this` parameter, we need to bind `this` to the function. As in tutorial Timer.3, [link asio.tutorial.boost_bind boost::bind]  converts our callback handler (now a member function) into a function object that can be invoked as though it has the signature `void(const asio::error_code&)`.
+The [link asio.tutorial.boost_bind boost::bind] function works just as well with class member functions as with free functions. Since all non-static class member functions have an implicit `this` parameter, we need to bind `this` to the function. As in tutorial Timer.3, [link asio.tutorial.boost_bind boost::bind] converts our completion handler (now a member function) into a function object that can be invoked as though it has the signature `void(const asio::error_code&)`.
 
 You will note that the asio::placeholders::error placeholder is not specified here, as the `print` member function does not accept an error object as a parameter.
 
@@ -525,9 +529,9 @@ See the [link asio.tutorial.tuttimer4.src full source listing]
 
 Return to the [link asio.tutorial tutorial index]
 
-Previous: [link asio.tutorial.tuttimer3 Timer.3 - Binding arguments to a handler]
+Previous: [link asio.tutorial.tuttimer3 Timer.3 - Binding arguments to a completion handler]
 
-Next: [link asio.tutorial.tuttimer5 Timer.5 - Synchronising handlers in multithreaded programs]
+Next: [link asio.tutorial.tuttimer5 Timer.5 - Synchronising completion handlers in multithreaded programs]
 
 
 
@@ -540,7 +544,7 @@ Next: [link asio.tutorial.tuttimer5 Timer.5 - Synchronising handlers in multithr
   ``''''''``// timer.cpp
   ``''''''``// ~~~~~~~~~
   ``''''''``//
-  ``''''''``// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+  ``''''''``// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
   ``''''''``//
   ``''''''``// Distributed under the Boost Software License, Version 1.0. (See accompanying
   ``''''''``// file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -591,18 +595,18 @@ Next: [link asio.tutorial.tuttimer5 Timer.5 - Synchronising handlers in multithr
   ``''''''``  return 0;
   ``''''''``}
 
-Return to [link asio.tutorial.tuttimer4 Timer.4 - Using a member function as a handler]
+Return to [link asio.tutorial.tuttimer4 Timer.4 - Using a member function as a completion handler]
 
 [endsect]
 
 [endsect]
 
-[section:tuttimer5 Timer.5 - Synchronising handlers in multithreaded programs]
+[section:tuttimer5 Timer.5 - Synchronising completion handlers in multithreaded programs]
 
 This tutorial demonstrates the use of the 
-[link asio.reference.strand strand] class template to synchronise callback handlers in a multithreaded program.
+[link asio.reference.strand strand] class template to synchronise completion handlers in a multithreaded program.
 
-The previous four tutorials avoided the issue of handler synchronisation by calling the [link asio.reference.io_context.run io_context::run()] function from one thread only. As you already know, the asio library provides a guarantee that callback handlers will only be called from threads that are currently calling [link asio.reference.io_context.run io_context::run()]. Consequently, calling [link asio.reference.io_context.run io_context::run()] from only one thread ensures that callback handlers cannot run concurrently.
+The previous four tutorials avoided the issue of handler synchronisation by calling the [link asio.reference.io_context.run io_context::run()] function from one thread only. As you already know, the asio library provides a guarantee that completion handlers will only be called from threads that are currently calling [link asio.reference.io_context.run io_context::run()]. Consequently, calling [link asio.reference.io_context.run io_context::run()] from only one thread ensures that completion handlers cannot run concurrently.
 
 The single threaded approach is usually the best place to start when developing applications using asio. The downside is the limitations it places on programs, particularly servers, including:
 
@@ -654,7 +658,7 @@ The
 
 
 
-When initiating the asynchronous operations, each callback handler is "bound" to an asio::strand<asio::io\_context::executor\_type> object. The asio::bind\_executor() function returns a new handler that automatically dispatches its contained handler through the 
+When initiating the asynchronous operations, each completion handler is "bound" to an asio::strand<asio::io\_context::executor\_type> object. The asio::bind\_executor() function returns a new handler that automatically dispatches its contained handler through the 
 [link asio.reference.strand strand] object. By binding the handlers to the same 
 [link asio.reference.strand strand], we are ensuring that they cannot execute concurrently.
 
@@ -738,7 +742,7 @@ See the [link asio.tutorial.tuttimer5.src full source listing]
 
 Return to the [link asio.tutorial tutorial index]
 
-Previous: [link asio.tutorial.tuttimer4 Timer.4 - Using a member function as a handler]
+Previous: [link asio.tutorial.tuttimer4 Timer.4 - Using a member function as a completion handler]
 
 
 
@@ -751,7 +755,7 @@ Previous: [link asio.tutorial.tuttimer4 Timer.4 - Using a member function as a h
   ``''''''``// timer.cpp
   ``''''''``// ~~~~~~~~~
   ``''''''``//
-  ``''''''``// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+  ``''''''``// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
   ``''''''``//
   ``''''''``// Distributed under the Boost Software License, Version 1.0. (See accompanying
   ``''''''``// file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -828,7 +832,7 @@ Previous: [link asio.tutorial.tuttimer4 Timer.4 - Using a member function as a h
   ``''''''``  return 0;
   ``''''''``}
 
-Return to [link asio.tutorial.tuttimer5 Timer.5 - Synchronising handlers in multithreaded programs]
+Return to [link asio.tutorial.tuttimer5 Timer.5 - Synchronising completion handlers in multithreaded programs]
 
 [endsect]
 
@@ -960,7 +964,7 @@ Next: [link asio.tutorial.tutdaytime2 Daytime.2 - A synchronous TCP daytime serv
   ``''''''``// client.cpp
   ``''''''``// ~~~~~~~~~~
   ``''''''``//
-  ``''''''``// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+  ``''''''``// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
   ``''''''``//
   ``''''''``// Distributed under the Boost Software License, Version 1.0. (See accompanying
   ``''''''``// file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -1119,7 +1123,7 @@ Next: [link asio.tutorial.tutdaytime3 Daytime.3 - An asynchronous TCP daytime se
   ``''''''``// server.cpp
   ``''''''``// ~~~~~~~~~~
   ``''''''``//
-  ``''''''``// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+  ``''''''``// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
   ``''''''``//
   ``''''''``// Distributed under the Boost Software License, Version 1.0. (See accompanying
   ``''''''``// file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -1303,7 +1307,7 @@ The data to be sent is stored in the class member `message_` as we need to keep 
 
 
 
-When initiating the asynchronous operation, and if using [link asio.tutorial.boost_bind boost::bind] , you must specify only the arguments that match the handler's parameter list. In this program, both of the argument placeholders (asio::placeholders::error and asio::placeholders::bytes\_transferred) could potentially have been removed, since they are not being used in `handle_write()`.
+When initiating the asynchronous operation, and if using [link asio.tutorial.boost_bind boost::bind], you must specify only the arguments that match the handler's parameter list. In this program, both of the argument placeholders (asio::placeholders::error and asio::placeholders::bytes\_transferred) could potentially have been removed, since they are not being used in `handle_write()`.
 
 
 
@@ -1372,7 +1376,7 @@ Next: [link asio.tutorial.tutdaytime4 Daytime.4 - A synchronous UDP daytime clie
   ``''''''``// server.cpp
   ``''''''``// ~~~~~~~~~~
   ``''''''``//
-  ``''''''``// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+  ``''''''``// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
   ``''''''``//
   ``''''''``// Distributed under the Boost Software License, Version 1.0. (See accompanying
   ``''''''``// file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -1591,7 +1595,7 @@ Next: [link asio.tutorial.tutdaytime5 Daytime.5 - A synchronous UDP daytime serv
   ``''''''``// client.cpp
   ``''''''``// ~~~~~~~~~~
   ``''''''``//
-  ``''''''``// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+  ``''''''``// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
   ``''''''``//
   ``''''''``// Distributed under the Boost Software License, Version 1.0. (See accompanying
   ``''''''``// file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -1729,7 +1733,7 @@ Next: [link asio.tutorial.tutdaytime6 Daytime.6 - An asynchronous UDP daytime se
   ``''''''``// server.cpp
   ``''''''``// ~~~~~~~~~~
   ``''''''``//
-  ``''''''``// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+  ``''''''``// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
   ``''''''``//
   ``''''''``// Distributed under the Boost Software License, Version 1.0. (See accompanying
   ``''''''``// file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -1891,7 +1895,7 @@ We now call [link asio.reference.basic_datagram_socket.async_send_to ip::udp::so
 
 
 
-When initiating the asynchronous operation, and if using [link asio.tutorial.boost_bind boost::bind] , you must specify only the arguments that match the handler's parameter list. In this program, both of the argument placeholders (asio::placeholders::error and asio::placeholders::bytes\_transferred) could potentially have been removed.
+When initiating the asynchronous operation, and if using [link asio.tutorial.boost_bind boost::bind], you must specify only the arguments that match the handler's parameter list. In this program, both of the argument placeholders (asio::placeholders::error and asio::placeholders::bytes\_transferred) could potentially have been removed.
 
 Start listening for the next client request.
 
@@ -1943,7 +1947,7 @@ Next: [link asio.tutorial.tutdaytime7 Daytime.7 - A combined TCP/UDP asynchronou
   ``''''''``// server.cpp
   ``''''''``// ~~~~~~~~~~
   ``''''''``//
-  ``''''''``// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+  ``''''''``// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
   ``''''''``//
   ``''''''``// Distributed under the Boost Software License, Version 1.0. (See accompanying
   ``''''''``// file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -2082,7 +2086,7 @@ We have created two lots of work for the
 
 [heading The tcp_connection and tcp_server classes]
 
-The following two classes are taken from [link asio.tutorial.tutdaytime3 Daytime.3] .
+The following two classes are taken from [link asio.tutorial.tutdaytime3 Daytime.3].
 
 
   ``''''''``class tcp_connection
@@ -2163,7 +2167,7 @@ The following two classes are taken from [link asio.tutorial.tutdaytime3 Daytime
 
 [heading The udp_server class]
 
-Similarly, this next class is taken from the [link asio.tutorial.tutdaytime6 previous tutorial step] .
+Similarly, this next class is taken from the [link asio.tutorial.tutdaytime6 previous tutorial step].
 
 
   ``''''''``class udp_server
@@ -2224,7 +2228,7 @@ Previous: [link asio.tutorial.tutdaytime6 Daytime.6 - An asynchronous UDP daytim
   ``''''''``// server.cpp
   ``''''''``// ~~~~~~~~~~
   ``''''''``//
-  ``''''''``// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+  ``''''''``// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
   ``''''''``//
   ``''''''``// Distributed under the Boost Software License, Version 1.0. (See accompanying
   ``''''''``// file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)

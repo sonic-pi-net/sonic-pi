@@ -32,8 +32,7 @@ public:
       // it is time to shut down, i.e. the use count is zero.
       for (thread_count_ = 0; thread_count_ < thread_count; ++thread_count_)
       {
-        execution::execute(
-            threads_.executor(),
+        threads_.executor().execute(
             [this]
             {
               std::unique_lock<std::mutex> lock(mutex_);
@@ -252,8 +251,8 @@ void fork_join_sort(Iterator begin, Iterator end)
     {
       fork_executor fork(pool);
       join_guard join(fork);
-      execution::execute(fork, [=]{ fork_join_sort(begin, begin + n / 2); });
-      execution::execute(fork, [=]{ fork_join_sort(begin + n / 2, end); });
+      fork.execute([=]{ fork_join_sort(begin, begin + n / 2); });
+      fork.execute([=]{ fork_join_sort(begin + n / 2, end); });
     }
     std::inplace_merge(begin, begin + n / 2, end);
   }

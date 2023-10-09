@@ -27,7 +27,7 @@ namespace ableton
 {
 namespace platforms
 {
-namespace asio
+namespace LINK_ASIO_NAMESPACE
 {
 
 // This implementation is based on the boost::asio::system_timer concept.
@@ -41,11 +41,14 @@ namespace asio
 class AsioTimer
 {
 public:
-  using ErrorCode = ::asio::error_code;
+  using ErrorCode = ::LINK_ASIO_NAMESPACE::error_code;
   using TimePoint = std::chrono::system_clock::time_point;
+  using IoService = ::LINK_ASIO_NAMESPACE::io_service;
+  using SystemTimer = ::LINK_ASIO_NAMESPACE::system_timer;
 
-  AsioTimer(::asio::io_service& io)
-    : mpTimer(new ::asio::system_timer(io))
+
+  AsioTimer(IoService& io)
+    : mpTimer(new SystemTimer(io))
     , mpAsyncHandler(std::make_shared<AsyncHandler>())
   {
   }
@@ -123,10 +126,10 @@ private:
     std::function<void(const ErrorCode)> mpHandler;
   };
 
-  std::unique_ptr<::asio::system_timer> mpTimer;
+  std::unique_ptr<SystemTimer> mpTimer;
   std::shared_ptr<AsyncHandler> mpAsyncHandler;
 };
 
-} // namespace asio
+} // namespace LINK_ASIO_NAMESPACE
 } // namespace platforms
 } // namespace ableton

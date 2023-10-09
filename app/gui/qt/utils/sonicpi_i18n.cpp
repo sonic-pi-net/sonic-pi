@@ -26,7 +26,6 @@ SonicPii18n::~SonicPii18n() {
 
 QString SonicPii18n::determineUILanguage(QString lang_pref) {
   QStringList available_languages = getAvailableLanguages();
-  //std::cout << available_languages.join("\n").toUtf8().constData() << std::endl;
   QLocale locale;
 
   if (lang_pref != "system_language") {
@@ -45,7 +44,7 @@ QString SonicPii18n::determineUILanguage(QString lang_pref) {
   } else {
     QStringList preferred_languages = locale.uiLanguages();
     // If the setting is set to system_language...
-      // ...run through the list of preferred languages
+    // ...run through the list of preferred languages
     std::cout << "[GUI] [i18n] - Looping through preferred ui languages" << std::endl;
 
     QString l;
@@ -53,9 +52,10 @@ QString SonicPii18n::determineUILanguage(QString lang_pref) {
       l = preferred_languages[i];
       l.replace("-", "_");
 
-      //std::cout << preferred_languages[i].toUtf8().constData() << std::endl;
       if (available_languages.contains(l)) {
-          return l;
+        return l;
+      } else if (l == "en" || l == "C") { // Catch generic English lang codes
+        return "en";
       }
     }
   }
@@ -109,15 +109,18 @@ bool SonicPii18n::loadTranslations(QString lang) {
   app->removeTranslator(&qtTranslator);
 
   std::cout << "[GUI] [i18n] - Loading translations for " << language.toUtf8().constData() << std::endl;
-
   i18n = translator.load("sonic-pi_" + language, ":/lang/") || language == "en_GB" || language == "en" || language == "C";
-  if (!i18n) {
-    std::cout << "[GUI] [i18n] - Error: Failed to load language translation for " << language.toUtf8().constData() << std::endl;
-    language = "en_GB";
+#if QT_VERSION >= 0x060000
+  bool translator_success_qt = qtTranslator.load("qt_" + language, QLibraryInfo::path(QLibraryInfo::TranslationsPath));
+#else
+  bool translator_success_qt = qtTranslator.load("qt_" + language, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+#endif
+  if (!i18n || !translator_success_qt)
+  {
+      std::cout << "[GUI] [i18n] - Error: Failed to load language translation for " << language.toUtf8().constData() << std::endl;
+      language = "en_GB";
   }
   app->installTranslator(&translator);
-
-  qtTranslator.load("qt_" + language, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
   app->installTranslator(&qtTranslator);
 
   this->currently_loaded_language = language;

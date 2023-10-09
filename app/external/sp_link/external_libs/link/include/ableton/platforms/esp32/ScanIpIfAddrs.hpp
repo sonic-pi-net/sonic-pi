@@ -17,7 +17,7 @@
 
 #pragma once
 
-#include <ableton/platforms/asio/AsioWrapper.hpp>
+#include <ableton/discovery/AsioTypes.hpp>
 #include <arpa/inet.h>
 #include <esp_netif.h>
 #include <net/if.h>
@@ -33,9 +33,9 @@ namespace esp32
 // ESP32 implementation of ip interface address scanner
 struct ScanIpIfAddrs
 {
-  std::vector<::asio::ip::address> operator()()
+  std::vector<discovery::IpAddress> operator()()
   {
-    std::vector<::asio::ip::address> addrs;
+    std::vector<discovery::IpAddress> addrs;
     // Get first network interface
     esp_netif_t* esp_netif = esp_netif_next(NULL);
     while (esp_netif)

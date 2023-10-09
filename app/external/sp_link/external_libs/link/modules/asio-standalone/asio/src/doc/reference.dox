@@ -82,6 +82,8 @@ INPUT                  = ./../../include/asio.hpp \
                          ./../../include/asio/ssl \
                          ./../../include/asio/windows \
                          ./../../include/asio/execution \
+                         ./../../include/asio/experimental \
+                         ./model_dox.txt \
                          ./noncopyable_dox.txt \
                          ./std_exception_dox.txt
 FILE_PATTERNS          = 
@@ -197,15 +199,21 @@ PREDEFINED             = GENERATING_DOCUMENTATION \
                          ASIO_EOF_ERROR(e)=implementation_defined \
                          ASIO_OS_ERROR(e1,e2)=implementation_defined \
                          ASIO_MOVE_ARG(a)=a&& \
+                         ASIO_MOVE_OR_LVALUE_ARG(a)=a&& \
                          ASIO_NONDEDUCED_MOVE_ARG(a)=a& \
                          ASIO_DECL= \
                          ASIO_CONSTEXPR=constexpr \
                          ASIO_NOEXCEPT=noexcept \
+                         ASIO_NODISCARD= \
                          ASIO_COMPLETION_SIGNATURE=typename \
                          ASIO_COMPLETION_HANDLER_FOR(s)=typename \
                          ASIO_COMPLETION_TOKEN_FOR(s)=typename \
+                         ASIO_COMPLETION_SIGNATURES_TPARAMS="typename... Signatures" \
+                         ASIO_COMPLETION_SIGNATURES_TARGS=Signatures... \
                          ASIO_INITFN_RESULT_TYPE(t,a)=void_or_deduced \
                          ASIO_INITFN_AUTO_RESULT_TYPE(t,a)=void_or_deduced \
+                         ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(t,a)=void_or_deduced \
+                         ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX(e)= \
                          ASIO_DEFAULT_COMPLETION_TOKEN_TYPE(e)==default_token \
                          ASIO_DEFAULT_COMPLETION_TOKEN(e)==default_token \
                          ASIO_SVC_TPARAM= \
@@ -224,8 +232,14 @@ PREDEFINED             = GENERATING_DOCUMENTATION \
                          ASIO_STRING_VIEW_PARAM=string_view \
                          ASIO_UNUSED_VARIABLE= \
                          ASIO_UNSPECIFIED(e)=unspecified \
+                         ASIO_EXECUTION_EXECUTOR=typename \
                          ASIO_EXECUTION_RECEIVER_ERROR_DEFAULT==std::exception_ptr \
-                         ASIO_EXECUTION_RECEIVER_OF_0=typename
+                         ASIO_EXECUTION_RECEIVER_OF_0=typename \
+                         ASIO_NOEXCEPT_IF(c)= \
+                         ASIO_AUTO_RETURN_TYPE_PREFIX(t)=auto \
+                         ASIO_AUTO_RETURN_TYPE_PREFIX2(t0,t1)=auto \
+                         ASIO_AUTO_RETURN_TYPE_PREFIX3(t0,t1,t2)=auto \
+                         ASIO_AUTO_RETURN_TYPE_SUFFIX(t)=
 EXPAND_AS_DEFINED      = 
 SKIP_FUNCTION_MACROS   = YES
 #---------------------------------------------------------------------------

@@ -19,12 +19,12 @@
 
 #pragma once
 
-#include <ableton/discovery/IpV4Interface.hpp>
+#include <ableton/discovery/AsioTypes.hpp>
+#include <ableton/discovery/IpInterface.hpp>
 #include <ableton/platforms/asio/AsioTimer.hpp>
-#include <ableton/platforms/asio/AsioWrapper.hpp>
 #include <ableton/platforms/asio/Socket.hpp>
 #include <ableton/platforms/esp32/LockFreeCallbackDispatcher.hpp>
-#include <driver/timer.h>
+#include <driver/gptimer.h>
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
 
@@ -40,7 +40,6 @@ class Context
 {
   class ServiceRunner
   {
-
     static void run(void* userParams)
     {
       auto runner = static_cast<ServiceRunner*>(userParams);
@@ -60,11 +59,7 @@ class Context
     static void IRAM_ATTR timerIsr(void* userParam)
     {
       static BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-
-      timer_group_clr_intr_status_in_isr(TIMER_GROUP_0, TIMER_1);
-      timer_group_enable_alarm_in_isr(TIMER_GROUP_0, TIMER_1);
-
-      vTaskNotifyGiveFromISR(userParam, &xHigherPriorityTaskWoken);
+      vTaskNotifyGiveFromISR(*((TaskHandle_t*)userParam), &xHigherPriorityTaskWoken);
       if (xHigherPriorityTaskWoken)
       {
         portYIELD_FROM_ISR();
@@ -79,24 +74,21 @@ class Context
       xTaskCreatePinnedToCore(run, "link", 8192, this, 2 | portPRIVILEGE_BIT,
         &mTaskHandle, LINK_ESP_TASK_CORE_ID);
 
-      timer_config_t config = {.alarm_en = TIMER_ALARM_EN,
-        .counter_en = TIMER_PAUSE,
-        .intr_type = TIMER_INTR_LEVEL,
-        .counter_dir = TIMER_COUNT_UP,
-        .auto_reload = TIMER_AUTORELOAD_EN,
-        .divider = 80};
+      const esp_timer_create_args_t timerArgs = {
+        .callback = &timerIsr,
+        .arg = (void*)&mTaskHandle,
+        .dispatch_method = ESP_TIMER_TASK,
+        .name = "link",
+        .skip_unhandled_events = true,
+      };
 
-      timer_init(TIMER_GROUP_0, TIMER_1, &config);
-      timer_set_counter_value(TIMER_GROUP_0, TIMER_1, 0);
-      timer_set_alarm_value(TIMER_GROUP_0, TIMER_1, 100);
-      timer_enable_intr(TIMER_GROUP_0, TIMER_1);
-      timer_isr_register(TIMER_GROUP_0, TIMER_1, &timerIsr, mTaskHandle, 0, nullptr);
-
-      timer_start(TIMER_GROUP_0, TIMER_1);
+      ESP_ERROR_CHECK(esp_timer_create(&timerArgs, &mTimer));
+      ESP_ERROR_CHECK(esp_timer_start_periodic(mTimer, 100));
     }
 
     ~ServiceRunner()
     {
+      esp_timer_delete(mTimer);
       vTaskDelete(mTaskHandle);
     }
 
@@ -113,6 +105,7 @@ class Context
 
   private:
     TaskHandle_t mTaskHandle;
+    esp_timer_handle_t mTimer;
     std::unique_ptr<::asio::io_service> mpService;
     std::unique_ptr<::asio::io_service::work> mpWork;
   };
@@ -150,30 +143,72 @@ public:
   }
 
   template <std::size_t BufferSize>
-  Socket<BufferSize> openUnicastSocket(const ::asio::ip::address_v4& addr)
+  Socket<BufferSize> openUnicastSocket(const ::asio::ip::address& addr)
   {
-    auto socket = Socket<BufferSize>{serviceRunner().service()};
+    auto socket =
+      addr.is_v4() ? Socket<BufferSize>{serviceRunner().service(), ::asio::ip::udp::v4()}
+                   : Socket<BufferSize>{serviceRunner().service(), ::asio::ip::udp::v6()};
     socket.mpImpl->mSocket.set_option(
       ::asio::ip::multicast::enable_loopback(addr.is_loopback()));
-    socket.mpImpl->mSocket.set_option(::asio::ip::multicast::outbound_interface(addr));
-    socket.mpImpl->mSocket.bind(::asio::ip::udp::endpoint{addr, 0});
+    if (addr.is_v4())
+    {
+      socket.mpImpl->mSocket.set_option(
+        ::asio::ip::multicast::outbound_interface(addr.to_v4()));
+      socket.mpImpl->mSocket.bind(
+        ::LINK_ASIO_NAMESPACE::ip::udp::endpoint{addr.to_v4(), 0});
+    }
+    else if (addr.is_v6())
+    {
+      const auto scopeId = addr.to_v6().scope_id();
+      socket.mpImpl->mSocket.set_option(
+        ::asio::ip::multicast::outbound_interface(static_cast<unsigned int>(scopeId)));
+      socket.mpImpl->mSocket.bind(
+        ::LINK_ASIO_NAMESPACE::ip::udp::endpoint{addr.to_v6(), 0});
+    }
+    else
+    {
+      throw(std::runtime_error("Unknown Protocol"));
+    }
     return socket;
   }
 
   template <std::size_t BufferSize>
-  Socket<BufferSize> openMulticastSocket(const ::asio::ip::address_v4& addr)
+  Socket<BufferSize> openMulticastSocket(const ::asio::ip::address& addr)
   {
-    auto socket = Socket<BufferSize>{serviceRunner().service()};
+    auto socket =
+      addr.is_v4() ? Socket<BufferSize>{serviceRunner().service(), ::asio::ip::udp::v4()}
+                   : Socket<BufferSize>{serviceRunner().service(), ::asio::ip::udp::v6()};
+
     socket.mpImpl->mSocket.set_option(::asio::ip::udp::socket::reuse_address(true));
     socket.mpImpl->mSocket.set_option(
       ::asio::socket_base::broadcast(!addr.is_loopback()));
     socket.mpImpl->mSocket.set_option(
       ::asio::ip::multicast::enable_loopback(addr.is_loopback()));
-    socket.mpImpl->mSocket.set_option(::asio::ip::multicast::outbound_interface(addr));
-    socket.mpImpl->mSocket.bind({::asio::ip::address::from_string("0.0.0.0"),
-      discovery::multicastEndpoint().port()});
-    socket.mpImpl->mSocket.set_option(::asio::ip::multicast::join_group(
-      discovery::multicastEndpoint().address().to_v4(), addr));
+
+    if (addr.is_v4())
+    {
+      socket.mpImpl->mSocket.set_option(
+        ::asio::ip::multicast::outbound_interface(addr.to_v4()));
+      socket.mpImpl->mSocket.bind(
+        {::asio::ip::address_v4::any(), discovery::multicastEndpointV4().port()});
+      socket.mpImpl->mSocket.set_option(::asio::ip::multicast::join_group(
+        discovery::multicastEndpointV4().address().to_v4(), addr.to_v4()));
+    }
+    else if (addr.is_v6())
+    {
+      const auto scopeId = addr.to_v6().scope_id();
+      socket.mpImpl->mSocket.set_option(
+        ::asio::ip::multicast::outbound_interface(static_cast<unsigned int>(scopeId)));
+      const auto multicastEndpoint = discovery::multicastEndpointV6(scopeId);
+      socket.mpImpl->mSocket.bind(
+        {::asio::ip::address_v6::any(), multicastEndpoint.port()});
+      socket.mpImpl->mSocket.set_option(
+        ::asio::ip::multicast::join_group(multicastEndpoint.address().to_v6(), scopeId));
+    }
+    else
+    {
+      throw(std::runtime_error("Unknown Protocol"));
+    }
     return socket;
   }
 

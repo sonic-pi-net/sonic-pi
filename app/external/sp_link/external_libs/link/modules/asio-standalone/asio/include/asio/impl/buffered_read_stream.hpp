@@ -2,7 +2,7 @@
 // impl/buffered_read_stream.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -15,8 +15,7 @@
 # pragma once
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
-#include "asio/associated_allocator.hpp"
-#include "asio/associated_executor.hpp"
+#include "asio/associator.hpp"
 #include "asio/detail/handler_alloc_helpers.hpp"
 #include "asio/detail/handler_cont_helpers.hpp"
 #include "asio/detail/handler_invoke_helpers.hpp"
@@ -91,7 +90,7 @@ namespace detail
         const std::size_t bytes_transferred)
     {
       storage_.resize(previous_size_ + bytes_transferred);
-      handler_(ec, bytes_transferred);
+      ASIO_MOVE_OR_LVALUE(ReadHandler)(handler_)(ec, bytes_transferred);
     }
 
   //private:
@@ -202,29 +201,27 @@ namespace detail
 
 #if !defined(GENERATING_DOCUMENTATION)
 
-template <typename ReadHandler, typename Allocator>
-struct associated_allocator<
-    detail::buffered_fill_handler<ReadHandler>, Allocator>
+template <template <typename, typename> class Associator,
+    typename ReadHandler, typename DefaultCandidate>
+struct associator<Associator,
+    detail::buffered_fill_handler<ReadHandler>,
+    DefaultCandidate>
+  : Associator<ReadHandler, DefaultCandidate>
 {
-  typedef typename associated_allocator<ReadHandler, Allocator>::type type;
-
-  static type get(const detail::buffered_fill_handler<ReadHandler>& h,
-      const Allocator& a = Allocator()) ASIO_NOEXCEPT
+  static typename Associator<ReadHandler, DefaultCandidate>::type
+  get(const detail::buffered_fill_handler<ReadHandler>& h) ASIO_NOEXCEPT
   {
-    return associated_allocator<ReadHandler, Allocator>::get(h.handler_, a);
+    return Associator<ReadHandler, DefaultCandidate>::get(h.handler_);
   }
-};
 
-template <typename ReadHandler, typename Executor>
-struct associated_executor<
-    detail::buffered_fill_handler<ReadHandler>, Executor>
-{
-  typedef typename associated_executor<ReadHandler, Executor>::type type;
-
-  static type get(const detail::buffered_fill_handler<ReadHandler>& h,
-      const Executor& ex = Executor()) ASIO_NOEXCEPT
+  static ASIO_AUTO_RETURN_TYPE_PREFIX2(
+      typename Associator<ReadHandler, DefaultCandidate>::type)
+  get(const detail::buffered_fill_handler<ReadHandler>& h,
+      const DefaultCandidate& c) ASIO_NOEXCEPT
+    ASIO_AUTO_RETURN_TYPE_SUFFIX((
+      Associator<ReadHandler, DefaultCandidate>::get(h.handler_, c)))
   {
-    return associated_executor<ReadHandler, Executor>::get(h.handler_, ex);
+    return Associator<ReadHandler, DefaultCandidate>::get(h.handler_, c);
   }
 };
 
@@ -234,10 +231,15 @@ template <typename Stream>
 template <
     ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
       std::size_t)) ReadHandler>
-ASIO_INITFN_AUTO_RESULT_TYPE(ReadHandler,
+ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(ReadHandler,
     void (asio::error_code, std::size_t))
 buffered_read_stream<Stream>::async_fill(
     ASIO_MOVE_ARG(ReadHandler) handler)
+  ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
+    async_initiate<ReadHandler,
+      void (asio::error_code, std::size_t)>(
+        declval<detail::initiate_async_buffered_fill<Stream> >(),
+        handler, declval<detail::buffered_stream_storage*>())))
 {
   return async_initiate<ReadHandler,
     void (asio::error_code, std::size_t)>(
@@ -312,14 +314,14 @@ namespace detail
       if (ec || storage_.empty())
       {
         const std::size_t length = 0;
-        handler_(ec, length);
+        ASIO_MOVE_OR_LVALUE(ReadHandler)(handler_)(ec, length);
       }
       else
       {
         const std::size_t bytes_copied = asio::buffer_copy(
             buffers_, storage_.data(), storage_.size());
         storage_.consume(bytes_copied);
-        handler_(ec, bytes_copied);
+        ASIO_MOVE_OR_LVALUE(ReadHandler)(handler_)(ec, bytes_copied);
       }
     }
 
@@ -447,37 +449,30 @@ namespace detail
 
 #if !defined(GENERATING_DOCUMENTATION)
 
-template <typename MutableBufferSequence,
-    typename ReadHandler, typename Allocator>
-struct associated_allocator<
+template <template <typename, typename> class Associator,
+    typename MutableBufferSequence, typename ReadHandler,
+    typename DefaultCandidate>
+struct associator<Associator,
     detail::buffered_read_some_handler<MutableBufferSequence, ReadHandler>,
-    Allocator>
+    DefaultCandidate>
+  : Associator<ReadHandler, DefaultCandidate>
 {
-  typedef typename associated_allocator<ReadHandler, Allocator>::type type;
-
-  static type get(
-      const detail::buffered_read_some_handler<
-        MutableBufferSequence, ReadHandler>& h,
-      const Allocator& a = Allocator()) ASIO_NOEXCEPT
+  static typename Associator<ReadHandler, DefaultCandidate>::type
+  get(const detail::buffered_read_some_handler<
+        MutableBufferSequence, ReadHandler>& h) ASIO_NOEXCEPT
   {
-    return associated_allocator<ReadHandler, Allocator>::get(h.handler_, a);
+    return Associator<ReadHandler, DefaultCandidate>::get(h.handler_);
   }
-};
 
-template <typename MutableBufferSequence,
-    typename ReadHandler, typename Executor>
-struct associated_executor<
-    detail::buffered_read_some_handler<MutableBufferSequence, ReadHandler>,
-    Executor>
-{
-  typedef typename associated_executor<ReadHandler, Executor>::type type;
-
-  static type get(
-      const detail::buffered_read_some_handler<
+  static ASIO_AUTO_RETURN_TYPE_PREFIX2(
+      typename Associator<ReadHandler, DefaultCandidate>::type)
+  get(const detail::buffered_read_some_handler<
         MutableBufferSequence, ReadHandler>& h,
-      const Executor& ex = Executor()) ASIO_NOEXCEPT
+      const DefaultCandidate& c) ASIO_NOEXCEPT
+    ASIO_AUTO_RETURN_TYPE_SUFFIX((
+      Associator<ReadHandler, DefaultCandidate>::get(h.handler_, c)))
   {
-    return associated_executor<ReadHandler, Executor>::get(h.handler_, ex);
+    return Associator<ReadHandler, DefaultCandidate>::get(h.handler_, c);
   }
 };
 
@@ -487,11 +482,16 @@ template <typename Stream>
 template <typename MutableBufferSequence,
     ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
       std::size_t)) ReadHandler>
-ASIO_INITFN_AUTO_RESULT_TYPE(ReadHandler,
+ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(ReadHandler,
     void (asio::error_code, std::size_t))
 buffered_read_stream<Stream>::async_read_some(
     const MutableBufferSequence& buffers,
     ASIO_MOVE_ARG(ReadHandler) handler)
+  ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
+    async_initiate<ReadHandler,
+      void (asio::error_code, std::size_t)>(
+        declval<detail::initiate_async_buffered_read_some<Stream> >(),
+        handler, declval<detail::buffered_stream_storage*>(), buffers)))
 {
   return async_initiate<ReadHandler,
     void (asio::error_code, std::size_t)>(

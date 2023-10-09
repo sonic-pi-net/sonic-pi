@@ -52,7 +52,7 @@ struct MockIoContext
   using Socket = discovery::test::Socket;
 
   template <std::size_t BufferSize>
-  Socket<BufferSize> openUnicastSocket(const asio::ip::address_v4&)
+  Socket<BufferSize> openUnicastSocket(const discovery::IpAddress&)
   {
     return Socket<BufferSize>(mIo);
   }
@@ -70,7 +70,7 @@ struct MockIoContext
 struct RpFixture
 {
   RpFixture()
-    : mAddress(asio::ip::address_v4::from_string("127.0.0.1"))
+    : mAddress(discovery::IpAddressV4::from_string("127.0.0.1"))
     , mResponder(mAddress,
         NodeId::random<Random>(),
         GhostXForm{1.0, std::chrono::microseconds{0}},
@@ -89,7 +89,7 @@ struct RpFixture
     return responderSocket().sentMessages.size();
   }
 
-  asio::ip::address_v4 mAddress = asio::ip::address_v4::from_string("127.0.0.1");
+  discovery::IpAddressV4 mAddress = discovery::IpAddressV4::from_string("127.0.0.1");
   util::Injected<MockIoContext> mIo;
   PingResponder<MockClock, MockIoContext> mResponder;
 };
@@ -111,7 +111,7 @@ TEST_CASE("PingResponder")
     v1::MessageBuffer buffer;
     const auto msgBegin = std::begin(buffer);
     const auto msgEnd = v1::pingMessage(payload, msgBegin);
-    const auto endpoint = asio::ip::udp::endpoint(fixture.mAddress, 8888);
+    const auto endpoint = discovery::UdpEndpoint(fixture.mAddress, 8888);
 
     fixture.responderSocket().incomingMessage(endpoint, msgBegin, msgEnd);
 
@@ -146,7 +146,7 @@ TEST_CASE("PingResponder")
     const auto msgBegin = std::begin(buffer);
     const auto msgEnd = v1::pingMessage(payload, msgBegin);
 
-    const auto endpoint = asio::ip::udp::endpoint(fixture.mAddress, 8888);
+    const auto endpoint = discovery::UdpEndpoint(fixture.mAddress, 8888);
 
     fixture.responderSocket().incomingMessage(endpoint, msgBegin, msgEnd);
 

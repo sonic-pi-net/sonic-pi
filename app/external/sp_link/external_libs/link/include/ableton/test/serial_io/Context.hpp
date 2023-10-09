@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include <ableton/platforms/asio/AsioWrapper.hpp>
+#include <ableton/discovery/AsioTypes.hpp>
 #include <ableton/test/serial_io/SchedulerTree.hpp>
 #include <ableton/test/serial_io/Timer.hpp>
 #include <ableton/util/Log.hpp>
@@ -37,7 +37,7 @@ class Context
 {
 public:
   Context(const SchedulerTree::TimePoint& now,
-    const std::vector<::asio::ip::address>& ifAddrs,
+    const std::vector<discovery::IpAddress>& ifAddrs,
     std::shared_ptr<SchedulerTree> pScheduler)
     : mNow(now)
     , mIfAddrs(ifAddrs)
@@ -91,14 +91,14 @@ public:
     return mLog;
   }
 
-  std::vector<::asio::ip::address> scanNetworkInterfaces()
+  std::vector<discovery::IpAddress> scanNetworkInterfaces()
   {
     return mIfAddrs;
   }
 
 private:
   const SchedulerTree::TimePoint& mNow;
-  const std::vector<::asio::ip::address>& mIfAddrs;
+  const std::vector<discovery::IpAddress>& mIfAddrs;
   std::shared_ptr<SchedulerTree> mpScheduler;
   Log mLog;
   SchedulerTree::TimerId mNextTimerId;

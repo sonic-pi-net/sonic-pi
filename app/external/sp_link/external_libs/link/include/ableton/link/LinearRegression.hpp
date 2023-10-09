@@ -20,6 +20,7 @@
 #pragma once
 
 #include <cassert>
+#include <iterator>
 #include <utility>
 
 namespace ableton
@@ -28,12 +29,15 @@ namespace link
 {
 
 template <typename It>
-std::pair<double, double> linearRegression(It begin, It end)
+typename std::iterator_traits<It>::value_type linearRegression(It begin, It end)
 {
-  double sumX = 0.0;
-  double sumXX = 0.0;
-  double sumXY = 0.0;
-  double sumY = 0.0;
+  using NumberType =
+    typename std::tuple_element<0, typename std::iterator_traits<It>::value_type>::type;
+
+  NumberType sumX = 0.0;
+  NumberType sumXX = 0.0;
+  NumberType sumXY = 0.0;
+  NumberType sumY = 0.0;
   for (auto i = begin; i != end; ++i)
   {
     sumX += i->first;
@@ -42,12 +46,13 @@ std::pair<double, double> linearRegression(It begin, It end)
     sumY += i->second;
   }
 
-  const double numPoints = static_cast<double>(distance(begin, end));
+  const NumberType numPoints = static_cast<NumberType>(distance(begin, end));
   assert(numPoints > 0);
-  const double denominator = numPoints * sumXX - sumX * sumX;
-  const double slope =
-    denominator == 0.0 ? 0.0 : (numPoints * sumXY - sumX * sumY) / denominator;
-  const double intercept = (sumY - slope * sumX) / numPoints;
+  const NumberType denominator = numPoints * sumXX - sumX * sumX;
+  const NumberType slope = denominator == NumberType{0}
+                             ? NumberType{0}
+                             : (numPoints * sumXY - sumX * sumY) / denominator;
+  const NumberType intercept = (sumY - slope * sumX) / numPoints;
 
   return std::make_pair(slope, intercept);
 }

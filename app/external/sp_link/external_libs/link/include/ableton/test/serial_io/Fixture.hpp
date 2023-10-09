@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include <ableton/platforms/asio/AsioWrapper.hpp>
+#include <ableton/discovery/AsioTypes.hpp>
 #include <ableton/test/serial_io/Context.hpp>
 #include <chrono>
 #include <memory>
@@ -50,7 +50,7 @@ public:
   Fixture(Fixture&&) = delete;
   Fixture& operator=(Fixture&&) = delete;
 
-  void setNetworkInterfaces(std::vector<::asio::ip::address> ifAddrs)
+  void setNetworkInterfaces(std::vector<discovery::IpAddress> ifAddrs)
   {
     mIfAddrs = std::move(ifAddrs);
   }
@@ -84,7 +84,7 @@ public:
 private:
   std::shared_ptr<SchedulerTree> mpScheduler;
   SchedulerTree::TimePoint mNow;
-  std::vector<::asio::ip::address> mIfAddrs;
+  std::vector<discovery::IpAddress> mIfAddrs;
 };
 
 } // namespace serial_io

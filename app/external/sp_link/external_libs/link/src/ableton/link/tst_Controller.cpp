@@ -77,7 +77,7 @@ struct MockIoContext
   struct Socket
   {
     std::size_t send(
-      const uint8_t* const, const size_t numBytes, const asio::ip::udp::endpoint&)
+      const uint8_t* const, const size_t numBytes, const discovery::UdpEndpoint&)
     {
       return numBytes;
     }
@@ -87,7 +87,7 @@ struct MockIoContext
     {
     }
 
-    asio::ip::udp::endpoint endpoint() const
+    discovery::UdpEndpoint endpoint() const
     {
       return {};
     }
@@ -98,18 +98,18 @@ struct MockIoContext
   }
 
   template <std::size_t BufferSize>
-  Socket<BufferSize> openUnicastSocket(const asio::ip::address_v4&)
+  Socket<BufferSize> openUnicastSocket(const discovery::IpAddress&)
   {
     return {};
   }
 
   template <std::size_t BufferSize>
-  Socket<BufferSize> openMulticastSocket(const asio::ip::address_v4&)
+  Socket<BufferSize> openMulticastSocket(const discovery::IpAddress&)
   {
     return {};
   }
 
-  std::vector<asio::ip::address> scanNetworkInterfaces()
+  std::vector<discovery::IpAddress> scanNetworkInterfaces()
   {
     return {};
   }

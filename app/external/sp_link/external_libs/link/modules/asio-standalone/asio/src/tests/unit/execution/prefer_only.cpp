@@ -2,7 +2,7 @@
 // prefer_only.cpp
 // ~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -464,73 +464,73 @@ void prefer_only_executor_execute_test()
 
   executor_type ex1 = possibly_blocking_executor();
 
-  execution::execute(ex1, &do_nothing);
+  ex1.execute(&do_nothing);
   ASIO_CHECK(possibly_blocking_count == 1);
   ASIO_CHECK(never_blocking_count == 0);
 
   executor_type ex2 = asio::prefer(ex1, execution::blocking.possibly);
 
-  execution::execute(ex2, &do_nothing);
+  ex2.execute(&do_nothing);
   ASIO_CHECK(possibly_blocking_count == 2);
   ASIO_CHECK(never_blocking_count == 0);
 
   executor_type ex3 = asio::prefer(ex1, execution::blocking.never);
 
-  execution::execute(ex3, &do_nothing);
+  ex3.execute(&do_nothing);
   ASIO_CHECK(possibly_blocking_count == 3);
   ASIO_CHECK(never_blocking_count == 0);
 
   executor_type ex4 = never_blocking_executor();
 
-  execution::execute(ex4, &do_nothing);
+  ex4.execute(&do_nothing);
   ASIO_CHECK(possibly_blocking_count == 3);
   ASIO_CHECK(never_blocking_count == 1);
 
   executor_type ex5 = asio::prefer(ex4, execution::blocking.possibly);
 
-  execution::execute(ex5, &do_nothing);
+  ex5.execute(&do_nothing);
   ASIO_CHECK(possibly_blocking_count == 3);
   ASIO_CHECK(never_blocking_count == 2);
 
   executor_type ex6 = asio::prefer(ex4, execution::blocking.never);
 
-  execution::execute(ex6, &do_nothing);
+  ex6.execute(&do_nothing);
   ASIO_CHECK(possibly_blocking_count == 3);
   ASIO_CHECK(never_blocking_count == 3);
 
   executor_type ex7 = either_blocking_executor(execution::blocking.possibly);
 
-  execution::execute(ex7, &do_nothing);
+  ex7.execute(&do_nothing);
   ASIO_CHECK(possibly_blocking_count == 4);
   ASIO_CHECK(never_blocking_count == 3);
 
   executor_type ex8 = asio::prefer(ex7, execution::blocking.possibly);
 
-  execution::execute(ex8, &do_nothing);
+  ex8.execute(&do_nothing);
   ASIO_CHECK(possibly_blocking_count == 5);
   ASIO_CHECK(never_blocking_count == 3);
 
   executor_type ex9 = asio::prefer(ex7, execution::blocking.never);
 
-  execution::execute(ex9, &do_nothing);
+  ex9.execute(&do_nothing);
   ASIO_CHECK(possibly_blocking_count == 5);
   ASIO_CHECK(never_blocking_count == 4);
 
   executor_type ex10 = either_blocking_executor(execution::blocking.never);
 
-  execution::execute(ex10, &do_nothing);
+  ex10.execute(&do_nothing);
   ASIO_CHECK(possibly_blocking_count == 5);
   ASIO_CHECK(never_blocking_count == 5);
 
   executor_type ex11 = asio::prefer(ex7, execution::blocking.possibly);
 
-  execution::execute(ex11, &do_nothing);
+  ex11.execute(&do_nothing);
   ASIO_CHECK(possibly_blocking_count == 6);
   ASIO_CHECK(never_blocking_count == 5);
 
   executor_type ex12 = asio::prefer(ex7, execution::blocking.never);
 
-  execution::execute(ex12, &do_nothing);
+  ex12.execute(&do_nothing);
   ASIO_CHECK(possibly_blocking_count == 6);
   ASIO_CHECK(never_blocking_count == 6);
 }

@@ -36,15 +36,15 @@ struct TestCallback
     addrRanges.emplace_back(begin(addrs), end(addrs));
   }
 
-  std::vector<std::vector<asio::ip::address>> addrRanges;
+  std::vector<std::vector<discovery::IpAddress>> addrRanges;
 };
 
 } // anonymous namespace
 
 TEST_CASE("InterfaceScanner")
 {
-  const asio::ip::address addr1 = asio::ip::address::from_string("123.123.123.1");
-  const asio::ip::address addr2 = asio::ip::address::from_string("123.123.123.2");
+  const auto addr1 = discovery::IpAddress::from_string("123.123.123.1");
+  const auto addr2 = discovery::IpAddress::from_string("123.123.123.2");
   test::serial_io::Fixture io;
   auto callback = TestCallback{};
 

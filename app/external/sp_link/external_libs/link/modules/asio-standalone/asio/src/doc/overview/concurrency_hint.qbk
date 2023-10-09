@@ -1,5 +1,5 @@
 [/
- / Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+ / Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
  /
  / Distributed under the Boost Software License, Version 1.0. (See accompanying
  / file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -31,6 +31,9 @@ following special concurrency hint values:
       new handler is added to a fast thread-local queue (with the consequence
       that the new handler is held back until the currently executing handler
       finishes).
+
+      The `io_context` still provides full thread safety, and distinct I/O
+      objects may be used from any thread.
     ]
   ]
   [
@@ -55,9 +58,11 @@ following special concurrency hint values:
       This special concurrency hint disables locking in the reactor I/O. This
       hint has the following restrictions:
 
-      [mdash] Care must be taken to ensure that run functions on the
-      `io_context`, and all operations on the context's associated I/O objects
-      (such as sockets and timers), occur in only one thread at a time.
+      [mdash] Care must be taken to ensure that the ['run functions] on the
+      `io_context` (i.e. `run`, `run_for`, `run_until`, `run_one`,
+      `run_one_for`, `run_one_until`, `poll`, and `poll_one`), and all
+      operations on the context's associated I/O objects (such as sockets and
+      timers), occur in only one thread at a time.
     ]
   ]
   [

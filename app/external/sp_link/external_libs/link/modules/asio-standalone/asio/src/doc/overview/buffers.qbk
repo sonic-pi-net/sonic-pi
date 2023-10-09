@@ -1,5 +1,5 @@
 [/
- / Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+ / Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
  /
  / Distributed under the Boost Software License, Version 1.0. (See accompanying
  / file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -103,6 +103,28 @@ you may write:
   std::string line(
       asio::buffers_begin(bufs),
       asio::buffers_begin(bufs) + n);
+
+[heading Buffer Literals]
+
+The `_buf` literal suffix, defined in namespace `asio::buffer_literals`, may be
+used to create `const_buffer` objects from string, binary integer, and
+hexadecimal integer literals. These buffer literals may be arbitrarily long.
+For example:
+
+[pre
+using namespace asio::buffer_literals;
+
+asio::const_buffer b1 = "hello"_buf;
+asio::const_buffer b2 = 0xdeadbeef_buf;
+asio::const_buffer b3 = 0x01234567'89abcdef'01234567'89abcdef_buf;
+asio::const_buffer b4 = 0b1010101011001100_buf;
+]
+
+The memory associated with a buffer literal is valid for the lifetime of the
+program. This means that the buffer can be safely used with asynchronous
+operations:
+
+  async_write(my_socket, "hello"_buf, my_handler);
 
 [heading Buffer Debugging]
 

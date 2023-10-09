@@ -443,9 +443,14 @@ module SonicPi
 
     def __error(e, m=nil)
       linenum = __extract_linenum_of_error(e)
-      err_msg = e.message
+      if e.respond_to?(:detailed_message)
+        err_msg = e.detailed_message(highlight: false)
+      else
+        err_msg = e.message
+      end
+
       info = __current_job_info
-      err_msg.gsub(/for #<SonicPiSpiderUser[a-z0-9:]+>/, '')
+      err_msg.gsub!(/for Runtime:[A-Za-z0-9:]+ /, '')
       res = ""
       w = info[:workspace]
       if linenum != -1
@@ -459,8 +464,7 @@ module SonicPi
       else
         res = res + "[#{w}]"
       end
-      res += " - #{e.class}"
-      res = res + "\n" + m if m
+      res = res + " - " + m if m
       res = res + "\n #{err_msg}"
       __msg_queue.push({type: :error, val: res, backtrace: e.backtrace, jobid: __current_job_id, jobinfo: __current_job_info, linenum: linenum})
     end
@@ -1427,12 +1431,12 @@ module SonicPi
       @user_methods = user_methods
 
       @git_hash = __extract_git_hash
-      # gh_short = @git_hash ? "-#{@git_hash[0, 7]}" : ""
+      gh_short = @git_hash ? "- #{@git_hash[0, 7]}" : ""
       @settings = Config::Settings.new(Paths.system_cache_store_path)
 
       # Temporarily fix beta version:
-      @version = Version.new(5, 0, 0, "Tech Preview 2")
-      # @version = Version.new(4, 4, 0, gh_short)
+      # @version = Version.new(5, 0, 0, "Tech Preview #{gh_short}")
+      @version = Version.new(4, 5, 0)
 
       @server_version = __server_version
       @life_hooks = LifeCycleHooks.new

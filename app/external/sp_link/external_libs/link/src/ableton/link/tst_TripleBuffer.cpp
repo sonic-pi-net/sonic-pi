@@ -66,8 +66,8 @@ void readValues(TripleBuffer<BigValue>& buffer, const uint32_t numOps)
   {
     const auto thisValue = buffer.read();
 
-    assert(thisValue.seed >= prevValueSeed);
-    assert(thisValue.values == BigValue{thisValue.seed}.values);
+    CHECK(thisValue.seed >= prevValueSeed);
+    CHECK(thisValue.values == BigValue{thisValue.seed}.values);
 
     prevValueSeed = thisValue.seed;
   }

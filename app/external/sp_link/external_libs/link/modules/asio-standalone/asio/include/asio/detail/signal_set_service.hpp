@@ -2,7 +2,7 @@
 // detail/signal_set_service.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -19,8 +19,11 @@
 
 #include <cstddef>
 #include <signal.h>
+#include "asio/associated_cancellation_slot.hpp"
+#include "asio/cancellation_type.hpp"
 #include "asio/error.hpp"
 #include "asio/execution_context.hpp"
+#include "asio/signal_set_base.hpp"
 #include "asio/detail/handler_alloc_helpers.hpp"
 #include "asio/detail/memory.hpp"
 #include "asio/detail/op_queue.hpp"
@@ -35,7 +38,11 @@
 #endif // defined(ASIO_HAS_IOCP)
 
 #if !defined(ASIO_WINDOWS) && !defined(__CYGWIN__)
-# include "asio/detail/reactor.hpp"
+# if defined(ASIO_HAS_IO_URING_AS_DEFAULT)
+#  include "asio/detail/io_uring_service.hpp"
+# else // defined(ASIO_HAS_IO_URING_AS_DEFAULT)
+#  include "asio/detail/reactor.hpp"
+# endif // defined(ASIO_HAS_IO_URING_AS_DEFAULT)
 #endif // !defined(ASIO_WINDOWS) && !defined(__CYGWIN__)
 
 #include "asio/detail/push_options.hpp"
@@ -134,8 +141,16 @@ public:
   ASIO_DECL void destroy(implementation_type& impl);
 
   // Add a signal to a signal_set.
+  asio::error_code add(implementation_type& impl,
+      int signal_number, asio::error_code& ec)
+  {
+    return add(impl, signal_number, signal_set_base::flags::dont_care, ec);
+  }
+
+  // Add a signal to a signal_set with the specified flags.
   ASIO_DECL asio::error_code add(implementation_type& impl,
-      int signal_number, asio::error_code& ec);
+      int signal_number, signal_set_base::flags_t f,
+      asio::error_code& ec);
 
   // Remove a signal to a signal_set.
   ASIO_DECL asio::error_code remove(implementation_type& impl,
@@ -149,16 +164,30 @@ public:
   ASIO_DECL asio::error_code cancel(implementation_type& impl,
       asio::error_code& ec);
 
+  // Cancel a specific operation associated with the signal set.
+  ASIO_DECL void cancel_ops_by_key(implementation_type& impl,
+      void* cancellation_key);
+
   // Start an asynchronous operation to wait for a signal to be delivered.
   template <typename Handler, typename IoExecutor>
   void async_wait(implementation_type& impl,
       Handler& handler, const IoExecutor& io_ex)
   {
+    typename associated_cancellation_slot<Handler>::type slot
+      = asio::get_associated_cancellation_slot(handler);
+
     // Allocate and construct an operation to wrap the handler.
     typedef signal_handler<Handler, IoExecutor> op;
     typename op::ptr p = { asio::detail::addressof(handler),
       op::ptr::allocate(handler), 0 };
     p.p = new (p.v) op(handler, io_ex);
+
+    // Optionally register for per-operation cancellation.
+    if (slot.is_connected())
+    {
+      p.p->cancellation_key_ =
+        &slot.template emplace<signal_op_cancellation>(this, &impl);
+    }
 
     ASIO_HANDLER_CREATION((scheduler_.context(),
           *p.p, "signal_set", &impl, 0, "async_wait"));
@@ -186,6 +215,32 @@ private:
   // Helper function to start a wait operation.
   ASIO_DECL void start_wait_op(implementation_type& impl, signal_op* op);
 
+  // Helper class used to implement per-operation cancellation
+  class signal_op_cancellation
+  {
+  public:
+    signal_op_cancellation(signal_set_service* s, implementation_type* i)
+      : service_(s),
+        implementation_(i)
+    {
+    }
+
+    void operator()(cancellation_type_t type)
+    {
+      if (!!(type &
+            (cancellation_type::terminal
+              | cancellation_type::partial
+              | cancellation_type::total)))
+      {
+        service_->cancel_ops_by_key(*implementation_, this);
+      }
+    }
+
+  private:
+    signal_set_service* service_;
+    implementation_type* implementation_;
+  };
+
   // The scheduler used for dispatching handlers.
 #if defined(ASIO_HAS_IOCP)
   typedef class win_iocp_io_context scheduler_impl;
@@ -197,14 +252,22 @@ private:
 #if !defined(ASIO_WINDOWS) \
   && !defined(ASIO_WINDOWS_RUNTIME) \
   && !defined(__CYGWIN__)
-  // The type used for registering for pipe reactor notifications.
+  // The type used for processing pipe readiness notifications.
   class pipe_read_op;
 
+# if defined(ASIO_HAS_IO_URING_AS_DEFAULT)
+  // The io_uring service used for waiting for pipe readiness.
+  io_uring_service& io_uring_service_;
+
+  // The per I/O object data used for the pipe.
+  io_uring_service::per_io_object_data io_object_data_;
+# else // defined(ASIO_HAS_IO_URING_AS_DEFAULT)
   // The reactor used for waiting for pipe readiness.
   reactor& reactor_;
 
   // The per-descriptor reactor data used for the pipe.
   reactor::per_descriptor_data reactor_data_;
+# endif // defined(ASIO_HAS_IO_URING_AS_DEFAULT)
 #endif // !defined(ASIO_WINDOWS)
        //   && !defined(ASIO_WINDOWS_RUNTIME)
        //   && !defined(__CYGWIN__)

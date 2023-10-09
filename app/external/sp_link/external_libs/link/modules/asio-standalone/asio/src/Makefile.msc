@@ -115,34 +115,52 @@ PERFORMANCE_TEST_EXES = \
 	tests\performance\server.exe
 
 UNIT_TEST_EXES = \
+	tests\unit\append.exe \
+	tests\unit\as_tuple.exe \
 	tests\unit\associated_allocator.exe \
+	tests\unit\associated_cancellation_slot.exe \
 	tests\unit\associated_executor.exe \
+	tests\unit\associator.exe \
 	tests\unit\async_result.exe \
 	tests\unit\awaitable.exe \
 	tests\unit\basic_datagram_socket.exe \
 	tests\unit\basic_deadline_timer.exe \
+	tests\unit\basic_file.exe \
+	tests\unit\basic_random_access_file.exe \
 	tests\unit\basic_raw_socket.exe \
+	tests\unit\basic_readable_pipe.exe \
 	tests\unit\basic_seq_packet_socket.exe \
 	tests\unit\basic_serial_port.exe \
 	tests\unit\basic_signal_set.exe \
 	tests\unit\basic_socket.exe \
 	tests\unit\basic_socket_acceptor.exe \
+	tests\unit\basic_stream_file.exe \
 	tests\unit\basic_stream_socket.exe \
 	tests\unit\basic_streambuf.exe \
 	tests\unit\basic_waitable_timer.exe \
+	tests\unit\basic_writable_pipe.exe \
+	tests\unit\bind_allocator.exe \
+	tests\unit\bind_cancellation_slot.exe \
 	tests\unit\bind_executor.exe \
+	tests\unit\bind_immediate_executor.exe \
 	tests\unit\buffered_read_stream.exe \
 	tests\unit\buffered_stream.exe \
 	tests\unit\buffered_write_stream.exe \
 	tests\unit\buffer.exe \
+	tests\unit\buffer_registration.exe \
 	tests\unit\buffers_iterator.exe \
+	tests\unit\cancellation_signal.exe \
+	tests\unit\cancellation_state.exe \
+	tests\unit\cancellation_type.exe \
 	tests\unit\co_spawn.exe \
 	tests\unit\completion_condition.exe \
 	tests\unit\compose.exe \
 	tests\unit\connect.exe \
+	tests\unit\connect_pipe.exe \
 	tests\unit\coroutine.exe \
 	tests\unit\deadline_timer.exe \
 	tests\unit\defer.exe \
+	tests\unit\deferred.exe \
 	tests\unit\detached.exe \
 	tests\unit\dispatch.exe \
 	tests\unit\error.exe \
@@ -173,6 +191,7 @@ UNIT_TEST_EXES = \
 	tests\unit\execution\submit.exe \
 	tests\unit\executor.exe \
 	tests\unit\executor_work_guard.exe \
+	tests\unit\file_base.exe \
 	tests\unit\generic\basic_endpoint.exe \
 	tests\unit\generic\datagram_protocol.exe \
 	tests\unit\generic\raw_protocol.exe \
@@ -203,22 +222,33 @@ UNIT_TEST_EXES = \
 	tests\unit\ip\udp.exe \
 	tests\unit\ip\unicast.exe \
 	tests\unit\ip\v6_only.exe \
+	tests\unit\local\basic_endpoint.exe \
+	tests\unit\local\connect_pair.exe \
+	tests\unit\local\datagram_protocol.exe \
+	tests\unit\local\stream_protocol.exe \
 	tests\unit\is_read_buffered.exe \
 	tests\unit\is_write_buffered.exe \
 	tests\unit\packaged_task.exe \
 	tests\unit\placeholders.exe \
 	tests\unit\post.exe \
+	tests\unit\prepend.exe \
+	tests\unit\random_access_file.exe \
 	tests\unit\read.exe \
 	tests\unit\read_at.exe \
 	tests\unit\read_until.exe \
+	tests\unit\readable_pipe.exe \
+	tests\unit\recycling_allocator.exe \
 	tests\unit\redirect_error.exe \
+	tests\unit\registered_buffer.exe \
 	tests\unit\serial_port.exe \
 	tests\unit\serial_port_base.exe \
 	tests\unit\signal_set.exe \
+	tests\unit\signal_set_base.exe \
 	tests\unit\socket_base.exe \
 	tests\unit\static_thread_pool.exe \
 	tests\unit\steady_timer.exe \
 	tests\unit\strand.exe \
+	tests\unit\stream_file.exe \
 	tests\unit\streambuf.exe \
 	tests\unit\system_context.exe \
 	tests\unit\system_executor.exe \
@@ -248,6 +278,7 @@ UNIT_TEST_EXES = \
 	tests\unit\windows\overlapped_ptr.exe \
 	tests\unit\windows\random_access_handle.exe \
 	tests\unit\windows\stream_handle.exe \
+	tests\unit\writable_pipe.exe \
 	tests\unit\write.exe \
 	tests\unit\write_at.exe
 
@@ -358,6 +389,9 @@ tests\unit\unit_test.obj: tests\unit\unit_test.cpp
 	cl -Fe$@ -Fo$(<:.cpp=.obj) $(CXXFLAGS) $(DEFINES) $< $(LIBS) -link -opt:ref
 
 {tests\unit\ip}.cpp{tests\unit\ip}.exe:
+	cl -Fe$@ -Fo$(<:.cpp=.obj) $(CXXFLAGS) $(DEFINES) $< $(LIBS) -link -opt:ref
+
+{tests\unit\local}.cpp{tests\unit\local}.exe:
 	cl -Fe$@ -Fo$(<:.cpp=.obj) $(CXXFLAGS) $(DEFINES) $< $(LIBS) -link -opt:ref
 
 {tests\unit\ssl}.cpp{tests\unit\ssl}.exe:

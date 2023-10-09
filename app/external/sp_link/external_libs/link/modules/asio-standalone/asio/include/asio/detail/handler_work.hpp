@@ -2,7 +2,7 @@
 // detail/handler_work.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -16,9 +16,13 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
+#include "asio/associated_allocator.hpp"
 #include "asio/associated_executor.hpp"
+#include "asio/associated_immediate_executor.hpp"
 #include "asio/detail/handler_invoke_helpers.hpp"
+#include "asio/detail/initiate_dispatch.hpp"
 #include "asio/detail/type_traits.hpp"
+#include "asio/detail/work_dispatcher.hpp"
 #include "asio/execution/allocator.hpp"
 #include "asio/execution/blocking.hpp"
 #include "asio/execution/execute.hpp"
@@ -33,6 +37,13 @@ namespace asio {
 
 class executor;
 class io_context;
+
+#if !defined(ASIO_USE_TS_EXECUTOR_AS_DEFAULT)
+
+class any_completion_executor;
+class any_io_executor;
+
+#endif // !defined(ASIO_USE_TS_EXECUTOR_AS_DEFAULT)
 
 namespace execution {
 
@@ -56,14 +67,14 @@ template <typename Executor, typename CandidateExecutor = void,
 class handler_work_base
 {
 public:
-  explicit handler_work_base(const Executor& ex) ASIO_NOEXCEPT
+  explicit handler_work_base(int, int, const Executor& ex) ASIO_NOEXCEPT
     : executor_(asio::prefer(ex, execution::outstanding_work.tracked))
   {
   }
 
   template <typename OtherExecutor>
-  handler_work_base(const Executor& ex,
-      const OtherExecutor&) ASIO_NOEXCEPT
+  handler_work_base(bool /*base1_owns_work*/, const Executor& ex,
+      const OtherExecutor& /*candidate*/) ASIO_NOEXCEPT
     : executor_(asio::prefer(ex, execution::outstanding_work.tracked))
   {
   }
@@ -88,11 +99,16 @@ public:
   template <typename Function, typename Handler>
   void dispatch(Function& function, Handler& handler)
   {
+#if defined(ASIO_NO_DEPRECATED)
+    asio::prefer(executor_,
+        execution::allocator((get_associated_allocator)(handler))
+      ).execute(ASIO_MOVE_CAST(Function)(function));
+#else // defined(ASIO_NO_DEPRECATED)
     execution::execute(
         asio::prefer(executor_,
-          execution::blocking.possibly,
           execution::allocator((get_associated_allocator)(handler))),
         ASIO_MOVE_CAST(Function)(function));
+#endif // defined(ASIO_NO_DEPRECATED)
   }
 
 private:
@@ -116,14 +132,14 @@ class handler_work_base<Executor, CandidateExecutor,
     >::type>
 {
 public:
-  explicit handler_work_base(const Executor& ex) ASIO_NOEXCEPT
+  explicit handler_work_base(int, int, const Executor& ex) ASIO_NOEXCEPT
     : executor_(ex),
       owns_work_(true)
   {
     executor_.on_work_started();
   }
 
-  handler_work_base(const Executor& ex,
+  handler_work_base(bool /*base1_owns_work*/, const Executor& ex,
       const Executor& candidate) ASIO_NOEXCEPT
     : executor_(ex),
       owns_work_(ex != candidate)
@@ -133,8 +149,8 @@ public:
   }
 
   template <typename OtherExecutor>
-  handler_work_base(const Executor& ex,
-      const OtherExecutor&) ASIO_NOEXCEPT
+  handler_work_base(bool /*base1_owns_work*/, const Executor& ex,
+      const OtherExecutor& /*candidate*/) ASIO_NOEXCEPT
     : executor_(ex),
       owns_work_(true)
   {
@@ -191,7 +207,7 @@ class handler_work_base<Executor, void, IoContext, PolymorphicExecutor,
     >::type>
 {
 public:
-  explicit handler_work_base(const Executor&)
+  explicit handler_work_base(int, int, const Executor&)
   {
   }
 
@@ -214,7 +230,7 @@ template <typename Executor, typename IoContext>
 class handler_work_base<Executor, void, IoContext, Executor>
 {
 public:
-  explicit handler_work_base(const Executor& ex) ASIO_NOEXCEPT
+  explicit handler_work_base(int, int, const Executor& ex) ASIO_NOEXCEPT
 #if !defined(ASIO_NO_TYPEID)
     : executor_(
         ex.target_type() == typeid(typename IoContext::executor_type)
@@ -227,7 +243,7 @@ public:
       executor_.on_work_started();
   }
 
-  handler_work_base(const Executor& ex,
+  handler_work_base(bool /*base1_owns_work*/, const Executor& ex,
       const Executor& candidate) ASIO_NOEXCEPT
     : executor_(ex != candidate ? ex : Executor())
   {
@@ -286,14 +302,15 @@ template <
     typename T1, typename T2, typename T3, typename T4, typename T5,
     typename T6, typename T7, typename T8, typename T9,
 #endif // defined(ASIO_HAS_VARIADIC_TEMPLATES)
-    typename IoContext, typename PolymorphicExecutor>
+    typename CandidateExecutor, typename IoContext,
+    typename PolymorphicExecutor>
 class handler_work_base<
 #if defined(ASIO_HAS_VARIADIC_TEMPLATES)
     execution::any_executor<SupportableProperties...>,
 #else // defined(ASIO_HAS_VARIADIC_TEMPLATES)
     execution::any_executor<T1, T2, T3, T4, T5, T6, T7, T8, T9>,
 #endif // defined(ASIO_HAS_VARIADIC_TEMPLATES)
-    void, IoContext, PolymorphicExecutor>
+    CandidateExecutor, IoContext, PolymorphicExecutor>
 {
 public:
   typedef
@@ -304,7 +321,8 @@ public:
 #endif // defined(ASIO_HAS_VARIADIC_TEMPLATES)
     executor_type;
 
-  explicit handler_work_base(const executor_type& ex) ASIO_NOEXCEPT
+  explicit handler_work_base(int, int,
+      const executor_type& ex) ASIO_NOEXCEPT
 #if !defined(ASIO_NO_TYPEID)
     : executor_(
         ex.target_type() == typeid(typename IoContext::executor_type)
@@ -316,15 +334,18 @@ public:
   {
   }
 
-  handler_work_base(const executor_type& ex,
+  handler_work_base(bool base1_owns_work, const executor_type& ex,
       const executor_type& candidate) ASIO_NOEXCEPT
-    : executor_(ex != candidate ? ex : executor_type())
+    : executor_(
+        !base1_owns_work && ex == candidate
+          ? executor_type()
+          : asio::prefer(ex, execution::outstanding_work.tracked))
   {
   }
 
   template <typename OtherExecutor>
-  handler_work_base(const executor_type& ex,
-      const OtherExecutor&) ASIO_NOEXCEPT
+  handler_work_base(bool /*base1_owns_work*/, const executor_type& ex,
+      const OtherExecutor& /*candidate*/) ASIO_NOEXCEPT
     : executor_(asio::prefer(ex, execution::outstanding_work.tracked))
   {
   }
@@ -347,18 +368,95 @@ public:
   }
 
   template <typename Function, typename Handler>
-  void dispatch(Function& function, Handler& handler)
+  void dispatch(Function& function, Handler&)
   {
-    execution::execute(
-        asio::prefer(executor_,
-          execution::blocking.possibly,
-          execution::allocator((get_associated_allocator)(handler))),
-        ASIO_MOVE_CAST(Function)(function));
+#if defined(ASIO_NO_DEPRECATED)
+    executor_.execute(ASIO_MOVE_CAST(Function)(function));
+#else // defined(ASIO_NO_DEPRECATED)
+    execution::execute(executor_, ASIO_MOVE_CAST(Function)(function));
+#endif // defined(ASIO_NO_DEPRECATED)
   }
 
 private:
   executor_type executor_;
 };
+
+#if !defined(ASIO_USE_TS_EXECUTOR_AS_DEFAULT)
+
+template <typename Executor, typename CandidateExecutor,
+    typename IoContext, typename PolymorphicExecutor>
+class handler_work_base<
+    Executor, CandidateExecutor,
+    IoContext, PolymorphicExecutor,
+    typename enable_if<
+      is_same<Executor, any_completion_executor>::value
+        || is_same<Executor, any_io_executor>::value
+    >::type>
+{
+public:
+  typedef Executor executor_type;
+
+  explicit handler_work_base(int, int,
+      const executor_type& ex) ASIO_NOEXCEPT
+#if !defined(ASIO_NO_TYPEID)
+    : executor_(
+        ex.target_type() == typeid(typename IoContext::executor_type)
+          ? executor_type()
+          : asio::prefer(ex, execution::outstanding_work.tracked))
+#else // !defined(ASIO_NO_TYPEID)
+    : executor_(asio::prefer(ex, execution::outstanding_work.tracked))
+#endif // !defined(ASIO_NO_TYPEID)
+  {
+  }
+
+  handler_work_base(bool base1_owns_work, const executor_type& ex,
+      const executor_type& candidate) ASIO_NOEXCEPT
+    : executor_(
+        !base1_owns_work && ex == candidate
+          ? executor_type()
+          : asio::prefer(ex, execution::outstanding_work.tracked))
+  {
+  }
+
+  template <typename OtherExecutor>
+  handler_work_base(bool /*base1_owns_work*/, const executor_type& ex,
+      const OtherExecutor& /*candidate*/) ASIO_NOEXCEPT
+    : executor_(asio::prefer(ex, execution::outstanding_work.tracked))
+  {
+  }
+
+  handler_work_base(const handler_work_base& other) ASIO_NOEXCEPT
+    : executor_(other.executor_)
+  {
+  }
+
+#if defined(ASIO_HAS_MOVE)
+  handler_work_base(handler_work_base&& other) ASIO_NOEXCEPT
+    : executor_(ASIO_MOVE_CAST(executor_type)(other.executor_))
+  {
+  }
+#endif // defined(ASIO_HAS_MOVE)
+
+  bool owns_work() const ASIO_NOEXCEPT
+  {
+    return !!executor_;
+  }
+
+  template <typename Function, typename Handler>
+  void dispatch(Function& function, Handler&)
+  {
+#if defined(ASIO_NO_DEPRECATED)
+    executor_.execute(ASIO_MOVE_CAST(Function)(function));
+#else // defined(ASIO_NO_DEPRECATED)
+    execution::execute(executor_, ASIO_MOVE_CAST(Function)(function));
+#endif // defined(ASIO_NO_DEPRECATED)
+  }
+
+private:
+  executor_type executor_;
+};
+
+#endif // !defined(ASIO_USE_TS_EXECUTOR_AS_DEFAULT)
 
 template <typename Handler, typename IoExecutor, typename = void>
 class handler_work :
@@ -372,8 +470,9 @@ public:
     Handler, IoExecutor>::type, IoExecutor> base2_type;
 
   handler_work(Handler& handler, const IoExecutor& io_ex) ASIO_NOEXCEPT
-    : base1_type(io_ex),
-      base2_type(asio::get_associated_executor(handler, io_ex), io_ex)
+    : base1_type(0, 0, io_ex),
+      base2_type(base1_type::owns_work(),
+          asio::get_associated_executor(handler, io_ex), io_ex)
   {
   }
 
@@ -409,7 +508,7 @@ public:
   typedef handler_work_base<IoExecutor> base1_type;
 
   handler_work(Handler&, const IoExecutor& io_ex) ASIO_NOEXCEPT
-    : base1_type(io_ex)
+    : base1_type(0, 0, io_ex)
   {
   }
 
@@ -428,6 +527,34 @@ public:
       base1_type::dispatch(function, handler);
     }
   }
+};
+
+template <typename Handler, typename IoExecutor>
+class immediate_handler_work
+{
+public:
+  typedef handler_work<Handler, IoExecutor> handler_work_type;
+
+  explicit immediate_handler_work(ASIO_MOVE_ARG(handler_work_type) w)
+    : handler_work_(ASIO_MOVE_CAST(handler_work_type)(w))
+  {
+  }
+
+  template <typename Function>
+  void complete(Function& function, Handler& handler, const void* io_ex)
+  {
+    typedef typename associated_immediate_executor<Handler, IoExecutor>::type
+      immediate_ex_type;
+
+    immediate_ex_type immediate_ex = (get_associated_immediate_executor)(
+        handler, *static_cast<const IoExecutor*>(io_ex));
+
+    (initiate_dispatch_with_executor<immediate_ex_type>(immediate_ex))(
+        ASIO_MOVE_CAST(Function)(function));
+  }
+
+private:
+  handler_work_type handler_work_;
 };
 
 } // namespace detail

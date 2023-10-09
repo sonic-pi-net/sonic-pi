@@ -10,4 +10,5 @@
 basic_endpoint
 connect_pair
 datagram_protocol
+seq_packet_protocol
 stream_protocol

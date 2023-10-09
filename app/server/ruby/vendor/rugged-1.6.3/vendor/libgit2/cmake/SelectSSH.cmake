@@ -1,0 +1,41 @@
+# Optional external dependency: libssh2
+if(USE_SSH)
+	find_pkglibraries(LIBSSH2 libssh2)
+	if(NOT LIBSSH2_FOUND)
+		find_package(LibSSH2)
+		set(LIBSSH2_INCLUDE_DIRS ${LIBSSH2_INCLUDE_DIR})
+		get_filename_component(LIBSSH2_LIBRARY_DIRS "${LIBSSH2_LIBRARY}" DIRECTORY)
+		set(LIBSSH2_LIBRARIES ${LIBSSH2_LIBRARY})
+		set(LIBSSH2_LDFLAGS "-lssh2")
+	endif()
+
+	if(NOT LIBSSH2_FOUND)
+		message(FATAL_ERROR "LIBSSH2 not found. Set CMAKE_PREFIX_PATH if it is installed outside of the default search path.")
+	endif()
+endif()
+
+if(LIBSSH2_FOUND)
+	set(GIT_SSH 1)
+	list(APPEND LIBGIT2_SYSTEM_INCLUDES ${LIBSSH2_INCLUDE_DIRS})
+	list(APPEND LIBGIT2_SYSTEM_LIBS ${LIBSSH2_LIBRARIES})
+	list(APPEND LIBGIT2_PC_LIBS ${LIBSSH2_LDFLAGS})
+
+	check_library_exists("${LIBSSH2_LIBRARIES}" libssh2_userauth_publickey_frommemory "${LIBSSH2_LIBRARY_DIRS}" HAVE_LIBSSH2_MEMORY_CREDENTIALS)
+	if(HAVE_LIBSSH2_MEMORY_CREDENTIALS)
+		set(GIT_SSH_MEMORY_CREDENTIALS 1)
+	endif()
+else()
+	message(STATUS "LIBSSH2 not found. Set CMAKE_PREFIX_PATH if it is installed outside of the default search path.")
+endif()
+
+if(WIN32 AND EMBED_SSH_PATH)
+	file(GLOB SSH_SRC "${EMBED_SSH_PATH}/src/*.c")
+	list(SORT SSH_SRC)
+	list(APPEND LIBGIT2_DEPENDENCY_OBJECTS ${SSH_SRC})
+
+	list(APPEND LIBGIT2_DEPENDENCY_INCLUDES "${EMBED_SSH_PATH}/include")
+	file(WRITE "${EMBED_SSH_PATH}/src/libssh2_config.h" "#define HAVE_WINCNG\n#define LIBSSH2_WINCNG\n#include \"../win32/libssh2_config.h\"")
+	set(GIT_SSH 1)
+endif()
+
+add_feature_info(SSH GIT_SSH "SSH transport support")

@@ -2,7 +2,7 @@
 // io_context_strand.hpp
 // ~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -88,6 +88,12 @@ namespace asio {
  */
 class io_context::strand
 {
+private:
+#if !defined(ASIO_NO_DEPRECATED)
+  struct initiate_dispatch;
+  struct initiate_post;
+#endif // !defined(ASIO_NO_DEPRECATED)
+
 public:
   /// Constructor.
   /**
@@ -183,8 +189,11 @@ public:
    * @code void handler(); @endcode
    */
   template <typename LegacyCompletionHandler>
-  ASIO_INITFN_AUTO_RESULT_TYPE(LegacyCompletionHandler, void ())
+  ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(LegacyCompletionHandler, void ())
   dispatch(ASIO_MOVE_ARG(LegacyCompletionHandler) handler)
+    ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
+      async_initiate<LegacyCompletionHandler, void ()>(
+          declval<initiate_dispatch>(), handler, this)))
   {
     return async_initiate<LegacyCompletionHandler, void ()>(
         initiate_dispatch(), handler, this);
@@ -230,8 +239,11 @@ public:
    * @code void handler(); @endcode
    */
   template <typename LegacyCompletionHandler>
-  ASIO_INITFN_AUTO_RESULT_TYPE(LegacyCompletionHandler, void ())
+  ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(LegacyCompletionHandler, void ())
   post(ASIO_MOVE_ARG(LegacyCompletionHandler) handler)
+    ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
+      async_initiate<LegacyCompletionHandler, void ()>(
+          declval<initiate_post>(), handler, this)))
   {
     return async_initiate<LegacyCompletionHandler, void ()>(
         initiate_post(), handler, this);

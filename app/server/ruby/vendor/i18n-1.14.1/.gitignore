@@ -1,0 +1,13 @@
+.DS_Store
+test/rails/fixtures
+nbproject/
+vendor/**/*
+*.swp
+pkg
+.bundle
+.rvmrc
+.ruby-version
+.ruby-gemset
+.tool-versions
+Gemfile.lock
+gemfiles/*.lock

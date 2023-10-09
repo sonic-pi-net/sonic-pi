@@ -3,13 +3,13 @@ cmake_minimum_required(VERSION 3.2)
 message(STATUS "CMakeLists: Sonic Pi Qt GUI")
 
 if(APPLE)
-  set(CMAKE_OSX_DEPLOYMENT_TARGET "10.15")
+  set(CMAKE_OSX_DEPLOYMENT_TARGET "13")
 endif()
 
 project("Sonic Pi"
   LANGUAGES CXX C
   DESCRIPTION "A code-based music creation and performance tool"
-  VERSION 5.0.0
+  VERSION 4.5.0
   HOMEPAGE_URL "https://sonic-pi.net"
 )
 
@@ -65,7 +65,7 @@ if(USE_SYSTEM_LIBS)
 else()
   # We build QScintilla as part of the main project to make it easy to debug/fix
   # It is not built as part of externals
-  add_subdirectory(QScintilla_src-2.13.3)
+  add_subdirectory(QScintilla_src-2.14.1)
 endif()
 
 add_subdirectory(vendor/SingleApplication)

@@ -1,5 +1,5 @@
 [/
- / Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+ / Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
  /
  / Distributed under the Boost Software License, Version 1.0. (See accompanying
  / file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -85,9 +85,10 @@ completion handler is available in the completion event queue.]
 
 [heading Implementation Using Windows Overlapped I/O]
 
-On Windows NT, 2000 and XP, Asio takes advantage of overlapped I/O to
-provide an efficient implementation of the Proactor design pattern. This
-implementation approach corresponds to the Proactor design pattern as follows:
+On Windows NT, 2000 and XP, Vista, 7 and later, Asio takes advantage of
+overlapped I/O to provide an efficient implementation of the Proactor design
+pattern. This implementation approach corresponds to the Proactor design
+pattern as follows:
 
 [mdash] Asynchronous Operation Processor
 
