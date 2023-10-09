@@ -4635,6 +4635,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       def synth_name
         "sc808_open_hihat"
       end
+     
 
       def on_start(studio, args_h)
         args_h[:rand_buf] = studio.rand_buf_id
@@ -4857,6 +4858,105 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
         }
       end
     end
+      
+    class Gabberkick < SonicPiSynth
+      def name
+        "Gabberkick"
+      end
+
+      def introduced
+        Version.new(5,0,0)
+      end
+
+      def synth_name
+        "gabberkick"
+      end
+
+      def on_start(studio, args_h)
+        args_h[:rand_buf] = studio.rand_buf_id
+      end
+
+      def doc
+        "An aggressive Gabber synth sound, adapted for Sonic Pi from [SuperCollider Code](https://sccode.org/1-57r). Play a `:g1` with default values at about 200 bpm in order to get those punchy Gabber baseline kicks. Intended for short kick sounds, the synth is quite configurable and can produce lots of other interesting sounds, also with longer `:sustain` values. This synth alters the frequency while it is played along an exponential curve starting at `:slope_start`, passing through `:slope_intermediate`, and finally going to `:note`. This is why the `:note` parameter as such is not slideable."
+      end
+
+      def arg_defaults
+        {
+          :note => 34,
+          :note_slide => 0,
+          :amp => 0.5,
+          :amp_slide => 0,
+          :amp_slide_shape => 1,
+          :amp_slide_curve => 0,
+          :pan => 0,
+          :pan_slide => 0,
+          :pan_slide_shape => 1,
+          :pan_slide_curve => 0,
+
+          :attack => 0.001,
+          :decay => 0.01,
+          :sustain => 0.3,
+          :release => 0.02,
+          :attack_level => 1,
+          :decay_level => 0.7,
+          :sustain_level => 0.7,
+
+          :cutoff => 119,
+          :cutoff_slide => 0,
+          :cutoff_slide_shape => 1,
+          :cutoff_slide_curve => 0,
+
+          :res => 0.2,
+          :res_slide => 0,
+          :res_slide_shape => 1,
+          :res_slide_curve => 0,
+
+          :slope_start => 84,
+          :slope_length1 => 0.015,
+          :slope_intermediate => 69,
+          :slope_length2 => 0.1,
+          :boost => 8,
+          :boost_slide => 0,
+          :boost_slide_shape => 1,
+          :boost_slide_curve => 0,
+        }
+      end
+
+      def specific_arg_info
+        {
+          :slope_start =>
+          {
+            :doc => "The note where the frequency slope starts, typically much higher than the final note.",
+            :validations => [v_positive(:slope_start)],
+            :modulatable => false
+          },
+          :slope_intermediate =>
+          {
+            :doc => "The note where the frequency passes through after `:slope_length1`, typically much nearer to the final note.",
+            :validations => [v_positive(:slope_start)],
+            :modulatable => false
+          },
+          :slope_length1 =>
+          {
+            :doc => "The time in seconds between `:slope_start` and `:slope_intermediate`.",
+            :validations => [v_positive(:slope_length1)],
+            :modulatable => false
+          },
+          :slope_length2 =>
+          {
+            :doc => "The time in seconds between `:slope_intermediate` and the final `:note`.",
+            :validations => [v_positive(:slope_length2)],
+            :modulatable => false
+          },
+          :boost =>
+          {
+            :doc => "Changes the timbre of the synth by boosting the center frequency.",
+            :validations => [v_positive(:boost)],
+            :modulatable => true
+          },
+        }
+      end
+    end      
 
     class StudioInfo < SonicPiSynth
       def user_facing?
