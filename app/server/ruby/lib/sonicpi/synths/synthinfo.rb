@@ -4828,7 +4828,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
           :lfo_width =>
           {
             :doc => "Width of the low-frequency oscillator (LFO) which determines how wide base tones oscillate around their base frequencies; a dimensionless scaled ratio between base and peak oscillator frequencies",
-            :validations => [v_positive(:lfo_width)],
+            :validations => [v_positive(:lfo_width), v_less_than(:lfo_width, 1)],
             :modulatable => true
           },
           :lfo_rate =>
@@ -4840,7 +4840,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
           :vel =>
           {
             :doc => "The velocity of the attack, makes the sound louder and changes the timbre",
-            :validations => [v_positive(:vel)],
+            :validations => [v_positive(:vel), v_less_than(:vel, 10)],
             :modulatable => false
           },
           :mod_index =>
