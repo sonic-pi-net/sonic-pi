@@ -3802,7 +3802,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
         }
       end
     end
-    
+
     class SC808Snare < SonicPiSynth
       def name
         "SC-808 Snare"
@@ -3967,7 +3967,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
         }
       end
     end
-    
+
     class SC808TomLo < SonicPiSynth
       def name
         "SC-808 Tom Low"
@@ -4020,7 +4020,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
         })
       end
     end
-    
+
     class SC808TomMid < SonicPiSynth
       def name
         "SC-808 Tom Mid"
@@ -4073,7 +4073,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
         })
       end
     end
-    
+
     class SC808TomHi < SonicPiSynth
       def name
         "SC-808 Tom High"
@@ -4126,7 +4126,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
         })
       end
     end
-    
+
     class SC808CongaLo < SonicPiSynth
       def name
         "SC-808 Conga Low"
@@ -4179,7 +4179,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
         })
       end
     end
-    
+
     class SC808CongaMid < SonicPiSynth
       def name
         "SC-808 Conga Mid"
@@ -4232,7 +4232,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
         })
       end
     end
-    
+
     class SC808CongaHi < SonicPiSynth
       def name
         "SC-808 Conga High"
@@ -4285,7 +4285,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
         })
       end
     end
-    
+
     class SC808Rimshot < SonicPiSynth
       def name
         "SC-808 Rimshot"
@@ -4364,7 +4364,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
         }
       end
     end
-    
+
     class SC808Claves < SonicPiSynth
       def name
         "SC-808 Claves"
@@ -4417,7 +4417,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
         })
       end
     end
-    
+
     class SC808Maracas < SonicPiSynth
       def name
         "SC-808 Maracas"
@@ -4471,7 +4471,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
         })
       end
     end
-    
+
     class SC808Cowbell < SonicPiSynth
       def name
         "SC-808 Cowbell"
@@ -4550,7 +4550,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
         }
       end
     end
-    
+
     class SC808ClosedHihat < SonicPiSynth
       def name
         "SC-808 Closed Hi-Hat"
@@ -4622,7 +4622,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
         }
       end
     end
-    
+
     class SC808OpenHihat < SonicPiSynth
       def name
         "SC-808 Open Hi-Hat"
@@ -4680,7 +4680,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
         }
       end
     end
-    
+
     class SC808OpenCymbal < SonicPiSynth
       def name
         "SC-808 Cymbal"
@@ -4738,7 +4738,126 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
         }
       end
     end
-    
+
+    class Rhodey < SonicPiSynth
+      def name
+        "Rhodey"
+      end
+
+      def introduced
+        Version.new(5,0,0)
+      end
+
+      def synth_name
+        "rhodey"
+      end
+
+      def on_start(studio, args_h)
+        args_h[:rand_buf] = studio.rand_buf_id
+      end
+
+      def doc
+        "The sound of an electric piano from the 60's and 70's, producing a characteristic metallic sound for notes below `:g2`. Adapted for Sonic Pi from [SuperCollider Code](https://sccode.org/1-522). Note the remarks on `:sustain_level`, if you are looking for a sustained sound, rather than a plucked one."
+      end
+
+      def arg_defaults
+        {
+          :note => 69,
+          :note_slide => 0,
+          :note_slide_shape => 1,
+          :note_slide_curve => 0,
+          :amp => 1,
+          :amp_slide => 0,
+          :amp_slide_shape => 1,
+          :amp_slide_curve => 0,
+          :pan => 0,
+          :pan_slide => 0,
+          :pan_slide_shape => 1,
+          :pan_slide_curve => 0,
+
+          :attack => 0.001,
+          :decay => 1,
+          :sustain => 0,
+          :release => 1,
+          :attack_level => 1,
+          :decay_level => :sustain_level,
+          :sustain_level => 0,
+
+          :lfo_width => 0.3,
+          :lfo_width_slide => 0,
+          :lfo_width_slide_shape => 1,
+          :lfo_width_slide_curve => 0,
+          :lfo_rate => 0.4,
+          :lfo_rate_slide => 0,
+          :lfo_rate_slide_shape => 1,
+          :lfo_rate_slide_curve => 0,
+
+          :vel => 0.8,
+          :mod_index => 0.2,
+          :mod_index_slide => 0,
+          :mod_index_slide_shape => 1,
+          :mod_index_slide_curve => 0,
+          :mix => 0.2,
+          :mix_slide => 0,
+          :mix_slide_shape => 1,
+          :mix_slide_curve => 0,
+        }
+      end
+
+      def default_arg_info
+        super.merge({
+          :sustain =>
+          {
+            :doc => "Amount of time (in beats) for sound to remain at sustain level amplitude. Longer sustain values result in longer sounds. Full length of sound is attack + decay + sustain + release. Note that for this value to take effect, the `:sustain_level` must be greater than zero.",
+            :validations => [v_positive(:sustain)],
+            :modulatable => false,
+            :bpm_scale => true
+          },
+          :sustain_level =>
+          {
+            :doc => "Amplitude level reached after decay phase and immediately before release phase. Note that the default is zero, so that the envelope rises to the `:attack_level` taking the `:attack` time and then goes directly to zero in the `:decay` time, emulating a plucked instrument. For a sustained sound, set the `:sustain_level` to a value greater than zero.",
+            :validations => [v_positive(:sustain_level)],
+            :modulatable => false
+          },
+        })
+      end
+
+      def specific_arg_info
+        {
+          :lfo_width =>
+          {
+            :doc => "Width of the low-frequency oscillator (LFO) which determines how wide base tones oscillate around their base frequencies; a dimensionless scaled ratio between base and peak oscillator frequencies",
+            :validations => [v_positive(:lfo_width)],
+            :modulatable => true
+          },
+          :lfo_rate =>
+          {
+            :doc => "Rate of the low-frequency oscillator (LFO) in Hz which determines how fast base tones oscillate around their base frequencies",
+            :validations => [v_positive(:lfo_rate)],
+            :modulatable => true
+          },
+          :vel =>
+          {
+            :doc => "The velocity of the attack, makes the sound louder and changes the timbre",
+            :validations => [v_positive(:vel)],
+            :modulatable => false
+          },
+          :mod_index =>
+          {
+            :doc => "Controls the basic oscillator's amplitude in the sound generation. For typical electric piano sounds use values between 0 and 1. Values beyond 1 also produce interesting sounds, albeit untypical for an electric piano.",
+            :validations => [v_positive(:mod_index)],
+            :modulatable => true
+          },
+          :mix =>
+          {
+            :doc => "Controls the composition of the oscilators. Use values near 1 for a softer, xylophone-like timbre.",
+            :validations => [v_between_inclusive(:mix, 0, 1)],
+            :modulatable => true,
+          },
+        }
+      end
+    end
+
     class StudioInfo < SonicPiSynth
       def user_facing?
         false
@@ -9438,6 +9557,7 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
         :bass_foundation => BassFoundation.new,
         :bass_highend => BassHighend.new,
         :organ_tonewheel => OrganTonewheel.new,
+        :rhodey => Rhodey.new,
         :sc808_bassdrum => SC808Bassdrum.new,
         :sc808_snare => SC808Snare.new,
         :sc808_clap => SC808Clap.new,
@@ -9454,7 +9574,7 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
         :sc808_closed_hihat => SC808ClosedHihat.new,
         :sc808_open_hihat => SC808OpenHihat.new,
         :sc808_cymbal => SC808OpenCymbal.new,
-            
+
         :sound_in => SoundIn.new,
         :sound_in_stereo => SoundInStereo.new,
         :noise => Noise.new,
