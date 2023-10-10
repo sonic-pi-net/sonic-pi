@@ -3749,7 +3749,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       end
 
       def doc
-        "Bassdrum of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80's. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters."
+        "Bassdrum of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80's."
       end
 
       def arg_defaults
