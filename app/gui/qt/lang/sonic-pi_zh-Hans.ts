@@ -561,12 +561,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2961"/>
         <source>Show Titles</source>
-        <translation type="unfinished"></translation>
+        <translation>显示标题</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2966"/>
         <source>Hide Menu Bar in Fullscreen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>在全屏时隐藏菜单栏</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2971"/>
@@ -775,12 +775,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="3232"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>语言</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3707"/>
         <source>Restarting Sonic Pi...</source>
-        <translation type="unfinished"></translation>
+        <translation>重启Sonic Pi...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4041"/>
@@ -815,12 +815,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="4400"/>
         <source>Sonic Pi - Audio Server Boot Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi - 声音服务启动失败</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4405"/>
         <source>Sorry, the Audio Server failed to start...</source>
-        <translation type="unfinished"></translation>
+        <translation>对不起, 声音服务启动失败...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4406"/>
@@ -830,7 +830,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="4407"/>
         <source>Note, the audio rate of the inputs &amp; outputs must be the same.</source>
-        <translation type="unfinished"></translation>
+        <translation>注意, 输入和输出的音频频率必须相同</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4409"/>
@@ -926,7 +926,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="469"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>关闭</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="614"/>
@@ -1491,7 +1491,7 @@ Sonic Pi接收以midi_*fns形式发送的MIDI消息</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="83"/>
         <source>Audio Input</source>
-        <translation type="unfinished"></translation>
+        <translation>音频输入</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="84"/>
@@ -1566,7 +1566,7 @@ Sonic Pi接收以midi_*fns形式发送的MIDI消息</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="287"/>
         <source>Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>主题</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="289"/>
@@ -1810,7 +1810,7 @@ If enabled the log is scrolled to the bottom after every new message is displaye
     <message>
         <location filename="../widgets/settingswidget.cpp" line="515"/>
         <source>Configure language settings</source>
-        <translation type="unfinished"></translation>
+        <translation>配置语言设置</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="520"/>
@@ -1890,7 +1890,7 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
         <location filename="../widgets/settingswidget.cpp" line="662"/>
         <location filename="../widgets/settingswidget.cpp" line="690"/>
         <source>Restart</source>
-        <translation type="unfinished"></translation>
+        <translation>重启</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="663"/>
@@ -1910,7 +1910,7 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="687"/>
         <source>Would you like to restart now?</source>
-        <translation type="unfinished"></translation>
+        <translation>现在是否重启?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="924"/>
@@ -1921,7 +1921,7 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1077"/>
         <source>Use system language</source>
-        <translation type="unfinished"></translation>
+        <translation>使用系统语言</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="436"/>
