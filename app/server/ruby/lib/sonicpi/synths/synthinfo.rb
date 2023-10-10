@@ -9674,7 +9674,7 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
         :sc808_closed_hihat => SC808ClosedHihat.new,
         :sc808_open_hihat => SC808OpenHihat.new,
         :sc808_cymbal => SC808OpenCymbal.new,
-
+        :gabberkick => Gabberkick.new,
         :sound_in => SoundIn.new,
         :sound_in_stereo => SoundInStereo.new,
         :noise => Noise.new,
