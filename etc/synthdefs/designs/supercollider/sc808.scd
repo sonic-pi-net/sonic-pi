@@ -46,38 +46,62 @@ SynthDef('sonic-pi-sc808_bassdrum', {|
 }).writeDefFile("/Users/sam/Development/sonic-pi/etc/synthdefs/compiled");
 )
 
+(
 SynthDef('sonic-pi-sc808_snare', {|
 	note = 65,
-	note2 = 54,
-	amp = 1,
-	amp2 = 1,
-	pan = 0,
-	snappy = 0.3,
-	cutoff_lo = 93,
-	cutoff_hi = 121,
+	amp = 1, amp_slide = 0, amp_slide_shape = 1, amp_slide_curve = 0,
+	pan = 0, pan_slide = 0, pan_slide_shape = 1, pan_slide_curve = 0,
+	attack = 0, decay = 0, sustain = 0, release = 0.15,
+	attack_level = 1, decay_level = -1, sustain_level = 1,
+	hpf = 93, hpf_slide = 0, hpf_slide_shape = 1, hpf_slide_curve = 1,
+	lpf = 121, lpf_slide = 0, lpf_slide_shape = 1, lpf_slide_curve = 1,
+	mix = 0.7,
+	head_hpf = 30,
 	out_bus = 0|
 
-	var noiseEnv, atkEnv, sig, noise, osc1, osc2, sum;
+	var noiseEnv, atkEnv, snd, noise, osc1, osc2, sum, note2, env, head;
 
+	note2 = (note - 11).midicps;
 	note = note.midicps;
-	note2 = note2.midicps;
-	cutoff_lo = cutoff_lo.midicps;
-	cutoff_hi = cutoff_hi.midicps;
 
-	noiseEnv = EnvGen.kr(Env.perc(0.001, 4.2, 1, -115), doneAction:2);
+	hpf = hpf.varlag(hpf_slide, hpf_slide_curve, hpf_slide_shape);
+	lpf = lpf.varlag(lpf_slide, lpf_slide_curve, lpf_slide_shape);
+
+	lpf = lpf.midicps;
+	hpf = hpf.midicps;
+  head_hpf = head_hpf.midicps;
+
+	amp = amp.varlag(amp_slide, amp_slide_curve, amp_slide_shape);
+	pan = pan.varlag(pan_slide, pan_slide_curve, pan_slide_shape);
+	decay_level = Select.kr(decay_level < 0, [decay_level, sustain_level]);
+	env = Env.new(
+		[0, attack_level, decay_level, sustain_level, 0],
+		[attack,decay,sustain,release],
+		\lin
+	);
+
+	noiseEnv = EnvGen.kr(Env.new(
+		[0, attack_level, decay_level, sustain_level, 0],
+		[attack + 0.001,decay,sustain, release],
+		\lin
+	), doneAction:0);
+
 	atkEnv = EnvGen.kr(Env.perc(0.001, 0.8,curve:-95), doneAction:0);
 	noise = WhiteNoise.ar;
-	noise = HPF.ar(noise, cutoff_lo);
-	noise = LPF.ar(noise, cutoff_hi);
-	noise = noise * noiseEnv * snappy;
+	noise = HPF.ar(noise, hpf);
+	noise = LPF.ar(noise, lpf);
+	noise = noise * noiseEnv;
 	osc1 = SinOsc.ar(note2, pi/2) * 0.6;
 	osc2 = SinOsc.ar(note, pi/2) * 0.7;
-	sum = (osc1+osc2) * atkEnv * amp2;
-	sig = Pan2.ar((noise + sum) * amp * 2.5, pan);
-	sig = HPF.ar(sig, 340);
-	Out.ar(out_bus, sig);
+  head = (osc1+osc2) * atkEnv * 2.5;
+	snd = (mix * noise) + ((1 - mix) * head);
+	snd = amp * snd * 2;
+	snd = Pan2.ar(Mix(snd) * EnvGen.kr(env, doneAction: 2), pan);
+	snd = HPF.ar(snd, head_hpf);
+	Out.ar(out_bus, snd);
+}).writeDefFile("/Users/sam/Development/sonic-pi/etc/synthdefs/compiled/");
+)
 
-}).writeDefFile("/Users/sam/Development/RPi/sonic-pi/etc/synthdefs/compiled/");
 
 SynthDef('sonic-pi-sc808_clap', {|
 	amp = 1,

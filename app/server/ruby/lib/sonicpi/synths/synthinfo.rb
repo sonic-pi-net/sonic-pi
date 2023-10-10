@@ -3837,77 +3837,77 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       end
 
       def doc
-        "Snare drum of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80's. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters."
+        "Snare drum of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80's. "
       end
 
       def arg_defaults
         {
           :note => 65,
-          :note2 => 54,
+          :note_slide => 0,
+          :note_slide_shape => 1,
+          :note_slide_curve => 0,
           :amp => 1,
-          :amp2 => 1,
+          :amp_slide => 0,
+          :amp_slide_shape => 1,
+          :amp_slide_curve => 0,
           :pan => 0,
-          :snappy => 0.3,
-          :cutoff_lo => 93,
-          :cutoff_hi => 121,
+          :pan_slide => 0,
+          :pan_slide_shape => 1,
+          :pan_slide_curve => 0,
+          :attack => 0,
+          :decay => 0,
+          :sustain => 0,
+          :release => 0.3,
+          :attack_level => 1,
+          :decay_level => :sustain_level,
+          :sustain_level => 1,
+          :lpf => 93,
+          :hpf => 121,
+          :mix => 0.7,
+          :head_hpf => 30,
         }
       end
 
-      def default_arg_info
-        super.merge({
-          :note =>
-          {
-            :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, `:C`, `:C2`, `:Eb4`, or `:Ds3`",
-            :validations => [v_positive(:note)],
-            :modulatable => false
-          },
-          :amp =>
-          {
-            :doc => "The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)",
-            :validations => [v_positive(:amp)],
-            :modulatable => false
-          },
-          :pan =>
-          {
-            :doc => "Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.",
-            :validations => [v_between_inclusive(:pan, -1, 1)],
-            :modulatable => false
-          },
-        })
+      def munge_opts(studio, args_h)
+        alias_opts!(:cutoff, :lpf, args_h)
+        alias_opts!(:cutoff_slide, :lpf_slide, args_h)
+        alias_opts!(:cutoff_slide_curve, :lpf_slide_curve, args_h)
+        alias_opts!(:cutoff_slide_shape, :lpf_slide_shape, args_h)
+        args_h
       end
 
       def specific_arg_info
         {
-          :note2 =>
+          :lpf =>
           {
-            :doc => "Second base frequency of the sound. Play with both both `:note` and `:note2` for slight changes of timbre and, of course, pitch.",
-            :validations => [v_positive(:note2)],
-            :modulatable => false
+            :doc => "Low pass filter cutoff value for the snare vibration. A MIDI note representing the highest frequencies allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy.",
+            :validations => [v_positive(:lpf), v_less_than(:lpf, 131)],
+            :modulatable => true,
+            :midi => true
           },
-          :amp2 =>
+
+          :hpf =>
           {
-            :doc => "Amplification of the second base frequency of the sound. Use it to set the relation between the two base frequencies of the sound.",
-            :validations => [v_positive(:amp2)],
-            :modulatable => false
+            :doc => "High pass filter cutoff value for the snare vibration. A MIDI note representing the lowest frequencies allowed to be present in the sound. A high value like 100 makes the sound thin and whispy, a low value like 40 removes just the lower bass components of the sound.",
+            :validations => [v_positive(:hpf), v_less_than(:hpf, 119)],
+            :modulatable => true,
+            :midi => true
           },
-          :snappy =>
+
+          :head_hpf =>
           {
-            :doc => "Defines the portion of snare wires which create a crisp and snappy sound.",
-            :validations => [v_positive(:snappy)],
-            :modulatable => false
+            :doc => "High pass filter cutoff value for the head of the drum. A MIDI note representing the lowest frequencies allowed to be present in the sound. Use a lower volume to make the boom part of the snare sound lower.",
+            :validations => [v_positive(:head_hpf), v_less_than(:head_hpf, 119)],
+            :modulatable => false,
+            :midi => true
           },
-          :cutoff_lo =>
+
+          :mix =>
           {
-            :doc => "MIDI note representing the lowest frequencies allowed to be present in the sound.",
-            :validations => [v_positive(:cutoff_lo)],
-            :modulatable => false
-          },
-          :cutoff_hi =>
-          {
-            :doc => "MIDI note representing the highest frequencies allowed to be present in the sound.",
-            :validations => [v_positive(:cutoff_hi)],
-            :modulatable => false
-          },
+            :doc => "Ratio of amplitude between the sound of the head of the drum (the boom) and the snare of the drum (the buzz). A value of 1 is 100% snare, a value of 0 is 100% head and 0.5 is 50% of each.",
+            :validations => [v_between_inclusive(:mix, 0, 1)],
+            :modulatable => false,
+          }
         }
       end
     end
