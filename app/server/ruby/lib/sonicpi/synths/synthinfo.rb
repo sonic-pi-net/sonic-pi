@@ -3754,10 +3754,26 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
 
       def arg_defaults
         {
-          :note => 34,
+          :note => 40,
+          :note_slide => 0,
+          :note_slide_shape => 1,
+          :note_slide_curve => 0,
           :amp => 1,
+          :amp_slide => 0,
+          :amp_slide_shape => 1,
+          :amp_slide_curve => 0,
           :pan => 0,
-          :decay => 30,
+          :pan_slide => 0,
+          :pan_slide_shape => 1,
+          :pan_slide_curve => 0,
+          :attack => 0,
+          :decay => 0,
+          :sustain => 0,
+          :release => 1,
+          :attack_level => 1,
+          :decay_level => :sustain_leval,
+          :sustain_level => 1,
+          :ndecay => 30,
           :attenuation => 1,
         }
       end
@@ -3774,7 +3790,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
           {
             :doc => "The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)",
             :validations => [v_positive(:amp)],
-            :modulatable => false
+            :modulatable => true
           },
           :pan =>
           {
@@ -3787,9 +3803,9 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
 
       def specific_arg_info
         {
-          :decay =>
+          :ndecay =>
           {
-            :doc => "Decay of the bass drum in seconds. Drive it up to 5 or so, in order to get that bass carpet, often featured in hip-hop.",
+            :doc => "Internal decay of the bass drum in seconds. Drive it up to 5 or so, in order to get that bass carpet, often featured in hip-hop. Note, you need to increase the duration of the envelope (e.g. the release: opt) to hear this internal decay.",
             :validations => [v_positive(:decay)],
             :modulatable => false
           },
