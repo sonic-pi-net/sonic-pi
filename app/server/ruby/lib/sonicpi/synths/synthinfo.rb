@@ -3754,7 +3754,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
 
       def arg_defaults
         {
-          :note => 40,
+          :note => 32,
           :note_slide => 0,
           :note_slide_shape => 1,
           :note_slide_curve => 0,
