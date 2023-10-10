@@ -1098,7 +1098,7 @@ set_mixer_control! lpf: 30, lpf_slide: 16 # slide the global lpf to 30 over 16 b
             return trigger_chord(synth_name, shifted_notes, args_h)
           end
 
-          n = args_h[:note] || 52
+          n = args_h[:note] || info.arg_defaults[:note] || 52
           n = normalise_transpose_and_tune_note_from_args(n, args_h)
 
 
