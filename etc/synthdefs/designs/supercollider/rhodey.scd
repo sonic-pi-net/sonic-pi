@@ -94,5 +94,5 @@ SynthDef('sonic-pi-rhodey', {
     snd = Pan2.ar(snd, pan, amp);
 
     Out.ar(out_bus, snd);
-).writeDefFile("/Users/sam/Development/RPi/sonic-pi/etc/synthdefs/compiled/");
+}).writeDefFile("/Users/sam/Development/sonic-pi/etc/synthdefs/compiled/");
 )
