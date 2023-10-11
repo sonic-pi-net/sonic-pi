@@ -4057,39 +4057,28 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       end
 
       def doc
-        "Low tom drum of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80s. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters."
+        "Low tom drum of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80s."
       end
 
       def arg_defaults
         {
           :note => 40,
           :amp => 1,
+          :amp_slide => 0,
+          :amp_slide_shape => 1,
+          :amp_slide_curve => 0,
           :pan => 0,
+          :pan_slide => 0,
+          :pan_slide_shape => 1,
+          :pan_slide_curve => 0,
+          :attack => 0,
+          :decay => 0,
+          :sustain => 0,
+          :release => 0.11,
+          :attack_level => 1,
+          :decay_level => :sustain_level,
+          :sustain_level => 1
         }
-      end
-
-      def default_arg_info
-        super.merge({
-          :note =>
-          {
-            :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, `:C`, `:C2`, `:Eb4`, or `:Ds3`",
-            :validations => [v_positive(:note)],
-            :modulatable => false,
-            :midi => true
-          },
-          :amp =>
-          {
-            :doc => "The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)",
-            :validations => [v_positive(:amp)],
-            :modulatable => false
-          },
-          :pan =>
-          {
-            :doc => "Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.",
-            :validations => [v_between_inclusive(:pan, -1, 1)],
-            :modulatable => false
-          },
-        })
       end
     end
 

@@ -155,27 +155,36 @@ SynthDef('sonic-pi-sc808_clap', {|
 )
 
 
-
-
+(
 SynthDef('sonic-pi-sc808_tomlo', {|
-	amp = 1,
 	note = 40,
-	pan = 0,
+	amp = 1, amp_slide = 0, amp_slide_shape = 1, amp_slide_curve = 0,
+	pan = 0, pan_slide = 0, pan_slide_shape = 1, pan_slide_curve = 0,
+	attack = 0, decay = 0, sustain = 0, release = 0.3,
+	attack_level = 1, decay_level = -1, sustain_level = 1,
 
 	out_bus = 0|
 
-	var sig, fenv, env;
-
+	var sig, fenv, env, snd;
 	note = note.midicps;
+	decay_level = Select.kr(decay_level < 0, [decay_level, sustain_level]);
+	env = Env.new(
+		[0.4, attack_level, decay_level, sustain_level, 0],
+		[attack,decay,sustain,release ],
+		\lin
+	);
 
-	env = EnvGen.kr(Env.new([0.4, 1, 0], [0, 20], -250),doneAction:2);
-	fenv = Env([note*1.25, note*1.125, note], [0.1, 0.5], -4).kr;
-	sig = SinOsc.ar(fenv, pi/2) * env;
-	sig = sig * amp;
+	env = EnvGen.kr(env, doneAction: 2);
 
-	Out.ar(out_bus, Pan2.ar(sig, pan));
+	fenv = Env([note*1.25, note*1.125, note], [0.1 + attack, 0.5 + sustain], -4).kr;
+	sig = SinOsc.ar(fenv, pi/2) * env * amp * 0.5;
+	snd = Pan2.ar(Mix(sig), pan);
 
-}).writeDefFile("/Users/sam/Development/RPi/sonic-pi/etc/synthdefs/compiled/");
+
+	Out.ar(out_bus, snd);
+
+}).writeDefFile("/Users/sam/Development/sonic-pi/etc/synthdefs/compiled/");
+)
 
 SynthDef('sonic-pi-sc808_tommid', {|
 	amp = 1,
