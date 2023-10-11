@@ -57,7 +57,7 @@ SynthDef('sonic-pi-sc808_snare', {|
 	lpf = 121, lpf_slide = 0, lpf_slide_shape = 1, lpf_slide_curve = 1,
 	mix = 0.7,
 	head_hpf = 30,
-	out_bus = 0|
+  out_bus = 0|
 
 	var noiseEnv, atkEnv, snd, noise, osc1, osc2, sum, note2, env, head;
 
@@ -103,40 +103,57 @@ SynthDef('sonic-pi-sc808_snare', {|
 )
 
 
+(
 SynthDef('sonic-pi-sc808_clap', {|
-	amp = 1,
-	pan = 0,
-	cutoff_lo = 71,
-	cutoff_hi = 84,
-	rev = 1,
+  amp = 1, amp_slide = 0, amp_slide_shape = 1, amp_slide_curve = 0,
+	pan = 0, pan_slide = 0, pan_slide_shape = 1, pan_slide_curve = 0,
+	attack = 0, decay = 0, sustain = 0, release = 0.15,
+	attack_level = 1, decay_level = -1, sustain_level = 1,
 
+  hpf = 71, hpf_slide = 0, hpf_slide_shape = 1, hpf_slide_curve = 1,
+	lpf = 84, lpf_slide = 0, lpf_slide_shape = 1, lpf_slide_curve = 1,
+	rev = 1,
+  rev_release = 4
 	out_bus = 0|
 
-	var atkenv, atk, decay, sum, denv;
+	var atkenv, atk, dec, sum, denv, snd, env;
 	var reverb, revgen;
 
-	cutoff_lo = cutoff_lo.midicps;
-	cutoff_hi = cutoff_hi.midicps;
+  hpf = hpf.varlag(hpf_slide, hpf_slide_curve, hpf_slide_shape);
+	lpf = lpf.varlag(lpf_slide, lpf_slide_curve, lpf_slide_shape);
 
-	// Use doneAction 0, so the synth is not freed yet
-	// The reverb is running much longer
+	lpf = lpf.midicps;
+	hpf = hpf.midicps;
+
+	env = Env.new(
+		[0, attack_level, decay_level, sustain_level, 0],
+		[attack,decay,sustain,release ],
+		\lin
+	);
 	atkenv = EnvGen.kr(Env.new([0.5,1,0],[0, 0.3], -160), doneAction:0);
-	denv = EnvGen.kr(Env.dadsr(0.026, 0, 6, 0, 1, 1, curve:-157), doneAction:0);
+
+	denv = EnvGen.kr(Env.dadsr(0.026, attack, decay, sustain_level, release, 1, curve:-157), doneAction:0);
 	atk = WhiteNoise.ar * atkenv * 1.4;
-	decay = WhiteNoise.ar * denv;
-	sum = atk + decay * amp;
-	sum = HPF.ar(sum, cutoff_lo);
-	sum = BPF.ar(sum, cutoff_hi, 0.5);
-	sum = 1.5 * sum;
+	dec = WhiteNoise.ar * denv;
+	sum = atk + dec * amp;
+	sum = HPF.ar(sum, hpf);
+	sum = BPF.ar(sum, lpf, 0.5);
+	sum = 1.5 * sum* EnvGen.kr(env, doneAction: 0);
 
-	revgen = EnvGen.kr(Env.perc(0.1, 4, curve: -9), doneAction:2);
-	reverb = WhiteNoise.ar * revgen * 0.02;
-	reverb = HPF.ar(reverb, cutoff_lo);
-	reverb = LPF.ar(reverb, cutoff_hi);
-	reverb = reverb * amp * rev;
-	Out.ar(out_bus, Pan2.ar(sum + reverb, pan));
+	revgen = EnvGen.kr(Env.perc(0.1, attack + decay + sustain + release + rev_release, curve: -9), doneAction:2);
+	reverb = WhiteNoise.ar * revgen * 0.1;
+	reverb = HPF.ar(reverb, hpf);
+	reverb = LPF.ar(reverb, lpf);
+	reverb = reverb * rev;
 
-}).writeDefFile("/Users/sam/Development/RPi/sonic-pi/etc/synthdefs/compiled/");
+	snd = (sum + reverb) * amp * 2;
+	snd = Pan2.ar(Mix(snd), pan);
+	Out.ar(out_bus, snd);
+
+}).writeDefFile("/Users/sam/Development/sonic-pi/etc/synthdefs/compiled/");
+)
+
+
 
 SynthDef('sonic-pi-sc808_tomlo', {|
 	amp = 1,
