@@ -332,7 +332,8 @@ module SonicPi
           {
             :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, `:C`, `:C2`, `:Eb4`, or `:Ds3`",
             :validations => [v_positive(:note)],
-            :modulatable => true
+            :modulatable => true,
+            :midi => true
           },
 
           :note_slide =>
@@ -2033,7 +2034,8 @@ Also, note that audio in isn't yet supported on Raspberry Pi."
           {
             :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, `:C`, `:C2`, `:Eb4`, or `:Ds3`. Note that the piano synth can only play whole tones such as 60 and does not handle floats such as 60.3",
             :validations => [v_positive(:note)],
-            :modulatable => true
+            :modulatable => true,
+            :midi => true
           },
 
           :noise_amp => {
@@ -2290,7 +2292,8 @@ Also, note that audio in isn't yet supported on Raspberry Pi."
           {
             :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, 56.5, `:C`, `:C2`, `:Eb4`, or `:Ds3`.",
             :validations => [v_positive(:note), v_less_than(:note, 231)],
-            :modulatable => true
+            :modulatable => true,
+            :midi => true
           },
 
           :vel => {
@@ -3623,7 +3626,8 @@ Based on work of [Chris Wigington](https://actlab.us/actlab/cwigington/projone.h
           {
             :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, 56.5, `:C`, `:C2`, `:Eb4`, or `:Ds3`. This synth does allow changing or sliding the note while playing. In real tonewheel organs one would get this effect only when fiddling with the motor driving the tonewheel.",
             :validations => [v_positive(:note), v_less_than(:note, 231)],
-            :modulatable => true
+            :modulatable => true,
+            :midi => true
           },
           :bass =>
           {
@@ -3784,7 +3788,8 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
           {
             :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, `:C`, `:C2`, `:Eb4`, or `:Ds3`",
             :validations => [v_positive(:note)],
-            :modulatable => false
+            :modulatable => false,
+            :midi => true
           },
           :amp =>
           {
@@ -3843,9 +3848,6 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       def arg_defaults
         {
           :note => 65,
-          :note_slide => 0,
-          :note_slide_shape => 1,
-          :note_slide_curve => 0,
           :amp => 1,
           :amp_slide => 0,
           :amp_slide_shape => 1,
@@ -3880,6 +3882,19 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
         alias_opts!(:cutoff_slide_curve, :lpf_slide_curve, args_h)
         alias_opts!(:cutoff_slide_shape, :lpf_slide_shape, args_h)
         args_h
+      end
+
+      def default_arg_info
+        super.merge({
+          :note =>
+          {
+            :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, `:C`, `:C2`, `:Eb4`, or `:Ds3`",
+            :validations => [v_positive(:note)],
+            :modulatable => false,
+            :midi => true
+          }
+
+        })
       end
 
       def specific_arg_info
@@ -4025,7 +4040,8 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
           {
             :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, `:C`, `:C2`, `:Eb4`, or `:Ds3`",
             :validations => [v_positive(:note)],
-            :modulatable => false
+            :modulatable => false,
+            :midi => true
           },
           :amp =>
           {
@@ -4078,7 +4094,8 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
           {
             :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, `:C`, `:C2`, `:Eb4`, or `:Ds3`",
             :validations => [v_positive(:note)],
-            :modulatable => false
+            :modulatable => false,
+            :midi => true
           },
           :amp =>
           {
@@ -4131,7 +4148,8 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
           {
             :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, `:C`, `:C2`, `:Eb4`, or `:Ds3`",
             :validations => [v_positive(:note)],
-            :modulatable => false
+            :modulatable => false,
+            :midi => true
           },
           :amp =>
           {
@@ -4184,7 +4202,8 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
           {
             :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, `:C`, `:C2`, `:Eb4`, or `:Ds3`",
             :validations => [v_positive(:note)],
-            :modulatable => false
+            :modulatable => false,
+            :midi => true
           },
           :amp =>
           {
@@ -4290,7 +4309,8 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
           {
             :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, `:C`, `:C2`, `:Eb4`, or `:Ds3`",
             :validations => [v_positive(:note)],
-            :modulatable => false
+            :modulatable => false,
+            :midi => true
           },
           :amp =>
           {
@@ -4346,7 +4366,8 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
           {
             :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, `:C`, `:C2`, `:Eb4`, or `:Ds3`",
             :validations => [v_positive(:note)],
-            :modulatable => false
+            :modulatable => false,
+            :midi => true
           },
           :amp =>
           {
@@ -4369,7 +4390,8 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
           {
             :doc => "Second base frequency of the sound. Play with both both `:note` and `:note2` for slight changes of timbre and, of course, pitch.",
             :validations => [v_positive(:note2)],
-            :modulatable => false
+            :modulatable => false,
+            :midi => true
           },
           :cutoff_lo =>
           {
@@ -4422,7 +4444,8 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
           {
             :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, `:C`, `:C2`, `:Eb4`, or `:Ds3`",
             :validations => [v_positive(:note)],
-            :modulatable => false
+            :modulatable => false,
+            :midi => true
           },
           :amp =>
           {
@@ -4532,7 +4555,8 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
           {
             :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, `:C`, `:C2`, `:Eb4`, or `:Ds3`",
             :validations => [v_positive(:note)],
-            :modulatable => false
+            :modulatable => false,
+            :midi => true
           },
           :amp =>
           {
@@ -4555,7 +4579,8 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
           {
             :doc => "Second base frequency of the sound. Play with both both `:note` and `:note2` for slight changes of timbre and, of course, pitch.",
             :validations => [v_positive(:note2)],
-            :modulatable => false
+            :modulatable => false,
+            :midi => true
           },
           :cutoff_lo =>
           {
