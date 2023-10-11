@@ -121,6 +121,7 @@ SynthDef('sonic-pi-sc808_clap', {|
 
   hpf = hpf.varlag(hpf_slide, hpf_slide_curve, hpf_slide_shape);
 	lpf = lpf.varlag(lpf_slide, lpf_slide_curve, lpf_slide_shape);
+  decay_level = Select.kr(decay_level < 0, [decay_level, sustain_level]);
 
 	lpf = lpf.midicps;
 	hpf = hpf.midicps;
@@ -152,6 +153,7 @@ SynthDef('sonic-pi-sc808_clap', {|
 
 }).writeDefFile("/Users/sam/Development/sonic-pi/etc/synthdefs/compiled/");
 )
+
 
 
 
