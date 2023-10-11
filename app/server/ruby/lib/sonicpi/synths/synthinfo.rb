@@ -3753,7 +3753,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       end
 
       def doc
-        "Bassdrum of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80's."
+        "Bassdrum of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80s."
       end
 
       def arg_defaults
@@ -3842,7 +3842,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       end
 
       def doc
-        "Snare drum of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80's. "
+        "Snare drum of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80s. "
       end
 
       def arg_defaults
@@ -4057,7 +4057,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       end
 
       def doc
-        "Low tom drum of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80's. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters."
+        "Low tom drum of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80s. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters."
       end
 
       def arg_defaults
@@ -4111,7 +4111,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       end
 
       def doc
-        "Mid tom drum of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80's. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters."
+        "Mid tom drum of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80s. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters."
       end
 
       def arg_defaults
@@ -4165,7 +4165,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       end
 
       def doc
-        "High tom drum of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80's. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters."
+        "High tom drum of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80s. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters."
       end
 
       def arg_defaults
@@ -4219,7 +4219,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       end
 
       def doc
-        "Low conga of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80's. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters."
+        "Low conga of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80s. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters."
       end
 
       def arg_defaults
@@ -4273,7 +4273,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       end
 
       def doc
-        "Mid conga of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80's. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters."
+        "Mid conga of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80s. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters."
       end
 
       def arg_defaults
@@ -4326,7 +4326,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       end
 
       def doc
-        "High conga of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80's. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters."
+        "High conga of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80s. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters."
       end
 
       def arg_defaults
@@ -4380,7 +4380,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       end
 
       def doc
-        "Rimshot of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80's. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters."
+        "Rimshot of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80s. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters."
       end
 
       def arg_defaults
@@ -4461,7 +4461,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       end
 
       def doc
-        "Claves of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80's. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters."
+        "Claves of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80s. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters."
       end
 
       def arg_defaults
@@ -4515,7 +4515,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       end
 
       def doc
-        "Maracas of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80's. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters."
+        "Maracas of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80s. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters."
       end
 
       def arg_defaults
@@ -4569,7 +4569,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       end
 
       def doc
-        "Cowbell of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80's. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters."
+        "Cowbell of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80s. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters."
       end
 
       def arg_defaults
@@ -4650,7 +4650,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       end
 
       def doc
-        "Closed hi-hat of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80's. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters."
+        "Closed hi-hat of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80s. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters."
       end
 
       def arg_defaults
@@ -4723,7 +4723,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       end
 
       def doc
-        "Open hi-hat of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80's. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters. Note that this synth is rather faint and may require an amp of 2 or more to be heard."
+        "Open hi-hat of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80s. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters. Note that this synth is rather faint and may require an amp of 2 or more to be heard."
       end
 
       def arg_defaults
@@ -4781,7 +4781,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       end
 
       def doc
-        "Cymbal of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80's. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters."
+        "Cymbal of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80s. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters."
       end
 
       def arg_defaults
