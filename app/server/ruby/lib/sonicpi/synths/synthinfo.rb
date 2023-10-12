@@ -4057,7 +4057,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       end
 
       def doc
-        "Low tom drum of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80s."
+        "Low tom drum of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80s. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters."
       end
 
       def arg_defaults
@@ -4071,13 +4071,25 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
           :pan_slide => 0,
           :pan_slide_shape => 1,
           :pan_slide_curve => 0,
-          :attack => 0,
-          :decay => 0,
-          :sustain => 0,
-          :release => 0.11,
-          :attack_level => 1,
-          :decay_level => :sustain_level,
-          :sustain_level => 1
+          :click => 0.4,
+          :decay => 4
+        }
+      end
+
+      def specific_arg_info
+        {
+          :click =>
+          {
+            :doc => "Amount of initial click to the drum sound. 0 is no click and 1 is a hard click.",
+            :validations => [v_between_inclusive(:click, 0, 1)],
+            :modulatable => false
+          },
+          :decay =>
+          {
+            :doc => "Amount of decay for the tom. Higher numbers increase the decay duration.",
+            :validations => [v_positive_not_zero(:decay)],
+            :modulatable => false
+          }
         }
       end
     end
