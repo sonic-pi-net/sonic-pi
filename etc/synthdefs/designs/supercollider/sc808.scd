@@ -166,6 +166,8 @@ SynthDef('sonic-pi-sc808_tomlo', {|
 
 	var sig, fenv, env;
 
+  amp = amp.varlag(amp_slide, amp_slide_curve, amp_slide_shape);
+	pan = pan.varlag(pan_slide, pan_slide_curve, pan_slide_shape);
 	note = note.midicps;
 
 	env = EnvGen.kr(Env.new([click, 1, 0], [0, decay], -25),doneAction:2);
