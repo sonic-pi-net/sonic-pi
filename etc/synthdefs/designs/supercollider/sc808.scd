@@ -327,35 +327,48 @@ SynthDef('sonic-pi-sc808_congahi', {|
 }).writeDefFile("/Users/sam/Development/sonic-pi/etc/synthdefs/compiled/");
 )
 
-
+(
 SynthDef('sonic-pi-sc808_rimshot', {|
   note = 92,
-  note2 = 70,
-  amp = 1,
-  pan = 0,
-  cutoff_lo = 63,
-  cutoff_hi = 118,
+  detune = -22,
+  amp = 1, amp_slide = 0, amp_slide_shape = 1, amp_slide_curve = 0,
+  pan = 0, pan_slide = 0, pan_slide_shape = 1, pan_slide_curve = 0,
+  hpf = 63, hpf_slide = 0, hpf_slide_shape = 1, hpf_slide_curve = 1,
+  lpf = 118, lpf_slide = 0, lpf_slide_shape = 1, lpf_slide_curve = 1,
+  decay = 0.07,
+  decay_curve = -42,
+  click = 1,
   out_bus = 0|
 
-  var env, sig, punch, tri1, tri2;
+  var env, sig, punch, tri1, tri2, note2;
 
+  note2 = note + detune;
   note = note.midicps;
   note2 = note2.midicps;
-  cutoff_lo = cutoff_lo.midicps;
-  cutoff_hi = cutoff_hi.midicps;
 
-  env = EnvGen.kr(Env.new([1, 1, 0], [0.00272, 0.07], -42), doneAction:2);
+  lpf = lpf.midicps;
+  hpf = hpf.midicps;
+
+  amp = amp.varlag(amp_slide, amp_slide_curve, amp_slide_shape);
+  pan = pan.varlag(pan_slide, pan_slide_curve, pan_slide_shape);
+  hpf = hpf.varlag(hpf_slide, hpf_slide_curve, hpf_slide_shape);
+  lpf = lpf.varlag(lpf_slide, lpf_slide_curve, lpf_slide_shape);
+
+  env = EnvGen.kr(Env.new([click, 1, 0], [0.00272, decay], decay_curve), doneAction:2);
   tri1 = LFTri.ar(note * 1.1, 1) * env;
   tri2 = LFPulse.ar(note2 * 1.1, width:0.8) * env;
   punch = WhiteNoise.ar * env * 0.46;
   sig = tri1 + tri2 + punch;
   sig = BPeakEQ.ar(sig, 464, 0.44, 8);
-  sig = HPF.ar(sig, cutoff_lo);
-  sig = LPF.ar(sig, cutoff_hi);
-  sig = Pan2.ar(sig * amp, pan);
-  Out.ar(out_bus, sig);
+  sig = HPF.ar(sig, hpf);
+  sig = LPF.ar(sig, lpf);
+  sig = sig * amp;
+  DetectSilence.ar(sig, doneAction: Done.freeSelf);
+  Out.ar(out_bus, Pan2.ar(sig, pan));
 
-}).writeDefFile("/Users/sam/Development/RPi/sonic-pi/etc/synthdefs/compiled/");
+}).writeDefFile("/Users/sam/Development/sonic-pi/etc/synthdefs/compiled/");
+)
+
 
 SynthDef('sonic-pi-sc808_claves', {|
 
