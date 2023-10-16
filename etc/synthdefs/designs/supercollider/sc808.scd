@@ -369,12 +369,16 @@ SynthDef('sonic-pi-sc808_rimshot', {|
 }).writeDefFile("/Users/sam/Development/sonic-pi/etc/synthdefs/compiled/");
 )
 
-
 SynthDef('sonic-pi-sc808_claves', {|
 
-  amp = 1,
+
   note = 99,
-  pan = 0,
+  amp = 1, amp_slide = 0, amp_slide_shape = 1, amp_slide_curve = 0,
+  pan = 0, pan_slide = 0, pan_slide_shape = 1, pan_slide_curve = 0,
+  decay = 0.1,
+  decay_curve = -20,
+  click = 1,
+
 
   out_bus = 0|
 
@@ -382,12 +386,15 @@ SynthDef('sonic-pi-sc808_claves', {|
 
   note = note.midicps;
 
-  env = EnvGen.kr(Env.new([1, 1, 0], [0, 0.1], -20), doneAction:2);
-  sig = SinOsc.ar(note, pi/2) * env * amp;
+  amp = amp.varlag(amp_slide, amp_slide_curve, amp_slide_shape);
+  pan = pan.varlag(pan_slide, pan_slide_curve, pan_slide_shape);
 
+  env = EnvGen.kr(Env.new([click, 1, 0], [0, decay], decay_curve), doneAction:2);
+  sig = SinOsc.ar(note, pi/2) * env * amp;
+  DetectSilence.ar(sig, doneAction: Done.freeSelf);
   Out.ar(out_bus, Pan2.ar(sig, pan));
 
-}).writeDefFile("/Users/sam/Development/RPi/sonic-pi/etc/synthdefs/compiled/");
+}).writeDefFile("/Users/sam/Development/sonic-pi/etc/synthdefs/compiled/");
 
 SynthDef('sonic-pi-sc808_maracas', {|
 
