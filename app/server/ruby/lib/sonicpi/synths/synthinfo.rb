@@ -4453,6 +4453,10 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
           :pan_slide => 0,
           :pan_slide_shape => 1,
           :pan_slide_curve => 0,
+          :hpf => 113,
+          :hpf_slide => 0,
+          :hpf_slide_shape => 1,
+          :hpf_slide_curve => 0
           :click => 1,
           :decay => 0.1,
           :decay_curve => -20
@@ -4480,6 +4484,13 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
             :validations => [],
             :modulatable => false
           },
+          :hpf =>
+          {
+            :doc => "High pass filter cutoff value for the maracas. A MIDI note representing the lowest frequencies allowed to be present in the sound. A high value like 100 makes the sound thin and whispy, a low value like 40 removes just the lower bass components of the sound.",
+            :validations => [v_positive(:hpf), v_less_than(:hpf, 119)],
+            :modulatable => true,
+            :midi => true
+          }
       }
 
 
