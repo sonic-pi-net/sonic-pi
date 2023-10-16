@@ -398,23 +398,32 @@ SynthDef('sonic-pi-sc808_claves', {|
 
 SynthDef('sonic-pi-sc808_maracas', {|
 
-  amp = 1,
-  cutoff = 113,
-  pan = 0,
+
+
+  amp = 1, amp_slide = 0, amp_slide_shape = 1, amp_slide_curve = 0,
+  pan = 0, pan_slide = 0, pan_slide_shape = 1, pan_slide_curve = 0,
+  hpf = 113, hpf_slide = 0, hpf_slide_shape = 1, hpf_slide_curve = 1,
+  click = 0.027,
+  decay = 0.07,
+  decay_curve = -250
 
   out_bus = 0|
 
   var sig, env;
 
-  cutoff = cutoff.midicps;
+  amp = amp.varlag(amp_slide, amp_slide_curve, amp_slide_shape);
+  pan = pan.varlag(pan_slide, pan_slide_curve, pan_slide_shape);
+  hpf = hpf.varlag(hpf_slide, hpf_slide_curve, hpf_slide_shape);
 
-  env = EnvGen.kr(Env.new([0.3, 1, 0], [0.027, 0.07], -250), doneAction:2);
+  hpf = hpf.midicps;
+
+  env = EnvGen.kr(Env.new([0.3, 1, 0], [click, decay], decay_curve), doneAction:2);
   sig = WhiteNoise.ar * env * amp;
-  sig = HPF.ar(sig, cutoff);
-
+  sig = HPF.ar(sig, hpf);
+  DetectSilence.ar(sig, doneAction: Done.freeSelf);
   Out.ar(out_bus, Pan2.ar(sig, pan));
 
-}).writeDefFile("/Users/sam/Development/RPi/sonic-pi/etc/synthdefs/compiled/");
+}).writeDefFile("/Users/sam/Development/sonic-pi/etc/synthdefs/compiled/");
 
 SynthDef('sonic-pi-sc808_cowbell', {|
 
