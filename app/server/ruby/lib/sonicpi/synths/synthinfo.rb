@@ -4344,7 +4344,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
           },
           :decay_curve =>
           {
-            :doc => "Curve value for the decay of the tom",
+            :doc => "Curve value for the decay of the rimshot",
             :validations => [],
             :modulatable => false
           },
