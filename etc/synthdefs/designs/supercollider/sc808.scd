@@ -234,68 +234,99 @@ SynthDef('sonic-pi-sc808_tomhi', {|
 }).writeDefFile("/Users/sam/Development/sonic-pi/etc/synthdefs/compiled/");
 )
 
+(
 SynthDef('sonic-pi-sc808_congalo', {|
 
-  amp = 1,
+
   note = 52,
-  pan = 0,
+  amp = 1, amp_slide = 0, amp_slide_shape = 1, amp_slide_curve = 0,
+  pan = 0, pan_slide = 0, pan_slide_shape = 1, pan_slide_curve = 0,
+  decay_curve = -250,
+  decay = 18
+  detune1 = 1.333333,
+  detune2 = 1.121212,
+  click = 0.15
 
   out_bus = 0|
 
   var sig, fenv, env;
-
+  amp = amp.varlag(amp_slide, amp_slide_curve, amp_slide_shape);
+  pan = pan.varlag(pan_slide, pan_slide_curve, pan_slide_shape);
   note = note.midicps;
 
-  env = EnvGen.kr(Env.new([0.15, 1, 0], [0, 18], -250),doneAction:2);
-  fenv = Env([note*1.333333, note*1.121212, note], [0.1, 0.5], -4).kr;
+  env = EnvGen.kr(Env.new([click, 1, 0], [0, decay], decay_curve),doneAction:2);
+  fenv = Env([note*detune1, note*detune2, note], [0.1, 0.5], -4).kr;
   sig = SinOsc.ar(fenv, pi/2) * env;
-  sig = sig * amp;
 
+  sig = sig * amp;
+  DetectSilence.ar(sig, doneAction: Done.freeSelf);
   Out.ar(out_bus, Pan2.ar(sig, pan));
 
-}).writeDefFile("/Users/sam/Development/RPi/sonic-pi/etc/synthdefs/compiled/");
+}).writeDefFile("/Users/sam/Development/sonic-pi/etc/synthdefs/compiled/");
+)
 
+(
 SynthDef('sonic-pi-sc808_congamid', {|
 
-  amp = 1,
+
   note = 57,
-  pan = 0,
+  amp = 1, amp_slide = 0, amp_slide_shape = 1, amp_slide_curve = 0,
+  pan = 0, pan_slide = 0, pan_slide_shape = 1, pan_slide_curve = 0,
+  decay_curve = -250,
+  decay = 18
+  detune1 = 1.333333,
+  detune2 = 1.121212,
+  click = 0.13
 
   out_bus = 0|
 
   var sig, fenv, env;
-
+  amp = amp.varlag(amp_slide, amp_slide_curve, amp_slide_shape);
+  pan = pan.varlag(pan_slide, pan_slide_curve, pan_slide_shape);
   note = note.midicps;
 
-  env = EnvGen.kr(Env.new([0.15, 1, 0], [0, 9], -250),doneAction:2);
-  fenv = Env([note*1.24, note*1.12, note], [0.1, 0.5], -4).kr;
+  env = EnvGen.kr(Env.new([click, 1, 0], [0, decay], decay_curve),doneAction:2);
+  fenv = Env([note*detune1, note*detune2, note], [0.1, 0.5], -4).kr;
   sig = SinOsc.ar(fenv, pi/2) * env;
-  sig = sig * amp;
 
+  sig = sig * amp;
+  DetectSilence.ar(sig, doneAction: Done.freeSelf);
   Out.ar(out_bus, Pan2.ar(sig, pan));
 
-}).writeDefFile("/Users/sam/Development/RPi/sonic-pi/etc/synthdefs/compiled/");
+}).writeDefFile("/Users/sam/Development/sonic-pi/etc/synthdefs/compiled/");
+)
 
+(
 SynthDef('sonic-pi-sc808_congahi', {|
 
-  amp = 1,
-  note = 65,
-  pan = 0,
+
+  note = 52,
+  amp = 1, amp_slide = 0, amp_slide_shape = 1, amp_slide_curve = 0,
+  pan = 0, pan_slide = 0, pan_slide_shape = 1, pan_slide_curve = 0,
+  decay_curve = -250,
+  decay = 18
+  detune1 = 1.333333,
+  detune2 = 1.121212,
+  click = 0.15
 
   out_bus = 0|
 
   var sig, fenv, env;
-
+  amp = amp.varlag(amp_slide, amp_slide_curve, amp_slide_shape);
+  pan = pan.varlag(pan_slide, pan_slide_curve, pan_slide_shape);
   note = note.midicps;
 
-  env = EnvGen.kr(Env.new([0.15, 1, 0], [0, 6], -250),doneAction:2);
-  fenv = Env([note*1.22972, note*1.08108, note], [0.1, 0.5], -4).kr;
+  env = EnvGen.kr(Env.new([click, 1, 0], [0, decay], decay_curve),doneAction:2);
+  fenv = Env([note*detune1, note*detune2, note], [0.1, 0.5], -4).kr;
   sig = SinOsc.ar(fenv, pi/2) * env;
-  sig = sig * amp;
 
+  sig = sig * amp;
+  DetectSilence.ar(sig, doneAction: Done.freeSelf);
   Out.ar(out_bus, Pan2.ar(sig, pan));
 
-}).writeDefFile("/Users/sam/Development/RPi/sonic-pi/etc/synthdefs/compiled/");
+}).writeDefFile("/Users/sam/Development/sonic-pi/etc/synthdefs/compiled/");
+)
+
 
 SynthDef('sonic-pi-sc808_rimshot', {|
   note = 92,
