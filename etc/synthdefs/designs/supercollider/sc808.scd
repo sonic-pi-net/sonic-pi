@@ -557,17 +557,24 @@ SynthDef('sonic-pi-sc808_open_hihat', {|
 }).writeDefFile("/Users/sam/Development/sonic-pi/etc/synthdefs/compiled/");
 )
 
+(
 SynthDef('sonic-pi-sc808_cymbal', {|
 
-  amp = 1,
-  pan = 0,
+  amp = 1, amp_slide = 0, amp_slide_shape = 1, amp_slide_curve = 0,
+  pan = 0, pan_slide = 0, pan_slide_shape = 1, pan_slide_curve = 0,
+
   decay=2,
-  tone=0.002,
+  decay_curve = -3
+  tone=0.25,
 
   out_bus = 0|
 
   var sig, sig1, sig2, sig2a, sig2b, sig3, env1, env2, env2b, env3, osc1, osc2, osc3, osc4, osc5, osc6, sum;
-  env1 = EnvGen.kr(Env.perc(0.3, decay, curve:-3), doneAction:2);
+
+  amp = amp.varlag(amp_slide, amp_slide_curve, amp_slide_shape);
+  pan = pan.varlag(pan_slide, pan_slide_curve, pan_slide_shape);
+  tone = tone * 0.008;
+  env1 = EnvGen.kr(Env.perc(0.3, decay, curve:decay_curve), doneAction:2);
   env2 = EnvGen.kr(Env.new([0, 0.6, 0], [0.1, decay*0.7], -5), doneAction:0);
   env2b = EnvGen.kr(Env.new([0, 0.3, 0], [0.1, decay*20], -120), doneAction:0);
   env3 = EnvGen.kr(Env.new([0, 1, 0], [0, decay*5], curve:-150), doneAction:0);
@@ -599,9 +606,9 @@ SynthDef('sonic-pi-sc808_cymbal', {|
   sig3 = sig3 * env3;
   sum = sig1 + sig2a + sig2b + sig3;
   sum = LPF.ar(sum, 4000);
-  sum = Pan2.ar(sum, 0);
   sum = sum * amp * 12;
-  Out.ar(0, sum);
+  DetectSilence.ar(sum, doneAction: Done.freeSelf);
+  Out.ar(0, Pan2.ar(sum, pan));
 
-}).writeDefFile("/Users/sam/Development/RPi/sonic-pi/etc/synthdefs/compiled/");
+}).writeDefFile("/Users/sam/Development/sonic-pi/etc/synthdefs/compiled/");
 )
