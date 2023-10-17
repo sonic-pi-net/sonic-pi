@@ -505,17 +505,28 @@ SynthDef('sonic-pi-sc808_closed_hihat', {|
 }).writeDefFile("/Users/sam/Development/sonic-pi/etc/synthdefs/compiled/");
 )
 
+(
 SynthDef('sonic-pi-sc808_open_hihat', {|
 
-  amp = 1,
-  pan = 0,
-  decay=0.5,
+  amp = 1, amp_slide = 0, amp_slide_shape = 1, amp_slide_curve = 0,
+  pan = 0, pan_slide = 0, pan_slide_shape = 1, pan_slide_curve = 0,
+  hpf = 118.551, hpf_slide = 0, hpf_slide_shape = 1, hpf_slide_curve = 1,
+  lpf = 107.213, lpf_slide = 0, lpf_slide_shape = 1, lpf_slide_curve = 1,
 
+  decay=0.5,
+  decay_curve = -3,
   out_bus = 0|
 
   var sig, siga, sigb, env1, env2, osc1, osc2, osc3, osc4, osc5, osc6, sum;
 
-  env1 = EnvGen.kr(Env.perc(0.1, decay, curve:-3), doneAction:2);
+  hpf = hpf.midicps;
+  lpf = lpf.midicps;
+  hpf = hpf.varlag(hpf_slide, hpf_slide_curve, hpf_slide_shape);
+  lpf = lpf.varlag(lpf_slide, lpf_slide_curve, lpf_slide_shape);
+
+
+
+  env1 = EnvGen.kr(Env.perc(0.1, decay, curve: decay_curve), doneAction:2);
   env2 = EnvGen.kr(Env.new([0, 1, 0], [0, decay*5], curve:-150), doneAction:0);
   osc1 = LFPulse.ar(203.52) * 0.6;
   osc2 = LFPulse.ar(366.31) * 0.6;
@@ -525,19 +536,21 @@ SynthDef('sonic-pi-sc808_open_hihat', {|
   osc6 = LFPulse.ar(538.75) * 0.6;
   sig = osc1 + osc2 + osc3 + osc4 + osc5 +osc6;
   sig = BLowShelf.ar(sig, 990, 2, -3);
-  sig = BPF.ar(sig, 7700);
+  sig = BPF.ar(sig, hpf);
   sig = BPeakEQ.ar(sig, 7200, 0.5, 5);
   sig = BHiPass4.ar(sig, 8100, 0.7);
   sig = BHiShelf.ar(sig, 9400, 1, 5);
   siga = sig * env1 * 0.6;
   sigb = sig * env2;
   sum = siga + sigb;
-  sum = LPF.ar(sum, 4000);
+  sum = LPF.ar(sum, lpf);
   sum = sum * amp * 7;
 
+  DetectSilence.ar(sum, doneAction: Done.freeSelf);
   Out.ar(out_bus, Pan2.ar(sum, pan));
 
-}).writeDefFile("/Users/sam/Development/RPi/sonic-pi/etc/synthdefs/compiled/");
+}).writeDefFile("/Users/sam/Development/sonic-pi/etc/synthdefs/compiled/");
+)
 
 SynthDef('sonic-pi-sc808_cymbal', {|
 

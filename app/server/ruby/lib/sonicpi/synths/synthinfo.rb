@@ -4619,7 +4619,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
             :doc => "Curve value for the decay of the hi-hat",
             :validations => [],
             :modulatable => false
-          }
+          },
           :lpf =>
           {
             :doc => "Low pass filter cutoff value for the hi-hat. A MIDI note representing the highest frequencies allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy.",
@@ -4639,7 +4639,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       end
     end
 
-    class SC808OpenHihat < SonicPiSynth
+    class SC808OpenHihat < SC808ClosedHihat
       def name
         "SC-808 Open Hi-Hat"
       end
@@ -4652,11 +4652,6 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
         "sc808_open_hihat"
       end
 
-
-      def on_start(studio, args_h)
-        args_h[:rand_buf] = studio.rand_buf_id
-      end
-
       def doc
         "Open hi-hat of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80s. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters. Note that this synth is rather faint and may require an amp of 2 or more to be heard."
       end
@@ -4664,36 +4659,23 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       def arg_defaults
         {
           :amp => 1,
+          :amp_slide => 0,
+          :amp_slide_shape => 1,
+          :amp_slide_curve => 0,
           :pan => 0,
+          :pan_slide => 0,
+          :pan_slide_shape => 1,
+          :pan_slide_curve => 0,
+          :hpf => 118.551,
+          :hpf_slide => 0,
+          :hpf_slide_shape => 1,
+          :hpf_slide_curve => 0,
+          :lpf => 107.213,
+          :lpf_slide => 0,
+          :lpf_slide_shape => 1,
+          :lpf_slide_curve => 0,
           :decay => 0.5,
-        }
-      end
-
-      def default_arg_info
-        super.merge({
-          :amp =>
-          {
-            :doc => "The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)",
-            :validations => [v_positive(:amp)],
-            :modulatable => false
-          },
-          :pan =>
-          {
-            :doc => "Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.",
-            :validations => [v_between_inclusive(:pan, -1, 1)],
-            :modulatable => false
-          },
-        })
-      end
-
-      def specific_arg_info
-        {
-          :decay =>
-          {
-            :doc => "Decay of the hi-hat in seconds, for shorter and longer sounds. Values beyond 1 may not really sound like a hi-hat, but interesting anyway.",
-            :validations => [v_positive(:decay)],
-            :modulatable => false
-          },
+          :decay_curve => -3
         }
       end
     end
