@@ -4,46 +4,38 @@ SuperCollider 808 implementation based on Yoshinosuke Horiuchi's free version. S
 
 (
 SynthDef('sonic-pi-sc808_bassdrum', {|
-  note = 34,
-  amp = 1, amp_slide = 0, amp_slide_shape = 1, amp_slide_curve = 0,
-  pan = 0, pan_slide = 0, pan_slide_shape = 1, pan_slide_curve = 0,
-  ndecay = 30,
-  attenuation=1,
+ 	note = 34,
+	amp = 1, amp_slide = 0, amp_slide_shape = 1, amp_slide_curve = 0,
+    pan = 0, pan_slide = 0, pan_slide_shape = 1, pan_slide_curve = 0,
+    click = 0.11
+    decay = 2,
+    decay_curve = -7
+	attenuation=1,
+	out_bus = 0|
 
-  attack = 0, decay = 0, sustain = 0, release = 1,
-  attack_level = 1, decay_level = -1, sustain_level = 1,
-  out_bus = 0
-  |
+	var snd, fenv, env, trienv, sig, sub, punch, pfenv;
 
-  var snd, fenv, env, trienv, sig, sub, punch, pfenv;
+	note = note.midicps;
+	amp = 2 * amp;
+    amp = amp.varlag(amp_slide, amp_slide_curve, amp_slide_shape);
+    pan = pan.varlag(pan_slide, pan_slide_curve, pan_slide_shape);
 
-  note = note.midicps;
 
-  env = EnvGen.kr(Env.new([0.11, 1, 0], [0, ndecay], -7),doneAction:2);
-  trienv = EnvGen.kr(Env.new([0.11, 0.6, 0], [0, ndecay], -230),doneAction:0);
-  fenv = Env([note*7, note*1.35, note], [0.05/attenuation, 0.6], -14).kr; // Mod 0.05 -> 0.5
-  pfenv = Env([note*7, note*1.35, note], [0.03/attenuation, 0.6], -10).kr; // Mod 0.03 -> 0.3
-  sig = SinOsc.ar(fenv, pi/2) * env;
-  sub = LFTri.ar(fenv, pi/2) * trienv * 0.05;
-  punch = SinOsc.ar(pfenv, pi/2) * env * 2;
-  punch = HPF.ar(punch, 350);
-  snd = (sig + sub + punch) * 2.5;
+	env = EnvGen.kr(Env.new([click, 1, 0], [0, decay], decay_curve),doneAction:2);
+	trienv = EnvGen.kr(Env.new([click, 0.6, 0], [0, decay], -230),doneAction:0);
+	fenv = Env([note*7, note*1.35, note], [0.05/attenuation, 0.6], -14).kr; // Mod 0.05 -> 0.5
+	pfenv = Env([note*7, note*1.35, note], [0.03/attenuation, 0.6], -10).kr; // Mod 0.03 -> 0.3
+	sig = SinOsc.ar(fenv, pi/2) * env;
+	sub = LFTri.ar(fenv, pi/2) * trienv * 0.05;
+	punch = SinOsc.ar(pfenv, pi/2) * env * 2;
+	punch = HPF.ar(punch, 350);
+	sig = (sig + sub + punch) * 2.5;
+	sig = Limiter.ar(sig, 0.5) * amp;
+    DetectSilence.ar(sig, doneAction: Done.freeSelf);
+	sig = Pan2.ar(sig, pan);
+	Out.ar(out_bus, sig);
 
-  amp = amp.varlag(amp_slide, amp_slide_curve, amp_slide_shape);
-  pan = pan.varlag(pan_slide, pan_slide_curve, pan_slide_shape);
-  decay_level = Select.kr(decay_level < 0, [decay_level, sustain_level]);
-  env = Env.new(
-    [0, attack_level, decay_level, sustain_level, 0],
-    [attack,decay,sustain,release],
-    \lin
-  );
-
-  snd = Limiter.ar(snd, 1) * amp;
-  snd = Pan2.ar(Mix(snd) * EnvGen.kr(env, doneAction: 2), pan);
-
-  Out.ar(out_bus, snd);
-
-}).writeDefFile("/Users/sam/Development/sonic-pi/etc/synthdefs/compiled");
+}).writeDefFile("/Users/sam/Development/sonic-pi/etc/synthdefs/compiled/");
 )
 
 (
