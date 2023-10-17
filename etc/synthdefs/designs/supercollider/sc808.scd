@@ -465,20 +465,23 @@ SynthDef('sonic-pi-sc808_cowbell', {|
 }).writeDefFile("/Users/sam/Development/sonic-pi/etc/synthdefs/compiled/");
 )
 
+(
 SynthDef('sonic-pi-sc808_closed_hihat', {|
 
-  amp = 1,
-  pan = 0,
-  decay=0.42,
-  cutoff_lo = 121.05875888638981,
-  cutoff_hi = 121.25219487074914,
+  amp = 1, amp_slide = 0, amp_slide_shape = 1, amp_slide_curve = 0,
+  pan = 0, pan_slide = 0, pan_slide_shape = 1, pan_slide_curve = 0,
+  hpf = 121.25219487074914, hpf_slide = 0, hpf_slide_shape = 1, hpf_slide_curve = 1,
+  lpf = 121.05875888638981, lpf_slide = 0, lpf_slide_shape = 1, lpf_slide_curve = 1,
 
+  decay=0.42,
   out_bus = 0|
 
   var sig, sighi,siglow, sum, env, osc1, osc2, osc3, osc4, osc5, osc6;
 
-  cutoff_lo = cutoff_lo.midicps;
-  cutoff_hi = cutoff_hi.midicps;
+  hpf = hpf.midicps;
+  lpf = lpf.midicps;
+  hpf = hpf.varlag(hpf_slide, hpf_slide_curve, hpf_slide_shape);
+  lpf = lpf.varlag(lpf_slide, lpf_slide_curve, lpf_slide_shape);
 
   env = EnvGen.kr(Env.perc(0.005, decay, 1, -30),doneAction:2);
   osc1 = LFPulse.ar(203.52);
@@ -488,17 +491,18 @@ SynthDef('sonic-pi-sc808_closed_hihat', {|
   osc5 = LFPulse.ar(811.16);
   osc6 = LFPulse.ar(538.75);
   sighi = (osc1 + osc2 + osc3 + osc4 + osc5 + osc6);
-    siglow = (osc1 + osc2 + osc3 + osc4 + osc5 + osc6);
-    sighi = BPF.ar(sighi, cutoff_lo, 1);
-    sighi = HPF.ar(sighi, cutoff_hi);
-    siglow = BBandPass.ar(siglow, 8900, 0.8);
-    siglow = BHiPass.ar(siglow, 9000, 0.3);
-    sig = BPeakEQ.ar((siglow+sighi), 9700, 0.8, 0.7);
-    sig = sig * env * amp * 12;
-
+  siglow = (osc1 + osc2 + osc3 + osc4 + osc5 + osc6);
+  sighi = BPF.ar(sighi, lpf, 1);
+  sighi = HPF.ar(sighi, hpf);
+  siglow = BBandPass.ar(siglow, 8900, 0.8);
+  siglow = BHiPass.ar(siglow, 9000, 0.3);
+  sig = BPeakEQ.ar((siglow+sighi), 9700, 0.8, 0.7);
+  sig = sig * env * amp * 12;
+  DetectSilence.ar(sig, doneAction: Done.freeSelf);
   Out.ar(out_bus, Pan2.ar(sig, pan));
 
-}).writeDefFile("/Users/sam/Development/RPi/sonic-pi/etc/synthdefs/compiled/");
+}).writeDefFile("/Users/sam/Development/sonic-pi/etc/synthdefs/compiled/");
+)
 
 SynthDef('sonic-pi-sc808_open_hihat', {|
 
