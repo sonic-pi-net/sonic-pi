@@ -3790,7 +3790,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
             :doc => "Curve value for the decay of the bass drum",
             :validations => [],
             :modulatable => false
-          }
+          },
           :attenuation =>
           {
             :doc => "Base frequency attenuation. Use values around 0.2 or lower for giving the bassdrum a more artificial sound.",
