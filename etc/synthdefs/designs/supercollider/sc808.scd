@@ -474,6 +474,7 @@ SynthDef('sonic-pi-sc808_closed_hihat', {|
   lpf = 121.05875888638981, lpf_slide = 0, lpf_slide_shape = 1, lpf_slide_curve = 1,
 
   decay=0.42,
+  decay_curve = -30,
   out_bus = 0|
 
   var sig, sighi,siglow, sum, env, osc1, osc2, osc3, osc4, osc5, osc6;
@@ -483,7 +484,7 @@ SynthDef('sonic-pi-sc808_closed_hihat', {|
   hpf = hpf.varlag(hpf_slide, hpf_slide_curve, hpf_slide_shape);
   lpf = lpf.varlag(lpf_slide, lpf_slide_curve, lpf_slide_shape);
 
-  env = EnvGen.kr(Env.perc(0.005, decay, 1, -30),doneAction:2);
+  env = EnvGen.kr(Env.perc(0.005, decay, 1, decay_curve),doneAction:2);
   osc1 = LFPulse.ar(203.52);
   osc2 = LFPulse.ar(366.31);
   osc3 = LFPulse.ar(301.77);

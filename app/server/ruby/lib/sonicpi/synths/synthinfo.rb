@@ -4601,7 +4601,8 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
           :lpf_slide => 0,
           :lpf_slide_shape => 1,
           :lpf_slide_curve => 0,
-          :decay => 0.42
+          :decay => 0.42,
+          :decay_curve => -30
         }
       end
 
@@ -4613,6 +4614,12 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
             :validations => [v_positive(:decay)],
             :modulatable => false
           },
+          :decay_curve =>
+          {
+            :doc => "Curve value for the decay of the hi-hat",
+            :validations => [],
+            :modulatable => false
+          }
           :lpf =>
           {
             :doc => "Low pass filter cutoff value for the hi-hat. A MIDI note representing the highest frequencies allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy.",
