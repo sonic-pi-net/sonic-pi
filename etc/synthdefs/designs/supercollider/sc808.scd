@@ -425,37 +425,42 @@ SynthDef('sonic-pi-sc808_maracas', {|
 
 }).writeDefFile("/Users/sam/Development/sonic-pi/etc/synthdefs/compiled/");
 
+(
 SynthDef('sonic-pi-sc808_cowbell', {|
 
   note = 79.58979585613574,
-  note2 = 72.50534928521387,
-  amp = 1,
-  pan = 0,
-  cutoff_lo = 59,
-  cutoff_hi = 109,
-
+  detune = -7.08444657092187
+  amp = 1, amp_slide = 0, amp_slide_shape = 1, amp_slide_curve = 0,
+  pan = 0, pan_slide = 0, pan_slide_shape = 1, pan_slide_curve = 0,
+  hpf = 59, hpf_slide = 0, hpf_slide_shape = 1, hpf_slide_curve = 1,
+  lpf = 109, lpf_slide = 0, lpf_slide_shape = 1, lpf_slide_curve = 1,
+  decay = 9.5,
+  decay_curve = -90,
   out_bus = 0|
 
-  var sig, pul1, pul2, env, atk, atkenv, datk;
-
+  var sig, pul1, pul2, env, atk, atkenv, datk, note2;
+  note2 = note + detune;
   note = note.midicps;
   note2 = note2.midicps;
-  cutoff_lo = cutoff_lo.midicps;
-  cutoff_hi = cutoff_hi.midicps;
+  hpf = hpf.midicps;
+  lpf = lpf.midicps;
+  hpf = hpf.varlag(hpf_slide, hpf_slide_curve, hpf_slide_shape);
+  lpf = lpf.varlag(lpf_slide, lpf_slide_curve, lpf_slide_shape);
 
   atkenv = EnvGen.kr(Env.perc(0, 1, 1, -215),doneAction:0);
-  env = EnvGen.kr(Env.perc(0.01, 9.5, 1, -90),doneAction:2);
+  env = EnvGen.kr(Env.perc(0.01, decay, 1, decay_curve),doneAction:2);
   pul1 = LFPulse.ar(note);
   pul2 = LFPulse.ar(note2);
   atk = (pul1 + pul2) * atkenv * 6;
   datk = (pul1 + pul2) * env;
   sig = (atk + datk) * amp / 6;
-  sig = HPF.ar(sig, cutoff_lo);
-  sig = LPF.ar(sig, cutoff_hi);
-
+  sig = HPF.ar(sig, hpf);
+  sig = LPF.ar(sig, lpf);
+  DetectSilence.ar(sig, doneAction: Done.freeSelf);
   Out.ar(out_bus, Pan2.ar(sig, pan));
 
-}).writeDefFile("/Users/sam/Development/RPi/sonic-pi/etc/synthdefs/compiled/");
+}).writeDefFile("/Users/sam/Development/sonic-pi/etc/synthdefs/compiled/");
+)
 
 SynthDef('sonic-pi-sc808_closed_hihat', {|
 

@@ -4456,7 +4456,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
           :hpf => 113,
           :hpf_slide => 0,
           :hpf_slide_shape => 1,
-          :hpf_slide_curve => 0
+          :hpf_slide_curve => 0,
           :click => 1,
           :decay => 0.1,
           :decay_curve => -20
@@ -4510,70 +4510,58 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
         "sc808_cowbell"
       end
 
-      def on_start(studio, args_h)
-        args_h[:rand_buf] = studio.rand_buf_id
-      end
-
       def doc
         "Cowbell of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80s. This is a percussive synth, so it does not use the standard envelope parameters, neither does it feature slideable parameters."
       end
 
       def arg_defaults
         {
-          :note => 79.58979585613574,
+          :note => 79.59,
+          :detune => -7.084,
           :amp => 1,
+          :amp_slide => 0,
+          :amp_slide_shape => 1,
+          :amp_slide_curve => 0,
           :pan => 0,
-          :note2 => 72.50534928521387,
-          :cutoff_lo => 59,
-          :cutoff_hi => 109,
+          :pan_slide => 0,
+          :pan_slide_shape => 1,
+          :pan_slide_curve => 0,
+          :hpf => 113,
+          :hpf_slide => 0,
+          :hpf_slide_shape => 1,
+          :hpf_slide_curve => 0,
+          :decay => 9.5,
+          :decay_curve => -90
         }
-      end
-
-      def default_arg_info
-        super.merge({
-          :note =>
-          {
-            :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, `:C`, `:C2`, `:Eb4`, or `:Ds3`",
-            :validations => [v_positive(:note)],
-            :modulatable => false,
-            :midi => true
-          },
-          :amp =>
-          {
-            :doc => "The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)",
-            :validations => [v_positive(:amp)],
-            :modulatable => false
-          },
-          :pan =>
-          {
-            :doc => "Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.",
-            :validations => [v_between_inclusive(:pan, -1, 1)],
-            :modulatable => false
-          },
-        })
       end
 
       def specific_arg_info
         {
-          :note2 =>
+          :detune =>
           {
-            :doc => "Second base frequency of the sound. Play with both both `:note` and `:note2` for slight changes of timbre and, of course, pitch.",
-            :validations => [v_positive(:note2)],
-            :modulatable => false,
+            :doc => "Distance (in MIDI notes) between components of sound. Affects thickness, sense of tuning and harmony. Tiny values such as 0.1 create a thick sound. Larger values such as 0.5 make the tuning sound strange. Even bigger values such as 5 create chord-like sounds.",
+            :validations => [],
+            :modulatable => true
+          },
+          :decay =>
+          {
+            :doc => "Amount of decay for the cowbell. Higher numbers increase the decay duration.",
+            :validations => [v_positive_not_zero(:decay)],
+            :modulatable => false
+          },
+          :decay_curve =>
+          {
+            :doc => "Curve value for the decay of the cowbell",
+            :validations => [],
+            :modulatable => false
+          },
+          :hpf =>
+          {
+            :doc => "High pass filter cutoff value for the cowbell. A MIDI note representing the lowest frequencies allowed to be present in the sound. A high value like 100 makes the sound thin and whispy, a low value like 40 removes just the lower bass components of the sound.",
+            :validations => [v_positive(:hpf), v_less_than(:hpf, 119)],
+            :modulatable => true,
             :midi => true
-          },
-          :cutoff_lo =>
-          {
-            :doc => "MIDI note representing the lowest frequencies allowed to be present in the sound.",
-            :validations => [v_positive(:cutoff_lo)],
-            :modulatable => false
-          },
-          :cutoff_hi =>
-          {
-            :doc => "MIDI note representing the highest frequencies allowed to be present in the sound.",
-            :validations => [v_positive(:cutoff_hi)],
-            :modulatable => false
-          },
+          }
         }
       end
     end
