@@ -481,6 +481,9 @@ SynthDef('sonic-pi-sc808_closed_hihat', {|
 
   hpf = hpf.midicps;
   lpf = lpf.midicps;
+  amp = amp.varlag(amp_slide, amp_slide_curve, amp_slide_shape);
+  pan = pan.varlag(pan_slide, pan_slide_curve, pan_slide_shape);
+
   hpf = hpf.varlag(hpf_slide, hpf_slide_curve, hpf_slide_shape);
   lpf = lpf.varlag(lpf_slide, lpf_slide_curve, lpf_slide_shape);
 
@@ -521,6 +524,8 @@ SynthDef('sonic-pi-sc808_open_hihat', {|
 
   hpf = hpf.midicps;
   lpf = lpf.midicps;
+  amp = amp.varlag(amp_slide, amp_slide_curve, amp_slide_shape);
+  pan = pan.varlag(pan_slide, pan_slide_curve, pan_slide_shape);
   hpf = hpf.varlag(hpf_slide, hpf_slide_curve, hpf_slide_shape);
   lpf = lpf.varlag(lpf_slide, lpf_slide_curve, lpf_slide_shape);
 
