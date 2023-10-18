@@ -3748,10 +3748,6 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
         "sc808_bassdrum"
       end
 
-      def on_start(studio, args_h)
-        args_h[:rand_buf] = studio.rand_buf_id
-      end
-
       def doc
         "Bassdrum of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80s."
       end
@@ -3775,8 +3771,6 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
           :attenuation => 1,
         }
       end
-
-
       def specific_arg_info
         {
           :decay =>
@@ -3820,10 +3814,6 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
         "sc808_snare"
       end
 
-      def on_start(studio, args_h)
-        args_h[:rand_buf] = studio.rand_buf_id
-      end
-
       def doc
         "Snare drum of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80s. "
       end
@@ -3831,6 +3821,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       def arg_defaults
         {
           :note => 65,
+          :detune => -11,
           :amp => 1,
           :amp_slide => 0,
           :amp_slide_shape => 1,
@@ -3839,13 +3830,6 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
           :pan_slide => 0,
           :pan_slide_shape => 1,
           :pan_slide_curve => 0,
-          :attack => 0,
-          :decay => 0,
-          :sustain => 0,
-          :release => 0.3,
-          :attack_level => 1,
-          :decay_level => :sustain_level,
-          :sustain_level => 1,
           :lpf => 93,
           :lpf_slide => 0,
           :lpf_slide_shape => 1,
@@ -3856,6 +3840,9 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
           :hpf_slide_curve => 0,
           :mix => 0.7,
           :head_hpf => 30,
+          :decay => 4.2,
+          :decay_curve => -115,
+          :click => 0.999
         }
       end
 
@@ -3911,6 +3898,31 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
             :doc => "Ratio of amplitude between the sound of the head of the drum (the boom) and the snare of the drum (the buzz). A value of 1 is 100% snare, a value of 0 is 100% head and 0.5 is 50% of each.",
             :validations => [v_between_inclusive(:mix, 0, 1)],
             :modulatable => false,
+          },
+
+          :click =>
+          {
+            :doc => "Amount of initial click to the drum sound. 0 is no click and 1 is a hard click.",
+            :validations => [v_between_inclusive(:click, 0, 1)],
+            :modulatable => false
+          },
+          :decay =>
+          {
+            :doc => "Amount of decay for the snare. Higher numbers increase the decay duration.",
+            :validations => [v_positive_not_zero(:decay)],
+            :modulatable => false
+          },
+          :detune =>
+          {
+            :doc => "Detune multiplier of original pitch for the snare's timbre. A value of 1 indicates no deviation from the fundamental pitch",
+            :validations => [],
+            :modulatable => false
+          },
+                    :decay_curve =>
+          {
+            :doc => "Curve value for the decay of the snare",
+            :validations => [],
+            :modulatable => false
           }
         }
       end
@@ -3929,10 +3941,6 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
         "sc808_clap"
       end
 
-      def on_start(studio, args_h)
-        args_h[:rand_buf] = studio.rand_buf_id
-      end
-
       def doc
         "Clap of the SC808 drum machine based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts) implementation of the legendary rhythm composer from the early 80s."
       end
@@ -3947,13 +3955,6 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
           :pan_slide => 0,
           :pan_slide_shape => 1,
           :pan_slide_curve => 0,
-          :attack => 0,
-          :decay => 0,
-          :sustain => 0,
-          :release => 0.11,
-          :attack_level => 1,
-          :decay_level => :sustain_level,
-          :sustain_level => 1,
           :lpf => 93,
           :lpf_slide => 0,
           :lpf_slide_shape => 1,
