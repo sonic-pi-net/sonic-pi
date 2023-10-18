@@ -3854,19 +3854,6 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
         args_h
       end
 
-      def default_arg_info
-        super.merge({
-          :note =>
-          {
-            :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, `:C`, `:C2`, `:Eb4`, or `:Ds3`",
-            :validations => [v_positive(:note)],
-            :modulatable => false,
-            :midi => true
-          }
-
-        })
-      end
-
       def specific_arg_info
         {
           :lpf =>
@@ -3918,7 +3905,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
             :validations => [],
             :modulatable => false
           },
-                    :decay_curve =>
+          :decay_curve =>
           {
             :doc => "Curve value for the decay of the snare",
             :validations => [],
