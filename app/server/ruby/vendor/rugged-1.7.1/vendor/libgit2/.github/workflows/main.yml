@@ -1,0 +1,304 @@
+# Continuous integration and pull request validation builds for the
+# main and maintenance branches.
+name: CI Build
+
+on:
+  push:
+    branches: [ main, maint/* ]
+  pull_request:
+    branches: [ main, maint/* ]
+  workflow_dispatch:
+
+env:
+  docker-registry: ghcr.io
+  docker-config-path: source/ci/docker
+
+jobs:
+  containers:
+    uses: ./.github/workflows/build-containers.yml
+
+  # Run our CI/CD builds.  We build a matrix with the various build targets
+  # and their details.  Then we build either in a docker container (Linux)
+  # or on the actual hosts (macOS, Windows).
+  build:
+    needs: [ containers ]
+    strategy:
+      matrix:
+        platform:
+        - name: "Linux (Xenial, GCC, OpenSSL)"
+          id: xenial-gcc-openssl
+          container:
+            name: xenial
+          env:
+            CC: gcc
+            CMAKE_GENERATOR: Ninja
+            CMAKE_OPTIONS: -DUSE_HTTPS=OpenSSL -DREGEX_BACKEND=builtin -DDEPRECATE_HARD=ON -DUSE_LEAK_CHECKER=valgrind -DUSE_GSSAPI=ON -DUSE_SSH=ON -DDEBUG_STRICT_ALLOC=ON -DDEBUG_STRICT_OPEN=ON
+          os: ubuntu-latest
+        - name: Linux (Xenial, GCC, mbedTLS)
+          id: xenial-gcc-mbedtls
+          container:
+            name: xenial
+          env:
+            CC: gcc
+            CMAKE_GENERATOR: Ninja
+            CMAKE_OPTIONS: -DUSE_HTTPS=mbedTLS -DUSE_SHA1=HTTPS -DDEPRECATE_HARD=ON -DUSE_LEAK_CHECKER=valgrind -DUSE_GSSAPI=ON -DUSE_SSH=ON
+          os: ubuntu-latest
+        - name: "Linux (Xenial, Clang, OpenSSL)"
+          id: xenial-clang-openssl
+          container:
+            name: xenial
+          env:
+            CC: clang
+            CMAKE_GENERATOR: Ninja
+            CMAKE_OPTIONS: -DUSE_HTTPS=OpenSSL -DDEPRECATE_HARD=ON -DUSE_LEAK_CHECKER=valgrind -DUSE_GSSAPI=ON -DUSE_SSH=ON
+          os: ubuntu-latest
+        - name: "Linux (Xenial, Clang, mbedTLS)"
+          id: xenial-clang-mbedtls
+          container:
+            name: xenial
+          env:
+            CC: clang
+            CMAKE_OPTIONS: -DUSE_HTTPS=mbedTLS -DUSE_SHA1=HTTPS -DREGEX_BACKEND=pcre -DDEPRECATE_HARD=ON -DUSE_LEAK_CHECKER=valgrind -DUSE_GSSAPI=ON -DUSE_SSH=ON
+            CMAKE_GENERATOR: Ninja
+          os: ubuntu-latest
+        - name: "macOS"
+          id: macos
+          os: macos-11
+          env:
+            CC: clang
+            CMAKE_OPTIONS: -DREGEX_BACKEND=regcomp_l -DDEPRECATE_HARD=ON -DUSE_LEAK_CHECKER=leaks -DUSE_GSSAPI=ON
+            PKG_CONFIG_PATH: /usr/local/opt/openssl/lib/pkgconfig
+            SKIP_SSH_TESTS: true
+            SKIP_NEGOTIATE_TESTS: true
+          setup-script: osx
+        - name: "Windows (amd64, Visual Studio, Schannel)"
+          id: windows-amd64-vs
+          os: windows-2019
+          setup-script: win32
+          env:
+            ARCH: amd64
+            CMAKE_GENERATOR: Visual Studio 16 2019
+            CMAKE_OPTIONS: -A x64 -DWIN32_LEAKCHECK=ON -DDEPRECATE_HARD=ON -DUSE_HTTPS=Schannel -DUSE_SSH=ON -DCMAKE_PREFIX_PATH=D:\Temp\libssh2
+            BUILD_PATH: C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Program Files (x86)\CMake\bin;D:\Temp\libssh2\bin
+            BUILD_TEMP: D:\Temp
+            SKIP_SSH_TESTS: true
+            SKIP_NEGOTIATE_TESTS: true
+        - name: "Windows (x86, Visual Studio, WinHTTP)"
+          id: windows-x86-vs
+          os: windows-2019
+          setup-script: win32
+          env:
+            ARCH: x86
+            CMAKE_GENERATOR: Visual Studio 16 2019
+            CMAKE_OPTIONS: -A Win32 -DWIN32_LEAKCHECK=ON -DDEPRECATE_HARD=ON -DUSE_SHA1=HTTPS -DUSE_BUNDLED_ZLIB=ON -DUSE_SSH=ON -DCMAKE_PREFIX_PATH=D:\Temp\libssh2
+            BUILD_PATH: C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Program Files (x86)\CMake\bin;D:\Temp\libssh2\bin
+            BUILD_TEMP: D:\Temp
+            SKIP_SSH_TESTS: true
+            SKIP_NEGOTIATE_TESTS: true
+        - name: "Windows (amd64, mingw, WinHTTP)"
+          id: windows-amd64-mingw
+          os: windows-2019
+          setup-script: mingw
+          env:
+            ARCH: amd64
+            CMAKE_GENERATOR: MinGW Makefiles
+            CMAKE_OPTIONS: -DDEPRECATE_HARD=ON
+            BUILD_TEMP: D:\Temp
+            BUILD_PATH: D:\Temp\mingw64\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Program Files (x86)\CMake\bin
+            SKIP_SSH_TESTS: true
+            SKIP_NEGOTIATE_TESTS: true
+        - name: "Windows (x86, mingw, Schannel)"
+          id: windows-x86-mingw
+          os: windows-2019
+          setup-script: mingw
+          env:
+            ARCH: x86
+            CMAKE_GENERATOR: MinGW Makefiles
+            CMAKE_OPTIONS: -DDEPRECATE_HARD=ON -DUSE_HTTPS=Schannel
+            BUILD_TEMP: D:\Temp
+            BUILD_PATH: D:\Temp\mingw32\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Program Files (x86)\CMake\bin
+            SKIP_SSH_TESTS: true
+            SKIP_NEGOTIATE_TESTS: true
+
+        # Sanitizers
+        - name: "Sanitizer (Memory)"
+          id: memorysanitizer
+          container:
+            name: focal
+          env:
+            CC: clang-10
+            CFLAGS: -fsanitize=memory -fsanitize-memory-track-origins=2 -fsanitize-blacklist=/home/libgit2/source/script/sanitizers.supp -fno-optimize-sibling-calls -fno-omit-frame-pointer
+            CMAKE_OPTIONS: -DCMAKE_PREFIX_PATH=/usr/local/msan -DUSE_HTTPS=mbedTLS -DUSE_SHA1=HTTPS -DREGEX_BACKEND=pcre -DDEPRECATE_HARD=ON -DUSE_BUNDLED_ZLIB=ON -DUSE_SSH=ON
+            CMAKE_GENERATOR: Ninja
+            SKIP_SSH_TESTS: true
+            SKIP_NEGOTIATE_TESTS: true
+            ASAN_SYMBOLIZER_PATH: /usr/bin/llvm-symbolizer-10
+            UBSAN_OPTIONS: print_stacktrace=1
+          os: ubuntu-latest
+        - name: "Sanitizer (UndefinedBehavior)"
+          id: ubsanitizer
+          container:
+            name: focal
+          env:
+            CC: clang-10
+            CFLAGS: -fsanitize=undefined,nullability -fno-sanitize-recover=undefined,nullability -fsanitize-blacklist=/home/libgit2/source/script/sanitizers.supp -fno-optimize-sibling-calls -fno-omit-frame-pointer
+            CMAKE_OPTIONS: -DCMAKE_PREFIX_PATH=/usr/local -DUSE_HTTPS=OpenSSL -DUSE_SHA1=HTTPS -DREGEX_BACKEND=pcre -DDEPRECATE_HARD=ON -DUSE_BUNDLED_ZLIB=ON -DUSE_SSH=ON
+            CMAKE_GENERATOR: Ninja
+            SKIP_SSH_TESTS: true
+            SKIP_NEGOTIATE_TESTS: true
+            ASAN_SYMBOLIZER_PATH: /usr/bin/llvm-symbolizer-10
+            UBSAN_OPTIONS: print_stacktrace=1
+          os: ubuntu-latest
+        - name: "Sanitizer (Thread)"
+          id: threadsanitizer
+          container:
+            name: focal
+          env:
+            CC: clang-10
+            CFLAGS: -fsanitize=thread -fno-optimize-sibling-calls -fno-omit-frame-pointer
+            CMAKE_OPTIONS: -DCMAKE_PREFIX_PATH=/usr/local -DUSE_HTTPS=OpenSSL -DUSE_SHA1=HTTPS -DREGEX_BACKEND=pcre -DDEPRECATE_HARD=ON -DUSE_BUNDLED_ZLIB=ON -DUSE_SSH=ON
+            CMAKE_GENERATOR: Ninja
+            SKIP_SSH_TESTS: true
+            SKIP_NEGOTIATE_TESTS: true
+            ASAN_SYMBOLIZER_PATH: /usr/bin/llvm-symbolizer-10
+            UBSAN_OPTIONS: print_stacktrace=1
+            TSAN_OPTIONS: suppressions=/home/libgit2/source/script/thread-sanitizer.supp second_deadlock_stack=1
+          os: ubuntu-latest
+
+        # Experimental: SHA256 support
+        - name: "Linux (SHA256, Xenial, Clang, OpenSSL)"
+          id: xenial-clang-openssl
+          container:
+            name: xenial
+          env:
+            CC: clang
+            CMAKE_GENERATOR: Ninja
+            CMAKE_OPTIONS: -DUSE_HTTPS=OpenSSL -DDEPRECATE_HARD=ON -DUSE_LEAK_CHECKER=valgrind -DUSE_GSSAPI=ON -DUSE_SSH=ON -DEXPERIMENTAL_SHA256=ON
+          os: ubuntu-latest
+        - name: "macOS (SHA256)"
+          id: macos
+          os: macos-11
+          env:
+            CC: clang
+            CMAKE_OPTIONS: -DREGEX_BACKEND=regcomp_l -DDEPRECATE_HARD=ON -DUSE_LEAK_CHECKER=leaks -DUSE_GSSAPI=ON -DEXPERIMENTAL_SHA256=ON
+            PKG_CONFIG_PATH: /usr/local/opt/openssl/lib/pkgconfig
+            SKIP_SSH_TESTS: true
+            SKIP_NEGOTIATE_TESTS: true
+          setup-script: osx
+        - name: "Windows (SHA256, amd64, Visual Studio)"
+          id: windows-amd64-vs
+          os: windows-2019
+          env:
+            ARCH: amd64
+            CMAKE_GENERATOR: Visual Studio 16 2019
+            CMAKE_OPTIONS: -A x64 -DWIN32_LEAKCHECK=ON -DDEPRECATE_HARD=ON -DEXPERIMENTAL_SHA256=ON
+            SKIP_SSH_TESTS: true
+            SKIP_NEGOTIATE_TESTS: true
+      fail-fast: false
+    env: ${{ matrix.platform.env }}
+    runs-on: ${{ matrix.platform.os }}
+    name: "Build: ${{ matrix.platform.name }}"
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v3
+      with:
+        path: source
+        fetch-depth: 0
+    - name: Set up build environment
+      run: source/ci/setup-${{ matrix.platform.setup-script }}-build.sh
+      shell: bash
+      if: matrix.platform.setup-script != ''
+    - name: Setup QEMU
+      run: docker run --rm --privileged multiarch/qemu-user-static:register --reset
+      if: matrix.platform.container.qemu == true
+    - name: Download container
+      run: |
+        "${{ github.workspace }}/source/ci/getcontainer.sh" "${{ matrix.platform.container.name }}" "${{ matrix.platform.container.dockerfile }}"
+      env:
+        DOCKER_REGISTRY: ${{ env.docker-registry }}
+        GITHUB_TOKEN: ${{ secrets.github_token }}
+      working-directory: ${{ env.docker-config-path }}
+      if: matrix.platform.container.name != ''
+    - name: Create container
+      run: |
+        if [ "${{ matrix.container.base }}" != "" ]; then
+          BASE_ARG="--build-arg BASE=${{ matrix.container.base }}"
+        fi
+        docker build -t ${{ env.docker-registry-container-sha }} --build-arg UID=$(id -u) --build-arg GID=$(id -g) ${BASE_ARG} -f ${{ env.dockerfile }} .
+      working-directory: ${{ env.docker-config-path }}
+      if: matrix.platform.container.name != '' && env.docker-container-exists != 'true'
+    - name: Prepare build
+      run: mkdir build
+    - name: Build
+      uses: ./source/.github/actions/run-build
+      with:
+        command: cd build && ../source/ci/build.sh
+        container: ${{ matrix.platform.container.name }}
+        container-version: ${{ env.docker-registry-container-sha }}
+    - name: Test
+      uses: ./source/.github/actions/run-build
+      with:
+        command: cd build && ../source/ci/test.sh
+        container: ${{ matrix.platform.container.name }}
+        container-version: ${{ env.docker-registry-container-sha }}
+    - name: Upload test results
+      uses: actions/upload-artifact@v3
+      if: success() || failure()
+      with:
+        name: test-results-${{ matrix.platform.id }}
+        path: build/results_*.xml
+
+  test_results:
+    name: Test results
+    needs: [ build ]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download test results
+      uses: actions/download-artifact@v3
+    - name: Generate test summary
+      uses: test-summary/action@v2
+      with:
+        paths: 'test-results-*/*.xml'
+
+
+  # Generate documentation using docurium.  We'll upload the documentation
+  # as a build artifact so that it can be reviewed as part of a pull
+  # request or in a forked build.  For CI builds in the main repository's
+  # main branch, we'll push the gh-pages branch back up so that it is
+  # published to our documentation site.
+  documentation:
+    name: Generate documentation
+    needs: [ containers ]
+    if: success() || failure()
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v3
+      with:
+        path: source
+        fetch-depth: 0
+    - name: Generate documentation
+      working-directory: source
+      run: |
+        git config user.name 'Documentation Generation'
+        git config user.email 'libgit2@users.noreply.github.com'
+        git branch gh-pages origin/gh-pages
+        docker login https://${{ env.docker-registry }} -u ${{ github.actor }} -p ${{ github.token }}
+        docker run \
+            --rm \
+            -v "$(pwd):/home/libgit2" \
+            -w /home/libgit2 \
+            ${{ env.docker-registry }}/${{ github.repository }}/docurium:latest \
+            cm doc api.docurium
+        git checkout gh-pages
+        zip --exclude .git/\* --exclude .gitignore --exclude .gitattributes -r api-documentation.zip .
+    - uses: actions/upload-artifact@v3
+      name: Upload artifact
+      with:
+        name: api-documentation
+        path: source/api-documentation.zip
+    - name: Push documentation branch
+      working-directory: source
+      run: git push origin gh-pages
+      if: github.event_name == 'push' && github.repository == 'libgit2/libgit2'

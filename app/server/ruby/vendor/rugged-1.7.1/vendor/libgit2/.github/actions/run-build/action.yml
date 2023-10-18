@@ -1,0 +1,45 @@
+# Run a build step in a container or directly on the Actions runner
+name: Run Build Step
+description: Run a build step in a container or directly on the Actions runner
+
+inputs:
+  command:
+    description: Command to run
+    required: true
+    type: string
+  container:
+    description: Optional container to run in
+    type: string
+  container-version:
+    description: Version of the container to run
+    type: string
+
+runs:
+  using: 'composite'
+  steps:
+  - run: |
+      if [ -n "${{ inputs.container }}" ]; then
+        docker run \
+          --rm \
+          --user "$(id -u):$(id -g)" \
+          -v "$(pwd)/source:/home/libgit2/source" \
+          -v "$(pwd)/build:/home/libgit2/build" \
+          -w /home/libgit2 \
+          -e ASAN_SYMBOLIZER_PATH \
+          -e CC \
+          -e CFLAGS \
+          -e CMAKE_GENERATOR \
+          -e CMAKE_OPTIONS \
+          -e GITTEST_NEGOTIATE_PASSWORD \
+          -e GITTEST_FLAKY_STAT \
+          -e PKG_CONFIG_PATH \
+          -e SKIP_NEGOTIATE_TESTS \
+          -e SKIP_SSH_TESTS \
+          -e TSAN_OPTIONS \
+          -e UBSAN_OPTIONS \
+          ${{ inputs.container-version }} \
+          /bin/bash -c "${{ inputs.command }}"
+      else
+        ${{ inputs.command }}
+      fi
+    shell: bash

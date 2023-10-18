@@ -1,0 +1,15 @@
+[core]
+	repositoryformatversion = 1
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+	precomposeunicode = true
+[remote "origin"]
+	url = /Users/ethomson/Personal/Projects/libgit2/libgit2/tests/resources/testrepo_256.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[extensions]
+	objectformat = sha256
+[branch "master"]
+	remote = origin
+	merge = refs/heads/master

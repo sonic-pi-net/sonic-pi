@@ -1,0 +1,29 @@
+changelog:
+  categories:
+  - title: New features
+    labels:
+    - feature
+  - title: Performance improvements
+    labels:
+    - performance
+  - title: Bug fixes
+    labels:
+    - bug
+  - title: Security fixes
+    labels:
+    - security
+  - title: Code cleanups
+    labels:
+    - cleanup
+  - title: Build and CI improvements
+    labels:
+    - build
+  - title: Documentation improvements
+    labels:
+    - documentation
+  - title: Git compatibility fixes
+    labels:
+    - git compatibility
+  - title: Other changes
+    labels:
+      - '*'

@@ -1,0 +1,72 @@
+# Generate the containers that we use for builds.
+name: Build Containers
+
+on:
+  workflow_call:
+
+env:
+  docker-registry: ghcr.io
+  docker-config-path: source/ci/docker
+
+jobs:
+  # Build the docker container images that we will use for our Linux
+  # builds.  This will identify the last commit to the repository that
+  # updated the docker images, and try to download the image tagged with
+  # that sha.  If it does not exist, we'll do a docker build and push
+  # the image up to GitHub Packages for the actual CI/CD runs.  We tag
+  # with both the sha and "latest" so that the subsequent runs need not
+  # know the sha.  Only do this on CI builds (when the event is a "push")
+  # because PR builds from forks lack permission to write packages.
+  containers:
+    strategy:
+      matrix:
+        container:
+        - name: xenial
+        - name: bionic
+        - name: focal
+        - name: docurium
+        - name: bionic-x86
+          dockerfile: bionic
+          base: multiarch/ubuntu-core:x86-bionic
+          qemu: true
+        - name: bionic-arm32
+          dockerfile: bionic
+          base: multiarch/ubuntu-core:armhf-bionic
+          qemu: true
+        - name: bionic-arm64
+          dockerfile: bionic
+          base: multiarch/ubuntu-core:arm64-bionic
+          qemu: true
+        - name: centos7
+        - name: centos8
+    runs-on: ubuntu-latest
+    name: "Create container: ${{ matrix.container.name }}"
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v3
+      with:
+        path: source
+        fetch-depth: 0
+      if: github.event_name != 'pull_request'
+    - name: Setup QEMU
+      run: docker run --rm --privileged multiarch/qemu-user-static:register --reset
+      if: matrix.container.qemu == true
+    - name: Download existing container
+      run: |
+        "${{ github.workspace }}/source/ci/getcontainer.sh" "${{ matrix.container.name }}" "${{ matrix.container.dockerfile }}"
+      env:
+        DOCKER_REGISTRY: ${{ env.docker-registry }}
+        GITHUB_TOKEN: ${{ secrets.github_token }}
+      working-directory: ${{ env.docker-config-path }}
+      if: github.event_name != 'pull_request'
+    - name: Build and publish image
+      run: |
+        if [ "${{ matrix.container.base }}" != "" ]; then
+          BASE_ARG="--build-arg BASE=${{ matrix.container.base }}"
+        fi
+        docker build -t ${{ env.docker-registry-container-sha }} --build-arg UID=$(id -u) --build-arg GID=$(id -g) ${BASE_ARG} -f ${{ env.dockerfile }} .
+        docker tag ${{ env.docker-registry-container-sha }} ${{ env.docker-registry-container-latest }}
+        docker push ${{ env.docker-registry-container-sha }}
+        docker push ${{ env.docker-registry-container-latest }}
+      working-directory: ${{ env.docker-config-path }}
+      if: github.event_name != 'pull_request' && env.docker-container-exists != 'true'
