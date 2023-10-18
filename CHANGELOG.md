@@ -1,5 +1,6 @@
 # History
 
+- [v4.5.0 '808'](#v4.5.0), 18th Oct, 2023
 - [v4.4.0 'Sawtooth'](#v4.4.0), 28th June, 2023
 - [v4.3.0 'Pathfinder'](#v4.3.0), 30th Sept, 2022
 - [v4.2.0 'Batch'](#v4.2.0), 14th Sept, 2022
@@ -32,7 +33,37 @@
 - [v2.0.1](#v2.0.1), 9th Sept, 2014
 - [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
 
-<a name="v4.4.0"></a>
+<a name="v4.5.0"></a>
+
+## Version 4.5.0 '808'
+
+[(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v4.5.0):
+
+This release comes packed with a number of exciting new synths for you to play with. We have a new hard-hitting kick drum `:gabberkick` for that gabber sound and a new vintage electric piano `:rhodey` synth. There are also 16 new percussive synths inspired by the infamous TB 808 drum synthesiser. All the synths come with many opts for you to play with to manipulate and change the default timbres.
+
+There are also a number of minor improvements and bug fixes as detailed below.
+
+Have fun and get your live coded 808 on!
+
+### Synths
+
+- New synth: `:rhodey` - The sound of an electric piano from the 60's and 70's, producing a characteristic metallic  sound for notes below `:g2`. Adapted for Sonic Pi from [SuperCollider Code](https://sccode.org/1-522).
+- New synth `:gabberkick` - An aggressive Gabber synth sound adapted for Sonic Pi from [SuperCollider Code](https://sccode.org/1-57r)
+- 16 new 808 inspired synths based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts): `:sc808_bassdrum`, `:sc808_snare`, `:sc808_clap`, `:sc808_tomlo`, `:sc808_tommid`, `:sc808_tomhi`, `:sc808_congalo`, `:sc808_congamid`, `:sc808_congahi`, `:sc808_rimshot`, `:sc808_claves`, `:sc808_maracas`, `:sc808_cowbell`, `:sc808_closed_hihat`, `:sc808_open_hihat`, `:sc808_cymbal`,
+
+### Improvements
+
+- Improve error message for invalid `midi_to_hz` args
+
+### Translations
+
+- Improvements to the Chinese, Danish, Portuguese, and Spanish translations.
+- Add native language name for Arabic
+
+### Bugfixes
+
+- Fixed a regression in the error reporting - "did you mean" suggestions now work again.
+- Fix system language detection when the language is generic English
 
 ## Version 4.4.0 'Sawtooth'
 
