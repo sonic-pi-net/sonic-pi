@@ -3975,19 +3975,6 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
         args_h
       end
 
-      def default_arg_info
-        super.merge({
-          :note =>
-          {
-            :doc => "This synth has no pitch content - therefore the not opt is ignored.",
-            :validations => [v_positive(:amp)],
-            :modulatable => false,
-            :midi => true
-          }
-
-        })
-      end
-
       def specific_arg_info
         {
           :lpf =>
@@ -4011,13 +3998,25 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
             :validations => [v_positive(:rev)],
             :modulatable => false
           },
-          :rev_release =>
+          :click =>
           {
-            :doc => "Release duration of the reverb",
-            :validations => [v_positive(:rev_release)],
-            :modulatable => false,
-            :bpm_scale => true
+            :doc => "Amount of initial click to the clap sound. 0 is no click and 1 is a hard click.",
+            :validations => [v_between_inclusive(:click, 0, 1)],
+            :modulatable => false
+          },
+          :decay =>
+          {
+            :doc => "Amount of decay for the clap. Higher numbers increase the decay duration.",
+            :validations => [v_positive_not_zero(:decay)],
+            :modulatable => false
+          },
+          :decay_curve =>
+          {
+            :doc => "Curve value for the decay of the clap",
+            :validations => [],
+            :modulatable => false
           }
+
 
         }
       end
