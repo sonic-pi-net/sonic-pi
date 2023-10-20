@@ -39,7 +39,7 @@
 
 [(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v4.5.0):
 
-This release comes packed with a number of exciting new synths for you to play with. We have a new hard-hitting kick drum `:gabberkick` for that gabber sound and a new vintage electric piano `:rhodey` synth. There are also 16 new percussive synths inspired by the infamous TB 808 drum synthesiser. All the synths come with many opts for you to play with to manipulate and change the default timbres.
+This release comes packed with a number of exciting new synths for you to play with. We have a new hard-hitting kick drum `:gabberkick` for that gabber sound and a new vintage electric piano `:rhodey` synth. There are also 16 new percussive synths inspired by the infamous TR-808 drum synthesiser. All the synths come with many opts for you to play with to manipulate and change the default timbres.
 
 There are also a number of minor improvements and bug fixes as detailed below.
 
