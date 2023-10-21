@@ -44,6 +44,9 @@ public:
     bool show_context;
     SonicPiTheme::Style themeStyle;
 
+    // ShortcutsSettings TODO: add more configurable shortcuts
+    QString commentUncomment_shrtc_key;
+
     // UpdateSettings;
     bool check_updates;
 

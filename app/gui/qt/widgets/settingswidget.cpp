@@ -13,6 +13,7 @@
 #include <QUrl>
 #include <iostream>
 #include <QLabel>
+#include <QLineEdit>
 #include <QPushButton>
 #include <QSignalMapper>
 #include <QVBoxLayout>
@@ -44,6 +45,9 @@ SettingsWidget::SettingsWidget(int tau_osc_cues_port, bool i18n, SonicPiSettings
 
     QGroupBox *editorTab = createEditorPrefsTab();
     prefTabs->addTab(editorTab, tr("Editor"));
+
+    QGroupBox *shortcutsTab = createShortcutsPrefsTab();
+    prefTabs->addTab(shortcutsTab, tr("Shortcuts"));
 
     QGroupBox *visualizationTab = createVisualizationPrefsTab();
     prefTabs->addTab(visualizationTab, tr("Visuals"));
@@ -415,6 +419,51 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
 }
 
 /**
+ * create Shortcuts Tab of Preferences Widget
+ */
+QGroupBox* SettingsWidget::createShortcutsPrefsTab() {
+  QGroupBox *shortcuts_box = new QGroupBox();
+  shortcuts_box->setToolTip(tr("Configure shortcuts settings"));
+  QSizePolicy shortcutsPrefSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
+  shortcuts_box->setSizePolicy(shortcutsPrefSizePolicy);
+
+  shortcuts_option_label = new QLabel;
+  shortcuts_option_label->setText(tr("View and Customize Shortcuts"));
+  shortcuts_option_label->setToolTip(tr("Change the Sonic Pi default shortcuts (Requires a restart to take effect)"));
+
+  commentUncommentKey_label = new QLabel;
+  commentUncommentKey_label->setText(tr("Comment/Uncomment current line or selection: M-"));
+  commentUncommentKey_label->setToolTip(tr("Change the shortcuts key for comment/uncomment"));
+  commentUncommentKey_select = new QLineEdit;
+  commentUncommentKey_select->setPlaceholderText(piSettings->commentUncomment_shrtc_key);
+  commentUncommentKey_select->setStyleSheet("border : 2px solid gray; padding-top: 4px; padding-bottom: 4px;");
+  commentUncommentKey_select->setMaxLength(1); // 1 char
+  commentUncommentKey_select->setMaximumWidth(40);
+
+  QGridLayout *commentUncommentKey_layout = new QGridLayout();
+  commentUncommentKey_layout->addWidget(commentUncommentKey_label, 0, 0);
+  commentUncommentKey_layout->addWidget(commentUncommentKey_select, 0, 1);
+
+  QVBoxLayout *shortcuts_box_layout = new QVBoxLayout;
+
+  QSpacerItem *spacer = new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+  shortcuts_box_layout->addWidget(shortcuts_option_label);
+  shortcuts_box_layout->addItem(spacer);
+  shortcuts_box_layout->addLayout(commentUncommentKey_layout);
+
+  shortcuts_box->setLayout(shortcuts_box_layout);
+
+  QGroupBox *shorcuts_prefs_box = new QGroupBox();
+
+  QGridLayout *shorcuts_prefs_box_layout = new QGridLayout;
+  shorcuts_prefs_box_layout->addWidget(shortcuts_box, 0, 0);
+
+  shorcuts_prefs_box->setLayout(shorcuts_prefs_box_layout);
+  return shorcuts_prefs_box;
+}
+
+/**
  * Create Visualization Preferences Tab of Settings Widget
  */
 QGroupBox* SettingsWidget::createVisualizationPrefsTab() {
@@ -718,6 +767,11 @@ void SettingsWidget::forceMidiReset() {
     emit resetMidi();
 }
 
+void SettingsWidget::toggleShortcuts(QString c) {
+  piSettings->commentUncomment_shrtc_key = c;
+  emit shortcutsChanged();
+}
+
 void SettingsWidget::updateMidiInPorts( QString in ) {
     midi_in_ports_label->setText( in );
 }
@@ -882,6 +936,8 @@ void SettingsWidget::updateSettings() {
     piSettings->midi_default_channel_str = channel_pat_str;
     piSettings->midi_enabled = midi_enable_check->isChecked();
 
+    piSettings->commentUncomment_shrtc_key = commentUncommentKey_select->text();
+
     piSettings->auto_indent_on_run = auto_indent_on_run->isChecked();
     piSettings->show_line_numbers = show_line_numbers->isChecked();
     piSettings->show_autocompletion = show_autocompletion->isChecked();
@@ -941,6 +997,8 @@ void SettingsWidget::settingsChanged() {
     piSettings->midi_default_channel_str = midi_default_channel_combo->currentText(); // TODO find a more elegant solution
     midi_enable_check->setChecked(piSettings->midi_enabled);
 
+    commentUncommentKey_select->setPlaceholderText(piSettings->commentUncomment_shrtc_key);
+
     auto_indent_on_run->setChecked(piSettings->auto_indent_on_run);
 
     show_line_numbers->setChecked(piSettings->show_line_numbers);
@@ -995,6 +1053,8 @@ void SettingsWidget::connectAll() {
     connect(osc_server_enabled_check, SIGNAL(clicked()), this, SLOT(toggleOscServer()));
     connect(osc_public_check, SIGNAL(clicked()), this, SLOT(toggleOscServer()));
 
+    connect(commentUncommentKey_select, SIGNAL(textChanged(QString)), this, SLOT(toggleShortcuts(QString)));
+    
     connect(auto_indent_on_run, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(show_line_numbers, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(show_log, SIGNAL(clicked()), this, SLOT(updateSettings()));

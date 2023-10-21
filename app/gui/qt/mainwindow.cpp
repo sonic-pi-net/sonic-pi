@@ -436,6 +436,9 @@ void MainWindow::setupWindowStructure()
     connect(settingsWidget, SIGNAL(enableScsynthInputsChanged()), this, SLOT(changeEnableScsynthInputs()));
     connect(settingsWidget, SIGNAL(midiSettingsChanged()), this, SLOT(toggleMidi()));
     connect(settingsWidget, SIGNAL(resetMidi()), this, SLOT(resetMidi()));
+
+    connect(settingsWidget, SIGNAL(shortcutsChanged()), this, SLOT(changeShortcuts()));
+
     connect(settingsWidget, SIGNAL(oscSettingsChanged()), this, SLOT(toggleOSCServer()));
     connect(settingsWidget, SIGNAL(showLineNumbersChanged()), this, SLOT(changeShowLineNumbers()));
     connect(settingsWidget, SIGNAL(showAutoCompletionChanged()), this, SLOT(changeShowAutoCompletion()));
@@ -618,7 +621,11 @@ void MainWindow::setupWindowStructure()
         connect(pasteToBufferEmacs, SIGNAL(activated()), workspace, SLOT(sp_paste()));
 
         //comment line
-        QShortcut* toggleLineComment = new QShortcut(metaKey('/'), workspace);
+        QString tlc = piSettings->commentUncomment_shrtc_key;
+        if(tlc == ""){
+            tlc == "/"; // default
+        }
+        QShortcut* toggleLineComment = new QShortcut(metaKey(tlc.toStdString()[0]), workspace);
         connect(toggleLineComment, SIGNAL(activated()), this, SLOT(toggleCommentInCurrentWorkspace()));
 
         //upcase next word
@@ -2036,6 +2043,11 @@ void MainWindow::changeScopeKindVisibility(QString name)
     }
 
     scopeWindow->EnableScope(name, piSettings->isScopeActive(name));
+}
+
+void MainWindow::changeShortcuts()
+{
+    emit writeSettings();
 }
 
 void MainWindow::scopeKindVisibilityMenuChanged()
@@ -3517,6 +3529,8 @@ void MainWindow::readSettings()
     piSettings->enable_external_synths = gui_settings->value("prefs/enable-external-synths", false).toBool();
     piSettings->synth_trigger_timing_guarantees = gui_settings->value("prefs/synth-trigger-timing-guarantees", false).toBool();
 
+    piSettings->commentUncomment_shrtc_key = gui_settings->value("prefs/commentShortcut", "").toString();
+
     piSettings->main_volume = gui_settings->value("prefs/system-vol", 80).toInt();
     piSettings->mixer_force_mono = gui_settings->value("prefs/mixer-force-mono", false).toBool();
     piSettings->mixer_invert_stereo = gui_settings->value("prefs/mixer-invert-stereo", false).toBool();
@@ -3564,6 +3578,8 @@ void MainWindow::writeSettings()
     gui_settings->setValue("prefs/midi-enable", piSettings->midi_enabled);
     gui_settings->setValue("prefs/osc-public", piSettings->osc_public);
     gui_settings->setValue("prefs/osc-enabled", piSettings->osc_server_enabled);
+
+    gui_settings->setValue("prefs/commentShortcut", piSettings->commentUncomment_shrtc_key);
 
     gui_settings->setValue("prefs/check-args", piSettings->check_args);
     gui_settings->setValue("prefs/log-synths", piSettings->log_synths);

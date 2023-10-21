@@ -305,6 +305,8 @@ signals:
         void focusBPMScrubber();
         void focusTimeWarpScrubber();
 
+        void changeShortcuts();
+
 private:
         SonicPiScintilla* getCurrentWorkspace();
         SonicPiEditor* getCurrentEditor();
