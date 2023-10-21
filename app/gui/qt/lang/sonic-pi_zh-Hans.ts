@@ -750,7 +750,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3173"/>
         <source>Show Cue Log</source>
-        <translation type="unfinished"></translation>
+        <translation>显示提示日志</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3178"/>
@@ -1233,7 +1233,7 @@ Get Sonic Pi %1</source>
         <location filename="../widgets/settingswidget.cpp" line="55"/>
         <location filename="../widgets/settingswidget.cpp" line="514"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>语言</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="77"/>
@@ -1686,7 +1686,7 @@ Sonic Pi接收以midi_*fns形式发送的MIDI消息</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="329"/>
         <source>Hide Menubar in Fullscreen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>在全屏模式下隐藏菜单栏</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="330"/>
@@ -1841,7 +1841,7 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="633"/>
         <source>Do you want to apply this language?</source>
-        <translation type="unfinished"></translation>
+        <translation>确定使用这个语言吗?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="635"/>
@@ -1856,18 +1856,18 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="643"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation>应用</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="644"/>
         <location filename="../widgets/settingswidget.cpp" line="691"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>取消</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="655"/>
         <source>&lt;b&gt;The new language will be applied when you next start Sonic Pi.&lt;/b&gt;&lt;br&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>当下次进入 Sonic Pi 时, 将会应用新语言</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="656"/>
@@ -1879,7 +1879,7 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="660"/>
         <source>Restart Sonic Pi?</source>
-        <translation type="unfinished"></translation>
+        <translation>重启 Sonic PI?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="661"/>
