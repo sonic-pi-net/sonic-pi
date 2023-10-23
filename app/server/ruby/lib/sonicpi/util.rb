@@ -37,21 +37,46 @@ module SonicPi
     @@current_uuid = nil
     @@home_dir = nil
     @@util_lock = Mutex.new
-    @@raspberry_pi_2 = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['a01040','a01041','a22042'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
-    @@raspberry_pi_3 = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['a02082','a22082','a32082'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
-    @@raspberry_pi_3bplus = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['a020d3'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
-    @@raspberry_pi_3_64 = RUBY_PLATFORM.match(/aarch64.*-linux.*/) && ['a02082','a22082','a32082'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
-    @@raspberry_pi_3bplus_64 = RUBY_PLATFORM.match(/aarch64.*-linux.*/) && ['a020d3'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
-    @@raspberry_pi_4_1gb =  RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['a03111'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
-    @@raspberry_pi_4_2gb =  RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['b03111','b03112'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
-    @@raspberry_pi_4_4gb =  RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['c03111','c03112'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
-    @@raspberry_pi_4_8gb =  RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['d03114'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
-    @@raspberry_pi_4_1gb_64 =  RUBY_PLATFORM.match(/aarch64.*-linux.*/) && ['a03111'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
-    @@raspberry_pi_4_2gb_64 =  RUBY_PLATFORM.match(/aarch64.*-linux.*/) && ['b03111','b03112'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
-    @@raspberry_pi_4_4gb_64 =  RUBY_PLATFORM.match(/aarch64.*-linux.*/) && ['c03111','c03112'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
-    @@raspberry_pi_4_8gb_64 =  RUBY_PLATFORM.match(/aarch64.*linux.*/) && ['d03114'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
-    @@raspberry_pi_400 =  RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['c03130'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
-    @@raspberry_pi_400_64 =  RUBY_PLATFORM.match(/aarch64.*linux.*/) && ['c03130'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
+    @@revision=`cat /proc/cpuinfo |awk '/Revision/ {print $3}'`.strip
+    @@code = @@revision.to_i(base=16)
+    @@new = (@@code >> 23) &0x1 #must be one for valid new revision code
+    @@model = (@@code >> 4) & 0xff
+    @@mem = (@@code >> 20) & 0x7
+    
+    @@raspberry_pi_2 = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && @@new==1 && @@model== 4 && @@mem == 2
+    @@raspberry_pi_3 = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && @@new == 1 && @@model== 8 && @@mem == 2
+    @@raspberry_pi_3bplus = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && @@new == 1 && @@model== 13 && @@mem == 2
+    @@raspberry_pi_4_1gb = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && @@new == 1 && @@model== 17 && @@mem == 2
+    @@raspberry_pi_4_2gb = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && @@new == 1 && @@model== 17 && @@mem == 3
+    @@raspberry_pi_4_4gb = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && @@new == 1 && @@model== 17 && @@mem == 4
+    @@raspberry_pi_4_8gb = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && @@new == 1 && @@model== 17 && @@mem == 5
+    @@raspberry_pi_400 = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && @@new == 1 && @@model== 19 && @@mem == 4
+
+    @@raspberry_pi_3_64 = RUBY_PLATFORM.match(/aarch64.*-linux.*/) && @@new == 1 && @@model== 8 && @@mem == 2
+    @@raspberry_pi_3bplus_64 = RUBY_PLATFORM.match(/aarch64.*-linux.*/) && @@new == 1 && @@model== 13 && @@mem == 2
+    @@raspberry_pi_4_1gb_64 = RUBY_PLATFORM.match(/aarch64.*-linux.*/) && @@new == 1 && @@model== 17 && @@mem == 2
+    @@raspberry_pi_4_2gb_64 = RUBY_PLATFORM.match(/aarch64.*-linux.*/) && @@new == 1 && @@model== 17 && @@mem == 3
+    @@raspberry_pi_4_4gb_64 = RUBY_PLATFORM.match(/aarch64.*-linux.*/) && @@new == 1 && @@model== 17 && @@mem == 4
+    @@raspberry_pi_4_8gb_64 = RUBY_PLATFORM.match(/aarch64.*-linux.*/) && @@new == 1 && @@model== 17 && @@mem == 5
+    @@raspberry_pi_400_64 = RUBY_PLATFORM.match(/aarch64.*-linux.*/) && @@new == 1 && @@model== 19 && @@mem == 4
+    @@raspberry_pi_5_4gb_64 = RUBY_PLATFORM.match(/aarch64.*-linux.*/) && @@new == 1 && @@model== 23 && @@mem == 4
+    @@raspberry_pi_5_8gb_64 = RUBY_PLATFORM.match(/aarch64.*-linux.*/) && @@new == 1 && @@model== 23 && @@mem == 5
+
+#     @@raspberry_pi_2 = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['a01040','a01041','a22042'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
+#     @@raspberry_pi_3 = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['a02082','a22082','a32082'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
+#     @@raspberry_pi_3bplus = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['a020d3'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
+#     @@raspberry_pi_3_64 = RUBY_PLATFORM.match(/aarch64.*-linux.*/) && ['a02082','a22082','a32082'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
+#     @@raspberry_pi_3bplus_64 = RUBY_PLATFORM.match(/aarch64.*-linux.*/) && ['a020d3'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
+#     @@raspberry_pi_4_1gb =  RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['a03111'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
+#     @@raspberry_pi_4_2gb =  RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['b03111','b03112'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
+#     @@raspberry_pi_4_4gb =  RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['c03111','c03112'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
+#     @@raspberry_pi_4_8gb =  RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['d03114'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
+#     @@raspberry_pi_4_1gb_64 =  RUBY_PLATFORM.match(/aarch64.*-linux.*/) && ['a03111'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
+#     @@raspberry_pi_4_2gb_64 =  RUBY_PLATFORM.match(/aarch64.*-linux.*/) && ['b03111','b03112'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
+#     @@raspberry_pi_4_4gb_64 =  RUBY_PLATFORM.match(/aarch64.*-linux.*/) && ['c03111','c03112'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
+#     @@raspberry_pi_4_8gb_64 =  RUBY_PLATFORM.match(/aarch64.*linux.*/) && ['d03114'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
+#     @@raspberry_pi_400 =  RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['c03130'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
+#     @@raspberry_pi_400_64 =  RUBY_PLATFORM.match(/aarch64.*linux.*/) && ['c03130'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
 
 
     begin
@@ -141,6 +166,14 @@ module SonicPi
       os == :raspberry && @@raspberry_pi_400_64
     end
 
+    def raspberry_pi_5_4gb_64?
+      os == :raspberry && @@raspberry_pi_5_4gb_64
+    end
+
+    def raspberry_pi_5_8gb_64?
+      os == :raspberry && @@raspberry_pi_5_8gb_64
+    end
+
     def unify_tilde_dir(path)
       if os == :windows
         path
@@ -201,6 +234,10 @@ module SonicPi
           "Raspberry Pi 400:4Gb"
         elsif raspberry_pi_400_64?
           "Raspberry Pi 400:4Gb 64bit OS"
+        elsif raspberry_pi_5_4gb_64?
+          "Raspberry Pi 5:4Gb 64bit OS"
+        elsif raspberry_pi_5_8gb_64?
+          "Raspberry Pi 5:8Gb 64bit OS"
         else
           "Raspberry Pi"
         end
