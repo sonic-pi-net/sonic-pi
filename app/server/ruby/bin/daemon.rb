@@ -1228,10 +1228,24 @@ module SonicPi
           end
         end
       end
-
+            
       def run_post_start_commands
         case Util.os
-        when :linux, :raspberry
+        #modify case if you want linux as well as raspberry pi to use pipewire
+        when :raspberry #,:linux
+          Thread.new do
+            Kernel.sleep 5
+             hdmiL=`/usr/bin/pw-link -iI |grep -P '(hdmi).*(playback_FL)'|awk '{ print $1 }'`
+             hdmiR=`/usr/bin/pw-link -iI |grep -P '(hdmi).*(playback_FR)'|awk '{ print $1 }'`
+  
+             sco1=`/usr/bin/pw-link -oI |grep -P '(SuperCollider:out_1)' |awk '{ print $1 }'`
+             sco2=`/usr/bin/pw-link -oI |grep -P '(SuperCollider:out_2)' |awk '{ print $1 }'`
+  
+             system("pw-link  #{sco1.strip} #{hdmiL.strip}")
+             system("pw-link  #{sco2.strip} #{hdmiR.strip}")
+          end
+        #comment out this when section if you want linux to use pulseaudio as raspberry-pi above
+        when :linux
           Thread.new do
             Kernel.sleep 5
             # Note:
