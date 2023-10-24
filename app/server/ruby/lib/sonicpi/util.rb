@@ -63,7 +63,7 @@ module SonicPi
         return rp
       end
 
-      code = `awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n")
+      code = `cat /proc/cpuinfo |awk '/Revision/ {print $3}'`.strip
       model = detect_pimodel.call(code)
 
       @@raspberry_pi_model = model
