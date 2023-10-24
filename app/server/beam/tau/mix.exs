@@ -80,16 +80,16 @@ defmodule Tau.MixProject do
         "local.hex --force",
         "local.rebar --force",
         "deps.get",
-        "tailwind.install",
-        "esbuild.install",
+        "tailwind.install --if-missing",
+        "esbuild.install --if-missing",
         "assets.deploy.dev"
       ],
       "setup.prod": [
         "local.hex --force",
         "local.rebar --force",
         "deps.get",
-        "tailwind.install",
-        "esbuild.install",
+        "tailwind.install --if-missing",
+        "esbuild.install --if-missing",
         "assets.deploy.prod"
       ],
       "tau.release": [
