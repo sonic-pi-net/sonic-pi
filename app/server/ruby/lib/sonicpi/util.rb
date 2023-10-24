@@ -37,22 +37,37 @@ module SonicPi
     @@current_uuid = nil
     @@home_dir = nil
     @@util_lock = Mutex.new
-    @@raspberry_pi_2 = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['a01040','a01041','a22042'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
-    @@raspberry_pi_3 = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['a02082','a22082','a32082'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
-    @@raspberry_pi_3bplus = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['a020d3'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
-    @@raspberry_pi_3_64 = RUBY_PLATFORM.match(/aarch64.*-linux.*/) && ['a02082','a22082','a32082'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
-    @@raspberry_pi_3bplus_64 = RUBY_PLATFORM.match(/aarch64.*-linux.*/) && ['a020d3'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
-    @@raspberry_pi_4_1gb =  RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['a03111'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
-    @@raspberry_pi_4_2gb =  RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['b03111','b03112'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
-    @@raspberry_pi_4_4gb =  RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['c03111','c03112'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
-    @@raspberry_pi_4_8gb =  RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['d03114'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
-    @@raspberry_pi_4_1gb_64 =  RUBY_PLATFORM.match(/aarch64.*-linux.*/) && ['a03111'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
-    @@raspberry_pi_4_2gb_64 =  RUBY_PLATFORM.match(/aarch64.*-linux.*/) && ['b03111','b03112'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
-    @@raspberry_pi_4_4gb_64 =  RUBY_PLATFORM.match(/aarch64.*-linux.*/) && ['c03111','c03112'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
-    @@raspberry_pi_4_8gb_64 =  RUBY_PLATFORM.match(/aarch64.*linux.*/) && ['d03114'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
-    @@raspberry_pi_400 =  RUBY_PLATFORM.match(/.*arm.*-linux.*/) && ['c03130'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
-    @@raspberry_pi_400_64 =  RUBY_PLATFORM.match(/aarch64.*linux.*/) && ['c03130'].include?(`awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n"))
 
+    if @@os == :raspberry
+
+      detect_pimodel = lambda do |code|
+        code = code.to_i(base=16)
+        #extract segments from code
+        new = (code >> 23) &0x1 #must be one for valid new revision code
+        model = (code >> 4) & 0xff
+        mem = (code >> 20) & 0x7
+        #two lokup hashes for memory size and model identity
+        memsize = {0=>"256Mb",1=>"512Mb",2=>"1Gb",3=>"2Gb",4=>"4Gb",5=>"8Gb"}
+        modname = {4=>"2",8=>"3",13=>"3B+",17=>"4B",19=>"400",23=>"5"}
+        os64 = RUBY_PLATFORM.match(/aarch64.*linux.*/)&&true
+        #os32 = RUBY_PLATFORM.match(/.arm.*-linux.*/)&&true
+        if new==1
+          rp="Raspberry Pi #{modname[model]}:#{memsize[mem]}"
+        else
+          rp="Raspberry Pi"
+        end
+        rp+=" 64bit OS" if os64
+        # We may want to turn this into a more useful data structure should we need
+        # to introspect the amount of memory, or do something bespoke for a specific
+        # modname.
+        return rp
+      end
+
+      code = `awk '/^Revision/ { print $3}' /proc/cpuinfo`.delete!("\n")
+      model = detect_pimodel.call(code)
+
+      @@raspberry_pi_model = model
+    end
 
     begin
       debug_log = File.absolute_path("#{Paths.log_path}/debug.log")
@@ -82,63 +97,19 @@ module SonicPi
     end
 
     def raspberry_pi_2?
-      os == :raspberry && @@raspberry_pi_2
+      os == :raspberry && (@@raspberry_pi_model.start_with?("Raspberry Pi 2"))
     end
 
     def raspberry_pi_3?
-      os == :raspberry && @@raspberry_pi_3
+      os == :raspberry && (@@raspberry_pi_model.start_with?("Raspberry Pi 3"))
     end
 
-    def raspberry_pi_3bplus?
-      os == :raspberry && @@raspberry_pi_3bplus
+    def raspberry_pi_4?
+      os == :raspberry && (@@raspberry_pi_model.start_with?("Raspberry Pi 4"))
     end
 
-    def raspberry_pi_3_64?
-      os == :raspberry && @@raspberry_pi_3_64
-    end
-
-    def raspberry_pi_3bplus_64?
-      os == :raspberry && @@raspberry_pi_3bplus_64
-    end
-
-    def raspberry_pi_4_1gb?
-      os == :raspberry && @@raspberry_pi_4_1gb
-    end
-
-    def raspberry_pi_4_2gb?
-      os == :raspberry && @@raspberry_pi_4_2gb
-    end
-
-    def raspberry_pi_4_4gb?
-      os == :raspberry && @@raspberry_pi_4_4gb
-    end
-
-    def raspberry_pi_4_8gb?
-      os == :raspberry && @@raspberry_pi_4_8gb
-    end
-
-    def raspberry_pi_4_1gb_64?
-      os == :raspberry && @@raspberry_pi_4_1gb_64
-    end
-
-    def raspberry_pi_4_2gb_64?
-      os == :raspberry && @@raspberry_pi_4_2gb_64
-    end
-
-    def raspberry_pi_4_4gb_64?
-      os == :raspberry && @@raspberry_pi_4_4gb_64
-    end
-
-    def raspberry_pi_4_8gb_64?
-      os == :raspberry && @@raspberry_pi_4_8gb_64
-    end
-
-    def raspberry_pi_400?
-      os == :raspberry && @@raspberry_pi_400
-    end
-
-    def raspberry_pi_400_64?
-      os == :raspberry && @@raspberry_pi_400_64
+    def raspberry_pi_5?
+      os == :raspberry && (@@raspberry_pi_model.start_with?("Raspberry Pi 5"))
     end
 
     def unify_tilde_dir(path)
@@ -160,8 +131,7 @@ module SonicPi
     def default_sched_ahead_time
       if raspberry_pi_2?
         2
-      elsif  raspberry_pi_3? or raspberry_pi_3bplus? \
-        or raspberry_pi_3_64? or raspberry_pi_3bplus_64?
+      elsif  raspberry_pi_3?
         1.5
       else
         0.5
@@ -169,6 +139,20 @@ module SonicPi
     end
 
     def host_platform_desc
+      case os
+      when :raspberry
+        @@raspberry_pi_model
+      when :linux
+        "Linux"
+      when :osx
+        "Mac"
+      when :windows
+        "Win"
+      end
+    end
+
+
+def host_platform_desc
       case os
       when :raspberry
         if raspberry_pi_2?
