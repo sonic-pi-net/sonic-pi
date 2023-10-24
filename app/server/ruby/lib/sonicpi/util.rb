@@ -151,52 +151,6 @@ module SonicPi
       end
     end
 
-
-def host_platform_desc
-      case os
-      when :raspberry
-        if raspberry_pi_2?
-          "Raspberry Pi 2B"
-        elsif raspberry_pi_3?
-          "Raspberry Pi 3B"
-        elsif raspberry_pi_3bplus?
-          "Raspberry Pi 3B+"
-        elsif raspberry_pi_3_64?
-          "Raspberry Pi 3B 64bit OS"
-        elsif raspberry_pi_3bplus_64?
-          "Raspberry Pi 3B+ 64bit OS"
-        elsif raspberry_pi_4_1gb?
-          "Raspberry Pi 4B:1Gb"
-        elsif raspberry_pi_4_2gb?
-          "Raspberry Pi 4B:2Gb"
-        elsif raspberry_pi_4_4gb?
-          "Raspberry Pi 4B:4Gb"
-        elsif raspberry_pi_4_8gb?
-          "Raspberry Pi 4B:8Gb"
-        elsif raspberry_pi_4_1gb_64?
-          "Raspberry Pi 4B:1Gb 64bit OS"
-        elsif raspberry_pi_4_2gb_64?
-          "Raspberry Pi 4B:2Gb 64bit OS"
-        elsif raspberry_pi_4_4gb_64?
-          "Raspberry Pi 4B:4Gb 64bit OS"
-        elsif raspberry_pi_4_8gb_64?
-          "Raspberry Pi 4B:8Gb 64bit OS"
-        elsif raspberry_pi_400?
-          "Raspberry Pi 400:4Gb"
-        elsif raspberry_pi_400_64?
-          "Raspberry Pi 400:4Gb 64bit OS"
-        else
-          "Raspberry Pi"
-        end
-      when :linux
-        "Linux"
-      when :osx
-        "Mac"
-      when :windows
-        "Win"
-      end
-    end
-
     def default_control_delta
       if raspberry_pi?
         0.013
