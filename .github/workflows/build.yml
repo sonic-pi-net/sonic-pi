@@ -128,22 +128,22 @@ jobs:
         uses: jurplel/install-qt-action@v3
         with:
           modules: "qtpositioning qtwebchannel qtwebengine qtwebsockets"
-          version: "6.5.1"
+          version: "6.6.0"
 
         # Install Elixir on Ubuntu
       - name: Linux Elixir
         uses: erlef/setup-beam@v1
         with:
-          otp-version: "25.2"
-          elixir-version: "1.14"
+          otp-version: "26.1.2"
+          elixir-version: "1.15.7"
         if: matrix.os == 'ubuntu-latest'
 
         # Install Elixir on Windows
       - name: Win Elixir
         uses: erlef/setup-beam@v1
         with:
-          otp-version: "25.2"
-          elixir-version: "1.14"
+          otp-version: "26.1.2"
+          elixir-version: "1.15.7"
         if: matrix.os == 'windows-latest'
 
         # Install Elixir on MacOS
