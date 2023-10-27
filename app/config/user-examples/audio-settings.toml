@@ -121,6 +121,15 @@
 # num_random_seeds = 64
 
 
+## ===========
+## Linux Audio
+## ===========
+#
+# By default Sonic Pi uses pipewire for Audio on Linux
+# If you wish to fall back to pulse audio, "use_pipewire" to false.
+
+# linux_use_pipewire = true
+
 
 ## ============
 ## Escape hatch

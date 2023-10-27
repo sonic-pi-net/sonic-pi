@@ -1129,6 +1129,28 @@ module SonicPi
           toml_opts_hash = {}
         end
 
+        if [:raspberry, :linux].include?(Util.os)
+          if toml_opts_hash.has_key?(:linux_use_pipewire)
+            case toml_opts_hash[:linux_use_pipewire]
+            when true
+              Util.log "Linux Audio - Pipewire explicitly enabled"
+              @linux_use_pipewire = true
+            when false
+              Util.log "Linux Audio - Pipewire disabled - reverting to pule audio"
+              @linux_use_pipewire = false
+            else
+              Util.log "Linux Audio - Invalid value for linux_use_pipewire audio config #{toml_opts_hash[:linux_use_pipewire]} reverting to true. Pipewire enabled"
+              @linux_use_pipewire = true
+            end
+          else
+            Util.log "Linux Audio - Pipewire enabled by default"
+            @linux_use_pipewire = true
+          end
+        else
+          @linux_use_pipewire = false
+        end
+
+
         Util.log "Got Audio Settings toml hash: #{toml_opts_hash.inspect}"
         opts = unify_toml_opts_hash(toml_opts_hash)
         Util.log "Unified Audio Settings toml hash: #{opts.inspect}"
@@ -1228,44 +1250,46 @@ module SonicPi
           end
         end
       end
-            
+
       def run_post_start_commands
         case Util.os
-        #modify case if you want linux as well as raspberry pi to use pipewire
-        when :raspberry #,:linux
-          Thread.new do
-            Kernel.sleep 5
-             hdmiL=`/usr/bin/pw-link -iI |grep -P '(hdmi).*(playback_FL)'|awk '{ print $1 }'`
-             hdmiR=`/usr/bin/pw-link -iI |grep -P '(hdmi).*(playback_FR)'|awk '{ print $1 }'`
-  
-             sco1=`/usr/bin/pw-link -oI |grep -P '(SuperCollider:out_1)' |awk '{ print $1 }'`
-             sco2=`/usr/bin/pw-link -oI |grep -P '(SuperCollider:out_2)' |awk '{ print $1 }'`
-  
-             system("pw-link  #{sco1.strip} #{hdmiL.strip}")
-             system("pw-link  #{sco2.strip} #{hdmiR.strip}")
-          end
-        #comment out this when section if you want linux to use pulseaudio as raspberry-pi above
-        when :linux
-          Thread.new do
-            Kernel.sleep 5
-            # Note:
-            # need to modify this to take account for @num_inputs and @num_outputs.
-            # These might not always be set to two channels each.
-            if @jack_booter
-              #First clear up any pulseaudio remains of module-loopback source=jack_in
-              `pactl list short modules |grep source=jack_in| cut -f1 | xargs -L1 pactl unload-module`
-              `pactl load-module module-jack-source channels=2 connect=0 client_name=JACK_to_PulseAudio`
-              `pactl load-module module-loopback source=jack_in`
-              `pactl load-module module-jack-sink channels=2 connect=0 client_name=PulseAudio_to_JACK`
-              `jack_connect PulseAudio_to_JACK:front-left SuperCollider:in_1`
-              `jack_connect PulseAudio_to_JACK:front-right SuperCollider:in_2`
-              `jack_connect SuperCollider:out_1 JACK_to_PulseAudio:front-left`
-              `jack_connect SuperCollider:out_2 JACK_to_PulseAudio:front-right`
-            else
-              `jack_connect SuperCollider:out_1 system:playback_1`
-              `jack_connect SuperCollider:out_2 system:playback_2`
-              `jack_connect SuperCollider:in_1 system:capture_1`
-              `jack_connect SuperCollider:in_2 system:capture_2`
+        when :raspberry, :linux
+          # Using pipewire
+          if @linux_use_pipewire
+            Thread.new do
+              Kernel.sleep 5
+               hdmiL=`/usr/bin/pw-link -iI |grep -P '(hdmi).*(playback_FL)'|awk '{ print $1 }'`
+               hdmiR=`/usr/bin/pw-link -iI |grep -P '(hdmi).*(playback_FR)'|awk '{ print $1 }'`
+
+               sco1=`/usr/bin/pw-link -oI |grep -P '(SuperCollider:out_1)' |awk '{ print $1 }'`
+               sco2=`/usr/bin/pw-link -oI |grep -P '(SuperCollider:out_2)' |awk '{ print $1 }'`
+
+               system("pw-link  #{sco1.strip} #{hdmiL.strip}")
+               system("pw-link  #{sco2.strip} #{hdmiR.strip}")
+            end
+          else
+            # Using pulseaudio
+            Thread.new do
+              Kernel.sleep 5
+              # Note:
+              # need to modify this to take account for @num_inputs and @num_outputs.
+              # These might not always be set to two channels each.
+              if @jack_booter
+                #First clear up any pulseaudio remains of module-loopback source=jack_in
+                `pactl list short modules |grep source=jack_in| cut -f1 | xargs -L1 pactl unload-module`
+                `pactl load-module module-jack-source channels=2 connect=0 client_name=JACK_to_PulseAudio`
+                `pactl load-module module-loopback source=jack_in`
+                `pactl load-module module-jack-sink channels=2 connect=0 client_name=PulseAudio_to_JACK`
+                `jack_connect PulseAudio_to_JACK:front-left SuperCollider:in_1`
+                `jack_connect PulseAudio_to_JACK:front-right SuperCollider:in_2`
+                `jack_connect SuperCollider:out_1 JACK_to_PulseAudio:front-left`
+                `jack_connect SuperCollider:out_2 JACK_to_PulseAudio:front-right`
+              else
+                `jack_connect SuperCollider:out_1 system:playback_1`
+                `jack_connect SuperCollider:out_2 system:playback_2`
+                `jack_connect SuperCollider:in_1 system:capture_1`
+                `jack_connect SuperCollider:in_2 system:capture_2`
+              end
             end
           end
         end
