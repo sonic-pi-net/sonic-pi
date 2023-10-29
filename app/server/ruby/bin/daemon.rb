@@ -638,6 +638,11 @@ module SonicPi
           raise "Unsupported platform #{RUBY_PLATFORM}"
         end
       end
+
+      def self.pipewire?
+        `which pw-link`
+        $?.success?
+      end
     end
 
     class KillSwitch
@@ -1218,8 +1223,9 @@ module SonicPi
       def run_pre_start_commands
         case Util.os
         when :linux, :raspberry
-          #Start Jack if not already running
-          if `jack_wait -c`.include? 'not running'
+          if Util.pipewire?
+            Util.log 'No need to start Jackd, using pipewire instead'
+          elsif `jack_wait -c`.include? 'not running'
             #Jack not running - start a new instance
             Util.log "Jackd not running on system. Starting..."
             @jack_booter = JackBooter.new
@@ -1231,27 +1237,27 @@ module SonicPi
             
       def run_post_start_commands
         case Util.os
-        #modify case if you want linux as well as raspberry pi to use pipewire
-        when :raspberry #,:linux
+        when :raspberry, :linux
           Thread.new do
             Kernel.sleep 5
-             hdmiL=`/usr/bin/pw-link -iI |grep -P '(hdmi).*(playback_FL)'|awk '{ print $1 }'`
-             hdmiR=`/usr/bin/pw-link -iI |grep -P '(hdmi).*(playback_FR)'|awk '{ print $1 }'`
-  
-             sco1=`/usr/bin/pw-link -oI |grep -P '(SuperCollider:out_1)' |awk '{ print $1 }'`
-             sco2=`/usr/bin/pw-link -oI |grep -P '(SuperCollider:out_2)' |awk '{ print $1 }'`
-  
-             system("pw-link  #{sco1.strip} #{hdmiL.strip}")
-             system("pw-link  #{sco2.strip} #{hdmiR.strip}")
-          end
-        #comment out this when section if you want linux to use pulseaudio as raspberry-pi above
-        when :linux
-          Thread.new do
-            Kernel.sleep 5
-            # Note:
-            # need to modify this to take account for @num_inputs and @num_outputs.
-            # These might not always be set to two channels each.
-            if @jack_booter
+            if Util.pipewire?
+              port_type = if Util.os == :raspberry
+                            'hdmi'
+                          else
+                            'alsa_output'
+                          end
+              left = `/usr/bin/pw-link -iI |grep -P '(#{port_type}).*(playback_FL)'|awk '{ print $1 }'`
+              right = `/usr/bin/pw-link -iI |grep -P '(#{port_type}).*(playback_FR)'|awk '{ print $1 }'`
+
+              sco1=`/usr/bin/pw-link -oI |grep -P '(SuperCollider:out_1$)' |awk '{ print $1 }'`
+              sco2=`/usr/bin/pw-link -oI |grep -P '(SuperCollider:out_2$)' |awk '{ print $1 }'`
+
+              system("pw-link  #{sco1.strip} #{left.strip}")
+              system("pw-link  #{sco2.strip} #{right.strip}")
+            elsif @jackbooter
+              # Note:
+              # need to modify this to take account for @num_inputs and @num_outputs.
+              # These might not always be set to two channels each.
               #First clear up any pulseaudio remains of module-loopback source=jack_in
               `pactl list short modules |grep source=jack_in| cut -f1 | xargs -L1 pactl unload-module`
               `pactl load-module module-jack-source channels=2 connect=0 client_name=JACK_to_PulseAudio`
@@ -1270,7 +1276,6 @@ module SonicPi
           end
         end
       end
-
 
       def unify_toml_opts_hash(toml_opts_hash)
         opts = {}
