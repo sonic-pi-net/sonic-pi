@@ -1246,14 +1246,16 @@ module SonicPi
                           else
                             'alsa_output'
                           end
-              left = `/usr/bin/pw-link -iI |grep -P '(#{port_type}).*(playback_FL)'|awk '{ print $1 }'`
-              right = `/usr/bin/pw-link -iI |grep -P '(#{port_type}).*(playback_FR)'|awk '{ print $1 }'`
+              inputs = `pw-link -iI`.lines
+              left_id = inputs.grep(/#{port_type}.*playback_FL$/).first.to_i
+              right_id = inputs.grep(/#{port_type}.*playback_FR$/).first.to_i
 
-              sco1=`/usr/bin/pw-link -oI |grep -P '(SuperCollider:out_1$)' |awk '{ print $1 }'`
-              sco2=`/usr/bin/pw-link -oI |grep -P '(SuperCollider:out_2$)' |awk '{ print $1 }'`
+              outputs = `pw-link -oI`.lines
+              sco1 = outputs.grep(/SuperCollider:out_1$/).first.to_i
+              sco2 = outputs.grep(/SuperCollider:out_2$/).first.to_i
 
-              system("pw-link  #{sco1.strip} #{left.strip}")
-              system("pw-link  #{sco2.strip} #{right.strip}")
+              system("pw-link #{sco1} #{left_id}")
+              system("pw-link #{sco2} #{right_id}")
             elsif @jackbooter
               # Note:
               # need to modify this to take account for @num_inputs and @num_outputs.
