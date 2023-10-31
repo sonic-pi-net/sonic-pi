@@ -60,7 +60,7 @@ Note: please make sure that you have gcc12 installed. Compiling vcpkg dependenci
 ### 1.1 Debian
 The following is a rough list of Debian packages that are needed that can serve as a starting position:
 ```bash
-sudo apt-get install -y build-essential git libssl-dev ruby-dev elixir erlang-dev erlang-xmerl qttools5-dev qttools5-dev-tools libqt5svg5-dev libqt5opengl5-dev supercollider-server sc3-plugins-server alsa-utils jackd2 libjack-jackd2-dev libjack-jackd2-0 libasound2-dev pulseaudio-module-jack cmake ninja-build
+sudo apt-get install -y build-essential git libssl-dev ruby-dev elixir erlang-dev erlang-xmerl qttools5-dev qttools5-dev-tools qtwebengine5-dev qtwebengine5-dev-tools libqt5svg5-dev libqt5opengl5-dev supercollider-server sc3-plugins-server alsa-utils jackd2 libjack-jackd2-dev libjack-jackd2-0 libasound2-dev pulseaudio-module-jack cmake ninja-build 
 ```
 
 *Notes:* 
