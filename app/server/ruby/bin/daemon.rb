@@ -1156,19 +1156,19 @@ module SonicPi
 
         case Util.os
         when :linux, :raspberry
-          toml_pw_buffsize = toml_opts_hash["linux_pipewire_buffsize"].to_i
-          toml_pw_samplerate = toml_opts_hash["linux_pipewire_samplerate"].to_i
+          toml_pw_buffsize = toml_opts_hash[:linux_pipewire_buffsize].to_i
+          toml_pw_samplerate = toml_opts_hash[:linux_pipewire_samplerate].to_i
           pw_buffsize = 1024
           pw_samplerate = 48000
 
-          if (toml_opts_hash.has_key?("linux_pipewire_buffsize") && (toml_pw_buffsize > 0))
+          if (toml_opts_hash.has_key?(:linux_pipewire_buffsize) && (toml_pw_buffsize > 0))
             Util.log "Setting pipewire buffsize to: #{toml_pw_buffsize}"
             pw_buffsize = toml_pw_buffsize
           else
             Util.log "Using default pipewire buffsize of: 1024"
           end
 
-          if (toml_opts_hash.has_key?("linux_pipewire_samplerate") && (toml_pw_samplerate > 0))
+          if (toml_opts_hash.has_key?(:linux_pipewire_samplerate) && (toml_pw_samplerate > 0))
             Util.log "Setting pipewire samplerate to: #{toml_pw_samplerate}"
             pw_samplerate = toml_pw_samplerate
           else
