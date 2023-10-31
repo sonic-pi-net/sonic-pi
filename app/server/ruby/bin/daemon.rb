@@ -1159,7 +1159,7 @@ module SonicPi
           toml_pw_buffsize = toml_opts_hash["linux_pipewire_buffsize"].to_i
           toml_pw_samplerate = toml_opts_hash["linux_pipewire_samplerate"].to_i
           pw_buffsize = 1024
-          pw_samplerate = 4800
+          pw_samplerate = 48000
 
           if (toml_opts_hash.has_key?("linux_pipewire_buffsize") && (toml_pw_buffsize > 0))
             Util.log "Setting pipewire buffsize to: #{toml_pw_buffsize}"
@@ -1172,7 +1172,7 @@ module SonicPi
             Util.log "Setting pipewire samplerate to: #{toml_pw_samplerate}"
             pw_samplerate = toml_pw_samplerate
           else
-            Util.log "Using default pipewire buffsize of: 4800"
+            Util.log "Using default pipewire samplerate of: 48000"
           end
 
           ld_library_path = `pw-jack /bin/sh -c 'echo $LD_LIBRARY_PATH'`.strip
