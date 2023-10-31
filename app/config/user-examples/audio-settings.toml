@@ -129,7 +129,7 @@
 # You can modify the pipewire parameters here:
 
 # linux_pipewire_buffsize = 1024
-# linux_pipewire_samplerate = 4800
+# linux_pipewire_samplerate = 48000
 
 
 
