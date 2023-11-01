@@ -12,12 +12,6 @@ etc., you can fetch, build and start Sonic Pi with the following:
 git clone https://github.com/sonic-pi-net/sonic-pi.git
 cd sonic-pi/app
 ./pi-setup.sh
-```
-
-Then close the terminal and open a new one and follow with:
-
-```
-cd sonic-pi/app
 ./pi-build-all.sh
 ./build/gui/qt/sonic-pi
 
