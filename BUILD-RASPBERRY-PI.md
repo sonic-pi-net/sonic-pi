@@ -85,7 +85,8 @@ cd ~/Development/sonic-pi
 
 Now we're ready to fetch all the development dependencies.
 
-```./app/pi-setup.sh
+```
+./app/pi-setup.sh
 ```
 
 ## 3. Running the Build
