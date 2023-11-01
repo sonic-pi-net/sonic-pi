@@ -744,7 +744,8 @@ module SonicPi
 
     class ProcessBooter
       attr_reader :pid, :args, :cmd, :log
-      def initialize(cmd, args, log_path, record_log=false)
+      def initialize(cmd, args, log_path, record_log=false, env=nil)
+        @env = env
         @pid = nil
         @log_file = nil
         @args = args.map {|el| el.to_s}
@@ -786,7 +787,11 @@ module SonicPi
       def boot
         Util.log "Process Booter - booting #{@cmd} with args #{@args.inspect}"
         Util.log "#{@cmd} #{@args.join(' ')}"
-        @stdin, @stdout_and_err, @wait_thr = Open3.popen2e @cmd, *@args
+        if @env
+          @stdin, @stdout_and_err, @wait_thr = Open3.popen2e @env, @cmd, *@args
+        else
+          @stdin, @stdout_and_err, @wait_thr = Open3.popen2e @cmd, *@args
+        end
         @pid = @wait_thr.pid
         if @log_file
           @io_thr = Thread.new do
@@ -1030,7 +1035,6 @@ module SonicPi
       end
     end
 
-
     class JackBooter < ProcessBooter
       def initialize
         cmd = "jackd"
@@ -1134,6 +1138,10 @@ module SonicPi
           toml_opts_hash = {}
         end
 
+        # freeze toml_opts_hash in case any nasty mutation happens below
+        # (oh for immutable data structures by default!)
+        toml_opts_hash.freeze
+
         Util.log "Got Audio Settings toml hash: #{toml_opts_hash.inspect}"
         opts = unify_toml_opts_hash(toml_opts_hash)
         Util.log "Unified Audio Settings toml hash: #{opts.inspect}"
@@ -1145,9 +1153,40 @@ module SonicPi
         @num_outputs = opts["-o"].to_i
         args = opts.to_a.flatten
         cmd = Paths.scsynth_path
+
+        case Util.os
+        when :linux, :raspberry
+          toml_pw_buffsize = toml_opts_hash[:linux_pipewire_buffsize].to_i
+          toml_pw_samplerate = toml_opts_hash[:linux_pipewire_samplerate].to_i
+          pw_buffsize = 1024
+          pw_samplerate = 48000
+
+          if (toml_opts_hash.has_key?(:linux_pipewire_buffsize) && (toml_pw_buffsize > 0))
+            Util.log "Setting pipewire buffsize to: #{toml_pw_buffsize}"
+            pw_buffsize = toml_pw_buffsize
+          else
+            Util.log "Using default pipewire buffsize of: 1024"
+          end
+
+          if (toml_opts_hash.has_key?(:linux_pipewire_samplerate) && (toml_pw_samplerate > 0))
+            Util.log "Setting pipewire samplerate to: #{toml_pw_samplerate}"
+            pw_samplerate = toml_pw_samplerate
+          else
+            Util.log "Using default pipewire samplerate of: 48000"
+          end
+
+          ld_library_path = `pw-jack /bin/sh -c 'echo $LD_LIBRARY_PATH'`.strip
+          pw_quantum ="#{pw_buffsize}/#{pw_samplerate}"
+
+          Util.log "Starting scsynth with LD_LIBRARY_PATH set to #{ld_library_path.inspect} so it uses pipewire's jack"
+          env = { "PIPEWIRE_QUANTUM" => pw_quantum ,  "LD_LIBRARY_PATH" => ld_library_path }
+        else
+          env = nil
+        end
+
         @success = Promise.new
         run_pre_start_commands
-        super(cmd, args, Paths.scsynth_log_path, true)
+        super(cmd, args, Paths.scsynth_log_path, true, env)
         run_post_start_commands
         success = wait_for_boot
         disable_internal_log_recording!
@@ -1234,7 +1273,7 @@ module SonicPi
           end
         end
       end
-            
+
       def run_post_start_commands
         case Util.os
         when :raspberry, :linux

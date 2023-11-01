@@ -121,6 +121,17 @@
 # num_random_seeds = 64
 
 
+## ===============================
+## Linux Audio - Pipewire settings
+## ===============================
+#
+# Sonic Pi uses pipewire for Audio on Linux
+# You can modify the pipewire parameters here:
+
+# linux_pipewire_buffsize = 1024
+# linux_pipewire_samplerate = 48000
+
+
 
 ## ============
 ## Escape hatch
