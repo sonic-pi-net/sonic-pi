@@ -73,7 +73,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="699"/>
         <source>Cues</source>
-        <translation type="unfinished">Hinweise</translation>
+        <translation>Signale</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="933"/>
@@ -1572,12 +1572,12 @@ midi_*-Funktionen gesendet werden können direkt von Sonic Pi</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="284"/>
         <source>Show and hide information panes such as the scope and log.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeigt und verbirgt Informationspaneele, so wie Visualisierung und Protokoll-Anzeige.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="287"/>
         <source>Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Farbschema/Aussehen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="289"/>
