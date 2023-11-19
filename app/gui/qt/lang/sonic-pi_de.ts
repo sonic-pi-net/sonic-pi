@@ -1647,7 +1647,7 @@ midi_*-Funktionen gesendet werden können direkt von Sonic Pi</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="312"/>
         <source>Show Link metronome controls</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige Kopplungs-Steuereinheiten für’s Metronom</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="313"/>
@@ -1697,7 +1697,7 @@ midi_*-Funktionen gesendet werden können direkt von Sonic Pi</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="329"/>
         <source>Hide Menubar in Fullscreen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Verstecke Menüleiste im Vollbild-Modus</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="330"/>
@@ -1811,22 +1811,23 @@ Wenn aktiviert, wird das Protokoll mit jedem neuen Eintrag nach oben weitergebl�
     <message>
         <location filename="../widgets/settingswidget.cpp" line="435"/>
         <source>Show scopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige Oszilloskope</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="437"/>
         <source>Show scope labels</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige Oszilloskop-Beschriftungen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="515"/>
         <source>Configure language settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Konfiguriere Sprach-Einstellungen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="520"/>
         <source>UI &amp; Tutorial Language (Requires a restart to take effect)</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprache der Benutzeroberfläche &amp; Anleitung
+(Erfordert Neustart um Sprache zu wechseln)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="521"/>
