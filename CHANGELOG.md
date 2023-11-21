@@ -47,7 +47,7 @@ Have fun and get your live coded 808 on!
 
 ### Synths
 
-- New synth: `:rhodey` - The sound of an electric piano from the 60's and 70's, producing a characteristic metallic  sound for notes below `:g2`. Adapted for Sonic Pi from [SuperCollider Code](https://sccode.org/1-522).
+- New synth: `:rhodey` - The sound of an electric piano from the 60s and 70s, producing a characteristic metallic  sound for notes below `:g2`. Adapted for Sonic Pi from [SuperCollider Code](https://sccode.org/1-522).
 - New synth `:gabberkick` - An aggressive Gabber synth sound adapted for Sonic Pi from [SuperCollider Code](https://sccode.org/1-57r)
 - 16 new 808 inspired synths based on [Yoshinosuke Horiuchi's](https://www.patreon.com/4H/posts): `:sc808_bassdrum`, `:sc808_snare`, `:sc808_clap`, `:sc808_tomlo`, `:sc808_tommid`, `:sc808_tomhi`, `:sc808_congalo`, `:sc808_congamid`, `:sc808_congahi`, `:sc808_rimshot`, `:sc808_claves`, `:sc808_maracas`, `:sc808_cowbell`, `:sc808_closed_hihat`, `:sc808_open_hihat`, `:sc808_cymbal`,
 
