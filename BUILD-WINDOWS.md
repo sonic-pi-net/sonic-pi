@@ -64,7 +64,7 @@ Note that you need to enable the "Desktop development with C++" workload. See: h
 Install the latest version of Qt6 (note that Qt5 may work on Windows but isn't supported) - ensure
 you pick 64 bit options for msvc:
 
-https://download.qt.io/official_releases/qt/6.4/6.4.1/single/qt-everywhere-src-6.4.1.zip
+https://download.qt.io/archive/qt/6.4/6.4.1/single/qt-everywhere-src-6.4.1.zip
 
 When selecting Qt components you need: 
 
