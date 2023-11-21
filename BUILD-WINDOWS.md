@@ -30,7 +30,7 @@ and to run
   issue on GitHub and we'll try our best to assist you:
   https://github.com/sonic-pi-net/sonic-pi/issues
 * The current build on Windows is assumed to be a 64 bit build done with
-  Visual Studio 2019 (Community edition is fine).
+  Visual Studio 2022 (Community edition is fine).
 * If you're attempting to build 32 bit binaries, there are equivalent
   32-bit build scripts, but these are currently largely untested.
 
