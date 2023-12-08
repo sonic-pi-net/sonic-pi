@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2023-01-09 14:51+0000\n"
-"Last-Translator: Maria Trofimova <mary.vikhreva@gmail.com>\n"
+"PO-Revision-Date: 2023-12-09 01:08+0000\n"
+"Last-Translator: meTur4ik <tur4ikkk@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/ru/>\n"
 "Language: ru\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.15.1-dev\n"
+"X-Generator: Weblate 5.3-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -309,15 +309,11 @@ msgid ""
 "e buffer and paste a fresh copy in and you're ready to jam again. Making mista"
 "kes is how you'll learn the quickest..."
 msgstr ""
-"Не забывайте нажимать `Выполнить`, и вы услышите изменения в следующий раз, ко"
-"гда петля начнётся заново. Не расстраивайтесь, если в конце музыка будет испор"
-"чена. Нажмите `Остановить`, удалите код из буфера, вставьте свежую копию, и вы"
-" снова готовы к творчеству. На ошибках научиться можно быстрее всего...\n"
-"\n"
-"Не забывайте нажимать `Выполнить`, вы будете слышать изменения на каждой следу"
-"ющей итерации цикла. Не бойтесь ломать музыкальную композицию. Всегда можно на"
-"жать `Остановить`, удалить код из буфера и вставить свежую копию. Не забывайте"
-" - процесс творчества тесно связан с совершением ошибок..."
+"Не забывайте нажимать `Выполнить`, и вы услышите изменения в следующий раз, "
+"когда петля начнётся заново. Не расстраивайтесь, если в конце музыка будет "
+"испорчена. Нажмите `Остановить`, удалите код из буфера, вставьте свежую "
+"копию, и вы снова готовы к творчеству. На ошибках научиться можно быстрее "
+"всего..."
 
 #: 01.1-Live-Coding.md:94
 #, no-wrap
@@ -756,14 +752,13 @@ msgid "Intense. Press it again. And again. *And again...*"
 msgstr "Впечатляет. Нажмите заново. Снова. *И снова...*"
 
 #: 02.1-Your-First-Beeps.md:19
-#, fuzzy
 msgid ""
 "Woah, fun! I'm sure you could keep doing that all day. But wait, before you lo"
 "se yourself in an infinite stream of beeps, try changing the number:"
 msgstr ""
-"Ого, с ума сойти, уверен, вы бы могли просидеть так целый день. Но подождите, "
-"до того, как вы растворитесь в бесконечном потоке звуков, попробуйте изменить "
-"число:"
+"Ого, весело! Уверен, вы бы могли продолжать так весь день. Но подождите, "
+"перед тем, как вы растворитесь в бесконечном потоке звуков, попробуйте "
+"изменить число:"
 
 #: 02.1-Your-First-Beeps.md:23
 #, no-wrap
@@ -2034,28 +2029,27 @@ msgid ""
 " of the sounds. This allows you to easily layer sounds together creating inter"
 "esting overlap effects."
 msgstr ""
-"Обратите внимание, что Sonic Pi не ждёт, пока закончится один звук, прежде чем"
-" начать играть следующий. Команда `sleep` всего лишь описывает разделение моме"
-"нтов, когда звуки *начинаются*. За счет этого их можно легко совмещать, создав"
-"ая интересные эффекты наложения. Далее в этом учебнике мы рассмотрим управлени"
-"е *длительностью* звуков при помощи огибающих."
+"Обратите внимание, что Sonic Pi не ждёт, пока закончится один звук, прежде "
+"чем начать играть следующий. Команда `sleep` всего лишь описывает разделение "
+"моментов, когда звуки *начинаются*. За счет этого их можно легко совмещать, "
+"создавая интересные эффекты наложения."
 
 #: 03.1-Triggering-Samples.md:42
+#, fuzzy
 msgid "Discovering Samples"
 msgstr "Знакомимся с сэмплами"
 
 #: 03.1-Triggering-Samples.md:44
-#, fuzzy
 msgid ""
 "There are two ways to discover the range of samples provided in Sonic Pi. Firs"
 "t, you can use this help system. Click on Samples in the menu at the bottom of"
 " this help screen, choose your category and then you'll see a list of availabl"
 "e sounds."
 msgstr ""
-"Есть два способа познакомиться с набором сэмплов, включённых в Sonic Pi. Во-пе"
-"рвых, вы можете воспользоваться системой помощи. Щелкните Samples в левом нижн"
-"ем меню, выберите желаемую категорию, и после этого вы увидите список доступны"
-"х звуков."
+"Есть два способа познакомиться с набором сэмплов, включённых в Sonic Pi. Во-"
+"первых, вы можете воспользоваться системой помощи. Щелкните Samples в нижнем "
+"меню этого окна помощи, выберите желаемую категорию, и после этого вы "
+"увидите список доступных звуков."
 
 #: 03.1-Triggering-Samples.md:49
 msgid ""
@@ -2063,9 +2057,10 @@ msgid ""
 "of a sample group such as: `sample :ambi_` and you'll see a drop-down of sampl"
 "e names appear for you to select. Try the following category prefixes:"
 msgstr ""
-"С другой стороны, можно задействовать *систему автодополнения*. Просто начните"
-" набирать название группы сэмплов, например `sample :ambi_`, и появится выпада"
-"ющее меню с названиями сэмплов на выбор. Попробуйте такие варианты приставки:"
+"В качестве альтернативы можно использовать *систему автодополнения*. Просто "
+"начните набирать название группы сэмплов, например `sample :ambi_`, и "
+"появится выпадающее меню с названиями сэмплов на выбор. Попробуйте такие "
+"варианты приставки:"
 
 #: 03.1-Triggering-Samples.md:54
 msgid "`:ambi_`"
@@ -2101,7 +2096,7 @@ msgstr "`:bd_`"
 
 #: 03.1-Triggering-Samples.md:63
 msgid "Now start mixing samples into your compositions!"
-msgstr "Попробуйте создать собственные композиции из сэмплов!"
+msgstr "А теперь попробуйте создать собственные композиции из сэмплов!"
 
 #: 03.2-Sample-Params.md:1
 msgid "3.2 Sample Parameters"
@@ -2164,17 +2159,17 @@ msgstr ""
 #: 03.2-Sample-Params.md:30
 msgid "Note that 0.877 is half the duration of the `:loop_amen` sample in seconds."
 msgstr ""
-"Обратите внимание, что 0.877 - это половина продолжительности сэмпла в секунда"
-"х."
+"Обратите внимание, что 0.877 - это половина продолжительности сэмпла "
+"`:loop_amen` в секундах."
 
 #: 03.2-Sample-Params.md:33
 msgid ""
 "Finally, note that if you set some synth defaults with `use_synth_defaults` (w"
 "hich we will discuss later), these will be ignored by `sample`."
 msgstr ""
-"Наконец, если вы сбросите регулировки какого-нибудь синта на настройки по умол"
-"чанию, (как это сделать при помощи `use_synth_defaults`, рассмотрим далее), то"
-" сэмпл не обратит на это внимания."
+"Наконец, обратите внимание: если вы сбросите регулировки какого-нибудь синта "
+"на настройки по умолчанию (как это сделать при помощи `use_synth_defaults`, "
+"рассмотрим далее) - они будут проигнорированы сэмплом."
 
 #: 03.3-Stretching-Samples.md:1
 msgid "3.3 Stretching Samples"
@@ -2191,10 +2186,10 @@ msgid ""
 "en more unique and interesting. First, let's explore the ability to *stretch* "
 "and *squash* samples."
 msgstr ""
-"Раз уж теперь мы умеем играть на разнообразных синтах и воспроизводить всевозм"
-"ожные сэмплы, пришло время научиться управлять ими обоими, чтобы музыка получа"
-"лась ещё более уникальной и интересной. Вначале, давайте рассмотрим возможност"
-"ь *растягивать* и *сжимать* сэмплы."
+"Теперь, когда мы умеем играть на разнообразных синтах и воспроизводить "
+"всевозможные сэмплы, пришло время научиться управлять ими обоими, чтобы "
+"музыка получалась ещё более уникальной и интересной. Вначале, давайте "
+"рассмотрим возможность *растягивать* и *сжимать* сэмплы."
 
 #: 03.3-Stretching-Samples.md:10
 msgid "Sample Representation"
@@ -18405,7 +18400,7 @@ msgstr ""
 
 #: A.20-creative-coding-in-the-classroom.md:23
 msgid "Musical Engines and Notation"
-msgstr ""
+msgstr "Музыкальные движки и нотация"
 
 #: A.20-creative-coding-in-the-classroom.md:25
 msgid ""
@@ -18475,7 +18470,7 @@ msgstr "Get"
 
 #: A.20-creative-coding-in-the-classroom.md:62
 msgid "Sonic Pi Performances"
-msgstr ""
+msgstr "Концерты Sonic Pi"
 
 #: A.20-creative-coding-in-the-classroom.md:64
 #, fuzzy
@@ -19084,7 +19079,7 @@ msgstr "`S-M-1` – Переключится на буфер 1"
 
 #: B.02-Shortcut-Cheatsheet.md:28
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: B.02-Shortcut-Cheatsheet.md:29
 msgid "`S-M-9` - Switch to buffer 9"
