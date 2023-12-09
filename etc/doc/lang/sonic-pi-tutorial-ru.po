@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2023-12-09 01:08+0000\n"
-"Last-Translator: meTur4ik <tur4ikkk@mail.ru>\n"
+"PO-Revision-Date: 2023-12-10 16:05+0000\n"
+"Last-Translator: Kirill Gorlovsky <kgorlovsky@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/ru/>\n"
 "Language: ru\n"
@@ -567,9 +567,8 @@ msgstr ""
 "9B%D0%B8%D1%81%D1%81%D0%B0%D0%B6%D1%83)."
 
 #: 01.2-Exploring-the-Interface.md:93
-#, fuzzy
 msgid "I. Cue Viewer"
-msgstr "F. Просмотр Сообщений"
+msgstr "I. Просмотр сигналов"
 
 #: 01.2-Exploring-the-Interface.md:95
 msgid ""
@@ -3622,7 +3621,6 @@ msgstr ""
 
 #: 04-Randomisation.md:56
 #, no-wrap
-#, fuzzy
 msgid ""
 "loop do\n"
 "  sample :perc_bell, rate: rrand(0.125, 1.5)\n"
@@ -3680,9 +3678,8 @@ msgstr ""
 "айного результата выбирайте другую точку!"
 
 #: 04-Randomisation.md:85
-#, fuzzy
 msgid "Consider the following:"
-msgstr "Сравните следующее:"
+msgstr "Рассмотрите следующее:"
 
 #: 04-Randomisation.md:87
 #, no-wrap
@@ -3785,7 +3782,6 @@ msgid "rrand"
 msgstr "rrand"
 
 #: 04-Randomisation.md:137
-#, fuzzy
 msgid ""
 "We've already seen `rrand`, but let's run over it again. It returns a random n"
 "umber between two values exclusively. That means it will never return either t"
@@ -3793,11 +3789,11 @@ msgid ""
 " always be a float - meaning it's not a whole number but a fraction of a numbe"
 "r. Examples of floats returned by `rrand(20, 110)`:"
 msgstr ""
-"Мы уже видели `rrand`, но пробежимся по ней вновь. Она возвращает случайную ве"
-"личину в промежутке двух чисел, не включая границы. Это значит, что никогда не"
-" будет выбрано самое большое или самое маленькое значение - всегда нечто между"
-" ними. Число всегда будет дробным, то есть не целым. Примеры дробных чисел, во"
-"звращаемых `rrand(20, 110)`:"
+"Мы уже видели `rrand`, но пробежимся по ней вновь. Она возвращает случайную "
+"величину в промежутке двух чисел, не включая границы. Это значит, что "
+"никогда не будет выбрано самое большое или самое маленькое значение - всегда "
+"нечто между ними. Число всегда будет дробным, то есть не целым. Примеры "
+"дробных чисел, возвращаемых `rrand(20, 110)`:"
 
 #: 04-Randomisation.md:148
 msgid "rrand_i"
