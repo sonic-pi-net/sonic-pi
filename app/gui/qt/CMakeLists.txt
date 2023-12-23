@@ -277,6 +277,11 @@ if (APPLE)
     POST_BUILD
     COMMAND plutil -replace NSHighResolutionCapable -bool true ${MACOS_APP_NAME}.app/Contents/Info.plist
   )
+  add_custom_command(
+    TARGET ${APP_NAME}
+    POST_BUILD
+    COMMAND plutil -replace NSMicrophoneUsageDescription -string "Sonic Pi needs microphone access for its live audio input features." ${MACOS_APP_NAME}.app/Contents/Info.plist
+  )
 endif()
 
 message(STATUS "App Root: ${APP_ROOT}")
