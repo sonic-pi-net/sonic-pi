@@ -4927,6 +4927,197 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       end
     end
 
+    class Flute < SonicPiSynth
+      def name
+        "Flute"
+      end
+
+      def introduced
+        Version.new(4,6,0)
+      end
+
+      def synth_name
+        "flute"
+      end
+
+      def on_start(studio, args_h)
+        args_h[:rand_buf] = studio.rand_buf_id
+      end
+
+      def doc
+        "A synth that can create sounds of different types of flutes or even of organ pipes. Adapted from [Perry Cook's Slide Flute](https://ccrma.stanford.edu/software/clm/compmus/clm-tutorials/pm.html#s-f), this synth is created based on a physical model of a slide flute, a so called waveguide. Unlike most other synths, it does not have a conventional oscillator for sound creation. The sound builds up from feedback. This is also the reason why only a range of notes will produce good sounds, just like playing a real flute. The range of notes producing a clear tonality is from `:g1` (MIDI 31) to `:b5` (MIDI 83), approximately."
+      end
+
+      def arg_defaults
+        {
+          :note => 40,
+          :note_slide => 0,
+          :amp => 0.4,
+          :amp_slide => 0,
+          :amp_slide_shape => 1,
+          :amp_slide_curve => 0,
+          :pan => 0,
+          :pan_slide => 0,
+          :pan_slide_shape => 1,
+          :pan_slide_curve => 0,
+
+          :attack => 0,
+          :decay => 0,
+          :sustain => 0,
+          :release => 1,
+          :attack_level => 1,
+          :decay_level => :sustain_level,
+          :sustain_level => 1,
+
+          :noise_attack => 0.06,
+          :noise_decay => 0.2,
+          :noise_sustain => 0,
+          :noise_release => 0.2,
+          :noise_attack_level => 0.99,
+          :noise_decay_level => :noise_sustain_level,
+          :noise_sustain_level => 0.9,
+
+          :vibrato_attack => 0.5,
+          :vibrato_decay => 0.5,
+          :vibrato_sustain => 0,
+          :vibrato_release => 0.5,
+          :vibrato_attack_level => 0,
+          :vibrato_decay_level => :vibrato_sustain_level,
+          :vibrato_sustain_level => 1,
+
+          :ibreath => 0.13,
+          :ibreath_slide => 0,
+          :ibreath_slide_shape => 1,
+          :ibreath_slide_curve => 0,
+
+          :ifeedbk1 => 0.5,
+          :ifeedbk1_slide => 0,
+          :ifeedbk1_slide_shape => 1,
+          :ifeedbk1_slide_curve => 0,
+
+          :ifeedbk2 => 0.57,
+          :ifeedbk2_slide => 0,
+          :ifeedbk2_slide_shape => 1,
+          :ifeedbk2_slide_curve => 0,
+        }
+      end
+
+      def specific_arg_info
+        {
+          :noise_attack =>
+          {
+            :doc => "Attack time for noise level. Amount of time (in beats) for sound to reach full noise value.",
+            :validations => [v_positive(:noise_attack)],
+            :modulatable => false,
+            :bpm_scale => true
+          },
+          :noise_decay =>
+          {
+            :doc => "Decay time for noise level. Amount of time (in beats) for sound to move from full noise value (noise attack level) to the noise sustain level.",
+            :validations => [v_positive(:noise_decay)],
+            :modulatable => false,
+            :bpm_scale => true
+          },
+          :noise_sustain =>
+          {
+            :doc => "Amount of time (in beats) for noise value to remain at sustain level.",
+            :validations => [v_positive(:noise_sustain)],
+            :modulatable => false,
+            :bpm_scale => true
+          },
+          :noise_release =>
+          {
+            :doc => "Amount of time (in beats) for sound to move from noise sustain value to noise zero.",
+            :validations => [v_positive(:noise_release)],
+            :modulatable => false,
+            :bpm_scale => true
+          },
+          :noise_attack_level =>
+          {
+            :doc => "The peak noise (value of noise at peak of attack).",
+            :validations => [v_between_inclusive(:noise_attack_level, 0, 1)],
+            :modulatable => false
+          },
+          :noise_decay_level =>
+          {
+            :doc => "The level of noise after the decay phase.",
+            :validations => [v_between_inclusive(:noise_decay_level, 0, 1)],
+            :modulatable => false
+          },
+          :noise_sustain_level =>
+          {
+            :doc => "The sustain noise level (value of noise at sustain time).",
+            :validations => [v_between_inclusive(:noise_sustain_level, 0, 1)],
+            :modulatable => false
+          },
+          :vibrato_attack =>
+          {
+            :doc => "Attack time for vibrato level. Amount of time (in beats) for sound to reach full vibrato value.",
+            :validations => [v_positive(:vibrato_attack)],
+            :modulatable => false,
+            :bpm_scale => true
+          },
+          :vibrato_decay =>
+          {
+            :doc => "Decay time for vibrato level. Amount of time (in beats) for sound to move from full vibrato value (vibrato attack level) to the vibrato sustain level.",
+            :validations => [v_positive(:vibrato_decay)],
+            :modulatable => false,
+            :bpm_scale => true
+          },
+          :vibrato_sustain =>
+          {
+            :doc => "Amount of time (in beats) for vibrato value to remain at sustain level.",
+            :validations => [v_positive(:vibrato_sustain)],
+            :modulatable => false,
+            :bpm_scale => true
+          },
+          :vibrato_release =>
+          {
+            :doc => "Amount of time (in beats) for sound to move from vibrato sustain value to vibrato zero.",
+            :validations => [v_positive(:vibrato_release)],
+            :modulatable => false,
+            :bpm_scale => true
+          },
+          :vibrato_attack_level =>
+          {
+            :doc => "The peak vibrato (value of vibrato at peak of attack).",
+            :validations => [v_between_inclusive(:vibrato_attack_level, 0, 1)],
+            :modulatable => false
+          },
+          :vibrato_decay_level =>
+          {
+            :doc => "The level of vibrato after the decay phase.",
+            :validations => [v_between_inclusive(:vibrato_decay_level, 0, 1)],
+            :modulatable => false
+          },
+          :vibrato_sustain_level =>
+          {
+            :doc => "The sustain vibrato level (value of vibrato at sustain time).",
+            :validations => [v_between_inclusive(:vibrato_sustain_level, 0, 1)],
+            :modulatable => false
+          },
+          :ibreath =>
+          {
+            :doc => "Determines how strongly the airflow can be appreciated.",
+            :validations => [v_between_inclusive(:ibreath, 0, 1)],
+            :modulatable => true
+          },
+          :ifeedbk1 =>
+          {
+            :doc => "`ifeedbk1` and `ifeedbk2` together control the amount of feedback that determines tonality and timbre. If both are set to zero, then there is no feedback at all, resulting in just noise. Driving them up towards 1 results in a rougher timbre. Both values together should not exceed 1.1. If they do `ifeedbk2` is clipped.",
+            :validations => [v_between_inclusive(:ifeedbk1, 0, 1)],
+            :modulatable => true
+          },
+          :ifeedbk2 =>
+          {
+            :doc => "`ifeedbk1` and `ifeedbk2` together control the amount of feedback that determines tonality and timbre. If both are set to zero, then there is no feedback at all, resulting in just noise. Driving them up towards 1 results in a rougher timbre. Both values together should not exceed 1.1. If they do `ifeedbk2` is clipped.",
+            :validations => [v_between_inclusive(:ifeedbk2, 0, 1)],
+            :modulatable => true
+          },
+        }
+      end
+    end
+
     class StudioInfo < SonicPiSynth
       def user_facing?
         false
@@ -9644,6 +9835,7 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
         :sc808_open_hihat => SC808OpenHihat.new,
         :sc808_cymbal => SC808OpenCymbal.new,
         :gabberkick => Gabberkick.new,
+        :flute => Flute.new,
         :sound_in => SoundIn.new,
         :sound_in_stereo => SoundInStereo.new,
         :noise => Noise.new,
