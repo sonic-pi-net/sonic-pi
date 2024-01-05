@@ -136,10 +136,11 @@ Next we run the build-all script for Linux:
 
 ## 4. Start Sonic Pi
 
-Finally, you can run your newly compiled `Sonic Pi` app within the `build`
+Finally, you can run your newly compiled `Sonic Pi` app within the `bin`
 directly either by double clicking it in your file manager or via the terminal
 
 ```
+cd ../bin/
 ./sonic-pi
 ```
 
