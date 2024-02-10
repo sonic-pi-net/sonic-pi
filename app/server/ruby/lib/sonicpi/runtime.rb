@@ -796,9 +796,9 @@ module SonicPi
       if(lines.all?{|el| el.match(/^\s*#.*?/) || el.match(/^\s*$/)})
         # need to uncomment ##| style comments
         lines = lines.map do |l|
-          m = l.match(/^(\s*)#[#\| ]*(.*)/)
+          m = l.match(/^(\s*)(#(#\|)?\s?)(.*)/)
           if m
-            m[1] + m[2] + "\n"
+            m[1] + m[4] + "\n"
           else
             l
           end
