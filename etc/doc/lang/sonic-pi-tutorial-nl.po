@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2023-11-23 17:05+0000\n"
-"Last-Translator: Ranforingus <ranforingus@hotmail.com>\n"
+"PO-Revision-Date: 2024-02-15 19:02+0000\n"
+"Last-Translator: Maarten Brouwers <github@murb.nl>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "nl/>\n"
 "Language: nl\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.2.1-rc\n"
+"X-Generator: Weblate 5.4\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -143,6 +143,10 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
+"live_loop :flibble do\n"
+"  sample :bd_haus, rate: 1\n"
+"  sleep 0.5\n"
+"end"
 
 #: 01.1-Live-Coding.md:28
 msgid ""
@@ -200,6 +204,11 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
+"live_loop :flibble do\n"
+"  sample :ambi_choir, rate: 0.3\n"
+"  sample :bd_haus, rate: 1\n"
+"  sleep 1\n"
+"end"
 
 #: 01.1-Live-Coding.md:51
 msgid ""
@@ -232,6 +241,11 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
+"live_loop :flibble do\n"
+"  sample :ambi_choir, rate: 0.3\n"
+"#  sample :bd_haus, rate: 1\n"
+"  sleep 1\n"
+"end"
 
 #: 01.1-Live-Coding.md:70
 msgid ""
@@ -318,6 +332,19 @@ msgid ""
 "  sleep 8\n"
 "end"
 msgstr ""
+"live_loop :guit do\n"
+"  with_fx :echo, mix: 0.3, phase: 0.25 do\n"
+"    sample :guit_em9, rate: 0.5\n"
+"  end\n"
+"#  sample :guit_em9, rate: -0.5\n"
+"  sleep 8\n"
+"end\n"
+"live_loop :boom do\n"
+"  with_fx :reverb, room: 1 do\n"
+"    sample :bd_boom, amp: 10, rate: 1\n"
+"  end\n"
+"  sleep 8\n"
+"end"
 
 #: 01.1-Live-Coding.md:111
 msgid ""
@@ -707,7 +734,7 @@ msgstr "Bestudeer de volgende code:"
 #: A.20-creative-coding-in-the-classroom.md:158
 #, no-wrap
 msgid "play 70"
-msgstr ""
+msgstr "play 70"
 
 #: 02.1-Your-First-Beeps.md:11
 msgid ""
@@ -739,7 +766,7 @@ msgstr ""
 #: 02.1-Your-First-Beeps.md:23
 #, no-wrap
 msgid "play 75"
-msgstr ""
+msgstr "play 75"
 
 #: 02.1-Your-First-Beeps.md:27
 msgid "Can you hear the difference? Try a lower number:"
@@ -748,7 +775,7 @@ msgstr "Hoor je het verschil? Probeer een lager getal:"
 #: 02.1-Your-First-Beeps.md:29
 #, no-wrap
 msgid "play 60"
-msgstr ""
+msgstr "play 60"
 
 #: 02.1-Your-First-Beeps.md:33
 msgid ""
@@ -806,6 +833,9 @@ msgid ""
 "play 75\n"
 "play 79"
 msgstr ""
+"play 72\n"
+"play 75\n"
+"play 79"
 
 #: 02.1-Your-First-Beeps.md:55
 msgid ""
@@ -841,6 +871,11 @@ msgid ""
 "sleep 1\n"
 "play 79"
 msgstr ""
+"play 72\n"
+"sleep 1\n"
+"play 75\n"
+"sleep 1\n"
+"play 79"
 
 #: 02.1-Your-First-Beeps.md:73
 msgid ""
@@ -865,6 +900,11 @@ msgid ""
 "sleep 0.5\n"
 "play 79"
 msgstr ""
+"play 72\n"
+"sleep 0.5\n"
+"play 75\n"
+"sleep 0.5\n"
+"play 79"
 
 #: 02.1-Your-First-Beeps.md:87
 msgid ""
@@ -910,6 +950,11 @@ msgid ""
 "sleep 0.5\n"
 "play :E"
 msgstr ""
+"play :C\n"
+"sleep 0.5\n"
+"play :D\n"
+"sleep 0.5\n"
+"play :E"
 
 #: 02.1-Your-First-Beeps.md:110
 msgid ""
@@ -929,6 +974,11 @@ msgid ""
 "sleep 0.5\n"
 "play :E4"
 msgstr ""
+"play :C3\n"
+"sleep 0.5\n"
+"play :D3\n"
+"sleep 0.5\n"
+"play :E4"
 
 #: 02.1-Your-First-Beeps.md:122
 msgid ""
@@ -1129,7 +1179,7 @@ msgstr ""
 #: 02.2-Synth-Params.md:84
 #, no-wrap
 msgid "play 60, amp: 0.5"
-msgstr ""
+msgstr "play 60, amp: 0.5"
 
 #: 02.2-Synth-Params.md:88
 msgid "To play at double amplitude pass 2:"
@@ -1138,7 +1188,7 @@ msgstr "Afspelen op een dubbel zo hoge amplitude gebruik dan 2:"
 #: 02.2-Synth-Params.md:90
 #, no-wrap
 msgid "play 60, amp: 2"
-msgstr ""
+msgstr "play 60, amp: 2"
 
 #: 02.2-Synth-Params.md:94
 msgid ""
@@ -1157,6 +1207,9 @@ msgid ""
 "sleep 0.5\n"
 "play 65"
 msgstr ""
+"play 60, amp: 0.5\n"
+"sleep 0.5\n"
+"play 65"
 
 #: 02.2-Synth-Params.md:104
 msgid "Of course, you can use different `amp:` values for each call to play:"
@@ -1174,6 +1227,13 @@ msgid ""
 "sleep 0.25\n"
 "play 62, amp: 1"
 msgstr ""
+"play 50, amp: 0.1\n"
+"sleep 0.25\n"
+"play 55, amp: 0.2\n"
+"sleep 0.25\n"
+"play 57, amp: 0.4\n"
+"sleep 0.25\n"
+"play 62, amp: 1"
 
 #: 02.2-Synth-Params.md:116
 msgid "Panning"
@@ -1203,7 +1263,7 @@ msgstr "Laten we eens een bliepje uit de linker-luidspreker laten horen:"
 #: 02.2-Synth-Params.md:128
 #, no-wrap
 msgid "play 60, pan: -1"
-msgstr ""
+msgstr "play 60, pan: -1"
 
 #: 02.2-Synth-Params.md:132
 msgid "Now, let's play it out of the right speaker:"
@@ -1212,7 +1272,7 @@ msgstr "En nu uit de rechter-luidspreker:"
 #: 02.2-Synth-Params.md:134
 #, no-wrap
 msgid "play 60, pan: 1"
-msgstr ""
+msgstr "play 60, pan: 1"
 
 #: 02.2-Synth-Params.md:138
 msgid "Finally let's play it back out of the center of both (the default position):"
@@ -1221,7 +1281,7 @@ msgstr "En nu terug vanuit het midden (standaard positie):"
 #: 02.2-Synth-Params.md:141
 #, no-wrap
 msgid "play 60, pan: 0"
-msgstr ""
+msgstr "play 60, pan: 0"
 
 #: 02.2-Synth-Params.md:145
 msgid "Now, go and have fun changing the amplitude and panning of your sounds!"
@@ -1286,6 +1346,12 @@ msgid ""
 "sleep 0.25\n"
 "play 62"
 msgstr ""
+"use_synth :saw\n"
+"play 38\n"
+"sleep 0.25\n"
+"play 50\n"
+"sleep 0.25\n"
+"play 62"
 
 #: 02.3-Switching-Synths.md:34
 msgid "Let's try another sound - the *prophet*:"
@@ -1301,6 +1367,12 @@ msgid ""
 "sleep 0.25\n"
 "play 62"
 msgstr ""
+"use_synth :prophet\n"
+"play 38\n"
+"sleep 0.25\n"
+"play 50\n"
+"sleep 0.25\n"
+"play 62"
 
 #: 02.3-Switching-Synths.md:45
 msgid "How about combining two sounds. First one after another:"
@@ -1319,6 +1391,13 @@ msgid ""
 "use_synth :prophet\n"
 "play 57"
 msgstr ""
+"use_synth :saw\n"
+"play 38\n"
+"sleep 0.25\n"
+"play 50\n"
+"sleep 0.25\n"
+"use_synth :prophet\n"
+"play 57"
 
 #: 02.3-Switching-Synths.md:57
 msgid ""
@@ -1338,6 +1417,12 @@ msgid ""
 "use_synth :prophet\n"
 "play 57"
 msgstr ""
+"use_synth :tb303\n"
+"play 38\n"
+"use_synth :dsaw\n"
+"play 50\n"
+"use_synth :prophet\n"
+"play 57"
 
 #: 02.3-Switching-Synths.md:69
 msgid ""
@@ -1515,7 +1600,7 @@ msgstr ""
 #: 02.4-Durations-with-Envelopes.md:56
 #, no-wrap
 msgid "play 70, release: 1"
-msgstr ""
+msgstr "play 70, release: 1"
 
 #: 02.4-Durations-with-Envelopes.md:60
 msgid ""
@@ -1530,7 +1615,7 @@ msgstr ""
 #: 02.4-Durations-with-Envelopes.md:64
 #, no-wrap
 msgid "play 60, release: 2"
-msgstr ""
+msgstr "play 60, release: 2"
 
 #: 02.4-Durations-with-Envelopes.md:68
 msgid ""
@@ -1543,7 +1628,7 @@ msgstr ""
 #: 02.4-Durations-with-Envelopes.md:71
 #, no-wrap
 msgid "play 60, release: 0.2"
-msgstr ""
+msgstr "play 60, release: 0.2"
 
 #: 02.4-Durations-with-Envelopes.md:75
 msgid ""
@@ -1607,6 +1692,9 @@ msgid ""
 "sleep 3\n"
 "play 65, attack: 0.5"
 msgstr ""
+"play 60, attack: 2\n"
+"sleep 3\n"
+"play 65, attack: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:104
 msgid ""
@@ -1619,7 +1707,7 @@ msgstr ""
 #: 02.4-Durations-with-Envelopes.md:107
 #, no-wrap
 msgid "play 60, attack: 0.7, release: 4"
-msgstr ""
+msgstr "play 60, attack: 0.7, release: 4"
 
 #: 02.4-Durations-with-Envelopes.md:111
 msgid ""
@@ -1648,7 +1736,7 @@ msgstr ""
 #: 02.4-Durations-with-Envelopes.md:119
 #, no-wrap
 msgid "play 60, attack: 4, release: 0.7"
-msgstr ""
+msgstr "play 60, attack: 4, release: 0.7"
 
 #: 02.4-Durations-with-Envelopes.md:123
 msgid ""
@@ -1669,7 +1757,7 @@ msgstr ""
 #: 02.4-Durations-with-Envelopes.md:128
 #, no-wrap
 msgid "play 60, attack: 0.5, release: 0.5"
-msgstr ""
+msgstr "play 60, attack: 0.5, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:132
 msgid ""
@@ -1697,7 +1785,7 @@ msgstr ""
 #: 02.4-Durations-with-Envelopes.md:141
 #, no-wrap
 msgid "play 60, attack: 0.3, sustain: 1, release: 1"
-msgstr ""
+msgstr "play 60, attack: 0.3, sustain: 1, release: 1"
 
 #: 02.4-Durations-with-Envelopes.md:145
 msgid ""
@@ -1751,6 +1839,8 @@ msgid ""
 "play 60, attack: 0.1, attack_level: 1, decay: 0.2, sustain_level: 0.4, sustain"
 ": 1, release: 0.5"
 msgstr ""
+"play 60, attack: 0.1, attack_level: 1, decay: 0.2, sustain_level: 0.4, "
+"sustain: 1, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:168
 msgid ""
@@ -1782,6 +1872,8 @@ msgid ""
 "play 60, attack: 0.1, attack_level: 1, decay: 0.2, decay_level: 0.3, sustain: "
 "1, sustain_level: 0.4, release: 0.5"
 msgstr ""
+"play 60, attack: 0.1, attack_level: 1, decay: 0.2, decay_level: 0.3, sustain:"
+" 1, sustain_level: 0.4, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:181
 msgid "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level.png)"
@@ -1801,6 +1893,8 @@ msgid ""
 "play 60, attack: 0.1, attack_level: 0.1, decay: 0.2, decay_level: 1, sustain: "
 "0.5, sustain_level: 0.8, release: 1.5"
 msgstr ""
+"play 60, attack: 0.1, attack_level: 0.1, decay: 0.2, decay_level: 1, sustain:"
+" 0.5, sustain_level: 0.8, release: 1.5"
 
 #: 02.4-Durations-with-Envelopes.md:189
 msgid "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level-2.png)"
@@ -1850,6 +1944,8 @@ msgid ""
 "play 60, attack: 0.5, attack_level: 1, decay: 1, sustain_level: 0.4, sustain: "
 "2, release: 0.5"
 msgstr ""
+"play 60, attack: 0.5, attack_level: 1, decay: 1, sustain_level: 0.4, sustain:"
+" 2, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:208
 msgid "Now go and have a play adding envelopes to your sounds..."
@@ -3582,6 +3678,10 @@ msgid ""
 "  sleep rrand(0.2, 2)\n"
 "end"
 msgstr ""
+"loop do\n"
+"  sample :perc_bell, rate: rrand(0.125, 1.5)\n"
+"  sleep rrand(0.2, 2)\n"
+"end"
 
 #: 04-Randomisation.md:63
 msgid "Random cutoff"
@@ -7792,6 +7892,15 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"define :my_sound do\n"
+"  play 50\n"
+"  sleep 1\n"
+"end\n"
+"in_thread(name: :looper) do\n"
+"  loop do\n"
+"    my_sound\n"
+"  end\n"
+"end"
 
 #: 09.1-Live-Coding-Fundamentals.md:31
 msgid ""
@@ -10107,7 +10216,6 @@ msgid "Receiving from External Machines"
 msgstr "Ontvang van andere computers"
 
 #: 12.1-Receiving-OSC.md:60
-#, fuzzy
 msgid ""
 "For security reasons, by default Sonic Pi does not let remote machines send it"
 " OSC messages. However, you can enable support for remote machines in Preferen"
@@ -10120,15 +10228,16 @@ msgid ""
 "P address, hovering the mouse over the listed address will pop up with a list "
 "of all known addresses)."
 msgstr ""
-"Vanwege veiligheidsvoorzorgen laat Sonic Pi niet standaard machines op afstand"
-" OSC-berichten verzenden. Maar je kan dit toestaan in Voorkeuren->IO->Netwerk-"
-">Ontvang OSC-berichten op afstand. Wanneer je dit hebt aangezet, kan je OSC-be"
-"richten van elke computer op je netwerk ontvangen. Normaal zal de versturende "
-"machine moeten weten wat het IP-adres is (een unieke waarde die je computer id"
-"entificeert op je netwerk - net als een telefoonnummer of een emailadres). Je "
-"kan je eigen IP-adres opzoeken door te kijken naar de IO-sectie in het voorkeu"
-"rsscherm. Als je computer meerdere IP-adressen heeft, ga dan met de muis over "
-"het adres om een lijst van alle bekende adressen te krijgen."
+"Vanwege veiligheidsvoorzorgen laat Sonic Pi niet standaard machines op "
+"afstand OSC-berichten verzenden. Maar je kan dit toestaan in "
+"Voorkeuren->IO->Netwerk->Ontvang OSC-berichten op afstand. Wanneer je dit "
+"hebt aangezet, kan je OSC-berichten van elke computer op je netwerk "
+"ontvangen. Normaal zal de versturende machine moeten weten wat het IP-adres "
+"is (een unieke waarde die je computer identificeert op je netwerk - net als "
+"een telefoonnummer of een emailadres). Je kan je eigen IP-adres opzoeken "
+"door te kijken naar de IO-sectie in het voorkeursscherm. Als je computer "
+"meerdere IP-adressen heeft, ga dan met de muis over het adres om een lijst "
+"van alle bekende adressen te krijgen."
 
 #: 12.1-Receiving-OSC.md:72
 msgid ""
@@ -10216,6 +10325,8 @@ msgid ""
 "use_osc \"localhost\", 123456\n"
 "osc \"/hello/world\""
 msgstr ""
+"use_osc \"localhost\", 123456\n"
+"osc \"/hello/world\""
 
 #: 12.2-Sending-OSC.md:37
 msgid ""
@@ -10241,6 +10352,8 @@ msgid ""
 "use_osc \"192.168.10.23\", 123456\n"
 "osc \"/hello/world\""
 msgstr ""
+"use_osc \"192.168.10.23\", 123456\n"
+"osc \"/hello/world\""
 
 #: 12.2-Sending-OSC.md:49
 msgid ""
@@ -10300,7 +10413,7 @@ msgstr ""
 #: 13.1-Sound-In.md:7
 #, no-wrap
 msgid "synth :sound_in"
-msgstr ""
+msgstr "synth :sound_in"
 
 #: 13.1-Sound-In.md:11
 msgid ""
@@ -10337,7 +10450,7 @@ msgstr ""
 #: 13.1-Sound-In.md:22
 #, no-wrap
 msgid "synth :sound_in, sustain: 8"
-msgstr ""
+msgstr "synth :sound_in, sustain: 8"
 
 #: 13.1-Sound-In.md:28
 msgid ""
@@ -10356,6 +10469,11 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"with_fx :reverb do\n"
+"  with_fx :distortion do\n"
+"    synth :sound_in, sustain: 8\n"
+"  end\n"
+"end"
 
 #: 13.1-Sound-In.md:38
 msgid ""
@@ -10388,6 +10506,12 @@ msgid ""
 "  synth :sound_in, sustain: 8\n"
 "end"
 msgstr ""
+"with_fx :distortion do\n"
+"  synth :sound_in, sustain: 8\n"
+"end\n"
+"with_fx :reverb do  \n"
+"  synth :sound_in, sustain: 8\n"
+"end"
 
 #: 13.1-Sound-In.md:52
 msgid "Multiple Inputs"
@@ -10418,6 +10542,12 @@ msgid ""
 "  synth :sound_in, sustain: 8, input: 3\n"
 "end"
 msgstr ""
+"with_fx :distortion do\n"
+"  synth :sound_in_stereo, sustain: 8, input: 1\n"
+"end\n"
+"with_fx :reverb do  \n"
+"  synth :sound_in, sustain: 8, input: 3\n"
+"end"
 
 #: 13.1-Sound-In.md:72
 msgid "Potential Issues"
@@ -10677,14 +10807,12 @@ msgstr ""
 "te starten."
 
 #: 13.3-Sound-Out.md:1
-#, fuzzy
 msgid "13.3 Sound Out"
-msgstr "13.3 Geluid Uit"
+msgstr "13.3 Geluid Uitvoer"
 
 #: 13.3-Sound-Out.md:3
-#, fuzzy
 msgid "Sound Out"
-msgstr "Geluid Uit"
+msgstr "Geluid Uitvoer"
 
 #: 13.3-Sound-Out.md:5
 msgid ""
@@ -10722,6 +10850,11 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"with_fx :reverb do    # C\n"
+"  with_fx :echo do    # B\n"
+"    sample :bd_haus   # A\n"
+"  end\n"
+"end"
 
 #: 13.3-Sound-Out.md:24
 msgid ""
@@ -10747,7 +10880,7 @@ msgstr ""
 
 #: 13.3-Sound-Out.md:35
 msgid "Sound Out FX"
-msgstr "Sound Uit effecten"
+msgstr "Geluid Uitvoer effecten"
 
 #: 13.3-Sound-Out.md:37
 msgid ""
@@ -10850,6 +10983,9 @@ msgid ""
 "  sample :loop_amen                      # A\n"
 "end"
 msgstr ""
+"with_fx :sound_out, output: 3, amp: 0 do # B\n"
+"  sample :loop_amen                      # A\n"
+"end"
 
 #: 13.3-Sound-Out.md:88
 msgid ""
@@ -10927,7 +11063,7 @@ msgstr "*Er zijn geen fouten, alleen maar kansen*"
 
 #: 99-Conclusions.md:26
 msgid "[Sam Aaron](https://twitter.com/samaaron)"
-msgstr ""
+msgstr "[Sam Aaron](https://twitter.com/samaaron)"
 
 #: A-Articles.md:1
 msgid "A Appendix A - MagPi Articles"
@@ -11194,18 +11330,16 @@ msgstr ""
 "end"
 
 #: A.01-tips.md:106
-#, fuzzy
 msgid ""
 "Now, try increasing that feedback to 1 to hear some fun sounds! Read the docs "
 "for full details on all the many opts available to you."
 msgstr ""
-"Probeer nu de feedback te verhogen naar 1 om maffe klanken te horen. Lees de d"
-"ocumentatie voor details over de beschikbare opts."
+"Probeer nu de feedback te verhogen naar 1 om wat gekke geluiden te horen. "
+"Lees de documentatie voor details over de beschikbare opties."
 
 #: A.01-tips.md:110
-#, fuzzy
 msgid "4. Live Code"
-msgstr "5. Live Code"
+msgstr "4. Live Code"
 
 #: A.01-tips.md:112
 msgid ""
@@ -11488,7 +11622,6 @@ msgstr ""
 "end"
 
 #: A.02-live-coding.md:67
-#, fuzzy
 msgid ""
 "Now press the Run button or hit `Meta-r`. You're now listening to some gorgeou"
 "s choir sounds. Now, whilst it's still playing, change the rate from `0.4` to "
@@ -11501,12 +11634,12 @@ msgid ""
 msgstr ""
 "Klik nu op de afspeelknop of gebruik `alt-r`. Je luistert nu naar de "
 "prachtige klank van een koor. Verander de koers, terwijl de code speelt van "
-"`0.4` naar `0.38`. Klik terug op afspelen. Woeha! Hoorde je het koor van "
-"toon veranderen? Verander deze terug naar `0.4` om terug te keren hoe het "
-"was. Verlaag deze nu naar `0.2`, verlaag naar `0.19` en terug naar omhoog "
-"naar `0.4`. Hierbij zie je dat het improviseren op één parameter, jou de "
-"controle over jouw muziek geeft? Speel zelf met de waarden die je kiest. "
-"Probeer negatieve getallen, hele kleine en hele grote getallen. Veel plezier!"
+"`0.4` naar `0.38`. Klik terug op afspelen. Wauw! Hoorde je het koor van toon "
+"veranderen? Verander deze terug naar `0.4` om terug te keren hoe het was. "
+"Verlaag deze nu naar `0.2`, verlaag naar `0.19` en terug naar omhoog naar `0."
+"4`. Hierbij zie je dat het improviseren op één parameter, jou de controle "
+"over jouw muziek geeft? Speel zelf met de waarden die je kiest. Probeer "
+"negatieve getallen, hele kleine en hele grote getallen. Experimenteer!"
 
 #: A.02-live-coding.md:77
 msgid "Sleeping is important"
@@ -11596,13 +11729,12 @@ msgstr ""
 "end"
 
 #: A.02-live-coding.md:121
-#, fuzzy
 msgid ""
 "Here, we have two `live_loop`s, one looping quickly making beats and another l"
 "ooping slowly making a wild bass sound."
 msgstr ""
-"Hier hebben we twee `live_loops` de ene speelt snel en maakt beats, de andere "
-"speelt snel en maakt maffe bas geluiden."
+"Hier hebben we twee `live_loops`, de ene speelt snel en maakt beats, de "
+"andere speelt snel en maakt maffe bas geluiden."
 
 #: A.02-live-coding.md:124
 msgid ""
@@ -11928,16 +12060,15 @@ msgstr ""
 "`opt werkt met de huidige BPM om ervoor te zorgen dat alles werkt."
 
 #: A.03-coded-beats.md:97
-#, fuzzy
 msgid ""
 "Now, here's the fun part. Whilst the loop is still live, change the `30` in th"
 "e `use_bpm 30` line to `50`. Woah, everything just got faster yet *kept in tim"
 "e*! Try going faster - up to 80, to 120, now go wild and punch in 200!"
 msgstr ""
-"Nu komt het leuke! Terwijl de loop nog altijd speelt, verander de`30`in de `us"
-"e_bpm 30`regel naar `50`. Woeha, Alles gaat nu sneller, en *in maat* gehouden!"
-" Probeer sneller te gaan - omhoog naar 80, naar 120, doe nu eens goed zot en g"
-"ebruik 200!"
+"Nu komt het leuke! Terwijl de loop nog altijd speelt, verander de`30`in de `"
+"use_bpm 30`regel naar `50`. Alles gaat nu sneller, en wordt nog steeds *in "
+"maat* gehouden, goed hoor! Probeer sneller te gaan - omhoog naar 80, naar "
+"120, doe nu eens goed zot en gebruik 200!"
 
 #: A.03-coded-beats.md:103
 msgid "Filtering"
@@ -12701,7 +12832,6 @@ msgstr ""
 "ik zal hier nog wel zijn :) ..."
 
 #: A.05-acid-bass.md:91
-#, fuzzy
 msgid ""
 "Another opt worth playing with is `res:`. This controls the level of resonance"
 " of the filter. A high resonance is characteristic of acid bass sounds. We cur"
@@ -12711,14 +12841,15 @@ msgid ""
 "some insane sounds. At a `res` this high, you're hearing the cutoff filter res"
 "onate so much it starts to make sounds of its own!"
 msgstr ""
-"Een andere opt die de moeite waard is, is `res`. Deze bedient het niveau van d"
-"e resonantie van de filter. Een hoge resonantie is een typisch kenmerk van de "
-"Acid Bass geluiden. Ons huidig niveau is `0.8`. Draai deze omhoog naar `0.85`,"
-" dan `0.9` en tenslotte naar `0.95`. Je zult hierdoor merken dat met een cutof"
-"f van `110`, de verschillen makkelijker hoorbaar zullen zijn. Doe tenslotte ma"
-"ar eens goed gek, door ´0999´ te gebruiken, voor een krankzinnig geluid. Aan z"
-"o een hoge `res` zal de cutoff filter zo hard resoneren dat deze zelf gaat osc"
-"illeren, en zo zelf een geluidsbron wordt!"
+"Een andere optie die de moeite waard is, is `res`. Deze bedient het "
+"resonantieniveau van de filter. Een hoge resonantie is een typisch kenmerk "
+"van de Acid Bass geluiden. Ons huidig niveau is `0.8`. Draai deze omhoog "
+"naar `0.85`, dan `0.9` en tenslotte naar `0.95`. Je zult hierdoor merken dat "
+"met een cutoff van `110` of hoger de verschillen makkelijker hoorbaar zullen "
+"zijn. Doe tenslotte maar eens goed gek, door bijvoorbeeld ´0.999´ te "
+"gebruiken, voor een krankzinnig geluid. Bij een `res` die zo hoog is zal de "
+"cutoff filter zo hard resoneren dat deze zelf gaat oscilleren en zo zelf een "
+"geluidsbron wordt!"
 
 #: A.05-acid-bass.md:100
 msgid ""
@@ -12902,7 +13033,6 @@ msgid "Musical Minecraft"
 msgstr "Muzikale Minecraft"
 
 #: A.06-minecraft.md:6 A.08-minecraft-vj.md:8
-#, fuzzy
 msgid ""
 "**Deprecation Warning** *Apologies but this article was written back when Mine"
 "craft Pi Edition was still part of Raspberry Pi OS and Sonic Pi had built-in s"
@@ -12910,7 +13040,13 @@ msgid ""
 "he minecraft specific code (`mc_*` functions) are no longer available in Sonic"
 " Pi. However, this article is left here as a memory of what was once possible."
 "*"
-msgstr "Minecraft Pi"
+msgstr ""
+"**Niet meer beschikbaar** * Excuses, maar dit artikel werd teruggeschreven "
+"toen Minecraft Pi Edition nog steeds deel uitmaakte van Raspberry Pi OS. "
+"Sonic Pi had toen ingebouwde ondersteuning om het met code te bedienen. "
+"Helaas is dit niet langer het geval en zijn de minecraft specifieke code, ("
+"de `mc_*` functies) niet meer beschikbaar in Sonic Pi. Dit artikel wordt "
+"hier echter achtergelaten als herinnering aan wat ooit mogelijk was.*"
 
 #: A.06-minecraft.md:15
 msgid ""
@@ -16279,7 +16415,6 @@ msgstr ""
 "end"
 
 #: A.14-amplitude-modulation.md:169
-#, fuzzy
 msgid ""
 "This allows us to take any sample and create new rhythmical possibilities whic"
 "h is a lot of fun. However, one thing to be careful about is to make sure that"
@@ -16287,11 +16422,12 @@ msgid ""
 "cing will sound totally off. For example, try swapping `:loop_mika` with the `"
 "loop_amen` sample to hear how bad this can sound when the tempos don't align."
 msgstr ""
-"Hiermee kunnen we met eender welke sample nieuwe ritmische mogelijkheden creër"
-"en, heel leuk om mee te spelen. Waar je wel op moet letten is dat het tempo va"
-"n de sample past in het huidige BPM van Sonic Pi, anders knipt hij naast het r"
-"itme. Probeer bijvoorbeeld de `:loop_mika` met de `loop_amen` sample te verwis"
-"selen, om te horen hoe slecht dit kan klinken als het tempo niet uitlijnt."
+"Hiermee kunnen we met een willekeurige sample nieuwe ritmische mogelijkheden "
+"creëren. Dit is heel leuk om mee te spelen. Waar je wel op moet letten is "
+"dat het tempo van de sample past in het huidige BPM van Sonic Pi, anders "
+"knipt hij naast het ritme. Probeer bijvoorbeeld de `:loop_mika` met de "
+"`loop_amen` sample te verwisselen, om te horen hoe slecht dit kan klinken "
+"als het tempo niet goed overeenkomt."
 
 #: A.14-amplitude-modulation.md:176
 msgid "Changing tempo"
@@ -16561,12 +16697,10 @@ msgstr ""
 "herstarten zonder een tel te missen."
 
 #: A.15-performance.md:97
-#, fuzzy
 msgid "4. Use the Main Mixer"
-msgstr "4. De Master Mixer Gebruiken"
+msgstr "4. De Master Mixer gebruiken"
 
 #: A.15-performance.md:99
-#, fuzzy
 msgid ""
 "One of Sonic Pi's best kept secrets is that it has a main mixer through which "
 "all sound flows. This mixer has both a low pass filter and a high pass filter "
@@ -16575,12 +16709,12 @@ msgid ""
 "xample, whilst some code is running and making sound, enter this into a spare "
 "buffer and hit `Run`:"
 msgstr ""
-"Een van Sonic Pi's best bewaarde geheimen, is dat deze een master mixer heeft,"
-" waar het geluid doorgaat. Deze mixer heeft zowel een low pass- als een high p"
-"ass filter ingebouwd, zodat je makkelijk het globale geluid kan modificeren. D"
-"e functies van de master mixer is toegankelijk via de fn `set_mixer_control!`."
-" Gebruik bijvoorbeeld het volgende, terwijl je de code loopt en hoort, in een "
-"vrije buffer, en druk op `Afspelen`:"
+"Een van Sonic Pi's best bewaarde geheimen is dat deze een master mixer heeft "
+"waar het geluid doorgaat. Deze mixer heeft zowel een low pass als een high "
+"pass filter ingebouwd, zodat je makkelijk het globale geluid kan "
+"modificeren. De functies van de master mixer is toegankelijk via de fn "
+"`set_mixer_control!`. Probeer bijvoorbeeld het volgende, terwijl je de code "
+"loopt en hoort in een vrije buffer en druk op `Afspelen`:"
 
 #: A.15-performance.md:107
 msgid "` set_mixer_control! lpf: 50 `"
@@ -18285,6 +18419,10 @@ msgid ""
 "op, Drum and Bass and Jungle. For example, a number of early hip-hop artists p"
 "layed this drum break back at half speed to give it a more laid-back feeling:"
 msgstr ""
+"Deze code zal de drumbreak spelen die het basisingredient vormde van de "
+"oorspronkelijke hiphop, Drum & Bass en Jungle. Een aantal van de eerste "
+"hiphop-artiesten speelden bijvoorbeeld deze drumbreak op halve snelheid "
+"terug om het een meer ontspannen gevoel te geven:"
 
 #: A.20-creative-coding-in-the-classroom.md:198
 msgid ""
@@ -18292,25 +18430,35 @@ msgid ""
 "artists to take drum breaks like this apart and reassemble in a different orde"
 "r. For example:"
 msgstr ""
+"In de jaren 90 ontstonden een aantal muziekscenes door nieuwe technologie "
+"die artiesten in staat stelde om drumbreaks als deze uit elkaar te halen en "
+"in een andere volgorde opnieuw samen te komen. Bijvoorbeeld:"
 
 #: A.20-creative-coding-in-the-classroom.md:202
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :jungle do\n"
 " sample :loop_amen, onset: pick\n"
 " sleep 0.125\n"
 "end"
-msgstr "sample :loop_amen"
+msgstr ""
+"live_loop :jungle do\n"
+" sample :loop_amen, onset: pick\n"
+" sleep 0.125\n"
+"end"
 
 #: A.20-creative-coding-in-the-classroom.md:209
-#, fuzzy
 msgid ""
 "In this example we introduce a basic loop called :jungle which picks a random "
 "drum hit from our audio sample, waits for an eighth of a second and then picks"
 " another drum hit. This results in an endless stream of random drum beats to d"
 "ance to whilst you experience what a loop is."
-msgstr "rand"
+msgstr ""
+"In dit voorbeeld introduceren we een basislus genaamd :jungle die een "
+"willekeurige drumhit uit ons audiovoorbeeld haalt, een achtste van een "
+"seconde wacht en vervolgens een nieuwe drumhit kiest. Dit resulteert in een "
+"eindeloze stroom willekeurige drumbeats om op te dansen terwijl je ervaart "
+"wat een lus is."
 
 #: B-Essential-Knowledge.md:1
 msgid "B Essential Knowledge"
