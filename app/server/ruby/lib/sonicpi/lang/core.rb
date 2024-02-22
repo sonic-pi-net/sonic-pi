@@ -1772,8 +1772,6 @@ end"
 
 
       def range(start, finish, *args)
-        start = start.to_f
-        finish = finish.to_f
         if is_list_like?(args) && args.size == 1 && args.first.is_a?(Numeric)
           # Allow one optional arg for legacy reasons. Versions earlier
           # than v2.5 allowed: range(1, 10, 2)
@@ -1781,9 +1779,15 @@ end"
           inclusive = false
         else
           args_h = resolve_synth_opts_hash_or_array(args)
-          step_size = args_h[:step] || 1.0
-          step_size = step_size.to_f
+          step_size = args_h[:step] || 1
           inclusive = args_h[:inclusive]
+        end
+
+        # If all args are ints, return ints
+        unless start.is_a? Integer and finish.is_a? Integer and step_size.is_a? Integer then
+          start = start.to_f
+          finish = finish.to_f
+          step_size = step_size.to_f
         end
 
         return [].ring if start == finish
