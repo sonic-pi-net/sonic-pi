@@ -60,7 +60,7 @@ Note: please make sure that you have gcc12 installed. Compiling vcpkg dependenci
 ### 1.1 Debian
 The following is a rough list of Debian packages that are needed that can serve as a starting position:
 ```bash
-sudo apt-get install -y build-essential git libssl-dev ruby-dev elixir erlang-dev erlang-xmerl qt6-tools-dev qt6-tools-dev-tools libqt6svg6-dev libqt6opengl6-dev supercollider-server sc3-plugins-server alsa-utils  libasound2-dev cmake ninja-build pipewire-jack libspa-0.2-jack qt6-wayland libwayland-dev libxkbcommon-dev libegl1-mesa-dev libx11-dev libxft-dev libxext-dev qpwgraph compton
+sudo apt-get install -y build-essential git libssl-dev ruby-dev elixir erlang-dev erlang-xmerl qt6-tools-dev qt6-tools-dev-tools libqt6svg6-dev libqt6opengl6-dev supercollider-server sc3-plugins-server alsa-utils  libasound2-dev cmake ninja-build pipewire-jack libspa-0.2-jack qt6-wayland libwayland-dev libxkbcommon-dev libegl1-mesa-dev libx11-dev libxft-dev libxext-dev qpwgraph compton qt6-l10n-tools
 ```
 
 *Notes:*
@@ -136,10 +136,11 @@ Next we run the build-all script for Linux:
 
 ## 4. Start Sonic Pi
 
-Finally, you can run your newly compiled `Sonic Pi` app within the `build`
+Finally, you can run your newly compiled `Sonic Pi` app within the `bin`
 directly either by double clicking it in your file manager or via the terminal
 
 ```
+cd ../bin/
 ./sonic-pi
 ```
 
