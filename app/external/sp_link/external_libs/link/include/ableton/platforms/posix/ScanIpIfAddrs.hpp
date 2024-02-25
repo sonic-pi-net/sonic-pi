@@ -86,12 +86,13 @@ struct ScanIpIfAddrs
       const struct ifaddrs* interface;
       for (interface = &interfaces; interface; interface = interface->ifa_next)
       {
-        auto addr = reinterpret_cast<const struct sockaddr_in*>(interface->ifa_addr);
+        const auto addr =
+          reinterpret_cast<const struct sockaddr_in*>(interface->ifa_addr);
         if (addr && interface->ifa_flags & IFF_RUNNING && addr->sin_family == AF_INET)
         {
-          auto bytes = reinterpret_cast<const char*>(&addr->sin_addr);
-          auto address = discovery::makeAddress<discovery::IpAddressV4>(bytes);
-          addrs.emplace_back(std::move(address));
+          const auto bytes = reinterpret_cast<const char*>(&addr->sin_addr);
+          const auto address = discovery::makeAddress<discovery::IpAddressV4>(bytes);
+          addrs.emplace_back(address);
           IpInterfaceNames.insert(std::make_pair(interface->ifa_name, address));
         }
       }
@@ -101,17 +102,19 @@ struct ScanIpIfAddrs
       const struct ifaddrs* interface;
       for (interface = &interfaces; interface; interface = interface->ifa_next)
       {
-        auto addr = reinterpret_cast<const struct sockaddr_in*>(interface->ifa_addr);
-        if (addr && interface->ifa_flags & IFF_RUNNING && addr->sin_family == AF_INET6)
+        const auto addr =
+          reinterpret_cast<const struct sockaddr_in*>(interface->ifa_addr);
+        if (IpInterfaceNames.find(interface->ifa_name) != IpInterfaceNames.end() && addr
+            && interface->ifa_flags & IFF_RUNNING && addr->sin_family == AF_INET6)
         {
-          auto addr6 = reinterpret_cast<const struct sockaddr_in6*>(addr);
-          auto bytes = reinterpret_cast<const char*>(&addr6->sin6_addr);
-          auto scopeId = addr6->sin6_scope_id;
-          auto address = discovery::makeAddress<discovery::IpAddressV6>(bytes, scopeId);
-          if (IpInterfaceNames.find(interface->ifa_name) != IpInterfaceNames.end()
-              && !address.is_loopback() && address.is_link_local())
+          const auto addr6 = reinterpret_cast<const struct sockaddr_in6*>(addr);
+          const auto bytes = reinterpret_cast<const char*>(&addr6->sin6_addr);
+          const auto scopeId = addr6->sin6_scope_id;
+          const auto address =
+            discovery::makeAddress<discovery::IpAddressV6>(bytes, scopeId);
+          if (!address.is_loopback() && address.is_link_local())
           {
-            addrs.emplace_back(std::move(address));
+            addrs.emplace_back(address);
           }
         }
       }

@@ -12,15 +12,15 @@ environment:
     - APPVEYOR_BUILD_WORKER_IMAGE: macos-catalina
       CONFIGURATION: Release
       XCODE_VERSION: 11.7
-    - APPVEYOR_BUILD_WORKER_IMAGE: macos-catalina
+    - APPVEYOR_BUILD_WORKER_IMAGE: macos-bigsur
       CONFIGURATION: Debug
-      XCODE_VERSION: 12.3
-    - APPVEYOR_BUILD_WORKER_IMAGE: macos-monterey
-      CONFIGURATION: Release
       XCODE_VERSION: 12.5.1
     - APPVEYOR_BUILD_WORKER_IMAGE: macos-monterey
       CONFIGURATION: Release
-      XCODE_VERSION: 13.2.1
+      XCODE_VERSION: 13.4.1
+    - APPVEYOR_BUILD_WORKER_IMAGE: macos-monterey
+      CONFIGURATION: Release
+      XCODE_VERSION: 14.1
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2004
       AUDIO_DRIVER: Jack
       CONFIGURATION: Debug
@@ -52,19 +52,9 @@ environment:
       GENERATOR: Ninja
       CXX: g++-7
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      AUDIO_DRIVER: Asio
-      THREAD_DESCRIPTION: OFF
-      CONFIGURATION: Release
-      GENERATOR: Visual Studio 14 2015
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      AUDIO_DRIVER: Asio
+      AUDIO_DRIVER: Wasapi
       THREAD_DESCRIPTION: OFF
       CONFIGURATION: Debug
-      GENERATOR: Visual Studio 14 2015 Win64
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      AUDIO_DRIVER: Asio
-      THREAD_DESCRIPTION: OFF
-      CONFIGURATION: Release
       GENERATOR: Visual Studio 14 2015 Win64
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       AUDIO_DRIVER: Wasapi
@@ -88,7 +78,7 @@ environment:
       GENERATOR: Visual Studio 17 2022
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2004
       ESP_IDF: true
-      IDF_RELEASE: v4.3.1
+      IDF_RELEASE: v5.1.1
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2004
       FORMATTING: true
 
@@ -100,6 +90,7 @@ for:
       only:
         - APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave
         - APPVEYOR_BUILD_WORKER_IMAGE: macos-catalina
+        - APPVEYOR_BUILD_WORKER_IMAGE: macos-bigsur
         - APPVEYOR_BUILD_WORKER_IMAGE: macos-monterey
     build_script:
       - sudo xcode-select -s /Applications/Xcode-$XCODE_VERSION.app
@@ -114,7 +105,6 @@ for:
         - GENERATOR: Ninja
     install:
       - git submodule update --init --recursive
-      - sudo apt-get update
       - sudo apt-get install -y libjack-dev portaudio19-dev valgrind
     build_script:
       - python3 ci/configure.py --audio-driver $AUDIO_DRIVER --generator "$GENERATOR" --configuration $CONFIGURATION
@@ -129,6 +119,7 @@ for:
         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
     build_script:
+      - py -3 -m pip install setuptools
       - py -3 ci/configure.py --audio-driver %AUDIO_DRIVER% --thread-description %THREAD_DESCRIPTION% --generator "%GENERATOR%" --flags="-DCMAKE_SYSTEM_VERSION=10.0.18362.0"
       - py -3 ci/build.py --configuration %CONFIGURATION%
     test_script:
