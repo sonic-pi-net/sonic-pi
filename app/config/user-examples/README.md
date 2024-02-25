@@ -3,6 +3,9 @@
 The files in this directory are configuration files for modifying the
 behaviour of Sonic Pi. Have fun and happy live coding!
 
+On your system, these files are located in:
+- Linux, macOS: `~/.sonic-pi/config` (note that `~` means your home directory)
+- Windows: `<tbd>`
 
 ## init.rb
 
