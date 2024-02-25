@@ -2137,6 +2137,10 @@ void MainWindow::cycleThemes()
     }
     else if (piSettings->themeStyle == SonicPiTheme::HighContrastMode)
     {
+        piSettings->themeStyle = SonicPiTheme::MildDarkMode;
+    }
+    else if (piSettings->themeStyle == SonicPiTheme::MildDarkMode)
+    {
         piSettings->themeStyle = SonicPiTheme::LightMode;
     }
     emit settingsChanged();
@@ -2160,6 +2164,10 @@ void MainWindow::colourThemeMenuChanged(int themeID)
     else if (themeID == 5)
     {
         piSettings->themeStyle = SonicPiTheme::HighContrastMode;
+    }
+    else if (themeID == 6)
+    {
+        piSettings->themeStyle = SonicPiTheme::MildDarkMode;
     }
     else
     {
@@ -2232,6 +2240,8 @@ void MainWindow::updateColourTheme()
     proDarkThemeAct->setChecked(false);
     QSignalBlocker highContrastBlocker(highContrastThemeAct);
     highContrastThemeAct->setChecked(false);
+    QSignalBlocker mildDarkBlocker(mildDarkThemeAct);
+    mildDarkThemeAct->setChecked(false);
 
     if (piSettings->themeStyle == SonicPiTheme::LightMode)
     {
@@ -2253,7 +2263,10 @@ void MainWindow::updateColourTheme()
     {
         highContrastThemeAct->setChecked(true);
     }
-
+    else if (piSettings->themeStyle == SonicPiTheme::MildDarkMode)
+    {
+        mildDarkThemeAct->setChecked(true);
+    }
     theme->switchStyle(piSettings->themeStyle);
     statusBar()->showMessage(tr("Colour Theme: ") + theme->getName(), 2000);
 
@@ -2984,6 +2997,11 @@ void MainWindow::createToolBar()
     highContrastThemeAct->setChecked(false);
     connect(highContrastThemeAct, &QAction::triggered, [this]() { colourThemeMenuChanged(5); });
 
+    mildDarkThemeAct = new QAction(tr("Mild Dark"));
+    mildDarkThemeAct->setCheckable(true);
+    mildDarkThemeAct->setChecked(false);
+    connect(mildDarkThemeAct, &QAction::triggered, [this]() { colourThemeMenuChanged(6); });
+
     showScopeLabelsAct = new QAction(tr("Show Scope Labels"));
     showScopeLabelsAct->setCheckable(true);
     showScopeLabelsAct->setChecked(false);
@@ -3005,6 +3023,7 @@ void MainWindow::createToolBar()
     themeMenu->addAction(proLightThemeAct);
     themeMenu->addAction(proDarkThemeAct);
     themeMenu->addAction(highContrastThemeAct);
+    themeMenu->addAction(mildDarkThemeAct);
     displayMenu->addSeparator();
     displayMenu->addAction(scopeAct);
     displayMenu->addAction(showScopeLabelsAct);

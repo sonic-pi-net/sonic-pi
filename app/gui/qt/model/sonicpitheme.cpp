@@ -28,6 +28,7 @@ SonicPiTheme::SonicPiTheme(QObject *parent, QString customSettingsFilename, QStr
 
     qt_app_theme_path      = QDir::toNativeSeparators(rootPath + "/app/gui/qt/theme/app.qss");
 
+    qt_browser_mild_dark_css = QDir::toNativeSeparators(rootPath + "/app/gui/qt/theme/milddark/doc-styles.css");
     qt_browser_dark_css    = QDir::toNativeSeparators(rootPath + "/app/gui/qt/theme/dark/doc-styles.css");
     qt_browser_light_css   = QDir::toNativeSeparators(rootPath + "/app/gui/qt/theme/light/doc-styles.css");
     qt_browser_hc_css      = QDir::toNativeSeparators(rootPath + "/app/gui/qt/theme/high_contrast/doc-styles.css");
@@ -63,8 +64,12 @@ void SonicPiTheme::switchStyle(Style style) {
   this->name = themeStyleToName(style);
   this->style = style;
 
-    if (style == SonicPiTheme::DarkMode){
-        darkMode();
+    if (style == SonicPiTheme::DarkMode || style == SonicPiTheme::MildDarkMode){
+        if (style == SonicPiTheme::DarkMode) {
+            darkMode();
+        } else {
+            mildDarkMode();
+        }
         runIcon = &default_dark_run_icon;
         stopIcon = &default_dark_stop_icon;
         saveAsIcon = &default_dark_save_icon;
@@ -189,6 +194,12 @@ void SonicPiTheme::switchStyle(Style style) {
 
 QString SonicPiTheme::getName() {
     return this->name;
+}
+
+void SonicPiTheme::mildDarkMode()
+{
+    this->theme = withCustomSettings(mildDarkTheme());
+    this->css = ScalePxInStyleSheet(readFile(qt_browser_mild_dark_css));
 }
 
 void SonicPiTheme::darkMode(){
@@ -627,6 +638,213 @@ QMap<QString, QString> SonicPiTheme::darkTheme(){
     themeSettings["CueDataForeground"]               = dt_white;
     themeSettings["CueDataBackground"]               = dt_orange;
 
+
+    return themeSettings;
+}
+
+
+QMap<QString, QString> SonicPiTheme::mildDarkTheme()
+{
+    QMap<QString, QString> themeSettings;
+
+    // Dark Theme Colour Palette
+
+    QString dt_pink = "#ce9178";
+    QString dt_white = "white";
+    QString dt_lightgrey = "#d4d4d4";
+
+    QString dt_grey = "#5e5e5e"; // same as button background
+    QString dt_darkgrey = "#1e1e1e";
+    QString dt_ldarkgrey = "#2e2e2e";
+    QString dt_vldarkgrey = "#4d4d4d";
+    QString dt_vdarkgrey = "#0d0d0d";
+    QString dt_black = "#000";
+
+    QString dt_blue = "#9cdcfe";
+    QString dt_dark_blue = "#7db0cb";
+    QString dt_gold = "#FBDE2D";
+    QString dt_orange = "#f1d700";
+    QString dt_not_supported = "white";
+    QString dt_warning = "#f44747";
+    QString dt_green = "#6A9955";
+
+    themeSettings["Base"] = dt_darkgrey;
+    themeSettings["AlternateBase"] = dt_grey;
+    themeSettings["ToolTipBase"] = dt_grey;
+    themeSettings["ToolTipText"] = dt_white;
+    themeSettings["Button"] = dt_darkgrey;
+    themeSettings["ButtonBorder"] = dt_ldarkgrey;
+    themeSettings["PressedButton"] = dt_pink;
+    themeSettings["ButtonText"] = dt_lightgrey;
+    themeSettings["PressedButtonText"] = dt_vdarkgrey;
+    themeSettings["HoverButton"] = dt_dark_blue;
+    themeSettings["Shadow"] = dt_vdarkgrey;
+    themeSettings["Light"] = dt_lightgrey;
+    themeSettings["Midlight"] = dt_grey;
+    themeSettings["Mid"] = dt_darkgrey;
+    themeSettings["Dark"] = dt_vdarkgrey;
+    themeSettings["ScrollBar"] = dt_vldarkgrey;
+    themeSettings["ScrollBarBackground"] = dt_ldarkgrey;
+    themeSettings["ScrollBarBorder"] = dt_darkgrey;
+    themeSettings["ScrollBarHover"] = dt_dark_blue;
+    themeSettings["SliderBackground"] = dt_grey;
+    themeSettings["SliderBorder"] = dt_grey;
+    themeSettings["Slider"] = dt_pink;
+
+    themeSettings["Tab"] = dt_grey;
+    themeSettings["TabText"] = dt_lightgrey;
+    themeSettings["TabSelected"] = dt_darkgrey;
+    themeSettings["TabSelectedText"] = dt_lightgrey;
+
+    themeSettings["StatusBar"] = dt_darkgrey;
+    themeSettings["StatusBarText"] = dt_blue;
+
+    themeSettings["Menu"] = dt_darkgrey;
+    themeSettings["MenuText"] = dt_lightgrey;
+    themeSettings["MenuSelected"] = dt_pink;
+    themeSettings["MenuSelectedText"] = dt_white;
+    themeSettings["MenuBar"] = dt_darkgrey;
+
+    themeSettings["Foreground"] = dt_lightgrey;
+    themeSettings["Background"] = dt_darkgrey;
+
+    themeSettings["HighlightedForeground"] = dt_white;
+    themeSettings["HighlightedBackground"] = dt_pink;
+
+    themeSettings["WindowForeground"] = dt_lightgrey;
+    themeSettings["WindowBackground"] = dt_darkgrey;
+
+    themeSettings["PaneBackground"] = dt_darkgrey;
+    themeSettings["WindowInternalBorder"] = dt_vdarkgrey;
+    themeSettings["WindowBorder"] = dt_vldarkgrey;
+
+    themeSettings["ErrorBackground"] = dt_darkgrey;
+
+    themeSettings["DefaultForeground"] = dt_white;
+    themeSettings["DefaultBackground"] = dt_darkgrey;
+
+    themeSettings["CommentForeground"] = dt_grey;
+    themeSettings["CommentBackground"] = dt_darkgrey;
+
+    themeSettings["PODForeground"] = dt_white;
+    themeSettings["PODBackground"] = dt_warning;
+
+    themeSettings["NumberForeground"] = dt_dark_blue;
+    themeSettings["NumberBackground"] = dt_darkgrey;
+
+    themeSettings["FunctionMethodNameForeground"] = dt_pink;
+    themeSettings["FunctionMethodNameBackground"] = dt_darkgrey;
+
+    themeSettings["KeywordForeground"] = dt_gold;
+    themeSettings["KeywordBackground"] = dt_darkgrey;
+
+    themeSettings["DemotedKeywordForeground"] = dt_gold;
+    themeSettings["DemotedKeywordBackground"] = dt_darkgrey;
+
+    themeSettings["ClassNameForeground"] = dt_not_supported;
+    themeSettings["GlobalForeground"] = dt_not_supported;
+
+    themeSettings["SymbolForeground"] = dt_pink;
+    themeSettings["SymbolBackground"] = dt_darkgrey;
+
+    themeSettings["ModuleNameForeground"] = dt_not_supported;
+
+    themeSettings["InstanceVariableForeground"] = dt_not_supported;
+    themeSettings["InstanceVariableBackground"] = dt_darkgrey;
+
+    themeSettings["ClassVariableForeground"] = dt_not_supported;
+
+    themeSettings["BackticksForeground"] = dt_warning;
+    themeSettings["BackticksBackground"] = dt_gold;
+
+    themeSettings["PercentStringxForeground"] = dt_not_supported;
+    themeSettings["DataSectionForeground"] = dt_not_supported;
+    themeSettings["DataSectionBackground"] = dt_darkgrey;
+
+    themeSettings["DoubleQuotedStringForeground"] = dt_green;
+    themeSettings["DoubleQuotedStringBackground"] = dt_darkgrey;
+
+    themeSettings["SingleQuotedStringForeground"] = dt_green;
+    themeSettings["SingleQuotedStringBackground"] = dt_darkgrey;
+
+    themeSettings["HereDocumentForeground"] = dt_green;
+    themeSettings["HereDocumentBackground"] = dt_darkgrey;
+
+    themeSettings["PercentStringForeground"] = dt_green;
+    themeSettings["PercentStringQForeground"] = dt_green;
+
+    themeSettings["RegexForeground"] = dt_green;
+    themeSettings["RegexBackground"] = dt_darkgrey;
+
+    themeSettings["HereDocumentDelimiterForeground"] = dt_lightgrey;
+    themeSettings["HereDocumentDelimiterBackground"] = dt_darkgrey;
+
+    themeSettings["PercentStringrForeground"] = dt_green;
+    themeSettings["PercentStringrBackground"] = dt_darkgrey;
+
+    themeSettings["PercentStringwForeground"] = dt_lightgrey;
+    themeSettings["PercentStringwBackground"] = dt_darkgrey;
+
+    themeSettings["MarginForeground"] = dt_grey;
+    themeSettings["MarginBackground"] = dt_darkgrey;
+
+    themeSettings["MarkerBackground"] = dt_pink;
+
+    themeSettings["SelectionForeground"] = dt_lightgrey;
+    themeSettings["SelectionBackground"] = dt_pink;
+
+    themeSettings["MatchedBraceForeground"] = dt_pink;
+    themeSettings["MatchedBraceBackground"] = dt_lightgrey;
+
+    themeSettings["BraceForeground"] = dt_lightgrey;
+
+    themeSettings["CaretForeground"] = dt_pink;
+    themeSettings["CaretLineBackground"] = dt_vdarkgrey;
+
+    themeSettings["IndentationGuidesForeground"] = dt_blue;
+    themeSettings["FoldMarginForeground"] = dt_black;
+
+    themeSettings["StdinBackground"] = dt_darkgrey;
+    themeSettings["StdoutBackground"] = dt_darkgrey;
+    themeSettings["StderrBackground"] = dt_darkgrey;
+
+    themeSettings["Link"] = dt_pink;
+    themeSettings["LinkVisited"] = dt_pink;
+
+    themeSettings["Scope"] = dt_pink;
+    themeSettings["Scope_2"] = dt_blue;
+
+    themeSettings["LogForeground"] = dt_lightgrey;
+    themeSettings["LogBackground"] = dt_darkgrey;
+
+    themeSettings["LogInfoForeground"] = dt_lightgrey;
+    themeSettings["LogInfoBackground"] = dt_grey;
+
+    themeSettings["LogInfoForeground_1"] = dt_darkgrey;
+    themeSettings["LogInfoBackground_1"] = dt_pink;
+
+    themeSettings["LogForeground_1"] = dt_blue;
+    themeSettings["LogBackground_1"] = dt_darkgrey;
+
+    themeSettings["LogForeground_2"] = dt_lightgrey;
+    themeSettings["LogBackground_2"] = dt_orange;
+
+    themeSettings["LogForeground_3"] = "red";
+    themeSettings["LogBackground_3"] = dt_lightgrey;
+
+    themeSettings["LogForeground_4"] = dt_lightgrey;
+    themeSettings["LogBackground_4"] = dt_pink;
+
+    themeSettings["LogForeground_5"] = dt_lightgrey;
+    themeSettings["LogBackground_5"] = dt_blue;
+
+    themeSettings["LogForeground_6"] = dt_lightgrey;
+    themeSettings["LogBackground_6"] = dt_orange;
+
+    themeSettings["CuePathForeground"] = dt_white;
+    themeSettings["CuePathBackground"] = dt_pink;
+    themeSettings["CueDataForeground"] = dt_white;
+    themeSettings["CueDataBackground"] = "#808080";
 
     return themeSettings;
 }
@@ -1295,6 +1513,8 @@ QString SonicPiTheme::themeStyleToName(SonicPiTheme::Style style) {
     return "Dark Pro";
   } else if (style == HighContrastMode) {
     return "High Contrast";
+  } else if (style == MildDarkMode) {
+    return "Mild Dark";
   } else {
     return "Light";
   }
@@ -1311,6 +1531,8 @@ SonicPiTheme::Style SonicPiTheme::themeNameToStyle(QString name) {
     return DarkProMode;
   } else if (name == "High Contrast") {
     return HighContrastMode;
+  } else if (name == "Mild Dark") {
+    return MildDarkMode;
   } else {
     return LightMode;
   }

@@ -159,6 +159,7 @@ private:
     QCheckBox *lightProModeCheck;
     QCheckBox *darkProModeCheck;
     QCheckBox *highContrastModeCheck;
+    QCheckBox* mildDarkModeCheck;
 
     QSignalMapper *scopeSignalMap;
     QCheckBox *show_scope_labels;
