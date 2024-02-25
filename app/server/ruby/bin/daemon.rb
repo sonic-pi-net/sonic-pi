@@ -638,11 +638,6 @@ module SonicPi
           raise "Unsupported platform #{RUBY_PLATFORM}"
         end
       end
-
-      def self.pipewire?
-        `which pw-link`
-        $?.success?
-      end
     end
 
     class KillSwitch
@@ -1035,14 +1030,6 @@ module SonicPi
       end
     end
 
-    class JackBooter < ProcessBooter
-      def initialize
-        cmd = "jackd"
-        args = ["-T", "-d", "dummy", "-r", "48000", "-p", "1024"]
-        super(cmd, args, Paths.jackd_log_path)
-      end
-    end
-
     class ComptonBooter < ProcessBooter
       def initialize
         cmd = "compton"
@@ -1245,11 +1232,6 @@ module SonicPi
         end
       end
 
-      def kill
-        @jack_booter.kill if @jack_booter
-        super
-      end
-
       def read_info
         success = wait_for_boot
         [success, @log]
@@ -1260,18 +1242,6 @@ module SonicPi
       end
 
       def run_pre_start_commands
-        case Util.os
-        when :linux, :raspberry
-          if Util.pipewire?
-            Util.log 'No need to start Jackd, using pipewire instead'
-          elsif `jack_wait -c`.include? 'not running'
-            #Jack not running - start a new instance
-            Util.log "Jackd not running on system. Starting..."
-            @jack_booter = JackBooter.new
-          else
-            Util.log "Jackd already running. Not starting another server..."
-          end
-        end
       end
 
       def run_post_start_commands
@@ -1279,41 +1249,21 @@ module SonicPi
         when :raspberry, :linux
           Thread.new do
             Kernel.sleep 5
-            if Util.pipewire?
-              port_type = if Util.os == :raspberry
-                            'hdmi'
-                          else
-                            'alsa_output'
-                          end
-              inputs = `pw-link -iI`.lines
-              left_id = inputs.grep(/#{port_type}.*playback_FL$/).first.to_i
-              right_id = inputs.grep(/#{port_type}.*playback_FR$/).first.to_i
+            port_type = if Util.os == :raspberry
+                          'hdmi'
+                        else
+                          'alsa_output'
+                        end
+            inputs = `pw-link -iI`.lines
+            left_id = inputs.grep(/#{port_type}.*playback_FL$/).first.to_i
+            right_id = inputs.grep(/#{port_type}.*playback_FR$/).first.to_i
 
-              outputs = `pw-link -oI`.lines
-              sco1 = outputs.grep(/SuperCollider:out_1$/).first.to_i
-              sco2 = outputs.grep(/SuperCollider:out_2$/).first.to_i
+            outputs = `pw-link -oI`.lines
+            sco1 = outputs.grep(/SuperCollider:out_1$/).first.to_i
+            sco2 = outputs.grep(/SuperCollider:out_2$/).first.to_i
 
-              system("pw-link #{sco1} #{left_id}")
-              system("pw-link #{sco2} #{right_id}")
-            elsif @jackbooter
-              # Note:
-              # need to modify this to take account for @num_inputs and @num_outputs.
-              # These might not always be set to two channels each.
-              #First clear up any pulseaudio remains of module-loopback source=jack_in
-              `pactl list short modules |grep source=jack_in| cut -f1 | xargs -L1 pactl unload-module`
-              `pactl load-module module-jack-source channels=2 connect=0 client_name=JACK_to_PulseAudio`
-              `pactl load-module module-loopback source=jack_in`
-              `pactl load-module module-jack-sink channels=2 connect=0 client_name=PulseAudio_to_JACK`
-              `jack_connect PulseAudio_to_JACK:front-left SuperCollider:in_1`
-              `jack_connect PulseAudio_to_JACK:front-right SuperCollider:in_2`
-              `jack_connect SuperCollider:out_1 JACK_to_PulseAudio:front-left`
-              `jack_connect SuperCollider:out_2 JACK_to_PulseAudio:front-right`
-            else
-              `jack_connect SuperCollider:out_1 system:playback_1`
-              `jack_connect SuperCollider:out_2 system:playback_2`
-              `jack_connect SuperCollider:in_1 system:capture_1`
-              `jack_connect SuperCollider:in_2 system:capture_2`
-            end
+            system("pw-link #{sco1} #{left_id}")
+            system("pw-link #{sco2} #{right_id}")
           end
         end
       end
