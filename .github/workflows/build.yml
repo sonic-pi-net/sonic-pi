@@ -309,7 +309,7 @@ jobs:
         run: |
           Start-Service audio*
           Invoke-WebRequest https://github.com/duncanthrax/scream/releases/download/3.6/Scream3.6.zip -OutFile C:\Scream3.6.zip
-          Extract-7Zip -Path C:\Scream3.6.zip -DestinationPath C:\Scream
+          Expand-7ZipArchive -Path C:\Scream3.6.zip -DestinationPath C:\Scream
           $cert = (Get-AuthenticodeSignature C:\Scream\Install\driver\Scream.sys).SignerCertificate
           $store = [System.Security.Cryptography.X509Certificates.X509Store]::new("TrustedPublisher", "LocalMachine")
           $store.Open("ReadWrite")
