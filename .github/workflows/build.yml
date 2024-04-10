@@ -97,7 +97,7 @@ jobs:
       - uses: ruby/setup-ruby@v1
         id: ruby-inst
         with:
-          ruby-version: 3.2
+          ruby-version: 3.3
         if: matrix.os == 'windows-latest'
 
       # Install gems Windows
