@@ -217,12 +217,21 @@ endif()
 
 # Translations: Convert the .ts files into .qm files
 set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION ${QTAPP_ROOT}/lang)
+
+
 if (Qt6_FOUND)
-  qt_add_lrelease(${APP_NAME} TS_FILES ${TS_FILES})
+  if (${Qt6Core_VERSION} VERSION_LESS "6.7.0")
+    qt_add_lrelease(${APP_NAME} TS_FILES ${TS_FILES})
+  else()
+    # Qt 6.7.0 and later...
+    set(LRELEASE_TARGET "${APP_NAME}_lrelease")
+    qt_add_lrelease(TS_FILES ${TS_FILES} LRELEASE_TARGET ${LRELEASE_TARGET})
+  endif()
 else()
   qt5_add_translation(QM_FILES ${TS_FILES})
   set_property(SOURCE ${APP_NAME} APPEND PROPERTY OBJECT_DEPENDS ${QM_FILES})
 endif()
+
 
 if (APPLE)
   set_target_properties(
