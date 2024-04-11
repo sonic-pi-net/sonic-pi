@@ -701,6 +701,7 @@ static int revparse(
 	git_object *base_rev = NULL;
 
 	bool should_return_reference = true;
+	bool parsed = false;
 
 	GIT_ASSERT_ARG(object_out);
 	GIT_ASSERT_ARG(reference_out);
@@ -710,7 +711,7 @@ static int revparse(
 	*object_out = NULL;
 	*reference_out = NULL;
 
-	while (spec[pos]) {
+	while (!parsed && spec[pos]) {
 		switch (spec[pos]) {
 		case '^':
 			should_return_reference = false;
@@ -817,6 +818,8 @@ static int revparse(
 				break;
 			} else if (spec[pos+1] == '\0') {
 				spec = "HEAD";
+				identifier_len = 4;
+				parsed = true;
 				break;
 			}
 			/* fall through */

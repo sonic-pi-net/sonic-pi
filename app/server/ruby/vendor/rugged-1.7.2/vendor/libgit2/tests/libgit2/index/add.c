@@ -82,3 +82,27 @@ void test_index_add__invalid_entries_succeeds_by_default(void)
 	test_add_entry(true, valid_commit_id, GIT_FILEMODE_LINK);
 }
 
+void test_index_add__two_slash_prefixed(void)
+{
+	git_index_entry one = {{0}}, two = {{0}};
+	const git_index_entry *result;
+	size_t orig_count;
+
+	orig_count = git_index_entrycount(g_index);
+
+	cl_git_pass(git_oid__fromstr(&one.id, "fa49b077972391ad58037050f2a75f74e3671e92", GIT_OID_SHA1));
+	one.path = "/a";
+	one.mode = GIT_FILEMODE_BLOB;
+
+	cl_git_pass(git_oid__fromstr(&two.id, "3697d64be941a53d4ae8f6a271e4e3fa56b022cc", GIT_OID_SHA1));
+	two.path = "/a";
+	two.mode = GIT_FILEMODE_BLOB;
+
+	cl_git_pass(git_index_add(g_index, &one));
+	cl_git_pass(git_index_add(g_index, &two));
+
+	cl_assert_equal_i(orig_count + 1, git_index_entrycount(g_index));
+
+	cl_assert(result = git_index_get_bypath(g_index, "/a", 0));
+	cl_assert_equal_oid(&two.id, &result->id);
+}

@@ -11,7 +11,7 @@
  * The version string for libgit2.  This string follows semantic
  * versioning (v2) guidelines.
  */
-#define LIBGIT2_VERSION        "1.7.1"
+#define LIBGIT2_VERSION        "1.7.2"
 
 /** The major version number for this version of libgit2. */
 #define LIBGIT2_VER_MAJOR      1
@@ -20,7 +20,7 @@
 #define LIBGIT2_VER_MINOR      7
 
 /** The revision ("teeny") version number for this version of libgit2. */
-#define LIBGIT2_VER_REVISION   1
+#define LIBGIT2_VER_REVISION   2
 
 /** The Windows DLL patch number for this version of libgit2. */
 #define LIBGIT2_VER_PATCH      0

@@ -1185,10 +1185,13 @@ static int has_dir_name(git_index *index,
 		size_t len, pos;
 
 		for (;;) {
-			if (*--slash == '/')
-				break;
+			slash--;
+
 			if (slash <= entry->path)
 				return 0;
+
+			if (*slash == '/')
+				break;
 		}
 		len = slash - name;
 

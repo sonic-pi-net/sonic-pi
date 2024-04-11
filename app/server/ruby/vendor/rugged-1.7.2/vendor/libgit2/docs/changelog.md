@@ -1,3 +1,20 @@
+v1.7.2
+------
+
+## What's Changed
+
+This release fixes three bugs that can cause undefined behavior when given well-crafted inputs, either in input files or over network connections. These bugs may be able to be leveraged to cause denial of service attacks or unauthorized code execution.
+
+Two of these issues were discovered and reported by security engineers at Amazon Web Services. We thank the AWS Security team for their efforts to identify these issues, provide helpful reproduction cases, and responsibly disclose their findings.
+
+### Security fixes
+
+* transport: safely handle messages with no caps
+* revparse: fix parsing bug for trailing `@`
+* index: correct index has_dir_name check
+
+**Full Changelog**: https://github.com/libgit2/libgit2/compare/v1.7.1...v1.7.2
+
 v1.7.1
 ------
 

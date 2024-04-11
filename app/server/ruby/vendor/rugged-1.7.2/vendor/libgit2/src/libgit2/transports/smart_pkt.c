@@ -232,7 +232,8 @@ static int set_data(
 
 	GIT_ASSERT_ARG(data);
 
-	if ((caps = memchr(line, '\0', len)) != NULL) {
+	if ((caps = memchr(line, '\0', len)) != NULL &&
+	    len > (size_t)((caps - line) + 1)) {
 		caps++;
 
 		if (strncmp(caps, "object-format=", CONST_STRLEN("object-format=")) == 0)
