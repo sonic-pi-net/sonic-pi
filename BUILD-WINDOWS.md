@@ -1,7 +1,7 @@
 # Building the Latest Sonic Pi on Windows
 
 Hello there lovely Windows user - welcome to our build
-instructions. 
+instructions.
 
 
 ### Installing vs Building
@@ -41,10 +41,10 @@ In order to build Sonic Pi's various components, we need to install a few
 dependencies:
 
 1. Visual Studio 2022
-2. Qt (6.2+)
-3. CMake (3.18+)
-4. Ruby (3.1.0+)
-5. Elixir (1.14+)
+2. Qt (6.7+)
+3. CMake (3.29+)
+4. Ruby (3.3.0+)
+5. Elixir (1.16+)
 
 Let's look at each in turn.
 
@@ -64,9 +64,9 @@ Note that you need to enable the "Desktop development with C++" workload. See: h
 Install the latest version of Qt6 (note that Qt5 may work on Windows but isn't supported) - ensure
 you pick 64 bit options for msvc:
 
-https://download.qt.io/official_releases/qt/6.4/6.4.1/single/qt-everywhere-src-6.4.1.zip
+https://download.qt.io/official_releases/qt/6.7/6.7.0/single/qt-everywhere-src-6.7.0.zip
 
-When selecting Qt components you need: 
+When selecting Qt components you need:
 
 * MSVC 2019 64-bit
 * Additional Libraries
@@ -90,10 +90,10 @@ Alternatively, the `setx` command can make global variables. (Note that
 after using `setx` the command line needs to be restarted for it to take
 effect).
 
-For example, if you installed Qt to `C:\Qt\Qt6.4.1` then you could run:
+For example, if you installed Qt to `C:\Qt\Qt6.7.0` then you could run:
 
 ```
-setx QT_INSTALL_LOCATION C:\Qt\6.4.1\msvc2019_64 
+setx QT_INSTALL_LOCATION C:\Qt\6.7.0\msvc2019_64
 ```
 
 (followed by restarting your command prompt)
@@ -113,9 +113,9 @@ Ruby is needed both for a number of the build steps and as the main
 runtime for the language server. We need to install both it and some
 additional libraries.
 
-Firstly, install the latest version of Ruby (3.1.3 - 64 bit with devkit) from:
+Firstly, install the latest version of Ruby (3.3.0 - 64 bit with devkit) from:
 
-https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-3.1.3-1/rubyinstaller-devkit-3.1.3-1-x64.exe
+https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-3.3.0-1/rubyinstaller-3.3.0-1-x64.exe
 
 
 Once you have installed Ruby, you need to grab some additional
@@ -140,7 +140,7 @@ https://elixir-lang.org/install.html#windows
 ## 2. Preparing the Build
 
 Once we have installed all the dependencies, we're now ready to build
-Sonic Pi. We need to: 
+Sonic Pi. We need to:
 
 1. Get a copy of Sonic Pi's source code
 2. Link the version of Ruby you installed into the source code.
@@ -153,15 +153,15 @@ code. The easiest way of getting this is likely to be cloning from GitHub
 into a folder on your hard drive such as `C:\dev\sonic-pi`:
 
 ```
-git clone https://github.com/sonic-pi-net/sonic-pi.git C:\dev\sonic-pi
-``` 
+zgit clone https://github.com/sonic-pi-net/sonic-pi.git C:\dev\sonic-pi
+```
 
 If you don't have Git installed you should be able to download a `.zip`
 file of the latest commit or specific release you'd like to build:
 
 https://github.com/sonic-pi-net/sonic-pi/archive/main.zip
 
-From now on these instructions will assume you downloaded the source 
+From now on these instructions will assume you downloaded the source
 into `C:\dev\sonic-pi`. If you used a different location be sure to
 change any future references to `C:\dev\sonic-pi` to your chosen location.
 
@@ -171,17 +171,17 @@ change any future references to `C:\dev\sonic-pi` to your chosen location.
 Next, we need to point your build of Sonic Pi to your local Ruby
 installation. We can do this by creating a folder link - similar to a
 symbolic link on Linux and macOS. First, find out where you installed
-Ruby. For example, this might be `C:\Ruby31-x64`.
+Ruby. For example, this might be `C:\Ruby33-x64`.
 
 Finally, open a console as administrator (this is necessary for making the
 link). Then `cd` into the `sonic-pi\app\server\native` directory within
 your copy of Sonic Pi's source. For example, if you put Sonic Pi within
-`C:\dev` and installed Ruby to `C:\Ruby31-x64` then you'd do the
+`C:\dev` and installed Ruby to `C:\Ruby33-x64` then you'd do the
 following:
 
 ```
 cd C:\dev\sonic-pi\app\server\native
-mklink /d ruby C:\Ruby31-x64
+mklink /d ruby C:\Ruby33-x64
 ```
 
 
