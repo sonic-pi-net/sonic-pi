@@ -5,7 +5,8 @@ cd %~dp0
 REM Build vcpkg
 if not exist "vcpkg\" (
     echo Cloning vcpkg
-    git clone --depth 1 --branch 2024.03.25 https://github.com/microsoft/vcpkg.git vcpkg
+    @REM git clone --depth 1 --branch 2024.03.25 https://github.com/microsoft/vcpkg.git vcpkg
+    git clone --depth 1 --branch master https://github.com/microsoft/vcpkg.git vcpkg
 )
 
 set VCPKG_ROOT=%~dp0/vcpkg
