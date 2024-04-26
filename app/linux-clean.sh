@@ -4,8 +4,15 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 WORKING_DIR="$(pwd)"
 cd "${SCRIPT_DIR}"
 
+echo "Cleaning out vcpkg...."
+rm -rf vcpkg
+
+
 echo "Cleaning out build dir...."
 rm -rf build
+
+echo "Cleaning out any CMakeCache.txt files...."
+rm -rf "${SCRIPT_DIR}"/**/CMakeCache.txt
 
 echo "Cleaning out BEAM distribution..."
 rm -rf server/beam/tau/_build
