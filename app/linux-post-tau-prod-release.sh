@@ -31,6 +31,7 @@ echo "Compiling Erlang/Elixir files..."
 cd "${SCRIPT_DIR}"/server/beam/tau
 
 if [ "$offline_build" == true ]; then
+    MIX_ENV=prod mix deps.clean --unused
     MIX_ENV=prod mix deps.compile
     MIX_ENV=prod mix release --overwrite --no-deps-check
 else
