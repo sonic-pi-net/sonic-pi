@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2022-09-05 14:24+0000\n"
-"Last-Translator: Neko Nekowazarashi <kodra@nekoweb.my.id>\n"
+"PO-Revision-Date: 2024-02-07 01:01+0000\n"
+"Last-Translator: Reza Almanda <rezaalmanda27@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/id/>\n"
 "Language: id\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.14.1-dev\n"
+"X-Generator: Weblate 5.4-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -24,17 +24,17 @@ msgid "Welcome friend :-)"
 msgstr "Selamat datang, kawan :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:5
-#, fuzzy
 msgid ""
 "Welcome to Sonic Pi. Hopefully you're as excited to get started making your ow"
 "n sounds as I am to show you. It's going to be a really *fun* ride where you'l"
 "l learn all about music, synthesis, programming, composition, performance and "
 "more."
 msgstr ""
-"Selamat datang di Sonic Pi. Semoga kamu bersemangat untuk mulai membuat suara-"
-"suara seru yang akan kutunjukkan. Ini akan menjadi perjalanan yang sangat *ser"
-"u* dimana kamu akan belajar tentang musik, perpaduan, pemrograman, komposisi, "
-"performa, dan masih banyak lagi."
+"Selamat datang di Sonic Pi. Semoga Anda bersemangat untuk mulai membuat "
+"suara Anda sendiri seperti yang akan saya tunjukkan kepada Anda. Ini akan "
+"menjadi perjalanan yang sangat *menyenangkan* di mana Anda akan mempelajari "
+"semua tentang musik, sintesis, pemrograman, komposisi, pertunjukan, dan "
+"banyak lagi."
 
 #: 01-Welcome-to-Sonic-Pi.md:10
 msgid ""
@@ -45,6 +45,13 @@ msgid ""
 "ve Coding Performances](https://youtube.com/samaaron) where I code with Sonic "
 "Pi live in front of audiences."
 msgstr ""
+"Tapi tunggu, betapa tidak sopannya saya! Izinkan saya memperkenalkan diri - "
+"saya adalah [Sam Aaron] (https://twitter.com/samaaron) - orang yang "
+"menciptakan Sonic Pi. Anda bisa menemukan saya di [@samaaron](http://twitter."
+"com/samaaron) di Twitter dan saya akan dengan senang hati menyapa Anda. Anda "
+"juga mungkin tertarik untuk mengetahui lebih lanjut tentang [Live Coding "
+"Performances] (https://youtube.com/samaaron) di mana saya melakukan coding "
+"dengan Sonic Pi secara langsung di depan penonton."
 
 #: 01-Welcome-to-Sonic-Pi.md:18
 msgid ""
@@ -63,6 +70,11 @@ msgid ""
 "ree just to dip in and out of sections as you see fit. If you feel that there'"
 "s something missing, do let me know and I'll consider it for a future version."
 msgstr ""
+"Tutorial ini dibagi ke dalam beberapa bagian yang dikelompokkan berdasarkan "
+"kategori. Meskipun saya telah menulisnya agar mudah dipelajari dari awal "
+"hingga akhir, Anda dapat dengan bebas masuk dan keluar dari bagian yang Anda "
+"inginkan. Jika Anda merasa ada sesuatu yang kurang, beritahu saya dan saya "
+"akan mempertimbangkannya untuk versi yang akan datang."
 
 #: 01-Welcome-to-Sonic-Pi.md:28
 msgid ""
@@ -70,6 +82,10 @@ msgid ""
 " stream live on [https://youtube.com/samaaron](http://youtube.com/samaaron) so"
 " please do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
+"Terakhir, melihat orang lain membuat kode secara langsung adalah cara yang "
+"sangat bagus untuk belajar. Saya secara teratur melakukan streaming langsung "
+"di [https://youtube.com/samaaron] (http://youtube.com/samaaron) jadi silakan "
+"mampir, menyapa dan mengajukan banyak pertanyaan kepada saya :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
@@ -91,10 +107,14 @@ msgid ""
 "uitar. This means that given some practice you can take Sonic Pi on stage and "
 "gig with it."
 msgstr ""
+"Salah satu aspek yang paling menarik dari Sonic Pi adalah memungkinkan Anda "
+"untuk menulis dan *memodifikasi kode secara langsung* untuk membuat musik, "
+"seperti halnya Anda bermain gitar secara langsung. Artinya, dengan sedikit "
+"latihan, Anda bisa membawa Sonic Pi ke atas panggung dan manggung dengannya."
 
 #: 01.1-Live-Coding.md:10
 msgid "Free your mind"
-msgstr ""
+msgstr "Bebaskan pikiranmu"
 
 #: 01.1-Live-Coding.md:12
 msgid ""
@@ -103,14 +123,18 @@ msgid ""
 "on't worry if you don't understand much (or any) of this. Just try to hold ont"
 "o your seats and enjoy..."
 msgstr ""
+"Sebelum kita masuk ke detail tentang cara kerja Sonic Pi dalam sisa tutorial "
+"ini, saya ingin memberi Anda pengalaman tentang bagaimana rasanya membuat "
+"kode langsung. Jangan khawatir jika Anda tidak mengerti banyak (atau semua) "
+"hal ini. Cobalah untuk tetap duduk di kursi Anda dan nikmati..."
 
 #: 01.1-Live-Coding.md:17
 msgid "A live loop"
-msgstr ""
+msgstr "Sebuah live loop"
 
 #: 01.1-Live-Coding.md:19
 msgid "Let's get started, copy the following code into an empty buffer:"
-msgstr ""
+msgstr "Mari kita mulai, salin kode berikut ini ke dalam buffer kosong:"
 
 #: 01.1-Live-Coding.md:21
 #, no-wrap
@@ -120,6 +144,10 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
+"live_loop :flibble do\n"
+"  sample :bd_haus, rate: 1\n"
+"  sleep 0.5\n"
+"end"
 
 #: 01.1-Live-Coding.md:28
 msgid ""

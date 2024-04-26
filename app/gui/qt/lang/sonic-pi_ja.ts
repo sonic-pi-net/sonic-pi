@@ -24,19 +24,19 @@
         <location filename="../mainwindow.cpp" line="1724"/>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
-        <translation>コードを実行します...</translation>
+        <translation>コードを実行しています...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1743"/>
         <source>Beautifying...</source>
         <oldsource>Beautifying....</oldsource>
-        <translation>整形します...</translation>
+        <translation>整形しています...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1769"/>
         <source>Reloading...</source>
         <oldsource>Reloading....</oldsource>
-        <translation>リロードします...</translation>
+        <translation>リロードしています...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1801"/>
@@ -58,12 +58,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="1145"/>
         <source>Indenting selection...</source>
-        <translation>選択範囲をインデント...</translation>
+        <translation>選択範囲をインデントしています...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1151"/>
         <source>Indenting line...</source>
-        <translation>行をインデント...</translation>
+        <translation>行をインデントしています...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1182"/>
@@ -73,7 +73,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="699"/>
         <source>Cues</source>
-        <translation>Cue</translation>
+        <translation>キュー</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="933"/>
@@ -83,17 +83,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="1188"/>
         <source>Toggle line comment...</source>
-        <translation>行コメントを切り替え...</translation>
+        <translation>行コメントの切り替え...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3986"/>
         <source>Enabling MIDI input...</source>
-        <translation>MIDI入力を有効にする。</translation>
+        <translation>MIDI入力を有効にしています...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3994"/>
         <source>Disabling MIDI input...</source>
-        <translation>MIDI入力を無効にする。</translation>
+        <translation>MIDI入力を無効にしています...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4012"/>
@@ -113,12 +113,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="4041"/>
         <source>Disabling OSC cue port...</source>
-        <translation>OSCキュー用ポートを無効にする。</translation>
+        <translation>OSCキュー用ポートを無効にしています...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4055"/>
         <source>Enabling external OSC cue port...</source>
-        <translation>外部向けOSCキュー用のポートを有効にする。</translation>
+        <translation>外部OSCキュー用のポートを有効にしています...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4069"/>
