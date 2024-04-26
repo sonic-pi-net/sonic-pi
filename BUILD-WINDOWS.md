@@ -127,14 +127,14 @@ gem install rugged
 This uses the Ruby library management tool `gem` to install rugged which is used to
 store the code diffs in a local Git repository.
 
-Note - with Ruby 3.3.1 you will need to modify line 321 of `lib\ruby\3.3.0\win32\registry.rb\` from:
+Note - with Ruby 3.3.1 you will need to modify line 321 of `lib\ruby\3.3.0\win32\registry.rb` from:
 
 ```
 data = "\0".force_encoding('ASCII-8BIT') * unpackdw(size)
 ```
 to
 ```
-data = String.new("\0").force_encoding('ASCII-8BIT') * unpackdw(size)
+data = "\0".b * unpackdw(size)
 ```
 
 ### 1.5 Install Elixir
