@@ -1,5 +1,5 @@
 # History
-
+- [v4.5.1 '8oh8'](#v4.5.1), 26th April, 2024
 - [v4.5.0 '808'](#v4.5.0), 18th Oct, 2023
 - [v4.4.0 'Sawtooth'](#v4.4.0), 28th June, 2023
 - [v4.3.0 'Pathfinder'](#v4.3.0), 30th Sept, 2022
@@ -32,6 +32,23 @@
 - [v2.1 'Core'](#v2.1), 21st Nov, 2014
 - [v2.0.1](#v2.0.1), 9th Sept, 2014
 - [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
+
+<a name="v4.5.1"></a>
+
+## Version 4.5.1 '8oh8'
+
+[(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v4.5.1):
+
+This is a maintanence and bugfix release which includes updates to all the major internal dependencies. The main goal of this
+release is to fix boot issues on Windows with specific locale settings.
+
+### Translations
+
+- Improvements to the Chinese, Dutch, German, Indonesian, Italian, Japanese and Russian translations.
+
+### Bugfixes
+
+- Only remove one level of comments when uncommenting
 
 <a name="v4.5.0"></a>
 
