@@ -43,7 +43,7 @@ dependencies:
 1. Visual Studio 2022
 2. Qt (6.7+)
 3. CMake (3.29+)
-4. Ruby (3.3.0+)
+4. Ruby (3.3.1+)
 5. Elixir (1.16+)
 
 Let's look at each in turn.
@@ -113,10 +113,9 @@ Ruby is needed both for a number of the build steps and as the main
 runtime for the language server. We need to install both it and some
 additional libraries.
 
-Firstly, install the latest version of Ruby (3.3.0 - 64 bit with devkit) from:
+Firstly, install the latest version of Ruby (3.3.1 - 64 bit with devkit) from:
 
-https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-3.3.0-1/rubyinstaller-3.3.0-1-x64.exe
-
+https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-3.3.1-1/rubyinstaller-devkit-3.3.1-1-x64.exe
 
 Once you have installed Ruby, you need to grab some additional
 libraries. We can do this from the command prompt with the following:
@@ -128,6 +127,15 @@ gem install rugged
 This uses the Ruby library management tool `gem` to install rugged which is used to
 store the code diffs in a local Git repository.
 
+Note - with Ruby 3.3.1 you will need to modify line 321 of `lib\ruby\3.3.0\win32\registry.rb` from:
+
+```
+data = "\0".force_encoding('ASCII-8BIT') * unpackdw(size)
+```
+to
+```
+data = "\0".b * unpackdw(size)
+```
 
 ### 1.5 Install Elixir
 
@@ -153,7 +161,7 @@ code. The easiest way of getting this is likely to be cloning from GitHub
 into a folder on your hard drive such as `C:\dev\sonic-pi`:
 
 ```
-zgit clone https://github.com/sonic-pi-net/sonic-pi.git C:\dev\sonic-pi
+git clone https://github.com/sonic-pi-net/sonic-pi.git C:\dev\sonic-pi
 ```
 
 If you don't have Git installed you should be able to download a `.zip`
@@ -252,8 +260,4 @@ https://in-thread.sonic-pi.net
 - If you're already familiar with Visual Studio you should be able to
   take the existing solution file from within the `build` directory
   and build things with that.
-- For Ruby to work correctly with systems that have their locale set to
-  Arabic, you need to modify the registry.rb in your Ruby install to
-  force the locale to UTF-8. For more information see:
-  https://github.com/sonic-pi-net/sonic-pi/issues/2416
 
