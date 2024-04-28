@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.2)
 message(STATUS "CMakeLists: Sonic Pi Qt GUI")
 
 if(APPLE)
-  set(CMAKE_OSX_DEPLOYMENT_TARGET "13")
+  set(CMAKE_OSX_DEPLOYMENT_TARGET "12")
 endif()
 
 project("Sonic Pi"
