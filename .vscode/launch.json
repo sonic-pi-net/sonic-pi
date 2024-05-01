@@ -1,0 +1,26 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Sonic Pi Server",
+            "type": "Ruby",
+            "request": "launch",
+            "program": "${workspaceRoot}/app/server/ruby/bin/sonic-pi-server.rb",
+            "env": {
+                "RUBYOPT": "--enable-frozen-string-literal -E utf-8"
+            },
+            "args": [
+                "-u", "51235", "51236", "51237", "51237", "4560", "51240", "51238", "51239", "51241"
+            ]
+        },
+        {
+            "name": "Port discovery",
+            "type": "Ruby",
+            "request": "launch",
+            "program": "${workspaceRoot}/app/server/ruby/bin/port-discovery.rb"
+        }
+    ]
+}
