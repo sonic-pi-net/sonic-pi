@@ -1295,7 +1295,7 @@ module SonicPi
 
               system("pw-link #{sco1} #{left_id}")
               system("pw-link #{sco2} #{right_id}")
-            elsif @jackbooter
+            elsif @jack_booter
               # Note:
               # need to modify this to take account for @num_inputs and @num_outputs.
               # These might not always be set to two channels each.
