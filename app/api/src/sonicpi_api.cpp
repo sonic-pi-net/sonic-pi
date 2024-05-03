@@ -136,7 +136,11 @@ std::error_code SonicPiAPI::RunProcess(const std::vector<std::string>& args, std
     }
     else if (ec)
     {
-        LOG(ERR, "RunProcess - " << ec.message());
+
+        LOG(ERR, "RunProcess - error number: " << ec.value()
+          << " message: " << ec.message()
+          << " category: " << ec.category().name());
+
         return ec;
     }
 
@@ -146,7 +150,10 @@ std::error_code SonicPiAPI::RunProcess(const std::vector<std::string>& args, std
         ec = reproc::drain(proc, sink, sink);
         if (ec)
         {
-            LOG(ERR, "RunProcess Draining - " << ec.message());
+            LOG(ERR, "RunProcess Draining - error number: " << ec.value()
+              << " message: " << ec.message()
+              << " category: " << ec.category().name());
+
             return ec;
         }
     }
@@ -156,7 +163,10 @@ std::error_code SonicPiAPI::RunProcess(const std::vector<std::string>& args, std
     std::tie(status, ec) = proc.stop(options.stop);
     if (ec)
     {
-        LOG(ERR, "RunProcess - " << ec.message());
+        LOG(ERR, "RunProcess - error number: " << ec.value()
+          << " message: " << ec.message()
+          << " category: " << ec.category().name());
+
         return ec;
     }
     return ec;
@@ -193,7 +203,9 @@ std::shared_ptr<reproc::process> SonicPiAPI::StartProcess(const std::vector<std:
     }
     else if (ec)
     {
-        LOG(ERR, "StartProcess - " << ec.message());
+      LOG(ERR, "StartProcess - error number: " << ec.value()
+        << " message: " << ec.message()
+        << " category: " << ec.category().name());
     }
 
     // Something went wrong. We've already logged an error
