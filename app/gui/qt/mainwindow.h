@@ -314,6 +314,7 @@ private:
         void slidePrefsWidgetOut();
         void initPaths();
         QString osDescription();
+        QString cpuDescription();
         QSignalMapper *signalMapper;
 
         void blankTitleBars();

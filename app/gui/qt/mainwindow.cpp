@@ -1451,6 +1451,7 @@ void MainWindow::startupError(QString msg)
         << "\n\n"
         << "Sonic Pi version: `" << version << "`\n\n"
         << "OS: `" << osDescription() << "`\n\n"
+        << "CPU: `" << cpuDescription() << "`\n\n"
         << QString::fromStdString(m_spAPI->GetLogs());
 
     // The text area for the message.  Allows the user to scroll/view it.
@@ -1513,6 +1514,18 @@ QString MainWindow::osDescription()
     // prettyProductName requires QT 5.4
     //
     return QString("Unknown OS");
+#endif
+}
+
+QString MainWindow::cpuDescription()
+{
+#if QT_VERSION >= 0x050400
+    return QSysInfo::currentCpuArchitecture();
+
+#else
+    // currentCpuArchitecture requires QT 5.4
+    //
+    return QString("Unknown CPU architecture");
 #endif
 }
 
