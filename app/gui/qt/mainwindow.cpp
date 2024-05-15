@@ -1025,7 +1025,7 @@ void MainWindow::updateLogVisibility()
     }
     else
     {
-        outputWidget->close();
+        outputWidget->hide();
     }
 }
 
@@ -1062,7 +1062,7 @@ void MainWindow::updateCuesVisibility()
     }
     else
     {
-        incomingWidget->close();
+        incomingWidget->hide();
     }
 }
 
@@ -1077,7 +1077,7 @@ void MainWindow::updateMetroVisibility()
     }
     else
     {
-        metroWidget->close();
+        metroWidget->hide();
     }
 }
 
