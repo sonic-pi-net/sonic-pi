@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2024-04-29 17:05+0000\n"
-"Last-Translator: Иван Лавриков <lavrikovivan@gmail.com>\n"
+"PO-Revision-Date: 2024-05-19 01:02+0000\n"
+"Last-Translator: Perevedko <aarychagov@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/ru/>\n"
 "Language: ru\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.5.2\n"
+"X-Generator: Weblate 5.6-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -380,7 +380,6 @@ msgstr ""
 "совсем немного времени на его изучение."
 
 #: 01.2-Exploring-the-Interface.md:8
-#, fuzzy
 msgid "![Sonic Pi Interface](../../../etc/doc/images/tutorial/GUI.png)"
 msgstr "![Интерфейс Sonic Pi](../../../etc/doc/images/tutorial/GUI.png)"
 
@@ -417,9 +416,8 @@ msgid "*H* - Scope Viewer"
 msgstr "*F* - Просмотр сообщений"
 
 #: 01.2-Exploring-the-Interface.md:19
-#, fuzzy
 msgid "*I* - Cue Viewer"
-msgstr "*F* - Просмотр сообщений"
+msgstr "*I* - Просмотрщик событий"
 
 #: 01.2-Exploring-the-Interface.md:21
 msgid "A. Play Controls"
@@ -446,8 +444,8 @@ msgid ""
 "These orange buttons allow you to manipulate the code editor. The *Size +* and"
 " *Size -* buttons allow you to make the text bigger and smaller."
 msgstr ""
-"Эти оранжевые кнопки позволяют управлять редактором кода. Кнопки *Size +* и *"
-"Size -* позволяют сделать текст больше и меньше."
+"Эти оранжевые кнопки используются для управления редактором кода. \"Размер +"
+"\" и \"Размер -\" позволяют увеличивать и уменьшать текст"
 
 #: 01.2-Exploring-the-Interface.md:35
 msgid "C. Info and Help"
@@ -1378,7 +1376,6 @@ msgstr "Как насчет смешивания обоих. Сначала од
 
 #: 02.3-Switching-Synths.md:47
 #, no-wrap
-#, fuzzy
 msgid ""
 "use_synth :saw\n"
 "play 38\n"
@@ -1394,8 +1391,7 @@ msgstr ""
 "play 50\n"
 "sleep 0.25\n"
 "use_synth :prophet\n"
-"play 57\n"
-"sleep 0.25"
+"play 57"
 
 #: 02.3-Switching-Synths.md:57
 msgid ""
@@ -1633,9 +1629,9 @@ msgstr ""
 "Следующая диаграмма иллюстрирует такой переход:"
 
 #: 02.4-Durations-with-Envelopes.md:79
-#, fuzzy
 msgid "![release envelope](../../../etc/doc/images/tutorial/env-release.png)"
-msgstr "![release envelope](../../../etc/doc/images/tutorial/env-release.png)"
+msgstr ""
+"![огибающая затухания](../../../etc/doc/images/tutorial/env-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:81
 msgid ""
@@ -1730,12 +1726,11 @@ msgid "play 60, attack: 4, release: 0.7"
 msgstr "play 60, attack: 4, release: 0.7"
 
 #: 02.4-Durations-with-Envelopes.md:123
-#, fuzzy
 msgid ""
 "![long attack short release envelope](../../../etc/doc/images/tutorial/env-lon"
 "g-attack-short-release.png)"
 msgstr ""
-"![огибающая с долгой атакой и быстрым стиханием](../../../etc/doc/images/"
+"![огибающая с долгой атакой и быстрым затуханием](../../../etc/doc/images/"
 "tutorial/env-long-attack-short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:125
@@ -1752,12 +1747,11 @@ msgid "play 60, attack: 0.5, release: 0.5"
 msgstr "play 60, attack: 0.5, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:132
-#, fuzzy
 msgid ""
 "![short attack short release envelope](../../../etc/doc/images/tutorial/env-sh"
 "ort-attack-short-release.png)"
 msgstr ""
-"![огибающая с короткой атакой и коротким стиханием](../../../etc/doc/images/"
+"![огибающая с короткой атакой и коротким затуханием](../../../etc/doc/images/"
 "tutorial/env-short-attack-short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:134
@@ -1781,7 +1775,6 @@ msgid "play 60, attack: 0.3, sustain: 1, release: 1"
 msgstr "play 60, attack: 0.3, sustain: 1, release: 1"
 
 #: 02.4-Durations-with-Envelopes.md:145
-#, fuzzy
 msgid ""
 "![ASR envelope](../../../etc/doc/images/tutorial/env-attack-sustain-release.pn"
 "g)"
@@ -1837,7 +1830,6 @@ msgstr ""
 "sustain: 1, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:168
-#, fuzzy
 msgid ""
 "![ADSR envelope](../../../etc/doc/images/tutorial/env-attack-decay-sustain-rel"
 "ease.png)"
@@ -1871,7 +1863,6 @@ msgstr ""
 " 1, sustain_level: 0.4, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:181
-#, fuzzy
 msgid "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level.png)"
 msgstr "![ASR огибающая](../../../etc/doc/images/tutorial/env-decay-level.png)"
 
@@ -1892,7 +1883,6 @@ msgstr ""
 " 0.5, sustain_level: 0.8, release: 1.5"
 
 #: 02.4-Durations-with-Envelopes.md:189
-#, fuzzy
 msgid "![ASR envelope](../../../etc/doc/images/tutorial/env-decay-level-2.png)"
 msgstr ""
 "![ASR огибающая](../../../etc/doc/images/tutorial/env-decay-level-2.png)"
@@ -2050,7 +2040,6 @@ msgstr ""
 "play 36"
 
 #: 03.1-Triggering-Samples.md:36
-#, fuzzy
 msgid ""
 "Notice how Sonic Pi doesn't wait for a sound to finish before starting the nex"
 "t sound. The `sleep` command only describes the separation of the *triggering*"
@@ -2063,7 +2052,6 @@ msgstr ""
 "создавая интересные эффекты наложения."
 
 #: 03.1-Triggering-Samples.md:42
-#, fuzzy
 msgid "Discovering Samples"
 msgstr "Знакомимся с сэмплами"
 
@@ -2343,15 +2331,15 @@ msgid "sample :loop_amen, rate: -1"
 msgstr "sample :loop_amen, rate: -1"
 
 #: 03.3-Stretching-Samples.md:72
-#, fuzzy
 msgid ""
 "Woah! It plays it *backwards*! Now try playing with lots of different samples "
 "at different rates. Try very fast rates. Try really slow rates. See what inter"
 "esting sounds you can produce."
 msgstr ""
-"Ничего себе! Он стал играть *задом-наперёд*! Попробуйте воспроизвести разные "
-"сэмплы на разных скоростях. Попробуйте очень быстрые скорости. Попробуйте "
-"несуразно медленные. Узнайте, какие интересные звуки можно создать."
+"Ничего себе! Он стал играть *задом-наперёд*! Попробуйте поиграться со "
+"множеством разных сэмплов на разных скоростях. Попробуйте очень быстрые "
+"скорости. Попробуйте несуразно медленные. Узнайте, какие интересные звуки "
+"можно создать."
 
 #: 03.3-Stretching-Samples.md:76
 msgid "A Simple Explanation of Sample Rate"
@@ -2412,9 +2400,8 @@ msgstr ""
 "примерно так:"
 
 #: 03.3-Stretching-Samples.md:103
-#, fuzzy
 msgid "![sample graph](../../../etc/doc/images/tutorial/sample.png)"
-msgstr "![граф сэмплирования](../../../etc/doc/images/tutorial/sample.png)"
+msgstr "![график сэмпла](../../../etc/doc/images/tutorial/sample.png)"
 
 #: 03.3-Stretching-Samples.md:105
 msgid ""
@@ -2965,7 +2952,7 @@ msgid ""
 "st need to get hold of the code."
 msgstr ""
 "Когда ты сочиняешь свои композиции только с использованием встроенных синтов "
-"и сэмплов, то программный код - это все что нужно для надежного исполнения "
+"и сэмплов, то программный код - это всё, что нужно для надежного исполнения "
 "твоей музыки. Просто задумайся над этим на минуту - это же просто "
 "удивительно! Простой кусок текста, который можно отправить по электронной "
 "почте или засунуть в [Gist](https://gist.github.com) являет собой все, что "
@@ -2993,13 +2980,12 @@ msgid "Local Samples"
 msgstr "Локальные сэмплы"
 
 #: 03.6-External-Samples.md:28
-#, fuzzy
 msgid ""
 "So how do you play any arbitrary WAV, AIFF, OGG, OGA or FLAC file on your comp"
 "uter? All you need to do is pass the path of that file to `sample`:"
 msgstr ""
-"Так как все-таки проиграть любой WAV, AIFF или FLAC с твоего компьютера? Все "
-"что нужно, это передать путь к его файлу команде `sample`:"
+"Так как все-таки проиграть любой WAV, AIFF, OGG, OGA или FLAC с твоего "
+"компьютера? Всё, что нужно — передать путь до этого файла функции `sample`:"
 
 #: 03.6-External-Samples.md:31
 #, no-wrap
@@ -3274,15 +3260,14 @@ msgstr ""
 "sample samps, \"120\", 1"
 
 #: 03.7-Sample-Packs.md:120
-#, fuzzy
 msgid ""
 "We can even use multiple filters at the same time. For example, if we want a s"
 "ample whose filename contains both the substrings `\"120\"` and `\"A#\"` we can fi"
 "nd it easily with the following code:"
 msgstr ""
 "Более того, мы можем использовать несколько фильтров сразу. Например, если "
-"мы хотим сэмпл, имя которого содержит подстроки \"120\" и \"A#\", мы можем "
-"легко добиться этого следующим кодом:"
+"мы хотим сэмпл, имя файла которого содержит подстроки `\"120\"` и `\"A#\"`, "
+"мы можем легко добиться этого следующим кодом:"
 
 #: 03.7-Sample-Packs.md:124
 #, no-wrap
@@ -3318,22 +3303,20 @@ msgid ""
 "s* and *filters*. Sources are information used to create the list of potential"
 " candidates. A source can take two forms:"
 msgstr ""
-"Система аргументов фильтров сэмплов понимает два типа информации: источники "
-"и фильтры. Источники представляют собой информацию, используемую для "
+"Система аргументов фильтров сэмплов понимает два типа информации: *источники*"
+" и *фильтры*. Источники представляют собой информацию, используемую для "
 "создания списка потенциальных совпадений. Источники бывают двух видов:"
 
 #: 03.7-Sample-Packs.md:142
-#, fuzzy
 msgid "`\"/path/to/samples\"` - a string representing a valid path to a directory"
 msgstr ""
-"\"/path/to/samples\" - строка, представляющая относительный путь к директории"
+"`\"/path/to/samples\"` - строка, представляющая валидный путь к директории"
 
 #: 03.7-Sample-Packs.md:143
-#, fuzzy
 msgid "`\"/path/to/samples/foo.wav\"` - a string representing a valid path to a sample"
 msgstr ""
-"\"/path/to/samples/foo.wav\" - строка, представляющая действительный путь к "
-"примеру"
+"`\"/path/to/samples/foo.wav\"` - строка, представляющая валидный путь к "
+"сэмплу"
 
 #: 03.7-Sample-Packs.md:145
 msgid ""
@@ -3709,17 +3692,16 @@ msgid "Random seeds"
 msgstr "Начальные точки для генерации случайных чисел"
 
 #: 04-Randomisation.md:80
-#, fuzzy
 msgid ""
 "So, what if you don't like this particular sequence of random numbers Sonic Pi"
 " provides? Well it's totally possible to choose a different starting point via"
 " `use_random_seed`. The default seed happens to be 0, so choose a different se"
 "ed for a different random experience!"
 msgstr ""
-"Что, если вам не нравится последовательность случайных чисел, "
-"сгенерированная Sonic Pi? Ну, очень легко выбрать другую начальную точку, "
-"если использовать `use_random_seed`.Начальная точка по умолчанию равна 0, "
-"так что для другого случайного результата выбирайте другую точку!"
+"Что, если вам не нравится конкретная последовательность случайных чисел, "
+"сгенерированная Sonic Pi? Что ж, очень легко выбрать другую начальную точку "
+"с помощью `use_random_seed`. Зерно (seed) по умолчанию равно 0, так что для "
+"другой генерации случайных чисел выбирайте другое зерно!"
 
 #: 04-Randomisation.md:85
 msgid "Consider the following:"
@@ -3776,7 +3758,9 @@ msgstr ""
 #: 04-Randomisation.md:110
 #, fuzzy
 msgid "Let's have a look at some other useful random functions."
-msgstr "Давайте познакомимся с некоторыми другими случайными функциями."
+msgstr ""
+"Давайте рассмотрим некоторые другими полезные функции для работы со "
+"случайными значениями."
 
 #: 04-Randomisation.md:113
 msgid "choose"
@@ -3791,14 +3775,12 @@ msgid ""
 "uare brackets and separating them with commas: `[60, 65, 72]`. Next I just nee"
 "d to pass them to `choose`:"
 msgstr ""
-"Время поиграться. Поменяйте частоту - что происходит, когда вы используете "
-"высокие, малые, или отрицательные значения? Посмотрите, что произойдет, "
-"когда вы поменяете значение `rate:` для сэмпла `:ambi_choir` на "
-"незначительную величину (например, до `0.29`). Что произойдет, если вы "
-"выберите очень маленькое значение для `sleep`? Проверьте, получится ли "
-"заставить его играть так быстро, что все упадёт с ошибкой из-за того, что "
-"компьютер не справится с этим (если это всё же произошло, то просто выберите "
-"для `sleep` значение побольше и снова нажмите `Выполнить`)."
+"Очень часто приходится выбирать вещь случайным образом из списка. Например, "
+"я могу захотеть проиграть одну ноту из набора: 60, 65 или 72. Я могу достичь "
+"этого с помощью функции `choose`, которая позволяет мне выбрать предмет из "
+"списка. Вначале, надо записать мои числа в список в квадратных скобках через "
+"запятую: `[60, 65, 72]`. Затем, надо просто передать их в таком виде функции "
+"`choose`:"
 
 #: 04-Randomisation.md:122
 #, no-wrap
@@ -3853,25 +3835,26 @@ msgid ""
 " rather than exclusive of the range). Examples of numbers returned by `rrand_i"
 "(20, 110)` are:"
 msgstr ""
-"Время от времени вам может понадобится получить целое случайное число, а не "
-"дробное. Тут-то и придёт на помощь `rrand_i`. Она работает так же, как "
-"`rrand`, но включает граничные значения (то есть она может выбирать "
-"минимальные и максимальные числа). Примеры, полученные из `rrand_i(20, 110)`:"
+"Иногда вам может понадобиться целое случайное число, а не число с плавающей "
+"точкой. Тут-то и придёт на помощь `rrand_i`. Она работает почти как `rrand`, "
+"но может вернуть переданные параметры `min` и max` как значения (т.е. "
+"включает границы диапазона). Примеры чисел, которые возвращает `rrand_i(20, "
+"110)`:"
 
 #: 04-Randomisation.md:160
 msgid "rand"
 msgstr "случайный"
 
 #: 04-Randomisation.md:162
-#, fuzzy
 msgid ""
 "This will return a random float between 0 (inclusive) and the max value you sp"
 "ecify (exclusive). By default it will return a value between 0 and one. It's t"
 "herefore useful for choosing random `amp:` values:"
 msgstr ""
-"Вернет случайное дробное число от 0 (включительно), до максимального "
-"указанного вами. По умолчанию числа лежат в промежутке от 0 до 1. Такая "
-"функция полезна для выбора случайного усиления:"
+"Вернет случайное число с плавающей точкой между 0 (включительно), до "
+"максимального указанного вами (но не включая это число). По умолчанию числа "
+"лежат в промежутке от 0 до 1. Такая функция полезна для выбора случайного "
+"значения усиления (`amp:`):"
 
 #: 04-Randomisation.md:167
 #, no-wrap
@@ -4519,6 +4502,7 @@ msgstr ""
 "    sample :drum_cymbal_closed\n"
 "    sleep 0.25\n"
 "  end\n"
+"  \n"
 "end"
 
 #: 05.3-Conditionals.md:64
@@ -5238,7 +5222,6 @@ msgid "foo"
 msgstr "foo"
 
 #: 05.5-Functions.md:70
-#, fuzzy
 msgid ""
 "Press the Run button - and hear your function play. Where did the code go? How"
 " did Sonic Pi know what to play? Sonic Pi just remembered your function - so e"
@@ -5246,10 +5229,10 @@ msgid ""
 "is behaviour only works with functions created using `define` (and `defonce`)."
 msgstr ""
 "Нажмите кнопку \"Выполнить\", и убедитесь, что ваша функция играет. Куда же "
-"пропал код? Откуда Sonic Pi знал, что играть? Он просто вспомнил вашу "
+"пропал код? Откуда Sonic Pi знал, что играть? Он просто запомнил вашу "
 "функцию даже после её удаления из буфера. Он запомнил что вы напечатали. Это "
 "работает только с функциями, которые создаются при помощи `define` (и "
-"`defonce`)"
+"`defonce`)."
 
 #: 05.5-Functions.md:76
 msgid "Parameterised functions"
@@ -5684,6 +5667,16 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
+"a = (ring 6, 5, 4, 3, 2, 1)\n"
+"live_loop :sorted do\n"
+"  a = a.sort\n"
+"  sleep 0.5\n"
+"  puts \"sorted: \", a\n"
+"end\n"
+"live_loop :shuffled do\n"
+"  a = a.shuffle\n"
+"  sleep 0.5\n"
+"end"
 
 #: 05.6-Variables.md:154
 msgid ""
@@ -18207,6 +18200,30 @@ msgid ""
 "sleep 1\n"
 "bell :g2"
 msgstr ""
+"define :bell do |n|\n"
+"  # Треугольные волны для 'удара':\n"
+"  synth :tri, note: n - 12, release: 0.1\n"
+"  synth :tri, note: n + 0.1, release: 0.1\n"
+"  synth :tri, note: n - 0.1, release: 0.1\n"
+"  synth :tri, note: n, release: 0.2\n"
+"  # Волны-синусоиды для 'звона':\n"
+"  synth :sine, note: n + 24, release: 2\n"
+"  synth :sine, note: n + 24.1, release: 2\n"
+"  synth :sine, note: n + 24.2, release: 0.5\n"
+"  synth :sine, note: n + 11.8, release: 2\n"
+"  synth :sine, note: n, release: 2\n"
+"  # Низкие волны-синусоиды для баса:\n"
+"  synth :sine, note: n - 11.8, release: 2\n"
+"  synth :sine, note: n - 12, release: 2\n"
+"end\n"
+"# Играем мелодию с нашим новым колоколом!\n"
+"bell :e3\n"
+"sleep 1\n"
+"bell :c2\n"
+"sleep 1\n"
+"bell :d3\n"
+"sleep 1\n"
+"bell :g2"
 
 #: A.19-subtractive-synthesis.md:1
 msgid "A.19 Sound Design - Subtractive Synthesis"
