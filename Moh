@@ -1,0 +1,36 @@
+هذا مثال على كود بسيط في برنامج Sonic Pi لإنشاء موسيقى راب حزينة. يمكنك تخصيصه وتعديله حسب الحاجة:
+
+```ruby
+# تعيين السرعة الإفتراضية للموسيقى
+use_bpm 90
+
+# مقاطع الطبل
+live_loop :drums do
+  sample :drum_bass_hard
+  sleep 0.5
+  sample :drum_bass_hard
+  sleep 0.25
+  sample :drum_bass_hard
+  sleep 0.25
+
+  sample :drum_bass_hard
+  sleep 0.5
+end
+
+# مقطوعة الموسيقى الأساسية
+live_loop :melody do
+  use_synth :piano
+  play_pattern_timed [:C3, :A2, :F2, :G2], [0.5, 0.5, 0.5, 1]
+end
+
+# تأثير صوتي للحزن
+live_loop :sad_effect do
+  with_fx :reverb, mix: 0.7 do
+    use_synth :piano
+    play_chord chord(:C3, :minor), release: 4, attack: 0.5
+    sleep 4
+  end
+end
+```
+
+هذا الكود يستخدم الطبلات والموسيقى الأساسية مع تأثير صوتي للحزن باستخدام البيانو. يمكنك تجربة تعديل الأصوات والألحان للحصول على النتيجة التي تناسب ذوقك ورؤيتك للموسيقى الراب الحزينة.
