@@ -1092,6 +1092,8 @@ module SonicPi
 
       OPTS_TOML_KEY_CONVERSION = {
         sound_card_name:          "-H",
+        input_sound_card_name:    "__HI__",
+        output_sound_card_name:   "__HO__",
         sound_card_sample_rate:   "-S",
         sound_card_buffer_size:   "-Z",
         num_inputs:               "-i",
@@ -1147,11 +1149,29 @@ module SonicPi
         Util.log "Unified Audio Settings toml hash: #{opts.inspect}"
         opts = scsynth_inputs_hash.merge(opts)
         Util.log "Combined Audio Settings toml hash with GUI scsynth inputs hash: #{opts.inspect}"
-        opts = merge_opts(toml_opts_hash, opts)
+        opts = merge_scsynth_opts(toml_opts_hash, opts)
         Util.log "Merged Audio Settings toml hash: #{opts.inspect}"
         @num_inputs = opts["-i"].to_i
         @num_outputs = opts["-o"].to_i
+
+        sound_card_name = opts.delete("-H")
+        input_sound_card_name = opts.delete("__HI__")
+        output_sound_card_name = opts.delete("__HO__")
         args = opts.to_a.flatten
+
+        # handle multiargs for soundcard input/output
+        if input_sound_card_name && output_sound_card_name
+          args << "-H" << input_sound_card_name << output_sound_card_name
+        elsif input_sound_card_name && sound_card_name
+          args << "-H" << input_sound_card_name << sound_card_name
+        elsif input_sound_card_name
+          args << "-H" << input_sound_card_name
+        elsif output_sound_card_output_name
+          args << "-H" << output_sound_card_name
+        elsif sound_card_name
+          args << "-H" << sound_card_name
+        end
+
         cmd = Paths.scsynth_path
 
         case Util.os
@@ -1344,7 +1364,7 @@ module SonicPi
         opts
       end
 
-      def merge_opts(toml_opts_hash, opts)
+      def merge_scsynth_opts(toml_opts_hash, opts)
         # extract scsynth opts override
         begin
           clobber_opts_a = Shellwords.split(toml_opts_hash.fetch(:scsynth_opts_override, ""))

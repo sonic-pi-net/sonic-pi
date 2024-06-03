@@ -92,7 +92,16 @@
 # num_inputs = 16
 # num_outputs = 16
 
+## ===========================================
+## Advanced - separate input/output soundcards
+## ===========================================
+#
+# Note that these will override the sound_card_name option above.
+# Also, these sound cards must be set to the same sample rate and
+# the name must exactly match the full name of the sound card.
 
+# input_sound_card_name = ""
+# output_sound_card_name = ""
 
 ## ====================
 ## Server Audio options
