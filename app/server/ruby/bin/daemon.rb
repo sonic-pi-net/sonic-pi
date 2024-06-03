@@ -1166,7 +1166,7 @@ module SonicPi
           args << "-H" << input_sound_card_name << sound_card_name
         elsif input_sound_card_name
           args << "-H" << input_sound_card_name
-        elsif output_sound_card_output_name
+        elsif output_sound_card_name
           args << "-H" << output_sound_card_name
         elsif sound_card_name
           args << "-H" << sound_card_name
