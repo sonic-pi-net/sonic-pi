@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2024-04-29 17:04+0000\n"
-"Last-Translator: LL <lu.lecocq@free.fr>\n"
+"PO-Revision-Date: 2024-06-05 09:09+0000\n"
+"Last-Translator: BERYANN PARKER <beryann.parker@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "fr/>\n"
 "Language: fr\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.5.2\n"
+"X-Generator: Weblate 5.6-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -139,15 +139,15 @@ msgid "Let's get started, copy the following code into an empty buffer:"
 msgstr "Commençons, copiez le code suivant dans un \"buffer\" libre :"
 
 #: 01.1-Live-Coding.md:21
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :flibble do\n"
 "  sample :bd_haus, rate: 1\n"
 "  sleep 0.5\n"
 "end"
 msgstr ""
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
+"live_loop :flibble do\n"
+"  sample :bd_haus, rate: 1\n"
 "  sleep 0.5\n"
 "end"
 
@@ -195,9 +195,9 @@ msgid ""
 "le :bd_haus` add the line `sample :ambi_choir, rate: 0.3`. Your code should lo"
 "ok like this:"
 msgstr ""
-"Ok, c'était assez simple. Ajoutons quelque chose au mixage. Au dessus de `"
-"sample :bd_haus` ajoutez la ligne `sample :ambi_choir, rate: 0.3`. Votre "
-"code devrait ressembler à ceci :"
+"Ok, c'était assez simple. Ajoutons quelque chose au mixage. Au dessus de "
+"\"sample :bd_haus\" ajoutez la ligne \"sample :ambi_choir, rate: 0.3\". "
+"Votre code devrait ressembler à ceci :"
 
 #: 01.1-Live-Coding.md:43
 #, no-wrap
@@ -208,9 +208,9 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
-"live_loop :flibble do\n"
-"  sample :ambi_choir, rate: 0.3\n"
-"  sample :bd_haus, rate: 1\n"
+"live_loop :flibble do\n"
+"  sample :ambi_choir, rate: 0.3\n"
+"  sample :bd_haus, rate: 1\n"
 "  sleep 1\n"
 "end"
 
@@ -247,9 +247,9 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
-"live_loop :flibble do\n"
-"  sample :ambi_choir, rate: 0.3\n"
-"#  sample :bd_haus, rate: 1\n"
+"live_loop :flibble do\n"
+"  sample :ambi_choir, rate: 0.3\n"
+"#  sample :bd_haus, rate: 1\n"
 "  sleep 1\n"
 "end"
 
@@ -337,16 +337,16 @@ msgid ""
 "  sleep 8\n"
 "end"
 msgstr ""
-"live_loop :guit do\n"
-"  with_fx :echo, mix: 0.3, phase: 0.25 do\n"
-"    sample :guit_em9, rate: 0.5\n"
+"live_loop :guit do\n"
+"  with_fx :echo, mix: 0.3, phase: 0.25 do\n"
+"    sample :guit_em9, rate: 0.5\n"
 "  end\n"
-"#  sample :guit_em9, rate: -0.5\n"
+"#  sample :guit_em9, rate: -0.5\n"
 "  sleep 8\n"
 "end\n"
-"live_loop :boom do\n"
-"  with_fx :reverb, room: 1 do\n"
-"    sample :bd_boom, amp: 10, rate: 1\n"
+"live_loop :boom do\n"
+"  with_fx :reverb, room: 1 do\n"
+"    sample :bd_boom, amp: 10, rate: 1\n"
 "  end\n"
 "  sleep 8\n"
 "end"
@@ -969,11 +969,11 @@ msgid ""
 "sleep 0.5\n"
 "play :E"
 msgstr ""
-"play :C\n"
+"play :C\n"
 "sleep 0.5\n"
-"play :D\n"
+"play :D\n"
 "sleep 0.5\n"
-"play :E"
+"play :E"
 
 #: 02.1-Your-First-Beeps.md:110
 msgid ""
@@ -993,11 +993,11 @@ msgid ""
 "sleep 0.5\n"
 "play :E4"
 msgstr ""
-"play :C3\n"
+"play :C3\n"
 "sleep 0.5\n"
-"play :D3\n"
+"play :D3\n"
 "sleep 0.5\n"
-"play :E4"
+"play :E4"
 
 #: 02.1-Your-First-Beeps.md:122
 msgid ""
@@ -1103,7 +1103,7 @@ msgid "You can pass multiple opts by separating them with a comma:"
 msgstr "Vous pouvez passer plusieurs options en les séparant par une virgule :"
 
 #: 02.2-Synth-Params.md:39
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play 50, cheese: 1, beans: 0.5"
 msgstr "play 50, cheese: 1, beans: 0.5"
 
@@ -1366,7 +1366,7 @@ msgid ""
 "sleep 0.25\n"
 "play 62"
 msgstr ""
-"use_synth :saw\n"
+"use_synth :saw\n"
 "play 38\n"
 "sleep 0.25\n"
 "play 50\n"
@@ -1387,7 +1387,7 @@ msgid ""
 "sleep 0.25\n"
 "play 62"
 msgstr ""
-"use_synth :prophet\n"
+"use_synth :prophet\n"
 "play 38\n"
 "sleep 0.25\n"
 "play 50\n"
@@ -1409,12 +1409,12 @@ msgid ""
 "use_synth :prophet\n"
 "play 57"
 msgstr ""
-"use_synth :saw\n"
+"use_synth :saw\n"
 "play 38\n"
 "sleep 0.25\n"
 "play 50\n"
 "sleep 0.25\n"
-"use_synth :prophet\n"
+"use_synth :prophet\n"
 "play 57"
 
 #: 02.3-Switching-Synths.md:57
@@ -1435,13 +1435,13 @@ msgid ""
 "use_synth :prophet\n"
 "play 57"
 msgstr ""
-"use_synth :tb303\n"
+"use_synth :tb303\n"
 "play 38\n"
 "sleep 0.25\n"
-"use_synth :dsaw\n"
+"use_synth :dsaw\n"
 "play 50\n"
 "sleep 0.25\n"
-"use_synth :prophet\n"
+"use_synth :prophet\n"
 "play 57"
 
 #: 02.3-Switching-Synths.md:69
@@ -1472,11 +1472,11 @@ msgstr ""
 
 #: 02.3-Switching-Synths.md:81
 msgid "`:prophet`"
-msgstr "`:prophet`"
+msgstr "\":prophet\""
 
 #: 02.3-Switching-Synths.md:82
 msgid "`:dsaw`"
-msgstr "`:dsaw`"
+msgstr "\":dsaw\""
 
 #: 02.3-Switching-Synths.md:83
 msgid "`:fm`"
@@ -1488,7 +1488,7 @@ msgstr "`:tb303`"
 
 #: 02.3-Switching-Synths.md:85
 msgid "`:pulse`"
-msgstr "`:pulse`"
+msgstr "\":pulse\""
 
 #: 02.3-Switching-Synths.md:87
 msgid ""
@@ -2028,7 +2028,7 @@ msgstr ""
 #: 03.1-Triggering-Samples.md:8
 #, no-wrap
 msgid "sample :ambi_lunar_land"
-msgstr "sample :ambi_lunar_land"
+msgstr "sample :ambi_lunar_land"
 
 #: 03.1-Triggering-Samples.md:12
 msgid ""
@@ -2050,8 +2050,8 @@ msgid ""
 msgstr ""
 "play 36\n"
 "play 48\n"
-"sample :ambi_lunar_land\n"
-"sample :ambi_drone"
+"sample :ambi_lunar_land\n"
+"sample :ambi_drone"
 
 #: 03.1-Triggering-Samples.md:23
 msgid "If you want to space them out in time, use the `sleep` command:"
@@ -2070,12 +2070,12 @@ msgid ""
 "sleep 1\n"
 "play 36"
 msgstr ""
-"sample :ambi_lunar_land\n"
+"sample :ambi_lunar_land\n"
 "sleep 1\n"
 "play 48\n"
 "sleep 0.5\n"
 "play 36\n"
-"sample :ambi_drone\n"
+"sample :ambi_drone\n"
 "sleep 1\n"
 "play 36"
 
@@ -2121,19 +2121,20 @@ msgstr ""
 
 #: 03.1-Triggering-Samples.md:54
 msgid "`:ambi_`"
-msgstr "`:ambi_`"
+msgstr "\":ambi_\""
 
 #: 03.1-Triggering-Samples.md:55
 msgid "`:bass_`"
-msgstr "`:bass_`"
+msgstr "\":bass_\""
 
 #: 03.1-Triggering-Samples.md:56
+#, fuzzy
 msgid "`:elec_`"
 msgstr "`:elec_`"
 
 #: 03.1-Triggering-Samples.md:57
 msgid "`:perc_`"
-msgstr "`:perc_`"
+msgstr "\":perc_\""
 
 #: 03.1-Triggering-Samples.md:58
 msgid "`:guit_`"
