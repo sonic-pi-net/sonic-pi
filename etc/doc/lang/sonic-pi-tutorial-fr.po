@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2024-06-05 09:09+0000\n"
-"Last-Translator: BERYANN PARKER <beryann.parker@gmail.com>\n"
+"PO-Revision-Date: 2024-06-06 19:09+0000\n"
+"Last-Translator: Olivier Humbert <trebmuh@tuxfamily.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "fr/>\n"
 "Language: fr\n"
@@ -195,9 +195,9 @@ msgid ""
 "le :bd_haus` add the line `sample :ambi_choir, rate: 0.3`. Your code should lo"
 "ok like this:"
 msgstr ""
-"Ok, c'était assez simple. Ajoutons quelque chose au mixage. Au dessus de "
-"\"sample :bd_haus\" ajoutez la ligne \"sample :ambi_choir, rate: 0.3\". "
-"Votre code devrait ressembler à ceci :"
+"Ok, c'était assez simple. Ajoutons quelque chose au mixage. Au dessus de `"
+"sample :bd_haus` ajoutez la ligne `sample :ambi_choir, rate: 0.3`. Votre "
+"code devrait ressembler à ceci :"
 
 #: 01.1-Live-Coding.md:43
 #, no-wrap
@@ -1437,10 +1437,8 @@ msgid ""
 msgstr ""
 "use_synth :tb303\n"
 "play 38\n"
-"sleep 0.25\n"
 "use_synth :dsaw\n"
 "play 50\n"
-"sleep 0.25\n"
 "use_synth :prophet\n"
 "play 57"
 
@@ -1472,11 +1470,11 @@ msgstr ""
 
 #: 02.3-Switching-Synths.md:81
 msgid "`:prophet`"
-msgstr "\":prophet\""
+msgstr "`:prophet`"
 
 #: 02.3-Switching-Synths.md:82
 msgid "`:dsaw`"
-msgstr "\":dsaw\""
+msgstr "`:dsaw`"
 
 #: 02.3-Switching-Synths.md:83
 msgid "`:fm`"
@@ -1488,7 +1486,7 @@ msgstr "`:tb303`"
 
 #: 02.3-Switching-Synths.md:85
 msgid "`:pulse`"
-msgstr "\":pulse\""
+msgstr "`:pulse`"
 
 #: 02.3-Switching-Synths.md:87
 msgid ""
@@ -2121,11 +2119,11 @@ msgstr ""
 
 #: 03.1-Triggering-Samples.md:54
 msgid "`:ambi_`"
-msgstr "\":ambi_\""
+msgstr "`:ambi_`"
 
 #: 03.1-Triggering-Samples.md:55
 msgid "`:bass_`"
-msgstr "\":bass_\""
+msgstr "`:bass_`"
 
 #: 03.1-Triggering-Samples.md:56
 #, fuzzy
@@ -2134,7 +2132,7 @@ msgstr "`:elec_`"
 
 #: 03.1-Triggering-Samples.md:57
 msgid "`:perc_`"
-msgstr "\":perc_\""
+msgstr "`:perc_`"
 
 #: 03.1-Triggering-Samples.md:58
 msgid "`:guit_`"
