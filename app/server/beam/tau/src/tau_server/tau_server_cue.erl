@@ -197,24 +197,22 @@ loop(State) ->
             try osc:decode(Bin) of
                 %% TODO: handle {bundle, Time, X}?
                 {cmd, Cmd} ->
-                    case State of
-                        #{cues_on := true,
-                          cue_host := CueHost,
-                          cue_port := CuePort} ->
-                            logger:debug("got incoming OSC: ~p", [Cmd]),
-                            forward_cue(CueHost, CuePort,
-                                        InSocket, Ip, Port, Cmd),
-                            ?MODULE:loop(State);
-                        #{cues_on := false} ->
-                            logger:debug("OSC forwarding disabled - ignored: ~p", [Cmd]),
-                            ?MODULE:loop(State)
-                    end
+                  forward_cue_from_state(State, InSocket, Ip, Port, Cmd),
+                  ?MODULE:loop(State);
+               {bundle, Time, Bins} ->
+                  logger:debug("got bundle: ~p - ~n", [Time]),
+                  lists:foreach(fun(Cmd) -> forward_cue_from_state(State, InSocket, Ip, Port, Cmd) end, Bins),
+                  ?MODULE:loop(State);
+               X ->
+                  logger:error("Unexpected OSC: ~p - ~p", [X, Bin]),
+                  ?MODULE:loop(State)
             catch
                 Class:Term:Trace ->
                     logger:error("Error decoding OSC: ~p~n~p:~p~n~p",
                         [Bin, Class, Term, Trace]),
                     ?MODULE:loop(State)
             end;
+
 
         {osc_in_udp_loopback_restricted, true} ->
             case State of
@@ -291,10 +289,19 @@ loop(State) ->
             send_udp(Socket, Host, Port, Bin),
             ?MODULE:loop(State);
         Any ->
-	    logger:error("Cue Server got unexpected message: ~p", [Any]),
-	    ?MODULE:loop(State)
+	        logger:error("Cue Server got unexpected message: ~p", [Any]),
+	        ?MODULE:loop(State)
 
     end.
+
+forward_cue_from_state(State, InSocket, Ip, Port, Cmd) ->
+  case State of
+    #{cues_on := true, cue_host := CueHost, cue_port := CuePort} ->
+        forward_cue(CueHost, CuePort, InSocket, Ip, Port, Cmd);
+    #{cues_on := false} ->
+        ok
+  end.
+
 
 
 send_udp(Socket, Host, Port, Bin)

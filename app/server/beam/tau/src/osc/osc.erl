@@ -131,15 +131,13 @@ pack_ts(Time, Data) ->
 
 decode(B0) when is_binary(B0) ->
     {Verb,  B1}      = get_string(B0),
-    %% io:format("Verb: ~p~n",[Verb]),
-    case Verb of
-	"#bundle" ->
-	    <<Time:8/binary, B2/binary>> = B1,
-	    {bundle, decode_time(Time), decode_bundle(B2)};
-	_ ->
-	    {[$,|Flags], B2} = get_string(B1),
-	    %% io:format("Verb: ~p Flags:~p~n",[Verb,Flags]),
-	    {cmd, [Verb|get_args(Flags, B2, [])]}
+        case Verb of
+	    "#bundle" ->
+	      <<Time:8/binary, B2/binary>> = B1,
+	      {bundle, decode_time(Time), decode_bundle(B2)};
+	    _ ->
+	      {[$,|Flags], B2} = get_string(B1),
+	      {cmd, [Verb|get_args(Flags, B2, [])]}
     end.
 
 -define(EPOCH,	  	2208988800).		% offset yr 1900 to unix epoch
@@ -166,7 +164,8 @@ binfrac(I) -> I / (2 bsl 31).
 
 
 decode_bundle(<<Size:32,B:Size/binary,B1/binary>>) ->
-    [{Size, B}|decode_bundle(B1)];
+    {cmd, Args} = decode(B),
+    [Args|decode_bundle(B1)];
 decode_bundle(<<>>) ->
     [].
 
