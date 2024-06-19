@@ -221,11 +221,11 @@ module SonicPi
     end
 
     def midi_system_start!
-      @tau_comms.send("/stop-start-midi-cues", 1)
+      @tau_comms.send("/stop-start-midi-cues", true)
     end
 
     def midi_system_stop!
-      @tau_comms.send("/stop-start-midi-cues", 0)
+      @tau_comms.send("/stop-start-midi-cues", false)
     end
 
     def start_stop_cue_server!(stop)
