@@ -12,7 +12,7 @@ fi
 if [ "$TAU_ENV" = "prod" ]
 then
   # Ensure prod env has been setup with:
-  # export MIX_ENV=dev
+  # export MIX_ENV=prod
   # mix tau.release
 
   export MIX_ENV=prod
