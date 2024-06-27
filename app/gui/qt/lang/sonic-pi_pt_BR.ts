@@ -184,7 +184,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="699"/>
         <source>Cues</source>
-        <translation>Cues</translation>
+        <translation>Sinais</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="933"/>
@@ -219,7 +219,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="877"/>
         <source>Hiding pane titles...</source>
-        <translation>Esconder títulos do painel...</translation>
+        <translation>Escondendo títulos do painel...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="887"/>
@@ -229,23 +229,23 @@
     <message>
         <location filename="../mainwindow.cpp" line="1319"/>
         <source>Audio Inputs Enabled. Restart Sonic Pi for this setting to take effect...</source>
-        <translation>Input de Áudio Ativado. Reinicie Sonic Pi para que essa configuração tenha efeito...</translation>
+        <translation>Entrada de Áudio Ativada. Reinicie o Sonic Pi para que essa configuração tenha efeito...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1321"/>
         <source>Audio Inputs Disabled. Restart Sonic Pi for this setting to take effect...</source>
-        <translation>Input de Áudio Desativado. Reinicie Sonic Pi para que essa configuração tenha efeito...</translation>
+        <translation>Entrada de áudio desativada. Reinicie oSonic Pi para que essa configuração tenha efeito...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1419"/>
         <source>Sonic Pi Boot Error</source>
-        <translation>Sonic Pi Erro de Inicialização</translation>
+        <translation>Erro de Inicialização do Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1423"/>
         <source>Apologies, a critical error occurred during startup:
 </source>
-        <translation>Desculpa, um erro crítico ocorreu durante a inicialização:
+        <translation>Desculpe, um erro crítico ocorreu durante a inicialização:
 </translation>
     </message>
     <message>
@@ -256,12 +256,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="1777"/>
         <source>Checking for updates...</source>
-        <translation>Checando por atualizações...</translation>
+        <translation>Procurando atualizações...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1785"/>
         <source>Enabling update checking...</source>
-        <translation>Ativar checagem de atualização...</translation>
+        <translation>Ativando checagem de atualização...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1793"/>
@@ -284,25 +284,25 @@
         <location filename="../mainwindow.cpp" line="1835"/>
         <source>Enabling Inverted Stereo...</source>
         <oldsource>Enabling Inverted Stereo....</oldsource>
-        <translation>Ativando inversão do estéreo...</translation>
+        <translation>Ativando Estéreo Invertido...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1843"/>
         <source>Enabling Standard Stereo...</source>
         <oldsource>Enabling Standard Stereo....</oldsource>
-        <translation>Ativando estéreo padrão...</translation>
+        <translation>Ativando Estéreo Padrão...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1851"/>
         <source>Mono Mode...</source>
         <oldsource>Mono Mode....</oldsource>
-        <translation>Modo mono...</translation>
+        <translation>Modo Mono...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1859"/>
         <source>Stereo Mode...</source>
         <oldsource>Stereo Mode....</oldsource>
-        <translation>Modo estéreo...</translation>
+        <translation>Modo Estéreo...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1868"/>
@@ -312,12 +312,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="1913"/>
         <source>Hiding about window...</source>
-        <translation>Minimizando a janela &quot;about&quot;...</translation>
+        <translation>Minimizando a janela &quot;sobre&quot;...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1919"/>
         <source>Showing about window...</source>
-        <translation>Mostrando a janela &quot;about&quot;...</translation>
+        <translation>Mostrando a janela &quot;sobre&quot;...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1938"/>
@@ -332,7 +332,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2007"/>
         <source>Updating System Volume...</source>
-        <translation>Atualizando volume do sistema...</translation>
+        <translation>Atualizando Volume do Sistema...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2241"/>
