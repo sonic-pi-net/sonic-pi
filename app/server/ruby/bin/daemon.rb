@@ -168,7 +168,7 @@ module SonicPi
           Util.log "SuperCollider inputs enabled by GUI"
         end
 
-         #start compton to handle transparency (needs to be after Util.open_log)
+        #start compton to handle transparency (needs to be after Util.open_log)
         @compton_booter = ComptonBooter.new if Util.os == :raspberry
 
         # Get a map of port numbers to use
