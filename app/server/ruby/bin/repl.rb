@@ -1,3 +1,5 @@
+
+require 'readline'
 require 'open3'
 
 require_relative "../lib/sonicpi/osc/osc"
@@ -7,10 +9,12 @@ require_relative "../lib/sonicpi/promise"
 ## This is a very simple barebones REPL for Sonic Pi
 ## All stdin is sent to Sonic Pi for evaluation and output is sent to stdout
 ## It also ensures the server is kept alive.
+## Type ? for help
 
 module SonicPi
   class Repl
     def initialize()
+      @log_output = true
       daemon_stdin, daemon_stdout_and_err, daemon_wait_thr = Open3.popen2e Paths.ruby_path, Paths.daemon_path
 
       puts "Sonic Pi Daemon started with PID: #{daemon_wait_thr.pid}"
@@ -43,7 +47,7 @@ module SonicPi
         osc_client = OSC::UDPClient.new("localhost", daemon_port)
 
         at_exit do
-          puts "Killing the Daemon..."
+          puts "Killing the Sonic Pi Daemon..."
           osc_client.send("/daemon/exit", daemon_token)
         end
 
@@ -53,20 +57,192 @@ module SonicPi
         end
       end
 
-      repl_print_osc_server = OSC::UDPServer.new(gui_listen_to_spider_port)
-      repl_print_osc_server.add_global_method do |osc_path, msg|
-        puts "#{osc_path} #{msg[1]}"
-      end
-
       repl_eval_osc_client = OSC::UDPClient.new("localhost", gui_send_to_spider_port)
 
-      loop do
-        input = gets
-        repl_eval_osc_client.send("/run-code", daemon_token, input)
+      spider_incoming_osc_server = OSC::UDPServer.new(gui_listen_to_spider_port)
+      add_incoming_osc_handlers!(spider_incoming_osc_server)
+
+
+      Readline.basic_quote_characters = "\"'`()"
+      while buf = Readline.readline(">> ", true)
+        buf = buf.strip
+        case buf
+        when "?"
+          force_puts "This is a simple REPL for Sonic Pi. Type in Ruby code and press enter to evaluate it."
+          force_puts "You can also use the following commands:"
+          force_puts "  ?            - Show this help message"
+          force_puts "  ,            - Multiline edit mode"
+          force_puts "  .            - Stop all runs"
+          force_puts "  .l           - Toggle log output"
+          force_puts "  .q           - Quit"
+        when "."
+          repl_puts "Stopping all runs..."
+          repl_eval_osc_client.send("/stop-all-jobs", daemon_token)
+        when ".l"
+          @log_output = !@log_output
+          if @log_output
+            force_puts "Enabling log output..."
+          else
+            force_puts "Disabling log output..."
+          end
+        when ".q"
+          repl_puts "Quitting the REPL..."
+          exit
+        when ","
+          force_puts "Multiline edit mode. Finish with a comma on a new line."
+          force_puts ""
+          lines = []
+          while line = Readline.readline("  ", true)
+            break if line.strip == ","
+            lines << line
+          end
+
+          lines_str = lines.join("\n")
+          repl_eval_osc_client.send("/run-code", daemon_token, lines_str)
+        else
+          repl_eval_osc_client.send("/run-code", daemon_token, buf)
+        end
+      end
+    end
+
+    def print_scsynth_info(msg)
+      async_puts msg
+    end
+
+    def print_message(msg)
+      case msg[0]
+      when 0
+        async_puts msg[1], :yellow
+      when 1
+        async_puts msg[1], :green
+      else
+        async_puts msg[1], :white
+      end
+    end
+
+    def print_multi_message(msg)
+      job_id = msg[0]
+      thread_name = msg[1]
+      time = msg[2]
+      size = msg[3]
+      msgs = msg[4..-1]
+      if thread_name == "\"\""
+        repl_puts "Run #{job_id}, Time #{time}"
+      else
+        repl_puts "Run #{job_id}, Thread #{thread_name}, Time #{time}"
+      end
+      msgs.each_cons(2) do |colour, msg|
+        print_message [colour, msg]
+      end
+    end
+
+    def async_puts(msg, colour = :white)
+      print "\r#{' ' * (Readline.line_buffer.length + 2)}\r"
+      repl_puts msg, colour
+      Readline.redisplay
+    end
+
+    def repl_puts(msg, colour = :white)
+      if @log_output
+        force_puts msg, colour
+      end
+    end
+
+    def force_puts(msg, colour = :white)
+      case colour
+      when :white
+        puts msg
+      when :red
+        puts "\e[31m#{msg}\e[0m"
+      when :green
+        puts "\e[32m#{msg}\e[0m"
+      when :blue
+        puts "\e[34m#{msg}\e[0m"
+      when :yellow
+        puts "\e[33m#{msg}\e[0m"
+      when :magenta
+        puts "\e[35m#{msg}\e[0m"
+      when :cyan
+        puts "\e[36m#{msg}\e[0m"
+      when :bold
+        puts "\e[1m#{msg}\e[22m"
+      end
+    end
+
+
+    def add_incoming_osc_handlers!(osc)
+      osc.add_method("/scsynth/info") do |msg|
+        print_scsynth_info "SuperCollider Info:"
+        print_scsynth_info "==================="
+        async_puts ""
+        print_scsynth_info msg[0]
+      end
+
+      osc.add_method("/version") do |msg|
+        async_puts "Sonic Pi Version: #{msg[0]}"
+        async_puts msg[1..-1].inspect
+      end
+
+      osc.add_method("/incoming/osc") do |msg|
+        time = msg[0]
+        id = msg[1]
+        address = msg[2]
+        args = msg[3]
+
+        async_puts "Cue - #{time} - #{id} - #{address} - #{args}"
+      end
+
+      osc.add_method("/error") do |msg|
+        job_id = msg[0]
+        description = msg[1]
+        trace = msg[2]
+        line_number =  msg[3]
+
+        force_puts "Error on line #{line_number} for Run #{job_id}", :red
+        force_puts "  #{description}", :red
+        force_puts "  #{trace}", :red
+      end
+
+      osc.add_method("/syntax_error") do |msg|
+        job_id = msg[0]
+        description = msg[1]
+        error_line = msg[2]
+        line_number =  msg[3]
+
+        force_puts "Syntax error on line #{line_number} for Run #{job_id}", :blue
+        force_puts "  #{error_line}", :blue
+        force_puts "  #{description}", :blue
+      end
+
+      osc.add_method("/log/info") do |msg|
+        print_message(msg)
+      end
+
+      osc.add_method("/log/multi_message") do |msg|
+        return if msg == ""
+
+        if msg.is_a?(Array)
+          print_multi_message(msg)
+        end
+      end
+
+      osc.add_method("/runs/all-completed") do
+        async_puts " -> All runs completed"
+      end
+
+      osc.add_method("midi/out-ports") do |msg|
+        async_puts "MIDI OUT PORTS: #{msg[0]}"
+      end
+
+      osc.add_method("midi/in-ports") do |msg|
+        async_puts "MIDI IN PORTS: #{msg[0]}"
+      end
+
+      osc.add_method("/exited") do
+        async_puts "Sonic Pi has closed"
       end
     end
   end
 end
-
 
 SonicPi::Repl.new()
