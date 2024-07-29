@@ -140,11 +140,18 @@ module SonicPi
         @exit_prom = Promise.new
         @restart_tau_mut = Mutex.new
         @booting_tau = false
+        # use a value within the valid range for a 32 bit signed complement integer
+        @daemon_token =  rand(-2147483647..2147483647)
 
         @safe_exit = SafeExit.new do
           @exit_prom.deliver! true
           # Register exit routine
           # This will only be called once
+          Util.log "----"
+          Util.log "Selected ports: "
+          Util.log @ports.inspect
+          Util.log "Token: #{@daemon_token}"
+          Util.log "----"
           Util.log "Daemon Booter is now exiting."
           Util.log "Cleaning up any running processes..."
           cleanup_any_running_processes
@@ -159,16 +166,13 @@ module SonicPi
         @spider_booter   = nil
         @compton_booter  = nil
 
-        # use a value within the valid range for a 32 bit signed complement integer
-        @daemon_token =  rand(-2147483647..2147483647)
-
         if @no_scsynth_inputs
           Util.log "SuperCollider inputs disabled by GUI"
         else
           Util.log "SuperCollider inputs enabled by GUI"
         end
 
-         #start compton to handle transparency (needs to be after Util.open_log)
+        #start compton to handle transparency (needs to be after Util.open_log)
         @compton_booter = ComptonBooter.new if Util.os == :raspberry
 
         # Get a map of port numbers to use
@@ -176,9 +180,6 @@ module SonicPi
         # Note that the program will safe_exit here
         # if there are problems detecting port numbers to use.
         @ports = PortDiscovery.new(@safe_exit).ports
-
-        Util.log "Selected ports: "
-        Util.log @ports.inspect
 
         @kill_switch = KillSwitch.new(@safe_exit)
 
@@ -191,6 +192,8 @@ module SonicPi
         @api_server.add_method("/daemon/keep-alive") do |args|
           if args[0] == @daemon_token
             @kill_switch.keep_alive!
+          else
+            Util.log "Kill switch for port #{@ports["daemon"]} received incorrect token. Ignoring #{args[0]}"
           end
         end
 
@@ -247,9 +250,6 @@ module SonicPi
         # listen to and communicate on with the Ruby spider server via
         # STDOUT.
         puts "#{@ports["daemon"]} #{@ports["gui-listen-to-spider"]} #{@ports["gui-send-to-spider"]} #{@ports["scsynth"]} #{@ports["osc-cues"]} #{@ports["tau"]} #{@tau_booter.phx_port} #{@daemon_token}"
-
-        Util.log "#{@ports["daemon"]} #{@ports["gui-listen-to-spider"]} #{@ports["gui-send-to-spider"]} #{@ports["scsynth"]} #{@ports["osc-cues"]} #{@ports["tau"]} #{@tau_booter.phx_port} #{@daemon_token}"
-
         STDOUT.flush
 
         Util.log "Blocking main thread until exit signal received..."
@@ -549,7 +549,6 @@ module SonicPi
           puts "Error Class: #{e.class}"
           puts "Error Message: #{e.message}"
           puts "Error Backtrace: #{e.backtrace.join("\n")}"
-          puts 'hi'
           STDOUT.flush
           @safe_exit.exit
         end
