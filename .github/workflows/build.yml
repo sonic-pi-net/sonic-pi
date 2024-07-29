@@ -112,7 +112,7 @@ jobs:
       - name: Setup Ruby Gems
         working-directory: ${{github.workspace}}/app
         run: |
-          sudo gem install rugged --version 0.27.1
+          sudo gem install rugged
           sudo gem install test-unit
         if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
 
