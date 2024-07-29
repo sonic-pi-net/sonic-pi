@@ -275,6 +275,10 @@ module SonicPi
       end
     end
 
+    def self.daemon_path
+      File.absolute_path("#{server_path}/ruby/bin/daemon.rb")
+    end
+
 
     def self.tau_boot_path
       case os
