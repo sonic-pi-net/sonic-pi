@@ -1,7 +1,7 @@
 
 require 'readline'
 require 'open3'
-
+require 'monitor'
 require_relative "../lib/sonicpi/osc/osc"
 require_relative "../paths"
 require_relative "../lib/sonicpi/promise"
@@ -17,11 +17,12 @@ module SonicPi
       @log_output = true
       @server_started_prom = Promise.new
       @supercollider_started_prom = Promise.new
+      @print_monitor = Monitor.new
 
       daemon_stdin, daemon_stdout_and_err, daemon_wait_thr = Open3.popen2e Paths.ruby_path, Paths.daemon_path
 
-      puts "-- Sonic Pi Daemon started with PID: #{daemon_wait_thr.pid}"
-      puts "-- Log files are located at: #{Paths.log_path}"
+      force_puts "-- Sonic Pi Daemon started with PID: #{daemon_wait_thr.pid}"
+      force_puts "-- Log files are located at: #{Paths.log_path}"
 
       daemon_info_prom = Promise.new
 
@@ -44,13 +45,19 @@ module SonicPi
       tau_booter_port = daemon_info[6]
       daemon_token = daemon_info[7]
 
-      puts "-- OSC Cues port: #{osc_cues_port}"
+      force_puts "-- OSC Cues port: #{osc_cues_port}"
 
       daemon_zombie_feeder = Thread.new do
         osc_client = OSC::UDPClient.new("localhost", daemon_port)
 
         at_exit do
-          puts "Killing the Sonic Pi Daemon..."
+          force_puts ""
+          force_puts "Killing the Sonic Pi Daemon...", :red
+          force_puts "The Daemon has been vanquished!", :red
+          force_puts ""
+          force_puts "Farewell, artistic coder.", :cyan
+          force_puts "May you live code and prosper...", :cyan
+          print_ascii_art
           osc_client.send("/daemon/exit", daemon_token)
         end
 
@@ -65,7 +72,7 @@ module SonicPi
       spider_incoming_osc_server = OSC::UDPServer.new(gui_listen_to_spider_port)
       add_incoming_osc_handlers!(spider_incoming_osc_server)
 
-      puts "-- Waiting for Sonic Pi to boot..."
+      force_puts "-- Waiting for Sonic Pi to boot..."
       Thread.new do
         while ! @server_started_prom.delivered?
           begin
@@ -79,22 +86,24 @@ module SonicPi
 
       @server_started_prom.get
       @supercollider_started_prom.get
-      puts "-- Sonic Pi Server started"
-      puts "-- Setting amplitude to 0.3"
+      force_puts "-- Sonic Pi Server started"
+      force_puts "-- Setting amplitude to 0.3"
       repl_eval_osc_client.send("/mixer-amp", daemon_token, 0.3, 1)
       print_ascii_art
       repl_eval_osc_client.send("/run-code", daemon_token, init_code) if init_code
-      puts ""
-      puts "Welcome to the Sonic Pi REPL. Type code and press enter to evaluate it"
-      puts "Type ? for help."
-      puts "==="
-      puts ""
+      force_puts ""
+      force_puts "Welcome to the Sonic Pi REPL. Type code and press enter to evaluate it"
+      force_puts "Type ? for help."
+      force_puts "==="
+      force_puts ""
       Readline.basic_quote_characters = "\"'`()"
       while buf = Readline.readline(">> ", true)
         buf = buf.strip
         case buf
         when "?"
-          force_puts "This is a simple REPL for Sonic Pi. Type in code and press enter to evaluate it."
+          force_puts "This is a simple REPL for Sonic Pi."
+          force_puts "Type in code and press enter to evaluate it."
+          force_puts ""
           force_puts "You can also use the following commands:"
           force_puts "  ?            - Show this help message"
           force_puts "  ,            - Multiline edit mode"
@@ -103,7 +112,6 @@ module SonicPi
           force_puts "  .a 0.5       - Set the amplitude to 0.5 (range 0 -> 1), default 0.3."
           force_puts "  .q           - Quit"
         when "."
-          repl_puts "Stopping all runs..."
           repl_eval_osc_client.send("/stop-all-jobs", daemon_token)
         when ".l"
           @log_output = !@log_output
@@ -135,16 +143,12 @@ module SonicPi
       end
     end
 
-    def print_scsynth_info(msg)
-      async_puts msg, :blue
-    end
-
     def print_message(msg)
       case msg[0]
       when 0
-        async_puts msg[1], :yellow
-      when 1
         async_puts msg[1], :green
+      when 1
+        async_puts msg[1], :cyan
       else
         async_puts msg[1], :white
       end
@@ -157,21 +161,26 @@ module SonicPi
       size = msg[3]
       msgs = msg[4..-1]
       if thread_name == "\"\""
-        repl_puts "Run #{job_id}, Time #{time}"
+        async_puts "Run #{job_id}, Time #{time}", :bold
       else
-        repl_puts "Run #{job_id}, Thread #{thread_name}, Time #{time}"
+        async_puts "Run #{job_id}, Thread #{thread_name}, Time #{time}", :bold
       end
+      last_msg = msgs.pop
+      _last_colour = msgs.pop
       msgs.each_cons(2) do |colour, msg|
-        print_message [colour, msg]
+        print_message [1, "├─ #{msg}"]
       end
+      print_message [1, "└─ #{last_msg}"]
     end
 
     def async_puts(msg, colour = :white)
-      print "\r#{' ' * (Readline.line_buffer.length + 2)}\r"
-      repl_puts msg, colour
-      begin
-        Readline.redisplay
-      rescue
+      @print_monitor.synchronize do
+        print "\r#{' ' * (Readline.line_buffer.length + 3)}\r"
+        repl_puts msg, colour
+        begin
+          Readline.redisplay
+        rescue
+        end
       end
     end
 
@@ -182,33 +191,36 @@ module SonicPi
     end
 
     def force_puts(msg, colour = :white)
-      case colour
-      when :white
-        puts msg
-      when :red
-        puts "\e[31m#{msg}\e[0m"
-      when :green
-        puts "\e[32m#{msg}\e[0m"
-      when :blue
-        puts "\e[34m#{msg}\e[0m"
-      when :yellow
-        puts "\e[33m#{msg}\e[0m"
-      when :magenta
-        puts "\e[35m#{msg}\e[0m"
-      when :cyan
-        puts "\e[36m#{msg}\e[0m"
-      when :bold
-        puts "\e[1m#{msg}\e[22m"
+      @print_monitor.synchronize do
+        case colour
+        when :red
+          puts "\e[31m#{msg}\e[0m"
+        when :green
+          puts "\e[32m#{msg}\e[0m"
+        when :blue
+          puts "\e[34m#{msg}\e[0m"
+        when :yellow
+          puts "\e[33m#{msg}\e[0m"
+        when :magenta
+          puts "\e[35m#{msg}\e[0m"
+        when :cyan
+          puts "\e[36m#{msg}\e[0m"
+        when :bold
+          puts "\e[1m#{msg}\e[22m"
+        else
+          puts msg
+        end
+
       end
     end
 
 
     def add_incoming_osc_handlers!(osc)
       osc.add_method("/scsynth/info") do |msg|
-        print_scsynth_info "SuperCollider Info:"
-        print_scsynth_info "==================="
+        async_puts "SuperCollider Info:", :blue
+        async_puts "===================", :blue
         async_puts ""
-        print_scsynth_info msg[0]
+        async_puts msg[0], :blue
         @supercollider_started_prom.deliver! true
       end
 
@@ -261,7 +273,6 @@ module SonicPi
       end
 
       osc.add_method("/runs/all-completed") do
-        async_puts " -> All runs completed"
       end
 
       osc.add_method("midi/out-ports") do |msg|
@@ -282,7 +293,7 @@ module SonicPi
     end
 
     def print_ascii_art
-      puts '
+      force_puts '
 
                                 ╘
                          ─       ╛▒╛
@@ -312,33 +323,33 @@ module SonicPi
   end
 end
 
-  if ARGV[0] == "-h" || ARGV[0] == "--help"
-    puts "Sonic Pi REPL"
-    puts "  -h, --help           Show this help message"
-    puts "  /path/to/script.rb   Starts the REPL and runs the given script"
-    puts ""
-    puts "Once in the REPL you may type in code and press enter to evaluate it."
-    puts "You can also use the following commands:"
-    puts "  ?            - Show the help message"
-    puts "  ,            - Multiline edit mode"
-    puts "  .            - Stop all runs"
-    puts "  .l           - Toggle log output"
-    puts "  .a 0.5       - Set the amplitude to 0.5 (range 0 -> 1)"
-    puts "  .q           - Quit"
-    puts ""
-    puts "Note: set the SONIC_PI_HOME env variable to specify the location of the log files"
-    puts "      otherwise it will default to Sonic Pi's standard location in the home directory"
+if ARGV[0] == "-h" || ARGV[0] == "--help"
+  puts "Sonic Pi REPL"
+  puts "  -h, --help           Show this help message"
+  puts "  /path/to/script.rb   Starts the REPL and runs the given script"
+  puts ""
+  puts "Once in the REPL you may type in code and press enter to evaluate it."
+  puts "You can also use the following commands:"
+  puts "  ?            - Show the help message"
+  puts "  ,            - Multiline edit mode"
+  puts "  .            - Stop all runs"
+  puts "  .l           - Toggle log output"
+  puts "  .a 0.5       - Set the amplitude to 0.5 (range 0 -> 1)"
+  puts "  .q           - Quit"
+  puts ""
+  puts "Note: set the SONIC_PI_HOME env variable to specify the location of the log files"
+  puts "      otherwise it will default to Sonic Pi's standard location in the home directory"
 
-    exit
-  elsif ARGV[0]
-    script = ARGV[0]
-    if File.exist?(script)
-      code = File.read(script)
-      SonicPi::Repl.new(code)
-    else
-      puts "File not found: #{script}"
-      exit
-    end
+  exit
+elsif ARGV[0]
+  script = ARGV[0]
+  if File.exist?(script)
+    code = File.read(script)
+    SonicPi::Repl.new(code)
   else
-    SonicPi::Repl.new()
+    puts "File not found: #{script}"
+    exit
   end
+else
+  SonicPi::Repl.new()
+end
