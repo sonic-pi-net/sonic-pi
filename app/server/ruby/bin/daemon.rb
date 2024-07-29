@@ -143,6 +143,9 @@ module SonicPi
         # use a value within the valid range for a 32 bit signed complement integer
         @daemon_token =  rand(-2147483647..2147483647)
 
+        # Uncomment for debugging purposes
+        # Util.log "Daemon token: #{@daemon_token}"
+
         @safe_exit = SafeExit.new do
           @exit_prom.deliver! true
           # Register exit routine
@@ -181,6 +184,9 @@ module SonicPi
         # if there are problems detecting port numbers to use.
         @ports = PortDiscovery.new(@safe_exit).ports
 
+        # Uncomment for debugging purposes
+        # Util.log "Ports: #{@ports.inspect}"
+
         @kill_switch = KillSwitch.new(@safe_exit)
 
         @api_server = SonicPi::OSC::UDPServer.new(@ports["daemon"], suppress_errors: false, name: "Daemon API Server")
@@ -214,7 +220,7 @@ module SonicPi
         end
 
         @api_server.add_method("/tau/pid") do |args|
-          Util.log "Daemon received Pid from Tau: #{args.inspect}"
+          Util.log "Daemon received Pid from Tau"
           # Util.log "token: #{@daemon_token}"
           if args[0] && args[0] == @daemon_token
             @tau_booter.update_pid!(args[1])
@@ -784,8 +790,11 @@ module SonicPi
       end
 
       def boot
-        Util.log "Process Booter - booting #{@cmd} with args #{@args.inspect}"
-        Util.log "#{@cmd} #{@args.join(' ')}"
+        Util.log "Process Booter - booting #{@cmd}"
+
+        # Uncomment for debugging
+        # Util.log "Process Booter - booting #{@cmd} with args #{@args.inspect}"
+        # Util.log "#{@cmd} #{@args.join(' ')}"
         if @env
           @stdin, @stdout_and_err, @wait_thr = Open3.popen2e @env, @cmd, *@args
         else
@@ -916,7 +925,7 @@ module SonicPi
 
         @pid_updater_thread = Thread.new do
           while !@tau_pid.delivered?
-            Util.log "Requesting tau send us its pid. Sending /send-pid-to-daemon, #{token} to localhost:#{ports['tau']}"
+            Util.log "Requesting tau send us its pid. Sending /send-pid-to-daemon"
             begin
               @pid_requester.send("/send-pid-to-daemon", token)
             rescue Errno::ECONNREFUSED
@@ -942,7 +951,7 @@ module SonicPi
 
         @phx_port = unified_opts[:phx_port] || ports["phx"]
 
-        Util.log "Daemon listening to info from Tau on port #{ports["daemon"]}"
+        Util.log "Daemon listening to info from Tau"
 
         ENV["TAU_CUES_ON"]                        = "true"
         ENV["TAU_OSC_IN_UDP_LOOPBACK_RESTRICTED"] = "true"
@@ -1149,7 +1158,9 @@ module SonicPi
         opts = scsynth_inputs_hash.merge(opts)
         Util.log "Combined Audio Settings toml hash with GUI scsynth inputs hash: #{opts.inspect}"
         opts = merge_scsynth_opts(toml_opts_hash, opts)
-        Util.log "Merged Audio Settings toml hash: #{opts.inspect}"
+        redacted_opts = opts.dup
+        redacted_opts["-u"] = "REDACTED"
+        Util.log "Merged Audio Settings toml hash: #{redacted_opts.inspect}"
         @num_inputs = opts["-i"].to_i
         @num_outputs = opts["-o"].to_i
 
@@ -1233,7 +1244,7 @@ module SonicPi
             while continue_pinging
               begin
                 if process_running?
-                  Util.log "Sending /status to server: localhost:#{@port}"
+                  Util.log "Sending /status to server"
                   boot_s.send("localhost", @port, "/status")
                 else
                   @success.deliver! false
@@ -1522,7 +1533,6 @@ module SonicPi
         begin
           socket = UDPSocket.new
           socket.bind('127.0.0.1', port)
-          Util.log "checked port #{port}, #{socket}"
           socket.close
           available = true
         rescue StandardError

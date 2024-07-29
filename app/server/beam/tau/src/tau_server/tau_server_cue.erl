@@ -52,9 +52,9 @@ init(Parent) ->
               "             == Tau ==                  ~n"
               "       Powered by Erlang ~s             ~n"
               "                                        ~n"
-              "        Incoming OSC on port ~p         ~n"
-              "  OSC cue forwarding to ~p              ~n"
-              "                     on port ~p         ~n"
+              % "        Incoming OSC on port ~p         ~n"
+              % "  OSC cue forwarding to ~p              ~n"
+              % "                     on port ~p         ~n"
               "+--------------------------------------+~n~n~n",
               [erlang:system_info(otp_release), OSCInUDPPort, CueHost, CuePort]),
 

@@ -167,7 +167,7 @@ module SonicPi
         __system_thread_locals.set_local(:sonic_pi_local_thread_group, :scsynth_external_boot_ack)
         Kernel.loop do
           begin
-            puts "scsynth boot - Sending /status to server: #{@hostname}:#{@send_port}"
+            puts "scsynth boot - Sending /status to server"
             boot_s.send(@hostname, @send_port, "/status")
           rescue Exception => e
             puts "scsynth boot - Error sending /status to server: #{e.message}"

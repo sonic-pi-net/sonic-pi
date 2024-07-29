@@ -152,9 +152,9 @@ sonic_pi_ports = {
   tau_port: tau_port,
   listen_to_tau_port: listen_to_tau_port}.freeze
 
-
-STDOUT.puts "Ports: #{sonic_pi_ports.inspect}"
-STDOUT.puts "Token: #{token}"
+# Uncomment for debugging purposes:
+# STDOUT.puts "Ports: #{sonic_pi_ports.inspect}"
+# STDOUT.puts "Token: #{token}"
 STDOUT.flush
 
 # Open up comms to the GUI.
@@ -188,7 +188,7 @@ begin
   when :tcp
     osc_server = SonicPi::OSC::TCPServer.new(server_port, use_decoder_cache: true)
   when :udp
-    STDOUT.puts "Opening UDP Server to listen to GUI on port: #{server_port}"
+    STDOUT.puts "Opening UDP Server to listen to GUI"
     osc_server = SonicPi::OSC::UDPServer.new(server_port, use_decoder_cache: true, name: "Spider API Server")
   end
 rescue Exception => e

@@ -117,7 +117,7 @@ module SonicPi
       t = Thread.new do
         Kernel.loop do
           begin
-            STDOUT.puts "TauComms - Sending /ping to tau: #{@hostname}:#{@port}"
+            STDOUT.puts "TauComms - Sending /ping to tau"
             boot_s.send(@hostname, @port, "/ping")
           rescue Exception => e
             STDOUT.puts "TauComms - Error sending /ping to tau: #{e.message}"

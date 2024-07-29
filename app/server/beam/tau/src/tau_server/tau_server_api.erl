@@ -82,8 +82,8 @@ init(Parent, CueServer, MIDIServer, LinkServer) ->
               "+--------------------------------------+~n"
               "    This is the Sonic Pi API Server     ~n"
               "       Powered by Erlang ~s             ~n"
-              "                                        ~n"
-              "       API listening on port ~p         ~n"
+              % "                                        ~n"
+              % "       API listening on port ~p         ~n"
               "+--------------------------------------+~n~n~n",
               [erlang:system_info(otp_release), APIPort]),
 
