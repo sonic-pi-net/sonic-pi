@@ -80,6 +80,8 @@ module SonicPi
       @server_started_prom.get
       @supercollider_started_prom.get
       puts "-- Sonic Pi Server started"
+      puts "-- Setting amplitude to 0.3"
+      repl_eval_osc_client.send("/mixer-amp", daemon_token, 0.3, 1)
       print_ascii_art
       repl_eval_osc_client.send("/run-code", daemon_token, init_code) if init_code
       puts ""
@@ -98,6 +100,7 @@ module SonicPi
           force_puts "  ,            - Multiline edit mode"
           force_puts "  .            - Stop all runs"
           force_puts "  .l           - Toggle log output"
+          force_puts "  .a 0.5       - Set the amplitude to 0.5 (range 0 -> 1), default 0.3."
           force_puts "  .q           - Quit"
         when "."
           repl_puts "Stopping all runs..."
@@ -110,8 +113,11 @@ module SonicPi
             force_puts "Disabling log output..."
           end
         when ".q"
-          repl_puts "Quitting the REPL..."
+          force_puts "Quitting the REPL..."
           exit
+        when /^\.a\s+([0-9.]+)$/
+          force_puts "Setting amplitude to #{$1}"
+          repl_eval_osc_client.send("/mixer-amp", daemon_token, $1.to_f, 1)
         when ","
           force_puts "Multiline edit mode. Finish with a comma on a new line."
           force_puts ""
@@ -317,6 +323,7 @@ end
     puts "  ,            - Multiline edit mode"
     puts "  .            - Stop all runs"
     puts "  .l           - Toggle log output"
+    puts "  .a 0.5       - Set the amplitude to 0.5 (range 0 -> 1)"
     puts "  .q           - Quit"
     puts ""
     puts "Note: set the SONIC_PI_HOME env variable to specify the location of the log files"
