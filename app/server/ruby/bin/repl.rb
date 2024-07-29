@@ -16,10 +16,12 @@ module SonicPi
     def initialize(init_code=nil)
       @log_output = true
       @server_started_prom = Promise.new
+      @supercollider_started_prom = Promise.new
+
       daemon_stdin, daemon_stdout_and_err, daemon_wait_thr = Open3.popen2e Paths.ruby_path, Paths.daemon_path
 
-      puts "Sonic Pi Daemon started with PID: #{daemon_wait_thr.pid}"
-      puts "Log files are located at: #{Paths.log_path}"
+      puts "-- Sonic Pi Daemon started with PID: #{daemon_wait_thr.pid}"
+      puts "-- Log files are located at: #{Paths.log_path}"
 
       daemon_info_prom = Promise.new
 
@@ -42,7 +44,7 @@ module SonicPi
       tau_booter_port = daemon_info[6]
       daemon_token = daemon_info[7]
 
-      puts "OSC Cues port: #{osc_cues_port}"
+      puts "-- OSC Cues port: #{osc_cues_port}"
 
       daemon_zombie_feeder = Thread.new do
         osc_client = OSC::UDPClient.new("localhost", daemon_port)
@@ -62,7 +64,8 @@ module SonicPi
 
       spider_incoming_osc_server = OSC::UDPServer.new(gui_listen_to_spider_port)
       add_incoming_osc_handlers!(spider_incoming_osc_server)
-      puts "Waiting for Sonic Pi to boot..."
+
+      puts "-- Waiting for Sonic Pi to boot..."
       Thread.new do
         while ! @server_started_prom.delivered?
           begin
@@ -72,11 +75,18 @@ module SonicPi
           sleep 0.5
         end
       end
-      puts "Sonic Pi Server started"
+
 
       @server_started_prom.get
+      @supercollider_started_prom.get
+      puts "-- Sonic Pi Server started"
+      print_ascii_art
       repl_eval_osc_client.send("/run-code", daemon_token, init_code) if init_code
-
+      puts ""
+      puts "Welcome to the Sonic Pi REPL. Type code and press enter to evaluate it"
+      puts "Type ? for help."
+      puts "==="
+      puts ""
       Readline.basic_quote_characters = "\"'`()"
       while buf = Readline.readline(">> ", true)
         buf = buf.strip
@@ -120,7 +130,7 @@ module SonicPi
     end
 
     def print_scsynth_info(msg)
-      async_puts msg
+      async_puts msg, :blue
     end
 
     def print_message(msg)
@@ -193,6 +203,7 @@ module SonicPi
         print_scsynth_info "==================="
         async_puts ""
         print_scsynth_info msg[0]
+        @supercollider_started_prom.deliver! true
       end
 
       osc.add_method("/version") do |msg|
@@ -263,35 +274,64 @@ module SonicPi
         @server_started_prom.deliver! true
       end
     end
+
+    def print_ascii_art
+      puts '
+
+                                ╘
+                         ─       ╛▒╛
+                          ▐╫       ▄█├
+                   ─╟╛      █▄      ╪▓▀
+         ╓┤┤┤┤┤┤┤┤┤  ╩▌      ██      ▀▓▌
+          ▐▒   ╬▒     ╟▓╘    ─▓█      ▓▓├
+          ▒╫   ▒╪      ▓█     ▓▓─     ▓▓▄
+         ╒▒─  │▒       ▓█     ▓▓     ─▓▓─
+         ╬▒   ▄▒ ╒    ╪▓═    ╬▓╬     ▌▓▄
+         ╥╒   ╦╥     ╕█╒    ╙▓▐     ▄▓╫
+                    ▐╩     ▒▒      ▀▀
+                         ╒╪      ▐▄
+
+       _____             __        ____  __
+      / ___/____  ____  /_/____   / __ \/_/
+      \__ \/ __ \/ __ \/ / ___/  / /_/ / /
+     ___/ / /_/ / / / / / /__   / ____/ /
+    /____/\____/_/ /_/_/\___/  /_/   /_/
+
+   The Live Coding Music Synth for Everyone
+
+            http://sonic-pi.net
+
+      '
+    end
   end
 end
 
-if ARGV[0] == "-h" || ARGV[0] == "--help"
-  puts "Sonic Pi REPL"
-  puts "  -h, --help           Show this help message"
-  puts "  /path/to/script.rb   Starts the REPL and runs the given script"
-  puts ""
-  puts "Once in the REPL you may type in code and press enter to evaluate it."
-  puts "You can also use the following commands:"
-  puts "  ?            - Show the help message"
-  puts "  ,            - Multiline edit mode"
-  puts "  .            - Stop all runs"
-  puts "  .l           - Toggle log output"
-  puts "  .q           - Quit"
-  puts ""
-  puts "Note: set the SONIC_PI_HOME env variable to specify the location of the log files"
-  puts "      otherwise it will default to Sonic Pi's standard location in the home directory"
+  if ARGV[0] == "-h" || ARGV[0] == "--help"
+    puts "Sonic Pi REPL"
+    puts "  -h, --help           Show this help message"
+    puts "  /path/to/script.rb   Starts the REPL and runs the given script"
+    puts ""
+    puts "Once in the REPL you may type in code and press enter to evaluate it."
+    puts "You can also use the following commands:"
+    puts "  ?            - Show the help message"
+    puts "  ,            - Multiline edit mode"
+    puts "  .            - Stop all runs"
+    puts "  .l           - Toggle log output"
+    puts "  .q           - Quit"
+    puts ""
+    puts "Note: set the SONIC_PI_HOME env variable to specify the location of the log files"
+    puts "      otherwise it will default to Sonic Pi's standard location in the home directory"
 
-  exit
-elsif ARGV[0]
-  script = ARGV[0]
-  if File.exist?(script)
-    code = File.read(script)
-    SonicPi::Repl.new(code)
-  else
-    puts "File not found: #{script}"
     exit
+  elsif ARGV[0]
+    script = ARGV[0]
+    if File.exist?(script)
+      code = File.read(script)
+      SonicPi::Repl.new(code)
+    else
+      puts "File not found: #{script}"
+      exit
+    end
+  else
+    SonicPi::Repl.new()
   end
-else
-  SonicPi::Repl.new()
-end
