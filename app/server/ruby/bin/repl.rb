@@ -13,8 +13,9 @@ require_relative "../lib/sonicpi/promise"
 
 module SonicPi
   class Repl
-    def initialize()
+    def initialize(init_code=nil)
       @log_output = true
+      @server_started_prom = Promise.new
       daemon_stdin, daemon_stdout_and_err, daemon_wait_thr = Open3.popen2e Paths.ruby_path, Paths.daemon_path
 
       puts "Sonic Pi Daemon started with PID: #{daemon_wait_thr.pid}"
@@ -61,14 +62,27 @@ module SonicPi
 
       spider_incoming_osc_server = OSC::UDPServer.new(gui_listen_to_spider_port)
       add_incoming_osc_handlers!(spider_incoming_osc_server)
+      puts "Waiting for Sonic Pi to boot..."
+      Thread.new do
+        while ! @server_started_prom.delivered?
+          begin
+            repl_eval_osc_client.send("/ping", daemon_token, "Hello from the REPL!")
+          rescue Errno::ECONNREFUSED
+          end
+          sleep 0.5
+        end
+      end
+      puts "Sonic Pi Server started"
 
+      @server_started_prom.get
+      repl_eval_osc_client.send("/run-code", daemon_token, init_code) if init_code
 
       Readline.basic_quote_characters = "\"'`()"
       while buf = Readline.readline(">> ", true)
         buf = buf.strip
         case buf
         when "?"
-          force_puts "This is a simple REPL for Sonic Pi. Type in Ruby code and press enter to evaluate it."
+          force_puts "This is a simple REPL for Sonic Pi. Type in code and press enter to evaluate it."
           force_puts "You can also use the following commands:"
           force_puts "  ?            - Show this help message"
           force_puts "  ,            - Multiline edit mode"
@@ -139,7 +153,10 @@ module SonicPi
     def async_puts(msg, colour = :white)
       print "\r#{' ' * (Readline.line_buffer.length + 2)}\r"
       repl_puts msg, colour
-      Readline.redisplay
+      begin
+        Readline.redisplay
+      rescue
+      end
     end
 
     def repl_puts(msg, colour = :white)
@@ -241,8 +258,40 @@ module SonicPi
       osc.add_method("/exited") do
         async_puts "Sonic Pi has closed"
       end
+
+      osc.add_method("/ack") do
+        @server_started_prom.deliver! true
+      end
     end
   end
 end
 
-SonicPi::Repl.new()
+if ARGV[0] == "-h" || ARGV[0] == "--help"
+  puts "Sonic Pi REPL"
+  puts "  -h, --help           Show this help message"
+  puts "  /path/to/script.rb   Starts the REPL and runs the given script"
+  puts ""
+  puts "Once in the REPL you may type in code and press enter to evaluate it."
+  puts "You can also use the following commands:"
+  puts "  ?            - Show the help message"
+  puts "  ,            - Multiline edit mode"
+  puts "  .            - Stop all runs"
+  puts "  .l           - Toggle log output"
+  puts "  .q           - Quit"
+  puts ""
+  puts "Note: set the SONIC_PI_HOME env variable to specify the location of the log files"
+  puts "      otherwise it will default to Sonic Pi's standard location in the home directory"
+
+  exit
+elsif ARGV[0]
+  script = ARGV[0]
+  if File.exist?(script)
+    code = File.read(script)
+    SonicPi::Repl.new(code)
+  else
+    puts "File not found: #{script}"
+    exit
+  end
+else
+  SonicPi::Repl.new()
+end

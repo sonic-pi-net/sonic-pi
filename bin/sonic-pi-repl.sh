@@ -9,7 +9,6 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 WORKING_DIR="$(pwd)"
 
 cleanup_function() {
-    echo "Goodbye..."
     cd "${WORKING_DIR}"
 }
 
@@ -20,7 +19,7 @@ fi
 
 
 cd "${SCRIPT_DIR}"
-"${RUBY_PATH}" "../app/server/ruby/bin/repl.rb"
+"${RUBY_PATH}" "../app/server/ruby/bin/repl.rb" "$@"
 
 # Restore working directory as it was prior to this script running...
 trap cleanup_function EXIT
