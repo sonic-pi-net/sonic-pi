@@ -485,6 +485,64 @@ end
 "
       ]
 
+      def tuplets(tuplet_list, opts={}, &blk)
+        duration = opts.fetch(:duration, 1)
+        swing = opts.fetch(:swing, 0)
+        swing_s = bt(swing)
+        swing_pulse = opts.fetch(:swing_pulse, 2)
+        swing_offset = opts.fetch(:swing_offset, 0) + 1
+
+        tuplet_list.each do |el|
+          if is_list_like?(el)
+            n = el.size
+            __with_spider_time_density(n) do
+              el.each_with_index do |tuplet, idx|
+                current_swing = (((n % swing_pulse) == 0) && ((idx + swing_offset) % swing_pulse) == 0) ? swing_s : 0
+
+                time_warp rt(current_swing) do
+                  blk.call(tuplet)
+                end
+                sleep duration
+              end
+            end
+          else
+            time_warp do
+              blk.call(el)
+            end
+            sleep duration
+          end
+        end
+      end
+      doc name:           :tuplets,
+          introduced:     Version.new(4,6,0),
+          summary:        "Run block with tuplet timing and optional swing",
+          args:           [[:tuplet_list, :list]],
+          returns:        nil,
+          opts:           {duration: "The duration between each tuplet in beats. Defaults to 1.",
+
+                           swing: "The amount of swing to apply to the timing. Defaults to 0. Note, only affects tuplets that are multiples of the swing_pulse.",
+                           swing_pulse: "The number of beats between each swing. Defaults to 2.",
+                           swing_offset: "The offset from the start of the list to apply the swing. Defaults to 0."},
+          accepts_block:  true,
+          doc:            "Runs the block with tuplet timing and optional swing. Each element in the list is considered a tuplet. If the element is a list, each element in the list is considered a tuplet. The duration between each tuplet is specified by the `duration` opt. The `swing` opt specifies the amount of swing to apply to the timing. The `swing_pulse` opt specifies the number of beats between each swing. The `swing_offset` opt specifies the offset from the start of the list to apply the swing.",
+          examples: ["
+tuplets [70, [72, 72], 70, [82, 82, 82]] do |n|
+  play n          # plays 70,
+                  # then at double speed, 72, 72,
+                  # followed by another 70,
+                  # then 82, 82, 82 as triplets
+end",
+
+"tuplets [70, [72, 72], 70, [82, 82, 82]], swing: 0.2 do |n|
+  play n          # plays 70,
+                  # then at double speed, 72, 72 with a swing of 0.2
+                  # followed by another 70,
+                  # then 82, 82, 82 as triplets without swing as 3 is not a multiple of 2
+end"
+]
+
+
+
 
 
 
