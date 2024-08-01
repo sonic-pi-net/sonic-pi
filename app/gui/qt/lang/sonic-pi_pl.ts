@@ -721,22 +721,22 @@
     <message>
         <location filename="../mainwindow.cpp" line="3157"/>
         <source>Focus BPM Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ustaw fokus na BPM Scrubber</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3159"/>
         <source>Place focus on BPM Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ustaw fokus na BPM Scrubber</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3163"/>
         <source>Focus TimeWarp Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation>Fokus na TimeWarp Scrubber</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3165"/>
         <source>Place focus on TimeWarp Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustaw fokus na TimeWarp Scrubber</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3168"/>
@@ -811,32 +811,32 @@
     <message>
         <location filename="../mainwindow.cpp" line="4400"/>
         <source>Sonic Pi - Audio Server Boot Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi - Błąd Startu Serwera Audio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4405"/>
         <source>Sorry, the Audio Server failed to start...</source>
-        <translation type="unfinished"></translation>
+        <translation>Przepraszam, nie udało się uruchomić Serwera Audio...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4406"/>
         <source>Please try changing your default OS audio input &amp; outputs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Spróbuj zmienić domyślne wejścia i wyjścia w twoim systemie operacyjnym.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4407"/>
         <source>Note, the audio rate of the inputs &amp; outputs must be the same.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zauważ, że poziom głośności wejść i wyjść musi być jednakowy.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4409"/>
         <source>For the curious among you, Sonic Pi uses the SuperCollider Audio Server to generate its sounds. By default it will connect to your default system audio input and outputs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dla ciekawskich, Sonic Pi używa serwera dźwiękowego SuperCollider do generowania dźwięków. Domyślnie łączy się z twoim domyślnym wejściem i wyjściem audio systemu.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4410"/>
         <source>Unfortunately SuperCollider is having problems starting correctly. You can read the full error log below which should explain why.</source>
-        <translation type="unfinished"></translation>
+        <translation>Niestety, SuperCollider ma problemy z prawidłowym uruchomieniem. Przeczytanie pełnego dziennika błędów poniżej powinno wyjaśnić dlaczego.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4411"/>
