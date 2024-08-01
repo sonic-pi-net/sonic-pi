@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2024-04-29 17:04+0000\n"
-"Last-Translator: Szymon Jakubiak <sz.a.jakubiak@gmail.com>\n"
+"PO-Revision-Date: 2024-08-02 14:09+0000\n"
+"Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "pl/>\n"
 "Language: pl\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.5.2\n"
+"X-Generator: Weblate 5.7-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -606,6 +606,21 @@ msgid ""
 "ng happening. This is covered in more detail in Sections 10 to 12 of this tuto"
 "rial."
 msgstr ""
+"Wszystkie wewnętrzne i zewnętrzne wydarzenia (nazywane w Sonic Pi sygnałami) "
+"są automatycznie rejestrowane w Cue Viewer. Na przykład, jeśli masz "
+"podłączony kontroler MIDI i naciśniesz jeden z jego przycisków, zobaczysz "
+"nowy sygnał w Cue Viewer informujący o nazwie kontrolera i który przycisk "
+"został naciśnięty. Gdy opanujesz podstawy tworzenia i produkcji dźwięków, "
+"zaczniesz chcieć sygnalizować dźwięki lub całe sekcje dźwięków w oparciu o "
+"takie wydarzenia. Sygnał to po prostu wskazanie, że coś się wydarzyło. Na "
+"przykład, za każdym razem, gdy żywa pętla wykona swój kolejny cykl, wysyła "
+"sygnał, który jest rejestrowany w Cue Viewer. Również zewnętrzne wydarzenia, "
+"takie jak wiadomości MIDI z podłączonego sprzętu MIDI i wiadomości OSC z "
+"innych programów lub komputerów, są wyświetlane w Cue Viewer. Możliwe jest "
+"również bezpośrednie generowanie sygnałów za pomocą funkcji cue. Wszystko, "
+"co pojawia się w Cue Viewer, może być użyte do wywołania jakiegoś zdarzenia. "
+"Temat ten jest omawiany bardziej szczegółowo w sekcjach 10 do 12 tego "
+"samouczka."
 
 #: 01.3-Learning-through-Play.md:1
 msgid "1.3 Learning through Play"
@@ -1007,6 +1022,8 @@ msgid ""
 "There's also a handy shortcut for a rest (a musical way of saying not to play "
 "anything instead of a note) using `:r`, `:rest` or `nil`."
 msgstr ""
+"Jest również przydatny skrót na pauzę (muzyczny sposób na powiedzenie, żeby "
+"nic nie grać zamiast dźwięku) używając `:r`, `:rest` lub `nil`."
 
 #: 02.1-Your-First-Beeps.md:128
 #, fuzzy
@@ -5737,6 +5754,16 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
+"a = (ring 6, 5, 4, 3, 2, 1)\n"
+"live_loop :sorted do\n"
+"  a = a.sort\n"
+"  sleep 0.5\n"
+"  puts \"sorted: \", a\n"
+"end\n"
+"live_loop :shuffled do\n"
+"  a = a.shuffle\n"
+"  sleep 0.5\n"
+"end"
 
 #: 05.6-Variables.md:154
 msgid ""
@@ -9501,7 +9528,7 @@ msgstr "`cue \"/foo/beans/baz\"`"
 
 #: 10.3-Pattern-Matching.md:50
 msgid "However, it wouldn't match the following:"
-msgstr ""
+msgstr "Jednakże, nie będzie to pasować do następującego:"
 
 #: 10.3-Pattern-Matching.md:52
 msgid "`cue \"/foo/flibble/baz\"`"
@@ -9530,7 +9557,7 @@ msgstr ""
 
 #: 10.3-Pattern-Matching.md:62
 msgid "Matching Nested Path Segments"
-msgstr ""
+msgstr "Dopasowywanie Zagnieżdżonych Segmentów Ścieżki"
 
 #: 10.3-Pattern-Matching.md:64
 #, fuzzy
@@ -9557,29 +9584,31 @@ msgstr "`cue \"/foo/a/b/c/d/e/f/baz\"`"
 
 #: 10.3-Pattern-Matching.md:73
 msgid "Matching Single Letters"
-msgstr ""
+msgstr "Dopasowywanie Pojedynczych Liter"
 
 #: 10.3-Pattern-Matching.md:75
 msgid ""
 "You can use the `?` character to match against a single char such as `\"/?oo/ba"
 "r/baz\"` which will match:"
 msgstr ""
+"Możesz użyć znaku zapytania `?`, aby dopasować pojedynczy znak, na przykład `"
+"\"/?oo/bar/baz\"`, który będzie pasować do:"
 
 #: 10.3-Pattern-Matching.md:79
 msgid "`cue \"/goo/bar/baz\"`"
-msgstr ""
+msgstr "`cue \"/goo/bar/baz\"`"
 
 #: 10.3-Pattern-Matching.md:80
 msgid "`cue \"/too/bar/baz\"`"
-msgstr ""
+msgstr "`cue \"/too/bar/baz\"`"
 
 #: 10.3-Pattern-Matching.md:81
 msgid "`cue \"/woo/bar/baz\"`"
-msgstr ""
+msgstr "`cue \"/woo/bar/baz\"`"
 
 #: 10.3-Pattern-Matching.md:83
 msgid "Matching Multiple Words"
-msgstr ""
+msgstr "Dopasowywanie Wielu Słów"
 
 #: 10.3-Pattern-Matching.md:85
 #, fuzzy
@@ -9606,7 +9635,7 @@ msgstr "`cue \"/foo/eggs/quux\"`"
 
 #: 10.3-Pattern-Matching.md:93
 msgid "Matching Multiple Letters"
-msgstr ""
+msgstr "Dopasowywanie Wielu Liter"
 
 #: 10.3-Pattern-Matching.md:95
 msgid ""
@@ -9648,7 +9677,7 @@ msgstr "`cue \"/foo/eux/baz\"`"
 
 #: 10.3-Pattern-Matching.md:112
 msgid "Combining Matchers"
-msgstr ""
+msgstr "Łączenie Wzorców Dopasowania"
 
 #: 10.3-Pattern-Matching.md:114
 #, fuzzy
@@ -9677,7 +9706,7 @@ msgstr ""
 
 #: 10.3-Pattern-Matching.md:129
 msgid "OSC Pattern Matching"
-msgstr ""
+msgstr "Dopasowywanie Wzorców OSC"
 
 #: 10.3-Pattern-Matching.md:131
 msgid ""
@@ -9685,14 +9714,17 @@ msgid ""
 "ttern matching specification which is explained in detail here: http://opensou"
 "ndcontrol.org/spec-1_0"
 msgstr ""
+"Dla ciekawskich, zasady dopasowywania opierają się na specyfikacji wzorców "
+"dopasowania Open Sound Control, która jest szczegółowo wyjaśniona tutaj: "
+"http://opensoundcontrol.org/spec-1_0"
 
 #: 11-MIDI.md:1
 msgid "11 MIDI"
-msgstr ""
+msgstr "11 MIDI"
 
 #: 11-MIDI.md:3
 msgid "MIDI"
-msgstr ""
+msgstr "MIDI"
 
 #: 11-MIDI.md:5
 msgid ""
@@ -9702,12 +9734,19 @@ msgid ""
 "metimes it is essential to break out of the code into the real world. We want "
 "two extra things:"
 msgstr ""
+"Gdy opanujesz konwertowanie kodu na muzykę, możesz się zastanawiać – co "
+"dalej? Czasami ograniczenia wynikające z pracy wyłącznie ze składnią i "
+"systemem dźwiękowym Sonic Pi mogą być ekscytujące i wpłynąć na nową "
+"kreatywność. Jednakże czasami istotne jest, aby wyjść poza kod i zanurzyć "
+"się w prawdziwym świecie. Chcemy uzyskać dwie dodatkowe rzeczy:"
 
 #: 11-MIDI.md:11
 msgid ""
 "To be able to convert actions in the real world into Sonic Pi events to code w"
 "ith"
 msgstr ""
+"Aby móc przekształcać zdarzenia z prawdziwego świata na zdarzenia w Sonic "
+"Pi, które można zakodować"
 
 #: 11-MIDI.md:12
 msgid ""
