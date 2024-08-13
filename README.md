@@ -20,34 +20,25 @@
 
 ## Code. Music. Live.
 
-Sonic Pi is a *new kind of musical instrument*. Instead of strumming
-strings or whacking things with sticks - you write code - **live**.
+Sonic Pi is a *new kind of musical instrument*. Instead of strumming strings or hitting drums, you create music by writing code—**live**.
 
-Sonic Pi has been designed with the aim to find a harmonious balance
-between three core principles:
+Sonic Pi has been crafted with the goal of achieving a harmonious balance between three key principles:
 
-* **Simple** enough for the 10 year old within you
-* **Joyful** enough for you to lose yourself through play
-* **Powerful** enough for your own expressions
+* **Simple** enough for the 10-year-old within you
+* **Joyful** enough to make you lose yourself in play
+* **Powerful** enough to allow for deep personal expression
 
-Sonic Pi is a complete open source programming environment originally
-designed to explore and *teach programming concepts* within schools through
-the process of creating *new sounds*.
+Sonic Pi is a fully open-source programming environment, originally designed to explore and *teach programming concepts* within schools by creating *new sounds*.
 
-In addition to being an engaging education resource it has evolved into
-an *extremely powerful* and performance-ready *live coding instrument* suitable
-for professional artists and DJs.
+Beyond being an engaging educational tool, it has evolved into an *extremely powerful* and performance-ready *live coding instrument* suitable for professional artists and DJs.
 
-Whilst Education is a core focus it now sits at the intersection
-between three core domains:
+While education remains a core focus, Sonic Pi now sits at the intersection of three key domains:
 
-* **Art** - providing the means to express yourself and ask new questions of music and notation
-* **Technology** - exploring questions related to liveness, time and concurrency in programming languages
-* **Education**  - demonstrating that open play rather than rigid structures increases motivation and engagement in the classroom
+* **Art** - enabling self-expression and prompting new questions about music and notation
+* **Technology** - exploring issues related to liveness, time, and concurrency in programming languages
+* **Education** - showing that open-ended play, rather than rigid structures, enhances motivation and engagement in the classroom
 
-Again, finding a balance working to the best benefits of all these
-domains is the objective.
-
+The goal remains to strike a balance that maximizes the benefits across these domains.
 
 * Info & Latest Releases: https://sonic-pi.net
 * Source: https://github.com/sonic-pi-net/sonic-pi
