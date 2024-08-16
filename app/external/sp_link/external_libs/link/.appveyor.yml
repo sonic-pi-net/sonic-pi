@@ -6,21 +6,23 @@ branches:
 
 environment:
   matrix:
-    - APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave
-      CONFIGURATION: Release
-      XCODE_VERSION: 9.4.1
-    - APPVEYOR_BUILD_WORKER_IMAGE: macos-catalina
-      CONFIGURATION: Release
-      XCODE_VERSION: 11.7
-    - APPVEYOR_BUILD_WORKER_IMAGE: macos-bigsur
-      CONFIGURATION: Debug
-      XCODE_VERSION: 12.5.1
     - APPVEYOR_BUILD_WORKER_IMAGE: macos-monterey
       CONFIGURATION: Release
       XCODE_VERSION: 13.4.1
     - APPVEYOR_BUILD_WORKER_IMAGE: macos-monterey
+      CONFIGURATION: Debug
+      XCODE_VERSION: 14.2.0
+    - APPVEYOR_BUILD_WORKER_IMAGE: macos-ventura
       CONFIGURATION: Release
-      XCODE_VERSION: 14.1
+      XCODE_VERSION: 14.3.0
+    - APPVEYOR_BUILD_WORKER_IMAGE: macos-sonoma
+      CONFIGURATION: Debug
+      XCODE_VERSION: 15.2.0
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2004
+      AUDIO_DRIVER: Alsa
+      CONFIGURATION: Release
+      GENERATOR: Ninja
+      CXX: clang++-12
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2004
       AUDIO_DRIVER: Jack
       CONFIGURATION: Debug
@@ -36,6 +38,16 @@ environment:
       CONFIGURATION: Debug
       GENERATOR: Ninja
       CXX: clang++-9
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2204
+      AUDIO_DRIVER: Alsa
+      CONFIGURATION: Release
+      GENERATOR: Ninja
+      CXX: g++-11
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2204
+      AUDIO_DRIVER: Jack
+      CONFIGURATION: Debug
+      GENERATOR: Ninja
+      CXX: g++-10
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2004
       AUDIO_DRIVER: Alsa
       CONFIGURATION: Release
@@ -88,10 +100,9 @@ install:
 for:
   - matrix:
       only:
-        - APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave
-        - APPVEYOR_BUILD_WORKER_IMAGE: macos-catalina
-        - APPVEYOR_BUILD_WORKER_IMAGE: macos-bigsur
         - APPVEYOR_BUILD_WORKER_IMAGE: macos-monterey
+        - APPVEYOR_BUILD_WORKER_IMAGE: macos-ventura
+        - APPVEYOR_BUILD_WORKER_IMAGE: macos-sonoma
     build_script:
       - sudo xcode-select -s /Applications/Xcode-$XCODE_VERSION.app
       - python3 ci/configure.py --generator Xcode

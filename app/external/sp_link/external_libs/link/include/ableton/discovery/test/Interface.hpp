@@ -31,6 +31,13 @@ namespace test
 class Interface
 {
 public:
+  Interface() = default;
+
+  Interface(UdpEndpoint endpoint)
+    : mEndpoint(std::move(endpoint))
+  {
+  }
+
   void send(
     const uint8_t* const bytes, const size_t numBytes, const UdpEndpoint& endpoint)
   {
@@ -56,7 +63,7 @@ public:
 
   UdpEndpoint endpoint() const
   {
-    return UdpEndpoint({}, 0);
+    return mEndpoint;
   }
 
   using SentMessage = std::pair<std::vector<uint8_t>, UdpEndpoint>;
@@ -66,6 +73,7 @@ private:
   using ReceiveCallback =
     std::function<void(const UdpEndpoint&, const std::vector<uint8_t>&)>;
   ReceiveCallback mCallback;
+  UdpEndpoint mEndpoint;
 };
 
 } // namespace test

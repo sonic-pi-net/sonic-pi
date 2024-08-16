@@ -44,7 +44,7 @@ public:
         std::move(ghostXForm),
         std::move(clock),
         util::injectRef(*mIo))
-    , mPeerGateway(discovery::makeIpV4Gateway(util::injectRef(*mIo),
+    , mPeerGateway(discovery::makeGateway(util::injectRef(*mIo),
         std::move(addr),
         std::move(observer),
         PeerState{std::move(nodeState), mMeasurement.endpoint()}))
@@ -84,9 +84,8 @@ public:
 private:
   util::Injected<IoContext> mIo;
   MeasurementService<Clock, typename util::Injected<IoContext>::type&> mMeasurement;
-  discovery::
-    IpV4Gateway<PeerObserver, PeerState, typename util::Injected<IoContext>::type&>
-      mPeerGateway;
+  discovery::Gateway<PeerObserver, PeerState, typename util::Injected<IoContext>::type&>
+    mPeerGateway;
 };
 
 } // namespace link

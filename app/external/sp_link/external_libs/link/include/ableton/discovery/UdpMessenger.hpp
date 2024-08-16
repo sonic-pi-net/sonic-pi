@@ -270,24 +270,42 @@ private:
       // Ignore messages from self and other groups
       if (header.ident != mState.ident() && header.groupId == 0)
       {
-        debug(mIo->log()) << "Received message type "
-                          << static_cast<int>(header.messageType) << " from peer "
-                          << header.ident;
-
-        switch (header.messageType)
+        // On Linux multicast messages are sent to all sockets registered to the multicast
+        // group. To avoid duplicate message handling and invalid response messages we
+        // check if the message is coming from an endpoint that is in the same subnet as
+        // the interface.
+        auto ignoreIpV4Message = false;
+        if (from.address().is_v4() && mInterface->endpoint().address().is_v4())
         {
-        case v1::kAlive:
-          sendResponse(from);
-          receivePeerState(std::move(result.first), result.second, messageEnd);
-          break;
-        case v1::kResponse:
-          receivePeerState(std::move(result.first), result.second, messageEnd);
-          break;
-        case v1::kByeBye:
-          receiveByeBye(std::move(result.first.ident));
-          break;
-        default:
-          info(mIo->log()) << "Unknown message received of type: " << header.messageType;
+          const auto subnet = LINK_ASIO_NAMESPACE::ip::make_network_v4(
+            mInterface->endpoint().address().to_v4(), 24);
+          const auto fromAddr =
+            LINK_ASIO_NAMESPACE::ip::make_network_v4(from.address().to_v4(), 32);
+          ignoreIpV4Message = !fromAddr.is_subnet_of(subnet);
+        }
+
+        if (!ignoreIpV4Message)
+        {
+          debug(mIo->log()) << "Received message type "
+                            << static_cast<int>(header.messageType) << " from peer "
+                            << header.ident;
+
+          switch (header.messageType)
+          {
+          case v1::kAlive:
+            sendResponse(from);
+            receivePeerState(std::move(result.first), result.second, messageEnd);
+            break;
+          case v1::kResponse:
+            receivePeerState(std::move(result.first), result.second, messageEnd);
+            break;
+          case v1::kByeBye:
+            receiveByeBye(std::move(result.first.ident));
+            break;
+          default:
+            info(mIo->log()) << "Unknown message received of type: "
+                             << header.messageType;
+          }
         }
       }
       listen(tag);
