@@ -139,6 +139,12 @@ Links to original samples:
 * `:bd_ada` - http://www.freesound.org/people/adammusic18/sounds/208871/
 * `:bd_mehackit` - https://freesound.org/people/hullum/sounds/415550/
 * `:bd_chip` - https://freesound.org/people/IanStarGem/sounds/341814/
+* `:bd_jazz` - https://freesound.org/people/tripjazz/sounds/511139/
+
+## Ride Cymbals
+
+* `:ride_tri` - https://freesound.org/people/trivialAccapella/sounds/425449/
+* `:ride_via` - https://freesound.org/people/trivialAccapella/sounds/425448/
 
 ## Snares
 
@@ -169,7 +175,7 @@ Links to original samples:
 * `:hat_gnu` - https://freesound.org/people/gnuoctathorpe/sounds/404889/
 * `:hat_hier` - https://freesound.org/people/Hieronimo/sounds/647937/
 * `:hat_metal` - https://Freesound.Org/People/Stereo%20surgeon/Sounds/262516/
-
+* `:hat_len` - https://freesound.org/people/lennartgreen/sounds/566893/
 
 ## Loops
 
