@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2024-08-27 20:09+0000\n"
-"Last-Translator: Roland Scholz <sonicpi@rolandscholz.de>\n"
+"PO-Revision-Date: 2024-09-07 07:09+0000\n"
+"Last-Translator: Karl Below <karl.below@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "de/>\n"
 "Language: de\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.7.1-dev\n"
+"X-Generator: Weblate 5.8-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -771,7 +771,6 @@ msgid "Intense. Press it again. And again. *And again...*"
 msgstr "Stark. Klicke die Schaltfläche nochmal. Und nochmal. *Und nochmal...*"
 
 #: 02.1-Your-First-Beeps.md:19
-#, fuzzy
 msgid ""
 "Woah, fun! I'm sure you could keep doing that all day. But wait, before you lo"
 "se yourself in an infinite stream of beeps, try changing the number:"
