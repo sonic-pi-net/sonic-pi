@@ -9208,6 +9208,53 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
       end
     end
 
+    class FXVocoder < FXInfo
+      def name
+        "Vocoder"
+      end
+
+      def introduced
+        Version.new(4,0,0)
+      end
+
+      def synth_name
+        "fx_vocoder"
+      end
+
+      def doc
+        "Vocoder/talkbox/robot voice effect. This is unusual in Sonic Pi in that it treats the left channel as the modulator (usually a voice) and the right channel as the carrier (usually a bright synth sound like saw or pulse). It uses the modulator to filter the carrier and reproduce some of the formants (higher harmonics) from the original modulator signal. As an extra step, it also add in some white noise (controlled via the noise_ratio parameter) to make the speech sounds a bit easier to understand.
+
+        To get the most out of this effect, use a bright or noisy sounding synth for the carrier - saw, dsaw, pulse or hoover all work well. Play this with a long sustain and pan hard right (pan: 1). For your modulator, try using a sample with some good clear speech - anything will do! Pan this hard left (pan: -1). Make sure they are both inside the with_fx block."
+      end
+
+      def arg_defaults
+        super.merge({
+          :mix => 1,
+          :pre_mix => 1,
+          :noise_ratio => 0.1,
+          :gate_threshold => 0.5
+        })
+      end
+
+      def specific_arg_info
+        {
+          :noise_ratio =>
+          {
+            :doc => "The amount of white noise added to the carrier signal. Higher values make the text of spoken works easier to understand, but it can make it harder to hear the musical notes.",
+            :validations => [v_between_inclusive(:noise_ratio, 0, 1)],
+            :modulatable => true,
+          },
+
+          :gate_threshold =>
+          {
+            :doc => "Threshold to gate the signal at - this helps to make sure that the synth sound (the carrier) stops when the voice (the modulator) is silent.",
+            :validations => [v_between_inclusive(:gate_threshold, 0, 1)],
+            :modulatable => true,
+          }
+        }
+      end
+    end
+
     class FXPingPong < FXInfo
       def name
         "Ping Pong Echo"
@@ -9718,6 +9765,7 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
         :fx_record => FXRecord.new,
         :fx_sound_out => FXSoundOut.new,
         :fx_sound_out_stereo => FXSoundOutStereo.new,
+        :fx_vocoder => FXVocoder.new,
         :fx_ping_pong => FXPingPong.new
       }
 
