@@ -14,6 +14,8 @@ require 'tmpdir'
 require 'fileutils'
 require 'thread'
 require 'net/http'
+require 'multi_json'
+require 'uri'
 require_relative "../blanknode"
 require_relative "../chainnode"
 require_relative "../fxnode"
@@ -2195,6 +2197,8 @@ load_sample dir, /[Bb]ar/ # loads first sample which matches regex /[Bb]ar/ in \
           info, cached = @mod_sound_studio.load_sample(path)
           __info "Loaded sample #{unify_tilde_dir(path).inspect}" unless cached
           return info
+        when Numeric
+          freesound(path)
         else
           raise "Unknown sample description: #{path.inspect}\n expected a string containing a path."
         end
@@ -4161,7 +4165,100 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
       def sample_find_candidates(*args)
         @sample_loader.find_candidates(*args)
       end
-    end
 
+      def use_freesound_token(token)
+        raise ArgumentError, "freesound token should be a string." unless token.is_a? String
+        __thread_locals.set(:sonic_pi_freesound_token, token)
+      end
+
+      def freesound_path(id)
+        cache_dir = home_dir + '/freesound/'
+        ensure_dir(cache_dir)
+
+        cache_file = cache_dir + "freesound-" + id.to_s + ".ogg"
+
+        return cache_file if File.exists?(cache_file)
+
+        __info "Caching freesound #{id}..."
+
+        in_thread(name: "download_freesound_#{id}".to_sym) do
+          token = __thread_locals.get(:sonic_pi_freesound_token)
+          apiURL = "http://freesound.org/apiv2/sounds/#{id}/?" +
+                   URI::encode_www_form(:fields => 'previews',
+                                        :token => token)
+
+          resp = Net::HTTP.get_response(URI(apiURL))
+          case resp
+          when Net::HTTPSuccess then
+            if resp['Content-Type'] != 'application/json' then
+              raise "Unexpected info content type for freesound #{id}: " + resp['Content-Type']
+            end
+
+            downloadURL = MultiJson.load(resp.body)['previews']['preview-hq-ogg']
+
+            resp = Net::HTTP.get_response(URI(downloadURL))
+            case resp
+            when Net::HTTPSuccess then
+              if resp['Content-Type'] != 'audio/ogg' then
+                raise "Unexpected download content type for freesound #{id}: " + resp['Content-Type']
+              end
+
+              open(cache_file, 'wb') do |file|
+                file.write(resp.body)
+              end
+              __info "Freesound #{id} loaded and ready to fire!"
+            else
+              __info "Failed to download freesound #{id}: " + resp.value
+            end
+          else
+            __info "Failed to get download info for freesound #{id}: " + resp.value
+          end
+        end
+        return nil
+      end
+      doc name:          :freesound_path,
+          introduced:    Version.new(2,1,0),
+          summary:       "Return local path for sound from freesound.org",
+          doc:           "Download and cache a sample by ID from freesound.org. Returns path as string if cached. If not cached, returns nil and starts a background thread to download the sample.",
+          args:          [[:id, :number]],
+          opts:          nil,
+          accepts_block: false,
+          examples:      ["
+puts freesound_path(250129)    # preloads a freesound and prints its local path, such as '/home/user/.sonic_pi/freesound/250129.ogg'"]
+
+      def freesound(id, *opts)
+        path = freesound_path(id)
+        arg_h = resolve_synth_opts_hash_or_array(opts)
+        fallback = arg_h[:fallback]
+
+        if path
+          sample path
+        elsif fallback
+          raise "Freesound fallback must be a symbol" unless fallback.is_a? Symbol
+          __info "Freesound #{id} not yet loaded, playing #{fallback}"
+          sample fallback
+        else
+          __info "Freesound #{id} not yet loaded, skipping"
+        end
+
+      end
+      doc name:          :freesound,
+          introduced:    Version.new(2,1,0),
+          summary:       "Play sample from freesound.org",
+          doc:           "Fetch from cache (or download then cache) a sample by ID from freesound.org, and then play it.",
+          args:          [[:id, :number]],
+          opts:          {:fallback => "Symbol representing built-in sample to play if the freesound id isn't yet downloaded"},
+          accepts_block: false,
+          examples:      ["
+freesound(250129)  # takes time to download the first time, but then the sample is cached locally
+",
+"
+loop do
+  freesound 27130
+  sleep sample_duration(27130)
+end
+"
+]
+    end
   end
 end
