@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2024-06-06 19:09+0000\n"
+"PO-Revision-Date: 2024-09-23 09:16+0000\n"
 "Last-Translator: Olivier Humbert <trebmuh@tuxfamily.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "fr/>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.6-dev\n"
+"X-Generator: Weblate 5.8-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -139,7 +139,7 @@ msgid "Let's get started, copy the following code into an empty buffer:"
 msgstr "Commençons, copiez le code suivant dans un \"buffer\" libre :"
 
 #: 01.1-Live-Coding.md:21
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "live_loop :flibble do\n"
 "  sample :bd_haus, rate: 1\n"
@@ -1103,7 +1103,7 @@ msgid "You can pass multiple opts by separating them with a comma:"
 msgstr "Vous pouvez passer plusieurs options en les séparant par une virgule :"
 
 #: 02.2-Synth-Params.md:39
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "play 50, cheese: 1, beans: 0.5"
 msgstr "play 50, cheese: 1, beans: 0.5"
 
@@ -2126,7 +2126,6 @@ msgid "`:bass_`"
 msgstr "`:bass_`"
 
 #: 03.1-Triggering-Samples.md:56
-#, fuzzy
 msgid "`:elec_`"
 msgstr "`:elec_`"
 
