@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2024-04-29 17:06+0000\n"
-"Last-Translator: 조현퇴 <hyuntoe@gmail.com>\n"
+"PO-Revision-Date: 2024-09-24 18:53+0000\n"
+"Last-Translator: Hojin DAN <danhojin@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "ko/>\n"
 "Language: ko\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.5.2\n"
+"X-Generator: Weblate 5.8-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -70,10 +70,10 @@ msgid ""
 "ree just to dip in and out of sections as you see fit. If you feel that there'"
 "s something missing, do let me know and I'll consider it for a future version."
 msgstr ""
-"이 튜토리얼은 카테고리별로 나누어져 있습니다. 쉬운 학습 진행을 위하여 "
-"처음부터 끝까지 튜토리얼을 만들었지만, 여러분 마음대로 자유롭게 섹션을 "
-"들락날락 할 수 있습니다. 만약 무언가가 부족하다고 생각되면 알려주세요. "
-"나중에 쓸 수 있도록 고려해 보겠습니다."
+"이 튜토리얼은 카테고리별로 나누어져 있습니다. 처음부터 끝까지 순차적으로 "
+"따라가면 쉽게 배울 수 있게 튜토리얼을 만들었지만, 여러분 마음대로 자유롭게 "
+"섹션을 오가며 학습하셔도 좋습니다. 만약 무언가가 부족하다고 생각되면 "
+"알려주세요. 나중에 쓸 수 있도록 고려해 보겠습니다."
 
 #: 01-Welcome-to-Sonic-Pi.md:28
 msgid ""
@@ -219,8 +219,8 @@ msgstr ""
 "'의 값을 아주 약간('0.29'정도로) 변경하면, 어떤 일이 일어나는 지 알아봅시다. "
 "만약 여러분이 정말 작은 'sleep' 값을 주면 어떻게 될까요? 만약 그렇게 한다면, "
 "여러분의 컴퓨터가 너무 빨리 작동하게 되어 속도를 유지할 수 없기 때문에 "
-"오류가 나서 멈출 것입니다.   (그런 상황이 발생하면, 좀 더 큰 'sleep' "
-"시간으로 설정하고 'Run'버튼을 다시 누릅니다)."
+"오류가 나서 멈출 것입니다 (그런 상황이 발생하면, 좀 더 큰 'sleep' 시간으로 "
+"설정하고 'Run' 버튼을 다시 누릅니다)."
 
 #: 01.1-Live-Coding.md:59
 msgid "Try commenting one of the `sample` lines out by adding a `#` to the beginning:"
@@ -286,7 +286,7 @@ msgstr "샘플 라인을 주석해제('#'을 삭제하면 됨)해서 기타연�
 msgid ""
 "Try changing any of the blue `mix:` values to numbers between `0` (not in the "
 "mix) and `1` (fully in the mix)."
-msgstr "파랑색  'mix:' 값 하나를 '0'(믹스하지 않음)에서 '1'(완전히 믹스함)사이의 "
+msgstr "파랑색 'mix:' 값 하나를 '0'(믹스하지 않음)에서 '1'(완전히 믹스함)사이의 "
 "값으로 바꾸어 보세요."
 
 #: 01.1-Live-Coding.md:88
@@ -368,11 +368,11 @@ msgstr "![Sonic Pi Interface](../../../etc/doc/images/tutorial/GUI.png)"
 
 #: 01.2-Exploring-the-Interface.md:11
 msgid "*A* - Play Controls"
-msgstr ""
+msgstr "*A* - 재생 제어 버튼"
 
 #: 01.2-Exploring-the-Interface.md:12
 msgid "*B* - Editor Controls"
-msgstr "*B* - 에디터 컨트롤들"
+msgstr "*B* - 에디터 설정 버튼"
 
 #: 01.2-Exploring-the-Interface.md:13
 msgid "*C* - Info and Help"
@@ -399,13 +399,12 @@ msgid "*H* - Scope Viewer"
 msgstr "*H* - 스코프 뷰어"
 
 #: 01.2-Exploring-the-Interface.md:19
-#, fuzzy
 msgid "*I* - Cue Viewer"
-msgstr "*F* - 로그 뷰어"
+msgstr "*I* - 큐 뷰어"
 
 #: 01.2-Exploring-the-Interface.md:21
 msgid "A. Play Controls"
-msgstr ""
+msgstr "A. 재생 제어 버튼"
 
 #: 01.2-Exploring-the-Interface.md:23
 msgid ""
@@ -421,13 +420,15 @@ msgstr ""
 
 #: 01.2-Exploring-the-Interface.md:29
 msgid "B. Editor Controls"
-msgstr ""
+msgstr "B. 에디터 설정 버튼"
 
 #: 01.2-Exploring-the-Interface.md:31
 msgid ""
 "These orange buttons allow you to manipulate the code editor. The *Size +* and"
 " *Size -* buttons allow you to make the text bigger and smaller."
 msgstr ""
+"이 주황색 버튼들로 코드 편집기를 설정할 수 있습니다. *Size +* 및 *Size -* "
+"버튼을 사용하면 텍스트를 더 크게 또는 더 작게 만들 수 있습니다."
 
 #: 01.2-Exploring-the-Interface.md:35
 msgid "C. Info and Help"
