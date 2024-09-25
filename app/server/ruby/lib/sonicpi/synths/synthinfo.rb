@@ -6848,6 +6848,149 @@ end
       end
     end
 
+    class FXAutotuner2 < FXInfo
+      def name
+        "Autotuner2"
+      end
+
+      def introduced
+        Version.new(4,0,0)
+      end
+
+      def synth_name
+        "fx_autotuner_two"
+      end
+
+      def doc
+        "Another autotune effect. Used without any arguments, it tries to detect the pitch and shift it to the nearest exact note. This can help with out of tune singing, but it's also an interesting effect in its own right. When used with the note: arg, it tries to shift the input to match that note instead. This gives that classic \"robot singing\" sound that people associate with vocoders. This can then be changed using the control method to create new melodies.
+
+```
+with_fx :autotuner_two do |c|
+```
+
+```
+  sample \"~/Downloads/acappella.wav\" # any sample with a voice is good
+```
+
+```
+  sleep 4
+```
+
+```
+  # listen to standard auto-tune behaviour for 4 seconds
+```
+
+```
+  64.times do
+```
+
+```
+     # now start changing note: to get robot voice behaviour
+```
+
+```
+     control c, note: (scale :a2, :minor_pentatonic, num_octaves: 2).choose
+```
+
+```
+     sleep 0.5
+```
+
+```
+  end
+```
+
+```
+end
+```
+"
+      end
+
+      def arg_defaults
+        super.merge({
+          :note => -1,
+          :note_slide => 0,
+          :note_slide_shape => 1,
+          :note_slide_curve => 0,
+          :transpose => 0,
+          :key => 0,
+          :scale => 0
+        })
+      end
+
+      def munge_opts(studio, args_h)
+        keys = {
+          nil => nil,
+          :c => 0,
+          :cs => 1,
+          :db => 1,
+          :d => 2,
+          :ds => 3,
+          :eb => 3,
+          :e => 4,
+          :f => 5,
+          :fs => 6,
+          :gb => 6,
+          :g => 7,
+          :gs => 8,
+          :ab => 8,
+          :a => 9,
+          :as => 10,
+          :bb => 10,
+          :b => 11
+        }
+        args_h[:key] = keys[args_h[:key]]
+
+        scales = {
+          nil => nil,
+          :none => 0,
+          :chromatic => 0,
+          :major => 1,
+          :major_pentatonic => 2,
+          :minor_pentatonic => 3
+        }
+
+        args_h[:scale] = scales[args_h[:scale]]
+
+        puts args_h
+        args_h
+      end
+
+      def specific_arg_info
+        {
+          :note =>
+          {
+            :doc => "Midi note to shift pitch to. The quality of the sound depends on how stable the pitch of the input is. If set, this will override the scale and key options. Set to -1 to turn this off.",
+            :validations => [v_between_inclusive(:note, -2, 127)],
+            :modulatable => true
+          },
+
+          :key =>
+          {
+            :doc => "Key to lock the output pitches to. One of :c, :cs, :d, :e, :f, :fs, :g, :gs, :a, :as, or :b.",
+            :validations => [v_one_of(:key, [nil, :c, :cs, :db, :d, :ds, :eb, :e, :f, :fs, :gb, :g, :gs, :ab, :a, :as, :bb, :b,
+                                             0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])],
+            :modulatable => false
+          },
+
+          :scale =>
+          {
+            :doc => "Scale to lock the output pitches to. One of :none, :chromatic, :major, :major_pentatonic or :minor_pentatonic.",
+            :validations => [v_one_of(:scale, [nil, :none, :chromatic, :major, :major_pentatonic, :minor_pentatonic,
+                                               0, 1, 2, 3])],
+            :modulatable => false
+          },
+
+          :transpose =>
+          {
+            :doc => "Number of semitones to shift the output up or down, with a maximum of +24 (two octaves up) and a minimum of -24 (two octaves down).",
+            :validations => [v_between_inclusive(:transpose, -24, 24)],
+            :modulatable => true
+          }
+        }
+      end
+    end
+
     class FXMono < FXInfo
       def name
         "Mono"
@@ -9666,6 +9809,7 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
         :fx_level => FXLevel.new,
         :fx_mono => FXMono.new,
         :fx_autotuner => FXAutotuner.new,
+        :fx_autotuner_two => FXAutotuner2.new,
         :fx_replace_level => FXLevel.new,
         :fx_echo => FXEcho.new,
         :fx_replace_echo => FXEcho.new,

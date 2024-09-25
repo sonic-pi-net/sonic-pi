@@ -53,6 +53,7 @@ few dependencies:
 * Ruby + Dev tools (2.5+)
 * Elixir + Dev tools (12.0+)
 * SuperCollider + SC3 plugins
+* (Optional) Additional SuperCollider plugins
 
 Note: please make sure that you have gcc12 installed. Compiling vcpkg dependencies does not work with gcc13 currently
 
@@ -79,6 +80,18 @@ following methods:
 * Build and install it yourself
 
 There is an Audinux Copr [repository]()https://copr.fedorainfracloud.org/coprs/ycollet/audinux/package/sonic-pi/) with Sonic-Pi.
+
+### 1.3 (Optional) Additional SuperCollider Plugins
+
+Some audio effects and synthesizer are not distributed with the `sc3-plugins-server` package and prebuilt binaries are not provided with the Sonic Pi repo. To use these with your version of Sonic Pi, you can find build instructions at the following repositories:
+
+* https://github.com/xavriley/qlibugens/ - used by the `:autotuner_two` effect.
+* (more to follow as we implement other plugins)
+
+After building the plugins, make sure you copy them to your [SuperCollider Extensions folder](https://doc.sccode.org/Guides/UsingExtensions.html) before starting Sonic Pi.
+
+If you don't do this, everything else will still work as normal - you just won't be able to use these particular effects.
+
 
 ## 2. Preparing the Build
 
