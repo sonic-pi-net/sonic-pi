@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2024-09-24 18:53+0000\n"
+"PO-Revision-Date: 2024-09-27 05:15+0000\n"
 "Last-Translator: Hojin DAN <danhojin@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "ko/>\n"
@@ -442,11 +442,11 @@ msgid ""
 "*Help* button toggles the help system (*G*) and the *Prefs* button toggles the"
 " preferences window which allows you to control some basic system parameters."
 msgstr ""
-"이곳의 파랑색 버튼들은 정보, 도움말, 환경설정에 접근할 때 사용합니다. *Info* "
-"버튼은 핵심 개발진,역사,기여자,커뮤니티 같은 소닉 파이 자체에 관한 정보를 "
-"담고 있는 윈도우를 열어줍니다. *Help* 버튼은 도움말 시스템(*G*)을 열거나 "
-"끄고, *Prefs* 버튼은 기본적인 시스템 변수을 조정할 수 있는 환경설정 윈도우를 "
-"열거나 끕니다."
+"이곳의 파랑색 버튼들은 정보, 도움말, 환경 설정에 접근할 때 사용합니다. *Info*"
+" 버튼은 핵심 개발진, 역사, 기여자, 커뮤니티 같은 소닉 파이 자체에 관한 "
+"정보를 담고 있는 윈도우를 열어줍니다. *Help* 버튼은 도움말 시스템(*G*)을 "
+"열거나 끄고, *Prefs* 버튼은 기본적인 시스템 변수을 조정할 수 있는 환경설정 "
+"윈도우를 열거나 끕니다."
 
 #: 01.2-Exploring-the-Interface.md:44
 msgid "D. Code Editor"
@@ -461,11 +461,11 @@ msgid ""
 "trange at first, but you'll soon find it very useful. For example, you'll know"
 " something is a number because it is blue."
 msgstr ""
-"이 영역은 여러분이 코드를 쓰거나 음악을 작곡/연주하는 곳입니다. 여러분이 "
-"코드를 쓰거나, 삭제하거나, 자르거나, 붙이는 작업을 할 수 있는 심플한 텍스트 "
-"에디터 입니다. 아주 간단한 워드(Word) 프로그램이나 구글 독스(Google Docs) "
-"같다고 생각하면 됩니다. 이 에디터는 코드 내에서 갖는 의미에 따라 자동적으로 "
-"단어에 색을 입힙니다. 처음에는 이상하게 보일 수도 있게지만, 곧 매우 "
+"이 영역은 여러분이 코드를 쓰거나 음악을 작곡/연주하는 곳입니다. 코드를 "
+"쓰거나, 삭제하거나, 자르거나, 붙이는 작업을 할 수 있는 심플한 텍스트 에디터 "
+"입니다. 마이크로소프트의 워드(Word)나 구글 독스(Google Docs)의 아주 기본 "
+"버전이라고 생각하시면 됩니다. 이 에디터는 코드 내에서 갖는 의미에 따라 "
+"자동적으로 단어에 색을 입힙니다. 처음는 이상하게 보일 수도 있게지만, 곧 매우 "
 "유용하다는 것을 알게 될 것입니다. 예를 들면, 어떤 단어가 파랑색이라면 그것이 "
 "숫자라는 것을 알게 될 것입니다."
 
@@ -481,10 +481,15 @@ msgid ""
 "ged. Examples are forcing mono mode, inverting stereo, toggling log output ver"
 "bosity and also a volume slider and audio selector on the Raspberry Pi."
 msgstr ""
+"소닉 파이는 여러 가지 조정 가능한 환경 설정을 지원하며, 이는 정보 및 도움말 "
+"버튼 모음 내 *prefs* 버튼을 전환하여 접근할 수 있습니다. 이를 통해 환경 설정 "
+"패널을 소환하여 여러 옵션을 변경할 수 있습니다. 예를 들어, 모노 모드, "
+"스테레오 좌우 반전, 로그 출력 상세도 설정, 라즈베리 파이에서 볼륨 슬라이더 "
+"및 오디오 설정 등이 있습니다."
 
 #: 01.2-Exploring-the-Interface.md:63
 msgid "F. Log Viewer"
-msgstr ""
+msgstr "F. 로그 뷰어"
 
 #: 01.2-Exploring-the-Interface.md:65
 msgid ""
@@ -500,7 +505,7 @@ msgstr ""
 
 #: 01.2-Exploring-the-Interface.md:71
 msgid "G. Help System"
-msgstr ""
+msgstr "G. 도움말 시스템"
 
 #: 01.2-Exploring-the-Interface.md:73
 msgid ""
@@ -519,7 +524,7 @@ msgstr ""
 
 #: 01.2-Exploring-the-Interface.md:81
 msgid "H. Scope Viewer"
-msgstr ""
+msgstr "H. 스코프 뷰어"
 
 #: 01.2-Exploring-the-Interface.md:83
 msgid ""
@@ -533,7 +538,7 @@ msgid ""
 " you to draw pretty pictures with sound (https://en.wikipedia.org/wiki/Lissajo"
 "us_curve)."
 msgstr ""
-"스코프 창은 들리는 소리를 볼 수 있도록 만들어 줍니다. 톱니파가 톱니처럼 "
+"스코프 뷰어는 들리는 소리를 볼 수 있도록 만들어 줍니다. 톱니파가 톱니처럼 "
 "보이고, 기본 삐소리가 곡선 사인파인 것을 쉽게 알 수 있습니다. 선의 크기로 큰 "
 "소리와 작은 소리의 차이를 확인할 수도 있습니다. 3가지 종류의 스코프가 "
 "있습니다 - 기본값은 왼쪽 채널과 오른쪽 채널이 조합된 스코프이며, 각 채널에 "
@@ -544,7 +549,7 @@ msgstr ""
 
 #: 01.2-Exploring-the-Interface.md:93
 msgid "I. Cue Viewer"
-msgstr ""
+msgstr "I. 큐 뷰어"
 
 #: 01.2-Exploring-the-Interface.md:95
 msgid ""
@@ -563,14 +568,26 @@ msgid ""
 "ng happening. This is covered in more detail in Sections 10 to 12 of this tuto"
 "rial."
 msgstr ""
+"모든 내부 및 외부 이벤트(이벤트는 소닉 파이에서 큐라고 합니다)는 자동으로 큐 "
+"뷰어에 기록됩니다. 예를 들어, MIDI 컨트롤러를 연결하고 버튼을 누르면, 큐 "
+"뷰어에 컨트롤러 이름과 누른 버튼을 알려주는 새로운 큐 이벤트가 표시됩니다. "
+"소리 만들기와 제작의 기본을 익히고 나면, 이러한 이벤트를 기반으로 소리나 "
+"소리의 전체 섹션을 큐잉하고 싶어질 것입니다. 큐 이벤트는 단지 무언가가 "
+"발생했다는 표시일 뿐입니다. 예를 들어, 라이브 루프가 한 바퀴 돌 때마다 큐 "
+"이벤트를 보내고, 이는 큐 뷰어에 기록됩니다. 또한, 연결된 MIDI 장비에서 오는 "
+"MIDI 메시지와 다른 프로그램이나 컴퓨터에서 오는 OSC 메시지와 같은 외부 "
+"이벤트도 큐 뷰어에 표시됩니다. `cue` 함수를 사용하여 직접 큐 이벤트를 "
+"생성하는 것도 가능합니다. 큐 뷰어에 나타나는 모든 것은 무언가가 발생하도록 "
+"트리거할 수 있습니다. 이에 대한 자세한 내용은 이 튜토리얼의 10~12장에서 "
+"다룹니다."
 
 #: 01.3-Learning-through-Play.md:1
 msgid "1.3 Learning through Play"
-msgstr ""
+msgstr "1.3 연주해 보며 익히기"
 
 #: 01.3-Learning-through-Play.md:3
 msgid "Learning through Play"
-msgstr ""
+msgstr "연주해 보며 익히기"
 
 #: 01.3-Learning-through-Play.md:5
 msgid ""
@@ -579,10 +596,13 @@ msgid ""
 "fore you know it you'll have accidentally learned how to code, compose and per"
 "form."
 msgstr ""
+"소닉 파이는 컴퓨팅과 음악을 연주와 실험을 해 보며 익히는 것을 권장합니다. "
+"가장 중요한 것은 즐거운 것이며 자연스럽게 코딩과 작곡 그리고 공연하는 법을 "
+"익히게 될 것입니다."
 
 #: 01.3-Learning-through-Play.md:10
 msgid "There are no mistakes"
-msgstr ""
+msgstr "잘못된 것은 없습니다"
 
 #: 01.3-Learning-through-Play.md:12
 msgid ""
