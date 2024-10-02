@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2024-09-29 11:16+0000\n"
+"PO-Revision-Date: 2024-10-03 13:15+0000\n"
 "Last-Translator: Hojin DAN <danhojin@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "ko/>\n"
@@ -629,7 +629,7 @@ msgstr ""
 
 #: 01.3-Learning-through-Play.md:24
 msgid "Start Simple"
-msgstr ""
+msgstr "간단한 것부터 시작하세요"
 
 #: 01.3-Learning-through-Play.md:26
 msgid ""
@@ -641,22 +641,28 @@ msgid ""
 "with it and then see what new ideas it gives you. Before long you'll be too bu"
 "sy having fun and making real progress."
 msgstr ""
+"무엇인가 배울 때 *당장* 엄청난 것을 하고 싶다는 유혹에 빠집니다. 그 생각을 "
+"멈추고 *나중에* 도달할 먼 목표로 생각하세요. 대신 지금 쓸 수 있는 가장 "
+"간단한 것을 생각하세요. 그것은 머릿속에 떠오르는 엄청난 것에 도달하기 위한 "
+"재밌으며 보람된 작은 여정이 될 것입니다. 간단한 것에 대한 생각이 떠오르면 "
+"만들고 연주하며 잇따른 좋은 생각이 떠오르는 것을 경험하게 될 것입니다. 곧 "
+"재미있게 놀며 실질적인 진전을 이루느라 너무 바쁘게 될 것입니다."
 
 #: 01.3-Learning-through-Play.md:35
 msgid "Just make sure to share your work with others!"
-msgstr ""
+msgstr "꼭 다른 사람들과 작품을 나누세요!"
 
 #: 02-Synths.md:1
 msgid "2 Synths"
-msgstr ""
+msgstr "2 신시사이저"
 
 #: 02-Synths.md:3 02.3-Switching-Synths.md:11
 msgid "Synths"
-msgstr ""
+msgstr "신시사이저"
 
 #: 02-Synths.md:5
 msgid "OK, enough of the intros - let's get into some sound."
-msgstr ""
+msgstr "서론이 길었군요 - 소리를 만들어 봅시다."
 
 #: 02-Synths.md:7
 msgid ""
@@ -667,6 +673,12 @@ msgid ""
 " Sonic Pi gives you much of that power in a very simple and approachable manne"
 "r."
 msgstr ""
+"이번 절에서는 신시사이저를 작동시키고 다루기 위한 기본 사항을 다룰 것입니다. "
+"신시사이저(synthesizer, 혹은 synth)는 소리를 만드는 무언가를 일컷는 예쁜 "
+"단어입니다. 일반적으로 신시사이저는 다루기가 상당히 복잡합니다. 특히 유로랙 "
+"모듈과 같은 아날로그 신시사이저는 복잡한 배선으로 연결되어 있습니다. 그러나 "
+"소닉파이는 매우 간단하고 해 볼만한 방식으로 다른 신시사이저의 막강한 기능을 "
+"제공합니다."
 
 #: 02-Synths.md:14
 msgid ""
@@ -674,6 +686,9 @@ msgid ""
 "et very deep into very sophisticated sound manipulation if that's your thing. "
 "Hold on to your hats..."
 msgstr ""
+"소닉파이의 인터페이스가 언듯 단순해 보인다고 기능도 그럴 것이라 생각하지 "
+"마세요. 매우 심오하고 정교한 사운드 조작에 이를 수 있습니다. 놀랄 "
+"준비하세요..."
 
 #: 02.1-Your-First-Beeps.md:1
 msgid "2.1 Your First Beeps"
