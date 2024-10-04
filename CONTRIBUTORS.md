@@ -89,10 +89,13 @@ kind and generous people via [Patreon](https://patreon.com/samaaron). We
 would like to thank everyone who has supported Sonic Pi in this way -
 especially the following individuals who have been remarkably generous:
 
+* Adam Renklint
 * Alan Boulton
+* Alan O'Donnell
 * [Alexandre Enkerli](https://twitter.com/enkerli)
 * [Anderson Reinkordt](https://soundcloud.com/april-club-music)
 * [André-Patrick Bubel](https://andre-bubel.de)
+* Andrew Litman
 * [Andrew Robillard](https://www.twitter.com/hoborobo123)
 * [Bartosz Majsak](https://twitter.com/majson)
 * [Ben Davis](https://soundcloud.com/ben_davis_noise)
@@ -100,56 +103,82 @@ especially the following individuals who have been remarkably generous:
 * brainTrain
 * [Boris Bokowski](https://twitter.com/bokowski)
 * [Brandon Weaver](https://twitter.com/keystonelemur)
+* Bruce
 * Bryce Young
+* Cecily Morrison
 * [Chih-Chun Chen](http://abmcet.net/Chih-Chun_Chen/home.html)
 * [Christoffer Krakou](http://www.krakou.dk/)
 * Cobey Smith
 * Dallas Kidd
 * [Darin Wilson](https://twitter.com/darinwilson/)
+* David Dickey
 * [Dean Wampler](https://twitter.com/deanwampler)
+* desmosthenes
+* Douglas Drumond Kayama
+* Elmar Geese
 * [Emlyn Corrin](https://github.com/emlyn)
 * [Evan Kroske](https://www.evankroske.com/)
 * Fergal Byrne
+* Florent Biville
 * [Florian Gilcher](https://twitter.com/Argorak)
 * [Gabe Jackson](https://github.com/gj)
-* [Godigital Media Group](godigitalmg.com)
+* Gerriet Selent
 * Gert Sylvest
+* [Godigital Media Group](godigitalmg.com)
 * Isu Portu
 * [James Abley](https://twitter.com/jabley)
 * Jaroslav Lichtblau
+* jer
 * [Joshua Thomas](instagram.com/tig3rbabu)
 * [Justin Balthrop](http://ninjudd.com)
 * [Justin Worrall](https://twitter.com/juzbo)
+* Kope Inefable
 * [Lily Foster](https://lily.flowers/)
 * [Luis Espinoza](https://twitter.com/luis_espinoza)
+* Maciej
+* Manfred Van Ursel
 * [Marco Rolappe](https://rolappe.it)
 * [Mark Rendle](https://twitter.com/markrendle)
 * [Markku Rontu](https://twitter.com/zorcam)
 * [Marmaduke Woodman](https://github.com/maedoc)
 * [Martin Butz](https://github.com/mbutz)
 * [Martin McDermott](https://twitter.com/marv_mcd)
+* Matt Jones
 * Matt Koscica
 * [Matthew Gilliard](https://twitter.com/MaximumGilliard)
+* Mat Schaffer
+* Mayur Dave
 * [Michael Hunger](https://twitter.com/mesirii)
 * [Nada Amin](http://namin.net)
 * [NAMTAO](https://namtao.com)
 * [Nathan Letwory](https://github.com/jesterKing)
+* nullstyle
 * [Oladapo Fadeyi](https://twitter.com/erfadda)
 * [Ole Friis Østergaard](https://github.com/olefriis)
 * [Paul Williams](https://pcwilliams.design)
 * [Pit Noack](http://www.maschinennah.de/)
+* Ramsés Morales
+* Rand Fitzpatrick
 * [Richard Buckley](https://burgundycomputing.com)
 * [Richard Bullington-McGuire](https://www.obscure.org/~rbulling/)
+* Robert Giacinto
 * [Robin Newman](https://twitter.com/rbnman)
 * [Roxanne Harris](https://instagram.com/alsoknownasrox)
+* Rushabh Doshi
 * [Sam Halliday](https://github.com/fommil)
+* Samuel Gikandi
 * [Sean Raser](https://twitter.com/sraser88)
-* [Sébastien Rannou](https://mxs.sbrk.org/)
+* Sci.Phi
 * [Scott Fleckenstein](http://nullstyle.com))
 * [Scott Turner](https://twitter.com/scottturneruon)
+* [Sébastien Rannou](https://mxs.sbrk.org/)
 * [Simon Woodman](https://twitter.com/sjwoodman)
 * Terry Wisniewski
 * [thattommyhall](https://twitter.com/thattommyhall)
+* Uad Jayanth
+* Uiannis Mavroukakis
+* Vasilis Spilka
+* Zack Urlocker
 
 
 
