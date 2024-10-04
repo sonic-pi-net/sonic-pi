@@ -1,13 +1,16 @@
 name: Build
 
 on:
+  # Do it on every push or PR on these branches
   push:
     branches: [dev, stable]
   pull_request:
     branches: [dev, stable]
+  # Do build on demand
   workflow_dispatch:
 
 jobs:
+  # Build Sonic Pi
   build:
     name: "${{matrix.title}} (${{matrix.cc}}, ${{matrix.arch}}, ${{matrix.build_type}})"
     runs-on: ${{matrix.os}}
@@ -15,26 +18,89 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { title: "Linux", os: "ubuntu-latest", cc: "clang", arch: "x64", build_type: "Release" }
-          - { title: "Linux", os: "ubuntu-latest", cc: "clang", arch: "x64", build_type: "Debug" }
-          - { title: "Linux", os: "ubuntu-latest", cc: "gcc", arch: "x64", build_type: "Release" }
-          - { title: "Linux", os: "ubuntu-latest", cc: "gcc", arch: "x64", build_type: "Debug" }
-          - { title: "Windows", os: "windows-latest", cc: "vs2022", arch: "x64", build_type: "Release" }
-          - { title: "Windows", os: "windows-latest", cc: "vs2022", arch: "x64", build_type: "Debug" }
-          - { title: "Mac", os: "macos-latest", cc: "clang", arch: "x64", build_type: "Release" }
-          - { title: "Mac", os: "macos-latest", cc: "clang", arch: "x64", build_type: "Debug" }
-          - { title: "Mac", os: "macos-latest", cc: "clang", arch: "arm64", build_type: "Release" }
-          - { title: "Mac", os: "macos-latest", cc: "clang", arch: "arm64", build_type: "Debug" }
+          - {
+              title: "Linux",
+              os: "ubuntu-latest",
+              cc: "clang",
+              arch: "x64",
+              build_type: "Release",
+            }
+          - {
+              title: "Linux",
+              os: "ubuntu-latest",
+              cc: "clang",
+              arch: "x64",
+              build_type: "Debug",
+            }
+          - {
+              title: "Linux",
+              os: "ubuntu-latest",
+              cc: "gcc",
+              arch: "x64",
+              build_type: "Release",
+            }
+          - {
+              title: "Linux",
+              os: "ubuntu-latest",
+              cc: "gcc",
+              arch: "x64",
+              build_type: "Debug",
+            }
+          - {
+              title: "Windows",
+              os: "windows-latest",
+              cc: "vs2022",
+              arch: "x64",
+              build_type: "Release",
+            }
+          - {
+              title: "Windows",
+              os: "windows-latest",
+              cc: "vs2022",
+              arch: "x64",
+              build_type: "Debug",
+            }
+          - {
+              title: "Mac",
+              os: "macos-latest",
+              cc: "clang",
+              arch: "x64",
+              build_type: "Release",
+            }
+          - {
+              title: "Mac",
+              os: "macos-latest",
+              cc: "clang",
+              arch: "x64",
+              build_type: "Debug",
+            }
+          - {
+              title: "Mac",
+              os: "macos-latest",
+              cc: "clang",
+              arch: "arm64",
+              build_type: "Release",
+            }
+          - {
+              title: "Mac",
+              os: "macos-latest",
+              cc: "clang",
+              arch: "arm64",
+              build_type: "Debug",
+            }
 
     steps:
-      - uses: actions/checkout@v4
+      # Get the code
+      - uses: actions/checkout@v2
 
-      - uses: ruby/setup-ruby@v4
+      # Install Ruby for the windows build
+      - uses: ruby/setup-ruby@v1
         id: ruby-inst
         with:
           ruby-version: 3.2
         if: matrix.os == 'windows-latest'
 
+      # Install gems Windows
       - name: Setup Ruby Windows
         working-directory: ${{github.workspace}}/app
         run: |
@@ -42,6 +108,7 @@ jobs:
           gem install test-unit
         if: matrix.os == 'windows-latest'
 
+      # Install gems Linux/Max - needs sudo
       - name: Setup Ruby Gems
         working-directory: ${{github.workspace}}/app
         run: |
@@ -49,32 +116,37 @@ jobs:
           sudo gem install test-unit
         if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
 
+      # For windows we build a symlink in the bash shell because the windows method does not seem to work.
       - name: Add SymLink for Windows
         working-directory: ${{github.workspace}}/app/server/native
         run: |
           ln -s ${{steps.ruby-inst.outputs.ruby-prefix}} ruby
         if: matrix.os == 'windows-latest'
 
+        # Get Qt
       - name: Install Qt 6
-        uses: jurplel/install-qt-action@v4
+        uses: jurplel/install-qt-action@v3
         with:
           modules: "qtpositioning qtwebchannel qtwebengine qtwebsockets"
           version: "6.7.0"
 
+        # Install Elixir on Ubuntu
       - name: Linux Elixir
-        uses: erlef/setup-beam@v4
+        uses: erlef/setup-beam@v1
         with:
           otp-version: "26.1.2"
           elixir-version: "1.15.7"
         if: matrix.os == 'ubuntu-latest'
 
+        # Install Elixir on Windows
       - name: Win Elixir
-        uses: erlef/setup-beam@v4
+        uses: erlef/setup-beam@v1
         with:
           otp-version: "26.1.2"
           elixir-version: "1.15.7"
         if: matrix.os == 'windows-latest'
 
+        # Install Elixir on MacOS
       - name: Mac Elixir
         continue-on-error: true
         run: |
@@ -83,6 +155,7 @@ jobs:
           brew install elixir
         if: matrix.os == 'macos-latest'
 
+        # Prebuild on Ubuntu
       - name: Prebuild Linux
         working-directory: ${{github.workspace}}/app
         env:
@@ -93,14 +166,19 @@ jobs:
           ./linux-prebuild.sh
         if: matrix.os == 'ubuntu-latest'
 
+        # Prebuild on Mac
       - name: Prebuild Mac
         working-directory: ${{github.workspace}}/app
         env:
           CC: ${{ matrix.cc }}
           QT_INSTALL_LOCATION: ${{env.Qt6_DIR}}
-        run: ./mac-prebuild.sh
+        run: |
+          ./mac-prebuild.sh
         if: matrix.os == 'macos-latest'
 
+      # Prebuild on Windows
+      # Note that we 'hide' the msys folders on windows to stop conflicts when building
+      # Flac
       - name: Prebuild Windows
         working-directory: ${{github.workspace}}/app
         shell: cmd
@@ -112,31 +190,41 @@ jobs:
           win-prebuild.bat
         if: matrix.os == 'windows-latest'
 
+        #- name: Setup tmate session
+        # uses: mxschmitt/action-tmate@v3
+
+        # Run Configuration Config on Ubuntu
       - name: Config Linux
         working-directory: ${{github.workspace}}/app
         env:
           CC: ${{ matrix.cc }}
           QT_INSTALL_LOCATION: ${{env.Qt6_DIR}}
-        run: ./linux-config.sh --config ${{ matrix.build_type }}
+        run: |
+          ./linux-config.sh --config ${{ matrix.build_type }}
         if: matrix.os == 'ubuntu-latest'
 
+        # Run Configuration Config on Mac
       - name: Config Mac
         working-directory: ${{github.workspace}}/app
         env:
           CC: ${{ matrix.cc }}
           QT_INSTALL_LOCATION: ${{env.Qt6_DIR}}
-        run: ./mac-config.sh --config ${{ matrix.build_type }}
+        run: |
+          ./mac-config.sh --config ${{ matrix.build_type }}
         if: matrix.os == 'macos-latest'
 
+        # Run Configuration Config on Windows
       - name: Config Windows
         working-directory: ${{github.workspace}}/app
         shell: cmd
         env:
           CC: ${{ matrix.cc }}
           QT_INSTALL_LOCATION: ${{env.Qt6_DIR}}
-        run: win-config.bat ${{ matrix.build_type }}
+        run: |
+          win-config.bat ${{ matrix.build_type }}
         if: matrix.os == 'windows-latest'
 
+      # Finally: Build
       - name: Build Linux
         working-directory: ${{github.workspace}}/app
         run: ./linux-build-gui.sh
@@ -153,6 +241,7 @@ jobs:
         run: win-build-gui.bat  ${{ matrix.build_type }}
         if: matrix.os == 'windows-latest'
 
+      # Build Tau server
       - name: Build Tau Server (Linux)
         working-directory: ${{github.workspace}}/app
         run: ./linux-post-tau-prod-release.sh
