@@ -91,7 +91,7 @@ jobs:
 
     steps:
       # Get the code
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       # Install Ruby for the windows build
       - uses: ruby/setup-ruby@v1
@@ -125,7 +125,7 @@ jobs:
 
         # Get Qt
       - name: Install Qt 6
-        uses: jurplel/install-qt-action@v3
+        uses: jurplel/install-qt-action@v4
         with:
           modules: "qtpositioning qtwebchannel qtwebengine qtwebsockets"
           version: "6.7.0"
