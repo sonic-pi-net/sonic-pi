@@ -1,6 +1,15 @@
 #!/bin/bash
 set -e # Quit script on error
 
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+WORKING_DIR="$(pwd)"
+
+cleanup_function() {
+    # Restore working directory as it was prior to this script running on exit
+    cd "${WORKING_DIR}"
+}
+trap cleanup_function EXIT
+
 args=("$@")
 no_imgui=false
 
@@ -22,8 +31,7 @@ while [ -n "$1" ]; do
     esac
 done
 
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-WORKING_DIR="$(pwd)"
+
 
 cd "${SCRIPT_DIR}"
 
@@ -59,7 +67,3 @@ if [ "$no_imgui" == true ]; then
 else
     ./vcpkg install libsndfile[core,external-libs] kissfft fmt sdl2 gl3w reproc gsl-lite concurrentqueue platform-folders catch2 --triplet ${triplet[0]} --recurse
 fi
-
-
-# Restore working directory as it was prior to this script running...
-cd "${WORKING_DIR}"

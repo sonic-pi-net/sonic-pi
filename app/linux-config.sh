@@ -3,6 +3,12 @@ set -e # Quit script on error
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 WORKING_DIR="$(pwd)"
 
+cleanup_function() {
+    # Restore working directory as it was prior to this script running on exit
+    cd "${WORKING_DIR}"
+}
+trap cleanup_function EXIT
+
 args=("$@")
 config="Release"
 no_imgui=false
@@ -53,8 +59,3 @@ option() {
 
 cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="$config" -DBUILD_IMGUI_INTERFACE="$(option "!$no_imgui")" -DUSE_SYSTEM_LIBS="$(option "$system_libs")" ..
 
-cd "${SCRIPT_DIR}"
-
-
-# Restore working directory as it was prior to this script running...
-cd "${WORKING_DIR}"

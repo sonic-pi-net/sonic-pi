@@ -3,6 +3,12 @@ set -e # Quit script on error
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 WORKING_DIR="$(pwd)"
 
+cleanup_function() {
+    # Restore working directory as it was prior to this script running on exit
+    cd "${WORKING_DIR}"
+}
+trap cleanup_function EXIT
+
 # Check to see if we have a bundled Ruby and if so, use that
 # Otherwise use system ruby
 BUNDLED_RUBY="${SCRIPT_DIR}/server/native/ruby/bin/ruby"
@@ -21,7 +27,3 @@ echo "Translating tutorial..."
 echo "Generating docs for the Qt GUI..."
 cp "${SCRIPT_DIR}"/gui/qt/utils/ruby_help.tmpl "${SCRIPT_DIR}"/gui/qt/utils/ruby_help.h
 "$RUBY" "${SCRIPT_DIR}"/server/ruby/bin/qt-doc.rb
-
-
-# Restore working directory as it was prior to this script running...
-cd "${WORKING_DIR}"

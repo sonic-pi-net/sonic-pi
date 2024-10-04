@@ -1,6 +1,15 @@
 #!/bin/bash
 set -e # Quit script on error
 
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+WORKING_DIR="$(pwd)"
+
+cleanup_function() {
+    # Restore working directory as it was prior to this script running on exit
+    cd "${WORKING_DIR}"
+}
+trap cleanup_function EXIT
+
 args=("$@")
 no_imgui=false
 
@@ -21,9 +30,6 @@ while [ -n "$1" ]; do
         *) echo "Invalid argument: $1" ; exit 1 ;;
     esac
 done
-
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-WORKING_DIR="$(pwd)"
 
 cd "${SCRIPT_DIR}"
 
@@ -51,5 +57,4 @@ else
 fi
 
 
-# Restore working directory as it was prior to this script running...
-cd "${WORKING_DIR}"
+
