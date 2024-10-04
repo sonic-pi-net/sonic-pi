@@ -134,16 +134,16 @@ jobs:
       - name: Linux Elixir
         uses: erlef/setup-beam@v1
         with:
-          otp-version: "26.1.2"
-          elixir-version: "1.15.7"
+          otp-version: "27"
+          elixir-version: "1.17"
         if: matrix.os == 'ubuntu-latest'
 
         # Install Elixir on Windows
       - name: Win Elixir
         uses: erlef/setup-beam@v1
         with:
-          otp-version: "26.1.2"
-          elixir-version: "1.15.7"
+          otp-version: "27"
+          elixir-version: "1.17"
         if: matrix.os == 'windows-latest'
 
         # Install Elixir on MacOS
