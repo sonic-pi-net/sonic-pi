@@ -110,6 +110,7 @@ especially the following individuals who have been remarkably generous:
 * [Christoffer Krakou](http://www.krakou.dk/)
 * Cobey Smith
 * Dallas Kidd
+* Dago Sondervan
 * [Darin Wilson](https://twitter.com/darinwilson/)
 * David Dickey
 * [Dean Wampler](https://twitter.com/deanwampler)
