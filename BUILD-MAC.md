@@ -93,10 +93,10 @@ git clone https://github.com/sonic-pi-net/sonic-pi.git ~/Development/sonic-pi
 ```
 
 If you don't have Git installed you should be able to download a `.zip`
-file of the latest commit or specific release (v3.3+) you'd like to
+file of the latest commit or specific release you'd like to
 build:
 
-https://github.com/sonic-pi-net/sonic-pi/archive/main.zip
+https://github.com/sonic-pi-net/sonic-pi/archive/refs/heads/stable.zip
 
 From now on these instructions will assume you downloaded the source
 into `~/Development/sonic-pi`. If you used a different location be sure to
@@ -138,7 +138,7 @@ Finally, you can run your newly compiled `Sonic Pi` app within the new `build`
 directly either by double clicking it in the Finder or via the terminal:
 
 ```
-./build/Sonic\ Pi.app/Contents/MacOS/Sonic\ Pi
+./build/gui/qt/Sonic\ Pi.app/Contents/MacOS/Sonic\ Pi
 
 ```
 
