@@ -23,13 +23,14 @@ class SonicPiTheme : public QObject
 {
 Q_OBJECT
 public:
-    enum Style { LightMode, DarkMode, LightProMode, DarkProMode, HighContrastMode };
+    enum Style { LightMode, DarkMode, LightProMode, DarkProMode, HighContrastMode, MildDarkMode };
 
     explicit SonicPiTheme(QObject *parent = 0, QString customSettingsFilename="", QString rootPath = "");
     ~SonicPiTheme();
     QColor color(QString);
     QString font(QString);
     void darkMode();
+    void mildDarkMode();
     void lightMode();
     void hcMode();
     void updateCustomSettings();
@@ -68,6 +69,7 @@ private:
     QString rootPath;
     QString qt_app_theme_path;
     QString qt_browser_dark_css;
+    QString qt_browser_mild_dark_css;
     QString qt_browser_light_css;
     QString qt_browser_hc_css;
 
@@ -75,6 +77,7 @@ private:
 
     QMap<QString, QString> withCustomSettings(QMap<QString, QString> settings);
     QMap<QString, QString> lightTheme();
+    QMap<QString, QString> mildDarkTheme();
     QMap<QString, QString> darkTheme();
     QMap<QString, QString> highContrastTheme();
     QMap<QString, QString> theme;

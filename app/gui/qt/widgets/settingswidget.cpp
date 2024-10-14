@@ -336,11 +336,13 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     lightProModeCheck = new QCheckBox(tr("Pro Light"));
     darkProModeCheck = new QCheckBox(tr("Pro Dark"));
     highContrastModeCheck = new QCheckBox(tr("High Contrast"));
+    mildDarkModeCheck = new QCheckBox(tr("Mild Dark"));
     colourModeButtonGroup->addButton(lightModeCheck, 0);
     colourModeButtonGroup->addButton(darkModeCheck, 1);
     colourModeButtonGroup->addButton(lightProModeCheck, 2);
     colourModeButtonGroup->addButton(darkProModeCheck, 3);
     colourModeButtonGroup->addButton(highContrastModeCheck, 4);
+    colourModeButtonGroup->addButton(mildDarkModeCheck, 5);
 
     QVBoxLayout *editor_display_box_layout = new QVBoxLayout;
     QVBoxLayout *editor_show_panels_box_layout = new QVBoxLayout;
@@ -369,6 +371,7 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     editor_box_look_feel_layout->addWidget(lightProModeCheck);
     editor_box_look_feel_layout->addWidget(darkProModeCheck);
     editor_box_look_feel_layout->addWidget(highContrastModeCheck);
+    editor_box_look_feel_layout->addWidget(mildDarkModeCheck);
 
     editor_show_panels_box->setLayout(editor_show_panels_box_layout);
     editor_display_box->setLayout(editor_display_box_layout);
@@ -902,6 +905,7 @@ void SettingsWidget::updateSettings() {
     if (lightProModeCheck->isChecked())     { piSettings->themeStyle = SonicPiTheme::LightProMode; }
     if (darkProModeCheck->isChecked())      { piSettings->themeStyle = SonicPiTheme::DarkProMode; }
     if (highContrastModeCheck->isChecked()) { piSettings->themeStyle = SonicPiTheme::HighContrastMode; }
+    if (mildDarkModeCheck->isChecked())     { piSettings->themeStyle = SonicPiTheme::MildDarkMode; }
 
     piSettings->show_scopes = show_scopes->isChecked();
     piSettings->show_scope_labels = show_scope_labels->isChecked();
@@ -960,6 +964,7 @@ void SettingsWidget::settingsChanged() {
     lightProModeCheck->setChecked( piSettings->themeStyle == SonicPiTheme::LightProMode );
     darkProModeCheck->setChecked( piSettings->themeStyle == SonicPiTheme::DarkProMode );
     highContrastModeCheck->setChecked( piSettings->themeStyle == SonicPiTheme::HighContrastMode );
+    mildDarkModeCheck->setChecked(piSettings->themeStyle == SonicPiTheme::MildDarkMode);
 
     show_scopes->setChecked(piSettings->show_scopes);
     show_scope_labels->setChecked(piSettings->show_scope_labels);
@@ -1012,6 +1017,7 @@ void SettingsWidget::connectAll() {
     connect(lightProModeCheck, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(darkProModeCheck, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(highContrastModeCheck, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(mildDarkModeCheck, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(gui_transparency_slider, SIGNAL(valueChanged(int)), this, SLOT(updateSettings()));
 
     connect(show_autocompletion, SIGNAL(clicked()), this, SLOT(updateSettings()));
@@ -1030,6 +1036,7 @@ void SettingsWidget::connectAll() {
     connect(lightProModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
     connect(darkProModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
     connect(highContrastModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
+    connect(mildDarkModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
     connect(gui_transparency_slider, SIGNAL(valueChanged(int)), this, SLOT(updateTransparency(int)));
 
     connect(show_scope_labels, SIGNAL(clicked()), this, SLOT(updateSettings()));
