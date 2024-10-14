@@ -45,6 +45,7 @@ private slots:
     void toggleOscServer();
     void toggleMidi();
     void forceMidiReset();
+    void toggleShortcuts(QString c);
     void changeMainVolume(int);
     void toggleLineNumbers();
     void showAutoCompletion();
@@ -85,6 +86,7 @@ signals:
     void oscSettingsChanged();
     void midiSettingsChanged();
     void resetMidi();
+    void shortcutsChanged();
     void volumeChanged(int vol);
     void showLineNumbersChanged();
     void showAutoCompletionChanged();
@@ -179,6 +181,10 @@ private:
     QSlider *system_vol_slider;
     QSlider *gui_transparency_slider;
 
+    QLabel  *shortcuts_option_label;
+    QLabel  *commentUncommentKey_label;
+    QLineEdit *commentUncommentKey_select;
+
     QComboBox *language_combo;
     QLabel *language_option_label;
     QLabel *language_details_label;
@@ -188,6 +194,7 @@ private:
     QGroupBox* createAudioPrefsTab();
     QGroupBox* createIoPrefsTab();
     QGroupBox* createEditorPrefsTab();
+    QGroupBox* createShortcutsPrefsTab();
     QGroupBox* createVisualizationPrefsTab();
     QGroupBox* createUpdatePrefsTab();
     QGroupBox* createLanguagePrefsTab();
