@@ -3564,7 +3564,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
 
 
         unless __thread_locals.get(:sonic_pi_mod_sound_synth_silent)
-          __delayed_message "[#{Thread.list.size}] synth #{synth_name.inspect}, #{arg_h_pp(processed_args)}"
+          __delayed_message "synth #{synth_name.inspect}, #{arg_h_pp(processed_args)}"
         end
 
         add_arg_slide_times!(processed_args, info) if info
