@@ -1,3 +1,4 @@
+
 #--
 # This file is part of Sonic Pi: http://sonic-pi.net
 # Full project source: https://github.com/samaaron/sonic-pi
@@ -932,6 +933,7 @@ module SonicPi
         Thread.current.priority = 20
         begin
           num_running_jobs = register_job!(id, Thread.current)
+          lg "registering job #{id} with #{num_running_jobs} running jobs"
           __system_thread_locals.set_local :sonic_pi_local_thread_group, "job-#{id}"
           __system_thread_locals.set_local :sonic_pi_spider_thread_id_path, ThreadId.new(id)
           __system_thread_locals.set_local :sonic_pi_spider_num_threads_spawned, 0
@@ -952,9 +954,18 @@ module SonicPi
           end
           __info "Starting run #{id}" unless silent
           code = PreParser.preparse(code, SonicPi::Lang::Core.vec_fns)
+          lg "\n\n"
+          lg " EVAL #{Thread.current.object_id} - NThreads: #{Thread.list.size}"
+          lg "   - n-threads: #{Thread.list.size}"
+          Thread.list.sort_by(&:object_id).map{|t| lg "  [#{t.object_id}] -> #{__system_thread_locals(t).get(:sonic_pi_local_thread_group)}"}
 
           job_in_thread = __in_thread seed: 0 do
-            eval(code, nil, info[:workspace], firstline)
+                lg "  spider eval #{Thread.current.object_id} -> #{__system_thread_locals.get(:sonic_pi_local_parent_thread).object_id}"
+                STDOUT.flush
+            with_fx :level, amp: 1 do
+
+              eval(code, nil, info[:workspace], firstline)
+            end
           end
 
           start_t_prom.deliver! now
@@ -1131,23 +1142,10 @@ module SonicPi
             # the parent subthread tree
             __system_thread_locals(main_in_thread).get(:sonic_pi_local_spider_subthread_empty).get
 
-            __system_thread_locals(parent_t).get(:sonic_pi_local_spider_subthread_mutex).synchronize do
-              parent_subthreads = __system_thread_locals(parent_t).get(:sonic_pi_local_spider_subthreads)
-              parent_subthreads.delete(main_in_thread)
-
-              if (!parent_t.alive?) && parent_subthreads.empty?
-                # signal that the parent's subthreads are now empty and completed
-                yo_prom = __system_thread_locals(parent_t).get(:sonic_pi_local_spider_subthread_empty)
-                if yo_prom
-                  yo_prom.deliver!(true)
-                else
-                  log "Oh crap where is yo_prom????"
-                  log "#{__system_thread_locals(parent_t).get(:sonic_pi_local_thread_group)}"
-                end
-              end
+            # Remove self from parent's subthread list
+            __remove_thread_from_parent_subthreads!(main_in_thread)
 
 
-            end
           end
           # End Thread GC
           ##################
@@ -1159,9 +1157,19 @@ module SonicPi
           unless SonicPi::Core::SPRand.get_random_number_distribution
             SonicPi::Core::SPRand.set_random_number_distribution!(:white)
           end
-          __system_thread_locals.set_local(:sonic_pi_local_thread_group, :job_subthread)
+          __system_thread_locals.set_local(:sonic_pi_local_thread_group, "in_thread #{name}")
           __system_thread_locals.set_local(:sonic_pi_spider_thread_id_path, new_thread_id_path)
           __system_thread_locals.set_local :sonic_pi_local_spider_users_thread_name, name if name
+          __system_thread_locals.set_local(:sonic_pi_local_spider_thread_moved_ack, Promise.new)
+          __system_thread_locals.set_local(:sonic_pi_local_spider_thread_moved, Promise.new)
+          __system_thread_locals.set_local(:sonic_pi_local_spider_thread_move_mut, Mutex.new)
+
+          # lg "\n====> in-thread"
+          # lg "New thread #{Thread.current.object_id} as child of #{parent_t.object_id}"
+          STDOUT.flush
+          __system_thread_locals.set_local(:sonic_pi_local_parent_thread, parent_t)
+          # lg "New thread #{Thread.current.object_id} -> #{__system_thread_locals.get(:sonic_pi_local_parent_thread).object_id}"
+          STDOUT.flush
 
           # Wait for parent to deliver promise. Throws an exception if
           # parent dies before the promise is delivered, thus stopping
@@ -1186,6 +1194,8 @@ module SonicPi
           end
 
           job_subthread_add(job_id, main_in_thread, name)
+
+
 
           # Thread didn't die! Deliver promise and tidy up delivery
           # thread
@@ -1262,7 +1272,39 @@ module SonicPi
       new_thread
     end
 
+    def __named_thread(name)
+      @named_subthreads[name]
+    end
 
+    def __move_thread_to_new_parent!(child_t, new_parent_t)
+      __remove_thread_from_parent_subthreads!(child_t)
+
+      __system_thread_locals(new_parent_t).get(:sonic_pi_local_spider_subthread_mutex).synchronize do
+        new_parent_subthreads = __system_thread_locals(new_parent_t).get(:sonic_pi_local_spider_subthreads)
+        new_parent_subthreads.add(child_t)
+      end
+
+      __system_thread_locals(child_t).set_local(:sonic_pi_local_parent_thread, new_parent_t)
+    end
+
+    def __remove_thread_from_parent_subthreads!(t)
+      parent_t = __system_thread_locals(t).get(:sonic_pi_local_parent_thread)
+      return unless parent_t
+      __system_thread_locals(parent_t).get(:sonic_pi_local_spider_subthread_mutex).synchronize do
+        parent_subthreads = __system_thread_locals(parent_t).get(:sonic_pi_local_spider_subthreads)
+        parent_subthreads.delete(t)
+        if (!parent_t.alive?) && parent_subthreads.empty?
+          # signal that the parent's subthreads are now empty and completed
+          prom = __system_thread_locals(parent_t).get(:sonic_pi_local_spider_subthread_empty)
+          if prom
+            prom.deliver!(true)
+          else
+            log "Error - could not find :sonic_pi_local_spider_subthread_empty promise"
+            log "#{__system_thread_locals(parent_t).get(:sonic_pi_local_thread_group)}"
+          end
+        end
+      end
+    end
 
     private
 
@@ -1303,6 +1345,27 @@ module SonicPi
 
       threads = @job_subthreads[job_id]
       @job_subthreads[job_id] = threads.add(t)
+    end
+
+    def job_subthread_move_named_unmutexed(t, new_job_id, name)
+      lg "Moving thread #{name} to job #{new_job_id}"
+      named_thread = @named_subthreads[name]
+      raise unless named_thread
+      raise unless named_thread.thread == t
+
+      old_job_id = named_thread.job_id
+      old_job_threads = @job_subthreads[old_job_id]
+      old_job_threads.delete(t) if old_job_threads
+
+      new_job_threads = @job_subthreads[new_job_id]
+      @job_subthreads[new_job_id] = new_job_threads.add(t)
+      named_thread.job_id = new_job_id
+    end
+
+    def job_subthread_move_named(t, new_job_id, name)
+      @job_subthread_mutex.synchronize do
+        job_subthread_move_named_unmutexed(t, new_job_id, name)
+      end
     end
 
 

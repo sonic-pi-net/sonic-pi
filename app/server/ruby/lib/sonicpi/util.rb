@@ -221,6 +221,14 @@ module SonicPi
       rescue
         nil
       end
+
+    end
+
+    def lg(s)
+      # time = Time.now
+      # formatted_time = time.strftime("%H:%M:%S") + ".#{time.strftime("%L")}"
+      # Kernel.puts "[#{formatted_time}] #{s}"
+      # STDOUT.flush
     end
 
     def log_raw(s)

@@ -380,6 +380,8 @@ module SonicPi
         normalised_args << k << v.to_f
       end
 
+      lg "server trg synth args: #{args_h.inspect}"
+
       if now
         osc @osc_path_s_new, s_name, node_id, pos_code, group_id, *normalised_args
       else

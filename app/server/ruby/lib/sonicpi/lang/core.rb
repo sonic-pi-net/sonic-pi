@@ -15,6 +15,7 @@ require_relative 'support/docsystem'
 require_relative "../version"
 require_relative "../util"
 require_relative "../runtime"
+require_relative "../promise"
 require_relative "western_theory"
 
 require 'active_support/inflector'
@@ -2298,22 +2299,159 @@ play 80      # This is *never* played as the program is trapped in the loop abov
           raise ArgumentError, "Live loop block must only accept 0 or 1 args"
         end
 
-        in_thread(name: ll_name, delay: delay, sync: sync_sym, sync_bpm: sync_bpm_sym) do
-          __system_thread_locals.set_local :sonic_pi_local_live_loop_auto_cue, auto_cue
-          if args_h.has_key?(:init)
-            res = args_h[:init]
-          else
-            res = 0
-          end
-          use_random_seed args_h[:seed] if args_h[:seed]
-          loop do
-            __live_loop_cue name if __system_thread_locals.get :sonic_pi_local_live_loop_auto_cue
-            res = send(ll_name, res)
+        start_live_loop = Promise.new
+        parent_thread = Thread.current
+        # lg ""
+        # lg "live_loop creation w/: #{Thread.current.object_id} -> #{__system_thread_locals.get(:sonic_pi_local_parent_thread).object_id}"
+        # lg "======================"
+        mk_live_loop = lambda do
+          in_thread(name: ll_name, delay: delay, sync: sync_sym, sync_bpm: sync_bpm_sym) do
+
+            start_live_loop.get
+            __system_thread_locals.set_local :sonic_pi_local_live_loop_auto_cue, auto_cue
+            if args_h.has_key?(:init)
+              res = args_h[:init]
+            else
+              res = 0
+            end
+            lg "LL #{name}   - started    - [#{Thread.current.object_id}] -> #{__system_thread_locals.get(:sonic_pi_local_parent_thread).object_id}"
+            use_random_seed args_h[:seed] if args_h[:seed]
+
+            loop do
+              new_bus = nil
+              new_group = nil
+              new_parent_t = nil
+              completed_prom = nil
+              new_thread_moved_prom = nil
+              new_thread_moved_ack_prom = nil
+              __system_thread_locals.get(:sonic_pi_local_spider_thread_move_mut).synchronize do
+                new_bus, new_group, new_parent_t, completed_prom, new_thread_moved_prom, new_thread_moved_ack_prom = __system_thread_locals.get :sonic_pi_local_live_loop_move_to_bus_and_parent_t
+
+                # immediately reset for the next move
+                __system_thread_locals.set_local :sonic_pi_local_live_loop_move_to_bus_and_parent_t, nil
+              end
+              if new_bus
+                moved_prom = __system_thread_locals.get :sonic_pi_local_spider_thread_moved
+                ack_prom = __system_thread_locals.get :sonic_pi_local_spider_thread_moved_ack
+                # update the context
+                # reset tracker and send old tracker with ack
+                tracker = __current_tracker
+                __system_thread_locals.set_local(:sonic_pi_local_tracker, nil)
+                old_bus = __system_thread_locals.get :sonic_pi_mod_sound_synth_out_bus
+                __system_thread_locals.set(:sonic_pi_mod_sound_synth_out_bus, new_bus)
+                __system_thread_locals.set(:sonic_pi_mod_sound_job_group, new_group)
+
+                lg ""
+                lg "live_loop #{Thread.current.object_id} "
+                lg "  - parent: #{__system_thread_locals.get(:sonic_pi_local_parent_thread).object_id}"
+                lg "  - sending moved signal"
+                lg "  - moved bus from #{old_bus} -> #{new_bus}"
+                lg "  - move completed ack: #{ack_prom.object_id}"
+                lg ""
+                moved_prom.deliver! tracker
+                lg "....waiting for ack"
+                ack_prom.get
+                lg "....got ack"
+                __system_thread_locals.set_local :sonic_pi_local_spider_thread_moved, new_thread_moved_prom
+                __system_thread_locals.set_local :sonic_pi_local_spider_thread_moved_ack, new_thread_moved_ack_prom
+                __system_thread_locals.set_local :sonic_pi_local_live_loop_move_to_bus_and_parent_t, nil
+                new_job_id = __system_thread_locals(new_parent_t).get(:sonic_pi_spider_job_id)
+                job_subthread_move_named(Thread.current, new_job_id, ll_name)
+                __remove_thread_from_parent_subthreads!(Thread.current)
+                __move_thread_to_new_parent!(Thread.current, new_parent_t)
+                lg ""
+                lg "live_loop #{Thread.current.object_id} "
+                lg "  - parent: #{__system_thread_locals.get(:sonic_pi_local_parent_thread).object_id}"
+                lg "  - moved to bus: #{current_out_bus}"
+
+                lg ""
+                completed_prom.deliver! :moved
+              end
+              __live_loop_cue name if __system_thread_locals.get :sonic_pi_local_live_loop_auto_cue
+              res = send(ll_name, res)
+            end
           end
         end
 
+        live_loop_thread = mk_live_loop.call
         st = sthread(ll_name)
-        __system_thread_locals(st).set_local :sonic_pi_local_live_loop_auto_cue, auto_cue if st
+        if live_loop_thread.alive?
+
+          # live loop was created - this was the first time
+          # let it start normally
+          start_live_loop.deliver! :go
+        else
+          new_out_bus = current_out_bus
+          new_synth_group = current_group
+          in_thread do
+            new_thread_moved_prom = __system_thread_locals.get(:sonic_pi_local_spider_thread_moved)
+            new_thread_moved_ack_prom = __system_thread_locals.get(:sonic_pi_local_spider_thread_moved_ack)
+            move_holding_thread_prom = Promise.new
+            Thread.new do
+              __system_thread_locals.set_local :sonic_pi_local_thread_group, "ll swapper and holding thread for #{name} #{st}"
+              lg "LL[#{Thread.current.object_id}] #{name}   - move  -  [#{st.object_id}] -> #{parent_thread.object_id} - ST:#{Thread.current.object_id}"
+              completed_prom = Promise.new
+
+
+              ct1 = Thread.new do
+                __system_thread_locals.set_local :sonic_pi_local_thread_group, "ll ct1 mv waiter for #{name} #{st.object_id} #{__system_thread_locals(st).get(:sonic_pi_local_thread_group)}"
+                __system_thread_locals(st).get(:sonic_pi_local_spider_thread_move_mut).synchronize do
+
+                  _b, _g, t, p = __system_thread_locals(st).get(:sonic_pi_local_live_loop_move_to_bus_and_parent_t)
+                  if p
+                    lg "CLOBBERING #{t.object_id} #{__system_thread_locals(t).get(:sonic_pi_local_thread_group)} #{p.object_id}"
+                    ## another live loop already registered a move, but didn't manage to swap in time - so we're going to clobber it
+                    p.deliver! :clobbered
+                  end
+                  __system_thread_locals(st).set_local :sonic_pi_local_live_loop_auto_cue, auto_cue if st
+                  ## register our move
+
+                  __system_thread_locals(st).set_local :sonic_pi_local_live_loop_move_to_bus_and_parent_t, [new_out_bus, new_synth_group, parent_thread, completed_prom, new_thread_moved_prom, new_thread_moved_ack_prom]
+                end
+              end
+
+              ct2 = Thread.new do
+              __system_thread_locals.set_local :sonic_pi_local_thread_group, "ll ct2 join waiter for #{name} #{st.object_id} #{__system_thread_locals(st).get(:sonic_pi_local_thread_group)}"
+                st.join
+                completed_prom.deliver! :joined
+              end
+
+              moved_or_clobbered = completed_prom.get
+              ct1.kill
+              ct2.kill
+
+              if moved_or_clobbered == :moved
+                lg "LL[#{Thread.current.object_id}] #{name}   - moved  -  [#{st.object_id}] - ST:#{Thread.current.object_id}"
+
+                st_joined_or_moved_again = Promise.new
+                mt1 = Thread.new do
+                  __system_thread_locals.set_local :sonic_pi_local_thread_group, "ll join waiter for #{name} #{st.object_id} #{__system_thread_locals(st).get(:sonic_pi_local_thread_group)}"
+                  st.join
+                  st_joined_or_moved_again.deliver! true, false
+                end
+
+                mt2 = Thread.new do
+                  __system_thread_locals.set_local :sonic_pi_local_thread_group, "ll move waiter for #{name} #{st.object_id} #{__system_thread_locals(st).get(:sonic_pi_local_thread_group)}"
+
+                  ack_p = __system_thread_locals(st).get(:sonic_pi_local_spider_thread_moved_ack)
+                  lg "LL[#{Thread.current.object_id}] #{name}   - waiting for move again - [#{st.object_id}] - ack_p: #{ack_p.object_id}"
+                  ack_p.get
+                  st_joined_or_moved_again.deliver! true, false
+                end
+                lg "LL[#{Thread.current.object_id}] #{name}   - KA  -  [#{st.object_id}] -> #{parent_thread.object_id} - ST:#{Thread.current.object_id}"
+                st_joined_or_moved_again.get
+                lg "LL[#{Thread.current.object_id}] #{name}   - Done  -  [#{st.object_id}] -> #{parent_thread.object_id} - ST:#{Thread.current.object_id}"
+                mt1.kill
+                mt2.kill
+              else
+                lg "LL[#{Thread.current.object_id}] #{name}   - clobbered  -  [#{st.object_id}] - ST:#{Thread.current.object_id}"
+              end
+              move_holding_thread_prom.deliver! true
+            end
+
+            move_holding_thread_prom.get
+          end
+        end
         st
       end
       doc name:           :live_loop,

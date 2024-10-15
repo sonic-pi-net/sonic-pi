@@ -16,12 +16,15 @@ module SonicPi
   class SThread
 
     @@counter = Counter.new
-    attr_reader :name, :job_id, :thread, :id
+    attr_reader :name, :thread, :id
+    attr_accessor :job_id
     def initialize(name, job_id, t)
       @id = @@counter.next
       @name = name
       @job_id = job_id
       @thread = t
     end
+
+
   end
 end
