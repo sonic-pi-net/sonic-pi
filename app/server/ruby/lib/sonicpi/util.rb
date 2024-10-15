@@ -224,13 +224,6 @@ module SonicPi
 
     end
 
-    def lg(s)
-      # time = Time.now
-      # formatted_time = time.strftime("%H:%M:%S") + ".#{time.strftime("%L")}"
-      # Kernel.puts "[#{formatted_time}] #{s}"
-      # STDOUT.flush
-    end
-
     def log_raw(s)
       if @@log_file
         @@log_file.write("[#{Time.now.strftime("%Y-%m-%d %H:%M:%S")}] #{s}")

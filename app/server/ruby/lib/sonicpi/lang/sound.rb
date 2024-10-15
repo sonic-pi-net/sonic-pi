@@ -1815,11 +1815,7 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
                 kill_delay = args_h[:kill_delay] || 1
               end
 
-              lg "FX #{fx_name} - waiting #{subthreads.size}  - #{new_bus}"
-
               subthreads.map do |st|
-
-
                 Thread.new do
                   __system_thread_locals.set_local :sonic_pi_local_thread_group, "wfx subthread waiter for #{fx_name} #{new_bus}"
                   subthread_completed_or_moved = Promise.new
@@ -1827,22 +1823,14 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
                     __system_thread_locals.set_local :sonic_pi_local_thread_group, "wfx join waiter for #{fx_name} #{new_bus}"
                     st.join
                     __system_thread_locals(st).get(:sonic_pi_local_spider_subthread_empty).get
-                    lg " --> FX #{fx_name} - GC Joined   - #{new_bus} - ST:#{st.object_id}"
                     subthread_completed_or_moved.deliver! true
                   end
                   wt2 = Thread.new do
                     __system_thread_locals.set_local :sonic_pi_local_thread_group, "wfx move waiter for #{fx_name} #{new_bus}"
                     p = __system_thread_locals(st).get(:sonic_pi_local_spider_thread_moved)
-                    lg " --> FX #{fx_name} - GC Wait   - #{new_bus}  - ST:#{st.object_id} P:#{p.object_id} "
-                    # lg "wfx [#{fx_name}] - waiting for thread moved #{st.class.inspect} - #{st.object_id}"
-                    #
                     tracker_from_moved_thread = p.get
-                    lg " --> wfx [#{fx_name}] - bus:#{new_bus.id} delivering prom:#{__system_thread_locals(st).get(:sonic_pi_local_spider_thread_moved_ack).object_id}"
                     __system_thread_locals(st).get(:sonic_pi_local_spider_thread_moved_ack).deliver! true, false
-                    # lg "wfx [#{fx_name}] - waiting on tracker #{tracker.object_id}"
                     tracker_from_moved_thread.get
-                    # lg "wfx [#{fx_name}] -  tracker completed #{tracker.object_id}"
-                    lg " --> FX #{fx_name} - GC Moved   - #{new_bus}  - #{st.object_id}"
                     subthread_completed_or_moved.deliver! true
                   end
                   subthread_completed_or_moved.get
@@ -1852,11 +1840,8 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
               end.each do |jt|
                 jt.join
               end
-              lg "FX #{fx_name} - trk await - #{new_bus} - trk:#{tracker.object_id}"
               tracker.block_until_finished
               Kernel.sleep(kill_delay)
-              lg "FX #{fx_name} - completed - #{new_bus}"
-              lg "FX #{fx_name} - killing   - #{new_bus}"
               fx_container_group.kill(true)
             end
 
@@ -1885,8 +1870,6 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
         __system_thread_locals.set(:sonic_pi_mod_sound_job_group, fx_synth_group)
         __system_thread_locals.set(:sonic_pi_mod_sound_synth_out_bus, new_bus)
         __system_thread_locals.set_local(:sonic_pi_local_mod_fx_tracker, tracker)
-
-        lg "FX #{fx_name} - created    - #{new_bus}"
 
         begin
           if block.arity == 0

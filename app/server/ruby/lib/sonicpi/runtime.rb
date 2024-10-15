@@ -933,7 +933,6 @@ module SonicPi
         Thread.current.priority = 20
         begin
           num_running_jobs = register_job!(id, Thread.current)
-          lg "registering job #{id} with #{num_running_jobs} running jobs"
           __system_thread_locals.set_local :sonic_pi_local_thread_group, "job-#{id}"
           __system_thread_locals.set_local :sonic_pi_spider_thread_id_path, ThreadId.new(id)
           __system_thread_locals.set_local :sonic_pi_spider_num_threads_spawned, 0
@@ -954,16 +953,8 @@ module SonicPi
           end
           __info "Starting run #{id}" unless silent
           code = PreParser.preparse(code, SonicPi::Lang::Core.vec_fns)
-          lg "\n\n"
-          lg " EVAL #{Thread.current.object_id} - NThreads: #{Thread.list.size}"
-          lg "   - n-threads: #{Thread.list.size}"
-          Thread.list.sort_by(&:object_id).map{|t| lg "  [#{t.object_id}] -> #{__system_thread_locals(t).get(:sonic_pi_local_thread_group)}"}
-
           job_in_thread = __in_thread seed: 0 do
-                lg "  spider eval #{Thread.current.object_id} -> #{__system_thread_locals.get(:sonic_pi_local_parent_thread).object_id}"
-                STDOUT.flush
             with_fx :level, amp: 1 do
-
               eval(code, nil, info[:workspace], firstline)
             end
           end
@@ -1164,12 +1155,7 @@ module SonicPi
           __system_thread_locals.set_local(:sonic_pi_local_spider_thread_moved, Promise.new)
           __system_thread_locals.set_local(:sonic_pi_local_spider_thread_move_mut, Mutex.new)
 
-          # lg "\n====> in-thread"
-          # lg "New thread #{Thread.current.object_id} as child of #{parent_t.object_id}"
-          STDOUT.flush
           __system_thread_locals.set_local(:sonic_pi_local_parent_thread, parent_t)
-          # lg "New thread #{Thread.current.object_id} -> #{__system_thread_locals.get(:sonic_pi_local_parent_thread).object_id}"
-          STDOUT.flush
 
           # Wait for parent to deliver promise. Throws an exception if
           # parent dies before the promise is delivered, thus stopping
@@ -1348,7 +1334,6 @@ module SonicPi
     end
 
     def job_subthread_move_named_unmutexed(t, new_job_id, name)
-      lg "Moving thread #{name} to job #{new_job_id}"
       named_thread = @named_subthreads[name]
       raise unless named_thread
       raise unless named_thread.thread == t
