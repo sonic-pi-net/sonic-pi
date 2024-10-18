@@ -14,10 +14,10 @@
 #ifndef SONICPISCINTILLA_H
 #define SONICPISCINTILLA_H
 
-#include <Qsci/qsciscintilla.h>
 #include "model/sonicpitheme.h"
 #include "widgets/sonicpilog.h"
 #include <QCheckBox>
+#include <Qsci/qsciscintilla.h>
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
 #include <QRecursiveMutex>
 #endif
@@ -27,23 +27,23 @@ class QSettings;
 
 class SonicPiScintilla : public QsciScintilla
 {
-  Q_OBJECT
+    Q_OBJECT
 
- public:
-  SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme, QString fileName, bool autoIndent);
+public:
+    SonicPiScintilla(SonicPiLexer* lexer, SonicPiTheme* theme, QString fileName, bool autoIndent);
 
-  virtual QStringList apiContext(int pos, int &context_start,
-				 int &last_word_start);
-  SonicPiTheme *theme;
-  QString fileName;
-  bool selectionMode;
+    virtual QStringList apiContext(int pos, int& context_start,
+        int& last_word_start);
+    SonicPiTheme* theme;
+    QString fileName;
+    bool selectionMode;
 
-  void redraw();
+    void redraw();
 
 signals:
-  void bufferNewlineAndIndent(int point_line, int point_index, int first_line, const std::string& code, const std::string& fileName);
+    void bufferNewlineAndIndent(int point_line, int point_index, int first_line, const std::string& code, const std::string& fileName);
 
-  public slots:
+public slots:
     void cutLineFromPoint();
     void tabCompleteifList();
     void transposeChars();
@@ -78,26 +78,42 @@ signals:
     void newlineAndIndent();
     void completeListOrNewlineAndIndent();
     void setAutoIndentEnabled(bool enabled);
+    void charRight();
+    void charLeft();
+    void deleteForward();
+    void deleteBack();
+    void lineStart();
+    void lineEnd();
+    void documentStart();
+    void documentEnd();
+    void wordRight();
+    void wordLeft();
+    void centerCaret();
+    void undo();
+    void redo();
+    void selectAll();
+    void deleteWordRight();
+    void deleteWordLeft();
 
     void sp_paste();
     void sp_cut();
 
     void showAutoCompletion(bool val);
-    void setText(const QString &text);
- private:
-    void addKeyBinding(QSettings &qs, int cmd, int key);
-    void addOtherKeyBinding(QSettings &qs, int cmd, int key);
-    void dragEnterEvent(QDragEnterEvent *pEvent);
-    void dropEvent(QDropEvent *pEvent);
-    void dragMoveEvent(QDragMoveEvent *event);
-    bool event(QEvent *evt);
+    void setText(const QString& text);
+
+private:
+    void addKeyBinding(QSettings& qs, int cmd, int key);
+    void addOtherKeyBinding(QSettings& qs, int cmd, int key);
+    void dragEnterEvent(QDragEnterEvent* pEvent);
+    void dropEvent(QDropEvent* pEvent);
+    void dragMoveEvent(QDragMoveEvent* event);
+    bool event(QEvent* evt);
     bool autoIndent;
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
-    QRecursiveMutex *mutex;
+    QRecursiveMutex* mutex;
 #else
-    QMutex *mutex;
+    QMutex* mutex;
 #endif
-
 };
 
 #endif // SONICPISCINTILLA_H

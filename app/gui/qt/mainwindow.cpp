@@ -112,13 +112,14 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
 
     printAsciiArtLogo();
 
-    this->piSettings = new SonicPiSettings();
-
     this->splash = splash;
 
     // API and Client
     m_spClient = std::make_shared<QtAPIClient>(this);
     m_spAPI = std::make_shared<SonicPiAPI>(m_spClient.get(), APIProtocol::UDP, LogOption::File);
+
+    this->piSettings = new SonicPiSettings();
+
 
     startup_error_reported = new QCheckBox;
     startup_error_reported->setChecked(false);
@@ -196,12 +197,14 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
     QApplication::setPalette(p);
 
     setupWindowStructure();
+
+    loadUserShortcuts();
     createStatusBar();
     createInfoPane();
     setWindowTitle(tr("Sonic Pi"));
 
-    createShortcuts();
     createToolBar();
+    updateShortcuts();
     updateTabsVisibility();
     updateButtonVisibility();
     updateLogVisibility();
@@ -425,8 +428,6 @@ void MainWindow::setupWindowStructure()
     prefsWidget->setParent(this);
     prefsWidget->hide();
 
-
-
     settingsWidget = new SettingsWidget(m_spAPI->GetPort(SonicPiPortId::tau_osc_cues), i18n, piSettings, sonicPii18n, this);
     settingsWidget->setObjectName("settings");
     settingsWidget->setAttribute(Qt::WA_StyledBackground, true);
@@ -531,103 +532,11 @@ void MainWindow::setupWindowStructure()
           completeSnippetListOrIndentLine(workspace);
         });
 
-        // save and load buffers
-        QShortcut* saveBufferShortcut = new QShortcut(shiftMetaKey('s'), workspace);
-        connect(saveBufferShortcut, SIGNAL(activated()), this, SLOT(saveAs()));
-        QShortcut* loadBufferShortcut = new QShortcut(shiftMetaKey('o'), workspace);
-        connect(loadBufferShortcut, SIGNAL(activated()), this, SLOT(loadFile()));
 
-        //transpose chars
-        QShortcut* transposeChars = new QShortcut(ctrlKey('t'), workspace);
-        connect(transposeChars, SIGNAL(activated()), workspace, SLOT(transposeChars()));
-
-        //move line or selection up and down
-        QShortcut* moveLineUp = new QShortcut(ctrlMetaKey('p'), workspace);
-        connect(moveLineUp, SIGNAL(activated()), workspace, SLOT(moveLineOrSelectionUp()));
-
-        QShortcut* moveLineDown = new QShortcut(ctrlMetaKey('n'), workspace);
-        connect(moveLineDown, SIGNAL(activated()), workspace, SLOT(moveLineOrSelectionDown()));
-
-        // Contextual help
-        QShortcut* contextHelp = new QShortcut(ctrlKey('i'), workspace);
-        connect(contextHelp, SIGNAL(activated()), this, SLOT(helpContext()));
-
-        QShortcut* contextHelp2 = new QShortcut(QKeySequence("F1"), workspace);
-        connect(contextHelp2, SIGNAL(activated()), this, SLOT(helpContext()));
-
-        // Font zooming
-        QShortcut* fontZoom = new QShortcut(metaKey('='), workspace);
-        connect(fontZoom, SIGNAL(activated()), workspace, SLOT(zoomFontIn()));
-
-        QShortcut* fontZoom2 = new QShortcut(metaKey('+'), workspace);
-        connect(fontZoom2, SIGNAL(activated()), workspace, SLOT(zoomFontIn()));
-
-        QShortcut* fontZoomOut = new QShortcut(metaKey('-'), workspace);
-        connect(fontZoomOut, SIGNAL(activated()), workspace, SLOT(zoomFontOut()));
-
-        QShortcut* fontZoomOut2 = new QShortcut(metaKey('_'), workspace);
-        connect(fontZoomOut2, SIGNAL(activated()), workspace, SLOT(zoomFontOut()));
-
-        //set Mark
-#ifdef Q_OS_MAC
-        QShortcut* setMark = new QShortcut(QKeySequence("Meta+Space"), workspace);
-#else
-        QShortcut* setMark = new QShortcut(QKeySequence("Ctrl+Space"), workspace);
-#endif
-        connect(setMark, SIGNAL(activated()), workspace, SLOT(setMark()));
 
         //escape
-        QShortcut* escape = new QShortcut(ctrlKey('g'), workspace);
-        QShortcut* escape2 = new QShortcut(QKeySequence("Escape"), workspace);
-        connect(escape, SIGNAL(activated()), this, SLOT(escapeWorkspaces()));
-        connect(escape2, SIGNAL(activated()), this, SLOT(escapeWorkspaces()));
 
-        //quick nav by jumping up and down 1 lines at a time
-        QShortcut* forwardOneLine = new QShortcut(ctrlKey('p'), workspace);
-        connect(forwardOneLine, SIGNAL(activated()), workspace, SLOT(forwardOneLine()));
-        QShortcut* backOneLine = new QShortcut(ctrlKey('n'), workspace);
-        connect(backOneLine, SIGNAL(activated()), workspace, SLOT(backOneLine()));
 
-        //quick nav by jumping up and down 10 lines at a time
-        QShortcut* forwardTenLines = new QShortcut(shiftMetaKey('u'), workspace);
-        connect(forwardTenLines, SIGNAL(activated()), workspace, SLOT(forwardTenLines()));
-        QShortcut* backTenLines = new QShortcut(shiftMetaKey('d'), workspace);
-        connect(backTenLines, SIGNAL(activated()), workspace, SLOT(backTenLines()));
-
-        //cut to end of line
-        QShortcut* cutToEndOfLine = new QShortcut(ctrlKey('k'), workspace);
-        connect(cutToEndOfLine, SIGNAL(activated()), workspace, SLOT(cutLineFromPoint()));
-
-        //Emacs live copy and cut
-        QShortcut* copyToBuffer = new QShortcut(metaKey(']'), workspace);
-        connect(copyToBuffer, SIGNAL(activated()), workspace, SLOT(copyClear()));
-
-        QShortcut* cutToBufferLive = new QShortcut(ctrlKey(']'), workspace);
-        connect(cutToBufferLive, SIGNAL(activated()), workspace, SLOT(sp_cut()));
-
-        // Standard cut
-        QShortcut* cutToBuffer = new QShortcut(ctrlKey('x'), workspace);
-        connect(cutToBuffer, SIGNAL(activated()), workspace, SLOT(sp_cut()));
-
-        // paste
-        QShortcut* pasteToBufferWin = new QShortcut(ctrlKey('v'), workspace);
-        connect(pasteToBufferWin, SIGNAL(activated()), workspace, SLOT(sp_paste()));
-        QShortcut* pasteToBuffer = new QShortcut(metaKey('v'), workspace);
-        connect(pasteToBuffer, SIGNAL(activated()), workspace, SLOT(sp_paste()));
-        QShortcut* pasteToBufferEmacs = new QShortcut(ctrlKey('y'), workspace);
-        connect(pasteToBufferEmacs, SIGNAL(activated()), workspace, SLOT(sp_paste()));
-
-        //comment line
-        QShortcut* toggleLineComment = new QShortcut(metaKey('/'), workspace);
-        connect(toggleLineComment, SIGNAL(activated()), this, SLOT(toggleCommentInCurrentWorkspace()));
-
-        //upcase next word
-        QShortcut* upcaseWord = new QShortcut(metaKey('u'), workspace);
-        connect(upcaseWord, SIGNAL(activated()), workspace, SLOT(upcaseWordOrSelection()));
-
-        //downcase next word
-        QShortcut* downcaseWord = new QShortcut(metaKey('l'), workspace);
-        connect(downcaseWord, SIGNAL(activated()), workspace, SLOT(downcaseWordOrSelection()));
 
         QString w = QString(tr("| %1 |")).arg(QString::number(ws));
         workspaces[ws] = workspace;
@@ -647,12 +556,7 @@ void MainWindow::setupWindowStructure()
     // adding universal shortcuts to outputpane seems to
     // steal events from doc system!?
     // addUniversalCopyShortcuts(outputPane);
-#if QT_VERSION >= 0x050400
-    //requires Qt 5
-    new QShortcut(ctrlKey('='), this, SLOT(zoomInLogs()));
-    new QShortcut(ctrlKey('-'), this, SLOT(zoomOutLogs()));
 
-#endif
     addUniversalCopyShortcuts(errorPane);
     outputPane->setReadOnly(true);
     outputPane->setLineWrapMode(QPlainTextEdit::NoWrap);
@@ -766,21 +670,11 @@ void MainWindow::setupWindowStructure()
     docPane->setStyle(new BorderlessLinksProxyStyle);
     connect(docPane, SIGNAL(anchorClicked(const QUrl&)), this, SLOT(docLinkClicked(const QUrl&)));
 
-    QShortcut* up = new QShortcut(ctrlKey('p'), docPane);
-    up->setContext(Qt::WidgetShortcut);
-    connect(up, SIGNAL(activated()), this, SLOT(docScrollUp()));
-    QShortcut* down = new QShortcut(ctrlKey('n'), docPane);
-    down->setContext(Qt::WidgetShortcut);
-    connect(down, SIGNAL(activated()), this, SLOT(docScrollDown()));
-
     docPane->setSource(QUrl("qrc:///html/doc.html"));
 
     addUniversalCopyShortcuts(docPane);
 
     docsplit = new QSplitter;
-
-
-
     docsplit->addWidget(docsNavTabs);
     docsplit->addWidget(docPane);
 
@@ -816,6 +710,7 @@ void MainWindow::setupWindowStructure()
     errorPane->hide();
     mainWidget->setLayout(mainWidgetLayout);
     mainWidget->setObjectName("mainWidget");
+
     setCentralWidget(mainWidget);
 }
 
@@ -888,6 +783,31 @@ void MainWindow::fullScreenMenuChanged()
     piSettings->full_screen = fullScreenAct->isChecked();
     emit settingsChanged();
     updateFullScreenMode();
+}
+
+void MainWindow::shortcutModeMenuChanged(int modeID)
+{
+
+    if (modeID == 2)
+    {
+        piSettings->shortcut_mode = 2;
+    }
+    else if (modeID == 3)
+    {
+        piSettings->shortcut_mode = 3;
+    }
+    else if (modeID == 4)
+    {
+        piSettings->shortcut_mode = 4;
+    }
+    else
+    {
+        // default
+        piSettings->shortcut_mode = 1;
+   }
+
+    emit settingsChanged();
+    updateShortcuts();
 }
 
 void MainWindow::blankTitleBars()
@@ -1185,10 +1105,191 @@ void MainWindow::completeSnippetOrIndentCurrentLineOrSelection(SonicPiScintilla*
     sendOSC(msg);
 }
 
+void MainWindow::setMarkInCurrentWorkspace()
+{
+    SonicPiScintilla* ws = getCurrentWorkspace();
+    ws->setMark();
+}
+
 void MainWindow::toggleCommentInCurrentWorkspace()
 {
     SonicPiScintilla* ws = getCurrentWorkspace();
     toggleComment(ws);
+}
+
+void MainWindow::transposeCharsInCurrentWorkspace()
+{
+    SonicPiScintilla* ws = getCurrentWorkspace();
+    ws->transposeChars();
+}
+
+void MainWindow::moveLineOrSelectionUpInCurrentWorkspace()
+{
+    SonicPiScintilla* ws = getCurrentWorkspace();
+    ws->moveLineOrSelectionUp();
+}
+
+void MainWindow::moveLineOrSelectionDownInCurrentWorkspace()
+{
+    SonicPiScintilla* ws = getCurrentWorkspace();
+    ws->moveLineOrSelectionDown();
+}
+
+void MainWindow::forwardOneLineInCurrentWorkspace()
+{
+    SonicPiScintilla* ws = getCurrentWorkspace();
+    ws->forwardOneLine();
+}
+
+void MainWindow::backOneLineInCurrentWorkspace()
+{
+    SonicPiScintilla* ws = getCurrentWorkspace();
+    ws->backOneLine();
+}
+
+void MainWindow::forwardTenLinesInCurrentWorkspace()
+{
+    SonicPiScintilla* ws = getCurrentWorkspace();
+    ws->forwardTenLines();
+}
+
+void MainWindow::backTenLinesInCurrentWorkspace()
+{
+    SonicPiScintilla* ws = getCurrentWorkspace();
+    ws->backTenLines();
+}
+
+void MainWindow::cutLineFromPointInCurrentWorkspace()
+{
+    SonicPiScintilla* ws = getCurrentWorkspace();
+    ws->cutLineFromPoint();
+}
+
+void MainWindow::copyInCurrentWorkspace()
+{
+    SonicPiScintilla* ws = getCurrentWorkspace();
+    ws->copyClear();
+}
+
+void MainWindow::cutInCurrentWorkspace()
+{
+    SonicPiScintilla* ws = getCurrentWorkspace();
+    ws->sp_cut();
+}
+
+
+void MainWindow::pasteInCurrentWorkspace()
+{
+    SonicPiScintilla* ws = getCurrentWorkspace();
+    ws->sp_paste();
+}
+
+void MainWindow::rightInCurrentWorkspace()
+{
+    SonicPiScintilla* ws = getCurrentWorkspace();
+    ws->charRight();
+}
+
+void MainWindow::leftInCurrentWorkspace()
+{
+    SonicPiScintilla* ws = getCurrentWorkspace();
+    ws->charLeft();
+}
+
+void MainWindow::deleteForwardInCurrentWorkspace()
+{
+    SonicPiScintilla* ws = getCurrentWorkspace();
+    ws->deleteForward();
+}
+
+void MainWindow::deleteBackwardInCurrentWorkspace()
+{
+    SonicPiScintilla* ws = getCurrentWorkspace();
+    ws->deleteBack();
+}
+
+void MainWindow::lineStartInCurrentWorkspace()
+{
+    SonicPiScintilla* ws = getCurrentWorkspace();
+    ws->lineStart();
+}
+
+void MainWindow::lineEndInCurrentWorkspace()
+{
+    SonicPiScintilla* ws = getCurrentWorkspace();
+    ws->lineEnd();
+}
+
+void MainWindow::documentStartInCurrentWorkspace()
+{
+    SonicPiScintilla* ws = getCurrentWorkspace();
+    ws->documentStart();
+}
+
+void MainWindow::documentEndInCurrentWorkspace()
+{
+    SonicPiScintilla* ws = getCurrentWorkspace();
+    ws->documentEnd();
+}
+
+void MainWindow::wordRightInCurrentWorkspace()
+{
+    SonicPiScintilla* ws = getCurrentWorkspace();
+    ws->wordRight();
+}
+
+void MainWindow::wordLeftInCurrentWorkspace()
+{
+    SonicPiScintilla* ws = getCurrentWorkspace();
+    ws->wordLeft();
+}
+
+void MainWindow::centerCaretInCurrentWorkspace()
+{
+    SonicPiScintilla* ws = getCurrentWorkspace();
+    ws->centerCaret();
+}
+
+void MainWindow::undoInCurrentWorkspace()
+{
+    SonicPiScintilla* ws = getCurrentWorkspace();
+    ws->undo();
+}
+
+void MainWindow::redoInCurrentWorkspace()
+{
+    SonicPiScintilla* ws = getCurrentWorkspace();
+    ws->redo();
+}
+
+void MainWindow::selectAllInCurrentWorkspace()
+{
+    SonicPiScintilla* ws = getCurrentWorkspace();
+    ws->selectAll();
+}
+
+void MainWindow::deleteWordRightInCurrentWorkspace()
+{
+    SonicPiScintilla* ws = getCurrentWorkspace();
+    ws->deleteWordRight();
+}
+
+void MainWindow::deleteWordLeftInCurrentWorkspace()
+{
+    SonicPiScintilla* ws = getCurrentWorkspace();
+    ws->deleteWordLeft();
+}
+
+void MainWindow::upcaseWordOrSelectionInCurrentWorkspace()
+{
+    SonicPiScintilla* ws = getCurrentWorkspace();
+    ws->upcaseWordOrSelection();
+}
+
+void MainWindow::downcaseWordOrSelectionInCurrentWorkspace()
+{
+    SonicPiScintilla* ws = getCurrentWorkspace();
+    ws->downcaseWordOrSelection();
 }
 
 void MainWindow::toggleComment(SonicPiScintilla* ws)
@@ -2600,7 +2701,7 @@ void MainWindow::clearOutputPanels()
     errorPane->clear();
 }
 
-QKeySequence MainWindow::ctrlKey(char key)
+QKeySequence MainWindow::ctrlKey(const QString& key)
 {
 #ifdef Q_OS_MAC
     return QKeySequence(QString("Meta+%1").arg(key));
@@ -2610,7 +2711,7 @@ QKeySequence MainWindow::ctrlKey(char key)
 }
 
 // Cmd on Mac, Alt everywhere else
-QKeySequence MainWindow::metaKey(char key)
+QKeySequence MainWindow::metaKey(const QString& key)
 {
 #ifdef Q_OS_MAC
     return QKeySequence(QString("Ctrl+%1").arg(key));
@@ -2628,7 +2729,7 @@ Qt::Modifier MainWindow::metaKeyModifier()
 #endif
 }
 
-QKeySequence MainWindow::shiftMetaKey(char key)
+QKeySequence MainWindow::shiftMetaKey(const QString& key)
 {
 #ifdef Q_OS_MAC
     return QKeySequence(QString("Shift+Ctrl+%1").arg(key));
@@ -2637,7 +2738,7 @@ QKeySequence MainWindow::shiftMetaKey(char key)
 #endif
 }
 
-QKeySequence MainWindow::ctrlMetaKey(char key)
+QKeySequence MainWindow::ctrlMetaKey(const QString& key)
 {
 #ifdef Q_OS_MAC
     return QKeySequence(QString("Ctrl+Meta+%1").arg(key));
@@ -2646,7 +2747,7 @@ QKeySequence MainWindow::ctrlMetaKey(char key)
 #endif
 }
 
-QKeySequence MainWindow::ctrlShiftMetaKey(char key)
+QKeySequence MainWindow::ctrlShiftMetaKey(const QString& key)
 {
 #ifdef Q_OS_MAC
     return QKeySequence(QString("Shift+Ctrl+Meta+%1").arg(key));
@@ -2655,7 +2756,7 @@ QKeySequence MainWindow::ctrlShiftMetaKey(char key)
 #endif
 }
 
-QKeySequence MainWindow::ctrlShiftKey(char key)
+QKeySequence MainWindow::ctrlShiftKey(const QString& key)
 {
 #ifdef Q_OS_MAC
     return QKeySequence(QString("Shift+Meta+%1").arg(key));
@@ -2669,7 +2770,7 @@ char MainWindow::int2char(int i)
     return '0' + i;
 }
 
-QString MainWindow::tooltipStrShiftMeta(char key, QString str)
+QString MainWindow::tooltipStrShiftMeta(const QString& key, const QString& str)
 {
 #ifdef Q_OS_MAC
     return QString("%1 (⇧⌘%2)").arg(str).arg(key);
@@ -2678,7 +2779,7 @@ QString MainWindow::tooltipStrShiftMeta(char key, QString str)
 #endif
 }
 
-QString MainWindow::tooltipStrMeta(char key, QString str)
+QString MainWindow::tooltipStrMeta(const QString& key, const QString& str)
 {
 #ifdef Q_OS_MAC
     return QString("%1 (⌘%2)").arg(str).arg(key);
@@ -2687,46 +2788,454 @@ QString MainWindow::tooltipStrMeta(char key, QString str)
 #endif
 }
 
-void MainWindow::updateAction(QAction* action, QShortcut* sc, QString tooltip, QString desc = "")
+void MainWindow::updateAction(QAction* action, const QString& desc)
 {
-    QString shortcutDesc = sc->key().toString(QKeySequence::NativeText);
-    action->setToolTip(tooltip + " (" + shortcutDesc + ")");
-    if (desc == "")
-    {
-        action->setText(action->iconText() + "\t" + shortcutDesc);
-    }
-    else
-    {
-        action->setText(desc + "\t" + shortcutDesc);
-    }
-    action->setStatusTip(tooltip + " (" + shortcutDesc + ")");
+    QString shortcutDesc = action->shortcut().toString(QKeySequence::PortableText);
+    action->setToolTip(desc + " (" + shortcutDesc + ")");
+    action->setText(action->iconText());
+    action->setStatusTip(desc + " (" + shortcutDesc + ")");
 }
 
-void MainWindow::createShortcuts()
+QKeySequence MainWindow::resolveShortcut(QString keySequence) {
+  keySequence = keySequence.toLower().trimmed();
+
+  if (keySequence.startsWith("shiftmeta+")) {
+        return shiftMetaKey(keySequence.mid(10));
+    } else if (keySequence.startsWith("metashift+")) {
+        return shiftMetaKey(keySequence.mid(10));
+    } else if (keySequence.startsWith("ctrlmeta+")) {
+        return ctrlMetaKey(keySequence.mid(9));
+    } else if (keySequence.startsWith("metactrl+")) {
+        return ctrlMetaKey(keySequence.mid(9));
+    } else if (keySequence.startsWith("ctrlshift+")) {
+        return ctrlShiftKey(keySequence.mid(10));
+    } else if (keySequence.startsWith("shiftctrl+")) {
+        return ctrlShiftKey(keySequence.mid(10));
+    // } else if (keySequence.startsWith("altshift")) {
+    //     QChar key = keySequence.mid(9, 1).at(0);
+    //     return shiftAltKey(key.toLatin1());
+    // } else if (keySequence.startsWith("shiftalt")) {
+    //     QChar key = keySequence.mid(9, 1).at(0);
+    //     return shiftAltKey(key.toLatin1());
+    } else if (keySequence.startsWith("meta+")) {
+        return metaKey(keySequence.mid(5));
+    // } else if (keySequence.startsWith("alt")) {
+    //     QChar key = keySequence.mid(5, 1).at(0);
+    //     return altKey(key.toLatin1());
+    } else if (keySequence.startsWith("ctrl+")) {
+        return ctrlKey(keySequence.mid(5));
+    } else {
+        return QKeySequence(keySequence);  // Default case: if it’s a standard sequence like "Alt+Space"
+    }
+}
+
+void MainWindow::updateShortcut(const QString& id,  QAction* action, const QString& desc) {
+    action->setShortcut(shortcutMap[id]);
+    updateAction(action, desc);
+}
+
+void MainWindow::resetShortcuts() {
+    shortcutMap.clear();
+}
+
+
+
+void MainWindow::loadUserShortcut(const QString& id, QSettings& shortcut_settings) {
+  shortcutMap[id] = resolveShortcut(shortcut_settings.value(id, "").toString());
+}
+
+void MainWindow::loadUserShortcuts() {
+  QString shortcuts_path = sonicPiConfigPath() + QDir::separator() + "keyboard-shortcuts.ini";
+  QFile shortcutFile(shortcuts_path);
+  QString base = "none";
+
+  QSettings *shortcut_settings; // Pointer to QSettings
+
+  // Check if the file exists before proceeding
+  if (shortcutFile.exists()) {
+    shortcut_settings = new QSettings(shortcuts_path, QSettings::IniFormat);
+    base = shortcut_settings->value("base", "none").toString().toLower();
+  } else {
+    // Create default QSettings in memory
+    qDebug() << "Shortcut file not found, using default shortcuts.";
+    shortcut_settings = new QSettings(QSettings::IniFormat, QSettings::UserScope, "defaultOrganization", "defaultApplication");
+  }
+
+  // Determine which shortcuts to load based on the 'base' value
+  if (base == "none") {
+    // don't load any shortcuts
+  } else if (base == "mac") {
+    loadMacShortcuts();
+  } else if (base == "win") {
+    loadWinShortcuts();
+  } else {
+    // default
+    loadEmacsShortcuts();
+  }
+
+  // List of shortcut IDs
+  QStringList ids = {"Run", "Stop", "Record", "Save", "Load", "Align", "Comment", "Transpose", "ShiftUp", "ShiftDown",
+                     "ContextualDocs", "TextZoomIn", "TextZoomOut", "Scope", "CycleThemes", "Info", "Help", "Prefs",
+                     "TabPrev", "TabNext", "Tab1", "Tab2", "Tab3", "Tab4", "Tab5", "Tab6", "Tab7", "Tab8", "Tab9", "Tab0",
+                     "Link", "TapTempo", "FocusEditor", "FocusLogs", "FocusContext", "FocusCues", "FocusPrefs", "FocusHelpListing",
+                     "FocusHelpDetails", "FocusErrors", "FocusBPMScrubber", "FocusTimeWarpScrubber", "ShowButtons", "ShowCueLog",
+                     "ShowLog", "SetMark", "logZoomIn", "logZoomOut", "Down", "Up", "UpTen", "DownTen", "CutToEnd", "Copy", "Cut",
+                     "Paste", "Right", "Left", "DeleteForward", "DeleteBackward", "LineStart", "LineEnd", "DocStart", "DocEnd",
+                     "WordRight", "WordLeft", "CenterVertically", "Undo", "Redo", "SelectAll", "DeleteWordRight", "DeleteWordLeft",
+                     "UpcaseWord", "DowncaseWord"};
+
+  // Load user shortcuts
+  for (const QString& id : ids) {
+    loadUserShortcut(id, *shortcut_settings); // Dereference the pointer to pass QSettings object
+  }
+
+  // Clean up the dynamically allocated QSettings object
+  delete shortcut_settings;
+}
+
+
+void MainWindow::updateShortcuts()
 {
-    std::cout << "[GUI] - creating shortcuts" << std::endl;
-    new QShortcut(shiftMetaKey('['), this, SLOT(tabPrev()));
-    new QShortcut(shiftMetaKey(']'), this, SLOT(tabNext()));
-    connect(new QShortcut(shiftMetaKey('1'), this), &QShortcut::activated, [this]() { tabGoto(1); });
-    connect(new QShortcut(shiftMetaKey('2'), this), &QShortcut::activated, [this]() { tabGoto(2); });
-    connect(new QShortcut(shiftMetaKey('3'), this), &QShortcut::activated, [this]() { tabGoto(3); });
-    connect(new QShortcut(shiftMetaKey('4'), this), &QShortcut::activated, [this]() { tabGoto(4); });
-    connect(new QShortcut(shiftMetaKey('5'), this), &QShortcut::activated, [this]() { tabGoto(5); });
-    connect(new QShortcut(shiftMetaKey('6'), this), &QShortcut::activated, [this]() { tabGoto(6); });
-    connect(new QShortcut(shiftMetaKey('7'), this), &QShortcut::activated, [this]() { tabGoto(7); });
-    connect(new QShortcut(shiftMetaKey('8'), this), &QShortcut::activated, [this]() { tabGoto(8); });
-    connect(new QShortcut(shiftMetaKey('9'), this), &QShortcut::activated, [this]() { tabGoto(9); });
-    connect(new QShortcut(shiftMetaKey('0'), this), &QShortcut::activated, [this]() { tabGoto(0); });
-    new QShortcut(QKeySequence("F8"), this, SLOT(reloadServerCode()));
-    new QShortcut(QKeySequence("F9"), this, SLOT(toggleButtonVisibility()));
-    new QShortcut(shiftMetaKey('B'), this, SLOT(toggleButtonVisibility()));
-    new QShortcut(QKeySequence("F10"), this, SLOT(toggleFocusMode()));
-    new QShortcut(shiftMetaKey('F'), this, SLOT(toggleFullScreenMode()));
-    new QShortcut(shiftMetaKey('M'), this, SLOT(cycleThemes()));
-    new QShortcut(QKeySequence("F11"), this, SLOT(toggleLogVisibility()));
-    new QShortcut(shiftMetaKey('L'), this, SLOT(toggleLogVisibility()));
-    new QShortcut(shiftMetaKey('C'), this, SLOT(toggleCuesVisibility()));
-    new QShortcut(QKeySequence("F12"), this, SLOT(toggleScopePaused()));
+    resetShortcuts();
+    QSignalBlocker macShortcutBlocker(macShortcutModeAct);
+    macShortcutModeAct->setChecked(false);
+    QSignalBlocker winShortcutBlocker(winShortcutModeAct);
+    winShortcutModeAct->setChecked(false);
+    QSignalBlocker userShortcutBlocker(userShortcutModeAct);
+    userShortcutModeAct->setChecked(false);
+    QSignalBlocker emacsShortcutBlocker(emacsShortcutModeAct);
+    emacsShortcutModeAct->setChecked(false);
+
+    if (piSettings->shortcut_mode == 2) {
+      winShortcutModeAct->setChecked(true);
+      loadWinShortcuts();
+    }
+    else if (piSettings->shortcut_mode == 3) {
+      macShortcutModeAct->setChecked(true);
+
+      loadMacShortcuts();
+    }
+    else if (piSettings->shortcut_mode == 4) {
+      userShortcutModeAct->setChecked(true);
+      loadUserShortcuts();
+    }
+    else {
+      piSettings->shortcut_mode = 1;
+      emacsShortcutModeAct->setChecked(true);
+      loadEmacsShortcuts();
+    }
+
+    updateShortcut("Run", runAct,  tr("Run the code in the current buffer"));
+    updateShortcut("Stop", stopAct, tr("Stop all running code"));
+    updateShortcut("Record", recAct, tr("Start recording to a WAV audio file"));
+    updateShortcut("Save", saveAsAct,  tr("Save current buffer as an external file"));
+    updateShortcut("Load", loadFileAct,  tr("Load an external file in the current buffer"));
+    updateShortcut("Align", textAlignAct, tr("Align code to improve readability"));
+    updateShortcut("Comment", textCommentAct, tr("Comment/Uncomment code"));
+    updateShortcut("Transpose", textTransposeAct, tr("Transpose Characters"));
+    updateShortcut("ShiftUp", textShiftLineUpAct, tr("Shift Line or Selection Up"));
+    updateShortcut("ShiftDown", textShiftLineDownAct, tr("Shift Line or Selection Down"));
+    updateShortcut("Down", textDownAct, tr("Move Cursor Down"));
+    updateShortcut("Up", textUpAct, tr("Move Cursor Up"));
+    updateShortcut("DownTen", textDownTenAct, tr("Move Cursor Down 10 Lines"));
+    updateShortcut("UpTen", textUpTenAct, tr("Move Cursor Up 10 Lines"));
+    updateShortcut("CutToEnd", textCutToEndOfLineAct, tr("Cut to the end of the line"));
+    updateShortcut("Copy", textCopyAct, tr("Copy the current selection"));
+    updateShortcut("Cut", textCutAct, tr("Cut the current selection"));
+    updateShortcut("Paste", textPasteAct, tr("Paste the current selection"));
+    updateShortcut("Right", textRightAct, tr("Move Cursor Right"));
+    updateShortcut("Left", textLeftAct, tr("Move Cursor Left"));
+    updateShortcut("DeleteForward", textDeleteForwardAct, tr("Delete Right"));
+    updateShortcut("DeleteBackward", textDeleteBackAct, tr("Delete Left"));
+    updateShortcut("LineStart", textLineStartAct, tr("Move Cursor to Start of Line"));
+    updateShortcut("LineEnd", textLineEndAct, tr("Move Cursor to End of Line"));
+    updateShortcut("DocStart", textDocStartAct, tr("Move Cursor to Start of Document"));
+    updateShortcut("DocEnd", textDocEndAct, tr("Move Cursor to End of Document"));
+    updateShortcut("WordRight", textWordRightAct, tr("Move Cursor Right by Word"));
+    updateShortcut("WordLeft", textWordLeftAct, tr("Move Cursor Left by Word"));
+    updateShortcut("CenterVertically", textCenterCaretAct, tr("Vertially center the caret in the editor"));
+    updateShortcut("Undo", textUndoAct, tr("Undo the last action"));
+    updateShortcut("Redo", textRedoAct, tr("Redo the last undo"));
+    updateShortcut("SelectAll", textSelectAllAct, tr("Select all text"));
+    updateShortcut("DeleteWordRight", textDeleteWordRightAct, tr("Delete word to the right"));
+    updateShortcut("DeleteWordLeft", textDeleteWordLeftAct, tr("Delete word to the left"));
+    updateShortcut("UpcaseWord", textUpcaseWordAct, tr("Uppercase word or selection"));
+    updateShortcut("DowncaseWord", textDowncaseWordAct, tr("Lowercase word or selection"));
+
+
+    updateShortcut("SetMark", textSetMarkAct, tr("Set a mark in the text"));
+
+    updateShortcut("ContextualDocs", contextHelpAct, tr("Look up documentation for the current word"));
+    updateShortcut("TextZoomIn", textIncAct, tr("Increase Text Size"));
+    updateShortcut("TextZoomOut", textDecAct,tr("Decrease Text Size"));
+    updateShortcut("Scope", scopeAct, tr("Toggle visibility of audio oscilloscope"));
+    updateShortcut("CycleThemes", cycleThemesAct, tr("Cycle through the available colour themes"));
+    updateShortcut("Info", infoAct, tr("Toggle information about Sonic Pi"));
+    updateShortcut("Help", helpAct, tr("Toggle the visibility of the help pane"));
+    updateShortcut("Prefs", prefsAct, tr("Toggle the visibility of the preferences pane"));
+    updateShortcut("TabPrev", tabPrevAct, tr("Switch to the previous tab"));
+    updateShortcut("TabNext", tabNextAct, tr("Switch to the next tab"));
+    updateShortcut("Tab1", tab1Act, tr("Switch to tab 1"));
+    updateShortcut("Tab2", tab2Act, tr("Switch to tab 2"));
+    updateShortcut("Tab3", tab3Act, tr("Switch to tab 3"));
+    updateShortcut("Tab4", tab4Act, tr("Switch to tab 4"));
+    updateShortcut("Tab5", tab5Act, tr("Switch to tab 5"));
+    updateShortcut("Tab6", tab6Act, tr("Switch to tab 6"));
+    updateShortcut("Tab7", tab7Act, tr("Switch to tab 7"));
+    updateShortcut("Tab8", tab8Act, tr("Switch to tab 8"));
+    updateShortcut("Tab9", tab9Act, tr("Switch to tab 9"));
+    updateShortcut("Tab0", tab0Act, tr("Switch to tab 0"));
+    updateShortcut("Link", enableLinkAct, tr("Connect or disconnect the Link Metronome from the network"));
+    updateShortcut("TapTempo", linkTapTempoAct, tr("Click Link Tap Tempo"));
+    updateShortcut("FocusEditor", focusEditorAct, tr("Place focus on the code editor"));
+    updateShortcut("FocusLogs", focusLogsAct, tr("Place focus on the logs"));
+    updateShortcut("FocusContext", focusContextAct, tr("Place focus on the context pane"));
+    updateShortcut("FocusCues", focusCuesAct, tr("Place focus on the cue event pane"));
+    updateShortcut("FocusPrefs", focusPreferencesAct, tr("Place focus on preferences"));
+    updateShortcut("FocusHelpListing", focusHelpListingAct, tr("Place focus on help listing"));
+    updateShortcut("FocusHelpDetails", focusHelpDetailsAct, tr("Place focus on help details"));
+    updateShortcut("FocusErrors", focusErrorsAct, tr("Place focus on errors"));
+    updateShortcut("FocusBPMScrubber", focusBPMScrubberAct, tr("Place focus on BPM Scrubber"));
+    updateShortcut("FocusTimeWarpScrubber", focusTimeWarpScrubberAct, tr("Place focus on TimeWarp Scrubber"));
+    updateShortcut("ShowButtons", showButtonsAct, tr("Show or hide the buttons"));
+    updateShortcut("ShowCueLog", showCuesAct, tr("Show or hide the cue log"));
+    updateShortcut("ShowLog", showLogAct, tr("Show or hide the log"));
+    updateShortcut("LogZoomIn", logZoomInAct, tr("Zoom in the log"));
+    updateShortcut("LogZoomOut", logZoomOutAct, tr("Zoom out the log"));
+    updateShortcut("FullScreen", fullScreenAct, tr("Toggle fullscreen mode"));
+    // show code context
+    // show metronome
+}
+
+void MainWindow::loadMacShortcuts() {
+  shortcutMap["Run"] = resolveShortcut("Meta+R");
+  shortcutMap["Stop"] = resolveShortcut("Meta+S");
+  shortcutMap["Record"] = resolveShortcut("ShiftMeta+R");
+  shortcutMap["Load"] = resolveShortcut("Ctrl+O");
+  shortcutMap["Align"] = resolveShortcut("Meta+M");
+  shortcutMap["Comment"] = resolveShortcut("Meta+/");
+  shortcutMap["Transpose"] = resolveShortcut("Ctrl+T");
+  shortcutMap["ShiftUp"] = resolveShortcut("CtrlMeta+P");
+  shortcutMap["ShiftDown"] = resolveShortcut("CtrlMeta+N");
+  shortcutMap["ContextualDocs"] = resolveShortcut("Shift+F1");
+  shortcutMap["TextZoomIn"] = resolveShortcut("Meta+=");
+  shortcutMap["TextZoomOut"] = resolveShortcut("Meta+-");
+  shortcutMap["Scope"] = resolveShortcut("Meta+O");
+  shortcutMap["CycleThemes"] = resolveShortcut("ShiftMeta+M");
+  shortcutMap["Info"] = resolveShortcut("Meta+1");
+  shortcutMap["Help"] = resolveShortcut("F1");
+  shortcutMap["Prefs"] = resolveShortcut("Meta+p");
+  shortcutMap["TabPrev"] = resolveShortcut("ShiftMeta+[");
+  shortcutMap["TabNext"] = resolveShortcut("ShiftMeta+]");
+  shortcutMap["Tab1"] = resolveShortcut("ShiftMeta+1");
+  shortcutMap["Tab2"] = resolveShortcut("ShiftMeta+2");
+  shortcutMap["Tab3"] = resolveShortcut("ShiftMeta+3");
+  shortcutMap["Tab4"] = resolveShortcut("ShiftMeta+4");
+  shortcutMap["Tab5"] = resolveShortcut("ShiftMeta+5");
+  shortcutMap["Tab6"] = resolveShortcut("ShiftMeta+6");
+  shortcutMap["Tab7"] = resolveShortcut("ShiftMeta+7");
+  shortcutMap["Tab8"] = resolveShortcut("ShiftMeta+8");
+  shortcutMap["Tab9"] = resolveShortcut("ShiftMeta+9");
+  shortcutMap["Tab0"] = resolveShortcut("ShiftMeta+0");
+  shortcutMap["Link"] = resolveShortcut("Meta+t");
+  shortcutMap["TapTempo"] = resolveShortcut("Shift+Return");
+  shortcutMap["FocusEditor"] = resolveShortcut("CtrlShift+e");
+  shortcutMap["FocusLogs"] = resolveShortcut("CtrlShift+l");
+  shortcutMap["FocusContext"] = resolveShortcut("CtrlShift+t");
+  shortcutMap["FocusCues"] = resolveShortcut("CtrlShift+c");
+  shortcutMap["FocusPrefs"] = resolveShortcut("Meta+,");
+  shortcutMap["FocusHelpListing"] = resolveShortcut("CtrlShift+h");
+  shortcutMap["FocusHelpDetails"] = resolveShortcut("CtrlShift+d");
+  shortcutMap["FocusErrors"] = resolveShortcut("CtrlShift+R");
+  shortcutMap["FocusBPMScrubber"] = resolveShortcut("CtrlShift+b");
+  shortcutMap["FocusTimeWarpScrubber"] = resolveShortcut("CtrlShift+w");
+  shortcutMap["ShowButtons"] = resolveShortcut("ShiftMeta+b");
+  shortcutMap["ShowCueLog"] = resolveShortcut("ShiftMeta+c");
+  shortcutMap["ShowLog"] = resolveShortcut("ShiftMeta+l");
+  shortcutMap["SetMark"] = resolveShortcut("Ctrl+Space");
+  shortcutMap["LogZoomIn"] = resolveShortcut("Ctrl+=");
+  shortcutMap["LogZoomOut"] = resolveShortcut("Ctrl+-");
+  shortcutMap["Down"] = resolveShortcut("Ctrl+n");
+  shortcutMap["Up"] = resolveShortcut("Ctrl+p");
+  shortcutMap["UpTen"] = resolveShortcut("Meta+up");
+  shortcutMap["DownTen"] = resolveShortcut("Meta+down");
+  shortcutMap["CutToEnd"] = resolveShortcut("Ctrl+k");
+  shortcutMap["Copy"] = resolveShortcut("Meta+c");
+  shortcutMap["Cut"] = resolveShortcut("Meta+x");
+  shortcutMap["Paste"] = resolveShortcut("Meta+v");
+  shortcutMap["Right"] = resolveShortcut("Ctrl+f");
+  shortcutMap["Left"] = resolveShortcut("Ctrl+b");
+  shortcutMap["DeleteForward"] = resolveShortcut("Ctrl+d");
+  shortcutMap["DeleteBackward"] = resolveShortcut("Ctrl+h");
+  shortcutMap["LineStart"] = resolveShortcut("Meta+Left");
+  shortcutMap["LineEnd"] = resolveShortcut("Meta+Right");
+  shortcutMap["DocStart"] = resolveShortcut("MetaShift+,");
+  shortcutMap["DocEnd"] = resolveShortcut("MetaShift+.");
+  shortcutMap["WordRight"] = resolveShortcut("Alt+Right");
+  shortcutMap["WordLeft"] = resolveShortcut("Alt+Left");
+  shortcutMap["CenterVertically"] = resolveShortcut("Ctrl+l");
+  shortcutMap["Undo"] = resolveShortcut("Meta+z");
+  shortcutMap["Redo"] = resolveShortcut("ShiftMeta+z");
+  shortcutMap["SelectAll"] = resolveShortcut("Meta+a");
+  shortcutMap["DeleteWordRight"] = resolveShortcut("Meta+d");
+  shortcutMap["DeleteWordLeft"] = resolveShortcut("Meta+Backspace");
+  shortcutMap["UpcaseWord"] = resolveShortcut("Meta+u");
+  shortcutMap["DowncaseWord"] = resolveShortcut("Meta+l");
+  shortcutMap["FullScreen"] = resolveShortcut("ShiftMeta+f");
+}
+
+void MainWindow::loadWinShortcuts() {
+  shortcutMap["Run"] = resolveShortcut("Meta+R");
+  shortcutMap["Stop"] = resolveShortcut("Meta+S");
+  shortcutMap["Record"] = resolveShortcut("ShiftMeta+R");
+  shortcutMap["Load"] = resolveShortcut("Ctrl+O");
+  shortcutMap["Align"] = resolveShortcut("Meta+M");
+  shortcutMap["Comment"] = resolveShortcut("Meta+/");
+  shortcutMap["Transpose"] = resolveShortcut("Ctrl+T");
+  shortcutMap["ShiftUp"] = resolveShortcut("CtrlMeta+P");
+  shortcutMap["ShiftDown"] = resolveShortcut("CtrlMeta+N");
+  shortcutMap["ContextualDocs"] = resolveShortcut("Shift+F1");
+  shortcutMap["TextZoomIn"] = resolveShortcut("Ctrl++");
+  shortcutMap["TextZoomOut"] = resolveShortcut("Ctrl+-");
+  shortcutMap["Scope"] = resolveShortcut("Meta+O");
+  shortcutMap["CycleThemes"] = resolveShortcut("ShiftMeta+M");
+  shortcutMap["Info"] = resolveShortcut("Meta+1");
+  shortcutMap["Help"] = resolveShortcut("F1");
+  shortcutMap["Prefs"] = resolveShortcut("Meta+p");
+  shortcutMap["TabPrev"] = resolveShortcut("ShiftMeta+[");
+  shortcutMap["TabNext"] = resolveShortcut("ShiftMeta+]");
+  shortcutMap["Tab1"] = resolveShortcut("ShiftMeta+1");
+  shortcutMap["Tab2"] = resolveShortcut("ShiftMeta+2");
+  shortcutMap["Tab3"] = resolveShortcut("ShiftMeta+3");
+  shortcutMap["Tab4"] = resolveShortcut("ShiftMeta+4");
+  shortcutMap["Tab5"] = resolveShortcut("ShiftMeta+5");
+  shortcutMap["Tab6"] = resolveShortcut("ShiftMeta+6");
+  shortcutMap["Tab7"] = resolveShortcut("ShiftMeta+7");
+  shortcutMap["Tab8"] = resolveShortcut("ShiftMeta+8");
+  shortcutMap["Tab9"] = resolveShortcut("ShiftMeta+9");
+  shortcutMap["Tab0"] = resolveShortcut("ShiftMeta+0");
+  shortcutMap["Link"] = resolveShortcut("Meta+t");
+  shortcutMap["TapTempo"] = resolveShortcut("Shift+Return");
+  shortcutMap["FocusEditor"] = resolveShortcut("CtrlShift+e");
+  shortcutMap["FocusLogs"] = resolveShortcut("CtrlShift+l");
+  shortcutMap["FocusContext"] = resolveShortcut("CtrlShift+t");
+  shortcutMap["FocusCues"] = resolveShortcut("CtrlShift+c");
+  shortcutMap["FocusPrefs"] = resolveShortcut("Meta+,");
+  shortcutMap["FocusHelpListing"] = resolveShortcut("CtrlShift+h");
+  shortcutMap["FocusHelpDetails"] = resolveShortcut("CtrlShift+d");
+  shortcutMap["FocusErrors"] = resolveShortcut("CtrlShift+R");
+  shortcutMap["FocusBPMScrubber"] = resolveShortcut("CtrlShift+b");
+  shortcutMap["FocusTimeWarpScrubber"] = resolveShortcut("CtrlShift+w");
+  shortcutMap["ShowButtons"] = resolveShortcut("ShiftMeta+b");
+  shortcutMap["ShowCueLog"] = resolveShortcut("ShiftMeta+c");
+  shortcutMap["ShowLog"] = resolveShortcut("ShiftMeta+l");
+  shortcutMap["SetMark"] = resolveShortcut("Ctrl+Space");
+  shortcutMap["LogZoomIn"] = resolveShortcut("Ctrl+=");
+  shortcutMap["LogZoomOut"] = resolveShortcut("Ctrl+-");
+  shortcutMap["Down"] = resolveShortcut("Ctrl+n");
+  shortcutMap["Up"] = resolveShortcut("Ctrl+p");
+  shortcutMap["UpTen"] = resolveShortcut("PgUp");
+  shortcutMap["DownTen"] = resolveShortcut("PgDown");
+  shortcutMap["CutToEnd"] = resolveShortcut("Ctrl+k");
+  shortcutMap["Copy"] = resolveShortcut("Ctrl+c");
+  shortcutMap["Cut"] = resolveShortcut("Ctrl+x");
+  shortcutMap["Paste"] = resolveShortcut("Ctrl+v");
+  shortcutMap["Right"] = resolveShortcut("Ctrl+f");
+  shortcutMap["Left"] = resolveShortcut("Ctrl+b");
+  shortcutMap["DeleteForward"] = resolveShortcut("Ctrl+d");
+  shortcutMap["DeleteBackward"] = resolveShortcut("Ctrl+h");
+  shortcutMap["LineStart"] = resolveShortcut("Home");
+  shortcutMap["LineEnd"] = resolveShortcut("End");
+  shortcutMap["DocStart"] = resolveShortcut("MetaShift+,");
+  shortcutMap["DocEnd"] = resolveShortcut("MetaShift+.");
+  shortcutMap["WordRight"] = resolveShortcut("Ctrl+Right");
+  shortcutMap["WordLeft"] = resolveShortcut("Ctrl+Left");
+  shortcutMap["CenterVertically"] = resolveShortcut("Ctrl+l");
+  shortcutMap["Undo"] = resolveShortcut("Ctrl+z");
+  shortcutMap["Redo"] = resolveShortcut("ShiftCtrl+z");
+  shortcutMap["SelectAll"] = resolveShortcut("Ctrl+a");
+  shortcutMap["DeleteWordRight"] = resolveShortcut("Meta+d");
+  shortcutMap["DeleteWordLeft"] = resolveShortcut("Meta+Backspace");
+  shortcutMap["UpcaseWord"] = resolveShortcut("Meta+u");
+  shortcutMap["DowncaseWord"] = resolveShortcut("Meta+l");
+  shortcutMap["FullScreen"] = resolveShortcut("F11");
+}
+
+void MainWindow::loadEmacsShortcuts() {
+  shortcutMap["Run"] = resolveShortcut("Meta+R");
+  shortcutMap["Stop"] = resolveShortcut("Meta+S");
+  shortcutMap["Record"] = resolveShortcut("ShiftMeta+R");
+  shortcutMap["Load"] = resolveShortcut("ShiftMeta+O");
+  shortcutMap["Align"] = resolveShortcut("Meta+M");
+  shortcutMap["Comment"] = resolveShortcut("Meta+/");
+  shortcutMap["Transpose"] = resolveShortcut("Ctrl+T");
+  shortcutMap["ShiftUp"] = resolveShortcut("CtrlMeta+P");
+  shortcutMap["ShiftDown"] = resolveShortcut("CtrlMeta+N");
+  shortcutMap["ContextualDocs"] = resolveShortcut("Ctrl+I");
+  shortcutMap["TextZoomIn"] = resolveShortcut("Meta+=");
+  shortcutMap["TextZoomOut"] = resolveShortcut("Meta+-");
+  shortcutMap["Scope"] = resolveShortcut("Meta+O");
+  shortcutMap["CycleThemes"] = resolveShortcut("ShiftMeta+M");
+  shortcutMap["Info"] = resolveShortcut("Meta+1");
+  shortcutMap["Help"] = resolveShortcut("Meta+i");
+  shortcutMap["Prefs"] = resolveShortcut("Meta+p");
+  shortcutMap["TabPrev"] = resolveShortcut("ShiftMeta+[");
+  shortcutMap["TabNext"] = resolveShortcut("ShiftMeta+]");
+  shortcutMap["Tab1"] = resolveShortcut("ShiftMeta+1");
+  shortcutMap["Tab2"] = resolveShortcut("ShiftMeta+2");
+  shortcutMap["Tab3"] = resolveShortcut("ShiftMeta+3");
+  shortcutMap["Tab4"] = resolveShortcut("ShiftMeta+4");
+  shortcutMap["Tab5"] = resolveShortcut("ShiftMeta+5");
+  shortcutMap["Tab6"] = resolveShortcut("ShiftMeta+6");
+  shortcutMap["Tab7"] = resolveShortcut("ShiftMeta+7");
+  shortcutMap["Tab8"] = resolveShortcut("ShiftMeta+8");
+  shortcutMap["Tab9"] = resolveShortcut("ShiftMeta+9");
+  shortcutMap["Tab0"] = resolveShortcut("ShiftMeta+0");
+  shortcutMap["Link"] = resolveShortcut("Meta+t");
+  shortcutMap["TapTempo"] = resolveShortcut("Shift+Return");
+  shortcutMap["FocusEditor"] = resolveShortcut("CtrlShift+e");
+  shortcutMap["FocusLogs"] = resolveShortcut("CtrlShift+l");
+  shortcutMap["FocusContext"] = resolveShortcut("CtrlShift+t");
+  shortcutMap["FocusCues"] = resolveShortcut("CtrlShift+c");
+  shortcutMap["FocusPrefs"] = resolveShortcut("CtrlShift+p");
+  shortcutMap["FocusHelpListing"] = resolveShortcut("CtrlShift+h");
+  shortcutMap["FocusHelpDetails"] = resolveShortcut("CtrlShift+d");
+  shortcutMap["FocusErrors"] = resolveShortcut("CtrlShift+R");
+  shortcutMap["FocusBPMScrubber"] = resolveShortcut("CtrlShift+b");
+  shortcutMap["FocusTimeWarpScrubber"] = resolveShortcut("CtrlShift+w");
+  shortcutMap["ShowButtons"] = resolveShortcut("ShiftMeta+b");
+  shortcutMap["ShowCueLog"] = resolveShortcut("ShiftMeta+c");
+  shortcutMap["ShowLog"] = resolveShortcut("ShiftMeta+l");
+  shortcutMap["SetMark"] = resolveShortcut("Ctrl+Space");
+  shortcutMap["logZoomIn"] = resolveShortcut("Ctrl+=");
+  shortcutMap["logZoomOut"] = resolveShortcut("Ctrl+-");
+  shortcutMap["Down"] = resolveShortcut("Ctrl+n");
+  shortcutMap["Up"] = resolveShortcut("Ctrl+p");
+  shortcutMap["UpTen"] = resolveShortcut("ShiftMeta+u");
+  shortcutMap["DownTen"] = resolveShortcut("ShiftMeta+d");
+  shortcutMap["CutToEnd"] = resolveShortcut("Ctrl+k");
+  shortcutMap["Copy"] = resolveShortcut("Meta+]");
+  shortcutMap["Cut"] = resolveShortcut("Ctrl+]");
+  shortcutMap["Paste"] = resolveShortcut("Ctrl+y");
+  shortcutMap["Right"] = resolveShortcut("Ctrl+f");
+  shortcutMap["Left"] = resolveShortcut("Ctrl+b");
+  shortcutMap["DeleteForward"] = resolveShortcut("Ctrl+d");
+  shortcutMap["DeleteBackward"] = resolveShortcut("Ctrl+h");
+  shortcutMap["LineStart"] = resolveShortcut("Ctrl+a");
+  shortcutMap["LineEnd"] = resolveShortcut("Ctrl+e");
+  shortcutMap["DocStart"] = resolveShortcut("MetaShift+,");
+  shortcutMap["DocEnd"] = resolveShortcut("MetaShift+.");
+  shortcutMap["WordRight"] = resolveShortcut("Meta+f");
+  shortcutMap["WordLeft"] = resolveShortcut("Meta+b");
+  shortcutMap["CenterVertically"] = resolveShortcut("Ctrl+l");
+  shortcutMap["Undo"] = resolveShortcut("Meta+z");
+  shortcutMap["Redo"] = resolveShortcut("ShiftMeta+z");
+  shortcutMap["SelectAll"] = resolveShortcut("Meta+a");
+  shortcutMap["DeleteWordRight"] = resolveShortcut("Meta+d");
+  shortcutMap["DeleteWordLeft"] = resolveShortcut("Meta+Backspace");
+  shortcutMap["UpcaseWord"] = resolveShortcut("Meta+u");
+  shortcutMap["DowncaseWord"] = resolveShortcut("Meta+l");
+  shortcutMap["FullScreen"] = resolveShortcut("ShiftMeta+f");
 }
 
 void MainWindow::createToolBar()
@@ -2735,84 +3244,202 @@ void MainWindow::createToolBar()
     connect(exitAct, &QAction::triggered, qApp, &QApplication::closeAllWindows);
 
     std::cout << "[GUI] - creating tool bar" << std::endl;
-    // Run
+
     runAct = new QAction(theme->getRunIcon(), tr("Run"), this);
-    runSc = new QShortcut(metaKey('R'), this, SLOT(runCode()));
-    updateAction(runAct, runSc, tr("Run the code in the current buffer"));
     connect(runAct, SIGNAL(triggered()), this, SLOT(runCode()));
 
     // Stop
     stopAct = new QAction(theme->getStopIcon(), tr("Stop"), this);
-    stopSc = new QShortcut(metaKey('S'), this, SLOT(stopCode()));
-    updateAction(stopAct, stopSc, tr("Stop all running code"));
     connect(stopAct, SIGNAL(triggered()), this, SLOT(stopCode()));
 
     // Record
     recAct = new QAction(theme->getRecIcon(false, false), tr("Start Recording"), this);
-    recSc = new QShortcut(shiftMetaKey('R'), this, SLOT(toggleRecording()));
-    updateAction(recAct, recSc, tr("Start recording to a WAV audio file"));
     connect(recAct, SIGNAL(triggered()), this, SLOT(toggleRecording()));
 
     // Save
     saveAsAct = new QAction(theme->getSaveAsIcon(), tr("Save"), this);
-    saveAsSc = new QShortcut(shiftMetaKey('S'), this, SLOT(saveAs()));
-    updateAction(saveAsAct, saveAsSc, tr("Save current buffer as an external file"));
     connect(saveAsAct, SIGNAL(triggered()), this, SLOT(saveAs()));
 
     // Load
     loadFileAct = new QAction(theme->getLoadIcon(), tr("Load"), this);
-    loadFileSc = new QShortcut(shiftMetaKey('O'), this, SLOT(loadFile()));
-    updateAction(loadFileAct, loadFileSc, tr("Load an external file in the current buffer"));
     connect(loadFileAct, SIGNAL(triggered()), this, SLOT(loadFile()));
 
     // Align
     textAlignAct = new QAction(QIcon(":/images/align.png"), tr("Indent Code Buffer"), this);
-    textAlignSc = new QShortcut(metaKey('M'), this, SLOT(beautifyCode()));
-    updateAction(textAlignAct, textAlignSc, tr("Align code to improve readability"));
     connect(textAlignAct, SIGNAL(triggered()), this, SLOT(beautifyCode()));
+
+    // Comment
+    textCommentAct = new QAction(QIcon(":/images/align.png"), tr("Comment/Uncomment code"), this);
+    connect(textCommentAct, SIGNAL(triggered()), this, SLOT(toggleCommentInCurrentWorkspace()));
+
+    // Transpose Characters
+    textTransposeAct = new QAction(tr("Transpose Characters"), this);
+    connect(textTransposeAct, SIGNAL(triggered()), this, SLOT(transposeCharsInCurrentWorkspace()));
+
+    // Move Up
+    textShiftLineUpAct = new QAction(tr("Move Line or Selection Up"), this);
+    connect(textShiftLineUpAct, SIGNAL(triggered()), this, SLOT(moveLineOrSelectionUpInCurrentWorkspace()));
+
+    // Move Down
+    textShiftLineDownAct = new QAction(tr("Move Line or Selection Down"), this);
+    connect(textShiftLineDownAct, SIGNAL(triggered()), this, SLOT(moveLineOrSelectionDownInCurrentWorkspace()));
+
+    textDownAct = new QAction(tr("Move Down One Line"), this);
+    connect(textDownAct, SIGNAL(triggered()), this, SLOT(forwardOneLineInCurrentWorkspace()));
+
+    textUpAct = new QAction(tr("Move Up One Line"), this);
+    connect(textUpAct, SIGNAL(triggered()), this, SLOT(backOneLineInCurrentWorkspace()));
+
+    textDownTenAct = new QAction(tr("Move Down Ten Lines"), this);
+    connect(textDownTenAct, SIGNAL(triggered()), this, SLOT(forwardTenLinesInCurrentWorkspace()));
+
+    textUpTenAct = new QAction(tr("Move Up Ten Lines"), this);
+    connect(textUpTenAct, SIGNAL(triggered()), this, SLOT(backTenLinesInCurrentWorkspace()));
+
+    textCutToEndOfLineAct = new QAction(tr("Cut to End of Line"), this);
+    connect(textCutToEndOfLineAct, SIGNAL(triggered()), this, SLOT(cutLineFromPointInCurrentWorkspace()));
+
+    textCopyAct = new QAction(tr("Copy"), this);
+    connect(textCopyAct, SIGNAL(triggered()), this, SLOT(copyInCurrentWorkspace()));
+
+    textCutAct = new QAction(tr("Cut"), this);
+    connect(textCutAct, SIGNAL(triggered()), this, SLOT(cutInCurrentWorkspace()));
+
+    textPasteAct = new QAction(tr("Paste"), this);
+    connect(textPasteAct, SIGNAL(triggered()), this, SLOT(pasteInCurrentWorkspace()));
+
+    textRightAct = new QAction(tr("Move Right"), this);
+    connect(textRightAct, SIGNAL(triggered()), this, SLOT(rightInCurrentWorkspace()));
+
+    textLeftAct = new QAction(tr("Move Left"), this);
+    connect(textLeftAct, SIGNAL(triggered()), this, SLOT(leftInCurrentWorkspace()));
+
+    textDeleteForwardAct = new QAction(tr("Delete Forward"), this);
+    connect(textDeleteForwardAct, SIGNAL(triggered()), this, SLOT(deleteForwardInCurrentWorkspace()));
+
+    textDeleteBackAct = new QAction(tr("Delete Back"), this);
+    connect(textDeleteBackAct, SIGNAL(triggered()), this, SLOT(deleteBackwardInCurrentWorkspace()));
+
+    textLineStartAct = new QAction(tr("Move to Start of Line"), this);
+    connect(textLineStartAct, SIGNAL(triggered()), this, SLOT(lineStartInCurrentWorkspace()));
+
+    textLineEndAct = new QAction(tr("Move to End of Line"), this);
+    connect(textLineEndAct, SIGNAL(triggered()), this, SLOT(lineEndInCurrentWorkspace()));
+
+    textDocStartAct = new QAction(tr("Move to Start of Document"), this);
+    connect(textDocStartAct, SIGNAL(triggered()), this, SLOT(documentStartInCurrentWorkspace()));
+
+    textDocEndAct = new QAction(tr("Move to End of Document"), this);
+    connect(textDocEndAct, SIGNAL(triggered()), this, SLOT(documentEndInCurrentWorkspace()));
+
+    textWordRightAct = new QAction(tr("Move Right One Word"), this);
+    connect(textWordRightAct, SIGNAL(triggered()), this, SLOT(wordRightInCurrentWorkspace()));
+
+    textWordLeftAct = new QAction(tr("Move Left One Word"), this);
+    connect(textWordLeftAct, SIGNAL(triggered()), this, SLOT(wordLeftInCurrentWorkspace()));
+
+    textCenterCaretAct = new QAction(tr("Center Cursor Vertically"), this);
+    connect(textCenterCaretAct, SIGNAL(triggered()), this, SLOT(centerCaretInCurrentWorkspace()));
+
+    textUndoAct = new QAction(tr("Undo"), this);
+    connect(textUndoAct, SIGNAL(triggered()), this, SLOT(undoInCurrentWorkspace()));
+
+    textRedoAct = new QAction(tr("Redo"), this);
+    connect(textRedoAct, SIGNAL(triggered()), this, SLOT(redoInCurrentWorkspace()));
+
+    textSelectAllAct = new QAction(tr("Select All"), this);
+    connect(textSelectAllAct, SIGNAL(triggered()), this, SLOT(selectAllInCurrentWorkspace()));
+
+    textDeleteWordLeftAct = new QAction(tr("Delete Word Left"), this);
+    connect(textDeleteWordLeftAct, SIGNAL(triggered()), this, SLOT(deleteWordLeftInCurrentWorkspace()));
+
+    textDeleteWordRightAct = new QAction(tr("Delete Word Right"), this);
+    connect(textDeleteWordRightAct, SIGNAL(triggered()), this, SLOT(deleteWordRightInCurrentWorkspace()));
+
+    textUpcaseWordAct = new QAction(tr("Upcase Word or Selection"), this);
+    connect(textUpcaseWordAct, SIGNAL(triggered()), this, SLOT(upcaseWordOrSelectionInCurrentWorkspace()));
+
+    textDowncaseWordAct = new QAction(tr("Downcase Word or Selection"), this);
+    connect(textDowncaseWordAct, SIGNAL(triggered()), this, SLOT(downcaseWordOrSelectionInCurrentWorkspace()));
+
+    // Contextual Docs
+    contextHelpAct = new QAction(tr("Show Docs for Current Word"), this);
+    connect(contextHelpAct, SIGNAL(triggered()), this, SLOT(helpContext()));
 
     // Font Size Increase
     textIncAct = new QAction(theme->getTextIncIcon(), tr("Code Size Up"), this);
-    textIncSc = new QShortcut(metaKey('+'), this, SLOT(zoomCurrentWorkspaceIn()));
-    updateAction(textIncAct, textIncSc, tr("Increase Text Size"));
     connect(textIncAct, SIGNAL(triggered()), this, SLOT(zoomCurrentWorkspaceIn()));
 
     // Font Size Decrease
     textDecAct = new QAction(theme->getTextDecIcon(), tr("Code Size Down"), this);
-    textDecSc = new QShortcut(metaKey('-'), this, SLOT(zoomCurrentWorkspaceOut()));
-    updateAction(textDecAct, textDecSc, tr("Decrease Text Size"));
     connect(textDecAct, SIGNAL(triggered()), this, SLOT(zoomCurrentWorkspaceOut()));
 
     // Scope
     scopeAct = new QAction(theme->getScopeIcon(false), tr("Show Scopes"), this);
     scopeAct->setCheckable(true);
     scopeAct->setChecked(piSettings->show_scopes);
-    scopeSc = new QShortcut(metaKey('O'), this, SLOT(toggleScope()));
-    updateAction(scopeAct, scopeSc, tr("Toggle visibility of audio oscilloscope"));
     connect(scopeAct, SIGNAL(triggered()), this, SLOT(toggleScope()));
+
+    // Cycle Themes
+    cycleThemesAct = new QAction(tr("Cycle Themes"), this);
+    connect(cycleThemesAct, SIGNAL(triggered()), this, SLOT(cycleThemes()));
 
     // Info
     infoAct = new QAction(theme->getInfoIcon(false), tr("Show Info"), this);
     infoAct->setCheckable(true);
     infoAct->setChecked(false);
-    infoSc = new QShortcut(metaKey('1'), this, SLOT(about()));
-    updateAction(infoAct, infoSc, tr("Toggle information about Sonic Pi"));
     connect(infoAct, SIGNAL(triggered()), this, SLOT(about()));
 
+    // Help
     helpAct = new QAction(theme->getHelpIcon(false), tr("Show Help"), this);
     helpAct->setCheckable(true);
     helpAct->setChecked(false);
-    helpSc = new QShortcut(metaKey('I'), this, SLOT(help()));
-    updateAction(helpAct, helpSc, tr("Toggle the visibility of the help pane"));
     connect(helpAct, SIGNAL(triggered()), this, SLOT(help()));
 
     // Preferences
     prefsAct = new QAction(theme->getPrefsIcon(false), tr("Show Preferences"), this);
     prefsAct->setCheckable(true);
     prefsAct->setChecked(false);
-    prefsSc = new QShortcut(metaKey('P'), this, SLOT(togglePrefs()));
-    updateAction(prefsAct, prefsSc, tr("Toggle the visibility of the preferences pane"));
     connect(prefsAct, SIGNAL(triggered()), this, SLOT(togglePrefs()));
+
+    // Tab Prev
+    tabPrevAct = new QAction(tr("Previous Tab"), this);
+    connect(tabPrevAct, SIGNAL(triggered()), this, SLOT(tabPrev()));
+
+    // Tab Prev
+    tabNextAct = new QAction(tr("Next Tab"), this);
+    connect(tabNextAct, SIGNAL(triggered()), this, SLOT(tabNext()));
+
+    tab1Act = new QAction(tr("Focus Tab 1"), this);
+    connect(tab1Act, &QAction::triggered, [this]() { tabGoto(1); });
+
+    tab2Act = new QAction(tr("Focus Tab 2"), this);
+    connect(tab2Act, &QAction::triggered, [this]() { tabGoto(2); });
+
+    tab3Act = new QAction(tr("Focus Tab 3"), this);
+    connect(tab3Act, &QAction::triggered, [this]() { tabGoto(3); });
+
+    tab4Act = new QAction(tr("Focus Tab 4"), this);
+    connect(tab4Act, &QAction::triggered, [this]() { tabGoto(4); });
+
+    tab5Act = new QAction(tr("Focus Tab 5"), this);
+    connect(tab5Act, &QAction::triggered, [this]() { tabGoto(5); });
+
+    tab6Act = new QAction(tr("Focus Tab 6"), this);
+    connect(tab6Act, &QAction::triggered, [this]() { tabGoto(6); });
+
+    tab7Act = new QAction(tr("Focus Tab 7"), this);
+    connect(tab7Act, &QAction::triggered, [this]() { tabGoto(7); });
+
+    tab8Act = new QAction(tr("Focus Tab 8"), this);
+    connect(tab8Act, &QAction::triggered, [this]() { tabGoto(8); });
+
+    tab9Act = new QAction(tr("Focus Tab 9"), this);
+    connect(tab9Act, &QAction::triggered, [this]() { tabGoto(9); });
+
+    tab0Act = new QAction(tr("Focus Tab 0"), this);
+    connect(tab0Act, &QAction::triggered, [this]() { tabGoto(0); });
+
 
     QWidget* spacer = new QWidget();
     spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
@@ -2822,7 +3449,6 @@ void MainWindow::createToolBar()
     toolBar->addAction(runAct);
     toolBar->addAction(stopAct);
     toolBar->addAction(recAct);
-
     toolBar->addAction(saveAsAct);
     toolBar->addAction(loadFileAct);
 
@@ -2857,14 +3483,10 @@ void MainWindow::createToolBar()
     enableLinkAct = new QAction(tr("Link Connect"), this);
     enableLinkAct->setCheckable(true);
     enableLinkAct->setChecked(false);
-    connect(enableLinkAct, SIGNAL(triggered()), this, SLOT(enableLinkMenuChanged()));
-    enableLinkSc = new QShortcut(metaKey('t'), this, SLOT(toggleLinkMenu()));
-    updateAction(enableLinkAct, enableLinkSc, tr("Connect or disconnect the Link Metronome from the network"));
+    connect(enableLinkAct, SIGNAL(triggered()), this, SLOT(toggleLinkMenu()));
 
     linkTapTempoAct = new QAction(tr("Tap Tempo"), this);
     connect(linkTapTempoAct, SIGNAL(triggered()), metroPane, SLOT(tapTempo()));
-    linkTapTempoSc = new QShortcut(QKeySequence("Shift+Return"), metroPane, SLOT(tapTempo()));
-    updateAction(linkTapTempoAct, linkTapTempoSc, tr("Click Link Tap Tempo"));
 
     audioSafeAct = new QAction(tr("Safe Audio Mode"), this);
     audioSafeAct->setCheckable(true);
@@ -2885,6 +3507,7 @@ void MainWindow::createToolBar()
     mixerInvertStereoAct->setCheckable(true);
     mixerInvertStereoAct->setChecked(piSettings->mixer_invert_stereo);
     connect(mixerInvertStereoAct, SIGNAL(triggered()), this, SLOT(mixerInvertStereoMenuChanged()));
+
     mixerForceMonoAct = new QAction(tr("Force Mono"), this);
     mixerForceMonoAct->setCheckable(true);
     mixerForceMonoAct->setChecked(piSettings->mixer_force_mono);
@@ -2930,6 +3553,9 @@ void MainWindow::createToolBar()
     logAutoScrollAct->setChecked(piSettings->log_auto_scroll);
     connect(logAutoScrollAct, SIGNAL(triggered()), this, SLOT(logAutoScrollMenuChanged()));
 
+    textSetMarkAct = new QAction(tr("Set Mark"), this);
+    connect(textSetMarkAct, SIGNAL(triggered()), this, SLOT(setMarkInCurrentWorkspace()));
+
     toolBar->addAction(scopeAct);
     toolBar->addAction(infoAct);
     toolBar->addAction(helpAct);
@@ -2940,6 +3566,9 @@ void MainWindow::createToolBar()
     liveMenu->addAction(stopAct);
     liveMenu->addAction(recAct);
     liveMenu->addSeparator();
+    liveMenu->addAction(saveAsAct);
+    liveMenu->addAction(loadFileAct);
+    liveMenu->addSeparator();
     liveMenu->addAction(logSynthsAct);
     liveMenu->addAction(logCuesAct);
     liveMenu->addAction(logAutoScrollAct);
@@ -2948,16 +3577,46 @@ void MainWindow::createToolBar()
     liveMenu->addAction(exitAct);
 
     codeMenu = menuBar()->addMenu(tr("Code"));
-    codeMenu->addAction(saveAsAct);
-    codeMenu->addAction(loadFileAct);
+
+
     codeMenu->addSeparator();
-    codeMenu->addAction(textIncAct);
-    codeMenu->addAction(textDecAct);
+    codeMenu->addAction(textCopyAct);
+    codeMenu->addAction(textPasteAct);
+    codeMenu->addAction(textCutAct);
+    codeMenu->addAction(textCutToEndOfLineAct);
+    codeMenu->addAction(textSelectAllAct);
+    codeMenu->addAction(textSetMarkAct);
+    codeMenu->addSeparator();
+    codeMenu->addAction(textUndoAct);
+    codeMenu->addAction(textRedoAct);
+    codeMenu->addSeparator();
+    codeMenu->addAction(textDeleteBackAct);
+    codeMenu->addAction(textDeleteForwardAct);
+    codeMenu->addAction(textDeleteWordLeftAct);
+    codeMenu->addAction(textDeleteWordRightAct);
+    codeMenu->addSeparator();
+    codeMenu->addAction(textLeftAct);
+    codeMenu->addAction(textRightAct);
+    codeMenu->addAction(textUpAct);
+    codeMenu->addAction(textDownAct);
+    codeMenu->addAction(textWordLeftAct);
+    codeMenu->addAction(textWordRightAct);
+    codeMenu->addAction(textUpTenAct);
+    codeMenu->addAction(textDownTenAct);
+    codeMenu->addAction(textLineStartAct);
+    codeMenu->addAction(textLineEndAct);
+    codeMenu->addAction(textDocStartAct);
+    codeMenu->addAction(textDocEndAct);
+    codeMenu->addAction(textCenterCaretAct);
+    codeMenu->addSeparator();
+    codeMenu->addAction(textTransposeAct);
+    codeMenu->addAction(textShiftLineUpAct);
+    codeMenu->addAction(textShiftLineDownAct);
+    codeMenu->addAction(textUpcaseWordAct);
+    codeMenu->addAction(textDowncaseWordAct);
+    codeMenu->addSeparator();
     codeMenu->addAction(textAlignAct);
-    codeMenu->addSeparator();
-    codeMenu->addAction(showLineNumbersAct);
-    codeMenu->addAction(showAutoCompletionAct);
-    codeMenu->addAction(autoIndentOnRunAct);
+    codeMenu->addAction(textCommentAct);
 
     audioMenu = menuBar()->addMenu(tr("Audio"));
     audioMenu->addAction(enableExternalSynthsAct);
@@ -3012,13 +3671,36 @@ void MainWindow::createToolBar()
     hideMenuBarInFullscreenAct->setChecked(false);
     connect(hideMenuBarInFullscreenAct, SIGNAL(triggered()), this, SLOT(menuBarInFullscreenVisibilityChanged()));
 
+    emacsShortcutModeAct = new QAction(tr("Emacs Live Shortcut Mode"), this);
+    emacsShortcutModeAct->setCheckable(true);
+    emacsShortcutModeAct->setChecked(false);
+    connect(emacsShortcutModeAct, &QAction::triggered, [this]() { shortcutModeMenuChanged(1); });
+
+    winShortcutModeAct = new QAction(tr("Windows Shortcut Mode"), this);
+    winShortcutModeAct->setCheckable(true);
+    winShortcutModeAct->setChecked(false);
+    connect(winShortcutModeAct, &QAction::triggered, [this]() { shortcutModeMenuChanged(2); });
+
+
+    macShortcutModeAct = new QAction(tr("Mac Shortcut Mode"), this);
+    macShortcutModeAct->setCheckable(true);
+    macShortcutModeAct->setChecked(false);
+    connect(macShortcutModeAct, &QAction::triggered, [this]() { shortcutModeMenuChanged(3); });
+
+    userShortcutModeAct = new QAction(tr("User Shortcut Mode"), this);
+    userShortcutModeAct->setCheckable(true);
+    userShortcutModeAct->setChecked(false);
+    connect(userShortcutModeAct, &QAction::triggered, [this]() { shortcutModeMenuChanged(4); });
+
     themeMenu = displayMenu->addMenu(tr("Colour Theme"));
     themeMenu->addAction(lightThemeAct);
     themeMenu->addAction(darkThemeAct);
     themeMenu->addAction(proLightThemeAct);
     themeMenu->addAction(proDarkThemeAct);
     themeMenu->addAction(highContrastThemeAct);
+    displayMenu->addAction(cycleThemesAct);
     displayMenu->addSeparator();
+
     displayMenu->addAction(scopeAct);
     displayMenu->addAction(showScopeLabelsAct);
     scopeKindVisibilityMenu = displayMenu->addMenu(tr("Show Scope Kinds"));
@@ -3033,6 +3715,12 @@ void MainWindow::createToolBar()
     }
 
     ioMenu = menuBar()->addMenu(tr("IO"));
+    shortcutMenu = ioMenu->addMenu(tr("Shortcut Mode"));
+    shortcutMenu->addAction(emacsShortcutModeAct);
+    shortcutMenu->addAction(macShortcutModeAct);
+    shortcutMenu->addAction(winShortcutModeAct);
+    shortcutMenu->addAction(userShortcutModeAct);
+    ioMenu->addSeparator();
     ioMenu->addAction(midiEnabledAct);
     ioMidiInMenu = ioMenu->addMenu(tr("MIDI Inputs"));
     ioMidiInMenu->addAction(tr("No Connected Inputs"));
@@ -3152,61 +3840,42 @@ void MainWindow::createToolBar()
 
     //Focus Editor
     focusEditorAct = new QAction(theme->getHelpIcon(false), tr("Focus Editor"), this);
-    focusEditorSc = new QShortcut(ctrlShiftKey('E'), this, SLOT(focusEditor()));
-    updateAction(focusEditorAct, focusEditorSc, tr("Place focus on the code editor"));
     connect(focusEditorAct, SIGNAL(triggered()), this, SLOT(focusEditor()));
 
     //Focus Logs
     focusLogsAct = new QAction(theme->getHelpIcon(false), tr("Focus Logs"), this);
-        focusLogsSc = new QShortcut(ctrlShiftKey('L'), this, SLOT(focusLogs()));
-    updateAction(focusLogsAct, focusLogsSc, tr("Place focus on the log pane"));
     connect(focusLogsAct, SIGNAL(triggered()), this, SLOT(focusLogs()));
 
+    //Focus Context
     focusContextAct = new QAction(theme->getHelpIcon(false), tr("Focus Context"), this);
-    focusContextSc = new QShortcut(ctrlShiftKey('T'), this, SLOT(focusContext()));
-    updateAction(focusContextAct, focusContextSc, tr("Place focus on the context pane"));
     connect(focusContextAct, SIGNAL(triggered()), this, SLOT(focusContext()));
 
     //Focus Cues
     focusCuesAct = new QAction(theme->getHelpIcon(false), tr("Focus Cues"), this);
-    focusCuesSc = new QShortcut(ctrlShiftKey('C'), this, SLOT(focusCues()));
-    updateAction(focusCuesAct, focusCuesSc, tr("Place focus on the cue event pane"));
     connect(focusCuesAct, SIGNAL(triggered()), this, SLOT(focusCues()));
 
     //Focus Preferences
     focusPreferencesAct = new QAction(theme->getHelpIcon(false), tr("Focus Preferences"), this);
-    focusPreferencesSc = new QShortcut(ctrlShiftKey('P'), this, SLOT(focusPreferences()));
-    updateAction(focusPreferencesAct, focusPreferencesSc, tr("Place focus on preferences"));
     connect(focusPreferencesAct, SIGNAL(triggered()), this, SLOT(focusPreferences()));
 
     //Focus HelpListing
     focusHelpListingAct = new QAction(theme->getHelpIcon(false), tr("Focus Help Listing"), this);
-    focusHelpListingSc = new QShortcut(ctrlShiftKey('H'), this, SLOT(focusHelpListing()));
-    updateAction(focusHelpListingAct, focusHelpListingSc, tr("Place focus on help listing"));
     connect(focusHelpListingAct, SIGNAL(triggered()), this, SLOT(focusHelpListing()));
 
     //Focus HelpDetails
     focusHelpDetailsAct = new QAction(theme->getHelpIcon(false), tr("Focus Help Details"), this);
-    focusHelpDetailsSc = new QShortcut(ctrlShiftKey('D'), this, SLOT(focusHelpDetails()));
-    updateAction(focusHelpDetailsAct, focusHelpDetailsSc, tr("Place focus on help details"));
     connect(focusHelpDetailsAct, SIGNAL(triggered()), this, SLOT(focusHelpDetails()));
 
     //Focus Errors
     focusErrorsAct = new QAction(theme->getHelpIcon(false), tr("Focus Errors"), this);
-    focusErrorsSc = new QShortcut(ctrlShiftKey('R'), this, SLOT(focusErrors()));
-    updateAction(focusErrorsAct, focusErrorsSc, tr("Place focus on errors"));
     connect(focusErrorsAct, SIGNAL(triggered()), this, SLOT(focusErrors()));
 
     //Focus BPM SCrubber
     focusBPMScrubberAct = new QAction(theme->getHelpIcon(false), tr("Focus BPM Scrubber"), this);
-    focusBPMScrubberSc = new QShortcut(ctrlShiftKey('B'), this, SLOT(focusBPMScrubber()));
-    updateAction(focusBPMScrubberAct, focusBPMScrubberSc, tr("Place focus on BPM Scrubber"));
     connect(focusBPMScrubberAct, SIGNAL(triggered()), this, SLOT(focusBPMScrubber()));
 
     //Focus Time Warp Scrubber
     focusTimeWarpScrubberAct = new QAction(theme->getHelpIcon(false), tr("Focus TimeWarp Scrubber"), this);
-    focusTimeWarpScrubberSc = new QShortcut(ctrlShiftKey('W'), this, SLOT(focusTimeWarpScrubber()));
-    updateAction(focusTimeWarpScrubberAct, focusTimeWarpScrubberSc, tr("Place focus on TimeWarp Scrubber"));
     connect(focusTimeWarpScrubberAct, SIGNAL(triggered()), this, SLOT(focusTimeWarpScrubber()));
 
     showLogAct = new QAction(tr("Show Log"), this);
@@ -3239,7 +3908,21 @@ void MainWindow::createToolBar()
     fullScreenAct->setChecked(piSettings->full_screen);
     connect(fullScreenAct, SIGNAL(triggered()), this, SLOT(fullScreenMenuChanged()));
 
+    logZoomInAct = new QAction(tr("Zoom In Logs"), this);
+    connect(logZoomInAct, SIGNAL(triggered()), this, SLOT(zoomInLogs()));
+
+    logZoomOutAct = new QAction(tr("Zoom Out Logs"), this);
+    connect(logZoomOutAct, SIGNAL(triggered()), this, SLOT(zoomOutLogs()));
+
+
+
     viewMenu->addAction(fullScreenAct);
+    viewMenu->addSeparator();
+    viewMenu->addAction(textIncAct);
+    viewMenu->addAction(textDecAct);
+    viewMenu->addSeparator();
+    viewMenu->addAction(logZoomInAct);
+    viewMenu->addAction(logZoomOutAct);
     viewMenu->addSeparator();
     viewMenu->addAction(showLogAct);
     viewMenu->addAction(showCuesAct);
@@ -3248,7 +3931,10 @@ void MainWindow::createToolBar()
     viewMenu->addAction(showButtonsAct);
     viewMenu->addAction(showTabsAct);
     viewMenu->addAction(showTitlesAct);
-
+    viewMenu->addSeparator();
+    viewMenu->addAction(showLineNumbersAct);
+    viewMenu->addAction(showAutoCompletionAct);
+    viewMenu->addAction(autoIndentOnRunAct);
 #ifndef Q_OS_MAC
     // Don't enable this on Mac as macOS autohides the menubar on
     // fullscreen anyway
@@ -3261,16 +3947,37 @@ void MainWindow::createToolBar()
     viewMenu->addAction(prefsAct);
     viewMenu->addAction(showMetroAct);
     viewMenu->addSeparator();
-    viewMenu->addAction(focusEditorAct);
-    viewMenu->addAction(focusLogsAct);
-    viewMenu->addAction(focusCuesAct);
-    viewMenu->addAction(focusContextAct);
-    viewMenu->addAction(focusPreferencesAct);
-    viewMenu->addAction(focusHelpListingAct);
-    viewMenu->addAction(focusHelpDetailsAct);
-    viewMenu->addAction(focusErrorsAct);
-    viewMenu->addAction(focusTimeWarpScrubberAct);
-    viewMenu->addAction(focusBPMScrubberAct);
+
+    focusMenu = menuBar()->addMenu(tr("Focus"));
+    focusMenu->addAction(contextHelpAct);
+    focusMenu->addSeparator();
+    focusMenu->addAction(tabPrevAct);
+    focusMenu->addAction(tabNextAct);
+    focusMenu->addSeparator();
+    focusMenu->addAction(tab0Act);
+    focusMenu->addAction(tab1Act);
+    focusMenu->addAction(tab2Act);
+    focusMenu->addAction(tab3Act);
+    focusMenu->addAction(tab4Act);
+    focusMenu->addAction(tab5Act);
+    focusMenu->addAction(tab6Act);
+    focusMenu->addAction(tab7Act);
+    focusMenu->addAction(tab8Act);
+    focusMenu->addAction(tab9Act);
+    focusMenu->addSeparator();
+    focusMenu->addAction(focusEditorAct);
+    focusMenu->addAction(focusLogsAct);
+    focusMenu->addAction(focusCuesAct);
+    focusMenu->addAction(focusContextAct);
+    focusMenu->addAction(focusPreferencesAct);
+    focusMenu->addAction(focusHelpListingAct);
+    focusMenu->addAction(focusHelpDetailsAct);
+    focusMenu->addAction(focusErrorsAct);
+    focusMenu->addAction(focusTimeWarpScrubberAct);
+    focusMenu->addAction(focusBPMScrubberAct);
+
+
+
 
 
     languageMenu = menuBar()->addMenu(tr("Language"));
@@ -3304,6 +4011,32 @@ void MainWindow::createToolBar()
             languageMenu->addSeparator();
         }
     }
+
+    // for debugging purposes
+    reloadServerCodeSc = new QShortcut(QKeySequence("F8"), this, SLOT(reloadServerCode()));
+    toggleFocusModeSc = new QShortcut(QKeySequence("F10"), this, SLOT(toggleFocusMode()));
+    toggleScopePausedSc = new QShortcut(QKeySequence("F12"), this, SLOT(toggleScopePaused()));
+
+    escapeSc = new QShortcut(ctrlKey("g"), this, SLOT(escapeWorkspaces()));
+    escape2Sc = new QShortcut(QKeySequence("Escape"), this, SLOT(escapeWorkspaces()));
+
+
+    //help tab
+    // QShortcut* up = new QShortcut(ctrlKey('p'), nameList);
+    // up->setContext(Qt::WidgetShortcut);
+    // connect(up, SIGNAL(activated()), this, SLOT(helpScrollUp()));
+    // QShortcut* down = new QShortcut(ctrlKey('n'), nameList);
+    // down->setContext(Qt::WidgetShortcut);
+    // connect(down, SIGNAL(activated()), this, SLOT(helpScrollDown()));
+
+    // doc?
+    // QShortcut* up = new QShortcut(ctrlKey('p'), docPane);
+    // up->setContext(Qt::WidgetShortcut);
+    // connect(up, SIGNAL(activated()), this, SLOT(docScrollUp()));
+    // QShortcut* down = new QShortcut(ctrlKey('n'), docPane);
+    // down->setContext(Qt::WidgetShortcut);
+    // connect(down, SIGNAL(activated()), this, SLOT(docScrollDown()));
+
 
     connect(signalMapper, SIGNAL(mappedInt(int)), settingsWidget, SLOT(updateUILanguage(int)));
     connect(settingsWidget, SIGNAL(uiLanguageChanged(QString)), this, SLOT(updateSelectedUILanguageAction(QString)));
@@ -3422,7 +4155,7 @@ void MainWindow::toggleRecording()
     is_recording = !is_recording;
     if (is_recording)
     {
-        updateAction(recAct, recSc, tr("Stop Recording"), tr("Stop Recording"));
+        // updateAction(recAct, recSc, tr("Stop Recording"), tr("Stop Recording"));
         // recAct->setStatusTip(tr("Stop Recording"));
         // recAct->setToolTip(tr("Stop Recording"));
         // recAct->setText(tr("Stop Recording"));
@@ -3434,7 +4167,7 @@ void MainWindow::toggleRecording()
     else
     {
         rec_flash_timer->stop();
-        updateAction(recAct, recSc, tr("Start Recording"), tr("Start Recording"));
+        // updateAction(recAct, recSc, tr("Start Recording"), tr("Start Recording"));
         recAct->setIcon(theme->getRecIcon(is_recording, false));
 
         Message msg("/stop-recording");
@@ -3548,6 +4281,7 @@ void MainWindow::readSettings()
     piSettings->themeStyle = theme->themeNameToStyle(styleName);
     piSettings->show_autocompletion = gui_settings->value("prefs/show-autocompletion", true).toBool();
     piSettings->show_context = gui_settings->value("prefs/show-context", true).toBool();
+    piSettings->shortcut_mode = gui_settings->value("prefs/shortcut-mode", 1).toInt();
 
     emit settingsChanged();
 }
@@ -3607,6 +4341,7 @@ void MainWindow::writeSettings()
     gui_settings->setValue("prefs/show-tabs", piSettings->show_tabs);
     gui_settings->setValue("prefs/show-log", piSettings->show_log);
     gui_settings->setValue("prefs/show-context", piSettings->show_context);
+    gui_settings->setValue("prefs/shortcut-mode", piSettings->shortcut_mode);
 
     for (auto name : piSettings->scope_names)
     {
@@ -3616,7 +4351,7 @@ void MainWindow::writeSettings()
     gui_settings->setValue("workspace", editorTabWidget->currentIndex());
 
     for (int w = 0; w < workspace_max; w++)
-    {
+   {
         gui_settings->setValue(QString("workspace%1zoom").arg(w),
             workspaces[w]->property("zoom"));
     }
@@ -3840,12 +4575,6 @@ QListWidget* MainWindow::createHelpTab(QString name)
         SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)),
         this, SLOT(updateDocPane2(QListWidgetItem*, QListWidgetItem*)));
 
-    QShortcut* up = new QShortcut(ctrlKey('p'), nameList);
-    up->setContext(Qt::WidgetShortcut);
-    connect(up, SIGNAL(activated()), this, SLOT(helpScrollUp()));
-    QShortcut* down = new QShortcut(ctrlKey('n'), nameList);
-    down->setContext(Qt::WidgetShortcut);
-    connect(down, SIGNAL(activated()), this, SLOT(helpScrollDown()));
 
     QBoxLayout* layout = new QBoxLayout(QBoxLayout::LeftToRight);
     layout->addWidget(nameList);
@@ -3943,11 +4672,11 @@ void MainWindow::setUpdateInfoText(QString t)
 
 void MainWindow::addUniversalCopyShortcuts(QTextEdit* te)
 {
-    new QShortcut(ctrlKey('c'), te, SLOT(copy()));
-    new QShortcut(ctrlKey('a'), te, SLOT(selectAll()));
+    new QShortcut(ctrlKey("c"), te, SLOT(copy()));
+    new QShortcut(ctrlKey("a"), te, SLOT(selectAll()));
 
-    new QShortcut(metaKey('c'), te, SLOT(copy()));
-    new QShortcut(metaKey('a'), te, SLOT(selectAll()));
+    new QShortcut(metaKey("c"), te, SLOT(copy()));
+    new QShortcut(metaKey("a"), te, SLOT(selectAll()));
 }
 
 QString MainWindow::asciiArtLogo()
@@ -4120,33 +4849,23 @@ void MainWindow::toggleOSCServer(int silent)
     }
 }
 
-bool MainWindow::eventFilter(QObject* obj, QEvent* evt)
+bool MainWindow::eventFilter(QObject* obj, QEvent* event)
 {
-    if (obj == qApp && (evt->type() == QEvent::ApplicationActivate))
+    if (obj == qApp && (event->type() == QEvent::ApplicationActivate))
     {
         statusBar()->showMessage(tr("Welcome back. Now get your live code on..."), 2000);
         update();
     }
 
-    // if (evt->type() == QEvent::KeyPress) {
-    //     QKeyEvent *keyEvent = static_cast<QKeyEvent *>(evt);
-    //     qDebug() << "Key Press: " << keyEvent->text() << " " << keyEvent->key();
-    // }
-
-    // if (evt->type() == QEvent::KeyRelease) {
-    //     QKeyEvent *keyEvent = static_cast<QKeyEvent *>(evt);
-    //     qDebug() << "Key Release: " << keyEvent->text();
-    // }
-
-    if(evt->type() == QEvent::Shortcut){
-        QShortcutEvent *sc = static_cast<QShortcutEvent *>(evt);
+    if(event->type() == QEvent::Shortcut){
+        QShortcutEvent *sc = static_cast<QShortcutEvent *>(event);
         const QKeySequence &ks = sc->key();
         if(ks == QKeySequence("Escape")) {
           escapeWorkspaces();
         }
     }
 
-    return QMainWindow::eventFilter(obj, evt);
+    return QMainWindow::eventFilter(obj, event);
 }
 
 QString MainWindow::sonicPiHomePath()
@@ -4585,3 +5304,5 @@ void MainWindow::homeDirWriteError()
     pDialog->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
     pDialog->exec();
 }
+
+
