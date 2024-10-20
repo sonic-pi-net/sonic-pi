@@ -121,10 +121,7 @@ When you're working with fast spinning `live_loop`s it's now generally better to
 
 ### Translations
 
-### Bugfixes
-
-
-
+* Improvements to the French, German, Korean, Polish, Portuguese, Portguguese (Brazil), Russian and Turkish, translations.
 
 
 <a name="v4.5.1"></a>
