@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2024-02-07 01:01+0000\n"
-"Last-Translator: Reza Almanda <rezaalmanda27@gmail.com>\n"
+"PO-Revision-Date: 2024-04-29 17:06+0000\n"
+"Last-Translator: Rosdyana Kusuma <rosdyana.kusuma@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/id/>\n"
 "Language: id\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.4-dev\n"
+"X-Generator: Weblate 5.5.2\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -59,9 +59,9 @@ msgid ""
 "n - feedback is so helpful. You never know, your idea might be the next big fe"
 "ature!"
 msgstr ""
-"Apabila kamu punya gagasan atau ide untuk memperbaiki Sonic Pi - tolong beri t"
-"ahu kami - masukan akan sangat membantu. Kamu tidak pernah tahu, idemu mungkin"
-" akan menjadi fitur besar selanjutnya!"
+"Apabila kamu punya gagasan atau ide untuk memperbaiki Sonic Pi - tolong beri "
+"tahu kami - masukan akan sangat membantu. Kamu tidak pernah tahu, idemu "
+"mungkin akan menjadi fitur besar selanjutnya!"
 
 #: 01-Welcome-to-Sonic-Pi.md:22
 msgid ""
@@ -9454,8 +9454,8 @@ msgid ""
 "![Screen 0](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-M"
 "inecraft-0-small.png)"
 msgstr ""
-"![Layar 0](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-Mi"
-"necraft-0-small.png)"
+"![Layar 0](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-"
+"Minecraft-0-small.png)"
 
 #: A.06-minecraft.md:46
 msgid "Sonic Teleporter"
@@ -9537,8 +9537,8 @@ msgid ""
 "![Screen 1](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-M"
 "inecraft-1-small.png)"
 msgstr ""
-"![Layar 1](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-Mi"
-"necraft-1-small.png)"
+"![Layar 1](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-"
+"Minecraft-1-small.png)"
 
 #: A.06-minecraft.md:96
 msgid "Magic Blocks"
@@ -9638,8 +9638,8 @@ msgid ""
 "![Screen 2](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-M"
 "inecraft-2-small.png)"
 msgstr ""
-"![Layar 2](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-Mi"
-"necraft-2-small.png)"
+"![Layar 2](../../../etc/doc/images/tutorial/articles/A.06-minecraft/Musical-"
+"Minecraft-2-small.png)"
 
 #: A.06-minecraft.md:168
 msgid ""
@@ -9728,8 +9728,8 @@ msgid ""
 "![Habanera Riff](../../../etc/doc/images/tutorial/articles/A.07-bizet/habanera"
 ".png)"
 msgstr ""
-"![Habanera Riff](../../../etc/doc/images/tutorial/articles/A.07-bizet/habanera"
-".png)"
+"![Habanera Riff](../../../etc/doc/images/tutorial/articles/A.07-bizet/"
+"habanera.png)"
 
 #: A.07-bizet.md:31
 msgid ""
@@ -9761,7 +9761,8 @@ msgstr ""
 
 #: A.07-bizet.md:49
 msgid "![Notes](../../../etc/doc/images/tutorial/articles/A.07-bizet/notes.png)"
-msgstr "![Daftar](../../../etc/doc/images/tutorial/articles/A.07-bizet/notes.png)"
+msgstr ""
+"![Daftar](../../../etc/doc/images/tutorial/articles/A.07-bizet/notes.png)"
 
 #: A.07-bizet.md:51
 msgid "Rests"
@@ -9814,8 +9815,8 @@ msgid ""
 "![Habanera Riff 2](../../../etc/doc/images/tutorial/articles/A.07-bizet/habane"
 "ra2.png)"
 msgstr ""
-"![Habanera Riff 2](../../../etc/doc/images/tutorial/articles/A.07-bizet/habane"
-"ra2.png)"
+"![Habanera Riff 2](../../../etc/doc/images/tutorial/articles/A.07-bizet/"
+"habanera2.png)"
 
 #: A.07-bizet.md:85
 msgid "Re-coding the Habanera"
@@ -9949,8 +9950,8 @@ msgid ""
 "![Screen 0](../../../etc/doc/images/tutorial/articles/A.08-minecraft-vj/minecr"
 "aft-vj-0-small.png)"
 msgstr ""
-"![Layar 0](../../../etc/doc/images/tutorial/articles/A.08-minecraft-vj/minecra"
-"ft-vj-0-small.png)"
+"![Layar 0](../../../etc/doc/images/tutorial/articles/A.08-minecraft-vj/"
+"minecraft-vj-0-small.png)"
 
 #: A.08-minecraft-vj.md:17
 msgid ""

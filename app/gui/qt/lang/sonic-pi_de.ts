@@ -1652,7 +1652,7 @@ midi_*-Funktionen gesendet werden können direkt von Sonic Pi</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="313"/>
         <source>Toggle visibility of the Link metronome controls.</source>
-        <translation type="unfinished"></translation>
+        <translation>Schalte Kopplungs-Steuereinheiten-Anzeige für’s Metronom ein-/aus.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="316"/>
@@ -1687,12 +1687,12 @@ midi_*-Funktionen gesendet werden können direkt von Sonic Pi</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="325"/>
         <source>Show titles</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige Überschriften</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="326"/>
         <source>Toggle the title visibility for the scope, log, cue and other information panes</source>
-        <translation type="unfinished"></translation>
+        <translation>Schalte Überschriften-Anzeige für Oszilloskop, Protokoll, Cue und andere Informationsflächen ein-/aus</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="329"/>

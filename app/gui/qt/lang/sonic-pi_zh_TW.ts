@@ -91,7 +91,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="705"/>
         <source>Link Metronome &amp; Global Time Warp</source>
-        <translation type="unfinished"></translation>
+        <translation>連結節拍器和全域時間扭曲</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1577"/>
@@ -214,17 +214,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="838"/>
         <source>Playing Sample...</source>
-        <translation type="unfinished"></translation>
+        <translation>正在播放取樣…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="877"/>
         <source>Hiding pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation>隱藏窗格標題…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="887"/>
         <source>Showing pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation>顯示窗格標題…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1319"/>
@@ -321,12 +321,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="1938"/>
         <source>Hiding help...</source>
-        <translation type="unfinished"></translation>
+        <translation>隱藏幫助…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1944"/>
         <source>Showing help...</source>
-        <translation type="unfinished"></translation>
+        <translation>顯示幫助…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2007"/>
@@ -341,12 +341,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2463"/>
         <source>Show autocompletion on</source>
-        <translation type="unfinished"></translation>
+        <translation>開啟顯示自動完成</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2467"/>
         <source>Show autocompletion off</source>
-        <translation type="unfinished"></translation>
+        <translation>關閉顯示自動完成</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2485"/>
@@ -361,12 +361,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2510"/>
         <source>Hiding preferences...</source>
-        <translation type="unfinished"></translation>
+        <translation>隱藏偏好設定…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2516"/>
         <source>Showing preferences...</source>
-        <translation type="unfinished"></translation>
+        <translation>顯示偏好設定…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2690"/>
@@ -471,12 +471,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2840"/>
         <source>Invert Stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>反轉立體聲</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2844"/>
         <source>Force Mono</source>
-        <translation type="unfinished"></translation>
+        <translation>強制單聲道</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2849"/>
@@ -516,7 +516,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2884"/>
         <source>Auto-Scroll Log</source>
-        <translation type="unfinished"></translation>
+        <translation>自動捲動日誌</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2894"/>
@@ -531,22 +531,22 @@
     <message>
         <location filename="../mainwindow.cpp" line="2918"/>
         <source>Audio</source>
-        <translation type="unfinished">音頻</translation>
+        <translation>音訊</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2929"/>
         <source>Visuals</source>
-        <translation type="unfinished">視覺效果</translation>
+        <translation>視覺效果</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2931"/>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation>淺色</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2936"/>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>深色</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2941"/>
@@ -561,7 +561,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2951"/>
         <source>High Contrast</source>
-        <translation type="unfinished">高對比</translation>
+        <translation>高對比度</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2956"/>
@@ -571,7 +571,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2961"/>
         <source>Show Titles</source>
-        <translation type="unfinished"></translation>
+        <translation>顯示標題</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2966"/>
@@ -581,7 +581,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2971"/>
         <source>Colour Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>顏色主題</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2980"/>
@@ -591,12 +591,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2991"/>
         <source>IO</source>
-        <translation type="unfinished">IO 輸入輸出</translation>
+        <translation>IO 輸入輸出</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2993"/>
         <source>MIDI Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI 輸入</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2994"/>
@@ -608,7 +608,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2995"/>
         <source>MIDI Outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI 輸出</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2996"/>
@@ -625,87 +625,87 @@
     <message>
         <location filename="../mainwindow.cpp" line="3000"/>
         <source>All Channels</source>
-        <translation type="unfinished"></translation>
+        <translation>所有頻道</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3005"/>
         <source>1</source>
-        <translation type="unfinished"></translation>
+        <translation>1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3010"/>
         <source>2</source>
-        <translation type="unfinished"></translation>
+        <translation>2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3015"/>
         <source>3</source>
-        <translation type="unfinished"></translation>
+        <translation>3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3020"/>
         <source>4</source>
-        <translation type="unfinished"></translation>
+        <translation>4</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3025"/>
         <source>5</source>
-        <translation type="unfinished"></translation>
+        <translation>5</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3030"/>
         <source>6</source>
-        <translation type="unfinished"></translation>
+        <translation>6</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3035"/>
         <source>7</source>
-        <translation type="unfinished"></translation>
+        <translation>7</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3040"/>
         <source>8</source>
-        <translation type="unfinished"></translation>
+        <translation>8</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3045"/>
         <source>9</source>
-        <translation type="unfinished"></translation>
+        <translation>9</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3050"/>
         <source>10</source>
-        <translation type="unfinished"></translation>
+        <translation>10</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3055"/>
         <source>11</source>
-        <translation type="unfinished"></translation>
+        <translation>11</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3060"/>
         <source>12</source>
-        <translation type="unfinished"></translation>
+        <translation>12</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3065"/>
         <source>13</source>
-        <translation type="unfinished"></translation>
+        <translation>13</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3070"/>
         <source>14</source>
-        <translation type="unfinished"></translation>
+        <translation>14</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3075"/>
         <source>15</source>
-        <translation type="unfinished"></translation>
+        <translation>15</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3080"/>
         <source>16</source>
-        <translation type="unfinished"></translation>
+        <translation>16</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3088"/>
@@ -720,12 +720,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="3105"/>
         <source>View</source>
-        <translation type="unfinished"></translation>
+        <translation>檢視</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3110"/>
         <source>Focus Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>聚焦編輯器</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3112"/>
@@ -825,7 +825,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3168"/>
         <source>Show Log</source>
-        <translation type="unfinished"></translation>
+        <translation>顯示日誌</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3173"/>
@@ -835,17 +835,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="3178"/>
         <source>Show Metronome</source>
-        <translation type="unfinished"></translation>
+        <translation>顯示節拍器</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3183"/>
         <source>Show Buttons</source>
-        <translation type="unfinished"></translation>
+        <translation>顯示按鈕</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3188"/>
         <source>Show Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>顯示分頁</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3193"/>
@@ -855,7 +855,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3232"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>語言</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3423"/>
@@ -983,7 +983,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="4412"/>
         <source>Advanced Users</source>
-        <translation type="unfinished"></translation>
+        <translation>進階使用者</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4413"/>
@@ -1074,7 +1074,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="469"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>關閉</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="614"/>
@@ -1099,7 +1099,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2751"/>
         <source>Show Info</source>
-        <translation type="unfinished"></translation>
+        <translation>顯示資訊</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3312"/>
@@ -1174,17 +1174,17 @@ Get Sonic Pi %1</source>
         <location filename="../utils/ruby_help.h" line="2960"/>
         <location filename="../utils/ruby_help.h" line="3055"/>
         <source>Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation>教學</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3092"/>
         <source>Examples</source>
-        <translation type="unfinished"></translation>
+        <translation>範例</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3147"/>
         <source>Synths</source>
-        <translation type="unfinished"></translation>
+        <translation>合成器</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3196"/>
@@ -1194,12 +1194,12 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../utils/ruby_help.h" line="3217"/>
         <source>Samples</source>
-        <translation type="unfinished"></translation>
+        <translation>取樣</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3454"/>
         <source>Lang</source>
-        <translation type="unfinished"></translation>
+        <translation>語言</translation>
     </message>
 </context>
 <context>
@@ -1242,7 +1242,7 @@ Get Sonic Pi %1</source>
         <location filename="../widgets/settingswidget.cpp" line="55"/>
         <location filename="../widgets/settingswidget.cpp" line="514"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>語言</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="77"/>
@@ -1347,7 +1347,7 @@ which isn&apos;t recognised.</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="151"/>
         <source>Networked OSC</source>
-        <translation type="unfinished">網路OSC</translation>
+        <translation>網路化 OSC</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="152"/>
@@ -1359,12 +1359,12 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="155"/>
         <source>Local IP address</source>
-        <translation type="unfinished">本機 IP 位址</translation>
+        <translation>本機 IP 位址</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="175"/>
         <source>Unavailable</source>
-        <translation type="unfinished">不可用</translation>
+        <translation>不可用</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="181"/>
@@ -1385,7 +1385,7 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="208"/>
         <source>all</source>
-        <translation type="unfinished"></translation>
+        <translation>全部</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="231"/>
@@ -1407,17 +1407,17 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="193"/>
         <source>MIDI Configuration</source>
-        <translation type="unfinished">MIDI設定</translation>
+        <translation>MIDI 配置</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="194"/>
         <source>Configure MIDI behaviour</source>
-        <translation type="unfinished">設定 MIDI 行為</translation>
+        <translation>配置 MIDI 行為</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="196"/>
         <source>MIDI Ports</source>
-        <translation type="unfinished">MIDI連接埠</translation>
+        <translation>MIDI 連接埠</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="197"/>
@@ -1427,7 +1427,7 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="202"/>
         <source>Reset MIDI</source>
-        <translation type="unfinished">重設 MIDI</translation>
+        <translation>重置 MIDI</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="204"/>
@@ -1464,7 +1464,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="285"/>
         <source>Show and Hide</source>
-        <translation type="unfinished">顯示/隱藏</translation>
+        <translation>顯示和隱藏</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="286"/>
@@ -1479,12 +1479,12 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="74"/>
         <source>Main Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>主音量</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="83"/>
         <source>Audio Input</source>
-        <translation type="unfinished"></translation>
+        <translation>音訊輸入</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="84"/>
@@ -1519,7 +1519,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="129"/>
         <source>Information unavailable.</source>
-        <translation type="unfinished"></translation>
+        <translation>資訊不可用。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="156"/>
@@ -1549,7 +1549,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="283"/>
         <source>Show Panels</source>
-        <translation type="unfinished"></translation>
+        <translation>顯示面板</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="284"/>
@@ -1559,7 +1559,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="287"/>
         <source>Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>主題</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="289"/>
@@ -1574,7 +1574,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="292"/>
         <source>Auto-align</source>
-        <translation type="unfinished">自動對齊</translation>
+        <translation>自動對齊</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="293"/>
@@ -1584,7 +1584,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="295"/>
         <source>Show line numbers</source>
-        <translation type="unfinished">顯示行號</translation>
+        <translation>顯示行號</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="296"/>
@@ -1609,7 +1609,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="304"/>
         <source>Show log</source>
-        <translation type="unfinished">顯示日誌</translation>
+        <translation>顯示日誌</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="305"/>
@@ -1639,7 +1639,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="316"/>
         <source>Show buttons</source>
-        <translation type="unfinished">顯示控制按鈕</translation>
+        <translation>顯示按鈕</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="317"/>
@@ -1649,7 +1649,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="319"/>
         <source>Show tabs</source>
-        <translation type="unfinished">顯示分頁</translation>
+        <translation>顯示分頁</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="321"/>
@@ -1659,7 +1659,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="322"/>
         <source>Full screen</source>
-        <translation type="unfinished">全螢幕模式</translation>
+        <translation>全螢幕</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="323"/>
@@ -1669,7 +1669,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="325"/>
         <source>Show titles</source>
-        <translation type="unfinished"></translation>
+        <translation>顯示標題</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="326"/>
@@ -1689,12 +1689,12 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="334"/>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation>淺色</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="335"/>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>深色</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="336"/>
@@ -1714,12 +1714,12 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="383"/>
         <source>Logging</source>
-        <translation type="unfinished">日誌</translation>
+        <translation>記錄</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="384"/>
         <source>Configure debug behaviour</source>
-        <translation type="unfinished">配置除錯模式</translation>
+        <translation>配置偵錯行為</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="386"/>
@@ -1763,7 +1763,7 @@ However, they will not be visible in the logs.</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="395"/>
         <source>Auto-scroll log</source>
-        <translation type="unfinished">自動捲動紀錄</translation>
+        <translation>自動捲動日誌</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="396"/>
@@ -1846,13 +1846,13 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="643"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation>套用</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="644"/>
         <location filename="../widgets/settingswidget.cpp" line="691"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>取消</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="655"/>
@@ -1880,12 +1880,12 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
         <location filename="../widgets/settingswidget.cpp" line="662"/>
         <location filename="../widgets/settingswidget.cpp" line="690"/>
         <source>Restart</source>
-        <translation type="unfinished"></translation>
+        <translation>重新啟動</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="663"/>
         <source>Dismiss</source>
-        <translation type="unfinished"></translation>
+        <translation>忽略</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="685"/>
@@ -1938,12 +1938,12 @@ Stereo - shows two independent scopes for left and right channels</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="449"/>
         <source>Transparency</source>
-        <translation type="unfinished">透明度</translation>
+        <translation>透明度</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="472"/>
         <source>Check for updates</source>
-        <translation type="unfinished">檢查更新</translation>
+        <translation>檢查更新</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="473"/>
@@ -1955,7 +1955,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../widgets/settingswidget.cpp" line="474"/>
         <source>Check now</source>
-        <translation type="unfinished">立即檢查更新</translation>
+        <translation>立即檢查</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="477"/>
@@ -1967,7 +1967,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../widgets/settingswidget.cpp" line="478"/>
         <source>Get update</source>
-        <translation type="unfinished">取得更新</translation>
+        <translation>取得更新</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="480"/>
@@ -1977,7 +1977,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../widgets/settingswidget.cpp" line="485"/>
         <source>Update Info</source>
-        <translation type="unfinished">更新訊息</translation>
+        <translation>更新資訊</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="488"/>

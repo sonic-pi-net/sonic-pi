@@ -11,7 +11,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="693"/>
         <source>Log</source>
-        <translation>Registo</translation>
+        <translation>Registro</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="189"/>
@@ -219,33 +219,34 @@
     <message>
         <location filename="../mainwindow.cpp" line="877"/>
         <source>Hiding pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation>A esconder títulos do painel...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="887"/>
         <source>Showing pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar títulos dos painéis...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1319"/>
         <source>Audio Inputs Enabled. Restart Sonic Pi for this setting to take effect...</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrada de Áudio Ativada. Reinicie o Sonic Pi para que esta configuração tenha efeito...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1321"/>
         <source>Audio Inputs Disabled. Restart Sonic Pi for this setting to take effect...</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrada de áudio desativada. Reinicie oSonic Pi para que esta configuração tenha efeito...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1419"/>
         <source>Sonic Pi Boot Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Erro de Inicialização do Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1423"/>
         <source>Apologies, a critical error occurred during startup:
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Desculpe, um erro crítico ocorreu durante a inicialização:
+</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1736"/>
@@ -431,7 +432,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2808"/>
         <source>Enable Audio Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Ative Inputs de Áudio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2813"/>
@@ -571,12 +572,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2961"/>
         <source>Show Titles</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar Títulos</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2966"/>
         <source>Hide Menu Bar in Fullscreen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Esconder Barra de Menu no Modo de Ecrã Cheio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2971"/>
@@ -835,7 +836,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3178"/>
         <source>Show Metronome</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar Metrônomo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3183"/>
@@ -855,7 +856,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3232"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Idioma</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3423"/>
@@ -875,7 +876,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3707"/>
         <source>Restarting Sonic Pi...</source>
-        <translation type="unfinished"></translation>
+        <translation>A reiniciar Sonic Pi...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3942"/>
@@ -949,17 +950,17 @@ Obter o Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="4400"/>
         <source>Sonic Pi - Audio Server Boot Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi - Erro na Inicialização do Servidor de Áudio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4405"/>
         <source>Sorry, the Audio Server failed to start...</source>
-        <translation type="unfinished"></translation>
+        <translation>Desculpe, o Servidor de Áudio falhou ao iniciar...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4406"/>
         <source>Please try changing your default OS audio input &amp; outputs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Por favor tente mudar o Input &amp; Output padrão do seu sistema operativo.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4407"/>
@@ -969,12 +970,12 @@ Obter o Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="4409"/>
         <source>For the curious among you, Sonic Pi uses the SuperCollider Audio Server to generate its sounds. By default it will connect to your default system audio input and outputs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Paras os interessados dentre vocês, Sonic Pi usa o SuperCollider Audio Server para gerar os seus sons. Por padrão ele conecta ao seu input e output de áudio padrão do sistema.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4410"/>
         <source>Unfortunately SuperCollider is having problems starting correctly. You can read the full error log below which should explain why.</source>
-        <translation type="unfinished"></translation>
+        <translation>Infelizmente SuperCollider tem problemas iniciando corretamente. Pode ler o registo completo dos erros abaixo, que devem explicar o porque.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4411"/>
@@ -984,7 +985,7 @@ Obter o Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="4412"/>
         <source>Advanced Users</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilizadores Avançados</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4413"/>
@@ -1075,7 +1076,7 @@ Obter o Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="469"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Fechar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="614"/>
@@ -1243,7 +1244,7 @@ Obter o Sonic Pi %1</translation>
         <location filename="../widgets/settingswidget.cpp" line="55"/>
         <location filename="../widgets/settingswidget.cpp" line="514"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Idioma</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="77"/>
@@ -1401,7 +1402,7 @@ Quando desmarcado, apenas envio e recebimento da máquina local será permitido.
     <message>
         <location filename="../widgets/settingswidget.cpp" line="208"/>
         <source>all</source>
-        <translation type="unfinished"></translation>
+        <translation>todos</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="231"/>
@@ -1501,7 +1502,7 @@ Sonic Pi e podem ser enviadas por meio das funções midi_*fns</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="83"/>
         <source>Audio Input</source>
-        <translation type="unfinished"></translation>
+        <translation>Input de Áudio</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="84"/>
