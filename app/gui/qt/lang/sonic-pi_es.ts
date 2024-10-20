@@ -1186,7 +1186,7 @@ Obtén Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3350"/>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleccionar todo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3353"/>
@@ -1206,27 +1206,27 @@ Obtén Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3362"/>
         <source>Downcase Word or Selection</source>
-        <translation type="unfinished"></translation>
+        <translation>Poner palabra o selección en minúscula</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3366"/>
         <source>Show Docs for Current Word</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar documentos de la palabra actual</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3384"/>
         <source>Cycle Themes</source>
-        <translation type="unfinished"></translation>
+        <translation>Temas del ciclos</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3406"/>
         <source>Previous Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Pestaña anterior</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3410"/>
         <source>Next Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Siguiente pestaña</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3413"/>
@@ -1346,7 +1346,7 @@ Obtén Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3911"/>
         <source>Zoom In Logs</source>
-        <translation type="unfinished"></translation>
+        <translation>Ampliar los registros</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3914"/>
