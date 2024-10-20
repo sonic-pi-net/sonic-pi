@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
 "PO-Revision-Date: 2024-10-20 19:18+0000\n"
-"Last-Translator: Vladimir Támara Patiño <vtamara@pasosdejesus.org>\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-pi/"
 "tutorial/es/>\n"
 "Language: es\n"
@@ -736,9 +736,9 @@ msgid ""
 "Woah, fun! I'm sure you could keep doing that all day. But wait, before you lo"
 "se yourself in an infinite stream of beeps, try changing the number:"
 msgstr ""
-"Woah, loco, estoy seguro que podrías seguir así por el resto del día. Pero esp"
-"era, antes de perderte en un infinito bucle de sonidos, intenta cambiando el n"
-"úmero:"
+"Woah, loco, estoy seguro que podrías seguir así por el resto del día. Pero "
+"espera, antes de perderte en un infinito bucle de sonidos, intenta cambiando "
+"el número:"
 
 #: 02.1-Your-First-Beeps.md:23
 #, no-wrap
@@ -1025,9 +1025,9 @@ msgid ""
 "e (the value you want to set the control at). For example, you might have an o"
 "pt called `cheese:` and want to set it with a value of `1`."
 msgstr ""
-"Las Opts tienen dos partes principales, su nombre (el nombre del control) y su"
-" valor (el valor al que pondrás el control). Por ejemplo, puedes tener un cont"
-"rol llamado 'cheese:' y querer ponerlo con un valor de `1`."
+"Las Opts tienen dos partes principales, su nombre (el nombre del control) y "
+"su valor (el valor al que pondrás el control). Por ejemplo, puedes tener un "
+"control llamado 'cheese:' y querer ponerlo con un valor de `1`."
 
 #: 02.2-Synth-Params.md:27
 msgid ""
@@ -2300,9 +2300,9 @@ msgid ""
 "at different rates. Try very fast rates. Try really slow rates. See what inter"
 "esting sounds you can produce."
 msgstr ""
-"Ahaa! ¡Se toca *al revés*! Ahora intenta tocar distintos samples a distintas v"
-"elocidades. Intenta con velocidades muy rápidas o lentísimas. Observa qué soni"
-"dos interesantes puedes crear."
+"Ahaa! ¡Se toca *al revés*! Ahora intenta tocar distintos samples a distintas "
+"velocidades. Intenta con velocidades muy rápidas o lentísimas. Observa qué "
+"sonidos interesantes puedes crear."
 
 #: 03.3-Stretching-Samples.md:76
 msgid "A Simple Explanation of Sample Rate"
@@ -2809,8 +2809,8 @@ msgid ""
 "Similarly, it is possible to choose an arbitrary finish point in the sample as"
 " a value between 0 and 1. Let's finish the amen break half way through:"
 msgstr ""
-"Igualmente, es posible escoger un punto de termino arbitrario en el sample, co"
-"n un valor entre 0 y 1. Vamos a terminar el amen break a la mitad:"
+"Igualmente, es posible escoger un punto de termino arbitrario en el sample, "
+"con un valor entre 0 y 1. Vamos a terminar el amen break a la mitad:"
 
 #: 03.5-Partial-Samples.md:62 A.12-sample-slicing.md:62
 #, no-wrap
@@ -2860,9 +2860,9 @@ msgid ""
 "riend `rate:`. For example, we can play a very small section of the middle of "
 "the amen break very slowly:"
 msgstr ""
-"Podemos combinar esta nueva herramienta para tocar segmentos arbitrarios de au"
-"dio con nuestro amigo `rate:`. Por ejemplo, podemos tocar una pequeña sección "
-"al medio de amen break muy lentamente:"
+"Podemos combinar esta nueva herramienta para tocar segmentos arbitrarios de "
+"audio con nuestro amigo `rate:`. Por ejemplo, podemos tocar una pequeña "
+"sección al medio de amen break muy lentamente:"
 
 #: 03.5-Partial-Samples.md:90
 #, no-wrap
@@ -2893,7 +2893,8 @@ msgstr ""
 #: 03.5-Partial-Samples.md:103
 #, fuzzy
 msgid "Now go and have a play mashing up samples with all of this fun stuff..."
-msgstr "Ahora vete y juega con sampleos y todas estas divertidas herramientas..."
+msgstr ""
+"Ahora vete y juega con sampleos y todas estas divertidas herramientas..."
 
 #: 03.6-External-Samples.md:1
 msgid "3.6 External Samples"
@@ -2961,8 +2962,8 @@ msgid ""
 "So how do you play any arbitrary WAV, AIFF, OGG, OGA or FLAC file on your comp"
 "uter? All you need to do is pass the path of that file to `sample`:"
 msgstr ""
-"¿Cómo reproduces cualquier archivo WAV, AIFF o FLAC en tu computadora? Todo lo"
-" que necesitas es indicar la ubicación del archivo en `sample`:"
+"¿Cómo reproduces cualquier archivo WAV, AIFF o FLAC en tu computadora? Todo "
+"lo que necesitas es indicar la ubicación del archivo en `sample`:"
 
 #: 03.6-External-Samples.md:31
 #, no-wrap
@@ -3247,9 +3248,9 @@ msgid ""
 "ample whose filename contains both the substrings `\"120\"` and `\"A#\"` we can fi"
 "nd it easily with the following code:"
 msgstr ""
-"Incluso podemos usar varios filtros al mismo tiempo. Por ejemplo, si queremos "
-"un sample cuyo nombre de archivo contenga las subcadenas \"120\" y \"A #\", lo enc"
-"ontraremos fácilmente con el siguiente código:"
+"Incluso podemos usar varios filtros al mismo tiempo. Por ejemplo, si "
+"queremos un sample cuyo nombre de archivo contenga las subcadenas \"120\" y "
+"\"A #\", lo encontraremos fácilmente con el siguiente código:"
 
 #: 03.7-Sample-Packs.md:124
 #, no-wrap
@@ -3284,23 +3285,23 @@ msgid ""
 "s* and *filters*. Sources are information used to create the list of potential"
 " candidates. A source can take two forms:"
 msgstr ""
-"El sistema de pre-arg de filtro del sample entiende dos tipos de información: "
-"fuentes y filtros. Las fuentes son información utilizada para crear la lista d"
-"e candidatos potenciales. Una fuente puede tomar dos formas:"
+"El sistema de pre-arg de filtro del sample entiende dos tipos de información:"
+" fuentes y filtros. Las fuentes son información utilizada para crear la "
+"lista de candidatos potenciales. Una fuente puede tomar dos formas:"
 
 #: 03.7-Sample-Packs.md:142
 #, fuzzy
 msgid "`\"/path/to/samples\"` - a string representing a valid path to a directory"
 msgstr ""
-"\"/path/to/samples\" - una cadena que representa una ruta de acceso válida a un "
-"directorio"
+"\"/path/to/samples\" - una cadena que representa una ruta de acceso válida a "
+"un directorio"
 
 #: 03.7-Sample-Packs.md:143
 #, fuzzy
 msgid "`\"/path/to/samples/foo.wav\"` - a string representing a valid path to a sample"
 msgstr ""
-"\"/path/to/samples/foo.wav\" - Una cadena que representa una ruta válida a un sa"
-"mple"
+"\"/path/to/samples/foo.wav\" - Una cadena que representa una ruta válida a "
+"un sample"
 
 #: 03.7-Sample-Packs.md:145
 msgid ""
@@ -3548,9 +3549,9 @@ msgid ""
 "between two numbers - a *min* and a *max*. (`rrand` is short for ranged random"
 "). Let's try playing a random note:"
 msgstr ""
-"Una función realmente útil es `rrand` la cual te da un valor aleatorio entre d"
-"os números - un *min* y un *max*. (`rrand` es la abreviatura para ranged rando"
-"m). Intentemos tocar una nota al azar:"
+"Una función realmente útil es `rrand` la cual te da un valor aleatorio entre "
+"dos números - un *min* y un *max*. (`rrand` es la abreviatura para ranged "
+"random). Intentemos tocar una nota al azar:"
 
 #: 04-Randomisation.md:17
 #, no-wrap
@@ -3565,9 +3566,10 @@ msgid ""
 "oo? Something fishy is going on here. Try running the code again. What? It cho"
 "se `83.7527` again? That can't be random!"
 msgstr ""
-"¡Ooh, tocó una nota al azar! Tocó la nota `83.7527`. Una nota entre 50 y 95 Wo"
-"ah, espera, predije el número correcto que obtuviste? ¡Algo raro sucede! Inten"
-"ta con el código de nuevo. ¿qué? Otra vez `83.7527` ? ¡Eso no es aleatorio!"
+"¡Ooh, tocó una nota al azar! Tocó la nota `83.7527`. Una nota entre 50 y 95 "
+"Woah, espera, predije el número correcto que obtuviste? ¡Algo raro sucede! "
+"Intenta con el código de nuevo. ¿qué? Otra vez `83.7527` ? ¡Eso no es "
+"aleatorio!"
 
 #: 04-Randomisation.md:26
 #, fuzzy
@@ -3577,10 +3579,10 @@ msgid ""
 "suring that the music you create on your machine sounds identical on everybody"
 " else's machine - even if you use some randomness in your composition."
 msgstr ""
-"La respuesta es que no es realmente aleatorio, es pseudo-aleatorio. Sonic Pi t"
-"e dará números como al azar en una manera repetitiva, lo cual es muy útil para"
-" asegurar que la música que creas en tú máquina suene idéntica en cualquier ot"
-"ra máquina - aunque utilices números al azar en tú composición."
+"La respuesta es que no es realmente aleatorio, es pseudo-aleatorio. Sonic Pi "
+"te dará números como al azar en una manera repetitiva, lo cual es muy útil "
+"para asegurar que la música que creas en tú máquina suene idéntica en "
+"cualquier otra máquina - aunque utilices números al azar en tú composición."
 
 #: 04-Randomisation.md:32
 #, fuzzy
@@ -3589,9 +3591,9 @@ msgid ""
 "ime, then it wouldn't be very interesting. However, it doesn't. Try the follow"
 "ing:"
 msgstr ""
-"Claro que en una pieza musical donde quieras colocar notas al \"azar\" y siempre"
-" eliga `83.7527` no sería ni aleatorio ni interesante. Sin embargo, no es así."
-" Intenta lo siguiente:"
+"Claro que en una pieza musical donde quieras colocar notas al \"azar\" y "
+"siempre eliga `83.7527` no sería ni aleatorio ni interesante. Sin embargo, "
+"no es así. Intenta lo siguiente:"
 
 #: 04-Randomisation.md:36
 #, no-wrap
@@ -3615,12 +3617,12 @@ msgid ""
 "ll Sonic Pi code went back in time to exactly the same point every time the Ru"
 "n button was pressed. It's the Groundhog Day of music synthesis!"
 msgstr ""
-"¡Sí! Finalmente suena aleatorio. Dentro de una misma *corrida* las subsecuente"
-"s llamadas a funciones aleatorias dan valores..aleatorios. Sin embargo, la pró"
-"xima corrida volverá a dar la misma secuencia de valores \"aleatorios\" y sonar "
-"exactamente igual. Es como si Sonic Pi volvió en el tiempo al mismo punto cuan"
-"do se corrió *run* la primera vez. ¡Es el Groundhog Day de la síntesis musical"
-"!"
+"¡Sí! Finalmente suena aleatorio. Dentro de una misma *corrida* las "
+"subsecuentes llamadas a funciones aleatorias dan valores..aleatorios. Sin "
+"embargo, la próxima corrida volverá a dar la misma secuencia de valores "
+"\"aleatorios\" y sonar exactamente igual. Es como si Sonic Pi volvió en el "
+"tiempo al mismo punto cuando se corrió *run* la primera vez. ¡Es el "
+"Groundhog Day de la síntesis musical!"
 
 #: 04-Randomisation.md:50
 msgid "Haunted Bells"
@@ -3633,9 +3635,9 @@ msgid ""
 "which loops the `:perc_bell` sample with a random rate and sleep time between "
 "bell sounds:"
 msgstr ""
-"Una buena ilustración de aleatoriedad en acción es el ejemplo haunted bells qu"
-"e buclee el sampleo de `:perc_bell` con velocidad de Aleatoriedad y tiempo de "
-"pausa entre los sonidos:"
+"Una buena ilustración de aleatoriedad en acción es el ejemplo haunted bells "
+"que buclee el sampleo de `:perc_bell` con velocidad de Aleatoriedad y tiempo "
+"de pausa entre los sonidos:"
 
 #: 04-Randomisation.md:56
 #, no-wrap
@@ -3693,10 +3695,10 @@ msgid ""
 " `use_random_seed`. The default seed happens to be 0, so choose a different se"
 "ed for a different random experience!"
 msgstr ""
-"¿Entonces qué, no te gusta la particular secuencia de números al azar que prov"
-"ee Sonic Pi? Bueno, es totalmente posible elegir un punto de comienzo via `use"
-"_random_seed`. Predeterminado está a 0, así que: ¡elige una semilla diferente "
-"para una aleatoriedad diferente!"
+"¿Entonces qué, no te gusta la particular secuencia de números al azar que "
+"provee Sonic Pi? Bueno, es totalmente posible elegir un punto de comienzo "
+"via `use_random_seed`. Predeterminado está a 0, así que: ¡elige una semilla "
+"diferente para una aleatoriedad diferente!"
 
 #: 04-Randomisation.md:85
 msgid "Consider the following:"
@@ -3721,8 +3723,8 @@ msgid ""
 "Every time you run this code, you'll hear the same sequence of 5 notes. To get"
 " a different sequence simply change the seed:"
 msgstr ""
-"Cada vez que corras ese código escucharás la misma secuencia de 5 notas. Para "
-"cambiar la secuencia, simplemente cambia el valor de seed_:"
+"Cada vez que corras ese código escucharás la misma secuencia de 5 notas. "
+"Para cambiar la secuencia, simplemente cambia el valor de seed_:"
 
 #: 04-Randomisation.md:97
 #, no-wrap
@@ -3746,9 +3748,9 @@ msgid ""
 "stening to the results you can find something that you like - and when you sha"
 "re it with others, they will hear exactly what you heard too."
 msgstr ""
-"Esto producirá una diferente secuencia de 5 notas. Al cambiar el valor de seed"
-" y escuchar los resultados, puedes encontrar algo que te guste y cuando lo com"
-"partas con otros, escucharán exactamente lo mismo."
+"Esto producirá una diferente secuencia de 5 notas. Al cambiar el valor de "
+"seed y escuchar los resultados, puedes encontrar algo que te guste y cuando "
+"lo compartas con otros, escucharán exactamente lo mismo."
 
 #: 04-Randomisation.md:110
 #, fuzzy
@@ -3770,11 +3772,11 @@ msgid ""
 "uare brackets and separating them with commas: `[60, 65, 72]`. Next I just nee"
 "d to pass them to `choose`:"
 msgstr ""
-"Una cuestión común es elegir un ítem desde una lista de ítems conocidos Por ej"
-"emplo, quiero tocar una nota de entre las siguientes: 60, 65 or 72. Puedo logr"
-"ar eso con `choose` pues me deja elegir un ítem de esa lista. Primero necesito"
-" confeccionar mi listado entre paréntesis cuadrados y separándolos por comas: "
-"`[60, 65, 72]`. Después sólo necesito pasarlos por `choose`:"
+"Una cuestión común es elegir un ítem desde una lista de ítems conocidos Por "
+"ejemplo, quiero tocar una nota de entre las siguientes: 60, 65 or 72. Puedo "
+"lograr eso con `choose` pues me deja elegir un ítem de esa lista. Primero "
+"necesito confeccionar mi listado entre paréntesis cuadrados y separándolos "
+"por comas: `[60, 65, 72]`. Después sólo necesito pasarlos por `choose`:"
 
 #: 04-Randomisation.md:122
 #, no-wrap
@@ -3812,11 +3814,11 @@ msgid ""
 " always be a float - meaning it's not a whole number but a fraction of a numbe"
 "r. Examples of floats returned by `rrand(20, 110)`:"
 msgstr ""
-"Ya hemos visto la función `rrand`, pero adentrémonos más en ella. Nos proporci"
-"ona un número aleatorio entre dos valores. Eso significa que nunca nos dará lo"
-"s números extremos del rango, sólo entre ellos. Ese número será un 'flotante',"
-" lo que significa que no es un número entero, sino una fracción de número. He "
-"aquí ejemplos de flotantes: `rrand(20, 110)`:"
+"Ya hemos visto la función `rrand`, pero adentrémonos más en ella. Nos "
+"proporciona un número aleatorio entre dos valores. Eso significa que nunca "
+"nos dará los números extremos del rango, sólo entre ellos. Ese número será "
+"un 'flotante', lo que significa que no es un número entero, sino una "
+"fracción de número. He aquí ejemplos de flotantes: `rrand(20, 110)`:"
 
 #: 04-Randomisation.md:148
 #, fuzzy
@@ -3832,11 +3834,11 @@ msgid ""
 " rather than exclusive of the range). Examples of numbers returned by `rrand_i"
 "(20, 110)` are:"
 msgstr ""
-"Ocasionalmente querrás un número entero aleatorio, no un flotante. Es entonces"
-" que `rrand_i` viene al rescate. Funcional similarmente a `rrand` excepto que "
-"incluye los valores mínimo y máximo como potenciales aleatorios (lo que signif"
-"ica que es inclusiva y no excluyente de los valores extremos del rango). Ejemp"
-"los de números con `rrand_i(20, 110)` son:"
+"Ocasionalmente querrás un número entero aleatorio, no un flotante. Es "
+"entonces que `rrand_i` viene al rescate. Funcional similarmente a `rrand` "
+"excepto que incluye los valores mínimo y máximo como potenciales aleatorios ("
+"lo que significa que es inclusiva y no excluyente de los valores extremos "
+"del rango). Ejemplos de números con `rrand_i(20, 110)` son:"
 
 #: 04-Randomisation.md:160
 msgid "rand"
@@ -3849,9 +3851,9 @@ msgid ""
 "ecify (exclusive). By default it will return a value between 0 and one. It's t"
 "herefore useful for choosing random `amp:` values:"
 msgstr ""
-"Esta función te regresará un número aleatorio flotante incluyendo los valores "
-"0 y el máximo especificado. Predeterminado está el rango entre 0 y 1. Por ello"
-" es útil para elegir valores de `amp:` aleatorios:"
+"Esta función te regresará un número aleatorio flotante incluyendo los "
+"valores 0 y el máximo especificado. Predeterminado está el rango entre 0 y "
+"1. Por ello es útil para elegir valores de `amp:` aleatorios:"
 
 #: 04-Randomisation.md:167
 #, no-wrap
@@ -3876,8 +3878,8 @@ msgid ""
 "Similar to the relationship between `rrand_i` and `rrand`, `rand_i` will retur"
 "n a random whole number between 0 and the max value you specify."
 msgstr ""
-"De maneara similar a `rrand_i` y `rrand`, `rand_i` nos dará un número leatorio"
-" ENTERO entre 0 y el máximo especificado."
+"De maneara similar a `rrand_i` y `rrand`, `rand_i` nos dará un número "
+"leatorio ENTERO entre 0 y el máximo especificado."
 
 #: 04-Randomisation.md:179
 #, fuzzy
@@ -3914,11 +3916,11 @@ msgid ""
 "eful for `if` statements which we will cover in a subsequent section of this t"
 "utorial."
 msgstr ""
-"Finalmente cuando quieras emular tirar el máximo puntaje con un dado, como 6 e"
-"n un dado estándard `one_in` te dará eso con una posibilidad de uno en número "
-"de lados del dado. Por lo tanto, `one_in(6)` nos dará verdad con una probabili"
-"dad de 1 en 6 o falso. Verdadero y falso son valores muy útiles para `if` el c"
-"ual cubriremos en la siguiente sección de este tutorial."
+"Finalmente cuando quieras emular tirar el máximo puntaje con un dado, como 6 "
+"en un dado estándard `one_in` te dará eso con una posibilidad de uno en "
+"número de lados del dado. Por lo tanto, `one_in(6)` nos dará verdad con una "
+"probabilidad de 1 en 6 o falso. Verdadero y falso son valores muy útiles "
+"para `if` el cual cubriremos en la siguiente sección de este tutorial."
 
 #: 04-Randomisation.md:198
 #, fuzzy
@@ -3942,9 +3944,9 @@ msgid ""
 " and creating simple melodies and rhythms by `sleep`ing between sounds, you mi"
 "ght be wondering what else the world of code can offer you..."
 msgstr ""
-"Ahora que has aprendido lo básico de crear sonidos con `play` y `sample` y cre"
-"ar ritmos y melodías simples con `sleep` en medio de los sonidos, podrías preg"
-"untarte ¿Qué es lo que codificar puede ofrecerte?"
+"Ahora que has aprendido lo básico de crear sonidos con `play` y `sample` y "
+"crear ritmos y melodías simples con `sleep` en medio de los sonidos, podrías "
+"preguntarte ¿Qué es lo que codificar puede ofrecerte?"
 
 #: 05-Programming-Structures.md:10
 #, fuzzy
@@ -3953,9 +3955,9 @@ msgid ""
 "uctures such as looping, conditionals, functions and threads give you amazingl"
 "y powerful tools to express your musical ideas."
 msgstr ""
-"Bueno, estás a punto de ser sorprendido, porque resulta que herramientas básic"
-"as de estructuras de programación como bules, condicionales, funciones e hilos"
-", te dan grandes posibilidades de expresión musical."
+"Bueno, estás a punto de ser sorprendido, porque resulta que herramientas "
+"básicas de estructuras de programación como bules, condicionales, funciones "
+"e hilos, te dan grandes posibilidades de expresión musical."
 
 #: 05-Programming-Structures.md:14
 #, fuzzy
@@ -3982,12 +3984,12 @@ msgid ""
 " For example, we may wish to loop it, to add reverb to it, to only run it 1 ti"
 "me out of 5, etc. Consider the following code:"
 msgstr ""
-"Una estructura que verás a menudo en Sonic Pi es el bloque. Los Bloques nos pe"
-"rmiten hacer cosas útiles con largas sábanas de código. Por ejemplo, con parám"
-"etros de synth y sample podíamos cambiar cosas en una sóla línea. sin embargo,"
-" algunas veces queremos hacer algo significativo para un número de líneas de c"
-"ódigo. Por ejemplo buclear, añadir reverberación, pero sólo correrlo 1 de cada"
-" 5 veces. Considera el siguiente código:"
+"Una estructura que verás a menudo en Sonic Pi es el bloque. Los Bloques nos "
+"permiten hacer cosas útiles con largas sábanas de código. Por ejemplo, con "
+"parámetros de synth y sample podíamos cambiar cosas en una sóla línea. sin "
+"embargo, algunas veces queremos hacer algo significativo para un número de "
+"líneas de código. Por ejemplo buclear, añadir reverberación, pero sólo "
+"correrlo 1 de cada 5 veces. Considera el siguiente código:"
 
 #: 05.1-Blocks.md:13
 #, no-wrap
@@ -4011,9 +4013,9 @@ msgid ""
 "block *starts* and where it *ends*. We use `do` for start and `end` for end. F"
 "or example:"
 msgstr ""
-"Para hacer algo con un manojo de códifo, necesitamos decirle a Sonic Pi dónde "
-"*comienza* el bloque de código y dónde *termina*. Usamos para el *comienzo* `d"
-"o` y para el *final* `end` . Por ejemplo:"
+"Para hacer algo con un manojo de códifo, necesitamos decirle a Sonic Pi "
+"dónde *comienza* el bloque de código y dónde *termina*. Usamos para el "
+"*comienzo* `do` y para el *final* `end` . Por ejemplo:"
 
 #: 05.1-Blocks.md:25
 #, no-wrap
@@ -4044,12 +4046,12 @@ msgid ""
 "s important to know that wrapping your code within `do` and `end` tells Sonic "
 "Pi you wish to do something special with that chunk of code."
 msgstr ""
-"Sin embargo, ese código está incompleto, porque no le hemos dicho a Sonic Pi l"
-"o que queremos hacer con ese *bloque do/end* (intenta y te dará error). Eso se"
-" lo decimos a Sonic Pi al escribir algunos códigos especiales antes del `do`. "
-"Veremos un estos códigos especiales más adelante en este tutorial Por ahora es"
-" importante conocer que envolver tu código entre `do` y `end` le dice a Sonic "
-"Pi que deseas hacer algo especial con ese pedazo de código."
+"Sin embargo, ese código está incompleto, porque no le hemos dicho a Sonic Pi "
+"lo que queremos hacer con ese *bloque do/end* (intenta y te dará error). Eso "
+"se lo decimos a Sonic Pi al escribir algunos códigos especiales antes del "
+"`do`. Veremos un estos códigos especiales más adelante en este tutorial Por "
+"ahora es importante conocer que envolver tu código entre `do` y `end` le "
+"dice a Sonic Pi que deseas hacer algo especial con ese pedazo de código."
 
 #: 05.2-Iteration-and-Loops.md:1
 #, fuzzy
@@ -4068,9 +4070,9 @@ msgid ""
 "with `play` and `sample` blocks. We've also learned how to trigger these sound"
 "s through time using `sleep`."
 msgstr ""
-"Hasta ahora hemos invertido tiempo en los diferentes sonidos que puedes crear "
-"con bloques de `play` y `sample`. También hemos aprendido a disparar estos son"
-"idos a través de `sleep`."
+"Hasta ahora hemos invertido tiempo en los diferentes sonidos que puedes "
+"crear con bloques de `play` y `sample`. También hemos aprendido a disparar "
+"estos sonidos a través de `sleep`."
 
 #: 05.2-Iteration-and-Loops.md:9
 #, fuzzy
@@ -4081,11 +4083,12 @@ msgid ""
 " next few sections we'll explore some of these powerful new tools. First up is"
 " iteration and loops."
 msgstr ""
-"Como probablemente ya notaste, hay mucha diversión a ser obtenida con estos bl"
-"oques básicos de construcción. Sin embargo, una dimensión totalmente diferente"
-" de diversión se abre cuando comienzas a usar el poder de codificar para estru"
-"cturar tu música y composiciones. En los próximos segmentos exploraremos algun"
-"as de estas poderosas herramientas. Primero están las iteraciones y bucles."
+"Como probablemente ya notaste, hay mucha diversión a ser obtenida con estos "
+"bloques básicos de construcción. Sin embargo, una dimensión totalmente "
+"diferente de diversión se abre cuando comienzas a usar el poder de codificar "
+"para estructurar tu música y composiciones. En los próximos segmentos "
+"exploraremos algunas de estas poderosas herramientas. Primero están las "
+"iteraciones y bucles."
 
 #: 05.2-Iteration-and-Loops.md:15
 #, fuzzy
@@ -4098,8 +4101,8 @@ msgid ""
 "Have you written some code you'd like to repeat a few times? For example, you "
 "might have something like this:"
 msgstr ""
-"¿Has escrito código que te gustaría se repita unas cuantas veces? Por ejemplo,"
-" algo así:"
+"¿Has escrito código que te gustaría se repita unas cuantas veces? Por "
+"ejemplo, algo así:"
 
 #: 05.2-Iteration-and-Loops.md:20
 #, no-wrap
@@ -4124,8 +4127,8 @@ msgid ""
 "What if we wished to repeat this 3 times? Well, we could do something simple a"
 "nd just copy and paste it three times:"
 msgstr ""
-"¿qué tal si quieeres repetirlo 3 veces? Bueno, podrías hacer algo simple y cop"
-"iarlo 3 veces:"
+"¿qué tal si quieeres repetirlo 3 veces? Bueno, podrías hacer algo simple y "
+"copiarlo 3 veces:"
 
 #: 05.2-Iteration-and-Loops.md:32
 #, no-wrap
@@ -4177,11 +4180,11 @@ msgid ""
 "he original piece of code 50 times or 1000? Now that would be a lot of code, a"
 "nd a lot of lines of code to alter if you wanted to make a change."
 msgstr ""
-"¡Eso fué bastante código! ¿qué pasa si quieres cambiar el sample a `:elec_plip"
-"`? Tendrías que buscar todos los lugares con el original `:elec_blup` y cambia"
-"rlo. Más importantemente, ¿qué si quisieras repetir l apieza original 1000 vec"
-"es? Eso tomaría muchas líneas de código y lugares a los que ir a alterar si qu"
-"isieses cambiar algo."
+"¡Eso fué bastante código! ¿qué pasa si quieres cambiar el sample a "
+"`:elec_plip`? Tendrías que buscar todos los lugares con el original "
+"`:elec_blup` y cambiarlo. Más importantemente, ¿qué si quisieras repetir l "
+"apieza original 1000 veces? Eso tomaría muchas líneas de código y lugares a "
+"los que ir a alterar si quisieses cambiar algo."
 
 #: 05.2-Iteration-and-Loops.md:62
 #, fuzzy
@@ -4198,12 +4201,13 @@ msgid ""
 "*, we write `3.times do` - that's not too hard. Just remember to write `end` a"
 "t the end of the code you'd like to repeat:"
 msgstr ""
-"De hecho, repetir código debería ser tan fácil como decirle *haz esto tres vec"
-"es*. Bueno, así es, casi..Recuerda nuestro viejo amigo el bloque de código, lo"
-" podemos usar para marcar el comienzo y final de código que querramos repetir "
-"tres veces. Después usamos el código especial `3.times`. Así, en vez de escrib"
-"ir *do this three times*, escribimos `3.times do` - ¿sencillo, no? Sólo recuer"
-"da escribir `end` al final del código que quieras repetir:"
+"De hecho, repetir código debería ser tan fácil como decirle *haz esto tres "
+"veces*. Bueno, así es, casi..Recuerda nuestro viejo amigo el bloque de "
+"código, lo podemos usar para marcar el comienzo y final de código que "
+"querramos repetir tres veces. Después usamos el código especial `3.times`. "
+"Así, en vez de escribir *do this three times*, escribimos `3.times do` - ¿"
+"sencillo, no? Sólo recuerda escribir `end` al final del código que quieras "
+"repetir:"
 
 #: 05.2-Iteration-and-Loops.md:72
 #, no-wrap
@@ -4232,8 +4236,8 @@ msgid ""
 "Now isn't that much neater than cutting and pasting! We can use this to create"
 " lots of nice repeating structures:"
 msgstr ""
-"¿Eso fué mucho más elegante que cortar y pegar! Así crearemos muchas estructur"
-"as repetitivas_:"
+"¿Eso fué mucho más elegante que cortar y pegar! Así crearemos muchas "
+"estructuras repetitivas_:"
 
 #: 05.2-Iteration-and-Loops.md:86
 #, no-wrap
@@ -4275,8 +4279,8 @@ msgid ""
 "We can put iterations inside other iterations to create interesting patterns. "
 "For example:"
 msgstr ""
-"Podemos insertar iteraciones dentro de iteraciones para crear patrones interes"
-"antes. Por ejemplo:"
+"Podemos insertar iteraciones dentro de iteraciones para crear patrones "
+"interesantes. Por ejemplo:"
 
 #: 05.2-Iteration-and-Loops.md:108
 #, no-wrap
@@ -4320,10 +4324,10 @@ msgid ""
 "tter off asking Sonic Pi to repeat forever (at least until you press the stop "
 "button!). Let's loop the amen break forever:"
 msgstr ""
-"Si deseas que algo se repita muchas veces, te puedes encontrar usando números "
-"realmente grandes como `1000.times do`. En este caso es mejor pedirle a Sonic "
-"Pi que repita al infinito (hasta que aprietes el botón de parar). Bucleemos el"
-" amen break infinitamente:"
+"Si deseas que algo se repita muchas veces, te puedes encontrar usando "
+"números realmente grandes como `1000.times do`. En este caso es mejor "
+"pedirle a Sonic Pi que repita al infinito (hasta que aprietes el botón de "
+"parar). Bucleemos el amen break infinitamente:"
 
 #: 05.2-Iteration-and-Loops.md:130
 #, no-wrap
@@ -4347,10 +4351,11 @@ msgid ""
 "ter the loop you will *never* hear it. For example, the cymbal after this loop"
 " will never play:"
 msgstr ""
-"Lo importante de saber acerca de los blucles (loops) es que actúan como hoyos "
-"negros para el código. Una vez que se entra ahí, sólo se sale con el botón de "
-"parar (stop). Esto significa que si tienes código después del loop, nunca lo e"
-"scucharás. Por ejemplo, el platillo después de este bucle nunca se ejecutará:"
+"Lo importante de saber acerca de los blucles (loops) es que actúan como "
+"hoyos negros para el código. Una vez que se entra ahí, sólo se sale con el "
+"botón de parar (stop). Esto significa que si tienes código después del loop, "
+"nunca lo escucharás. Por ejemplo, el platillo después de este bucle nunca se "
+"ejecutará:"
 
 #: 05.2-Iteration-and-Loops.md:143
 #, no-wrap
@@ -4391,10 +4396,10 @@ msgid ""
 ", you might want to randomly play a drum or a cymbal. We can achieve this with"
 " an `if` statement."
 msgstr ""
-"Algo común que seguramente querrás hacer es tocar más que notas al azar sino t"
-"ambién tomar decisiones al azar y, dependiendo de cómo salga, correr más códig"
-"o u otro código. Por ejemplo, el querer tocar al azar una batería o platillo. "
-"Esto lo podemos hacer con `if` ."
+"Algo común que seguramente querrás hacer es tocar más que notas al azar sino "
+"también tomar decisiones al azar y, dependiendo de cómo salga, correr más "
+"código u otro código. Por ejemplo, el querer tocar al azar una batería o "
+"platillo. Esto lo podemos hacer con `if` ."
 
 #: 05.3-Conditionals.md:11
 #, fuzzy
@@ -4410,11 +4415,11 @@ msgid ""
 " can then use the result of this to decide between two pieces of code, the cod"
 "e to play the drum and the code to play the cymbal:"
 msgstr ""
-"Tiremos una moneda: si sale cara, que suene una batería, si sale cruz, que sea"
-" un platillo. Fácil. Podemos imitar el tiro de una moneda con la función `one_"
-"in` (introducida en la sección de aleatoriedad) especificando una probabilidad"
-" de 1 en 2 `one_in(2)`. Entonces podemos utilizar el resultado para decidir en"
-"tre dos piezas de código, el de batería o el de platillos:"
+"Tiremos una moneda: si sale cara, que suene una batería, si sale cruz, que "
+"sea un platillo. Fácil. Podemos imitar el tiro de una moneda con la función "
+"`one_in` (introducida en la sección de aleatoriedad) especificando una "
+"probabilidad de 1 en 2 `one_in(2)`. Entonces podemos utilizar el resultado "
+"para decidir entre dos piezas de código, el de batería o el de platillos:"
 
 #: 05.3-Conditionals.md:20
 #, no-wrap
@@ -4469,10 +4474,10 @@ msgid ""
 "to find a question that will give us a `true` or `false` answer which is exact"
 "ly what `one_in` does."
 msgstr ""
-"Típico de lenguajes de programación, la noción de 'sí' está representada por e"
-"l término `true` y la noción de 'no', por `false`. Así que debemos encontrar u"
-"na pregunta que nos dé una respuesta `true` o`false` que es exactamente lo que"
-" hace `one_in` ."
+"Típico de lenguajes de programación, la noción de 'sí' está representada por "
+"el término `true` y la noción de 'no', por `false`. Así que debemos "
+"encontrar una pregunta que nos dé una respuesta `true` o`false` que es "
+"exactamente lo que hace `one_in` ."
 
 #: 05.3-Conditionals.md:45
 #, fuzzy
@@ -4481,10 +4486,10 @@ msgid ""
 " second choice is wrapped between the `else` and the `end`. Just like do/end b"
 "locks you can put multiple lines of code in either place. For example:"
 msgstr ""
-"¿notas que la primera opción está envuelta entre el `if` y el `else` y que la "
-"segunda opción está envuelta entre el `else` y el `end`?. Igual que con los bl"
-"oques do/end puedes poner múltiples líneas de código en cualquiera de esos lug"
-"ares. Por ejemplo:"
+"¿notas que la primera opción está envuelta entre el `if` y el `else` y que "
+"la segunda opción está envuelta entre el `else` y el `end`?. Igual que con "
+"los bloques do/end puedes poner múltiples líneas de código en cualquiera de "
+"esos lugares. Por ejemplo:"
 
 #: 05.3-Conditionals.md:50
 #, no-wrap
@@ -4517,8 +4522,8 @@ msgid ""
 "This time we're sleeping for a different amount of time depending on which cho"
 "ice we make."
 msgstr ""
-"Esta vez estaremos pausando por un tiempo distinto dependiendo de cuál elecció"
-"n hagamos."
+"Esta vez estaremos pausando por un tiempo distinto dependiendo de cuál "
+"elección hagamos."
 
 #: 05.3-Conditionals.md:68
 #, fuzzy
@@ -4531,8 +4536,8 @@ msgid ""
 "Sometimes you want to optionally execute just one line of code. This is possib"
 "le by placing `if` and then the question at the end. For example:"
 msgstr ""
-"Algunas veces querrás ejecutar sólo una línea de código. Esto es posible al co"
-"locar `if` y después la pregunta al final. Por ejemplo:"
+"Algunas veces querrás ejecutar sólo una línea de código. Esto es posible al "
+"colocar `if` y después la pregunta al final. Por ejemplo:"
 
 #: 05.3-Conditionals.md:73
 #, no-wrap
@@ -4561,8 +4566,8 @@ msgid ""
 "This will play chords of different numbers with the chance of each note playin"
 "g having a different probability."
 msgstr ""
-"Eso tocará acordes de diferentes números con una probabilidad diferente para c"
-"ada nota ."
+"Eso tocará acordes de diferentes números con una probabilidad diferente para "
+"cada nota ."
 
 #: 05.4-Threads.md:1
 #, fuzzy
@@ -4582,10 +4587,11 @@ msgid ""
 ", then a bit of drums, then more bass... However, the timing soon gets hard to"
 " think about, especially when you start weaving in more elements."
 msgstr ""
-"Así que hiciste una gran línea de bajo y un gran pulso. ¿cómo los tocas al mis"
-"mo tiempo? Una manera de hacerlo es coserlos juntos manualmente - toca bajo, d"
-"espués un poco de batería y así... Sin embargo, cada vez se vuelve más complic"
-"ado mantener el timing, especialmente Si'coses' más y más elementos."
+"Así que hiciste una gran línea de bajo y un gran pulso. ¿cómo los tocas al "
+"mismo tiempo? Una manera de hacerlo es coserlos juntos manualmente - toca "
+"bajo, después un poco de batería y así... Sin embargo, cada vez se vuelve "
+"más complicado mantener el timing, especialmente Si'coses' más y más "
+"elementos."
 
 #: 05.4-Threads.md:11
 #, fuzzy
@@ -4593,8 +4599,8 @@ msgid ""
 "What if Sonic Pi could weave things for you automatically? Well, it can, and y"
 "ou do it with a special thing called a *thread*."
 msgstr ""
-"¿qué tal si Sonic Pi pudiese coser todo automáticamente para tí? Bueno, puede "
-"y lo hace con algo especial llamado *thread*."
+"¿qué tal si Sonic Pi pudiese coser todo automáticamente para tí? Bueno, "
+"puede y lo hace con algo especial llamado *thread*."
 
 #: 05.4-Threads.md:14
 #, fuzzy
@@ -4607,8 +4613,8 @@ msgid ""
 "To keep this example simple, you'll have to imagine that this is a phat beat a"
 "nd a killer bassline:"
 msgstr ""
-"Para mantener este ejemplo sencillo, vas a tener que imaginar que es un gran p"
-"ulso y bajo:"
+"Para mantener este ejemplo sencillo, vas a tener que imaginar que es un gran "
+"pulso y bajo:"
 
 #: 05.4-Threads.md:19
 #, no-wrap
@@ -4642,11 +4648,11 @@ msgid ""
 "rt something at the same time as the rest of the code. This is where threads c"
 "ome to the rescue."
 msgstr ""
-"Como vimos anteriormente, bucles son como 'hoyos negros' para el programa, una"
-" vez entras a uno, sólo puedes salir de él con el botón 'stop'. Así que para t"
-"ocar ambos bucles al mismo tiempo, debemos indicarle a Sonic Pi que queremos c"
-"omenzar algo al mismo tiempo que el resto del código, aquí es cuando los hilos"
-" vienen al rescate."
+"Como vimos anteriormente, bucles son como 'hoyos negros' para el programa, "
+"una vez entras a uno, sólo puedes salir de él con el botón 'stop'. Así que "
+"para tocar ambos bucles al mismo tiempo, debemos indicarle a Sonic Pi que "
+"queremos comenzar algo al mismo tiempo que el resto del código, aquí es "
+"cuando los hilos vienen al rescate."
 
 #: 05.4-Threads.md:38
 #, fuzzy
@@ -4688,10 +4694,10 @@ msgid ""
 "atement after the do/end block (which happens to be the second loop). Try it a"
 "nd you'll hear both the drums and the bassline weaved together!"
 msgstr ""
-"Al envolver el primer bucle de bloque do/end con `in_thread` le decimos a Soni"
-"c Pi que corra los contenidos del bloque do/end *exactamente* al mismo tiempo "
-"que el siguiente bloque do/end (que es nuestro segundo bucle) ¿Inténtalo y esc"
-"ucharás ambos, el bajo y la batería conectados!"
+"Al envolver el primer bucle de bloque do/end con `in_thread` le decimos a "
+"Sonic Pi que corra los contenidos del bloque do/end *exactamente* al mismo "
+"tiempo que el siguiente bloque do/end (que es nuestro segundo bucle) ¿"
+"Inténtalo y escucharás ambos, el bajo y la batería conectados!"
 
 #: 05.4-Threads.md:61
 #, fuzzy
@@ -4742,9 +4748,9 @@ msgid ""
 "ime as the second loop due to the `in_thread`. However, *the third loop is nev"
 "er reached*. We therefore need another thread:"
 msgstr ""
-"Ahora volvemos a tener el mismo problema que antes, ya que los primeros dos bu"
-"cles se tocan al mismo tiempo, gracias a `in_thread`. Sin embargo, *el tercer "
-"bucle nunca se alcanza*. Por lo tanto, necesitamos otro hilo:"
+"Ahora volvemos a tener el mismo problema que antes, ya que los primeros dos "
+"bucles se tocan al mismo tiempo, gracias a `in_thread`. Sin embargo, *el "
+"tercer bucle nunca se alcanza*. Por lo tanto, necesitamos otro hilo:"
 
 #: 05.4-Threads.md:88
 #, no-wrap
@@ -4800,11 +4806,11 @@ msgid ""
 "es will layer sounds over each other. As the runs themselves are threads, they"
 " will automatically weave the sounds together for you."
 msgstr ""
-"Puede sorprenderte que cuando aprietas el botón de Correr (Run), de hecho está"
-"s creando un nuevo hilo para que corra el código. Esta es la razón por la que "
-"al apretar el botón múltiples veces, suenan las capas de sonido una encima de "
-"la otra, ya que las corridas son de hecho hilos cosidos automáticamente para s"
-"onar."
+"Puede sorprenderte que cuando aprietas el botón de Correr (Run), de hecho "
+"estás creando un nuevo hilo para que corra el código. Esta es la razón por "
+"la que al apretar el botón múltiples veces, suenan las capas de sonido una "
+"encima de la otra, ya que las corridas son de hecho hilos cosidos "
+"automáticamente para sonar."
 
 #: 05.4-Threads.md:119
 #, fuzzy
@@ -4821,12 +4827,13 @@ msgid ""
 "itching the synth in the *current thread* - no other thread will have their sy"
 "nth switched. Let's see this in action:"
 msgstr ""
-"En cuanto más aprendas Sonic Pi, apreciarás que los hilos son los bloques de c"
-"onstrucción más importantes para tú música. Uno de los trabajos más importante"
-"s que realiza es aislar la noción de *seteos actuales* respecto a otros hilos."
-" ¿qué significa eso? Bien, cuando cambias sintetizadores por medio de `use_syn"
-"th` realmente estás cambiando el sintetizdor en el hilo actual, ya que ningún "
-"otro hilo cambiarás su sintetizador. Veamos esto en acción:"
+"En cuanto más aprendas Sonic Pi, apreciarás que los hilos son los bloques de "
+"construcción más importantes para tú música. Uno de los trabajos más "
+"importantes que realiza es aislar la noción de *seteos actuales* respecto a "
+"otros hilos. ¿qué significa eso? Bien, cuando cambias sintetizadores por "
+"medio de `use_synth` realmente estás cambiando el sintetizdor en el hilo "
+"actual, ya que ningún otro hilo cambiarás su sintetizador. Veamos esto en "
+"acción:"
 
 #: 05.4-Threads.md:129
 #, no-wrap
@@ -4855,9 +4862,9 @@ msgid ""
 "Notice how the middle sound was different to the others? The `use_synth` state"
 "ment only affected the thread it was in and not the outer main run thread."
 msgstr ""
-"¿Notaste que el sonido de en medio era diferente a los otros? el `use_synth` s"
-"olamente afectó el hilo en el que se encontraba, no así el hilo externo princi"
-"pal."
+"¿Notaste que el sonido de en medio era diferente a los otros? el `use_synth` "
+"solamente afectó el hilo en el que se encontraba, no así el hilo externo "
+"principal."
 
 #: 05.4-Threads.md:146
 #, fuzzy
@@ -4871,8 +4878,8 @@ msgid ""
 "ly inherit all of the current settings from the current thread. Let's see that"
 ":"
 msgstr ""
-"Cuando creas un nuevo hilo con `in_thread`, este automáticamente hereda la con"
-"figuración del hilo actual. Veamos:"
+"Cuando creas un nuevo hilo con `in_thread`, este automáticamente hereda la "
+"configuración del hilo actual. Veamos:"
 
 #: 05.4-Threads.md:152
 #, no-wrap
@@ -4898,9 +4905,9 @@ msgid ""
 "s played from a separate thread? Any of the settings modified with the various"
 " `use_*` functions will behave in the same way."
 msgstr ""
-"¿Notaste que la segunda nota es tocada por el sintetizador `:tb303` aunque era"
-" de un hilo separado? Cualquier seteo modificado con las funciones `use_*` se "
-"comportará de igual manera."
+"¿Notaste que la segunda nota es tocada por el sintetizador `:tb303` aunque "
+"era de un hilo separado? Cualquier seteo modificado con las funciones `use_*`"
+" se comportará de igual manera."
 
 #: 05.4-Threads.md:166
 #, fuzzy
@@ -4908,8 +4915,8 @@ msgid ""
 "When threads are created, they inherit all the settings from their parent but "
 "they don't share any changes back."
 msgstr ""
-"Cuando se crean hilos, ellos heredan todos los seteos de su padre, pero no los"
-" comparten a su vez."
+"Cuando se crean hilos, ellos heredan todos los seteos de su padre, pero no "
+"los comparten a su vez."
 
 #: 05.4-Threads.md:169
 #, fuzzy
@@ -4958,8 +4965,8 @@ msgid ""
 "Look at the log pane when you run this code. See how the log reports the name "
 "of the thread with the message?"
 msgstr ""
-"Mira el panel de bitácora cuando corras este código. ¿ves que reporta el nombr"
-"e del hilo?"
+"Mira el panel de bitácora cuando corras este código. ¿ves que reporta el "
+"nombre del hilo?"
 
 #: 05.4-Threads.md:193
 #, no-wrap
@@ -4982,8 +4989,8 @@ msgid ""
 "name may be running at the same time. Let's explore this. Consider the followi"
 "ng code:"
 msgstr ""
-"Una cosa más al respecto de nombrar hilos es que sólo un hilo con su nombre pu"
-"ede estar corriendo a la vez. Exploremos esto, considerando el código:"
+"Una cosa más al respecto de nombrar hilos es que sólo un hilo con su nombre "
+"puede estar corriendo a la vez. Exploremos esto, considerando el código:"
 
 #: 05.4-Threads.md:204
 #, no-wrap
@@ -5009,9 +5016,9 @@ msgid ""
 " a couple of times. Listen to the cacophony of multiple amen breaks looping ou"
 "t of time with each other. Ok, you can press Stop now."
 msgstr ""
-"Pega eso en un buffer y córrelo. Presiona Correr un par de veces. Escucha la c"
-"acofonía de los múltiples amen breaks bucleando desincronizadamente. Ok, ya pu"
-"edes pararlo."
+"Pega eso en un buffer y córrelo. Presiona Correr un par de veces. Escucha la "
+"cacofonía de los múltiples amen breaks bucleando desincronizadamente. Ok, ya "
+"puedes pararlo."
 
 #: 05.4-Threads.md:217
 #, fuzzy
@@ -5021,10 +5028,10 @@ msgid ""
 "press the Run button three times, you'll have three layers of loops playing si"
 "multaneously."
 msgstr ""
-"Esta es la conducta que hemos visto innumerables veces - si presionas el botón"
-" Correr, capas de sonidos suenan encima de otras. Así que si tienes un loop y "
-"presionas el botón Correr tres veces, obtendrás tres capas de bucles sonando s"
-"imultáneamente."
+"Esta es la conducta que hemos visto innumerables veces - si presionas el "
+"botón Correr, capas de sonidos suenan encima de otras. Así que si tienes un "
+"loop y presionas el botón Correr tres veces, obtendrás tres capas de bucles "
+"sonando simultáneamente."
 
 #: 05.4-Threads.md:222
 #, fuzzy
@@ -5054,8 +5061,9 @@ msgid ""
 "Try pressing the Run button multiple times with this code. You'll only ever he"
 "ar one amen break loop. You'll also see this in the log:"
 msgstr ""
-"Intenta presionando el botón Correr múltiples veces con este código. Sólo escu"
-"charás un bucle del amen break. También verás lo siguiente en la bitácora:"
+"Intenta presionando el botón Correr múltiples veces con este código. Sólo "
+"escucharás un bucle del amen break. También verás lo siguiente en la "
+"bitácora:"
 
 #: 05.4-Threads.md:236
 #, no-wrap
@@ -5068,8 +5076,8 @@ msgid ""
 "Sonic Pi is telling you that a thread with the name `:amen` is already playing"
 ", so it's not creating another."
 msgstr ""
-"Sonic Pi te está diciendo que un hilo con el nombre `:amen` ya existe, así que"
-" no creará otro."
+"Sonic Pi te está diciendo que un hilo con el nombre `:amen` ya existe, así "
+"que no creará otro."
 
 #: 05.4-Threads.md:243
 #, fuzzy
@@ -5077,8 +5085,8 @@ msgid ""
 "This behaviour may not seem immediately useful to you now - but it will be ver"
 "y handy when we start to live code..."
 msgstr ""
-"Esta conducta puede no aparentar utilidad para tí - pero verás que la tiene cu"
-"ando comencemos a hacer Código-vivo..."
+"Esta conducta puede no aparentar utilidad para tí - pero verás que la tiene "
+"cuando comencemos a hacer Código-vivo..."
 
 #: 05.5-Functions.md:1
 #, fuzzy
@@ -5098,10 +5106,10 @@ msgid ""
 " a very powerful way to do this. They give us the ability to give a name to a "
 "bunch of code. Let's take a look."
 msgstr ""
-"Cuando comiences a escribir mucho código, desearás encontrar una manera de org"
-"anizar y estructurar todo para hacerlo más entendible. Las funciones permiten "
-"hacer exactamente eso, permitiéndonos darle nombre a muchas partes de nuestro "
-"código. Veamos:"
+"Cuando comiences a escribir mucho código, desearás encontrar una manera de "
+"organizar y estructurar todo para hacerlo más entendible. Las funciones "
+"permiten hacer exactamente eso, permitiéndonos darle nombre a muchas partes "
+"de nuestro código. Veamos:"
 
 #: 05.5-Functions.md:10
 #, fuzzy
@@ -5134,11 +5142,12 @@ msgid ""
 "t anything we want such as `bar`, `baz` or ideally something meaningful to you"
 " like `main_section` or `lead_riff`."
 msgstr ""
-"Aquí definimos una nueva función llamada `foo`. Lo hacemos con nuestro viejo a"
-"migo el bloque de do/end y la palabra mágica `define` seguidos del nombre que "
-"queremos darle a nuestra función. No necesitábamos llamarla `foo`, podríamos h"
-"aberla llamado cualquier cosa que quisiésemos, tales como `bar`, `baz` o ideal"
-"mente algo significativo para tí como `main_section` o `lead_riff`."
+"Aquí definimos una nueva función llamada `foo`. Lo hacemos con nuestro viejo "
+"amigo el bloque de do/end y la palabra mágica `define` seguidos del nombre "
+"que queremos darle a nuestra función. No necesitábamos llamarla `foo`, "
+"podríamos haberla llamado cualquier cosa que quisiésemos, tales como `bar`, "
+"`baz` o idealmente algo significativo para tí como `main_section` o "
+"`lead_riff`."
 
 #: 05.5-Functions.md:27
 #, fuzzy
@@ -5157,8 +5166,8 @@ msgstr "Llamando las Funciones"
 #, fuzzy
 msgid "Once we have defined our function we can call it by just writing its name:"
 msgstr ""
-"Una vez hemos definido nuestra función, podemos llamarla simplemente escribien"
-"do su nombre:"
+"Una vez hemos definido nuestra función, podemos llamarla simplemente "
+"escribiendo su nombre:"
 
 #: 05.5-Functions.md:36
 #, no-wrap
@@ -5194,10 +5203,10 @@ msgid ""
 "`play` or `sample`. This gives us a great way to express ourselves and to crea"
 "te new meaningful words for use in our compositions."
 msgstr ""
-"Incluso podemos usar `foo` dentro de bloques de iteración o cualquier lugar do"
-"nde hayamos escrito `play` o `sample`. Esto nos da una fantástica manera de ex"
-"presar y crear nuevas palabras significativas a usar en nuestras composiciones"
-"."
+"Incluso podemos usar `foo` dentro de bloques de iteración o cualquier lugar "
+"donde hayamos escrito `play` o `sample`. Esto nos da una fantástica manera "
+"de expresar y crear nuevas palabras significativas a usar en nuestras "
+"composiciones."
 
 #: 05.5-Functions.md:57
 #, fuzzy
@@ -5213,11 +5222,11 @@ msgid ""
 "change that. When you define a function, Sonic Pi *remembers* it. Let's try it"
 ". Delete all the code in your buffer and replace it with:"
 msgstr ""
-"Hasta ahora, cada vez que presionamos el botón de Ejecutar, Sonic Pi ha comenz"
-"ado de cero. Sólo conoce lo que está en el buffer actual. No puedes referencia"
-"r código en otro buffer o hilo. sin embargo, las funciones cambian eso. Cuando"
-" defines una función, Sonic Pi *recuerda*. Probemos borrando todo el código en"
-" tu buffer y reemplazandolo por:"
+"Hasta ahora, cada vez que presionamos el botón de Ejecutar, Sonic Pi ha "
+"comenzado de cero. Sólo conoce lo que está en el buffer actual. No puedes "
+"referenciar código en otro buffer o hilo. sin embargo, las funciones cambian "
+"eso. Cuando defines una función, Sonic Pi *recuerda*. Probemos borrando todo "
+"el código en tu buffer y reemplazandolo por:"
 
 #: 05.5-Functions.md:66
 #, no-wrap
@@ -5232,10 +5241,10 @@ msgid ""
 "ven after you deleted it from the buffer, it remembered what you had typed. Th"
 "is behaviour only works with functions created using `define` (and `defonce`)."
 msgstr ""
-"Presiona el botón de Ejecutar y escucha. ¿Dónde se fue el código?¿cómo supo So"
-"nic Pi qué tocar? Sonic Pi recordó tu función, inclusive cuando la borraste de"
-"l buffer. Esta conducta sólo funciona con las funciones creadas con `define` ("
-"y `defonce`)."
+"Presiona el botón de Ejecutar y escucha. ¿Dónde se fue el código?¿cómo supo "
+"Sonic Pi qué tocar? Sonic Pi recordó tu función, inclusive cuando la "
+"borraste del buffer. Esta conducta sólo funciona con las funciones creadas "
+"con `define` (y `defonce`)."
 
 #: 05.5-Functions.md:76
 #, fuzzy
@@ -5249,9 +5258,9 @@ msgid ""
 "ues to `rrand`, you can teach your functions to accept arguments. Let's take a"
 " look:"
 msgstr ""
-"Quizás te interese saber que al igual que podías pasar valores mínimos y máxim"
-"os con `rrand`, también puedes enseñar a tus funciones a aceptar argumentos. M"
-"iremos:"
+"Quizás te interese saber que al igual que podías pasar valores mínimos y "
+"máximos con `rrand`, también puedes enseñar a tus funciones a aceptar "
+"argumentos. Miremos:"
 
 #: 05.5-Functions.md:82
 #, no-wrap
@@ -5276,8 +5285,8 @@ msgid ""
 "This isn't very exciting, but it illustrates the point. We've created our own "
 "version of `play` called `my_player` which is parameterised."
 msgstr ""
-"Esto no es tan excitante, pero ilustra el punto. Creamos nuestra propia versió"
-"n de `play` llamada `my_player` y la cual está parametrizada."
+"Esto no es tan excitante, pero ilustra el punto. Creamos nuestra propia "
+"versión de `play` llamada `my_player` y la cual está parametrizada."
 
 #: 05.5-Functions.md:95
 #, fuzzy
@@ -5286,9 +5295,9 @@ msgid ""
 "ded by vertical goalposts `|` and separated by commas `,`. You may use any wor"
 "ds you want for the parameter names."
 msgstr ""
-"Los parámetros deben ir después del `do` y `define` en el bloque `do/end`, rod"
-"eado de postes verticales `|` y separados por comas `,`. Puedes usar cualquier"
-" palabra para los nombres de los parámetros."
+"Los parámetros deben ir después del `do` y `define` en el bloque `do/end`, "
+"rodeado de postes verticales `|` y separados por comas `,`. Puedes usar "
+"cualquier palabra para los nombres de los parámetros."
 
 #: 05.5-Functions.md:99
 #, fuzzy
@@ -5302,15 +5311,15 @@ msgid ""
 "to `play 80`. When I call it again with `my_player 90`, `n` is now replaced wi"
 "th 90, so `play n` turns into `play 90`."
 msgstr ""
-"Lo mágico sucede dentro del bloque do/end del `define` . Puedes usar nombres d"
-"e parámetros como si fueran valores reales. En este ejemplo estoy tocando la n"
-"ota `n`. Puedes considerar los parámetros como una especie de promesa de que c"
-"uando el código se ejecute, ellos serán reemplazados por los valores. Esto lo "
-"haces al pasar un parámetro a la función, cuando la llamas. Yo lo hago con `my"
-"_player 80` para tocar la nota 80. Dentro de la definición de la función `n` s"
-"e reemplaza con 80, así `play n` se convierte en `play 80`. Cuando la llamo ot"
-"ra vez con `my_player 90`, `n` es reemplazada por 90, así que `play n` se conv"
-"ierte en `play 90`."
+"Lo mágico sucede dentro del bloque do/end del `define` . Puedes usar nombres "
+"de parámetros como si fueran valores reales. En este ejemplo estoy tocando "
+"la nota `n`. Puedes considerar los parámetros como una especie de promesa de "
+"que cuando el código se ejecute, ellos serán reemplazados por los valores. "
+"Esto lo haces al pasar un parámetro a la función, cuando la llamas. Yo lo "
+"hago con `my_player 80` para tocar la nota 80. Dentro de la definición de la "
+"función `n` se reemplaza con 80, así `play n` se convierte en `play 80`. "
+"Cuando la llamo otra vez con `my_player 90`, `n` es reemplazada por 90, así "
+"que `play n` se convierte en `play 90`."
 
 #: 05.5-Functions.md:109
 #, fuzzy
@@ -5352,8 +5361,9 @@ msgid ""
 "Here I used `repeats` as if it was a number in the line `repeats.times do`. I "
 "also used `root` as if it was a note name in my call to `play`."
 msgstr ""
-"Aquí usé `repeats` como si fuera un número para la línea de `repeats.times do`"
-". También usé `root` como si fuera un nombre de nota en mi llamada a `play`."
+"Aquí usé `repeats` como si fuera un número para la línea de `repeats.times "
+"do`. También usé `root` como si fuera un nombre de nota en mi llamada a "
+"`play`."
 
 #: 05.5-Functions.md:130
 #, fuzzy
@@ -5361,8 +5371,8 @@ msgid ""
 "See how we're able to write something very expressive and easy to read by movi"
 "ng a lot of our logic into a function!"
 msgstr ""
-"¡Nota cómo podemos utilizar algo muy expresivo y fácil de leer sólo con mover "
-"mucho de nuestra lógica en el código!"
+"¡Nota cómo podemos utilizar algo muy expresivo y fácil de leer sólo con "
+"mover mucho de nuestra lógica en el código!"
 
 #: 05.6-Variables.md:1
 msgid "5.6 Variables"
@@ -5379,9 +5389,9 @@ msgid ""
 "s this very easy: you write the name you wish to use, an equal sign (`=`), the"
 "n the thing you want to remember:"
 msgstr ""
-"Algo útil para hacer con tú código es crear nombres para las cosas. Sonic Pi h"
-"ace esto muy fácil, escribes el nombre que deseas utilizar, un símbolo de (`=`"
-"), después lo que quieres recordar:"
+"Algo útil para hacer con tú código es crear nombres para las cosas. Sonic Pi "
+"hace esto muy fácil, escribes el nombre que deseas utilizar, un símbolo de "
+"(`=`), después lo que quieres recordar:"
 
 #: 05.6-Variables.md:9
 #, no-wrap
@@ -5395,9 +5405,9 @@ msgid ""
 ". We can now use `sample_name` everywhere we might have used `:loop_amen`. For"
 " example:"
 msgstr ""
-"Aquí hemos 'recordado' el símbolo `:loop_amen` en la variable `sample_name`. A"
-"hora podemos usar `sample_name` en cualquier lugar donde pudiésemos usar `:loo"
-"p_amen`. Por ejemplo:"
+"Aquí hemos 'recordado' el símbolo `:loop_amen` en la variable `sample_name`. "
+"Ahora podemos usar `sample_name` en cualquier lugar donde pudiésemos usar "
+"`:loop_amen`. Por ejemplo:"
 
 #: 05.6-Variables.md:17
 #, no-wrap
@@ -5414,8 +5424,8 @@ msgid ""
 "There are three main reasons for using variables in Sonic Pi: communicating me"
 "aning, managing repetition and capturing the results of things."
 msgstr ""
-"Hay tres razones principales para utilizar variables en Sonic Pi: comunicar si"
-"gnificado, administrar repeticón y capturar los resultados de las cosas."
+"Hay tres razones principales para utilizar variables en Sonic Pi: comunicar "
+"significado, administrar repeticón y capturar los resultados de las cosas."
 
 #: 05.6-Variables.md:26
 #, fuzzy
@@ -5433,18 +5443,19 @@ msgid ""
 "hough it might seem obvious to you now - it might not be so obvious to others "
 "or even your future self!"
 msgstr ""
-"Cuando escribes código, es fácil pensar que sólo le dices a la computadora cóm"
-"o hacer algo - mientras ella entienda, todo está bien. Sin embargo, es importa"
-"nte recordar que no sólo la computadora leerá el código. Otra gente podría lee"
-"rlo e intentar comprender qué es lo que sucede. También sucede que quieras ent"
-"ender tu propio código en el futuro. Aunque pueda ser obvio para tí, ahora, ¡p"
-"odría no serlo para otros o para tí en el futuro! When you write code it's eas"
-"y to just think you're telling the computer how to do stuff - as long as the c"
-"omputer understands it's OK. However, it's important to remember that it's not"
-" just the computer that reads the code. Other people may read it too and try t"
-"o understand what's going on. Also, you're likely to read your own code in the"
-" future and try to understand what's going on. Although it might seem obvious "
-"to you now - it might not be so obvious to others or even your future self!"
+"Cuando escribes código, es fácil pensar que sólo le dices a la computadora "
+"cómo hacer algo - mientras ella entienda, todo está bien. Sin embargo, es "
+"importante recordar que no sólo la computadora leerá el código. Otra gente "
+"podría leerlo e intentar comprender qué es lo que sucede. También sucede que "
+"quieras entender tu propio código en el futuro. Aunque pueda ser obvio para "
+"tí, ahora, ¡podría no serlo para otros o para tí en el futuro! When you "
+"write code it's easy to just think you're telling the computer how to do "
+"stuff - as long as the computer understands it's OK. However, it's important "
+"to remember that it's not just the computer that reads the code. Other "
+"people may read it too and try to understand what's going on. Also, you're "
+"likely to read your own code in the future and try to understand what's "
+"going on. Although it might seem obvious to you now - it might not be so "
+"obvious to others or even your future self!"
 
 #: 05.6-Variables.md:36
 msgid ""
@@ -5467,8 +5478,8 @@ msgid ""
 "Why does it use the number `1.7533`? Where did this number come from? What doe"
 "s it mean? However, look at this code:"
 msgstr ""
-"¿Por qué utiliza el número `1.7533`? ¿de dónde proviene? ¿qué significa? Mirem"
-"os el código siguiente:"
+"¿Por qué utiliza el número `1.7533`? ¿de dónde proviene? ¿qué significa? "
+"Miremos el código siguiente:"
 
 #: 05.6-Variables.md:47
 #, no-wrap
@@ -5485,8 +5496,9 @@ msgid ""
 "Now, it's much clearer what `1.7533` means: it's the duration of the sample `:"
 "loop_amen`! Of course, you might say why not simply write:"
 msgstr ""
-"Ahora está mucho más claro lo que significa `1.7533`: es la duración del sampl"
-"e `:loop_amen`! claro que puedes pensar que es mucho más simple escribir:"
+"Ahora está mucho más claro lo que significa `1.7533`: es la duración del "
+"sample `:loop_amen`! claro que puedes pensar que es mucho más simple "
+"escribir:"
 
 #: 05.6-Variables.md:55
 #, no-wrap
@@ -5509,8 +5521,8 @@ msgid ""
 "Often you see a lot of repetition in your code and when you want to change thi"
 "ngs, you have to change it in a lot of places. Take a look at this code:"
 msgstr ""
-"a menudo ves muchas repeticiones en tu código y cuando quieres cambiar algo, t"
-"ienes que cambiarlo enmuchos lugares. Mira este código:"
+"a menudo ves muchas repeticiones en tu código y cuando quieres cambiar algo, "
+"tienes que cambiarlo enmuchos lugares. Mira este código:"
 
 #: 05.6-Variables.md:68
 #, no-wrap
@@ -5538,11 +5550,11 @@ msgid ""
 "you have lots of time - but what if you're performing on stage? Sometimes you "
 "don't have the luxury of time - especially if you want to keep people dancing."
 msgstr ""
-"Estamos haciendo muchas cosas con `:loop_amen`! ¿qué pasa si quisiésemos escuc"
-"har otro sampleo como `:loop_garzul`? tendríamos que buscar y reemplazar todos"
-" los `:loop_amen` con `:loop_garzul`. Eso estaría bien si tienes mucho tiempo "
-"- pero ¿qué si está en vivo? algunas veces no tendrás el lujo del tiempo - esp"
-"ecialmente si quieres que la gente se mantenga bailando."
+"Estamos haciendo muchas cosas con `:loop_amen`! ¿qué pasa si quisiésemos "
+"escuchar otro sampleo como `:loop_garzul`? tendríamos que buscar y "
+"reemplazar todos los `:loop_amen` con `:loop_garzul`. Eso estaría bien si "
+"tienes mucho tiempo - pero ¿qué si está en vivo? algunas veces no tendrás el "
+"lujo del tiempo - especialmente si quieres que la gente se mantenga bailando."
 
 #: 05.6-Variables.md:84
 #, fuzzy
@@ -5575,9 +5587,9 @@ msgid ""
 "y to just change one line `sample_name = :loop_amen` to `sample_name = :loop_g"
 "arzul` and we change it in many places through the magic of variables."
 msgstr ""
-"Eso hace exactamente lo mismo que lo anterior (pruébalo). también nos da la ha"
-"bilidad de cambiar una línea `sample_name = :loop_amen` a `sample_name = :loop"
-"_garzul` y podemos hacerlo en muchos lugares gracias a las variables."
+"Eso hace exactamente lo mismo que lo anterior (pruébalo). también nos da la "
+"habilidad de cambiar una línea `sample_name = :loop_amen` a `sample_name = "
+":loop_garzul` y podemos hacerlo en muchos lugares gracias a las variables."
 
 #: 05.6-Variables.md:101
 #, fuzzy
@@ -5590,8 +5602,8 @@ msgid ""
 "Finally, a good motivation for using variables is to capture the results of th"
 "ings. For example, you may wish to do things with the duration of a sample:"
 msgstr ""
-"Un buen motivo para utilizar variables es capturar los resultados de las cosas"
-". Por ejemplo, quizás desees hacer algo con la duración de un sampleo:"
+"Un buen motivo para utilizar variables es capturar los resultados de las "
+"cosas. Por ejemplo, quizás desees hacer algo con la duración de un sampleo:"
 
 #: 05.6-Variables.md:107
 #, no-wrap
@@ -5602,8 +5614,8 @@ msgstr "sd = sample_duration(:loop_amen)"
 #, fuzzy
 msgid "We can now use `sd` anywhere we need the duration of the `:loop_amen` sample."
 msgstr ""
-"Ahora podemos usar `sd` en cualquier lugar donde necesitemos la duración del s"
-"ampleo `:loop_amen`."
+"Ahora podemos usar `sd` en cualquier lugar donde necesitemos la duración del "
+"sampleo `:loop_amen`."
 
 #: 05.6-Variables.md:114
 #, fuzzy
@@ -5611,8 +5623,8 @@ msgid ""
 "Perhaps more importantly, a variable allows us to capture the result of a call"
 " to `play` or `sample`:"
 msgstr ""
-"Más importantemente, una variable nos permite capturar el resultado de una lla"
-"mada a `play` o `sample`:"
+"Más importantemente, una variable nos permite capturar el resultado de una "
+"llamada a `play` o `sample`:"
 
 #: 05.6-Variables.md:117
 #, no-wrap
@@ -5625,8 +5637,8 @@ msgid ""
 "Now we have caught and remembered `s` as a variable, which allows us to contro"
 "l the synth as it is running:"
 msgstr ""
-"Ahora hemos atrapado y recordado `s` como una variable, lo que nos permite con"
-"trolar el sintetizador mientras corre:"
+"Ahora hemos atrapado y recordado `s` como una variable, lo que nos permite "
+"controlar el sintetizador mientras corre:"
 
 #: 05.6-Variables.md:124
 #, no-wrap
@@ -5782,11 +5794,11 @@ msgid ""
 "cause you can easily restart the thread by hitting Run. However, when you rest"
 "art the thread it is now *out of time* with the original threads."
 msgstr ""
-"Cuando estés lo suficientemente avanzado en live-coding con un número de funci"
-"ones e hilos simultáneamente, notarás que es muy fácil cometer un error en uno"
-" de los hilos y eso lo mata. Eso no es gran cosa, porque puedes fácilmente rec"
-"omenzar el hilo con apretar Run. Sin embargo, cuando recomiences el hilo estar"
-"á *out of time* con los hilos actuales."
+"Cuando estés lo suficientemente avanzado en live-coding con un número de "
+"funciones e hilos simultáneamente, notarás que es muy fácil cometer un error "
+"en uno de los hilos y eso lo mata. Eso no es gran cosa, porque puedes "
+"fácilmente recomenzar el hilo con apretar Run. Sin embargo, cuando "
+"recomiences el hilo estará *out of time* con los hilos actuales."
 
 #: 05.7-Thread-Synchronisation.md:12
 #, fuzzy
@@ -5800,10 +5812,10 @@ msgid ""
 "he settings from the parent thread. This includes the current time. This means"
 " that threads are always in time with each other when started simultaneously."
 msgstr ""
-"Como discutíamos anteriormente, nuevos hilos creados con `in_thread` heredan t"
-"odos los seteos del hilo padre. Esto incluye el tiempo actual, lo que signific"
-"a que los hilos estarán siempre en el tiempo con los demás cuando comenzados s"
-"imultáneamente."
+"Como discutíamos anteriormente, nuevos hilos creados con `in_thread` heredan "
+"todos los seteos del hilo padre. Esto incluye el tiempo actual, lo que "
+"significa que los hilos estarán siempre en el tiempo con los demás cuando "
+"comenzados simultáneamente."
 
 #: 05.7-Thread-Synchronisation.md:19
 #, fuzzy
@@ -5811,9 +5823,9 @@ msgid ""
 "However, when you start a thread on its own it starts with its own time which "
 "is unlikely to be in sync with any of the other currently running threads."
 msgstr ""
-"Sin embargo, cuando comienzas un hilo aparte, comienza con su propio tiempo qu"
-"e difícilmente estará sincronizado con alguno de los otros que estén siendo co"
-"rridos."
+"Sin embargo, cuando comienzas un hilo aparte, comienza con su propio tiempo "
+"que difícilmente estará sincronizado con alguno de los otros que estén "
+"siendo corridos."
 
 #: 05.7-Thread-Synchronisation.md:23
 #, fuzzy
@@ -5825,7 +5837,9 @@ msgstr "Cue y Sync (funciones)"
 msgid ""
 "Sonic Pi provides a solution to this problem with the functions `cue` and `syn"
 "c`."
-msgstr "Sonic Pi provee una solución a este problema con las funciones `cue` y `sync`."
+msgstr ""
+"Sonic Pi provee una solución a este problema con las funciones `cue` y "
+"`sync`."
 
 #: 05.7-Thread-Synchronisation.md:28
 #, fuzzy
@@ -5834,9 +5848,9 @@ msgid ""
 "t the other threads aren't interested and ignore these heartbeat messages. How"
 "ever, you can easily register interest with the `sync` function."
 msgstr ""
-"`cue` permite enviar mensajes de pulso a todos los otros hilos, los cuales, en"
-" principio no están interesados e ignoran estos mensajes. Sin embargo. puedes "
-"registrar fácilmente su interés con la función `sync`."
+"`cue` permite enviar mensajes de pulso a todos los otros hilos, los cuales, "
+"en principio no están interesados e ignoran estos mensajes. Sin embargo. "
+"puedes registrar fácilmente su interés con la función `sync`."
 
 #: 05.7-Thread-Synchronisation.md:33
 #, fuzzy
@@ -5847,10 +5861,10 @@ msgid ""
 "n't know how long you will wait - as `sync` waits for the next `cue` from anot"
 "her thread which may be soon or a long time away."
 msgstr ""
-"Lo importante de notar es que `sync` es similar a `sleep` en que para el hilo "
-"actual por un tiempo. Sin embargo, con `sleep` tu especificas cuánto tiempo va"
-" a esperar, en cambio con `sync` no sabes cuánto tiempo esperará - ya que `syn"
-"c` espera por el siguiente `cue` de otro hilo."
+"Lo importante de notar es que `sync` es similar a `sleep` en que para el "
+"hilo actual por un tiempo. Sin embargo, con `sleep` tu especificas cuánto "
+"tiempo va a esperar, en cambio con `sync` no sabes cuánto tiempo esperará - "
+"ya que `sync` espera por el siguiente `cue` de otro hilo."
 
 #: 05.7-Thread-Synchronisation.md:40
 #, fuzzy
@@ -5894,10 +5908,10 @@ msgid ""
 "ynchronising on `tick` messages and when it receives one it inherits the time "
 "of the `cue` thread and continues running."
 msgstr ""
-"Aquí tenemos dos hilos - uno actuando como un metrónomo, no haciendo sonidos s"
-"ino que enviando `:tick` mensajes de pulso. El segundo hilo está sincronizando"
-"se con los mensajes de `tick` y cuando recibe uno, hereda el tiempo del hilo d"
-"e `cue` y continúa tocando."
+"Aquí tenemos dos hilos - uno actuando como un metrónomo, no haciendo sonidos "
+"sino que enviando `:tick` mensajes de pulso. El segundo hilo está "
+"sincronizandose con los mensajes de `tick` y cuando recibe uno, hereda el "
+"tiempo del hilo de `cue` y continúa tocando."
 
 #: 05.7-Thread-Synchronisation.md:63
 #, fuzzy
@@ -5906,9 +5920,9 @@ msgid ""
 " thread sends the `:tick` message, even if the two threads didn't start their "
 "execution at the same time:"
 msgstr ""
-"El resultado es que escuchamos el sample de `:drum_heavy_kick` exactamente cua"
-"ndo el otro hilo envía el mensaje `:tick`, aunque ambos hilos no comenzaron su"
-" ejecución al mismo tiempo:"
+"El resultado es que escuchamos el sample de `:drum_heavy_kick` exactamente "
+"cuando el otro hilo envía el mensaje `:tick`, aunque ambos hilos no "
+"comenzaron su ejecución al mismo tiempo:"
 
 #: 05.7-Thread-Synchronisation.md:67
 #, no-wrap
@@ -5948,9 +5962,9 @@ msgid ""
 "with the first. However, as we're using `cue` and `sync`, we automatically syn"
 "c the threads bypassing any accidental timing offsets."
 msgstr ""
-"Esa llamada `sleep` típicamente haría que el segundo hilo vaya fuera de fase c"
-"on el primero. Sin embargo, por estar usando `cue` y `sync`, sincronizamos amb"
-"os hilos automáticamente."
+"Esa llamada `sleep` típicamente haría que el segundo hilo vaya fuera de fase "
+"con el primero. Sin embargo, por estar usando `cue` y `sync`, sincronizamos "
+"ambos hilos automáticamente."
 
 #: 05.7-Thread-Synchronisation.md:90
 #, fuzzy
@@ -6036,12 +6050,12 @@ msgid ""
 "et effect is that we hear a sound every 0.5 beats as each of the `sync` thread"
 "s is randomly synced with the `cue` thread and plays its sample."
 msgstr ""
-"Aquí tenemos un `cue` principal bucleado, el cual envía aleatoriamente uno de "
-"los nombres de pulso `:foo`, `:bar` o `:baz`. Después tenemos también tres buc"
-"les de hilos sincronizándose entre ellos independientemente y tocando un sampl"
-"eo diferente. El efecto es que escuchamos un sonido cada 0.5 pulsos que cada u"
-"no de los hilos está aleatoriamente sincronizándose `sync` con el hilo de `cue"
-"` y toca su sampleo."
+"Aquí tenemos un `cue` principal bucleado, el cual envía aleatoriamente uno "
+"de los nombres de pulso `:foo`, `:bar` o `:baz`. Después tenemos también "
+"tres bucles de hilos sincronizándose entre ellos independientemente y "
+"tocando un sampleo diferente. El efecto es que escuchamos un sonido cada 0.5 "
+"pulsos que cada uno de los hilos está aleatoriamente sincronizándose `sync` "
+"con el hilo de `cue` y toca su sampleo."
 
 #: 05.7-Thread-Synchronisation.md:136
 #, fuzzy
@@ -6049,8 +6063,8 @@ msgid ""
 "This of course also works if you order the threads in reverse as the `sync` th"
 "reads will simply sit and wait for the next `cue`."
 msgstr ""
-"Por supuesto que esto también funciona si ordenas los hilos en reversa, ya que"
-" los hilos `sync` siempre esperarán al siguiente `cue`."
+"Por supuesto que esto también funciona si ordenas los hilos en reversa, ya "
+"que los hilos `sync` siempre esperarán al siguiente `cue`."
 
 #: 06-FX.md:1
 msgid "6 FX"
@@ -6069,9 +6083,9 @@ msgid ""
 "rb to parts of your piece, or some echo or perhaps even distort or wobble your"
 " basslines."
 msgstr ""
-"Uno de los aspectos más satisfactorios y divertidos de Sonic Pi es su habilida"
-"d de añadir efectos de estudio a tus sonidos. Por ejemplo, si quieres añadir r"
-"everberación, eco o distorsión."
+"Uno de los aspectos más satisfactorios y divertidos de Sonic Pi es su "
+"habilidad de añadir efectos de estudio a tus sonidos. Por ejemplo, si "
+"quieres añadir reverberación, eco o distorsión."
 
 #: 06-FX.md:10
 #, fuzzy
@@ -6083,12 +6097,12 @@ msgid ""
 "f the FX whilst it's still running. So, for example, you could increase the re"
 "verb on your bass throughout the track..."
 msgstr ""
-"Sonic Pi provee una manera simple y poderosa de añadir efectos FX. Inclusive t"
-"e permite encadenarlos (así pasas tus sonidos por la distorsión, después el ec"
-"o y la reverberación). También controlar cada unidad individual de FX con oper"
-"andos (similar a darle parámetros a los sintetizadores y sampleos). Inclusive "
-"puedes modificar los operandos del FX mientras se ejecutan. Por ejemplo, puede"
-"s incrementar la reverberación del bajo a través de la pista..."
+"Sonic Pi provee una manera simple y poderosa de añadir efectos FX. Inclusive "
+"te permite encadenarlos (así pasas tus sonidos por la distorsión, después el "
+"eco y la reverberación). También controlar cada unidad individual de FX con "
+"operandos (similar a darle parámetros a los sintetizadores y sampleos). "
+"Inclusive puedes modificar los operandos del FX mientras se ejecutan. Por "
+"ejemplo, puedes incrementar la reverberación del bajo a través de la pista..."
 
 #: 06-FX.md:18
 #, fuzzy
@@ -6128,12 +6142,12 @@ msgid ""
 "d of needing someone else to control things for you, that's where the computer"
 " steps in."
 msgstr ""
-"Esto se llama efectos FX en cadena. Sonic Pi soporta eso. Adicionalmente cada "
-"pedal a menudo tiene diales y deslizadores para controlar cuánta distorsión, r"
-"everberación, eco etc. aplicar. Sonic Pi soporta También esta clase de control"
-". Finalmente, imagina un guitarrista tocar mientras otra persona controla los "
-"efectos DX. Sonic Pic también permite esto, pero en vez de otra persona, te pe"
-"rmite a tí controlarlo todo."
+"Esto se llama efectos FX en cadena. Sonic Pi soporta eso. Adicionalmente "
+"cada pedal a menudo tiene diales y deslizadores para controlar cuánta "
+"distorsión, reverberación, eco etc. aplicar. Sonic Pi soporta También esta "
+"clase de control. Finalmente, imagina un guitarrista tocar mientras otra "
+"persona controla los efectos DX. Sonic Pic también permite esto, pero en vez "
+"de otra persona, te permite a tí controlarlo todo."
 
 #: 06-FX.md:41
 #, fuzzy
@@ -6156,8 +6170,9 @@ msgid ""
 "In this section we'll look at a couple of FX: reverb and echo. We'll see how t"
 "o use them, how to control their opts and how to chain them."
 msgstr ""
-"En esta sección veremos los efectos: reverberación y eco. Veremos cómo usarlos"
-", controlar sus operandos y encadenarlos. Llamaremos \"FX\" a los efectos."
+"En esta sección veremos los efectos: reverberación y eco. Veremos cómo "
+"usarlos, controlar sus operandos y encadenarlos. Llamaremos \"FX\" a los "
+"efectos."
 
 #: 06.1-Adding-FX.md:9
 #, fuzzy
@@ -6165,8 +6180,8 @@ msgid ""
 "Sonic Pi's FX system uses blocks. So if you haven't read section 5.1 you might"
 " want to take a quick look and then head back."
 msgstr ""
-"El sistema de efectos de Sonic Pi, utiliza bloques. Así que si no has leído la"
-" sección 5.1, deberías."
+"El sistema de efectos de Sonic Pi, utiliza bloques. Así que si no has leído "
+"la sección 5.1, deberías."
 
 #: 06.1-Adding-FX.md:12
 #, fuzzy
@@ -6179,8 +6194,8 @@ msgid ""
 "If we want to use reverb we write `with_fx :reverb` as the special code to our"
 " block like this:"
 msgstr ""
-"Si queremos usar reverberación, escribimos `with_fx :reverb` como el código es"
-"pecial para nuestro bloque, así:"
+"Si queremos usar reverberación, escribimos `with_fx :reverb` como el código "
+"especial para nuestro bloque, así:"
 
 #: 06.1-Adding-FX.md:17
 #, no-wrap
@@ -6207,8 +6222,8 @@ msgid ""
 "Now play this code and you'll hear it played with reverb. It sounds good, does"
 "n't it! Everything sounds pretty nice with reverb."
 msgstr ""
-"Cuando tocas este código tendrá reverberación. ¿suena bien, no? todo suena mej"
-"or con reverberación."
+"Cuando tocas este código tendrá reverberación. ¿suena bien, no? todo suena "
+"mejor con reverberación."
 
 #: 06.1-Adding-FX.md:30
 #, fuzzy
@@ -6244,8 +6259,9 @@ msgid ""
 "Notice how the final `play 55` isn't played with reverb. This is because it is"
 " *outside* the do/end block, so it isn't captured by the reverb FX."
 msgstr ""
-"Nota que el lay `play 55` no se ejecutó con reberveración. Esto es porque está"
-" *fuera* del bloque do/end, así que no es capturado por el FX reverberación."
+"Nota que el lay `play 55` no se ejecutó con reberveración. Esto es porque "
+"está *fuera* del bloque do/end, así que no es capturado por el FX "
+"reverberación."
 
 #: 06.1-Adding-FX.md:48
 #, fuzzy
@@ -6253,8 +6269,8 @@ msgid ""
 "Similarly, if you make sounds before the do/end block, they also won't be capt"
 "ured:"
 msgstr ""
-"Similarmente, si haces sonidos *antes* del bloque do/end, tampoco los capturar"
-"á:"
+"Similarmente, si haces sonidos *antes* del bloque do/end, tampoco los "
+"capturará:"
 
 #: 06.1-Adding-FX.md:51
 #, no-wrap
@@ -6319,10 +6335,10 @@ msgid ""
 " a fun echo opt to play with is `phase:` which represents the duration of a gi"
 "ven echo in beats. Let's make the echo slower:"
 msgstr ""
-"Uno de los aspectos más sobresalientes de Sonic Pi es que los bloques de efect"
-"os operan con parámetros similares a los utilizados con `play` y `sample`. Por"
-" ejemplo, un parámetro interesante es `phase:` que representa la duración de u"
-"n eco dado en pulsos. Hagamos el eco más lento:"
+"Uno de los aspectos más sobresalientes de Sonic Pi es que los bloques de "
+"efectos operan con parámetros similares a los utilizados con `play` y "
+"`sample`. Por ejemplo, un parámetro interesante es `phase:` que representa "
+"la duración de un eco dado en pulsos. Hagamos el eco más lento:"
 
 #: 06.1-Adding-FX.md:87
 #, no-wrap
@@ -6406,10 +6422,10 @@ msgid ""
 "ed to play some code with echo and then with reverb? Easy, just put one inside"
 " the other:"
 msgstr ""
-"Uno de los más poderosos aspectos de los bloques de FX es que puedes anidarlos"
-", con lo que logramos encadenarlos con facilidad. Por ejemplo, si quisieras to"
-"car código con eco y después reverberación, fácilmente pones un Fx dentro de o"
-"tro:"
+"Uno de los más poderosos aspectos de los bloques de FX es que puedes "
+"anidarlos, con lo que logramos encadenarlos con facilidad. Por ejemplo, si "
+"quisieras tocar código con eco y después reverberación, fácilmente pones un "
+"Fx dentro de otro:"
 
 #: 06.1-Adding-FX.md:129
 #, no-wrap
@@ -6441,9 +6457,9 @@ msgid ""
 "ithin the inner do/end block such as `play 50` is first sent to the echo FX an"
 "d the sound of the echo FX is in turn sent out to the reverb FX."
 msgstr ""
-"Piensa en el audio fluir desde adentro. El sonido de todo el códido dentro del"
-" bloque interno do/end como `play 50` es primero enviado al FX de eco y a su v"
-"ez, éste es enviado al FX reverberación."
+"Piensa en el audio fluir desde adentro. El sonido de todo el códido dentro "
+"del bloque interno do/end como `play 50` es primero enviado al FX de eco y a "
+"su vez, éste es enviado al FX reverberación."
 
 #: 06.1-Adding-FX.md:146
 #, fuzzy
@@ -6453,10 +6469,11 @@ msgid ""
 "unning multiple FX simultaneously. So be sparing with your use of FX especiall"
 "y on low powered platforms such as the Raspberry Pi."
 msgstr ""
-"Podemos hacer uso de anidados muy profundos para resultados extremos. Sin emba"
-"rgo, ten presente que los Fx consumen muchos recursos y que al anidarlos estás"
-" de hecho corriendo muchos FX simultáneamente. Así que sé consciente de su uso"
-", especialmente en plataformas de bajo rendimiento como la Raspberry Pi."
+"Podemos hacer uso de anidados muy profundos para resultados extremos. Sin "
+"embargo, ten presente que los Fx consumen muchos recursos y que al anidarlos "
+"estás de hecho corriendo muchos FX simultáneamente. Así que sé consciente de "
+"su uso, especialmente en plataformas de bajo rendimiento como la Raspberry "
+"Pi."
 
 #: 06.1-Adding-FX.md:151
 #, fuzzy
@@ -6470,9 +6487,9 @@ msgid ""
 "ch ones are available, click on FX in the far left of this help system and you"
 "'ll see a list of available options. Here's a list of some of my favourites:"
 msgstr ""
-"Sonic Pi tiene muchos efectos con los cuales jugar. Para verlos, cliquea en FX"
-" a la izquierda de este sistema de Ayuda y verás el listado. Aquí te deja algu"
-"nos de mis favoritos:"
+"Sonic Pi tiene muchos efectos con los cuales jugar. Para verlos, cliquea en "
+"FX a la izquierda de este sistema de Ayuda y verás el listado. Aquí te deja "
+"algunos de mis favoritos:"
 
 #: 06.1-Adding-FX.md:158
 msgid "wobble,"
@@ -6498,8 +6515,8 @@ msgstr "rebanador"
 #, fuzzy
 msgid "Now go wild and add FX everywhere for some amazing new sounds!"
 msgstr ""
-"¡Ahora haz locuras con los FX, añadiéndolos en todas partes para crear nuevos "
-"sonidos!"
+"¡Ahora haz locuras con los FX, añadiéndolos en todas partes para crear "
+"nuevos sonidos!"
 
 #: 06.2-FX-in-Practice.md:1
 #, fuzzy
@@ -6520,11 +6537,11 @@ msgid ""
 "ke me - you use a Raspberry Pi to jam with, you need to be careful about how m"
 "uch work you ask it to do if you want to ensure the beats keep flowing."
 msgstr ""
-"Aunque a simple vista sean simples, los FX son - internamente - unas bestias c"
-"omplejas. Su simplicidad a veces promueve a que la gente los sobre use en su m"
-"úsica. Esto no es un problema si tienes una máquina poderosa, pero si - como y"
-"o - usas una Raspberry Pi para tus jams, debes ser cuidadoso acerca de cuanto "
-"trabajo le asignas para asegurarte que todo fluya sin pausas."
+"Aunque a simple vista sean simples, los FX son - internamente - unas bestias "
+"complejas. Su simplicidad a veces promueve a que la gente los sobre use en "
+"su música. Esto no es un problema si tienes una máquina poderosa, pero si - "
+"como yo - usas una Raspberry Pi para tus jams, debes ser cuidadoso acerca de "
+"cuanto trabajo le asignas para asegurarte que todo fluya sin pausas."
 
 #: 06.2-FX-in-Practice.md:12
 #, fuzzy
@@ -6555,9 +6572,9 @@ msgid ""
 "hort note. We also want reverb so we've wrapped it in a reverb block. All good"
 " so far. Except..."
 msgstr ""
-"En este código estamos tocando la nota 60 con un tiempo de release muy, corto,"
-" por lo que es una nota muy corta. También queríamos reverb, así que lo envolv"
-"imos en un bloque de reverberación. Todo bien, excepto..."
+"En este código estamos tocando la nota 60 con un tiempo de release muy, "
+"corto, por lo que es una nota muy corta. También queríamos reverb, así que "
+"lo envolvimos en un bloque de reverberación. Todo bien, excepto..."
 
 #: 06.2-FX-in-Practice.md:27
 #, fuzzy
@@ -6571,14 +6588,14 @@ msgid ""
 "e reverb and then waiting until it needs to be stopped and removed is all hand"
 "led by `with_fx` for you, but this takes CPU power which may be precious."
 msgstr ""
-"Veamos lo que hace el código. Primero bucleamos para que se repita por siempre"
-" todo lo que está dentro de él. Después tenemos un bloque `with_fx` Esto signi"
-"fica que crearemos un FX reverberación *cada vez que buclee*. Esto es como ten"
-"er un pedal de reverberación por cada vez que toques una cuerda de la guitarra"
-". Es bueno poder hacerlo, pero no siempre lo querrás. Por ejemplo, este código"
-" tendrá dificultades en una Raspberry Pi. Todo el trabajo de crear la reverber"
-"ación y después esperar hasta que ncesite ser parado y removido, es hecho por "
-"`with_fx` pero esto consume mucho del CPU."
+"Veamos lo que hace el código. Primero bucleamos para que se repita por "
+"siempre todo lo que está dentro de él. Después tenemos un bloque `with_fx` "
+"Esto significa que crearemos un FX reverberación *cada vez que buclee*. Esto "
+"es como tener un pedal de reverberación por cada vez que toques una cuerda "
+"de la guitarra. Es bueno poder hacerlo, pero no siempre lo querrás. Por "
+"ejemplo, este código tendrá dificultades en una Raspberry Pi. Todo el "
+"trabajo de crear la reverberación y después esperar hasta que ncesite ser "
+"parado y removido, es hecho por `with_fx` pero esto consume mucho del CPU."
 
 #: 06.2-FX-in-Practice.md:37
 #, fuzzy
@@ -6586,8 +6603,8 @@ msgid ""
 "How do we make it more similar to a traditional setup where our guitarist has "
 "just *one* reverb pedal which all sounds pass through? Simple:"
 msgstr ""
-"¿cómo lo haríamos más similar a cuando un guitarrista tiene sólo *un* pedal de"
-" reverberación a través del cual pasan todos los sonidos? Simple:"
+"¿cómo lo haríamos más similar a cuando un guitarrista tiene sólo *un* pedal "
+"de reverberación a través del cual pasan todos los sonidos? Simple:"
 
 #: 06.2-FX-in-Practice.md:41
 #, no-wrap
@@ -6613,9 +6630,9 @@ msgid ""
 " reverb for all notes played in our loop. This code is a lot more efficient an"
 "d would work fine on a Raspberry Pi."
 msgstr ""
-"Poniendo nuestro bucle *dentro* del bloque `with_fx`. Así sólo creamos un paso"
-" a reverb para todas las notas del bucle. Este código es mucho más eficiente y"
-" funcionará bien en una Raspberry Pi."
+"Poniendo nuestro bucle *dentro* del bloque `with_fx`. Así sólo creamos un "
+"paso a reverb para todas las notas del bucle. Este código es mucho más "
+"eficiente y funcionará bien en una Raspberry Pi."
 
 #: 06.2-FX-in-Practice.md:54
 #, fuzzy
@@ -6695,9 +6712,10 @@ msgid ""
 "stics. So play around and use the approach that sounds best to you whilst also"
 " working within the performance constraints of your platform."
 msgstr ""
-"Recuerda que no hay errores, sólo posibilidades. Sin embargo, según qué manera"
-", se producen diferentes sonidos y características de ejecución. Así que exper"
-"imenta y utiliza lo que te suene mejor y funcione en la plataforma que tengas."
+"Recuerda que no hay errores, sólo posibilidades. Sin embargo, según qué "
+"manera, se producen diferentes sonidos y características de ejecución. Así "
+"que experimenta y utiliza lo que te suene mejor y funcione en la plataforma "
+"que tengas."
 
 #: 07-Control.md:1
 msgid "7 Control"
@@ -6716,10 +6734,10 @@ msgid ""
 " Each sound triggered is essentially its own sound with its own list of option"
 "s set for the duration of the sound."
 msgstr ""
-"Hasta ahora hemos visto cómo disparar sintetizadores y sampleos, cambiar sus o"
-"perandores tales como amplitude, paneo, seteos de sobres y más. Cada sonido di"
-"sparado es, esencialmente, su propio sonido con su lista de opciones por la du"
-"ración del sonido."
+"Hasta ahora hemos visto cómo disparar sintetizadores y sampleos, cambiar sus "
+"operandores tales como amplitude, paneo, seteos de sobres y más. Cada sonido "
+"disparado es, esencialmente, su propio sonido con su lista de opciones por "
+"la duración del sonido."
 
 #: 07-Control.md:11
 #, fuzzy
@@ -6728,8 +6746,8 @@ msgid ""
 "playing, just like you might bend a string of a guitar whilst it's still vibra"
 "ting?"
 msgstr ""
-"¿Te gustaría cambiar los operadores de los sonidos cuando aún están sonando, a"
-"sí como cuando vibras la cuerda de una guitarra?"
+"¿Te gustaría cambiar los operadores de los sonidos cuando aún están sonando, "
+"así como cuando vibras la cuerda de una guitarra?"
 
 #: 07-Control.md:15
 #, fuzzy
@@ -6753,10 +6771,10 @@ msgid ""
 "er, Sonic Pi gives us the ability to manipulate and control currently running "
 "sounds. We do this by using a variable to capture a reference to a synth:"
 msgstr ""
-"Hasta el momento nos hemos concentrado en disparar nuevos sonidos y FXs. Sin e"
-"mbargo, Sonic Pi te da la posibilidad de manipular y controlar sonidos en ejec"
-"ución. Esto lo hacemos al utilizar una variable para capturar una referencia d"
-"e un sintetizador:"
+"Hasta el momento nos hemos concentrado en disparar nuevos sonidos y FXs. Sin "
+"embargo, Sonic Pi te da la posibilidad de manipular y controlar sonidos en "
+"ejecución. Esto lo hacemos al utilizar una variable para capturar una "
+"referencia de un sintetizador:"
 
 #: 07.1-Controlling-Running-Synths.md:10
 #, no-wrap
@@ -6770,9 +6788,9 @@ msgid ""
 " 60. Note that this is *run-local* - you can't access it from other runs like "
 "functions."
 msgstr ""
-"Aquí utilizamos una variable de ejecución local, `s` que representa el sinteti"
-"zador tocando la nota 60. Al ser *local* no puede ser accesada desde otras eje"
-"cuciones, como sucede con las funciones."
+"Aquí utilizamos una variable de ejecución local, `s` que representa el "
+"sintetizador tocando la nota 60. Al ser *local* no puede ser accesada desde "
+"otras ejecuciones, como sucede con las funciones."
 
 #: 07.1-Controlling-Running-Synths.md:18
 #, fuzzy
@@ -6805,8 +6823,8 @@ msgid ""
 "re just triggering one synth and then change the pitch 3 times afterwards, whi"
 "le it's playing."
 msgstr ""
-"Es de notar que no se disparan 4 diferentes sintetizadores, sino que usando un"
-"o al que le cambiamos los tonos 3 veces durante su ejecución."
+"Es de notar que no se disparan 4 diferentes sintetizadores, sino que usando "
+"uno al que le cambiamos los tonos 3 veces durante su ejecución."
 
 #: 07.1-Controlling-Running-Synths.md:35
 #, fuzzy
@@ -6829,11 +6847,11 @@ msgid ""
 "ation says *Can not be changed once set*, you know it's not possible to contro"
 "l the opt after the synth has started."
 msgstr ""
-"Algunos de los operandos no pueden ser controlados una vez comenzado el sintet"
-"izador. Este es el caso de los parámetros de sobres ADSR. Puedes encontrar cuá"
-"les operandos sí pueden ser controlados en el sistema de ayuda. Si la document"
-"ación dice *no puede ser cambiado una vez seteado*, es que no puedes controlar"
-" los operandos cuando el sintetizador ha comenzado."
+"Algunos de los operandos no pueden ser controlados una vez comenzado el "
+"sintetizador. Este es el caso de los parámetros de sobres ADSR. Puedes "
+"encontrar cuáles operandos sí pueden ser controlados en el sistema de ayuda. "
+"Si la documentación dice *no puede ser cambiado una vez seteado*, es que no "
+"puedes controlar los operandos cuando el sintetizador ha comenzado."
 
 #: 07.2-Controlling-FX.md:1
 #, fuzzy
@@ -6850,7 +6868,8 @@ msgstr "Controlando efectos (FX)"
 msgid ""
 "It is also possible to control FX, although this is achieved in a slightly dif"
 "ferent way:"
-msgstr "También es posible controlar los efectos, aunque de una manera diferente:"
+msgstr ""
+"También es posible controlar los efectos, aunque de una manera diferente:"
 
 #: 07.2-Controlling-FX.md:8
 #, no-wrap
@@ -6885,18 +6904,18 @@ msgid ""
 "ich we then reference from the containing do/end block. This behaviour is iden"
 "tical to using parameterised functions."
 msgstr ""
-"En vez de usar una variable, usamos parámetros de poste \"\\|\" de los bloques do"
-"/end. Dentro de los postes `|`, debemos especificar un nombre específico para "
-"nuestro efecto en ejecución, el cual después referenciaremos desde el bloque d"
-"o/end que lo contiene. Esta conducta es idéntica a usar funciones parametricaz"
-"adas."
+"En vez de usar una variable, usamos parámetros de poste \"\\|\" de los "
+"bloques do/end. Dentro de los postes `|`, debemos especificar un nombre "
+"específico para nuestro efecto en ejecución, el cual después referenciaremos "
+"desde el bloque do/end que lo contiene. Esta conducta es idéntica a usar "
+"funciones parametricazadas."
 
 #: 07.2-Controlling-FX.md:26
 #, fuzzy
 msgid "Now go and control some synths and FX!"
 msgstr ""
-"¡Ahora ve a controlar sintetizadores y efectos! Now go and control some synths"
-" and FX!"
+"¡Ahora ve a controlar sintetizadores y efectos! Now go and control some "
+"synths and FX!"
 
 #: 07.3-Sliding-Parameters.md:1
 #, fuzzy
@@ -6917,11 +6936,11 @@ msgid ""
 "pecial opts that only work when you control synths as introduced in the previo"
 "us section."
 msgstr ""
-"Mientras explorábamos las opciones con sintetizadores y efectos, habrás notado"
-" que hay un número de opciones que terminan en `_slide`. Quizás intentaste uti"
-"lizarlos y no hubo efecto. Esto es porque ellos son parámetros especiales que "
-"sólo funcionan cuando controlas los sintetizadores como dijimos en la sección "
-"anterior."
+"Mientras explorábamos las opciones con sintetizadores y efectos, habrás "
+"notado que hay un número de opciones que terminan en `_slide`. Quizás "
+"intentaste utilizarlos y no hubo efecto. Esto es porque ellos son parámetros "
+"especiales que sólo funcionan cuando controlas los sintetizadores como "
+"dijimos en la sección anterior."
 
 #: 07.3-Sliding-Parameters.md:11
 #, fuzzy
@@ -6936,10 +6955,10 @@ msgid ""
 "ing the `note:` parameter, to add slide, we need to set the `note_slide` param"
 "eter of the synth:"
 msgstr ""
-"Aquí puedes escuchar el sintetizador cambiando tono inmediatamente en cada lla"
-"mada de `control`. Sin embargo, quizás querramos que el tono se deslice entre "
-"cambios. Ya que estamos controlando el parámetro `note`, para añadir deslizami"
-"ento (slide), debemos setear el `note_slide` del sintetizador:"
+"Aquí puedes escuchar el sintetizador cambiando tono inmediatamente en cada "
+"llamada de `control`. Sin embargo, quizás querramos que el tono se deslice "
+"entre cambios. Ya que estamos controlando el parámetro `note`, para añadir "
+"deslizamiento (slide), debemos setear el `note_slide` del sintetizador:"
 
 #: 07.3-Sliding-Parameters.md:28
 #, no-wrap
@@ -6967,9 +6986,9 @@ msgid ""
 "doesn't it? You can speed up the slide by using a shorter time such as `note_s"
 "lide: 0.2` or slow it down by using a longer slide time."
 msgstr ""
-"Ahora escuchamos las notas \"deslizadas\" entre cada llamada de `control`. ¿suen"
-"a bien, no? Puedes acelerar/desacelerar el arraster usando tiempos más cortos "
-"en `note_slide: 0.2`."
+"Ahora escuchamos las notas \"deslizadas\" entre cada llamada de `control`. ¿"
+"suena bien, no? Puedes acelerar/desacelerar el arraster usando tiempos más "
+"cortos en `note_slide: 0.2`."
 
 #: 07.3-Sliding-Parameters.md:43
 #, fuzzy
@@ -6977,8 +6996,8 @@ msgid ""
 "Every parameter that can be controlled has a corresponding `_slide` parameter "
 "for you to play with."
 msgstr ""
-"Cada parámetro que puede ser controlado, tiene su correspondiente `_slide` con"
-" el que jugar."
+"Cada parámetro que puede ser controlado, tiene su correspondiente `_slide` "
+"con el que jugar."
 
 #: 07.3-Sliding-Parameters.md:46
 #, fuzzy
@@ -6992,10 +7011,10 @@ msgid ""
 " and used every time you slide the corresponding parameter. To stop sliding yo"
 "u must set the `_slide` value to 0 before the next `control` call."
 msgstr ""
-"Una vez que determines un parámetro de `_slide` en un sintetizador, será recor"
-"dado y usado cada vez que deslices el correspondiente parámetro. Para detener "
-"el deslizamiento, debes setear el valor de `_slide` a 0 antes de la siguiente "
-"llamada a control."
+"Una vez que determines un parámetro de `_slide` en un sintetizador, será "
+"recordado y usado cada vez que deslices el correspondiente parámetro. Para "
+"detener el deslizamiento, debes setear el valor de `_slide` a 0 antes de la "
+"siguiente llamada a control."
 
 #: 07.3-Sliding-Parameters.md:53
 #, fuzzy
@@ -7052,9 +7071,9 @@ msgid ""
 "you may find it useful to have a series of notes to play one after another. Pr"
 "ogramming languages have data structures to allow you do exactly this."
 msgstr ""
-"Algunas veces puedes desear usar más de una cosa. Por ejemplo, el tocar una se"
-"rie de notas que se toquen una después de la otra. Los lenguajes de programaci"
-"ón tienen estructuras de datos para permitirte eso."
+"Algunas veces puedes desear usar más de una cosa. Por ejemplo, el tocar una "
+"serie de notas que se toquen una después de la otra. Los lenguajes de "
+"programación tienen estructuras de datos para permitirte eso."
 
 #: 08-Data-Structures.md:12
 #, fuzzy
@@ -7063,9 +7082,9 @@ msgid ""
 "and people are always inventing new ones. However, for now we only really need"
 " to consider a very simple data structure - the list."
 msgstr ""
-"Hay muchas estructuras de datos exóticas y excitantes a disposición de los pro"
-"gramadores - y se siguen inventando nuevas. Sin embargo, por ahora sólo necesi"
-"tamos considerar una estructura de datos muy sencilla - la lista."
+"Hay muchas estructuras de datos exóticas y excitantes a disposición de los "
+"programadores - y se siguen inventando nuevas. Sin embargo, por ahora sólo "
+"necesitamos considerar una estructura de datos muy sencilla - la lista."
 
 #: 08-Data-Structures.md:16
 #, fuzzy
@@ -7073,8 +7092,8 @@ msgid ""
 "Let's look at it in more detail. We'll cover its basic form and then also how "
 "lists can be used to represent scales and chords."
 msgstr ""
-"Mirémosla en mayor detalle. Cubriremos su forma básica y también el modo de ut"
-"ilizarlas para representar escalas y acordes."
+"Mirémosla en mayor detalle. Cubriremos su forma básica y también el modo de "
+"utilizarlas para representar escalas y acordes."
 
 #: 08.1-Lists.md:1
 #, fuzzy
@@ -7093,9 +7112,9 @@ msgid ""
 "he list. We met it very briefly before in the section on randomisation when we"
 " randomly chose from a list of notes to play:"
 msgstr ""
-"En esta sección miraremos una Estructura de Datos muy útil: la Lista. Ya la vi"
-"mos -brevemente- en la sección de aleatoriedad, cuando de una lista de notas e"
-"legía al azar las notas a tocar:"
+"En esta sección miraremos una Estructura de Datos muy útil: la Lista. Ya la "
+"vimos -brevemente- en la sección de aleatoriedad, cuando de una lista de "
+"notas elegía al azar las notas a tocar:"
 
 #: 08.1-Lists.md:9
 #, no-wrap
@@ -7139,9 +7158,9 @@ msgid ""
 "One option is to place all the notes in a list: `[52, 55, 59]`. Our friendly `"
 "play` function is smart enough to know how to play a list of notes. Try it:"
 msgstr ""
-"Una opción es colocar todas las notas en una lista: `[52, 55, 59]`. Nuestro am"
-"igable `play` es lo suficientemente listo para entender cómo tocar una lista d"
-"e notas. Probemos:"
+"Una opción es colocar todas las notas en una lista: `[52, 55, 59]`. Nuestro "
+"amigable `play` es lo suficientemente listo para entender cómo tocar una "
+"lista de notas. Probemos:"
 
 #: 08.1-Lists.md:31
 #, no-wrap
@@ -7154,8 +7173,8 @@ msgid ""
 "Ooh, that's already nicer to read. Playing a list of notes doesn't stop you fr"
 "om using any of the parameters as normal:"
 msgstr ""
-"Ohh, eso ya está mejor para leer. El tocar un listado de notas no significa qu"
-"e no puedas usar los otros parámetros, normalmente:"
+"Ohh, eso ya está mejor para leer. El tocar un listado de notas no significa "
+"que no puedas usar los otros parámetros, normalmente:"
 
 #: 08.1-Lists.md:38
 #, no-wrap
@@ -7181,8 +7200,8 @@ msgid ""
 "Now those of you lucky enough to have studied some music theory might recognis"
 "e that chord as *E Minor* played in the 3rd octave."
 msgstr ""
-"Ahora, esos suertudos de ustedes con estudios en teoría musical, podrán recono"
-"cer que el acorde es *Mi menor* tocado en la 3ra octava."
+"Ahora, esos suertudos de ustedes con estudios en teoría musical, podrán "
+"reconocer que el acorde es *Mi menor* tocado en la 3ra octava."
 
 #: 08.1-Lists.md:52
 #, fuzzy
@@ -7198,11 +7217,11 @@ msgid ""
 "t at index 23? The only strange thing is that in programming indexes usually s"
 "tart at 0 not 1."
 msgstr ""
-"Otro aspecto útil de una lista es la habilidad de obtener información de la mi"
-"sma. Puede sonar extraño, pero es igual a alguien pidiéndote que pases a la pá"
-"gina 23 de un libro. Con una lista, dirías, ¿qué elemento hay en el índice 23?"
-" Lo único diferente es que en índices de programación se comienza con 0 y no c"
-"on 1."
+"Otro aspecto útil de una lista es la habilidad de obtener información de la "
+"misma. Puede sonar extraño, pero es igual a alguien pidiéndote que pases a "
+"la página 23 de un libro. Con una lista, dirías, ¿qué elemento hay en el "
+"índice 23? Lo único diferente es que en índices de programación se comienza "
+"con 0 y no con 1."
 
 #: 08.1-Lists.md:60
 #, fuzzy
@@ -7226,9 +7245,9 @@ msgid ""
 " that list? Yes, of course, it's `55`. That was easy. Let's see if we can get "
 "the computer to answer it for us too:"
 msgstr ""
-"No hay algo espcialmente de susto en ello. Ahora, ¿qué es el segundo elemento "
-"en esa lista? Si, claro, es `55`. Fácil. Veamos si la computadora puede respon"
-"dernoslo, también:"
+"No hay algo espcialmente de susto en ello. Ahora, ¿qué es el segundo "
+"elemento en esa lista? Si, claro, es `55`. Fácil. Veamos si la computadora "
+"puede respondernoslo, también:"
 
 #: 08.1-Lists.md:72 08.4-Rings.md:12
 #, no-wrap
@@ -7246,12 +7265,13 @@ msgid ""
 "ent. We need to surround our index with square brackets and because counting s"
 "tarts at `0`, the index for the second element is `1`. Look:"
 msgstr ""
-"Si se mira algo raro, confía en mí, no lo es. Hay tres partes en la línea de a"
-"rriba: la palabra `puts`, nuestra lista `52, 55, 59` y nuestro índice `[1]`. P"
-"rimero pedimos `puts` para que Sonic Pi imprima la respuesta en la bitácora. D"
-"espués, le damos nuestra lista y finalmente nuestro índice le pide el segundo "
-"elemento. Necesitamos rodear nuestro índice con paréntesis cuadrados y ya que "
-"el conteo comienza en `0`, el índice para el segundo elemento es `1`. Mira:"
+"Si se mira algo raro, confía en mí, no lo es. Hay tres partes en la línea de "
+"arriba: la palabra `puts`, nuestra lista `52, 55, 59` y nuestro índice `[1]`"
+". Primero pedimos `puts` para que Sonic Pi imprima la respuesta en la "
+"bitácora. Después, le damos nuestra lista y finalmente nuestro índice le "
+"pide el segundo elemento. Necesitamos rodear nuestro índice con paréntesis "
+"cuadrados y ya que el conteo comienza en `0`, el índice para el segundo "
+"elemento es `1`. Mira:"
 
 #: 08.1-Lists.md:85
 #, no-wrap
@@ -7298,9 +7318,9 @@ msgid ""
 " lists (and is easier to read for other people). So what other chords does Son"
 "ic Pi support? Well, a *lot*. Try some of these:"
 msgstr ""
-"¡Ahora estamos en algo!. Eso se mira mucho mejor que listas crudas y es más fá"
-"cil de leer para otros. ¿qué otros acordes soporta Sonic Pi? Bueno, *muchos*. "
-"Prueba con estos:"
+"¡Ahora estamos en algo!. Eso se mira mucho mejor que listas crudas y es más "
+"fácil de leer para otros. ¿qué otros acordes soporta Sonic Pi? Bueno, "
+"*muchos*. Prueba con estos:"
 
 #: 08.2-Chords.md:16
 #, fuzzy
@@ -7331,8 +7351,8 @@ msgstr "Arpegios"
 #, fuzzy
 msgid "We can easily turn chords into arpeggios with the function `play_pattern`:"
 msgstr ""
-"Podemos convertir acordes en arpegios con facilidad, gracias a la función `pla"
-"y_pattern`:"
+"Podemos convertir acordes en arpegios con facilidad, gracias a la función "
+"`play_pattern`:"
 
 #: 08.2-Chords.md:26
 #, no-wrap
@@ -7361,8 +7381,8 @@ msgstr "play_pattern_timed chord(:E3, :m7), 0.25"
 #, fuzzy
 msgid "We can even pass a list of times which it will treat as a circle of times:"
 msgstr ""
-"Inclusive podemos pasar una lista de tiempos, los cuales serán tratados como u"
-"n círculo de tiempos:"
+"Inclusive podemos pasar una lista de tiempos, los cuales serán tratados como "
+"un círculo de tiempos:"
 
 #: 08.2-Chords.md:42
 #, no-wrap
@@ -7427,8 +7447,8 @@ msgid ""
 "Sonic Pi has support for a wide range of scales. How about playing a C3 major "
 "scale?"
 msgstr ""
-"Sonic Pi incluye un gran rango de escalas. ¿qué tal tocar una escala de Do3 ma"
-"yor?"
+"Sonic Pi incluye un gran rango de escalas. ¿qué tal tocar una escala de Do3 "
+"mayor?"
 
 #: 08.3-Scales.md:8
 #, no-wrap
@@ -7471,9 +7491,9 @@ msgid ""
 "meaningful. Have a play with this example which picks random notes from the ch"
 "ord E3 minor:"
 msgstr ""
-"Los Acordes y Escalas son una buena manera de restringir una elección aleatori"
-"a para hacer algo significativo. Toca esl siguiente ejemplo que agarra notas a"
-"l azar del acorde de E3 menor:"
+"Los Acordes y Escalas son una buena manera de restringir una elección "
+"aleatoria para hacer algo significativo. Toca esl siguiente ejemplo que "
+"agarra notas al azar del acorde de E3 menor:"
 
 #: 08.3-Scales.md:30
 #, no-wrap
@@ -7509,10 +7529,10 @@ msgid ""
 " you see a long list of chords or scales (depending on which you're looking at"
 ")."
 msgstr ""
-"Para saber cuáles acordes y escalas vienen con Sonic Pi, simplemente cliquea e"
-"l botón Lang a la izquierda de este tutorial y elige acorde o escala de la lis"
-"ta API. En la información en el panel principal, baja hasta ver una larga list"
-"a de acordes y escalas (dependiendo de cuál estés viendo)."
+"Para saber cuáles acordes y escalas vienen con Sonic Pi, simplemente cliquea "
+"el botón Lang a la izquierda de este tutorial y elige acorde o escala de la "
+"lista API. En la información en el panel principal, baja hasta ver una larga "
+"lista de acordes y escalas (dependiendo de cuál estés viendo)."
 
 #: 08.3-Scales.md:48
 #, fuzzy
@@ -7536,9 +7556,9 @@ msgid ""
 " you might have come across ring buffers or ring arrays. Here, we'll just go f"
 "or ring - it's short and simple."
 msgstr ""
-"Una variación interesante a las listas, son los anillos. Si sabes algo de prog"
-"ramación, puedes haberte topado con anillos de buffers o arrays. Aquí sólo ire"
-"mos con los anillos - es corto y simple."
+"Una variación interesante a las listas, son los anillos. Si sabes algo de "
+"programación, puedes haberte topado con anillos de buffers o arrays. Aquí "
+"sólo iremos con los anillos - es corto y simple."
 
 #: 08.4-Rings.md:9
 #, fuzzy
@@ -7546,8 +7566,8 @@ msgid ""
 "In the previous section on lists we saw how we could fetch elements out of the"
 "m by using the indexing mechanism:"
 msgstr ""
-"En la sección anterior de listas, vimos cómo sacar elementos de ellas a través"
-" del mecanismo de indexado:"
+"En la sección anterior de listas, vimos cómo sacar elementos de ellas a "
+"través del mecanismo de indexado:"
 
 #: 08.4-Rings.md:16
 #, fuzzy
@@ -7556,9 +7576,9 @@ msgid ""
 " index 100 as the list has only three elements in it. So Sonic Pi will return "
 "you `nil` which means nothing."
 msgstr ""
-"Ahora, ¿qué sucede si quieres el índice `100`? Bueno, claramente no existe un "
-"elemente en el índice 100, ya que sólo hay 3 elementos dentro. Así que Sonic P"
-"i te responderá un `nil`."
+"Ahora, ¿qué sucede si quieres el índice `100`? Bueno, claramente no existe "
+"un elemente en el índice 100, ya que sólo hay 3 elementos dentro. Así que "
+"Sonic Pi te responderá un `nil`."
 
 #: 08.4-Rings.md:20
 #, fuzzy
@@ -7566,8 +7586,8 @@ msgid ""
 "However, consider you have a counter such as the current beat which continuall"
 "y increases. Let's create our counter and our list:"
 msgstr ""
-"Sin embargo, considera que tienes un contador tal como el pulso actual que se "
-"va incrementando. Hagamos nuestro contador y lista:"
+"Sin embargo, considera que tienes un contador tal como el pulso actual que "
+"se va incrementando. Hagamos nuestro contador y lista:"
 
 #: 08.4-Rings.md:23
 #, no-wrap
@@ -7591,8 +7611,8 @@ msgstr "puts notes[counter]"
 #, fuzzy
 msgid "Great, we got `52`. Now, let's increment our counter and get another note:"
 msgstr ""
-"Grandioso, obtuvimos `52`. Ahora, incrementemos nuestro contador y obtengamos "
-"otra nota:"
+"Grandioso, obtuvimos `52`. Ahora, incrementemos nuestro contador y "
+"obtengamos otra nota:"
 
 #: 08.4-Rings.md:37
 #, no-wrap
@@ -7611,9 +7631,9 @@ msgid ""
 "to just loop back round and start at the beginning of the list again? This is "
 "what rings are for."
 msgstr ""
-"Super, obtuvimos `55`y después `59`. Sin embargo, si lo hacemos de nuevo, se n"
-"os acaban los números de la lista y obtenemos `nil`. Si quisiésemos buclear y "
-"volver a comenzar la lista, usaríamos los anillos."
+"Super, obtuvimos `55`y después `59`. Sin embargo, si lo hacemos de nuevo, se "
+"nos acaban los números de la lista y obtenemos `nil`. Si quisiésemos buclear "
+"y volver a comenzar la lista, usaríamos los anillos."
 
 #: 08.4-Rings.md:47
 #, fuzzy
@@ -7626,8 +7646,8 @@ msgid ""
 "We can create rings one of two ways. Either we use the `ring` function with th"
 "e elements of the ring as parameters:"
 msgstr ""
-"Podemos crear anillos de dos maneras: con la función `ring`y los elementos del"
-" anillo como parámetros:"
+"Podemos crear anillos de dos maneras: con la función `ring`y los elementos "
+"del anillo como parámetros:"
 
 #: 08.4-Rings.md:52
 #, no-wrap
@@ -7640,8 +7660,8 @@ msgid ""
 "Or we can take a normal list and convert it to a ring by sending it the `.ring"
 "` message:"
 msgstr ""
-"O podemos tomar una lista normal y convertirla a anillo con el mensaje `.ring`"
-":"
+"O podemos tomar una lista normal y convertirla a anillo con el mensaje `."
+"ring`:"
 
 #: 08.4-Rings.md:59
 #, no-wrap
@@ -7661,9 +7681,9 @@ msgid ""
 "ger than the size of the ring and they'll wrap round to always point at one of"
 " the ring's elements:"
 msgstr ""
-"Un anillo puede ser utilizado de la misma manera que una lista, exceptuando qu"
-"e puedes usar índices negativos y mayores al tamaño del anillo mismo, los cual"
-"es envolverán y apuntarán siempre a alguno de los elementos del anillo:"
+"Un anillo puede ser utilizado de la misma manera que una lista, exceptuando "
+"que puedes usar índices negativos y mayores al tamaño del anillo mismo, los "
+"cuales envolverán y apuntarán siempre a alguno de los elementos del anillo:"
 
 #: 08.4-Rings.md:70
 #, no-wrap
@@ -7693,10 +7713,10 @@ msgid ""
 " anything useful we've stored in our ring regardless of the beat number we're "
 "currently on."
 msgstr ""
-"Usemos una variable para representar el número del pulso actual. Podemos usar "
-"esto como un índice a nuestro anillo para agarrar notas a ser tocadas o tiempo"
-"s de release o cualquier cosa útil que tengamos en nuestro anillo, independien"
-"temente del pulso en el que estemos."
+"Usemos una variable para representar el número del pulso actual. Podemos "
+"usar esto como un índice a nuestro anillo para agarrar notas a ser tocadas o "
+"tiempos de release o cualquier cosa útil que tengamos en nuestro anillo, "
+"independientemente del pulso en el que estemos."
 
 #: 08.4-Rings.md:85
 #, fuzzy
@@ -7709,8 +7729,8 @@ msgid ""
 "A useful thing to know is that the lists returned by `scale` and `chord` are a"
 "lso rings and allow you to access them with arbitrary indexes."
 msgstr ""
-"Algo útil de saber es que las listas regresadas por `scale` y `acorde` también"
-" son anillos que te permiten las accedas con índices arbitrarios."
+"Algo útil de saber es que las listas regresadas por `scale` y `acorde` "
+"también son anillos que te permiten las accedas con índices arbitrarios."
 
 #: 08.4-Rings.md:90
 #, fuzzy
@@ -7723,8 +7743,8 @@ msgid ""
 "In addition to `ring` there are a number of other functions which will constru"
 "ct a ring for us."
 msgstr ""
-"Además de `ring` hay un número de funciones que construyen anillos por nosotro"
-"s."
+"Además de `ring` hay un número de funciones que construyen anillos por "
+"nosotros."
 
 #: 08.4-Rings.md:95
 #, fuzzy
@@ -7913,8 +7933,8 @@ msgstr "`.shuffle` - crea una versión desordenada del anillo"
 #, fuzzy
 msgid "`.pick` - returns a ring with the results of calling `.choose` once"
 msgstr ""
-"`.pick(3)` - devuelve un anillo que es el resultado de llamar `.choose` 3 vece"
-"s"
+"`.pick(3)` - devuelve un anillo que es el resultado de llamar `.choose` 3 "
+"veces"
 
 #: 08.5-Ring-Chains.md:72
 msgid "`.pick(3)` - returns a ring with the results of calling `.choose` 3 times"
@@ -7996,11 +8016,11 @@ msgid ""
 "t). However, the main advantage is that you can take Sonic Pi on stage and gig"
 " with it."
 msgstr ""
-"Uno de los aspectos más excitantes de Sonic Pi es que permite escribir y modif"
-"icar código 'al vuelo' para hacer música, así como harías con una guitarra. Un"
-"a ventaja de esto es que te da más retroalimentación mientras compones (corre "
-"un bucle sencillo (juega con él hasta que sea perfecto). Sin embargo, la mayor"
-" ventaja es poder ejecutar Sonic Pi en vivo en escena."
+"Uno de los aspectos más excitantes de Sonic Pi es que permite escribir y "
+"modificar código 'al vuelo' para hacer música, así como harías con una "
+"guitarra. Una ventaja de esto es que te da más retroalimentación mientras "
+"compones (corre un bucle sencillo (juega con él hasta que sea perfecto). Sin "
+"embargo, la mayor ventaja es poder ejecutar Sonic Pi en vivo en escena."
 
 #: 09-Live-Coding.md:12
 #, fuzzy
@@ -8008,8 +8028,8 @@ msgid ""
 "In this section we'll cover the fundamentals of turning your static code compo"
 "sitions into dynamic performances."
 msgstr ""
-"En esta sección cubriremos lo fundamental de tornar tu código estático de comp"
-"osiciones en ejecuciones dinámicas."
+"En esta sección cubriremos lo fundamental de tornar tu código estático de "
+"composiciones en ejecuciones dinámicas."
 
 #: 09-Live-Coding.md:15
 #, fuzzy
@@ -8029,9 +8049,9 @@ msgid ""
 "ur music compositions live and turning them into a performance. For that we'll"
 " need 3 main ingredients:"
 msgstr ""
-"Ya sabemos lo suficiente para comenzar a divertirnos en serio. En esta sección"
-" te mostraré cómo comenzar a crear composiciones musicales en vivo y convertir"
-"las en ejecuciones. Para ello necesitamos 3 ingredientes:"
+"Ya sabemos lo suficiente para comenzar a divertirnos en serio. En esta "
+"sección te mostraré cómo comenzar a crear composiciones musicales en vivo y "
+"convertirlas en ejecuciones. Para ello necesitamos 3 ingredientes:"
 
 #: 09.1-Live-Coding-Fundamentals.md:10
 #, fuzzy
@@ -8055,10 +8075,10 @@ msgid ""
 " function containing the code we want to play. Let's start simple. We also wan"
 "t to loop calls to that function in a thread:"
 msgstr ""
-"¡Muy bien, comencemos! Hagamos nuestros primeros sonidos de códigos en vivo Pr"
-"imero necesitamos una función conteniendo el código que necesitamos tocar Come"
-"ncemos con algo simple. También necesitamos llamadas en bucle a esa función en"
-" un hilo:"
+"¡Muy bien, comencemos! Hagamos nuestros primeros sonidos de códigos en vivo "
+"Primero necesitamos una función conteniendo el código que necesitamos tocar "
+"Comencemos con algo simple. También necesitamos llamadas en bucle a esa "
+"función en un hilo:"
 
 #: 09.1-Live-Coding-Fundamentals.md:18
 #, no-wrap
@@ -8091,8 +8111,8 @@ msgid ""
 "s on functions and threads. It's not too complicated if you've already wrapped"
 " your head around these things."
 msgstr ""
-"Si te parece complicado, vuelve a leer las secciones de funciones e hilos. No "
-"es tan complicado una vez entiendes bien esos conceptos."
+"Si te parece complicado, vuelve a leer las secciones de funciones e hilos. "
+"No es tan complicado una vez entiendes bien esos conceptos."
 
 #: 09.1-Live-Coding-Fundamentals.md:35
 #, fuzzy
@@ -8101,9 +8121,9 @@ msgid ""
 " for a beat. We then define a named thread called `:looper` which just loops a"
 "round calling `my_sound` repeatedly."
 msgstr ""
-"Lo que tenemos es una función que toca la nota 50 y duerme por un pulso. Despu"
-"és definimos un hilo llamado `:looper` que bucle llamando `my_loop` repetidame"
-"nte."
+"Lo que tenemos es una función que toca la nota 50 y duerme por un pulso. "
+"Después definimos un hilo llamado `:looper` que bucle llamando `my_loop` "
+"repetidamente."
 
 #: 09.1-Live-Coding-Fundamentals.md:39
 #, fuzzy
@@ -8122,8 +8142,9 @@ msgid ""
 "0 to another number, say 55, then press the Run button again. Woah! It changed"
 "! Live!"
 msgstr ""
-"Aquí es donde comienza la diversión. Mientras el código *aún corre* cambia 50 "
-"a otro número, digamos 55, y presiona Run otra vez. ¡Woah! ¡cambió en vivo!"
+"Aquí es donde comienza la diversión. Mientras el código *aún corre* cambia "
+"50 a otro número, digamos 55, y presiona Run otra vez. ¡Woah! ¡cambió en "
+"vivo!"
 
 #: 09.1-Live-Coding-Fundamentals.md:47
 #, fuzzy
@@ -8133,10 +8154,10 @@ msgid ""
 "nction. We gave `:my_sound` a new definition. When the `:looper` thread looped"
 " around it simply called the new definition."
 msgstr ""
-"No añadió una nueva capa porque usamos hilos nombrados, los que sólo permiten "
-"un hilo por cada nombre. El sonido cambió porque *redefinimos* la función. LE "
-"dimos a `:my_loop`una nueva definición. CUando el hilo `:looper` bucleó, simpl"
-"emente llamó la nueva definición."
+"No añadió una nueva capa porque usamos hilos nombrados, los que sólo "
+"permiten un hilo por cada nombre. El sonido cambió porque *redefinimos* la "
+"función. LE dimos a `:my_loop`una nueva definición. CUando el hilo `:looper` "
+"bucleó, simplemente llamó la nueva definición."
 
 #: 09.1-Live-Coding-Fundamentals.md:52
 #, fuzzy
@@ -8144,8 +8165,8 @@ msgid ""
 "Try changing it again, change the note, change the sleep time. How about addin"
 "g a `use_synth` statement? For example, change it to:"
 msgstr ""
-"Sigue cambiándolo, cambia la nora, el tiempo de pausa. ¿qué tal añadir un `use"
-"_synth`? Por ejemplo, esto:"
+"Sigue cambiándolo, cambia la nora, el tiempo de pausa. ¿qué tal añadir un "
+"`use_synth`? Por ejemplo, esto:"
 
 #: 09.1-Live-Coding-Fundamentals.md:55
 #, no-wrap
@@ -8169,8 +8190,8 @@ msgid ""
 "Now it sounds pretty interesting, but we can spice it up further. Instead of p"
 "laying the same note again and again, try playing a chord:"
 msgstr ""
-"Ahora suena interesante, pero podemos mejorarlo, aún. En vez de tocar la misma"
-" nota, hagámoslo con un acorde:"
+"Ahora suena interesante, pero podemos mejorarlo, aún. En vez de tocar la "
+"misma nota, hagámoslo con un acorde:"
 
 #: 09.1-Live-Coding-Fundamentals.md:67
 #, no-wrap
@@ -8265,9 +8286,9 @@ msgid ""
 "stop what you're doing and read the next section on `live_loop` which will cha"
 "nge the way you code in Sonic Pi forever..."
 msgstr ""
-"Sin embargo, antes de saltar y comenzar a Live Coding con funciones e hilos, l"
-"ee la próxima sección sobre `live_loop` que cambiará la manera en la que codif"
-"iques con Sonic Pi para siempre..."
+"Sin embargo, antes de saltar y comenzar a Live Coding con funciones e hilos, "
+"lee la próxima sección sobre `live_loop` que cambiará la manera en la que "
+"codifiques con Sonic Pi para siempre..."
 
 #: 09.2-Live-Loops.md:1
 #, fuzzy
@@ -8287,10 +8308,10 @@ msgid ""
 "ndamentals, `live_loop` is a simple way of doing exactly that but without havi"
 "ng to write so much."
 msgstr ""
-"Bien, ésta sección del tutorial es la joya de la corona. Si leyeses sólo una s"
-"ección, debería ser ésta. Si leíste la sección previa sobre los Fundamentos de"
-" Live Coding, `live_loop` es una manera simple de hacer exactamente eso, pero "
-"sin tener que escribir tanto."
+"Bien, ésta sección del tutorial es la joya de la corona. Si leyeses sólo una "
+"sección, debería ser ésta. Si leíste la sección previa sobre los Fundamentos "
+"de Live Coding, `live_loop` es una manera simple de hacer exactamente eso, "
+"pero sin tener que escribir tanto."
 
 #: 09.2-Live-Loops.md:10
 #, fuzzy
@@ -8298,8 +8319,8 @@ msgid ""
 "If you didn't read the previous section, `live_loop` is the best way to jam wi"
 "th Sonic Pi."
 msgstr ""
-"Si no leíste la sección anterior, `live_loop` es como mejor se puede tocar con"
-" Sonic Pi."
+"Si no leíste la sección anterior, `live_loop` es como mejor se puede tocar "
+"con Sonic Pi."
 
 #: 09.2-Live-Loops.md:13
 #, fuzzy
@@ -8326,16 +8347,16 @@ msgid ""
 " However, don't press Stop just yet. Change the `60` to `65` and press Run aga"
 "in."
 msgstr ""
-"Presiona el botón de Run. Escucharás un beep básico en cada pulso. Nada muy di"
-"vertido en ello. Sin embargo, todavía no presiones Stop. Cambia el `60` a `65`"
-" y presiona otra vez Run."
+"Presiona el botón de Run. Escucharás un beep básico en cada pulso. Nada muy "
+"divertido en ello. Sin embargo, todavía no presiones Stop. Cambia el `60` a "
+"`65` y presiona otra vez Run."
 
 #: 09.2-Live-Loops.md:26
 #, fuzzy
 msgid "Woah! It changed *automatically* without missing a beat. This is live coding."
 msgstr ""
-"¡Woah Se cambió automáticamente sin perder un tan sólo pulso!¡Esto es Live Cod"
-"ing!"
+"¡Woah Se cambió automáticamente sin perder un tan sólo pulso!¡Esto es Live "
+"Coding!"
 
 #: 09.2-Live-Loops.md:28
 #, fuzzy
@@ -8435,7 +8456,8 @@ msgstr ""
 #: 09.2-Live-Loops.md:74
 #, fuzzy
 msgid "Now stop listening to me and play around yourself! Have fun!"
-msgstr "Ahora deja de leerme y cambia lo que quieras por tu cuenta. ¡Diviértete!"
+msgstr ""
+"Ahora deja de leerme y cambia lo que quieras por tu cuenta. ¡Diviértete!"
 
 #: 09.3-Multiple-Live-Loops.md:1
 #, fuzzy
@@ -8471,9 +8493,9 @@ msgid ""
 "You may have wondered why it needs the name `:foo`. This name is important bec"
 "ause it signifies that this live loop is different from all other live loops."
 msgstr ""
-"Quizás te preguntas el por qué es importante el nombre `foo`, la respuesta es "
-"que es importante porque significa que este bucle es diferente de TODOS los ot"
-"ros."
+"Quizás te preguntas el por qué es importante el nombre `foo`, la respuesta "
+"es que es importante porque significa que este bucle es diferente de TODOS "
+"los otros."
 
 #: 09.3-Multiple-Live-Loops.md:18
 msgid "*There can never be two live loops running with the same name*."
@@ -8487,8 +8509,8 @@ msgid ""
 "This means that if we want multiple concurrently running live loops, we just n"
 "eed to give them different names:"
 msgstr ""
-"Esto significa que si queremos múltiples bucles concurrentes, debemos darles d"
-"iferentes nombres:"
+"Esto significa que si queremos múltiples bucles concurrentes, debemos darles "
+"diferentes nombres:"
 
 #: 09.3-Multiple-Live-Loops.md:23
 #, no-wrap
@@ -8519,8 +8541,8 @@ msgid ""
 "You can now update and change each live loop independently and it all just wor"
 "ks."
 msgstr ""
-"Ahora puedes actualizar y cambiar cada bucle independientemente y funcionará s"
-"iempre."
+"Ahora puedes actualizar y cambiar cada bucle independientemente y funcionará "
+"siempre."
 
 #: 09.3-Multiple-Live-Loops.md:39
 #, fuzzy
@@ -8573,8 +8595,8 @@ msgid ""
 "fix the `:foo` loop to make the sleep a factor of 1 - something like `0.5` wil"
 "l do:"
 msgstr ""
-"Veamos si podemos arreglar el timing y sincronizar sin parar. Primero, arregle"
-"mos el bucle `:foo` para hacer el factor de sleep 1 a algo como `0.5`:"
+"Veamos si podemos arreglar el timing y sincronizar sin parar. Primero, "
+"arreglemos el bucle `:foo` para hacer el factor de sleep 1 a algo como `0.5`:"
 
 #: 09.3-Multiple-Live-Loops.md:65
 #, no-wrap
@@ -8655,9 +8677,10 @@ msgid ""
 "through rings. You'll be putting notes into rings for melodies, sleeps for rhy"
 "thms, chord progressions, timbral variations, etc. etc."
 msgstr ""
-"Algo con lo que seguramente te encontrarás haciendo muchas veces al hacer live"
-" coding es buclear a través de anillos (rings), para poner notas a melodías, p"
-"ausas a ritmos, progresiones de acordes, variaciones timbrales, etc. etc."
+"Algo con lo que seguramente te encontrarás haciendo muchas veces al hacer "
+"live coding es buclear a través de anillos (rings), para poner notas a "
+"melodías, pausas a ritmos, progresiones de acordes, variaciones timbrales, "
+"etc. etc."
 
 #: 09.4-Ticking.md:9
 #, fuzzy
@@ -8673,9 +8696,9 @@ msgid ""
 " Tick just implements this idea. It provides you with the ability to *tick thr"
 "ough rings*. Let's look at an example:"
 msgstr ""
-"Sonic Pi provee una herramienta muy útil para trabajar con anillos dentro de `"
-"bucles en vivo`. Se llama el sistema de `tick`, que provee la habilidad de *ti"
-"ckear a través de anillos*. Veamos un ejemplo:"
+"Sonic Pi provee una herramienta muy útil para trabajar con anillos dentro de "
+"`bucles en vivo`. Se llama el sistema de `tick`, que provee la habilidad de *"
+"tickear a través de anillos*. Veamos un ejemplo:"
 
 #: 09.4-Ticking.md:17
 #, no-wrap
@@ -8719,10 +8742,10 @@ msgid ""
 ". This tick is local to the live loop, so each live loop can have its own inde"
 "pendent tick:"
 msgstr ""
-"Aquí, simplemente tomamos la escala pentatónica menor de E3 y tickeamos a cada"
-" elemento al añadirles `.tick` al final de la declaración de escala. Este tick"
-" es local al bucle en vivo, por lo que cada bucle debe tener su propio e indep"
-"endiente tick:"
+"Aquí, simplemente tomamos la escala pentatónica menor de E3 y tickeamos a "
+"cada elemento al añadirles `.tick` al final de la declaración de escala. "
+"Este tick es local al bucle en vivo, por lo que cada bucle debe tener su "
+"propio e independiente tick:"
 
 #: 09.4-Ticking.md:40
 #, no-wrap
@@ -8756,8 +8779,8 @@ msgstr "Tick"
 #, fuzzy
 msgid "You can also call `tick` as a standard fn and use the value as an index:"
 msgstr ""
-"También puedes llamar `tick` como una función estándar y usar el valor como un"
-" índice:"
+"También puedes llamar `tick` como una función estándar y usar el valor como "
+"un índice:"
 
 #: 09.4-Ticking.md:57
 #, no-wrap
@@ -8781,9 +8804,9 @@ msgid ""
 "n you want to do fancy things with the tick value and for when you want to use"
 " ticks for other things than indexing into rings."
 msgstr ""
-"Sin embargo, es mejor llamar `.tick` al final. La función `tick` está para cua"
-"ndo quieras hacer cosas sofisticadas con el valor de tick y para cuando quiera"
-"s hacer más que indexar dentro de los anillos."
+"Sin embargo, es mejor llamar `.tick` al final. La función `tick` está para "
+"cuando quieras hacer cosas sofisticadas con el valor de tick y para cuando "
+"quieras hacer más que indexar dentro de los anillos."
 
 #: 09.4-Ticking.md:70
 #, fuzzy
@@ -8801,13 +8824,13 @@ msgid ""
 "t increase* it. This is available via the `look` fn. You can call `look` as a "
 "standard fn or by adding `.look` to the end of a ring."
 msgstr ""
-"Lo mágico acerca de tick es que no sólo te da un nuevo índice (o el valor del "
-"anillo en ese índice), sino que también te asegura que al próximo llamado de t"
-"ick, será el próximo valor. Mira los documentos para ver ejemplos de trabajar "
-"con `tick` . Sin embargo, por ahora es importante notar que a veces querrás mi"
-"rar al valor tick actual sin que aumente, lo cual se logra con la función `loo"
-"k`. La cual puede ser utilizada como una función estándar o añadiendo `.look` "
-"al final de un anillo. to the end of a ring."
+"Lo mágico acerca de tick es que no sólo te da un nuevo índice (o el valor "
+"del anillo en ese índice), sino que también te asegura que al próximo "
+"llamado de tick, será el próximo valor. Mira los documentos para ver "
+"ejemplos de trabajar con `tick` . Sin embargo, por ahora es importante notar "
+"que a veces querrás mirar al valor tick actual sin que aumente, lo cual se "
+"logra con la función `look`. La cual puede ser utilizada como una función "
+"estándar o añadiendo `.look` al final de un anillo. to the end of a ring."
 
 #: 09.4-Ticking.md:81
 #, fuzzy
@@ -8820,8 +8843,8 @@ msgid ""
 "Finally, sometimes you'll need more than one tick per live loop. This is achie"
 "ved by giving your tick a name:"
 msgstr ""
-"Finalmente, algunas veces necesitarás más de un tick por bucle en vivo. Esto l"
-"o lograrás nombrando a tus ticks:"
+"Finalmente, algunas veces necesitarás más de un tick por bucle en vivo. Esto "
+"lo lograrás nombrando a tus ticks:"
 
 #: 09.4-Ticking.md:86
 #, no-wrap
@@ -8846,12 +8869,12 @@ msgid ""
 "alled one tick `:foo` and the other `:bar`. If we want to `look` at these we a"
 "lso need to pass the name of the tick to `look`."
 msgstr ""
-"Aquí estamos utilizando dos ticks, uno para la nota a ser tocada y otro para e"
-"l tiempo de pausa. Como ambos están en el mismo bucle, debemos separarlos nomb"
-"rándolos diferentemente. Es lo mismo que hiciéramos con `live_loop` - pasamos "
-"un símbolo prefijado con un `:`. En el anterior ejemplo, llamamos a un tick `:"
-"foo` y al otro `:bar`. Si queremos mirarlos sólo debemos pasar el nombre del t"
-"ick a `look`."
+"Aquí estamos utilizando dos ticks, uno para la nota a ser tocada y otro para "
+"el tiempo de pausa. Como ambos están en el mismo bucle, debemos separarlos "
+"nombrándolos diferentemente. Es lo mismo que hiciéramos con `live_loop` - "
+"pasamos un símbolo prefijado con un `:`. En el anterior ejemplo, llamamos a "
+"un tick `:foo` y al otro `:bar`. Si queremos mirarlos sólo debemos pasar el "
+"nombre del tick a `look`."
 
 #: 09.4-Ticking.md:101
 msgid "Don't make it too complicated"
@@ -8865,10 +8888,10 @@ msgid ""
 "le ring. That'll give you most of the joy and simplicity of ticking through ri"
 "ngs in your `live_loop`s."
 msgstr ""
-"La mayor parte del poder del sistema de tick no es útil al comenzar. No intent"
-"es aprender todo en esta sección, enfócate en el tick de un sólo anillo. Eso e"
-"s lo que más te beneficiará y simplificará tickear dentro de anillos en `bucle"
-"s en vivo`."
+"La mayor parte del poder del sistema de tick no es útil al comenzar. No "
+"intentes aprender todo en esta sección, enfócate en el tick de un sólo "
+"anillo. Eso es lo que más te beneficiará y simplificará tickear dentro de "
+"anillos en `bucles en vivo`."
 
 #: 09.4-Ticking.md:108
 msgid ""
@@ -10970,10 +10993,11 @@ msgid ""
 "ee to dive back in when you have a question that might be covered in one of th"
 "e sections."
 msgstr ""
-"Con esto concluye el tutorial introductorio a Sonic Pi. Ojalá hayas aprendido "
-"algo por el camino. No te preocupes si crees que no entendiste todo - sólo jue"
-"ga y diviértete y verás que entiendes a tu propio ritmo - Vuelve cuando tengas"
-" alguna duda que pueda haber sido cubierta en una de las secciones."
+"Con esto concluye el tutorial introductorio a Sonic Pi. Ojalá hayas "
+"aprendido algo por el camino. No te preocupes si crees que no entendiste "
+"todo - sólo juega y diviértete y verás que entiendes a tu propio ritmo - "
+"Vuelve cuando tengas alguna duda que pueda haber sido cubierta en una de las "
+"secciones."
 
 #: 99-Conclusions.md:11
 #, fuzzy
@@ -10983,9 +11007,9 @@ msgid ""
 "and ask your question there. You'll find someone friendly and willing to lend "
 "a hand."
 msgstr ""
-"Si tienes preguntas que no están cubiertas en el tutorial, por favor dirígete "
-"a [Sonic Pi forums](http://groups.google.com/group/sonic-pi/) y haz tu pregunt"
-"a. Seguro encuentras alguien amistoso que te eche una mano."
+"Si tienes preguntas que no están cubiertas en el tutorial, por favor "
+"dirígete a [Sonic Pi forums](http://groups.google.com/group/sonic-pi/) y haz "
+"tu pregunta. Seguro encuentras alguien amistoso que te eche una mano."
 
 #: 99-Conclusions.md:16
 #, fuzzy
@@ -10994,9 +11018,9 @@ msgid ""
 "ion in this help system. There are a number of features that haven't been cove"
 "red in this tutorial that are waiting for your discovery."
 msgstr ""
-"Finalmente, te invito a que estudies el resto de la documentación en el sistem"
-"a de ayuda. Hay un número de características no cubiertas en el tutorial que e"
-"speran a ser descubiertas."
+"Finalmente, te invito a que estudies el resto de la documentación en el "
+"sistema de ayuda. Hay un número de características no cubiertas en el "
+"tutorial que esperan a ser descubiertas."
 
 #: 99-Conclusions.md:21
 #, fuzzy
@@ -11004,8 +11028,8 @@ msgid ""
 "So play, have fun, share your code, perform for your friends, show your screen"
 "s and remember:"
 msgstr ""
-"Así que juega, diviértete, comparte código con amigos, muestra tu pantalla y r"
-"ecuerda:"
+"Así que juega, diviértete, comparte código con amigos, muestra tu pantalla y "
+"recuerda:"
 
 #: 99-Conclusions.md:24
 #, fuzzy
@@ -11283,9 +11307,9 @@ msgid ""
 "Now, try increasing that feedback to 1 to hear some fun sounds! Read the docs "
 "for full details on all the many opts available to you."
 msgstr ""
-"Ahora, ¡prueba a subir la retroalimentación (feedback) a 1, para escuchar soni"
-"dos muuy locos! Lee la documentación para más detalles sobre los muchos opts q"
-"ue tienes disponibles."
+"Ahora, ¡prueba a subir la retroalimentación (feedback) a 1, para escuchar "
+"sonidos muuy locos! Lee la documentación para más detalles sobre los muchos "
+"opts que tienes disponibles."
 
 #: A.01-tips.md:110
 #, fuzzy
@@ -11451,15 +11475,15 @@ msgid ""
 "c Pi running on a Raspberry Pi. The occupant of the DJ booth wasn't spinning d"
 "isks, they wrote, edited and evaluated code. Live. This is Live Coding."
 msgstr ""
-"El rayo láser atravesaba las nubes de humo; el subwoofer bombeaba las notas gr"
-"aves muy profundamente, en los cuerpos del público. El ambiente estaba cargado"
-" con una embriagadora mezcla de sintetizadores y baile. Sin embargo, algo no l"
-"legaba a encajar del todo en esta discoteca. Proyectado en colores brillantes,"
-" encima de la cabina de DJ, había un texto moviéndose, bailando, relampagueant"
-"e. No eran efectos visuales, sino una simple proyección de Sonic Pi ejecutándo"
-"se en una Raspberri Pi. La persona que estaba en la cabina de DJ no estaba toc"
-"ando discos; estaba escribiendo, editando y evaluando código. En vivo. Esto es"
-" Live Coding."
+"El rayo láser atravesaba las nubes de humo; el subwoofer bombeaba las notas "
+"graves muy profundamente, en los cuerpos del público. El ambiente estaba "
+"cargado con una embriagadora mezcla de sintetizadores y baile. Sin embargo, "
+"algo no llegaba a encajar del todo en esta discoteca. Proyectado en colores "
+"brillantes, encima de la cabina de DJ, había un texto moviéndose, bailando, "
+"relampagueante. No eran efectos visuales, sino una simple proyección de "
+"Sonic Pi ejecutándose en una Raspberri Pi. La persona que estaba en la "
+"cabina de DJ no estaba tocando discos; estaba escribiendo, editando y "
+"evaluando código. En vivo. Esto es Live Coding."
 
 #: A.02-live-coding.md:14
 #, fuzzy
@@ -11467,8 +11491,8 @@ msgid ""
 "![Sam Aaron Live Coding](../../../etc/doc/images/tutorial/articles/A.02-live-c"
 "oding/sam-aaron-live-coding.png)"
 msgstr ""
-"![Sam Aaron Live Coding](../../../etc/doc/images/tutorial/articles/A.02-live-c"
-"oding/sam-aaron-live-coding.png)"
+"![Sam Aaron Live Coding](../../../etc/doc/images/tutorial/articles/A."
+"02-live-coding/sam-aaron-live-coding.png)"
 
 #: A.02-live-coding.md:16
 msgid ""
@@ -11534,17 +11558,18 @@ msgid ""
 "t. Go ahead, copy it into an empty Sonic Pi buffer and hit run. Boom, Boom, Bo"
 "om!."
 msgstr ""
-"Un `live_loop` tiene 4 ingredientes fundamentales. El primero es su nombre. Nu"
-"estro `live_loop` de arriba se llama `:beats`. Eres libre de llamar a tu `live"
-"_loop` como quieras. Haz una locura. Sé creativ@. Yo suelo usar nombres que co"
-"muniquen algo sobre la música que va a sonar, pensando en el público. El segun"
-"do ingrediente es la palabra `do` que marca dónde empieza el `live_loop`. El t"
-"ercer ingrediente es la palabra `end` que marca dónde el `live_loop` acaba, y "
-"finalmente está el cuerpo del `live_loop` que describe qué es lo que va a repe"
-"tir el bucle (ésta es la parte entre el `do` y el `end`). En este caso estamos"
-" tocando de forma repetida un bombo de batería y luego esperamos durante medio"
-" pulso. Esto produce un pulso grave regular perfecto. Adelante, cópialo en un "
-"búfer vacío de Sonic Pi y dale a Ejecutar. ¡Boom, Boom, Boom!."
+"Un `live_loop` tiene 4 ingredientes fundamentales. El primero es su nombre. "
+"Nuestro `live_loop` de arriba se llama `:beats`. Eres libre de llamar a tu "
+"`live_loop` como quieras. Haz una locura. Sé creativ@. Yo suelo usar nombres "
+"que comuniquen algo sobre la música que va a sonar, pensando en el público. "
+"El segundo ingrediente es la palabra `do` que marca dónde empieza el "
+"`live_loop`. El tercer ingrediente es la palabra `end` que marca dónde el "
+"`live_loop` acaba, y finalmente está el cuerpo del `live_loop` que describe "
+"qué es lo que va a repetir el bucle (ésta es la parte entre el `do` y el "
+"`end`). En este caso estamos tocando de forma repetida un bombo de batería y "
+"luego esperamos durante medio pulso. Esto produce un pulso grave regular "
+"perfecto. Adelante, cópialo en un búfer vacío de Sonic Pi y dale a Ejecutar. "
+"¡Boom, Boom, Boom!."
 
 #: A.02-live-coding.md:52
 msgid "Redefining On-the-fly"
@@ -11588,15 +11613,15 @@ msgid ""
 " - choose your own values. Try negative numbers, really small numbers and larg"
 "e numbers. Have fun!"
 msgstr ""
-"Ahora pulsa el botón de Ejecutar o presiona las teclas `alt-r`. Ahora mismo es"
-"tás escuchando unos coros preciosos. Ahora, mientras suenan, cambia el rate de"
-" `0.4` a `0.38`. Dale a Ejecutar de nuevo. ¡Guau! ¿Notas cómo ha cambiado la n"
-"ota del coro? Cámbialo de nuevo a `0.4` para volver a cómo era antes. Ahora bá"
-"jalo a `0.2`, luego a `0.19` y después vuelve a `0.4`. ¿Ves cómo el cambiar un"
-" sólo parámetro sobre la marcha, te puede dar control de verdad sobre la músic"
-"a? Ahora trastea con el rate tú mism@ - escoge tus propios valores. Prueba con"
-" números neativos, números muy pequeños y números muy grandes. ¡Que te diviert"
-"as!"
+"Ahora pulsa el botón de Ejecutar o presiona las teclas `alt-r`. Ahora mismo "
+"estás escuchando unos coros preciosos. Ahora, mientras suenan, cambia el "
+"rate de `0.4` a `0.38`. Dale a Ejecutar de nuevo. ¡Guau! ¿Notas cómo ha "
+"cambiado la nota del coro? Cámbialo de nuevo a `0.4` para volver a cómo era "
+"antes. Ahora bájalo a `0.2`, luego a `0.19` y después vuelve a `0.4`. ¿Ves "
+"cómo el cambiar un sólo parámetro sobre la marcha, te puede dar control de "
+"verdad sobre la música? Ahora trastea con el rate tú mism@ - escoge tus "
+"propios valores. Prueba con números neativos, números muy pequeños y números "
+"muy grandes. ¡Que te diviertas!"
 
 #: A.02-live-coding.md:77
 msgid "Sleeping is important"
@@ -11690,8 +11715,8 @@ msgid ""
 "Here, we have two `live_loop`s, one looping quickly making beats and another l"
 "ooping slowly making a wild bass sound."
 msgstr ""
-"Aquí tenemos dos `live_loop`s, uno dando la vuelta rápido marcando el pulso, y"
-" otro dando la vuelta lentamente y tocando un sonido de bajo muy loco."
+"Aquí tenemos dos `live_loop`s, uno dando la vuelta rápido marcando el pulso, "
+"y otro dando la vuelta lentamente y tocando un sonido de bajo muy loco."
 
 #: A.02-live-coding.md:124
 msgid ""
@@ -12024,9 +12049,10 @@ msgid ""
 "e `use_bpm 30` line to `50`. Woah, everything just got faster yet *kept in tim"
 "e*! Try going faster - up to 80, to 120, now go wild and punch in 200!"
 msgstr ""
-"Aquí viene la parte graciosa. Mientras el bucle sigue activo, cambia el `30` a"
-" `50` en la línea de `use_bpm 30`. ¡Guau, todo ha acelerado, pero sigue *a tie"
-"mpo*! Intenta ir más rápido - a 80, a 120, ¡y ahora vuélvete loc@ y mete 200!"
+"Aquí viene la parte graciosa. Mientras el bucle sigue activo, cambia el `30` "
+"a `50` en la línea de `use_bpm 30`. ¡Guau, todo ha acelerado, pero sigue *a "
+"tiempo*! Intenta ir más rápido - a 80, a 120, ¡y ahora vuélvete loc@ y mete "
+"200!"
 
 #: A.03-coded-beats.md:103
 msgid "Filtering"
@@ -12638,18 +12664,18 @@ msgid ""
 "rs who started using them in ways that Roland didn't imagine to create wild ne"
 "w sounds. Acid House was born."
 msgstr ""
-"Curiosamente, Roland no diseñó el TB-303 para música de baile. Se creó inicial"
-"mente como una ayuda para practicar para guitarristas. Pensaron que la gente p"
-"odría programarlos para tocar líneas de bajo eléctrico que sirviesen de acompa"
-"ñamiento. Por desgracia había varios problemas: eran un poco difíciles de prog"
-"ramar, no sonaban muy bien como substitutos para un bajo eléctrico, y eran bas"
-"tante caros. Para contrarrestar sus pérdidas, Roland dejó de fabricarlos despu"
-"és de vender 10.000 unidades, y después de unos años cogiendo polvo en armario"
-"s de guitarristas, era fácil verlos en los escaparates de tiendas de segunda m"
-"ano. Estos TB-303 solitarios estaban esperando a ser descubiertos por una nuev"
-"a generación de experimentador@s que empezaron a usarlos de formas en las que "
-"Roland no se habría imaginado, creando sonidos muy guays. Así nació el Acid Ho"
-"use."
+"Curiosamente, Roland no diseñó el TB-303 para música de baile. Se creó "
+"inicialmente como una ayuda para practicar para guitarristas. Pensaron que "
+"la gente podría programarlos para tocar líneas de bajo eléctrico que "
+"sirviesen de acompañamiento. Por desgracia había varios problemas: eran un "
+"poco difíciles de programar, no sonaban muy bien como substitutos para un "
+"bajo eléctrico, y eran bastante caros. Para contrarrestar sus pérdidas, "
+"Roland dejó de fabricarlos después de vender 10.000 unidades, y después de "
+"unos años cogiendo polvo en armarios de guitarristas, era fácil verlos en "
+"los escaparates de tiendas de segunda mano. Estos TB-303 solitarios estaban "
+"esperando a ser descubiertos por una nueva generación de experimentador@s "
+"que empezaron a usarlos de formas en las que Roland no se habría imaginado, "
+"creando sonidos muy guays. Así nació el Acid House."
 
 #: A.05-acid-bass.md:25
 msgid ""
@@ -12810,13 +12836,14 @@ msgid ""
 "some insane sounds. At a `res` this high, you're hearing the cutoff filter res"
 "onate so much it starts to make sounds of its own!"
 msgstr ""
-"Otra opción que merece la pena probar es `res:`. Ésta controla el nivel de res"
-"onancia del filtro. Una resonancia alta es típica de sonidos de acid bass. Aho"
-"ra mismo tenemos nuestro `res:` a `0.8`. Prueba a cambiarlo a `0.85`, luego a "
-"`0.9`, y finalmente a `0.95`. Tal vez notes que un cutoff como `110` o más alt"
-"o hace las diferencias más fáciles de escuchar. Ahora haz una locura y cámbial"
-"o a `0.999` para escuchar sonidos muy chulos. ¡Con una `res` tan alta, escucha"
-"s el filtro cutoff resonando tanto que empieza a crear sonidos él mismo!"
+"Otra opción que merece la pena probar es `res:`. Ésta controla el nivel de "
+"resonancia del filtro. Una resonancia alta es típica de sonidos de acid "
+"bass. Ahora mismo tenemos nuestro `res:` a `0.8`. Prueba a cambiarlo a `0.85`"
+", luego a `0.9`, y finalmente a `0.95`. Tal vez notes que un cutoff como "
+"`110` o más alto hace las diferencias más fáciles de escuchar. Ahora haz una "
+"locura y cámbialo a `0.999` para escuchar sonidos muy chulos. ¡Con una `res` "
+"tan alta, escuchas el filtro cutoff resonando tanto que empieza a crear "
+"sonidos él mismo!"
 
 #: A.05-acid-bass.md:100
 msgid ""
@@ -12856,8 +12883,8 @@ msgid ""
 "![TB-303 Design](../../../etc/doc/images/tutorial/articles/A.05-acid-bass/tb30"
 "3-design.png)"
 msgstr ""
-"![TB-303 Design](../../../etc/doc/images/tutorial/articles/A.05-acid-bass/tb30"
-"3-design.png)"
+"![TB-303 Design](../../../etc/doc/images/tutorial/articles/A.05-acid-bass/"
+"tb303-design.png)"
 
 #: A.05-acid-bass.md:115
 msgid ""
@@ -12916,12 +12943,13 @@ msgid ""
 "range sound warble in and out. Now start to play. Try changing the `cutoff_att"
 "ack:` time to `1` and then `0.5`. Now try `8`."
 msgstr ""
-"Para cada opción estándar de un envolvente, hay una opción `cutoff_` equivalen"
-"te en el sintetizador `:tb303`. Por tanto, podemos usar la opción `cutoff_atta"
-"ck:` para cambiar el valor de ataque del cutoff. Copia el código de abajo en u"
-"n búfer vacío y dale a Ejecutar. Escucharás un sonido de lo más curioso, hacie"
-"ndo trinos arriba y abajo. Ahora empieza a tocar cosillas. Prueba a cambiar el"
-" tiempo de `cutoff_attack` a `1`, y luego a `0.5`. Ahora prueba con `8`."
+"Para cada opción estándar de un envolvente, hay una opción `cutoff_` "
+"equivalente en el sintetizador `:tb303`. Por tanto, podemos usar la opción "
+"`cutoff_attack:` para cambiar el valor de ataque del cutoff. Copia el código "
+"de abajo en un búfer vacío y dale a Ejecutar. Escucharás un sonido de lo más "
+"curioso, haciendo trinos arriba y abajo. Ahora empieza a tocar cosillas. "
+"Prueba a cambiar el tiempo de `cutoff_attack` a `1`, y luego a `0.5`. Ahora "
+"prueba con `8`."
 
 #: A.05-acid-bass.md:144
 msgid ""
@@ -12938,10 +12966,10 @@ msgid ""
 "nto an empty buffer, listen for a while and then start live coding your own ch"
 "anges. See what wild sounds you can make with it! See you next time..."
 msgstr ""
-"Finalmente, aquí tienes una pieza que he compuesto usando ideas de este tutori"
-"al. Cópiala en un búfer vacío, escúchala un rato y empieza a a hacer live codi"
-"ng con tus propios cambios. ¡A ver qué sonidos locos le puedes sacar! Hasta la"
-" próxima..."
+"Finalmente, aquí tienes una pieza que he compuesto usando ideas de este "
+"tutorial. Cópiala en un búfer vacío, escúchala un rato y empieza a a hacer "
+"live coding con tus propios cambios. ¡A ver qué sonidos locos le puedes "
+"sacar! Hasta la próxima..."
 
 #: A.05-acid-bass.md:154
 #, no-wrap
@@ -14109,8 +14137,8 @@ msgid ""
 "![Screensman 1](../../../etc/doc/images/tutorial/articles/A.08-minecraft-vj/mi"
 "necraft-vj-1-small.png)"
 msgstr ""
-"![Screen 1](../../../etc/doc/images/tutorial/articles/A.08-minecraft-vj/minecr"
-"aft-vj-1-small.png)"
+"![Screen 1](../../../etc/doc/images/tutorial/articles/A.08-minecraft-vj/"
+"minecraft-vj-1-small.png)"
 
 #: A.08-minecraft-vj.md:143
 msgid ""
@@ -15400,13 +15428,13 @@ msgid ""
 "der. If that sounds a bit wild to you, don't worry, it will all become clear a"
 "nd you'll soon master a powerful new tool for your live coded sets."
 msgstr ""
-"En el episodio 3 de esta serie sobre Sonic Pi vimos como hace loop, alargar y "
-"filtrar uno de los más famosos ritmos de batería de todos los tiempos - el rit"
-"mo Amen. En este tutorial vamos a llevar esto un paso más allá y aprenderemos "
-"como cortarlo en trozos, reordenar los trozos, y pegarlos juntos de nuevo en u"
-"n orden completamente diferente. Si esto te suena un poco a locura, no te preo"
-"cupes, pronto será más claro y tu controlarás una nueva y potente herramienta "
-"para manejar tus sesiones de live coding."
+"En el episodio 3 de esta serie sobre Sonic Pi vimos como hace loop, alargar "
+"y filtrar uno de los más famosos ritmos de batería de todos los tiempos - el "
+"ritmo Amen. En este tutorial vamos a llevar esto un paso más allá y "
+"aprenderemos como cortarlo en trozos, reordenar los trozos, y pegarlos "
+"juntos de nuevo en un orden completamente diferente. Si esto te suena un "
+"poco a locura, no te preocupes, pronto será más claro y tu controlarás una "
+"nueva y potente herramienta para manejar tus sesiones de live coding."
 
 #: A.12-sample-slicing.md:13
 msgid "Sound as Data"
@@ -15549,8 +15577,8 @@ msgid ""
 "![Amen Slices](../../../etc/doc/images/tutorial/articles/A.12-sample-slicing/a"
 "men_slice.png)"
 msgstr ""
-"![Amen Slices](../../../etc/doc/images/tutorial/articles/A.12-sample-slicing/a"
-"men_slice.png)"
+"![Amen Slices](../../../etc/doc/images/tutorial/articles/A.12-sample-slicing/"
+"amen_slice.png)"
 
 #: A.12-sample-slicing.md:88
 msgid ""
@@ -16408,12 +16436,12 @@ msgid ""
 "cing will sound totally off. For example, try swapping `:loop_mika` with the `"
 "loop_amen` sample to hear how bad this can sound when the tempos don't align."
 msgstr ""
-"Esto nos permite coger cualquier sample y crear nuevas posibilidades rítmicas,"
-" lo cual es súper divertido. Sin embargo, debes tener cuidado y asegurarte de "
-"que el tempo del sample coincida con el BPM actual de Sonic Pi; de lo contrari"
-"o, el slicing sonará fatal. Por ejemplo, prueba a cambiar el `:loop_mika` con "
-"el sample `loop_amen` y escucha cómo de mal puede llegar a sonar cuando los te"
-"mpos no están alineados."
+"Esto nos permite coger cualquier sample y crear nuevas posibilidades "
+"rítmicas, lo cual es súper divertido. Sin embargo, debes tener cuidado y "
+"asegurarte de que el tempo del sample coincida con el BPM actual de Sonic Pi;"
+" de lo contrario, el slicing sonará fatal. Por ejemplo, prueba a cambiar el "
+"`:loop_mika` con el sample `loop_amen` y escucha cómo de mal puede llegar a "
+"sonar cuando los tempos no están alineados."
 
 #: A.14-amplitude-modulation.md:176
 #, fuzzy
@@ -16708,13 +16736,13 @@ msgid ""
 "xample, whilst some code is running and making sound, enter this into a spare "
 "buffer and hit `Run`:"
 msgstr ""
-"Uno de los secretos mejor guardados de Sonic Pi es que éste tiene un mezclador"
-" maestro (Master Mixer) por el que fluye todo el sonido. Este mezclador incorp"
-"ora un filtro de paso bajo y un filtro de paso alto, así que puedes modificar "
-"fácilmente el sonido a nivel global. Puedes acceder a funcionalidad del mezcla"
-"dor maestro con la función `set_mixer_control`. Por ejemplo, mientras tienes c"
-"ódigo en ejecución y sonando, escribe esto en un búfer distinto y dale a `Ejec"
-"utar`:"
+"Uno de los secretos mejor guardados de Sonic Pi es que éste tiene un "
+"mezclador maestro (Master Mixer) por el que fluye todo el sonido. Este "
+"mezclador incorpora un filtro de paso bajo y un filtro de paso alto, así que "
+"puedes modificar fácilmente el sonido a nivel global. Puedes acceder a "
+"funcionalidad del mezclador maestro con la función `set_mixer_control`. Por "
+"ejemplo, mientras tienes código en ejecución y sonando, escribe esto en un "
+"búfer distinto y dale a `Ejecutar`:"
 
 #: A.15-performance.md:107
 #, fuzzy
@@ -16818,14 +16846,14 @@ msgid ""
 "clunky at first - just keep practicing and before you know it you'll be live c"
 "oding for a real audience."
 msgstr ""
-"Este mes, en vez de darte un ejemplo final que combine todo lo que hemos visto"
-", vamos a empezar con un reto. Mira si puedes dedicar una semana a practicar, "
-"practicando una de las ideas que hemos visto cada día. Por ejemplo, un día pue"
-"des practicar triggers manuales, otro día puedes trabajar `live_loop`s básicos"
-", y al día siguiente puedes juguetear con el mezclador maestro. Repite esta di"
-"námica otros tres días. No te preocupes si todo se te hace lento y torpe al pr"
-"incipio; tú sigue practicando, y antes de que te des cuenta, estarás haciendo "
-"live coding para un público real."
+"Este mes, en vez de darte un ejemplo final que combine todo lo que hemos "
+"visto, vamos a empezar con un reto. Mira si puedes dedicar una semana a "
+"practicar, practicando una de las ideas que hemos visto cada día. Por "
+"ejemplo, un día puedes practicar triggers manuales, otro día puedes trabajar "
+"`live_loop`s básicos, y al día siguiente puedes juguetear con el mezclador "
+"maestro. Repite esta dinámica otros tres días. No te preocupes si todo se te "
+"hace lento y torpe al principio; tú sigue practicando, y antes de que te des "
+"cuenta, estarás haciendo live coding para un público real."
 
 #: A.16-practice.md:1
 #, fuzzy
@@ -17349,12 +17377,13 @@ msgid ""
 " - as you're heading towards the sound source the pitch is higher than when yo"
 "u're moving away from the sound - the so-called Doppler effect. Why is this?"
 msgstr ""
-"Uno de los efectos de modificar la velocidad en los samples es que cuanta mayo"
-"r es la velocidad, más agudo suena el sample en altura; a menor velocidad, más"
-" grave suena. Puede que hayas escuchado este efecto en tu día a día, cuando va"
-"s en bicicleta o en coche y pasas un paso de cebra con pitido; a medida que te"
-" acercas a la fuente del sonido, la altura es mayor que cuando estabas más lej"
-"os del paso de cebra. Esto se conoce como efecto Doppler. ¿Por qué ocurre?"
+"Uno de los efectos de modificar la velocidad en los samples es que cuanta "
+"mayor es la velocidad, más agudo suena el sample en altura; a menor "
+"velocidad, más grave suena. Puede que hayas escuchado este efecto en tu día "
+"a día, cuando vas en bicicleta o en coche y pasas un paso de cebra con "
+"pitido; a medida que te acercas a la fuente del sonido, la altura es mayor "
+"que cuando estabas más lejos del paso de cebra. Esto se conoce como efecto "
+"Doppler. ¿Por qué ocurre?"
 
 #: A.17-sample-stretching.md:85
 msgid ""
@@ -17503,12 +17532,12 @@ msgid ""
 " playback rate of samples. As an added exercise try recording your own sounds "
 "and play around with the rate to see what wild sounds you can make."
 msgstr ""
-"Vamos a echarle un vistazo a una pieza sencilla que combina estas ideas. Cópia"
-"la en un búfer vacío de Sonic Pi, dale a Ejecutar, escúchala un rato y úsala p"
-"ara empezar tu propia pieza. ¿Has visto qué divertido es jugar con el rate de "
-"los samples? Y aquí tienes un ejercicio extra: prueba a grabar tus propios son"
-"idos y a cambiar la velocidad de reproducción para ver qué sonidos locos puede"
-"s hacer."
+"Vamos a echarle un vistazo a una pieza sencilla que combina estas ideas. "
+"Cópiala en un búfer vacío de Sonic Pi, dale a Ejecutar, escúchala un rato y "
+"úsala para empezar tu propia pieza. ¿Has visto qué divertido es jugar con el "
+"rate de los samples? Y aquí tienes un ejercicio extra: prueba a grabar tus "
+"propios sonidos y a cambiar la velocidad de reproducción para ver qué "
+"sonidos locos puedes hacer."
 
 #: A.17-sample-stretching.md:162
 #, no-wrap
@@ -17571,18 +17600,19 @@ msgid ""
 "p for a given pipe 'added it to the mix' making the sound richer and more comp"
 "lex. Now, let's see how we can pull out all the stops with Sonic Pi."
 msgstr ""
-"Esta es la primera parte de una miniserie de artículos donde veremos cómo usar"
-" Sonic Pi para hacer diseño sonoro. Haremos un recorrido por las distintas téc"
-"nicas que tienes para fabricar tu propio sonido. La primera técnica que vamos "
-"a ver se llama *síntesis aditiva*. Puede sonarte complicado, pero el significa"
-"do se entiende muy fácil si vemos cada palabra por separado. Primero, aditivo "
-"significa combinar cosas; segundo, síntesis significa crear sonido. Por tanto,"
-" síntesis aditiva no es más que *combinar sonidos que tienes para crear sonido"
-"s nuevos*. Esta técnica de síntesis se usa desde hace mucho tiempo; por ejempl"
-"o, los órganos de la edad media tienen un montón de tubos con sonidos muy vari"
-"ados, que puedes controlar con unas palancas. Si tiras de la palanca de un tub"
-"o, lo estás 'añadiendo a la mezcla', haciendo el sonido mucho más rico y compl"
-"ejo. Vamos a ver ahora cómo podemos tirar de todas las palancas en Sonic Pi."
+"Esta es la primera parte de una miniserie de artículos donde veremos cómo "
+"usar Sonic Pi para hacer diseño sonoro. Haremos un recorrido por las "
+"distintas técnicas que tienes para fabricar tu propio sonido. La primera "
+"técnica que vamos a ver se llama *síntesis aditiva*. Puede sonarte "
+"complicado, pero el significado se entiende muy fácil si vemos cada palabra "
+"por separado. Primero, aditivo significa combinar cosas; segundo, síntesis "
+"significa crear sonido. Por tanto, síntesis aditiva no es más que *combinar "
+"sonidos que tienes para crear sonidos nuevos*. Esta técnica de síntesis se "
+"usa desde hace mucho tiempo; por ejemplo, los órganos de la edad media "
+"tienen un montón de tubos con sonidos muy variados, que puedes controlar con "
+"unas palancas. Si tiras de la palanca de un tubo, lo estás 'añadiendo a la "
+"mezcla', haciendo el sonido mucho más rico y complejo. Vamos a ver ahora "
+"cómo podemos tirar de todas las palancas en Sonic Pi."
 
 #: A.18-additive-synthesis.md:21
 msgid "Simple Combinations"
@@ -17785,19 +17815,19 @@ msgid ""
 "ing your own melody and also messing around with the contents of the `:bell` f"
 "unction until you create your own fun sound to play with!"
 msgstr ""
-"Vamos a combinar todas estas técnicas; vamos usar síntesis aditiva para recrea"
-"r un sonido sencillo de campana. He dividido este ejemplo en cuatro secciones."
-" En primer lugar, tenemos la sección 'hit' (golpe), que es la parte inicial de"
-"l sonido de la campana, así que usa un envolvente corto (por ejemplo, un `rele"
-"ase:` alrededor de `0.1`). Después tenemos la parte del timbre largo de la cam"
-"pana, en la que estoy usando el sonido puro de una onda de seno. Fíjate en que"
-" suelo aumentar la nota en `12` y `24`, que es el número de notas en una y dos"
-" octavas, respectivamente. También le he metido unos cuantos sintetizadores de"
-" onda de seno graves, para darle al sonido un poco de bajo y de profundidad. P"
-"or último, he usado `define` para guardar mi código en una función que puedo u"
-"sar para tocar una melodía. ¡Prueba a tocar tu propia melodía, y juega con los"
-" contenidos de la función `:bell` hasta que tengas un sonido muy loco que te g"
-"uste!"
+"Vamos a combinar todas estas técnicas; vamos usar síntesis aditiva para "
+"recrear un sonido sencillo de campana. He dividido este ejemplo en cuatro "
+"secciones. En primer lugar, tenemos la sección 'hit' (golpe), que es la "
+"parte inicial del sonido de la campana, así que usa un envolvente corto (por "
+"ejemplo, un `release:` alrededor de `0.1`). Después tenemos la parte del "
+"timbre largo de la campana, en la que estoy usando el sonido puro de una "
+"onda de seno. Fíjate en que suelo aumentar la nota en `12` y `24`, que es el "
+"número de notas en una y dos octavas, respectivamente. También le he metido "
+"unos cuantos sintetizadores de onda de seno graves, para darle al sonido un "
+"poco de bajo y de profundidad. Por último, he usado `define` para guardar mi "
+"código en una función que puedo usar para tocar una melodía. ¡Prueba a tocar "
+"tu propia melodía, y juega con los contenidos de la función `:bell` hasta "
+"que tengas un sonido muy loco que te guste!"
 
 #: A.18-additive-synthesis.md:130
 #, no-wrap
@@ -18121,16 +18151,16 @@ msgid ""
 "ats. Finally we also trigger a source signal synth so we can hear the effect o"
 "f the modulated low pass filter."
 msgstr ""
-"Vamos a echarle un vistazo a lo que está pasando. Primero, empezamos un bloque"
-" de efecto `:lpf` normal y corriente, con un valor de `cutoff:` de `20` (muy b"
-"ajo). Sin embargo, la primera línea acaba con un `|fx|` un poco raro al final."
-" Eso es una parte opcional de la sintaxis `with_fx`, que te permite nombrar y "
-"controlar el sintetizador del efecto manualmente. La línea 2 hace justo esto, "
-"y controla el efecto para cambiar el opt `cutoff_slide:` a 4, y el nuevo `cuto"
-"ff:` a `130`. Con esto, el efecto empezará a deslizar el valor del `cutoff:` d"
-"e `50` a `130` a lo largo de 3 beats. Por último, lanzamos un sintetizador con"
-" la señal fuente, para que podamos escuchar el efecto del filtro de paso bajo "
-"modulado."
+"Vamos a echarle un vistazo a lo que está pasando. Primero, empezamos un "
+"bloque de efecto `:lpf` normal y corriente, con un valor de `cutoff:` de `20`"
+" (muy bajo). Sin embargo, la primera línea acaba con un `|fx|` un poco raro "
+"al final. Eso es una parte opcional de la sintaxis `with_fx`, que te permite "
+"nombrar y controlar el sintetizador del efecto manualmente. La línea 2 hace "
+"justo esto, y controla el efecto para cambiar el opt `cutoff_slide:` a 4, y "
+"el nuevo `cutoff:` a `130`. Con esto, el efecto empezará a deslizar el valor "
+"del `cutoff:` de `50` a `130` a lo largo de 3 beats. Por último, lanzamos un "
+"sintetizador con la señal fuente, para que podamos escuchar el efecto del "
+"filtro de paso bajo modulado."
 
 #: A.19-subtractive-synthesis.md:140
 #, fuzzy
@@ -18140,10 +18170,10 @@ msgid ""
 "o see what fun sounds you can design. If your sound feels too static, remember"
 " you can start modulating the options to create some movement."
 msgstr ""
-"Esto es sólo una pequeña muestra de lo que puedes hacer con filtros. Juega con"
-" los distintos efectos de Sonic Pi para ver qué clase de sonidos puedes diseña"
-"r. Si tu sonido te parece demasiado estático, recuerda que puedes empezar modu"
-"lando las opciones para crear más movimiento."
+"Esto es sólo una pequeña muestra de lo que puedes hacer con filtros. Juega "
+"con los distintos efectos de Sonic Pi para ver qué clase de sonidos puedes "
+"diseñar. Si tu sonido te parece demasiado estático, recuerda que puedes "
+"empezar modulando las opciones para crear más movimiento."
 
 #: A.19-subtractive-synthesis.md:146
 msgid ""
@@ -18153,10 +18183,11 @@ msgid ""
 "ped everything inside a call to `at` (please send answers to @samaaron on Twit"
 "ter)."
 msgstr ""
-"Terminemos diseñando una función que ejecutará un nuevo sonido creado con sínt"
-"esis sustractiva. Intente descubrir qué es lo que sucede - y para aquellos usu"
-"arios avanzados de Sonic Pi- vean si pueden descubrir por qué empaqueté todo e"
-"n la llamada a `at` (por favor envíen sus respuestas a @samaaron en Twiter)."
+"Terminemos diseñando una función que ejecutará un nuevo sonido creado con "
+"síntesis sustractiva. Intente descubrir qué es lo que sucede - y para "
+"aquellos usuarios avanzados de Sonic Pi- vean si pueden descubrir por qué "
+"empaqueté todo en la llamada a `at` (por favor envíen sus respuestas a @"
+"samaaron en Twiter)."
 
 #: A.19-subtractive-synthesis.md:152
 #, no-wrap
@@ -18523,8 +18554,8 @@ msgid ""
 "This section will cover some very useful - in fact *essential* - knowledge for"
 " getting the most out of your Sonic Pi experience."
 msgstr ""
-"Esta sección cubre algo muy útil - de hecho *esencial* - Conocimiento para sac"
-"ar el mayor partido a tu experiencia con Sonic Pi."
+"Esta sección cubre algo muy útil - de hecho *esencial* - Conocimiento para "
+"sacar el mayor partido a tu experiencia con Sonic Pi."
 
 #: B-Essential-Knowledge.md:8
 #, fuzzy
@@ -18532,8 +18563,8 @@ msgid ""
 "We'll cover how to take advantage of the many keyboard shortcuts available to "
 "you, how to share your work and some tips on performing with Sonic Pi."
 msgstr ""
-"Cubriremos como sacar provecho de muchos atajos disponibles para tí, como comp"
-"artir tu trabajo y algunos trucos de ejecución con Sonic Pi."
+"Cubriremos como sacar provecho de muchos atajos disponibles para tí, como "
+"compartir tu trabajo y algunos trucos de ejecución con Sonic Pi."
 
 #: B.01-Using-Shortcuts.md:1
 #, fuzzy
@@ -18552,9 +18583,9 @@ msgid ""
 "fore make playing Sonic Pi much more *efficient and natural* - especially when"
 " you're playing live in front of an audience."
 msgstr ""
-"Sonic Pi es tanto un instrumento como un ambiente de código. Los atajos te hac"
-"en tocar Sonic Pi de una manera mucho más *eficiente y natural*. Especialmente"
-" si tocas en frente de una audiencia en vivo."
+"Sonic Pi es tanto un instrumento como un ambiente de código. Los atajos te "
+"hacen tocar Sonic Pi de una manera mucho más *eficiente y natural*. "
+"Especialmente si tocas en frente de una audiencia en vivo."
 
 #: B.01-Using-Shortcuts.md:9
 #, fuzzy
@@ -18566,11 +18597,11 @@ msgid ""
 "s it slows me down. I therefore use all of these shortcuts on a very regular b"
 "asis!"
 msgstr ""
-"Mucho de Sonic Pi puede ser controlado a través del teclado. Mientras te famil"
-"iarizas trabajando con Sonic Pi, probablemente usarás más y más atajos. *perso"
-"nalmente soy del tipo toca-teclea* (lo que recomiendo aprender) y me frustra e"
-"l tener que ir al ratón, ya que me ralentiza. Por ello es que utilizo estos at"
-"ajos regularmente."
+"Mucho de Sonic Pi puede ser controlado a través del teclado. Mientras te "
+"familiarizas trabajando con Sonic Pi, probablemente usarás más y más atajos. "
+"*personalmente soy del tipo toca-teclea* (lo que recomiendo aprender) y me "
+"frustra el tener que ir al ratón, ya que me ralentiza. Por ello es que "
+"utilizo estos atajos regularmente."
 
 #: B.01-Using-Shortcuts.md:16
 #, fuzzy
@@ -18578,8 +18609,8 @@ msgid ""
 "Therefore, if you learn the shortcuts, you'll learn to use your keyboard effec"
 "tively and you'll be live coding like a pro in no time."
 msgstr ""
-"Por tanto, si te aprendes los atajos, utilizarás tu teclado de manera eficient"
-"e y codificarás como un profesional en poco tiempo."
+"Por tanto, si te aprendes los atajos, utilizarás tu teclado de manera "
+"eficiente y codificarás como un profesional en poco tiempo."
 
 #: B.01-Using-Shortcuts.md:19
 #, fuzzy
@@ -18587,8 +18618,8 @@ msgid ""
 "However, *don't try and learn them all at once*, just try and remember the one"
 "s you use most and then keep adding more to your practice."
 msgstr ""
-"Sin embargo *no intentes aprender todo al mismo tiempo*, sólo intenta recordar"
-" los que más utilizas y continua añadiendo otros a tú práctica."
+"Sin embargo *no intentes aprender todo al mismo tiempo*, sólo intenta "
+"recordar los que más utilizas y continua añadiendo otros a tú práctica."
 
 #: B.01-Using-Shortcuts.md:22
 #, fuzzy
@@ -18603,9 +18634,10 @@ msgid ""
 "me switching between different clarinets and you'd be stuck to using just one "
 "make."
 msgstr ""
-"Imagina que estás aprendiendo el clarinete. Esperarás que todos los clarinetes"
-" de cada constructor tenga controles y digitalizaciones similares. Si no fuese"
-" así, sería complicado cambiar de clarinetes y tendrías que usar sólo uno."
+"Imagina que estás aprendiendo el clarinete. Esperarás que todos los "
+"clarinetes de cada constructor tenga controles y digitalizaciones similares. "
+"Si no fuese así, sería complicado cambiar de clarinetes y tendrías que usar "
+"sólo uno."
 
 #: B.01-Using-Shortcuts.md:29
 #, fuzzy
@@ -18618,11 +18650,11 @@ msgid ""
 "whilst playing with Sonic Pi on your Raspberry Pi, you can move to the Mac or "
 "PC and feel right at home."
 msgstr ""
-"Desafortunadamente los tres principales sistemas operativos (Linux, Mac OS X y"
-" Windows) vienen con acciones como cortar y pegar determinadas. Sonic Pi inten"
-"tará honrar estos estándares. Sin embargo *priorizaremos consistencia a través"
-" de las plataformas* dentro de Sonic Pi. Esto significa que te sentirás cómodo"
-" y en casa ya sea que toques con la Raspberry Pi, Mac o PC."
+"Desafortunadamente los tres principales sistemas operativos (Linux, Mac OS X "
+"y Windows) vienen con acciones como cortar y pegar determinadas. Sonic Pi "
+"intentará honrar estos estándares. Sin embargo *priorizaremos consistencia a "
+"través de las plataformas* dentro de Sonic Pi. Esto significa que te "
+"sentirás cómodo y en casa ya sea que toques con la Raspberry Pi, Mac o PC."
 
 #: B.01-Using-Shortcuts.md:37
 #, fuzzy
@@ -18639,12 +18671,12 @@ msgid ""
 "ency we'll use the term *Meta* - just remember to map that to the appropriate "
 "key on your operating system."
 msgstr ""
-"Parte de la noción de consistencia es el nombramiento de los atajos. En Sonic "
-"Pi usamos los nombre *Control* y *Meta* para referirnos a las dos principales "
-"combinaciones de teclas. En todas las plataformas *Control* es igual. Sin emba"
-"rgo, en Linux y Windows, *Meta* es la tecla *Alt*, mientras que en Mac es la t"
-"ecla *Command*. Por consistencia, utilizaremos el término *Meta* - sólo recuer"
-"da mapear la tecla apropiada a tu OS."
+"Parte de la noción de consistencia es el nombramiento de los atajos. En "
+"Sonic Pi usamos los nombre *Control* y *Meta* para referirnos a las dos "
+"principales combinaciones de teclas. En todas las plataformas *Control* es "
+"igual. Sin embargo, en Linux y Windows, *Meta* es la tecla *Alt*, mientras "
+"que en Mac es la tecla *Command*. Por consistencia, utilizaremos el término "
+"*Meta* - sólo recuerda mapear la tecla apropiada a tu OS."
 
 #: B.01-Using-Shortcuts.md:46
 #, fuzzy
@@ -18659,10 +18691,10 @@ msgid ""
 "if a shortcut requires you to hold down both *Meta* and *r* we'll write that a"
 "s `M-r`. The *-* just means \"at the same time as.\""
 msgstr ""
-"Para mantener las cosas simples y legibles, utilizaremos la abreviación *C-* p"
-"ara *Control* más otra tecla y *M-* por *Meta* más otra tecla. Por ejemplo, si"
-" un atajo te requiere que mantengas apretadas ambas *Meta* y *r*, escribiremos"
-" elso, así `M-r`. El *-* significa que es al mismo tiempo."
+"Para mantener las cosas simples y legibles, utilizaremos la abreviación *C-* "
+"para *Control* más otra tecla y *M-* por *Meta* más otra tecla. Por ejemplo, "
+"si un atajo te requiere que mantengas apretadas ambas *Meta* y *r*, "
+"escribiremos elso, así `M-r`. El *-* significa que es al mismo tiempo."
 
 #: B.01-Using-Shortcuts.md:53
 #, fuzzy
@@ -18680,8 +18712,8 @@ msgid ""
 "Instead of always reaching for the mouse to run your code, you can simply pres"
 "s `M-r`. Similarly, to stop running code you can press `M-s`."
 msgstr ""
-"En vez de comenzar tu código conel ratón, puedes simplemente presionar `M-r`. "
-"Similarmente puedes pararlo con `M-s`."
+"En vez de comenzar tu código conel ratón, puedes simplemente presionar `M-r`"
+". Similarmente puedes pararlo con `M-s`."
 
 #: B.01-Using-Shortcuts.md:60 B.02-Shortcut-Cheatsheet.md:56
 #, fuzzy
@@ -18697,10 +18729,10 @@ msgid ""
 "equiring you to move your hand to the mouse or the arrow keys on your keyboard"
 "."
 msgstr ""
-"Sin los atajos de navegación estaría perdido. Así que recomiendo que los apren"
-"das. Estos atajos funcional fenomenalmente cuando hayas aprendido a tocar y te"
-"clear, ya que usan letras estándar, en vez de requerir que vayas al ratón o la"
-"s flechas del teclado."
+"Sin los atajos de navegación estaría perdido. Así que recomiendo que los "
+"aprendas. Estos atajos funcional fenomenalmente cuando hayas aprendido a "
+"tocar y teclear, ya que usan letras estándar, en vez de requerir que vayas "
+"al ratón o las flechas del teclado."
 
 #: B.01-Using-Shortcuts.md:68
 #, fuzzy
@@ -18710,10 +18742,10 @@ msgid ""
 " `C-f`, and back a character with `C-b`. You can even delete all the character"
 "s from the cursor to the end of the line with `C-k`."
 msgstr ""
-"Puedes moverte al inicio de una línea con `C-a`, al final de la línea con `C-e"
-"`, una línea arriba con `C-p`, abajo con `C-n`, un carácter adelante con `C-f`"
-", y atrás un carácter con `C-b`. puedes borrar todos los caracteres desde el c"
-"ursor hasta el final de la línea con `C-k`."
+"Puedes moverte al inicio de una línea con `C-a`, al final de la línea con "
+"`C-e`, una línea arriba con `C-p`, abajo con `C-n`, un carácter adelante con "
+"`C-f`, y atrás un carácter con `C-b`. puedes borrar todos los caracteres "
+"desde el cursor hasta el final de la línea con `C-k`."
 
 #: B.01-Using-Shortcuts.md:74
 #, fuzzy
@@ -18761,8 +18793,8 @@ msgid ""
 "The following is a summary of the main shortcuts available within Sonic Pi. Pl"
 "ease see Section B.1 for motivation and background."
 msgstr ""
-"Este es un resumen de los atajos principales dentro de Sonic Pi. Te remito a l"
-"a sección 10.1 para motivación."
+"Este es un resumen de los atajos principales dentro de Sonic Pi. Te remito a "
+"la sección 10.1 para motivación."
 
 #: B.02-Shortcut-Cheatsheet.md:8
 #, fuzzy
@@ -18775,8 +18807,8 @@ msgid ""
 "In this list, we use the following conventions (where *Meta* is one of *Alt* o"
 "n Windows/Linux or *Cmd* on Mac):"
 msgstr ""
-"En esta lista, usaremos la siguiente convención (donde *Meta* es uno de los *A"
-"lt* en Windows/Linux o *Cmd* en Mac):"
+"En esta lista, usaremos la siguiente convención (donde *Meta* es uno de los "
+"*Alt* en Windows/Linux o *Cmd* en Mac):"
 
 #: B.02-Shortcut-Cheatsheet.md:13
 #, fuzzy
@@ -18784,15 +18816,17 @@ msgid ""
 "`C-a` means hold the *Control* key then press the *a* key whilst holding them "
 "both at the same time, then releasing."
 msgstr ""
-"`C-a` mantén presionado *Control* y presiona *a* al mismo tiempo, después suel"
-"ta."
+"`C-a` mantén presionado *Control* y presiona *a* al mismo tiempo, después "
+"suelta."
 
 #: B.02-Shortcut-Cheatsheet.md:14
 #, fuzzy
 msgid ""
 "`M-r` means hold the *Meta* key and then press the *r* key whilst holding them"
 " both at the same time, then releasing."
-msgstr "`M-r` mantén presionado *Meta* y presiona *r* al mismo tiempo, después suelta."
+msgstr ""
+"`M-r` mantén presionado *Meta* y presiona *r* al mismo tiempo, después "
+"suelta."
 
 #: B.02-Shortcut-Cheatsheet.md:15
 #, fuzzy
@@ -18800,8 +18834,8 @@ msgid ""
 "`S-M-z` means hold the *Shift* key, then the *Meta* key, then finally the *z* "
 "key all at the same time, then releasing."
 msgstr ""
-"`S-M-z` mantén presionado *Shift* y presiona la tecla *Meta*, después la tecla"
-" *z* al mismo tiempo, después suelta."
+"`S-M-z` mantén presionado *Shift* y presiona la tecla *Meta*, después la "
+"tecla *z* al mismo tiempo, después suelta."
 
 #: B.02-Shortcut-Cheatsheet.md:16
 #, fuzzy
@@ -18809,8 +18843,8 @@ msgid ""
 "`C-M-f` means hold the *Control* key, then press *Meta* key, finally the *f* k"
 "ey all at the same time, then releasing."
 msgstr ""
-"`C-M-f` mantén presionado *Control*, después presiona *Meta*, finalmente la te"
-"cla *f*, después suelta."
+"`C-M-f` mantén presionado *Control*, después presiona *Meta*, finalmente la "
+"tecla *f*, después suelta."
 
 #: B.02-Shortcut-Cheatsheet.md:18
 #, fuzzy
@@ -19128,10 +19162,10 @@ msgid ""
 "as sending an email containing your code. Please do *share* your code with oth"
 "ers so they can *learn* from your work and even use parts in a new *mash-up*."
 msgstr ""
-"Cuando hayas aprendido a codificar música, compartir tus composiciones es tan "
-"sencillo como enviar un correo conteniendo tu código. Por favor *comparte* tu "
-"código con los demás, para que ellos puedan *aprender* de tu trabajo e inclusi"
-"ve utilizar partes del mismo en nuevas obras."
+"Cuando hayas aprendido a codificar música, compartir tus composiciones es "
+"tan sencillo como enviar un correo conteniendo tu código. Por favor "
+"*comparte* tu código con los demás, para que ellos puedan *aprender* de tu "
+"trabajo e inclusive utilizar partes del mismo en nuevas obras."
 
 #: B.03-Sharing.md:12
 #, fuzzy
@@ -19141,9 +19175,9 @@ msgid ""
 "(https://soundcloud.com). That way you'll be able to easily reach a large audi"
 "ence."
 msgstr ""
-"Si tienes dudas de cuál es la mejor manera de compartir tu trabajo con otros, "
-"te recomiendo ponerlo en [GitHub](https://github.com) y tu música en [SoundClo"
-"ud](https://soundcloud.com). Así podrás llegar a mayores audiencias."
+"Si tienes dudas de cuál es la mejor manera de compartir tu trabajo con "
+"otros, te recomiendo ponerlo en [GitHub](https://github.com) y tu música en "
+"[SoundCloud](https://soundcloud.com). Así podrás llegar a mayores audiencias."
 
 #: B.03-Sharing.md:17
 #, fuzzy
@@ -19160,12 +19194,12 @@ msgid ""
 "gist.github.com) is a simple way of uploading your code in a simple way that o"
 "thers can see, copy and share."
 msgstr ""
-"[GitHub](https://github.com) es un sitio para compartir código, utilizado por "
-"desarrolladores profesionales y artistas para compartir y colaborar con código"
-". La manera más sencilla de compartir una nueva pieza de código (inclusive de "
-"obras no terminadas) es creando un [Gist](https://gist.github.com). Un [Gist]("
-"https://gist.github.com) es una manera simple de subir tu código para ser vist"
-"o por los demás para ver, copiar y compartir."
+"[GitHub](https://github.com) es un sitio para compartir código, utilizado "
+"por desarrolladores profesionales y artistas para compartir y colaborar con "
+"código. La manera más sencilla de compartir una nueva pieza de código ("
+"inclusive de obras no terminadas) es creando un [Gist](https://gist.github."
+"com). Un [Gist](https://gist.github.com) es una manera simple de subir tu "
+"código para ser visto por los demás para ver, copiar y compartir."
 
 #: B.03-Sharing.md:27
 #, fuzzy
@@ -19180,10 +19214,10 @@ msgid ""
 "her users can comment and discuss your work. I also recommend placing a link t"
 "o a [Gist](https://gist.github.com) of your code in the track description."
 msgstr ""
-"Otra manera de compartir es grabando el audio y subiéndolo a [SoundCloud](http"
-"s://soundcloud.com). Una vez subido, otros pueden comentar y discutir tu obra."
-"También recomiendo poner un enlace al [Gist](https://gist.github.com) de tu có"
-"digo en la descripción de la pista."
+"Otra manera de compartir es grabando el audio y subiéndolo a "
+"[SoundCloud](https://soundcloud.com). Una vez subido, otros pueden comentar "
+"y discutir tu obra.También recomiendo poner un enlace al [Gist](https://gist."
+"github.com) de tu código en la descripción de la pista."
 
 #: B.03-Sharing.md:35
 #, fuzzy
@@ -19195,12 +19229,12 @@ msgid ""
 "h can be edited and converted to MP3 by any number of free programs (try Audac"
 "ity for instance)."
 msgstr ""
-"Para grabar tu trabajo, presiona el botón `Rec` y comenzará inmediatamente. Da"
-"le a `Run` para comenzar tu código si no está ya en ejecución. Cuando estes li"
-"sto con tu grabación, vuelve a presional el parpadeante botón `Rec` y te pedir"
-"á un nombre para el archivo, que será guardado como WAV, el cual puede ser edi"
-"tado y convertido a MP3 por muchos programas libres (prueba Audacity, por ejem"
-"plo)."
+"Para grabar tu trabajo, presiona el botón `Rec` y comenzará inmediatamente. "
+"Dale a `Run` para comenzar tu código si no está ya en ejecución. Cuando "
+"estes listo con tu grabación, vuelve a presional el parpadeante botón `Rec` "
+"y te pedirá un nombre para el archivo, que será guardado como WAV, el cual "
+"puede ser editado y convertido a MP3 por muchos programas libres (prueba "
+"Audacity, por ejemplo)."
 
 #: B.03-Sharing.md:43
 #, fuzzy
@@ -19214,9 +19248,9 @@ msgid ""
 "ther new tricks and moves with Sonic Pi. I'm really excited by what you'll hav"
 "e to show me."
 msgstr ""
-"Te invito a compartir tu trabajo y espero realmente que todos nos enseñemos mu"
-"tuamente nuevos trucos y movimientos con Sonic Pi. Realmente me interesa ver q"
-"ué es lo que me mostrarás."
+"Te invito a compartir tu trabajo y espero realmente que todos nos enseñemos "
+"mutuamente nuevos trucos y movimientos con Sonic Pi. Realmente me interesa "
+"ver qué es lo que me mostrarás."
 
 #: B.04-Performing.md:1
 #, fuzzy
@@ -19235,9 +19269,9 @@ msgid ""
 "e as a *musical instrument*. This means that writing code live can now be seen"
 " as a new way of performing music."
 msgstr ""
-"Uno de los aspectos más excitantes de Sonic Pi es que usa código como un *inst"
-"rumento musical*. Lo que significa que escribir código puede ser visto como un"
-"a nueva manera de ejecutar música."
+"Uno de los aspectos más excitantes de Sonic Pi es que usa código como un *"
+"instrumento musical*. Lo que significa que escribir código puede ser visto "
+"como una nueva manera de ejecutar música."
 
 #: B.04-Performing.md:9
 #, fuzzy
@@ -19258,11 +19292,11 @@ msgid ""
 "g room wall. You could use your TV or one of your school/work projectors to gi"
 "ve a show. Try it, it's a lot of fun."
 msgstr ""
-"Cuando hagas código en vivo, te recomiendo que *muestres tu pantalla* a la aud"
-"iencia. De otra manera es como tocar guitarra escondiendo tus dedos y cuerdas."
-" Cuando practico en casa, uso una Raspberry Pi y un mini proyector en el muro "
-"de mi sala. Puedes usar tu TV o uno de los proyectores de tu escuela/trabajo p"
-"ara dar una muestra. ¡Inténtalo que es muy divertido!"
+"Cuando hagas código en vivo, te recomiendo que *muestres tu pantalla* a la "
+"audiencia. De otra manera es como tocar guitarra escondiendo tus dedos y "
+"cuerdas. Cuando practico en casa, uso una Raspberry Pi y un mini proyector "
+"en el muro de mi sala. Puedes usar tu TV o uno de los proyectores de tu "
+"escuela/trabajo para dar una muestra. ¡Inténtalo que es muy divertido!"
 
 #: B.04-Performing.md:20
 #, fuzzy
@@ -19293,9 +19327,9 @@ msgid ""
 "lves. A great place to go and find out more about other live coders and system"
 "s is [TOPLAP](http://toplap.org)."
 msgstr ""
-"Live coding no es completamente nuevo - un puñado de gente lleva haciéndolo po"
-"r años, típicamente utilizando equipo hecho por ellos mismos. Un buen lugar pa"
-"ra encontrar otros live coders es [TOPLAP](http://toplap.org)."
+"Live coding no es completamente nuevo - un puñado de gente lleva haciéndolo "
+"por años, típicamente utilizando equipo hecho por ellos mismos. Un buen "
+"lugar para encontrar otros live coders es [TOPLAP](http://toplap.org)."
 
 #: B.04-Performing.md:36
 msgid "Algorave"
@@ -19308,6 +19342,6 @@ msgid ""
 "//algorave.com). Here you can find all about a specific strand of live coding "
 "for making music in nightclubs."
 msgstr ""
-"Otra fuente importante a explorar el mundo de live coding es [Algorave](http:/"
-"/algorave.com). Aqui puedes encontrar todo lo relacionado a música con live co"
-"dign para nightclubs."
+"Otra fuente importante a explorar el mundo de live coding es "
+"[Algorave](http://algorave.com). Aqui puedes encontrar todo lo relacionado a "
+"música con live codign para nightclubs."
