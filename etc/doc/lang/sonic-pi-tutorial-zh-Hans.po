@@ -5570,9 +5570,9 @@ msgstr ""
 #: 08.2-Chords.md:30
 msgid ""
 "Ok, that's not so fun - it played it really slowly. `play_pattern` will play e"
-"ach note in the list separated with a call to `sleep 1` between each call to `"
-"play`. We can use another function `play_pattern_timed` to specify our own tim"
-"ings and speed things up:"
+"ach note in the list with a call to `sleep 1` after each call to `play`. We ca"
+"n use another function `play_pattern_timed` to specify our own timings and spe"
+"ed things up:"
 msgstr ""
 
 #: 08.2-Chords.md:35
@@ -5596,23 +5596,36 @@ msgstr ""
 #: 08.2-Chords.md:48
 #, no-wrap
 msgid ""
-"play 52\n"
+"play 52, sustain: 0.25\n"
 "sleep 0.25\n"
-"play 55\n"
+"play 55, sustain: 0.5\n"
 "sleep 0.5\n"
-"play 59\n"
+"play 59, sustain: 0.25\n"
 "sleep 0.25\n"
-"play 62\n"
+"play 62, sustain: 0.5\n"
 "sleep 0.5\n"
-"play 66\n"
+"play 66, sustain: 0.25\n"
 "sleep 0.25\n"
-"play 69\n"
+"play 69, sustain: 0.5\n"
 "sleep 0.5\n"
-"play 73"
+"play 73, sustain: 0.25\n"
+"sleep 0.25"
 msgstr ""
 
-#: 08.2-Chords.md:64
+#: 08.2-Chords.md:65
 msgid "Which would you prefer to write?"
+msgstr ""
+
+#: 08.2-Chords.md:67
+msgid ""
+"Note that `play_pattern` and `play_pattern_timed` alter the sustain of the not"
+"es to fill the times. You can remove this behavior by setting the `sustain:` o"
+"pt to `0`:"
+msgstr ""
+
+#: 08.2-Chords.md:71
+#, no-wrap
+msgid "play_pattern_timed chord(:E3, :m13), [0.25, 0.5], sustain: 0"
 msgstr ""
 
 #: 08.3-Scales.md:1
@@ -7272,8 +7285,8 @@ msgstr ""
 #: 10.3-Pattern-Matching.md:131
 msgid ""
 "For those curious, these matching rules are based on the Open Sound Control pa"
-"ttern matching specification which is explained in detail here: http://opensou"
-"ndcontrol.org/spec-1_0"
+"ttern matching specification which is explained in detail here: https://openso"
+"undcontrol.stanford.edu/spec-1_0.html"
 msgstr ""
 
 #: 11-MIDI.md:1
