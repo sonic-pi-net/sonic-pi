@@ -80,6 +80,8 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer* lexer, SonicPiTheme* theme, QSt
 
     // copy paste
     addKeyBinding(settings, QsciCommand::SelectionCopy, Qt::Key_C | SPi_META);
+    addKeyBinding(settings, QsciCommand::Paste, Qt::Key_V | SPi_META);
+    addOtherKeyBinding(settings, QsciCommand::Paste, Qt::Key_V | SPi_CTRL);
     addOtherKeyBinding(settings, QsciCommand::SelectionCopy, Qt::Key_C | SPi_CTRL);
     addKeyBinding(settings, QsciCommand::SelectionCut, Qt::Key_X | SPi_META);
 
