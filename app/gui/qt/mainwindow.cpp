@@ -112,6 +112,8 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
 
     printAsciiArtLogo();
 
+    QApplication::instance()->setAttribute(Qt::AA_DontShowIconsInMenus, true);
+
     this->splash = splash;
 
     // API and Client
