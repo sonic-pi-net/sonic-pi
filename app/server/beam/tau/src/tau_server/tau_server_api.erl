@@ -135,9 +135,14 @@ loop(State) ->
             end,
             ?MODULE:loop(State);
 
-        {bundle, Time, X} ->
-            logger:debug("got bundle for time ~f", [Time]),
-            NewState = do_bundle(Time, X, State),
+        {bundle, Time, Bins} ->
+            NewState = lists:foldl(
+              fun(X, AccState) ->
+                do_bundle(Time, X, AccState)
+              end,
+            State,
+            Bins
+            ),
             ?MODULE:loop(NewState);
 
         % {cmd, ["/hydra_eval", Code]=Cmd} ->
@@ -314,39 +319,33 @@ send_to_cue(Message, State) ->
 debug_cmd([Cmd|Args]) ->
     logger:debug("command: ~s ~p", [Cmd, Args]).
 
-do_bundle(Time, [{_,Bin}|T], State) ->
+do_bundle(Time, Args, State) ->
+    % logger:info("Decoding bundle content:~p", [Args]),
     NewState =
-        try osc:decode(Bin) of
-            {cmd, ["/send-after", Host, Port, OSC]} ->
+        case Args of
+            ["/send-after", Host, Port, OSC] ->
                 schedule_cmd(Time, "default", State, {send_osc, Host, Port, OSC});
-            {cmd, ["/send-after-tagged", Tag, Host, Port, OSC]} ->
+            ["/send-after-tagged", Tag, Host, Port, OSC] ->
                 schedule_cmd(Time, Tag, State, {send_osc, Host, Port, OSC});
-            {cmd, ["/midi-at", MIDI]} ->
+            ["/midi-at", MIDI] ->
                 schedule_midi(Time, "default", State, {send_midi, MIDI});
-            {cmd, ["/midi-at-tagged", Tag, MIDI]} ->
+            ["/midi-at-tagged", Tag, MIDI] ->
                 schedule_midi(Time, Tag, State, {send_midi, MIDI});
-            {cmd, ["/link-set-tempo", Tempo]} ->
+            ["/link-set-tempo", Tempo] ->
                 schedule_link(Time, "default", State, {link_set_tempo, Tempo});
-            {cmd, ["/link-set-tempo-tagged", Tag, Tempo]} ->
+            ["/link-set-tempo-tagged", Tag, Tempo] ->
                 schedule_link(Time, Tag, State, {link_set_tempo, Tempo});
-            {cmd, ["/link-set-is-playing", Enabled]} ->
+            ["/link-set-is-playing", Enabled] ->
                 schedule_link(Time, "default", State, {link_set_is_playing, Enabled});
-            {cmd, ["/link-set-is-playing-tagged", Tag, Enabled]} ->
+            ["/link-set-is-playing-tagged", Tag, Enabled] ->
                 schedule_link(Time, Tag, State, {link_set_is_playing, Enabled});
-            {cmd, ["/hydra_eval", Code]} ->
+            ["/hydra_eval", Code] ->
                 schedule_internal_call(Time, "default", State, self(), {cmd, ["/hydra_eval", Code]});
             Other ->
-                logger:error("Unexpected bundle content:~p", [Other]),
-                State
-        catch
-            Class:Term:Trace ->
-                logger:error("Error decoding OSC: ~p~n~p:~p~n~p",
-                    [Bin, Class, Term, Trace]),
+                logger:error("Unexpected bundle content:~p", Other),
                 State
         end,
-    do_bundle(Time, T, NewState);
-do_bundle(_Time, [], State) ->
-    State.
+        NewState.
 
 schedule_internal_call(Time, Tag, State, Server, Msg) ->
     Delay = Time - osc:now(),
