@@ -4674,12 +4674,19 @@ void MainWindow::setUpdateInfoText(QString t)
 
 void MainWindow::addUniversalCopyShortcuts(QTextEdit* te)
 {
-    new QShortcut(ctrlKey("c"), te, SLOT(copy()));
-    new QShortcut(ctrlKey("a"), te, SLOT(selectAll()));
+    QShortcut* copyShortcutCtrl = new QShortcut(ctrlKey("c"), te, SLOT(copy()));
+    copyShortcutCtrl->setContext(Qt::WidgetShortcut);
 
-    new QShortcut(metaKey("c"), te, SLOT(copy()));
-    new QShortcut(metaKey("a"), te, SLOT(selectAll()));
+    QShortcut* selectAllShortcutCtrl = new QShortcut(ctrlKey("a"), te, SLOT(selectAll()));
+    selectAllShortcutCtrl->setContext(Qt::WidgetShortcut);
+
+    QShortcut* copyShortcutMeta = new QShortcut(metaKey("c"), te, SLOT(copy()));
+    copyShortcutMeta->setContext(Qt::WidgetShortcut);
+
+    QShortcut* selectAllShortcutMeta = new QShortcut(metaKey("a"), te, SLOT(selectAll()));
+    selectAllShortcutMeta->setContext(Qt::WidgetShortcut);
 }
+
 
 QString MainWindow::asciiArtLogo()
 {
