@@ -176,6 +176,7 @@ especially the following individuals who have been remarkably generous:
 * [Simon Woodman](https://twitter.com/sjwoodman)
 * Terry Wisniewski
 * [thattommyhall](https://twitter.com/thattommyhall)
+* Tim Regan
 * Uad Jayanth
 * Uiannis Mavroukakis
 * Vasilis Spilka
