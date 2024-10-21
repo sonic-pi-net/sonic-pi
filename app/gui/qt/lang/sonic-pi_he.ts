@@ -1342,7 +1342,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3440"/>
         <source>Focus Tab 0</source>
-        <translation type="unfinished"></translation>
+        <translation>התמקדות על לשונית 0</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3546"/>
@@ -1352,7 +1352,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3556"/>
         <source>Set Mark</source>
-        <translation type="unfinished"></translation>
+        <translation>הגדרת סמן</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3674"/>
@@ -1362,22 +1362,22 @@
     <message>
         <location filename="../mainwindow.cpp" line="3679"/>
         <source>Windows Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>מצב מקשי קיצור Windows</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3685"/>
         <source>Mac Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>מצב מקשי קיצור Mac</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3690"/>
         <source>User Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>מצב מקשי קיצור משתמש</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3718"/>
         <source>Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>מצב קיצור מקשים</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3881"/>
@@ -1412,17 +1412,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="3911"/>
         <source>Zoom In Logs</source>
-        <translation type="unfinished"></translation>
+        <translation>התקרבות ליומנים</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3914"/>
         <source>Zoom Out Logs</source>
-        <translation type="unfinished"></translation>
+        <translation>התרחקות מהיומנים</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3951"/>
         <source>Focus</source>
-        <translation type="unfinished"></translation>
+        <translation>מיקוד</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3983"/>
@@ -1536,7 +1536,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="5232"/>
         <source>Sonic Pi - Unable to Write to Home Directory</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi - לא ניתן לכתוב לתיקיית הבית</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5238"/>
@@ -1975,7 +1975,7 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="293"/>
         <source>Automatically align code on Enter or Run </source>
-        <translation type="unfinished"></translation>
+        <translation>יישור קוד אוטומטית עם Enter או בהרצה </translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="298"/>
@@ -2426,13 +2426,14 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="637"/>
         <source>System language found: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>שפת המערכת נמצאה: %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="921"/>
         <source>System language: %1
 </source>
-        <translation type="unfinished"></translation>
+        <translation>שפת המערכת: %1
+</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="641"/>
@@ -2486,7 +2487,7 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="684"/>
         <source>Your changes won&apos;t take effect until you restart Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation>השינויים לא יחולו עד להפעלת Sonic Pi מחדש.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="685"/>
