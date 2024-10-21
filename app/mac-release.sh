@@ -115,7 +115,7 @@ replace_symlink() {
 }
 
 
-cd "${SCRIPT_DIR}/build/macOS_Release/Sonic\ Pi.app/Contents/Resources/server/beam/tau/_build"
+cd "${SCRIPT_DIR}/build/macOS_Release/Sonic Pi.app/Contents/Resources/server/beam/tau/_build"
 
 find . -type l | while IFS= read -r symlink; do
     replace_symlink "$symlink"
