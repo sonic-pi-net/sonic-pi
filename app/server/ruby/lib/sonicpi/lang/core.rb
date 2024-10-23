@@ -2325,7 +2325,7 @@ play 80      # This is *never* played as the program is trapped in the loop abov
 
                 # immediately reset for the next move
                 __system_thread_locals.set_local :sonic_pi_local_live_loop_move_to_bus_and_parent_t, nil
-              end
+
               if new_bus
                 moved_prom = __system_thread_locals.get :sonic_pi_local_spider_thread_moved
                 ack_prom = __system_thread_locals.get :sonic_pi_local_spider_thread_moved_ack
@@ -2333,7 +2333,6 @@ play 80      # This is *never* played as the program is trapped in the loop abov
                 # reset tracker and send old tracker with ack
                 tracker = __current_tracker
                 __system_thread_locals.set_local(:sonic_pi_local_tracker, nil)
-                old_bus = __system_thread_locals.get :sonic_pi_mod_sound_synth_out_bus
                 __system_thread_locals.set(:sonic_pi_mod_sound_synth_out_bus, new_bus)
                 __system_thread_locals.set(:sonic_pi_mod_sound_job_group, new_group)
                 moved_prom.deliver! tracker
@@ -2349,6 +2348,7 @@ play 80      # This is *never* played as the program is trapped in the loop abov
               end
               __live_loop_cue name if __system_thread_locals.get :sonic_pi_local_live_loop_auto_cue
               res = send(ll_name, res)
+            end
             end
           end
         end
@@ -2379,7 +2379,7 @@ play 80      # This is *never* played as the program is trapped in the loop abov
                   _b, _g, t, p = __system_thread_locals(st).get(:sonic_pi_local_live_loop_move_to_bus_and_parent_t)
                   if p
                     ## another live loop already registered a move, but didn't manage to swap in time - so we're going to clobber it
-                    p.deliver! :clobbered
+                    p.deliver! :clobbered, false
                   end
                   __system_thread_locals(st).set_local :sonic_pi_local_live_loop_auto_cue, auto_cue if st
                   ## register our move
@@ -2391,7 +2391,7 @@ play 80      # This is *never* played as the program is trapped in the loop abov
               ct2 = Thread.new do
               __system_thread_locals.set_local :sonic_pi_local_thread_group, "ll ct2 join waiter for #{name} #{st.object_id} #{__system_thread_locals(st).get(:sonic_pi_local_thread_group)}"
                 st.join
-                completed_prom.deliver! :joined
+                completed_prom.deliver! :joined, false
               end
 
               moved_or_clobbered = completed_prom.get
@@ -2419,7 +2419,8 @@ play 80      # This is *never* played as the program is trapped in the loop abov
               end
               move_holding_thread_prom.deliver! true
             end
-
+            tracker = new_thread_moved_prom.get
+            tracker.get
             move_holding_thread_prom.get
           end
         end
