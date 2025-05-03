@@ -95,6 +95,8 @@ set(QT_SOURCES
     ${QTAPP_ROOT}/mainwindow.h
     ${QTAPP_ROOT}/model/sonicpitheme.cpp
     ${QTAPP_ROOT}/model/sonicpitheme.h
+    ${QTAPP_ROOT}/model/sonicpi_shortcuts.cpp
+    ${QTAPP_ROOT}/model/sonicpi_shortcuts.h
     ${QTAPP_ROOT}/widgets/infowidget.h
     ${QTAPP_ROOT}/widgets/settingswidget.h
     )

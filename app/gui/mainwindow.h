@@ -70,6 +70,7 @@ class SettingsWidget;
 class Scope;
 class ScintillaAPI;
 class SonicPii18n;
+class SonicPiShortcuts;
 class SonicPiLog;
 class SonicPiScintilla;
 class SonicPiEditor;
@@ -335,14 +336,6 @@ private slots:
     void shortcutModeMenuChanged(int modeID);
 
 private:
-    QKeySequence resolveShortcut(QString keySequence);
-    void resetShortcuts();
-    void loadWinShortcuts();
-    void loadMacShortcuts();
-    void loadEmacsShortcuts();
-    void loadUserShortcuts();
-    void loadUserShortcut(const QString& id, QSettings& shortcut_settings);
-
     SonicPiScintilla* getCurrentWorkspace();
     SonicPiEditor* getCurrentEditor();
     void resizeEvent(QResizeEvent* e) override;
@@ -371,7 +364,6 @@ private:
     void loadWorkspaces();
     void saveWorkspaces();
     void updateShortcuts();
-    void updateShortcut(const QString& id, QAction* action, const QString& desc);
     std::string number_name(int);
     std::string workspaceFilename(SonicPiScintilla* text);
     SonicPiScintilla* filenameToWorkspace(std::string filename);
@@ -406,6 +398,7 @@ private:
     QSettings* gui_settings;
     SonicPiSettings* piSettings;
     SonicPii18n* sonicPii18n;
+    SonicPiShortcuts* sonicPiShortcuts;
 
     bool fullScreenMode = false;
     bool focusMode;
