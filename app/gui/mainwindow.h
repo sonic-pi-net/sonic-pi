@@ -136,7 +136,7 @@ signals:
     void settingsChanged();
 
 private slots:
-
+    void updateShortcuts();
     void updateSelectedUILanguageAction(QString lang);
     void updateContext(int line, int index);
     void updateContextWithCurrentWs();
@@ -363,7 +363,6 @@ private:
     bool saveFile(const QString& fileName, SonicPiScintilla* text);
     void loadWorkspaces();
     void saveWorkspaces();
-    void updateShortcuts();
     std::string number_name(int);
     std::string workspaceFilename(SonicPiScintilla* text);
     SonicPiScintilla* filenameToWorkspace(std::string filename);

@@ -14,6 +14,7 @@
 // Standard stuff
 #include <fstream>
 #include <iostream>
+#include <qshortcut.h>
 #include <sstream>
 
 // Qt stuff
@@ -206,10 +207,11 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
     QPalette p = theme->createPalette();
     QApplication::setPalette(p);
 
-    setupWindowStructure();
-
     this->sonicPiShortcuts = new SonicPiShortcuts(sonicPiConfigPath());
     sonicPiShortcuts->loadUserShortcuts();
+
+    setupWindowStructure();
+
     createStatusBar();
     createInfoPane();
     setWindowTitle(tr("Sonic Pi"));
@@ -438,7 +440,7 @@ void MainWindow::setupWindowStructure()
     prefsWidget->setParent(this);
     prefsWidget->hide();
 
-    settingsWidget = new SettingsWidget(m_spAPI->GetPort(SonicPiPortId::tau_osc_cues), i18n, piSettings, sonicPii18n, this);
+    settingsWidget = new SettingsWidget(m_spAPI->GetPort(SonicPiPortId::tau_osc_cues), i18n, piSettings, sonicPiShortcuts, sonicPii18n, this);
     settingsWidget->setObjectName("settings");
     settingsWidget->setAttribute(Qt::WA_StyledBackground, true);
     connect(settingsWidget, SIGNAL(restartApp()), this, SLOT(restartApp()));
@@ -2842,6 +2844,7 @@ void MainWindow::updateShortcuts()
         sonicPiShortcuts->loadDefaultShortcuts(DefaultShortcutSet::EMACS);
         #endif
     }
+    settingsWidget->updateShortcutsTable();
 
     sonicPiShortcuts->assignToAction("Run", runAct, tr("Run the code in the current buffer"));
     sonicPiShortcuts->assignToAction("Stop", stopAct, tr("Stop all running code"));
@@ -2920,6 +2923,11 @@ void MainWindow::updateShortcuts()
     sonicPiShortcuts->assignToAction("LogZoomIn", logZoomInAct, tr("Zoom in the log"));
     sonicPiShortcuts->assignToAction("LogZoomOut", logZoomOutAct, tr("Zoom out the log"));
     sonicPiShortcuts->assignToAction("FullScreen", fullScreenAct, tr("Toggle fullscreen mode"));
+
+    reloadServerCodeSc->setKey(sonicPiShortcuts->getShortcut("ReloadServerCode"));
+    toggleFocusModeSc->setKey(sonicPiShortcuts->getShortcut("ToggleFocusMode"));
+    toggleScopePausedSc->setKey(sonicPiShortcuts->getShortcut("ToggleScopePaused"));
+
     // show code context
     // show metronome
 }
@@ -3690,9 +3698,9 @@ void MainWindow::createToolBar()
     }
 
     // for debugging purposes
-    reloadServerCodeSc = new QShortcut(QKeySequence("F8"), this, SLOT(reloadServerCode()));
-    toggleFocusModeSc = new QShortcut(QKeySequence("F10"), this, SLOT(toggleFocusMode()));
-    toggleScopePausedSc = new QShortcut(QKeySequence("F12"), this, SLOT(toggleScopePaused()));
+    reloadServerCodeSc = new QShortcut(QKeySequence(), this, SLOT(reloadServerCode()));
+    toggleFocusModeSc = new QShortcut(QKeySequence(), this, SLOT(toggleFocusMode()));
+    toggleScopePausedSc = new QShortcut(QKeySequence(), this, SLOT(toggleScopePaused()));
 
     escapeSc = new QShortcut(ctrlKey("g"), this, SLOT(escapeWorkspaces()));
     escape2Sc = new QShortcut(QKeySequence("Escape"), this, SLOT(escapeWorkspaces()));
@@ -3715,6 +3723,7 @@ void MainWindow::createToolBar()
 
     connect(signalMapper, SIGNAL(mappedInt(int)), settingsWidget, SLOT(updateUILanguage(int)));
     connect(settingsWidget, SIGNAL(uiLanguageChanged(QString)), this, SLOT(updateSelectedUILanguageAction(QString)));
+    connect(settingsWidget, SIGNAL(shortcutModeChanged(int)), this, SLOT(updateShortcuts()));
 }
 
 void MainWindow::updateSelectedUILanguageAction(QString lang)

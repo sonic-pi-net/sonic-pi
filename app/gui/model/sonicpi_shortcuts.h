@@ -23,8 +23,11 @@ class SonicPiShortcuts : public QObject {
     SonicPiShortcuts(QString config_path);
     ~SonicPiShortcuts();
 
+    QStringList shortcut_ids;
+
     public slots:
     QKeySequence getShortcut(const QString& id);
+    std::map<QString, QKeySequence> getAllShortcuts();
     void updateShortcut(const QString& id, QKeySequence key_sequence);
     void resetShortcut(const QString& id);
 
@@ -39,18 +42,6 @@ class SonicPiShortcuts : public QObject {
 
     void loadDefaultShortcuts(DefaultShortcutSet set_id);
 
-    const QStringList shortcut_ids = { "Run", "Stop", "Record", "Save", "Load", "Align", "Comment", "Transpose", "ShiftUp", "ShiftDown",
-        "ContextualDocs", "TextZoomIn", "TextZoomOut", "Scope", "CycleThemes", "Info", "Help", "Prefs",
-        "TabPrev", "TabNext", "Tab1", "Tab2", "Tab3", "Tab4", "Tab5", "Tab6", "Tab7", "Tab8", "Tab9", "Tab0",
-        "Link", "TapTempo", "FocusEditor", "FocusLogs", "FocusContext", "FocusCues", "FocusPrefs", "FocusHelpListing",
-        "FocusHelpDetails", "FocusErrors", "FocusBPMScrubber", "FocusTimeWarpScrubber", "ShowButtons", "ShowCueLog",
-        "ShowLog", "SetMark", "logZoomIn", "logZoomOut", "Down", "Up", "UpTen", "DownTen", "CutToEnd", "Copy", "Cut",
-        "Paste", "Right", "Left", "DeleteForward", "DeleteBackward", "LineStart", "LineEnd", "DocStart", "DocEnd",
-        "WordRight", "WordLeft", "CenterVertically", "Undo", "Redo", "SelectAll", "DeleteWordRight", "DeleteWordLeft",
-        "UpcaseWord", "DowncaseWord"
-    };
-
-
     private:
     std::map<QString, QKeySequence> shortcutMap;
     std::map<QString, QKeySequence> defaultShortcutMap;
@@ -58,82 +49,7 @@ class SonicPiShortcuts : public QObject {
     QString user_base;
     QSettings* shortcut_settings;
 
-    std::map<QString, QStringList> defaultBindings = {
-        {"Run",                     {"Ctrl+R","Alt+R","Alt+R","Ctrl+R"}},
-        {"Stop",                    {"Ctrl+S","Alt+S","Alt+S","Ctrl+S"}},
-        {"Record",                  {"Ctrl+Shift+R","Alt+Shift+R","Alt+Shift+R","Ctrl+Shift+R"}},
-        {"Load",                    {"Meta+O","Ctrl+O","Alt+Shift+O","Ctrl+Shift+O"}},
-        {"Align",                   {"Ctrl+M","Alt+M","Alt+M","Ctrl+M"}},
-        {"Comment",                 {"Ctrl+/","Alt+/","Alt+/","Ctrl+/"}},
-        {"Transpose",               {"Meta+T","Ctrl+T","Ctrl+T","Meta+T"}},
-        {"ShiftUp",                 {"Ctrl+Meta+P","Ctrl+Alt+P","Ctrl+alt+P","Ctrl+Meta+P"}},
-        {"ShiftDown",               {"Ctrl+Meta+N","Ctrl+Alt+N","Ctrl+alt+N","Ctrl+Meta+N"}},
-        {"ContextualDocs",          {"Shift+F1","Shift+F1","Ctrl+I","Meta+I"}},
-        {"TextZoomIn",              {"Ctrl+=","Ctrl+=","Alt++","Ctrl++"}},
-        {"TextZoomOut",             {"Ctrl+-","Ctrl+-","Alt+-","Ctrl+-"}},
-        {"Scope",                   {"Ctrl+O","Alt+O","Alt+O","Ctrl+O"}},
-        {"CycleThemes",             {"Ctrl+Shift+M","Alt+Shift+M","Alt+Shift+M","Ctrl+Shift+M"}},
-        {"Info",                    {"Ctrl+1","Alt+1","Alt+1","Ctrl+1"}},
-        {"Help",                    {"F1","F1","Alt+i","Ctrl+i"}},
-        {"Prefs",                   {"Ctrl+p","Alt+p","Alt+p","Ctrl+p"}},
-        {"TabPrev",                 {"Ctrl+Shift+[","Alt+Shift+[","Alt+Shift+[","Ctrl+Shift+["}},
-        {"TabNext",                 {"Ctrl+Shift+]","Alt+Shift+]","Alt+Shift+]","Ctrl+Shift+]"}},
-        {"Tab1",                    {"Ctrl+Shift+1","Alt+Shift+1","Alt+Shift+1","Ctrl+Shift+1"}},
-        {"Tab2",                    {"Ctrl+Shift+2","Alt+Shift+2","Alt+Shift+2","Ctrl+Shift+2"}},
-        {"Tab3",                    {"Ctrl+Shift+3","Alt+Shift+3","Alt+Shift+3","Ctrl+Shift+3"}},
-        {"Tab4",                    {"Ctrl+Shift+4","Alt+Shift+4","Alt+Shift+4","Ctrl+Shift+4"}},
-        {"Tab5",                    {"Ctrl+Shift+5","Alt+Shift+5","Alt+Shift+5","Ctrl+Shift+5"}},
-        {"Tab6",                    {"Ctrl+Shift+6","Alt+Shift+6","Alt+Shift+6","Ctrl+Shift+6"}},
-        {"Tab7",                    {"Ctrl+Shift+7","Alt+Shift+7","Alt+Shift+7","Ctrl+Shift+7"}},
-        {"Tab8",                    {"Ctrl+Shift+8","Alt+Shift+8","Alt+Shift+8","Ctrl+Shift+8"}},
-        {"Tab9",                    {"Ctrl+Shift+9","Alt+Shift+9","Alt+Shift+9","Ctrl+Shift+9"}},
-        {"Tab0",                    {"Ctrl+Shift+0","Alt+Shift+0","Alt+Shift+0","Ctrl+Shift+0"}},
-        {"Link",                    {"Ctrl+t","Alt+T","Alt+t","Ctrl+t"}},
-        {"TapTempo",                {"Shift+Return","Shift+Return","Shift+Return","Shift+Return"}},
-        {"FocusEditor",             {"Meta+Shift+e","Ctrl+Shift+e","Ctrl+Shift+e","Meta+Shift+e"}},
-        {"FocusLogs",               {"Meta+Shift+l","Ctrl+Shift+l","Ctrl+Shift+l","Meta+Shift+l"}},
-        {"FocusContext",            {"Meta+Shift+t","Ctrl+Shift+t","Ctrl+Shift+t","Meta+Shift+t"}},
-        {"FocusCues",               {"Meta+Shift+c","Ctrl+Shift+c","Ctrl+Shift+c","Meta+Shift+c"}},
-        {"FocusPrefs",              {"Meta+,","Alt+,","Ctrl+Shift+P","Meta+Shift+P"}},
-        {"FocusHelpListing",        {"Meta+Shift+h","Ctrl+Shift+h","Ctrl+Shift+h","Meta+Shift+h"}},
-        {"FocusHelpDetails",        {"Meta+Shift+d","Ctrl+Shift+d","Ctrl+Shift+d","Meta+Shift+d"}},
-        {"FocusErrors",             {"Meta+Shift+R","Ctrl+Shift+R","Ctrl+Shift+R","Meta+Shift+R"}},
-        {"FocusBPMScrubber",        {"Meta+Shift+b","Ctrl+Shift+b","Ctrl+Shift+b","Meta+Shift+b"}},
-        {"FocusTimeWarpScrubber",   {"Meta+Shift+w","Ctrl+Shift+w","Ctrl+Shift+w","Meta+Shift+w"}},
-        {"ShowButtons",             {"Ctrl+Shift+b","Alt+Shift+b","Alt+Shift+b","Ctrl+Shift+b"}},
-        {"ShowCueLog",              {"Ctrl+Shift+c","Alt+Shift+c","Alt+Shift+c","Ctrl+Shift+c"}},
-        {"ShowLog",                 {"Ctrl+Shift+l","Alt+Shift+l","Alt+Shift+l","Ctrl+Shift+l"}},
-        {"SetMark",                 {"Meta+Space","Ctrl+Space","Ctrl+Space","Meta+Space"}},
-        {"LogZoomIn",               {"Meta+=","Ctrl+Alt+=","Ctrl+=","Meta+="}},
-        {"LogZoomOut",              {"Meta+-","Ctrl+Alt+-","Ctrl+-","Meta+-"}},
-        {"Down",                    {"Meta+n","Ctrl+n","Ctrl+n","Meta+n"}},
-        {"Up",                      {"Meta+p","Ctrl+p","Ctrl+p","Meta+p"}},
-        {"UpTen",                   {"Ctrl+up","PgUp","Alt+Shift+U","Ctrl+Shift+U"}},
-        {"DownTen",                 {"Ctrl+down","PgDown","Alt+Shift+D","Ctrl+Shift+D"}},
-        {"CutToEnd",                {"Meta+k","Ctrl+k","Ctrl+k","Meta+k"}},
-        {"Copy",                    {"Meta+c","Ctrl+c","Alt+]","Ctrl+]"}},
-        {"Cut",                     {"Meta+x","Ctrl+x","Ctrl+]","Meta+]"}},
-        {"Paste",                   {"Meta+v","Ctrl+v","Ctrl+y","Meta+y"}},
-        {"Right",                   {"Meta+f","Ctrl+f","Ctrl+f","Meta+f"}},
-        {"Left",                    {"Meta+b","Ctrl+b","Ctrl+b","Meta+b"}},
-        {"DeleteForward",           {"Meta+d","Ctrl+d","Ctrl+d","Meta+d"}},
-        {"DeleteBackward",          {"Meta+h","Ctrl+h","Ctrl+h","Meta+h"}},
-        {"LineStart",               {"Ctrl+Left","Home","Ctrl+A","Meta+A"}},
-        {"LineEnd",                 {"Ctrl+Right","End","Ctrl+E","Meta+E"}},
-        {"DocStart",                {"Ctrl+Shift+,","Alt+Shift+,","Alt+Shift+,","Alt+Shift+,"}},
-        {"DocEnd",                  {"Ctrl+Shift+.","Alt+Shift+.","Alt+Shift+.","Alt+Shift+."}},
-        {"WordRight",               {"Alt+Right","Ctrl+Right","Alt+F","Ctrl+F"}},
-        {"WordLeft",                {"Alt+Left","Ctrl+Left","Alt+B","Ctrl+B"}},
-        {"CenterVertically",        {"Meta+l","Ctrl+l","Ctrl+l","Meta+l"}},
-        {"Undo",                    {"Ctrl+z","Ctrl+z","Alt+z","Ctrl+z"}},
-        {"Redo",                    {"Ctrl+Shift+z","ShiftCtrl+z","Alt+Shift+z","Ctrl+Shift+z"}},
-        {"SelectAll",               {"Ctrl+a","Ctrl+a","Alt+a","Ctrl+a"}},
-        {"DeleteWordRight",         {"Ctrl+d","Alt+d","Alt+d","Ctrl+d"}},
-        {"DeleteWordLeft",          {"Ctrl+Backspace","Alt+Backspace","Alt+Backspace","Ctrl+Backspace"}},
-        {"UpcaseWord",              {"Ctrl+u","Alt+u","Alt+u","Ctrl+u"}},
-        {"DowncaseWord",            {"Ctrl+l","Alt+l","Alt+l","Ctrl+l"}},
-        {"FullScreen",              {"Ctrl+Shift+f","F11","Alt+Shift+F","Ctrl+Shift+F"}},
-    };
+    static std::map<QString, QStringList> defaultBindings;
 
 };
 #endif

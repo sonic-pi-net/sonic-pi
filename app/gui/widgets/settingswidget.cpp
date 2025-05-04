@@ -1,5 +1,9 @@
 #include "settingswidget.h"
 #include "utils/sonicpi_i18n.h"
+#include "model/sonicpi_shortcuts.h"
+
+#include <map>
+#include <iostream>
 
 #include <QSettings>
 #include <QVBoxLayout>
@@ -11,19 +15,25 @@
 #include <QCheckBox>
 #include <QComboBox>
 #include <QUrl>
-#include <iostream>
 #include <QLabel>
 #include <QPushButton>
 #include <QSignalMapper>
 #include <QVBoxLayout>
 #include <QMessageBox>
 #include <QSize>
+#include <QKeySequence>
+#include <QTableWidget>
+#include <QScrollArea>
+#include <QTableView>
+#include <QHeaderView>
+#include <qscrollarea.h>
 
 /**
  * Default Constructor
  */
-SettingsWidget::SettingsWidget(int tau_osc_cues_port, bool i18n, SonicPiSettings *piSettings, SonicPii18n *sonicPii18n, QWidget *parent) {
+SettingsWidget::SettingsWidget(int tau_osc_cues_port, bool i18n, SonicPiSettings *piSettings, SonicPiShortcuts *sonicPiShortcuts, SonicPii18n *sonicPii18n, QWidget *parent) {
     this->piSettings = piSettings;
+    this->sonicPiShortcuts = sonicPiShortcuts;
     this->i18n = i18n;
     this->sonicPii18n = sonicPii18n;
     this->available_languages = sonicPii18n->getAvailableLanguages();
@@ -44,6 +54,9 @@ SettingsWidget::SettingsWidget(int tau_osc_cues_port, bool i18n, SonicPiSettings
 
     QGroupBox *editorTab = createEditorPrefsTab();
     prefTabs->addTab(editorTab, tr("Editor"));
+
+    QGroupBox *shortcutsTab = createShortcutsPrefsTab();
+    prefTabs->addTab(shortcutsTab, tr("Shortcuts"));
 
     QGroupBox *visualizationTab = createVisualizationPrefsTab();
     prefTabs->addTab(visualizationTab, tr("Visuals"));
@@ -566,6 +579,54 @@ QGroupBox* SettingsWidget::createLanguagePrefsTab() {
     return language_prefs_box;
 }
 
+
+/**
+ * create Language Preferences Tab of Settings Widget
+ */
+ QGroupBox* SettingsWidget::createShortcutsPrefsTab() {
+    QGroupBox *shortcuts_box = new QGroupBox(tr("Shortcuts"));
+    shortcuts_box->setToolTip(tr("Configure shortcuts"));
+    QSizePolicy shortcutsPrefSizePolicy(QSizePolicy::Minimum, QSizePolicy::MinimumExpanding);
+    shortcuts_box->setSizePolicy(shortcutsPrefSizePolicy);
+
+    shortcut_mode_label = new QLabel;
+    shortcut_mode_label->setText(tr("Shortcut mode"));
+    shortcut_mode_label->setToolTip(tr("Change the set of shortcuts used in the UI."));
+
+    shortcut_mode_combo = new QComboBox();
+    shortcut_mode_combo->addItems({"Emacs (default)", "Windows", "Mac", "User"});
+    shortcut_mode_combo->setToolTip(tr("Change the set of shortcuts used in the UI."));
+    shortcut_mode_combo->setMinimumContentsLength(2);
+    shortcut_mode_combo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
+
+    shortcut_table = new QTableWidget(1, 2);
+    shortcut_table->setHorizontalHeaderLabels({"Shortcut ID", "Key Binding"});
+    QHeaderView *column_header = shortcut_table->horizontalHeader();
+    QHeaderView *row_header = shortcut_table->verticalHeader();
+    column_header->setSectionResizeMode(QHeaderView::ResizeToContents);
+    row_header->setSectionResizeMode(QHeaderView::ResizeToContents);
+
+    QScrollArea *scrollArea = new QScrollArea();
+    // scrollArea->setBackgroundRole(QPalette::Dark);
+    scrollArea->setWidgetResizable(true);
+    scrollArea->setSizeAdjustPolicy(QScrollArea::AdjustToContents);
+    scrollArea->setWidget(shortcut_table);
+
+    QVBoxLayout *shortcuts_box_layout = new QVBoxLayout;
+
+    shortcuts_box_layout->addWidget(shortcut_mode_label);
+    shortcuts_box_layout->addWidget(shortcut_mode_combo);
+    shortcuts_box_layout->addWidget(scrollArea);
+
+    shortcuts_box->setLayout(shortcuts_box_layout);
+
+    QGroupBox *shortcut_prefs_box = new QGroupBox();
+    QGridLayout *shortcut_prefs_box_layout = new QGridLayout;
+    shortcut_prefs_box_layout->addWidget(shortcuts_box, 0, 0, 0, 0);
+    shortcut_prefs_box->setLayout(shortcut_prefs_box_layout);
+    return shortcut_prefs_box;
+}
+
 // TODO utils?
 QString SettingsWidget::tooltipStrShiftMeta(char key, QString str) {
 #ifdef Q_OS_MAC
@@ -674,6 +735,10 @@ void SettingsWidget::updateUILanguage(int index) {
         }
 
     }
+}
+
+void SettingsWidget::update_shortcut_mode(int mode) {
+    emit shortcutModeChanged(mode+1);
 }
 
 void SettingsWidget::updateEnableScsynthInputs() {
@@ -854,6 +919,7 @@ void SettingsWidget::updateSettings() {
 
     std::cout << "[GUI] - update settings" << std::endl;
     piSettings->language = available_languages[language_combo->currentIndex()];
+    piSettings->shortcut_mode = shortcut_mode_combo->currentIndex() + 1;
     piSettings->mixer_invert_stereo = mixer_invert_stereo->isChecked();
     piSettings->enable_scsynth_inputs = enable_scsynth_inputs->isChecked();
     piSettings->mixer_force_mono = mixer_force_mono->isChecked();
@@ -922,6 +988,9 @@ void SettingsWidget::settingsChanged() {
     }
     language_details_label->setText(language_detail_text);
 
+    shortcut_mode_combo->setCurrentIndex(piSettings->shortcut_mode - 1);
+    updateShortcutsTable();
+
     mixer_invert_stereo->setChecked(piSettings->mixer_invert_stereo);
     mixer_force_mono->setChecked(piSettings->mixer_force_mono);
     enable_scsynth_inputs->setChecked(piSettings->enable_scsynth_inputs);
@@ -975,6 +1044,8 @@ void SettingsWidget::settingsChanged() {
 void SettingsWidget::connectAll() {
     //connect(language_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateSettings()));
     connect(language_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateUILanguage(int)));
+    connect(shortcut_mode_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateSettings()));
+    connect(shortcut_mode_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(update_shortcut_mode(int)));
     connect(mixer_invert_stereo, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(mixer_force_mono, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(check_args, SIGNAL(clicked()), this, SLOT(updateSettings()));
@@ -1072,4 +1143,27 @@ void SettingsWidget::add_language_combo_box_entries(QComboBox* combo) {
       combo->addItem(tr("Use system language"));
     }
   }
+}
+
+void SettingsWidget::updateShortcutsTable() {
+    shortcut_table->clearContents();
+
+    std::map<QString, QKeySequence> all_shortcuts = sonicPiShortcuts->getAllShortcuts();
+    std::cout << "no. of shortcuts: " << all_shortcuts.size() << std::endl;
+    shortcut_table->setRowCount(all_shortcuts.size());
+
+    int row = 0;
+    for (auto const &item : all_shortcuts) {
+        QString id = item.first;
+        QKeySequence key_sequence = item.second;
+        QString keys = key_sequence.toString();
+
+        QTableWidgetItem* id_cell = new QTableWidgetItem(id);
+        id_cell->setFlags(Qt::ItemIsSelectable);
+        QTableWidgetItem* keys_cell = new QTableWidgetItem(keys);
+        keys_cell->setFlags(Qt::ItemIsSelectable);
+        shortcut_table->setItem(row, 0, id_cell);
+        shortcut_table->setItem(row, 1, keys_cell);
+        row += 1;
+    }
 }

@@ -2,9 +2,11 @@
 #define SETTINGSWIDGET_H
 
 #include "model/settings.h"
+#include "model/sonicpi_shortcuts.h"
 #include "utils/sonicpi_i18n.h"
 
 #include <QWidget>
+#include <QTableWidget>
 
 class QSlider;
 class QTabWidget;
@@ -25,7 +27,7 @@ class SettingsWidget : public QWidget
     Q_OBJECT
 
 public:
-    SettingsWidget(int tau_osc_cues_port, bool i18n, SonicPiSettings *piSettings, SonicPii18n *sonicPii18n, QWidget *parent = nullptr);
+    SettingsWidget(int tau_osc_cues_port, bool i18n, SonicPiSettings *piSettings, SonicPiShortcuts *sonicPiShortcuts, SonicPii18n *sonicPii18n, QWidget *parent = nullptr);
     ~SettingsWidget();
 
     void updateVersionInfo( QString info_string, QString visit, bool sonic_pi_net_visible, bool check_now_visible);
@@ -34,11 +36,13 @@ public:
     void updateScsynthInfo(QString scsynthInfo);
     void updateScopeNames(std::vector<QString>);
     void updateSelectedUILanguage(QString lang);
+    void updateShortcutsTable();
 
 public slots:
     void updateUILanguage(int index);
 
 private slots:
+    void update_shortcut_mode(int mode);
     void update_mixer_invert_stereo();
     void update_mixer_force_mono();
     void updateEnableScsynthInputs();
@@ -80,6 +84,7 @@ private slots:
 signals:
     void restartApp();
     void uiLanguageChanged(QString lang); // TODO: Implement real-time language switching
+    void shortcutModeChanged(int mode);
     void mixerSettingsChanged();
     void enableScsynthInputsChanged();
     void oscSettingsChanged();
@@ -116,6 +121,7 @@ signals:
 
 private:
     SonicPiSettings* piSettings;
+    SonicPiShortcuts* sonicPiShortcuts;
     SonicPii18n* sonicPii18n;
     std::map<QString, QString> localeNames;
     QStringList available_languages;
@@ -184,6 +190,11 @@ private:
     QLabel *language_details_label;
     QLabel *language_info_label;
 
+    QComboBox *shortcut_mode_combo;
+    QLabel *shortcut_mode_label;
+    QTableWidget *shortcut_table;
+
+
     // TODO
     QGroupBox* createAudioPrefsTab();
     QGroupBox* createIoPrefsTab();
@@ -191,6 +202,7 @@ private:
     QGroupBox* createVisualizationPrefsTab();
     QGroupBox* createUpdatePrefsTab();
     QGroupBox* createLanguagePrefsTab();
+    QGroupBox* createShortcutsPrefsTab();
 
     void add_language_combo_box_entries(QComboBox* combo);
 
