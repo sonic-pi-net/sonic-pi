@@ -1,3 +1,8 @@
+#include "sonicpi_shortcuts.h"
+
+#include <map>
+#include <iostream>
+
 #include <QDir>
 #include <QString>
 #include <QStringList>
@@ -5,12 +10,6 @@
 #include <QAction>
 #include <QKeySequence>
 #include <QSettings>
-#include <iostream>
-#include <map>
-#include <qcontainerfwd.h>
-#include <qkeysequence.h>
-
-#include "sonicpi_shortcuts.h"
 
 SonicPiShortcuts::SonicPiShortcuts(QString config_path) {
     this->config_path = config_path;
@@ -39,12 +38,10 @@ QKeySequence SonicPiShortcuts::getShortcut(const QString& id) {
 }
 std::map<QString, QKeySequence> SonicPiShortcuts::getAllShortcuts() {
     std::map<QString, QKeySequence> current_shortcuts = {};
-    std::cout << "[Debug] No. of shortcuts: " << current_shortcuts.size() << std::endl;
     for (const auto& id : shortcut_ids) {
         current_shortcuts[id] = getShortcut(id);
-        std::cout << "[Debug] " << getShortcut(id).toString().toStdString() << std::endl;
+        // std::cout << "[Debug] " << getShortcut(id).toString().toStdString() << std::endl;
     }
-    std::cout << "[Debug] No. of shortcuts: " << current_shortcuts.size() << std::endl;
     return current_shortcuts;
 }
 void SonicPiShortcuts::updateShortcut(const QString& id, QKeySequence key_sequence) {
@@ -121,10 +118,10 @@ void SonicPiShortcuts::writeUserShortcuts() {
 }
 
 void SonicPiShortcuts::loadDefaultShortcuts(DefaultShortcutSet set_id) {
-    // 1: macos
-    // 2: windows
-    // 3: emacs
-    // 4: emacs (macos)
+    // 0: macos
+    // 1: windows
+    // 2: emacs
+    // 3: emacs (macos)
     defaultShortcutMap = {};
     for (auto const& x : defaultBindings) {
         QString id = x.first;

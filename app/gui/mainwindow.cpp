@@ -2838,7 +2838,7 @@ void MainWindow::updateShortcuts()
     {
         piSettings->shortcut_mode = 1;
         emacsShortcutModeAct->setChecked(true);
-        #if Q_OS_MAC
+        #ifdef Q_OS_MAC
         sonicPiShortcuts->loadDefaultShortcuts(DefaultShortcutSet::EMACS_MACOS);
         #else
         sonicPiShortcuts->loadDefaultShortcuts(DefaultShortcutSet::EMACS);
