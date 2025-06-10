@@ -1,0 +1,41 @@
+from pydub.generators import Sine
+from pydub import AudioSegment
+
+# Define the note frequencies
+note_freqs = {
+    'C2': 65.41,
+    'D2': 73.42,
+    'E2': 82.41,
+    'F2': 87.31,
+    'G2': 98.00,
+    'A2': 110.00,
+    'Bb2': 116.54,
+    'C3': 130.81,
+    'D3': 146.83,
+    'E3': 164.81,
+    'F3': 174.61,
+    'G3': 196.00,
+    'A3': 220.00,
+}
+
+# Define each bar of the bassline
+bars = [
+    [('C2', 300), ('G2', 300), ('A2', 300), ('G2', 300)],  # Cmaj7
+    [('F2', 300), ('C3', 300), ('D3', 300), ('C3', 300)],  # Fmaj7
+    [('D2', 300), ('A2', 300), ('Bb2', 300), ('A2', 300)], # Dm7
+    [('G2', 300), ('D3', 300), ('E3', 300), ('D3', 300)],  # G7
+]
+
+# Generate audio for one loop
+loop = AudioSegment.silent(duration=0)
+for bar in bars:
+    for note, dur in bar:
+        tone = Sine(note_freqs[note]).to_audio_segment(duration=dur).fade_in(20).fade_out(20).low_pass_filter(500)
+        loop += tone
+
+# Repeat loop 4 times
+final_loop = loop * 4
+
+# Export to file
+final_loop.export("bassline_loop_demo.mp3", format="mp3")
+print("Bassline loop exported as bassline_loop_demo.mp3")
