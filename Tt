@@ -1,0 +1,34 @@
+use_bpm 90
+
+live_loop :drums do
+  sample :bd_haus, amp: 2
+  sleep 1
+  sample :sn_generic, amp: 1.5, rate: 1
+  sleep 1
+end
+
+live_loop :hats do
+  sync :drums
+  4.times do
+    sample :drum_cymbal_closed, amp: 0.6
+    sleep 0.5
+  end
+end
+
+live_loop :bass do
+  sync :drums
+  use_synth :fm
+  play :e2, release: 0.5, amp: 2
+  sleep 1
+  play :g2, release: 0.5, amp: 2
+  sleep 1
+  play :a2, release: 0.5, amp: 2
+  sleep 2
+end
+
+live_loop :pad do
+  sync :drums
+  use_synth :hollow
+  play_chord [:e3, :g3, :b3], sustain: 4, amp: 1.5
+  sleep 4
+end
