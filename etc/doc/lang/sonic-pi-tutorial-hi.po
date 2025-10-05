@@ -4,24 +4,24 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2024-10-20 19:20+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
-"Language-Team: Hindi <https://hosted.weblate.org/projects/sonic-pi/tutorial/hi"
-"/>\n"
+"PO-Revision-Date: 2025-10-06 09:02+0000\n"
+"Last-Translator: Sudhanshu Ambastha <sudhanshuambastha2020@gmail.com>\n"
+"Language-Team: Hindi <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
+"hi/>\n"
 "Language: hi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.8-rc\n"
+"X-Generator: Weblate 5.14-dev\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
-msgstr ""
+msgstr "1 सोनिक पाई में आपका स्वागत है"
 
 #: 01-Welcome-to-Sonic-Pi.md:3
 msgid "Welcome friend :-)"
-msgstr ""
+msgstr "नमस्ते मित्र :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:5
 msgid ""
@@ -30,6 +30,9 @@ msgid ""
 "l learn all about music, synthesis, programming, composition, performance and "
 "more."
 msgstr ""
+"सोनिक पाई में आपका स्वागत है। मुझे उम्मीद है कि आप अपनी खुद की धुनें बनाना शुरू करने के लिए उतने ही उत्सुक होंगे"
+" जितना कि मैं आपको यह सब दिखाने के लिए हूँ। यह एक सचमुच मज़ेदार सफर होने वाला है, जहाँ आप संगीत, सिंथेसिस, "
+"प्रोग्रामिंग, कंपोज़िशन, परफॉर्मेंस और बहुत कुछ सीखेंगे।"
 
 #: 01-Welcome-to-Sonic-Pi.md:10
 msgid ""
@@ -40,6 +43,11 @@ msgid ""
 "ve Coding Performances](https://youtube.com/samaaron) where I code with Sonic "
 "Pi live in front of audiences."
 msgstr ""
+"लेकिन रुकिए, यह मेरी कितनी अशिष्टता है! मैं आपको अपना परिचय दे दूँ — मैं हूँ [सैम आरोन]"
+"(https://twitter.com/samaaron)- वह व्यक्ति जिसने सोनिक पाई बनाया। आप मुझे ट्विटर पर "
+"[@samaaron](http://twitter.com/samaaron) पर ढूँढ सकते हैं और मुझे आपसे मिलकर खुशी होगी। हो "
+"सकता है कि आप मेरी लाइव कोडिंग परफॉर्मेंस के बारे में भी जानने में रुचि रखते हों, जहाँ मैं दर्शकों के सामने सोनिक पाई "
+"के साथ लाइव कोडिंग करता हूँ।"
 
 #: 01-Welcome-to-Sonic-Pi.md:18
 msgid ""
@@ -47,6 +55,8 @@ msgid ""
 "n - feedback is so helpful. You never know, your idea might be the next big fe"
 "ature!"
 msgstr ""
+"अगर आपके पास सोनिक पाई को बेहतर बनाने के लिए कोई सोच या विचार हैं, तो कृपया उन्हें बताएँ — प्रतिक्रिया बहुत "
+"सहायक होती है। आपको क्या पता, हो सकता है आपका विचार अगली सबसे बड़ी सुविधा बन जाए!"
 
 #: 01-Welcome-to-Sonic-Pi.md:22
 msgid ""
