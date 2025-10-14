@@ -490,7 +490,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3004"/>
         <source>Vertically center the caret in the editor</source>
-        <translation type="unfinished"></translation>
+        <translation>מירכוז סמן הכתיבה אנכית בעורך</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3540"/>
@@ -1558,7 +1558,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="5293"/>
         <source>Unfortunately you don&apos;t appear to have permission to write to your home directory:</source>
-        <translation type="unfinished"></translation>
+        <translation>לרוע המזל נראה שאין לך הרשאה לכתוב לתיקיית הבית שלך:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5294"/>
@@ -1569,12 +1569,12 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="5300"/>
         <source>Boot Error - SONIC_PI_HOME not writable:</source>
-        <translation type="unfinished"></translation>
+        <translation>שגיאת טעינה - SONIC_PI_HOME נעול לכתיבה:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5307"/>
         <source>Unfortunately it appears you have set the SONIC_PI_HOME environment variable to a directory you don&apos;t have permission to write to:</source>
-        <translation type="unfinished"></translation>
+        <translation>לרוע המזל נראה שהגדרת את משתנה הסביבה SONIC_PI_HOME לתיקייה שאין לך הרשאות לכתוב אליה:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3298"/>
