@@ -73,7 +73,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="620"/>
         <source>Cues</source>
-        <translation>Vink</translation>
+        <translation>Signaler</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4812"/>
@@ -103,27 +103,27 @@
     <message>
         <location filename="../mainwindow.cpp" line="816"/>
         <source>Hiding pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation>Skjul fanetitler...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="826"/>
         <source>Showing pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis fanetitler...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1440"/>
         <source>Audio Inputs Enabled. Restart Sonic Pi for this setting to take effect...</source>
-        <translation type="unfinished"></translation>
+        <translation>Lydinput skrudd på. Start Sonic Pi på nytt for å aktivere innstillingen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1444"/>
         <source>Audio Inputs Disabled. Restart Sonic Pi for this setting to take effect...</source>
-        <translation type="unfinished"></translation>
+        <translation>Lydinput skrudd av. Start Sonic Pi på nytt for å aktivere instillingen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1542"/>
         <source>Sonic Pi Boot Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi oppstartsfeil</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1710"/>
@@ -289,12 +289,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2557"/>
         <source>Auto Indent mode enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatisk innrykk skrudd på</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2561"/>
         <source>Auto Indent mode disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatisk innrykk skrudd av</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2624"/>
@@ -330,7 +330,7 @@
         <location filename="../mainwindow.cpp" line="2982"/>
         <location filename="../mainwindow.cpp" line="3322"/>
         <source>Comment/Uncomment code</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kommenter/utkommenter kode</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2983"/>
@@ -341,102 +341,102 @@
     <message>
         <location filename="../mainwindow.cpp" line="2984"/>
         <source>Shift Line or Selection Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Flytt linje eller utvalg opp</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2985"/>
         <source>Shift Line or Selection Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Flytt linje eller utvalg ned</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2986"/>
         <source>Move Cursor Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Flytt markøren ned</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2987"/>
         <source>Move Cursor Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Flytt markør opp</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2988"/>
         <source>Move Cursor Down 10 Lines</source>
-        <translation type="unfinished"></translation>
+        <translation>Flytt markøren ned 10 linjer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2989"/>
         <source>Move Cursor Up 10 Lines</source>
-        <translation type="unfinished"></translation>
+        <translation>Flytt markøren opp 10 linjer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2990"/>
         <source>Cut to the end of the line</source>
-        <translation type="unfinished"></translation>
+        <translation>Klipp ut til slutten av linja</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2991"/>
         <source>Copy the current selection</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopiér det merkede området</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2992"/>
         <source>Cut the current selection</source>
-        <translation type="unfinished"></translation>
+        <translation>Klipp ut det merkede området</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2993"/>
         <source>Paste the current selection</source>
-        <translation type="unfinished"></translation>
+        <translation>Lim inn det merkede området</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2994"/>
         <source>Move Cursor Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Flytt markøren mot høyre</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2995"/>
         <source>Move Cursor Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Flytt markøren til venstre</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2996"/>
         <source>Delete Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Slett neste</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2997"/>
         <source>Delete Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Slett forrige</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2998"/>
         <source>Move Cursor to Start of Line</source>
-        <translation type="unfinished"></translation>
+        <translation>Flytt markøren til starten av linja</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2999"/>
         <source>Move Cursor to End of Line</source>
-        <translation type="unfinished"></translation>
+        <translation>Flytt markøren til slutten av linja</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3000"/>
         <source>Move Cursor to Start of Document</source>
-        <translation type="unfinished"></translation>
+        <translation>Flytt markøren til starten av dokumentet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3001"/>
         <source>Move Cursor to End of Document</source>
-        <translation type="unfinished"></translation>
+        <translation>Flytt markøren til slutten av dokumentet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3002"/>
         <source>Move Cursor Right by Word</source>
-        <translation type="unfinished"></translation>
+        <translation>Flytt markøren til neste ord</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3003"/>
         <source>Move Cursor Left by Word</source>
-        <translation type="unfinished"></translation>
+        <translation>Flytt markøren til forrige ord</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3005"/>
@@ -476,12 +476,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="3013"/>
         <source>Set a mark in the text</source>
-        <translation type="unfinished"></translation>
+        <translation>Sett et merke i teksten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3015"/>
         <source>Look up documentation for the current word</source>
-        <translation type="unfinished"></translation>
+        <translation>Åpne dokumentasjonen for gjeldende ord</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3019"/>
@@ -561,7 +561,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3048"/>
         <source>Show or hide the cue log</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis eller skjul signalloggen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3049"/>
@@ -764,7 +764,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3565"/>
         <source>Enable Incoming MIDI Cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Skru på innkommende MIDI-signal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3570"/>
@@ -779,7 +779,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3580"/>
         <source>Log Cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Logg Signaler</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3585"/>
@@ -1299,7 +1299,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3933"/>
         <source>Show Cue Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis Signallogg</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3938"/>
@@ -1544,7 +1544,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3040"/>
         <source>Place focus on the cue event pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Fokusér på signalhendelsesfanen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3905"/>
@@ -1609,7 +1609,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="4214"/>
         <source>Wavefile (*.wav)</source>
-        <translation>Wavefile (*.wav)</translation>
+        <translation>Wavefil (*.wav)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4237"/>
@@ -2022,9 +2022,9 @@ Når ikke aktiv vil ingen OSC-meldinger bli mottatt.</translation>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation type="unfinished">MIDI-innmatingsenheter sender MIDI-meldinger direkte til
-Sonic Pi og tas imot som vinkhendelser
-(på lignende måte som OSC-meldinger og interne vink)</translation>
+        <translation>MIDI-innmatingsenheter sender MIDI-meldinger direkte til
+Sonic Pi og tas imot som signalhendelser
+(på lignende måte som OSC-meldinger og interne signaler)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="250"/>
@@ -2101,12 +2101,12 @@ Sonic PI, som kan sendes gjennom midi_*fns</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="199"/>
         <source>Enable incoming MIDI cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Skru på innkommende MIDI-signaler</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="200"/>
         <source>Enable or disable automatic conversion of incoming MIDI messages to cue events</source>
-        <translation type="unfinished"></translation>
+        <translation>Skru på/av automatisk konvertering av innkommende MIDI-meldinger til signalhendelser</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="232"/>
@@ -2350,22 +2350,22 @@ Hvis aktivert blir loggen skrollet helt ned etter hver ny melding er vist.</tran
     <message>
         <location filename="../widgets/settingswidget.cpp" line="426"/>
         <source>Show and Hide Scope</source>
-        <translation type="unfinished">Vis og skjul oscilloskop</translation>
+        <translation>Vis og skjul oscilloskop</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="427"/>
         <source>Scope Kinds</source>
-        <translation type="unfinished">Oscilloskoptype</translation>
+        <translation>Oscilloskoptyper</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="435"/>
         <source>Show scopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis oscilloskoper</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="437"/>
         <source>Show scope labels</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis oscilloskopmerker</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="515"/>
@@ -2490,7 +2490,7 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="438"/>
         <source>Toggle the visibility of the labels for the audio oscilloscopes</source>
-        <translation type="unfinished"></translation>
+        <translation>Styr synligheten til lydoscilloskopenes merker</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="442"/>
@@ -2502,7 +2502,14 @@ Mirror Stereo - simple left/right composite wave, with left on top, right on bot
 Mono - shows a combined view of the left and right channels (using RMS)
 Spectrum - shows the sound frequencies as a spectrum, from low to high frequencies
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lydoscilloskopene kommer i flere varianter, og kan &apos;
+vises uavhengig eller sammen:
+
+Lissajous - illustrerer fasesammenhengen mellom venstre og høyre kanal
+Mirror Stereo - enkel venstre/høyre-kombinert bølge, med venstre øverst og høyre nederst
+Mono - viser kombinasjonen av høyre og venstre kanal (bruker RMS)
+Spectrum - viser lydfrekvensene som et spektrum, fra lav til høy frekvens
+Stereo - viser to uavhengige oscilloskoper for høyre og venstre kanal</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="449"/>
