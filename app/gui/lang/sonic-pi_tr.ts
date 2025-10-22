@@ -91,7 +91,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="626"/>
         <source>Link Metronome &amp; Global Time Warp</source>
-        <translation type="unfinished"></translation>
+        <translation>Bağlantı Metronomu ve Küresel Zaman Bükülmesi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1712"/>
@@ -164,7 +164,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="4804"/>
         <source>Enabling MIDI &lt;input&gt;...</source>
-        <translation type="unfinished"></translation>
+        <translation>MIDI &lt;giriş&gt; etkinleştiriliyor...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4832"/>
@@ -224,12 +224,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="816"/>
         <source>Hiding pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation>Panel başlıkları gizleniyor...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="826"/>
         <source>Showing pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation>Panel başlıkları gösteriliyor...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1440"/>
@@ -435,7 +435,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3532"/>
         <source>Link Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>İlişkiyi Bağla</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3035"/>
@@ -450,12 +450,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="3036"/>
         <source>Click Link Tap Tempo</source>
-        <translation type="unfinished"></translation>
+        <translation>Bağlantıya Tıkla Dokun Tempo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3004"/>
         <source>Vertically center the caret in the editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Editörde imleci dikey olarak ortalayın</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3540"/>
@@ -570,12 +570,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="3712"/>
         <source>Show Titles</source>
-        <translation type="unfinished"></translation>
+        <translation>Başlıkları Göster</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3717"/>
         <source>Hide Menu Bar in Fullscreen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Tam Ekran Modunda Menü Çubuğunu Gizle</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3742"/>
@@ -799,12 +799,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="3921"/>
         <source>Focus BPM Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation>Odak BPM Temizleyici</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3045"/>
         <source>Place focus on BPM Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation>BPM Scrubber&apos;a odaklanın</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3925"/>
