@@ -199,12 +199,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="3420"/>
         <source>Code Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation>הגדלת כתב הקוד</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3424"/>
         <source>Code Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation>הקטנת כתב הקוד</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3428"/>
@@ -834,7 +834,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3921"/>
         <source>Focus BPM Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation>מיקוד על מחוון ה־BPM</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3045"/>
