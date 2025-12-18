@@ -490,7 +490,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3004"/>
         <source>Vertically center the caret in the editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Vertically center the caret in the editor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3540"/>
