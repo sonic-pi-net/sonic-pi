@@ -3705,11 +3705,11 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
         args_h["out_bus"] = out_bus.to_i
       end
 
-      def calculate_sustain!(args)
+      def calculate_sustain!(args, defaults)
         if args.has_key? :duration and not(args.has_key? :sustain)
-          attack = args.fetch(:attack, 0)
-          decay = args.fetch(:decay, 0)
-          release = args.fetch(:release, 0)
+          attack = args.fetch(:attack, defaults.fetch(:attack, 0))
+          decay = args.fetch(:decay, defaults.fetch(:decay, 0))
+          release = args.fetch(:release, defaults.fetch(:release, 0))
           duration = args[:duration]
 
           sustain = duration - (attack + decay + release)
@@ -3848,7 +3848,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
         end
 
         normalise_args!(args_h, defaults)
-        calculate_sustain!(args_h)
+        calculate_sustain!(args_h, defaults)
         scale_time_args_to_bpm!(args_h, info, true) if info && __thread_locals.get(:sonic_pi_spider_arg_bpm_scaling)
 
         args_h
