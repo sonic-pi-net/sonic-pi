@@ -548,6 +548,7 @@ module SonicPi
 
     def __stop_jobs
       __info "Stopping all runs..."
+      @run_count = 0
       @user_jobs.each_id do |id|
         __stop_job id
       end
@@ -941,6 +942,10 @@ module SonicPi
           __set_default_user_thread_locals!
           __msg_queue.push({type: :job, jobid: id, action: :start, jobinfo: info})
           @life_hooks.init(id, {:thread => Thread.current})
+          # run_count is a counter showing how many runs have happened after last stop.
+          # it is available for user code and enables writing code that depends on it.
+          @run_count = @run_count ? @run_count + 1 : 0
+          run_count = @run_count
 
           ## fix this for link
           __init_spider_time_and_beat!
