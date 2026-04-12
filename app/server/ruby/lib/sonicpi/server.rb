@@ -333,30 +333,27 @@ module SonicPi
         # Check for a cached live synth from a previous Run.
         old_synth_node = @live_synths[name_id]
         if old_synth_node
-          # A previous instance exists. We'll create a NEW synth (fresh
-          # node ID) in the new group, then free the old one. This gives
-          # a brief overlap (no audible gap) instead of the free-then-create
-          # approach which has a discontinuity. It also avoids the race
-          # where /g_freeAll and /s_new with the same ID collide in the
-          # UDP pipeline ("duplicate node ID").
+          old_group = old_synth_node.group
+          old_destroyed = old_synth_node.destroyed?
           initial_trigger = false
         else
+          old_group = nil
+          old_destroyed = false
           initial_trigger = true
         end
         node_id = @CURRENT_NODE_ID.next
         synth_node = SynthNode.new(node_id, group_id, self, s_name, args_h, info)
         @live_synths[name_id] = synth_node
 
-
         log synth_node.stats
-
-        orig_synth_node_group = synth_node.group
 
         # Call reset on synth node - this doesn't do anything if the synth
         # isn't yet in the destroyed state
         synth_node.reset!
 
-        if initial_trigger || (group_id != orig_synth_node_group)
+        # Re-trigger if: first time, group changed (FX context moved),
+        # or old synth was destroyed (Stop button / server reset).
+        if initial_trigger || old_destroyed || (old_group && group_id != old_group)
           pre_trig_blk.call(synth_node) if pre_trig_blk
           on_move_blk.call(synth_node) if on_move_blk
 
