@@ -18,7 +18,7 @@ require_relative "oscdecode"
 module SonicPi
   module OSC
     class UDPServer
-      attr_reader :encoder
+      attr_reader :encoder, :port
 
       include Util
 

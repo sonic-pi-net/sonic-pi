@@ -249,7 +249,7 @@ module SonicPi
 
     def mixer_invert_stereo(invert)
       check_for_server_rebooting!(:mixer_invert_stereo)
-      # invert should be true or false
+      @mixer_invert_stereo = invert
       invert_i = invert ? 1 : 0
       @server.node_ctl @mixer, {"invert_stereo" => invert_i}, true
     end
@@ -276,11 +276,13 @@ module SonicPi
 
     def mixer_stereo_mode
       check_for_server_rebooting!(:mixer_stereo_mode)
+      @mixer_force_mono = false
       @server.node_ctl @mixer, {"force_mono" => 0}, true
     end
 
     def mixer_mono_mode
       check_for_server_rebooting!(:mixer_mono_mode)
+      @mixer_force_mono = true
       @server.node_ctl @mixer, {"force_mono" => 1}, true
     end
 
