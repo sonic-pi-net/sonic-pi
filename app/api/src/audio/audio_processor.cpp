@@ -255,17 +255,26 @@ void AudioProcessor::CalculateFFT(ProcessedAudio& audio)
 
 void AudioProcessor::ResetConnection()
 {
-    m_shmClient.reset(new server_shared_memory_client(m_scSynthPort));
-    m_shmReader = m_shmClient->get_scope_buffer_reader(0);
+    try
+    {
+        m_shmClient.reset(new server_shared_memory_client(m_scSynthPort));
+        m_shmReader = m_shmClient->get_scope_buffer_reader(0);
 
-    if (m_shmReader.valid())
-    {
-        LOG(DBG, "Connected to shared audio memory");
-        SetConsumed(true);
+        if (m_shmReader.valid())
+        {
+            LOG(DBG, "Connected to shared audio memory");
+            SetConsumed(true);
+        }
+        else
+        {
+            LOG(ERR, "Failed to connect to shared audio memory");
+        }
     }
-    else
+    catch (const std::exception& e)
     {
-        LOG(ERR, "Failed to connect to shared audio memory");
+        LOG(ERR, "Shared memory connection failed: " << e.what());
+        m_shmClient.reset();
+        m_shmReader = scope_buffer_reader();
     }
 }
 

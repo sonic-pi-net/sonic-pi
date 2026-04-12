@@ -22,7 +22,8 @@
 
 #include <atomic>
 #include <cstring>
-#include <boost/interprocess/offset_ptr.hpp>
+
+#include "relative_ptr.hpp"
 
 extern "C" {
 #include "tlsf.h"
@@ -30,7 +31,6 @@ extern "C" {
 
 namespace detail_server_shm {
 
-using boost::interprocess::offset_ptr;
 using std::atomic;
 
 class scope_buffer_writer;
@@ -49,7 +49,6 @@ public:
     void deallocate(void* ptr) { free_ex(ptr, pool_); }
 
 private:
-    friend class server_shared_memory;
     char* pool_;
 };
 
@@ -57,7 +56,7 @@ class scope_buffer {
     friend class scope_buffer_writer;
     friend class scope_buffer_reader;
 
-    typedef offset_ptr<float> sh_float_ptr;
+    typedef relative_ptr<float> sh_float_ptr;
 
     enum status { free = 0, initialized };
 

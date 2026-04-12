@@ -64,33 +64,13 @@ set(BUFFER_SRC
     ${API_ROOT}/include/api/audio/audio_processor.h
     ${API_ROOT}/include/api/audio/scope_buffer.hpp
     ${API_ROOT}/include/api/audio/server_shm.hpp
+    ${API_ROOT}/include/api/audio/relative_ptr.hpp
 )
 
 # Create the static library target
 add_library(${PROJECT_NAME} STATIC ${API_SRC} ${OSC_SRC} ${BUFFER_SRC})
 add_library(SonicPi::API ALIAS ${PROJECT_NAME})
 
-if("${CMAKE_SYSTEM_NAME}" STREQUAL "Linux")
-    # Look for Boost version 1.74 or higher. Add any components you need.
-    find_package(Boost 1.74 REQUIRED COMPONENTS filesystem system thread)
-
-    if(Boost_FOUND)
-        message(STATUS "Found Boost version ${Boost_VERSION}")
-        target_include_directories(${PROJECT_NAME}
-            PRIVATE ${Boost_INCLUDE_DIRS}
-        )
-        target_link_libraries(${PROJECT_NAME}
-            PRIVATE ${Boost_LIBRARIES}
-        )
-    else()
-        message(FATAL_ERROR "Boost not found")
-    endif()
-else()
-    # For non-Linux platforms, use the vendored boost copy.
-    target_include_directories(${PROJECT_NAME}
-        PRIVATE ${VENDOR_DIR}/scsynth-boost-1.74.0
-    )
-endif()
 
 
 # Include directories
@@ -138,7 +118,6 @@ endif()
 target_compile_definitions(${PROJECT_NAME} PUBLIC
     _CRT_SECURE_NO_WARNINGS
     _WINSOCK_DEPRECATED_NO_WARNINGS
-    BOOST_DATE_TIME_NO_LIB
     WIN32_LEAN_AND_MEAN
 )
 

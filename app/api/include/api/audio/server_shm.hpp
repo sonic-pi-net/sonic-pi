@@ -1,141 +1,262 @@
-//  shared memory interface to the supercollider server
+//  Shared memory interface to the SuperCollider server
 //  Copyright (C) 2011 Tim Blechmann
 //  Copyright (C) 2011 Jakob Leben
+//  Copyright (C) 2026 SuperSonic contributors
 //
-//  This program is free software; you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation; either version 2 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program; see the file COPYING.  If not, write to
-//  the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-//  Boston, MA 02111-1307, USA.
+//  Rewritten to remove boost::interprocess dependency.
+//  Uses raw POSIX shm_open/mmap (Linux, macOS) or Win32 named file mappings
+//  (Windows).  The fixed-layout segment is readable by any process that
 
 #pragma once
 
 #include "scope_buffer.hpp"
 
-#include <boost/version.hpp>
-#include <boost/foreach.hpp>
-#include <boost/ref.hpp>
-#include <boost/lexical_cast.hpp>
-#include <boost/interprocess/managed_shared_memory.hpp>
-#include <boost/interprocess/containers/vector.hpp>
+#include <string>
+#include <cstring>
+#include <stdexcept>
+
+#ifdef _WIN32
+#  ifndef WIN32_LEAN_AND_MEAN
+#    define WIN32_LEAN_AND_MEAN
+#  endif
+#  ifndef NOMINMAX
+#    define NOMINMAX
+#  endif
+#  include <windows.h>
+#else
+#  include <fcntl.h>
+#  include <sys/mman.h>
+#  include <sys/stat.h>
+#  include <unistd.h>
+#endif
 
 namespace detail_server_shm {
 
-using std::pair;
 using std::string;
 
-using boost::ref;
-
-namespace bi = boost::interprocess;
-using bi::managed_shared_memory;
-using bi::shared_memory_object;
+static constexpr int    MAX_SCOPE_BUFFERS = 128;
+static constexpr size_t SEGMENT_SIZE      = 8192 * 1024;  // 8 MB
 
 static inline string make_shmem_name(unsigned int port_number) {
-    return string("SuperColliderServer_") + boost::lexical_cast<string>(port_number);
+    return string("SuperSonic_") + std::to_string(port_number);
 }
+
+// ──── Platform shared memory primitives ─────────────────────────────────
+
+struct shm_handle {
+    void*  ptr  = nullptr;
+    size_t size = 0;
+#ifdef _WIN32
+    HANDLE mapping = nullptr;
+#else
+    int    fd  = -1;
+#endif
+};
+
+inline shm_handle shm_create(const string& name, size_t size) {
+    shm_handle h;
+    h.size = size;
+#ifdef _WIN32
+    std::wstring wname(name.begin(), name.end());
+    h.mapping = CreateFileMappingW(
+        INVALID_HANDLE_VALUE, nullptr, PAGE_READWRITE,
+        0, static_cast<DWORD>(size), wname.c_str());
+    if (!h.mapping)
+        throw std::runtime_error("CreateFileMapping failed for " + name);
+    h.ptr = MapViewOfFile(h.mapping, FILE_MAP_ALL_ACCESS, 0, 0, size);
+    if (!h.ptr) {
+        CloseHandle(h.mapping);
+        throw std::runtime_error("MapViewOfFile failed for " + name);
+    }
+#else
+    string posix_name = "/" + name;
+    h.fd = ::shm_open(posix_name.c_str(), O_CREAT | O_RDWR, 0666);
+    if (h.fd < 0)
+        throw std::runtime_error("shm_open(create) failed for " + name);
+    if (ftruncate(h.fd, static_cast<off_t>(size)) < 0) {
+        ::close(h.fd);
+        ::shm_unlink(posix_name.c_str());
+        throw std::runtime_error("ftruncate failed for " + name);
+    }
+    h.ptr = ::mmap(nullptr, size, PROT_READ | PROT_WRITE, MAP_SHARED, h.fd, 0);
+    if (h.ptr == MAP_FAILED) {
+        ::close(h.fd);
+        ::shm_unlink(posix_name.c_str());
+        throw std::runtime_error("mmap failed for " + name);
+    }
+#endif
+    return h;
+}
+
+inline shm_handle shm_open_existing(const string& name) {
+    shm_handle h;
+#ifdef _WIN32
+    std::wstring wname(name.begin(), name.end());
+    h.mapping = OpenFileMappingW(FILE_MAP_ALL_ACCESS, FALSE, wname.c_str());
+    if (!h.mapping)
+        throw std::runtime_error("OpenFileMapping failed for " + name);
+    h.ptr = MapViewOfFile(h.mapping, FILE_MAP_ALL_ACCESS, 0, 0, 0);
+    if (!h.ptr) {
+        CloseHandle(h.mapping);
+        throw std::runtime_error("MapViewOfFile failed for " + name);
+    }
+    MEMORY_BASIC_INFORMATION info;
+    VirtualQuery(h.ptr, &info, sizeof(info));
+    h.size = info.RegionSize;
+#else
+    string posix_name = "/" + name;
+    h.fd = ::shm_open(posix_name.c_str(), O_RDWR, 0);
+    if (h.fd < 0)
+        throw std::runtime_error("shm_open(open) failed for " + name);
+    struct stat st;
+    fstat(h.fd, &st);
+    h.size = static_cast<size_t>(st.st_size);
+    h.ptr = ::mmap(nullptr, h.size, PROT_READ | PROT_WRITE, MAP_SHARED, h.fd, 0);
+    if (h.ptr == MAP_FAILED) {
+        ::close(h.fd);
+        throw std::runtime_error("mmap failed for " + name);
+    }
+#endif
+    return h;
+}
+
+inline void shm_close(shm_handle& h) {
+#ifdef _WIN32
+    if (h.ptr)     UnmapViewOfFile(h.ptr);
+    if (h.mapping) CloseHandle(h.mapping);
+    h.mapping = nullptr;
+#else
+    if (h.ptr && h.ptr != MAP_FAILED) ::munmap(h.ptr, h.size);
+    if (h.fd >= 0)                    ::close(h.fd);
+    h.fd = -1;
+#endif
+    h.ptr = nullptr;
+    h.size = 0;
+}
+
+inline void shm_remove(const string& name) {
+#ifdef _WIN32
+    (void)name;  // Windows named mappings are reference-counted
+#else
+    ::shm_unlink(("/" + name).c_str());
+#endif
+}
+
+// ──── Fixed-layout shared memory header ─────────────────────────────────
+//
+// Segment layout:
+//
+//   scope_shm_header                         (16 bytes, 16-aligned)
+//   scope_buffer[MAX_SCOPE_BUFFERS]           (128 scope slots)
+//   float[control_bus_count]                  (control bus values)
+//   char[remaining]                           (TLSF pool for scope data)
+
+struct scope_shm_header {
+    static constexpr uint32_t MAGIC = 0x5C09E001;
+
+    uint32_t magic;
+    uint32_t num_scope_buffers;
+    uint32_t control_bus_count;
+    uint32_t _reserved;
+};
+
+// ──── server_shared_memory ──────────────────────────────────────────────
+//
+// Process-local view of the segment.  Each side constructs its own
+// instance from the mapped pointer — this object is NOT in shared memory.
 
 class server_shared_memory {
 public:
-    typedef offset_ptr<float> sh_float_ptr;
-    typedef offset_ptr<scope_buffer> scope_buffer_ptr;
+    server_shared_memory(void* segment_base, int control_busses, bool init) {
+        char* base = static_cast<char*>(segment_base);
 
-    typedef bi::allocator<scope_buffer_ptr, managed_shared_memory::segment_manager> scope_buffer_ptr_allocator;
-    typedef bi::vector<scope_buffer_ptr, scope_buffer_ptr_allocator> scope_buffer_vector;
+        header_ = reinterpret_cast<scope_shm_header*>(base);
 
-    server_shared_memory(managed_shared_memory& segment, int control_busses, int num_scope_buffers = 128):
-        scope_buffers(scope_buffer_ptr_allocator(segment.get_segment_manager())) {
-        control_busses_ = (float*)segment.allocate(control_busses * sizeof(float));
-        std::fill(control_busses_.get(), control_busses_.get() + control_busses, 0.f);
+        // Scope buffers after header (16-aligned)
+        size_t off = (sizeof(scope_shm_header) + 15) & ~size_t(15);
+        scope_buffers_ = reinterpret_cast<scope_buffer*>(base + off);
 
-        for (int i = 0; i != num_scope_buffers; ++i) {
-            scope_buffer* raw_scope_ptr = (scope_buffer*)segment.allocate(sizeof(scope_buffer));
-            new (raw_scope_ptr) scope_buffer();
-            scope_buffer_ptr buf = raw_scope_ptr;
-            scope_buffers.push_back(buf);
+        // Control busses after scope buffers (16-aligned)
+        off += MAX_SCOPE_BUFFERS * sizeof(scope_buffer);
+        off = (off + 15) & ~size_t(15);
+        control_busses_ = reinterpret_cast<float*>(base + off);
+
+        // TLSF pool after control busses (16-aligned)
+        off += static_cast<size_t>(control_busses) * sizeof(float);
+        off = (off + 15) & ~size_t(15);
+        pool_base_ = base + off;
+        pool_size_ = SEGMENT_SIZE - off;
+
+        if (init) {
+            header_->magic = scope_shm_header::MAGIC;
+            header_->num_scope_buffers = MAX_SCOPE_BUFFERS;
+            header_->control_bus_count = static_cast<uint32_t>(control_busses);
+
+            memset(control_busses_, 0,
+                   static_cast<size_t>(control_busses) * sizeof(float));
+
+            for (int i = 0; i < MAX_SCOPE_BUFFERS; ++i)
+                new (&scope_buffers_[i]) scope_buffer();
         }
     }
 
-    void destroy(managed_shared_memory& segment) {
-        segment.deallocate(control_busses_.get());
-
-        for (size_t i = 0; i != scope_buffers.size(); ++i)
-            segment.deallocate(scope_buffers[i].get());
-    }
-
-    void set_control_bus(int bus, float value) {
-        // TODO: we need to set the control busses via a work queue
-    }
-
-    float* get_control_busses(void) { return control_busses_.get(); }
+    float* get_control_busses() { return control_busses_; }
 
     scope_buffer* get_scope_buffer(unsigned int index) {
-        if (index < scope_buffers.size())
-            return scope_buffers[index].get();
-        else
-            return 0;
+        if (index < MAX_SCOPE_BUFFERS)
+            return &scope_buffers_[index];
+        return nullptr;
     }
 
+    void* pool_base() const { return pool_base_; }
+    size_t pool_size() const { return pool_size_; }
+
 private:
-#if defined(_WIN64)
-    // Note: this shared memory structure is 32 bytes on the SuperCollider side in 64 bit
-    // at least on a release build which is typically used.
-    // But! A string on windows (or any platform for that matter) does not guarantee that it will consume 32 bytes of memory.
-    // A debug build of windows has this structure bigger than 32 and breaks
-    uint8_t shmem_name[32];
-#else
-#if defined(_WIN32)
-    // ... and on Win32 a debug build has this north of 24, but SC has 24 
-    uint8_t shmem_name[24];
-#else
-    string shmem_name;
-#endif
-#endif
-    sh_float_ptr control_busses_; // control busses
-    scope_buffer_vector scope_buffers;
+    scope_shm_header* header_;
+    scope_buffer*     scope_buffers_;
+    float*            control_busses_;
+    void*             pool_base_;
+    size_t            pool_size_;
 };
+
+// ──── Creator (audio engine side) ───────────────────────────────────────
 
 class server_shared_memory_creator {
 public:
-    server_shared_memory_creator(unsigned int port_number, unsigned int control_busses):
-        shmem_name(detail_server_shm::make_shmem_name(port_number)),
-        segment(bi::open_or_create, shmem_name.c_str(), 8192 * 1024) {
-        const int num_scope_buffers = 128;
-        size_t scope_pool_size = num_scope_buffers * sizeof(float) * 8192; // pessimize, about 4 MB
-        void* memory_for_scope_pool = segment.allocate(scope_pool_size);
-        scope_pool.init(memory_for_scope_pool, scope_pool_size);
+    server_shared_memory_creator(const server_shared_memory_creator&) = delete;
+    server_shared_memory_creator& operator=(const server_shared_memory_creator&) = delete;
 
-        shm = segment.construct<server_shared_memory>(shmem_name.c_str())(ref(segment), control_busses,
-                                                                          num_scope_buffers);
+    server_shared_memory_creator(unsigned int port_number, unsigned int control_busses):
+        shmem_name(make_shmem_name(port_number)),
+        handle(shm_create(shmem_name, SEGMENT_SIZE))
+    {
+        memset(handle.ptr, 0, SEGMENT_SIZE);
+
+        shm = new server_shared_memory(handle.ptr, control_busses, true);
+
+        scope_pool.init(shm->pool_base(), shm->pool_size());
     }
 
     static void cleanup(unsigned int port_number) {
-        shared_memory_object::remove(detail_server_shm::make_shmem_name(port_number).c_str());
+        shm_remove(make_shmem_name(port_number));
     }
 
-    ~server_shared_memory_creator(void) {
+    ~server_shared_memory_creator() {
         if (shm)
             disconnect();
     }
 
     void disconnect() {
-        shm->destroy(segment);
-        segment.destroy<server_shared_memory>(shmem_name.c_str());
-        shared_memory_object::remove(shmem_name.c_str());
-        shm = NULL;
+        shm_remove(shmem_name);
+        shm_close(handle);
+        delete shm;
+        shm = nullptr;
     }
 
-    float* get_control_busses(void) { return shm->get_control_busses(); }
+    float* get_control_busses() { return shm->get_control_busses(); }
 
-    scope_buffer_writer get_scope_buffer_writer(unsigned int index, unsigned int channels, unsigned int size) {
+    scope_buffer_writer get_scope_buffer_writer(
+            unsigned int index, unsigned int channels, unsigned int size) {
         scope_buffer* buf = shm->get_scope_buffer(index);
         if (buf)
             return scope_buffer_writer(buf, scope_pool, channels, size);
@@ -143,30 +264,46 @@ public:
             return scope_buffer_writer();
     }
 
-    void release_scope_buffer_writer(scope_buffer_writer& writer) { writer.release(scope_pool); }
+    void release_scope_buffer_writer(scope_buffer_writer& writer) {
+        writer.release(scope_pool);
+    }
 
 private:
-    string shmem_name;
-    managed_shared_memory segment;
-    scope_buffer_pool scope_pool;
-
-protected:
-    server_shared_memory* shm;
+    string                shmem_name;
+    shm_handle            handle;
+    server_shared_memory* shm = nullptr;
+    scope_buffer_pool     scope_pool;
 };
 
 
+// ──── Client (GUI / reader side) ────────────────────────────────────────
+
 class server_shared_memory_client {
 public:
+    server_shared_memory_client(const server_shared_memory_client&) = delete;
+    server_shared_memory_client& operator=(const server_shared_memory_client&) = delete;
+
     server_shared_memory_client(unsigned int port_number):
-        shmem_name(detail_server_shm::make_shmem_name(port_number)),
-        segment(bi::open_only, shmem_name.c_str()) {
-        pair<server_shared_memory*, size_t> res = segment.find<server_shared_memory>(shmem_name.c_str());
-        if (res.second != 1)
-            throw std::runtime_error("Cannot connect to shared memory");
-        shm = res.first;
+        shmem_name(make_shmem_name(port_number)),
+        handle(shm_open_existing(shmem_name))
+    {
+        auto* header = static_cast<scope_shm_header*>(handle.ptr);
+        if (header->magic != scope_shm_header::MAGIC)
+            throw std::runtime_error(
+                "Invalid shared memory magic — is the audio engine running?");
+
+        shm = new server_shared_memory(
+            handle.ptr,
+            static_cast<int>(header->control_bus_count),
+            false);
     }
 
-    float* get_control_busses(void) { return shm->get_control_busses(); }
+    ~server_shared_memory_client() {
+        shm_close(handle);
+        delete shm;
+    }
+
+    float* get_control_busses() { return shm->get_control_busses(); }
 
     scope_buffer_reader get_scope_buffer_reader(unsigned int index) {
         scope_buffer* buf = shm->get_scope_buffer(index);
@@ -174,12 +311,12 @@ public:
     }
 
 private:
-    string shmem_name;
-    managed_shared_memory segment;
-    server_shared_memory* shm;
+    string                shmem_name;
+    shm_handle            handle;
+    server_shared_memory* shm = nullptr;
 };
 
-}
+} /* namespace detail_server_shm */
 
 using detail_server_shm::scope_buffer;
 using detail_server_shm::scope_buffer_reader;
