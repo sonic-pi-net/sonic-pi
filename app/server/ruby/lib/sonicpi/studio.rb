@@ -484,9 +484,20 @@ module SonicPi
           message "Error loading synthdefs: #{e.message}"
         end
 
-        # Phase 4: Start mixer
+        # Phase 4: Start mixer and restore ALL mixer settings
         begin
           start_mixer
+          # Re-apply the GUI's mixer settings to the freshly-created mixer
+          # synth. Without this, a cold swap leaves the mixer at its default
+          # gain/mode and the audio overloads or loses stereo settings.
+          # These must fire HERE (after start_mixer creates the node), not
+          # from the GUI's updateAudioDeviceConfig (which fires before
+          # cold_swap_reinit and targets the old dead node).
+          set_volume(@volume, true, true) if @volume
+          mixer_invert_stereo(@mixer_invert_stereo) if @mixer_invert_stereo
+          if @mixer_force_mono
+            mixer_mono_mode
+          end
           STDOUT.puts "Studio - Phase 4: Mixer (#{(Time.now - start).round(2)}s)"
           STDOUT.flush
         rescue Exception => e

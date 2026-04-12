@@ -280,6 +280,8 @@ module SonicPi
       target_id = target.to_i
       pos_code = @position_codes[position]
       id = @CURRENT_NODE_ID.next
+      STDOUT.puts "[TRACE] create_group '#{name}' -> node_id=#{id} target=#{target_id}"
+      STDOUT.flush
       if (pos_code && target_id)
         g = Group.new id, self, name
         osc @osc_path_g_new, id, pos_code, target_id
@@ -328,18 +330,22 @@ module SonicPi
         initial_trigger = false
         synth_node = nil
 
-        # Try and retrieve a cached synth node (will be here if previously triggered)
-        synth_node = @live_synths[name_id]
-        unless synth_node
+        # Check for a cached live synth from a previous Run.
+        old_synth_node = @live_synths[name_id]
+        if old_synth_node
+          # A previous instance exists. We'll create a NEW synth (fresh
+          # node ID) in the new group, then free the old one. This gives
+          # a brief overlap (no audible gap) instead of the free-then-create
+          # approach which has a discontinuity. It also avoids the race
+          # where /g_freeAll and /s_new with the same ID collide in the
+          # UDP pipeline ("duplicate node ID").
+          initial_trigger = false
+        else
           initial_trigger = true
-          # No synth node found in cache - trigger one and cache the result
-          node_id = @CURRENT_NODE_ID.next
-          synth_node = SynthNode.new(node_id, group_id, self, s_name, args_h, info)
-          # Call on init block if given  - this only happens the first time the synth is initiated
-
-          # cache result
-          @live_synths[name_id] = synth_node
         end
+        node_id = @CURRENT_NODE_ID.next
+        synth_node = SynthNode.new(node_id, group_id, self, s_name, args_h, info)
+        @live_synths[name_id] = synth_node
 
 
         log synth_node.stats
@@ -382,6 +388,13 @@ module SonicPi
             osc_bundle ts + @control_delta, @osc_path_n_set, node_id, *normalised_args
             osc_bundle ts + @control_delta, @osc_path_n_order, pos_code, group_id, node_id
           end
+
+          # Free the old synth AFTER starting the new one — brief overlap,
+          # no audible gap. Safe even if the old node was already freed
+          # (scsynth silently ignores /n_free on non-existent nodes).
+          if old_synth_node
+            osc @osc_path_n_free, old_synth_node.id
+          end
         end
         synth_node
       end
@@ -393,6 +406,8 @@ module SonicPi
       pos_code = @position_codes[position]
       group_id = group.to_i
       node_id = @CURRENT_NODE_ID.next
+      STDOUT.puts "[TRACE] trigger_synth '#{synth_name}' -> node_id=#{node_id} group=#{group_id}"
+      STDOUT.flush
       if @debug_mode
         if osc_debug_mode
           message "nde t #{'%05d' % node_id} - Trigger <#{synth_name}:#{node_id}> #{position} #{group.inspect}"

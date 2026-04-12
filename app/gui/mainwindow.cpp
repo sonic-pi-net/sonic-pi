@@ -5224,6 +5224,14 @@ void MainWindow::updateAudioInputDevices(const SonicPi::AudioInputDevicesInfo& d
 void MainWindow::updateAudioDeviceConfig(const SonicPi::AudioDeviceConfigInfo& configInfo)
 {
     settingsWidget->updateAudioDeviceConfig(configInfo);
+
+    // NOTE: we intentionally do NOT re-push mixer settings (volume, stereo
+    // mode, etc.) here. During cold swaps the config-change notification
+    // arrives BEFORE Spider's cold_swap_reinit! has recreated the mixer
+    // synth — any /n_set we send now targets a non-existent node and gets
+    // "Node not found". Instead, Spider's cold_swap_reinit! re-applies
+    // @volume and other mixer state in Phase 4 after start_mixer, when the
+    // node actually exists.
 }
 
 void MainWindow::sendDeviceSwitch(QString device, int sampleRate, int bufferSize)
@@ -5251,7 +5259,8 @@ void MainWindow::switchAudioDevice(QString device)
 
 void MainWindow::switchAudioInputDevice(QString device)
 {
-    // "-- DISABLED --" carries __disabled__ as item data
+    // "-- DISABLED --" carries __disabled__ as item data (from the greyed-
+    // out dropdown when the Enable Inputs checkbox is off).
     if (device == "__disabled__" || device == tr("-- DISABLED --")) {
         // Disable audio inputs
         Message msg("/daemon/audio/switch-device");
@@ -5260,6 +5269,20 @@ void MainWindow::switchAudioInputDevice(QString device)
         msg.pushFloat(0);          // keep current sample rate
         msg.pushInt32(0);          // keep current buffer size
         msg.pushStr("__none__");   // sentinel: disable inputs
+        m_spAPI->SendDaemonOSC(msg);
+        return;
+    }
+
+    // "-- None --" means "no input device connected" — SuperSonic runs
+    // without input but the dropdown stays active so the user can pick
+    // a device later. Same command as disable, different GUI state.
+    if (device == tr("-- None --")) {
+        Message msg("/daemon/audio/switch-device");
+        msg.pushInt32(m_spAPI->GetToken());
+        msg.pushStr("");           // keep current output device
+        msg.pushFloat(0);          // keep current sample rate
+        msg.pushInt32(0);          // keep current buffer size
+        msg.pushStr("__none__");   // sentinel: no input
         m_spAPI->SendDaemonOSC(msg);
         return;
     }

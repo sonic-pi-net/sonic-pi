@@ -779,6 +779,20 @@ void SettingsWidget::updateUILanguage(int index) {
 }
 
 void SettingsWidget::updateEnableScsynthInputs() {
+    bool inputsEnabled = enable_scsynth_inputs->isChecked();
+    if (!inputsEnabled) {
+        // Immediately grey out and show DISABLED — don't wait for
+        // SuperSonic's broadcast which may take seconds (cold swap).
+        QSignalBlocker blocker(audio_input_combo);
+        audio_input_combo->clear();
+        audio_input_combo->addItem(tr("-- DISABLED --"), QString("__disabled__"));
+        audio_input_combo->setCurrentIndex(0);
+        audio_input_combo->setEnabled(false);
+    } else {
+        // Re-enable — SuperSonic's next broadcast will populate the list.
+        // For now just enable the widget and show a placeholder.
+        audio_input_combo->setEnabled(true);
+    }
     emit enableScsynthInputsChanged();
 }
 
@@ -828,11 +842,50 @@ void SettingsWidget::updateAudioDevices(const SonicPi::AudioDevicesInfo& devices
     QSignalBlocker blocker(audio_output_combo);
 
     audio_output_combo->clear();
+
+#ifdef Q_OS_MACOS
+    // First entry: follow the macOS system default output. This is the only
+    // reliable way to route to AirPlay / Bluetooth speakers — SuperSonic
+    // can't open them as HAL devices directly (their route is only warmed
+    // up when System Settings promotes them to default), so it hides them
+    // from the device list entirely and expects the user to reach them
+    // through this item + System Settings → Sound → Output.
+    //
+    // When the mode is "system", show the actual effective device as a
+    // suffix: "macOS Default (→ AirPlay)" so the user can see where audio
+    // is actually going. Without this, a macOS-initiated default change
+    // (e.g. AirPlay reconnecting) silently reroutes audio and the user
+    // has no idea why.
+    //
+    // itemData "__system__" is the sentinel; audioDeviceChanged() sends
+    // that to SuperSonic instead of the user-facing label.
+    QString macOSDefaultLabel = tr("macOS Default");
+    bool inSystemMode = (devicesInfo.mode.empty() || devicesInfo.mode == "system");
+    if (inSystemMode && !devicesInfo.currentDevice.empty()) {
+        macOSDefaultLabel = tr("macOS Default (\u2192 %1)")
+            .arg(QString::fromStdString(devicesInfo.currentDevice));
+    }
+    audio_output_combo->addItem(macOSDefaultLabel, QString("__system__"));
+#endif
+
     for (const auto& dev : devicesInfo.devices) {
         audio_output_combo->addItem(QString::fromStdString(dev));
     }
 
-    if (!devicesInfo.currentDevice.empty()) {
+    // Prefer the mode field: if SuperSonic reports "system"/"" then select
+    // the "macOS Default" sentinel entry regardless of what concrete device
+    // it's currently routed to. Otherwise match the concrete device name.
+    bool selectedBySystem = false;
+#ifdef Q_OS_MACOS
+    if (inSystemMode) {
+        int idx = audio_output_combo->findData(QString("__system__"));
+        if (idx >= 0) {
+            audio_output_combo->setCurrentIndex(idx);
+            selectedBySystem = true;
+        }
+    }
+#endif
+    if (!selectedBySystem && !devicesInfo.currentDevice.empty()) {
         int idx = audio_output_combo->findText(QString::fromStdString(devicesInfo.currentDevice));
         if (idx >= 0) {
             audio_output_combo->setCurrentIndex(idx);
@@ -843,23 +896,54 @@ void SettingsWidget::updateAudioDevices(const SonicPi::AudioDevicesInfo& devices
 void SettingsWidget::updateAudioInputDevices(const SonicPi::AudioInputDevicesInfo& devicesInfo) {
     QSignalBlocker blocker(audio_input_combo);
 
+    // Remember the currently-displayed input before clearing.  During cold
+    // swaps SuperSonic briefly reports 0 input channels with empty
+    // currentDevice before the new world is ready.
+    QString previousSelection = audio_input_combo->currentText();
+    bool inputsEnabled = enable_scsynth_inputs->isChecked();
+
     audio_input_combo->clear();
-    audio_input_combo->addItem(tr("-- DISABLED --"), QString("__disabled__"));
+
+    if (!inputsEnabled) {
+        // Checkbox has explicitly disabled inputs. Grey out the dropdown
+        // and show a single "-- DISABLED --" entry.
+        audio_input_combo->addItem(tr("-- DISABLED --"), QString("__disabled__"));
+        audio_input_combo->setCurrentIndex(0);
+        audio_input_combo->setEnabled(false);
+        return;
+    }
+
+    // Inputs enabled — populate with available devices.
+    // "-- None --" as the first option means "no specific input selected"
+    // (keep whatever SuperSonic currently has). This is NOT the same as
+    // disabling inputs — that's the checkbox's job.
+    audio_input_combo->setEnabled(true);
+    audio_input_combo->addItem(tr("-- None --"));
     for (const auto& dev : devicesInfo.devices) {
         audio_input_combo->addItem(QString::fromStdString(dev));
     }
 
-    if (devicesInfo.currentDevice.empty()) {
-        // No active input — select disabled
-        audio_input_combo->setCurrentIndex(0);
-    } else {
+    if (!devicesInfo.currentDevice.empty()) {
+        // SuperSonic is reporting a specific active input — select it.
         int idx = audio_input_combo->findText(QString::fromStdString(devicesInfo.currentDevice));
         if (idx >= 0) {
             audio_input_combo->setCurrentIndex(idx);
         } else {
-            // Current input not in list (filtered out) — show disabled
             audio_input_combo->setCurrentIndex(0);
         }
+    } else if (!devicesInfo.devices.empty() && !previousSelection.isEmpty()
+               && previousSelection != tr("-- DISABLED --")
+               && previousSelection != tr("-- None --")) {
+        // Intermediate state: inputs exist but currentDevice is empty
+        // (cold swap in progress). Preserve the previous selection so the
+        // dropdown doesn't flicker.
+        int idx = audio_input_combo->findText(previousSelection);
+        if (idx >= 0)
+            audio_input_combo->setCurrentIndex(idx);
+        else
+            audio_input_combo->setCurrentIndex(0);
+    } else {
+        audio_input_combo->setCurrentIndex(0);
     }
 }
 
@@ -928,12 +1012,28 @@ void SettingsWidget::audioDriverChanged(int index) {
 
 void SettingsWidget::audioDeviceChanged(int index) {
     if (index < 0) return;
-    emit audioOutputDeviceChanged(audio_output_combo->currentText());
+    // If the selected item carries a non-empty itemData string (e.g. the
+    // "macOS Default" sentinel stores "__system__"), emit that instead of
+    // the user-visible text. Regular device entries have no itemData so
+    // they fall through to currentText() as before.
+    QString data = audio_output_combo->currentData().toString();
+    if (!data.isEmpty())
+        emit audioOutputDeviceChanged(data);
+    else
+        emit audioOutputDeviceChanged(audio_output_combo->currentText());
 }
 
 void SettingsWidget::audioInputDeviceChanged(int index) {
     if (index < 0) return;
-    emit audioInputDeviceChangedSignal(audio_input_combo->currentText());
+    // Emit itemData when available (e.g. "-- None --" carries "__disabled__"
+    // as its data, which MainWindow::switchAudioInputDevice recognises as
+    // the disable-inputs sentinel). Regular device entries have no itemData
+    // so they fall through to currentText().
+    QString data = audio_input_combo->currentData().toString();
+    if (!data.isEmpty())
+        emit audioInputDeviceChangedSignal(data);
+    else
+        emit audioInputDeviceChangedSignal(audio_input_combo->currentText());
 }
 
 void SettingsWidget::audioSampleRateChanged(int index) {
