@@ -393,6 +393,131 @@ module SonicPi
       end
     end
 
+    # Wipe all scsynth-dependent state. Called during cold swap reinit.
+    # Everything that references scsynth nodes, buses, buffers, or groups
+    # becomes invalid when the world is rebuilt.
+    def nuke_scsynth_state!
+      log_message "Nuking studio scsynth state"
+      @recording_mutex.synchronize do
+        @recorders.each do |bus, (bs, s)|
+          begin
+            bs.free if bs
+          rescue
+          end
+        end
+        @recorders = {}
+      end
+      @buffers = {}
+      @samples = {}
+      @control_busses = {}
+      @amp_synth = nil
+      @mixer = nil
+      @scope = nil
+      @synth_group = nil
+      @fx_group = nil
+      @mixer_group = nil
+      @monitor_group = nil
+      @mixer_bus = nil
+      log_message "Studio scsynth state nuked"
+    end
+
+    # Reinitialise after a cold swap (world rebuild). Nukes stale state
+    # then rebuilds everything from scratch.
+    #
+    # Designed to always complete — every phase has timeouts and error
+    # handling so the system never gets stuck in a half-reinitialised
+    # state. If a previous reinit is stuck holding the mutex, we force
+    # a new one after 15 seconds rather than waiting forever.
+    def cold_swap_reinit!
+      start = Time.now
+      acquired = false
+      deadline = Time.now + 15
+      while Time.now < deadline
+        if @reboot_mutex.try_lock
+          acquired = true
+          break
+        end
+        sleep 0.1
+      end
+
+      unless acquired
+        STDOUT.puts "WARNING: previous reinit stuck, forcing new mutex"
+        STDOUT.flush
+        @reboot_mutex = Mutex.new
+        @reboot_mutex.lock
+      end
+
+      begin
+        @rebooting = true
+        message "Reinitialising after device change..."
+
+        # Phase 1: Nuke all stale state
+        begin
+          @server.nuke_scsynth_state!
+          nuke_scsynth_state!
+          STDOUT.puts "Studio - Phase 1: Nuke (#{(Time.now - start).round(2)}s)"
+          STDOUT.flush
+        rescue Exception => e
+          message "Error nuking state: #{e.message}"
+        end
+
+        # Clear rebooting flag before rebuild — the nuke is done,
+        # now we're rebuilding. Group creation and other Studio methods
+        # need to work during rebuild.
+        @rebooting = false
+
+        # Phase 2: Rebuild groups and busses
+        begin
+          reset_and_setup_groups_and_busses
+          STDOUT.puts "Studio - Phase 2: Groups (#{(Time.now - start).round(2)}s)"
+          STDOUT.flush
+        rescue Exception => e
+          message "Error resetting groups: #{e.message}"
+        end
+
+        # Phase 3: Load synthdefs
+        begin
+          @server.load_synthdefs(Paths.synthdef_path)
+          STDOUT.puts "Studio - Phase 3: Synthdefs (#{(Time.now - start).round(2)}s)"
+          STDOUT.flush
+        rescue Exception => e
+          message "Error loading synthdefs: #{e.message}"
+        end
+
+        # Phase 4: Start mixer
+        begin
+          start_mixer
+          STDOUT.puts "Studio - Phase 4: Mixer (#{(Time.now - start).round(2)}s)"
+          STDOUT.flush
+        rescue Exception => e
+          message "Error starting mixer: #{e.message}"
+        end
+
+        # Phase 5: Start scope
+        begin
+          start_scope
+          STDOUT.puts "Studio - Phase 5: Scope (#{(Time.now - start).round(2)}s)"
+          STDOUT.flush
+        rescue Exception => e
+          message "Error starting scope: #{e.message}"
+        end
+
+        # Phase 6: Init studio (synthdefs, samples, rand buffer)
+        begin
+          init_studio
+          STDOUT.puts "Studio - Phase 6: Init (#{(Time.now - start).round(2)}s)"
+          STDOUT.flush
+        rescue Exception => e
+          message "Error in init_studio: #{e.message}"
+        end
+
+        message "Reinitialisation complete (#{(Time.now - start).round(2)}s)"
+      ensure
+        @rebooting = false
+        @reboot_mutex.unlock if @reboot_mutex.owned?
+      end
+    end
+
     def pause(silent=true)
       @recording_mutex.synchronize do
         unless recording? || @paused

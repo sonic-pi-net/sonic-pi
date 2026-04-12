@@ -90,16 +90,48 @@ if(UNIX)
         m)
 endif()
 
+# SuperSonic — BUILD_ALWAYS ensures source changes are picked up
+# without needing to manually delete stamp files.
+ExternalProject_Add(supersonic
+    PREFIX supersonic-prefix
+    SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/supersonic
+    DOWNLOAD_COMMAND ""
+    BUILD_ALWAYS ON
+    CMAKE_ARGS
+        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+        -DBUILD_TESTS=OFF
+        -DBUILD_NIF=OFF
+    BUILD_COMMAND ${CMAKE_COMMAND} --build . --config ${CMAKE_BUILD_TYPE} --target SuperSonic
+    INSTALL_COMMAND ""
+)
+
 # Kick off a generation by making a dummy/empty project
 add_library(ExternalsBuilder STATIC externals.cpp)
 
 # Dependency ensures the externals are built
-add_dependencies(ExternalsBuilder aubio_onset)
+add_dependencies(ExternalsBuilder aubio_onset supersonic)
 
 # Copy prebuilt files
 add_custom_command(
     TARGET aubio_onset POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:aubio_onset> ${CMAKE_CURRENT_SOURCE_DIR}/../server/native/
+)
+
+# Copy SuperSonic binary to server/native/ after every build
+ExternalProject_Get_Property(supersonic BINARY_DIR)
+if(WIN32)
+    set(SUPERSONIC_BUILD_NAME "SuperSonic.exe")
+    set(SUPERSONIC_NATIVE_NAME "supersonic.exe")
+else()
+    set(SUPERSONIC_BUILD_NAME "SuperSonic")
+    set(SUPERSONIC_NATIVE_NAME "supersonic")
+endif()
+add_custom_target(copy_supersonic ALL
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${BINARY_DIR}/SuperSonic_artefacts/${CMAKE_BUILD_TYPE}/${SUPERSONIC_BUILD_NAME}
+        ${CMAKE_CURRENT_SOURCE_DIR}/../server/native/${SUPERSONIC_NATIVE_NAME}
+    COMMENT "Copying SuperSonic binary to server/native/"
+    DEPENDS supersonic
 )
 
 if(WIN32)

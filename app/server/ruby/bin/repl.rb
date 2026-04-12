@@ -216,7 +216,7 @@ module SonicPi
 
 
     def add_incoming_osc_handlers!(osc)
-      osc.add_method("/scsynth/info") do |msg|
+      osc.add_method("/supersonic/info") do |msg|
         async_puts "SuperCollider Info:", :blue
         async_puts "===================", :blue
         async_puts ""

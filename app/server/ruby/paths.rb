@@ -227,8 +227,17 @@ module SonicPi
       end
     end
 
-    def self.scsynth_log_path
-      File.absolute_path("#{log_path}/scsynth.log")
+    def self.supersonic_path
+      case os
+      when :windows
+        File.absolute_path("#{native_path}/supersonic.exe")
+      else
+        File.absolute_path("#{native_path}/supersonic")
+      end
+    end
+
+    def self.supersonic_log_path
+      File.absolute_path("#{log_path}/supersonic.log")
     end
 
     def self.tau_log_path
@@ -361,33 +370,6 @@ module SonicPi
 
     def self.spider_server_path
       File.absolute_path("#{server_bin_path}/spider-server.rb")
-    end
-
-    def self.scsynth_path
-      case os
-      when :linux
-        "scsynth"
-      when :macos
-        path = "#{native_path}/scsynth"
-        raise "Unable to find SuperCollider. Is it installed? I looked here: #{path.inspect}" unless File.exist?(path)
-        path
-      when :windows
-        path = "#{native_path}/scsynth.exe"
-        raise "Unable to find SuperCollider. Is it installed? I looked here: #{path.inspect}" unless File.exist?(path)
-        path
-      end
-    end
-
-    def self.scsynth_windows_plugin_path
-      File.absolute_path("#{native_path}/plugins")
-    end
-
-    def self.scsynth_macos_plugin_path
-      File.absolute_path("#{native_path}/supercollider/Resources/plugins")
-    end
-
-    def self.scsynth_raspberry_plugin_path
-      "/usr/lib/SuperCollider/plugins"
     end
 
     def self.os

@@ -97,6 +97,9 @@ module SonicPi
         @scsynth.shutdown
       end
 
+      boot_t = Time.now
+      STDOUT.puts "Server.new - requesting notifications (#{(Time.now - boot_t).round(3)}s)"
+      STDOUT.flush
       request_notifications
 
       # Push all incoming OSC messages to the event system
@@ -105,6 +108,9 @@ module SonicPi
       @CURRENT_NODE_ID = Counter.new(1)
       @CURRENT_SYNC_ID = Counter.new(0)
       @BUFFER_ALLOCATOR = Allocator.new(num_buffers_for_current_os)
+
+      STDOUT.puts "Server.new - loading synthdefs (#{(Time.now - boot_t).round(3)}s)"
+      STDOUT.flush
 
       info_prom = Promise.new
 
@@ -148,15 +154,18 @@ module SonicPi
     end
 
     def request_notifications
-      info "Requesting notifications" if @debug_mode
+      STDOUT.puts "scsynth - sending /notify 1"
+      STDOUT.flush
       osc @osc_path_notify, 1
     end
 
     def load_synthdefs(path)
-      info "Loading synthdefs from path: #{path}" if @debug_mode
+      puts "scsynth - loading synthdefs from: #{path}"
       with_done_sync [@osc_path_d_loaddir] do
         osc @osc_path_d_loaddir, path.to_s
+        puts "scsynth - sent /d_loadDir, waiting for /done..."
       end
+      puts "scsynth - synthdefs loaded"
     end
 
     def load_synthdef(path)
@@ -203,6 +212,27 @@ module SonicPi
       @AUDIO_BUS_ALLOCATOR.reset!
       @CONTROL_BUS_ALLOCATOR.reset!
       STDOUT.puts "scsynth - bus allocators reset"
+      STDOUT.flush
+    end
+
+    # Wipe all scsynth-dependent state. Called during cold swap reinit
+    # when the world has been destroyed and rebuilt. No callbacks are
+    # fired — this is a nuclear cleanup, not a graceful shutdown.
+    def nuke_scsynth_state!
+      STDOUT.puts "scsynth - nuking scsynth state"
+      STDOUT.flush
+      @osc_events.reset!
+      @CURRENT_NODE_ID.reset!
+      @CURRENT_SYNC_ID.reset!
+      @AUDIO_BUS_ALLOCATOR.reset!
+      @CONTROL_BUS_ALLOCATOR.reset!
+      @BUFFER_ALLOCATOR.reset!
+      @live_synths_mut.synchronize { @live_synths.clear }
+      # Re-register for scsynth notifications — the world rebuild
+      # cleared the notification list, so /n_go etc. won't arrive
+      # unless we re-register.
+      request_notifications
+      STDOUT.puts "scsynth - scsynth state nuked"
       STDOUT.flush
     end
 
@@ -254,7 +284,13 @@ module SonicPi
         g = Group.new id, self, name
         osc @osc_path_g_new, id, pos_code, target_id
         message "grp n #{'%05d' % id} - Create [#{name}:#{id}] #{position} #{target.inspect}" if @debug_mode
-        g.wait_until_started
+        begin
+          g.wait_until_started(10)
+        rescue PromiseTimeoutError
+          STDOUT.puts "WARNING: create_group timed out waiting for #{name}:#{id}"
+          STDOUT.flush
+        end
+        g
       else
         m = "unable to create a node with position: #{position} and target #{target.inspect}"
         message "nde e      - #{m}" if @debug_mode
@@ -570,6 +606,8 @@ module SonicPi
     end
 
     def with_done_sync(matchers, detect_fail = nil, &block)
+      STDOUT.puts "with_done_sync: waiting for /done matching #{matchers.inspect}"
+      STDOUT.flush
       prom = Promise.new
       handle = @osc_events.gensym("/sonicpi/server")
       fail_handle = detect_fail ? @osc_events.gensym("/sonicpi/server/fail") : nil
@@ -588,6 +626,8 @@ module SonicPi
 
         begin
           pla = pl.to_a
+          STDOUT.puts "with_done_sync: handler fired with #{pla.inspect}, matching against #{matchers.inspect}"
+          STDOUT.flush
           matchers.each_with_index do |m, idx|
             if m != pla[idx]
               matched = false
@@ -599,6 +639,8 @@ module SonicPi
           info "with_done_sync exception:\n#{e.message}\n#{e.backtrace.inspect}\n\n"
         end
         if matched
+          STDOUT.puts "with_done_sync: MATCHED! delivering promise"
+          STDOUT.flush
           prom.deliver! true
           if fail_handle
             [:remove_handlers, [handle, fail_handle]]
@@ -623,8 +665,15 @@ module SonicPi
         end
       end
       res = block.yield
+      STDOUT.puts "scsynth - sending /sync #{id}"
+      STDOUT.flush
       osc @osc_path_sync, id
-      prom.get
+      begin
+        prom.get(10)
+      rescue PromiseTimeoutError
+        STDOUT.puts "WARNING: with_server_sync timed out (sync id #{id})"
+        STDOUT.flush
+      end
       res
     end
 

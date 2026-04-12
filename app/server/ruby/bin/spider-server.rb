@@ -198,7 +198,7 @@ rescue Exception => e
     STDOUT.puts e.backtrace.inspect
     STDOUT.puts e.backtrace
     STDOUT.flush
-    gui.send("/exited-with-boot-error", "Failed to open server port " + server_port.to_s + ", is scsynth already running?")
+    STDOUT.puts "Boot error: Failed to open server port " + server_port.to_s
   rescue Errno::EPIPE => e
     STDOUT.puts "GUI not listening, exit anyway."
     STDOUT.flush
@@ -257,22 +257,17 @@ rescue Exception => e
   STDOUT.puts "Spider - Failed to start server: " + e.message
   STDOUT.puts e.backtrace.join("\n")
   STDOUT.flush
-  gui.send("/exited-with-boot-error", "Server Exception:\n #{e.message}\n #{e.backtrace}")
   exit
 end
 
 at_exit do
   STDOUT.puts "Spider - Server is exiting."
-  begin
-    STDOUT.puts "Spider - Shutting down GUI..."
-    gui.send("/exited")
-  rescue Errno::EPIPE => e
-    STDOUT.puts "Spider - GUI not listening."
-  end
   STDOUT.puts "Spider - Goodbye :-)"
   STDOUT.flush
 end
 
+
+spider_boot_complete = false
 
 register_api = lambda do |server|
   STDOUT.puts "Spider - Registering incoming Spider Server API endpoints"
@@ -726,6 +721,47 @@ register_api = lambda do |server|
       STDOUT.flush
     end
   end
+
+  # Debounce cold swap reinit — multiple /supersonic/setup messages
+  # arrive during rapid device changes and changeListenerCallback storms.
+  # Only reinit once after things settle (1 second quiet period).
+  # Skip messages until Spider has finished starting.
+  last_setup_time = nil
+  setup_mutex = Mutex.new
+  setup_thread = nil
+
+  server.add_method("/supersonic/setup") do |args|
+    unless spider_boot_complete
+      STDOUT.puts "Spider - received /supersonic/setup (boot) - skipping"
+      STDOUT.flush
+      next
+    end
+
+    STDOUT.puts "Spider - received /supersonic/setup"
+    STDOUT.flush
+    setup_mutex.synchronize { last_setup_time = Time.now }
+
+    unless setup_thread&.alive?
+      setup_thread = Thread.new do
+        loop do
+          sleep 0.5
+          elapsed = setup_mutex.synchronize { Time.now - last_setup_time }
+          if elapsed >= 1.0
+            STDOUT.puts "Spider - setup settled, reinitialising..."
+            STDOUT.flush
+            begin
+              sp.cold_swap_reinit!
+            rescue Exception => e
+              STDOUT.puts "Spider - cold swap reinit error: #{e.message}"
+              STDOUT.puts e.backtrace.first(5).join("\n")
+              STDOUT.flush
+            end
+            break
+          end
+        end
+      end
+    end
+  end
 end
 
 register_api.call(osc_server)
@@ -836,6 +872,9 @@ end
 puts "Spider - Booted Successfully."
 puts "Spider - #{sp.__current_version}, OS #{os}, on Ruby  #{RUBY_VERSION} | #{RbConfig::CONFIG['ruby_version']}."
 puts "Spider - ------------------------------------------"
+
+gui.send("/spider/ready")
+spider_boot_complete = true
 
 
 STDOUT.flush

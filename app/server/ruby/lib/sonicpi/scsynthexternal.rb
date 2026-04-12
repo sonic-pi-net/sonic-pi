@@ -75,13 +75,17 @@ module SonicPi
     end
 
     def shutdown
-      puts "Sending /quit command to scsynth"
+      # Note: Spider does NOT send /quit to supersonic.
+      # The daemon owns supersonic's lifecycle and sends /quit
+      # during full shutdown via cleanup_any_running_processes.
+      # Unregister from notify targets so SuperSonic stops broadcasting to us.
+      puts "SCSynthExternal.shutdown called from:"
+      puts caller.first(5).map { |c| "  #{c}" }.join("\n")
+      STDOUT.flush
       begin
-        @osc_server.send(@hostname, @send_port, "/quit")
-      rescue Exception => e
-        puts "Error during scsynth shutdown when attempting to send /quit OSC message to server #{@hostname} on port #{@send_port}"
-        puts " --> #{e.message}"
-        puts " --> #{e.backtrace.inspect}\n\n"
+        @osc_server.send(@hostname, @send_port, "/supersonic/notify/unregister")
+      rescue => e
+        puts "Error unregistering from SuperSonic: #{e.message}"
       end
       puts "Stopping OSC server..."
       @osc_server.stop
@@ -98,8 +102,8 @@ module SonicPi
     private
 
     def request_version
-      version_string = `"#{Paths.scsynth_path}" -v`
-      m = version_string.match(/\A\s*scsynth\s+([0-9.a-zA-Z-]+)\s.*/)
+      version_string = `"#{Paths.supersonic_path}" -v`
+      m = version_string.match(/\A\s*(?:supersonic|scsynth)\s+([0-9.a-zA-Z-]+)\s.*/)
       if m && m[1] && !m[1].empty?
         "v#{m[1]}"
       else
@@ -116,6 +120,9 @@ module SonicPi
       @osc_server = OSC::UDPServer.new(0, use_decoder_cache: true, use_encoder_cache: true, name: "Scsynth Comms Server")
 
       @osc_server.add_global_method do |address, args, info|
+        # Diagnostic: log all scsynth replies during boot and cold swap
+        puts "Spider OSC [port #{@osc_server.port}]: #{address} #{args.inspect}" if address.start_with?('/done', '/synced', '/n_go', '/fail', '/supersonic')
+
         case address
         when '/n_end'
           id = args[0].to_i
@@ -139,10 +146,35 @@ module SonicPi
         d = 0
         b = 0
         m = 60
-        @register_cue_event_lambda.call(Time.now, p, @scsynth_thread_id, d, b, m, address, args) if address.start_with? "/scsynth/"
+        @register_cue_event_lambda.call(Time.now, p, @scsynth_thread_id, d, b, m, address, args) if address == "/supersonic/statechange" || address == "/supersonic/setup"
       end
 
       wait_for_boot
+
+      # Register Spider's main comms server for push notifications.
+      # Must wait for the reply before proceeding — Server.new will
+      # immediately send /d_loadDir, and the /done reply goes to
+      # registered notify targets. If we're not registered yet, we
+      # miss the reply and timeout.
+      registered = Promise.new
+      @osc_server.add_method("/supersonic/notify.reply") do |args|
+        puts "Spider OSC: /supersonic/notify.reply confirmed"
+        registered.deliver! true
+      end
+
+      begin
+        puts "Sending /supersonic/notify to register Spider comms server"
+        @osc_server.send(@hostname, @send_port, "/supersonic/notify")
+      rescue => e
+        puts "Error sending /supersonic/notify: #{e.message}"
+        registered.deliver! false
+      end
+
+      begin
+        registered.get(5)
+      rescue
+        puts "Warning: /supersonic/notify registration timed out"
+      end
 
       true
     end
@@ -152,13 +184,12 @@ module SonicPi
     end
 
     def wait_for_boot
-      puts "scsynth boot - Waiting for the SuperCollider Server to have booted..."
+      puts "SuperSonic boot - Waiting for audio server..."
       p = Promise.new
-
       connected = false
 
-      boot_s = OSC::UDPServer.new(0, name: "Scsynth ack server") do |a, b, info|
-        puts "scsynth boot - Receiving ack from scsynth"
+      boot_s = OSC::UDPServer.new(0, name: "SuperSonic ack server") do |a, b, info|
+        puts "SuperSonic boot - Receiving ack"
         p.deliver! true unless connected
         connected = true
       end
@@ -167,10 +198,10 @@ module SonicPi
         __system_thread_locals.set_local(:sonic_pi_local_thread_group, :scsynth_external_boot_ack)
         Kernel.loop do
           begin
-            puts "scsynth boot - Sending /status to server"
-            boot_s.send(@hostname, @send_port, "/status")
+            puts "SuperSonic boot - Sending /supersonic/notify"
+            boot_s.send(@hostname, @send_port, "/supersonic/notify")
           rescue Exception => e
-            puts "scsynth boot - Error sending /status to server: #{e.message}"
+            puts "SuperSonic boot - Error: #{e.message}"
           end
           sleep 1
         end
@@ -179,18 +210,19 @@ module SonicPi
       begin
         p.get(30)
       rescue Exception => e
-        puts "scsynth boot - Unable to connect to SuperCollider Audio Server (#{e.message}). Exiting..."
+        puts "SuperSonic boot - Unable to connect (#{e.message}). Exiting..."
         exit
       ensure
         t.kill
+        boot_s.stop
       end
 
       unless connected
-        puts "scsynth boot - Unable to connect to SuperCollider"
-        raise "scsynth boot - Unable to connect to SuperCollider"
+        puts "SuperSonic boot - Unable to connect"
+        raise "SuperSonic boot - Unable to connect"
       end
 
-      puts "scsynth boot - Server connection established"
+      puts "SuperSonic boot - Connection established"
     end
 
   end
