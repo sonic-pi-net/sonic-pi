@@ -10,6 +10,9 @@
 #include <QDesktopServices>
 #include <QCheckBox>
 #include <QComboBox>
+#include <QDial>
+#include <QTimer>
+#include <QPainter>
 #include <QUrl>
 #include <iostream>
 #include <QLabel>
@@ -18,6 +21,37 @@
 #include <QVBoxLayout>
 #include <QMessageBox>
 #include <QSize>
+
+class ArcDial : public QDial {
+public:
+    using QDial::QDial;
+protected:
+    void paintEvent(QPaintEvent*) override {
+        QPainter p(this);
+        p.setRenderHint(QPainter::Antialiasing);
+
+        int side = qMin(width(), height());
+        int margin = 8;
+        QRectF arc(margin, margin, side - 2 * margin, side - 2 * margin);
+
+        // Background track
+        p.setPen(QPen(QColor(60, 60, 80), 6, Qt::SolidLine, Qt::RoundCap));
+        p.drawArc(arc, 225 * 16, -270 * 16);
+
+        // Value arc (Sonic Pi pink)
+        double frac = 0.0;
+        if (maximum() > minimum())
+            frac = double(value() - minimum()) / double(maximum() - minimum());
+        int span = -static_cast<int>(frac * 270 * 16);
+        p.setPen(QPen(QColor(0xE8, 0x43, 0x93), 6, Qt::SolidLine, Qt::RoundCap));
+        p.drawArc(arc, 225 * 16, span);
+
+        // Value text
+        p.setPen(QColor(0xE8, 0x43, 0x93));
+        p.setFont(QFont("Hack", 14, QFont::Bold));
+        p.drawText(rect(), Qt::AlignCenter, QString::number(value()));
+    }
+};
 
 /**
  * Default Constructor
@@ -28,6 +62,19 @@ SettingsWidget::SettingsWidget(int tau_osc_cues_port, bool i18n, SonicPiSettings
     this->sonicPii18n = sonicPii18n;
     this->available_languages = sonicPii18n->getAvailableLanguages();
     this->tau_osc_cues_port = tau_osc_cues_port;
+
+    // Safety timeout: if device switch takes longer than 15 seconds,
+    // re-enable controls so the user isn't stuck forever.
+    m_switchTimeoutTimer = new QTimer(this);
+    m_switchTimeoutTimer->setSingleShot(true);
+    connect(m_switchTimeoutTimer, &QTimer::timeout, this, [this]() {
+        supersonic_version_label->setText(tr("Device switch timed out"));
+        audio_output_combo->setEnabled(true);
+        audio_input_combo->setEnabled(true);
+        audio_sample_rate_combo->setEnabled(true);
+        audio_buffer_size_combo->setEnabled(true);
+        audio_driver_combo->setEnabled(true);
+    });
     QSizePolicy prefsSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
 
     setSizePolicy(prefsSizePolicy) ;
@@ -71,39 +118,19 @@ SettingsWidget::~SettingsWidget() {
  */
 QGroupBox* SettingsWidget::createAudioPrefsTab() {
 
+    // --- Main Volume + Audio settings ---
     QGroupBox *volBox = new QGroupBox(tr("Main Volume"));
+    volBox->setToolTip(tr("Use this dial to change the system volume."));
+    system_vol_slider = new ArcDial(this);
+    system_vol_slider->setWrapping(false);
+    system_vol_slider->setMinimumSize(100, 100);
 
-
-    volBox->setToolTip(tr("Use this slider to change the system volume."));
-    QHBoxLayout *vol_box = new QHBoxLayout;
-    system_vol_slider = new QSlider(this);
-    vol_box->addWidget(system_vol_slider);
-    volBox->setLayout(vol_box);
-
-    QGroupBox *advancedAudioInputBox = new QGroupBox(tr("Audio Input"));
-    advancedAudioInputBox->setToolTip(tr("Audio settings for working with audio inputs."));
     enable_scsynth_inputs = new QCheckBox(tr("Enable Audio Inputs"));
     enable_scsynth_inputs->setToolTip(tr("Toggle to enable or disable audio inputs."));
-    QVBoxLayout *advanced_audio_input_box_layout = new QVBoxLayout;
-    advanced_audio_input_box_layout->addWidget(enable_scsynth_inputs);
-    advancedAudioInputBox->setLayout(advanced_audio_input_box_layout);
-
-    QGroupBox *advancedAudioBox = new QGroupBox(tr("Audio Output"));
-    advancedAudioBox->setToolTip(tr("Advanced audio settings for working with\nexternal PA systems when performing with Sonic Pi."));
     mixer_invert_stereo = new QCheckBox(tr("Invert stereo"));
     mixer_invert_stereo->setToolTip(tr("Toggle stereo inversion.\nIf enabled, audio sent to the left speaker will\nbe routed to the right speaker and vice versa."));
     mixer_force_mono = new QCheckBox(tr("Force mono"));
     mixer_force_mono->setToolTip(tr("Toggle mono mode.\nIf enabled both right and left audio is mixed and\nthe same signal is sent to both speakers.\nUseful when working with external systems that\ncan only handle mono."));
-
-
-    QVBoxLayout *advanced_audio_box_layout = new QVBoxLayout;
-    advanced_audio_box_layout->addWidget(mixer_invert_stereo);
-    advanced_audio_box_layout->addWidget(mixer_force_mono);
-    advancedAudioBox->setLayout(advanced_audio_box_layout);
-
-
-    QGroupBox *synths_box = new QGroupBox(tr("Synths and FX"));
-    synths_box->setToolTip(tr("Modify behaviour of synths and FX"));
 
     check_args = new QCheckBox(tr("Safe mode"));
     check_args->setToolTip(tr("Toggle synth argument checking functions.\nIf disabled, certain synth opt values may\ncreate unexpectedly loud or uncomfortable sounds."));
@@ -114,30 +141,105 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     enable_external_synths_cb = new QCheckBox(tr("Enable external synths/FX"));
     enable_external_synths_cb->setToolTip(tr("When enabled, Sonic Pi will allow\nsynths and FX loaded via load_synthdefs\nto be triggered.\n\nWhen disabled, Sonic Pi will complain\nwhen you attempt to use a synth or FX\nwhich isn't recognised."));
 
-    QVBoxLayout *synths_box_layout = new QVBoxLayout;
-    synths_box_layout->addWidget(check_args);
-    synths_box_layout->addWidget(synth_trigger_timing_guarantees_cb);
-    synths_box_layout->addWidget(enable_external_synths_cb);
-    synths_box->setLayout(synths_box_layout);
+    QGroupBox *audioGroup = new QGroupBox(tr("Audio"));
+    QVBoxLayout *audioGroupLayout = new QVBoxLayout;
+    audioGroupLayout->addWidget(enable_scsynth_inputs);
+    audioGroupLayout->addWidget(mixer_invert_stereo);
+    audioGroupLayout->addWidget(mixer_force_mono);
+    audioGroup->setLayout(audioGroupLayout);
 
+    QGroupBox *synthsGroup = new QGroupBox(tr("Synths and FX"));
+    QVBoxLayout *synthsGroupLayout = new QVBoxLayout;
+    synthsGroupLayout->addWidget(check_args);
+    synthsGroupLayout->addWidget(synth_trigger_timing_guarantees_cb);
+    synthsGroupLayout->addWidget(enable_external_synths_cb);
+    synthsGroup->setLayout(synthsGroupLayout);
+
+    QVBoxLayout *vol_box = new QVBoxLayout;
+    vol_box->addWidget(system_vol_slider, 1, Qt::AlignHCenter);
+    vol_box->addWidget(audioGroup);
+    vol_box->addWidget(synthsGroup);
+    volBox->setLayout(vol_box);
+
+    // --- Audio Device (driver, device, sample rate, buffer size) ---
+    QGroupBox *audioDeviceBox = new QGroupBox(tr("Audio Device"));
+    audioDeviceBox->setToolTip(tr("Configure audio driver, device, sample rate and buffer size."));
+    QGridLayout *audio_device_layout = new QGridLayout;
+
+    QLabel *driverLabel = new QLabel(tr("Driver"));
+    audio_driver_combo = new QComboBox();
+    audio_driver_combo->setMinimumContentsLength(12);
+    audio_driver_combo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
+    audio_device_layout->addWidget(driverLabel, 0, 0);
+    audio_device_layout->addWidget(audio_driver_combo, 0, 1);
+
+    QLabel *outputLabel = new QLabel(tr("Output"));
+    audio_output_combo = new QComboBox();
+    audio_output_combo->setMinimumContentsLength(20);
+    audio_output_combo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
+    audio_device_layout->addWidget(outputLabel, 1, 0);
+    audio_device_layout->addWidget(audio_output_combo, 1, 1);
+
+    QLabel *inputLabel = new QLabel(tr("Input"));
+    audio_input_combo = new QComboBox();
+    audio_input_combo->setMinimumContentsLength(20);
+    audio_input_combo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
+    audio_device_layout->addWidget(inputLabel, 2, 0);
+    audio_device_layout->addWidget(audio_input_combo, 2, 1);
+
+    QLabel *srLabel = new QLabel(tr("Sample Rate"));
+    audio_sample_rate_combo = new QComboBox();
+    audio_sample_rate_combo->setMinimumContentsLength(8);
+    audio_sample_rate_combo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
+    audio_device_layout->addWidget(srLabel, 3, 0);
+    audio_device_layout->addWidget(audio_sample_rate_combo, 3, 1);
+
+    QLabel *bsLabel = new QLabel(tr("Buffer Size"));
+    audio_buffer_size_combo = new QComboBox();
+    audio_buffer_size_combo->setMinimumContentsLength(8);
+    audio_buffer_size_combo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
+    audio_device_layout->addWidget(bsLabel, 4, 0);
+    audio_device_layout->addWidget(audio_buffer_size_combo, 4, 1);
+
+    audioDeviceBox->setLayout(audio_device_layout);
+
+    connect(audio_driver_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(audioDriverChanged(int)));
+    connect(audio_output_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(audioDeviceChanged(int)));
+    connect(audio_input_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(audioInputDeviceChanged(int)));
+    connect(audio_sample_rate_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(audioSampleRateChanged(int)));
+    connect(audio_buffer_size_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(audioBufferSizeChanged(int)));
+
+    // --- SuperSonic info panel (ASCII art + version, tooltip = detailed info) ---
+    supersonicBox = new QGroupBox();
+    supersonic_ascii_label = new QLabel(
+        QString::fromUtf8(
+            "\u2591\u2588\u2580\u2580\u2591\u2588\u2591\u2588\u2591\u2588\u2580\u2588\u2591\u2588\u2580\u2580\u2591\u2588\u2580\u2584\u2591\u2588\u2580\u2580\u2591\u2588\u2580\u2588\u2591\u2588\u2580\u2588\u2591\u2580\u2588\u2580\u2591\u2588\u2580\u2580\n"
+            "\u2591\u2580\u2580\u2588\u2591\u2588\u2591\u2588\u2591\u2588\u2580\u2580\u2591\u2588\u2580\u2580\u2591\u2588\u2580\u2584\u2591\u2580\u2580\u2588\u2591\u2588\u2591\u2588\u2591\u2588\u2591\u2588\u2591\u2591\u2588\u2591\u2591\u2588\u2591\u2591\n"
+            "\u2591\u2580\u2580\u2580\u2591\u2580\u2580\u2580\u2591\u2580\u2591\u2591\u2591\u2580\u2580\u2580\u2591\u2580\u2591\u2580\u2591\u2580\u2580\u2580\u2591\u2580\u2580\u2580\u2591\u2580\u2591\u2580\u2591\u2580\u2580\u2580\u2591\u2580\u2580\u2580"
+        )
+    );
+    supersonic_ascii_label->setFont(QFont("Hack", 7));
+    supersonic_ascii_label->setAlignment(Qt::AlignCenter);
+
+    supersonic_version_label = new QLabel(tr("Waiting for SuperSonic..."));
+    supersonic_version_label->setAlignment(Qt::AlignCenter);
+
+    QVBoxLayout *supersonic_layout = new QVBoxLayout;
+    supersonic_layout->addStretch();
+    supersonic_layout->addWidget(supersonic_ascii_label);
+    supersonic_layout->addWidget(supersonic_version_label);
+    supersonic_layout->addStretch();
+    supersonicBox->setLayout(supersonic_layout);
+
+    // --- Assemble grid layout ---
+    // Col 0: Volume knob + all checkboxes (spans both rows)
+    // Col 1: Audio Device, SuperSonic panel
     QGroupBox *audio_prefs_box = new QGroupBox();
     QGridLayout *audio_prefs_box_layout = new QGridLayout;
 
-
-    QGroupBox *hwInfoBox = new QGroupBox(tr("Audio Hardware Information"));
-    hwInfoBox->setToolTip(tr("Audio hardware configuration and information."));
-    scsynth_info_label = new QLabel(tr("Information unavailable."));
-    scsynth_info_label->setFont(QFont("Hack"));
-    scsynth_info_label->setAccessibleName("scsynth-info");
-    QHBoxLayout *hw_info_box = new QHBoxLayout;
-    hw_info_box->addWidget(scsynth_info_label);
-    hwInfoBox->setLayout(hw_info_box);
-
-    audio_prefs_box_layout->addWidget(volBox, 0, 0);
-    audio_prefs_box_layout->addWidget(synths_box, 0, 1);
-    audio_prefs_box_layout->addWidget(advancedAudioBox, 1, 0);
-    audio_prefs_box_layout->addWidget(advancedAudioInputBox, 2, 0);
-    audio_prefs_box_layout->addWidget(hwInfoBox, 1, 1, 2, 1);
+    audio_prefs_box_layout->addWidget(volBox, 0, 0, 2, 1);
+    audio_prefs_box_layout->addWidget(audioDeviceBox, 0, 1);
+    audio_prefs_box_layout->addWidget(supersonicBox, 1, 1);
     audio_prefs_box->setLayout(audio_prefs_box_layout);
     return audio_prefs_box;
 }
@@ -678,24 +780,6 @@ void SettingsWidget::updateUILanguage(int index) {
 
 void SettingsWidget::updateEnableScsynthInputs() {
     emit enableScsynthInputsChanged();
-
-    QMessageBox msgBox(this);
-    msgBox.setText(tr("Audio input change detected."));
-    QString info_text = (tr("Your changes won't take effect until you restart Sonic Pi.") +
-                         "\n\n" + tr("Would you like to restart now?"));
-
-    msgBox.setInformativeText(info_text);
-    QPushButton *applyButton = msgBox.addButton(tr("Restart"), QMessageBox::ActionRole);
-    QPushButton *dismissButton = msgBox.addButton(tr("Cancel"), QMessageBox::RejectRole);
-    msgBox.setDefaultButton(applyButton);
-    msgBox.setIcon(QMessageBox::Question);
-    msgBox.exec();
-
-    if (msgBox.clickedButton() == (QAbstractButton*)applyButton) {
-      emit restartApp();
-    } else if (msgBox.clickedButton() == (QAbstractButton*)dismissButton) {
-      // do nothing
-    }
 }
 
 void SettingsWidget::update_mixer_invert_stereo() {
@@ -727,7 +811,139 @@ void SettingsWidget::updateMidiOutPorts( QString out ) {
 }
 
 void SettingsWidget::updateScsynthInfo( QString scsynthInfo ) {
-  scsynth_info_label->setText( scsynthInfo );
+  supersonicBox->setToolTip(scsynthInfo);
+  // Show "Switching audio device..." and disable controls during device changes
+  if (scsynthInfo.contains("Switching audio")) {
+    supersonic_version_label->setText(tr("Switching audio device..."));
+    audio_output_combo->setEnabled(false);
+    audio_input_combo->setEnabled(false);
+    audio_sample_rate_combo->setEnabled(false);
+    audio_buffer_size_combo->setEnabled(false);
+    audio_driver_combo->setEnabled(false);
+    m_switchTimeoutTimer->start(15000);
+  }
+}
+
+void SettingsWidget::updateAudioDevices(const SonicPi::AudioDevicesInfo& devicesInfo) {
+    QSignalBlocker blocker(audio_output_combo);
+
+    audio_output_combo->clear();
+    for (const auto& dev : devicesInfo.devices) {
+        audio_output_combo->addItem(QString::fromStdString(dev));
+    }
+
+    if (!devicesInfo.currentDevice.empty()) {
+        int idx = audio_output_combo->findText(QString::fromStdString(devicesInfo.currentDevice));
+        if (idx >= 0) {
+            audio_output_combo->setCurrentIndex(idx);
+        }
+    }
+}
+
+void SettingsWidget::updateAudioInputDevices(const SonicPi::AudioInputDevicesInfo& devicesInfo) {
+    QSignalBlocker blocker(audio_input_combo);
+
+    audio_input_combo->clear();
+    audio_input_combo->addItem(tr("-- DISABLED --"), QString("__disabled__"));
+    for (const auto& dev : devicesInfo.devices) {
+        audio_input_combo->addItem(QString::fromStdString(dev));
+    }
+
+    if (devicesInfo.currentDevice.empty()) {
+        // No active input — select disabled
+        audio_input_combo->setCurrentIndex(0);
+    } else {
+        int idx = audio_input_combo->findText(QString::fromStdString(devicesInfo.currentDevice));
+        if (idx >= 0) {
+            audio_input_combo->setCurrentIndex(idx);
+        } else {
+            // Current input not in list (filtered out) — show disabled
+            audio_input_combo->setCurrentIndex(0);
+        }
+    }
+}
+
+void SettingsWidget::updateAudioDeviceConfig(const SonicPi::AudioDeviceConfigInfo& configInfo) {
+    QSignalBlocker srBlocker(audio_sample_rate_combo);
+    QSignalBlocker bsBlocker(audio_buffer_size_combo);
+    QSignalBlocker drBlocker(audio_driver_combo);
+
+    audio_sample_rate_combo->clear();
+    for (int rate : configInfo.availableSampleRates) {
+        audio_sample_rate_combo->addItem(QString::number(rate), rate);
+    }
+    if (configInfo.sampleRate > 0) {
+        int idx = audio_sample_rate_combo->findData(configInfo.sampleRate);
+        if (idx >= 0) {
+            audio_sample_rate_combo->setCurrentIndex(idx);
+        }
+    }
+
+    audio_buffer_size_combo->clear();
+    for (int bs : configInfo.availableBufferSizes) {
+        audio_buffer_size_combo->addItem(QString::number(bs), bs);
+    }
+    if (configInfo.bufferSize > 0) {
+        int idx = audio_buffer_size_combo->findData(configInfo.bufferSize);
+        if (idx >= 0) {
+            audio_buffer_size_combo->setCurrentIndex(idx);
+        }
+    }
+
+    audio_driver_combo->clear();
+    for (const auto& driver : configInfo.availableDrivers) {
+        audio_driver_combo->addItem(QString::fromStdString(driver));
+    }
+    if (!configInfo.currentDriver.empty()) {
+        int idx = audio_driver_combo->findText(QString::fromStdString(configInfo.currentDriver));
+        if (idx >= 0) {
+            audio_driver_combo->setCurrentIndex(idx);
+        }
+    }
+
+    // Update SuperSonic summary with live config (matches SuperSonic's own format)
+    QString versionText = QString("%1 Hz | buffer %2 | out %3 | in %4")
+        .arg(configInfo.sampleRate)
+        .arg(configInfo.bufferSize)
+        .arg(configInfo.outputChannels)
+        .arg(configInfo.inputChannels);
+    if (!configInfo.currentDriver.empty()) {
+        versionText += QString(" | %1").arg(QString::fromStdString(configInfo.currentDriver));
+    }
+    supersonic_version_label->setText(versionText);
+
+    // Re-enable controls after device switch completes
+    m_switchTimeoutTimer->stop();
+    audio_output_combo->setEnabled(true);
+    audio_input_combo->setEnabled(true);
+    audio_sample_rate_combo->setEnabled(true);
+    audio_buffer_size_combo->setEnabled(true);
+    audio_driver_combo->setEnabled(true);
+}
+
+void SettingsWidget::audioDriverChanged(int index) {
+    if (index < 0) return;
+    emit driverChanged(audio_driver_combo->currentText());
+}
+
+void SettingsWidget::audioDeviceChanged(int index) {
+    if (index < 0) return;
+    emit audioOutputDeviceChanged(audio_output_combo->currentText());
+}
+
+void SettingsWidget::audioInputDeviceChanged(int index) {
+    if (index < 0) return;
+    emit audioInputDeviceChangedSignal(audio_input_combo->currentText());
+}
+
+void SettingsWidget::audioSampleRateChanged(int index) {
+    if (index < 0) return;
+    emit sampleRateChanged(audio_sample_rate_combo->currentData().toInt());
+}
+
+void SettingsWidget::audioBufferSizeChanged(int index) {
+    if (index < 0) return;
+    emit bufferSizeChanged(audio_buffer_size_combo->currentData().toInt());
 }
 
 void SettingsWidget::changeMainVolume(int vol) {

@@ -303,6 +303,9 @@ BootDaemonInitResult SonicPiAPI::StartBootDaemon(bool noScsynthInputs)
 
     LOG(INFO, "Setting up OSC sender to Tau on port " << m_ports[SonicPiPortId::tau]);
     m_spOscTauSender       = std::make_shared<OscSender>(m_ports[SonicPiPortId::tau]);
+
+    LOG(INFO, "Setting up OSC sender to SuperSonic on port " << m_ports[SonicPiPortId::scsynth]);
+    m_spOscSupersonicSender   = std::make_shared<OscSender>(m_ports[SonicPiPortId::scsynth]);
     LOG(INFO, "Setting up Boot Daemon keep alive loop");
     m_bootDaemonSockPingLoopThread = std::thread([&]() {
       while(m_keep_alive.load())
@@ -511,6 +514,50 @@ bool SonicPiAPI::TauSendOSC(Message m)
     }
 
     return false;
+}
+
+bool SonicPiAPI::SendDaemonOSC(Message m)
+{
+    if (m_spOscDaemonSender)
+    {
+        bool res = m_spOscDaemonSender->sendOSC(m);
+        if (!res)
+        {
+            LOG(ERR, "Could Not Send OSC to Daemon");
+            return false;
+        }
+        return true;
+    }
+    return false;
+}
+
+int SonicPiAPI::GetToken() const
+{
+    return m_token;
+}
+
+bool SonicPiAPI::SupersonicSendOSC(Message m)
+{
+    if (m_spOscSupersonicSender)
+    {
+        bool res = m_spOscSupersonicSender->sendOSC(m);
+        if (!res)
+        {
+            LOG(ERR, "Could Not Send OSC to SuperSonic");
+            return false;
+        }
+        return true;
+    }
+    return false;
+}
+
+void SonicPiAPI::RequestAudioDevices()
+{
+    // /supersonic/devices/report registers the GUI port as a notify
+    // target AND triggers an immediate device report.
+    Message msg("/supersonic/devices/report");
+    msg.pushInt32(m_ports[SonicPiPortId::gui_listen_to_spider]);
+    SupersonicSendOSC(msg);
 }
 
 bool SonicPiAPI::WaitUntilReady()

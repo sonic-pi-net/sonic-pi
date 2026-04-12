@@ -5,6 +5,7 @@
 #include <map>
 #include <string>
 #include <thread>
+#include <vector>
 #include <kissnet.hpp>
 #include <mutex>
 #include <api/osc/osc_pkt.hh>
@@ -154,7 +155,36 @@ struct MessageInfo : MessageData
  struct ScsynthInfo
  {
    std::string text;
+   int sampleRate = 0;
+   int bufferSize = 0;
+   std::vector<int> availableSampleRates;
+   std::vector<int> availableBufferSizes;
+   std::vector<std::string> availableDrivers;
+   std::string currentDriver;
  };
+
+struct AudioDevicesInfo {
+    std::vector<std::string> devices;
+    std::string currentDevice;
+    std::string mode;
+    int sampleRate = 0;
+};
+
+struct AudioInputDevicesInfo {
+    std::vector<std::string> devices;
+    std::string currentDevice;
+};
+
+struct AudioDeviceConfigInfo {
+    int sampleRate = 0;
+    int bufferSize = 0;
+    int outputChannels = 0;
+    int inputChannels = 0;
+    std::vector<int> availableSampleRates;
+    std::vector<int> availableBufferSizes;
+    std::vector<std::string> availableDrivers;
+    std::string currentDriver;
+};
 
 enum class MidiType
 {
@@ -232,6 +262,11 @@ struct IAPIClient
     virtual void ActiveLinks(const int numLinks) = 0;
     virtual void BPM(const double bpm) = 0;
     virtual void Scsynth(const ScsynthInfo& scsynthInfo) = 0;
+    virtual void AudioDevices(const AudioDevicesInfo& devicesInfo) = 0;
+    virtual void AudioInputDevices(const AudioInputDevicesInfo& devicesInfo) = 0;
+    virtual void AudioDeviceConfig(const AudioDeviceConfigInfo& configInfo) = 0;
+    virtual void SupersonicSetup(int sampleRate, int bufferSize) = 0;
+    virtual void SpiderReady() = 0;
 };
 
 // Always UDP
@@ -345,6 +380,10 @@ public:
 
     virtual bool SendOSC(oscpkt::Message m);
     virtual bool TauSendOSC(oscpkt::Message m);
+    virtual bool SendDaemonOSC(oscpkt::Message m);
+    virtual bool SupersonicSendOSC(oscpkt::Message m);
+    virtual void RequestAudioDevices();
+    virtual int GetToken() const;
 
     virtual void LoadWorkspaces();
 
@@ -397,6 +436,7 @@ private:
     std::shared_ptr<OscSender> m_spOscSpiderSender;
     std::shared_ptr<OscSender> m_spOscDaemonSender;
     std::shared_ptr<OscSender> m_spOscTauSender;
+    std::shared_ptr<OscSender> m_spOscSupersonicSender;
     std::shared_ptr<AudioProcessor> m_spAudioProcessor;
     int m_token;
 

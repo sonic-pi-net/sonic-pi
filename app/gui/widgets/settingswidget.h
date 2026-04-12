@@ -3,10 +3,12 @@
 
 #include "model/settings.h"
 #include "utils/sonicpi_i18n.h"
+#include <api/sonicpi_api.h>
 
 #include <QWidget>
 
 class QSlider;
+class QDial;
 class QTabWidget;
 class QBoxLayout;
 class QGroupBox;
@@ -19,6 +21,7 @@ class QButtonGroup;
 class QSignalMapper;
 class QVBoxLayout;
 class QSizePolicy;
+class QTimer;
 
 class SettingsWidget : public QWidget
 {
@@ -32,6 +35,9 @@ public:
     void updateMidiInPorts( QString in );
     void updateMidiOutPorts( QString out );
     void updateScsynthInfo(QString scsynthInfo);
+    void updateAudioDevices(const SonicPi::AudioDevicesInfo& devicesInfo);
+    void updateAudioInputDevices(const SonicPi::AudioInputDevicesInfo& devicesInfo);
+    void updateAudioDeviceConfig(const SonicPi::AudioDeviceConfigInfo& configInfo);
     void updateScopeNames(std::vector<QString>);
     void updateSelectedUILanguage(QString lang);
 
@@ -39,6 +45,11 @@ public slots:
     void updateUILanguage(int index);
 
 private slots:
+    void audioDriverChanged(int index);
+    void audioDeviceChanged(int index);
+    void audioInputDeviceChanged(int index);
+    void audioSampleRateChanged(int index);
+    void audioBufferSizeChanged(int index);
     void update_mixer_invert_stereo();
     void update_mixer_force_mono();
     void updateEnableScsynthInputs();
@@ -76,8 +87,12 @@ private slots:
     void logSynths();
     void clearOutputOnRun();
     void autoIndentOnRun();
-
 signals:
+    void driverChanged(QString driver);
+    void audioOutputDeviceChanged(QString device);
+    void audioInputDeviceChangedSignal(QString device);
+    void sampleRateChanged(int rate);
+    void bufferSizeChanged(int size);
     void restartApp();
     void uiLanguageChanged(QString lang); // TODO: Implement real-time language switching
     void mixerSettingsChanged();
@@ -174,10 +189,19 @@ private:
     QLabel *update_info;
     QLabel *midi_in_ports_label;
     QLabel *midi_out_ports_label;
-    QLabel *scsynth_info_label;
+    QLabel *supersonic_ascii_label;
+    QLabel *supersonic_version_label;
+    QGroupBox *supersonicBox;
 
-    QSlider *system_vol_slider;
+    QDial *system_vol_slider;
     QSlider *gui_transparency_slider;
+
+    QComboBox *audio_driver_combo;
+    QComboBox *audio_output_combo;
+    QComboBox *audio_input_combo;
+    QComboBox *audio_sample_rate_combo;
+    QComboBox *audio_buffer_size_combo;
+    QTimer *m_switchTimeoutTimer;
 
     QComboBox *language_combo;
     QLabel *language_option_label;

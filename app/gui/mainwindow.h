@@ -29,6 +29,7 @@
 #include <winsock2.h>
 #endif
 
+#include <api/sonicpi_api.h>
 #include "api/osc/osc_pkt.hh"
 
 #include "config.h"
@@ -118,6 +119,9 @@ public:
     void updateMIDIInPorts(QString port_info);
     void updateMIDIOutPorts(QString port_info);
     void updateScsynthInfo(QString description);
+    void updateAudioDevices(const SonicPi::AudioDevicesInfo& devicesInfo);
+    void updateAudioInputDevices(const SonicPi::AudioInputDevicesInfo& devicesInfo);
+    void updateAudioDeviceConfig(const SonicPi::AudioDeviceConfigInfo& configInfo);
     void scsynthBootError();
     void homeDirWriteError();
     void replaceLines(QString id, QString content, int first_line, int finish_line, int point_line, int point_index);
@@ -126,6 +130,18 @@ public:
     bool loaded_workspaces;
     QString hash_salt;
     QString ui_language;
+
+public slots:
+    void switchAudioDriver(QString driver);
+    void switchAudioDevice(QString device);
+    void switchAudioInputDevice(QString device);
+    void changeSampleRate(int rate);
+    void onSupersonicSetup(int sampleRate, int bufferSize);
+    void onSpiderReady();
+    void changeBufferSize(int size);
+
+private:
+    void sendDeviceSwitch(QString device, int sampleRate, int bufferSize);
 
 protected:
     void closeEvent(QCloseEvent* event) override;
@@ -480,7 +496,7 @@ private:
 
     ScintillaAPI* autocomplete;
 #ifdef QT_OLD_API
-    QString fetch_url_path, sample_path, log_path, sp_user_path, sp_user_tmp_path, ruby_server_path, ruby_path, server_error_log_path, server_output_log_path, gui_log_path, scsynth_log_path, init_script_path, exit_script_path, tmp_file_store, process_log_path, port_discovery_path;
+    QString fetch_url_path, sample_path, log_path, sp_user_path, sp_user_tmp_path, ruby_server_path, ruby_path, server_error_log_path, server_output_log_path, gui_log_path, init_script_path, exit_script_path, tmp_file_store, process_log_path, port_discovery_path;
 #endif
     QString qt_browser_dark_css, qt_browser_light_css, qt_browser_hc_css, qt_app_theme_path;
 
