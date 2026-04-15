@@ -19,7 +19,10 @@ module SonicPi
       @supercollider_started_prom = Promise.new
       @print_monitor = Monitor.new
 
-      daemon_stdin, daemon_stdout_and_err, daemon_wait_thr = Open3.popen2e Paths.ruby_path, Paths.daemon_path
+      # Clear gem environment for the daemon subprocess to prevent host
+      # gem warnings from polluting the stdout port protocol.
+      daemon_env = {"GEM_PATH" => nil, "GEM_HOME" => nil}
+      daemon_stdin, daemon_stdout_and_err, daemon_wait_thr = Open3.popen2e(daemon_env, Paths.ruby_path, Paths.daemon_path)
 
       force_puts "-- Sonic Pi Daemon started with PID: #{daemon_wait_thr.pid}"
       force_puts "-- Log files are located at: #{Paths.log_path}"

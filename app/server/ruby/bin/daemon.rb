@@ -19,6 +19,11 @@ require 'fileutils'
 require 'time'
 require 'securerandom'
 
+# All dependencies are vendored. Unset gem environment variables that
+# may conflict and produce warnings on stdout, breaking port parsing.
+ENV.delete("GEM_PATH")
+ENV.delete("GEM_HOME")
+
 require_relative "../lib/sonicpi/osc/osc"
 require_relative "../lib/sonicpi/promise"
 
