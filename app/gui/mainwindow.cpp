@@ -5315,6 +5315,11 @@ void MainWindow::onSpiderReady()
 {
     honourPrefs();
     changeSystemPreAmp(piSettings->main_volume, 1);
+    // Force the audio processor to reconnect to the scope shared memory.
+    // After a cold swap, the scsynth World is rebuilt and the scope buffer
+    // pool is reinitialised — our reader's pointer is stale until it
+    // re-attaches. Without this, the scope widget shows a flat line.
+    m_spAPI->AudioProcessor_ResetConnection();
 }
 
 void MainWindow::scsynthBootError()

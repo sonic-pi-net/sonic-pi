@@ -362,6 +362,11 @@ public:
     // Set Max FFT buckets to generate
     virtual void AudioProcessor_SetMaxFFTBuckets(uint32_t buckets);
 
+    // Force the audio processor to reconnect to the scope shared memory.
+    // Call after a cold-swap device change so the scope picks up the
+    // freshly-allocated scope buffer from the rebuilt World.
+    virtual void AudioProcessor_ResetConnection();
+
     // Client has used last audio data
     virtual void AudioProcessor_ConsumedAudio();
 

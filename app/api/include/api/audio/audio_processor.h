@@ -44,9 +44,11 @@ public:
     void SetConsumed(bool consumed);
     void SetMaxBuckets(int maxBuckets);
     void Quit();
+    // Force re-attach to the scope shared memory — public so callers can
+    // invoke after a cold-swap device change to refresh the stale reader.
+    void ResetConnection();
 
 private:
-    void ResetConnection();
     void GenLogSpace(uint32_t limit, uint32_t n);
     void GenLinSpace(uint32_t limit, uint32_t n);
     void SetupFFT();

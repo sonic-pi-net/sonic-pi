@@ -983,6 +983,14 @@ void SonicPiAPI::AudioProcessor_EnableFFT(bool enable)
     }
 }
 
+void SonicPiAPI::AudioProcessor_ResetConnection()
+{
+    if (m_spAudioProcessor)
+    {
+        m_spAudioProcessor->ResetConnection();
+    }
+}
+
 
 void SonicPiAPI::AudioProcessor_ConsumedAudio()
 {
