@@ -13,8 +13,16 @@
 
 #pragma once
 
+#include <string>
+
 namespace SonicPi {
 
 void removeMacosSpecificMenuItems();
+
+// Request microphone access via AVCaptureDevice. Must be called from the
+// GUI/foreground app (not a background helper) or macOS will auto-deny.
+// Returns the current status string ("notDetermined" / "authorized" /
+// "denied" / "restricted"). The actual prompt (if shown) is asynchronous.
+std::string requestMicrophoneAccess();
 
 }

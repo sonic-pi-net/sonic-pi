@@ -241,7 +241,7 @@ if (APPLE)
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION}
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     RESOURCE "images/app.icns"
-    LINK_FLAGS "-framework AppKit"
+    LINK_FLAGS "-framework AppKit -framework AVFoundation"
     OUTPUT_NAME ${MACOS_APP_NAME}
     )
   file(

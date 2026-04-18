@@ -13,6 +13,8 @@
 
 #include "macos.h"
 #import <AppKit/NSWindow.h>
+#import <AVFoundation/AVFoundation.h>
+#include <cstdio>
 
 namespace SonicPi {
 
@@ -31,6 +33,35 @@ void removeMacosSpecificMenuItems()
   // menu
 
   [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"NSFullScreenMenuItemEverywhere"];
+}
+
+std::string requestMicrophoneAccess()
+{
+    AVAuthorizationStatus s =
+        [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeAudio];
+    const char* statusStr = "unknown";
+    switch (s) {
+        case AVAuthorizationStatusNotDetermined: statusStr = "notDetermined"; break;
+        case AVAuthorizationStatusRestricted:    statusStr = "restricted";    break;
+        case AVAuthorizationStatusDenied:        statusStr = "denied";        break;
+        case AVAuthorizationStatusAuthorized:    statusStr = "authorized";    break;
+        default: break;
+    }
+    fprintf(stderr, "[gui-mic] authorization status: %s\n", statusStr);
+    fflush(stderr);
+
+    if (s == AVAuthorizationStatusNotDetermined) {
+        fprintf(stderr, "[gui-mic] requesting access (user should see prompt)\n");
+        fflush(stderr);
+        [AVCaptureDevice requestAccessForMediaType:AVMediaTypeAudio
+                                 completionHandler:^(BOOL granted) {
+            fprintf(stderr, "[gui-mic] request result: %s\n",
+                    granted ? "GRANTED" : "DENIED");
+            fflush(stderr);
+        }];
+    }
+
+    return statusStr;
 }
 
 }
